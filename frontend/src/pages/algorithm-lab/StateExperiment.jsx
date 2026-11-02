@@ -1,3 +1,4 @@
+import {useStudyState} from '@/lib/StudyPane.jsx';
 import { useMemo, useRef, useState } from 'react';
 import { EXPEDITION, EXPEDITION_CAPACITY as CAPACITY, EXPEDITION_OPTIMUM, packingPlan, table01 } from './knapsackModel.js';
 import { BagSlots, ChoiceCheck, CodeBlock, NumberCheck } from './LabParts.jsx';
@@ -41,7 +42,7 @@ function StateFormula({ i, c, available, earlier, item, remaining, skip, take, a
 
 export default function StateExperiment(props) {
   const table = useMemo(() => table01(EXPEDITION, CAPACITY), []);
-  const [[i, c], setCell] = useState([1, CAPACITY]);
+  const [[i, c], setCell] = useStudyState('StateExperiment.cell',[1,CAPACITY]);
   const question = useRef(null);
   const available = EXPEDITION.slice(0, i), earlier = available.slice(0, -1), item = available.at(-1);
   const remaining = item ? c - item.weight : -1;

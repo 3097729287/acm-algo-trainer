@@ -27,7 +27,7 @@ ACHIEVEMENT_TITLES = {
        for target, name in ((30, '持之以恒'), (90, '百炼不怠'), (180, '半载精进'), (365, '全年坚守'), (730, '双年不辍'))},
 }
 ACHIEVEMENT_DEFINITIONS = {
-    **{identity:{'target':1,'rewardXp':definition['xp']} for identity,definition in MOMENTS.items()},
+    **{identity:{'target':definition.get('target',1),'rewardXp':definition['xp']} for identity,definition in MOMENTS.items()},
     **{f'official-{target}': {'target': target, 'rewardXp': xp} for target, xp in AC_ACHIEVEMENT_REWARDS},
     **{f'difficulty-{difficulty}': {'target': 1, 'rewardXp': xp}
        for difficulty, xp in ((1500, 40), (1800, 60), (2100, 80), (2400, 100), (2700, 120), (3000, 150), (3300, 180), (3600, 200))},
@@ -48,6 +48,9 @@ ACHIEVEMENT_DEFINITIONS = {
         ('hearts-given-3',3,20),('hearts-given-10',10,40),('hearts-given-25',25,60),
         ('leader-tease',1,20),('daily-leader-3',3,60),('daily-leader-7',7,100),('daily-leader-30',30,200))},
 }
+from sticker_rewards import catalogue as _sticker_catalogue
+for _identity in _sticker_catalogue()['achievements']:
+    if _identity in ACHIEVEMENT_DEFINITIONS:ACHIEVEMENT_DEFINITIONS[_identity]['rewardXp']=0
 
 
 def achievement_reward(identity):

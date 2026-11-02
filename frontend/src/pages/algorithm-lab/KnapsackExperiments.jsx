@@ -1,3 +1,4 @@
+import {useStudyState} from '@/lib/StudyPane.jsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, Pause, Play, RotateCcw } from 'lucide-react';
 import { EXPEDITION, EXPEDITION_CAPACITY, traceKnapsack } from './knapsackModel.js';
@@ -8,7 +9,7 @@ import { KnapsackReadWriteMotion } from './KnapsackMotion.jsx';
 function TracePlayer({ items, capacity, direction }) {
   const model = useMemo(() => traceKnapsack(items, capacity, direction), [items, capacity, direction]);
   const array = useRef(null);
-  const [step, setStep] = useState(0), [playing, setPlaying] = useState(false), [speed, setSpeed] = useState(1100);
+  const [step, setStep] = useStudyState('TracePlayer.step',0), [playing, setPlaying] = useState(false), [speed, setSpeed] = useStudyState('TracePlayer.speed',1100);
   const frame = step ? model.frames[step - 1] : null, values = frame?.after || Array(capacity + 1).fill(0), done = step === model.frames.length;
   useEffect(() => {
     if (!playing || done) return;
@@ -57,7 +58,7 @@ function validTrace(value) { return value && Number.isInteger(value.capacity) &&
 
 export function TraceExperiment(props) {
   const { drafts, updateDraft } = props, config = validTrace(drafts.traceConfig) ? drafts.traceConfig : DEFAULT_TRACE;
-  const direction = drafts.traceDirection === 'up' ? 'up' : 'down', [edit, setEdit] = useState(config), [error, setError] = useState('');
+  const direction = drafts.traceDirection === 'up' ? 'up' : 'down', [edit, setEdit] = useStudyState('TraceExperiment.edit',config), [error, setError] = useState('');
   const chooseConfig = value => { updateDraft('traceConfig', value); setEdit(value); setError(''); };
   return <>
     <div className="lab-story"><h2>为什么容量要倒着算？</h2><p>接着把上一节的二维表放进更少的格子。先看计算新答案时要保留什么，再看哪些旧位置可以覆盖。</p></div>

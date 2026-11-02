@@ -25,15 +25,15 @@ export async function verifyRestoreReceipt(stage,baseline,commit,now=Date.now())
   const build=JSON.parse(await readFile(join(stage,'BUILD-INFO.json'),'utf8'));
   const baselinePackage=JSON.parse(await readFile(join(baseline,'package.json'),'utf8'));
   if(receipt.format!=='tb-production-gameplay-restore-v1'||receipt.passed!==true||receipt.productionChanged!==false||
-    receipt.baselineRuntime!=='1.2.9'||receipt.candidateRuntime!=='1.4.0'||baselinePackage.version!=='1.2.9'||
+    receipt.baselineRuntime!=='1.2.9'||receipt.candidateRuntime!=='1.4.1'||baselinePackage.version!=='1.2.9'||
     receipt.restoreEngineVersion!=='8.4.11'||!/^[a-f0-9]{40}$/.test(commit)||
-    receipt.candidateSourceCommit!==commit||build.sourceCommit!==commit||build.version!=='1.4.0'||
+    receipt.candidateSourceCommit!==commit||build.sourceCommit!==commit||build.version!=='1.4.1'||
     receipt.runtimeManifestSha256!==hash(await readFile(join(stage,'runtime-manifest.sha256'))))
     throw new Error('Restore receipt does not identify the reviewed production baseline and candidate.');
   const age=now-Date.parse(receipt.verifiedAt);
   if(!Number.isFinite(age)||age<0||age>86400000)throw new Error('Restore verification must be reviewed within 24 hours.');
   for(const check of ['allTablesRestored','existingTablesUnchanged','oldClientCompatible',
-    'runtimeRollbackPreservesNewData','reupgradeIdempotent','postMigrationBackupRestored'])
+    'runtimeRollbackPreservesNewData','reupgradeIdempotent','postMigrationBackupRestored','socialRepliesMigrated','stickerRewardsVerified'])
     if(receipt.checks?.[check]!==true)throw new Error('Missing restore or rollback verification: '+check);
   const backup=receipt.backup;
   if(!sha(backup?.sha256)||!Number.isSafeInteger(backup.bytes)||backup.bytes<1024||backup.bytes>536870912||

@@ -9,11 +9,13 @@ import './SolutionReader.css';
 import InlineTitle from './InlineTitle.jsx';
 
 import {lessonKey} from '@/lib/lessonKey.js';
-export default function SolutionReader({reader,error,api,methodId,onMethodChange,onClose,fullscreen,onFullscreen,prefs,setPrefs,onTrain}){
+import {useStudyPane,useStudyState} from '@/lib/StudyPane.jsx';
+export default function SolutionReader({reader,error,api,methodId,onMethodChange,onClose,fullscreen,onFullscreen,prefs,setPrefs,onTrain,embedded=false,onOpenLecture}){
+ const pane=useStudyPane();
  const copyCode=useCallback(text=>navigator.clipboard?.writeText(String(text)),[]);
  const methods=reader?.methods?.length?reader.methods:reader?[{...reader,id:'original'}]:[];
  const method=methods.find(item=>item.id===methodId)||methods.find(item=>item.id===reader?.primaryMethod)||methods[0];
- const [variants,setVariants]=useState({}),[stack,setStack]=useState([]),[catalog,setCatalog]=useState([]);
+ const [variants,setVariants]=useStudyState('SolutionReader.variants',{}),[stack,setStack]=useState([]),[catalog,setCatalog]=useState([]);
  const body=useRef(null),restore=useRef(0),positions=useRef(new Map()),sequence=useRef(0);
  const variant=variants[method?.id]||'default',rootKey=`${method?.id}:${variant}`;
  const selected=stack.at(-1),learned=new Set(prefs?.learnedLectures||[]);
@@ -25,6 +27,7 @@ export default function SolutionReader({reader,error,api,methodId,onMethodChange
  const blocks=useMemo(()=>solutionBlocks(document?.markdown||'',lectures),[document?.markdown,lectures]);
  const remember=()=>{const top=body.current?.scrollTop||0;if(stack.length)selected.scrollTop=top;else positions.current.set(rootKey,top);return top;};
  const open=async(lecture,inlineMarkdown,images)=>{
+  if(onOpenLecture&&lecture.id){onOpenLecture(lecture.id);return;}
   const key=lessonKey(lecture);if(selected&&key===lessonKey(selected))return;
   const parentScroll=remember(),stamp=++sequence.current;
   const entry={...lecture,markdown:inlineMarkdown!=null?inlineMarkdown.replace(/^\s*#{1,6}\s*从零讲[：:][^\n]*(?:\r?\n|$)/,''):lecture.markdown,images:images||lecture.images||{},parentScroll,scrollTop:0,loading:!inlineMarkdown&&!lecture.markdown};
@@ -36,7 +39,7 @@ export default function SolutionReader({reader,error,api,methodId,onMethodChange
  const back=()=>{if(!stack.length)return;sequence.current++;restore.current=selected.parentScroll||0;setStack(old=>old.slice(0,-1));};
  const root=()=>{if(!stack.length)return;sequence.current++;restore.current=stack[0].parentScroll||0;setStack([]);};
  useLayoutEffect(()=>{if(body.current){body.current.scrollTop=restore.current??(selected?.scrollTop||positions.current.get(rootKey)||0);restore.current=null;}},[selected,document?.markdown,rootKey]);
- useEffect(()=>{const key=event=>{if(event.key!=='Backspace'||event.defaultPrevented||!stack.length||event.ctrlKey||event.metaKey||event.altKey||event.isComposing)return;if(event.target.closest?.('input,textarea,select,[contenteditable=true],.cm-editor')||window.document.querySelector('dialog[open],[aria-modal=true]'))return;event.preventDefault();event.stopImmediatePropagation();back();};window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);},[stack]);
+ useEffect(()=>{const key=event=>{if(pane&&!pane.focused)return;if(event.key!=='Backspace'||event.defaultPrevented||!stack.length||event.ctrlKey||event.metaKey||event.altKey||event.isComposing)return;if(event.target.closest?.('input,textarea,select,[contenteditable=true],.cm-editor')||window.document.querySelector('dialog[open],[aria-modal=true]'))return;event.preventDefault();event.stopImmediatePropagation();back();};window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);},[stack,pane?.focused]);
  const toggleLearned=lecture=>{const id=lessonKey(lecture);setPrefs?.(previous=>{const keys=new Set(previous.learnedLectures||[]);keys.has(id)?keys.delete(id):keys.add(id);return {...previous,learnedLectures:[...keys]};});};
  const link=(lecture,markdown,images,key)=>learned.has(lessonKey(lecture))?null:<div className="lesson-reader-link" key={key||lessonKey(lecture)}><button type="button" onClick={()=>open(lecture,markdown,images)}><BookOpen size={15}/><span>{lecture.displayTitle||lecture.concept||lecture.heading||lecture.title||'从零讲'}</span></button><LessonLearnedButton label={`标记已学会 ${lecture.concept||lecture.heading||lecture.title}`} onClick={()=>toggleLearned(lecture)}/></div>;
  const related=selected?(selected.tags||[]).map(canonicalKnowledgeName).filter((tag,index,tags)=>tag!==primaryLectureTopic(selected)&&tags.indexOf(tag)===index).map(tag=>lectures.find(item=>item.id!==selected.id&&primaryLectureTopic(item)===tag)).filter(Boolean):[];

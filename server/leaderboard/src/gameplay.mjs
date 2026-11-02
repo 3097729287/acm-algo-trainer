@@ -1,3 +1,4 @@
+import {StickerRewards,REWARDS} from './sticker-rewards.mjs';
 import {createHash, randomInt, randomUUID} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {AccountError} from './accounts.mjs';
@@ -6,12 +7,14 @@ const fail=(status,message)=>{throw new AccountError(status,message);};
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
 const catalogue=JSON.parse(readFileSync(new URL('./duel-problems.json',import.meta.url),'utf8'));
+const shapeTitles={spark:'星星',leaf:'一片新叶',drop:'蓝色水滴',cloud:'软绵云朵',flame:'小火苗',bolt:'闪电',sun:'小太阳',comet:'彗星',moon:'月牙',planet:'轨道星球',crystal:'水晶',butterfly:'蝴蝶',gem:'宝石',crown:'王冠',galaxy:'星河',phoenix:'凤凰'};
 export const STICKERS=Object.freeze([
  ...['spark','leaf','drop','cloud'].map(shape=>({id:'common-'+shape,rarity:'common',shape})),
  ...['flame','bolt','sun','comet'].map(shape=>({id:'rare-'+shape,rarity:'rare',shape})),
  ...['moon','planet','crystal','butterfly'].map(shape=>({id:'epic-'+shape,rarity:'epic',shape})),
  ...['gem','crown','galaxy','phoenix'].map(shape=>({id:'legendary-'+shape,rarity:'legendary',shape})),
-]);
+ ...REWARDS.stickers,
+].map(item=>({title:shapeTitles[item.shape]||item.shape,...item})));
 const empty=()=>({revision:0,units:[],grants:{}});
 const scalar=(n,lo,hi)=>typeof n==='number'&&Number.isFinite(n)&&n>=lo&&n<=hi;
 function grantIdentity(value,now){
@@ -49,9 +52,9 @@ export async function codeforcesStatus(handle){
  }finally{clearTimeout(timer);}
 }
 
-export class Gameplay {
+export class Gameplay extends StickerRewards {
  constructor(database,dialect='mysql',{verify=codeforcesStatus,problems=catalogue.problems}={}){
-  this.db=database;this.dialect=dialect;this.verify=verify;this.problems=problems;
+  super();this.db=database;this.dialect=dialect;this.verify=verify;this.problems=problems;this.catalogue=STICKERS;
   this.checking=new Map();this.checked=new Map();
  }
  async available(){try{await this.db.execute('SELECT payload FROM gameplay_accounts LIMIT 0');await this.db.execute('SELECT payload FROM duel_lobby WHERE singleton=1');return true;}catch(e){if(e.code==='ER_NO_SUCH_TABLE'||/no such table/i.test(e.message))return false;throw e;}}
@@ -79,7 +82,8 @@ export class Gameplay {
  }
  async stickers(owner){
   const [rows]=await this.db.execute('SELECT payload FROM gameplay_accounts WHERE user_id=?',[owner]);
-  return {owner,catalogue:STICKERS,...(rows.length?JSON.parse(rows[0].payload):empty())};
+  const state=rows.length?JSON.parse(rows[0].payload):empty();
+  return {owner,catalogue:STICKERS,boxPolicy:REWARDS.levelBoxes,...state};
  }
  async stickerWrite(owner,auth,kind,value,now){
   return this.db.transaction(async db=>{
@@ -89,7 +93,7 @@ export class Gameplay {
      const key=grantIdentity(value,now);
      if(!Object.hasOwn(state.grants,key)){
       if(state.units.length>=20000)fail(409,'贴纸库存已满');
-      const rarity=rewardRarity(value),pool=STICKERS.filter(item=>item.rarity===rarity),sticker=pool[randomInt(pool.length)];
+      const rarity=rewardRarity(value),pool=STICKERS.filter(item=>item.rarity===rarity&&!item.id.startsWith('achievement-')),sticker=pool[randomInt(pool.length)];
       const unit={id:randomUUID(),stickerId:sticker.id,placement:null,revision:0};
       state.units.push(unit);state.grants[key]={unitId:unit.id,rarity,grantedAt:now};state.revision++;
      }

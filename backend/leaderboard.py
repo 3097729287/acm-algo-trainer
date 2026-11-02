@@ -114,7 +114,7 @@ class LeaderboardClient:
             if self.opener_endpoint != profile['endpoint']:
                 self.opener = service_opener(profile['endpoint'])
                 self.opener_endpoint = profile['endpoint']
-            maximum = 8 * 1024 * 1024 if method == 'GET' and path == '/v1/stickers' else 1024 * 1024 if method == 'GET' and path == '/v1/social' else 256 * 1024
+            maximum = 8 * 1024 * 1024 if method == 'GET' and path == '/v1/stickers' else 4 * 1024 * 1024 if method == 'GET' and path == '/v1/social' else 256 * 1024
             with self.opener.open(request, timeout=self.timeout if timeout is None else min(self.timeout,timeout)) as response:
                 raw = response.read(maximum + 1)
             if len(raw) > maximum:
@@ -332,7 +332,7 @@ class LeaderboardClient:
             if action:
                 raise ServiceError(409, '请先登录账号')
             return empty
-        allowed = {'likes': ({'targetId'},), 'comments': ({'targetId', 'text', 'requestId'},), 'read': ({'ids'}, {'all'})}
+        allowed = {'likes': ({'targetId'},), 'comments': ({'targetId', 'text', 'requestId'}, {'targetId', 'text', 'requestId', 'replyTo'}, {'targetId', 'text', 'requestId', 'gift'}, {'targetId', 'text', 'requestId', 'replyTo', 'gift'}), 'read': ({'ids'}, {'all'})}
         if action and (action not in allowed or not isinstance(body, dict) or set(body) not in allowed[action]
                        or action == 'read' and 'all' in body and body['all'] is not True):
             raise ServiceError(400, '互动请求格式无效')

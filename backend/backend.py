@@ -210,7 +210,7 @@ class Handler(BaseHTTPRequestHandler):
                     size = int(self.headers.get("Content-Length", "0"))
                 except ValueError:
                     raise APIError(400, "请求长度无效")
-                maximum = 32 * 1024 * 1024 if path in ('/api/training-lists/add', '/api/training-lists/save') else 262144
+                maximum = 32 * 1024 * 1024 if path in ('/api/training-lists/add', '/api/training-lists/save', '/api/preferences') else 262144
                 if size <= 0 or size > maximum:
                     raise APIError(400, "请求数据大小无效")
                 if self.headers.get("Content-Type", "").split(";", 1)[0].strip().lower() != "application/json":
@@ -343,7 +343,7 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.cancel_contest(body.get('contestId'))
                 elif path == "/api/contests/finish":
                     value = training.finish_contest(body.get("contestId"))
-                elif path in ('/api/stickers/place','/api/stickers/recycle'):
+                elif path in ('/api/stickers/place','/api/stickers/recycle','/api/stickers/open-box'):
                     from gameplay import stickers
                     value=stickers(training,path.rsplit('/',1)[1],body)
                 elif path in ('/api/duel/join','/api/duel/cancel','/api/duel/poll','/api/duel/dismiss'):

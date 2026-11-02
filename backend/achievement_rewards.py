@@ -12,6 +12,7 @@ import math
 import json
 
 from progression import ACHIEVEMENT_DEFINITIONS, achievement_title, parse_time
+from sticker_rewards import achievement_sticker
 
 
 def preserve_completion(training,achievements):
@@ -70,6 +71,7 @@ def award_achievement_xp(connection, achievements, now=None, *, claim_ids=None):
         definition = ACHIEVEMENT_DEFINITIONS.get(identity)
         item['rewardXp'] = definition['rewardXp'] if definition else 0
         item['rewardTitle'] = achievement_title(identity)
+        item['rewardSticker'] = achievement_sticker(identity)
         item.pop('legacyAwardedXp', None)
         claim = claims.get(identity)
         if claim is None and identity == 'streak-730':

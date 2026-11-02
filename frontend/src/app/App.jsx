@@ -1,3 +1,5 @@
+import {createPortal} from 'react-dom';
+import LearningBrowser from './LearningBrowser.jsx';
 import ReaderFrame from '@/components/ReaderFrame.jsx';
 import useDuel from '@/lib/useDuel.js';
 import {applyEditorTheme,editorTheme} from '@/lib/editorThemes.js';
@@ -611,6 +613,10 @@ export default function App() {
   const [keyboardSelection, setKeyboardSelection] = useState(false), [listOrder, setListOrder] = useState(null);
   const restoreList = useRef(null);
   const practicePrefetch = useRef(null);
+  const learningBrowserRef=useRef(null);
+  const [learningBrowserActive,setLearningBrowserActive]=useState(false),[learningTabCount,setLearningTabCount]=useState(0);
+  const learningBrowserChanged=useCallback((open,count)=>{setLearningBrowserActive(open);setLearningTabCount(count);},[]);
+  const openLearning=useCallback(tab=>learningBrowserRef.current?.open(tab),[]);
   const labVisit = useRef({leftAt:null,scrollTop:0});
   const templatesVisit=useRef({});
   const competitionsVisit=useRef({});
@@ -668,7 +674,7 @@ export default function App() {
   const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now, account?.userId ?? null);
   const social = useSocial(api, Boolean(account?.userId),account?.userId||'');
   const [messagesReading,setMessagesReading]=useState(false);
-  useUsage(api,data&&account?.userId,Boolean((!dialog||['lecture','solution'].includes(dialog))&&(practiceId||readerId||page==='mock'&&mockSlot&&workspace.activeContest||['lectures','paths','templates','wiki'].includes(page)||page==='settings'&&settingsTab==='accounts')));
+  useUsage(api,data&&account?.userId,Boolean((!dialog||['lecture','solution'].includes(dialog))&&(learningBrowserActive||practiceId||readerId||page==='mock'&&mockSlot&&workspace.activeContest||['lectures','paths','templates','wiki'].includes(page)||page==='settings'&&settingsTab==='accounts')));
   usePlatformLogins(api,Boolean(data&&account?.userId));
   const [profileSnapshot, setProfileSnapshot] = useState(null), [accountFocus, setAccountFocus] = useState(null);
   const dailyClaimPending=useRef(false),dailyRefreshTimer=useRef(null);
@@ -691,16 +697,23 @@ export default function App() {
     if(value?.profile?.nickname){setAccount(previous=>previous?{...previous,nickname:value.profile.nickname}:previous);if(window.__tbAccount)window.__tbAccount={...window.__tbAccount,nickname:value.profile.nickname};}
   }, []);
   const preferencesLoaded = useRef(false), uploadedPreferences = useRef(''), preferencesQueue = useRef(Promise.resolve(true));
+  const latestPreferences=useRef(prefs);latestPreferences.current=prefs;
+  const flushLearningBrowser=useCallback(browser=>{
+    if(!window.__tbAccountUserId)return Promise.resolve(true);
+    const value=portablePreferences({...latestPreferences.current,learningPaths:{...latestPreferences.current.learningPaths,browserV1:browser}}),signature=JSON.stringify(value);
+    const pending=preferencesQueue.current.catch(()=>false).then(async()=>{if(signature!==uploadedPreferences.current){await api('preferences',{preferences:value});uploadedPreferences.current=signature;}return true;});
+    preferencesQueue.current=pending;return pending;
+  },[api]);
   useEffect(()=>{
     if(preferencesLoaded.current&&!loading&&!navigation.pending&&account?.userId)setPrefs(previous=>migrateNavigationAccess(previous,navigationLevel));
   },[preferencesLoaded.current,loading,navigation.pending,navigationLevel,account?.userId]);
   const preferencesBaseline = useRef(prefs);
   const [preferencesRevision, setPreferencesRevision] = useState(0);
   useEffect(() => {
-    if (!loading && preferencesLoaded.current && Number.isFinite(insights?.growth?.level) && account?.userId && prefs.onboardingGuideVersion<GUIDE_VERSION && !dialog && !practiceId && !experienceOpen && !experienceAttention && !automaticTourStarted.current) {
+    if (!learningBrowserActive && !loading && preferencesLoaded.current && Number.isFinite(insights?.growth?.level) && account?.userId && prefs.onboardingGuideVersion<GUIDE_VERSION && !dialog && !practiceId && !experienceOpen && !experienceAttention && !automaticTourStarted.current) {
       automaticTourStarted.current=true;setTourContext('overview');setTourOpen(true);
     }
-  }, [loading, preferencesRevision, prefs.onboardingGuideVersion, dialog,account?.userId,insights?.growth?.level,practiceId,experienceOpen,experienceAttention]);
+  }, [learningBrowserActive,loading, preferencesRevision, prefs.onboardingGuideVersion, dialog,account?.userId,insights?.growth?.level,practiceId,experienceOpen,experienceAttention]);
   function markGuideShown() {
     setPrefs(previous=>({...previous,onboardingGuideVersion:Math.max(previous.onboardingGuideVersion,GUIDE_VERSION),onboardingUnlockedPages:[...new Set([...(previous.onboardingUnlockedPages||[]),...(tourContext==='overview'?visiblePageIds:[tourContext])])]}));
   }
@@ -1148,19 +1161,19 @@ export default function App() {
   }, [selected, keyboardSelection]);
   useLayoutEffect(() => {
     const saved = restoreList.current, list = listRef.current;
-    if (practiceId || !saved || !list || saved.page !== page) return;
+    if (learningBrowserActive || practiceId || !saved || !list || saved.page !== page) return;
     list.scrollTop = saved.scrollTop;
     list.scrollLeft = saved.scrollLeft;
     list.focus({ preventScroll: true });
     restoreList.current = null;
-  }, [practiceId, page, displayedRows]);
+  }, [learningBrowserActive,practiceId, page, displayedRows]);
   const active = workspace.activeContest,
     summary = workspace.summary || emptyWorkspace.summary;
   const templateFocus=page==='templates'&&templateActive&&!practiceId;
-  const labFocus=page==='paths'&&Boolean(prefs.learningPaths?.activePath)&&!practiceId;
+  const labFocus=false;
   const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
   const [recommendationOpen,setRecommendationOpen]=useState(false);
-  const levelNoticeBlocked=Boolean(loading||busy||practiceId||active||workspace.summary?.pending||dialog||clearTrainingAnchor||tourOpen||recommendationOpen||labFocus||templateFocus||lectureFull||readerFull||experienceOpen);
+  const levelNoticeBlocked=Boolean(learningBrowserActive||loading||busy||practiceId||active||workspace.summary?.pending||dialog||clearTrainingAnchor||tourOpen||recommendationOpen||labFocus||templateFocus||lectureFull||readerFull||experienceOpen);
   const levelUp=useLevelUp({owner:account?.userId,growth:insights?.growth,preferences:prefs,preferencesReady:preferencesLoaded.current&&!loading,setPreferences:setPrefs,blocked:levelNoticeBlocked});
   const levelFeedbackVisible=!levelNoticeBlocked&&!levelUp.dialog&&!document.hidden&&document.hasFocus();
   const calendarReminderAllowed = featureAvailable('competitions');
@@ -1183,6 +1196,7 @@ export default function App() {
       [target]: { ...current[target], ...patch, ...(target === "mine" ? { shelf: "all", setId: "" } : {}) },
     }));
   function go(next) {
+    learningBrowserRef.current?.hide({silent:true});
     if(!featureAvailable(next))return;
     if(next==='training-lists'&&navigationLevel===1&&!trainingListsVisit.current.state)trainingListsVisit.current.state=foundationListState();
     setKeyboardSelection(false);
@@ -1200,6 +1214,10 @@ export default function App() {
   }
   function openRecommendation(item) {
     if(!featureAvailable(item.page))return;
+    if(['course','guided','template','lecture'].includes(item.kind)){
+      if(item.kind==='guided')setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,[item.id]:{...previous.learningPaths?.[item.id],mode:'guided',guided:{...previous.learningPaths?.[item.id]?.guided,active:Math.max(0,item.guidedIndex||0)}}}}));
+      openLearning({kind:item.kind==='course'||item.kind==='guided'?'lab':item.kind,id:item.id,title:item.title});return;
+    }
     if(item.kind==='course'||item.kind==='guided'){
       labVisit.current.leftAt=Date.now();labVisit.current.scrollTop=0;
       setPrefs(previous=>{const saved=previous.learningPaths?.[item.id]||{mode:'learn'};return {...previous,learningPaths:{...previous.learningPaths,activePath:item.id,resumePath:item.resume?item.id:null,[item.id]:item.kind==='guided'?{...saved,mode:'guided',guided:{...saved.guided,active:Math.max(0,item.guidedIndex||0)}}:saved}};});
@@ -1260,6 +1278,7 @@ export default function App() {
   async function openPractice(id, { assisted = false, problemIds = null } = {}) {
     if (!id || busy) return;
     if (active?.slots.some((s) => s.id === id)) {
+      learningBrowserRef.current?.hide({silent:true});
       setReaderId(null);
       setPracticeId(null);
       setPage("mock");
@@ -1271,7 +1290,7 @@ export default function App() {
     // Start the bounded statement fetch while training activation is persisted.
     const prepared = api(`problem?id=${encodeURIComponent(id)}&background=1`).catch(()=>null);
     const list = listRef.current;
-    const context = contextRef.current && practiceId ? contextRef.current : {
+    const context = contextRef.current && (practiceId||learningBrowserActive&&contextRef.current.page===page) ? contextRef.current : {
       page, ids: problemIds || visibleRef.current.map(row => row.id), id, libraryPage: currentLibraryPage,
       scrollTop: list?.scrollTop || 0, scrollLeft: list?.scrollLeft || 0,
     };
@@ -1288,8 +1307,9 @@ export default function App() {
       practicePrefetch.current = !result.reviewTask && !result.workspace?.activeContest ? {id,promise:prepared} : null;
       contextRef.current = context;
       advanceRef.current = null;
-      setPracticeId(id);
-      setPracticeReview(result.reviewTask || null);
+      setPracticeId(null);
+      setPracticeReview(null);
+      openLearning({kind:'problem',id,title:rows.find(row=>row.id===id)?.title,reviewTask:result.reviewTask||null,preparedProblem:practicePrefetch.current?.promise,problemIds:context.ids});
       setReaderId(null);
       setReaderFull(false);
     } catch (e) {
@@ -1333,8 +1353,8 @@ export default function App() {
       setBusy(false);
     }
   }
-  function progressChanged(value) {
-    const id = practiceId;
+  function progressChanged(value,problemId=practiceId) {
+    const id = problemId;
     if (id) {
       const previous = workspace.training.find((r) => r.id === id),
         next = value.training.find((r) => r.id === id);
@@ -1467,31 +1487,9 @@ export default function App() {
     }
   }
   async function openSolution(id,methodId) {
-    if (!id) return;
-    if (practiceId !== id) { await openPractice(id); return; }
-    if(readerId===id){if(methodId)setReaderMethod(methodId);return;}
-    if (active?.slots.some((slot) => slot.id === id)) {
-      notice("比赛进行中，结束后可查看题解", "error");
-      return;
-    }
-    const sequence = ++readerSeq.current;
-    setReaderId(id);
-    setReaderFull(false);
-    setReader(null);
-    setReaderVariant("default");
-    setReaderMethod(methodId||null);
-    setReaderError("");
-    try {
-      const result = await api("solution?id=" + encodeURIComponent(id));
-      if (readerSeq.current === sequence) {
-        setReader(result);
-        api("workspace")
-          .then(applyWorkspace)
-          .catch(() => {});
-      }
-    } catch (e) {
-      if (readerSeq.current === sequence) setReaderError(e.message);
-    }
+    if(!id)return;
+    if(active?.slots.some(slot=>slot.id===id)){notice('比赛进行中，结束后可查看题解','error');return;}
+    openLearning({kind:'solution',id,methodId,title:rows.find(row=>row.id===id)?.title});
   }
   useEffect(() => {
     if (readerId && active?.slots.some((slot) => slot.id === readerId)) {
@@ -1565,6 +1563,14 @@ export default function App() {
   ];
   useEffect(() => {
     function keyboard(e) {
+      if(document.querySelector('.study-browser')){
+        if(e.defaultPrevented||e.isComposing)return;
+        const target=PAGES.find(item=>featureAvailable(item.id)&&matchesShortcut(e,'page-'+item.id,prefs.shortcuts));
+        if(target){e.preventDefault();go(target.id);}
+        else if(matchesShortcut(e,'settings',prefs.shortcuts)){e.preventDefault();go('settings');}
+        else if(matchesShortcut(e,'theme',prefs.shortcuts)){e.preventDefault();setPrefs(previous=>({...previous,theme:previous.theme==='dark'?'light':'dark'}));}
+        return;
+      }
       if (e.defaultPrevented || e.isComposing || e.target.closest?.('[data-shortcut-input]')) return;
       if (e.key==='Escape' && (document.querySelector('.filter-popover') || document.querySelector('.tb-select-menu') || document.querySelector('[data-popconfirm]'))) return;
       if (e.key==='Escape' && e.target.closest?.('.tooltip-anchor') && document.querySelector('[role="tooltip"]')) return;
@@ -2003,6 +2009,7 @@ export default function App() {
     <FeatureVisibilityContext.Provider value={featureAvailable}><DifficultyDisplayProvider mode={prefs.difficultyDisplay}><DifficultyBoundsProvider rows={data?.rows||[]}><div
       className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : labFocus?"lab-focus":templateFocus?"template-focus practice-focus":page==='lectures'&&lectureFull?"lecture-focus practice-focus":"")}
     >
+      {!loading&&<LearningBrowser ref={learningBrowserRef} api={api} accountId={account?.userId||'local'} ready={!loading&&(!account?.userId||preferencesLoaded.current)} onFlush={flushLearningBrowser} rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} onProgress={progressChanged} onNotice={notice} onExit={exitPractice} onActiveChange={learningBrowserChanged} categories={categories} lockedProblems={active?.slots||[]}/>}
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
       <aside className="sidebar">
         <div className="brand">
@@ -2052,7 +2059,7 @@ export default function App() {
           <div className="topbar-leading"><div id="tb-page-location" className="page-location-slot"/>
           <div id="tb-page-search" className="topbar-search-slot"/></div>
           {!practiceId&&!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
-          <div className="topbar-actions">
+          <div className="topbar-actions">{learningTabCount>0&&<button type="button" className="icon-button" aria-label="返回学习标签页" title="返回学习标签页" onClick={()=>learningBrowserRef.current?.resume()}><BookOpen size={18}/></button>}
             <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
             {active && page !== "mock" && (
               <button className="live-contest" onClick={() => go("mock")}>
@@ -2174,7 +2181,7 @@ export default function App() {
                 onError={notice}
               />
             )}{!mockPreview&&<MockHistory embedded query={mockHistoryQuery} contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/>}</>}</>}</div>
-          ) : page === "wiki" ? (<WikiPage api={api}/>) : page === "duel" ? (<DuelPage duel={duel} rows={rows} onTrain={openPractice}/>) : page === "records" ? (
+          ) : page === "wiki" ? (<WikiPage api={api} onOpenArticle={item=>openLearning({kind:'wiki',...item})}/>) : page === "duel" ? (<DuelPage duel={duel} rows={rows} onTrain={openPractice}/>) : page === "records" ? (
             <SubmissionRecords api={api} revision={workspace.summary?.attempts} scope={`${account?.userId||'local'}:${workspace.activeContest?.id||''}`} rows={rows} onOpenProblem={openPractice} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
             <CompetitionPage
@@ -2224,11 +2231,11 @@ export default function App() {
           ) : page === "training-lists" ? (
             <TrainingListsPage onLocationChange={location=>setPrefs(previous=>JSON.stringify(previous.trainingListLocation)===JSON.stringify(location)?previous:{...previous,trainingListLocation:location})} rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} navigationRequest={trainingListRequest} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined}/>
           ) : page === "templates" ? (
-            <TemplatesPage api={api} shortcuts={prefs.shortcuts} lockedProblems={active?.slots||[]} visit={templatesVisit.current} onActiveChange={setTemplateActive} onTrain={openPractice} onOpenCourse={id=>{setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,activePath:id,[id]:{...previous.learningPaths?.[id],mode:'learn',labV1:{...previous.learningPaths?.[id]?.labV1,chapter:'0'}}}}));setPage('paths');}}/>
+            <TemplatesPage api={api} onOpenDetail={item=>openLearning({kind:'template',id:item.id,title:item.title,...(item.draft?{visit:{draft:item.draft}}:{})})} shortcuts={prefs.shortcuts} lockedProblems={active?.slots||[]} visit={templatesVisit.current} onActiveChange={setTemplateActive} onTrain={openPractice} onOpenCourse={id=>{setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,activePath:id,[id]:{...previous.learningPaths?.[id],mode:'learn',labV1:{...previous.learningPaths?.[id]?.labV1,chapter:'0'}}}}));setPage('paths');}}/>
           ) : page === "paths" ? (
-            <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current} onOpenTemplate={id=>{templatesVisit.current.selected=id;setPage('templates');}}/>
+            <LearningPathsPage catalogOnly onOpenDetail={item=>openLearning({kind:'lab',id:item.id,title:item.title})} rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current} onOpenTemplate={id=>{templatesVisit.current.selected=id;setPage('templates');}}/>
           ) : page === "lectures" ? (
-            <LecturesPanel prefs={prefs} setPrefs={setPrefs} api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onFullscreenChange={setLectureFull} onTrain={openPractice} onOpenTemplate={id=>{templatesVisit.current.selected=id;setLectureId(null);setPage('templates');}} onError={(message) => notice(message, "error")} />
+            <LecturesPanel onOpenLecture={id=>openLearning({kind:'lecture',id})} prefs={prefs} setPrefs={setPrefs} api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onFullscreenChange={setLectureFull} onTrain={openPractice} onOpenTemplate={id=>{templatesVisit.current.selected=id;setLectureId(null);setPage('templates');}} onError={(message) => notice(message, "error")} />
           ) : page === "rankings" ? (
             <RankingsPage socialState={social} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
           ) : (
@@ -2238,8 +2245,8 @@ export default function App() {
           <Suspense fallback={<div className="loading-small" role="status"><LoaderCircle className="spin" size={20} /></div>}>{readerPanel}</Suspense>
         </div>
       </main>
-      {toast && (
-        <div className={"toast " + toast.type+(practiceId||page==='mock'&&workspace.activeContest?' toast-workbench':'')} role="status">
+      {toast && createPortal((
+        <div className={"toast " + toast.type+(learningBrowserActive?' toast-study':'')+(practiceId||page==='mock'&&workspace.activeContest?' toast-workbench':'')} role="status">
           {toast.type === "success" ? (
             <Trophy size={17} />
           ) : toast.type === "error" ? (
@@ -2252,7 +2259,7 @@ export default function App() {
             <button onClick={toast.action.run}>{toast.action.label}</button>
           )}
         </div>
-      )}
+      ),document.body)}
       {dialog === 'accounts'&&<Modal opacityKey="accounts" title="账号与身份" className="compact-account-modal" onClose={()=>setDialog(null)}><AccountPanel api={api} account={account} profileSnapshot={profileSnapshot} hub={hub} onProfileChanged={profileChanged} onHubChanged={setHub}/></Modal>}
       {dialog === "daily-tasks" && <Modal opacityKey="daily-tasks" title="每日任务" onClose={() => {setDialog(null);backgroundDialog.current=null;clearTimeout(dailyRefreshTimer.current);dailyRefreshTimer.current=setTimeout(()=>void refreshBackground(true),300);}} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { dailyClaimPending.current=true;backgroundSeq.current++;try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => applyDailyTaskReward(previous,result)); window.dispatchEvent(new Event("tb:sticker-rewards")); notice("经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } finally {dailyClaimPending.current=false;} }} /></Modal>}
       {dialog === 'contest-calendar' && <Modal opacityKey="contest-calendar" title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onOriginal={contest=>api('browser-preparation',{action:'open-contest',url:contest.url})} onOpen={featureAvailable('competitions')?openCalendarContest:undefined} onStart={featureAvailable('mock')?async(contest,{isCurrent=()=>true}={})=>{const owner=account?.userId;const result=await api('contests/start-calendar',{id:contest.id});if(!isCurrent()||calendarDataOwner.current!==owner||window.__tbAccountUserId!==undefined&&window.__tbAccountUserId!==owner)return;await calendarDataReader.refresh(owner,{isCurrent});if(!isCurrent()||calendarDataOwner.current!==owner)return;setDialog(null);startedMock(result);}:undefined}/></Modal>}
@@ -2261,7 +2268,7 @@ export default function App() {
       {tourOpen && <Suspense fallback={null}><Onboarding availablePages={visiblePageIds} key={tourContext} initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onShown={markGuideShown} onComplete={finishOnboarding} onDirectory={()=>openGuide('catalog')} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
       {experienceOffer?.owner===account?.userId&&experienceOffer?.policyVersion===1&&<Suspense fallback={null}><ExperienceChallenge owner={account?.userId} offer={experienceOffer} ready={preferencesLoaded.current&&!loading&&prefs.levelNoticeVersion===1&&prefs.levelNoticeSeen>=Math.min(navigationLevel,4)} blocked={levelNoticeBlocked||Boolean(levelUp.dialog)} api={api} onOpenChange={setExperienceOpen} onOpen={openPractice} onGrowth={growth=>{const owner=window.__tbAccountUserId;if(confirmedGrowth(growth,owner))setInsights(previous=>protectGrowth(previous,{...previous,growth},owner,retiredGrowthEpochs.current));}}/></Suspense>}
       {levelUp.dialog&&<Suspense fallback={null}><LevelUpDialog notice={levelUp.dialog} pages={PAGES} preferences={prefs} onPresented={levelUp.markPresented} onClose={levelUp.close} onOpen={go}/></Suspense>}
-      {dialog === "achievements" && <Modal opacityKey="achievements" title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => {setDialog(null);backgroundDialog.current=null;void refreshBackground(true);}} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} onClaim={async id=>{const owner=window.__tbAccountUserId;dailyClaimPending.current=true;backgroundSeq.current++;try{const result=await api('achievements/claim',{id,compact:true});if(owner!==window.__tbAccountUserId)return;backgroundSeq.current++;setInsights(previous=>result.achievement?{...previous,achievements:(previous?.achievements||[]).map(item=>item.id===id?{...item,...result.achievement}:item)}:protectGrowth(previous,result,owner,retiredGrowthEpochs.current));notice('奖励已领取','success');}finally{dailyClaimPending.current=false;}}} /></Modal>}
+      {dialog === "achievements" && <Modal opacityKey="achievements" title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => {setDialog(null);backgroundDialog.current=null;void refreshBackground(true);}} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} onClaim={async id=>{const owner=window.__tbAccountUserId;dailyClaimPending.current=true;backgroundSeq.current++;try{const result=await api('achievements/claim',{id,compact:true});if(owner!==window.__tbAccountUserId)return;backgroundSeq.current++;setInsights(previous=>result.achievement?{...previous,achievements:(previous?.achievements||[]).map(item=>item.id===id?{...item,...result.achievement}:item)}:protectGrowth(previous,result,owner,retiredGrowthEpochs.current));window.dispatchEvent(new Event('tb:sticker-rewards'));notice('奖励已领取','success');}finally{dailyClaimPending.current=false;}}} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span></div><HistoricalCode submission={selectedSubmission} api={api}/>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (
         <Modal opacityKey="messages" title="消息与更新" onClose={() => setDialog(null)} wide className="messages-modal" headerActions={<IconButton label="全部已读" icon={Check} disabled={messagesReading||!((hub?.notifications||[]).some(item=>!item.read)||social.snapshot?.unreadCount>0)} onClick={async()=>{

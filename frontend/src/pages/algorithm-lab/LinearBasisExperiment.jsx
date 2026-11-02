@@ -1,3 +1,4 @@
+import {useStudyState} from '@/lib/StudyPane.jsx';
 import {useMemo,useState} from 'react';
 import {ArrowLeft,ArrowRight,Check,GitMerge,Play,RotateCcw} from 'lucide-react';
 import {parseXorInput,subsetXors,xorBasis,xorContains,xorKth,xorQuery} from './linearBasisModel.js';
@@ -5,11 +6,11 @@ import {Feedback} from './LabParts.jsx';
 
 const Button=({label,children,...props})=><button type="button" className="lab-icon-button" aria-label={label} title={label} {...props}>{children}</button>;
 export default function LinearBasisExperiment({draft={},update}) {
- const [input,setInput]=useState(draft.input||'6 5 3'),[target,setTarget]=useState(draft.target||'7'),[merge,setMerge]=useState('1'),[k,setK]=useState(draft.k||'1'),[error,setError]=useState(''),[prediction,setPrediction]=useState(''),[checked,setChecked]=useState(false);
+ const [input,setInput]=useStudyState('LinearBasisExperiment.input',draft.input||'6 5 3'),[target,setTarget]=useStudyState('LinearBasisExperiment.target',draft.target||'7'),[merge,setMerge]=useStudyState('LinearBasisExperiment.merge','1'),[k,setK]=useStudyState('LinearBasisExperiment.k',draft.k||'1'),[error,setError]=useState(''),[prediction,setPrediction]=useStudyState('LinearBasisExperiment.prediction',''),[checked,setChecked]=useState(false);
  const parsed=useMemo(()=>{try{return parseXorInput(draft.input||'6 5 3');}catch{return [6n,5n,3n];}},[draft.input]);
  const model=useMemo(()=>xorBasis(parsed),[parsed]),results=useMemo(()=>subsetXors(parsed),[parsed]);
  const index=Math.max(0,Math.min(model.frames.length-1,Number(draft.frame)||0)),frame=model.frames[index],basis=frame.basis;
- const [mode,setMode]=useState('max');
+ const [mode,setMode]=useStudyState('LinearBasisExperiment.mode','max');
  let query=0n,queryError='';try{query=parseXorInput(target)[0];if(target.trim().split(/[\s,，]+/).length!==1)throw Error();}catch{queryError='查询值须是一个无符号 64 位整数。';}
  const greedy=xorQuery(model.p,query,mode==='min');
  let kth=null;try{if(/^\d+$/.test(k))kth=xorKth(model.p,BigInt(k));}catch{}

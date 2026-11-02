@@ -1,9 +1,10 @@
+import {useStudyState} from '@/lib/StudyPane.jsx';
 import { useMemo, useState } from 'react';
 import { EXPEDITION, EXPEDITION_CAPACITY as CAPACITY, packingPlan, table01 } from './knapsackModel.js';
 import { BagSlots } from './LabParts.jsx';
 
 export function InitializationDemo() {
-  const table = useMemo(() => table01(EXPEDITION, CAPACITY), []), [row, setRow] = useState(0);
+  const table = useMemo(() => table01(EXPEDITION, CAPACITY), []), [row, setRow] = useStudyState('InitializationDemo.row',0);
   const calculations = [[],
     ['f[1][3] = f[0][3] = 0', 'f[1][5] = max(f[0][5], f[0][1] + 7) = max(0, 0 + 7) = 7'],
     ['f[2][3] = max(f[1][3], f[1][0] + 5) = max(0, 0 + 5) = 5', 'f[2][5] = max(f[1][5], f[1][2] + 5) = max(7, 0 + 5) = 7'],
@@ -25,7 +26,7 @@ export function InitializationDemo() {
 }
 
 export function RowReuseDemo() {
-  const table = useMemo(() => table01(EXPEDITION, CAPACITY), []), [stage, setStage] = useState(0);
+  const table = useMemo(() => table01(EXPEDITION, CAPACITY), []), [stage, setStage] = useStudyState('RowReuseDemo.stage',0);
   const item = EXPEDITION[2], old = table[2], target = stage === 2 ? 4 : 5, source = target - item.weight;
   const values = old.map((value, c) => c === 5 || (stage === 2 && c === 4) ? table[3][c] : value);
   return <section className="lab-panel lab-row-reuse" aria-label="从两行到一行">

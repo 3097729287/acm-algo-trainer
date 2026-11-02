@@ -1,6 +1,7 @@
 import {rankIndex,TIER_NAMES} from '@/lib/rankTiers.js';
 import {compareCompetitionNewest} from '@/lib/competitionOrder.js';
 import StickerCanvas from '@/components/StickerCanvas.jsx';
+import {StickerArt,STICKER_NAMES} from '@/components/StickerArt.jsx';
 import MedalEmblem,{titleMedalIndex} from '@/components/MedalEmblem.jsx';
 import {Gift,EyeOff} from 'lucide-react';
 import CatalogName from '@/components/CatalogName.jsx';
@@ -84,7 +85,7 @@ export function AchievementPanel({ achievements = [], newIds = [], onSeen, onCla
         {item.rewardClaimed&&item.rewardTitle?<MedalEmblem index={titleMedalIndex(item.rewardTitle)} variant={item.rewardTitle.category} size={28} label={item.rewardTitle.name}/>:<AchievementIcon achievement={item}/>}
         <div className="achievement-card-content"><div className="progress-achievement-name"><strong title={item.name}>{item.name}</strong>{item.hidden&&<Tooltip text="隐藏成就"><EyeOff size={14} aria-label="隐藏成就"/></Tooltip>}{item.unlocked&&item.unlockedAt&&<time dateTime={item.unlockedAt}>{dateLabel(item.unlockedAt)}</time>}</div>
           <p>{item.description}</p>{!item.unlocked&&<><Meter value={item.target?item.progress/item.target*100:0} label={`${item.name}完成进度`}/><span className="progress-muted achievement-progress-count">{number(item.progress)} / {number(item.target)}</span></>}
-          {item.unlocked&&<div className="achievement-reward-row">{rewardXp>0&&<span className="achievement-reward">任务奖励 · +{number(rewardXp)} XP</span>}{!item.rewardClaimed&&<Tooltip text={item.rewardTitle?.name||'领取奖励'}><button type="button" className="progress-button achievement-claim" aria-label={`领取${item.name}奖励`} disabled={Boolean(pending)||!onClaim} onClick={()=>claim(item)}>{pending===item.id?'领取中…':'领取奖励'}</button></Tooltip>}</div>}
+          <div className="achievement-reward-row">{item.rewardSticker&&<span className={'achievement-reward achievement-sticker rarity-'+item.rewardSticker.rarity}><StickerArt item={item.rewardSticker} size={30}/><span>{STICKER_NAMES[item.rewardSticker.rarity]}贴纸 · {item.rewardSticker.title}</span></span>}{item.rewardTitle&&<span className="achievement-reward achievement-badge"><MedalEmblem index={titleMedalIndex(item.rewardTitle)} variant={item.rewardTitle.category} size={25} label={item.rewardTitle.name}/><span>勋章 · {item.rewardTitle.name}</span></span>}{rewardXp>0&&<span className="achievement-reward">任务奖励 · +{number(rewardXp)} XP</span>}{item.unlocked&&!item.rewardClaimed&&<Tooltip text={item.rewardTitle?.name||'领取奖励'}><button type="button" className="progress-button achievement-claim" aria-label={`领取${item.name}奖励`} disabled={Boolean(pending)||!onClaim} onClick={()=>claim(item)}>{pending===item.id?'领取中…':'领取奖励'}</button></Tooltip>}</div>
         </div>
       </div>;
     })}</div>{!items.length&&<p className="progress-muted">这一组暂时没有成就记录。</p>}{error&&<p className="connection-error" role="alert">{error}</p>}

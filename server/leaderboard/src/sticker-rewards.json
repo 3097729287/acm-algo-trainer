@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "levelBoxes": {"firstLevel": 5, "maxLevel": 100, "quantitySteps": [[5,2],[10,3],[20,4],[35,5],[50,6],[75,7],[100,8]], "curveScale": 40},
+  "stickers": [
+    {"id":"achievement-duck","title":"嘴强小黄鸭","rarity":"legendary","shape":"duck"},
+    {"id":"achievement-semicolon","title":"分号救世主","rarity":"legendary","shape":"semicolon"},
+    {"id":"achievement-42","title":"42 号星球","rarity":"epic","shape":"answer42"},
+    {"id":"achievement-hearts","title":"心意邮差","rarity":"epic","shape":"heart"},
+    {"id":"achievement-rainbow","title":"彩虹收藏家","rarity":"legendary","shape":"rainbow"},
+    {"id":"achievement-wiki","title":"知识旅行家","rarity":"rare","shape":"compass"},
+    {"id":"achievement-gift","title":"礼物来了","rarity":"rare","shape":"gift"},
+    {"id":"achievement-post","title":"星际邮局","rarity":"legendary","shape":"envelope"},
+    {"id":"achievement-key","title":"开箱好手","rarity":"epic","shape":"key"},
+    {"id":"achievement-fox","title":"倒立小狐狸","rarity":"rare","shape":"fox"},
+    {"id":"achievement-orbit","title":"四季同框","rarity":"legendary","shape":"orbit"}
+  ],
+  "achievements": {
+    "leader-tease":"achievement-duck",
+    "moment-semicolon":"achievement-semicolon",
+    "moment-42":"achievement-42",
+    "hearts-given-10":"achievement-hearts",
+    "moment-rainbow":"achievement-rainbow",
+    "moment-wiki-trip":"achievement-wiki",
+    "moment-first-gift":"achievement-gift",
+    "moment-gift-circle":"achievement-post",
+    "moment-box-ten":"achievement-key",
+    "moment-upside-down":"achievement-fox",
+    "moment-box-rainbow":"achievement-orbit"
+  }
+}

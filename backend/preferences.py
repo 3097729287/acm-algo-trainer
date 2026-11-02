@@ -134,7 +134,14 @@ def save_preferences(training, body):
         text = json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
     except (ValueError, TypeError):
         raise ServiceError(400, '偏好设置格式无效') from None
-    if len(text.encode('utf-8')) > 128 * 1024:
+    browser=value.get('learningPaths',{}).get('browserV1')
+    without_browser=value
+    if browser is not None:
+        if (not isinstance(browser,dict) or browser.get('version')!=1 or not isinstance(browser.get('tabs'),list)
+                or len(browser['tabs'])>64 or len(json.dumps(browser,ensure_ascii=False).encode('utf-8'))>24*1024*1024):
+            raise ServiceError(400,'学习标签页状态过大或格式无效')
+        without_browser={**value,'learningPaths':{key:item for key,item in value['learningPaths'].items() if key!='browserV1'}}
+    if len(json.dumps(without_browser,ensure_ascii=False).encode('utf-8')) > 128 * 1024:
         raise ServiceError(400, '偏好设置过大，请减少收藏或保存的筛选')
     for name in ('favorites', 'seenAchievements', 'navOrder', 'views'):
         if name in value and not isinstance(value[name], list):

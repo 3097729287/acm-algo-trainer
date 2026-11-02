@@ -11,7 +11,7 @@ import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 import {trainingListLikes} from './training-list-likes.mjs';
 import {adminAccounts} from './admin-accounts.mjs';
 
-const VERSION = '1.4.0';
+const VERSION = '1.4.1';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -178,7 +178,7 @@ export async function handle(request, env) {
       return json(await trainingListLikes(env.STORE,user,credentials(request).token,[value.listId],true,now,value.liked!==false));
     }
     if (['/v1/social/likes','/v1/social/comments','/v1/social/read'].includes(path) && request.method === 'POST') {
-      const fields=path.endsWith('/likes') ? ['targetId'] : path.endsWith('/comments') ? ['targetId','text','requestId'] : ['ids','all'];
+      const fields=path.endsWith('/likes') ? ['targetId'] : path.endsWith('/comments') ? ['targetId','text','requestId','replyTo','gift'] : ['ids','all'];
       const value=await body(request,fields,8192);
       await limit(env,'social:'+path+':'+user.user_id,path.endsWith('/comments')?10:60,60,Math.floor(now/1000));
       return json(await socialWrite(env.STORE,user,credentials(request).token,path,value,now));
@@ -191,12 +191,14 @@ export async function handle(request, env) {
       if(!env.STORE.gameplay||!await env.STORE.gameplay.available())throw new ApiError(503,'在线对战和贴纸服务尚未就绪');
       const game=env.STORE.gameplay,owner=user.user_id,auth=tokenHash(credentials(request).token);
       await limit(env,'gameplay:'+owner,240,60,Math.floor(now/1000));
-      if(path==='/v1/stickers'&&request.method==='GET')return json(await game.stickers(owner));
+      if(path==='/v1/stickers'&&request.method==='GET')return json({...await game.stickers(owner),giftStats:await env.STORE.social.giftStats(owner)});
       if(path==='/v1/duels'&&request.method==='GET')return json(await game.read(owner,now));
       if(request.method==='POST'){
         const sticker=/^\/v1\/stickers\/(grant|place|recycle)$/.exec(path);
+        const reward=/^\/v1\/stickers\/(levels|achievement|open-box)$/.exec(path);
         const duel=/^\/v1\/duels\/(join|cancel|poll|dismiss)$/.exec(path);
         if(sticker){const value=await body(request,['requestId','unitId','revision','x','y','angle','day','taskId','xp','minDifficulty'],4096);return json(await game.stickerWrite(owner,auth,sticker[1],value,now));}
+        if(reward){const fields={levels:['requestId','level'],achievement:['requestId','achievementId'],'open-box':['requestId','boxId']};const value=await body(request,fields[reward[1]],2048);return json(await game.rewardWrite(owner,auth,reward[1],value,now));}
         if(duel){const value=await body(request,['requestId','handle','ticket','matchId'],2048);return json(await game.duelWrite(owner,auth,duel[1],value,now));}
       }
       throw new ApiError(404,'没有找到这项在线操作');

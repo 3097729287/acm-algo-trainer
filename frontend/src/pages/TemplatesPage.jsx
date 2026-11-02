@@ -16,11 +16,12 @@ import './TemplatesPage.css';
 
 const GROUPS=['基础算法','搜索','数据结构','图论','字符串','数学','动态规划','我的模板'];
 const emptyTemplate=()=>({id:null,title:'',category:'我的模板',language:'cpp17',code:'',notes:'',summary:'',builtin:false});
+const cloneTemplate=source=>({...Object.fromEntries(['title','category','language','code','notes','summary'].filter(key=>source[key]!=null).map(key=>[key,source[key]])),id:null,builtin:false});
 const Button=({label,children,...props})=><button type="button" className="icon-button" aria-label={label} title={label} {...props}>{children}</button>;
-export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onUse,language,onActiveChange,onTrain,onOpenCourse,lockedProblems=[]}) {
+export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onUse,language,onActiveChange,onTrain,onOpenCourse,lockedProblems=[],initialTemplate,onOpenDetail,onDocumentChange,study=false}) {
  const fallback=useRef({}),session=visit||fallback.current;
- const [templates,setTemplates]=useState([]),[query,setQuery]=useState(session.query||''),[selected,setSelected]=useState(session.selected||null),[draft,setDraft]=useState(session.draft||null);
- const [loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[error,setError]=useState(''),[copied,setCopied]=useState(false),[deleting,setDeleting]=useState(null),[edition,setEdition]=useState('teaching');
+ const [templates,setTemplates]=useState([]),[query,setQuery]=useState(session.query||''),[selected,setSelected]=useState(initialTemplate||session.selected||null),[draft,setDraft]=useState(session.draft||(initialTemplate==='new'?emptyTemplate():null));
+ const [loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[error,setError]=useState(''),[copied,setCopied]=useState(false),[deleting,setDeleting]=useState(null),[edition,setEdition]=useState(session.edition||'teaching');
  const [copyTarget,setCopyTarget]=useState(null),[copyBusy,setCopyBusy]=useState(false),[copyError,setCopyError]=useState('');
  const editor=useRef(null),panel=useRef(null),copyTimer=useRef(null),live=useRef(true);
  useEffect(()=>{live.current=true;api('templates').then(value=>{if(live.current)setTemplates((value.templates||[]).map(templateForDisplay));}).catch(issue=>{if(live.current)setError(issue.message);}).finally(()=>{if(live.current)setLoading(false);});return()=>{live.current=false;clearTimeout(copyTimer.current);};},[api]);
@@ -32,9 +33,9 @@ export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onU
  useEffect(()=>{if(!selected||embedded)return;const key=event=>{if(event.key==='Escape'&&!document.querySelector('dialog[open],[aria-modal=true],[data-popconfirm]')){event.preventDefault();event.stopImmediatePropagation();back();}};window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);},[selected,embedded]);
  const matching=templates.filter(item=>(!language||item.language===language)&&`${item.title} ${item.category} ${item.summary} ${(item.tags||[]).join(' ')}`.toLowerCase().includes(query.trim().toLowerCase()));
  const groups=[...GROUPS,...templates.map(item=>item.category)].filter((name,index,all)=>all.indexOf(name)===index&&matching.some(item=>item.category===name));
- const open=item=>{onActiveChange?.(true);setError('');setCopyTarget(null);setEdition('teaching');setSelected(item.id);setDraft(item.builtin?null:{...item});if(panel.current)panel.current.scrollTop=0;};
+ const open=item=>{if(onOpenDetail){onOpenDetail(item);return;}onActiveChange?.(true);setError('');setCopyTarget(null);setEdition('teaching');setSelected(item.id);setDraft(item.builtin?null:{...item});if(panel.current)panel.current.scrollTop=0;};
  const back=()=>{onActiveChange?.(false);setSelected(null);setDraft(null);setError('');};
- const create=source=>{onActiveChange?.(true);setSelected('new');setDraft(source?{...source,id:null,title:source.title,builtin:false,revision:undefined}:{...emptyTemplate(),language:language||'cpp17'});setError('');};
+ const create=source=>{const next=source?cloneTemplate(source):{...emptyTemplate(),language:language||'cpp17'};if(onOpenDetail){onOpenDetail({id:'new',title:source?.title||'新建模板',draft:next});return;}onActiveChange?.(true);setSelected('new');setDraft(next);setError('');};
  const update=(key,value)=>setDraft(previous=>({...previous,[key]:value}));
  const copy=async (code,onError=setError)=>{try{await navigator.clipboard.writeText(code);if(live.current){setCopied(true);clearTimeout(copyTimer.current);copyTimer.current=setTimeout(()=>{if(live.current)setCopied(false);},1800);}return true;}catch{if(live.current)onError('复制未完成，请选中代码后复制');return false;}};
  const requestCopy=(event,item)=>{event.preventDefault();event.stopPropagation();if(copyBusy)return;setCopyError('');setCopyTarget({anchor:event.currentTarget,code:item.contestCode||item.code});};
@@ -45,7 +46,7 @@ export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onU
    const body=remove?{id:current.id,revision:current.revision,delete:true}:{...Object.fromEntries(['id','title','category','language','code','notes','summary','revision'].filter(key=>current[key]!=null).map(key=>[key,current[key]]))};
    const result=await api('templates/save',body);
    if(!live.current)return;setTemplates(result.templates.map(templateForDisplay));setDeleting(null);
-   if(remove)back();else {setSelected(result.template.id);setDraft({...result.template});}
+   if(remove){back();onDocumentChange?.({deleted:true,templates:result.templates});}else {Object.assign(session,{selected:result.template.id,draft:{...result.template}});setSelected(result.template.id);setDraft({...result.template});onDocumentChange?.(result);}
   } catch(issue){if(live.current)setError(issue.message);}finally{if(live.current)setBusy(false);}
  };
  const topic=ALGORITHM_TOPIC_BY_ID[current?.learningPath];

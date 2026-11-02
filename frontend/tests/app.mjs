@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {chooseMockValue} from './mock-mode-selection.mjs';
 import { chromium } from 'playwright';
 import { createServer, preview as previewServer } from 'vite';
-import { mkdir } from 'node:fs/promises';
+import { mkdir,readFile } from 'node:fs/promises';
+const studyTemplates=JSON.parse(await readFile(new URL('../../backend/resources/code-templates.json',import.meta.url),'utf8'));
 
 // Every API request is isolated from the user's database and external accounts.
 const serverSettings = { host: '127.0.0.1', port: 18775, strictPort: true };
@@ -94,6 +95,8 @@ await page.route('**/api/**', async route => {
     value={submissions:found.slice(offset,offset+limit),total:found.length,offset,limit,hasMore:offset+limit<found.length};
   }
   else if (path === '/api/lectures') value = { lectures: [lecture,...relatedLectures] };
+  else if (path === '/api/templates') value = studyTemplates;
+  else if (path === '/api/wiki') value = {articles:[]};
   else if (path === '/api/lecture') value = [lecture,...relatedLectures].find(item=>item.id===url.searchParams.get('id'))||lecture;
   else if (path === '/api/profile') { if (body) { profile.nickname = body.nickname; profile.displayName = profile.nickname; connection.endpoint = body.endpoint || connection.endpoint; connection.configured = !!connection.endpoint; connection.status = connection.configured ? 'syncing' : 'not_configured'; connection.notice = connection.configured ? '已连接测试排行榜' : '共享排行榜尚未配置。'; } value = { profile, leaderboard: connection }; }
   else if (path === '/api/social') value = { available: false, totalLikes: 0, unreadCount: 0, notifications: [] };
@@ -171,28 +174,25 @@ try {
   assert.ok(!(await mathTitle.textContent()).includes('$'), 'the reported title shows its formula instead of delimiters');
   assert.equal(await mathTitle.locator('p,div,a,button').count(), 0, 'title markup stays inline inside its button');
   await page.locator('tr[data-id="测试比赛::C"] td').nth(2).click();
-  await page.locator('.wb-heading .katex').waitFor();
-  assert.equal(await page.locator('.wb-heading .katex-html').textContent(), 'gcd');
+  await page.locator('.study-tab-wrap .katex').waitFor();
+  assert.equal(await page.locator('.study-tab-wrap .katex-html').textContent(), 'gcd');
   await page.getByRole('button', { name: '题解', exact: true }).click();
-  await page.locator('.reader-panel header .katex').waitFor();
-  assert.equal(await page.locator('.reader-panel header .katex-html').textContent(), 'gcd');
-  await page.getByRole('button',{name:'题解全屏',exact:true}).click();
-  await page.locator('body>.reader-panel.reader-full').waitFor();
+  await page.locator('.study-solution .reader-content .katex').waitFor();
+  assert.equal(await page.locator('.study-tab-wrap .katex-html').last().textContent(), 'gcd');
+  await page.locator('body>.study-browser').waitFor();
   assert(await page.locator('.app-shell').evaluate(node=>node.inert));
-  assert.equal(await page.locator('.reader-full .reader-resizer').count(),0);
-  assert(await page.evaluate(()=>Boolean(document.elementFromPoint(innerWidth/2,innerHeight/2)?.closest('.reader-full'))));
-  const full=await page.locator('.reader-full').boundingBox();assert.equal(full.x,0);assert.equal(full.y,0);assert.equal(full.width,2048);assert.equal(full.height,1152);
+  assert.equal(await page.locator('.study-solution .reader-resizer').count(),0);
+  assert(await page.evaluate(()=>Boolean(document.elementFromPoint(innerWidth/2,innerHeight/2)?.closest('.study-browser'))));
+  const full=await page.locator('.study-browser').boundingBox();assert.equal(full.x,0);assert.equal(full.y,0);assert.equal(full.width,2048);assert.equal(full.height,1152);
   await page.screenshot({path:'tests/screenshots/fullscreen-solution-top-layer.png',animations:'disabled'});
-  await page.getByRole('button',{name:'退出题解全屏',exact:true}).click();
-  assert.equal(await page.locator('.app-shell').evaluate(node=>node.inert),false);
 
   await page.screenshot({ path: 'tests/screenshots/title-math-workbench.png', animations: 'disabled' });
   await page.setViewportSize({width:960,height:700});
-  await page.waitForFunction(()=>document.querySelector('.reader-panel')?.getBoundingClientRect().width>650);
+  await page.waitForFunction(()=>document.querySelector('.study-solution')?.getBoundingClientRect().width>650);
   assert.equal(await page.locator('.tb-workbench').count(),1,'reading in a small window preserves the mounted editor');
   assert.equal(await page.locator('.tb-workbench').isVisible(),false,'the full-width reader leaves enough space for readable text');
   await page.screenshot({path:'tests/screenshots/reader-960.png',animations:'disabled'});
-  await page.getByRole('button', { name: '收起题解', exact: true }).click();
+  await page.locator('.study-tab-wrap').filter({has:page.locator('[aria-selected=true]')}).getByRole('button',{name:/关闭标签/}).click();
   await page.locator('.tb-workbench').waitFor({state:'visible'});
   await page.setViewportSize({width:2048,height:1152});
   await page.getByRole('button', { name: '返回列表', exact: true }).click();
@@ -311,18 +311,23 @@ try {
   const learnedRow=page.locator('.lectures-list button').filter({hasText:'位运算'}).first();
   const unlearnedColor=await learnedRow.evaluate(node=>getComputedStyle(node).backgroundColor);
   await page.locator('.lectures-detail-bar').getByRole('button',{name:'标记已学会',exact:true}).click();
+  await page.getByRole('button',{name:'返回列表',exact:true}).click();
   await page.waitForFunction(()=>!document.querySelector('.lectures-list button.lecture-learned'));
   assert.equal(await learnedRow.count(),0,'Learned item immediately leaves the default unlearned list');
   await page.getByRole('button',{name:'显示已学会',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('.lectures-list button.lecture-learned'));
   assert.equal(await page.getByRole('button',{name:'显示未学会',exact:true}).getAttribute('aria-pressed'),'true');
   assert.notEqual(await learnedRow.evaluate(node=>getComputedStyle(node).backgroundColor),unlearnedColor);
+  await learnedRow.click();
   await page.locator('.lectures-detail-bar').getByRole('button',{name:'取消已学会',exact:true}).click();
+  await page.getByRole('button',{name:'返回列表',exact:true}).click();
   await page.waitForFunction(()=>!document.querySelector('.lectures-list button.lecture-learned'));
   assert.equal(await learnedRow.count(),0,'Unmarking also removes the row from the learned list');
   await page.getByRole('button',{name:'显示未学会',exact:true}).click();
   await learnedRow.waitFor();
+  await learnedRow.click();
   await page.locator('.lectures-detail-bar').getByRole('button',{name:'标记已学会',exact:true}).click();
+  await page.getByRole('button',{name:'返回列表',exact:true}).click();
   await page.getByRole('button',{name:'显示已学会',exact:true}).click();
   await learnedRow.waitFor();
 
@@ -690,32 +695,30 @@ try {
   await page.keyboard.press('Control+9');
   await page.locator('.lectures-list button').filter({hasText:'函数测试起点'}).click();
   await page.getByRole('heading',{name:'函数测试正文',exact:true}).waitFor();
-  await page.locator('.lectures-detail').evaluate(node=>{node.scrollTop=1200;});
-  await page.locator('.lecture-prerequisites button').filter({hasText:'分支与循环'}).dispatchEvent('click');
+  await page.locator('.study-pane:not([hidden]) .lectures-detail').evaluate(node=>{node.scrollTop=1200;});
+  await page.locator('.study-pane:not([hidden]) .lecture-prerequisites button').filter({hasText:'分支与循环'}).dispatchEvent('click');
   await page.getByRole('heading',{name:'分支循环测试正文',exact:true}).waitFor();
-  await page.locator('.lectures-detail').evaluate(node=>{node.scrollTop=800;});
-  await page.locator('.lecture-prerequisites button').filter({hasText:'输入输出'}).dispatchEvent('click');
+  await page.locator('.study-pane:not([hidden]) .lectures-detail').evaluate(node=>{node.scrollTop=800;});
+  await page.locator('.study-pane:not([hidden]) .lecture-prerequisites button').filter({hasText:'输入输出'}).dispatchEvent('click');
   await page.getByRole('heading',{name:'输入输出测试正文',exact:true}).waitFor();
-  await page.getByRole('button',{name:'返回上篇',exact:true}).click();
+  await page.getByRole('tab',{name:'分支循环测试中篇',exact:true}).click();
   await page.getByRole('heading',{name:'分支循环测试正文',exact:true}).waitFor();
-  await page.waitForFunction(()=>document.querySelector('.lectures-detail').scrollTop>=790);
-  await page.getByRole('button',{name:'返回上篇',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.study-pane:not([hidden]) .lectures-detail').scrollTop>=790);
+  await page.getByRole('tab',{name:'函数测试起点',exact:true}).click();
   await page.getByRole('heading',{name:'函数测试正文',exact:true}).waitFor();
-  await page.waitForFunction(()=>document.querySelector('.lectures-detail').scrollTop>=1190);
-  assert.ok(await page.getByRole('button',{name:'返回上篇',exact:true}).isDisabled());
+  await page.waitForFunction(()=>document.querySelector('.study-pane:not([hidden]) .lectures-detail').scrollTop>=1190);
   await page.keyboard.press('Control+3');
   await page.getByLabel('搜索算法',{exact:true}).fill('knapsack');
   assert.equal(await page.locator('.lab-catalog .lab-panel').count(),1);
   await page.locator('.lab-catalog .catalog-card-open').click();
   await page.locator('.lab-lesson').waitFor();
   const navigation=await page.locator('.lab-course-header').evaluate(node=>({
-    back:node.querySelector('[aria-label="返回实验室"]').getBoundingClientRect().x,
-    title:node.querySelector('h1').getBoundingClientRect().x,
     directory:node.querySelector('[aria-label="目录"]').getBoundingClientRect().x,
     previous:node.querySelector('[aria-label="上一页"]').getBoundingClientRect().x,
     position:getComputedStyle(node).position,
   }));
-  assert.ok(navigation.back<navigation.title&&navigation.directory<navigation.previous&&navigation.position!=='sticky');
+  assert.ok(navigation.directory<navigation.previous&&navigation.position!=='sticky');
+  assert.ok(await page.getByRole('tab',{name:'背包 DP',exact:true}).isVisible());
   await page.locator('.lab-lesson').focus();
   await page.keyboard.press('ArrowRight');
   await page.waitForFunction(()=>document.querySelector('.lab-position')?.textContent.trim()==='2 / 7');
@@ -726,7 +729,7 @@ try {
   const afterScroll=await page.locator('.lab-course-header').boundingBox();
   assert.ok(Math.abs(beforeScroll.y-afterScroll.y)<1,'only the lesson scrolls');
   await page.screenshot({path:'tests/screenshots/course-header-navigation.png',animations:'disabled'});
-  await page.getByRole('button',{name:'返回实验室',exact:true}).click();
+  await page.getByRole('button',{name:'返回列表',exact:true}).click();
   await page.keyboard.press('Control+7');
   // A slow analytics response must not let the 3-second busy poll pile up work.
   hub.sync.busy = true;

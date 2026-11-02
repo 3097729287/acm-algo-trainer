@@ -1,3 +1,4 @@
+import {useStudyPane,useStudyState} from '@/lib/StudyPane.jsx';
 import {EXTRA_SHORTCUTS,matchesShortcut,shortcutValue} from '@/lib/shortcuts.js';
 import {useFeatureVisibility} from '@/lib/FeatureVisibility.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
@@ -205,6 +206,7 @@ function CaseResults({ cases }) {
 }
 
 export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, onCloseSolution, onNotice, solutionOpen=false, solutionMethodId=null, onNext, headerStart, headerEnd }) {
+  const studyPane=useStudyPane();
   const featureAvailable=useFeatureVisibility();
   const contestId = contest?.id || null;
   const runningContest = contest?.status === 'running';
@@ -241,17 +243,17 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const [templatesOpen,setTemplatesOpen]=useState(false);
   const [initialPickerOpen,setInitialPickerOpen]=useState(false),[initialCode,setInitialCode]=useState(null);
   const templatesVisit=useRef({});
-  useEffect(()=>{if(!templatesOpen)return;const escape=event=>{if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();setTemplatesOpen(false);requestAnimationFrame(()=>editorRef.current?.focus());}};window.addEventListener('keydown',escape,true);return()=>window.removeEventListener('keydown',escape,true);},[templatesOpen]);
-  const [codeLanguage,setCodeLanguage]=useState('cpp17');
+  useEffect(()=>{if(!templatesOpen||studyPane&&!studyPane.focused)return;const escape=event=>{if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();setTemplatesOpen(false);requestAnimationFrame(()=>editorRef.current?.focus());}};window.addEventListener('keydown',escape,true);return()=>window.removeEventListener('keydown',escape,true);},[templatesOpen,studyPane?.focused]);
+  const [codeLanguage,setCodeLanguage]=useStudyState('Workbench.codeLanguage','cpp17');
   const [saveState, setSaveState] = useState({ kind: 'automatic' });
-  const [pane, setPane] = useState('both');
+  const [pane, setPane] = useStudyState('Workbench.pane','both');
   const toolbar=useWorkbenchToolbar(sectionRef,initialPickerOpen||templatesOpen);
   const toolbarKind=contest?(contest.constraints?.calendarEvent||contest.calendarId||contest.live?'contest':'mock'):'practice';
-  const [splitRatio,setSplitRatio]=useState(50),[splitBounds,setSplitBounds]=useState([30,70]);
+  const [splitRatio,setSplitRatio]=useStudyState('Workbench.splitRatio',50),[splitBounds,setSplitBounds]=useState([30,70]);
   const dragCleanup=useRef(null),saveFeedback=useRef({at:0,key:null,revision:0}),[saveToast,setSaveToast]=useState(false),saveToastTimer=useRef(null);
   useEffect(()=>()=>{dragCleanup.current?.();clearTimeout(saveToastTimer.current);},[]);
   const [narrow,setNarrow]=useState(false);
-  const [compactPane,setCompactPane]=useState('statement');
+  const [compactPane,setCompactPane]=useStudyState('Workbench.compactPane','statement');
   useEffect(()=>{
     const node=sectionRef.current;if(!node)return;
     const observer=new ResizeObserver(([entry])=>{
@@ -266,18 +268,18 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const [creating, setCreating] = useState(false);
   const [actionError, setActionError] = useState('');
   const [pollError, setPollError] = useState('');
-  const [consoleOpen, setConsoleOpen] = useState(true);
-  const [consoleTab, setConsoleTab] = useState('input');
-  const [sample, setSample] = useState('custom');
+  const [consoleOpen, setConsoleOpen] = useStudyState('Workbench.consoleOpen',true);
+  const [consoleTab, setConsoleTab] = useStudyState('Workbench.consoleTab','input');
+  const [sample, setSample] = useStudyState('Workbench.sample','custom');
   const [input, setInput] = useState('');
   const [restoreAvailable, setRestoreAvailable] = useState(false);
   const [localDraftRecovery, setLocalDraftRecovery] = useState(null);
-  const [outputTab, setOutputTab] = useState('output');
+  const [outputTab, setOutputTab] = useStudyState('Workbench.outputTab','output');
   const [copied, setCopied] = useState(false);
   const [openingOfficial, setOpeningOfficial] = useState(false);
   const [officialSession, setOfficialSession] = useState(null);
   const [officialPollError, setOfficialPollError] = useState('');
-  const [language, setLanguage] = useState('original');
+  const [language, setLanguage] = useStudyState('Workbench.language','original');
   const [translation, setTranslation] = useState(null);
   const [translationBusy, setTranslationBusy] = useState(false);
   const [translationError, setTranslationError] = useState('');

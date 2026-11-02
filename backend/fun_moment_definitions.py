@@ -1,5 +1,16 @@
 """Fixed identities and rewards for the playful achievement collection."""
 MOMENTS={
+ 'moment-first-gift':dict(name='礼物来了',description='通过留言赠送一张自己库存中的贴纸',xp=0,hidden=False),
+ 'moment-gift-five':dict(name='五湖四海',description='给 5 位不同的训练者赠送贴纸',target=5,xp=35,hidden=False),
+ 'moment-gift-circle':dict(name='星际邮局',description='给 10 位不同的训练者赠送贴纸',target=10,xp=0,hidden=False),
+ 'moment-receive-gift':dict(name='有朋送礼',description='收到一张其他训练者赠送的贴纸',xp=15,hidden=False),
+ 'moment-box-first':dict(name='咔哒，打开了',description='开启第一个升级贴纸宝箱',xp=15,hidden=False),
+ 'moment-box-ten':dict(name='开箱好手',description='累计开启 10 个升级贴纸宝箱',target=10,xp=0,hidden=False),
+ 'moment-box-lucky':dict(name='金光一闪',description='从升级宝箱中开出一张传说品质贴纸',xp=25,hidden=False),
+ 'moment-box-rainbow':dict(name='四季同框',description='同一个升级宝箱开出普通、稀有、史诗、传说四种品质',xp=0,hidden=False),
+ 'moment-palindrome':dict(name='时间也对称',description='一次正式 AC 的北京时间时分组成四位回文数，例如 12:21',xp=20,hidden=False),
+ 'moment-one-character':dict(name='一字千金',description='同一道题错误后，只改动一个字符便正式 AC',xp=20,hidden=False),
+ 'moment-monday':dict(name='周一也有绿灯',description='在北京时间周一完成一次正式 AC',xp=15,hidden=False),
  'moment-rebound':dict(name='好，刚才不算',description='同一道题先收到错误回执，随后一小时内正式 AC',xp=15,hidden=False),
  'moment-semicolon':dict(name='; 救世主',description='一次 CE 后，只补上一个分号便正式 AC',xp=15,hidden=True),
  'moment-polyglot':dict(name='换种语言，照样拿下',description='同一道题分别使用 C++ 与 Python 正式 AC',xp=20,hidden=False),
