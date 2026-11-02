@@ -2,6 +2,7 @@ import {StickerRewards,REWARDS} from './sticker-rewards.mjs';
 import {createHash, randomInt, randomUUID} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {AccountError} from './accounts.mjs';
+import {levelBox} from './sticker-rewards.mjs';
 
 const fail=(status,message)=>{throw new AccountError(status,message);};
 const hash=value=>createHash('sha256').update(value).digest('hex');
@@ -83,7 +84,8 @@ export class Gameplay extends StickerRewards {
  async stickers(owner){
   const [rows]=await this.db.execute('SELECT payload FROM gameplay_accounts WHERE user_id=?',[owner]);
   const state=rows.length?JSON.parse(rows[0].payload):empty();
-  return {owner,catalogue:STICKERS,boxPolicy:REWARDS.levelBoxes,placementPolicy:{scale:true,minScale:.5,maxScale:2},...state};
+  const boxes=Object.fromEntries(Object.entries(state.boxes||{}).map(([id,box])=>[id,!box.openedAt&&box.policyVersion!==REWARDS.version?{...levelBox(box.level),grantedAt:box.grantedAt}:box]));
+  return {owner,catalogue:STICKERS,...state,boxes,boxPolicy:REWARDS.levelBoxes,placementPolicy:{scale:true,minScale:.5,maxScale:2}};
  }
  async stickerWrite(owner,auth,kind,value,now){
   return this.db.transaction(async db=>{
@@ -91,12 +93,19 @@ export class Gameplay extends StickerRewards {
    return this.once(db,owner,'stickers/'+kind,value,async()=>{
     if(kind==='grant'){
      const key=grantIdentity(value,now);
+     let slotKey=null;
+     if(value.rewardSlot!==undefined){
+      if(!['fixed','review-0','review-1'].includes(value.rewardSlot)||value.rewardSlot!=='fixed'&&!/^review-random:\d+$/.test(value.taskId)||value.rewardSlot==='fixed'&&value.taskId.startsWith('review-random:'))fail(400,'贴纸任务无效');
+      state.rewardSlots??={};slotKey=value.day+':'+value.rewardSlot;
+      if(Object.hasOwn(state.rewardSlots,slotKey)&&state.rewardSlots[slotKey]!==key)fail(409,'本日这项贴纸任务已经领取');
+     }
      if(!Object.hasOwn(state.grants,key)){
       if(state.units.length>=20000)fail(409,'贴纸库存已满');
       const rarity=rewardRarity(value),pool=STICKERS.filter(item=>item.rarity===rarity&&!item.id.startsWith('achievement-')),sticker=pool[randomInt(pool.length)];
       const unit={id:randomUUID(),stickerId:sticker.id,placement:null,revision:0};
       state.units.push(unit);state.grants[key]={unitId:unit.id,rarity,grantedAt:now};state.revision++;
      }
+     if(slotKey)state.rewardSlots[slotKey]=key;
     }else{
      const unit=state.units.find(item=>item.id===value.unitId);
      if(!unit)fail(404,'没有找到这张贴纸');

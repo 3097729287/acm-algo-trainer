@@ -18,7 +18,7 @@ async function api(path,body){
  if(path==='stickers')return clone(remote);
  if(path==='stickers/open-box'){
   if(remote.operations[body.requestId])return clone(remote.operations[body.requestId]);
-  const box=remote.boxes[body.boxId];if(!box.openedAt){box.openedAt=Date.now();box.drops=['rare-bolt','common-leaf'].map(stickerId=>{const unit={id:crypto.randomUUID(),stickerId,revision:0,placement:null};remote.units.push(unit);return {...unit,rarity:remote.catalogue.find(item=>item.id===stickerId).rarity};});remote.revision++;}
+  const box=remote.boxes[body.boxId];if(!box.openedAt){box.openedAt=Date.now();box.drops=Array.from({length:box.quantity},(_,i)=>['rare-bolt','common-leaf'][i%2]).map(stickerId=>{const unit={id:crypto.randomUUID(),stickerId,revision:0,placement:null};remote.units.push(unit);return {...unit,rarity:remote.catalogue.find(item=>item.id===stickerId).rarity};});remote.revision++;}
   const result={...clone(remote),opening:clone(box)};remote.operations[body.requestId]=result;save();
   if(loseBoxResponse){loseBoxResponse=false;throw new Error('测试：开箱回执暂未收到，请重试');}return clone(result);
  }

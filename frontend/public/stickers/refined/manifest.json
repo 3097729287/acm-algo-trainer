@@ -1,0 +1,12 @@
+{
+  "license": "MIT",
+  "originalDuck": "../fluent/duck.svg",
+  "originalDuckSha256": "768adcc30c10f4aa8fcfe174996185dba5c4e5ae9058307810719149fc3b5647",
+  "modifications": "Duck palette changed to yellow body and orange bill; geometry retained. Answer42 combines the retained Fluent planet with original numeral paths. Semicolon and phoenix are original local vector illustrations.",
+  "assets": {
+    "answer42": "ebe3a850d68ba03147d3c20c18a362261ac0d10ca31366e3a2459b69d4c90939",
+    "duck": "f65192d9505d91add6ab4aa374b430735163700c6f9cc8d93f5113768ad6c15e",
+    "phoenix": "a303d346a405d983df2be3a8e80eb40a4c449f50a99c9c3a65e29e541803a7f5",
+    "semicolon": "270528faa83de8b5042bfbd6ce6f93ce6d0ee3fa89757e6bc32b6f68aa223865"
+  }
+}

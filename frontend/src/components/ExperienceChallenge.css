@@ -8,3 +8,5 @@
 .experience-choices>button:hover:not(:disabled),.experience-choices>button:focus-visible{border-color:var(--accent);background:var(--accent-soft)}
 .experience-choices svg{color:var(--accent)}.experience-choices small{color:var(--muted);font-size:.8rem}
 .experience-challenge>p[role=alert]{color:var(--danger)}
+
+.experience-choices small{line-height:1.6;text-align:left}.sidebar-bottom:has(.sidebar-assessment){display:grid;grid-template-columns:minmax(0,1fr) 26px 16px;gap:3px;align-items:center;padding-inline:6px}.sidebar-bottom:has(.sidebar-assessment)>.nav-item{min-width:0;padding-inline:5px;gap:5px}.sidebar-assessment{width:26px;height:30px;padding:3px;color:var(--accent)}.sidebar-assessment-sync{display:inline-flex;align-items:center;justify-content:center}.account-experience>label{flex-wrap:wrap}.account-experience>label>small{display:block;flex-basis:100%;font-weight:400;color:var(--muted);line-height:1.55}.account-experience-help{grid-column:1/-1;font-size:.8rem;line-height:1.6;color:var(--muted);margin:4px 0 0}

@@ -91,6 +91,22 @@ class ReviewScheduler:
                 self.save(db, 'review-task:' + review_id, item)
         return item
 
+    def for_fresh_accept(self, identity, submitted):
+        """A fresh official practice AC can settle an already-due rewrite."""
+        stamp = parse_time(submitted)
+        canonical = self.t._identity_map().get(identity, identity)
+        task = next((item for item in self.plan()['tasks'] if item['problemId'] == canonical), None)
+        if not task or stamp.astimezone(SHANGHAI).date().isoformat() < task['due']:
+            return None
+        item = self.task(identity, task['id'])
+        if item.get('openedAt') and submitted < item['openedAt']:
+            return None
+        if not item.get('openedAt'):
+            item['openedAt'] = submitted
+            with self.t._write() as db:
+                self.save(db, 'review-task:' + item['id'], item)
+        return item
+
     def set_cancelled(self, identity, review_id, cancelled):
         from training import ServiceError, iso
         item = self.task(identity, review_id)
@@ -224,6 +240,20 @@ class ReviewScheduler:
                 create_task(state, state.get('anchor', last_wrong['id']), state.get('due') or day, identity)
                 task = preferences['review-task:' + state['taskId']]
             task_before = encoded(task)
+            # Repair a same-day native AC recorded by older clients that lost
+            # the review context. Never adopt cached history, another task's
+            # receipt, a contest result, or an accept preceding this rewrite.
+            if not task.get('completedAt') and not task.get('cancelledAt') and task.get('due','9999') <= day:
+                for receipt in receipts:
+                    binding = 'review-receipt:' + receipt['id']
+                    if (receipt['verdict'] != 'AC' or receipt.get('contest_id') or not str(receipt.get('code') or '').strip()
+                        or '官网同步' in str(receipt.get('message') or '') or preferences.get(binding) is not None
+                        or parse_time(receipt['submitted_at']).astimezone(SHANGHAI).date().isoformat() != day
+                        or receipt['submitted_at'] < (task.get('openedAt') or '')):
+                        continue
+                    task['openedAt'] = task.get('openedAt') or receipt['submitted_at']
+                    preferences[binding] = updates[binding] = task['id']
+                    break
             if task.get('openedAt') and not task.get('completedAt') and not task.get('cancelledAt'):
                 processed = set(task.get('processed', []))
                 for receipt in receipts:

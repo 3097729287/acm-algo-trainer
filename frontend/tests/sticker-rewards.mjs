@@ -19,11 +19,11 @@ try{
  for(const rarity of ['common','rare','epic','legendary']){const card=page.locator('.daily-task-sticker.rarity-'+rarity);assert.match(await card.innerText(),/贴纸/);assert(!((await card.innerText()).includes('XP')));assert((await card.evaluate(node=>getComputedStyle(node).backgroundImage)).includes('linear-gradient'));}
  await page.locator('.daily-tasks').screenshot({path:out+'/task-rewards-dark.png'});
  await page.getByRole('button',{name:'贴纸宝箱',exact:true}).click();const boxes=page.getByRole('dialog',{name:'贴纸宝箱',exact:true});
- assert.match(await boxes.getByRole('region',{name:'Lv.5 贴纸宝箱'}).innerText(),/2 张贴纸/);
+ assert.match(await boxes.getByRole('region',{name:'Lv.5 贴纸宝箱'}).innerText(),/7 张贴纸/);
  await boxes.getByRole('button',{name:'开启 Lv.5 宝箱',exact:true}).click();await boxes.getByRole('alert').waitFor();
  await boxes.getByRole('button',{name:'开启 Lv.5 宝箱',exact:true}).click();await boxes.getByLabel('本次获得的贴纸',{exact:true}).waitFor();
  const attempts=await page.evaluate(()=>window.rewardFixture.calls.filter(call=>call.path==='stickers/open-box'));assert.equal(attempts.length,2);assert.equal(attempts[0].body.requestId,attempts[1].body.requestId);
- assert.equal(await page.evaluate(()=>window.rewardFixture.state().units.length),4);
+ assert.equal(await page.evaluate(()=>window.rewardFixture.state().units.length),9);
  assert.equal(await boxes.getByRole('button',{name:'开启 Lv.5 宝箱',exact:true}).count(),0);await page.screenshot({path:out+'/opened-box.png'});
  await boxes.getByRole('button',{name:'关闭贴纸宝箱',exact:true}).click();
  const original=page.getByRole('button',{name:'回复 训练者乙 的留言',exact:true});await original.click();
@@ -31,7 +31,7 @@ try{
  await message.getByRole('button',{name:'赠送 嘴强小黄鸭',exact:true}).click();assert.equal(await message.getByLabel('留言内容',{exact:true}).inputValue(),'送你一张贴纸');
  await message.getByLabel('留言内容',{exact:true}).fill('祝你好运！');await page.screenshot({path:out+'/gift-comment.png'});await message.getByRole('button',{name:'发送留言',exact:true}).click();
  await message.waitFor({state:'hidden'});await original.getByLabel('我的回复',{exact:true}).getByText('祝你好运！',{exact:true}).waitFor();
- assert.match(await original.getByLabel('我的回复',{exact:true}).innerText(),/嘴强小黄鸭/);assert.equal(await page.evaluate(()=>window.rewardFixture.state().units.length),3);
+ assert.match(await original.getByLabel('我的回复',{exact:true}).innerText(),/嘴强小黄鸭/);assert.equal(await page.evaluate(()=>window.rewardFixture.state().units.length),8);
  await page.reload();await page.getByLabel('我的回复',{exact:true}).getByText('祝你好运！',{exact:true}).waitFor();
  for(const theme of ['dark','light'])for(const width of [1300,800,390]){await page.setViewportSize({width,height:1000});await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);for(const card of [routine,xp])assert.equal(await card.evaluate(node=>getComputedStyle(node).backgroundImage),'none');await page.locator('.daily-tasks').screenshot({path:`${out}/tasks-${theme}-${width}.png`});await page.screenshot({path:`${out}/rewards-${theme}-${width}.png`});}
  assert.deepEqual(errors,[]);await writeFile(out+'/result.json',JSON.stringify({passed:true,scenarios:['pending reward preview','earned-level count and odds','lost-response retry','one-time box opening','gift picker and exact recipient','owned inventory transfer','reply display after reload','six layouts'],errors},null,2));

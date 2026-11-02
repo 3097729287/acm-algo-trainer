@@ -1087,7 +1087,7 @@ export default function App() {
       const [value,,model]=await Promise.all([request,loadTrainingListsPage(),import('@/lib/trainingListModel.js')]);
       if(!alive||(window.__tbAccountUserId||'local')!==owner)return;
       visit.content={owner,lists:value.lists,at:Date.now()};
-      model.trainingListModel(value.lists,rows,visit.state?.mode||'algorithm',prefs.favorites||[]);
+      model.trainingListModel(value.lists,rows,visit.state?.mode||'algorithm',prefs.favorites||[],navigationLevel);
       visit.preloadedOwner=owner;
     }catch{}finally{if(visit.loading===request)delete visit.loading;}};
     const handle=window.requestIdleCallback?window.requestIdleCallback(preload,{timeout:1500}):setTimeout(preload,500);
@@ -2059,8 +2059,9 @@ export default function App() {
           >
             <Settings size={18} />
             <span className="nav-label" aria-hidden="true">设置</span>
-            <span className="nav-sync"><AccountSyncStatus /></span>
+            {!(navigationLevel<6&&experienceOffer?.eligible)&&<span className="nav-sync"><AccountSyncStatus /></span>}
           </button>
+          {navigationLevel<6&&experienceOffer?.eligible&&<><button type="button" className="icon-button sidebar-assessment" aria-label="老手测试" title="老手测试 · 通过后升至 6 级" onClick={()=>window.dispatchEvent(new CustomEvent('tb:open-experience-challenge',{detail:{owner:account?.userId}}))}><Code2 size={18}/></button><span className="nav-sync sidebar-assessment-sync"><AccountSyncStatus /></span></>}
         </div>
       </aside>
       <main className="main-area">
@@ -2238,7 +2239,7 @@ export default function App() {
           ) : page === "activity" ? (
             <ActivityPage insights={insights} onTrain={openPractice} />
           ) : page === "training-lists" ? (
-            <TrainingListsPage onLocationChange={location=>setPrefs(previous=>JSON.stringify(previous.trainingListLocation)===JSON.stringify(location)?previous:{...previous,trainingListLocation:location})} rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} navigationRequest={trainingListRequest} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined}/>
+            <TrainingListsPage level={experienceAccess?.allNavigationUnlocked?6:navigationLevel} onLocationChange={location=>setPrefs(previous=>JSON.stringify(previous.trainingListLocation)===JSON.stringify(location)?previous:{...previous,trainingListLocation:location})} rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} navigationRequest={trainingListRequest} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined}/>
           ) : page === "templates" ? (
             <TemplatesPage api={api} onOpenDetail={item=>openLearning({kind:'template',id:item.id,title:item.title,...(item.draft?{visit:{draft:item.draft}}:{})})} shortcuts={prefs.shortcuts} lockedProblems={active?.slots||[]} visit={templatesVisit.current} onActiveChange={setTemplateActive} onTrain={openPractice} onOpenCourse={id=>{setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,activePath:id,[id]:{...previous.learningPaths?.[id],mode:'learn',labV1:{...previous.learningPaths?.[id]?.labV1,chapter:'0'}}}}));setPage('paths');}}/>
           ) : page === "paths" ? (

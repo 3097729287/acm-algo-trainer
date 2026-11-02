@@ -17,10 +17,10 @@ try{
  const veteran=await fresh();await veteran.getByRole('dialog',{name:'你有编程经验吗？'}).waitFor();
  await veteran.getByRole('button',{name:'我是老手',exact:false}).click();
  await veteran.waitForFunction(()=>challengeFixture.opened.length===1);assert.equal((await veteran.evaluate(()=>challengeFixture.opened[0])).id,'template-drill:binary-search:1');
- await veteran.evaluate(()=>challengeFixture.pass());await veteran.waitForFunction(()=>document.querySelector('[data-level]').textContent==='5');
+ await veteran.evaluate(()=>challengeFixture.pass());await veteran.waitForFunction(()=>document.querySelector('[data-level]').textContent==='6');
  assert.equal(await veteran.getByRole('dialog',{name:'等级提升',exact:true}).count(),0,'Practice keeps the level animation queued');
  await veteran.getByRole('button',{name:'返回列表',exact:true}).click();
- await veteran.getByRole('dialog',{name:'等级提升',exact:true}).waitFor();assert.equal(await veteran.getByLabel('等级从 1 提升到 5').count(),1);
+ await veteran.getByRole('dialog',{name:'等级提升',exact:true}).waitFor();assert.equal(await veteran.getByLabel('等级从 1 提升到 6').count(),1);
  assert((await veteran.locator('[data-navigation]').textContent()).includes('mock'));await veteran.getByRole('button',{name:'继续学习',exact:true}).click();
  await veteran.evaluate(()=>challengeFixture.remount());await veteran.waitForTimeout(100);assert.equal(await veteran.getByRole('dialog',{name:'等级提升',exact:true}).count(),0);await veteran.close();
  const race=await fresh();await race.getByRole('dialog',{name:'你有编程经验吗？'}).waitFor();await race.waitForFunction(()=>challengeFixture.writes.some(v=>v.body.action==='seen'));
@@ -38,5 +38,5 @@ try{
   else if(name==='software-update')value={status:'idle',autoCheck:false,canInstall:false};else value={};await route.fulfill({json:value});});
  await gate.goto(base+'/tests/auth-recovery-fixture.html');await gate.getByRole('tab',{name:'注册',exact:true}).waitFor().catch(async e=>{console.error('Gate diagnostic',errors,await gate.locator('body').innerText());throw e;});await gate.getByRole('tab',{name:'注册',exact:true}).click();await gate.getByLabel('昵称',{exact:true}).fill('老手');await gate.getByLabel('登录号',{exact:true}).fill('veteran_user');await gate.getByLabel('密码',{exact:true}).fill('test-password-123');await gate.getByLabel('确认密码',{exact:true}).fill('test-password-123');await gate.getByRole('radio',{name:'我是老手',exact:true}).check();await gate.getByRole('button',{name:'注册账号',exact:true}).click();await gate.waitForFunction(()=>window.__tbAccountUserId==='registration-owner');
  assert.deepEqual(Object.keys(posts.find(v=>v.name==='account/register').body).sort(),['loginId','nickname','password']);assert.equal(await gate.evaluate(()=>window.__tbExperienceChoicePending.choice),'experienced');await gate.close();
- assert.deepEqual(errors,[]);console.log('PASS experience choice, owner-scoped once-only prompt, exact registration transport, lower-level baseline, guarded owner race, permanent navigation and existing 1→5 animation; no real account or OJ traffic');
+ assert.deepEqual(errors,[]);console.log('PASS experience choice, owner-scoped once-only prompt, exact registration transport, lower-level baseline, guarded owner race, permanent navigation and existing 1→6 animation; no real account or OJ traffic');
 }finally{await browser.close();await vite.close();}

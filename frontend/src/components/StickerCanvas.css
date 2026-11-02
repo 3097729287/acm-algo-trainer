@@ -40,3 +40,24 @@ html .growth-account-hero .account-hero-goals{padding-top:0;border-top:0;flex:no
 .sticker-mode .account-hero-level .progress-meter>*{visibility:hidden;}
 
 .sticker-mode .avatar-rank-frame g[mask]{mask:none;}
+
+.placed-sticker[data-rarity=legendary]{cursor:pointer}.legendary-reacting>.sticker-art{animation:sticker-answer .65s ease-out}.sticker-reaction{position:absolute;inset:0;pointer-events:none;color:#f0d78a;overflow:visible}.sticker-reaction-particle{position:absolute;left:calc(76% + var(--particle)*4px);top:12%;opacity:0;animation:sticker-note 1.1s ease-out both;animation-delay:calc(var(--particle)*.07s);filter:drop-shadow(0 1px 1px #0004)}.reaction-quack{color:#e4c36c}.reaction-type{color:#d4c6ee}.reaction-gem{color:#b6edff}.reaction-crown{color:#e7c56d}.reaction-flame{color:#efa45b}.reaction-post{color:#e7a8b6}.reaction-rainbow .sticker-reaction-particle:nth-child(2){color:#8fd4c5}.reaction-rainbow .sticker-reaction-particle:nth-child(3){color:#c0b3ec}.reaction-orbit,.reaction-galaxy{color:#c5bee9}
+@keyframes sticker-answer{0%,100%{transform:scale(1)}30%{transform:scale(1.09) rotate(-4deg)}65%{transform:scale(.98) rotate(3deg)}}
+@keyframes sticker-note{0%{opacity:0;transform:translate(0,4px) scale(.75)}18%{opacity:1}100%{opacity:0;transform:translate(calc(9px + var(--particle)*6px),calc(-28px - var(--particle)*6px)) scale(1.1)}}
+@media(prefers-reduced-motion:reduce){.legendary-reacting>.sticker-art{animation:none}.sticker-reaction-particle{animation:sticker-feedback-fade .85s ease-out both;animation-delay:0s;left:calc(83% + var(--particle)*8px)}@keyframes sticker-feedback-fade{0%,25%{opacity:1}100%{opacity:0}}}
+
+/* Let transparent gaps pass clicks through; profile controls retain their own targets. */
+.sticker-content>:not(.sticker-surface){pointer-events:none}.sticker-content>:not(.sticker-surface) :is(button,a,input,select,summary,[tabindex]){pointer-events:auto}.sticker-mode .sticker-content>:not(.sticker-surface) :is(button,a,input,select,summary,[tabindex]){pointer-events:none}
+.reaction-orbit .sticker-reaction-particle,.reaction-galaxy .sticker-reaction-particle{left:45%;top:45%;animation:sticker-orbit 1.1s ease-out both;animation-delay:calc(var(--particle)*.04s)}
+.reaction-flame .sticker-reaction-particle{left:calc(15% + var(--particle)*24%);top:65%;animation:sticker-ember 1.05s ease-out both;animation-delay:calc(var(--particle)*.04s)}
+.reaction-crown .sticker-reaction-particle{left:calc(5% + var(--particle)*28%);top:0%;animation:sticker-crown-rise 1.05s ease-out both;animation-delay:calc(var(--particle)*.04s)}
+.reaction-post .sticker-reaction-particle{left:calc(25% + var(--particle)*12%);top:30%;animation:sticker-post 1.1s ease-out both;animation-delay:calc(var(--particle)*.06s)}
+.reaction-gem .sticker-reaction-particle{left:calc(10% + var(--particle)*30%);top:calc(12% + var(--particle)*12%);animation:sticker-cut-flash .9s ease-out both;animation-delay:calc(var(--particle)*.06s)}
+.reaction-rainbow::before{content:'';position:absolute;inset:-15%;border:2px solid #e9c583;border-color:#e9c583 #bad9a2 #b7c5ee #e4b4c8;border-radius:50%;animation:sticker-spectrum 1s ease-out both}
+@keyframes sticker-orbit{0%{opacity:0;transform:rotate(calc(var(--particle)*90deg)) translateX(8px) scale(.6)}20%{opacity:.95}100%{opacity:0;transform:rotate(calc(160deg + var(--particle)*90deg)) translateX(37px) scale(1)}}
+@keyframes sticker-ember{0%{opacity:0;transform:translateY(4px) scale(.5)}20%{opacity:1}100%{opacity:0;transform:translateY(-42px) scale(.2)}}
+@keyframes sticker-crown-rise{0%{opacity:0;transform:translateY(5px) scale(.5)}25%{opacity:1}100%{opacity:0;transform:translateY(-23px) scale(1.1)}}
+@keyframes sticker-post{0%{opacity:0;transform:translateY(5px) rotate(-10deg) scale(.5)}20%{opacity:1}100%{opacity:0;transform:translate(calc((var(--particle) - 1.5)*12px),-38px) rotate(12deg) scale(1)}}
+@keyframes sticker-cut-flash{0%,100%{opacity:0;transform:scale(.3)}35%{opacity:1;transform:scale(1.3)}}
+@keyframes sticker-spectrum{0%{opacity:0;transform:scale(.7)}25%{opacity:.85}100%{opacity:0;transform:scale(1.4)}}
+@media(prefers-reduced-motion:reduce){.sticker-reaction-particle{animation:sticker-feedback-fade .85s ease-out both!important;animation-delay:0s!important}.reaction-rainbow::before{animation:sticker-feedback-fade .85s ease-out both}}

@@ -1,0 +1,7 @@
+import {readFile,writeFile,readdir} from 'node:fs/promises';
+const base=new URL('../public/stickers/fluent/',import.meta.url),refined=new URL('../public/stickers/refined/',import.meta.url),assets={};
+for(const folder of [base,refined])for(const file of await readdir(folder))if(file.endsWith('.svg')){const data=await readFile(new URL(file,folder));if(/<script\b|(?:href|src)=["'](?:https?:|javascript:)/i.test(data.toString()))throw new Error('Unexpected external vector content');assets[file.slice(0,-4)]='data:image/svg+xml;base64,'+data.toString('base64');}
+await writeFile(new URL('../src/lib/stickerArtwork.js',import.meta.url),'// Generated from the retained licensed/source SVGs; no per-sticker HTTP loading.\nexport default Object.freeze('+JSON.stringify(assets)+');\n');
+const duck=await readFile(new URL('../public/sounds/stickers/duck.ogg',import.meta.url));
+await writeFile(new URL('../src/lib/stickerDuckAudio.js',import.meta.url),'// Jonathon Jongsma, Mallard XC62258, CC BY-SA 3.0; see licenses/sticker-audio/NOTICE.txt.\nexport default '+JSON.stringify(duck.toString('base64'))+';\n');
+console.log('Embedded '+Object.keys(assets).length+' vector stickers and the licensed duck recording');

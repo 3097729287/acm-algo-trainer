@@ -28,13 +28,13 @@ const source = 'https://www.luogu.com.cn/training/list';
 const leaf=list=>list && !list.virtual && !list.children?.length && !list.problems?.some(item=>item.sections?.length);
 const cardTitle=list=>String(list.displayTitle||list.title).replace(/^(?:【[^】]*】|\[[^\]]*\])\s*/,'');
 
-export default function TrainingListsPage({ api, rows = [], onTrain, visit, pageSize = 50, busy = false, prefs={},onTag,onFavorite,onSolution,onAddToList,navigationRequest,onLocationChange }) {
+export default function TrainingListsPage({ api, rows = [], onTrain, visit, pageSize = 50, busy = false, prefs={},onTag,onFavorite,onSolution,onAddToList,navigationRequest,onLocationChange,level=6 }) {
   const fallback = useRef({}), session = visit || fallback.current;
   const owner = window.__tbAccountUserId || 'local';
   const savedLocation=trainingListLocation(prefs.trainingListLocation);
   if(!session.state&&savedLocation)Object.assign(session,savedLocation);
   const cached = session.content?.owner === owner ? session.content : null;
-  const [state, setState] = useState(() => platformListState({ ...INITIAL, ...(session.state?.curriculumVersion===1?session.state:{}) }));
+  const [state, setState] = useState(() => platformListState({ ...INITIAL, ...(session.state?.curriculumVersion===1?session.state:{}),...(level<6?{mode:'algorithm'}:{}) }));
   const [lists, setLists] = useState(() => cached?.lists || null), [error, setError] = useState(''), [attempt, setAttempt] = useState(0);
   const [deletion,setDeletion]=useState(null),[deleting,setDeleting]=useState(false),[deleteError,setDeleteError]=useState('');
   const panel = useRef(null), navigation = useRef(null);
@@ -82,7 +82,13 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   }, [state, canBack]);
 
   useEffect(()=>{const changed=()=>setAttempt(value=>value+1);window.addEventListener('tb:training-lists-changed',changed);return()=>window.removeEventListener('tb:training-lists-changed',changed);},[]);
-  const {organized,index}=useMemo(()=>trainingListModel(lists||[],rows,state.mode,prefs.favorites||[]),[lists,rows,state.mode,prefs.favorites]);
+  const {organized,index}=useMemo(()=>trainingListModel(lists||[],rows,state.mode,prefs.favorites||[],level),[lists,rows,state.mode,prefs.favorites,level]);
+  useEffect(()=>{
+    if(!lists||level>=6)return;
+    const valid=organized.some(list=>(list.topicPath||[]).slice(0,state.folder.length).join('\0')===state.folder.join('\0'));
+    if(state.mode!=='algorithm'||state.trail.length&&!index.byList.has(state.trail.at(-1))||state.folder.length&&!valid)
+      patch({mode:'algorithm',folder:['洛谷','01 编程基础'],trail:[],sections:[],flat:false,query:''});
+  },[lists,organized,index,level,state.mode,state.folder,state.trail]);
   const active = index.byList.get(state.trail.at(-1));
   useLayoutEffect(()=>{
     if(!navigationRequest||session.navigationRequest===navigationRequest)return;
@@ -167,7 +173,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
     <PageSearch>
       <label className="search-box"><Search size={17}/><input aria-label="搜索题单或题目" value={state.query} maxLength={120} onChange={event => patch({ query: event.target.value })}/>{state.query && <button className="icon-button" aria-label="清空题单搜索" onClick={() => patch({ query: '' })}><X size={14}/></button>}</label>
       {active&&!browsingFolders&&<><SortDirection label={sort==='added'?'切换添加时间排序方向':'切换题单排序方向'} descending={state.descending} onChange={descending=>patch({descending})}/><FilterMenu label="筛选题单题目" active={state.sort!=='auto'||!!state.knowledge||!!state.platform||!!state.status||state.min>800||state.max<4000} onReset={()=>patch({sort:'auto',knowledge:'',platform:'',status:'',min:800,max:4000})}><label className="filter-field"><span>排序</span><ThemedSelect aria-label="题单排序方式" value={sort} onChange={event=>patch({sort:event.target.value})}><option value="added">{active.custom?'添加时间':'题单顺序'}</option><option value="difficulty">题目难度</option><option value="title">题名</option></ThemedSelect></label><label className="filter-field"><span>知识点</span><ThemedSelect aria-label="题单知识点筛选" value={state.knowledge} onChange={event=>patch({knowledge:event.target.value})}><option value="">全部知识点</option>{[...new Set(all.flatMap(item=>item.row?.tags||[]))].sort().map(tag=><option key={tag}>{tag}</option>)}</ThemedSelect></label><label className="filter-field"><span>来源</span><ThemedSelect aria-label="题单来源筛选" value={state.platform} onChange={event=>patch({platform:event.target.value})}><option value="">全部来源</option>{[...new Set(all.map(item=>item.row?.platform).filter(Boolean))].map(platform=><option key={platform}>{platform}</option>)}</ThemedSelect></label><label className="filter-field"><span>提交结果</span><ThemedSelect aria-label="题单提交结果筛选" value={state.status} onChange={event=>patch({status:event.target.value})}><option value="">全部结果</option><option value="accepted">AC</option><option value="pending">尚未 AC</option></ThemedSelect></label><div className="filter-field difficulty-filter"><span>难度</span><DifficultyRange value={state} onChange={patch}/></div></FilterMenu><button type="button" className="icon-button" aria-label="将题单筛选结果加入题单" title="加入题单" disabled={busy||!problemIds.length} onClick={()=>onAddToList?.(problemIds)}><ListPlus size={17}/></button></>}
-      {!canBack&&!active&&<><button type="button" className="icon-button training-list-mode" aria-label="题单目录方式" data-mode={state.mode} title={state.mode === 'source' ? '点击切换为按类别' : '点击切换为按来源'} onClick={() => patch({ ...INITIAL, mode: state.mode === 'source' ? 'algorithm' : 'source' })}><ArrowLeftRight size={16}/></button>
+      {!canBack&&!active&&<><button type="button" className="icon-button training-list-mode" disabled={level<6} aria-label="题单目录方式" data-mode={state.mode} title={state.mode === 'source' ? '点击切换为按类别' : '点击切换为按来源'} onClick={() => patch({ ...INITIAL, mode: state.mode === 'source' ? 'algorithm' : 'source' })}><ArrowLeftRight size={16}/></button>
       <button type="button" className="icon-button" aria-label="新建题单" title="新建题单" onClick={()=>setEditor({})}><Plus size={16}/></button></>}
       {active&&state.knowledge&&<span className="active-knowledge-filter" role="group" aria-label="当前题单知识点筛选"><span>{state.knowledge}</span><button type="button" aria-label={`清除知识点筛选 ${state.knowledge}`} onClick={()=>patch({knowledge:''})}><X size={13}/></button></span>}
     </PageSearch>

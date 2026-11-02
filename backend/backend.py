@@ -603,7 +603,8 @@ class Handler(BaseHTTPRequestHandler):
             elif path == "/api/translation/settings":
                 self.send_json(200, self.server.translation_service().status())
             elif path == "/api/lectures":
-                self.send_json(200, self.server.lectures.snapshot())
+                from lecture_queue import project as reading_queue
+                self.send_json(200, reading_queue(self.server.training, self.server.lectures.snapshot(), self.server.lectures))
             elif path == "/api/lecture":
                 identity = parse_qs(target.query).get("id", [None])[0]
                 value = self.server.lectures.get(identity)

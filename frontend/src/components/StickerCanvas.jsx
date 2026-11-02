@@ -1,27 +1,30 @@
 import {StickerArt,STICKER_NAMES as NAMES} from './StickerArt.jsx';
 export {StickerArt} from './StickerArt.jsx';
-import {useCallback,useEffect,useRef,useState} from 'react';
+import {useCallback,useEffect,useLayoutEffect,useRef,useState} from 'react';
+import {readStickerLayout,cacheStickerLayout} from '@/lib/stickerCache.js';
 import {createPortal} from 'react-dom';
 import {fitStickerPlacement,stickerSize} from '@/lib/stickerPlacement.js';
 import {Check,ChevronLeft,ChevronRight,Gift,LoaderCircle,Maximize2,RefreshCw,RotateCw,Sticker,Target,X} from 'lucide-react';
 import StickerBoxes from './StickerBoxes.jsx';
 import PopConfirm from './PopConfirm.jsx';
 import Tooltip from './Tooltip.jsx';
+import StickerReaction,{useStickerReaction} from './StickerReaction.jsx';
 import './StickerCanvas.css';
 
 const ORDER={legendary:0,epic:1,rare:2,common:3};
 
 export default function StickerCanvas({api,owner,children,statistics,goals}){
  const [boxesOpen,setBoxesOpen]=useState(false),[goalsOpen,setGoalsOpen]=useState(false);
- const [mode,setMode]=useState(false),[state,setState]=useState(null),[draft,setDraft]=useState(null),[picker,setPicker]=useState(null),[confirm,setConfirm]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState('');
+ const [mode,setMode]=useState(false),[state,setState]=useState(()=>readStickerLayout(owner)),[draft,setDraft]=useState(null),[picker,setPicker]=useState(null),[confirm,setConfirm]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState('');
  const surface=useRef(null),strip=useRef(null),drag=useRef(null),alive=useRef(owner),request=useRef(null),saving=useRef(null),revision=useRef(0),latest=useRef(null);
  const [bounds,setBounds]=useState({width:0,height:0});
- useEffect(()=>{const node=surface.current;if(!node)return;const measure=()=>{const box=node.getBoundingClientRect();setBounds(previous=>previous.width===box.width&&previous.height===box.height?previous:{width:box.width,height:box.height});};measure();const observer=new ResizeObserver(measure);observer.observe(node);return()=>observer.disconnect();},[]);
+ const [reaction,reactToSticker]=useStickerReaction(owner),movedUnit=useRef(null);
+ useLayoutEffect(()=>{const node=surface.current;if(!node)return;const measure=()=>{const box=node.getBoundingClientRect();setBounds(previous=>previous.width===box.width&&previous.height===box.height?previous:{width:box.width,height:box.height});};measure();const observer=new ResizeObserver(measure);observer.observe(node);return()=>observer.disconnect();},[]);
  const fit=value=>fitStickerPlacement(value,bounds);
  alive.current=owner;
- const accept=useCallback((value,expected)=>{if(alive.current!==expected||value.owner!==expected||latest.current&&value.revision<latest.current.revision)return false;latest.current=value;setState(value);return true;},[]);
+ const accept=useCallback((value,expected)=>{if(alive.current!==expected||value.owner!==expected||latest.current&&value.revision<latest.current.revision)return false;latest.current=value;cacheStickerLayout(value,expected);setState(value);return true;},[]);
  const refresh=useCallback(async()=>{const expected=owner,seq=++revision.current;try{const value=await api('stickers');if(seq===revision.current&&accept(value,expected))setError(value.rewardSyncError||'');}catch(issue){if(alive.current===expected&&seq===revision.current)setError(issue.message);}},[api,owner,accept]);
- useEffect(()=>{revision.current++;saving.current=null;request.current=null;drag.current=null;latest.current=null;setBusy(false);setError('');setState(null);setDraft(null);setPicker(null);setConfirm(null);setMode(false);setGoalsOpen(false);setBoxesOpen(false);void refresh();},[refresh]);
+ useLayoutEffect(()=>{revision.current++;saving.current=null;request.current=null;drag.current=null;latest.current=null;setBusy(false);setError('');setState(readStickerLayout(owner));setDraft(null);setPicker(null);setConfirm(null);setMode(false);setGoalsOpen(false);setBoxesOpen(false);void refresh();},[refresh]);
  useEffect(()=>{const listener=event=>{const value=event.detail?.inventory;if(value){if(accept(value,owner))setError(value.rewardSyncError||'');}else void refresh();};window.addEventListener('tb:sticker-rewards',listener);window.addEventListener('focus',listener);return()=>{window.removeEventListener('tb:sticker-rewards',listener);window.removeEventListener('focus',listener);};},[refresh,accept,owner]);
  const mutate=useCallback(async(kind,unit,position)=>{
   if(saving.current)return;const operation={};saving.current=operation;setBusy(true);setError('');revision.current++;
@@ -49,17 +52,20 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
    else if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)&&draft&&!busy){event.preventDefault();const amount=event.shiftKey ? .02 : .005;setDraft(value=>fit({...value,x:value.x+(event.key==='ArrowRight'?amount:event.key==='ArrowLeft'?-amount:0),y:value.y+(event.key==='ArrowDown'?amount:event.key==='ArrowUp'?-amount:0)}));}
   };window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);
  },[mode,draft,picker,confirm,busy,bounds,canScale]);
- const items=[...(state?.catalogue||[])].sort((a,b)=>ORDER[a.rarity]-ORDER[b.rarity]||a.id.localeCompare(b.id));
- const units=state?.units||[],placed=units.filter(unit=>unit.placement),art=id=>items.find(item=>item.id===id);
+ const items=[...(state?.owner===owner?state.catalogue||[]:[])].sort((a,b)=>ORDER[a.rarity]-ORDER[b.rarity]||a.id.localeCompare(b.id));
+ const units=state?.owner===owner?state.units||[]:[],placed=units.filter(unit=>unit.placement),art=id=>items.find(item=>item.id===id);
  const availableItems=items.filter(item=>units.some(unit=>unit.stickerId===item.id&&!unit.placement));
  const pickerWidth=Math.min(384,Math.max(150,availableItems.length*52+64),window.innerWidth-24);
  const pickerStyle=picker?{width:pickerWidth,left:Math.max(8,Math.min(picker.screenX-pickerWidth/2,window.innerWidth-pickerWidth-8)),top:Math.max(8,Math.min(picker.screenY+10,window.innerHeight-100))}:undefined;
  function position(event){const box=surface.current.getBoundingClientRect();return {x:(event.clientX-box.left)/box.width,y:(event.clientY-box.top)/box.height};}
- function begin(event,unit){if(event.button!==0||!mode||busy||draft&&draft.unit.id!==unit.id)return;event.preventDefault();event.stopPropagation();const point=position(event),start=fit(draft?.unit.id===unit.id?draft:unit.placement);setDraft({...start,unit});drag.current={pointer:event.pointerId,dx:point.x-start.x,dy:point.y-start.y};event.currentTarget.setPointerCapture(event.pointerId);}
+ function begin(event,unit){if(event.button!==0||!mode||busy||draft&&draft.unit.id!==unit.id)return;event.preventDefault();event.stopPropagation();const point=position(event),start=fit(draft?.unit.id===unit.id?draft:unit.placement);setDraft({...start,unit});movedUnit.current=null;drag.current={pointer:event.pointerId,unitId:unit.id,startX:event.clientX,startY:event.clientY,dx:point.x-start.x,dy:point.y-start.y};event.currentTarget.setPointerCapture(event.pointerId);}
  function beginRotation(event){if(event.button!==0||busy||!draft)return;event.preventDefault();event.stopPropagation();const r=surface.current.getBoundingClientRect(),cx=r.left+draft.x*r.width,cy=r.top+draft.y*r.height;drag.current={kind:'rotate',pointer:event.pointerId,cx,cy,start:Math.atan2(event.clientY-cy,event.clientX-cx),angle:draft.angle};event.currentTarget.setPointerCapture(event.pointerId);}
  function beginScale(event){if(event.button!==0||busy||!draft||!canScale)return;event.preventDefault();event.stopPropagation();const r=surface.current.getBoundingClientRect(),cx=r.left+draft.x*r.width,cy=r.top+draft.y*r.height;drag.current={kind:'scale',pointer:event.pointerId,cx,cy,radius:Math.max(1,Math.hypot(event.clientX-cx,event.clientY-cy)),scale:draft.scale??1};event.currentTarget.setPointerCapture(event.pointerId);}
- function move(event){const active=drag.current;if(active?.pointer!==event.pointerId)return;if(active.kind==='rotate'){const delta=(Math.atan2(event.clientY-active.cy,event.clientX-active.cx)-active.start)*180/Math.PI;setDraft(value=>value?fit({...value,angle:Math.round((active.angle+delta)*10)/10}):value);}else if(active.kind==='scale'){const scale=active.scale*Math.hypot(event.clientX-active.cx,event.clientY-active.cy)/active.radius;setDraft(value=>value?fit({...value,scale:Math.round(scale*1000)/1000}):value);}else{const point=position(event);setDraft(value=>value?fit({...value,x:point.x-active.dx,y:point.y-active.dy}):value);}}
- const unitButton=(unit,selected=false)=>{const point=fit(selected?draft:unit.placement);return <button type="button" key={unit.id} className={'placed-sticker'+(selected?' selected-sticker':'')} style={{left:point.x*100+'%',top:point.y*100+'%',width:stickerSize(bounds,point.scale)+'px',transform:`translate(-50%,-50%) rotate(${point.angle}deg)`}} aria-label={`${NAMES[art(unit.stickerId)?.rarity]}贴纸 ${art(unit.stickerId)?.shape}`} onPointerDown={event=>begin(event,unit)} onPointerMove={move} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}} onContextMenu={event=>{event.preventDefault();event.stopPropagation();if(!draft&&!busy)setConfirm({unit,anchor:event.currentTarget});}}><StickerArt item={art(unit.stickerId)} size="100%"/></button>;};
+ function move(event){const active=drag.current;if(active?.pointer!==event.pointerId)return;if(active.unitId&&Math.hypot(event.clientX-active.startX,event.clientY-active.startY)>4)movedUnit.current=active.unitId;if(active.kind==='rotate'){const delta=(Math.atan2(event.clientY-active.cy,event.clientX-active.cx)-active.start)*180/Math.PI;setDraft(value=>value?fit({...value,angle:Math.round((active.angle+delta)*10)/10}):value);}else if(active.kind==='scale'){const scale=active.scale*Math.hypot(event.clientX-active.cx,event.clientY-active.cy)/active.radius;setDraft(value=>value?fit({...value,scale:Math.round(scale*1000)/1000}):value);}else{const point=position(event);setDraft(value=>value?fit({...value,x:point.x-active.dx,y:point.y-active.dy}):value);}}
+ const unitButton=(unit,selected=false)=>{
+  const point=fit(selected?draft:unit.placement),item=art(unit.stickerId),effect=reaction?.unitId===unit.id?reaction:null;
+  return <button type="button" key={unit.id} className={'placed-sticker'+(selected?' selected-sticker':'')+(effect?' legendary-reacting':'')} data-rarity={item?.rarity} title={item?.title} style={{left:point.x*100+'%',top:point.y*100+'%',width:stickerSize(bounds,point.scale)+'px',transform:`translate(-50%,-50%) rotate(${point.angle}deg)`}} aria-label={`${NAMES[item?.rarity]}贴纸 ${item?.shape}`} onPointerDown={event=>begin(event,unit)} onPointerMove={move} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;movedUnit.current=unit.id;}} onClick={event=>{event.stopPropagation();if(movedUnit.current===unit.id){movedUnit.current=null;return;}reactToSticker(unit,item);}} onContextMenu={event=>{event.preventDefault();event.stopPropagation();if(!draft&&!busy)setConfirm({unit,anchor:event.currentTarget});}}><StickerArt item={item} size="100%"/>{effect&&<StickerReaction reaction={effect}/>}</button>;
+ };
  return <div className={'sticker-canvas'+(mode?' sticker-mode':'')}>
 
   <div className="sticker-content">{children}<div ref={surface} className="sticker-surface" aria-label="贴纸区域" role="region" tabIndex={mode?0:undefined} onPointerDown={event=>{if(event.button!==0||!mode||busy||draft||event.target!==event.currentTarget)return;const point=position(event);setPicker({...fit({...point,angle:0}),screenX:event.clientX,screenY:event.clientY});}}>{units.filter(unit=>unit.placement||unit.id===draft?.unit.id).map(unit=>unitButton(unit,unit.id===draft?.unit.id))}

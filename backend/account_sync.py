@@ -109,7 +109,7 @@ def merge_states(remote, local, baseline=None):
         for key, old in list(rows.items()):
             previous = previous_rows.get(encoded(list(key)))
             if previous and encoded(list(key)) not in local_keys:
-                if table == 'account_preferences' and (key in {('experience-challenge-v1',),('starter-level-curve-v1',)} or str(key[0]).startswith('achievement-unlock:')):
+                if table == 'account_preferences' and (key in {('experience-challenge-v1',),('starter-level-curve-v1',),('experience-challenge-six-v1',),('submission-history-cutoff-v1',)} or str(key[0]).startswith('achievement-unlock:')):
                     continue
                 if digest(old) == previous:
                     del rows[key]  # An actual pending local deletion.
@@ -537,10 +537,12 @@ class AccountStateSync:
                         protect_earned = protect_earned or bool(received and received.get('passedAt'))
                     except (ValueError, TypeError):
                         pass
+            from submission_history import preserve as preserve_history
+            state, retained_history = preserve_history(self.service, state)
             db.execute('BEGIN IMMEDIATE')
             try:
                 previous_codes=dict(db.execute('SELECT id,code FROM submissions'))
-                retained_experience = False
+                retained_experience = retained_history
                 for table in TABLES:
                     rows = state['tables'].get(table, [])
                     if protect_earned:
@@ -553,6 +555,12 @@ class AccountStateSync:
                         from starter_pacing import preserve_rows as preserve_starter
                         rows,retained=preserve_starter(self.service,rows)
                         retained_experience=retained_experience or retained
+                    if table == 'submissions':
+                        from submission_history import marker as history_marker, KEY as history_key
+                        from progression import parse_time as history_time
+                        history = next((history_marker(item['value'],self.service._ranking_profile()['user_id']) for item in state['tables'].get('account_preferences',[]) if item.get('key')==history_key),None)
+                        if history:
+                            rows=[item for item in rows if not (history_time(item.get('submitted_at')) and history_time(item['submitted_at'])<history_time(history['before']))]
                     allowed = {row[1] for row in db.execute(f'PRAGMA table_info("{table}")')}
                     db.execute(f'DELETE FROM "{table}"')
                     for row in rows:

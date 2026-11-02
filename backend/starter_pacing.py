@@ -36,8 +36,8 @@ def costs(training):
     if read(training):
         from experience_challenge import read as assessment
         # A concurrent legitimate veteran assignment still follows the tested
-        # legacy 500-XP top-up; the assessment schema/grant never changes.
-        if assessment(training).get('choice')!='experienced':return BEGINNER_COSTS
+        # verified level-six top-up; the assessment schema/grant never changes.
+        if not assessment(training).get('passedAt'):return BEGINNER_COSTS
     return LEVEL_COSTS
 
 def merge(left,right):

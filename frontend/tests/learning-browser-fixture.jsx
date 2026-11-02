@@ -26,7 +26,7 @@ async function api(path,body){
   const updated=[...templates.filter(item=>item.id!==template.id),...body.delete?[]:[template]];
   localStorage.setItem(storage('templates'),JSON.stringify(updated));return {template,templates:[...TEMPLATES.templates,...updated]};
  }
- if(path==='lectures')return {lectures};
+ if(path==='lectures')return {lectures,learningQueue:{version:1,foundationIds:lectures.map(item=>item.id),encounteredIds:[]}};
  if(url.pathname==='/lecture')return lectures.find(item=>item.id===url.searchParams.get('id'));
  if(url.pathname==='/wiki')return url.searchParams.has('id')?{article:{...articles.find(item=>item.id===url.searchParams.get('id')),html:'<article><h1>并查集</h1><a href="https://www.luogu.com.cn/problem/P1706" target="_blank">Luogu P1706 全排列问题</a>'+Array.from({length:100},(_,i)=>`<h2 id="section-${i}">集合 ${i}</h2><p>并查集维护互不相交的集合。合并与查询代表元。</p>`).join('')+'<blockquote>本页面贡献者：测试署名。CC BY-SA 4.0 和 SATA。</blockquote></article>'}}:{articles};
  if(url.pathname==='/problem'){

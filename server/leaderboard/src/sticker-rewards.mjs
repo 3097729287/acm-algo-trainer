@@ -7,7 +7,7 @@ const fail=(code,message)=>{throw new AccountError(code,message);};
 export function levelBox(level){
  if(!Number.isSafeInteger(level)||level<5||level>100)fail(400,'宝箱等级无效');
  const t=1-Math.exp(-(level-5)/REWARDS.levelBoxes.curveScale);
- const common=Math.round((70-50*t)*100),epic=Math.round((5+27*t)*100),legendary=Math.round((1+17*t)*100);
+ const common=Math.round((58-38*t)*100),epic=Math.round((9+23*t)*100),legendary=Math.round((8+24*t)*100);
  const probabilities={common,rare:10000-common-epic-legendary,epic,legendary};
  const quantity=REWARDS.levelBoxes.quantitySteps.filter(([start])=>level>=start).at(-1)[1];
  return {id:'level:'+level,level,quantity,probabilities,policyVersion:REWARDS.version,openedAt:null};
@@ -32,7 +32,7 @@ export class StickerRewards {
      const [rows]=await db.execute('SELECT payload FROM account_public_progress WHERE user_id=?',[owner]);
      const confirmed=rows.length?JSON.parse(rows[0].payload).level:1;
      if(value.level>confirmed)fail(409,'等级正在同步，请稍后刷新宝箱');
-     for(let level=5;level<=value.level;level++)if(!state.boxes['level:'+level]){const box=levelBox(level);box.grantedAt=now;state.boxes[box.id]=box;state.revision++;}
+     for(let level=5;level<=value.level;level++){const old=state.boxes['level:'+level];if(!old||!old.openedAt&&old.policyVersion!==REWARDS.version){const box=levelBox(level);box.grantedAt=old?.grantedAt??now;state.boxes[box.id]=box;state.revision++;}}
     }else if(kind==='achievement'){
      const stickerId=Object.hasOwn(REWARDS.achievements,value.achievementId)?REWARDS.achievements[value.achievementId]:null;if(!stickerId)fail(400,'没有对应的成就贴纸');
      if(!state.achievementGrants[value.achievementId]){
@@ -44,6 +44,7 @@ export class StickerRewards {
      const box=Object.hasOwn(state.boxes,value.boxId)?state.boxes[value.boxId]:null;if(!box)fail(404,'没有找到这个宝箱');
      if(box.openedAt){opening=box;}
      else{
+      if(box.policyVersion!==REWARDS.version){const grantedAt=box.grantedAt;Object.assign(box,levelBox(box.level),{grantedAt});}
       if(state.units.length+box.quantity>20000)fail(409,'贴纸库存空间不足，宝箱已保留');
       const drops=[];
       for(let i=0;i<box.quantity;i++){

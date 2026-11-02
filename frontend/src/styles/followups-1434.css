@@ -35,3 +35,15 @@ html .achievement-panel .achievement-reward-row>.achievement-reward{max-width:10
 html .achievement-panel .achievement-reward-row>.achievement-sticker,html .achievement-panel .achievement-reward-row>.achievement-badge{flex:1 1 100%;align-items:center;}
 html .achievement-panel .achievement-reward-row .achievement-reward>span{min-width:0;white-space:normal;overflow-wrap:anywhere;}
 html .achievement-panel .achievement-reward-row>.tooltip-anchor{flex-shrink:0;}
+
+/* Every reward stays inside its card, including long titles and narrow dialogs. */
+html .achievement-panel .progress-achievement{padding:16px;border-radius:8px;box-sizing:border-box;min-width:0;}
+html .achievement-panel .achievement-card-content{display:flex;flex-direction:column;min-width:0;gap:8px;}
+html .achievement-panel .achievement-reward-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;width:100%;min-width:0;box-sizing:border-box;}
+html .achievement-panel .achievement-reward-row>:is(.achievement-sticker,.achievement-badge){grid-column:1/-1;display:flex;align-items:center;gap:8px;min-width:0;white-space:normal;}
+html .achievement-panel .achievement-reward-row>.achievement-reward:not(.achievement-sticker,.achievement-badge){grid-column:1;min-width:0;white-space:normal;overflow-wrap:anywhere;}
+html .achievement-panel .achievement-reward-row>.tooltip-anchor{grid-column:2;justify-self:end;min-width:0;max-width:100%;margin:0;}
+html .achievement-panel .achievement-reward-row .medal-emblem{flex:none;width:34px;height:39.1px;}
+html .achievement-panel .achievement-reward-row span{margin-top:0;min-width:0;overflow-wrap:anywhere;}
+html .achievement-panel .progress-achievement-name{flex-wrap:wrap;}
+html .achievement-panel .progress-achievement-name>time{font-variant-numeric:tabular-nums;}

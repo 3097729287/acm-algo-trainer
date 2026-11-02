@@ -38,3 +38,10 @@ html .lectures-detail-bar>.icon-button {border-color:transparent;background:tran
 html .workspace-area .lectures-page .lectures-list>button.lecture-learned{background:color-mix(in srgb,var(--success,var(--accent)) 19%,var(--panel-base));box-shadow:inset 3px 0 0 var(--success,var(--accent));}
 html .workspace-area .lectures-page .lectures-list>button.lecture-learned:hover{background:color-mix(in srgb,var(--success,var(--accent)) 25%,var(--panel-base));}
 html .workspace-area .lectures-page .lectures-list>button.lecture-learned.selected{background:color-mix(in srgb,var(--success,var(--accent)) 29%,var(--panel-base));box-shadow:inset 3px 0 0 var(--success,var(--accent)),inset 0 0 0 1px color-mix(in srgb,var(--accent) 50%,transparent);}
+
+.lecture-step{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.75rem;flex:none;min-width:1.5em;padding-top:.3em}
+.lecture-next{display:inline-flex;align-items:center;gap:6px;flex:none;margin-left:auto;white-space:nowrap;height:34px;padding:5px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel-base);color:var(--text)}
+.lecture-next:disabled{opacity:.4;cursor:default}
+html .lectures-detail-bar .lecture-fullscreen-toggle{margin-left:0}
+.lecture-route-progress{font-size:.85rem;color:var(--muted)}
+.lecture-item-heading>strong{flex:1;min-width:0}

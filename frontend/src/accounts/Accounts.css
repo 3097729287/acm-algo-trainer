@@ -42,3 +42,5 @@
 .account-sync-alert > span { min-width:0; overflow-wrap:anywhere; }
 .account-sync-alert button { flex-shrink:0; background:transparent; color:var(--accent,#b29afa); border:1px solid currentColor; border-radius:6px; padding:6px 10px; cursor:pointer; }
 @media (max-width:540px) { .account-screen { padding:24px 16px; gap:22px; } .account-card { padding:25px 22px; } }
+
+.account-experience>label{flex-wrap:wrap}.account-experience>label>small{display:block;flex-basis:100%;font-weight:400;color:var(--muted);line-height:1.55}.account-experience-help{grid-column:1/-1;font-size:.8rem;line-height:1.6;color:var(--muted);margin:4px 0 0}

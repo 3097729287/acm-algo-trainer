@@ -117,4 +117,47 @@ class DailyChainTests(unittest.TestCase):
         self.assertEqual(learning_seconds(self.service,'2026-10-09'),20)
 
 
+    def test_exactly_one_fixed_daily_reward_is_a_sticker_and_the_other_two_keep_xp(self):
+        fixed=[task for task in self.tasks()['tasks'] if task['lane']=='fixed']
+        self.assertEqual(len(fixed),3)
+        stickers=[task for task in fixed if task.get('rewardSticker')]
+        self.assertEqual(len(stickers),1)
+        self.assertEqual(stickers[0]['xp'],0)
+        self.assertTrue(all(task['xp']>0 for task in fixed if not task.get('rewardSticker')))
+        self.assertEqual(stickers[0]['id'],next(task['id'] for task in self.tasks()['tasks'] if task['lane']=='fixed' and task.get('rewardSticker')))
+        self.accept();self.service.claim_daily_task(self.lane('ac')['id'])
+        self.assertEqual(self.service.connection.execute("SELECT COUNT(*) FROM account_preferences WHERE key LIKE 'sticker-eligible:%'").fetchone()[0],0)
+
+    def test_issued_fixed_tasks_do_not_move_when_level_unlocks_more_content(self):
+        from unittest.mock import patch
+        with patch.object(self.service,'navigation',return_value={'level':1}):
+            before=[task for task in self.tasks()['tasks'] if task['lane']=='fixed']
+            self.assertTrue(all(task['kind']!='platforms' for task in before))
+        with patch.object(self.service,'navigation',return_value={'level':6}):
+            after=[task for task in self.tasks()['tasks'] if task['lane']=='fixed']
+        self.assertEqual(before,after)
+
+    def test_real_review_completion_issues_at_most_two_sticker_followups_per_day(self):
+        from unittest.mock import patch
+        with patch('daily_chains.CHALLENGES',[]),patch('daily_chains.EXPLORATIONS',[]):
+            self.accept(verdict='WA');self.clock.advance(days=1)
+            task=next(iter(self.service.review_plan()['tasks']))
+            self.service.problem('fixture::A',review_id=task['id'])
+            self.service.record_official({'id':'fixture::A','url':self.assets.problem('fixture::A')['url'],'code':'fresh rewrite','reviewId':task['id']},
+                {'status':'finished','verdict':'AC','submissionId':str(fixtures._next_official_id()),'acceptedAt':iso(self.clock())})
+            self.service.claim_daily_task(self.lane('review')['id'])
+            for slot in ('review-0','review-1'):
+                followup=self.lane('review-random')
+                self.assertEqual(followup['stickerSlot'],slot)
+                self.assertEqual(followup['xp'],0)
+                self.study(6)
+                self.assertTrue(self.lane('review-random')['completed'])
+                self.service.claim_daily_task(followup['id'])
+            third=self.lane('review-random')
+            self.assertNotIn('rewardSticker',third)
+            self.assertGreater(third['xp'],0)
+            rows=[json.loads(row[0]) for row in self.service.connection.execute("SELECT definition FROM daily_missions WHERE day=?",(self.tasks()['date'],))]
+            self.assertEqual(sum(row.get('stickerSlot','').startswith('review-') for row in rows),2)
+
+
 if __name__=='__main__':unittest.main()

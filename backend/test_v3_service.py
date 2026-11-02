@@ -54,7 +54,8 @@ class RemovalInsightsTests(unittest.TestCase):
         self.assertEqual(insight["knowledge"][0]["due"], 0)
         joined = self.service.start_training("fixture::A")["workspace"]
         self.assertTrue(joined["training"][0]["accepted"])
-        self.assertEqual(joined["training"][0]["queue"], "review")
+        self.assertNotEqual(joined["training"][0].get("queue"), "review")
+        self.assertEqual(self.service.review_plan()["tasks"], [])
 
     def test_remove_last_set_member_and_rejoin_original_set(self):
         original = self.service.start_practice_set("fixture")["set"]

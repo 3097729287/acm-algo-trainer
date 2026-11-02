@@ -20850,3 +20850,6 @@ Woodfish Black, Neon and Light colors and the Woodfish visual reference use the 
 ## Microsoft Fluent Emoji sticker artwork
 
 24 unmodified Color SVG illustrations from Microsoft Fluent Emoji, commit `1ffb34c752ecf5d402f04cfb4b392c77f57c54bc`, copyright Microsoft Corporation, MIT licensed. The full notice is in `licenses/fluent-emoji/LICENSE.txt`; per-file source URLs and SHA-256 values are in `frontend/public/stickers/fluent/manifest.json`. These are bundled locally and retain their original colors independently of reward rarity. The semicolon, 42 and phoenix vectors remain ToBe artwork.
+
+
+Sticker refinements retain the Microsoft Fluent Emoji MIT originals and separately record their derivatives in `frontend/public/stickers/refined/manifest.json`. The mallard recording by Jonathon Jongsma (XC62258) is distributed unmodified under CC BY-SA 3.0; attribution and source are included in `licenses/sticker-audio/NOTICE.txt`.

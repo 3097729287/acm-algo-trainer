@@ -60,10 +60,17 @@ class GameplayTests(unittest.TestCase):
         self.assertEqual(len(result['units']),1)
         self.assertEqual(result['opening']['drops'][0]['id'],'durable-unit')
 
+    def sticker_claim(self):
+        from progression import TASKS
+        definition=dict(id='sticker-fixture',title='Fixture practice',description='One real official AC',kind='solve',target=1,xp=30,scope='official',version=2)
+        with patch('daily_chains.tasks_for',return_value=[*TASKS[:3],definition]):
+            task=next(task for task in self.service.daily_tasks(goal_tasks=[])['tasks'] if task.get('rewardSticker'))
+            self.accept()
+            self.service.claim_daily_task(task['id'])
+        return task
+
     def test_claim_outbox_is_atomic_and_survives_midnight_and_lost_response(self):
-        task=next(t for t in self.service.daily_tasks(goal_tasks=[])['tasks'] if t['lane']=='ac')
-        self.accept()
-        self.service.claim_daily_task(task['id'])
+        task=self.sticker_claim()
         self.service.claim_daily_task(task['id'])
         rows=self.service.connection.execute("SELECT * FROM account_preferences WHERE key LIKE 'sticker-eligible:%'").fetchall()
         self.assertEqual(len(rows),1)
@@ -91,8 +98,7 @@ class GameplayTests(unittest.TestCase):
         self.assertEqual([gameplay.rarity({'xp':x}) for x in [10,30,60,100]],['common','rare','epic','legendary'])
 
     def test_a_switched_account_cannot_receive_an_old_owners_outbox(self):
-        task=next(t for t in self.service.daily_tasks(goal_tasks=[])['tasks'] if t['lane']=='ac')
-        self.accept();self.service.claim_daily_task(task['id'])
+        task=self.sticker_claim()
         previous=self.service._ranking_profile()
         changed={**previous,'user_id':'different-isolated-owner'}
         with patch.object(self.service,'_ranking_profile',side_effect=[previous,changed]):

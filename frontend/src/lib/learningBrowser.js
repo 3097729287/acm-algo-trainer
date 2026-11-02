@@ -96,10 +96,15 @@ export function closeStudyTab(state,key) {
 
 export function replaceStudyProblem(state,key,source){
  const old=state.tabs.find(tab=>tab.key===key);if(old?.kind!=='problem'||!source?.id)return state;
- const nextKey=studyKey({kind:'problem',id:source.id});if(nextKey===key)return state;
+ return replaceStudyContent(state,key,{...source,kind:'problem'});
+}
+
+export function replaceStudyContent(state,key,source){
+ const old=state.tabs.find(tab=>tab.key===key);if(!old||!source?.id||!STUDY_KINDS.includes(source.kind))return state;
+ const nextKey=studyKey(source);if(nextKey===key)return state;
  if(state.tabs.some(tab=>tab.key===nextKey))return activateStudyTab(closeStudyTab(state,key),nextKey);
  const rename=value=>value===key?nextKey:value;
- const next={...source,kind:'problem',key:nextKey,title:source.title||STUDY_LABELS.problem,visit:{},state:{},scroll:[]};
+ const next={...source,key:nextKey,title:source.title||STUDY_LABELS[source.kind],visit:{},state:{},scroll:[]};
  const groups=studyGroups(state).map(group=>({...group,tabs:group.tabs.map(rename),active:rename(group.active)}));
  return finishGroups({...state,tabs:state.tabs.map(tab=>tab.key===key?next:tab)},groups,nextKey);
 }

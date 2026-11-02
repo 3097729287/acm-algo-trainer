@@ -190,7 +190,7 @@ class ReviewTests(unittest.TestCase):
         self.seed();self.clock.advance(days=1);task=self.open()
         result=self.service.submit('fixture::A','AC',mode='run',review_id=task['id'])
         self.judge.release.set()
-        self.receipt() # ordinary practice receipt is distinct from the review
+        self.receipt(external=True) # Cached provider history is not a fresh rewrite
         self.assertEqual(self.due()['id'],task['id'])
         self.receipt(review_id=task['id'],acceptedAt='2026-10-08T00:00:00Z')
         self.assertEqual(self.due()['id'],task['id'])
@@ -244,6 +244,40 @@ class ReviewTests(unittest.TestCase):
         with self.assertRaises(ServiceError):
             self.service.start_training('fixture::A',restore_review_id=task['id'])
 
+    def test_first_accept_after_a_wrong_answer_keeps_fast_navigation_in_review_context(self):
+        self.receipt(verdict='WA');self.clock.advance(days=1)
+        task = self.due()
+        started = self.service.start_training('fixture::A',defer_workspace=True)
+        self.assertEqual(started['reviewTask']['id'],task['id'])
+        self.service.problem('fixture::A',review_id=task['id'])
+        self.receipt(review_id=task['id'])
+        self.assertEqual(self.service.review_plan()['tasks'],[])
+
+    def test_a_fresh_official_practice_accept_settles_an_already_due_review(self):
+        self.seed();self.clock.advance(days=1);task=self.due()
+        self.receipt()
+        self.assertEqual(self.service.review_plan()['tasks'],[])
+        self.assertTrue(ReviewScheduler(self.service).task('fixture::A',task['id'])['completedAt'])
+
+    def test_account_history_cutoff_blocks_reimporting_old_provider_receipts(self):
+        scheduler=ReviewScheduler(self.service)
+        with self.service._write() as db:
+            scheduler.save(db,'submission-history-cutoff-v1',{'version':1,'before':'2026-10-01T00:00:00Z'})
+        before=self.service.connection.execute('SELECT COUNT(*) FROM submissions').fetchone()[0]
+        self.assertIsNone(self.receipt(acceptedAt='2026-05-13T08:48:00Z',external=True))
+        self.assertEqual(self.service.connection.execute('SELECT COUNT(*) FROM submissions').fetchone()[0],before)
+        self.assertIsNotNone(self.receipt())
+
+    def test_upgrade_settles_an_existing_today_native_accept_without_a_review_binding(self):
+        self.seed();self.clock.advance(days=1);task=self.due()
+        with self.service._write() as db:
+            db.execute("INSERT INTO submissions(id,problem_id,mode,code,submitted_at,finished_at,verdict,scope,message) VALUES(?,?,'submit',?,?,?,'AC','official',?)",('old-native-context-lost','fixture::A','real saved native code',iso(self.clock()),iso(self.clock()),'原站确认提交 #123456789'))
+        self.assertEqual(self.service.review_plan()['tasks'],[])
+        self.assertTrue(ReviewScheduler(self.service).task('fixture::A',task['id'])['completedAt'])
+        before=reward_totals(self.service)
+        self.service.review_plan();self.service.workspace()
+        self.assertEqual(reward_totals(self.service),before)
+
     def test_session_binding_survives_pending_restore_and_duplicate_result(self):
         self.seed();self.clock.advance(days=1);task=self.open()
         with self.service.lock,self.service._write() as db:
@@ -263,14 +297,14 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.service.review_plan()['tasks'],[])
         self.assertEqual(reward_totals(self.service),{'xp':0,'count':0})
 
-    def test_wa_without_ac_is_due_tomorrow_and_later_ac_does_not_move_anchor(self):
+    def test_cached_provider_accept_does_not_finish_a_due_rewrite(self):
         self.clock.value=dt.datetime(2026,10,8,15,58,tzinfo=UTC)
         self.receipt(verdict='WA')
         self.assertEqual(self.service.review_plan()['tasks'],[])
         self.clock.advance(minutes=3)
         task=self.due()
         self.assertEqual(task['due'],'2026-10-09')
-        self.receipt()
+        self.receipt(external=True)
         self.assertEqual(self.due()['id'],task['id'])
         self.clock.advance(days=1)
         self.assertEqual(self.due()['id'],task['id'])
@@ -301,11 +335,11 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.service.submission(result['id'])['submission']['reviewRewardXp'],20)
         self.assertEqual(self.service.insights()['growth']['reviewXp'],20)
 
-    def test_sample_and_unbound_accept_do_not_receive_review_reward(self):
+    def test_sample_and_cached_provider_accept_do_not_receive_review_reward(self):
         self.seed();self.clock.advance(days=1);task=self.open()
         self.service.submit('fixture::A','AC',mode='run',review_id=task['id'])
         self.judge.release.set()
-        self.receipt()
+        self.receipt(external=True)
         self.assertEqual(reward_totals(self.service)['xp'],0)
         self.assertEqual(self.due()['id'],task['id'])
 

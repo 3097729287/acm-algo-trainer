@@ -75,18 +75,18 @@ class ChallengeTests(unittest.TestCase):
     def test_only_full_bound_submission_grants_once_and_normal_xp_still_accumulates(self):
         before = self.service.insights()['growth']
         granted = self.pass_challenge()
-        self.assertEqual(granted['level'], 5)
-        self.assertEqual(granted['totalXp'], 500)
-        self.assertEqual(granted['challengeXp'], 500 - before['totalXp'])
+        self.assertEqual(granted['level'], 6)
+        self.assertEqual(granted['totalXp'], 1500)
+        self.assertEqual(granted['challengeXp'], 1500 - before['totalXp'])
         self.assertTrue(granted['experienceChallenge']['allNavigationUnlocked'])
         self.assertGreater(granted['authority']['revision'], before['authority']['revision'])
         self.assertEqual(granted['authority']['owner'], before['authority']['owner'])
         self.assertEqual(self.service.connection.execute('SELECT COUNT(*) FROM official_first_xp_awards').fetchone()[0], 0)
         self.completed(PROBLEMS[0], code='correct')
-        self.assertEqual(self.service.insights()['growth']['totalXp'], 500)
+        self.assertEqual(self.service.insights()['growth']['totalXp'], 1500)
         self.accept()
         later = self.service.insights()['growth']
-        self.assertGreater(later['totalXp'], 500)
+        self.assertGreater(later['totalXp'], 1500)
         self.assertEqual(later['challengeXp'], granted['challengeXp'])
         self.assertTrue(later['experienceChallenge']['allNavigationUnlocked'])
 
@@ -122,7 +122,7 @@ print(*(p[v[i+1]]-p[v[i]] for i in range(2+n,len(v),2)))
         self.assertEqual((result['verdict'], result['passed'], result['total']), ('AC', 24, 24), result)
         self.assertEqual(len(result['caseResults']), 24)
         growth = self.service.insights()['growth']
-        self.assertEqual((growth['level'], growth['totalXp']), (5, 500))
+        self.assertEqual((growth['level'], growth['totalXp']), (6, 1500))
         self.assertTrue(growth['experienceChallenge']['allNavigationUnlocked'])
 
     def test_samples_wrong_partial_and_missing_full_case_proof_never_grant(self):
@@ -198,7 +198,7 @@ print(*(p[v[i+1]]-p[v[i]] for i in range(2+n,len(v),2)))
             changes = sync._apply({'tables': {'account_preferences': [], 'submissions': []}, 'publicAccounts': {}})
         self.assertLess(changes, self.service.connection.total_changes)
         self.assertTrue(read(self.service)['passedAt'])
-        self.assertEqual(self.service.insights()['growth']['level'], 5)
+        self.assertEqual(self.service.insights()['growth']['level'], 6)
 
     def test_nonzero_earned_xp_survives_old_snapshot_and_new_earnings_are_not_swallowed(self):
         from account_sync import TABLES
@@ -210,7 +210,7 @@ print(*(p[v[i+1]]-p[v[i]] for i in range(2+n,len(v),2)))
         self.assertEqual(self.service.insights()['growth']['totalXp'], 125)
         only_a = {'tables': {name: [dict(row) for row in self.service.connection.execute(f'SELECT * FROM "{name}"')] for name in TABLES}, 'publicAccounts': {}}
         granted = self.pass_challenge()
-        self.assertEqual((granted['totalXp'], granted['challengeXp']), (500, 375))
+        self.assertEqual((granted['totalXp'], granted['challengeXp']), (1500, 1375))
         sync = AccountStateSync.__new__(AccountStateSync)
         sync.service = self.service
         sync._check_stopping = lambda: None
@@ -218,12 +218,12 @@ print(*(p[v[i+1]]-p[v[i]] for i in range(2+n,len(v),2)))
         sync.chunks = SimpleNamespace(apply_code=lambda row, previous: row)
         sync._apply(original)
         restored = self.service.insights()['growth']
-        self.assertEqual((restored['level'], restored['totalXp'], restored['challengeXp']), (5, 500, 375))
+        self.assertEqual((restored['level'], restored['totalXp'], restored['challengeXp']), (6, 1500, 1375))
         self.accept('fixture::B')
-        self.assertEqual(self.service.insights()['growth']['totalXp'], 600)
+        self.assertEqual(self.service.insights()['growth']['totalXp'], 1600)
         for late in [original, only_a, only_a]:
             sync._apply(late)
-            self.assertEqual(self.service.insights()['growth']['totalXp'], 600)
+            self.assertEqual(self.service.insights()['growth']['totalXp'], 1600)
 
 
 if __name__ == '__main__':

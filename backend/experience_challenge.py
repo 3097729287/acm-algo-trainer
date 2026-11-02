@@ -10,6 +10,7 @@ import secrets
 import uuid
 
 KEY = 'experience-challenge-v1'
+SIX_KEY = 'experience-challenge-six-v1'
 POLICY = 1
 PROBLEMS = ('template-drill:binary-search:1', 'template-drill:prefix-difference:1')
 _SUBMISSION = re.compile(r'^submission-[a-f0-9]{32}$')
@@ -131,7 +132,8 @@ def preserve_earned_rows(training, table, rows):
             except (ValueError, TypeError, AttributeError):
                 return False
         if table == 'account_preferences':
-            return str(row.get('key', '')).startswith('review-reward:')
+            return (str(row.get('key', '')).startswith('review-reward:')
+                    or row.get('key') == SIX_KEY and six_receipt(row.get('value'), _owner(training)) is not None)
         if table == 'ranking_reward_totals':
             return row.get('user_id') == _owner(training)
         return True
@@ -144,7 +146,9 @@ def preserve_earned_rows(training, table, rows):
         key = tuple(local[k] for k in keys)
         remote = result.get(key)
         winner = copy.deepcopy(local if remote is None or not earned(remote) else remote)
-        for field in ('awarded_xp', 'total_xp'):
+        if table == 'account_preferences' and key == (SIX_KEY,) and remote and earned(remote):
+            winner = copy.deepcopy(max((local,remote), key=lambda item:six_receipt(item['value'],_owner(training))['xp']))
+        for field in ('awarded_xp', 'total_xp', 'xp'):
             if field in local:
                 winner[field] = max(local[field], winner.get(field, 0))
         for field in ('accepted_at', 'unlocked_at', 'claimed_at', 'migrated_at'):
@@ -164,6 +168,19 @@ def _save(training, connection, value):
                        (KEY, json.dumps(value, ensure_ascii=False, sort_keys=True), iso(training._now())))
 
 
+def six_receipt(value, owner):
+    try:
+        value = json.loads(value) if isinstance(value, str) else value
+    except (ValueError, TypeError):
+        return None
+    from tb_rank import LEVEL_COSTS
+    if (isinstance(value, dict) and value.get('version') == 1 and value.get('owner') == owner
+            and type(value.get('xp')) is int and 0 <= value['xp'] <= sum(LEVEL_COSTS[:5])
+            and isinstance(value.get('awardedAt'), str)):
+        return value
+    return None
+
+
 def reward(training, base_xp):
     """A fixed, once-only top-up preserves later normal XP accumulation."""
     from tb_rank import RANK_UNLOCK_XP
@@ -174,13 +191,34 @@ def reward(training, base_xp):
         state['awardedXp'] = max(0, RANK_UNLOCK_XP - max(0, int(base_xp)))
         with training._write() as connection:
             _save(training, connection, state)
-    return state['awardedXp']
+    # Keep the v1 fixed grant intact. The new level-six top-up is a separate,
+    # owner-bound monotonic receipt so old snapshots cannot award it twice.
+    from tb_rank import LEVEL_COSTS
+    from training import iso
+    target = sum(LEVEL_COSTS[:5])
+    current = training.connection.execute('SELECT value FROM account_preferences WHERE key=?',(SIX_KEY,)).fetchone()
+    try:
+        upgrade = json.loads(current[0]) if current else None
+    except (ValueError,TypeError):
+        upgrade = None
+    valid = six_receipt(upgrade,_owner(training)) is not None
+    if not valid:
+        upgrade = dict(version=1,owner=_owner(training),xp=max(0,target-max(0,int(base_xp))-state['awardedXp']),awardedAt=iso(training._now()))
+        with training._write() as db:
+            db.execute('INSERT INTO account_preferences VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at',(SIX_KEY,json.dumps(upgrade,sort_keys=True),iso(training._now())))
+    return state['awardedXp'] + upgrade['xp']
+
+
+def _six_amount(training):
+    row=training.connection.execute('SELECT value FROM account_preferences WHERE key=?',(SIX_KEY,)).fetchone()
+    receipt=six_receipt(row[0],_owner(training)) if row else None
+    return receipt['xp'] if receipt else 0
 
 
 def snapshot(training, level):
     state = read(training)
     passed = bool(state.get('passedAt'))
-    eligible = (not training.admin_mode or getattr(training, 'admin_simulation', False)) and level < 5 and not passed
+    eligible = (not training.admin_mode or getattr(training, 'admin_simulation', False)) and level < 6 and not passed
     pending = False
     if state['attempts']:
         pending = any(training.connection.execute('SELECT 1 FROM submissions WHERE id=? AND finished_at IS NULL', (identity,)).fetchone() for identity in state['attempts'])
@@ -189,7 +227,7 @@ def snapshot(training, level):
                 promptRequired=eligible and state['seenVersion'] < POLICY,
                 seenVersion=state['seenVersion'], choice=state['choice'], status=status,
                 problemId=state['problemId'], allNavigationUnlocked=passed,
-                awardedXp=state.get('awardedXp') or 0)
+                awardedXp=(state.get('awardedXp') or 0) + _six_amount(training))
 
 
 def update(training, body):

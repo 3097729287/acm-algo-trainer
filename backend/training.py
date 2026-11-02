@@ -416,8 +416,12 @@ class TrainingService:
             if defer_workspace and not assisted:
                 ids = self._equivalent_ids(identity)
                 placeholders = ','.join('?' for _ in ids)
-                if not self.connection.execute(f'SELECT 1 FROM training WHERE id IN ({placeholders}) AND accepted_at IS NOT NULL', ids).fetchone():
+                wrong = self.connection.execute(f"SELECT 1 FROM submissions WHERE problem_id IN ({placeholders}) AND mode='submit' AND scope='official' AND verdict='WA' AND finished_at IS NOT NULL LIMIT 1", ids).fetchone()
+                if not wrong:
                     return {'reviewTask': None}
+                canonical = self._identity_map().get(identity, identity)
+                task = next((task for task in self.review_plan()['tasks'] if task['problemId'] == canonical), None)
+                return {'reviewTask': task}
             workspace = self.workspace()
             canonical = self._identity_map().get(identity, identity)
             task = next((row.get('reviewTask') for row in workspace['training'] if row['id'] == canonical), None)
@@ -541,6 +545,14 @@ class TrainingService:
                 submitted = iso(parse_time(accepted_at)) if accepted_at else iso(self._now())
             except (ValueError, TypeError, AttributeError):
                 submitted = iso(self._now())
+            from submission_history import marker as history_marker, KEY as history_key
+            retention = history_marker(reviews.read(history_key, {}), self._ranking_profile()['user_id'])
+            if retention:
+                try:
+                    if parse_time(submitted) < parse_time(retention.get('before')):
+                        return None
+                except (TypeError, ValueError, AttributeError):
+                    pass
             contest_id = None
             if contest and contest['started_at'] <= submitted <= min(contest['deadline'], contest['finished_at'] or contest['deadline']):
                 contest_id = contest['id']
@@ -553,6 +565,10 @@ class TrainingService:
                 if candidate:
                     contest=self.connection.execute('SELECT * FROM contests WHERE id=?',(candidate,)).fetchone()
                     contest_id=candidate
+            if not review and not contest_id and verdict == 'AC' and not session.get('external'):
+                review = reviews.for_fresh_accept(row['id'], existing['submitted_at'] if existing else submitted)
+                if review:
+                    review_id = review['id']
             if existing:
                 if detail and detail not in existing['message']:
                     with self._write() as connection:

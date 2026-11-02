@@ -39,11 +39,12 @@ def adapt_challenge(task, ability):
 def task_condition(task):
     return (task.get('kind'),task.get('target',1),task.get('minDifficulty',0),bool(task.get('newOnly')),task.get('scope'))
 
-def tasks_for(day,owner,ability=None):
+def tasks_for(day,owner,ability=None,allowed=None):
     # Fixed within the Beijing date and independent of UI opening order.
     rank=lambda item:hashlib.sha256((str(owner)+'\0'+day+'\0'+item['id']).encode()).digest()
     challenge=[];conditions=set()
     for task in sorted(CHALLENGES,key=rank):
+        if allowed and not allowed(adapt_challenge(task,ability)):continue
         condition=task_condition(adapt_challenge(task,ability))
         if condition in conditions:continue
         challenge.append(task);conditions.add(condition)

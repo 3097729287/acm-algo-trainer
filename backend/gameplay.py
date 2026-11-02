@@ -43,7 +43,7 @@ def _grant_pending(training):
         marker='sticker-grant:'+suffix
         task=json.loads(row['value'])
         identity=str(uuid.UUID(hashlib.sha256((owner+'\0'+marker).encode()).hexdigest()[:32],version=4))
-        _request(training,'POST','/v1/stickers/grant',{'requestId':identity,'day':day,'taskId':task_id,'xp':task['xp'],'minDifficulty':task.get('minDifficulty',0)},expected_owner=owner)
+        _request(training,'POST','/v1/stickers/grant',{'requestId':identity,'day':day,'taskId':task_id,'xp':task.get('stickerXp',task['xp']),'minDifficulty':task.get('minDifficulty',0),**({'rewardSlot':task['stickerSlot']} if task.get('stickerSlot') else {})},expected_owner=owner)
         with training.lock,training._write() as db:
             if training._ranking_profile()['user_id']!=owner:
                 raise ServiceError(409,'账号已切换')

@@ -38,11 +38,15 @@ export default function ExperienceChallenge({owner,offer,ready,blocked,api,onGro
   void choose('seen');
   return()=>node.close();
  },[open,supported]);
+ useEffect(()=>{
+  const launch=event=>{if(event.detail?.owner===owner&&supported&&ready&&!blocked&&!busy&&offer.eligible)setOpen(true);};
+  window.addEventListener('tb:open-experience-challenge',launch);return()=>window.removeEventListener('tb:open-experience-challenge',launch);
+ },[owner,supported,ready,blocked,busy,offer?.eligible]);
  if(!open||!supported)return null;
  return <dialog ref={dialog} className="experience-challenge" aria-labelledby="experience-title" onCancel={event=>{event.preventDefault();if(!busy)setOpen(false);}}>
   <header><h2 id="experience-title">你有编程经验吗？</h2><button type="button" aria-label="稍后继续" disabled={busy} onClick={()=>setOpen(false)}><X size={18}/></button></header>
-  <p>完成一道二分或前缀和模板题的全部测试，即可升至 5 级并解锁全部功能。</p>
-  <div className="experience-choices"><button type="button" disabled={busy} onClick={()=>void choose('choose','beginner')}><Sprout size={22}/><strong>我是新手</strong><small>从基础题单开始</small></button><button type="button" disabled={busy} onClick={()=>void choose('choose','experienced',true)}><Code size={22}/><strong>我是老手</strong><small>开始模板挑战</small></button></div>
+  <p>完成一道二分或前缀和模板题的全部测试，即可升至 6 级并解锁全部功能。</p>
+  <div className="experience-choices"><button type="button" disabled={busy} onClick={()=>void choose('choose','beginner')}><Sprout size={22}/><strong>我是新手</strong><small>从 1 级基础题单开始，随升级逐步解锁；6 级前仍可参加老手测试。</small></button><button type="button" disabled={busy} onClick={()=>void choose('choose','experienced',true)}><Code size={22}/><strong>我是老手</strong><small>先完成模板题测试，通过后直升 6 级；未通过可继续基础练习并再次测试。</small></button></div>
   {busy&&<p role="status"><LoaderCircle size={16} className="spin"/>正在保存选择…</p>}{error&&<p role="alert">{error}</p>}
  </dialog>;
 }

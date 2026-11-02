@@ -108,7 +108,7 @@ def progress(training, task, evidence, day, completed=None):
     return task_progress(task, fresh, day)
 
 
-def _random(training, day, owner, step, fixed, evidence, records):
+def _random(training, day, owner, step, fixed, evidence, records, allowed=None):
     identity = 'review-random:' + str(step)
     conditions={task_condition(task) for task in fixed}
     if identity in records:
@@ -121,6 +121,7 @@ def _random(training, day, owner, step, fixed, evidence, records):
     basis=_challenge_reference(training,day)
     pool = [task for task in [*CHALLENGES, *EXPLORATIONS]
             if task['id'] not in excluded and task['kind'] not in ('morning', 'evening')
+            and (not allowed or allowed(adapt_challenge(task,basis)))
             and task_condition(adapt_challenge(task,basis)) not in conditions]
     # A short extra learning session remains possible after finite actions run
     # out. New rounds require new evidence instead of immediately reusing ACs.
@@ -131,6 +132,29 @@ def _random(training, day, owner, step, fixed, evidence, records):
             'slot': 1, 'version': 3, 'baseline': sorted({_evidence_key(item) for item in evidence if _evidence_key(item)}),
             'secondsBaseline': learning_seconds(training, day), 'issuedAt': iso(training._now())}
     return task
+
+
+def _sticker_task(task, slot):
+    from gameplay import rarity
+    value = task.get('stickerXp', task['xp'])
+    return {**task, 'xp': 0, 'stickerXp': value, 'stickerSlot': slot, 'stickerPolicy': 2,
+            'rewardSticker': {'rarity': rarity({**task, 'xp': value})}}
+
+
+def _sticker_definitions(fixed, review, records, completed, owner, day):
+    saved = [json.loads(row['definition']) for row in records.values()]
+    chosen = next((task['id'] for task in saved if task.get('stickerSlot') == 'fixed'), None)
+    candidates = [task for task in fixed if not records.get(task['id']) or not records[task['id']]['claimed_at']]
+    if chosen is None and candidates:
+        chosen = min(candidates, key=lambda task: hashlib.sha256((owner+'\0'+day+'\0sticker\0'+task['id']).encode()).digest())['id']
+    fixed = [_sticker_task(task, 'fixed') if task['id'] == chosen else task for task in fixed]
+    if review.get('lane') == 'review-random' and completed:
+        old = next((task for task in saved if task['id'] == review['id']), {})
+        slots = {task.get('stickerSlot') for task in saved}
+        slot = old.get('stickerSlot') or next((name for name in ('review-0', 'review-1') if name not in slots), None)
+        if slot and not (records.get(review['id']) and records[review['id']]['claimed_at']):
+            review = _sticker_task(review, slot)
+    return fixed, review
 
 
 def _challenge_reference(training, day):
@@ -160,7 +184,14 @@ def snapshot(training, goal_tasks=None, evidence=None, *, completed=None):
         completed = _completed_reviews(training, day) if completed is None else completed
         limit = _review_limit(training, day, completed)
         basis=_challenge_reference(training,day)
-        fixed = [{**adapt_challenge(task,basis), 'lane': 'fixed', 'slot': i + 3} for i, task in enumerate(tasks_for(day, owner, basis)[3:])]
+        from learning_access import challenge_filter
+        allowed = challenge_filter(training)
+        fixed = [{**adapt_challenge(task,basis), 'lane': 'fixed', 'slot': i + 3} for i, task in enumerate(tasks_for(day, owner, basis, allowed)[3:])]
+        saved_fixed = [json.loads(row['definition']) for row in records.values() if json.loads(row['definition']).get('lane')=='fixed']
+        if len(saved_fixed)==3 and all(task.get('accessPolicy')==1 for task in saved_fixed):
+            fixed=sorted(saved_fixed,key=lambda task:task['slot'])
+        else:
+            fixed=[{**task,'accessPolicy':1} for task in fixed]
         ac_step = _next_step(records, 'ac')
         # A legacy already-claimed 1/3-AC tier is not paid a second time.
         legacy_target = max((target for key,target in [('solve-1',1),('solve-3',3)] if key in records and records[key]['claimed_at']), default=0)
@@ -183,7 +214,8 @@ def snapshot(training, goal_tasks=None, evidence=None, *, completed=None):
                 target = min(limit, threshold(review_step))
             review = _definition('review-chain:' + str(review_step), 'review', review_step, '复习', f'复习 {target} 道题目', 'review', target, min(100, 10 + 5 * review_step), 1)
         else:
-            review = _random(training, day, owner, _next_step(records, 'review-random'), fixed, evidence, records)
+            review = _random(training, day, owner, _next_step(records, 'review-random'), fixed, evidence, records, allowed)
+        fixed, review = _sticker_definitions(fixed, review, records, completed, owner, day)
         definitions = [ac, review, study, *fixed]
         changes = [task for task in definitions if task['id'] not in records or not records[task['id']]['claimed_at']
                    and records[task['id']]['definition'] != json.dumps(task, ensure_ascii=False)]
@@ -198,7 +230,7 @@ def snapshot(training, goal_tasks=None, evidence=None, *, completed=None):
             row = current[definition['id']]
             task = {**json.loads(row['definition']), 'lane': definition['lane'], 'slot': definition['slot']}
             amount, _ = progress(training, task, evidence, day, completed)
-            task['stickerRarity']=__import__('gameplay').rarity(task)
+            task['stickerRarity']=task.get('rewardSticker',{}).get('rarity') or __import__('gameplay').rarity(task)
             task.update(progress=amount, completed=amount >= task['target'], claimed=bool(row['claimed_at']), claimedAt=row['claimed_at'])
             tasks.append(task)
         if goal_tasks is None:
@@ -240,7 +272,8 @@ def claim(training, identity, date=None):
             with training._write() as db:
                 db.execute('UPDATE daily_missions SET claimed_at=?,awarded_xp=?,evidence=? WHERE day=? AND id=? AND claimed_at IS NULL',
                            (iso(training._now()), task['xp'], json.dumps(proof), day, identity))
-                db.execute('INSERT INTO account_preferences VALUES(?,?,?) ON CONFLICT(key) DO NOTHING',('sticker-eligible:'+day+':'+identity,json.dumps(task,ensure_ascii=False),iso(training._now())))
+                if task.get('rewardSticker') and task.get('stickerSlot'):
+                    db.execute('INSERT INTO account_preferences VALUES(?,?,?) ON CONFLICT(key) DO NOTHING',('sticker-eligible:'+day+':'+identity,json.dumps(task,ensure_ascii=False),iso(training._now())))
             _advance_read_caches(training, day, before_changes)
         # Compute the next tier only after the claim is durably committed.
         return {'dailyTasks': snapshot(training, goal_tasks=[], evidence=evidence, completed=completed),

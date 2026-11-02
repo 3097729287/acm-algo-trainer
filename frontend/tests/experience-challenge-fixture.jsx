@@ -13,7 +13,7 @@ let fact=new URLSearchParams(location.search).has('noPolicy')?null:fresh(OWNER),
 window.__tbAccountUserId=OWNER;
 const pendingChoice=new URLSearchParams(location.search).get('pending');
 if(['beginner','experienced'].includes(pendingChoice))window.__tbExperienceChoicePending={owner:OWNER,choice:pendingChoice};
-const value=(owner,level=1)=>({level,totalXp:level===5?500:0,currentLevelXp:0,nextLevelXp:level===5?1000:100,confirmed:true,authority:{owner,epoch:owner,revision:++revision},experienceChallenge:fact?.owner===owner?{...fact}:undefined});
+const value=(owner,level=1)=>({level,totalXp:level===6?1500:0,currentLevelXp:0,nextLevelXp:level===6?1200:100,confirmed:true,authority:{owner,epoch:owner,revision:++revision},experienceChallenge:fact?.owner===owner?{...fact}:undefined});
 window.challengeFixture={writes:[],opened:[],hold:false};
 function Fixture(){
  const [owner,setOwner]=useState(OWNER),[growth,setGrowth]=useState(()=>value(OWNER)),[preferences,setPreferences]=useState({levelNoticeVersion:0,levelNoticeSeen:0,levelNoticePending:0}),[practicing,setPracticing]=useState(false),[open,setOpen]=useState(false),[mount,setMount]=useState(0);
@@ -35,7 +35,7 @@ function Fixture(){
   noPolicy:()=>{fact=null;setGrowth(value(owner));},
   switchOwner:()=>{window.__tbAccountUserId=OTHER;fact={...fresh(OTHER),eligible:false,promptRequired:false};setOwner(OTHER);setGrowth(value(OTHER,6));setPreferences({levelNoticeVersion:1,levelNoticeSeen:6,levelNoticePending:0});},
   release:()=>{window.challengeFixture.hold=false;release?.();},
-  pass:()=>{fact={...fact,status:'passed',eligible:false,allNavigationUnlocked:true,awardedXp:500};setGrowth(value(owner,5));},
+  pass:()=>{fact={...fact,status:'passed',eligible:false,allNavigationUnlocked:true,awardedXp:1500};setGrowth(value(owner,6));},
   theme:theme=>{document.documentElement.dataset.theme=theme;},
  });
  return <main><p data-owner>{owner}</p><p data-level>{growth.level}</p><p data-navigation>{availablePages(growth.level,{},growth.experienceChallenge||{}).join(',')}</p>

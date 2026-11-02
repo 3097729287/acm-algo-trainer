@@ -198,7 +198,7 @@ export async function handle(request, env) {
         const sticker=/^\/v1\/stickers\/(grant|place|recycle)$/.exec(path);
         const reward=/^\/v1\/stickers\/(levels|achievement|open-box)$/.exec(path);
         const duel=/^\/v1\/duels\/(join|cancel|poll|dismiss|ready|decline)$/.exec(path);
-        if(sticker){const value=await body(request,['requestId','unitId','revision','x','y','angle','scale','day','taskId','xp','minDifficulty'],4096);return json(await game.stickerWrite(owner,auth,sticker[1],value,now));}
+        if(sticker){const value=await body(request,['requestId','unitId','revision','x','y','angle','scale','day','taskId','xp','minDifficulty','rewardSlot'],4096);return json(await game.stickerWrite(owner,auth,sticker[1],value,now));}
         if(reward){
           const fields={levels:['requestId','level'],achievement:['requestId','achievementId'],'open-box':['requestId','boxId']};
           const value=await body(request,fields[reward[1]],2048),result=await game.rewardWrite(owner,auth,reward[1],value,now);
