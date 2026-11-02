@@ -118,14 +118,24 @@ export class Gameplay extends StickerRewards {
  async member(db,owner){const [rows]=await db.execute('SELECT match_id FROM duel_members WHERE user_id=?',[owner]);return rows[0]?.match_id;}
  async match(db,id){if(!id)return null;const [rows]=await db.execute('SELECT payload FROM duel_matches WHERE match_id=?',[id]);return rows.length?JSON.parse(rows[0].payload):null;}
  async saveMatch(db,room){await db.execute('UPDATE duel_matches SET payload=? WHERE match_id=?',[JSON.stringify(room),room.id]);}
+ async expireReady(db,room,now){
+  if(room?.status==='ready'&&now>=room.readyDeadline){
+   room.status='cancelled';room.cancelReason='timeout';room.cancelledAt=now;
+   await this.saveMatch(db,room);
+  }
+  return room;
+ }
  view(owner,lobby,room,now){
   const ticket=lobby.queue.find(item=>item.owner===owner);
-  return {owner,serverNow:now,status:room?(room.status):ticket?'queued':'idle',ticket:ticket?.ticket||null,
-   match:room?{...room,players:room.players.map(player=>({...player,online:now-player.lastSeen<20000}))}:null};
+  return {owner,serverNow:now,capabilities:{readyCheck:true},status:room?(room.status):ticket?'queued':'idle',ticket:ticket?.ticket||null,queuedAt:ticket?.joinedAt??null,
+   match:room?{...room,problem:['ready','cancelled'].includes(room.status)?null:room.problem,players:room.players.map(player=>({...player,online:now-player.lastSeen<20000}))}:null};
  }
  async read(owner,now){
-  const [rows]=await this.db.execute('SELECT payload FROM duel_lobby WHERE singleton=1');
-  return this.view(owner,JSON.parse(rows[0].payload),await this.match(this.db,await this.member(this.db,owner)),now);
+  return this.db.transaction(async db=>{
+   const [rows]=await db.execute(this.lock('SELECT payload FROM duel_lobby WHERE singleton=1'));
+   const room=await this.expireReady(db,await this.match(db,await this.member(db,owner)),now);
+   return this.view(owner,JSON.parse(rows[0].payload),room,now);
+  });
  }
  async duelWrite(owner,auth,kind,value,now){
   // Network reads happen outside the write transaction. The result is bound to
@@ -140,7 +150,7 @@ export class Gameplay extends StickerRewards {
    // The account lock also serializes request IDs across all gameplay writes.
    const run=async()=>{
     lobby.queue=lobby.queue.filter(item=>now-item.lastSeen<30000);
-    let room=await this.match(db,await this.member(db,owner));
+    let room=await this.expireReady(db,await this.match(db,await this.member(db,owner)),now);
     if(room?.status==='active'){
      const player=room.players.find(item=>item.owner===owner);player.lastSeen=now;
      if(receipts&&room.id===existing?.id){
@@ -168,32 +178,52 @@ export class Gameplay extends StickerRewards {
     }
     if(kind==='join'){
      if(!/^[A-Za-z0-9_.-]{3,24}$/.test(value.handle||''))fail(400,'请先绑定 Codeforces 账号');
-     if(room?.status==='active')return this.view(owner,lobby,room,now);
+     if(value.readyCheck!==undefined&&typeof value.readyCheck!=='boolean')fail(400,'对战确认方式无效');
+     if(['active','ready'].includes(room?.status))return this.view(owner,lobby,room,now);
      let entry=lobby.queue.find(item=>item.owner===owner);
      if(entry){entry.lastSeen=now;return this.view(owner,lobby,null,now);}
      if(lobby.queue.length>=1000)fail(429,'匹配请求较多，请稍后重试');
-     const peer=lobby.queue.find(item=>item.owner!==owner&&item.handle.toLowerCase()!==value.handle.toLowerCase());
+     // Old desktops keep their existing immediate-start protocol. Pair only
+     // clients using the same protocol so neither side is stranded at ready.
+     const readyCheck=value.readyCheck===true;
+     const peer=lobby.queue.find(item=>item.owner!==owner&&item.handle.toLowerCase()!==value.handle.toLowerCase()&&Boolean(item.readyCheck)===readyCheck);
      if(peer){
       lobby.queue=lobby.queue.filter(item=>item!==peer);
       const problem=this.problems[randomInt(this.problems.length)];
       const startedAt=Math.ceil(now/1000)*1000;
-      room={id:randomUUID(),status:'active',startedAt,deadline:startedAt+30*60000,problem,players:[{owner:peer.owner,handle:peer.handle},{owner,handle:value.handle}].map(p=>({...p,attempts:0,acceptedAt:null,lastSeen:now})),winner:null,checkedAt:null};
+      room={id:randomUUID(),status:readyCheck?'ready':'active',startedAt:readyCheck?null:startedAt,deadline:readyCheck?null:startedAt+30*60000,...(readyCheck?{foundAt:now,readyDeadline:now+20000}:{}),problem,players:[{owner:peer.owner,handle:peer.handle},{owner,handle:value.handle}].map(p=>({...p,...(readyCheck?{readyAt:null}:{}),attempts:0,acceptedAt:null,lastSeen:now})),winner:null,checkedAt:null};
       await db.execute('INSERT INTO duel_matches(match_id,payload) VALUES(?,?)',[room.id,JSON.stringify(room)]);
       for(const p of room.players){
        await db.execute('DELETE FROM duel_members WHERE user_id=?',[p.owner]);
        await db.execute('INSERT INTO duel_members(user_id,match_id) VALUES(?,?)',[p.owner,room.id]);
       }
      }else{
-      lobby.queue.push({owner,handle:value.handle,ticket:value.requestId,lastSeen:now});room=null;
+      lobby.queue.push({owner,handle:value.handle,ticket:value.requestId,joinedAt:now,lastSeen:now,readyCheck});room=null;
       await db.execute('DELETE FROM duel_members WHERE user_id=?',[owner]);
      }
+    }else if(kind==='ready'||kind==='decline'){
+     if(!room||value.matchId!==room.id)fail(409,'对局已更新，请刷新');
+     if(room.status==='cancelled')return this.view(owner,lobby,room,now);
+     if(room.status==='active'&&kind==='ready')return this.view(owner,lobby,room,now);
+     if(room.status!=='ready')fail(409,'当前对局不能进行此操作');
+     const player=room.players.find(item=>item.owner===owner);player.lastSeen=now;
+     if(kind==='decline'){
+      room.status='cancelled';room.cancelReason='declined';room.cancelledBy=owner;room.cancelledAt=now;
+     }else{
+      player.readyAt??=now;
+      if(room.players.every(item=>item.readyAt!==null)){
+       room.status='active';room.startedAt=Math.ceil(now/1000)*1000;room.deadline=room.startedAt+30*60000;
+      }
+     }
+     await this.saveMatch(db,room);
     }else if(kind==='cancel'){
      lobby.queue=lobby.queue.filter(item=>item.owner!==owner||item.ticket!==value.ticket);
     }else if(kind==='poll'){
      const entry=lobby.queue.find(item=>item.owner===owner);if(entry)entry.lastSeen=now;
+     if(room?.status==='ready'){room.players.find(item=>item.owner===owner).lastSeen=now;await this.saveMatch(db,room);}
     }else if(kind==='dismiss'){
      if(room&&value.matchId!==room.id)fail(409,'比赛已更新，请刷新');
-     if(room?.status==='active')fail(409,'比赛仍在进行');
+     if(['active','ready'].includes(room?.status))fail(409,'比赛仍在进行');
      await db.execute('DELETE FROM duel_members WHERE user_id=?',[owner]);room=null;
     }else fail(404,'没有找到这个操作');
     await db.execute('UPDATE duel_lobby SET payload=? WHERE singleton=1',[JSON.stringify(lobby)]);

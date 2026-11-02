@@ -713,8 +713,8 @@ try {
   await page.waitForFunction(()=>document.querySelector('.study-pane:not([hidden]) .lectures-detail').scrollTop>=1190);
   await page.keyboard.press('Control+3');
   await page.getByLabel('搜索算法',{exact:true}).fill('knapsack');
-  assert.equal(await page.locator('.lab-catalog .lab-panel').count(),1);
-  await page.locator('.lab-catalog .catalog-card-open').click();
+  assert.equal(await page.locator('.lab-learning-catalogue .learning-catalogue-entry').count(),1);
+  await page.locator('.lab-learning-catalogue .learning-catalogue-entry').click();
   await page.locator('.lab-lesson').waitFor();
   const navigation=await page.locator('.lab-course-header').evaluate(node=>({
     directory:node.querySelector('[aria-label="目录"]').getBoundingClientRect().x,

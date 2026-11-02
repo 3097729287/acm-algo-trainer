@@ -12,7 +12,7 @@ import 'katex/dist/katex.min.css';
 
 window.__tbAccountUserId='fixture-A';
 document.documentElement.dataset.theme='dark';
-const rows=[{id:'fixture:A',title:'小月的数组',platform:'牛客',tags:['并查集'],solutionAvailable:true},{id:'fixture:B',title:'并查集合并查询',platform:'Codeforces',tags:['并查集'],solutionAvailable:true}];
+const rows=[{id:'fixture:A',title:'小月的数组',platform:'牛客',tags:['并查集'],solutionAvailable:true},{id:'fixture:B',title:'并查集合并查询',platform:'Codeforces',tags:['并查集'],solutionAvailable:true},{id:'fixture:P1706',title:'全排列问题',platform:'洛谷',url:'https://www.luogu.com.cn/problem/P1706',tags:['枚举'],solutionAvailable:false}];
 const lectures=[{id:'lecture:fixture-io',title:'输入输出',concept:'输入输出',markdown:'## 输入输出\n\n'+('读入两个数，然后输出它们的和。\n\n'.repeat(100)),tags:['输入输出'],images:{}}];
 const articles=[{id:'ds/dsu',title:'并查集',category:'数据结构',url:'https://oi-wiki.org/ds/dsu/'},{id:'basic/complexity',title:'复杂度简介',category:'基础',url:'https://oi-wiki.org/basic/complexity/'}];
 const calls=[];
@@ -28,7 +28,7 @@ async function api(path,body){
  }
  if(path==='lectures')return {lectures};
  if(url.pathname==='/lecture')return lectures.find(item=>item.id===url.searchParams.get('id'));
- if(url.pathname==='/wiki')return url.searchParams.has('id')?{article:{...articles.find(item=>item.id===url.searchParams.get('id')),html:'<article><h1>并查集</h1>'+Array.from({length:100},(_,i)=>`<h2 id="section-${i}">集合 ${i}</h2><p>并查集维护互不相交的集合。合并与查询代表元。</p>`).join('')+'<blockquote>本页面贡献者：测试署名。CC BY-SA 4.0 和 SATA。</blockquote></article>'}}:{articles};
+ if(url.pathname==='/wiki')return url.searchParams.has('id')?{article:{...articles.find(item=>item.id===url.searchParams.get('id')),html:'<article><h1>并查集</h1><a href="https://www.luogu.com.cn/problem/P1706" target="_blank">Luogu P1706 全排列问题</a>'+Array.from({length:100},(_,i)=>`<h2 id="section-${i}">集合 ${i}</h2><p>并查集维护互不相交的集合。合并与查询代表元。</p>`).join('')+'<blockquote>本页面贡献者：测试署名。CC BY-SA 4.0 和 SATA。</blockquote></article>'}}:{articles};
  if(url.pathname==='/problem'){
   const id=url.searchParams.get('id'),draft=read('drafts',{})[id];
   return {...rows.find(row=>row.id===id),markdown:'## 题目描述\n\n'+('给定交错输入的两个数组，分别输出。\n\n'.repeat(100)),samples:[{input:'2\n1 10 2 20\n',output:'1 2\n10 20\n'}],limits:{timeMs:1000,memoryMb:256},judge:{scope:'samples'},draft:draft?.code||'',draftSavedAt:draft?.at||null,draftLanguage:'cpp17',submissions:[]};

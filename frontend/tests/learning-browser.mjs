@@ -28,6 +28,10 @@ try{
  assert.equal((await pane('lab').boundingBox()).y,0);
  const controls=await page.locator('.study-single-controls').boundingBox();assert.equal(controls.y,0);assert.equal(controls.height,44);
  await search('');await page.waitForFunction(()=>document.querySelectorAll('.study-folder').length===4);
+ await page.getByRole('button',{name:'关闭搜索',exact:true}).click();
+ assert.equal(await page.locator('.study-group-header').count(),0,'Closing an unused search restores the compact single-content header');
+ assert.equal((await pane('lab').boundingBox()).y,0);assert.equal(await sorting.locator('nav[aria-label="实验步骤"]').innerText(),step);
+ await search('');await page.waitForFunction(()=>document.querySelectorAll('.study-folder').length===4);
  assert.deepEqual(await page.getByRole('option').locator('span').allTextContents(),['维基百科','模板','实验室','从零讲']);
  const searchRect=await page.locator('.study-search-box').boundingBox();assert.equal(searchRect.height,32);assert(searchRect.width<=280);assert(Math.abs(searchRect.y-6)<=.5);
  await page.getByRole('combobox').fill('并查集');await page.getByRole('option').filter({hasText:'维基百科'}).click();
@@ -105,7 +109,15 @@ try{
  assert.equal(await pane('template').getByRole('textbox',{name:'模板名称',exact:true}).inputValue(),'我的并查集草稿');
  await search('不存在的学习内容');await page.getByText('没有匹配的内容',{exact:true}).waitFor();await page.getByRole('combobox',{name:'搜索学习内容'}).press('Escape');assert.equal(await page.getByRole('combobox',{name:'搜索学习内容'}).count(),0);
  await page.getByRole('button',{name:'返回列表',exact:true}).click();assert.equal(await page.locator('.app-shell').evaluate(node=>node.inert),false);
- assert.deepEqual(errors,[]);await writeFile(`${out}/result.json`,JSON.stringify({passed:true,errors,scenarios:['cross-source search','source-only search','duplicate tabs','left/right splits','three editor groups','drag-to-merge','header alignment','center snap','experiment and draft preservation','reload and scroll restoration','native close flush','account isolation','themes and widths']},null,2));
+ await open({kind:'wiki',id:'ds/dsu',title:'并查集'});const beforeExample=await state();
+ await pane('wiki').frameLocator('iframe.wiki-reader').getByRole('link',{name:'Luogu P1706 全排列问题'}).waitFor();
+ await page.evaluate(()=>window.heldWikiDocument=document.querySelector('.study-wiki:not([hidden]) iframe').contentDocument);
+ await pane('wiki').frameLocator('iframe.wiki-reader').getByRole('link',{name:'Luogu P1706 全排列问题'}).click();await pane('problem').locator('.cm-content').waitFor();
+ assert.equal((await state()).tabs.length,beforeExample.tabs.length+1);assert((await state()).tabs.some(tab=>tab.kind==='problem'&&tab.id==='fixture:P1706'));
+ assert.equal(page.context().pages().length,1,'Wiki problems open in a learning tab, not a separate browser window');
+ await page.getByRole('tab',{name:'并查集',exact:true}).first().click();
+ assert(await page.evaluate(()=>window.heldWikiDocument===document.querySelector('.study-wiki:not([hidden]) iframe').contentDocument),'Opening an example retains the original live Wiki document');
+ assert.deepEqual(errors,[]);await writeFile(`${out}/result.json`,JSON.stringify({passed:true,errors,scenarios:['cross-source search','source-only search','duplicate tabs','left/right splits','three editor groups','drag-to-merge','header alignment','center snap','experiment and draft preservation','reload and scroll restoration','native close flush','account isolation','themes and widths','compact search close','Wiki example new tab']},null,2));
  console.log('Learning browser UI passed: search, duplicate tabs, independent groups/left-right drag/merge/resize, live state, restart, drafts, scroll, native-close flush, account isolation and six layouts.');
 }catch(issue){await page.screenshot({path:`${out}/failure.png`});await writeFile(`${out}/failure.json`,JSON.stringify({message:issue.message,errors,state:await state().catch(()=>null)},null,2));throw issue;}
 finally{await browser.close();await server.close();}

@@ -197,10 +197,17 @@ export async function handle(request, env) {
       if(request.method==='POST'){
         const sticker=/^\/v1\/stickers\/(grant|place|recycle)$/.exec(path);
         const reward=/^\/v1\/stickers\/(levels|achievement|open-box)$/.exec(path);
-        const duel=/^\/v1\/duels\/(join|cancel|poll|dismiss)$/.exec(path);
+        const duel=/^\/v1\/duels\/(join|cancel|poll|dismiss|ready|decline)$/.exec(path);
         if(sticker){const value=await body(request,['requestId','unitId','revision','x','y','angle','day','taskId','xp','minDifficulty'],4096);return json(await game.stickerWrite(owner,auth,sticker[1],value,now));}
-        if(reward){const fields={levels:['requestId','level'],achievement:['requestId','achievementId'],'open-box':['requestId','boxId']};const value=await body(request,fields[reward[1]],2048);return json(await game.rewardWrite(owner,auth,reward[1],value,now));}
-        if(duel){const value=await body(request,['requestId','handle','ticket','matchId'],2048);return json(await game.duelWrite(owner,auth,duel[1],value,now));}
+        if(reward){
+          const fields={levels:['requestId','level'],achievement:['requestId','achievementId'],'open-box':['requestId','boxId']};
+          const value=await body(request,fields[reward[1]],2048),result=await game.rewardWrite(owner,auth,reward[1],value,now);
+          // Keep the idempotency ledger small. Read the confirmed current view
+          // after the durable write and return it in this same HTTP response.
+          // Old clients can continue using their separate inventory GET.
+          return json(reward[1]==='open-box'?{...result,inventory:{...await game.stickers(owner),giftStats:await env.STORE.social.giftStats(owner)}}:result);
+        }
+        if(duel){const value=await body(request,['requestId','handle','ticket','matchId','readyCheck'],2048);return json(await game.duelWrite(owner,auth,duel[1],value,now));}
       }
       throw new ApiError(404,'没有找到这项在线操作');
     }

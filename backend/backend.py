@@ -361,7 +361,7 @@ class Handler(BaseHTTPRequestHandler):
                 elif path in ('/api/stickers/place','/api/stickers/recycle','/api/stickers/open-box'):
                     from gameplay import stickers
                     value=stickers(training,path.rsplit('/',1)[1],body)
-                elif path in ('/api/duel/join','/api/duel/cancel','/api/duel/poll','/api/duel/dismiss'):
+                elif path in ('/api/duel/join','/api/duel/cancel','/api/duel/poll','/api/duel/dismiss','/api/duel/ready','/api/duel/decline'):
                     from gameplay import duel
                     value=duel(training,path.rsplit('/',1)[1],body)
                 elif path == "/api/daily-tasks/claim":

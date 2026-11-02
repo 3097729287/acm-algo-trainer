@@ -53,6 +53,7 @@ test('level entitlement backfills once, rejects inflated levels and opens the ea
   let state=await inventory(a);assert.equal(Object.keys(state.boxes).length,9);assert.equal(state.units.length,0);
   await a.level(50);assert.equal((await post(a,'/v1/stickers/levels',{level:50})).status,200);
   const opening={requestId:randomUUID(),boxId:'level:5'};const opened=await Promise.all(Array.from({length:12},()=>a.send('/v1/stickers/open-box',opening)));assert(opened.every(item=>item.status===200));
+  assert(opened.every(item=>item.value.inventory.owner===a.id&&item.value.inventory.units.length===2),'The same response carries a confirmed inventory, including retries');
   state=await inventory(a);assert.equal(state.units.length,2);assert.equal(state.boxes['level:5'].drops.length,2);assert.deepEqual(state.boxes['level:5'].probabilities,levelBox(5).probabilities);
   assert.equal((await post(a,'/v1/stickers/open-box',{boxId:'level:5'})).value.opening.drops.length,2);assert.equal((await inventory(a)).units.length,2);
   assert.equal((await a.send('/v1/stickers/open-box',{...opening,boxId:'level:10'})).status,409);

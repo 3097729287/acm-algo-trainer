@@ -52,7 +52,7 @@ function StudyTab({tab,visible,focused,side,groupId,column,compact,onAdd,patch,f
  const target=lectureDestination(tab.id);
  const locked=['problem','solution'].includes(tab.kind)&&lockedProblems.some(item=>(typeof item==='string'?item:item.id)===tab.id);
  const content=locked?<p className="study-locked" role="status">比赛进行中，请从比赛界面打开本题</p>:tab.kind==='problem'?<Workbench problemId={tab.id} preparedProblem={tab.preparedProblem} reviewTask={tab.reviewTask} shortcuts={prefs.shortcuts} api={api} onProgress={value=>onProgress(value,tab.id)} onNotice={onNotice} onExit={onClose} onNext={onNext} onSolution={(id,methodId)=>onOpen({kind:'solution',id,methodId,title:tab.title})}/>
-  :tab.kind==='wiki'?<WikiPage api={api} initialArticle={tab.id} visit={visit.current} embedded onOpenArticle={item=>onOpen({kind:'wiki',...item})}/>
+  :tab.kind==='wiki'?<WikiPage api={api} initialArticle={tab.id} visit={visit.current} rows={rows} onOpenProblem={id=>onOpen({kind:'problem',id,title:rows.find(row=>row.id===id)?.title||id})} embedded onOpenArticle={item=>onOpen({kind:'wiki',...item})}/>
   :tab.kind==='template'?<TemplatesPage api={api} visit={visit.current} initialTemplate={tab.id} embedded study shortcuts={prefs.shortcuts} onTrain={onTrain} onOpenCourse={id=>onOpen({kind:'lab',id})} onOpenDetail={item=>onOpen({kind:'template',id:item.id,title:item.title,visit:item.draft?{draft:item.draft}:{}})} onDocumentChange={result=>onDocumentChange(tab.key,result,visit.current)} lockedProblems={lockedProblems}/>
   :tab.kind==='lab'?<LearningPathsPage rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} onOpenTemplate={id=>onOpen({kind:'template',id})} lockedProblems={lockedProblems} visit={visit.current} initialPath={tab.id} study/>
   :tab.kind==='lecture'&&target?<TemplatesPage api={api} visit={visit.current} initialTemplate={target.templateId} embedded study shortcuts={prefs.shortcuts} onTrain={onTrain} onOpenCourse={id=>onOpen({kind:'lab',id})}/>
@@ -67,6 +67,7 @@ function StudyTab({tab,visible,focused,side,groupId,column,compact,onAdd,patch,f
 const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,rows=[],prefs,setPrefs,onTrain,onProgress,onNotice,onExit,onActiveChange,onFlush,categories=[],lockedProblems=[]},ref){
  const [state,setState]=useState(emptyStudyBrowser),[stateOwner,setStateOwner]=useState(null),[initialized,setInitialized]=useState(false);
  const [searching,setSearching]=useState(null),[query,setQuery]=useState(''),[directory,setDirectory]=useState([]),[resultIndex,setResultIndex]=useState(0),[limit,setLimit]=useState(80);
+ const closeSearch=useCallback(()=>{setSearching(null);setState(previous=>studyGroups(previous).length===1&&previous.tabs.length===1?{...previous,chrome:false}:previous);},[]);
  const [catalog,setCatalog]=useState({templates:[],lectures:[],wiki:[]}),[catalogLoading,setCatalogLoading]=useState(false),[catalogErrors,setCatalogErrors]=useState([]);
  const [mounted,setMounted]=useState(new Set()),[preview,setPreview]=useState(null),[dragging,setDragging]=useState(false),[resizing,setResizing]=useState(null);
  const frame=useRef(null),input=useRef(null),results=useRef(null),drag=useRef(null),resizeSession=useRef(null),catalogOwner=useRef(null),loadedOwner=useRef(null),current=useRef(state),saveRef=useRef(setPrefs),returnFocus=useRef(null);
@@ -137,7 +138,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
   if(event.defaultPrevented||event.isComposing||document.querySelector('dialog[open],.tb-select-menu,[data-popconfirm]'))return;
   const control=event.ctrlKey||event.metaKey;
   if(control&&!event.altKey&&event.key.toLowerCase()==='t'){event.preventDefault();startSearch();}
-  else if(control&&!event.altKey&&event.key.toLowerCase()==='w'){event.preventDefault();if(searching)setSearching(null);else close(current.current.focused||current.current.active);}
+  else if(control&&!event.altKey&&event.key.toLowerCase()==='w'){event.preventDefault();if(searching)closeSearch();else close(current.current.focused||current.current.active);}
   else if(control&&event.key==='Tab'){
    event.preventDefault();const value=current.current,group=studyGroups(value).find(group=>group.id===value.focusedGroup);if(!group)return;
    const at=group.tabs.indexOf(value.focused);activate(group.tabs[(at+(event.shiftKey?-1:1)+group.tabs.length)%group.tabs.length]);
@@ -146,7 +147,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
     const groups=studyGroups(previous),at=groups.findIndex(group=>group.id===previous.focusedGroup),direction=event.key==='ArrowLeft'?-1:1,target=groups[at+direction];
     return event.altKey&&target?moveStudyTab(previous,previous.focused,target.id):splitStudyTab(previous,previous.focused,{targetGroupId:groups[at]?.id,side:direction<0?'left':'right'});
    });
-  }else if(event.key==='Escape'&&!event.target.closest?.('input,textarea,select,[contenteditable=true]')){event.preventDefault();if(searching)setSearching(null);else hide();}
+  }else if(event.key==='Escape'&&!event.target.closest?.('input,textarea,select,[contenteditable=true]')){event.preventDefault();if(searching)closeSearch();else hide();}
  };window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);},[state.open,searching,startSearch,close,activate,hide]);
  useEffect(()=>{
   const unknown=state.tabs.filter(tab=>tab.title===STUDY_LABELS[tab.kind]);if(!unknown.length)return;
@@ -185,7 +186,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
  const searchKeys=event=>{
   if(['ArrowDown','ArrowUp'].includes(event.key)){event.preventDefault();if(matching.length)setResultIndex(value=>(value+(event.key==='ArrowDown'?1:-1)+matching.length)%matching.length);}
   else if(event.key==='Enter'){event.preventDefault();choose(matching[resultIndex]);}
-  else if(event.key==='Escape'){event.preventDefault();event.stopPropagation();setSearching(null);}
+  else if(event.key==='Escape'){event.preventDefault();event.stopPropagation();closeSearch();}
   else if((event.key==='Backspace'&&!query||event.altKey&&event.key==='ArrowLeft')&&listing.path.length){event.preventDefault();goDirectory(listing.path.slice(0,-1));}
  };
  return createPortal(<div ref={frame} className={'study-browser'+(groups.length>1?' study-split':'')+(compact?' study-compact':'')} aria-label="学习内容" data-dragging={dragging||undefined} data-resizing={resizing!==null||undefined} onDragOver={dragOver} onDropCapture={drop} onDragLeave={event=>{if(!frame.current.contains(event.relatedTarget))setPreview(null);}}>
@@ -202,7 +203,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
       </button><button type="button" className="study-tab-close" aria-label={'关闭 '+tab.title} title="关闭标签页 · Ctrl+W" onClick={()=>close(key)}><X size={13}/></button>
      </div>;})}
     </div>
-    {searching===group.id?<label className="study-search-box"><Search size={16}/><input ref={input} type="search" role="combobox" aria-label="搜索学习内容" aria-expanded="true" aria-controls="study-search-results" aria-activedescendant={matching[resultIndex]?'study-result-'+resultIndex:undefined} autoComplete="off" value={query} onChange={event=>setQuery(event.target.value)} onKeyDown={searchKeys}/><button type="button" className="study-icon" aria-label="关闭搜索" onClick={()=>setSearching(null)}><X size={15}/></button></label>:<button type="button" className="study-icon study-add" aria-label="新建学习标签页" title="新建学习标签页 · Ctrl+T" onClick={()=>startSearch(group.id)}><Plus size={18}/></button>}
+    {searching===group.id?<label className="study-search-box"><Search size={16}/><input ref={input} type="search" role="combobox" aria-label="搜索学习内容" aria-expanded="true" aria-controls="study-search-results" aria-activedescendant={matching[resultIndex]?'study-result-'+resultIndex:undefined} autoComplete="off" value={query} onChange={event=>setQuery(event.target.value)} onKeyDown={searchKeys}/><button type="button" className="study-icon" aria-label="关闭搜索" onClick={closeSearch}><X size={15}/></button></label>:<button type="button" className="study-icon study-add" aria-label="新建学习标签页" title="新建学习标签页 · Ctrl+T" onClick={()=>startSearch(group.id)}><Plus size={18}/></button>}
     <span className="study-bar-spacer"/>
    </header>)}
    {state.tabs.filter(tab=>mounted.has(tab.key)).map(tab=>{const at=groups.findIndex(group=>group.tabs.includes(tab.key)),group=groups[at];if(!group)return null;return <StudyTab key={tab.key} tab={tab} groupId={group.id} column={at*2+1} compact={compact} onAdd={startSearch} visible={group.active===tab.key&&searching!==group.id} focused={state.focused===tab.key} side={at===0?'left':'right'} patch={patch} focus={focus} api={api} rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} onProgress={onProgress} onNotice={onNotice} onOpen={open} onClose={hide} onDocumentChange={documentChanged} lockedProblems={lockedProblems} categories={categories}/>;})}

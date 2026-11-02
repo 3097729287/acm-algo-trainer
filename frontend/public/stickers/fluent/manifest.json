@@ -1,0 +1,182 @@
+{
+  "repository": "https://github.com/microsoft/fluentui-emoji",
+  "commit": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+  "license": "MIT",
+  "copyright": "Microsoft Corporation",
+  "modified": false,
+  "assets": [
+    {
+      "shape": "duck",
+      "file": "duck.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Duck/Color/duck_color.svg",
+      "sha256": "768adcc30c10f4aa8fcfe174996185dba5c4e5ae9058307810719149fc3b5647",
+      "bytes": 18889
+    },
+    {
+      "shape": "heart",
+      "file": "heart.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Red%20heart/Color/red_heart_color.svg",
+      "sha256": "3d9acfe76a88d3a235c777953d90a9b2cad01106fcc80af4e79e7f5b4895c0cc",
+      "bytes": 9407
+    },
+    {
+      "shape": "rainbow",
+      "file": "rainbow.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Rainbow/Color/rainbow_color.svg",
+      "sha256": "22abca54e727814f822ffca45e9852004e8b47d1e97f592dbf4f912eff588422",
+      "bytes": 11622
+    },
+    {
+      "shape": "compass",
+      "file": "compass.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Compass/Color/compass_color.svg",
+      "sha256": "b6836dcedc7bd1bccf2a19f6cce88d6459bcb8cb8fcaad1a4bbd6a1f960ee7c9",
+      "bytes": 20414
+    },
+    {
+      "shape": "gift",
+      "file": "gift.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Wrapped%20gift/Color/wrapped_gift_color.svg",
+      "sha256": "6d0ee74b56170abdefcbbd373cdde0576aa7a262af0960037a1371e57728e88f",
+      "bytes": 12126
+    },
+    {
+      "shape": "envelope",
+      "file": "envelope.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Love%20letter/Color/love_letter_color.svg",
+      "sha256": "eb9ba4c6feef37a2d72fff82054e68b8c5d6d4902a544934c7774c167795bfab",
+      "bytes": 8878
+    },
+    {
+      "shape": "key",
+      "file": "key.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Key/Color/key_color.svg",
+      "sha256": "c139414f3caafc28c58f751404b3cb4bb3ceaf38dff36e2f5858b13017fd8c86",
+      "bytes": 4483
+    },
+    {
+      "shape": "fox",
+      "file": "fox.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Fox/Color/fox_color.svg",
+      "sha256": "83292e5983c00597ab3c08e6ceb6a4e66f54df9c5e0c850aa9ea4c5bc8621013",
+      "bytes": 35209
+    },
+    {
+      "shape": "orbit",
+      "file": "orbit.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Atom%20symbol/Color/atom_symbol_color.svg",
+      "sha256": "fe990d3a7e93561550e8c80c393343eda8394a246ffba3606cb18265a9f6fc05",
+      "bytes": 19753
+    },
+    {
+      "shape": "spark",
+      "file": "spark.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Sparkles/Color/sparkles_color.svg",
+      "sha256": "27103e1c20965f97432e911bac8f3479af60910cab752cf0a4526ea0a9e892c0",
+      "bytes": 9043
+    },
+    {
+      "shape": "leaf",
+      "file": "leaf.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Leaf%20fluttering%20in%20wind/Color/leaf_fluttering_in_wind_color.svg",
+      "sha256": "38884c450832805abe919f3b8ba2f1fdf9a1bc9df8799b37fcdf000478ec1d91",
+      "bytes": 25698
+    },
+    {
+      "shape": "drop",
+      "file": "drop.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Droplet/Color/droplet_color.svg",
+      "sha256": "8d8098dc19d1d336865f5bc5e6071b312f3907871f40954541016aa36576fc49",
+      "bytes": 3367
+    },
+    {
+      "shape": "cloud",
+      "file": "cloud.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Cloud/Color/cloud_color.svg",
+      "sha256": "98001f632d91b34b2078fca0cb442664c4315b5fe39860e22131c6553d0d42a2",
+      "bytes": 6518
+    },
+    {
+      "shape": "flame",
+      "file": "flame.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Fire/Color/fire_color.svg",
+      "sha256": "91b3c47c883d41055b8fa1cc1488e6e98b3468a6307cd57478b6c55178d9bcfe",
+      "bytes": 11399
+    },
+    {
+      "shape": "bolt",
+      "file": "bolt.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/High%20voltage/Color/high_voltage_color.svg",
+      "sha256": "35cae5b1c35a82a441d15889d0d1a4d83bc59e3b8cc12f457b2283d5493f018c",
+      "bytes": 4898
+    },
+    {
+      "shape": "sun",
+      "file": "sun.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Sun/Color/sun_color.svg",
+      "sha256": "d0540f2589e41ceb725db6a36b8f691a301b3c7e9de9ed98772b2adf501328a7",
+      "bytes": 18340
+    },
+    {
+      "shape": "comet",
+      "file": "comet.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Comet/Color/comet_color.svg",
+      "sha256": "f55d066907e61e7ce6ad161eedcc0df9d437a773299be570c902273fa8e096f0",
+      "bytes": 19810
+    },
+    {
+      "shape": "moon",
+      "file": "moon.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Crescent%20moon/Color/crescent_moon_color.svg",
+      "sha256": "76c8d99774542de9814d6b191cdf6a046b0db6c867cd2988e77a8c8fdd13149f",
+      "bytes": 14461
+    },
+    {
+      "shape": "planet",
+      "file": "planet.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Ringed%20planet/Color/ringed_planet_color.svg",
+      "sha256": "c13e139a30561ef3c62036a1b1fbbefd7beb6e79de637f644a05c4649d901120",
+      "bytes": 17447
+    },
+    {
+      "shape": "crystal",
+      "file": "crystal.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Crystal%20ball/Color/crystal_ball_color.svg",
+      "sha256": "131f0b1b639eea0f6a4badf394fd001dfa54ade0904216dd5a966378c017ad47",
+      "bytes": 15813
+    },
+    {
+      "shape": "butterfly",
+      "file": "butterfly.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Butterfly/Color/butterfly_color.svg",
+      "sha256": "2dd693062688feff37533a657a3d11fb5a1987f0a024c4dde9c105c992713e5a",
+      "bytes": 53882
+    },
+    {
+      "shape": "gem",
+      "file": "gem.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Gem%20stone/Color/gem_stone_color.svg",
+      "sha256": "f9a62aea55fc1a75879093d693b064c2c212e1abda8070863e6e751b8fcf5243",
+      "bytes": 4669
+    },
+    {
+      "shape": "crown",
+      "file": "crown.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Crown/Color/crown_color.svg",
+      "sha256": "a15b9b4a574dcca0f1e37af20d16f81d3d5209a060754425faf2881f7bccd47d",
+      "bytes": 30437
+    },
+    {
+      "shape": "galaxy",
+      "file": "galaxy.svg",
+      "source": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Milky%20way/Color/milky_way_color.svg",
+      "sha256": "4197fa42c5efde71960bc718da15f2bbefe6383d26a6c008727248833312361a",
+      "bytes": 20444
+    }
+  ],
+  "localVectorShapes": [
+    "semicolon",
+    "answer42",
+    "phoenix"
+  ]
+}

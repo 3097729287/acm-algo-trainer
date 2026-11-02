@@ -19,3 +19,7 @@
 .wb-font-controls .tb-select-wrap { min-width:55px; }
 .wb-font-controls .tb-select-wrap > select { padding-right:20px!important; }
 .wb-font-controls .tb-select-chevron { right:4px; width:12px; }
+
+html .tb-workbench .wb-language-select{flex:0 0 auto!important;width:max-content!important;min-width:max-content;max-width:none!important;}
+html .tb-workbench .wb-language-select .tb-select-wrap{flex:none;max-width:none!important;}
+html .tb-workbench .wb-language-select select{width:100%;max-width:none!important;text-overflow:clip;}

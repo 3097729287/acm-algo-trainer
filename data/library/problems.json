@@ -1499390,5 +1499390,2928 @@
       "题名": "Fraction and Six"
     },
     "url": "https://codeforces.com/contest/2278/problem/A"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-b06d27d876fc9d06d888",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "basic/binary",
+            "articleTitle": "二分",
+            "articleUrl": "https://oi-wiki.org/basic/binary/",
+            "label": "UVa 1476 - Error Curves"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "1476",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa 1476 - Error Curves",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=4222",
+      "wikiExample": true
+    },
+    "id": "wiki-example-b06d27d876fc9d06d888",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "1476",
+      "题名": "UVa 1476 - Error Curves"
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=4222"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-7297615d147f640cd965",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "basic/binary",
+            "articleTitle": "二分",
+            "articleUrl": "https://oi-wiki.org/basic/binary/",
+            "label": "UVa 10385 - Duathlon"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "10385",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa 10385 - Duathlon",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1326",
+      "wikiExample": true
+    },
+    "id": "wiki-example-7297615d147f640cd965",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "10385",
+      "题名": "UVa 10385 - Duathlon"
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1326"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-e5631817410ed7d4d08f",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "basic/binary",
+            "articleTitle": "二分",
+            "articleUrl": "https://oi-wiki.org/basic/binary/",
+            "label": "UOJ 162 -【清华集训 2015】灯泡测试"
+          }
+        ]
+      },
+      "platform": "UOJ",
+      "problem": "162",
+      "status": "未做",
+      "tags": [],
+      "title": "UOJ 162 -【清华集训 2015】灯泡测试",
+      "url": "https://uoj.ac/problem/162",
+      "wikiExample": true
+    },
+    "id": "wiki-example-e5631817410ed7d4d08f",
+    "raw": {
+      "场次": "UOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "162",
+      "题名": "UOJ 162 -【清华集训 2015】灯泡测试"
+    },
+    "url": "https://uoj.ac/problem/162"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "洛谷",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-04fdb6023eddfeec07b3",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "basic/prefix-sum",
+            "articleTitle": "前缀和 & 差分",
+            "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+            "label": "洛谷 U69096 前缀和的逆"
+          }
+        ]
+      },
+      "platform": "洛谷",
+      "problem": "U69096",
+      "status": "未做",
+      "tags": [],
+      "title": "洛谷 U69096 前缀和的逆",
+      "url": "https://www.luogu.com.cn/problem/U69096",
+      "wikiExample": true
+    },
+    "id": "wiki-example-04fdb6023eddfeec07b3",
+    "raw": {
+      "场次": "洛谷",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "U69096",
+      "题名": "洛谷 U69096 前缀和的逆"
+    },
+    "url": "https://www.luogu.com.cn/problem/U69096"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "AtCoder",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-5c19aaba0b2c5c47294e",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "basic/prefix-sum",
+            "articleTitle": "前缀和 & 差分",
+            "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+            "label": "AtCoder joi2007ho_a 最大の和"
+          }
+        ]
+      },
+      "platform": "AtCoder",
+      "problem": "joi2007ho_a",
+      "status": "未做",
+      "tags": [],
+      "title": "AtCoder joi2007ho_a 最大の和",
+      "url": "https://atcoder.jp/contests/joi2007ho/tasks/joi2007ho_a",
+      "wikiExample": true
+    },
+    "id": "wiki-example-5c19aaba0b2c5c47294e",
+    "raw": {
+      "场次": "AtCoder",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "joi2007ho_a",
+      "题名": "AtCoder joi2007ho_a 最大の和"
+    },
+    "url": "https://atcoder.jp/contests/joi2007ho/tasks/joi2007ho_a"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "洛谷",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-66a784e804074964a966",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "basic/prefix-sum",
+            "articleTitle": "前缀和 & 差分",
+            "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+            "label": "「USACO05JAN」Moo Volume S"
+          }
+        ]
+      },
+      "platform": "洛谷",
+      "problem": "P6067",
+      "status": "未做",
+      "tags": [],
+      "title": "Moo Volume S",
+      "url": "https://www.luogu.com.cn/problem/P6067",
+      "wikiExample": true
+    },
+    "id": "wiki-example-66a784e804074964a966",
+    "raw": {
+      "场次": "洛谷",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "P6067",
+      "题名": "Moo Volume S"
+    },
+    "url": "https://www.luogu.com.cn/problem/P6067"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "HDU",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-a800ed63761550a631fc",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "basic/prefix-sum",
+            "articleTitle": "前缀和 & 差分",
+            "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+            "label": "HDU 6514 Monitor"
+          }
+        ]
+      },
+      "platform": "HDU",
+      "problem": "6514",
+      "status": "未做",
+      "tags": [],
+      "title": "HDU 6514 Monitor",
+      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=6514",
+      "wikiExample": true
+    },
+    "id": "wiki-example-a800ed63761550a631fc",
+    "raw": {
+      "场次": "HDU",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "6514",
+      "题名": "HDU 6514 Monitor"
+    },
+    "url": "https://acm.hdu.edu.cn/showproblem.php?pid=6514"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-7155300440d32638c872",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "basic/prefix-sum",
+            "articleTitle": "前缀和 & 差分",
+            "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+            "label": "CF 165E Compatible Numbers"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "165E",
+      "status": "未做",
+      "tags": [],
+      "title": "CF 165E Compatible Numbers",
+      "url": "https://codeforces.com/contest/165/problem/E",
+      "wikiExample": true
+    },
+    "id": "wiki-example-7155300440d32638c872",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "165E",
+      "题名": "CF 165E Compatible Numbers"
+    },
+    "url": "https://codeforces.com/contest/165/problem/E"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-4e94c20adc2a064109d3",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "basic/prefix-sum",
+            "articleTitle": "前缀和 & 差分",
+            "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+            "label": "CF 383E Vowels"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "383E",
+      "status": "未做",
+      "tags": [],
+      "title": "CF 383E Vowels",
+      "url": "https://codeforces.com/contest/383/problem/E",
+      "wikiExample": true
+    },
+    "id": "wiki-example-4e94c20adc2a064109d3",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "383E",
+      "题名": "CF 383E Vowels"
+    },
+    "url": "https://codeforces.com/contest/383/problem/E"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "AtCoder",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-fe6b65beec5a6eafdcfd",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "basic/prefix-sum",
+            "articleTitle": "前缀和 & 差分",
+            "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+            "label": "ARC 100C Or Plus Max"
+          }
+        ]
+      },
+      "platform": "AtCoder",
+      "problem": "arc100_c",
+      "status": "未做",
+      "tags": [],
+      "title": "ARC 100C Or Plus Max",
+      "url": "https://atcoder.jp/contests/arc100/tasks/arc100_c",
+      "wikiExample": true
+    },
+    "id": "wiki-example-fe6b65beec5a6eafdcfd",
+    "raw": {
+      "场次": "AtCoder",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "arc100_c",
+      "题名": "ARC 100C Or Plus Max"
+    },
+    "url": "https://atcoder.jp/contests/arc100/tasks/arc100_c"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-bb85ccf9913c089300b9",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "basic/prefix-sum",
+            "articleTitle": "前缀和 & 差分",
+            "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+            "label": "NOIP2015 运输计划"
+          }
+        ]
+      },
+      "platform": "UOJ",
+      "problem": "150",
+      "status": "未做",
+      "tags": [],
+      "title": "NOIP2015 运输计划",
+      "url": "https://uoj.ac/problem/150",
+      "wikiExample": true
+    },
+    "id": "wiki-example-bb85ccf9913c089300b9",
+    "raw": {
+      "场次": "UOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "150",
+      "题名": "NOIP2015 运输计划"
+    },
+    "url": "https://uoj.ac/problem/150"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-d644cf4a182aad0c7a5b",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "basic/prefix-sum",
+            "articleTitle": "前缀和 & 差分",
+            "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+            "label": "NOIP2016 天天爱跑步"
+          }
+        ]
+      },
+      "platform": "UOJ",
+      "problem": "261",
+      "status": "未做",
+      "tags": [],
+      "title": "NOIP2016 天天爱跑步",
+      "url": "https://uoj.ac/problem/261",
+      "wikiExample": true
+    },
+    "id": "wiki-example-d644cf4a182aad0c7a5b",
+    "raw": {
+      "场次": "UOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "261",
+      "题名": "NOIP2016 天天爱跑步"
+    },
+    "url": "https://uoj.ac/problem/261"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-4bcd5c87367ad4ec322e",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "basic/simulate",
+            "articleTitle": "模拟",
+            "articleUrl": "https://oi-wiki.org/basic/simulate/",
+            "label": "「NOIP2014」生活大爆炸版石头剪刀布 - Universal Online Judge"
+          }
+        ]
+      },
+      "platform": "UOJ",
+      "problem": "15",
+      "status": "未做",
+      "tags": [],
+      "title": "生活大爆炸版石头剪刀布 - Universal Online Judge",
+      "url": "https://uoj.ac/problem/15",
+      "wikiExample": true
+    },
+    "id": "wiki-example-4bcd5c87367ad4ec322e",
+    "raw": {
+      "场次": "UOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "15",
+      "题名": "生活大爆炸版石头剪刀布 - Universal Online Judge"
+    },
+    "url": "https://uoj.ac/problem/15"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "HDU",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-ad1e45320c268eec87ec",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "dp/tree",
+            "articleTitle": "树形 DP",
+            "articleUrl": "https://oi-wiki.org/dp/tree/",
+            "label": "HDU 2196 Computer"
+          }
+        ]
+      },
+      "platform": "HDU",
+      "problem": "2196",
+      "status": "未做",
+      "tags": [],
+      "title": "HDU 2196 Computer",
+      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=2196",
+      "wikiExample": true
+    },
+    "id": "wiki-example-ad1e45320c268eec87ec",
+    "raw": {
+      "场次": "HDU",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "2196",
+      "题名": "HDU 2196 Computer"
+    },
+    "url": "https://acm.hdu.edu.cn/showproblem.php?pid=2196"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "POJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-1c3d5476206f3a4e1667",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "dp/tree",
+            "articleTitle": "树形 DP",
+            "articleUrl": "https://oi-wiki.org/dp/tree/",
+            "label": "POJ 1463 Strategic game"
+          }
+        ]
+      },
+      "platform": "POJ",
+      "problem": "1463",
+      "status": "未做",
+      "tags": [],
+      "title": "POJ 1463 Strategic game",
+      "url": "http://poj.org/problem?id=1463",
+      "wikiExample": true
+    },
+    "id": "wiki-example-1c3d5476206f3a4e1667",
+    "raw": {
+      "场次": "POJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "1463",
+      "题名": "POJ 1463 Strategic game"
+    },
+    "url": "http://poj.org/problem?id=1463"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-7d7b950ec49c1d6cb728",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "dp/tree",
+            "articleTitle": "树形 DP",
+            "articleUrl": "https://oi-wiki.org/dp/tree/",
+            "label": "「Codeforces Round 875 Div. 1」Problem D. Mex Tree"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "1830D",
+      "status": "未做",
+      "tags": [],
+      "title": "Problem D. Mex Tree",
+      "url": "https://codeforces.com/contest/1830/problem/D",
+      "wikiExample": true
+    },
+    "id": "wiki-example-7d7b950ec49c1d6cb728",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "1830D",
+      "题名": "Problem D. Mex Tree"
+    },
+    "url": "https://codeforces.com/contest/1830/problem/D"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "AtCoder",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-76810b46090d765ab2ab",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "dp/tree",
+            "articleTitle": "树形 DP",
+            "articleUrl": "https://oi-wiki.org/dp/tree/",
+            "label": "Atcoder Educational DP Contest, Problem V, Subtree"
+          }
+        ]
+      },
+      "platform": "AtCoder",
+      "problem": "dp_v",
+      "status": "未做",
+      "tags": [],
+      "title": "Atcoder Educational DP Contest, Problem V, Subtree",
+      "url": "https://atcoder.jp/contests/dp/tasks/dp_v",
+      "wikiExample": true
+    },
+    "id": "wiki-example-76810b46090d765ab2ab",
+    "raw": {
+      "场次": "AtCoder",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "dp_v",
+      "题名": "Atcoder Educational DP Contest, Problem V, Subtree"
+    },
+    "url": "https://atcoder.jp/contests/dp/tasks/dp_v"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "POJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-c84529769ea7c2ff74b0",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "dp/tree",
+            "articleTitle": "树形 DP",
+            "articleUrl": "https://oi-wiki.org/dp/tree/",
+            "label": "POJ 3585 Accumulation Degree"
+          }
+        ]
+      },
+      "platform": "POJ",
+      "problem": "3585",
+      "status": "未做",
+      "tags": [],
+      "title": "POJ 3585 Accumulation Degree",
+      "url": "http://poj.org/problem?id=3585",
+      "wikiExample": true
+    },
+    "id": "wiki-example-c84529769ea7c2ff74b0",
+    "raw": {
+      "场次": "POJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "3585",
+      "题名": "POJ 3585 Accumulation Degree"
+    },
+    "url": "http://poj.org/problem?id=3585"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-6722713ce6333c2162be",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "dp/tree",
+            "articleTitle": "树形 DP",
+            "articleUrl": "https://oi-wiki.org/dp/tree/",
+            "label": "CodeForce 708C Centroids"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "708C",
+      "status": "未做",
+      "tags": [],
+      "title": "CodeForce 708C Centroids",
+      "url": "https://codeforces.com/contest/708/problem/C",
+      "wikiExample": true
+    },
+    "id": "wiki-example-6722713ce6333c2162be",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "708C",
+      "题名": "CodeForce 708C Centroids"
+    },
+    "url": "https://codeforces.com/contest/708/problem/C"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "SPOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-c18e5093779842a90a20",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/dsu",
+            "articleTitle": "并查集",
+            "articleUrl": "https://oi-wiki.org/ds/dsu/",
+            "label": "SPOJ JMFILTER - Junk-Mail Filter"
+          }
+        ]
+      },
+      "platform": "SPOJ",
+      "problem": "JMFILTER",
+      "status": "未做",
+      "tags": [],
+      "title": "SPOJ JMFILTER - Junk-Mail Filter",
+      "url": "https://www.spoj.com/problems/JMFILTER/",
+      "wikiExample": true
+    },
+    "id": "wiki-example-c18e5093779842a90a20",
+    "raw": {
+      "场次": "SPOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "JMFILTER",
+      "题名": "SPOJ JMFILTER - Junk-Mail Filter"
+    },
+    "url": "https://www.spoj.com/problems/JMFILTER/"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-74cb3923327ac8d4d753",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/dsu",
+            "articleTitle": "并查集",
+            "articleUrl": "https://oi-wiki.org/ds/dsu/",
+            "label": "UVa11987 Almost Union-Find"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "11987",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa11987 Almost Union-Find",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=3138",
+      "wikiExample": true
+    },
+    "id": "wiki-example-74cb3923327ac8d4d753",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "11987",
+      "题名": "UVa11987 Almost Union-Find"
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=3138"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "AtCoder",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-6972aa83009910235305",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/dsu",
+            "articleTitle": "并查集",
+            "articleUrl": "https://oi-wiki.org/ds/dsu/",
+            "label": "ABC396E Min of Restricted Sum"
+          }
+        ]
+      },
+      "platform": "AtCoder",
+      "problem": "abc396_e",
+      "status": "未做",
+      "tags": [],
+      "title": "ABC396E Min of Restricted Sum",
+      "url": "https://atcoder.jp/contests/abc396/tasks/abc396_e",
+      "wikiExample": true
+    },
+    "id": "wiki-example-6972aa83009910235305",
+    "raw": {
+      "场次": "AtCoder",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "abc396_e",
+      "题名": "ABC396E Min of Restricted Sum"
+    },
+    "url": "https://atcoder.jp/contests/abc396/tasks/abc396_e"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-356a5dc12dc9f8e21efa",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/dsu",
+            "articleTitle": "并查集",
+            "articleUrl": "https://oi-wiki.org/ds/dsu/",
+            "label": "「NOI2015」程序自动分析"
+          }
+        ]
+      },
+      "platform": "UOJ",
+      "problem": "127",
+      "status": "未做",
+      "tags": [],
+      "title": "程序自动分析",
+      "url": "https://uoj.ac/problem/127",
+      "wikiExample": true
+    },
+    "id": "wiki-example-356a5dc12dc9f8e21efa",
+    "raw": {
+      "场次": "UOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "127",
+      "题名": "程序自动分析"
+    },
+    "url": "https://uoj.ac/problem/127"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "POJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-85220fc22b81b05c9163",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/monotonic-queue",
+            "articleTitle": "单调队列",
+            "articleUrl": "https://oi-wiki.org/ds/monotonic-queue/",
+            "label": "Sliding Window"
+          }
+        ]
+      },
+      "platform": "POJ",
+      "problem": "2823",
+      "status": "未做",
+      "tags": [],
+      "title": "Sliding Window",
+      "url": "http://poj.org/problem?id=2823",
+      "wikiExample": true
+    },
+    "id": "wiki-example-85220fc22b81b05c9163",
+    "raw": {
+      "场次": "POJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "2823",
+      "题名": "Sliding Window"
+    },
+    "url": "http://poj.org/problem?id=2823"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "POJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-eeba4ccbf4b891384e3c",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/monotonic-stack",
+            "articleTitle": "单调栈",
+            "articleUrl": "https://oi-wiki.org/ds/monotonic-stack/",
+            "label": "POJ3250 Bad Hair Day"
+          }
+        ]
+      },
+      "platform": "POJ",
+      "problem": "3250",
+      "status": "未做",
+      "tags": [],
+      "title": "POJ3250 Bad Hair Day",
+      "url": "http://poj.org/problem?id=3250",
+      "wikiExample": true
+    },
+    "id": "wiki-example-eeba4ccbf4b891384e3c",
+    "raw": {
+      "场次": "POJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "3250",
+      "题名": "POJ3250 Bad Hair Day"
+    },
+    "url": "http://poj.org/problem?id=3250"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "洛谷",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-fc75abe91de7fed34fe0",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/monotonic-stack",
+            "articleTitle": "单调栈",
+            "articleUrl": "https://oi-wiki.org/ds/monotonic-stack/",
+            "label": "洛谷 P1901 发射站"
+          }
+        ]
+      },
+      "platform": "洛谷",
+      "problem": "P1901",
+      "status": "未做",
+      "tags": [],
+      "title": "洛谷 P1901 发射站",
+      "url": "https://www.luogu.com.cn/problem/P1901",
+      "wikiExample": true
+    },
+    "id": "wiki-example-fc75abe91de7fed34fe0",
+    "raw": {
+      "场次": "洛谷",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "P1901",
+      "题名": "洛谷 P1901 发射站"
+    },
+    "url": "https://www.luogu.com.cn/problem/P1901"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "洛谷",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-d82f0df20074af8010fe",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/queue",
+            "articleTitle": "队列",
+            "articleUrl": "https://oi-wiki.org/ds/queue/",
+            "label": "Luogu B3656【模板】双端队列 1"
+          }
+        ]
+      },
+      "platform": "洛谷",
+      "problem": "B3656",
+      "status": "未做",
+      "tags": [],
+      "title": "Luogu B3656【模板】双端队列 1",
+      "url": "https://www.luogu.com.cn/problem/B3656",
+      "wikiExample": true
+    },
+    "id": "wiki-example-d82f0df20074af8010fe",
+    "raw": {
+      "场次": "洛谷",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "B3656",
+      "题名": "Luogu B3656【模板】双端队列 1"
+    },
+    "url": "https://www.luogu.com.cn/problem/B3656"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "SPOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-9588d9b723dd4fb59237",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/seg",
+            "articleTitle": "线段树基础",
+            "articleUrl": "https://oi-wiki.org/ds/seg/",
+            "label": "SPOJ GSS3 - Can you answer these queries III"
+          }
+        ]
+      },
+      "platform": "SPOJ",
+      "problem": "GSS3",
+      "status": "未做",
+      "tags": [],
+      "title": "SPOJ GSS3 - Can you answer these queries III",
+      "url": "https://www.spoj.com/problems/GSS3/",
+      "wikiExample": true
+    },
+    "id": "wiki-example-9588d9b723dd4fb59237",
+    "raw": {
+      "场次": "SPOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "GSS3",
+      "题名": "SPOJ GSS3 - Can you answer these queries III"
+    },
+    "url": "https://www.spoj.com/problems/GSS3/"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "HDU",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-6f3066e7def3eca13067",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/seg",
+            "articleTitle": "线段树基础",
+            "articleUrl": "https://oi-wiki.org/ds/seg/",
+            "label": "2018 Multi-University Training Contest 5 G. Glad You Came"
+          }
+        ]
+      },
+      "platform": "HDU",
+      "problem": "6356",
+      "status": "未做",
+      "tags": [],
+      "title": "2018 Multi-University Training Contest 5 G. Glad You Came",
+      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=6356",
+      "wikiExample": true
+    },
+    "id": "wiki-example-6f3066e7def3eca13067",
+    "raw": {
+      "场次": "HDU",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "6356",
+      "题名": "2018 Multi-University Training Contest 5 G. Glad You Came"
+    },
+    "url": "https://acm.hdu.edu.cn/showproblem.php?pid=6356"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "AtCoder",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-1834b0824dbf4db9fa1b",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/seg",
+            "articleTitle": "线段树基础",
+            "articleUrl": "https://oi-wiki.org/ds/seg/",
+            "label": "AtCoder Library Practice Contest J - Segment Tree"
+          }
+        ]
+      },
+      "platform": "AtCoder",
+      "problem": "practice2_j",
+      "status": "未做",
+      "tags": [],
+      "title": "AtCoder Library Practice Contest J - Segment Tree",
+      "url": "https://atcoder.jp/contests/practice2/tasks/practice2_j",
+      "wikiExample": true
+    },
+    "id": "wiki-example-1834b0824dbf4db9fa1b",
+    "raw": {
+      "场次": "AtCoder",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "practice2_j",
+      "题名": "AtCoder Library Practice Contest J - Segment Tree"
+    },
+    "url": "https://atcoder.jp/contests/practice2/tasks/practice2_j"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "AtCoder",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-edaf83280a0cb175edbb",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/seg",
+            "articleTitle": "线段树基础",
+            "articleUrl": "https://oi-wiki.org/ds/seg/",
+            "label": "AtCoder Beginner Contest 292 Ex - Rating Estimator"
+          }
+        ]
+      },
+      "platform": "AtCoder",
+      "problem": "abc292_h",
+      "status": "未做",
+      "tags": [],
+      "title": "AtCoder Beginner Contest 292 Ex - Rating Estimator",
+      "url": "https://atcoder.jp/contests/abc292/tasks/abc292_h",
+      "wikiExample": true
+    },
+    "id": "wiki-example-edaf83280a0cb175edbb",
+    "raw": {
+      "场次": "AtCoder",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "abc292_h",
+      "题名": "AtCoder Beginner Contest 292 Ex - Rating Estimator"
+    },
+    "url": "https://atcoder.jp/contests/abc292/tasks/abc292_h"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-7be4eabf2f3512e8ad4e",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/seg",
+            "articleTitle": "线段树基础",
+            "articleUrl": "https://oi-wiki.org/ds/seg/",
+            "label": "Codeforces 773 E. Blog Post Rating"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "773E",
+      "status": "未做",
+      "tags": [],
+      "title": "Codeforces 773 E. Blog Post Rating",
+      "url": "https://codeforces.com/contest/773/problem/E",
+      "wikiExample": true
+    },
+    "id": "wiki-example-7be4eabf2f3512e8ad4e",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "773E",
+      "题名": "Codeforces 773 E. Blog Post Rating"
+    },
+    "url": "https://codeforces.com/contest/773/problem/E"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-0d6f00f94153acf8e3d0",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/seg",
+            "articleTitle": "线段树基础",
+            "articleUrl": "https://oi-wiki.org/ds/seg/",
+            "label": "Codeforces 407 E. k-d-sequence"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "407E",
+      "status": "未做",
+      "tags": [],
+      "title": "Codeforces 407 E. k-d-sequence",
+      "url": "https://codeforces.com/contest/407/problem/E",
+      "wikiExample": true
+    },
+    "id": "wiki-example-0d6f00f94153acf8e3d0",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "407E",
+      "题名": "Codeforces 407 E. k-d-sequence"
+    },
+    "url": "https://codeforces.com/contest/407/problem/E"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-33b9b87821530d3575f6",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/seg",
+            "articleTitle": "线段树基础",
+            "articleUrl": "https://oi-wiki.org/ds/seg/",
+            "label": "Codeforces 671 E. Organizing a Race"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "671E",
+      "status": "未做",
+      "tags": [],
+      "title": "Codeforces 671 E. Organizing a Race",
+      "url": "https://codeforces.com/contest/671/problem/E",
+      "wikiExample": true
+    },
+    "id": "wiki-example-33b9b87821530d3575f6",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "671E",
+      "题名": "Codeforces 671 E. Organizing a Race"
+    },
+    "url": "https://codeforces.com/contest/671/problem/E"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-6d9adf08ae08ad0cf107",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/seg",
+            "articleTitle": "线段树基础",
+            "articleUrl": "https://oi-wiki.org/ds/seg/",
+            "label": "Legacy"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "786B",
+      "status": "未做",
+      "tags": [],
+      "title": "Legacy",
+      "url": "https://codeforces.com/contest/786/problem/B",
+      "wikiExample": true
+    },
+    "id": "wiki-example-6d9adf08ae08ad0cf107",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "786B",
+      "题名": "Legacy"
+    },
+    "url": "https://codeforces.com/contest/786/problem/B"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "LibreOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-9cf4d47ecac9cb695ea2",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "ds/sparse-table",
+            "articleTitle": "ST 表",
+            "articleUrl": "https://oi-wiki.org/ds/sparse-table/",
+            "label": "「SCOI2007」降雨量"
+          }
+        ]
+      },
+      "platform": "LibreOJ",
+      "problem": "2279",
+      "status": "未做",
+      "tags": [],
+      "title": "降雨量",
+      "url": "https://loj.ac/p/2279",
+      "wikiExample": true
+    },
+    "id": "wiki-example-9cf4d47ecac9cb695ea2",
+    "raw": {
+      "场次": "LibreOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "2279",
+      "题名": "降雨量"
+    },
+    "url": "https://loj.ac/p/2279"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "LibreOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-96a5e24bda6e3fcef31f",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "graph/bcc",
+            "articleTitle": "双连通分量",
+            "articleUrl": "https://oi-wiki.org/graph/bcc/",
+            "label": "#2788.「CEOI2015 Day1」管道"
+          }
+        ]
+      },
+      "platform": "LibreOJ",
+      "problem": "2788",
+      "status": "未做",
+      "tags": [],
+      "title": "#2788.「CEOI2015 Day1」管道",
+      "url": "https://loj.ac/p/2788",
+      "wikiExample": true
+    },
+    "id": "wiki-example-96a5e24bda6e3fcef31f",
+    "raw": {
+      "场次": "LibreOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "2788",
+      "题名": "#2788.「CEOI2015 Day1」管道"
+    },
+    "url": "https://loj.ac/p/2788"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "HDU",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-a16f455a414aa01c6f84",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "graph/lca",
+            "articleTitle": "最近公共祖先",
+            "articleUrl": "https://oi-wiki.org/graph/lca/",
+            "label": "HDU 2586 How far away?"
+          }
+        ]
+      },
+      "platform": "HDU",
+      "problem": "2586",
+      "status": "未做",
+      "tags": [],
+      "title": "HDU 2586 How far away?",
+      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=2586",
+      "wikiExample": true
+    },
+    "id": "wiki-example-a16f455a414aa01c6f84",
+    "raw": {
+      "场次": "HDU",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "2586",
+      "题名": "HDU 2586 How far away?"
+    },
+    "url": "https://acm.hdu.edu.cn/showproblem.php?pid=2586"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "洛谷",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-c073896f0d0751e70058",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "graph/mst",
+            "articleTitle": "最小生成树",
+            "articleUrl": "https://oi-wiki.org/graph/mst/",
+            "label": "「HAOI2006」聪明的猴子"
+          }
+        ]
+      },
+      "platform": "洛谷",
+      "problem": "P2504",
+      "status": "未做",
+      "tags": [],
+      "title": "聪明的猴子",
+      "url": "https://www.luogu.com.cn/problem/P2504",
+      "wikiExample": true
+    },
+    "id": "wiki-example-c073896f0d0751e70058",
+    "raw": {
+      "场次": "洛谷",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "P2504",
+      "题名": "聪明的猴子"
+    },
+    "url": "https://www.luogu.com.cn/problem/P2504"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "POJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-3de4f8d05076b9dc80cc",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "graph/mst",
+            "articleTitle": "最小生成树",
+            "articleUrl": "https://oi-wiki.org/graph/mst/",
+            "label": "POJ 1679"
+          }
+        ]
+      },
+      "platform": "POJ",
+      "problem": "1679",
+      "status": "未做",
+      "tags": [],
+      "title": "POJ 1679",
+      "url": "http://poj.org/problem?id=1679",
+      "wikiExample": true
+    },
+    "id": "wiki-example-3de4f8d05076b9dc80cc",
+    "raw": {
+      "场次": "POJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "1679",
+      "题名": "POJ 1679"
+    },
+    "url": "http://poj.org/problem?id=1679"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-73d05fc011b7c1d5923b",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "graph/mst",
+            "articleTitle": "最小生成树",
+            "articleUrl": "https://oi-wiki.org/graph/mst/",
+            "label": "NOI 2018 归程"
+          }
+        ]
+      },
+      "platform": "UOJ",
+      "problem": "393",
+      "status": "未做",
+      "tags": [],
+      "title": "NOI 2018 归程",
+      "url": "https://uoj.ac/problem/393",
+      "wikiExample": true
+    },
+    "id": "wiki-example-73d05fc011b7c1d5923b",
+    "raw": {
+      "场次": "UOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "393",
+      "题名": "NOI 2018 归程"
+    },
+    "url": "https://uoj.ac/problem/393"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "POJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-c05973fb3c9ca0458acc",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "graph/scc",
+            "articleTitle": "强连通分量",
+            "articleUrl": "https://oi-wiki.org/graph/scc/",
+            "label": "POJ1236 Network of Schools"
+          }
+        ]
+      },
+      "platform": "POJ",
+      "problem": "1236",
+      "status": "未做",
+      "tags": [],
+      "title": "POJ1236 Network of Schools",
+      "url": "http://poj.org/problem?id=1236",
+      "wikiExample": true
+    },
+    "id": "wiki-example-c05973fb3c9ca0458acc",
+    "raw": {
+      "场次": "POJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "1236",
+      "题名": "POJ1236 Network of Schools"
+    },
+    "url": "http://poj.org/problem?id=1236"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-7d6287a4c67d7db02e7c",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "graph/topo",
+            "articleTitle": "拓扑排序",
+            "articleUrl": "https://oi-wiki.org/graph/topo/",
+            "label": "CF 1385E"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "1385E",
+      "status": "未做",
+      "tags": [],
+      "title": "CF 1385E",
+      "url": "https://codeforces.com/contest/1385/problem/E",
+      "wikiExample": true
+    },
+    "id": "wiki-example-7d6287a4c67d7db02e7c",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "1385E",
+      "题名": "CF 1385E"
+    },
+    "url": "https://codeforces.com/contest/1385/problem/E"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "洛谷",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-9bbaa8b2372a684fc7c2",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "graph/topo",
+            "articleTitle": "拓扑排序",
+            "articleUrl": "https://oi-wiki.org/graph/topo/",
+            "label": "Luogu P1347"
+          }
+        ]
+      },
+      "platform": "洛谷",
+      "problem": "P1347",
+      "status": "未做",
+      "tags": [],
+      "title": "Luogu P1347",
+      "url": "https://www.luogu.com.cn/problem/P1347",
+      "wikiExample": true
+    },
+    "id": "wiki-example-9bbaa8b2372a684fc7c2",
+    "raw": {
+      "场次": "洛谷",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "P1347",
+      "题名": "Luogu P1347"
+    },
+    "url": "https://www.luogu.com.cn/problem/P1347"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "HDU",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-ca404373c228943b5df2",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "math/binary-exponentiation",
+            "articleTitle": "快速幂",
+            "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+            "label": "HDU 4087 A Letter to Programmers"
+          }
+        ]
+      },
+      "platform": "HDU",
+      "problem": "4087",
+      "status": "未做",
+      "tags": [],
+      "title": "HDU 4087 A Letter to Programmers",
+      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=4087",
+      "wikiExample": true
+    },
+    "id": "wiki-example-ca404373c228943b5df2",
+    "raw": {
+      "场次": "HDU",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "4087",
+      "题名": "HDU 4087 A Letter to Programmers"
+    },
+    "url": "https://acm.hdu.edu.cn/showproblem.php?pid=4087"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-74fc4feaff1d87de9fd6",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "math/binary-exponentiation",
+            "articleTitle": "快速幂",
+            "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+            "label": "UVa 1230 - MODEX"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "1230",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa 1230 - MODEX",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=3671",
+      "wikiExample": true
+    },
+    "id": "wiki-example-74fc4feaff1d87de9fd6",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "1230",
+      "题名": "UVa 1230 - MODEX"
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=3671"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-f4e70897fec1c371cb84",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "math/binary-exponentiation",
+            "articleTitle": "快速幂",
+            "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+            "label": "UVa 374 - Big Mod"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "374",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa 374 - Big Mod",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=310",
+      "wikiExample": true
+    },
+    "id": "wiki-example-f4e70897fec1c371cb84",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "374",
+      "题名": "UVa 374 - Big Mod"
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=310"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-788895e507dcd46b4942",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "math/binary-exponentiation",
+            "articleTitle": "快速幂",
+            "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+            "label": "UVa 11029 - Leading and Trailing"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "11029",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa 11029 - Leading and Trailing",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1970",
+      "wikiExample": true
+    },
+    "id": "wiki-example-788895e507dcd46b4942",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "11029",
+      "题名": "UVa 11029 - Leading and Trailing"
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1970"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-2847abc108cd46f22014",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "math/binary-exponentiation",
+            "articleTitle": "快速幂",
+            "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+            "label": "Codeforces - Parking Lot"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "630I",
+      "status": "未做",
+      "tags": [],
+      "title": "Codeforces - Parking Lot",
+      "url": "https://codeforces.com/contest/630/problem/I",
+      "wikiExample": true
+    },
+    "id": "wiki-example-2847abc108cd46f22014",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "630I",
+      "题名": "Codeforces - Parking Lot"
+    },
+    "url": "https://codeforces.com/contest/630/problem/I"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "SPOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-8dbaf4a1b5787a466da5",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "math/binary-exponentiation",
+            "articleTitle": "快速幂",
+            "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+            "label": "SPOJ - The last digit"
+          }
+        ]
+      },
+      "platform": "SPOJ",
+      "problem": "LASTDIG",
+      "status": "未做",
+      "tags": [],
+      "title": "SPOJ - The last digit",
+      "url": "https://www.spoj.com/problems/LASTDIG/",
+      "wikiExample": true
+    },
+    "id": "wiki-example-8dbaf4a1b5787a466da5",
+    "raw": {
+      "场次": "SPOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "LASTDIG",
+      "题名": "SPOJ - The last digit"
+    },
+    "url": "https://www.spoj.com/problems/LASTDIG/"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "SPOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-70aa3b4740d87327737a",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "math/binary-exponentiation",
+            "articleTitle": "快速幂",
+            "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+            "label": "SPOJ - Locker"
+          }
+        ]
+      },
+      "platform": "SPOJ",
+      "problem": "LOCKER",
+      "status": "未做",
+      "tags": [],
+      "title": "SPOJ - Locker",
+      "url": "https://www.spoj.com/problems/LOCKER/",
+      "wikiExample": true
+    },
+    "id": "wiki-example-70aa3b4740d87327737a",
+    "raw": {
+      "场次": "SPOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "LOCKER",
+      "题名": "SPOJ - Locker"
+    },
+    "url": "https://www.spoj.com/problems/LOCKER/"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "SPOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-d17efd6416f15d19624b",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "math/binary-exponentiation",
+            "articleTitle": "快速幂",
+            "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+            "label": "SPOJ - Just add it"
+          }
+        ]
+      },
+      "platform": "SPOJ",
+      "problem": "ZSUM",
+      "status": "未做",
+      "tags": [],
+      "title": "SPOJ - Just add it",
+      "url": "https://www.spoj.com/problems/ZSUM/",
+      "wikiExample": true
+    },
+    "id": "wiki-example-d17efd6416f15d19624b",
+    "raw": {
+      "场次": "SPOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "ZSUM",
+      "题名": "SPOJ - Just add it"
+    },
+    "url": "https://www.spoj.com/problems/ZSUM/"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-85cd26c5116bbc30df33",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "math/number-theory/gcd",
+            "articleTitle": "最大公约数",
+            "articleUrl": "https://oi-wiki.org/math/number-theory/gcd/",
+            "label": "10104 - Euclid Problem"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "10104",
+      "status": "未做",
+      "tags": [],
+      "title": "10104 - Euclid Problem",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1045",
+      "wikiExample": true
+    },
+    "id": "wiki-example-85cd26c5116bbc30df33",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "10104",
+      "题名": "10104 - Euclid Problem"
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1045"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-f3111abcb4011fc83c9c",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "math/number-theory/gcd",
+            "articleTitle": "最大公约数",
+            "articleUrl": "https://oi-wiki.org/math/number-theory/gcd/",
+            "label": "GYM - (J) once upon a time"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "100963J",
+      "status": "未做",
+      "tags": [],
+      "title": "Once Upon A Time",
+      "url": "https://codeforces.com/gym/100963/problem/J",
+      "wikiExample": true
+    },
+    "id": "wiki-example-f3111abcb4011fc83c9c",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "100963J",
+      "题名": "Once Upon A Time"
+    },
+    "url": "https://codeforces.com/gym/100963/problem/J"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-39cb7c88e30aa4d3ff70",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "math/number-theory/gcd",
+            "articleTitle": "最大公约数",
+            "articleUrl": "https://oi-wiki.org/math/number-theory/gcd/",
+            "label": "UVa - 12775 - Gift Dilemma"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "12775",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa - 12775 - Gift Dilemma",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=4628",
+      "wikiExample": true
+    },
+    "id": "wiki-example-39cb7c88e30aa4d3ff70",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "12775",
+      "题名": "UVa - 12775 - Gift Dilemma"
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=4628"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "洛谷",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-7a771086e9d531b70e14",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "misc/two-pointer",
+            "articleTitle": "双指针",
+            "articleUrl": "https://oi-wiki.org/misc/two-pointer/",
+            "label": "luogu P3066 Running Away From the Barn G"
+          }
+        ]
+      },
+      "platform": "洛谷",
+      "problem": "P3066",
+      "status": "未做",
+      "tags": [],
+      "title": "luogu P3066 Running Away From the Barn G",
+      "url": "https://www.luogu.com.cn/problem/P3066",
+      "wikiExample": true
+    },
+    "id": "wiki-example-7a771086e9d531b70e14",
+    "raw": {
+      "场次": "洛谷",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "P3066",
+      "题名": "luogu P3066 Running Away From the Barn G"
+    },
+    "url": "https://www.luogu.com.cn/problem/P3066"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "洛谷",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-a9f7769e69ad93710b9a",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "search/bfs",
+            "articleTitle": "BFS（搜索）",
+            "articleUrl": "https://oi-wiki.org/search/bfs/",
+            "label": "Luogu P1126 机器人搬重物"
+          }
+        ]
+      },
+      "platform": "洛谷",
+      "problem": "P1126",
+      "status": "未做",
+      "tags": [],
+      "title": "Luogu P1126 机器人搬重物",
+      "url": "https://www.luogu.com.cn/problem/P1126",
+      "wikiExample": true
+    },
+    "id": "wiki-example-a9f7769e69ad93710b9a",
+    "raw": {
+      "场次": "洛谷",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "P1126",
+      "题名": "Luogu P1126 机器人搬重物"
+    },
+    "url": "https://www.luogu.com.cn/problem/P1126"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "洛谷",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-b2f4832b71e0cec14697",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/hash",
+            "articleTitle": "字符串哈希",
+            "articleUrl": "https://oi-wiki.org/string/hash/",
+            "label": "例题：洛谷 U461211 字符串 Hash（数据加强）"
+          }
+        ]
+      },
+      "platform": "洛谷",
+      "problem": "U461211",
+      "status": "未做",
+      "tags": [],
+      "title": "洛谷 U461211 字符串 Hash（数据加强）",
+      "url": "https://www.luogu.com.cn/problem/U461211",
+      "wikiExample": true
+    },
+    "id": "wiki-example-b2f4832b71e0cec14697",
+    "raw": {
+      "场次": "洛谷",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "U461211",
+      "题名": "洛谷 U461211 字符串 Hash（数据加强）"
+    },
+    "url": "https://www.luogu.com.cn/problem/U461211"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-23b670472c1296cf2837",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/hash",
+            "articleTitle": "字符串哈希",
+            "articleUrl": "https://oi-wiki.org/string/hash/",
+            "label": "CF1200E Compress Words"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "1200E",
+      "status": "未做",
+      "tags": [],
+      "title": "CF1200E Compress Words",
+      "url": "https://codeforces.com/contest/1200/problem/E",
+      "wikiExample": true
+    },
+    "id": "wiki-example-23b670472c1296cf2837",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "1200E",
+      "题名": "CF1200E Compress Words"
+    },
+    "url": "https://codeforces.com/contest/1200/problem/E"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-f2a1bda43b8d18301d2b",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/kmp",
+            "articleTitle": "前缀函数与 KMP 算法",
+            "articleUrl": "https://oi-wiki.org/string/kmp/",
+            "label": "UVa 455 \"Periodic Strings\""
+          },
+          {
+            "articleId": "string/z-func",
+            "articleTitle": "Z 函数（扩展 KMP）",
+            "articleUrl": "https://oi-wiki.org/string/z-func/",
+            "label": "UVa # 455 Periodic Strings"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "455",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa 455 \"Periodic Strings\"",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=396",
+      "wikiExample": true
+    },
+    "id": "wiki-example-f2a1bda43b8d18301d2b",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "455",
+      "题名": "UVa 455 \"Periodic Strings\""
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=396"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-d8bd03abbc4dec9737db",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/kmp",
+            "articleTitle": "前缀函数与 KMP 算法",
+            "articleUrl": "https://oi-wiki.org/string/kmp/",
+            "label": "UVa 11022 \"String Factoring\""
+          },
+          {
+            "articleId": "string/z-func",
+            "articleTitle": "Z 函数（扩展 KMP）",
+            "articleUrl": "https://oi-wiki.org/string/z-func/",
+            "label": "UVa # 11022 String Factoring"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "11022",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa 11022 \"String Factoring\"",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1963",
+      "wikiExample": true
+    },
+    "id": "wiki-example-d8bd03abbc4dec9737db",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "11022",
+      "题名": "UVa 11022 \"String Factoring\""
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1963"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-1735ef8c7dcc0700bc29",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/kmp",
+            "articleTitle": "前缀函数与 KMP 算法",
+            "articleUrl": "https://oi-wiki.org/string/kmp/",
+            "label": "UVa 11452 \"Dancing the Cheeky-Cheeky\""
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "11452",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa 11452 \"Dancing the Cheeky-Cheeky\"",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=2447",
+      "wikiExample": true
+    },
+    "id": "wiki-example-1735ef8c7dcc0700bc29",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "11452",
+      "题名": "UVa 11452 \"Dancing the Cheeky-Cheeky\""
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=2447"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-1bc5102563fe2a28e6ae",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/kmp",
+            "articleTitle": "前缀函数与 KMP 算法",
+            "articleUrl": "https://oi-wiki.org/string/kmp/",
+            "label": "UVa 12604 - Caesar Cipher"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "12604",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa 12604 - Caesar Cipher",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=4282",
+      "wikiExample": true
+    },
+    "id": "wiki-example-1bc5102563fe2a28e6ae",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "12604",
+      "题名": "UVa 12604 - Caesar Cipher"
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=4282"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-21a668a2dfdc654b5bec",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/kmp",
+            "articleTitle": "前缀函数与 KMP 算法",
+            "articleUrl": "https://oi-wiki.org/string/kmp/",
+            "label": "UVa 12467 - Secret Word"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "12467",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa 12467 - Secret Word",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=3911",
+      "wikiExample": true
+    },
+    "id": "wiki-example-21a668a2dfdc654b5bec",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "12467",
+      "题名": "UVa 12467 - Secret Word"
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=3911"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-5d06bae11148f065ff06",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/kmp",
+            "articleTitle": "前缀函数与 KMP 算法",
+            "articleUrl": "https://oi-wiki.org/string/kmp/",
+            "label": "UVa 11019 - Matrix Matcher"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "11019",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa 11019 - Matrix Matcher",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1960",
+      "wikiExample": true
+    },
+    "id": "wiki-example-5d06bae11148f065ff06",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "11019",
+      "题名": "UVa 11019 - Matrix Matcher"
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1960"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "SPOJ",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-aef505a3093b8e8eead9",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/kmp",
+            "articleTitle": "前缀函数与 KMP 算法",
+            "articleUrl": "https://oi-wiki.org/string/kmp/",
+            "label": "SPOJ - Pattern Find"
+          }
+        ]
+      },
+      "platform": "SPOJ",
+      "problem": "NAJPF",
+      "status": "未做",
+      "tags": [],
+      "title": "SPOJ - Pattern Find",
+      "url": "https://www.spoj.com/problems/NAJPF/",
+      "wikiExample": true
+    },
+    "id": "wiki-example-aef505a3093b8e8eead9",
+    "raw": {
+      "场次": "SPOJ",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "NAJPF",
+      "题名": "SPOJ - Pattern Find"
+    },
+    "url": "https://www.spoj.com/problems/NAJPF/"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-d97185272515e8baee74",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/kmp",
+            "articleTitle": "前缀函数与 KMP 算法",
+            "articleUrl": "https://oi-wiki.org/string/kmp/",
+            "label": "Codeforces - MUH and Cube Walls"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "471D",
+      "status": "未做",
+      "tags": [],
+      "title": "Codeforces - MUH and Cube Walls",
+      "url": "https://codeforces.com/contest/471/problem/D",
+      "wikiExample": true
+    },
+    "id": "wiki-example-d97185272515e8baee74",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "471D",
+      "题名": "Codeforces - MUH and Cube Walls"
+    },
+    "url": "https://codeforces.com/contest/471/problem/D"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "洛谷",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-1365ae7cbc32a63ee458",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/trie",
+            "articleTitle": "字典树 (Trie)",
+            "articleUrl": "https://oi-wiki.org/string/trie/",
+            "label": "【luogu-P6623】【省选联考 2020 A 卷】树"
+          }
+        ]
+      },
+      "platform": "洛谷",
+      "problem": "P6623",
+      "status": "未做",
+      "tags": [],
+      "title": "树",
+      "url": "https://www.luogu.com.cn/problem/P6623",
+      "wikiExample": true
+    },
+    "id": "wiki-example-1365ae7cbc32a63ee458",
+    "raw": {
+      "场次": "洛谷",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "P6623",
+      "题名": "树"
+    },
+    "url": "https://www.luogu.com.cn/problem/P6623"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-9b7020aed0af59babe76",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/z-func",
+            "articleTitle": "Z 函数（扩展 KMP）",
+            "articleUrl": "https://oi-wiki.org/string/z-func/",
+            "label": "CF126B Password"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "126B",
+      "status": "未做",
+      "tags": [],
+      "title": "CF126B Password",
+      "url": "https://codeforces.com/contest/126/problem/B",
+      "wikiExample": true
+    },
+    "id": "wiki-example-9b7020aed0af59babe76",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "126B",
+      "题名": "CF126B Password"
+    },
+    "url": "https://codeforces.com/contest/126/problem/B"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "UVa",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-ac118ba95802e01794e2",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/z-func",
+            "articleTitle": "Z 函数（扩展 KMP）",
+            "articleUrl": "https://oi-wiki.org/string/z-func/",
+            "label": "UVa 11475 - Extend to Palindrome"
+          }
+        ]
+      },
+      "platform": "UVa",
+      "problem": "11475",
+      "status": "未做",
+      "tags": [],
+      "title": "UVa 11475 - Extend to Palindrome",
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=2470",
+      "wikiExample": true
+    },
+    "id": "wiki-example-ac118ba95802e01794e2",
+    "raw": {
+      "场次": "UVa",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "11475",
+      "题名": "UVa 11475 - Extend to Palindrome"
+    },
+    "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=2470"
+  },
+  {
+    "encoded": {
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "contest": "Codeforces",
+      "date": "",
+      "difficulty": null,
+      "difficultySource": "",
+      "id": "wiki-example-4f57be51e6f8340ff148",
+      "knowledge": "",
+      "metadataProvenance": {
+        "kind": "bundled-oi-wiki-link",
+        "references": [
+          {
+            "articleId": "string/z-func",
+            "articleTitle": "Z 函数（扩展 KMP）",
+            "articleUrl": "https://oi-wiki.org/string/z-func/",
+            "label": "Codeforces - Prefixes and Suffixes"
+          }
+        ]
+      },
+      "platform": "Codeforces",
+      "problem": "432D",
+      "status": "未做",
+      "tags": [],
+      "title": "Codeforces - Prefixes and Suffixes",
+      "url": "https://codeforces.com/contest/432/problem/D",
+      "wikiExample": true
+    },
+    "id": "wiki-example-4f57be51e6f8340ff148",
+    "raw": {
+      "场次": "Codeforces",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "",
+      "题号": "432D",
+      "题名": "Codeforces - Prefixes and Suffixes"
+    },
+    "url": "https://codeforces.com/contest/432/problem/D"
   }
 ]

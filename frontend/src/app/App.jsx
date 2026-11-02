@@ -2,6 +2,7 @@ import {createPortal} from 'react-dom';
 import LearningBrowser from './LearningBrowser.jsx';
 import ReaderFrame from '@/components/ReaderFrame.jsx';
 import useDuel from '@/lib/useDuel.js';
+import DuelReadyPrompt from '@/components/DuelReadyPrompt.jsx';
 import {applyEditorTheme,editorTheme} from '@/lib/editorThemes.js';
 import {OPACITY_KEYS,SURFACE_DEFAULTS,opacityStyle} from '@/lib/surfaceOpacity.js';
 import {trainingListLocation} from '@/lib/trainingListLocation.js';
@@ -2189,7 +2190,7 @@ export default function App() {
                 onError={notice}
               />
             )}{!mockPreview&&<MockHistory embedded query={mockHistoryQuery} contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/>}</>}</>}</div>
-          ) : page === "wiki" ? (<WikiPage api={api} onOpenArticle={item=>openLearning({kind:'wiki',...item})}/>) : page === "duel" ? (<DuelPage duel={duel} rows={rows} onTrain={openPractice}/>) : page === "records" ? (
+          ) : page === "wiki" ? (<WikiPage api={api} rows={rows} onOpenProblem={openPractice} onOpenArticle={item=>openLearning({kind:'wiki',...item})}/>) : page === "duel" ? (<DuelPage duel={duel} rows={rows} onTrain={openPractice} account={account} profile={profileSnapshot?.profile} growth={growth} avatar={prefs.avatarData}/>) : page === "records" ? (
             <SubmissionRecords api={api} revision={workspace.summary?.attempts} scope={`${account?.userId||'local'}:${workspace.activeContest?.id||''}`} rows={rows} onOpenProblem={openPractice} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
             <CompetitionPage
@@ -2486,6 +2487,7 @@ export default function App() {
           </label>
         </Modal>
       )}
+      <DuelReadyPrompt duel={duel}/>
       {listProblemIds&&<AddToTrainingLists problemIds={listProblemIds} api={api} onClose={()=>setListProblemIds(null)} onSave={()=>{delete trainingListsVisit.current.content;setListProblemIds(null);notice("已加入题单","success");}}/>}
       {finishAnchor && active && <PopConfirm anchor={finishAnchor} title="结束这场比赛？" label="结束比赛确认" busy={busy} cancelLabel="继续比赛" confirmLabel="结束并复盘" busyLabel="正在处理…" confirmTone="primary" onCancel={()=>setFinishAnchor(null)} onConfirm={()=>finishMock(false)} extraActions={<Tooltip text="撤销本场训练安排，保留草稿及真实原站提交"><button type="button" className="danger" disabled={busy} onClick={()=>finishMock(true)}>取消比赛</button></Tooltip>}/>}
 

@@ -30,8 +30,10 @@ const SHAPES={
  galaxy:'M50 41C8 4 1 42 24 58 48 83 90 59 84 33 77 5 38 15 32 42 22 79 73 95 83 60M50 33 55 46 69 50 55 55 50 69 45 55 31 50 45 46Z',
  phoenix:'M48 72C12 85 9 53 6 23 20 44 34 28 50 55 66 28 80 44 94 23 91 53 88 85 52 72L50 94ZM50 58 50 24 64 15 57 32',
 };
+const READY_ART=new Set(['duck','heart','rainbow','compass','gift','envelope','key','fox','orbit','spark','leaf','drop','cloud','flame','bolt','sun','comet','moon','planet','crystal','butterfly','gem','crown','galaxy']);
 export function StickerArt({item,size=64}){
- const id=useRef('sticker-'+crypto.randomUUID()).current,rarity=item?.rarity||'common';
- const colors=rarity==='legendary'?['#69e3ff','#e184ff','#ffdc83']:rarity==='epic'?['#d8b9ff','#a06af2','#6e42bd']:rarity==='rare'?['#ffd184','#ff9b35','#db611a']:['#a8dcff','#4b9aff','#3864dc'];
- return <svg className="sticker-art" viewBox="0 0 100 100" width={size} height={size} aria-hidden="true"><defs><linearGradient id={id} x1="0" y1="0" x2="1" y2="1"><stop stopColor={colors[0]}/><stop offset=".5" stopColor={colors[1]}/><stop offset="1" stopColor={colors[2]}/></linearGradient></defs><path d={SHAPES[item?.shape]||SHAPES.spark} fill={`url(#${id})`} stroke="white" strokeWidth="8" strokeLinejoin="round" strokeLinecap="round"/><path d={SHAPES[item?.shape]||SHAPES.spark} fill={`url(#${id})`} stroke={colors[2]} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"/><path d="M34 27 38 24M26 39 28 35" stroke="white" strokeOpacity=".7" strokeWidth="4" strokeLinecap="round"/></svg>;
+ const id=useRef('sticker-'+crypto.randomUUID()).current,shape=item?.shape;
+ if(READY_ART.has(shape))return <img className="sticker-art sticker-art-image" data-shape={shape} src={'/stickers/fluent/'+shape+'.svg'} width={size} height={size} alt="" draggable={false}/>;
+ const colors=shape==='phoenix'?['#f7c958','#e98638','#b64c35']:shape==='semicolon'?['#d0c9ea','#aca6d4','#827ba9']:['#c5e3d7','#83bba7','#548b7b'];
+ return <svg className="sticker-art" data-shape={shape} viewBox="0 0 100 100" width={size} height={size} aria-hidden="true"><defs><linearGradient id={id} x1="0" y1="0" x2="1" y2="1"><stop stopColor={colors[0]}/><stop offset=".5" stopColor={colors[1]}/><stop offset="1" stopColor={colors[2]}/></linearGradient></defs><path d={SHAPES[shape]||SHAPES.spark} fill={`url(#${id})`} stroke={colors[2]} strokeWidth="1" strokeLinejoin="round" strokeLinecap="round"/></svg>;
 }

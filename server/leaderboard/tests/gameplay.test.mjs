@@ -32,6 +32,60 @@ async function client(f,name){
 const post=(client,path,value)=>client.send(path,{requestId:randomUUID(),...value});
 const grant=(a,extra={})=>post(a,'/v1/stickers/grant',{day:'2026-11-02',taskId:'ac-chain:0',xp:15,...extra});
 
+test('ready check uses one shared deadline, hides the problem and starts only after both confirmations',async()=>{
+ const f=await startFixture({now:start});
+ try{
+  const a=await client(f,'ready_alpha'),b=await client(f,'ready_beta'),c=await client(f,'ready_other');
+  assert.equal((await a.send('/v1/duels')).value.capabilities.readyCheck,true);
+  const queued=await post(a,'/v1/duels/join',{handle:'Alpha',readyCheck:true});
+  assert.equal(queued.value.queuedAt,start);
+  f.env.TEST_NOW=start+4000;
+  assert.equal((await a.send('/v1/duels/poll',{})).value.queuedAt,start,'Heartbeats retain the original queue time');
+  const matched=await post(b,'/v1/duels/join',{handle:'Beta',readyCheck:true}),room=matched.value.match;
+  assert.equal(matched.value.status,'ready');assert.equal(room.problem,null);assert.equal(room.startedAt,null);assert.equal(room.deadline,null);assert.equal(room.readyDeadline,start+24000);
+  assert.equal((await a.send('/v1/duels')).value.match.id,room.id);
+  assert.equal((await post(c,'/v1/duels/ready',{matchId:room.id})).status,409,'An unrelated account cannot accept another match');
+  assert.equal((await post(a,'/v1/duels/ready',{matchId:randomUUID()})).status,409);
+  assert.equal((await post(a,'/v1/duels/cancel',{ticket:queued.value.ticket})).value.status,'ready','A stale queue cancel cannot reject a found opponent');
+  f.env.TEST_NOW+=3000;
+  const confirm={requestId:randomUUID(),matchId:room.id};
+  assert.equal((await a.send('/v1/duels/ready',confirm)).value.status,'ready');
+  assert.deepEqual((await a.send('/v1/duels/ready',confirm)).value,(await a.send('/v1/duels')).value,'Lost-response retry preserves the confirmed waiting state');
+  f.env.TEST_NOW+=2000;
+  const active=(await post(b,'/v1/duels/ready',{matchId:room.id})).value;
+  assert.equal(active.status,'active');assert.equal(active.match.startedAt,start+9000);assert.equal(active.match.deadline,start+9000+30*60000);assert(active.match.problem.url);
+  assert(active.match.players.every(player=>Number.isFinite(player.readyAt)));
+  const again=(await post(a,'/v1/duels/ready',{matchId:room.id})).value;assert.equal(again.match.startedAt,active.match.startedAt);
+  assert.equal((await post(a,'/v1/duels/decline',{matchId:room.id})).status,409,'An active round cannot be declined');
+ }finally{await f.close();}
+});
+
+test('decline, timeout, concurrent accept and legacy clients preserve separate real match states',async()=>{
+ const f=await startFixture({now:start});
+ try{
+  const a=await client(f,'ready_race_a'),b=await client(f,'ready_race_b'),old=await client(f,'ready_legacy');
+  await post(old,'/v1/duels/join',{handle:'Legacy'});
+  assert.equal((await post(a,'/v1/duels/join',{handle:'Alpha',readyCheck:true})).value.status,'queued','A legacy desktop is not stranded in a ready dialog it cannot use');
+  const first=(await post(b,'/v1/duels/join',{handle:'Beta',readyCheck:true})).value.match;
+  await post(a,'/v1/duels/ready',{matchId:first.id});
+  const declined=(await post(b,'/v1/duels/decline',{matchId:first.id})).value;
+  assert.equal(declined.status,'cancelled');assert.equal(declined.match.cancelReason,'declined');assert.equal(declined.match.startedAt,null);
+  assert.equal((await a.send('/v1/duels')).value.status,'cancelled');
+  await post(a,'/v1/duels/join',{handle:'Alpha',readyCheck:true});
+  const second=(await post(b,'/v1/duels/join',{handle:'Beta',readyCheck:true})).value.match;
+  assert.notEqual(second.id,first.id);
+  assert.equal((await post(a,'/v1/duels/ready',{matchId:first.id})).status,409,'A delayed click cannot confirm a replacement match');
+  f.env.TEST_NOW=second.readyDeadline;
+  const expired=(await a.send('/v1/duels')).value;assert.equal(expired.status,'cancelled');assert.equal(expired.match.cancelReason,'timeout');
+  assert.equal((await post(b,'/v1/duels/ready',{matchId:second.id})).value.status,'cancelled');
+  await post(a,'/v1/duels/join',{handle:'Alpha',readyCheck:true});
+  const third=(await post(b,'/v1/duels/join',{handle:'Beta',readyCheck:true})).value.match;
+  const race=await Promise.all([post(a,'/v1/duels/ready',{matchId:third.id}),post(b,'/v1/duels/ready',{matchId:third.id})]);
+  assert(race.every(result=>result.status===200));assert.equal((await a.send('/v1/duels')).value.status,'active');
+  assert.equal((await old.send('/v1/duels')).value.status,'queued');
+ }finally{await f.close();}
+});
+
 test('account inventory: concurrent duplicate awards, CAS placement, response loss, recycle and ownership',async()=>{
  const f=await startFixture({now:start});
  try{

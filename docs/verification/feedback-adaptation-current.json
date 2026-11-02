@@ -1,0 +1,45 @@
+{
+  "scope": "1.5.1 additional feedback",
+  "packaged": false,
+  "installed": false,
+  "publicRelease": false,
+  "serviceDeployment": "Owned by learning-browser window; additional protocol not deployed",
+  "publicLibrary": {
+    "problems": 12388,
+    "statements": 12218,
+    "solutions": 1939,
+    "detailedSolutions": 1938,
+    "lectures": 480,
+    "references": 9258,
+    "wikiLinks": 150,
+    "reused": 79,
+    "addedCatalogueOnly": 71,
+    "existingPublicTablesUnchanged": true
+  },
+  "checks": {
+    "sharedService": {
+      "passed": 67,
+      "skipped": 1,
+      "failed": 0
+    },
+    "twoIndependentClients": true,
+    "catalogueLayouts": 9,
+    "rewardWidths": 2,
+    "diagramThemes": 2,
+    "languageCases": 4,
+    "recommendationLayouts": 20,
+    "scenePhysics": true,
+    "growthLayouts": 8,
+    "fullBackend": "Pending current feedback; prior run 1088 passed, 2 skipped, 1 known teaching-digest failure"
+  },
+  "startupBaseline": {
+    "retainedFrozenSeconds": [
+      2.99753,
+      2.9491
+    ],
+    "finalCandidateRetest": false,
+    "rebootColdStart": false
+  },
+  "originalJudgeSubmissions": 0,
+  "productionWrites": 0
+}

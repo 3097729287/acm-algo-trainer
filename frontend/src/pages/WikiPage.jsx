@@ -1,11 +1,19 @@
-import {useEffect,useRef,useState} from 'react';
+import {useEffect,useMemo,useRef,useState} from 'react';
 import {ArrowLeft,BookOpen,ChevronRight,ExternalLink,Info,LoaderCircle,Search,X} from 'lucide-react';
 import PageSearch from '@/components/PageSearch.jsx';
+import {CatalogueGroup,CatalogueEntry} from '@/components/LearningCatalogue.jsx';
 import './WikiPage.css';
+import {adaptDocumentImages} from '@/lib/readingImageTheme.js';
+import {original} from '@/lib/problemIdentity.js';
+import EXAMPLES from '../../../backend/resources/wiki-examples.json';
 
-export default function WikiPage({api,initialArticle,onOpenArticle,visit,embedded=false}){
+const exampleAliases=new Map(EXAMPLES.entries.flatMap(item=>item.links.map(url=>[original({url}),item.problemId])));
+
+export default function WikiPage({api,initialArticle,onOpenArticle,rows=[],onOpenProblem,visit,embedded=false}){
  const [query,setQuery]=useState(''),[catalogue,setCatalogue]=useState([]),[article,setArticle]=useState(null),[error,setError]=useState(''),[loading,setLoading]=useState(true);
  const frame=useRef(null),sourceDialog=useRef(null),sequence=useRef(0),all=useRef([]),hash=useRef('');
+ const problems=useMemo(()=>({byUrl:new Map(rows.map(row=>[original(row),row.id])),byId:new Set(rows.map(row=>row.id))}),[rows]);
+ const problemNavigation=useRef(null);problemNavigation.current={problems,onOpenProblem};
  useEffect(()=>{let live=true;const timer=setTimeout(()=>{setLoading(true);api('wiki?q='+encodeURIComponent(query)).then(value=>{if(live){setCatalogue(value.articles);if(!query)all.current=value.articles;setError('');}}).catch(issue=>{if(live)setError(issue.message);}).finally(()=>{if(live)setLoading(false);});},150);return()=>{live=false;clearTimeout(timer);};},[api,query]);
  useEffect(()=>{if(initialArticle)void open(initialArticle,visit?.anchor||'');return()=>{sequence.current++;};},[initialArticle,api]);
  async function open(id,anchor=''){
@@ -18,7 +26,7 @@ export default function WikiPage({api,initialArticle,onOpenArticle,visit,embedde
   finally{if(seq===sequence.current)setLoading(false);}
  }
  function loaded(){
-  const doc=frame.current?.contentDocument;if(!doc)return;
+  const doc=frame.current?.contentDocument;if(!doc)return;adaptDocumentImages(doc);
   if(visit&&doc.scrollingElement){doc.scrollingElement.scrollTop=visit.wikiScroll||0;doc.addEventListener('scroll',()=>{visit.wikiScroll=doc.scrollingElement.scrollTop;},{passive:true});}
   if(hash.current){doc.getElementById(decodeURIComponent(hash.current.slice(1)))?.scrollIntoView();hash.current='';}
   doc.addEventListener('click',event=>{
@@ -26,6 +34,10 @@ export default function WikiPage({api,initialArticle,onOpenArticle,visit,embedde
    const url=new URL(link.href),id=url.pathname.replace(/^\/|\/$/g,'');
    if(url.origin==='https://oi-wiki.org'&&all.current.some(item=>item.id===id)){
     event.preventDefault();if(id===article?.id&&url.hash)doc.getElementById(decodeURIComponent(url.hash.slice(1)))?.scrollIntoView();else if(onOpenArticle)onOpenArticle({id,title:all.current.find(item=>item.id===id)?.title,visit:{anchor:url.hash}});else void open(id,url.hash);
+   }else if(problemNavigation.current.onOpenProblem){
+    const {problems:current,onOpenProblem:navigate}=problemNavigation.current;
+    const key=original({url:url.href}),problemId=current.byUrl.get(key)||exampleAliases.get(key);
+    if(problemId&&current.byId.has(problemId)){event.preventDefault();navigate(problemId);}
    }
   });
  }
@@ -36,7 +48,7 @@ export default function WikiPage({api,initialArticle,onOpenArticle,visit,embedde
  const src=article?documentHtml(article.contentHtml):'';
  return <section className="list-page wiki-page" aria-label="维基百科">
   <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索维基百科" value={query} onChange={event=>{sequence.current++;setArticle(null);setQuery(event.target.value);}}/></label></PageSearch>
-  {article?<><header className="wiki-reader-toolbar"><button type="button" className="icon-button" aria-label="返回维基目录" onClick={()=>{sequence.current++;setArticle(null);}}><ArrowLeft size={18}/></button><strong>{article.title}</strong>{article.sourceHtml&&<button type="button" className="icon-button" aria-label="来源与许可" title="来源与许可" onClick={()=>sourceDialog.current?.showModal()}><Info size={17}/></button>}<a className="icon-button" href={article.url} target="_blank" rel="noreferrer" aria-label="OI Wiki 原文"><ExternalLink size={17}/></a></header><iframe ref={frame} onLoad={loaded} title={article.title} className="wiki-reader" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox" srcDoc={src}/>{article.sourceHtml&&<dialog ref={sourceDialog} className="wiki-source-dialog" aria-label="来源与许可"><header><strong>来源与许可</strong><button type="button" className="icon-button" aria-label="关闭来源与许可" onClick={()=>sourceDialog.current?.close()}><X size={17}/></button></header><iframe title="OI Wiki 来源与许可" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox" srcDoc={documentHtml(article.sourceHtml)}/></dialog>}</>:<div className="wiki-catalogue">{[...new Set(catalogue.map(item=>item.category))].map(category=><section key={category}><h3>{category}</h3>{catalogue.filter(item=>item.category===category).map(item=><button type="button" className="wiki-entry" key={item.id} onClick={()=>onOpenArticle?onOpenArticle(item):open(item.id)}><BookOpen size={17}/><span>{item.title}</span><ChevronRight size={16}/></button>)}</section>)}{!loading&&!catalogue.length&&<div className="progress-empty"><Search size={24}/><span>没有匹配的内容</span></div>}</div>}
+  {article?<><header className="wiki-reader-toolbar"><button type="button" className="icon-button" aria-label="返回维基目录" onClick={()=>{sequence.current++;setArticle(null);}}><ArrowLeft size={18}/></button><strong>{article.title}</strong>{article.sourceHtml&&<button type="button" className="icon-button" aria-label="来源与许可" title="来源与许可" onClick={()=>sourceDialog.current?.showModal()}><Info size={17}/></button>}<a className="icon-button" href={article.url} target="_blank" rel="noreferrer" aria-label="OI Wiki 原文"><ExternalLink size={17}/></a></header><iframe ref={frame} onLoad={loaded} title={article.title} className="wiki-reader" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox" srcDoc={src}/>{article.sourceHtml&&<dialog ref={sourceDialog} className="wiki-source-dialog" aria-label="来源与许可"><header><strong>来源与许可</strong><button type="button" className="icon-button" aria-label="关闭来源与许可" onClick={()=>sourceDialog.current?.close()}><X size={17}/></button></header><iframe title="OI Wiki 来源与许可" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox" srcDoc={documentHtml(article.sourceHtml)}/></dialog>}</>:<div className="learning-catalogue wiki-catalogue">{[...new Set(catalogue.map(item=>item.category))].map(category=><CatalogueGroup key={category} title={category}>{catalogue.filter(item=>item.category===category).map(item=><CatalogueEntry className="wiki-entry" key={item.id} title={item.title} onOpen={()=>onOpenArticle?onOpenArticle(item):open(item.id)}/>)}</CatalogueGroup>)}{!loading&&!catalogue.length&&<div className="progress-empty"><Search size={24}/><span>没有匹配的内容</span></div>}</div>}
   {loading&&<span className="wiki-loading" role="status" aria-label="正在读取维基百科"><LoaderCircle className="progress-spin" size={19}/></span>}{error&&<p className="connection-error" role="alert">{error}</p>}
  </section>;
 }

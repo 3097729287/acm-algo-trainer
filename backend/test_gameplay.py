@@ -11,6 +11,28 @@ class GameplayTests(unittest.TestCase):
     tearDown=fixtures.ServiceTests.tearDown
     accept=fixtures.ServiceTests.accept
 
+    def test_ready_and_decline_relay_the_exact_match_identity(self):
+        for kind in ('ready','decline'):
+            payload={'requestId':'10000000-0000-4000-8000-000000000003','matchId':'isolated-match'}
+            response={'owner':self.service._ranking_profile()['user_id'],'status':'ready','match':{'id':'isolated-match'}}
+            with patch.object(gameplay,'_request',return_value=response) as network,patch('fun_moments.confirmed_gameplay'):
+                self.assertEqual(gameplay.duel(self.service,kind,payload),response)
+            network.assert_called_once_with(self.service,'POST','/v1/duels/'+kind,payload,expected_owner=response['owner'])
+        with self.assertRaises(gameplay.ServiceError):
+            gameplay.duel(self.service,'ready',{'matchId':'another-match','owner':'another-account'})
+
+    def test_new_service_open_box_returns_the_inventory_in_one_network_round_trip(self):
+        owner=self.service._ranking_profile()['user_id']
+        payload={'requestId':'10000000-0000-4000-8000-000000000004','boxId':'level:7'}
+        inventory={'owner':owner,'revision':8,'units':[{'id':'durable-unit'}],'catalogue':[]}
+        opening={'id':'level:7','drops':[{'id':'durable-unit'}]}
+        with patch.object(gameplay,'_request',return_value={'owner':owner,'inventory':inventory,'opening':opening}) as network,patch('fun_moments.confirmed_gameplay'):
+            result=gameplay.stickers(self.service,'open-box',payload)
+        network.assert_called_once_with(self.service,'POST','/v1/stickers/open-box',payload,expected_owner=owner)
+        self.assertEqual(result['opening'],opening);self.assertEqual(result['units'],inventory['units'])
+        with patch.object(gameplay,'_request',return_value={'owner':owner,'inventory':{**inventory,'owner':'another-account'}}):
+            with self.assertRaises(gameplay.ServiceError):gameplay.stickers(self.service,'open-box',payload)
+
     def test_open_box_returns_confirmed_inventory_without_waiting_for_other_rewards(self):
         owner=self.service._ranking_profile()['user_id']
         payload={'requestId':'10000000-0000-4000-8000-000000000001','boxId':'level:5'}

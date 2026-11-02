@@ -20846,3 +20846,7 @@ Original license preserved byte for byte from the installed wheel.
 ## Editor theme references
 
 Woodfish Black, Neon and Light colors and the Woodfish visual reference use the MIT-licensed source pinned at `162883f73474d11ad703c30d9568dac0a33bd6c6`. Dracula colors retain their MIT notice. ToBe implements its own CodeMirror effects and original deep-space palette; no Bearded theme or extension patcher is bundled. See [notices](licenses/editor-themes/NOTICE.txt), [Woodfish license](licenses/editor-themes/Woodfish-LICENSE.txt) and [Dracula license](licenses/editor-themes/Dracula-LICENSE.txt).
+
+## Microsoft Fluent Emoji sticker artwork
+
+24 unmodified Color SVG illustrations from Microsoft Fluent Emoji, commit `1ffb34c752ecf5d402f04cfb4b392c77f57c54bc`, copyright Microsoft Corporation, MIT licensed. The full notice is in `licenses/fluent-emoji/LICENSE.txt`; per-file source URLs and SHA-256 values are in `frontend/public/stickers/fluent/manifest.json`. These are bundled locally and retain their original colors independently of reward rarity. The semicolon, 42 and phoenix vectors remain ToBe artwork.

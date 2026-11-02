@@ -10,6 +10,7 @@ const output='../.backups/next-150/growth-material-browser';await mkdir(output,{
 const report={ok:false,layouts:[],originalSubmissions:0,productionOperations:0};
 try{
  await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/tests/growth-material-fixture.html`);
+ await page.waitForFunction(()=>window.growthCheck);
  for(const width of [2048,1440,960,430])for(const theme of ['dark','light']){
   await page.setViewportSize({width,height:1152});await page.evaluate(theme=>growthCheck.theme(theme),theme);
   await page.locator('.account-hero-identity').waitFor();

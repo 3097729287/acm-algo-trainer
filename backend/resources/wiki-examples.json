@@ -1,0 +1,2733 @@
+{
+  "addedCount": 71,
+  "articles": 41,
+  "entries": [
+    {
+      "code": "P1873",
+      "identity": "luogu.com.cn/problem/P1873",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1873"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1873",
+      "references": [
+        {
+          "articleId": "basic/binary",
+          "articleTitle": "二分",
+          "articleUrl": "https://oi-wiki.org/basic/binary/",
+          "label": "Luogu P1873 砍树"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1873"
+    },
+    {
+      "code": "P3382",
+      "identity": "luogu.com.cn/problem/P3382",
+      "links": [
+        "https://www.luogu.com.cn/problem/P3382"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P3382",
+      "references": [
+        {
+          "articleId": "basic/binary",
+          "articleTitle": "二分",
+          "articleUrl": "https://oi-wiki.org/basic/binary/",
+          "label": "洛谷 P3382 - 三分"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3382"
+    },
+    {
+      "code": "1476",
+      "identity": "onlinejudge.org/problem/4222",
+      "links": [
+        "https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=447&page=show_problem&problem=4222"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-b06d27d876fc9d06d888",
+      "references": [
+        {
+          "articleId": "basic/binary",
+          "articleTitle": "二分",
+          "articleUrl": "https://oi-wiki.org/basic/binary/",
+          "label": "UVa 1476 - Error Curves"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=4222"
+    },
+    {
+      "code": "10385",
+      "identity": "onlinejudge.org/problem/1326",
+      "links": [
+        "https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=15&page=show_problem&problem=1326"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-7297615d147f640cd965",
+      "references": [
+        {
+          "articleId": "basic/binary",
+          "articleTitle": "二分",
+          "articleUrl": "https://oi-wiki.org/basic/binary/",
+          "label": "UVa 10385 - Duathlon"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1326"
+    },
+    {
+      "code": "162",
+      "identity": "uoj.ac/problem/162",
+      "links": [
+        "https://uoj.ac/problem/162"
+      ],
+      "platform": "UOJ",
+      "problemId": "wiki-example-e5631817410ed7d4d08f",
+      "references": [
+        {
+          "articleId": "basic/binary",
+          "articleTitle": "二分",
+          "articleUrl": "https://oi-wiki.org/basic/binary/",
+          "label": "UOJ 162 -【清华集训 2015】灯泡测试"
+        }
+      ],
+      "url": "https://uoj.ac/problem/162"
+    },
+    {
+      "code": "P7579",
+      "identity": "luogu.com.cn/problem/P7579",
+      "links": [
+        "https://www.luogu.com.cn/problem/P7579"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P7579",
+      "references": [
+        {
+          "articleId": "basic/binary",
+          "articleTitle": "二分",
+          "articleUrl": "https://oi-wiki.org/basic/binary/",
+          "label": "洛谷 P7579 -「RdOI R2」称重（weigh）"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P7579"
+    },
+    {
+      "code": "P1080",
+      "identity": "luogu.com.cn/problem/P1080",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1080"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1080",
+      "references": [
+        {
+          "articleId": "basic/greedy",
+          "articleTitle": "贪心",
+          "articleUrl": "https://oi-wiki.org/basic/greedy/",
+          "label": "NOIP 2012 国王游戏"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1080"
+    },
+    {
+      "code": "P2949",
+      "identity": "luogu.com.cn/problem/P2949",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2949"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2949",
+      "references": [
+        {
+          "articleId": "basic/greedy",
+          "articleTitle": "贪心",
+          "articleUrl": "https://oi-wiki.org/basic/greedy/",
+          "label": "「USACO09OPEN」工作调度 Work Scheduling"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2949"
+    },
+    {
+      "code": "P1209",
+      "identity": "luogu.com.cn/problem/P1209",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1209"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1209",
+      "references": [
+        {
+          "articleId": "basic/greedy",
+          "articleTitle": "贪心",
+          "articleUrl": "https://oi-wiki.org/basic/greedy/",
+          "label": "「USACO1.3」Barn Repair"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1209"
+    },
+    {
+      "code": "P2123",
+      "identity": "luogu.com.cn/problem/P2123",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2123"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2123",
+      "references": [
+        {
+          "articleId": "basic/greedy",
+          "articleTitle": "贪心",
+          "articleUrl": "https://oi-wiki.org/basic/greedy/",
+          "label": "洛谷 P2123 皇后游戏"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2123"
+    },
+    {
+      "code": "P1387",
+      "identity": "luogu.com.cn/problem/P1387",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1387"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1387",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "洛谷 P1387 最大正方形"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1387"
+    },
+    {
+      "code": "B3612",
+      "identity": "luogu.com.cn/problem/B3612",
+      "links": [
+        "https://www.luogu.com.cn/problem/B3612"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-B3612",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "洛谷 B3612【深进 1. 例 1】求区间和"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/B3612"
+    },
+    {
+      "code": "U69096",
+      "identity": "luogu.com.cn/problem/U69096",
+      "links": [
+        "https://www.luogu.com.cn/problem/U69096"
+      ],
+      "platform": "洛谷",
+      "problemId": "wiki-example-04fdb6023eddfeec07b3",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "洛谷 U69096 前缀和的逆"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/U69096"
+    },
+    {
+      "code": "joi2007ho_a",
+      "identity": "atcoder.jp/contests/joi2007ho/tasks/joi2007ho_a",
+      "links": [
+        "https://atcoder.jp/contests/joi2007ho/tasks/joi2007ho_a"
+      ],
+      "platform": "AtCoder",
+      "problemId": "wiki-example-5c19aaba0b2c5c47294e",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "AtCoder joi2007ho_a 最大の和"
+        }
+      ],
+      "url": "https://atcoder.jp/contests/joi2007ho/tasks/joi2007ho_a"
+    },
+    {
+      "code": "P6067",
+      "identity": "luogu.com.cn/problem/P6067",
+      "links": [
+        "https://www.luogu.com.cn/problem/P6067"
+      ],
+      "platform": "洛谷",
+      "problemId": "wiki-example-66a784e804074964a966",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "「USACO05JAN」Moo Volume S"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P6067"
+    },
+    {
+      "code": "6514",
+      "identity": "acm.hdu.edu.cn/problem/6514",
+      "links": [
+        "https://acm.hdu.edu.cn/showproblem.php?pid=6514"
+      ],
+      "platform": "HDU",
+      "problemId": "wiki-example-a800ed63761550a631fc",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "HDU 6514 Monitor"
+        }
+      ],
+      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=6514"
+    },
+    {
+      "code": "P2280",
+      "identity": "luogu.com.cn/problem/P2280",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2280"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2280",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "「HNOI2003」激光炸弹"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2280"
+    },
+    {
+      "code": "165E",
+      "identity": "codeforces.com/contest/165/problem/E",
+      "links": [
+        "https://codeforces.com/contest/165/problem/E"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-7155300440d32638c872",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "CF 165E Compatible Numbers"
+        }
+      ],
+      "url": "https://codeforces.com/contest/165/problem/E"
+    },
+    {
+      "code": "383E",
+      "identity": "codeforces.com/contest/383/problem/E",
+      "links": [
+        "https://codeforces.com/problemset/problem/383/E"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-4e94c20adc2a064109d3",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "CF 383E Vowels"
+        }
+      ],
+      "url": "https://codeforces.com/contest/383/problem/E"
+    },
+    {
+      "code": "arc100_c",
+      "identity": "atcoder.jp/contests/arc100/tasks/arc100_c",
+      "links": [
+        "https://atcoder.jp/contests/arc100/tasks/arc100_c"
+      ],
+      "platform": "AtCoder",
+      "problemId": "wiki-example-fe6b65beec5a6eafdcfd",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "ARC 100C Or Plus Max"
+        }
+      ],
+      "url": "https://atcoder.jp/contests/arc100/tasks/arc100_c"
+    },
+    {
+      "code": "P4552",
+      "identity": "luogu.com.cn/problem/P4552",
+      "links": [
+        "https://www.luogu.com.cn/problem/P4552"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P4552",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "「Poetize6」IncDec Sequence"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P4552"
+    },
+    {
+      "code": "P4231",
+      "identity": "luogu.com.cn/problem/P4231",
+      "links": [
+        "https://www.luogu.com.cn/problem/P4231"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P4231",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "洛谷 P4231 三步必杀"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P4231"
+    },
+    {
+      "code": "P3397",
+      "identity": "luogu.com.cn/problem/P3397",
+      "links": [
+        "https://www.luogu.com.cn/problem/P3397"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P3397",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "洛谷 P3397 地毯"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3397"
+    },
+    {
+      "code": "P8228",
+      "identity": "luogu.com.cn/problem/P8228",
+      "links": [
+        "https://www.luogu.com.cn/problem/P8228"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P8228",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "洛谷 P8228「Wdoi-5」模块化核熔炉"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P8228"
+    },
+    {
+      "code": "150",
+      "identity": "uoj.ac/problem/150",
+      "links": [
+        "http://uoj.ac/problem/150"
+      ],
+      "platform": "UOJ",
+      "problemId": "wiki-example-bb85ccf9913c089300b9",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "NOIP2015 运输计划"
+        }
+      ],
+      "url": "https://uoj.ac/problem/150"
+    },
+    {
+      "code": "261",
+      "identity": "uoj.ac/problem/261",
+      "links": [
+        "http://uoj.ac/problem/261"
+      ],
+      "platform": "UOJ",
+      "problemId": "wiki-example-d644cf4a182aad0c7a5b",
+      "references": [
+        {
+          "articleId": "basic/prefix-sum",
+          "articleTitle": "前缀和 & 差分",
+          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
+          "label": "NOIP2016 天天爱跑步"
+        }
+      ],
+      "url": "https://uoj.ac/problem/261"
+    },
+    {
+      "code": "15",
+      "identity": "uoj.ac/problem/15",
+      "links": [
+        "https://uoj.ac/problem/15"
+      ],
+      "platform": "UOJ",
+      "problemId": "wiki-example-4bcd5c87367ad4ec322e",
+      "references": [
+        {
+          "articleId": "basic/simulate",
+          "articleTitle": "模拟",
+          "articleUrl": "https://oi-wiki.org/basic/simulate/",
+          "label": "「NOIP2014」生活大爆炸版石头剪刀布 - Universal Online Judge"
+        }
+      ],
+      "url": "https://uoj.ac/problem/15"
+    },
+    {
+      "code": "P1216",
+      "identity": "luogu.com.cn/problem/P1216",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1216"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1216",
+      "references": [
+        {
+          "articleId": "dp/basic",
+          "articleTitle": "动态规划基础",
+          "articleUrl": "https://oi-wiki.org/dp/basic/",
+          "label": "[IOI1994] 数字三角形"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1216"
+    },
+    {
+      "code": "P1063",
+      "identity": "luogu.com.cn/problem/P1063",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1063"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1063",
+      "references": [
+        {
+          "articleId": "dp/interval",
+          "articleTitle": "区间 DP",
+          "articleUrl": "https://oi-wiki.org/dp/interval/",
+          "label": "NOIP 2006 能量项链"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1063"
+    },
+    {
+      "code": "P1005",
+      "identity": "luogu.com.cn/problem/P1005",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1005"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1005",
+      "references": [
+        {
+          "articleId": "dp/interval",
+          "articleTitle": "区间 DP",
+          "articleUrl": "https://oi-wiki.org/dp/interval/",
+          "label": "NOIP 2007 矩阵取数游戏"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1005"
+    },
+    {
+      "code": "P4767",
+      "identity": "luogu.com.cn/problem/P4767",
+      "links": [
+        "https://www.luogu.com.cn/problem/P4767"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P4767",
+      "references": [
+        {
+          "articleId": "dp/interval",
+          "articleTitle": "区间 DP",
+          "articleUrl": "https://oi-wiki.org/dp/interval/",
+          "label": "「IOI2000」邮局"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P4767"
+    },
+    {
+      "code": "P2871",
+      "identity": "luogu.com.cn/problem/P2871",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2871"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2871",
+      "references": [
+        {
+          "articleId": "dp/knapsack/basic",
+          "articleTitle": "背包 DP 基础",
+          "articleUrl": "https://oi-wiki.org/dp/knapsack/basic/",
+          "label": "「USACO07 DEC」Charm Bracelet"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2871"
+    },
+    {
+      "code": "P1616",
+      "identity": "luogu.com.cn/problem/P1616",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1616"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1616",
+      "references": [
+        {
+          "articleId": "dp/knapsack/basic",
+          "articleTitle": "背包 DP 基础",
+          "articleUrl": "https://oi-wiki.org/dp/knapsack/basic/",
+          "label": "「Luogu P1616」疯狂的采药"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1616"
+    },
+    {
+      "code": "P1776",
+      "identity": "luogu.com.cn/problem/P1776",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1776"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1776",
+      "references": [
+        {
+          "articleId": "dp/knapsack/basic",
+          "articleTitle": "背包 DP 基础",
+          "articleUrl": "https://oi-wiki.org/dp/knapsack/basic/",
+          "label": "「Luogu P1776」宝物筛选_NOI 导刊 2010 提高（02）"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1776"
+    },
+    {
+      "code": "P1048",
+      "identity": "luogu.com.cn/problem/P1048",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1048"
+      ],
+      "platform": "洛谷",
+      "problemId": "lab:luogu:P1048",
+      "references": [
+        {
+          "articleId": "dp/memo",
+          "articleTitle": "记忆化搜索",
+          "articleUrl": "https://oi-wiki.org/dp/memo/",
+          "label": "[NOIP2005] 采药"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1048"
+    },
+    {
+      "code": "P5911",
+      "identity": "luogu.com.cn/problem/P5911",
+      "links": [
+        "https://www.luogu.com.cn/problem/P5911"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P5911",
+      "references": [
+        {
+          "articleId": "dp/state",
+          "articleTitle": "状压 DP",
+          "articleUrl": "https://oi-wiki.org/dp/state/",
+          "label": "[POI2004] PRZ"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5911"
+    },
+    {
+      "code": "P1879",
+      "identity": "luogu.com.cn/problem/P1879",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1879"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1879",
+      "references": [
+        {
+          "articleId": "dp/state",
+          "articleTitle": "状压 DP",
+          "articleUrl": "https://oi-wiki.org/dp/state/",
+          "label": "「USACO06NOV」玉米田 Corn Fields"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1879"
+    },
+    {
+      "code": "P1352",
+      "identity": "luogu.com.cn/problem/P1352",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1352"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1352",
+      "references": [
+        {
+          "articleId": "dp/tree",
+          "articleTitle": "树形 DP",
+          "articleUrl": "https://oi-wiki.org/dp/tree/",
+          "label": "洛谷 P1352 没有上司的舞会"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1352"
+    },
+    {
+      "code": "2196",
+      "identity": "acm.hdu.edu.cn/problem/2196",
+      "links": [
+        "https://acm.hdu.edu.cn/showproblem.php?pid=2196"
+      ],
+      "platform": "HDU",
+      "problemId": "wiki-example-ad1e45320c268eec87ec",
+      "references": [
+        {
+          "articleId": "dp/tree",
+          "articleTitle": "树形 DP",
+          "articleUrl": "https://oi-wiki.org/dp/tree/",
+          "label": "HDU 2196 Computer"
+        }
+      ],
+      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=2196"
+    },
+    {
+      "code": "1463",
+      "identity": "poj.org/problem/1463",
+      "links": [
+        "http://poj.org/problem?id=1463"
+      ],
+      "platform": "POJ",
+      "problemId": "wiki-example-1c3d5476206f3a4e1667",
+      "references": [
+        {
+          "articleId": "dp/tree",
+          "articleTitle": "树形 DP",
+          "articleUrl": "https://oi-wiki.org/dp/tree/",
+          "label": "POJ 1463 Strategic game"
+        }
+      ],
+      "url": "http://poj.org/problem?id=1463"
+    },
+    {
+      "code": "P3574",
+      "identity": "luogu.com.cn/problem/P3574",
+      "links": [
+        "https://www.luogu.com.cn/problem/P3574"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P3574",
+      "references": [
+        {
+          "articleId": "dp/tree",
+          "articleTitle": "树形 DP",
+          "articleUrl": "https://oi-wiki.org/dp/tree/",
+          "label": "[POI2014]FAR-FarmCraft"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3574"
+    },
+    {
+      "code": "P2014",
+      "identity": "luogu.com.cn/problem/P2014",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2014"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2014",
+      "references": [
+        {
+          "articleId": "dp/tree",
+          "articleTitle": "树形 DP",
+          "articleUrl": "https://oi-wiki.org/dp/tree/",
+          "label": "洛谷 P2014 CTSC1997 选课"
+        },
+        {
+          "articleId": "dp/tree",
+          "articleTitle": "树形 DP",
+          "articleUrl": "https://oi-wiki.org/dp/tree/",
+          "label": "「CTSC1997」选课"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2014"
+    },
+    {
+      "code": "1830D",
+      "identity": "codeforces.com/contest/1830/problem/D",
+      "links": [
+        "https://codeforces.com/contest/1830/problem/D"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-7d7b950ec49c1d6cb728",
+      "references": [
+        {
+          "articleId": "dp/tree",
+          "articleTitle": "树形 DP",
+          "articleUrl": "https://oi-wiki.org/dp/tree/",
+          "label": "「Codeforces Round 875 Div. 1」Problem D. Mex Tree"
+        }
+      ],
+      "url": "https://codeforces.com/contest/1830/problem/D"
+    },
+    {
+      "code": "P3478",
+      "identity": "luogu.com.cn/problem/P3478",
+      "links": [
+        "https://www.luogu.com.cn/problem/P3478"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P3478",
+      "references": [
+        {
+          "articleId": "dp/tree",
+          "articleTitle": "树形 DP",
+          "articleUrl": "https://oi-wiki.org/dp/tree/",
+          "label": "[POI2008]STA-Station"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3478"
+    },
+    {
+      "code": "dp_v",
+      "identity": "atcoder.jp/contests/dp/tasks/dp_v",
+      "links": [
+        "https://atcoder.jp/contests/dp/tasks/dp_v"
+      ],
+      "platform": "AtCoder",
+      "problemId": "wiki-example-76810b46090d765ab2ab",
+      "references": [
+        {
+          "articleId": "dp/tree",
+          "articleTitle": "树形 DP",
+          "articleUrl": "https://oi-wiki.org/dp/tree/",
+          "label": "Atcoder Educational DP Contest, Problem V, Subtree"
+        }
+      ],
+      "url": "https://atcoder.jp/contests/dp/tasks/dp_v"
+    },
+    {
+      "code": "1187E",
+      "identity": "codeforces.com/contest/1187/problem/E",
+      "links": [
+        "https://codeforces.com/contest/1187/problem/E"
+      ],
+      "platform": "Codeforces",
+      "problemId": "remote:codeforces:1187::E",
+      "references": [
+        {
+          "articleId": "dp/tree",
+          "articleTitle": "树形 DP",
+          "articleUrl": "https://oi-wiki.org/dp/tree/",
+          "label": "Educational Codeforces Round 67, Problem E, Tree Painting"
+        }
+      ],
+      "url": "https://codeforces.com/contest/1187/problem/E"
+    },
+    {
+      "code": "3585",
+      "identity": "poj.org/problem/3585",
+      "links": [
+        "http://poj.org/problem?id=3585"
+      ],
+      "platform": "POJ",
+      "problemId": "wiki-example-c84529769ea7c2ff74b0",
+      "references": [
+        {
+          "articleId": "dp/tree",
+          "articleTitle": "树形 DP",
+          "articleUrl": "https://oi-wiki.org/dp/tree/",
+          "label": "POJ 3585 Accumulation Degree"
+        }
+      ],
+      "url": "http://poj.org/problem?id=3585"
+    },
+    {
+      "code": "P2986",
+      "identity": "luogu.com.cn/problem/P2986",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2986"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2986",
+      "references": [
+        {
+          "articleId": "dp/tree",
+          "articleTitle": "树形 DP",
+          "articleUrl": "https://oi-wiki.org/dp/tree/",
+          "label": "[USACO10MAR]Great Cow Gathering G"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2986"
+    },
+    {
+      "code": "708C",
+      "identity": "codeforces.com/contest/708/problem/C",
+      "links": [
+        "http://codeforces.com/problemset/problem/708/C"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-6722713ce6333c2162be",
+      "references": [
+        {
+          "articleId": "dp/tree",
+          "articleTitle": "树形 DP",
+          "articleUrl": "https://oi-wiki.org/dp/tree/",
+          "label": "CodeForce 708C Centroids"
+        }
+      ],
+      "url": "https://codeforces.com/contest/708/problem/C"
+    },
+    {
+      "code": "P3367",
+      "identity": "luogu.com.cn/problem/P3367",
+      "links": [
+        "https://www.luogu.com.cn/problem/P3367"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P3367",
+      "references": [
+        {
+          "articleId": "ds/dsu",
+          "articleTitle": "并查集",
+          "articleUrl": "https://oi-wiki.org/ds/dsu/",
+          "label": "Luogu P3367【模板】并查集"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3367"
+    },
+    {
+      "code": "JMFILTER",
+      "identity": "spoj.com/problems/JMFILTER",
+      "links": [
+        "https://www.spoj.com/problems/JMFILTER/"
+      ],
+      "platform": "SPOJ",
+      "problemId": "wiki-example-c18e5093779842a90a20",
+      "references": [
+        {
+          "articleId": "ds/dsu",
+          "articleTitle": "并查集",
+          "articleUrl": "https://oi-wiki.org/ds/dsu/",
+          "label": "SPOJ JMFILTER - Junk-Mail Filter"
+        }
+      ],
+      "url": "https://www.spoj.com/problems/JMFILTER/"
+    },
+    {
+      "code": "11987",
+      "identity": "onlinejudge.org/problem/3138",
+      "links": [
+        "https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=229&page=show_problem&problem=3138"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-74cb3923327ac8d4d753",
+      "references": [
+        {
+          "articleId": "ds/dsu",
+          "articleTitle": "并查集",
+          "articleUrl": "https://oi-wiki.org/ds/dsu/",
+          "label": "UVa11987 Almost Union-Find"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=3138"
+    },
+    {
+      "code": "P2024",
+      "identity": "luogu.com.cn/problem/P2024",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2024"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2024",
+      "references": [
+        {
+          "articleId": "ds/dsu",
+          "articleTitle": "并查集",
+          "articleUrl": "https://oi-wiki.org/ds/dsu/",
+          "label": "Luogu P2024「NOI2011」食物链"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2024"
+    },
+    {
+      "code": "abc396_e",
+      "identity": "atcoder.jp/contests/abc396/tasks/abc396_e",
+      "links": [
+        "https://atcoder.jp/contests/abc396/tasks/abc396_e"
+      ],
+      "platform": "AtCoder",
+      "problemId": "wiki-example-6972aa83009910235305",
+      "references": [
+        {
+          "articleId": "ds/dsu",
+          "articleTitle": "并查集",
+          "articleUrl": "https://oi-wiki.org/ds/dsu/",
+          "label": "ABC396E Min of Restricted Sum"
+        }
+      ],
+      "url": "https://atcoder.jp/contests/abc396/tasks/abc396_e"
+    },
+    {
+      "code": "127",
+      "identity": "uoj.ac/problem/127",
+      "links": [
+        "https://uoj.ac/problem/127"
+      ],
+      "platform": "UOJ",
+      "problemId": "wiki-example-356a5dc12dc9f8e21efa",
+      "references": [
+        {
+          "articleId": "ds/dsu",
+          "articleTitle": "并查集",
+          "articleUrl": "https://oi-wiki.org/ds/dsu/",
+          "label": "「NOI2015」程序自动分析"
+        }
+      ],
+      "url": "https://uoj.ac/problem/127"
+    },
+    {
+      "code": "P1197",
+      "identity": "luogu.com.cn/problem/P1197",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1197"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1197",
+      "references": [
+        {
+          "articleId": "ds/dsu",
+          "articleTitle": "并查集",
+          "articleUrl": "https://oi-wiki.org/ds/dsu/",
+          "label": "「JSOI2008」星球大战"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1197"
+    },
+    {
+      "code": "P9869",
+      "identity": "luogu.com.cn/problem/P9869",
+      "links": [
+        "https://www.luogu.com.cn/problem/P9869"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P9869",
+      "references": [
+        {
+          "articleId": "ds/dsu",
+          "articleTitle": "并查集",
+          "articleUrl": "https://oi-wiki.org/ds/dsu/",
+          "label": "「NOIP2023」三值逻辑"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P9869"
+    },
+    {
+      "code": "P1196",
+      "identity": "luogu.com.cn/problem/P1196",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1196"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1196",
+      "references": [
+        {
+          "articleId": "ds/dsu",
+          "articleTitle": "并查集",
+          "articleUrl": "https://oi-wiki.org/ds/dsu/",
+          "label": "「NOI2002」银河英雄传说"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1196"
+    },
+    {
+      "code": "P7961",
+      "identity": "luogu.com.cn/problem/P7961",
+      "links": [
+        "https://www.luogu.com.cn/problem/P7961"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P7961",
+      "references": [
+        {
+          "articleId": "ds/fenwick",
+          "articleTitle": "树状数组",
+          "articleUrl": "https://oi-wiki.org/ds/fenwick/",
+          "label": "[NOIP2021] 数列"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P7961"
+    },
+    {
+      "code": "2823",
+      "identity": "poj.org/problem/2823",
+      "links": [
+        "http://poj.org/problem?id=2823"
+      ],
+      "platform": "POJ",
+      "problemId": "wiki-example-85220fc22b81b05c9163",
+      "references": [
+        {
+          "articleId": "ds/monotonic-queue",
+          "articleTitle": "单调队列",
+          "articleUrl": "https://oi-wiki.org/ds/monotonic-queue/",
+          "label": "Sliding Window"
+        }
+      ],
+      "url": "http://poj.org/problem?id=2823"
+    },
+    {
+      "code": "P2698",
+      "identity": "luogu.com.cn/problem/P2698",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2698"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2698",
+      "references": [
+        {
+          "articleId": "ds/monotonic-queue",
+          "articleTitle": "单调队列",
+          "articleUrl": "https://oi-wiki.org/ds/monotonic-queue/",
+          "label": "Luogu P2698 Flowerpot S"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2698"
+    },
+    {
+      "code": "3250",
+      "identity": "poj.org/problem/3250",
+      "links": [
+        "http://poj.org/problem?id=3250"
+      ],
+      "platform": "POJ",
+      "problemId": "wiki-example-eeba4ccbf4b891384e3c",
+      "references": [
+        {
+          "articleId": "ds/monotonic-stack",
+          "articleTitle": "单调栈",
+          "articleUrl": "https://oi-wiki.org/ds/monotonic-stack/",
+          "label": "POJ3250 Bad Hair Day"
+        }
+      ],
+      "url": "http://poj.org/problem?id=3250"
+    },
+    {
+      "code": "P5788",
+      "identity": "luogu.com.cn/problem/P5788",
+      "links": [
+        "https://www.luogu.com.cn/problem/P5788"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P5788",
+      "references": [
+        {
+          "articleId": "ds/monotonic-stack",
+          "articleTitle": "单调栈",
+          "articleUrl": "https://oi-wiki.org/ds/monotonic-stack/",
+          "label": "洛谷 P5788【模板】单调栈"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5788"
+    },
+    {
+      "code": "P1901",
+      "identity": "luogu.com.cn/problem/P1901",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1901"
+      ],
+      "platform": "洛谷",
+      "problemId": "wiki-example-fc75abe91de7fed34fe0",
+      "references": [
+        {
+          "articleId": "ds/monotonic-stack",
+          "articleTitle": "单调栈",
+          "articleUrl": "https://oi-wiki.org/ds/monotonic-stack/",
+          "label": "洛谷 P1901 发射站"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1901"
+    },
+    {
+      "code": "B3616",
+      "identity": "luogu.com.cn/problem/B3616",
+      "links": [
+        "https://www.luogu.com.cn/problem/B3616"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-B3616",
+      "references": [
+        {
+          "articleId": "ds/queue",
+          "articleTitle": "队列",
+          "articleUrl": "https://oi-wiki.org/ds/queue/",
+          "label": "Luogu B3616【模板】队列"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/B3616"
+    },
+    {
+      "code": "B3656",
+      "identity": "luogu.com.cn/problem/B3656",
+      "links": [
+        "https://www.luogu.com.cn/problem/B3656"
+      ],
+      "platform": "洛谷",
+      "problemId": "wiki-example-d82f0df20074af8010fe",
+      "references": [
+        {
+          "articleId": "ds/queue",
+          "articleTitle": "队列",
+          "articleUrl": "https://oi-wiki.org/ds/queue/",
+          "label": "Luogu B3656【模板】双端队列 1"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/B3656"
+    },
+    {
+      "code": "P3372",
+      "identity": "luogu.com.cn/problem/P3372",
+      "links": [
+        "https://www.luogu.com.cn/problem/P3372"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P3372",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P3372【模板】线段树 1"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3372"
+    },
+    {
+      "code": "P3373",
+      "identity": "luogu.com.cn/problem/P3373",
+      "links": [
+        "https://www.luogu.com.cn/problem/P3373"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P3373",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P3373【模板】线段树 2"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3373"
+    },
+    {
+      "code": "GSS3",
+      "identity": "spoj.com/problems/GSS3",
+      "links": [
+        "https://www.spoj.com/problems/GSS3/"
+      ],
+      "platform": "SPOJ",
+      "problemId": "wiki-example-9588d9b723dd4fb59237",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "SPOJ GSS3 - Can you answer these queries III"
+        }
+      ],
+      "url": "https://www.spoj.com/problems/GSS3/"
+    },
+    {
+      "code": "P13825",
+      "identity": "luogu.com.cn/problem/P13825",
+      "links": [
+        "https://www.luogu.com.cn/problem/P13825"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P13825",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P13825【模板】线段树 1.5"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P13825"
+    },
+    {
+      "code": "P5490",
+      "identity": "luogu.com.cn/problem/P5490",
+      "links": [
+        "https://www.luogu.com.cn/problem/P5490"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P5490",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P5490【模板】扫描线 & 矩形面积并"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5490"
+    },
+    {
+      "code": "P2894",
+      "identity": "luogu.com.cn/problem/P2894",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2894"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2894",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P2894【USACO08FEB】Hotel G"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2894"
+    },
+    {
+      "code": "P1168",
+      "identity": "luogu.com.cn/problem/P1168",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1168"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1168",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P1168 中位数"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1168"
+    },
+    {
+      "code": "P2574",
+      "identity": "luogu.com.cn/problem/P2574",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2574"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2574",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P2574 XOR 的艺术"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2574"
+    },
+    {
+      "code": "P4588",
+      "identity": "luogu.com.cn/problem/P4588",
+      "links": [
+        "https://www.luogu.com.cn/problem/P4588"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P4588",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P4588【TJOI2018】数学计算"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P4588"
+    },
+    {
+      "code": "P1253",
+      "identity": "luogu.com.cn/problem/P1253",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1253"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1253",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P1253 扶苏的问题"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1253"
+    },
+    {
+      "code": "P1471",
+      "identity": "luogu.com.cn/problem/P1471",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1471"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1471",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P1471 方差"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1471"
+    },
+    {
+      "code": "P4513",
+      "identity": "luogu.com.cn/problem/P4513",
+      "links": [
+        "https://www.luogu.com.cn/problem/P4513"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P4513",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P4513 小白逛公园"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P4513"
+    },
+    {
+      "code": "P2572",
+      "identity": "luogu.com.cn/problem/P2572",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2572"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2572",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P2572【SCOI2010】序列操作"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2572"
+    },
+    {
+      "code": "915E",
+      "identity": "codeforces.com/contest/915/problem/E",
+      "links": [
+        "https://codeforces.com/problemset/problem/915/E"
+      ],
+      "platform": "Codeforces",
+      "problemId": "remote:codeforces:915::E",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Codeforces 915 E. Physical Education Lessons"
+        }
+      ],
+      "url": "https://codeforces.com/contest/915/problem/E"
+    },
+    {
+      "code": "817F",
+      "identity": "codeforces.com/contest/817/problem/F",
+      "links": [
+        "https://codeforces.com/problemset/problem/817/F"
+      ],
+      "platform": "Codeforces",
+      "problemId": "remote:codeforces:817::F",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Codeforces 817 F. MEX Queries"
+        }
+      ],
+      "url": "https://codeforces.com/contest/817/problem/F"
+    },
+    {
+      "code": "P1502",
+      "identity": "luogu.com.cn/problem/P1502",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1502"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1502",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P1502 窗口的星星"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1502"
+    },
+    {
+      "code": "6356",
+      "identity": "acm.hdu.edu.cn/problem/6356",
+      "links": [
+        "https://acm.hdu.edu.cn/showproblem.php?pid=6356"
+      ],
+      "platform": "HDU",
+      "problemId": "wiki-example-6f3066e7def3eca13067",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "2018 Multi-University Training Contest 5 G. Glad You Came"
+        }
+      ],
+      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=6356"
+    },
+    {
+      "code": "practice2_j",
+      "identity": "atcoder.jp/contests/practice2/tasks/practice2_j",
+      "links": [
+        "https://atcoder.jp/contests/practice2/tasks/practice2_j"
+      ],
+      "platform": "AtCoder",
+      "problemId": "wiki-example-1834b0824dbf4db9fa1b",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "AtCoder Library Practice Contest J - Segment Tree"
+        }
+      ],
+      "url": "https://atcoder.jp/contests/practice2/tasks/practice2_j"
+    },
+    {
+      "code": "abc292_h",
+      "identity": "atcoder.jp/contests/abc292/tasks/abc292_h",
+      "links": [
+        "https://atcoder.jp/contests/abc292/tasks/abc292_h"
+      ],
+      "platform": "AtCoder",
+      "problemId": "wiki-example-edaf83280a0cb175edbb",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "AtCoder Beginner Contest 292 Ex - Rating Estimator"
+        }
+      ],
+      "url": "https://atcoder.jp/contests/abc292/tasks/abc292_h"
+    },
+    {
+      "code": "P4137",
+      "identity": "luogu.com.cn/problem/P4137",
+      "links": [
+        "https://www.luogu.com.cn/problem/P4137"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P4137",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P4137 Rmq Problem/mex"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P4137"
+    },
+    {
+      "code": "773E",
+      "identity": "codeforces.com/contest/773/problem/E",
+      "links": [
+        "https://codeforces.com/problemset/problem/773/E"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-7be4eabf2f3512e8ad4e",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Codeforces 773 E. Blog Post Rating"
+        }
+      ],
+      "url": "https://codeforces.com/contest/773/problem/E"
+    },
+    {
+      "code": "407E",
+      "identity": "codeforces.com/contest/407/problem/E",
+      "links": [
+        "https://codeforces.com/problemset/problem/407/E"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-0d6f00f94153acf8e3d0",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Codeforces 407 E. k-d-sequence"
+        }
+      ],
+      "url": "https://codeforces.com/contest/407/problem/E"
+    },
+    {
+      "code": "671E",
+      "identity": "codeforces.com/contest/671/problem/E",
+      "links": [
+        "https://codeforces.com/problemset/problem/671/E"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-33b9b87821530d3575f6",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Codeforces 671 E. Organizing a Race"
+        }
+      ],
+      "url": "https://codeforces.com/contest/671/problem/E"
+    },
+    {
+      "code": "P1908",
+      "identity": "luogu.com.cn/problem/P1908",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1908"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1908",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P1908 逆序对"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1908"
+    },
+    {
+      "code": "P1801",
+      "identity": "luogu.com.cn/problem/P1801",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1801"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1801",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P1801 黑匣子"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1801"
+    },
+    {
+      "code": "P1637",
+      "identity": "luogu.com.cn/problem/P1637",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1637"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1637",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P1637 三元上升子序列"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1637"
+    },
+    {
+      "code": "P2286",
+      "identity": "luogu.com.cn/problem/P2286",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2286"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2286",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Luogu P2286【HNOI2004】宠物收养场"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2286"
+    },
+    {
+      "code": "786B",
+      "identity": "codeforces.com/contest/786/problem/B",
+      "links": [
+        "https://codeforces.com/problemset/problem/786/B"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-6d9adf08ae08ad0cf107",
+      "references": [
+        {
+          "articleId": "ds/seg",
+          "articleTitle": "线段树基础",
+          "articleUrl": "https://oi-wiki.org/ds/seg/",
+          "label": "Legacy"
+        }
+      ],
+      "url": "https://codeforces.com/contest/786/problem/B"
+    },
+    {
+      "code": "P3865",
+      "identity": "luogu.com.cn/problem/P3865",
+      "links": [
+        "https://www.luogu.com.cn/problem/P3865"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P3865",
+      "references": [
+        {
+          "articleId": "ds/sparse-table",
+          "articleTitle": "ST 表",
+          "articleUrl": "https://oi-wiki.org/ds/sparse-table/",
+          "label": "Luogu P3865【模板】ST 表 & RMQ 问题"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3865"
+    },
+    {
+      "code": "2279",
+      "identity": "loj.ac/p/2279",
+      "links": [
+        "https://loj.ac/p/2279"
+      ],
+      "platform": "LibreOJ",
+      "problemId": "wiki-example-9cf4d47ecac9cb695ea2",
+      "references": [
+        {
+          "articleId": "ds/sparse-table",
+          "articleTitle": "ST 表",
+          "articleUrl": "https://oi-wiki.org/ds/sparse-table/",
+          "label": "「SCOI2007」降雨量"
+        }
+      ],
+      "url": "https://loj.ac/p/2279"
+    },
+    {
+      "code": "P2880",
+      "identity": "luogu.com.cn/problem/P2880",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2880"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2880",
+      "references": [
+        {
+          "articleId": "ds/sparse-table",
+          "articleTitle": "ST 表",
+          "articleUrl": "https://oi-wiki.org/ds/sparse-table/",
+          "label": "[USACO07JAN] 平衡的阵容 Balanced Lineup"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2880"
+    },
+    {
+      "code": "P8436",
+      "identity": "luogu.com.cn/problem/P8436",
+      "links": [
+        "https://www.luogu.com.cn/problem/P8436"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P8436",
+      "references": [
+        {
+          "articleId": "graph/bcc",
+          "articleTitle": "双连通分量",
+          "articleUrl": "https://oi-wiki.org/graph/bcc/",
+          "label": "例题：洛谷 P8436【模版】边双连通分量"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P8436"
+    },
+    {
+      "code": "2788",
+      "identity": "loj.ac/p/2788",
+      "links": [
+        "https://loj.ac/p/2788"
+      ],
+      "platform": "LibreOJ",
+      "problemId": "wiki-example-96a5e24bda6e3fcef31f",
+      "references": [
+        {
+          "articleId": "graph/bcc",
+          "articleTitle": "双连通分量",
+          "articleUrl": "https://oi-wiki.org/graph/bcc/",
+          "label": "#2788.「CEOI2015 Day1」管道"
+        }
+      ],
+      "url": "https://loj.ac/p/2788"
+    },
+    {
+      "code": "P8435",
+      "identity": "luogu.com.cn/problem/P8435",
+      "links": [
+        "https://www.luogu.com.cn/problem/P8435"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P8435",
+      "references": [
+        {
+          "articleId": "graph/bcc",
+          "articleTitle": "双连通分量",
+          "articleUrl": "https://oi-wiki.org/graph/bcc/",
+          "label": "例题：洛谷 P8435【模板】点双连通分量"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P8435"
+    },
+    {
+      "code": "2586",
+      "identity": "acm.hdu.edu.cn/problem/2586",
+      "links": [
+        "https://acm.hdu.edu.cn/showproblem.php?pid=2586"
+      ],
+      "platform": "HDU",
+      "problemId": "wiki-example-a16f455a414aa01c6f84",
+      "references": [
+        {
+          "articleId": "graph/lca",
+          "articleTitle": "最近公共祖先",
+          "articleUrl": "https://oi-wiki.org/graph/lca/",
+          "label": "HDU 2586 How far away?"
+        }
+      ],
+      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=2586"
+    },
+    {
+      "code": "P3379",
+      "identity": "luogu.com.cn/problem/P3379",
+      "links": [
+        "https://www.luogu.com.cn/problem/P3379"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P3379",
+      "references": [
+        {
+          "articleId": "graph/lca",
+          "articleTitle": "最近公共祖先",
+          "articleUrl": "https://oi-wiki.org/graph/lca/",
+          "label": "Luogu P3379【模板】最近公共祖先（LCA）"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3379"
+    },
+    {
+      "code": "P1195",
+      "identity": "luogu.com.cn/problem/P1195",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1195"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1195",
+      "references": [
+        {
+          "articleId": "graph/mst",
+          "articleTitle": "最小生成树",
+          "articleUrl": "https://oi-wiki.org/graph/mst/",
+          "label": "洛谷 P1195 口袋的天空"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1195"
+    },
+    {
+      "code": "888G",
+      "identity": "codeforces.com/contest/888/problem/G",
+      "links": [
+        "https://codeforces.com/problemset/problem/888/G"
+      ],
+      "platform": "Codeforces",
+      "problemId": "remote:codeforces:888::G",
+      "references": [
+        {
+          "articleId": "graph/mst",
+          "articleTitle": "最小生成树",
+          "articleUrl": "https://oi-wiki.org/graph/mst/",
+          "label": "CF888G"
+        }
+      ],
+      "url": "https://codeforces.com/contest/888/problem/G"
+    },
+    {
+      "code": "P2504",
+      "identity": "luogu.com.cn/problem/P2504",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2504"
+      ],
+      "platform": "洛谷",
+      "problemId": "wiki-example-c073896f0d0751e70058",
+      "references": [
+        {
+          "articleId": "graph/mst",
+          "articleTitle": "最小生成树",
+          "articleUrl": "https://oi-wiki.org/graph/mst/",
+          "label": "「HAOI2006」聪明的猴子"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2504"
+    },
+    {
+      "code": "1679",
+      "identity": "poj.org/problem/1679",
+      "links": [
+        "http://poj.org/problem?id=1679"
+      ],
+      "platform": "POJ",
+      "problemId": "wiki-example-3de4f8d05076b9dc80cc",
+      "references": [
+        {
+          "articleId": "graph/mst",
+          "articleTitle": "最小生成树",
+          "articleUrl": "https://oi-wiki.org/graph/mst/",
+          "label": "POJ 1679"
+        }
+      ],
+      "url": "http://poj.org/problem?id=1679"
+    },
+    {
+      "code": "393",
+      "identity": "uoj.ac/problem/393",
+      "links": [
+        "https://uoj.ac/problem/393"
+      ],
+      "platform": "UOJ",
+      "problemId": "wiki-example-73d05fc011b7c1d5923b",
+      "references": [
+        {
+          "articleId": "graph/mst",
+          "articleTitle": "最小生成树",
+          "articleUrl": "https://oi-wiki.org/graph/mst/",
+          "label": "NOI 2018 归程"
+        }
+      ],
+      "url": "https://uoj.ac/problem/393"
+    },
+    {
+      "code": "1236",
+      "identity": "poj.org/problem/1236",
+      "links": [
+        "http://poj.org/problem?id=1236"
+      ],
+      "platform": "POJ",
+      "problemId": "wiki-example-c05973fb3c9ca0458acc",
+      "references": [
+        {
+          "articleId": "graph/scc",
+          "articleTitle": "强连通分量",
+          "articleUrl": "https://oi-wiki.org/graph/scc/",
+          "label": "POJ1236 Network of Schools"
+        }
+      ],
+      "url": "http://poj.org/problem?id=1236"
+    },
+    {
+      "code": "1385E",
+      "identity": "codeforces.com/contest/1385/problem/E",
+      "links": [
+        "https://codeforces.com/problemset/problem/1385/E"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-7d6287a4c67d7db02e7c",
+      "references": [
+        {
+          "articleId": "graph/topo",
+          "articleTitle": "拓扑排序",
+          "articleUrl": "https://oi-wiki.org/graph/topo/",
+          "label": "CF 1385E"
+        }
+      ],
+      "url": "https://codeforces.com/contest/1385/problem/E"
+    },
+    {
+      "code": "P1347",
+      "identity": "luogu.com.cn/problem/P1347",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1347"
+      ],
+      "platform": "洛谷",
+      "problemId": "wiki-example-9bbaa8b2372a684fc7c2",
+      "references": [
+        {
+          "articleId": "graph/topo",
+          "articleTitle": "拓扑排序",
+          "articleUrl": "https://oi-wiki.org/graph/topo/",
+          "label": "Luogu P1347"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1347"
+    },
+    {
+      "code": "P1226",
+      "identity": "luogu.com.cn/problem/P1226",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1226"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1226",
+      "references": [
+        {
+          "articleId": "math/binary-exponentiation",
+          "articleTitle": "快速幂",
+          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+          "label": "洛谷 P1226【模板】快速幂"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1226"
+    },
+    {
+      "code": "4087",
+      "identity": "acm.hdu.edu.cn/problem/4087",
+      "links": [
+        "https://acm.hdu.edu.cn/showproblem.php?pid=4087"
+      ],
+      "platform": "HDU",
+      "problemId": "wiki-example-ca404373c228943b5df2",
+      "references": [
+        {
+          "articleId": "math/binary-exponentiation",
+          "articleTitle": "快速幂",
+          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+          "label": "HDU 4087 A Letter to Programmers"
+        }
+      ],
+      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=4087"
+    },
+    {
+      "code": "P1045",
+      "identity": "luogu.com.cn/problem/P1045",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1045"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1045",
+      "references": [
+        {
+          "articleId": "math/binary-exponentiation",
+          "articleTitle": "快速幂",
+          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+          "label": "洛谷 P1045 [NOIP 2003 普及组] 麦森数"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1045"
+    },
+    {
+      "code": "1230",
+      "identity": "onlinejudge.org/problem/3671",
+      "links": [
+        "http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=3671"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-74fc4feaff1d87de9fd6",
+      "references": [
+        {
+          "articleId": "math/binary-exponentiation",
+          "articleTitle": "快速幂",
+          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+          "label": "UVa 1230 - MODEX"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=3671"
+    },
+    {
+      "code": "374",
+      "identity": "onlinejudge.org/problem/310",
+      "links": [
+        "http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=310"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-f4e70897fec1c371cb84",
+      "references": [
+        {
+          "articleId": "math/binary-exponentiation",
+          "articleTitle": "快速幂",
+          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+          "label": "UVa 374 - Big Mod"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=310"
+    },
+    {
+      "code": "11029",
+      "identity": "onlinejudge.org/problem/1970",
+      "links": [
+        "https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1970"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-788895e507dcd46b4942",
+      "references": [
+        {
+          "articleId": "math/binary-exponentiation",
+          "articleTitle": "快速幂",
+          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+          "label": "UVa 11029 - Leading and Trailing"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1970"
+    },
+    {
+      "code": "630I",
+      "identity": "codeforces.com/contest/630/problem/I",
+      "links": [
+        "http://codeforces.com/problemset/problem/630/I"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-2847abc108cd46f22014",
+      "references": [
+        {
+          "articleId": "math/binary-exponentiation",
+          "articleTitle": "快速幂",
+          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+          "label": "Codeforces - Parking Lot"
+        }
+      ],
+      "url": "https://codeforces.com/contest/630/problem/I"
+    },
+    {
+      "code": "LASTDIG",
+      "identity": "spoj.com/problems/LASTDIG",
+      "links": [
+        "http://www.spoj.com/problems/LASTDIG/"
+      ],
+      "platform": "SPOJ",
+      "problemId": "wiki-example-8dbaf4a1b5787a466da5",
+      "references": [
+        {
+          "articleId": "math/binary-exponentiation",
+          "articleTitle": "快速幂",
+          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+          "label": "SPOJ - The last digit"
+        }
+      ],
+      "url": "https://www.spoj.com/problems/LASTDIG/"
+    },
+    {
+      "code": "LOCKER",
+      "identity": "spoj.com/problems/LOCKER",
+      "links": [
+        "http://www.spoj.com/problems/LOCKER/"
+      ],
+      "platform": "SPOJ",
+      "problemId": "wiki-example-70aa3b4740d87327737a",
+      "references": [
+        {
+          "articleId": "math/binary-exponentiation",
+          "articleTitle": "快速幂",
+          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+          "label": "SPOJ - Locker"
+        }
+      ],
+      "url": "https://www.spoj.com/problems/LOCKER/"
+    },
+    {
+      "code": "ZSUM",
+      "identity": "spoj.com/problems/ZSUM",
+      "links": [
+        "http://www.spoj.com/problems/ZSUM/"
+      ],
+      "platform": "SPOJ",
+      "problemId": "wiki-example-d17efd6416f15d19624b",
+      "references": [
+        {
+          "articleId": "math/binary-exponentiation",
+          "articleTitle": "快速幂",
+          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
+          "label": "SPOJ - Just add it"
+        }
+      ],
+      "url": "https://www.spoj.com/problems/ZSUM/"
+    },
+    {
+      "code": "10104",
+      "identity": "onlinejudge.org/problem/1045",
+      "links": [
+        "https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1045"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-85cd26c5116bbc30df33",
+      "references": [
+        {
+          "articleId": "math/number-theory/gcd",
+          "articleTitle": "最大公约数",
+          "articleUrl": "https://oi-wiki.org/math/number-theory/gcd/",
+          "label": "10104 - Euclid Problem"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1045"
+    },
+    {
+      "code": "100963J",
+      "identity": "codeforces.com/gym/100963/problem/J",
+      "identityProof": {
+        "page": 16,
+        "title": "Once Upon A Time",
+        "url": "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf"
+      },
+      "links": [
+        "http://codeforces.com/gym/100963"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-f3111abcb4011fc83c9c",
+      "references": [
+        {
+          "articleId": "math/number-theory/gcd",
+          "articleTitle": "最大公约数",
+          "articleUrl": "https://oi-wiki.org/math/number-theory/gcd/",
+          "label": "GYM - (J) once upon a time"
+        }
+      ],
+      "url": "https://codeforces.com/gym/100963/problem/J"
+    },
+    {
+      "code": "12775",
+      "identity": "onlinejudge.org/problem/4628",
+      "links": [
+        "https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=4628"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-39cb7c88e30aa4d3ff70",
+      "references": [
+        {
+          "articleId": "math/number-theory/gcd",
+          "articleTitle": "最大公约数",
+          "articleUrl": "https://oi-wiki.org/math/number-theory/gcd/",
+          "label": "UVa - 12775 - Gift Dilemma"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=4628"
+    },
+    {
+      "code": "P2054",
+      "identity": "luogu.com.cn/problem/P2054",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2054"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2054",
+      "references": [
+        {
+          "articleId": "math/number-theory/inverse",
+          "articleTitle": "模逆元",
+          "articleUrl": "https://oi-wiki.org/math/number-theory/inverse/",
+          "label": "Luogu P2054「AHOI2005」洗牌"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2054"
+    },
+    {
+      "code": "P3066",
+      "identity": "luogu.com.cn/problem/P3066",
+      "links": [
+        "https://www.luogu.com.cn/problem/P3066"
+      ],
+      "platform": "洛谷",
+      "problemId": "wiki-example-7a771086e9d531b70e14",
+      "references": [
+        {
+          "articleId": "misc/two-pointer",
+          "articleTitle": "双指针",
+          "articleUrl": "https://oi-wiki.org/misc/two-pointer/",
+          "label": "luogu P3066 Running Away From the Barn G"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3066"
+    },
+    {
+      "code": "B3625",
+      "identity": "luogu.com.cn/problem/B3625",
+      "links": [
+        "https://www.luogu.com.cn/problem/B3625"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-B3625",
+      "references": [
+        {
+          "articleId": "search/bfs",
+          "articleTitle": "BFS（搜索）",
+          "articleUrl": "https://oi-wiki.org/search/bfs/",
+          "label": "Luogu B3625 迷宫寻路"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/B3625"
+    },
+    {
+      "code": "P1135",
+      "identity": "luogu.com.cn/problem/P1135",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1135"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1135",
+      "references": [
+        {
+          "articleId": "search/bfs",
+          "articleTitle": "BFS（搜索）",
+          "articleUrl": "https://oi-wiki.org/search/bfs/",
+          "label": "Luogu P1135 奇怪的电梯"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1135"
+    },
+    {
+      "code": "P1443",
+      "identity": "luogu.com.cn/problem/P1443",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1443"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1443",
+      "references": [
+        {
+          "articleId": "search/bfs",
+          "articleTitle": "BFS（搜索）",
+          "articleUrl": "https://oi-wiki.org/search/bfs/",
+          "label": "Luogu P1443 马的遍历"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1443"
+    },
+    {
+      "code": "P3956",
+      "identity": "luogu.com.cn/problem/P3956",
+      "links": [
+        "https://www.luogu.com.cn/problem/P3956"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P3956",
+      "references": [
+        {
+          "articleId": "search/bfs",
+          "articleTitle": "BFS（搜索）",
+          "articleUrl": "https://oi-wiki.org/search/bfs/",
+          "label": "Luogu P3956 [NOIP 2017 普及组] 棋盘"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3956"
+    },
+    {
+      "code": "P1126",
+      "identity": "luogu.com.cn/problem/P1126",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1126"
+      ],
+      "platform": "洛谷",
+      "problemId": "wiki-example-a9f7769e69ad93710b9a",
+      "references": [
+        {
+          "articleId": "search/bfs",
+          "articleTitle": "BFS（搜索）",
+          "articleUrl": "https://oi-wiki.org/search/bfs/",
+          "label": "Luogu P1126 机器人搬重物"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1126"
+    },
+    {
+      "code": "P1706",
+      "identity": "luogu.com.cn/problem/P1706",
+      "links": [
+        "https://www.luogu.com.cn/problem/P1706"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P1706",
+      "references": [
+        {
+          "articleId": "search/dfs",
+          "articleTitle": "DFS（搜索）",
+          "articleUrl": "https://oi-wiki.org/search/dfs/",
+          "label": "Luogu P1706 全排列问题"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1706"
+    },
+    {
+      "code": "U461211",
+      "identity": "luogu.com.cn/problem/U461211",
+      "links": [
+        "https://www.luogu.com.cn/problem/U461211"
+      ],
+      "platform": "洛谷",
+      "problemId": "wiki-example-b2f4832b71e0cec14697",
+      "references": [
+        {
+          "articleId": "string/hash",
+          "articleTitle": "字符串哈希",
+          "articleUrl": "https://oi-wiki.org/string/hash/",
+          "label": "例题：洛谷 U461211 字符串 Hash（数据加强）"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/U461211"
+    },
+    {
+      "code": "1200E",
+      "identity": "codeforces.com/contest/1200/problem/E",
+      "links": [
+        "http://codeforces.com/contest/1200/problem/E"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-23b670472c1296cf2837",
+      "references": [
+        {
+          "articleId": "string/hash",
+          "articleTitle": "字符串哈希",
+          "articleUrl": "https://oi-wiki.org/string/hash/",
+          "label": "CF1200E Compress Words"
+        }
+      ],
+      "url": "https://codeforces.com/contest/1200/problem/E"
+    },
+    {
+      "code": "455",
+      "identity": "onlinejudge.org/problem/396",
+      "links": [
+        "http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=396"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-f2a1bda43b8d18301d2b",
+      "references": [
+        {
+          "articleId": "string/kmp",
+          "articleTitle": "前缀函数与 KMP 算法",
+          "articleUrl": "https://oi-wiki.org/string/kmp/",
+          "label": "UVa 455 \"Periodic Strings\""
+        },
+        {
+          "articleId": "string/z-func",
+          "articleTitle": "Z 函数（扩展 KMP）",
+          "articleUrl": "https://oi-wiki.org/string/z-func/",
+          "label": "UVa # 455 Periodic Strings"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=396"
+    },
+    {
+      "code": "11022",
+      "identity": "onlinejudge.org/problem/1963",
+      "links": [
+        "http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1963"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-d8bd03abbc4dec9737db",
+      "references": [
+        {
+          "articleId": "string/kmp",
+          "articleTitle": "前缀函数与 KMP 算法",
+          "articleUrl": "https://oi-wiki.org/string/kmp/",
+          "label": "UVa 11022 \"String Factoring\""
+        },
+        {
+          "articleId": "string/z-func",
+          "articleTitle": "Z 函数（扩展 KMP）",
+          "articleUrl": "https://oi-wiki.org/string/z-func/",
+          "label": "UVa # 11022 String Factoring"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1963"
+    },
+    {
+      "code": "11452",
+      "identity": "onlinejudge.org/problem/2447",
+      "links": [
+        "http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=2447"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-1735ef8c7dcc0700bc29",
+      "references": [
+        {
+          "articleId": "string/kmp",
+          "articleTitle": "前缀函数与 KMP 算法",
+          "articleUrl": "https://oi-wiki.org/string/kmp/",
+          "label": "UVa 11452 \"Dancing the Cheeky-Cheeky\""
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=2447"
+    },
+    {
+      "code": "12604",
+      "identity": "onlinejudge.org/problem/4282",
+      "links": [
+        "https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=4282"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-1bc5102563fe2a28e6ae",
+      "references": [
+        {
+          "articleId": "string/kmp",
+          "articleTitle": "前缀函数与 KMP 算法",
+          "articleUrl": "https://oi-wiki.org/string/kmp/",
+          "label": "UVa 12604 - Caesar Cipher"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=4282"
+    },
+    {
+      "code": "12467",
+      "identity": "onlinejudge.org/problem/3911",
+      "links": [
+        "https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=3911"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-21a668a2dfdc654b5bec",
+      "references": [
+        {
+          "articleId": "string/kmp",
+          "articleTitle": "前缀函数与 KMP 算法",
+          "articleUrl": "https://oi-wiki.org/string/kmp/",
+          "label": "UVa 12467 - Secret Word"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=3911"
+    },
+    {
+      "code": "11019",
+      "identity": "onlinejudge.org/problem/1960",
+      "links": [
+        "https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1960"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-5d06bae11148f065ff06",
+      "references": [
+        {
+          "articleId": "string/kmp",
+          "articleTitle": "前缀函数与 KMP 算法",
+          "articleUrl": "https://oi-wiki.org/string/kmp/",
+          "label": "UVa 11019 - Matrix Matcher"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1960"
+    },
+    {
+      "code": "NAJPF",
+      "identity": "spoj.com/problems/NAJPF",
+      "links": [
+        "http://www.spoj.com/problems/NAJPF/"
+      ],
+      "platform": "SPOJ",
+      "problemId": "wiki-example-aef505a3093b8e8eead9",
+      "references": [
+        {
+          "articleId": "string/kmp",
+          "articleTitle": "前缀函数与 KMP 算法",
+          "articleUrl": "https://oi-wiki.org/string/kmp/",
+          "label": "SPOJ - Pattern Find"
+        }
+      ],
+      "url": "https://www.spoj.com/problems/NAJPF/"
+    },
+    {
+      "code": "808G",
+      "identity": "codeforces.com/contest/808/problem/G",
+      "links": [
+        "http://codeforces.com/contest/808/problem/G"
+      ],
+      "platform": "Codeforces",
+      "problemId": "remote:codeforces:808::G",
+      "references": [
+        {
+          "articleId": "string/kmp",
+          "articleTitle": "前缀函数与 KMP 算法",
+          "articleUrl": "https://oi-wiki.org/string/kmp/",
+          "label": "Codeforces - Anthem of Berland"
+        }
+      ],
+      "url": "https://codeforces.com/contest/808/problem/G"
+    },
+    {
+      "code": "471D",
+      "identity": "codeforces.com/contest/471/problem/D",
+      "links": [
+        "http://codeforces.com/problemset/problem/471/D"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-d97185272515e8baee74",
+      "references": [
+        {
+          "articleId": "string/kmp",
+          "articleTitle": "前缀函数与 KMP 算法",
+          "articleUrl": "https://oi-wiki.org/string/kmp/",
+          "label": "Codeforces - MUH and Cube Walls"
+        }
+      ],
+      "url": "https://codeforces.com/contest/471/problem/D"
+    },
+    {
+      "code": "P2580",
+      "identity": "luogu.com.cn/problem/P2580",
+      "links": [
+        "https://www.luogu.com.cn/problem/P2580"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P2580",
+      "references": [
+        {
+          "articleId": "string/trie",
+          "articleTitle": "字典树 (Trie)",
+          "articleUrl": "https://oi-wiki.org/string/trie/",
+          "label": "于是他错误的点名开始了"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2580"
+    },
+    {
+      "code": "P6018",
+      "identity": "luogu.com.cn/problem/P6018",
+      "links": [
+        "https://www.luogu.com.cn/problem/P6018"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P6018",
+      "references": [
+        {
+          "articleId": "string/trie",
+          "articleTitle": "字典树 (Trie)",
+          "articleUrl": "https://oi-wiki.org/string/trie/",
+          "label": "【luogu-P6018】【Ynoi2010】Fusion tree"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P6018"
+    },
+    {
+      "code": "P6623",
+      "identity": "luogu.com.cn/problem/P6623",
+      "links": [
+        "https://www.luogu.com.cn/problem/P6623"
+      ],
+      "platform": "洛谷",
+      "problemId": "wiki-example-1365ae7cbc32a63ee458",
+      "references": [
+        {
+          "articleId": "string/trie",
+          "articleTitle": "字典树 (Trie)",
+          "articleUrl": "https://oi-wiki.org/string/trie/",
+          "label": "【luogu-P6623】【省选联考 2020 A 卷】树"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P6623"
+    },
+    {
+      "code": "P5410",
+      "identity": "luogu.com.cn/problem/P5410",
+      "links": [
+        "https://www.luogu.com.cn/problem/P5410"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P5410",
+      "references": [
+        {
+          "articleId": "string/z-func",
+          "articleTitle": "Z 函数（扩展 KMP）",
+          "articleUrl": "https://oi-wiki.org/string/z-func/",
+          "label": "luogu P5410【模板】扩展 KMP/exKMP（Z 函数）"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5410"
+    },
+    {
+      "code": "P7114",
+      "identity": "luogu.com.cn/problem/P7114",
+      "links": [
+        "https://www.luogu.com.cn/problem/P7114"
+      ],
+      "platform": "洛谷",
+      "problemId": "luogu-training-P7114",
+      "references": [
+        {
+          "articleId": "string/z-func",
+          "articleTitle": "Z 函数（扩展 KMP）",
+          "articleUrl": "https://oi-wiki.org/string/z-func/",
+          "label": "luogu P7114【NOIP2020】字符串匹配"
+        }
+      ],
+      "url": "https://www.luogu.com.cn/problem/P7114"
+    },
+    {
+      "code": "126B",
+      "identity": "codeforces.com/contest/126/problem/B",
+      "links": [
+        "http://codeforces.com/problemset/problem/126/B"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-9b7020aed0af59babe76",
+      "references": [
+        {
+          "articleId": "string/z-func",
+          "articleTitle": "Z 函数（扩展 KMP）",
+          "articleUrl": "https://oi-wiki.org/string/z-func/",
+          "label": "CF126B Password"
+        }
+      ],
+      "url": "https://codeforces.com/contest/126/problem/B"
+    },
+    {
+      "code": "11475",
+      "identity": "onlinejudge.org/problem/2470",
+      "links": [
+        "http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=2470"
+      ],
+      "platform": "UVa",
+      "problemId": "wiki-example-ac118ba95802e01794e2",
+      "references": [
+        {
+          "articleId": "string/z-func",
+          "articleTitle": "Z 函数（扩展 KMP）",
+          "articleUrl": "https://oi-wiki.org/string/z-func/",
+          "label": "UVa 11475 - Extend to Palindrome"
+        }
+      ],
+      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=2470"
+    },
+    {
+      "code": "432D",
+      "identity": "codeforces.com/contest/432/problem/D",
+      "links": [
+        "http://codeforces.com/problemset/problem/432/D"
+      ],
+      "platform": "Codeforces",
+      "problemId": "wiki-example-4f57be51e6f8340ff148",
+      "references": [
+        {
+          "articleId": "string/z-func",
+          "articleTitle": "Z 函数（扩展 KMP）",
+          "articleUrl": "https://oi-wiki.org/string/z-func/",
+          "label": "Codeforces - Prefixes and Suffixes"
+        }
+      ],
+      "url": "https://codeforces.com/contest/432/problem/D"
+    }
+  ],
+  "problemCount": 150,
+  "reusedCount": 79,
+  "schema": 1,
+  "wikiSha256": "b20821999da1393f2202a396b64cf7a5490293e88f0bbf7c27929cc22139be38"
+}

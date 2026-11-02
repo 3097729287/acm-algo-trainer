@@ -1,7 +1,6 @@
 import {useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {ArrowLeft,Check,Code2,Copy,FilePlus2,FlaskConical,LoaderCircle,Plus,Save,Search,Trash2,NotebookPen,X} from 'lucide-react';
-import CatalogGroup from '@/components/CatalogGroup.jsx';
-import CatalogCard from '@/components/CatalogCard.jsx';
+import {CatalogueGroup as CatalogGroup,CatalogueEntry as CatalogCard} from '@/components/LearningCatalogue.jsx';
 import PageSearch from '@/components/PageSearch.jsx';
 import CodeEditor from '@/components/CodeEditor.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
@@ -74,7 +73,7 @@ export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onU
    </div>
    {current.builtin&&edition==='contest'&&current.curriculum&&<section className="template-explanation template-contest-variations" aria-label="模板变种"><TemplateVariations curriculum={current.curriculum} edition={edition} onTrain={onTrain} lockedProblems={lockedProblems}/></section>}
    {displayedExample&&(topic?<details className="template-example template-example-fold" aria-label="最小调用示例"><summary>最小调用示例</summary><Markdown text={'```cpp\n'+displayedExample+'\n```'} onCopy={code=>copy(code)}/></details>:<section className="template-example" aria-label="最小调用示例"><Markdown text={'```cpp\n'+displayedExample+'\n```'} onCopy={code=>copy(code)}/></section>)}
-  </div>:<div className="lab-catalog lab-multi-catalog template-catalog">
+  </div>:<div className="learning-catalogue template-catalog">
    {embedded?<div className="template-tools">{tools}</div>:<PageSearch>{tools}</PageSearch>}
    {loading?<LoaderCircle className="spin" role="status" aria-label="正在读取模板"/>:groups.map(group=><CatalogGroup key={group} title={group}>{matching.filter(item=>item.category===group).map(item=><CatalogCard key={item.id} title={item.title} icon={<Code2 size={18}/>} label={`${onUse?'插入模板':'打开模板'} ${item.title}`} onOpen={()=>onUse?onUse({...item,code:item.contestCode||item.code}):open(item)} onContextMenu={event=>requestCopy(event,item)}/>)}</CatalogGroup>)}
   </div>}

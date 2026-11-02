@@ -12,7 +12,7 @@ export default function StickerBoxes({api,state,onUpdated,onClose}){
  async function open(box){
   if(busy)return;setBusy(box.id);setError('');
   if(request.current?.boxId!==box.id)request.current={boxId:box.id,requestId:crypto.randomUUID()};
-  try{const value=await api('stickers/open-box',request.current);if(!alive.current||value.owner!==owner.current)return;onUpdated(value);setOpening(value.opening);request.current=null;window.dispatchEvent(new Event('tb:sticker-rewards'));}
+  try{const value=await api('stickers/open-box',request.current);if(!alive.current||value.owner!==owner.current)return;onUpdated(value);setOpening(value.opening);request.current=null;window.dispatchEvent(new CustomEvent('tb:sticker-rewards',{detail:{inventory:value}}));}
   catch(issue){if(alive.current)setError(issue.message);}
   finally{if(alive.current)setBusy(null);}
  }

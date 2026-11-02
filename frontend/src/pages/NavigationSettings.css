@@ -4,3 +4,5 @@
 .navigation-visibility-item>span { min-width:0;flex:1;line-height:1.5; }
 .navigation-visibility-item>.toggle { flex:none;margin:0; }
 .navigation-visibility-item[data-hidden=true]>:is(svg,span) { opacity:.55; }
+
+.settings-navigation>.progress-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}

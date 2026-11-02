@@ -4,7 +4,7 @@ export function fitStickerPlacement(position,bounds={}){
  const finite=(value,fallback)=>Number.isFinite(value)?value:fallback;
  const angle=((finite(position.angle,0)+180)%360+360)%360-180;
  const {width=0,height=0}=bounds;
- const size=Math.max(44,Math.min(88,width*.13));
+ const size=Math.max(28,Math.min(56,width*.08));
  const radians=angle*Math.PI/180;
  const half=size*(Math.abs(Math.cos(radians))+Math.abs(Math.sin(radians)))/2+8;
  const marginX=width>0?Math.min(.5,half/width):0;

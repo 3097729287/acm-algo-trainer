@@ -7,7 +7,7 @@ import datetime as dt
 import hashlib
 import re
 import statistics
-from urllib.parse import urlsplit, unquote
+from urllib.parse import urlsplit, unquote, parse_qs
 from progression import SHANGHAI, qualified_contests
 from rating_evidence import evidence as rating_evidence
 from knowledge_mastery import MODEL as KNOWLEDGE_MODEL, problem_evidence, summarize as summarize_mastery
@@ -37,6 +37,9 @@ def _canonical_url(value):
         match = re.fullmatch(r"/(?:contest/(\d+)/problem|problemset/problem/(\d+))/([A-Za-z0-9]+)", path)
         if match:
             return f"codeforces.com/contest/{match[1] or match[2]}/problem/{match[3].upper()}"
+        match = re.fullmatch(r'/gym/(\d+)/problem/([A-Za-z0-9]+)', path)
+        if match:
+            return f'codeforces.com/gym/{match[1]}/problem/{match[2].upper()}'
     if host == "atcoder.jp":
         match = re.fullmatch(r"/contests/([\w-]+)/tasks/([\w-]+)", path)
         if match:
@@ -52,6 +55,20 @@ def _canonical_url(value):
     if host == 'qoj.ac':
         match=re.fullmatch(r'/(?:contest/\d+/)?problem/(\d+)(?:/statement/(?:default|zh_cn))?',path)
         if match:return 'qoj.ac/problem/'+match[1]
+    # These judges put the problem identity in the query. Dropping it would
+    # merge unrelated Wiki examples (and their local facts) into one problem.
+    query=parse_qs(parsed.query)
+    if host in {'onlinejudge.org','uva.onlinejudge.org'} and path=='/index.php':
+        identity=query.get('problem',[''])[0]
+        if identity.isdigit():return 'onlinejudge.org/problem/'+identity
+    if host=='acm.hdu.edu.cn' and path=='/showproblem.php':
+        identity=query.get('pid',[''])[0]
+        if identity.isdigit():return 'acm.hdu.edu.cn/problem/'+identity
+    if host=='poj.org' and path=='/problem':
+        identity=query.get('id',[''])[0]
+        if identity.isdigit():return 'poj.org/problem/'+identity
+    if host=='spoj.com' and re.fullmatch(r'/problems/[A-Za-z0-9_]+',path):
+        return host+path.upper().replace('/PROBLEMS/','/problems/')
     # Unknown domains can dedupe their own exact paths, but do not match platform facts.
     return host + path if parsed.scheme in {"http", "https"} and host else None
 

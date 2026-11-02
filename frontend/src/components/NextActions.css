@@ -44,3 +44,5 @@ html[data-motion=off] .next-actions-popover>ul>li { animation:none; }
 .next-actions-popover>ul>li:is(:hover,:focus-within) {background:var(--accent-soft);color:var(--accent)}
 .next-actions-popover>ul>li:is(:hover,:focus-within)>:is(.next-actions-item,.next-action-control) {background:transparent;color:var(--accent)}
 .next-actions-popover>ul>li:is(:hover,:focus-within)>.next-action-control:is(:hover,:focus-visible) {background:color-mix(in srgb,var(--accent) 12%,transparent)}
+
+.next-actions-popover>ul>li:has(>.next-action-control){padding-right:8px;}

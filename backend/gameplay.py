@@ -59,7 +59,12 @@ def stickers(training,kind=None,value=None):
         # The inventory view has already delivered the durable reward outbox.
         # An individual open/place/recycle must not wait for a full growth scan
         # and unrelated pending grants again. Keep those on the next read.
-        result=_request(training,'GET','/v1/stickers',expected_owner=owner)
+        result=mutation.get('inventory')
+        if result is not None:
+            if not isinstance(result,dict) or result.get('owner')!=owner or not isinstance(result.get('units'),list):
+                raise ServiceError(502,'贴纸库存响应无效')
+        else:
+            result=_request(training,'GET','/v1/stickers',expected_owner=owner)
         from fun_moments import confirmed_gameplay
         confirmed_gameplay(training,result,kind)
         if mutation.get('opening'):result['opening']=mutation['opening']
@@ -78,12 +83,13 @@ def stickers(training,kind=None,value=None):
     return result
 
 def duel(training,kind=None,value=None):
+    owner=training._ranking_profile()['user_id']
     if not kind:
-        result=_request(training,'GET','/v1/duels')
+        result=_request(training,'GET','/v1/duels',expected_owner=owner)
         from fun_moments import confirmed_gameplay
         confirmed_gameplay(training,result)
         return result
-    if kind not in {'join','cancel','poll','dismiss'} or not isinstance(value,dict) or set(value)-{'requestId','ticket','matchId'}:
+    if kind not in {'join','cancel','poll','dismiss','ready','decline'} or not isinstance(value,dict) or set(value)-{'requestId','ticket','matchId','readyCheck'}:
         raise ServiceError(400,'对战操作无效')
     if kind=='join':
         with training.lock:
@@ -91,7 +97,7 @@ def duel(training,kind=None,value=None):
         settings=training.store.extensions.snapshot().get('settings',{})
         handle=settings.get('accounts',{}).get('codeforces','')
         value={**value,'handle':handle}
-    result=_request(training,'POST','/v1/duels/'+kind,value)
+    result=_request(training,'POST','/v1/duels/'+kind,value,expected_owner=owner)
     from fun_moments import confirmed_gameplay
     confirmed_gameplay(training,result)
     return result

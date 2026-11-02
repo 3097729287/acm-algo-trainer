@@ -14,3 +14,25 @@ html .growth-account-hero .account-hero-statistics b{font-size:clamp(1rem,1.45vw
 html .growth-account-hero .sticker-mode-toolbar{padding-top:0;min-height:32px}
 html .growth-account-hero .account-hero-goals{padding-top:0;border-top:0;flex:none}
 @media(max-width:540px){html .growth-account-hero .account-hero-statistics{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:13px}html .growth-account-hero .account-hero-statistics b{font-size:1.15rem}html .growth-account-hero .account-hero-identity{min-height:200px;gap:10px}}
+
+.placed-sticker{width:clamp(28px,8%,56px);}
+.sticker-art-image{filter:none;}
+.sticker-edit-tools{transform:translate(-50%,38px);}
+.sticker-edit-tools [data-sticker-rotate]{cursor:grab;touch-action:none;}
+.sticker-edit-tools [data-sticker-rotate]:active{cursor:grabbing;}
+.sticker-picker{position:fixed;z-index:1500;max-width:calc(100vw - 24px);box-sizing:border-box;gap:2px;padding:5px 3px;border-radius:9px;box-shadow:0 6px 24px #0003;}
+.sticker-picker>.icon-button{width:22px;min-width:22px;height:26px;min-height:26px;padding:2px;}
+.sticker-picker .sticker-inventory{gap:4px;padding:3px;}
+.sticker-picker .sticker-choice{flex:0 0 46px;gap:4px;padding:3px 1px;min-width:0;}
+.sticker-picker .sticker-choice>.sticker-art{width:40px;height:40px;}
+.sticker-picker .sticker-choice>span{font-size:.7rem;}
+.sticker-mode .account-hero-person,.sticker-mode .account-hero-rank{border-color:transparent;border-radius:0;}
+.sticker-mode .avatar-rank-frame,.sticker-mode .medal-rank{visibility:visible;filter:none;}
+.sticker-mode .avatar-rank-frame :is(path,circle,polygon,rect),.sticker-mode .medal-rank :is(path,circle,polygon,rect){fill:none!important;stroke:var(--muted)!important;stroke-opacity:.7;stroke-width:1;stroke-dasharray:3 3;vector-effect:non-scaling-stroke;filter:none;}
+.sticker-mode .avatar-rank-frame mask,.sticker-mode .avatar-rank-frame mask *{visibility:hidden;}
+.sticker-mode .account-hero-level{visibility:visible;}
+.sticker-mode .account-hero-level :is(span,small){visibility:hidden;}
+.sticker-mode .account-hero-level .progress-meter{visibility:visible;background:transparent;border:1px dashed var(--muted);box-sizing:border-box;}
+.sticker-mode .account-hero-level .progress-meter>*{visibility:hidden;}
+
+.sticker-mode .avatar-rank-frame g[mask]{mask:none;}

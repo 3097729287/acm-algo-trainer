@@ -2,6 +2,7 @@ import React,{useCallback,useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import WikiPage from '../src/pages/WikiPage.jsx';
 import DuelPage from '../src/pages/DuelPage.jsx';
+import DuelReadyPrompt from '../src/components/DuelReadyPrompt.jsx';
 import {GrowthPage,DailyTasks} from '../src/pages/ProgressPanels.jsx';
 import useDuel from '../src/lib/useDuel.js';
 import '../src/styles/workspace.css';
@@ -26,6 +27,6 @@ function Fixture(){
  const duel=useDuel(api,auth.account.userId);
  const growth={level:8,currentLevelXp:120,nextLevelXp:900,ranked:{tier:'黑铁',badge:'tier-1',qualified:true,abilityScore:2000}},summary={officialSolved:18,submissions:32,activeDays:6,streak:3,completedContests:2,longestStreak:4};
  const tasks=['common','rare','epic','legendary'].map((stickerRarity,i)=>({id:stickerRarity,stickerRarity,title:'任务 '+(i+1),description:'通过一道题目',progress:0,target:1,xp:0}));
- return <main style={{height:'100dvh',display:'flex',flexDirection:'column',padding:12,gap:12}}><nav style={{display:'flex',gap:16}}>{['growth','wiki','duel','tasks'].map(id=><button type="button" key={id} onClick={()=>setPage(id)}>{id}</button>)}</nav><div style={{flex:1,minHeight:0}}>{page==='growth'?<GrowthPage api={api} account={auth.account} profile={auth.account} insights={{summary,growth,knowledge:[]}} goalOverview={{goals:[]}}/>:page==='wiki'?<WikiPage api={api}/>:page==='duel'?<DuelPage duel={duel} rows={[]} onTrain={()=>{}}/>:<div className="modal-overlay"><div className="modal wide"><div className="modal-body"><DailyTasks dailyTasks={{tasks,date:'2026-11-02'}}/></div></div></div>}</div></main>;
+ return <main style={{height:'100dvh',display:'flex',flexDirection:'column',padding:12,gap:12}}><nav style={{display:'flex',gap:16}}>{['growth','wiki','duel','tasks'].map(id=><button type="button" key={id} onClick={()=>setPage(id)}>{id}</button>)}</nav><div style={{flex:1,minHeight:0}}>{page==='growth'?<GrowthPage api={api} account={auth.account} profile={auth.account} insights={{summary,growth,knowledge:[]}} goalOverview={{goals:[]}}/>:page==='wiki'?<WikiPage api={api}/>:page==='duel'?<DuelPage duel={duel} rows={[]} onTrain={()=>{}} account={auth.account} growth={growth}/>:<div className="modal-overlay"><div className="modal wide"><div className="modal-body"><DailyTasks dailyTasks={{tasks,date:'2026-11-02'}}/></div></div></div>}</div><DuelReadyPrompt duel={duel}/></main>;
 }
 createRoot(document.getElementById('root')).render(<Fixture/>);
