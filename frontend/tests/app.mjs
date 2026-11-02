@@ -258,7 +258,8 @@ try {
     for(const sheet of document.styleSheets){try{walk(sheet.cssRules);}catch{}}
     return {className:node.className,background:getComputedStyle(node).backgroundImage,matches};
   });
-  assert(taskPaint.background.includes('linear-gradient'),'Actual task modal preserves the whole rarity palette: '+JSON.stringify(taskPaint));
+  assert.equal(taskPaint.background,'none','An XP-only task keeps the original plain surface');
+  assert(!taskPaint.className.includes('rarity-'),'An XP-only task has no rarity frame');
   await task.getByRole('button', { name: '领取奖励' }).click();
   await task.getByRole('button', { name: '已领取' }).waitFor();
   assert.equal(insights.growth.totalXp, 30);

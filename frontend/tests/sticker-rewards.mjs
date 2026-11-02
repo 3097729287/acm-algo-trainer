@@ -14,6 +14,10 @@ try{
  await page.goto(server.resolvedUrls.local[0]+'tests/sticker-rewards-fixture.html');
  await page.getByRole('button',{name:'贴纸宝箱',exact:true}).waitFor();
  assert(await page.getByText('传说贴纸 · 嘴强小黄鸭',{exact:true}).isVisible());assert(await page.getByText('任务奖励 · +35 XP',{exact:true}).isVisible());assert.equal(await page.getByRole('button',{name:/领取.*奖励/}).count(),0);
+ const routine=page.locator('.daily-task').filter({hasText:'AC 2 道不同题目'}),xp=page.locator('.daily-task').filter({hasText:'攻坚挑战'});
+ for(const card of [routine,xp]){assert(!((await card.getAttribute('class')).includes('rarity-')));assert.equal(await card.evaluate(node=>getComputedStyle(node).backgroundImage),'none');assert.equal(await card.evaluate(node=>getComputedStyle(node).borderTopWidth),'1px');}
+ for(const rarity of ['common','rare','epic','legendary']){const card=page.locator('.daily-task-sticker.rarity-'+rarity);assert.match(await card.innerText(),/贴纸/);assert(!((await card.innerText()).includes('XP')));assert((await card.evaluate(node=>getComputedStyle(node).backgroundImage)).includes('linear-gradient'));}
+ await page.locator('.daily-tasks').screenshot({path:out+'/task-rewards-dark.png'});
  await page.getByRole('button',{name:'贴纸宝箱',exact:true}).click();const boxes=page.getByRole('dialog',{name:'贴纸宝箱',exact:true});
  assert.match(await boxes.getByRole('region',{name:'Lv.5 贴纸宝箱'}).innerText(),/2 张贴纸/);
  await boxes.getByRole('button',{name:'开启 Lv.5 宝箱',exact:true}).click();await boxes.getByRole('alert').waitFor();
@@ -29,7 +33,7 @@ try{
  await message.waitFor({state:'hidden'});await original.getByLabel('我的回复',{exact:true}).getByText('祝你好运！',{exact:true}).waitFor();
  assert.match(await original.getByLabel('我的回复',{exact:true}).innerText(),/嘴强小黄鸭/);assert.equal(await page.evaluate(()=>window.rewardFixture.state().units.length),3);
  await page.reload();await page.getByLabel('我的回复',{exact:true}).getByText('祝你好运！',{exact:true}).waitFor();
- for(const theme of ['dark','light'])for(const width of [1300,800,390]){await page.setViewportSize({width,height:1000});await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await page.screenshot({path:`${out}/rewards-${theme}-${width}.png`});}
+ for(const theme of ['dark','light'])for(const width of [1300,800,390]){await page.setViewportSize({width,height:1000});await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);for(const card of [routine,xp])assert.equal(await card.evaluate(node=>getComputedStyle(node).backgroundImage),'none');await page.locator('.daily-tasks').screenshot({path:`${out}/tasks-${theme}-${width}.png`});await page.screenshot({path:`${out}/rewards-${theme}-${width}.png`});}
  assert.deepEqual(errors,[]);await writeFile(out+'/result.json',JSON.stringify({passed:true,scenarios:['pending reward preview','earned-level count and odds','lost-response retry','one-time box opening','gift picker and exact recipient','owned inventory transfer','reply display after reload','six layouts'],errors},null,2));
  console.log('Sticker reward UI passed: previews, box odds, response-loss retry, gifting, persisted replies and six layouts.');
 }catch(issue){await page.screenshot({path:out+'/failure.png'});await writeFile(out+'/failure.json',JSON.stringify({message:issue.message,errors},null,2));throw issue;}

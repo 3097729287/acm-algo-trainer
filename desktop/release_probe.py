@@ -270,7 +270,7 @@ def run(action, output):
                                            json.dumps({'key': value, 'ctrlKey': ctrl, 'bubbles': True}) + '))')
 
                     try:
-                        wait_js("!!document.querySelector('.nav-item')")
+                        wait_js("!!document.querySelector('.nav-item[aria-label=\"实验室\"]:not([disabled])')")
                         report['nativeLoaded'] = True
                         window.evaluate_js("document.querySelector('.nav-item[aria-label=\"实验室\"]').click()")
                         wait_js("!!document.querySelector('.catalog-card-open')")
