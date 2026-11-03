@@ -67,8 +67,8 @@ html .growth-dashboard .growth-account-hero .sticker-canvas{gap:12px;min-height:
 html .growth-dashboard .growth-account-hero{padding:20px}
 html .growth-dashboard .growth-account-hero .sticker-mode-toolbar{order:-1;align-self:flex-end;min-height:32px;padding:0;gap:5px;z-index:3}
 html .growth-dashboard .growth-account-hero .sticker-content{justify-content:center;min-height:360px}
-html .growth-dashboard .growth-account-hero .account-hero-identity{--growth-emblem-size:clamp(112px,14vw,210px);align-items:start;min-height:0;flex:none;width:100%;max-width:780px;align-self:center;gap:24px;margin-block:36px}
-html .growth-dashboard .growth-account-hero .account-hero-person{align-items:center;gap:10px}
+html .growth-dashboard .growth-account-hero .account-hero-identity{--growth-emblem-size:clamp(112px,14vw,210px);align-items:start;min-height:0;flex:none;width:100%;max-width:780px;grid-template-columns:minmax(0,1fr);justify-items:center;align-self:center;gap:0;margin-block:36px}
+html .growth-dashboard .growth-account-hero .account-hero-person{align-items:center;justify-self:center;width:100%;gap:10px}
 html .growth-dashboard .growth-account-hero .profile-badge{grid-template-rows:var(--growth-emblem-size) 38px;gap:28px}
 html .growth-dashboard .growth-account-hero .profile-avatar-button{width:var(--growth-emblem-size);height:var(--growth-emblem-size)}
 html .growth-dashboard .growth-account-hero .account-hero-rank{grid-template-rows:var(--growth-emblem-size) 38px auto auto;row-gap:28px}
@@ -95,3 +95,10 @@ html .growth-dashboard .growth-account-hero .profile-avatar-face{width:75%;heigh
 .sticker-transform-corner.ne,.sticker-transform-corner.se{right:-12px}
 .sticker-transform-corner.nw,.sticker-transform-corner.ne{top:-12px}
 .sticker-transform-corner.sw,.sticker-transform-corner.se{bottom:-12px}
+
+/* Keep the growth canvas free of controls; actions share the application footer. */
+.growth-footer-actions{display:flex;align-items:center;gap:12px;order:-1;color:var(--accent)}
+.growth-footer-actions>.tooltip-anchor{display:flex;align-items:center}
+.growth-footer-actions .achievement-top-button{height:28px;min-height:28px;min-width:28px;padding:4px 6px;border:0;background:transparent;color:var(--accent);box-shadow:none;line-height:1}
+.growth-footer-actions .achievement-top-button>svg{display:block;width:19px;height:19px;flex:none}
+.growth-footer-actions .achievement-top-button[aria-pressed=true]{color:var(--accent);background:var(--accent-soft)!important}

@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {chromium} from 'playwright';
+const script=await readFile('../desktop/virtual_contest.js','utf8');
+const browser=await chromium.launch({channel:'msedge',headless:true});
+const context=await browser.newContext({timezoneId:'Asia/Shanghai'}),page=await context.newPage(),errors=[];
+page.on('pageerror',error=>errors.push(error.message));
+let html='';await context.route('**/*',route=>route.fulfill({contentType:'text/html',body:html}));
+const spec={platform:'Codeforces',contestId:'2278',url:'https://codeforces.com/contest/2278',registrationUrl:'https://codeforces.com/contestRegistration/2278/virtual/true',duration:120};
+const inspect=async value=>page.evaluate(script+'\ntbVirtualContest('+JSON.stringify({spec,action:'inspect',...value})+')');
+try{
+ html='<form><input name="virtual" value="true" type="hidden"><input type="hidden" name="csrf_token" value="fixture-only"><input name="startDay"><input name="startTime"><input name="clientTimezoneOffset"><input type="radio" name="takePartAs" value="personal"><input type="radio" name="takePartAs" value="team" checked><input type="submit" value="Register for virtual participation"></form><script>window.submits=0;document.forms[0].onsubmit=e=>{e.preventDefault();submits++;}</script>';
+ await page.goto(spec.registrationUrl);assert.equal((await inspect()).state,'ready');
+ const startMs=Math.ceil((Date.now()+20000)/60000)*60000;
+ assert.equal((await inspect({action:'start',startMs})).state,'dispatched');await inspect({action:'start',startMs});
+ const submitted=await page.evaluate(()=>({submits,day:document.forms[0].elements.startDay.value,time:document.forms[0].elements.startTime.value,zone:document.forms[0].elements.clientTimezoneOffset.value,csrf:document.forms[0].elements.csrf_token.value,personal:document.forms[0].querySelector('[value=personal]').checked}));
+ assert.equal(submitted.submits,1);assert.equal(submitted.zone,'480');assert.equal(submitted.csrf,'fixture-only');assert(submitted.personal);
+ assert.equal(submitted.time,new Date(startMs+8*3600000).toISOString().slice(11,16));
+ html='<div class="roundbox"><span class="contest-state-regular">Virtual participation</span><span class="contest-state-phase">Before contest</span><span class="countdown">00:01:00</span></div>';
+ await page.goto(spec.url);const clock=await inspect();assert.equal(clock.state,'confirmed');assert(Math.abs(clock.startedMs-Date.now()-60000)<1500);
+ await page.goto('https://codeforces.com/contest/2277');assert.notEqual((await inspect()).state,'confirmed','Another contest cannot supply this replay clock');
+ html=html.replace('Virtual participation','Practice');await page.goto(spec.url);assert.notEqual((await inspect()).state,'confirmed');
+ const qoj={...spec,platform:'QOJ',contestId:'2644',url:'https://qoj.ac/contest/2644',registrationUrl:'https://qoj.ac/contest/2644',duration:300};
+ html='<div class="card"><h4 class="card-header">Virtual Contest</h4><form id="form-regvir" action="/contest/2644"><button type="submit" id="button-submit-regvir" name="submit-regvir" value="regvir">Start!</button></form></div><script>window.submits=0;document.forms[0].onsubmit=e=>{e.preventDefault();submits++}</script>';
+ await page.goto(qoj.url);assert.equal((await inspect({spec:qoj})).intentKey,'qoj-entry');await inspect({spec:qoj,action:'start'});await inspect({spec:qoj,action:'start'});assert.equal(await page.evaluate(()=>submits),1);
+ html='<li>The contest is 300 minutes long.</li><form id="form-register_vp" action="/contest/2644/virtual/register"><button id="button-submit-register_vp" name="submit-register_vp">Confirm</button></form>';
+ await page.goto(qoj.url+'/virtual/register');assert.equal((await inspect({spec:qoj})).intentKey,'qoj-confirm');assert.equal((await inspect({spec:{...qoj,duration:120}})).state,'duration-mismatch');
+ html='<div class="card"><h4 class="card-header">Contest ends in</h4><span class="countdown" data-rest="17900"></span></div><footer class="uoj-footer"><p>Server Time: 2026-11-04 03:00:00 (UTC+8)</p></footer>';
+ await page.goto(qoj.url);assert.notEqual((await inspect({spec:qoj})).state,'confirmed','An ordinary countdown is not proof of virtual registration');
+ const qojClock=await inspect({spec:qoj,attempted:['qoj-entry','qoj-confirm']});assert.equal(qojClock.state,'confirmed');assert.equal(qojClock.startedMs,Date.parse('2026-11-04T02:58:20+08:00'));
+ assert.deepEqual(errors,[]);console.log('PASS native form events, unchanged CSRF, minute/timezone conversion, click-once, correct-contest clocks, QOJ two-step entry and provider-duration validation. No original-site requests.');
+}finally{await browser.close();}

@@ -39,3 +39,5 @@ function Fixture(){
  return <><div className="fixture-stickers" style={{height:540,margin:24}}><StickerCanvas owner={owner} api={api}><div style={{height:420}}/></StickerCanvas></div><DuelPage duel={duel} rows={[]}/></>;
 }
 document.documentElement.dataset.theme='dark';createRoot(document.getElementById('root')).render(<Fixture/>);
+
+const footer=document.createElement('footer');footer.className='app-statusbar';footer.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:20';document.body.append(footer);

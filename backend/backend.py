@@ -352,7 +352,8 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == "/api/official/sync":
                     value = self.server.official_sync.once()
                 elif path == "/api/contests/start":
-                    value = training.start_contest(body)
+                    from virtual_contests import start_replay
+                    value = start_replay(self.server,training,body)
                     if callable(self.server.official_closer):
                         self.server.official_closer(None)
                 elif path == '/api/contests/start-calendar':
@@ -363,7 +364,7 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.cancel_contest(body.get('contestId'))
                 elif path == "/api/contests/finish":
                     value = training.finish_contest(body.get("contestId"))
-                elif path in ('/api/stickers/place','/api/stickers/recycle','/api/stickers/open-box'):
+                elif path in ('/api/stickers/place','/api/stickers/recycle','/api/stickers/open-box','/api/stickers/open-packs'):
                     from gameplay import stickers
                     value=stickers(training,path.rsplit('/',1)[1],body)
                 elif path in ('/api/duel/join','/api/duel/cancel','/api/duel/poll','/api/duel/dismiss','/api/duel/ready','/api/duel/decline'):
@@ -1037,6 +1038,7 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
             from integrations import IntegrationService
             server.store.extensions = IntegrationService(server.store, Path(integration_state_dir or Path(training_file).parent), auto_start=integration_auto_start)
         server.official_opener = official_opener
+        server.original_virtual_starter = None
         server.official_submitter, server.official_status, server.official_closer = official_submitter, official_status, official_closer
         server.official_sessions = {}
         server.official_pending_receipts = {}

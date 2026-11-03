@@ -8,6 +8,9 @@ import {StickerArt} from '../src/components/StickerArt.jsx';
 import ARTWORK from '../src/lib/stickerArtwork.js';
 import PersonalStatistics from '../src/pages/PersonalStatistics.jsx';
 import DuelPage from '../src/pages/DuelPage.jsx';
+import DuelBannerFrame from '../src/components/DuelBannerFrame.jsx';
+import ProfileBadge from '../src/components/ProfileBadge.jsx';
+import {TIER_NAMES,RANK_THRESHOLDS} from '../src/lib/rankTiers.js';
 import '../src/styles/workspace.css';
 import '../src/styles/refinements.css';
 import '../src/styles/polish.css';
@@ -35,9 +38,10 @@ const api=async(path,body)=>{
  throw Error('Unexpected fixture request '+path);
 };
 function Fixture(){
- const [panel,setPanel]=useState('growth'),[overview,setOverview]=useState({goals});
- window.growthCheck={setPanel,calls,goals:()=>goals,empty:()=>{goals=[];setOverview({goals});},theme:value=>document.documentElement.dataset.theme=value};
- if(panel==='duel')return <DuelPage account={{nickname:'训练者'}} growth={{level:14,ranked:{tier:'青铜',abilityScore:800,qualified:true}}} duel={{state:{status:'idle'},clock:{current:null},act:()=>{},reload:()=>{}}} rows={[]}/>;
+ const [tier,setTier]=useState(1),[panel,setPanel]=useState('growth'),[overview,setOverview]=useState({goals});
+ window.growthCheck={setTier,setPanel,calls,goals:()=>goals,empty:()=>{goals=[];setOverview({goals});},theme:value=>document.documentElement.dataset.theme=value};
+ if(panel==='duel')return <DuelPage account={{nickname:'训练者'}} growth={{level:14,ranked:{tier:TIER_NAMES[tier],abilityScore:RANK_THRESHOLDS[tier],qualified:true}}} duel={{state:{status:'idle'},clock:{current:null},act:()=>{},reload:()=>{}}} rows={[]}/>;
+ if(panel==='banners')return <div className="banner-gallery">{TIER_NAMES.map((name,index)=><div className="banner-example" key={name}><div className="duel-lobby-identity"><DuelBannerFrame rank={{tier:name}}/><ProfileBadge compact={false} growth={{level:14,ranked:{tier:name}}} nickname={name} showXp={false}/><div className="duel-lobby-rank"><MedalEmblem index={index} size={96}/></div></div></div>)}</div>;
  if(panel==='art')return <div className="material-gallery">{Array.from({length:9},(_,tier)=><div className="rank-material-pair" data-tier={tier} key={tier}><div style={{position:'relative',width:150,height:150}}><AvatarFrame index={tier}/></div><MedalEmblem index={tier} size={150}/></div>)}</div>;
  if(panel==='stickers')return <div className="cartoon-gallery">{Object.keys(ARTWORK).map(shape=><StickerArt key={shape} item={{shape,rarity:'legendary'}} size={128}/>)}</div>;
  if(panel==='statistics')return <PersonalStatistics api={api} insights={{summary}} account={{createdAt:'2026-10-01T12:00:00Z'}}/>;
@@ -46,5 +50,7 @@ function Fixture(){
 }
 document.documentElement.dataset.theme='dark';
 window.__tbAdmin=true;window.__tbAccountUserId=owner;
-const style=document.createElement('style');style.textContent='html,body,#root{height:100%;margin:0}#root{padding:18px;box-sizing:border-box}.material-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:26px;background:var(--panel-base)}.rank-material-pair{display:flex;justify-content:center;align-items:center;gap:12px;min-height:200px}.rank-material-pair .avatar-rank-frame{inset:0;width:100%;height:100%}.cartoon-gallery{display:grid;grid-template-columns:repeat(9,128px);justify-content:center;gap:18px;padding:24px;background:var(--panel-base)}';document.head.append(style);
+const style=document.createElement('style');style.textContent='.banner-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;padding:30px;background:var(--panel-base)}.banner-example{display:flex;justify-content:center}.banner-example .duel-lobby-identity{width:300px;min-height:460px;padding:66px 30px 52px;--duel-portrait:152px;gap:24px}html,body,#root{height:100%;margin:0}#root{padding:18px;box-sizing:border-box}.material-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:26px;background:var(--panel-base)}.rank-material-pair{display:flex;justify-content:center;align-items:center;gap:12px;min-height:200px}.rank-material-pair .avatar-rank-frame{inset:0;width:100%;height:100%}.cartoon-gallery{display:grid;grid-template-columns:repeat(9,128px);justify-content:center;gap:18px;padding:24px;background:var(--panel-base)}';document.head.append(style);
 createRoot(document.getElementById('root')).render(<Fixture/>);
+
+const footer=document.createElement('footer');footer.className='app-statusbar';footer.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:20';document.body.append(footer);

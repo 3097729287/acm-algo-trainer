@@ -215,7 +215,7 @@ class DailyChainTests(unittest.TestCase):
                 followup=self.lane('review-random')
                 self.assertEqual(followup['stickerSlot'],slot)
                 self.assertEqual(followup['xp'],0)
-                self.study(6)
+                self.study(followup['target']+1)
                 self.assertTrue(self.lane('review-random')['completed'])
                 self.service.claim_daily_task(followup['id'])
             third=self.lane('review-random')

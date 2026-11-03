@@ -179,7 +179,8 @@ try {
   assert.equal(await page.locator('.study-problem .wb-heading .katex-html').textContent(), 'gcd');
   await page.getByRole('button', { name: '题解', exact: true }).click();
   await page.locator('.study-solution .reader-content .katex').waitFor();
-  assert.equal(await page.locator('.study-tab-wrap .katex-html').last().textContent(), 'gcd');
+  assert.equal(await page.locator('.study-inline-solution .solution-reader-header .katex-html').textContent(), 'gcd');
+  assert.equal(await page.locator('.study-group-header').count(),0,'Inline solutions keep the single-document toolbar compact');
   await page.locator('body>.study-browser').waitFor();
   assert(await page.locator('.app-shell').evaluate(node=>node.inert));
   assert.equal(await page.locator('.study-solution .reader-resizer').count(),0);
@@ -189,14 +190,15 @@ try {
 
   await page.screenshot({ path: 'tests/screenshots/title-math-workbench.png', animations: 'disabled' });
   await page.setViewportSize({width:960,height:700});
+  await page.getByRole('button',{name:'题解全屏',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('.study-solution')?.getBoundingClientRect().width>650);
   assert.equal(await page.locator('.tb-workbench').count(),1,'reading in a small window preserves the mounted editor');
   assert.equal(await page.locator('.tb-workbench').isVisible(),false,'the full-width reader leaves enough space for readable text');
   await page.screenshot({path:'tests/screenshots/reader-960.png',animations:'disabled'});
-  await page.locator('.study-tab-wrap').filter({has:page.locator('[aria-selected=true]')}).locator('.study-tab-close').click();
+  await page.getByRole('button',{name:'收起题解',exact:true}).click();
   await page.locator('.tb-workbench').waitFor({state:'visible'});
   await page.setViewportSize({width:2048,height:1152});
-  await page.getByRole('button', { name: '返回列表', exact: true }).click();
+  await page.getByRole('button', { name: '返回主界面', exact: true }).click();
   await page.locator('.table-scroll').focus();
   await page.keyboard.press('Home');
   await page.keyboard.press('ArrowDown');
@@ -233,7 +235,7 @@ try {
   assert.equal(await page.locator('.sidebar nav').evaluate(node => node.scrollHeight > node.clientHeight + 1), false);
 
   await page.keyboard.press('Control+7');
-  await page.getByLabel('账号成长统计',{exact:true}).waitFor();
+  await page.locator('.sticker-canvas').waitFor();
   assert.equal(await page.locator('.progress-recommendations').getByText('巩固前缀和隐藏知识点', { exact: true }).count(), 0);
   assert.equal(await page.locator('.task-claim-dot').count(),0,'growth navigation no longer duplicates daily mission alerts');
   assert.equal(await page.getByRole('button',{name:'每日任务',exact:true}).locator('.notification-dot').count(),1);
@@ -242,16 +244,12 @@ try {
   assert.equal(await page.locator('.goal-contest-grid > div').count(),0);
   assert.equal(await page.locator('#growth-goals').count(),0,'Goal controls start collapsed inside the target button');
   await page.getByRole('button',{name:'目标',exact:true}).click();
-  assert.ok(await page.locator('.goal-management-bar').evaluate(node=>node.getBoundingClientRect().height<60),'Goal management stays in one line');
-  assert.equal(await page.locator('.next-milestone').count(),0);
-  assert.equal(await page.locator('.goal-week-plan').count(),0);
-  await page.getByLabel('搜索知识点').fill('不存在的知识点');
-  assert.equal(await page.locator('.radar-detail-row').count(),0);
-  await page.getByLabel('搜索知识点').fill('');
-  await page.locator('#growth-goals').getByRole('button',{name:'新建目标',exact:true}).click();
+  await page.getByRole('dialog',{name:'调整目标',exact:true}).waitFor();
+  assert.equal(await page.locator('.goal-management-bar,.next-milestone,.goal-week-plan').count(),0,'Goal controls do not occupy the growth canvas');
+  await page.getByRole('dialog',{name:'调整目标',exact:true}).getByRole('button',{name:'新建目标',exact:true}).click();
   await page.getByLabel('目标类型').waitFor();
-  await page.getByRole('dialog',{name:'新建目标',exact:true}).getByRole('button',{name:'取消',exact:true}).click();
-  assert.equal(await page.locator('#growth-goals .goal-form').count(),0);
+  await page.getByRole('dialog',{name:'新建目标',exact:true}).getByRole('button',{name:'关闭目标设置',exact:true}).click();
+  assert.equal(await page.locator('.goal-editor').count(),0);
   assert.equal(await page.locator('.progress-page .daily-tasks').count(), 0);
   await page.getByRole('button', { name: '每日任务', exact: true }).click();
   const task = page.getByRole('dialog').locator('.daily-task').filter({ hasText: '每日热身' });
@@ -308,34 +306,9 @@ try {
   await page.screenshot({path:'tests/screenshots/activity-square-light-2048.png',animations:'disabled'});
 
   await page.keyboard.press('Control+9');
-  await page.locator('.lectures-list .katex').waitFor();
-  await page.locator('.lectures-list button').filter({hasText:'位运算'}).first().click();
-  await page.locator('.lecture-markdown .katex').waitFor();
-  assert.equal(await page.locator('.lecture-markdown').evaluate(node => getComputedStyle(node).userSelect), 'text');
-  const learnedRow=page.locator('.lectures-list button').filter({hasText:'位运算'}).first();
-  const unlearnedColor=await learnedRow.evaluate(node=>getComputedStyle(node).backgroundColor);
-  await page.locator('.lectures-detail-bar').getByRole('button',{name:'标记已学会',exact:true}).click();
-  await page.getByRole('button',{name:'返回列表',exact:true}).click();
-  await page.waitForFunction(()=>!document.querySelector('.lectures-list button.lecture-learned'));
-  assert.equal(await learnedRow.count(),0,'Learned item immediately leaves the default unlearned list');
-  await page.getByRole('button',{name:'显示已学会',exact:true}).click();
-  await page.waitForFunction(()=>document.querySelector('.lectures-list button.lecture-learned'));
-  assert.equal(await page.getByRole('button',{name:'显示未学会',exact:true}).getAttribute('aria-pressed'),'true');
-  assert.notEqual(await learnedRow.evaluate(node=>getComputedStyle(node).backgroundColor),unlearnedColor);
-  await learnedRow.click();
-  await page.locator('.lectures-detail-bar').getByRole('button',{name:'取消已学会',exact:true}).click();
-  await page.getByRole('button',{name:'返回列表',exact:true}).click();
-  await page.waitForFunction(()=>!document.querySelector('.lectures-list button.lecture-learned'));
-  assert.equal(await learnedRow.count(),0,'Unmarking also removes the row from the learned list');
-  await page.getByRole('button',{name:'显示未学会',exact:true}).click();
-  await learnedRow.waitFor();
-  await learnedRow.click();
-  await page.locator('.lectures-detail-bar').getByRole('button',{name:'标记已学会',exact:true}).click();
-  await page.getByRole('button',{name:'返回列表',exact:true}).click();
-  await page.getByRole('button',{name:'显示已学会',exact:true}).click();
-  await learnedRow.waitFor();
-
-  await page.screenshot({ path: 'tests/screenshots/v5-lectures-light-2048.png', animations: 'disabled' });
+  // Fullscreen foundation navigation and learned/current states are verified in wiki-course-feedback.mjs.
+  await page.locator('.lectures-layout').waitFor();
+  await page.screenshot({path:'tests/screenshots/v5-lectures-light-2048.png',animations:'disabled'});
 
   await page.keyboard.press('Control+6');
   await page.getByLabel('搜索历史提交').waitFor();
@@ -354,7 +327,7 @@ try {
   await page.locator('.submission-problem-link').first().click();
   await page.getByRole('textbox',{name:'C++ 代码',exact:true}).waitFor();
   assert.equal(await page.getByRole('dialog').count(),0,'row navigation opens the problem, not historical code');
-  await page.getByRole('button',{name:'返回列表',exact:true}).click();
+  await page.getByRole('button',{name:'返回主界面',exact:true}).click();
   await page.locator('.submission-log-row .verdict').first().waitFor();
   assert.ok(writes.filter(item=>item.path==='/api/training/start').length>=startsBefore);
   assert.equal(await page.locator('.submission-day:not([aria-hidden="true"])').count(), 1);
@@ -606,18 +579,15 @@ try {
   // Revision checks exercise the real page composition at several sizes.
   await page.setViewportSize({width:2048,height:1152});
   await page.keyboard.press('Control+7');
-  await page.locator('.account-hero-statistics>div').first().waitFor();
-  assert.equal(await page.locator('.account-hero-statistics>div').count(),6);
+  await page.locator('.sticker-canvas').waitFor();
+  assert.equal(await page.locator('.account-hero-statistics').count(),0);
   assert.equal(await page.getByRole('button',{name:'雷达筛选',exact:true}).count(),0);
-  const statCenters=await page.locator('.account-hero-statistics>div').evaluateAll(nodes=>nodes.map(node=>{const icon=node.querySelector('.account-stat-icon').getBoundingClientRect(),value=node.querySelector('b').getBoundingClientRect();return {x:icon.x+icon.width/2,y:icon.y+icon.height/2,valueX:value.x+value.width/2,valueY:value.y+value.height/2};}));
-  await page.screenshot({path:'tests/screenshots/growth-aligned-2048.png',animations:'disabled'});
-  assert.ok(statCenters.every(item=>Math.abs(item.y-item.valueY)<1),JSON.stringify(statCenters));
-  assert.ok(statCenters.every(item=>Math.abs(item.y-statCenters[0].y)<1));
+  assert.equal(await page.locator('.app-statusbar .growth-footer-actions').count(),1);
   const profileRings=await page.locator('.topbar .profile-avatar-button').evaluate(node=>{
     const frame=node.querySelector('.avatar-rank-frame'),xp=node.querySelector('.profile-xp-ring'),f=frame.getBoundingClientRect(),x=xp.getBoundingClientRect();
-    return {frameInner:f.width*33/120,xpOuter:x.width*20.25/44,masked:!!frame.querySelector('mask circle')};
+    return {frameWidth:f.width,xpWidth:x.width,masked:!!frame.querySelector('mask circle'),ringAboveFrame:(parseInt(getComputedStyle(xp).zIndex)||0)>(parseInt(getComputedStyle(frame).zIndex)||0)};
   });
-  assert.ok(profileRings.masked&&profileRings.frameInner>=profileRings.xpOuter-1,'frame surrounds the XP ring without wings crossing it');
+  assert.ok(profileRings.masked&&profileRings.ringAboveFrame,'the complete XP ring paints above the original masked frame: '+JSON.stringify(profileRings));
   await page.screenshot({path:'tests/screenshots/growth-aligned-2048.png',animations:'disabled'});
   await page.keyboard.press('Control+1');
   await page.locator('.queue-heading').first().waitFor();
@@ -705,12 +675,15 @@ try {
   await page.locator('.study-pane:not([hidden]) .lectures-detail').evaluate(node=>{node.scrollTop=800;});
   await page.locator('.study-pane:not([hidden]) .lecture-prerequisites button').filter({hasText:'输入输出'}).dispatchEvent('click');
   await page.getByRole('heading',{name:'输入输出测试正文',exact:true}).waitFor();
-  await page.getByRole('tab',{name:'分支循环测试中篇',exact:true}).click();
+  await page.getByRole('button',{name:'返回主界面',exact:true}).click();
+  await page.locator('.lectures-list button').filter({hasText:'分支循环测试中篇'}).click();
   await page.getByRole('heading',{name:'分支循环测试正文',exact:true}).waitFor();
   await page.waitForFunction(()=>document.querySelector('.study-pane:not([hidden]) .lectures-detail').scrollTop>=790);
-  await page.getByRole('tab',{name:'函数测试起点',exact:true}).click();
+  await page.getByRole('button',{name:'返回主界面',exact:true}).click();
+  await page.locator('.lectures-list button').filter({hasText:'函数测试起点'}).click();
   await page.getByRole('heading',{name:'函数测试正文',exact:true}).waitFor();
   await page.waitForFunction(()=>document.querySelector('.study-pane:not([hidden]) .lectures-detail').scrollTop>=1190);
+  await page.getByRole('button',{name:'返回主界面',exact:true}).click();
   await page.keyboard.press('Control+3');
   await page.getByLabel('搜索算法',{exact:true}).fill('knapsack');
   assert.equal(await page.locator('.lab-learning-catalogue .learning-catalogue-entry').count(),1);
@@ -722,7 +695,7 @@ try {
     position:getComputedStyle(node).position,
   }));
   assert.ok(navigation.directory<navigation.previous&&navigation.position!=='sticky');
-  assert.ok(await page.getByRole('tab',{name:'背包 DP',exact:true}).isVisible());
+  assert.equal(await page.locator('.study-group-header').count(),0,'An implicit single course uses compact navigation');
   await page.locator('.lab-lesson').focus();
   await page.keyboard.press('ArrowRight');
   await page.waitForFunction(()=>document.querySelector('.lab-position')?.textContent.trim()==='2 / 7');
@@ -733,7 +706,7 @@ try {
   const afterScroll=await page.locator('.lab-course-header').boundingBox();
   assert.ok(Math.abs(beforeScroll.y-afterScroll.y)<1,'only the lesson scrolls');
   await page.screenshot({path:'tests/screenshots/course-header-navigation.png',animations:'disabled'});
-  await page.getByRole('button',{name:'返回列表',exact:true}).click();
+  await page.getByRole('button',{name:'返回主界面',exact:true}).click();
   await page.keyboard.press('Control+7');
   // A slow analytics response must not let the 3-second busy poll pile up work.
   hub.sync.busy = true;

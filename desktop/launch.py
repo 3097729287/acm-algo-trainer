@@ -302,6 +302,8 @@ def run_desktop() -> int:
                 server.browser_preparation = ExternalBrowserPreparation(official, logins)
                 from contest_reading import ContestReading
                 server.original_contest_reader=ContestReading(official,server.browser_account_context,server.bind_browser_account)
+                from virtual_contest import VirtualContest
+                server.original_virtual_starter=VirtualContest(official,server.browser_account_context,server.bind_browser_account)
                 server.official_opener = official.open
                 server.official_acknowledger = official.acknowledge
                 server.official_submitter = official.submit
@@ -399,6 +401,12 @@ if __name__ == "__main__":
         from update_patch import helper_main
         raise SystemExit(helper_main(sys.argv[2:]))
     if getattr(sys, 'frozen', False):
+        # The release excludes PDFium's unused ndarray adapter. An old 1.4
+        # directory may retain NumPy extension files without its Python module;
+        # do not let that residue become a misleading namespace package.
+        sys.modules.setdefault('numpy',None)
+        from upgrade_layout import prepare_loader
+        prepare_loader(APP_DIR)
         configure_logging()
         from release_metadata import refresh_release_metadata
         refresh_release_metadata(APP_DIR)

@@ -63,7 +63,7 @@ class GameplayTests(unittest.TestCase):
     def sticker_claim(self):
         from progression import TASKS
         definition=dict(id='sticker-fixture',title='Fixture practice',description='One real official AC',kind='solve',target=1,xp=30,scope='official',version=2)
-        with patch('daily_chains.tasks_for',return_value=[*TASKS[:3],definition]):
+        with patch('daily_chains.tasks_for',return_value=[*TASKS[:3],definition]),patch('gameplay.daily_pack_rarity',return_value='common'):
             task=next(task for task in self.service.daily_tasks(goal_tasks=[])['tasks'] if task.get('rewardSticker'))
             self.accept()
             self.service.claim_daily_task(task['id'])

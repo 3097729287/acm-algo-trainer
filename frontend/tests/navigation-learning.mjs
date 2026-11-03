@@ -11,7 +11,7 @@ const page=await browser.newPage({viewport:{width:1440,height:960}});page.setDef
 const errors=[],unknown=[];page.on('pageerror',error=>errors.push(error.message));
 await page.addInitScript(()=>{window.__tbNewAccount=new URL(location.href).searchParams.get('newAccount')==='1';});
 const owner='c3e5d799-502a-4b4f-a864-a342f7db419e',now=new Date().toISOString();
-let level=1,revision=0,draft='',sampleRequested=false,officialRequested=false,preferences={theme:'dark',accent:'teal',fontSize:15,onboardingGuideVersion:2,onboardingCompleted:true,onboardingUnlockedPages:availablePages(11),levelNoticeVersion:1,levelNoticeSeen:100,levelNoticePending:0};
+let level=1,revision=0,draft='',sampleRequested=false,officialRequested=false,preferences={theme:'dark',accent:'teal',fontSize:15,onboardingGuideVersion:2,onboardingCompleted:true,onboardingUnlockedPages:availablePages(11),learningPaths:{navigationAccess:{version:3,retained:[]}},levelNoticeVersion:1,levelNoticeSeen:100,levelNoticePending:0};
 let preferenceSaveFailures=0,preferenceSaveAttempts=0;
 const rows=['A','B','C'].map((letter,index)=>({id:'fixture::'+letter,title:index?'基础练习 '+letter:'实际基础练习',contest:'测试题单',problem:letter,platform:'Codeforces',url:'https://codeforces.com/contest/1/problem/'+letter,difficulty:1000,difficultySource:'Codeforces 官方评分（隔离夹具）',difficultyConfidence:'HIGH',difficultyEstimated:false,tags:['输入输出','排序'],knowledge:'输入输出',catalogContentReady:true,solutionAvailable:true}));
 const lists=[{id:'fixture-basic',title:'顺序结构',sourcePlatform:'洛谷',available:true,categories:[],problems:rows.map(row=>({problemId:row.id,url:row.url}))}];
@@ -48,11 +48,11 @@ await page.route('**/api/**',async route=>{
  else {unknown.push(path);value={};}
  await route.fulfill({json:value});
 });
-const load=async (next,newAccount=false)=>{level=next;await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}${newAccount?'?newAccount=1':''}`);await page.locator('.sidebar nav').waitFor();await page.waitForFunction(value=>document.querySelector('.profile-level-number')?.textContent===String(value),next);await page.getByRole('navigation',{name:'主导航'}).getByRole('button',{name:next>=5?'成长':next>=4?'实验室':next>=3?'模拟赛':next>=2?'排行榜':'题单',exact:true}).waitFor();await page.locator(newAccount?'.training-list-content':'.next-actions').waitFor();};
+const load=async (next,newAccount=false)=>{level=next;await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}${newAccount?'?newAccount=1':''}`);await page.locator('.sidebar nav').waitFor();await page.waitForFunction(value=>document.querySelector('.profile-level-number')?.textContent===String(value),next);await page.getByRole('navigation',{name:'主导航'}).getByRole('button',{name:next>=6?'对战':next>=5?'排行榜':next>=4?'模拟赛':next>=3?'题库':next>=2?'实验室':'成长',exact:true}).waitFor();await page.locator(newAccount?'.training-list-content':'.next-actions').waitFor();};
 const nav=()=>page.getByRole('navigation',{name:'主导航'});
 try{
  const originalPreferences={...preferences};
- const defaultNames=['我的训练','题库','题单','比赛','模拟赛','成长','提交记录','活动记录','排行榜','实验室','模板','从零讲'];
+ const defaultNames=['我的训练','题库','题单','从零讲','维基百科','模板','实验室','比赛','模拟赛','对战','成长','提交记录','活动记录','排行榜'];
  const shippedOrders=[
   ['mine','library','training-lists','competitions','mock','paths','rankings','growth','records','activity','lectures'],
   ['mine','library','training-lists','competitions','mock','paths','rankings','growth','records','activity','lectures','templates'],
@@ -64,7 +64,7 @@ try{
   assert.deepEqual(await nav().getByRole('button').allTextContents(),defaultNames,'A previously shipped default order migrates to the current visible order');
  }
  const customOrder=['mine','paths','templates','library','training-lists','activity','competitions','mock','rankings','growth','records','lectures'];
- const customNames=['我的训练','实验室','模板','题库','题单','活动记录','比赛','模拟赛','排行榜','成长','提交记录','从零讲'];
+ const customNames=['我的训练','实验室','模板','题库','题单','活动记录','比赛','模拟赛','排行榜','成长','提交记录','从零讲','对战','维基百科'];
  for(const withSchema of [true,false]){
   preferences={...originalPreferences,navOrder:customOrder,...(withSchema?{navSchema:1}:{})};await load(11);
   assert.deepEqual(await nav().getByRole('button').allTextContents(),customNames,'A genuine custom order survives account restoration, including preferences without an old schema');
@@ -78,7 +78,7 @@ try{
    const bounds=node=>{const r=node.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height};};
    return {row:bounds(row),icon:bounds(row.querySelector('svg')),label:bounds(row.querySelector('span')),toggle:bounds(row.querySelector('input'))};
   }));
-  assert.equal(rows.length,12);
+  assert.equal(rows.length,14);
   for(const row of rows){
    assert(row.row.left>=0&&row.row.right<=width+.5&&row.row.height>=47.5,'Visibility row remains a usable target');
    assert(row.label.right<=row.toggle.left-5&&row.icon.right<=row.label.left-5,'Icon, page name and visibility switch do not overlap');
@@ -89,13 +89,9 @@ try{
  await page.setViewportSize({width:1440,height:960});
  for(const theme of ['dark','light']){
   preferences={...originalPreferences,theme};await load(11);await nav().getByRole('button',{name:'成长',exact:true}).click();
-  await page.locator('.account-hero-statistics .streak-flame').waitFor();
-  const flame=await page.locator('.account-hero-statistics').evaluate(node=>{
-   const svg=node.querySelector('.streak-flame'),neighbor=node.querySelector('.account-stat-icon>svg:not(.streak-flame)');
-   return {neighbor:getComputedStyle(neighbor).color,paths:[...svg.querySelectorAll('path')].map(path=>({fill:getComputedStyle(path).fill,stroke:getComputedStyle(path).stroke})),shellWidth:svg.querySelector('.flame-shell').getBBox().width,embers:svg.querySelectorAll('.flame-embers').length};
-  });
-  assert(flame.paths.every(path=>path.fill===flame.neighbor&&path.stroke==='none'),'The hero flame matches its neighboring statistic icons in '+theme+': '+JSON.stringify(flame));
-  assert(flame.shellWidth>25.5&&flame.embers===1,'The hero retains the largest flame shape rather than the small topbar stage');
+  await page.locator('.sticker-canvas').waitFor();
+  assert.equal(await page.locator('.sticker-canvas .growth-footer-actions').count(),0,'Growth controls stay outside the clean canvas in '+theme);
+  assert.equal(await page.locator('.app-statusbar .growth-footer-actions').count(),1);
  }
  preferences={...originalPreferences};
  await load(1);
@@ -103,11 +99,12 @@ try{
  assert.equal(await page.locator('.workspace-area .next-actions').count(),0,'recommendations do not consume training list space');
  await page.locator('.next-actions').hover();await page.locator('.next-actions-popover').waitFor();
  const firstAdvice=page.locator('.next-actions-popover .next-actions-item').first();
- assert.match(await firstAdvice.getAttribute('title'),/证据|独立|基础/);
+ const reasonId=await firstAdvice.getAttribute('aria-describedby');assert(reasonId);
+ assert.match(await page.locator('[id="'+reasonId+'"]').textContent(),/证据|独立|基础/);
  assert.equal(await page.locator('.next-actions-reason,.next-actions-primary small').count(),0);
  assert(await firstAdvice.getAttribute('aria-describedby'),'The recommendation evidence remains available to assistive technology');
  await page.keyboard.press('Escape');assert.equal(await page.locator('.next-actions-popover').count(),0);
- assert.deepEqual(await nav().getByRole('button').allTextContents(),['我的训练','题单','提交记录']);
+ assert.deepEqual(await nav().getByRole('button').allTextContents(),['我的训练','题单','从零讲','成长','提交记录','活动记录']);
  assert.equal(await page.getByRole('button',{name:'比赛日历',exact:true}).count(),0);
  assert.equal(await page.locator('[data-recommendation="course"]').count(),0);
  await page.keyboard.press('Control+2');assert.equal(await page.locator('.workspace-area').getAttribute('data-page'),'mine','locked page shortcuts use the shared level rule');
@@ -122,14 +119,19 @@ try{
  assert.equal(await page.getByRole('button',{name:'打开模板',exact:true}).count(),1,'in-problem help stays available at Lv1');
  await page.locator('.cm-content').fill('#include <iostream>\nint main(){std::cout<<3;}');
  await page.getByRole('button',{name:'自测运行',exact:true}).click();await page.locator('.wb-result-summary').getByText('样例通过',{exact:false}).waitFor();assert(sampleRequested);
- await page.getByRole('button',{name:'提交',exact:true}).click();await page.waitForTimeout(900);assert(officialRequested,'formal original-site submission entry works at Lv1; requests are fixture-only');
- await page.getByRole('button',{name:'返回列表',exact:true}).click();
+ const officialReceipt=page.waitForResponse(response=>new URL(response.url()).pathname==='/api/official/status');
+ await page.getByRole('button',{name:'提交',exact:true}).click();await officialReceipt;await page.waitForTimeout(400);assert(officialRequested,'formal original-site submission entry works at Lv1; requests are fixture-only');
+ await page.getByRole('button',{name:'返回主界面',exact:true}).click();
+ await page.locator('.study-browser').waitFor({state:'hidden'});
+ await page.evaluate(async()=>{const pending=[];window.dispatchEvent(new CustomEvent('tb-before-update',{detail:{waitUntil:value=>pending.push(Promise.resolve(value))}}));await Promise.all(pending);});
+ await load(1);
  await openSettings(page,'新手指引');
+ await page.locator('.tour-guide-grid').waitFor();
  assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'模拟赛',exact:true}).count(),0);
  assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'题单',exact:true}).count(),1);
- await load(3);assert.equal(await nav().getByRole('button',{name:'模板',exact:true}).count(),0);assert.equal(await nav().getByRole('button',{name:'模拟赛',exact:true}).count(),1);
- await load(4);await nav().getByRole('button',{name:'实验室',exact:true}).click();await page.getByRole('button',{name:'打开算法 排序基础',exact:true}).click();assert.match(await page.locator('.lab-course-header h1').textContent(),/排序基础/);await page.getByRole('button',{name:'返回实验室',exact:true}).click();
- await load(11);assert.equal(await nav().getByRole('button').count(),12);
+ await load(3);assert.equal(await nav().getByRole('button',{name:'模板',exact:true}).count(),1);assert.equal(await nav().getByRole('button',{name:'模拟赛',exact:true}).count(),0);
+ await load(4);await nav().getByRole('button',{name:'实验室',exact:true}).click();await page.getByRole('button',{name:'打开算法 排序基础',exact:true}).click();assert.match(await page.locator('.lab-course-header h1').textContent(),/排序基础/);await page.getByRole('button',{name:'返回主界面',exact:true}).click();
+ await load(11);assert.equal(await nav().getByRole('button').count(),14);
  await openSettings(page,'交互与导航');
  assert(await page.getByRole('checkbox',{name:'显示 我的训练',exact:true}).isDisabled());
  await page.getByRole('checkbox',{name:'显示 题单',exact:true}).uncheck();
@@ -140,6 +142,7 @@ try{
  assert.equal(await page.getByRole('button',{name:'将筛选结果加入题单',exact:true}).count(),0);
  assert.equal(await page.getByRole('button',{name:'加入题单 实际基础练习',exact:true}).count(),0);
  await openSettings(page,'新手指引');
+ await page.locator('.tour-guide-grid').waitFor();
  assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'题单',exact:true}).count(),0);
  assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'模板',exact:true}).count(),0);
  await openSettings(page,'交互与导航');await page.getByRole('checkbox',{name:'显示 题单',exact:true}).check();

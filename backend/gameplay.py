@@ -5,6 +5,14 @@ import uuid
 from training import ServiceError, iso
 from leaderboard import RankingRequestError
 
+def daily_pack_rarity(owner, day, task_id):
+    from sticker_rewards import catalogue
+    roll=int.from_bytes(hashlib.sha256((owner+'\0'+day+'\0'+task_id+'\0pack-v1').encode()).digest()[:4],'big')%10000
+    for tier,weight in catalogue()['dailyPacks']['probabilities'].items():
+        roll-=weight
+        if roll<0:return tier
+    raise ValueError('卡包概率配置无效')
+
 def rarity(task):
     difficulty=task.get('minDifficulty') or 0
     xp=task.get('xp') or 0
@@ -53,7 +61,7 @@ def stickers(training,kind=None,value=None):
     owner=training._ranking_profile()['user_id']
     mutation={}
     if kind:
-        allowed={'place':{'requestId','unitId','revision','x','y','angle','scale'},'recycle':{'requestId','unitId','revision'},'open-box':{'requestId','boxId'}}
+        allowed={'place':{'requestId','unitId','revision','x','y','angle','scale'},'recycle':{'requestId','unitId','revision'},'open-box':{'requestId','boxId'},'open-packs':{'requestId','rarity','count'}}
         if kind not in allowed or not isinstance(value,dict) or set(value)-allowed[kind]:raise ServiceError(400,'贴纸操作无效')
         mutation=_request(training,'POST','/v1/stickers/'+kind,value,expected_owner=owner)
         # The inventory view has already delivered the durable reward outbox.

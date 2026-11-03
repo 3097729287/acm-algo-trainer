@@ -7,8 +7,10 @@ import { handle, authenticate } from './api.mjs';
 import { openStore, secret } from './mysql-store.mjs';
 import {CHUNK_LIMIT} from './account-chunks.mjs';
 import { STATE_LIMIT } from './account-state.mjs';
+import {createReleaseStream} from './release-stream.mjs';
 
-export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000, stateBodyTimeoutMs = 120000 } = {}) {
+export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000, stateBodyTimeoutMs = 120000,releaseAssetsFile='public-release-assets.json',releaseFetch } = {}) {
+  const releaseStream=createReleaseStream(releaseAssetsFile,{fetcher:releaseFetch});
   let activeStateRequests = 0, activeChunkRequests = 0, activeAvatarRequests = 0;
   const server = createServer(async (request, response) => {
     let ownsStateSlot = false, ownsChunkSlot = false, ownsAvatarSlot = false;
@@ -16,6 +18,9 @@ export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000
     bodyDeadline.unref();
     try {
       const path = new URL(request.url, 'http://localhost').pathname;
+      if(path.startsWith('/assets/')||path.startsWith('/updates/assets/')){
+        clearTimeout(bodyDeadline);await releaseStream(request,response);return;
+      }
       const chunkRequest=path.startsWith('/v2/accounts/state');
       const stateRequest = chunkRequest || path === '/v1/accounts/state' && ['GET', 'PUT'].includes(request.method);
       const avatarRequest = path === '/v1/profile' && request.method === 'PUT';
@@ -118,7 +123,7 @@ export async function start(env = process.env) {
       READ_ONLY: env.READ_ONLY,
       REGISTRATIONS_PER_IP_DAY: env.REGISTRATIONS_PER_IP_DAY, REQUESTS_PER_USER_MINUTE: env.REQUESTS_PER_USER_MINUTE };
     if (!apiEnv.RATE_LIMIT_SALT) throw new Error('RATE_LIMIT_SALT is required');
-    server = createApiServer(apiEnv, { trustProxy: env.TRUST_PROXY === '1' });
+    server = createApiServer(apiEnv, { trustProxy: env.TRUST_PROXY === '1',releaseAssetsFile:env.RELEASE_ASSETS_FILE||'public-release-assets.json' });
     server.listen(Number(env.PORT || 8080), env.HOST || '0.0.0.0');
     await once(server, 'listening');
   } catch (error) {

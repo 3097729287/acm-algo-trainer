@@ -1,6 +1,6 @@
-import {rankIndex,TIER_NAMES} from '@/lib/rankTiers.js';
 import {compareCompetitionNewest} from '@/lib/competitionOrder.js';
 import StickerCanvas from '@/components/StickerCanvas.jsx';
+import {PACK_NAMES} from '@/components/StickerBoxes.jsx';
 import {StickerArt,STICKER_NAMES} from '@/components/StickerArt.jsx';
 import MedalEmblem,{titleMedalIndex} from '@/components/MedalEmblem.jsx';
 import {Gift,EyeOff} from 'lucide-react';
@@ -100,10 +100,10 @@ export function DailyTasks({ dailyTasks, onClaim }) {
   const groups=[['日常',tasks.filter(routine)],['任务',tasks.filter(task=>!routine(task))]];
   return <section className="progress-section daily-tasks" aria-label="每日任务"><div className="progress-section-heading"><span>{dailyTasks?.date||'每日更新'}</span></div>
     {groups.filter(([,items])=>items.length).map(([title,items])=><section className="daily-task-group" key={title} aria-label={title}><h3>{title}</h3><div className="daily-task-grid">{items.map(task=>{
-      const sticker=task.rewardSticker||(Number(task.xp)===0&&task.stickerRarity?{rarity:task.stickerRarity}:null);
+      const sticker=task.rewardPack||task.rewardSticker||(Number(task.xp)===0&&task.stickerRarity?{rarity:task.stickerRarity}:null);
       const rarity=sticker&&Object.hasOwn(STICKER_NAMES,sticker.rarity)?sticker.rarity:null;
       return <article className={`daily-task${rarity?' daily-task-sticker rarity-'+rarity:''}${task.claimed?' daily-task-claimed':''}${task.completed||task.claimed?' daily-task-completed':''}`} key={task.slot??task.id} data-slot={task.slot} data-lane={task.lane}>
-      <div className="daily-task-main"><div><strong>{task.title}</strong><span className="daily-task-reward">{rarity&&<span className="daily-task-sticker-reward"><Gift size={14}/>{STICKER_NAMES[rarity]}贴纸</span>}{Number(task.xp)>0&&<span className="daily-task-xp">+{number(task.xp)} XP</span>}</span></div><p>{acText(task.description)}</p><div className="daily-task-progress"><Meter value={task.target?task.progress/task.target*100:0} label={`${task.title}任务进度`}/><span>{number(task.progress)}/{number(task.target)}{task.unit||''}</span></div></div>
+      <div className="daily-task-main"><div><strong>{task.title}</strong><span className="daily-task-reward">{rarity&&<span className="daily-task-sticker-reward"><Gift size={14}/>{task.rewardPack?PACK_NAMES[rarity]+'卡包':STICKER_NAMES[rarity]+'贴纸'}</span>}{Number(task.xp)>0&&<span className="daily-task-xp">+{number(task.xp)} XP</span>}</span></div><p>{acText(task.description)}</p><div className="daily-task-progress"><Meter value={task.target?task.progress/task.target*100:0} label={`${task.title}任务进度`}/><span>{number(task.progress)}/{number(task.target)}{task.unit||''}</span></div></div>
       {(task.completed||task.claimed)&&<button type="button" className={'progress-button '+(!task.claimed?'progress-primary':'')} disabled={task.claimed||Boolean(claiming)||!onClaim} onClick={()=>claim(task)}>{claiming===task.id?'领取中…':task.claimed?(routine(task)?'已完成':'已领取'):'领取奖励'}</button>}
     </article>;})}</div></section>)}{!tasks.length&&<p className="progress-muted">每日任务正在准备。</p>}{error&&<p role="alert" className="connection-error">{error}</p>}
   </section>;
@@ -129,12 +129,11 @@ export function GrowthAccountPanel({ api, hub, account, profile, profileSnapshot
 
 export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,insights,categories=[],rows=[],account,profile,onTopic,onTrain,onAccounts,onAchievements}) {
  if(!insights)return <Loading/>;
- const growth=insights.growth||{},rank=growth.ranked||{},nickname=profile?.nickname||account?.nickname||insights.profile?.nickname||'练习者';
- const rankName=Number(growth.level)<Number(rank.levelGate??growth.rankUnlockLevel??growth.levelGate??5)?'未定级':rank.qualified===false?'定级中':rank.tier||Number.isFinite(rank.abilityScore)?TIER_NAMES[rankIndex(rank)]:'定级中';
+ const growth=insights.growth||{},nickname=profile?.nickname||account?.nickname||insights.profile?.nickname||'练习者';
  return <div className="progress-page growth-dashboard" aria-label="成长"><div className="progress-growth-columns">
  <KnowledgeRadar rows={rows} categories={categories} knowledge={insights.knowledge||[]} knowledgeEvidence={insights.knowledgeEvidence||[]} knowledgeModel={insights.knowledgeModel||{}} onTopic={onTopic} onTrain={onTrain}/>
  <section className="progress-section growth-account-hero" aria-label="账号成长"><StickerCanvas api={api} owner={account?.userId||profile?.userId} goals={api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}>
-<div className="account-hero-identity"><div className="account-hero-person"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-titles"><TitleMedals iconOnly medalSize={56} titles={insights.equippedTitles||growth.equippedTitles||[]}/></div></div><div className="account-hero-rank"><TierIcon rank={rank} size={180}/><strong>{rankName}</strong></div></div>
+<div className="account-hero-identity"><div className="account-hero-person"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-titles"><TitleMedals iconOnly medalSize={56} titles={insights.equippedTitles||growth.equippedTitles||[]}/></div></div></div>
 </StickerCanvas></section></div></div>;
 }
 

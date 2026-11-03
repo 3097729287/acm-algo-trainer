@@ -1,6 +1,6 @@
 .profile-badge {
   --xp-ring-color:#d8b76c;
-  --xp-progress-color:#59c9d6;
+  --xp-progress-color:var(--xp-ring-color);
   display:inline-flex;
   align-items:center;
   flex-shrink:0;

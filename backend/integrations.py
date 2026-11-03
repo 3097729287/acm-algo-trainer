@@ -27,6 +27,13 @@ HOSTS={'codeforces.com','atcoder.jp','ac.nowcoder.com','www.luogu.com.cn','luogu
        'espresso.codeforces.com','uploadfiles.nowcoder.com','uploadfiles.nowcoder.net','main.edu.pl',
        'szkopul.edu.pl','onlinejudge.org','www2.ioi-jp.org'}
 KNOWN_REPO='3097729287/acm-algo-trainer'
+def read_public_metadata(path):
+    path=Path(path)
+    if not Path(str(path)+'.gz').is_file():return json.loads(path.read_text(encoding='utf-8'))
+    import gzip
+    with gzip.open(str(path)+'.gz','rb') as stream:encoded=stream.read(64*1024*1024+1)
+    if len(encoded)>64*1024*1024:raise ValueError('Public metadata exceeds its size limit')
+    return json.loads(encoded)
 DEFAULTS={'githubRepo':KNOWN_REPO,'autoSync':True,'intervalHours':6,'minDifficulty':0,'maxDifficulty':10000,'includePrereleases':True,'accounts':{p:'' for p in P.LABELS}}
 
 def now():return dt.datetime.now(dt.timezone.utc)
@@ -219,7 +226,7 @@ class IntegrationService:
                 if key and isinstance(value,dict) and type(value.get('difficulty')) is int:
                     self.state['legacyFirstXp'][key] = max(self.state['legacyFirstXp'].get(key, 0), official_first_xp(value['difficulty']))
         from paths import resource
-        seed=json.loads(resource('public-problem-metadata.json').read_text(encoding='utf-8'))
+        seed=read_public_metadata(resource('public-problem-metadata.json'))
         if isinstance(seed,dict):
             for url,value in seed.items():
                 if isinstance(value,dict):

@@ -67,7 +67,8 @@ def inspect_patch(archive, app_dir, version):
         if not (app_dir / name).is_file() or digest(app_dir / name) != sha:
             raise UpdateBaseMismatch('当前程序文件已变化，请使用安装版修复后重试：' + name)
     for name in changed:
-        if hashlib.sha256(archive.read('files/' + name)).hexdigest() != files[name]:
+        with archive.open('files/'+name) as stream:actual=hashlib.file_digest(stream,'sha256').hexdigest()
+        if actual != files[name]:
             raise ValueError('增量文件校验失败：' + name)
     if 'VERSION' not in changed or archive.read('files/VERSION').decode().strip() != version:
         raise ValueError('更新版本文件不一致')
@@ -99,7 +100,8 @@ def apply_patch_file(package, sha, version, app_dir, *, fail_after=None):
                 path.parent.mkdir(parents=True, exist_ok=True)
                 temporary = path.with_name(path.name + '.tb-update')
                 if temporary.exists() and not recycle_directory(temporary):raise UpdateStorageError('上次更新临时文件无法回收，已停止重试')
-                temporary.write_bytes(archive.read('files/' + name))
+                with archive.open('files/'+name) as source,temporary.open('wb') as destination:
+                    shutil.copyfileobj(source,destination,1024**2)
                 os.replace(temporary, path)
                 if fail_after is not None and index >= fail_after:
                     raise OSError('isolated replacement failure')

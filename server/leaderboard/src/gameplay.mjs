@@ -2,7 +2,7 @@ import {StickerRewards,REWARDS} from './sticker-rewards.mjs';
 import {createHash, randomInt, randomUUID} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {AccountError} from './accounts.mjs';
-import {levelBox} from './sticker-rewards.mjs';
+import {levelBox,packBox,dailyPackRarity,normalizeBox} from './sticker-rewards.mjs';
 
 const fail=(status,message)=>{throw new AccountError(status,message);};
 const hash=value=>createHash('sha256').update(value).digest('hex');
@@ -84,8 +84,8 @@ export class Gameplay extends StickerRewards {
  async stickers(owner){
   const [rows]=await this.db.execute('SELECT payload FROM gameplay_accounts WHERE user_id=?',[owner]);
   const state=rows.length?JSON.parse(rows[0].payload):empty();
-  const boxes=Object.fromEntries(Object.entries(state.boxes||{}).map(([id,box])=>[id,!box.openedAt&&box.policyVersion!==REWARDS.version?{...levelBox(box.level),grantedAt:box.grantedAt}:box]));
-  return {owner,catalogue:STICKERS,...state,boxes,boxPolicy:REWARDS.levelBoxes,placementPolicy:{scale:true,minScale:.5,maxScale:2}};
+  const boxes=Object.fromEntries(Object.entries(state.boxes||{}).map(([id,box])=>[id,normalizeBox(box)]));
+  return {owner,catalogue:STICKERS,...state,boxes,boxPolicy:REWARDS.levelBoxes,packPolicy:REWARDS.cardPacks,capabilities:{cardPacks:true,batchOpen:true},placementPolicy:{scale:true,minScale:.5,maxScale:2}};
  }
  async stickerWrite(owner,auth,kind,value,now){
   return this.db.transaction(async db=>{
@@ -100,10 +100,11 @@ export class Gameplay extends StickerRewards {
       if(Object.hasOwn(state.rewardSlots,slotKey)&&state.rewardSlots[slotKey]!==key)fail(409,'本日这项贴纸任务已经领取');
      }
      if(!Object.hasOwn(state.grants,key)){
-      if(state.units.length>=20000)fail(409,'贴纸库存已满');
-      const rarity=rewardRarity(value),pool=STICKERS.filter(item=>item.rarity===rarity&&!item.id.startsWith('achievement-')),sticker=pool[randomInt(pool.length)];
-      const unit={id:randomUUID(),stickerId:sticker.id,placement:null,revision:0};
-      state.units.push(unit);state.grants[key]={unitId:unit.id,rarity,grantedAt:now};state.revision++;
+      const daily=Object.keys(state.grants).filter(identity=>identity.startsWith(value.day+':')).length;
+      if(daily>=REWARDS.dailyPacks.maxPerDay)fail(409,'每天最多通过任务获得 3 个卡包');
+      const rarity=dailyPackRarity(owner,value.day,value.taskId),box=packBox('task:'+key,rarity,{kind:'daily',day:value.day,taskId:value.taskId});
+      state.boxes??={};state.boxes[box.id]={...box,grantedAt:now};
+      state.grants[key]={boxId:box.id,rarity,grantedAt:now};state.revision++;
      }
      if(slotKey)state.rewardSlots[slotKey]=key;
     }else{

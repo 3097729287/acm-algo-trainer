@@ -55,12 +55,17 @@ test('placing and recycling include confirmed inventory without bloating durable
  const f=await startFixture({now});try{
   const owner=await client(f,'sticker_recycle');
   assert.equal((await owner.call('/v1/stickers/grant',{requestId:randomUUID(),day:'2026-11-03',taskId:'ac-chain:0',xp:30})).status,200);
-  const unit=(await owner.call('/v1/stickers')).value.units[0];
+  const claimed=(await owner.call('/v1/stickers')).value;
+  assert.equal(claimed.units.length,0,'Claiming a task stores an unopened pack');
+  const box=Object.values(claimed.boxes).find(item=>!item.opened);
+  const opened=await owner.call('/v1/stickers/open-box',{requestId:randomUUID(),boxId:box.id});
+  assert.equal(opened.status,200);
+  const unit=opened.value.inventory.units[0];
   const placed=await owner.call('/v1/stickers/place',{requestId:randomUUID(),unitId:unit.id,revision:unit.revision,x:.5,y:.5,angle:0});
   assert.equal(placed.status,200);assert(placed.value.inventory.units[0].placement);
   const requestId=randomUUID(),body={requestId,unitId:unit.id,revision:placed.value.inventory.units[0].revision};
   const result=await owner.call('/v1/stickers/recycle',body);assert.equal(result.status,200);assert.equal(result.value.inventory.units[0].placement,null);
-  assert.equal((await owner.call('/v1/stickers/recycle',body)).value.inventory.units.length,1);
+  assert.equal((await owner.call('/v1/stickers/recycle',body)).value.inventory.units.length,box.quantity);
   const receipt=JSON.parse(f.STORE.database.prepare('SELECT response FROM gameplay_operations WHERE user_id=? AND request_id=?').get(owner.id,requestId).response);
   assert(!Object.hasOwn(receipt,'inventory'));assert.equal(receipt.requestId,requestId);
  }finally{await f.close();}

@@ -17,6 +17,13 @@
     header @metadata Cache-Control "no-cache"
     @assets path /assets/*
     header @assets Cache-Control "public, max-age=31536000, immutable"
+    # Existing assets remain local. An approved new asset can be streamed from
+    # the published release without filling the account server's filesystem.
+    @missing_asset {
+      path /assets/*
+      not file {path}
+    }
+    reverse_proxy @missing_asset api:8080
     file_server
   }
   # V2 objects and batches remain bounded independently of legacy snapshots.

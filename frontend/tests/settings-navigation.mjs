@@ -7,7 +7,9 @@ export async function openSettings(page, name) {
     await page.locator('.settings-return-button').click();
   }
   await page.locator('.settings-home-grid').waitFor();
-  if (name) await page.getByRole('tab', { name, exact: true }).click();
+  // Scene centres have their own playful interactions. Open the category
+  // through its actual label, leaving those interactions available to users.
+  if (name) await page.getByRole('tab', { name, exact: true }).locator('.settings-tile-label').click();
 }
 
 export async function setTheme(page,theme) {

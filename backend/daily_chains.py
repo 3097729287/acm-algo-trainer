@@ -150,26 +150,47 @@ def _random(training, day, owner, step, fixed, evidence, records, allowed=None):
     return task
 
 
-def _sticker_task(task, slot):
-    from gameplay import rarity
+def _sticker_task(task, slot, owner, day, ability=None):
+    from gameplay import daily_pack_rarity
+    if task.get('stickerPolicy')==3:return dict(task)
     value = task.get('stickerXp', task['xp'])
-    return {**task, 'xp': 0, 'stickerXp': value, 'stickerSlot': slot, 'stickerPolicy': 2,
-            'rewardSticker': {'rarity': rarity({**task, 'xp': value})}}
+    rarity=daily_pack_rarity(owner,day,task['id'])
+    base=int(ability//100)*100 if type(ability) in (int,float) and 0<ability<=4000 else 800
+    count,offset={'common':(1,-100),'rare':(1,100),'epic':(2,200),'legendary':(3,300)}[rarity]
+    difficulty=max(600,min(4000,base+offset))
+    kind=task.get('kind','solve')
+    if kind=='learning':
+        count={'common':5,'rare':10,'epic':20,'legendary':40}[rarity]
+        description=f'学习 {count} 分钟'
+        difficulty=0
+    else:
+        if kind in {'topics','topic-pair','platforms'}:count=max(count,task.get('target',1))
+        prefix='独立首次 AC' if kind=='independent' else '首次 AC'
+        description=f'{prefix} {count} 道难度至少 {difficulty} 的新题'
+        if kind=='platforms':description=f'在 {count} 个平台各首次 AC 一道难度至少 {difficulty} 的新题'
+        elif kind=='topics':description=f'首次 AC 难度至少 {difficulty} 的新题，涉及至少 {count} 个不同知识点'
+        elif kind=='topic-pair':description=f'首次 AC {count} 道具有同一知识点且难度至少 {difficulty} 的新题'
+        elif kind in {'morning','evening'}:description=('北京时间 6–11 点' if kind=='morning' else '北京时间 18–22 点')+description
+    return {**task, 'xp': 0, 'stickerXp': value, 'stickerSlot': slot, 'stickerPolicy': 3,
+            'rewardSticker': {'rarity': rarity},'rewardPack':{'rarity':rarity,'quantity':{'common':3,'rare':4,'epic':5,'legendary':6}[rarity]},
+            'kind':kind,'target':count,'minDifficulty':difficulty,'newOnly':True,
+            'abilityReference':ability,'difficultyEvidenceRequired':kind!='learning',
+            'description':description}
 
 
-def _sticker_definitions(fixed, review, records, completed, owner, day):
+def _sticker_definitions(fixed, review, records, completed, owner, day, ability=None):
     saved = [json.loads(row['definition']) for row in records.values()]
     chosen = next((task['id'] for task in saved if task.get('stickerSlot') == 'fixed'), None)
     candidates = [task for task in fixed if not records.get(task['id']) or not records[task['id']]['claimed_at']]
     if chosen is None and candidates:
         chosen = min(candidates, key=lambda task: hashlib.sha256((owner+'\0'+day+'\0sticker\0'+task['id']).encode()).digest())['id']
-    fixed = [_sticker_task(task, 'fixed') if task['id'] == chosen else task for task in fixed]
+    fixed = [_sticker_task(task, 'fixed', owner, day, ability) if task['id'] == chosen else task for task in fixed]
     if review.get('lane') == 'review-random' and completed:
         old = next((task for task in saved if task['id'] == review['id']), {})
         slots = {task.get('stickerSlot') for task in saved}
         slot = old.get('stickerSlot') or next((name for name in ('review-0', 'review-1') if name not in slots), None)
         if slot and not (records.get(review['id']) and records[review['id']]['claimed_at']):
-            review = _sticker_task(review, slot)
+            review = _sticker_task(review, slot, owner, day, ability)
     return fixed, review
 
 
@@ -231,7 +252,7 @@ def snapshot(training, goal_tasks=None, evidence=None, *, completed=None):
             review = _definition('review-chain:' + str(review_step), 'review', review_step, '复习', f'复习 {target} 道题目', 'review', target, min(100, 10 + 5 * review_step), 1)
         else:
             review = _random(training, day, owner, _next_step(records, 'review-random'), fixed, evidence, records, allowed)
-        fixed, review = _sticker_definitions(fixed, review, records, completed, owner, day)
+        fixed, review = _sticker_definitions(fixed, review, records, completed, owner, day, basis)
         definitions = [ac, review, study, *fixed]
         changes = [task for task in definitions if task['id'] not in records or not records[task['id']]['claimed_at']
                    and records[task['id']]['definition'] != json.dumps(task, ensure_ascii=False)]
@@ -293,4 +314,5 @@ def claim(training, identity, date=None):
             _advance_read_caches(training, day, before_changes)
         # Compute the next tier only after the claim is durably committed.
         return {'dailyTasks': snapshot(training, goal_tasks=[], evidence=evidence, completed=completed),
-                'awardedXp': 0 if already else task['xp'], 'alreadyClaimed': already}
+                'awardedXp': 0 if already else task['xp'], 'alreadyClaimed': already,
+                **({'rewardPack':task['rewardPack']} if task.get('rewardPack') else {})}

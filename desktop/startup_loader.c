@@ -68,11 +68,25 @@ static LRESULT CALLBACK procedure(HWND window,UINT msg,WPARAM wp,LPARAM lp) {
 }
 int WINAPI wWinMain(HINSTANCE instance,HINSTANCE previous,LPWSTR arguments,int display) {
     (void)previous;(void)display;
-    wchar_t directory[32768], executable[32768], command[32768];
+    wchar_t directory[32768], executable[32768], command[32768], entry[32768];
     DWORD length=GetModuleFileNameW(NULL,directory,32768);
     if(!length||length>=32767)return 1;
+    wcscpy(entry,directory);
     wchar_t *last=wcsrchr(directory,L'\\');if(!last)return 1;*last=0;
     if(swprintf(executable,32768,L"%ls\\ToBe.exe",directory)<0)return 1;
+    if(GetFileAttributesW(executable)==INVALID_FILE_ATTRIBUTES) {
+        /* The earliest 1.4 updaters only admit TB新版.exe at the root. Their
+         * verified resources/ payload carries the current native executable;
+         * this stable loader promotes it once, without touching user data. */
+        wchar_t source[32768],loader[32768];
+        if(swprintf(source,32768,L"%ls\\resources\\legacy-upgrade\\ToBe.exe",directory)<0)return 1;
+        DWORD attrs=GetFileAttributesW(source);
+        if(attrs!=INVALID_FILE_ATTRIBUTES&&!(attrs&(FILE_ATTRIBUTE_DIRECTORY|FILE_ATTRIBUTE_REPARSE_POINT))) {
+            if(!CopyFileW(source,executable,TRUE)&&GetLastError()!=ERROR_FILE_EXISTS)return 1;
+            if(swprintf(loader,32768,L"%ls\\ToBeLoader.exe",directory)<0)return 1;
+            if(!CopyFileW(entry,loader,TRUE)&&GetLastError()!=ERROR_FILE_EXISTS)return 1;
+        }
+    }
     if(GetFileAttributesW(executable)==INVALID_FILE_ATTRIBUTES)
         if(swprintf(executable,32768,L"%ls\\ToBe管理员版.exe",directory)<0)return 1;
     if(swprintf(command,32768,L"\"%ls\" %ls",executable,arguments)<0)return 1;

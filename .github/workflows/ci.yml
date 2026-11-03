@@ -112,6 +112,10 @@ jobs:
       - run: npm run build
       - run: npm run test:learning-browser
       - run: npm run test:sticker-rewards
+      - run: node tests/sticker-direct.mjs
+      - run: node tests/banner-growth-feedback.mjs
+      - run: node tests/wiki-course-feedback.mjs
+      - run: node tests/virtual-contest.mjs
       - run: npm run test:model
       - run: node tests/revision-1429-model.mjs
       - run: node tests/radar-frequency.mjs
@@ -224,3 +228,10 @@ jobs:
           TB_MYSQL_TEST_PORT: '3306'
           TB_MYSQL_TEST_PASSWORD: tb-isolated-ci
         run: npm run test:mysql
+      - name: MySQL card packs, daily cap and concurrent five-pack opening
+        working-directory: server/leaderboard
+        env:
+          TB_MYSQL_TEST_PORT: '3306'
+          TB_MYSQL_TEST_PASSWORD: tb-isolated-ci
+          TB_GAMEPLAY_MYSQL: '1'
+        run: node --test tests/gameplay.test.mjs tests/sticker-rewards.test.mjs tests/card-packs.test.mjs

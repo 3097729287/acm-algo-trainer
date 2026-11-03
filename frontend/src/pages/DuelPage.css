@@ -25,3 +25,13 @@ html[data-motion=off] .duel-ready-dialog,html[data-motion=off] .duel-ready-symbo
 @media(prefers-reduced-motion:reduce){.duel-ready-dialog,.duel-ready-symbol,.duel-ready-symbol svg{animation:none}.duel-seal-time{transition:none}}
 
 .duel-queued{padding:8px 10px 8px 18px;color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--panel-base))}.duel-queued>span{flex:1}.duel-queued>.duel-cancel{margin-left:4px}.duel-queued>.duel-cancel:hover:enabled{background:color-mix(in srgb,var(--accent) 12%,transparent)!important}
+
+.duel-lobby-identity{--duel-portrait:clamp(146px,18vw,188px);width:min(380px,100%);min-height:520px;padding:82px 34px 68px;gap:38px;filter:drop-shadow(0 16px 24px #0003)}
+.duel-lobby-identity::before,.duel-lobby-identity::after{content:none}
+.duel-lobby-identity>.duel-banner-frame{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.duel-lobby-identity .profile-badge{gap:30px}
+.duel-lobby-identity .profile-avatar-button{width:var(--duel-portrait);height:var(--duel-portrait)}
+.duel-lobby-identity .profile-nickname{font-size:1.35rem}
+.duel-lobby-identity .profile-level-number{font-size:15px;min-width:30px;height:22px}
+.duel-lobby-rank>svg{width:96px;height:110px}
+@media(max-height:760px),(max-width:540px){.duel-lobby-identity{--duel-portrait:156px;width:min(324px,100%);min-height:450px;padding:64px 28px 54px;gap:24px}.duel-lobby-identity .profile-badge{gap:22px}.duel-lobby-rank>svg{width:82px;height:94px}.duel-lobby{gap:20px;padding-top:28px}}

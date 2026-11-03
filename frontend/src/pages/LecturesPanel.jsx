@@ -26,10 +26,12 @@ function LessonTitle({ children }) {
 }
 
 function LessonMarkdown({ lesson }) {
-  return <div className="lecture-markdown"><ReactMarkdown urlTransform={readingUrlTransform} remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]} components={{
+  const markdown=normalizeMarkdown(lesson.markdown||''),title=lesson.displayTitle||lesson.concept||lesson.title;
+  const needsTitle=lectureCurriculum(lesson).kind==='language'&&title&&!/^ {0,3}#\s+\S/m.test(markdown.replace(/```[\s\S]*?```|~~~[\s\S]*?~~~/g,''));
+  return <div className="lecture-markdown">{needsTitle&&<h1 className="lecture-title"><LessonTitle>{title.replace(/^从零讲[：:]\s*/,'')}</LessonTitle></h1>}<ReactMarkdown urlTransform={readingUrlTransform} remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]} components={{
     img: ({ node, ...props }) => <ReadingImage {...props} images={lesson.images} />,
     a: ({ children, ...props }) => <a {...props} target="_blank" rel="noreferrer">{children}</a>,
-  }}>{normalizeMarkdown(lesson.markdown || '')}</ReactMarkdown></div>;
+  }}>{markdown}</ReactMarkdown></div>;
 }
 
 export function LectureDisclosure({ lecture = {}, inlineMarkdown, images, api, onTrain, onError }) {
@@ -53,15 +55,18 @@ export function LectureDisclosure({ lecture = {}, inlineMarkdown, images, api, o
 }
 
 const EMPTY_CATEGORIES=[];
-export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,onFullscreenChange,onOpenTemplate,categories=EMPTY_CATEGORIES,visit,prefs={},setPrefs,onOpenLecture,onNextLecture,study=false }) {
+export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,onFullscreenChange,onOpenTemplate,categories=EMPTY_CATEGORIES,visit,prefs={},setPrefs,onOpenLecture,onNextLecture,study=false,directoryOpen:controlledDirectoryOpen,onDirectoryChange }) {
   const [snapshot, setSnapshot] = useState(lectures || null), [query, setQuery] = useState(visit?.query||''), [selected, setSelected] = useState(initialLecture || visit?.selected || null);
   const moved=lectureDestination(selected);
   useEffect(()=>{if(moved&&onOpenTemplate){setSelected(null);if(visit)visit.selected=null;onOpenTemplate(moved.templateId);}},[moved,onOpenTemplate,visit]);
   const [showLearned,setShowLearned]=useState(true);
   const learnedKeys=useMemo(()=>new Set(prefs.learnedLectures||[]),[prefs.learnedLectures]);
   const [readingFull,setReadingFull]=useState(visit?.readingFull||false);
-  const [directoryOpen,setDirectoryOpen]=useState(visit?.directoryOpen||false),directoryId=useId();
+  const [localDirectoryOpen,setLocalDirectoryOpen]=useState(visit?.directoryOpen||false),directoryId=useId(),directory=useRef(null);
+  const directoryOpen=controlledDirectoryOpen??localDirectoryOpen;
+  const setDirectoryOpen=value=>{const next=typeof value==='function'?value(directoryOpen):value;setLocalDirectoryOpen(next);if(visit)visit.directoryOpen=next;onDirectoryChange?.(next);};
   useEffect(()=>{if(visit)visit.directoryOpen=directoryOpen;},[directoryOpen,visit]);
+  useLayoutEffect(()=>{if(directoryOpen&&directory.current)directory.current.scrollTop=visit?.directoryScrollTop||0;},[directoryOpen,initialLecture]);
   const readingScroll=useRef(null);
   const changeReadingFull=value=>{readingScroll.current=detail.current?.scrollTop||0;setReadingFull(value);};
   useLayoutEffect(()=>{onFullscreenChange?.(readingFull&&Boolean(selected));return()=>onFullscreenChange?.(false);},[readingFull,Boolean(selected),onFullscreenChange]);
@@ -108,7 +113,7 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
   return <div className="lectures-page" aria-label="从零讲知识总结">
     <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索从零讲知识" value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换讲解排序方向" descending={descending} onChange={setDescending}/><FolderSelect iconOnly label="从零讲知识分类" placeholder="全部知识分类" options={classifications} value={classification} onChange={event=>setClassification(event.target.value)}/><button type="button" className="icon-button lecture-learned-filter" aria-label={showLearned?'隐藏已学会':'显示已学会'} title={showLearned?'隐藏已学会':'显示已学会'} aria-pressed={showLearned} onClick={()=>setShowLearned(value=>!value)}>{showLearned?<BookCheck size={17}/>:<BookOpen size={17}/>}</button></PageSearch>
     <div className={'lectures-layout' + (selected ? ' has-selection' : !study?' lecture-catalog':'')+(readingFull&&selected?' lecture-reading-full':'')+(directoryOpen?' lecture-directory-open':'')}>
-      {(!study||directoryOpen)&&<nav id={directoryId} className="lectures-list" aria-label="完整知识讲解">{filtered.map((item,index) => <Fragment key={item.id}>
+      {(!study||directoryOpen)&&<nav ref={directory} id={directoryId} className="lectures-list" aria-label="完整知识讲解" onScroll={event=>{if(visit)visit.directoryScrollTop=event.currentTarget.scrollTop;}}>{filtered.map((item,index) => <Fragment key={item.id}>
         {(index===0||filtered[index-1].curriculum.kind!==item.curriculum.kind)&&<h3 className="lecture-curriculum-group">{item.curriculum.kind==='language'?`基础学习 · ${foundationRead}/${foundations.length}`:LECTURE_ROLES[item.curriculum.kind]}</h3>}
         <button className={[selected===item.id?'selected':'',learnedKeys.has(lessonKey(item))?'lecture-learned':''].filter(Boolean).join(' ')} aria-current={selected===item.id?'page':undefined} data-lesson-kind={item.curriculum.kind} onClick={() => {if((study||readingFull)&&onNextLecture)onNextLecture(item.id);else openLecture(item.id,true);}}>
           <span className="lecture-item-heading">{item.curriculum.kind==='language'&&<span className="lecture-step" aria-label={'第'+(foundations.findIndex(row=>row.id===item.id)+1)+'篇'}>{String(foundations.findIndex(row=>row.id===item.id)+1).padStart(2,'0')}</span>}<strong><LessonTitle>{(item.displayTitle || item.concept || item.title).replace(/^从零讲[：:]\s*/,'')}</LessonTitle></strong><Tooltip text="学习层次依据内容和先修安排，与比赛评分分开"><b className={'lecture-difficulty lecture-level-'+(item.curriculum.level??'unknown')}>{item.curriculum.levelLabel}</b></Tooltip></span>

@@ -543,3 +543,10 @@ node tests/ranking-public-progress.mjs
 本轮学习路线与贴纸改动除前端构建外，运行 `node tests/learning-guidance.mjs`、`node tests/sticker-interactions.mjs`、`node tests/experience-challenge.mjs` 和学习浏览器／开箱回归。公共基础题身份由 `node frontend/scripts/build-learning-access.mjs --check` 核对，图像与鸭声通过 `node frontend/scripts/build-sticker-artwork.mjs` 从带许可的固定素材生成。后端仍须运行完整 `scripts/check.py`，共享服务运行 `npm test`；真实原站提交不作为界面测试。
 
 1.5.2 补改验证覆盖已有 AC 的真实基础目录状态、旧讲义占用 application 分配、下一篇人工确认、跨基础章节的每日两项以及对局初次 GET 失败后进入大厅恢复。服务只读备份、配置与表指纹检查继续保留，授权部署与本机修订分别记录。
+
+
+## 1.5.2 最终交付检查
+
+本轮在 `.backups/cleanup-startup` 留存逐项结果。原版 1.4.0／1.4.17 更新器代码的校验、替换与私有文件保全测试使用固定历史夹具；编译工具与十个已发布 1.4 基线的 4,067 个文件逐项相同。累计核心 ZIP 复用已压缩数据，只重写版本清单和中央目录，逐版本发布真实 SHA-256。实际冻结包仍须检查最旧版启动器转换、双语言、新装、覆盖升级、账号恢复和正常桌面入口。
+
+UI 检查包括原 App 全流程、课程／维基嵌套返回、贴纸直接操作、卡包确认和五连抽、九档对战框、PDF 离屏释放与返回恢复。每日奖励夹具固定对应包品质，避免随机到史诗任务后用一次 AC 冒充完成。服务 HTTP／SQLite 及独立 MySQL 同时覆盖多开、保底、并发重复请求与每日三包上限。官方页面只读核对；隔离表单测试不等于真实 VP 报名成功。

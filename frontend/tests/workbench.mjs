@@ -112,10 +112,10 @@ try {
     if(width<996){await page.getByRole('button',{name:'题面与代码',exact:true}).click();assert(await page.locator('.wb-statement').isVisible());}
     const sizes=await page.locator('.wb-pane-header button:not(.wb-back-button):visible,.wb-pane-header select:visible,.wb-pane-header input:visible,.wb-original-link:visible,.wb-compact-toolbar button:not(.wb-back-button):visible').evaluateAll(nodes=>nodes.filter(n=>!n.disabled).map(n=>({height:n.getBoundingClientRect().height,label:n.getAttribute('aria-label')})));
     assert(sizes.every(item=>Math.abs(item.height-30)<1),`toolbar controls align at ${width}: ${JSON.stringify(sizes)}`);
-    if(width>=996)assert((await page.getByLabel('编程语言',{exact:true}).boundingBox()).width>=65,'language name keeps a usable width');
+    if(width>=996)assert((await page.getByLabel('编程语言',{exact:true}).boundingBox()).width>=32,'The compact language control remains a usable target');
     if(await page.locator('.wb-run-button').isVisible()){
-      const alignment=await page.locator('.wb-cursor-position').evaluate(node=>{const row=node.closest('.wb-run-toolbar'),button=row.querySelector('.wb-run-button'),a=node.getBoundingClientRect(),b=button.getBoundingClientRect();return {inRow:!!row,centerDelta:Math.abs(a.top+a.height/2-b.top-b.height/2),belowEditor:a.top>=document.querySelector('.wb-editor').getBoundingClientRect().bottom-1};});
-      assert(alignment.inRow&&alignment.belowEditor&&alignment.centerDelta<1,JSON.stringify({width,alignment}));
+      const alignment=await page.locator('.wb-cursor-position').evaluate(node=>{const row=node.closest('.wb-run-toolbar'),range=document.createRange();range.selectNodeContents(node);const a=range.getBoundingClientRect(),b=row.getBoundingClientRect();return {inRow:!!row,bottomDelta:Math.abs(a.bottom-b.bottom),belowEditor:a.top>=document.querySelector('.wb-editor').getBoundingClientRect().bottom-1};});
+      assert(alignment.inRow&&alignment.belowEditor&&alignment.bottomDelta<=2,JSON.stringify({width,alignment}));
     }
     if(width>=996)for(const size of [13,18,22]){
       await page.evaluate(size=>{document.documentElement.style.fontSize=size+'px';document.documentElement.style.setProperty('--ui-font-size',size+'px');},size);
@@ -128,8 +128,7 @@ try {
   await page.setViewportSize({width:1050,height:700});await page.waitForFunction(()=>!document.querySelector('.wb-compact'));
   await editor.press('Alt+0');
   await page.getByRole('button',{name:'打开模板',exact:true}).click();
-  const templateDialog=page.getByRole('dialog',{name:'模板',exact:true});await templateDialog.locator('.catalog-card').first().waitFor();
-  assert.equal(await templateDialog.locator('.catalog-card-actions').count(),0,'insertion no longer needs a separate plus button');
+  const templateDialog=page.getByRole('dialog',{name:'模板',exact:true});await templateDialog.getByRole('button',{name:'插入模板 并查集：路径压缩与按大小合并',exact:true}).waitFor();
   await templateDialog.getByRole('button',{name:'插入模板 并查集：路径压缩与按大小合并',exact:true}).click();
   await templateDialog.waitFor({state:'detached'});
   const inserted=await page.evaluate(()=>window.workbenchFixture.readCode());
