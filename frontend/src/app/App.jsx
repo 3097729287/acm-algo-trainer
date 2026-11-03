@@ -673,6 +673,8 @@ export default function App() {
     previousActive = useRef(null);
   const api = useCallback((path, body) => request(path, body, token.current), []);
   const [account, setAccount] = useState(() => window.__tbAccount || null);
+  const [recommendationSnapshot,setRecommendationSnapshot]=useState({owner:null,items:[]});
+  const updateRecommendationItems=useCallback(items=>setRecommendationSnapshot(previous=>previous.owner===account?.userId&&JSON.stringify(previous.items)===JSON.stringify(items)?previous:{owner:account?.userId,items}),[account?.userId]);
   const duel=useDuel(api,data?account?.userId:null);
   const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now, account?.userId ?? null);
   const social = useSocial(api, Boolean(data&&account?.userId),account?.userId||'');
@@ -1284,7 +1286,7 @@ export default function App() {
   function focusList() {
     requestAnimationFrame(() => listRef.current?.focus({ preventScroll: true }));
   }
-  async function openPractice(id, { assisted = false, problemIds = null } = {}) {
+  async function openPractice(id, { assisted = false, problemIds = null, recommendation = null, stage = null, newTab = false } = {}) {
     if (!id || busy) return;
     if (active?.slots.some((s) => s.id === id)) {
       learningBrowserRef.current?.hide({silent:true});
@@ -1318,7 +1320,8 @@ export default function App() {
       advanceRef.current = null;
       setPracticeId(null);
       setPracticeReview(null);
-      openLearning({kind:'problem',id,title:rows.find(row=>row.id===id)?.title,reviewTask:result.reviewTask||null,preparedProblem:practicePrefetch.current?.promise,problemIds:context.ids});
+      const practiceFlow={stage:result.reviewTask?'review':stage|| (recommendation?'recommendation':'list'),baselineSubmittedAt:workspace.training.find(row=>row.id===id)?.lastSubmittedAt||null,openedAt:new Date(Date.now()+serverOffset.current).toISOString()};
+      openLearning({kind:'problem',id,title:rows.find(row=>row.id===id)?.title,reviewTask:result.reviewTask||null,preparedProblem:practicePrefetch.current?.promise,problemIds:context.ids,visit:{practiceFlow},newTab});
       setReaderId(null);
       setReaderFull(false);
     } catch (e) {
@@ -2018,7 +2021,7 @@ export default function App() {
     <FeatureVisibilityContext.Provider value={featureAvailable}><DifficultyDisplayProvider mode={prefs.difficultyDisplay}><DifficultyBoundsProvider rows={data?.rows||[]}><div
       className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : labFocus?"lab-focus":templateFocus?"template-focus practice-focus":page==='lectures'&&lectureFull?"lecture-focus practice-focus":"")}
     >
-      {!loading&&<LearningBrowser ref={learningBrowserRef} api={api} accountId={account?.userId||'local'} ready={!loading&&(!account?.userId||preferencesLoaded.current)} onFlush={flushLearningBrowser} rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} onProgress={progressChanged} onNotice={notice} onExit={exitPractice} onActiveChange={learningBrowserChanged} categories={categories} lockedProblems={active?.slots||[]}/>}
+      {!loading&&<LearningBrowser ref={learningBrowserRef} api={api} accountId={account?.userId||'local'} ready={!loading&&(!account?.userId||preferencesLoaded.current)} onFlush={flushLearningBrowser} rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} onProgress={progressChanged} onNotice={notice} onExit={exitPractice} onActiveChange={learningBrowserChanged} categories={categories} lockedProblems={active?.slots||[]} practiceWorkspace={workspace} recommendations={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]}/>}
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
       <aside className="sidebar">
         <div className="brand">
@@ -2068,7 +2071,7 @@ export default function App() {
         <header className={"topbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>
           <div className="topbar-leading"><div id="tb-page-location" className="page-location-slot"/>
           <div id="tb-page-search" className="topbar-search-slot"/></div>
-          {!practiceId&&!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} contentReady={Boolean(data&&!loading)} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
+          {!practiceId&&!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} contentReady={Boolean(data&&!loading)} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} onActionsChange={updateRecommendationItems} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
           <div className="topbar-actions">{learningTabCount>0&&<button type="button" className="icon-button" aria-label="返回学习标签页" title="返回学习标签页" onClick={()=>learningBrowserRef.current?.resume()}><BookOpen size={18}/></button>}
             <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
             {active && page !== "mock" && (

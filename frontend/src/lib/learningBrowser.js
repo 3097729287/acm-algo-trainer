@@ -4,7 +4,7 @@ export const STUDY_KINDS = ['problem','solution','wiki','template','lab','lectur
 export const MAX_STUDY_TABS=64;
 export const STUDY_LABELS = {problem:'题目',solution:'题解',wiki:'维基百科',template:'模板',lab:'实验室',lecture:'从零讲'};
 export const studyKey = tab => `${tab.kind}:${tab.id}`;
-export const emptyStudyBrowser = () => ({version:1,tabs:[],groups:[],chrome:false,active:null,left:null,right:null,focused:null,focusedGroup:null,ratio:50,open:false});
+export const emptyStudyBrowser = () => ({version:1,tabs:[],documents:{},groups:[],chrome:false,active:null,left:null,right:null,focused:null,focusedGroup:null,ratio:50,open:false});
 export const studySnapshot=value=>({...value,tabs:value.tabs.map(({kind,id,title,methodId,visit,state,scroll})=>({kind,id,title,...(methodId?{methodId}:{}),visit,state,scroll}))});
 
 function groupId(groups){let id=1;while(groups.some(group=>group.id==='group-'+id))id++;return 'group-'+id;}
@@ -50,6 +50,7 @@ export function updateStudyDocument(value,key,document) {
 export function restoreStudyBrowser(value) {
  const result=emptyStudyBrowser(),seen=new Set();
  if(!value||typeof value!=='object')return result;
+ if(value.documents&&typeof value.documents==='object')result.documents=Object.fromEntries(Object.entries(value.documents).filter(([key,doc])=>doc&&STUDY_KINDS.includes(doc.kind)&&typeof doc.id==='string'&&doc.id.length<=400&&key===studyKey(doc)));
  for(const source of (Array.isArray(value.tabs)?value.tabs:[]).slice(0,MAX_STUDY_TABS)){
   if(!STUDY_KINDS.includes(source?.kind)||typeof source.id!=='string'||!source.id||source.id.length>400)continue;
   const key=studyKey(source);if(seen.has(key))continue;seen.add(key);
@@ -75,7 +76,7 @@ export function openStudyTab(state,source) {
  if(!STUDY_KINDS.includes(source?.kind)||!source.id)return state;
  const key=studyKey(source),existing=state.tabs.find(tab=>tab.key===key);
  if(!existing&&state.tabs.length>=MAX_STUDY_TABS)return state;
- const tab=existing?{...existing,...(source.methodId?{methodId:source.methodId}:{}),...(source.title?{title:source.title}:{})}:{...source,key,title:source.title||STUDY_LABELS[source.kind],visit:source.visit||{},state:{},scroll:[]};
+ const tab=existing?{...existing,...(source.methodId?{methodId:source.methodId}:{}),...(source.title?{title:source.title}:{})}:{...source,key,title:source.title||STUDY_LABELS[source.kind],visit:source.visit||{},state:source.state||{},scroll:source.scroll||[]};
  const tabs=existing?state.tabs.map(item=>item.key===key?tab:item):[...state.tabs,tab];
  let groups=studyGroups(state).map(group=>({...group,tabs:[...group.tabs]}));
  if(!groups.length)groups=[{id:'group-1',tabs:[],active:null,weight:100}];
@@ -101,12 +102,14 @@ export function replaceStudyProblem(state,key,source){
 
 export function replaceStudyContent(state,key,source){
  const old=state.tabs.find(tab=>tab.key===key);if(!old||!source?.id||!STUDY_KINDS.includes(source.kind))return state;
- const nextKey=studyKey(source);if(nextKey===key)return state;
- if(state.tabs.some(tab=>tab.key===nextKey))return activateStudyTab(closeStudyTab(state,key),nextKey);
+ const nextKey=studyKey(source);if(nextKey===key)return {...state,open:true,tabs:state.tabs.map(tab=>tab.key===key?{...tab,...source,visit:{...tab.visit,...source.visit},state:tab.state,scroll:tab.scroll}:tab)};
+ if(state.tabs.some(tab=>tab.key===nextKey))return activateStudyTab({...state,tabs:state.tabs.map(tab=>tab.key===nextKey?{...tab,...source,visit:{...tab.visit,...source.visit},state:tab.state,scroll:tab.scroll}:tab)},nextKey);
  const rename=value=>value===key?nextKey:value;
- const next={...source,key:nextKey,title:source.title||STUDY_LABELS[source.kind],visit:{},state:{},scroll:[]};
+ const next={...source,key:nextKey,title:source.title||STUDY_LABELS[source.kind],visit:source.visit||{},state:source.state||{},scroll:source.scroll||[]};
  const groups=studyGroups(state).map(group=>({...group,tabs:group.tabs.map(rename),active:rename(group.active)}));
- return finishGroups({...state,tabs:state.tabs.map(tab=>tab.key===key?next:tab)},groups,nextKey);
+ const {kind,id,title,methodId,visit,state:documentState,scroll}=old;
+ const documents={...state.documents,[key]:{kind,id,title,methodId,visit,state:documentState,scroll}};
+ return finishGroups({...state,open:true,documents,tabs:state.tabs.map(tab=>tab.key===key?next:tab)},groups,nextKey);
 }
 
 export function splitStudyTab(state,key,{targetGroupId,side='right'}={}) {

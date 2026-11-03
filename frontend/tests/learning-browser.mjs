@@ -8,7 +8,7 @@ const out='../.backups/learning-browser/ui';await mkdir(out,{recursive:true});
 const server=await createServer({cacheDir:'../.backups/learning-browser/vite',server:{host:'127.0.0.1',port:0}});await server.listen();
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1600,height:1000}}),errors=[];
 page.on('pageerror',issue=>errors.push(issue.message));page.setDefaultTimeout(15000);
-const open=tab=>page.evaluate(tab=>window.studyFixture.open(tab),tab);
+const open=tab=>page.evaluate(tab=>window.studyFixture.open({...tab,newTab:true}),tab);
 const state=()=>page.evaluate(()=>window.studyFixture.state());
 const pane=kind=>page.locator('.study-'+kind+':not([hidden])');
 const search=async query=>{await page.getByRole('button',{name:'新建学习标签页',exact:true}).last().click();await page.getByRole('combobox',{name:'搜索学习内容'}).fill(query);};
@@ -111,13 +111,12 @@ try{
  await page.getByRole('button',{name:'返回列表',exact:true}).click();assert.equal(await page.locator('.app-shell').evaluate(node=>node.inert),false);
  await open({kind:'wiki',id:'ds/dsu',title:'并查集'});const beforeExample=await state();
  await pane('wiki').frameLocator('iframe.wiki-reader').getByRole('link',{name:'Luogu P1706 全排列问题'}).waitFor();
- await page.evaluate(()=>window.heldWikiDocument=document.querySelector('.study-wiki:not([hidden]) iframe').contentDocument);
+ // Explicit manual tabs are exercised above; this source link performs ordinary navigation.
  await pane('wiki').frameLocator('iframe.wiki-reader').getByRole('link',{name:'Luogu P1706 全排列问题'}).click();await pane('problem').locator('.cm-content').waitFor();
- assert.equal((await state()).tabs.length,beforeExample.tabs.length+1-beforeExample.tabs.filter(tab=>tab.kind==='problem').length);assert.equal((await state()).tabs.filter(tab=>tab.kind==='problem').length,1);assert((await state()).tabs.some(tab=>tab.kind==='problem'&&tab.id==='fixture:P1706'));
- assert.equal(page.context().pages().length,1,'Wiki problems open in a learning tab, not a separate browser window');
- await page.getByRole('tab',{name:'并查集',exact:true}).first().click();
- assert(await page.evaluate(()=>window.heldWikiDocument===document.querySelector('.study-wiki:not([hidden]) iframe').contentDocument),'Opening an example retains the original live Wiki document');
- assert.deepEqual(errors,[]);await writeFile(`${out}/result.json`,JSON.stringify({passed:true,errors,scenarios:['cross-source search','source-only search','duplicate tabs','left/right splits','three editor groups','drag-to-merge','header alignment','center snap','experiment and draft preservation','reload and scroll restoration','native close flush','account isolation','themes and widths','compact search close','Wiki example new tab']},null,2));
+ assert.equal((await state()).tabs.length,beforeExample.tabs.length);assert.equal((await state()).tabs.filter(tab=>tab.kind==='problem').length,beforeExample.tabs.filter(tab=>tab.kind==='problem').length+1);assert((await state()).tabs.some(tab=>tab.kind==='problem'&&tab.id==='fixture:P1706'));assert((await state()).documents['wiki:ds/dsu']);
+ assert.equal(page.context().pages().length,1,'Wiki problems replace their learning slot');
+ await open({kind:'wiki',id:'ds/dsu',title:'并查集'});await pane('wiki').frameLocator('iframe.wiki-reader').getByRole('heading',{name:'并查集',exact:true}).waitFor();
+ assert.deepEqual(errors,[]);await writeFile(`${out}/result.json`,JSON.stringify({passed:true,errors,scenarios:['cross-source search','source-only search','duplicate tabs','left/right splits','three editor groups','drag-to-merge','header alignment','center snap','experiment and draft preservation','reload and scroll restoration','native close flush','account isolation','themes and widths','compact search close','Wiki example replaces current tab']},null,2));
  console.log('Learning browser UI passed: search, duplicate tabs, independent groups/left-right drag/merge/resize, live state, restart, drafts, scroll, native-close flush, account isolation and six layouts.');
 }catch(issue){await page.screenshot({path:`${out}/failure.png`});await writeFile(`${out}/failure.json`,JSON.stringify({message:issue.message,errors,state:await state().catch(()=>null)},null,2));throw issue;}
 finally{await browser.close();await server.close();}

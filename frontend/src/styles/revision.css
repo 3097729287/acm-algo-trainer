@@ -1,5 +1,5 @@
 /* Shared measured columns; all alpha values come from the current page. */
-html .app-shell {--statusbar-height:34px}
+html .app-shell {--statusbar-height:42px}
 html .app-shell .sidebar {width:max(128px,calc(var(--ui-font-size,15px)*5 + 48px));flex:0 0 max(128px,calc(var(--ui-font-size,15px)*5 + 48px));padding:6px 6px 0}
 html .sidebar nav {flex:1;min-height:0;max-height:none!important;overflow:auto;gap:5px!important;padding:0}
 html .sidebar .nav-item {width:100%;justify-content:flex-start;gap:8px;white-space:nowrap;padding:8px 3px 8px 13px;min-height:38px}
@@ -26,8 +26,9 @@ html .settings-guide .guide-entry-copy>small {font-size:.8rem;line-height:1.5;co
 html .workspace-area .settings-page .settings-guide :is(.tour-guide-grid>button,.tour-overview-button):not(:disabled):is(:hover,:focus-visible) {background:var(--accent-soft);border-color:var(--accent)}
 .tour-directory-button {display:block;margin-block:16px 4px;padding:3px 0;color:var(--accent);background:transparent;font-size:.85rem}
 html .sidebar-bottom {display:flex;align-items:center;flex:0 0 var(--statusbar-height);height:var(--statusbar-height);margin-top:auto;padding:0;min-height:0;background:transparent}
-html .sidebar .sidebar-bottom .nav-item {display:flex;gap:8px;min-height:28px;height:28px;padding-block:3px}
-html .app-statusbar {flex:0 0 var(--statusbar-height);height:var(--statusbar-height);min-height:0;padding:2px 12px}
+html .sidebar .sidebar-bottom .nav-item {display:flex;align-items:center;gap:8px;min-height:34px;height:34px;padding-block:3px}
+html .app-statusbar {display:flex;align-items:center;flex:0 0 var(--statusbar-height);height:var(--statusbar-height);min-height:0;padding:4px 14px}
+html .app-statusbar svg,html .sidebar-bottom svg{width:19px;height:19px;flex:none}
 .nav-development {font-size:.65em;color:var(--muted);padding-left:3px}
 html .sidebar-collapsed .sidebar {width:58px;flex-basis:58px}
 html .sidebar-collapsed .brand {margin-inline:0;justify-content:center}

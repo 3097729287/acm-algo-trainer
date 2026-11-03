@@ -9,16 +9,23 @@ export function InitialCodeButton({title='默认', disabled=false, onClick,short
   return <button type="button" className="initial-code-trigger" aria-label="选择初始代码模板" aria-haspopup="dialog" title={`选择初始代码模板${shortcut?' · '+shortcut:''}`} disabled={disabled} onClick={onClick}><span>{title}</span><ChevronDown size={13}/></button>;
 }
 
-export function InitialCodeSelect({api,snapshot,language,selected='default',disabled=false,onSelect,onError,onOpenChange,title}) {
-  const [busy,setBusy]=useState(false),generation=useRef(0);
-  useEffect(()=>()=>{generation.current++;},[api,language]);
-  return <ThemedSelect aria-label="选择初始代码模板" title={title} onOpenChange={onOpenChange} className="initial-code-select" value={selected} disabled={disabled||busy||!snapshot} onChange={async event=>{
-    const id=event.target.value,item=snapshot?.templates?.find(row=>row.language===language&&row.id===id);
+export function InitialCodeSelect({api,snapshot,language,selected='default',disabled=false,onSelect,onError,onOpenChange,title,fullCatalog=false}) {
+  const [busy,setBusy]=useState(false),[catalog,setCatalog]=useState(null),generation=useRef(0),errorRef=useRef(onError);errorRef.current=onError;
+  const owner=window.__tbAccountUserId;
+  useEffect(()=>{
+    let live=true;setCatalog(null);
+    if(!fullCatalog&&snapshot)api('initial-code').then(value=>{if(live&&owner===window.__tbAccountUserId)setCatalog(value);}).catch(error=>{if(live){setCatalog(snapshot);errorRef.current?.(error.message);}});
+    return()=>{live=false;};
+  },[api,snapshot,fullCatalog,owner]);
+  useEffect(()=>{setBusy(false);return()=>{generation.current++;};},[api,language]);
+  const choices=fullCatalog?snapshot:catalog||snapshot;
+  return <ThemedSelect hideSelectedOption hideChevron aria-label="选择初始代码模板" title={title} onOpenChange={onOpenChange} className="initial-code-select" value={selected} disabled={disabled||busy||!snapshot||!fullCatalog&&!catalog} onChange={async event=>{
+    const id=event.target.value,item=choices?.templates?.find(row=>row.language===language&&row.id===id);
     if(!item)return;const seq=++generation.current;setBusy(true);
-    try {const result=await api('initial-code/select',{id,language,revision:snapshot.revisions[language]});if(seq===generation.current)await onSelect(item,result);}
+    try {const result=await api('initial-code/select',{id,language,revision:choices.revisions[language]});if(seq===generation.current&&owner===window.__tbAccountUserId)await onSelect(item,result);}
     catch(error){if(seq===generation.current)onError?.(error.message);}
     finally{if(seq===generation.current)setBusy(false);}
-  }}>{(snapshot?.templates||[]).filter(item=>item.language===language).map(item=><option key={item.id} value={item.id}>{item.title}</option>)}</ThemedSelect>;
+  }}>{(choices?.templates||[]).filter(item=>item.language===language).map(item=><option key={item.id} value={item.id}>{item.title}</option>)}</ThemedSelect>;
 }
 
 export default function InitialCodePicker({api, language, selected='default', onSelect, onClose}) {

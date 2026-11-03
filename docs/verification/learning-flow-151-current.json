@@ -1,0 +1,50 @@
+{
+  "scope": "1.5.1 local review and learning-flow revision",
+  "nativeBuildSourceCommit": "5afacb5b01c75fa64c8f3fcc73bce2c615e97af3",
+  "frontendBuildSource": "Actual final commit recorded in package BUILD-INFO.json",
+  "publicRelease": false,
+  "publicDesktopVersion": "1.4.34",
+  "serviceChanged": false,
+  "checks": {
+    "focusedReviewAndDailyTests": 40,
+    "knowledgeModelScenarios": 12,
+    "practiceContinuationModel": true,
+    "learningBrowserModel": true,
+    "knowledgeJourneyUI": true,
+    "knowledgeDailyFlowUI": [
+      "reading checkbox requires PopConfirm; cancelling preserves the step; confirming advances once",
+      "real AC automatically completes the second daily task; topic moves to the bottom and stays resumable",
+      "completion PopConfirm also stays anchored after a lower-row popover closes"
+    ],
+    "studyNavigationUI": [
+      "legacy hidden automatic tabs migrate into saved document state",
+      "root previous/next articles replace the same tab; first article has no previous",
+      "normal navigation replaces a slot; + creates exactly one tab; reload keeps explicit tabs and saved code",
+      "Workbench fetches the full language-specific template catalog and hides only the current selection",
+      "Settings uses the same alternatives-only behavior; both chevrons are absent and language filtering is correct",
+      "review phase skips completed work; recommendation next stays disabled until fresh official AC"
+    ],
+    "learningBrowserUI": "passed; search, groups, drafts, reload, account isolation, six layouts and ordinary Wiki navigation",
+    "lectureLifecycle": true,
+    "frontendProductionBuild": true,
+    "exactDistributedSQLite": {
+      "integrityAndForeignKeys": true,
+      "sourceAgreementAndAssets": true,
+      "noPrivateProgress": true
+    },
+    "fullBackend": {
+      "script": "scripts/check.py",
+      "tests": 1114,
+      "passed": 1111,
+      "skipped": 2,
+      "failures": 1,
+      "errors": 0,
+      "nativeInputsUnchanged": true,
+      "knownFailure": "Existing Nailoong and Operations (月赛304 B) detailed editorial hash differs from the older reasoning review ledger; source text and strict test preserved",
+      "runnerCorrection": "Repeated with short absolute fixture roots; earlier long-path fixture setup errors are not product failures"
+    }
+  },
+  "originalSiteSubmissions": 0,
+  "deliveryStatus": "Source/UI checks complete; final installer checks and normal local upgrade recorded separately",
+  "aigeiSoundSourcePending": true
+}

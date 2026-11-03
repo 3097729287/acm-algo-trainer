@@ -205,7 +205,7 @@ function CaseResults({ cases }) {
   })}</div>;
 }
 
-export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, onCloseSolution, onNotice, solutionOpen=false, solutionMethodId=null, onNext, headerStart, headerEnd }) {
+export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, onCloseSolution, onNotice, solutionOpen=false, solutionMethodId=null, onNext, nextDisabled=false, headerStart, headerEnd }) {
   const studyPane=useStudyPane();
   const featureAvailable=useFeatureVisibility();
   const contestId = contest?.id || null;
@@ -216,7 +216,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const apiRef = useRef(api);
   const callbacks = useRef({ onProgress, onExit, onSolution, onCloseSolution, onNotice, onNext });
   apiRef.current = api;
-  callbacks.current = { onProgress, onExit, onSolution, onCloseSolution, onNotice, onNext };
+  callbacks.current = { onProgress, onExit, onSolution, onCloseSolution, onNotice, onNext, nextDisabled };
 
   const activeRecord = useRef(null);
   const formattingContext = useRef(null), formattingRequest = useRef(null), formattingGeneration = useRef(0);
@@ -832,7 +832,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     else if (command === 'pane-1') focusPane('statement');
     else if (command === 'pane-2') focusPane('code');
     else if(command==='workbench-back')void exit();
-    else if(command==='workbench-next'){void saveRecord(activeRecord.current).then(saved=>{if(saved)callbacks.current.onNext?.();});}
+    else if(command==='workbench-next'){if(!callbacks.current.nextDisabled)void saveRecord(activeRecord.current).then(saved=>{if(saved&&!callbacks.current.nextDisabled)callbacks.current.onNext?.();});}
     else if(command==='statement-language')toggleStatementLanguage();
     else if(command==='statement-copy')void copyStatement();
     else if(command==='statement-original')sectionRef.current?.querySelector('.wb-original-link')?.click();
@@ -920,13 +920,13 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         </div></div>);
   const solutionButtons=(onSolution && !runningContest && !problem?.locked && <span className="wb-solution-methods">{(problem?.solutionMethods??(problem?[{id:'original',title:'题解'}]:[])).map((method,index,methods)=><button key={method.id} type="button" className="wb-button wb-solution-button" aria-label={methods.length===1?'题解':`题解${index+1}`} title={method.title||`题解${index+1}`} aria-pressed={solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0)} onClick={()=>{const opened=solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0);if(opened&&callbacks.current.onCloseSolution)callbacks.current.onCloseSolution();else callbacks.current.onSolution?.(problemId,method.id);}}><BookOpen size={14}/></button>)}</span>);
   const editorHeader=(<div className="wb-pane-header wb-editor-header">
-          <span className="wb-language-select"><ThemedSelect hideSelectedOption aria-label="编程语言" title={`编程语言 · ${shortcutValue('code-language',shortcuts)}`} value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python3</option></ThemedSelect></span>
+          <span className="wb-language-select"><ThemedSelect hideSelectedOption hideChevron aria-label="编程语言" title={`编程语言 · ${shortcutValue('code-language',shortcuts)}`} value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python3</option></ThemedSelect></span>
           <InitialCodeSelect api={api} snapshot={initialCode} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} title={`选择初始代码模板 · ${shortcutValue('initial-code',shortcuts)}`} disabled={loading||!problem||unavailable||busy||officialBusy} onOpenChange={setInitialPickerOpen} onError={setActionError} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.language==='cpp17'&&item.id==='default'?normalizeCppTemplate(item.code):item.code);}}/>
           {!['saved','automatic'].includes(saveState.kind)&&<span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message||saveLabel} aria-label={saveLabel} role={saveState.kind==='error'?'alert':'status'}>{saveState.kind==='saving'?<LoaderCircle size={14} className="wb-spinner"/>:saveState.kind==='unsaved'?<span className="wb-pending-dot"/>:saveLabel}</span>}
           <div className="wb-editor-actions">
             {featureAvailable('templates',true)&&<button type="button" className="wb-button" aria-label="打开模板" title={`打开模板 · ${shortcutValue('code-templates',shortcuts)}`} disabled={loading||!problem||unavailable} onClick={()=>setTemplatesOpen(true)}><Code2 size={14}/></button>}
             {solutionButtons}
-            {onNext && <button type="button" className="wb-button wb-next-button" title={`下一题 · ${shortcutValue('workbench-next',shortcuts)}`} onClick={async () => { if(await saveRecord(activeRecord.current)) callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
+            {onNext && <button type="button" className="wb-button wb-next-button" disabled={nextDisabled} title={`下一题 · ${shortcutValue('workbench-next',shortcuts)}`} onClick={async () => { if(await saveRecord(activeRecord.current)&&!callbacks.current.nextDisabled) callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
             {localDraftRecovery !== null && <button type="button" className="wb-button" disabled={unavailable} title="当前为更新的同步版本；可恢复本机未上传的旧草稿" onClick={() => {
               undoReplace.current = code;
               updateCode(localDraftRecovery);

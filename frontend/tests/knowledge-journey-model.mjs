@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {recommendationState,learningEvidence} from '../src/lib/nextActions.js';
 import {KNOWLEDGE_TOPICS,FOUNDATION_LESSONS,LEARNING_COURSES,lectureCurriculum,orderedLectures} from '../src/lib/learningCurriculum.js';
-import {startKnowledge,cancelKnowledge,rotateKnowledge,knowledgeState,reconcileKnowledge,assignKnowledgeProblem,recordKnowledgeLesson} from '../src/lib/knowledgeJourney.js';
+import {startKnowledge,cancelKnowledge,rotateKnowledge,knowledgeState,reconcileKnowledge,assignKnowledgeProblem,recordKnowledgeLesson,confirmKnowledgeAction} from '../src/lib/knowledgeJourney.js';
 import {availablePages,migrateNavigationAccess} from '../src/lib/featureUnlocks.js';
 import {readSocialCounts,saveSocialCounts,retainSocialCounts} from '../src/lib/socialSnapshot.js';
 
@@ -23,12 +23,24 @@ test('recommendations survive empty, completed, pending and review-only inputs',
  const active=model({activeContest:{id:'running',name:'当前比赛'}});assert.deepEqual(active.items.map(item=>item.kind),['contest']);
 });
 test('new users can reach teaching immediately; earned legacy access and hidden preferences survive',()=>{
- const beginner=availablePages(1);for(const id of ['library','paths','templates','lectures'])assert(beginner.includes(id));
+ const beginner=availablePages(1);assert(beginner.includes('lectures'));for(const id of ['library','paths','templates'])assert(!beginner.includes(id));
+ assert(availablePages(2).includes('paths'));for(const id of ['library','templates'])assert(availablePages(3).includes(id));
  assert(!beginner.includes('rankings'));assert(!beginner.includes('mock'));
  const migrated=migrateNavigationAccess({hiddenNavPages:['templates'],learningPaths:{draft:'keep'}},2);
  assert(availablePages(2,migrated).includes('rankings'));assert(!availablePages(2,migrated).includes('templates'));assert.equal(migrated.learningPaths.draft,'keep');
  assert.equal(migrateNavigationAccess(migrated,5),migrated);
 });
+test('one active topic uses two daily tasks, confirms reading once, and auto advances on real AC',()=>{
+ const ioRows=['IO1','IO2','IO3'].map(id=>row(id,{tags:['输入输出']}));
+ let current=startKnowledge({learnedLectures:[],learningPaths:{}},'io-basics',{rows:ioRows,now:start});
+ const get=(facts=[],now=start+60000)=>recommendationState({rows:ioRows,prefs:current,templates:[],availablePages:pages,insights:insights(facts),now});
+ let value=get();assert.equal(value.journey.topic.id,'io-basics');assert.equal(value.journey.action.kind,'lecture');assert(!value.items.some(item=>item.kind==='knowledge'&&!item.completed));
+ const lecture=value.journey.action;current=confirmKnowledgeAction(current,lecture,start+120000);assert.equal(confirmKnowledgeAction(current,lecture,start+180000),current);
+ value=get([],start+180000);assert.equal(value.journey.dailyCompleted,1);assert.equal(value.journey.action.kind,'problem');assert.equal(confirmKnowledgeAction(current,value.journey.action,start+240000),current,'Objective tasks cannot be manually completed');
+ value=get([fact('IO1',1)],start+3600001);assert.equal(value.journey.dailyCompleted,2);assert.equal(value.journey.doneForToday,true);assert.equal(value.journey.action,null);assert.equal(value.items.at(-1).id,'io-basics');assert.equal(value.items.at(-1).completed,true);assert(value.items.at(-1).rawAction);assert(!value.items.some(item=>item.kind==='knowledge'&&!item.completed));assert.notEqual(value.items[0].journeyTopicId,'io-basics');
+ current=reconcileKnowledge(current,value.journey);value=get([fact('IO1',1)],start+86400001);assert.equal(value.journey.dailyCompleted,0);assert.equal(value.journey.topic.id,'io-basics');assert.equal(value.journey.doneForToday,false);assert.equal(value.journey.action.kind,'problem');
+});
+
 test('every lesson and topic prerequisite is real and acyclic; rollback DSU is advanced',()=>{
  const graph=new Map(FOUNDATION_LESSONS.map(item=>[item.id,item.prerequisites])),visited=new Set();
  const visit=(id,path=new Set())=>{assert(graph.has(id),id);assert(!path.has(id),'cycle '+id);if(visited.has(id))return;const next=new Set([...path,id]);for(const parent of graph.get(id))visit(parent,next);visited.add(id);};

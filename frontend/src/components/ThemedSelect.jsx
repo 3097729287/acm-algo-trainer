@@ -5,7 +5,7 @@ import './ThemedSelect.css';
 
 // Retain the native form control, labels, validation and change events. Only the
 // popup is rendered here, so Windows cannot paint it in an unrelated palette.
-const ThemedSelect=forwardRef(function ThemedSelect({children,onChange,onKeyDown,onPointerDown,onClick,onOpenChange,hideSelectedOption=false,className='',style,...props},forwardedRef) {
+const ThemedSelect=forwardRef(function ThemedSelect({children,onChange,onKeyDown,onPointerDown,onClick,onOpenChange,hideSelectedOption=false,hideChevron=false,className='',style,...props},forwardedRef) {
   const native=useRef(null),menu=useRef(null),search=useRef({text:'',at:0}),id=useId();
   const [open,setOpen]=useState(false),[active,setActive]=useState(-1),[items,setItems]=useState([]),[position,setPosition]=useState({});
   const attach=useCallback(node=>{native.current=node;if(typeof forwardedRef==='function')forwardedRef(node);else if(forwardedRef)forwardedRef.current=node;},[forwardedRef]);
@@ -30,7 +30,7 @@ const ThemedSelect=forwardRef(function ThemedSelect({children,onChange,onKeyDown
   useLayoutEffect(()=>{if(open)menu.current?.querySelector(`[data-index="${active}"]`)?.scrollIntoView({block:'nearest'});},[open,active]);
   useEffect(()=>{if(props.disabled)setOpen(false);},[props.disabled]);
   useEffect(()=>{onOpenChange?.(open);},[open,onOpenChange]);
-  return <><span className="tb-select-wrap"><select {...props} ref={attach} className={`tb-select ${className}`} style={style} aria-expanded={open} aria-controls={open?id:undefined} aria-activedescendant={open&&active>=0?`${id}-${active}`:undefined}
+  return <><span className={'tb-select-wrap'+(hideChevron?' without-chevron':'')}><select {...props} ref={attach} className={`tb-select ${className}`} style={style} aria-expanded={open} aria-controls={open?id:undefined} aria-activedescendant={open&&active>=0?`${id}-${active}`:undefined}
     onPointerDown={event=>{onPointerDown?.(event);if(event.defaultPrevented || props.disabled)return;event.preventDefault();native.current.focus({preventScroll:true});if(open)setOpen(false);else show();}}
     onClick={event=>{event.preventDefault();onClick?.(event);}}
     onChange={event=>{setOpen(false);onChange?.(event);}}
@@ -51,7 +51,7 @@ const ThemedSelect=forwardRef(function ThemedSelect({children,onChange,onKeyDown
         event.preventDefault();const values=open?items:options();if(!open)show();const now=Date.now();search.current={text:(now-search.current.at<700?search.current.text:'')+event.key.toLocaleLowerCase(),at:now};
         const found=values.findIndex(item=>!item.disabled&&item.text.toLocaleLowerCase().startsWith(search.current.text));if(found>=0)setActive(found);
       }
-    }}>{children}</select><ChevronDown className="tb-select-chevron" size={14} aria-hidden="true"/></span>
+    }}>{children}</select>{!hideChevron&&<ChevronDown className="tb-select-chevron" size={14} aria-hidden="true"/>}</span>
     {open&&createPortal(<div ref={menu} id={id} className="tb-select-menu" role="listbox" aria-label={props['aria-label'] || native.current?.labels?.[0]?.textContent || '选项'} style={position} onPointerDown={event=>event.preventDefault()}>{items.map((item,index)=><div key={`${item.value}:${index}`}>
       {item.group&&item.group!==items[index-1]?.group&&<div className="tb-select-group">{item.group}</div>}
       <button type="button" role="option" id={`${id}-${index}`} data-index={index} aria-selected={native.current.value===item.value} aria-disabled={item.disabled} data-active={active===index} disabled={item.disabled} tabIndex={-1} onPointerMove={()=>setActive(index)} onClick={()=>choose(index)}><span>{item.text}</span>{native.current.value===item.value&&<Check size={14} aria-hidden="true"/>}</button>

@@ -1,3 +1,11 @@
+### 1.5.1 追加本地验证
+
+当前学习流程修订执行 `knowledge-journey-model`、`practice-continuation-model`、`learning-browser-model`、`knowledge-journey-ui`、`knowledge-daily-flow-ui`、`study-navigation-ui`、`learning-browser` 和 `lectures-lifecycle`，随后执行前端生产构建。界面测试仅使用隔离 API，正式提交不触发。
+
+原生 host 从 `5afacb5b` 重建；最终前端与文档另行记录实际提交。组装前比较原生源码清单与工作树输入，用户版与私有管理员版分开，再做新装、覆盖升级、含 committed WAL 的备份与原有身份／代码／记录验证。公开桌面 feed 不变。
+
+完整 `scripts/check.py` 的测试存储必须采用短绝对目录，避免 Windows 传统路径上限造成虚假 SQLite 打开和回收路径失败；测试断言与发现不变。临时产物只能移入系统回收站，容量或链接条件不满足就保留。已有 Nailoong 教学台账摘要不一致需独立列明，不弱化检查或改写正文。
+
 1.5.1 成长与素材修订：运行 `node tests/growth-material.mjs` 验证八种尺寸／主题、目标弹窗增改归档、统计迁移及金色 AC 勋章；`node tests/sticker-interactions.mjs` 检查首帧缓存、无网络矢量、九种传奇互动、鸭叫首次异步解码和可听起始段。原创卡通素材由 `frontend/scripts/draw-cartoon-stickers.mjs` 生成，再由 `build-sticker-artwork.mjs` 内嵌。原生输入未改，复用已验证的 f17e6868 运行时，安装元数据单列本轮前端提交。正常安装器仍须隔离新装、升级及个人 WAL 保留验证；不据前端检查声称原站提交或公开发布。
 
 1.5.1 学习界面补改：单内容保留原工具栏；加号展开短搜索和四个板块目录；独立标签组支持左右拆分、跨组移动合并、自动收起空组与分隔线居中吸附。新增分组/旧快照恢复模型和真实指针拖拽回归，桌面原生探针同步使用分组操作。补改验证与打包状态以交付记录为准。

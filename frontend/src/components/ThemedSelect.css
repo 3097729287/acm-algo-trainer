@@ -23,3 +23,5 @@
 html .tb-workbench .wb-language-select{flex:0 0 auto!important;width:max-content!important;min-width:max-content;max-width:none!important;}
 html .tb-workbench .wb-language-select .tb-select-wrap{flex:none;max-width:none!important;}
 html .tb-workbench .wb-language-select select{width:100%;max-width:none!important;text-overflow:clip;}
+
+html .tb-select-wrap.without-chevron>.tb-select{padding-right:10px!important}

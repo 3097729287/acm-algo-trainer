@@ -3,7 +3,7 @@ import {rowKnowledgeNames,canonicalKnowledgeName} from './knowledgeNames.js';
 import {original} from './problemIdentity.js';
 import {trainingDay} from './trainingDate.js';
 
-export const KNOWLEDGE_POLICY=Object.freeze({version:1,independentProblems:2,masteryProblems:3,minimumRetentionHours:24,maximumRecentEvidence:5});
+export const KNOWLEDGE_POLICY=Object.freeze({version:1,dailyTasks:2,independentProblems:2,masteryProblems:3,minimumRetentionHours:24,maximumRecentEvidence:5});
 const array=value=>Array.isArray(value)?value:[];
 const finite=value=>typeof value==='number'&&Number.isFinite(value);
 const stamp=value=>typeof value==='string'?Date.parse(value):NaN;
@@ -78,6 +78,18 @@ export function recordKnowledgeLesson(previous,next,id,now=Date.now()){
  const related=new Set([...topic.lectures,...requiredKnowledgeLessons(topic,previous)]);
  return related.has(id)?recordKnowledgeCheckpoint(next,'lecture:'+id,6,now):next;
 }
+export function confirmKnowledgeAction(prefs,action,now=Date.now()){
+ const state=knowledgeState(prefs),topic=KNOWLEDGE_BY_ID[state.activeTopicId];
+ if(!topic||action?.journeyTopicId!==topic.id)return prefs;
+ if(action.kind==='lecture'){
+  if(array(prefs.learnedLectures).includes(action.id))return prefs;
+  const lessons=new Set([...topic.lectures,...requiredKnowledgeLessons(topic,prefs)]);
+  if(!lessons.has(action.id))return prefs;
+  return recordKnowledgeLesson(prefs,{...prefs,learnedLectures:[...new Set([...array(prefs.learnedLectures),action.id])]},action.id,now);
+ }
+ if(action.kind==='course'&&action.id===topic.course)return recordKnowledgeCheckpoint(prefs,'course:'+action.id,6,now);
+ return prefs;
+}
 export function assignKnowledgeProblem(prefs,item,now=Date.now()){
  if(!item.journeyTopicId||!item.journeyPhase)return prefs;
  return edited(prefs,state=>{
@@ -139,7 +151,7 @@ export function knowledgeJourney({rows=[],prefs={},templates=[],templatesReady=t
  const prerequisite=requiredKnowledgeLessons(topic,prefs,rows,evidence,exposure)[0];
  const offerLecture=(id,reason)=>({kind:'lecture',page:'lectures',id,title:prerequisiteTitle(id),reason});
  if(prerequisite)action=offerLecture(prerequisite,`学习「${topic.title}」先补 ${prerequisiteTitle(prerequisite)}；已读只是先修安排，不代表掌握。`);
- else if(course&&prefs.learningPaths?.[topic.course]?.mode!=='guided'&&!journey.initialCourse&&!successes.length){
+ else if(course&&prefs.learningPaths?.[topic.course]?.mode!=='guided'&&!journey.initialCourse&&!checkpoints['course:'+topic.course]&&!successes.length){
   action={kind:'course',page:'paths',id:topic.course,title:topic.title,first:course.first,resume:true,reason:`继续「${topic.title}」的课堂与实验，保留章节、草稿和检查记录。`};
  }else if(!course&&topic.lectures.some(id=>!array(prefs.learnedLectures).includes(id))&&!successes.length){
   const id=topic.lectures.find(id=>!array(prefs.learnedLectures).includes(id));action=offerLecture(id,`先读「${topic.title}」的概念与例子，再独立应用。`);
@@ -159,10 +171,11 @@ export function knowledgeJourney({rows=[],prefs={},templates=[],templatesReady=t
   else if(!waiting&&!mastered)action=offerLecture(topic.lectures[0],`「${topic.title}」当前没有满足难度和内容条件的陌生练习，先回顾要点；练习覆盖仍待补齐，不标记掌握。`);
  }
  if(action&&!allowed(action.page))action={kind:'navigation',page:'settings',id:'learning-visibility',title:'恢复学习入口',reason:`「${topic.title}」所需入口已隐藏，可在设置中恢复。`};
- if(action)action={...action,journeyTopicId:topic.id,journeyPhase:phase,reason:`${action.reason} 今日安排约 ${budget} 分钟，按学习单元与练习量调整；可以分多天完成。`};
- const doneForToday=mastered||waiting||spent>=budget;
+ const dailyCompleted=Object.entries(todayPoints).filter(([key,item])=>/^(lecture|course|template|guided|official):/.test(key)&&trainingDay(item.at)===day).length;
+ if(action)action={...action,journeyTopicId:topic.id,journeyPhase:phase,reason:`${action.reason} 今日默认 ${KNOWLEDGE_POLICY.dailyTasks} 项，已完成 ${dailyCompleted} 项；可以分多天完成。`};
+ const doneForToday=mastered||waiting||dailyCompleted>=KNOWLEDGE_POLICY.dailyTasks;
  const completed=doneForToday?{kind:'knowledge',id:topic.id,page:'lectures',title:topic.title,topic,completed:true,mastered,rawAction:action,reason:mastered?'已有多道不同原题的独立通过及跨日陌生题检验。':waiting?`今天的「${topic.title}」安排已完成；到下一次间隔检验前，可选择其它练习。`:`今天的「${topic.title}」学习量已完成，进度保留；可以继续其他练习。`}:null;
- return {topic,journey,suggestion,options:alternatives,rawAction:action,action:doneForToday?null:action,completed,events,successes,mastered,masteredAt:mastered?iso(successes.at(-1).time):null,phase,doneForToday,budget,spent,coverage};
+ return {topic,journey,suggestion:mastered?suggestion:null,options:mastered?alternatives:[],rawAction:action,action:doneForToday?null:action,completed,events,successes,mastered,masteredAt:mastered?iso(successes.at(-1).time):null,phase,doneForToday,budget,spent,dailyTarget:KNOWLEDGE_POLICY.dailyTasks,dailyCompleted,coverage};
 }
 
 export function optionalLearningActions({rows=[],prefs={},availablePages=[],evidence,now=Date.now(),deferTopic=null}={}){

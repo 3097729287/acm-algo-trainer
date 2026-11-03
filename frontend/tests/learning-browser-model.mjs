@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {activateStudyTab,buildLearningIndex,closeStudyTab,emptyStudyBrowser,learningDirectory,learningSearch,moveStudyTab,openStudyTab,resizeStudyGroups,restoreStudyBrowser,splitStudyTab,studyGroups,studySnapshot,updateStudyDocument} from '../src/lib/learningBrowser.js';
+import {activateStudyTab,buildLearningIndex,closeStudyTab,emptyStudyBrowser,learningDirectory,learningSearch,moveStudyTab,openStudyTab,resizeStudyGroups,restoreStudyBrowser,replaceStudyContent,splitStudyTab,studyGroups,studySnapshot,updateStudyDocument} from '../src/lib/learningBrowser.js';
 
 let state=emptyStudyBrowser();
 for(const kind of ['problem','wiki','template'])state=openStudyTab(state,{kind,id:'dsu',title:kind});
@@ -51,3 +51,13 @@ assert.equal(learningDirectory(nested,'',['wiki']).entries[0].title,'数据结�
 assert.equal(learningDirectory(nested,'',['wiki','数据结构','集合']).entries[0].id,'a');
 assert.equal(learningDirectory(nested,'dsu',['wiki']).entries[0].type,'file');
 console.log('Learning browser model passed: arbitrary groups, left/right splits, transfer/merge/reorder, state identity, snapshots/legacy migration, center snap, folders and searches.');
+
+let single=openStudyTab(emptyStudyBrowser(),{kind:'lecture',id:'first',state:{chapter:3},scroll:[['reader',400,0]]});
+single=replaceStudyContent(single,'lecture:first',{kind:'wiki',id:'other'});assert.equal(single.tabs.length,1);assert.equal(single.documents['lecture:first'].state.chapter,3);
+single=replaceStudyContent(single,'wiki:other',{...single.documents['lecture:first']});assert.equal(single.tabs.length,1);assert.equal(single.tabs[0].state.chapter,3);assert.equal(single.tabs[0].scroll[0][1],400);
+single=openStudyTab(single,{kind:'template',id:'manual',visit:{userCreatedTab:true}});assert.equal(single.tabs.length,2);single=replaceStudyContent(single,'template:manual',{kind:'lab',id:'replace'});assert.equal(single.tabs.length,2);assert.equal(restoreStudyBrowser(studySnapshot(single)).documents['lecture:first'].state.chapter,3);
+console.log('PASS replacement keeps one slot, explicit new tabs and saved document progress survive reload');
+
+const heldManual=single.tabs.find(tab=>tab.key==='lecture:first');single=replaceStudyContent(single,'lab:replace',{kind:'lecture',id:'first'});assert.equal(single.tabs.length,2);assert.equal(single.tabs.find(tab=>tab.key==='lecture:first').state,heldManual.state);assert(single.tabs.some(tab=>tab.key==='lab:replace'));
+
+assert.equal(replaceStudyContent({...single,open:false},single.focused,{kind:'wiki',id:'from-list'}).open,true,'Opening from a closed browser shows the replacement');
