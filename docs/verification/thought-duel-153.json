@@ -1,0 +1,73 @@
+{
+  "version": "1.5.3",
+  "implementationCommit": "21232ada3adc24f16dd3f7b54ac6a2c6e4f764bb",
+  "mergedLocalRepairBaseline": "176ffd7029acb0dd2db7a1c659cf50e82f9e7443",
+  "publicRelease": false,
+  "productionServiceDeployment": false,
+  "providerConfigured": false,
+  "realProviderSuccessClaimed": false,
+  "backend": {
+    "featureBranchFullRun": 1127,
+    "passedAfterStorageAffectedRerun": 1125,
+    "skipped": 2,
+    "initialStorageErrors": 31,
+    "storageAffectedTestsRerunAndPassed": 31,
+    "repairBaselineFullRun": 1127,
+    "repairBaselinePassedAfterOneMissingSeedRerun": 1125,
+    "repairBaselineSkipped": 2,
+    "mergedFocusedTests": 22,
+    "mergedFocusedPassedAfterStorageReruns": 22,
+    "assertionsUnchanged": true,
+    "publicSeedIntegrityAndSourceIdentitiesVerified": true
+  },
+  "sharedService": {
+    "candidateVersion": "1.4.3",
+    "tests": 83,
+    "passed": 82,
+    "skipped": 1,
+    "failed": 0,
+    "adapter": "SQLite HTTP protocol fixtures",
+    "productionMySQLMigrationClaimed": false,
+    "concurrentJoinAndSubmit": true,
+    "duplicateSettlementPrevented": true,
+    "serverRestartAndDeadlineSubmission": true,
+    "opponentTextHiddenUntilFinish": true,
+    "invalidJudgeRetriesAndNoRatingDeduction": true,
+    "existingAccountDeletionCompatible": true
+  },
+  "frontend": {
+    "productionBuild": true,
+    "realReactWithSharedHttpFixture": true,
+    "ownerSwitchAndLateReceiptIsolation": true,
+    "originalRankedOwnerRaces": true,
+    "autosaveAndEarlySubmissionLock": true,
+    "sixDimensionScoreAndPrivateHistory": true,
+    "narrowLayout": true,
+    "fixtureJudgeOnly": true
+  },
+  "packaging": {
+    "nativeBuildSourceCommit": "21232ada3adc24f16dd3f7b54ac6a2c6e4f764bb",
+    "frontendBuildSourceCommit": "21232ada3adc24f16dd3f7b54ac6a2c6e4f764bb",
+    "initialFeatureFreshDirectoryBothEditions": true,
+    "mergedBaselineUpgradeBothEditions": true,
+    "mergedProgramFilesPerEdition": 5041,
+    "identityDraftAndCommittedWalPreserved": true,
+    "localUpgradePublicSeedPreserved": true,
+    "personalFilesHardlinked": false,
+    "actualWindowsInstallerExecutedByDirectoryChecks": false,
+    "localInstallation": "Pending the existing startup/UI task's exclusive installation lease"
+  },
+  "defaultSwitches": {
+    "PK_MATCH_ENABLED": 0,
+    "PK_THOUGHT_MODE_ENABLED": 0
+  },
+  "officialSubmissionsSent": 0,
+  "liveSocialMessagesSent": 0,
+  "cleanup": {
+    "systemRecycleBinOnly": true,
+    "permanentDeletion": false,
+    "existingBinItemsPreserved": true,
+    "binEmptiedOrResized": false,
+    "recyclingNotClaimedAsDiskSpaceRelease": true
+  }
+}
