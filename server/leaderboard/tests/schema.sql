@@ -98,9 +98,9 @@ CREATE TABLE duel_members(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id) 
 
 CREATE TABLE pk_lobby(singleton INTEGER PRIMARY KEY);
 INSERT INTO pk_lobby VALUES(1);
-CREATE TABLE pk_ratings(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id),rating INTEGER NOT NULL DEFAULT 1000);
-CREATE TABLE pk_queue(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id),ticket TEXT NOT NULL,rating INTEGER NOT NULL,joined_at INTEGER NOT NULL,last_seen INTEGER NOT NULL,min_difficulty INTEGER NOT NULL,max_difficulty INTEGER NOT NULL);
+CREATE TABLE pk_ratings(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id) ON DELETE CASCADE,rating INTEGER NOT NULL DEFAULT 1000);
+CREATE TABLE pk_queue(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id) ON DELETE CASCADE,ticket TEXT NOT NULL,rating INTEGER NOT NULL,joined_at INTEGER NOT NULL,last_seen INTEGER NOT NULL,min_difficulty INTEGER NOT NULL,max_difficulty INTEGER NOT NULL);
 CREATE TABLE pk_matches(match_id TEXT PRIMARY KEY,status TEXT NOT NULL,updated_at INTEGER NOT NULL,due_at INTEGER NOT NULL,payload TEXT NOT NULL);
-CREATE TABLE pk_members(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id),match_id TEXT NOT NULL REFERENCES pk_matches(match_id));
+CREATE TABLE pk_members(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id) ON DELETE CASCADE,match_id TEXT NOT NULL REFERENCES pk_matches(match_id));
 CREATE TABLE pk_records(match_id TEXT PRIMARY KEY REFERENCES pk_matches(match_id),player_a TEXT NOT NULL,player_b TEXT NOT NULL,finished_at INTEGER NOT NULL,payload TEXT NOT NULL);
-CREATE TABLE pk_operations(user_id TEXT NOT NULL REFERENCES accounts(user_id),request_id TEXT NOT NULL,request_hash TEXT NOT NULL,PRIMARY KEY(user_id,request_id));
+CREATE TABLE pk_operations(user_id TEXT NOT NULL REFERENCES accounts(user_id) ON DELETE CASCADE,request_id TEXT NOT NULL,request_hash TEXT NOT NULL,PRIMARY KEY(user_id,request_id));

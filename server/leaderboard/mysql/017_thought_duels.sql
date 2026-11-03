@@ -5,13 +5,13 @@ INSERT IGNORE INTO pk_lobby(singleton) VALUES(1);
 CREATE TABLE IF NOT EXISTS pk_ratings(
  user_id VARCHAR(36) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,
  rating INT NOT NULL DEFAULT 1000,
- FOREIGN KEY(user_id) REFERENCES accounts(user_id)
+ FOREIGN KEY(user_id) REFERENCES accounts(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 CREATE TABLE IF NOT EXISTS pk_queue(
  user_id VARCHAR(36) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,
  ticket CHAR(36) NOT NULL, rating INT NOT NULL, joined_at BIGINT NOT NULL,
  last_seen BIGINT NOT NULL, min_difficulty INT NOT NULL, max_difficulty INT NOT NULL,
- FOREIGN KEY(user_id) REFERENCES accounts(user_id), INDEX pk_queue_age(joined_at)
+ FOREIGN KEY(user_id) REFERENCES accounts(user_id) ON DELETE CASCADE, INDEX pk_queue_age(joined_at)
 ) ENGINE=InnoDB;
 CREATE TABLE IF NOT EXISTS pk_matches(
  match_id CHAR(36) PRIMARY KEY, status VARCHAR(16) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS pk_matches(
 CREATE TABLE IF NOT EXISTS pk_members(
  user_id VARCHAR(36) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,
  match_id CHAR(36) NOT NULL,
- FOREIGN KEY(user_id) REFERENCES accounts(user_id),
+ FOREIGN KEY(user_id) REFERENCES accounts(user_id) ON DELETE CASCADE,
  FOREIGN KEY(match_id) REFERENCES pk_matches(match_id)
 ) ENGINE=InnoDB;
 CREATE TABLE IF NOT EXISTS pk_records(
@@ -33,5 +33,5 @@ CREATE TABLE IF NOT EXISTS pk_records(
 CREATE TABLE IF NOT EXISTS pk_operations(
  user_id VARCHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
  request_id CHAR(36) NOT NULL, request_hash CHAR(64) NOT NULL,
- PRIMARY KEY(user_id,request_id), FOREIGN KEY(user_id) REFERENCES accounts(user_id)
+ PRIMARY KEY(user_id,request_id), FOREIGN KEY(user_id) REFERENCES accounts(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
