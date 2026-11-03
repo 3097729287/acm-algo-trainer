@@ -139,7 +139,7 @@ class LibraryDatabase:
         finally:
             db.close()
 
-    def backup(self, label='before-upgrade', *, manual=False, required=False):
+    def backup(self, label='before-upgrade', *, manual=False, required=True):
         from recovery_backups import snapshot
         with self.connection() as source:
             result=snapshot(source, self.path, self.path.parent / 'backups', label=label, manual=manual, required=required, suffix='.sqlite3')
