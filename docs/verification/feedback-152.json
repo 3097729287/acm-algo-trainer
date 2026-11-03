@@ -2,7 +2,6 @@
   "version": "1.5.2",
   "coreSourceCommit": "8a69b2ffff8e48ed35ec1adfc0d9995bac0a777b",
   "nativeBuildSourceCommit": "8a69b2ffff8e48ed35ec1adfc0d9995bac0a777b",
-  "frontendBuildSourceCommit": "8a69b2ffff8e48ed35ec1adfc0d9995bac0a777b",
   "publicRelease": false,
   "backend": {
     "command": "python scripts/check.py",
@@ -22,8 +21,11 @@
     "skipped": 1,
     "failed": 0,
     "deployed": false,
-    "authorization": "pending",
-    "databaseAdapterVerified": "SQLite protocol fixtures; no new production MySQL deployment claimed"
+    "authorization": "explicitly-authorized",
+    "databaseAdapterVerified": "SQLite protocol fixtures; no new production MySQL deployment claimed",
+    "sourceCommit": "c725ff26d112ea19495ec121b6743faf3a3c9782",
+    "productionVersion": "1.4.1",
+    "backupStatus": "fresh XZ attempt exceeded a conservative root-space limit; incomplete file retained pending an explicit cleanup exception"
   },
   "frontend": {
     "productionBuild": true,
@@ -36,7 +38,22 @@
     "legendaryInteractions": 9,
     "oneRecordedDuckCall": true,
     "recycleImmediateFailureRecoveryAndOwnerIsolation": true,
-    "xpAndProfileAlignment": true
+    "xpAndProfileAlignment": true,
+    "toolbarRefinement": {
+      "unboxedControls": [
+        "language",
+        "initial template",
+        "code/template",
+        "solution",
+        "next problem"
+      ],
+      "cursorCoordinatesAtActionBarBottom": true,
+      "visualReview": true,
+      "languageSwitchRoundTrip": true,
+      "pageErrors": 0,
+      "productionBuild": true,
+      "cssSha256": "707f554c4986a79ce5fe01bd3c435d9bb15eb4ca769aa3f1788ef177d7519515"
+    }
   },
   "packaging": {
     "freshInstallBothEditions": true,
@@ -69,5 +86,16 @@
     "aigeiAssetDownloaded": false,
     "source": "Existing licensed Jonathon Jongsma Mallard recording; Aigei browser action rejected by automatic review"
   },
-  "localInstallation": "Track actual installer receipts and personal online backups in the designated local delivery records; this public source proof contains no private data"
+  "localInstallation": "Track actual installer receipts and personal online backups in the designated local delivery records; this public source proof contains no private data",
+  "initialFrontendBuildSourceCommit": "8a69b2ffff8e48ed35ec1adfc0d9995bac0a777b",
+  "validatedFollowupSourceCommit": "ec970faa312f19bec6176fcf903bfe916eeab3f0",
+  "localFollowup": {
+    "bothNormalInstallationsVerified": true,
+    "userOwnerPreserved": true,
+    "userSessionAbsentAtBackupAndSubsequentlyLoggedIn": true,
+    "adminOwnerPreserved": true,
+    "personalOnlineBackups": 19,
+    "filesPerEdition": 5036,
+    "publicDesktopRelease": false
+  }
 }
