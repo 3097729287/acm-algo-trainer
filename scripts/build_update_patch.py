@@ -48,7 +48,7 @@ def write_compat14(payload, from_version):
     """Reuse the compressed core, changing only its small manifest and index."""
     import re
     match=re.fullmatch(r'1\.4\.(\d+)',from_version)
-    if not match or not 0<=int(match[1])<=36 or payload['legacy']!=(int(match[1])<14):raise ValueError('Unsupported original updater layout')
+    if not match or not 0<=int(match[1])<=35 or payload['legacy']!=(int(match[1])<14):raise ValueError('Unsupported original updater layout; 1.4.36+ requires its exact verified baseline or the full installer')
     path=Path(payload['path'])
     with zipfile.ZipFile(path) as archive:entries=[item for item in archive.infolist() if item.filename!='update.json']
     manifest={'schema':1,'version':payload['version'],'fromVersion':from_version,'base':{},'files':payload['files'],'changed':sorted(payload['files']),'kind':'cumulative-program','compiler':'unchanged'}
@@ -98,7 +98,7 @@ if __name__ == '__main__':
     if args.compat_14:
         import re
         match=re.fullmatch(r'1\.4\.(\d+)',args.from_version)
-        if not match or not 0<=int(match[1])<=36:p.error('Compatibility updates cover 1.4.0 through 1.4.36')
+        if not match or not 0<=int(match[1])<=35:p.error('Compatibility updates cover 1.4.0 through 1.4.35; newer helpers require their exact baseline or the full installer')
         prefix='TB' if int(match[1])<14 else 'ToBe'
         args.output.mkdir(parents=True,exist_ok=True)
         target=args.output/(prefix+'-Update-'+args.from_version+'-to-'+(args.package/'VERSION').read_text().strip()+'-win64.zip')
