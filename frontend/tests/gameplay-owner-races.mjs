@@ -1,8 +1,11 @@
 import assert from 'node:assert/strict';
 import {createServer} from 'vite';
 import {chromium} from 'playwright';
+import {mkdir} from 'node:fs/promises';
+import path from 'node:path';
+const output=path.resolve('../.backups/next-152/followup-owner-ui');await mkdir(output,{recursive:true});
 const vite=await createServer({cacheDir:'../.backups/next-150/vite-owner-races',server:{host:'127.0.0.1',port:0,watch:null}});await vite.listen();
-const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
+const browser=await chromium.launchPersistentContext(path.join(output,'profile'),{channel:process.env.CI?undefined:'msedge',headless:true,viewport:{width:1440,height:900}}),page=browser.pages()[0],errors=[];
 page.setDefaultTimeout(5000);
 page.on('pageerror',error=>errors.push(error.message));
 const find=async(owner,path)=>{await page.waitForFunction(({owner,path})=>gameplayRaces.pending().some(p=>p.owner===owner&&p.path===path),{owner,path});return page.evaluate(({owner,path})=>gameplayRaces.pending().find(p=>p.owner===owner&&p.path===path).id,{owner,path});};
@@ -21,5 +24,7 @@ try{
  await finish(secondPlace);await page.waitForFunction(()=>document.querySelectorAll('.placed-sticker:not(.selected-sticker)').length===1);
  await finish(stale);assert.equal(await page.locator('.placed-sticker:not(.selected-sticker)').count(),1,'Stale inventory must not undo a confirmed placement');
  assert.equal(await page.locator('.selected-sticker').count(),0);assert.equal(await page.getByRole('alert').count(),0);assert.equal(await page.getByLabel('当前账号').textContent(),'B');
- assert.deepEqual(errors,[]);console.log('PASS real React owner switches, overlapping delayed writes, busy isolation and stale-inventory ordering; no official I/O');
+ await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/tests/gameplay-owner-fixture.html?startupFailure`,{timeout:30000});await page.waitForFunction(()=>document.querySelector('[aria-label="对局初始错误"]')?.textContent==='isolated startup unavailable');assert.equal((await page.evaluate(()=>gameplayRaces.pending())).length,0);
+ await page.getByRole('button',{name:'进入对战',exact:true}).click();await page.getByRole('button',{name:'开始匹配',exact:true}).waitFor();assert(await page.getByRole('button',{name:'开始匹配',exact:true}).isEnabled());assert.equal((await page.evaluate(()=>gameplayRaces.pending())).length,0,'Recovering a snapshot must never join automatically');
+ assert.deepEqual(errors,[]);console.log('PASS real React owner switches, overlapping delayed writes, busy isolation, stale-inventory ordering and startup-error recovery on lobby entry; no official I/O');
 }finally{await browser.close();await vite.close();}

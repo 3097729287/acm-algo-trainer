@@ -539,3 +539,5 @@ node tests/ranking-public-progress.mjs
 1.4.32 已正式发布；本机从 1.4.31 升级，GitHub 与国内相同用户构建更新公开 1.4.31。共享服务复用 1.2.9，服务源码与原部署完全一致，本轮不重启服务、不迁移 SQL、不新增内容热更新。 [交付记录](local-delivery-1.4.32.md)。安装包与源码标签：`2e1fbaabd348b0281eba2cc623db8280a74d7990`；前端来源：`2e1fbaabd348b0281eba2cc623db8280a74d7990`；原生构建来源：`98c04df7dbb3515124bbd987e48dff0b3271a5c5`；远端 CI 测试来源：`244430dda75cebb05ae8e2cbf63a83db6b90203e`。CI 只包含两个测试文件的修订，运行输入严格等价；原始构建与验收报告保持各自真实来源，未声称安装包提交的 CI 成功。
 
 本轮学习路线与贴纸改动除前端构建外，运行 `node tests/learning-guidance.mjs`、`node tests/sticker-interactions.mjs`、`node tests/experience-challenge.mjs` 和学习浏览器／开箱回归。公共基础题身份由 `node frontend/scripts/build-learning-access.mjs --check` 核对，图像与鸭声通过 `node frontend/scripts/build-sticker-artwork.mjs` 从带许可的固定素材生成。后端仍须运行完整 `scripts/check.py`，共享服务运行 `npm test`；真实原站提交不作为界面测试。
+
+1.5.2 补改验证覆盖已有 AC 的真实基础目录状态、旧讲义占用 application 分配、下一篇人工确认、跨基础章节的每日两项以及对局初次 GET 失败后进入大厅恢复。服务只读备份、配置与表指纹检查继续保留，授权部署与本机修订分别记录。

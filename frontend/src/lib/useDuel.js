@@ -19,7 +19,7 @@ export default function useDuel(api,owner){
   generation.current++;pending.current=null;writing.current=null;clock.current=null;queue.current=null;currentRoom.current=null;heard.current.clear();
   audio.current?.close();const sound=createDuelSound();audio.current=sound;
   setBusy(false);setState(null);setError('');if(!owner||window.__tbAdmin)return()=>sound.close();
-  let alive=true;api('duel').then(value=>{if(alive)accept(value,owner);}).catch(()=>{});
+  let alive=true;const stamp=generation.current;api('duel').then(value=>{if(alive&&stamp===generation.current)accept(value,owner);}).catch(issue=>{if(alive&&stamp===generation.current)setError(issue.message);});
   return()=>{alive=false;sound.close();};
  },[api,owner,accept]);
  useEffect(()=>{
@@ -48,6 +48,6 @@ export default function useDuel(api,owner){
   catch(issue){if(live.current===requestedOwner&&writing.current===operation)setError(issue.message);}
   finally{if(writing.current===operation){writing.current=null;if(live.current===requestedOwner)setBusy(false);}}
  },[api,owner,accept,state?.capabilities?.readyCheck]);
- const reload=useCallback(async()=>{const stamp=generation.current;try{const value=await api('duel');if(stamp===generation.current)accept(value,owner);}catch(issue){if(live.current===owner&&stamp===generation.current)setError(issue.message);}},[api,owner,accept]);
+ const reload=useCallback(async()=>{if(!owner||window.__tbAdmin||writing.current)return;const stamp=++generation.current;try{const value=await api('duel');if(stamp===generation.current)accept(value,owner);}catch(issue){if(live.current===owner&&stamp===generation.current)setError(issue.message);}},[api,owner,accept]);
  return {state:state?.owner===owner?state:null,error,busy,act,reload,clock};
 }

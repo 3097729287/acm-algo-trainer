@@ -5,6 +5,7 @@ import ProfileBadge from '../components/ProfileBadge.jsx';
 import TierIcon from '../components/TierIcon.jsx';
 export default function DuelPage({duel,rows,onTrain,account,profile,growth,avatar}){
  const {state,error,busy,act,reload,clock}=duel,[tick,setTick]=useState(0);
+ useEffect(()=>{void reload();},[reload]);
  useEffect(()=>{const timer=setInterval(()=>setTick(value=>value+1),1000);return()=>clearInterval(timer);},[]);
  const room=['active','finished'].includes(state?.status)?state.match:null,now=clock.current?clock.current.server+performance.now()-clock.current.local:state?.serverNow;
  const remaining=room?Math.max(0,Math.ceil((room.deadline-now)/1000)):0;

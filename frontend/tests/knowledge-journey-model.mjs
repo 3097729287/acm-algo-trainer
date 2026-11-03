@@ -120,3 +120,16 @@ test('the real introductory catalogue advances without invented tags, ratings or
  const missing=model({rows:[],prefs:after,now:start});assert.equal(missing.journey.rawAction.reviewOnly,true);assert.equal(confirmKnowledgeAction(after,missing.journey.rawAction,start),after);
  const old=assignKnowledgeProblem(after,{...read,journeyPhase:'application'},start);assert.equal(old,after,'Reading cannot occupy a problem assignment');
 });
+
+test('past accepted introductory exercises complete the learning route without claiming independent mastery',()=>{
+ const accepted=ioRows.map(row=>({...row,accepted:true,attempts:1}));
+ const begun=startKnowledge({learnedLectures:[]},'io-basics',{rows:accepted,now:start});
+ const reading=model({rows:accepted,prefs:begun,now:start}).items[0];assert.equal(reading.kind,'lecture');
+ const confirmed=confirmKnowledgeAction(begun,reading,start),finished=model({rows:accepted,prefs:confirmed,now:start});
+ assert(finished.journey.learningComplete);assert.equal(finished.journey.mastered,false);assert.equal(finished.journey.dailyCompleted,1);assert.equal(finished.journey.successes.length,0);
+ const continued=reconcileKnowledge(confirmed,finished.journey),next=model({rows:accepted,prefs:continued,now:start});
+ assert.equal(knowledgeState(continued).journeys['io-basics'].status,'completed');assert.equal(next.items[0].kind,'lecture');assert.equal(next.items[0].id,'lecture:foundation-basic-arithmetic');assert.equal(next.journey.dailyCompleted,1);
+ assert.equal(reconcileKnowledge(continued,finished.journey),continued,'A stale completion cannot restart or rewrite the next topic');
+ const twice=confirmKnowledgeAction(continued,next.items[0],start+1000),arithmetic=model({rows:accepted,prefs:twice,now:start+1000}),after=reconcileKnowledge(twice,arithmetic.journey),paced=model({rows:accepted,prefs:after,now:start+1000});
+ assert.equal(paced.journey.dailyCompleted,2);assert(paced.journey.doneForToday);assert(paced.items.at(-1).completed);assert.equal(paced.journey.mastered,false);
+});

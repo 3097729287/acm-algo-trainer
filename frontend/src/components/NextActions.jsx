@@ -79,8 +79,9 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
  useEffect(()=>{
   const pending=continueAfterConfirm.current;
   if(!pending||prefs===pending.preferences)return;
+  if(journey.journey?.id===pending.journeyId&&journey.learningComplete)return;
   continueAfterConfirm.current=null;
-  if(journey.journey?.id===pending.journeyId&&!journey.doneForToday&&journey.action&&!journey.action.reviewOnly)start(journey.action);
+  if((journey.journey?.id===pending.journeyId||journey.journey?.continuedFrom===pending.journeyId)&&!journey.doneForToday&&journey.action&&!journey.action.reviewOnly)start(journey.action);
  },[prefs,journey]);
  const focusRow=last=>requestAnimationFrame(()=>{const buttons=flyout.current?.querySelectorAll('.next-actions-item');(last?buttons?.[buttons.length-1]:buttons?.[0])?.focus();});
  const openWithKeys=event=>{if(expandable&&(event.key==='ArrowDown'||event.key==='ArrowUp')){event.preventDefault();show();focusRow(event.key==='ArrowUp');}};

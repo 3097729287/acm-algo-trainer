@@ -19,6 +19,7 @@ const usable=row=>row?.catalogContentReady===true&&row.solutionAvailable===true&
 const practiceReady=(row,topic)=>(usable(row)||curated(row,topic)&&row?.catalogStatementReady===true)&&!row.locked&&!row.catalogHidden;
 const practiceRank=(row,topic)=>curated(row,topic)?array(topic.practiceOriginals).indexOf(original(row))/100:studyRank(row);
 const implemented=template=>array(template?.practicePassed).length>0&&array(template.practicePassed).every(Boolean);
+const basicTopic=topic=>topic?.level===1&&!topic.course&&!topic.template&&topic.lectures.length>0&&topic.lectures.every(id=>FOUNDATION_BY_ID[id]?.kind==='language');
 const distinct=rows=>[...new Map(rows.map(row=>[original(row),row])).values()];
 const fresh=row=>!row.accepted&&!row.hasDraft&&!row.draft&&!row.lastSubmissionAt&&!row.lastSubmission&&!Number(row.attempts||row.attemptCount||row.submissionCount||0)&&!/(?:\b(?:AC|WA|TLE|MLE|RE|CE|OLE)\b|已通过|未通过|训练中)/i.test(String(row.status||'')+' '+String(row.verdict||''));
 function studyRank(row){
@@ -107,19 +108,23 @@ export function assignKnowledgeProblem(prefs,item,now=Date.now()){
 }
 export function reconcileKnowledge(prefs,context){
  if(!context?.journey)return prefs;
- return edited(prefs,state=>{
+ const next=edited(prefs,state=>{
   const id=context.topic.id,current=state.journeys?.[id];if(!current||current.id!==context.journey.id||state.activeTopicId!==id)return state;
   const additions=context.events.filter(event=>!current.checkpoints?.[event.key]);
-  if(!additions.length&&!context.mastered)return state;
+  if(!additions.length&&!context.mastered&&!context.learningComplete)return state;
   const checkpoints={...current.checkpoints};for(const event of additions)checkpoints[event.key]={at:event.at,minutes:event.minutes};
-  return {...state,activeTopicId:context.mastered?null:id,journeys:{...state.journeys,[id]:{...current,checkpoints,...(context.mastered?{status:'mastered',masteredAt:context.masteredAt,masteryProblemIds:context.successes.map(item=>item.key)}:{})}}};
+  return {...state,activeTopicId:context.mastered||context.learningComplete?null:id,journeys:{...state.journeys,[id]:{...current,checkpoints,...(context.mastered?{status:'mastered',masteredAt:context.masteredAt,masteryProblemIds:context.successes.map(item=>item.key)}:context.learningComplete?{status:'completed',completedAt:iso(context.now)}:{})}}};
  });
+ if(next===prefs||!context.learningComplete||!context.continuation)return next;
+ const {topicId,rows,templates,now}=context.continuation;
+ const continued=startKnowledge(next,topicId,{rows,templates,now});
+ return edited(continued,state=>({...state,journeys:{...state.journeys,[topicId]:{...state.journeys[topicId],continuedFrom:context.journey.id}}}));
 }
 export function knowledgeCandidates({rows=[],prefs={},evidence,now=Date.now(),exposure=exposureFor(prefs,rows,evidence)}={}){
  const learned=KNOWLEDGE_TOPICS.filter(exposure);
  const tier=learned.some(topic=>topic.level>=2)?3:learned.length?2:1;
  const state=knowledgeState(prefs);
- return KNOWLEDGE_TOPICS.filter(topic=>topic.level<=tier&&state.journeys?.[topic.id]?.status!=='mastered'&&!evidence?.forTopics(topic.tags).stable)
+ return KNOWLEDGE_TOPICS.filter(topic=>topic.level<=tier&&!['mastered','completed'].includes(state.journeys?.[topic.id]?.status)&&!evidence?.forTopics(topic.tags).stable)
   .sort((a,b)=>requiredKnowledgeLessons(a,prefs,rows,evidence,exposure).length-requiredKnowledgeLessons(b,prefs,rows,evidence,exposure).length||a.level-b.level||a.order-b.order);
 }
 export function knowledgeJourney({rows=[],prefs={},templates=[],templatesReady=true,availablePages=[],reviewPlan={},evidence,now=Date.now()}={}){
@@ -145,7 +150,10 @@ export function knowledgeJourney({rows=[],prefs={},templates=[],templatesReady=t
  const guided=distinct(rows.filter(row=>guidedKeys.has(original(row))&&usable(row)));
  const guidePassed=guided.filter(row=>acceptedOriginals.has(original(row))).length;
  for(const row of guided)if(row.accepted&&!array(journey.initialAccepted).includes(original(row)))events.push({key:'guided:'+original(row),at:iso(now),minutes:12});
- const todayPoints={...checkpoints};for(const event of events)if(!todayPoints[event.key])todayPoints[event.key]=event;
+ // Daily pacing belongs to the learning route, including earlier foundations.
+ // Reusing an old AC advances a basic lesson but creates no new task receipt.
+ const todayPoints={};for(const saved of Object.values(state.journeys||{}))for(const [key,value] of Object.entries(saved.checkpoints||{}))if(!todayPoints[key])todayPoints[key]=value;
+ for(const event of events)if(!todayPoints[event.key])todayPoints[event.key]=event;
  const spent=Object.values(todayPoints).filter(item=>trainingDay(item.at)===day).reduce((sum,item)=>sum+(Number(item.minutes)||0),0);
  const budget=Math.max(8,Math.min(topic.level===1?20:25,finite(reviewPlan.newMinutes)?reviewPlan.newMinutes:topic.level===1?15:20));
  const cap=Math.min(2300,Math.max(1100,Number(evidence?.assessment?.abilityScore)||1100)+100);
@@ -155,6 +163,9 @@ export function knowledgeJourney({rows=[],prefs={},templates=[],templatesReady=t
   return retained||candidates.find(unseen);
  };
  const coverage={lectures:topic.lectures.length,experiment:Boolean(course),guided:guided.length,implementation:Boolean(template),independent:independent.filter(unseen).length,retention:'跨日陌生题独立检验'};
+ const learningComplete=basicTopic(topic)&&topic.lectures.every(id=>array(prefs.learnedLectures).includes(id))&&(!array(topic.practiceOriginals).length||rows.some(row=>curated(row,topic)&&row.accepted));
+ const nextBasic=learningComplete&&KNOWLEDGE_TOPICS.filter(item=>basicTopic(item)&&item.id!==topic.id&&!['mastered','completed'].includes(state.journeys?.[item.id]?.status)&&item.lectures.some(id=>!array(prefs.learnedLectures).includes(id))).sort((a,b)=>a.order-b.order)[0];
+ const continuation=nextBasic?{topicId:nextBasic.id,rows,templates,now}:null;
  let action=null,phase='learn',waiting=false;
  const prerequisite=requiredKnowledgeLessons(topic,prefs,rows,evidence,exposure)[0];
  const offerLecture=(id,reason)=>({kind:'lecture',page:'lectures',id,title:prerequisiteTitle(id),reason});
@@ -183,7 +194,7 @@ export function knowledgeJourney({rows=[],prefs={},templates=[],templatesReady=t
  if(action)action={...action,journeyTopicId:topic.id,journeyPhase:phase,reason:`${action.reason} 今日默认 ${KNOWLEDGE_POLICY.dailyTasks} 项，已完成 ${dailyCompleted} 项；可以分多天完成。`};
  const doneForToday=mastered||waiting||dailyCompleted>=KNOWLEDGE_POLICY.dailyTasks;
  const completed=doneForToday?{kind:'knowledge',id:topic.id,page:'lectures',title:topic.title,topic,completed:true,mastered,rawAction:action,reason:mastered?'已有多道不同原题的独立通过及跨日陌生题检验。':waiting?`今天的「${topic.title}」安排已完成；到下一次间隔检验前，可选择其它练习。`:`今天的「${topic.title}」学习量已完成，进度保留；可以继续其他练习。`}:null;
- return {topic,journey,suggestion:mastered?suggestion:null,options:mastered?alternatives:[],rawAction:action,action:doneForToday?null:action,completed,events,successes,mastered,masteredAt:mastered?iso(successes.at(-1).time):null,phase,doneForToday,budget,spent,dailyTarget:KNOWLEDGE_POLICY.dailyTasks,dailyCompleted,coverage};
+ return {topic,journey,suggestion:mastered?suggestion:null,options:mastered?alternatives:[],rawAction:action,action:doneForToday?null:action,completed,events,successes,mastered,masteredAt:mastered?iso(successes.at(-1).time):null,learningComplete,continuation,now,phase,doneForToday,budget,spent,dailyTarget:KNOWLEDGE_POLICY.dailyTasks,dailyCompleted,coverage};
 }
 
 export function optionalLearningActions({rows=[],prefs={},availablePages=[],evidence,now=Date.now(),deferTopic=null}={}){

@@ -9,7 +9,9 @@ import '../src/styles/revision.css';
 const states=Object.fromEntries(['A','B'].map(owner=>[owner,{owner,revision:0,catalogue:[{id:'common-leaf',rarity:'common',shape:'leaf'}],units:[{id:owner+'-unit',stickerId:'common-leaf',revision:0,placement:null}],grants:{}}]));
 const rooms=Object.fromEntries(['A','B'].map(owner=>[owner,{owner,status:'idle',serverNow:Date.now()}]));
 const pending=[];const reads=new Set();let number=0;
+const startupFailure=new URLSearchParams(location.search).has('startupFailure');let firstDuelRead=true;
 function api(owner){return async(path,body)=>{
+ if(startupFailure&&path==='duel'&&body===undefined&&firstDuelRead){firstDuelRead=false;throw new Error('isolated startup unavailable');}
  const current=structuredClone(path.startsWith('stickers')?states[owner]:rooms[owner]);
  if(body===undefined&&!reads.delete(owner+':'+path))return current;
  if(path==='duel/poll')return {...current,serverNow:Date.now()};
@@ -22,7 +24,7 @@ window.gameplayRaces={pending:()=>pending.map(({id,owner,path})=>({id,owner,path
   else call.resolve(call.current);
  }};
 function Fixture(){
- const [owner,setOwner]=useState('A'),request=useMemo(()=>api(owner),[owner]),duel=useDuel(request,owner);
- return <><header><button onClick={()=>setOwner('A')}>账号 A</button><button onClick={()=>setOwner('B')}>账号 B</button><output aria-label="当前账号">{owner}</output></header><div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20,height:450}}><DuelPage duel={duel} rows={[]}/><StickerCanvas api={request} owner={owner}><div style={{height:400}}/></StickerCanvas></div></>;
+ const [owner,setOwner]=useState('A'),[showDuel,setShowDuel]=useState(!startupFailure),request=useMemo(()=>api(owner),[owner]),duel=useDuel(request,owner);
+ return <><header><button onClick={()=>setOwner('A')}>账号 A</button><button onClick={()=>setOwner('B')}>账号 B</button><button onClick={()=>setShowDuel(true)}>进入对战</button><output aria-label="当前账号">{owner}</output><output aria-label="对局初始错误">{duel.error}</output></header><div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20,height:450}}>{showDuel&&<DuelPage duel={duel} rows={[]}/>}<StickerCanvas api={request} owner={owner}><div style={{height:400}}/></StickerCanvas></div></>;
 }
 createRoot(document.getElementById('root')).render(<Fixture/>);
