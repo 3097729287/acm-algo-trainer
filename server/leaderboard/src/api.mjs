@@ -11,7 +11,7 @@ import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 import {trainingListLikes} from './training-list-likes.mjs';
 import {adminAccounts} from './admin-accounts.mjs';
 
-const VERSION = '1.4.3';
+const VERSION = '1.4.4';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;

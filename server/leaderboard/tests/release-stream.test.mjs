@@ -16,10 +16,10 @@ test('release forwarding changes only the missing-asset route and preserves the 
  assert.notEqual(previous,current);assert.equal(releaseStreamProxy(previous),current);assert.equal(releaseStreamProxy(current),current);
  assert.throws(()=>releaseStreamProxy(previous+previous));assert.throws(()=>releaseStreamProxy(previous.replace('header @assets','header @other')));
 });
-async function fixture(fetcher,overrides={}){
+async function fixture(fetcher,overrides={},streamOptions={}){
  const directory=resolve('../../.backups/cleanup-startup/release-stream-tests',randomUUID());await mkdir(directory,{recursive:true});
  const file=directory+'/index.json';await writeFile(file,JSON.stringify({schema:1,assets:[{version:'1.5.2',name,size:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex'),...overrides}]}));
- const stream=createReleaseStream(file,{fetcher}),server=createServer((request,response)=>stream(request,response));server.listen(0,'127.0.0.1');await once(server,'listening');
+ const stream=createReleaseStream(file,{...streamOptions,fetcher}),server=createServer((request,response)=>stream(request,response));server.listen(0,'127.0.0.1');await once(server,'listening');
  return {url:'http://127.0.0.1:'+server.address().port+'/assets/1.5.2/',async close(){server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}};
 }
 const response=data=>new Response(data,{headers:{'content-length':String(data.length)}});
@@ -48,5 +48,19 @@ test('a bounded number of slow streams leave the account service with backpressu
   for(const controller of producers){controller.enqueue(bytes.subarray(1));controller.close();}
   assert.deepEqual(Buffer.from(await a.arrayBuffer()),bytes);assert.deepEqual(Buffer.from(await b.arrayBuffer()),bytes);
   const c=await fetch(f.url+name);assert.equal(c.status,200);await c.body.cancel();
+ }finally{await f.close();}
+});
+
+
+test('a stalled upstream expires and releases its slot for a later verified download',async()=>{
+ let attempts=0,expired;
+ const f=await fixture(async(url,{signal})=>{
+  if(++attempts>1)return response(bytes);
+  expired=signal;
+  return new Promise((resolve,reject)=>signal.addEventListener('abort',()=>reject(signal.reason),{once:true}));
+ },{},{maximumActive:1,transferTimeoutMs:30});
+ try{
+  assert.equal((await fetch(f.url+name)).status,503);assert(expired.aborted);
+  const next=await fetch(f.url+name);assert.equal(next.status,200);assert.deepEqual(Buffer.from(await next.arrayBuffer()),bytes);
  }finally{await f.close();}
 });

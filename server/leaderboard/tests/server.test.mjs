@@ -50,7 +50,7 @@ test('health reflects database availability', async () => {
     const ready = await fetch(f.endpoint + '/v1/health');
     assert.equal(ready.status, 200);
     const health = await ready.json();
-    assert.equal(health.version, '1.4.3');assert.equal(health.originalAvatarProtocol,1);
+    assert.equal(health.version, '1.4.4');assert.equal(health.originalAvatarProtocol,1);
     assert.equal(health.rankingDominanceProtocol,1);
     assert.equal(health.sharedTranslationProtocol,1);
     assert.equal(health.socialProtocol, 1);

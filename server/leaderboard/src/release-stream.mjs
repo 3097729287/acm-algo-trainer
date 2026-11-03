@@ -8,7 +8,8 @@ import {createHash} from 'node:crypto';
 const ROOT='https://github.com/3097729287/acm-algo-trainer/releases/download/';
 const REDIRECT_HOSTS=new Set(['github.com','release-assets.githubusercontent.com','objects.githubusercontent.com','objects.github.com']);
 const filePattern=/^(?:ToBe|TB)-(?:Setup-\d+\.\d+\.\d+-win64\.exe|Update-\d+\.\d+\.\d+-to-\d+\.\d+\.\d+-win64\.zip)$/;
-export function createReleaseStream(indexFile,{fetcher=fetch,maximumActive=2}={}){
+export function createReleaseStream(indexFile,{fetcher=fetch,maximumActive=2,transferTimeoutMs=60*60*1000}={}){
+ if(!Number.isSafeInteger(transferTimeoutMs)||transferTimeoutMs<1||transferTimeoutMs>60*60*1000)throw Error('Invalid transfer timeout');
  let active=0,cached=null,modified=0;
  async function index(){
   const info=await stat(indexFile);if(info.size>1024*1024)throw Error('Asset index too large');
@@ -37,7 +38,7 @@ export function createReleaseStream(indexFile,{fetcher=fetch,maximumActive=2}={}
   const headers={'Content-Type':item.name.endsWith('.zip')?'application/zip':'application/octet-stream','Content-Length':String(item.size),'Content-Disposition':'attachment; filename="'+item.name+'"','Cache-Control':'public, max-age=31536000, immutable','X-Content-SHA256':item.sha256};
   if(request.method==='HEAD'){response.writeHead(200,headers);response.end();return true;}
   if(active>=maximumActive){answer(429,{'Retry-After':'10'});return true;}
-  active++;const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),15*60*1000);timeout.unref();
+  active++;const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),transferTimeoutMs);timeout.unref();
   const cancel=()=>controller.abort();response.once('close',cancel);
   try{
    let upstream,target=item.url;
