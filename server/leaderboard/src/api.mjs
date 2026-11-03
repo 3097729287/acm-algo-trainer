@@ -11,7 +11,7 @@ import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 import {trainingListLikes} from './training-list-likes.mjs';
 import {adminAccounts} from './admin-accounts.mjs';
 
-const VERSION = '1.4.1';
+const VERSION = '1.4.2';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -99,9 +99,9 @@ async function leaderboard(user, env, period, now) {
   if (!['daily', 'weekly', 'total'].includes(period)) throw new ApiError(400, '排行周期无效');
   const range = bounds(period, now);
   const { rows, own } = await env.STORE.rankings(user.user_id, period === 'total' ? null : range, range.day);
-  const entries=rows.map(rankingRow), self=user.is_admin ? null : own ? rankingRow(own) : { ...rankingRow(user),rank:null,count:0 };
+  const entries=rows.map(rankingRow), self=user.login_id==='admin' ? null : own ? rankingRow(own) : { ...rankingRow(user),rank:null,count:0 };
   const visible=[...entries,...(self?[self]:[])];
-  const socialAvailable=!user.is_admin&&await rankingSocial(env.STORE,user.user_id,visible,period,now);
+  const socialAvailable=user.login_id!=='admin'&&await rankingSocial(env.STORE,user.user_id,visible,period,now);
   const dominanceAvailable=Boolean(env.STORE.dominance&&await env.STORE.dominance.available());
   const leaders=visible.filter(item=>item.rank===1&&item.count>0);
   const streaks=dominanceAvailable?await env.STORE.dominance.summary(leaders.map(item=>item.userId),period,range.day):new Map();
@@ -133,7 +133,7 @@ export async function handle(request, env) {
     const timestamp = new Date(now).toISOString();
     if (path === '/v1/health' && request.method === 'GET') {
       await env.STORE.health();
-      return json({ ok: true, version: VERSION, eventScope: 'official', gameplayProtocol:env.STORE.gameplay&&await env.STORE.gameplay.available()?1:0, rankingDominanceProtocol:env.STORE.dominance&&await env.STORE.dominance.available()?1:0, sharedTranslationProtocol:env.STORE.translations&&await env.STORE.translations.available()?1:0, accountStateProtocol: 1, accountChunkProtocol:env.STORE.chunks&&await env.STORE.chunks.available()?2:0, adminAccountProtocol:env.STORE.accountAdmin&&await env.STORE.accountAdmin.available()?1:0, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
+      return json({ ok: true, version: VERSION, eventScope: 'official', gameplayProtocol:env.STORE.gameplay&&await env.STORE.gameplay.available()?1:0, rankingDominanceProtocol:env.STORE.dominance&&await env.STORE.dominance.available()?1:0, sharedTranslationProtocol:env.STORE.translations&&await env.STORE.translations.available()?1:0, accountStateProtocol: 1, accountChunkProtocol:env.STORE.chunks&&await env.STORE.chunks.available()?2:0, adminAccountProtocol:env.STORE.accountAdmin&&await env.STORE.accountAdmin.available()?1:0, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, originalAvatarProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
     }
     if (path === '/v1/profile/register') throw new ApiError(410, '请升级 TB 并注册账号后登录');
     if (['/v1/accounts/register', '/v1/accounts/login'].includes(path) && request.method === 'POST') {
@@ -198,7 +198,7 @@ export async function handle(request, env) {
         const sticker=/^\/v1\/stickers\/(grant|place|recycle)$/.exec(path);
         const reward=/^\/v1\/stickers\/(levels|achievement|open-box)$/.exec(path);
         const duel=/^\/v1\/duels\/(join|cancel|poll|dismiss|ready|decline)$/.exec(path);
-        if(sticker){const value=await body(request,['requestId','unitId','revision','x','y','angle','scale','day','taskId','xp','minDifficulty','rewardSlot'],4096);return json(await game.stickerWrite(owner,auth,sticker[1],value,now));}
+        if(sticker){const value=await body(request,['requestId','unitId','revision','x','y','angle','scale','day','taskId','xp','minDifficulty','rewardSlot'],4096);const result=await game.stickerWrite(owner,auth,sticker[1],value,now);return json(['place','recycle'].includes(sticker[1])?{...result,inventory:{...await game.stickers(owner),giftStats:await env.STORE.social.giftStats(owner)}}:result);}
         if(reward){
           const fields={levels:['requestId','level'],achievement:['requestId','achievementId'],'open-box':['requestId','boxId']};
           const value=await body(request,fields[reward[1]],2048),result=await game.rewardWrite(owner,auth,reward[1],value,now);
@@ -286,7 +286,7 @@ export async function handle(request, env) {
       return json({ account: publicAccount(user), token: issued.token, expiresAt: issued.expiresAt });
     }
     if (env.READ_ONLY !== '1') await env.STORE.settleRewards(now);
-    if (path === '/v1/profile' && request.method === 'GET') return json({ ...publicAccount(user), publicId: publicId(user.user_id), publicProgressProtocol: 1, publicAppearanceProtocol: 1,
+    if (path === '/v1/profile' && request.method === 'GET') return json({ ...publicAccount(user), publicId: publicId(user.user_id), publicProgressProtocol: 1, publicAppearanceProtocol: 1, originalAvatarProtocol: 1,
       publicProgress: await env.STORE.publicProgress(user.user_id) });
     if(path==='/v1/translations') {
       if(!env.STORE.translations)throw new ApiError(503,'共享译文正在准备');
@@ -314,7 +314,7 @@ export async function handle(request, env) {
         value.period === 'total' ? null : bounds(value.period, now), timestamp));
     }
     if (path === '/v1/profile' && request.method === 'PUT') {
-      const value = await body(request, ['nickname', 'publicProgress', 'avatarData']);
+      const value = await body(request, ['nickname', 'publicProgress', 'avatarData'], 16065568);
       if (!Object.keys(value).length) throw new ApiError(400, '缺少要更新的资料');
       const name = Object.hasOwn(value, 'nickname') ? nickname(value.nickname) : null;
       const progress = Object.hasOwn(value, 'publicProgress') ? validatePublicProgress(value.publicProgress) : null;

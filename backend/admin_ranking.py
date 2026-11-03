@@ -42,8 +42,9 @@ class AdminRanking:
         if session:headers.update({'X-TB-User':session['account']['userId'],'Authorization':'Bearer '+session['token']})
         request=Request(self.endpoint+path,data=json.dumps(body).encode() if body is not None else None,headers=headers,method=method)
         try:
-            with self.opener.open(request,timeout=8) as response:raw=response.read(262145)
-            if len(raw)>262144:raise ValueError()
+            maximum=16_065_568 if method=='GET' and path.startswith('/v1/avatars/') else 262144
+            with self.opener.open(request,timeout=8) as response:raw=response.read(maximum+1)
+            if len(raw)>maximum:raise ValueError()
             value=json.loads(raw)
             if not isinstance(value,dict):raise ValueError()
             return value
@@ -126,6 +127,8 @@ class AdminRanking:
             if digest==expected_hash:
                 if len(self.avatar_cache)>=100:self.avatar_cache.pop(next(iter(self.avatar_cache)))
                 self.avatar_cache[key]=result
+                while sum(len(item['avatarData']) for item in self.avatar_cache.values())>32*1024*1024:
+                    self.avatar_cache.pop(next(iter(self.avatar_cache)))
             return dict(result)
 
     def delete(self,body):

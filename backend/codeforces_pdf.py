@@ -1,15 +1,63 @@
-"""Read an actual Gym statement attachment, using its real roster and PDF labels.
-
-Never infer QOJ IDs or contest letters. A PDF title/cover must independently
-agree with the native Gym roster before any pages are associated with a task.
-"""
+"""Original Gym booklets, including Chinese PDFs beside an English HTML body."""
 import base64
+import copy
+from contextlib import closing
 import hashlib
 import io
 import re
 import unicodedata
 from urllib.parse import urljoin, urlsplit
-from statement_format import Tree, classes, plain
+from statement_format import Tree, plain
+
+CHECK_VERSION = 1
+HEADING = re.compile(r'(?im)^[ \t]*(?:(Problem|题目|试题)[ \t]*)?([A-Z][0-9]?)[ \t]*[.：:][ \t]*([^\r\n]+)')
+
+
+def gym_identity(url):
+    parts = urlsplit(url or '')
+    try:
+        match = re.fullmatch(r'/gym/(\d+)/problem/([A-Z][0-9]?)/?', parts.path)
+        if (parts.scheme == 'https' and parts.hostname == 'codeforces.com'
+                and not parts.username and not parts.password and parts.port in (None, 443)
+                and not parts.query and not parts.fragment and match):
+            return match.groups()
+    except ValueError:
+        pass
+    raise ValueError('Codeforces Gym 原题链接无效')
+
+
+def needs_localized_pdf(value):
+    """An old readable cache can be enriched without replacing its original text."""
+    try:
+        gym_identity(value.get('url'))
+    except ValueError:
+        return False
+    return bool(value.get('statementAvailable') and not value.get('translation')
+                and not str(value.get('statementLanguage') or '').startswith('zh')
+                and (value.get('sitePdfCheckVersion') or 0) < CHECK_VERSION)
+
+
+def candidates(page, url, *, chinese_only=False):
+    cid, _ = gym_identity(url)
+    result = set()
+    for link in Tree(page).root.find(lambda n: n.tag == 'a'):
+        text = plain(link).strip()
+        href = urljoin(url, link.attrs.get('href', ''))
+        parts = urlsplit(href)
+        try:
+            valid = (parts.scheme == 'https' and parts.hostname == 'codeforces.com'
+                and not parts.username and not parts.password and parts.port in (None, 443)
+                and not parts.query and not parts.fragment
+                and re.search(r'^Statements?\b', text, re.I)
+                and re.fullmatch(r'/gym/' + cid + r'/attachments/download/\d+/[^/]+\.pdf', parts.path, re.I))
+        except ValueError:
+            valid = False
+        if not valid:
+            continue
+        zh = bool(re.search(r'\((?:zh(?:[-_]cn)?|chinese|中文)\)', text, re.I))
+        if not chinese_only or zh:
+            result.add((0 if zh else 1 if re.search(r'\(en\)', text, re.I) else 2, href))
+    return sorted(result)
 
 
 def normalized(text):
@@ -31,74 +79,195 @@ def roster(page, contest_id):
     return result
 
 
-def selected_pages(reader, letter, title):
-    texts = [page.extract_text() or '' for page in reader.pages]
+def _starts(texts):
     starts = []
     for index, text in enumerate(texts):
-        match = re.search(r'(?im)^\s*(?:Problem|题目)\s+([A-Z][0-9]?)(?:[ \t]*[.：:][ \t]*|[ \t]*\n)([^\n]*)', text[:1800])
-        if match:
-            starts.append((index, match[1], match[2]))
+        matches = [m for m in HEADING.finditer(text[:1800])
+                   if m[1] or text[:m.start()].count('\n') < 6]
+        # A contents page listing multiple tasks is not the first problem page.
+        if len(matches) != 1:
+            continue
+        match = matches[0]
+        if starts and starts[-1][1:] == (match[2], match[3].strip()):
+            continue  # Repeated running headings on continuation pages.
+        starts.append((index, match[2], match[3].strip()))
+    return starts
+
+
+def _cover(texts, starts):
+    result = {}
+    headings = {label: title for _, label, title in starts}
+    for text in texts[:starts[0][0]] if starts else []:
+        for line in text.splitlines():
+            match = re.fullmatch(r'\s*([A-Z][0-9]?)(?:[ \t]*[.：:][ \t]*|[ \t]+)(.+?)\s*', line)
+            if match:
+                title = match[2]
+                # A printed contents page may append a physical page number.
+                # Strip it only when the remainder agrees with the full title
+                # independently extracted from that problem's actual heading.
+                without_page = re.sub(r'[ \t.·…]+\d+[ \t]*$', '', title)
+                if normalized(without_page) == normalized(headings.get(match[1], '')):
+                    title = without_page
+                if match[1] in result and normalized(result[match[1]]) != normalized(title):
+                    raise ValueError('原版 PDF 目录题名有歧义')
+                result[match[1]] = title
+    return result
+
+
+def selected_pages(reader, letter, title, *, texts=None, tasks=None, bilingual=False):
+    texts = texts if texts is not None else [page.extract_text() or '' for page in reader.pages]
+    starts = _starts(texts)
     found = [(pos, start, header) for pos,(start, label, header) in enumerate(starts) if label == letter]
     if len(found) != 1:
         raise ValueError('原版 PDF 未提供唯一、明确的题号分页')
     pos, start, header = found[0]
     end = starts[pos+1][0] if pos+1 < len(starts) else len(reader.pages)
-    # Some embedded CJK heading fonts have a broken ToUnicode map. In that case
-    # the independently extracted cover table must still match letter AND title.
     title_key = normalized(title)
-    cover = '\n'.join(texts[:min(start,3)])
-    cover_match = any(re.match(r'^\s*'+re.escape(letter)+r'\s+', line)
-                      and title_key in normalized(line) for line in cover.splitlines())
-    if title_key != normalized(header) and not cover_match:
-        raise ValueError('原版 PDF 题名与原站题单未能双侧核对')
+    cover = _cover(texts, starts)
+    if title_key != normalized(header) and title_key != normalized(cover.get(letter, '')):
+        # A native Chinese booklet and its English Gym roster have different
+        # titles. Require the complete label inventory and every PDF heading to
+        # agree with the independently printed cover, not just a guessed letter.
+        if not (bilingual and tasks and list(tasks) == [label for _, label, _ in starts]
+                and set(cover) == set(tasks)
+                and all(normalized(cover[label]) == normalized(name) for _, label, name in starts)
+                and re.search(r'[\u3400-\u9fff]', header)):
+            raise ValueError('原版 PDF 题名与原站题单未能双侧核对')
     return list(range(start,end)), texts
 
 
-def statement(client, identity, title, url, page):
+def _read(client, identity, url, source, tasks, roster_page, *, chinese=False, expected_samples=None):
     from pypdf import PdfReader, PdfWriter
-    from qoj import pdf_statement
+    import pypdfium2 as pdfium
+    from qoj import PDF_LOCK, pdf_statement
     from statement_resources import inspect_resource
-    match = re.fullmatch(r'/gym/(\d+)/problem/([A-Z][0-9]?)', urlsplit(url).path)
-    if not match:
-        raise ValueError('原站未返回完整公开题面')
-    cid, letter = match.groups()
-    candidates = []
-    for link in Tree(page).root.find(lambda n:n.tag=='a'):
-        text = plain(link).strip(); href = urljoin(url,link.attrs.get('href',''))
-        parts=urlsplit(href)
-        if parts.scheme=='https' and parts.hostname=='codeforces.com' and not parts.username and not parts.password and re.search(r'^Statements?\b',text,re.I) and re.fullmatch(
-            r'/gym/'+cid+r'/attachments/download/\d+/[^/]+\.pdf',urlsplit(href).path):
-            candidates.append((0 if re.search(r'\(en\)',text,re.I) else 1,href))
-    if not candidates:
-        raise ValueError('原站未返回完整公开题面')
-    roster_url = 'https://codeforces.com/gym/'+cid
-    roster_page = client.text(roster_url)
-    tasks = roster(roster_page,cid)
+    cid, letter = gym_identity(url)
+    data = client.bytes(source)
+    entry = inspect_resource(data, source, 'attachment')
+    reader = PdfReader(io.BytesIO(data))
+    if entry.get('mime') != 'application/pdf' or reader.is_encrypted or not 0 < len(reader.pages) <= 256:
+        raise ValueError('原站未返回有效题面 PDF')
+    # PDFium correctly resolves the overprinted CJK bold glyphs in SUA booklets;
+    # pypdf's plain text extraction repeats each such character three times.
+    texts = [];dimensions = []
+    with PDF_LOCK, closing(pdfium.PdfDocument(data)) as document:
+        for page in document:
+            dimensions.append(page.get_size())
+            with closing(page.get_textpage()) as textpage:
+                texts.append(textpage.get_text_range())
+            page.close()
+    starts = _starts(texts)
+    first_line = next((line.strip() for line in texts[0].splitlines() if line.strip()), '')
+    standalone = source == url and not starts and normalized(first_line) == normalized(tasks[letter]['title'])
+    if standalone:
+        indices = list(range(len(reader.pages)));header = first_line
+    else:
+        indices, _ = selected_pages(reader, letter, tasks[letter]['title'], texts=texts, tasks=tasks, bilingual=chinese)
+        header = next(name for start, label, name in starts if label == letter)
+    writer = PdfWriter()
+    for index in indices:
+        writer.add_page(reader.pages[index])
+    output = io.BytesIO()
+    writer.write(output)
+    display = output.getvalue()
+    value = pdf_statement(display, cid + '-' + letter, render_pages=False)
+    def sample_pairs(samples):
+        def normalize(text):
+            return '\n'.join(line.rstrip(' \t') for line in text.replace('\r\n', '\n').replace('\r', '\n').strip('\n').split('\n'))
+        return [(normalize(s['input']), normalize(s['output'])) for s in samples]
+    if expected_samples and sample_pairs(value['samples']) != sample_pairs(expected_samples):
+        raise ValueError('中文 PDF 的样例未能与原站 HTML 完整核对')
+    roster_url = 'https://codeforces.com/gym/' + cid
+    value.update(id=identity, title=tasks[letter]['title'], url=url, limits=tasks[letter]['limits'],
+        sourcePdfUrl=source, sourcePdfSha256=entry['sha256'], sourcePageNumbers=[i+1 for i in indices],
+        sourceRosterUrl=roster_url, sourceRosterSha256=hashlib.sha256(roster_page.encode()).hexdigest(),
+        sourceBinding={'kind': 'native-problem-pdf-title' if standalone else 'official-bilingual-roster' if normalized(header) != normalized(tasks[letter]['title']) else 'exact-title',
+                       'problem': letter, 'pdfTitle': header, 'rosterTitle': tasks[letter]['title'],
+                       'samplePairsVerified': len(expected_samples or [])},
+        statementAvailable=True, statementVersion=8, statementSource='Codeforces 原站 PDF',
+        attachments={source: dict(entry, fileName=f'gym-{cid}.pdf', data='data:application/pdf;base64,'+base64.b64encode(data).decode('ascii'))})
+    value['statementPdf'] = {'sourceUrl':source, 'sha256':hashlib.sha256(display).hexdigest(),
+        'data':'data:application/pdf;base64,'+base64.b64encode(display).decode('ascii'),
+        'pageCount':len(indices), 'sourcePageNumbers':[i+1 for i in indices],
+        'widthPoints':dimensions[indices[0]][0],
+        'sourceSha256':entry['sha256'], 'fileName':f'gym-{cid}-{letter}.pdf'}
+    value['markdown'] = '# ' + header + '\n\n' + value['sourceText'] + '\n\n[PDF](' + source + ')'
+    if chinese or len(re.findall(r'[\u3400-\u9fff]', value['sourceText'])) > 20:
+        value['statementLanguage'] = 'zh-CN'
+    from statement_integrity import annotate_type
+    return annotate_type(value)
+
+
+def _roster(client, url):
+    cid, letter = gym_identity(url)
+    page = client.text('https://codeforces.com/gym/' + cid)
+    tasks = roster(page, cid)
     if letter not in tasks:
         raise ValueError('原站题单未确认该题身份与资源限制')
+    return tasks, page
+
+
+def statement(client, identity, title, url, page):
+    from pypdf.errors import PdfReadError
+    if page.startswith('%PDF-'):
+        # Some Gym problem URLs return a single-problem PDF directly. Keep its
+        # exact original, then discover the contest's Chinese booklet as usual.
+        tasks, roster_page = _roster(client, url)
+        value = _read(client, identity, url, url, tasks, roster_page)
+        return localized(client, value, roster_page)
+    sources = candidates(page, url)
+    if not sources:
+        raise ValueError('原站未返回完整公开题面')
+    tasks, roster_page = _roster(client, url)
     failures = []
-    for _,source in sorted(set(candidates)):
+    for rank, source in sources:
         try:
-            data=client.bytes(source);reader=PdfReader(io.BytesIO(data))
-            indices,_=selected_pages(reader,letter,tasks[letter]['title'])
-            writer=PdfWriter()
-            for index in indices:writer.add_page(reader.pages[index])
-            output=io.BytesIO();writer.write(output)
-            value=pdf_statement(output.getvalue(),cid+'-'+letter,render_pages=False)
-            entry=inspect_resource(data,source,'attachment')
-            value.update(id=identity,title=tasks[letter]['title'],url=url,limits=tasks[letter]['limits'],
-                sourcePdfUrl=source,sourcePdfSha256=entry['sha256'],sourcePageNumbers=[i+1 for i in indices],
-                sourceRosterUrl=roster_url,sourceRosterSha256=hashlib.sha256(roster_page.encode()).hexdigest(),
-                statementAvailable=True,statementVersion=7,statementSource='Codeforces 原站 PDF',
-                attachments={source:dict(entry,fileName=f'gym-{cid}.pdf',data='data:application/pdf;base64,'+base64.b64encode(data).decode('ascii'))})
-            display=output.getvalue()
-            value['statementPdf']={'sourceUrl':source,'sha256':hashlib.sha256(display).hexdigest(),
-                'data':'data:application/pdf;base64,'+base64.b64encode(display).decode('ascii'),
-                'pageCount':len(indices),'sourcePageNumbers':[i+1 for i in indices],
-                'sourceSha256':entry['sha256'],'fileName':f'gym-{cid}-{letter}.pdf'}
-            value['markdown']='# '+value['title']+'\n\n'+value['markdown']+'\n\n[PDF]('+source+')'
-            from statement_integrity import annotate_type
-            return annotate_type(value)
-        except (OSError,ValueError,RuntimeError) as error:
+            return _read(client, identity, url, source, tasks, roster_page, chinese=rank == 0)
+        except (OSError, ValueError, RuntimeError, PdfReadError) as error:
             failures.append(str(error))
-    raise ValueError('; '.join(failures))
+    raise ValueError('; '.join(failures)[:1000])
+
+
+def localized(client, original, page=None):
+    """Add verified native Chinese pages; never replace cached prose or samples."""
+    from pypdf.errors import PdfReadError
+    value = copy.deepcopy(original)
+    if value.get('translation') or str(value.get('statementLanguage') or '').startswith('zh'):
+        return value
+    url = value['url']
+    gym_identity(url)
+    page = page if page is not None else client.text(url)
+    tasks = roster_page = None
+    if page.startswith('%PDF-'):
+        tasks, roster_page = _roster(client, url)
+        page = roster_page
+    sources = candidates(page, url, chinese_only=True)
+    value.update(sitePdfCheckVersion=CHECK_VERSION, sitePdfStatus='not-provided')
+    if not sources:
+        return value
+    try:
+        if tasks is None:tasks, roster_page = _roster(client, url)
+    except (OSError, ValueError, RuntimeError) as error:
+        value.update(sitePdfStatus='unavailable', sitePdfError=str(error)[:250])
+        return value
+    failures = []
+    for _, source in sources:
+        try:
+            pdf = _read(client, value['id'], url, source, tasks, roster_page,
+                        chinese=True, expected_samples=value.get('samples'))
+            translation = {key: pdf[key] for key in ('markdown', 'sourceText', 'statementPdf', 'sourcePdfUrl',
+                'sourcePdfSha256', 'sourcePageNumbers', 'sourceRosterUrl', 'sourceRosterSha256', 'sourceBinding')}
+            translation.update(kind='site', targetLanguage='zh-CN', sourceLanguage='en',
+                               provider='Codeforces 原站中文 PDF', sourceUrl=source)
+            value['translation'] = translation
+            value['attachments'] = dict(value.get('attachments') or {}, **pdf['attachments'])
+            value['resourceManifest'] = dict(value.get('resourceManifest') or {}, **{
+                key: {k: v for k, v in item.items() if k not in ('data', 'fileName')}
+                for key, item in pdf['attachments'].items()})
+            value['sitePdfStatus'] = 'verified'
+            value.pop('sitePdfError', None)
+            return value
+        except (OSError, ValueError, RuntimeError, PdfReadError) as error:
+            failures.append(str(error))
+    value.update(sitePdfStatus='unavailable', sitePdfError='; '.join(failures)[:250])
+    return value

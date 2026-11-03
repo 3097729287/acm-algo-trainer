@@ -8,7 +8,7 @@ from training import ServiceError, iso
 
 ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'pageOpacities', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
                      'readerWidth', 'fontSize', 'difficultyDisplay', 'learnedLectures', 'libraryPageSize', 'navOrder', 'navLabels', 'navGroups', 'hiddenNavPages', 'onboardingUnlockedPages', 'levelNoticeVersion', 'levelNoticeSeen', 'levelNoticePending', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'onboardingGuideVersion', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts', 'editorTheme', 'trainingListLocation'))
-AVATAR_DATA_MAX_BYTES = 48 * 1024
+AVATAR_DATA_MAX_BYTES = 16_000_023
 
 
 def validate_avatar(value):
@@ -16,7 +16,7 @@ def validate_avatar(value):
     if value == '':
         return  # Clear avatar; retain the account's default initials.
     if not isinstance(value, str) or len(value) > AVATAR_DATA_MAX_BYTES:
-        raise ServiceError(400, '头像须为不超过 48 KB 的 PNG、JPEG 或 WebP 图片')
+        raise ServiceError(400, '头像须为不超过 12 MB 的 PNG、JPEG 或 WebP 图片')
     match = re.fullmatch(r'data:image/(png|jpeg|webp);base64,([A-Za-z0-9+/]+={0,2})', value)
     if not match:
         raise ServiceError(400, '头像图片格式无效')
@@ -24,6 +24,8 @@ def validate_avatar(value):
         data = base64.b64decode(match[2], validate=True)
     except (ValueError, binascii.Error):
         raise ServiceError(400, '头像图片编码无效') from None
+    if len(data) > 12_000_000:
+        raise ServiceError(400, '头像须为不超过 12 MB 的 PNG、JPEG 或 WebP 图片')
     kind = match[1]
     signatures = {'png': len(data) >= 24 and data.startswith(b'\x89PNG\r\n\x1a\n') and data[12:16] == b'IHDR',
                   'jpeg': len(data) >= 4 and data.startswith(b'\xff\xd8\xff') and data.endswith(b'\xff\xd9'),
@@ -141,7 +143,7 @@ def save_preferences(training, body):
                 or len(browser['tabs'])>64 or len(json.dumps(browser,ensure_ascii=False).encode('utf-8'))>24*1024*1024):
             raise ServiceError(400,'学习标签页状态过大或格式无效')
         without_browser={**value,'learningPaths':{key:item for key,item in value['learningPaths'].items() if key!='browserV1'}}
-    if len(json.dumps(without_browser,ensure_ascii=False).encode('utf-8')) > 128 * 1024:
+    if len(json.dumps({key:item for key,item in without_browser.items() if key!='avatarData'},ensure_ascii=False).encode('utf-8')) > 128 * 1024:
         raise ServiceError(400, '偏好设置过大，请减少收藏或保存的筛选')
     for name in ('favorites', 'seenAchievements', 'navOrder', 'views'):
         if name in value and not isinstance(value[name], list):

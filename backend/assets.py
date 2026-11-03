@@ -88,6 +88,21 @@ class AssetLibrary:
     def _fetch_statement(self,identity,value):
         # Never hold the shared asset lock while waiting for the original site.
         # A blocked CF page must not block cached statements or other platforms.
+        from codeforces_pdf import needs_localized_pdf,localized
+        if needs_localized_pdf(value):
+            from integrations import PublicClient
+            with self.lock:
+                if self._closed:return {'statementError':'题面服务已关闭'}
+                if self._public_client is None:self._public_client=PublicClient(self.cache_dir,stop=self._fetch_stop)
+                client=self._public_client
+            # The cache, rather than the API projection, owns the original body,
+            # audit timestamp, translations and samples. Only add PDF evidence.
+            original=self._cached(identity)
+            saved=localized(client,original)
+            self.store.library.save_statement(identity,saved)
+            with self.lock:
+                self._cached.cache_clear();self.bundle.cache_clear()
+            return saved
         if identity.startswith('remote:') and not self.store.library.find(identity):
             fetched=self.store.extensions.statement(identity,fetch=True,refresh=bool(value.get('statementAvailable')))
             with self.lock:

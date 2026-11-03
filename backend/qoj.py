@@ -91,7 +91,13 @@ def _pdf_samples(textpage,horizontal,vertical):
                [line for line in borders if left_header[2]<line[0]<right_header[0]],
                [line for line in borders if line[0]>right_header[2]])
         if not a or not b or not c:continue
-        left=max(a,key=lambda v:v[0]);middle=max(b,key=lambda v:v[0]);right=min(c,key=lambda v:v[0])
+        def border(lines, nearest):
+            axis=nearest(lines,key=lambda v:v[0])[0]
+            # A double vertical rule can have one full body stroke and a second
+            # short header stroke 0.4pt away. Read below the header using the
+            # continuous stroke, rather than treating the header as the table.
+            return min((line for line in lines if abs(line[0]-axis)<.8),key=lambda v:v[1])
+        left=border(a,max);middle=border(b,max);right=border(c,min)
         bottom=max(left[1],middle[1],right[1])
         separators=sorted({round(h[2],2) for h in horizontal if h[0]<=left[0]+2 and h[1]>=right[0]-2 and bottom-.5<=h[2]<left_header[1]},reverse=True)
         if len(separators)<2:continue
@@ -131,13 +137,74 @@ def _pdf_unbordered_samples(textpage,width):
         result.append({'name':'样例 '+str(len(result)+1),'input':a,'output':b})
     return result
 
+def _pdf_chinese_code_samples(reader,document):
+    """Chinese numbered examples, including input/output split across pages.
+
+    Only explicitly labelled, monospaced code is read. A line-number gutter is
+    excluded only when its smaller font, separate position and consecutive
+    numbering independently distinguish it from the actual sample integers.
+    """
+    blocks={};current=None
+    heading=re.compile(r'【\s*(?:样例\s*(\d+)\s*(输入|输出|解释)|题目描述|输入格式|输出格式)\s*】')
+    for index,page in enumerate(document):
+        with closing(page.get_textpage()) as textpage:
+            events=[]
+            for match in heading.finditer(textpage.get_text_range()):
+                with closing(textpage.search(match[0])) as search:
+                    found=search.get_next()
+                if found is None:return []
+                boxes=[textpage.get_charbox(i) for i in range(found[0],sum(found))]
+                events.append((max(box[3] for box in boxes),0,match.groups()))
+            spans=[]
+            def visit(text,cm,tm,font,size):
+                name=str((font or {}).get('/BaseFont',''))
+                if not text.strip() or not re.search(r'Consolas|Courier|Mono|Typewriter|CMTT',name,re.I):return
+                if abs(cm[1])+abs(cm[2])+abs(tm[1])+abs(tm[2])>.01:return
+                x=cm[0]*tm[4]+cm[4];y=cm[3]*tm[5]+cm[5]
+                spans.append((x,y,text,float(size)*abs(cm[3])))
+            reader.pages[index].extract_text(visitor_text=visit)
+            lines=[]
+            for span in sorted(spans,key=lambda s:(-s[1],s[0])):
+                if lines and abs(lines[-1][0][1]-span[1])<.8:lines[-1].append(span)
+                else:lines.append([span])
+            events.extend((line[0][1],1,line) for line in lines)
+            for y,kind,item in sorted(events,key=lambda e:(-e[0],e[1])):
+                if kind==0:
+                    number,field=item
+                    current=(number,'input' if field=='输入' else 'output') if number and field in ('输入','输出') else None
+                    if current:blocks.setdefault(number,{}).setdefault(current[1],[])
+                    continue
+                if current is None:continue
+                line=sorted(item,key=lambda s:s[0]);first=line[0];gutter=None
+                if (len(line)>1 and re.fullmatch(r'\d+',first[2].strip())
+                        and all(span[3]>first[3]+1 for span in line[1:])
+                        and line[1][0]>first[0]+first[3]*.5*len(first[2].strip())+2):
+                    gutter=int(first[2].strip());line=line[1:]
+                left=min(span[0] for span in line);size=max(span[3] for span in line)
+                text=textpage.get_text_bounded(left-.5,y-3,page.get_width(),y+size+1)
+                text=text.replace('\r\n','\n').strip('\n').rstrip(' \t')
+                if not text or '\ufffd' in text or '\n' in text:return []
+                blocks[current[0]][current[1]].append((text,gutter))
+        page.close()
+    result=[]
+    for fields in blocks.values():
+        if 'input' not in fields or not fields.get('output'):return []
+        sample={}
+        for field,lines in fields.items():
+            gutters=[number for _,number in lines]
+            if any(number is not None for number in gutters) and gutters!=list(range(1,len(lines)+1)):return []
+            sample[field]='\n'.join(text for text,_ in lines)
+        result.append(dict(sample,name='样例 '+str(len(result)+1)))
+    return result
+
+
 def pdf_statement(data,pid,*,render_pages=True):
     if not isinstance(data,bytes) or not data.startswith(b'%PDF-') or len(data)>32*1024*1024:raise ValueError('QOJ 未返回有效公开 PDF')
     import pypdfium2 as pdfium
     from pypdf import PdfReader
     reader=PdfReader(io.BytesIO(data))
     if reader.is_encrypted or not 0<len(reader.pages)<=32:raise ValueError('QOJ PDF 页数或加密格式不支持')
-    images={};body=[];samples=[];texts=[];pixels=0;size=0
+    images={};body=[];samples=[];texts=[];pixels=0;size=0;extraction='unavailable'
     with PDF_LOCK,closing(pdfium.PdfDocument(data)) as document:
         for index,page in enumerate(document):
             width,height=page.get_size();pixels+=int(width*height*4)
@@ -154,9 +221,13 @@ def pdf_statement(data,pid,*,render_pages=True):
                 name=f'qoj-{pid}-{hashlib.sha256(data).hexdigest()[:12]}-page-{index+1}.png';images[name]='data:image/png;base64,'+base64.b64encode(png).decode('ascii')
                 body.append(f'![原题题面第 {index+1} 页]({name})')
             page.close()
+        if samples:extraction='pdf-table-geometry-v1'
+        else:
+            samples=_pdf_chinese_code_samples(reader,document)
+            if samples:extraction='pdf-code-geometry-v1'
     return {'markdown':'\n\n'.join(body),'images':images,'samples':samples,'pageCount':len(reader.pages),'sourceText':'\n\n'.join(texts),
             'statementFormat':'pdf-pages-v1' if render_pages else 'pdf-native-v1','sourcePdfSha256':hashlib.sha256(data).hexdigest(),
-            'sampleExtraction':'pdf-table-geometry-v1' if samples else 'unavailable'}
+            'sampleExtraction':extraction}
 
 def statement(client,identity,title,url):
     pid=problem_id(url);page=client.text(url);root=Tree(page).root

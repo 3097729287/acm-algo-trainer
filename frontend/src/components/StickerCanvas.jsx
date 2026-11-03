@@ -19,12 +19,14 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
  const surface=useRef(null),strip=useRef(null),drag=useRef(null),alive=useRef(owner),request=useRef(null),saving=useRef(null),revision=useRef(0),latest=useRef(null);
  const [bounds,setBounds]=useState({width:0,height:0});
  const [reaction,reactToSticker]=useStickerReaction(owner),movedUnit=useRef(null);
+ const recycling=useRef(new Map()),recycleRequests=useRef(new Map()),[pendingRecycles,setPendingRecycles]=useState(new Set());
+ const [recycleError,setRecycleError]=useState('');
  useLayoutEffect(()=>{const node=surface.current;if(!node)return;const measure=()=>{const box=node.getBoundingClientRect();setBounds(previous=>previous.width===box.width&&previous.height===box.height?previous:{width:box.width,height:box.height});};measure();const observer=new ResizeObserver(measure);observer.observe(node);return()=>observer.disconnect();},[]);
  const fit=value=>fitStickerPlacement(value,bounds);
  alive.current=owner;
  const accept=useCallback((value,expected)=>{if(alive.current!==expected||value.owner!==expected||latest.current&&value.revision<latest.current.revision)return false;latest.current=value;cacheStickerLayout(value,expected);setState(value);return true;},[]);
  const refresh=useCallback(async()=>{const expected=owner,seq=++revision.current;try{const value=await api('stickers');if(seq===revision.current&&accept(value,expected))setError(value.rewardSyncError||'');}catch(issue){if(alive.current===expected&&seq===revision.current)setError(issue.message);}},[api,owner,accept]);
- useLayoutEffect(()=>{revision.current++;saving.current=null;request.current=null;drag.current=null;latest.current=null;setBusy(false);setError('');setState(readStickerLayout(owner));setDraft(null);setPicker(null);setConfirm(null);setMode(false);setGoalsOpen(false);setBoxesOpen(false);void refresh();},[refresh]);
+ useLayoutEffect(()=>{revision.current++;saving.current=null;request.current=null;drag.current=null;latest.current=null;recycling.current=new Map();recycleRequests.current=new Map();setPendingRecycles(new Set());setRecycleError('');setBusy(false);setError('');setState(readStickerLayout(owner));setDraft(null);setPicker(null);setConfirm(null);setMode(false);setGoalsOpen(false);setBoxesOpen(false);void refresh();},[refresh]);
  useEffect(()=>{const listener=event=>{const value=event.detail?.inventory;if(value){if(accept(value,owner))setError(value.rewardSyncError||'');}else void refresh();};window.addEventListener('tb:sticker-rewards',listener);window.addEventListener('focus',listener);return()=>{window.removeEventListener('tb:sticker-rewards',listener);window.removeEventListener('focus',listener);};},[refresh,accept,owner]);
  const mutate=useCallback(async(kind,unit,position)=>{
   if(saving.current)return;const operation={};saving.current=operation;setBusy(true);setError('');revision.current++;
@@ -35,6 +37,25 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
   catch(issue){if(alive.current===expected&&saving.current===operation){setError(issue.message);if(issue.status===409){request.current=null;drag.current=null;setDraft(null);setConfirm(null);void refresh();}}}
   finally{if(saving.current===operation){saving.current=null;if(alive.current===expected)setBusy(false);}}
  },[api,owner,refresh,accept]);
+ const recycle=useCallback(async unit=>{
+  if(recycling.current.has(unit.id))return;
+  const expected=owner,operation={},pending=recycling.current;
+  pending.set(unit.id,operation);setError('');setRecycleError('');setConfirm(null);
+  setPendingRecycles(new Set(pending.keys()));revision.current++;
+  const signature=unit.id+':'+unit.revision;
+  if(!recycleRequests.current.has(signature))recycleRequests.current.set(signature,crypto.randomUUID());
+  try{
+   const result=await api('stickers/recycle',{unitId:unit.id,revision:unit.revision,requestId:recycleRequests.current.get(signature)});
+   if(alive.current!==expected||recycling.current!==pending)return;
+   if(result?.owner!==expected)throw new Error('贴纸库存响应无效');
+   accept(result,expected);
+   recycleRequests.current.delete(signature);
+  }catch(issue){
+   if(alive.current===expected&&recycling.current===pending){setError(issue.message);setRecycleError(issue.message);if([404,409].includes(issue.status))recycleRequests.current.delete(signature);void refresh();}
+  }finally{
+   if(recycling.current===pending&&pending.get(unit.id)===operation){pending.delete(unit.id);setPendingRecycles(new Set(pending.keys()));}
+  }
+ },[api,owner,accept,refresh]);
  const canScale=Boolean(state?.placementPolicy?.scale);
  const fix=()=>{if(draft){const point=fit(draft);void mutate('place',draft.unit,{x:point.x,y:point.y,angle:point.angle,...(canScale?{scale:point.scale??1}:{})});}};
  useEffect(()=>{
@@ -53,7 +74,7 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
   };window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);
  },[mode,draft,picker,confirm,busy,bounds,canScale]);
  const items=[...(state?.owner===owner?state.catalogue||[]:[])].sort((a,b)=>ORDER[a.rarity]-ORDER[b.rarity]||a.id.localeCompare(b.id));
- const units=state?.owner===owner?state.units||[]:[],placed=units.filter(unit=>unit.placement),art=id=>items.find(item=>item.id===id);
+ const units=state?.owner===owner?(state.units||[]).filter(unit=>!pendingRecycles.has(unit.id)):[],placed=units.filter(unit=>unit.placement),art=id=>items.find(item=>item.id===id);
  const availableItems=items.filter(item=>units.some(unit=>unit.stickerId===item.id&&!unit.placement));
  const pickerWidth=Math.min(384,Math.max(150,availableItems.length*52+64),window.innerWidth-24);
  const pickerStyle=picker?{width:pickerWidth,left:Math.max(8,Math.min(picker.screenX-pickerWidth/2,window.innerWidth-pickerWidth-8)),top:Math.max(8,Math.min(picker.screenY+10,window.innerHeight-100))}:undefined;
@@ -76,8 +97,8 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
   {statistics}
   <div className="sticker-mode-toolbar" role="group" aria-label="成长内容">{<Tooltip text="贴纸宝箱"><button type="button" className="icon-button sticker-box-trigger" aria-label="贴纸宝箱" disabled={busy||Boolean(draft)||!state} onClick={()=>setBoxesOpen(true)}><Gift size={19}/>{Object.values(state?.boxes||{}).some(box=>!box.openedAt)&&<small>{Object.values(state?.boxes||{}).filter(box=>!box.openedAt).length}</small>}</button></Tooltip>}<Tooltip text="目标"><button type="button" className="icon-button" aria-label="目标" aria-expanded={goalsOpen} aria-pressed={goalsOpen} disabled={busy} onClick={()=>{setGoalsOpen(value=>!value);setMode(false);setDraft(null);setPicker(null);setConfirm(null);drag.current=null;request.current=null;}}><Target size={19}/></button></Tooltip><Tooltip text="贴纸"><button type="button" className="icon-button" aria-label="贴纸" aria-pressed={mode} disabled={busy} onClick={()=>{setGoalsOpen(false);setMode(value=>!value);setDraft(null);setPicker(null);setConfirm(null);drag.current=null;request.current=null;void refresh();}}><Sticker size={19}/></button></Tooltip>{error&&<button type="button" className="icon-button" aria-label="刷新贴纸" onClick={refresh}><RefreshCw size={16}/></button>}</div>
   {goalsOpen&&!mode&&goals&&cloneElement(goals,{onClose:()=>setGoalsOpen(false)})}
-  {mode&&error&&<p className="sticker-error connection-error" role="alert">{error}</p>}
+  {(recycleError||mode&&error)&&<p className="sticker-error connection-error" role="alert">{recycleError||error}</p>}
   {boxesOpen&&state?.owner===owner&&<StickerBoxes api={api} state={state} onUpdated={value=>accept(value,owner)} onClose={()=>setBoxesOpen(false)}/>}
-  {confirm&&<PopConfirm anchor={confirm.anchor} label="回收贴纸确认" title="回收贴纸？" confirmLabel="回收" busyLabel="正在回收…" busy={busy} error={error} onCancel={()=>setConfirm(null)} onConfirm={()=>mutate('recycle',confirm.unit)}/>}
+  {confirm&&<PopConfirm anchor={confirm.anchor} label="回收贴纸确认" title="回收贴纸？" confirmLabel="回收" busyLabel="正在回收…" busy={busy} error={error} onCancel={()=>setConfirm(null)} onConfirm={()=>recycle(confirm.unit)}/>}
  </div>;
 }

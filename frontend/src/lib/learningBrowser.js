@@ -149,7 +149,7 @@ const aliasGroups=[['并查集','dsu','union find','union-find','disjoint set'],
 const normalize=value=>String(value||'').normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
 const containsTerm=(text,word)=>/^[\x00-\x7f]+$/.test(word)?new RegExp('(^|[^a-z0-9])'+word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'($|[^a-z0-9])').test(text):text.includes(word);
 function expanded(value){let text=normalize(value);for(const group of aliasGroups)if(group.some(alias=>containsTerm(text,alias)))text+=' '+group.join(' ');return text;}
-const SOURCE_ALIASES={problem:['题目','题库','problem','problems'],solution:['题解','solution','editorial'],wiki:['百科','维基百科','wiki','oi wiki','oi-wiki'],template:['模板','template','templates'],lab:['实验室','实验','lab'],lecture:['从零讲','讲义','lecture']};
+const SOURCE_ALIASES={problem:['题目','题库','problem','problems','题解','solution','editorial'],wiki:['百科','维基百科','wiki','oi wiki','oi-wiki'],template:['模板','template','templates'],lab:['实验室','实验','lab'],lecture:['从零讲','讲义','lecture']};
 function searchScope(query) {
  let text=normalize(query),kinds=null;
  for(const [kind,names] of Object.entries(SOURCE_ALIASES)){
@@ -166,12 +166,12 @@ export function learningSearch(index,query) {
   .sort((a,b)=>a.rank-b.rank||a.at-b.at).map(value=>value.item);
 }
 
-export const LEARNING_FOLDERS=['wiki','template','lab','lecture'];
+export const LEARNING_FOLDERS=['problem','wiki','template','lab','lecture'];
 export function learningDirectory(index,query='',path=[]) {
  const {kinds,text}=searchScope(query),matches=learningSearch(index,query);
- const current=kinds?[kinds[0]]:path;
+ const current=kinds?[kinds[0]]:path[0]==='solution'?['problem',...path.slice(1)]:path;
  if(!current.length){
-  const sources=query.trim()?[...LEARNING_FOLDERS,'problem','solution']:LEARNING_FOLDERS;
+  const sources=LEARNING_FOLDERS;
   return {path:[],entries:sources.filter(kind=>!query.trim()||matches.some(item=>item.kind===kind)).map(kind=>({type:'folder',key:'source:'+kind,kind,title:STUDY_LABELS[kind],path:[kind],count:matches.filter(item=>item.kind===kind).length}))};
  }
  const [kind,...categories]=current,items=matches.filter(item=>item.kind===kind),folders=new Map(),files=[];
@@ -196,7 +196,6 @@ export function buildLearningIndex({rows=[],templates=[],lectures=[],wiki=[],lab
  for(const item of rows){
   const tags=(item.tags||item.knowledge||[]),extra=`${item.platform||''} ${item.contest||item.contestName||''} ${item.code||''} ${Array.isArray(tags)?tags.map(tag=>typeof tag==='string'?tag:tag.name).join(' '):''} ${(item.categories||[]).map(tag=>typeof tag==='string'?tag:tag.name).join(' ')}`;
   add('problem',item,item.title,extra);
-  if(item.hasSolution||item.solution||item.solutionAvailable||item.solutionMethods?.length)add('solution',item,item.title,extra);
  }
  return result;
 }

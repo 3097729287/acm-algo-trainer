@@ -19,7 +19,7 @@ function diskEntries() {
  } catch { return []; }
 }
 function persist(owner,userId,hash,data) {
- if(!validOwner(owner)||!validOwner(userId))return;
+ if(!validOwner(owner)||!validOwner(userId)||data?.length>DISK_CHARS/2)return;
  let entries=diskEntries().filter(item=>item.owner!==owner||item.userId!==userId);
  if(hash&&data)entries.push({owner,userId,hash,data});
  entries=entries.slice(-DISK_LIMIT);
@@ -72,7 +72,7 @@ function load(store,api,userId,hash,key) {
   store.aliases.delete(current);
   if(key!==current)store.aliases.set(key,current);
   store.images.delete(current);store.images.set(current,value.avatarData);
-  while(store.images.size>LIMIT)store.images.delete(store.images.keys().next().value);
+  while(store.images.size>LIMIT||[...store.images.values()].reduce((sum,data)=>sum+data.length,0)>32*1024*1024)store.images.delete(store.images.keys().next().value);
   while(store.aliases.size>LIMIT)store.aliases.delete(store.aliases.keys().next().value);
   persist(store.owner,userId,value.avatarHash,value.avatarData);
   notify(store);

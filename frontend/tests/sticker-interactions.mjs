@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {createServer} from 'vite';
 import {chromium} from 'playwright';
 const server=await createServer({cacheDir:'../.backups/next-150/vite-sticker-interactions',server:{host:'127.0.0.1',port:0,watch:null}});await server.listen();
-const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1280,height:820}}),errors=[];page.on('pageerror',error=>errors.push(error.message));page.setDefaultTimeout(12000);
+const browser=await chromium.launchPersistentContext('../.backups/next-152/sticker-feedback-profile',{channel:process.env.CI?undefined:'msedge',headless:true,viewport:{width:1280,height:820}}),page=browser.pages()[0],errors=[];page.on('pageerror',error=>errors.push(error.message));page.setDefaultTimeout(12000);
 await page.addInitScript(()=>{
  const catalogue=['duck','semicolon','rainbow','envelope','orbit','gem','crown','galaxy','phoenix','cloud','leaf'].map((shape,i)=>({id:'art-'+shape,shape,title:shape,rarity:i<9?'legendary':'common'})),units=catalogue.map((item,i)=>({id:'unit-'+item.shape,stickerId:item.id,revision:0,placement:{x:.12+(i%4)*.24,y:.18+Math.floor(i/4)*.3,angle:0,scale:1}}));
  localStorage.setItem('tb.sticker-layout.v1:fixture-a',JSON.stringify({version:1,owner:'fixture-a',revision:1,catalogue,units}));
@@ -11,7 +11,7 @@ await page.addInitScript(()=>{
  const Audio=window.AudioContext;window.AudioContext=class extends Audio{
   decodeAudioData(bytes){return super.decodeAudioData(bytes).then(async buffer=>{await decodeGate;return buffer;});}
   createOscillator(){window.stickerAudioEvents.push('oscillator');return super.createOscillator();}
-  createBufferSource(){window.stickerAudioEvents.push('sample');const source=super.createBufferSource(),start=source.start.bind(source);source.start=(at,offset=0,duration)=>{if(source.buffer){const data=source.buffer.getChannelData(0),rate=source.buffer.sampleRate,from=Math.floor(offset*rate),to=Math.min(data.length,from+Math.floor(.25*rate));let squares=0;for(let i=from;i<to;i++)squares+=data[i]*data[i];window.stickerSamples.push({offset,duration,openingRms:Math.sqrt(squares/(to-from))});}return start(at,offset,duration);};return source;}
+  createBufferSource(){window.stickerAudioEvents.push('sample');const source=super.createBufferSource(),start=source.start.bind(source);source.start=(at,offset=0,duration)=>{if(source.buffer){const data=source.buffer.getChannelData(0),rate=source.buffer.sampleRate,from=Math.floor(offset*rate),to=Math.min(data.length,from+Math.floor(.25*rate));let squares=0;for(let i=from;i<to;i++)squares+=data[i]*data[i];window.stickerSamples.push({offset,duration,rate:source.playbackRate.value,openingRms:Math.sqrt(squares/(to-from))});}return start(at,offset,duration);};return source;}
  };
 });
 try{
@@ -26,7 +26,7 @@ try{
  await page.evaluate(()=>window.releaseDuckDecode());
  await page.waitForFunction(()=>window.stickerSamples.length===1);
  const quack=await page.evaluate(()=>window.stickerSamples[0]);
- assert(quack.openingRms>.045,'Selected recording begins with an audible quack, not its quiet opening');
+ assert(quack.openingRms>.045,'Selected recording begins with an audible quack, not its quiet opening');assert.equal(quack.offset,1.15);assert.equal(quack.duration,.46);assert(Math.abs(quack.rate-.9)<1e-6,'One complete quack plays at a slightly gentler pitch');
  assert.deepEqual(await page.evaluate(()=>window.stickerAudioEvents),['sample']);
  await page.evaluate(()=>window.stickerFeedbackFixture.audioReady());
  for(const shape of ['semicolon','rainbow','envelope','orbit','gem','crown','galaxy','phoenix']){

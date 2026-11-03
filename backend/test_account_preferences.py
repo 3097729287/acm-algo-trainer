@@ -156,7 +156,7 @@ class AccountPreferencesTests(unittest.TestCase):
         for kind,data in [('jpeg',jpeg),('webp',webp)]:
             value='data:image/'+kind+';base64,'+base64.b64encode(data).decode()
             self.assertEqual(save_preferences(self.service,{'preferences':{'avatarData':value}})['preferences']['avatarData'],value)
-        maximum_payload=b'\xff\xd8\xff'+b'X'*36839+b'\xff\xd9'
+        maximum_payload=b'\xff\xd8\xff'+b'X'*(12_000_000-5)+b'\xff\xd9'
         bounded='data:image/jpeg;base64,'+base64.b64encode(maximum_payload).decode()
         self.assertLessEqual(len(bounded),AVATAR_DATA_MAX_BYTES)
         save_preferences(self.service,{'preferences':{'avatarData':bounded}})

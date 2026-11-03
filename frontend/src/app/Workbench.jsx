@@ -901,6 +901,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       setStatementCopied(true);clearTimeout(statementCopyTimer.current);statementCopyTimer.current=setTimeout(()=>setStatementCopied(false),1600);
     }catch{setActionError('暂时无法复制题面，请选中题面后复制。');}
   };
+  const statementPdf=language==='zh'&&translation?translation.statementPdf:problem?.statementPdf;
   const statementHeader=(<div className="wb-pane-header wb-merged-header">
       <button type="button" className="wb-icon-button wb-back-button" onClick={exit} title={`${runningContest?'返回工作台（比赛继续计时）':'返回列表'} · ${shortcutValue('workbench-back',shortcuts)}`} aria-label={runningContest ? '返回工作台' : '返回列表'}><ArrowLeft size={17} /></button>
       <div className="wb-toolbar">
@@ -960,10 +961,10 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         {narrow&&statementHeader}
         {translationBusy && <p className="wb-translation-note" role="status"><LoaderCircle size={12} className="wb-spinner" />正在翻译公开题面，原文仍可阅读。</p>}
         {translationError && <div className="wb-translation-note wb-translation-error" role="alert"><span>{translationError}</span><button type="button" onClick={translateStatement}>重试</button></div>}
-        <article className={`wb-statement${problem?.statementPdf && !(language === 'zh' && translation) ? ' wb-pdf-statement' : ''}`} ref={statementRef} tabIndex={0} aria-label="题面内容" style={{ '--statement-font-size': `${statementFontSize}px` }}>
+        <article className={`wb-statement${statementPdf ? ' wb-pdf-statement' : ''}`} ref={statementRef} tabIndex={0} aria-label="题面内容" style={{ '--statement-font-size': `${statementFontSize}px` }}>
           {loading ? <div className="wb-empty"><LoaderCircle className="wb-spinner" size={22} /><span>正在载入题面</span></div>
             : loadError ? <div className="wb-empty"><span>{loadError}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button></div>
-            : problem?.statementPdf && !(language === 'zh' && translation) ? <StatementPdf key={problem.statementPdf.sha256} pdf={problem.statementPdf} title={problem.title}/>
+            : statementPdf ? <StatementPdf key={statementPdf.sha256} pdf={statementPdf} title={problem.title} fontSize={statementFontSize}/>
             : problem?.markdown ? <StatementMarkdown markdown={language === 'zh' && translation ? translation.markdown+(problem.statementSupplement?'\n\n'+problem.statementSupplement:'') : problem.currentSourceMarkdown || problem.markdown} samples={problem.samples} title={problem.title} images={problem.images} attachments={problem.attachments} />
             : problem?.statementLoading ? <div className="wb-empty" role="status"><LoaderCircle className="wb-spinner" size={22}/><strong>正在读取原站题面</strong>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14}/></a>}</div>
             : <div className="wb-empty"><BookOpen size={24} /><strong>题面暂时未能加载</strong><span>{problem?.statementError || '请重试读取原站题面。'}</span><button type="button" className="wb-button" onClick={retryStatement}><RotateCcw size={14} />重新载入</button>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14} /></a>}</div>}

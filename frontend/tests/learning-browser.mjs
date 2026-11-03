@@ -4,9 +4,9 @@ import {createServer} from 'vite';
 import {chromium} from 'playwright';
 
 process.env.TB_OFFLINE='1';
-const out='../.backups/learning-browser/ui';await mkdir(out,{recursive:true});
-const server=await createServer({cacheDir:'../.backups/learning-browser/vite',server:{host:'127.0.0.1',port:0}});await server.listen();
-const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1600,height:1000}}),errors=[];
+const out='../.backups/next-152/browser-ui';await mkdir(out,{recursive:true});
+const server=await createServer({cacheDir:'../.backups/next-152/browser-vite',server:{host:'127.0.0.1',port:0}});await server.listen();
+const browser=await chromium.launchPersistentContext(out+'/profile',{channel:process.env.CI?undefined:'msedge',headless:true,viewport:{width:1600,height:1000}}),page=browser.pages()[0],errors=[];
 page.on('pageerror',issue=>errors.push(issue.message));page.setDefaultTimeout(15000);
 const open=tab=>page.evaluate(tab=>window.studyFixture.open({...tab,newTab:true}),tab);
 const state=()=>page.evaluate(()=>window.studyFixture.state());
@@ -27,12 +27,12 @@ try{
  assert.equal(await page.locator('.study-group-header').count(),0);
  assert.equal((await pane('lab').boundingBox()).y,0);
  const controls=await page.locator('.study-single-controls').boundingBox();assert.equal(controls.y,0);assert.equal(controls.height,44);
- await search('');await page.waitForFunction(()=>document.querySelectorAll('.study-folder').length===4);
+ await search('');await page.waitForFunction(()=>document.querySelectorAll('.study-folder').length===5);
  await page.getByRole('button',{name:'关闭搜索',exact:true}).click();
  assert.equal(await page.locator('.study-group-header').count(),0,'Closing an unused search restores the compact single-content header');
  assert.equal((await pane('lab').boundingBox()).y,0);assert.equal(await sorting.locator('nav[aria-label="实验步骤"]').innerText(),step);
- await search('');await page.waitForFunction(()=>document.querySelectorAll('.study-folder').length===4);
- assert.deepEqual(await page.getByRole('option').locator('span').allTextContents(),['维基百科','模板','实验室','从零讲']);
+ await search('');await page.waitForFunction(()=>document.querySelectorAll('.study-folder').length===5);
+ assert.deepEqual(await page.getByRole('option').locator('span').allTextContents(),['题目','维基百科','模板','实验室','从零讲']);
  const searchRect=await page.locator('.study-search-box').boundingBox();assert.equal(searchRect.height,32);assert(searchRect.width<=280);assert(Math.abs(searchRect.y-6)<=.5);
  await page.getByRole('combobox').fill('并查集');await page.getByRole('option').filter({hasText:'维基百科'}).click();
  await result('维基百科','并查集').click();await pane('wiki').frameLocator('iframe.wiki-reader').getByRole('heading',{name:'并查集',exact:true}).waitFor();

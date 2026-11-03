@@ -19,8 +19,11 @@ def transform(value, convert):
     pdf=result.get('statementPdf')
     if isinstance(pdf, dict) and isinstance(pdf.get('data'), str):pdf['data']=convert(pdf['data'])
     translation=result.get('translation')
-    if isinstance(translation, dict) and isinstance(translation.get('images'), dict):
-        translation['images']={name:convert(data) for name,data in translation['images'].items()}
+    if isinstance(translation, dict):
+        if isinstance(translation.get('images'), dict):
+            translation['images']={name:convert(data) for name,data in translation['images'].items()}
+        pdf=translation.get('statementPdf')
+        if isinstance(pdf, dict) and isinstance(pdf.get('data'), str):pdf['data']=convert(pdf['data'])
     return result
 
 

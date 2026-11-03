@@ -5,7 +5,7 @@ import TierIcon from './TierIcon.jsx';
 import {rankIndex,TIER_NAMES} from '@/lib/rankTiers.js';
 import './ProfileBadge.css';
 
-export const MAX_AVATAR_DATA_LENGTH = 48 * 1024;
+export const MAX_AVATAR_DATA_LENGTH = 16_000_023;
 
 export function isAvatarData(value) {
   return typeof value === 'string' && value.length <= MAX_AVATAR_DATA_LENGTH

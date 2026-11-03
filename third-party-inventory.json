@@ -1165,6 +1165,12 @@
       "version": "1.1.19",
       "file": "@lezer__python-1.1.19.txt",
       "license": "MIT"
+    },
+    {
+      "package": "pdfjs-dist",
+      "version": "6.5.438",
+      "file": "pdfjs-dist/LICENSE",
+      "license": "Apache-2.0"
     }
   ],
   "notices": [
@@ -2357,6 +2363,11 @@
       "component": "CPython 3.13.16 embeddable local runner",
       "origin": "https://www.python.org/downloads/release/python-31316/",
       "sha256": "59688d8633ce27b1d8220f223b9520c4e039e4ba6ccceb345793a74fd5c155b9"
+    },
+    {
+      "component": "PDF.js 6.5.438",
+      "origin": "Mozilla PDF.js / npm pdfjs-dist 6.5.438",
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
     }
   ],
   "artwork": [

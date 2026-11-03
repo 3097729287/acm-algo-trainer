@@ -34,6 +34,7 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
  const [metadata,setMetadata]=useState({lists:[],templates:[],templatesReady:false}),[revision,setRevision]=useState(0),[now,setNow]=useState(Date.now);
  const [open,setOpen]=useState(false),[position,setPosition]=useState(null),[candidate,setCandidate]=useState(null),[information,setInformation]=useState(null),[cancelAnchor,setCancelAnchor]=useState(null),[completeAnchor,setCompleteAnchor]=useState(null);
  const root=useRef(null),flyout=useRef(null),trigger=useRef(null),touchOpened=useRef(false),closeTimer=useRef(null),ignoreFocus=useRef(false);
+ const continueAfterConfirm=useRef(null);
  const openChanged=useRef(onOpenChange);openChanged.current=onOpenChange;
  const popupId=useId(),reasonId=useId(),overlay=Boolean(candidate||information||cancelAnchor||completeAnchor);
  useEffect(()=>{const refresh=()=>setRevision(value=>value+1);window.addEventListener('tb:training-lists-changed',refresh);return()=>window.removeEventListener('tb:training-lists-changed',refresh);},[]);
@@ -43,7 +44,7 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
  const progression=JSON.stringify(Object.keys(LEARNING_COURSES).map(id=>[id,prefs.learningPaths?.[id]?.mode,prefs.learningPaths?.[id]?.labV1?.chapter]));
  const model=useMemo(()=>recommendationState({rows,training,insights:insights||{},prefs,...metadata,availablePages,activeContest,reviewPlan,now:Math.max(now,Date.now())}),[rows,training,insights,metadata,scope,activeContest,reviewPlan,now,prefs.learnedLectures,prefs.learningPaths?.knowledgeLearning,progression]);
  const {items,journey}=model,primary=items[0],rest=items.slice(1),activeTopic=KNOWLEDGE_BY_ID[knowledgeState(prefs).activeTopicId];
- const manualAction=item=>{const task=item?.rawAction||item;return task?.journeyTopicId===activeTopic?.id&&['lecture','course'].includes(task?.kind)?task:null;};
+ const manualAction=item=>{const task=item?.rawAction||item;return !task?.reviewOnly&&task?.journeyTopicId===activeTopic?.id&&['lecture','course'].includes(task?.kind)?task:null;};
  const requestCompletion=(event,item)=>{const task=manualAction(item);if(task){const node=event.currentTarget,rect=node.getBoundingClientRect();const anchor=root.current?.contains(node)?node:{getBoundingClientRect:()=>rect,contains:()=>false,focus:()=>trigger.current?.focus()};close();setCompleteAnchor({anchor,task});}};
  useEffect(()=>{onActionsChange?.(preferencesReady&&contentReady?items:[]);},[onActionsChange,preferencesReady,contentReady,items]);
  useEffect(()=>{if(setPrefs&&preferencesReady&&journey.journey)setPrefs(previous=>reconcileKnowledge(previous,journey));},[setPrefs,preferencesReady,journey]);
@@ -66,7 +67,7 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
  },[open,suspended,overlay]);
  useLayoutEffect(()=>{
   if(!expanded||!primary)return;
-  const update=()=>{if(!root.current)return;const rect=root.current.getBoundingClientRect(),edge=10,width=Math.min(innerWidth-edge*2,Math.max(130,...rest.map(item=>{const context=document.createElement('canvas').getContext('2d'),label=flyout.current?.querySelector('.next-actions-item-copy strong'),font=label?getComputedStyle(label):getComputedStyle(root.current);context.font=font.font;return Math.ceil(context.measureText(item.title).width)+46+(item.kind==='knowledge'&&!item.completed?36:item.completed?25:0);}))),top=Math.min(rect.bottom,Math.max(edge,innerHeight-100));setPosition({left:Math.max(edge,Math.min(rect.left+rect.width/2-width/2,innerWidth-width-edge)),top,width,maxWidth:innerWidth-edge*2,maxHeight:Math.max(80,innerHeight-top-edge)});};
+  const update=()=>{if(!root.current)return;const rect=root.current.getBoundingClientRect(),edge=10,width=Math.min(innerWidth-edge*2,Math.max(130,...rest.map(item=>{const context=document.createElement('canvas').getContext('2d'),label=flyout.current?.querySelector('.next-actions-item-copy strong'),font=label?getComputedStyle(label):getComputedStyle(root.current);context.font=font.font;return Math.ceil(context.measureText(item.title).width)+46+(item.kind==='knowledge'&&!item.completed?36:item.completed?25:0);}))),top=Math.min(rect.bottom,Math.max(edge,innerHeight-100));setPosition({left:Math.max(edge,Math.min(rect.left,innerWidth-width-edge)),top,width,maxWidth:innerWidth-edge*2,maxHeight:Math.max(80,innerHeight-top-edge)});};
   update();const observer=typeof ResizeObserver==='undefined'?null:new ResizeObserver(update);if(root.current)observer?.observe(root.current);if(flyout.current)observer?.observe(flyout.current);window.addEventListener('resize',update);window.addEventListener('scroll',update,true);
   return()=>{observer?.disconnect();window.removeEventListener('resize',update);window.removeEventListener('scroll',update,true);};
  },[expanded,primary?.kind,primary?.id,rest.map(item=>item.title).join("| ")]);
@@ -75,6 +76,12 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
   if(item.journeyTopicId)setPrefs?.(previous=>assignKnowledgeProblem(previous,{...item,id:item.problemId||item.id}));
   ['problem','stretch','review','template-problem','knowledge-review','random'].includes(item.kind)?onTrain(item.id,{recommendation:item}):onNavigate(item);
  };
+ useEffect(()=>{
+  const pending=continueAfterConfirm.current;
+  if(!pending||prefs===pending.preferences)return;
+  continueAfterConfirm.current=null;
+  if(journey.journey?.id===pending.journeyId&&!journey.doneForToday&&journey.action&&!journey.action.reviewOnly)start(journey.action);
+ },[prefs,journey]);
  const focusRow=last=>requestAnimationFrame(()=>{const buttons=flyout.current?.querySelectorAll('.next-actions-item');(last?buttons?.[buttons.length-1]:buttons?.[0])?.focus();});
  const openWithKeys=event=>{if(expandable&&(event.key==='ArrowDown'||event.key==='ArrowUp')){event.preventDefault();show();focusRow(event.key==='ArrowUp');}};
  const blur=event=>{if(!contains(event.relatedTarget))leave(true);};
@@ -109,6 +116,6 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
    <Coverage topic={information.topic||KNOWLEDGE_BY_ID[information.journeyTopicId]} rows={rows} templates={metadata.templates} ready={metadata.templatesReady}/>
   </RecommendationDialog>}
   {cancelAnchor&&<PopConfirm anchor={cancelAnchor} label="取消知识点学习确认" title={`取消「${activeTopic?.title||''}」的当前学习？已有进度会保留。`} cancelLabel="继续学习" confirmLabel="取消学习" confirmTone="secondary" onCancel={()=>setCancelAnchor(null)} onConfirm={()=>{setPrefs?.(previous=>cancelKnowledge(previous));setCancelAnchor(null);}}/>}
-  {completeAnchor&&<PopConfirm anchor={completeAnchor.anchor} label="完成学习步骤确认" title={`确认已完成「${completeAnchor.task.title}」？确认后显示下一步。`} cancelLabel="继续学习" confirmLabel="完成并继续" confirmTone="primary" onCancel={()=>setCompleteAnchor(null)} onConfirm={()=>{const task=completeAnchor.task;setCompleteAnchor(null);setPrefs?.(previous=>confirmKnowledgeAction(previous,task));}}/>}
+  {completeAnchor&&<PopConfirm anchor={completeAnchor.anchor} label="完成学习步骤确认" title={`确认已完成「${completeAnchor.task.title}」？确认后显示下一步。`} cancelLabel="继续学习" confirmLabel="完成并继续" confirmTone="primary" onCancel={()=>setCompleteAnchor(null)} onConfirm={()=>{const task=completeAnchor.task;continueAfterConfirm.current={preferences:prefs,journeyId:journey.journey?.id};setCompleteAnchor(null);setPrefs?.(previous=>confirmKnowledgeAction(previous,task));}}/>}
  </section>;
 }

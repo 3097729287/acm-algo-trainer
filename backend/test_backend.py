@@ -6,7 +6,7 @@ from pathlib import Path
 import tempfile
 import threading
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 from urllib.parse import quote
 
 import backend
@@ -69,6 +69,17 @@ class BackendTests(unittest.TestCase):
     def test_runtime_editorial_import_entry_is_removed(self):
         self.assertEqual(self.request('/api/inbox')[0], 404)
         self.assertEqual(self.request('/api/inbox', {})[0], 404)
+
+    def test_workspace_read_does_not_start_jobs_before_the_guarded_paint_ack(self):
+        ready=self.server.on_workspace_ready=Mock()
+        self.assertEqual(self.request('/api/workspace')[0],200)
+        ready.assert_not_called()
+        self.assertEqual(self.request('/api/workspace/ready')[0],404)
+        self.assertEqual(self.request('/api/workspace/ready',{}, {'X-TB-Token':'invalid'})[0],403)
+        self.assertEqual(self.request('/api/workspace/ready',{'invented':True})[0],400)
+        ready.assert_not_called()
+        self.assertEqual(self.request('/api/workspace/ready',{})[1],{'ready':True})
+        ready.assert_called_once()
 
     def test_token_origin_host_and_traversal_guards_survive_architecture_split(self):
         body = {'id': 'fixture::A'}

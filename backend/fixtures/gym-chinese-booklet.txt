@@ -1,0 +1,14 @@
+gym-chinese-booklet.pdf is an original synthetic offline regression fixture.
+It contains a Chinese contents page, an introduction, two pages of problem A,
+and one page of problem B. The Gym test roster deliberately uses English titles.
+Problem A's table includes a short double-rule header stroke 0.4pt from its
+full-height divider. Its input is "1 2" and output is "3".
+
+Generated locally with ReportLab's standard STSong-Light CID font (no embedded
+font files, no external service data); tests only require the existing pypdf and
+pypdfium2 dependencies. This fixture is not an official contest statement.
+
+gym-chinese-numbered.pdf is a second original fixture, with bare letter/title
+headings, contents page numbers, Chinese example labels, input/output on different
+pages, and a smaller-font line-number gutter. Its second example has no gutter:
+the leading actual integers "1" and "2" must remain in the input and output.

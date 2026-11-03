@@ -882,7 +882,7 @@ export default function App() {
         setData(library);
         applyWorkspace(personal);
         setError("");
-        refreshBackground(true);
+        if(!initial)refreshBackground(true);
       } catch (e) {
         if (seq === loadSeq.current) setError(e.message);
       } finally {
@@ -932,8 +932,25 @@ export default function App() {
       clearTimeout(toastTimer.current);
     };
   }, [reload]);
+  const foregroundReadyOwner=useRef(null),[paintedOwner,setPaintedOwner]=useState(null);
+  useEffect(()=>{
+    const owner=account?.userId;
+    if(!data||loading||!owner||foregroundReadyOwner.current===owner)return;
+    let active=true,first,second;
+    const ready=()=>{
+      if(!active||document.hidden||owner!==window.__tbAccountUserId||foregroundReadyOwner.current===owner)return;
+      first=requestAnimationFrame(()=>{second=requestAnimationFrame(()=>{
+        if(!active||document.hidden||owner!==window.__tbAccountUserId||foregroundReadyOwner.current===owner)return;
+        foregroundReadyOwner.current=owner;
+        setPaintedOwner(owner);
+        void api('workspace/ready',{}).catch(()=>{/* Older backends do not use this scheduling hint. */});
+      });});
+    };
+    ready();document.addEventListener('visibilitychange',ready);
+    return()=>{active=false;cancelAnimationFrame(first);cancelAnimationFrame(second);document.removeEventListener('visibilitychange',ready);};
+  },[Boolean(data),loading,account?.userId,api]);
   useEffect(() => {
-    try { localStorage.setItem(preferencesKey(), JSON.stringify(prefs)); } catch { /* SQLite/cloud still retain account preferences. */ }
+    try { localStorage.setItem(preferencesKey(), JSON.stringify(prefs.avatarData?.length>48*1024?{...prefs,avatarData:''}:prefs)); } catch { /* SQLite/cloud still retain account preferences. */ }
     const root = document.documentElement;
     root.dataset.panelStyle = prefs.panelStyle;
     root.dataset.backdrop = prefs.backdrop;
@@ -1046,7 +1063,7 @@ export default function App() {
     applyWorkspace,
   ]);
   useEffect(() => {
-    if (!data) return;
+    if (!data||account?.userId&&paintedOwner!==account.userId) return;
     const version = [workspace.summary?.attempts, workspace.summary?.total, workspace.summary?.accepted].join(":");
     const changed = backgroundVersion.current !== null && version !== backgroundVersion.current;
     backgroundVersion.current = version;
@@ -1057,6 +1074,8 @@ export default function App() {
     return () => { clearInterval(timer); document.removeEventListener('visibilitychange', visible); };
   }, [
     !!data,
+    paintedOwner,
+    account?.userId,
     workspace.summary?.attempts,
     workspace.summary?.total,
     workspace.summary?.accepted,

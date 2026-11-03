@@ -1,5 +1,5 @@
 {
-  "status": "1.5.1 user build 54646f49 installed by its owner; private administrator 53938d41 installed and normal native launch verified. Retained-user 3-second target remains unmet. Service deployment authorized in the other window but SSH blocked; production unchanged.",
+  "status": "repair-candidate-not-installed-or-published",
   "requestedOn": "2026-11-01",
   "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
   "features": [
@@ -37,7 +37,7 @@
     }
   ],
   "currentDomesticStable": "1.4.34",
-  "nextVersion": "1.5.1",
+  "nextVersion": "1.5.2",
   "feedbackPriority": {
     "id": "nowcoder-live-statement",
     "status": "1.4.35 local implementation and fixtures passed; real provider result not claimed",
@@ -203,5 +203,18 @@
     ],
     "concurrentUserInstallation": false,
     "productionChanged": false
-  }
+  },
+  "currentLocalVersion": "1.5.1",
+  "currentLocalSource": "5761911bbd0dea27241f357729397148ba83d075",
+  "currentNativeSource": "5afacb5b01c75fa64c8f3fcc73bce2c615e97af3",
+  "currentServiceVersion": "1.4.1",
+  "serviceCandidateVersion": "1.4.2",
+  "desktopInstallerRequested": true,
+  "priorities": [
+    "Repair reported lesson continuation, ranking/social visibility and alignment regressions",
+    "Preserve original avatars and restore previous rank silhouettes with improved king materials",
+    "Immediate reversible recycle feedback, unclipped paper borders and one softened recorded quack",
+    "All-problems browser folder, solutions inside their problem",
+    "Verified original Chinese PDFs, offline selectable rendering and foreground-aware startup scheduling"
+  ]
 }

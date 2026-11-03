@@ -47,4 +47,4 @@ html[data-motion=off] .next-actions-popover>ul>li { animation:none; }
 
 .next-actions-popover>ul>li:has(>.next-action-control){padding-right:8px;}
 
-.next-actions-daily-progress{flex:none;white-space:nowrap;color:var(--muted);font-size:.75rem;font-variant-numeric:tabular-nums}
+.next-actions-daily-progress{display:inline-flex;align-items:center;align-self:center;justify-content:center;flex:none;min-height:32px;line-height:1;white-space:nowrap;color:var(--muted);font-size:.75rem;font-variant-numeric:tabular-nums}

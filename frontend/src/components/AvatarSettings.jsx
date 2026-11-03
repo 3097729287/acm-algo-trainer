@@ -4,29 +4,22 @@ import Tooltip from './Tooltip.jsx';
 import { isAvatarData, MAX_AVATAR_DATA_LENGTH } from './ProfileBadge.jsx';
 import './ProfileBadge.css';
 
-async function avatarFromFile(file) {
-  if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type) || file.size > 12 * 1024 * 1024) {
+export async function avatarFromFile(file) {
+  if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type) || file.size > 12_000_000) {
     throw new Error('请选择 12 MB 以内的 PNG、JPEG 或 WebP 图片');
   }
+  // Decode to reject unreadable images; store the exact file bytes, never a
+  // resized canvas or a lossy re-encoding of the selected portrait.
   const bitmap = await createImageBitmap(file);
-  try {
-    const ratio = Math.min(1, 96 / Math.max(bitmap.width, bitmap.height));
-    const canvas = document.createElement('canvas');
-    canvas.width = Math.max(1, Math.round(bitmap.width * ratio));
-    canvas.height = Math.max(1, Math.round(bitmap.height * ratio));
-    const context = canvas.getContext('2d');
-    if (!context) throw new Error('暂时无法处理这张头像图片');
-    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-    const original = canvas.toDataURL('image/png');
-    if (original.length <= MAX_AVATAR_DATA_LENGTH) return original;
-    for (const quality of [.9, .8, .65, .5]) {
-      const result = canvas.toDataURL('image/webp', quality);
-      if (result.length <= MAX_AVATAR_DATA_LENGTH) return result;
-    }
-    throw new Error('头像压缩后仍然过大，请选择另一张图片');
-  } finally {
-    bitmap.close();
-  }
+  bitmap.close();
+  const result = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('暂时无法处理这张头像图片'));
+    reader.readAsDataURL(file);
+  });
+  if (!isAvatarData(result) || result.length > MAX_AVATAR_DATA_LENGTH) throw new Error('这张图片无法用作头像');
+  return result;
 }
 
 export default function AvatarSettings({ prefs, setPrefs, onError }) {

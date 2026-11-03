@@ -222,7 +222,7 @@ class Handler(BaseHTTPRequestHandler):
                     size = int(self.headers.get("Content-Length", "0"))
                 except ValueError:
                     raise APIError(400, "请求长度无效")
-                maximum = 32 * 1024 * 1024 if path in ('/api/training-lists/add', '/api/training-lists/save', '/api/preferences') else 262144
+                maximum = 48 * 1024 * 1024 if path=='/api/preferences' else 32 * 1024 * 1024 if path in ('/api/training-lists/add', '/api/training-lists/save') else 262144
                 if size <= 0 or size > maximum:
                     raise APIError(400, "请求数据大小无效")
                 if self.headers.get("Content-Type", "").split(";", 1)[0].strip().lower() != "application/json":
@@ -271,6 +271,11 @@ class Handler(BaseHTTPRequestHandler):
                         # hold an installation request/account barrier open.
                         accounts.queue_sync()
                     value = self.server.software_updates.install(retry=True) if body.get('retry') is True else self.server.software_updates.install()
+                elif path == '/api/workspace/ready':
+                    if body:raise APIError(400,'请求字段无效')
+                    ready=getattr(self.server,'on_workspace_ready',None)
+                    if callable(ready):ready()
+                    value={'ready':True}
                 elif path == "/api/status":
                     with training.lock:
                         training.assert_solution_unlocked(body.get("id"))
@@ -507,8 +512,6 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.software_updates.snapshot())
             elif path == "/api/workspace":
                 self.send_json(200, self.server.training.workspace())
-                ready = getattr(self.server, 'on_workspace_ready', None)
-                if ready is not None:ready()
             elif path == '/api/navigation':
                 self.send_json(200, self.server.training.navigation())
             elif path == '/api/admin/session':

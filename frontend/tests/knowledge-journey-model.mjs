@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import ioRows from './fixtures/knowledge-io.json' with {type:'json'};
 import {recommendationState,learningEvidence} from '../src/lib/nextActions.js';
 import {KNOWLEDGE_TOPICS,FOUNDATION_LESSONS,LEARNING_COURSES,lectureCurriculum,orderedLectures} from '../src/lib/learningCurriculum.js';
 import {startKnowledge,cancelKnowledge,rotateKnowledge,knowledgeState,reconcileKnowledge,assignKnowledgeProblem,recordKnowledgeLesson,confirmKnowledgeAction} from '../src/lib/knowledgeJourney.js';
@@ -107,3 +108,15 @@ test('heart counts survive loading failure and midnight without leaking another 
  assert.equal(retainSocialCounts(retained,{available:true,totalLikes:13,todayLikes:1}).totalLikes,13);
 });
 console.log(`PASS ${count} knowledge learning, navigation and display scenarios`);
+
+test('the real introductory catalogue advances without invented tags, ratings or editorials',()=>{
+ const initial=startKnowledge({learnedLectures:[]},'io-basics',{rows:ioRows,now:start});
+ const read=model({rows:ioRows,prefs:initial,now:start}).items[0];assert.equal(read.kind,'lecture');
+ const after=confirmKnowledgeAction(initial,read,start),next=model({rows:ioRows,prefs:after,now:start});
+ assert.equal(next.items[0].kind,'problem');assert.equal(next.items[0].id,'luogu-training-B2002');
+ assert.equal(next.journey.dailyCompleted,1);assert.equal(knowledgeState(after).journeys['io-basics'].checkpoints['lecture:lecture:foundation-io-basics'].minutes,6);
+ const passed=model({rows:ioRows.map(row=>({...row,accepted:row.id==='luogu-training-B2002'})),prefs:after,now:start+3600000,insights:insights([fact('luogu-training-B2002',.5)])});
+ assert.equal(passed.journey.dailyCompleted,2);assert.equal(passed.items.at(-1).rawAction.id,'luogu-training-P1001');assert.equal(passed.journey.mastered,false);
+ const missing=model({rows:[],prefs:after,now:start});assert.equal(missing.journey.rawAction.reviewOnly,true);assert.equal(confirmKnowledgeAction(after,missing.journey.rawAction,start),after);
+ const old=assignKnowledgeProblem(after,{...read,journeyPhase:'application'},start);assert.equal(old,after,'Reading cannot occupy a problem assignment');
+});

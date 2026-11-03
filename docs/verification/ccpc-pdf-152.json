@@ -1,0 +1,324 @@
+{
+  "checkedAt": "2026-11-03T06:43:18.220828+00:00",
+  "sources": [
+    {
+      "contest": "105930",
+      "originalPdfSha256": "70c1e315be77201c903193f169a7a52709383eeaef7f70b455e29ad19b1a7d27",
+      "nativeRosterSha256": "c114059ed2625c8ddb7af2170e1b145bd013bd06de4898c9499f53339a86bf4f"
+    },
+    {
+      "contest": "106030",
+      "originalPdfSha256": "cdb09e60f0246409c72d005fbac17264bf79229ea1ac8404ce140db614474797",
+      "nativeRosterSha256": "30edce1da3ed8124d1a5b99f89305560c02fa2cef58bb685302d2597350176bd"
+    }
+  ],
+  "results": [
+    {
+      "contest": "105930",
+      "problem": "A",
+      "status": "verified",
+      "error": null,
+      "pageNumbers": [
+        3
+      ],
+      "samplePairsVerified": 1,
+      "originalSampleCount": 1,
+      "integrity": "complete",
+      "resourceIssues": []
+    },
+    {
+      "contest": "105930",
+      "problem": "B",
+      "status": "verified",
+      "error": null,
+      "pageNumbers": [
+        4,
+        5
+      ],
+      "samplePairsVerified": 1,
+      "originalSampleCount": 1,
+      "integrity": "complete",
+      "resourceIssues": []
+    },
+    {
+      "contest": "105930",
+      "problem": "C",
+      "status": "verified",
+      "error": null,
+      "pageNumbers": [
+        6
+      ],
+      "samplePairsVerified": 1,
+      "originalSampleCount": 1,
+      "integrity": "complete",
+      "resourceIssues": []
+    },
+    {
+      "contest": "105930",
+      "problem": "D",
+      "status": "verified",
+      "error": null,
+      "pageNumbers": [
+        7
+      ],
+      "samplePairsVerified": 1,
+      "originalSampleCount": 1,
+      "integrity": "complete",
+      "resourceIssues": []
+    },
+    {
+      "contest": "105930",
+      "problem": "E",
+      "status": "verified",
+      "error": null,
+      "pageNumbers": [
+        8
+      ],
+      "samplePairsVerified": 1,
+      "originalSampleCount": 1,
+      "integrity": "complete",
+      "resourceIssues": []
+    },
+    {
+      "contest": "105930",
+      "problem": "F",
+      "status": "verified",
+      "error": null,
+      "pageNumbers": [
+        9
+      ],
+      "samplePairsVerified": 1,
+      "originalSampleCount": 1,
+      "integrity": "complete",
+      "resourceIssues": []
+    },
+    {
+      "contest": "105930",
+      "problem": "G",
+      "status": "verified",
+      "error": null,
+      "pageNumbers": [
+        10,
+        11
+      ],
+      "samplePairsVerified": 1,
+      "originalSampleCount": 1,
+      "integrity": "complete",
+      "resourceIssues": []
+    },
+    {
+      "contest": "105930",
+      "problem": "H",
+      "status": "verified",
+      "error": null,
+      "pageNumbers": [
+        12,
+        13
+      ],
+      "samplePairsVerified": 1,
+      "originalSampleCount": 1,
+      "integrity": "complete",
+      "resourceIssues": []
+    },
+    {
+      "contest": "105930",
+      "problem": "I",
+      "status": "verified",
+      "error": null,
+      "pageNumbers": [
+        14,
+        15
+      ],
+      "samplePairsVerified": 1,
+      "originalSampleCount": 1,
+      "integrity": "complete",
+      "resourceIssues": []
+    },
+    {
+      "contest": "105930",
+      "problem": "J",
+      "status": "verified",
+      "error": null,
+      "pageNumbers": [
+        16,
+        17
+      ],
+      "samplePairsVerified": 1,
+      "originalSampleCount": 1,
+      "integrity": "complete",
+      "resourceIssues": []
+    },
+    {
+      "contest": "105930",
+      "problem": "K",
+      "status": "verified",
+      "error": null,
+      "pageNumbers": [
+        18
+      ],
+      "samplePairsVerified": 1,
+      "originalSampleCount": 1,
+      "integrity": "complete",
+      "resourceIssues": []
+    },
+    {
+      "contest": "105930",
+      "problem": "L",
+      "status": "verified",
+      "error": null,
+      "pageNumbers": [
+        19
+      ],
+      "samplePairsVerified": 1,
+      "originalSampleCount": 1,
+      "integrity": "complete",
+      "resourceIssues": []
+    },
+    {
+      "contest": "105930",
+      "problem": "M",
+      "status": "verified",
+      "error": null,
+      "pageNumbers": [
+        20,
+        21
+      ],
+      "samplePairsVerified": 1,
+      "originalSampleCount": 1,
+      "integrity": "complete",
+      "resourceIssues": []
+    },
+    {
+      "contest": "106030",
+      "problem": "A",
+      "pageNumbers": [
+        2
+      ],
+      "sampleCount": 1,
+      "extraction": "pdf-code-geometry-v1"
+    },
+    {
+      "contest": "106030",
+      "problem": "B",
+      "pageNumbers": [
+        3,
+        4,
+        5
+      ],
+      "sampleCount": 1,
+      "extraction": "pdf-code-geometry-v1"
+    },
+    {
+      "contest": "106030",
+      "problem": "C",
+      "pageNumbers": [
+        6,
+        7,
+        8
+      ],
+      "sampleCount": 1,
+      "extraction": "pdf-code-geometry-v1"
+    },
+    {
+      "contest": "106030",
+      "problem": "D",
+      "pageNumbers": [
+        9,
+        10
+      ],
+      "sampleCount": 1,
+      "extraction": "pdf-code-geometry-v1"
+    },
+    {
+      "contest": "106030",
+      "problem": "E",
+      "pageNumbers": [
+        11,
+        12
+      ],
+      "sampleCount": 2,
+      "extraction": "pdf-code-geometry-v1"
+    },
+    {
+      "contest": "106030",
+      "problem": "F",
+      "pageNumbers": [
+        13,
+        14
+      ],
+      "sampleCount": 3,
+      "extraction": "pdf-code-geometry-v1"
+    },
+    {
+      "contest": "106030",
+      "problem": "G",
+      "pageNumbers": [
+        15,
+        16
+      ],
+      "sampleCount": 3,
+      "extraction": "pdf-code-geometry-v1"
+    },
+    {
+      "contest": "106030",
+      "problem": "H",
+      "pageNumbers": [
+        17,
+        18
+      ],
+      "sampleCount": 2,
+      "extraction": "pdf-code-geometry-v1"
+    },
+    {
+      "contest": "106030",
+      "problem": "I",
+      "pageNumbers": [
+        19,
+        20
+      ],
+      "sampleCount": 1,
+      "extraction": "pdf-code-geometry-v1"
+    },
+    {
+      "contest": "106030",
+      "problem": "J",
+      "pageNumbers": [
+        21,
+        22
+      ],
+      "sampleCount": 1,
+      "extraction": "pdf-code-geometry-v1"
+    },
+    {
+      "contest": "106030",
+      "problem": "K",
+      "pageNumbers": [
+        23,
+        24
+      ],
+      "sampleCount": 2,
+      "extraction": "pdf-code-geometry-v1"
+    },
+    {
+      "contest": "106030",
+      "problem": "L",
+      "pageNumbers": [
+        25,
+        26
+      ],
+      "sampleCount": 2,
+      "extraction": "pdf-code-geometry-v1"
+    },
+    {
+      "contest": "106030",
+      "problem": "M",
+      "pageNumbers": [
+        27,
+        28
+      ],
+      "sampleCount": 1,
+      "extraction": "pdf-code-geometry-v1"
+    }
+  ],
+  "noOfficialSubmissions": true
+}

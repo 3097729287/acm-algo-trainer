@@ -425,5 +425,9 @@ def statement(client,identity,title,url):
     value=clean_statement({'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True,'statementVersion':7, **({'attachments':attachments} if attachments else {}), **({'officialTags':official_tags} if official_tags is not None else {}), **({'translation':translation} if translation else {})})
     if not value['statementAvailable']:
         raise ValueError(value['statementError'])
+    if host=='codeforces.com' and parsed.path.startswith('/gym/'):
+        from codeforces_pdf import localized
+        value=localized(client,value,page)
+        value['statementVersion']=8
     from statement_integrity import finalize_source
     return finalize_source(value,client)

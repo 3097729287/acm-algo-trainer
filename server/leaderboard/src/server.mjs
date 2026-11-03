@@ -9,15 +9,22 @@ import {CHUNK_LIMIT} from './account-chunks.mjs';
 import { STATE_LIMIT } from './account-state.mjs';
 
 export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000, stateBodyTimeoutMs = 120000 } = {}) {
-  let activeStateRequests = 0, activeChunkRequests = 0;
+  let activeStateRequests = 0, activeChunkRequests = 0, activeAvatarRequests = 0;
   const server = createServer(async (request, response) => {
-    let ownsStateSlot = false, ownsChunkSlot = false;
+    let ownsStateSlot = false, ownsChunkSlot = false, ownsAvatarSlot = false;
     let bodyDeadline = setTimeout(() => request.destroy(), bodyTimeoutMs);
     bodyDeadline.unref();
     try {
       const path = new URL(request.url, 'http://localhost').pathname;
       const chunkRequest=path.startsWith('/v2/accounts/state');
       const stateRequest = chunkRequest || path === '/v1/accounts/state' && ['GET', 'PUT'].includes(request.method);
+      const avatarRequest = path === '/v1/profile' && request.method === 'PUT';
+      if (avatarRequest) {
+        try { await authenticate(new Request('http://localhost' + request.url, {headers:request.headers}),env,env.TEST_NOW==null?Date.now():Number(env.TEST_NOW)); }
+        catch(error) {response.writeHead(error.status===401?401:503,{'Content-Type':'application/json',Connection:'close'});response.end(JSON.stringify({error:error.status===401?'请先登录账号':'账号同步服务暂时不可用'}));return;}
+        if(activeAvatarRequests){response.writeHead(429,{'Content-Type':'application/json','Retry-After':'1',Connection:'close'});response.end(JSON.stringify({error:'请求过于频繁，请稍后重试'}));return;}
+        activeAvatarRequests++;ownsAvatarSlot=true;
+      }
       if (stateRequest) {
         // Authenticate before accepting a large body or reserving its bounded
         // processing slot. Unauthenticated slow uploads cannot occupy it.
@@ -56,7 +63,7 @@ export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000
       const candidate = typeof forwarded === 'string' ? forwarded.split(',').at(-1).trim() : '';
       const address = trustProxy && isIP(candidate) ? candidate : request.socket.remoteAddress || 'unknown';
       headers.set('X-TB-Client-IP', address);
-      const maximum = request.method === 'PUT' && path === '/v1/accounts/state' ? STATE_LIMIT : chunkRequest ? CHUNK_LIMIT : 65536;
+      const maximum = avatarRequest ? 16065568 : request.method === 'PUT' && path === '/v1/accounts/state' ? STATE_LIMIT : chunkRequest ? CHUNK_LIMIT : 65536;
       const length = Number(headers.get('content-length') || 0);
       if (!Number.isFinite(length) || length > maximum) {
         response.writeHead(413, { 'Content-Type': 'application/json', Connection: 'close' });
@@ -92,6 +99,7 @@ export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000
       clearTimeout(bodyDeadline);
       if (ownsStateSlot) activeStateRequests--;
       if (ownsChunkSlot) activeChunkRequests--;
+      if (ownsAvatarSlot) activeAvatarRequests--;
     }
   });
   server.requestTimeout = stateBodyTimeoutMs;

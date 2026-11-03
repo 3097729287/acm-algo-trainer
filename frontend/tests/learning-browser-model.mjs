@@ -13,7 +13,7 @@ state=closeStudyTab(state,'wiki:dsu');assert.equal(state.right,null);assert.equa
 state=closeStudyTab(state,'template:dsu');assert.equal(state.open,false);
 const tabs=restoreStudyBrowser({tabs:[{kind:'wiki',id:'x',title:'x'},{kind:'wiki',id:'x'},{kind:'bogus',id:'bad'}],open:true,right:'missing',ratio:999});assert.equal(tabs.tabs.length,1);assert.equal(tabs.ratio,50);assert.equal(tabs.right,null);
 const index=buildLearningIndex({wiki:[{id:'ds/dsu',title:'并查集'}],templates:[{id:'builtin:dsu',title:'并查集',tags:['DSU']}],labs:[{id:'dsu',title:'并查集'}],rows:[{id:'A',title:'集合操作',tags:['并查集'],solutionAvailable:true}]});
-assert.equal(learningSearch(index,'并查集').length,5);assert.equal(learningSearch(index,'dsu').length,5);assert.equal(learningSearch(index,'模板').length,1);assert.equal(learningSearch(index,'模板 并查集')[0].kind,'template');assert.equal(learningSearch(index,'并查集 模板')[0].kind,'template');
+assert.equal(learningSearch(index,'并查集').length,4);assert.equal(learningSearch(index,'dsu').length,4);assert.equal(learningSearch(index,'模板').length,1);assert.equal(learningSearch(index,'模板 并查集')[0].kind,'template');assert.equal(learningSearch(index,'并查集 模板')[0].kind,'template');
 assert.equal(learningSearch(index,'no-such-content').length,0);
 let editing=openStudyTab(emptyStudyBrowser(),{kind:'template',id:'new-1',title:'草稿'});
 editing=openStudyTab(editing,{kind:'wiki',id:'x',title:'百科'});editing=splitStudyTab(editing,'template:new-1');
@@ -41,8 +41,8 @@ const legacy=restoreStudyBrowser({tabs:[{kind:'wiki',id:'a'},{kind:'wiki',id:'b'
 assert.deepEqual(legacy.groups.map(group=>group.active),['wiki:c','wiki:b']);assert.equal(legacy.groups[0].weight,60);
 const malformed=restoreStudyBrowser({...studySnapshot(layout),groups:[{id:'bad id',tabs:['wiki:a','missing'],weight:-4},{id:'x',tabs:['wiki:a','wiki:b'],weight:2}]});
 assert.equal(new Set(malformed.groups.flatMap(group=>group.tabs)).size,layout.tabs.length);assert(Math.abs(studyGroups(malformed).reduce((sum,group)=>sum+group.weight,0)-100)<1e-8);
-assert.deepEqual(learningDirectory(index).entries.map(item=>item.kind),['wiki','template','lab','lecture']);
-assert.equal(learningDirectory(index,'并查集').entries.length,5);
+assert.deepEqual(learningDirectory(index).entries.map(item=>item.kind),['problem','wiki','template','lab','lecture']);
+assert.equal(learningDirectory(index,'并查集').entries.length,4);
 assert.equal(learningDirectory(index,'模板').entries[0].kind,'template');
 assert.equal(learningDirectory(index,'模板',['wiki']).entries[0].kind,'template');
 assert.equal(learningDirectory(index,'并查集',['wiki']).entries[0].id,'ds/dsu');
@@ -61,3 +61,5 @@ console.log('PASS replacement keeps one slot, explicit new tabs and saved docume
 const heldManual=single.tabs.find(tab=>tab.key==='lecture:first');single=replaceStudyContent(single,'lab:replace',{kind:'lecture',id:'first'});assert.equal(single.tabs.length,2);assert.equal(single.tabs.find(tab=>tab.key==='lecture:first').state,heldManual.state);assert(single.tabs.some(tab=>tab.key==='lab:replace'));
 
 assert.equal(replaceStudyContent({...single,open:false},single.focused,{kind:'wiki',id:'from-list'}).open,true,'Opening from a closed browser shows the replacement');
+
+assert.equal(learningDirectory(index).entries.find(item=>item.kind==='problem').count,1);assert(!index.some(item=>item.kind==='solution'));assert.equal(learningDirectory(index,'',['solution']).entries[0].kind,'problem');console.log('PASS all-problems folder and legacy solution-directory redirect; solutions remain inside problems');

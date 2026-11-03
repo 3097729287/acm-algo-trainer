@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
+import {mkdir} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {createServer} from 'vite';
 import {chromium} from 'playwright';
@@ -19,11 +20,11 @@ const fixture={id:'pdf-fixture',title:'Original PDF',url:'https://qoj.ac/problem
   statementPdf:{data:'data:application/pdf;base64,'+base64,sha256:createHash('sha256').update(pdf).digest('hex'),pageCount:3},
   samples:[{input:'1\n2',output:'3'}],limits:{timeMs:2000,memoryMb:256},judge:{scope:'samples',cases:1},draft:'// preserve this draft',submissions:[],
   translation:{kind:'site',markdown:'# 中文\n\n保留已有中文题面。'}};
-const server=await createServer({root,server:{host:'127.0.0.1',port:18794,strictPort:true,hmr:false}});await server.listen();
-let browser;
+const out=path.resolve(root,'../.backups/next-152/statement-pdf-ui');await mkdir(out,{recursive:true});
+const server=await createServer({root,cacheDir:path.join(out,'vite'),server:{host:'127.0.0.1',port:18794,strictPort:true,hmr:false}});await server.listen();
+let context;
 try {
-  browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
-  const context=await browser.newContext({viewport:{width:1440,height:900}});
+  context=await chromium.launchPersistentContext(path.join(out,'profiles',String(Date.now())),{channel:process.env.CI?undefined:'msedge',headless:true,viewport:{width:1440,height:900}});
   const external=[],errors=[];
   await context.route('**/*',route=>{
     const u=new URL(route.request().url());
@@ -33,13 +34,16 @@ try {
   await context.addInitScript(value=>window.pdfFixtureData=value,fixture);
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
   await page.goto('http://127.0.0.1:18794/tests/statement-pdf-fixture.html');
-  const frame=page.locator('.wb-statement-pane iframe.wb-statement-pdf');await frame.waitFor();
+  const frame=page.locator('.wb-statement-pane .wb-statement-pdf');await page.locator('.wb-pdf-page[data-ready="true"]').first().waitFor();
   const left=await frame.boundingBox();const editor=await page.locator('.wb-code-pane').boundingBox();
-  assert.ok(left.height>550&&left.width>300,'native PDF fills the left statement pane');
+  assert.ok(left.height>550&&left.width>300,'PDF fills the left statement pane');
   assert.ok(left.x+left.width<=editor.x+1,'PDF and editable code remain side by side');
   assert.equal(await page.locator('.wb-statement img').count(),0,'PDF reading does not use PNG pages');
-  const actual=await frame.evaluate(async node=>{
-    const blob=await(await fetch(node.src.split('#')[0])).blob();
+  assert.equal(await page.locator('.wb-pdf-page').count(),3);
+  const last=page.locator('.wb-pdf-page').last();await last.scrollIntoViewIfNeeded();await page.locator('.wb-pdf-page[data-page="3"][data-ready="true"]').waitFor();
+  assert.match(await last.locator('.wb-pdf-text-layer').innerText(),/Original PDF page 3/);
+  const actual=await frame.getByRole('link',{name:'下载 PDF',exact:true}).evaluate(async node=>{
+    const blob=await(await fetch(node.href)).blob();
     return {mime:blob.type,base64:btoa(String.fromCharCode(...new Uint8Array(await blob.arrayBuffer())))};
   });
   assert.equal(actual.mime,'application/pdf');assert.equal(actual.base64,base64,'all three original pages reach the native viewer unchanged');
@@ -49,5 +53,5 @@ try {
   await page.getByRole('group',{name:'题面语言',exact:true}).getByRole('button').click();await frame.waitFor();
   assert.ok((await page.locator('.cm-content').innerText()).includes('preserve this draft'));
   assert.deepEqual(external,[]);assert.deepEqual(errors,[]);
-  console.log('PASS: native three-page PDF fills the left pane, exact original bytes load offline, Chinese toggles both ways, and the right editor draft survives.');
-} finally {await browser?.close();await server.close();}
+  console.log('PASS: all three PDF pages render offline, exact original bytes are preserved, Chinese toggles both ways, and the editor draft survives.');
+} finally {await context?.close();await server.close();}

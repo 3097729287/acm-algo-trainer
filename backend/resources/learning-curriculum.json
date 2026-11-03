@@ -656,7 +656,13 @@
         "lecture:foundation-io-basics"
       ],
       "course": null,
-      "template": null
+      "template": null,
+      "practiceOriginals": [
+        "luogu.com.cn/problem/B2002",
+        "luogu.com.cn/problem/P1001",
+        "luogu.com.cn/problem/B2005",
+        "luogu.com.cn/problem/B2025"
+      ]
     },
     {
       "id": "basic-control",

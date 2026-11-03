@@ -1,0 +1,37 @@
+{
+  "problemId": "月赛 304::B",
+  "sourceUrl": "https://www.luogu.com.cn/problem/P17594",
+  "checkedAt": "2026-11-03T07:30:31.157910+00:00",
+  "variants": {
+    "solutions": "7eb66b9f12112cae5da4550bc025bb2bc1ba082c7f4d8f3422825214dbf40154",
+    "detailed_solutions": "244965c46f609cccf0b1e763b1074aa18d573c432dc0ec251b60d9668beeab71"
+  },
+  "referenceSha256": "d6f9a7248c0b0d5a51b1d49ec654ff5033bb0bcb6afcc2019f68929f89b82f23",
+  "sharedCppUnchanged": true,
+  "compiler": "g++.EXE (Rev4, Built by MSYS2 project) 16.2.0",
+  "independentOperationTreeCases": 66624,
+  "exhaustiveSmallCases": 65536,
+  "boundaryAndDeterministicRandomCases": 1088,
+  "actualReferenceProcesses": 8,
+  "maximumTPerGeneratedInput": 10000,
+  "allGeneratedInputsWithinFormalConstraints": true,
+  "officialSamplesPassed": true,
+  "orOnlyGreedyCounterexample": {
+    "x": 3,
+    "y": 5,
+    "correct": 6,
+    "greedy": 7
+  },
+  "generatedInputSha256": "b7e7cd49d828167e27046e151f361506bf616f85710ee46f768462642e6f7f6a",
+  "actualOutputSha256": "d13cad715ed2c4243433ffb082265e5be66accf22acff2bbdfd36e52b5a39f9f",
+  "currentFigureSha256": "788e03f9aa041530c83aee48ce0bf543cc3addc32e4d08f3f53667ff020103ae",
+  "officialSubmissionMade": false,
+  "reasoningReview": {
+    "currentTextAndCppRead": true,
+    "currentFigureViewed": true,
+    "state": "Minimum increment among processed bits with a fixed carry into the next bit.",
+    "merge": "Future legal choices depend only on that carry and the unchanged source bits.",
+    "orTransition": "An unchanged OR is legal exactly when y_bit XOR carry is one; its next carry is zero.",
+    "originalTeachingContentChanged": false
+  }
+}

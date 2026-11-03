@@ -1,0 +1,290 @@
+[
+  {
+    "catalogContentReady": true,
+    "catalogReplayReady": true,
+    "catalogStatementReady": true,
+    "collectionSource": "https://www.luogu.com.cn/training/list",
+    "contest": "洛谷专题练习",
+    "date": "",
+    "difficulty": 900,
+    "difficultyBand": [
+      800,
+      1000
+    ],
+    "difficultyConfidence": "LOW",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "https://www.luogu.com.cn/problem/B2002",
+      "洛谷官方难度档 1（入门）→ 区间 [800, 1000]、代表值 900（§3：代表值仅供排序/粗调度）"
+    ],
+    "difficultySource": "CF-EQ / 洛谷官方难度档",
+    "id": "luogu-training-B2002",
+    "knowledge": "",
+    "knowledgeAnalysis": {
+      "categories": [],
+      "confidence": "pending",
+      "evidence": [
+        {
+          "source": "archive-catalog",
+          "tag": null,
+          "value": "顺序结构"
+        }
+      ],
+      "inputHash": "35f53d277b3c5dd51eef5807446079d74c08bf08cc998a757afcfd86b6f05831",
+      "knowledge": "",
+      "pendingCategories": [],
+      "source": "statement-analysis",
+      "sourceTags": [
+        "顺序结构"
+      ],
+      "status": "pending",
+      "supersededTags": [],
+      "tags": [],
+      "unknown": [
+        "顺序结构"
+      ],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [],
+    "knowledgeReviewRequired": true,
+    "platform": "洛谷",
+    "problem": "B2002",
+    "problemType": "standard",
+    "series": "洛谷题单",
+    "solutionAvailable": false,
+    "source": "luogu-training",
+    "sourceTags": [
+      "顺序结构"
+    ],
+    "statementAvailable": true,
+    "status": "未做",
+    "tags": [],
+    "title": "Hello,World!",
+    "url": "https://www.luogu.com.cn/problem/B2002"
+  },
+  {
+    "catalogContentReady": true,
+    "catalogReplayReady": true,
+    "catalogStatementReady": true,
+    "collectionSource": "https://www.luogu.com.cn/training/list",
+    "contest": "洛谷专题练习",
+    "date": "",
+    "difficulty": 900,
+    "difficultyBand": [
+      800,
+      1000
+    ],
+    "difficultyConfidence": "LOW",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "https://www.luogu.com.cn/problem/B2005",
+      "洛谷官方难度档 1（入门）→ 区间 [800, 1000]、代表值 900（§3：代表值仅供排序/粗调度）"
+    ],
+    "difficultySource": "CF-EQ / 洛谷官方难度档",
+    "id": "luogu-training-B2005",
+    "knowledge": "",
+    "knowledgeAnalysis": {
+      "categories": [
+        "字符串",
+        "计算几何"
+      ],
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "archive-catalog",
+          "tag": null,
+          "value": "顺序结构"
+        },
+        {
+          "categories": [
+            "字符串",
+            "计算几何"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "c69ba67d7856c99ff7ca1bd4828b586fd0aa537fb1ea64e7ae09f0a651cb9929",
+      "knowledge": "",
+      "pendingCategories": [
+        "字符串",
+        "计算几何"
+      ],
+      "source": "statement-model",
+      "sourceTags": [
+        "顺序结构"
+      ],
+      "status": "pending",
+      "supersededTags": [],
+      "tags": [],
+      "unknown": [
+        "顺序结构"
+      ],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "字符串",
+      "计算几何"
+    ],
+    "knowledgeReviewRequired": false,
+    "platform": "洛谷",
+    "problem": "B2005",
+    "problemType": "standard",
+    "series": "洛谷题单",
+    "solutionAvailable": false,
+    "source": "luogu-training",
+    "sourceTags": [
+      "顺序结构"
+    ],
+    "statementAvailable": true,
+    "status": "未做",
+    "tags": [],
+    "title": "字符三角形",
+    "url": "https://www.luogu.com.cn/problem/B2005"
+  },
+  {
+    "catalogContentReady": true,
+    "catalogReplayReady": true,
+    "catalogStatementReady": true,
+    "collectionSource": "https://www.luogu.com.cn/training/list",
+    "contest": "洛谷专题练习",
+    "date": "",
+    "difficulty": 900,
+    "difficultyBand": [
+      800,
+      1000
+    ],
+    "difficultyConfidence": "LOW",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "https://www.luogu.com.cn/problem/B2025",
+      "洛谷官方难度档 1（入门）→ 区间 [800, 1000]、代表值 900（§3：代表值仅供排序/粗调度）"
+    ],
+    "difficultySource": "CF-EQ / 洛谷官方难度档",
+    "id": "luogu-training-B2025",
+    "knowledge": "",
+    "knowledgeAnalysis": {
+      "categories": [
+        "字符串"
+      ],
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "archive-catalog",
+          "tag": null,
+          "value": "顺序结构"
+        },
+        {
+          "categories": [
+            "字符串"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "2ed03cede8b0836a1afc892365e275cc350d964ed4fd6bcc4b0c33ca5580143c",
+      "knowledge": "",
+      "pendingCategories": [
+        "字符串"
+      ],
+      "source": "statement-model",
+      "sourceTags": [
+        "顺序结构"
+      ],
+      "status": "pending",
+      "supersededTags": [],
+      "tags": [],
+      "unknown": [
+        "顺序结构"
+      ],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "字符串"
+    ],
+    "knowledgeReviewRequired": false,
+    "platform": "洛谷",
+    "problem": "B2025",
+    "problemType": "standard",
+    "series": "洛谷题单",
+    "solutionAvailable": false,
+    "source": "luogu-training",
+    "sourceTags": [
+      "顺序结构"
+    ],
+    "statementAvailable": true,
+    "status": "未做",
+    "tags": [],
+    "title": "输出字符菱形",
+    "url": "https://www.luogu.com.cn/problem/B2025"
+  },
+  {
+    "catalogContentReady": true,
+    "catalogReplayReady": true,
+    "catalogStatementReady": true,
+    "collectionSource": "https://www.luogu.com.cn/training/list",
+    "contest": "洛谷专题练习",
+    "date": "",
+    "difficulty": 900,
+    "difficultyBand": [
+      800,
+      1000
+    ],
+    "difficultyConfidence": "LOW",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "https://www.luogu.com.cn/problem/P1001",
+      "洛谷官方难度档 1（入门）→ 区间 [800, 1000]、代表值 900（§3：代表值仅供排序/粗调度）"
+    ],
+    "difficultySource": "CF-EQ / 洛谷官方难度档",
+    "id": "luogu-training-P1001",
+    "knowledge": "模拟",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "archive-catalog",
+          "tag": "模拟",
+          "value": "模拟"
+        }
+      ],
+      "inputHash": "29db577b7a61beaed7a9f779799266aec8f1347493124cedf7b2a15a93b43b17",
+      "knowledge": "模拟",
+      "pendingCategories": [],
+      "source": "archive-catalog",
+      "sourceTags": [
+        "模拟"
+      ],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "模拟"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略"
+    ],
+    "knowledgeReviewRequired": false,
+    "platform": "洛谷",
+    "problem": "P1001",
+    "problemType": "standard",
+    "series": "洛谷题单",
+    "solutionAvailable": false,
+    "source": "luogu-training",
+    "sourceTags": [
+      "模拟"
+    ],
+    "statementAvailable": true,
+    "status": "未做",
+    "tags": [
+      "模拟"
+    ],
+    "title": "A+B Problem",
+    "url": "https://www.luogu.com.cn/problem/P1001"
+  }
+]

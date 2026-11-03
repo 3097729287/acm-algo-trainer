@@ -29,8 +29,10 @@ class StartupJobs:
             actions = [self.server.official_sync.start]
             if extensions.state['settings']['autoSync']:
                 actions.append(extensions.sync)
-            actions.extend([self.server.content_updates.start, self.server.calendar_service,
-                            self.server.statement_backfill.start])
+            actions.extend([self.server.content_updates.start, self.server.calendar_service])
+            warm_browser=getattr(self.server,'warm_submission_browser',None)
+            if callable(warm_browser):actions.append(warm_browser)
+            actions.append(self.server.statement_backfill.start)
             for action in actions:
                 try:
                     action()

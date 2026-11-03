@@ -9,7 +9,7 @@ const star=(x,y,r=8,color='#ffe158')=>path(`M${x} ${y-r} ${x+r*.3} ${y-r*.3} ${x
 const face=(x=64,y=65)=>`<g fill="#231f23" stroke="none">${ellipse(x-12,y-5,3,4,'#231f23')}${ellipse(x+12,y-5,3,4,'#231f23')}</g>${path(`M${x-5} ${y+4}q5 6 10 0`,'none','stroke-width="3"')}`;
 const cheeks=(x,y)=>`<g stroke="none">${ellipse(x-21,y,6,3.5,'#ffa3a2')}${ellipse(x+21,y,6,3.5,'#ffa3a2')}</g>`;
 const art={
- duck:path('M41 63C29 64 21 57 23 48c2-9 9-11 16-9C34 23 47 14 61 17c3-8 14-9 14 3 18 5 24 23 15 39 11 0 18-9 21-7 16 38-10 60-48 60-30 0-45-11-43-28 1-10 10-18 21-21Z','#ffdf43')+cheeks(67,50)+ellipse(51,37,3.5,4.5,'#231f23','stroke="none"')+ellipse(78,38,3.5,4.5,'#231f23','stroke="none"')+path('M38 42c4-6 12-5 16 0 10 0 14 8 8 14-7 7-27 8-36 2-7-6-5-14 3-14 3-2 6-3 9-2Z','#ff982e')+line('M47 52q4 4 8 0M62 78c15 4 26-4 28 2 2 12-16 20-26 10-3-3-4-7-3-11'),
+ duck:path('M41 63C29 64 21 57 23 48c2-9 9-11 16-9C34 23 47 14 61 17c3-8 14-9 14 3 18 5 24 23 15 39 11 0 18-9 21-7 16 38-10 60-48 60-30 0-45-11-43-28 1-10 10-18 21-21Z','#ffdf43')+cheeks(67,50)+ellipse(55,36,3.2,4.2,'#231f23','stroke="none"')+ellipse(72,37,3.2,4.2,'#231f23','stroke="none"')+path('M38 42c4-6 12-5 16 0 10 0 14 8 8 14-7 7-27 8-36 2-7-6-5-14 3-14 3-2 6-3 9-2Z','#ff982e')+line('M47 52q4 4 8 0M62 78c15 4 26-4 28 2 2 12-16 20-26 10-3-3-4-7-3-11'),
  cloud:path('M29 94C7 94 7 61 27 58c-4-24 24-38 41-20 17-7 30 3 31 19 26-1 28 37 1 37Z','#b9eaff')+face(65,76)+cheeks(65,81),
  heart:path('M64 109C46 99 15 77 15 49c0-26 34-34 49-11 17-24 49-15 49 11 0 26-30 50-49 60Z','#ff7e94')+face(64,66)+cheeks(64,71),
  spark:path('M64 16 77 45 109 48 85 70 92 103 64 87 35 103 42 70 18 48 51 45Z','#ffd54e')+face(64,63),
@@ -40,7 +40,8 @@ const art={
 const folder=new URL('../public/stickers/cartoon/',import.meta.url);await mkdir(folder,{recursive:true});
 const manifest={style:'cartoon-paper-v1',description:'Original rounded flat-color illustrations, dark ink and white die-cut borders; no external resources',viewBox:'0 0 128 128',files:{}};
 for(const [name,body] of Object.entries(art)){
- const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" data-sticker-style="cartoon-paper-v1"><defs><filter id="cut" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="dilate" radius="3.5" result="cutline"/><feFlood flood-color="#fff"/><feComposite in2="cutline" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g filter="url(#cut)" stroke="#231f23" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${body}</g></svg>\n`;
+ const drawing=['galaxy','planet','rainbow'].includes(name)?`<g transform="translate(6.4 6.4) scale(.9)">${body}</g>`:body;
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" data-sticker-style="cartoon-paper-v1"><defs><filter id="cut" filterUnits="userSpaceOnUse" x="-12" y="-12" width="152" height="152" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="dilate" radius="3.5" result="cutline"/><feFlood flood-color="#fff"/><feComposite in2="cutline" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g filter="url(#cut)" stroke="#231f23" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${drawing}</g></svg>\n`;
  await writeFile(new URL(name+'.svg',folder),svg);manifest.files[name+'.svg']=createHash('sha256').update(svg).digest('hex');
 }
 await writeFile(new URL('manifest.json',folder),JSON.stringify(manifest,null,2)+'\n');

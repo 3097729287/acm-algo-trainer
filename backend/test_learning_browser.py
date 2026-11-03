@@ -22,7 +22,7 @@ class LearningBrowserHTTPTests(unittest.TestCase):
         self.assertEqual(self.request('/api/preferences',{'preferences':{}},{'X-TB-Token':'invalid'})[0],403)
 
     def test_preferences_still_reject_oversized_declared_bodies_without_reading_them(self):
-        self.assertEqual(self.declared('/api/preferences',32*1024*1024+1),400)
+        self.assertEqual(self.declared('/api/preferences',48*1024*1024+1),400)
 
     def declared(self,path,size):
         connection=http.client.HTTPConnection('127.0.0.1',self.server.server_port,timeout=5)

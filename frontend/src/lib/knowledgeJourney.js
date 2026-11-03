@@ -9,8 +9,15 @@ const finite=value=>typeof value==='number'&&Number.isFinite(value);
 const stamp=value=>typeof value==='string'?Date.parse(value):NaN;
 const iso=now=>new Date(now).toISOString();
 export const knowledgeState=prefs=>prefs?.learningPaths?.knowledgeLearning?.version===1?prefs.learningPaths.knowledgeLearning:{version:1,activeTopicId:null,selection:0,journeys:{}};
-const topicMatches=(row,topic)=>topic.tags.some(tag=>rowKnowledgeNames(row).has(canonicalKnowledgeName(tag)));
+// These originals were reviewed as introductory exercises. Their general OJ
+// tags (or a missing editorial) must not erase the connection to the lesson.
+const curated=(row,topic)=>array(topic.practiceOriginals).includes(original(row));
+const reviewedPracticeOriginals=new Set(KNOWLEDGE_TOPICS.flatMap(topic=>array(topic.practiceOriginals)));
+export const isReviewedKnowledgePractice=row=>reviewedPracticeOriginals.has(original(row));
+const topicMatches=(row,topic)=>curated(row,topic)||topic.tags.some(tag=>rowKnowledgeNames(row).has(canonicalKnowledgeName(tag)));
 const usable=row=>row?.catalogContentReady===true&&row.solutionAvailable===true&&row.solutionState!=='missing'&&!row.locked&&!row.catalogHidden;
+const practiceReady=(row,topic)=>(usable(row)||curated(row,topic)&&row?.catalogStatementReady===true)&&!row.locked&&!row.catalogHidden;
+const practiceRank=(row,topic)=>curated(row,topic)?array(topic.practiceOriginals).indexOf(original(row))/100:studyRank(row);
 const implemented=template=>array(template?.practicePassed).length>0&&array(template.practicePassed).every(Boolean);
 const distinct=rows=>[...new Map(rows.map(row=>[original(row),row])).values()];
 const fresh=row=>!row.accepted&&!row.hasDraft&&!row.draft&&!row.lastSubmissionAt&&!row.lastSubmission&&!Number(row.attempts||row.attemptCount||row.submissionCount||0)&&!/(?:\b(?:AC|WA|TLE|MLE|RE|CE|OLE)\b|已通过|未通过|训练中)/i.test(String(row.status||'')+' '+String(row.verdict||''));
@@ -80,7 +87,7 @@ export function recordKnowledgeLesson(previous,next,id,now=Date.now()){
 }
 export function confirmKnowledgeAction(prefs,action,now=Date.now()){
  const state=knowledgeState(prefs),topic=KNOWLEDGE_BY_ID[state.activeTopicId];
- if(!topic||action?.journeyTopicId!==topic.id)return prefs;
+ if(!topic||action?.journeyTopicId!==topic.id||action.reviewOnly)return prefs;
  if(action.kind==='lecture'){
   if(array(prefs.learnedLectures).includes(action.id))return prefs;
   const lessons=new Set([...topic.lectures,...requiredKnowledgeLessons(topic,prefs)]);
@@ -94,6 +101,7 @@ export function assignKnowledgeProblem(prefs,item,now=Date.now()){
  if(!item.journeyTopicId||!item.journeyPhase)return prefs;
  return edited(prefs,state=>{
   const journey=state.journeys?.[item.journeyTopicId];if(state.activeTopicId!==item.journeyTopicId||!journey)return state;
+  if(!['problem','guided','knowledge-review'].includes(item.kind))return state;
   const key=item.journeyPhase;return {...state,journeys:{...state.journeys,[item.journeyTopicId]:{...journey,assignments:{...journey.assignments,[key]:{id:item.id,at:iso(now)}}}}};
  });
 }
@@ -141,9 +149,9 @@ export function knowledgeJourney({rows=[],prefs={},templates=[],templatesReady=t
  const spent=Object.values(todayPoints).filter(item=>trainingDay(item.at)===day).reduce((sum,item)=>sum+(Number(item.minutes)||0),0);
  const budget=Math.max(8,Math.min(topic.level===1?20:25,finite(reviewPlan.newMinutes)?reviewPlan.newMinutes:topic.level===1?15:20));
  const cap=Math.min(2300,Math.max(1100,Number(evidence?.assessment?.abilityScore)||1100)+100);
- const independent=distinct(rows.filter(row=>usable(row)&&topicMatches(row,topic)&&!row.knowledgeReviewRequired&&studyRank(row)!=null&&studyRank(row)<=cap&&!guidedKeys.has(original(row)))).sort((a,b)=>studyRank(a)-studyRank(b)||String(a.id).localeCompare(String(b.id)));
+ const independent=distinct(rows.filter(row=>practiceReady(row,topic)&&topicMatches(row,topic)&&(curated(row,topic)||!row.knowledgeReviewRequired)&&practiceRank(row,topic)!=null&&practiceRank(row,topic)<=cap&&!guidedKeys.has(original(row)))).sort((a,b)=>practiceRank(a,topic)-practiceRank(b,topic)||String(a.id).localeCompare(String(b.id)));
  const pick=(phase,candidates)=>{
-  const assigned=journey.assignments?.[phase],retained=assigned&&rows.find(row=>row.id===assigned.id&&usable(row)&&!acceptedOriginals.has(original(row)));
+  const assigned=journey.assignments?.[phase],retained=assigned&&candidates.find(row=>row.id===assigned.id&&practiceReady(row,topic)&&!acceptedOriginals.has(original(row)));
   return retained||candidates.find(unseen);
  };
  const coverage={lectures:topic.lectures.length,experiment:Boolean(course),guided:guided.length,implementation:Boolean(template),independent:independent.filter(unseen).length,retention:'跨日陌生题独立检验'};
@@ -168,7 +176,7 @@ export function knowledgeJourney({rows=[],prefs={},templates=[],templatesReady=t
   waiting=phase==='retention'&&(!first||now-first<KNOWLEDGE_POLICY.minimumRetentionHours*3600000||trainingDay(first)===day);
   const row=!waiting&&pick(phase,independent);
   if(row)action={kind:phase==='retention'?'knowledge-review':'problem',page:'mine',id:row.id,title:row.title,reason:phase==='retention'?`与初次应用间隔至少一天，用一道未做过的「${topic.title}」题独立检验保留与迁移；查看题解后的 AC 不算独立检验。`:`用这道未做过的「${topic.title}」题独立实现；原题别名不会重复计入。`};
-  else if(!waiting&&!mastered)action=offerLecture(topic.lectures[0],`「${topic.title}」当前没有满足难度和内容条件的陌生练习，先回顾要点；练习覆盖仍待补齐，不标记掌握。`);
+  else if(!waiting&&!mastered)action={...offerLecture(topic.lectures[0],`「${topic.title}」当前没有满足难度和内容条件的陌生练习，先回顾要点；练习覆盖仍待补齐，不标记掌握。`),reviewOnly:true};
  }
  if(action&&!allowed(action.page))action={kind:'navigation',page:'settings',id:'learning-visibility',title:'恢复学习入口',reason:`「${topic.title}」所需入口已隐藏，可在设置中恢复。`};
  const dailyCompleted=Object.entries(todayPoints).filter(([key,item])=>/^(lecture|course|template|guided|official):/.test(key)&&trainingDay(item.at)===day).length;

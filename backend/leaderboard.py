@@ -114,7 +114,7 @@ class LeaderboardClient:
             if self.opener_endpoint != profile['endpoint']:
                 self.opener = service_opener(profile['endpoint'])
                 self.opener_endpoint = profile['endpoint']
-            maximum = 8 * 1024 * 1024 if method == 'GET' and path == '/v1/stickers' else 4 * 1024 * 1024 if method == 'GET' and path == '/v1/social' else 256 * 1024
+            maximum = 16_065_568 if method == 'GET' and path.startswith('/v1/avatars/') else 8 * 1024 * 1024 if method == 'GET' and path == '/v1/stickers' else 4 * 1024 * 1024 if method == 'GET' and path == '/v1/social' else 256 * 1024
             with self.opener.open(request, timeout=self.timeout if timeout is None else min(self.timeout,timeout)) as response:
                 raw = response.read(maximum + 1)
             if len(raw) > maximum:
@@ -194,6 +194,10 @@ class LeaderboardClient:
                 raise RuntimeError("排行榜身份响应不匹配")
             if registered.get("publicProgressProtocol") == 1:
                 payload = self._local('public_profile') if registered.get("publicAppearanceProtocol") == 1 else {"publicProgress": self._local('public_progress')}
+                # An older service retains its existing public portrait. The original
+                # stays untouched in account preferences until protocol 1 is available.
+                if len(payload.get('avatarData',''))>48*1024 and registered.get('originalAvatarProtocol')!=1:
+                    payload.pop('avatarData',None)
                 progress = payload["publicProgress"]
                 signature = (profile["endpoint"], profile["user_id"], profile["auth_token"], payload)
                 if self.last_public_progress != signature:
@@ -317,6 +321,8 @@ class LeaderboardClient:
                 if len(self.avatar_cache) >= 100:
                     self.avatar_cache.pop(next(iter(self.avatar_cache)))
                 self.avatar_cache[key] = value
+                while sum(len(item['avatarData']) for item in self.avatar_cache.values())>32*1024*1024:
+                    self.avatar_cache.pop(next(iter(self.avatar_cache)))
         return dict(value)
 
     def admin_delete(self, body):

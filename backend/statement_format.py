@@ -173,7 +173,9 @@ def needs_statement_refresh(value):
     if not isinstance(value,dict):return False
     host=urlsplit(value.get('url') or '').hostname
     version=value.get('statementVersion') or 0
-    return (host=='atcoder.jp' and version<5) or (host=='ac.nowcoder.com' and version<3)
+    from codeforces_pdf import needs_localized_pdf
+    return ((host=='atcoder.jp' and version<5) or (host=='ac.nowcoder.com' and version<3)
+            or host=='codeforces.com' and needs_localized_pdf(value))
 
 
 def html_markdown(html, base='', prose_pre=False):

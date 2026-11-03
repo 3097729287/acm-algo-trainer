@@ -222,7 +222,6 @@ def run_desktop() -> int:
             splash=StartupSplash();splash.show()
         check_dependencies()
         import webview
-        from backend import start_server
         from early_window import EarlyWindow
         PROFILE_DIR.mkdir(parents=True, exist_ok=True)
         INSTANCE_DIR.mkdir(parents=True, exist_ok=True)
@@ -252,6 +251,8 @@ def run_desktop() -> int:
         def initialize():
             nonlocal server,service_thread
             try:
+                # Backend imports can run while the real WebView is created.
+                from backend import start_server
                 if getattr(sys, 'frozen', False) and not ADMIN_MODE and os.environ.get('TB_OFFLINE') != '1':
                     from legacy_cleanup import prepare
                     try:
@@ -334,14 +335,11 @@ def run_desktop() -> int:
                     from legacy_cleanup import start as start_legacy_cleanup
                     start_legacy_cleanup(APP_DIR, lambda: loaded.is_set() and bool(server.accounts.session))
                     def warm_submission_browser():
-                        while not official.stopping.wait(.5):
-                            if loaded.is_set() and server.accounts.session:
-                                try:
-                                    official.browser.ensure(background=True)
-                                except Exception as issue:
-                                    LOG.info('Browser warmup deferred: %s', type(issue).__name__)
-                                return
-                    threading.Thread(target=warm_submission_browser, name='tb-browser-warmup', daemon=True).start()
+                        if not official.stopping.is_set() and server.accounts.session:
+                            official.browser.ensure(background=True)
+                    # StartupJobs invokes this only after a foreground content
+                    # paint acknowledgement, alongside the other delayed work.
+                    server.warm_submission_browser=warm_submission_browser
                 early.activate(server)
                 LOG.info('Local interface ready')
             except Exception:

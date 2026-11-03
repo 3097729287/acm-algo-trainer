@@ -3,7 +3,7 @@ import {organizeTrainingLists} from './trainingListCatalog.js';
 import {buildTrainingCurriculum,filterTrainingListsScope} from './trainingCurriculum.js';
 import {canonicalKnowledgeName,rowKnowledgeNames} from './knowledgeNames.js';
 import {foundationNext} from './learningCurriculum.js';
-import {knowledgeJourney,optionalLearningActions} from './knowledgeJourney.js';
+import {knowledgeJourney,optionalLearningActions,isReviewedKnowledgePractice} from './knowledgeJourney.js';
 
 // Real shipped lessons, with explicit prerequisites and template associations.
 // A broad shared tag never implies that an unrelated advanced template is next.
@@ -125,7 +125,7 @@ export function learningEvidence(rows,insights={},now=Date.now()){
  const learningRecords=new Map(),source=insights.learningEvidence;
  if(source?.version===1&&source.method==='verified-official-learning-v1')for(const item of list(source.records)){
   const row=byId.get(item.problemId)||byId.get(item.id),time=stamp(item.date);
-  if(!row||row.knowledgeReviewRequired||!finite(time)||time>now||item.scope!=='official'||item.independentKnown!==true||typeof item.solved!=='boolean')continue;
+  if(!row||row.knowledgeReviewRequired&&!isReviewedKnowledgePractice(row)||!finite(time)||time>now||item.scope!=='official'||item.independentKnown!==true||typeof item.solved!=='boolean')continue;
   const key=original(row),candidate={...item,row,time,key,failures:Number.isInteger(item.failures)&&item.failures>=0?item.failures:1},prior=learningRecords.get(key);
   if(!prior||candidate.time<prior.time||candidate.time===prior.time&&!candidate.solved)learningRecords.set(key,candidate);
  }

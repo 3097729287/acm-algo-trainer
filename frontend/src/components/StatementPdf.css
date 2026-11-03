@@ -1,0 +1,13 @@
+.wb-statement.wb-pdf-statement{padding:0;overflow:auto;display:block;min-height:0}
+.wb-statement-pdf{display:block;width:100%;height:auto;min-height:100%;background:var(--panel-2);padding:0 0 12px;border:0}
+.wb-pdf-actions{position:sticky;top:0;height:32px;display:flex;justify-content:flex-end;align-items:center;padding:0 6px;background:var(--panel-2);z-index:3}
+.wb-pdf-page{position:relative;margin:0 auto 12px;background:#fff;box-shadow:0 1px 5px #0003;direction:ltr;overflow:hidden}
+.wb-pdf-page canvas{display:block;width:100%;height:100%;user-select:none}
+/* PDF.js text-layer geometry, adapted from pdfjs-dist/web/pdf_viewer.css.
+   Copyright Mozilla contributors; Apache-2.0, bundled with the offline assets. */
+.wb-pdf-text-layer{color-scheme:only light;position:absolute;text-align:initial;inset:0;overflow:clip;opacity:1;line-height:1;letter-spacing:normal;word-spacing:normal;text-size-adjust:none;forced-color-adjust:none;transform-origin:0 0;caret-color:CanvasText;z-index:1;--min-font-size:1;--text-scale-factor:calc(var(--total-scale-factor) * var(--min-font-size));--min-font-size-inv:calc(1 / var(--min-font-size))}
+.wb-pdf-text-layer :is(span,br){color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0 0;user-select:text}
+.wb-pdf-text-layer> :not(.markedContent),.wb-pdf-text-layer .markedContent span:not(.markedContent){z-index:1;--font-height:0;font-size:calc(var(--text-scale-factor) * var(--font-height));--scale-x:1;--rotate:0deg;transform:rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv))}
+.wb-pdf-text-layer .markedContent{display:contents}
+.wb-pdf-text-layer span[role="img"]{user-select:none;cursor:default}
+.wb-pdf-text-layer ::selection{background:#4685e766;color:transparent}

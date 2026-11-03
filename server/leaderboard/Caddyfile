@@ -37,6 +37,17 @@
     }
     reverse_proxy api:8080
   }
+  # Bounded, authenticated original portrait uploads; other limits stay fixed.
+  @original_avatar {
+    method PUT
+    path /v1/profile
+  }
+  handle @original_avatar {
+    request_body {
+      max_size 16065568
+    }
+    reverse_proxy api:8080
+  }
   handle {
     request_body {
       max_size 65536
