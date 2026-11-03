@@ -6,8 +6,16 @@ import {createHash,randomUUID} from 'node:crypto';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {createReleaseStream} from '../src/release-stream.mjs';
+import {releaseStreamProxy,RELEASE_STREAM_PROXY} from '../scripts/prepare-release-stream-proxy.mjs';
+import {readFile} from 'node:fs/promises';
 const bytes=Buffer.from('verified public release fixture');
 const name='TB-Update-1.4.0-to-1.5.2-win64.zip';
+test('release forwarding changes only the missing-asset route and preserves the account proxy',async()=>{
+ const current=await readFile(new URL('../Caddyfile',import.meta.url),'utf8');
+ const previous=current.replace(RELEASE_STREAM_PROXY,'');
+ assert.notEqual(previous,current);assert.equal(releaseStreamProxy(previous),current);assert.equal(releaseStreamProxy(current),current);
+ assert.throws(()=>releaseStreamProxy(previous+previous));assert.throws(()=>releaseStreamProxy(previous.replace('header @assets','header @other')));
+});
 async function fixture(fetcher,overrides={}){
  const directory=resolve('../../.backups/cleanup-startup/release-stream-tests',randomUUID());await mkdir(directory,{recursive:true});
  const file=directory+'/index.json';await writeFile(file,JSON.stringify({schema:1,assets:[{version:'1.5.2',name,size:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex'),...overrides}]}));

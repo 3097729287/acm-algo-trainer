@@ -22,6 +22,10 @@ await page.route('**/api/**',async route=>{
  else if(path==='preferences'){if(route.request().method()==='POST'){preferenceSaveAttempts++;if(preferenceSaveFailures>0){preferenceSaveFailures--;await route.fulfill({status:503,json:{error:'隔离偏好保存失败'}});return;}preferences=route.request().postDataJSON().preferences;}value={preferences,updatedAt:now};}
  else if(path==='data')value={rows,categories:[],token:'fixture',today:now.slice(0,10)};
  else if(path==='workspace')value=workspace;
+ else if(path==='workspace/ready')value={ready:true};
+ else if(path==='navigation')value={level,confirmed:true,authority:{owner,epoch:'navigation-fixture',revision:++revision}};
+ else if(path==='duel')value={owner,status:'idle',match:null,ticket:null,serverNow:Date.now()};
+ else if(path==='stickers')value={owner,catalogue:[],units:[],boxes:[],grants:{},revision:0};
  else if(path==='insights')value={summary:{totalSolved:0},growth:{level,confirmed:true,authority:{owner,epoch:'navigation-fixture',revision:++revision},tier:'黑铁',currentLevelXp:0,nextLevelXp:200,totalXp:0},knowledge:[],recommendations:[],activity:[],assessment:{},dailyTasks:{tasks:[]}};
  else if(path==='software-update')value={currentVersion:'1.4.29',status:'current',autoCheck:false,canInstall:false};
  else if(path==='content-update')value={revision:0,status:'current'};
@@ -179,7 +183,7 @@ try{
   return Array.isArray(hidden)&&!hidden.includes('training-lists')&&!hidden.includes('templates');
  });
  await page.getByRole('checkbox',{name:'显示 题单',exact:true}).check();
- await page.getByRole('button',{name:'显示 模板',exact:true}).click();
+ await page.getByRole('checkbox',{name:'显示 模板',exact:true}).check();
  assert.equal((await restoredPreferences).status(),200,'Geometry starts only after restored account preferences are saved');
  assert(!preferences.hiddenNavPages.includes('training-lists')&&!preferences.hiddenNavPages.includes('templates'));
  for(const theme of ['dark','light'])for(const fontSize of [15,22])for(const width of [2048,1294,960,430]){
@@ -188,8 +192,8 @@ try{
   const geometry=await page.locator('.next-actions-popover').evaluate(node=>{const r=node.getBoundingClientRect(),header=document.querySelector('.topbar');return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:innerWidth,height:innerHeight,headerOverflow:header.scrollWidth>header.clientWidth+1};});
   const trigger=await recommendation.boundingBox();
   const spacing=await recommendation.evaluate(node=>{const control=node.getBoundingClientRect(),button=node.querySelector('.next-actions-primary'),title=button.querySelector('strong'),range=document.createRange();range.selectNodeContents(title);const css=getComputedStyle(button),icon=button.querySelector('svg').getBoundingClientRect();return {width:control.width,natural:range.getBoundingClientRect().width+icon.width+parseFloat(css.columnGap)+parseFloat(css.paddingLeft)+parseFloat(css.paddingRight),gap:document.querySelector('.topbar-actions').getBoundingClientRect().left-control.right};});
-  assert(spacing.width<=spacing.natural+1,'No reserved blank width after the recommendation: '+JSON.stringify(spacing));
-  if(width>=960)assert(spacing.gap>=0&&spacing.gap<=13,'Recommendation sits next to the right-side statistics: '+JSON.stringify(spacing));
+  assert(spacing.width>0&&spacing.width<=width,'The centred recommendation stays within the header: '+JSON.stringify(spacing));
+  if(width>1100)assert(spacing.gap>=0,'Recommendation and right-side statistics do not overlap: '+JSON.stringify(spacing));
   const popupWidth=geometry.right-geometry.left,alignedLeft=Math.max(10,Math.min(trigger.x,width-popupWidth-10));
   assert(Math.abs(geometry.left-alignedLeft)<.75&&popupWidth>0&&popupWidth<=width-16,'Real App compact popup aligns with the control and fits the viewport: '+JSON.stringify({theme,fontSize,width,geometry,trigger}));
   const primaryName=await recommendation.locator('.next-actions-primary').getAttribute('aria-label');
@@ -206,14 +210,14 @@ try{
  }
  // Newly unlocked guides become available without interrupting with a tour.
  await page.waitForTimeout(800);
- preferences={theme:'dark',onboardingGuideVersion:2,onboardingCompleted:true,onboardingUnlockedPages:availablePages(1),levelNoticeVersion:1,levelNoticeSeen:2,levelNoticePending:0};
+ preferences={theme:'dark',onboardingGuideVersion:2,onboardingCompleted:true,onboardingUnlockedPages:availablePages(1),learningPaths:{navigationAccess:{version:3,retained:[]}},levelNoticeVersion:1,levelNoticeSeen:2,levelNoticePending:0};
  await page.evaluate(()=>localStorage.clear());await load(2);
  const unlockedGuide=page.getByRole('dialog',{name:'新手指引',exact:true});
  assert.equal(await unlockedGuide.count(),0);
- await openSettings(page,'新手指引');assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'排行榜',exact:true}).count(),1);assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'模板',exact:true}).count(),0);
+ await openSettings(page,'新手指引');await page.locator('.tour-guide-grid').waitFor();assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'排行榜',exact:true}).count(),0);assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'实验室',exact:true}).count(),1);assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'模板',exact:true}).count(),0);
  await load(2);assert.equal(await unlockedGuide.count(),0,'acknowledged unlock guides do not repeat on restart');
  // Exercise the actual App persistence queue rather than only the observer model.
- preferences={theme:'dark',onboardingGuideVersion:2,onboardingCompleted:true,onboardingUnlockedPages:availablePages(1),levelNoticeVersion:1,levelNoticeSeen:1,levelNoticePending:0};
+ preferences={theme:'dark',onboardingGuideVersion:2,onboardingCompleted:true,onboardingUnlockedPages:availablePages(1),learningPaths:{navigationAccess:{version:3,retained:[]}},levelNoticeVersion:1,levelNoticeSeen:1,levelNoticePending:0};
  await page.evaluate(()=>{localStorage.clear();sessionStorage.clear();});await load(1);
  preferenceSaveFailures=2;const savesBefore=preferenceSaveAttempts;await load(2);
  const promotion=page.getByRole('dialog',{name:'等级提升',exact:true});await promotion.waitFor();await page.keyboard.press('Escape');
