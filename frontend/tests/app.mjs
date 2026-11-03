@@ -669,10 +669,14 @@ try {
   await page.keyboard.press('Control+9');
   await page.locator('.lectures-list button').filter({hasText:'函数测试起点'}).click();
   await page.getByRole('heading',{name:'函数测试正文',exact:true}).waitFor();
-  await page.locator('.study-pane:not([hidden]) .lectures-detail').evaluate(node=>{node.scrollTop=1200;});
+  await page.locator('.study-pane:not([hidden]) .lectures-detail').hover();
+  await page.mouse.wheel(0,1200);
+  await page.waitForFunction(()=>document.querySelector('.study-pane:not([hidden]) .lectures-detail').scrollTop>=1190);
   await page.locator('.study-pane:not([hidden]) .lecture-prerequisites button').filter({hasText:'分支与循环'}).dispatchEvent('click');
   await page.getByRole('heading',{name:'分支循环测试正文',exact:true}).waitFor();
-  await page.locator('.study-pane:not([hidden]) .lectures-detail').evaluate(node=>{node.scrollTop=800;});
+  await page.locator('.study-pane:not([hidden]) .lectures-detail').hover();
+  await page.mouse.wheel(0,800);
+  await page.waitForFunction(()=>document.querySelector('.study-pane:not([hidden]) .lectures-detail').scrollTop>=790);
   await page.locator('.study-pane:not([hidden]) .lecture-prerequisites button').filter({hasText:'输入输出'}).dispatchEvent('click');
   await page.getByRole('heading',{name:'输入输出测试正文',exact:true}).waitFor();
   await page.getByRole('button',{name:'返回主界面',exact:true}).click();
