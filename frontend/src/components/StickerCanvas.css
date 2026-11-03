@@ -61,3 +61,22 @@ html .growth-account-hero .account-hero-goals{padding-top:0;border-top:0;flex:no
 @keyframes sticker-cut-flash{0%,100%{opacity:0;transform:scale(.3)}35%{opacity:1;transform:scale(1.3)}}
 @keyframes sticker-spectrum{0%{opacity:0;transform:scale(.7)}25%{opacity:.85}100%{opacity:0;transform:scale(1.4)}}
 @media(prefers-reduced-motion:reduce){.sticker-reaction-particle{animation:sticker-feedback-fade .85s ease-out both!important;animation-delay:0s!important}.reaction-rainbow::before{animation:sticker-feedback-fade .85s ease-out both}}
+
+/* The portrait and skill emblem share image and name baselines. */
+html .growth-dashboard .growth-account-hero .sticker-canvas{gap:12px;min-height:440px;height:100%}
+html .growth-dashboard .growth-account-hero{padding:20px}
+html .growth-dashboard .growth-account-hero .sticker-mode-toolbar{order:-1;align-self:flex-end;min-height:32px;padding:0;gap:5px;z-index:3}
+html .growth-dashboard .growth-account-hero .sticker-content{justify-content:center;min-height:360px}
+html .growth-dashboard .growth-account-hero .account-hero-identity{--growth-emblem-size:clamp(112px,14vw,210px);align-items:start;min-height:0;flex:none;width:100%;max-width:780px;align-self:center;gap:24px;margin-block:36px}
+html .growth-dashboard .growth-account-hero .account-hero-person{align-items:center;gap:10px}
+html .growth-dashboard .growth-account-hero .profile-badge{grid-template-rows:var(--growth-emblem-size) 38px;gap:28px}
+html .growth-dashboard .growth-account-hero .profile-avatar-button{width:var(--growth-emblem-size);height:var(--growth-emblem-size)}
+html .growth-dashboard .growth-account-hero .account-hero-rank{grid-template-rows:var(--growth-emblem-size) 38px auto auto;row-gap:28px}
+html .growth-dashboard .growth-account-hero .account-hero-rank .medal-rank{width:var(--growth-emblem-size);height:var(--growth-emblem-size);transform:none}
+html .growth-dashboard .growth-account-hero .account-hero-rank>strong,html .growth-dashboard .growth-account-hero .profile-nickname{font-size:clamp(1.15rem,1.6vw,1.5rem);line-height:38px}
+html .growth-dashboard .growth-account-hero .account-hero-titles{display:flex;justify-content:center;max-width:100%}
+html .growth-dashboard .growth-account-hero .account-hero-titles .medal-emblem{width:clamp(28px,3vw,48px);height:auto}
+html .growth-dashboard .growth-account-hero .account-hero-rank>span{margin-top:-22px;text-align:center;overflow-wrap:anywhere}
+@media(max-width:540px){html .growth-dashboard .growth-account-hero .account-hero-identity{gap:10px}html .growth-dashboard .growth-account-hero .account-hero-rank>span{font-size:.75rem}}
+
+html .growth-dashboard .growth-account-hero .profile-avatar-face{width:75%;height:75%}

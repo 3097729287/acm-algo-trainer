@@ -1,0 +1,29 @@
+{
+  "version": "1.5.1",
+  "nativeBaseline": "f17e6868e0e0f9c42a0fd8942d8da804702e2069",
+  "frontendOnly": true,
+  "publicRelease": false,
+  "checks": {
+    "productionBuild": true,
+    "growthLayouts": 8,
+    "growthGoalCreateEditArchive": true,
+    "growthStatisticsMoved": true,
+    "highAcMedalGold": true,
+    "cartoonEmbeddedAssets": 27,
+    "legendaryInteractions": 9,
+    "firstDuckClickUsesAudibleRecordedQuack": true,
+    "syntheticDuckFallbackRemoved": true,
+    "stickerRewardRetryGiftAndReply": true,
+    "duelPennantReviewedDesktopAndMobile": true
+  },
+  "tests": [
+    "frontend/tests/growth-material.mjs",
+    "frontend/tests/sticker-interactions.mjs",
+    "frontend/tests/sticker-rewards.mjs"
+  ],
+  "officialSubmissions": 0,
+  "productionOperationsInTests": 0,
+  "aigeiReplacementPendingReadableResourceUrl": true,
+  "duckAssetSource": "https://commons.wikimedia.org/wiki/File:Anas_platyrhynchos_-_Mallard_-_XC62258.ogg",
+  "knownUnrelatedBackendFailure": "Existing Nailoong lecture-ledger mismatch; no backend changes in this revision."
+}

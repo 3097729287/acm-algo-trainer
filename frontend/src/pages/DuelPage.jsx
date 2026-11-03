@@ -3,7 +3,6 @@ import {ArrowLeft,Check,Clock,ExternalLink,LoaderCircle,Play,RefreshCw,Swords,Wi
 import './DuelPage.css';
 import ProfileBadge from '../components/ProfileBadge.jsx';
 import TierIcon from '../components/TierIcon.jsx';
-import {rankIndex,TIER_NAMES} from '../lib/rankTiers.js';
 export default function DuelPage({duel,rows,onTrain,account,profile,growth,avatar}){
  const {state,error,busy,act,reload,clock}=duel,[tick,setTick]=useState(0);
  useEffect(()=>{const timer=setInterval(()=>setTick(value=>value+1),1000);return()=>clearInterval(timer);},[]);
@@ -18,7 +17,7 @@ export default function DuelPage({duel,rows,onTrain,account,profile,growth,avata
   <header className="duel-toolbar"><Swords size={22}/><strong>对战</strong><span>800–1500</span><button type="button" className="icon-button" aria-label="刷新对战" disabled={busy} onClick={reload}><RefreshCw size={17}/></button></header>
   {!room?<div className={'duel-lobby'+(queued?' is-queued':'')}>
    {(queued||ready)&&<div className="duel-queue-status" role="status"><LoaderCircle size={18} className="progress-spin"/><span>{ready?'已找到对手':'匹配中'}</span>{queued&&<time role="timer" aria-label="已匹配时间">{time(elapsed)}</time>}</div>}
-   <div className="duel-lobby-identity"><ProfileBadge compact={false} growth={growth} avatar={avatar} nickname={nickname} showXp={false}/>{rank&&<div className="duel-lobby-rank"><TierIcon rank={rank} size={64}/><span>{rank.qualified===false?'定级中':TIER_NAMES[rankIndex(rank)]}</span></div>}</div>
+   <div className="duel-lobby-identity"><ProfileBadge compact={false} growth={growth} avatar={avatar} nickname={nickname} showXp={false}/>{rank&&<div className="duel-lobby-rank"><TierIcon rank={rank} size={76}/></div>}</div>
    <div className="duel-lobby-actions">{queued?<><button type="button" className="duel-find" disabled aria-label="正在寻找对局"><LoaderCircle size={19} className="progress-spin"/><span>匹配中</span></button><button type="button" className="icon-button duel-cancel" aria-label="取消匹配" title="取消匹配" disabled={busy} onClick={()=>act('cancel',{ticket:state.ticket})}><X size={20}/></button></>:<button type="button" className="primary duel-find" aria-label="开始匹配" disabled={busy||ready||!state} onClick={()=>act('join')}><Swords size={21}/><span>{cancelled?'重新寻找对局':'寻找对局'}</span></button>}</div>
    {cancelled&&<p className="duel-lobby-result" role="status">{state.match.cancelReason==='timeout'?'接受对局超时':state.match.cancelledBy===state.owner?'已拒绝本轮对局':'对手已拒绝本轮对局'}</p>}
   </div>:<>

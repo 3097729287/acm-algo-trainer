@@ -1,5 +1,5 @@
 import {useEffect,useState} from 'react';
-import {ArrowRight,CalendarDays,ChartNoAxesCombined,Clock,Flame,Mountain,Timer} from 'lucide-react';
+import {ArrowRight,CalendarDays,ChartNoAxesCombined,Check,Clock,Code2,Flag,Flame,Mountain,Timer} from 'lucide-react';
 import Tooltip from '@/components/Tooltip.jsx';
 
 const number=value=>value==null?'—':Number(value).toLocaleString('zh-CN');
@@ -11,11 +11,14 @@ export default function PersonalStatistics({api,insights,account,onTrain,rows=[]
   const hardestHidden=hardest&&rows.find(row=>row.id===hardest.id||row.aliasIds?.includes(hardest.id))?.difficultyHidden;
   const registration=account?.createdAt&&Number.isFinite(Date.parse(account.createdAt))?new Date(account.createdAt).toLocaleDateString('zh-CN',{timeZone:'Asia/Shanghai'}):'—';
   const facts=[
-    ['AC',number(summary.totalSolved??summary.officialSolved),'累计通过',null],
-    [Flame,number(summary.longestStreak),'最长连续训练','按正式提交日期统计连续训练天数。'],
+    [Check,number(summary.totalSolved??summary.officialSolved),'总 AC',null],
+    [Code2,number(summary.submissions),'提交',null],
+    [CalendarDays,number(summary.activeDays),'活跃天数',null],
+    [Flame,number(summary.streak),'连续练习',null],
+    [Flag,number(summary.completedContests),'完成比赛',null],
+    [Flame,number(summary.longestStreak),'最长连续练习','按正式提交日期统计连续训练天数。'],
     [Flame,number(stats.longestAcStreak),'最长连续 AC','按北京时间统计连续有原站 AC 的日期。'],
     [Mountain,number(stats.maxDailyAc),'最高单日 AC',stats.maxDailyAcDate||null],
-    [CalendarDays,number(summary.activeDays),'活跃天数',null],
     [CalendarDays,registration,'注册时间',null],
     [Clock,duration(usage?.totalSeconds),'累计使用时长','仅统计有记录的前台使用时间；历史未记录时段不推算。'],
     [Timer,duration(usage?.maxDailySeconds),'最长单日使用时长',usage?.maxDailyDate||'仅统计有记录的前台使用时间。'],

@@ -2,12 +2,12 @@
 const polygon=(cx,cy,r,count,phase=-Math.PI/2)=>Array.from({length:count},(_,i)=>`${cx+Math.cos(phase+i*Math.PI*2/count)*r},${cy+Math.sin(phase+i*Math.PI*2/count)*r}`).join(' ');
 const star=(cx,cy,r,inner,count)=>Array.from({length:count*2},(_,i)=>`${cx+Math.cos(-Math.PI/2+i*Math.PI/count)*(i%2?inner:r)},${cy+Math.sin(-Math.PI/2+i*Math.PI/count)*(i%2?inner:r)}`).join(' ');
 export default function TitleMedallion({tier,size,variant,label,id}) {
- const level=Math.max(0,Math.min(9,Math.round(tier))),silver=variant==='ac',achievementGold=variant==='difficulty';
- const metal=silver?['#e5e9ed','#a6b2bf','#49596a']:achievementGold?['#fff0c5','#c2a15b','#68502c']:['#eadbbd','#b59a66','#655437'];
- const enamel=variant==='streak'?['#36564a','#192c26']:achievementGold?['#e6d39f','#9a7e42']:['#394d60','#182a3c'];
+ const level=Math.max(0,Math.min(9,Math.round(tier))),silver=variant==='ac'&&level<5,achievementGold=variant==='difficulty',goldAc=variant==='ac'&&level>=5;
+ const metal=silver?['#e5e9ed','#a6b2bf','#49596a']:(achievementGold||goldAc)?['#fff1bd','#d4a52f','#70501d']:['#eadbbd','#b59a66','#655437'];
+ const enamel=variant==='streak'?['#36564a','#192c26']:(achievementGold||goldAc)?['#e9cd72','#98701f']:['#394d60','#182a3c'];
  const prefix=`engraved-${id}`,gold=`url(#${prefix}-metal)`,face=`url(#${prefix}-face)`,leafCount=Math.min(5,2+Math.ceil(level/2));
  const leaves=['M31 92C19 94 13 88 11 80c10 0 16 4 20 12Z','M24 82C12 81 8 75 8 67c10 2 15 7 16 15Z','M20 70C9 66 7 59 9 52c9 4 13 10 11 18Z','M20 57C11 51 11 44 15 37c8 6 9 13 5 20Z','M24 45C18 38 20 31 26 25c5 7 5 14-2 20Z'];
- return <svg className={`medal-emblem medal-engraved tier-${level} medal-${variant}`} data-medal-stage={level} width={size} height={size*1.15} viewBox="0 0 120 138" role={label?'img':undefined} aria-label={label} aria-hidden={label?undefined:true} fill="none">
+ return <svg className={`medal-emblem medal-engraved tier-${level} medal-${variant}`} data-medal-stage={level} data-medal-metal={silver?'silver':'gold'} width={size} height={size*1.15} viewBox="0 0 120 138" role={label?'img':undefined} aria-label={label} aria-hidden={label?undefined:true} fill="none">
   <defs><linearGradient id={`${prefix}-metal`} x1="18" y1="20" x2="99" y2="108" gradientUnits="userSpaceOnUse"><stop stopColor={metal[0]}/><stop offset=".38" stopColor={metal[1]}/><stop offset=".58" stopColor={metal[0]}/><stop offset="1" stopColor={metal[2]}/></linearGradient><linearGradient id={`${prefix}-face`} x1="35" y1="28" x2="83" y2="95" gradientUnits="userSpaceOnUse"><stop stopColor={enamel[0]}/><stop offset="1" stopColor={enamel[1]}/></linearGradient><pattern id={`${prefix}-grain`} width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(-28)"><path d="M0 0v4" stroke="#fff" strokeOpacity=".08" strokeWidth=".65"/></pattern></defs>
   <path d={level>=6?'m30 91-5 39 17-9 12 12 6-38 6 38 12-12 17 9-5-39Z':'m34 94-4 34 15-10 12 13 5-34M86 94l4 34-15-10-12 13-5-34'} fill="#792e3d" stroke="#411d2a" strokeWidth="1.2"/>
   {level>=3&&[false,true].map(mirror=><g key={String(mirror)} transform={mirror?'translate(120 0) scale(-1 1)':undefined}><path d={level>=7?'M33 82 3 42 8 68 27 94 3 76 16 99 37 108Z':'M30 77 8 55 15 80 34 98Z'} fill={gold} stroke={metal[2]} strokeWidth="1.2"/><path d="m12 62 20 24M16 81l15 11" stroke={metal[0]} strokeWidth="1.2"/></g>)}

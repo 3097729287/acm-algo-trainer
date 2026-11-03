@@ -5,7 +5,7 @@ export const LEGENDARY_FEEDBACK=Object.freeze({duck:'quack',semicolon:'type',rai
 function audio(){try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return null;if(!context||context.state==='closed')context=new Audio({latencyHint:'interactive'});return context;}catch{return null;}}
 export function prepareStickerAudio(){
  const ctx=audio();if(!ctx||duckBuffer)return Promise.resolve();
- if(!decoding){const raw=atob(DUCK),bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));decoding=ctx.decodeAudioData(bytes.buffer).then(value=>{duckBuffer=value;}).catch(()=>{});}
+ if(!decoding){const raw=atob(DUCK),bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));decoding=ctx.decodeAudioData(bytes.buffer).then(value=>{duckBuffer=value;}).catch(()=>{}).finally(()=>{decoding=null;});}
  return decoding;
 }
 function keep(source,nodes){
@@ -24,8 +24,11 @@ export function playStickerSound(shape){
  if(!LEGENDARY_FEEDBACK[shape])return false;
  const ctx=audio();if(!ctx)return false;void ctx.resume().catch(()=>{});const now=ctx.currentTime+.008;
  if(shape==='duck'){
-  if(duckBuffer){const source=ctx.createBufferSource(),gain=ctx.createGain(),duration=Math.min(1.05,duckBuffer.duration-.04);source.buffer=duckBuffer;gain.gain.setValueAtTime(.3,now);gain.gain.setValueAtTime(.3,now+duration-.08);gain.gain.linearRampToValueAtTime(0,now+duration);source.connect(gain);gain.connect(ctx.destination);source.start(now,.02,duration);keep(source,[source,gain]);}
-  else{for(const delay of [0,.2]){tone(ctx,260,now+delay,.16,.045,'sawtooth',145);breath(ctx,now+delay,.16,1200,.12);}void prepareStickerAudio();}
+  // The recording's quacks start after its quiet opening. Keep the original
+  // licensed file intact and select the audible phrase at playback time.
+  const play=()=>{if(!duckBuffer||ctx.state==='closed')return;const at=ctx.currentTime+.008,offset=1.03,duration=Math.min(1.62,duckBuffer.duration-offset);if(duration<=0)return;const source=ctx.createBufferSource(),gain=ctx.createGain();source.buffer=duckBuffer;gain.gain.setValueAtTime(0,at);gain.gain.linearRampToValueAtTime(.65,at+.012);gain.gain.setValueAtTime(.65,at+duration-.08);gain.gain.linearRampToValueAtTime(0,at+duration);source.connect(gain);gain.connect(ctx.destination);source.start(at,offset,duration);keep(source,[source,gain]);};
+  if(duckBuffer)play();
+  else{const clickedAt=performance.now();void prepareStickerAudio().then(()=>{if(performance.now()-clickedAt<450)play();});}
  }else if(shape==='semicolon'){for(const delay of [0,.11,.27]){breath(ctx,now+delay,.035,2400,.14);tone(ctx,220,now+delay,.055,.025,'triangle');}}
  else if(shape==='rainbow'){[523.25,587.33,659.25,698.46,783.99,880,1046.5].forEach((f,i)=>tone(ctx,f,now+i*.047,.22,.025));}
  else if(shape==='envelope'){[0,.08,.16].forEach(delay=>breath(ctx,now+delay,.12,2200,.09));tone(ctx,784,now+.15,.35,.032,'triangle',1046);}

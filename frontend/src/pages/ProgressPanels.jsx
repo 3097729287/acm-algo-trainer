@@ -130,14 +130,12 @@ export function GrowthAccountPanel({ api, hub, account, profile, profileSnapshot
 
 export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,insights,categories=[],rows=[],account,profile,onTopic,onTrain,onAccounts,onAchievements}) {
  if(!insights)return <Loading/>;
- const summary=insights.summary||{},growth=insights.growth||{},rank=growth.ranked||{},nickname=profile?.nickname||account?.nickname||insights.profile?.nickname||'练习者';
- const stats=[[Check,summary.totalSolved??summary.officialSolved,'总 AC'],[Code2,summary.submissions,'提交'],[CalendarDays,summary.activeDays,'活跃天数'],[Flame,summary.streak,'连续练习'],[Flag,summary.completedContests,'完成比赛'],[TrendingUp,summary.longestStreak??0,'最长连续练习']];
+ const growth=insights.growth||{},rank=growth.ranked||{},nickname=profile?.nickname||account?.nickname||insights.profile?.nickname||'练习者';
  const rankName=Number(growth.level)<Number(rank.levelGate??growth.rankUnlockLevel??growth.levelGate??5)?'未定级':rank.qualified===false?'定级中':rank.tier||Number.isFinite(rank.abilityScore)?TIER_NAMES[rankIndex(rank)]:'定级中';
  return <div className="progress-page growth-dashboard" aria-label="成长"><div className="progress-growth-columns">
  <KnowledgeRadar rows={rows} categories={categories} knowledge={insights.knowledge||[]} knowledgeEvidence={insights.knowledgeEvidence||[]} knowledgeModel={insights.knowledgeModel||{}} onTopic={onTopic} onTrain={onTrain}/>
- <section className="progress-section growth-account-hero" aria-label="账号成长统计"><StickerCanvas api={api} owner={account?.userId||profile?.userId} statistics={<div className="account-hero-statistics">{stats.map(([Icon,value,label])=><div key={label} aria-label={`${label} ${number(value)}`}><Tooltip text={label}><span className="account-stat-icon" tabIndex={0} aria-label={label}>{Icon===Flame?<StreakFlame size={20}/>:<Icon size={20} fill="none"/>}</span></Tooltip><b>{number(value)}</b></div>)}</div>} goals={api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}>
+ <section className="progress-section growth-account-hero" aria-label="账号成长"><StickerCanvas api={api} owner={account?.userId||profile?.userId} goals={api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}>
 <div className="account-hero-identity"><div className="account-hero-person"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-titles"><TitleMedals iconOnly medalSize={56} titles={insights.equippedTitles||growth.equippedTitles||[]}/></div></div><div className="account-hero-rank"><TierIcon rank={rank} size={180}/><strong>{rankName}</strong>{rank.abilityScore!=null&&<span title="根据独立作答和题目难度估计的保守参考，不是 Codeforces 官方等级分">约 {number(rank.abilityScore)} · CF 参考</span>}<AbilityEvidence rank={rank} rows={rows}/></div></div>
- <div className="account-hero-level"><span>Lv.{growth.level??'—'}</span><div><Meter value={growth.nextLevelXp?Number(growth.currentLevelXp||0)/growth.nextLevelXp*100:0} label="等级经验"/><span>{number(growth.currentLevelXp||0)} / {number(growth.nextLevelXp||0)} XP</span></div></div>
 </StickerCanvas></section></div></div>;
 }
 
