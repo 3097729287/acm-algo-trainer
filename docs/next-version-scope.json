@@ -1,7 +1,7 @@
 {
-  "status": "validated-local-delivery-not-public-release",
+  "status": "next-local-scope-recorded-current-release-excludes-new-features",
   "requestedOn": "2026-11-01",
-  "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
+  "continuation": "用户 2026-11-04：思维对决和本次新增整批需求只进入下一本地版，当前版只交付此前已确定内容。后续范围以 nextLocalRelease 为准；旧 features、teachingHandoff、currentValidation 等保留为此前交付的历史记录。",
   "features": [
     {
       "id": "problem-solving-templates",
@@ -37,7 +37,7 @@
     }
   ],
   "currentDomesticStable": "1.4.34",
-  "nextVersion": "1.5.2",
+  "nextVersion": "1.5.3",
   "feedbackPriority": {
     "id": "nowcoder-live-statement",
     "status": "1.4.35 local implementation and fixtures passed; real provider result not claimed",
@@ -204,8 +204,8 @@
     "concurrentUserInstallation": false,
     "productionChanged": false
   },
-  "currentServiceVersion": "1.4.1",
-  "serviceCandidateVersion": "1.4.2",
+  "currentServiceVersion": "1.4.2",
+  "serviceCandidateVersion": "1.4.3",
   "desktopInstallerRequested": true,
   "priorities": [
     "Repair reported lesson continuation, ranking/social visibility and alignment regressions",
@@ -228,5 +228,106 @@
     "freshAndUpgradeBothEditions": true,
     "publicRelease": false,
     "serviceDeployment": "awaiting-required-authorization"
+  },
+  "nextVersionIsComponentDevelopmentIdentifier": true,
+  "nextLocalRelease": {
+    "requestedOn": "2026-11-04",
+    "scopeDocument": "next-local-release.md",
+    "currentReleaseEligible": false,
+    "complete": false,
+    "thoughtComponent": {
+      "validated": true,
+      "installed": false,
+      "desktopCandidateWithdrawn": true,
+      "productionServiceDeployed": false,
+      "realAiConfigured": false
+    },
+    "items": [
+      {
+        "id": "core7-editorials",
+        "description": "题单前七板块题解，接续已有正文、解法、验证与题意复核"
+      },
+      {
+        "id": "nowcoder-three-lists",
+        "sources": [
+          "https://ac.nowcoder.com/discuss/817596",
+          "https://ac.nowcoder.com/discuss/828697",
+          "https://ac.nowcoder.com/discuss/926597"
+        ],
+        "description": "完整核验并收录三份题单的公开练习，保留章节和原题身份"
+      },
+      {
+        "id": "english-default-chinese",
+        "description": "所有英文题面默认可信中文，保留原文切换、失败回退及手动选择"
+      },
+      {
+        "id": "pdf-statements",
+        "description": "接续现有 PDF 阅读器，补齐原题绑定、离线资源和阅读适配"
+      },
+      {
+        "id": "thought-duel",
+        "description": "接续已验证的思维对决组件，当前版不安装；保留排位／思维对决切换"
+      },
+      {
+        "id": "logic-duel",
+        "description": "保留用户明确提出的逻辑对战模式；与思维对决是同模式命名还是独立玩法，等待用户补充，不擅自删掉或另造玩法",
+        "relationshipToThoughtMode": "unconfirmed"
+      },
+      {
+        "id": "ranked-points-and-leaderboard",
+        "description": "独立排位积分与排行榜，不改变能力段位，除败者零分保护差额外零和"
+      },
+      {
+        "id": "practical-templates-and-labs",
+        "description": "扩充可修改模板、变种、真实原题迁移与形式灵活的操作实验"
+      },
+      {
+        "id": "stickers-and-achievements",
+        "description": "扩充有辨识度贴纸与有意义成就，以真实证据和幂等账本发奖"
+      },
+      {
+        "id": "wiki-cross-module-adaptation",
+        "description": "所有现有及以后新增模板、题解与维基知识关系适配，衔接题单、实验与复习；维基不是内容上限，明确保留线性基等实用内容"
+      }
+    ],
+    "priority": [
+      "existing-editorial-and-template-handoff",
+      "core7-and-nowcoder",
+      "translation-and-pdf",
+      "duel-points-and-leaderboard",
+      "teaching-and-reward-expansion",
+      "integrated-local-release-validation"
+    ],
+    "principles": [
+      "实用优先",
+      "高效",
+      "不枯燥",
+      "可持续",
+      "以区域赛拿牌为目标",
+      "保留原内容、身份和个人记录"
+    ],
+    "rankedPoints": {
+      "separateFromAbilityTiers": true,
+      "normalTransferIsZeroSum": true,
+      "floor": 0,
+      "winnerKeepsFullAwardAtLoserFloor": true,
+      "winnerHasPositiveGain": true,
+      "higherRatedWinGainsMore": true,
+      "lowerRatedLossCostsMore": true,
+      "serviceAuthoritativeAndIdempotent": true,
+      "currentThoughtEloNeedsFloorRuleUpdate": true
+    },
+    "audit": {
+      "core7": "../data/next-local/core7-source-inventory.json",
+      "nowcoder": "../data/next-local/nowcoder-source-inventory.json",
+      "readonly": true,
+      "sourceInventoryIsNotImportOrTeachingCompletion": true
+    },
+    "cleanup": {
+      "systemBinOnly": true,
+      "permanentFallback": false,
+      "neverEmptyResizeOrEvictExistingItems": true
+    },
+    "englishTranslationScope": "all English statements; overrides the former translation difficulty cap for the next local release only; editorial authoring restrictions remain unchanged"
   }
 }
