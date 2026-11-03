@@ -8,3 +8,12 @@ export function originalIsChinese(problem) {
   const chinese=(prose.match(/[\u3400-\u9fff]/g)||[]).length,english=(prose.match(/[A-Za-z]{3,}/g)||[]).join('').length;
   return chinese>=8&&chinese*2>english;
 }
+
+export function originalIsEnglish(problem){
+  if(originalIsChinese(problem))return false;
+  const declared=problem?.currentSourceMarkdown?null:problem?.statementLanguage||problem?.sourceLanguage||problem?.translation?.sourceLanguage;
+  if(declared)return /^en(?:-|$)/i.test(declared);
+  const prose=(problem?.currentSourceMarkdown||problem?.markdown||'').replace(/```[\s\S]*?```|\$\$[\s\S]*?\$\$|\$[^$\n]*\$|https?:\/\/\S+|^#+.*$/gm,'');
+  const chinese=(prose.match(/[\u3400-\u9fff]/g)||[]).length,english=(prose.match(/[A-Za-z]{3,}/g)||[]).join('').length;
+  return english>0&&english>chinese*2;
+}

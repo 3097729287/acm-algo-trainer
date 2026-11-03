@@ -5,6 +5,7 @@ import {mkdirSync,readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {startFixture} from './local-server.mjs';
 import {createAIJudge,emptyScore,JUDGE_PROMPT,validateVerdict} from '../src/pk-judge.mjs';
+import {duelPoints} from '../src/duel-points.mjs';
 
 const start=Date.parse('2026-11-04T00:00:00Z'),prefix='/api/pk/v1/';
 const perfect=()=>({correct_algorithm:true,time_feasible:true,scores:{correctness:40,complexity:20,edge_case:15,constant:10,clarity:10,innovation:5},final_score:100,fatal_flaws:[],feedback:'正确且可行'});
@@ -78,6 +79,52 @@ test('simultaneous final submissions and duplicate receipts produce exactly one 
   const total=f.STORE.database.prepare('SELECT SUM(rating) AS n FROM pk_ratings').get().n;assert.equal(total,2000);
   assert.equal(result.match.events.filter(e=>e.type==='pk:game_over').length,1);assert.equal(result.match.events.filter(e=>e.type==='pk:opponent_submitted').length,2);
  }finally{await f.close();}
+});
+
+test('duel points reward upsets, stay positive for favourites and protect only the loser at zero',()=>{
+ assert.deepEqual(duelPoints(1000,1000,'A'),[20,-20]);
+ assert.deepEqual(duelPoints(0,0,'A'),[20,0]);
+ assert.deepEqual(duelPoints(0,0,'B'),[0,20]);
+ assert.deepEqual(duelPoints(7,7,'A'),[20,-7]);
+ assert.deepEqual(duelPoints(7,7,'B'),[-7,20]);
+ assert.deepEqual(duelPoints(1000000,0,'A'),[1,0]);
+ assert.deepEqual(duelPoints(0,1000000,'A'),[40,-40]);
+ assert.deepEqual(duelPoints(0,1000,'draw'),[0,0]);
+ for(const bad of [-1,NaN,Infinity,1.5,Number.MAX_SAFE_INTEGER+1])assert.throws(()=>duelPoints(bad,0,'A'));
+ for(let a=0;a<=2000;a+=7){
+  let previousGain=0;
+  for(let b=0;b<=2400;b+=11){
+   const [gain,loss]=duelPoints(a,b,'A');
+   assert(gain>=1&&gain<=40&&loss<=0&&b+loss>=0);
+   assert(gain>=previousGain,'Beating a stronger opponent never earns fewer points');previousGain=gain;
+   assert.deepEqual(duelPoints(b,a,'B'),[loss,gain],'Swapping seats preserves the result');
+   assert.equal(gain+loss,b>=gain?0:gain-b,'Only the zero-floor shortfall creates points');
+  }
+ }
+});
+
+test('zero-floor points persist once through HTTP, duplicated submissions and service restart',async()=>{
+ const directory=resolve('../../.backups/next-local-dev-20261104/service');mkdirSync(directory,{recursive:true});
+ for(const initial of [0,7]){
+  const database=resolve(directory,'floor-'+initial+'-'+randomUUID()+'.sqlite3');let f=await startFixture({database,now:start});enable(f);
+  try{
+   const a=await client(f,'floor_a_'+initial),b=await client(f,'floor_b_'+initial);
+   for(const p of [a,b])f.STORE.database.prepare('INSERT INTO pk_ratings VALUES(?,?)').run(p.owner,initial);
+   const room=await pair(f,a,b);f.env.TEST_NOW=room.startedAt;
+   const one={requestId:randomUUID(),matchId:room.id,text:'完整算法及复杂度证明',revision:0},two={requestId:randomUUID(),matchId:room.id,text:'另一份思路',revision:0};
+   await Promise.all([a.send(prefix+'game/submit',one),b.send(prefix+'game/submit',two)]);await drain(f);
+   const result=await a.get('state'),winner=result.match.players[0].owner,loser=result.match.players[1].owner;
+   assert.equal(result.match.ratingChanges[winner],20);assert.equal(result.match.ratingChanges[loser],-initial||0);
+   assert.equal(f.STORE.database.prepare('SELECT rating FROM pk_ratings WHERE user_id=?').get(winner).rating,initial+20);
+   assert.equal(f.STORE.database.prepare('SELECT rating FROM pk_ratings WHERE user_id=?').get(loser).rating,0);
+   await a.send(prefix+'game/submit',one);await b.send(prefix+'game/submit',two);
+   assert.equal(f.STORE.database.prepare('SELECT COUNT(*) AS n FROM pk_records').get().n,1);
+   await f.close();f=await startFixture({database,now:room.deadline+1000});enable(f);
+   const response=await fetch(f.endpoint+prefix+'state',{headers:{'X-TB-User':a.owner,Authorization:'Bearer '+a.auth.token}});assert.equal(response.status,200);
+   assert.deepEqual((await response.json()).match.ratingChanges,result.match.ratingChanges);
+   assert.equal(f.STORE.database.prepare('SELECT SUM(rating) AS n FROM pk_ratings').get().n,initial+20);
+  }finally{await f.close();}
+ }
 });
 
 test('persistent draft is forced in at the deadline after service restart; both blank bypass AI',async()=>{

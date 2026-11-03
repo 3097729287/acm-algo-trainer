@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { algorithmPath, matchesTrainingProblem, trainingIndex } from '../src/lib/trainingLists.js';
+import { algorithmPath, matchesTrainingProblem, trainingIndex,uniqueTrainingProblems } from '../src/lib/trainingLists.js';
 import { organizeTrainingLists, compareTrainingLists, CATEGORY_ORDER } from '../src/lib/trainingListCatalog.js';
+import {trainingListModel} from '../src/lib/trainingListModel.js';
 
 const a = { id: 'a', aliasIds: ['old-a'], url: 'https://www.luogu.com.cn/problem/P1', title: '背包练习', accepted: true };
 const b = { id: 'b', url: 'https://www.luogu.com.cn/problem/P2', title: '第二题', accepted: false };
@@ -15,6 +16,12 @@ const index = trainingIndex(lists, [a, b]);
 assert.equal(index.own.get('one').length, 1, 'aliases count once within a list');
 assert.equal(index.all('parent').length, 3, 'cycles and overlaps count each original once');
 assert.equal(index.all('one').length, 1, 'roster recommendation links do not widen its scope');
+const chapters=trainingIndex([{id:'chapters',problems:[{...ref('P1','old-a'),sections:['堆']},{...ref('P1','a'),sections:['堆']},{...ref('P1','a'),sections:['贪心']},{...ref('P2','b'),sections:['贪心']}]}],[a,b]);
+assert.equal(chapters.own.get('chapters').length,3,'A repeated original stays in both source chapters, with aliases deduped within each');
+assert.equal(chapters.own.get('chapters').filter(p=>p.sections[0]==='堆').length,1);
+assert.equal(chapters.own.get('chapters').filter(p=>p.sections[0]==='贪心').length,2);
+assert.equal(chapters.all('chapters').length,2,'Whole-list progress counts each original once');
+assert.equal(uniqueTrainingProblems(chapters.own.get('chapters')).length,2,'Flattening chapters does not show duplicate originals');
 assert.deepEqual(index.stats(['parent', 'one', 'two']), { total: 3, accepted: 1 });
 assert.ok(matchesTrainingProblem(index.all('one')[0], 'P1 背包', 'accepted'));
 assert.ok(!matchesTrainingProblem(index.all('one')[0], '', 'pending'));
@@ -32,7 +39,7 @@ assert.equal(new Set(organized.map(row => row.id)).size, original.length);
 for (const row of organized) {
   assert.equal(row.topicPath.length, 2, row.id);
   assert.ok(CATEGORY_ORDER.includes(row.topicPath[0]), row.id);
-  assert.ok(row.displayTitle.length >= 2, row.id);
+  assert.ok(row.displayTitle.length >= 2 || /^[\u3400-\u9fff]$/.test(row.displayTitle)&&row.displayTitle===row.originalTitle, row.id);
   assert.ok(row.originalTitle && row.url && row.sourceLabel, row.id);
   assert.ok(!/[\u202a-\u202e\u2066-\u2069]|菜鸡|蒟蒻|从入门到入土/.test(row.displayTitle), row.displayTitle);
 }
@@ -52,3 +59,13 @@ const sorted = ['203', '104'].map(id => byId.get('luogu-' + id)).sort(compareTra
 assert.equal(sorted[0].id, 'luogu-104');
 assert.deepEqual(trainingIndex(organized, [a, b]).stats(organized.map(row => row.id)), trainingIndex(original, [a, b]).stats(original.map(row => row.id)));
 console.log(`PASS: ${original.length} lists categorized, named, source-preserved; known cross-topic errors covered`);
+
+const importedRows=JSON.parse(fs.readFileSync(new URL('../../data/library/problems.json',import.meta.url),'utf8')).map(p=>p.encoded);
+for(const mode of ['algorithm','source']){
+ const imported=trainingListModel(original,importedRows,mode,[],14);
+ for(const [id,count] of [['817596',691],['828697',375],['926597',232]]){
+  const items=imported.index.all('nowcoder-'+id);assert.equal(items.length,count,id+' '+mode);
+  assert(items.every(item=>item.row),'All Nowcoder references resolve to the same original identities in both catalogues');
+ }
+}
+console.log('PASS: all three Nowcoder source rosters resolve in algorithm/source catalogues, with shared original identities');

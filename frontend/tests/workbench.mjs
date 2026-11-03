@@ -112,7 +112,10 @@ try {
     if(width<996){await page.getByRole('button',{name:'题面与代码',exact:true}).click();assert(await page.locator('.wb-statement').isVisible());}
     const sizes=await page.locator('.wb-pane-header button:not(.wb-back-button):visible,.wb-pane-header select:visible,.wb-pane-header input:visible,.wb-original-link:visible,.wb-compact-toolbar button:not(.wb-back-button):visible').evaluateAll(nodes=>nodes.filter(n=>!n.disabled).map(n=>({height:n.getBoundingClientRect().height,label:n.getAttribute('aria-label')})));
     assert(sizes.every(item=>Math.abs(item.height-30)<1),`toolbar controls align at ${width}: ${JSON.stringify(sizes)}`);
-    if(width>=996)assert((await page.getByLabel('编程语言',{exact:true}).boundingBox()).width>=65,'language name keeps a usable width');
+    if(width>=996){
+      const label=await page.getByLabel('编程语言',{exact:true}).evaluate(node=>{const style=getComputedStyle(node),ctx=document.createElement('canvas').getContext('2d');ctx.font=style.font;return {required:ctx.measureText(node.selectedOptions[0].text).width,available:node.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight)};});
+      assert(label.available>=label.required,'The complete language name fits the compact control: '+JSON.stringify(label));
+    }
     if(await page.locator('.wb-run-button').isVisible()){
       const alignment=await page.locator('.wb-cursor-position').evaluate(node=>{const row=node.closest('.wb-run-toolbar'),button=row.querySelector('.wb-run-button'),a=node.getBoundingClientRect(),b=button.getBoundingClientRect();return {inRow:!!row,centerDelta:Math.abs(a.top+a.height/2-b.top-b.height/2),belowEditor:a.top>=document.querySelector('.wb-editor').getBoundingClientRect().bottom-1};});
       assert(alignment.inRow&&alignment.belowEditor&&alignment.centerDelta<1,JSON.stringify({width,alignment}));
@@ -128,7 +131,7 @@ try {
   await page.setViewportSize({width:1050,height:700});await page.waitForFunction(()=>!document.querySelector('.wb-compact'));
   await editor.press('Alt+0');
   await page.getByRole('button',{name:'打开模板',exact:true}).click();
-  const templateDialog=page.getByRole('dialog',{name:'模板',exact:true});await templateDialog.locator('.catalog-card').first().waitFor();
+  const templateDialog=page.getByRole('dialog',{name:'模板',exact:true});await templateDialog.locator('.learning-catalogue-entry').first().waitFor();
   assert.equal(await templateDialog.locator('.catalog-card-actions').count(),0,'insertion no longer needs a separate plus button');
   await templateDialog.getByRole('button',{name:'插入模板 并查集：路径压缩与按大小合并',exact:true}).click();
   await templateDialog.waitFor({state:'detached'});
@@ -139,7 +142,7 @@ try {
   assert(inserted.indexOf('using ll = long long;')<inserted.indexOf('struct DSU'),'runtime insertion keeps the existing alias above the new template');
   await page.getByRole('button',{name:'复制题面',exact:true}).click();
   const copiedStatement=(await page.evaluate(()=>navigator.clipboard.readText())).replaceAll('\r\n','\n');
-  assert(copiedStatement.includes('Given two integers')&&copiedStatement.includes('$a+b$')&&copiedStatement.includes('4 5\n')&&copiedStatement.includes('9\n'),'copy includes the whole visible statement and every sample');
+  assert(copiedStatement.includes('的中文题面')&&copiedStatement.includes('$a+b$')&&copiedStatement.includes('4 5\n')&&copiedStatement.includes('9\n'),'copy includes the whole visible statement and every sample');
   assert.ok(await page.locator('.cm-line > span').count() > 0, 'C++ syntax uses colored tokens');
   await editor.fill('fori');
   await editor.press('Control+Space');
@@ -204,7 +207,6 @@ try {
   assert.equal(await page.evaluate(() => window.workbenchFixture.drafts['solo:A']), 'reopened A final code');
   await page.evaluate(() => { window.workbenchFixture.draftDelay = 15; });
 
-  await page.getByRole('button', { name: '原文', exact: true }).click();
   await page.waitForFunction(()=>document.querySelector('.wb-statement')?.textContent.includes('A 的中文题面'));
   assert.equal(await page.locator('.wb-translation-note').count(),0,'successful translations have no redundant status line');
   assert.ok(await page.locator('.wb-statement').textContent().then(text => text.includes('A 的中文题面')));
@@ -215,8 +217,7 @@ try {
 
   const translationCalls=await page.evaluate(()=>window.workbenchFixture.calls.filter(call=>call.path==='problem/translate').length);
   await page.evaluate(()=>{window.workbenchFixture.problemOverrides.E={title:'离线预置翻译',markdown:'Given a positive integer, print twice its value.',translation:{kind:'bundled',targetLanguage:'zh-CN',markdown:'给定一个正整数，输出它的两倍。',provider:'预置中文译文'}};window.workbenchFixture.changeProblem('E');});
-  await page.waitForFunction(()=>document.querySelector('.wb-statement')?.textContent.includes('Given a positive integer'));
-  await page.getByRole('button',{name:'原文',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.wb-statement')?.textContent.includes('给定一个正整数'));
   await page.getByRole('button',{name:'中文',exact:true}).waitFor();
   assert.match(await page.locator('.wb-statement').textContent(),/给定一个正整数/);
   await page.getByRole('button',{name:'中文',exact:true}).click();
@@ -324,20 +325,18 @@ try {
   await page.waitForTimeout(700);
   assert.equal(await page.locator('.wb-heading strong').textContent(), '第三道题');
 
-  await page.evaluate(() => { window.workbenchFixture.translationError = '翻译服务暂不可用，已保留原文。'; });
-  await page.getByRole('button', { name: '原文', exact: true }).click();
+  await page.evaluate(() => { window.workbenchFixture.translationError = '翻译服务暂不可用，已保留原文。'; window.workbenchFixture.changeProblem('TRANSLATION_FAILURE'); });
   await page.getByText('翻译服务暂不可用，已保留原文。', { exact: true }).waitFor();
   assert.equal(await page.getByRole('button', { name: '原文', exact: true }).getAttribute('aria-pressed'), null);
   assert.ok(await page.locator('.wb-statement').textContent().then(text => text.includes('Given two integers')));
   await page.evaluate(() => { window.workbenchFixture.translationError = ''; });
   await page.locator('.wb-translation-error').getByRole('button', { name: '重试', exact: true }).click();
-  await page.waitForFunction(()=>document.querySelector('.wb-statement')?.textContent.includes('C 的中文题面'));
+  await page.waitForFunction(()=>document.querySelector('.wb-statement')?.textContent.includes('TRANSLATION_FAILURE 的中文题面'));
 
   // Site translations remain readable; missing statements can recover
   // without losing an unsaved draft, including a legitimate empty input.
   await page.evaluate(() => { window.workbenchFixture.translationKind = 'site'; window.workbenchFixture.changeProblem('D'); });
   await page.waitForFunction(() => document.querySelector('.tb-workbench').dataset.problemId === 'D' && document.querySelector('.cm-content')?.getAttribute('contenteditable') === 'true');
-  await page.getByRole('button', { name: '原文', exact: true }).click();
   await page.waitForFunction(()=>document.querySelector('.wb-statement')?.textContent.includes('D 的中文题面'));
   assert.equal(await page.getByText('机器翻译 · Fixture provider', { exact: true }).count(), 0);
   await page.evaluate(() => { window.workbenchFixture.problemOverrides.E = { markdown: '', statementAvailable: false, statementError: 'Temporary fixture failure', samples: [] }; window.workbenchFixture.changeProblem('E'); });
@@ -346,7 +345,7 @@ try {
   await page.evaluate(() => { window.workbenchFixture.problemOverrides.E = { samples: [{name:'样例 1',input:'',output:'1 1 2 3 5'}] }; });
   await page.getByRole('button', {name:'重新载入',exact:true}).click();
   await page.getByText('题面暂时未能加载', { exact: true }).waitFor({state:'hidden'});
-  await page.waitForFunction(() => document.querySelector('.wb-statement')?.textContent.includes('Given two integers') && window.workbenchFixture.readCode() === '// keep this unsaved recovery draft');
+  await page.waitForFunction(() => document.querySelector('.wb-statement')?.textContent.includes('的中文题面') && window.workbenchFixture.readCode() === '// keep this unsaved recovery draft');
   await page.evaluate(() => { window.workbenchFixture.officialStatus = 'needs_verification'; window.workbenchFixture.preparationEvents = []; });
   await page.getByRole('button', {name:'提交',exact:true}).click();
   await page.getByRole('button', {name:'完成原站验证',exact:true}).waitFor();

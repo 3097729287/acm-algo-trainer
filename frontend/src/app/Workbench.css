@@ -944,7 +944,7 @@ html .tb-workbench .wb-editor-header .tb-select {display:block;line-height:norma
 html .tb-workbench .wb-language-select .tb-select-wrap {width:calc(7ch + 40px)}
 html .tb-workbench .wb-editor-header>.tb-select-wrap:has(.initial-code-select) {flex:0 1 auto;min-width:calc(3em + 20px);max-width:180px}
 html .tb-workbench .wb-editor-header .initial-code-select {min-width:calc(3em + 20px);padding-left:10px}
-.wb-cursor-position {flex:0 0 auto;display:inline-flex;align-items:flex-end;align-self:stretch;margin-bottom:-6px;color:var(--muted);font:12px/1 Consolas,monospace;white-space:nowrap;font-variant-numeric:tabular-nums;padding-inline:8px;user-select:none}
+.wb-cursor-position {flex:0 0 auto;display:inline-flex;align-items:center;align-self:stretch;color:var(--muted);font:12px/1 Consolas,monospace;white-space:nowrap;font-variant-numeric:tabular-nums;padding-inline:8px;user-select:none}
 @container code-pane (max-width:420px) {.wb-cursor-position {font-size:11px;padding-inline:2px}}
 
 /* Code controls use the same unboxed surface as the statement toolbar. */

@@ -39,9 +39,11 @@ async function api(path, body) {
   if(path==='initial-code/select'&&fixture.initialCode){fixture.initialCode.selection[body.language]=body.id;return structuredClone(fixture.initialCode);}
   if(path==='templates')return TEMPLATES;
   if (path === 'problem/translate') {
+    const original={...problem(body.id),...fixture.problemOverrides[body.id]};
     await sleep(fixture.translationDelay);
     if (fixture.translationError) throw new Error(fixture.translationError);
-    return { id: body.id, markdown: `## 题目描述\n\n真实翻译服务模拟：${body.id} 的中文题面，计算 $a+b$。`, sourceLanguage: 'en', targetLanguage: 'zh-CN', provider: 'Fixture provider', cached: false, kind: fixture.translationKind };
+    const markdown=(original.currentSourceMarkdown||original.markdown).replace('Given two integers $a$ and $b$, output $a+b$.','给定两个整数 $a$ 和 $b$，输出 $a+b$。').replace('Given an array of integers, print the number of points.','给定整数数组，求符合条件的点数。').replace('The red points satisfy the condition.','图中的红点符合条件。').replace('One line contains two integers.','输入一行，包含两个整数。').replace('Print their sum.','输出它们的和。');
+    return { id: body.id, markdown: `## 题目描述\n\n真实翻译服务模拟：${body.id} 的中文题面。\n\n${markdown}`, sourceLanguage: 'en', targetLanguage: 'zh-CN', provider: 'Fixture provider', cached: false, kind: fixture.translationKind };
   }
   if (path === 'official/open' || path === 'official/submit') {
     const sessionId = `official-${Object.keys(fixture.officialSessions).length + 1}`;

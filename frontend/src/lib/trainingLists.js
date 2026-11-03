@@ -4,6 +4,8 @@ export const algorithmPath = categoryPath;
 
 const urlKey = url => String(url || '').replace(/^https?:\/\/(?:www\.)?/, '').replace(/[?#].*$/, '').replace(/\/$/, '');
 export const startsWithPath = (path, prefix) => prefix.every((part, i) => path[i] === part);
+const problemKey=item=>item.row?.id||urlKey(item.url)||item.pid;
+export const uniqueTrainingProblems=items=>[...new Map(items.map(item=>[problemKey(item),item])).values()];
 
 export function trainingIndex(lists, rows) {
   const byId = new Map(), byUrl = new Map(), byList = new Map(lists.map(list => [list.id, list]));
@@ -15,7 +17,9 @@ export function trainingIndex(lists, rows) {
   const own = new Map(lists.map(list => {
     const unique = new Map();
     for (const item of list.problems.map(resolve)) {
-      const key = item.row?.id || urlKey(item.url) || item.pid;
+      // One original can be deliberately included in several source chapters.
+      // Dedupe aliases within a chapter, while retaining each chapter membership.
+      const key = problemKey(item)+'\0'+JSON.stringify(item.sections||[]);
       if (!unique.has(key)) unique.set(key, item);
     }
     return [list.id, [...unique.values()]];

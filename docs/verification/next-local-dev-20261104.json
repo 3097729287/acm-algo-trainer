@@ -1,0 +1,80 @@
+{
+  "status": "next-local-development-not-installed",
+  "sourceParent": "7b05dd9005c103d238b430cf9589e95c40befabb",
+  "currentReleaseChanged": false,
+  "productionChanged": false,
+  "fullNextReleaseComplete": false,
+  "logicAndThoughtSameModeConfirmed": true,
+  "library": {
+    "problems": 13417,
+    "statements": 13286,
+    "lists": 635,
+    "preservedProblems": 12348,
+    "preservedStatements": 12218,
+    "preservedDefaultSolutions": 1939,
+    "preservedDetailedSolutions": 1938,
+    "preservedMethods": 562,
+    "preservedLectures": 480,
+    "preservedLectureLinks": 9258,
+    "preservedLists": 564,
+    "preservedOriginalAssets": 5947,
+    "quickAndFullIntegrityChecks": true,
+    "foreignKeysAndAssetDigestsChecked": true
+  },
+  "nowcoder": {
+    "distinctOriginals": 1083,
+    "addedOriginals": 1069,
+    "reusedOriginals": 14,
+    "completeStatements": 1082,
+    "newStatements": 1068,
+    "originalSamplePairsChecked": 1384,
+    "allRostersComplete": true,
+    "pendingOriginal": "https://ac.nowcoder.com/acm/problem/53264",
+    "coverage": "../../data/next-local/nowcoder-training-coverage.json"
+  },
+  "checks": {
+    "service": {
+      "command": "cd server/leaderboard && npm test",
+      "total": 85,
+      "passed": 84,
+      "skipped": 1,
+      "failed": 0,
+      "realMySqlMigrationClaimed": false,
+      "realAiProviderClaimed": false
+    },
+    "frontend": [
+      "npm run build",
+      "node tests/statement-translation.mjs",
+      "node tests/chinese-pdf.mjs",
+      "node tests/workbench.mjs",
+      "npm run test:training-lists",
+      "node tests/gameplay-owner-races.mjs"
+    ],
+    "publicContent": [
+      "python scripts/check_nowcoder_training.py",
+      "python scripts/check.py --library-only",
+      "1068 raw-source SHA-256 and numbered/whitespace-preserving sample comparisons",
+      "read-only row comparison against prior public SQLite for all nine content tables"
+    ]
+  },
+  "remaining": [
+    "code-ranked points and leaderboard",
+    "remaining core7 teaching review",
+    "practical templates/labs/stickers/achievements and all-content Wiki adaptation",
+    "real thought AI configuration and eventual separately authorized service deployment",
+    "full next-release freeze and local delivery"
+  ],
+  "runtimeInputSha256": {
+    "frontend/src/app/Workbench.jsx": "e23e9d1c0e97f9e1675092bf8fb0984ff098146577a23d067e5b755ed377f898",
+    "frontend/src/app/Workbench.css": "95dae6c9eb04be3d4bdfa91b96ed91eb3ec2e370aba8fdb2d2d7942adcc94b57",
+    "frontend/src/lib/statementLanguage.js": "c7111c6b4a9f92c24cdad90357af44bae49f2a5d3f285edcb5dd48112345c017",
+    "frontend/src/lib/trainingLists.js": "8a55903eb4667d7fde79e4f6fc48fea37f1e832b669a14ccb46ebd1cbc23a0fe",
+    "frontend/src/pages/TrainingListsPage.jsx": "b2d129a1bed915be27ba27a0e72487d501785e0ee4177c52e5f4296af6c95a03",
+    "server/leaderboard/src/thought-duels.mjs": "1e30920077f0ac1b642adfb9c1759c1d569733e2d124e3c60f1821ebf18bb85b",
+    "server/leaderboard/src/duel-points.mjs": "7a0ed882114b5b78abc6ace17f861e0b83e9ba574bdb021d752d3d8a012bef29",
+    "scripts/import_nowcoder_training.py": "5644ee67715df0de7d2af81690d6d94c6b076ead0f9b2bb2966e03fb8c3f4126",
+    "data/library/problems.json": "a7e3d9777d3cdcc65cba8c0cf98f155c13ee1b32e35b80ff6f4187b323cb576f",
+    "data/library/training_lists.json": "d7d1b560a5b1b56c71d40ab207dd28bb533aa95753f6eac168ca563400d6ad9c",
+    "data/library/statement-patches/nowcoder-next-local.json": "16f9ff7e54616a2f855158e66c33818a1776cce538f4fd3809da564e5c723d2a"
+  }
+}

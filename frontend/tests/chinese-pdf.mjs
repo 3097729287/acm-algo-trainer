@@ -32,11 +32,11 @@ try{
   const page=await context.newPage();page.on('pageerror',error=>errors.push(error.message));
   await page.goto(origin+'tests/statement-pdf-fixture.html');
   const editor=page.locator('.cm-content'),frame=page.locator('.wb-statement-pdf');
-  await editor.waitFor();assert.equal(await frame.count(),0,'English remains the default');
+  await editor.waitFor();await frame.waitFor();assert.equal(await frame.count(),1,'The original-site Chinese PDF is the offline default');
   await editor.fill('// personal draft survives the PDF switch\nint main(){return 42;}');
   const toggle=page.getByRole('group',{name:'题面语言',exact:true}).getByRole('button');
   for(const width of [1440,960]){
-    await page.setViewportSize({width,height:960});await toggle.click();await page.locator('.wb-pdf-page[data-ready="true"]').first().waitFor();
+    await page.setViewportSize({width,height:960});if(await toggle.innerText()!=='中')await toggle.click();await page.locator('.wb-pdf-page[data-ready="true"]').first().waitFor();
     const actual=await frame.getByRole('link',{name:'下载 PDF',exact:true}).evaluate(async node=>{
       const response=await fetch(node.href),blob=await response.blob();
       const bytes=new Uint8Array(await crypto.subtle.digest('SHA-256',await blob.arrayBuffer()));
@@ -56,7 +56,7 @@ try{
     assert.ok((await editor.innerText()).includes('return 42'));
   }
   assert.deepEqual(external,[]);assert.deepEqual(errors,[]);
-  report.ok=true;report.checks=['English default retained','original PDF bytes retained',
+  report.ok=true;report.checks=['Original-site Chinese PDF is the default','original PDF bytes retained',
     'PDF pages painted at both reading widths without clipping','selectable original text',
     'offline switching without AI or original-site request','personal code preserved'];
   console.log('PASS: '+report.checks.join('; '));

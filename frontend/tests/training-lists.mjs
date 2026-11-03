@@ -110,9 +110,10 @@ try {
   await page.getByRole('textbox',{name:'C++ 代码'}).waitFor();
   assert.equal(writes.findLast(write=>write.path==='/api/training/start').body.id,`task-${chosen}`);
   assert.equal(writes.findLast(write=>write.path==='/api/training/start').body.deferActivation,true);
+  const nextProblem=page.waitForResponse(response=>{const url=new URL(response.url());return url.pathname==='/api/problem'&&url.searchParams.get('id')===`task-${chosen+1}`;});
   await page.locator('.wb-next-button').click();
   await page.waitForFunction(title=>document.querySelector('.wb-heading')?.textContent.includes(title),`练习 ${chosen+2}`);
-  assert.equal(writes.findLast(write=>write.path==='/api/training/start').body.id,`task-${chosen+1}`);
+  assert.equal((await (await nextProblem).json()).id,`task-${chosen+1}`,'Next opens the correct original without requiring premature training activation');
   await page.getByRole('button',{name:'返回列表',exact:true}).click();
   await page.getByRole('button',{name:`练习 ${perPage+1}`,exact:true}).waitFor();
   assert.equal(await page.locator('[aria-label="题单分页"] input').inputValue(),'2');

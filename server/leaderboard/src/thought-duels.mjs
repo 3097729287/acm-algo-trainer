@@ -2,6 +2,7 @@ import {createHash,randomInt,randomUUID} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {AccountError} from './accounts.mjs';
 import {blankVerdict,validateVerdict} from './pk-judge.mjs';
+import {duelPoints} from './duel-points.mjs';
 
 const catalogue=JSON.parse(readFileSync(new URL('./thought-problems.json',import.meta.url),'utf8')).problems;
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
@@ -64,9 +65,9 @@ export class ThoughtDuels{
  async settle(db,room,verdict,now,judgeFailed=false){
   if(room.status==='finished')return;
   room.status='finished';room.finishedAt=now;room.verdict=verdict;room.judgeFailed=judgeFailed;room.winner=verdict.winner==='draw'?null:room.players[verdict.winner==='A'?0:1].owner;
-  const [a,b]=room.players;let delta=0;
-  if(!judgeFailed&&room.winner){const expected=1/(1+10**((b.rating-a.rating)/400));delta=Math.round(40*((room.winner===a.owner?1:0)-expected));delta=delta>0?Math.min(delta,b.rating):Math.max(delta,-a.rating);}
-  room.ratingChanges={[a.owner]:delta,[b.owner]:-delta};
+  const [a,b]=room.players;
+  const [aChange,bChange]=duelPoints(a.rating,b.rating,judgeFailed?'draw':verdict.winner);
+  room.ratingChanges={[a.owner]:aChange,[b.owner]:bChange};
   for(const p of room.players)await db.execute('UPDATE pk_ratings SET rating=rating+? WHERE user_id=?',[room.ratingChanges[p.owner],p.owner]);
   event(room,'game_over',now);delete room.judgeToken;delete room.judgeLeaseUntil;
   await this.save(db,room,now);

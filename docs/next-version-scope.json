@@ -1,5 +1,5 @@
 {
-  "status": "next-local-scope-recorded-current-release-excludes-new-features",
+  "status": "developing-next-local-current-release-excludes-new-features",
   "requestedOn": "2026-11-01",
   "continuation": "用户 2026-11-04：思维对决和本次新增整批需求只进入下一本地版，当前版只交付此前已确定内容。后续范围以 nextLocalRelease 为准；旧 features、teachingHandoff、currentValidation 等保留为此前交付的历史记录。",
   "features": [
@@ -254,11 +254,23 @@
           "https://ac.nowcoder.com/discuss/828697",
           "https://ac.nowcoder.com/discuss/926597"
         ],
-        "description": "完整核验并收录三份题单的公开练习，保留章节和原题身份"
+        "description": "完整核验并收录三份题单的公开练习，保留章节和原题身份",
+        "status": "all requested rosters imported into development source; one original statement awaits its broken external image",
+        "uniqueProblems": 1083,
+        "addedProblems": 1069,
+        "reusedProblems": 14,
+        "completeStatements": 1082,
+        "newStatements": 1068,
+        "rootProblemCounts": {
+          "817596": 691,
+          "828697": 375,
+          "926597": 232
+        }
       },
       {
         "id": "english-default-chinese",
-        "description": "所有英文题面默认可信中文，保留原文切换、失败回退及手动选择"
+        "description": "所有英文题面默认可信中文，保留原文切换、失败回退及手动选择",
+        "status": "implemented-and-browser-verified; source-bound replies, prepared Chinese/PDF first, auto-once, original fallback and retry; not installed"
       },
       {
         "id": "pdf-statements",
@@ -266,12 +278,12 @@
       },
       {
         "id": "thought-duel",
-        "description": "接续已验证的思维对决组件，当前版不安装；保留排位／思维对决切换"
-      },
-      {
-        "id": "logic-duel",
-        "description": "保留用户明确提出的逻辑对战模式；与思维对决是同模式命名还是独立玩法，等待用户补充，不擅自删掉或另造玩法",
-        "relationshipToThoughtMode": "unconfirmed"
+        "description": "逻辑对战即思维对决，统一一个模式；接续组件开发，当前版不安装",
+        "aliases": [
+          "思维对决",
+          "逻辑对战"
+        ],
+        "sameModeConfirmedByUser": true
       },
       {
         "id": "ranked-points-and-leaderboard",
@@ -315,19 +327,25 @@
       "higherRatedWinGainsMore": true,
       "lowerRatedLossCostsMore": true,
       "serviceAuthoritativeAndIdempotent": true,
-      "currentThoughtEloNeedsFloorRuleUpdate": true
+      "currentThoughtEloNeedsFloorRuleUpdate": false,
+      "thoughtFloorRuleValidated": true,
+      "codeRankedPointsImplemented": false,
+      "rankedLeaderboardImplemented": false
     },
     "audit": {
       "core7": "../data/next-local/core7-source-inventory.json",
       "nowcoder": "../data/next-local/nowcoder-source-inventory.json",
       "readonly": true,
-      "sourceInventoryIsNotImportOrTeachingCompletion": true
+      "sourceInventoryIsNotImportOrTeachingCompletion": true,
+      "nowcoderImport": "../data/next-local/nowcoder-training-coverage.json"
     },
     "cleanup": {
       "systemBinOnly": true,
       "permanentFallback": false,
       "neverEmptyResizeOrEvictExistingItems": true
     },
-    "englishTranslationScope": "all English statements; overrides the former translation difficulty cap for the next local release only; editorial authoring restrictions remain unchanged"
+    "englishTranslationScope": "all English statements; overrides the former translation difficulty cap for the next local release only; editorial authoring restrictions remain unchanged",
+    "parallelDevelopmentAuthorizedOn": "2026-11-04",
+    "developmentVerification": "verification/next-local-dev-20261104.json"
   }
 }

@@ -18,7 +18,7 @@ import {platformTrainingLists,platformListState,trainingListPlatform} from '@/li
 import SortDirection from '@/components/SortDirection.jsx';
 import {compareProblemDifficulty} from '@/lib/problemOrder.js';
 import PageSearch from '@/components/PageSearch.jsx';
-import { matchesTrainingProblem, startsWithPath, trainingIndex } from '@/lib/trainingLists.js';
+import { matchesTrainingProblem, startsWithPath, trainingIndex, uniqueTrainingProblems } from '@/lib/trainingLists.js';
 import { organizeTrainingLists, compareTrainingLists, compareCategoryNames } from '@/lib/trainingListCatalog.js';
 import '@/components/CatalogExplorer.css';
 import './TrainingListsPage.css';
@@ -108,7 +108,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   const sectionNames = [...new Set(scoped.map(item => item.sections?.[state.sections.length]).filter(Boolean))];
   const searchingProblems = Boolean(search || state.status);
   const showAll = state.flat || searchingProblems;
-  const problems = (showAll ? state.sections.length ? scoped : all : scoped.filter(item => (item.sections || []).length === state.sections.length)).filter(item => matchesTrainingProblem(item, state.query, state.status));
+  const problems = uniqueTrainingProblems(showAll ? state.sections.length ? scoped : all : scoped.filter(item => (item.sections || []).length === state.sections.length)).filter(item => matchesTrainingProblem(item, state.query, state.status));
   const sort=state.sort==='auto'?(active?.custom||active?.virtual?'added':'difficulty'):state.sort;
   const filtered=problems.filter(item=>(!state.knowledge||matchesKnowledge(item.row||{},[state.knowledge]))&&(!state.platform||item.row?.platform===state.platform)&&(!(state.min>800||state.max<4000)||item.row?.difficulty>=state.min&&item.row?.difficulty<=state.max));problems.splice(0,problems.length,...filtered);
   if(sort==='difficulty')problems.sort((a,b)=>compareProblemDifficulty(a.row,b.row,state.descending));else if(sort==='title')problems.sort((a,b)=>String(a.row?.title||a.pid).localeCompare(String(b.row?.title||b.pid),'zh-CN')*(state.descending?-1:1));else {problems.sort((a,b)=>String(a.addedAt||'').localeCompare(String(b.addedAt||''))*(state.descending?-1:1));if(state.descending&&problems.every(item=>!item.addedAt))problems.reverse();}
@@ -140,7 +140,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   const sourceName=sourcePlatform==='牛客'?'牛客原题单':sourcePlatform==='洛谷'?'洛谷原题单':'原站题单';
   const sourceUrl=sourceList?.url||source;
   const children = active && !showAll && !state.sections.length ? (active.children || []).filter(id => !state.trail.includes(id)).map(id => index.byList.get(id)).filter(Boolean) : [];
-  const folderRows = active ? (showAll ? [] : sectionNames.map(name => ({ id: name, title: name, count: scoped.filter(item => item.sections?.[state.sections.length] === name).length, action: () => patch({ sections: [...state.sections, name] }) }))) : [...folders].map(([id, ids]) => ({ id, stats:index.stats(ids), title: state.mode === 'source' ? index.categories.find(c => c.id === id)?.name || id : id, count: ids.length, unit: '个题单', action: () => patch({ folder: [...state.folder, id] }) }));
+  const folderRows = active ? (showAll ? [] : sectionNames.map(name => ({ id: name, title: name, count: uniqueTrainingProblems(scoped.filter(item => item.sections?.[state.sections.length] === name)).length, action: () => patch({ sections: [...state.sections, name] }) }))) : [...folders].map(([id, ids]) => ({ id, stats:index.stats(ids), title: state.mode === 'source' ? index.categories.find(c => c.id === id)?.name || id : id, count: ids.length, unit: '个题单', action: () => patch({ folder: [...state.folder, id] }) }));
   if (!active && state.mode === 'algorithm') folderRows.sort((a, b) => compareCategoryNames(a.title, b.title, state.folder[0]));
   const listEntries = active ? children : entries;
   const browsingFolders=!!active&&!showAll&&(folderRows.length>0||listEntries.length>0);

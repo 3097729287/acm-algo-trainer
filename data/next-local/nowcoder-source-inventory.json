@@ -26,7 +26,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/18839?from=acdiscuss",
           "sourceHeadings": [
             "语法入门"
-          ]
+          ],
+          "exerciseTitle": "顺序结构程序设计"
         },
         {
           "order": 1,
@@ -35,7 +36,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/19304?from=acdiscuss",
           "sourceHeadings": [
             "语法入门"
-          ]
+          ],
+          "exerciseTitle": "选择结构程序设计"
         },
         {
           "order": 2,
@@ -44,7 +46,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/19305?from=acdiscuss",
           "sourceHeadings": [
             "语法入门"
-          ]
+          ],
+          "exerciseTitle": "循环结构程序设计"
         },
         {
           "order": 3,
@@ -53,7 +56,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/19306?from=acdiscuss",
           "sourceHeadings": [
             "语法入门"
-          ]
+          ],
+          "exerciseTitle": "数组、字符串及数据批量存储"
         },
         {
           "order": 4,
@@ -62,7 +66,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/19859?from=acdiscuss",
           "sourceHeadings": [
             "语法入门"
-          ]
+          ],
+          "exerciseTitle": "函数与递归"
         },
         {
           "order": 5,
@@ -71,7 +76,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/19850?from=acdiscuss",
           "sourceHeadings": [
             "语法入门"
-          ]
+          ],
+          "exerciseTitle": "栈、队列和stl"
         },
         {
           "order": 6,
@@ -80,7 +86,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/19851?from=acdiscuss",
           "sourceHeadings": [
             "语法入门"
-          ]
+          ],
+          "exerciseTitle": "模拟、枚举与贪心"
         },
         {
           "order": 7,
@@ -89,7 +96,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/20960?from=acdiscuss",
           "sourceHeadings": [
             "算法入门"
-          ]
+          ],
+          "exerciseTitle": "模拟、枚举与贪心"
         },
         {
           "order": 8,
@@ -98,7 +106,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/21763?from=acdiscuss",
           "sourceHeadings": [
             "算法入门"
-          ]
+          ],
+          "exerciseTitle": "递归与分治思想"
         },
         {
           "order": 9,
@@ -107,7 +116,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/22353?from=acdiscuss",
           "sourceHeadings": [
             "算法入门"
-          ]
+          ],
+          "exerciseTitle": "二分、三分、01分数规划"
         },
         {
           "order": 10,
@@ -116,7 +126,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/22669?from=acdiscuss",
           "sourceHeadings": [
             "算法入门"
-          ]
+          ],
+          "exerciseTitle": "堆栈、队列、单调栈、单调队列"
         },
         {
           "order": 11,
@@ -125,7 +136,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/22904?from=acdiscuss",
           "sourceHeadings": [
             "算法入门"
-          ]
+          ],
+          "exerciseTitle": "优先队列、并查集"
         },
         {
           "order": 12,
@@ -134,7 +146,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/23156?from=acdiscuss",
           "sourceHeadings": [
             "算法入门"
-          ]
+          ],
+          "exerciseTitle": "搜索与搜索剪枝"
         },
         {
           "order": 13,
@@ -143,7 +156,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/24213?from=acdiscuss",
           "sourceHeadings": [
             "算法入门"
-          ]
+          ],
+          "exerciseTitle": "动态规划1：线性dp、背包问题，区间"
         },
         {
           "order": 14,
@@ -152,7 +166,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/25022?from=acdiscuss",
           "sourceHeadings": [
             "算法入门"
-          ]
+          ],
+          "exerciseTitle": "动态规划2：树形dp、状压dp、"
         },
         {
           "order": 15,
@@ -161,7 +176,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/26077?from=acdiscuss",
           "sourceHeadings": [
             "算法入门"
-          ]
+          ],
+          "exerciseTitle": "图论基础、最短路与最小生成树"
         },
         {
           "order": 16,
@@ -170,7 +186,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/26656?from=acdiscuss",
           "sourceHeadings": [
             "算法入门"
-          ]
+          ],
+          "exerciseTitle": "简单数学基础"
         },
         {
           "order": 17,
@@ -179,7 +196,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/26896?from=acdiscuss",
           "sourceHeadings": [
             "算法入门"
-          ]
+          ],
+          "exerciseTitle": "线段树与树状数组"
         },
         {
           "order": 18,
@@ -188,7 +206,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/27836?from=acdiscuss",
           "sourceHeadings": [
             "算法入门"
-          ]
+          ],
+          "exerciseTitle": "RMQ与LCA"
         },
         {
           "order": 19,
@@ -198,7 +217,8 @@
           "sourceHeadings": [
             "Q&A",
             "顺序结构程序设计"
-          ]
+          ],
+          "exerciseTitle": "顺序结构程序设计"
         },
         {
           "order": 20,
@@ -764,7 +784,8 @@
           "sourceHeadings": [
             "Q&A",
             "选择结构程序设计"
-          ]
+          ],
+          "exerciseTitle": "选择结构程序设计"
         },
         {
           "order": 69,
@@ -1027,7 +1048,8 @@
           "sourceHeadings": [
             "Q&A",
             "选择结构程序设计"
-          ]
+          ],
+          "exerciseTitle": "循环结构程序设计"
         },
         {
           "order": 93,
@@ -1631,7 +1653,8 @@
           "sourceHeadings": [
             "Q&A",
             "数组、字符串及数据批量存储"
-          ]
+          ],
+          "exerciseTitle": "数组、字符串及数据批量存储"
         },
         {
           "order": 148,
@@ -2246,7 +2269,8 @@
           "sourceHeadings": [
             "Q&A",
             "函数与递归"
-          ]
+          ],
+          "exerciseTitle": "函数与递归"
         },
         {
           "order": 204,
@@ -2509,7 +2533,8 @@
           "sourceHeadings": [
             "Q&A",
             "栈、队列和stl"
-          ]
+          ],
+          "exerciseTitle": "栈、队列和stl"
         },
         {
           "order": 228,
@@ -2673,7 +2698,8 @@
           "sourceHeadings": [
             "Q&A",
             "模拟、枚举与贪心"
-          ]
+          ],
+          "exerciseTitle": "模拟、枚举与贪心"
         },
         {
           "order": 243,
@@ -3046,7 +3072,8 @@
           "sourceHeadings": [
             "算法入门",
             "模拟、枚举与贪心"
-          ]
+          ],
+          "exerciseTitle": "模拟、枚举与贪心"
         },
         {
           "order": 277,
@@ -3650,7 +3677,8 @@
           "sourceHeadings": [
             "算法入门",
             "递归与分治思想"
-          ]
+          ],
+          "exerciseTitle": "递归与分治思想"
         },
         {
           "order": 332,
@@ -3902,7 +3930,8 @@
           "sourceHeadings": [
             "算法入门",
             "二分、三分、01分数规划"
-          ]
+          ],
+          "exerciseTitle": "二分、三分、01分数规划"
         },
         {
           "order": 355,
@@ -4132,7 +4161,8 @@
           "sourceHeadings": [
             "算法入门",
             "堆栈、队列、单调栈、单调队列"
-          ]
+          ],
+          "exerciseTitle": "堆栈、队列、单调栈、单调队列"
         },
         {
           "order": 376,
@@ -4351,7 +4381,8 @@
           "sourceHeadings": [
             "算法入门",
             "优先队列、并查集"
-          ]
+          ],
+          "exerciseTitle": "优先队列、并查集"
         },
         {
           "order": 396,
@@ -4669,7 +4700,8 @@
           "sourceHeadings": [
             "算法入门",
             "搜索与搜索剪枝"
-          ]
+          ],
+          "exerciseTitle": "搜索与搜索剪枝"
         },
         {
           "order": 425,
@@ -5086,7 +5118,8 @@
           "sourceHeadings": [
             "算法入门",
             "动态规划1：线性dp、背包问题，区间"
-          ]
+          ],
+          "exerciseTitle": "动态规划1：线性dp、背包问题，区间"
         },
         {
           "order": 463,
@@ -5767,7 +5800,8 @@
           "sourceHeadings": [
             "算法入门",
             "动态规划2：树形dp、状压dp、"
-          ]
+          ],
+          "exerciseTitle": "动态规划2：树形dp、状压dp、"
         },
         {
           "order": 525,
@@ -6096,7 +6130,8 @@
           "sourceHeadings": [
             "算法入门",
             "图论基础、最短路与最小生成树"
-          ]
+          ],
+          "exerciseTitle": "图论基础、最短路与最小生成树"
         },
         {
           "order": 555,
@@ -6590,7 +6625,8 @@
           "sourceHeadings": [
             "算法入门",
             "简单数学基础"
-          ]
+          ],
+          "exerciseTitle": "简单数学基础"
         },
         {
           "order": 600,
@@ -7282,7 +7318,8 @@
           "sourceHeadings": [
             "算法入门",
             "线段树与树状数组"
-          ]
+          ],
+          "exerciseTitle": "线段树与树状数组"
         },
         {
           "order": 663,
@@ -7732,7 +7769,8 @@
           "sourceHeadings": [
             "算法入门",
             "RMQ与LCA"
-          ]
+          ],
+          "exerciseTitle": "练习题"
         }
       ]
     },
@@ -7758,7 +7796,8 @@
           "sourceHeadings": [
             "动态规划进阶",
             "树型dp、状压dp"
-          ]
+          ],
+          "exerciseTitle": "树型dp例题"
         },
         {
           "order": 1,
@@ -7768,7 +7807,8 @@
           "sourceHeadings": [
             "动态规划进阶",
             "树型dp、状压dp"
-          ]
+          ],
+          "exerciseTitle": "状压dp例题"
         },
         {
           "order": 2,
@@ -7778,7 +7818,8 @@
           "sourceHeadings": [
             "动态规划进阶",
             "树型dp、状压dp"
-          ]
+          ],
+          "exerciseTitle": "树型dp练习"
         },
         {
           "order": 3,
@@ -7788,7 +7829,8 @@
           "sourceHeadings": [
             "动态规划进阶",
             "树型dp、状压dp"
-          ]
+          ],
+          "exerciseTitle": "状压dp练习"
         },
         {
           "order": 4,
@@ -7798,7 +7840,8 @@
           "sourceHeadings": [
             "动态规划进阶",
             "数位dp、概率dp"
-          ]
+          ],
+          "exerciseTitle": "数位dp例题"
         },
         {
           "order": 5,
@@ -7808,7 +7851,8 @@
           "sourceHeadings": [
             "动态规划进阶",
             "数位dp、概率dp"
-          ]
+          ],
+          "exerciseTitle": "概率dp例题"
         },
         {
           "order": 6,
@@ -7818,7 +7862,8 @@
           "sourceHeadings": [
             "动态规划进阶",
             "数位dp、概率dp"
-          ]
+          ],
+          "exerciseTitle": "数位dp练习"
         },
         {
           "order": 7,
@@ -7828,7 +7873,8 @@
           "sourceHeadings": [
             "动态规划进阶",
             "数位dp、概率dp"
-          ]
+          ],
+          "exerciseTitle": "概率dp练习"
         },
         {
           "order": 8,
@@ -7838,7 +7884,8 @@
           "sourceHeadings": [
             "动态规划进阶",
             "dp优化——dp的优化思路"
-          ]
+          ],
+          "exerciseTitle": "优化思路和优化技巧"
         },
         {
           "order": 9,
@@ -7848,7 +7895,8 @@
           "sourceHeadings": [
             "动态规划进阶",
             "dp优化——dp的优化思路"
-          ]
+          ],
+          "exerciseTitle": "习题课"
         },
         {
           "order": 10,
@@ -7858,7 +7906,8 @@
           "sourceHeadings": [
             "图论进阶",
             "二分图匹配"
-          ]
+          ],
+          "exerciseTitle": "二分图例题与练习："
         },
         {
           "order": 11,
@@ -7868,7 +7917,8 @@
           "sourceHeadings": [
             "图论进阶",
             "连通性（强连通、割点和桥）"
-          ]
+          ],
+          "exerciseTitle": "连通性例题与练习："
         },
         {
           "order": 12,
@@ -7878,7 +7928,8 @@
           "sourceHeadings": [
             "图论进阶",
             "网络流专题（最大流与费用流）"
-          ]
+          ],
+          "exerciseTitle": "网络流例题与练习："
         },
         {
           "order": 13,
@@ -7888,7 +7939,8 @@
           "sourceHeadings": [
             "数据结构进阶",
             "区间信息维护"
-          ]
+          ],
+          "exerciseTitle": "前缀和、差分（前缀和的变形、高维前缀和、多阶前缀和）练习题"
         },
         {
           "order": 14,
@@ -7898,7 +7950,8 @@
           "sourceHeadings": [
             "数据结构进阶",
             "区间信息维护"
-          ]
+          ],
+          "exerciseTitle": "树状数组、线段树（比赛中的小技巧、多tag后效性、带修改的动态规划DDP）习题"
         },
         {
           "order": 15,
@@ -7908,7 +7961,8 @@
           "sourceHeadings": [
             "数据结构进阶",
             "区间信息维护"
-          ]
+          ],
+          "exerciseTitle": "线段树（带暴力成分的线段树、李超线段树）习题"
         },
         {
           "order": 16,
@@ -7918,7 +7972,8 @@
           "sourceHeadings": [
             "数据结构进阶",
             "区间信息维护"
-          ]
+          ],
+          "exerciseTitle": "平衡树、伸展树 习题"
         },
         {
           "order": 17,
@@ -7928,7 +7983,8 @@
           "sourceHeadings": [
             "数据结构进阶",
             "区间信息维护"
-          ]
+          ],
+          "exerciseTitle": "数组分块、莫队"
         },
         {
           "order": 18,
@@ -7938,7 +7994,8 @@
           "sourceHeadings": [
             "数据结构进阶",
             "数据结构的可持久化"
-          ]
+          ],
+          "exerciseTitle": "树形结构的可持久化（线段树、字典树等）"
         },
         {
           "order": 19,
@@ -7948,7 +8005,8 @@
           "sourceHeadings": [
             "数据结构进阶",
             "统计类算法"
-          ]
+          ],
+          "exerciseTitle": "CDQ分治"
         },
         {
           "order": 20,
@@ -7958,7 +8016,8 @@
           "sourceHeadings": [
             "数据结构进阶",
             "树上信息维护"
-          ]
+          ],
+          "exerciseTitle": "维护树链剖分（dsu on tree，长链剖）"
         },
         {
           "order": 21,
@@ -7968,7 +8027,8 @@
           "sourceHeadings": [
             "数据结构进阶",
             "动态树"
-          ]
+          ],
+          "exerciseTitle": "LCT"
         },
         {
           "order": 22,
@@ -7977,7 +8037,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/21094",
           "sourceHeadings": [
             "数学进阶"
-          ]
+          ],
+          "exerciseTitle": "整数分解与筛法 （GCD、exGCD、埃氏筛、欧拉筛、质因数分解）"
         },
         {
           "order": 23,
@@ -7986,7 +8047,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/21289",
           "sourceHeadings": [
             "数学进阶"
-          ]
+          ],
+          "exerciseTitle": "同余与模（逆元、费马小定理、欧拉定理、孙子定理）"
         },
         {
           "order": 24,
@@ -7995,7 +8057,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/21791",
           "sourceHeadings": [
             "数学进阶"
-          ]
+          ],
+          "exerciseTitle": "简单排列和组合（排列组合问题、阶乘、组合数）"
         },
         {
           "order": 25,
@@ -8004,7 +8067,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/22529",
           "sourceHeadings": [
             "数学进阶"
-          ]
+          ],
+          "exerciseTitle": "容斥原理"
         },
         {
           "order": 26,
@@ -8013,7 +8077,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/22769",
           "sourceHeadings": [
             "数学进阶"
-          ]
+          ],
+          "exerciseTitle": "积性函数（积性函数概念、欧拉筛求积性函数、莫比乌斯反演）"
         },
         {
           "order": 27,
@@ -8022,7 +8087,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/24157",
           "sourceHeadings": [
             "数学进阶"
-          ]
+          ],
+          "exerciseTitle": "矩阵与高斯消元（矩阵乘法、高斯消元求线性方程组、求行列式）"
         },
         {
           "order": 28,
@@ -8031,7 +8097,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/24710",
           "sourceHeadings": [
             "数学进阶"
-          ]
+          ],
+          "exerciseTitle": "生成函数I（线性递推关系、生成函数概念与公式推导、暴力计算）"
         },
         {
           "order": 29,
@@ -8040,7 +8107,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/26013",
           "sourceHeadings": [
             "数学进阶"
-          ]
+          ],
+          "exerciseTitle": "原根与FFT/NTT（原根、指标、FFT/NTT、快速多项式乘法）"
         },
         {
           "order": 30,
@@ -8049,7 +8117,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/26757",
           "sourceHeadings": [
             "数学进阶"
-          ]
+          ],
+          "exerciseTitle": "生成函数II（集合分拆、置换、整数分拆、它们的递推公式、生成函数 和快速计算）"
         },
         {
           "order": 31,
@@ -8058,7 +8127,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/27589",
           "sourceHeadings": [
             "字符串"
-          ]
+          ],
+          "exerciseTitle": "KMP1（字符串基本概念，KMP算法和简单应用）"
         },
         {
           "order": 32,
@@ -8067,7 +8137,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/28576",
           "sourceHeadings": [
             "字符串"
-          ]
+          ],
+          "exerciseTitle": "Hash（Hash的三种姿势及应用）"
         },
         {
           "order": 33,
@@ -8076,7 +8147,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/28737",
           "sourceHeadings": [
             "字符串"
-          ]
+          ],
+          "exerciseTitle": "Trie（字典树多模式匹配）"
         },
         {
           "order": 34,
@@ -8085,7 +8157,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/29086",
           "sourceHeadings": [
             "字符串"
-          ]
+          ],
+          "exerciseTitle": "AC自动机"
         },
         {
           "order": 35,
@@ -8094,7 +8167,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/33548",
           "sourceHeadings": [
             "字符串"
-          ]
+          ],
+          "exerciseTitle": "pam+manacher"
         },
         {
           "order": 36,
@@ -8103,7 +8177,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/34974",
           "sourceHeadings": [
             "字符串"
-          ]
+          ],
+          "exerciseTitle": "SA（后缀数组nlogn构造和应用）"
         },
         {
           "order": 37,
@@ -8112,7 +8187,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/37092",
           "sourceHeadings": [
             "字符串"
-          ]
+          ],
+          "exerciseTitle": "SAM（后缀自动机简单应用）"
         },
         {
           "order": 38,
@@ -8121,7 +8197,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/27249",
           "sourceHeadings": [
             "计算几何"
-          ]
+          ],
+          "exerciseTitle": "二维基础"
         },
         {
           "order": 39,
@@ -8130,7 +8207,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/27675",
           "sourceHeadings": [
             "计算几何"
-          ]
+          ],
+          "exerciseTitle": "极角序"
         },
         {
           "order": 40,
@@ -8139,7 +8217,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/28513",
           "sourceHeadings": [
             "计算几何"
-          ]
+          ],
+          "exerciseTitle": "凸包"
         },
         {
           "order": 41,
@@ -8148,7 +8227,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/28770",
           "sourceHeadings": [
             "计算几何"
-          ]
+          ],
+          "exerciseTitle": "凸包进阶"
         },
         {
           "order": 42,
@@ -8157,7 +8237,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/29764",
           "sourceHeadings": [
             "计算几何"
-          ]
+          ],
+          "exerciseTitle": "半平面交"
         },
         {
           "order": 43,
@@ -8166,7 +8247,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/36088",
           "sourceHeadings": [
             "计算几何"
-          ]
+          ],
+          "exerciseTitle": "扫描线"
         },
         {
           "order": 44,
@@ -8175,7 +8257,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/40275",
           "sourceHeadings": [
             "计算几何"
-          ]
+          ],
+          "exerciseTitle": "圆"
         },
         {
           "order": 45,
@@ -8184,7 +8267,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/52826",
           "sourceHeadings": [
             "计算几何"
-          ]
+          ],
+          "exerciseTitle": "杂项"
         },
         {
           "order": 46,
@@ -8193,7 +8277,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/32183",
           "sourceHeadings": [
             "博弈"
-          ]
+          ],
+          "exerciseTitle": "组合游戏基本概念、对抗搜索、Bash游戏、Nim游戏习题"
         },
         {
           "order": 47,
@@ -8202,7 +8287,8 @@
           "sourceLabel": "https://ac.nowcoder.com/acm/contest/34655",
           "sourceHeadings": [
             "博弈"
-          ]
+          ],
+          "exerciseTitle": "Sprague-Grundy函数（SG函数、图游戏、Nim和）"
         }
       ]
     },

@@ -27,7 +27,7 @@ import ReadingLink from '@/components/ReadingLink.jsx';
 import StatementPdf from '@/components/StatementPdf.jsx';
 import remarkTableBreaks from '@/lib/remarkTableBreaks.js';
 import remarkSourceMath from '@/lib/remarkSourceMath.js';
-import {originalIsChinese} from '@/lib/statementLanguage.js';
+import {originalIsChinese,originalIsEnglish} from '@/lib/statementLanguage.js';
 import {insertTemplate,normalizeCppTemplate} from '@/lib/insertTemplate.js';
 import {platformInfo,rowPlatform} from '@/lib/platformRegistry.js';
 import './Workbench.css';
@@ -42,6 +42,7 @@ function startingTemplate(snapshot,language){
   return language==='cpp17'&&item.id==='default'?{...item,code:normalizeCppTemplate(item.code)}:item;
 }
 const MAX_BYTES = 64 * 1024;
+const statementSource=value=>JSON.stringify([value?.currentSourceMarkdown||value?.markdown||'',value?.statementPdf?.sha256||null]);
 const byteLength = value => new TextEncoder().encode(value).byteLength;
 const STATEMENT_FONT_KEY = 'tb.statement-font-size';
 const STATEMENT_FONT_SIZES = [14, 16, 18, 20, 22, 24, 26, 28, 30, 32];
@@ -236,6 +237,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   };},[]);
   const officialReported = useRef(new Set());
   const [problem, setProblem] = useState(null);
+  const problemRef=useRef(problem);problemRef.current=problem;
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
   const [loadAttempt, setLoadAttempt] = useState(0);
@@ -401,8 +403,9 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         setCode(record.code);
         setProblem(answer);
         const prepared=(answer.translation?.targetLanguage==='zh-CN'||answer.translation?.kind==='site') && answer.translation.markdown ? answer.translation : null;
+        record.translatedSource=prepared?statementSource(answer):null;
         setTranslation(prepared);
-        setLanguage('original');
+        setLanguage(prepared&&!originalIsChinese(answer)?'zh':'original');
         const history = (answer.submissions || []).slice().sort((a, b) => String(b.submittedAt || '').localeCompare(String(a.submittedAt || '')));
         setSubmissions(history);
         setResultId(history[0]?.id || null);
@@ -801,28 +804,40 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const translateStatement = async () => {
     const record = activeRecord.current;
     if (!record?.loaded || loading || !problem?.markdown || originalIsChinese(problem)) return;
+    const source=statementSource(problem),sameSource=()=>isActive(record)&&statementSource(problemRef.current)===source;
     setLanguage('zh');
-    if (translation || record.translationBusy) return;
+    const prepared=problem.translation;
+    if(prepared?.markdown&&(prepared.targetLanguage==='zh-CN'||prepared.kind==='site')){record.translatedSource=source;setTranslation(prepared);setTranslationError('');return;}
+    if ((translation&&record.translatedSource===source)||record.translationBusy) return;
+    if(problem.translationAvailable===false){setLanguage('original');return;}
     record.translationBusy = true;
+    record.autoTranslationSource=source;
     setTranslationBusy(true); setTranslationError('');
     try {
       const answer = await apiRef.current('problem/translate', requestBody(record));
-      if (!isActive(record)) return;
+      if (!sameSource()) return;
       if (!answer.markdown || answer.targetLanguage !== 'zh-CN') throw new Error('翻译服务未返回中文题面，已保留原文。');
       if(answer.kind==='original'||answer.sourceLanguage==='zh-CN'){setTranslation(null);setLanguage('original');return;}
-      setTranslation(answer);
+      record.translatedSource=source;setTranslation(answer);
     } catch (error) {
-      if (isActive(record)) { setTranslationError(error.message || '暂时无法翻译，已保留原文。'); setLanguage('original'); }
+      if (sameSource()) { setTranslationError(error.message || '暂时无法翻译，已保留原文。'); setLanguage('original'); }
     } finally { record.translationBusy = false; if (isActive(record)) setTranslationBusy(false); }
   };
   useEffect(() => {
     const record=activeRecord.current;
-    if (!record?.loaded || loading || problem?.statementLoading || !problem?.markdown || record.languageChosen) return;
+    if (!record?.loaded || loading || !problem?.markdown) return;
+    const source=statementSource(problem);
+    if(record.translatedSource&&record.translatedSource!==source){record.translatedSource=null;setTranslation(null);}
+    if(problem.statementLoading||record.languageChoice==='original')return;
+    if(originalIsChinese(problem))return;
     const prepared=problem.translation;
     if (prepared?.markdown && (prepared.targetLanguage==='zh-CN'||prepared.kind==='site')) {
-      setTranslation(prepared);
+      record.translatedSource=source;setTranslation(prepared);setLanguage('zh');
+    }else if(problem.statementAvailable!==false&&problem.translationAvailable!==false&&originalIsEnglish(problem)&&!record.translationBusy&&record.autoTranslationSource!==source){
+      record.autoTranslationSource=source;
+      void translateStatement();
     }
-  },[loading,problem?.markdown,problem?.statementLoading,problem?.autoTranslate,problem?.translation]);
+  },[loading,problem,translationBusy]);
   const loadHistoryCode=async row=>{const record=activeRecord.current;try{const saved=row.codePending?(await apiRef.current(`submission?id=${encodeURIComponent(row.id)}`)).submission:row;if(isActive(record)){setSubmissions(rows=>mergeSubmission(rows,saved));loadOwnCode(saved.code);}}catch(issue){if(isActive(record))setActionError(issue.message);}};
   const editorCommand = command => {
     if (command === 'official'||command==='submit') {if(problem?.templatePractice)execute('submit');else openOfficial();}
@@ -890,18 +905,19 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     const stop=()=>{handle.removeEventListener('pointermove',move);handle.removeEventListener('pointerup',stop);handle.removeEventListener('pointercancel',stop);handle.removeEventListener('lostpointercapture',stop);dragCleanup.current=null;};
     handle.addEventListener('pointermove',move);handle.addEventListener('pointerup',stop);handle.addEventListener('pointercancel',stop);handle.addEventListener('lostpointercapture',stop);dragCleanup.current=stop;
   };
-  const toggleStatementLanguage=()=>{if(activeRecord.current)activeRecord.current.languageChosen=true;if(language==='zh'){setLanguage('original');setTranslationError('');}else translateStatement();};
+  const toggleStatementLanguage=()=>{if(activeRecord.current)activeRecord.current.languageChoice=language==='zh'?'original':'zh';if(language==='zh'){setLanguage('original');setTranslationError('');}else translateStatement();};
+  const displayTranslation=translation&&activeRecord.current?.translatedSource===statementSource(problem)?translation:null;
   const copyStatement=async()=>{
     const record=activeRecord.current;
     try{
-      const markdown=language==='zh'&&translation?translation.markdown+(problem.statementSupplement?'\n\n'+problem.statementSupplement:''):problem?.currentSourceMarkdown||problem?.markdown||'';
+      const markdown=language==='zh'&&displayTranslation?displayTranslation.markdown+(problem.statementSupplement?'\n\n'+problem.statementSupplement:''):problem?.currentSourceMarkdown||problem?.markdown||'';
       const samples=(problem?.samples||[]).map((item,index)=>`### ${item.name||`样例 ${index+1}`}\n\n#### 输入\n\n\`\`\`text\n${item.input||''}\n\`\`\`\n\n#### 输出\n\n\`\`\`text\n${item.output||''}\n\`\`\``).join('\n\n');
       await navigator.clipboard.writeText(markdown+(samples?'\n\n## 样例\n\n'+samples:''));
       if(!isActive(record))return;
       setStatementCopied(true);clearTimeout(statementCopyTimer.current);statementCopyTimer.current=setTimeout(()=>setStatementCopied(false),1600);
     }catch{setActionError('暂时无法复制题面，请选中题面后复制。');}
   };
-  const statementPdf=language==='zh'&&translation?translation.statementPdf:problem?.statementPdf;
+  const statementPdf=language==='zh'&&displayTranslation?displayTranslation.statementPdf:problem?.statementPdf;
   const statementHeader=(<div className="wb-pane-header wb-merged-header">
       <button type="button" className="wb-icon-button wb-back-button" onClick={exit} title={`${runningContest?'返回工作台（比赛继续计时）':'返回列表'} · ${shortcutValue('workbench-back',shortcuts)}`} aria-label={runningContest ? '返回工作台' : '返回列表'}><ArrowLeft size={17} /></button>
       <div className="wb-toolbar">
@@ -915,7 +931,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           <div className="wb-font-controls" role="group" aria-label="题面字号调节">
             <BoundedNumber aria-label="题面字号" title={`题面字号 · 滚轮调节 · ${shortcutValue('statement-font',shortcuts)}`} min={14} max={32} unit="px" value={statementFontSize} wheelStep required onChange={event => changeStatementFontSize(Number(event.target.value))}/>
           </div>
-          {problem?.markdown&&!originalIsChinese(problem)&&<div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-label={translationBusy&&language==='zh'?'翻译中…':language==='zh'?'中文':'原文'} title={`${language==='zh'?'切换到英文':'切换到中文'} · ${shortcutValue('statement-language',shortcuts)}`} disabled={loading||(problem?.translationAvailable===false&&!translation)} onClick={toggleStatementLanguage}>{translationBusy&&language==='zh'?<LoaderCircle size={14} className="wb-spinner"/>:language==='zh'?'中':'英'}</button></div>}
+          {problem?.markdown&&!originalIsChinese(problem)&&<div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-label={translationBusy&&language==='zh'?'翻译中…':language==='zh'?'中文':'原文'} title={`${language==='zh'?'切换到英文':'切换到中文'} · ${shortcutValue('statement-language',shortcuts)}`} disabled={loading||(problem?.translationAvailable===false&&!displayTranslation)} onClick={toggleStatementLanguage}>{translationBusy&&language==='zh'?<LoaderCircle size={14} className="wb-spinner"/>:language==='zh'?'中':'英'}</button></div>}
           <button type="button" className="wb-icon-button" aria-label={statementCopied?'已复制题面':'复制题面'} title={`${statementCopied?'已复制题面':'复制题面'} · ${shortcutValue('statement-copy',shortcuts)}`} disabled={loading||!problem?.markdown} onClick={copyStatement}>{statementCopied?<Check size={16}/>:<Copy size={16}/>}</button>
           {problem?.url && <a className="wb-original-link" href={problem.url} target="_blank" rel="noreferrer" aria-label="在浏览器打开原题" title={`在浏览器打开原题 · ${shortcutValue('statement-original',shortcuts)}`}><ExternalLink size={16} /></a>}
         </div></div>);
@@ -965,7 +981,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           {loading ? <div className="wb-empty"><LoaderCircle className="wb-spinner" size={22} /><span>正在载入题面</span></div>
             : loadError ? <div className="wb-empty"><span>{loadError}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button></div>
             : statementPdf ? <StatementPdf key={statementPdf.sha256} pdf={statementPdf} title={problem.title} fontSize={statementFontSize}/>
-            : problem?.markdown ? <StatementMarkdown markdown={language === 'zh' && translation ? translation.markdown+(problem.statementSupplement?'\n\n'+problem.statementSupplement:'') : problem.currentSourceMarkdown || problem.markdown} samples={problem.samples} title={problem.title} images={problem.images} attachments={problem.attachments} />
+            : problem?.markdown ? <StatementMarkdown markdown={language === 'zh' && displayTranslation ? displayTranslation.markdown+(problem.statementSupplement?'\n\n'+problem.statementSupplement:'') : problem.currentSourceMarkdown || problem.markdown} samples={problem.samples} title={problem.title} images={problem.images} attachments={problem.attachments} />
             : problem?.statementLoading ? <div className="wb-empty" role="status"><LoaderCircle className="wb-spinner" size={22}/><strong>正在读取原站题面</strong>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14}/></a>}</div>
             : <div className="wb-empty"><BookOpen size={24} /><strong>题面暂时未能加载</strong><span>{problem?.statementError || '请重试读取原站题面。'}</span><button type="button" className="wb-button" onClick={retryStatement}><RotateCcw size={14} />重新载入</button>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14} /></a>}</div>}
         </article>
