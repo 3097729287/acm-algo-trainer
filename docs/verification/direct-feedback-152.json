@@ -3,7 +3,7 @@
   "publicRelease": false,
   "publicDesktopVersion": "1.4.34",
   "implementationCommit": "8d0dfa88476105df36fcb2a422725fa4689e4663",
-  "status": "UI checks passed; frozen native build and backend checks in progress; local upgrade pending",
+  "status": "Installed and verified in both normal local editions; user installer delivered locally; public desktop feed unchanged",
   "publicLibrary": {
     "problems": 12348,
     "statements": 12218,
@@ -46,5 +46,58 @@
     "realMatchJoinedForTesting": false,
     "freshFullBackupCreated": false
   },
-  "concurrentThoughtModeIncluded": false
+  "concurrentThoughtModeIncluded": false,
+  "programAndInstallerSourceCommit": "176ffd7029acb0dd2db7a1c659cf50e82f9e7443",
+  "nativeBuildSourceCommit": "8d0dfa88476105df36fcb2a422725fa4689e4663",
+  "frontendBuildSourceCommit": "176ffd7029acb0dd2db7a1c659cf50e82f9e7443",
+  "documentationUpdatedAfterBuild": true,
+  "backend": {
+    "fullRunTests": 1127,
+    "initialPassed": 1124,
+    "skipped": 2,
+    "initialErrors": 1,
+    "initialError": "Isolated checkout initially lacked the default public SQLite file used by one editorial test; selected packaging seed had already passed full integrity checks.",
+    "rerunPassed": 1,
+    "codeChangedForRerun": false,
+    "combinedPassed": 1125,
+    "allRequiredAssertionsSatisfied": true
+  },
+  "packaging": {
+    "filesPerEdition": 5037,
+    "bothFrozenFreshWorkspaces": true,
+    "bothFrozenNativeUpgradeAndRestart": true,
+    "committedWalPreserved": true,
+    "identityDraftTrainingSubmissionsPreserved": true,
+    "method": "Exact verified package manifest, shared immutable files and independent mutable profile; unchanged Inno installer engine retains prior actual install checks",
+    "currentInnoInstallExecutionRepeated": false,
+    "priorInnoEngineFreshInstallAndUpgradeChecksRetained": true,
+    "bothNormalStartupAndOriginalOwnerChecks": true,
+    "bothLiveProgramManifestsVerified": true,
+    "newInstallerIncludesCleanPublicSeed": true,
+    "existingLocalPhysicalPublicSeedPreservedForHistory": true,
+    "retiredPlatformsVisibleAfterNormalUpgrade": 0,
+    "personalAndDocumentOnlineBackups": 4,
+    "privateFilesUnchangedDuringComponentReplacement": true,
+    "userInstallerSha256": "84e767de021c45e3aaec6d1caf73f8ce024da59a0a31f478c1c09459d7bec6a7",
+    "userInstallerBytes": 928583237,
+    "administratorArtifactPubliclyPublished": false
+  },
+  "normalReadback": {
+    "originalUserLevel": 14,
+    "allThreePeriodsContainOwnAccount": true,
+    "socialReadSucceeded": true,
+    "officialSubmissionsSent": 0,
+    "realMatchJoins": 0,
+    "desktopCapturePerformed": false,
+    "threeSecondTargetClaimed": false
+  },
+  "cleanup": {
+    "systemRecycleBinOnly": true,
+    "items": 6,
+    "logicalBytes": 7590231971,
+    "permanentDeletion": false,
+    "binEmptiedResizedOrEvicted": false,
+    "recyclingDoesNotReleasePhysicalSpace": true,
+    "fiftyGiBPerDriveTargetMet": false
+  }
 }
