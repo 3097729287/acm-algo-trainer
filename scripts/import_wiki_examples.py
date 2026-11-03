@@ -19,6 +19,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'backend'),str(ROOT/'backend/common')]
 from insights import canonical_url
 from problem_titles import problem_title
+from contest_scope import retired_platform
 
 # The Wiki link points at a whole Gym; its label explicitly names J. The
 # original contest booklet independently confirms J on page 16.
@@ -26,6 +27,7 @@ GYM_URL='http://codeforces.com/gym/100963'
 GYM_PROOF='https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf'
 
 def problem_link(url,label=''):
+    if retired_platform(url=url):return None
     p=urlsplit(url);host=(p.hostname or '').lower().removeprefix('www.');path=p.path.rstrip('/');q=parse_qs(p.query)
     if host in {'codeforces.com','m1.codeforces.com','m2.codeforces.com'}:
         found=re.fullmatch(r'/(?:contest/(\d+)/problem|problemset/problem/(\d+)|gym/(\d+)/problem)/([A-Za-z0-9]+)',path)
@@ -74,7 +76,7 @@ def collect():
     return path,entries
 
 def prepare():
-    source=ROOT/'data/library/problems.json';problems=json.loads(source.read_text(encoding='utf-8'))
+    source=ROOT/'data/library/problems.json';problems=[row for row in json.loads(source.read_text(encoding='utf-8')) if not retired_platform(row)]
     by_identity={}
     for row in problems:
         key=canonical_url(row.get('url'))

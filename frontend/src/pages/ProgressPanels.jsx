@@ -22,7 +22,6 @@ import { ArrowDown, ArrowUp, FolderTree } from 'lucide-react';
 import CatalogExplorer, { CatalogPath, catalogMatches } from '../components/CatalogExplorer.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
 import ProfileBadge from '@/components/ProfileBadge.jsx';
-import AbilityEvidence from '@/components/AbilityEvidence.jsx';
 import { Info, Code2, Flame } from 'lucide-react';
 import BoundedNumber from '@/components/BoundedNumber.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
@@ -135,7 +134,7 @@ export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,
  return <div className="progress-page growth-dashboard" aria-label="成长"><div className="progress-growth-columns">
  <KnowledgeRadar rows={rows} categories={categories} knowledge={insights.knowledge||[]} knowledgeEvidence={insights.knowledgeEvidence||[]} knowledgeModel={insights.knowledgeModel||{}} onTopic={onTopic} onTrain={onTrain}/>
  <section className="progress-section growth-account-hero" aria-label="账号成长"><StickerCanvas api={api} owner={account?.userId||profile?.userId} goals={api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}>
-<div className="account-hero-identity"><div className="account-hero-person"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-titles"><TitleMedals iconOnly medalSize={56} titles={insights.equippedTitles||growth.equippedTitles||[]}/></div></div><div className="account-hero-rank"><TierIcon rank={rank} size={180}/><strong>{rankName}</strong>{rank.abilityScore!=null&&<span title="根据独立作答和题目难度估计的保守参考，不是 Codeforces 官方等级分">约 {number(rank.abilityScore)} · CF 参考</span>}<AbilityEvidence rank={rank} rows={rows}/></div></div>
+<div className="account-hero-identity"><div className="account-hero-person"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-titles"><TitleMedals iconOnly medalSize={56} titles={insights.equippedTitles||growth.equippedTitles||[]}/></div></div><div className="account-hero-rank"><TierIcon rank={rank} size={180}/><strong>{rankName}</strong></div></div>
 </StickerCanvas></section></div></div>;
 }
 
