@@ -20,12 +20,12 @@
     "passed": 74,
     "skipped": 1,
     "failed": 0,
-    "deployed": false,
+    "deployed": true,
     "authorization": "explicitly-authorized",
     "databaseAdapterVerified": "SQLite protocol fixtures; no new production MySQL deployment claimed",
     "sourceCommit": "c725ff26d112ea19495ec121b6743faf3a3c9782",
-    "productionVersion": "1.4.1",
-    "backupStatus": "fresh XZ attempt exceeded a conservative root-space limit; incomplete file retained pending an explicit cleanup exception"
+    "productionVersion": "1.4.2",
+    "backupStatus": "existing complete off-server backup reverified; no new full backup; authorized invalid partial deleted; all 33 tables have identical deterministic SQL byte fingerprints across the code-only switch"
   },
   "frontend": {
     "productionBuild": true,
