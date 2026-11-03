@@ -33,7 +33,8 @@
     "serverRestartAndDeadlineSubmission": true,
     "opponentTextHiddenUntilFinish": true,
     "invalidJudgeRetriesAndNoRatingDeduction": true,
-    "existingAccountDeletionCompatible": true
+    "existingAccountDeletionCompatible": true,
+    "accountSessionChangesSerialized": true
   },
   "frontend": {
     "productionBuild": true,
@@ -66,8 +67,8 @@
   "cleanup": {
     "systemRecycleBinOnly": true,
     "permanentDeletion": false,
-    "existingBinItemsPreserved": true,
     "binEmptiedOrResized": false,
-    "recyclingNotClaimedAsDiskSpaceRelease": true
+    "recyclingNotClaimedAsDiskSpaceRelease": true,
+    "existingBinItemsDeliberatelyRemoved": false
   }
 }

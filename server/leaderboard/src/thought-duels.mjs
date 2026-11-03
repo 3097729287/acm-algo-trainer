@@ -21,6 +21,7 @@ export class ThoughtDuels{
  async available(){try{for(const table of ['pk_lobby','pk_ratings','pk_queue','pk_matches','pk_members','pk_records','pk_operations'])await this.db.execute(`SELECT 1 FROM ${table} LIMIT 0`);return true;}catch(e){if(e.code==='ER_NO_SUCH_TABLE'||/no such table/i.test(e.message))return false;throw e;}}
  async transaction(action){return this.db.transaction(async db=>{await db.execute('SELECT singleton FROM pk_lobby WHERE singleton=1'+(this.dialect==='mysql'?' FOR UPDATE':''));return action(db);});}
  async session(db,owner,auth,now){
+  await db.execute('SELECT user_id FROM accounts WHERE user_id=?'+(this.dialect==='mysql'?' FOR UPDATE':''),[owner]);
   const [rows]=await db.execute('SELECT s.token_hash FROM account_sessions s JOIN accounts a ON a.user_id=s.user_id WHERE s.user_id=? AND s.token_hash=? AND s.expires_at>? AND s.password_version=a.password_version',[owner,auth,Math.floor(now/1000)]);
   if(!rows.length)fail(401,'SESSION_EXPIRED','登录已失效，请重新登录');
  }
