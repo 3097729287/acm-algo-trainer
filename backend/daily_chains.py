@@ -72,7 +72,23 @@ def _review_limit(training, day, completed):
             keys.add(task['problemKey'])
     key = 'daily-review-limit:' + day
     previous = _read(training, key, [])
-    keys.update(previous)
+    excluded = set()
+    if previous:
+        aliases = training._identity_map()
+        removed = {aliases.get(row['id'], row['id']) for row in training.connection.execute(
+            'SELECT id,removed_at FROM training WHERE active=0 AND removed_at IS NOT NULL')
+            if (stamp := parse_time(row['removed_at'])) and stamp.astimezone(SHANGHAI).date().isoformat() == day}
+        for row in training.connection.execute("SELECT value FROM account_preferences WHERE key LIKE 'review-task:%' "
+            "AND json_valid(value) AND json_extract(value,'$.completedAt') IS NULL "
+            "AND json_extract(value,'$.due')<=? AND json_extract(value,'$.problemKey') IN (SELECT value FROM json_each(?)) "
+            "AND (json_extract(value,'$.cancelledAt') IS NOT NULL OR json_extract(value,'$.problemId') IN (SELECT value FROM json_each(?)))",
+            (day, json.dumps(previous), json.dumps(sorted(removed)))):
+            task = json.loads(row['value'])
+            if task.get('problemKey'):
+                excluded.add(task['problemKey'])
+    # Only an explicit cancellation/clear lowers the saved plan. Actual passes
+    # and currently assigned work remain even if an older rewrite was cancelled.
+    keys.update(set(previous) - excluded)
     if sorted(keys) != previous:
         with training._write() as db:
             db.execute('INSERT INTO account_preferences VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at',
