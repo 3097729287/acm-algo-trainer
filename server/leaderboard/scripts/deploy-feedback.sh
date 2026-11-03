@@ -53,7 +53,7 @@ verify_preserved() {
     docker compose run --rm --no-deps -T -v "$1:/audit:ro" api node /audit/scripts/audit-preserved-data.mjs --compare
 }
 # Validate source identity and old schema while the current API is still up.
-docker compose run --rm --no-deps -T -v "$stage:/audit:ro" api node /audit/scripts/audit-preserved-data.mjs --stage "$commit"
+docker compose run --rm --no-deps -T -v "$stage:/audit:ro" api node /audit/scripts/audit-preserved-data.mjs --stage-feedback "$commit"
 audit "$stage" > "$evidence/fingerprint.preflight.json"
 # mysqldump is online and consistent; committed activity remains in the original
 # live database. Never restore this dump automatically over newer user writes.
