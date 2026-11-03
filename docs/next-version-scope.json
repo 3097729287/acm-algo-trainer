@@ -1,5 +1,5 @@
 {
-  "status": "repair-candidate-not-installed-or-published",
+  "status": "validated-local-delivery-not-public-release",
   "requestedOn": "2026-11-01",
   "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
   "features": [
@@ -204,9 +204,6 @@
     "concurrentUserInstallation": false,
     "productionChanged": false
   },
-  "currentLocalVersion": "1.5.1",
-  "currentLocalSource": "5761911bbd0dea27241f357729397148ba83d075",
-  "currentNativeSource": "5afacb5b01c75fa64c8f3fcc73bce2c615e97af3",
   "currentServiceVersion": "1.4.1",
   "serviceCandidateVersion": "1.4.2",
   "desktopInstallerRequested": true,
@@ -216,5 +213,20 @@
     "Immediate reversible recycle feedback, unclipped paper borders and one softened recorded quack",
     "All-problems browser folder, solutions inside their problem",
     "Verified original Chinese PDFs, offline selectable rendering and foreground-aware startup scheduling"
-  ]
+  ],
+  "deliveryVersion": "1.5.2",
+  "previousLocalVersion": "1.5.1",
+  "previousLocalSource": "5761911bbd0dea27241f357729397148ba83d075",
+  "previousNativeSource": "5afacb5b01c75fa64c8f3fcc73bce2c615e97af3",
+  "currentValidation": {
+    "version": "1.5.2",
+    "coreSourceCommit": "8a69b2ffff8e48ed35ec1adfc0d9995bac0a777b",
+    "fullBackendTests": 1124,
+    "passed": 1122,
+    "skipped": 2,
+    "backendInputHashesVerified": 517,
+    "freshAndUpgradeBothEditions": true,
+    "publicRelease": false,
+    "serviceDeployment": "awaiting-required-authorization"
+  }
 }

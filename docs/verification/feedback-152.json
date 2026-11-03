@@ -1,0 +1,73 @@
+{
+  "version": "1.5.2",
+  "coreSourceCommit": "8a69b2ffff8e48ed35ec1adfc0d9995bac0a777b",
+  "nativeBuildSourceCommit": "8a69b2ffff8e48ed35ec1adfc0d9995bac0a777b",
+  "frontendBuildSourceCommit": "8a69b2ffff8e48ed35ec1adfc0d9995bac0a777b",
+  "publicRelease": false,
+  "backend": {
+    "command": "python scripts/check.py",
+    "tests": 1124,
+    "passed": 1122,
+    "skipped": 2,
+    "failed": 0,
+    "reportedHeadAtTestStart": "5761911bbd0dea27241f357729397148ba83d075",
+    "actualInputCommit": "8a69b2ffff8e48ed35ec1adfc0d9995bac0a777b",
+    "checkedInputHashes": 517,
+    "checkedInputsEqualToCommittedFiles": true
+  },
+  "serviceCandidate": {
+    "version": "1.4.2",
+    "tests": 75,
+    "passed": 74,
+    "skipped": 1,
+    "failed": 0,
+    "deployed": false,
+    "authorization": "pending",
+    "databaseAdapterVerified": "SQLite protocol fixtures; no new production MySQL deployment claimed"
+  },
+  "frontend": {
+    "productionBuild": true,
+    "orderedLearningAndAutoContinuation": true,
+    "dailyDefaultItems": 2,
+    "browserFoldersAndExplicitTabs": true,
+    "sixBrowserLayouts": true,
+    "originalAvatarBytesAndPixels": true,
+    "stickerBorders": 27,
+    "legendaryInteractions": 9,
+    "oneRecordedDuckCall": true,
+    "recycleImmediateFailureRecoveryAndOwnerIsolation": true,
+    "xpAndProfileAlignment": true
+  },
+  "packaging": {
+    "freshInstallBothEditions": true,
+    "upgradeBothEditions": true,
+    "baselineCommit": "5761911bbd0dea27241f357729397148ba83d075",
+    "filesPerEdition": 5036,
+    "sourceAssetsAuditedPerEdition": 331,
+    "versionReturnedByFrozenApi": "1.5.2",
+    "committedWalPreserved": true,
+    "identityDraftTrainingSubmissionsPreserved": true,
+    "cacheAndRestartPreferencePreserved": true,
+    "earlierCandidateAssemblyAndSpaceFailuresExcluded": true,
+    "administratorPrivate": true
+  },
+  "chinesePdf": {
+    "originalSourceCompetitions": 2,
+    "problems": 26,
+    "evidence": "ccpc-pdf-152.json",
+    "offlineRenderer": "pdfjs-dist 6.5.438",
+    "nativeWebViewSourceProbe": true
+  },
+  "startup": {
+    "foregroundScheduling": true,
+    "threeSecondFinalFrozenTargetMet": false,
+    "finalFrozenTimingNotClaimed": true
+  },
+  "duckAudio": {
+    "recorded": true,
+    "singleCall": true,
+    "aigeiAssetDownloaded": false,
+    "source": "Existing licensed Jonathon Jongsma Mallard recording; Aigei browser action rejected by automatic review"
+  },
+  "localInstallation": "Track actual installer receipts and personal online backups in the designated local delivery records; this public source proof contains no private data"
+}
