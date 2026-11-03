@@ -90,6 +90,13 @@ before = {p.relative_to(source): p.read_bytes() for p in source.rglob('*.json')}
 again = module.apply(copy.deepcopy(value), source, OUT / 'before-repeat')
 assert (again['addedProblems'], again['newStatements']) == (0, 0)
 assert before == {p.relative_to(source): p.read_bytes() for p in source.rglob('*.json')}
+bad = copy.deepcopy(value)
+bad['errors'] = [{'kind': 'roster', 'error': 'Missing later page'}]
+rejected(lambda: module.apply(bad, source, OUT / 'incomplete'))
+assert before == {p.relative_to(source): p.read_bytes() for p in source.rglob('*.json')}, 'Failed collection cannot overwrite previously complete lists'
+bad = copy.deepcopy(value)
+bad['problems'].pop(base + '/acm/problem/2')
+rejected(lambda: module.apply(bad, source, OUT / 'missing-original'))
 assert not list(OUT.rglob('*.sqlite3'))
 module.dump(OUT / 'report.json', {'ok': True, 'checks': ['numeric practice slots and complete pagination', 'duplicate or changed pages rejected', 'collection title aliases and counts', 'original sample whitespace and pair integrity', 'public-host guard', 'canonical reuse', 'existing source and statements preserved', 'unrelated lists preserved', 'repeat import is byte-idempotent', 'no SQLite writes']})
 print('PASS: public rosters, sample integrity, canonical reuse, existing content, repeat import; evidence: ' + str(OUT))

@@ -311,6 +311,13 @@ def apply(collection, source, backup):
     source, backup = Path(source), Path(backup)
     if source.suffix or source.is_symlink():
         raise ValueError('Only a public text seed directory is accepted')
+    if any(error.get('kind') == 'roster' for error in collection['errors']) or any(not item.get('available') for item in collection['lists']):
+        raise ValueError('Incomplete rosters cannot replace the public catalogue; collect and verify a new snapshot')
+    listed = {item['id'] for item in collection['lists']}
+    if any(child not in listed for item in collection['lists'] for child in item.get('children', [])):
+        raise ValueError('A linked practice roster is missing')
+    if any(problem['url'] not in collection['problems'] for item in collection['lists'] for problem in item['problems']):
+        raise ValueError('An original problem identity is missing')
     originals = {name: (source / name).read_bytes() for name in ('problems.json', 'training_lists.json')}
     rows = json.loads(originals['problems.json'])
     lists = json.loads(originals['training_lists.json'])
@@ -384,7 +391,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--inventory', type=Path, default=ROOT / 'data/next-local/nowcoder-source-inventory.json')
     parser.add_argument('--cache', type=Path, default=ROOT / '.backups/next-local-dev-20261104/nowcoder/http')
-    parser.add_argument('--collection', type=Path, default=ROOT / '.backups/next-local-dev-20261104/nowcoder/collection.json')
+    parser.add_argument('--collection', type=Path, default=ROOT / '.backups/next-local-dev-20261104/nowcoder/collection-current.json')
     parser.add_argument('--apply', action='store_true')
     parser.add_argument('--source', type=Path, default=ROOT / 'data/library')
     parser.add_argument('--backup', type=Path, default=ROOT / '.backups/next-local-dev-20261104/nowcoder/before-import')
