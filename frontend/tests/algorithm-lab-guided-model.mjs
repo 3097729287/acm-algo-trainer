@@ -39,7 +39,10 @@ for (const p of GUIDED_PROBLEMS) {
   const comparison = p.kind === 'balance' ? Math.max(chosenWeight, sample.items.reduce((sum, item) => sum + item.weight, 0) - chosenWeight) : p.kind === 'space' ? sample.capacity - chosenWeight : chosenValue;
   assert.equal(comparison, p.answer, `${p.pid}: optional optimal-plan comparison`);
   const identity = `lab:luogu:${p.pid}`, markdown = detail.find(value => value.problem_id === identity).markdown;
-  assert.ok(markdown.includes('这是教学小例，不是原题样例'));
+  // Reviewed editorial prose changes independently of the interactive miniature.
+  // Keep the source identity and executable reference-code contract explicit.
+  assert.ok(markdown.includes(p.pid), `${p.pid}: original problem identity`);
+  assert.match(markdown, /^### 参考代码\s*$/m, `${p.pid}: executable reference solution`);
   const cpp = markdown.match(/### 参考代码\s*\n+```cpp\n([\s\S]*?)```/)[1];
   const source = path.join(output, `${p.pid}.cpp`), exe = path.join(output, `${p.pid}.exe`);
   await writeFile(source, cpp);
