@@ -10,8 +10,9 @@ import { publicId, storedPublicProgress, validatePublicProgress } from './public
 import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 import {trainingListLikes} from './training-list-likes.mjs';
 import {adminAccounts} from './admin-accounts.mjs';
+import {PkError} from './thought-duels.mjs';
 
-const VERSION = '1.4.2';
+const VERSION = '1.4.3';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -127,13 +128,13 @@ export async function handle(request, env) {
     if (!env.STORE) throw new ApiError(503, '排行榜数据库尚未配置');
     const url = new URL(request.url), path = url.pathname.replace(/\/$/, '');
     if (env.READ_ONLY === '1' && !['GET', 'HEAD'].includes(request.method)) {
-      return json({ error: '排行榜正在迁移，请稍后重试' }, 503, { 'Retry-After': '60' });
+      return json({ error: '排行榜正在迁移，请稍后重试',...(path.startsWith('/api/pk/v1/')?{code:'PK_MAINTENANCE'}:{}) }, 503, { 'Retry-After': '60' });
     }
     const now = env.TEST_NOW == null ? Date.now() : Number(env.TEST_NOW);
     const timestamp = new Date(now).toISOString();
     if (path === '/v1/health' && request.method === 'GET') {
       await env.STORE.health();
-      return json({ ok: true, version: VERSION, eventScope: 'official', gameplayProtocol:env.STORE.gameplay&&await env.STORE.gameplay.available()?1:0, rankingDominanceProtocol:env.STORE.dominance&&await env.STORE.dominance.available()?1:0, sharedTranslationProtocol:env.STORE.translations&&await env.STORE.translations.available()?1:0, accountStateProtocol: 1, accountChunkProtocol:env.STORE.chunks&&await env.STORE.chunks.available()?2:0, adminAccountProtocol:env.STORE.accountAdmin&&await env.STORE.accountAdmin.available()?1:0, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, originalAvatarProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
+      return json({ ok: true, version: VERSION, thoughtModeProtocol:env.STORE.pk&&await env.STORE.pk.available()?1:0, thoughtModeEnabled:Boolean(env.STORE.pk?.ready), eventScope: 'official', gameplayProtocol:env.STORE.gameplay&&await env.STORE.gameplay.available()?1:0, rankingDominanceProtocol:env.STORE.dominance&&await env.STORE.dominance.available()?1:0, sharedTranslationProtocol:env.STORE.translations&&await env.STORE.translations.available()?1:0, accountStateProtocol: 1, accountChunkProtocol:env.STORE.chunks&&await env.STORE.chunks.available()?2:0, adminAccountProtocol:env.STORE.accountAdmin&&await env.STORE.accountAdmin.available()?1:0, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, originalAvatarProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
     }
     if (path === '/v1/profile/register') throw new ApiError(410, '请升级 TB 并注册账号后登录');
     if (['/v1/accounts/register', '/v1/accounts/login'].includes(path) && request.method === 'POST') {
@@ -187,6 +188,23 @@ export async function handle(request, env) {
     if (path === '/v1/accounts/me' && request.method === 'GET') {
       if (env.READ_ONLY !== '1') await env.STORE.recordLogin(user.user_id, bounds('daily', now).day, timestamp);
       return json({ account: publicAccount(user), stateRevision: await env.STORE.stateRevision(user.user_id), singleSession: true });
+    }
+    if(path.startsWith('/api/pk/v1/')){
+      const pk=env.STORE.pk,owner=user.user_id;
+      if(!pk)throw new PkError(503,'PK_UNAVAILABLE','思维对决服务尚未启用');
+      await limit(env,'pk:'+owner,180,60,Math.floor(now/1000));
+      if(request.method==='GET'){
+        if(path==='/api/pk/v1/state')return json(await pk.read(owner,now,{advance:env.READ_ONLY!=='1'}));
+        if(path==='/api/pk/v1/history')return json(await pk.history(owner,now));
+        const record=/^\/api\/pk\/v1\/history\/([a-f0-9-]{36})$/.exec(path);
+        if(record)return json(await pk.history(owner,now,record[1]));
+      }
+      const action={'/api/pk/v1/match/join':'join','/api/pk/v1/match/cancel':'cancel','/api/pk/v1/game/poll':'poll','/api/pk/v1/game/draft':'draft','/api/pk/v1/game/submit':'submit','/api/pk/v1/game/dismiss':'dismiss'}[path];
+      if(request.method==='POST'&&action){
+        let value;try{value=await body(request,['requestId','ticket','matchId','text','revision','minDifficulty','maxDifficulty'],16384);}catch(error){throw new PkError(error.status||400,'PK_REQUEST_INVALID',error.message);}
+        return json(await pk.write(owner,tokenHash(credentials(request).token),action,value,now));
+      }
+      throw new PkError(404,'PK_ROUTE_NOT_FOUND','没有找到这个思维对决接口');
     }
     if(path.startsWith('/v1/stickers')||path.startsWith('/v1/duels')) {
       if(!env.STORE.gameplay||!await env.STORE.gameplay.available())throw new ApiError(503,'在线对战和贴纸服务尚未就绪');
@@ -339,9 +357,10 @@ export async function handle(request, env) {
     if (path === '/v1/leaderboard' && request.method === 'GET') return json(await leaderboard(user, env, url.searchParams.get('period') || 'daily', now));
     throw new ApiError(404, '没有找到这个接口');
   } catch (error) {
+    const pkRequest=new URL(request.url).pathname.startsWith('/api/pk/v1/');
     if (error instanceof EventConflict) return json({ error: '通过记录编号与原题不匹配' }, 409);
-    if (error instanceof ApiError || error instanceof AccountError) return json({ error: error.message }, error.status, error.status === 429 ? { 'Retry-After': '60' } : {});
+    if (error instanceof ApiError || error instanceof AccountError) return json({ error: error.message,...(pkRequest?{code:error.code?.startsWith('PK_')?error.code:error.status===401?'PK_SESSION_EXPIRED':error.status===429?'PK_RATE_LIMIT':'PK_REQUEST_INVALID'}:{}) }, error.status, error.status === 429 ? { 'Retry-After': '60' } : {});
     // Do not log tokens, metadata bodies or SQL with bound parameters.
-    return json({ error: '排行榜服务暂时无法完成请求' }, 503);
+    return json({ error: pkRequest?'思维对决服务暂时无法完成请求':'排行榜服务暂时无法完成请求',...(pkRequest?{code:'PK_INTERNAL'}:{}) }, 503);
   }
 }

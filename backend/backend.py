@@ -363,6 +363,9 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.cancel_contest(body.get('contestId'))
                 elif path == "/api/contests/finish":
                     value = training.finish_contest(body.get("contestId"))
+                elif path.startswith('/api/pk/v1/'):
+                    from thought_duel import relay
+                    value=relay(training,path[len('/api/pk/v1/'):],body)
                 elif path in ('/api/stickers/place','/api/stickers/recycle','/api/stickers/open-box'):
                     from gameplay import stickers
                     value=stickers(training,path.rsplit('/',1)[1],body)
@@ -571,6 +574,9 @@ class Handler(BaseHTTPRequestHandler):
                     from fun_moments import confirmed_wiki_visit
                     confirmed_wiki_visit(self.server.training,value['article'])
                 self.send_json(200,value)
+            elif path.startswith('/api/pk/v1/'):
+                from thought_duel import relay
+                self.send_json(200,relay(self.server.training,path[len('/api/pk/v1/'):]))
             elif path == '/api/stickers':
                 from gameplay import stickers
                 self.send_json(200,stickers(self.server.training))
@@ -652,7 +658,7 @@ class Handler(BaseHTTPRequestHandler):
         except (APIError, ServiceError) as error:
             if writing and not body_consumed:
                 self.discard_rejected_body()
-            self.send_json(error.status, {"error": error.message})
+            self.send_json(error.status, {"error": error.message, **({'code':error.code} if getattr(error,'code','').startswith('PK_') else {})})
         except (OSError, RuntimeError, ValueError) as error:
             self.send_json(500, {"error": "操作未完成：" + str(error)})
         except Exception:

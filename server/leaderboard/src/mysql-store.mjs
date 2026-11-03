@@ -1,4 +1,5 @@
 import {Gameplay} from './gameplay.mjs';
+import {ThoughtDuels} from './thought-duels.mjs';
 import mysql from 'mysql2/promise';
 import {SharedTranslations} from './shared-translations.mjs';
 import {RankingDominance} from './ranking-dominance.mjs';
@@ -29,6 +30,7 @@ export async function openStore(env = process.env) {
 
 export class MySQLStore {
   constructor(pool) { this.gameplay=new Gameplay({execute:(...args)=>pool.execute(...args),transaction:action=>this.transaction(action)}); this.translations=new SharedTranslations({execute:(...args)=>pool.execute(...args)}); this.dominance=new RankingDominance({execute:(...args)=>pool.execute(...args),transaction:action=>this.transaction(action)}); this.accountAdmin=new AccountAdministration({execute:(...args)=>pool.execute(...args),transaction:action=>this.transaction(action)});this.chunks=new AccountChunks({execute:(...args)=>pool.execute(...args),transaction:action=>this.transaction(action)}); this.pool = pool; this.social = new SocialStore({ execute:(...args)=>pool.execute(...args), transaction:action=>this.transaction(action) }); }
+  get pk(){return this._pk??=new ThoughtDuels({execute:(...args)=>this.pool.execute(...args),transaction:action=>this.transaction(action)});}
   async health() {
     await this.pool.execute('SELECT 1 FROM official_ac_events LIMIT 0');
     await this.pool.execute('SELECT 1 FROM accounts LIMIT 0');
@@ -267,5 +269,5 @@ export class MySQLStore {
     await this.pool.execute('DELETE FROM request_limits WHERE expires_at<?', [now]);
     await this.pool.execute('DELETE FROM account_sessions WHERE expires_at<=?', [now]);
   }
-  close() { return this.pool.end(); }
+  async close() { await this._pk?.close();return this.pool.end(); }
 }

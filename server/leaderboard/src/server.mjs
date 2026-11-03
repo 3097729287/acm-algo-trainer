@@ -7,6 +7,7 @@ import { handle, authenticate } from './api.mjs';
 import { openStore, secret } from './mysql-store.mjs';
 import {CHUNK_LIMIT} from './account-chunks.mjs';
 import { STATE_LIMIT } from './account-state.mjs';
+import {createAIJudge} from './pk-judge.mjs';
 
 export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000, stateBodyTimeoutMs = 120000 } = {}) {
   let activeStateRequests = 0, activeChunkRequests = 0, activeAvatarRequests = 0;
@@ -113,6 +114,11 @@ export async function start(env = process.env) {
   let server;
   try {
     await STORE.health();
+    const pkEnabled=env.PK_MATCH_ENABLED==='1'&&env.PK_THOUGHT_MODE_ENABLED==='1';
+    if(pkEnabled){
+      try{STORE.pk.configure({enabled:true,judge:createAIJudge({endpoint:env.PK_AI_ENDPOINT,model:env.PK_AI_MODEL,key:await secret(env,'PK_AI_KEY')})});}
+      catch{process.stderr.write('PK_AI_CONFIG: thought mode remains disabled\n');}
+    }
     if (env.READ_ONLY !== '1') await STORE.settleRewards(Date.now());
     const apiEnv = { STORE, RATE_LIMIT_SALT: await secret(env, 'RATE_LIMIT_SALT'),
       READ_ONLY: env.READ_ONLY,
@@ -121,6 +127,7 @@ export async function start(env = process.env) {
     server = createApiServer(apiEnv, { trustProxy: env.TRUST_PROXY === '1' });
     server.listen(Number(env.PORT || 8080), env.HOST || '0.0.0.0');
     await once(server, 'listening');
+    if(env.READ_ONLY!=='1')STORE.pk.start();
   } catch (error) {
     if (server?.listening) await new Promise(resolveClose => server.close(resolveClose));
     await STORE.close();
@@ -154,6 +161,7 @@ export async function start(env = process.env) {
     closing = true;
     clearInterval(cleanup);
     clearTimeout(rewards);
+    await STORE.pk.close();
     await new Promise(resolveClose => server.close(resolveClose));
     await STORE.close();
   };

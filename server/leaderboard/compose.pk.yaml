@@ -1,0 +1,12 @@
+# Explicit opt-in overlay. Keep the provider key outside source and containers.
+services:
+  api:
+    environment:
+      PK_MATCH_ENABLED: ${PK_MATCH_ENABLED:-0}
+      PK_THOUGHT_MODE_ENABLED: ${PK_THOUGHT_MODE_ENABLED:-0}
+      PK_AI_ENDPOINT: ${PK_AI_ENDPOINT:-}
+      PK_AI_MODEL: ${PK_AI_MODEL:-}
+      PK_AI_KEY_FILE: /run/secrets/pk_ai_key
+    secrets: [pk_ai_key]
+secrets:
+  pk_ai_key: {file: ./secrets/pk_ai_key}

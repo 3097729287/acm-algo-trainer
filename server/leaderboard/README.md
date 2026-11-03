@@ -1,3 +1,7 @@
+### 1.4.3 思维对决服务候选
+
+新增 /api/pk/v1、迁移 017_thought_duels.sql、独立积分和异步 AI 裁判，默认 PK_MATCH_ENABLED=0 与 PK_THOUGHT_MODE_ENABLED=0。密钥只在服务端配置；compose.pk.yaml 是显式开启的可选叠加文件。准备服务和 MySQL 迁移不等于部署生产。详见 [功能、接口、检查与回退](../../docs/thought-duel.md)。
+
 # TB 排行榜服务
 
 1.4.2 为修复候选，尚未部署；当前生产基线为 1.4.1。普通训练账号即使拥有管理权限也保留排行、自身成绩和互动，只有专用 `admin` 账号隐藏。头像原始字节通过原有公开头像协议扩展保存，新增 `originalAvatarProtocol:1`；已压缩的旧头像不会伪造恢复。放置／回收响应同时附上可信库存。部署脚本 `scripts/deploy-feedback.sh` 先保全数据库与原运行时，只增加 Caddy 的有界头像上传路由；不迁移 SQL 表、不重置账号和成绩，其他配置及依赖保持。只有独立获得服务部署授权后才能执行。[修复及验收](../../docs/releases/service-1.4.2.md)。

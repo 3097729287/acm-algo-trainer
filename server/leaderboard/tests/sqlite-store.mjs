@@ -1,4 +1,5 @@
 import {Gameplay} from '../src/gameplay.mjs';
+import {ThoughtDuels} from '../src/thought-duels.mjs';
 // Test-only SQLite store for exercising the production API protocol offline.
 import {SharedTranslations} from '../src/shared-translations.mjs';
 import {RankingDominance} from '../src/ranking-dominance.mjs';
@@ -29,6 +30,7 @@ export class SQLiteStore {
     const chunkTransaction=action=>{const next=writes.then(async()=>{this.database.exec('BEGIN IMMEDIATE');try{const result=await action({execute});this.database.exec('COMMIT');return result;}catch(error){this.database.exec('ROLLBACK');throw error;}});writes=next.catch(()=>{});return next;};
     this.serial=action=>{const next=writes.then(action);writes=next.catch(()=>{});return next;};
     this.gameplay=new Gameplay({execute,transaction:chunkTransaction},'sqlite');
+    this.pk=new ThoughtDuels({execute,transaction:chunkTransaction},'sqlite');
     this.translations=new SharedTranslations({execute},'sqlite');
     this.dominance=new RankingDominance({execute,transaction:chunkTransaction},'sqlite');
     this.accountAdmin=new AccountAdministration({execute,transaction:chunkTransaction},'sqlite');
@@ -230,5 +232,5 @@ export class SQLiteStore {
     this.database.prepare('DELETE FROM request_limits WHERE expires_at<?').run(now);
     this.database.prepare('DELETE FROM account_sessions WHERE expires_at<=?').run(now);
   }
-  async close() { this.database.close(); }
+  async close() { await this.pk.close();this.database.close(); }
 }

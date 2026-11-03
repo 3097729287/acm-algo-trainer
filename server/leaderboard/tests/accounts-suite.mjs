@@ -213,9 +213,9 @@ export function accountsSuite(startFixture) {
     } finally { await f.close(); }
   });
   test('legacy records and admin role can be claimed only once with the original secret', async () => {
-    const f = await startFixture({ now: Date.now() });
+    const f = await startFixture({ now: Date.parse('2026-11-04T02:00:00Z') });
     try {
-      const old = { userId: randomUUID(), token: 'legacy-secret-'.repeat(4) }, timestamp = new Date().toISOString();
+      const old = { userId: randomUUID(), token: 'legacy-secret-'.repeat(4) }, timestamp = '2026-11-04T02:00:00.000Z';
       await f.STORE.createUser(old.userId, '旧昵称', tokenHash(old.token), timestamp);
       if (f.STORE.pool) await f.STORE.pool.execute('INSERT INTO ranking_admins VALUES(?,?)', [old.userId, timestamp]);
       else f.STORE.database.prepare('INSERT INTO ranking_admins VALUES(?,?)').run(old.userId, timestamp);

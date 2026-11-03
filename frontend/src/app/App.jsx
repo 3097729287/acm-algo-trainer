@@ -2,6 +2,7 @@ import {createPortal} from 'react-dom';
 import LearningBrowser from './LearningBrowser.jsx';
 import ReaderFrame from '@/components/ReaderFrame.jsx';
 import useDuel from '@/lib/useDuel.js';
+import useThoughtDuel from '@/lib/useThoughtDuel.js';
 import DuelReadyPrompt from '@/components/DuelReadyPrompt.jsx';
 import {applyEditorTheme,editorTheme} from '@/lib/editorThemes.js';
 import {OPACITY_KEYS,SURFACE_DEFAULTS,opacityStyle} from '@/lib/surfaceOpacity.js';
@@ -676,6 +677,8 @@ export default function App() {
   const [recommendationSnapshot,setRecommendationSnapshot]=useState({owner:null,items:[]});
   const updateRecommendationItems=useCallback(items=>setRecommendationSnapshot(previous=>previous.owner===account?.userId&&JSON.stringify(previous.items)===JSON.stringify(items)?previous:{owner:account?.userId,items}),[account?.userId]);
   const duel=useDuel(api,data?account?.userId:null);
+  const thought=useThoughtDuel(api,data?account?.userId:null);
+  useEffect(()=>{if(thought.state?.status==='countdown')setPage('duel');},[thought.state?.status,thought.state?.match?.id]);
   const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now, account?.userId ?? null);
   const social = useSocial(api, Boolean(data&&account?.userId),account?.userId||'');
   const [messagesReading,setMessagesReading]=useState(false);
@@ -2213,7 +2216,7 @@ export default function App() {
                 onError={notice}
               />
             )}{!mockPreview&&<MockHistory embedded query={mockHistoryQuery} contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/>}</>}</>}</div>
-          ) : page === "wiki" ? (<WikiPage api={api} rows={rows} onOpenProblem={openPractice} onOpenArticle={item=>openLearning({kind:'wiki',...item})}/>) : page === "duel" ? (<DuelPage duel={duel} rows={rows} onTrain={openPractice} account={account} profile={profileSnapshot?.profile} growth={growth} avatar={prefs.avatarData}/>) : page === "records" ? (
+          ) : page === "wiki" ? (<WikiPage api={api} rows={rows} onOpenProblem={openPractice} onOpenArticle={item=>openLearning({kind:'wiki',...item})}/>) : page === "duel" ? (<DuelPage duel={duel} thought={thought} rows={rows} onTrain={openPractice} account={account} profile={profileSnapshot?.profile} growth={growth} avatar={prefs.avatarData}/>) : page === "records" ? (
             <SubmissionRecords api={api} revision={workspace.summary?.attempts} scope={`${account?.userId||'local'}:${workspace.activeContest?.id||''}`} rows={rows} onOpenProblem={openPractice} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
             <CompetitionPage
