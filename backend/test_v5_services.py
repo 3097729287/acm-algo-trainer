@@ -68,16 +68,22 @@ class DailyMissionTests(unittest.TestCase):
         self.service.start_training("fixture::A")
         self.accept()
         tasks = {task["id"]: task for task in self.service.daily_tasks()["tasks"]}
-        self.assertLess(tasks["ac-chain:0"]["xp"], tasks["hard-1500"]["xp"])
-        self.assertLess(tasks["hard-1500"]["xp"], tasks["hard-1800"]["xp"])
+        reward_value = lambda task: task.get('stickerXp', task['xp'])
+        self.assertLess(reward_value(tasks["ac-chain:0"]), reward_value(tasks["hard-1500"]))
+        self.assertLess(reward_value(tasks["hard-1500"]), reward_value(tasks["hard-1800"]))
         self.assertLess(tasks["hard-1800"]["minDifficulty"],tasks["hard-2100"]["minDifficulty"])
-        self.assertLess(tasks["hard-1800"]["xp"], tasks["hard-2100"]["xp"])
+        self.assertLess(reward_value(tasks["hard-1800"]), reward_value(tasks["hard-2100"]))
+        stickers = [tasks[key] for key in ('hard-1500', 'hard-1800', 'hard-2100') if tasks[key].get('rewardSticker')]
+        self.assertEqual(len(stickers), 1)
+        self.assertEqual(stickers[0]['xp'], 0)
+        self.assertEqual(stickers[0]['rewardSticker']['rarity'], 'epic' if stickers[0]['id'] == 'hard-1500' else 'legendary')
+        expected_mission_xp = 335 - stickers[0]['stickerXp']
         for identity in ("ac-chain:0", "hard-1500", "hard-1800", "hard-2100"):
             self.service.claim_daily_task(identity)
         for achievement in ('official-1','difficulty-1500','difficulty-1800','difficulty-2100','missions-1'):
             self.service.claim_achievement(achievement)
         growth = self.service.insights()['growth']
-        self.assertEqual(growth['missionXp'],335)
+        self.assertEqual(growth['missionXp'],expected_mission_xp)
         self.assertEqual(growth['achievementXp'],220)
         base_xp = growth['xp'] - growth['missionXp'] - growth['achievementXp'] - growth['rankingXp']
         self.assertEqual(base_xp,300)
@@ -91,7 +97,7 @@ class DailyMissionTests(unittest.TestCase):
         self.assertEqual(repeated['xp']-repeated['missionXp']-repeated['achievementXp']-repeated['rankingXp'],base_xp)
         self.assertEqual(repeated['achievementXp'],220)
         self.assertEqual(repeated['newAchievementXp'],0)
-        self.assertEqual(repeated['missionXp'],335)
+        self.assertEqual(repeated['missionXp'],expected_mission_xp)
         with self.assertRaises(ServiceError): self.service.claim_daily_task("ac-chain:0", "2026-10-08")
 
     def test_three_different_today_acs_include_repractice_but_not_opened_old_acs(self):

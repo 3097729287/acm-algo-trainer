@@ -84,8 +84,9 @@ class ChallengeEntryTests(unittest.TestCase):
         self.completed(challenge.PROBLEMS[0], code='correct')
         for _ in range(3):
             value = self.service.navigation()
-            self.assertEqual((value['level'], value['totalXp']), (5, 500))
-        self.assertEqual(self.service.insights()['growth']['totalXp'], 500)
+            self.assertEqual((value['level'], value['totalXp']), (6, 1500))
+        self.assertEqual(self.service.insights()['growth']['totalXp'], 1500)
+        # The old fixed receipt remains intact; the level-six top-up is separate.
         self.assertEqual(challenge.read(self.service)['awardedXp'], 500)
 
 
