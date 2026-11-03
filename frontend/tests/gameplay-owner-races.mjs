@@ -3,7 +3,7 @@ import {createServer} from 'vite';
 import {chromium} from 'playwright';
 import {mkdir} from 'node:fs/promises';
 import path from 'node:path';
-const output=path.resolve('../.backups/next-152/followup-owner-ui');await mkdir(output,{recursive:true});
+const output=path.resolve('../.backups/next-152/direct-owner-ui');await mkdir(output,{recursive:true});
 const vite=await createServer({cacheDir:'../.backups/next-150/vite-owner-races',server:{host:'127.0.0.1',port:0,watch:null}});await vite.listen();
 const browser=await chromium.launchPersistentContext(path.join(output,'profile'),{channel:process.env.CI?undefined:'msedge',headless:true,viewport:{width:1440,height:900}}),page=browser.pages()[0],errors=[];
 page.setDefaultTimeout(5000);
@@ -20,7 +20,7 @@ try{
  await page.getByRole('button',{name:'账号 A',exact:true}).click();await choose();const firstPlace=await find('A','stickers/place');
  await page.getByRole('button',{name:'账号 B',exact:true}).click();await choose();const secondPlace=await find('B','stickers/place');
  await page.evaluate(()=>{gameplayRaces.deferRead('B','stickers');window.dispatchEvent(new Event('focus'));});const stale=await find('B','stickers');
- await finish(firstPlace);assert(await page.getByRole('button',{name:'固定贴纸',exact:true}).isDisabled());
+ await finish(firstPlace);assert.equal(await page.locator('.placed-sticker:not(.selected-sticker)').count(),1,'Old owner completion does not hide the current optimistic placement');assert((await page.evaluate(()=>gameplayRaces.pending())).some(call=>call.owner==='B'&&call.path==='stickers/place'),'Old completion does not release the current owner request');
  await finish(secondPlace);await page.waitForFunction(()=>document.querySelectorAll('.placed-sticker:not(.selected-sticker)').length===1);
  await finish(stale);assert.equal(await page.locator('.placed-sticker:not(.selected-sticker)').count(),1,'Stale inventory must not undo a confirmed placement');
  assert.equal(await page.locator('.selected-sticker').count(),0);assert.equal(await page.getByRole('alert').count(),0);assert.equal(await page.getByLabel('当前账号').textContent(),'B');

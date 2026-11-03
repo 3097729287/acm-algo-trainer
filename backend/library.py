@@ -490,9 +490,14 @@ class LibraryDatabase:
 
     def import_records(self, records, lectures, references, metadata=None):
         # All content and relations commit together. A failed import leaves the old library readable.
+        from contest_scope import retired_platform
+        retired_ids=set()
         dumps = lambda value: json.dumps(value, ensure_ascii=False)
         with self.connection() as db:
             for raw, encoded, solution, statement in records:
+                if retired_platform(encoded):
+                    retired_ids.add(encoded['id'])
+                    continue
                 raw, encoded = problem_record(raw, encoded)
                 identity = encoded['id']
                 db.execute('INSERT INTO problems VALUES (?,?,?,?) ON CONFLICT(id) DO UPDATE SET url=excluded.url,raw=excluded.raw,encoded=excluded.encoded',
@@ -508,6 +513,8 @@ class LibraryDatabase:
                 digest = hashlib.sha256(entry['markdown'].encode()).hexdigest()
                 db.execute('INSERT INTO lectures VALUES (?,?,?) ON CONFLICT(id) DO UPDATE SET content=excluded.content,digest=excluded.digest', (identity, dumps(entry), digest))
             for problem, links in references.items():
+                if problem in retired_ids:
+                    continue
                 for position, (lecture, kind) in enumerate(links):
                     db.execute('INSERT OR IGNORE INTO problem_lectures VALUES (?,?,?,?)', (problem, lecture, kind, position))
             for key, value in (metadata or {}).items():

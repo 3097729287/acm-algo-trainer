@@ -1,5 +1,5 @@
 {
-  "addedCount": 71,
+  "addedCount": 31,
   "articles": 41,
   "entries": [
     {
@@ -37,60 +37,6 @@
         }
       ],
       "url": "https://www.luogu.com.cn/problem/P3382"
-    },
-    {
-      "code": "1476",
-      "identity": "onlinejudge.org/problem/4222",
-      "links": [
-        "https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=447&page=show_problem&problem=4222"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-b06d27d876fc9d06d888",
-      "references": [
-        {
-          "articleId": "basic/binary",
-          "articleTitle": "二分",
-          "articleUrl": "https://oi-wiki.org/basic/binary/",
-          "label": "UVa 1476 - Error Curves"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=4222"
-    },
-    {
-      "code": "10385",
-      "identity": "onlinejudge.org/problem/1326",
-      "links": [
-        "https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=15&page=show_problem&problem=1326"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-7297615d147f640cd965",
-      "references": [
-        {
-          "articleId": "basic/binary",
-          "articleTitle": "二分",
-          "articleUrl": "https://oi-wiki.org/basic/binary/",
-          "label": "UVa 10385 - Duathlon"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1326"
-    },
-    {
-      "code": "162",
-      "identity": "uoj.ac/problem/162",
-      "links": [
-        "https://uoj.ac/problem/162"
-      ],
-      "platform": "UOJ",
-      "problemId": "wiki-example-e5631817410ed7d4d08f",
-      "references": [
-        {
-          "articleId": "basic/binary",
-          "articleTitle": "二分",
-          "articleUrl": "https://oi-wiki.org/basic/binary/",
-          "label": "UOJ 162 -【清华集训 2015】灯泡测试"
-        }
-      ],
-      "url": "https://uoj.ac/problem/162"
     },
     {
       "code": "P7579",
@@ -273,24 +219,6 @@
       "url": "https://www.luogu.com.cn/problem/P6067"
     },
     {
-      "code": "6514",
-      "identity": "acm.hdu.edu.cn/problem/6514",
-      "links": [
-        "https://acm.hdu.edu.cn/showproblem.php?pid=6514"
-      ],
-      "platform": "HDU",
-      "problemId": "wiki-example-a800ed63761550a631fc",
-      "references": [
-        {
-          "articleId": "basic/prefix-sum",
-          "articleTitle": "前缀和 & 差分",
-          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
-          "label": "HDU 6514 Monitor"
-        }
-      ],
-      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=6514"
-    },
-    {
       "code": "P2280",
       "identity": "luogu.com.cn/problem/P2280",
       "links": [
@@ -433,60 +361,6 @@
         }
       ],
       "url": "https://www.luogu.com.cn/problem/P8228"
-    },
-    {
-      "code": "150",
-      "identity": "uoj.ac/problem/150",
-      "links": [
-        "http://uoj.ac/problem/150"
-      ],
-      "platform": "UOJ",
-      "problemId": "wiki-example-bb85ccf9913c089300b9",
-      "references": [
-        {
-          "articleId": "basic/prefix-sum",
-          "articleTitle": "前缀和 & 差分",
-          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
-          "label": "NOIP2015 运输计划"
-        }
-      ],
-      "url": "https://uoj.ac/problem/150"
-    },
-    {
-      "code": "261",
-      "identity": "uoj.ac/problem/261",
-      "links": [
-        "http://uoj.ac/problem/261"
-      ],
-      "platform": "UOJ",
-      "problemId": "wiki-example-d644cf4a182aad0c7a5b",
-      "references": [
-        {
-          "articleId": "basic/prefix-sum",
-          "articleTitle": "前缀和 & 差分",
-          "articleUrl": "https://oi-wiki.org/basic/prefix-sum/",
-          "label": "NOIP2016 天天爱跑步"
-        }
-      ],
-      "url": "https://uoj.ac/problem/261"
-    },
-    {
-      "code": "15",
-      "identity": "uoj.ac/problem/15",
-      "links": [
-        "https://uoj.ac/problem/15"
-      ],
-      "platform": "UOJ",
-      "problemId": "wiki-example-4bcd5c87367ad4ec322e",
-      "references": [
-        {
-          "articleId": "basic/simulate",
-          "articleTitle": "模拟",
-          "articleUrl": "https://oi-wiki.org/basic/simulate/",
-          "label": "「NOIP2014」生活大爆炸版石头剪刀布 - Universal Online Judge"
-        }
-      ],
-      "url": "https://uoj.ac/problem/15"
     },
     {
       "code": "P1216",
@@ -687,42 +561,6 @@
       "url": "https://www.luogu.com.cn/problem/P1352"
     },
     {
-      "code": "2196",
-      "identity": "acm.hdu.edu.cn/problem/2196",
-      "links": [
-        "https://acm.hdu.edu.cn/showproblem.php?pid=2196"
-      ],
-      "platform": "HDU",
-      "problemId": "wiki-example-ad1e45320c268eec87ec",
-      "references": [
-        {
-          "articleId": "dp/tree",
-          "articleTitle": "树形 DP",
-          "articleUrl": "https://oi-wiki.org/dp/tree/",
-          "label": "HDU 2196 Computer"
-        }
-      ],
-      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=2196"
-    },
-    {
-      "code": "1463",
-      "identity": "poj.org/problem/1463",
-      "links": [
-        "http://poj.org/problem?id=1463"
-      ],
-      "platform": "POJ",
-      "problemId": "wiki-example-1c3d5476206f3a4e1667",
-      "references": [
-        {
-          "articleId": "dp/tree",
-          "articleTitle": "树形 DP",
-          "articleUrl": "https://oi-wiki.org/dp/tree/",
-          "label": "POJ 1463 Strategic game"
-        }
-      ],
-      "url": "http://poj.org/problem?id=1463"
-    },
-    {
       "code": "P3574",
       "identity": "luogu.com.cn/problem/P3574",
       "links": [
@@ -837,24 +675,6 @@
       "url": "https://codeforces.com/contest/1187/problem/E"
     },
     {
-      "code": "3585",
-      "identity": "poj.org/problem/3585",
-      "links": [
-        "http://poj.org/problem?id=3585"
-      ],
-      "platform": "POJ",
-      "problemId": "wiki-example-c84529769ea7c2ff74b0",
-      "references": [
-        {
-          "articleId": "dp/tree",
-          "articleTitle": "树形 DP",
-          "articleUrl": "https://oi-wiki.org/dp/tree/",
-          "label": "POJ 3585 Accumulation Degree"
-        }
-      ],
-      "url": "http://poj.org/problem?id=3585"
-    },
-    {
       "code": "P2986",
       "identity": "luogu.com.cn/problem/P2986",
       "links": [
@@ -909,42 +729,6 @@
       "url": "https://www.luogu.com.cn/problem/P3367"
     },
     {
-      "code": "JMFILTER",
-      "identity": "spoj.com/problems/JMFILTER",
-      "links": [
-        "https://www.spoj.com/problems/JMFILTER/"
-      ],
-      "platform": "SPOJ",
-      "problemId": "wiki-example-c18e5093779842a90a20",
-      "references": [
-        {
-          "articleId": "ds/dsu",
-          "articleTitle": "并查集",
-          "articleUrl": "https://oi-wiki.org/ds/dsu/",
-          "label": "SPOJ JMFILTER - Junk-Mail Filter"
-        }
-      ],
-      "url": "https://www.spoj.com/problems/JMFILTER/"
-    },
-    {
-      "code": "11987",
-      "identity": "onlinejudge.org/problem/3138",
-      "links": [
-        "https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=229&page=show_problem&problem=3138"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-74cb3923327ac8d4d753",
-      "references": [
-        {
-          "articleId": "ds/dsu",
-          "articleTitle": "并查集",
-          "articleUrl": "https://oi-wiki.org/ds/dsu/",
-          "label": "UVa11987 Almost Union-Find"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=3138"
-    },
-    {
       "code": "P2024",
       "identity": "luogu.com.cn/problem/P2024",
       "links": [
@@ -979,24 +763,6 @@
         }
       ],
       "url": "https://atcoder.jp/contests/abc396/tasks/abc396_e"
-    },
-    {
-      "code": "127",
-      "identity": "uoj.ac/problem/127",
-      "links": [
-        "https://uoj.ac/problem/127"
-      ],
-      "platform": "UOJ",
-      "problemId": "wiki-example-356a5dc12dc9f8e21efa",
-      "references": [
-        {
-          "articleId": "ds/dsu",
-          "articleTitle": "并查集",
-          "articleUrl": "https://oi-wiki.org/ds/dsu/",
-          "label": "「NOI2015」程序自动分析"
-        }
-      ],
-      "url": "https://uoj.ac/problem/127"
     },
     {
       "code": "P1197",
@@ -1071,24 +837,6 @@
       "url": "https://www.luogu.com.cn/problem/P7961"
     },
     {
-      "code": "2823",
-      "identity": "poj.org/problem/2823",
-      "links": [
-        "http://poj.org/problem?id=2823"
-      ],
-      "platform": "POJ",
-      "problemId": "wiki-example-85220fc22b81b05c9163",
-      "references": [
-        {
-          "articleId": "ds/monotonic-queue",
-          "articleTitle": "单调队列",
-          "articleUrl": "https://oi-wiki.org/ds/monotonic-queue/",
-          "label": "Sliding Window"
-        }
-      ],
-      "url": "http://poj.org/problem?id=2823"
-    },
-    {
       "code": "P2698",
       "identity": "luogu.com.cn/problem/P2698",
       "links": [
@@ -1105,24 +853,6 @@
         }
       ],
       "url": "https://www.luogu.com.cn/problem/P2698"
-    },
-    {
-      "code": "3250",
-      "identity": "poj.org/problem/3250",
-      "links": [
-        "http://poj.org/problem?id=3250"
-      ],
-      "platform": "POJ",
-      "problemId": "wiki-example-eeba4ccbf4b891384e3c",
-      "references": [
-        {
-          "articleId": "ds/monotonic-stack",
-          "articleTitle": "单调栈",
-          "articleUrl": "https://oi-wiki.org/ds/monotonic-stack/",
-          "label": "POJ3250 Bad Hair Day"
-        }
-      ],
-      "url": "http://poj.org/problem?id=3250"
     },
     {
       "code": "P5788",
@@ -1231,24 +961,6 @@
         }
       ],
       "url": "https://www.luogu.com.cn/problem/P3373"
-    },
-    {
-      "code": "GSS3",
-      "identity": "spoj.com/problems/GSS3",
-      "links": [
-        "https://www.spoj.com/problems/GSS3/"
-      ],
-      "platform": "SPOJ",
-      "problemId": "wiki-example-9588d9b723dd4fb59237",
-      "references": [
-        {
-          "articleId": "ds/seg",
-          "articleTitle": "线段树基础",
-          "articleUrl": "https://oi-wiki.org/ds/seg/",
-          "label": "SPOJ GSS3 - Can you answer these queries III"
-        }
-      ],
-      "url": "https://www.spoj.com/problems/GSS3/"
     },
     {
       "code": "P13825",
@@ -1485,24 +1197,6 @@
       "url": "https://www.luogu.com.cn/problem/P1502"
     },
     {
-      "code": "6356",
-      "identity": "acm.hdu.edu.cn/problem/6356",
-      "links": [
-        "https://acm.hdu.edu.cn/showproblem.php?pid=6356"
-      ],
-      "platform": "HDU",
-      "problemId": "wiki-example-6f3066e7def3eca13067",
-      "references": [
-        {
-          "articleId": "ds/seg",
-          "articleTitle": "线段树基础",
-          "articleUrl": "https://oi-wiki.org/ds/seg/",
-          "label": "2018 Multi-University Training Contest 5 G. Glad You Came"
-        }
-      ],
-      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=6356"
-    },
-    {
       "code": "practice2_j",
       "identity": "atcoder.jp/contests/practice2/tasks/practice2_j",
       "links": [
@@ -1719,24 +1413,6 @@
       "url": "https://www.luogu.com.cn/problem/P3865"
     },
     {
-      "code": "2279",
-      "identity": "loj.ac/p/2279",
-      "links": [
-        "https://loj.ac/p/2279"
-      ],
-      "platform": "LibreOJ",
-      "problemId": "wiki-example-9cf4d47ecac9cb695ea2",
-      "references": [
-        {
-          "articleId": "ds/sparse-table",
-          "articleTitle": "ST 表",
-          "articleUrl": "https://oi-wiki.org/ds/sparse-table/",
-          "label": "「SCOI2007」降雨量"
-        }
-      ],
-      "url": "https://loj.ac/p/2279"
-    },
-    {
       "code": "P2880",
       "identity": "luogu.com.cn/problem/P2880",
       "links": [
@@ -1773,24 +1449,6 @@
       "url": "https://www.luogu.com.cn/problem/P8436"
     },
     {
-      "code": "2788",
-      "identity": "loj.ac/p/2788",
-      "links": [
-        "https://loj.ac/p/2788"
-      ],
-      "platform": "LibreOJ",
-      "problemId": "wiki-example-96a5e24bda6e3fcef31f",
-      "references": [
-        {
-          "articleId": "graph/bcc",
-          "articleTitle": "双连通分量",
-          "articleUrl": "https://oi-wiki.org/graph/bcc/",
-          "label": "#2788.「CEOI2015 Day1」管道"
-        }
-      ],
-      "url": "https://loj.ac/p/2788"
-    },
-    {
       "code": "P8435",
       "identity": "luogu.com.cn/problem/P8435",
       "links": [
@@ -1807,24 +1465,6 @@
         }
       ],
       "url": "https://www.luogu.com.cn/problem/P8435"
-    },
-    {
-      "code": "2586",
-      "identity": "acm.hdu.edu.cn/problem/2586",
-      "links": [
-        "https://acm.hdu.edu.cn/showproblem.php?pid=2586"
-      ],
-      "platform": "HDU",
-      "problemId": "wiki-example-a16f455a414aa01c6f84",
-      "references": [
-        {
-          "articleId": "graph/lca",
-          "articleTitle": "最近公共祖先",
-          "articleUrl": "https://oi-wiki.org/graph/lca/",
-          "label": "HDU 2586 How far away?"
-        }
-      ],
-      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=2586"
     },
     {
       "code": "P3379",
@@ -1899,60 +1539,6 @@
       "url": "https://www.luogu.com.cn/problem/P2504"
     },
     {
-      "code": "1679",
-      "identity": "poj.org/problem/1679",
-      "links": [
-        "http://poj.org/problem?id=1679"
-      ],
-      "platform": "POJ",
-      "problemId": "wiki-example-3de4f8d05076b9dc80cc",
-      "references": [
-        {
-          "articleId": "graph/mst",
-          "articleTitle": "最小生成树",
-          "articleUrl": "https://oi-wiki.org/graph/mst/",
-          "label": "POJ 1679"
-        }
-      ],
-      "url": "http://poj.org/problem?id=1679"
-    },
-    {
-      "code": "393",
-      "identity": "uoj.ac/problem/393",
-      "links": [
-        "https://uoj.ac/problem/393"
-      ],
-      "platform": "UOJ",
-      "problemId": "wiki-example-73d05fc011b7c1d5923b",
-      "references": [
-        {
-          "articleId": "graph/mst",
-          "articleTitle": "最小生成树",
-          "articleUrl": "https://oi-wiki.org/graph/mst/",
-          "label": "NOI 2018 归程"
-        }
-      ],
-      "url": "https://uoj.ac/problem/393"
-    },
-    {
-      "code": "1236",
-      "identity": "poj.org/problem/1236",
-      "links": [
-        "http://poj.org/problem?id=1236"
-      ],
-      "platform": "POJ",
-      "problemId": "wiki-example-c05973fb3c9ca0458acc",
-      "references": [
-        {
-          "articleId": "graph/scc",
-          "articleTitle": "强连通分量",
-          "articleUrl": "https://oi-wiki.org/graph/scc/",
-          "label": "POJ1236 Network of Schools"
-        }
-      ],
-      "url": "http://poj.org/problem?id=1236"
-    },
-    {
       "code": "1385E",
       "identity": "codeforces.com/contest/1385/problem/E",
       "links": [
@@ -2007,24 +1593,6 @@
       "url": "https://www.luogu.com.cn/problem/P1226"
     },
     {
-      "code": "4087",
-      "identity": "acm.hdu.edu.cn/problem/4087",
-      "links": [
-        "https://acm.hdu.edu.cn/showproblem.php?pid=4087"
-      ],
-      "platform": "HDU",
-      "problemId": "wiki-example-ca404373c228943b5df2",
-      "references": [
-        {
-          "articleId": "math/binary-exponentiation",
-          "articleTitle": "快速幂",
-          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
-          "label": "HDU 4087 A Letter to Programmers"
-        }
-      ],
-      "url": "https://acm.hdu.edu.cn/showproblem.php?pid=4087"
-    },
-    {
       "code": "P1045",
       "identity": "luogu.com.cn/problem/P1045",
       "links": [
@@ -2043,60 +1611,6 @@
       "url": "https://www.luogu.com.cn/problem/P1045"
     },
     {
-      "code": "1230",
-      "identity": "onlinejudge.org/problem/3671",
-      "links": [
-        "http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=3671"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-74fc4feaff1d87de9fd6",
-      "references": [
-        {
-          "articleId": "math/binary-exponentiation",
-          "articleTitle": "快速幂",
-          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
-          "label": "UVa 1230 - MODEX"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=3671"
-    },
-    {
-      "code": "374",
-      "identity": "onlinejudge.org/problem/310",
-      "links": [
-        "http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=310"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-f4e70897fec1c371cb84",
-      "references": [
-        {
-          "articleId": "math/binary-exponentiation",
-          "articleTitle": "快速幂",
-          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
-          "label": "UVa 374 - Big Mod"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=310"
-    },
-    {
-      "code": "11029",
-      "identity": "onlinejudge.org/problem/1970",
-      "links": [
-        "https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1970"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-788895e507dcd46b4942",
-      "references": [
-        {
-          "articleId": "math/binary-exponentiation",
-          "articleTitle": "快速幂",
-          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
-          "label": "UVa 11029 - Leading and Trailing"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1970"
-    },
-    {
       "code": "630I",
       "identity": "codeforces.com/contest/630/problem/I",
       "links": [
@@ -2113,78 +1627,6 @@
         }
       ],
       "url": "https://codeforces.com/contest/630/problem/I"
-    },
-    {
-      "code": "LASTDIG",
-      "identity": "spoj.com/problems/LASTDIG",
-      "links": [
-        "http://www.spoj.com/problems/LASTDIG/"
-      ],
-      "platform": "SPOJ",
-      "problemId": "wiki-example-8dbaf4a1b5787a466da5",
-      "references": [
-        {
-          "articleId": "math/binary-exponentiation",
-          "articleTitle": "快速幂",
-          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
-          "label": "SPOJ - The last digit"
-        }
-      ],
-      "url": "https://www.spoj.com/problems/LASTDIG/"
-    },
-    {
-      "code": "LOCKER",
-      "identity": "spoj.com/problems/LOCKER",
-      "links": [
-        "http://www.spoj.com/problems/LOCKER/"
-      ],
-      "platform": "SPOJ",
-      "problemId": "wiki-example-70aa3b4740d87327737a",
-      "references": [
-        {
-          "articleId": "math/binary-exponentiation",
-          "articleTitle": "快速幂",
-          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
-          "label": "SPOJ - Locker"
-        }
-      ],
-      "url": "https://www.spoj.com/problems/LOCKER/"
-    },
-    {
-      "code": "ZSUM",
-      "identity": "spoj.com/problems/ZSUM",
-      "links": [
-        "http://www.spoj.com/problems/ZSUM/"
-      ],
-      "platform": "SPOJ",
-      "problemId": "wiki-example-d17efd6416f15d19624b",
-      "references": [
-        {
-          "articleId": "math/binary-exponentiation",
-          "articleTitle": "快速幂",
-          "articleUrl": "https://oi-wiki.org/math/binary-exponentiation/",
-          "label": "SPOJ - Just add it"
-        }
-      ],
-      "url": "https://www.spoj.com/problems/ZSUM/"
-    },
-    {
-      "code": "10104",
-      "identity": "onlinejudge.org/problem/1045",
-      "links": [
-        "https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1045"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-85cd26c5116bbc30df33",
-      "references": [
-        {
-          "articleId": "math/number-theory/gcd",
-          "articleTitle": "最大公约数",
-          "articleUrl": "https://oi-wiki.org/math/number-theory/gcd/",
-          "label": "10104 - Euclid Problem"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1045"
     },
     {
       "code": "100963J",
@@ -2208,24 +1650,6 @@
         }
       ],
       "url": "https://codeforces.com/gym/100963/problem/J"
-    },
-    {
-      "code": "12775",
-      "identity": "onlinejudge.org/problem/4628",
-      "links": [
-        "https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=4628"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-39cb7c88e30aa4d3ff70",
-      "references": [
-        {
-          "articleId": "math/number-theory/gcd",
-          "articleTitle": "最大公约数",
-          "articleUrl": "https://oi-wiki.org/math/number-theory/gcd/",
-          "label": "UVa - 12775 - Gift Dilemma"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=4628"
     },
     {
       "code": "P2054",
@@ -2408,144 +1832,6 @@
       "url": "https://codeforces.com/contest/1200/problem/E"
     },
     {
-      "code": "455",
-      "identity": "onlinejudge.org/problem/396",
-      "links": [
-        "http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=396"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-f2a1bda43b8d18301d2b",
-      "references": [
-        {
-          "articleId": "string/kmp",
-          "articleTitle": "前缀函数与 KMP 算法",
-          "articleUrl": "https://oi-wiki.org/string/kmp/",
-          "label": "UVa 455 \"Periodic Strings\""
-        },
-        {
-          "articleId": "string/z-func",
-          "articleTitle": "Z 函数（扩展 KMP）",
-          "articleUrl": "https://oi-wiki.org/string/z-func/",
-          "label": "UVa # 455 Periodic Strings"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=396"
-    },
-    {
-      "code": "11022",
-      "identity": "onlinejudge.org/problem/1963",
-      "links": [
-        "http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1963"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-d8bd03abbc4dec9737db",
-      "references": [
-        {
-          "articleId": "string/kmp",
-          "articleTitle": "前缀函数与 KMP 算法",
-          "articleUrl": "https://oi-wiki.org/string/kmp/",
-          "label": "UVa 11022 \"String Factoring\""
-        },
-        {
-          "articleId": "string/z-func",
-          "articleTitle": "Z 函数（扩展 KMP）",
-          "articleUrl": "https://oi-wiki.org/string/z-func/",
-          "label": "UVa # 11022 String Factoring"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1963"
-    },
-    {
-      "code": "11452",
-      "identity": "onlinejudge.org/problem/2447",
-      "links": [
-        "http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=2447"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-1735ef8c7dcc0700bc29",
-      "references": [
-        {
-          "articleId": "string/kmp",
-          "articleTitle": "前缀函数与 KMP 算法",
-          "articleUrl": "https://oi-wiki.org/string/kmp/",
-          "label": "UVa 11452 \"Dancing the Cheeky-Cheeky\""
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=2447"
-    },
-    {
-      "code": "12604",
-      "identity": "onlinejudge.org/problem/4282",
-      "links": [
-        "https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=4282"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-1bc5102563fe2a28e6ae",
-      "references": [
-        {
-          "articleId": "string/kmp",
-          "articleTitle": "前缀函数与 KMP 算法",
-          "articleUrl": "https://oi-wiki.org/string/kmp/",
-          "label": "UVa 12604 - Caesar Cipher"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=4282"
-    },
-    {
-      "code": "12467",
-      "identity": "onlinejudge.org/problem/3911",
-      "links": [
-        "https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=3911"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-21a668a2dfdc654b5bec",
-      "references": [
-        {
-          "articleId": "string/kmp",
-          "articleTitle": "前缀函数与 KMP 算法",
-          "articleUrl": "https://oi-wiki.org/string/kmp/",
-          "label": "UVa 12467 - Secret Word"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=3911"
-    },
-    {
-      "code": "11019",
-      "identity": "onlinejudge.org/problem/1960",
-      "links": [
-        "https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1960"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-5d06bae11148f065ff06",
-      "references": [
-        {
-          "articleId": "string/kmp",
-          "articleTitle": "前缀函数与 KMP 算法",
-          "articleUrl": "https://oi-wiki.org/string/kmp/",
-          "label": "UVa 11019 - Matrix Matcher"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=1960"
-    },
-    {
-      "code": "NAJPF",
-      "identity": "spoj.com/problems/NAJPF",
-      "links": [
-        "http://www.spoj.com/problems/NAJPF/"
-      ],
-      "platform": "SPOJ",
-      "problemId": "wiki-example-aef505a3093b8e8eead9",
-      "references": [
-        {
-          "articleId": "string/kmp",
-          "articleTitle": "前缀函数与 KMP 算法",
-          "articleUrl": "https://oi-wiki.org/string/kmp/",
-          "label": "SPOJ - Pattern Find"
-        }
-      ],
-      "url": "https://www.spoj.com/problems/NAJPF/"
-    },
-    {
       "code": "808G",
       "identity": "codeforces.com/contest/808/problem/G",
       "links": [
@@ -2690,24 +1976,6 @@
       "url": "https://codeforces.com/contest/126/problem/B"
     },
     {
-      "code": "11475",
-      "identity": "onlinejudge.org/problem/2470",
-      "links": [
-        "http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=2470"
-      ],
-      "platform": "UVa",
-      "problemId": "wiki-example-ac118ba95802e01794e2",
-      "references": [
-        {
-          "articleId": "string/z-func",
-          "articleTitle": "Z 函数（扩展 KMP）",
-          "articleUrl": "https://oi-wiki.org/string/z-func/",
-          "label": "UVa 11475 - Extend to Palindrome"
-        }
-      ],
-      "url": "https://onlinejudge.org/index.php?option=com_onlinejudge&page=show_problem&problem=2470"
-    },
-    {
       "code": "432D",
       "identity": "codeforces.com/contest/432/problem/D",
       "links": [
@@ -2726,7 +1994,7 @@
       "url": "https://codeforces.com/contest/432/problem/D"
     }
   ],
-  "problemCount": 150,
+  "problemCount": 110,
   "reusedCount": 79,
   "schema": 1,
   "wikiSha256": "b20821999da1393f2202a396b64cf7a5490293e88f0bbf7c27929cc22139be38"

@@ -1,0 +1,50 @@
+{
+  "version": "1.5.2",
+  "publicRelease": false,
+  "publicDesktopVersion": "1.4.34",
+  "implementationCommit": "8d0dfa88476105df36fcb2a422725fa4689e4663",
+  "status": "UI checks passed; frozen native build and backend checks in progress; local upgrade pending",
+  "publicLibrary": {
+    "problems": 12348,
+    "statements": 12218,
+    "solutions": 1939,
+    "detailedSolutions": 1938,
+    "lectures": 480,
+    "problemLectures": 9258
+  },
+  "retiredPlatforms": [
+    "HDU",
+    "LibreOJ",
+    "POJ",
+    "SPOJ",
+    "UOJ",
+    "UVa"
+  ],
+  "retiredRows": 40,
+  "retainedRowsChanged": 0,
+  "ui": {
+    "directStickerGestures": true,
+    "delayedReplyPlacementMs": 15.63,
+    "sameRequestIdAfterLostReply": true,
+    "ownerIsolation": true,
+    "inControlQueueCancel": true,
+    "cancelAfterDisconnectWithoutRejoin": true,
+    "fullWidthCourseCount": 23,
+    "fullscreenDirectory": true,
+    "inPlaceLectureNavigation": true,
+    "bottomThenLeftXpRing": true
+  },
+  "productionService": {
+    "version": "1.4.2",
+    "sourceCommit": "c725ff26d112ea19495ec121b6743faf3a3c9782",
+    "deployed": true,
+    "all33TablesUnchanged": true,
+    "dependenciesAndVolumesUnchanged": true,
+    "actualAccountPresentInAllThreePeriods": true,
+    "socialReadVerified": true,
+    "duelReadVerified": true,
+    "realMatchJoinedForTesting": false,
+    "freshFullBackupCreated": false
+  },
+  "concurrentThoughtModeIncluded": false
+}

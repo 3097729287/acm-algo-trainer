@@ -6,8 +6,27 @@ titles, ordinary CF rounds and AtCoder contests are not geographic evidence.
 import re
 import json
 from functools import lru_cache
+from urllib.parse import urlsplit
 
-VERSION = 'china-xcpc-20261028-v4-explicit-wiki-examples'
+VERSION = 'china-xcpc-20261104-v5-retired-judges'
+_RETIRED_PLATFORMS = frozenset({'hdu','libreoj','loj','poj','spoj','uoj','uva'})
+_RETIRED_HOSTS = frozenset({'acm.hdu.edu.cn','hdu.edu.cn','loj.ac','libreoj.cn','libreoj.net','poj.org','spoj.com','uoj.ac','onlinejudge.org','uva.onlinejudge.org'})
+
+
+def retired_platform(row=None, *, url=None):
+    """The six judges explicitly retired by the user; match primary identity.
+
+    Keep URL normalization and legacy records usable for personal history.
+    A retained judge's reference/alias to an old judge is not its primary URL.
+    """
+    value=(row or {}).get('encoded',row or {})
+    if str(value.get('platform') or '').strip().casefold() in _RETIRED_PLATFORMS:
+        return True
+    try:
+        host=(urlsplit(url if url is not None else value.get('url') or '').hostname or '').casefold().removeprefix('www.')
+    except ValueError:
+        return False
+    return host in _RETIRED_HOSTS
 _XCPC = re.compile(r'\b(?:ICPC|CCPC|XCPC|ACM|N[WE]ERC|S[WE]ERC|SEERC|NCPC|GCPC|NAC|ECNA|CERC|NEERC)\b|Collegiate Programming|大学生.*程序设计', re.I)
 _WORLD = re.compile(r'World\s*Finals?|全球总决赛|\bWF\b', re.I)
 _FINALS = re.compile(r'决赛|\bFinals?\b', re.I)
@@ -43,6 +62,9 @@ def requested_wiki_examples():
 
 def excluded(row):
     row = row.get('encoded', row)
+    # The later platform retirement overrides the earlier Wiki-link exemption.
+    if retired_platform(row):
+        return True
     # The user's later request explicitly adds every bundled Wiki example.
     # Exempt only an exact indexed ID/URL pair, never arbitrary flagged rows.
     if row.get('wikiExample') and requested_wiki_examples().get(row.get('id'))==row.get('url') and row.get('url'):

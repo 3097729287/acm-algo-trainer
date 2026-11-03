@@ -1,5 +1,6 @@
 .profile-badge {
   --xp-ring-color:#d8b76c;
+  --xp-progress-color:#59c9d6;
   display:inline-flex;
   align-items:center;
   flex-shrink:0;
@@ -35,10 +36,10 @@ button.profile-avatar-button { cursor:pointer; }
   outline:2px solid var(--tier-color,#9c9ca5);
   outline-offset:4px;
 }
-.profile-xp-ring { position:absolute; inset:0; width:100%; height:100%; overflow:visible; transform:rotate(-90deg); }
+.profile-xp-ring { position:absolute; inset:0; width:100%; height:100%; overflow:visible; transform:rotate(90deg); }
 .profile-xp-ring circle { fill:none; stroke-width:2.5; }
 .profile-xp-track { stroke:color-mix(in srgb,var(--text,#e7eaf1) 18%,transparent); }
-.profile-xp-value { stroke:var(--xp-ring-color); stroke-linecap:round; }
+.profile-xp-value { stroke:var(--xp-progress-color); stroke-linecap:round; }
 .profile-avatar-face {
   display:flex;
   align-items:center;
@@ -124,5 +125,10 @@ html[data-motion=on] .profile-xp-value { transition:stroke-dasharray .4s ease; }
 @media(prefers-reduced-motion:reduce) { html[data-motion=on] .profile-xp-value { transition:none; } }
 
 /* Keep earned XP visible above the portrait trim at every profile size. */
-html .profile-badge .profile-avatar-button>.profile-xp-ring{z-index:3;pointer-events:none}
+html .profile-badge .profile-avatar-button>.profile-xp-ring{inset:5%;width:90%;height:90%;z-index:3;pointer-events:none;overflow:visible}
 html .profile-badge .profile-avatar-button>.profile-level-number{z-index:4}
+
+/* Leave clear space between the original portrait and the complete XP track. */
+html .growth-dashboard .profile-badge .profile-avatar-button>.profile-xp-ring{inset:5%;width:90%;height:90%;z-index:3;overflow:visible}
+html .profile-badge .profile-xp-ring>.profile-xp-track{stroke:color-mix(in srgb,var(--xp-progress-color) 28%,var(--panel-base,#191c24))}
+html .growth-dashboard .profile-badge .profile-level-number{font-size:clamp(11px,1vw,18px);min-width:2.2em;height:1.45em;bottom:1px;line-height:1}

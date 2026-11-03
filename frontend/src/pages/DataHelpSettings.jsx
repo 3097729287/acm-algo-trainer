@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react';
 import { Download, LoaderCircle } from 'lucide-react';
 import Tooltip from '../components/Tooltip.jsx';
 import PersonalStatistics from './PersonalStatistics.jsx';
+import TierIcon from '../components/TierIcon.jsx';
+import AbilityEvidence from '../components/AbilityEvidence.jsx';
 import SolutionMarkdown from '../components/SolutionMarkdown.jsx';
 import masteryMethod from '../../../docs/knowledge-mastery.md?raw';
 
 export default function DataHelpSettings({ api, onTutorial, onError, insights, account, onTrain, rows }) {
   const [busy, setBusy] = useState(false),[statements,setStatements]=useState(null);
+  const rank=insights?.growth?.ranked;
   useEffect(()=>{let alive=true;const read=()=>api?.('statement-backfill').then(value=>{if(alive)setStatements(value);}).catch(()=>{});read();const timer=setInterval(read,30000);return()=>{alive=false;clearInterval(timer);};},[api]);
   async function download() {
     if (busy) return;
@@ -29,5 +32,5 @@ export default function DataHelpSettings({ api, onTutorial, onError, insights, a
       </button></Tooltip>
 
     </div>
-  </section><details className="mastery-method"><summary>掌握指数计算方法</summary><SolutionMarkdown text={masteryMethod}/></details></>;
+  </section>{rank&&<details className="rank-requirements"><summary>段位与分数说明</summary><p>{rank.rules||'根据独立作答和题目难度估计的保守参考，不是 Codeforces 官方等级分。'}</p>{rank.abilityScore!=null&&<p>能力分：{Number(rank.abilityScore).toLocaleString('zh-CN')} <AbilityEvidence rank={rank} rows={rows}/></p>}{rank.tierRequirements?.length>0&&<table aria-label="段位能力分要求"><thead><tr><th>段位</th><th>最低能力分</th></tr></thead><tbody>{rank.tierRequirements.map(tier=><tr key={tier.badge}><td><span className={`rank-requirement-tier ${tier.badge}`}><TierIcon badge={tier.badge} size={18}/>{tier.tier}</span></td><td>{Number(tier.minAbilityScore).toLocaleString('zh-CN')}</td></tr>)}</tbody></table>}</details>}<details className="mastery-method"><summary>掌握指数计算方法</summary><SolutionMarkdown text={masteryMethod}/></details></>;
 }

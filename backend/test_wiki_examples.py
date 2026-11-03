@@ -19,7 +19,7 @@ class WikiExampleTests(unittest.TestCase):
         rows={row['id']:row for row in problems}
         self.assertEqual(manifest['wikiSha256'],hashlib.sha256((ROOT/'backend/resources/oi-wiki.sqlite3').read_bytes()).hexdigest())
         self.assertEqual(set(entries),{item['identity'] for item in manifest['entries']})
-        self.assertEqual(len(entries),150)
+        self.assertEqual(len(entries),110)
         for item in manifest['entries']:
             row=rows[item['problemId']]
             self.assertEqual(canonical_url(row['url']),item['identity'])
