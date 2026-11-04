@@ -83,6 +83,15 @@ try{
  await page.reload();await editor.waitFor();assert.match(await editor.innerText(),/return 42/);await page.waitForFunction(()=>document.querySelector('.study-problem:not([hidden]) .wb-statement')?.scrollTop>600);
  // Closing the native application waits for both drafts and navigation.
  assert.equal(await page.evaluate(async()=>{const pending=[];window.dispatchEvent(new CustomEvent('tb-before-update',{detail:{waitUntil:promise=>pending.push(promise)}}));return (await Promise.all(pending)).every(value=>value!==false);}),true);
+ // A minimized WebView can stop delivering animation frames during an upgrade.
+ assert.equal(await page.evaluate(async()=>{
+  const frame=window.requestAnimationFrame;window.requestAnimationFrame=()=>0;
+  try{
+   const pending=[];window.dispatchEvent(new CustomEvent('tb-before-update',{detail:{waitUntil:value=>pending.push(Promise.resolve(value))}}));
+   return await Promise.race([Promise.all(pending).then(values=>values.every(value=>value!==false)),new Promise(resolve=>setTimeout(()=>resolve(false),1500))]);
+  }finally{window.requestAnimationFrame=frame;}
+ }),true,'Native close saves navigation and drafts even when animation frames are suspended');
+ assert.match(await editor.innerText(),/return 42/);
  for(const theme of ['dark','light'])for(const width of [1600,1024,800]){
   await page.setViewportSize({width,height:900});await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);

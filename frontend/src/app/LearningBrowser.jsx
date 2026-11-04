@@ -1,7 +1,7 @@
 import {readingQueue} from '@/lib/lectureQueue.js';
 import {practiceContinuation} from '@/lib/practiceContinuation.js';
 import {forwardRef,lazy,Suspense,useCallback,useEffect,useImperativeHandle,useLayoutEffect,useMemo,useRef,useState} from 'react';
-import {createPortal} from 'react-dom';
+import {createPortal,flushSync} from 'react-dom';
 import {ArrowLeft,BookOpen,BookText,ChevronRight,Code2,FlaskConical,FolderClosed,House,LoaderCircle,NotebookTabs,Plus,Search,X} from 'lucide-react';
 import {StudyPaneContext} from '@/lib/StudyPane.jsx';
 import {activateStudyTab,buildLearningIndex,closeStudyTab,emptyStudyBrowser,learningDirectory,MAX_STUDY_TABS,moveStudyTab,openStudyTab,replaceStudyProblem,replaceStudyContent,resizeStudyGroups,restoreStudyBrowser as restoreTabs,splitStudyTab,STUDY_LABELS,studyGroups,studyKey,studySnapshot,updateStudyDocument} from '@/lib/learningBrowser.js';
@@ -118,7 +118,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
  useEffect(()=>{if(initialized&&stateOwner===accountId)persist(state);},[state,initialized,stateOwner,accountId,persist]);
  useEffect(()=>{
   const save=()=>{checkpoint();persist(current.current);};
-  const beforeExit=event=>{checkpoint();event.detail?.waitUntil?.(new Promise(resolve=>requestAnimationFrame(resolve)).then(()=>{persist(current.current);return onFlush?.(studySnapshot(current.current));}));};
+  const beforeExit=event=>{flushSync(checkpoint);persist(current.current);event.detail?.waitUntil?.(onFlush?.(studySnapshot(current.current)));};
   window.addEventListener('pagehide',save);window.addEventListener('tb-before-update',beforeExit);
   return()=>{window.removeEventListener('pagehide',save);window.removeEventListener('tb-before-update',beforeExit);};
  },[persist,onFlush]);
