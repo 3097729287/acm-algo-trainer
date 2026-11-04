@@ -4,7 +4,7 @@ import {startMySQLFixture} from './mysql-fixture.mjs';
 import {preservedData,assertPreserved} from '../scripts/audit-preserved-data.mjs';
 export async function migrateGameplay(fixture){
  const before=await preservedData(fixture.STORE.pool);
- for(const name of ['015_gameplay.sql','016_social_replies.sql']){
+ for(const name of ['015_gameplay.sql','016_social_replies.sql','017_thought_duels.sql','018_duel_community.sql']){
   const source=await readFile(new URL('../mysql/'+name,import.meta.url),'utf8');
   for(let repeat=0;repeat<2;repeat++)for(const statement of source.split(';').map(value=>value.trim()).filter(Boolean))await fixture.STORE.pool.query(statement);
  }

@@ -52,7 +52,7 @@ export default function StickerBoxes({api,state,onUpdated,onClose}){
    </button>)}</div>
    {current&&<div className={'pack-details pack-'+current.rarity}>
     <p>{quantities[current.rarity]} 张贴纸{current.rarity!=='common'&&<> · 保底一张{PACK_NAMES[current.rarity]}{current.rarity==='legendary'?'':'或更高品质'}</>}</p>
-    <dl aria-label="每张贴纸的品质概率">{Object.entries(state.packPolicy?.[current.rarity]?.probabilities||current.boxes[0].probabilities||{}).map(([rarity,weight])=><div key={rarity}><dt>{PACK_NAMES[rarity]}</dt><dd>{(weight/100).toFixed(2).replace(/\.00$/,'')}%</dd></div>)}</dl>
+    <dl aria-label="非保底位品质概率">{Object.entries(state.packPolicy?.[current.rarity]?.probabilities||current.boxes[0].probabilities||{}).map(([rarity,weight])=><div key={rarity}><dt>{PACK_NAMES[rarity]}</dt><dd>{(weight/100).toFixed(2).replace(/\.00$/,'')}%</dd></div>)}</dl>
     <div className="pack-draw-actions"><button type="button" className="progress-button progress-primary" disabled={busy||Boolean(request.current)} onClick={()=>open(current.rarity,1)}><Sparkles size={18}/>抽卡</button><button type="button" className="progress-button" disabled={busy||Boolean(request.current)||current.boxes.length<5} onClick={()=>open(current.rarity,5)}>五连抽</button></div>
    </div>}
    {!groups.length&&<p className="pack-empty">暂无待开启的卡包</p>}

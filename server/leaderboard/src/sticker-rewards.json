@@ -1,14 +1,33 @@
 {
-  "version": 3,
+  "version": 4,
   "levelBoxes": {
-    "firstLevel": 5,
+    "firstLevel": 1,
     "maxLevel": 100,
-    "rarity": "legendary",
-    "quantitySteps": [
-      [
-        5,
-        6
-      ]
+    "raritiesThrough20": [
+      "rare",
+      "epic",
+      "rare",
+      "epic",
+      "rare",
+      "epic",
+      "rare",
+      "epic",
+      "rare",
+      "legendary",
+      "rare",
+      "epic",
+      "rare",
+      "rare",
+      "legendary",
+      "rare",
+      "epic",
+      "rare",
+      "rare",
+      "legendary"
+    ],
+    "after20": [
+      "epic",
+      "legendary"
     ]
   },
   "stickers": [
@@ -77,6 +96,24 @@
       "title": "四季同框",
       "rarity": "legendary",
       "shape": "orbit"
+    },
+    {
+      "id": "achievement-bookmark",
+      "shape": "bookmark",
+      "title": "收藏书签",
+      "rarity": "rare"
+    },
+    {
+      "id": "achievement-owl",
+      "shape": "owl",
+      "title": "夜读猫头鹰",
+      "rarity": "epic"
+    },
+    {
+      "id": "achievement-yearbadge",
+      "shape": "yearbadge",
+      "title": "四季常青",
+      "rarity": "legendary"
     }
   ],
   "achievements": {
@@ -90,47 +127,50 @@
     "moment-gift-circle": "achievement-post",
     "moment-box-ten": "achievement-key",
     "moment-upside-down": "achievement-fox",
-    "moment-box-rainbow": "achievement-orbit"
+    "moment-box-rainbow": "achievement-orbit",
+    "moment-collection-12": "achievement-bookmark",
+    "moment-collection-24": "achievement-owl",
+    "streak-365": "achievement-yearbadge"
   },
   "cardPacks": {
     "common": {
       "quantity": 3,
       "guarantee": null,
       "probabilities": {
-        "common": 8000,
-        "rare": 1790,
-        "epic": 200,
-        "legendary": 10
+        "common": 8500,
+        "rare": 1379,
+        "epic": 120,
+        "legendary": 1
       }
     },
     "rare": {
       "quantity": 4,
       "guarantee": "rare",
       "probabilities": {
-        "common": 4500,
-        "rare": 4800,
-        "epic": 650,
-        "legendary": 50
+        "common": 5500,
+        "rare": 4190,
+        "epic": 300,
+        "legendary": 10
       }
     },
     "epic": {
       "quantity": 5,
       "guarantee": "epic",
       "probabilities": {
-        "common": 2000,
-        "rare": 3500,
-        "epic": 4200,
-        "legendary": 300
+        "common": 3500,
+        "rare": 4500,
+        "epic": 1900,
+        "legendary": 100
       }
     },
     "legendary": {
       "quantity": 6,
       "guarantee": "legendary",
       "probabilities": {
-        "common": 1000,
-        "rare": 2400,
-        "epic": 5100,
-        "legendary": 1500
+        "common": 2000,
+        "rare": 4500,
+        "epic": 3000,
+        "legendary": 500
       }
     }
   },
@@ -143,5 +183,55 @@
       "legendary": 10
     },
     "policy": "owner-day-task-sha256-v1"
-  }
+  },
+  "collection": [
+    {
+      "id": "collection-pencil",
+      "shape": "pencil",
+      "title": "小小铅笔",
+      "rarity": "common"
+    },
+    {
+      "id": "collection-book",
+      "shape": "book",
+      "title": "翻开的书",
+      "rarity": "common"
+    },
+    {
+      "id": "collection-coffee",
+      "shape": "coffee",
+      "title": "温热咖啡",
+      "rarity": "rare"
+    },
+    {
+      "id": "collection-mushroom",
+      "shape": "mushroom",
+      "title": "蘑菇小屋",
+      "rarity": "rare"
+    },
+    {
+      "id": "collection-rocket",
+      "shape": "rocket",
+      "title": "向星空出发",
+      "rarity": "epic"
+    },
+    {
+      "id": "collection-whale",
+      "shape": "whale",
+      "title": "星海鲸鱼",
+      "rarity": "epic"
+    },
+    {
+      "id": "collection-dragon",
+      "shape": "dragon",
+      "title": "守护小龙",
+      "rarity": "legendary"
+    },
+    {
+      "id": "collection-telescope",
+      "shape": "telescope",
+      "title": "观星望远镜",
+      "rarity": "legendary"
+    }
+  ]
 }

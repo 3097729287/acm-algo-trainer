@@ -4,7 +4,7 @@ import {cloneElement,useCallback,useEffect,useLayoutEffect,useRef,useState} from
 import {readStickerLayout,cacheStickerLayout} from '@/lib/stickerCache.js';
 import {createPortal} from 'react-dom';
 import {fitStickerPlacement,stickerSize} from '@/lib/stickerPlacement.js';
-import {ChevronLeft,ChevronRight,Gift,RefreshCw,Sticker,Target,X} from 'lucide-react';
+import {Gift,RefreshCw,Sticker,Target,X} from 'lucide-react';
 import StickerBoxes from './StickerBoxes.jsx';
 import PopConfirm from './PopConfirm.jsx';
 import Tooltip from './Tooltip.jsx';
@@ -18,7 +18,7 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
  useLayoutEffect(()=>{setToolbarHost(document.querySelector('.app-statusbar'));},[]);
  const [boxesOpen,setBoxesOpen]=useState(false),[goalsOpen,setGoalsOpen]=useState(false);
  const [mode,setMode]=useState(false),[state,setState]=useState(()=>readStickerLayout(owner)),[draft,setDraft]=useState(null),[picker,setPicker]=useState(null),[confirm,setConfirm]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState('');
- const surface=useRef(null),strip=useRef(null),drag=useRef(null),alive=useRef(owner),request=useRef(null),saving=useRef(null),revision=useRef(0),latest=useRef(null);
+ const surface=useRef(null),drag=useRef(null),alive=useRef(owner),request=useRef(null),saving=useRef(null),revision=useRef(0),latest=useRef(null);
  const placements=useRef(new Map()),[optimistic,setOptimistic]=useState(new Map());
  const [bounds,setBounds]=useState({width:0,height:0});
  const [reaction,reactToSticker]=useStickerReaction(owner),movedUnit=useRef(null);
@@ -108,8 +108,8 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
  const items=[...(owned?state.catalogue||[]:[])].sort((a,b)=>ORDER[a.rarity]-ORDER[b.rarity]||a.id.localeCompare(b.id));
  const units=owned?(state.units||[]).filter(unit=>!pendingRecycles.has(unit.id)):[],placed=units.filter(unit=>unit.placement),art=id=>items.find(item=>item.id===id);
  const availableItems=items.filter(item=>units.some(unit=>unit.stickerId===item.id&&!unit.placement&&!optimistic.has(unit.id)&&unit.id!==draft?.unit.id));
- const pickerWidth=Math.min(384,Math.max(150,availableItems.length*52+64),window.innerWidth-24);
- const pickerStyle=picker?{width:pickerWidth,left:Math.max(8,Math.min(picker.screenX-pickerWidth/2,window.innerWidth-pickerWidth-8)),top:Math.max(8,Math.min(picker.screenY+10,window.innerHeight-100))}:undefined;
+ const pickerWidth=Math.min(428,window.innerWidth-24),pickerHeight=Math.min(376,window.innerHeight-24);
+ const pickerStyle=picker?{width:pickerWidth,left:Math.max(8,Math.min(picker.screenX-pickerWidth/2,window.innerWidth-pickerWidth-8)),top:Math.max(8,Math.min(picker.screenY+10,window.innerHeight-pickerHeight-12))}:undefined;
  function position(event){const box=surface.current.getBoundingClientRect();return {x:(event.clientX-box.left)/box.width,y:(event.clientY-box.top)/box.height};}
  function begin(event,unit){
   if(event.button!==0||!mode||busy)return;event.preventDefault();event.stopPropagation();
@@ -147,7 +147,7 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
 
   <div className="sticker-content">{children}<div ref={surface} className="sticker-surface" aria-label="贴纸区域" role="region" tabIndex={mode?0:undefined} onPointerDown={event=>{if(event.button!==0||!mode||busy||event.target!==event.currentTarget)return;if(draft){fix();return;}setConfirm(null);const point=position(event);setPicker({...fit({...point,angle:0}),screenX:event.clientX,screenY:event.clientY});}}>{units.filter(unit=>unit.placement||optimistic.has(unit.id)||unit.id===draft?.unit.id).map(unit=>unitButton(unit,unit.id===draft?.unit.id))}
   </div></div>
-  {picker&&mode&&createPortal(<div className="sticker-picker" style={pickerStyle} role="dialog" aria-label="选择贴纸"><button type="button" className="icon-button" aria-label="向左浏览贴纸" onClick={()=>strip.current.scrollBy({left:-240,behavior:'smooth'})}><ChevronLeft size={18}/></button><div ref={strip} className="sticker-inventory" onWheel={event=>{event.currentTarget.scrollLeft+=Math.abs(event.deltaX)>Math.abs(event.deltaY)?event.deltaX:event.deltaY;}}>{availableItems.map(item=>{const available=units.filter(unit=>unit.stickerId===item.id&&!unit.placement&&!optimistic.has(unit.id)&&unit.id!==draft?.unit.id);return <button type="button" className={'sticker-choice rarity-'+item.rarity} key={item.id} aria-label={`${NAMES[item.rarity]} ${item.shape}，库存 ${available.length}`} disabled={!available.length} onClick={()=>{setDraft({unit:available[0],...picker,angle:0});setPicker(null);}}><StickerArt item={item}/><span>{available.length}</span></button>;})}</div><button type="button" className="icon-button" aria-label="向右浏览贴纸" onClick={()=>strip.current.scrollBy({left:240,behavior:'smooth'})}><ChevronRight size={18}/></button><button type="button" className="icon-button" aria-label="关闭贴纸选择" onClick={()=>setPicker(null)}><X size={17}/></button></div>,document.body)}
+  {picker&&mode&&createPortal(<div className="sticker-picker" style={pickerStyle} role="dialog" aria-label="选择贴纸"><div className="sticker-inventory">{availableItems.map(item=>{const available=units.filter(unit=>unit.stickerId===item.id&&!unit.placement&&!optimistic.has(unit.id)&&unit.id!==draft?.unit.id);return <button type="button" className={'sticker-choice rarity-'+item.rarity} key={item.id} aria-label={`${NAMES[item.rarity]} ${item.shape}，库存 ${available.length}`} disabled={!available.length} onClick={()=>{setDraft({unit:available[0],...picker,angle:0});setPicker(null);}}><StickerArt item={item}/><span>{available.length}</span></button>;})}</div><button type="button" className="icon-button" aria-label="关闭贴纸选择" onClick={()=>setPicker(null)}><X size={17}/></button></div>,document.body)}
   {statistics}
   {toolbarHost&&createPortal(<div className="growth-footer-actions" role="group" aria-label="成长内容">{<Tooltip text="卡包"><button type="button" className="achievement-top-button sticker-box-trigger" aria-label="卡包" disabled={busy||Boolean(draft)||!state} onClick={()=>setBoxesOpen(true)}><Gift size={19}/>{Object.values(state?.boxes||{}).some(box=>!box.openedAt)&&<small>{Object.values(state?.boxes||{}).filter(box=>!box.openedAt).length}</small>}</button></Tooltip>}<Tooltip text="目标"><button type="button" className="achievement-top-button" aria-label="目标" aria-expanded={goalsOpen} aria-pressed={goalsOpen} disabled={busy} onClick={()=>{setGoalsOpen(value=>!value);setMode(false);setDraft(null);setPicker(null);setConfirm(null);drag.current=null;request.current=null;}}><Target size={19}/></button></Tooltip><Tooltip text="贴纸"><button type="button" className="achievement-top-button" aria-label="贴纸" aria-pressed={mode} disabled={busy} onClick={()=>{setGoalsOpen(false);setMode(value=>!value);setDraft(null);setPicker(null);setConfirm(null);drag.current=null;request.current=null;void refresh();}}><Sticker size={19}/></button></Tooltip>{error&&<button type="button" className="achievement-top-button" aria-label="刷新贴纸" onClick={refresh}><RefreshCw size={16}/></button>}</div>,toolbarHost)}
   {goalsOpen&&!mode&&goals&&cloneElement(goals,{onClose:()=>setGoalsOpen(false)})}

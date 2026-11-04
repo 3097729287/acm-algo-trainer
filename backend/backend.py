@@ -373,8 +373,17 @@ class Handler(BaseHTTPRequestHandler):
                 elif path in ('/api/duel/join','/api/duel/cancel','/api/duel/poll','/api/duel/dismiss','/api/duel/ready','/api/duel/decline'):
                     from gameplay import duel
                     value=duel(training,path.rsplit('/',1)[1],body)
+                elif path == '/api/presence':
+                    from gameplay import _request
+                    if set(body)!={'activity'}:raise ServiceError(400,'在线状态无效')
+                    value=_request(training,'POST','/v1/presence',body)
                 elif path == "/api/daily-tasks/claim":
                     value = training.claim_daily_task(body.get("id"), body.get("date"))
+                    if value.get('rewardPack'):
+                        from gameplay import claimed_pack
+                        try:value['inventory']=claimed_pack(training,value['dailyTasks']['date'],body['id'])
+                        except ServiceError as issue:value['rewardSyncError']=str(issue)
+
                 elif path == '/api/achievements/claim':
                     if set(body)-{'id','compact'} or 'id' not in body or 'compact' in body and type(body['compact']) is not bool:raise APIError(400,'请选择有效成就')
                     value=training.claim_achievement(body['id'],None if body.get('compact') else self.server.store.extensions.snapshot(),compact=body.get('compact',False))
@@ -469,9 +478,21 @@ class Handler(BaseHTTPRequestHandler):
                     value = self.server.translation_service().configure(body)
                 else:
                     raise APIError(404, "没有找到这个接口")
-                if accounts is not None and accounts.session and path not in ('/api/account/sync', '/api/software-update/install', '/api/code/format'):
+                if accounts is not None and accounts.session and path not in ('/api/account/sync', '/api/software-update/install', '/api/code/format', '/api/presence'):
                     accounts.queue_sync()
                 self.send_json(200, value)
+            elif re.fullmatch(r'/api/library-assets/[a-f0-9]{64}',path):
+                from public_assets import read_asset
+                try:mime,raw=read_asset(store.library,path.rsplit('/',1)[1])
+                except FileNotFoundError:raise APIError(404,'没有找到题面资源')
+                except (OSError,ValueError):raise APIError(503,'题面资源暂时未能下载，请重试')
+                self.send_response(200)
+                self.send_header('Content-Type',mime)
+                self.send_header('Content-Length',str(len(raw)))
+                self.send_header('Cache-Control','public, max-age=31536000, immutable')
+                self.send_header('X-Content-Type-Options','nosniff')
+                self.end_headers()
+                self.wfile.write(raw)
             elif path == "/api/data":
                 from private_contest_reading import private_rows
                 private=private_rows(self.server.training)
@@ -600,6 +621,9 @@ class Handler(BaseHTTPRequestHandler):
                 query = parse_qs(target.query)
                 avatars=self.server.admin_rankings if self.server.admin_mode else self.server.training.leaderboard
                 self.send_json(200, avatars.avatar(query.get('userId', [''])[0], query.get('hash', [''])[0]))
+            elif path == '/api/duel/board':
+                from gameplay import _request
+                self.send_json(200,_request(self.server.training,'GET','/v1/duels/board?'+target.query))
             elif path == '/api/social':
                 self.send_json(200, self.server.training.leaderboard.social())
             elif path == "/api/problem":

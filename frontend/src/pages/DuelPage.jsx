@@ -1,3 +1,4 @@
+import DuelCommunity from '../components/DuelCommunity.jsx';
 import {useEffect,useState} from 'react';
 import {ArrowLeft,Check,Clock,ExternalLink,LoaderCircle,Play,RefreshCw,Swords,WifiOff,X} from 'lucide-react';
 import './DuelPage.css';
@@ -5,7 +6,7 @@ import ProfileBadge from '../components/ProfileBadge.jsx';
 import TierIcon from '../components/TierIcon.jsx';
 import DuelBannerFrame from '../components/DuelBannerFrame.jsx';
 import ThoughtBattle from '../components/ThoughtBattle.jsx';
-export default function DuelPage({duel,thought,rows,onTrain,account,profile,growth,avatar}){
+export default function DuelPage({api,duel,thought,rows,onTrain,account,profile,growth,avatar}){
  const {state,error,busy,act,reload,clock}=duel,[tick,setTick]=useState(0);
  const [mode,setMode]=useState('ranked'),[range,setRange]=useState({min:800,max:1500});
  const rankedActive=['queued','ready','active'].includes(state?.status),thoughtActive=['queued','countdown','active','judging'].includes(thought?.state?.status);
@@ -25,6 +26,7 @@ export default function DuelPage({duel,thought,rows,onTrain,account,profile,grow
   <div id="duel-mode-panel" role="tabpanel" aria-labelledby={mode==='thought'?'duel-thought-tab':'duel-ranked-tab'} className="duel-mode-panel">{mode==='thought'&&thought?<ThoughtBattle key={thought.state?.owner||'pending'} thought={thought} range={range} account={account} profile={profile} growth={growth} avatar={avatar}/>:<>{!room?<div className={'duel-lobby'+(queued?' is-queued':'')}>
    {(queued||ready)&&<div className="duel-queue-status" role="status"><LoaderCircle size={18} className="progress-spin"/><span>{ready?'已找到对手':'匹配中'}</span>{queued&&<time role="timer" aria-label="已匹配时间">{time(elapsed)}</time>}</div>}
    <div className="duel-lobby-identity"><DuelBannerFrame rank={rank}/><ProfileBadge compact={false} growth={growth} avatar={avatar} nickname={nickname} showXp={false}/>{rank&&<div className="duel-lobby-rank"><TierIcon rank={rank} size={96}/></div>}</div>
+   <div className="duel-lobby-points" aria-label="排位分">{Number.isFinite(state?.rating)?state.rating:1000}</div>
    <div className="duel-lobby-actions">{queued?<div className="duel-find duel-queued" role="status" aria-label="正在寻找对局"><LoaderCircle size={19} className="progress-spin"/><span>匹配中</span><button type="button" className="icon-button duel-cancel" aria-label="取消匹配" title="取消匹配" disabled={busy} onClick={()=>act('cancel',{ticket:state.ticket})}><X size={18}/></button></div>:<button type="button" className="primary duel-find" aria-label="开始匹配" disabled={busy||ready||!state} onClick={()=>act('join')}><Swords size={21}/><span>{cancelled?'重新寻找对局':'寻找对局'}</span></button>}</div>
    {cancelled&&<p className="duel-lobby-result" role="status">{state.match.cancelReason==='timeout'?'接受对局超时':state.match.cancelledBy===state.owner?'已拒绝本轮对局':'对手已拒绝本轮对局'}</p>}
   </div>:<>
@@ -35,5 +37,6 @@ export default function DuelPage({duel,thought,rows,onTrain,account,profile,grow
   </>}
   {error&&<p className="connection-error" role="alert">{error}</p>}
   </>}</div>
+  <DuelCommunity api={api} owner={account?.userId} mode={mode} revision={mode==='thought'?thought?.state?.match?.finishedAt:state?.match?.finishedAt}/>
  </section>;
 }

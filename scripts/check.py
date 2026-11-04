@@ -42,6 +42,10 @@ def library_check(path=None):
                 assert hashlib.sha256(data).hexdigest()==sha,'Corrupt original statement asset'
                 known.add(sha)
             sys.path.insert(0,str(ROOT/'backend'))
+            if 'remote_statement_assets' in tables:
+                from public_assets import validate_reference
+                for sha,mime,size,url in db.execute('SELECT * FROM remote_statement_assets'):
+                    validate_reference(sha,mime,size,url);known.add(sha)
             from statement_asset_store import references
             for content, in db.execute('SELECT content FROM statements'):
                 assert references(json.loads(content))<=known,'Missing offline statement resources'

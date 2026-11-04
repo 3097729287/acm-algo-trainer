@@ -18,17 +18,17 @@ const post=(user,path,body)=>user.send(path,{requestId:randomUUID(),...body});
 const inventory=async user=>(await user.send('/v1/stickers')).value;
 const daily=async user=>{assert.equal((await post(user,'/v1/stickers/grant',{day:'2026-11-02',taskId:'ac-chain:0',xp:15})).status,200);assert.equal((await post(user,'/v1/stickers/achievement',{achievementId:'leader-tease'})).status,200);return (await inventory(user)).units[0];};
 
-test('box quantity, exact odds and progressive rarity are fixed for all 96 earned levels',async()=>{
+test('box quantity, exact odds and alternating rarity are fixed for all 100 earned levels',async()=>{
  const shared=await readFile(new URL('../../../backend/resources/sticker-rewards.json',import.meta.url),'utf8');
  assert.equal(shared,await readFile(new URL('../src/sticker-rewards.json',import.meta.url),'utf8'));
  let previous=null;
- for(let level=5;level<=100;level++){
+ for(let level=1;level<=100;level++){
   const box=levelBox(level),p=box.probabilities;assert.equal(Object.values(p).reduce((a,b)=>a+b),10000);assert(Object.values(p).every(value=>Number.isSafeInteger(value)&&value>=0));
-  if(previous){assert(box.quantity>=previous.quantity);assert(p.common<=previous.probabilities.common);assert(p.legendary>=previous.probabilities.legendary);assert(p.epic+p.legendary>=previous.probabilities.epic+previous.probabilities.legendary);}
+
   previous=box;
  }
  for(const level of [5,10,20,50,100]){const box=levelBox(level),counts={common:0,rare:0,epic:0,legendary:0};for(let roll=0;roll<10000;roll++)counts[rollRarity(box.probabilities,roll)]++;assert.deepEqual(counts,box.probabilities);}
- assert.equal(levelBox(5).quantity,6);assert.equal(levelBox(10).quantity,6);assert.equal(levelBox(100).quantity,6);
+ assert.equal(levelBox(5).quantity,4);assert.equal(levelBox(10).quantity,6);assert.equal(levelBox(100).quantity,6);
  assert(levelBox(5).probabilities.legendary>0);assert.equal(levelBox(100).guarantee,'legendary');
 });
 
@@ -37,12 +37,12 @@ test('level entitlement backfills once, rejects inflated levels and opens the ea
   const a=await client(f,'box_account');await a.level(13);
   assert.equal((await post(a,'/v1/stickers/levels',{level:50})).status,409);assert.equal(Object.keys((await inventory(a)).boxes||{}).length,0);
   const grant={requestId:randomUUID(),level:13};const grants=await Promise.all(Array.from({length:12},()=>a.send('/v1/stickers/levels',grant)));assert(grants.every(item=>item.status===200));
-  let state=await inventory(a);assert.equal(Object.keys(state.boxes).length,9);assert.equal(state.units.length,0);
+  let state=await inventory(a);assert.equal(Object.keys(state.boxes).length,13);assert.equal(state.units.length,0);
   await a.level(50);assert.equal((await post(a,'/v1/stickers/levels',{level:50})).status,200);
   const opening={requestId:randomUUID(),boxId:'level:5'};const opened=await Promise.all(Array.from({length:12},()=>a.send('/v1/stickers/open-box',opening)));assert(opened.every(item=>item.status===200));
-  assert(opened.every(item=>item.value.inventory.owner===a.id&&item.value.inventory.units.length===6),'The same response carries a confirmed inventory, including retries');
-  state=await inventory(a);assert.equal(state.units.length,6);assert.equal(state.boxes['level:5'].drops.length,6);assert.deepEqual(state.boxes['level:5'].probabilities,levelBox(5).probabilities);
-  assert.equal((await post(a,'/v1/stickers/open-box',{boxId:'level:5'})).value.opening.drops.length,6);assert.equal((await inventory(a )).units.length,6);
+  assert(opened.every(item=>item.value.inventory.owner===a.id&&item.value.inventory.units.length===4),'The same response carries a confirmed inventory, including retries');
+  state=await inventory(a);assert.equal(state.units.length,4);assert.equal(state.boxes['level:5'].drops.length,4);assert.deepEqual(state.boxes['level:5'].probabilities,levelBox(5).probabilities);
+  assert.equal((await post(a,'/v1/stickers/open-box',{boxId:'level:5'})).value.opening.drops.length,4);assert.equal((await inventory(a )).units.length,4);
   assert.equal((await a.send('/v1/stickers/open-box',{...opening,boxId:'level:10'})).status,409);
   assert.equal((await post(a,'/v1/stickers/open-box',{boxId:'constructor'})).status,404);
  }finally{await f.close();}
@@ -58,7 +58,7 @@ test('a fixed achievement gives its exact exclusive sticker once despite retries
  }finally{await f.close();}
 });
 
-test('unopened legacy boxes adopt six guaranteed legendary drops while already opened results stay unchanged',async()=>{
+test('unopened legacy boxes adopt the current level policy while already opened results stay unchanged',async()=>{
  const f=await startFixture({now});try{
   const a=await client(f,'legacy_box_upgrade');await a.level(6);
   await post(a,'/v1/stickers/levels',{level:6});await post(a,'/v1/stickers/open-box',{boxId:'level:5'});
@@ -67,12 +67,12 @@ test('unopened legacy boxes adopt six guaranteed legendary drops while already o
   opened.quantity=2;opened.policyVersion=1;opened.drops=opened.drops.slice(0,2);old.units=old.units.filter(unit=>opened.drops.some(drop=>drop.id===unit.id));
   old.boxes['level:6']={...old.boxes['level:6'],quantity:2,policyVersion:1,probabilities:{common:7000,rare:2500,epic:450,legendary:50}};
   await f.STORE.gameplay.db.execute('UPDATE gameplay_accounts SET payload=? WHERE user_id=?',[JSON.stringify(old),a.id]);
-  let view=await inventory(a);assert.equal(view.boxes['level:6'].quantity,6);assert.equal(view.boxes['level:5'].quantity,2);assert.deepEqual(view.boxes['level:5'].drops,opened.drops);
+  let view=await inventory(a);assert.equal(view.boxes['level:6'].quantity,5);assert.equal(view.boxes['level:5'].quantity,2);assert.deepEqual(view.boxes['level:5'].drops,opened.drops);
   await post(a,'/v1/stickers/levels',{level:6});
   assert.deepEqual((await post(a,'/v1/stickers/open-box',{boxId:'level:5'})).value.opening.drops,opened.drops);
   assert.equal((await inventory(a)).units.length,2);
-  assert.equal((await post(a,'/v1/stickers/open-box',{boxId:'level:6'})).value.opening.drops.length,6);
-  view=await inventory(a);assert.equal(view.units.length,8);assert.equal(view.boxes['level:5'].quantity,2);
+  assert.equal((await post(a,'/v1/stickers/open-box',{boxId:'level:6'})).value.opening.drops.length,5);
+  view=await inventory(a);assert.equal(view.units.length,7);assert.equal(view.boxes['level:5'].quantity,2);
  }finally{await f.close();}
 });
 

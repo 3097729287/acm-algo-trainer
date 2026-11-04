@@ -1,3 +1,4 @@
+import {prepareRanked,settleRanked,rankedRating} from './duel-community.mjs';
 import {StickerRewards,REWARDS} from './sticker-rewards.mjs';
 import {createHash, randomInt, randomUUID} from 'node:crypto';
 import {readFileSync} from 'node:fs';
@@ -14,6 +15,7 @@ export const STICKERS=Object.freeze([
  ...['flame','bolt','sun','comet'].map(shape=>({id:'rare-'+shape,rarity:'rare',shape})),
  ...['moon','planet','crystal','butterfly'].map(shape=>({id:'epic-'+shape,rarity:'epic',shape})),
  ...['gem','crown','galaxy','phoenix'].map(shape=>({id:'legendary-'+shape,rarity:'legendary',shape})),
+ ...(REWARDS.collection||[]),
  ...REWARDS.stickers,
 ].map(item=>({title:shapeTitles[item.shape]||item.shape,...item})));
 const empty=()=>({revision:0,units:[],grants:{}});
@@ -145,7 +147,7 @@ export class Gameplay extends StickerRewards {
   return this.db.transaction(async db=>{
    const [rows]=await db.execute(this.lock('SELECT payload FROM duel_lobby WHERE singleton=1'));
    const room=await this.expireReady(db,await this.match(db,await this.member(db,owner)),now);
-   return this.view(owner,JSON.parse(rows[0].payload),room,now);
+   return {...this.view(owner,JSON.parse(rows[0].payload),room,now),rating:await rankedRating(db,owner)};
   });
  }
  async duelWrite(owner,auth,kind,value,now){
@@ -184,6 +186,7 @@ export class Gameplay extends StickerRewards {
      if(room.players.every(p=>p.acceptedAt)||now>=room.deadline+5000&&receipts?.every(p=>!p.error)&&room.players.every(p=>!p.judging)){
       room.status='finished';const scores=room.players.map(p=>p.acceptedAt??Infinity);
       room.winner=scores[0]===scores[1]?null:room.players[scores[0]<scores[1]?0:1].owner;
+      await settleRanked(db,room,now);
      }
      await this.saveMatch(db,room);
     }
@@ -202,7 +205,8 @@ export class Gameplay extends StickerRewards {
       lobby.queue=lobby.queue.filter(item=>item!==peer);
       const problem=this.problems[randomInt(this.problems.length)];
       const startedAt=Math.ceil(now/1000)*1000;
-      room={id:randomUUID(),status:readyCheck?'ready':'active',startedAt:readyCheck?null:startedAt,deadline:readyCheck?null:startedAt+30*60000,...(readyCheck?{foundAt:now,readyDeadline:now+20000}:{}),problem,players:[{owner:peer.owner,handle:peer.handle},{owner,handle:value.handle}].map(p=>({...p,...(readyCheck?{readyAt:null}:{}),attempts:0,acceptedAt:null,lastSeen:now})),winner:null,checkedAt:null};
+      room={rankedPolicy:1,id:randomUUID(),status:readyCheck?'ready':'active',startedAt:readyCheck?null:startedAt,deadline:readyCheck?null:startedAt+30*60000,...(readyCheck?{foundAt:now,readyDeadline:now+20000}:{}),problem,players:[{owner:peer.owner,handle:peer.handle},{owner,handle:value.handle}].map(p=>({...p,...(readyCheck?{readyAt:null}:{}),attempts:0,acceptedAt:null,lastSeen:now})),winner:null,checkedAt:null};
+      await prepareRanked(db,room.players,now);
       await db.execute('INSERT INTO duel_matches(match_id,payload) VALUES(?,?)',[room.id,JSON.stringify(room)]);
       for(const p of room.players){
        await db.execute('DELETE FROM duel_members WHERE user_id=?',[p.owner]);
@@ -240,7 +244,8 @@ export class Gameplay extends StickerRewards {
     await db.execute('UPDATE duel_lobby SET payload=? WHERE singleton=1',[JSON.stringify(lobby)]);
     return this.view(owner,lobby,room,now);
    };
-   return kind==='poll'?run():this.once(db,owner,'duels/'+kind,value,run);
+   const result=await (kind==='poll'?run():this.once(db,owner,'duels/'+kind,value,run));
+   return {...result,rating:await rankedRating(db,owner)};
   });
  }
  async refresh(room,now){

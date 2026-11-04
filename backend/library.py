@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS detailed_solutions(
 CREATE TABLE IF NOT EXISTS solution_methods(problem_id TEXT PRIMARY KEY REFERENCES problems(id) ON DELETE CASCADE, content TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS statements(problem_id TEXT PRIMARY KEY, content TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS statement_assets(sha256 TEXT PRIMARY KEY,mime TEXT NOT NULL,data BLOB NOT NULL);
+CREATE TABLE IF NOT EXISTS remote_statement_assets(sha256 TEXT PRIMARY KEY,mime TEXT NOT NULL,bytes INTEGER NOT NULL,url TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS lectures(id TEXT PRIMARY KEY, content TEXT NOT NULL, digest TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS training_lists(id TEXT PRIMARY KEY, content TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS problem_lectures(
@@ -109,11 +110,11 @@ class LibraryDatabase:
             with self.connection() as db:
                 exists = db.execute("SELECT 1 FROM sqlite_master WHERE name='library_meta'").fetchone()
                 version = db.execute("SELECT value FROM library_meta WHERE key='schema'").fetchone() if exists else None
-            if version and int(version[0]) < 7:
+            if version and int(version[0]) < 8:
                 self.backup('schema-migration')
         with self.connection() as db:
             db.executescript(SCHEMA)
-            db.execute("INSERT INTO library_meta VALUES ('schema', '7') ON CONFLICT(key) DO UPDATE SET value='7' WHERE value!='7'")
+            db.execute("INSERT INTO library_meta VALUES ('schema', '8') ON CONFLICT(key) DO UPDATE SET value='8' WHERE value!='8'")
             db.execute("INSERT OR IGNORE INTO library_meta VALUES ('revision', '0')")
             indexed = db.execute("SELECT value FROM library_meta WHERE key='url_index_version'").fetchone()
             if not indexed or indexed[0] != '2':
@@ -178,6 +179,7 @@ class LibraryDatabase:
                 tables['training_lists'] = ('id', ['id', 'content'])
             rows = {name: list(seed.execute('SELECT * FROM ' + name)) for name in tables}
             asset_rows=list(seed.execute('SELECT sha256,mime FROM statement_assets')) if seed.execute("SELECT 1 FROM sqlite_master WHERE name='statement_assets'").fetchone() else []
+            remote_assets=list(seed.execute('SELECT sha256,mime,bytes,url FROM remote_statement_assets')) if seed.execute("SELECT 1 FROM sqlite_master WHERE name='remote_statement_assets'").fetchone() else []
             links = {}
             for row in seed.execute('SELECT * FROM problem_lectures ORDER BY problem_id,position'):
                 links.setdefault(row['problem_id'], []).append(tuple(row))
@@ -197,6 +199,10 @@ class LibraryDatabase:
                     if hashlib.sha256(data).hexdigest()!=sha:
                         raise ValueError('Bundled statement asset hash mismatch')
                     db.execute('INSERT OR IGNORE INTO statement_assets VALUES (?,?,?)',(sha,mime,data))
+            from public_assets import validate_reference
+            for sha,mime,size,url in remote_assets:
+                validate_reference(sha,mime,size,url)
+                db.execute('INSERT OR IGNORE INTO remote_statement_assets VALUES(?,?,?,?)',(sha,mime,size,url))
             def previous(table, identity):
                 row = db.execute('SELECT digest FROM bundled_items WHERE table_name=? AND item_id=?', (table, identity)).fetchone()
                 return row[0] if row else None
@@ -560,6 +566,7 @@ class LibraryDatabase:
             links = [{'problem_id': row['problem_id'], 'lecture_id': row['lecture_id'],
                       'kind': row['kind'], 'position': row['position']}
                      for row in db.execute('SELECT problem_id,lecture_id,kind,position FROM problem_lectures ORDER BY problem_id,position')]
+            remote_manifest=[dict(row) for row in db.execute('SELECT * FROM remote_statement_assets')] if db.execute("SELECT 1 FROM sqlite_master WHERE name='remote_statement_assets'").fetchone() else []
             asset_manifest=[]
             if db.execute("SELECT 1 FROM sqlite_master WHERE name='statement_assets'").fetchone():
                 folder=directory/'statement-assets';folder.mkdir(exist_ok=True)
@@ -578,6 +585,7 @@ class LibraryDatabase:
         dump('detailed_solutions.json', detailed_solutions)
         dump('statements.json', statements)
         dump('statement_assets.json',asset_manifest)
+        if remote_manifest:dump('remote_statement_assets.json',remote_manifest)
         dump('lectures.json', lectures)
         dump('links.json', links)
         dump('training_lists.json', self.training_lists())
@@ -615,6 +623,11 @@ class LibraryDatabase:
                 if len(data)!=asset['bytes'] or hashlib.sha256(data).hexdigest()!=sha:
                     raise ValueError('Public statement asset does not match its source manifest')
                 db.execute('INSERT OR IGNORE INTO statement_assets VALUES (?,?,?)',(sha,asset['mime'],data))
+            if (directory/'remote_statement_assets.json').is_file():
+                from public_assets import validate_reference
+                for asset in load('remote_statement_assets.json'):
+                    validate_reference(asset['sha256'],asset['mime'],asset['bytes'],asset['url'])
+                    db.execute('INSERT OR IGNORE INTO remote_statement_assets VALUES(?,?,?,?)',(asset['sha256'],asset['mime'],asset['bytes'],asset['url']))
             db.executemany('INSERT OR REPLACE INTO problems (id,url,raw,encoded) VALUES (?,?,?,?)',
                            [(p['id'], p['url'], json.dumps(p['raw'], ensure_ascii=False), json.dumps(p['encoded'], ensure_ascii=False))
                             for p in problems])
@@ -634,7 +647,7 @@ class LibraryDatabase:
             db.executemany('INSERT OR REPLACE INTO training_lists (id,content) VALUES (?,?)',
                            [(item['id'], json.dumps(item, ensure_ascii=False)) for item in training_lists])
             db.executemany('INSERT OR REPLACE INTO solution_methods (problem_id,content) VALUES (?,?)', [(item['problem_id'],json.dumps(item['content'],ensure_ascii=False)) for item in methods])
-            for key, value in {**meta, 'schema': '7'}.items():
+            for key, value in {**meta, 'schema': '8'}.items():
                 db.execute('INSERT INTO library_meta VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value', (key, value))
             cls._rebuild_urls(db)
             if db.execute('PRAGMA foreign_key_check').fetchall():

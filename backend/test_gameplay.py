@@ -11,6 +11,17 @@ class GameplayTests(unittest.TestCase):
     tearDown=fixtures.ServiceTests.tearDown
     accept=fixtures.ServiceTests.accept
 
+    def test_just_claimed_pack_returns_inventory_without_draining_old_pending_rewards(self):
+        owner=self.service._ranking_profile()['user_id'];day='2026-10-08'
+        with self.service._write() as db:
+            for n in range(110):db.execute('INSERT INTO account_preferences VALUES(?,?,?)',('sticker-eligible:2026-10-01:old:'+str(n),json.dumps({'xp':1}),self.clock().isoformat()))
+            db.execute('INSERT INTO account_preferences VALUES(?,?,?)',('sticker-eligible:'+day+':current',json.dumps({'xp':0,'stickerXp':30,'stickerSlot':'fixed'}),self.clock().isoformat()))
+        inventory={'owner':owner,'revision':1,'units':[],'catalogue':[],'boxes':{'task:current':{'openedAt':None}}}
+        with patch.object(gameplay,'_request',return_value={'owner':owner,'inventory':inventory}) as network:
+            self.assertEqual(gameplay.claimed_pack(self.service,day,'current'),inventory)
+        self.assertEqual(network.call_count,1);self.assertEqual(network.call_args.args[3]['taskId'],'current')
+        self.assertIsNotNone(self.service.connection.execute('SELECT 1 FROM account_preferences WHERE key=?',('sticker-grant:'+day+':current',)).fetchone())
+
     def test_ready_and_decline_relay_the_exact_match_identity(self):
         for kind in ('ready','decline'):
             payload={'requestId':'10000000-0000-4000-8000-000000000003','matchId':'isolated-match'}

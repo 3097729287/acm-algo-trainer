@@ -48,6 +48,7 @@ try{
  await page.setViewportSize({width:540,height:900});assert.equal(await page.getByRole('button',{name:'返回《并查集》',exact:true}).count(),1);
  await page.screenshot({path:out+'/single-problem-narrow.png'});
  await page.getByRole('button',{name:'返回《并查集》',exact:true}).click();await wiki().waitFor();
+ await page.setViewportSize({width:1720,height:1000});await page.evaluate(()=>studyFixture.open({kind:'wiki',id:'ds/queue',title:'队列',visit:{wikiTrail:[]}}));await wiki().waitFor();await page.getByRole('button',{name:'返回维基目录',exact:true}).click();await visible('wiki').getByRole('button',{name:'队列',exact:true}).click();await wiki().waitFor();await wiki().evaluate(frame=>frame.contentDocument.querySelector('a[href*="P1706"]').click());await visible('problem').locator('.cm-content').waitFor();await page.getByRole('button',{name:'返回《队列》',exact:true}).click();await wiki().waitFor();await page.getByRole('button',{name:'返回维基目录',exact:true}).click();await visible('wiki').getByRole('button',{name:'队列',exact:true}).click();await wiki().waitFor();
  await page.getByRole('button',{name:'返回主界面',exact:true}).click();assert.equal(await page.locator('.study-browser').count(),0);
  assert.deepEqual(errors,[]);
  await writeFile(out+'/result.json',JSON.stringify({ok:true,coldAndWarmDirectoryRetained:true,currentCourseOnly:true,foundationTitleAdded:true,wikiNestedReturn:true,draftSavedBeforeBack:true,originalWikiScroll:before,restoredWikiScroll:restored,returnAfterReload:true,narrowReturnEntry:true,separateHomeEntry:true,errors},null,2));

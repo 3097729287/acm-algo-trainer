@@ -9,12 +9,12 @@ import { normalizeMarkdown } from '@/lib/normalizeMarkdown.js';
 
 const EMPTY_IMAGES=Object.freeze({});
 
-export default memo(function SolutionMarkdown({ text, onCopy, images = EMPTY_IMAGES }) {
+export default memo(function SolutionMarkdown({ text, onCopy, images = EMPTY_IMAGES,onOpenWiki }) {
   const components=useMemo(()=>({
     img: ({ node, ...props }) => <ReadingImage {...props} images={images} />,
-    a: ({ node, ...props }) => <a {...props} target="_blank" rel="noreferrer" />,
+    a: ({ node, ...props }) => <a {...props} target="_blank" rel="noreferrer" onClick={event=>{if(!onOpenWiki||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;try{const url=new URL(props.href);if(url.origin==='https://oi-wiki.org'){event.preventDefault();onOpenWiki(url.pathname.replace(/^\/|\/$/g,''),url.hash);}}catch{}}}/>,
     pre: props => <div className="code-block"><button className="copy-code" onClick={() => onCopy?.(props.children?.props?.children || '')}><Copy size={13} />复制</button><pre {...props} /></div>,
-  }),[images,onCopy]);
+  }),[images,onCopy,onOpenWiki]);
   return <div className="markdown"><ReactMarkdown
     skipHtml
     urlTransform={readingUrlTransform}

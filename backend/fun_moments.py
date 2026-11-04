@@ -94,7 +94,7 @@ def from_facts(training,records):
     except (ValueError,TypeError):facts={}
     if not isinstance(facts,dict):facts={}
     if facts.get('owner')==training._ranking_profile().get('user_id'):
-        amounts={'moment-first-gift':facts.get('sent',0),'moment-gift-five':facts.get('recipients',0),'moment-gift-circle':facts.get('recipients',0),
+        amounts={'moment-collection-12':facts.get('uniqueStickers',0),'moment-collection-24':facts.get('uniqueStickers',0),'moment-first-gift':facts.get('sent',0),'moment-gift-five':facts.get('recipients',0),'moment-gift-circle':facts.get('recipients',0),
                  'moment-receive-gift':facts.get('received',0),'moment-box-first':facts.get('opened',0),'moment-box-ten':facts.get('opened',0),
                  'moment-box-lucky':int(bool(facts.get('lucky'))),'moment-box-rainbow':int(bool(facts.get('rainbow')))}
         for identity,amount in amounts.items():
@@ -122,7 +122,8 @@ def confirmed_gameplay(training,view,kind=None):
         boxes=view.get('boxes') or {}
         opened=[box for box in boxes.values() if isinstance(box,dict) and box.get('openedAt')]
         stats=view.get('giftStats') or {}
-        observed={'owner':owner,'sent':stats.get('sent',0),'recipients':stats.get('recipients',0),'received':stats.get('received',0),'opened':len(opened),
+        known_stickers={item.get('id') for item in view.get('catalogue',[]) if isinstance(item,dict)}
+        observed={'owner':owner,'uniqueStickers':len({u.get('stickerId') for u in units if isinstance(u,dict) and u.get('stickerId') in known_stickers}),'sent':stats.get('sent',0),'recipients':stats.get('recipients',0),'received':stats.get('received',0),'opened':len(opened),
                   'lucky':any(any(drop.get('rarity')=='legendary' for drop in box.get('drops',[])) for box in opened),
                   'rainbow':any({drop.get('rarity') for drop in box.get('drops',[])}>={'common','rare','epic','legendary'} for box in opened)}
         with training.lock:
@@ -130,7 +131,7 @@ def confirmed_gameplay(training,view,kind=None):
             try:previous=json.loads(row[0]) if row else {}
             except (ValueError,TypeError):previous={}
             if not isinstance(previous,dict):previous={}
-            for key in ('sent','recipients','received','opened','lucky','rainbow'):
+            for key in ('sent','recipients','received','opened','lucky','rainbow','uniqueStickers'):
                 observed[key]=max(observed[key],previous.get(key,0) if previous.get('owner')==owner else 0)
             if any(observed[key]!=previous.get(key) for key in observed):
                 observed['observedAt']=stamp

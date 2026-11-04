@@ -30,6 +30,8 @@ def transform(value, convert):
 def dehydrate(value, save):
     def convert(data):
         if not isinstance(data, str):return data
+        local=re.fullmatch(r'/api/library-assets/([a-f0-9]{64})',data)
+        if local:return PREFIX+local[1]
         match=DATA.fullmatch(data)
         if not match:return data
         raw=base64.b64decode(re.sub(r'\s+','',match[2]),validate=True)
@@ -56,7 +58,14 @@ def hydrate(value, db):
         if not re.fullmatch('[a-f0-9]{64}',sha):raise ValueError('Invalid offline statement asset identity')
         if sha not in cache:
             row=db.execute('SELECT mime,data FROM statement_assets WHERE sha256=?',(sha,)).fetchone()
-            if not row:raise ValueError('Missing offline statement asset: '+sha)
+            if not row:
+                from public_assets import descriptor,validate_reference
+                remote=descriptor(db,sha)
+                if remote:
+                    validate_reference(sha,remote['mime'],remote['bytes'],remote['url'])
+                    cache[sha]='/api/library-assets/'+sha
+                    return cache[sha]
+                raise ValueError('Missing offline statement asset: '+sha)
             raw=bytes(row['data'])
             if hashlib.sha256(raw).hexdigest()!=sha:raise ValueError('Offline statement asset hash mismatch')
             cache[sha]='data:'+row['mime']+';base64,'+base64.b64encode(raw).decode('ascii')

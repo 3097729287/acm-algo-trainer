@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
-import {once} from 'node:events';
+import {listenFixture} from './listen.mjs';
 import {createHash,randomUUID} from 'node:crypto';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
@@ -19,7 +19,7 @@ test('release forwarding changes only the missing-asset route and preserves the 
 async function fixture(fetcher,overrides={},streamOptions={}){
  const directory=resolve('../../.backups/cleanup-startup/release-stream-tests',randomUUID());await mkdir(directory,{recursive:true});
  const file=directory+'/index.json';await writeFile(file,JSON.stringify({schema:1,assets:[{version:'1.5.2',name,size:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex'),...overrides}]}));
- const stream=createReleaseStream(file,{...streamOptions,fetcher}),server=createServer((request,response)=>stream(request,response));server.listen(0,'127.0.0.1');await once(server,'listening');
+ const stream=createReleaseStream(file,{...streamOptions,fetcher}),server=createServer((request,response)=>stream(request,response));await listenFixture(server);
  return {url:'http://127.0.0.1:'+server.address().port+'/assets/1.5.2/',async close(){server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}};
 }
 const response=data=>new Response(data,{headers:{'content-length':String(data.length)}});

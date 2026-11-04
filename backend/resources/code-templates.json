@@ -606,6 +606,28 @@
       "practiceIds": [],
       "explanation": "## 线性基\n\n给出若干非负整数，每个下标选或不选一次，求子集异或能得到什么。以 [6,5,3] 为例，6 XOR 5=3；第三个数并没有带来新的结果。\n\np[i] 的最高 1 位固定为 i。插入 x 时从最高位往下看：已有主元就异或消掉这一位；遇到空主元就保存剩余数；消成 0 表示它已能由已有数表示。替换只改变生成方式，不改变全部可表示的异或值。\n\n| 操作 | 含义与前提 |\n| --- | --- |\n| `insert(x)` | 加入一个数；返回是否增加独立方向，插入 0 或重复信息不会增加 rank。 |\n| `contains(x)` | 沿同样的主元消元，最终为 0 才可表示。 |\n| `max_xor(seed) / min_xor(seed)` | 从高位向低位尝试改善答案；更低主元不再改变已经决定的高位。seed 默认是 0，允许空子集。 |\n| `merge(other)` | 把另一份基的主元插入当前基；这是生成空间的合并，不是支持删除的集合。 |\n| `kth(k)` | 不同异或结果排序后第 k 个，从 0 开始，包含 0。先清除其它主元位，才能把编号的二进制对应到排序。 |\n| `min_nonzero()` | 返回最小非零可表示值；只有 0 可表示时返回空值。 |\n\n全程 uint64_t，覆盖第 63 位；插入/表示性/最值 O(64)，合并/第 k 小 O(64²)，空间 O(64)。rank=r 时有 2^r 个不同结果；原输入 n 项时每个可达结果有 2^(n-r) 组下标方案。非空异或为 0 当且仅当 n>r。不能把“不同结果数”当作“方案数”。\n\n### 用一个小例排错\n\n只把原数从大到小各尝试一次不成立。[12,10,9] 会先取 12 并拒绝 10、9，得到 12；真正最大值是 12 XOR 10 XOR 9=15。先消元后再贪心。\n\n### 为什么这些操作成立\n\n先看二进制，并把最高位对齐：\n\n| 当前原数 | 二进制 | 处理 |\n| --- | --- | --- |\n| 6 | 110 | 第 2 位还没有主元，保存 p[2]=6 |\n| 5 | 101 | 与 110 异或得到 011，保存 p[1]=3 |\n| 3 | 011 | 与 p[1] 异或得到 000，不新增方向 |\n\n为什么消元不丢信息？设已有主元为 b，把新数 x 换成 x XOR b。新数能由 x 与 b 产生，原数也能由新数与 b 还原，因此两组能产生的全部异或值完全相同。消成 0 时，这个方向已经包含在旧集合里。\n\n为什么这些主元彼此独立？任选非空的一组主元，看其中最高的主元位。只有这一行在该位为 1，其它行的最高位更低，无法抵消它。因此非空主元组合不可能为 0；这也解释了从高位开始的查询为什么不会被低位破坏。",
       "learningPath": "linear-basis"
+    },
+    {
+      "id": "builtin:fenwick-range",
+      "title": "双树状数组：区间加与区间和",
+      "category": "数据结构",
+      "summary": "把一次区间增量拆成两个差分边界，再维护差分与位置加权差分。",
+      "tags": [
+        "树状数组",
+        "差分",
+        "区间和"
+      ],
+      "language": "cpp17",
+      "builtin": true,
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n// 外部下标从 0 开始，所有区间都是 [l,r)。中间运算与答案须能放入 long long。\nstruct RangeFenwick {\n    int n; vector<long long> b1,b2;\n    explicit RangeFenwick(const vector<long long>& a): n((int)a.size()),b1(n+1),b2(n+1) {\n        for(int i=0;i<n;++i) add_range(i,i+1,a[i]);\n    }\n    void boundary(int index,long long delta) {\n        // 外部 index=n 是右边界哨兵，不对应数组项，循环自然不进入。\n        for(int p=index+1;p<=n;p+=p&-p) { b1[p]+=delta; b2[p]+=delta*index; }\n    }\n    void add_range(int l,int r,long long delta) {\n        assert(0<=l && l<=r && r<=n);\n        if(l==r)return;\n        boundary(l,delta); boundary(r,-delta);\n    }\n    long long prefix_sum(int end) const {\n        assert(0<=end && end<=n);\n        long long sum_d=0,sum_weighted_d=0;\n        for(int p=end;p>0;p-=p&-p) { sum_d+=b1[p]; sum_weighted_d+=b2[p]; }\n        return end*sum_d-sum_weighted_d;\n    }\n    long long range_sum(int l,int r) const {\n        assert(0<=l && l<=r && r<=n);\n        return prefix_sum(r)-prefix_sum(l);\n    }\n};\n",
+      "contestCode": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\nstruct RangeFenwick {\n    int n; vector<long long> b1,b2;\n    explicit RangeFenwick(const vector<long long>& a): n((int)a.size()),b1(n+1),b2(n+1) {\n        for(int i=0;i<n;++i) add_range(i,i+1,a[i]);\n    }\n    void boundary(int index,long long delta) {\n        for(int p=index+1;p<=n;p+=p&-p) { b1[p]+=delta; b2[p]+=delta*index; }\n    }\n    void add_range(int l,int r,long long delta) {\n        assert(0<=l && l<=r && r<=n);\n        if(l==r)return;\n        boundary(l,delta); boundary(r,-delta);\n    }\n    long long prefix_sum(int end) const {\n        assert(0<=end && end<=n);\n        long long sum_d=0,sum_weighted_d=0;\n        for(int p=end;p>0;p-=p&-p) { sum_d+=b1[p]; sum_weighted_d+=b2[p]; }\n        return end*sum_d-sum_weighted_d;\n    }\n    long long range_sum(int l,int r) const {\n        assert(0<=l && l<=r && r<=n);\n        return prefix_sum(r)-prefix_sum(l);\n    }\n};\n",
+      "example": "int main(){vector<long long>a={1,2,3,4};RangeFenwick f(a);f.add_range(1,3,5);assert(f.range_sum(1,4)==19);f.add_range(4,4,99);f.add_range(0,4,-3);a={-2,4,5,1};assert(f.prefix_sum(0)==0);assert(f.prefix_sum(4)==8);RangeFenwick empty({});assert(empty.range_sum(0,0)==0);mt19937 gen(7);for(int t=0;t<1000;t++){int l=gen()%5,r=gen()%5;if(l>r)swap(l,r);long long d=(int)(gen()%21)-10;f.add_range(l,r,d);for(int i=l;i<r;i++)a[i]+=d;for(int x=0;x<=4;x++)for(int y=x;y<=4;y++)assert(f.range_sum(x,y)==accumulate(a.begin()+x,a.begin()+y,0LL));}}\n",
+      "contestExample": "int main(){vector<long long>a={1,2,3,4};RangeFenwick f(a);f.add_range(1,3,5);assert(f.range_sum(1,4)==19);f.add_range(4,4,99);f.add_range(0,4,-3);a={-2,4,5,1};assert(f.prefix_sum(0)==0);assert(f.prefix_sum(4)==8);RangeFenwick empty({});assert(empty.range_sum(0,0)==0);mt19937 gen(7);for(int t=0;t<1000;t++){int l=gen()%5,r=gen()%5;if(l>r)swap(l,r);long long d=(int)(gen()%21)-10;f.add_range(l,r,d);for(int i=l;i<r;i++)a[i]+=d;for(int x=0;x<=4;x++)for(int y=x;y<=4;y++)assert(f.range_sum(x,y)==accumulate(a.begin()+x,a.begin()+y,0LL));}}\n",
+      "notes": "外部从 0 开始，区间 [l,r)；允许负增量；所有中间量须适合 long long。",
+      "contestNotes": "初始化 O(n log n)，区间加和区间和 O(log n)，空间 O(n)。",
+      "explanation": "先看一次修改：数组 [1,2,3,4] 的 [1,3) 都加 5，结果是 [1,7,8,4]。若把差分记为 d，只有 d[1] 加 5、d[3] 减 5；区间内部相邻两项同时改变，差不变。\n\n单棵树状数组维护差分后，查询差分前缀只得到一个数组项，不能直接得到一段数组之和。求前 k 项总和时，外部位置 i 的 d[i] 会被计入 k−i 次，所以答案是 k×Σd[i]−Σi×d[i]，求和范围均为 i<k。这就是两棵树分别保存差分和加权差分的原因。k=0 时两个求和都是空和，答案为 0。\n\n可修改的是初始数组、左闭右开区间和有正有负的增量。不能直接把“区间赋值”替换成这两个边界修改：赋值的变化量依赖旧数组。所有乘法、中间块和及最终答案都必须落在 long long 范围；更大数据应一起改为 __int128。若要找第 k 小，还须另证频次非负，不能沿用允许负数的本模板条件。\n\n外部下标 0 合法，boundary 内先加 1，避免 lowbit(0) 造成死循环；右边界 n 是哨兵，不入树。空区间直接返回；初始化 O(n log n)，修改与查询 O(log n)，额外空间 O(n)。\n\n练习迁移：洛谷 P3368 只需区间加、单点查，单棵差分树已足够；P3372 还要查询区间和，才能用这里的两棵树。请先核对当前题面的操作含义，再决定使用哪一版。对应的知识参照是 [OI Wiki 树状数组](https://oi-wiki.org/ds/binary-indexed-tree/)，可在原有树状数组实验中切换“区间加与区间和”，检查每个边界和查询读取的块。\n",
+      "learningPath": "fenwick",
+      "practiceIds": []
     }
   ],
   "edition": 2

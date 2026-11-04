@@ -36,7 +36,7 @@ def _request(training, method, path, value=None, *, expected_owner=None):
         raise ServiceError(502,'账号服务回执无效')
     return result
 
-def _grant_pending(training):
+def _grant_pending(training, only=None):
     """Committed claims form a durable outbox. A lost response is safe to replay.
 
     This does not trust posted UI completion flags, or award historical tasks.
@@ -44,18 +44,23 @@ def _grant_pending(training):
     """
     owner=training._ranking_profile()['user_id']
     with training.lock:
-        records=[dict(row) for row in training.connection.execute("SELECT key,value FROM account_preferences p WHERE key LIKE 'sticker-eligible:%' AND NOT EXISTS(SELECT 1 FROM account_preferences done WHERE done.key='sticker-grant:'||substr(p.key,18)) ORDER BY key LIMIT 100")]
+        query="SELECT key,value FROM account_preferences p WHERE key LIKE 'sticker-eligible:%' AND NOT EXISTS(SELECT 1 FROM account_preferences done WHERE done.key='sticker-grant:'||substr(p.key,18))"
+        records=[dict(row) for row in training.connection.execute(query+(" AND p.key=?" if only is not None else '')+" ORDER BY key LIMIT 100",('sticker-eligible:'+only,) if only is not None else ())]
+    inventory=None
     for row in records:
+        if only is not None and row['key']!='sticker-eligible:'+only:continue
         suffix=row['key'][len('sticker-eligible:'):]
         day,task_id=suffix[:10],suffix[11:]
         marker='sticker-grant:'+suffix
         task=json.loads(row['value'])
         identity=str(uuid.UUID(hashlib.sha256((owner+'\0'+marker).encode()).hexdigest()[:32],version=4))
-        _request(training,'POST','/v1/stickers/grant',{'requestId':identity,'day':day,'taskId':task_id,'xp':task.get('stickerXp',task['xp']),'minDifficulty':task.get('minDifficulty',0),**({'rewardSlot':task['stickerSlot']} if task.get('stickerSlot') else {})},expected_owner=owner)
+        delivered=_request(training,'POST','/v1/stickers/grant',{'requestId':identity,'day':day,'taskId':task_id,'xp':task.get('stickerXp',task['xp']),'minDifficulty':task.get('minDifficulty',0),**({'rewardSlot':task['stickerSlot']} if task.get('stickerSlot') else {})},expected_owner=owner)
         with training.lock,training._write() as db:
             if training._ranking_profile()['user_id']!=owner:
                 raise ServiceError(409,'账号已切换')
             db.execute('INSERT INTO account_preferences VALUES(?,?,?) ON CONFLICT(key) DO NOTHING',(marker,'true',iso(training._now())))
+        inventory=delivered.get('inventory') or inventory
+    return inventory
 
 def stickers(training,kind=None,value=None):
     owner=training._ranking_profile()['user_id']
@@ -109,3 +114,9 @@ def duel(training,kind=None,value=None):
     from fun_moments import confirmed_gameplay
     confirmed_gameplay(training,result)
     return result
+
+
+def claimed_pack(training, day, identity):
+    owner=training._ranking_profile()['user_id']
+    inventory=_grant_pending(training, only=day+':'+identity)
+    return inventory or _request(training,'GET','/v1/stickers',expected_owner=owner)

@@ -145,6 +145,14 @@ def assemble(args):
             raise RuntimeError('Refusing to package a personal database')
         if db.execute('PRAGMA integrity_check').fetchone()[0] != 'ok' or db.execute('PRAGMA foreign_key_check').fetchall():
             raise RuntimeError('Invalid bundled SQLite library')
+        remote=list(db.execute('SELECT sha256 FROM remote_statement_assets')) if 'remote_statement_assets' in tables else []
+        if remote:
+            proof=getattr(args,'verified_public_assets',None)
+            if not proof:raise RuntimeError('Slim libraries require --verified-public-assets after server resource validation')
+            receipt=json.loads(Path(proof).read_text('utf8'))
+            with seed.open('rb') as stream:seed_sha=hashlib.file_digest(stream,'sha256').hexdigest()
+            if receipt.get('schema')!=1 or receipt.get('librarySha256')!=seed_sha or set(receipt.get('verifiedSha256',[]))!={row[0] for row in remote}:
+                raise RuntimeError('Public resource verification does not match this exact slim library')
         problems = db.execute('SELECT COUNT(*) FROM problems').fetchone()[0]
         solutions = db.execute('SELECT COUNT(*) FROM solutions').fetchone()[0]
         if problems < solutions or solutions < 607:
@@ -256,6 +264,7 @@ def main():
     parser.add_argument('--formatters-source', type=Path)
     parser.add_argument('--frontend-dist',type=Path,help='Verified frontend build for this same source commit; existing builds are retained')
     parser.add_argument('--library-seed',type=Path,help='Verified public SQLite seed rebuilt from this same source; never a personal database')
+    parser.add_argument('--verified-public-assets',type=Path,help='Successful remote-resource verification receipt for this exact slim SQLite seed')
     parser.add_argument('--skip-archive',action='store_true',help='Prepare the normal installer/delta inputs without an additional portable ZIP')
     parser.add_argument('--skip-portable',action='store_true',help='Assemble the verified folder without a duplicate portable ZIP')
     parser.add_argument('--inno', type=Path)

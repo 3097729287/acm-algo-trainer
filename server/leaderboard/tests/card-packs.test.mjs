@@ -23,7 +23,8 @@ test('pack quantities, exact roll weights and higher rarity outcomes are defined
   assert.deepEqual(counts,box.probabilities);assert(counts.legendary>0);assert.equal(rollRarity(box.probabilities,9999),'legendary');
   assert.equal(box.guarantee,rarity==='common'?null:rarity);
  }
- for(let level=5;level<=100;level++){const box=levelBox(level);assert.equal(box.rarity,'legendary');assert.equal(box.quantity,6);}
+ const early=['rare','epic','rare','epic','rare','epic','rare','epic','rare','legendary','rare','epic','rare','rare','legendary','rare','epic','rare','rare','legendary'];
+ for(let level=1;level<=100;level++){const box=levelBox(level),rarity=level<=20?early[level-1]:level%2?'epic':'legendary';assert.equal(box.rarity,rarity);assert.equal(box.quantity,REWARDS.cardPacks[rarity].quantity);}
  assert.equal(REWARDS.dailyPacks.maxPerDay,3);assert.equal(REWARDS.dailyPacks.probabilities.legendary,10);
 });
 test('daily claims create unopened packs, cap all requests at three per owner/day and remain retry safe',async()=>{
@@ -44,7 +45,7 @@ test('daily claims create unopened packs, cap all requests at three per owner/da
 });
 test('five packs open atomically, keep every guarantee and a lost-response retry never draws again',async()=>{
  const f=await startFixture({now});try{
-  const a=await client(f,'pack_batch_a'),b=await client(f,'pack_batch_b');await a.level(13);await post(a,'/v1/stickers/levels',{level:13});
+  const a=await client(f,'pack_batch_a'),b=await client(f,'pack_batch_b');await a.level(24);await post(a,'/v1/stickers/levels',{level:24});
   const request={requestId:randomUUID(),rarity:'legendary',count:5};
   const responses=await Promise.all(Array.from({length:8},()=>a.send('/v1/stickers/open-packs',request)));
   assert(responses.every(value=>value.status===200));assert(responses.every(value=>value.value.opening.drops.length===30));
@@ -62,7 +63,7 @@ test('five packs open atomically, keep every guarantee and a lost-response retry
 });
 test('all pack qualities enforce their floor and insufficient inventory leaves packs unopened',async()=>{
  const f=await startFixture({now});try{
-  const a=await client(f,'pack_quality_a');await a.level(5);await post(a,'/v1/stickers/levels',{level:5});
+  const a=await client(f,'pack_quality_a');await a.level(10);await post(a,'/v1/stickers/levels',{level:10});
   const [rows]=await f.STORE.gameplay.db.execute('SELECT payload FROM gameplay_accounts WHERE user_id=?',[a.id]);const saved=JSON.parse(rows[0].payload);
   for(const rarity of ['common','rare','epic']){const box=packBox('fixture:'+rarity,rarity,{kind:'fixture'});saved.boxes[box.id]=box;}
   await f.STORE.gameplay.saveAccount(f.STORE.gameplay.db,a.id,saved);

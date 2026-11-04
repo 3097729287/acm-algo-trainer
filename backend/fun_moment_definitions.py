@@ -1,5 +1,7 @@
 """Fixed identities and rewards for the playful achievement collection."""
 MOMENTS={
+ 'moment-collection-12':dict(name='一本贴纸册',description='通过服务确认的库存拥有 12 种不同贴纸',target=12,xp=0,hidden=False),
+ 'moment-collection-24':dict(name='满页星光',description='通过服务确认的库存拥有 24 种不同贴纸',target=24,xp=0,hidden=False),
  'moment-first-gift':dict(name='礼物来了',description='通过留言赠送一张自己库存中的贴纸',xp=0,hidden=False),
  'moment-gift-five':dict(name='五湖四海',description='给 5 位不同的训练者赠送贴纸',target=5,xp=35,hidden=False),
  'moment-gift-circle':dict(name='星际邮局',description='给 10 位不同的训练者赠送贴纸',target=10,xp=0,hidden=False),

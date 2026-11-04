@@ -14,7 +14,9 @@ try{
  await page.goto(`http://127.0.0.1:${server.httpServer.address().port}/tests/workbench-fixture.html`);await page.locator('.cm-content').waitFor();
  await show('P',{title:'Polyline',currentSourceMarkdown:original,statementLanguage:'zh',images:{'https://img.atcoder.jp/fixture.png':embedded},translation:{kind:'bundled',targetLanguage:'zh-CN',markdown:chinese}});
  const toggle=page.getByRole('group',{name:'题面语言'}).getByRole('button');
- await page.getByText('图中的红点符合条件。',{exact:true}).waitFor();
+ await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();
+ assert.equal(await calls('P'),0,'An English original remains the default even with bundled Chinese');
+ await toggle.click();await page.getByText('图中的红点符合条件。',{exact:true}).waitFor();
  assert.equal(await toggle.innerText(),'中');assert.equal(await toggle.getAttribute('aria-label'),'中文');
  assert.equal(await calls('P'),0,'Prepared Chinese is the offline default without provider calls');
  await page.waitForFunction(()=>{const image=document.querySelector('.wb-statement img');return image?.complete&&image.naturalWidth===360;});
@@ -23,15 +25,16 @@ try{
  assert.equal(await page.locator('.wb-statement img').count(),1);
  await toggle.click();await page.getByText('图中的红点符合条件。',{exact:true}).waitFor();
  await show('Q',{autoTranslate:false});
+ await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();assert.equal(await calls('Q'),0);await toggle.click();
  await page.waitForFunction(()=>document.querySelector('.wb-statement')?.textContent.includes('Q 的中文题面'));
- assert.equal(await calls('Q'),1,'All English originals translate by default, including older false autoTranslate flags');
+ assert.equal(await calls('Q'),1,'A requested Chinese translation uses the existing provider');
  await page.evaluate(()=>window.workbenchFixture.translationDelay=600);
- await show('R');await page.getByRole('button',{name:'翻译中…',exact:true}).waitFor();
+ await show('R');await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();await toggle.click();await page.getByRole('button',{name:'翻译中…',exact:true}).waitFor();
  await toggle.click();await page.waitForTimeout(800);
  assert.equal(await toggle.innerText(),'英');assert.match(await page.locator('.wb-statement').innerText(),/The red points/,'Late translation cannot override a manual original choice');
  await toggle.click();await page.waitForFunction(()=>document.querySelector('.wb-statement')?.textContent.includes('R 的中文题面'));
  assert.equal(await calls('R'),1,'A completed late reply can be reused without another provider call');
- await show('S');await page.getByRole('button',{name:'翻译中…',exact:true}).waitFor();
+ await show('S');await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();await toggle.click();await page.getByRole('button',{name:'翻译中…',exact:true}).waitFor();
  await page.evaluate(()=>window.workbenchFixture.changeProblem('A'));await page.waitForTimeout(850);
  assert.doesNotMatch(await page.locator('.wb-statement').innerText(),/S 的中文题面/,'Late replies stay with their original problem');
  await show('SOURCE_UPDATE',{markdown:original+'\n\nOLD SOURCE.',statementLoading:true});
@@ -50,14 +53,15 @@ try{
  await show('NO_TRANSLATION',{translationAvailable:false});await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();
  assert.equal(await calls('NO_TRANSLATION'),0,'Unsupported original formats remain readable without failed automatic requests');
  await page.evaluate(()=>{const f=window.workbenchFixture;f.translationDelay=10;f.translationError='Fixture provider unavailable';});
- await show('FAIL');await page.getByRole('alert').filter({hasText:'Fixture provider unavailable'}).waitFor();
+ await show('FAIL');await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();await toggle.click();await page.getByRole('alert').filter({hasText:'Fixture provider unavailable'}).waitFor();
  await page.waitForTimeout(250);assert.equal(await calls('FAIL'),1,'A failed automatic attempt does not loop');
  assert.match(await page.locator('.wb-statement').innerText(),/The red points/);
  await page.evaluate(()=>window.workbenchFixture.translationError='');await page.getByRole('button',{name:'重试',exact:true}).click();
  await page.waitForFunction(()=>document.querySelector('.wb-statement')?.textContent.includes('FAIL 的中文题面'));assert.equal(await calls('FAIL'),2);
  await show('DEFAULT_ZH',{translation:{kind:'bundled',targetLanguage:'zh-CN',defaultLanguage:'zh-CN',markdown:chinese}});
+ await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();await toggle.click();
  await page.getByText('图中的红点符合条件。',{exact:true}).waitFor();assert.equal(await calls('DEFAULT_ZH'),0);
  await toggle.click();await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();
  await page.waitForTimeout(100);assert.equal(await toggle.innerText(),'英','A manual choice stays selected on subsequent renders');
- assert.deepEqual(errors,[]);console.log('PASS: Chinese by default, cached diagrams offline, auto-once and retry, Chinese originals, unsupported formats, manual choice and late-reply isolation.');
+ assert.deepEqual(errors,[]);console.log('PASS: English by default, manual Chinese, cached diagrams offline, auto-once and retry, Chinese originals, unsupported formats, manual choice and late-reply isolation.');
 }finally{await browser.close();await server.close();}

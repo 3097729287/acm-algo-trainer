@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
-import {Download,LoaderCircle} from 'lucide-react';
+import {Download,LoaderCircle,RefreshCw} from 'lucide-react';
 import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import './StatementPdf.css';
 import {useStudyPane} from '@/lib/StudyPane.jsx';
@@ -47,6 +47,7 @@ export default function StatementPdf({pdf,title,fontSize=16}){
   const element=useRef(null),initialFont=useRef(fontSize);
   const [width,setWidth]=useState(0),[content,setContent]=useState(null),[source,setSource]=useState(''),[error,setError]=useState(false);
   const data=pdf?.data||'';
+  const [attempt,setAttempt]=useState(0);
   // Rapid tab switches reuse the document. An idle hidden tab releases its
   // PDF worker, decoded document and Blob; drafts and reading position belong
   // to the surrounding study tab and survive this resource suspension.
@@ -60,13 +61,15 @@ export default function StatementPdf({pdf,title,fontSize=16}){
     observer.observe(element.current);return()=>observer.disconnect();
   },[]);
   useEffect(()=>{
-    let active=true,task,url;
+    let active=true,task,url;const controller=new AbortController();
     setContent(null);setSource('');setError(false);
     if(!awake)return;
     (async()=>{
       try{
-        if(!/^data:application\/pdf;base64,[a-z\d+/=\s]+$/i.test(data))throw new Error('Invalid PDF');
-        const bytes=Uint8Array.from(atob(data.split(',')[1]),char=>char.charCodeAt(0));
+        let bytes;
+        if(/^\/api\/library-assets\/[a-f0-9]{64}$/.test(data)){const response=await fetch(data,{signal:controller.signal,cache:'force-cache'});if(!response.ok)throw new Error('PDF download failed');bytes=new Uint8Array(await response.arrayBuffer());}
+        else {if(!/^data:application\/pdf;base64,[a-z\d+/=\s]+$/i.test(data))throw new Error('Invalid PDF');bytes=Uint8Array.from(atob(data.split(',')[1]),char=>char.charCodeAt(0));}
+        if(!active)return;
         url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
         if(active)setSource(url);
         const pdfjs=await import('pdfjs-dist/build/pdf.mjs');if(!active)return;
@@ -75,16 +78,16 @@ export default function StatementPdf({pdf,title,fontSize=16}){
         task=pdfjs.getDocument({data:bytes,cMapUrl:base+'cmaps/',standardFontDataUrl:base+'standard_fonts/',
           wasmUrl:base+'wasm/',iccUrl:base+'iccs/',disableWorkerRendering:true,canvasMaxAreaInBytes:32_000_000,enableXfa:false});
         const document=await task.promise;if(!active)return;
-        if(!document.numPages||document.numPages>32)throw new Error('Unsupported page count');
+        if(!document.numPages||document.numPages>256)throw new Error('Unsupported page count');
         const first=await document.getPage(1),viewport=first.getViewport({scale:1});
         if(active)setContent({document,pdfjs,count:document.numPages,aspect:viewport.height/viewport.width});
       }catch{if(active)setError(true);}
     })();
-    return()=>{active=false;task?.destroy().catch(()=>{});if(url)URL.revokeObjectURL(url);};
-  },[data,awake]);
+    return()=>{active=false;controller.abort();task?.destroy().catch(()=>{});if(url)URL.revokeObjectURL(url);};
+  },[data,awake,attempt]);
   return <div ref={element} className="wb-statement-pdf" role="document" aria-label={title||'题面内容'}>
     {source&&<div className="wb-pdf-actions"><a href={source} download={pdf.fileName||'statement.pdf'} className="wb-icon-button" title="下载 PDF" aria-label="下载 PDF"><Download size={16}/></a></div>}
-    {error?<div className="wb-empty" role="alert">题面暂时未能加载</div>:!content?<div className="wb-empty" role="status"><LoaderCircle size={22} className="wb-spinner"/>正在载入题面</div>:
+    {error?<div className="wb-empty" role="alert">题面暂时未能加载<button type="button" className="wb-icon-button" aria-label="重试 PDF" title="重试 PDF" onClick={()=>setAttempt(value=>value+1)}><RefreshCw size={17}/></button></div>:!content?<div className="wb-empty" role="status"><LoaderCircle size={22} className="wb-spinner"/>正在载入题面</div>:
       width>0&&Array.from({length:content.count},(_,index)=><PdfPage key={index} {...content} number={index+1} total={content.count} width={width} zoom={fontSize/initialFont.current} title={title} onError={setError} active={active}/>)}
   </div>;
 }

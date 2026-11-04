@@ -18,7 +18,7 @@ export function resolveReadingImage(src, images = {}) {
   try { variants.push(decodeURI(src), decodeURIComponent(src)); } catch { /* Invalid URL stays unresolved. */ }
   const mapped = variants.find(key => Object.hasOwn(images, key));
   const value = mapped ? images[mapped] : src;
-  return imageData.test(value) || /^https?:\/\//i.test(value) ? value : '';
+  return imageData.test(value) || /^https?:\/\//i.test(value) || /^\/api\/library-assets\/[a-f0-9]{64}$/.test(value) ? value : '';
 }
 
 export default function ReadingImage({ src, alt = '', title, images = {} }) {

@@ -1,3 +1,4 @@
+import usePresence,{currentActivity} from '@/lib/usePresence.js';
 import {createPortal} from 'react-dom';
 import LearningBrowser from './LearningBrowser.jsx';
 import ReaderFrame from '@/components/ReaderFrame.jsx';
@@ -616,8 +617,9 @@ export default function App() {
   const restoreList = useRef(null);
   const practicePrefetch = useRef(null);
   const learningBrowserRef=useRef(null);
+  const [studyActivity,setStudyActivity]=useState(null);
   const [learningBrowserActive,setLearningBrowserActive]=useState(false),[learningTabCount,setLearningTabCount]=useState(0);
-  const learningBrowserChanged=useCallback((open,count)=>{setLearningBrowserActive(open);setLearningTabCount(count);},[]);
+  const learningBrowserChanged=useCallback((open,count,kind)=>{setLearningBrowserActive(open);setLearningTabCount(count);setStudyActivity(kind||null);},[]);
   const openLearning=useCallback(tab=>learningBrowserRef.current?.open(tab),[]);
   const labVisit = useRef({leftAt:null,scrollTop:0});
   const templatesVisit=useRef({});
@@ -681,6 +683,7 @@ export default function App() {
   useEffect(()=>{if(thought.state?.status==='countdown')setPage('duel');},[thought.state?.status,thought.state?.match?.id]);
   const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now, account?.userId ?? null);
   const social = useSocial(api, Boolean(data&&account?.userId),account?.userId||'');
+  const presence=usePresence(api,data&&account?.userId,currentActivity({page,practice:practiceId,studyKind:learningBrowserActive?studyActivity:null,contest:workspace?.activeContest,duel:duel?.state,thought:thought?.state}));
   const [messagesReading,setMessagesReading]=useState(false);
   useUsage(api,data&&account?.userId,Boolean((!dialog||['lecture','solution'].includes(dialog))&&(learningBrowserActive||practiceId||readerId||page==='mock'&&mockSlot&&workspace.activeContest||['lectures','paths','templates','wiki'].includes(page)||page==='settings'&&settingsTab==='accounts')));
   usePlatformLogins(api,Boolean(data&&account?.userId));
@@ -2092,7 +2095,7 @@ export default function App() {
       </aside>
       <main className="main-area">
         <header className={"topbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>
-          <div className="topbar-leading"><div id="tb-page-location" className="page-location-slot"/>
+          <div className="topbar-leading"><span className="topbar-online" role="status" data-online={presence?.available||false} aria-label="在线人数">在线 · {presence?.available?presence.count:'—'}人</span><div id="tb-page-location" className="page-location-slot"/>
           <div id="tb-page-search" className="topbar-search-slot"/></div>
           {!practiceId&&!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} contentReady={Boolean(data&&!loading)} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} onActionsChange={updateRecommendationItems} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
           <div className="topbar-actions">{learningTabCount>0&&<button type="button" className="icon-button" aria-label="返回学习标签页" title="返回学习标签页" onClick={()=>learningBrowserRef.current?.resume()}><BookOpen size={18}/></button>}
@@ -2217,7 +2220,7 @@ export default function App() {
                 onError={notice}
               />
             )}{!mockPreview&&<MockHistory embedded query={mockHistoryQuery} contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/>}</>}</>}</div>
-          ) : page === "wiki" ? (<WikiPage api={api} rows={rows} onOpenProblem={openPractice} onOpenArticle={item=>openLearning({kind:'wiki',...item})}/>) : page === "duel" ? (<DuelPage duel={duel} thought={thought} rows={rows} onTrain={openPractice} account={account} profile={profileSnapshot?.profile} growth={growth} avatar={prefs.avatarData}/>) : page === "records" ? (
+          ) : page === "wiki" ? (<WikiPage api={api} rows={rows} onOpenProblem={openPractice} onOpenArticle={item=>openLearning({kind:'wiki',...item})}/>) : page === "duel" ? (<DuelPage api={api} duel={duel} thought={thought} rows={rows} onTrain={openPractice} account={account} profile={profileSnapshot?.profile} growth={growth} avatar={prefs.avatarData}/>) : page === "records" ? (
             <SubmissionRecords api={api} revision={workspace.summary?.attempts} scope={`${account?.userId||'local'}:${workspace.activeContest?.id||''}`} rows={rows} onOpenProblem={openPractice} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
             <CompetitionPage
@@ -2273,7 +2276,7 @@ export default function App() {
           ) : page === "lectures" ? (
             <LecturesPanel onOpenLecture={id=>openLearning({kind:'lecture',id})} prefs={prefs} setPrefs={setPrefs} api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onFullscreenChange={setLectureFull} onTrain={openPractice} onOpenTemplate={id=>{templatesVisit.current.selected=id;setLectureId(null);setPage('templates');}} onError={(message) => notice(message, "error")} />
           ) : page === "rankings" ? (
-            <RankingsPage socialState={social} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
+            <RankingsPage presence={presence} socialState={social} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
           ) : (
             settingsPage()
           )}
@@ -2297,7 +2300,7 @@ export default function App() {
         </div>
       ),document.body)}
       {dialog === 'accounts'&&<Modal opacityKey="accounts" title="账号与身份" className="compact-account-modal" onClose={()=>setDialog(null)}><AccountPanel api={api} account={account} profileSnapshot={profileSnapshot} hub={hub} onProfileChanged={profileChanged} onHubChanged={setHub}/></Modal>}
-      {dialog === "daily-tasks" && <Modal opacityKey="daily-tasks" title="每日任务" onClose={() => {setDialog(null);backgroundDialog.current=null;clearTimeout(dailyRefreshTimer.current);dailyRefreshTimer.current=setTimeout(()=>void refreshBackground(true),300);}} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { dailyClaimPending.current=true;backgroundSeq.current++;try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => applyDailyTaskReward(previous,result)); window.dispatchEvent(new Event("tb:sticker-rewards")); notice(result.rewardPack?"卡包已领取":"经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } finally {dailyClaimPending.current=false;} }} /></Modal>}
+      {dialog === "daily-tasks" && <Modal opacityKey="daily-tasks" title="每日任务" onClose={() => {setDialog(null);backgroundDialog.current=null;clearTimeout(dailyRefreshTimer.current);dailyRefreshTimer.current=setTimeout(()=>void refreshBackground(true),300);}} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { const claimOwner=window.__tbAccountUserId;dailyClaimPending.current=true;backgroundSeq.current++;try { const result = await api("daily-tasks/claim", { id, date }); if(claimOwner!==window.__tbAccountUserId)return;backgroundSeq.current++; setInsights(previous => applyDailyTaskReward(previous,result)); window.dispatchEvent(new CustomEvent("tb:sticker-rewards",{detail:{inventory:result.inventory}})); notice(result.rewardSyncError?result.rewardSyncError:result.rewardPack?"卡包已领取":"经验已领取", result.rewardSyncError?"error":"success"); } catch (issue) { notice(issue.message, "error"); throw issue; } finally {dailyClaimPending.current=false;} }} /></Modal>}
       {dialog === 'contest-calendar' && <Modal opacityKey="contest-calendar" title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onOriginal={contest=>api('browser-preparation',{action:'open-contest',url:contest.url})} onOpen={featureAvailable('competitions')?openCalendarContest:undefined} onStart={featureAvailable('mock')?async(contest,{isCurrent=()=>true}={})=>{const owner=account?.userId;const result=await api('contests/start-calendar',{id:contest.id});if(!isCurrent()||calendarDataOwner.current!==owner||window.__tbAccountUserId!==undefined&&window.__tbAccountUserId!==owner)return;await calendarDataReader.refresh(owner,{isCurrent});if(!isCurrent()||calendarDataOwner.current!==owner)return;setDialog(null);startedMock(result);}:undefined}/></Modal>}
       {dialog === 'contest-reminder' && calendar.reminder && <Modal title="比赛即将开始" onClose={()=>{calendar.dismissReminder();setDialog(previous=>previous==='contest-reminder'?null:previous);}} footer={<button type="button" className="primary" onClick={()=>{calendar.dismissReminder();setDialog('contest-calendar');}}>查看比赛</button>}><ContestReminder contest={calendar.reminder} now={calendar.now} onShown={calendar.markReminderShown}/></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}

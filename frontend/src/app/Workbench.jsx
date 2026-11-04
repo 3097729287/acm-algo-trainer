@@ -409,7 +409,8 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         const prepared=(answer.translation?.targetLanguage==='zh-CN'||answer.translation?.kind==='site') && answer.translation.markdown ? answer.translation : null;
         record.translatedSource=prepared?statementSource(answer):null;
         setTranslation(prepared);
-        setLanguage(prepared&&!originalIsChinese(answer)?'zh':'original');
+        record.languageChoice='original';
+        setLanguage('original');
         const history = (answer.submissions || []).slice().sort((a, b) => String(b.submittedAt || '').localeCompare(String(a.submittedAt || '')));
         setSubmissions(history);
         setResultId(history[0]?.id || null);
@@ -832,7 +833,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     if (!record?.loaded || loading || !problem?.markdown) return;
     const source=statementSource(problem);
     if(record.translatedSource&&record.translatedSource!==source){record.translatedSource=null;setTranslation(null);}
-    if(problem.statementLoading||record.languageChoice==='original')return;
+    if(problem.statementLoading||record.languageChoice!=='zh')return;
     if(originalIsChinese(problem))return;
     const prepared=problem.translation;
     if (prepared?.markdown && (prepared.targetLanguage==='zh-CN'||prepared.kind==='site')) {

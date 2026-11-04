@@ -109,3 +109,5 @@ html .study-browser.study-compact .study-pane :is(.lab-course-header,.template-h
 @media(max-width:760px){.study-pane .lectures-layout.lecture-directory-open>.lectures-list{position:absolute;left:0;top:44px;bottom:0;z-index:4;width:min(340px,86%);height:auto;max-height:none;box-shadow:10px 0 24px #0003}.study-pane .lecture-directory-open>.lectures-detail{width:100%}}
 
 html .study-browser .study-pane .wiki-reader-toolbar>.wiki-return-button{margin-right:auto}
+
+.study-compact .study-wiki:has(.wiki-catalogue) .wiki-page{padding-top:40px}

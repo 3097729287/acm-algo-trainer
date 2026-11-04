@@ -31,7 +31,7 @@ def grant_pending(training):
                 raise ServiceError(409,'账号已切换')
             db.execute('INSERT OR IGNORE INTO account_preferences VALUES(?,?,?)',(marker,'true',iso(training._now())))
     level=training.public_progress().get('level',1)
-    if level>=5:deliver('sticker-levels-v1:'+str(level),'/v1/stickers/levels',{'level':level})
+    if level>=1:deliver('sticker-levels-v4:'+str(level),'/v1/stickers/levels',{'level':level})
     with training.lock:
         claims={row[0] for row in training.connection.execute('SELECT achievement_id FROM achievement_xp_claims')}
     for identity in catalogue()['achievements']:

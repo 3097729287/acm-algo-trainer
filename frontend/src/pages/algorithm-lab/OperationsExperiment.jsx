@@ -1,3 +1,4 @@
+import FenwickRangeExperiment from './FenwickRangeExperiment.jsx';
 import {useStudyState} from '@/lib/StudyPane.jsx';
 import {useMemo,useState} from 'react';
 import {ArrowLeft,ArrowRight,Check,RotateCcw} from 'lucide-react';
@@ -21,6 +22,7 @@ function State({kind,frame:f,values}) {
 }
 
 export default function OperationsExperiment({topic,draft={},update}) {
+ const [variant,setVariant]=useStudyState('OperationsExperiment.variant','point');
  const frames=useMemo(()=>operationTrace(topic.id,topic.values,[...topic.scripts,...(draft.operations||[])]),[topic,draft.operations]);
  const index=Math.min(frames.length-1,Math.max(0,Number(draft.frame)||0)),frame=frames[index];
  const [answer,setAnswer]=useStudyState('OperationsExperiment.answer',draft.answer||''),[checked,setChecked]=useState(false),[operation,setOperation]=useStudyState('OperationsExperiment.operation',topic.scripts[0][0]),[parameters,setParameters]=useStudyState('OperationsExperiment.parameters',''),[error,setError]=useState('');
@@ -43,12 +45,12 @@ export default function OperationsExperiment({topic,draft={},update}) {
  };
  const move=i=>{setChecked(false);update({...draft,frame:i});};
  const final=frames.at(-1),goal=topic.id==='dsu'?final.components:topic.id==='fenwick'||topic.id==='segment-tree'?final.a.reduce((a,b)=>a+b,0):topic.id==='trie'?final.words.length:topic.id==='binary-lifting'?final.target:topic.id==='dinic'?final.flow:final.results.at(-1)[1];
- return <section className="lab-panel operations-experiment" aria-label={`${topic.title}操作实验`}>
+ return <>{topic.id==='fenwick'&&<nav className="operations-variants" aria-label="树状数组实验"><button type="button" aria-pressed={variant!=='range'} onClick={()=>setVariant('point')}>单点加与区间和</button><button type="button" aria-pressed={variant==='range'} onClick={()=>setVariant('range')}>区间加与区间和</button></nav>}{topic.id==='fenwick'&&variant==='range'?<FenwickRangeExperiment draft={draft.rangeVariant} update={rangeVariant=>update({...draft,rangeVariant})}/>:<section className="lab-panel operations-experiment" aria-label={`${topic.title}操作实验`}>
   <div className="lab-panel-title"><h3>逐步执行操作</h3><div className="operations-controls"><Button label="上一步" disabled={!index} onClick={()=>move(index-1)}><ArrowLeft size={17}/></Button><Button label="下一步" disabled={index===frames.length-1} onClick={()=>move(index+1)}><ArrowRight size={17}/></Button><Button label="重置实验" onClick={()=>{update({...draft,frame:0,operations:[]});setError('');setChecked(false);}}><RotateCcw size={17}/></Button></div></div>
   <p>{index===0?'初始状态':frame.log.at(-1)}</p><div className="operations-table"><State kind={topic.id} frame={frame} values={topic.values}/></div>
   <ol aria-label="本例操作序列">{[...topic.scripts,...(draft.operations||[])].map((op,i)=><li key={i}>{op.join(' ')}</li>)}</ol>
   {choices.length>0&&<form className="operations-input" onSubmit={e=>{e.preventDefault();append();}}><label>追加操作<select aria-label="操作类型" value={operation} onChange={e=>setOperation(e.target.value)}>{choices.map(op=><option key={op}>{op}</option>)}</select></label><label>参数<input aria-label="操作参数" value={parameters} onChange={e=>setParameters(e.target.value)}/></label><Button type="submit" label="执行操作"><Check size={17}/></Button></form>}{error&&<p role="alert">{error}</p>}
   <form className="operations-predict" onSubmit={e=>{e.preventDefault();setChecked(true);}}><label>执行完全部操作后，{topic.id==='dsu'?'集合数':topic.id==='fenwick'||topic.id==='segment-tree'?'数组总和':topic.id==='trie'?'词库份数':topic.id==='binary-lifting'?'最后一次跳跃终点':topic.id==='dinic'?'总流量':'最后一个坐标的最小值'}是多少？<input aria-label="预测最终结果" value={answer} onChange={e=>{setAnswer(e.target.value);update({...draft,answer:e.target.value});setChecked(false);}}/></label><Button type="submit" label="核对推演" disabled={!answer.trim()}><Check size={17}/></Button></form>
   {checked&&<Feedback good={answer.trim()===String(goal)}>{answer.trim()===String(goal)?`结果为 ${goal}。用单步状态检查每次变化及查询读取的位置。`:'结果还不一致。逐步执行，并区分修改、查询和查询的返回值。'}</Feedback>}
- </section>;
+ </section>}</>;
 }

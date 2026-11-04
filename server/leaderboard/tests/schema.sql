@@ -104,3 +104,7 @@ CREATE TABLE pk_matches(match_id TEXT PRIMARY KEY,status TEXT NOT NULL,updated_a
 CREATE TABLE pk_members(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id) ON DELETE CASCADE,match_id TEXT NOT NULL REFERENCES pk_matches(match_id));
 CREATE TABLE pk_records(match_id TEXT PRIMARY KEY REFERENCES pk_matches(match_id),player_a TEXT NOT NULL,player_b TEXT NOT NULL,finished_at INTEGER NOT NULL,payload TEXT NOT NULL);
 CREATE TABLE pk_operations(user_id TEXT NOT NULL REFERENCES accounts(user_id) ON DELETE CASCADE,request_id TEXT NOT NULL,request_hash TEXT NOT NULL,PRIMARY KEY(user_id,request_id));
+
+CREATE TABLE IF NOT EXISTS account_presence(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id) ON DELETE CASCADE,token_hash TEXT NOT NULL,activity TEXT NOT NULL,last_seen INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS ranked_duel_ratings(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id) ON DELETE CASCADE,rating INTEGER NOT NULL DEFAULT 1000,games INTEGER NOT NULL DEFAULT 0,wins INTEGER NOT NULL DEFAULT 0,updated_at INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS ranked_duel_records(match_id TEXT PRIMARY KEY REFERENCES duel_matches(match_id),finished_at INTEGER NOT NULL,payload TEXT NOT NULL);

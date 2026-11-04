@@ -5,8 +5,9 @@ import {AccountError} from './accounts.mjs';
 export const REWARDS=JSON.parse(readFileSync(new URL('./sticker-rewards.json',import.meta.url),'utf8'));
 const fail=(code,message)=>{throw new AccountError(code,message);};
 export function levelBox(level){
- if(!Number.isSafeInteger(level)||level<5||level>100)fail(400,'宝箱等级无效');
- return {...packBox('level:'+level,'legendary',{kind:'level',level}),level};
+ if(!Number.isSafeInteger(level)||level<1||level>100)fail(400,'宝箱等级无效');
+ const rarity=level<=20?REWARDS.levelBoxes.raritiesThrough20[level-1]:REWARDS.levelBoxes.after20[(level-21)%2];
+ return {...packBox('level:'+level,rarity,{kind:'level',level}),level};
 }
 export function packBox(id,rarity,source){
  if(!Object.hasOwn(REWARDS.cardPacks,rarity))fail(400,'卡包品质无效');
@@ -42,7 +43,7 @@ export class StickerRewards {
      const [rows]=await db.execute('SELECT payload FROM account_public_progress WHERE user_id=?',[owner]);
      const confirmed=rows.length?JSON.parse(rows[0].payload).level:1;
      if(value.level>confirmed)fail(409,'等级正在同步，请稍后刷新宝箱');
-     for(let level=5;level<=value.level;level++){const old=state.boxes['level:'+level];if(!old||!old.openedAt&&old.policyVersion!==REWARDS.version){const box=levelBox(level);box.grantedAt=old?.grantedAt??now;state.boxes[box.id]=box;state.revision++;}}
+     for(let level=1;level<=value.level;level++){const old=state.boxes['level:'+level];if(!old||!old.openedAt&&old.policyVersion!==REWARDS.version){const box=levelBox(level);box.grantedAt=old?.grantedAt??now;state.boxes[box.id]=box;state.revision++;}}
     }else if(kind==='achievement'){
      const stickerId=Object.hasOwn(REWARDS.achievements,value.achievementId)?REWARDS.achievements[value.achievementId]:null;if(!stickerId)fail(400,'没有对应的成就贴纸');
      if(!state.achievementGrants[value.achievementId]){

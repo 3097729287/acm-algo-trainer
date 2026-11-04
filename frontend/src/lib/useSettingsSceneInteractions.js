@@ -1,4 +1,5 @@
 import {useEffect} from 'react';
+import {attachSceneActions} from './settingsSceneActions.js';
 import {cloudStep,fallStep} from './scenePhysics.js';
 
 export default function useSettingsSceneInteractions(ref,kind){
@@ -58,7 +59,7 @@ export default function useSettingsSceneInteractions(ref,kind){
      const stage=root.getBoundingClientRect(),box=node.getBoundingClientRect();
      drag={pointer:event.pointerId,x:event.clientX,y:event.clientY,left:box.left-stage.left,top:box.top-stage.top,maxX:Math.max(0,stage.width-box.width),maxY:Math.max(0,stage.height-box.height),style:node.getAttribute('style'),lastX:event.clientX,lastY:event.clientY,lastAt:event.timeStamp,vx:0,vy:0};
      body={x:drag.left,y:drag.top,vx:0,vy:0,width:box.width,height:box.height,wind:index%2?-16:20,direction:body?.direction||1};
-     node.style.animation='none';node.style.bottom='auto';node.style.opacity='1';node.style.cursor='grabbing';node.dataset.dragging='true';node.dataset.sceneState='held';paint();node.setPointerCapture(event.pointerId);
+     node.style.animation='none';const model=node.querySelector('.dino-model');if(model){model.style.animation='none';model.style.transform='none';}node.style.bottom='auto';node.style.opacity='1';node.style.cursor='grabbing';node.dataset.dragging='true';node.dataset.sceneState='held';paint();node.setPointerCapture(event.pointerId);
     });
     listen(node,'pointermove',event=>{
      if(!drag||event.pointerId!==drag.pointer)return;stop(event);const dt=Math.max(.008,(event.timeStamp-drag.lastAt)/1000);
@@ -69,28 +70,7 @@ export default function useSettingsSceneInteractions(ref,kind){
     listen(node,'pointerup',release);listen(node,'pointercancel',release);cleanup.push(()=>cancelAnimationFrame(motion));
    }
   }
-  if(kind==='balloon'){
-   const balloon=root.querySelector('.balloon-flight'),head=balloon.querySelector('ellipse');let popCleanup=null;
-   cleanup.push(()=>popCleanup?.());
-   head.style.pointerEvents='all';head.style.cursor='pointer';head.dataset.sceneInteractive='balloon';
-   listen(head,'click',event=>{
-    stop(event);if(balloon.dataset.popped==='true')return;
-    const box=balloon.getBoundingClientRect(),ns='http://www.w3.org/2000/svg',effect=document.createElementNS(ns,'svg');
-    effect.setAttribute('viewBox','0 0 90 150');effect.setAttribute('aria-hidden','true');effect.classList.add('balloon-pop-burst');
-    Object.assign(effect.style,{position:'fixed',left:box.left+'px',top:box.top+'px',width:box.width+'px',height:box.height+'px',overflow:'visible',pointerEvents:'none',zIndex:1500,color:getComputedStyle(root).color});
-    balloon.dataset.popped='true';balloon.style.animationPlayState='paused';balloon.style.visibility='hidden';
-    const rope=document.createElementNS(ns,'g'),string=balloon.querySelector('.balloon-string').cloneNode(true);rope.append(string);effect.append(rope);
-    const pieces=Array.from({length:15},(_,i)=>{const shape=document.createElementNS(ns,'path'),a=i/15*Math.PI*2+(Math.random()-.5)*.4,speed=90+Math.random()*160;shape.setAttribute('d',i%2?'M-4-2Q0-7 5-3L2 4Q-2 2-4-2Z':'M-3-4Q4-3 5 2L-2 5Z');shape.setAttribute('fill','currentColor');shape.setAttribute('stroke','none');effect.append(shape);return {shape,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed-50,spin:(Math.random()-.5)*1000,life:.35+Math.random()*.35};});
-    string.setAttribute('fill','none');string.setAttribute('stroke','currentColor');string.setAttribute('stroke-width','2');document.body.append(effect);
-    let animation=0,elapsed=0,lastTime=performance.now();const scale=90/Math.max(1,box.width);
-    const finish=()=>{if(!popCleanup)return;popCleanup=null;cancelAnimationFrame(animation);effect.remove();balloon.style.visibility='';balloon.style.animation='none';void balloon.getBoundingClientRect();balloon.style.removeProperty('animation');balloon.style.animationDelay='0s';balloon.style.removeProperty('animation-play-state');delete balloon.dataset.popped;};popCleanup=finish;
-    const fall=now=>{elapsed+=Math.min(.05,(now-lastTime)/1000);lastTime=now;const y=.5*900*elapsed*elapsed;
-     rope.setAttribute('transform',`translate(${Math.sin(elapsed*5)*8*scale} ${y*scale}) rotate(${Math.sin(elapsed*7)*Math.min(20,elapsed*10)} 45 105)`);
-     for(const piece of pieces){const t=elapsed;piece.shape.setAttribute('transform',`translate(${45+piece.vx*t*scale} ${42+(piece.vy*t+400*t*t)*scale}) rotate(${piece.spin*t}) scale(${Math.max(.15,Math.abs(Math.cos(t*10))) } 1)`);piece.shape.setAttribute('opacity',String(Math.max(0,1-t/piece.life)));}
-     if(box.top+y>innerHeight+160||reduced()){finish();return;}animation=requestAnimationFrame(fall);
-    };animation=requestAnimationFrame(fall);
-   });
-  }
+  cleanup.push(attachSceneActions(root,kind));
   return()=>{cancelAnimationFrame(frame);timers.forEach(clearTimeout);cleanup.forEach(fn=>fn());};
  },[kind,ref]);
 }

@@ -1,3 +1,4 @@
+import PresenceLabel from '@/components/PresenceLabel.jsx';
 import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
 import usePublicAvatar from '@/lib/usePublicAvatar.js';
 import ProfileBadge from '@/components/ProfileBadge.jsx';
@@ -64,7 +65,7 @@ const periods = [['daily', '每日过题'], ['weekly', '本周过题'], ['total'
 function RankingIdentity({item,self,avatarData,ownGrowth,api}) {
  const sharedAvatar=usePublicAvatar(api,item.userId,self?null:item.avatarHash);
  const progress=item.publicProgress||{},index=rankIndex(progress),growth=self&&ownGrowth?ownGrowth:{level:progress.level,currentLevelXp:progress.currentLevelXp,nextLevelXp:progress.nextLevelXp,ranked:{tier:TIER_NAMES[index],badge:`tier-${index}`,qualified:progress.rankTier!=null,abilityScore:progress.rankScore}};
- return <div className="ranking-identity"><ProfileBadge compact={false} showXp={Number.isFinite(growth.currentLevelXp)&&Number.isFinite(growth.nextLevelXp)} avatar={self?avatarData:sharedAvatar} growth={growth} nickname={item.nickname||item.displayName||'用户'}/><div className="ranking-title-list">{progress.titles?.map(title=><span className="ranking-title-badge" key={title.id}><MedalEmblem size={20} index={titleMedalIndex(title)} variant={title.category||'ac'}/>{title.name}</span>)}</div></div>;
+ return <div className="ranking-identity"><ProfileBadge compact={false} showXp={Number.isFinite(growth.currentLevelXp)&&Number.isFinite(growth.nextLevelXp)} avatar={self?avatarData:sharedAvatar} growth={growth} nickname={item.nickname||item.displayName||'用户'}/><PresenceLabel online={item.online} activity={item.activity}/><div className="ranking-title-list">{progress.titles?.map(title=><span className="ranking-title-badge" key={title.id}><MedalEmblem size={20} index={titleMedalIndex(title)} variant={title.category||'ac'}/>{title.name}</span>)}</div></div>;
 }
 
 function DeleteConfirmation({ target, busy, onCancel, onConfirm }) {
@@ -82,7 +83,7 @@ function DeleteConfirmation({ target, busy, onCancel, onConfirm }) {
   </dialog>;
 }
 
-export default function RankingsPage({ api, onConfigure, onError, avatarData, ownGrowth }) {
+export default function RankingsPage({ api, onConfigure, onError, avatarData, ownGrowth,presence }) {
   const rankingOwner=window.__tbAccountUserId||ownGrowth?.authority?.owner||'local';
   const ownerScope=useRef({api,owner:rankingOwner});
   const [query,setQuery]=useState(''),[adminPassword,setAdminPassword]=useState('');
@@ -118,13 +119,14 @@ export default function RankingsPage({ api, onConfigure, onError, avatarData, ow
     const request = generation.current;
     const timer = setTimeout(() => {
       api('leaderboard?period=' + period).then(value => { if(request===generation.current){setSnapshot(value);rankingCache.set(api,{...rankingCache.get(api),[period]:{date:rankingDate(),value,owner:rankingOwner}});} }).catch(issue => { if (request === generation.current) setError(issue.message); });
-    }, snapshot.status === 'syncing' ? 1000 : 60000);
+    }, snapshot.status === 'syncing' ? 1000 : 25000);
     return () => clearTimeout(timer);
   }, [api, period, snapshot, deleting, rankingOwner]);
   const entries = Array.isArray(snapshot?.entries) ? snapshot.entries.map(item=>{
     // A confirmed local rename is newer than the cached board snapshot. Own
     // avatar/growth already use their live account-owned props in the same way.
     if(item.userId===window.__tbAccount?.userId&&window.__tbAccount.nickname)item={...item,nickname:window.__tbAccount.nickname};
+    if(presence?.available){const active=presence.users.find(p=>p.userId===item.userId);item={...item,online:Boolean(active),activity:active?.activity};}
     const likes=confirmedLikes.current.get(snapshot.date+':'+item.userId);
     return likes ? {...item,likes:{total:Math.max(likes.counts?.[period]??(likes.countPeriod===period?likes.total:0),item.likes?.total || 0),likedToday:true}} : item;
   }) : [];

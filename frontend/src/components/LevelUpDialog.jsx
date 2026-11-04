@@ -3,6 +3,8 @@ import {createPortal} from 'react-dom';
 import {ArrowRight,Check,ChevronRight,Gift,LockOpen,X} from 'lucide-react';
 import {newlyUnlocked,nextUnlock,canOpenPage} from '@/lib/featureUnlocks.js';
 import './LevelUpDialog.css';
+import REWARDS from '../../../backend/resources/sticker-rewards.json';
+import {PACK_NAMES} from './StickerBoxes.jsx';
 
 export default function LevelUpDialog({notice,pages,preferences,onPresented,onClose,onOpen}){
  const card=useRef(null),returnFocus=useRef(document.activeElement),close=useRef(onClose);close.current=onClose;
@@ -21,7 +23,7 @@ export default function LevelUpDialog({notice,pages,preferences,onPresented,onCl
    <div className="level-up-emblem" aria-hidden="true"><svg viewBox="0 0 200 200"><circle className="level-up-track" cx="100" cy="100" r="82"/><circle className="level-up-ring" cx="100" cy="100" r="82" pathLength="100" style={{'--level-progress':progress}}/><circle className="level-up-halo" cx="100" cy="100" r="94"/></svg><div className="level-up-center level-up-old"><small>Lv.</small><strong>{notice.from}</strong></div><div className="level-up-center level-up-current"><small>Lv.</small><strong>{notice.to}</strong></div></div>
    <div className="level-up-number" aria-label={`等级从 ${notice.from} 提升到 ${notice.to}`}><span>Lv.{notice.from}</span><ArrowRight size={17}/><strong>Lv.{notice.to}</strong></div>
    <p className="level-up-xp">{capped?'Lv.100 · 已达等级上限':`${Number(growth.currentLevelXp||0).toLocaleString()} / ${Number(growth.nextLevelXp||0).toLocaleString()} XP`}</p>
-   {notice.to>=5&&notice.to>notice.from&&<p className="level-up-box"><Gift size={20}/><span>传奇卡包 × {Math.max(0,Math.min(100,notice.to)-Math.max(4,notice.from))}</span></p>}
+   {notice.to>notice.from&&<div className="level-up-box"><Gift size={20}/><span>{Object.entries(Array.from({length:Math.max(0,Math.min(100,notice.to)-Math.max(0,notice.from))},(_,i)=>Math.max(0,notice.from)+i+1).reduce((counts,level)=>{const tier=level<=20?REWARDS.levelBoxes.raritiesThrough20[level-1]:REWARDS.levelBoxes.after20[(level-21)%2];counts[tier]=(counts[tier]||0)+1;return counts;},{})).map(([tier,count])=>`${PACK_NAMES[tier]}卡包 × ${count}`).join(' · ')}</span></div>}
    {groups.length>0&&<div className="level-up-features"><h3>新解锁</h3>{groups.map(level=><div className="level-up-group" key={level}><small>Lv.{level}</small><div>{unlocked.filter(item=>item.level===level).map(item=>{const Icon=pages.find(page=>page.id===item.id)?.icon;return <button type="button" key={item.id} style={{'--unlock-delay':`${650+unlocked.indexOf(item)*70}ms`}} onClick={()=>open(item.id)} aria-label={`打开新解锁板块 ${item.label}`}><span className="level-up-card-icon"><LockOpen className="level-up-lock" size={21}/>{Icon&&<Icon className="level-up-feature-icon" size={22}/>}</span><strong>{item.label}</strong><ChevronRight size={16}/></button>;})}</div></div>)}</div>}
    {next.length>0&&<p className="level-up-next">Lv.{next[0].level}：{next.map(item=>item.label).join('、')}</p>}
   </div>
