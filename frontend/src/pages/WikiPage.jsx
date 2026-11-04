@@ -1,3 +1,4 @@
+import {readCatalogue,loadCatalogue} from '@/lib/catalogueCache.js';
 import {useEffect,useMemo,useRef,useState} from 'react';
 import {ArrowLeft,BookOpen,ChevronRight,ExternalLink,Info,LoaderCircle,Search,X} from 'lucide-react';
 import PageSearch from '@/components/PageSearch.jsx';
@@ -10,20 +11,21 @@ import EXAMPLES from '../../../backend/resources/wiki-examples.json';
 const exampleAliases=new Map(EXAMPLES.entries.flatMap(item=>item.links.map(url=>[original({url}),item.problemId])));
 
 export default function WikiPage({api,initialArticle,onOpenArticle,rows=[],onOpenProblem,visit,embedded=false,onBack,backLabel}){
- const [query,setQuery]=useState(''),[catalogue,setCatalogue]=useState([]),[article,setArticle]=useState(null),[error,setError]=useState(''),[loading,setLoading]=useState(true);
- const frame=useRef(null),sourceDialog=useRef(null),sequence=useRef(0),all=useRef([]),catalogueRequest=useRef(null),hash=useRef('');
+ const owner=window.__tbAccountUserId||'local',cachedCatalogue=readCatalogue(api,owner,'wiki');
+ const [query,setQuery]=useState(''),[catalogue,setCatalogue]=useState(cachedCatalogue?.articles||[]),[article,setArticle]=useState(null),[error,setError]=useState(''),[loading,setLoading]=useState(!cachedCatalogue);
+ const frame=useRef(null),sourceDialog=useRef(null),sequence=useRef(0),all=useRef(cachedCatalogue?.articles||[]),catalogueRequest=useRef(null),hash=useRef('');
  function ensureCatalogue(){
   if(all.current.length)return Promise.resolve({articles:all.current});
-  if(!catalogueRequest.current)catalogueRequest.current=api('wiki?q=').then(value=>{all.current=value.articles;return value;}).finally(()=>{catalogueRequest.current=null;});
+  if(!catalogueRequest.current)catalogueRequest.current=loadCatalogue(api,owner,'wiki').then(value=>{all.current=value.articles;return value;}).finally(()=>{catalogueRequest.current=null;});
   return catalogueRequest.current;
  }
  const problems=useMemo(()=>({byUrl:new Map(rows.map(row=>[original(row),row.id])),byId:new Set(rows.map(row=>row.id))}),[rows]);
  const problemNavigation=useRef(null);problemNavigation.current={problems,onOpenProblem};
- useEffect(()=>{let live=true;const timer=setTimeout(()=>{setLoading(true);(query?api('wiki?q='+encodeURIComponent(query)):ensureCatalogue()).then(value=>{if(live){setCatalogue(value.articles);if(!query)all.current=value.articles;setError('');}}).catch(issue=>{if(live)setError(issue.message);}).finally(()=>{if(live)setLoading(false);});},150);return()=>{live=false;clearTimeout(timer);};},[api,query]);
+ useEffect(()=>{let live=true;let timer;const run=()=>{setLoading(!all.current.length);(query?api('wiki?q='+encodeURIComponent(query)):ensureCatalogue()).then(value=>{if(live){setCatalogue(value.articles);if(!query)all.current=value.articles;setError('');}}).catch(issue=>{if(live)setError(issue.message);}).finally(()=>{if(live)setLoading(false);});};if(query)timer=setTimeout(run,100);else run();return()=>{live=false;clearTimeout(timer);};},[api,query]);
  useEffect(()=>{if(initialArticle)void open(initialArticle,visit?.anchor||'');return()=>{sequence.current++;};},[initialArticle,api]);
  async function open(id,anchor=''){
   const seq=++sequence.current;setLoading(true);setError('');
-  try{const [value]=await Promise.all([api('wiki?id='+encodeURIComponent(id)),ensureCatalogue().catch(()=>null)]);if(seq===sequence.current){hash.current=anchor;
+  try{void ensureCatalogue().catch(()=>null);const value=await api('wiki?id='+encodeURIComponent(id));if(seq===sequence.current){hash.current=anchor;
    const doc=new DOMParser().parseFromString(value.article.html,'text/html'),source=[...doc.querySelectorAll('blockquote,footer,.md-source-file')].filter(node=>node.textContent.includes('本页面贡献者')&&node.textContent.includes('CC BY-SA')&&node.textContent.includes('SATA'));
    const sourceHtml=source.map(node=>node.outerHTML).join('');source.forEach(node=>{if(node.previousElementSibling?.tagName==='HR')node.previousElementSibling.remove();node.remove();});
    setArticle({...value.article,contentHtml:doc.body.innerHTML,sourceHtml});}}

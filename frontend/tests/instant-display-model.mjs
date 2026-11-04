@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {readDuelBoard,loadDuelBoard} from '../src/lib/duelBoardCache.js';
+import {readCatalogue,loadCatalogue} from '../src/lib/catalogueCache.js';
+import {emptyUnloadedDraft} from '../src/lib/draftDrain.js';
+import {trainingDay} from '../src/lib/trainingDate.js';
+globalThis.window={__tbAccountUserId:'A'};
+const storage=new Map();globalThis.localStorage={getItem:key=>storage.get(key)||null,setItem:(key,value)=>storage.set(key,value)};
+let calls=0,release;
+const value={owner:'A',mode:'ranked',date:trainingDay(),entries:[{userId:'A',nickname:'已确认用户',rank:1,rating:1200,online:true,activity:'problem'}],records:[]};
+const api=()=>{calls++;return new Promise(resolve=>{release=()=>resolve(value);});};
+const a=loadDuelBoard(api,'A','ranked'),b=loadDuelBoard(api,'A','ranked');await Promise.resolve();assert.equal(calls,1);release();assert.equal(await a,await b);
+assert.equal(readDuelBoard('A','ranked').entries[0].rating,1200);assert.equal(readDuelBoard('B','ranked'),null);assert.equal(readDuelBoard('A','thought'),null);assert.equal(readDuelBoard('A','ranked',Date.now()+360000),null);
+await assert.rejects(loadDuelBoard(()=>Promise.resolve(value),'B','ranked'));assert.equal(readDuelBoard('B','ranked'),null);
+let count=0;const catalogueApi=async()=>{count++;return {templates:[{id:'own:1',title:'私有模板',code:'secret-user-code'}]};};
+await Promise.all([loadCatalogue(catalogueApi,'A','templates'),loadCatalogue(catalogueApi,'A','templates')]);assert.equal(count,1);assert.equal(readCatalogue(catalogueApi,'A','templates').templates.length,1);assert(![...storage.values()].some(v=>v.includes('secret-user-code')));
+window.__tbAccountUserId='B';assert.equal(readCatalogue(catalogueApi,'A','templates'),null);
+assert(emptyUnloadedDraft({loaded:false,version:0,code:''}));for(const record of [{loaded:false,version:1,code:''},{loaded:false,version:0,code:'unsaved'},{loaded:true,version:0,code:''}])assert.equal(emptyUnloadedDraft(record),false);
+const images=JSON.parse(await readFile(new URL('../src/lib/rankArtworkInline.json',import.meta.url),'utf8'));let bytes=0;
+for(const [tier,types] of Object.entries(images))for(const [type,data] of Object.entries(types)){const original=await readFile(new URL(`../public/ranks/${type}-${tier}.png`,import.meta.url)),embedded=Buffer.from(data.split(',')[1],'base64');assert(original.equals(embedded));bytes+=original.length;}
+console.log(JSON.stringify({ok:true,sameRequestDeduplicated:true,ownerModeDayAndTtlIsolation:true,confirmedDataCached:true,noPrivateTemplateCodeInStorage:true,emptyUnloadedDraftCanClose:true,editedDraftStillProtected:true,unchangedEmbeddedRankImages:18,embeddedOriginalBytes:bytes}));

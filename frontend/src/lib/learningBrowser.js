@@ -147,8 +147,10 @@ export function resizeStudyGroups(state,index,position,width,snapPixels=14) {
 
 const aliasGroups=[['并查集','dsu','union find','union-find','disjoint set'],['树状数组','fenwick','binary indexed tree'],['线段树','segment tree','segment-tree'],['离散化','coordinate compression','compression'],['二分','binary search','binary-search'],['广度优先','宽度优先','bfs'],['深度优先','dfs'],['最短路','dijkstra'],['线性基','linear basis','linear-basis'],['背包','knapsack'],['排序','sorting','sort']];
 const normalize=value=>String(value||'').normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
-const containsTerm=(text,word)=>/^[\x00-\x7f]+$/.test(word)?new RegExp('(^|[^a-z0-9])'+word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'($|[^a-z0-9])').test(text):text.includes(word);
-function expanded(value){let text=normalize(value);for(const group of aliasGroups)if(group.some(alias=>containsTerm(text,alias)))text+=' '+group.join(' ');return text;}
+const matcher=word=>{if(!/^[\x00-\x7f]+$/.test(word))return text=>text.includes(word);const pattern=new RegExp('(^|[^a-z0-9])'+word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'($|[^a-z0-9])');return text=>pattern.test(text);};
+const aliases=aliasGroups.map(group=>({group,tests:group.map(matcher)})),prepared=new Map();
+function expanded(value){let text=normalize(value);for(const {group,tests} of aliases)if(tests.some(test=>test(text)))text+=' '+group.join(' ');return text;}
+function searchText(item){const key=item.title+'\0'+(item.search||item.title);let value=prepared.get(key);if(!value){value={title:normalize(item.title),search:expanded(item.search||item.title)};if(prepared.size>=20000)prepared.delete(prepared.keys().next().value);prepared.set(key,value);}return value;}
 const SOURCE_ALIASES={mine:['我的训练'],problem:['题目','题库','problem','problems','题解','solution','editorial'],wiki:['百科','维基百科','wiki','oi wiki','oi-wiki'],template:['模板','template','templates'],lab:['实验室','实验','lab'],lecture:['从零讲','讲义','lecture']};
 function searchScope(query) {
  let text=normalize(query),kinds=null;
@@ -160,15 +162,15 @@ function searchScope(query) {
 }
 export function learningSearch(index,query) {
  const {text,kinds}=searchScope(query);
- const words=text.split(' ').filter(Boolean);
- return index.filter(item=>(!kinds||kinds.includes(item.kind)||kinds.includes('mine')&&item.trainingGroup)&&words.every(word=>containsTerm(expanded(item.search||item.title),word)))
-  .map((item,at)=>({item,rank:normalize(item.title)===text?0:normalize(item.title).startsWith(text)&&text?1:normalize(item.title).includes(text)&&text?2:3,at}))
+ const tests=text.split(' ').filter(Boolean).map(matcher);
+ return index.filter(item=>(!kinds||kinds.includes(item.kind)||kinds.includes('mine')&&item.trainingGroup)&&tests.every(test=>test(searchText(item).search)))
+  .map((item,at)=>{const title=searchText(item).title;return {item,rank:title===text?0:title.startsWith(text)&&text?1:title.includes(text)&&text?2:3,at};})
   .sort((a,b)=>a.rank-b.rank||a.at-b.at).map(value=>value.item);
 }
 
 export const LEARNING_FOLDERS=['mine','problem','wiki','template','lab','lecture'];
 export function learningDirectory(index,query='',path=[]) {
- const {kinds,text}=searchScope(query),matches=learningSearch(index,query);
+ const {kinds,text}=searchScope(query),matches=query.trim()?learningSearch(index,query):index;
  const current=kinds?[kinds[0]]:path[0]==='solution'?['problem',...path.slice(1)]:path;
  if(!current.length){
   const sources=LEARNING_FOLDERS;

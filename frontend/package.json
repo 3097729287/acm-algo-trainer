@@ -1,11 +1,11 @@
 {
   "name": "tb-workbench",
   "private": true,
-  "version": "1.5.7",
+  "version": "1.5.8",
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "vite build",
+    "build": "node scripts/embed-rank-artwork.mjs && vite build",
     "build:lab": "node scripts/build-algorithm-lab.mjs",
     "test:lab": "node tests/algorithm-lab-model.mjs && node tests/algorithm-lab-guided-model.mjs && node tests/algorithm-lab.mjs",
     "test:sequence": "node tests/sequence-model.mjs && node tests/sequence-ui.mjs && node tests/sequence-editorials.mjs",

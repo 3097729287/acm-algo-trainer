@@ -1,3 +1,4 @@
+import {loadCatalogue} from '@/lib/catalogueCache.js';
 import {guideAction} from '@/lib/guideActions.js';
 import {readingQueue} from '@/lib/lectureQueue.js';
 import {practiceContinuation} from '@/lib/practiceContinuation.js';
@@ -176,10 +177,10 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
  useLayoutEffect(()=>{const focused=state.open?state.tabs.find(tab=>tab.key===state.focused):null;onActiveChange?.(state.open,state.tabs.length,focused?.kind||null,focused?.id||null);},[state.open,state.tabs.length,state.focused,onActiveChange]);
  const loadCatalog=useCallback(async()=>{
   if(catalogOwner.current===accountId)return;catalogOwner.current=accountId;setCatalogLoading(true);
-  const response=await Promise.allSettled(['templates','lectures','wiki'].map(path=>api(path)));if(loadedOwner.current!==accountId)return;
-  const value={},errors=[];response.forEach((answer,i)=>{const key=['templates','lectures','wiki'][i];if(answer.status==='fulfilled')value[key]=key==='wiki'?answer.value.articles||[]:key==='lectures'?readingQueue(answer.value,prefs):Array.isArray(answer.value)?answer.value:answer.value[key]||[];else{errors.push(answer.reason.message);value[key]=[];}});
-  setCatalog(value);setCatalogErrors(errors);setCatalogLoading(false);if(errors.length)catalogOwner.current=null;
+  const errors=[];await Promise.all(['templates','lectures','wiki'].map(async key=>{try{const value=await loadCatalogue(api,accountId,key);if(loadedOwner.current!==accountId)return;const items=key==='wiki'?value.articles||[]:key==='lectures'?readingQueue(value,prefs):Array.isArray(value)?value:value[key]||[];setCatalog(previous=>({...previous,[key]:items}));}catch(issue){errors.push(issue.message);}}));if(loadedOwner.current!==accountId)return;
+  setCatalogErrors(errors);setCatalogLoading(false);if(errors.length)catalogOwner.current=null;
  },[accountId,api]);
+ useEffect(()=>{if(!ready||stateOwner!==accountId)return;const warm=()=>void loadCatalog(),id=window.requestIdleCallback?window.requestIdleCallback(warm,{timeout:1200}):setTimeout(warm,0);return()=>{if(window.cancelIdleCallback)window.cancelIdleCallback(id);else clearTimeout(id);};},[ready,stateOwner,accountId,loadCatalog]);
  const startSearch=useCallback(groupId=>{
   checkpoint();const groups=studyGroups(current.current),group=groups.find(item=>item.id===groupId)||groups.find(item=>item.id===current.current.focusedGroup)||groups[0];if(!group)return;
   setState(previous=>({...activateStudyTab(previous,group.active),chrome:true}));setSearching(group.id);setQuery('');setDirectory([]);setResultIndex(0);setLimit(80);void loadCatalog();requestAnimationFrame(()=>input.current?.focus());
@@ -188,7 +189,9 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
   const goalIds=new Set([...(practiceWorkspace?.goalTasks||[]).map(task=>task.id),...trainingRows.filter(row=>row.goalTask).map(row=>row.id)]),groups=[{id:'goals',name:'今日目标'},...QUEUES,{id:'practice',name:'继续练习'},{id:'accepted',name:'已 AC'}];
   return trainingRows.map((row,at)=>{const group=trainingGroup(row,goalIds),order=groups.findIndex(item=>item.id===group);return {...row,trainingGroup:group,trainingLabel:groups[order].name,trainingOrder:order*100000+at};});
  },[trainingRows,practiceWorkspace?.goalTasks]);
- const index=useMemo(()=>buildLearningIndex({...catalog,rows,trainingRows:mine,lectures:foundationLectures(catalog.lectures),labs:LAB_CATALOG}),[catalog,rows,mine]);
+ const problemIndex=useMemo(()=>buildLearningIndex({rows,trainingRows:mine}),[rows,mine]);
+ const catalogueIndex=useMemo(()=>buildLearningIndex({...catalog,lectures:foundationLectures(catalog.lectures),labs:LAB_CATALOG}),[catalog]);
+ const index=useMemo(()=>[...catalogueIndex,...problemIndex],[catalogueIndex,problemIndex]);
  const listing=useMemo(()=>learningDirectory(index,query,directory),[index,query,directory]),matching=listing.entries;
  const goDirectory=path=>{setDirectory(path);setQuery('');setResultIndex(0);setLimit(80);requestAnimationFrame(()=>input.current?.focus());};
  useEffect(()=>{setResultIndex(0);setLimit(80);if(results.current)results.current.scrollTop=0;},[query,directory.join('/')]);

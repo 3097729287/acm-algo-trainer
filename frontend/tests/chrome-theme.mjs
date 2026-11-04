@@ -55,6 +55,7 @@ await page.route('**/api/**',async route=>{
  else if(name==='training-list-likes'){likeRequests++;value={likes:[]};}
  else if(name==='templates')value=templates;
  else if(name==='lectures')value={lectures:[]};
+ else if(name==='wiki')value={articles:[]};
  else if(name==='profile')value={profile:{userId:owner,nickname:'测试学习者'}};
  else if(name==='leaderboard')value={configured:false,entries:[]};
  else {unknown.push(name);value={};}

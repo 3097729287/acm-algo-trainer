@@ -1,3 +1,4 @@
+import {readCatalogue,loadCatalogue,cacheCatalogue} from '@/lib/catalogueCache.js';
 import {useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {ArrowLeft,Check,Code2,Copy,FilePlus2,FlaskConical,LoaderCircle,Plus,Save,Search,Trash2,NotebookPen,X} from 'lucide-react';
 import {CatalogueGroup as CatalogGroup,CatalogueEntry as CatalogCard} from '@/components/LearningCatalogue.jsx';
@@ -18,12 +19,12 @@ const emptyTemplate=()=>({id:null,title:'',category:'我的模板',language:'cpp
 const cloneTemplate=source=>({...Object.fromEntries(['title','category','language','code','notes','summary'].filter(key=>source[key]!=null).map(key=>[key,source[key]])),id:null,builtin:false});
 const Button=({label,children,...props})=><button type="button" className="icon-button" aria-label={label} title={label} {...props}>{children}</button>;
 export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onUse,language,onActiveChange,onTrain,onOpenCourse,onOpenWiki,lockedProblems=[],initialTemplate,onOpenDetail,onDocumentChange,study=false}) {
- const fallback=useRef({}),session=visit||fallback.current;
- const [templates,setTemplates]=useState([]),[query,setQuery]=useState(session.query||''),[selected,setSelected]=useState(initialTemplate||session.selected||null),[draft,setDraft]=useState(session.draft||(initialTemplate==='new'?emptyTemplate():null));
- const [loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[error,setError]=useState(''),[copied,setCopied]=useState(false),[deleting,setDeleting]=useState(null),[edition,setEdition]=useState(session.edition||'teaching');
+ const fallback=useRef({}),session=visit||fallback.current,owner=window.__tbAccountUserId||'local',cachedCatalogue=readCatalogue(api,owner,'templates');
+ const [templates,setTemplates]=useState(()=>(cachedCatalogue?.templates||[]).map(templateForDisplay)),[query,setQuery]=useState(session.query||''),[selected,setSelected]=useState(initialTemplate||session.selected||null),[draft,setDraft]=useState(session.draft||(initialTemplate==='new'?emptyTemplate():null));
+ const [loading,setLoading]=useState(!cachedCatalogue),[busy,setBusy]=useState(false),[error,setError]=useState(''),[copied,setCopied]=useState(false),[deleting,setDeleting]=useState(null),[edition,setEdition]=useState(session.edition||'teaching');
  const [copyTarget,setCopyTarget]=useState(null),[copyBusy,setCopyBusy]=useState(false),[copyError,setCopyError]=useState('');
  const editor=useRef(null),panel=useRef(null),copyTimer=useRef(null),live=useRef(true);
- useEffect(()=>{live.current=true;api('templates').then(value=>{if(live.current)setTemplates((value.templates||[]).map(templateForDisplay));}).catch(issue=>{if(live.current)setError(issue.message);}).finally(()=>{if(live.current)setLoading(false);});return()=>{live.current=false;clearTimeout(copyTimer.current);};},[api]);
+ useEffect(()=>{live.current=true;loadCatalogue(api,owner,'templates',{refresh:true}).then(value=>{if(live.current)setTemplates((value.templates||[]).map(templateForDisplay));}).catch(issue=>{if(live.current)setError(issue.message);}).finally(()=>{if(live.current)setLoading(false);});return()=>{live.current=false;clearTimeout(copyTimer.current);};},[api]);
  useEffect(()=>{Object.assign(session,{query,selected,draft,edition});},[query,selected,draft,edition,session]);
  const current=draft||templates.find(item=>item.id===selected),own=current&&!current.builtin;
  // The outer shell must reach its final size before the editor is measured
@@ -43,7 +44,7 @@ export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onU
   if(busy)return;setBusy(true);setError('');
   try {
    const body=remove?{id:current.id,revision:current.revision,delete:true}:{...Object.fromEntries(['id','title','category','language','code','notes','summary','revision'].filter(key=>current[key]!=null).map(key=>[key,current[key]]))};
-   const result=await api('templates/save',body);
+   const result=await api('templates/save',body);cacheCatalogue(api,owner,'templates',{templates:result.templates});
    if(!live.current)return;setTemplates(result.templates.map(templateForDisplay));setDeleting(null);
    if(remove){back();onDocumentChange?.({deleted:true,templates:result.templates});}else {Object.assign(session,{selected:result.template.id,draft:{...result.template}});setSelected(result.template.id);setDraft({...result.template});onDocumentChange?.(result);}
   } catch(issue){if(live.current)setError(issue.message);}finally{if(live.current)setBusy(false);}

@@ -36,10 +36,11 @@ async function api(path,body){
  if(url.pathname==='/lecture'){if(window.studyFixture?.lectureDelay)await new Promise(resolve=>setTimeout(resolve,window.studyFixture.lectureDelay));return lectures.find(item=>item.id===url.searchParams.get('id'));}
  if(url.pathname==='/wiki')return url.searchParams.has('id')?{article:{...articles.find(item=>item.id===url.searchParams.get('id')),html:'<article><h1>并查集</h1><a href="https://oi-wiki.org/ds/stack/">栈</a><a href="https://oi-wiki.org/ds/queue/">队列</a><a href="https://www.luogu.com.cn/problem/P1706" target="_blank">Luogu P1706 全排列问题</a>'+Array.from({length:100},(_,i)=>`<h2 id="section-${i}">集合 ${i}</h2><p>并查集维护互不相交的集合。合并与查询代表元。</p>`).join('')+'<blockquote>本页面贡献者：测试署名。CC BY-SA 4.0 和 SATA。</blockquote></article>'}}:{articles};
  if(url.pathname==='/problem'){
+  if(window.holdProblemRead)await new Promise(resolve=>{window.releaseProblemRead=resolve;});
   const id=url.searchParams.get('id'),draft=read('drafts',{})[id];
   return {...rows.find(row=>row.id===id),markdown:'## 题目描述\n\n'+('给定交错输入的两个数组，分别输出。\n\n'.repeat(100)),formattingAvailable:true,samples:[{input:'2\n1 10 2 20\n',output:'1 2\n10 20\n'}],limits:{timeMs:1000,memoryMb:256},judge:{scope:'samples'},initialCode:{...initialCodes,templates:initialCodes.templates.filter(row=>row.id===initialCodes.selection[row.language])},draft:draft?.code||'',draftSavedAt:draft?.at||null,draftLanguage:'cpp17',submissions:[]};
  }
- if(path==='draft'){const drafts=read('drafts',{});drafts[body.id]={code:body.code,at:new Date().toISOString()};localStorage.setItem(storage('drafts'),JSON.stringify(drafts));return {savedAt:drafts[body.id].at};}
+ if(path==='draft'){if(window.failDraft)throw Error('Isolated save failure');const drafts=read('drafts',{});drafts[body.id]={code:body.code,at:new Date().toISOString()};localStorage.setItem(storage('drafts'),JSON.stringify(drafts));return {savedAt:drafts[body.id].at};}
  if(url.pathname==='/solution')return {...rows.find(row=>row.id===url.searchParams.get('id')),markdown:'## 还原数组\n\n按输入顺序，依次读入 a[i] 和 b[i]。\n\n'+('每次读取一对数。\n\n'.repeat(80)),detailedSolution:{markdown:'## 详细题解\n\n输入交错，输出分别进行。'},lectures:[]};
  if(path==='code/format'){const bytes=new TextEncoder().encode(body.code),digest=await crypto.subtle.digest('SHA-256',bytes);return {language:body.language,inputSha256:[...new Uint8Array(digest)].map(n=>n.toString(16).padStart(2,'0')).join(''),code:body.code,changes:[]};}
  if(path==='workspace')return {summary:{}};

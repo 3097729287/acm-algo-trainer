@@ -1,5 +1,6 @@
 import {useCallback,useEffect,useRef,useState} from 'react';
 import {createDuelSound} from './duelSound.js';
+import {loadDuelBoard} from './duelBoardCache.js';
 // Mounted in App, so returning to the native submission workbench keeps the
 // match heartbeat and provider verification alive. No automatic join/retry.
 export default function useDuel(api,owner){
@@ -19,7 +20,7 @@ export default function useDuel(api,owner){
   generation.current++;pending.current=null;writing.current=null;clock.current=null;queue.current=null;currentRoom.current=null;cancellation.current=null;heard.current.clear();
   audio.current?.close();const sound=createDuelSound();audio.current=sound;
   setBusy(false);setState(null);setError('');if(!owner||window.__tbAdmin)return()=>sound.close();
-  let alive=true;const stamp=generation.current;api('duel').then(value=>{if(alive&&stamp===generation.current)accept(value,owner);}).catch(issue=>{if(alive&&stamp===generation.current)setError(issue.message);});
+  let alive=true;const stamp=generation.current;api('duel').then(value=>{if(alive&&stamp===generation.current){accept(value,owner);if(value.available!==false)void loadDuelBoard(api,owner,'ranked').catch(()=>{});}}).catch(issue=>{if(alive&&stamp===generation.current)setError(issue.message);});
   return()=>{alive=false;sound.close();};
  },[api,owner,accept]);
  // Keep an explicitly requested cancellation through a temporary disconnect.

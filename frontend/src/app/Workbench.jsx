@@ -1,4 +1,5 @@
 import {guideAction} from '@/lib/guideActions.js';
+import {emptyUnloadedDraft} from '@/lib/draftDrain.js';
 import {useStudyPane,useStudyState} from '@/lib/StudyPane.jsx';
 import {EXTRA_SHORTCUTS,matchesShortcut,shortcutValue} from '@/lib/shortcuts.js';
 import {useFeatureVisibility} from '@/lib/FeatureVisibility.jsx';
@@ -648,7 +649,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     const beforeUpdate = event => {
       const record = activeRecord.current;
       clearTimeout(record?.timer);
-      event.detail.waitUntil(record && !record.loaded ? Promise.resolve(false) : saveRecord(record));
+      event.detail.waitUntil(record && !record.loaded&&!emptyUnloadedDraft(record) ? Promise.resolve(false) : saveRecord(record));
     };
     const beforeProblem = event => {
       const record = activeRecord.current;

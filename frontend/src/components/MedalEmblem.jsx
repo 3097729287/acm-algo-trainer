@@ -1,6 +1,7 @@
 import {useId} from 'react';
 import {safeTier} from './RankArtwork.jsx';
 import assets from '@/lib/rankAssets.json';
+import inline from '@/lib/rankArtworkInline.json';
 import './TierIcon.css';
 import TitleMedallion from './TitleMedallion.jsx';
 
@@ -10,7 +11,7 @@ export default function MedalEmblem({index=0,size=30,variant='rank',label}){
  if(!title){
   const rank=safeTier(index),asset=assets[rank],[x,y,x2,y2]=asset.emblemBounds;
   return <svg className={`medal-emblem tier-${rank} medal-rank`} width={size} height={size*1.15} viewBox={`${x-4} ${y-4} ${x2-x+8} ${y2-y+8}`} role={label?'img':undefined} aria-label={label} aria-hidden={label?undefined:true} data-rank-art={asset.name}>
-   <image href={`${import.meta.env.BASE_URL}ranks/emblem-${asset.name}.png`} width={asset.emblemSize[0]} height={asset.emblemSize[1]}/>
+   <image href={inline[asset.name].emblem} width={asset.emblemSize[0]} height={asset.emblemSize[1]}/>
   </svg>;
  }
  return <TitleMedallion tier={tier} size={size} variant={variant} label={label} id={id}/>;
