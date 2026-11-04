@@ -10,7 +10,7 @@ import useNavigationLevel from '@/lib/useNavigationLevel.js';
 import NavigationPending from '@/components/NavigationPending.jsx';
 import DailyTaskCount from '@/components/DailyTaskCount.jsx';
 import NextActions from '@/components/NextActions.jsx';
-import {migrateNavigationAccess} from '@/lib/featureUnlocks.js';
+import {migrateNavigationAccess,NAVIGATION_POLICY} from '@/lib/featureUnlocks.js';
 import {DifficultyDisplayProvider} from '@/components/DifficultyDisplay.jsx';
 import {ProblemCells,ProblemTableHead,Difficulty,Verdict} from '@/components/ProblemTableParts.jsx';
 import BrandWordmark from '../components/BrandWordmark.jsx';
@@ -635,12 +635,13 @@ export default function App() {
   const [navigationGrowth,setNavigationGrowth]=useState(null);
   const entryGrowth=confirmedGrowth(insights?.growth,navigationOwner)?insights.growth:confirmedGrowth(navigationGrowth,navigationOwner)?navigationGrowth:null;
   const experienceOffer=entryGrowth?.experienceChallenge||null;
-  const experienceAccess=experienceOffer?.owner===navigationOwner&&experienceOffer.policyVersion===1?experienceOffer:{};
+  const experienceAccess=experienceOffer?.owner===navigationOwner&&experienceOffer.policyVersion===1?{...experienceOffer,...(window.__tbAdmin?{allNavigationUnlocked:false}:{})}:{};
+  const navigationPrefs=window.__tbAdmin?{...prefs,learningPaths:{...prefs.learningPaths,navigationAccess:{version:NAVIGATION_POLICY,retained:[]}}}:prefs;
   const experienceAttention=Boolean(experienceOffer?.eligible&&(experienceOffer.promptRequired||window.__tbExperienceChoicePending?.owner===navigationOwner));
   const navigation=useNavigationLevel(navigationOwner,entryGrowth?.level);
   const navigationLevel=navigation.level??1;
-  const featureAvailable=(id,inline=false)=>inline?!hiddenPages(prefs.hiddenNavPages).includes(id):id==='mock'&&Boolean(workspace.activeContest)||pageAvailable(id,navigationLevel,prefs,experienceAccess);
-  const visiblePageIds=[...new Set([...availablePages(navigationLevel,prefs,experienceAccess),...(workspace.activeContest?['mock']:[])])];
+  const featureAvailable=(id,inline=false)=>inline?!hiddenPages(prefs.hiddenNavPages).includes(id):id==='mock'&&Boolean(workspace.activeContest)||pageAvailable(id,navigationLevel,navigationPrefs,experienceAccess);
+  const visiblePageIds=[...new Set([...availablePages(navigationLevel,navigationPrefs,experienceAccess),...(workspace.activeContest?['mock']:[])])];
   const visiblePageKey=visiblePageIds.join(',');
   useEffect(()=>{if(!navigation.pending&&page!=='settings'&&!featureAvailable(page)&&!practiceId){setPage('mine');setTourOpen(false);}},[visiblePageKey,page,practiceId,navigation.pending]);
   const pointerPosition = useRef(null);
@@ -710,7 +711,7 @@ export default function App() {
     preferencesQueue.current=pending;return pending;
   },[api]);
   useEffect(()=>{
-    if(preferencesLoaded.current&&!loading&&!navigation.pending&&account?.userId)setPrefs(previous=>migrateNavigationAccess(previous,navigationLevel));
+    if(!window.__tbAdmin&&preferencesLoaded.current&&!loading&&!navigation.pending&&account?.userId)setPrefs(previous=>migrateNavigationAccess(previous,navigationLevel));
   },[preferencesLoaded.current,loading,navigation.pending,navigationLevel,account?.userId]);
   const preferencesBaseline = useRef(prefs);
   const [preferencesRevision, setPreferencesRevision] = useState(0);
@@ -734,7 +735,7 @@ export default function App() {
     if(typeof guide!=='string'||guide==='catalog') {
       setTourOpen(false);go('settings');setSettingsTab('guide');return;
     }
-    if(!guideAvailable(guide,navigationLevel,prefs,experienceAccess))return;
+    if(!guideAvailable(guide,navigationLevel,navigationPrefs,experienceAccess))return;
     setTourContext(guide);setTourOpen(true);
   }
   const backgroundRequest = useRef(null), backgroundAgain = useRef(false),
@@ -1205,7 +1206,7 @@ export default function App() {
   const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
   const [recommendationOpen,setRecommendationOpen]=useState(false);
   const levelNoticeBlocked=Boolean(learningBrowserActive||loading||busy||practiceId||active||workspace.summary?.pending||dialog||clearTrainingAnchor||tourOpen||recommendationOpen||labFocus||templateFocus||lectureFull||readerFull||experienceOpen);
-  const levelUp=useLevelUp({owner:account?.userId,growth:insights?.growth,preferences:prefs,preferencesReady:preferencesLoaded.current&&!loading,setPreferences:setPrefs,blocked:levelNoticeBlocked});
+  const levelUp=useLevelUp({owner:account?.userId,growth:insights?.growth,preferences:prefs,preferencesReady:preferencesLoaded.current&&!loading,setPreferences:setPrefs,blocked:levelNoticeBlocked,admin:Boolean(window.__tbAdmin)});
   const levelFeedbackVisible=!levelNoticeBlocked&&!levelUp.dialog&&!document.hidden&&document.hasFocus();
   const calendarReminderAllowed = featureAvailable('competitions');
   useEffect(() => {
@@ -2299,7 +2300,7 @@ export default function App() {
       {dialog === 'contest-reminder' && calendar.reminder && <Modal title="比赛即将开始" onClose={()=>{calendar.dismissReminder();setDialog(previous=>previous==='contest-reminder'?null:previous);}} footer={<button type="button" className="primary" onClick={()=>{calendar.dismissReminder();setDialog('contest-calendar');}}>查看比赛</button>}><ContestReminder contest={calendar.reminder} now={calendar.now} onShown={calendar.markReminderShown}/></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}
       {tourOpen && <Suspense fallback={null}><Onboarding availablePages={visiblePageIds} key={tourContext} initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onShown={markGuideShown} onComplete={finishOnboarding} onDirectory={()=>openGuide('catalog')} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
-      {experienceOffer?.owner===account?.userId&&experienceOffer?.policyVersion===1&&<Suspense fallback={null}><ExperienceChallenge owner={account?.userId} offer={experienceOffer} ready={preferencesLoaded.current&&!loading&&prefs.levelNoticeVersion===1&&prefs.levelNoticeSeen>=Math.min(navigationLevel,4)} blocked={levelNoticeBlocked||Boolean(levelUp.dialog)} api={api} onOpenChange={setExperienceOpen} onOpen={openPractice} onGrowth={growth=>{const owner=window.__tbAccountUserId;if(confirmedGrowth(growth,owner))setInsights(previous=>protectGrowth(previous,{...previous,growth},owner,retiredGrowthEpochs.current));}}/></Suspense>}
+      {experienceOffer?.owner===account?.userId&&experienceOffer?.policyVersion===1&&<Suspense fallback={null}><ExperienceChallenge owner={account?.userId} offer={experienceOffer} ready={preferencesLoaded.current&&!loading&&(window.__tbAdmin?levelUp.initialized&&levelUp.seenLevel>=Math.min(navigationLevel,4):prefs.levelNoticeVersion===1&&prefs.levelNoticeSeen>=Math.min(navigationLevel,4))} blocked={levelNoticeBlocked||Boolean(levelUp.dialog)} api={api} onOpenChange={setExperienceOpen} onOpen={openPractice} onGrowth={growth=>{const owner=window.__tbAccountUserId;if(confirmedGrowth(growth,owner))setInsights(previous=>protectGrowth(previous,{...previous,growth},owner,retiredGrowthEpochs.current));}}/></Suspense>}
       {levelUp.dialog&&<Suspense fallback={null}><LevelUpDialog notice={levelUp.dialog} pages={PAGES} preferences={prefs} onPresented={levelUp.markPresented} onClose={levelUp.close} onOpen={go}/></Suspense>}
       {dialog === "achievements" && <Modal opacityKey="achievements" title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => {setDialog(null);backgroundDialog.current=null;void refreshBackground(true);}} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} onClaim={async id=>{const owner=window.__tbAccountUserId;dailyClaimPending.current=true;backgroundSeq.current++;try{const result=await api('achievements/claim',{id,compact:true});if(owner!==window.__tbAccountUserId)return;backgroundSeq.current++;setInsights(previous=>result.achievement?{...previous,achievements:(previous?.achievements||[]).map(item=>item.id===id?{...item,...result.achievement}:item)}:protectGrowth(previous,result,owner,retiredGrowthEpochs.current));window.dispatchEvent(new Event('tb:sticker-rewards'));notice('奖励已领取','success');}finally{dailyClaimPending.current=false;}}} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span></div><HistoricalCode submission={selectedSubmission} api={api}/>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}

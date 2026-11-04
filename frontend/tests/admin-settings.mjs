@@ -19,7 +19,7 @@ const vite=await createServer({root,server:{host:'127.0.0.1',port:0,watch:null},
 await vite.listen();
 const browser=await chromium.launch({headless:true}),page=await browser.newPage({viewport:{width:960,height:850}}),errors=[],unknown=[],requests=[],writes=[];
 page.on('pageerror',error=>errors.push(error.message));
-let logged=false,failSearch=false,config={level:100,tier:8,allAchievements:true};
+let logged=true,failSearch=false,config={level:100,tier:8,allAchievements:true};
 const target={userId:'11111111-1111-4111-8111-111111111111',loginId:'target_user',nickname:'隔离账号',createdAt:'2026-10-29',protected:false};
 const admin={...target,userId:'22222222-2222-4222-8222-222222222222',loginId:'admin',nickname:'管理员',protected:true};
 const report={ok:false,realOfficialSubmissionsSent:0,productionAccountOperations:0,geometry:[]};
@@ -45,12 +45,13 @@ async function noOverflow(){return page.evaluate(()=>document.documentElement.sc
 try {
  await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/admin-fixture`);
  await page.getByRole('spinbutton',{name:'管理员等级'}).waitFor();
- assert.equal(await page.getByRole('region',{name:'账号维护'}).count(),0);
+ assert.equal(await page.getByRole('region',{name:'账号维护'}).count(),1);
+ assert.equal(await page.locator('input[type=password]').count(),0);
  assert(await page.getByRole('checkbox',{name:'预览全部成就'}).isChecked());
  await page.getByRole('checkbox',{name:'预览全部成就'}).uncheck();await page.waitForFunction(()=>window.refreshed>=1);assert.equal(config.allAchievements,false);
  await page.getByRole('checkbox',{name:'预览全部成就'}).check();await page.waitForFunction(()=>window.refreshed>=2);assert.equal(config.allAchievements,true);
  await page.getByRole('spinbutton',{name:'管理员等级'}).fill('7');await page.waitForFunction(()=>window.refreshed>=3);assert.equal(config.level,7);
- await page.getByLabel('admin 密码',{exact:true}).fill('fixture-admin-password');await page.getByRole('button',{name:'登录管理账号'}).click();
+
  await page.getByRole('region',{name:'账号维护'}).waitFor();
  assert.equal(await page.getByLabel('admin 密码',{exact:true}).count(),0);
  await lookup(target.loginId);await page.getByRole('button',{name:'重置 target_user 的密码'}).click();
@@ -70,7 +71,8 @@ try {
  await page.getByRole('button',{name:'删除账号 target_user'}).click();await page.getByRole('textbox',{name:'确认操作的登录号'}).fill(target.loginId);await page.getByRole('button',{name:'确认删除',exact:true}).click();await page.getByText('账号已删除',{exact:true}).waitFor();assert.equal(writes.length,2);
  await lookup('unknown_user');await page.getByText('没有找到账号',{exact:true}).waitFor();
  failSearch=true;await lookup(target.loginId);await page.getByRole('alert').getByText('隔离服务暂不可用',{exact:true}).waitFor();assert.equal(await page.getByRole('button',{name:'删除账号 target_user'}).count(),0);
- await page.getByRole('button',{name:'退出管理账号'}).click();await page.getByRole('button',{name:'登录管理账号'}).waitFor();assert.equal(await page.getByRole('region',{name:'账号维护'}).count(),0);
+ assert.equal(requests.filter(item=>item.path==='/api/admin/session'||item.path==='/api/admin/logout').length,0);
+ assert.equal(await page.locator('input[type=password]').count(),0);
  assert.deepEqual(errors,[]);assert.deepEqual(unknown,[]);
  Object.assign(report,{ok:true,localControls:true,achievementToggle:true,authenticatedOnly:true,typedConfirmation:true,cancelAndEscape:true,protectedAdmin:true,noSecretDisplay:true,exactTargetWrites:true,errorsAndLogout:true});
  console.log(JSON.stringify({ok:true,geometry:report.geometry.length,isolatedAccountWrites:writes.length}));

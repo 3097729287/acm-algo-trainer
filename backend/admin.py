@@ -2,7 +2,7 @@
 import json
 from training import ServiceError, iso
 
-DEFAULTS = {'level': 100, 'tier': 8, 'allAchievements': True}
+DEFAULTS = {'level': 1, 'tier': 0, 'allAchievements': False}
 
 def controls(service, body=None):
     if not getattr(service, 'admin_mode', False):
@@ -11,10 +11,6 @@ def controls(service, body=None):
         row = service.connection.execute("SELECT value FROM account_preferences WHERE key='admin-controls'").fetchone()
         stored = json.loads(row['value']) if row else {}
         value = {key: stored.get(key, default) for key, default in DEFAULTS.items()}
-        if type(stored.get('previewVersion')) is not int or stored['previewVersion'] < 1:
-            # One admin-only display migration; later explicit off is retained.
-            # A read does not manufacture achievement/XP claims or user state.
-            value['allAchievements'] = True
         if row and stored.get('rankLadderVersion', 1) < 2:
             # The previous ten-tier ladder included platinum at index 4.
             previous = max(0, min(9, int(value['tier'])))
@@ -51,7 +47,7 @@ def decorate(service, value):
         value['growth'].update(growth(max(0, service._admin_simulation_raw_xp + offset), level_costs=costs(service)))
     else:
         value['growth'].update(growth(sum(LEVEL_COSTS[:setting['level'] - 1])))
-    gate = 5 if simulation else 1
+    gate = 5
     qualified = value['growth']['level'] >= gate
     value['growth'].update(admin=True, rankedEligible=qualified, rankUnlockLevel=gate,
                            tier=TIERS[index], badge=f'tier-{index}' if qualified else None,

@@ -59,12 +59,11 @@ try{
  await page.evaluate(()=>{growthCheck.theme('dark');growthCheck.setPanel('stickers');});await page.locator('.cartoon-gallery').waitFor();
  assert.equal(await page.locator('[data-sticker-style="cartoon-paper-v1"]').count(),27);await page.screenshot({path:output+'/cartoon-stickers-dark.png',fullPage:true});
  await page.evaluate(()=>growthCheck.theme('light'));await page.screenshot({path:output+'/cartoon-stickers-light.png',fullPage:true});
- await page.evaluate(()=>growthCheck.setPanel('rankings'));await page.getByLabel('admin 密码',{exact:true}).waitFor();
- await page.getByLabel('admin 密码',{exact:true}).fill('fixture-password');await page.getByRole('button',{name:'登录管理账号',exact:true}).click();
+ await page.evaluate(()=>growthCheck.setPanel('rankings'));assert.equal(await page.locator('input[type=password]').count(),0);
  await page.getByText('其他训练者',{exact:true}).waitFor();assert.equal(await page.locator('.ranking-self').count(),0);
  await page.getByRole('tab',{name:'本周',exact:true}).click();await page.getByText('其他训练者',{exact:true}).waitFor();
  const calls=await page.evaluate(()=>growthCheck.calls);
- assert.deepEqual(calls.filter(call=>call.method==='POST').map(call=>call.path),['goals/save','goals/save','goals/archive','admin/session'],'Only deliberate fixture goal edits and the administrator login write; no score upload');
+ assert.deepEqual(calls.filter(call=>call.method==='POST').map(call=>call.path),['goals/save','goals/save','goals/archive'],'Only deliberate fixture goal edits and the administrator login write; no score upload');
  assert.deepEqual(errors,[]);report.ok=true;report.adminCanReadOthers=true;report.adminHidden=true;
  console.log(JSON.stringify({ok:true,layouts:report.layouts.length,adminReadOnly:true,output}));
 }catch(error){report.failure=error.message;await page.screenshot({path:output+'/failure.png'}).catch(()=>{});throw error;}

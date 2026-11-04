@@ -33,6 +33,31 @@ class AdminRankingTests(unittest.TestCase):
     def tearDown(self):self.temp.cleanup()
     def login(self):return self.service.login({'password':'fixture-only-password'})
 
+    def test_private_provisioning_connects_without_ui_login_and_renews_expired_session(self):
+        self.service.provision('fixture-machine-password')
+        self.assertNotIn('fixture-machine-password',load_document(self.service.credential_path,''))
+        self.assertTrue(self.service.snapshot()['authenticated'])
+        self.assertNotIn('password',self.service.snapshot())
+        self.assertNotIn('requiresAdminLogin',self.service.rankings('daily'))
+        logins=lambda:len([call for call in self.opener.calls if call[0].endswith('/login')])
+        self.assertEqual(logins(),1)
+        self.service.session['expiresAt']=0
+        self.assertTrue(self.service.rankings('weekly')['isAdmin'])
+        self.assertEqual(logins(),2)
+        restored=AdminRanking(self.root,endpoint=self.service.endpoint,crypt=self.crypt,opener=self.opener)
+        self.assertTrue(restored.snapshot()['authenticated'])
+        self.assertEqual(logins(),2)
+
+    def test_private_credential_does_not_cross_service_boundaries_and_failed_connect_is_throttled(self):
+        self.service.provision('fixture-machine-password')
+        other=AdminRanking(self.root,endpoint='http://127.0.0.1:54321',crypt=self.crypt,opener=self.opener)
+        self.assertFalse(other.snapshot()['authenticated']);self.assertEqual(self.opener.calls,[])
+        self.opener.is_admin=False
+        self.assertFalse(self.service.snapshot()['authenticated'])
+        count=len(self.opener.calls)
+        self.assertFalse(self.service.snapshot()['authenticated']);self.assertEqual(len(self.opener.calls),count)
+        self.assertNotIn('requiresAdminLogin',self.service.rankings('daily'))
+
     def test_admin_identity_role_and_secret_persistence_are_independent(self):
         self.assertFalse(self.service.snapshot()['authenticated'])
         self.assertTrue(self.login()['authenticated'])
@@ -48,7 +73,7 @@ class AdminRankingTests(unittest.TestCase):
 
     def test_administrator_can_view_others_but_is_not_a_ranked_participant(self):
         pending=self.service.rankings('daily')
-        self.assertTrue(pending['configured']);self.assertTrue(pending['requiresAdminLogin'])
+        self.assertTrue(pending['configured']);self.assertEqual(pending['status'],'error');self.assertNotIn('requiresAdminLogin',pending)
         self.login()
         self.opener.entries=[{'userId':'admin-fixture','rank':1,'count':999},
                              {'userId':'other-admin','isAdmin':True,'rank':2,'count':500},

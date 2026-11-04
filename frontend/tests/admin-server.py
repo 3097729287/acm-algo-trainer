@@ -22,9 +22,13 @@ database.import_records([record()],{}, {})
 server=create_server(admin_mode=True,training_file=state/'tb-personal.sqlite3',library_file=database.path,
     data_root=state,data_file=state/'absent.md',integration_auto_start=False,assets=Assets(None),judge=Judge(),
     account_endpoint=sys.argv[1],backup_dir=state/'backups',dist_dir=Path(os.environ['TB_UI_DIST']))
+server.admin_rankings.provision(os.environ['TB_TEST_ADMIN_PASSWORD'])
+from experience_challenge import update
+update(server.training,{'action':'choose','choice':'beginner'})
 server.training.save_draft('fixture::A','private maintenance draft')
 save_preferences(server.training,{'preferences':{'onboardingCompleted':True,'onboardingGuideVersion':2,
-    'levelNoticeVersion':1,'levelNoticeSeen':100,'levelNoticePending':0}})
+    'levelNoticeVersion':1,'levelNoticeSeen':100,'levelNoticePending':0,
+    'learningPaths':{'navigationAccess':{'version':3,'retained':['library','rankings','competitions','mock','paths','templates','lectures','growth','activity']}}}})
 thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
 print(json.dumps({'ok':True,'baseUrl':f'http://127.0.0.1:{server.server_port}'}),flush=True)
 try:sys.stdin.readline()

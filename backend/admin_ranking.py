@@ -1,4 +1,4 @@
-"""Independent admin authentication; never uploads the local testing workspace."""
+"""Private machine management access; never uploads the testing workspace."""
 from __future__ import annotations
 
 import base64
@@ -20,11 +20,14 @@ class AdminRanking:
     def __init__(self,state_dir,endpoint=None,crypt=_crypt,opener=None):
         self.endpoint=validate_endpoint(default_endpoint() if endpoint is None else endpoint)
         self.path=state_dir/'admin-ranking-session.json'
+        self.credential_path=state_dir/'admin-service-credential.json'
         self.crypt=crypt
         self.opener=opener or service_opener(self.endpoint)
         self.lock=threading.RLock()
         self.session=None
         self.avatar_cache={}
+        self.connection_error=''
+        self.retry_at=0
         encoded=load_document(self.path,'')
         if encoded:
             try:
@@ -51,7 +54,7 @@ class AdminRanking:
         except HTTPError as error:
             if error.code in (401,403):self._forget()
             raise ServiceError(error.code if error.code in (400,401,403,409,429) else 503,
-                               {401:'admin 登录已失效或密码不正确',403:'admin 账号没有管理员权限',429:'请求过于频繁，请稍后重试'}.get(error.code,'管理员服务请求失败')) from None
+                               {401:'管理员连接已失效',403:'管理员权限不可用',429:'请求过于频繁，请稍后重试'}.get(error.code,'管理员服务请求失败')) from None
         except (URLError,TimeoutError,OSError,ValueError):
             raise ServiceError(503,'管理员服务连接或响应异常') from None
 
@@ -63,7 +66,38 @@ class AdminRanking:
     def snapshot(self):
         with self.lock:
             if self.session and self.session.get('expiresAt',0)<=time.time():self._forget()
-            return {'loginId':'admin','authenticated':self.session is not None,'configured':bool(self.endpoint)}
+            if not self.session and time.monotonic()>=self.retry_at:
+                self._connect()
+            return {'loginId':'admin','authenticated':self.session is not None,'configured':bool(self.endpoint),
+                    **({'error':self.connection_error} if self.connection_error else {})}
+
+    def provision(self,password):
+        """Maintenance-only setup, outside public builds and browser APIs."""
+        if not isinstance(password,str) or not 8<=len(password)<=128:raise ValueError('Invalid management credential')
+        with self.lock:
+            value={'endpoint':self.endpoint,'loginId':'admin','password':password}
+            save_document(self.credential_path,base64.b64encode(self.crypt(json.dumps(value).encode())).decode('ascii'))
+            self.retry_at=0
+
+    def _connect(self):
+        try:
+            encoded=load_document(self.credential_path,'')
+            if not encoded:raise ServiceError(503,'管理员连接尚未配置')
+            value=json.loads(self.crypt(base64.b64decode(encoded,validate=True),decrypt=True))
+            if value.get('endpoint')!=self.endpoint or value.get('loginId')!='admin':raise ValueError()
+            self.login({'password':value['password']})
+            self.connection_error=''
+        except (ServiceError,ValueError,KeyError,TypeError):
+            self.connection_error='管理员服务暂时无法连接'
+            self.retry_at=time.monotonic()+5
+
+    def connect(self):
+        with self.lock:
+            self.retry_at=0
+            return self.snapshot()
+
+    def _require_session(self):
+        if not self.snapshot()['authenticated']:raise ServiceError(503,self.connection_error or '管理员服务暂时无法连接')
 
     def login(self,body):
         with self.lock:
@@ -87,6 +121,7 @@ class AdminRanking:
             protected=base64.b64encode(self.crypt(json.dumps(candidate).encode())).decode('ascii')
             save_document(self.path,protected)
             self.session=candidate
+            self.connection_error=''
             return self.snapshot()
 
     def logout(self):
@@ -100,7 +135,7 @@ class AdminRanking:
         if period not in ('daily','weekly','total'):raise ServiceError(400,'排行榜周期无效')
         with self.lock:
             if not self.snapshot()['authenticated']:
-                return {'period':period,'entries':[],'self':None,'configured':bool(self.endpoint),'status':'unconfigured','isAdmin':False,'requiresAdminLogin':True,'notice':'使用 admin 账号登录管理员控制'}
+                return {'period':period,'entries':[],'self':None,'configured':bool(self.endpoint),'status':'error','isAdmin':False,'notice':self.connection_error}
             value=self._remote('GET','/v1/leaderboard?period='+period,session=self.session)
             if value.get('isAdmin') is not True:
                 self._forget()
@@ -116,7 +151,7 @@ class AdminRanking:
                 or not isinstance(expected_hash,str) or not re.fullmatch(r'[0-9a-f]{64}',expected_hash)):
             raise ServiceError(400,'头像查询参数无效')
         with self.lock:
-            if not self.snapshot()['authenticated']:raise ServiceError(401,'请先登录 admin 账号')
+            self._require_session()
             key=(self.session['account']['userId'],user_id,expected_hash)
             if key in self.avatar_cache:return dict(self.avatar_cache[key])
             value=self._remote('GET','/v1/avatars/'+user_id,session=self.session)
@@ -133,7 +168,7 @@ class AdminRanking:
 
     def delete(self,body):
         with self.lock:
-            if not self.snapshot()['authenticated']:raise ServiceError(401,'请先登录 admin 账号')
+            self._require_session()
             if (set(body)!={'userId','period','confirmation'} or body.get('period') not in ('daily','weekly','total')
                     or body.get('confirmation')!='delete' or body.get('userId') is not None and not isinstance(body['userId'],str)):
                 raise ServiceError(400,'删除范围或确认无效')
@@ -141,7 +176,7 @@ class AdminRanking:
 
     def search_accounts(self,query):
         with self.lock:
-            if not self.snapshot()['authenticated']:raise ServiceError(401,'请先登录 admin 账号')
+            self._require_session()
             if not isinstance(query,str) or not 4<=len(query)<=80 or not re.fullmatch(r'[A-Za-z0-9_-]+',query):
                 raise ServiceError(400,'请输入完整登录号或公开 ID')
             value=self._remote('GET','/v1/admin/accounts?q='+quote(query,safe=''),session=self.session)
@@ -160,7 +195,7 @@ class AdminRanking:
 
     def _account_action(self,body,action):
         with self.lock:
-            if not self.snapshot()['authenticated']:raise ServiceError(401,'请先登录 admin 账号')
+            self._require_session()
             if (not isinstance(body,dict) or set(body)!={'userId','loginId','confirmation'} or body.get('confirmation')!=action
                     or not isinstance(body.get('userId'),str) or not re.fullmatch(r'[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}',body['userId'],re.I)
                     or not isinstance(body.get('loginId'),str) or not re.fullmatch(r'[a-z0-9_]{4,32}',body['loginId'])):

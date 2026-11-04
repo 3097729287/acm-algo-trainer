@@ -23,7 +23,7 @@ const owner='00000000-0000-4000-8000-000000000010';
 const stickerState={owner,revision:1,catalogue:[{id:'gold-fox',rarity:'legendary',shape:'fox'}],units:[],boxes:{}};
 let goals=[{id:'goal-one',title:'CF 1600',kind:'cf',deadline:'2027-05-01',currentRating:1000,targetRating:1600,dailyMinutes:60,totalProblems:100},{id:'goal-two',title:'基础练习',kind:'custom',deadline:'2027-06-01',currentRating:800,targetRating:1200,dailyMinutes:30,totalProblems:50}];
 const summary={totalSolved:1112,submissions:2048,activeDays:333,streak:23,completedContests:101,longestStreak:230};
-let authenticated=false;
+let authenticated=true;
 const calls=[];
 const api=async(path,body)=>{
  calls.push({path,method:body?'POST':'GET'});

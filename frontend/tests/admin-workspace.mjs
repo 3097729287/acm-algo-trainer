@@ -17,7 +17,7 @@ const password='isolated-admin-password';
 const administrator=await cloud('/v1/accounts/register',{loginId:'admin',nickname:'Admin fixture',password});
 fixture.STORE.database.prepare('INSERT INTO ranking_admins VALUES(?,?)').run(administrator.account?.userId||administrator.userId,new Date().toISOString());
 const target=await cloud('/v1/accounts/register',{loginId:'ui_delete_target',nickname:'Synthetic target',password});
-const env={...process.env,TB_OFFLINE:'1',TB_STATE_DIR:state,TB_UI_DIST:process.env.TB_UI_DIST||path.join(root,'frontend/dist'),PYTHONIOENCODING:'utf-8'};
+const env={...process.env,TB_OFFLINE:'1',TB_TEST_ADMIN_PASSWORD:password,TB_STATE_DIR:state,TB_UI_DIST:process.env.TB_UI_DIST||path.join(root,'frontend/dist'),PYTHONIOENCODING:'utf-8'};
 const child=spawn(process.env.TB_TEST_PYTHON||'python',[path.join(root,'frontend/tests/admin-server.py'),fixture.endpoint],{env,windowsHide:true,stdio:['pipe','pipe','pipe']});
 let stderr='',browser,page,phase='backend';child.stderr.on('data',value=>stderr+=value);
 const errors=[],external=[],report={ok:false,realOfficialSubmissionsSent:0,productionAccountOperations:0};
@@ -29,9 +29,16 @@ try{
  const get=async endpoint=>{const response=await page.request.get(base+'/api/'+endpoint);assert.equal(response.status(),200,await response.text());return response.json();};
  phase='complete-navigation';await page.goto(base);await page.getByRole('navigation',{name:'主导航'}).getByRole('button',{name:'成长',exact:true}).waitFor();
  assert.equal(await page.locator('.navigation-pending').count(),0);const account=await get('account');assert.equal((await get('insights')).growth.authority.owner,account.account.userId);
- await openSettings(page,'管理员');await page.getByLabel('管理员等级',{exact:true}).fill('7');await page.waitForFunction(()=>JSON.parse(localStorage.getItem('tb.navigation-level.v1.'+window.__tbAccountUserId)||'null')?.level===7);
- assert.equal((await get('insights')).growth.level,7);await page.getByLabel('管理员等级',{exact:true}).fill('100');await page.waitForTimeout(150);
- phase='synthetic-account-management';await page.getByLabel('admin 密码',{exact:true}).fill(password);await page.getByRole('button',{name:'登录管理账号'}).click();await page.getByRole('region',{name:'账号维护'}).waitFor();
+ const expectNavigation=async level=>page.waitForFunction(count=>document.querySelectorAll('.sidebar nav .nav-item').length===count,availablePages(level).filter(id=>id!=='settings').length);
+ await expectNavigation(1);
+ await openSettings(page,'管理员');
+ async function changeLevel(level,from){await page.getByLabel('管理员等级',{exact:true}).fill(String(level));await page.getByLabel('管理员等级',{exact:true}).blur();await page.waitForFunction(level=>JSON.parse(localStorage.getItem('tb.navigation-level.v1.'+window.__tbAccountUserId)||'null')?.level===level,level);await expectNavigation(level);if(level>from){await page.getByRole('dialog',{name:'等级提升',exact:true}).waitFor();await page.getByLabel(`等级从 ${from} 提升到 ${level}`,{exact:true}).waitFor();}}
+ await changeLevel(2,1);await page.getByRole('button',{name:'打开新解锁板块 实验室',exact:true}).waitFor();await page.getByRole('button',{name:'关闭等级提升',exact:true}).click();
+ await changeLevel(1,2);assert.equal(await page.getByRole('dialog',{name:'等级提升',exact:true}).count(),0);
+ await changeLevel(2,1);await page.screenshot({path:path.join(out,'level-1-to-2.png')});await page.getByRole('button',{name:'关闭等级提升',exact:true}).click();
+ await changeLevel(7,2);await page.getByRole('button',{name:'关闭等级提升',exact:true}).click();
+ assert.equal((await get('insights')).growth.level,7);
+ phase='synthetic-account-management';assert.equal(await page.locator('input[type=password]').count(),0);await page.getByRole('region',{name:'账号维护'}).waitFor();
  await page.getByRole('textbox',{name:'查找账号',exact:true}).fill('ui_delete_target');await page.getByRole('button',{name:'查找账号',exact:true}).click();await page.getByRole('button',{name:'删除账号 ui_delete_target'}).click();await page.getByRole('textbox',{name:'确认操作的登录号'}).fill('ui_delete_target');await page.getByRole('button',{name:'确认删除',exact:true}).click();await page.getByText('账号已删除',{exact:true}).waitFor();
  assert.equal(fixture.STORE.database.prepare('SELECT COUNT(*) AS n FROM accounts WHERE login_id=?').get('ui_delete_target').n,0);
  phase='fresh-private-scenario';await page.getByRole('button',{name:'重置为新注册状态',exact:true}).click();await page.getByRole('alertdialog',{name:'测试工作区操作确认'}).getByRole('button',{name:'确认',exact:true}).click();
@@ -40,7 +47,7 @@ try{
  assert.equal((await get('workspace')).summary.total,0);assert.equal((await get('insights')).growth.level,1);const scenario=(await get('account')).scenario;assert.equal(scenario.kind,'fresh');
  const prompt=page.getByRole('dialog',{name:'你有编程经验吗？'});await prompt.waitFor();await prompt.getByRole('button',{name:/我是新手/}).click();
  const guide=page.getByRole('dialog',{name:'新手指引',exact:true});await guide.waitFor();await guide.getByRole('button',{name:'结束指引 ×',exact:true}).click();await guide.waitFor({state:'hidden'});
- await openSettings(page,'管理员');await page.getByLabel('管理员等级',{exact:true}).fill('2');await page.waitForTimeout(350);assert.equal((await get('insights')).growth.level,2);
+ await openSettings(page,'管理员');await changeLevel(2,1);await page.getByRole('button',{name:'关闭等级提升',exact:true}).click();assert.equal((await get('insights')).growth.level,2);
  phase='visual-alignment';for(const width of [1440,960,430]){await page.setViewportSize({width,height:900});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:path.join(out,'admin-'+width+'.png'),fullPage:true});}
  phase='restore-maintenance';await page.getByLabel('测试工作区',{exact:true}).selectOption('maintenance');await page.waitForFunction(owner=>window.__tbAccountUserId===owner,account.account.userId);assert.equal((await get('workspace')).summary.total,1);
  const original=await get('problem?id=fixture%3A%3AA');assert.equal(original.draft,'private maintenance draft');assert.equal((await get('account')).scenario.active,'maintenance');

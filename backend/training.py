@@ -135,6 +135,7 @@ def _core_schema_current(connection):
 class TrainingService:
     def __init__(self, store, db_path, assets=None, judge=None, clock=None, backup_dir=None, rng=None, account_provider=None, admin_mode=False):
         self.admin_mode = bool(admin_mode)
+        self.admin_simulation = self.admin_mode
         self.store = store
         self.account_provider = account_provider
         self.db_path = Path(db_path).resolve()

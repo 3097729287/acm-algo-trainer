@@ -17,7 +17,7 @@ class AdminPreviewTests(unittest.TestCase):
     def test_default_and_manual_levels_are_local_previews_without_reward_ledger_writes(self):
         before_user=self.user.insights();self.admin.insights()
         user_ledger=self.ledgers(self.user);admin_ledger=self.ledgers(self.admin)
-        self.assertTrue(controls(self.admin)['allAchievements'])
+        self.assertFalse(controls(self.admin)['allAchievements'])
         for level in [1,2,42,100]:
             controls(self.admin,{'level':level,'tier':3,'allAchievements':True})
             value=self.admin.insights()
@@ -30,13 +30,13 @@ class AdminPreviewTests(unittest.TestCase):
             self.assertEqual({k:v for k,v in self.user.insights()['growth'].items() if k!='authority'},
                              {k:v for k,v in before_user['growth'].items() if k!='authority'})
 
-    def test_old_false_migrates_once_then_an_explicit_off_survives_reload(self):
+    def test_old_false_and_an_explicit_off_survive_reload(self):
         with self.admin._write() as db:
             db.execute("INSERT INTO account_preferences VALUES('admin-controls',?,?)",(json.dumps({'level':7,'tier':2,'allAchievements':False,'rankLadderVersion':2}),'2026-10-01'))
         before=self.admin.connection.total_changes
-        self.assertTrue(controls(self.admin)['allAchievements'])
+        self.assertFalse(controls(self.admin)['allAchievements'])
         self.assertEqual(self.admin.connection.total_changes,before,'Display migration does not issue reward/XP writes')
-        self.assertTrue(all(a['unlocked'] for a in self.admin.insights()['achievements']))
+        self.assertTrue(any(not a['unlocked'] for a in self.admin.insights()['achievements']))
         controls(self.admin,{'level':7,'tier':2,'allAchievements':False})
         stored=json.loads(self.admin.connection.execute("SELECT value FROM account_preferences WHERE key='admin-controls'").fetchone()[0])
         self.assertEqual(stored['previewVersion'],1)
