@@ -22,6 +22,7 @@ export default function GoalsPanel({api, overview, onChanged, onClose}) {
     editor.current?.querySelector('input,select')?.focus();
     return () => returnFocus.current?.focus();
   }, [Boolean(form)]);
+  useEffect(()=>{if(data.summaryGoal){window.dispatchEvent(new Event('tb:learning-summary-open'));onClose?.();}},[Boolean(data.summaryGoal)]);
   const change = patch => {edited.current=true;setForm(previous=>({...previous,...patch}));};
   const open = goal => { edited.current=true;setError(''); setArchiving(false); setForm(goal ? {...goal} : blank()); };
   const close = () => { if (!busy) onClose?.(); };
@@ -45,6 +46,7 @@ export default function GoalsPanel({api, overview, onChanged, onClose}) {
       else if(!event.shiftKey && document.activeElement===fields.at(-1)) {event.preventDefault();fields[0]?.focus();}
     }
   }
+  if(data.summaryGoal)return null;
   return createPortal(<div className="goal-editor-backdrop" onMouseDown={event=>{if(event.target===event.currentTarget)close();}}><section ref={editor} className="goal-editor" role="dialog" aria-modal="true" aria-label={form.id?'调整目标':'新建目标'} onKeyDown={keydown}>
       <header><h2><Target size={19}/>{form.id?'调整目标':'新建目标'}</h2><div className="goal-dialog-actions"><button type="button" className="icon-button" aria-label="新建目标" title="新建目标" disabled={busy||!form.id} onClick={()=>open()}><Plus size={18}/></button><button type="button" className="icon-button" aria-label="关闭目标设置" disabled={busy} onClick={close}><X size={18}/></button></div></header>
       {data.goals.length>0&&<label className="goal-selector">选择目标<ThemedSelect aria-label="选择要调整的目标" disabled={busy} value={form.id||''} onChange={event=>open(data.goals.find(goal=>goal.id===event.target.value))}>{!form.id&&<option value="">新建目标</option>}{data.goals.map(goal=><option key={goal.id} value={goal.id}>{goal.title}</option>)}</ThemedSelect></label>}

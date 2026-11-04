@@ -1,6 +1,7 @@
 import {BookOpen,CalendarCheck,Code2,Crosshair,FileCode2,Flag,FlaskConical,FolderOpen,GraduationCap,History,RotateCcw,Route,Settings2,Shuffle,Target,Timer,TrendingUp} from 'lucide-react';
 
 export const RECOMMENDATION_KINDS={
+ 'summary-task':{Icon:CalendarCheck,label:'周计划',meaning:'继续已采纳的规划与阶段检查。'},
  knowledge:{Icon:GraduationCap,label:'知识点学习',meaning:'围绕一个知识点接续讲解、实验、应用与间隔检验。'},
  guided:{Icon:Route,label:'跟着做题',meaning:'用配套例题的条件、小实验和迁移指导衔接独立实现。'},
  lecture:{Icon:BookOpen,label:'基础讲解',meaning:'补齐当前知识点需要的概念与先修。'},

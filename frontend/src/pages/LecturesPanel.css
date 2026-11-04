@@ -35,7 +35,7 @@ html .lectures-detail-bar>.icon-button {border-color:transparent;background:tran
 
 
 .lecture-step{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.75rem;flex:none;min-width:1.5em;padding-top:.3em}
-.lecture-next{display:inline-flex;align-items:center;gap:6px;flex:none;margin-left:auto;white-space:nowrap;height:34px;padding:5px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel-base);color:var(--text)}
+.lecture-next{display:inline-flex;align-items:center;gap:6px;flex:none;margin-left:auto;white-space:nowrap;height:34px;padding:5px 10px;border:0;border-radius:6px;background:transparent;color:var(--text);box-shadow:none}
 .lecture-next:disabled{opacity:.4;cursor:default}
 html .lectures-detail-bar .lecture-fullscreen-toggle{margin-left:0}
 .lecture-route-progress{font-size:.85rem;color:var(--muted)}

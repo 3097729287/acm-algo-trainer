@@ -84,6 +84,8 @@ class ReviewScheduler:
         if not isinstance(item, dict) or item.get('problemId') not in self.t._equivalent_ids(identity):
             raise ServiceError(404, '没有找到这次复习')
         if not item.get('openedAt') and open_task:
+            if item.get('minimumAt') and parse_time(item['minimumAt']) > self.t._now():
+                raise ServiceError(409, '请在上次通过至少 24 小时后开始这轮检验')
             if item['due'] > self.t._now().astimezone(SHANGHAI).date().isoformat():
                 raise ServiceError(409, '这道题还未到复习时间')
             item['openedAt'] = iso(self.t._now())

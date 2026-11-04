@@ -178,6 +178,33 @@ def merge_states(remote, local, baseline=None):
                 try:merged=merge_starter(json.loads(old['value']),json.loads(row['value']))
                 except (ValueError,TypeError):merged=None
                 if merged is not None:winner['value']=encoded(merged)
+            elif table == 'account_preferences' and winner.get('key') == 'learning-summary-v1':
+                try:
+                    values = [json.loads(item['value']) for item in (old, row)]
+                    value = json.loads(winner['value'])
+                    for field in ('checks', 'completed'):
+                        merged = {}
+                        for item in values:
+                            for key, entry in item.get(field, {}).items():
+                                if field == 'checks': merged[key] = {**merged.get(key, {}), **entry}
+                                else: merged[key] = entry
+                        value[field] = merged
+                    hashes = {p['id']: p['hash'] for p in value.get('article', [])}
+                    value['seen'] = {key: item for source in values for key, item in source.get('seen', {}).items() if hashes.get(key) == item}
+                    winner['value'] = encoded(value)
+                except (ValueError, TypeError, AttributeError): pass
+            elif table == 'account_preferences' and str(winner.get('key','')).startswith('effective-learning-day:'):
+                from usage import _merge
+                try:
+                    values = [json.loads(item['value']) for item in (old, row)]
+                    winner['value'] = encoded({'intervals': _merge([span for value in values for span in value.get('intervals', [])])})
+                except (ValueError, TypeError): pass
+            elif table == 'account_preferences' and str(winner.get('key','')).startswith('learning-summary-history:'):
+                # Deletion tombstones prevent an offline device resurrecting a removed article.
+                try:
+                    deleted = next((item for item in (old, row) if json.loads(item['value']).get('deleted')), None)
+                    if deleted: winner = copy.deepcopy(deleted)
+                except (ValueError, TypeError): pass
             elif table == 'account_preferences' and winner.get('key') == 'ui':
                 from preferences import merge_onboarding_versions, merge_seen_achievements, merge_onboarding_unlocked_pages, merge_level_notices
                 try:

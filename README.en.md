@@ -1,3 +1,5 @@
+Local 1.6.0 adds evidence-based learning articles, adopted weekly plans, interaction-based study time and a floating reader. Public downloads retain their published version; installation and validation are recorded separately. See [release notes](docs/releases/1.6.0.md).
+
 # ToBe · Training Workbench
 
 **Both normal local editions are installed and verified at 1.5.6.** This delivers fullscreen Show Desktop fixes, the nine reference rank sets, translation retries and timer alignment. Versioned Markdown notes are kept in the Desktop ToBe更新记录 folder. The program build source is `f1e6cd576c041984c83f2cbfacfa59bd79959923`; public downloads remain 1.5.2. See the [delivery and verification record](docs/local-delivery-1.5.6.md).

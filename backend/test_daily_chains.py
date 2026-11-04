@@ -8,6 +8,7 @@ import test_training as fixtures
 from daily_chains import threshold
 from training import ServiceError, TrainingService, iso
 from usage import record, learning_seconds, snapshot as usage_snapshot
+from learning_summary import record_effective
 
 
 class DailyChainTests(unittest.TestCase):
@@ -23,6 +24,9 @@ class DailyChainTests(unittest.TestCase):
         for sequence in range(1,minutes+1):
             self.clock.advance(seconds=60)
             record(self.service,{'sessionId':session,'sequence':sequence,'seconds':60,'learning':learning})
+            if learning:
+                now=self.clock().timestamp()
+                record_effective(self.service,{'intervals':[[now-60,now]]})
 
     def test_ac_thresholds_advance_only_on_claim_and_duplicate_claim_does_not_skip(self):
         self.assertEqual([threshold(step) for step in range(12)],[1,2,3,5,10,20,30,50,100,200,300,500])
@@ -178,6 +182,8 @@ class DailyChainTests(unittest.TestCase):
     def test_learning_midnight_attributes_each_part_to_its_beijing_date(self):
         self.clock.value=dt.datetime(2026,10,8,16,0,20,tzinfo=dt.timezone.utc)
         record(self.service,{'sessionId':str(uuid.uuid4()),'sequence':1,'seconds':60,'learning':True})
+        now=self.clock().timestamp()
+        record_effective(self.service,{'intervals':[[now-60,now]]})
         self.assertEqual(learning_seconds(self.service,'2026-10-08'),40)
         self.assertEqual(learning_seconds(self.service,'2026-10-09'),20)
 

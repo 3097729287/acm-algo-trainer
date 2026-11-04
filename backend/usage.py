@@ -34,7 +34,9 @@ def snapshot(training):
 
 def learning_seconds(training,day):
     with training.lock:
-        return max(0,min(86400,float(_state(training,LEARNING_KEY)['days'].get(day,{}).get('seconds',0))))
+        row=training.connection.execute('SELECT value FROM account_preferences WHERE key=?',('effective-learning-day:'+day,)).fetchone()
+        intervals=json.loads(row[0]).get('intervals',[]) if row else []
+        return max(0,min(86400,sum(b-a for a,b in _merge(intervals))))
 
 def _append(value,now,seconds):
     start=now-dt.timedelta(seconds=seconds);cursor=start

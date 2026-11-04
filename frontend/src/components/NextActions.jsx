@@ -8,6 +8,7 @@ import {knowledgeState,knowledgeCoverage,startKnowledge,cancelKnowledge,rotateKn
 import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
 import PopConfirm from './PopConfirm.jsx';
 import './NextActions.css';
+import {planActions} from '@/lib/learningSummaryModel.js';
 
 const icons=Object.fromEntries(Object.entries(RECOMMENDATION_KINDS).map(([kind,value])=>[kind,value.Icon]));
 const labels=Object.fromEntries(Object.entries(RECOMMENDATION_KINDS).map(([kind,value])=>[kind,value.label]));
@@ -30,7 +31,7 @@ function Coverage({topic,rows,templates,ready}){
   <div><dt>复习</dt><dd>跨日用陌生题独立检验</dd></div>
  </dl>;
 }
-export default function NextActions({rows=[],training=[],insights,prefs={},setPrefs,api,availablePages=[],activeContest,onNavigate,onTrain,suspended=false,onOpenChange,onActionsChange,reviewPlan={},preferencesReady=true,contentReady=true}) {
+export default function NextActions({rows=[],training=[],insights,prefs={},setPrefs,api,availablePages=[],activeContest,onNavigate,onTrain,suspended=false,onOpenChange,onActionsChange,reviewPlan={},preferencesReady=true,contentReady=true,adoptedSummary}) {
  const [metadata,setMetadata]=useState({lists:[],templates:[],templatesReady:false}),[revision,setRevision]=useState(0),[now,setNow]=useState(Date.now);
  const [open,setOpen]=useState(false),[position,setPosition]=useState(null),[candidate,setCandidate]=useState(null),[information,setInformation]=useState(null),[cancelAnchor,setCancelAnchor]=useState(null),[completeAnchor,setCompleteAnchor]=useState(null);
  const root=useRef(null),flyout=useRef(null),trigger=useRef(null),touchOpened=useRef(false),closeTimer=useRef(null),ignoreFocus=useRef(false);
@@ -43,11 +44,11 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
  useEffect(()=>{if(!contentReady)return;let alive=true;setMetadata({lists:[],templates:[],templatesReady:false});const requests=[['training-lists','lists'],['templates','templates']].filter(([page])=>availablePages.includes(page));Promise.allSettled(requests.map(async([page,key])=>[key,(await api(page))[key]||[]])).then(results=>{if(alive){const values=Object.fromEntries([['lists',[]],['templates',[]],...results.filter(item=>item.status==='fulfilled').map(item=>item.value)]);setMetadata({...values,templatesReady:results.some(item=>item.status==='fulfilled'&&item.value[0]==='templates')});}});return()=>{alive=false;};},[api,scope,revision,contentReady]);
  const progression=JSON.stringify(Object.keys(LEARNING_COURSES).map(id=>[id,prefs.learningPaths?.[id]?.mode,prefs.learningPaths?.[id]?.labV1?.chapter]));
  const model=useMemo(()=>recommendationState({rows,training,insights:insights||{},prefs,...metadata,availablePages,activeContest,reviewPlan,now:Math.max(now,Date.now())}),[rows,training,insights,metadata,scope,activeContest,reviewPlan,now,prefs.learnedLectures,prefs.learningPaths?.knowledgeLearning,progression]);
- const {items,journey}=model,primary=items[0],rest=items.slice(1),activeTopic=KNOWLEDGE_BY_ID[knowledgeState(prefs).activeTopicId];
+ const journey=model.journey,planned=planActions(adoptedSummary,now),items=activeContest||!adoptedSummary?.plan?model.items:planned.length?planned:[{kind:'summary-task',id:'summary',title:'查看本周安排与复习',reason:'本日已安排任务已完成，后续安排继续保留',summaryTask:true}],primary=items[0],rest=items.slice(1),activeTopic=adoptedSummary?.plan?null:KNOWLEDGE_BY_ID[knowledgeState(prefs).activeTopicId];
  const manualAction=item=>{const task=item?.rawAction||item;return !task?.reviewOnly&&task?.journeyTopicId===activeTopic?.id&&['lecture','course'].includes(task?.kind)?task:null;};
  const requestCompletion=(event,item)=>{const task=manualAction(item);if(task){const node=event.currentTarget,rect=node.getBoundingClientRect();const anchor=root.current?.contains(node)?node:{getBoundingClientRect:()=>rect,contains:()=>false,focus:()=>trigger.current?.focus()};close();setCompleteAnchor({anchor,task});}};
  useEffect(()=>{onActionsChange?.(preferencesReady&&contentReady?items:[]);},[onActionsChange,preferencesReady,contentReady,items]);
- useEffect(()=>{if(setPrefs&&preferencesReady&&journey.journey)setPrefs(previous=>reconcileKnowledge(previous,journey));},[setPrefs,preferencesReady,journey]);
+ useEffect(()=>{if(!adoptedSummary?.plan&&setPrefs&&preferencesReady&&journey.journey)setPrefs(previous=>reconcileKnowledge(previous,journey));},[setPrefs,preferencesReady,journey,adoptedSummary?.plan]);
  const expandable=rest.length>0,expanded=Boolean(open&&!suspended&&!overlay&&primary&&expandable);
  useEffect(()=>{openChanged.current?.(expanded||overlay);},[expanded,overlay]);
  useEffect(()=>()=>openChanged.current?.(false),[]);

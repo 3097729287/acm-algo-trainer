@@ -463,7 +463,7 @@ html .lab-focus .learning-paths-page {padding:0;width:100%;height:100%;max-width
 @media(max-width:600px) {.activity-month-heading {align-items:flex-start;gap:6px}.activity-month-heading h2 {font-size:.82rem;gap:5px}.activity-month-heading h2>svg,.activity-month-picker>span {display:none}.activity-month-picker input {min-width:120px;width:120px;font-size:.8rem}html .activity-month-panel {padding:12px;gap:8px;height:clamp(220px,39dvh,330px)}html .activity-month-grid {gap:4px}html .activity-month-grid .activity-day {padding:3px 5px}html .activity-month-details {padding-inline:12px}}
 .lecture-prerequisites {display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:14px 0 20px}
 .lecture-prerequisites>span {color:var(--muted);font-size:.85rem;margin-right:4px}
-.lecture-prerequisites>button {display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:5px 9px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--accent);font-size:.85rem}
+.lecture-prerequisites>button {display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:5px 9px;border:0;border-radius:6px;background:transparent;color:var(--accent);font-size:.85rem;box-shadow:none}
 
 /* Shared optical centers; the ornament surrounds the experience ring. */
 html .practice-streak .streak-flame {display:block;width:20px;height:20px;flex:none;transform:none}

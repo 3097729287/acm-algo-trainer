@@ -415,6 +415,9 @@ class TrainingService:
             if restore_review_id:
                 from reviews import ReviewScheduler
                 ReviewScheduler(self).set_cancelled(identity, restore_review_id, False)
+                restored_task = ReviewScheduler(self).task(identity, restore_review_id, open_task=True)
+                if defer_workspace:
+                    return {'reviewTask': restored_task}
             if activate:
                 with self._write() as connection:
                     self._claim_training(connection, identity)
@@ -608,7 +611,7 @@ class TrainingService:
                 # 独立性以“受理时刻是否在看过题解之后”判定：看题解时间早于本次受理 = 看过题解。
                 seen_row=connection.execute('SELECT solution_seen_at FROM training WHERE id=?',(row['id'],)).fetchone()
                 seen_at=seen_row[0] if seen_row else None
-                seen=bool(seen_at and seen_at<submitted)
+                seen=bool(seen_at and seen_at<=submitted)
                 if review:
                     seen = reviews.assisted(row['id'], review, submitted)
                 connection.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,finished_at,verdict,scope,message,solution_seen) VALUES(?,?,?,'submit',?,?,?,?, 'official',?,?)",
@@ -2275,8 +2278,13 @@ class TrainingService:
             review_plan = self.review_plan()
             review_tasks = {item['problemId']: item for item in review_plan['tasks']}
             from goals import Goals
-            goal_overview = Goals(self).list(assign=True)
-            goal_tasks = goal_overview.get('goalTasks', [])
+            from learning_summary import read as read_learning_summary
+            learning_plan = read_learning_summary(self, default={})
+            summary_active = bool(learning_plan.get('plan'))
+            goal_overview = Goals(self).list(assign=not summary_active)
+            goal_tasks = [] if summary_active else goal_overview.get('goalTasks', [])
+            if summary_active:
+                goal_overview.update(goalTasks=[], summaryGoal=learning_plan['config']['goal'])
             library = {row["id"]: row for row in self._library()}
             aliases = self._identity_map(list(library.values()))
             records = self.connection.execute("SELECT * FROM submissions WHERE mode='submit' ORDER BY submitted_at,rowid").fetchall()

@@ -335,6 +335,23 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == '/api/usage':
                     from usage import record
                     value = record(training, body)
+                elif path == '/api/learning-summary/refresh':
+                    from learning_summary import LearningSummary
+                    value = LearningSummary(training).refresh()
+                    if (value.get('plan') or {}).get('gaps'):
+                        topics = [t for t in value.get('availableTopics', []) if t['id'] in value['plan']['tracks']]
+                        from learning_summary import LearningSummary as SummaryRules
+                        ids = [row['id'] for row in store.identity_rows() if not row.get('catalogStatementReady') and any(SummaryRules._matches(row, topic) for topic in topics)]
+                        self.server.statement_backfill.prioritize(ids)
+                elif path == '/api/learning-summary/update':
+                    from learning_summary import LearningSummary
+                    value = LearningSummary(training).update(body)
+                elif path == '/api/learning-summary/start':
+                    from learning_summary import LearningSummary
+                    value = LearningSummary(training).start(body)
+                elif path == '/api/learning-summary/time':
+                    from learning_summary import record_effective
+                    value = record_effective(training, body)
                 elif path == '/api/training-lists/add':
                     from custom_training_lists import add_problems
                     value = add_problems(training, body)
@@ -570,6 +587,15 @@ class Handler(BaseHTTPRequestHandler):
             elif path == '/api/usage':
                 from usage import snapshot
                 self.send_json(200, snapshot(self.server.training))
+            elif path == '/api/learning-summary':
+                from learning_summary import LearningSummary
+                self.send_json(200, LearningSummary(self.server.training).snapshot())
+            elif path == '/api/learning-summary/history':
+                from learning_summary import LearningSummary
+                self.send_json(200, LearningSummary(self.server.training).history(parse_qs(target.query).get('id', [''])[0]))
+            elif path == '/api/learning-summary/quiz':
+                from learning_summary import public_quiz
+                self.send_json(200, public_quiz(parse_qs(target.query).get('id', [''])[0]))
             elif path == '/api/data/export':
                 from data_export import export_data
                 self.send_json(200, export_data(self.server.training))

@@ -27,6 +27,7 @@ class StatementBackfill:
         self.failures = load_document(self.path, {}).get('failures', {})
         self.host_retry = {}
         self._pending = None
+        self._priority = []
         self.status = {'running': False, 'added': 0, 'remaining': None, 'message': '等待检查公开题面'}
 
     def pending(self):
@@ -42,6 +43,9 @@ class StatementBackfill:
         if self._pending is None:
             self._pending = self.pending()
         pending = self._pending
+        with self.lock:
+            order = {identity: index for index, identity in enumerate(self._priority)}
+            pending.sort(key=lambda item: order.get(item[0], len(order)))
         with self.lock:
             self.status['remaining'] = len(pending)
         for identity, url, title in pending:
@@ -82,6 +86,11 @@ class StatementBackfill:
             self.status['message'] = '公开题面已补齐' if not pending else '其余题面等待原站开放，稍后自动重试'
         self._pending = None
         return False
+
+    def prioritize(self, identities):
+        """Focus existing, verifiable originals required by the accepted plan."""
+        with self.lock:
+            self._priority = list(dict.fromkeys([*identities[:64], *self._priority]))[:128]
 
     def _loop(self):
         while not self.stop.is_set():
