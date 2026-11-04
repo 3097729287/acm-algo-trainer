@@ -1,0 +1,182 @@
+[
+  {
+    "name": "iron",
+    "emblemSize": [
+      1280,
+      720
+    ],
+    "emblemBounds": [
+      543,
+      297,
+      739,
+      416
+    ],
+    "borderAtlas": 2,
+    "borderBounds": [
+      14,
+      24,
+      428,
+      754
+    ]
+  },
+  {
+    "name": "bronze",
+    "emblemSize": [
+      1280,
+      720
+    ],
+    "emblemBounds": [
+      517,
+      276,
+      766,
+      440
+    ],
+    "borderAtlas": 2,
+    "borderBounds": [
+      466,
+      22,
+      423,
+      755
+    ]
+  },
+  {
+    "name": "silver",
+    "emblemSize": [
+      1280,
+      720
+    ],
+    "emblemBounds": [
+      502,
+      240,
+      778,
+      428
+    ],
+    "borderAtlas": 3,
+    "borderBounds": [
+      18,
+      21,
+      423,
+      756
+    ]
+  },
+  {
+    "name": "gold",
+    "emblemSize": [
+      1280,
+      720
+    ],
+    "emblemBounds": [
+      507,
+      221,
+      772,
+      463
+    ],
+    "borderAtlas": 3,
+    "borderBounds": [
+      465,
+      19,
+      423,
+      758
+    ]
+  },
+  {
+    "name": "platinum",
+    "emblemSize": [
+      1280,
+      720
+    ],
+    "emblemBounds": [
+      495,
+      218,
+      788,
+      454
+    ],
+    "borderAtlas": 4,
+    "borderBounds": [
+      9,
+      18,
+      438,
+      759
+    ]
+  },
+  {
+    "name": "diamond",
+    "emblemSize": [
+      1280,
+      720
+    ],
+    "emblemBounds": [
+      481,
+      260,
+      801,
+      458
+    ],
+    "borderAtlas": 4,
+    "borderBounds": [
+      467,
+      18,
+      441,
+      759
+    ]
+  },
+  {
+    "name": "master",
+    "emblemSize": [
+      1280,
+      720
+    ],
+    "emblemBounds": [
+      481,
+      218,
+      800,
+      461
+    ],
+    "borderAtlas": 5,
+    "borderBounds": [
+      31,
+      14,
+      423,
+      763
+    ]
+  },
+  {
+    "name": "grandmaster",
+    "emblemSize": [
+      1280,
+      720
+    ],
+    "emblemBounds": [
+      463,
+      240,
+      820,
+      485
+    ],
+    "borderAtlas": 5,
+    "borderBounds": [
+      446,
+      16,
+      522,
+      761
+    ]
+  },
+  {
+    "name": "challenger",
+    "emblemSize": [
+      1280,
+      720
+    ],
+    "emblemBounds": [
+      478,
+      214,
+      805,
+      464
+    ],
+    "borderAtlas": 6,
+    "borderBounds": [
+      17,
+      17,
+      461,
+      770
+    ]
+  }
+]

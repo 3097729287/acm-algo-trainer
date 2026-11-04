@@ -1,0 +1,469 @@
+{
+  "schema": 1,
+  "upstream": "Riot Games / CommunityDragon 12.23",
+  "purpose": "User-requested local rank reference",
+  "assets": [
+    {
+      "file": "emblem-iron.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-iron.png",
+      "sha256": "c453391cd7c8b5b5db4b0d753bf81d6168bcb3c81246961add83b7e7f01c4230",
+      "bytes": 36989,
+      "size": [
+        1280,
+        720
+      ],
+      "bounds": [
+        543,
+        297,
+        739,
+        416
+      ]
+    },
+    {
+      "file": "crest-iron.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/iron.png",
+      "sha256": "ae602c31d0632e4b7b593ee33cceb9fa70640c86b464ceecf15ae2e13326cb26",
+      "bytes": 1699,
+      "size": [
+        80,
+        80
+      ],
+      "bounds": [
+        8,
+        12,
+        72,
+        58
+      ]
+    },
+    {
+      "file": "emblem-bronze.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-bronze.png",
+      "sha256": "253003087e8c10cb6fffd5c33cc06d31d7b45917bb0ca634e8c951deb39c36f3",
+      "bytes": 61626,
+      "size": [
+        1280,
+        720
+      ],
+      "bounds": [
+        517,
+        276,
+        766,
+        440
+      ]
+    },
+    {
+      "file": "crest-bronze.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/bronze.png",
+      "sha256": "85a667050a6aa190ce8cdba4286203f6761cecdc7cb33bb8ed55d62db063bcdb",
+      "bytes": 1740,
+      "size": [
+        80,
+        80
+      ],
+      "bounds": [
+        8,
+        12,
+        72,
+        58
+      ]
+    },
+    {
+      "file": "emblem-silver.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-silver.png",
+      "sha256": "e71dc2b8ccf5673f4a65b9db95657bbf9e2b880b24112a6fac71b6492f1d99de",
+      "bytes": 102717,
+      "size": [
+        1280,
+        720
+      ],
+      "bounds": [
+        502,
+        240,
+        778,
+        428
+      ]
+    },
+    {
+      "file": "crest-silver.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/silver.png",
+      "sha256": "f2fdcf60bc95bd04cf1feca7fc0863ca2770d72a3e8b91da433a7a995eefdfb8",
+      "bytes": 1580,
+      "size": [
+        80,
+        80
+      ],
+      "bounds": [
+        8,
+        12,
+        72,
+        58
+      ]
+    },
+    {
+      "file": "emblem-gold.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-gold.png",
+      "sha256": "23a35bc7d693de49e049749c2f0d0921f2c8e7c65181d615e58a2ab6e3a47b77",
+      "bytes": 90452,
+      "size": [
+        1280,
+        720
+      ],
+      "bounds": [
+        507,
+        221,
+        772,
+        463
+      ]
+    },
+    {
+      "file": "crest-gold.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/gold.png",
+      "sha256": "b003e5b2de541138a57b92c8048a33e203b51f60c35366e66c90d0d0a9cf0cdb",
+      "bytes": 1875,
+      "size": [
+        80,
+        80
+      ],
+      "bounds": [
+        8,
+        12,
+        72,
+        64
+      ]
+    },
+    {
+      "file": "emblem-platinum.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-platinum.png",
+      "sha256": "59da77b18c621060fe7fc319267e1c7ffa4ddb441b97aa0465decc0dd194ff14",
+      "bytes": 84896,
+      "size": [
+        1280,
+        720
+      ],
+      "bounds": [
+        495,
+        218,
+        788,
+        454
+      ]
+    },
+    {
+      "file": "crest-platinum.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/platinum.png",
+      "sha256": "b16969bf7c7b8452ee4bbcc8aee43e97383304b4a701dc583a2026ccaa3ceb75",
+      "bytes": 1899,
+      "size": [
+        80,
+        80
+      ],
+      "bounds": [
+        8,
+        12,
+        72,
+        64
+      ]
+    },
+    {
+      "file": "emblem-diamond.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-diamond.png",
+      "sha256": "059cde015ec14f97036c35d10cc070b8f6f6ebccf9c4fcf4ea4ab902343e9ab1",
+      "bytes": 89814,
+      "size": [
+        1280,
+        720
+      ],
+      "bounds": [
+        481,
+        260,
+        801,
+        458
+      ]
+    },
+    {
+      "file": "crest-diamond.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/diamond.png",
+      "sha256": "45c64705c88fc527017162c5798fa9fbb1d0986ee1e6fd899e871d3152a41fe7",
+      "bytes": 1894,
+      "size": [
+        80,
+        80
+      ],
+      "bounds": [
+        8,
+        12,
+        72,
+        64
+      ]
+    },
+    {
+      "file": "emblem-master.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-master.png",
+      "sha256": "22118c65f4d0ee3e2776067ba57e295a566010705e8b80b6e2ba3e5191b8d287",
+      "bytes": 92028,
+      "size": [
+        1280,
+        720
+      ],
+      "bounds": [
+        481,
+        218,
+        800,
+        461
+      ]
+    },
+    {
+      "file": "avatar-master.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/loadouts/regalia/crests/ranked/07_master/07_master_base.csscraps.png",
+      "sha256": "0bfa924eb742aeb77aeb384cb622c0bf36e2adc8590370d1b7cfe1f3afd4715f",
+      "bytes": 45061,
+      "size": [
+        512,
+        512
+      ],
+      "bounds": [
+        131,
+        129,
+        381,
+        356
+      ]
+    },
+    {
+      "file": "crest-master.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/master.png",
+      "sha256": "8f43888bc46a6e0aeca7b5292f3ba1a7841f129bbb888dca677ac84f8b19e010",
+      "bytes": 2073,
+      "size": [
+        80,
+        80
+      ],
+      "bounds": [
+        8,
+        8,
+        72,
+        68
+      ]
+    },
+    {
+      "file": "emblem-grandmaster.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-grandmaster.png",
+      "sha256": "cb016209c335961cc56469a97c0a3cdc9c7203d13546e766e87f76523f9196c0",
+      "bytes": 110760,
+      "size": [
+        1280,
+        720
+      ],
+      "bounds": [
+        463,
+        240,
+        820,
+        485
+      ]
+    },
+    {
+      "file": "avatar-grandmaster.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/loadouts/regalia/crests/ranked/08_grandmaster/08_grandmaster_base.csscraps.png",
+      "sha256": "9ff6b6954716c476e502ae430ed6214be4cb2efddf85ba6127457c0104009393",
+      "bytes": 50570,
+      "size": [
+        512,
+        512
+      ],
+      "bounds": [
+        105,
+        86,
+        409,
+        350
+      ]
+    },
+    {
+      "file": "crest-grandmaster.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/grandmaster.png",
+      "sha256": "7c4931d593cc8968cc1009b297d64b495141dcb3ce703ec0b173d34fc6b6c20b",
+      "bytes": 2043,
+      "size": [
+        80,
+        80
+      ],
+      "bounds": [
+        8,
+        8,
+        72,
+        68
+      ]
+    },
+    {
+      "file": "emblem-challenger.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-challenger.png",
+      "sha256": "a0bce03a7c884d9342eed3a674a9ec27bd0881d45565a9ed1fa34c0a27196b56",
+      "bytes": 111694,
+      "size": [
+        1280,
+        720
+      ],
+      "bounds": [
+        478,
+        214,
+        805,
+        464
+      ]
+    },
+    {
+      "file": "avatar-challenger.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/loadouts/regalia/crests/ranked/09_challenger/09_challenger_base.csscraps.png",
+      "sha256": "2131b959aaa258cadc27b5bc4843b2f154451e9ee24e5871995fff15c8740252",
+      "bytes": 49091,
+      "size": [
+        512,
+        512
+      ],
+      "bounds": [
+        119,
+        2,
+        392,
+        350
+      ]
+    },
+    {
+      "file": "crest-challenger.png",
+      "url": "https://raw.communitydragon.org/12.23/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/challenger.png",
+      "sha256": "d6fcb686d9065d6c20a4d1fd17dfe444ec4af113133f63f4119bda7e8a6f2c33",
+      "bytes": 2011,
+      "size": [
+        80,
+        80
+      ],
+      "bounds": [
+        8,
+        8,
+        72,
+        68
+      ]
+    },
+    {
+      "file": "frames-2.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/ux/loadingscreen/loadingscreen_frames_atlas2.ls_bo.png",
+      "sha256": "41417f3c5ddf077d991c7cfbd1ba7a20837747bb4755f4b8cf9a291b57e39c3e",
+      "bytes": 93473
+    },
+    {
+      "file": "frames-3.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/ux/loadingscreen/loadingscreen_frames_atlas3.ls_bo.png",
+      "sha256": "a9d4c48fba5bd7e357a9d4f74a0b708aacc1362ceee6980e5a9d9cd4dc7f89b0",
+      "bytes": 106961
+    },
+    {
+      "file": "frames-4.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/ux/loadingscreen/loadingscreen_frames_atlas4.ls_bo.png",
+      "sha256": "d10bd6dc8fec8d0ec89fbc51f03bd4a8776463b2ede39e70d5962b7664b6057a",
+      "bytes": 131705
+    },
+    {
+      "file": "frames-5.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/ux/loadingscreen/loadingscreen_frames_atlas5.ls_bo.png",
+      "sha256": "d342ecc6b54a62ecc762d01a7eb838bc2b1a127fc404a6e9e6a80b50456e78e2",
+      "bytes": 157563
+    },
+    {
+      "file": "frames-6.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/ux/loadingscreen/loadingscreen_frames_atlas6.ls_c2.png",
+      "sha256": "e97da82a1164d50e4c1fc21d0ac4cda87c331c76694bfd23b2fa26307d34cafa",
+      "bytes": 108491
+    },
+    {
+      "file": "avatar-iron.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/loadouts/regalia/crests/ranked/01_iron/01_iron_base.ls_ch.png",
+      "sha256": "18abbb7de12e2d23ac76731b74b9ffc9e8439db4ec6670509bb460827869f4f5",
+      "bytes": 17592,
+      "size": [
+        512,
+        512
+      ],
+      "bounds": [
+        166,
+        184,
+        348,
+        322
+      ]
+    },
+    {
+      "file": "avatar-bronze.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/loadouts/regalia/crests/ranked/02_bronze/02_bronze_base.ls_ch.png",
+      "sha256": "fb561f1dbd52f156f2ba550ece5887a92046f515ebf288de574a9e72fb35c8e8",
+      "bytes": 24351,
+      "size": [
+        512,
+        512
+      ],
+      "bounds": [
+        148,
+        185,
+        365,
+        337
+      ]
+    },
+    {
+      "file": "avatar-silver.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/loadouts/regalia/crests/ranked/03_silver/03_silver_base.ls_ch.png",
+      "sha256": "c96ff3fa3dc8c0d03c8ae5feca156c957ebb8974962cf2fc1064d4138ec21544",
+      "bytes": 31794,
+      "size": [
+        512,
+        512
+      ],
+      "bounds": [
+        140,
+        184,
+        373,
+        341
+      ]
+    },
+    {
+      "file": "avatar-gold.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/loadouts/regalia/crests/ranked/04_gold/04_gold_base.ls_ch.png",
+      "sha256": "1480958aa150d5107c56295f41978478bb30aa37560d857b29a649771cb6cbc8",
+      "bytes": 35821,
+      "size": [
+        512,
+        512
+      ],
+      "bounds": [
+        140,
+        165,
+        370,
+        341
+      ]
+    },
+    {
+      "file": "avatar-platinum.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/loadouts/regalia/crests/ranked/05_platinum/05_platinum_base.ls_ch.png",
+      "sha256": "ada7210fc551b95871e7bfaf5a0af328fc61797bd4a6ad48dd6acc03f9aa3814",
+      "bytes": 34916,
+      "size": [
+        512,
+        512
+      ],
+      "bounds": [
+        128,
+        172,
+        382,
+        337
+      ]
+    },
+    {
+      "file": "avatar-diamond.png",
+      "url": "https://raw.communitydragon.org/12.23/game/assets/loadouts/regalia/crests/ranked/06_diamond/06_diamond_base.ls_ch.png",
+      "sha256": "c30682f284683e3ac2bfb6643b6f52ed5325ca54b02dee76dc1c561f520f93dd",
+      "bytes": 41884,
+      "size": [
+        512,
+        512
+      ],
+      "bounds": [
+        120,
+        139,
+        392,
+        353
+      ]
+    }
+  ]
+}

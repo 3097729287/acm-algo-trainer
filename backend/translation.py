@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import re
 import threading
+from functools import lru_cache
 from collections import Counter
 from urllib.error import HTTPError,URLError
 from urllib.parse import urlsplit
@@ -93,9 +94,25 @@ def validate_translation(original,translated):
         raise TranslationIncomplete()
 
 
+@lru_cache(maxsize=1)
+def _statement_corrections():
+    from paths import resource
+    path=resource('statement-translation-corrections.json')
+    if not path.is_file():return {}
+    raw=path.read_bytes()
+    if len(raw)>1024*1024:return {}
+    try:value=json.loads(raw)
+    except (ValueError,UnicodeError):return {}
+    return value.get('translations',{}) if isinstance(value,dict) else {}
+
+
 def bundled_translation(problem):
     """Accept only complete prebuilt text tied to this exact original."""
-    value=problem.get('translation')
+    # Small, reviewed corrections also cover dynamically loaded replay
+    # problems without replacing the public library or the user's original.
+    correction=_statement_corrections().get(problem.get('url'))
+    source_hash=hashlib.sha256((problem.get('markdown') or '').encode()).hexdigest()
+    value=correction if isinstance(correction,dict) and correction.get('sourceHash')==source_hash else problem.get('translation')
     if not isinstance(value,dict) or value.get('kind')!='bundled':return None
     original=problem.get('markdown') or '';translated=value.get('markdown')
     if not isinstance(translated,str) or not translated.strip() or value.get('format')!=TRANSLATION_FORMAT:return None
@@ -409,7 +426,27 @@ class TranslationService:
                 if len(re.findall(r'[\u3040-\u30ff]',english_prose(result)))>=max(12,len(re.findall(r'[\u3040-\u30ff]',prose))*.35):raise TranslationIncomplete()
             validate_translation(chunk,result)
             return result
-        except (TranslationTruncated,TranslationIncomplete,TranslationIntegrityError):
+        except TranslationIntegrityError:
+            # Retry whole prose paragraphs while retaining layout/code in the
+            # application. Asking a model to reproduce many blank-line tokens
+            # can fail deterministically. Every retry still protects and checks
+            # all formulas/numbers/URLs; a damaged formula is never accepted.
+            if depth==0:
+                shielded,tokens=protect(chunk)
+                pieces=[];current=[]
+                for part in re.split(r'(TBPROTECT[A-F0-9]{8}\d{4}TOKEN)',shielded):
+                    original=tokens.get(part,part)
+                    if part in tokens and ('\n' in original or re.fullmatch(r'[ \t]*(?:#{1,6} |[-*+] |\d+\. )',original)):
+                        if current:pieces.append((''.join(current),False));current=[]
+                        pieces.append((original,True))
+                    else:current.append(original)
+                if current:pieces.append((''.join(current),False))
+                if len(pieces)>1:
+                    return ''.join(text if fixed else self._translate_chunk(text,depth+1) for text,fixed in pieces)
+            pieces=translation_chunks(chunk,maximum=max(64,len(protected)//2))
+            if depth>=2 or len(pieces)<2:raise
+            return ''.join(self._translate_chunk(piece,depth+1) for piece in pieces)
+        except (TranslationTruncated,TranslationIncomplete):
             pieces=translation_chunks(chunk,maximum=max(64,len(protected)//2))
             if depth>=2 or len(pieces)<2:raise
             return ''.join(self._translate_chunk(piece,depth+1) for piece in pieces)
@@ -418,7 +455,7 @@ class TranslationService:
         # _cached is the read-only statement view. Never use problem()'s drafts,
         # own submissions, solutions or reference C++ as provider input.
         with self.assets.lock:problem=dict(self.assets._cached(identity))
-        localized=getattr(self.assets,'localized_statement',lambda _:None)(identity)
+        localized=bundled_translation(problem) or getattr(self.assets,'localized_statement',lambda _:None)(identity)
         if isinstance(localized,dict) and localized.get('markdown'):
             return dict(localized,id=identity,sourceLanguage=localized.get('sourceLanguage','en'),targetLanguage='zh-CN',cached=True)
         if problem.get('translationAvailable') is False:raise ServiceError(422,'当前原题仅提供 PDF，请阅读原文题面')

@@ -6,6 +6,10 @@ The compiler runs as a separate tool. Its license and the GCC Runtime Library Ex
 
 The original notices below are not translated.
 
+## Rank artwork used for the requested local reference
+
+The nine rank emblems, portrait decorations, mini crests and loading-screen frame sprites in `frontend/public/ranks` are original Riot Games artwork obtained from the fixed CommunityDragon 12.23 asset archive. Their original bytes, source URLs and SHA-256 values are recorded in `frontend/public/ranks/sources.json`. SVG viewports select original sprite regions. These assets retain their upstream ownership and are separate from ToBe's MIT application code. The player's own avatar and ToBe's score-to-tier mapping remain independent.
+
 ## OI Wiki articles, figures and source notices
 
 The 1.5.0 development branch includes an independent offline OI Wiki collection in `resources/oi-wiki.sqlite3`. Copyright belongs to the OI Wiki Team and the contributors credited on each original page. The fixed upstream gh-pages revision is `948d024d37bb0bdf63f2aa8a8eda0b19c20b94b0`. Original article HTML, image bytes, original URLs, per-page contributors and individual notices remain in the database and reader.

@@ -45,3 +45,5 @@ TB is the primary product. Active code belongs in `frontend/`, `backend/`, `desk
 - 用户发行要求（2026-10-22）：管理员版本仅供维护者本机自用，禁止上传 GitHub（含草稿、正式版、便携包、安装包、管理员清单及公开校验索引）。公开发布只含用户版；管理员产物必须位于 `stage/private-admin`，与公开 `stage/release` 分离，上传前使用 `scripts/release_assets.py` 校验。保留本机管理员程序及个人数据。
 
 - Local desktop packaging authorization (2026-10-22): the user explicitly requests packaging Algorithm Lab into the normal desktop program. Build the completed, committed course in the isolated 1.3.6 branch and validate local installation/upgrade while the separate editorial review continues. This authorizes local program delivery, not public release, service deployment or a claim that all editorials have been reviewed.
+
+- 用户最新要求（2026-11-05）：每次更新都必须在桌面 `ToBe更新记录` 文件夹内保留对应 Markdown 更新说明，一版一份，保留旧记录；项目同步到 `版本/更新记录`。批量题解和剩余全库翻译留待下个版本，不启动并行代理。

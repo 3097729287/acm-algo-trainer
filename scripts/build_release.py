@@ -164,6 +164,10 @@ def assemble(args):
     shutil.copytree(stage / 'dist' / NAME, package)
     shutil.copytree(frontend_dist, package / 'frontend' / 'dist')
     shutil.copytree(ROOT / 'backend' / 'resources', package / 'resources',ignore=shutil.ignore_patterns('public-problem-metadata.json'))
+    notes=ROOT/'docs'/'releases'/(VERSION+'.md')
+    if not notes.is_file():raise RuntimeError('Every release requires versioned Markdown update notes')
+    (package/'resources/update-notes').mkdir(parents=True,exist_ok=True)
+    shutil.copy2(notes,package/'resources/update-notes'/notes.name)
     pack_public_metadata(package)
     shutil.copytree(args.compiler_source, package / 'compiler')
     compiler=args.compiler_source/'ucrt64/bin/g++.exe'

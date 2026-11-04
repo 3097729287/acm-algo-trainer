@@ -26,6 +26,24 @@ def fullscreen_frame(window):
         dwm.DwmSetWindowAttribute.argtypes=[wintypes.HWND,wintypes.DWORD,ctypes.c_void_p,wintypes.DWORD]
         dwm.DwmExtendFrameIntoClientArea.argtypes=[wintypes.HWND,ctypes.POINTER(Margins)]
         full=is_fullscreen(window);shadow=bool(getattr(window,'shadow',True))
+        if full:
+            # FormBorderStyle.None removes WS_MINIMIZEBOX. Win+D then only
+            # lowers this window, and opening Explorer brings it back behind
+            # Explorer. Retain native minimization in fullscreen so the shell
+            # really minimizes it until the user chooses to restore it.
+            user=ctypes.WinDLL('user32',use_last_error=True)
+            user.GetWindowLongW.argtypes=[wintypes.HWND,ctypes.c_int]
+            user.GetWindowLongW.restype=ctypes.c_long
+            user.SetWindowLongW.argtypes=[wintypes.HWND,ctypes.c_int,ctypes.c_long]
+            user.SetWindowLongW.restype=ctypes.c_long
+            user.SetWindowPos.argtypes=[wintypes.HWND,wintypes.HWND,ctypes.c_int,ctypes.c_int,ctypes.c_int,ctypes.c_int,wintypes.UINT]
+            style=user.GetWindowLongW(handle,-16)
+            minimize_style=0x00020000|0x00080000  # WS_MINIMIZEBOX | WS_SYSMENU
+            if style&minimize_style!=minimize_style:
+                user.SetWindowLongW(handle,-16,style|minimize_style)
+                # Refresh styles without moving, showing, activating or
+                # changing the stacking order of this window.
+                user.SetWindowPos(handle,None,0,0,0,0,0x0001|0x0002|0x0004|0x0010|0x0020)
         # pywebview forces DWMNCRP_ENABLED while enabling its normal-window
         # shadow. That draws a frame even after FormBorderStyle becomes None.
         # Let the borderless fullscreen style control nonclient rendering;

@@ -74,11 +74,10 @@ class AssetLibrary:
             fetched=self._fetch_statement(identity,value)
             value=clean_statement(self._cached(identity))
             if fetched and fetched.get('statementError'):value['statementError']=fetched['statementError']
-        if isinstance(value.get('translation'),dict) and value['translation'].get('kind')=='bundled':
-            from translation import bundled_translation
-            prepared=bundled_translation(value)
-            if prepared:value['translation']=dict(prepared,cached=True)
-            else:value.pop('translation',None)
+        from translation import bundled_translation
+        prepared=bundled_translation(value)
+        if prepared:value['translation']=dict(prepared,cached=True)
+        elif isinstance(value.get('translation'),dict) and value['translation'].get('kind')=='bundled':value.pop('translation',None)
         from translation import needs_translation
         value['autoTranslate']=needs_translation(value)
         bundle=self.bundle(identity)
@@ -194,9 +193,9 @@ class AssetLibrary:
     def localized_statement(self,identity):
         """On demand, refresh old Luogu caches that predate site translations."""
         value=dict(self._cached(identity))
-        if isinstance(value.get('translation'),dict) and value['translation'].get('kind')=='bundled':
-            from translation import bundled_translation
-            return bundled_translation(value)
+        from translation import bundled_translation
+        prepared=bundled_translation(value)
+        if prepared:return prepared
         if urlsplit(value.get('url') or '').hostname!='www.luogu.com.cn':return None
         if value.get('statementVersion',0)<2:
             if identity.startswith('remote:') and not self.store.library.find(identity):

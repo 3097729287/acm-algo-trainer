@@ -87,6 +87,8 @@ html .topbar .topbar-love-count,html .topbar .topbar-love-count b {color:var(--t
 html .topbar .topbar-love-count svg {color:#ee6b81}
 html .topbar .topbar-love-count[data-positive=true] :is(b,.metric-separator) {color:#ee6b81}
 html .topbar .topbar-love-count svg {display:block;flex:none;width:20px;height:20px}
+html .topbar-actions>.live-contest {display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;min-height:40px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;color:var(--accent);font-size:1rem;font-weight:650;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
+html .topbar-actions>.live-contest svg {display:block;flex:none;width:18px;height:18px}
 html .practice-streak {gap:5px;min-width:0;white-space:nowrap;line-height:1}
 html .practice-streak b {font-size:.9rem}
 html .practice-streak .streak-flame {width:20px;height:20px;animation:none;filter:none;transform:none}
@@ -466,6 +468,10 @@ html .lab-focus .learning-paths-page {padding:0;width:100%;height:100%;max-width
 /* Shared optical centers; the ornament surrounds the experience ring. */
 html .practice-streak .streak-flame {display:block;width:20px;height:20px;flex:none;transform:none}
 html .profile-badge .avatar-rank-frame {inset:-20%;width:140%;height:140%;z-index:2}
+html .profile-badge .avatar-rank-frame.rank-reference-art {inset:-70%;width:240%;height:240%}
+html .profile-badge:has(.rank-reference-art) .profile-avatar-face {width:50%;height:50%}
+html .profile-badge .profile-avatar-button:has(.rank-reference-art)>.profile-xp-ring {inset:20%;width:60%;height:60%;z-index:3;transform:rotate(-90deg)}
+html .profile-badge:has(.rank-reference-art) .profile-level-number {bottom:16%}
 html .profile-badge .profile-xp-ring {inset:8%;width:84%;height:84%;z-index:1}
 html .profile-badge .profile-avatar-face {position:relative;width:68%;height:68%;z-index:0}
 html .profile-badge .profile-level-number {z-index:3}

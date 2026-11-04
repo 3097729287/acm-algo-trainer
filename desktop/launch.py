@@ -271,6 +271,12 @@ def run_desktop() -> int:
                 service_thread=threading.Thread(target=server.serve_forever,name='tb-local-service',daemon=True)
                 service_thread.start()
                 LOG.info('Local backend ready')
+                if getattr(sys,'frozen',False) and os.environ.get('TB_OFFLINE')!='1':
+                    try:
+                        from release_notes import archive_current
+                        archive_current(APP_DIR)
+                    except Exception as issue:
+                        LOG.warning('Update Markdown history deferred: %s',type(issue).__name__)
                 def warm_catalog():
                     try:
                         server.store.data_response_bytes(compact=True,compressed=True)

@@ -324,6 +324,12 @@ def run(action, output):
                         assert is_fullscreen(window)
                         from System.Windows.Forms import Screen
                         assert window.native.Bounds == Screen.FromControl(window.native).Bounds
+                        import ctypes
+                        from ctypes import wintypes
+                        native_user=ctypes.WinDLL('user32')
+                        native_user.GetWindowLongW.argtypes=[wintypes.HWND,ctypes.c_int]
+                        assert native_user.GetWindowLongW(window.native.Handle.ToInt64(),-16)&0x00020000
+                        report['fullscreenShellMinimizeStyle']=True
                         window.evaluate_js("document.querySelector('input[aria-label=\"全屏\"]').click()")
                         wait_js("!document.querySelector('input[aria-label=\"全屏\"]').checked")
                         assert not is_fullscreen(window)

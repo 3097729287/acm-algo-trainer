@@ -2103,7 +2103,7 @@ export default function App() {
           <div className="topbar-actions">{learningTabCount>0&&<button type="button" className="icon-button" aria-label="返回学习标签页" title="返回学习标签页" onClick={()=>learningBrowserRef.current?.resume()}><BookOpen size={18}/></button>}
             <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
             {active && page !== "mock" && (
-              <button className="live-contest" onClick={() => go("mock")}>
+              <button className="live-contest" aria-label="返回比赛" onClick={() => go("mock")}>
                 <Clock size={14} />
                 {timerText(remainingSeconds(active, now))}
               </button>

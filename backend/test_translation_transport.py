@@ -104,6 +104,34 @@ class TransportTests(unittest.TestCase):
         self.assertTrue(result.endswith('\n\n- '))
         self.assertIn('$n$',result)
 
+    def test_missing_internal_layout_retries_whole_paragraphs(self):
+        from translation import protect
+        original='Given a positive integer $n$, find the answer and print its value.\n\nGiven a positive integer $m$, find the answer and print its value.'
+        service=self.service(original)
+        layout={key for key,span in protect(original)[1].items() if '\n' in span}
+        def reply(payload):
+            text=payload['messages'][1]['content']
+            for marker in layout:text=text.replace(marker,'')
+            text=text.replace('Given a positive integer','给定一个正整数').replace('find the answer and print its value.','计算答案并输出其值。')
+            return {'choices':[{'message':{'content':text}}]}
+        self.reply=reply
+        value=service.translate('p')
+        self.assertEqual(value['markdown'],original.replace('Given a positive integer','给定一个正整数').replace('find the answer and print its value.','计算答案并输出其值。'))
+        self.assertEqual(len(self.requests),3)
+
+    def test_layout_retry_still_rejects_a_missing_formula(self):
+        import re
+        from translation import TranslationIntegrityError
+        original='Given a positive integer $n$, find the answer and print its value.\n\nGiven a positive integer $m$, find the answer and print its value.'
+        service=self.service(original)
+        def reply(payload):
+            text=re.sub(r'TBPROTECT[A-F0-9]{8}\d{4}TOKEN','',payload['messages'][1]['content'])
+            text=text.replace('Given a positive integer','给定一个正整数').replace('find the answer and print its value.','计算答案并输出其值。')
+            return {'choices':[{'message':{'content':text}}]}
+        self.reply=reply
+        with self.assertRaises(TranslationIntegrityError):service.translate('p')
+        self.assertFalse((self.root/'translations'/'tb-documents.sqlite3').exists())
+
     def test_dropped_short_title_retries_without_discarding_original_spans(self):
         original='# Change\n\nScore : $200$ points\n\n### Problem Statement'
         service=self.service(original)
