@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {chooseMockValue} from './mock-mode-selection.mjs';
 import { spawn } from 'node:child_process';
-import { mkdtemp, mkdir, rm, realpath, readFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, realpath, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { basename, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -226,5 +226,12 @@ try {
   }
   const actual = await realpath(state), temporaryRoot = await realpath(tmpdir());
   assert.ok(actual.startsWith(temporaryRoot + sep) && basename(actual).startsWith('tb-api-e2e-'));
-  await rm(actual, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+  // Match this workspace's system-Recycle-Bin-only rule, including failed tests.
+  // Unsupported recycling retains the isolated directory and reports it.
+  await new Promise(resolve => {
+    const code = 'import sys,json;from pathlib import Path;sys.path.insert(0,sys.argv[1]);import system_recycle;p=Path(sys.argv[2]);ok=system_recycle.recycle(p);print(json.dumps({"isolatedTestDirectoryRecycled":ok,"retained":p.exists()}))';
+    const cleanup=spawn(process.env.TB_PYTHON||'python',['-c',code,join(root,'backend'),actual],{cwd:root,windowsHide:true,stdio:['ignore','inherit','inherit']});
+    cleanup.once('error',error=>{console.log('Isolated fixture retained:',actual,error.message);resolve();});
+    cleanup.once('exit',resolve);
+  });
 }

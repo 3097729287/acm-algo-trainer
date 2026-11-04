@@ -48,7 +48,7 @@ try {
   await page.keyboard.press('Control+2');
   const open = async title => {
     if(await page.getByRole('button',{name:'收起题解',exact:true}).count())await page.getByRole('button',{name:'收起题解',exact:true}).click();
-    if(await page.getByRole('button',{name:'返回列表',exact:true}).count())await page.getByRole('button',{name:'返回列表',exact:true}).click();
+    if(await page.getByRole('button',{name:'返回主界面',exact:true}).count())await page.getByRole('button',{name:'返回主界面',exact:true}).click();
     await page.getByRole('textbox', { name: '搜索题目', exact: true }).fill(title);
     const identity = title === 'Rank Subsequence' ? pid : editorialRows.find(row => row.title === title && row.solutionAvailable)?.id;
     assert.ok(identity, 'The test must open an exact problem with a bundled editorial');

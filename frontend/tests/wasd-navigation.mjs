@@ -23,6 +23,9 @@ await page.route('**/*',async route=>{const url=new URL(route.request().url());i
  else if(name==='preferences'){if(route.request().method()==='POST')preferences=route.request().postDataJSON().preferences;value={preferences,updatedAt:now};}
  else if(name==='data')value={rows,categories:[{name:'基础',children:[{name:'输入输出'},{name:'循环'}]}],token:'fixture',today:now.slice(0,10)};
  else if(name==='workspace')value=workspace;
+ else if(name==='navigation')value={level:11,confirmed:true,authority:{owner,epoch:'direction-fixture',revision:++revision}};
+ else if(name==='duel')value={available:false,lobby:null,match:null};
+ else if(name==='workspace/ready')value={ok:true};
  else if(name==='insights')value={summary:{totalSolved:0},growth:{level:11,confirmed:true,authority:{owner,epoch:'direction-fixture',revision:++revision},tier:'白银',currentLevelXp:0,nextLevelXp:200,totalXp:1000},knowledge:[],recommendations:[],activity:[],assessment:{},dailyTasks:{tasks:[]}};
  else if(name==='software-update')value={currentVersion:'1.4.31',status:'current',autoCheck:false,canInstall:false};
  else if(name==='content-update')value={revision:0,status:'current'};

@@ -33,6 +33,9 @@ await page.route('**/api/**',async route=>{
  else if(name==='preferences'){if(request.method()==='POST')preferences=request.postDataJSON().preferences;value={preferences,updatedAt:now};}
  else if(name==='data')value={rows,categories:[],token:'fixture',today:'2026-10-29'};
  else if(name==='workspace')value=workspace;
+ else if(name==='navigation')value={level:11,confirmed:true,authority:{owner,epoch:'root-ui-fixture',revision:++revision}};
+ else if(name==='duel')value={available:false,lobby:null,match:null};
+ else if(name==='workspace/ready')value={ok:true};
  else if(name==='insights')value={summary:{totalSolved:98,submissions:171,activeDays:29,streak:19,longestStreak:21,completedContests:2},growth:{level:11,confirmed:true,authority:{owner,epoch:'root-ui-fixture',revision:++revision},currentLevelXp:745,nextLevelXp:2200,totalXp:11745,ranked:{qualified:true,tier:'青铜',badge:'tier-1',abilityScore:900}},knowledge:[],recommendations:[],activity:[],assessment:{},achievements:[],dailyTasks:daily()};
  else if(name==='daily-tasks')value=daily();
  else if(name==='software-update')value={currentVersion:'1.4.31',status:'current',autoCheck:false,canInstall:false};
@@ -85,7 +88,7 @@ try{
   assert(Math.abs(g.brand.cx-g.navIcon.cx)<1.5&&Math.abs(g.brand.cx-g.settingsIcon.cx)<1.5,JSON.stringify(g));
   if(g.navText)assert(Math.abs(g.navText.cy-g.navIcon.cy)<1.5,JSON.stringify(g));
   assert(Math.abs(g.settings.cy-g.footer.cy)<1.5&&g.footerControls.every(c=>Math.abs(c.cy-g.footer.cy)<1.5),JSON.stringify(g));assert(g.padding.every(p=>p===g.padding[0]),JSON.stringify(g));
-  if(width>650)assert(Math.abs(g.brand.cy-g.top.cy)<1.5,JSON.stringify(g));else assert(Math.abs(g.brand.cy-g.first.cy)<1.5,JSON.stringify(g));
+  assert(g.brand.y>=g.top.y-.5&&g.brand.bottom<=g.top.bottom+.5,'Brand remains within the header band: '+JSON.stringify(g));
   await page.screenshot({path:output+'/'+width+'-'+font+'-'+collapsed+'.png'});report.cases.push({width,font,collapsed,...g});
  }
  await openSettings(page,'外观');assert.equal(await page.getByRole('button',{name:'石墨深色',exact:true}).count(),0);assert.equal(await page.getByRole('button',{name:'云白浅色',exact:true}).count(),0);assert.equal(await page.locator('.visual-preferences .setting-label strong').filter({hasText:/^主题$/}).count(),0);

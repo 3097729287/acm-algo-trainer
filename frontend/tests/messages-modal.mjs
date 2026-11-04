@@ -21,6 +21,9 @@ await page.route('**/api/**',async route=>{
  else if(name==='preferences'){if(request.method()==='POST')preferences=request.postDataJSON().preferences;value={preferences,updatedAt:now};}
  else if(name==='data')value={rows,categories:[],token:'fixture',today:'2026-10-29'};
  else if(name==='workspace')value=workspace;
+ else if(name==='navigation')value={level:11,confirmed:true,authority:{owner,epoch:'root-ui-fixture',revision:++revision}};
+ else if(name==='duel')value={available:false,lobby:null,match:null};
+ else if(name==='workspace/ready')value={ok:true};
  else if(name==='insights')value={summary:{totalSolved:98,submissions:171,activeDays:29,streak:19,longestStreak:21,completedContests:2},growth:{level:11,confirmed:true,authority:{owner,epoch:'root-ui-fixture',revision:++revision},currentLevelXp:745,nextLevelXp:2200,totalXp:11745,ranked:{qualified:true,tier:'青铜',badge:'tier-1',abilityScore:900}},knowledge:[],recommendations:[],activity:[],assessment:{},achievements:[],dailyTasks:daily()};
  else if(name==='daily-tasks')value=daily();
  else if(name==='software-update')value={currentVersion:'1.4.31',status:'current',autoCheck:false,canInstall:false};

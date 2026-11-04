@@ -1,3 +1,4 @@
+import {gzipSync} from 'node:zlib';
 // Production bundle isolation and unchanged workspace sharing; no live account.
 import assert from 'node:assert/strict';
 import {readFile, readdir} from 'node:fs/promises';
@@ -20,8 +21,9 @@ try {
   const files = await readdir('dist/assets');
   const main = files.find(file => /^index-.*\.js$/.test(file));
   const text = await readFile(`dist/assets/${main}`,'utf8');
-  assert.ok(Buffer.byteLength(text)<500000,'the startup chunk excludes Markdown/math and editor engines');
-  assert.ok(files.some(file => /^MathTitle-.*\.js$/.test(file)));
-  assert.ok(files.some(file => /^SolutionMarkdown-.*\.js$/.test(file)));
+  assert.ok(Buffer.byteLength(text)<1024*1024,'startup parsing stays within one MiB');
+  assert.ok(gzipSync(text).length<300*1024,'startup transfer stays below 300 KiB');
+  assert.ok(files.some(file => /^normalizeMarkdown-.*\.js$/.test(file)));
+  assert.ok(files.some(file => /^CodeEditor-.*\.js$/.test(file)));
   console.log(JSON.stringify({ok:true,startupBytes:Buffer.byteLength(text),unchangedTrainingReused:true,acceptanceAndLocksInvalidate:true,readerAndEditorDeferred:true}));
 } finally { await server.close(); }

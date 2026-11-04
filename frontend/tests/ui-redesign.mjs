@@ -92,7 +92,7 @@ try {
  await nav('比赛').click();await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).waitFor();await page.locator('.competition-card').first().waitFor();
  await nav('题库').click();assert.equal(await page.getByRole('button',{name:'逐层浏览题库',exact:true}).count(),0);
  await page.locator('.problem-table tr[data-id]').first().waitFor();
- await page.locator('.problem-table tr[data-id]').first().locator('.problem-title').click();await page.locator('.cm-editor').waitFor();assert.equal(await page.locator('.topbar').isVisible(),false);assert.equal(await page.locator('.app-statusbar').isVisible(),false);await page.getByRole('button',{name:'返回列表',exact:true}).click();
+ await page.locator('.problem-table tr[data-id]').first().locator('.problem-title').click();await page.locator('.cm-editor').waitFor();assert(await page.locator('.topbar').evaluate(node=>{const r=node.getBoundingClientRect();return !node.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));}),'Immersive study covers the main header');assert(await page.locator('.app-statusbar').evaluate(node=>{const r=node.getBoundingClientRect();return !node.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));}),'Immersive study covers the main footer');await page.getByRole('button',{name:'返回主界面',exact:true}).click();
  await nav('排行榜').click();await page.locator('.ranking-table tbody tr').first().waitFor();assert.equal(await page.getByText('本榜训练者',{exact:true}).count(),0);assert.equal(await page.getByRole('button',{name:'同步与刷新',exact:true}).innerText(),'');await checkOverflow();await page.screenshot({path:'tests/screenshots/ui-redesign-ranking.png'});
  await openSettings(page,'新手指引');await page.getByRole('button',{name:/入门总览/}).click();await page.getByRole('heading',{name:'按等级逐步开放',exact:true}).waitFor();for(const title of ['下一步推荐做的事','收起与展开侧边栏','连接账号']){await page.locator('.tour-card').getByRole('button',{name:'下一步',exact:true}).click();await page.locator('.tour-card').getByRole('heading',{name:title,exact:true}).waitFor();}
  const next=page.locator('.tour-card').getByRole('button',{name:'下一步',exact:true});
@@ -100,7 +100,7 @@ try {
  await next.click();await page.getByRole('heading',{name:'进入练习',exact:true}).waitFor();assert(await next.isDisabled());
  await page.locator('.problem-table tr[data-id]').first().locator('.problem-title').click();
  await page.getByRole('heading',{name:'阅读题面',exact:true}).waitFor();await page.locator('.cm-editor').waitFor();
- const practiceTargets={'编写代码':'.cm-editor','运行与提交':'.wb-run-actions','回到题库':'.tb-workbench .wb-back-button[aria-label="返回列表"]'};
+ const practiceTargets={'编写代码':'.cm-editor','运行与提交':'.wb-run-actions','回到题库':'.study-back[aria-label="返回主界面"]'};
  for (const title of ['编写代码','运行与提交','回到题库']) {
   await next.click();await page.locator('.tour-card').getByRole('heading',{name:title,exact:true}).waitFor();
   // Headings update before the guide's rAF measurement and CSS transition.
@@ -114,7 +114,7 @@ try {
   },practiceTargets[title]);
   assert(await page.locator('.tour-highlight').isVisible());
  }
- assert(await next.isDisabled());await page.getByRole('button',{name:'返回列表',exact:true}).click();
+ assert(await next.isDisabled());await page.getByRole('button',{name:'返回主界面',exact:true}).click();
  await page.getByRole('heading',{name:'查看提交结果',exact:true}).waitFor();
  for (const title of ['组成一场训练','安排下一次练习','查看比赛日历','完成入门']) {await next.click();await page.locator('.tour-card').getByRole('heading',{name:title,exact:true}).waitFor();}
  await page.locator('.tour-card').getByRole('button',{name:'完成',exact:true}).click();assert.equal(await page.locator('.guided-tour').count(),0);
