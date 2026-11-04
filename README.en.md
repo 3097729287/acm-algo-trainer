@@ -1,6 +1,6 @@
 # ToBe · Training Workbench
 
-**The installed local release is 1.5.5; this branch prepares the local 1.5.6 fixes** for fullscreen Show Desktop behavior, the nine reference rank sets, translation retries and timer alignment. Versioned Markdown notes are kept in the Desktop ToBe更新记录 folder. Installation and delta validation are recorded separately; public downloads remain 1.5.2. See the [1.5.6 notes](docs/releases/1.5.6.md).
+**Both normal local editions are installed and verified at 1.5.6.** This delivers fullscreen Show Desktop fixes, the nine reference rank sets, translation retries and timer alignment. Versioned Markdown notes are kept in the Desktop ToBe更新记录 folder. The program build source is `f1e6cd576c041984c83f2cbfacfa59bd79959923`; public downloads remain 1.5.2. See the [delivery and verification record](docs/local-delivery-1.5.6.md).
 
 No new editorials are authored in this round. English statements remain English by default, with optional bundled Chinese. The 1,994 completed translations are retained. Bulk translation is deferred; this fix adds only the reported problem without an external translation API. Original statements, formulas, samples, illustrations and attribution are retained; incomplete sources are recorded rather than guessed. The three Nowcoder sources now provide 71 lists/chapters and 1,083 distinct original problems, including the repaired NC53264 figures and official PDF.
 
