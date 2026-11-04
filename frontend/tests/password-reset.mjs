@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {chromium} from 'playwright';
+import {createServer} from 'vite';
+import {startFixture} from '../../server/leaderboard/tests/local-server.mjs';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),out=path.resolve(root,'../.backups/admin-environment/password-reset');await mkdir(out,{recursive:true});
+const service=await startFixture(),strong='fixture-strong-password';let current,calls=0;
+async function cloud(endpoint,body,session){const response=await fetch(service.endpoint+endpoint,{method:'POST',headers:{'Content-Type':'application/json','X-TB-State-Protocol':'1','X-TB-Chunk-Protocol':'2',...(session?{'X-TB-User':session.account.userId,Authorization:'Bearer '+session.token}:{})},body:JSON.stringify(body)});return {status:response.status,value:await response.json()};}
+const admin=(await cloud('/v1/accounts/register',{loginId:'admin',nickname:'Synthetic admin',password:strong})).value.account;service.STORE.database.prepare('INSERT INTO ranking_admins VALUES(?,?)').run(admin.userId,new Date().toISOString());const manager=(await cloud('/v1/accounts/login',{loginId:'admin',password:strong})).value;
+const fixture=`import React from 'react';import{createRoot}from'react-dom/client';import AccountPanel from '/src/components/AccountPanel.jsx';import{ProfileSettings}from'/src/pages/CommunityPanel.jsx';import'/src/styles/workspace.css';
+window.__tbAdmin=false;const api=async(p,b)=>{const r=await fetch('/api/'+p,{method:b===undefined?'GET':'POST',headers:{'Content-Type':'application/json'},...(b===undefined?{}:{body:JSON.stringify(b)})});const v=await r.json();if(!r.ok)throw Error(v.error);return v;};const a=await api('account'),profile={profile:a.account};const component=new URLSearchParams(location.search).get('panel')==='account'?AccountPanel:ProfileSettings;createRoot(document.getElementById('root')).render(React.createElement(component,{api,account:a.account,profileSnapshot:profile,initialAccount:a.account,initialProfileSnapshot:profile,hub:{settings:{accounts:{}}}}));`;
+const html='<!doctype html><html><head><meta charset="utf-8"></head><body><div id="root"></div><script type="module" src="/@id/virtual:password-reset.jsx"></script></body></html>';
+const vite=await createServer({root,server:{host:'127.0.0.1',port:0,watch:null},plugins:[{name:'password-reset-fixture',configureServer(server){server.middlewares.use(async(req,res,next)=>{if(req.url?.startsWith('/password-fixture')){res.setHeader('Content-Type','text/html;charset=utf-8');res.end(await server.transformIndexHtml('/password-fixture',html));return;}if(!req.url?.startsWith('/api/'))return next();let body='';for await(const chunk of req)body+=chunk;const p=new URL(req.url,'http://localhost').pathname.slice(5);let value,status=200;if(p==='account')value={account:current.account};else if(p==='hub')value={settings:{accounts:{}}};else if(p==='browser-preparation')value={platforms:[]};else if(p==='account/password'){calls++;const result=await cloud('/v1/accounts/password',JSON.parse(body),current);status=result.status;value=result.value;if(status===200)current=value;}else{status=404;value={error:'Unexpected fixture path '+p};}res.statusCode=status;res.setHeader('Content-Type','application/json');res.end(JSON.stringify(value));});},resolveId(id){if(id==='virtual:password-reset.jsx')return '\0virtual:password-reset.jsx';},load(id){if(id==='\0virtual:password-reset.jsx')return fixture;}}]});await vite.listen();
+const browser=await chromium.launch({channel:'msedge',headless:true}),page=await browser.newPage(),errors=[],results=[];page.on('pageerror',e=>errors.push(e.message));
+try{
+ for(const panel of ['account','profile']){
+  const loginId='reset_'+panel,user=(await cloud('/v1/accounts/register',{loginId,nickname:loginId,password:strong})).value.account;
+  assert.equal((await cloud('/v1/admin/accounts/reset-password',{userId:user.userId,loginId,confirmation:'reset-password'},manager)).status,200);
+  current=(await cloud('/v1/accounts/login',{loginId,password:'123456'})).value;assert(current.token);calls=0;
+  await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/password-fixture?panel=${panel}`);await page.locator(panel==='account'?'.account-password-edit>summary':'.profile-edit>summary').click();
+  const old=panel==='account'?page.getByLabel('原密码',{exact:true}):page.locator('input[autocomplete="current-password"]');const fresh=panel==='account'?page.getByLabel('新密码',{exact:true}):page.locator('input[autocomplete="new-password"]').first();const confirmation=panel==='account'?page.getByLabel('确认新密码',{exact:true}):page.locator('input[autocomplete="new-password"]').last();
+  await old.pressSequentially('654321');assert.equal(await old.evaluate(n=>n.checkValidity()),false);await old.fill('');await old.pressSequentially('123456');assert.equal(await old.evaluate(n=>n.checkValidity()),true);
+  await fresh.pressSequentially('123456');assert.equal(await fresh.evaluate(n=>n.checkValidity()),false);assert.equal(calls,0);
+  const next=strong+'-'+panel;await fresh.fill('');await fresh.pressSequentially(next);await confirmation.pressSequentially(next);await page.getByRole('button',{name:panel==='account'?'保存新密码':'修改密码',exact:true}).click();await page.waitForFunction(()=>document.querySelector('input[autocomplete="current-password"]')?.value==='');assert.equal(calls,1);
+  assert.equal((await cloud('/v1/accounts/login',{loginId,password:'123456'})).status,401);assert.equal((await cloud('/v1/accounts/login',{loginId,password:next})).status,200);results.push({panel,temporaryPasswordUsable:true,newPasswordStillRequiresEightCharacters:true,oldTemporaryPasswordRevoked:true});
+ }
+ assert.deepEqual(errors,[]);console.log(JSON.stringify({ok:true,forms:results.length,productionAccountOperations:0}));
+}finally{await writeFile(path.join(out,'report.json'),JSON.stringify({ok:results.length===2,results,errors,productionAccountOperations:0},null,2));await browser.close();await vite.close();await service.close();}
