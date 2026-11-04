@@ -21,7 +21,7 @@ const inventory=async user=>(await user.send('/v1/stickers')).value;
 test('within an already rolled rarity, every collectible appears before duplicates and achievement exclusives stay exclusive',()=>{
  const seen=new Set();
  for(const rarity of ['common','rare','epic','legendary']){
-  const pool=STICKERS.filter(item=>item.rarity===rarity&&!item.id.startsWith('achievement-'));
+  const pool=STICKERS.filter(item=>item.kind!=='background'&&item.rarity===rarity&&!item.id.startsWith('achievement-'));
   for(let i=0;i<pool.length;i++){
    const sticker=choosePackSticker(STICKERS,rarity,seen,n=>n-1);
    assert(!seen.has(sticker.id));assert.equal(sticker.rarity,rarity);seen.add(sticker.id);
@@ -29,6 +29,7 @@ test('within an already rolled rarity, every collectible appears before duplicat
   assert(pool.some(item=>item.id===choosePackSticker(STICKERS,rarity,seen,()=>0).id));
  }
  assert(![...seen].some(id=>id.startsWith('achievement-')));
+ assert(![...seen].some(id=>id.startsWith('background-')));
 });
 test('pack quantities, exact roll weights and higher rarity outcomes are defined for all four packs',()=>{
  for(const [rarity,quantity] of Object.entries({common:3,rare:4,epic:5,legendary:6})){

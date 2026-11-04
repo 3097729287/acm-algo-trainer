@@ -4,6 +4,7 @@ import {createHash, randomInt, randomUUID} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {AccountError} from './accounts.mjs';
 import {levelBox,packBox,dailyPackRarity,normalizeBox} from './sticker-rewards.mjs';
+import {backgroundCards,shapePolicy,placement,outfit,sceneWrite} from './sticker-scenes.mjs';
 
 const fail=(status,message)=>{throw new AccountError(status,message);};
 const hash=value=>createHash('sha256').update(value).digest('hex');
@@ -17,7 +18,8 @@ export const STICKERS=Object.freeze([
  ...['gem','crown','galaxy','phoenix'].map(shape=>({id:'legendary-'+shape,rarity:'legendary',shape})),
  ...(REWARDS.collection||[]),
  ...REWARDS.stickers,
-].map(item=>({title:shapeTitles[item.shape]||item.shape,...item})));
+ ...backgroundCards(),
+].map(item=>({title:shapeTitles[item.shape]||item.shape,...item,...shapePolicy(item)})));
 const empty=()=>({revision:0,units:[],grants:{}});
 const scalar=(n,lo,hi)=>typeof n==='number'&&Number.isFinite(n)&&n>=lo&&n<=hi;
 function grantIdentity(value,now){
@@ -87,9 +89,10 @@ export class Gameplay extends StickerRewards {
   const [rows]=await this.db.execute('SELECT payload FROM gameplay_accounts WHERE user_id=?',[owner]);
   const state=rows.length?JSON.parse(rows[0].payload):empty();
   const boxes=Object.fromEntries(Object.entries(state.boxes||{}).map(([id,box])=>[id,normalizeBox(box)]));
-  return {owner,catalogue:STICKERS,...state,boxes,boxPolicy:REWARDS.levelBoxes,packPolicy:REWARDS.cardPacks,capabilities:{cardPacks:true,batchOpen:true},placementPolicy:{scale:true,minScale:.5,maxScale:2}};
+  return {owner,catalogue:STICKERS,...state,boxes,scenePresets:state.scenePresets||[],wardrobe:REWARDS.wardrobe,backgroundPolicy:REWARDS.backgroundRewards,boxPolicy:REWARDS.levelBoxes,packPolicy:REWARDS.cardPacks,capabilities:{cardPacks:true,batchOpen:true,scenes:true,backgrounds:true,wardrobe:true},placementPolicy:{scale:true,minScale:.35,maxScale:6,perShape:true}};
  }
  async stickerWrite(owner,auth,kind,value,now){
+  if(['scene-save','scene-apply','scene-delete','replay-background'].includes(kind))return sceneWrite(this,owner,auth,kind,value,now);
   return this.db.transaction(async db=>{
    await this.session(db,owner,auth,now);const state=await this.account(db,owner);
    return this.once(db,owner,'stickers/'+kind,value,async()=>{
@@ -113,15 +116,18 @@ export class Gameplay extends StickerRewards {
      const unit=state.units.find(item=>item.id===value.unitId);
      if(!unit)fail(404,'没有找到这张贴纸');
      if(value.revision!==unit.revision)fail(409,'贴纸已在其他窗口更新，请刷新');
+     const item=this.catalogue.find(item=>item.id===unit.stickerId);if(!item)fail(409,'贴纸资料暂不可用');
      if(kind==='place'){
-      if(!scalar(value.x,0,1)||!scalar(value.y,0,1)||!scalar(value.angle,-180,180))fail(400,'贴纸位置无效');
-      if(value.scale!==undefined&&!scalar(value.scale,.5,2))fail(400,'贴纸大小无效');
       if(!unit.placement&&state.units.filter(item=>item.placement).length>=200)fail(409,'贴纸区域已满');
-      unit.placement={x:value.x,y:value.y,angle:value.angle,...(value.scale!==undefined?{scale:value.scale}:unit.placement?.scale!==undefined?{scale:unit.placement.scale}:{})};
+      unit.placement=placement({...value,scale:value.scale??unit.placement?.scale},item);
+      if(item.kind==='background')for(const other of state.units){if(other.id!==unit.id&&other.placement&&this.catalogue.find(item=>item.id===other.stickerId)?.kind==='background'){other.placement=null;other.revision++;}}
+     }else if(kind==='outfit'){
+      if(!item.shape.startsWith('person'))fail(400,'这张贴纸没有服装');unit.appearance=outfit(value.appearance);
      }else if(kind==='recycle'){
       if(!unit.placement)fail(409,'贴纸已经回收');unit.placement=null;
      }else fail(404,'没有找到这个操作');
      unit.revision++;state.revision++;
+     state.activePresetId=null;
     }
     await this.saveAccount(db,owner,state);
     return {owner,revision:state.revision,requestId:value.requestId};

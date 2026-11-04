@@ -23,13 +23,14 @@ test('sticker size is account-bound, durable, bounded and retained by legacy mov
  try{
   const a=await client(f,'scale_owner'),b=await client(f,'scale_other');await grant(a);
   let inventory=(await a.send('/v1/stickers')).value;await post(a,'/v1/stickers/open-box',{boxId:Object.keys(inventory.boxes)[0]});inventory=(await a.send('/v1/stickers')).value;assert.equal(inventory.placementPolicy.scale,true);const unit=inventory.units[0];
-  for(const scale of [-1,0,.49,2.01,9,'1'])assert.equal((await post(a,'/v1/stickers/place',{unitId:unit.id,revision:0,x:.5,y:.5,angle:15,scale})).status,400);
-  const payload={requestId:randomUUID(),unitId:unit.id,revision:0,x:.5,y:.5,angle:15,scale:1.7};
+  const item=inventory.catalogue.find(item=>item.id===unit.stickerId),validScale=Math.min(1.7,item.maxScale);
+  for(const scale of [-1,0,item.minScale-.01,item.maxScale+.01,9,'1'])assert.equal((await post(a,'/v1/stickers/place',{unitId:unit.id,revision:0,x:.5,y:.5,angle:15,scale})).status,400);
+  const payload={requestId:randomUUID(),unitId:unit.id,revision:0,x:.5,y:.5,angle:15,scale:validScale};
   assert.equal((await a.send('/v1/stickers/place',payload)).status,200);assert.equal((await a.send('/v1/stickers/place',payload)).status,200);
-  inventory=(await a.send('/v1/stickers')).value;assert.equal(inventory.units[0].placement.scale,1.7);assert.equal(inventory.units[0].revision,1);
+  inventory=(await a.send('/v1/stickers')).value;assert.equal(inventory.units[0].placement.scale,validScale);assert.equal(inventory.units[0].revision,1);
   assert.equal((await post(b,'/v1/stickers/place',{...payload,revision:1,scale:.5})).status,404);
   assert.equal((await post(a,'/v1/stickers/place',{unitId:unit.id,revision:1,x:.4,y:.3,angle:0})).status,200);
-  assert.equal((await a.send('/v1/stickers')).value.units[0].placement.scale,1.7,'A legacy client does not erase a size it cannot edit');
+  assert.equal((await a.send('/v1/stickers')).value.units[0].placement.scale,validScale,'A legacy client does not erase a size it cannot edit');
  }finally{await f.close();}
 });
 

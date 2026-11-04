@@ -6,6 +6,7 @@ import {StickerArt,STICKER_NAMES} from './StickerArt.jsx';
 import Tooltip from './Tooltip.jsx';
 import './Social.css';
 import {readSocialCounts,saveSocialCounts,retainSocialCounts} from '@/lib/socialSnapshot.js';
+import {giftPresetWarnings} from '@/lib/stickerScenes.js';
 
 const dateText=value=>new Date(value).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
 const socialCache=new WeakMap();
@@ -81,7 +82,8 @@ export function LikeBurst({ targetId,nickname,likes,disabled,self=false,api,onLi
 export function CommentDialog({ target,api,onClose,onSent,replyTo }) {
   const dialog=useRef(null),textarea=useRef(null),submission=useRef(null),alive=useRef(true),sender=useRef(window.__tbAccountUserId);
   const [text,setText]=useState(''), [busy,setBusy]=useState(false), [error,setError]=useState('');
-  const [inventory,setInventory]=useState(null),[gift,setGift]=useState(null),[picker,setPicker]=useState(false),[giftLoading,setGiftLoading]=useState(false);
+  const [inventory,setInventory]=useState(null),[gift,setGift]=useState(null),[picker,setPicker]=useState(false),[giftLoading,setGiftLoading]=useState(false),[presetAcknowledged,setPresetAcknowledged]=useState(false);
+  const presetWarnings=gift?giftPresetWarnings(inventory,gift.unit.id):[];
   useEffect(()=>{alive.current=true;const node=dialog.current;node.showModal();textarea.current.focus();return()=>{alive.current=false;node.close();};},[]);
   async function gifts(){
     setPicker(value=>!value);if(inventory||giftLoading)return;setGiftLoading(true);setError('');
@@ -89,19 +91,20 @@ export function CommentDialog({ target,api,onClose,onSent,replyTo }) {
     catch(issue){if(alive.current)setError(issue.message);}finally{if(alive.current)setGiftLoading(false);}
   }
   async function send(event){
-    event.preventDefault();if(busy || !text.trim())return;
+    event.preventDefault();if(busy || !text.trim()||presetWarnings.length&&!presetAcknowledged)return;
     setBusy(true);setError('');
-    const payload={targetId:target.userId,text:text.trim(),...(replyTo?{replyTo}:{}),...(gift?{gift:{unitId:gift.unit.id,revision:gift.unit.revision}}:{})},signature=JSON.stringify(payload);
+    const payload={targetId:target.userId,text:text.trim(),...(replyTo?{replyTo}:{}),...(gift?{gift:{unitId:gift.unit.id,revision:gift.unit.revision,...(presetWarnings.length?{presetRevision:inventory.revision}:{})}}:{})},signature=JSON.stringify(payload);
     if(submission.current?.signature!==signature)submission.current={signature,requestId:crypto.randomUUID()};
     try{const value=await api('social/comments',{...payload,requestId:submission.current.requestId});if(!alive.current||sender.current!==window.__tbAccountUserId)return;window.dispatchEvent(new Event('tb:social-change'));if(gift)window.dispatchEvent(new Event('tb:sticker-rewards'));onSent?.({...value,id:value.id||submission.current.requestId,text:payload.text,replyTo,createdAt:value.createdAt||new Date().toISOString(),...(gift?{gift:value.gift||gift.item}:{})});onClose();}
-    catch(issue){if(alive.current){setError(issue.message);setBusy(false);}}
+    catch(issue){if(alive.current){setError(issue.message);setBusy(false);if(gift&&issue.status===409){setPresetAcknowledged(false);try{const fresh=await api('stickers');if(alive.current&&sender.current===window.__tbAccountUserId)setInventory(fresh);}catch{}}}}
   }
   return <dialog onPointerDown={dialogPointerDown} onClick={dialogBackdropClick} ref={dialog} className="social-comment-dialog" aria-labelledby="social-comment-title" onCancel={event=>{event.preventDefault();if(!busy)onClose();}}>
     <header><h3 id="social-comment-title"><MessageCircle size={18}/>给 {target.nickname || '训练者'} 留言</h3><button type="button" aria-label="关闭留言" disabled={busy} onClick={onClose}><X size={18}/></button></header>
     <form onSubmit={send}><label htmlFor="social-comment-text">留言内容</label><textarea ref={textarea} id="social-comment-text" value={text} onChange={event=>setText(event.target.value)} maxLength={500} rows={5} required disabled={busy} placeholder="送上一句鼓励…"/>
     <div className="comment-gift-controls"><button type="button" className="icon-button" aria-label="赠送贴纸" title="赠送贴纸" aria-expanded={picker} disabled={busy} onClick={gifts}><Gift size={19}/></button>{gift&&<div className="comment-selected-gift"><StickerArt item={gift.item} size={42}/><span>{STICKER_NAMES[gift.item.rarity]} · {gift.item.title||gift.item.shape}</span><button type="button" className="icon-button" aria-label="取消赠送贴纸" disabled={busy} onClick={()=>setGift(null)}><X size={15}/></button></div>}</div>
-    {picker&&<div className="comment-gift-picker" role="group" aria-label="可赠送的贴纸">{giftLoading?<LoaderCircle size={20} className="spin"/>:(inventory?.units||[]).filter(unit=>!unit.placement).map(unit=>{const item=inventory.catalogue.find(item=>item.id===unit.stickerId);return <button type="button" className={'comment-gift-choice rarity-'+item?.rarity} key={unit.id} aria-label={`赠送 ${item?.title||item?.shape}`} aria-pressed={gift?.unit.id===unit.id} disabled={busy} onClick={()=>{setGift({unit,item});setPicker(false);setText(value=>value.trim()?value:'送你一张贴纸');}}><StickerArt item={item} size={48}/><small>{item?.title||item?.shape}</small></button>;})}{!giftLoading&&inventory&&!inventory.units.some(unit=>!unit.placement)&&<p>暂无可赠送的库存贴纸</p>}</div>}
-    <div className="social-comment-footer"><small>{Array.from(text).length}/500 · 对方会在消息通知中收到</small><button className="primary" disabled={busy || !text.trim()}><Send size={15}/>{busy?'正在发送…':'发送留言'}</button></div>{error && <p className="connection-error" role="alert">{error}</p>}</form>
+    {picker&&<div className="comment-gift-picker" role="group" aria-label="可赠送的贴纸">{giftLoading?<LoaderCircle size={20} className="spin"/>:(inventory?.units||[]).filter(unit=>!unit.placement).map(unit=>{const item=inventory.catalogue.find(item=>item.id===unit.stickerId);return <button type="button" className={'comment-gift-choice rarity-'+item?.rarity} key={unit.id} aria-label={`赠送 ${item?.title||item?.shape}`} aria-pressed={gift?.unit.id===unit.id} disabled={busy} onClick={()=>{setGift({unit,item});setPresetAcknowledged(false);setPicker(false);setText(value=>value.trim()?value:'送你一张贴纸');}}><StickerArt item={item} size={48}/><small>{item?.title||item?.shape}</small></button>;})}{!giftLoading&&inventory&&!inventory.units.some(unit=>!unit.placement)&&<p>暂无可赠送的库存贴纸</p>}</div>}
+    {presetWarnings.length>0&&<div className="comment-preset-warning" role="alert"><p>赠送后，{presetWarnings.map(p=>`「${p.name}」缺少 ${p.missing} 张贴纸`).join('、')}。</p><p>预设会保留，切换时跳过缺少的贴纸。重新获得同款后可补回；也可以调整场景后覆盖保存。</p><label><input type="checkbox" checked={presetAcknowledged} onChange={event=>setPresetAcknowledged(event.target.checked)}/>我已了解，继续赠送</label></div>}
+    <div className="social-comment-footer"><small>{Array.from(text).length}/500 · 对方会在消息通知中收到</small><button className="primary" disabled={busy || !text.trim()||presetWarnings.length>0&&!presetAcknowledged}><Send size={15}/>{busy?'正在发送…':'发送留言'}</button></div>{error && <p className="connection-error" role="alert">{error}</p>}</form>
   </dialog>;
 }
 

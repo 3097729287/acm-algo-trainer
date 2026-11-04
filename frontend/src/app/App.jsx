@@ -1498,6 +1498,7 @@ export default function App() {
       const {saveBeforeUpdate}=await import('./Workbench.jsx');
       await saveBeforeUpdate('草稿尚未保存，请保存成功后再结束或取消比赛。');
       const result = await api(cancelled?"contests/cancel":"contests/finish", { contestId: active.id });
+      if(result.stickerInventory)window.dispatchEvent(new CustomEvent('tb:sticker-rewards',{detail:{inventory:result.stickerInventory}}));
       applyWorkspace(result.workspace);
       setRecord(cancelled?null:result.contest);
       setPage("mock");
@@ -1506,7 +1507,7 @@ export default function App() {
       setReaderId(null);
       setPracticeId(null);
       setFinishAnchor(null);
-      notice(cancelled?"比赛已取消":"比赛已结束，可以开始复盘");
+      notice(cancelled?"比赛已取消":result.backgroundReward?"比赛已结束，已获得一张背景卡":"比赛已结束，可以开始复盘");
     } catch (e) {
       notice(e.message, "error");
     } finally {

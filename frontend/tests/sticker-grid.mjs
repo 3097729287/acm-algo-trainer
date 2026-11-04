@@ -16,8 +16,8 @@ try{
  for(const width of [1000,360]){
   await page.setViewportSize({width,height:780});
   const state=await picker.evaluate(node=>{const list=node.querySelector('.sticker-inventory'),cards=[...node.querySelectorAll('.sticker-choice')];return {mode:getComputedStyle(list).display,overflow:list.scrollWidth-list.clientWidth,cards:cards.map(card=>({rarity:card.className.match(/rarity-(\w+)/)[1],border:getComputedStyle(card).borderTopStyle,colour:getComputedStyle(card).borderTopColor,y:card.getBoundingClientRect().y})),width:node.getBoundingClientRect().width};});
-  assert.equal(state.mode,'grid');assert(state.overflow<=1);assert.equal(state.cards.length,STICKERS.length);assert(state.width<=width-16);
+  assert.equal(state.mode,'grid');assert(state.overflow<=1);assert.equal(state.cards.length,STICKERS.filter(s=>s.kind!=='background').length);assert(state.width<=width-16);
   const order={legendary:0,epic:1,rare:2,common:3};assert(state.cards.every((card,i)=>i===0||order[card.rarity]>=order[state.cards[i-1].rarity]));assert(state.cards.every(card=>card.border==='solid'&&!card.colour.endsWith(', 0)')));assert(state.cards.at(-1).y>state.cards[0].y);
  }
- assert.deepEqual(errors,[]);console.log('PASS all 38 sticker types, persistent rarity borders, sorted rows, vertical scrolling and narrow width');
+ assert.deepEqual(errors,[]);console.log('PASS collectible sticker types, persistent rarity borders, sorted rows, vertical scrolling and narrow width');
 }finally{await browser.close();await server.close();}

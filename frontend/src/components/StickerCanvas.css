@@ -112,3 +112,12 @@ html .growth-dashboard .growth-account-hero .profile-avatar-face{width:75%;heigh
 .sticker-picker .sticker-choice{width:100%;min-width:0;padding:7px 3px;border:1px solid var(--reward-color);background:color-mix(in srgb,var(--reward-color) 5%,transparent);border-radius:8px}
 .sticker-picker .sticker-choice:hover:enabled{background:color-mix(in srgb,var(--reward-color) 14%,transparent)}
 .sticker-picker .sticker-choice.rarity-legendary{border-width:2px;background:color-mix(in srgb,#ffd263 9%,transparent)}
+.sticker-surface{isolation:isolate;overflow:clip}
+.scene-background-layer{position:absolute;inset:0;border-radius:11px;overflow:hidden;z-index:-1;pointer-events:none}
+.weather-component-hidden{visibility:hidden;pointer-events:none}
+.sticker-picker-tabs{position:absolute;top:5px;left:12px;right:34px;display:flex;align-items:center;gap:8px;height:25px}
+.sticker-picker-tabs button{font-size:.75rem;min-height:24px;padding:3px 9px;border:0;background:transparent;color:var(--muted)}
+.sticker-picker-tabs button[aria-pressed=true]{color:var(--accent);background:var(--accent-soft)}
+.sticker-picker .background-card-art{width:100%;height:auto;aspect-ratio:1}
+
+.sticker-empty-inventory{grid-column:1/-1;color:var(--muted);font-size:.78rem;line-height:1.65;margin:12px 5px}

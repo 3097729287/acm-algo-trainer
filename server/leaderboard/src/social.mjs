@@ -47,6 +47,6 @@ export async function socialWrite(store,user,token,path,value,now) {
   }
   if (typeof value.text !== 'string' || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/u.test(value.text) || !value.text.trim() || [...value.text.trim()].length>500 || !uuid.test(value.requestId || '')) throw new AccountError(400,'留言须为 1–500 字');
   if(Object.hasOwn(value,'replyTo')&&!uuid.test(value.replyTo||''))throw new AccountError(400,'回复留言编号无效');
-  if(Object.hasOwn(value,'gift')&&(!value.gift||typeof value.gift!=='object'||!uuid.test(value.gift.unitId||'')||Object.keys(value.gift).sort().join(',')!=='revision,unitId'||!Number.isSafeInteger(value.gift.revision)||value.gift.revision<0))throw new AccountError(400,'赠送贴纸无效');
+  if(Object.hasOwn(value,'gift')&&(!value.gift||typeof value.gift!=='object'||!uuid.test(value.gift.unitId||'')||Object.keys(value.gift).some(key=>!['unitId','revision','presetRevision'].includes(key))||!Number.isSafeInteger(value.gift.revision)||value.gift.revision<0||value.gift.presetRevision!==undefined&&(!Number.isSafeInteger(value.gift.presetRevision)||value.gift.presetRevision<0)))throw new AccountError(400,'赠送贴纸无效');
   return store.social.comment(user.user_id,hash,seconds,value.targetId,value.text.trim(),value.requestId,timestamp,value,store.gameplay);
 }

@@ -1,6 +1,7 @@
 import {readFileSync} from 'node:fs';
 import {createHash,randomInt,randomUUID} from 'node:crypto';
 import {AccountError} from './accounts.mjs';
+import {giftSceneWarnings} from './scene-presets.mjs';
 
 export const REWARDS=JSON.parse(readFileSync(new URL('./sticker-rewards.json',import.meta.url),'utf8'));
 const fail=(code,message)=>{throw new AccountError(code,message);};
@@ -29,7 +30,7 @@ export function rollRarity(probabilities,roll=randomInt(Object.values(probabilit
  throw new Error('Invalid rarity weights');
 }
 export function choosePackSticker(catalogue,rarity,discovered,sample=randomInt){
- const pool=catalogue.filter(item=>item.rarity===rarity&&!item.id.startsWith('achievement-'));
+ const pool=catalogue.filter(item=>item.kind!=='background'&&item.rarity===rarity&&!item.id.startsWith('achievement-'));
  const missing=pool.filter(item=>!discovered.has(item.id)),choices=missing.length?missing:pool;
  if(!choices.length)throw new Error('Empty sticker pool');
  return choices[sample(choices.length)];
@@ -98,11 +99,13 @@ export class StickerRewards {
   });
  }
  async transferGift(db,actor,recipient,gift,now){
-  if(!gift||Object.keys(gift).sort().join(',')!=='revision,unitId'||!Number.isSafeInteger(gift.revision)||gift.revision<0)fail(400,'赠送贴纸无效');
+  if(!gift||Object.keys(gift).some(key=>!['unitId','revision','presetRevision'].includes(key))||!Number.isSafeInteger(gift.revision)||gift.revision<0||gift.presetRevision!==undefined&&(!Number.isSafeInteger(gift.presetRevision)||gift.presetRevision<0))fail(400,'赠送贴纸无效');
   const sender=await this.account(db,actor),receiver=await this.account(db,recipient);
   const at=sender.units.findIndex(unit=>unit.id===gift.unitId);if(at<0)fail(404,'这张贴纸已不在库存中');
   const unit=sender.units[at];if(unit.revision!==gift.revision)fail(409,'贴纸已更新，请重新选择');
   if(unit.placement)fail(409,'请先将已放置的贴纸回收到库存');
+  const affected=giftSceneWarnings(sender,unit.id);
+  if(affected.length&&gift.presetRevision!==sender.revision)fail(409,'这次赠送会使场景预设缺少贴纸。请重新查看预设提示并确认；预设会保留，缺少的贴纸暂时跳过。');
   if(receiver.units.length>=20000)fail(409,'对方贴纸库存已满，贴纸仍在你的库存中');
   const sticker=this.catalogue.find(item=>item.id===unit.stickerId);if(!sticker)fail(409,'贴纸资料暂不可用');
   sender.units.splice(at,1);receiver.units.push({...unit,revision:unit.revision+1,receivedFrom:actor,receivedAt:now});sender.revision++;receiver.revision++;

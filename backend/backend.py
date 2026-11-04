@@ -364,10 +364,15 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.cancel_contest(body.get('contestId'))
                 elif path == "/api/contests/finish":
                     value = training.finish_contest(body.get("contestId"))
+                    from background_rewards import deliver_completed
+                    try:
+                        receipt=deliver_completed(training,body.get('contestId'))
+                        if receipt:value.update(backgroundReward=receipt.get('backgroundReward'),stickerInventory=receipt.get('inventory'))
+                    except ServiceError as issue:value['backgroundRewardSyncError']=str(issue)
                 elif path.startswith('/api/pk/v1/'):
                     from thought_duel import relay
                     value=relay(training,path[len('/api/pk/v1/'):],body)
-                elif path in ('/api/stickers/place','/api/stickers/recycle','/api/stickers/open-box','/api/stickers/open-packs'):
+                elif path in ('/api/stickers/place','/api/stickers/recycle','/api/stickers/open-box','/api/stickers/open-packs','/api/stickers/outfit','/api/stickers/scene-save','/api/stickers/scene-apply','/api/stickers/scene-delete'):
                     from gameplay import stickers
                     value=stickers(training,path.rsplit('/',1)[1],body)
                 elif path in ('/api/duel/join','/api/duel/cancel','/api/duel/poll','/api/duel/dismiss','/api/duel/ready','/api/duel/decline'):

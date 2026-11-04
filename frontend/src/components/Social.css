@@ -54,3 +54,5 @@ html[data-motion=off] .like-count-roll { transform:translateY(-50%); }
 .social-notifications-heading {justify-content:flex-start;gap:14px;flex-wrap:wrap}
 .social-notifications-heading>.social-notifications-summary {margin:0;min-width:0}
 .social-notifications-heading>.text-button {margin-left:auto}
+
+.comment-preset-warning{border:1px solid #c79c5f;border-radius:8px;padding:10px;margin:10px 0;font-size:.78rem;line-height:1.65}.comment-preset-warning p{margin:0 0 5px}.comment-preset-warning label{display:flex;gap:7px;align-items:flex-start}.comment-preset-warning input{width:auto;flex:none;margin-top:5px}

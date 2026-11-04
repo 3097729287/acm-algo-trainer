@@ -1117,6 +1117,8 @@ class TrainingService:
         for slot in json.loads(contest["slots"]):
             if aliases.get(slot['id'], slot['id']) not in solved:
                 connection.execute("UPDATE training SET mock_due=1,mock_due_at=?,mock_due_context=? WHERE id=?", (finished_at, contest["id"], slot["id"]))
+        from background_rewards import record_eligible
+        record_eligible(self,connection,connection.execute('SELECT * FROM contests WHERE id=?',(contest['id'],)).fetchone())
 
     def _contest_record(self, identity):
         if not isinstance(identity, str) or not identity:
@@ -1969,6 +1971,9 @@ class TrainingService:
         except (ValueError,TypeError):raise ServiceError(400,'重现赛时长无效')
         if not 1<=duration<=1440:raise ServiceError(400,'时长须为 1–1440 分钟')
         options={'strategy':'replay','contest':name,'tags':[],'platform':'','excludeSolved':False,'reviewedOnly':False,**rules({'rules':info['rules'],**body})}
+        from background_rewards import freeze
+        background=freeze(rows,info,duration,self._ranking_profile()['user_id'],lab=lab is not None)
+        if background:options['backgroundReward']=background
         slots=[{'letter':chr(65+position),'id':row['id'],'title':row['title'],'difficulty':row.get('difficulty'),'tags':row.get('tags',[]),'judgeScope':available[row['id']]['judgeScope']} for position,row in enumerate(rows)]
         rated=[row['difficulty'] for row in rows if isinstance(row.get('difficulty'),(int,float))]
         plan={'previewId':uuid.uuid4().hex,'name':'重现赛 · '+name,'slots':[{key:slot[key] for key in ('letter','id','title','judgeScope')} for slot in slots],

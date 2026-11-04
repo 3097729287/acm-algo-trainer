@@ -116,7 +116,7 @@ export class SocialStore {
     });
   }
   async comment(actor, hash, now, recipient, text, requestId, timestamp,options={},game=null) {
-    const metadata=await this.detailsAvailable(),replyTo=options.replyTo||null,gift=options.gift?{unitId:options.gift.unitId,revision:options.gift.revision}:null;
+    const metadata=await this.detailsAvailable(),replyTo=options.replyTo||null,gift=options.gift?{unitId:options.gift.unitId,revision:options.gift.revision,...(options.gift.presetRevision===undefined?{}:{presetRevision:options.gift.presetRevision})}:null;
     if((replyTo||gift)&&!metadata)throw new AccountError(503,'留言回复与贴纸赠送正在升级');
     if(gift&&(!game||!await game.available()))throw new AccountError(503,'贴纸服务暂不可用');
     const digest=createHash('sha256').update(JSON.stringify([recipient,text,replyTo,gift])).digest('hex');

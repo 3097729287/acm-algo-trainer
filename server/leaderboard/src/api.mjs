@@ -218,10 +218,10 @@ export async function handle(request, env) {
       if(path==='/v1/duels/board'&&request.method==='GET')return json(await duelBoard(game,owner,url.searchParams.get('mode')||'ranked',now,url.searchParams.has('before')?Number(url.searchParams.get('before')):null,url.searchParams.get('beforeId')||''));
       if(path==='/v1/duels'&&request.method==='GET')return json(await game.read(owner,now));
       if(request.method==='POST'){
-        const sticker=/^\/v1\/stickers\/(grant|place|recycle)$/.exec(path);
+        const sticker=/^\/v1\/stickers\/(grant|place|recycle|outfit|scene-save|scene-apply|scene-delete|replay-background)$/.exec(path);
         const reward=/^\/v1\/stickers\/(levels|achievement|open-box|open-packs)$/.exec(path);
         const duel=/^\/v1\/duels\/(join|cancel|poll|dismiss|ready|decline)$/.exec(path);
-        if(sticker){const value=await body(request,['requestId','unitId','revision','x','y','angle','scale','day','taskId','xp','minDifficulty','rewardSlot'],4096);const result=await game.stickerWrite(owner,auth,sticker[1],value,now);return json(['place','recycle','grant'].includes(sticker[1])?{...result,inventory:{...await game.stickers(owner),giftStats:await env.STORE.social.giftStats(owner)}}:result);}
+        if(sticker){const value=await body(request,['requestId','unitId','revision','x','y','angle','scale','day','taskId','xp','minDifficulty','rewardSlot','appearance','presetId','name','inventoryRevision','evidence'],32768);const result=await game.stickerWrite(owner,auth,sticker[1],value,now);return json({...result,inventory:{...await game.stickers(owner),giftStats:await env.STORE.social.giftStats(owner)}});}
         if(reward){
           const fields={levels:['requestId','level'],achievement:['requestId','achievementId'],'open-box':['requestId','boxId'],'open-packs':['requestId','rarity','count']};
           const value=await body(request,fields[reward[1]],2048),result=await game.rewardWrite(owner,auth,reward[1],value,now);
