@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID, createHash } from 'node:crypto';
+import {readFile} from 'node:fs/promises';
 
 const NOW = Date.parse('2026-10-08T15:59:00Z');
 const key = text => createHash('sha256').update(text).digest('hex');
@@ -27,6 +28,12 @@ function ac(user, name, acceptedAt = '2026-10-08T10:00:00Z') {
 }
 
 export function protocolSuite(startFixture) {
+test('deployed health version matches the runtime release manifest',async()=>{
+ const fixture=await startFixture({now:NOW});try{
+  const expected=JSON.parse(await readFile(new URL('../package.json',import.meta.url),'utf8')).version;
+  const response=await fetch(fixture.endpoint+'/v1/health');assert.equal(response.status,200);assert.equal((await response.json()).version,expected);
+ }finally{await fixture.close();}
+});
 test('official protocol rejects old local receipts and explicitly acknowledges official scope', async () => {
   const fixture = await startFixture({ now: NOW });
   try {
