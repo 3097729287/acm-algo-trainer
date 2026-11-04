@@ -1,4 +1,4 @@
-下一本地版的牛客题单通过 `scripts/import_nowcoder_training.py` 匿名 GET 收集到 `.backups`，核对原章节、完整分页、原题 ID、原样例编号及资源后才使用 `--apply` 写入公共文本源。默认不会修改 SQLite；接续缓存用 `--collection`，改用新的集合文件名可重新展开目录并复用已核验原题缓存。先运行 `python scripts/check_nowcoder_training.py`，再以 `scripts/library_seed.py build` 或现有 `LibraryDatabase.from_source` 构建隔离公共库，使用 `python scripts/check.py --library-only --library <隔离公共库>` 核对来源、资源摘要和外键。既有题目、题解、讲义、题单与资源须逐表保全；个人库不能被公共种子替换。缺少资源的题目保留身份与待补状态，不伪装成完整题面。当前主程序不包含这些开发追加，见[下一本地版](next-local-release.md)与[首批检查](verification/next-local-dev-20261104.json)。
+1.5.3 开发范围以[下一本地版](next-local-release.md)为准：不新增题解，英文默认原文，中文由当前模型直接分批写入带摘要防护的公共补丁。scripts/translate_public_library.py 的 inventory／ingest／export 支持断点续跑和原文、公式、代码、资源校验；本批不使用 run 的外部翻译 API。公共种子 schema 8；精确原件验证回执是精简安装包的构建前提。服务 1.4.5 已部署，真实 AI 判分未配置。
 
 ### 1.5.3 思维对决验收
 

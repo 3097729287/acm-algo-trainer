@@ -1,7 +1,7 @@
 {
-  "status": "developing-next-local-current-release-excludes-new-features",
+  "status": "integrating-1.5.3-service-1.4.5-deployed",
   "requestedOn": "2026-11-01",
-  "continuation": "用户 2026-11-04：思维对决和本次新增整批需求只进入下一本地版，当前版只交付此前已确定内容。后续范围以 nextLocalRelease 为准；旧 features、teachingHandoff、currentValidation 等保留为此前交付的历史记录。",
+  "continuation": "本轮不新增题解；英文默认原文，提供内置中文。当前模型直接并行翻译，不等待外部翻译 API。最终交付以本地安装和增量升级验收为准。",
   "features": [
     {
       "id": "problem-solving-templates",
@@ -36,7 +36,7 @@
       "description": "用户指定能力分 2000 为王者；其余段位由低到高采用 0/800/950/1100/1250/1400/1600/1800/2000。共用一份映射，不改变能力评估或已有 XP。"
     }
   ],
-  "currentDomesticStable": "1.4.34",
+  "currentDomesticStable": "1.5.2",
   "nextVersion": "1.5.3",
   "feedbackPriority": {
     "id": "nowcoder-live-statement",
@@ -245,7 +245,8 @@
     "items": [
       {
         "id": "core7-editorials",
-        "description": "题单前七板块题解，接续已有正文、解法、验证与题意复核"
+        "description": "只修正题解要求，本轮不新增题解；保留全部既有正文和身份",
+        "status": "scope-corrected-no-new-editorials"
       },
       {
         "id": "nowcoder-three-lists",
@@ -255,12 +256,12 @@
           "https://ac.nowcoder.com/discuss/926597"
         ],
         "description": "完整核验并收录三份题单的公开练习，保留章节和原题身份",
-        "status": "all requested rosters imported into development source; one original statement awaits its broken external image",
+        "status": "1083-original-statements-complete-resource-repair-verified",
         "uniqueProblems": 1083,
         "addedProblems": 1069,
         "reusedProblems": 14,
-        "completeStatements": 1082,
-        "newStatements": 1068,
+        "completeStatements": 1083,
+        "newStatements": 1069,
         "rootProblemCounts": {
           "817596": 691,
           "828697": 375,
@@ -268,9 +269,9 @@
         }
       },
       {
-        "id": "english-default-chinese",
-        "description": "所有英文题面默认可信中文，保留原文切换、失败回退及手动选择",
-        "status": "implemented-and-browser-verified; source-bound replies, prepared Chinese/PDF first, auto-once, original fallback and retry; not installed"
+        "id": "english-original-optional-bundled-chinese",
+        "description": "英文题面默认显示英文，提供同源内置中文主动切换",
+        "status": "default-original-verified; direct parallel corpus translation in progress"
       },
       {
         "id": "pdf-statements",
@@ -303,12 +304,11 @@
       }
     ],
     "priority": [
-      "existing-editorial-and-template-handoff",
-      "core7-and-nowcoder",
+      "nowcoder-and-original-statements",
       "translation-and-pdf",
       "duel-points-and-leaderboard",
       "teaching-and-reward-expansion",
-      "integrated-local-release-validation"
+      "integrated-local-and-incremental-upgrade-validation"
     ],
     "principles": [
       "实用优先",
@@ -329,8 +329,8 @@
       "serviceAuthoritativeAndIdempotent": true,
       "currentThoughtEloNeedsFloorRuleUpdate": false,
       "thoughtFloorRuleValidated": true,
-      "codeRankedPointsImplemented": false,
-      "rankedLeaderboardImplemented": false
+      "codeRankedPointsImplemented": true,
+      "rankedLeaderboardImplemented": true
     },
     "audit": {
       "core7": "../data/next-local/core7-source-inventory.json",
@@ -342,10 +342,37 @@
     "cleanup": {
       "systemBinOnly": true,
       "permanentFallback": false,
-      "neverEmptyResizeOrEvictExistingItems": true
+      "neverEmptyResizeOrEvictExistingItems": true,
+      "status": "initial-local-cleanup-historical; current cleanup retires only verified redundant public artifacts"
     },
     "englishTranslationScope": "all English statements; overrides the former translation difficulty cap for the next local release only; editorial authoring restrictions remain unchanged",
     "parallelDevelopmentAuthorizedOn": "2026-11-04",
-    "developmentVerification": "verification/next-local-dev-20261104.json"
+    "developmentVerification": "verification/next-local-dev-20261104.json",
+    "status": "integration-and-direct-corpus-translation-in-progress",
+    "noNewEditorialsThisRound": true,
+    "translationMethod": "current-model-direct-authoring-no-external-translation-api",
+    "parallelTranslationAuthorized": true,
+    "productionService": {
+      "version": "1.4.5",
+      "sourceCommit": "e9e7578f5253923f3720f4c128c4870ac9767134",
+      "deployed": true,
+      "thoughtAiConfigured": false
+    },
+    "levelPacks": {
+      "levels1to10": [
+        "rare",
+        "epic",
+        "rare",
+        "epic",
+        "rare",
+        "epic",
+        "rare",
+        "epic",
+        "rare",
+        "legendary"
+      ],
+      "levels11to20": "repeat rare,epic,rare,rare,legendary",
+      "fromLevel21": "epic,legendary alternation, level 21 epic"
+    }
   }
 }

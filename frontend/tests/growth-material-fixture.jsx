@@ -20,6 +20,7 @@ import '../src/styles/interaction.css';
 import '../src/styles/followups-1434.css';
 
 const owner='00000000-0000-4000-8000-000000000010';
+const equippedTitles=[{id:'ac-2000',name:'双千传奇',category:'ac',target:2000},{id:'streak-730',name:'星火不息',category:'streak',target:730},{id:'difficulty-2300',name:'最高成绩',category:'difficulty',target:2300}];
 const stickerState={owner,revision:1,catalogue:[{id:'gold-fox',rarity:'legendary',shape:'fox'}],units:[],boxes:{}};
 let goals=[{id:'goal-one',title:'CF 1600',kind:'cf',deadline:'2027-05-01',currentRating:1000,targetRating:1600,dailyMinutes:60,totalProblems:100},{id:'goal-two',title:'基础练习',kind:'custom',deadline:'2027-06-01',currentRating:800,targetRating:1200,dailyMinutes:30,totalProblems:50}];
 const summary={totalSolved:1112,submissions:2048,activeDays:333,streak:23,completedContests:101,longestStreak:230};
@@ -40,7 +41,7 @@ const api=async(path,body)=>{
 function Fixture(){
  const [tier,setTier]=useState(1),[panel,setPanel]=useState('growth'),[overview,setOverview]=useState({goals});
  window.growthCheck={setTier,setPanel,calls,goals:()=>goals,empty:()=>{goals=[];setOverview({goals});},theme:value=>document.documentElement.dataset.theme=value};
- if(panel==='duel')return <DuelPage account={{nickname:'训练者'}} growth={{level:14,ranked:{tier:TIER_NAMES[tier],abilityScore:RANK_THRESHOLDS[tier],qualified:true}}} duel={{state:{status:'idle'},clock:{current:null},act:()=>{},reload:()=>{}}} rows={[]}/>;
+ if(panel==='duel')return <DuelPage titles={equippedTitles} thought={{state:{owner,enabled:false,status:'idle',rating:1000},clock:{current:null},reload:()=>{}}} account={{nickname:'训练者'}} growth={{level:14,ranked:{tier:TIER_NAMES[tier],abilityScore:RANK_THRESHOLDS[tier],qualified:true}}} duel={{state:{status:'idle'},clock:{current:null},act:()=>{},reload:()=>{}}} rows={[]}/>;
  if(panel==='banners')return <div className="banner-gallery">{TIER_NAMES.map((name,index)=><div className="banner-example" key={name}><div className="duel-lobby-identity"><DuelBannerFrame rank={{tier:name}}/><ProfileBadge compact={false} growth={{level:14,ranked:{tier:name}}} nickname={name} showXp={false}/><div className="duel-lobby-rank"><MedalEmblem index={index} size={96}/></div></div></div>)}</div>;
  if(panel==='art')return <div className="material-gallery">{Array.from({length:9},(_,tier)=><div className="rank-material-pair" data-tier={tier} key={tier}><div style={{position:'relative',width:150,height:150}}><AvatarFrame index={tier}/></div><MedalEmblem index={tier} size={150}/></div>)}</div>;
  if(panel==='stickers')return <div className="cartoon-gallery">{Object.keys(ARTWORK).map(shape=><StickerArt key={shape} item={{shape,rarity:'legendary'}} size={128}/>)}</div>;

@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import {NAVIGATION_ORDER,navigationOrder} from '../src/lib/navigationDefaults.js';
 
-assert.deepEqual(NAVIGATION_ORDER,['mine','library','training-lists','lectures','wiki','templates','paths','competitions','mock','duel','growth','records','activity','rankings']);
+assert.deepEqual(NAVIGATION_ORDER,['mine','library','training-lists','competitions','mock','duel','growth','records','activity','rankings','lectures','wiki','templates','paths']);
 for(const value of [undefined,null,[],['today']])assert.deepEqual(navigationOrder(value,2),NAVIGATION_ORDER);
 for(const legacy of [
+ ['mine','library','training-lists','lectures','wiki','templates','paths','competitions','mock','duel','growth','records','activity','rankings'],
  ['mine','library','training-lists','competitions','mock','duel','growth','records','activity','rankings','paths','templates','lectures','wiki'],
  ['training-lists'],
  ['mine','library','training-lists','competitions','mock','rankings','growth','records','paths','templates','lectures','activity'],

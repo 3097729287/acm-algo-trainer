@@ -24,16 +24,16 @@ export function playStickerSound(shape){
  if(!LEGENDARY_FEEDBACK[shape])return false;
  const ctx=audio();if(!ctx)return false;void ctx.resume().catch(()=>{});const now=ctx.currentTime+.008;
  if(shape==='duck'){
-  // One complete call ends at 1.59 s; the next begins at 1.675 s. Preserve
-  // the licensed original and soften this one call only at playback time.
+  // Use the next, shorter call instead of the sharp first quack. Preserve
+  // the licensed source, with a lower pitch, softer onset and less treble.
   const play=()=>{
    if(!duckBuffer||ctx.state==='closed')return;
-   const at=ctx.currentTime+.008,offset=1.15,duration=Math.min(.46,duckBuffer.duration-offset),rate=.9,length=duration/rate;
+   const at=ctx.currentTime+.008,offset=1.675,duration=Math.min(.43,duckBuffer.duration-offset),rate=.78,length=duration/rate;
    if(duration<=0)return;
    const source=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();
    source.buffer=duckBuffer;source.playbackRate.value=rate;
-   filter.type='lowpass';filter.frequency.value=2200;filter.Q.value=.55;
-   gain.gain.setValueAtTime(0,at);gain.gain.linearRampToValueAtTime(.48,at+.018);gain.gain.setValueAtTime(.48,at+length-.06);gain.gain.linearRampToValueAtTime(0,at+length);
+   filter.type='lowpass';filter.frequency.value=1450;filter.Q.value=.5;
+   gain.gain.setValueAtTime(0,at);gain.gain.linearRampToValueAtTime(.28,at+.035);gain.gain.setValueAtTime(.28,at+length-.09);gain.gain.linearRampToValueAtTime(0,at+length);
    source.connect(filter);filter.connect(gain);gain.connect(ctx.destination);source.start(at,offset,duration);keep(source,[source,filter,gain]);
   };
   if(duckBuffer)play();

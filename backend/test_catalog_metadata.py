@@ -65,5 +65,14 @@ class CatalogMetadataTests(unittest.TestCase):
         variant = normalize_row({'contest': 'ICPC 2026 南昌邀请赛', 'contestVariant': 'Gym 106554'})
         self.assertEqual(normalize_row(variant)['contest'], variant['contest'])
 
+    def test_changchun_invitation_retains_its_verified_jilin_provincial_identity(self):
+        original='The 2024 CCPC National Invitational Contest (Changchun) , The 17th Jilin Provincial Collegiate Programming Contest'
+        self.assertEqual(contest_name(original),'CCPC 2024 长春邀请赛暨吉林省赛')
+        row={'id':'kept::A','contest':'CCPC 2024 长春邀请赛','contestFullName':original,'xcpcKind':'省赛','url':'https://codeforces.com/gym/105170/problem/A'}
+        updated=normalize_row(row)
+        self.assertEqual(updated['contest'],'CCPC 2024 长春邀请赛暨吉林省赛')
+        self.assertEqual(normalize_row(updated),updated)
+        self.assertEqual({k:v for k,v in updated.items() if k!='contest'},{k:v for k,v in row.items() if k!='contest'})
+
 
 if __name__=='__main__':unittest.main()

@@ -1,0 +1,15 @@
+{
+  "scope": "all archived English and Japanese statements; original English stays default",
+  "method": "current-model-direct-translation-no-external-translation-api",
+  "snapshotExported": 757,
+  "reusedExisting": 16,
+  "directAuthored": 741,
+  "checkpoint": {
+    "done": 757,
+    "pending": 2011
+  },
+  "complete": false,
+  "originalSourceGapsNotInvented": true,
+  "editorialsAdded": 0,
+  "checkedAt": "2026-11-04T10:49:38.564075+00:00"
+}

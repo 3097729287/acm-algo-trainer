@@ -4,4 +4,4 @@ Source: https://commons.wikimedia.org/wiki/File:Anas_platyrhynchos_-_Mallard_-_X
 Original source: https://www.xeno-canto.org/62258
 License: Creative Commons Attribution-ShareAlike 3.0 Unported
 https://creativecommons.org/licenses/by-sa/3.0/
-The original Ogg recording is distributed unmodified. The player plays a short excerpt with volume/fade controls. Attribution and the same license continue to apply to this recording. Other sticker sounds are original procedural audio.
+The original Ogg recording is distributed unmodified. The player uses a short excerpt of the second call with lower pitch, low-pass filtering and softer volume/fades. Attribution and the same license continue to apply to this recording. Other sticker sounds are original procedural audio.

@@ -21,7 +21,6 @@ import { contestFilterOptions,contestYear } from '@/lib/contestCatalog.js';
 import { ArrowDown, ArrowUp, FolderTree } from 'lucide-react';
 import CatalogExplorer, { CatalogPath, catalogMatches } from '../components/CatalogExplorer.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
-import ProfileBadge from '@/components/ProfileBadge.jsx';
 import { Info, Code2, Flame } from 'lucide-react';
 import BoundedNumber from '@/components/BoundedNumber.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
@@ -127,14 +126,11 @@ export function GrowthAccountPanel({ api, hub, account, profile, profileSnapshot
   </section>;
 }
 
-export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,insights,categories=[],rows=[],account,profile,onTopic,onTrain,onAccounts,onAchievements}) {
+export function GrowthPage({goalOverview,api,onGoalsChanged,insights,categories=[],rows=[],account,profile,onTopic,onTrain}) {
  if(!insights)return <Loading/>;
- const growth=insights.growth||{},nickname=profile?.nickname||account?.nickname||insights.profile?.nickname||'练习者';
  return <div className="progress-page growth-dashboard" aria-label="成长"><div className="progress-growth-columns">
  <KnowledgeRadar rows={rows} categories={categories} knowledge={insights.knowledge||[]} knowledgeEvidence={insights.knowledgeEvidence||[]} knowledgeModel={insights.knowledgeModel||{}} onTopic={onTopic} onTrain={onTrain}/>
- <section className="progress-section growth-account-hero" aria-label="账号成长"><StickerCanvas api={api} owner={account?.userId||profile?.userId} goals={api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}>
-<div className="account-hero-identity"><div className="account-hero-person"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-titles"><TitleMedals iconOnly medalSize={56} titles={insights.equippedTitles||growth.equippedTitles||[]}/></div></div></div>
-</StickerCanvas></section></div></div>;
+ <section className="progress-section growth-account-hero" aria-label="贴纸与目标"><StickerCanvas api={api} owner={account?.userId||profile?.userId} goals={api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}/></section></div></div>;
 }
 
 export {default as ActivityPage} from './ActivityPage.jsx';

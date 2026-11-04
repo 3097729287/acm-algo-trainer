@@ -11178,6 +11178,31 @@
       "contestDate": null,
       "contestDatePrecision": "year",
       "contestDateSource": "赛事原名年份；具体日期未核实"
+    },
+    "CCPC 2024 长春邀请赛暨吉林省赛": {
+      "name": "CCPC 2024 长春邀请赛暨吉林省赛",
+      "source": "https://ist.nenu.edu.cn/info/1157/5424.htm",
+      "note": "主办方通知确认：全国邀请赛（长春）暨第十七届CCPC吉林省大学生程序设计竞赛；双重赛事身份保留。"
+    },
+    "The 2024 CCPC National Invitational Contest (Changchun) , The 17th Jilin Provincial Collegiate Programming Contest": {
+      "name": "CCPC 2024 长春邀请赛暨吉林省赛",
+      "source": "https://ist.nenu.edu.cn/info/1157/5424.htm",
+      "note": "主办方通知确认：全国邀请赛（长春）暨第十七届CCPC吉林省大学生程序设计竞赛；双重赛事身份保留。"
+    },
+    "The 2024 CCPC National Invitational Contest (Changchun), The 17th Jilin Provincial Collegiate Programming Contest": {
+      "name": "CCPC 2024 长春邀请赛暨吉林省赛",
+      "source": "https://ist.nenu.edu.cn/info/1157/5424.htm",
+      "note": "主办方通知确认：全国邀请赛（长春）暨第十七届CCPC吉林省大学生程序设计竞赛；双重赛事身份保留。"
+    },
+    "CCPC 2024 长春邀请赛": {
+      "name": "CCPC 2024 长春邀请赛暨吉林省赛",
+      "source": "https://ist.nenu.edu.cn/info/1157/5424.htm",
+      "note": "主办方通知确认：全国邀请赛（长春）暨第十七届CCPC吉林省大学生程序设计竞赛；双重赛事身份保留。"
+    },
+    "CCPC 2024 长春邀请赛暨省赛": {
+      "name": "CCPC 2024 长春邀请赛暨吉林省赛",
+      "source": "https://ist.nenu.edu.cn/info/1157/5424.htm",
+      "note": "主办方通知确认：全国邀请赛（长春）暨第十七届CCPC吉林省大学生程序设计竞赛；双重赛事身份保留。"
     }
   },
   "origins": {

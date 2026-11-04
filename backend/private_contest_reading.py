@@ -21,7 +21,8 @@ def private_row(fact):
     row,statement=fact.get('row'),fact.get('statement')
     if not isinstance(row,dict) or not isinstance(statement,dict) or statement.get('accountReading') is not True:return None
     if not source_url(row.get('url')) or statement.get('url')!=row['url'] or statement.get('id')!=row.get('id') or not content_ready(statement):return None
-    return dict(row,catalogContentReady=True,catalogReplayReady=True,statementAvailable=True,catalogHidden=False)
+    from contest_names import normalize_row
+    return dict(normalize_row(row),catalogContentReady=True,catalogReplayReady=True,statementAvailable=True,catalogHidden=False)
 
 def private_rows(training,identity=None):
     with training.lock:

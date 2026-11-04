@@ -38,3 +38,5 @@ html[data-motion=off] .duel-ready-dialog,html[data-motion=off] .duel-ready-symbo
 .duel-lobby-identity .profile-level-number{font-size:15px;min-width:30px;height:22px}
 .duel-lobby-rank>svg{width:96px;height:110px}
 @media(max-height:760px),(max-width:540px){.duel-lobby-identity{--duel-portrait:156px;width:min(324px,100%);min-height:450px;padding:64px 28px 54px;gap:24px}.duel-lobby-identity .profile-badge{gap:22px}.duel-lobby-rank>svg{width:82px;height:94px}.duel-lobby{gap:20px;padding-top:28px}}
+
+.duel-profile-titles{position:relative;z-index:1;display:flex;justify-content:center;max-width:100%;flex-wrap:wrap}.duel-lobby-identity:has(.duel-profile-titles){gap:22px}.duel-profile-titles .title-medals{justify-content:center;flex-wrap:wrap}

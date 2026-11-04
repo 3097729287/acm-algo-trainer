@@ -109,6 +109,23 @@ def stats(work):
     with closing(connect(work)) as db:
         return {state:count for state,count in db.execute("SELECT CASE WHEN result IS NOT NULL THEN 'done' WHEN error IS NOT NULL THEN 'failed' ELSE 'pending' END,COUNT(*) FROM jobs GROUP BY 1")}
 
+def ingest(work,path):
+    if path.stat().st_size>2*1024**2:raise ValueError('Authored batch exceeds its bound')
+    packet=json.loads(path.read_text('utf8'))
+    if packet.get('schema')!=1 or not isinstance(packet.get('records'),list) or len(packet['records'])>100:raise ValueError('Invalid authored translation batch')
+    accepted=0
+    with closing(connect(work)) as db:
+        for value in packet['records']:
+            identity=value['id'];row=db.execute('SELECT content,input,input_kind,language,input_sha,result FROM jobs WHERE id=?',(identity,)).fetchone()
+            if not row or row[4]!=value.get('inputSha256') or sha(row[1])!=row[4]:raise ValueError('Authored translation source changed: '+identity)
+            try:result=bind(json.loads(row[0]),row[1],row[2],row[3],value['markdown'],'Codex 直接翻译（无外部翻译 API）')
+            except ValueError as error:raise ValueError(identity+': '+str(error)) from None
+            if row[5]:
+                if json.loads(row[5])['markdown']!=value['markdown']:raise ValueError('A different translation already exists: '+identity)
+                continue
+            db.execute('UPDATE jobs SET result=?,error=NULL,attempts=attempts+1 WHERE id=? AND result IS NULL',(json.dumps(result,ensure_ascii=False),identity));db.commit();accepted+=1
+    return {'ingested':accepted,**stats(work)}
+
 def reuse(work,libraries,caches,state=None,shared_files=()):
     accepted=[]
     configured=ProviderSettings(state).status() if state else {}
@@ -174,13 +191,16 @@ def export(work,destination):
     return {'exported':len(rows),'directory':str(destination)}
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('action',choices=['inventory','reuse','run','stats','export']);p.add_argument('--library',type=Path);p.add_argument('--work',type=Path,required=True);p.add_argument('--settings-state',type=Path);p.add_argument('--workers',type=int,default=8,choices=range(1,17));p.add_argument('--limit',type=int);p.add_argument('--output',type=Path);p.add_argument('--reuse-library',type=Path,action='append',default=[]);p.add_argument('--reuse-cache',type=Path,action='append',default=[]);p.add_argument('--reuse-shared',type=Path,action='append',default=[]);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['inventory','reuse','run','stats','ingest','export']);p.add_argument('--library',type=Path);p.add_argument('--work',type=Path,required=True);p.add_argument('--settings-state',type=Path);p.add_argument('--workers',type=int,default=8,choices=range(1,17));p.add_argument('--limit',type=int);p.add_argument('--output',type=Path);p.add_argument('--input-file',type=Path);p.add_argument('--reuse-library',type=Path,action='append',default=[]);p.add_argument('--reuse-cache',type=Path,action='append',default=[]);p.add_argument('--reuse-shared',type=Path,action='append',default=[]);a=p.parse_args()
     if a.action=='inventory':result=seed(a.library.resolve(),a.work)
     elif a.action=='reuse':result=reuse(a.work,a.reuse_library,a.reuse_cache,a.settings_state,a.reuse_shared)
     elif a.action=='run':
         if not a.settings_state:p.error('--settings-state is required for run')
         run(a.work,a.settings_state,a.workers,a.limit);result=stats(a.work)
     elif a.action=='export':result=export(a.work,a.output)
+    elif a.action=='ingest':
+        if not a.input_file:p.error('--input-file is required for ingest')
+        result=ingest(a.work,a.input_file)
     else:result=stats(a.work)
     print(json.dumps(result,ensure_ascii=False),flush=True)
 if __name__=='__main__':main()

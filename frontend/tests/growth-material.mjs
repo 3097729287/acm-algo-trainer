@@ -13,26 +13,19 @@ try{
  await page.waitForFunction(()=>window.growthCheck);
  for(const width of [2048,1440,960,430])for(const theme of ['dark','light']){
   await page.setViewportSize({width,height:1152});await page.evaluate(theme=>growthCheck.theme(theme),theme);
-  await page.locator('.account-hero-identity').waitFor();
-  const acMedal=page.locator('.account-hero-identity .medal-ac');
-  assert.equal(await acMedal.getAttribute('data-medal-metal'),'gold','The AC 2000 achievement uses gold metal');
-  assert.equal(await acMedal.locator('linearGradient').first().locator('stop').nth(1).getAttribute('stop-color'),'#d4a52f');
+  await page.locator('.sticker-content').waitFor();
+  assert.equal(await page.locator('.growth-dashboard .profile-badge,.account-hero-identity').count(),0,'Profile display has moved to Duel');
   assert.equal(await page.locator('.account-hero-statistics,.account-hero-level,.goal-management-bar,#growth-goals').count(),0);
   const geometry=await page.evaluate(()=>{
-   const rect=selector=>{const r=document.querySelector(selector).getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,height:r.height,width:r.width};};
-   return {hero:rect('.growth-account-hero'),identity:rect('.account-hero-identity'),nickname:rect('.profile-nickname'),portrait:rect('.account-hero-person .profile-avatar-button'),controls:rect('.sticker-mode-toolbar'),content:rect('.sticker-content'),horizontalOverflow:document.documentElement.scrollWidth>innerWidth};
+   const rect=selector=>{const node=document.querySelector(selector);if(!node)throw Error('Missing layout node '+selector);const r=node.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,height:r.height,width:r.width};};
+   return {hero:rect('.growth-account-hero'),controls:rect('.growth-footer-actions'),content:rect('.sticker-content'),horizontalOverflow:document.documentElement.scrollWidth>innerWidth};
   });
-  report.currentLayout={width,theme,...geometry};
-  assert(!geometry.horizontalOverflow,JSON.stringify({width,geometry}));
-  assert(Math.abs((geometry.portrait.left+geometry.portrait.right-geometry.content.left-geometry.content.right)/2)<1,'The retained portrait is centred');assert.equal(await page.locator('.account-hero-rank').count(),0);
-  assert(geometry.controls.top<geometry.identity.top,'Controls sit above the portrait');
-  assert(geometry.hero.right-geometry.controls.right<40&&geometry.hero.right>=geometry.controls.right,'Controls align to the top right');
+  report.currentLayout={width,theme,...geometry};assert(!geometry.horizontalOverflow);assert(geometry.content.width>200);
   await page.getByRole('button',{name:'目标',exact:true}).click();await page.getByRole('dialog',{name:'调整目标',exact:true}).waitFor();
   assert.equal(await page.locator('.goal-management-bar').count(),0);
-  const position=await page.locator('.account-hero-identity').boundingBox();assert(Math.abs(position.y-geometry.identity.top)<1,'Modal opening preserves portrait geometry');
+  const position=await page.locator('.sticker-content').boundingBox();assert(Math.abs(position.y-geometry.content.top)<1,'Modal opening preserves sticker geometry');
   await page.keyboard.press('Escape');assert.equal(await page.locator('.goal-editor').count(),0);
   await page.getByRole('button',{name:'贴纸',exact:true}).click();assert.equal(await page.locator('.sticker-mode').count(),1);
-  assert.equal(await page.locator('.account-hero-person .profile-badge').evaluate(node=>getComputedStyle(node).visibility),'hidden');
   await page.keyboard.press('Escape');assert.equal(await page.locator('.sticker-mode').count(),0);
   report.layouts.push({width,theme,...geometry});
   if(width===2048)await page.screenshot({path:`${output}/growth-${theme}.png`});
@@ -57,7 +50,7 @@ try{
  assert.equal(await page.locator('.rank-material-pair').count(),9);await page.screenshot({path:output+'/rank-tiers-dark.png',fullPage:true});
  await page.evaluate(()=>growthCheck.theme('light'));await page.screenshot({path:output+'/rank-tiers-light.png',fullPage:true});
  await page.evaluate(()=>{growthCheck.theme('dark');growthCheck.setPanel('stickers');});await page.locator('.cartoon-gallery').waitFor();
- assert.equal(await page.locator('[data-sticker-style="cartoon-paper-v1"]').count(),27);await page.screenshot({path:output+'/cartoon-stickers-dark.png',fullPage:true});
+ assert.equal(await page.locator('[data-sticker-style="cartoon-paper-v1"]').count(),38);await page.screenshot({path:output+'/cartoon-stickers-dark.png',fullPage:true});
  await page.evaluate(()=>growthCheck.theme('light'));await page.screenshot({path:output+'/cartoon-stickers-light.png',fullPage:true});
  await page.evaluate(()=>growthCheck.setPanel('rankings'));await page.getByLabel('admin 密码',{exact:true}).waitFor();
  await page.getByLabel('admin 密码',{exact:true}).fill('fixture-password');await page.getByRole('button',{name:'登录管理账号',exact:true}).click();

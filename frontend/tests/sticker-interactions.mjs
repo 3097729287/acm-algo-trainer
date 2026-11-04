@@ -26,7 +26,7 @@ try{
  await page.evaluate(()=>window.releaseDuckDecode());
  await page.waitForFunction(()=>window.stickerSamples.length===1);
  const quack=await page.evaluate(()=>window.stickerSamples[0]);
- assert(quack.openingRms>.045,'Selected recording begins with an audible quack, not its quiet opening');assert.equal(quack.offset,1.15);assert.equal(quack.duration,.46);assert(Math.abs(quack.rate-.9)<1e-6,'One complete quack plays at a slightly gentler pitch');
+ assert(quack.openingRms>.045,'The new excerpt begins with the next audible natural call');assert.equal(quack.offset,1.675);assert.equal(quack.duration,.43);assert(Math.abs(quack.rate-.78)<1e-6,'The shorter second call plays at a lower pitch');
  assert.deepEqual(await page.evaluate(()=>window.stickerAudioEvents),['sample']);
  await page.evaluate(()=>window.stickerFeedbackFixture.audioReady());
  for(const shape of ['semicolon','rainbow','envelope','orbit','gem','crown','galaxy','phoenix']){
