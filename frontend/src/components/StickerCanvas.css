@@ -103,9 +103,12 @@ html .growth-dashboard .growth-account-hero .profile-avatar-face{width:75%;heigh
 .growth-footer-actions .achievement-top-button>svg{display:block;width:19px;height:19px;flex:none}
 .growth-footer-actions .achievement-top-button[aria-pressed=true]{color:var(--accent);background:var(--accent-soft)!important}
 
+.rarity-epic{--reward-color:#ab83ff}.rarity-legendary{--reward-color:#ffd263}
+.sticker-choice.rarity-legendary{border-width:2px;box-shadow:inset 0 0 0 1px #ffd26320}
 /* Keep every rarity visible while browsing an inventory of any size. */
 .sticker-picker{display:block;padding:36px 10px 10px;max-height:min(376px,calc(100dvh - 24px));background:var(--panel-raised-base,var(--panel));box-shadow:0 8px 30px #0004}
 .sticker-picker>.icon-button{position:absolute;right:7px;top:5px}
 .sticker-picker .sticker-inventory{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:9px;max-height:min(320px,calc(100dvh - 82px));overflow:auto;overscroll-behavior:contain;padding:4px}
 .sticker-picker .sticker-choice{width:100%;min-width:0;padding:7px 3px;border:1px solid var(--reward-color);background:color-mix(in srgb,var(--reward-color) 5%,transparent);border-radius:8px}
 .sticker-picker .sticker-choice:hover:enabled{background:color-mix(in srgb,var(--reward-color) 14%,transparent)}
+.sticker-picker .sticker-choice.rarity-legendary{border-width:2px;background:color-mix(in srgb,#ffd263 9%,transparent)}

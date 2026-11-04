@@ -1,11 +1,11 @@
-import DUCK from './stickerDuckAudio.js';
-let context,duckBuffer,decoding;
+import DUCK_CALLS from './stickerDuckCalls.js';
+let context,duckBuffers=[],decoding;
 const playing=[];
 export const LEGENDARY_FEEDBACK=Object.freeze({duck:'quack',semicolon:'type',rainbow:'rainbow',envelope:'post',orbit:'orbit',gem:'gem',crown:'crown',galaxy:'galaxy',phoenix:'flame'});
 function audio(){try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return null;if(!context||context.state==='closed')context=new Audio({latencyHint:'interactive'});return context;}catch{return null;}}
 export function prepareStickerAudio(){
- const ctx=audio();if(!ctx||duckBuffer)return Promise.resolve();
- if(!decoding){const raw=atob(DUCK),bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));decoding=ctx.decodeAudioData(bytes.buffer).then(value=>{duckBuffer=value;}).catch(()=>{}).finally(()=>{decoding=null;});}
+ const ctx=audio();if(!ctx||duckBuffers.length===DUCK_CALLS.length)return Promise.resolve();
+ if(!decoding){decoding=Promise.all(DUCK_CALLS.map(call=>{const raw=atob(call),bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));return ctx.decodeAudioData(bytes.buffer);})).then(values=>{duckBuffers=values;}).catch(()=>{}).finally(()=>{decoding=null;});}
  return decoding;
 }
 function keep(source,nodes){
@@ -24,19 +24,15 @@ export function playStickerSound(shape){
  if(!LEGENDARY_FEEDBACK[shape])return false;
  const ctx=audio();if(!ctx)return false;void ctx.resume().catch(()=>{});const now=ctx.currentTime+.008;
  if(shape==='duck'){
-  // Use the next, shorter call instead of the sharp first quack. Preserve
-  // the licensed source, with a lower pitch, softer onset and less treble.
+  // Randomly choose one of the two calls from the user's toy-duck clip.
   const play=()=>{
-   if(!duckBuffer||ctx.state==='closed')return;
-   const at=ctx.currentTime+.008,offset=1.675,duration=Math.min(.43,duckBuffer.duration-offset),rate=.78,length=duration/rate;
-   if(duration<=0)return;
-   const source=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();
-   source.buffer=duckBuffer;source.playbackRate.value=rate;
-   filter.type='lowpass';filter.frequency.value=1450;filter.Q.value=.5;
-   gain.gain.setValueAtTime(0,at);gain.gain.linearRampToValueAtTime(.28,at+.035);gain.gain.setValueAtTime(.28,at+length-.09);gain.gain.linearRampToValueAtTime(0,at+length);
-   source.connect(filter);filter.connect(gain);gain.connect(ctx.destination);source.start(at,offset,duration);keep(source,[source,filter,gain]);
+   if(!duckBuffers.length||ctx.state==='closed')return;
+   const buffer=duckBuffers[Math.floor(Math.random()*duckBuffers.length)],at=ctx.currentTime+.008,length=buffer.duration;
+   const source=ctx.createBufferSource(),gain=ctx.createGain();source.buffer=buffer;
+   gain.gain.setValueAtTime(0,at);gain.gain.linearRampToValueAtTime(.65,at+.008);gain.gain.setValueAtTime(.65,at+length-.025);gain.gain.linearRampToValueAtTime(0,at+length);
+   source.connect(gain);gain.connect(ctx.destination);source.start(at);keep(source,[source,gain]);
   };
-  if(duckBuffer)play();
+  if(duckBuffers.length)play();
   else{const clickedAt=performance.now();void prepareStickerAudio().then(()=>{if(performance.now()-clickedAt<450)play();});}
  }else if(shape==='semicolon'){for(const delay of [0,.11,.27]){breath(ctx,now+delay,.035,2400,.14);tone(ctx,220,now+delay,.055,.025,'triangle');}}
  else if(shape==='rainbow'){[523.25,587.33,659.25,698.46,783.99,880,1046.5].forEach((f,i)=>tone(ctx,f,now+i*.047,.22,.025));}

@@ -1,5 +1,6 @@
 import {buildTrainingCurriculum,CURRICULUM_STAGES} from './trainingCurriculum.js';
 import {normalizePlatform,platformFromUrl} from './platformRegistry.js';
+import {organizeNowcoderTrainingLists} from './nowcoderTrainingLists.js';
 
 // A collection's source is its own provenance, not its title or its problems'
 // platforms. Luogu collections legitimately contain mirrored contest tasks.
@@ -17,9 +18,9 @@ export function trainingListPlatform(list) {
 }
 
 export function platformTrainingLists(lists,rows,mode='algorithm') {
- if(mode==='source')return lists;
+ if(mode==='source')return organizeNowcoderTrainingLists(lists);
  const luogu=lists.filter(list=>trainingListPlatform(list)==='洛谷');
- const other=lists.filter(list=>trainingListPlatform(list)!=='洛谷');
+ const other=organizeNowcoderTrainingLists(lists.filter(list=>trainingListPlatform(list)!=='洛谷'));
  const curriculum=buildTrainingCurriculum(luogu,rows).map(list=>({...list,topicPath:['洛谷',...list.topicPath]}));
  return [...curriculum,...other.map(list=>{
   const platform=trainingListPlatform(list);

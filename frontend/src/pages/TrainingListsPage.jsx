@@ -116,7 +116,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   const folders = new Map(), entries = [];
   let scopeLists = organized;
   if (!active) {
-    const base = organized.filter(list => (!list.virtual||!state.folder.length)&&(state.mode !== 'source' || (list.categories || []).some(category => !state.folder.length || category.id === state.folder[0])));
+    const base = organized.filter(list => !list.catalogHidden&&(!list.virtual||!state.folder.length)&&(state.mode !== 'source' || (list.categories || []).some(category => !state.folder.length || category.id === state.folder[0])));
     const selected = base.filter(list => (state.mode !== 'algorithm' || startsWithPath(list.topicPath, state.folder)));
     scopeLists = selected;
     for (const list of selected) {

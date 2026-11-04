@@ -1,0 +1,22 @@
+{
+  "source": "https://www.bilibili.com/video/BV12R4y1X7Lr/",
+  "title": "塑料鸭 小黄鸭 按压 音效 (HQ)",
+  "use": "User-selected short nonverbal toy-duck sound effects",
+  "transformation": "Two separate calls, original pitch, 8ms edge fades, mono 24kHz PCM",
+  "clips": [
+    {
+      "file": "duck-toy-1.wav",
+      "start": 0.66,
+      "end": 1.13,
+      "sha256": "ff22fb7f2d4da1fb720f1cb6eee128ebcd123c63ee81415744370419d3ad41ca",
+      "bytes": 22604
+    },
+    {
+      "file": "duck-toy-2.wav",
+      "start": 1.4,
+      "end": 1.93,
+      "sha256": "c30c1113ed28ca9ca760b1b986d1d76b6a3f1eced8b09bd2e4cfaa598a36d8ea",
+      "bytes": 25484
+    }
+  ]
+}

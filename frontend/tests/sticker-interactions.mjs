@@ -11,7 +11,7 @@ await page.addInitScript(()=>{
  const Audio=window.AudioContext;window.AudioContext=class extends Audio{
   decodeAudioData(bytes){return super.decodeAudioData(bytes).then(async buffer=>{await decodeGate;return buffer;});}
   createOscillator(){window.stickerAudioEvents.push('oscillator');return super.createOscillator();}
-  createBufferSource(){window.stickerAudioEvents.push('sample');const source=super.createBufferSource(),start=source.start.bind(source);source.start=(at,offset=0,duration)=>{if(source.buffer){const data=source.buffer.getChannelData(0),rate=source.buffer.sampleRate,from=Math.floor(offset*rate),to=Math.min(data.length,from+Math.floor(.25*rate));let squares=0;for(let i=from;i<to;i++)squares+=data[i]*data[i];window.stickerSamples.push({offset,duration,rate:source.playbackRate.value,openingRms:Math.sqrt(squares/(to-from))});}return start(at,offset,duration);};return source;}
+  createBufferSource(){window.stickerAudioEvents.push('sample');const source=super.createBufferSource(),start=source.start.bind(source);source.start=(at,offset=0,duration)=>{if(source.buffer){const data=source.buffer.getChannelData(0),rate=source.buffer.sampleRate,from=Math.floor(offset*rate),to=Math.min(data.length,from+Math.floor(.25*rate));let squares=0;for(let i=from;i<to;i++)squares+=data[i]*data[i];window.stickerSamples.push({offset,duration,bufferDuration:source.buffer.duration,rate:source.playbackRate.value,openingRms:Math.sqrt(squares/(to-from))});}return start(at,offset,duration);};return source;}
  };
 });
 try{
@@ -26,8 +26,10 @@ try{
  await page.evaluate(()=>window.releaseDuckDecode());
  await page.waitForFunction(()=>window.stickerSamples.length===1);
  const quack=await page.evaluate(()=>window.stickerSamples[0]);
- assert(quack.openingRms>.045,'The new excerpt begins with the next audible natural call');assert.equal(quack.offset,1.675);assert.equal(quack.duration,.43);assert(Math.abs(quack.rate-.78)<1e-6,'The shorter second call plays at a lower pitch');
+ assert(quack.openingRms>.01,'The selected toy-duck call is audible');assert.equal(quack.offset,0);assert.equal(quack.rate,1,'The user-selected recording retains its original pitch');
  assert.deepEqual(await page.evaluate(()=>window.stickerAudioEvents),['sample']);
+ await page.evaluate(async()=>{const sound=await import('/src/lib/stickerSound.js'),original=Math.random;try{Math.random=()=>0;sound.playStickerSound('duck');Math.random=()=>.999;sound.playStickerSound('duck');}finally{Math.random=original;}});
+ const durations=await page.evaluate(()=>window.stickerSamples.slice(1).map(sample=>sample.bufferDuration));assert(durations.every((duration,index)=>Math.abs(duration-[.47,.53][index])<.001),'Either of the two source calls can be selected');
  await page.evaluate(()=>window.stickerFeedbackFixture.audioReady());
  for(const shape of ['semicolon','rainbow','envelope','orbit','gem','crown','galaxy','phoenix']){
   const before=await page.evaluate(()=>window.stickerAudioEvents.length);await page.getByRole('button',{name:'传说贴纸 '+shape,exact:true}).click();

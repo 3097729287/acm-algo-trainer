@@ -127,6 +127,4 @@ html[data-motion=off] .settings-scene .globe-burst {opacity:0}
 
 .settings-tile{position:relative;overflow:hidden}
 .settings-scene-effect{border-radius:inherit}
-.scene-globe .globe-building{opacity:1}
-.scene-globe .globe-planet,.scene-globe .globe-burst{animation:none}
 .settings-scene [data-scene-interactive]{touch-action:none}
