@@ -76,4 +76,4 @@ def verify(library,output,workers=3,previous_library=None,previous_receipt=None)
     output.parent.mkdir(parents=True,exist_ok=True);output.write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf8')
     return len(verified)
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--library',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--workers',type=int,choices=range(1,5),default=3);p.add_argument('--previous-library',type=Path);p.add_argument('--previous-receipt',type=Path);a=p.parse_args();print('Verified resources:',verify(a.library,a.output,a.workers,a.previous_library,a.previous_receipt))
+    p=argparse.ArgumentParser();p.add_argument('--library',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--workers',type=int,choices=range(1,9),default=3);p.add_argument('--previous-library',type=Path);p.add_argument('--previous-receipt',type=Path);a=p.parse_args();print('Verified resources:',verify(a.library,a.output,a.workers,a.previous_library,a.previous_receipt))

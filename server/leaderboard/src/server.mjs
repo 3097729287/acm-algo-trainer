@@ -23,9 +23,11 @@ export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000
     try {
       const path = new URL(request.url, 'http://localhost').pathname;
       if(path.startsWith('/assets/')||path.startsWith('/updates/assets/')){
+        request.socket.setTimeout(60*60*1000+1000);
         clearTimeout(bodyDeadline);await releaseStream(request,response);return;
       }
       if(path.startsWith('/library-assets/')||path.startsWith('/updates/library-assets/')){
+        request.socket.setTimeout(601000);
         clearTimeout(bodyDeadline);await libraryStream(request,response);return;
       }
       const chunkRequest=path.startsWith('/v2/accounts/state');

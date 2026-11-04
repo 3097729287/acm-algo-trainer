@@ -116,11 +116,23 @@ def bundled_translation(problem):
     # formula or sample cannot stand in for a missing number elsewhere. New
     # formatting around prose (e.g. turning an unformatted K into $K$) must not
     # make an otherwise complete translation fail this check.
-    remaining=translated
-    for span,count in sorted(Counter(protect(source)[1].values()).items(),key=lambda item:-len(item[0])):
+    source_spans=Counter(protect(source)[1].values())
+    shielded,target_spans=protect(translated);used=set()
+    numeric=lambda span:bool(re.fullmatch(r'\d+(?:\.\d+)?',span))
+    layout=lambda span:span.isspace() or bool(re.fullmatch(r'[ \t]*(?:#{1,6} |[-*+] |\d+\. )',span))
+    # Match whole protected tokens first. A short formula must never consume
+    # identical characters inside a longer adjacent-dollar formula or code.
+    for span,count in source_spans.items():
+        if numeric(span) or layout(span):continue
+        keys=[key for key,value in target_spans.items() if value==span and key not in used]
+        if len(keys)<count:return None
+        used.update(keys[:count])
+    remaining=shielded
+    for key,span in target_spans.items():remaining=remaining.replace(key,' ' if key in used else span)
+    for span,count in sorted(((span,count) for span,count in source_spans.items() if numeric(span) or layout(span)),key=lambda item:-len(item[0])):
         # Chinese prose may remove the space in e.g. "lowbit 6". Reject a
         # changed numeric value (6 versus 16), without requiring English spacing.
-        pattern=(r'(?<![0-9])'+re.escape(span)+r'(?![0-9])') if re.fullmatch(r'\d+(?:\.\d+)?',span) else re.escape(span)
+        pattern=(r'(?<![0-9])'+re.escape(span)+r'(?![0-9])') if numeric(span) else re.escape(span)
         for _ in range(count):
             remaining,found=re.subn(pattern,' ',remaining,count=1)
             if not found:return None

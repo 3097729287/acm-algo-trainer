@@ -13,9 +13,9 @@ import sys
 
 ROOT=Path(__file__).resolve().parent.parent
 sys.path.insert(0,str(ROOT/'backend'))
-from public_assets import validate_reference
+from public_assets import validate_reference,PUBLIC_COMMIT,PUBLIC_ROOT
 
-def prepare(source,destination,assets,origin,*,pdf_only=False,minimum=65536):
+def prepare(source,destination,assets,origin,*,pdf_only=False,minimum=65536,direct=False):
     source,destination,assets=Path(source).resolve(),Path(destination).resolve(),Path(assets).resolve()
     if source==destination or destination.exists():raise ValueError('Choose a new slim seed path')
     destination.parent.mkdir(parents=True,exist_ok=True);assets.mkdir(parents=True,exist_ok=True)
@@ -35,7 +35,7 @@ def prepare(source,destination,assets,origin,*,pdf_only=False,minimum=65536):
                 if hashlib.sha256(data).hexdigest()!=sha:raise ValueError('Source asset checksum mismatch')
                 external=mime=='application/pdf' or not pdf_only and len(data)>=minimum and mime in {'image/png','image/jpeg','image/webp','image/gif','image/bmp','application/zip'}
                 if not external:slim.execute('INSERT INTO statement_assets VALUES(?,?,?)',(sha,mime,data));continue
-                url=origin.rstrip('/')+'/updates/library-assets/'+sha+'.bin';validate_reference(sha,mime,len(data),url)
+                url=PUBLIC_ROOT+sha+'.bin' if direct else origin.rstrip('/')+'/updates/library-assets/'+sha+'.bin';validate_reference(sha,mime,len(data),url)
                 path=assets/(sha+'.bin')
                 if path.exists():
                     with path.open('rb') as stream:
@@ -52,6 +52,6 @@ def prepare(source,destination,assets,origin,*,pdf_only=False,minimum=65536):
     return report
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--source',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--assets',type=Path,required=True);p.add_argument('--origin',required=True);p.add_argument('--pdf-only',action='store_true');a=p.parse_args()
-    r=prepare(a.source,a.output,a.assets,a.origin,pdf_only=a.pdf_only)
+    p=argparse.ArgumentParser();p.add_argument('--source',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--assets',type=Path,required=True);p.add_argument('--origin',required=True);p.add_argument('--pdf-only',action='store_true');p.add_argument('--direct',action='store_true',help='Use the pinned public original source, with the account server as a verified fallback');a=p.parse_args()
+    r=prepare(a.source,a.output,a.assets,a.origin,pdf_only=a.pdf_only,direct=a.direct)
     print(json.dumps({key:value for key,value in r.items() if key!='assets'}))

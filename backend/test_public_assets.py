@@ -5,11 +5,29 @@ import unittest
 from unittest.mock import MagicMock,patch
 import tempfile
 from library import LibraryDatabase
-from public_assets import read_asset
+from public_assets import read_asset,validate_reference,PUBLIC_ROOT
 from scripts.prepare_public_assets import prepare
 from test_library import record
 
 class PublicAssetTests(unittest.TestCase):
+    def test_direct_original_is_commit_pinned_and_network_failure_uses_verified_account_origin(self):
+        raw=b'%PDF-1.4\nexact original\n%%EOF';sha=hashlib.sha256(raw).hexdigest()
+        validate_reference(sha,'application/pdf',len(raw),PUBLIC_ROOT+sha+'.bin')
+        for url in [PUBLIC_ROOT.replace('a4de0d4b160e1d2270422b8c84995feffc4e3269','main')+sha+'.bin',PUBLIC_ROOT.replace('3097729287','other-owner')+sha+'.bin']:
+            with self.assertRaises(ValueError):validate_reference(sha,'application/pdf',len(raw),url)
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);library=LibraryDatabase(root/'library.sqlite3')
+            with library.connection() as db:db.execute('INSERT INTO remote_statement_assets VALUES(?,?,?,?)',(sha,'application/pdf',len(raw),PUBLIC_ROOT+sha+'.bin'))
+            response=MagicMock(status=200);response.read.return_value=raw;response.__enter__.return_value=response
+            opener=MagicMock();opener.open.side_effect=[OSError('Original host temporarily unreachable'),response]
+            with patch('public_assets.shutil.disk_usage',return_value=type('Disk',(),{'free':2*1024**3})()),patch.dict('os.environ',{'TB_OFFLINE':'0'}),patch('leaderboard.service_opener',return_value=opener):
+                self.assertEqual(read_asset(library,sha,root/'cache.sqlite3'),('application/pdf',raw))
+            calls=opener.open.call_args_list;self.assertEqual(len(calls),2)
+            self.assertTrue(calls[1].args[0].full_url.startswith('https://47.82.84.74/updates/library-assets/'))
+            self.assertTrue(all(not call.args[0].has_header('Authorization') and not call.args[0].has_header('Cookie') for call in calls))
+            with patch.dict('os.environ',{'TB_OFFLINE':'1'}),patch('leaderboard.service_opener',side_effect=AssertionError('Offline cached original')):
+                self.assertEqual(read_asset(library,sha,root/'cache.sqlite3')[1],raw)
+
     def test_slim_seed_roundtrip_and_download_cache_preserve_exact_originals(self):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder);source=LibraryDatabase(root/'source.sqlite3');source.import_records([record()],{}, {})

@@ -6,8 +6,8 @@ import {pipeline} from 'node:stream/promises';
 import {createHash} from 'node:crypto';
 
 const ROOT='https://raw.githubusercontent.com/3097729287/acm-algo-trainer/';
-export function createLibraryAssetStream(indexFile,{fetcher=fetch,maximumActive=4,transferTimeoutMs=120000}={}){
- if(!Number.isSafeInteger(maximumActive)||maximumActive<1||maximumActive>16||!Number.isSafeInteger(transferTimeoutMs)||transferTimeoutMs<1||transferTimeoutMs>300000)throw Error('Invalid resource limits');
+export function createLibraryAssetStream(indexFile,{fetcher=fetch,maximumActive=4,transferTimeoutMs=600000}={}){
+ if(!Number.isSafeInteger(maximumActive)||maximumActive<1||maximumActive>16||!Number.isSafeInteger(transferTimeoutMs)||transferTimeoutMs<1||transferTimeoutMs>600000)throw Error('Invalid resource limits');
  let active=0,cached=null,modified=0;
  async function index(){
   const info=await stat(indexFile);if(info.size>4*1024**2)throw Error('Resource index too large');

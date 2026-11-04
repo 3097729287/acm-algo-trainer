@@ -11,6 +11,8 @@ from urllib.parse import urlsplit
 from urllib.request import Request
 
 MAX_ASSET=32*1024*1024
+PUBLIC_COMMIT='a4de0d4b160e1d2270422b8c84995feffc4e3269'
+PUBLIC_ROOT='https://raw.githubusercontent.com/3097729287/acm-algo-trainer/'+PUBLIC_COMMIT+'/'
 _locks=[threading.Lock() for _ in range(32)]
 
 def descriptor(db,sha):
@@ -22,11 +24,12 @@ def descriptor(db,sha):
 def validate_reference(sha,mime,size,url):
     if not re.fullmatch('[a-f0-9]{64}',sha) or mime not in {'application/pdf','image/png','image/jpeg','image/webp','image/gif','image/bmp','application/zip'}:raise ValueError('Invalid public asset metadata')
     parsed=urlsplit(url)
+    direct=url==PUBLIC_ROOT+sha+'.bin'
     loopback=parsed.hostname in {'127.0.0.1','localhost','::1'}
     if (not isinstance(size,int) or not 0<size<=MAX_ASSET or parsed.username or parsed.password or parsed.query or parsed.fragment
-        or parsed.scheme!='https' and not(loopback and parsed.scheme=='http') or parsed.path!='/updates/library-assets/'+sha+'.bin'):
+        or parsed.scheme!='https' and not(loopback and parsed.scheme=='http') or not direct and parsed.path!='/updates/library-assets/'+sha+'.bin'):
         raise ValueError('Invalid public asset location')
-    if not loopback:
+    if not loopback and not direct:
         from leaderboard import bundled_endpoint
         if parsed.hostname!=urlsplit(bundled_endpoint()).hostname or parsed.port not in (None,443):raise ValueError('Untrusted public asset host')
 
@@ -54,9 +57,19 @@ def read_asset(library,sha,cache_path=None):
             if shutil.disk_usage(cache_path.parent).free<value['bytes']*3+256*1024*1024:raise OSError('Insufficient space for public resource cache')
             from leaderboard import service_opener
             request=Request(value['url'],headers={'Accept':value['mime'],'Accept-Encoding':'identity','User-Agent':'ToBe-Public-Assets/1'})
-            with service_opener(value['url']).open(request,timeout=20) as response:
-                if response.status!=200:raise OSError('Public asset download failed')
-                raw=response.read(value['bytes']+1)
+            try:
+                with service_opener(value['url']).open(request,timeout=20) as response:
+                    if response.status!=200:raise OSError('Public asset download failed')
+                    raw=response.read(value['bytes']+1)
+            except OSError:
+                if not value['url'].startswith(PUBLIC_ROOT):raise
+                from leaderboard import bundled_endpoint
+                fallback=bundled_endpoint().rstrip('/')+'/updates/library-assets/'+sha+'.bin'
+                validate_reference(sha,value['mime'],value['bytes'],fallback)
+                request=Request(fallback,headers={'Accept':value['mime'],'Accept-Encoding':'identity','User-Agent':'ToBe-Public-Assets/1'})
+                with service_opener(fallback).open(request,timeout=45) as response:
+                    if response.status!=200:raise OSError('Public asset download failed')
+                    raw=response.read(value['bytes']+1)
             if len(raw)!=value['bytes'] or hashlib.sha256(raw).hexdigest()!=sha:raise ValueError('Downloaded public asset checksum mismatch')
             cache.execute('INSERT INTO assets VALUES(?,?,?)',(sha,value['mime'],raw));cache.commit()
             return value['mime'],raw

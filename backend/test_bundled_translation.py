@@ -20,6 +20,13 @@ CHINESE=SOURCE.replace('Train Car','火车车厢').replace(
     'Given a positive integer $N$, print twice its value.',
     '给定一个正整数 $N$，输出它的两倍。').replace('Input','输入')
 
+class AdjacentFormulaTests(unittest.TestCase):
+    def test_identical_adjacent_dollar_tokens_do_not_consume_each_other(self):
+        source='# Expression\n\nGiven a positive integer $$$$$$x+y$$$$$$, print the number of different values of the expression $$$x+y$$$.\n'
+        chinese='# 表达式\n\n给定一个正整数 $$$$$$x+y$$$$$$，请输出表达式 $$$x+y$$$ 的不同取值个数。\n'
+        self.assertEqual([v for v in protect(source)[1].values() if '$' in v],[v for v in protect(chinese)[1].values() if '$' in v])
+        self.assertIsNotNone(bundled_translation({'markdown':source,'translation':translation(source,chinese)}))
+
 def translation(source=SOURCE,markdown=CHINESE):
     return {'kind':'bundled','markdown':markdown,'provider':'预置中文译文',
             'sourceLanguage':'en','targetLanguage':'zh-CN',
