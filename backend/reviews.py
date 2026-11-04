@@ -360,13 +360,17 @@ class ReviewScheduler:
         costs = {**allocation.get('minutes', {}), **{r['id']: r['minutes'] for r in selected}}
         if planned_ids != allocation.get('ids', []):
             updates[allocation_key] = {'ids': planned_ids, 'minutes': costs}
-        # Preserve already-started work, but defer new recommendations whenever
-        # retrieval fills the day or a due backlog would otherwise keep growing.
-        pause = bool((candidates and len(candidates) > len(selected)) or spent >= minutes * .65)
+        # Reviews retain their bounded allocation. A backlog alone must not hide
+        # goals when the shared daily budget still fits a complete new task.
+        new_costs=[]
+        for record in t.connection.execute('SELECT config FROM goals WHERE archived=0'):
+            try:new_costs.append(max(5,int(json.loads(record['config']).get('minutesPerProblem',45))))
+            except (ValueError,TypeError):pass
+        pause = bool(candidates and minutes-spent < min(new_costs or [45]))
         result = {'date': day, 'tasks': [{k:v for k,v in r.items() if k != 'priority'} for r in selected],
                   'dueCount': len(candidates), 'deferredCount': len(candidates) - len(selected),
                   'minutes': spent, 'dailyMinutes': minutes, 'newMinutes': max(0, minutes - spent),
-                  'reviewOnly': pause, 'abilityScore': ability, 'policyVersion': 2}
+                  'reviewOnly': pause, 'abilityScore': ability, 'policyVersion': 3}
         if updates:
             with t._write() as db:
                 for key, value in updates.items():

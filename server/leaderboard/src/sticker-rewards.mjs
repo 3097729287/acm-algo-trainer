@@ -1,19 +1,29 @@
 import {readFileSync} from 'node:fs';
-import {randomInt,randomUUID} from 'node:crypto';
+import {createHash,randomInt,randomUUID} from 'node:crypto';
 import {AccountError} from './accounts.mjs';
 
 export const REWARDS=JSON.parse(readFileSync(new URL('./sticker-rewards.json',import.meta.url),'utf8'));
 const fail=(code,message)=>{throw new AccountError(code,message);};
 export function levelBox(level){
  if(!Number.isSafeInteger(level)||level<5||level>100)fail(400,'宝箱等级无效');
- const t=1-Math.exp(-(level-5)/REWARDS.levelBoxes.curveScale);
- const common=Math.round((58-38*t)*100),epic=Math.round((9+23*t)*100),legendary=Math.round((8+24*t)*100);
- const probabilities={common,rare:10000-common-epic-legendary,epic,legendary};
- const quantity=REWARDS.levelBoxes.quantitySteps.filter(([start])=>level>=start).at(-1)[1];
- return {id:'level:'+level,level,quantity,probabilities,policyVersion:REWARDS.version,openedAt:null};
+ return {...packBox('level:'+level,'legendary',{kind:'level',level}),level};
 }
-export function rollRarity(probabilities,roll=randomInt(10000)){
- if(!Number.isSafeInteger(roll)||roll<0||roll>=10000)throw new Error('Invalid random sample');
+export function packBox(id,rarity,source){
+ if(!Object.hasOwn(REWARDS.cardPacks,rarity))fail(400,'卡包品质无效');
+ return {id,rarity,...structuredClone(REWARDS.cardPacks[rarity]),source,policyVersion:REWARDS.version,openedAt:null};
+}
+export function normalizeBox(box){
+ if(box.openedAt||box.policyVersion===REWARDS.version)return box;
+ const policy=Number.isSafeInteger(box.level)?levelBox(box.level):packBox(box.id,box.rarity,box.source);
+ return {...policy,grantedAt:box.grantedAt};
+}
+export function dailyPackRarity(owner,day,taskId){
+ const roll=createHash('sha256').update(owner+'\0'+day+'\0'+taskId+'\0pack-v1').digest().readUInt32BE(0)%10000;
+ return rollRarity(REWARDS.dailyPacks.probabilities,roll);
+}
+export function rollRarity(probabilities,roll=randomInt(Object.values(probabilities).reduce((a,b)=>a+b,0))){
+ const total=Object.values(probabilities).reduce((a,b)=>a+b,0);
+ if(!Number.isSafeInteger(roll)||roll<0||roll>=total)throw new Error('Invalid random sample');
  let cursor=roll;for(const kind of ['common','rare','epic','legendary']){cursor-=probabilities[kind];if(cursor<0)return kind;}
  throw new Error('Invalid rarity weights');
 }
@@ -40,19 +50,35 @@ export class StickerRewards {
       const unit={id:randomUUID(),stickerId,placement:null,revision:0,source:{kind:'achievement',id:value.achievementId}};
       state.units.push(unit);state.achievementGrants[value.achievementId]={unitId:unit.id,stickerId,grantedAt:now};state.revision++;
      }
-    }else if(kind==='open-box'){
-     const box=Object.hasOwn(state.boxes,value.boxId)?state.boxes[value.boxId]:null;if(!box)fail(404,'没有找到这个宝箱');
-     if(box.openedAt){opening=box;}
-     else{
-      if(box.policyVersion!==REWARDS.version){const grantedAt=box.grantedAt;Object.assign(box,levelBox(box.level),{grantedAt});}
-      if(state.units.length+box.quantity>20000)fail(409,'贴纸库存空间不足，宝箱已保留');
-      const drops=[];
-      for(let i=0;i<box.quantity;i++){
-       const rarity=rollRarity(box.probabilities),pool=this.catalogue.filter(item=>item.rarity===rarity&&!item.id.startsWith('achievement-'));
-       const sticker=pool[randomInt(pool.length)],unit={id:randomUUID(),stickerId:sticker.id,placement:null,revision:0,source:{kind:'level-box',id:box.id}};
-       state.units.push(unit);drops.push({id:unit.id,stickerId:unit.stickerId,rarity});
+    }else if(kind==='open-box'||kind==='open-packs'){
+     let boxes;
+     if(kind==='open-box'){
+      const box=Object.hasOwn(state.boxes,value.boxId)?state.boxes[value.boxId]:null;
+      if(!box)fail(404,'没有找到这个卡包');
+      if(box.openedAt)opening=box;else boxes=[normalizeBox(box)];
+     }else{
+      if(!Object.hasOwn(REWARDS.cardPacks,value.rarity)||![1,5].includes(value.count))fail(400,'抽卡数量或品质无效');
+      boxes=Object.values(state.boxes).filter(box=>!box.openedAt).map(normalizeBox)
+       .filter(box=>box.rarity===value.rarity).sort((a,b)=>(a.grantedAt||0)-(b.grantedAt||0)||a.id.localeCompare(b.id)).slice(0,value.count);
+      if(boxes.length!==value.count)fail(409,'该品质的卡包数量不足');
+     }
+     if(boxes){
+      if(state.units.length+boxes.reduce((sum,box)=>sum+box.quantity,0)>20000)fail(409,'贴纸库存空间不足，卡包已保留');
+      for(const box of boxes){
+       const drops=[];
+       for(let i=0;i<box.quantity;i++){
+        let weights=box.probabilities;
+        if(i===0&&box.guarantee){
+         const tiers=['common','rare','epic','legendary'],floor=tiers.indexOf(box.guarantee);
+         weights=Object.fromEntries(tiers.map((tier,index)=>[tier,index<floor?0:box.probabilities[tier]]));
+        }
+        const rarity=rollRarity(weights),pool=this.catalogue.filter(item=>item.rarity===rarity&&!item.id.startsWith('achievement-'));
+        const sticker=pool[randomInt(pool.length)],unit={id:randomUUID(),stickerId:sticker.id,placement:null,revision:0,source:{kind:box.source?.kind==='daily'?'daily-pack':'level-box',id:box.id}};
+        state.units.push(unit);drops.push({id:unit.id,stickerId:unit.stickerId,rarity,packId:box.id});
+       }
+       box.openedAt=now;box.drops=drops;state.boxes[box.id]=box;state.revision++;
       }
-      box.openedAt=now;box.drops=drops;state.revision++;opening=box;
+      opening=kind==='open-box'?boxes[0]:{rarity:value.rarity,packs:boxes,drops:boxes.flatMap(box=>box.drops)};
      }
     }else fail(404,'没有找到这项奖励');
     await this.saveAccount(db,owner,state);

@@ -768,55 +768,64 @@
       "name": "山东省赛 2021"
     },
     "河南省第十三届ICPC大学生程序设计竞赛（重现赛）": {
-      "name": "ICPC 河南区域赛",
+      "name": "ICPC 2021 河南省赛",
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛",
+      "eventYear": 2021
     },
     "ICPC 河南区域赛": {
-      "name": "ICPC 河南区域赛",
+      "name": "ICPC 2021 河南省赛",
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛",
+      "eventYear": 2021
     },
     "ICPC 2021 河南省赛": {
-      "name": "ICPC 河南区域赛",
+      "name": "ICPC 2021 河南省赛",
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛",
+      "eventYear": 2021
     },
     "2021 年第十三届四川省 ACM-ICPC 大学生程序设计竞赛（重现赛）": {
-      "name": "ICPC 2021 四川区域赛",
+      "name": "ICPC 2021 四川省赛",
       "eventYear": 2021,
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛"
     },
     "ICPC 2021 四川区域赛": {
-      "name": "ICPC 2021 四川区域赛",
+      "name": "ICPC 2021 四川省赛",
       "eventYear": 2021,
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛"
     },
     "ICPC 2021 四川省赛": {
-      "name": "ICPC 2021 四川区域赛",
+      "name": "ICPC 2021 四川省赛",
       "eventYear": 2021,
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛"
     },
     "GDCPC广东省大学生程序设计竞赛（热身赛）": {
       "name": "广东省赛 2021（热身赛）"
@@ -850,58 +859,64 @@
       "contestDatePrecision": "day"
     },
     "2021 ICPC 江西省大学生程序设计竞赛（热身赛）": {
-      "name": "ICPC 2021 江西区域赛（热身赛）",
+      "name": "ICPC 2021 江西省赛（热身赛）",
       "eventYear": 2021,
       "startedAt": "2021-10-23T00:30:00+00:00",
       "endedAt": "2021-10-23T01:30:00+00:00",
       "contestDate": "2021-10-23T00:30:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "ICPC 2021 江西区域赛（热身赛）": {
-      "name": "ICPC 2021 江西区域赛（热身赛）",
+      "name": "ICPC 2021 江西省赛（热身赛）",
       "eventYear": 2021,
       "startedAt": "2021-10-23T00:30:00+00:00",
       "endedAt": "2021-10-23T01:30:00+00:00",
       "contestDate": "2021-10-23T00:30:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "ICPC 2021 江西省赛（热身赛）": {
-      "name": "ICPC 2021 江西区域赛（热身赛）",
+      "name": "ICPC 2021 江西省赛（热身赛）",
       "eventYear": 2021,
       "startedAt": "2021-10-23T00:30:00+00:00",
       "endedAt": "2021-10-23T01:30:00+00:00",
       "contestDate": "2021-10-23T00:30:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "2021 ICPC 江西省大学生程序设计竞赛（正式赛）": {
-      "name": "ICPC 2021 江西区域赛",
+      "name": "ICPC 2021 江西省赛",
       "eventYear": 2021,
       "startedAt": "2021-10-23T02:00:00+00:00",
       "endedAt": "2021-10-23T07:00:00+00:00",
       "contestDate": "2021-10-23T02:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "ICPC 2021 江西区域赛": {
-      "name": "ICPC 2021 江西区域赛",
+      "name": "ICPC 2021 江西省赛",
       "eventYear": 2021,
       "startedAt": "2021-10-23T02:00:00+00:00",
       "endedAt": "2021-10-23T07:00:00+00:00",
       "contestDate": "2021-10-23T02:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "ICPC 2021 江西省赛": {
-      "name": "ICPC 2021 江西区域赛",
+      "name": "ICPC 2021 江西省赛",
       "eventYear": 2021,
       "startedAt": "2021-10-23T02:00:00+00:00",
       "endedAt": "2021-10-23T07:00:00+00:00",
       "contestDate": "2021-10-23T02:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "2021辽宁省大学生程序设计竞赛(热身赛）": {
       "name": "辽宁省赛 2021（热身赛）",
@@ -1127,106 +1142,124 @@
       "name": "黑龙江省赛 2022（热身赛）"
     },
     "“山大地纬杯”第十二届山东省ICPC大学生程序设计竞赛（热身赛）": {
-      "name": "ICPC 山东区域赛（热身赛）",
+      "name": "ICPC 2022 山东省赛（热身赛）",
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛",
+      "eventYear": 2022
     },
     "ICPC 山东区域赛（热身赛）": {
-      "name": "ICPC 山东区域赛（热身赛）",
+      "name": "ICPC 2022 山东省赛（热身赛）",
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛",
+      "eventYear": 2022
     },
     "ICPC 2022 山东省赛（热身赛）": {
-      "name": "ICPC 山东区域赛（热身赛）",
+      "name": "ICPC 2022 山东省赛（热身赛）",
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛",
+      "eventYear": 2022
     },
     "“山大地纬杯”第十二届山东省ICPC大学生程序设计竞赛(正式赛）": {
-      "name": "ICPC 山东区域赛",
+      "name": "ICPC 2022 山东省赛",
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛",
+      "eventYear": 2022
     },
     "ICPC 山东区域赛": {
-      "name": "ICPC 山东区域赛",
+      "name": "ICPC 2022 山东省赛",
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛",
+      "eventYear": 2022
     },
     "ICPC 2022 山东省赛": {
-      "name": "ICPC 山东区域赛",
+      "name": "ICPC 2022 山东省赛",
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛",
+      "eventYear": 2022
     },
     "2021年ICPC国际大学生程序设计竞赛暨陕西省第九届大学生程序设计竞赛（正式赛）": {
-      "name": "ICPC 2021 陕西区域赛",
+      "name": "ICPC 2021 陕西省赛",
       "eventYear": 2021,
       "startedAt": "2022-05-28T05:00:00+00:00",
       "endedAt": "2022-05-28T10:00:00+00:00",
       "contestDate": "2022-05-28T05:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "ICPC 2021 陕西区域赛": {
-      "name": "ICPC 2021 陕西区域赛",
+      "name": "ICPC 2021 陕西省赛",
       "eventYear": 2021,
       "startedAt": "2022-05-28T05:00:00+00:00",
       "endedAt": "2022-05-28T10:00:00+00:00",
       "contestDate": "2022-05-28T05:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "ICPC 2021 陕西省赛": {
-      "name": "ICPC 2021 陕西区域赛",
+      "name": "ICPC 2021 陕西省赛",
       "eventYear": 2021,
       "startedAt": "2022-05-28T05:00:00+00:00",
       "endedAt": "2022-05-28T10:00:00+00:00",
       "contestDate": "2022-05-28T05:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "2021年ICPC国际大学生程序设计竞赛暨陕西省第九届大学生程序设计竞赛（热身赛）": {
-      "name": "ICPC 2021 陕西区域赛（热身赛）",
+      "name": "ICPC 2021 陕西省赛（热身赛）",
       "eventYear": 2021,
       "startedAt": "2022-05-28T02:00:00+00:00",
       "endedAt": "2022-05-28T03:30:00+00:00",
       "contestDate": "2022-05-28T02:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "ICPC 2021 陕西区域赛（热身赛）": {
-      "name": "ICPC 2021 陕西区域赛（热身赛）",
+      "name": "ICPC 2021 陕西省赛（热身赛）",
       "eventYear": 2021,
       "startedAt": "2022-05-28T02:00:00+00:00",
       "endedAt": "2022-05-28T03:30:00+00:00",
       "contestDate": "2022-05-28T02:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "ICPC 2021 陕西省赛（热身赛）": {
-      "name": "ICPC 2021 陕西区域赛（热身赛）",
+      "name": "ICPC 2021 陕西省赛（热身赛）",
       "eventYear": 2021,
       "startedAt": "2022-05-28T02:00:00+00:00",
       "endedAt": "2022-05-28T03:30:00+00:00",
       "contestDate": "2022-05-28T02:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "2018 ACM-ICPC EC-Final 重现赛": {
       "name": "ICPC 2018 亚洲东区决赛",
@@ -1516,58 +1549,64 @@
       "contestDateSource": "赛事原名年份；具体日期未核实"
     },
     "2020ICPC 江西省大学生程序设计竞赛": {
-      "name": "ICPC 2020 江西区域赛",
+      "name": "ICPC 2020 江西省赛",
       "eventYear": 2020,
       "startedAt": "2020-11-15T07:00:00+00:00",
       "endedAt": "2020-11-15T12:00:00+00:00",
       "contestDate": "2020-11-15T07:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "ICPC 2020 江西区域赛": {
-      "name": "ICPC 2020 江西区域赛",
+      "name": "ICPC 2020 江西省赛",
       "eventYear": 2020,
       "startedAt": "2020-11-15T07:00:00+00:00",
       "endedAt": "2020-11-15T12:00:00+00:00",
       "contestDate": "2020-11-15T07:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "ICPC 2020 江西省赛": {
-      "name": "ICPC 2020 江西区域赛",
+      "name": "ICPC 2020 江西省赛",
       "eventYear": 2020,
       "startedAt": "2020-11-15T07:00:00+00:00",
       "endedAt": "2020-11-15T12:00:00+00:00",
       "contestDate": "2020-11-15T07:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "2020ICPC 江西省大学生程序设计竞赛热身赛": {
-      "name": "ICPC 2020 江西区域赛（热身赛）",
+      "name": "ICPC 2020 江西省赛（热身赛）",
       "eventYear": 2020,
       "startedAt": "2020-11-14T07:00:00+00:00",
       "endedAt": "2020-11-14T10:00:00+00:00",
       "contestDate": "2020-11-14T07:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "ICPC 2020 江西区域赛（热身赛）": {
-      "name": "ICPC 2020 江西区域赛（热身赛）",
+      "name": "ICPC 2020 江西省赛（热身赛）",
       "eventYear": 2020,
       "startedAt": "2020-11-14T07:00:00+00:00",
       "endedAt": "2020-11-14T10:00:00+00:00",
       "contestDate": "2020-11-14T07:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "ICPC 2020 江西省赛（热身赛）": {
-      "name": "ICPC 2020 江西区域赛（热身赛）",
+      "name": "ICPC 2020 江西省赛（热身赛）",
       "eventYear": 2020,
       "startedAt": "2020-11-14T07:00:00+00:00",
       "endedAt": "2020-11-14T10:00:00+00:00",
       "contestDate": "2020-11-14T07:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "2020 ICPC·小米邀请赛 决赛热身赛": {
       "name": "ICPC 2020 小米邀请赛决赛（热身赛）",
@@ -10566,7 +10605,7 @@
       "contestDateSource": "赛事原名年份；具体日期未核实"
     },
     "CCPC2026黑龙江省大学生程序设计竞赛": {
-      "name": "CCPC 2026 黑龙江区域赛",
+      "name": "CCPC 2026 黑龙江省赛",
       "eventYear": 2026,
       "contestDifficulty": 3,
       "contestDifficultySource": "Codeforces Gym 公开整场难度（1–5 级），不是单题 rating",
@@ -10574,10 +10613,11 @@
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛"
     },
     "CCPC 2026 黑龙江区域赛": {
-      "name": "CCPC 2026 黑龙江区域赛",
+      "name": "CCPC 2026 黑龙江省赛",
       "eventYear": 2026,
       "contestDifficulty": 3,
       "contestDifficultySource": "Codeforces Gym 公开整场难度（1–5 级），不是单题 rating",
@@ -10585,10 +10625,11 @@
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛"
     },
     "CCPC 2026 黑龙江省赛": {
-      "name": "CCPC 2026 黑龙江区域赛",
+      "name": "CCPC 2026 黑龙江省赛",
       "eventYear": 2026,
       "contestDifficulty": 3,
       "contestDifficultySource": "Codeforces Gym 公开整场难度（1–5 级），不是单题 rating",
@@ -10596,7 +10637,8 @@
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛"
     },
     "2026 ICPC Gran Premio de Mexico 2da Fecha": {
       "name": "ICPC 2026 墨西哥大奖赛（第 2 轮）",
@@ -12276,21 +12318,24 @@
       "name": "山东省赛 2021"
     },
     "https://ac.nowcoder.com/acm/contest/17148": {
-      "name": "ICPC 河南区域赛",
+      "name": "ICPC 2021 河南省赛",
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛",
+      "eventYear": 2021
     },
     "https://ac.nowcoder.com/acm/contest/17624": {
-      "name": "ICPC 2021 四川区域赛",
+      "name": "ICPC 2021 四川省赛",
       "eventYear": 2021,
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛"
     },
     "https://ac.nowcoder.com/acm/contest/17796": {
       "name": "广东省赛 2021（热身赛）"
@@ -12307,22 +12352,24 @@
       "contestDatePrecision": "day"
     },
     "https://ac.nowcoder.com/acm/contest/21591": {
-      "name": "ICPC 2021 江西区域赛（热身赛）",
+      "name": "ICPC 2021 江西省赛（热身赛）",
       "eventYear": 2021,
       "startedAt": "2021-10-23T00:30:00+00:00",
       "endedAt": "2021-10-23T01:30:00+00:00",
       "contestDate": "2021-10-23T00:30:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "https://ac.nowcoder.com/acm/contest/21592": {
-      "name": "ICPC 2021 江西区域赛",
+      "name": "ICPC 2021 江西省赛",
       "eventYear": 2021,
       "startedAt": "2021-10-23T02:00:00+00:00",
       "endedAt": "2021-10-23T07:00:00+00:00",
       "contestDate": "2021-10-23T02:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "https://ac.nowcoder.com/acm/contest/22351": {
       "name": "辽宁省赛 2021（热身赛）",
@@ -12428,38 +12475,44 @@
       "name": "黑龙江省赛 2022（热身赛）"
     },
     "https://ac.nowcoder.com/acm/contest/34979": {
-      "name": "ICPC 山东区域赛（热身赛）",
+      "name": "ICPC 2022 山东省赛（热身赛）",
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛",
+      "eventYear": 2022
     },
     "https://ac.nowcoder.com/acm/contest/34980": {
-      "name": "ICPC 山东区域赛",
+      "name": "ICPC 2022 山东省赛",
       "startedAt": null,
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛",
+      "eventYear": 2022
     },
     "https://ac.nowcoder.com/acm/contest/35232": {
-      "name": "ICPC 2021 陕西区域赛",
+      "name": "ICPC 2021 陕西省赛",
       "eventYear": 2021,
       "startedAt": "2022-05-28T05:00:00+00:00",
       "endedAt": "2022-05-28T10:00:00+00:00",
       "contestDate": "2022-05-28T05:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "https://ac.nowcoder.com/acm/contest/35520": {
-      "name": "ICPC 2021 陕西区域赛（热身赛）",
+      "name": "ICPC 2021 陕西省赛（热身赛）",
       "eventYear": 2021,
       "startedAt": "2022-05-28T02:00:00+00:00",
       "endedAt": "2022-05-28T03:30:00+00:00",
       "contestDate": "2022-05-28T02:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "https://ac.nowcoder.com/acm/contest/366": {
       "name": "ICPC 2018 亚洲东区决赛",
@@ -12581,22 +12634,24 @@
       "contestDateSource": "赛事原名年份；具体日期未核实"
     },
     "https://ac.nowcoder.com/acm/contest/8827": {
-      "name": "ICPC 2020 江西区域赛",
+      "name": "ICPC 2020 江西省赛",
       "eventYear": 2020,
       "startedAt": "2020-11-15T07:00:00+00:00",
       "endedAt": "2020-11-15T12:00:00+00:00",
       "contestDate": "2020-11-15T07:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "https://ac.nowcoder.com/acm/contest/8829": {
-      "name": "ICPC 2020 江西区域赛（热身赛）",
+      "name": "ICPC 2020 江西省赛（热身赛）",
       "eventYear": 2020,
       "startedAt": "2020-11-14T07:00:00+00:00",
       "endedAt": "2020-11-14T10:00:00+00:00",
       "contestDate": "2020-11-14T07:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
-      "contestDatePrecision": "day"
+      "contestDatePrecision": "day",
+      "xcpcKind": "省赛"
     },
     "https://ac.nowcoder.com/acm/contest/9327": {
       "name": "ICPC 2020 小米邀请赛决赛（热身赛）",
@@ -18018,7 +18073,7 @@
       "contestDateSource": "赛事原名年份；具体日期未核实"
     },
     "https://codeforces.com/gym/106534": {
-      "name": "CCPC 2026 黑龙江区域赛",
+      "name": "CCPC 2026 黑龙江省赛",
       "eventYear": 2026,
       "contestDifficulty": 3,
       "contestDifficultySource": "Codeforces Gym 公开整场难度（1–5 级），不是单题 rating",
@@ -18026,7 +18081,8 @@
       "endedAt": null,
       "contestDate": null,
       "contestDatePrecision": "year",
-      "contestDateSource": "赛事原名年份；具体日期未核实"
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "xcpcKind": "省赛"
     },
     "https://codeforces.com/gym/106540": {
       "name": "ICPC 2026 墨西哥大奖赛（第 2 轮）",

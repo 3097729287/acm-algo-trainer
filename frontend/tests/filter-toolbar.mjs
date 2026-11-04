@@ -21,6 +21,9 @@ await page.route('**/api/**',async route=>{
  if(name==='account')value={required:true,authenticated:true,token:'filter-fixture',account:{userId:owner,loginId:'filter-fixture',nickname:'隔离筛选账号'}};
  else if(name==='data')value={rows,categories:[{name:'输入输出',count:3,children:[]}],token:'filter-fixture',today:now.slice(0,10)};
  else if(name==='workspace')value=workspace();
+ else if(name==='navigation')value={level:11,confirmed:true,authority:{owner,epoch:'filter-fixture',revision:++revision}};
+ else if(name==='duel')value={available:false,lobby:null,match:null};
+ else if(name==='workspace/ready')value={ok:true};
  else if(name==='insights')value={summary:{totalSolved:0},growth:{level:11,confirmed:true,authority:{owner,epoch:'filter-fixture',revision:++revision},currentLevelXp:0,nextLevelXp:2200,totalXp:0},knowledge:[],recommendations:[],activity:[],assessment:{},dailyTasks:{tasks:[]}};
  else if(name==='preferences'){if(request.method()==='POST')preferences=request.postDataJSON().preferences;value={preferences,updatedAt:now};}
  else if(name==='training/clear'){

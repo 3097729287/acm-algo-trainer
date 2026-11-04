@@ -37,6 +37,38 @@ class RecoveryBackupTests(unittest.TestCase):
         with closing(sqlite3.connect(path)) as restored:
             self.assertEqual(restored.execute('SELECT * FROM drafts').fetchall(), [('one', 'private draft with WAL')])
 
+    def test_required_migration_restores_fresh_wal_while_routine_budget_is_paused(self):
+        policy={'familyBytes':1,'rootBytes':1}
+        for i in range(2):
+            snapshot(self.db,self.path,self.directory,now=self.now+dt.timedelta(seconds=i))
+        self.assertIsNone(snapshot(self.db,self.path,self.directory,policy=policy,now=self.now+dt.timedelta(seconds=3)))
+        self.db.execute("UPDATE drafts SET code='fresh committed migration draft'")
+        saved=snapshot(self.db,self.path,self.directory,required=True,policy=policy,now=self.now+dt.timedelta(seconds=4))
+        self.assertTrue(verify(saved))
+        with closing(sqlite3.connect(saved)) as restored:
+            self.assertEqual(restored.execute('SELECT code FROM drafts').fetchone()[0],'fresh committed migration draft')
+        self.assertIsNone(snapshot(self.db,self.path,self.directory,policy=policy,now=self.now+dt.timedelta(seconds=5)))
+        from update_errors import UpdateStorageError
+        with patch('update_backups.require_space',side_effect=UpdateStorageError('fixture disk full')):
+            with self.assertRaises(UpdateStorageError):
+                snapshot(self.db,self.path,self.directory,required=True,now=self.now+dt.timedelta(seconds=6))
+        self.assertEqual(self.db.execute('SELECT code FROM drafts').fetchone()[0],'fresh committed migration draft')
+
+    def test_library_upgrade_uses_required_recovery_after_automatic_pause(self):
+        from library import LibraryDatabase
+        cache=LibraryDatabase(self.root/'catalogue.sqlite3');seed=LibraryDatabase(self.root/'seed.sqlite3')
+        with cache.connection() as db:
+            db.execute('INSERT INTO problems VALUES(?,?,?,?)',('fixture::old','https://codeforces.com/contest/1/problem/A','{}','{}'))
+            db.commit()
+            for i in range(2):snapshot(db,cache.path,self.directory,now=self.now+dt.timedelta(seconds=i))
+            self.assertIsNone(snapshot(db,cache.path,self.directory,policy={'familyBytes':1,'rootBytes':1},now=self.now+dt.timedelta(seconds=3)))
+        with seed.connection() as db:
+            db.execute('INSERT INTO problems VALUES(?,?,?,?)',('fixture::new','https://codeforces.com/contest/1/problem/B','{}','{}'))
+        self.assertTrue(cache.merge_seed(seed.path))
+        with cache.connection() as db:
+            self.assertEqual(db.execute('SELECT id FROM problems ORDER BY id').fetchall()[0][0],'fixture::new')
+            self.assertEqual(db.execute('SELECT COUNT(*) FROM problems').fetchone()[0],2)
+
     def test_daily_weekly_recent_limits_exclude_manual_and_unknown_files(self):
         manual = snapshot(self.db, self.path, self.directory, manual=True, now=self.now-dt.timedelta(days=100))
         old = self.directory / 'personal.sqlite3.legacy.bak'

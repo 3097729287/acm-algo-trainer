@@ -70,6 +70,17 @@ def manifest(directory):
             for p in sorted(directory.rglob('*')) if p.is_file()}
 
 
+def pack_public_metadata(package):
+    """Lossless deterministic storage; the source JSON remains authoritative."""
+    import gzip
+    data=(ROOT/'backend/resources/public-problem-metadata.json').read_bytes()
+    json.loads(data)
+    target=Path(package)/'resources/public-problem-metadata.json.gz'
+    target.parent.mkdir(parents=True,exist_ok=True)
+    target.write_bytes(gzip.compress(data,compresslevel=9,mtime=0))
+    if gzip.decompress(target.read_bytes())!=data:raise RuntimeError('Metadata compression failed')
+
+
 def build(args):
     stage = args.stage.resolve()
     if (stage / 'dist').exists():
@@ -89,6 +100,9 @@ def build(args):
     command = [sys.executable, '-m', 'PyInstaller', '--noconfirm', '--onedir', '--windowed',
                '--name', NAME, '--distpath', str(stage / 'dist'), '--workpath', str(stage / 'build'),
                '--specpath', str(stage), '--version-file', str(version_file), '--icon', str(ROOT / 'desktop' / 'tb.ico')]
+    # PDF extraction uses PDFium text and Pillow pixels. Its optional ndarray
+    # adapter must not pull NumPy/OpenBLAS into every desktop installation.
+    command += ['--exclude-module','numpy']
     modules = []
     for directory in paths:
         command += ['--paths', str(directory)]
@@ -141,7 +155,8 @@ def assemble(args):
                 raise RuntimeError('The distribution contains personal progress')
     shutil.copytree(stage / 'dist' / NAME, package)
     shutil.copytree(frontend_dist, package / 'frontend' / 'dist')
-    shutil.copytree(ROOT / 'backend' / 'resources', package / 'resources')
+    shutil.copytree(ROOT / 'backend' / 'resources', package / 'resources',ignore=shutil.ignore_patterns('public-problem-metadata.json'))
+    pack_public_metadata(package)
     shutil.copytree(args.compiler_source, package / 'compiler')
     compiler=args.compiler_source/'ucrt64/bin/g++.exe'
     if not compiler.is_file():raise RuntimeError('The native shortcut loader requires the bundled C++ compiler')
@@ -162,6 +177,7 @@ def assemble(args):
     shutil.copy2(ROOT / 'desktop' / 'official_nowcoder.js', package / 'official_nowcoder.js')
     shutil.copy2(ROOT / 'desktop' / 'official_luogu.js', package / 'official_luogu.js')
     shutil.copy2(ROOT / 'desktop' / 'official_page.js', package / 'official_page.js')
+    shutil.copy2(ROOT / 'desktop' / 'virtual_contest.js', package / 'resources' / 'virtual_contest.js')
     shutil.copy2(ROOT / 'desktop' / 'official_qoj.js', package / 'resources' / 'official_qoj.js')
     # Visible Edge/Chrome submission uses the local adapter directly. No
     # browser extension, cookie transport or extension installation is bundled.

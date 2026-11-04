@@ -38,6 +38,10 @@ try{
   else if(path==='content-update')value={revision:0,status:'current'};
   else if(path==='data')value={token:'fixture',revision:'fixture',rows,categories:[]};
   else if(path==='workspace')value={now:new Date().toISOString(),training:rows.map(r=>({id:r.id,activeAt:new Date().toISOString(),today:true,accepted:false,attempts:0})),sets:[],contests:[],activeContest:null,goals,goalTasks:[{...rows[0],accepted:false,goalTitles:['CF 2200']}],summary:{accepted:0,total:3,attempts:0}};
+  else if(path==='navigation')value=growth;
+  else if(path==='duel')value={available:false,lobby:null,match:null};
+  else if(path==='workspace/ready')value={ok:true};
+  else if(path==='stickers')value={owner,revision:0,catalog:[],units:[],boxes:{}};
   else if(path==='insights')value={summary:{totalSolved:0,streak:0},growth,achievements:[],knowledge:[],recommendations:[],assessment:{platforms:[]},dailyTasks:{tasks:[]},activity:[{date:'2026-10-01',officialAccepted:73}]};
   else if(path==='hub')value={version:'0.1.0',settings:{accounts:{}},sync:{},updates:{currentVersion:'0.1.0',latestVersion:'v0.1.0'},notifications:[]};
   else if(path==='goals')value=goals;
@@ -124,8 +128,8 @@ try{
  await glass('.knowledge-radar');
  assert.equal(await page.locator('.next-milestone').count(),0);
  assert.equal(await page.locator('.goal-card,.goal-contest-grid').count(),0);
- const goalHeight=await page.locator('#growth-goals').evaluate(n=>n.getBoundingClientRect().height);
- assert.ok(goalHeight<90,`Goal controls stay compact: ${goalHeight}`);
+ assert.equal(await page.locator('.growth-achievements-panel #growth-goals').count(),0,'Growth profile stays clean until the footer target entry is used');
+ await page.getByRole('button',{name:'目标',exact:true}).click();
  await page.getByRole('button',{name:'调整目标',exact:true}).click();
  await page.getByRole('dialog',{name:'调整目标',exact:true}).waitFor();
  assert.equal(await page.getByLabel('具体目标',{exact:true}).inputValue(),'CF 2200');

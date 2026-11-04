@@ -2,24 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
-import {startFixture as sqliteFixture} from './local-server.mjs';
 import {startMySQLFixture} from './mysql-fixture.mjs';
-import {preservedData,assertPreserved} from '../scripts/audit-preserved-data.mjs';
 import {levelBox,rollRarity} from '../src/sticker-rewards.mjs';
 
-async function migrate(fixture){
- const before=await preservedData(fixture.STORE.pool);
- for(const name of ['015_gameplay.sql','016_social_replies.sql']){
-  const source=await readFile(new URL('../mysql/'+name,import.meta.url),'utf8');
-  for(let repeat=0;repeat<2;repeat++)for(const statement of source.split(';').map(x=>x.trim()).filter(Boolean))await fixture.STORE.pool.query(statement);
- }
- assertPreserved(before,await preservedData(fixture.STORE.pool),{requireAvatar:true,requireChunks:true,requireLists:true,requireAdmin:true});
-}
-async function startFixture(options){
- if(process.env.TB_GAMEPLAY_MYSQL!=='1')return sqliteFixture(options);
- const fixture=await startMySQLFixture(options);
- try{await migrate(fixture);return fixture;}catch(error){await fixture.close();throw error;}
-}
+import {startGameplayFixture as startFixture,migrateGameplay as migrate} from './gameplay-fixture.mjs';
 
 const now=Date.parse('2026-11-02T04:00:00Z');
 async function client(f,name){
@@ -30,7 +16,7 @@ async function client(f,name){
 }
 const post=(user,path,body)=>user.send(path,{requestId:randomUUID(),...body});
 const inventory=async user=>(await user.send('/v1/stickers')).value;
-const daily=async user=>{assert.equal((await post(user,'/v1/stickers/grant',{day:'2026-11-02',taskId:'ac-chain:0',xp:15})).status,200);return (await inventory(user)).units[0];};
+const daily=async user=>{assert.equal((await post(user,'/v1/stickers/grant',{day:'2026-11-02',taskId:'ac-chain:0',xp:15})).status,200);assert.equal((await post(user,'/v1/stickers/achievement',{achievementId:'leader-tease'})).status,200);return (await inventory(user)).units[0];};
 
 test('box quantity, exact odds and progressive rarity are fixed for all 96 earned levels',async()=>{
  const shared=await readFile(new URL('../../../backend/resources/sticker-rewards.json',import.meta.url),'utf8');
@@ -42,8 +28,8 @@ test('box quantity, exact odds and progressive rarity are fixed for all 96 earne
   previous=box;
  }
  for(const level of [5,10,20,50,100]){const box=levelBox(level),counts={common:0,rare:0,epic:0,legendary:0};for(let roll=0;roll<10000;roll++)counts[rollRarity(box.probabilities,roll)]++;assert.deepEqual(counts,box.probabilities);}
- assert.equal(levelBox(5).quantity,7);assert.equal(levelBox(10).quantity,8);assert.equal(levelBox(100).quantity,13);
- assert.equal(levelBox(5).probabilities.legendary,800);assert(levelBox(100).probabilities.legendary>2900);
+ assert.equal(levelBox(5).quantity,6);assert.equal(levelBox(10).quantity,6);assert.equal(levelBox(100).quantity,6);
+ assert(levelBox(5).probabilities.legendary>0);assert.equal(levelBox(100).guarantee,'legendary');
 });
 
 test('level entitlement backfills once, rejects inflated levels and opens the earned-level box only once',async()=>{
@@ -54,9 +40,9 @@ test('level entitlement backfills once, rejects inflated levels and opens the ea
   let state=await inventory(a);assert.equal(Object.keys(state.boxes).length,9);assert.equal(state.units.length,0);
   await a.level(50);assert.equal((await post(a,'/v1/stickers/levels',{level:50})).status,200);
   const opening={requestId:randomUUID(),boxId:'level:5'};const opened=await Promise.all(Array.from({length:12},()=>a.send('/v1/stickers/open-box',opening)));assert(opened.every(item=>item.status===200));
-  assert(opened.every(item=>item.value.inventory.owner===a.id&&item.value.inventory.units.length===7),'The same response carries a confirmed inventory, including retries');
-  state=await inventory(a);assert.equal(state.units.length,7);assert.equal(state.boxes['level:5'].drops.length,7);assert.deepEqual(state.boxes['level:5'].probabilities,levelBox(5).probabilities);
-  assert.equal((await post(a,'/v1/stickers/open-box',{boxId:'level:5'})).value.opening.drops.length,7);assert.equal((await inventory(a)).units.length,7);
+  assert(opened.every(item=>item.value.inventory.owner===a.id&&item.value.inventory.units.length===6),'The same response carries a confirmed inventory, including retries');
+  state=await inventory(a);assert.equal(state.units.length,6);assert.equal(state.boxes['level:5'].drops.length,6);assert.deepEqual(state.boxes['level:5'].probabilities,levelBox(5).probabilities);
+  assert.equal((await post(a,'/v1/stickers/open-box',{boxId:'level:5'})).value.opening.drops.length,6);assert.equal((await inventory(a )).units.length,6);
   assert.equal((await a.send('/v1/stickers/open-box',{...opening,boxId:'level:10'})).status,409);
   assert.equal((await post(a,'/v1/stickers/open-box',{boxId:'constructor'})).status,404);
  }finally{await f.close();}
@@ -72,7 +58,7 @@ test('a fixed achievement gives its exact exclusive sticker once despite retries
  }finally{await f.close();}
 });
 
-test('unopened legacy boxes adopt seven drops while already opened results stay unchanged',async()=>{
+test('unopened legacy boxes adopt six guaranteed legendary drops while already opened results stay unchanged',async()=>{
  const f=await startFixture({now});try{
   const a=await client(f,'legacy_box_upgrade');await a.level(6);
   await post(a,'/v1/stickers/levels',{level:6});await post(a,'/v1/stickers/open-box',{boxId:'level:5'});
@@ -81,12 +67,12 @@ test('unopened legacy boxes adopt seven drops while already opened results stay 
   opened.quantity=2;opened.policyVersion=1;opened.drops=opened.drops.slice(0,2);old.units=old.units.filter(unit=>opened.drops.some(drop=>drop.id===unit.id));
   old.boxes['level:6']={...old.boxes['level:6'],quantity:2,policyVersion:1,probabilities:{common:7000,rare:2500,epic:450,legendary:50}};
   await f.STORE.gameplay.db.execute('UPDATE gameplay_accounts SET payload=? WHERE user_id=?',[JSON.stringify(old),a.id]);
-  let view=await inventory(a);assert.equal(view.boxes['level:6'].quantity,7);assert.equal(view.boxes['level:5'].quantity,2);assert.deepEqual(view.boxes['level:5'].drops,opened.drops);
+  let view=await inventory(a);assert.equal(view.boxes['level:6'].quantity,6);assert.equal(view.boxes['level:5'].quantity,2);assert.deepEqual(view.boxes['level:5'].drops,opened.drops);
   await post(a,'/v1/stickers/levels',{level:6});
   assert.deepEqual((await post(a,'/v1/stickers/open-box',{boxId:'level:5'})).value.opening.drops,opened.drops);
   assert.equal((await inventory(a)).units.length,2);
-  assert.equal((await post(a,'/v1/stickers/open-box',{boxId:'level:6'})).value.opening.drops.length,7);
-  view=await inventory(a);assert.equal(view.units.length,9);assert.equal(view.boxes['level:5'].quantity,2);
+  assert.equal((await post(a,'/v1/stickers/open-box',{boxId:'level:6'})).value.opening.drops.length,6);
+  view=await inventory(a);assert.equal(view.units.length,8);assert.equal(view.boxes['level:5'].quantity,2);
  }finally{await f.close();}
 });
 
@@ -142,12 +128,12 @@ test('daily sticker slots cap fixed rewards at one and review follow-ups at two 
    assert.equal((await post(a,'/v1/stickers/grant',value)).status,200);
    assert.equal((await post(a,'/v1/stickers/grant',{...value,taskId:slot==='fixed'?'challenge-b':'review-random:99'})).status,409);
   }
-  assert.equal((await inventory(a)).units.length,3);
-  assert((await inventory(a)).units.every(unit=>(unit.stickerId||'').startsWith('epic-')));
+  assert.equal((await inventory(a)).units.length,0);
+  assert.equal(Object.keys((await inventory(a)).boxes).length,3);
   assert.equal((await post(a,'/v1/stickers/grant',{day:'2026-11-02',taskId:'review-random:2',xp:60,rewardSlot:'review-2'})).status,400);
   assert.equal((await post(b,'/v1/stickers/grant',{day:'2026-11-02',taskId:'challenge-a',xp:30,rewardSlot:'fixed'})).status,200);
-  assert.equal((await inventory(b)).units.length,1);
+  assert.equal(Object.keys((await inventory(b)).boxes).length,1);
   assert.equal((await post(a,'/v1/stickers/grant',{day:'2026-11-01',taskId:'challenge-a',xp:30,rewardSlot:'fixed'})).status,200);
-  assert.equal((await inventory(a)).units.length,4);
+  assert.equal(Object.keys((await inventory(a)).boxes).length,4);
  }finally{await f.close();}
 });

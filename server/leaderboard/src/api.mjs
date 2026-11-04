@@ -12,7 +12,7 @@ import {trainingListLikes} from './training-list-likes.mjs';
 import {adminAccounts} from './admin-accounts.mjs';
 import {PkError} from './thought-duels.mjs';
 
-const VERSION = '1.4.3';
+const VERSION = '1.4.4';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -214,16 +214,16 @@ export async function handle(request, env) {
       if(path==='/v1/duels'&&request.method==='GET')return json(await game.read(owner,now));
       if(request.method==='POST'){
         const sticker=/^\/v1\/stickers\/(grant|place|recycle)$/.exec(path);
-        const reward=/^\/v1\/stickers\/(levels|achievement|open-box)$/.exec(path);
+        const reward=/^\/v1\/stickers\/(levels|achievement|open-box|open-packs)$/.exec(path);
         const duel=/^\/v1\/duels\/(join|cancel|poll|dismiss|ready|decline)$/.exec(path);
         if(sticker){const value=await body(request,['requestId','unitId','revision','x','y','angle','scale','day','taskId','xp','minDifficulty','rewardSlot'],4096);const result=await game.stickerWrite(owner,auth,sticker[1],value,now);return json(['place','recycle'].includes(sticker[1])?{...result,inventory:{...await game.stickers(owner),giftStats:await env.STORE.social.giftStats(owner)}}:result);}
         if(reward){
-          const fields={levels:['requestId','level'],achievement:['requestId','achievementId'],'open-box':['requestId','boxId']};
+          const fields={levels:['requestId','level'],achievement:['requestId','achievementId'],'open-box':['requestId','boxId'],'open-packs':['requestId','rarity','count']};
           const value=await body(request,fields[reward[1]],2048),result=await game.rewardWrite(owner,auth,reward[1],value,now);
           // Keep the idempotency ledger small. Read the confirmed current view
           // after the durable write and return it in this same HTTP response.
           // Old clients can continue using their separate inventory GET.
-          return json(reward[1]==='open-box'?{...result,inventory:{...await game.stickers(owner),giftStats:await env.STORE.social.giftStats(owner)}}:result);
+          return json(['open-box','open-packs'].includes(reward[1])?{...result,inventory:{...await game.stickers(owner),giftStats:await env.STORE.social.giftStats(owner)}}:result);
         }
         if(duel){const value=await body(request,['requestId','handle','ticket','matchId','readyCheck'],2048);return json(await game.duelWrite(owner,auth,duel[1],value,now));}
       }

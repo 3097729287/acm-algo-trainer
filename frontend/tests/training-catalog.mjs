@@ -31,7 +31,10 @@ await page.route('**/api/**',async route=>{
  else if(name==='duel'||name==='pk/v1/state')value={owner,available:false,enabled:false,status:'idle',match:null};
  else if(name==='social')value={available:false,notifications:[],totalLikes:0,unreadCount:0,likes:[]};
  else if(name==='profile')value={profile:{userId:owner,nickname:'目录测试'}};
- else if(name==='insights'||name==='navigation')value={summary:{},growth:{level:11,confirmed:true,authority:{owner,epoch:'full-catalog-fixture',revision:1},currentLevelXp:745,nextLevelXp:2200,totalXp:11745},knowledge:[],achievements:[],activity:[],assessment:{platforms:[]},dailyTasks:{tasks:[]}};
+ else if(name==='navigation')value={level:11,confirmed:true,authority:{owner,epoch:'full-catalog-fixture',revision:1}};
+ else if(name==='duel')value={available:false,lobby:null,match:null};
+ else if(name==='workspace/ready')value={ok:true};
+ else if(name==='insights')value={summary:{},growth:{level:11,confirmed:true,authority:{owner,epoch:'full-catalog-fixture',revision:1},currentLevelXp:745,nextLevelXp:2200,totalXp:11745},knowledge:[],achievements:[],activity:[],assessment:{platforms:[]},dailyTasks:{tasks:[]}};
  else if(name==='training-lists'){requests++;value={lists};}
  else if(name==='contest-calendar')value={contests:[],refreshing:false,importing:false};
  else if(name==='content-update')value={revision:0,status:'current',error:''};

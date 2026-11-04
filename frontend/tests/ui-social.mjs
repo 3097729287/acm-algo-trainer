@@ -102,7 +102,7 @@ try {
   const surfaces=await page.locator('.wb-statement-pane,.wb-code-pane,.cm-editor').evaluateAll(nodes=>nodes.map(node=>({class:node.className,color:getComputedStyle(node).backgroundColor})));
   assert(surfaces.every(item=>item.color==='rgba(0, 0, 0, 0)' || /0\.35/.test(item.color) || /0\.35/.test(item.color)),'workbench panes follow opacity');
   await shot('practice');
-  await page.getByRole('button',{name:'返回列表',exact:true}).click();
+  await page.getByRole('button',{name:'返回主界面',exact:true}).click();
   await list.waitFor();
   assert.equal(await list.evaluate(node=>node.scrollTop),oldScroll);
   const after=await page.locator('tr[data-id]').evaluateAll(nodes=>nodes.map(node=>node.dataset.id));

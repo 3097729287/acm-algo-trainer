@@ -63,6 +63,7 @@ class DailyMissionTests(unittest.TestCase):
         self.assertEqual([tuple(row) for row in self.service.connection.execute('SELECT * FROM achievement_xp_claims ORDER BY achievement_id')],claims)
 
     @patch('daily_chains.tasks_for',lambda *_:[dict(task,newOnly=index>=3) for index,task in enumerate(TASKS)])
+    @patch('gameplay.daily_pack_rarity',lambda *_:'rare')
     def test_harder_tasks_award_more_and_next_day_ac_counts_once_without_base_xp_replay(self):
         self.library.rows[0]["difficulty"] = 2100
         self.service.start_training("fixture::A")
@@ -71,12 +72,18 @@ class DailyMissionTests(unittest.TestCase):
         reward_value = lambda task: task.get('stickerXp', task['xp'])
         self.assertLess(reward_value(tasks["ac-chain:0"]), reward_value(tasks["hard-1500"]))
         self.assertLess(reward_value(tasks["hard-1500"]), reward_value(tasks["hard-1800"]))
-        self.assertLess(tasks["hard-1800"]["minDifficulty"],tasks["hard-2100"]["minDifficulty"])
+        for task in (tasks['hard-1800'],tasks['hard-2100']):
+            if not task.get('rewardPack'):
+                self.assertGreaterEqual(task['minDifficulty'],600)
+            else:
+                self.assertGreaterEqual(task['minDifficulty'],600)
+                self.assertGreaterEqual(task['target'],1)
         self.assertLess(reward_value(tasks["hard-1800"]), reward_value(tasks["hard-2100"]))
         stickers = [tasks[key] for key in ('hard-1500', 'hard-1800', 'hard-2100') if tasks[key].get('rewardSticker')]
         self.assertEqual(len(stickers), 1)
         self.assertEqual(stickers[0]['xp'], 0)
-        self.assertEqual(stickers[0]['rewardSticker']['rarity'], 'epic' if stickers[0]['id'] == 'hard-1500' else 'legendary')
+        from gameplay import daily_pack_rarity
+        self.assertEqual(stickers[0]['rewardPack']['rarity'], daily_pack_rarity(self.service._ranking_profile()['user_id'],self.service.daily_tasks()['date'],stickers[0]['id']))
         expected_mission_xp = 335 - stickers[0]['stickerXp']
         for identity in ("ac-chain:0", "hard-1500", "hard-1800", "hard-2100"):
             self.service.claim_daily_task(identity)

@@ -143,8 +143,12 @@ def prune(root, *, policy=None, now=None):
 
 
 def snapshot(connection, source_path, directory, *, label='automatic', manual=False,
-             budget_root=None, policy=None, now=None, suffix='.bak', retry=False):
-    """Online WAL-aware copy, integrity/hash verification, then bounded retention."""
+             budget_root=None, policy=None, now=None, suffix='.bak', retry=False, required=False):
+    """Online WAL-aware copy, integrity/hash verification, then bounded retention.
+
+    Required migrations still need a fresh verified copy when routine automatic
+    snapshots are paused. They retain the real free-space and integrity guards.
+    """
     now = now or dt.datetime.now(UTC)
     directory = Path(directory).resolve()
     attempt_path=directory/'.recovery-attempt.json'
@@ -160,9 +164,9 @@ def snapshot(connection, source_path, directory, *, label='automatic', manual=Fa
     temporary = directory / (name + '.partial')
     with LOCK:
         attempts=load_document(attempt_path,{})
-        if not manual and attempts.get(source_key,{}).get('paused') and not retry:return None
+        if not manual and not required and attempts.get(source_key,{}).get('paused') and not retry:return None
         rules={**POLICY,**(policy or {})}
-        if not manual:
+        if not manual and not required:
             records=_records(budget_root or automatic_directory)
             family=[item for item in records if item['sourceKey']==source_key]
             if len(family)>=2 and (len(family)>rules['maxCount'] or sum(x['bytes'] for x in family)>rules['familyBytes'] or sum(x['bytes'] for x in records)>rules['rootBytes']):

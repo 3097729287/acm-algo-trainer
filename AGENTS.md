@@ -1,3 +1,5 @@
+- 最新清理规则（以用户本轮重新提供的工作区规则为准）：旧程序、安装包、失败候选、废弃构建和不再需要的临时文件只移入 Windows 系统回收站；回收失败、不支持或容量不足时保留，不改用永久删除。保留当前运行版、当前候选、必要升级基线、共享 Git／依赖、个人数据及唯一源码；不清空或改容量，不挤掉回收站已有项目。报告两盘实际剩余空间，回收量不等于释放量。
+
 - Cleanup rule (user renewed it on 2026-11-02): move obsolete programs, installers, failed candidates and disposable build/test artifacts to the Windows system Recycle Bin only; never permanently delete them. If recycling fails, is unsupported, or cannot fit without evicting existing items, keep the originals and report the reason. Never empty or resize the bin. Preserve current programs/candidates, required upgrade baselines, shared Git/dependencies, personal data and unique source. Aim for 50 GiB actually free on C: and D: without permanent deletion or displacing existing bin items; recycling does not itself release space. This overrides earlier direct-deletion clauses. The user has now allowed visible windows again.
 
 # TB development rules

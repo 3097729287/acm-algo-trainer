@@ -20,3 +20,5 @@ function Fixture(){
  return <main className="growth-account-hero" style={{maxWidth:1000,margin:'40px auto'}}><StickerCanvas api={api} owner={owner}><div style={{height:420,pointerEvents:'none'}}/></StickerCanvas></main>;
 }
 document.documentElement.dataset.theme='dark';createRoot(document.getElementById('root')).render(<Fixture/>);
+
+const footer=document.createElement('footer');footer.className='app-statusbar';footer.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:20';document.body.append(footer);

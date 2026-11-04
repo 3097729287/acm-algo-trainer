@@ -34,7 +34,10 @@ try{
    else if(name==='preferences'){if(route.request().method()==='POST')preferences=route.request().postDataJSON().preferences;value={preferences,updatedAt:now};}
    else if(name==='data')value={rows:[],categories:[],token:'isolated',today:now.slice(0,10)};
    else if(name==='workspace')value=workspace;
-   else if(name==='insights')value={summary:{totalSolved:0},growth:{level:12,confirmed:true,authority:{owner,epoch:'template-first-frame',revision:++revision},tier:'黑铁',currentLevelXp:0,nextLevelXp:2400,totalXp:8000},knowledge:[],recommendations:[],activity:[],assessment:{},dailyTasks:{tasks:[]}};
+   else if(name==='navigation')value={level:12,confirmed:true,authority:{owner,epoch:'template-first-frame',revision:++revision}};
+ else if(name==='duel')value={available:false,lobby:null,match:null};
+ else if(name==='workspace/ready')value={ok:true};
+ else if(name==='insights')value={summary:{totalSolved:0},growth:{level:12,confirmed:true,authority:{owner,epoch:'template-first-frame',revision:++revision},tier:'黑铁',currentLevelXp:0,nextLevelXp:2400,totalXp:8000},knowledge:[],recommendations:[],activity:[],assessment:{},dailyTasks:{tasks:[]}};
    else {const fixed={templates:{templates:[template]},'training-lists':{lists:[]},'training-list-likes':{likes:[]},'software-update':{currentVersion:'1.4.31',status:'current',autoCheck:false,canInstall:false},'content-update':{revision:0,status:'current'},'contest-calendar':{contests:[],providers:[],refreshing:false},'browser-preparation':{available:false},social:{notifications:[],likes:[],unread:0},goals:{goals:[],contestPlan:{contests:[]}},inbox:{pending:0,errors:[]},hub:null,'desktop/fullscreen':{available:false,fullscreen:false},usage:{days:[],totalSeconds:0}};if(!Object.hasOwn(fixed,name)){unknown.push(name);return route.fulfill({status:410,json:{error:'Unknown isolated template route'}});}value=fixed[name];}
    await route.fulfill({json:value});
   });

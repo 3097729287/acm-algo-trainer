@@ -1,22 +1,8 @@
+import {dailyPackRarity} from '../src/sticker-rewards.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
-import {startFixture as sqliteFixture} from './local-server.mjs';
-import {startMySQLFixture} from './mysql-fixture.mjs';
-import {readFile} from 'node:fs/promises';
-import {preservedData,assertPreserved} from '../scripts/audit-preserved-data.mjs';
-
-async function startFixture(options){
- if(process.env.TB_GAMEPLAY_MYSQL!=='1')return sqliteFixture(options);
- const fixture=await startMySQLFixture(options);
- try{
-  const before=await preservedData(fixture.STORE.pool);
-  const source=await readFile(new URL('../mysql/015_gameplay.sql',import.meta.url),'utf8');
-  for(let repeat=0;repeat<2;repeat++)for(const statement of source.split(';').map(x=>x.trim()).filter(Boolean))await fixture.STORE.pool.query(statement);
-  assertPreserved(before,await preservedData(fixture.STORE.pool),{requireAvatar:true,requireChunks:true,requireLists:true,requireAdmin:true});
-  return fixture;
- }catch(error){await fixture.close();throw error;}
-}
+import {startGameplayFixture as startFixture} from './gameplay-fixture.mjs';
 
 const start=Date.parse('2026-11-02T01:00:00Z');
 async function client(f,name){
@@ -36,7 +22,7 @@ test('sticker size is account-bound, durable, bounded and retained by legacy mov
  const f=await startFixture({now:start});
  try{
   const a=await client(f,'scale_owner'),b=await client(f,'scale_other');await grant(a);
-  let inventory=(await a.send('/v1/stickers')).value;assert.equal(inventory.placementPolicy.scale,true);const unit=inventory.units[0];
+  let inventory=(await a.send('/v1/stickers')).value;await post(a,'/v1/stickers/open-box',{boxId:Object.keys(inventory.boxes)[0]});inventory=(await a.send('/v1/stickers')).value;assert.equal(inventory.placementPolicy.scale,true);const unit=inventory.units[0];
   for(const scale of [-1,0,.49,2.01,9,'1'])assert.equal((await post(a,'/v1/stickers/place',{unitId:unit.id,revision:0,x:.5,y:.5,angle:15,scale})).status,400);
   const payload={requestId:randomUUID(),unitId:unit.id,revision:0,x:.5,y:.5,angle:15,scale:1.7};
   assert.equal((await a.send('/v1/stickers/place',payload)).status,200);assert.equal((await a.send('/v1/stickers/place',payload)).status,200);
@@ -107,7 +93,7 @@ test('account inventory: concurrent duplicate awards, CAS placement, response lo
   const a=await client(f,'stickers_a'),b=await client(f,'stickers_b');
   const claims=await Promise.all(Array.from({length:12},()=>grant(a)));
   assert(claims.every(x=>x.status===200));
-  let state=(await a.send('/v1/stickers')).value;assert.equal(state.units.length,1);assert.equal(Object.keys(state.grants).length,1);
+  let state=(await a.send('/v1/stickers')).value;assert.equal(state.units.length,0);const quantity=Object.values(state.boxes)[0].quantity;await post(a,'/v1/stickers/open-box',{boxId:Object.keys(state.boxes)[0]});state=(await a.send('/v1/stickers')).value;assert.equal(state.units.length,quantity);assert.equal(Object.keys(state.grants).length,1);
   assert.equal((await b.send('/v1/stickers')).value.units.length,0);
   const unit=state.units[0],operation={requestId:randomUUID(),unitId:unit.id,revision:0,x:.2,y:.7,angle:30};
   assert.equal((await a.send('/v1/stickers/place',operation)).status,200);
@@ -116,12 +102,12 @@ test('account inventory: concurrent duplicate awards, CAS placement, response lo
   assert.equal((await post(b,'/v1/stickers/recycle',{unitId:unit.id,revision:1})).status,404);
   const races=await Promise.all([post(a,'/v1/stickers/place',{unitId:unit.id,revision:1,x:.8,y:.3,angle:0}),post(a,'/v1/stickers/recycle',{unitId:unit.id,revision:1})]);
   assert.deepEqual(races.map(x=>x.status).sort(),[200,409]);
-  state=(await a.send('/v1/stickers')).value;assert.equal(state.units.length,1);assert.equal(state.units[0].revision,2);
+  state=(await a.send('/v1/stickers')).value;assert.equal(state.units.length,quantity);assert.equal(state.units[0].revision,2);
   if(state.units[0].placement)assert.equal((await post(a,'/v1/stickers/recycle',{unitId:unit.id,revision:2})).status,200);
-  state=(await a.send('/v1/stickers')).value;assert.equal(state.units.length,1);assert.equal(state.units[0].placement,null);
+  state=(await a.send('/v1/stickers')).value;assert.equal(state.units.length,quantity);assert.equal(state.units[0].placement,null);
   // Replaying a claim after restoring an old private learning snapshot cannot mint inventory.
-  await grant(a);assert.equal((await a.send('/v1/stickers')).value.units.length,1);
-  for(const [xp,expected] of [[30,'rare'],[60,'epic'],[100,'legendary']]){await grant(a,{taskId:'ac-chain:'+xp,xp});state=(await a.send('/v1/stickers')).value;assert.equal(state.grants['2026-11-02:ac-chain:'+xp].rarity,expected);}
+  await grant(a);assert.equal((await a.send('/v1/stickers')).value.units.length,quantity);
+  for(const xp of [30,60]){await grant(a,{taskId:'ac-chain:'+xp,xp});state=(await a.send('/v1/stickers')).value;assert.equal(state.grants['2026-11-02:ac-chain:'+xp].rarity,dailyPackRarity(a.auth.account.userId,'2026-11-02','ac-chain:'+xp));}assert.equal((await grant(a,{taskId:'ac-chain:100',xp:100})).status,409);
   const login=await fetch(f.endpoint+'/v1/accounts/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({loginId:'stickers_a',password:'isolated-fixture-password'})});assert.equal(login.status,200);
   assert.equal((await grant(a,{taskId:'ac-chain:999'})).status,401,'revoked device cannot award');
  }finally{await f.close();}

@@ -918,6 +918,17 @@ html .tb-workbench .wb-compact-toolbar>.wb-back-button {position:absolute;left:0
 /* Press feedback must not move a hit target away from the screen edge. */
 html .tb-workbench .wb-back-button:active:not(:disabled) {transform:none}
 
+/* Equal gaps continue across the statement/editor divider. */
+html .tb-workbench .wb-statement-actions,html .tb-workbench .wb-editor-header{gap:8px}
+html .tb-workbench:not(.wb-compact) .wb-merged-header{padding-right:4px}
+html .tb-workbench:not(.wb-compact) .wb-editor-header{padding-left:4px}
+html .tb-workbench .wb-font-controls .bounded-number{width:42px}
+html .tb-workbench .wb-font-controls .bounded-number input{padding:2px 15px 2px 0;text-align:right}
+html .tb-workbench .wb-font-controls .bounded-number>span{right:0}
+html .tb-workbench .wb-pane-header .wb-statement-actions>:is(button,a){width:28px;min-width:28px;padding-inline:0}
+html .tb-workbench .wb-pane-header .wb-language-select .tb-select,html .tb-workbench .wb-pane-header>.initial-code-trigger{min-width:0;width:auto;padding-inline:4px}
+html .tb-workbench .wiki-origin-back{flex:none;width:28px;min-width:28px;padding:0}
+
 /* Both panes share one toolbar row, including at Windows display scaling. */
 html .tb-workbench:not(.wb-compact) .wb-pane-header {height:44px;min-height:44px;flex:0 0 44px;flex-wrap:nowrap;box-sizing:border-box}
 html .tb-workbench:not(.wb-compact) .wb-merged-header>.wb-toolbar {width:auto;min-width:0;flex:1 1 0}

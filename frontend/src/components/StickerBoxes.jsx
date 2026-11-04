@@ -1,25 +1,73 @@
 import {useEffect,useRef,useState} from 'react';
-import {Gift,LoaderCircle,X} from 'lucide-react';
+import {ArrowRight,Check,Eye,Gift,LoaderCircle,RotateCcw,Sparkles,X} from 'lucide-react';
 import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
-import {StickerArt,STICKER_NAMES} from './StickerArt.jsx';
+import {StickerArt} from './StickerArt.jsx';
 import './StickerBoxes.css';
 
+export const PACK_NAMES={common:'普通',rare:'稀有',epic:'史诗',legendary:'传奇'};
+const tiers=Object.keys(PACK_NAMES),quantities={common:3,rare:4,epic:5,legendary:6};
+export function PackArtwork({rarity='common',opening=false}){
+ return <div className={'card-pack-art pack-'+rarity+(opening?' pack-breaking':'')} aria-hidden="true">
+  <div className="pack-aura"/><div className="pack-wrapper"><div className="pack-foil"/><div className="pack-trim"/>
+   <span className="pack-brand">ToBe</span><div className="pack-seal"><Sparkles strokeWidth={1}/></div>
+   <strong>{PACK_NAMES[rarity]}</strong><span className="pack-card-dots">{Array.from({length:quantities[rarity]},(_,i)=><i key={i}/>)}</span>
+  </div><div className="pack-tear"/><div className="pack-rays"/>
+ </div>;
+}
+
 export default function StickerBoxes({api,state,onUpdated,onClose}){
- const dialog=useRef(null),request=useRef(null),alive=useRef(true),owner=useRef(state.owner);
- const [busy,setBusy]=useState(null),[error,setError]=useState(''),[opening,setOpening]=useState(null);
+ const dialog=useRef(null),request=useRef(null),alive=useRef(true),owner=useRef(state.owner),inFlight=useRef(false);
+ const [busy,setBusy]=useState(false),[error,setError]=useState(''),[opening,setOpening]=useState(null),[selected,setSelected]=useState(null);
+ const [stage,setStage]=useState('packs'),[draw,setDraw]=useState(null),[packIndex,setPackIndex]=useState(0),[revealed,setRevealed]=useState(new Set());
  useEffect(()=>{alive.current=true;const node=dialog.current;node.showModal();return()=>{alive.current=false;node.close();};},[]);
- const boxes=Object.values(state.boxes||{}).filter(box=>!box.openedAt).sort((a,b)=>a.level-b.level),catalogue=state.catalogue||[];
- async function open(box){
-  if(busy)return;setBusy(box.id);setError('');
-  if(request.current?.boxId!==box.id)request.current={boxId:box.id,requestId:crypto.randomUUID()};
-  try{const value=await api('stickers/open-box',request.current);if(!alive.current||value.owner!==owner.current)return;onUpdated(value);setOpening(value.opening);request.current=null;window.dispatchEvent(new CustomEvent('tb:sticker-rewards',{detail:{inventory:value}}));}
-  catch(issue){if(alive.current)setError(issue.message);}
-  finally{if(alive.current)setBusy(null);}
+ const boxes=Object.values(state.boxes||{}).filter(box=>!box.openedAt),catalogue=state.catalogue||[];
+ const groups=tiers.map(rarity=>({rarity,boxes:boxes.filter(box=>(box.rarity||(box.level?'legendary':'common'))===rarity)})).filter(group=>group.boxes.length);
+ const current=groups.find(group=>group.rarity===selected)||groups[0];
+ const packs=opening?.packs||(opening?[opening]:[]),cards=packs[packIndex]?.drops||[];
+ const allRevealed=cards.length>0&&cards.every(card=>revealed.has(card.id));
+ async function open(rarity,count){
+  if(inFlight.current)return;
+  const payload=request.current||{rarity,count,requestId:crypto.randomUUID()};
+  request.current=payload;inFlight.current=true;setBusy(true);setError('');setDraw(payload);setStage('opening');
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  try{
+   const [value]=await Promise.all([api('stickers/open-packs',payload),new Promise(resolve=>setTimeout(resolve,reduced?0:1500))]);
+   if(!alive.current||value.owner!==owner.current)return;
+   if(!value.opening||!Array.isArray(value.opening.drops)||value.opening.drops.length===0)throw new Error('开包结果尚未收到，请重试');
+   onUpdated(value);setOpening(value.opening);setPackIndex(0);setRevealed(new Set());setStage('cards');request.current=null;
+   window.dispatchEvent(new CustomEvent('tb:sticker-rewards',{detail:{inventory:value}}));
+  }catch(issue){if(alive.current){setError(issue.message);setStage('packs');}}
+  finally{inFlight.current=false;if(alive.current)setBusy(false);}
  }
- return <dialog ref={dialog} className="sticker-box-dialog" aria-labelledby="sticker-box-title" onPointerDown={dialogPointerDown} onClick={dialogBackdropClick} onCancel={event=>{event.preventDefault();if(!busy)onClose();}}>
-  <header><h3 id="sticker-box-title"><Gift size={20}/>贴纸宝箱</h3><button type="button" className="icon-button" aria-label="关闭贴纸宝箱" disabled={Boolean(busy)} onClick={onClose}><X size={18}/></button></header>
-  {opening&&<section className="sticker-box-result" aria-label="本次获得的贴纸"><h4>获得贴纸</h4><div>{opening.drops.map(drop=>{const item=catalogue.find(item=>item.id===drop.stickerId);return <div key={drop.id} className={'sticker-drop rarity-'+drop.rarity}><StickerArt item={item}/><span>{item?.title||item?.shape}</span><small>{STICKER_NAMES[drop.rarity]}</small></div>;})}</div></section>}
-  <div className="sticker-box-list">{boxes.map(box=><section className="sticker-box-card" key={box.id} aria-label={'Lv.'+box.level+' 贴纸宝箱'}><div className="sticker-box-caption"><Gift size={28}/><strong>Lv.{box.level}</strong><span>{box.quantity} 张贴纸</span><button type="button" className="icon-button primary" aria-label={'开启 Lv.'+box.level+' 宝箱'} disabled={Boolean(busy)} onClick={()=>open(box)}>{busy===box.id?<LoaderCircle className="spin" size={18}/>:<Gift size={18}/>}</button></div><dl aria-label="每张贴纸的品质概率">{Object.entries(box.probabilities).map(([rarity,weight])=><div key={rarity} className={'rarity-'+rarity}><dt>{STICKER_NAMES[rarity]}</dt><dd>{(weight/100).toFixed(2).replace(/\.00$/,'')}%</dd></div>)}</dl></section>)}</div>
-  {!boxes.length&&!opening&&<p className="progress-muted">暂无待开启的宝箱</p>}{error&&<p role="alert" className="connection-error">{error}</p>}
+ function advance(){
+  if(!allRevealed){setRevealed(new Set(cards.map(card=>card.id)));return;}
+  if(packIndex+1<packs.length){setPackIndex(value=>value+1);setRevealed(new Set());}
+  else{setOpening(null);setStage('packs');setDraw(null);setSelected(null);}
+ }
+ return <dialog ref={dialog} className={'sticker-box-dialog card-pack-dialog stage-'+stage} aria-labelledby="sticker-box-title" onPointerDown={event=>{if(!busy)dialogPointerDown(event);}} onClick={event=>{if(!busy)dialogBackdropClick(event);}} onCancel={event=>{event.preventDefault();if(!busy)onClose();}}>
+  <header><h3 id="sticker-box-title"><Gift size={20}/>卡包</h3><button type="button" className="icon-button" aria-label="关闭卡包" disabled={busy} onClick={onClose}><X size={18}/></button></header>
+  {stage==='packs'&&<>
+   <div className="pack-selection" role="group" aria-label="持有的卡包">{groups.map(group=><button type="button" key={group.rarity} className={'pack-selection-item pack-'+group.rarity+(current?.rarity===group.rarity?' pack-selected':'')} aria-label={`${PACK_NAMES[group.rarity]}卡包 ${group.boxes.length} 个`} aria-pressed={current?.rarity===group.rarity} disabled={busy||Boolean(request.current)} onClick={()=>setSelected(group.rarity)}>
+    <PackArtwork rarity={group.rarity}/><span>{PACK_NAMES[group.rarity]}卡包 <b>× {group.boxes.length}</b></span>
+   </button>)}</div>
+   {current&&<div className={'pack-details pack-'+current.rarity}>
+    <p>{quantities[current.rarity]} 张贴纸{current.rarity!=='common'&&<> · 保底一张{PACK_NAMES[current.rarity]}{current.rarity==='legendary'?'':'或更高品质'}</>}</p>
+    <dl aria-label="每张贴纸的品质概率">{Object.entries(state.packPolicy?.[current.rarity]?.probabilities||current.boxes[0].probabilities||{}).map(([rarity,weight])=><div key={rarity}><dt>{PACK_NAMES[rarity]}</dt><dd>{(weight/100).toFixed(2).replace(/\.00$/,'')}%</dd></div>)}</dl>
+    <div className="pack-draw-actions"><button type="button" className="progress-button progress-primary" disabled={busy||Boolean(request.current)} onClick={()=>open(current.rarity,1)}><Sparkles size={18}/>抽卡</button><button type="button" className="progress-button" disabled={busy||Boolean(request.current)||current.boxes.length<5} onClick={()=>open(current.rarity,5)}>五连抽</button></div>
+   </div>}
+   {!groups.length&&<p className="pack-empty">暂无待开启的卡包</p>}
+   {error&&<div className="pack-error"><p role="alert" className="connection-error">{error}</p>{request.current&&<button type="button" className="progress-button" onClick={()=>open(request.current.rarity,request.current.count)}><RotateCcw size={16}/>重试</button>}</div>}
+  </>}
+  {stage==='opening'&&<div className={'pack-opening-scene pack-'+draw.rarity} role="status" aria-label="正在开包"><div className="pack-opening-halo"/><PackArtwork rarity={draw.rarity} opening/><span className="pack-opening-caption"><LoaderCircle size={18} className="spin"/>正在开包{draw.count===5?' · 五连抽':''}</span></div>}
+  {stage==='cards'&&<section className="pack-result" aria-label="本次获得的贴纸">
+   <div className="pack-result-caption"><h4>获得贴纸</h4>{packs.length>1&&<span>{packIndex+1} / {packs.length}</span>}</div>
+   <div className="pack-reveal-grid" style={{'--card-count':cards.length}} key={packIndex}>{cards.map((card,index)=>{
+    const item=catalogue.find(item=>item.id===card.stickerId),face=revealed.has(card.id);
+    return <button type="button" key={card.id} className={'pack-result-card pack-'+card.rarity+(face?' card-revealed':'')} style={{'--card-index':index}} aria-label={face?`${PACK_NAMES[card.rarity]}贴纸 ${item?.title||item?.shape}`:`翻开第 ${index+1} 张贴纸`} aria-pressed={face} onClick={()=>setRevealed(previous=>new Set([...previous,card.id]))}>
+     <div className="pack-card-turn"><div className="pack-card-back"><div className="pack-card-border"/><Sparkles size={34} strokeWidth={1}/><span>ToBe</span></div><div className="pack-card-front"><span className="card-rarity-mark"/><StickerArt item={item} size={96}/><strong>{item?.title||item?.shape}</strong><small>{PACK_NAMES[card.rarity]}</small></div></div>
+    </button>;
+   })}</div>
+   <div className="pack-result-actions"><button type="button" className="progress-button progress-primary" onClick={advance}>{!allRevealed?<><Eye size={18}/>全部翻开</>:packIndex+1<packs.length?<><ArrowRight size={18}/>下一包</>:<><Check size={18}/>完成</>}</button></div>
+  </section>}
  </dialog>;
 }

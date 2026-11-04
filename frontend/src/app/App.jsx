@@ -1202,6 +1202,7 @@ export default function App() {
   }, [learningBrowserActive,practiceId, page, displayedRows]);
   const active = workspace.activeContest,
     summary = workspace.summary || emptyWorkspace.summary;
+  const virtualWait=active?.constraints?.originalVirtual?Math.max(0,Math.ceil((Date.parse(active.startedAt)-new Date(now).getTime())/1000)):0;
   const templateFocus=page==='templates'&&templateActive&&!practiceId;
   const labFocus=false;
   const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
@@ -2158,7 +2159,7 @@ export default function App() {
           ) : page === "mock" ? (
             <div className="mock-page">{record ? recordDetail() : <>{active && mockTab === "create" ? (
               <div className="contest-player">
-                {currentMockSlot && (
+                {virtualWait>0?<div className="virtual-contest-waiting" role="status"><Clock size={28}/><strong>VP 即将开始</strong><span role="timer" aria-label="距离 VP 开始">{timerText(virtualWait)}</span></div>:currentMockSlot && (
                   <Workbench
                     key={active.id}
                     problemId={currentMockSlot.id}
@@ -2296,7 +2297,7 @@ export default function App() {
         </div>
       ),document.body)}
       {dialog === 'accounts'&&<Modal opacityKey="accounts" title="账号与身份" className="compact-account-modal" onClose={()=>setDialog(null)}><AccountPanel api={api} account={account} profileSnapshot={profileSnapshot} hub={hub} onProfileChanged={profileChanged} onHubChanged={setHub}/></Modal>}
-      {dialog === "daily-tasks" && <Modal opacityKey="daily-tasks" title="每日任务" onClose={() => {setDialog(null);backgroundDialog.current=null;clearTimeout(dailyRefreshTimer.current);dailyRefreshTimer.current=setTimeout(()=>void refreshBackground(true),300);}} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { dailyClaimPending.current=true;backgroundSeq.current++;try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => applyDailyTaskReward(previous,result)); window.dispatchEvent(new Event("tb:sticker-rewards")); notice("经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } finally {dailyClaimPending.current=false;} }} /></Modal>}
+      {dialog === "daily-tasks" && <Modal opacityKey="daily-tasks" title="每日任务" onClose={() => {setDialog(null);backgroundDialog.current=null;clearTimeout(dailyRefreshTimer.current);dailyRefreshTimer.current=setTimeout(()=>void refreshBackground(true),300);}} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { dailyClaimPending.current=true;backgroundSeq.current++;try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => applyDailyTaskReward(previous,result)); window.dispatchEvent(new Event("tb:sticker-rewards")); notice(result.rewardPack?"卡包已领取":"经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } finally {dailyClaimPending.current=false;} }} /></Modal>}
       {dialog === 'contest-calendar' && <Modal opacityKey="contest-calendar" title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onOriginal={contest=>api('browser-preparation',{action:'open-contest',url:contest.url})} onOpen={featureAvailable('competitions')?openCalendarContest:undefined} onStart={featureAvailable('mock')?async(contest,{isCurrent=()=>true}={})=>{const owner=account?.userId;const result=await api('contests/start-calendar',{id:contest.id});if(!isCurrent()||calendarDataOwner.current!==owner||window.__tbAccountUserId!==undefined&&window.__tbAccountUserId!==owner)return;await calendarDataReader.refresh(owner,{isCurrent});if(!isCurrent()||calendarDataOwner.current!==owner)return;setDialog(null);startedMock(result);}:undefined}/></Modal>}
       {dialog === 'contest-reminder' && calendar.reminder && <Modal title="比赛即将开始" onClose={()=>{calendar.dismissReminder();setDialog(previous=>previous==='contest-reminder'?null:previous);}} footer={<button type="button" className="primary" onClick={()=>{calendar.dismissReminder();setDialog('contest-calendar');}}>查看比赛</button>}><ContestReminder contest={calendar.reminder} now={calendar.now} onShown={calendar.markReminderShown}/></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}

@@ -28,6 +28,9 @@ await page.route('**/api/**',async route=>{
  else if(name==='problem'){const id=url.searchParams.get('id');value={...rows.find(r=>r.id===id),id,markdown:'# 隔离题面\n\n输入两个整数，输出它们的和。',samples:[{input:'1 2\n',output:'3\n'}],limits:{timeMs:2000,memoryMb:256},judge:{scope:'samples',cases:1},statementAvailable:true,locked:false,draft:'int main(){return 0;}',submissions:[]};}
  else if(name==='draft')value={savedAt:now};
  else if(name==='translation/settings')value={provider:'custom',configured:false,providers:[]};
+ else if(name==='navigation')value={level:11,confirmed:true,authority:{owner,epoch:'root-ui-fixture',revision:++revision}};
+ else if(name==='duel')value={available:false,lobby:null,match:null};
+ else if(name==='workspace/ready')value={ok:true};
  else if(name==='insights')value={summary:{totalSolved:98,submissions:171,activeDays:29,streak:19,longestStreak:21,completedContests:2},growth:{level:11,confirmed:true,authority:{owner,epoch:'root-ui-fixture',revision:++revision},currentLevelXp:745,nextLevelXp:2200,totalXp:11745,ranked:{qualified:true,tier:'青铜',badge:'tier-1',abilityScore:900}},knowledge:[],recommendations:[],activity:[],assessment:{},achievements:[],dailyTasks:daily()};
  else if(name==='daily-tasks')value=daily();
  else if(name==='software-update')value={currentVersion:'1.4.31',status:'current',autoCheck:false,canInstall:false};
@@ -58,7 +61,7 @@ const openPage=async label=>{await page.keyboard.press('Control+k');const modal=
 const output='tests/screenshots/training-remove-scope';await mkdir(output,{recursive:true});const checked=[];
 const removeWrites=()=>writes.filter(item=>item.name==='training/remove').length;
 async function noRemove(name,focus){assert.equal(await page.getByRole('button',{name:/^取消训练 /}).count(),0,name+' has no remove control');const before=removeWrites();if(focus)await focus.focus();await page.keyboard.press('Delete');await page.waitForTimeout(60);assert.equal(removeWrites(),before,name+' Delete cannot remove training');checked.push(name);}
-async function openTitle(button){const before=writes.filter(item=>item.name==='training/start').length;await button.click();await page.getByRole('button',{name:'返回列表',exact:true}).waitFor();assert.equal(writes.filter(item=>item.name==='training/start').length,before+1);await page.getByRole('button',{name:'返回列表',exact:true}).click();}
+async function openTitle(button){const before=writes.filter(item=>item.name==='training/start').length;await button.click();await page.getByRole('button',{name:'返回主界面',exact:true}).waitFor();assert.equal(writes.filter(item=>item.name==='training/start').length,before+1);await page.getByRole('button',{name:'返回主界面',exact:true}).click();}
 try{
  await load();await nav().getByRole('button',{name:'我的训练',exact:true}).click();const remove=page.getByRole('button',{name:'取消训练 '+rows[0].title,exact:true});await remove.waitFor();await remove.click();await page.getByText('已取消训练，代码与历史记录保留。',{exact:true}).waitFor();assert.equal(removeWrites(),1);assert(!activeIds.has(rows[0].id));await page.getByRole('button',{name:'恢复',exact:true}).click();await remove.waitFor();assert(activeIds.has(rows[0].id));
  await nav().getByRole('button',{name:'题库',exact:true}).click();await page.locator('.problem-table tbody tr[data-id]').first().waitFor();await noRemove('library',page.getByRole('region',{name:'题目列表',exact:true}));await openTitle(page.getByRole('button',{name:rows[1].title,exact:true}));assert(activeIds.has(rows[1].id));await noRemove('library-after-add');

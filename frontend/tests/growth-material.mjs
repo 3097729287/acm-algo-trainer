@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {createServer} from 'vite';
 import {chromium} from 'playwright';
-const vite=await createServer({server:{host:'127.0.0.1',port:0}});await vite.listen();
+const vite=await createServer({cacheDir:'../.backups/cleanup-startup/growth-regression-vite',server:{host:'127.0.0.1',port:0}});await vite.listen();
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const page=await browser.newPage({viewport:{width:2048,height:1152}}),errors=[];
 page.on('pageerror',error=>errors.push(error.message));
@@ -20,11 +20,11 @@ try{
   assert.equal(await page.locator('.account-hero-statistics,.account-hero-level,.goal-management-bar,#growth-goals').count(),0);
   const geometry=await page.evaluate(()=>{
    const rect=selector=>{const r=document.querySelector(selector).getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,height:r.height,width:r.width};};
-   return {hero:rect('.growth-account-hero'),identity:rect('.account-hero-identity'),nickname:rect('.profile-nickname'),rankName:rect('.account-hero-rank>strong'),controls:rect('.sticker-mode-toolbar'),content:rect('.sticker-content'),horizontalOverflow:document.documentElement.scrollWidth>innerWidth};
+   return {hero:rect('.growth-account-hero'),identity:rect('.account-hero-identity'),nickname:rect('.profile-nickname'),portrait:rect('.account-hero-person .profile-avatar-button'),controls:rect('.sticker-mode-toolbar'),content:rect('.sticker-content'),horizontalOverflow:document.documentElement.scrollWidth>innerWidth};
   });
   report.currentLayout={width,theme,...geometry};
   assert(!geometry.horizontalOverflow,JSON.stringify({width,geometry}));
-  assert(Math.abs(geometry.nickname.top-geometry.rankName.top)<2,'Nickname and tier share a baseline');
+  assert(Math.abs((geometry.portrait.left+geometry.portrait.right-geometry.content.left-geometry.content.right)/2)<1,'The retained portrait is centred');assert.equal(await page.locator('.account-hero-rank').count(),0);
   assert(geometry.controls.top<geometry.identity.top,'Controls sit above the portrait');
   assert(geometry.hero.right-geometry.controls.right<40&&geometry.hero.right>=geometry.controls.right,'Controls align to the top right');
   await page.getByRole('button',{name:'目标',exact:true}).click();await page.getByRole('dialog',{name:'调整目标',exact:true}).waitFor();
@@ -32,7 +32,7 @@ try{
   const position=await page.locator('.account-hero-identity').boundingBox();assert(Math.abs(position.y-geometry.identity.top)<1,'Modal opening preserves portrait geometry');
   await page.keyboard.press('Escape');assert.equal(await page.locator('.goal-editor').count(),0);
   await page.getByRole('button',{name:'贴纸',exact:true}).click();assert.equal(await page.locator('.sticker-mode').count(),1);
-  assert.equal(await page.locator('.account-hero-rank>strong').evaluate(node=>getComputedStyle(node).visibility),'hidden');
+  assert.equal(await page.locator('.account-hero-person .profile-badge').evaluate(node=>getComputedStyle(node).visibility),'hidden');
   await page.keyboard.press('Escape');assert.equal(await page.locator('.sticker-mode').count(),0);
   report.layouts.push({width,theme,...geometry});
   if(width===2048)await page.screenshot({path:`${output}/growth-${theme}.png`});

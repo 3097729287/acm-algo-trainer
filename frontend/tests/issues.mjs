@@ -108,7 +108,7 @@ try {
   await page.keyboard.press('Enter');
   await page.getByRole('button', { name: '下一题', exact: true }).click();
   await page.waitForFunction(expected => document.querySelector('.tb-workbench')?.dataset.problemId === expected, secondIds[0]);
-  await page.getByRole('button', { name: '返回列表', exact: true }).click();
+  await page.getByRole('button', { name: '返回主界面', exact: true }).click();
   await status(1, rows.length, fittedSize);
   assert.equal(await page.locator('.problem-table tr[data-selected="true"]').count(), 0, 'returning from practice clears special row marks');
   assert.ok(Math.abs(await page.locator('.table-scroll').evaluate(node => node.scrollTop) - priorScroll) < 2, 'returning restores the original list scroll position');

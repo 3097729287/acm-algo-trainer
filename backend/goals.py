@@ -160,6 +160,7 @@ class Goals:
                 for identity in json.loads(saved['ids']) if saved else []:
                     if identity in metadata:owners.setdefault(problem_key(metadata[identity]),record['id'])
             result=[];daily_selections={}
+            new_budget=review_plan['newMinutes'] if review_plan['minutes'] else None
             for record in records:
                 goal=json.loads(record['config']);start=parse_time(record['created_at']);first=start.astimezone(SHANGHAI).date();end=dt.date.fromisoformat(goal['deadline'])
                 days=max(1,(end-first).days+1);total=goal['totalProblems']
@@ -202,14 +203,18 @@ class Goals:
                     key=problem_key(row)
                     if key in seen or owners.get(key)!=record['id']:continue
                     seen.add(key);selected.append(row)
-                if saved and saved['target'] is not None:task_target=saved['target']
+                paused_empty=bool(saved and saved['target']==0 and not original_ids and not review_plan['reviewOnly'] and task_target>0)
+                if saved and saved['target'] is not None and not paused_empty:task_target=saved['target']
                 if review_plan['reviewOnly']:
                     task_target = 0
                     selected = []
                 elif review_plan['minutes']:
                     task_target = min(task_target, review_plan['newMinutes'] // goal['minutesPerProblem'])
                     selected = selected[:task_target]
-                repairing=not saved or saved['target'] is None or len(selected)!=len(original_ids)
+                if new_budget is not None:
+                    task_target=min(task_target,new_budget//goal['minutesPerProblem'])
+                    selected=selected[:task_target]
+                repairing=paused_empty or not saved or saved['target'] is None or len(selected)!=len(original_ids)
                 if repairing and not review_plan['reviewOnly']:
                     candidates=[row for row in rows if not row.get('catalogHidden') and row['id'] not in locked and (canonical_url(row.get('url')) or row['id']) not in accepted]
                     candidates.sort(key=score)
@@ -219,7 +224,7 @@ class Goals:
                         if key in seen or key in owners:continue
                         owners[key]=record['id']
                         seen.add(key);selected.append(row)
-                    if assign and not (saved and review_plan['minutes']):
+                    if assign and (paused_empty or not (saved and review_plan['minutes'])):
                         with t._write() as db:
                             db.execute('INSERT INTO goal_daily_assignments(goal_id,day,ids,target) VALUES(?,?,?,?) ON CONFLICT(goal_id,day) DO UPDATE SET ids=excluded.ids,target=excluded.target',
                                        (record['id'],today.isoformat(),json.dumps([row['id'] for row in selected],ensure_ascii=False),task_target))
@@ -227,6 +232,7 @@ class Goals:
                                 if row['id'] not in original_ids:self._activate_recommendation(db,row['id'],iso(now))
                 today_done=sum(1 for row in selected if (item:=accepted.get(problem_key(row)))
                                and start<item['at']<=now and item['at'].astimezone(SHANGHAI).date()==today)
+                if new_budget is not None:new_budget=max(0,new_budget-len(selected)*goal['minutesPerProblem'])
                 daily_selections[record['id']]=selected
                 result.append({**goal,'id':record['id'],'createdAt':record['created_at'],'progress':done,'remaining':remaining,
                     'remainingDays':left,'weeklyTarget':weekly,'weeklyPlan':[],'contestPlan':contest_plan,'capacity':capacity,'warnings':warnings,'workloadCompleted':done>=total,

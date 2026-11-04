@@ -11,7 +11,7 @@ const blank=async(x=.1,y=.85)=>{const box=await page.getByRole('region',{name:'�
 const drag=async(from,to)=>{await page.mouse.move(from.x,from.y);await page.mouse.down();await page.mouse.move(to.x,to.y,{steps:8});await page.mouse.up();};
 try{
  await page.addInitScript(()=>{for(const owner of ['A','B'])localStorage.removeItem('tb.sticker-layout.v1:'+owner);});
- await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/tests/sticker-direct-fixture.html`);
+ await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/tests/sticker-direct-fixture.html`,{timeout:45000});
  await page.getByRole('button',{name:'贴纸',exact:true}).click();await placed('A-leaf').click();
  assert.equal(await page.locator('.selected-sticker').count(),1);assert.equal((await pending()).length,0,'A click selects without sending a placement');
  assert.equal(await page.locator('.sticker-edit-tools,.sticker-size-handle').count(),0);

@@ -220,7 +220,8 @@ export function accountsSuite(startFixture) {
       if (f.STORE.pool) await f.STORE.pool.execute('INSERT INTO ranking_admins VALUES(?,?)', [old.userId, timestamp]);
       else f.STORE.database.prepare('INSERT INTO ranking_admins VALUES(?,?)').run(old.userId, timestamp);
       const key = createHash('sha256').update('old-problem').digest('hex');
-      await f.STORE.recordEvents(old.userId, [{ problemKey: key, eventId: key, acceptedAt: timestamp, day: timestamp.slice(0, 10), difficulty: 800 }], timestamp);
+      const shanghaiDay = new Date(Date.parse(timestamp) + 8 * 3600000).toISOString().slice(0, 10);
+      await f.STORE.recordEvents(old.userId, [{ problemKey: key, eventId: key, acceptedAt: timestamp, day: shanghaiDay, difficulty: 800 }], timestamp);
       assert.equal((await call(f, '/v1/profile', undefined, old)).status, 401);
       assert.equal((await call(f, '/v1/accounts/register', signup, { ...old, token: 'wrong-secret'.repeat(4) })).status, 401);
       const claimed = await call(f, '/v1/accounts/register', signup, old);

@@ -139,10 +139,10 @@ class LibraryDatabase:
         finally:
             db.close()
 
-    def backup(self, label='before-upgrade', *, manual=False):
+    def backup(self, label='before-upgrade', *, manual=False, required=True):
         from recovery_backups import snapshot
         with self.connection() as source:
-            result=snapshot(source, self.path, self.path.parent / 'backups', label=label, manual=manual, suffix='.sqlite3')
+            result=snapshot(source, self.path, self.path.parent / 'backups', label=label, manual=manual, required=required, suffix='.sqlite3')
             if result is None:
                 from update_errors import UpdateStorageError
                 raise UpdateStorageError('题库迁移恢复点未完成，原数据已保留')
@@ -186,7 +186,7 @@ class LibraryDatabase:
         finally:
             seed.close()
         if self.has_problems():
-            self.backup()
+            self.backup(required=True)
         digest = lambda value: hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
         with self.connection() as db:
             db.execute('BEGIN IMMEDIATE')

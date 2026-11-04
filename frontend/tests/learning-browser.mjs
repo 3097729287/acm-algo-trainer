@@ -6,7 +6,7 @@ import {chromium} from 'playwright';
 process.env.TB_OFFLINE='1';
 const out='../.backups/next-152/browser-ui';await mkdir(out,{recursive:true});
 const server=await createServer({cacheDir:'../.backups/next-152/browser-vite',server:{host:'127.0.0.1',port:0}});await server.listen();
-const browser=await chromium.launchPersistentContext(out+'/profile',{channel:process.env.CI?undefined:'msedge',headless:true,viewport:{width:1600,height:1000}}),page=browser.pages()[0],errors=[];
+const browser=await chromium.launchPersistentContext(out+'/profile-'+Date.now(),{channel:process.env.CI?undefined:'msedge',headless:true,viewport:{width:1600,height:1000}}),page=browser.pages()[0],errors=[];
 page.on('pageerror',issue=>errors.push(issue.message));page.setDefaultTimeout(15000);
 const open=tab=>page.evaluate(tab=>window.studyFixture.open({...tab,newTab:true}),tab);
 const state=()=>page.evaluate(()=>window.studyFixture.state());
@@ -53,7 +53,7 @@ try{
  await page.mouse.move(840,350);assert.equal((await state()).ratio,50);await page.mouse.move(920,350);assert((await state()).ratio>55);await page.mouse.up();
  await divider.press('Home');assert.equal((await state()).ratio,50);
  const rightHeader=await page.locator('.study-group-header').nth(1).boundingBox(),rightContent=await pane('wiki').boundingBox();assert(Math.abs(rightHeader.x-rightContent.x)<1);
- const external=pane('wiki').getByRole('link',{name:'OI Wiki 原文'}),externalRect=await external.boundingBox();assert(rightContent.x+rightContent.width-externalRect.x-externalRect.width>=10);assert.equal(externalRect.width,32);assert.equal(await pane('wiki').getByRole('button',{name:'返回维基目录'}).count(),0);
+ const external=pane('wiki').getByRole('link',{name:'OI Wiki 原文'}),externalRect=await external.boundingBox();assert(rightContent.x+rightContent.width-externalRect.x-externalRect.width>=10);assert.equal(externalRect.width,32);assert.equal(await pane('wiki').getByRole('button',{name:'返回维基目录'}).count(),1);
  await search('模板');await result('模板','并查集').first().click();await pane('template').getByRole('region',{name:'模板讲解'}).waitFor();
  const templateKey=(await state()).active;await dragTo(templateKey,pane('lab'),10,300);assert.equal((await state()).groups.length,3);
  const groupRects=await page.locator('.study-group-header').evaluateAll(nodes=>nodes.map(node=>({id:node.dataset.groupId,x:node.getBoundingClientRect().x})));
@@ -108,7 +108,7 @@ try{
  await page.reload();await pane('template').getByRole('textbox',{name:'模板名称',exact:true}).waitFor();
  assert.equal(await pane('template').getByRole('textbox',{name:'模板名称',exact:true}).inputValue(),'我的并查集草稿');
  await search('不存在的学习内容');await page.getByText('没有匹配的内容',{exact:true}).waitFor();await page.getByRole('combobox',{name:'搜索学习内容'}).press('Escape');assert.equal(await page.getByRole('combobox',{name:'搜索学习内容'}).count(),0);
- await page.getByRole('button',{name:'返回列表',exact:true}).click();assert.equal(await page.locator('.app-shell').evaluate(node=>node.inert),false);
+ await page.getByRole('button',{name:'返回主界面',exact:true}).click();assert.equal(await page.locator('.app-shell').evaluate(node=>node.inert),false);
  await open({kind:'wiki',id:'ds/dsu',title:'并查集'});const beforeExample=await state();
  await pane('wiki').frameLocator('iframe.wiki-reader').getByRole('link',{name:'Luogu P1706 全排列问题'}).waitFor();
  // Explicit manual tabs are exercised above; this source link performs ordinary navigation.

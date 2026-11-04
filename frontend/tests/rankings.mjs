@@ -21,7 +21,7 @@ try {
  assert.equal(await own.locator('.ranking-title-badge').count(),2);
  assert.equal(await own.locator('.profile-level-number').innerText(),'10');
  const rank=own.locator('.profile-badge');
- assert.match(await rank.getAttribute('class'),/\btier-3\b/);
+ assert.match(await rank.getAttribute('class'),/\btier-5\b/);
  assert.equal(await rank.locator('.avatar-rank-frame').count(),1);
  assert.equal(await own.getByText('王者',{exact:true}).count(),0);
  assert.equal(await own.locator('.ranking-public-id').count(),0);

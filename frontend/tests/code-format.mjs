@@ -41,7 +41,7 @@ try{
   if(kind==='typing')await editor.fill(source+'// newer input');
   if(kind==='problem'){await page.evaluate(()=>workbenchFixture.changeProblem('B'));await page.locator('.cm-content[contenteditable=true]').waitFor();}
   if(kind==='language'){
-   await page.getByRole('combobox',{name:'编程语言',exact:true}).click();await page.getByRole('listbox',{name:'编程语言',exact:true}).getByRole('option',{name:/Python 3/}).click();
+   await page.getByRole('combobox',{name:'编程语言',exact:true}).click();await page.getByRole('listbox',{name:'编程语言',exact:true}).getByRole('option',{name:/Python\s*3/}).click();
    await page.getByRole('textbox',{name:'Python 代码',exact:true}).waitFor();
   }
   if(kind==='account')await page.evaluate(()=>{window.__tbAccountUserId='other-format-owner'});
@@ -64,7 +64,7 @@ try{
  const failed=await open({error:'Fixture formatter failure'});await failed.editor.fill(source);await failed.editor.press('Control+s');
  await failed.page.getByText('Fixture formatter failure',{exact:true}).waitFor();
  assert.equal(await failed.page.evaluate(()=>workbenchFixture.readCode()),source);await failed.page.waitForFunction(expected=>workbenchFixture.drafts['solo:A']===expected,source);await failed.page.close();
- const py=await open();await py.page.getByRole('combobox',{name:'编程语言',exact:true}).click();await py.page.getByRole('listbox',{name:'编程语言',exact:true}).getByRole('option',{name:/Python 3/}).click();
+ const py=await open();await py.page.getByRole('combobox',{name:'编程语言',exact:true}).click();await py.page.getByRole('listbox',{name:'编程语言',exact:true}).getByRole('option',{name:/Python\s*3/}).click();
  const pyEditor=py.page.getByRole('textbox',{name:'Python 代码',exact:true});await pyEditor.fill(python.source);await pyEditor.press('Control+s');
  await py.page.waitForFunction(expected=>workbenchFixture.readCode()===expected,python.code);assert.equal(await py.page.evaluate(()=>workbenchFixture.calls.find(c=>c.path==='code/format').body.language),'python3');await py.page.close();
  assert.deepEqual(errors,[]);

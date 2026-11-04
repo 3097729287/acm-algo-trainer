@@ -117,7 +117,7 @@ try {
       assert.equal(before.code.width,width);
       assert.ok(await editor.evaluate(node=>node.getBoundingClientRect().width)>width-80,'narrow editor has a usable full-width surface');
     }else{
-      assert.ok(before.body.height>=height-1,'wide contest panes use the full available height');
+      assert.ok(Math.abs(before.body.y+before.body.height-height)<1 && before.body.y>=before.toolbar.y+before.toolbar.height && before.body.y<=64,'wide contest panes fill the area below their reserved toolbar: '+JSON.stringify(before));
       assert.equal(before.statement.y, before.code.y);
       assert.ok(before.statement.x<before.code.x&&before.statement.width>width*.4&&before.code.width>width*.45);
     }

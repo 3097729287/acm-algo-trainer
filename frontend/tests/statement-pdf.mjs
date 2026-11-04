@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
-import {mkdir} from 'node:fs/promises';
+import {mkdir,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {createServer} from 'vite';
 import {chromium} from 'playwright';
@@ -22,17 +22,17 @@ const fixture={id:'pdf-fixture',title:'Original PDF',url:'https://qoj.ac/problem
   translation:{kind:'site',markdown:'# 中文\n\n保留已有中文题面。'}};
 const out=path.resolve(root,'../.backups/next-152/statement-pdf-ui');await mkdir(out,{recursive:true});
 const server=await createServer({root,cacheDir:path.join(out,'vite'),server:{host:'127.0.0.1',port:18794,strictPort:true,hmr:false}});await server.listen();
-let context;
+let context,page;const errors=[];
 try {
   context=await chromium.launchPersistentContext(path.join(out,'profiles',String(Date.now())),{channel:process.env.CI?undefined:'msedge',headless:true,viewport:{width:1440,height:900}});
-  const external=[],errors=[];
+  const external=[];
   await context.route('**/*',route=>{
     const u=new URL(route.request().url());
     if(u.origin==='http://127.0.0.1:18794'||['data:','blob:','chrome-extension:','extension:'].includes(u.protocol))return route.continue();
     external.push(u.href);return route.abort();
   });
   await context.addInitScript(value=>window.pdfFixtureData=value,fixture);
-  const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
+  page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
   await page.goto('http://127.0.0.1:18794/tests/statement-pdf-fixture.html');
   const frame=page.locator('.wb-statement-pane .wb-statement-pdf');await page.locator('.wb-pdf-page[data-ready="true"]').first().waitFor();
   const left=await frame.boundingBox();const editor=await page.locator('.wb-code-pane').boundingBox();
@@ -51,7 +51,20 @@ try {
   await page.getByText('保留已有中文题面。',{exact:true}).waitFor();
   assert.equal(await frame.count(),0);
   await page.getByRole('group',{name:'题面语言',exact:true}).getByRole('button').click();await frame.waitFor();
+  await page.locator('.wb-pdf-page[data-ready="true"]').first().waitFor();
+  assert.equal(page.workers().length,1,'Only one PDF worker is live');
+  const closed=page.workers()[0].waitForEvent('close',{timeout:20000});
+  const blobUrl=await frame.getByRole('link',{name:'下载 PDF',exact:true}).getAttribute('href');
+  await page.evaluate(()=>pdfFixtureSetVisible(false));
+  await page.waitForFunction(()=>[...document.querySelectorAll('.wb-pdf-page canvas')].every(node=>node.width===0&&node.height===0));
+  await page.waitForFunction(()=>!document.querySelector('.wb-pdf-page'),{},{timeout:20000});
+  await closed;
+  assert.equal(page.workers().length,0,'An idle hidden PDF releases its worker');
+  assert.equal(await page.evaluate(async url=>{try{await fetch(url);return true;}catch{return false;}},blobUrl),false,'The suspended document releases its Blob');
+  await page.evaluate(()=>pdfFixtureSetVisible(true));
+  await page.locator('.wb-pdf-page[data-ready="true"]').first().waitFor();
+  assert.equal(page.workers().length,1,'Returning recreates only the active PDF worker');
   assert.ok((await page.locator('.cm-content').innerText()).includes('preserve this draft'));
   assert.deepEqual(external,[]);assert.deepEqual(errors,[]);
   console.log('PASS: all three PDF pages render offline, exact original bytes are preserved, Chinese toggles both ways, and the editor draft survives.');
-} finally {await context?.close();await server.close();}
+} catch(error){if(page){await page.screenshot({path:out+'/failure.png'});await writeFile(out+'/failure.json',JSON.stringify({errors,text:await page.locator('body').innerText()},null,2));}throw error;} finally {await context?.close();await server.close();}

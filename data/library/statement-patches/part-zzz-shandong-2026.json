@@ -1,0 +1,821 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "beforeSha256": "c4bd288d14b6f69554cbf52bc409134c459d96596696d949d79be4451a913c9d",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=18307": {
+            "bytes": 131363,
+            "data": "tb-asset:e3710607cd12001349e5720006d1d2b477313dd9a357118ae0858518f935d33b",
+            "fileName": "qoj-18307.pdf",
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "e3710607cd12001349e5720006d1d2b477313dd9a357118ae0858518f935d33b",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18307"
+          }
+        },
+        "id": "xcpc-qoj::18307",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-03T18:53:04.834309+00:00",
+          "corpusAuditVerifiedSha256": "c56dd01f43d3875e5f9d0f349420699f5ff8f4b2d14c3a6a07e9c34fafc60a66",
+          "method": "original-qoj-native-pdf-and-geometric-sample-extraction",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 4000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 华容道\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=18307)",
+        "pageCount": 1,
+        "problemType": "standard",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "2\n4 3\nRRD\nDUL\nRDD\nRRR\n1 2\nLR",
+            "name": "样例 1",
+            "output": "-1 -1 -1\n7 -1 -1\n5 3 2\n3 2 1\n1 1"
+          }
+        ],
+        "sourceHtmlSha256": "4bde63d15df3e13dbe1406d505dec7c3809a2833afd68060a54ad2e3ecc2beda",
+        "sourcePdfSha256": "e3710607cd12001349e5720006d1d2b477313dd9a357118ae0858518f935d33b",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=18307",
+        "sourceText": "Klotski\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nThere is a grid with n rows and m columns. In each cell, there is an arrow pointing either up (U), down\r\n(D), left (L), or right (R).\r\nIn each operation, you may remove exactly one arrow. However, to remove an arrow, there must be no\r\nother arrows in the direction it points. More specifically, let si,j be the arrow located in row i and column\r\nj. To remove si,j :\r\n• If si,j = U, all sk,j satisfying 1 ≤ k < i must be removed beforehand.\r\n• If si,j = D, all sk,j satisfying i < k ≤ n must be removed beforehand.\r\n• If si,j = L, all si,k satisfying 1 ≤ k < j must be removed beforehand.\r\n• If si,j = R, all si,k satisfying j < k ≤ m must be removed beforehand.\r\nFor each arrow, answer the following question separately: What is the minimum number of operations\r\nneeded to remove it?\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 103\r\n), indicating\r\nthe number of test cases. For each test case:\r\nThe first line contains two integers n and m (1 ≤ n, m ≤ 5×104\r\n, n×m ≤ 5×104\r\n), indicating the number\r\nof rows and columns in the grid.\r\nIn the following n lines, the i-th line contains a string si,1si,2 . . . si,m of length m (si,j ∈ {U, D, L, R}), where\r\nsi,j indicates the arrow in the i-th row and j-th column.\r\nIt is guaranteed that the sum of n × m over all test cases does not exceed 5 × 104\r\n.\r\nOutput\r\nFor each test case, output n lines. The i-th line contains m integers ai,1, ai,2, . . . , ai,m, separated by spaces,\r\nwhere ai,j is the minimum number of operations needed to remove the arrow si,j . If it is impossible to\r\nremove the arrow si,j , then ai,j should be −1.\r\nExample\r\nstandard input standard output\r\n2\r\n4 3\r\nRRD\r\nDUL\r\nRDD\r\nRRR\r\n1 2\r\nLR\r\n-1 -1 -1\r\n7 -1 -1\r\n5 3 2\r\n3 2 1\r\n1 1\r\nPage 1 of 1",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 131363,
+          "data": "tb-asset:e3710607cd12001349e5720006d1d2b477313dd9a357118ae0858518f935d33b",
+          "fileName": "qoj-18307.pdf",
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "sha256": "e3710607cd12001349e5720006d1d2b477313dd9a357118ae0858518f935d33b",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18307"
+        },
+        "statementVersion": 6,
+        "title": "华容道",
+        "url": "https://qoj.ac/problem/18307"
+      },
+      "problem_id": "xcpc-qoj::18307"
+    },
+    {
+      "beforeSha256": "4b6a8096af3e3b5d8bd1ad483f366342adbb43ca51275511ac928969ba64540a",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=18308": {
+            "bytes": 173316,
+            "data": "tb-asset:e6f1ffbf39b7136c0e0a6c8b357959e7019897bbc8ec01e70bfb441a9e8b5841",
+            "fileName": "qoj-18308.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "e6f1ffbf39b7136c0e0a6c8b357959e7019897bbc8ec01e70bfb441a9e8b5841",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18308"
+          }
+        },
+        "id": "xcpc-qoj::18308",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-03T18:53:04.845861+00:00",
+          "corpusAuditVerifiedSha256": "88518f07debc781df5ed58cbc369a3ba14119e5fc483255612ff0204d3b17343",
+          "method": "original-qoj-native-pdf-and-geometric-sample-extraction",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 4000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 字典 2\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=18308)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "2 3\nab\n1 2\n1 b\n1 a\n2 c",
+            "name": "样例 1",
+            "output": "5\n2\n8"
+          }
+        ],
+        "sourceHtmlSha256": "dae582a79e128067f6dc531997c6ad29d7ec109deea88fd146e5b3dedc976298",
+        "sourcePdfSha256": "e6f1ffbf39b7136c0e0a6c8b357959e7019897bbc8ec01e70bfb441a9e8b5841",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=18308",
+        "sourceText": "Dictionary 2\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nYou are given a rooted tree with n vertices, where the root is vertex 1. Each vertex u is assigned a\r\nlowercase English character cu. For any vertex u, let S(u) denote the string formed by concatenating the\r\ncharacters on the path from u up to the root. More formally:\r\n• If u = 1, then S(u) = cu.\r\n• If v is a child of u, then S(v) = cv + S(u), where + denotes string concatenation.\r\nLet V be the set of all vertices in the tree. Let D be the set of all nonempty substrings of the strings in\r\n{S(u) | u ∈ V}. That is, w ∈ D if and only if w is a nonempty substring of S(u) for some vertex u. Recall\r\nthat sets do not contain duplicate elements.\r\nWe define the lexicographical order ≤lex as follows: for two strings A and B, A ≤lex B if and only if A is a\r\nprefix of B or, at the first position where they differ, the character in A is smaller than the corresponding\r\ncharacter in B.\r\nYou need to process q operations sequentially. For each operation, you are given an encoded integer u\r\n′\r\nand a character c. Let N be the number of vertices before this operation, and let l be the integer output\r\nby the previous operation (for the first operation, l = 0). Perform the following steps:\r\n1. Calculate the real parent vertex u = ((u\r\n′ + l) mod N) + 1. Create a new vertex with index (N + 1)\r\nas a child of u with character c, forming the new string S(N + 1) = c + S(u). Update the set D to\r\ninclude all nonempty substrings of S(N + 1) that were not previously present in D.\r\n2. Output the number of strings in the updated set D that are lexicographically less than or equal to\r\nS(N + 1). More formally, output the value:\r\n|{w ∈ D | w ≤lex S(N + 1)}|\r\nInput\r\nThere is only one test case in each test file.\r\nThe first line contains two integers n and q (1 ≤ n, q ≤ 105\r\n).\r\nThe second line contains a string c1c2 . . . cn consisting of lowercase English letters, where ci\r\nis the character\r\nof vertex i.\r\nFor the following (n − 1) lines, the i-th line contains two integers ui and vi (1 ≤ ui\r\n, vi ≤ n), indicating an\r\nedge connecting vertices ui and vi\r\n.\r\nFor the following q lines, the i-th line contains an integer u\r\n′\r\ni\r\n(1 ≤ u\r\n′\r\ni ≤ N, where N is the number of\r\nvertices before this operation) and a lowercase English letter ci\r\n, indicating the i-th operation.\r\nOutput\r\nFor each operation, output one line containing an integer, indicating the answer.\r\nPage 1 of 2\n\nExample\r\nstandard input standard output\r\n2 3\r\nab\r\n1 2\r\n1 b\r\n1 a\r\n2 c\r\n5\r\n2\r\n8\r\nNote\r\nWe explain the sample test case below.\r\nInitially, S(1) = a, S(2) = ba, and D = {a, b, ba}.\r\n1. Input u\r\n′ = 1, c = b. The decrypted parent is u = 2. Create vertex 3, S(3) = bba. Added substrings\r\nbb, bba. There are 5 strings in D with ≤lex bba.\r\n2. Input u\r\n′ = 1, c = a. The decrypted parent is u = 1. Create vertex 4, S(4) = aa. Added substring\r\naa. There are 2 strings in D with ≤lex aa.\r\n3. Input u\r\n′ = 2, c = c. The decrypted parent is u = 1. Create vertex 5, S(5) = ca. Added substrings\r\nc, ca. There are 8 strings in D with ≤lex ca.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 173316,
+          "data": "tb-asset:e6f1ffbf39b7136c0e0a6c8b357959e7019897bbc8ec01e70bfb441a9e8b5841",
+          "fileName": "qoj-18308.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "e6f1ffbf39b7136c0e0a6c8b357959e7019897bbc8ec01e70bfb441a9e8b5841",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18308"
+        },
+        "statementVersion": 6,
+        "title": "字典 2",
+        "url": "https://qoj.ac/problem/18308"
+      },
+      "problem_id": "xcpc-qoj::18308"
+    },
+    {
+      "beforeSha256": "6537a3b1297317aa2ebba87076a833eb8d4d65cde31e539c8b053eaceca60d4d",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=18309": {
+            "bytes": 135978,
+            "data": "tb-asset:d8fd777287e51acad7021d7898e926b428936dbce9bc3f84a53cd49e07e88223",
+            "fileName": "qoj-18309.pdf",
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "d8fd777287e51acad7021d7898e926b428936dbce9bc3f84a53cd49e07e88223",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18309"
+          }
+        },
+        "id": "xcpc-qoj::18309",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-03T18:53:04.856988+00:00",
+          "corpusAuditVerifiedSha256": "f79662d5a583e14d79e589e0bc83b9cb48fef1007d992a45d116b6733cc04eed",
+          "method": "original-qoj-native-pdf-and-geometric-sample-extraction",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 会议日程\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=18309)",
+        "pageCount": 1,
+        "problemType": "standard",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "3\n3\n6 8\n0 2\n1 7\n2\n1 3\n2 4\n2\n1 1\n100 100",
+            "name": "样例 1",
+            "output": "8\n0\n4901"
+          }
+        ],
+        "sourceHtmlSha256": "3d890fe445d1895fe060500cd3bbefbcdc55c1a5d7d466d626ef8ec08b6427a9",
+        "sourcePdfSha256": "d8fd777287e51acad7021d7898e926b428936dbce9bc3f84a53cd49e07e88223",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=18309",
+        "sourceText": "Meeting Schedule\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nA company has n employees, and each employee i has a free time window [li\r\n, ri\r\n] (both endpoints are\r\nintegers) during which they can attend meetings.\r\nThe company is organizing a team-building event where every pair of employees needs to have a one-on￾one conversation. For two employees to meet, their free time windows must intersect (share at least one\r\ncommon point).\r\nEmployees can adjust their schedules by changing the endpoints of their free time windows. However,\r\nrescheduling is troublesome, and changing an endpoint from time a to time b causes (a − b)\r\n2 units\r\nof frustration. Larger adjustments require moving more appointments around, so the frustration grows\r\nquadratically. After adjustment, each time window must remain valid (the left endpoint smaller than or\r\nequal to the right endpoint, and both endpoints are still integers).\r\nYou need to find the minimum total frustration so that every pair of employees can find a time to meet.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 104\r\n), indicating\r\nthe number of test cases. For each test case:\r\nThe first line contains an integer n (2 ≤ n ≤ 2 × 105\r\n), indicating the number of employees.\r\nFor the following n lines, the i-th line contains two integers li and ri (0 ≤ li ≤ ri ≤ 106\r\n), indicating the\r\nfree time window of the i-th employee.\r\nIt is guaranteed that the sum of n over all test cases does not exceed 2 × 105\r\n.\r\nOutput\r\nFor each test case, output one line containing an integer, indicating the minimum total frustration.\r\nExample\r\nstandard input standard output\r\n3\r\n3\r\n6 8\r\n0 2\r\n1 7\r\n2\r\n1 3\r\n2 4\r\n2\r\n1 1\r\n100 100\r\n8\r\n0\r\n4901\r\nNote\r\nFor the first sample test case, employee 1 can adjust his/her window from [6, 8] to [4, 8] with frustration\r\n(6 − 4)2 = 4, and employee 2 can adjust from [0, 2] to [0, 4] with frustration (4 − 2)2 = 4. Now the three\r\nwindows [4, 8], [0, 4], [1, 7] pairwise intersect, so every pair can meet. The total frustration is 4 + 4 = 8.\r\nFor the second sample test case, the two employees’ windows already intersect, so no adjustment is needed.\r\nPage 1 of 1",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 135978,
+          "data": "tb-asset:d8fd777287e51acad7021d7898e926b428936dbce9bc3f84a53cd49e07e88223",
+          "fileName": "qoj-18309.pdf",
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "sha256": "d8fd777287e51acad7021d7898e926b428936dbce9bc3f84a53cd49e07e88223",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18309"
+        },
+        "statementVersion": 6,
+        "title": "会议日程",
+        "url": "https://qoj.ac/problem/18309"
+      },
+      "problem_id": "xcpc-qoj::18309"
+    },
+    {
+      "beforeSha256": "1f47208ae8e39e8462b204d49fc6aba97de64c28c2cd6a3c0cc628f41ff20c71",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=18310": {
+            "bytes": 150285,
+            "data": "tb-asset:70fb17acb3bc6bcbf7cc203673b2ed8e720e42e405314faabc521d59dc3cdf6f",
+            "fileName": "qoj-18310.pdf",
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "70fb17acb3bc6bcbf7cc203673b2ed8e720e42e405314faabc521d59dc3cdf6f",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18310"
+          }
+        },
+        "id": "xcpc-qoj::18310",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-03T18:53:04.873180+00:00",
+          "corpusAuditVerifiedSha256": "7dfd7bc111ac0e41ab9075df3bd354caa89f2bb04397a82feca632bb626e8148",
+          "method": "original-qoj-native-pdf-and-geometric-sample-extraction",
+          "pdfPageCountVerified": true,
+          "sampleCount": 2,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 最大数码 2\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=18310)",
+        "pageCount": 1,
+        "problemType": "standard",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "2\n178 182 83 85\n2 5 3 6",
+            "name": "样例 1",
+            "output": "91\n100"
+          },
+          {
+            "input": "1\n1 1000000000 1 1000000000",
+            "name": "样例 2",
+            "output": "8425695016000000001"
+          }
+        ],
+        "sourceHtmlSha256": "638778bc153c14904e7292959bc39fbfb94d2c98fae1b8e0eb2b107d0a08b968",
+        "sourcePdfSha256": "70fb17acb3bc6bcbf7cc203673b2ed8e720e42e405314faabc521d59dc3cdf6f",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=18310",
+        "sourceText": "Largest Digit 2\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nLet f(x) be the largest digit in the decimal representation of a positive integer x. For example, f(4523) = 5\r\nand f(1001) = 1.\r\nGiven four positive integers la, ra, lb, and rb such that la ≤ ra and lb ≤ rb, you need to calculate\r\nXra\r\na=la\r\nXrb\r\nb=lb\r\nf(a + b)\r\nThat is, the sum of f(a + b) over all (a, b) that satisfy la ≤ a ≤ ra and lb ≤ b ≤ rb.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 103\r\n), indicating\r\nthe number of test cases. For each test case:\r\nThe first and only line contains four integers la, ra, lb, and rb (1 ≤ la ≤ ra ≤ 109\r\n, 1 ≤ lb ≤ rb ≤ 109\r\n).\r\nOutput\r\nFor each test case, output one line containing an integer, indicating the answer.\r\nExamples\r\nstandard input standard output\r\n2\r\n178 182 83 85\r\n2 5 3 6\r\n91\r\n100\r\n1\r\n1 1000000000 1 1000000000\r\n8425695016000000001\r\nPage 1 of 1",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 150285,
+          "data": "tb-asset:70fb17acb3bc6bcbf7cc203673b2ed8e720e42e405314faabc521d59dc3cdf6f",
+          "fileName": "qoj-18310.pdf",
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "sha256": "70fb17acb3bc6bcbf7cc203673b2ed8e720e42e405314faabc521d59dc3cdf6f",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18310"
+        },
+        "statementVersion": 6,
+        "title": "最大数码 2",
+        "url": "https://qoj.ac/problem/18310"
+      },
+      "problem_id": "xcpc-qoj::18310"
+    },
+    {
+      "beforeSha256": "19a622d9f5d942740168dc2ea26faa85821796aaca820a697c3da2bc7bc04470",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=18311": {
+            "bytes": 132089,
+            "data": "tb-asset:9b454d6e03ccaac7c79d5e52f08c9f89456d0fa3789a46585c8cf19fb912dc47",
+            "fileName": "qoj-18311.pdf",
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "9b454d6e03ccaac7c79d5e52f08c9f89456d0fa3789a46585c8cf19fb912dc47",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18311"
+          }
+        },
+        "id": "xcpc-qoj::18311",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-03T18:53:04.886321+00:00",
+          "corpusAuditVerifiedSha256": "2da39c1a931aa25c3ff10a507b372778ac143effc1eda995b665f240b8f82bc5",
+          "method": "original-qoj-native-pdf-and-geometric-sample-extraction",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 简单的构造题\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=18311)",
+        "pageCount": 1,
+        "problemType": "standard",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "2\n3 4\n1 3",
+            "name": "样例 1",
+            "output": "Yes\n4 9 7 1\n10 0 5 3\n6 2 11 8\nNo"
+          }
+        ],
+        "sourceHtmlSha256": "d1de7e356a7f64ab478e6970718a0bb3435d03f31bcc780d801245f16debc91e",
+        "sourcePdfSha256": "9b454d6e03ccaac7c79d5e52f08c9f89456d0fa3789a46585c8cf19fb912dc47",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=18311",
+        "sourceText": "Simple Constructive Problem\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nGiven a grid with n rows and m columns, fill each cell with an integer from 0 to (nm−1) (using each integer\r\nexactly once) such that for all 0 ≤ i < nm, the cell containing i and the cell containing (i + 1) mod nm\r\nare not adjacent (i.e., they do not share an edge).\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 104\r\n), indicating\r\nthe number of test cases. For each test case:\r\nThe first line contains two integers n and m (1 ≤ n, m ≤ 2 × 105\r\n, 3 ≤ n × m ≤ 2 × 105\r\n), indicating the\r\nnumber of rows and columns in the grid.\r\nIt is guaranteed that the sum of n × m over all test cases does not exceed 2 × 105\r\n.\r\nOutput\r\nFor each test case:\r\n• If a valid arrangement exists, first output Yes in one line. Then output n lines. The i-th line contains\r\nm integers separated by a space, where the j-th integer represents the number filled in the cell at\r\nrow i and column j. If there are multiple valid arrangements, output any one of them.\r\n• Otherwise, if there is no valid arrangement, just output No in one line.\r\nExample\r\nstandard input standard output\r\n2\r\n3 4\r\n1 3\r\nYes\r\n4 9 7 1\r\n10 0 5 3\r\n6 2 11 8\r\nNo\r\nPage 1 of 1",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 132089,
+          "data": "tb-asset:9b454d6e03ccaac7c79d5e52f08c9f89456d0fa3789a46585c8cf19fb912dc47",
+          "fileName": "qoj-18311.pdf",
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "sha256": "9b454d6e03ccaac7c79d5e52f08c9f89456d0fa3789a46585c8cf19fb912dc47",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18311"
+        },
+        "statementVersion": 6,
+        "title": "简单的构造题",
+        "url": "https://qoj.ac/problem/18311"
+      },
+      "problem_id": "xcpc-qoj::18311"
+    },
+    {
+      "beforeSha256": "fb30d6ec627cd0a2d0fb66493bc89ba81b1ae7b5f868ec3b1774b062ec8dbc51",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=18312": {
+            "bytes": 130771,
+            "data": "tb-asset:c4d5cc3c7d1950dac4fb31aabc2a2cf4dac3e35cd995cac191f54aeb5b09e06c",
+            "fileName": "qoj-18312.pdf",
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "c4d5cc3c7d1950dac4fb31aabc2a2cf4dac3e35cd995cac191f54aeb5b09e06c",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18312"
+          }
+        },
+        "id": "xcpc-qoj::18312",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-03T18:53:04.898333+00:00",
+          "corpusAuditVerifiedSha256": "dd02bc0b5f9fed28f6ba8e4807d054d2f5a3e913196933f31cbf9626b5161e08",
+          "method": "original-qoj-native-pdf-and-geometric-sample-extraction",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 4000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 礼物归位\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=18312)",
+        "pageCount": 1,
+        "problemType": "standard",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "2\n3\n1 2 3\n3 2 1\n4\n3 4 1 2\n1 2 3 4",
+            "name": "样例 1",
+            "output": "1\n3\n4\n2 3 1 2"
+          }
+        ],
+        "sourceHtmlSha256": "ac35207cdd07362e192ee7f0f2e1216e16f7060d54a05c2e4b63ea2c4f2e0187",
+        "sourcePdfSha256": "c4d5cc3c7d1950dac4fb31aabc2a2cf4dac3e35cd995cac191f54aeb5b09e06c",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=18312",
+        "sourceText": "Gifts in Place\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nThere are n people sitting around a round table, numbered from 1 to n in clockwise order. For each\r\ni = 1, 2, . . . , n, the i-th person is adjacent to the ((i mod n) + 1)-th person.\r\nThere are n gifts, numbered from 1 to n. Initially, for each i = 1, 2, . . . , n, the i-th person receives the\r\npi-th gift. However, due to a hasty distribution, at least one person ends up with the wrong gift. Under\r\nthe correct plan, for each i = 1, 2, . . . , n, the i-th person should receive the qi-th gift.\r\nYou can perform operations where each operation allows swapping the gifts held by any two adjacent\r\npeople. Find the minimum number of operations required so that everyone receives the correct gift.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 103\r\n), indicating\r\nthe number of test cases. For each test case:\r\nThe first line contains an integer n (3 ≤ n ≤ 3 × 103\r\n).\r\nThe second line contains n distinct integers p1, p2, . . . , pn (1 ≤ pi ≤ n).\r\nThe third line contains n distinct integers q1, q2, . . . , qn (1 ≤ qi ≤ n).\r\nIt is guaranteed that the sum of n over all test cases does not exceed 3 × 103\r\n.\r\nOutput\r\nFor each test case, output two lines:\r\nThe first line contains an integer k, indicating the minimum number of operations.\r\nThe second line contains k integers x1, x2, . . . , xk, where the i-th integer xi\r\nindicates that, in the i-th\r\noperation, you swap the gifts held by the xi-th person and the ((xi mod n) + 1)-th person.\r\nIf there are multiple valid solutions, you may output any of them.\r\nExample\r\nstandard input standard output\r\n2\r\n3\r\n1 2 3\r\n3 2 1\r\n4\r\n3 4 1 2\r\n1 2 3 4\r\n1\r\n3\r\n4\r\n2 3 1 2\r\nPage 1 of 1",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 130771,
+          "data": "tb-asset:c4d5cc3c7d1950dac4fb31aabc2a2cf4dac3e35cd995cac191f54aeb5b09e06c",
+          "fileName": "qoj-18312.pdf",
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "sha256": "c4d5cc3c7d1950dac4fb31aabc2a2cf4dac3e35cd995cac191f54aeb5b09e06c",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18312"
+        },
+        "statementVersion": 6,
+        "title": "礼物归位",
+        "url": "https://qoj.ac/problem/18312"
+      },
+      "problem_id": "xcpc-qoj::18312"
+    },
+    {
+      "beforeSha256": "cbde547d3c141bec6120ada380f10e840529621b544c85622473845c7f051bed",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=18313": {
+            "bytes": 1027591,
+            "data": "tb-asset:d24eb8f7fa1011f97cb57b1c28c3b35e40ad5212f8730c1f6677bc0553ce43cb",
+            "fileName": "qoj-18313.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "d24eb8f7fa1011f97cb57b1c28c3b35e40ad5212f8730c1f6677bc0553ce43cb",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18313"
+          }
+        },
+        "id": "xcpc-qoj::18313",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-03T18:53:04.919047+00:00",
+          "corpusAuditVerifiedSha256": "45188c3fbab5010f79f2782818a3bdbbde898797efbf082aa5cb15b8e6a9d6c8",
+          "method": "original-qoj-native-pdf-and-geometric-sample-extraction",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 吸血鬼爬行者\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=18313)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "2\n9\n1 3\n3 10\n6 4\n1 2\n5 8\n0 5\n2 7\n6 1\n2 7\n1\n1000000000 1000000",
+            "name": "样例 1",
+            "output": "105\n1000000"
+          }
+        ],
+        "sourceHtmlSha256": "39e58e5ac99d8bf1e63bdbe3cf5373a551b4770cb126daafc13a4933490a4e0f",
+        "sourcePdfSha256": "d24eb8f7fa1011f97cb57b1c28c3b35e40ad5212f8730c1f6677bc0553ce43cb",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=18313",
+        "sourceText": "Vampire Crawlers\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nRecently, the roguelike deckbuilder “Vampire Crawlers”, developed by poncle, has been officially released.\r\nIn the game, players build decks and play cards during combat to deal damage. The core mechanic is\r\nthe combo system: when you play cards in ascending order of mana cost, the damage multiplier keeps\r\nstacking.\r\nYou currently have n cards, where the i-th card has a cost and a base damage. You need to choose an\r\norder to play all n cards one by one. When you play a card:\r\n• If this is NOT the first card played, and its cost is equal to that of the previous card plus 1, the\r\ndamage multiplier is increased by 1.\r\n• Otherwise, the damage multiplier is reset to 1.\r\nAfter updating the damage multiplier, the damage dealt by this card is calculated as its base damage\r\ntimes the multiplier.\r\nYou need to find the maximum possible total damage.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 104\r\n), indicating\r\nthe number of test cases. For each test case:\r\nThe first line contains an integer n (1 ≤ n ≤ 2 × 105\r\n), indicating the number of cards.\r\nFor the following n lines, the i-th line contains two integers ai and bi (0 ≤ ai ≤ 109\r\n, 1 ≤ bi ≤ 106\r\n),\r\nindicating the cost and damage of the i-th card.\r\nIt is guaranteed that the sum of n over all test cases does not exceed 2 × 105\r\n.\r\nOutput\r\nFor each test case, output one line containing an integer, indicating the maximum total damage.\r\nPage 1 of 2\n\nExample\r\nstandard input standard output\r\n2\r\n9\r\n1 3\r\n3 10\r\n6 4\r\n1 2\r\n5 8\r\n0 5\r\n2 7\r\n6 1\r\n2 7\r\n1\r\n1000000000 1000000\r\n105\r\n1000000\r\nNote\r\nFor the first sample test case, play the cards in the order of 6, 1, 9, 2, 8, 4, 7, 5, 3. The total damage is\r\n5 × 1 + 3 × 2 + 7 × 3 + 10 × 4 + 1 × 1 + 2 × 1 + 7 × 2 + 8 × 1 + 4 × 2 = 105.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 1027591,
+          "data": "tb-asset:d24eb8f7fa1011f97cb57b1c28c3b35e40ad5212f8730c1f6677bc0553ce43cb",
+          "fileName": "qoj-18313.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "d24eb8f7fa1011f97cb57b1c28c3b35e40ad5212f8730c1f6677bc0553ce43cb",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18313"
+        },
+        "statementVersion": 6,
+        "title": "吸血鬼爬行者",
+        "url": "https://qoj.ac/problem/18313"
+      },
+      "problem_id": "xcpc-qoj::18313"
+    },
+    {
+      "beforeSha256": "273c3e7d5518e1535b5c7684803170cc15b5c1a8f5435bc70eadbfd7faae3fcd",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=18314": {
+            "bytes": 133054,
+            "data": "tb-asset:64a1fa7a61f951876178428cb15b262d4c2f246f14b3a887decbd29a220c2dd5",
+            "fileName": "qoj-18314.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "64a1fa7a61f951876178428cb15b262d4c2f246f14b3a887decbd29a220c2dd5",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18314"
+          }
+        },
+        "id": "xcpc-qoj::18314",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-03T18:53:04.956884+00:00",
+          "corpusAuditVerifiedSha256": "0318082f677a60a6a32781ca8d32243c91714bc6c3f450beb02d356b31b8568c",
+          "method": "original-qoj-native-pdf-and-geometric-sample-extraction",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 拼图\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=18314)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "3\n3 4 5\n..#.\n..#.\n....\n3 2\n.#\n.#\n##\n3 2\n##\n##\n#.\n3 2\n.#\n.#\n##\n1 3\n###\n2 1\n#\n#\n2 2 2\n..\n..\n1 1\n#\n1 2\n##\n2 2 3\n..\n..\n1 1\n#\n1 1\n#\n1 2\n##",
+            "name": "样例 1",
+            "output": "3\n0\n4"
+          }
+        ],
+        "sourceHtmlSha256": "9e39bc1e719e2cb6b127298b28502436d20457d37e57c2e8908e62512b237b0e",
+        "sourcePdfSha256": "64a1fa7a61f951876178428cb15b262d4c2f246f14b3a887decbd29a220c2dd5",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=18314",
+        "sourceText": "Puzzle\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nThere is a grid with n rows and m columns. Each cell is either empty (denoted by .) or blocked (denoted\r\nby #).\r\nYou are also given k puzzle pieces, numbered 1, 2, . . . , k. Each piece is a 4-connected polyomino that\r\ncannot be rotated or flipped. Each piece is described by its minimum bounding rectangle, where # denotes\r\na cell belonging to the piece and . denotes a cell not belonging to the piece.\r\nYou need to select some of the k pieces and place them on the grid such that:\r\n• Each cell of each selected piece must cover exactly one empty cell of the grid.\r\n• No two selected pieces cover the same cell.\r\n• Every empty cell of the grid is covered by exactly one selected piece.\r\nCount the number of valid arrangements. Two arrangements are considered different if and only if they\r\nuse different sets of puzzle pieces, or there exists a piece whose covered cells differ between the two\r\narrangements.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 103\r\n), indicating\r\nthe number of test cases. For each test case:\r\nThe first line contains three integers n, m, and k (1 ≤ n, m ≤ 8, 1 ≤ k ≤ 8), indicating the number of\r\nrows, columns, and puzzle pieces.\r\nThe next n lines each contain a string of length m, describing the grid. Here . denotes an empty cell and\r\n# denotes a blocked cell. It’s guaranteed that the grid contains at least one empty cell.\r\nThen k pieces are described. For each piece, the first line contains two integers r and c (1 ≤ r, c ≤ 8),\r\nindicating the number of rows and columns of its minimum bounding rectangle. The next r lines each\r\ncontain a string of length c, describing the piece. It is guaranteed that each piece is a 4-connected\r\npolyomino, and that every row and every column of the bounding rectangle contains at least one #.\r\nIt is guaranteed that at most 10 test cases satisfy k greater than 5.\r\nOutput\r\nFor each test case, output one line containing an integer, indicating the number of valid arrangements.\r\nPage 1 of 2\n\nExample\r\nstandard input standard output\r\n3\r\n3 4 5\r\n..#.\r\n..#.\r\n....\r\n3 2\r\n.#\r\n.#\r\n##\r\n3 2\r\n##\r\n##\r\n#.\r\n3 2\r\n.#\r\n.#\r\n##\r\n1 3\r\n###\r\n2 1\r\n#\r\n#\r\n2 2 2\r\n..\r\n..\r\n1 1\r\n#\r\n1 2\r\n##\r\n2 2 3\r\n..\r\n..\r\n1 1\r\n#\r\n1 1\r\n#\r\n1 2\r\n##\r\n3\r\n0\r\n4\r\nNote\r\nThe 3 arrangements of the first sample test case are described below, where the integers indicate the\r\nindices of the pieces.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 133054,
+          "data": "tb-asset:64a1fa7a61f951876178428cb15b262d4c2f246f14b3a887decbd29a220c2dd5",
+          "fileName": "qoj-18314.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "64a1fa7a61f951876178428cb15b262d4c2f246f14b3a887decbd29a220c2dd5",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18314"
+        },
+        "statementVersion": 6,
+        "title": "拼图",
+        "url": "https://qoj.ac/problem/18314"
+      },
+      "problem_id": "xcpc-qoj::18314"
+    },
+    {
+      "beforeSha256": "5426ff099eb397912776beae84fe0785724fad2403ee896c9b6aae2788ae449a",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=18315": {
+            "bytes": 141675,
+            "data": "tb-asset:e1832f861064bdee41a76734f80d9eaa4dad1ca0c36b0eed8ef97289be1e4dac",
+            "fileName": "qoj-18315.pdf",
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "e1832f861064bdee41a76734f80d9eaa4dad1ca0c36b0eed8ef97289be1e4dac",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18315"
+          }
+        },
+        "id": "xcpc-qoj::18315",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-03T18:53:04.969244+00:00",
+          "corpusAuditVerifiedSha256": "53a9edfe1727ef650c82bfde029768d7f5a39db4a158fda9c1c3971b0bf7e5e4",
+          "method": "original-qoj-native-pdf-and-geometric-sample-extraction",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 版本号\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=18315)",
+        "pageCount": 1,
+        "problemType": "standard",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "3\n3\n5 11\n5 9\n3 12\n2\n1 0\n0 1\n2\n0 0\n0 0",
+            "name": "样例 1",
+            "output": "5 11\n1 0\n0 0"
+          }
+        ],
+        "sourceHtmlSha256": "156ba187338f4d4a9baaf51a8fee9b0fd1a6857d691f31b53728b6f702b29d2a",
+        "sourcePdfSha256": "e1832f861064bdee41a76734f80d9eaa4dad1ca0c36b0eed8ef97289be1e4dac",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=18315",
+        "sourceText": "Version Number\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nIn the early days of large language models, researchers discovered an interesting phenomenon: when asked\r\n“Which is larger, 5.11 or 5.9”, many models would confidently answer 5.11. It is suspected that the models\r\nconfused the comparison rules for decimal numbers with those for version numbers — in version number\r\ncomparison, 5.11 is indeed greater than 5.9, since the minor version 11 is greater than 9.\r\nEach version number consists of two non-negative integers: a major version x and a minor version y,\r\ndenoted as x.y.\r\nThe comparison rule for version numbers is as follows: first compare the major versions; the version with\r\nthe larger major version is greater. If the major versions are equal, compare the minor versions; the version\r\nwith the larger minor version is greater. Formally, version x1.y1 is greater than version x2.y2 if and only\r\nif x1 > x2, or x1 = x2 and y1 > y2.\r\nGiven n version numbers, you need to find the largest one among them.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 100), indicating\r\nthe number of test cases. For each test case:\r\nThe first line contains an integer n (2 ≤ n ≤ 100), indicating the number of version numbers.\r\nFor the following n lines, the i-th line contains two integers xi and yi (0 ≤ xi\r\n, yi ≤ 103\r\n), indicating the\r\nversion number xi\r\n.yi\r\n.\r\nOutput\r\nFor each test case, output one line containing two integers x\r\n′ and y\r\n′\r\nseparated by a space, indicating the\r\nmajor version and the minor version of the largest version number.\r\nExample\r\nstandard input standard output\r\n3\r\n3\r\n5 11\r\n5 9\r\n3 12\r\n2\r\n1 0\r\n0 1\r\n2\r\n0 0\r\n0 0\r\n5 11\r\n1 0\r\n0 0\r\nPage 1 of 1",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 141675,
+          "data": "tb-asset:e1832f861064bdee41a76734f80d9eaa4dad1ca0c36b0eed8ef97289be1e4dac",
+          "fileName": "qoj-18315.pdf",
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "sha256": "e1832f861064bdee41a76734f80d9eaa4dad1ca0c36b0eed8ef97289be1e4dac",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18315"
+        },
+        "statementVersion": 6,
+        "title": "版本号",
+        "url": "https://qoj.ac/problem/18315"
+      },
+      "problem_id": "xcpc-qoj::18315"
+    },
+    {
+      "beforeSha256": "7fe6166f7d99e60aef90b3081d7b66808a3622887d7f4b0fa50f854d695e1db3",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=18316": {
+            "bytes": 156387,
+            "data": "tb-asset:5c448b04bed66370586871c94733e1c077262b8494606be2b3ef30c15a316af3",
+            "fileName": "qoj-18316.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "5c448b04bed66370586871c94733e1c077262b8494606be2b3ef30c15a316af3",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18316"
+          }
+        },
+        "id": "xcpc-qoj::18316",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-03T18:53:04.984208+00:00",
+          "corpusAuditVerifiedSha256": "eed44008eb50f5d3b0a8a63420cdaba286461a0805d344c583f43d9433fdbd77",
+          "method": "original-qoj-native-pdf-and-geometric-sample-extraction",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 插松枝\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=18316)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "2\n5\n7 3 10 7 2\n3\n1 1 1",
+            "name": "样例 1",
+            "output": "8\n3"
+          }
+        ],
+        "sourceHtmlSha256": "d45cdbd3cfba6390953fda32d5553650c57f1a05dfd265a6991790174fb993a0",
+        "sourcePdfSha256": "5c448b04bed66370586871c94733e1c077262b8494606be2b3ef30c15a316af3",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=18316",
+        "sourceText": "Making Pine Branches\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nWorkers in the artificial pine branch factory need to insert pine needles of different sizes onto branches to\r\nmake various kinds of decorations.\r\nThere is an empty branch and two boxes on the table. One of the boxes is empty, while the other contains\r\nn pieces of pine needles stacked in a pile. The size of the i-th piece of pine needle, from top to bottom, is\r\nai\r\n. Each time, the worker can perform one of the following two operations:\r\n• Choose a box containing pine needles and move the pine needle at the top of the box to the top of\r\nthe other box.\r\n• Choose a box containing pine needles and insert the pine needle at the top of the box onto the\r\nbranch.\r\nThe worker has to insert all n pieces of pine needles onto the branch. Also, when inserting a piece of pine\r\nneedle, its size must not be larger than that of the previously inserted piece. That is to say, let bi be the\r\nsize of the i-th piece of pine needle inserted onto the branch; then b1 ≥ b2 ≥ . . . ≥ bn must hold.\r\nYou need to find the smallest possible number of operations performed so that all pine needles can be\r\ninserted onto the branch.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 104\r\n), indicating\r\nthe number of test cases. For each test case:\r\nThe first line contains an integer n (1 ≤ n ≤ 4 × 105\r\n), indicating the number of pieces of pine needles.\r\nThe second line contains n integers a1, a2, . . . , an (1 ≤ ai ≤ 109\r\n), where ai\r\nindicates the size of the i-th\r\npiece of pine needle, from top to bottom, in the box.\r\nIt is guaranteed that the sum of n over all test cases does not exceed 4 × 105\r\n.\r\nOutput\r\nFor each test case, output one line containing an integer, indicating the smallest possible number of\r\noperations.\r\nExample\r\nstandard input standard output\r\n2\r\n5\r\n7 3 10 7 2\r\n3\r\n1 1 1\r\n8\r\n3\r\nNote\r\nWe show an optimal strategy for the first sample test case below. The sizes of pine needles in the boxes\r\nare listed from top to bottom, and the sizes of pine needles on the branch are listed in insertion order.\r\nPage 1 of 2\n\n# Box A Box B Branch # Box A Box B Branch\r\n1 {3, 10, 7, 2} {7} {} 5 {3, 2} {7} {10, 7}\r\n2 {10, 7, 2} {3, 7} {} 6 {3, 2} {} {10, 7, 7}\r\n3 {7, 2} {3, 7} {10} 7 {2} {} {10, 7, 7, 3}\r\n4 {2} {3, 7} {10, 7} 8 {} {} {10, 7, 7, 3, 2}\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 156387,
+          "data": "tb-asset:5c448b04bed66370586871c94733e1c077262b8494606be2b3ef30c15a316af3",
+          "fileName": "qoj-18316.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "5c448b04bed66370586871c94733e1c077262b8494606be2b3ef30c15a316af3",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18316"
+        },
+        "statementVersion": 6,
+        "title": "插松枝",
+        "url": "https://qoj.ac/problem/18316"
+      },
+      "problem_id": "xcpc-qoj::18316"
+    },
+    {
+      "beforeSha256": "c7a65e9e691f296623a7390bd83f83eb527fafa4bc980ca0b197c05b90d2642c",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=18317": {
+            "bytes": 147669,
+            "data": "tb-asset:1ec4516d60d3a19ee1a48b4d824ed6496d4ac213241e6c0d4e38ef53c9a70438",
+            "fileName": "qoj-18317.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "1ec4516d60d3a19ee1a48b4d824ed6496d4ac213241e6c0d4e38ef53c9a70438",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18317"
+          }
+        },
+        "id": "xcpc-qoj::18317",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-03T18:53:05.000862+00:00",
+          "corpusAuditVerifiedSha256": "0ec3306f506e46fc3ce375e9973339e6d512f2ed662eeccb56b0aca02441d9fe",
+          "method": "original-qoj-native-pdf-and-geometric-sample-extraction",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 最小生成树\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=18317)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "3\n5 6 2\n1 5\n1 2 3\n2 5 7\n4 2 6\n5 4 9\n3 4 10\n1 3 5\n4 4 4\n1 2 3 4\n1 2 1\n2 3 1\n3 4 1\n4 1 1\n3 4 1\n1\n1 2 10\n1 2 100\n2 3 1000\n3 3 100000",
+            "name": "样例 1",
+            "output": "26\n-1\n1010"
+          }
+        ],
+        "sourceHtmlSha256": "ba4a42d20d6368a3d5522ac93fcf1ee4d7ddd4e40a80dc104a4f073c3244e304",
+        "sourcePdfSha256": "1ec4516d60d3a19ee1a48b4d824ed6496d4ac213241e6c0d4e38ef53c9a70438",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=18317",
+        "sourceText": "Minimum Spanning Tree\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nGiven an undirected connected graph with n vertices and m weighted edges, where k vertices are marked\r\nspecial, we say a spanning tree is good if all special vertices are leaves in the tree.\r\nYou need to find the minimum total weight of all edges among all good spanning trees.\r\nRecall that a spanning tree is a connected subgraph of the original graph containing n vertices and (n−1)\r\nedges. Also, recall that leaves in a tree are the vertices connected with exactly one edge.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 104\r\n), indicating\r\nthe number of test cases. For each test case:\r\nThe first line contains three integers n, m, and k (2 ≤ n ≤ 2 × 105\r\n, n − 1 ≤ m ≤ 2 × 105\r\n, 1 ≤ k ≤ n),\r\nindicating the number of vertices, edges, and special vertices in the graph.\r\nThe second line contains k distinct integers a1, a2, . . . , ak (1 ≤ ai ≤ n), indicating the special vertices.\r\nFor the following m lines, the i-th line contains three integers ui\r\n, vi\r\n, and wi (1 ≤ ui\r\n, vi ≤ n, 1 ≤ wi ≤ 109\r\n),\r\nindicating that there is an edge connecting vertex ui and vi with weight wi\r\n. It’s guaranteed that the given\r\ngraph is connected, but there may be self loops or multiple edges.\r\nIt is guaranteed that both the sum of n and the sum of m over all test cases do not exceed 2 × 105\r\n.\r\nOutput\r\nFor each test case, output one line containing an integer, indicating the minimum total weight of all edges\r\nin a good spanning tree. If there is no good spanning tree, output -1 instead.\r\nExample\r\nstandard input standard output\r\n3\r\n5 6 2\r\n1 5\r\n1 2 3\r\n2 5 7\r\n4 2 6\r\n5 4 9\r\n3 4 10\r\n1 3 5\r\n4 4 4\r\n1 2 3 4\r\n1 2 1\r\n2 3 1\r\n3 4 1\r\n4 1 1\r\n3 4 1\r\n1\r\n1 2 10\r\n1 2 100\r\n2 3 1000\r\n3 3 100000\r\n26\r\n-1\r\n1010\r\nPage 1 of 2\n\nNote\r\nThe first sample test case is illustrated below, where the solid lines are the edges in the spanning tree,\r\nand the dashed lines are the edges not in the tree.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 147669,
+          "data": "tb-asset:1ec4516d60d3a19ee1a48b4d824ed6496d4ac213241e6c0d4e38ef53c9a70438",
+          "fileName": "qoj-18317.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "1ec4516d60d3a19ee1a48b4d824ed6496d4ac213241e6c0d4e38ef53c9a70438",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18317"
+        },
+        "statementVersion": 6,
+        "title": "最小生成树",
+        "url": "https://qoj.ac/problem/18317"
+      },
+      "problem_id": "xcpc-qoj::18317"
+    },
+    {
+      "beforeSha256": "209d4eee5bb1d67ce654b2e9e481e8553d544df1c72d7229cd9f7ca00b3ac1a7",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=18318": {
+            "bytes": 142746,
+            "data": "tb-asset:0933c9974fdc9991582f8ea5644d80c597d02e313bb21d24a63ea36cbb21e5b9",
+            "fileName": "qoj-18318.pdf",
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "0933c9974fdc9991582f8ea5644d80c597d02e313bb21d24a63ea36cbb21e5b9",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18318"
+          }
+        },
+        "id": "xcpc-qoj::18318",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-03T18:53:05.014163+00:00",
+          "corpusAuditVerifiedSha256": "8c38f063c0d54b34072e6976ba16e6be526b9b244d45af2caf4c0e146219df36",
+          "method": "original-qoj-native-pdf-and-geometric-sample-extraction",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 分数迭代\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=18318)",
+        "pageCount": 1,
+        "problemType": "standard",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "3\n1 7 3\n1\n2\n3\n1 1 1\n1\n13 3 3\n7\n2\n10",
+            "name": "样例 1",
+            "output": "1 4\n2 5\n1 2\n1 1\n5 4\n8 3\n8 7"
+          }
+        ],
+        "sourceHtmlSha256": "7af39e61b897d4738deee556fc4cb5734e7d96a2ae482423024ca86ca26ef11e",
+        "sourcePdfSha256": "0933c9974fdc9991582f8ea5644d80c597d02e313bb21d24a63ea36cbb21e5b9",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=18318",
+        "sourceText": "Fraction Iteration\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nYou are given an irreducible fraction a\r\nb\r\n(i.e., gcd(a, b) = 1). Every second, both the numerator and the\r\ndenominator increase by 1, and then the fraction is immediately reduced to its simplest form.\r\nFormally, if the current fraction is a\r\nb\r\n, after one second it becomes a+1\r\nb+1 , then let g = gcd(a + 1, b + 1), and\r\nupdate it to (a+1)/g\r\n(b+1)/g .\r\nGiven the initial fraction a\r\nb\r\nand q queries, each providing an integer ki\r\n, you need to find the fraction\r\nexactly after ki seconds, starting from the initial state.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 103\r\n), indicating\r\nthe number of test cases. For each test case:\r\nThe first line contains three integers a, b, and q (1 ≤ a, b ≤ 1012\r\n, 1 ≤ q ≤ 100). It is guaranteed that\r\ngcd(a, b) = 1 initially.\r\nFor the following q lines, the i-th line contains an integer ki (1 ≤ ki ≤ 1018), indicating the time of the\r\nquery.\r\nOutput\r\nFor each query, output one line containing two integers a\r\n′ and b\r\n′\r\nseparated by a space, indicating the\r\nnumerator and denominator of the fraction exactly after ki seconds, starting from the initial state.\r\nExample\r\nstandard input standard output\r\n3\r\n1 7 3\r\n1\r\n2\r\n3\r\n1 1 1\r\n1\r\n13 3 3\r\n7\r\n2\r\n10\r\n1 4\r\n2 5\r\n1 2\r\n1 1\r\n5 4\r\n8 3\r\n8 7\r\nPage 1 of 1",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 142746,
+          "data": "tb-asset:0933c9974fdc9991582f8ea5644d80c597d02e313bb21d24a63ea36cbb21e5b9",
+          "fileName": "qoj-18318.pdf",
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "sha256": "0933c9974fdc9991582f8ea5644d80c597d02e313bb21d24a63ea36cbb21e5b9",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18318"
+        },
+        "statementVersion": 6,
+        "title": "分数迭代",
+        "url": "https://qoj.ac/problem/18318"
+      },
+      "problem_id": "xcpc-qoj::18318"
+    },
+    {
+      "beforeSha256": "41f12c2059c6e558b35acc6b6f2bcd2601e73a80cbfe6f8148d3bd3ec7465845",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=18319": {
+            "bytes": 201872,
+            "data": "tb-asset:921ff718fcfe84d1a825e197375b38018d556cb669af4b2e40a7a9435fedd917",
+            "fileName": "qoj-18319.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "921ff718fcfe84d1a825e197375b38018d556cb669af4b2e40a7a9435fedd917",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18319"
+          }
+        },
+        "id": "xcpc-qoj::18319",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-03T18:53:05.028795+00:00",
+          "corpusAuditVerifiedSha256": "9a23ecd29c5320479e24a4015bdcbcb843a490eca87f3cb474e6a3a319d2304f",
+          "method": "original-qoj-native-pdf-and-geometric-sample-extraction",
+          "pdfPageCountVerified": true,
+          "sampleCount": 2,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 4000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 博物馆奇妙夜 2\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=18319)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "3 2 45\n1 1\n5 5\n8 1\n2 3\n4 2",
+            "name": "样例 1",
+            "output": "4.4142135624"
+          },
+          {
+            "input": "4 1 60\n0 0\n2 0\n2 2\n0 2\n1 1",
+            "name": "样例 2",
+            "output": "1.6905989232"
+          }
+        ],
+        "sourceHtmlSha256": "8f62449ce0bf5bcbbb0750f54b3b1f7e49222dbf1a7a47caeb4f343e8be5490c",
+        "sourcePdfSha256": "921ff718fcfe84d1a825e197375b38018d556cb669af4b2e40a7a9435fedd917",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=18319",
+        "sourceText": "Night at the Museum 2\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nA security guard patrols a museum to monitor exhibits. The patrol route is a closed polyline consisting of\r\nn points labeled from 1 to n, which are connected in order (the last point connects back to the first point)\r\nto form n consecutive segments. The guard patrols in the order 1 → 2 → · · · → n → 1 → · · · . When the\r\nguard is not at a segment endpoint, their field of view is a sector with radius 10101010\r\nand central angle\r\n2a, with the sector’s bisector aligned with the forward direction of the patrol segment.\r\nA point P on a patrol segment (endpoints exclusive) can see an exhibit at point Q if and only if Q lies\r\nwithin the sector region with apex at P. Given the closed polyline patrol route defined by n points and\r\nm exhibit locations, find the total length of patrol routes where all exhibits can be seen at the same time.\r\nInput\r\nThere is only one test case in each test file.\r\nThe first line contains three integers n, m, and a (3 ≤ n ≤ 2 × 105\r\n, 1 ≤ m ≤ 2 × 105\r\n, 0 < a < 90),\r\nindicating the number of points of the closed polyline, the number of exhibits, and the half-angle of the\r\nfield of view in degrees, respectively.\r\nFor the following n lines, the i-th line contains two integers xi and yi (−109 ≤ xi\r\n, yi ≤ 109\r\n), indicating the\r\ncoordinates of the i-th point of the polyline. Consecutive points form patrol segments, and the last point\r\nconnects back to the first point to form a closed loop. It is guaranteed that no two consecutive points\r\n(including the last and first points) are identical.\r\nFor the following m lines, the i-th line contains two integers x\r\n′\r\ni\r\nand y\r\n′\r\ni\r\n(−109 ≤ x\r\n′\r\ni\r\n, y′\r\ni ≤ 109\r\n), indicating\r\nthe coordinates of the i-th exhibit.\r\nOutput\r\nOutput one line containing a real number, indicating the total length of patrol routes where all exhibits\r\ncan be seen at the same time.\r\nYour answer will be considered correct if its absolute or relative error does not exceed 10−6\r\n. Formally\r\nspeaking, suppose that your answer is a and the jury’s answer is b, your answer is accepted if and only if\r\n|a−b|\r\nmax(1,|b|) ≤ 10−6\r\n.\r\nExamples\r\nstandard input standard output\r\n3 2 45\r\n1 1\r\n5 5\r\n8 1\r\n2 3\r\n4 2\r\n4.4142135624\r\n4 1 60\r\n0 0\r\n2 0\r\n2 2\r\n0 2\r\n1 1\r\n1.6905989232\r\nPage 1 of 2\n\nNote\r\nThe first sample test case is illustrated below. A and B are the two exhibits, and G is the guard.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 201872,
+          "data": "tb-asset:921ff718fcfe84d1a825e197375b38018d556cb669af4b2e40a7a9435fedd917",
+          "fileName": "qoj-18319.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "921ff718fcfe84d1a825e197375b38018d556cb669af4b2e40a7a9435fedd917",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=18319"
+        },
+        "statementVersion": 6,
+        "title": "博物馆奇妙夜 2",
+        "url": "https://qoj.ac/problem/18319"
+      },
+      "problem_id": "xcpc-qoj::18319"
+    }
+  ]
+}

@@ -1151,6 +1151,7 @@ class TrainingService:
                     raise ServiceError(422, '暂不支持此平台原站提交')
             contest = self._context(identity, contest_id, writing=not receipt) if contest_id else None
             if contest:
+                if not receipt and self._now()<parse_time(contest['started_at']):raise ServiceError(409,'原站 VP 尚未开始')
                 return contest
             active = self.connection.execute("SELECT * FROM contests WHERE status='running'").fetchone()
             if not contest and active and json.loads(active['config'] or '{}').get('strategy') == 'replay':
@@ -2012,7 +2013,7 @@ class TrainingService:
             return self.start_contest({'ids':[slot['id'] for slot in plan['slots']],
                                       'previewId':plan['previewId'],'duration':duration,'name':plan['name']})
 
-    def start_contest(self, body):
+    def start_contest(self, body, *, prepare_only=False, original_virtual=None):
         ids = body.get("ids")
         if not isinstance(ids, list) or not ids or len(ids) > 100 or not all(isinstance(identity, str) for identity in ids) or len(set(ids)) != len(ids):
             raise ServiceError(400, "请选择 1–100 道不重复的模拟赛题目")
@@ -2061,9 +2062,17 @@ class TrainingService:
             name = body.get("name") or preview["plan"]["name"]
             if not isinstance(name, str) or len(name) > 100:
                 raise ServiceError(400, "模拟赛名称过长")
+            from virtual_contests import virtual_spec,confirmed_receipt
+            spec=virtual_spec(list(current_rows.values()),duration) if options['strategy']=='replay' and not options.get('calendarEvent') else None
+            if prepare_only:return {'originalVirtual':spec}
             now = self._now()
             timestamp = iso(now)
             deadline = iso(now + dt.timedelta(minutes=duration))
+            if original_virtual is not None:
+                if spec is None:raise ServiceError(409,'这场比赛不支持原站 VP')
+                receipt=confirmed_receipt(spec,original_virtual,now)
+                options={**options,'originalVirtual':receipt}
+                timestamp,deadline=receipt['startedAt'],receipt['deadline']
             if options.get('calendarEvent'):
                 schedule=options['calendarEvent']
                 began,ended=parse_time(schedule['startAt']),parse_time(schedule['endAt'])

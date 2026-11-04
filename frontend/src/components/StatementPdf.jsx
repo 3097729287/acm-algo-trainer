@@ -2,8 +2,9 @@ import {useEffect, useRef, useState} from 'react';
 import {Download,LoaderCircle} from 'lucide-react';
 import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import './StatementPdf.css';
+import {useStudyPane} from '@/lib/StudyPane.jsx';
 
-function PdfPage({document,pdfjs,number,total,width,zoom,aspect,title,onError}){
+function PdfPage({document,pdfjs,number,total,width,zoom,aspect,title,onError,active:paneActive}){
   const element=useRef(null),canvas=useRef(null),text=useRef(null);
   const [visible,setVisible]=useState(number===1),[page,setPage]=useState(null),[ready,setReady]=useState(false);
   useEffect(()=>{
@@ -12,15 +13,15 @@ function PdfPage({document,pdfjs,number,total,width,zoom,aspect,title,onError}){
     observer.observe(element.current);return()=>observer.disconnect();
   },[]);
   useEffect(()=>{
-    if(!visible||page)return;
+    if(!paneActive||!visible||page)return;
     let active=true;document.getPage(number).then(value=>{if(active)setPage(value);},()=>{if(active)onError(true);});
     return()=>{active=false;};
-  },[document,number,visible,page,onError]);
+  },[document,number,visible,page,onError,paneActive]);
   const available=Math.max(1,width-24)*zoom;
   const viewport=page?.getViewport({scale:available/page.getViewport({scale:1}).width});
   useEffect(()=>{
     setReady(false);
-    if(!visible||!viewport||!canvas.current||!text.current)return;
+    if(!paneActive||!visible||!viewport||!canvas.current||!text.current)return;
     let active=true,render,layer;
     const target=canvas.current,container=text.current;
     const ratio=Math.min(window.devicePixelRatio||1,2,Math.sqrt(8_000_000/(viewport.width*viewport.height)));
@@ -31,7 +32,7 @@ function PdfPage({document,pdfjs,number,total,width,zoom,aspect,title,onError}){
       if(active&&error?.name!=='RenderingCancelledException'&&error?.name!=='AbortException')onError(true);
     });
     return()=>{active=false;render.cancel();layer.cancel();container.replaceChildren();target.width=target.height=0;};
-  },[page,pdfjs,visible,viewport?.width,viewport?.height,onError]);
+  },[page,pdfjs,visible,viewport?.width,viewport?.height,onError,paneActive]);
   const scale=viewport?.scale||1;
   return <div ref={element} className="wb-pdf-page" data-page={number} data-ready={ready?'true':'false'}
     style={{width:available,height:viewport?.height||available*aspect,'--scale-factor':scale,'--total-scale-factor':scale*(page?.userUnit||1)}}>
@@ -41,9 +42,19 @@ function PdfPage({document,pdfjs,number,total,width,zoom,aspect,title,onError}){
 }
 
 export default function StatementPdf({pdf,title,fontSize=16}){
+  const pane=useStudyPane(),active=pane?.visible!==false;
+  const [awake,setAwake]=useState(active);
   const element=useRef(null),initialFont=useRef(fontSize);
   const [width,setWidth]=useState(0),[content,setContent]=useState(null),[source,setSource]=useState(''),[error,setError]=useState(false);
   const data=pdf?.data||'';
+  // Rapid tab switches reuse the document. An idle hidden tab releases its
+  // PDF worker, decoded document and Blob; drafts and reading position belong
+  // to the surrounding study tab and survive this resource suspension.
+  useEffect(()=>{
+    if(active){setAwake(true);return;}
+    const timer=setTimeout(()=>setAwake(false),15000);
+    return()=>clearTimeout(timer);
+  },[active]);
   useEffect(()=>{
     const observer=new ResizeObserver(entries=>setWidth(entries[0].contentRect.width));
     observer.observe(element.current);return()=>observer.disconnect();
@@ -51,6 +62,7 @@ export default function StatementPdf({pdf,title,fontSize=16}){
   useEffect(()=>{
     let active=true,task,url;
     setContent(null);setSource('');setError(false);
+    if(!awake)return;
     (async()=>{
       try{
         if(!/^data:application\/pdf;base64,[a-z\d+/=\s]+$/i.test(data))throw new Error('Invalid PDF');
@@ -69,10 +81,10 @@ export default function StatementPdf({pdf,title,fontSize=16}){
       }catch{if(active)setError(true);}
     })();
     return()=>{active=false;task?.destroy().catch(()=>{});if(url)URL.revokeObjectURL(url);};
-  },[data]);
+  },[data,awake]);
   return <div ref={element} className="wb-statement-pdf" role="document" aria-label={title||'题面内容'}>
     {source&&<div className="wb-pdf-actions"><a href={source} download={pdf.fileName||'statement.pdf'} className="wb-icon-button" title="下载 PDF" aria-label="下载 PDF"><Download size={16}/></a></div>}
     {error?<div className="wb-empty" role="alert">题面暂时未能加载</div>:!content?<div className="wb-empty" role="status"><LoaderCircle size={22} className="wb-spinner"/>正在载入题面</div>:
-      width>0&&Array.from({length:content.count},(_,index)=><PdfPage key={index} {...content} number={index+1} total={content.count} width={width} zoom={fontSize/initialFont.current} title={title} onError={setError}/>)}
+      width>0&&Array.from({length:content.count},(_,index)=><PdfPage key={index} {...content} number={index+1} total={content.count} width={width} zoom={fontSize/initialFont.current} title={title} onError={setError} active={active}/>)}
   </div>;
 }
