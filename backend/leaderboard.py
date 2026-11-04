@@ -52,6 +52,14 @@ def default_endpoint():
     return bundled_endpoint()
 
 
+def upgraded_default_endpoint(value):
+    """Replace only the retired official address; preserve custom/offline setup."""
+    if (isinstance(value, str) and value.strip().rstrip('/') == 'https://tb-leaderboard.fsxxxg.workers.dev'
+            and default_endpoint() == 'https://47.82.84.74'):
+        return 'https://47.82.84.74'
+    return value
+
+
 def bundled_endpoint():
     value = ""
     from paths import resource

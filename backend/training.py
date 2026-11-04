@@ -178,13 +178,21 @@ class TrainingService:
             self.connection.execute('INSERT OR IGNORE INTO official_xp_state VALUES(1,?)', (iso(self._now()),))
         if 'target' not in {row[1] for row in self.connection.execute('PRAGMA table_info(goal_daily_assignments)')}:
             self.connection.execute('ALTER TABLE goal_daily_assignments ADD COLUMN target INTEGER')
-        from leaderboard import default_endpoint
+        from leaderboard import default_endpoint, upgraded_default_endpoint
         from persistence import load_document,save_document
         upgrade_marker=self.db_path.parent/'leaderboard-default-migration.json'
         if not load_document(upgrade_marker,False):
             with self.connection:
                 self.connection.execute("UPDATE ranking_profile SET endpoint=? WHERE endpoint=''",(default_endpoint(),))
             save_document(upgrade_marker,True)
+        stored_endpoint = self.connection.execute('SELECT endpoint FROM ranking_profile WHERE singleton=1').fetchone()
+        if stored_endpoint:
+            endpoint = upgraded_default_endpoint(stored_endpoint[0])
+            if endpoint != stored_endpoint[0]:
+                # Existing migration markers only filled empty addresses. Old
+                # installer imports may still carry the retired worker URL.
+                with self.connection:
+                    self.connection.execute('UPDATE ranking_profile SET endpoint=?,last_synced_at=NULL WHERE singleton=1', (endpoint,))
         if not self.connection.execute("SELECT 1 FROM ranking_profile WHERE singleton=1").fetchone():
             from leaderboard import default_endpoint
             with self._write() as connection:
