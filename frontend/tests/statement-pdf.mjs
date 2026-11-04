@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
-import {mkdir,writeFile} from 'node:fs/promises';
+import {mkdir,writeFile,readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {createServer} from 'vite';
 import {chromium} from 'playwright';
@@ -19,12 +19,13 @@ const base64=Buffer.from(pdf).toString('base64');
 const fixture={id:'pdf-fixture',title:'Original PDF',url:'https://qoj.ac/problem/18307',markdown:'# Original PDF\n\nAn English problem statement.',statementAvailable:true,
   statementPdf:{data:'data:application/pdf;base64,'+base64,sha256:createHash('sha256').update(pdf).digest('hex'),pageCount:3},
   samples:[{input:'1\n2',output:'3'}],limits:{timeMs:2000,memoryMb:256},judge:{scope:'samples',cases:1},draft:'// preserve this draft',submissions:[],
-  translation:{kind:'site',markdown:'# 中文\n\n保留已有中文题面。'}};
+  translation:{kind:'site',markdown:'# 中文\n\n保留已有中文题面。\n\n[官方原件](official-original.pdf)'}};
+fixture.attachments={'official-original.pdf':{data:'/api/library-assets/'+fixture.statementPdf.sha256,fileName:'official-original.pdf',mime:'application/pdf'}};
 const out=path.resolve(root,'../.backups/next-152/statement-pdf-ui');await mkdir(out,{recursive:true});
-const server=await createServer({root,cacheDir:path.join(out,'vite'),server:{host:'127.0.0.1',port:18794,strictPort:true,hmr:false}});await server.listen();
+const server=await createServer({root,cacheDir:path.join(out,'vite'),plugins:[{name:'public-asset-fixture',configureServer(server){server.middlewares.use((request,response,next)=>{if(request.url!=='/api/library-assets/'+fixture.statementPdf.sha256)return next();response.writeHead(200,{'content-type':'application/pdf','content-length':Buffer.byteLength(pdf)});response.end(pdf);});}}],server:{host:'127.0.0.1',port:18794,strictPort:true,hmr:false}});await server.listen();
 let context,page;const errors=[];
 try {
-  context=await chromium.launchPersistentContext(path.join(out,'profiles',String(Date.now())),{channel:process.env.CI?undefined:'msedge',headless:true,viewport:{width:1440,height:900}});
+  context=await chromium.launchPersistentContext(path.join(out,'profiles',String(Date.now())),{channel:process.env.CI?undefined:'msedge',headless:true,acceptDownloads:true,viewport:{width:1440,height:900}});
   const external=[];
   await context.route('**/*',route=>{
     const u=new URL(route.request().url());
@@ -33,7 +34,7 @@ try {
   });
   await context.addInitScript(value=>window.pdfFixtureData=value,fixture);
   page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://127.0.0.1:18794/tests/statement-pdf-fixture.html');
+  await page.goto('http://127.0.0.1:18794/tests/statement-pdf-fixture.html',{timeout:90000});
   const frame=page.locator('.wb-statement-pane .wb-statement-pdf');await page.locator('.wb-pdf-page[data-ready="true"]').first().waitFor();
   const left=await frame.boundingBox();const editor=await page.locator('.wb-code-pane').boundingBox();
   assert.ok(left.height>550&&left.width>300,'PDF fills the left statement pane');
@@ -49,6 +50,9 @@ try {
   assert.equal(actual.mime,'application/pdf');assert.equal(actual.base64,base64,'all three original pages reach the native viewer unchanged');
   await page.getByRole('group',{name:'题面语言',exact:true}).getByRole('button').click();
   await page.getByText('保留已有中文题面。',{exact:true}).waitFor();
+  const [download]=await Promise.all([page.waitForEvent('download'),page.getByRole('link',{name:'官方原件',exact:true}).click()]);
+  assert.equal(download.suggestedFilename(),'official-original.pdf');
+  assert.equal(createHash('sha256').update(await readFile(await download.path())).digest('hex'),fixture.statementPdf.sha256,'Remote original attachment download preserves exact bytes');
   assert.equal(await frame.count(),0);
   await page.getByRole('group',{name:'题面语言',exact:true}).getByRole('button').click();await frame.waitFor();
   await page.locator('.wb-pdf-page[data-ready="true"]').first().waitFor();
@@ -65,6 +69,14 @@ try {
   await page.locator('.wb-pdf-page[data-ready="true"]').first().waitFor();
   assert.equal(page.workers().length,1,'Returning recreates only the active PDF worker');
   assert.ok((await page.locator('.cm-content').innerText()).includes('preserve this draft'));
+  const remotePath='/api/library-assets/'+fixture.statementPdf.sha256;let resourceRequests=0;
+  await page.route('**'+remotePath,route=>{resourceRequests++;return route.fulfill(resourceRequests===1?{status:503,body:'temporary fixture failure',headers:{'cache-control':'no-store'}}:{status:200,contentType:'application/pdf',body:pdf});});
+  await page.evaluate(({fixture,remotePath})=>{window.pdfFixtureData={...fixture,id:'pdf-remote',statementPdf:{...fixture.statementPdf,data:remotePath}};pdfFixtureSetProblem('pdf-remote');},{fixture,remotePath});
+  await page.getByRole('button',{name:'重试 PDF',exact:true}).waitFor();assert.equal(resourceRequests,1,'A failed public resource waits for explicit retry');
+  await page.getByRole('button',{name:'重试 PDF',exact:true}).click();await page.locator('.wb-pdf-page[data-ready="true"]').first().waitFor();
+  assert.equal(resourceRequests,2);assert.equal(await page.locator('.wb-pdf-page').count(),3);
+  const remoteBytes=await frame.getByRole('link',{name:'下载 PDF',exact:true}).evaluate(async node=>btoa(String.fromCharCode(...new Uint8Array(await(await fetch(node.href)).arrayBuffer()))));
+  assert.equal(remoteBytes,base64,'Server-backed PDF download preserves every original byte');
   assert.deepEqual(external,[]);assert.deepEqual(errors,[]);
-  console.log('PASS: all three PDF pages render offline, exact original bytes are preserved, Chinese toggles both ways, and the editor draft survives.');
+  console.log('PASS: offline and server-backed original PDF pages, byte identity, explicit retry, Chinese toggles, worker release and editor draft preservation.');
 } catch(error){if(page){await page.screenshot({path:out+'/failure.png'});await writeFile(out+'/failure.json',JSON.stringify({errors,text:await page.locator('body').innerText()},null,2));}throw error;} finally {await context?.close();await server.close();}

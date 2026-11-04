@@ -12,6 +12,11 @@ const drag=async(from,to)=>{await page.mouse.move(from.x,from.y);await page.mous
 try{
  await page.addInitScript(()=>{for(const owner of ['A','B'])localStorage.removeItem('tb.sticker-layout.v1:'+owner);});
  await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/tests/sticker-direct-fixture.html`,{timeout:45000});
+ await placed('A-leaf').waitFor();
+ const readsBeforeClaim=await page.evaluate(()=>directFixture.calls.filter(call=>call.path==='stickers').length),claimStarted=performance.now();
+ await page.evaluate(()=>directFixture.packReceipt());await page.locator('.sticker-box-trigger small').getByText('1',{exact:true}).waitFor();
+ assert(performance.now()-claimStarted<1000,'Confirmed task pack is visible within one second');
+ assert.equal(await page.evaluate(()=>directFixture.calls.filter(call=>call.path==='stickers').length),readsBeforeClaim,'Claim receipt updates inventory without a polling round trip');
  await page.getByRole('button',{name:'贴纸',exact:true}).click();await placed('A-leaf').click();
  assert.equal(await page.locator('.selected-sticker').count(),1);assert.equal((await pending()).length,0,'A click selects without sending a placement');
  assert.equal(await page.locator('.sticker-edit-tools,.sticker-size-handle').count(),0);

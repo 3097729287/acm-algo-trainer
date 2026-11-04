@@ -5,6 +5,7 @@ export function originalIsChinese(problem) {
   if(declared)return /^zh(?:-|$)/i.test(declared);
   if(!problem?.currentSourceMarkdown&&problem?.translation?.kind==='original')return true;
   const prose=(problem?.currentSourceMarkdown||problem?.markdown||'').replace(/```[\s\S]*?```|\$\$[\s\S]*?\$\$|\$[^$\n]*\$|https?:\/\/\S+|^#+.*$/gm,'');
+  if((prose.match(/[\u3040-\u30ff]/g)||[]).length>=12)return false;
   const chinese=(prose.match(/[\u3400-\u9fff]/g)||[]).length,english=(prose.match(/[A-Za-z]{3,}/g)||[]).join('').length;
   return chinese>=8&&chinese*2>english;
 }

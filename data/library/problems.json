@@ -1546188,11 +1546188,14 @@
       "status": "未做",
       "date": "",
       "solutionAvailable": false,
-      "statementAvailable": false,
+      "statementAvailable": true,
       "collectionSource": "https://ac.nowcoder.com/discuss/828697",
       "collectionSources": [
         "https://ac.nowcoder.com/discuss/828697"
-      ]
+      ],
+      "catalogStatementReady": true,
+      "catalogContentReady": true,
+      "catalogReplayReady": true
     }
   },
   {

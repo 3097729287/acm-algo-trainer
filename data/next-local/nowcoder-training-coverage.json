@@ -8,8 +8,8 @@
   "uniqueOriginalProblems": 1083,
   "reusedOriginalProblems": 14,
   "addedOriginalProblems": 1069,
-  "readableOriginalStatements": 1082,
-  "newStatements": 1068,
+  "readableOriginalStatements": 1083,
+  "newStatements": 1069,
   "importedLists": 71,
   "totalLists": 635,
   "totalPublicProblems": 13417,
@@ -18,14 +18,7 @@
   "ratingsInvented": false,
   "personalDatabasesModified": false,
   "currentProgramsModified": false,
-  "pendingResources": [
-    {
-      "id": "nowcoder-global::53264",
-      "url": "https://ac.nowcoder.com/acm/problem/53264",
-      "reason": "The original linked illustration has a TLS hostname mismatch. Its certificate validation was retained, and the incomplete statement is not marked ready.",
-      "verifiedOriginalPdfUrl": "https://www2.ioi-jp.org/camp/2014/2014-sp-tasks/2014-sp-d4.pdf"
-    }
-  ],
+  "pendingResources": [],
   "problems": [
     {
       "id": "nowcoder-global::16570",
@@ -8006,10 +7999,33 @@
     {
       "id": "nowcoder-global::53264",
       "url": "https://ac.nowcoder.com/acm/problem/53264",
-      "statementAvailable": false,
-      "sourceHtmlSha256": null,
-      "sampleCount": null,
-      "sampleSha256": null
+      "statementAvailable": true,
+      "sourceHtmlSha256": "1ab2fe7ba448d62ee4fa548224a1ef50d85977b8955e52a48f243f1843227edd",
+      "sampleCount": 3,
+      "sampleSha256": "80cab964655c016c013580c988813162ac10ec43530f3d0e583af2e1dd4fc2ee",
+      "resourceRepair": {
+        "id": "nowcoder-global::53264",
+        "originalUrl": "https://ac.nowcoder.com/acm/problem/53264",
+        "officialPdfUrl": "https://www2.ioi-jp.org/camp/2014/2014-sp-tasks/2014-sp-d4.pdf",
+        "officialPdfSha256": "8c061ec5dc4fc902dae5dfeb1a1f568f184b16f170ad3b23b0e580e0631f0eb5",
+        "taskPdfSha256": "bf0126d39fb9655480192e9eb4d943e533eea58cf4f4b6160fb38e0e7b071a4a",
+        "sourcePages": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "illustrations": 3,
+        "samplePairsVerified": 3,
+        "samplesPreservedExactly": true,
+        "sourceHtmlSha256": "1ab2fe7ba448d62ee4fa548224a1ef50d85977b8955e52a48f243f1843227edd",
+        "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "afterSha256": "f16b48fe32b2b862ce197106fa76f6b289b4982be2e8097a0e8b2a32b392dd59",
+        "license": "Chinese source CC-BY-SA; existing LOJ attribution retained; JOI original credited",
+        "ratingInvented": false,
+        "editorialsAdded": 0
+      }
     },
     {
       "id": "nowcoder-global::232804",
@@ -8694,10 +8710,33 @@
   ],
   "originalSampleAudit": {
     "ok": true,
-    "newOriginalStatements": 1068,
-    "originalSamplePairs": 1384,
-    "sourceHashesMatched": 1068,
+    "newOriginalStatements": 1069,
+    "originalSamplePairs": 1387,
+    "sourceHashesMatched": 1069,
     "sampleIndicesMatched": true,
     "sampleWhitespacePreserved": true
+  },
+  "resourceRepair": {
+    "id": "nowcoder-global::53264",
+    "originalUrl": "https://ac.nowcoder.com/acm/problem/53264",
+    "officialPdfUrl": "https://www2.ioi-jp.org/camp/2014/2014-sp-tasks/2014-sp-d4.pdf",
+    "officialPdfSha256": "8c061ec5dc4fc902dae5dfeb1a1f568f184b16f170ad3b23b0e580e0631f0eb5",
+    "taskPdfSha256": "bf0126d39fb9655480192e9eb4d943e533eea58cf4f4b6160fb38e0e7b071a4a",
+    "sourcePages": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "illustrations": 3,
+    "samplePairsVerified": 3,
+    "samplesPreservedExactly": true,
+    "sourceHtmlSha256": "1ab2fe7ba448d62ee4fa548224a1ef50d85977b8955e52a48f243f1843227edd",
+    "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "afterSha256": "f16b48fe32b2b862ce197106fa76f6b289b4982be2e8097a0e8b2a32b392dd59",
+    "license": "Chinese source CC-BY-SA; existing LOJ attribution retained; JOI original credited",
+    "ratingInvented": false,
+    "editorialsAdded": 0
   }
 }

@@ -41627,5 +41627,35 @@
     "mime": "image/png",
     "offset": 7728989,
     "sha256": "fffeb21725ecc29f18af7593d14c4f14de3fae3e5880b35e6e9c99ef18946912"
+  },
+  {
+    "sha256": "8c061ec5dc4fc902dae5dfeb1a1f568f184b16f170ad3b23b0e580e0631f0eb5",
+    "mime": "application/pdf",
+    "file": "statement-assets/8c061ec5dc4fc902dae5dfeb1a1f568f184b16f170ad3b23b0e580e0631f0eb5.bin",
+    "bytes": 223345
+  },
+  {
+    "sha256": "bf0126d39fb9655480192e9eb4d943e533eea58cf4f4b6160fb38e0e7b071a4a",
+    "mime": "application/pdf",
+    "file": "statement-assets/bf0126d39fb9655480192e9eb4d943e533eea58cf4f4b6160fb38e0e7b071a4a.bin",
+    "bytes": 101440
+  },
+  {
+    "sha256": "b54440f47063223a7b001b0956a91106237bda7e5602114f1886b127048d94c3",
+    "mime": "image/png",
+    "file": "statement-assets/b54440f47063223a7b001b0956a91106237bda7e5602114f1886b127048d94c3.bin",
+    "bytes": 22633
+  },
+  {
+    "sha256": "7b919517426d10e8bbc65a4aaf2602bb277ed904e95fe3da827ca816974eba6b",
+    "mime": "image/png",
+    "file": "statement-assets/7b919517426d10e8bbc65a4aaf2602bb277ed904e95fe3da827ca816974eba6b.bin",
+    "bytes": 10969
+  },
+  {
+    "sha256": "af9afcb0fbbc191ecd2c88abee75c13bd627b7262ca14f1a9f197ceaaccdc10a",
+    "mime": "image/png",
+    "file": "statement-assets/af9afcb0fbbc191ecd2c88abee75c13bd627b7262ca14f1a9f197ceaaccdc10a.bin",
+    "bytes": 31805
   }
 ]

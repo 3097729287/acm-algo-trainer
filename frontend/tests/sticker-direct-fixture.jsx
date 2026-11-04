@@ -35,7 +35,7 @@ function complete(id,loss=false){
 }
 function Fixture(){
  const [owner,setOwner]=useState('A'),api=useMemo(()=>client(owner),[owner]),duel=useDuel(api,owner);
- window.directFixture={calls,pending:()=>pending.map(({id,owner,path})=>({id,owner,path})),complete,state:()=>clone(inventories[owner]),owner:setOwner};
+ window.directFixture={calls,pending:()=>pending.map(({id,owner,path})=>({id,owner,path})),complete,state:()=>clone(inventories[owner]),owner:setOwner,packReceipt:()=>{const value=inventories[owner];value.boxes={...value.boxes,'task:receipt':{id:'task:receipt',rarity:'rare',quantity:4,openedAt:null}};value.revision++;window.dispatchEvent(new CustomEvent('tb:sticker-rewards',{detail:{inventory:clone(value)}}));}};
  return <><div className="fixture-stickers" style={{height:540,margin:24}}><StickerCanvas owner={owner} api={api}><div style={{height:420}}/></StickerCanvas></div><DuelPage duel={duel} rows={[]}/></>;
 }
 document.documentElement.dataset.theme='dark';createRoot(document.getElementById('root')).render(<Fixture/>);

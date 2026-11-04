@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "nowcoder-global::53264",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "id": "nowcoder-global::53264",
+        "title": "两个人的星座",
+        "url": "https://ac.nowcoder.com/acm/problem/53264",
+        "markdown": "# 两个人的星座\n\n## 题目描述\n\n题目译自 [JOISC 2014](https://www.ioi-jp.org/camp/2014/2014-sp-tasks/index.html) Day4 T1「[2 人の星座](https://www2.ioi-jp.org/camp/2014/2014-sp-tasks/2014-sp-d4.pdf)」\n\n \n\nJOI酱和IOI酱是一对亲密无间的好朋友。某天，JOI酱与IOI酱决定去山上的某个观象台进行天体观测。\n 从观象台上可以观测到N颗星星，编号为$1 \\dots N$。每颗星星的颜色为红色、蓝色、黄色中的一种。\n 在观象台上观测到的星星可以用坐标系上的点来表示。在坐标系上，i号星对应的点为$P_i$，位于$(X_i,Y_i)$。坐标系上的点两两不同，且不存在三点共线。\n JOI酱和IOI酱想要设立一个叫做「JOIOI座」的星座。首先。两个人决定使用红色、蓝色、黄色三种颜色的星各一个构成的三角形。他们将这样的三角形称作「好三角形」。两人将满足以下条件的一对（两个，无序）好三角形作为「JOIOI座的候补」：\n \n\n- 两个三角形没有公共点（包括内部和边界）。换言之，两个三角形之间既不相交，也不存在某个三角形包含另一个三角形。\n\n  \n\n![](nc53264-conditions.png)\n\n JOI酱和IOI酱想知道构成JOIOI座的候补一共有多少种方案。\n 注意，如果构成三角形的6个点一样，但是构成三角形的方式不同，算作不同的方案。\n 现在给出观象台上能观测到的星星的信息，请求出构成「JOIOI座的候补」一共有多少种方案。\n\n \n\n## 输入描述:\n\n \n\n第一行一个整数N，代表展望台上能观测到的星星的数量。\n接下来N行，第i行有三个空格分隔的整数$X_i,$$Y_i,$$C_i$，表示i号星的坐标为$(X_i,Y_i)$，$C_i$表示i号星的颜色，其中0代表红色，1代表蓝色，2代表黄色。\n\n \n\n## 输出描述:\n\n \n\n输出一行一个整数，表示JOIOI座候补的方案数。\n\n    \n\n## 备注:\n\n \n\n对于$15 \\%$的数据，$N \\le30$。\n对于另外$40 \\%$的数据，$N \\le300$。\n\n对于所有数据，$6 \\le N \\le3000,$$-10^5 \\le X_i,Y_i \\le10^5,$$C_i=0$或1或2，保证任何一种颜色的星星都有至少一颗，星星坐标互不相同，无三星共线。\n\nCC-BY-SA，感谢LOJ分享，译文来自 https://loj.ac/problem/2882\n\n## 样例 1 图示\n\n星星的位置如下图：红星用圆、蓝星用菱形、黄星用三角形表示。\n\n![样例 1 的星星位置](nc53264-sample-stars.png)\n\n四种候补如下：\n\n![样例 1 的四种候补](nc53264-four-candidates.png)\n\n[官方原题（仅本题 5 页）](nc53264-original.pdf)\n",
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "7\n0 0 0\n2 0 1\n1 2 2\n-2 1 0\n-2 -3 0\n0 -2 1\n2 -2 2",
+            "output": "4",
+            "explanation": "星星的位置如下图。红星->圆，蓝星->菱形，黄星->三角形。"
+          },
+          {
+            "name": "样例 2",
+            "input": "8\n16 0 0\n17 0 0\n0 7 2\n0 -7 2\n-1 -1 1\n-1 1 2\n-6 4 1\n-6 -4 1",
+            "output": "12"
+          },
+          {
+            "name": "样例 3",
+            "input": "21\n1 20 0\n4 20 0\n0 22 0\n5 22 0\n6 25 0\n8 25 0\n4 26 0\n11 11 1\n7 12 1\n14 13 1\n8 15 1\n15 16 1\n11 17 1\n18 0 2\n13 2 2\n16 2 2\n19 4 2\n18 6 2\n21 8 2\n24 8 2\n19 10 2",
+            "output": "7748"
+          }
+        ],
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 256
+        },
+        "statementAvailable": true,
+        "statementVersion": 7,
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "images": {
+          "nc53264-conditions.png": "tb-asset:b54440f47063223a7b001b0956a91106237bda7e5602114f1886b127048d94c3",
+          "nc53264-sample-stars.png": "tb-asset:7b919517426d10e8bbc65a4aaf2602bb277ed904e95fe3da827ca816974eba6b",
+          "nc53264-four-candidates.png": "tb-asset:af9afcb0fbbc191ecd2c88abee75c13bd627b7262ca14f1a9f197ceaaccdc10a"
+        },
+        "attachments": {
+          "https://www2.ioi-jp.org/camp/2014/2014-sp-tasks/2014-sp-d4.pdf": {
+            "data": "tb-asset:8c061ec5dc4fc902dae5dfeb1a1f568f184b16f170ad3b23b0e580e0631f0eb5",
+            "mime": "application/pdf",
+            "fileName": "JOISC2014-Day4.pdf",
+            "bytes": 223345,
+            "sha256": "8c061ec5dc4fc902dae5dfeb1a1f568f184b16f170ad3b23b0e580e0631f0eb5"
+          },
+          "nc53264-original.pdf": {
+            "data": "tb-asset:bf0126d39fb9655480192e9eb4d943e533eea58cf4f4b6160fb38e0e7b071a4a",
+            "mime": "application/pdf",
+            "fileName": "JOISC2014-Constellation2.pdf",
+            "bytes": 101440,
+            "sha256": "bf0126d39fb9655480192e9eb4d943e533eea58cf4f4b6160fb38e0e7b071a4a",
+            "sourcePdfSha256": "8c061ec5dc4fc902dae5dfeb1a1f568f184b16f170ad3b23b0e580e0631f0eb5",
+            "sourcePageNumbers": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          }
+        },
+        "resourceManifest": {
+          "nc53264-conditions.png": {
+            "sha256": "b54440f47063223a7b001b0956a91106237bda7e5602114f1886b127048d94c3",
+            "bytes": 22633,
+            "mime": "image/png",
+            "sourceUrl": "https://www2.ioi-jp.org/camp/2014/2014-sp-tasks/2014-sp-d4.pdf",
+            "sourcePdfSha256": "8c061ec5dc4fc902dae5dfeb1a1f568f184b16f170ad3b23b0e580e0631f0eb5",
+            "sourcePages": [
+              1
+            ],
+            "clipRect": [
+              140,
+              425,
+              452,
+              545
+            ],
+            "method": "original-pdf-rendered-region"
+          },
+          "nc53264-sample-stars.png": {
+            "sha256": "7b919517426d10e8bbc65a4aaf2602bb277ed904e95fe3da827ca816974eba6b",
+            "bytes": 10969,
+            "mime": "image/png",
+            "sourceUrl": "https://www2.ioi-jp.org/camp/2014/2014-sp-tasks/2014-sp-d4.pdf",
+            "sourcePdfSha256": "8c061ec5dc4fc902dae5dfeb1a1f568f184b16f170ad3b23b0e580e0631f0eb5",
+            "sourcePages": [
+              3
+            ],
+            "clipRect": [
+              195,
+              553,
+              405,
+              763
+            ],
+            "method": "original-pdf-rendered-region"
+          },
+          "nc53264-four-candidates.png": {
+            "sha256": "af9afcb0fbbc191ecd2c88abee75c13bd627b7262ca14f1a9f197ceaaccdc10a",
+            "bytes": 31805,
+            "mime": "image/png",
+            "sourceUrl": "https://www2.ioi-jp.org/camp/2014/2014-sp-tasks/2014-sp-d4.pdf",
+            "sourcePdfSha256": "8c061ec5dc4fc902dae5dfeb1a1f568f184b16f170ad3b23b0e580e0631f0eb5",
+            "sourcePages": [
+              4
+            ],
+            "clipRect": [
+              117,
+              162,
+              480,
+              531
+            ],
+            "method": "original-pdf-rendered-region"
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 3,
+          "pdfPageCountVerified": true,
+          "method": "original-nowcoder-text-and-joi-pdf-figures",
+          "checkedAt": "2026-11-04T08:55:45.467042+00:00",
+          "corpusAuditVerifiedSha256": "c9104e9cb9f2bb1098c0647081aa1a035db5c832efccf5d331259f07a3dbfee0"
+        },
+        "sourceHtmlSha256": "1ab2fe7ba448d62ee4fa548224a1ef50d85977b8955e52a48f243f1843227edd"
+      }
+    }
+  ]
+}

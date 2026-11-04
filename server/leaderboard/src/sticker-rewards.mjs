@@ -28,6 +28,12 @@ export function rollRarity(probabilities,roll=randomInt(Object.values(probabilit
  let cursor=roll;for(const kind of ['common','rare','epic','legendary']){cursor-=probabilities[kind];if(cursor<0)return kind;}
  throw new Error('Invalid rarity weights');
 }
+export function choosePackSticker(catalogue,rarity,discovered,sample=randomInt){
+ const pool=catalogue.filter(item=>item.rarity===rarity&&!item.id.startsWith('achievement-'));
+ const missing=pool.filter(item=>!discovered.has(item.id)),choices=missing.length?missing:pool;
+ if(!choices.length)throw new Error('Empty sticker pool');
+ return choices[sample(choices.length)];
+}
 
 // These methods share Gameplay's transaction/session/operation ledger. Neither
 // client retries nor an older learning snapshot can recreate a claimed box.
@@ -65,6 +71,8 @@ export class StickerRewards {
      }
      if(boxes){
       if(state.units.length+boxes.reduce((sum,box)=>sum+box.quantity,0)>20000)fail(409,'贴纸库存空间不足，卡包已保留');
+      const known=new Set(this.catalogue.map(item=>item.id));
+      const discovered=new Set([...(state.discoveredStickers||[]),...state.units.map(unit=>unit.stickerId),...Object.values(state.boxes).flatMap(box=>(box.drops||[]).map(drop=>drop.stickerId))].filter(id=>known.has(id)));
       for(const box of boxes){
        const drops=[];
        for(let i=0;i<box.quantity;i++){
@@ -73,12 +81,14 @@ export class StickerRewards {
          const tiers=['common','rare','epic','legendary'],floor=tiers.indexOf(box.guarantee);
          weights=Object.fromEntries(tiers.map((tier,index)=>[tier,index<floor?0:box.probabilities[tier]]));
         }
-        const rarity=rollRarity(weights),pool=this.catalogue.filter(item=>item.rarity===rarity&&!item.id.startsWith('achievement-'));
-        const sticker=pool[randomInt(pool.length)],unit={id:randomUUID(),stickerId:sticker.id,placement:null,revision:0,source:{kind:box.source?.kind==='daily'?'daily-pack':'level-box',id:box.id}};
+        const rarity=rollRarity(weights),sticker=choosePackSticker(this.catalogue,rarity,discovered);
+        discovered.add(sticker.id);
+        const unit={id:randomUUID(),stickerId:sticker.id,placement:null,revision:0,source:{kind:box.source?.kind==='daily'?'daily-pack':'level-box',id:box.id}};
         state.units.push(unit);drops.push({id:unit.id,stickerId:unit.stickerId,rarity,packId:box.id});
        }
        box.openedAt=now;box.drops=drops;state.boxes[box.id]=box;state.revision++;
       }
+      state.discoveredStickers=[...discovered];
       opening=kind==='open-box'?boxes[0]:{rarity:value.rarity,packs:boxes,drops:boxes.flatMap(box=>box.drops)};
      }
     }else fail(404,'没有找到这项奖励');
@@ -96,6 +106,7 @@ export class StickerRewards {
   if(receiver.units.length>=20000)fail(409,'对方贴纸库存已满，贴纸仍在你的库存中');
   const sticker=this.catalogue.find(item=>item.id===unit.stickerId);if(!sticker)fail(409,'贴纸资料暂不可用');
   sender.units.splice(at,1);receiver.units.push({...unit,revision:unit.revision+1,receivedFrom:actor,receivedAt:now});sender.revision++;receiver.revision++;
+  receiver.discoveredStickers=[...new Set([...(receiver.discoveredStickers||[]),...receiver.units.map(item=>item.stickerId)])];
   await this.saveAccount(db,actor,sender);await this.saveAccount(db,recipient,receiver);
   return {unitId:unit.id,stickerId:unit.stickerId,title:sticker.title||sticker.shape,rarity:sticker.rarity,shape:sticker.shape};
  }

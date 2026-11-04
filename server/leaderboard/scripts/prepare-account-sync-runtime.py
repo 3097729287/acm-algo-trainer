@@ -43,7 +43,7 @@ def main():
     # normalize text before hashing the staged runtime, never the working source.
     for script in (folder / 'scripts').rglob('*.sh'):
         script.write_text(script.read_text(encoding='utf-8-sig'), encoding='utf-8', newline='\n')
-    for name in ('package.json', 'package-lock.json', 'Caddyfile'):
+    for name in ('package.json', 'package-lock.json', 'Caddyfile', 'public-library-assets.json'):
         if (source / name).is_symlink():
             raise SystemExit('Runtime source files must not be symbolic links.')
         shutil.copy2(source / name, folder / name)

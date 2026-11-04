@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict';
 import {rangeFenwick} from '../src/pages/algorithm-lab/fenwickRangeModel.js';
 import {currentActivity} from '../src/lib/usePresence.js';
+import {originalIsChinese} from '../src/lib/statementLanguage.js';
+assert.equal(originalIsChinese({markdown:'正の整数が与えられます。その整数の値を出力してください。'}),false);
+assert.equal(originalIsChinese({markdown:'给定一个正整数，请输出这个整数的值。'}),true);
 let seed=17;const random=n=>((seed=(Math.imul(seed,1664525)+1013904223)>>>0)%n);
 for(let n=1;n<=12;n++){
  const values=Array.from({length:n},()=>random(21)-10),naive=[...values],operations=[];

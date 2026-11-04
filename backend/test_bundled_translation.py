@@ -31,6 +31,26 @@ def statement(source=SOURCE):
             'statementAvailable':True,'limits':{'timeMs':2000,'memoryMb':256}}
 
 class BundledTranslationTests(unittest.TestCase):
+    def test_pdf_translation_requires_both_exact_text_and_original_pdf(self):
+        original='# English PDF\n\nRead the original file.'
+        value=translation(original,CHINESE)
+        value.update(inputKind='pdf-text',sourceTextHash=hashlib.sha256(SOURCE.encode()).hexdigest(),sourcePdfSha256='a'*64)
+        problem=dict(statement(original),sourceText=SOURCE,statementPdf={'sha256':'a'*64},translation=value,translationAvailable=False,url='https://qoj.ac/problem/fixture')
+        self.assertIsNotNone(bundled_translation(problem))
+        self.assertIsNone(bundled_translation(dict(problem,sourceText=SOURCE+' changed')))
+        self.assertIsNone(bundled_translation(dict(problem,statementPdf={'sha256':'b'*64})))
+        assets=SimpleNamespace(lock=threading.RLock(),_cached=lambda _:problem,localized_statement=lambda _:bundled_translation(problem))
+        with tempfile.TemporaryDirectory() as folder:
+            service=TranslationService(assets,Path(folder),provider=lambda _:self.fail('Bundled PDF translation must stay offline'))
+            self.assertEqual(service.translate('fixture')['markdown'],CHINESE)
+
+    def test_japanese_prose_is_translated_and_unchanged_kana_is_rejected(self):
+        source='# 数字\n\n正の整数 $N$ が与えられます。$N$ の値を出力してください。\n'
+        chinese='# 数字\n\n给定一个正整数 $N$。请输出 $N$ 的值。\n'
+        value=dict(translation(source,chinese),sourceLanguage='ja')
+        self.assertIsNotNone(bundled_translation({'markdown':source,'translation':value}))
+        self.assertIsNone(bundled_translation({'markdown':source,'translation':dict(value,markdown=source)}))
+
     def test_default_chinese_survives_validation_and_seed_merge(self):
         prepared=dict(translation(),defaultLanguage='zh-CN')
         self.assertEqual(bundled_translation(dict(statement(),translation=prepared))['defaultLanguage'],'zh-CN')
