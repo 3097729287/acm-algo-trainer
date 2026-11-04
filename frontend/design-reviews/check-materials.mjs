@@ -28,10 +28,13 @@ try{
  await page.screenshot({path:directory+'/检查/03-鸭声二选一.png'});
  const pending=page.waitForEvent('download');await page.getByRole('button',{name:'导出这个选择',exact:true}).click();const download=await pending;const exportedPath=directory+'/检查/测试审批结果.json';await download.saveAs(exportedPath);const exported=JSON.parse(await readFile(exportedPath,'utf8'));
  assert.equal(exported.duckSound.keepCall,2);assert.equal(exported.duckSound.removeOtherCall,true);assert.equal(exported.items.find(item=>item.id==='achievement-duck').requestedRarity,'epic');assert.equal(exported.items.find(item=>item.id==='achievement-duck').notes,'鸭嘴改小一点');assert.equal(exported.items.find(item=>item.id==='background-night-common').notes,'星星更亮');
+ assert.equal(exported.sourceVersion,(await readFile(new URL('../../VERSION',import.meta.url),'utf8')).trim());
  await page.reload();await page.getByRole('radio').nth(1).waitFor();assert.equal(await page.getByRole('radio').nth(1).isChecked(),true,'Selection persists across reopening');
  await page.goto(pathToFileURL(file).href+'#backgrounds');await page.locator('.material-card').first().waitFor();
  for(const width of [1440,900,390]){await page.setViewportSize({width,height:900});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,'No horizontal overflow at '+width);}
  await page.screenshot({path:directory+'/检查/04-窄屏背景.png'});
+ await page.goto(pathToFileURL('C:/Users/lenovo/Desktop/ToBe-小黄鸭叫声选择.html').href);await page.getByRole('radio').first().waitFor();assert.equal(await page.getByRole('radio').count(),2);
+ await page.goto(pathToFileURL('C:/Users/lenovo/Desktop/ToBe-背景审批.html').href);await page.locator('.background-grid .material-card').first().waitFor();assert.equal(await page.locator('.material-card').count(),52);
  assert.deepEqual(errors,[]);assert.deepEqual(network,[]);
  // Tests use their own browser profile. No sample approvals reach the user's file profile.
  const result={passed:true,stickers:62,backgrounds:52,soundsAuditioned:auditioned.length,duckCalls:calls,exportVerified:true,viewports:[1440,900,390],externalRequests:network,errors};await writeFile(directory+'/检查/result.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));
