@@ -40,7 +40,7 @@ export function attachSceneActions(root,kind){
    stop(event);if(exploded)return;
    if(!running){const m=new DOMMatrixReadOnly(getComputedStyle(turn).transform);angle=Math.atan2(m.b,m.a)*180/Math.PI;turn.style.animation='none';}
    speed+=230;turn.dataset.spinSpeed=String(speed);
-   if(speed>=1100&&fullCity()){exploded=true;root.dataset.sceneState='exploded';city.forEach(a=>{a.currentTime=11620;if(!reduced())a.play();});later(()=>{exploded=false;speed=40;delete root.dataset.sceneState;},2380);}
+   if(speed>=1100){exploded=true;root.dataset.sceneState='exploded';city.forEach(a=>{a.currentTime=11620;if(!reduced())a.play();});later(()=>{exploded=false;speed=40;delete root.dataset.sceneState;},2380);}
    if(running)return;running=true;loop(dt=>{
     speed=40+(speed-40)*Math.exp(-.7*dt);angle+=speed*dt;turn.style.transform=`rotate(${angle}deg)`;turn.dataset.spinSpeed=String(speed);
     if(speed<41&&!exploded){running=false;turn.style.removeProperty('transform');turn.style.removeProperty('animation');turn.style.animationDelay=`${-(angle%360+360)%360/40}s`;delete turn.dataset.spinSpeed;return false;}

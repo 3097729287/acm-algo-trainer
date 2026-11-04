@@ -1,3 +1,4 @@
+import {normalizeNowcoderChapters} from './nowcoderCurriculum.js';
 const ROOTS={
  'nowcoder-817596':['语法与算法入门',0],
  'nowcoder-926597':['算法基础精选',1],
@@ -22,9 +23,9 @@ export function organizeNowcoderTrainingLists(lists){
   if(!list.id?.startsWith('nowcoder-'))return list;
   const root=ROOTS[list.id],parent=parents.get(list.id),key=list.id.replace(/^nowcoder-contest-/,'').replace(/^nowcoder-collection-/,'collection-');
   const displayTitle=root?.[0]||TITLES[key]||(list.id==='nowcoder-817596-sequential-verified'?'顺序结构 · 精选练习':list.displayTitle||list.title);
-  return {...list,displayTitle,sourceLabel:root?'牛客公开题单':parent?ROOTS[parent.root][0]:list.sourceLabel,
+  return normalizeNowcoderChapters({...list,displayTitle,directoryRow:true,learningSequence:true,hideSectionFolders:Boolean(root&&list.children?.length),sourceLabel:root?'牛客公开题单':parent?ROOTS[parent.root][0]:list.sourceLabel,
    curriculumOrder:root?root[1]:parent?parent.index:1000,
    catalogHidden:Boolean((parent||list.id==='nowcoder-817596-sequential-verified'&&lists.some(item=>item.id==='nowcoder-817596'))),
-   originalTitle:list.originalTitle||list.title};
+   originalTitle:list.originalTitle||list.title});
  });
 }

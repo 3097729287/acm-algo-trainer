@@ -1,5 +1,7 @@
 """Remove recognized site notices, never algorithmic background or examples."""
 import re
+import hashlib
+import json
 from functools import lru_cache
 from problem_titles import problem_title
 
@@ -108,7 +110,9 @@ def clean_statement(value):
     if not isinstance(value, dict):
         return value
     result = dict(value)
-    result['markdown'] = clean_statement_markdown(value.get('markdown'))
+    correction=_format_corrections().get(value.get('url'))
+    corrected=isinstance(correction,dict) and hashlib.sha256((value.get('markdown') or '').encode()).hexdigest() in correction.get('sourceHashes',[])
+    result['markdown'] = clean_statement_markdown(correction['markdown'] if corrected else value.get('markdown'))
     for key in ('currentSourceMarkdown','statementSupplement'):
         if isinstance(value.get(key),str):result[key]=clean_statement_markdown(value[key])
     translation = value.get('translation')
@@ -117,10 +121,21 @@ def clean_statement(value):
         # Rebase only a previously authenticated bundled translation when the
         # exact source changes solely through this same deterministic cleanup.
         # A stale or forged digest must never be made to look current.
-        if result['markdown'] != value.get('markdown') and translation.get('kind') == 'bundled':
-            import hashlib
+        if not corrected and result['markdown'] != value.get('markdown') and translation.get('kind') == 'bundled':
             old = hashlib.sha256((value.get('markdown') or '').encode('utf8')).hexdigest()
             if translation.get('sourceHash') == old:
                 result['translation']['sourceHash'] = hashlib.sha256((result['markdown'] or '').encode('utf8')).hexdigest()
     from statement_quality import readable_statement
     return readable_statement(result)
+
+
+@lru_cache(maxsize=1)
+def _format_corrections():
+    from paths import resource
+    path=resource('statement-format-corrections.json')
+    if not path.is_file():return {}
+    raw=path.read_bytes()
+    if len(raw)>1024*1024:return {}
+    try:value=json.loads(raw)
+    except (ValueError,UnicodeError):return {}
+    return value.get('corrections',{}) if isinstance(value,dict) else {}

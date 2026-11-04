@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "corrections": {
+    "https://ac.nowcoder.com/acm/problem/214218": {
+      "sourceHashes": [
+        "0f6d46531dd954f603589e01485feaea729df68a9a57d4da9e505738237ea141"
+      ],
+      "markdown": "# 涂小天与他的画\n\n## 题目描述\n\n涂小天是个画家，他希望有一天他的画能让心仪的她看到。\n\n只是后来她有了他，他却只有他的画，他望着他的画，默默的发呆。\n\n可惜做题的你，画不出他画的她，所以，我们只好画点简单的画，或许有一天，你就会遇到画里她/他吗？\n\n因此我们规定画画的内容：输入一个正整数 n（n为奇数），输出高度为 n 的菱形，例如 n = 5 时，输出\n\n```text\n  *\n ***\n*****\n ***\n  *\n```\n\n## 输入描述:\n\n第一行输入一个整数T，代表有T组测试数据。\n\n每组数据占1行，包括一个整数n（1 <= n<= 49，n为奇数）\n\n## 输出描述:\n\n对于每组数据，输出对应的图形，每行行末不要有空格。",
+      "sourceHtmlSha256": "867f7a57fc2e68bcbdf0e01579e10bede10d3ee075c6e35a6491114687e35ae1",
+      "reason": "Preserve original literal ASCII-art rows and indentation"
+    }
+  }
+}

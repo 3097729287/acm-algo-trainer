@@ -1,3 +1,4 @@
+import {guideAction} from '@/lib/guideActions.js';
 import {StickerArt,STICKER_NAMES as NAMES} from './StickerArt.jsx';
 export {StickerArt} from './StickerArt.jsx';
 import {cloneElement,useCallback,useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
@@ -127,7 +128,7 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
   if(!payload){payload={...values,inventoryRevision:latest.current.revision,requestId:crypto.randomUUID()};sceneRequests.current.set(signature,payload);}
   setBusy(true);setError('');setSceneStatus('');setPicker(null);
   if(kind==='scene-apply'){const preset=latest.current.scenePresets.find(p=>p.id===values.presetId);if(preset)setScenePreview(previewPreset(preset,latest.current));}
-  try{const value=await api('stickers/'+kind,payload);if(alive.current!==expected)return;if(!accept(value,expected))throw new Error('场景响应无效');sceneRequests.current.delete(signature);setSceneStatus(value.scene?.missing.length?`已切换，暂时跳过 ${value.scene.missing.length} 张缺少的贴纸。`:kind==='scene-save'?'场景已保存':kind==='scene-delete'?'预设已删除':'场景已切换');}
+  try{const value=await api('stickers/'+kind,payload);if(alive.current!==expected)return;if(!accept(value,expected))throw new Error('场景响应无效');sceneRequests.current.delete(signature);guideAction(kind);setSceneStatus(value.scene?.missing.length?`已切换，暂时跳过 ${value.scene.missing.length} 张缺少的贴纸。`:kind==='scene-save'?'场景已保存':kind==='scene-delete'?'预设已删除':'场景已切换');}
   catch(issue){if(alive.current===expected){setError(issue.message);setSceneStatus(issue.message);if([404,409].includes(issue.status)){sceneRequests.current.delete(signature);void refresh();}}}
   finally{if(alive.current===expected){setScenePreview(null);setBusy(false);}}
  }

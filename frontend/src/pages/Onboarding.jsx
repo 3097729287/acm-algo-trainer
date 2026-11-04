@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import {createPortal} from 'react-dom';
 import {GUIDE_LABELS,PAGE_GUIDES} from '@/lib/guideCatalog.js';
 import {PAGE_UNLOCKS} from '@/lib/featureUnlocks.js';
 const unlockSummary=[...new Set(PAGE_UNLOCKS.filter(item=>!item.always&&item.level>1).map(item=>item.level))].sort((a,b)=>a-b).map(level=>`Lv.${level}：${PAGE_UNLOCKS.filter(item=>!item.always&&item.level===level).map(item=>item.label).join('、')}`).join('；');
@@ -12,6 +13,7 @@ const STEPS = [
   { page: 'library', target: '.problem-table tbody tr[data-id] .problem-title', title: '进入练习', text: '点击高亮题名，实际打开一道题。进入工作台后，指引会继续介绍题面、代码和运行。', action: 'open' },
   { practice: true, target: '.wb-statement-pane', title: '阅读题面', text: '先确认题意、输入输出和样例。这里可以切换原文与中文，也可以调整题面字号。' },
   { practice: true, target: '.cm-editor', title: '编写代码', text: '选择 C++17 或 Python 3 后编写代码。语言旁的模板选择器可切换初始代码，默认项显示“默认”；自定义初始代码在设置中保存。草稿自动保存，已有草稿再次打开时会保留。' },
+  PAGE_GUIDES.practice.find(item=>item.task?.signal==='code-formatted'),
   { practice: true, target: '.wb-run-actions', title: '运行与提交', text: '先用“运行”检查样例，再用“提交”进入原站。首次提交需在浏览器登录并确认；结果显示后自动关闭本次提交窗口，原站 AC 才计入通过数。你可以稍后完成这道题。' },
   { practice: true, target: '.tb-workbench .wb-back-button[aria-label="返回列表"]', title: '回到题库', text: '点击高亮的返回按钮。草稿会保留，下次打开这道题可以接着写。', action: 'return' },
   { page: 'records', target: '.submission-log', title: '查看提交结果', text: '正式提交后，这里会按日期保存结果。点击记录可以查看当次代码；样例运行结果留在工作台中。' },
@@ -24,14 +26,30 @@ const STEPS = [
 export default function Onboarding({ onComplete, onNavigate, onDirectory, onShown, practiceId,initialGuide='overview',availablePages }) {
   const [guide]=useState(initialGuide);
   const [step, setStep] = useState(0), [rect, setRect] = useState(null), [position, setPosition] = useState({});
+  const [completedTask,setCompletedTask]=useState(null);
   const allowed=id=>!availablePages||availablePages.includes(id),source=guide==='overview'?STEPS:PAGE_GUIDES[guide]||[];
   const steps=source.map(item=>guide==='overview'&&item.page==='library'&&!allowed('library')&&allowed('training-lists')?{...item,page:'training-lists',target:item.action==='open'?'.training-list-content .problem-title':'.training-list-content',title:item.action==='open'?'进入第一道练习':'打开编程基础题单',text:item.action==='open'?'逐层打开基础题单，点击题名进入工作台。阅读题面、写代码、运行样例与原站提交在 Lv.1 即可使用。':'先选择编程基础中的专题，再打开题目；从输入输出、分支与循环开始，已有代码和通过记录会保留。'}:guide==='overview'&&item.action==='return'&&!allowed('library')?{...item,title:'回到题单'}:item).filter(item=>(!item.page||allowed(item.page))&&(!item.practice||allowed('library')||allowed('training-lists'))&&(!item.target.includes('contest-calendar')||allowed('competitions'))),current=steps[step],card = useRef(null), callbacks = useRef({ onNavigate, onComplete });
   callbacks.current = { onNavigate, onComplete,onShown,guide };
+  const taskKey=guide+':'+step,taskDone=completedTask===taskKey;
+  useEffect(()=>{
+    const task=current?.task;if(!task)return;
+    let frame;
+    const complete=()=>setCompletedTask(taskKey);
+    const signal=event=>{if(event.detail?.name===task.signal)complete();};
+    const interact=event=>{
+      const target=event.target.closest?.(task.target||current.target);
+      if(!target||target.disabled||task.type==='input'&&!String(target.value||'').trim())return;
+      frame=requestAnimationFrame(()=>{if(!task.result||document.querySelector(task.result))complete();});
+    };
+    if(task.signal)window.addEventListener('tb:guide-action',signal);
+    else document.addEventListener(task.type==='input'?'input':'click',interact,true);
+    return()=>{cancelAnimationFrame(frame);window.removeEventListener('tb:guide-action',signal);document.removeEventListener(task.type==='input'?'input':'click',interact,true);};
+  },[taskKey,current?.task]);
   useEffect(()=>{callbacks.current.onShown?.();},[]);
   const finish=()=>onComplete(guide==='overview');
   useEffect(() => { if (current?.page) callbacks.current.onNavigate(current.page,current.tab);card.current?.querySelector('h3')?.focus({preventScroll:true}); }, [step,guide]);
   useEffect(() => {
-    const escape = event => { if (event.key === 'Escape') { event.preventDefault(); event.stopImmediatePropagation(); callbacks.current.onComplete(callbacks.current.guide==='overview'); } };
+    const escape = event => { if (event.key === 'Escape') { event.preventDefault(); event.stopImmediatePropagation(); callbacks.current.onComplete(false); } };
     document.addEventListener('keydown', escape, true);
     return () => document.removeEventListener('keydown', escape, true);
   }, []);
@@ -53,7 +71,7 @@ export default function Onboarding({ onComplete, onNavigate, onDirectory, onShow
       });
     };
     const observer = new MutationObserver(update);
-    observer.observe(document.querySelector('.app-shell') || document.body, { subtree: true, childList: true, attributes: true });
+    observer.observe(document.body, { subtree: true, childList: true, attributes: true });
     window.addEventListener('resize', update); window.addEventListener('scroll', update, true); update();
     return () => { cancelAnimationFrame(frame); observer.disconnect(); window.removeEventListener('resize', update); window.removeEventListener('scroll', update, true); };
   }, [step, practiceId,guide]);
@@ -71,15 +89,16 @@ export default function Onboarding({ onComplete, onNavigate, onDirectory, onShow
   }, [rect, step,guide]);
   const missingPractice = current?.practice && !practiceId;
   if(!current)return null;
-  return <div className="guided-tour" aria-label="新手指引覆盖层">
+  return createPortal(<div className="guided-tour" aria-label="新手指引覆盖层">
     {rect && <div className="tour-highlight" style={{ left: rect.left - 5, top: rect.top - 5, width: rect.width + 10, height: rect.height + 10 }} />}
     <section ref={card} className="tour-card" style={position} role="dialog" aria-label="新手指引" aria-modal="false">
-      <button className="tour-close" onClick={finish}>结束指引 ×</button>
+      <button className="tour-close" onClick={()=>onComplete(false)}>结束指引 ×</button>
       <small>{guide==='overview'?'入门总览':GUIDE_LABELS[guide]} · {step + 1} / {steps.length}</small><h3 tabIndex={-1}>{current.title}</h3><p>{current.text}</p>
       {missingPractice ? <button onClick={() => setStep(Math.max(0,steps.findIndex(item=>item.action==='open')))}>重新选择练习题</button> : current.action === 'open' && !rect ? <p role="status">{current.page==='training-lists'?'先打开基础题单，再点击题名。':'没有匹配题目，请清除搜索或筛选。'}</p> : current.action && <small role="status">请点击高亮的{current.action === 'open' ? '题名' : '返回按钮'}继续</small>}
+      {current.task&&<p className="tour-task-status" role="status" data-complete={taskDone}>{taskDone?'已完成这一步操作':current.task.instruction||'请实际操作高亮区域后继续'}</p>}
       <button className="tour-directory-button" onClick={onDirectory}>各页指引目录</button>
       <footer><button disabled={!step} onClick={() => setStep(value => {let previous=value-1;while(previous>0&&((steps[previous].practice&&!practiceId)||(steps[previous].action==='return'&&!practiceId)||(steps[previous].action==='open'&&practiceId)))previous--;return Math.max(0,previous);})}>上一步</button>
-        <button className="primary" disabled={!!current.action || missingPractice} onClick={() => step === steps.length - 1 ? finish() : setStep(value => value + 1)}>{step === steps.length - 1 ? '完成' : '下一步'}</button></footer>
+        <button className="primary" disabled={!!current.action || missingPractice||Boolean(current.task&&!taskDone)} onClick={() => step === steps.length - 1 ? finish() : setStep(value => value + 1)}>{step === steps.length - 1 ? '完成' : '下一步'}</button></footer>
     </section>
-  </div>;
+  </div>,document.body);
 }

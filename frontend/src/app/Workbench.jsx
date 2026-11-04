@@ -1,3 +1,4 @@
+import {guideAction} from '@/lib/guideActions.js';
 import {useStudyPane,useStudyState} from '@/lib/StudyPane.jsx';
 import {EXTRA_SHORTCUTS,matchesShortcut,shortcutValue} from '@/lib/shortcuts.js';
 import {useFeatureVisibility} from '@/lib/FeatureVisibility.jsx';
@@ -712,7 +713,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       // A single ordinary editor transaction maps the CURRENT selection and
       // enters existing draft retention/saving through CodeEditor's onChange.
       if(!changes.empty)view.dispatch({changes,userEvent:'input.format',annotations:isolateHistory.of('full')});
-      manualSave();
+      manualSave();guideAction('code-formatted');
     }catch(issue){
       if(current()){setActionError(issue.message||'代码暂时无法格式化，原内容已保留。');manualSave();}
     }finally{if(formattingRequest.current===request)formattingRequest.current=null;}

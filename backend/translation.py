@@ -369,8 +369,8 @@ class TranslationService:
 
     def _queue_share(self,problem,original,markdown):
         if self.shared is None or self.share_stop.is_set():return
-        key=hashlib.sha256((problem['url']+'\n'+original).encode()).hexdigest()
         owner=self.shared.owner() if callable(getattr(self.shared,'owner',None)) else None
+        key=hashlib.sha256((str(owner)+'\n'+problem['url']+'\n'+original).encode()).hexdigest()
         with self.share_lock:
             if key in self.share_pending or key in self.share_sent or len(self.share_pending)>=16:return
             self.share_pending.add(key)
@@ -378,7 +378,12 @@ class TranslationService:
             try:
                 with self.share_slots:
                     if self.share_stop.is_set():return
-                    confirmed=self.shared.publish({'url':problem['url']},original,markdown,TRANSLATION_FORMAT,owner)
+                    confirmed=False
+                    for delay in (0,.5,2):
+                        if self.share_stop.wait(delay):return
+                        if callable(getattr(self.shared,'owner',None)) and self.shared.owner()!=owner:return
+                        confirmed=self.shared.publish({'url':problem['url']},original,markdown,TRANSLATION_FORMAT,owner)
+                        if confirmed:break
                     if confirmed:
                         with self.share_lock:
                             if len(self.share_sent)>=256:self.share_sent.clear()
@@ -477,7 +482,11 @@ class TranslationService:
             if saved.get('sourceHash')==public_hash and saved.get('format')==TRANSLATION_FORMAT:
                 try:validate_translation(original,saved.get('markdown') or '')
                 except ServiceError:pass
-                else:return {k:v for k,v in dict(saved,id=identity,cached=True).items() if k!='sourceHash'}
+                else:
+                    # A failed upload must not be permanently masked by the
+                    # fast public-shaped local cache on the next visit.
+                    if saved.get('kind')!='shared':self._queue_share(problem,original,saved['markdown'])
+                    return {k:v for k,v in dict(saved,id=identity,cached=True).items() if k!='sourceHash'}
             shared=self.shared.get({'url':problem['url']},original,TRANSLATION_FORMAT)
             if shared:
                 validate_translation(original,shared)

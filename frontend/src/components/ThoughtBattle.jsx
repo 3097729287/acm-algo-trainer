@@ -1,7 +1,6 @@
 import {useEffect,useState} from 'react';
 import {ArrowLeft,Check,Clock,History,LoaderCircle,RefreshCw,Send,Swords,Trophy,Upload,UserRound,WifiOff,X} from 'lucide-react';
 import ProfileBadge from './ProfileBadge.jsx';
-import TitleMedals from './TitleMedals.jsx';
 import SolutionMarkdown from './SolutionMarkdown.jsx';
 import usePublicAvatar from '../lib/usePublicAvatar.js';
 
@@ -55,7 +54,7 @@ export default function ThoughtBattle({thought,range,account,profile,growth,avat
  return <>
   {!room?<div className={'duel-lobby'+(queued?' is-queued':'')}>
    {queued&&<div className="duel-queue-status" role="status"><LoaderCircle size={18} className="progress-spin"/><span>匹配中</span><time role="timer" aria-label="已匹配时间">{duelTime(Math.max(0,Math.floor((now-state.queuedAt)/1000)))}</time></div>}
-   <div className="duel-lobby-identity"><ProfileBadge compact={false} growth={growth} avatar={avatar} nickname={nickname} onAvatarClick={onAvatar} onClick={onProfile}/>{titles.length>0&&<div className="duel-profile-titles"><TitleMedals iconOnly medalSize={48} titles={titles}/></div>}<div className="thought-rating" aria-label={`思维积分 ${state?.rating??1000}`}><Trophy size={23}/>{state?.rating??1000}</div></div>
+   <div className="duel-lobby-identity"><ProfileBadge compact={false} growth={growth} avatar={avatar} nickname={nickname} onAvatarClick={onAvatar} onClick={onProfile}/><div className="thought-rating" aria-label={`思维积分 ${state?.rating??1000}`}><Trophy size={23}/>{state?.rating??1000}</div></div>
    <div className="duel-lobby-actions">{queued?<div className="duel-find duel-queued" role="status"><LoaderCircle size={19} className="progress-spin"/><span>匹配中</span><button className="icon-button duel-cancel" type="button" aria-label="取消匹配" title="取消匹配" disabled={busy} onClick={()=>act('cancel')}><X size={18}/></button></div>:<button className="primary duel-find" type="button" aria-label="开始思维匹配" disabled={busy||!state?.enabled} onClick={()=>act('join',{minDifficulty:range.min,maxDifficulty:range.max})}><Swords size={21}/><span>寻找对局</span></button>}<button type="button" className="icon-button" aria-label="对局记录" title="对局记录" disabled={!state||queued||historyBusy} onClick={()=>showHistory()}><History size={20}/></button></div>
    {state&&!state.enabled&&<p className="duel-lobby-result" role="status">思维对决服务尚未启用</p>}
   </div>:room.status==='countdown'?<section className="thought-countdown duel-ready-dialog" role="alert" aria-label="已找到对手"><Swords size={44}/><h2>已找到对手</h2><div className="thought-opponents">{room.players.map(p=><Player key={p.owner} player={p} api={api} own={p.owner===owner} ownAvatar={avatar}/>)}</div><time role="timer" aria-label="开局倒计时">{Math.max(0,Math.ceil((room.startedAt-now)/1000))}</time></section>:<div className={'thought-game'+(remaining<=180?' is-urgent':'')}>

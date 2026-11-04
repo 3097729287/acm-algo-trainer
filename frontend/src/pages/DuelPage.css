@@ -42,3 +42,6 @@ html[data-motion=off] .duel-ready-dialog,html[data-motion=off] .duel-ready-symbo
 .duel-profile-titles{position:relative;z-index:1;display:flex;justify-content:center;max-width:100%;flex-wrap:wrap}.duel-lobby-identity:has(.duel-profile-titles){gap:22px}.duel-profile-titles .title-medals{justify-content:center;flex-wrap:wrap}
 .duel-lobby-identity:has(.rank-reference-art){padding-top:132px;min-height:570px}
 @media(max-width:540px){.duel-lobby-identity:has(.rank-reference-art){padding-top:114px;min-height:500px}}
+
+.duel-lobby-identity,.duel-lobby-identity:has(.rank-reference-art){min-height:390px;padding:54px 34px 28px;background:transparent;border:0;box-shadow:none;filter:none;gap:30px;}
+.duel-lobby-identity::before,.duel-lobby-identity::after{content:none;}

@@ -111,3 +111,7 @@ html .study-browser.study-compact .study-pane :is(.lab-course-header,.template-h
 html .study-browser .study-pane .wiki-reader-toolbar>.wiki-return-button{margin-right:auto}
 
 .study-compact .study-wiki:has(.wiki-catalogue) .wiki-page{padding-top:40px}
+
+.study-result>.study-training-status{padding:3px 8px;border-radius:4px;background:var(--hover);color:var(--accent);white-space:nowrap;}
+.study-training-status[data-training-group=fill]{color:#e4b16b;}
+.study-training-status[data-training-group=accepted]{color:#78c8ad;}

@@ -25,7 +25,7 @@ import './TrainingListsPage.css';
 
 const INITIAL = { sort:'auto',knowledge:'',platform:'',min:800,max:4000,curriculumVersion:1, mode: 'algorithm', folder: [], trail: [], sections: [], flat: false, query: '', status: '', descending: false, page: 1 };
 const source = 'https://www.luogu.com.cn/training/list';
-const leaf=list=>list && !list.virtual && !list.children?.length && !list.problems?.some(item=>item.sections?.length);
+const leaf=list=>list && !list.virtual && !list.directoryRow && !list.children?.length && !list.problems?.some(item=>item.sections?.length);
 const cardTitle=list=>String(list.displayTitle||list.title).replace(/^(?:【[^】]*】|\[[^\]]*\])\s*/,'');
 
 export default function TrainingListsPage({ api, rows = [], onTrain, visit, pageSize = 50, busy = false, prefs={},onTag,onFavorite,onSolution,onAddToList,navigationRequest,onLocationChange,level=6 }) {
@@ -94,10 +94,10 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
     if(!navigationRequest||session.navigationRequest===navigationRequest)return;
     const requested=navigationRequest.state||{},mode=requested.mode||'algorithm',id=navigationRequest.id||requested.trail?.at(-1);
     if(!id)return;
-    if(state.mode!==mode){setState(platformListState({...INITIAL,...requested,mode}));return;}
+    if(state.mode!==mode){setState(platformListState({...INITIAL,...requested,nowcoderLearningVersion:1,mode}));return;}
     const target=index.byList.get(id);if(!target)return;
     session.navigationRequest=navigationRequest;session.scrollTop=0;
-    setState(platformListState({...INITIAL,...requested,mode,folder:mode==='algorithm'?[...(target.topicPath||[])]:requested.folder||[],trail:[id],sections:[],flat:false,query:'',status:'',page:1}));
+    setState(platformListState({...INITIAL,...requested,nowcoderLearningVersion:1,mode,folder:mode==='algorithm'?[...(target.topicPath||[])]:requested.folder||[],trail:[id],sections:[],flat:false,query:'',status:'',page:1}));
     if(panel.current)panel.current.scrollTop=0;
   },[navigationRequest,index,state.mode,session]);
   const search = state.query.trim().toLocaleLowerCase();
@@ -105,11 +105,11 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   const all = active ? index.all(active.id) : [];
   const own = active ? index.own.get(active.id) || [] : [];
   const scoped = own.filter(item => startsWithPath(item.sections || [], state.sections));
-  const sectionNames = [...new Set(scoped.map(item => item.sections?.[state.sections.length]).filter(Boolean))];
+  const sectionNames = active?.hideSectionFolders?[]:[...new Set(scoped.map(item => item.sections?.[state.sections.length]).filter(Boolean))];
   const searchingProblems = Boolean(search || state.status);
   const showAll = state.flat || searchingProblems;
   const problems = uniqueTrainingProblems(showAll ? state.sections.length ? scoped : all : scoped.filter(item => (item.sections || []).length === state.sections.length)).filter(item => matchesTrainingProblem(item, state.query, state.status));
-  const sort=state.sort==='auto'?(active?.custom||active?.virtual?'added':'difficulty'):state.sort;
+  const sort=state.sort==='auto'?(active?.custom||active?.virtual||active?.learningSequence?'added':'difficulty'):state.sort;
   const filtered=problems.filter(item=>(!state.knowledge||matchesKnowledge(item.row||{},[state.knowledge]))&&(!state.platform||item.row?.platform===state.platform)&&(!(state.min>800||state.max<4000)||item.row?.difficulty>=state.min&&item.row?.difficulty<=state.max));problems.splice(0,problems.length,...filtered);
   if(sort==='difficulty')problems.sort((a,b)=>compareProblemDifficulty(a.row,b.row,state.descending));else if(sort==='title')problems.sort((a,b)=>String(a.row?.title||a.pid).localeCompare(String(b.row?.title||b.pid),'zh-CN')*(state.descending?-1:1));else {problems.sort((a,b)=>String(a.addedAt||'').localeCompare(String(b.addedAt||''))*(state.descending?-1:1));if(state.descending&&problems.every(item=>!item.addedAt))problems.reverse();}
 
@@ -192,7 +192,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
       {!lists && !error && <p className="progress-muted" role="status">正在读取题单…</p>}
       {active && !active.available && <p role="status" className="progress-muted">原站题单暂不可读取，可从右上角前往洛谷查看。</p>}
       <div className={cards?'training-list-card-grid':'training-list-folders'}>{displayedEntries.map(({ folder, list, all:allEntry }) => {
-        if(allEntry)return <button key="all" className="catalog-folder-row" onClick={() => patch({ flat: true, sections: [] })}><FileText size={20}/><strong>全部题目</strong><span>{all.length} 题</span><ChevronRight size={16}/></button>;
+        if(allEntry)return <button key="all" className="catalog-folder-row" onClick={() => patch({ flat: true })}><FileText size={20}/><strong>全部题目</strong><span>{state.sections.length?uniqueTrainingProblems(scoped).length:all.length} 题</span><ChevronRight size={16}/></button>;
         const stats = list ? index.stats([list.id]) : folder?.stats;
         if(leaf(list))return <article className="training-list-card" key={list.id} data-list-id={list.id} onContextMenu={list.custom?event=>confirmDelete(event,list):undefined}>
           <button className="training-card-open" onClick={()=>open(list)} aria-label={`打开题单：${cardTitle(list)}`}><div><strong><CatalogName>{cardTitle(list)}</CatalogName></strong></div><span className="training-card-progress" aria-label={`已通过 ${stats.accepted} / ${stats.total} 题`}><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28"/><circle cx="32" cy="32" r="28" pathLength="100" strokeDasharray={`${stats.total?stats.accepted/stats.total*100:0} 100`}/></svg><b>{stats.accepted}<small> / {stats.total}</small></b></span></button>
@@ -209,7 +209,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
       </tr>)}</tbody></table>}
       {lists && !displayedEntries.length && !problems.length && <div className="empty"><Search size={26}/><h3>{searchingProblems ? '没有匹配的题单或题目' : active ? '此目录暂无可用题目' : '暂无题单'}</h3>{searchingProblems && <button className="icon-button" aria-label="清除筛选" onClick={clear}><X size={16}/></button>}</div>}
     </div>
-    {lists && count > 0 && <PagePagination label="题单分页" count={active?`${problems.length} 道题`:`${count} 项`} page={page} pages={pages} onPageChange={value=>patch({page:value})} previousLabel="题单上一页" nextLabel="题单下一页" onPrevious={()=>patch({page:page-1})} onNext={()=>patch({page:page+1})}/>}
+    {lists && count > 0 && <PagePagination label="题单分页" count={active&&!browsingFolders?`${problems.length} 道题`:`${count} 项`} page={page} pages={pages} onPageChange={value=>patch({page:value})} previousLabel="题单上一页" nextLabel="题单下一页" onPrevious={()=>patch({page:page-1})} onNext={()=>patch({page:page+1})}/>}
     {deletion&&<PopConfirm anchor={deletion.anchor} title={`删除题单“${deletion.list.title}”？`} label="删除题单确认" busy={deleting} error={deleteError} cancelLabel={<X size={16}/>} cancelAriaLabel="取消" confirmLabel={<Trash2 size={16}/>} confirmAriaLabel="确认删除" busyLabel={<Trash2 size={16}/>} onCancel={()=>setDeletion(null)} onConfirm={deleteList}/>}
     {editor&&<TrainingListEditor list={editor.id?editor:null} rows={rows} api={api} onClose={()=>setEditor(null)} onSave={value=>{contentVersion.current++;setLists(previous=>[...(previous||[]).filter(list=>!list.custom),...value.customLists]);setEditor(null);patch({folder:state.mode==='source'?['personal']:['我的题单'],trail:[value.list.id],sections:[],flat:false,query:''});}}/>}
   </section>;

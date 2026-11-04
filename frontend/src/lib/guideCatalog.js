@@ -1,17 +1,18 @@
 const step=(target,title,text)=>({target,title,text});
+const task=(target,title,text,action={type:'click'})=>({...step(target,title,text),task:action});
 const page=(id,items,tab)=>items.map(item=>({...item,page:id,...(tab?{tab}:{})}));
 
-export const GUIDE_LABELS={mine:'我的训练',library:'题库','training-lists':'题单',competitions:'比赛',mock:'模拟赛',growth:'成长',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',templates:'模板',paths:'实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'初始代码模板','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据统计','settings:thanks':'鸣谢','settings:guide':'新手指引','settings:animation':'动画'};
+export const GUIDE_LABELS={mine:'我的训练',library:'题库','training-lists':'题单',competitions:'比赛',mock:'模拟赛',duel:'对战',growth:'成长',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',templates:'模板',paths:'实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'初始代码模板','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据统计','settings:thanks':'鸣谢','settings:guide':'新手指引','settings:animation':'动画'};
 
 export const PAGE_GUIDES={
  'training-lists':page('training-lists',[
   step('.page-search-controls','搜索题单和题目','输入算法、题单名称、题号或题名。按类别逐层查看训练专题，规范名称和原名称均可搜索，按来源查看洛谷原有系列；通过状态筛选会使用题库中同一道题的真实进度。'),
-  step('.training-list-content','逐层打开文件夹','点击算法、系列或题单文件夹继续进入。正文中的章节与关联子题单也保留目录；全部题目汇总当前题单及其子题单中的不同题目。'),
+  task('.training-list-content .catalog-folder-row,.training-list-content .problem-title','动手进入下一级','洛谷与牛客分别保存学习目录。牛客按 01 编程基础到 08 综合训练排序，依次进入阶段、专题、练习，再进入具体题目。点击一个目录或题名继续；从面包屑可以逐级返回。'),
   step('.training-list-path','逐级返回','点击面包屑或返回箭头回到上一级，也可以按 Esc。进入工作台后返回，会恢复目录、搜索、分页和滚动位置。'),
   step('.training-list-summary','共用题库与进度','同一道题可以属于多个题单，代码和通过记录共用。题单目录随安装包保存；尚未缓存的题面在打开题目时从原站读取。右上角可查看原题单。'),
  ]),
  mine:page('mine',[
-  step('.brand-mark','收起与展开侧边栏','点击左上角 ToBe 标识可收起或展开侧边栏；收起后仍可通过图标访问各页。'),
+  task('.brand-mark','动手调整侧边栏','点击左上角 ToBe 标识可收起或展开侧边栏；收起后仍可通过图标访问各页。'),
   step('.sidebar [aria-label="我的训练"]','今日训练从这里继续','这里汇总今天安排的目标题、待攻克题目和继续练习的内容。昨天的代码和记录会保留，跨日不会删除。'),
   step('.queue-heading','动态复习与每日目标','正式提交出现 WA 后，次日安排复习；一遍通过的题不安排。复习使用独立草稿，原代码仍可在历史中查看；完成符合条件的隔天复习获得 20 XP。同题同日只奖励一次，之后按复习结果调整间隔。'),
   step('.problem-table','读懂每道题','一行展示题名和来源、知识点、难度、最新正式结果与最近练习时间。AC 代表原站确认通过；样例通过只是一次运行结果。'),
@@ -23,7 +24,7 @@ export const PAGE_GUIDES={
   step('.contest-calendar-button','安排比赛时间','底部时钟日历打开即将开始的基础赛事，按北京时间显示。点击比赛行前往对应原站，刷新按钮更新赛程。'),
  ]),
  library:page('library',[
-  step('.page-search-controls','按目标选题','搜索题名、比赛、题号或知识点，组合条件缩小范围；例如输入比赛名和题号，也可以用 1200-1600 指定难度范围。'),
+  task('.page-search-controls input[aria-label=搜索题目]','动手搜索一道题','输入题名、比赛、题号或知识点，实际搜索一次；例如输入数组，或使用 1200-1600 指定难度范围。',{type:'input'}),
   step('.filter-menu','选择知识范围','在筛选中选择大知识点或子知识点，并设置平台、难度、收藏和提交结果。题库标签、筛选菜单与知识雷达共用名称。'),
   step('.active-knowledge-filter,.page-search-controls','取消某个筛选','选中的知识点会显示在搜索旁，点 × 取消它；搜索文字和其他条件继续保留。筛选中的重置会恢复本页条件。'),
   step('.difficulty-range,.filter-menu','精确调整难度','滑块上限来自题库实际最高难度，拖动每跨过一档调整 100，需明显移动才生效；方向键调整 100，Alt＋方向键微调 10，数值框可直接输入准确范围。相近端点可先选择要调整的数值框，避免误拖另一端。'),
@@ -47,6 +48,11 @@ export const PAGE_GUIDES={
   step('.mock-history,.mock-page','训练记录','历史记录直接显示在配置下方，最新在前。进行中的比赛可以继续，结束后可查看题目、提交和结果。'),
   step('.mock-mode-options','赛中操作','工作台左上选题，右上查看倒计时或结束比赛。“提交”打开原站浏览器；运行样例不会获得正式 AC，题解在比赛中保持锁定。'),
  ]),
+ duel:page('duel',[
+  step('.duel-modes,.duel-page','排位与思维对决','排位根据官方结果结算排位分；进入对战页可查看自己的头像、段位框与勋章。思维对决是否可匹配，以服务端实际可用状态为准。'),
+  step('.duel-community','排行榜与公开对战记录','排行榜显示用户在线状态及正在做题、重现赛、从零讲或实验室等活动；另一列显示今天谁和谁对战、由谁获胜。'),
+  step('.duel-find','双人确认后开局','寻找对局后等待双方确认，确认完成才开始共同计时。指引不会替你排队或开始对战。'),
+ ]),
  growth:page('growth',[
   step('.account-hero-identity .profile-avatar-button,.topbar .profile-avatar-button','更换头像','点击头像打开图片设置，选择 PNG、JPEG 或 WebP 图片后自动压缩并保存，也可以恢复默认头像。外圈显示本级经验，底部数字是经验等级。'),
   step('.account-hero-level','经验与等级','经验条展示本级已获得经验和升级所需经验，Lv 数字是当前等级。头像经验环从底部顺时针增长；任务、成就和已确认的学习活动可带来经验。'),
@@ -61,6 +67,10 @@ export const PAGE_GUIDES={
   step('#growth-goals','设置目标计划','新建目标选择目标方向；调整目标可以修改已有计划。安排的目标题会进入“我的训练”，完成情况随正式结果更新。'),
   step('.achievement-top-button:not(.daily-task-top-button)','成就、勋章与称号','底部奖章打开成就列表，查看条件、进度和奖励。不同图形对应不同成就含义；达成后的经验与永久称号分别标明，获得的称号会展示在账号资料中。'),
   step('.topbar .profile-avatar-button','头像框、段位与排行榜','头像框和段位勋章展示成长；排行榜按官方首次 AC 题数排名。可以分别查看自己的能力段位、学习经验和各周期榜单。'),
+  task('[aria-label="场景预设"]','动手打开场景预设','贴纸和背景可以组合成画面。点击底部场景预设图标，保存自己的场景；保存本身不会消耗贴纸。',{result:'.sticker-scene-presets'}),
+  task('.sticker-scene-presets','动手保存一个场景','填写预设名称并点击保存。服务确认保存成功后才能继续；已有预设仍然保留。',{signal:'scene-save',instruction:'请填写名称并成功保存一个预设'}),
+  task('.scene-preset-switch','动手切换场景','点击一个已保存的预设，恢复其中的背景、贴纸位置与装扮。缺少的贴纸会暂时跳过，预设保留；重新获得同款后再次切换即可补回。',{signal:'scene-apply',instruction:'请点击一个预设并等待切换成功'}),
+  step('.sticker-box-trigger','贴纸、背景与奖励','背景奖励先保留在开包入口，不会自动拆开。仅默认原场时长的重现赛，至少完成总时长的 50% 且正式 AC 两题，才有背景单卡奖励；稀有度综合比赛难度和 AC 数决定。'),
  ]),
  rankings:page('rankings',[
   step('.page-search-controls','按昵称找人','顶部搜索框匹配当前榜单用户昵称，不区分英文字母大小写；输入后只显示匹配的人，原名次保持不变。清空搜索恢复榜单，切换周期后继续应用昵称条件。'),
@@ -91,12 +101,12 @@ export const PAGE_GUIDES={
   step('.lectures-page','联系实际题目','结合讲义涉及的知识点回到题库练习。阅读材料帮助理解，掌握度仍依据真实作答证据估计。'),
  ]),
  templates:page('templates',[
-  step('[aria-label="搜索模板"]','查找算法模板','输入名称查找模板，也可按分类浏览卡片。点击模板卡片进入详情；右上加号用于新建自己的模板。'),
+  task('[aria-label="搜索模板"]','动手查找算法模板','输入名称查找模板，也可按分类浏览卡片。点击模板卡片进入详情；右上加号用于新建自己的模板。',{type:'input'}),
   step('.templates-page','讲解版与竞赛版','内置模板提供讲解版和竞赛版。打开详情后用顶部图标切换练习、复制或另存；模板代码独立滚动，最小调用示例保留在下方。'),
   step('.templates-page','复制与操作练习','右键模板卡片会弹出复制确认。详情中的练习图标打开对应操作题，在软件内运行与评测；算法模板与设置中的初始代码模板分别管理。'),
  ]),
  paths:page('paths',[
-  step('.page-search-controls','搜索算法专题','顶部搜索算法名称、别名或英文名称，输入后只显示对应专题；搜索框与其他页面保持相同样式，清空恢复全部专题。'),
+  task('.page-search-controls input','动手搜索算法专题','输入排序、二分或专题英文名，实际筛选一次；清空即可恢复全部专题。',{type:'input'}),
   step('.lab-course-header','课程导航与快捷键','返回在最左侧，目录在上一页、下一页之前。也可按键盘左右方向键翻页；输入框、编辑器、滑块正在操作时，方向键优先用于当前控件。顶部导航与正文各占独立区域，只有正文滚动。'),
   step('.learning-paths-page','实验室','当前提供背包 DP、前缀和与差分、双指针算法。“学算法”通过装包、状态和执行过程理解算法；“跟着做题”带你分析五道精选题，再进入工作台独立实现。顶部箭头随时翻页。'),
   step('.learning-paths-page','用作答检验理解','通过顶部目录切换章节，也可自由跳转。课堂检验由正确作答产生，进度与输入自动保存；提示可逐层展开。真实题目的原站通过独立记录。'),
@@ -151,13 +161,16 @@ export const PAGE_GUIDES={
   {...step('.problem-table tbody tr[data-id] .problem-title','打开一道练习题','点击高亮题名进入工作台，接下来会介绍题面、编辑器和原站提交。'),page:'library',action:'open',nextIndex:1},
   ...[
    step('.wb-statement-pane','阅读题面','左侧展示原题描述、限制和样例。先理解输入输出；可调整题面字号，中文与原文切换保留同一份代码。'),
-   step('.wb-language-toggle,.wb-font-controls','中文、原文与原站','有预置译文时默认显示中文，原文按钮随时切回；未预置的题面可用已配置服务翻译。原题链接打开来源站。'),
+   step('.wb-language-toggle,.wb-font-controls','中文、原文与原站','英文题面默认保持英文。点击语言按钮读取预置中文或共享译文；一人用 API 翻译并共享后，其他账号可复用同一版题面的译文。没有共享译文时才需要自己的翻译服务配置。原题链接打开来源站。'),
    step('.cm-editor','编写代码与自动保存','右侧选择 C++17 或 Python 3 后编写，草稿自动保存。保存成功以短暂提示确认，连续自动保存合并提示；保存异常会明确显示，切题时按题目保留草稿。'),
+   task('.cm-editor','动手格式化代码','草稿会自动保存。在编辑区写入或调整一段代码，按 Ctrl+S 格式化；成功后才能继续，格式化可按 Ctrl+Z 撤销。',{signal:'code-formatted',instruction:'请在编辑器内按 Ctrl+S，等待格式化成功'}),
    step('.wb-run-toolbar','运行官方样例','可运行全部样例或选定样例，并对比实际与预期输出。样例通过表示这些样例符合预期，不等同于原站 AC。'),
    step('.wb-console-tabs,.wb-result-summary','查看运行详情','结果区域展示输出、错误和用例详情。切换输入、结果和记录可查看历史操作；运行不会增加正式过题数。'),
    step('.wb-run-actions','到浏览器提交','提交会打开原站浏览器，按原站要求登录、验证并确认提交。取得最终回执后结果保存到 ToBe；异常时保留提示供继续处理。'),
    step('.wb-history,.wb-console-tabs','历史代码与当前草稿','历史提交保留当次代码，查看记录不会直接覆盖草稿。需要替换代码时核对来源，并使用可用的撤销载入操作。'),
    step('.wb-next-button,.wb-toolbar','切题、退出与考场','下一题切换练习，左上返回列表。考场中通过选题菜单切换，右上显示计时与结束；比赛期间题解和考点保持锁定。'),
+   task('[aria-label="新建学习标签页"]','动手打开学习目录','点击加号打开学习目录，题目、百科、模板与实验室可放在不同标签中，当前代码会保留。',{result:'.study-directory'}),
+   task('.study-directory [data-kind=mine]','动手查看我的训练','点击新增的我的训练文件夹。这里复用首页清单，每题标明今日目标、待攻克、间隔复习、已 AC 等状态；题目文件夹仍可浏览全部题库。',{signal:'learning-training-opened',instruction:'请点击学习目录中的我的训练'}),
   ].map(item=>({...item,practice:true})),
  ],
 };

@@ -1,0 +1,13 @@
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import TrainingListsPage from '../src/pages/TrainingListsPage.jsx';
+import lists from '../../data/library/training_lists.json';
+import problems from '../../data/library/problems.json';
+import '../src/styles/workspace.css';
+import '../src/styles/refinements.css';
+import '../src/styles/unified.css';
+import '../src/styles/revision.css';
+window.__tbAccountUserId='isolated-curriculum';
+const rows=problems.map(p=>p.encoded),visit={state:{curriculumVersion:1,nowcoderLearningVersion:1,mode:'algorithm',folder:['牛客']}};
+const api=async path=>{if(path==='training-lists')return {lists};if(path.startsWith('training-list-likes'))return {available:false,likes:{}};throw Error('Unexpected fixture API '+path);};
+createRoot(document.getElementById('root')).render(<div className="workspace-area" style={{height:'100dvh',padding:16}}><TrainingListsPage api={api} rows={rows} visit={visit} level={14} onTrain={id=>{window.openedProblem=id;}}/></div>);

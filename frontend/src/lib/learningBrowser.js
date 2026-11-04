@@ -2,7 +2,7 @@
 // Code continues to use the workbench's draft store, never this tab manifest.
 export const STUDY_KINDS = ['problem','solution','wiki','template','lab','lecture'];
 export const MAX_STUDY_TABS=64;
-export const STUDY_LABELS = {problem:'题目',solution:'题解',wiki:'维基百科',template:'模板',lab:'实验室',lecture:'从零讲'};
+export const STUDY_LABELS = {mine:'我的训练',problem:'题目',solution:'题解',wiki:'维基百科',template:'模板',lab:'实验室',lecture:'从零讲'};
 export const studyKey = tab => `${tab.kind}:${tab.id}`;
 export const emptyStudyBrowser = () => ({version:1,tabs:[],documents:{},groups:[],chrome:false,active:null,left:null,right:null,focused:null,focusedGroup:null,ratio:50,open:false});
 export const studySnapshot=value=>({...value,tabs:value.tabs.map(({kind,id,title,methodId,visit,state,scroll})=>({kind,id,title,...(methodId?{methodId}:{}),visit,state,scroll}))});
@@ -149,7 +149,7 @@ const aliasGroups=[['并查集','dsu','union find','union-find','disjoint set'],
 const normalize=value=>String(value||'').normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
 const containsTerm=(text,word)=>/^[\x00-\x7f]+$/.test(word)?new RegExp('(^|[^a-z0-9])'+word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'($|[^a-z0-9])').test(text):text.includes(word);
 function expanded(value){let text=normalize(value);for(const group of aliasGroups)if(group.some(alias=>containsTerm(text,alias)))text+=' '+group.join(' ');return text;}
-const SOURCE_ALIASES={problem:['题目','题库','problem','problems','题解','solution','editorial'],wiki:['百科','维基百科','wiki','oi wiki','oi-wiki'],template:['模板','template','templates'],lab:['实验室','实验','lab'],lecture:['从零讲','讲义','lecture']};
+const SOURCE_ALIASES={mine:['我的训练'],problem:['题目','题库','problem','problems','题解','solution','editorial'],wiki:['百科','维基百科','wiki','oi wiki','oi-wiki'],template:['模板','template','templates'],lab:['实验室','实验','lab'],lecture:['从零讲','讲义','lecture']};
 function searchScope(query) {
  let text=normalize(query),kinds=null;
  for(const [kind,names] of Object.entries(SOURCE_ALIASES)){
@@ -161,19 +161,21 @@ function searchScope(query) {
 export function learningSearch(index,query) {
  const {text,kinds}=searchScope(query);
  const words=text.split(' ').filter(Boolean);
- return index.filter(item=>(!kinds||kinds.includes(item.kind))&&words.every(word=>containsTerm(expanded(item.search||item.title),word)))
+ return index.filter(item=>(!kinds||kinds.includes(item.kind)||kinds.includes('mine')&&item.trainingGroup)&&words.every(word=>containsTerm(expanded(item.search||item.title),word)))
   .map((item,at)=>({item,rank:normalize(item.title)===text?0:normalize(item.title).startsWith(text)&&text?1:normalize(item.title).includes(text)&&text?2:3,at}))
   .sort((a,b)=>a.rank-b.rank||a.at-b.at).map(value=>value.item);
 }
 
-export const LEARNING_FOLDERS=['problem','wiki','template','lab','lecture'];
+export const LEARNING_FOLDERS=['mine','problem','wiki','template','lab','lecture'];
 export function learningDirectory(index,query='',path=[]) {
  const {kinds,text}=searchScope(query),matches=learningSearch(index,query);
  const current=kinds?[kinds[0]]:path[0]==='solution'?['problem',...path.slice(1)]:path;
  if(!current.length){
   const sources=LEARNING_FOLDERS;
-  return {path:[],entries:sources.filter(kind=>!query.trim()||matches.some(item=>item.kind===kind)).map(kind=>({type:'folder',key:'source:'+kind,kind,title:STUDY_LABELS[kind],path:[kind],count:matches.filter(item=>item.kind===kind).length}))};
+  const belongs=(item,kind)=>kind==='mine'?Boolean(item.trainingGroup):item.kind===kind;
+  return {path:[],entries:sources.filter(kind=>!query.trim()||matches.some(item=>belongs(item,kind))).map(kind=>({type:'folder',key:'source:'+kind,kind,title:STUDY_LABELS[kind],path:[kind],count:matches.filter(item=>belongs(item,kind)).length}))};
  }
+ if(current[0]==='mine')return {path:['mine'],entries:matches.filter(item=>item.trainingGroup).sort((a,b)=>a.trainingOrder-b.trainingOrder).map(item=>({...item,type:'file',source:item.trainingLabel}))};
  const [kind,...categories]=current,items=matches.filter(item=>item.kind===kind),folders=new Map(),files=[];
  for(const item of items){
   const parts=String(item.category||'').split(/\s*[/／]\s*/).map(part=>part.trim()).filter(Boolean);
@@ -186,16 +188,18 @@ export function learningDirectory(index,query='',path=[]) {
  return {path:current,entries:[...[...folders.values()].sort((a,b)=>a.title.localeCompare(b.title,'zh-CN')),...files]};
 }
 
-export function buildLearningIndex({rows=[],templates=[],lectures=[],wiki=[],labs=[]}) {
+export function buildLearningIndex({rows=[],trainingRows=[],templates=[],lectures=[],wiki=[],labs=[]}) {
  const result=[],seen=new Set();
- const add=(kind,item,title,extra='')=>{if(!item?.id||!title)return;const key=studyKey({kind,id:item.id});if(seen.has(key))return;seen.add(key);result.push({kind,id:item.id,key,title,category:item.category||'',search:`${title} ${extra}`,source:STUDY_LABELS[kind]});};
+ const add=(kind,item,title,extra='')=>{if(!item?.id||!title)return;const key=studyKey({kind,id:item.id});if(seen.has(key))return;seen.add(key);const entry={kind,id:item.id,key,title,category:item.category||'',search:`${title} ${extra}`,source:STUDY_LABELS[kind]};result.push(entry);return entry;};
  for(const item of wiki)add('wiki',item,item.title,`${item.category||''} ${item.id}`);
  for(const item of templates)add('template',item,item.title,`${item.category||''} ${(item.tags||[]).join(' ')} ${item.learningPath||''}`);
  for(const item of labs)add('lab',item,item.title,item.search||'');
  for(const item of lectures)add('lecture',item,(item.displayTitle||item.concept||item.title||'').replace(/^从零讲[：:]\s*/,''),`${item.title||''} ${(item.tags||[]).join(' ')} ${item.category||''}`);
- for(const item of rows){
+ const training=new Map(trainingRows.map(item=>[item.id,item])),known=new Set(rows.map(item=>item.id));
+ for(const item of [...rows,...trainingRows.filter(item=>!known.has(item.id))]){
   const tags=(item.tags||item.knowledge||[]),extra=`${item.platform||''} ${item.contest||item.contestName||''} ${item.code||''} ${Array.isArray(tags)?tags.map(tag=>typeof tag==='string'?tag:tag.name).join(' '):''} ${(item.categories||[]).map(tag=>typeof tag==='string'?tag:tag.name).join(' ')}`;
-  add('problem',item,item.title,extra);
+  const entry=add('problem',item,item.title,extra);
+  if(entry&&training.has(item.id)){const {trainingGroup,trainingLabel,trainingOrder}=training.get(item.id);Object.assign(entry,{trainingGroup,trainingLabel,trainingOrder});}
  }
  return result;
 }

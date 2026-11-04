@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import {createServer} from 'vite';
+import {chromium} from 'playwright';
+import {PAGE_GUIDES} from '../src/lib/guideCatalog.js';
+assert(!PAGE_GUIDES.practice.some(s=>s.text.includes('默认显示中文')));
+assert(PAGE_GUIDES.duel.length>=3);
+const tasks=Object.values(PAGE_GUIDES).flat().filter(s=>s.task);assert(tasks.length>=10);
+const server=await createServer({cacheDir:'../.backups/followups-157/guide-vite',server:{host:'127.0.0.1',port:0,watch:null}});await server.listen();
+const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1280,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+try{
+ await page.goto(server.resolvedUrls.local[0]+'tests/onboarding-actions-fixture.html');
+ const card=page.getByRole('dialog',{name:'新手指引'}),next=card.getByRole('button',{name:'下一步',exact:true});await card.waitFor();
+ assert(await next.isDisabled());assert.equal(await card.evaluate(el=>Boolean(el.closest('[inert]'))),false,'Guide stays usable when the main app is inert');
+ await page.getByRole('textbox',{name:'搜索题目'}).fill('数组');await page.waitForFunction(()=>document.querySelector('.tour-task-status').dataset.complete==='true');assert(await next.isEnabled());await next.click();
+ assert(await next.isDisabled());await page.evaluate(()=>window.dispatchEvent(new CustomEvent('tb:guide-action',{detail:{name:'code-formatted'}})));assert(await next.isDisabled(),'An unrelated operation cannot certify this step');
+ await page.getByRole('button',{name:'确认保存场景'}).click();assert(await next.isEnabled());await next.click();
+ const finish=card.getByRole('button',{name:'完成',exact:true});assert(await finish.isDisabled());await page.getByRole('button',{name:'确认格式化成功'}).click();await finish.click();assert(await page.evaluate(()=>window.tourFinished));assert.deepEqual(errors,[]);
+ console.log(JSON.stringify({ok:true,interactiveSteps:tasks.length,requiresRealAction:true,waitsForConfirmedSuccess:true,wrongActionIgnored:true,learningBrowserInertRegression:true}));
+ await page.goto(server.resolvedUrls.local[0]+'tests/learning-browser-fixture.html?guided=1');
+ await page.getByRole('button',{name:'指引练习题',exact:true}).click();
+ await card.getByRole('heading',{name:'阅读题面',exact:true}).waitFor();
+ assert.equal(await card.evaluate(el=>Boolean(el.closest('[inert]'))),false);
+ for(let i=0;i<3;i++)await next.click();
+ await card.getByRole('heading',{name:'动手格式化代码',exact:true}).waitFor();assert(await next.isDisabled());
+ await page.locator('.cm-content[contenteditable=true]').first().click();await page.keyboard.press('Control+s');
+ await page.waitForFunction(()=>document.querySelector('.tour-task-status')?.dataset.complete==='true');
+ for(let i=0;i<6;i++)await next.click();
+ await card.getByRole('heading',{name:'动手打开学习目录',exact:true}).waitFor();assert(await next.isDisabled());
+ await page.getByRole('button',{name:'新建学习标签页',exact:true}).last().click();assert(await next.isEnabled());await next.click();
+ await page.getByRole('option').filter({hasText:'我的训练'}).click();assert(await finish.isEnabled());await finish.click();
+ assert(await page.evaluate(()=>window.tourFinished));assert.deepEqual(errors,[]);
+ console.log('PASS full practical guide: real learning-browser problem activation, inert main app, successful Ctrl+S, open directory and my-training folder');
+}finally{await browser.close();await server.close();}

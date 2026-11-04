@@ -41,7 +41,7 @@ const legacy=restoreStudyBrowser({tabs:[{kind:'wiki',id:'a'},{kind:'wiki',id:'b'
 assert.deepEqual(legacy.groups.map(group=>group.active),['wiki:c','wiki:b']);assert.equal(legacy.groups[0].weight,60);
 const malformed=restoreStudyBrowser({...studySnapshot(layout),groups:[{id:'bad id',tabs:['wiki:a','missing'],weight:-4},{id:'x',tabs:['wiki:a','wiki:b'],weight:2}]});
 assert.equal(new Set(malformed.groups.flatMap(group=>group.tabs)).size,layout.tabs.length);assert(Math.abs(studyGroups(malformed).reduce((sum,group)=>sum+group.weight,0)-100)<1e-8);
-assert.deepEqual(learningDirectory(index).entries.map(item=>item.kind),['problem','wiki','template','lab','lecture']);
+assert.deepEqual(learningDirectory(index).entries.map(item=>item.kind),['mine','problem','wiki','template','lab','lecture']);
 assert.equal(learningDirectory(index,'并查集').entries.length,4);
 assert.equal(learningDirectory(index,'模板').entries[0].kind,'template');
 assert.equal(learningDirectory(index,'模板',['wiki']).entries[0].kind,'template');
@@ -57,6 +57,16 @@ single=replaceStudyContent(single,'lecture:first',{kind:'wiki',id:'other'});asse
 single=replaceStudyContent(single,'wiki:other',{...single.documents['lecture:first']});assert.equal(single.tabs.length,1);assert.equal(single.tabs[0].state.chapter,3);assert.equal(single.tabs[0].scroll[0][1],400);
 single=openStudyTab(single,{kind:'template',id:'manual',visit:{userCreatedTab:true}});assert.equal(single.tabs.length,2);single=replaceStudyContent(single,'template:manual',{kind:'lab',id:'replace'});assert.equal(single.tabs.length,2);assert.equal(restoreStudyBrowser(studySnapshot(single)).documents['lecture:first'].state.chapter,3);
 console.log('PASS replacement keeps one slot, explicit new tabs and saved document progress survive reload');
+
+const trainingRows=[{id:'mine-review',title:'复习题',trainingGroup:'review',trainingLabel:'间隔复习',trainingOrder:3},{id:'mine-goal',title:'目标题',trainingGroup:'goals',trainingLabel:'今日目标',trainingOrder:0},{id:'mine-ac',title:'已完成',trainingGroup:'accepted',trainingLabel:'已 AC',trainingOrder:6}];
+const mineIndex=buildLearningIndex({rows:[{id:'library-only',title:'全库题目'},...trainingRows],trainingRows});
+assert.equal(learningDirectory(mineIndex).entries.find(item=>item.kind==='problem').count,4);
+assert.equal(learningDirectory(mineIndex).entries.find(item=>item.kind==='mine').count,3);
+assert.deepEqual(learningDirectory(mineIndex,'',['mine']).entries.map(item=>[item.id,item.source]),[['mine-goal','今日目标'],['mine-review','间隔复习'],['mine-ac','已 AC']]);
+assert.equal(learningDirectory(mineIndex,'复习',['mine']).entries.length,1);
+assert.equal(learningDirectory(mineIndex,'全库',['mine']).entries.length,0);
+assert.equal(learningDirectory(buildLearningIndex({rows:[{id:'library-only',title:'全库题目'}]}),'',['mine']).entries.length,0,'A different account has no previous training rows');
+console.log('PASS separate all-problems and my-training folders, exact memberships, state labels, sorting, search and account isolation');
 
 const heldManual=single.tabs.find(tab=>tab.key==='lecture:first');single=replaceStudyContent(single,'lab:replace',{kind:'lecture',id:'first'});assert.equal(single.tabs.length,2);assert.equal(single.tabs.find(tab=>tab.key==='lecture:first').state,heldManual.state);assert(single.tabs.some(tab=>tab.key==='lab:replace'));
 

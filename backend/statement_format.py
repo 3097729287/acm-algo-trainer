@@ -1,6 +1,7 @@
 """Public HTML to Markdown without flattening formulae, code, lists or tables."""
 from html.parser import HTMLParser
 import re
+import textwrap
 from urllib.parse import parse_qs, urljoin, urlsplit
 
 
@@ -77,6 +78,33 @@ def fence(value):
     return '\n\n' + delimiter + 'text\n' + value.rstrip('\n') + '\n' + delimiter + '\n\n'
 
 
+def _literal_art_row(node):
+    if not isinstance(node,Node) or node.tag not in ('p','div'):return None
+    # These are literal HTML paragraphs, not Markdown lists/rules. Preserve
+    # their character art and relative indentation before Markdown sees it.
+    if any(isinstance(child,Node) and child.tag in ('p','div','pre','table','img','var') for child in node.children):return None
+    value=plain(node).replace('\xa0',' ')
+    if len(value)<=1000 and re.fullmatch(r'[ \t]*[*#+.\-|_/\\]+(?:[ \t]+[*#+.\-|_/\\]+)*[ \t]*',value):return value.rstrip(' \t')
+    return None
+
+
+def _children_markdown(node,base,prose_pre,table_cell):
+    if not prose_pre:return ''.join(markdown(child,base,prose_pre,table_cell) for child in node.children)
+    output=[];rows=[];spacing=[]
+    def flush():
+        if rows:output.append(fence(textwrap.dedent('\n'.join(rows))));rows.clear()
+        output.extend(spacing);spacing.clear()
+    for child in node.children:
+        row=_literal_art_row(child)
+        if row is not None:
+            spacing.clear();rows.append(row)
+        elif rows and (isinstance(child,str) and not child.strip()):spacing.append(child)
+        else:
+            flush();output.append(markdown(child,base,prose_pre,table_cell))
+    flush()
+    return ''.join(output)
+
+
 def markdown(node, base='', prose_pre=False, table_cell=False):
     if isinstance(node, str):
         return re.sub(r'\s+', ' ', node.replace('\xa0', ' '))
@@ -145,7 +173,7 @@ def markdown(node, base='', prose_pre=False, table_cell=False):
         rows = [row + [''] * (width - len(row)) for row in rows]
         rows.insert(1, ['---'] * width)
         return '\n\n' + '\n'.join('| ' + ' | '.join(row) + ' |' for row in rows) + '\n\n'
-    content = ''.join(markdown(child, base, prose_pre, table_cell) for child in node.children)
+    content = _children_markdown(node,base,prose_pre,table_cell)
     if tag in ('h1', 'h2', 'h3', 'h4', 'h5', 'h6') or 'section-title' in names:
         return '\n\n' + ('##' if 'section-title' in names else '#' * int(tag[1])) + ' ' + content.strip() + '\n\n'
     if tag == 'li':
@@ -174,12 +202,18 @@ def needs_statement_refresh(value):
     host=urlsplit(value.get('url') or '').hostname
     version=value.get('statementVersion') or 0
     from codeforces_pdf import needs_localized_pdf
-    return ((host=='atcoder.jp' and version<5) or (host=='ac.nowcoder.com' and version<3)
+    body=re.sub(r'```[^\n]*\n[\s\S]*?\n```','',value.get('markdown') or '')
+    broken_art=bool(re.search(r'(?m)^[ \t]*\*+[ \t]*\n(?:[ \t]*\n)*[ \t]*\*+[ \t]*(?:\n|$)',body))
+    return ((host=='atcoder.jp' and version<5) or (host=='ac.nowcoder.com' and (version<3 or broken_art))
             or host=='codeforces.com' and needs_localized_pdf(value))
 
 
 def html_markdown(html, base='', prose_pre=False):
     text = markdown(Tree(html).root, base, prose_pre)
+    return _markdown_layout(text)
+
+
+def _markdown_layout(text):
     # Protect preformatted code while removing HTML indentation elsewhere.
     parts = re.split(r'(`{3,}(?:text|input-format)\n.*?\n`{3,})', text, flags=re.S)
     for index in range(0, len(parts), 2):
@@ -196,7 +230,7 @@ def nowcoder_statement(page, base):
     root = Tree(page).root
     description = next(root.find(lambda node: 'subject-describe' in classes(node)), None)
     if description is not None:
-        return '## 题目描述\n\n' + re.sub(r'\n{3,}', '\n\n', markdown(description, base, prose_pre=True)).strip()
+        return '## 题目描述\n\n' + _markdown_layout(markdown(description, base, prose_pre=True))
     start = re.search(r'<h2\b[^>]*class=["\'][^"\']*subject-item-title', page, re.I)
     if not start:
         start = re.search(r'<(?:h[1-6]|div)\b[^>]*>\s*题目描述\s*(?:</|\n)', page, re.I)

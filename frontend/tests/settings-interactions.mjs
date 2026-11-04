@@ -36,9 +36,10 @@ try{
  await page.locator('.scene-globe').evaluate(node=>{for(const animation of node.getAnimations({subtree:true})){if(animation.animationName!=='planet-rotation'){animation.pause();animation.currentTime=9000;}}});
  const globe=page.locator('[data-scene-interactive=globe]');await globe.click({force:true});const firstSpeed=Number(await page.locator('.globe-turn').getAttribute('data-spin-speed'));await globe.click({force:true});assert(Number(await page.locator('.globe-turn').getAttribute('data-spin-speed'))>firstSpeed);
  const building=page.locator('[data-scene-interactive=building]').first();await building.dispatchEvent('click');assert.equal(await building.getAttribute('data-uprooted'),'true');
- for(let i=0;i<6;i++)await globe.dispatchEvent('click');assert.notEqual(await page.locator('.scene-globe').getAttribute('data-scene-state'),'exploded','An incomplete city does not explode');
+ assert.notEqual(await page.locator('.scene-globe').getAttribute('data-scene-state'),'exploded','Removing a house cancels only the full-city waiting explosion');
  await page.waitForTimeout(700);assert.equal(await building.evaluate(node=>getComputedStyle(node).visibility),'hidden','The replacement house is delayed');
  await page.waitForFunction(()=>!document.querySelector('[data-scene-interactive=building]').dataset.uprooted);
+ await page.locator('.scene-globe').evaluate(node=>{for(const animation of node.getAnimations({subtree:true})){if(animation.animationName!=='planet-rotation'){animation.pause();animation.currentTime=1500;}}});
  for(let i=0;i<7;i++)await globe.dispatchEvent('click');await page.waitForFunction(()=>document.querySelector('.scene-globe').dataset.sceneState==='exploded');
  assert.equal(await page.locator('.globe-click-burst').count(),0,'Globe clicks use the established city explosion');
  assert.equal(await page.locator('.globe-fragment').count(),12);assert.equal(await page.locator('.globe-shockwave').evaluate(node=>getComputedStyle(node).animationName),'shockwave-spread');

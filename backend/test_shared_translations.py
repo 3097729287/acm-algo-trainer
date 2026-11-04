@@ -3,7 +3,12 @@ import tempfile
 import threading
 import time
 import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
+from urllib.parse import parse_qs,urlsplit
+from shared_translations import SharedStatementTranslations
 from translation import TranslationService
+from training import ServiceError
 
 ORIGINAL='# Task\n\nGiven a positive integer $n$, print its value.\n'
 CHINESE='# Task\n\n给定一个正整数 $n$，输出它的值。\n'
@@ -32,6 +37,44 @@ class Shared:
 
 
 class SharedTranslationTests(unittest.TestCase):
+    def test_one_paid_translation_is_reused_by_another_account_without_api_configuration(self):
+        values={};uploaded=threading.Event();requests=[]
+        def request(profile,method,path,body=None,timeout=None):
+            requests.append((profile['user_id'],method,path,body))
+            if method=='POST':
+                self.assertEqual(set(body),{'url','sourceHash','format','language','original','markdown'})
+                values[body['sourceHash']]={key:body[key] for key in ('url','sourceHash','format','language','markdown')}
+                uploaded.set();return {'saved':True}
+            identity=parse_qs(urlsplit(path).query)
+            return {'translation':values.get(identity['sourceHash'][0])}
+        def shared(owner):
+            return SharedStatementTranslations(SimpleNamespace(_ranking_profile=lambda:{'user_id':owner,'auth_token':owner+'-token','endpoint':'https://isolated.invalid'},leaderboard=SimpleNamespace(_request=request)))
+        with tempfile.TemporaryDirectory(prefix='tb-two-account-translation-') as folder:
+            provider=Provider();alice=TranslationService(Assets(),Path(folder)/'alice',provider,shared('alice'))
+            bob=TranslationService(Assets(),Path(folder)/'bob',shared=shared('bob'))
+            try:
+                first=alice.translate('fixture');self.assertTrue(uploaded.wait(1))
+                with patch('translation_config.existing_provider',return_value=None),patch('translation_config.local_key',side_effect=ServiceError(503,'未配置')):
+                    self.assertFalse(bob.status()['configured'])
+                    second=bob.translate('fixture')
+                self.assertEqual(second['markdown'],first['markdown']);self.assertEqual(second['kind'],'shared');self.assertEqual(provider.calls,1)
+                count=len(requests);bob.translate('fixture');self.assertEqual(len(requests),count,'Later reads are instant local-cache reads')
+                self.assertTrue(any(owner=='bob' and method=='GET' for owner,method,*_ in requests))
+            finally:alice.close();bob.close()
+
+    def test_failed_upload_is_retried_when_saved_translation_is_reopened(self):
+        with tempfile.TemporaryDirectory(prefix='tb-retry-translation-') as folder:
+            shared=Shared();shared.release.set();shared.publish=lambda *_:False
+            first=TranslationService(Assets(),Path(folder),Provider(),shared)
+            first.translate('fixture');first.close()
+            shared.finished.clear()
+            def publish(*args):shared.finished.set();return True
+            shared.publish=publish
+            provider=Provider();second=TranslationService(Assets(),Path(folder),provider,shared)
+            try:
+                value=second.translate('fixture');self.assertTrue(value['cached']);self.assertTrue(shared.finished.wait(1));self.assertEqual(provider.calls,0)
+            finally:second.close()
+
     def test_shared_download_works_without_calling_personal_provider(self):
         with tempfile.TemporaryDirectory(prefix='tb-shared-translation-') as folder:
             shared=Shared(CHINESE);provider=Provider();service=TranslationService(Assets(),Path(folder),provider,shared)
