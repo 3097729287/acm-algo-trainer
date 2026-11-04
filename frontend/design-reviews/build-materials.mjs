@@ -1,0 +1,16 @@
+import {build} from 'vite';
+import react from '@vitejs/plugin-react';
+import {mkdir,readFile,writeFile,copyFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+import {createHash} from 'node:crypto';
+import {STICKERS} from '../../server/leaderboard/src/gameplay.mjs';
+const directory=path.dirname(fileURLToPath(import.meta.url)),frontend=path.resolve(directory,'..');
+const filename='ToBe-贴纸背景与声音审批.html',out=path.resolve(frontend,'../../../设计预览/贴纸背景与声音-20261105'),desktop='C:/Users/lenovo/Desktop';
+const built=await build({configFile:false,root:frontend,publicDir:false,logLevel:'error',plugins:[react()],resolve:{alias:{'@':path.join(frontend,'src')}},define:{__MATERIAL_CATALOGUE__:JSON.stringify(STICKERS),'process.env.NODE_ENV':JSON.stringify('production')},build:{write:false,minify:true,target:'es2022',lib:{entry:path.join(directory,'materials.jsx'),name:'ToBeMaterialReview',formats:['iife'],fileName:()=> 'materials.js'}}});
+const outputs=(Array.isArray(built)?built:[built]).flatMap(result=>result.output),js=outputs.filter(item=>item.type==='chunk').map(item=>item.code).join('\n'),css=outputs.filter(item=>item.type==='asset'&&item.fileName.endsWith('.css')).map(item=>String(item.source)).join('\n');
+if(!js||!css)throw new Error('Missing bundled review code or styles');
+const html='<!doctype html>\n<html lang="zh-CN" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ToBe · 贴纸、背景与声音审批</title><style>'+css.replaceAll('</style','<\\/style')+'</style></head><body><div id="root"></div><script>'+js.replaceAll('</script','<\\/script')+'</script></body></html>';
+await mkdir(out,{recursive:true});await writeFile(path.join(out,filename),html,'utf8');await copyFile(path.join(out,filename),path.join(desktop,filename));
+const result={file:path.join(desktop,filename),projectCopy:path.join(out,filename),bytes:Buffer.byteLength(html),sha256:createHash('sha256').update(html).digest('hex'),catalogue:{total:STICKERS.length,stickers:STICKERS.filter(item=>item.kind!=='background').length,backgrounds:STICKERS.filter(item=>item.kind==='background').length},offline:true,duckCalls:2};
+await writeFile(path.join(out,'build-result.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));

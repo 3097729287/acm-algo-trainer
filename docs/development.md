@@ -1,3 +1,7 @@
+## 1.6.1 本机修订
+
+学习规划默认单项推荐，configure 可显式使用 recommended 起点，困难反馈生成待采纳方案；事实、方案和执行计划继续分别保存。能力分只影响建议起点，不补写先修掌握。NextActions 在 summary 可用时统一读取该来源，避免旧知识旅程抢回推荐。贴纸层级使用账号隔离的本机展示顺序，不写共享库存。桌面审批和程序复用 stickerSound、StickerReaction、StickerArt；rarity 和鸭声的最终选择不擅自应用。design-reviews 下保留可重建的离线 HTML 源码与检查。
+
 1.5.6 本地修复版：全屏 Win+D 真正最小化、原始九段位素材、严格校验的分段译文重试、教育赛 196 B 离线中文与无边框顶部计时。本机用户版及管理员版已从 1.5.5 更新到 1.5.6，正常入口、原账号及进行中的重现赛已验证；服务为 1.4.7，公开下载仍为 1.5.2。每版必须有 `docs/releases/<版本>.md`，打包到 `resources/update-notes`，正常启动存入桌面 `ToBe更新记录`；旧版说明不覆盖。参见[1.5.6 更新说明](releases/1.5.6.md)。
 
 1.5.3 开发范围以[下一本地版](next-local-release.md)为准：不新增题解，英文默认原文，中文由当前模型直接分批写入带摘要防护的公共补丁。scripts/translate_public_library.py 的 inventory／ingest／export 支持断点续跑和原文、公式、代码、资源校验；本批不使用 run 的外部翻译 API。公共种子 schema 8；精确原件验证回执是精简安装包的构建前提。服务 1.4.5 已部署，真实 AI 判分未配置。

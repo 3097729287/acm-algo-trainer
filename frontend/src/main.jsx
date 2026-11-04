@@ -11,6 +11,7 @@ import "@/styles/polish.css";
 import "@/styles/unified.css";
 import "@/styles/revision.css";
 import "@/styles/interaction.css";
+import "@/styles/followups-160.css";
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AppRecovery><AccountGate><BackgroundPlayback/><App /></AccountGate></AppRecovery>

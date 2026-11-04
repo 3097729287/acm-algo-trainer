@@ -1,7 +1,11 @@
 import DUCK_CALLS from './stickerDuckCalls.js';
+import {STICKER_FEEDBACK} from './stickerFeedbackCatalog.js';
 let context,duckBuffers=[],decoding;
 const playing=[];
-export const LEGENDARY_FEEDBACK=Object.freeze({duck:'quack',semicolon:'type',rainbow:'rainbow',envelope:'post',orbit:'orbit',gem:'gem',crown:'crown',galaxy:'galaxy',phoenix:'flame'});
+
+export const STICKER_ANIMATIONS=Object.freeze(Object.fromEntries(Object.entries(STICKER_FEEDBACK).filter(([,value])=>value.motion).map(([shape,value])=>[shape,value.motion])));
+export const LEGENDARY_FEEDBACK=STICKER_ANIMATIONS;
+export function stopStickerSounds(){for(const source of [...playing])try{source.stop();}catch{}playing.length=0;}
 function audio(){try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return null;if(!context||context.state==='closed')context=new Audio({latencyHint:'interactive'});return context;}catch{return null;}}
 export function prepareStickerAudio(){
  const ctx=audio();if(!ctx||duckBuffers.length===DUCK_CALLS.length)return Promise.resolve();
@@ -21,7 +25,7 @@ function breath(ctx,at,duration,frequency,volume){
  const source=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();source.buffer=buffer;filter.type='bandpass';filter.frequency.setValueAtTime(frequency,at);filter.Q.value=3;gain.gain.value=volume;source.connect(filter);filter.connect(gain);gain.connect(ctx.destination);source.start(at);keep(source,[source,filter,gain]);
 }
 export function playStickerSound(shape){
- if(!LEGENDARY_FEEDBACK[shape])return false;
+ if(!STICKER_FEEDBACK[shape])return false;
  const ctx=audio();if(!ctx)return false;void ctx.resume().catch(()=>{});const now=ctx.currentTime+.008;
  if(shape==='duck'){
   // Randomly choose one of the two calls from the user's toy-duck clip.
@@ -42,5 +46,25 @@ export function playStickerSound(shape){
  else if(shape==='crown'){[261.63,392,523.25,659.25].forEach((f,i)=>tone(ctx,f,now+i*.045,.58,.025,'triangle'));}
  else if(shape==='galaxy'){[330,494,740,1109,1661].forEach((f,i)=>tone(ctx,f,now+i*.065,.42,.022,'sine',f*1.18));}
  else if(shape==='phoenix'){breath(ctx,now,.55,1000,.12);tone(ctx,330,now,.45,.035,'triangle',1100);tone(ctx,880,now+.15,.38,.025,'sine',1760);}
+ else if(shape==='moon'){[659.25,987.77,1318.51].forEach((f,i)=>tone(ctx,f,now+i*.18,.55,.023));}
+ else if(shape==='planet'){[196,293.66,392].forEach((f,i)=>tone(ctx,f,now+i*.12,.58,.025,'sine',f*1.12));}
+ else if(shape==='crystal'){[1396.91,2093,2793.83].forEach((f,i)=>tone(ctx,f,now+i*.055,.43,.02));}
+ else if(shape==='butterfly'){[0,.11,.23,.38].forEach((delay,i)=>breath(ctx,now+delay,.09,1800+i*220,.047));tone(ctx,1174.66,now+.35,.2,.013);}
+ else if(shape==='rocket'){breath(ctx,now,.65,650,.11);tone(ctx,90,now,.68,.03,'triangle',1200);}
+ else if(shape==='whale'){tone(ctx,155,now,.75,.04,'sine',340);tone(ctx,290,now+.3,.6,.018,'sine',130);}
+ else if(shape==='cottage'){tone(ctx,180,now,.23,.025,'triangle',270);breath(ctx,now,.19,650,.045);[659,880].forEach((f,i)=>tone(ctx,f,now+.18+i*.17,.4,.023));}
+ else if(shape==='sofa'){tone(ctx,120,now,.18,.05,'sine',65);breath(ctx,now,.12,320,.055);tone(ctx,165,now+.14,.2,.024,'sine',95);}
+ else if(shape==='bookshelf'){[0,.15,.33].forEach(delay=>breath(ctx,now+delay,.15,2100,.06));}
+ else if(shape==='boat'){[0,.3].forEach(delay=>{breath(ctx,now+delay,.24,620,.07);tone(ctx,520,now+delay+.07,.14,.016,'sine',200);});}
+ else if(shape==='mountain'){breath(ctx,now,.7,420,.075);[0,.22,.44].forEach((delay,i)=>tone(ctx,293.66,now+delay,.42,.028/(i+1),'sine',261.63));}
+ else if(shape==='answer42'){[523.25,659.25,783.99,1046.5].forEach((f,i)=>tone(ctx,f,now+i*.065,.11,.022,'triangle'));[783.99,1046.5].forEach((f,i)=>tone(ctx,f,now+.39+i*.09,.21,.024,'triangle'));}
+ else if(shape==='heart'){[0,.27].forEach(delay=>{tone(ctx,68,now+delay,.17,.07,'sine',42);tone(ctx,90,now+delay+.09,.13,.035,'sine',55);});}
+ else if(shape==='key'){[1864.66,2489].forEach((f,i)=>tone(ctx,f,now+i*.065,.18,.019));breath(ctx,now+.2,.04,1500,.1);tone(ctx,392,now+.23,.2,.027,'triangle',523.25);}
+ else if(shape==='owl'){[0,.34].forEach(delay=>{tone(ctx,450,now+delay,.27,.038,'sine',330);tone(ctx,900,now+delay,.23,.008,'sine',660);});}
+ else if(shape==='dragon'){breath(ctx,now,.46,310,.11);tone(ctx,85,now,.5,.042,'triangle',190);tone(ctx,170,now+.18,.28,.024,'sine',95);}
+ else if(shape==='telescope'){[0,.09].forEach(delay=>breath(ctx,now+delay,.035,1900,.075));[1046.5,1568,2093].forEach((f,i)=>tone(ctx,f,now+.22+i*.1,.36,.023));}
+ else if(shape==='tower'){[523.25,783.99,1046.5,1318.51].forEach((f,i)=>tone(ctx,f,now+i*.16,.65,.024));}
+ else if(shape==='bridge'){[0,.15,.3].forEach(delay=>{breath(ctx,now+delay,.06,550,.06);tone(ctx,160,now+delay,.08,.027,'triangle',100);});breath(ctx,now+.42,.3,720,.045);}
+ else if(shape==='yearbadge'){[523.25,659.25,783.99,1046.5].forEach((f,i)=>tone(ctx,f,now+i*.18,.4,.028,'sine',f*1.02));}
  return true;
 }

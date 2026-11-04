@@ -125,8 +125,38 @@ class SummaryTests(unittest.TestCase):
 
     def test_difficulty_does_not_silently_replace_tasks(self):
         value = self.accept(self.configure()); identity = value['plan']['id']
+        original = json.loads(json.dumps(value['plan']))
         value = self.s.update({'action': 'difficulty', 'revision': value['revision'], 'reason': 'hard'})
-        self.assertEqual(value['plan']['id'], identity); self.assertIsNone(value['proposal'])
+        self.assertEqual(value['plan'], original)
+        self.assertEqual(value['proposal']['pace'], 'foundation')
+        self.assertTrue(any(task['kind'] == 'lecture' for task in value['proposal']['tasks']))
+        value = self.accept(value)
+        self.assertNotEqual(value['plan']['id'], identity)
+        self.assertEqual(value['plan']['pace'], 'foundation')
+
+    def test_too_easy_offers_practice_and_keeps_existing_facts(self):
+        value = self.accept(self.configure()); before = json.loads(json.dumps(value['topics']))
+        identity = value['plan']['id']
+        value = self.s.update({'action': 'difficulty', 'revision': value['revision'], 'reason': 'easy'})
+        self.assertEqual(value['plan']['id'], identity)
+        self.assertEqual(value['topics'], before)
+        self.assertEqual(value['proposal']['pace'], 'practice')
+        self.assertFalse(any(task['kind'] in ('lecture', 'course', 'quiz', 'template-problem') for task in value['proposal']['tasks'] if task['status'] != 'done'))
+        self.assertTrue(any(task['kind'] == 'problem' for task in value['proposal']['tasks']))
+
+    def test_established_ability_recommends_algorithms_without_inventing_basic_mastery(self):
+        value = self.s.refresh(); before = json.loads(json.dumps(value['topics']))
+        tracks = self.s._default_tracks(value['topics'], {'qualified': True, 'abilityScore': 1100})
+        self.assertEqual(tracks, ['prefix-difference'])
+        self.assertEqual(value['topics'], before)
+        self.assertTrue(all(topic['level'] == 0 for topic in value['topics']))
+
+    def test_demonstrated_advanced_topic_does_not_restart_at_missing_io_tags(self):
+        value = self.s.refresh()
+        advanced = next(topic for topic in value['topics'] if topic['id'] == 'sorting-basics')
+        advanced['level'] = 5
+        tracks = self.s._default_tracks(value['topics'])
+        self.assertNotIn(tracks[0], ['io-basics', 'basic-control', 'arrays', 'functions'])
 
     def test_unknown_manual_completion_cannot_fake_official_ac(self):
         value = self.accept(self.configure()); task = next(t for t in value['plan']['tasks'] if t['kind'] == 'problem')

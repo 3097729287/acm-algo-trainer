@@ -5,7 +5,8 @@ import {cloneElement,useCallback,useEffect,useLayoutEffect,useMemo,useRef,useSta
 import {readStickerLayout,cacheStickerLayout} from '@/lib/stickerCache.js';
 import {createPortal} from 'react-dom';
 import {fitStickerPlacement,stickerSize} from '@/lib/stickerPlacement.js';
-import {Gift,Image,Layers,RefreshCw,Sticker,Target,X} from 'lucide-react';
+import {Gift,Layers,RefreshCw,Sticker,Target,X} from 'lucide-react';
+import {readStickerOrder,bringStickerForward} from '@/lib/stickerOrder.js';
 import {BackgroundArt,WeatherArt} from './SceneStickerArt.jsx';
 import {StickerScenePresets,StickerWardrobe} from './StickerScenePanels.jsx';
 import {previewPreset,stickerWeather} from '@/lib/stickerScenes.js';
@@ -25,6 +26,9 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
  const surface=useRef(null),drag=useRef(null),alive=useRef(owner),request=useRef(null),saving=useRef(null),revision=useRef(0),latest=useRef(null);
  const placements=useRef(new Map()),[optimistic,setOptimistic]=useState(new Map());
  const [bounds,setBounds]=useState({width:0,height:0});
+ const [stack,setStack]=useState(()=>({owner,ids:readStickerOrder(owner)})),stackRef=useRef(stack);
+ useLayoutEffect(()=>{const next={owner,ids:readStickerOrder(owner)};stackRef.current=next;setStack(next);},[owner]);
+ const promote=id=>{const ids=bringStickerForward(owner,stackRef.current.owner===owner?stackRef.current.ids:readStickerOrder(owner),id);stackRef.current={owner,ids};setStack(stackRef.current);};
  const [reaction,reactToSticker]=useStickerReaction(owner),movedUnit=useRef(null);
  const recycling=useRef(new Map()),recycleRequests=useRef(new Map()),[pendingRecycles,setPendingRecycles]=useState(new Set());
  const [recycleError,setRecycleError]=useState('');
@@ -70,6 +74,7 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
   const {x,y,angle,scale}=fit(point,unit),position={x,y,angle,...(canScale?{scale:scale??1}:{})};
   const current=placements.current.get(unit.id)?.point||latest.current?.units?.find(value=>value.id===unit.id)?.placement||unit.placement;
   if(current&&['x','y','angle','scale'].every(key=>Math.abs((current[key]??(key==='scale'?1:0))-(position[key]??(key==='scale'?1:0)))<1e-8))return;
+  promote(unit.id);
   placements.current.set(unit.id,{unit,point:position});setOptimistic(new Map(placements.current));
   revision.current++;setError('');void flushPlacements();
  };
@@ -116,6 +121,8 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
  const items=useMemo(()=>[...(owned?visibleState.catalogue||[]:[])].sort((a,b)=>ORDER[a.rarity]-ORDER[b.rarity]||a.id.localeCompare(b.id)),[owned,visibleState?.catalogue]);
  const byId=useMemo(()=>new Map(items.map(item=>[item.id,item])),[items]);
  const units=owned?(visibleState.units||[]).filter(unit=>!pendingRecycles.has(unit.id)):[],art=id=>byId.get(id);
+ const stackIds=stack.owner===owner?stack.ids:readStickerOrder(owner),layerById=new Map(units.map((unit,index)=>[unit.id,index+1]));
+ stackIds.forEach((id,index)=>layerById.set(id,units.length+index+1));
  const displayUnits=units.map(unit=>({...unit,placement:unit.id===draft?.unit.id?draft:optimistic.get(unit.id)?.point||unit.placement}));
  const pendingBackground=[...optimistic.values()].filter(change=>art(change.unit.stickerId)?.kind==='background').at(-1)?.unit.id;
  const background=displayUnits.find(unit=>art(unit.stickerId)?.kind==='background'&&unit.placement&&(!pendingBackground||unit.id===pendingBackground));
@@ -158,6 +165,7 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
  function move(event){
   const active=drag.current;if(active?.pointer!==event.pointerId)return;
   if(!active.changed&&Math.hypot(event.clientX-active.startX,event.clientY-active.startY)<=4)return;
+  if(!active.changed)promote(active.unit.id);
   active.changed=true;movedUnit.current=active.unit.id;let point;
   if(active.kind==='rotate'){
    const delta=(Math.atan2(event.clientY-active.cy,event.clientX-active.cx)-active.start)*180/Math.PI;
@@ -174,7 +182,7 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
  }
  const unitButton=(unit,selected=false)=>{
   const point=fit(selected?draft:optimistic.get(unit.id)?.point||unit.placement,unit),item=art(unit.stickerId),effect=!mode&&reaction?.unitId===unit.id?reaction:null;
-  return <button type="button" key={unit.id} className={'placed-sticker'+(selected?' selected-sticker':'')+(effect?' legendary-reacting':'')+(!mode&&weather.hidden.has(unit.id)?' weather-component-hidden':'')} data-unit-id={unit.id} data-rarity={item?.rarity} title={item?.title} style={{left:point.x*100+'%',top:point.y*100+'%',width:stickerSize(bounds,point.scale,item)+'px',transform:`translate(-50%,-50%) rotate(${point.angle}deg)`}} aria-label={`${NAMES[item?.rarity]}贴纸 ${item?.shape}`} onPointerDown={event=>begin(event,unit)} onPointerMove={move} onPointerUp={event=>end(event)} onPointerCancel={event=>end(event,true)} onClick={event=>{event.stopPropagation();if(busy)return;if(movedUnit.current===unit.id){movedUnit.current=null;return;}if(item?.shape?.startsWith('person')&&state.wardrobe&&!busy&&!optimistic.size){setDraft(null);setWardrobe({unit,item});}else if(!mode)reactToSticker(unit,item);else if(!draft||draft.unit.id!==unit.id)setDraft({...point,unit});}} onContextMenu={event=>{event.preventDefault();event.stopPropagation();if(!busy&&!placements.current.has(unit.id)){setDraft(null);setConfirm({unit,anchor:event.currentTarget});}}}>{weather.effects.has(unit.id)?<WeatherArt type={weather.effects.get(unit.id)}/>:<StickerArt item={item} size="100%" appearance={outfitPreview?.id===unit.id?outfitPreview.appearance:unit.appearance}/>}{selected&&<span className="sticker-transform-frame" aria-hidden="true">{canScale&&['north','east','south','west'].map(edge=><span key={edge} className={'sticker-transform-edge '+edge} data-sticker-edge={edge}/>)}{['nw','ne','sw','se'].map(corner=><span key={corner} className={'sticker-transform-corner '+corner} data-sticker-corner={corner}/>)}</span>}{effect&&<StickerReaction reaction={effect}/>}</button>;
+  return <button type="button" key={unit.id} className={'placed-sticker'+(selected?' selected-sticker':'')+(effect?' legendary-reacting':'')+(!mode&&weather.hidden.has(unit.id)?' weather-component-hidden':'')} data-unit-id={unit.id} data-rarity={item?.rarity} title={item?.title} style={{zIndex:selected?units.length+stackIds.length+2:layerById.get(unit.id)||1,left:point.x*100+'%',top:point.y*100+'%',width:stickerSize(bounds,point.scale,item)+'px',transform:`translate(-50%,-50%) rotate(${point.angle}deg)`}} aria-label={`${NAMES[item?.rarity]}贴纸 ${item?.shape}`} onPointerDown={event=>begin(event,unit)} onPointerMove={move} onPointerUp={event=>end(event)} onPointerCancel={event=>end(event,true)} onClick={event=>{event.stopPropagation();if(busy)return;if(movedUnit.current===unit.id){movedUnit.current=null;return;}if(item?.shape?.startsWith('person')&&state.wardrobe&&!busy&&!optimistic.size){setDraft(null);setWardrobe({unit,item});}else if(!mode)reactToSticker(unit,item);else if(!draft||draft.unit.id!==unit.id)setDraft({...point,unit});}} onContextMenu={event=>{event.preventDefault();event.stopPropagation();if(!busy&&!placements.current.has(unit.id)){setDraft(null);setConfirm({unit,anchor:event.currentTarget});}}}>{weather.effects.has(unit.id)?<WeatherArt type={weather.effects.get(unit.id)}/>:<StickerArt item={item} size="100%" appearance={outfitPreview?.id===unit.id?outfitPreview.appearance:unit.appearance}/>}{selected&&<span className="sticker-transform-frame" aria-hidden="true">{canScale&&['north','east','south','west'].map(edge=><span key={edge} className={'sticker-transform-edge '+edge} data-sticker-edge={edge}/>)}{['nw','ne','sw','se'].map(corner=><span key={corner} className={'sticker-transform-corner '+corner} data-sticker-corner={corner}/>)}</span>}{effect&&<StickerReaction reaction={effect}/>}</button>;
  };
  return <div className={'sticker-canvas'+(mode?' sticker-mode':'')}>
 
@@ -184,7 +192,7 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
   {statistics}
   {wardrobe&&<StickerWardrobe {...wardrobe} choices={state.wardrobe} onClose={()=>setWardrobe(null)} onSave={wear}/>}
   {scenesOpen&&owned&&<StickerScenePresets state={visibleState} disabled={sceneBlocked} status={sceneStatus||(optimistic.size?'正在保存位置…':'')} onClose={()=>setScenesOpen(false)} onSave={(name,presetId)=>void sceneAction('scene-save',{name,...(presetId?{presetId}:{})})} onApply={preset=>void sceneAction('scene-apply',{presetId:preset.id})} onDelete={presetId=>void sceneAction('scene-delete',{presetId})}/>}
-  {toolbarHost&&createPortal(<div className="growth-footer-actions" role="group" aria-label="成长内容">{state?.capabilities?.scenes&&<><Tooltip text="场景预设"><button type="button" className="achievement-top-button" aria-label="场景预设" aria-pressed={scenesOpen} disabled={busy} onClick={()=>{if(draft)fix();setScenesOpen(v=>!v);setGoalsOpen(false);setPicker(null);}}><Layers size={19}/></button></Tooltip><Tooltip text="背景"><button type="button" className="achievement-top-button" aria-label="背景" disabled={busy} onClick={event=>openPicker(event,'background')}><Image size={19}/></button></Tooltip></>}{<Tooltip text="卡包"><button type="button" className="achievement-top-button sticker-box-trigger" aria-label="卡包" disabled={busy||Boolean(draft)||!state} onClick={()=>setBoxesOpen(true)}><Gift size={19}/>{pendingRewardCount>0&&<small>{pendingRewardCount}</small>}</button></Tooltip>}<Tooltip text="目标"><button type="button" className="achievement-top-button" aria-label="目标" aria-expanded={goalsOpen} aria-pressed={goalsOpen} disabled={busy} onClick={()=>{setGoalsOpen(value=>!value);setMode(false);setDraft(null);setPicker(null);setConfirm(null);drag.current=null;request.current=null;}}><Target size={19}/></button></Tooltip><Tooltip text="贴纸"><button type="button" className="achievement-top-button" aria-label="贴纸" aria-pressed={mode} disabled={busy} onClick={()=>{setGoalsOpen(false);setMode(value=>!value);setDraft(null);setPicker(null);setConfirm(null);drag.current=null;request.current=null;void refresh();}}><Sticker size={19}/></button></Tooltip>{error&&<button type="button" className="achievement-top-button" aria-label="刷新贴纸" onClick={refresh}><RefreshCw size={16}/></button>}</div>,toolbarHost)}
+  {toolbarHost&&createPortal(<div className="growth-footer-actions" role="group" aria-label="成长内容">{state?.capabilities?.scenes&&<><Tooltip text="场景预设"><button type="button" className="achievement-top-button" aria-label="场景预设" aria-pressed={scenesOpen} disabled={busy} onClick={()=>{if(draft)fix();setScenesOpen(v=>!v);setGoalsOpen(false);setPicker(null);}}><Layers size={19}/></button></Tooltip></>}{<Tooltip text="卡包"><button type="button" className="achievement-top-button sticker-box-trigger" aria-label="卡包" disabled={busy||Boolean(draft)||!state} onClick={()=>setBoxesOpen(true)}><Gift size={19}/>{pendingRewardCount>0&&<small>{pendingRewardCount}</small>}</button></Tooltip>}<Tooltip text="目标"><button type="button" className="achievement-top-button" aria-label="目标" aria-expanded={goalsOpen} aria-pressed={goalsOpen} disabled={busy} onClick={()=>{setGoalsOpen(value=>!value);setMode(false);setDraft(null);setPicker(null);setConfirm(null);drag.current=null;request.current=null;}}><Target size={19}/></button></Tooltip><Tooltip text="贴纸"><button type="button" className="achievement-top-button" aria-label="贴纸" aria-pressed={mode} disabled={busy} onClick={()=>{setGoalsOpen(false);setMode(value=>!value);setDraft(null);setPicker(null);setConfirm(null);drag.current=null;request.current=null;void refresh();}}><Sticker size={19}/></button></Tooltip>{error&&<button type="button" className="achievement-top-button" aria-label="刷新贴纸" onClick={refresh}><RefreshCw size={16}/></button>}</div>,toolbarHost)}
   {goalsOpen&&!mode&&goals&&cloneElement(goals,{onClose:()=>setGoalsOpen(false)})}
   {(recycleError||mode&&error)&&<p className="sticker-error connection-error" role="alert">{recycleError||error}</p>}
   {boxesOpen&&owned&&<StickerBoxes api={api} state={state} onUpdated={value=>accept(value,owner)} onClose={()=>setBoxesOpen(false)}/>}

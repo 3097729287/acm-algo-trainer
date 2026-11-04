@@ -170,15 +170,27 @@ class LearningSummary:
             if deadline < self.t._now().astimezone(SHANGHAI).date(): raise ServiceError(422, '截止日期已过，请调整目标日期')
         return result
 
-    def _default_tracks(self, topics):
+    def _default_tracks(self, topics, assessment=None):
         supported = {item['id'] for item in topics if item['level'] >= 5}
-        if not supported:
+        assessed_ready = bool((assessment or {}).get('qualified') and (assessment or {}).get('abilityScore', 0) >= 1000)
+        if not supported and not assessed_ready:
             old = max(topics, key=lambda item: item['publicAccepted'], default=None)
             if old and old['publicAccepted']:
                 return [old['id']]
+        # Readiness may follow prerequisites of demonstrated advanced work. It
+        # does not change those prerequisites' mastery or invent AC evidence.
+        definitions = {topic['id']: topic for topic in curriculum()['topics']}
+        ready = set(supported)
+        if assessed_ready:
+            ready.update(topic['id'] for topic in curriculum()['topics'][:7])
+        pending = list(supported)
+        while pending:
+            for prerequisite in definitions.get(pending.pop(), {}).get('prerequisites', []):
+                if prerequisite not in ready:
+                    ready.add(prerequisite); pending.append(prerequisite)
         # Retain learned facts from the whole history, independent of the rating window.
         for topic in curriculum()['topics']:
-            if topic['id'] not in supported and set(topic['prerequisites']) <= supported:
+            if topic['id'] not in ready and set(topic['prerequisites']) <= ready:
                 return [topic['id']]
         return [min(topics, key=lambda item: (item['level'], item['id']))['id']]
 
@@ -207,11 +219,12 @@ class LearningSummary:
             return True
         return False
 
-    def _plan(self, state, tracks, rows, records, events, topics, previous=None):
+    def _plan(self, state, tracks, rows, records, events, topics, previous=None, pace=None):
         now = self.t._now()
         monday = week(now)
         today = now.astimezone(SHANGHAI).date()
         config = state['config']
+        pace = pace or (previous or {}).get('pace', 'normal')
         topic_by_id = {topic['id']: topic for topic in curriculum()['topics']}
         proof = {topic['id']: topic for topic in topics}
         budgets = [{'date': (monday + dt.timedelta(days=d)).isoformat(), 'minutes': 0 if d in config['restDays'] else config['weekdayMinutes' if d < 5 else 'weekendMinutes'], 'used': 0} for d in range(7)]
@@ -296,12 +309,14 @@ class LearningSummary:
         templates = {item['id']: item for item in builtins()}
         for tid in tracks:
             topic, evidence = topic_by_id[tid], proof[tid]
-            if evidence['level'] < 2:
-                for identity in ([] if state.get('checks', {}).get(tid, {}).get('read') else topic['lectures'][:1]):
-                    add(task('lecture', identity, '阅读：' + topic['title'], 15, tid, '阅读正文并确认已读；理解另行检验'))
+            if pace != 'practice' and (evidence['level'] < 2 or pace == 'foundation'):
+                for identity in (topic['lectures'][:1] if pace == 'foundation' else [] if state.get('checks', {}).get(tid, {}).get('read') else topic['lectures'][:1]):
+                    reading = task('lecture', identity, ('复习：' if pace == 'foundation' else '阅读：') + topic['title'], 10 if pace == 'foundation' else 15, tid, '读完后确认')
+                    if pace == 'foundation': reading['key'] += ':support:' + monday.isoformat()
+                    add(reading)
                 if tid in QUIZZES: add(task('quiz', tid, '原理检查：' + topic['title'], 5, tid, '回答适用条件或边界问题'))
             template = templates.get(topic.get('template'), {})
-            if evidence['level'] < 5:
+            if pace != 'practice' and (evidence['level'] < 5 or pace == 'foundation'):
                 if topic.get('course'): add(task('course', topic['course'], '实验与跟做：' + topic['title'], 20, tid, '在课程内完成对应操作，再用脱离示例的实现验证'))
                 for identity in template.get('practiceIds', [])[:1]: add(task('template-problem', identity, '实现检查：' + topic['title'], 25, tid, '本操作练习全部案例通过'))
             candidates = [r for r in pool if self._matches(r, topic) and (canonical_url(r.get('url')) or r['id']) not in {canonical_url(next((x for x in rows if x['id'] == pid), {}).get('url')) for t in tasks if t['kind'] == 'mixed' for pid in t.get('ids', [])}]
@@ -318,6 +333,7 @@ class LearningSummary:
         for index, item in enumerate(tasks): item['order'] = index + 1
         allocations = [{'id': tid, 'title': topic_by_id[tid]['title'], 'minutes': sum(t['minutes'] for t in tasks if t.get('topicId') == tid)} for tid in tracks]
         return {'id': uuid.uuid4().hex, 'week': monday.isoformat(), 'stage': (previous or {}).get('stage', self._stage(topics)),
+                'pace': pace,
                 'tracks': tracks, 'tasks': tasks, 'waiting': waiting, 'days': budgets, 'allocations': allocations,
                 'gaps': gaps, 'createdAt': iso(now), 'configHash': digest(config)}
 
@@ -334,49 +350,29 @@ class LearningSummary:
         return 3
 
     def _article(self, state, records, events, assessment):
-        topics = state['topics']; plan = state.get('plan'); config = state['config']; now = self.t._now()
+        topics, plan, config = state['topics'], state.get('plan'), state['config']
+        now = self.t._now()
         stage = (plan or {}).get('stage', self._stage(topics))
-        active = {t['id']: t for t in topics if t['id'] in (plan or {}).get('tracks', [])}
-        goal = config['goal']
-        week_start = week(now)
-        recent = [e for e in events if e['solved'] and parse_time(e['date']).astimezone(SHANGHAI).date() >= week_start]
-        changes = '；'.join(t['title'] + '已' + t['label'] for t in active.values()) or '尚未选择执行主线'
-        paragraph = [
-            {'id': 'stage', 'title': '当前阶段', 'text': f'你的总目标是{goal["title"]}，目前按{STAGES[stage]}阶段接续。{changes}。已学历史继续保留，缺少近期检验的部分会单列待验证。'},
-            {'id': 'progress', 'title': '最近进步', 'text': f'本周有{len(recent)}道不同原题留下新的独立通过证据。' + ('当前的具体依据可在下方专题记录中打开；一次通过与修改后通过沿用现有稳定性判断。' if recent else '这不表示此前没有学过；公开 AC、已读和跟做分别记录，暂不足以确认的能力继续等待检验。')},
-            {'id': 'gaps', 'title': '主要缺口', 'text': '；'.join(t['title'] + '：' + ('隔日保持已有证据，未提示算法的综合迁移仍需检验' if t['level'] >= 6 else '下一步核实' + LEVELS[min(6, t['level'] + 1)]) for t in active.values()) or '先确定时间预算，再从已有记录支持的位置做少量验证，不以等级、阅读时长或翻页代替掌握。'}]
-        if plan:
-            total = sum(d['minutes'] for d in plan['days'])
-            allocation = '、'.join(a['title'] + str(a['minutes']) + '分钟' for a in plan['allocations'])
-            paragraph.append({'id': 'week', 'title': '本周安排', 'text': f'本周总预算{total}分钟，{allocation}，其余用于到期复习、无算法提示综合检验与复盘。按日期和顺序执行，下表列出真实入口与各自完成条件。未完成内容在后续预算内顺延，新内容相应后移。'})
-            pending = [t for t in plan['tasks'] if t['status'] != 'done']
-            next_task = pending[0] if pending else None
-            next_text = '本周已安排任务已完成，可以复习或自行选题；下一阶段方案需采纳后启动。'
-            if next_task:
-                next_text = ('先完成“' + next_task['title'] + '”，' + next_task['condition'] + '。') if next_task['date'] <= now.astimezone(SHANGHAI).date().isoformat() else '下一项安排在' + next_task['date'] + '：“' + next_task['title'] + '”。今天可以休息或自行选择额外学习。'
-            paragraph.append({'id': 'next', 'title': '现在最该做的一件事', 'text': next_text})
-        else:
-            paragraph.extend([{'id': 'week', 'title': '本周安排', 'text': '请先填写工作日、周末可用时间和休息日。系统不会猜测你的日程；计划方案确认后，整周任务统一进入“我的训练”。'},
-                              {'id': 'next', 'title': '现在最该做的一件事', 'text': '填写可用时间，查看系统建议的起点并采纳；你也可以选择专题或提出已经掌握的内容，先做短验证。'}])
-        goal_detail = '截止日期为' + goal['deadline'] + '，日程会按剩余时间调整；' if goal.get('deadline') else '目标无截止日期，按可用时间持续推进；'
-        paragraph.append({'id': 'route', 'title': '下一阶段与检验', 'text': goal_detail + '当前阶段之后按“' + STAGES[min(stage + 1, len(STAGES) - 1)] + '”接续。先用复习保留旧知识，再补当前主线缺口，依次核对独立实现、未做过的原题、隔日保持和无算法提示综合任务。通过当前技能阶段不等于完成最终目标，区域赛奖牌以真实比赛结果确认。' + ('你选择了团队备赛，训练安排结合“' + (config['role'] or '职责待填写') + '”职责；这里仅记录你本人的表现。' if config.get('team') else '')})
-        pending_minutes = sum(t['minutes'] for t in (plan or {}).get('tasks', []) if t['status'] != 'done')
-        estimate = (f'按任务预算，本轮已安排的剩余内容约{pending_minutes / 60:.1f}–{pending_minutes * 1.5 / 60:.1f}小时，包含复习、综合检验与复盘；这是排程估计，会结合实际投入与完成情况修正。' if pending_minutes else '本周各项用时是可调整的训练估计。')
-        paragraph.append({'id': 'estimate', 'title': '预计时间', 'text': estimate + '阶段周期还需实际检验结果；证据不足时先诊断，不把题量、能力分换算成获奖日期。'})
-        today = now.astimezone(SHANGHAI).date().isoformat()
-        today_records = [r for r in records if r.get('finished_at') and parse_time(r['submitted_at']).astimezone(SHANGHAI).date().isoformat() == today]
-        aliases = self.t._identity_map()
-        accepted = {aliases.get(r['problem_id'], r['problem_id']) for r in today_records if r.get('scope') == 'official' and r.get('verdict') == 'AC'}
-        assisted = {aliases.get(r['problem_id'], r['problem_id']) for r in today_records if r.get('scope') == 'official' and r.get('verdict') == 'AC' and r.get('solution_seen')}
-        from submission_evidence import source_present
-        independent = {aliases.get(r['problem_id'], r['problem_id']) for r in today_records if r.get('scope') == 'official' and r.get('verdict') == 'AC' and r.get('solution_seen') == 0 and (source_present(r) or r.get('timedReceipt'))} - assisted
-        unknown = accepted - assisted - independent
-        reviews = sum(t['kind'] == 'review' and str(t.get('completedAt', '')).startswith(today) for t in (plan or {}).get('tasks', []))
-        paragraph.append({'id': 'daily', 'title': '今日反馈', 'text': f'今天正式通过{len(accepted)}道不同原题：独立证据{len(independent)}道，辅助完成{len(assisted)}道，独立性尚未确认{len(unknown)}道；完成计划复习{reviews}项。尚未确认的原站回执不计完成。进步和主要问题见上文，下次打开继续同一份已采纳计划。'})
+        recent = [event for event in events if event['solved'] and parse_time(event['date']).astimezone(SHANGHAI).date() >= week(now)]
+        pending = [task for task in (plan or {}).get('tasks', []) if task['status'] != 'done']
+        next_task = pending[0] if pending else None
+        tracks = (plan or {}).get('tracks', state.get('recommendation', {}).get('tracks', []))
+        active = [topic for topic in topics if topic['id'] in tracks]
+        next_text = (next_task['title'] + ' · ' + str(next_task['minutes']) + ' 分钟') if next_task else '填写可用时间，按推荐开始。' if not plan else '本周任务已完成，接下来复习。'
+        total = sum(day['minutes'] for day in (plan or {}).get('days', []))
+        paragraphs = [
+            {'id': 'stage', 'title': '当前重点', 'text': '、'.join(topic['title'] for topic in active) or STAGES[stage]},
+            {'id': 'progress', 'title': '这周进展', 'text': '新独立通过 ' + str(len(recent)) + ' 道题。'},
+            {'id': 'gaps', 'title': '接下来补', 'text': '；'.join(topic['title'] + '：' + LEVELS[min(6, topic['level'] + 1)] for topic in active) or '先做一次短检验。'},
+            {'id': 'week', 'title': '本周安排', 'text': str(len(pending)) + ' 项待完成，共 ' + str(total) + ' 分钟。' if plan else '填写每天可用时间，系统推荐学习安排。'},
+            {'id': 'next', 'title': '现在做什么', 'text': next_text},
+            {'id': 'route', 'title': '下一阶段', 'text': STAGES[min(stage + 1, len(STAGES) - 1)] + '。先通过当前专题检验。'},
+            {'id': 'estimate', 'title': '剩余用时', 'text': str(sum(task['minutes'] for task in pending)) + ' 分钟，按实际完成情况调整。' if plan else '填写可用时间后安排。'},
+            {'id': 'daily', 'title': '今天进度', 'text': '完成 ' + str(sum(task['status'] == 'done' and task['date'] == now.astimezone(SHANGHAI).date().isoformat() for task in (plan or {}).get('tasks', []))) + ' 项计划任务。'}]
         if state.get('diagnoses'):
-            d = state['diagnoses'][-1]
-            paragraph.append({'id': 'diagnosis', 'title': '遇到困难', 'text': '你反馈“' + REASONS[d['reason']] + '”。' + d['advice'] + '涉及方向或任务替换的方案只在采纳后应用。'})
-        return [{**p, 'hash': digest(p)} for p in paragraph]
+            diagnosis = state['diagnoses'][-1]
+            paragraphs.append({'id': 'diagnosis', 'title': REASONS[diagnosis['reason']], 'text': diagnosis['advice']})
+        return [{**paragraph, 'hash': digest(paragraph)} for paragraph in paragraphs]
 
     def refresh(self):
         with self.t.lock, self.t._library_view():
@@ -385,6 +381,10 @@ class LearningSummary:
             if self.t.active_contest(): return self.snapshot()
             rows, records, events, topics, assessment = self._facts(state)
             state['topics'] = topics
+            suggested = self._default_tracks(topics, assessment)
+            recommended = next(topic for topic in topics if topic['id'] == suggested[0])
+            state['recommendation'] = {'tracks': suggested, 'title': recommended['title'],
+                'reason': '做过同类题，先用练习确认。' if recommended['publicAccepted'] else '从已有做题记录接着学。' if events else '先用一小节确认起点。'}
             plan = state.get('plan')
             if plan:
                 before = deepcopy(plan)
@@ -400,14 +400,14 @@ class LearningSummary:
                     if state.get('attainedPlanId') != plan['id']:
                         self._archive(state, '当前阶段检验完成')
                         state['attainedPlanId'] = plan['id']
-                    following = self._default_tracks(topics)
+                    following = self._default_tracks(topics, assessment)
                     if following != plan['tracks'] or plan['stage'] < len(STAGES) - 1:
                         state['proposal'] = self._plan(state, following, rows, records, events, topics)
                         state['proposal']['stage'] = min(len(STAGES) - 1, plan['stage'] + 1)
                         state['proposal']['reason'] = '当前主线已有独立应用与延迟检验证据，建议查看下一阶段方案'
                 if not state.get('proposal') and len(plan['tracks']) == 1 and state.get('offeredParallelPlanId') != plan['id'] and sum(d['minutes'] for d in plan['days']) >= 240:
                     current_topic = next(t for t in topics if t['id'] == plan['tracks'][0])
-                    following = self._default_tracks(topics)
+                    following = self._default_tracks(topics, assessment)
                     if current_topic['level'] >= 5 and following[0] not in plan['tracks']:
                         state['proposal'] = self._plan(state, plan['tracks'] + following, rows, records, events, topics, plan)
                         state['proposal']['reason'] = '当前主线进入隔日保持检验，可在间隔期间并行学习另一项；采纳前请核对时间重新分配'
@@ -435,9 +435,9 @@ class LearningSummary:
                 raise ServiceError(409, '请先完成当前限时训练，交卷后再调整规划')
             if action == 'configure':
                 state['config'] = self._config(body.get('config'), state['config'])
-                rows, records, events, topics, _ = self._facts(state)
+                rows, records, events, topics, assessment = self._facts(state)
                 state['topics'] = topics
-                tracks = body.get('tracks') or (state.get('plan') or {}).get('tracks') or self._default_tracks(topics)
+                tracks = self._default_tracks(topics, assessment) if body.get('recommended') is True else body.get('tracks') or (state.get('plan') or {}).get('tracks') or self._default_tracks(topics, assessment)
                 self._validate_tracks(tracks)
                 if state.get('plan') and tracks == state['plan']['tracks']:
                     self._archive(state, '调整时间安排')
@@ -481,6 +481,14 @@ class LearningSummary:
                           'easy': '可以直接用未做过的原题验证，独立通过后再调整起点。', 'hard': '先确认困难位置，再选择补先修或减少任务量。',
                           'verify': '短原理检查、模板操作和独立原题各验证不同能力。', 'transfer': '先用不提示算法的限时任务检验识别，交卷后再查看方法。'}[reason]
                 state['diagnoses'] = (state['diagnoses'] + [{'reason': reason, 'at': iso(self.t._now()), 'advice': advice}])[-32:]
+                if reason in ('hard', 'easy', 'forgot') and state.get('plan'):
+                    rows, records, events, topics, _ = self._facts(state)
+                    previous = deepcopy(state['plan'])
+                    previous['tasks'] = [task for task in previous['tasks'] if task.get('status') == 'done']
+                    previous['waiting'] = []
+                    pace = 'practice' if reason == 'easy' else 'foundation'
+                    state['proposal'] = self._plan(state, state['plan']['tracks'], rows, records, events, topics, previous, pace=pace)
+                    state['proposal']['reason'] = '跳过讲解，直接用新题验证。' if reason == 'easy' else '先补一节讲解，再做短练习。'
             elif action == 'reflect':
                 task = self._task(state, body.get('key'))
                 contest = self.t.connection.execute('SELECT status FROM contests WHERE id=?', (task.get('contestId'),)).fetchone()

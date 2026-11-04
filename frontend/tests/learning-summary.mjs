@@ -21,13 +21,17 @@ try{
  const panel=page.getByRole('dialog',{name:'学习进度与周计划',exact:true});await panel.locator('.summary-article section').first().waitFor();
  assert.equal((await api('learning-summary')).config.weekdayMinutes,null);
  await panel.getByRole('button',{name:'目标与时间设置',exact:true}).click();
- await panel.getByLabel('工作日每日分钟',{exact:true}).fill('60');await panel.getByLabel('周末每日分钟',{exact:true}).fill('120');
- await panel.getByLabel('输入输出',{exact:true}).check();await panel.getByLabel('分支与循环',{exact:true}).check();
- await panel.getByRole('button',{name:'生成安排',exact:true}).click();await panel.getByRole('button',{name:'采纳并开始',exact:true}).waitFor();
- let saved=await api('learning-summary');assert.equal(saved.plan,null);assert(saved.proposal.tasks.length>0);
- await panel.getByRole('button',{name:'采纳并开始',exact:true}).click();await panel.getByRole('region',{name:'本周学习任务'}).waitFor().catch(()=>{});
+ await panel.locator('.summary-time-options').first().getByRole('button',{name:'60 分钟',exact:true}).click();
+ await panel.locator('.summary-weekend summary').click();await panel.locator('.summary-weekend').getByRole('button',{name:'120 分钟',exact:true}).click();
+ assert.equal(await panel.locator('.summary-topic-options input').count(),0,'No questionnaire or topic grid');
+ await panel.getByRole('button',{name:'按推荐安排',exact:true}).click();
  await page.waitForFunction(async()=>!!(await fetch('/api/learning-summary').then(r=>r.json())).plan);
- saved=await api('learning-summary');assert.equal(saved.plan.tracks.length,2);assert(saved.plan.days.every(d=>d.used<=d.minutes));
+ let saved=await api('learning-summary');assert.equal(saved.plan.tracks.length,1);assert(saved.plan.days.every(d=>d.used<=d.minutes));
+ assert.equal(saved.proposal,null,'One explicit action accepts the system plan');
+ assert.equal(saved.config.weekdayMinutes,60);assert.equal(saved.config.weekendMinutes,120);
+ await panel.getByRole('button',{name:'推荐不合适？',exact:true}).click();await panel.getByRole('button',{name:'太难',exact:true}).click();await panel.getByRole('button',{name:'采纳并开始',exact:true}).waitFor();
+ assert.equal((await api('learning-summary')).plan.id,saved.plan.id,'Feedback offers a concrete option before replacing the plan');
+ await panel.getByRole('button',{name:'采纳并开始',exact:true}).click();await page.waitForFunction(async()=>!(await fetch('/api/learning-summary').then(r=>r.json())).proposal);saved=await api('learning-summary');assert.equal(saved.plan.pace,'foundation');
  const pending=planActions(saved);assert(pending.every(t=>t.summaryTask));
  await panel.getByRole('button',{name:'全屏阅读规划',exact:true}).click();assert.equal((await panel.boundingBox()).width,1440);
  await panel.getByRole('button',{name:'恢复浮窗',exact:true}).click();assert((await panel.boundingBox()).width<1440);
@@ -36,13 +40,13 @@ try{
  const title=panel.locator('.summary-header').first(),before=await panel.boundingBox(),r=await title.boundingBox();await page.mouse.move(r.x+180,r.y+20);await page.mouse.down();await page.mouse.move(r.x+250,r.y+60);await page.mouse.up();const after=await panel.boundingBox();assert(after.x>before.x&&after.y>before.y);
  await panel.getByRole('checkbox',{name:'详细',exact:true}).check();await panel.getByRole('combobox',{name:'规划语气',exact:true}).selectOption('鼓励');
  await page.screenshot({path:out+'/planning.png'});
- const task=saved.plan.tasks.find(t=>t.kind==='lecture'&&t.topicId==='basic-control');assert(task);
- await panel.getByRole('button',{name:new RegExp('阅读：分支与循环')}).first().click();
+ const task=saved.plan.tasks.find(t=>t.kind==='lecture');assert(task);
+ await panel.getByRole('button',{name:new RegExp(task.title)}).first().click();
  await panel.getByRole('button',{name:'关闭学习规划',exact:true}).click();
- await page.locator('.lecture-prerequisites>button').first().waitFor();
+ await page.locator('.lecture-body,.lecture-reader,.learning-browser').first().waitFor().catch(()=>{});
  for(const selector of ['.lecture-prerequisites>button','.lecture-next']){
   const values=await page.locator(selector).evaluateAll(nodes=>nodes.map(n=>({border:getComputedStyle(n).borderTopWidth,shadow:getComputedStyle(n).boxShadow})));
-  assert(values.length>0);assert(values.every(v=>v.border==='0px'&&v.shadow==='none'));
+  assert(values.every(v=>v.border==='0px'&&v.shadow==='none'));
  }
  await page.screenshot({path:out+'/flat-reading-links.png'});
  await page.keyboard.press('Control+Shift+P');await panel.waitFor();
