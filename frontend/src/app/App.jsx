@@ -8,6 +8,7 @@ import DuelReadyPrompt from '@/components/DuelReadyPrompt.jsx';
 import {applyEditorTheme,editorTheme} from '@/lib/editorThemes.js';
 import {OPACITY_KEYS,SURFACE_DEFAULTS,opacityStyle} from '@/lib/surfaceOpacity.js';
 import {trainingListLocation} from '@/lib/trainingListLocation.js';
+import '@/components/PresenceLabel.css';
 import useNavigationLevel from '@/lib/useNavigationLevel.js';
 import NavigationPending from '@/components/NavigationPending.jsx';
 import DailyTaskCount from '@/components/DailyTaskCount.jsx';
