@@ -29,9 +29,11 @@ test('background draw is a single, durable card per owner/original contest despi
  const f=await startGameplayFixture({now});try{
   const a=await client(f,'scene_reward_a'),b=await client(f,'scene_reward_b'),body={requestId:randomUUID(),evidence:evidence()};
   const results=await Promise.all(Array.from({length:5},()=>a.send('/v1/stickers/replay-background',body)));assert(results.every(r=>r.status===200));
-  assert.equal(new Set(results.map(r=>r.value.backgroundReward.unitId)).size,1);let state=await a.read();assert.equal(state.units.length,1);assert.equal(Object.keys(state.boxes).length,0);assert(STICKERS.find(s=>s.id===state.units[0].stickerId).kind==='background');
-  const retry=await a.post('/v1/stickers/replay-background',{evidence:evidence({replayId:'contest-'+'c'.repeat(32)})});assert.equal(retry.status,200);assert.equal((await a.read()).units.length,1);
-  assert.equal((await b.post('/v1/stickers/replay-background',{evidence:evidence()})).status,200);assert.equal((await b.read()).units.length,1);
+  assert.equal(new Set(results.map(r=>r.value.backgroundReward.id)).size,1);let state=await a.read();assert.equal(state.units.length,0);assert.equal(Object.keys(state.boxes).length,0);assert.equal(Object.keys(state.backgroundRewards).length,1);const reward=Object.values(state.backgroundRewards)[0];assert.equal(reward.openedAt,null);
+  const retry=await a.post('/v1/stickers/replay-background',{evidence:evidence({replayId:'contest-'+'c'.repeat(32)})});assert.equal(retry.status,200);assert.equal((await a.read()).units.length,0);
+  assert.equal((await b.post('/v1/stickers/replay-background',{evidence:evidence()})).status,200);assert.equal((await b.read()).units.length,0);
+  assert.equal((await b.post('/v1/stickers/open-background',{rewardId:reward.id})).status,404);
+  const open={requestId:randomUUID(),rewardId:reward.id},opened=await Promise.all(Array.from({length:5},()=>a.send('/v1/stickers/open-background',open)));assert(opened.every(r=>r.status===200));assert.equal(new Set(opened.map(r=>r.value.opening.drops[0].id)).size,1);assert.equal(opened[0].value.opening.drops.length,1);assert.equal(opened[0].value.opening.kind,'background');assert.equal((await a.read()).units.length,1);assert.equal((await a.post('/v1/stickers/open-background',{rewardId:reward.id})).value.opening.drops[0].id,opened[0].value.opening.drops[0].id);
   for(const change of [{duration:60},{accepted:[evidence().accepted[0]]},{finishedAt:now-4000000},{accepted:evidence().accepted.map(a=>({...a,verdict:'SAMPLE_PASS'}))},{accepted:[evidence().accepted[0],evidence().accepted[0]]}])assert.equal((await a.post('/v1/stickers/replay-background',{evidence:evidence(change)})).status,400);
   assert.equal((await a.read()).units.length,1);
  }finally{await f.close();}

@@ -14,6 +14,9 @@ const units=positioned.map(([stickerId,x,y,scale])=>({id:randomUUID(),stickerId,
 units.push(...STICKERS.filter(s=>s.kind==='background'&&s.rarity==='rare').map(s=>({id:randomUUID(),stickerId:s.id,revision:0,placement:null})));
 await fixture.STORE.gameplay.db.execute('INSERT INTO gameplay_accounts(user_id,payload) VALUES(?,?)',[a.id,JSON.stringify({revision:0,units,grants:{}})]);
 const tree=units[0],person=units[2],butterfly=units[8];
+const finished=Date.now()-60000;
+assert.equal((await a.post('/v1/stickers/replay-background',{evidence:{version:1,contestKey:'replay:'+'a'.repeat(64),replayId:'contest-'+'b'.repeat(32),duration:120,originalDuration:120,startedAt:finished-7200000,finishedAt:finished,difficulty:1800,total:5,accepted:[0,1].map(i=>({problemKey:'p:'+String(i).repeat(64),submissionId:'scene-ui-'+i,submittedAt:finished-4000000+i*1000,scope:'official',verdict:'AC'}))}})).status,200);
+
 const vite=await createServer({cacheDir:out+'/vite',server:{host:'127.0.0.1',port:0,watch:null}});await vite.listen();
 const browser=await chromium.launch({channel:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1100,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(7000);
 await page.exposeFunction('sceneFixtureCall',(owner,path,body)=>accounts.get(owner).send('/v1/'+path,body));
@@ -22,13 +25,16 @@ const scene=page.getByRole('dialog',{name:'场景预设',exact:true}),placed=id=
 try{
  await page.goto(vite.resolvedUrls.local[0]+'tests/sticker-scenes-fixture.html');await placed(person.id).waitFor();await page.locator('[data-weather=rainbow]').waitFor();
  assert.equal(await page.locator('.weather-component-hidden').count(),3);
+ assert.equal((await a.state()).units.length,units.length,'Background reward stays sealed');
+ await page.getByRole('button',{name:'卡包',exact:true}).click();const boxes=page.getByRole('dialog',{name:'卡包',exact:true});await boxes.getByRole('button',{name:'背景奖励 1 个',exact:true}).waitFor();assert.equal((await a.state()).units.length,units.length);await boxes.getByRole('button',{name:'抽卡',exact:true}).click();await boxes.getByText('获得背景',{exact:true}).waitFor();assert.equal(await boxes.locator('.pack-result-card').count(),1);await boxes.getByRole('button',{name:'全部翻开',exact:true}).click();await boxes.getByRole('button',{name:'完成',exact:true}).click();await boxes.getByRole('button',{name:'关闭卡包',exact:true}).click();assert.equal((await a.state()).units.length,units.length+1);
+
  await placed(person.id).click();let wardrobe=page.getByRole('dialog',{name:'小人衣橱',exact:true});await wardrobe.waitFor();
  const calls=await page.evaluate(()=>sceneFixture.calls.length);await wardrobe.getByRole('region',{name:'帽子'}).count();
  await wardrobe.locator('section[aria-label="帽子"]').getByRole('button',{name:'针织帽',exact:true}).click();
  assert((await wardrobe.locator('.wardrobe-preview [data-person-outfit]').getAttribute('data-person-outfit')).includes('beanie'));assert.equal(await page.evaluate(()=>sceneFixture.calls.length),calls,'Wardrobe preview needs no request');
  await wardrobe.getByRole('button',{name:'穿上',exact:true}).click();await wardrobe.waitFor({state:'hidden'});
  await page.waitForFunction(id=>document.querySelector(`[data-unit-id="${id}"] [data-person-outfit]`)?.dataset.personOutfit.includes('beanie'),person.id);
- await page.getByRole('button',{name:'背景',exact:true}).click();let picker=page.getByRole('dialog',{name:'选择背景',exact:true});await picker.waitFor();assert.equal(await picker.locator('.sticker-choice').count(),13);
+ await page.getByRole('button',{name:'背景',exact:true}).click();let picker=page.getByRole('dialog',{name:'选择背景',exact:true});await picker.waitFor();assert((await picker.locator('.sticker-choice').count())>=13);
  await picker.getByRole('button',{name:'稀有 background-room，库存 1',exact:true}).click();await page.locator('[data-background-theme=room]').waitFor();
  await page.getByRole('button',{name:'场景预设',exact:true}).click();await scene.waitFor();await scene.getByLabel('预设名称',{exact:true}).fill('窗边生活');await scene.getByRole('button',{name:'保存',exact:true}).click();await scene.getByRole('button',{name:'切换场景 窗边生活',exact:true}).waitFor();await scene.getByRole('button',{name:'关闭场景预设',exact:true}).click();
  await page.getByRole('button',{name:'背景',exact:true}).click();picker=page.getByRole('dialog',{name:'选择背景',exact:true});await picker.getByRole('button',{name:'稀有 background-night，库存 1',exact:true}).click();await page.locator('.scene-background-layer [data-background-theme=night]').waitFor();

@@ -372,7 +372,7 @@ class Handler(BaseHTTPRequestHandler):
                 elif path.startswith('/api/pk/v1/'):
                     from thought_duel import relay
                     value=relay(training,path[len('/api/pk/v1/'):],body)
-                elif path in ('/api/stickers/place','/api/stickers/recycle','/api/stickers/open-box','/api/stickers/open-packs','/api/stickers/outfit','/api/stickers/scene-save','/api/stickers/scene-apply','/api/stickers/scene-delete'):
+                elif path in ('/api/stickers/place','/api/stickers/recycle','/api/stickers/open-box','/api/stickers/open-packs','/api/stickers/outfit','/api/stickers/open-background','/api/stickers/scene-save','/api/stickers/scene-apply','/api/stickers/scene-delete'):
                     from gameplay import stickers
                     value=stickers(training,path.rsplit('/',1)[1],body)
                 elif path in ('/api/duel/join','/api/duel/cancel','/api/duel/poll','/api/duel/dismiss','/api/duel/ready','/api/duel/decline'):

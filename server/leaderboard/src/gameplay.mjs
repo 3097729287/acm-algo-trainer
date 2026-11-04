@@ -89,10 +89,10 @@ export class Gameplay extends StickerRewards {
   const [rows]=await this.db.execute('SELECT payload FROM gameplay_accounts WHERE user_id=?',[owner]);
   const state=rows.length?JSON.parse(rows[0].payload):empty();
   const boxes=Object.fromEntries(Object.entries(state.boxes||{}).map(([id,box])=>[id,normalizeBox(box)]));
-  return {owner,catalogue:STICKERS,...state,boxes,scenePresets:state.scenePresets||[],wardrobe:REWARDS.wardrobe,backgroundPolicy:REWARDS.backgroundRewards,boxPolicy:REWARDS.levelBoxes,packPolicy:REWARDS.cardPacks,capabilities:{cardPacks:true,batchOpen:true,scenes:true,backgrounds:true,wardrobe:true},placementPolicy:{scale:true,minScale:.35,maxScale:6,perShape:true}};
+  return {owner,catalogue:STICKERS,...state,boxes,scenePresets:state.scenePresets||[],wardrobe:REWARDS.wardrobe,backgroundPolicy:REWARDS.backgroundRewards,boxPolicy:REWARDS.levelBoxes,packPolicy:REWARDS.cardPacks,capabilities:{cardPacks:true,batchOpen:true,scenes:true,backgrounds:true,wardrobe:true,backgroundReveal:true},placementPolicy:{scale:true,minScale:.35,maxScale:6,perShape:true}};
  }
  async stickerWrite(owner,auth,kind,value,now){
-  if(['scene-save','scene-apply','scene-delete','replay-background'].includes(kind))return sceneWrite(this,owner,auth,kind,value,now);
+  if(['scene-save','scene-apply','scene-delete','replay-background','open-background'].includes(kind))return sceneWrite(this,owner,auth,kind,value,now);
   return this.db.transaction(async db=>{
    await this.session(db,owner,auth,now);const state=await this.account(db,owner);
    return this.once(db,owner,'stickers/'+kind,value,async()=>{

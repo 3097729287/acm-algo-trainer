@@ -1507,7 +1507,7 @@ export default function App() {
       setReaderId(null);
       setPracticeId(null);
       setFinishAnchor(null);
-      notice(cancelled?"比赛已取消":result.backgroundReward?"比赛已结束，已获得一张背景卡":"比赛已结束，可以开始复盘");
+      notice(cancelled?"比赛已取消":result.backgroundReward?"比赛已结束，背景奖励可在开包窗口揭晓":"比赛已结束，可以开始复盘");
     } catch (e) {
       notice(e.message, "error");
     } finally {

@@ -1,5 +1,5 @@
 {
-  "status": "packaging-1.5.4-sticker-scenes",
+  "status": "packaging-1.5.5-sealed-backgrounds",
   "requestedOn": "2026-11-01",
   "continuation": "本轮不新增题解；保留已完成的 1,994 条内置译文，剩余 774 条推迟下版。并行代理停止。继续完成场景贴纸、背景单卡、换装与预设，按增量升级验证并交付本地正常入口。",
   "features": [
@@ -36,8 +36,8 @@
       "description": "用户指定能力分 2000 为王者；其余段位由低到高采用 0/800/950/1100/1250/1400/1600/1800/2000。共用一份映射，不改变能力评估或已有 XP。"
     }
   ],
-  "currentDomesticStable": "1.5.3",
-  "nextVersion": "1.5.4",
+  "currentDomesticStable": "1.5.4",
+  "nextVersion": "1.5.5",
   "feedbackPriority": {
     "id": "nowcoder-live-statement",
     "status": "1.4.35 local implementation and fixtures passed; real provider result not claimed",
@@ -379,5 +379,6 @@
     "maximum": 20,
     "missingPolicy": "preserve-and-skip",
     "giftAcknowledgementRequired": true
-  }
+  },
+  "backgroundRewardReveal": "sealed single card in pack-opening dialog, manual reveal only"
 }

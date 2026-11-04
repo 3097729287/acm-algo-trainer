@@ -38,16 +38,23 @@ export async function sceneWrite(game,owner,auth,kind,value,now){
   return game.once(db,owner,'stickers/'+kind,value,async()=>{
    let result={};
    if(kind==='replay-background'){
-    const evidence=replayEvidence(value,now);state.replayBackgroundGrants??={};
+    const evidence=replayEvidence(value,now);state.replayBackgroundGrants??={};state.backgroundRewards??={};
     let receipt=state.replayBackgroundGrants[evidence.contestKey];
+    if(receipt?.rewardId)receipt=state.backgroundRewards[receipt.rewardId];
     if(!receipt){
-     if(state.units.length>=20000)fail(409,'贴纸库存已满，背景奖励已保留');
-     const rarity=rollRarity(backgroundWeights(evidence.difficulty,evidence.accepted.length));
-     const owned=new Set([...(state.discoveredStickers||[]),...state.units.map(unit=>unit.stickerId)]),pool=game.catalogue.filter(item=>item.kind==='background'&&item.rarity===rarity),novel=pool.filter(item=>!owned.has(item.id)),choices=novel.length?novel:pool;
-     const card=choices[randomInt(choices.length)],unit={id:randomUUID(),stickerId:card.id,revision:0,placement:null,source:{kind:'replay-background',id:evidence.contestKey}};
-     state.units.push(unit);state.discoveredStickers=[...new Set([...owned,card.id])];state.revision++;
-     receipt={unitId:unit.id,stickerId:card.id,rarity,grantedAt:now,accepted:evidence.accepted.length,difficulty:evidence.difficulty};state.replayBackgroundGrants[evidence.contestKey]=receipt;
+     receipt={id:randomUUID(),contestKey:evidence.contestKey,grantedAt:now,accepted:evidence.accepted.length,difficulty:evidence.difficulty,openedAt:null};
+     state.backgroundRewards[receipt.id]=receipt;state.replayBackgroundGrants[evidence.contestKey]={rewardId:receipt.id};state.revision++;
     }result.backgroundReward=receipt;
+   }else if(kind==='open-background'){
+    const reward=state.backgroundRewards?.[value.rewardId];if(!reward)fail(404,'没有找到这份背景奖励');
+    if(!reward.openedAt){
+     if(state.units.length>=20000)fail(409,'贴纸库存已满，背景奖励仍保持未拆');
+     const rarity=rollRarity(backgroundWeights(reward.difficulty,reward.accepted));
+     const owned=new Set([...(state.discoveredStickers||[]),...state.units.map(unit=>unit.stickerId)]),pool=game.catalogue.filter(item=>item.kind==='background'&&item.rarity===rarity),novel=pool.filter(item=>!owned.has(item.id)),choices=novel.length?novel:pool;
+     const card=choices[randomInt(choices.length)],unit={id:randomUUID(),stickerId:card.id,revision:0,placement:null,source:{kind:'replay-background',id:reward.contestKey}};
+     state.units.push(unit);state.discoveredStickers=[...new Set([...owned,card.id])];state.revision++;
+     reward.openedAt=now;reward.opening={id:reward.id,kind:'background',rarity,drops:[{id:unit.id,stickerId:card.id,rarity}]};
+    }result.opening=reward.opening;
    }else{
     if(value.inventoryRevision!==state.revision)fail(409,'场景已在其他窗口更新，请刷新后重试');
     state.scenePresets??=[];

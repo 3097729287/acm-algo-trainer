@@ -13,7 +13,7 @@ import {trainingListLikes} from './training-list-likes.mjs';
 import {adminAccounts} from './admin-accounts.mjs';
 import {PkError} from './thought-duels.mjs';
 
-const VERSION = '1.4.6';
+const VERSION = '1.4.7';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -218,10 +218,10 @@ export async function handle(request, env) {
       if(path==='/v1/duels/board'&&request.method==='GET')return json(await duelBoard(game,owner,url.searchParams.get('mode')||'ranked',now,url.searchParams.has('before')?Number(url.searchParams.get('before')):null,url.searchParams.get('beforeId')||''));
       if(path==='/v1/duels'&&request.method==='GET')return json(await game.read(owner,now));
       if(request.method==='POST'){
-        const sticker=/^\/v1\/stickers\/(grant|place|recycle|outfit|scene-save|scene-apply|scene-delete|replay-background)$/.exec(path);
+        const sticker=/^\/v1\/stickers\/(grant|place|recycle|outfit|scene-save|scene-apply|scene-delete|replay-background|open-background)$/.exec(path);
         const reward=/^\/v1\/stickers\/(levels|achievement|open-box|open-packs)$/.exec(path);
         const duel=/^\/v1\/duels\/(join|cancel|poll|dismiss|ready|decline)$/.exec(path);
-        if(sticker){const value=await body(request,['requestId','unitId','revision','x','y','angle','scale','day','taskId','xp','minDifficulty','rewardSlot','appearance','presetId','name','inventoryRevision','evidence'],32768);const result=await game.stickerWrite(owner,auth,sticker[1],value,now);return json({...result,inventory:{...await game.stickers(owner),giftStats:await env.STORE.social.giftStats(owner)}});}
+        if(sticker){const value=await body(request,['requestId','unitId','revision','x','y','angle','scale','day','taskId','xp','minDifficulty','rewardSlot','appearance','presetId','name','inventoryRevision','evidence','rewardId'],32768);const result=await game.stickerWrite(owner,auth,sticker[1],value,now);return json({...result,inventory:{...await game.stickers(owner),giftStats:await env.STORE.social.giftStats(owner)}});}
         if(reward){
           const fields={levels:['requestId','level'],achievement:['requestId','achievementId'],'open-box':['requestId','boxId'],'open-packs':['requestId','rarity','count']};
           const value=await body(request,fields[reward[1]],2048),result=await game.rewardWrite(owner,auth,reward[1],value,now);
