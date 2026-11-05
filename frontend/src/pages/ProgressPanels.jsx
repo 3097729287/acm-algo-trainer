@@ -39,6 +39,7 @@ import { ProfileSettings } from './CommunityPanel.jsx';
 import { MiniLeaderboard } from '../components/WorkspaceDecorations.jsx';
 import {verdictLabel,verdictTone} from '@/models/workspaceModel.js';
 import {completeContest} from '@/lib/completeContest.js';
+import {contestOriginalUrl} from '@/lib/contestOriginalUrl.js';
 import {platformNames,rowPlatform} from '@/lib/platformRegistry.js';
 
 const PLATFORMS = [
@@ -201,6 +202,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const join = async group => { if (!onJoin || joining) return; setJoining(true); setJoinError(''); try { await onJoin(group.name); } catch (issue) { setJoinError(issue.message || '暂时无法加入训练，请重试。'); } finally { setJoining(false); } };
   const start = async group => { if (!onStartReproduction || starting) return; setStarting(group.key); setJoinError(''); try { await onStartReproduction(group.name); } catch (issue) { setJoinError(issue.message || '暂时无法开始比赛，请重试。'); } finally { setStarting(null); } };
   const startButton = group => onStartReproduction && <button type="button" className="progress-button progress-primary competition-start" disabled={!!starting} onClick={() => start(group)} aria-label={`开始比赛 ${group.name}`}>{starting === group.key ? <LoaderCircle size={14} className="progress-spin" /> : <Play size={14} />}{starting === group.key ? '正在开始' : '开始比赛'}</button>;
+  const originalLink=group=>{const url=contestOriginalUrl(group.rows),label=`前往原站 ${group.name}`;return url?<a className="icon-button competition-original" href={url} target="_blank" rel="noreferrer" aria-label={label} title={label}><ExternalLink size={17}/></a>:<button type="button" className="icon-button competition-original" disabled aria-label={label} title="暂无原站比赛网址"><ExternalLink size={17}/></button>;};
   if (current) {
     const inMock = current.rows.some(row => lockedIds.has(row.id));
     return <div ref={panelRef} onScroll={rememberScroll} className="list-page competition-page competition-detail" tabIndex={0} aria-label={`${current.name}比赛详情`}>
@@ -221,7 +223,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       })}</div>
     </div>;
   }
-  const renderCard = group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong><CatalogName>{group.name}</CatalogName></strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id} title={contestLetterTitle(row)}><b>{row.displayLetter}{typeof row.difficulty==='number' && showDifficulty(row) ? ':' : ''}</b>{typeof row.difficulty==='number' && showDifficulty(row) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16}/></button>{startButton(group)}</article>;
+  const renderCard = group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong><CatalogName>{group.name}</CatalogName></strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id} title={contestLetterTitle(row)}><b>{row.displayLetter}{typeof row.difficulty==='number' && showDifficulty(row) ? ':' : ''}</b>{typeof row.difficulty==='number' && showDifficulty(row) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16}/></button>{startButton(group)}{originalLink(group)}</article>;
   const reset = () => {setCatalogPath([]);setPlatform('');setExamYear('');setFilter('all');};
   return <div ref={panelRef} onScroll={rememberScroll} className="list-page competition-page" aria-label="比赛列表">
     <PageSearch><label className="search-box"><Search size={17}/><input value={query} onChange={event=>setQuery(event.target.value)} aria-label="搜索比赛"/></label>

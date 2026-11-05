@@ -3,6 +3,7 @@ import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
 import usePublicAvatar from '@/lib/usePublicAvatar.js';
 import ProfileBadge from '@/components/ProfileBadge.jsx';
 import PageSearch from '@/components/PageSearch.jsx';
+import {useStudyState} from '@/lib/StudyPane.jsx';
 import {Search} from 'lucide-react';
 import PopConfirm from '@/components/PopConfirm.jsx';
 import MedalEmblem, {titleMedalIndex} from '@/components/MedalEmblem.jsx';
@@ -86,7 +87,7 @@ function DeleteConfirmation({ target, busy, onCancel, onConfirm }) {
 export default function RankingsPage({ api, onConfigure, onError, avatarData, ownGrowth,presence }) {
   const rankingOwner=window.__tbAccountUserId||ownGrowth?.authority?.owner||'local';
   const ownerScope=useRef({api,owner:rankingOwner});
-  const [query,setQuery]=useState(''),[adminPassword,setAdminPassword]=useState('');
+  const [query,setQuery]=useStudyState('rankingQuery',''),[adminPassword,setAdminPassword]=useState('');
   const [period, setPeriod] = useState('daily'), [snapshot, setSnapshot] = useState(()=>{const cached=rankingCache.get(api)?.daily;return cached?.date===rankingDate()&&cached.owner===rankingOwner?cached.value:null;}), [busy, setBusy] = useState(false), [error, setError] = useState('');
   const [confirmation, setConfirmation] = useState(null), [deleting, setDeleting] = useState(false), [message, setMessage] = useState('');
   const generation = useRef(0);

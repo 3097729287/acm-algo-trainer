@@ -10,4 +10,19 @@ choices=nextActionChoices({...input,snapshot:{recommendation:{title:'字符串'}
 assert.deepEqual(nextActionChoices({...input,activeContest:{id:'in-progress'}}),input.items);
 assert(!nextActionChoices({...input,snapshot:{plan:{tasks:[]}},items:[],availablePages:[]}).some(item=>item.kind==='problem'||item.kind==='replay'||item.kind==='daily'));
 assert.equal(nextActionChoices({...input,snapshot:null})[0].kind,'review');
-console.log('PASS real pending plan, daily tasks, remaining training, replay picker, duplicate/completed/hidden filtering and active contest exclusivity');
+const originalRows=[{id:'cf-a',aliasIds:['alias-a'],url:'https://codeforces.com/contest/123/problem/A'},{id:'cf-a-copy',url:'https://codeforces.com/problemset/problem/123/A'}];
+const capped={snapshot:{plan:{tasks:[]}},availablePages:['mock'],rows:originalRows,items:[
+ {kind:'problem',id:'cf-a',title:'第一道题'}, {kind:'problem',id:'alias-a',title:'题目别名'}, {kind:'random',id:'cf-a-copy',title:'同一道原题'},
+ ...['第二道题','第二道题','第三道题'].map((title,index)=>({kind:'problem',id:'p'+index,title})),
+ ...['甲','乙','丙'].flatMap((title,index)=>['lecture','review','template','course','specialized'].map(kind=>({kind,id:kind+index,title:kind+title}))),
+ {kind:'replay',id:'contest-replay',title:'重现赛'},{kind:'replay',id:'replay-picker',title:'选择一场重现赛'},
+]};
+choices=nextActionChoices(capped);
+assert.deepEqual(choices.filter(item=>item.kind==='problem').map(item=>item.title),['第一道题','第二道题']);
+assert(!choices.some(item=>item.kind==='random'),'Original problem aliases do not return under another task type');
+for(const kind of ['problem','lecture','review','template','course'])assert.equal(choices.filter(item=>item.kind===kind).length,2,kind+' includes the primary in its limit');
+for(const kind of new Set(choices.map(item=>item.kind)))assert(choices.filter(item=>item.kind===kind).length<=2);
+choices=nextActionChoices({...capped,items:capped.items.filter(item=>['replay','problem'].includes(item.kind))});assert.equal(choices.filter(item=>item.kind==='replay').length,1,'Both replay labels are one picker');
+const plannedProblems={plan:{tasks:['a','b','c'].map(id=>({key:id,kind:'problem',id,title:id,date,status:'pending'}))}};
+choices=nextActionChoices({...input,snapshot:plannedProblems,training:[],items:[]});assert.deepEqual(choices.filter(item=>item.kind==='problem').map(item=>item.id),['a','b']);
+console.log('PASS pending work, one replay picker, same-original and repeated-label deduplication, at most two choices per kind including primary, and active-contest exclusivity');

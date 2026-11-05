@@ -4,7 +4,7 @@ import { createServer } from 'vite';
 import { chromium } from 'playwright';
 import {emptyStudyBrowser,openStudyTab,studySnapshot} from '../src/lib/learningBrowser.js';
 
-const vite=await createServer({cacheDir:'../.backups/navigation-correction-20261105/vite-workspace',optimizeDeps:{entries:['index.html']},server:{host:'127.0.0.1',port:0,watch:null}});
+const vite=await createServer({cacheDir:'../.backups/choices-search-links-20261105/vite-workspace',optimizeDeps:{entries:['index.html']},server:{host:'127.0.0.1',port:0,watch:null}});
 await vite.listen();
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const page=await browser.newPage({viewport:{width:1600,height:1000}}),errors=[],writes=[];
@@ -12,7 +12,7 @@ page.on('pageerror',error=>errors.push(error.message));
 page.setDefaultTimeout(12000);
 const timestamp=new Date().toISOString(),date=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Shanghai'});
 const self={userId:'11111111-1111-4111-8111-111111111111',nickname:'训练者甲'},other={userId:'22222222-2222-4222-8222-222222222222',nickname:'训练者乙'};
-const rows=Array.from({length:120},(_,index)=>({id:`fixture::${index}`,contest:'周赛 166',problem:String(index+1),title:`列表定位测试 ${String(index+1).padStart(3,'0')}`,tags:['模拟'],knowledge:'模拟',platform:'牛客',series:'周赛',difficulty:800+index*10,url:`https://example.com/${index}`,contestDate:'2026-10-20T00:00:00Z',solutionAvailable:true}));
+const rows=Array.from({length:120},(_,index)=>({id:`fixture::${index}`,contest:'周赛 166',problem:String(index+1),title:`列表定位测试 ${String(index+1).padStart(3,'0')}`,tags:['模拟'],knowledge:'模拟',platform:'牛客',series:'周赛',difficulty:800+index*10,url:`https://ac.nowcoder.com/acm/contest/142622/${index+1}`,contestDate:'2026-10-20T00:00:00Z',solutionAvailable:true}));
 for(const row of rows){row.contestProblemCount=rows.filter(item=>item.contest===row.contest&&item.platform===row.platform).length;row.catalogContentReady=true;}
 const training=rows.map(row=>({id:row.id,activeAt:timestamp,lastActivityAt:timestamp,today:true,accepted:false,verdict:null,attempts:0}));
 let preferences=null,likes={total:4,likedToday:false},failLike=true,failAutomaticRead=true,boardDay=date,notifications=[{id:'33333333-3333-4333-8333-333333333333',kind:'comment',actor:other,recipient:self,text:'一起加油 <script>window.untrusted=true</script>',createdAt:timestamp,read:false}];
@@ -83,13 +83,15 @@ await page.route('**/api/**',async route=>{
   await route.fulfill({json:value});
 });
 const nav=name=>page.locator('.sidebar').getByRole('button',{name,exact:true});
-const out='../.backups/navigation-correction-20261105/app-checks';await mkdir(out,{recursive:true});
+const out='../.backups/choices-search-links-20261105/app-checks';await mkdir(out,{recursive:true});
 try{
  await page.goto(vite.resolvedUrls.local[0]);await page.locator('.problem-table tr[data-id]').first().waitFor();await nav('任务').waitFor();
  for(const name of ['我的训练','任务','学习','竞赛','成长','排行榜'])assert.equal(await nav(name).count(),1,name);
  assert.deepEqual(await page.locator('.sidebar [data-navigation-id]').allTextContents(),['我的训练','任务','学习','竞赛','成长','排行榜']);
  assert.deepEqual(await page.getByRole('tablist',{name:'组合页面 我的训练'}).getByRole('tab').allTextContents(),['我的训练','题库','题单']);
  await nav('竞赛').click();assert.deepEqual(await page.getByRole('tablist',{name:'组合页面 竞赛'}).getByRole('tab').allTextContents(),['比赛','模拟赛','对战']);
+ const sourceLink=page.getByRole('link',{name:'前往原站 周赛 166',exact:true});await sourceLink.waitFor();assert.equal(await sourceLink.getAttribute('href'),'https://ac.nowcoder.com/acm/contest/142622');assert.equal(await sourceLink.getAttribute('target'),'_blank');
+ await page.context().route('https://ac.nowcoder.com/acm/contest/142622',route=>route.fulfill({contentType:'text/html',body:'<h1>Isolated original contest</h1>'}));const [original]=await Promise.all([page.waitForEvent('popup'),sourceLink.click()]);await original.waitForLoadState();assert.equal(original.url(),'https://ac.nowcoder.com/acm/contest/142622');await original.close();assert.equal(await page.locator('.competition-detail').count(),0,'Opening the original contest does not enter or start a local match');
  assert.equal(await page.locator('.sidebar').getByRole('button',{name:'题库',exact:true}).count(),0);
  await nav('学习').click();const workspace=page.locator('.section-workspace[data-section=learning]');await workspace.waitFor();
  for(const name of ['从零讲','维基百科','模板','实验室'])assert.equal(await workspace.getByRole('tab',{name,exact:true}).count(),1);
@@ -127,10 +129,11 @@ try{
  await page.getByRole('button',{name:'删除待办 整理今天的错题',exact:true}).click();assert.equal(await page.getByRole('checkbox',{name:'完成 整理今天的错题',exact:true}).count(),0);await page.waitForTimeout(600);assert(preferences.learningPaths.taskBoard.items[0].deletedAt);
  await nav('排行榜').click();const rankings=page.locator('[data-section=rankings]');await rankings.getByRole('tab',{name:'排位分排行榜',exact:true}).waitFor();for(const name of ['排位分排行榜','过题数排行榜','团队训练排行榜'])assert.equal(await rankings.getByRole('tab',{name,exact:true}).count(),1);
  assert.equal(await rankings.getByRole('tab',{name:'过题数排行榜',exact:true}).getAttribute('aria-selected'),'true');await rankings.locator('.ranking-table tbody tr').first().waitFor();
+ const rankSearch=page.locator('#tb-page-search').getByRole('textbox',{name:'搜索排行榜用户昵称',exact:true});await rankSearch.waitFor();assert.equal(await rankings.locator('.section-document-tools input').count(),0);const rankBox=await rankSearch.boundingBox();assert(rankBox.x<500&&rankBox.y<80);await rankSearch.fill('训练者乙');assert.equal(await rankings.locator('.ranking-table tbody tr').count(),1);await rankSearch.fill('');
  await rankings.getByRole('tab',{name:'排位分排行榜',exact:true}).click();await rankings.getByRole('cell',{name:'1245',exact:true}).waitFor();assert.equal(await rankings.locator('.duel-public-records').count(),0);
  await rankings.getByRole('tab',{name:'过题数排行榜',exact:true}).click();await rankings.locator('.ranking-table tbody tr').first().waitFor();assert((await rankings.locator('.ranking-table tbody tr').first().boundingBox()).height<=110);await page.screenshot({path:out+'/three-rankings-compact.png'});
  await rankings.getByRole('tab',{name:'团队训练排行榜',exact:true}).click();await rankings.getByText('尚未接入团队训练成绩。',{exact:true}).waitFor();assert.equal(await rankings.locator('.team-standings tbody tr').count(),0,'Missing team records never become invented standings');
- await nav('成长').click();await nav('排行榜').click();await rankings.getByRole('tab',{name:'过题数排行榜',exact:true}).waitFor();assert.equal(await rankings.getByRole('tab',{name:'过题数排行榜',exact:true}).getAttribute('aria-selected'),'true','Returning to the rankings starts with the accepted-problem board');
+ await nav('成长').click();await rankings.waitFor({state:'detached'});await nav('排行榜').click();await rankings.getByRole('tab',{name:'过题数排行榜',exact:true}).waitFor();assert.equal(await rankings.getByRole('tab',{name:'过题数排行榜',exact:true}).getAttribute('aria-selected'),'true','Returning to the rankings starts with the accepted-problem board');
  await nav('任务').click();assert.equal(await page.locator('.summary-floating').count(),0);
  for(const width of [1280,900,640,390]){await page.setViewportSize({width,height:1000});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Document overflow at '+width);}
  assert.deepEqual(errors,[]);const result={ok:true,groupedNavigation:true,defaultGroups:6,independentCompetition:true,trainingTabs:3,competitionTabs:3,learningBookmarks:4,learningSearchInTopbar:true,focusedSearchAndQueryPreserved:true,rankingBookmarks:3,defaultRanking:'accepted',taskBookmarks:4,todayPageRemoved:true,dailySummaryAndExistingDialog:true,legacyTodayLayoutMigrated:true,dragSplit:true,keyboardResize:true,threeLearningPanes:true,compactOverview:true,minimumMinutes:60,customTodoPersisted:true,completionAndDelete:true,layoutRestored:true,responsive:true,errors};await writeFile(out+'/result.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));

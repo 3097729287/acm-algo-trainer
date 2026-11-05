@@ -6,7 +6,7 @@ import {chromium} from 'playwright';
 import {createServer} from 'vite';
 
 const frontend=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const output=path.join(frontend,'tests/screenshots/next-actions');
+const output=path.join(frontend,'../.backups/choices-search-links-20261105/next-actions');
 await mkdir(output,{recursive:true});
 const verified={platform:'Codeforces',difficultySource:'Codeforces 官方',difficultyConfidence:'HIGH',solutionAvailable:true,solutionState:'available'};
 const rows=[
@@ -43,7 +43,7 @@ function App(){
       rows,training:[{...rows.find(row=>row.id==='B'),queue:'review',reviewDueAt:new Date(Date.now()-86400000).toISOString()}],
       insights:{assessment:{model:{method:'rasch-practice-evidence-v2'},qualified:true,abilityScore:1300,evidence}},
       prefs:{},api,availablePages:state.pages||['mine','library','training-lists','paths','templates','mock'],
-      activeContest:state.contest,suspended:state.suspended,reviewPlan:state.reviewPlan,
+      activeContest:state.contest,suspended:state.suspended,reviewPlan:state.reviewPlan,adoptedSummary:state.summary,
       onOpenChange:value=>window.fixtureAdviceOpen=value,
       onTrain:id=>window.fixtureEvents.push({train:id}),
       onNavigate:item=>window.fixtureEvents.push({navigate:item.kind,id:item.id}),
@@ -70,7 +70,7 @@ body[data-underlay=true] .fixture-underlay{display:block}
 <script type="module" src="/@id/virtual:next-actions.jsx"></script></body></html>`;
 const vite=await createServer({
   root:frontend,configFile:path.join(frontend,'vite.config.js'),
-  cacheDir:path.join(frontend,'../.backups/background-review-20261105/vite-next-actions'),optimizeDeps:{entries:[],include:['react','react-dom/client','lucide-react']},
+  cacheDir:path.join(frontend,'../.backups/choices-search-links-20261105/vite-next-actions'),optimizeDeps:{entries:[],include:['react','react-dom/client','lucide-react']},
   server:{host:'127.0.0.1',port:0,watch:null},
   plugins:[{
     name:'isolated-next-actions-fixture',
@@ -133,7 +133,8 @@ try{
   assert.equal(await page.locator('.next-actions-reason').count(),0,'No visible recommendation-explanation box remains');
   assert(!/优先推荐的原因|根据当前学习记录|接下来还可以/.test(await popup().innerText()));
   const allTasks=popup().locator('.next-actions-item');
-  assert.equal(await allTasks.count(),6,'The menu also offers a replay picker without repeating the primary review');
+  assert.equal(await allTasks.count(),5,'The menu offers one replay picker without repeating the primary review');
+  assert.equal(await popup().locator('[data-recommendation=replay]').count(),1,'Replay shortcuts to the same picker are merged');
   assert.equal(await popup().getByRole('button',{name:'开始间隔复习 待复习的前缀和练习',exact:true}).count(),0);
   assert(await allTasks.count()<=11,'The expanded choices include the primary task within the limit of twelve');
   const motion=await popup().locator('li').evaluateAll(nodes=>nodes.map(node=>{
@@ -194,6 +195,12 @@ try{
   assert.equal(await primary().evaluate(node=>node===document.activeElement),true,'Mouse leave dismisses the menu even when the primary task retains focus');
   await hover();await primary().click();assert.deepEqual(await lastAction(),{train:'B'});assert.equal(await popup().count(),0);
 
+  phase='choices-per-kind';
+  await page.evaluate(()=>window.fixtureUpdate({summary:{plan:{tasks:['B','C','D','E'].map(id=>({key:id,id,kind:'problem',title:'计划题 '+id,date:'2026-01-01',status:'pending'}))}}}));
+  await page.waitForFunction(()=>document.querySelector('.next-actions-primary')?.dataset.recommendation==='problem');await hover();
+  const counts=await page.locator('[data-recommendation]').evaluateAll(nodes=>nodes.reduce((value,node)=>({...value,[node.dataset.recommendation]:(value[node.dataset.recommendation]||0)+1}),{}));
+  assert.equal(counts.problem,2,'The primary task and one alternative fill the two problem slots');assert(Object.values(counts).every(count=>count<=2));assert.equal(counts.replay,1);
+  await page.screenshot({path:path.join(output,'limited-choices.png')});await page.evaluate(()=>window.fixtureUpdate({}));
   phase='evidence-based-course';
   await page.evaluate(()=>window.fixtureUpdate({proved:true,pages:['mine','library','paths','templates','mock']}));
   await hover();
@@ -322,7 +329,7 @@ try{
   assert.deepEqual(errors,[]);assert.deepEqual(unknown,[]);
   assert(requests.includes('/api/training-lists')&&requests.includes('/api/templates'));
   Object.assign(report,{ok:true,hoverBridge:true,realTaskHover:true,mouseLeaveWithin180ms:true,mouseLeaveWithRetainedFocus:true,keyboardInternalFocusKeepsOpen:true,independentNavigation:true,keyboard:true,outsideClose:true,
-    touch:true,suspended:true,openChange:true,unmountCloses:true,reducedMotion:true,noReasonTooltip:true,allTasksDirect:true,primaryNotRepeated:true,alignedToWholeControl:true,alignedIconsTextAndArrows:true,opaqueThemedPopup:true,subtleBorderAndShadow:true,aboveUnderlyingContent:true,noSeparateChevron:true,noPrimaryArrow:true,realOfficialSubmissionsSent:0});
+    touch:true,suspended:true,openChange:true,unmountCloses:true,reducedMotion:true,noReasonTooltip:true,allTasksDirect:true,primaryNotRepeated:true,maxTwoPerKindIncludingPrimary:true,singleReplayPicker:true,alignedToWholeControl:true,alignedIconsTextAndArrows:true,opaqueThemedPopup:true,subtleBorderAndShadow:true,aboveUnderlyingContent:true,noSeparateChevron:true,noPrimaryArrow:true,realOfficialSubmissionsSent:0});
   console.log(JSON.stringify({ok:true,geometryCases:report.geometry.length,report:path.join(output,'report.json')}));
 }catch(error){
   report.failure={phase,message:error.message};
