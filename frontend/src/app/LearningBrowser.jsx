@@ -1,5 +1,5 @@
 import {loadCatalogue} from '@/lib/catalogueCache.js';
-import {WeeklyLearningTasks} from '@/components/LearningSummary.jsx';
+import {mergeLearningTasks} from '@/lib/learningTaskRows.js';
 import {guideAction} from '@/lib/guideActions.js';
 import {readingQueue} from '@/lib/lectureQueue.js';
 import {practiceContinuation} from '@/lib/practiceContinuation.js';
@@ -192,7 +192,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
  },[trainingRows,practiceWorkspace?.goalTasks]);
  const problemIndex=useMemo(()=>buildLearningIndex({rows,trainingRows:mine}),[rows,mine]);
  const catalogueIndex=useMemo(()=>buildLearningIndex({...catalog,lectures:foundationLectures(catalog.lectures),labs:LAB_CATALOG}),[catalog]);
- const index=useMemo(()=>[...catalogueIndex,...problemIndex],[catalogueIndex,problemIndex]);
+ const index=useMemo(()=>mergeLearningTasks([...catalogueIndex,...problemIndex],weeklyPlan),[catalogueIndex,problemIndex,weeklyPlan]);
  const listing=useMemo(()=>learningDirectory(index,query,directory),[index,query,directory]),matching=listing.entries;
  const goDirectory=path=>{setDirectory(path);setQuery('');setResultIndex(0);setLimit(80);requestAnimationFrame(()=>input.current?.focus());};
  useEffect(()=>{setResultIndex(0);setLimit(80);if(results.current)results.current.scrollTop=0;},[query,directory.join('/')]);
@@ -225,6 +225,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
  const compact=groups.length===1&&!state.chrome&&!searching;
  const choose=item=>{
   if(!item)return;if(item.type==='folder'){setDirectory(item.path);if(item.path[0]==='mine')guideAction('learning-training-opened');return;}
+  if(item.summaryTask){onSummaryTask?.(item.summaryTask);return;}
   const group=groups.find(group=>group.id===searching);if(group)setState(previous=>activateStudyTab(previous,group.active));
   if(item.kind==='problem')void onTrain(item.id,{newTab:true});else open({...item,newTab:true});
  };
@@ -281,8 +282,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
    }} onPointerUp={stopResize} onPointerCancel={stopResize} onLostPointerCapture={()=>{resizeSession.current=null;setResizing(null);}}/>)}
    {searching&&<section ref={results} id="study-search-results" className="study-results study-directory" data-group-id={searching} data-group-content={searching} style={{gridColumn:Math.max(0,groups.findIndex(group=>group.id===searching))*2+1}} aria-label="学习目录" onScroll={event=>{if(event.currentTarget.scrollTop+event.currentTarget.clientHeight>event.currentTarget.scrollHeight-200)setLimit(value=>value+80);}}>
     <nav className="study-breadcrumbs" aria-label="目录位置"><button type="button" className="study-icon" aria-label="返回上一级目录" disabled={!listing.path.length} onClick={()=>goDirectory(listing.path.slice(0,-1))}><ArrowLeft size={16}/></button><button type="button" aria-label="全部学习目录" onClick={()=>goDirectory([])}><House size={15}/></button>{listing.path.map((part,at)=><span key={at}><ChevronRight size={13}/><button type="button" onClick={()=>goDirectory(listing.path.slice(0,at+1))}>{at===0?STUDY_LABELS[part]:part}</button></span>)}</nav>
-    {listing.path[0]==='mine'&&<WeeklyLearningTasks plan={weeklyPlan} onOpen={task=>onSummaryTask?.(task)} compact/>}
-    <div role="listbox" aria-label="搜索结果">{catalogLoading&&loading}{matching.slice(0,limit).map((item,i)=>{const Icon=item.type==='folder'?FolderClosed:ICONS[item.kind];return <button type="button" role="option" aria-selected={i===resultIndex} id={'study-result-'+i} key={item.key} className={'study-result'+(item.type==='folder'?' study-folder':'')} data-kind={item.kind} onPointerMove={()=>setResultIndex(i)} onClick={()=>choose(item)}><Icon size={18}/><span><InlineTitle>{item.title}</InlineTitle></span><small className={item.type==='file'&&listing.path[0]==='mine'?'study-training-status':''} data-training-group={listing.path[0]==='mine'?item.trainingGroup:undefined}>{item.type==='folder'?item.count:item.source}</small>{item.type==='folder'&&<ChevronRight size={15}/>}</button>;})}</div>
+    <div role="listbox" aria-label="搜索结果">{catalogLoading&&loading}{matching.slice(0,limit).map((item,i)=>{const Icon=item.type==='folder'?FolderClosed:(ICONS[item.kind]||BookOpen);return <button type="button" role="option" aria-selected={i===resultIndex} id={'study-result-'+i} key={item.key} className={'study-result'+(item.type==='folder'?' study-folder':'')} data-kind={item.kind} onPointerMove={()=>setResultIndex(i)} onClick={()=>choose(item)}><Icon size={18}/><span><InlineTitle>{item.title}</InlineTitle></span><small className={item.type==='file'&&listing.path[0]==='mine'?'study-training-status':''} data-training-group={listing.path[0]==='mine'?item.trainingGroup:undefined}>{item.type==='folder'?item.count:item.source}</small>{item.type==='folder'&&<ChevronRight size={15}/>}</button>;})}</div>
     {!catalogLoading&&!matching.length&&<div className="study-empty"><Search size={24}/><span>没有匹配的内容</span></div>}{catalogErrors.length>0&&<p role="alert" className="connection-error">{catalogErrors.join('；')}<button type="button" className="study-icon" aria-label="重新读取" onClick={loadCatalog}><LoaderCircle size={16}/></button></p>}
    </section>}
   </main>

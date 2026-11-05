@@ -29,7 +29,9 @@
     "test:appearance": "node tests/workspace-sections.mjs --appearance",
     "test:split": "node tests/section-split-layout.mjs",
     "test:atmosphere": "node tests/atmosphere-compat.mjs",
-    "test:rank-promotion": "node tests/rank-promotion-model.mjs && node tests/rank-promotion.mjs && node tests/rank-promotion-app.mjs"
+    "test:rank-promotion": "node tests/rank-promotion-model.mjs && node tests/rank-promotion.mjs && node tests/rank-promotion-app.mjs",
+    "build:background-preview": "node scripts/build-background-preview.mjs",
+    "test:backgrounds": "node tests/background-workspace-model.mjs && node tests/meteors-background.mjs && node tests/atmosphere-compat.mjs"
   },
   "dependencies": {
     "@codemirror/lang-cpp": "^6.0.3",

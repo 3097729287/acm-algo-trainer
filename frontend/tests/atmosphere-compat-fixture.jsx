@@ -1,6 +1,7 @@
 import React from 'react';
 import {createRoot} from 'react-dom/client';
 import StickerCanvas from '../src/components/StickerCanvas.jsx';
+import BackgroundHarness from './background-harness.jsx';
 import {BACKGROUND_THEMES} from '../src/lib/stickerPolicy.js';
 import '../src/styles/workspace.css';
 import '../src/styles/refinements.css';
@@ -18,5 +19,6 @@ async function api(path,body){
  if(path==='stickers/place'){const unit=raw.units.find(unit=>unit.id===body.unitId);if(!unit||unit.revision!==body.revision)throw new Error('Unknown or stale owner unit');writes.push(body);for(const other of raw.units)if(other.id!==unit.id&&other.placement){other.placement=null;other.revision++;}unit.placement={x:.5,y:.5,angle:0,scale:1};unit.revision++;raw.revision++;return structuredClone(raw);}
  throw new Error('Unexpected isolated API '+path);
 }
+localStorage.setItem('tb.appearance.background','data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
 document.documentElement.dataset.theme='dark';document.body.style.margin=0;
-createRoot(document.getElementById('root')).render(<main style={{height:'900px',padding:24}}><section className="growth-account-hero" style={{height:'800px'}}><StickerCanvas api={api} owner={owner}><div style={{height:700,pointerEvents:'none'}}/></StickerCanvas></section></main>);
+createRoot(document.getElementById('root')).render(<BackgroundHarness api={api} owner={owner}><main style={{height:'900px',padding:24}}><section className="growth-account-hero" style={{height:'800px'}}><StickerCanvas api={api} owner={owner}><div style={{height:700,pointerEvents:'none'}}/></StickerCanvas></section></main></BackgroundHarness>);

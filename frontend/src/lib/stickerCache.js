@@ -9,4 +9,4 @@ function project(value,owner){
  return {version:VERSION,owner,revision:value.revision,catalogue,units,cachedPlacementOnly:true};
 }
 export function readStickerLayout(owner){try{const value=JSON.parse(localStorage.getItem(prefix+owner));return value?.version===VERSION?project(normalizeStickerInventory(value),owner):null;}catch{return null;}}
-export function cacheStickerLayout(value,owner){const clean=project(value,owner);if(clean)try{localStorage.setItem(prefix+owner,JSON.stringify(clean));}catch{}return clean;}
+export function cacheStickerLayout(value,owner){const clean=project(value,owner);if(clean)try{localStorage.setItem(prefix+owner,JSON.stringify(clean));}catch{}if(clean&&!value.cachedPlacementOnly&&typeof window!=='undefined')window.dispatchEvent(new CustomEvent('tb:sticker-layout-confirmed',{detail:{inventory:value}}));return clean;}

@@ -1,7 +1,11 @@
 import TopPageTabs from '@/components/TopPageTabs.jsx';
 import SectionWorkspace from '@/components/SectionWorkspace.jsx';
 import useRankPromotion from '@/lib/useRankPromotion.js';
-import MeteorsBackground from '@/components/MeteorsBackground.jsx';
+import WorkspaceBackground from '@/components/WorkspaceBackground.jsx';
+import BackgroundPicker from '@/components/BackgroundPicker.jsx';
+import useBackgroundInventory from '@/lib/useBackgroundInventory.js';
+import {workspaceBackground,chooseRewardBackground} from '@/lib/workspaceBackground.js';
+import {Images} from 'lucide-react';
 import PageBookmarks from '@/components/PageBookmarks.jsx';
 import '@/styles/navigation-review.css';
 import TaskContinuation from '@/components/TaskContinuation.jsx';
@@ -709,6 +713,13 @@ export default function App() {
   const presence=usePresence(api,data&&account?.userId,currentActivity({page,practice:practiceId,studyKind:learningBrowserActive?studyActivity:null,contest:workspace?.activeContest,duel:duel?.state,thought:thought?.state}));
   const learningSummary=useLearningSummary(api,account?.userId||'local',Boolean(data&&!loading),Boolean(learningBrowserActive||practiceId||readerId||['lectures','paths','templates','wiki'].includes(page)||workspace.activeContest));
   const [taskView,setTaskView]=useState('overview');
+  const [backgroundPickerOpen,setBackgroundPickerOpen]=useState(false);
+  const backgroundInventory=useBackgroundInventory(api,account?.userId||'local',!loading&&(backgroundPickerOpen||prefs.learningPaths?.workspaceBackground?.kind==='reward'||!prefs.learningPaths?.workspaceBackground&&prefs.backdrop==='none'));
+  const backgroundValue=workspaceBackground(prefs,backgroundInventory.inventory,account?.userId||'local');
+  useEffect(()=>{setBackgroundPickerOpen(false);},[account?.userId]);
+  useEffect(()=>{const open=()=>setBackgroundPickerOpen(true),select=event=>{if(event.detail?.owner===account?.userId&&event.detail.id)setPrefs(previous=>chooseRewardBackground(previous,event.detail.id));};window.addEventListener('tb:background-picker',open);window.addEventListener('tb:workspace-background-select',select);return()=>{window.removeEventListener('tb:background-picker',open);window.removeEventListener('tb:workspace-background-select',select);};},[account?.userId]);
+  useEffect(()=>{if(prefs.learningPaths?.workspaceBackground||prefs.backdrop!=='none'||!backgroundInventory.inventory)return;const value=backgroundInventory.inventory,unit=value.units.find(unit=>unit.placement&&value.catalogue.find(item=>item.id===unit.stickerId)?.kind==='background');if(unit)setPrefs(previous=>previous.learningPaths?.workspaceBackground?previous:chooseRewardBackground(previous,unit.stickerId));},[backgroundInventory.inventory,prefs.backdrop,prefs.learningPaths?.workspaceBackground]);
+
   const summaryNavigation=useRef(null);summaryNavigation.current=()=>{setTaskView('overview');go('tasks');};
   useEffect(()=>{const navigate=()=>summaryNavigation.current?.();window.addEventListener('tb:learning-summary-open',navigate);return()=>window.removeEventListener('tb:learning-summary-open',navigate);},[]);
   const [messagesReading,setMessagesReading]=useState(false);
@@ -2120,9 +2131,11 @@ export default function App() {
   const todayAc = insights?.summary?.todaySolved ?? summary.todayAccepted ?? 0;
   return (
     <FeatureVisibilityContext.Provider value={featureAvailable}><DifficultyDisplayProvider mode={prefs.difficultyDisplay}><DifficultyBoundsProvider rows={data?.rows||[]}><div
+      data-study-open={learningBrowserActive}
       className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : labFocus?"lab-focus":templateFocus?"template-focus practice-focus":page==='lectures'&&lectureFull?"lecture-focus practice-focus":"")}
     >
-      {prefs.backdrop === 'meteors' && <MeteorsBackground/>}
+      <WorkspaceBackground value={backgroundValue} motion={prefs.motion!==false}/>
+      {backgroundPickerOpen&&!loading&&<BackgroundPicker owner={account?.userId||'local'} prefs={prefs} setPrefs={setPrefs} model={backgroundInventory} onClose={()=>setBackgroundPickerOpen(false)}/>}
       {!loading&&<LearningBrowser ref={learningBrowserRef} api={api} accountId={account?.userId||'local'} ready={!loading&&(!account?.userId||preferencesLoaded.current)} onFlush={flushLearningBrowser} rows={rows} trainingRows={todayMine} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} onProgress={progressChanged} onNotice={notice} onExit={exitPractice} onActiveChange={learningBrowserChanged} categories={categories} lockedProblems={active?.slots||[]} practiceWorkspace={workspace} recommendations={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]} weeklyPlan={learningSummary.snapshot?.plan} onSummaryTask={openSummaryTask}/>}
       <LearningSummary model={learningSummary} api={api} onOpenTask={openSummaryTask} currentProblem={practiceId||studyProblemId} currentContent={studyContent} rows={rows}/>
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
@@ -2199,7 +2212,7 @@ export default function App() {
 
           </div>
         </header>
-        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}><span className="statusbar-online" role="status" data-online={presence?.available||false} aria-label="在线人数">在线 · {presence?.available?presence.count:'—'}人</span>{featureAvailable('competitions')&&<Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip>}<button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><DailyTaskCount value={insights?.dailyTasks}/>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
+        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}><button type="button" className="achievement-top-button" aria-label="背景选择" title="背景选择" onClick={()=>setBackgroundPickerOpen(true)}><Images size={18}/></button><span className="statusbar-online" role="status" data-online={presence?.available||false} aria-label="在线人数">在线 · {presence?.available?presence.count:'—'}人</span>{featureAvailable('competitions')&&<Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip>}<button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><DailyTaskCount value={insights?.dailyTasks}/>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><small>{unlockedAchievements.length}/{achievements.length}</small>{(unseenAchievements.length > 0 || unlockedAchievements.some(item=>!item.rewardClaimed)) && <i className="notification-dot" />}</button>
 {prefs.widgets && <TopbarClock />}</footer>
         {error && (

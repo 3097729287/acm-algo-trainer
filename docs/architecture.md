@@ -814,3 +814,16 @@ Normal LearningBrowser problem navigation awaits a targeted draft flush before r
 Review cancellation writes cancelledAt on the existing account-owned review-task journal. It suppresses only that task, preserves receipts/drafts/rewards, and a genuinely later WA may create a new task. Existing training/start accepts an owner- and problem-validated restoreReviewId for undo. No schema migration or public progress seed is added.
 
 Sticker scale is optional, finite and bounded to 0.5–2 through the existing placement owner/CAS boundary. Older services omit the capability and keep legacy placement requests. The sticker surface is below original profile content.
+
+
+## 1.6.1 全窗口背景与学习目录任务
+
+`WorkspaceBackground` 是应用唯一的背景层，覆盖整个窗口并独立于成长贴纸画布；读题窗口打开时保留背景，主界面本体保持状态但整体隐藏，避免透明读题窗口透出底层列表。既有 `MeteorsBackground` 组件及样式不改动，其余主题使用共享 `MotionScene` 的 WebGL2 或 Canvas2D 渲染。窗口隐藏与动态偏好暂停 RAF；卸载释放程序、缓冲、上下文、观察器及全局监听。渲染像素预算独立于正文字号与布局。
+
+奖励背景选择保存在既有通用 UI 偏好的 `learningPaths.workspaceBackground={kind:'reward',id:<canonical sticker ID>}`，不扩展后端 `backdrop` 枚举，也不改变服务器奖励策略。`useBackgroundInventory` 读取实际 `/stickers`，校验 owner、代数和请求世代；选择时只保存 UI 偏好，真实副本和场景预设仍保留。恢复旧背景摆放时仅在用户未作显式选择且原背景为纯色时迁移。奖励消失或账号不匹配时回退原有基础背景，不以过期缓存授予所有权。成长场景预设成功切换后可通过带 owner 的事件选择对应全局背景。
+
+自选背景继续使用本机 `tb-backgrounds/images` IndexedDB 原始 Blob，支持 GIF、动态 WebP / PNG，不转码、不上传；选择与轮播位置沿用 `tb.background.playlist`。旧 `tb.appearance.background` 图片在打开“我的背景”时按原字节复制到 IndexedDB 并去重，成功提交后才移除旧入口值。减少动态效果或窗口隐藏时捕获静止帧，恢复后继续原动图；缩放静止帧不会继续推进动画。设置和状态栏共用同一个直接打开的选择弹窗，成长贴纸弹窗只显示贴纸。
+
+`mergeLearningTasks` 把当前周计划映射到既有学习索引的内容身份：problem/review/template-problem 共用题目行，待完成复习优先于同题已完成练习；讲解、课程等复用其既有行，目录缺失项补为同样格式的行。行尾使用计划实际状态，点击调用原 `openSummaryTask`，不把打开操作当完成；当前任务完成后行位置稳定。任务页中的正式本周计划详情保留。
+
+`frontend/scripts/build-background-preview.mjs` 将同一引擎、原流星样式与预览控件嵌入离线单文件 HTML；它提供全部主题的视觉预览，不授予正式程序的背景所有权。

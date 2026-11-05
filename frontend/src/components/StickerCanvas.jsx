@@ -8,7 +8,7 @@ import {createPortal} from 'react-dom';
 import {fitStickerPlacement,stickerSize} from '@/lib/stickerPlacement.js';
 import {Gift,Layers,RefreshCw,Sticker,Target,X} from 'lucide-react';
 import {readStickerOrder,bringStickerForward} from '@/lib/stickerOrder.js';
-import {BackgroundArt,WeatherArt} from './SceneStickerArt.jsx';
+import {WeatherArt} from './SceneStickerArt.jsx';
 import {StickerScenePresets,StickerWardrobe} from './StickerScenePanels.jsx';
 import {previewPreset,stickerWeather} from '@/lib/stickerScenes.js';
 import StickerBoxes from './StickerBoxes.jsx';
@@ -34,7 +34,7 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
  const [reactions,reactToSticker]=useStickerReaction(owner),movedUnit=useRef(null);
  const recycling=useRef(new Map()),recycleRequests=useRef(new Map()),[pendingRecycles,setPendingRecycles]=useState(new Set());
  const [recycleError,setRecycleError]=useState('');
- const [wardrobe,setWardrobe]=useState(null),[outfitPreview,setOutfitPreview]=useState(null),[scenesOpen,setScenesOpen]=useState(false),[scenePreview,setScenePreview]=useState(null),[sceneStatus,setSceneStatus]=useState(''),[pickerKind,setPickerKind]=useState('sticker');
+ const [wardrobe,setWardrobe]=useState(null),[outfitPreview,setOutfitPreview]=useState(null),[scenesOpen,setScenesOpen]=useState(false),[scenePreview,setScenePreview]=useState(null),[sceneStatus,setSceneStatus]=useState('');
  const sceneRequests=useRef(new Map());
  useLayoutEffect(()=>{const node=surface.current;if(!node)return;const measure=()=>{const box=node.getBoundingClientRect();setBounds(previous=>previous.width===box.width&&previous.height===box.height?previous:{width:box.width,height:box.height});};measure();const observer=new ResizeObserver(measure);observer.observe(node);return()=>observer.disconnect();},[]);
  const fit=(value,unit=value?.unit)=>fitStickerPlacement(value,bounds,state?.catalogue?.find(item=>item.id===unit?.stickerId));
@@ -126,10 +126,8 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
  const stackIds=stack.owner===owner?stack.ids:readStickerOrder(owner),layerById=new Map(units.map((unit,index)=>[unit.id,index+1]));
  stackIds.forEach((id,index)=>layerById.set(id,units.length+index+1));
  const displayUnits=units.map(unit=>({...unit,placement:unit.id===draft?.unit.id?draft:optimistic.get(unit.id)?.point||unit.placement}));
- const pendingBackground=[...optimistic.values()].filter(change=>art(change.unit.stickerId)?.kind==='background').at(-1)?.unit.id;
- const background=displayUnits.find(unit=>art(unit.stickerId)?.kind==='background'&&unit.placement&&(!pendingBackground||unit.id===pendingBackground));
  const weather=stickerWeather(displayUnits,byId,bounds);
- const availableItems=items.filter(item=>(item.kind==='background')===(pickerKind==='background')&&units.some(unit=>unit.stickerId===item.id&&(item.kind==='background'||!unit.placement&&!optimistic.has(unit.id)&&unit.id!==draft?.unit.id)));
+ const availableItems=items.filter(item=>item.kind!=='background'&&units.some(unit=>unit.stickerId===item.id&&!unit.placement&&!optimistic.has(unit.id)&&unit.id!==draft?.unit.id));
  const sceneBlocked=busy||Boolean(draft)||optimistic.size>0||Boolean(saving.current)||visibleState?.cachedPlacementOnly;
  async function sceneAction(kind,values){
   if(sceneBlocked)return;const expected=owner;
@@ -137,7 +135,7 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
   if(!payload){payload={...values,inventoryRevision:latest.current.revision,requestId:crypto.randomUUID()};sceneRequests.current.set(signature,payload);}
   setBusy(true);setError('');setSceneStatus('');setPicker(null);
   if(kind==='scene-apply'){const preset=latest.current.scenePresets.find(p=>p.id===values.presetId);if(preset)setScenePreview(previewPreset(preset,latest.current));}
-  try{const value=await api('stickers/'+kind,payload);if(alive.current!==expected)return;if(!accept(value,expected))throw new Error('场景响应无效');sceneRequests.current.delete(signature);guideAction(kind);setSceneStatus(value.scene?.missing.length?`已切换，暂时跳过 ${value.scene.missing.length} 张缺少的贴纸。`:kind==='scene-save'?'场景已保存':kind==='scene-delete'?'预设已删除':'场景已切换');}
+  try{const value=await api('stickers/'+kind,payload);if(alive.current!==expected)return;if(!accept(value,expected))throw new Error('场景响应无效');sceneRequests.current.delete(signature);guideAction(kind);if(kind==='scene-apply'){const entry=value.units.find(unit=>unit.placement&&value.catalogue.find(item=>item.id===unit.stickerId)?.kind==='background');if(entry)window.dispatchEvent(new CustomEvent('tb:workspace-background-select',{detail:{owner:expected,id:entry.stickerId}}));}setSceneStatus(value.scene?.missing.length?`已切换，暂时跳过 ${value.scene.missing.length} 张缺少的贴纸。`:kind==='scene-save'?'场景已保存':kind==='scene-delete'?'预设已删除':'场景已切换');}
   catch(issue){if(alive.current===expected){setError(issue.message);setSceneStatus(issue.message);if([404,409].includes(issue.status)){sceneRequests.current.delete(signature);void refresh();}}}
   finally{if(alive.current===expected){setScenePreview(null);setBusy(false);}}
  }
@@ -148,7 +146,7 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
   catch(issue){if(alive.current===expected){setError(issue.message);void refresh();}}
   finally{if(alive.current===expected){setOutfitPreview(null);setBusy(false);}}
  }
- function openPicker(event,kind){if(busy)return;if(draft)fix();setGoalsOpen(false);setMode(true);setPickerKind(kind);setScenesOpen(false);setPicker({x:.5,y:.5,angle:0,screenX:event.clientX,screenY:event.clientY-410});}
+
 
  const pickerWidth=Math.min(428,window.innerWidth-24),pickerHeight=Math.min(376,window.innerHeight-24);
  const pickerStyle=picker?{width:pickerWidth,left:Math.max(8,Math.min(picker.screenX-pickerWidth/2,window.innerWidth-pickerWidth-8)),top:Math.max(8,Math.min(picker.screenY+10,window.innerHeight-pickerHeight-12))}:undefined;
@@ -188,9 +186,9 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
  };
  return <div className={'sticker-canvas'+(mode?' sticker-mode':'')}>
 
-  <div className="sticker-content">{children}<div ref={surface} className="sticker-surface" aria-label="贴纸区域" role="region" tabIndex={mode?0:undefined} onPointerDown={event=>{if(event.button!==0||!mode||busy||event.target!==event.currentTarget)return;if(draft){fix();return;}setConfirm(null);setPickerKind('sticker');const point=position(event);setPicker({...fit({...point,angle:0}),screenX:event.clientX,screenY:event.clientY});}}>{background&&<div className="scene-background-layer"><BackgroundArt item={art(background.stickerId)} interactive={!mode}/></div>}{units.filter(unit=>art(unit.stickerId)?.kind!=='background'&&(unit.placement||optimistic.has(unit.id)||unit.id===draft?.unit.id)).map(unit=>unitButton(unit,unit.id===draft?.unit.id))}
+  <div className="sticker-content">{children}<div ref={surface} className="sticker-surface" aria-label="贴纸区域" role="region" tabIndex={mode?0:undefined} onPointerDown={event=>{if(event.button!==0||!mode||busy||event.target!==event.currentTarget)return;if(draft){fix();return;}setConfirm(null);const point=position(event);setPicker({...fit({...point,angle:0}),screenX:event.clientX,screenY:event.clientY});}}>{units.filter(unit=>art(unit.stickerId)?.kind!=='background'&&(unit.placement||optimistic.has(unit.id)||unit.id===draft?.unit.id)).map(unit=>unitButton(unit,unit.id===draft?.unit.id))}
   </div></div>
-  {picker&&mode&&createPortal(<div className="sticker-picker" style={pickerStyle} role="dialog" aria-label={pickerKind==='background'?'选择背景':'选择贴纸'}><nav className="sticker-picker-tabs"><button type="button" aria-pressed={pickerKind==='sticker'} onClick={()=>setPickerKind('sticker')}>贴纸</button><button type="button" aria-pressed={pickerKind==='background'} onClick={()=>setPickerKind('background')}>背景</button>{pickerKind==='background'&&background&&<button type="button" disabled={busy} onClick={()=>{void recycle(background);setPicker(null);}}>收起背景</button>}</nav><div className="sticker-inventory">{availableItems.map(item=>{const available=units.filter(unit=>unit.stickerId===item.id&&(item.kind==='background'||!unit.placement&&!optimistic.has(unit.id)&&unit.id!==draft?.unit.id));return <button type="button" className={'sticker-choice rarity-'+item.rarity} key={item.id} aria-label={`${NAMES[item.rarity]} ${item.shape}，库存 ${visibleState.unlimited?'无限':available.length}`} disabled={!available.length} onClick={()=>{if(item.kind==='background')place(available[0],{x:.5,y:.5,angle:0,scale:1});else setDraft({...fit({x:picker.x,y:picker.y,angle:0,scale:1},available[0]),unit:available[0]});setPicker(null);}}><StickerArt item={item}/><span>{visibleState.unlimited?'∞':available.length}</span></button>;})}{!availableItems.length&&<p className="sticker-empty-inventory">{pickerKind==='background'?'完成默认时长的重现赛，至少 AC 2 题且用时达到一半，可获得一张背景。':'暂无可摆放的库存贴纸'}</p>}</div><button type="button" className="icon-button" aria-label="关闭贴纸选择" onClick={()=>setPicker(null)}><X size={17}/></button></div>,document.body)}
+  {picker&&mode&&createPortal(<div className="sticker-picker" style={pickerStyle} role="dialog" aria-label="选择贴纸"><header className="sticker-picker-tabs">贴纸</header><div className="sticker-inventory">{availableItems.map(item=>{const available=units.filter(unit=>unit.stickerId===item.id&&!unit.placement&&!optimistic.has(unit.id)&&unit.id!==draft?.unit.id);return <button type="button" className={'sticker-choice rarity-'+item.rarity} key={item.id} aria-label={`${NAMES[item.rarity]} ${item.shape}，库存 ${visibleState.unlimited?'无限':available.length}`} disabled={!available.length} onClick={()=>{setDraft({...fit({x:picker.x,y:picker.y,angle:0,scale:1},available[0]),unit:available[0]});setPicker(null);}}><StickerArt item={item}/><span>{visibleState.unlimited?'∞':available.length}</span></button>;})}{!availableItems.length&&<p className="sticker-empty-inventory">暂无可摆放的库存贴纸</p>}</div><button type="button" className="icon-button" aria-label="关闭贴纸选择" onClick={()=>setPicker(null)}><X size={17}/></button></div>,document.body)}
   {statistics}
   {wardrobe&&<StickerWardrobe {...wardrobe} choices={state.wardrobe} onClose={()=>setWardrobe(null)} onSave={wear}/>}
   {scenesOpen&&owned&&<StickerScenePresets state={visibleState} disabled={sceneBlocked} status={sceneStatus||(optimistic.size?'正在保存位置…':'')} onClose={()=>setScenesOpen(false)} onSave={(name,presetId)=>void sceneAction('scene-save',{name,...(presetId?{presetId}:{})})} onApply={preset=>void sceneAction('scene-apply',{presetId:preset.id})} onDelete={presetId=>void sceneAction('scene-delete',{presetId})}/>}

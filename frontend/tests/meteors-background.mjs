@@ -119,7 +119,7 @@ try {
   assert.match(flight.tail, /linear-gradient/); assert.notEqual(flight.core, 'none');
   proof.push({diagonalFlight: true, ...flight});
   await select('纯色'); assert.equal(await sky.count(), 0);
-  for (const name of ['夜空极光', '细线网格', '落日余晖']) {await select(name); assert.equal(await sky.count(), 0);}
+  for (const name of ['夜空极光', '细线网格', '熔金流体']) {await select(name); assert.equal(await sky.count(), 0);}
   await select('流星夜空'); await page.waitForTimeout(1100);
   await page.reload(); await sky.waitFor(); assert.equal(await page.locator('html').getAttribute('data-backdrop'), 'meteors');
   await openSettings(page, '外观'); assert.equal(await page.getByRole('button', {name: '流星夜空', exact: true}).getAttribute('aria-pressed'), 'true');
