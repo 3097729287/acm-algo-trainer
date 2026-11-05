@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import { mkdir,writeFile } from 'node:fs/promises';
-import { createServer } from 'vite';
+import { createServer,preview } from 'vite';
 import { chromium } from 'playwright';
 import {emptyStudyBrowser,openStudyTab,studySnapshot} from '../src/lib/learningBrowser.js';
 
-const vite=await createServer({cacheDir:'../.backups/training-split-quiz-20261105/vite-workspace',optimizeDeps:{entries:['index.html']},server:{host:'127.0.0.1',port:0,watch:null}});
-await vite.listen();
+const built=process.env.TB_TEST_BUILT==='1';
+const vite=built?await preview({preview:{host:'127.0.0.1',port:0}}):await createServer({cacheDir:'../.backups/training-split-quiz-20261105/vite-workspace',optimizeDeps:{entries:['index.html']},server:{host:'127.0.0.1',port:0,watch:null}});
+if(built)vite.close=()=>new Promise((resolve,reject)=>vite.httpServer.close(error=>error?reject(error):resolve()));else await vite.listen();
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const page=await browser.newPage({viewport:{width:1600,height:1000}}),errors=[],writes=[];
 page.on('pageerror',error=>errors.push(error.message));
