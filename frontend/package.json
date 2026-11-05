@@ -26,6 +26,7 @@
     "test:sticker-rewards": "node tests/sticker-rewards.mjs",
     "test:thought-duel": "node tests/thought-duel.mjs",
     "test:sections": "node tests/workspace-sections.mjs",
+    "test:split": "node tests/section-split-layout.mjs",
     "test:atmosphere": "node tests/atmosphere-compat.mjs"
   },
   "dependencies": {
