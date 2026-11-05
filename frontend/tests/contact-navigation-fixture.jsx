@@ -15,7 +15,7 @@ const events=definitions.map(([name,count,platform])=>({name,displayName:name,co
 window.navigationFixture={calls:[]};
 async function api(path,body){
  window.navigationFixture.calls.push({path,body});
- if(path==='contests/events')return {events};
+ if(path==='contests/events')return {events:new URLSearchParams(location.search).has('unready')?events.slice(1):events};
  if(path.startsWith('problem?'))return {statementAvailable:true,markdown:'Fixture problem statement',samples:[{input:'1',output:'2'}]};
  if(path==='contests/preview')return {plan:{previewId:'fixture-preview',event:{name:body.contest,displayName:body.contest},slots:rows.filter(row=>row.contest===body.contest).map(row=>({...row,letter:row.problem})),duration:120,strategy:'replay',difficultyRange:{min:800,max:1700}}};
  if(path.startsWith('leaderboard?'))return {configured:true,hasSnapshot:true,status:'ready',self:{userId:'self'},entries:['短','一个很长的测试昵称','InkStarry'].map((nickname,i)=>({userId:String(i),nickname,rank:i+1,count:22-i,online:i!==2,activity:{page:i===0?'mock':'rankings'},likes:{total:1},publicProgress:{level:i+1}}))};

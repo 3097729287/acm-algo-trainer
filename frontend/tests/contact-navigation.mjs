@@ -16,6 +16,8 @@ try{
  await page.waitForFunction(()=>window.navigationFixture.calls.some(call=>call.path==='contests/preview'));
  assert.equal(await page.evaluate(()=>window.navigationFixture.calls.find(call=>call.path==='contests/preview').body.contest),'1024数学专场考核');
  proof.push({schoolPicker:3,canonicalIdentityPreserved:true});
+ await page.goto(base()+'tests/contact-navigation-fixture.html?mode=mock&unready=1');await page.getByRole('button',{name:'重现赛',exact:true}).click();await page.getByRole('option',{name:'校队训练',exact:true}).click();
+ assert(await page.getByRole('option',{name:/数学专场.*题面待核验/}).isDisabled());proof.push({unverifiedSchoolVisible:true,unverifiedSchoolDisabled:true});
  await page.goto(base()+'tests/contact-navigation-fixture.html');
  await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).click();await page.getByRole('button',{name:/校队训练/}).click();
  assert.equal(await page.locator('.competition-card').count(),3);
