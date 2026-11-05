@@ -1,4 +1,5 @@
 import SectionWorkspace from '@/components/SectionWorkspace.jsx';
+import useRankPromotion from '@/lib/useRankPromotion.js';
 import MeteorsBackground from '@/components/MeteorsBackground.jsx';
 import PageBookmarks from '@/components/PageBookmarks.jsx';
 import '@/styles/navigation-review.css';
@@ -183,6 +184,7 @@ const TrainingListsPage=lazy(loadTrainingListsPage);
 const PreferencesPage = lazy(() => import('@/pages/PreferencesPage.jsx'));
 const ExperienceChallenge=lazy(()=>import('@/components/ExperienceChallenge.jsx'));
 const LevelUpDialog=lazy(()=>import('@/components/LevelUpDialog.jsx'));
+const RankPromotion=lazy(()=>import('@/components/RankPromotion.jsx'));
 
 const PAGES = [
   {id:"tasks",label:"任务",icon:ClipboardList,key:""},
@@ -1236,14 +1238,15 @@ export default function App() {
   const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
   const [recommendationOpen,setRecommendationOpen]=useState(false);
   const levelNoticeBlocked=Boolean(learningBrowserActive||loading||busy||practiceId||active||workspace.summary?.pending||dialog||clearTrainingAnchor||tourOpen||recommendationOpen||learningSummary.open||labFocus||templateFocus||lectureFull||readerFull||experienceOpen);
-  const levelUp=useLevelUp({owner:account?.userId,growth:insights?.growth,preferences:prefs,preferencesReady:preferencesLoaded.current&&!loading,setPreferences:setPrefs,blocked:levelNoticeBlocked});
-  const levelFeedbackVisible=!levelNoticeBlocked&&!levelUp.dialog&&!document.hidden&&document.hasFocus();
+  const rankUp=useRankPromotion({owner:account?.userId,growth:insights?.growth,ready:preferencesLoaded.current&&!loading,blocked:Boolean(loading||busy||active||workspace.summary?.pending||dialog||clearTrainingAnchor||tourOpen||recommendationOpen||learningSummary.open||experienceOpen||experienceAttention)});
+  const levelUp=useLevelUp({owner:account?.userId,growth:insights?.growth,preferences:prefs,preferencesReady:preferencesLoaded.current&&!loading,setPreferences:setPrefs,blocked:levelNoticeBlocked||rankUp.pending||Boolean(rankUp.notice)});
+  const levelFeedbackVisible=!levelNoticeBlocked&&!levelUp.dialog&&!rankUp.notice&&!document.hidden&&document.hasFocus();
   const calendarReminderAllowed = featureAvailable('competitions');
   useEffect(() => {
     if (dialog === 'contest-reminder' && !calendar.reminder) { setDialog(null); return; }
-    if (calendar.reminder && calendarReminderAllowed && !dialog && !tourOpen && !levelUp.dialog && !loading && !experienceOpen && !experienceAttention)
+    if (calendar.reminder && calendarReminderAllowed && !dialog && !tourOpen && !levelUp.dialog && !rankUp.notice && !rankUp.pending && !loading && !experienceOpen && !experienceAttention)
       setDialog('contest-reminder');
-  }, [calendar.reminder?.signature, calendar.reminder?.ownerKey, calendarReminderAllowed, dialog, tourOpen, levelUp.dialog, loading, experienceOpen, experienceAttention]);
+  }, [calendar.reminder?.signature, calendar.reminder?.ownerKey, calendarReminderAllowed, dialog, tourOpen, levelUp.dialog, rankUp.notice, rankUp.pending, loading, experienceOpen, experienceAttention]);
   useEffect(()=>{if(!levelFeedbackVisible||!levelUp.feedback.length)return;const timer=setTimeout(levelUp.clearFeedback,1400);return()=>clearTimeout(timer);},[levelFeedbackVisible,levelUp.feedback,levelUp.clearFeedback]);
   useEffect(()=>setFinishAnchor(null),[active?.id,page,mockTab,Boolean(record),Boolean(practiceId)]);
   useEffect(()=>setClearTrainingAnchor(null),[page,Boolean(practiceId),active?.id,workspace.summary?.pending]);
@@ -1648,6 +1651,7 @@ export default function App() {
   ];
   useEffect(() => {
     function keyboard(e) {
+      if(e.key==='Escape'&&document.querySelector('[data-rank-promotion]'))return;
       if(document.querySelector('.study-browser')){
         if(e.defaultPrevented||e.isComposing)return;
         const target=PAGES.find(item=>featureAvailable(item.id)&&matchesShortcut(e,'page-'+item.id,prefs.shortcuts));
@@ -2384,6 +2388,7 @@ export default function App() {
       {tourOpen && <Suspense fallback={null}><Onboarding availablePages={visiblePageIds} key={tourContext} initialGuide={tourContext} practiceId={studyProblemId||practiceId||(mockFocus?currentMockSlot?.id:null)} onShown={markGuideShown} onComplete={finishOnboarding} onDirectory={()=>openGuide('catalog')} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
       {experienceOffer?.owner===account?.userId&&experienceOffer?.policyVersion===1&&<Suspense fallback={null}><ExperienceChallenge owner={account?.userId} offer={experienceOffer} ready={preferencesLoaded.current&&!loading&&prefs.levelNoticeVersion===1&&prefs.levelNoticeSeen>=Math.min(navigationLevel,4)} blocked={levelNoticeBlocked||Boolean(levelUp.dialog)} api={api} onOpenChange={setExperienceOpen} onOpen={openPractice} onGrowth={growth=>{const owner=window.__tbAccountUserId;if(confirmedGrowth(growth,owner))setInsights(previous=>protectGrowth(previous,{...previous,growth},owner,retiredGrowthEpochs.current));}}/></Suspense>}
       {levelUp.dialog&&<Suspense fallback={null}><LevelUpDialog notice={levelUp.dialog} pages={PAGES} preferences={prefs} onPresented={levelUp.markPresented} onClose={levelUp.close} onOpen={go}/></Suspense>}
+      {rankUp.notice&&<Suspense fallback={null}><RankPromotion key={rankUp.notice.id} notice={rankUp.notice} motion={prefs.motion} onPresented={rankUp.presented} onClose={rankUp.close}/></Suspense>}
       {dialog === "achievements" && <Modal opacityKey="achievements" title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => {setDialog(null);backgroundDialog.current=null;void refreshBackground(true);}} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} onClaim={async id=>{const owner=window.__tbAccountUserId;dailyClaimPending.current=true;backgroundSeq.current++;try{const result=await api('achievements/claim',{id,compact:true});if(owner!==window.__tbAccountUserId)return;backgroundSeq.current++;setInsights(previous=>result.achievement?{...previous,achievements:(previous?.achievements||[]).map(item=>item.id===id?{...item,...result.achievement}:item)}:protectGrowth(previous,result,owner,retiredGrowthEpochs.current));window.dispatchEvent(new Event('tb:sticker-rewards'));notice('奖励已领取','success');}finally{dailyClaimPending.current=false;}}} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span></div><HistoricalCode submission={selectedSubmission} api={api}/>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (

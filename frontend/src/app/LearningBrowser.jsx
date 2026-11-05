@@ -199,6 +199,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
  useEffect(()=>{if(resultIndex>=limit)setLimit(resultIndex+40);requestAnimationFrame(()=>results.current?.querySelector('#study-result-'+resultIndex)?.scrollIntoView({block:'nearest'}));},[resultIndex]);
  useEffect(()=>{if(searching&&!studyGroups(state).some(group=>group.id===searching))setSearching(null);},[state.groups,searching]);
  useEffect(()=>{if(!state.open)return;const key=event=>{
+  if(event.key==='Escape'&&document.querySelector('[data-rank-promotion]'))return;
   if(event.defaultPrevented||event.isComposing||document.querySelector('dialog[open],.tb-select-menu,[data-popconfirm]'))return;
   const control=event.ctrlKey||event.metaKey;
   if(control&&!event.altKey&&event.key.toLowerCase()==='t'){event.preventDefault();startSearch();}

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {PAGE_UNLOCKS,availablePages,canOpenPage,newlyUnlocked,nextUnlock} from '../src/lib/featureUnlocks.js';
 import {acceptGrowth,observeLevel,acknowledgeLevel,mergeLevelNotices,protectGrowth} from '../src/lib/levelNotices.js';
 const owner='fixture-owner',growth=(level,revision,epoch='first')=>({level,confirmed:true,authority:{owner,epoch,revision}});
-assert.deepEqual(availablePages(1),['mine','training-lists','lectures','growth','activity','records','settings']);
+assert.deepEqual(availablePages(1),['tasks','mine','training-lists','lectures','growth','activity','records','settings']);
 assert(!canOpenPage('rankings',2));assert(canOpenPage('rankings',5));assert(!canOpenPage('paths',1));assert(canOpenPage('paths',2));
 assert.deepEqual(newlyUnlocked(1,4).map(item=>item.id),['library','competitions','mock','wiki','paths','templates']);
 assert.deepEqual(nextUnlock(5).map(item=>item.id),['duel']);assert.equal(nextUnlock(6).length,0);assert.equal(new Set(PAGE_UNLOCKS.map(item=>item.id)).size,PAGE_UNLOCKS.length);
