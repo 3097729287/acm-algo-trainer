@@ -12,8 +12,12 @@ import "@/styles/unified.css";
 import "@/styles/revision.css";
 import "@/styles/interaction.css";
 import "@/styles/followups-160.css";
+import { isNativeRuntime } from '@/api/nativeTransport.js';
+import MigrationWorkbench from '@/native/MigrationWorkbench.jsx';
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AppRecovery><AccountGate><BackgroundPlayback/><App /></AccountGate></AppRecovery>
+    <AppRecovery>{isNativeRuntime() && location.hash === '#native-check'
+      ? <MigrationWorkbench/>
+      : <AccountGate><BackgroundPlayback/><App /></AccountGate>}</AppRecovery>
   </React.StrictMode>,
 );

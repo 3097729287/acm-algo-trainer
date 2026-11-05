@@ -21,5 +21,7 @@ compiler/
 *.sqlite*
 
 .vite/
+target/
+src-tauri/gen/
 docs/contests/**/_work/logs/
 docs/contests/**/_work/md_full/

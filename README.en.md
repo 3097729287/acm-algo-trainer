@@ -2,6 +2,8 @@ The latest local 1.6.1 interface adds split bookmarks for My Training, Library a
 
 The local 1.6.1 interface revision adds the chosen task workspace, daily and weekly tasks, private to-dos, persistent split bookmarks, grouped navigation, and a 60-minute minimum study budget with +30/+60 controls. Fourteen distinct atmospheric backgrounds replace rarity duplicates, including a legendary Milky Way scene. The supplied sticker and sound approvals are applied. The shared drop catalogue is updated in source and awaits service deployment; existing installers and public downloads retain their original build. See [release notes](docs/releases/1.6.1.md).
 
+Rust migration branch: Tauri + React + Rust IPC. The isolated `2.0.0-alpha.1` diagnostic runs natively; complete feature parity, production migration and resource comparisons remain pending. The normal local installation remains 1.6.1. See [migration progress and verification](docs/native-migration.md).
+
 # ToBe · Training Workbench
 
 **Historical 1.5.6 delivery:** both normal local editions were installed and verified at that version. This delivers fullscreen Show Desktop fixes, the nine reference rank sets, translation retries and timer alignment. Versioned Markdown notes are kept in the Desktop ToBe更新记录 folder. The program build source is `f1e6cd576c041984c83f2cbfacfa59bd79959923`; public downloads remain 1.5.2. See the [delivery and verification record](docs/local-delivery-1.5.6.md).

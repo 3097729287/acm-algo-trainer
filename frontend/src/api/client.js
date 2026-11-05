@@ -1,4 +1,6 @@
-// HTTP contract shared by the browser build and the desktop webview.
+import { isNativeRuntime, invokeRequest } from './nativeTransport.js';
+
+// Shared service API for React. Tauri uses IPC; browser development uses HTTP.
 const pendingReads = new Map();
 let generation = 0;
 
@@ -19,6 +21,7 @@ export function request(path, body, token) {
 }
 
 async function load(path, body, token) {
+  if (isNativeRuntime()) return invokeRequest(path, body, token);
   const base = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '');
   const accountRequest = /^account(?:[/?]|$)/.test(path);
   const controller = accountRequest ? new AbortController() : null;

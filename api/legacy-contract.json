@@ -1,0 +1,677 @@
+{
+  "version": 1,
+  "source": "backend/backend.py",
+  "transport": "Tauri invoke(api_request)",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "account",
+      "operation": "get.account"
+    },
+    {
+      "method": "GET",
+      "path": "admin",
+      "operation": "get.admin"
+    },
+    {
+      "method": "GET",
+      "path": "admin/accounts",
+      "operation": "get.admin.accounts"
+    },
+    {
+      "method": "GET",
+      "path": "admin/scenario",
+      "operation": "get.admin.scenario"
+    },
+    {
+      "method": "GET",
+      "path": "admin/session",
+      "operation": "get.admin.session"
+    },
+    {
+      "method": "GET",
+      "path": "browser-preparation",
+      "operation": "get.browser-preparation"
+    },
+    {
+      "method": "GET",
+      "path": "content-update",
+      "operation": "get.content-update"
+    },
+    {
+      "method": "GET",
+      "path": "contest",
+      "operation": "get.contest"
+    },
+    {
+      "method": "GET",
+      "path": "contest-calendar",
+      "operation": "get.contest-calendar"
+    },
+    {
+      "method": "GET",
+      "path": "contests/events",
+      "operation": "get.contests.events"
+    },
+    {
+      "method": "GET",
+      "path": "daily-tasks",
+      "operation": "get.daily-tasks"
+    },
+    {
+      "method": "GET",
+      "path": "data",
+      "operation": "get.data"
+    },
+    {
+      "method": "GET",
+      "path": "data/export",
+      "operation": "get.data.export"
+    },
+    {
+      "method": "GET",
+      "path": "desktop/fullscreen",
+      "operation": "get.desktop.fullscreen"
+    },
+    {
+      "method": "GET",
+      "path": "duel",
+      "operation": "get.duel"
+    },
+    {
+      "method": "GET",
+      "path": "duel/board",
+      "operation": "get.duel.board"
+    },
+    {
+      "method": "GET",
+      "path": "experience-challenge",
+      "operation": "get.experience-challenge"
+    },
+    {
+      "method": "GET",
+      "path": "goals",
+      "operation": "get.goals"
+    },
+    {
+      "method": "GET",
+      "path": "hub",
+      "operation": "get.hub"
+    },
+    {
+      "method": "GET",
+      "path": "identity",
+      "operation": "get.identity"
+    },
+    {
+      "method": "GET",
+      "path": "initial-code",
+      "operation": "get.initial-code"
+    },
+    {
+      "method": "GET",
+      "path": "insights",
+      "operation": "get.insights"
+    },
+    {
+      "method": "GET",
+      "path": "leaderboard",
+      "operation": "get.leaderboard"
+    },
+    {
+      "method": "GET",
+      "path": "leaderboard/avatar",
+      "operation": "get.leaderboard.avatar"
+    },
+    {
+      "method": "GET",
+      "path": "learning-summary",
+      "operation": "get.learning-summary"
+    },
+    {
+      "method": "GET",
+      "path": "learning-summary/history",
+      "operation": "get.learning-summary.history"
+    },
+    {
+      "method": "GET",
+      "path": "learning-summary/quiz",
+      "operation": "get.learning-summary.quiz"
+    },
+    {
+      "method": "GET",
+      "path": "lecture",
+      "operation": "get.lecture"
+    },
+    {
+      "method": "GET",
+      "path": "lectures",
+      "operation": "get.lectures"
+    },
+    {
+      "method": "GET",
+      "path": "navigation",
+      "operation": "get.navigation"
+    },
+    {
+      "method": "GET",
+      "path": "official/status",
+      "operation": "get.official.status"
+    },
+    {
+      "method": "GET",
+      "path": "pk/v1/*",
+      "operation": "get.pk.v1.*"
+    },
+    {
+      "method": "GET",
+      "path": "preferences",
+      "operation": "get.preferences"
+    },
+    {
+      "method": "GET",
+      "path": "problem",
+      "operation": "get.problem"
+    },
+    {
+      "method": "GET",
+      "path": "problem/translate",
+      "operation": "get.problem.translate"
+    },
+    {
+      "method": "GET",
+      "path": "profile",
+      "operation": "get.profile"
+    },
+    {
+      "method": "GET",
+      "path": "rankings",
+      "operation": "get.rankings"
+    },
+    {
+      "method": "GET",
+      "path": "social",
+      "operation": "get.social"
+    },
+    {
+      "method": "GET",
+      "path": "software-update",
+      "operation": "get.software-update"
+    },
+    {
+      "method": "GET",
+      "path": "solution",
+      "operation": "get.solution"
+    },
+    {
+      "method": "GET",
+      "path": "statement-backfill",
+      "operation": "get.statement-backfill"
+    },
+    {
+      "method": "GET",
+      "path": "stickers",
+      "operation": "get.stickers"
+    },
+    {
+      "method": "GET",
+      "path": "submission",
+      "operation": "get.submission"
+    },
+    {
+      "method": "GET",
+      "path": "submissions",
+      "operation": "get.submissions"
+    },
+    {
+      "method": "GET",
+      "path": "templates",
+      "operation": "get.templates"
+    },
+    {
+      "method": "GET",
+      "path": "training-list-likes",
+      "operation": "get.training-list-likes"
+    },
+    {
+      "method": "GET",
+      "path": "training-lists",
+      "operation": "get.training-lists"
+    },
+    {
+      "method": "GET",
+      "path": "translation/settings",
+      "operation": "get.translation.settings"
+    },
+    {
+      "method": "GET",
+      "path": "usage",
+      "operation": "get.usage"
+    },
+    {
+      "method": "GET",
+      "path": "wiki",
+      "operation": "get.wiki"
+    },
+    {
+      "method": "GET",
+      "path": "workspace",
+      "operation": "get.workspace"
+    },
+    {
+      "method": "POST",
+      "path": "account/logout",
+      "operation": "post.account.logout"
+    },
+    {
+      "method": "POST",
+      "path": "account/sync",
+      "operation": "post.account.sync"
+    },
+    {
+      "method": "POST",
+      "path": "achievements/claim",
+      "operation": "post.achievements.claim"
+    },
+    {
+      "method": "POST",
+      "path": "admin",
+      "operation": "post.admin"
+    },
+    {
+      "method": "POST",
+      "path": "admin/accounts/delete",
+      "operation": "post.admin.accounts.delete"
+    },
+    {
+      "method": "POST",
+      "path": "admin/accounts/reset-password",
+      "operation": "post.admin.accounts.reset-password"
+    },
+    {
+      "method": "POST",
+      "path": "admin/logout",
+      "operation": "post.admin.logout"
+    },
+    {
+      "method": "POST",
+      "path": "admin/scenario",
+      "operation": "post.admin.scenario"
+    },
+    {
+      "method": "POST",
+      "path": "admin/session",
+      "operation": "post.admin.session"
+    },
+    {
+      "method": "POST",
+      "path": "browser-preparation",
+      "operation": "post.browser-preparation"
+    },
+    {
+      "method": "POST",
+      "path": "code/format",
+      "operation": "post.code.format"
+    },
+    {
+      "method": "POST",
+      "path": "contests/cancel",
+      "operation": "post.contests.cancel"
+    },
+    {
+      "method": "POST",
+      "path": "contests/delete",
+      "operation": "post.contests.delete"
+    },
+    {
+      "method": "POST",
+      "path": "contests/finish",
+      "operation": "post.contests.finish"
+    },
+    {
+      "method": "POST",
+      "path": "contests/preview",
+      "operation": "post.contests.preview"
+    },
+    {
+      "method": "POST",
+      "path": "contests/start",
+      "operation": "post.contests.start"
+    },
+    {
+      "method": "POST",
+      "path": "contests/start-calendar",
+      "operation": "post.contests.start-calendar"
+    },
+    {
+      "method": "POST",
+      "path": "daily-tasks/claim",
+      "operation": "post.daily-tasks.claim"
+    },
+    {
+      "method": "POST",
+      "path": "desktop/fullscreen",
+      "operation": "post.desktop.fullscreen"
+    },
+    {
+      "method": "POST",
+      "path": "draft",
+      "operation": "post.draft"
+    },
+    {
+      "method": "POST",
+      "path": "duel/cancel",
+      "operation": "post.duel.cancel"
+    },
+    {
+      "method": "POST",
+      "path": "duel/decline",
+      "operation": "post.duel.decline"
+    },
+    {
+      "method": "POST",
+      "path": "duel/dismiss",
+      "operation": "post.duel.dismiss"
+    },
+    {
+      "method": "POST",
+      "path": "duel/join",
+      "operation": "post.duel.join"
+    },
+    {
+      "method": "POST",
+      "path": "duel/poll",
+      "operation": "post.duel.poll"
+    },
+    {
+      "method": "POST",
+      "path": "duel/ready",
+      "operation": "post.duel.ready"
+    },
+    {
+      "method": "POST",
+      "path": "experience-challenge",
+      "operation": "post.experience-challenge"
+    },
+    {
+      "method": "POST",
+      "path": "goals/archive",
+      "operation": "post.goals.archive"
+    },
+    {
+      "method": "POST",
+      "path": "goals/save",
+      "operation": "post.goals.save"
+    },
+    {
+      "method": "POST",
+      "path": "hub/configure",
+      "operation": "post.hub.configure"
+    },
+    {
+      "method": "POST",
+      "path": "hub/dismiss",
+      "operation": "post.hub.dismiss"
+    },
+    {
+      "method": "POST",
+      "path": "hub/dismiss-all",
+      "operation": "post.hub.dismiss-all"
+    },
+    {
+      "method": "POST",
+      "path": "hub/sync",
+      "operation": "post.hub.sync"
+    },
+    {
+      "method": "POST",
+      "path": "identity",
+      "operation": "post.identity"
+    },
+    {
+      "method": "POST",
+      "path": "initial-code/save",
+      "operation": "post.initial-code.save"
+    },
+    {
+      "method": "POST",
+      "path": "initial-code/select",
+      "operation": "post.initial-code.select"
+    },
+    {
+      "method": "POST",
+      "path": "leaderboard/admin/delete",
+      "operation": "post.leaderboard.admin.delete"
+    },
+    {
+      "method": "POST",
+      "path": "leaderboard/sync",
+      "operation": "post.leaderboard.sync"
+    },
+    {
+      "method": "POST",
+      "path": "learning-summary/refresh",
+      "operation": "post.learning-summary.refresh"
+    },
+    {
+      "method": "POST",
+      "path": "learning-summary/start",
+      "operation": "post.learning-summary.start"
+    },
+    {
+      "method": "POST",
+      "path": "learning-summary/time",
+      "operation": "post.learning-summary.time"
+    },
+    {
+      "method": "POST",
+      "path": "learning-summary/update",
+      "operation": "post.learning-summary.update"
+    },
+    {
+      "method": "POST",
+      "path": "official/ack",
+      "operation": "post.official.ack"
+    },
+    {
+      "method": "POST",
+      "path": "official/close",
+      "operation": "post.official.close"
+    },
+    {
+      "method": "POST",
+      "path": "official/open",
+      "operation": "post.official.open"
+    },
+    {
+      "method": "POST",
+      "path": "official/submit",
+      "operation": "post.official.submit"
+    },
+    {
+      "method": "POST",
+      "path": "official/sync",
+      "operation": "post.official.sync"
+    },
+    {
+      "method": "POST",
+      "path": "pk/v1/*",
+      "operation": "post.pk.v1.*"
+    },
+    {
+      "method": "POST",
+      "path": "preferences",
+      "operation": "post.preferences"
+    },
+    {
+      "method": "POST",
+      "path": "presence",
+      "operation": "post.presence"
+    },
+    {
+      "method": "POST",
+      "path": "problem/translate",
+      "operation": "post.problem.translate"
+    },
+    {
+      "method": "POST",
+      "path": "profile",
+      "operation": "post.profile"
+    },
+    {
+      "method": "POST",
+      "path": "rankings/sync",
+      "operation": "post.rankings.sync"
+    },
+    {
+      "method": "POST",
+      "path": "social/comments",
+      "operation": "post.social.comments"
+    },
+    {
+      "method": "POST",
+      "path": "social/likes",
+      "operation": "post.social.likes"
+    },
+    {
+      "method": "POST",
+      "path": "social/read",
+      "operation": "post.social.read"
+    },
+    {
+      "method": "POST",
+      "path": "software-update/check",
+      "operation": "post.software-update.check"
+    },
+    {
+      "method": "POST",
+      "path": "software-update/download",
+      "operation": "post.software-update.download"
+    },
+    {
+      "method": "POST",
+      "path": "software-update/install",
+      "operation": "post.software-update.install"
+    },
+    {
+      "method": "POST",
+      "path": "software-update/settings",
+      "operation": "post.software-update.settings"
+    },
+    {
+      "method": "POST",
+      "path": "status",
+      "operation": "post.status"
+    },
+    {
+      "method": "POST",
+      "path": "stickers/open-background",
+      "operation": "post.stickers.open-background"
+    },
+    {
+      "method": "POST",
+      "path": "stickers/open-box",
+      "operation": "post.stickers.open-box"
+    },
+    {
+      "method": "POST",
+      "path": "stickers/open-packs",
+      "operation": "post.stickers.open-packs"
+    },
+    {
+      "method": "POST",
+      "path": "stickers/outfit",
+      "operation": "post.stickers.outfit"
+    },
+    {
+      "method": "POST",
+      "path": "stickers/place",
+      "operation": "post.stickers.place"
+    },
+    {
+      "method": "POST",
+      "path": "stickers/recycle",
+      "operation": "post.stickers.recycle"
+    },
+    {
+      "method": "POST",
+      "path": "stickers/scene-apply",
+      "operation": "post.stickers.scene-apply"
+    },
+    {
+      "method": "POST",
+      "path": "stickers/scene-delete",
+      "operation": "post.stickers.scene-delete"
+    },
+    {
+      "method": "POST",
+      "path": "stickers/scene-save",
+      "operation": "post.stickers.scene-save"
+    },
+    {
+      "method": "POST",
+      "path": "submissions",
+      "operation": "post.submissions"
+    },
+    {
+      "method": "POST",
+      "path": "templates/save",
+      "operation": "post.templates.save"
+    },
+    {
+      "method": "POST",
+      "path": "training-list-likes",
+      "operation": "post.training-list-likes"
+    },
+    {
+      "method": "POST",
+      "path": "training-lists/add",
+      "operation": "post.training-lists.add"
+    },
+    {
+      "method": "POST",
+      "path": "training-lists/save",
+      "operation": "post.training-lists.save"
+    },
+    {
+      "method": "POST",
+      "path": "training/clear",
+      "operation": "post.training.clear"
+    },
+    {
+      "method": "POST",
+      "path": "training/contest",
+      "operation": "post.training.contest"
+    },
+    {
+      "method": "POST",
+      "path": "training/remove",
+      "operation": "post.training.remove"
+    },
+    {
+      "method": "POST",
+      "path": "training/start",
+      "operation": "post.training.start"
+    },
+    {
+      "method": "POST",
+      "path": "translation/settings",
+      "operation": "post.translation.settings"
+    },
+    {
+      "method": "POST",
+      "path": "translation/test",
+      "operation": "post.translation.test"
+    },
+    {
+      "method": "POST",
+      "path": "usage",
+      "operation": "post.usage"
+    },
+    {
+      "method": "POST",
+      "path": "workspace/ready",
+      "operation": "post.workspace.ready"
+    }
+  ]
+}

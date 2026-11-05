@@ -1,3 +1,9 @@
+## Rust 重构开发分支（2.0.0-alpha.1）
+
+桌面目标为 React → 版本化 Tauri IPC → Rust 领域服务 → SQLite。`backend-rust` 不依赖窗口或 HTTP；`src-tauri` 负责原生宿主、可信窗口边界与后台执行。JSON Schema、134 项旧接口清单和由旧代码生成的个人表结构提供迁移基线，既有账号、草稿、比赛、学习与奖励事实须逐项对照。
+
+当前是隔离的迁移诊断候选，完整应用尚未迁移。`releaseReady=false` 阻止打开正式工作区；未移植操作返回 `MIGRATION_PENDING`，不回退 Python 或伪造完成状态。公共库只读，个人迁移通过 SQLite 在线备份形成新副本，含 WAL、未知表及校验回执，拒绝覆盖已有目标。[迁移进度、验证与剩余工作](native-migration.md)。
+
 ## 1.6.1 工作区和背景修订
 
 学习与任务的 SectionWorkspace 复用 learningBrowser 的分组、分屏、转移与调宽模型，panel 类型只描述页面书签；布局存入既有账号私有 UI 偏好的 learningPaths.sectionWorkspaces。自建待办存入 learningPaths.taskBoard，使用独立 UUID、更新时间及删除标记，不充当学习事实或奖励依据。任务页继续调用既有学习规划和每日奖励接口，前端时间选择始终不低于 60 分钟；原生 API 协议与个人数据库结构不变。
