@@ -1,9 +1,9 @@
 /* Current review: larger identities, one baseline for ranking actions, full lobby width. */
-html .rankings-page .ranking-table tbody td{height:132px;padding:18px 12px!important;vertical-align:middle}
+html .rankings-page .ranking-table tbody td{height:auto;padding:4px 12px!important;vertical-align:middle}
 html .rankings-page .ranking-identity{gap:18px}
 html .rankings-page .ranking-identity .profile-badge{gap:36px}
-html .rankings-page .ranking-identity .profile-avatar-button{width:104px;height:104px;min-width:104px}
-html .rankings-page .ranking-identity .profile-avatar-face{width:72px;height:72px}
+html .rankings-page .ranking-identity .profile-avatar-button{width:88px;height:88px;min-width:88px}
+html .rankings-page .ranking-identity .profile-avatar-face{width:61px;height:61px}
 html .rankings-page .ranking-identity .profile-badge .avatar-rank-frame.rank-reference-art{inset:-100%;width:300%;height:300%}
 html .rankings-page .ranking-identity .profile-badge .profile-avatar-button>.profile-xp-ring{inset:11%;width:78%;height:78%}
 html .rankings-page .ranking-identity .profile-level-number{font-size:12px;min-width:25px;min-height:20px}
@@ -57,3 +57,5 @@ html .duel-lobby-result{font-size:.9rem;line-height:1.6}
 
 html .rankings-page .ranking-identity .profile-avatar-face>svg{width:30px;height:30px}
 html .duel-lobby-identity .profile-badge .profile-avatar-face>svg{width:58px;height:58px}
+/* Let the avatar or earned title determine height, including narrow windows. */
+html .rankings-page .ranking-table tbody td{height:auto;padding-block:4px!important}

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {NAVIGATION_ORDER,navigationOrder} from '../src/lib/navigationDefaults.js';
 
-assert.deepEqual(NAVIGATION_ORDER,['mine','library','training-lists','competitions','mock','duel','growth','records','activity','rankings','lectures','wiki','templates','paths']);
+assert.deepEqual(NAVIGATION_ORDER,['mine','library','training-lists','competitions','mock','duel','tasks','lectures','wiki','templates','paths','growth','records','activity','rankings']);
 for(const value of [undefined,null,[],['today']])assert.deepEqual(navigationOrder(value,2),NAVIGATION_ORDER);
 for(const legacy of [
  ['mine','library','training-lists','lectures','wiki','templates','paths','competitions','mock','duel','growth','records','activity','rankings'],
@@ -13,10 +13,10 @@ for(const legacy of [
  ['mine','library','training-lists','competitions','mock','records','growth','activity','lectures','templates','paths','rankings'],
 ]){const before=[...legacy];assert.deepEqual(navigationOrder(legacy,2),NAVIGATION_ORDER);assert.deepEqual(legacy,before);}
 const custom=['templates','mine','library','training-lists','growth','paths'];
-assert.deepEqual(navigationOrder(custom,2),[...custom,'duel','wiki']);
-assert.deepEqual(navigationOrder(custom,undefined),[...custom,'duel','wiki']);
-assert.deepEqual(navigationOrder(['paths','library','mine'],2),['paths','library','training-lists','mine','duel','wiki']);
+assert.deepEqual(navigationOrder(custom,2),['tasks',...custom,'duel','wiki']);
+assert.deepEqual(navigationOrder(custom,undefined),['tasks',...custom,'duel','wiki']);
+assert.deepEqual(navigationOrder(['paths','library','mine'],2),['tasks','paths','library','training-lists','mine','duel','wiki']);
 assert.deepEqual(navigationOrder([...NAVIGATION_ORDER],2),NAVIGATION_ORDER);
-assert.deepEqual(navigationOrder(navigationOrder(custom,2),2),[...custom,'duel','wiki']);
+assert.deepEqual(navigationOrder(navigationOrder(custom,2),2),['tasks',...custom,'duel','wiki']);
 assert.deepEqual(navigationOrder(navigationOrder(undefined,2),2),NAVIGATION_ORDER);
 console.log('Navigation defaults: explicit order, six shipped migrations, reset, custom preservation and idempotence PASS');

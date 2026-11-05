@@ -12,3 +12,22 @@
 @media(max-width:700px){.task-board-pane{padding:20px 14px}.task-card{padding:18px 15px}.task-page-heading h1{font-size:1.35rem}.task-page-heading{margin-bottom:17px}}
 
 .task-reading-checks:empty{display:none}.task-reading-checks{display:flex;flex-direction:column;gap:10px}.task-reading-checks form{display:flex;flex-direction:column;align-items:start;gap:12px}.task-reading-checks label{display:flex;flex-direction:column;gap:10px;width:100%;font-size:.85rem}.task-reading-checks textarea{min-height:90px;border:1px solid var(--line);background:var(--bg);color:var(--text);padding:12px;border-radius:5px;font:inherit}
+
+/* Short controls belong in the overview, without their own empty pages. */
+.task-overview-head[data-panels="1"]{grid-template-columns:minmax(0,1fr)}
+.task-overview-head[data-panels="2"]{grid-template-columns:minmax(0,1.3fr) minmax(220px,1fr)}
+.task-overview-head .task-now{min-height:190px;gap:12px}
+.task-inline-time{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding-block:13px}
+.task-inline-label{display:inline-flex;align-items:center;gap:7px;font-size:.83rem;white-space:nowrap;color:var(--muted)}
+.task-inline-time>details{margin-left:auto;font-size:.75rem;color:var(--muted)}
+.task-inline-time>details[open]{flex-basis:100%;margin:0}.task-inline-time>details>.time-budget{margin-top:14px;max-width:650px}
+.time-budget-compact .time-budget-stepper{gap:7px;justify-content:flex-start}
+.time-budget-compact{margin-top:0}
+.time-budget-compact .time-budget-stepper input{font-size:1.3rem;width:65px;height:35px;padding:3px 6px}
+.time-budget-compact .time-budget-stepper>label{display:flex;align-items:center;gap:6px}
+.time-budget-compact .time-budget-stepper>label>span{font-size:.77rem;margin:0}
+.time-budget-compact .time-budget-stepper>button{min-height:34px;padding:6px 9px}
+.task-inline-feedback{padding-block:9px}.task-inline-feedback>.task-feedback-options{display:inline-flex;gap:9px;margin:0 0 0 12px;flex-wrap:wrap}.task-inline-feedback>.task-feedback-options>button{padding:6px 13px;font-size:.8rem}
+.task-custom-todos>form{align-items:center;margin:0}.task-custom-todos form>input[aria-label="待办名称"]{flex:1;min-width:160px}
+.task-custom-todos .task-todo-row:first-of-type{margin-top:12px}
+@container(max-width:620px){.task-overview-head[data-panels]{grid-template-columns:minmax(0,1fr)}.task-overview-head .task-now{min-height:180px}.task-inline-time{gap:9px}.task-inline-time>.task-primary{padding:8px 10px}.task-inline-time>.task-inline-label{width:100%}.task-inline-feedback>.task-feedback-options{margin:8px 0 0}.task-custom-todos form>input[type=date]{width:130px}}

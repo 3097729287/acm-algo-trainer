@@ -254,6 +254,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
   else if((event.key==='Backspace'&&!query||event.altKey&&event.key==='ArrowLeft')&&listing.path.length){event.preventDefault();goDirectory(listing.path.slice(0,-1));}
  };
  return createPortal(<div ref={frame} className={'study-browser'+(groups.length>1?' study-split':'')+(compact?' study-compact':'')} aria-label="学习内容" data-dragging={dragging||undefined} data-resizing={resizing!==null||undefined} onDragOver={dragOver} onDropCapture={drop} onDragLeave={event=>{if(!frame.current.contains(event.relatedTarget))setPreview(null);}}>
+  <div id="tb-study-continuation" className="study-task-flow"/>
   <main className="study-stage" style={{gridTemplateColumns:groups.map(group=>`minmax(0,${group.weight}fr)`).join(' 1px ')}}>
    {!compact&&groups.map((group,groupIndex)=><header key={group.id} className="study-bar study-group-header" data-group-id={group.id} data-focused={group.id===state.focusedGroup} style={{gridColumn:groupIndex*2+1}} onPointerDownCapture={()=>{checkpoint();focus(group.active);}}>
     {groupIndex===0&&<button type="button" className="study-icon study-back" aria-label="返回主界面" title="返回主界面 · Esc" onClick={hide}><House size={18}/></button>}

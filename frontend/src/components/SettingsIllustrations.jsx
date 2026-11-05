@@ -43,7 +43,7 @@ export function SpinningPlanet() {
   <defs><clipPath id={clip}><circle cx="90" cy="70" r="24"/></clipPath></defs>
   <g transform="rotate(-22 90 70)"><ellipse className="orbit-ring-back" cx="90" cy="70" rx="65" ry="23" opacity=".35"/></g>
   <circle cx="90" cy="70" r="25" fill="var(--panel-base)"/>
-  <circle cx="90" cy="70" r="25" fill="currentColor" fillOpacity=".09"/>
+  <circle className="orbit-face" cx="90" cy="70" r="25" fill="currentColor" fillOpacity=".09"/>
   <g clipPath={`url(#${clip})`}><g className="orbit-planet-surface" opacity=".55">
    {[0,50,100].map(offset=><g key={offset} transform={`translate(${offset} 0)`}><path d="M46 48Q63 39 68 52L62 59Q79 60 78 70L67 78Q68 92 58 98L48 88Q55 78 48 70L42 60Z" fill="currentColor" fillOpacity=".15"/><path d="M49 43Q68 70 49 97M74 43Q93 70 74 97" opacity=".3"/></g>)}
   </g></g>

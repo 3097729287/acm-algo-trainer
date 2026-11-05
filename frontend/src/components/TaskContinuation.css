@@ -1,0 +1,4 @@
+.task-flow-bar{display:flex;align-items:center;gap:12px;padding:7px 15px;border-bottom:1px solid var(--line);background:var(--accent-soft);color:var(--text);font-size:.8rem;flex:none;min-width:0;flex-wrap:wrap}
+.task-flow-bar>span,.task-flow-bar>button{display:inline-flex;align-items:center;gap:6px}.task-flow-bar>span{color:var(--muted)}
+.task-flow-bar>button{border:0;border-radius:4px;background:transparent;color:var(--accent);padding:6px 8px;cursor:pointer;font:inherit;max-width:100%;text-align:left}.task-flow-bar>.task-flow-dismiss{margin-left:auto}.task-flow-bar>button:focus-visible{outline:2px solid var(--accent)}.task-flow-bar>[role=alert]{color:var(--danger)}
+.study-task-flow{flex:none}.study-task-flow:empty{display:none}

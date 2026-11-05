@@ -34,11 +34,6 @@ export default function useLearningSummary(api,owner,enabled,learning) {
   return()=>{live=false;generation.current++;clearInterval(timer);window.removeEventListener('tb:learning-progress',changed);};
  },[api,owner,enabled,accept,refresh]);
  useEffect(()=>{
-  const show=()=>{setOpen(true);if(enabled)refresh().catch(issue=>setError(issue.message));};
-  window.addEventListener('tb:learning-summary-open',show);
-  return()=>window.removeEventListener('tb:learning-summary-open',show);
- },[enabled,refresh]);
- useEffect(()=>{
   if(!enabled)return;
   const clock=studyClock(),epoch=generation.current;let intervals=[],pending=false,lastEvent=0,flight=null;
   timerClock.current=clock;

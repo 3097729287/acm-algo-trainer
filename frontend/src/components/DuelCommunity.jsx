@@ -4,7 +4,7 @@ import PresenceLabel from './PresenceLabel.jsx';
 import './DuelCommunity.css';
 import {readDuelBoard,loadDuelBoard} from '../lib/duelBoardCache.js';
 import {trainingDay} from '../lib/trainingDate.js';
-export default function DuelCommunity({api,owner,mode,revision}){
+export default function DuelCommunity({api,owner,mode,revision,standingsOnly=false}){
  const [savedView,setView]=useState(()=>readDuelBoard(owner,mode)),[error,setError]=useState(''),[busy,setBusy]=useState(false),request=useRef(0),fresh=useRef(null),live=useRef(owner);live.current=owner;
  const view=savedView?.owner===owner&&savedView.mode===mode?savedView:readDuelBoard(owner,mode);
  const load=useCallback(async(more=false)=>{
@@ -18,16 +18,16 @@ export default function DuelCommunity({api,owner,mode,revision}){
  useEffect(()=>{request.current++;setView(previous=>previous?.owner===owner&&previous.mode===mode&&previous.date===trainingDay()?previous:readDuelBoard(owner,mode));setError('');void current.current();const timer=setInterval(()=>{if(!document.hidden)void current.current();},25000);return()=>{request.current++;clearInterval(timer);};},[api,owner,mode,revision]);
  if(!api)return null;
  const time=stamp=>new Date(stamp).toLocaleTimeString('zh-CN',{timeZone:'Asia/Shanghai',hour:'2-digit',minute:'2-digit'});
- return <section className="duel-community" aria-label="排位排行榜与对战记录">
-  <section className="duel-ranking"><header><h2><Trophy size={17}/>排行榜</h2><button type="button" className="icon-button" aria-label="刷新排位排行榜" disabled={busy} onClick={()=>load()}><RefreshCw size={16}/></button></header>
+ return <section className={'duel-community'+(standingsOnly?' standings-only':'')} aria-label={standingsOnly?'排位分排行榜':'排位排行榜与对战记录'}>
+  <section className="duel-ranking"><header><h2><Trophy size={17}/>{standingsOnly?'排位分排行榜':'排行榜'}</h2><button type="button" className="icon-button" aria-label="刷新排位排行榜" disabled={busy} onClick={()=>load()}><RefreshCw size={16}/></button></header>
    <table><thead><tr><th>名次</th><th>用户</th><th>排位分</th></tr></thead><tbody>{view?.entries.map(item=><tr key={item.userId} data-self={item.userId===owner}><td>{item.rank}</td><td><strong>{item.nickname}</strong><PresenceLabel online={item.online} activity={item.activity} cached={fresh.current?.owner!==owner||fresh.current?.mode!==mode}/></td><td>{item.rating}</td></tr>)}</tbody></table>
-   {view&&!view.entries.length&&<p>暂无对战记录</p>}
+   {!view&&!error&&<p role="status">正在读取排位成绩…</p>}{view&&!view.entries.length&&<p>{standingsOnly?'暂无排位成绩':'暂无对战记录'}</p>}
   </section>
-  <section className="duel-public-records"><header><h2>对战记录</h2><time>{view?.date||trainingDay()}</time></header>
+  {!standingsOnly&&<section className="duel-public-records"><header><h2>对战记录</h2><time>{view?.date||trainingDay()}</time></header>
    {view?.records.map(room=><article key={room.id} className="duel-public-record"><time>{time(room.finishedAt)}</time><div>{room.players.map((player,i)=><span key={player.userId}>{i>0&&<small>vs</small>}<strong data-winner={room.winner===player.userId}>{player.nickname}</strong><b data-loss={player.change<0}>{player.change>0?'+':''}{player.change}</b></span>)}</div><span className="duel-record-result">{room.judgeFailed?'判分失败':room.winner?`${room.players.find(p=>p.userId===room.winner)?.nickname||'—'} 胜`:'平局'}</span></article>)}
    {view&&!view.records.length&&<p>暂无对战记录</p>}
    {view?.next&&<button type="button" className="icon-button" disabled={busy} aria-label="更早的对战记录" onClick={()=>load(true)}><ArrowDown size={18}/></button>}
-  </section>
+  </section>}
   {error&&<p className="connection-error" role="alert">{error}</p>}
  </section>;
 }

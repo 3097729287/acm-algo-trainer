@@ -1,6 +1,7 @@
-export const NAVIGATION_ORDER=Object.freeze(['tasks','mine','library','training-lists','lectures','wiki','templates','paths','competitions','mock','duel','growth','records','activity','rankings']);
+export const NAVIGATION_ORDER=Object.freeze(['mine','library','training-lists','competitions','mock','duel','tasks','lectures','wiki','templates','paths','growth','records','activity','rankings']);
 
 const previousDefaults=[
+ ['tasks','mine','library','training-lists','lectures','wiki','templates','paths','competitions','mock','duel','growth','records','activity','rankings'],
  ['mine','library','training-lists','competitions','mock','duel','growth','records','activity','rankings','lectures','wiki','templates','paths'],
  ['mine','library','training-lists','lectures','wiki','templates','paths','competitions','mock','duel','growth','records','activity','rankings'],
  ['mine','library','training-lists','competitions','mock','duel','growth','records','activity','rankings','paths','templates','lectures','wiki'],

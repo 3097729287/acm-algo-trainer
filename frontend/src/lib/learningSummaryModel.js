@@ -15,7 +15,7 @@ export function planActions(snapshot,now=Date.now()) {
  const plan=snapshot?.plan;if(!plan)return null;
  const day=new Date(now+8*3600000).toISOString().slice(0,10);
  return plan.tasks.filter(task=>task.status!=='done'&&task.date<=day).map(task=>({
-  ...task,taskId:task.key,kind:task.kind==='course'?'course':task.kind==='quiz'||task.kind==='reflection'?'summary-task':task.kind,
+  ...task,taskId:task.key,taskKind:task.kind,kind:task.kind==='course'?'course':task.kind==='quiz'||task.kind==='reflection'?'summary-task':task.kind,
   page:task.kind==='lecture'?'lectures':task.kind==='course'?'paths':task.kind==='mixed'?'mock':'mine',
   reason:task.condition,summaryTask:true,
  }));

@@ -1,26 +1,33 @@
 .atmosphere-art{isolation:isolate;overflow:hidden;--space-x:0px;--space-y:0px}
 .atmosphere-art .background-hit{pointer-events:all;cursor:pointer;outline:none}
 .atmosphere-art .background-hit:focus-visible>path,.atmosphere-art .background-hit:focus-visible>rect{stroke:#d8c8a9;stroke-width:2;stroke-dasharray:7 7}
-.room-window-pane{transform-box:fill-box;transition:transform .8s cubic-bezier(.2,.7,.2,1),opacity .8s;will-change:transform}
-.pane-left{transform-origin:left center}.pane-right{transform-origin:right center}
-[data-window-open=true] .pane-left{transform:perspective(600px) rotateY(-67deg);opacity:.8}
-[data-window-open=true] .pane-right{transform:perspective(600px) rotateY(67deg);opacity:.8}
+.room-window-pane{transform-box:view-box;transform-origin:0 113px;transition:transform .85s cubic-bezier(.2,.7,.2,1),opacity .85s}
+[data-window-open=true] .room-window-pane{transform:scaleX(-.24) skewY(-4deg);opacity:.86}
+[data-window-open=true] .pane-right{transform:scaleX(-.24) skewY(4deg)}
 [data-window-open=true] .room-curtain{animation:atmosphere-curtain 6s ease-in-out infinite alternate;transform-origin:center top}
-.cave-fragment{transform:translate(var(--fall-x),65px);opacity:0;animation:cave-dust-fall 1.6s ease-in both;animation-delay:var(--fall-delay)}
+.cave-fragment{transform:translate(var(--fall-x),var(--fall-y));opacity:0;animation:cave-dust-fall 1.65s ease-in both;animation-delay:var(--fall-delay)}
+.cave-impact{opacity:0;transform-box:fill-box;transform-origin:center;animation:cave-impact .65s 1.15s ease-out both}
+.galaxy-camera{transition:transform 1.6s cubic-bezier(.18,.65,.25,1)}
+.atmosphere-art[data-dragging=true] .galaxy-camera{transition:none}
+.atmosphere-art .galaxy-observe-hit{cursor:grab;touch-action:none}
+.atmosphere-art[data-dragging=true] .galaxy-observe-hit{cursor:grabbing}
+.galaxy-observe-hit [role=button]{cursor:crosshair;outline:none}
+.galaxy-observe-hit [role=button]:focus-visible>circle{stroke:#d8c8a9;stroke-width:1;stroke-dasharray:4 4}
+.galaxy-observation-star ellipse{transition:rx 1.4s,ry 1.4s}
 .galaxy-clouds{transform-origin:50% 50%;animation:galaxy-breathe 48s ease-in-out infinite alternate;will-change:transform,opacity}
 .galaxy-stars{transition:transform 1.8s ease-out;transform:translate(calc(var(--space-x)*.4),calc(var(--space-y)*.4))}
 .galaxy-stars-1{animation:galaxy-twinkle 7s ease-in-out infinite alternate}
 .galaxy-stars-2{transform:translate(var(--space-x),var(--space-y));animation:galaxy-twinkle 11s 2s ease-in-out infinite alternate-reverse}
 .galaxy-band-stars{animation:galaxy-twinkle 13s ease-in-out infinite alternate}
-.galaxy-flight>path{opacity:0;animation:galaxy-flight 1.5s ease-in both;animation-delay:var(--flight-delay);stroke-width:1.2}
 .galaxy-meteor{opacity:0;animation:galaxy-meteor 19s ease-out infinite}.meteor-one{--meteor-x:170px;--meteor-y:130px;animation-delay:6s}.meteor-two{--meteor-x:690px;--meteor-y:68px;animation-duration:27s;animation-delay:15s}
 .scene-background-thumbnail *{animation:none!important;transition:none!important}
 @keyframes atmosphere-curtain{to{transform:skewX(1.2deg)}}
-@keyframes cave-dust-fall{0%{opacity:0;transform:translate(var(--fall-x),65px) rotate(0)}8%{opacity:.8}85%{opacity:.55}100%{opacity:0;transform:translate(calc(var(--fall-x) + var(--fall-drift)),610px) rotate(150deg)}}
+@keyframes cave-dust-fall{0%{opacity:0;transform:translate(var(--fall-x),var(--fall-y)) rotate(0)}8%{opacity:.8}85%{opacity:.55}100%{opacity:0;transform:translate(calc(var(--fall-x) + var(--fall-drift)),var(--fall-end-y)) rotate(150deg)}}
+@keyframes cave-impact{0%{opacity:0;transform:scale(.3)}30%{opacity:.65}100%{opacity:0;transform:scale(2.1)}}
 @keyframes galaxy-breathe{from{opacity:.78;transform:translate(-5px,3px) scale(1.02)}to{opacity:1;transform:translate(6px,-3px) scale(1.065)}}
 @keyframes galaxy-twinkle{from{opacity:.63}to{opacity:1}}
-@keyframes galaxy-flight{0%{opacity:0;transform:translate(0,0)}18%{opacity:.48}65%{opacity:.3}100%{opacity:0;transform:translate(var(--flight-x),var(--flight-y))}}
 @keyframes galaxy-meteor{0%,90%{opacity:0;transform:translate(var(--meteor-x),var(--meteor-y))}91%{opacity:.65}96%{opacity:0;transform:translate(calc(var(--meteor-x) + 210px),calc(var(--meteor-y) + 86px))}100%{opacity:0;transform:translate(calc(var(--meteor-x) + 210px),calc(var(--meteor-y) + 86px))}}
 html[data-motion=off] .atmosphere-art *,html[data-motion=off] .atmosphere-art .room-window-pane{animation:none!important;transition:none!important;will-change:auto}
 html[data-motion=off] .atmosphere-art .galaxy-stars{transform:none!important}
-@media(prefers-reduced-motion:reduce){.atmosphere-art *{animation:none!important;transition:none!important;will-change:auto}.atmosphere-art .galaxy-stars{transform:none!important}.cave-debris,.galaxy-flight{display:none}}
+html[data-motion=off] .cave-debris{display:none}
+@media(prefers-reduced-motion:reduce){.atmosphere-art *{animation:none!important;transition:none!important;will-change:auto}.atmosphere-art .galaxy-stars{transform:none!important}.cave-debris{display:none}}

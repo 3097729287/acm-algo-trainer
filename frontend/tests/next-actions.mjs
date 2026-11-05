@@ -70,6 +70,7 @@ body[data-underlay=true] .fixture-underlay{display:block}
 <script type="module" src="/@id/virtual:next-actions.jsx"></script></body></html>`;
 const vite=await createServer({
   root:frontend,configFile:path.join(frontend,'vite.config.js'),
+  cacheDir:path.join(frontend,'../.backups/background-review-20261105/vite-next-actions'),optimizeDeps:{entries:[],include:['react','react-dom/client','lucide-react']},
   server:{host:'127.0.0.1',port:0,watch:null},
   plugins:[{
     name:'isolated-next-actions-fixture',
@@ -132,9 +133,9 @@ try{
   assert.equal(await page.locator('.next-actions-reason').count(),0,'No visible recommendation-explanation box remains');
   assert(!/优先推荐的原因|根据当前学习记录|接下来还可以/.test(await popup().innerText()));
   const allTasks=popup().locator('.next-actions-item');
-  assert.equal(await allTasks.count(),5,'The menu includes knowledge learning, optional training and the routine foundation frontier, without repeating the primary review');
+  assert.equal(await allTasks.count(),6,'The menu also offers a replay picker without repeating the primary review');
   assert.equal(await popup().getByRole('button',{name:'开始间隔复习 待复习的前缀和练习',exact:true}).count(),0);
-  assert(await allTasks.count()<=5,'The limit of six includes the primary task');
+  assert(await allTasks.count()<=11,'The expanded choices include the primary task within the limit of twelve');
   const motion=await popup().locator('li').evaluateAll(nodes=>nodes.map(node=>{
     const style=getComputedStyle(node);return {duration:parseFloat(style.animationDuration),delay:parseFloat(style.animationDelay),iterations:style.animationIterationCount};
   }));

@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {nextActionChoices} from '../src/lib/nextActionChoices.js';
+const now=Date.parse('2026-11-05T03:00:00Z'),date='2026-11-05',availablePages=['mine','tasks','mock'],rows=[{id:'a',title:'已通过',accepted:true,catalogContentReady:true},{id:'b',title:'剩余训练题',catalogContentReady:true},{id:'c',title:'缺题面'},{id:'d',title:'已锁定',locked:true,catalogContentReady:true}];
+const plan={tasks:[{key:'lesson',kind:'lecture',id:'lecture',title:'窗口边界',date,status:'pending'},{key:'future',kind:'problem',id:'c',title:'明天的任务',date:'2026-11-06',status:'pending'}]},dailyTasks={tasks:[{id:'daily',title:'训练',completed:false},{id:'done',completed:true,claimed:true}]};
+const input={snapshot:{plan},items:[{kind:'review',id:'b',title:'复习'},{kind:'knowledge',id:'done',title:'已完成',completed:true}],training:rows,rows,dailyTasks,availablePages,now};
+let choices=nextActionChoices(input);assert.equal(choices[0].id,'lecture');assert(choices.some(item=>item.kind==='daily'));assert(choices.some(item=>item.kind==='replay'));assert.equal(choices.filter(item=>item.id==='b').length,1);assert(!choices.some(item=>['a','c','d','done','future'].includes(item.id)));
+choices=nextActionChoices({...input,snapshot:{plan:{tasks:plan.tasks.map(task=>({...task,status:'done'}))}}});assert.equal(choices[0].kind,'daily');assert(choices.some(item=>item.id==='b'));assert(!choices.some(item=>item.id==='lesson'));
+choices=nextActionChoices({...input,snapshot:{recommendation:{title:'字符串'}},dailyTasks:null});assert.equal(choices[0].title,'字符串');assert(!choices[0].title.includes('推荐'));
+assert.deepEqual(nextActionChoices({...input,activeContest:{id:'in-progress'}}),input.items);
+assert(!nextActionChoices({...input,snapshot:{plan:{tasks:[]}},items:[],availablePages:[]}).some(item=>item.kind==='problem'||item.kind==='replay'||item.kind==='daily'));
+assert.equal(nextActionChoices({...input,snapshot:null})[0].kind,'review');
+console.log('PASS real pending plan, daily tasks, remaining training, replay picker, duplicate/completed/hidden filtering and active contest exclusivity');

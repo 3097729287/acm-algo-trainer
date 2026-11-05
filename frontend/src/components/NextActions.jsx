@@ -8,7 +8,7 @@ import {knowledgeState,knowledgeCoverage,startKnowledge,cancelKnowledge,rotateKn
 import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
 import PopConfirm from './PopConfirm.jsx';
 import './NextActions.css';
-import {planActions} from '@/lib/learningSummaryModel.js';
+import {nextActionChoices} from '@/lib/nextActionChoices.js';
 
 const icons=Object.fromEntries(Object.entries(RECOMMENDATION_KINDS).map(([kind,value])=>[kind,value.Icon]));
 const labels=Object.fromEntries(Object.entries(RECOMMENDATION_KINDS).map(([kind,value])=>[kind,value.label]));
@@ -44,7 +44,7 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
  useEffect(()=>{if(!contentReady)return;let alive=true;setMetadata({lists:[],templates:[],templatesReady:false});const requests=[['training-lists','lists'],['templates','templates']].filter(([page])=>availablePages.includes(page));Promise.allSettled(requests.map(async([page,key])=>[key,(await api(page))[key]||[]])).then(results=>{if(alive){const values=Object.fromEntries([['lists',[]],['templates',[]],...results.filter(item=>item.status==='fulfilled').map(item=>item.value)]);setMetadata({...values,templatesReady:results.some(item=>item.status==='fulfilled'&&item.value[0]==='templates')});}});return()=>{alive=false;};},[api,scope,revision,contentReady]);
  const progression=JSON.stringify(Object.keys(LEARNING_COURSES).map(id=>[id,prefs.learningPaths?.[id]?.mode,prefs.learningPaths?.[id]?.labV1?.chapter]));
  const model=useMemo(()=>recommendationState({rows,training,insights:insights||{},prefs,...metadata,availablePages,activeContest,reviewPlan,now:Math.max(now,Date.now())}),[rows,training,insights,metadata,scope,activeContest,reviewPlan,now,prefs.learnedLectures,prefs.learningPaths?.knowledgeLearning,progression]);
- const journey=model.journey,planned=planActions(adoptedSummary,now),suggested=adoptedSummary?.recommendation,items=activeContest||!adoptedSummary?model.items:!adoptedSummary.plan?[{kind:'summary-task',id:'summary',title:suggested?.title?`推荐：${suggested.title}`:'安排今天的学习',reason:suggested?.reason||'按当前记录推荐',summaryTask:true}]:planned.length?planned:[{kind:'summary-task',id:'summary',title:'查看本周安排与复习',reason:'今天的计划已完成',summaryTask:true}],primary=items[0],rest=items.slice(1),activeTopic=adoptedSummary?null:KNOWLEDGE_BY_ID[knowledgeState(prefs).activeTopicId];
+ const journey=model.journey,items=useMemo(()=>nextActionChoices({snapshot:adoptedSummary,items:model.items,rows,training,dailyTasks:insights?.dailyTasks,availablePages,activeContest,now}),[adoptedSummary,model,rows,training,insights?.dailyTasks,scope,activeContest,now]),primary=items[0],rest=items.slice(1),activeTopic=adoptedSummary?null:KNOWLEDGE_BY_ID[knowledgeState(prefs).activeTopicId];
  const manualAction=item=>{const task=item?.rawAction||item;return !task?.reviewOnly&&task?.journeyTopicId===activeTopic?.id&&['lecture','course'].includes(task?.kind)?task:null;};
  const requestCompletion=(event,item)=>{const task=manualAction(item);if(task){const node=event.currentTarget,rect=node.getBoundingClientRect();const anchor=root.current?.contains(node)?node:{getBoundingClientRect:()=>rect,contains:()=>false,focus:()=>trigger.current?.focus()};close();setCompleteAnchor({anchor,task});}};
  useEffect(()=>{onActionsChange?.(preferencesReady&&contentReady?items:[]);},[onActionsChange,preferencesReady,contentReady,items]);

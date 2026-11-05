@@ -1,4 +1,5 @@
 import SectionWorkspace from '@/components/SectionWorkspace.jsx';
+import TaskContinuation from '@/components/TaskContinuation.jsx';
 import {ClipboardList} from 'lucide-react';
 import usePresence,{currentActivity} from '@/lib/usePresence.js';
 import {createPortal} from 'react-dom';
@@ -155,13 +156,13 @@ const loadWorkbench = () => import("./Workbench.jsx");
 const Workbench = lazy(loadWorkbench);
 const TasksBoard=lazy(()=>import('@/components/TasksBoard.jsx'));
 const LEARNING_PAGES=['lectures','wiki','templates','paths'];
-const PAGE_GROUPS={mine:'训练',library:'训练','training-lists':'训练',competitions:'竞赛',mock:'竞赛',duel:'竞赛',growth:'成长',records:'成长',activity:'成长',lectures:'学习',wiki:'学习',templates:'学习',paths:'学习'};
-const GROUP_ICONS={'训练':Target,'竞赛':Flag,'成长':ChartNoAxesCombined,'学习':BookOpen};
+const PAGE_GROUPS={mine:'我的训练',library:'我的训练','training-lists':'我的训练',competitions:'我的训练',mock:'我的训练',duel:'我的训练',growth:'成长',records:'成长',activity:'成长',lectures:'学习',wiki:'学习',templates:'学习',paths:'学习'};
+const GROUP_ICONS={'我的训练':Target,'成长':ChartNoAxesCombined,'学习':BookOpen};
 const AccountPanel=lazy(()=>import('@/components/AccountPanel.jsx'));
 const progressPanel = name => lazy(() => import('@/pages/ProgressPanels.jsx').then(module => ({ default: module[name] })));
 const GrowthPage = progressPanel('GrowthPage'), ActivityPage = progressPanel('ActivityPage'), CompetitionPage = progressPanel('CompetitionPage');
 const UpdatePanel = progressPanel('UpdatePanel'), AchievementPanel = progressPanel('AchievementPanel'), DailyTasks = progressPanel('DailyTasks');
-const RankingsPage = lazy(() => import('@/pages/CommunityPanel.jsx'));
+const RankingsWorkspace = lazy(() => import('@/components/RankingsWorkspace.jsx'));
 const MockSetup = lazy(() => import('@/app/MockSetup.jsx'));
 const HistoricalCode=lazy(()=>import('@/components/HistoricalCode.jsx'));
 const SubmissionRecords = lazy(() => import('@/pages/SubmissionRecords.jsx'));
@@ -697,6 +698,9 @@ export default function App() {
   const social = useSocial(api, Boolean(data&&account?.userId),account?.userId||'');
   const presence=usePresence(api,data&&account?.userId,currentActivity({page,practice:practiceId,studyKind:learningBrowserActive?studyActivity:null,contest:workspace?.activeContest,duel:duel?.state,thought:thought?.state}));
   const learningSummary=useLearningSummary(api,account?.userId||'local',Boolean(data&&!loading),Boolean(learningBrowserActive||practiceId||readerId||['lectures','paths','templates','wiki'].includes(page)||workspace.activeContest));
+  const [taskView,setTaskView]=useState('overview');
+  const summaryNavigation=useRef(null);summaryNavigation.current=()=>{setTaskView('overview');go('tasks');};
+  useEffect(()=>{const navigate=()=>summaryNavigation.current?.();window.addEventListener('tb:learning-summary-open',navigate);return()=>window.removeEventListener('tb:learning-summary-open',navigate);},[]);
   const [messagesReading,setMessagesReading]=useState(false);
   useUsage(api,data&&account?.userId,Boolean((!dialog||['lecture','solution'].includes(dialog))&&(learningBrowserActive||practiceId||readerId||page==='mock'&&mockSlot&&workspace.activeContest||['lectures','paths','templates','wiki'].includes(page)||page==='settings'&&settingsTab==='accounts')));
   usePlatformLogins(api,Boolean(data&&account?.userId));
@@ -1247,6 +1251,7 @@ export default function App() {
     }));
   function go(next) {
     learningBrowserRef.current?.hide({silent:true});
+    learningSummary.setOpen(false);
     if(!featureAvailable(next))return;
     if(next==='training-lists'&&navigationLevel===1&&!trainingListsVisit.current.state)trainingListsVisit.current.state=foundationListState();
     setKeyboardSelection(false);
@@ -1263,7 +1268,9 @@ export default function App() {
     requestAnimationFrame(() => listRef.current?.focus());
   }
   function openRecommendation(item) {
-    if(item.summaryTask){openSummaryTask({...item,kind:item.kind==='summary-task'?'quiz':item.kind});return;}
+    if(['problem','stretch','review','template-problem','knowledge-review','random'].includes(item.kind)&&!item.summaryTask){openPractice(item.id,{recommendation:item});return;}
+    if(item.kind==='daily'){setTaskView('today');go('tasks');return;}
+    if(item.summaryTask){openSummaryTask({...item,kind:item.taskKind||item.kind});return;}
     if(!featureAvailable(item.page))return;
     if(['course','guided','template','lecture'].includes(item.kind)){
       if(item.kind==='guided')setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,[item.id]:{...previous.learningPaths?.[item.id],mode:'guided',guided:{...previous.learningPaths?.[item.id]?.guided,active:Math.max(0,item.guidedIndex||0)}}}}));
@@ -1284,10 +1291,12 @@ export default function App() {
     go(item.page);
   }
   function openSummaryTask(task) {
+    if(task.id==='summary'||task.kind==='summary-task'){learningSummary.setOpen(false);setTaskView('overview');go('tasks');return;}
     if(task.kind==='mixed'){
+      if(!task.contestId){api('learning-summary/start',{key:task.key,planId:learningSummary.snapshot?.plan?.id}).then(result=>{learningSummary.refresh();openSummaryTask({...task,contestId:result.contest.id});}).catch(issue=>notice(issue.message,'error'));return;}
       setPracticeId(null);setRecord(null);setMockTab('current');setPage('mock');reload();return;
     }
-    if(['quiz','summary-task','reflection'].includes(task.kind)){learningSummary.setOpen(true);window.dispatchEvent(new CustomEvent('tb:learning-summary-task',{detail:task}));return;}
+    if(['quiz','reflection'].includes(task.kind)){learningSummary.setOpen(true);window.dispatchEvent(new CustomEvent('tb:learning-summary-task',{detail:task}));return;}
     const current=practiceId||studyProblemId;
     const proceed=()=>{
       if(['problem','review','template-problem'].includes(task.kind))openPractice(task.id,{restoreReviewId:task.reviewId||null});
@@ -1635,7 +1644,7 @@ export default function App() {
         const target=PAGES.find(item=>featureAvailable(item.id)&&matchesShortcut(e,'page-'+item.id,prefs.shortcuts));
         if(target){e.preventDefault();go(target.id);}
         else if(matchesShortcut(e,'settings',prefs.shortcuts)){e.preventDefault();go('settings');}
-        else if(matchesShortcut(e,'learning-summary',prefs.shortcuts)){e.preventDefault();learningSummary.setOpen(true);}
+        else if(matchesShortcut(e,'learning-summary',prefs.shortcuts)){e.preventDefault();setTaskView('overview');go('tasks');}
         else if(matchesShortcut(e,'theme',prefs.shortcuts)){e.preventDefault();setPrefs(previous=>({...previous,theme:previous.theme==='dark'?'light':'dark'}));}
         return;
       }
@@ -1655,7 +1664,7 @@ export default function App() {
         const id=extra[0];
         if(id==='theme')setPrefs(previous=>({...previous,theme:previous.theme==='dark'?'light':'dark'}));
         else if(id==='calendar'){if(featureAvailable('competitions'))setDialog('contest-calendar');}
-        else if(id==='learning-summary')learningSummary.setOpen(true);
+        else if(id==='learning-summary'){setTaskView('overview');go('tasks');}
         else if(id==='daily-tasks')setDialog('daily-tasks');
         else if(id==='achievements')setDialog('achievements');
         else if(id==='list-difficulty'||id==='list-recent'){const sort=id==='list-difficulty'?'difficulty':'date';setFilter({sort:currentFilters.sort===sort?'contestDate':sort});}
@@ -2140,8 +2149,8 @@ export default function App() {
         <header className={"topbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>
           <div className="topbar-leading"><div id="tb-page-location" className="page-location-slot"/>
           <div id="tb-page-search" className="topbar-search-slot"/></div>
-          {!practiceId&&!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} contentReady={Boolean(data&&!loading)} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} onActionsChange={updateRecommendationItems} adoptedSummary={learningSummary.snapshot} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
-          <div className="topbar-actions"><button type="button" className="icon-button" aria-label="学习进度与周计划" title="学习进度与周计划 · Ctrl+Shift+P" onClick={()=>go('tasks')}><NotebookTabs size={18}/></button>{learningTabCount>0&&<button type="button" className="icon-button" aria-label="返回学习标签页" title="返回学习标签页" onClick={()=>learningBrowserRef.current?.resume()}><BookOpen size={18}/></button>}
+          {!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} contentReady={Boolean(data&&!loading)} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} onActionsChange={updateRecommendationItems} adoptedSummary={learningSummary.snapshot} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
+          <div className="topbar-actions"><button type="button" className="icon-button" aria-label="任务概览" title="任务概览 · Ctrl+Shift+P" onClick={()=>{setTaskView('overview');go('tasks');}}><NotebookTabs size={18}/></button>{learningTabCount>0&&<button type="button" className="icon-button" aria-label="返回学习标签页" title="返回学习标签页" onClick={()=>learningBrowserRef.current?.resume()}><BookOpen size={18}/></button>}
             <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
             {active && page !== "mock" && (
               <button className="live-contest" aria-label="返回比赛" onClick={() => go("mock")}>
@@ -2176,6 +2185,7 @@ export default function App() {
         )}
         {!practiceId && !LEARNING_PAGES.includes(page) && mergedPages.length > 1 && <div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}{item.id === "mine" && dueCount > 0 && <i className="training-tab-dot" role="img" aria-label="有未完成训练待办" />}</button>)}</div>}
         <div data-page={practiceId ? "practice" : page} className={"workspace-area " + (practiceId ? "practicing" : "")} style={{ '--page-opacity': `var(--opacity-${practiceId ? 'mock' : page}, var(--panel-opacity))` }}>
+          <TaskContinuation owner={account?.userId||'local'} snapshot={learningSummary.snapshot} training={workspace.training} actions={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]} content={studyContent||((practiceId||studyProblemId)?{kind:'problem',id:practiceId||studyProblemId}:null)} update={learningSummary.update} onOpen={openRecommendation} suspended={Boolean(active||loading)} insideStudy={learningBrowserActive}/>
           <Suspense fallback={<div className="loading-screen" role="status"><LoaderCircle size={27} className="spin" /><p>正在载入</p></div>}>
           {loading ? (
             <div className="loading-screen">
@@ -2201,7 +2211,7 @@ export default function App() {
               onNext={nextPractice}
             />
           ) : page==='tasks' ? (
-            <TasksBoard key={account?.userId||'local'} owner={account?.userId||'local'} model={learningSummary} api={api} prefs={prefs} setPrefs={setPrefs} onOpenTask={openSummaryTask} onClaimDaily={claimDailyTask} dailyTasks={insights?.dailyTasks}/>
+            <TasksBoard key={account?.userId||'local'} owner={account?.userId||'local'} initialView={taskView} onView={setTaskView} model={learningSummary} api={api} prefs={prefs} setPrefs={setPrefs} onOpenTask={openSummaryTask} onClaimDaily={claimDailyTask} dailyTasks={insights?.dailyTasks} onNextAction={task=>{const item=recommendationSnapshot.items.find(item=>!item.summaryTask&&item.id!==task?.id);if(item)openRecommendation(item);}}/>
           ) : LEARNING_PAGES.includes(page) ? (
             <SectionWorkspace key={'learning:'+(account?.userId||'local')} id="learning" entries={LEARNING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label}))} activeId={page} onActivate={setPage} render={renderLearningPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
           ) : ["mine", "library"].includes(page) ? (
@@ -2317,7 +2327,7 @@ export default function App() {
           ) : page === "training-lists" ? (
             <TrainingListsPage level={experienceAccess?.allNavigationUnlocked?6:navigationLevel} onLocationChange={location=>setPrefs(previous=>JSON.stringify(previous.trainingListLocation)===JSON.stringify(location)?previous:{...previous,trainingListLocation:location})} rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} navigationRequest={trainingListRequest} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined}/>
           ) : page === "rankings" ? (
-            <RankingsPage presence={presence} socialState={social} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
+            <RankingsWorkspace key={account?.userId||'local'} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'} presence={presence} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
           ) : (
             settingsPage()
           )}

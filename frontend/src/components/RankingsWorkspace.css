@@ -1,0 +1,8 @@
+.section-workspace[data-section=rankings] .section-document-content{padding:0 14px 12px}
+.section-workspace[data-section=rankings] .rankings-page>.progress-section{padding:8px 0 0!important;max-width:none}
+.duel-community.standings-only{display:block;padding:0 8px 12px}
+.standings-only .duel-ranking header,.team-standings>header{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line)}
+.standings-only .duel-ranking td{padding-block:12px}
+.standings-only .duel-ranking td:last-child{font-size:1.28rem;font-weight:650;color:var(--accent)}
+.team-standings{padding:0 8px}.team-standings h2{display:flex;align-items:center;gap:9px;font-size:1rem;font-weight:500;margin:0}.team-standings header>span{font-size:.8rem;color:var(--muted)}
+.team-standings table{width:100%;border-collapse:collapse}.team-standings :is(th,td){padding:12px 8px;text-align:left;border-bottom:1px solid var(--soft-line)}.team-standings :is(th,td):first-child{width:60px;font-variant-numeric:tabular-nums}.team-standings :is(th,td):last-child{text-align:right;font-variant-numeric:tabular-nums}.team-standings td:last-child{font-size:1.28rem;color:var(--accent)}.team-standings th{font-size:.8rem;color:var(--muted);font-weight:400}

@@ -1,0 +1,559 @@
+{
+  "schema": "tobe-material-review-atmosphere-v2",
+  "sourceVersion": "1.6.1",
+  "exportedAt": "2026-11-05T04:11:29.274Z",
+  "appliedInputSha256": "03755c07c6c7df6b50fbfab677954891b1d9779fd10a12182ec0729fde3e2b56",
+  "catalogueCount": {
+    "stickers": 62,
+    "backgrounds": 14
+  },
+  "duckSound": {
+    "status": "applied",
+    "keepCall": 1,
+    "keepSourceIndex": 0,
+    "removeOtherCall": true
+  },
+  "items": [
+    {
+      "id": "common-spark",
+      "title": "星星",
+      "kind": "sticker",
+      "shape": "spark",
+      "rarity": "common"
+    },
+    {
+      "id": "common-leaf",
+      "title": "一片新叶",
+      "kind": "sticker",
+      "shape": "leaf",
+      "rarity": "common"
+    },
+    {
+      "id": "common-drop",
+      "title": "蓝色水滴",
+      "kind": "sticker",
+      "shape": "drop",
+      "rarity": "common"
+    },
+    {
+      "id": "common-cloud",
+      "title": "软绵云朵",
+      "kind": "sticker",
+      "shape": "cloud",
+      "rarity": "common"
+    },
+    {
+      "id": "rare-flame",
+      "title": "小火苗",
+      "kind": "sticker",
+      "shape": "flame",
+      "rarity": "rare"
+    },
+    {
+      "id": "rare-bolt",
+      "title": "闪电",
+      "kind": "sticker",
+      "shape": "bolt",
+      "rarity": "rare"
+    },
+    {
+      "id": "rare-sun",
+      "title": "小太阳",
+      "kind": "sticker",
+      "shape": "sun",
+      "rarity": "rare"
+    },
+    {
+      "id": "rare-comet",
+      "title": "彗星",
+      "kind": "sticker",
+      "shape": "comet",
+      "rarity": "rare"
+    },
+    {
+      "id": "epic-moon",
+      "title": "月牙",
+      "kind": "sticker",
+      "shape": "moon",
+      "rarity": "epic"
+    },
+    {
+      "id": "epic-planet",
+      "title": "轨道星球",
+      "kind": "sticker",
+      "shape": "planet",
+      "rarity": "epic"
+    },
+    {
+      "id": "epic-crystal",
+      "title": "水晶",
+      "kind": "sticker",
+      "shape": "crystal",
+      "rarity": "rare"
+    },
+    {
+      "id": "epic-butterfly",
+      "title": "蝴蝶",
+      "kind": "sticker",
+      "shape": "butterfly",
+      "rarity": "epic"
+    },
+    {
+      "id": "legendary-gem",
+      "title": "宝石",
+      "kind": "sticker",
+      "shape": "gem",
+      "rarity": "legendary"
+    },
+    {
+      "id": "legendary-crown",
+      "title": "王冠",
+      "kind": "sticker",
+      "shape": "crown",
+      "rarity": "legendary"
+    },
+    {
+      "id": "legendary-galaxy",
+      "title": "星河",
+      "kind": "sticker",
+      "shape": "galaxy",
+      "rarity": "legendary"
+    },
+    {
+      "id": "legendary-phoenix",
+      "title": "凤凰",
+      "kind": "sticker",
+      "shape": "phoenix",
+      "rarity": "legendary"
+    },
+    {
+      "id": "collection-pencil",
+      "title": "小小铅笔",
+      "kind": "sticker",
+      "shape": "pencil",
+      "rarity": "common"
+    },
+    {
+      "id": "collection-book",
+      "title": "翻开的书",
+      "kind": "sticker",
+      "shape": "book",
+      "rarity": "common"
+    },
+    {
+      "id": "collection-coffee",
+      "title": "温热咖啡",
+      "kind": "sticker",
+      "shape": "coffee",
+      "rarity": "rare"
+    },
+    {
+      "id": "collection-mushroom",
+      "title": "蘑菇小屋",
+      "kind": "sticker",
+      "shape": "mushroom",
+      "rarity": "rare"
+    },
+    {
+      "id": "collection-rocket",
+      "title": "向星空出发",
+      "kind": "sticker",
+      "shape": "rocket",
+      "rarity": "legendary"
+    },
+    {
+      "id": "collection-whale",
+      "title": "星海鲸鱼",
+      "kind": "sticker",
+      "shape": "whale",
+      "rarity": "epic"
+    },
+    {
+      "id": "collection-dragon",
+      "title": "守护小龙",
+      "kind": "sticker",
+      "shape": "dragon",
+      "rarity": "legendary"
+    },
+    {
+      "id": "collection-telescope",
+      "title": "观星望远镜",
+      "kind": "sticker",
+      "shape": "telescope",
+      "rarity": "legendary"
+    },
+    {
+      "id": "scene-tree",
+      "title": "大树",
+      "kind": "sticker",
+      "shape": "tree",
+      "rarity": "common"
+    },
+    {
+      "id": "scene-pine",
+      "title": "松树",
+      "kind": "sticker",
+      "shape": "pine",
+      "rarity": "rare"
+    },
+    {
+      "id": "scene-flower",
+      "title": "小花",
+      "kind": "sticker",
+      "shape": "flower",
+      "rarity": "common"
+    },
+    {
+      "id": "scene-grass",
+      "title": "草丛",
+      "kind": "sticker",
+      "shape": "grass",
+      "rarity": "common"
+    },
+    {
+      "id": "scene-rock",
+      "title": "圆石",
+      "kind": "sticker",
+      "shape": "rock",
+      "rarity": "common"
+    },
+    {
+      "id": "scene-mushroom",
+      "title": "蘑菇",
+      "kind": "sticker",
+      "shape": "mushroom",
+      "rarity": "rare"
+    },
+    {
+      "id": "scene-house",
+      "title": "温暖小屋",
+      "kind": "sticker",
+      "shape": "house",
+      "rarity": "rare"
+    },
+    {
+      "id": "scene-cottage",
+      "title": "森林木屋",
+      "kind": "sticker",
+      "shape": "cottage",
+      "rarity": "epic"
+    },
+    {
+      "id": "scene-tower",
+      "title": "童话塔楼",
+      "kind": "sticker",
+      "shape": "tower",
+      "rarity": "legendary"
+    },
+    {
+      "id": "scene-person",
+      "title": "散步小人",
+      "kind": "sticker",
+      "shape": "person",
+      "rarity": "rare"
+    },
+    {
+      "id": "scene-person-friend",
+      "title": "探险小人",
+      "kind": "sticker",
+      "shape": "person-friend",
+      "rarity": "rare"
+    },
+    {
+      "id": "scene-chair",
+      "title": "木椅",
+      "kind": "sticker",
+      "shape": "chair",
+      "rarity": "common"
+    },
+    {
+      "id": "scene-stool",
+      "title": "小凳子",
+      "kind": "sticker",
+      "shape": "stool",
+      "rarity": "common"
+    },
+    {
+      "id": "scene-table",
+      "title": "圆桌",
+      "kind": "sticker",
+      "shape": "table",
+      "rarity": "rare"
+    },
+    {
+      "id": "scene-sofa",
+      "title": "软沙发",
+      "kind": "sticker",
+      "shape": "sofa",
+      "rarity": "epic"
+    },
+    {
+      "id": "scene-bed",
+      "title": "小床",
+      "kind": "sticker",
+      "shape": "bed",
+      "rarity": "rare"
+    },
+    {
+      "id": "scene-lamp",
+      "title": "落地灯",
+      "kind": "sticker",
+      "shape": "lamp",
+      "rarity": "rare"
+    },
+    {
+      "id": "scene-bookshelf",
+      "title": "书架",
+      "kind": "sticker",
+      "shape": "bookshelf",
+      "rarity": "epic"
+    },
+    {
+      "id": "scene-window",
+      "title": "晴天窗户",
+      "kind": "sticker",
+      "shape": "window",
+      "rarity": "rare"
+    },
+    {
+      "id": "scene-boat",
+      "title": "小船",
+      "kind": "sticker",
+      "shape": "boat",
+      "rarity": "epic"
+    },
+    {
+      "id": "scene-bird",
+      "title": "小鸟",
+      "kind": "sticker",
+      "shape": "bird",
+      "rarity": "common"
+    },
+    {
+      "id": "scene-fish",
+      "title": "小鱼",
+      "kind": "sticker",
+      "shape": "fish",
+      "rarity": "common"
+    },
+    {
+      "id": "scene-mountain",
+      "title": "远山",
+      "kind": "sticker",
+      "shape": "mountain",
+      "rarity": "epic"
+    },
+    {
+      "id": "scene-bridge",
+      "title": "小桥",
+      "kind": "sticker",
+      "shape": "bridge",
+      "rarity": "epic"
+    },
+    {
+      "id": "achievement-duck",
+      "title": "嘴强小黄鸭",
+      "kind": "sticker",
+      "shape": "duck",
+      "rarity": "legendary"
+    },
+    {
+      "id": "achievement-semicolon",
+      "title": "分号救世主",
+      "kind": "sticker",
+      "shape": "semicolon",
+      "rarity": "legendary"
+    },
+    {
+      "id": "achievement-42",
+      "title": "42 号星球",
+      "kind": "sticker",
+      "shape": "answer42",
+      "rarity": "epic"
+    },
+    {
+      "id": "achievement-hearts",
+      "title": "心意邮差",
+      "kind": "sticker",
+      "shape": "heart",
+      "rarity": "epic"
+    },
+    {
+      "id": "achievement-rainbow",
+      "title": "彩虹收藏家",
+      "kind": "sticker",
+      "shape": "rainbow",
+      "rarity": "legendary"
+    },
+    {
+      "id": "achievement-wiki",
+      "title": "知识旅行家",
+      "kind": "sticker",
+      "shape": "compass",
+      "rarity": "rare"
+    },
+    {
+      "id": "achievement-gift",
+      "title": "礼物来了",
+      "kind": "sticker",
+      "shape": "gift",
+      "rarity": "rare"
+    },
+    {
+      "id": "achievement-post",
+      "title": "星际邮局",
+      "kind": "sticker",
+      "shape": "envelope",
+      "rarity": "legendary"
+    },
+    {
+      "id": "achievement-key",
+      "title": "开箱好手",
+      "kind": "sticker",
+      "shape": "key",
+      "rarity": "epic"
+    },
+    {
+      "id": "achievement-fox",
+      "title": "倒立小狐狸",
+      "kind": "sticker",
+      "shape": "fox",
+      "rarity": "rare"
+    },
+    {
+      "id": "achievement-orbit",
+      "title": "四季同框",
+      "kind": "sticker",
+      "shape": "orbit",
+      "rarity": "legendary"
+    },
+    {
+      "id": "achievement-bookmark",
+      "title": "收藏书签",
+      "kind": "sticker",
+      "shape": "bookmark",
+      "rarity": "rare"
+    },
+    {
+      "id": "achievement-owl",
+      "title": "夜读猫头鹰",
+      "kind": "sticker",
+      "shape": "owl",
+      "rarity": "epic"
+    },
+    {
+      "id": "achievement-yearbadge",
+      "title": "四季常青",
+      "kind": "sticker",
+      "shape": "yearbadge",
+      "rarity": "legendary"
+    },
+    {
+      "id": "background-night-common",
+      "title": "安静夜晚",
+      "kind": "background",
+      "shape": "background-night",
+      "rarity": "common",
+      "notes": "所有有地面这个元素的,地面不要这么没有边界感,地面有自己的渐变色,天空有自己的渐变色,不要让地面跟天空混了"
+    },
+    {
+      "id": "background-morning-common",
+      "title": "清新早晨",
+      "kind": "background",
+      "shape": "background-morning",
+      "rarity": "common"
+    },
+    {
+      "id": "background-rain-rare",
+      "title": "绵绵雨天",
+      "kind": "background",
+      "shape": "background-rain",
+      "rarity": "rare"
+    },
+    {
+      "id": "background-coast-common",
+      "title": "海边远眺",
+      "kind": "background",
+      "shape": "background-coast",
+      "rarity": "common"
+    },
+    {
+      "id": "background-beach-common",
+      "title": "暖阳沙滩",
+      "kind": "background",
+      "shape": "background-beach",
+      "rarity": "common"
+    },
+    {
+      "id": "background-desert-rare",
+      "title": "沙漠旅途",
+      "kind": "background",
+      "shape": "background-desert",
+      "rarity": "rare"
+    },
+    {
+      "id": "background-rainforest-rare",
+      "title": "雨林深处",
+      "kind": "background",
+      "shape": "background-rainforest",
+      "rarity": "rare",
+      "notes": "雨林咋这么多山?"
+    },
+    {
+      "id": "background-mountains-common",
+      "title": "群山之间",
+      "kind": "background",
+      "shape": "background-mountains",
+      "rarity": "common"
+    },
+    {
+      "id": "background-snow-common",
+      "title": "雪山晴空",
+      "kind": "background",
+      "shape": "background-snow",
+      "rarity": "common",
+      "notes": "太偷懒了,跟群山之间直接换了个壳子,好歹修改一下啊"
+    },
+    {
+      "id": "background-river-epic",
+      "title": "河边午后",
+      "kind": "background",
+      "shape": "background-river",
+      "rarity": "epic"
+    },
+    {
+      "id": "background-sky-epic",
+      "title": "云端天空",
+      "kind": "background",
+      "shape": "background-sky",
+      "rarity": "epic",
+      "notes": "中间这条黑线是什么意思?要更多云层的质感,上半部分做的就不错"
+    },
+    {
+      "id": "background-underground-legendary",
+      "title": "地底微光",
+      "kind": "background",
+      "shape": "background-underground",
+      "rarity": "legendary",
+      "notes": "左右两坨太突兀了,而且显示不出来是地底.点左边是左边掉岩石,点右边是右边掉岩石,细化交互",
+      "approved": true
+    },
+    {
+      "id": "background-room-legendary",
+      "title": "窗边小屋",
+      "kind": "background",
+      "shape": "background-room",
+      "rarity": "legendary",
+      "notes": "这窗户太大太突兀了,之前的就不错,改成合适的窗户尺寸,然后要把窗户彻底打开,左边打开了,右边只是打开了一点的状态"
+    },
+    {
+      "id": "background-galaxy-legendary",
+      "title": "银河漫游",
+      "kind": "background",
+      "shape": "background-galaxy",
+      "rarity": "legendary",
+      "approved": true,
+      "notes": "交互太蠢了,好好想然后改"
+    }
+  ]
+}
