@@ -1,4 +1,5 @@
 import SectionWorkspace from '@/components/SectionWorkspace.jsx';
+import MeteorsBackground from '@/components/MeteorsBackground.jsx';
 import TaskContinuation from '@/components/TaskContinuation.jsx';
 import {ClipboardList} from 'lucide-react';
 import usePresence,{currentActivity} from '@/lib/usePresence.js';
@@ -2113,6 +2114,7 @@ export default function App() {
     <FeatureVisibilityContext.Provider value={featureAvailable}><DifficultyDisplayProvider mode={prefs.difficultyDisplay}><DifficultyBoundsProvider rows={data?.rows||[]}><div
       className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : labFocus?"lab-focus":templateFocus?"template-focus practice-focus":page==='lectures'&&lectureFull?"lecture-focus practice-focus":"")}
     >
+      {prefs.backdrop === 'meteors' && <MeteorsBackground/>}
       {!loading&&<LearningBrowser ref={learningBrowserRef} api={api} accountId={account?.userId||'local'} ready={!loading&&(!account?.userId||preferencesLoaded.current)} onFlush={flushLearningBrowser} rows={rows} trainingRows={todayMine} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} onProgress={progressChanged} onNotice={notice} onExit={exitPractice} onActiveChange={learningBrowserChanged} categories={categories} lockedProblems={active?.slots||[]} practiceWorkspace={workspace} recommendations={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]} weeklyPlan={learningSummary.snapshot?.plan} onSummaryTask={openSummaryTask}/>}
       <LearningSummary model={learningSummary} api={api} onOpenTask={openSummaryTask} currentProblem={practiceId||studyProblemId} currentContent={studyContent} rows={rows}/>
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />

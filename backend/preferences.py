@@ -103,7 +103,7 @@ def save_preferences(training, body):
         validate_avatar(value['avatarData'])
     for name, allowed in (('difficultyDisplay', {'number', 'text'}),
                           ('panelStyle', {'minimal', 'outlined', 'aurora', 'blueprint'}),
-                          ('backdrop', {'none', 'aurora', 'grid', 'sunset', 'custom'})):
+                          ('backdrop', {'none', 'meteors', 'aurora', 'grid', 'sunset', 'custom'})):
         if name in value and (not isinstance(value[name], str) or value[name] not in allowed):
             raise ServiceError(400, '外观选项无效')
     if 'widgets' in value and type(value['widgets']) is not bool:
