@@ -1937,14 +1937,14 @@ class TrainingService:
         with self.lock:
             groups={}
             for row in self._library():
-                if not row.get('catalogHidden') and row.get('source') not in {'luogu-training','algorithm-lab','algorithm-lab-curation'} and not row.get('labTopic'):groups.setdefault(row['contest'],[]).append(row)
+                if (not row.get('catalogHidden') or row.get('schoolTraining')) and row.get('source') not in {'luogu-training','algorithm-lab','algorithm-lab-curation'} and not row.get('labTopic'):groups.setdefault(row['contest'],[]).append(row)
             from replay_catalog import unique_replay_rows
             groups={name:unique_replay_rows(rows) for name,rows in groups.items()}
             for name, rows in groups.items():
                 if rows and all(row.get('schoolTraining') for row in rows) and event_info(name,rows)['complete'] is False:
                     ready={row['id'] for row in self._contest_candidates(rows,official=True)}
                     groups[name]=[dict(row,catalogReplayReady=row['id'] in ready) for row in rows]
-            result=[info for name,rows in groups.items() if (info:=event_info(name,rows))['complete'] is not False]
+            result=[info for name,rows in groups.items() if (info:=event_info(name,rows))['complete'] is not False or all(row.get('schoolTraining') for row in rows)]
             from contest_names import contest_name, natural_key
             for item in result:
                 item['displayName'] = contest_name(item['name'])

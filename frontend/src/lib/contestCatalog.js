@@ -113,7 +113,7 @@ function catalogEntriesFor(rows,path,cache,descending){
 export function contestOptions(events,{descending=true,shelf=''}={}) {
   const roots=[];
   const ensure=(parts)=>{let nodes=roots;for(const label of parts){let folder=nodes.find(node=>node.value===undefined&&node.label===label);if(!folder){folder={label,children:[]};nodes.push(folder);}nodes=folder.children;}return nodes;};
-  for(const item of events)for(const parts of catalogPaths({...item,contest:item.displayName||item.name})){const nodes=ensure(parts.slice(0,-1));nodes.push({label:`${parts.at(-1)} · ${item.expectedCount||item.count} 题`,selectionLabel:`${schoolContestName(item.displayName||item.name)} · ${item.expectedCount||item.count} 题`,value:item.name,event:item});}
+  for(const item of events)for(const parts of catalogPaths({...item,contest:item.displayName||item.name})){const nodes=ensure(parts.slice(0,-1));nodes.push({label:`${parts.at(-1)} · ${item.expectedCount||item.count} 题${item.complete===false?' · 题面待核验':''}`,selectionLabel:`${schoolContestName(item.displayName||item.name)} · ${item.expectedCount||item.count} 题`,value:item.name,event:item,disabled:item.complete===false});}
   const compareNewest=createContestComparator();
   const sort=nodes=>{nodes.sort((a,b)=>a.event&&b.event?compareNewest(a.event,b.event)*(descending?1:-1):/^20\d{2}年$/.test(a.label)&&/^20\d{2}年$/.test(b.label)?b.label.localeCompare(a.label)*(descending?1:-1):folderOrder.compare(a.label,b.label));nodes.forEach(node=>node.children&&sort(node.children));};
   sort(roots);return compactCatalogOptions(roots);

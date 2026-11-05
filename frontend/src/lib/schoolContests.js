@@ -5,7 +5,7 @@ export function schoolContestName(value){const text=String(value??'');for(const 
 // the canonical name for API requests, saved filters and historical records.
 export function includeSchoolContests(events,rows){
  const result=[...events],groups=new Map();
- for(const row of rows)if(row.schoolTraining&&!row.catalogHidden){const group=groups.get(row.contest)||[];group.push(row);groups.set(row.contest,group);}
+ for(const row of rows)if(row.schoolTraining){const group=groups.get(row.contest)||[];group.push(row);groups.set(row.contest,group);}
  for(const [name,items] of groups)if(!result.some(event=>event.name===name)){
   const expected=Math.max(...items.map(row=>row.contestProblemCount||0));
   if(!expected||new Set(items.map(row=>row.problem)).size!==expected)continue;

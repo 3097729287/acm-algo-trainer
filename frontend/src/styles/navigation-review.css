@@ -10,7 +10,7 @@ html .app-shell .main-area .topbar-leading .topbar-search-slot{flex:1 1 220px;mi
 html .app-shell .main-area .topbar-leading .page-search-controls{width:100%;min-width:0}
 html .app-shell .main-area .topbar-leading .search-box{flex:1;min-width:60px;width:auto;max-width:440px}
 html .app-shell .main-area .topbar>.next-actions{flex:0 1 240px;min-width:140px;width:240px;max-width:240px;margin-left:auto;margin-right:6px}
-html .app-shell .main-area .topbar>.topbar-actions{flex:0 0 auto;max-width:100%;margin-left:0;flex-wrap:wrap;justify-content:flex-end}
+html .app-shell .main-area .topbar>.topbar-actions{flex:0 0 auto;max-width:100%;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
 .section-bookmarks>button[role=tab],.ranking-tabs>button[role=tab],.duel-modes>button,.account-tabs>button{display:inline-flex;align-items:center;justify-content:center;gap:7px}
 :is(.section-bookmarks,.merged-page-tabs,.ranking-tabs,.duel-modes,.account-tabs)>button>svg{flex:none}
 .task-page-heading>time{color:var(--muted);font-size:.72rem;letter-spacing:.16em}
@@ -20,7 +20,7 @@ html .rankings-page .ranking-identity .profile-badge{display:grid;grid-template-
 html .rankings-page .ranking-identity .profile-badge>.tooltip-anchor{min-width:0}
 html .rankings-page .ranking-identity .profile-nickname{display:block;max-width:9.5rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 html .rankings-page .ranking-identity>.user-presence{margin-left:0;flex:none;align-self:center;min-height:24px}
-@media(max-width:1500px){
+@media(max-width:1750px){
  html .app-shell .main-area .topbar>.topbar-leading{flex-basis:100%;order:0}
  html .app-shell .main-area .topbar>.next-actions{order:1}
  html .app-shell .main-area .topbar>.topbar-actions{order:2}

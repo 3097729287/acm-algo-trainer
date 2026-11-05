@@ -30,6 +30,19 @@ class StatementIntegrityTests(unittest.TestCase):
         roster=[dict(row,catalogReplayReady=row['id'] in ready,contestProblemCount=1) for row in rows[:1]]
         self.assertTrue(event_info('1024数学专场考核',roster)['complete'])
 
+    def test_school_roster_remains_visible_when_audited_statements_are_unavailable(self):
+        import threading
+        from training import TrainingService
+        row={'id':'math','contest':'1024数学专场考核','problem':'A','schoolTraining':True,
+             'catalogHidden':True,'catalogReplayReady':False,'contestProblemCount':1}
+        probe=Mock(lock=threading.RLock())
+        probe._library.return_value=[row]
+        probe._contest_candidates.return_value=[]
+        with patch('graph_lab.replay_events',return_value=[]):
+            events=TrainingService.replay_events(probe)['events']
+        self.assertEqual([e['name'] for e in events],['1024数学专场考核'])
+        self.assertFalse(events[0]['complete'])
+
     def test_background_fetch_cannot_undo_audit_retirement_or_replace_chinese(self):
         import hashlib
         with tempfile.TemporaryDirectory() as directory:
