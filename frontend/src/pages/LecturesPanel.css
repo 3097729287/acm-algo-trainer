@@ -42,10 +42,11 @@ html .lectures-detail-bar .lecture-fullscreen-toggle{margin-left:0}
 .lecture-item-heading>strong{flex:1;min-width:0}
 
 /* The course landing page uses the whole workspace, with one shared scroll. */
-html .lectures-layout.lecture-catalog{grid-template-columns:minmax(0,1fr);align-content:start;overflow:auto;gap:18px}
-html .lecture-catalog>.lectures-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px;align-content:start;overflow:visible;min-height:0;padding:0 18px 18px;border:0;background:transparent!important}
+html .lectures-layout.lecture-catalog{grid-template-columns:minmax(0,1fr);grid-auto-rows:max-content;align-content:start;overflow:auto;gap:18px}
+html .lecture-catalog>.lectures-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px;align-content:start;overflow:visible;height:max-content;min-height:0;padding:0 18px 18px;border:0;background:transparent!important}
 html .lecture-catalog .lecture-curriculum-group{grid-column:1/-1;position:static;padding:10px 0;background:transparent}
-html .lecture-catalog>.lectures-list>button{align-self:stretch;min-height:132px;padding:16px 18px;border:1px solid var(--soft-line);border-radius:7px;justify-content:flex-start;gap:9px}
+html .lecture-catalog>.lectures-list>button{display:grid;grid-template-columns:minmax(0,1fr);align-self:stretch;align-content:start;justify-content:stretch;min-height:72px;padding:18px;border:1px solid var(--soft-line);border-radius:7px}
+html .lectures-list>button>strong{display:block;min-width:0}
 html .lecture-catalog .lecture-item-heading{align-items:flex-start;gap:12px}
 html .lecture-catalog .lecture-item-heading>strong{flex:1;min-width:0}
 html .lecture-catalog>.lectures-detail{display:block;order:-1;padding:18px 24px;overflow:visible;border:0;background:transparent!important}

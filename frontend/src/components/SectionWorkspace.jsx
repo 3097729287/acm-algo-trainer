@@ -1,10 +1,8 @@
-import {useCallback,useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
-import {Columns2} from 'lucide-react';
 import BookmarkLabel from './BookmarkLabel.jsx';
 import PageBookmarks from './PageBookmarks.jsx';
+import {useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {StudyPaneContext} from '@/lib/StudyPane.jsx';
-import {activateStudyTab,moveStudyTab,openStudyTab,restoreStudyBrowser,splitStudyTab,studyGroups,studySnapshot} from '@/lib/learningBrowser.js';
-import {resizeSectionSplit,sectionSplitLayout,SECTION_DIVIDER_WIDTH} from '@/lib/sectionSplitLayout.js';
+import {activateStudyTab,moveStudyTab,openStudyTab,restoreStudyBrowser,studyGroups,studySnapshot} from '@/lib/learningBrowser.js';
 import './SectionWorkspace.css';
 
 function Pane({tab,visible,focused,patch,topbarSearch=false,children}){
@@ -16,36 +14,31 @@ function Pane({tab,visible,focused,patch,topbarSearch=false,children}){
   <div className="section-document-content"><StudyPaneContext.Provider value={context}>{children}</StudyPaneContext.Provider></div>
  </section>;
 }
+// Top-level bookmarks keep the existing per-page state while merging old split layouts.
+function oneGroup(value){
+ value=restoreStudyBrowser(value);const groups=studyGroups(value),tabs=groups.flatMap(group=>group.tabs);
+ return restoreStudyBrowser({...value,groups:tabs.length?[{id:groups[0].id,tabs,active:value.focused,weight:100}]:[]});
+}
 export default function SectionWorkspace({id,entries,activeId,onActivate,render,prefs,setPrefs,owner}){
- const signature=entries.map(item=>item.id+':'+item.title).join('|'),root=useRef(null),drag=useRef(null),resize=useRef(null);
- const [drop,setDrop]=useState(null),[dragging,setDragging]=useState(false),[visited,setVisited]=useState(new Set());
- const [size,setSize]=useState({width:0,scale:1});
- useLayoutEffect(()=>{const node=root.current;if(!node)return;const measure=()=>{const width=node.clientWidth,font=parseFloat(getComputedStyle(node).getPropertyValue('--ui-font-size'))||15,scale=font/15;setSize(previous=>previous.width===width&&previous.scale===scale?previous:{width,scale});};const observer=new ResizeObserver(measure);observer.observe(node);measure();return()=>observer.disconnect();},[prefs.fontSize]);
- const includeEntries=value=>{for(const [index,item] of entries.entries()){if(value.tabs.some(tab=>tab.id===item.id))continue;const following=entries.slice(index+1).map(item=>'panel:'+item.id).find(key=>value.tabs.some(tab=>tab.key===key)),group=studyGroups(value).find(group=>group.tabs.includes(following));value=openStudyTab(value,{kind:'panel',id:item.id,title:item.title});if(group)value=moveStudyTab(value,'panel:'+item.id,group.id,following);}return value;};
- const make=()=>{let value=restoreStudyBrowser(prefs.learningPaths?.sectionWorkspaces?.[id]);const allowed=new Set(entries.map(item=>item.id));value={...value,tabs:value.tabs.filter(tab=>allowed.has(tab.id))};value=restoreStudyBrowser(value);const focused=value.focused;value=includeEntries(value);return activateStudyTab(value,activeId?'panel:'+activeId:focused||'panel:'+entries[0]?.id);};
- const [state,setState]=useState(make),groups=studyGroups(state),activeKeys=groups.map(group=>group.active),activeSignature=activeKeys.join('|');
- const minimumFor=group=>Math.max(...group.tabs.map(key=>entries.find(item=>'panel:'+item.id===key)?.minWidth||320))*size.scale;
- const minimums=groups.map(minimumFor),layout=sectionSplitLayout(groups,size.width,minimums);
- const resizeAt=(index,position,options)=>setState(previous=>resizeSectionSplit(previous,index,position,root.current.clientWidth,studyGroups(previous).map(minimumFor),options));
- useEffect(()=>{setState(previous=>{let value={...previous,tabs:previous.tabs.filter(tab=>entries.some(item=>item.id===tab.id))};value=restoreStudyBrowser(value);value=includeEntries(value);return activateStudyTab(value,activeId?'panel:'+activeId:previous.focused);});},[signature]);
+ const signature=entries.map(item=>item.id+':'+item.title).join('|'),drag=useRef(null),[drop,setDrop]=useState(null);
+ const includeEntries=value=>{for(const [index,item] of entries.entries()){if(value.tabs.some(tab=>tab.id===item.id))continue;const following=entries.slice(index+1).map(item=>'panel:'+item.id).find(key=>value.tabs.some(tab=>tab.key===key));value=openStudyTab(value,{kind:'panel',id:item.id,title:item.title});if(following)value=moveStudyTab(value,'panel:'+item.id,studyGroups(value)[0].id,following);}return value;};
+ const make=value=>{value=oneGroup(value);const focused=value.focused;value=oneGroup({...value,tabs:value.tabs.filter(tab=>entries.some(item=>item.id===tab.id))});value=includeEntries(value);return activateStudyTab(value,activeId?'panel:'+activeId:focused||'panel:'+entries[0]?.id);};
+ const [state,setState]=useState(()=>make(prefs.learningPaths?.sectionWorkspaces?.[id])),[visited,setVisited]=useState(new Set());
+ const group=studyGroups(state)[0],activeKey=group?.active;
+ useEffect(()=>{setState(previous=>make(previous));},[signature]);
  useEffect(()=>{if(activeId)setState(previous=>activateStudyTab(previous,'panel:'+activeId));},[activeId]);
- useEffect(()=>setVisited(previous=>new Set([...previous,...activeKeys])),[activeSignature]);
+ useEffect(()=>setVisited(previous=>new Set([...previous,activeKey])),[activeKey]);
  useEffect(()=>{const saved=studySnapshot(state);setPrefs(previous=>{if(owner&&window.__tbAccountUserId&&window.__tbAccountUserId!==owner)return previous;if(JSON.stringify(previous.learningPaths?.sectionWorkspaces?.[id])===JSON.stringify(saved))return previous;return {...previous,learningPaths:{...previous.learningPaths,sectionWorkspaces:{...previous.learningPaths?.sectionWorkspaces,[id]:saved}}};});},[state,id,owner]);
  const activate=key=>{setState(previous=>activateStudyTab(previous,key));onActivate?.(state.tabs.find(tab=>tab.key===key)?.id);};
  const patch=useCallback((key,update)=>setState(previous=>({...previous,tabs:previous.tabs.map(tab=>tab.key===key?update(tab):tab)})),[]);
- const clear=()=>{drag.current=null;setDragging(false);setDrop(null);};
- const hit=(event,group)=>{const box=event.currentTarget.getBoundingClientRect(),x=(event.clientX-box.left)/box.width;return {groupId:group.id,side:x<.22?'left':x>.78?'right':'center'};};
- const commit=(event,group,beforeKey)=>{event.preventDefault();const key=drag.current||event.dataTransfer.getData('application/x-tobe-section-tab');if(!key)return;const target=beforeKey?{groupId:group.id,side:'center'}:hit(event,group);setState(previous=>target.side==='center'?moveStudyTab(previous,key,target.groupId,beforeKey):splitStudyTab(previous,key,{targetGroupId:target.groupId,side:target.side}));onActivate?.(state.tabs.find(tab=>tab.key===key)?.id);clear();};
- return <div ref={root} className="section-workspace" data-section={id} data-split={groups.length>1} data-stacked={layout.stacked} data-dragging={dragging} style={{gridTemplateColumns:layout.stacked?'minmax(0,1fr)':groups.flatMap((group,index)=>[...(index?[SECTION_DIVIDER_WIDTH+'px']:[]),`minmax(0,${layout.widths[index]||group.weight}fr)`]).join(' '),gridTemplateRows:layout.stacked?groups.map(()=>'minmax(0,1fr)').join(` ${SECTION_DIVIDER_WIDTH}px `):'minmax(0,1fr)'}}
-  onPointerMove={event=>{if(!resize.current||layout.stacked)return;const box=root.current.getBoundingClientRect();resizeAt(resize.current.index,event.clientX-box.left-resize.current.offset);}} onPointerUp={event=>{resize.current=null;if(root.current.hasPointerCapture(event.pointerId))root.current.releasePointerCapture(event.pointerId);}} onPointerCancel={()=>{resize.current=null;}}>
-  {groups.map((group,index)=><div key={group.id} className="section-pane" data-group-id={group.id} data-first={index===0} data-last={index===groups.length-1} style={{gridColumn:layout.stacked?1:index*2+1,gridRow:layout.stacked?index*2+1:1}} onPointerDownCapture={event=>{if(event.target.closest('[role=tablist]'))return;if(state.focusedGroup!==group.id)activate(group.active);}} onFocusCapture={event=>{if(event.target.closest('[role=tablist]'))return;if(state.focusedGroup!==group.id)activate(group.active);}} onDragOver={event=>{if(!drag.current)return;event.preventDefault();event.dataTransfer.dropEffect='move';setDrop(hit(event,group));}} onDrop={event=>commit(event,group)}>
-   <PageBookmarks enabled={state.focusedGroup===group.id}><nav className="section-bookmarks" role="tablist" aria-label={{learning:'学习书签',tasks:'任务书签',rankings:'排行榜书签',training:'组合页面 我的训练'}[id]||'页面书签'}>
-    {group.tabs.map(key=>{const tab=state.tabs.find(tab=>tab.key===key),entry=entries.find(item=>item.id===tab.id),Icon=entry?.icon;return <button draggable key={key} role="tab" aria-selected={group.active===key} aria-controls={'section-panel-'+tab.id} onClick={()=>activate(key)} onKeyDown={event=>{if(event.altKey&&event.key==='Enter'){event.preventDefault();setState(previous=>splitStudyTab(previous,key,{targetGroupId:group.id}));}else if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();const next=group.tabs[(group.tabs.indexOf(key)+(event.key==='ArrowRight'?1:-1)+group.tabs.length)%group.tabs.length];activate(next);}}} onDragStart={event=>{drag.current=key;setDragging(true);event.dataTransfer.effectAllowed='move';event.dataTransfer.setData('application/x-tobe-section-tab',key);}} onDragEnd={clear} onDragOver={event=>{if(drag.current){event.preventDefault();event.stopPropagation();setDrop({groupId:group.id,side:'center'});}}} onDrop={event=>{event.stopPropagation();commit(event,group,key);}}><BookmarkLabel icon={Icon}>{tab.title}</BookmarkLabel>{entry?.attention&&<i className="training-tab-dot" role="img" aria-label="有未完成训练待办"/>}</button>;})}
-    <button type="button" className="section-split-button" aria-label="将当前书签向右分屏" title="向右分屏 · Alt+Enter" disabled={group.tabs.length<2} onClick={()=>setState(previous=>splitStudyTab(previous,group.active,{targetGroupId:group.id}))}><Columns2 size={15}/></button>
+ const clear=()=>{drag.current=null;setDrop(null);};
+ const commit=(event,beforeKey=null)=>{event.preventDefault();event.stopPropagation();const key=drag.current;if(!key)return;setState(previous=>moveStudyTab(previous,key,studyGroups(previous)[0].id,beforeKey));onActivate?.(state.tabs.find(tab=>tab.key===key)?.id);clear();};
+ return <div className="section-workspace" data-section={id} data-split="false" style={{gridTemplateColumns:'minmax(0,1fr)'}}>
+  <div className="section-pane" data-group-id={group?.id}>
+   <PageBookmarks><nav className="section-bookmarks" role="tablist" aria-label={{learning:'学习书签',tasks:'任务书签',rankings:'排行榜书签',training:'组合页面 我的训练'}[id]||'页面书签'} onDragOver={event=>{if(drag.current){event.preventDefault();event.dataTransfer.dropEffect='move';}}} onDrop={event=>commit(event)}>
+    {group?.tabs.map(key=>{const tab=state.tabs.find(tab=>tab.key===key),entry=entries.find(item=>item.id===tab.id),Icon=entry?.icon;return <button draggable key={key} role="tab" aria-selected={activeKey===key} aria-controls={'section-panel-'+tab.id} data-drop-before={drop===key||undefined} onClick={()=>activate(key)} onKeyDown={event=>{if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();activate(group.tabs[(group.tabs.indexOf(key)+(event.key==='ArrowRight'?1:-1)+group.tabs.length)%group.tabs.length]);}}} onDragStart={event=>{drag.current=key;event.dataTransfer.effectAllowed='move';event.dataTransfer.setData('application/x-tobe-bookmark',key);}} onDragEnd={clear} onDragOver={event=>{if(drag.current){event.preventDefault();event.stopPropagation();setDrop(key);}}} onDrop={event=>commit(event,key)}><BookmarkLabel icon={Icon}>{tab.title}</BookmarkLabel>{entry?.attention&&<i className="training-tab-dot" role="img" aria-label="有未完成训练待办"/>}</button>;})}
    </nav></PageBookmarks>
-   {state.tabs.filter(tab=>group.tabs.includes(tab.key)&&(visited.has(tab.key)||group.active===tab.key)).map(tab=><Pane key={tab.key} tab={tab} visible={group.active===tab.key} focused={state.focused===tab.key} patch={patch} topbarSearch={['learning','rankings','training','tasks'].includes(id)}>{render(tab.id)}</Pane>)}
-   {dragging&&drop?.groupId===group.id&&<div className={'section-drop-preview drop-'+drop.side} aria-hidden="true"/>}
-  </div>)}
-  {groups.slice(0,-1).map((group,index)=>{const total=layout.widths[index]+layout.widths[index+1],disabled=layout.stacked||total-minimums[index]-minimums[index+1]<1;return <div key={'resize-'+group.id} className="section-divider" style={{gridColumn:layout.stacked?1:index*2+2,gridRow:layout.stacked?index*2+2:1}} role="separator" tabIndex={disabled?-1:0} aria-label="调整书签分屏宽度" aria-orientation={layout.stacked?'horizontal':'vertical'} aria-disabled={disabled} aria-valuemin={layout.stacked?undefined:Math.round(minimums[index]/total*100)} aria-valuemax={layout.stacked?undefined:Math.round((total-minimums[index+1])/total*100)} aria-valuenow={layout.stacked?undefined:Math.round(layout.widths[index]/total*100)} onPointerDown={event=>{if(event.button!==0||disabled)return;event.preventDefault();const box=event.currentTarget.getBoundingClientRect();resize.current={index,offset:event.clientX-box.left-box.width/2};root.current.setPointerCapture(event.pointerId);}} onDoubleClick={()=>{if(!disabled)resizeAt(index,0,{center:true});}} onKeyDown={event=>{if(disabled||!['ArrowLeft','ArrowRight','Home'].includes(event.key))return;event.preventDefault();const boundary=layout.widths.slice(0,index+1).reduce((sum,value)=>sum+value,0)+index*SECTION_DIVIDER_WIDTH+SECTION_DIVIDER_WIDTH/2;resizeAt(index,boundary+(event.key==='ArrowRight'?1:-1)*Math.max(16,size.width*.02),{center:event.key==='Home',snap:0});}}/>;})}
+   {state.tabs.filter(tab=>visited.has(tab.key)||activeKey===tab.key).map(tab=><Pane key={tab.key} tab={tab} visible={activeKey===tab.key} focused={activeKey===tab.key} patch={patch} topbarSearch={['learning','rankings','training','tasks'].includes(id)}>{render(tab.id)}</Pane>)}
+  </div>
  </div>;
 }

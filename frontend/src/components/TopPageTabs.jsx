@@ -1,0 +1,8 @@
+import {useRef} from 'react';
+
+export default function TopPageTabs({items,group,activeId,onActivate,prefs,setPrefs,owner}){
+ const drag=useRef(null),saved=Array.isArray(prefs.learningPaths?.pageBookmarkOrders?.[group])?prefs.learningPaths.pageBookmarkOrders[group]:[],known=new Map(items.map(item=>[item.id,item]));
+ const order=[...new Set([...saved,...items.map(item=>item.id)])].filter(id=>known.has(id));
+ const drop=(event,before=null)=>{event.preventDefault();event.stopPropagation();const id=drag.current;drag.current=null;if(!id||id===before||!order.includes(id))return;const next=order.filter(value=>value!==id),index=next.indexOf(before);next.splice(index<0?next.length:index,0,id);setPrefs(previous=>owner&&window.__tbAccountUserId&&window.__tbAccountUserId!==owner?previous:{...previous,learningPaths:{...previous.learningPaths,pageBookmarkOrders:{...previous.learningPaths?.pageBookmarkOrders,[group]:next}}});};
+ return <div className="merged-page-tabs" role="tablist" aria-label={'组合页面 '+group} onDragOver={event=>{if(drag.current)event.preventDefault();}} onDrop={drop}>{order.map(id=>{const item=known.get(id);return <button draggable key={id} role="tab" aria-selected={activeId===id} className={activeId===id?'active':''} onClick={()=>onActivate(id)} onDragStart={event=>{drag.current=id;event.dataTransfer.effectAllowed='move';event.dataTransfer.setData('application/x-tobe-bookmark',id);}} onDragEnd={()=>{drag.current=null;}} onDragOver={event=>{if(drag.current){event.preventDefault();event.stopPropagation();}}} onDrop={event=>drop(event,id)}><item.icon size={15}/>{item.label}</button>;})}</div>;
+}

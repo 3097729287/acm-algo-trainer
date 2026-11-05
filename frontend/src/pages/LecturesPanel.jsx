@@ -7,9 +7,8 @@ import PageSearch from '@/components/PageSearch.jsx';
 import {useStudyState} from '@/lib/StudyPane.jsx';
 import {lectureCurriculum,prerequisiteTitle,LECTURE_ROLES} from '@/lib/learningCurriculum.js';
 import {recordKnowledgeLesson} from '@/lib/knowledgeJourney.js';
-import Tooltip from '@/components/Tooltip.jsx';
 import FolderSelect from '@/components/FolderSelect.jsx';
-import { lectureFolderOptions, lectureMatchesFolder,primaryLectureTopic } from '@/lib/lectureFolders.js';
+import { lectureFolderOptions, lectureMatchesFolder } from '@/lib/lectureFolders.js';
 import {canonicalKnowledgeName} from '@/lib/knowledgeNames.js';
 import SortDirection from '@/components/SortDirection.jsx';
 import { Fragment, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
@@ -25,6 +24,13 @@ import './LecturesPanel.css';
 
 function LessonTitle({ children }) {
   return <span className="inline-lesson-markdown"><ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[[rehypeKatex, { strict: 'ignore', throwOnError: false }]]} components={{ p: ({ children }) => <span>{children}</span> }}>{normalizeMarkdown(children || '')}</ReactMarkdown></span>;
+}
+
+function catalogueTitle(item) {
+  const title=(item.displayTitle||item.concept||item.title).replace(/^从零讲[：:]\s*/,'');
+  // Reviewed foundation titles have a descriptive suffix. Problem-specific
+  // titles keep their identifying detail instead of collapsing to one topic.
+  return ['language','algorithm'].includes(item.curriculum.kind)?title.split(/：|:\s+/)[0]:title;
 }
 
 function LessonMarkdown({ lesson }) {
@@ -116,11 +122,9 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
     <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索从零讲知识" value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换讲解排序方向" descending={descending} onChange={setDescending}/><FolderSelect iconOnly label="从零讲知识分类" placeholder="全部知识分类" options={classifications} value={classification} onChange={event=>setClassification(event.target.value)}/><button type="button" className="icon-button lecture-learned-filter" aria-label={showLearned?'隐藏已学会':'显示已学会'} title={showLearned?'隐藏已学会':'显示已学会'} aria-pressed={showLearned} onClick={()=>setShowLearned(value=>!value)}>{showLearned?<BookCheck size={17}/>:<BookOpen size={17}/>}</button></PageSearch>
     <div className={'lectures-layout' + (selected ? ' has-selection' : !study?' lecture-catalog':'')+(readingFull&&selected?' lecture-reading-full':'')+(directoryOpen?' lecture-directory-open':'')}>
       {(!study||directoryOpen)&&<nav ref={directory} id={directoryId} className="lectures-list" aria-label="完整知识讲解" onScroll={event=>{if(visit)visit.directoryScrollTop=event.currentTarget.scrollTop;}}>{filtered.map((item,index) => <Fragment key={item.id}>
-        {(index===0||filtered[index-1].curriculum.kind!==item.curriculum.kind)&&<h3 className="lecture-curriculum-group">{item.curriculum.kind==='language'?`基础学习 · ${foundationRead}/${foundations.length}`:LECTURE_ROLES[item.curriculum.kind]}</h3>}
+        {(index===0||filtered[index-1].curriculum.kind!==item.curriculum.kind)&&<h3 className="lecture-curriculum-group">{item.curriculum.kind==='language'?'基础学习':LECTURE_ROLES[item.curriculum.kind]}</h3>}
         <button className={[selected===item.id?'selected':'',learnedKeys.has(lessonKey(item))?'lecture-learned':''].filter(Boolean).join(' ')} aria-current={selected===item.id?'page':undefined} data-lesson-kind={item.curriculum.kind} onClick={() => {if((study||readingFull)&&onNextLecture)onNextLecture(item.id);else openLecture(item.id,true);}}>
-          <span className="lecture-item-heading">{item.curriculum.kind==='language'&&<span className="lecture-step" aria-label={'第'+(foundations.findIndex(row=>row.id===item.id)+1)+'篇'}>{String(foundations.findIndex(row=>row.id===item.id)+1).padStart(2,'0')}</span>}<strong><LessonTitle>{(item.displayTitle || item.concept || item.title).replace(/^从零讲[：:]\s*/,'')}</LessonTitle></strong><Tooltip text="学习层次依据内容和先修安排，与比赛评分分开"><b className={'lecture-difficulty lecture-level-'+(item.curriculum.level??'unknown')}>{item.curriculum.levelLabel}</b></Tooltip></span>
-          <span className="lecture-category">{primaryLectureTopic(item)}</span>
-          {item.curriculum.prerequisites.length>0&&<span className="lecture-prerequisite-preview">先修：{item.curriculum.prerequisites.map(prerequisiteTitle).join('、')}</span>}
+          <strong><LessonTitle>{catalogueTitle(item)}</LessonTitle></strong>
         </button>
       </Fragment>)}{snapshot && !filtered.length && <p>没有匹配的完整讲解。仅有指针的段落会链接已有讲解。</p>}</nav>}
       <article ref={detail} onScroll={event=>{if(visit)visit.scrollTop=event.currentTarget.scrollTop;}} className="lectures-detail" tabIndex={0} aria-label="知识讲解正文">

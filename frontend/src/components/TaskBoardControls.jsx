@@ -3,6 +3,7 @@ import {createPortal} from 'react-dom';
 import {Check,X} from 'lucide-react';
 import TimeBudget,{studyMinutes} from './TimeBudget.jsx';
 import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
+import {opacityStyle} from '@/lib/surfaceOpacity.js';
 
 export const MASTERY_STAGES=['阅读学习','原理检查','跟练实现','独立实现','独立解题','间隔复习','综合检验'];
 export function masteryStage(topic){const level=Math.max(0,Math.min(6,Number.isInteger(topic?.level)?topic.level:0));return level===6&&topic.mixed?7:level;}
@@ -13,7 +14,7 @@ export function TopicMastery({topic}){
 export function BoardDialog({title,onClose,busy=false,children,className=''}){
  const dialog=useRef(null);
  useEffect(()=>{const node=dialog.current,previous=document.activeElement;node.showModal();return()=>{node.close();if(previous?.isConnected)previous.focus({preventScroll:true});};},[]);
- return createPortal(<dialog ref={dialog} className={'task-settings-dialog '+className} aria-label={title} onCancel={event=>{event.preventDefault();if(!busy)onClose();}} onPointerDown={dialogPointerDown} onClick={event=>{if(!busy)dialogBackdropClick(event);}}><header><h2>{title}</h2><button type="button" className="task-icon" aria-label={'关闭'+title} disabled={busy} onClick={onClose}><X size={18}/></button></header>{children}</dialog>,document.body);
+ return createPortal(<dialog ref={dialog} className={'task-settings-dialog '+className} style={opacityStyle('popups')} aria-label={title} onCancel={event=>{event.preventDefault();if(!busy)onClose();}} onPointerDown={dialogPointerDown} onClick={event=>{if(!busy)dialogBackdropClick(event);}}><header><h2>{title}</h2><button type="button" className="task-icon" aria-label={'关闭'+title} disabled={busy} onClick={onClose}><X size={18}/></button></header>{children}</dialog>,document.body);
 }
 export function TimeSettings({snapshot,onSave,onClose}){
  const [minutes,setMinutes]=useState(()=>studyMinutes(snapshot.config.weekdayMinutes)),[weekend,setWeekend]=useState(()=>studyMinutes(snapshot.config.weekendMinutes)),[busy,setBusy]=useState(false),[error,setError]=useState('');
