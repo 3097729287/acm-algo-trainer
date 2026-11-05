@@ -1,6 +1,6 @@
 // Navigation lives in the existing account-owned SQLite preferences document.
 // Code continues to use the workbench's draft store, never this tab manifest.
-export const STUDY_KINDS = ['problem','solution','wiki','template','lab','lecture'];
+export const STUDY_KINDS = ['problem','solution','wiki','template','lab','lecture','panel'];
 export const MAX_STUDY_TABS=64;
 export const STUDY_LABELS = {mine:'我的训练',problem:'题目',solution:'题解',wiki:'维基百科',template:'模板',lab:'实验室',lecture:'从零讲'};
 export const studyKey = tab => `${tab.kind}:${tab.id}`;

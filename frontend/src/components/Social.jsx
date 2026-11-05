@@ -7,6 +7,7 @@ import Tooltip from './Tooltip.jsx';
 import './Social.css';
 import {readSocialCounts,saveSocialCounts,retainSocialCounts} from '@/lib/socialSnapshot.js';
 import {giftPresetWarnings} from '@/lib/stickerScenes.js';
+import {normalizeStickerInventory} from '@/lib/stickerCatalogue.js';
 
 const dateText=value=>new Date(value).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
 const socialCache=new WeakMap();
@@ -87,7 +88,7 @@ export function CommentDialog({ target,api,onClose,onSent,replyTo }) {
   useEffect(()=>{alive.current=true;const node=dialog.current;node.showModal();textarea.current.focus();return()=>{alive.current=false;node.close();};},[]);
   async function gifts(){
     setPicker(value=>!value);if(inventory||giftLoading)return;setGiftLoading(true);setError('');
-    try{const value=await api('stickers');if(!alive.current||sender.current!==window.__tbAccountUserId)return;if(sender.current&&value.owner!==sender.current)throw new Error('账号已切换');setInventory(value);}
+    try{const value=await api('stickers');if(!alive.current||sender.current!==window.__tbAccountUserId)return;if(sender.current&&value.owner!==sender.current)throw new Error('账号已切换');setInventory(normalizeStickerInventory(value));}
     catch(issue){if(alive.current)setError(issue.message);}finally{if(alive.current)setGiftLoading(false);}
   }
   async function send(event){
@@ -96,7 +97,7 @@ export function CommentDialog({ target,api,onClose,onSent,replyTo }) {
     const payload={targetId:target.userId,text:text.trim(),...(replyTo?{replyTo}:{}),...(gift?{gift:{unitId:gift.unit.id,revision:gift.unit.revision,...(presetWarnings.length?{presetRevision:inventory.revision}:{})}}:{})},signature=JSON.stringify(payload);
     if(submission.current?.signature!==signature)submission.current={signature,requestId:crypto.randomUUID()};
     try{const value=await api('social/comments',{...payload,requestId:submission.current.requestId});if(!alive.current||sender.current!==window.__tbAccountUserId)return;window.dispatchEvent(new Event('tb:social-change'));if(gift)window.dispatchEvent(new Event('tb:sticker-rewards'));onSent?.({...value,id:value.id||submission.current.requestId,text:payload.text,replyTo,createdAt:value.createdAt||new Date().toISOString(),...(gift?{gift:value.gift||gift.item}:{})});onClose();}
-    catch(issue){if(alive.current){setError(issue.message);setBusy(false);if(gift&&issue.status===409){setPresetAcknowledged(false);try{const fresh=await api('stickers');if(alive.current&&sender.current===window.__tbAccountUserId)setInventory(fresh);}catch{}}}}
+    catch(issue){if(alive.current){setError(issue.message);setBusy(false);if(gift&&issue.status===409){setPresetAcknowledged(false);try{const fresh=await api('stickers');if(alive.current&&sender.current===window.__tbAccountUserId)setInventory(normalizeStickerInventory(fresh));}catch{}}}}
   }
   return <dialog onPointerDown={dialogPointerDown} onClick={dialogBackdropClick} ref={dialog} className="social-comment-dialog" aria-labelledby="social-comment-title" onCancel={event=>{event.preventDefault();if(!busy)onClose();}}>
     <header><h3 id="social-comment-title"><MessageCircle size={18}/>给 {target.nickname || '训练者'} 留言</h3><button type="button" aria-label="关闭留言" disabled={busy} onClick={onClose}><X size={18}/></button></header>

@@ -1,4 +1,5 @@
 // A display cache of confirmed owner placements, never inventory authority.
+import {normalizeStickerInventory} from './stickerCatalogue.js';
 const VERSION=1,limit=200,prefix='tb.sticker-layout.v1:';
 const finite=(v,min,max)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max;
 function project(value,owner){
@@ -7,5 +8,5 @@ function project(value,owner){
  const known=new Set(catalogue.map(item=>item.id)),units=value.units.filter(unit=>known.has(unit.stickerId)&&typeof unit.id==='string'&&unit.id.length<200&&Number.isSafeInteger(unit.revision)&&unit.revision>=0&&unit.placement&&finite(unit.placement.x,0,1)&&finite(unit.placement.y,0,1)&&finite(unit.placement.angle,-180,180)&&(unit.placement.scale===undefined||finite(unit.placement.scale,.25,6))).slice(0,limit).map(({id,stickerId,revision,placement,appearance})=>({id,stickerId,revision,placement:{x:placement.x,y:placement.y,angle:placement.angle,...(placement.scale===undefined?{}:{scale:placement.scale})},...(appearance&&typeof appearance==='object'?{appearance:Object.fromEntries(Object.entries(appearance).filter(([key,value])=>['hat','accessory','top','trousers','shoes'].includes(key)&&typeof value==='string'&&/^[a-z]{1,16}$/.test(value)))}:{})}));
  return {version:VERSION,owner,revision:value.revision,catalogue,units,cachedPlacementOnly:true};
 }
-export function readStickerLayout(owner){try{const value=JSON.parse(localStorage.getItem(prefix+owner));return value?.version===VERSION?project(value,owner):null;}catch{return null;}}
+export function readStickerLayout(owner){try{const value=JSON.parse(localStorage.getItem(prefix+owner));return value?.version===VERSION?project(normalizeStickerInventory(value),owner):null;}catch{return null;}}
 export function cacheStickerLayout(value,owner){const clean=project(value,owner);if(clean)try{localStorage.setItem(prefix+owner,JSON.stringify(clean));}catch{}return clean;}

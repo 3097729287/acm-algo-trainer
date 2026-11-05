@@ -1,6 +1,7 @@
-export const NAVIGATION_ORDER=Object.freeze(['mine','library','training-lists','competitions','mock','duel','growth','records','activity','rankings','lectures','wiki','templates','paths']);
+export const NAVIGATION_ORDER=Object.freeze(['tasks','mine','library','training-lists','lectures','wiki','templates','paths','competitions','mock','duel','growth','records','activity','rankings']);
 
 const previousDefaults=[
+ ['mine','library','training-lists','competitions','mock','duel','growth','records','activity','rankings','lectures','wiki','templates','paths'],
  ['mine','library','training-lists','lectures','wiki','templates','paths','competitions','mock','duel','growth','records','activity','rankings'],
  ['mine','library','training-lists','competitions','mock','duel','growth','records','activity','rankings','paths','templates','lectures','wiki'],
  ['training-lists'],
@@ -15,6 +16,7 @@ export function navigationOrder(value){
  const order=Array.isArray(value)?value.filter(id=>id!=='today'):[];
  if(!order.length||previousDefaults.some(previous=>previous.length===order.length&&previous.every((id,index)=>id===order[index])))return [...NAVIGATION_ORDER];
  const next=[...order];
+ if(!next.includes('tasks'))next.unshift('tasks');
  for(const id of ['duel','wiki'])if(!next.includes(id))next.push(id);
  if(!next.includes('training-lists')){const index=next.indexOf('library');next.splice(index<0?next.length:index+1,0,'training-lists');}
  return next;

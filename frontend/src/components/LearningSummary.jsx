@@ -1,3 +1,4 @@
+import TimeBudget,{studyMinutes} from './TimeBudget.jsx';
 import {useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {ArrowRight,BookOpen,CalendarDays,Check,ClipboardList,Clock,Compass,Maximize2,Minimize2,Pin,PinOff,RefreshCw,Settings2,X,ChevronDown,ChevronUp,History,Trash2,Shuffle} from 'lucide-react';
@@ -17,15 +18,15 @@ export function WeeklyLearningTasks({plan,onOpen,onPostpone,onReplace,compact=fa
 }
 
 function Configuration({snapshot,update,onClose,onError}) {
- const [minutes,setMinutes]=useState(snapshot.config.weekdayMinutes),[weekend,setWeekend]=useState(snapshot.config.weekendMinutes),[saving,setSaving]=useState(false);
+ const [minutes,setMinutes]=useState(studyMinutes(snapshot.config.weekdayMinutes)),[weekend,setWeekend]=useState(studyMinutes(snapshot.config.weekendMinutes)),[saving,setSaving]=useState(false);
  const choose=value=>{setMinutes(value);if(weekend==null)setWeekend(value);};
  const submit=async event=>{event.preventDefault();if(minutes==null)return;setSaving(true);try{let value=await update('configure',{recommended:true,config:{...snapshot.config,weekdayMinutes:minutes,weekendMinutes:weekend??minutes}});if(value?.proposal)value=await update('accept',{proposalId:value.proposal.id});onClose(value);}catch(issue){onError(issue.message);}finally{setSaving(false);}};
  return <form className="summary-config summary-guided-config" onSubmit={submit} aria-label="目标与时间设置">
   <div className="summary-guided-recommendation"><Compass size={25}/><div><small>根据当前记录推荐</small><strong>{snapshot.recommendation?.title||'从基础开始'}</strong><p>{snapshot.recommendation?.reason||'先用一小节确认起点。'}</p></div></div>
-  <fieldset><legend><Clock size={18}/>平时每天能学多久？</legend><div className="summary-time-options">{[15,30,60,90].map(value=><button type="button" key={value} aria-pressed={minutes===value} onClick={()=>choose(value)}><b>{value}</b><span>分钟</span>{minutes===value&&<Check size={15}/>}</button>)}</div></fieldset>
-  <details className="summary-weekend"><summary>周末时间不同？</summary><div className="summary-time-options">{[30,60,90,120].map(value=><button type="button" key={value} aria-pressed={weekend===value} onClick={()=>setWeekend(value)}><b>{value}</b><span>分钟</span></button>)}</div></details>
+  <fieldset><legend><Clock size={18}/>平时每天能学多久？</legend><TimeBudget value={minutes} onChange={choose} label="平日可用时间"/></fieldset>
+  <details className="summary-weekend"><summary>周末时间不同？</summary><TimeBudget value={weekend} onChange={setWeekend} label="周末可用时间"/></details>
   <p className="summary-muted"><CalendarDays size={15}/>目标：{snapshot.config.goal.title}</p>
-  {snapshot.config.restDays.length>0&&<p className="summary-muted">休息日：{snapshot.config.restDays.map(day=>'周'+['一','二','三','四','五','六','日'][day]).join('、')}<button type="button" className="summary-link" onClick={async()=>{try{const value=await update('configure',{recommended:true,config:{...snapshot.config,weekdayMinutes:minutes??30,weekendMinutes:weekend??minutes??30,restDays:[]}});onClose(value);}catch(issue){onError(issue.message);}}}>取消休息日</button></p>}
+  {snapshot.config.restDays.length>0&&<p className="summary-muted">休息日：{snapshot.config.restDays.map(day=>'周'+['一','二','三','四','五','六','日'][day]).join('、')}<button type="button" className="summary-link" onClick={async()=>{try{const value=await update('configure',{recommended:true,config:{...snapshot.config,weekdayMinutes:minutes??60,weekendMinutes:weekend??minutes??60,restDays:[]}});onClose(value);}catch(issue){onError(issue.message);}}}>取消休息日</button></p>}
   <div className="summary-actions"><button type="button" onClick={()=>onClose()}>返回</button><button type="submit" className="primary" disabled={saving||minutes==null}>{saving?'正在安排…':'按推荐安排'}</button></div>
  </form>;
 }

@@ -1,3 +1,9 @@
+## 1.6.1 工作区与背景检查
+
+`npm run test:sections --prefix frontend` 检查真实应用中的组合导航、学习与任务书签、拖动分屏、布局恢复、时间下限和私有待办。`npm run test:atmosphere --prefix frontend` 使用旧 52 份背景库存检查主题去重、份数保留、摆放与背景交互。`node frontend/scripts/build-material-review.mjs` 和 `node frontend/scripts/build-task-workspace-preview.mjs` 构建可离线打开的单文件预览，复用正式组件。构建前会从共享奖励配置生成前端展示策略。
+
+已收到用户的素材审批和 A 方案选择，具体输入保留在 docs/reviews。本次只交付本机界面与公共素材配置；共享服务目录需另行部署才能进入线上掉落，不能通过客户端预览制造奖励。
+
 ## 1.6.1 本机修订
 
 学习规划默认单项推荐，configure 可显式使用 recommended 起点，困难反馈生成待采纳方案；事实、方案和执行计划继续分别保存。能力分只影响建议起点，不补写先修掌握。NextActions 在 summary 可用时统一读取该来源，避免旧知识旅程抢回推荐。贴纸层级使用账号隔离的本机展示顺序，不写共享库存。桌面审批和程序复用 stickerSound、StickerReaction、StickerArt；rarity 和鸭声的最终选择不擅自应用。design-reviews 下保留可重建的离线 HTML 源码与检查。

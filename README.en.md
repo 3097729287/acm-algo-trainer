@@ -1,4 +1,4 @@
-Local 1.6.1 simplifies learning plans, connects feedback to the weekly plan and next recommendation, enlarges ranking identities and unifies duel lobbies. It also provides offline UI designs and a sticker/background/sound review page. Public downloads keep their published version; local delivery receipts record installation. See [release notes](docs/releases/1.6.1.md).
+The local 1.6.1 interface revision adds the chosen task workspace, daily and weekly tasks, private to-dos, persistent split bookmarks, grouped navigation, and a 60-minute minimum study budget with +30/+60 controls. Fourteen distinct atmospheric backgrounds replace rarity duplicates, including a legendary Milky Way scene. The supplied sticker and sound approvals are applied. The shared drop catalogue is updated in source and awaits service deployment; existing installers and public downloads retain their original build. See [release notes](docs/releases/1.6.1.md).
 
 # ToBe · Training Workbench
 

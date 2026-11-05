@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 import {AccountError} from './accounts.mjs';
 import {levelBox,packBox,dailyPackRarity,normalizeBox} from './sticker-rewards.mjs';
 import {backgroundCards,shapePolicy,placement,outfit,sceneWrite} from './sticker-scenes.mjs';
+import {normalizeBackgroundState} from './sticker-catalogue.mjs';
 
 const fail=(status,message)=>{throw new AccountError(status,message);};
 const hash=value=>createHash('sha256').update(value).digest('hex');
@@ -19,7 +20,7 @@ export const STICKERS=Object.freeze([
  ...(REWARDS.collection||[]),
  ...REWARDS.stickers,
  ...backgroundCards(),
-].map(item=>({title:shapeTitles[item.shape]||item.shape,...item,...shapePolicy(item)})));
+].map(item=>({title:shapeTitles[item.shape]||item.shape,...item,...(item.id==='epic-crystal'?{rarity:'rare'}:{}),...shapePolicy(item)})));
 const empty=()=>({revision:0,units:[],grants:{}});
 const scalar=(n,lo,hi)=>typeof n==='number'&&Number.isFinite(n)&&n>=lo&&n<=hi;
 function grantIdentity(value,now){
@@ -73,7 +74,7 @@ export class Gameplay extends StickerRewards {
   const insert=this.dialect==='mysql'?'INSERT IGNORE':'INSERT OR IGNORE';
   await db.execute(`${insert} INTO gameplay_accounts(user_id,payload) VALUES(?,?)`,[owner,JSON.stringify(empty())]);
   const [rows]=await db.execute(this.lock('SELECT payload FROM gameplay_accounts WHERE user_id=?'),[owner]);
-  return JSON.parse(rows[0].payload);
+  return normalizeBackgroundState(JSON.parse(rows[0].payload));
  }
  async saveAccount(db,owner,state){await db.execute('UPDATE gameplay_accounts SET payload=? WHERE user_id=?',[JSON.stringify(state),owner]);}
  async once(db,owner,kind,value,action){
@@ -87,7 +88,7 @@ export class Gameplay extends StickerRewards {
  }
  async stickers(owner){
   const [rows]=await this.db.execute('SELECT payload FROM gameplay_accounts WHERE user_id=?',[owner]);
-  const state=rows.length?JSON.parse(rows[0].payload):empty();
+  const state=normalizeBackgroundState(rows.length?JSON.parse(rows[0].payload):empty());
   const boxes=Object.fromEntries(Object.entries(state.boxes||{}).map(([id,box])=>[id,normalizeBox(box)]));
   return {owner,catalogue:STICKERS,...state,boxes,scenePresets:state.scenePresets||[],wardrobe:REWARDS.wardrobe,backgroundPolicy:REWARDS.backgroundRewards,boxPolicy:REWARDS.levelBoxes,packPolicy:REWARDS.cardPacks,capabilities:{cardPacks:true,batchOpen:true,scenes:true,backgrounds:true,wardrobe:true,backgroundReveal:true},placementPolicy:{scale:true,minScale:.35,maxScale:6,perShape:true}};
  }

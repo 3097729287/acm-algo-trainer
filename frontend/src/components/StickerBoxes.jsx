@@ -1,3 +1,4 @@
+import {canonicalStickerId} from '@/lib/stickerCatalogue.js';
 import {useEffect,useRef,useState} from 'react';
 import {ArrowRight,Check,Eye,Gift,LoaderCircle,RotateCcw,Sparkles,X} from 'lucide-react';
 import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
@@ -36,7 +37,7 @@ export default function StickerBoxes({api,state,onUpdated,onClose}){
    const [value]=await Promise.all([api(payload.rarity==='background'?'stickers/open-background':'stickers/open-packs',payload.rarity==='background'?{requestId:payload.requestId,rewardId:payload.rewardId}:payload),new Promise(resolve=>setTimeout(resolve,reduced?0:1500))]);
    if(!alive.current||value.owner!==owner.current)return;
    if(!value.opening||!Array.isArray(value.opening.drops)||value.opening.drops.length===0)throw new Error('开包结果尚未收到，请重试');
-   onUpdated(value);setOpening(value.opening);setPackIndex(0);setRevealed(new Set());setStage('cards');request.current=null;
+   onUpdated(value);setOpening({...value.opening,drops:value.opening.drops.map(drop=>({...drop,stickerId:canonicalStickerId(drop.stickerId)})),...(value.opening.packs?{packs:value.opening.packs.map(pack=>({...pack,drops:pack.drops.map(drop=>({...drop,stickerId:canonicalStickerId(drop.stickerId)}))}))}:{})});setPackIndex(0);setRevealed(new Set());setStage('cards');request.current=null;
    window.dispatchEvent(new CustomEvent('tb:sticker-rewards',{detail:{inventory:value}}));
   }catch(issue){if(alive.current){setError(issue.message);setStage('packs');}}
   finally{inFlight.current=false;if(alive.current)setBusy(false);}

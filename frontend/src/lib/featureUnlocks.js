@@ -1,5 +1,6 @@
 // One source for navigation, shortcuts, commands, guides and level notices.
 export const PAGE_UNLOCKS=Object.freeze([
+ {id:'tasks',level:1,label:'任务',always:true},
  {id:'mine',level:1,label:'我的训练',always:true},{id:'training-lists',level:1,label:'题单'},
  {id:'library',level:3,label:'题库'},{id:'rankings',level:5,label:'排行榜'},
  {id:'competitions',level:3,label:'比赛'},{id:'mock',level:4,label:'模拟赛'},

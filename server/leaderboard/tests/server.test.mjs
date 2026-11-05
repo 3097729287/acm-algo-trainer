@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { listenFixture } from './listen.mjs';
 import { request as httpRequest } from 'node:http';
 import { randomUUID } from 'node:crypto';
+import {readFileSync} from 'node:fs';
 import { createApiServer } from '../src/server.mjs';
 import { SQLiteStore } from './sqlite-store.mjs';
 
@@ -50,7 +51,7 @@ test('health reflects database availability', async () => {
     const ready = await fetch(f.endpoint + '/v1/health');
     assert.equal(ready.status, 200);
     const health = await ready.json();
-    assert.equal(health.version, '1.4.5');assert.equal(health.originalAvatarProtocol,1);
+    assert.equal(health.version, JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8')).version);assert.equal(health.originalAvatarProtocol,1);
     assert.equal(health.rankingDominanceProtocol,1);
     assert.equal(health.sharedTranslationProtocol,1);
     assert.equal(health.socialProtocol, 1);

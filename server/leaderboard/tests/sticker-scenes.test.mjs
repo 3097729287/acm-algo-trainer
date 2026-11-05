@@ -4,6 +4,7 @@ import {randomUUID} from 'node:crypto';
 import {startGameplayFixture} from './gameplay-fixture.mjs';
 import {STICKERS} from '../src/gameplay.mjs';
 import {backgroundWeights,resolveScene} from '../src/sticker-scenes.mjs';
+import {normalizeBackgroundState} from '../src/sticker-catalogue.mjs';
 
 const now=Date.parse('2026-11-04T12:00:00Z');
 async function client(f,name){
@@ -20,10 +21,22 @@ async function seed(f,user,stickers){
 const evidence=(changes={})=>({version:1,contestKey:'replay:'+'a'.repeat(64),replayId:'contest-'+'b'.repeat(32),duration:120,originalDuration:120,startedAt:now-7200000,finishedAt:now,difficulty:1800,total:5,accepted:[0,1].map(i=>({problemKey:'p:'+String(i).repeat(64),submissionId:'official-'+i,submittedAt:now-4000000+i*1000,scope:'official',verdict:'AC'})),...changes});
 
 test('backgrounds never enter ordinary packs; both contest difficulty and additional ACs improve their rarity weights',()=>{
- assert.equal(STICKERS.filter(s=>s.kind==='background').length,52);
+ assert.equal(STICKERS.filter(s=>s.kind==='background').length,14);
+ assert.equal(new Set(STICKERS.filter(s=>s.kind==='background').map(item=>item.theme)).size,14);
  assert(backgroundWeights(2200,2).legendary>backgroundWeights(1000,2).legendary);
  assert(backgroundWeights(1800,6).legendary>backgroundWeights(1800,2).legendary);
  assert.equal(resolveScene({items:[{stickerId:'x',unitId:'old'},{stickerId:'x',unitId:'other'}]},[{id:'new',stickerId:'x'}]).missing.length,1);
+});
+test('historic background rarity aliases preserve every owned unit, placement, discovery and preset',()=>{
+ const original={revision:12,units:['common','rare','epic','legendary'].map((rarity,index)=>({id:'unit-'+index,stickerId:'background-night-'+rarity,revision:index,placement:index===1?{x:.5,y:.5,angle:0,scale:1}:null})),discoveredStickers:['background-night-common','background-night-legendary'],scenePresets:[{id:'preset-one',items:[{unitId:'unit-1',stickerId:'background-night-rare',placement:{x:.5,y:.5,angle:0,scale:1}}]}]};
+ const before=structuredClone(original),migrated=normalizeBackgroundState(original);
+ assert.deepEqual(original,before);assert.equal(migrated.units.length,4);
+ assert.deepEqual(migrated.units.map(unit=>unit.id),before.units.map(unit=>unit.id));
+ assert(migrated.units.every(unit=>unit.stickerId==='background-night-common'));
+ assert.deepEqual(migrated.units[1].placement,before.units[1].placement);
+ assert.deepEqual(migrated.discoveredStickers,['background-night-common']);
+ assert.equal(resolveScene(migrated.scenePresets[0],migrated.units).missing.length,0);
+ assert.deepEqual(normalizeBackgroundState(migrated),migrated);
 });
 test('background draw is a single, durable card per owner/original contest despite response loss, concurrent retries and repeated replays',async()=>{
  const f=await startGameplayFixture({now});try{

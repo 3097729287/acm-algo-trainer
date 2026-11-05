@@ -1,4 +1,4 @@
-import {memo,useId} from 'react';
+import {memo} from 'react';
 
 const ink='#494454',cream='#fff3d9',mint='#9bd9bd',wood='#c28d65';
 const colours={mint:'#96d4be',cream:'#ffe6b7',rose:'#f3acc1',blue:'#9ebfe6',striped:'#cee8e1',navy:'#687b9c',brown:'#a18170',white:'#fff8e7',red:'#d88b89'};
@@ -29,7 +29,7 @@ function Drawing({shape,appearance}){
  switch(shape){
  case 'tree':return <><path d="M45 93V50h12v43" fill={wood}/><path d="M26 65Q6 60 15 43q-8-22 16-25Q43-2 61 14q28-5 27 20 19 25-7 32-13 16-29 4-15 13-26-5Z" fill={mint}/><path d="m51 57-15-9m15 15 19-17" fill="none" stroke="#71ac8d"/></>;
  case 'pine':return <><path d="M44 95V66h12v29" fill={wood}/><path d="m50 4-26 32h12L14 63h15L8 85h84L71 63h15L64 36h12Z" fill="#94cbb1"/><path d="M39 38h23M32 66h36" stroke="#76ae94"/></>;
- case 'flower':return <><path d="M50 92V43" fill="none" stroke="#7aaf8c" strokeWidth="6"/><path d="M48 73Q21 47 23 69q3 16 25 12m5-4q27-27 24-5-3 13-23 13" fill={mint}/><path d="M37 22Q26 0 48 7q17-14 21 9 23-1 14 19 10 20-12 23-10 20-24 3-24 10-24-13Q1 33 22 25Z" fill="#f2c0cc"/><circle cx="50" cy="34" r="12" fill="#f9d780"/></>;
+ case 'flower':return <><path d="M50 92V43" fill="none" stroke="#7aaf8c" strokeWidth="6"/><path d="M48 73Q21 47 23 69q3 16 25 12m5-4q27-27 24-5-3 13-23 13" fill={mint}/><g fill="#f2c0cc">{[0,60,120,180,240,300].map(angle=><ellipse key={angle} cx="50" cy="15" rx="10" ry="14" transform={`rotate(${angle} 50 34)`}/>)}</g><circle cx="50" cy="34" r="12" fill="#f9d780"/></>;
  case 'grass':return <path d="M7 87Q14 41 30 60l4 17Q32 22 51 40l3 34q10-45 25-28l-7 35 21-9-5 15Z" fill="#a9d5a0"/>;
  case 'rock':return <><path d="m8 77 15-29 28-16 27 16 15 30-13 10H24Z" fill="#b5c2cb"/><path d="m24 74 16-27 22 12 15 20" fill="none" stroke="#94a5b0"/></>;
  case 'mushroom':return <><path d="m40 54-5 34q15 15 31-1l-7-35" fill={cream}/><path d="M8 56Q15 9 51 9q38 1 43 46-44 20-86 1Z" fill="#e9a9a5"/><g fill="#fff1db" stroke="none"><circle cx="32" cy="37" r="7"/><circle cx="60" cy="24" r="6"/><circle cx="75" cy="45" r="6"/></g></>;
@@ -56,25 +56,7 @@ export const SceneStickerArt=memo(function SceneStickerArt({item,size=64,appeara
  return <svg className="sticker-art scene-sticker-art" data-shape={item.shape} data-sticker-style="cartoon-paper-v1" viewBox="-6 -8 112 112" width={size} height={size} aria-hidden="true"><g stroke={ink} strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round"><Drawing shape={item.shape} appearance={appearance}/></g></svg>;
 });
 
-const PALETTES={night:['#293654','#526786','#8ba6bb'],morning:['#d7eaf0','#f7ebd8','#c6d7b5'],rain:['#adbfc9','#cbd5d9','#9eafa9'],coast:['#d5e8ec','#e8e8cf','#a1ccd1'],beach:['#d6eced','#d9edf1','#e6d4ad'],desert:['#ede0c7','#f2e2c9','#d4b58d'],rainforest:['#cdded5','#e2e9d8','#9abca1'],mountains:['#d7e2e9','#e9e9e1','#b2c0bd'],snow:['#d4e2ef','#ecf0f3','#bdcddd'],river:['#d9e7e2','#e9ead7','#b1c8af'],sky:['#b8d8e7','#d7e8ef','#edf1e9'],underground:['#373d4e','#63637a','#7b7e8f'],room:['#e8dccb','#efe6d9','#c5a98b']};
-export const BackgroundArt=memo(function BackgroundArt({item,thumbnail=false}){
- const id=useId().replaceAll(':',''),theme=item?.theme||item?.shape?.replace('background-','')||'morning',p=PALETTES[theme]||PALETTES.morning;
- const night=theme==='night',under=theme==='underground',sea=['coast','beach'].includes(theme),mountains=['mountains','snow'].includes(theme),fine=item?.rarity==='epic'||item?.rarity==='legendary';
- return <svg className={'scene-background-art'+(thumbnail?' scene-background-thumbnail':'')} data-background-theme={theme} viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id={'sky-'+id} x2="0" y2="1"><stop stopColor={p[0]}/><stop offset="1" stopColor={p[1]}/></linearGradient></defs><path d="M0 0h1000v700H0Z" fill={`url(#sky-${id})`}/>
- {theme==='room'?<><path d="M0 570h1000v130H0Z" fill={p[2]}/><path d="M0 577h1000" stroke="#a98f78" strokeWidth="4"/><path d="M0 640h1000M120 580 60 700m290-120-20 120m300-120 25 120m180-120 65 120" stroke="#ad947a" opacity=".35"/><rect x="700" y="105" width="210" height="245" rx="8" fill="#c5aa88"/><rect x="712" y="117" width="186" height="221" rx="4" fill="#bbd9df"/><circle cx="851" cy="156" r="26" fill="#f9e7af"/><path d="M713 291q40-45 93-10 45-39 92-5v62H713Z" fill="#a5c2ad"/><path d="M805 116v223m-94-112h188" stroke="#e5d1b5" strokeWidth="9"/><path d="M691 354h229" stroke="#baa181" strokeWidth="12" strokeLinecap="round"/><path d="M685 93q-18 105 1 209l35-5V93m190 0v204l33 5q19-100 0-209" fill="#d2bdc0"/></>:
- <>{!under&&theme!=='rain'&&theme!=='rainforest'&&<circle cx={night?790:835} cy="128" r={night?35:39} fill={night?'#f7e8be':'#faf0c7'} opacity=".8"/>}
- {night&&[...Array(fine?22:11)].map((_,i)=><circle key={i} cx={65+(i*137)%875} cy={42+(i*83)%350} r={i%3===0?2.4:1.5} fill="#f1e7d2" opacity=".65"/>)}
- {['morning','sky','coast','beach','mountains','snow','river'].includes(theme)&&<g fill="#faf9ee" opacity=".55"><path d="M94 139q-12-25 11-29 6-32 32-15 28-8 26 17 30-3 26 25Z"/><path d="M548 91q-12-25 11-29 6-32 32-15 28-8 26 17 30-3 26 25Z"/></g>}
- {sea?<><path d="M0 476h1000v224H0Z" fill="#99c7d0"/><path d="M0 538q235-20 500 0 225 18 500-4" fill="none" stroke="#d7ece8" strokeWidth="4" opacity=".7"/><path d={theme==='beach'?'M0 618q278-26 501 10 267 28 499-7v79H0Z':'M0 661q225-19 431 3 362-28 569-3v39H0Z'} fill="#e4d1ac"/>{fine&&<path d="M50 659q30-11 60 0m762 4q40-12 76-2" fill="none" stroke="#cab68f" strokeWidth="3"/>}</>:
- theme==='desert'?<><path d="M0 574q210-106 460-9 350 87 540-18v153H0Z" fill="#d9c09a"/><path d="M0 633q290 62 620-30 230-41 380 27v70H0Z" fill="#d0af86"/>{fine&&<path d="M897 611v-47m0 17q-22 2-20-20m20 33q19 3 19-21" fill="none" stroke="#9dab8e" strokeWidth="9" strokeLinecap="round"/>}</>:
- under?<><path d="M0 0h1000v48l-110 5-35 90-42-94-190 26-39 55-39-50-185-29-90 56-56-41-102 22-65-53L0 61Z" fill="#444654"/><path d="M0 646q213-62 400 4 324-68 600-10v60H0Z" fill="#656676"/><g fill="#a6c8c8" opacity=".55"><path d="m70 642 13-44 19 44Zm778 0 10-47 20 47Z"/><circle cx="921" cy="553" r="3"/><circle cx="94" cy="475" r="2"/>{fine&&<circle cx="808" cy="105" r="4"/>}</g></>:
- mountains?<><path d="M0 609 156 428l126 130 175-203 194 192 141-168 208 215v106H0Z" fill={theme==='snow'?'#b8cbd9':'#b1c0c6'}/><path d="m457 355-64 75 48-15 25 17 28-16 44 19Zm335 24-61 75 48-19 28 16 42-11Z" fill={theme==='snow'?'#f3f5ef':'#dbe2dd'}/><path d="M0 654q260-56 502 0 290-44 498 0v46H0Z" fill={p[2]}/></>:
- theme==='sky'?<g fill="#f1f4ed" opacity=".75"><path d="M0 623q35-66 112-23 38-57 111 0 48-44 114 31 84-50 143 6 65-30 123 8 97-70 153-12 93-64 153-24 56-46 91 12v79H0Z"/></g>:
- <><path d="M0 591q242-74 459 8 272-64 541-17v118H0Z" fill={p[2]}/>{theme==='river'&&<path d="M495 588q-142 32 55 52 166 25-18 60H276q377-44 181-57-108-14 38-55Z" fill="#b0cfd4"/>}{theme==='rainforest'&&<g fill="#82a991" opacity=".65"><path d="M0 700V265q110-80 100 40 108 50 10 124 58 90-8 132l28 139Z"/><path d="M1000 700V202q-105-45-104 49-95 69-9 120-79 66-14 120l-22 209Z"/></g>}</>}
- {theme==='rain'&&<g stroke="#eaf3ee" strokeWidth="2" opacity=".4">{Array.from({length:30},(_,i)=><path key={i} d={`m${45+(i*151)%930} ${35+(i*117)%520}-5 16`}/>)}</g>}
- </>}
- </svg>;
-});
+export {default as BackgroundArt} from './BackgroundArt.jsx';
 export function WeatherArt({type='rain'}){
  return <svg className="sticker-art weather-sticker" data-weather={type} viewBox="0 0 100 112" width="100%" height="100%" aria-hidden="true"><g stroke="#494454" strokeWidth="2.2" strokeLinejoin="round"><path d="M14 62q-20-14-4-29 5-7 15-7 3-26 29-17 13 4 15 18 25-5 27 17 5 24-24 25H27Z" fill={type==='thunder'?'#a8a8c2':'#b1c3d4'}/><path d="M39 47v2m22-2v2m-17 9q6 3 12-1" fill="none" strokeLinecap="round"/>{type==='thunder'&&<path d="m54 64-16 27h13l-6 19 29-32H60l10-14Z" fill="#f6d788"/>}{type!=='thunder'&&<g className="weather-rain" stroke="#97cde1" strokeWidth="4" strokeLinecap="round"><path d="m25 80-4 10m28-10-4 10m28-10-4 10"/></g>}{type==='rainbow'&&<g fill="none" strokeWidth="4"><path d="M11 38Q26 0 66 17" stroke="#edb7b9"/><path d="M16 41Q30 6 65 22" stroke="#f2d795"/><path d="M21 43Q34 13 64 27" stroke="#bad8b3"/></g>}</g></svg>;
 }

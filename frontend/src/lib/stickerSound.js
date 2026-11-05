@@ -8,8 +8,8 @@ export const LEGENDARY_FEEDBACK=STICKER_ANIMATIONS;
 export function stopStickerSounds(){for(const source of [...playing])try{source.stop();}catch{}playing.length=0;}
 function audio(){try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return null;if(!context||context.state==='closed')context=new Audio({latencyHint:'interactive'});return context;}catch{return null;}}
 export function prepareStickerAudio(){
- const ctx=audio();if(!ctx||duckBuffers.length===DUCK_CALLS.length)return Promise.resolve();
- if(!decoding){decoding=Promise.all(DUCK_CALLS.map(call=>{const raw=atob(call),bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));return ctx.decodeAudioData(bytes.buffer);})).then(values=>{duckBuffers=values;}).catch(()=>{}).finally(()=>{decoding=null;});}
+ const ctx=audio();if(!ctx||duckBuffers.length===1)return Promise.resolve();
+ if(!decoding){decoding=Promise.all(DUCK_CALLS.slice(0,1).map(call=>{const raw=atob(call),bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));return ctx.decodeAudioData(bytes.buffer);})).then(values=>{duckBuffers=values.slice(0,1);}).catch(()=>{}).finally(()=>{decoding=null;});}
  return decoding;
 }
 function keep(source,nodes){
@@ -28,10 +28,10 @@ export function playStickerSound(shape){
  if(!STICKER_FEEDBACK[shape])return false;
  const ctx=audio();if(!ctx)return false;void ctx.resume().catch(()=>{});const now=ctx.currentTime+.008;
  if(shape==='duck'){
-  // Randomly choose one of the two calls from the user's toy-duck clip.
+  // The approved export keeps source call 1 only.
   const play=()=>{
    if(!duckBuffers.length||ctx.state==='closed')return;
-   const buffer=duckBuffers[Math.floor(Math.random()*duckBuffers.length)],at=ctx.currentTime+.008,length=buffer.duration;
+   const buffer=duckBuffers[0],at=ctx.currentTime+.008,length=buffer.duration;
    const source=ctx.createBufferSource(),gain=ctx.createGain();source.buffer=buffer;
    gain.gain.setValueAtTime(0,at);gain.gain.linearRampToValueAtTime(.65,at+.008);gain.gain.setValueAtTime(.65,at+length-.025);gain.gain.linearRampToValueAtTime(0,at+length);
    source.connect(gain);gain.connect(ctx.destination);source.start(at);keep(source,[source,gain]);

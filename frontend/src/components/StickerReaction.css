@@ -1,0 +1,20 @@
+.dragon-fireball{position:absolute;left:62%;top:35%;width:76%;aspect-ratio:90/54;transform-origin:5% 50%;animation:dragon-solid-shot 1.3s cubic-bezier(.18,.65,.32,1) both;filter:drop-shadow(0 0 5px #f4a34c70)}
+.dragon-fireball>svg{width:100%;height:100%;display:block}
+.posted-heart{position:absolute;left:38%;top:32%;color:#ef8fa4;animation:post-solid-heart 1.4s cubic-bezier(.18,.65,.32,1) both;filter:drop-shadow(0 0 5px #f0a0b575)}
+.post-heart-trail{position:absolute;left:48%;top:50%;width:5px;height:5px;border-radius:50%;background:#f6d5bd;animation:post-solid-heart 1.4s .13s both}
+.rocket-plume{position:absolute;left:35%;top:77%;width:32%;height:78%;border-radius:30% 30% 55% 55%;background:linear-gradient(#fff5c7,#ffc06c 35%,#e9876970 70%,#d77d9500);transform-origin:center top;animation:rocket-exhaust 1.3s both}
+.rocket-spark{position:absolute;left:calc(27% + var(--spark)*12%);top:85%;width:4px;height:4px;background:#ffd99a;border-radius:50%;animation:rocket-sparks 1.2s both;animation-delay:calc(var(--spark)*.07s)}
+.legendary-reacting:has(.reaction-rocket)>.sticker-art{animation:rocket-launch 1.4s cubic-bezier(.22,.65,.2,1) both}
+.legendary-reacting:has(.reaction-telescope-beam)>.sticker-art{animation:telescope-scan 1.4s ease-in-out both;transform-origin:50% 70%}
+.telescope-beam{position:absolute;left:56%;top:-53%;width:110%;height:105%;clip-path:polygon(0 100%,49% 0,100% 12%);background:linear-gradient(145deg,#e9e2ff00,#cbdcfa48);animation:telescope-light 1.4s both}
+.telescope-star{position:absolute;left:128%;top:-43%;color:#f8e1a8;animation:telescope-light 1.4s both;filter:drop-shadow(0 0 7px #ead6b0)}
+@keyframes dragon-solid-shot{0%{opacity:0;transform:translate(-10px,0) rotate(var(--fire-angle)) scale(.3)}12%{opacity:1}62%{opacity:1;transform:translate(calc(var(--fire-x)*.65),calc(var(--fire-y)*.65)) rotate(var(--fire-angle)) scale(1)}100%{opacity:0;transform:translate(var(--fire-x),var(--fire-y)) rotate(var(--fire-angle)) scale(.75)}}
+@keyframes post-solid-heart{0%{opacity:0;transform:translate(0,0) scale(.4)}18%{opacity:1;transform:translate(0,-3px) scale(1.1)}70%{opacity:1}100%{opacity:0;transform:translate(105px,-105px) scale(.8) rotate(12deg)}}
+@keyframes rocket-exhaust{0%,100%{opacity:0;transform:scaleY(.1)}15%,55%{opacity:.95;transform:scaleY(1)}75%{opacity:.2;transform:translateY(25px) scaleY(1.3)}}
+@keyframes rocket-sparks{0%{opacity:0;transform:translateY(0)}25%{opacity:1}100%{opacity:0;transform:translateY(90px) scale(.3)}}
+@keyframes rocket-launch{0%{transform:translateY(0) rotate(0);opacity:1}12%{transform:translateY(3px) rotate(-2deg)}28%{transform:translateY(-9px) rotate(2deg);opacity:1}62%{transform:translateY(-115px) scale(.85);opacity:0}78%{transform:translateY(12px) scale(.95);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
+@keyframes telescope-scan{0%,100%{transform:rotate(0)}35%,72%{transform:rotate(-8deg)}}
+@keyframes telescope-light{0%,100%{opacity:0;transform:scale(.8)}30%,72%{opacity:.85;transform:scale(1)}}
+html[data-motion=off] :is(.dragon-fireball,.posted-heart,.post-heart-trail,.rocket-plume,.rocket-spark,.telescope-beam,.telescope-star){animation:sticker-feedback-fade .85s both!important;transform:none!important}
+html[data-motion=off] .legendary-reacting:has(.reaction-rocket,.reaction-telescope-beam)>.sticker-art{animation:none!important}
+@media(prefers-reduced-motion:reduce){.dragon-fireball,.posted-heart,.post-heart-trail,.rocket-plume,.rocket-spark,.telescope-beam,.telescope-star{animation:sticker-feedback-fade .85s both!important;transform:none!important}.legendary-reacting:has(.reaction-rocket,.reaction-telescope-beam)>.sticker-art{animation:none!important}}

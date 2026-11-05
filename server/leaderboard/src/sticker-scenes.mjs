@@ -7,7 +7,7 @@ export {resolveScene,giftSceneWarnings} from './scene-presets.mjs';
 const fail=(status,message)=>{throw new AccountError(status,message);};
 const scalar=(v,lo,hi)=>typeof v==='number'&&Number.isFinite(v)&&v>=lo&&v<=hi;
 const own=(object,key)=>Object.hasOwn(object,key);
-export const backgroundCards=()=>REWARDS.backgroundThemes.flatMap(theme=>['common','rare','epic','legendary'].map(rarity=>({id:`background-${theme.id}-${rarity}`,shape:`background-${theme.id}`,theme:theme.id,kind:'background',rarity,title:theme.title})));
+export const backgroundCards=()=>REWARDS.backgroundThemes.map(theme=>({id:`background-${theme.id}-${theme.rarity}`,shape:`background-${theme.id}`,theme:theme.id,kind:'background',rarity:theme.rarity,title:theme.title}));
 export const shapePolicy=item=>item?.kind==='background'?{baseScale:1,minScale:1,maxScale:1}:REWARDS.shapePolicy[item?.shape]||{baseScale:1,minScale:.5,maxScale:2};
 export function outfit(value={}){
  if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).some(key=>!own(REWARDS.wardrobe,key)))fail(400,'服装选项无效');

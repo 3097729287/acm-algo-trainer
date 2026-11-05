@@ -1,3 +1,5 @@
+import SectionWorkspace from '@/components/SectionWorkspace.jsx';
+import {ClipboardList} from 'lucide-react';
 import usePresence,{currentActivity} from '@/lib/usePresence.js';
 import {createPortal} from 'react-dom';
 import LearningBrowser from './LearningBrowser.jsx';
@@ -13,7 +15,7 @@ import useNavigationLevel from '@/lib/useNavigationLevel.js';
 import NavigationPending from '@/components/NavigationPending.jsx';
 import DailyTaskCount from '@/components/DailyTaskCount.jsx';
 import NextActions from '@/components/NextActions.jsx';
-import LearningSummary,{WeeklyLearningTasks} from '@/components/LearningSummary.jsx';
+import LearningSummary from '@/components/LearningSummary.jsx';
 import useLearningSummary from '@/lib/useLearningSummary.js';
 import {migrateNavigationAccess} from '@/lib/featureUnlocks.js';
 import {DifficultyDisplayProvider} from '@/components/DifficultyDisplay.jsx';
@@ -151,6 +153,10 @@ import {
 
 const loadWorkbench = () => import("./Workbench.jsx");
 const Workbench = lazy(loadWorkbench);
+const TasksBoard=lazy(()=>import('@/components/TasksBoard.jsx'));
+const LEARNING_PAGES=['lectures','wiki','templates','paths'];
+const PAGE_GROUPS={mine:'训练',library:'训练','training-lists':'训练',competitions:'竞赛',mock:'竞赛',duel:'竞赛',growth:'成长',records:'成长',activity:'成长',lectures:'学习',wiki:'学习',templates:'学习',paths:'学习'};
+const GROUP_ICONS={'训练':Target,'竞赛':Flag,'成长':ChartNoAxesCombined,'学习':BookOpen};
 const AccountPanel=lazy(()=>import('@/components/AccountPanel.jsx'));
 const progressPanel = name => lazy(() => import('@/pages/ProgressPanels.jsx').then(module => ({ default: module[name] })));
 const GrowthPage = progressPanel('GrowthPage'), ActivityPage = progressPanel('ActivityPage'), CompetitionPage = progressPanel('CompetitionPage');
@@ -174,6 +180,7 @@ const ExperienceChallenge=lazy(()=>import('@/components/ExperienceChallenge.jsx'
 const LevelUpDialog=lazy(()=>import('@/components/LevelUpDialog.jsx'));
 
 const PAGES = [
+  {id:"tasks",label:"任务",icon:ClipboardList,key:""},
   { id: "mine", label: "我的训练", icon: Target, key: "1" },
   { id: "library", label: "题库", icon: Library, key: "2" },
   { id: "training-lists", label: "题单", icon: FolderOpen, key: "" },
@@ -732,7 +739,7 @@ export default function App() {
     }
   }, [learningBrowserActive,loading, preferencesRevision, prefs.onboardingGuideVersion, dialog,account?.userId,insights?.growth?.level,practiceId,experienceOpen,experienceAttention]);
   function markGuideShown() {
-    setPrefs(previous=>({...previous,onboardingGuideVersion:Math.max(previous.onboardingGuideVersion,GUIDE_VERSION),onboardingUnlockedPages:[...new Set([...(previous.onboardingUnlockedPages||[]),...(tourContext==='overview'?visiblePageIds:[tourContext])])]}));
+    setPrefs(previous=>({...previous,onboardingGuideVersion:Math.max(previous.onboardingGuideVersion,GUIDE_VERSION),onboardingUnlockedPages:[...new Set([...(previous.onboardingUnlockedPages||[]),...(tourContext==='overview'?visiblePageIds:[tourContext]).filter(id=>id!=='tasks')])]}));
   }
   function finishOnboarding(overviewCompleted=true) {
     setTourOpen(false);
@@ -1928,7 +1935,6 @@ export default function App() {
     return (
       <div className="list-page">
         {toolbar()}
-        {page==='mine'&&<WeeklyLearningTasks plan={learningSummary.snapshot?.plan} onOpen={task=>{if(task.kind==='mixed'||task.kind==='quiz'){learningSummary.setOpen(true);window.dispatchEvent(new CustomEvent('tb:learning-summary-task',{detail:task}));}else openSummaryTask(task);}} compact/>}
         {renderTable(displayedRows)}
         {page === "library" ? <PagePagination label="题库分页" count={`共 ${visible.length} 题`} page={currentLibraryPage} pages={libraryPages} onPageChange={setLibraryPage} previousLabel="题库上一页" nextLabel="题库下一页" onPrevious={()=>setLibraryPage(currentLibraryPage-1)} onNext={()=>setLibraryPage(currentLibraryPage+1)}/> : <div className="list-footer"><span role="status">共 {visible.length} 题</span></div>}
       </div>
@@ -2005,10 +2011,21 @@ export default function App() {
     return <PreferencesPage availablePages={visiblePageIds} level={navigationLevel} rows={rows} insights={insights} onTrain={openPractice} tab={settingsTab} onTab={setSettingsTab} prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={applyFullscreen} api={api} softwareUpdate={softwareUpdate} hub={hub} account={account} accountFocus={accountFocus} profileSnapshot={profileSnapshot} onProfileChanged={profileChanged} onRefresh={()=>refreshBackground(true)} onHubChanged={setHub} onError={message=>notice(message, "error")} onContent={openUpdate} onMessages={()=>setDialog("updates")} onTutorial={openGuide} onKeyboard={()=>{setPage("settings");setSettingsTab("training");}} commands={{pages:PAGES,items:commands}}/>;
   }
 
-  const navigationPages = orderedPages(PAGES, prefs).filter(item=>featureAvailable(item.id));
+  function renderLearningPanel(id) {
+    if(id==='wiki')return <WikiPage api={api} rows={rows} onOpenProblem={openPractice} onOpenArticle={item=>openLearning({kind:'wiki',...item})}/>;
+    if(id==='templates')return <TemplatesPage api={api} onOpenDetail={item=>openLearning({kind:'template',id:item.id,title:item.title,...(item.draft?{visit:{draft:item.draft}}:{})})} shortcuts={prefs.shortcuts} lockedProblems={active?.slots||[]} visit={templatesVisit.current} onActiveChange={setTemplateActive} onTrain={openPractice} onOpenCourse={id=>{setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,activePath:id,[id]:{...previous.learningPaths?.[id],mode:'learn',labV1:{...previous.learningPaths?.[id]?.labV1,chapter:'0'}}}}));setPage('paths');}}/>;
+    if(id==='paths')return <LearningPathsPage catalogOnly onOpenDetail={item=>openLearning({kind:'lab',id:item.id,title:item.title})} rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots||[]} visit={labVisit.current} onOpenTemplate={id=>{templatesVisit.current.selected=id;setPage('templates');}}/>;
+    return <LecturesPanel onOpenLecture={id=>openLearning({kind:'lecture',id})} prefs={prefs} setPrefs={setPrefs} api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onFullscreenChange={setLectureFull} onTrain={openPractice} onOpenTemplate={id=>{templatesVisit.current.selected=id;setLectureId(null);setPage('templates');}} onError={message=>notice(message,'error')}/>;
+  }
+  async function claimDailyTask(id,date) {
+    const claimOwner=window.__tbAccountUserId;dailyClaimPending.current=true;backgroundSeq.current++;
+    try {const result=await api('daily-tasks/claim',{id,date});if(claimOwner!==window.__tbAccountUserId)return;backgroundSeq.current++;setInsights(previous=>applyDailyTaskReward(previous,result));window.dispatchEvent(new CustomEvent('tb:sticker-rewards',{detail:{inventory:result.inventory}}));notice(result.rewardSyncError?result.rewardSyncError:result.rewardPack?'卡包已领取':'经验已领取',result.rewardSyncError?'error':'success');}
+    catch(issue){notice(issue.message,'error');throw issue;}finally{dailyClaimPending.current=false;}
+  }
+  const navigationPages = orderedPages(PAGES, prefs).filter(item=>featureAvailable(item.id)).map(item=>({...item,group:PAGE_GROUPS[item.id]||item.group}));
   const navigationEntries = navigationPages.reduce((entries, item) => {
     if (!item.group) entries.push(item);
-    else if (!entries.some(entry => entry.group === item.group)) { const members = navigationPages.filter(member => member.group === item.group); entries.push({ ...item, id: "group:" + item.group, label: item.group, icon: Layers, key: "", members }); }
+    else if (!entries.some(entry => entry.group === item.group)) { const members = navigationPages.filter(member => member.group === item.group); entries.push({ ...item, id: "group:" + item.group, label: item.group, icon: GROUP_ICONS[item.group]||Layers, key: "", members }); }
     return entries;
   }, []);
   const mergedPages = navigationPages.filter(item => item.group && item.group === navigationPages.find(entry => entry.id === page)?.group);
@@ -2124,7 +2141,7 @@ export default function App() {
           <div className="topbar-leading"><div id="tb-page-location" className="page-location-slot"/>
           <div id="tb-page-search" className="topbar-search-slot"/></div>
           {!practiceId&&!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} contentReady={Boolean(data&&!loading)} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} onActionsChange={updateRecommendationItems} adoptedSummary={learningSummary.snapshot} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
-          <div className="topbar-actions"><button type="button" className="icon-button" aria-label="学习进度与周计划" title="学习进度与周计划 · Ctrl+Shift+P" onClick={()=>learningSummary.setOpen(true)}><NotebookTabs size={18}/></button>{learningTabCount>0&&<button type="button" className="icon-button" aria-label="返回学习标签页" title="返回学习标签页" onClick={()=>learningBrowserRef.current?.resume()}><BookOpen size={18}/></button>}
+          <div className="topbar-actions"><button type="button" className="icon-button" aria-label="学习进度与周计划" title="学习进度与周计划 · Ctrl+Shift+P" onClick={()=>go('tasks')}><NotebookTabs size={18}/></button>{learningTabCount>0&&<button type="button" className="icon-button" aria-label="返回学习标签页" title="返回学习标签页" onClick={()=>learningBrowserRef.current?.resume()}><BookOpen size={18}/></button>}
             <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
             {active && page !== "mock" && (
               <button className="live-contest" aria-label="返回比赛" onClick={() => go("mock")}>
@@ -2157,7 +2174,7 @@ export default function App() {
             <button onClick={() => reload(true)}>重新读取</button>
           </div>
         )}
-        {!practiceId && mergedPages.length > 1 && <div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}{item.id === "mine" && dueCount > 0 && <i className="training-tab-dot" role="img" aria-label="有未完成训练待办" />}</button>)}</div>}
+        {!practiceId && !LEARNING_PAGES.includes(page) && mergedPages.length > 1 && <div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}{item.id === "mine" && dueCount > 0 && <i className="training-tab-dot" role="img" aria-label="有未完成训练待办" />}</button>)}</div>}
         <div data-page={practiceId ? "practice" : page} className={"workspace-area " + (practiceId ? "practicing" : "")} style={{ '--page-opacity': `var(--opacity-${practiceId ? 'mock' : page}, var(--panel-opacity))` }}>
           <Suspense fallback={<div className="loading-screen" role="status"><LoaderCircle size={27} className="spin" /><p>正在载入</p></div>}>
           {loading ? (
@@ -2183,6 +2200,10 @@ export default function App() {
               solutionMethodId={readerMethod||reader?.primaryMethod||reader?.methods?.[0]?.id}
               onNext={nextPractice}
             />
+          ) : page==='tasks' ? (
+            <TasksBoard key={account?.userId||'local'} owner={account?.userId||'local'} model={learningSummary} api={api} prefs={prefs} setPrefs={setPrefs} onOpenTask={openSummaryTask} onClaimDaily={claimDailyTask} dailyTasks={insights?.dailyTasks}/>
+          ) : LEARNING_PAGES.includes(page) ? (
+            <SectionWorkspace key={'learning:'+(account?.userId||'local')} id="learning" entries={LEARNING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label}))} activeId={page} onActivate={setPage} render={renderLearningPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
           ) : ["mine", "library"].includes(page) ? (
             renderListPage()
           ) : page === "mock" ? (
@@ -2246,7 +2267,7 @@ export default function App() {
                 onError={notice}
               />
             )}{!mockPreview&&<MockHistory embedded query={mockHistoryQuery} contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/>}</>}</>}</div>
-          ) : page === "wiki" ? (<WikiPage api={api} rows={rows} onOpenProblem={openPractice} onOpenArticle={item=>openLearning({kind:'wiki',...item})}/>) : page === "duel" ? (<DuelPage api={api} duel={duel} thought={thought} rows={rows} onTrain={openPractice} account={account} profile={profileSnapshot?.profile} growth={growth} avatar={prefs.avatarData} titles={insights?.equippedTitles||growth?.equippedTitles||[]} onAvatar={()=>setDialog('avatar')} onProfile={()=>openAccounts('profile')}/>) : page === "records" ? (
+          ) : page === "duel" ? (<DuelPage api={api} duel={duel} thought={thought} rows={rows} onTrain={openPractice} account={account} profile={profileSnapshot?.profile} growth={growth} avatar={prefs.avatarData} titles={insights?.equippedTitles||growth?.equippedTitles||[]} onAvatar={()=>setDialog('avatar')} onProfile={()=>openAccounts('profile')}/>) : page === "records" ? (
             <SubmissionRecords api={api} revision={workspace.summary?.attempts} scope={`${account?.userId||'local'}:${workspace.activeContest?.id||''}`} rows={rows} onOpenProblem={openPractice} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
             <CompetitionPage
@@ -2295,12 +2316,6 @@ export default function App() {
             <ActivityPage insights={insights} onTrain={openPractice} />
           ) : page === "training-lists" ? (
             <TrainingListsPage level={experienceAccess?.allNavigationUnlocked?6:navigationLevel} onLocationChange={location=>setPrefs(previous=>JSON.stringify(previous.trainingListLocation)===JSON.stringify(location)?previous:{...previous,trainingListLocation:location})} rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} navigationRequest={trainingListRequest} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined}/>
-          ) : page === "templates" ? (
-            <TemplatesPage api={api} onOpenDetail={item=>openLearning({kind:'template',id:item.id,title:item.title,...(item.draft?{visit:{draft:item.draft}}:{})})} shortcuts={prefs.shortcuts} lockedProblems={active?.slots||[]} visit={templatesVisit.current} onActiveChange={setTemplateActive} onTrain={openPractice} onOpenCourse={id=>{setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,activePath:id,[id]:{...previous.learningPaths?.[id],mode:'learn',labV1:{...previous.learningPaths?.[id]?.labV1,chapter:'0'}}}}));setPage('paths');}}/>
-          ) : page === "paths" ? (
-            <LearningPathsPage catalogOnly onOpenDetail={item=>openLearning({kind:'lab',id:item.id,title:item.title})} rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current} onOpenTemplate={id=>{templatesVisit.current.selected=id;setPage('templates');}}/>
-          ) : page === "lectures" ? (
-            <LecturesPanel onOpenLecture={id=>openLearning({kind:'lecture',id})} prefs={prefs} setPrefs={setPrefs} api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onFullscreenChange={setLectureFull} onTrain={openPractice} onOpenTemplate={id=>{templatesVisit.current.selected=id;setLectureId(null);setPage('templates');}} onError={(message) => notice(message, "error")} />
           ) : page === "rankings" ? (
             <RankingsPage presence={presence} socialState={social} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
           ) : (

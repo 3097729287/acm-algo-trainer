@@ -213,7 +213,7 @@
       "id": "collection-rocket",
       "shape": "rocket",
       "title": "向星空出发",
-      "rarity": "epic"
+      "rarity": "legendary"
     },
     {
       "id": "collection-whale",
@@ -300,7 +300,7 @@
       "id": "scene-person",
       "shape": "person",
       "title": "散步小人",
-      "rarity": "common",
+      "rarity": "rare",
       "kind": "sticker"
     },
     {
@@ -398,62 +398,80 @@
       "id": "scene-bridge",
       "shape": "bridge",
       "title": "小桥",
-      "rarity": "legendary",
+      "rarity": "epic",
       "kind": "sticker"
     }
   ],
   "backgroundThemes": [
     {
       "id": "night",
-      "title": "安静夜晚"
+      "title": "安静夜晚",
+      "rarity": "common"
     },
     {
       "id": "morning",
-      "title": "清新早晨"
+      "title": "清新早晨",
+      "rarity": "common"
     },
     {
       "id": "rain",
-      "title": "绵绵雨天"
+      "title": "绵绵雨天",
+      "rarity": "rare"
     },
     {
       "id": "coast",
-      "title": "海边远眺"
+      "title": "海边远眺",
+      "rarity": "common"
     },
     {
       "id": "beach",
-      "title": "暖阳沙滩"
+      "title": "暖阳沙滩",
+      "rarity": "common"
     },
     {
       "id": "desert",
-      "title": "沙漠旅途"
+      "title": "沙漠旅途",
+      "rarity": "rare"
     },
     {
       "id": "rainforest",
-      "title": "雨林深处"
+      "title": "雨林深处",
+      "rarity": "rare"
     },
     {
       "id": "mountains",
-      "title": "群山之间"
+      "title": "群山之间",
+      "rarity": "common"
     },
     {
       "id": "snow",
-      "title": "雪山晴空"
+      "title": "雪山晴空",
+      "rarity": "common"
     },
     {
       "id": "river",
-      "title": "河边午后"
+      "title": "河边午后",
+      "rarity": "epic"
     },
     {
       "id": "sky",
-      "title": "云端天空"
+      "title": "云端天空",
+      "rarity": "epic"
     },
     {
       "id": "underground",
-      "title": "地底微光"
+      "title": "地底微光",
+      "rarity": "legendary"
     },
     {
       "id": "room",
-      "title": "窗边小屋"
+      "title": "窗边小屋",
+      "rarity": "legendary"
+    },
+    {
+      "id": "galaxy",
+      "title": "银河漫游",
+      "rarity": "legendary"
     }
   ],
   "shapePolicy": {
