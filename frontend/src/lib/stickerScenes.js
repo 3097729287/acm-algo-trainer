@@ -7,6 +7,10 @@ export function resolvePreset(preset,units){
  }return {matched,missing};
 }
 export function previewPreset(preset,state){
+ if(state.unlimited)return {...state,activePresetId:preset.id,scene:{presetId:preset.id,missing:[]},units:[
+  ...state.units.filter(unit=>!unit.placement),
+  ...(preset.items||[]).map((entry,index)=>({id:entry.unitId||`preview-${preset.id}-${index}`,stickerId:entry.stickerId,revision:0,placement:{...entry.placement},...(entry.appearance?{appearance:{...entry.appearance}}:{})})),
+ ]};
  const {matched,missing}=resolvePreset(preset,state.units),entries=new Map(matched.map(({unit,entry})=>[unit.id,entry]));
  return {...state,activePresetId:preset.id,scene:{presetId:preset.id,missing},units:state.units.map(unit=>{const entry=entries.get(unit.id);return {...unit,placement:entry?{...entry.placement}:null,...(entry?.appearance?{appearance:{...entry.appearance}}:{})};})};
 }

@@ -63,6 +63,9 @@ def _grant_pending(training, only=None):
     return inventory
 
 def stickers(training,kind=None,value=None):
+    if training.admin_mode:
+        from admin_stickers import stickers as admin_stickers
+        return admin_stickers(training,kind,value)
     owner=training._ranking_profile()['user_id']
     mutation={}
     if kind:
