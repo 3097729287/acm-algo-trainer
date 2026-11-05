@@ -1,0 +1,36 @@
+/* Page bookmarks, search and recommendation follow the same reading order. */
+html .app-shell .topbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+html .app-shell .topbar>.topbar-leading{display:flex;align-items:center;flex:1 1 550px;gap:18px;min-width:0;width:auto}
+html .topbar-bookmark-slot{flex:0 1 auto;min-width:0;max-width:65%;overflow:auto;scrollbar-width:thin}
+html .topbar-bookmark-slot:empty,html .page-location-slot:empty{display:none}
+html .topbar-bookmark-slot :is(.section-bookmarks,.merged-page-tabs){display:flex;height:42px;min-height:42px;align-items:stretch;gap:3px;padding:0;border:0;background:transparent;overflow:visible}
+html .topbar-bookmark-slot :is(.section-bookmarks,.merged-page-tabs)>button{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 11px;white-space:nowrap;flex:none}
+html .topbar-bookmark-slot .section-split-button{margin-left:3px;padding:0 7px}
+html .app-shell .topbar-leading .topbar-search-slot{flex:1 1 220px;min-width:90px;max-width:540px}
+html .app-shell .topbar-leading .page-search-controls{width:100%;min-width:0}
+html .app-shell .topbar-leading .search-box{flex:1;min-width:60px;width:auto;max-width:440px}
+html .app-shell .topbar>.next-actions{flex:0 1 240px;min-width:140px;width:240px;max-width:240px;margin-left:auto;margin-right:6px}
+html .app-shell .topbar>.topbar-actions{flex:0 0 auto;max-width:100%;margin-left:0;flex-wrap:wrap;justify-content:flex-end}
+.section-bookmarks>button[role=tab],.ranking-tabs>button[role=tab],.duel-modes>button,.account-tabs>button{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+:is(.section-bookmarks,.merged-page-tabs,.ranking-tabs,.duel-modes,.account-tabs)>button>svg{flex:none}
+.task-page-heading>time{color:var(--muted);font-size:.72rem;letter-spacing:.16em}
+.task-board-pane .task-page-heading{align-items:center;min-height:30px;margin-bottom:18px}
+html .rankings-page .ranking-identity{display:flex;flex-wrap:nowrap;align-items:center;gap:16px}
+html .rankings-page .ranking-identity .profile-badge{display:grid;grid-template-columns:88px 9.5rem;gap:36px;flex:none;min-width:0}
+html .rankings-page .ranking-identity .profile-badge>.tooltip-anchor{min-width:0}
+html .rankings-page .ranking-identity .profile-nickname{display:block;max-width:9.5rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html .rankings-page .ranking-identity>.user-presence{margin-left:0;flex:none;align-self:center;min-height:24px}
+@media(max-width:1500px){
+ html .app-shell .topbar>.topbar-leading{flex-basis:100%;order:0}
+ html .app-shell .topbar>.next-actions{order:1}
+ html .app-shell .topbar>.topbar-actions{order:2}
+}
+@media(max-width:800px){
+ html .app-shell .topbar>.topbar-leading{gap:10px;flex-wrap:wrap}
+ html .topbar-bookmark-slot{max-width:100%}
+ html .app-shell .topbar-leading .topbar-search-slot{min-width:140px;max-width:none}
+ html .app-shell .topbar>.next-actions{margin-left:0;flex:1 1 150px}
+ html .app-shell .topbar>.topbar-actions{gap:9px;flex:1 1 auto}
+ html .rankings-page .ranking-identity .profile-badge{grid-template-columns:88px 7.5rem;gap:18px}
+ html .rankings-page .ranking-identity .profile-nickname{max-width:7.5rem}
+}
