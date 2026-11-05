@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {createPortal} from 'react-dom';
 import {X} from 'lucide-react';
 import TierIcon from './TierIcon.jsx';
@@ -18,7 +18,7 @@ export default function RankPromotion({notice, motion = true, onPresented, onClo
     const query = matchMedia('(prefers-reduced-motion: reduce)'), update = () => setReduced(motion === false || query.matches);
     update(); query.addEventListener('change', update); return () => query.removeEventListener('change', update);
   }, [motion]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const reveal = setTimeout(() => handlers.current.onPresented(notice.id), reduced ? 0 : 1800);
     const finish = setTimeout(() => handlers.current.onClose(notice.id), reduced ? 2200 : 4400);
     const escape = event => {if (event.key === 'Escape' && !event.defaultPrevented && !event.isComposing) {event.preventDefault(); handlers.current.onClose(notice.id);}};

@@ -40,12 +40,16 @@ try {
  await stage().waitFor(); await skip();
  await page.evaluate(() => rankFixture.switchOwner('second-owner', 4)); await page.waitForTimeout(200); assert.equal(await stage().count(), 0);
  await emit(8, 999, {owner: 'rank-owner'}); await page.waitForTimeout(150); assert.equal(await stage().count(), 0);
- await emit(5, 2); await stage().waitFor(); await skip();
+ await draft.focus(); await emit(5, 2); await stage().waitFor();
+ await stage().getByRole('button',{name:'跳过段位晋升动画',exact:true}).click(); await stage().waitFor({state:'detached'});
+ assert(await draft.evaluate(node=>document.activeElement===node),'Clicking skip restores the original editor focus');
  proof.push({hiddenDefers: true, hiddenBeforeRevealNotAcknowledged: true, foregroundResumes: true, accountBaselineSilent: true, foreignOwnerIgnored: true});
- await page.getByRole('button', {name: '离开编辑器'}).click(); await emit(6, 3, {level: 12}); await stage().waitFor();
+ await page.getByRole('button', {name: '离开编辑器'}).click(); await draft.dispatchEvent('compositionstart'); await emit(6, 3, {level: 12});
+ await page.waitForTimeout(900); assert.equal(await stage().count(),0,'IME composition waits even after the ordinary input idle time');
+ await draft.dispatchEvent('compositionend'); await stage().waitFor();
  assert.equal(await page.getByRole('dialog', {name: '等级提升'}).count(), 0); await skip();
  await page.getByRole('dialog', {name: '等级提升'}).waitFor(); await page.keyboard.press('Escape');
- proof.push({rankAndLevelSerialize: true});
+ proof.push({rankAndLevelSerialize: true, imeCompositionWaits:true, skipRestoresFocus:true});
  for (const [width, theme] of [[1440, 'dark'], [1440, 'light'], [430, 'dark'], [430, 'light']]) {
   await page.setViewportSize({width, height: 850}); await page.evaluate(theme => {rankFixture.theme(theme); document.documentElement.style.fontSize = '22px';}, theme);
   await page.evaluate(() => rankFixture.reset(2, 3, 40)); await page.reload(); await stage().waitFor();
