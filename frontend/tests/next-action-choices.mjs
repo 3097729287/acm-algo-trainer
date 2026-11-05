@@ -4,6 +4,7 @@ const now=Date.parse('2026-11-05T03:00:00Z'),date='2026-11-05',availablePages=['
 const plan={tasks:[{key:'lesson',kind:'lecture',id:'lecture',title:'窗口边界',date,status:'pending'},{key:'future',kind:'problem',id:'c',title:'明天的任务',date:'2026-11-06',status:'pending'}]},dailyTasks={tasks:[{id:'daily',title:'训练',completed:false},{id:'done',completed:true,claimed:true}]};
 const input={snapshot:{plan},items:[{kind:'review',id:'b',title:'复习'},{kind:'knowledge',id:'done',title:'已完成',completed:true}],training:rows,rows,dailyTasks,availablePages,now};
 let choices=nextActionChoices(input);assert.equal(choices[0].id,'lecture');assert(choices.some(item=>item.kind==='daily'));assert(choices.some(item=>item.kind==='replay'));assert.equal(choices.filter(item=>item.id==='b').length,1);assert(!choices.some(item=>['a','c','d','done','future'].includes(item.id)));
+assert.equal(choices.find(item=>item.kind==='daily').taskView,'overview');assert.notEqual(choices.find(item=>item.kind==='daily').id,'today');
 choices=nextActionChoices({...input,snapshot:{plan:{tasks:plan.tasks.map(task=>({...task,status:'done'}))}}});assert.equal(choices[0].kind,'daily');assert(choices.some(item=>item.id==='b'));assert(!choices.some(item=>item.id==='lesson'));
 choices=nextActionChoices({...input,snapshot:{recommendation:{title:'字符串'}},dailyTasks:null});assert.equal(choices[0].title,'字符串');assert(!choices[0].title.includes('推荐'));
 assert.deepEqual(nextActionChoices({...input,activeContest:{id:'in-progress'}}),input.items);

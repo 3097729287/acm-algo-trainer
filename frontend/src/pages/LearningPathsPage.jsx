@@ -3,6 +3,7 @@ import {useCallback,useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {recordKnowledgeNavigation} from '@/lib/knowledgeJourney.js';
 import {CatalogueGroup as CatalogGroup,CatalogueEntry as CatalogCard} from '@/components/LearningCatalogue.jsx';
 import PageSearch from '../components/PageSearch.jsx';
+import {useStudyState} from '@/lib/StudyPane.jsx';
 import KnapsackCourse from './algorithm-lab/KnapsackCourse.jsx';
 import GraphCourse from './algorithm-lab/GraphCourse.jsx';
 import SortingCourse from './algorithm-lab/SortingCourse.jsx';
@@ -21,7 +22,7 @@ const COURSE_GROUPS=[['基础算法',['sorting-basics','prefix-difference','two-
 
 export default function LearningPathsPage({ rows = [], prefs, setPrefs:savePreferences, onTrain,onOpenTemplate, lockedProblems = [], visit, standalone = false, initialPath, onOpenDetail, study=false,catalogOnly=false }) {
   const setPrefs=useCallback(update=>savePreferences(previous=>{const next=typeof update==='function'?update(previous):update;return recordKnowledgeNavigation(previous,next);}),[savePreferences]);
-  const [query,setQuery]=useState('');
+  const [query,setQuery]=useStudyState('labQuery','');
   const matches = COURSES.filter(course => `${course.title} ${course.search}`.toLowerCase().includes(query.trim().toLowerCase()));
   const fallback=useRef({leftAt:null,scrollTop:0}),session=visit||fallback.current,panel=useRef(null),enteredCourse=useRef(null);
   const active = !catalogOnly&&COURSES.find(course=>course.id===(initialPath||prefs.learningPaths?.activePath));

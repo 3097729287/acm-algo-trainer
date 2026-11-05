@@ -156,8 +156,8 @@ const loadWorkbench = () => import("./Workbench.jsx");
 const Workbench = lazy(loadWorkbench);
 const TasksBoard=lazy(()=>import('@/components/TasksBoard.jsx'));
 const LEARNING_PAGES=['lectures','wiki','templates','paths'];
-const PAGE_GROUPS={mine:'我的训练',library:'我的训练','training-lists':'我的训练',competitions:'我的训练',mock:'我的训练',duel:'我的训练',growth:'成长',records:'成长',activity:'成长',lectures:'学习',wiki:'学习',templates:'学习',paths:'学习'};
-const GROUP_ICONS={'我的训练':Target,'成长':ChartNoAxesCombined,'学习':BookOpen};
+const PAGE_GROUPS={mine:'我的训练',library:'我的训练','training-lists':'我的训练',competitions:'竞赛',mock:'竞赛',duel:'竞赛',growth:'成长',records:'成长',activity:'成长',lectures:'学习',wiki:'学习',templates:'学习',paths:'学习'};
+const GROUP_ICONS={'我的训练':Target,'竞赛':Flag,'成长':ChartNoAxesCombined,'学习':BookOpen};
 const AccountPanel=lazy(()=>import('@/components/AccountPanel.jsx'));
 const progressPanel = name => lazy(() => import('@/pages/ProgressPanels.jsx').then(module => ({ default: module[name] })));
 const GrowthPage = progressPanel('GrowthPage'), ActivityPage = progressPanel('ActivityPage'), CompetitionPage = progressPanel('CompetitionPage');
@@ -1269,7 +1269,7 @@ export default function App() {
   }
   function openRecommendation(item) {
     if(['problem','stretch','review','template-problem','knowledge-review','random'].includes(item.kind)&&!item.summaryTask){openPractice(item.id,{recommendation:item});return;}
-    if(item.kind==='daily'){setTaskView('today');go('tasks');return;}
+    if(item.kind==='daily'){setTaskView('overview');go('tasks');setDialog('daily-tasks');return;}
     if(item.summaryTask){openSummaryTask({...item,kind:item.taskKind||item.kind});return;}
     if(!featureAvailable(item.page))return;
     if(['course','guided','template','lecture'].includes(item.kind)){
@@ -2212,7 +2212,7 @@ export default function App() {
               onNext={nextPractice}
             />
           ) : page==='tasks' ? (
-            <TasksBoard key={account?.userId||'local'} owner={account?.userId||'local'} initialView={taskView} onView={setTaskView} model={learningSummary} api={api} prefs={prefs} setPrefs={setPrefs} onOpenTask={openSummaryTask} onClaimDaily={claimDailyTask} dailyTasks={insights?.dailyTasks} onNextAction={task=>{const item=recommendationSnapshot.items.find(item=>!item.summaryTask&&item.id!==task?.id);if(item)openRecommendation(item);}}/>
+            <TasksBoard key={account?.userId||'local'} owner={account?.userId||'local'} initialView={taskView} onView={setTaskView} model={learningSummary} api={api} prefs={prefs} setPrefs={setPrefs} onOpenTask={openSummaryTask} onOpenDailyTasks={()=>setDialog('daily-tasks')} dailyTasks={insights?.dailyTasks} onNextAction={task=>{const item=recommendationSnapshot.items.find(item=>!item.summaryTask&&item.id!==task?.id);if(item)openRecommendation(item);}}/>
           ) : LEARNING_PAGES.includes(page) ? (
             <SectionWorkspace key={'learning:'+(account?.userId||'local')} id="learning" entries={LEARNING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label}))} activeId={page} onActivate={setPage} render={renderLearningPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
           ) : ["mine", "library"].includes(page) ? (

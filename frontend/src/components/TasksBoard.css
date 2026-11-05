@@ -30,4 +30,6 @@
 .task-inline-feedback{padding-block:9px}.task-inline-feedback>.task-feedback-options{display:inline-flex;gap:9px;margin:0 0 0 12px;flex-wrap:wrap}.task-inline-feedback>.task-feedback-options>button{padding:6px 13px;font-size:.8rem}
 .task-custom-todos>form{align-items:center;margin:0}.task-custom-todos form>input[aria-label="待办名称"]{flex:1;min-width:160px}
 .task-custom-todos .task-todo-row:first-of-type{margin-top:12px}
+.task-daily-summary{display:flex;align-items:center;gap:12px 20px;padding-block:12px;flex-wrap:wrap}
+.task-daily-summary>span{font-size:.8rem;color:var(--muted)}.task-daily-summary>.task-daily-claimable{color:var(--accent)}.task-daily-summary>.task-text{margin-left:auto}
 @container(max-width:620px){.task-overview-head[data-panels]{grid-template-columns:minmax(0,1fr)}.task-overview-head .task-now{min-height:180px}.task-inline-time{gap:9px}.task-inline-time>.task-primary{padding:8px 10px}.task-inline-time>.task-inline-label{width:100%}.task-inline-feedback>.task-feedback-options{margin:8px 0 0}.task-custom-todos form>input[type=date]{width:130px}}

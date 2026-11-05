@@ -2,6 +2,7 @@ import {readCatalogue,loadCatalogue} from '@/lib/catalogueCache.js';
 import {useEffect,useMemo,useRef,useState} from 'react';
 import {ArrowLeft,BookOpen,ChevronRight,ExternalLink,Info,LoaderCircle,Search,X} from 'lucide-react';
 import PageSearch from '@/components/PageSearch.jsx';
+import {useStudyState} from '@/lib/StudyPane.jsx';
 import {CatalogueGroup,CatalogueEntry} from '@/components/LearningCatalogue.jsx';
 import './WikiPage.css';
 import {adaptDocumentImages} from '@/lib/readingImageTheme.js';
@@ -12,7 +13,7 @@ const exampleAliases=new Map(EXAMPLES.entries.flatMap(item=>item.links.map(url=>
 
 export default function WikiPage({api,initialArticle,onOpenArticle,rows=[],onOpenProblem,visit,embedded=false,onBack,backLabel}){
  const owner=window.__tbAccountUserId||'local',cachedCatalogue=readCatalogue(api,owner,'wiki');
- const [query,setQuery]=useState(''),[catalogue,setCatalogue]=useState(cachedCatalogue?.articles||[]),[article,setArticle]=useState(null),[error,setError]=useState(''),[loading,setLoading]=useState(!cachedCatalogue);
+ const [query,setQuery]=useStudyState('wikiQuery',''),[catalogue,setCatalogue]=useState(cachedCatalogue?.articles||[]),[article,setArticle]=useState(null),[error,setError]=useState(''),[loading,setLoading]=useState(!cachedCatalogue);
  const frame=useRef(null),sourceDialog=useRef(null),sequence=useRef(0),all=useRef(cachedCatalogue?.articles||[]),catalogueRequest=useRef(null),hash=useRef('');
  function ensureCatalogue(){
   if(all.current.length)return Promise.resolve({articles:all.current});

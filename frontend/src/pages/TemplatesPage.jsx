@@ -3,6 +3,7 @@ import {useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {ArrowLeft,Check,Code2,Copy,FilePlus2,FlaskConical,LoaderCircle,Plus,Save,Search,Trash2,NotebookPen,X} from 'lucide-react';
 import {CatalogueGroup as CatalogGroup,CatalogueEntry as CatalogCard} from '@/components/LearningCatalogue.jsx';
 import PageSearch from '@/components/PageSearch.jsx';
+import {useStudyState} from '@/lib/StudyPane.jsx';
 import CodeEditor from '@/components/CodeEditor.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
 import PopConfirm from '@/components/PopConfirm.jsx';
@@ -20,7 +21,7 @@ const cloneTemplate=source=>({...Object.fromEntries(['title','category','languag
 const Button=({label,children,...props})=><button type="button" className="icon-button" aria-label={label} title={label} {...props}>{children}</button>;
 export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onUse,language,onActiveChange,onTrain,onOpenCourse,onOpenWiki,lockedProblems=[],initialTemplate,onOpenDetail,onDocumentChange,study=false}) {
  const fallback=useRef({}),session=visit||fallback.current,owner=window.__tbAccountUserId||'local',cachedCatalogue=readCatalogue(api,owner,'templates');
- const [templates,setTemplates]=useState(()=>(cachedCatalogue?.templates||[]).map(templateForDisplay)),[query,setQuery]=useState(session.query||''),[selected,setSelected]=useState(initialTemplate||session.selected||null),[draft,setDraft]=useState(session.draft||(initialTemplate==='new'?emptyTemplate():null));
+ const [templates,setTemplates]=useState(()=>(cachedCatalogue?.templates||[]).map(templateForDisplay)),[query,setQuery]=useStudyState('templateQuery',session.query||''),[selected,setSelected]=useState(initialTemplate||session.selected||null),[draft,setDraft]=useState(session.draft||(initialTemplate==='new'?emptyTemplate():null));
  const [loading,setLoading]=useState(!cachedCatalogue),[busy,setBusy]=useState(false),[error,setError]=useState(''),[copied,setCopied]=useState(false),[deleting,setDeleting]=useState(null),[edition,setEdition]=useState(session.edition||'teaching');
  const [copyTarget,setCopyTarget]=useState(null),[copyBusy,setCopyBusy]=useState(false),[copyError,setCopyError]=useState('');
  const editor=useRef(null),panel=useRef(null),copyTimer=useRef(null),live=useRef(true);

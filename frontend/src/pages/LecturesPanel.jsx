@@ -4,6 +4,7 @@ import LessonLearnedButton from '@/components/LessonLearnedButton.jsx';
 import {lessonKey} from '@/lib/lessonKey.js';
 import {lectureDestination} from '@/lib/algorithmLearning.js';
 import PageSearch from '@/components/PageSearch.jsx';
+import {useStudyState} from '@/lib/StudyPane.jsx';
 import {lectureCurriculum,prerequisiteTitle,LECTURE_ROLES} from '@/lib/learningCurriculum.js';
 import {recordKnowledgeLesson} from '@/lib/knowledgeJourney.js';
 import Tooltip from '@/components/Tooltip.jsx';
@@ -57,7 +58,7 @@ export function LectureDisclosure({ lecture = {}, inlineMarkdown, images, api, o
 
 const EMPTY_CATEGORIES=[];
 export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,onFullscreenChange,onOpenTemplate,categories=EMPTY_CATEGORIES,visit,prefs={},setPrefs,onOpenLecture,onNextLecture,study=false,directoryOpen:controlledDirectoryOpen,onDirectoryChange }) {
-  const [snapshot, setSnapshot] = useState(()=>lectures||readCatalogue(api,window.__tbAccountUserId||'local','lectures')||null), [query, setQuery] = useState(visit?.query||''), [selected, setSelected] = useState(initialLecture || visit?.selected || null);
+  const [snapshot, setSnapshot] = useState(()=>lectures||readCatalogue(api,window.__tbAccountUserId||'local','lectures')||null), [query, setQuery] = useStudyState('lectureQuery',visit?.query||''), [selected, setSelected] = useState(initialLecture || visit?.selected || null);
   const moved=lectureDestination(selected);
   useEffect(()=>{if(moved&&onOpenTemplate){setSelected(null);if(visit)visit.selected=null;onOpenTemplate(moved.templateId);}},[moved,onOpenTemplate,visit]);
   const [showLearned,setShowLearned]=useState(true);

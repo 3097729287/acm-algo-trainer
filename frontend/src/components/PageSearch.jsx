@@ -4,9 +4,12 @@ import {useStudyPane} from '@/lib/StudyPane.jsx';
 
 function PagePortal({children,id,fallbackClass}) {
   const pane=useStudyPane();
+  const topbarSearch=id==='tb-page-search'&&pane?.topbarSearch===true,globalHost=!pane||topbarSearch;
   const [host,setHost]=useState(null);
-  useLayoutEffect(()=>setHost(pane?null:document.getElementById(id)),[id,Boolean(pane)]);
-  if(pane)return pane.pageHosts?.[id]?createPortal(children,pane.pageHosts[id]):null;
+  useLayoutEffect(()=>setHost(globalHost?document.getElementById(id):null),[id,globalHost]);
+  if(topbarSearch&&(!pane.visible||!pane.focused))return null;
+  if(pane&&!topbarSearch)return pane.pageHosts?.[id]?createPortal(children,pane.pageHosts[id]):null;
+  if(pane&&!host)return null;
   return host ? createPortal(children,host) : <div className={fallbackClass}>{children}</div>;
 }
 
