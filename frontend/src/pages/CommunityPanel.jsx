@@ -133,8 +133,8 @@ export default function RankingsPage({ api, onConfigure, onError, avatarData, ow
   }) : [];
   const shownEntries=entries.filter(item=>String(item.nickname||'').toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()));
   const countWidths={
-    '--ranking-like-digits':Math.max(2,...entries.map(item=>String((item.likes?.counts?.[period]??item.likes?.total??0)+1).length)),
-    '--ranking-ac-digits':Math.max(2,...entries.map(item=>String(item.count??0).length)),
+    '--ranking-like-digits':Math.max(1,...entries.map(item=>String((item.likes?.counts?.[period]??item.likes?.total??0)+1).length)),
+    '--ranking-ac-digits':Math.max(1,...entries.map(item=>String(item.count??0).length)),
   };
   const label = periods.find(([key]) => key === period)[1];
   const ready = snapshot?.configured && snapshot.period === period && snapshot.status !== 'offline' && snapshot.status !== 'error';
