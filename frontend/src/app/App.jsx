@@ -2240,7 +2240,7 @@ export default function App() {
           ) : LEARNING_PAGES.includes(page) ? (
             <SectionWorkspace key={'learning:'+(account?.userId||'local')} id="learning" entries={LEARNING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label}))} activeId={page} onActivate={setPage} render={renderLearningPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
           ) : TRAINING_PAGES.includes(page) ? (
-            <SectionWorkspace key={'training:'+(account?.userId||'local')} id="training" entries={TRAINING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label,icon:item.icon,minWidth:item.id==='training-lists'?420:680,attention:item.id==='mine'&&dueCount>0}))} activeId={page} onActivate={setPage} render={renderTrainingPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
+            <SectionWorkspace key={'training:'+(account?.userId||'local')} id="training" entries={TRAINING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label,icon:item.icon,minWidth:item.id==='training-lists'?420:620,attention:item.id==='mine'&&dueCount>0}))} activeId={page} onActivate={setPage} render={renderTrainingPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
           ) : page === "mock" ? (
             <div className="mock-page">{record ? recordDetail() : <>{active && mockTab === "create" ? (
               <div className="contest-player">

@@ -13,7 +13,7 @@ import '../src/styles/revision.css';
 import '../src/styles/interaction.css';
 import '../src/styles/followups-160.css';
 
-const entries=[{id:'mine',title:'我的训练',icon:Target,minWidth:680},{id:'library',title:'题库',icon:Library,minWidth:680},{id:'training-lists',title:'题单',icon:FolderOpen,minWidth:420}];
+const entries=[{id:'mine',title:'我的训练',icon:Target,minWidth:620},{id:'library',title:'题库',icon:Library,minWidth:620},{id:'training-lists',title:'题单',icon:FolderOpen,minWidth:420}];
 const rows=Array.from({length:12},(_,index)=>({id:'fixture-'+index,title:['Numbers on the Board','Rhythmic String','Big XOR','Black, Gray and White','Partition of a Binary String'][index%5],contest:'教育赛 196',problem:String.fromCharCode(65+index),tags:['组合计数','字符串','构造'],platform:'Codeforces',difficulty:1300,lastActivityAt:'2026-11-05T01:00:00+08:00',active:true,verdict:index%2?'WA':'AC'}));
 function initial(){
  try{const saved=localStorage.getItem('split-fixture');if(saved)return JSON.parse(saved);}catch{}

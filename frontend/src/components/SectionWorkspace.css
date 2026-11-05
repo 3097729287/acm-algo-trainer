@@ -16,10 +16,10 @@
 .section-workspace[data-section=training] .problem-table{width:100%;min-width:0;max-width:100%;table-layout:fixed}
 .section-workspace[data-section=training] .problem-table :is(th,td:not([colspan])){box-sizing:border-box;padding-inline:6px}
 .section-workspace[data-section=training] .problem-table :is(th,td:not([colspan])):nth-child(1){width:auto;padding-left:10px!important}
-.section-workspace[data-section=training] .problem-table :is(th,td:not([colspan])):nth-child(2){width:calc(var(--ui-font-size,15px)*8)}
-.section-workspace[data-section=training] .problem-table :is(th,td:not([colspan])):nth-child(3){width:calc(var(--ui-font-size,15px)*4)}
-.section-workspace[data-section=training] .problem-table :is(th,td:not([colspan])):nth-child(4){width:calc(var(--ui-font-size,15px)*5.2)}
-.section-workspace[data-section=training] .problem-table :is(th,td:not([colspan])):nth-child(5){width:calc(var(--ui-font-size,15px)*7.2)}
+.section-workspace[data-section=training] .problem-table :is(th,td:not([colspan])):nth-child(2){width:calc(var(--ui-font-size,15px)*7)}
+.section-workspace[data-section=training] .problem-table :is(th,td:not([colspan])):nth-child(3){width:calc(var(--ui-font-size,15px)*3.8)}
+.section-workspace[data-section=training] .problem-table :is(th,td:not([colspan])):nth-child(4){width:calc(var(--ui-font-size,15px)*4.8)}
+.section-workspace[data-section=training] .problem-table :is(th,td:not([colspan])):nth-child(5){width:calc(var(--ui-font-size,15px)*7)}
 .section-workspace[data-section=training] .problem-table :is(th,td:not([colspan])):nth-child(6){width:calc(var(--ui-font-size,15px)*6.4);padding-inline:6px!important}
 .section-workspace[data-section=training] .problem-table :is(th,td):nth-child(2),.section-workspace[data-section=training] .problem-table :is(th,td):nth-child(5){display:table-cell;visibility:visible}
 .section-workspace[data-section=training] .title-cell>div{width:calc(100% - 30px)}
