@@ -1,3 +1,4 @@
+import TopPageTabs from '@/components/TopPageTabs.jsx';
 import SectionWorkspace from '@/components/SectionWorkspace.jsx';
 import MeteorsBackground from '@/components/MeteorsBackground.jsx';
 import PageBookmarks from '@/components/PageBookmarks.jsx';
@@ -2202,7 +2203,7 @@ export default function App() {
             <button onClick={() => reload(true)}>重新读取</button>
           </div>
         )}
-        {!practiceId && !LEARNING_PAGES.includes(page) && !TRAINING_PAGES.includes(page) && mergedPages.length > 1 && <PageBookmarks><div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}{item.id === "mine" && dueCount > 0 && <i className="training-tab-dot" role="img" aria-label="有未完成训练待办" />}</button>)}</div></PageBookmarks>}
+        {!practiceId && !LEARNING_PAGES.includes(page) && !TRAINING_PAGES.includes(page) && mergedPages.length > 1 && <PageBookmarks><TopPageTabs items={mergedPages} group={currentPage?.group} activeId={page} onActivate={go} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/></PageBookmarks>}
         <div data-page={practiceId ? "practice" : page} className={"workspace-area " + (practiceId ? "practicing" : "")} style={{ '--page-opacity': `var(--opacity-${practiceId ? 'mock' : page}, var(--panel-opacity))` }}>
           <TaskContinuation owner={account?.userId||'local'} snapshot={learningSummary.snapshot} training={workspace.training} actions={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]} content={studyContent||((practiceId||studyProblemId)?{kind:'problem',id:practiceId||studyProblemId}:null)} update={learningSummary.update} onOpen={openRecommendation} suspended={Boolean(active||loading)} insideStudy={learningBrowserActive}/>
           <Suspense fallback={<div className="loading-screen" role="status"><LoaderCircle size={27} className="spin" /><p>正在载入</p></div>}>
@@ -2242,7 +2243,7 @@ export default function App() {
           ) : LEARNING_PAGES.includes(page) ? (
             <SectionWorkspace key={'learning:'+(account?.userId||'local')} id="learning" entries={LEARNING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label,icon:item.icon}))} activeId={page} onActivate={setPage} render={renderLearningPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
           ) : TRAINING_PAGES.includes(page) ? (
-            <SectionWorkspace key={'training:'+(account?.userId||'local')} id="training" entries={TRAINING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label,icon:item.icon,minWidth:item.id==='training-lists'?420:620,attention:item.id==='mine'&&dueCount>0}))} activeId={page} onActivate={setPage} render={renderTrainingPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
+            <SectionWorkspace key={'training:'+(account?.userId||'local')} id="training" entries={TRAINING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label,icon:item.icon,attention:item.id==='mine'&&dueCount>0}))} activeId={page} onActivate={setPage} render={renderTrainingPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
           ) : page === "mock" ? (
             <div className="mock-page">{record ? recordDetail() : <>{active && mockTab === "create" ? (
               <div className="contest-player">

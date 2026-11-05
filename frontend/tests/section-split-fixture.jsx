@@ -18,8 +18,8 @@ const rows=Array.from({length:12},(_,index)=>({id:'fixture-'+index,title:['Numbe
 function initial(){
  try{const saved=localStorage.getItem('split-fixture');if(saved)return JSON.parse(saved);}catch{}
  let state=entries.reduce((value,entry)=>openStudyTab(value,{kind:'panel',id:entry.id,title:entry.title}),emptyStudyBrowser());
- state=splitStudyTab(state,'panel:library');
- const query=new URLSearchParams(location.search);if(query.has('three'))state=splitStudyTab(state,'panel:training-lists',{targetGroupId:state.groups[0].id});
+ const query=new URLSearchParams(location.search);if(!query.has('single'))state=splitStudyTab(state,'panel:library');
+ if(query.has('three'))state=splitStudyTab(state,'panel:training-lists',{targetGroupId:state.groups[0].id});
  if(query.has('skew'))state.groups=state.groups.map((group,index)=>({...group,weight:index?10:90}));
  return {fontSize:15,learningPaths:{sectionWorkspaces:{training:studySnapshot(state)}}};
 }
