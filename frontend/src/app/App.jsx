@@ -1294,6 +1294,7 @@ export default function App() {
     if(task.id==='summary'||task.kind==='summary-task'){learningSummary.setOpen(false);setTaskView('overview');go('tasks');return;}
     if(task.kind==='mixed'){
       if(!task.contestId){api('learning-summary/start',{key:task.key,planId:learningSummary.snapshot?.plan?.id}).then(result=>{learningSummary.refresh();openSummaryTask({...task,contestId:result.contest.id});}).catch(issue=>notice(issue.message,'error'));return;}
+      learningBrowserRef.current?.hide({silent:true});learningSummary.setOpen(false);
       setPracticeId(null);setRecord(null);setMockTab('current');setPage('mock');reload();return;
     }
     if(['quiz','reflection'].includes(task.kind)){learningSummary.setOpen(true);window.dispatchEvent(new CustomEvent('tb:learning-summary-task',{detail:task}));return;}
