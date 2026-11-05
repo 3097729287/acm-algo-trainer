@@ -26,6 +26,7 @@
     "test:sticker-rewards": "node tests/sticker-rewards.mjs",
     "test:thought-duel": "node tests/thought-duel.mjs",
     "test:sections": "node tests/workspace-sections.mjs",
+    "test:appearance": "node tests/workspace-sections.mjs --appearance",
     "test:split": "node tests/section-split-layout.mjs",
     "test:atmosphere": "node tests/atmosphere-compat.mjs",
     "test:rank-promotion": "node tests/rank-promotion-model.mjs && node tests/rank-promotion.mjs && node tests/rank-promotion-app.mjs"

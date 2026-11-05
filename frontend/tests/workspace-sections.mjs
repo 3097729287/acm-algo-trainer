@@ -89,6 +89,7 @@ const nav=name=>page.locator('.sidebar').getByRole('button',{name,exact:true});
 const out='../.backups/training-split-quiz-20261105/app-checks';await mkdir(out,{recursive:true});
 try{
  await page.goto(vite.resolvedUrls.local[0]);await page.locator('.problem-table tr[data-id]').first().waitFor();await nav('任务').waitFor();
+ if(process.argv.includes('--appearance'))await (await import('./surface-appearance.mjs')).checkSurfaceAppearance({page,nav,out});
  for(const name of ['我的训练','任务','学习','竞赛','成长','排行榜'])assert.equal(await nav(name).count(),1,name);
  assert.deepEqual(await page.locator('.sidebar [data-navigation-id]').allTextContents(),['我的训练','任务','学习','竞赛','成长','排行榜']);
  assert.deepEqual(await page.getByRole('tablist',{name:'组合页面 我的训练'}).getByRole('tab').allTextContents(),['我的训练','题库','题单']);

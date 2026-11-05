@@ -1904,14 +1904,15 @@ export default function App() {
       { id: "accepted", name: "已 AC", color: "green", rows: items.filter(row => groupOf(row)==='accepted') },
     ] : null;
     return (
-      <div className="table-scroll" ref={node=>{const ref=listRefs.current[listPage];if(ref.current)ref.position={top:ref.current.scrollTop,left:ref.current.scrollLeft};ref.current=node;if(node&&ref.position){node.scrollTop=ref.position.top;node.scrollLeft=ref.position.left;}}} tabIndex={0} role="region" aria-label="题目列表"
+      <div className="table-scroll" ref={node=>{const ref=listRefs.current[listPage];if(ref.current)ref.position={top:ref.current.scrollTop,left:ref.current.scrollLeft};ref.current=node;if(node){if(ref.position){node.scrollTop=ref.position.top;node.scrollLeft=ref.position.left;}node.style.setProperty('--table-scroll-y',`${node.scrollTop}px`);}}} tabIndex={0} role="region" aria-label="题目列表"
         onPointerMove={event => {
           pointerPosition.current = { x:event.clientX,y:event.clientY };
           setHoveredRow(event.target.closest('tr[data-id]')?.dataset.id || null);
           if (keyboardSelection) setKeyboardSelection(false);
         }}
         onPointerLeave={() => { pointerPosition.current=null;setHoveredRow(null); }}
-        onScroll={() => {
+        onScroll={event => {
+          event.currentTarget.style.setProperty('--table-scroll-y',`${event.currentTarget.scrollTop}px`);
           const position=pointerPosition.current;
           if (!position) return;
           const row=document.elementFromPoint(position.x,position.y)?.closest('tr[data-id]');
@@ -1960,7 +1961,7 @@ export default function App() {
         </Empty>
       );
     return (
-      <div className="list-page" style={{'--page-opacity':`var(--opacity-${listPage}, var(--panel-opacity))`}}>
+      <div className="list-page" style={opacityStyle(listPage)}>
         {toolbar(listPage)}
         {renderTable(items,listPage)}
         {listPage === "library" ? <PagePagination label="题库分页" count={`共 ${visible.length} 题`} page={currentLibraryPage} pages={libraryPages} onPageChange={setLibraryPage} previousLabel="题库上一页" nextLabel="题库下一页" onPrevious={()=>setLibraryPage(currentLibraryPage-1)} onNext={()=>setLibraryPage(currentLibraryPage+1)}/> : <div className="list-footer"><span role="status">共 {visible.length} 题</span></div>}
