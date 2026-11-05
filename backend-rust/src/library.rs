@@ -5,6 +5,7 @@ use crate::{
 use base64::{Engine, engine::general_purpose::STANDARD};
 use rusqlite::{Connection, OptionalExtension, params};
 use serde_json::{Value, json};
+use sha2::{Digest, Sha256};
 use std::path::Path;
 
 pub struct Library {
@@ -65,10 +66,13 @@ impl Library {
         if !value.is_object() {
             return Err(ApiError::new(500, "LIBRARY_RECORD", "题面记录格式异常"));
         }
-        value["id"] = json!(id);
-        value["title"] = row["title"].clone();
-        value["url"] = row["url"].clone();
+        self.hydrate(&mut value)?;
         let object = value.as_object_mut().unwrap();
+        object.entry("id").or_insert(json!(id));
+        object
+            .entry("title")
+            .or_insert_with(|| row["title"].clone());
+        object.entry("url").or_insert_with(|| row["url"].clone());
         object.entry("samples").or_insert(json!([]));
         object
             .entry("limits")
@@ -82,19 +86,186 @@ impl Library {
     pub fn solution(&self, id: &str) -> Result<Value, ApiError> {
         let id = self.canonical(id)?;
         let read = |table: &str| -> Result<Option<Value>, ApiError> {
-            let value: Option<(String, String)> = self
+            let value: Option<(String, String, String, String)> = self
                 .db
                 .query_row(
-                    &format!("SELECT markdown,images FROM {table} WHERE problem_id=?"),
+                    &format!(
+                        "SELECT markdown,images,source_path,digest FROM {table} WHERE problem_id=?"
+                    ),
                     [&id],
-                    |r| Ok((r.get(0)?, r.get(1)?)),
+                    |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?, r.get(3)?)),
                 )
                 .optional()?;
-            value.map(|(markdown,images)|Ok(json!({"markdown":markdown,"images":serde_json::from_str::<Value>(&images)?}))).transpose()
+            value.map(|(markdown,images,path,digest)|Ok(json!({"markdown":markdown,"images":serde_json::from_str::<Value>(&images)?,"path":path,"digest":digest}))).transpose()
         };
-        let base = read("solutions")?.ok_or_else(|| ApiError::missing("这道题还没有题解"))?;
+        let base = read("solutions")?;
         let detailed = read("detailed_solutions")?;
-        Ok(json!({"id":id,"markdown":base["markdown"],"images":base["images"],"detailed":detailed}))
+        if base.is_none() && detailed.is_none() {
+            return Err(ApiError::missing("这道题尚未收录题解"));
+        }
+        let row = self.row(&id)?;
+        let mut result = base.unwrap_or(json!({"markdown":"","path":"","images":{},"digest":""}));
+        result["title"] = row["title"].clone();
+        result["url"] = row["url"].clone();
+        result["detailedSolution"] = detailed.unwrap_or(Value::Null);
+        let catalogue: Option<String> = self
+            .db
+            .query_row(
+                "SELECT content FROM solution_methods WHERE problem_id=?",
+                [&id],
+                |r| r.get(0),
+            )
+            .optional()?;
+        let catalogue: Value = match catalogue {
+            Some(value) => serde_json::from_str(&value)?,
+            None => json!({}),
+        };
+        let mut methods = Vec::new();
+        for entry in catalogue["methods"].as_array().into_iter().flatten() {
+            let mut method = entry.clone();
+            let legacy = method
+                .as_object_mut()
+                .ok_or_else(|| ApiError::new(500, "INVALID_STORED_DATA", "题解记录格式异常"))?
+                .remove("legacy")
+                == Some(json!(true));
+            if legacy {
+                let mut merged = result.clone();
+                for (key, value) in method.as_object().unwrap() {
+                    merged[key] = value.clone();
+                }
+                method = merged;
+            }
+            method
+                .as_object_mut()
+                .unwrap()
+                .entry("images")
+                .or_insert(json!({}));
+            methods.push(method);
+        }
+        if methods.is_empty() {
+            let mut method = result.clone();
+            method["id"] = json!("original");
+            method["title"] = json!("题解1");
+            methods.push(method);
+        }
+        result["primaryMethod"] = catalogue
+            .get("primaryMethod")
+            .filter(|v| !v.is_null())
+            .cloned()
+            .unwrap_or_else(|| methods[0]["id"].clone());
+        result["methods"] = json!(methods);
+        Ok(result)
+    }
+    pub fn solution_summary(&self, id: &str) -> Result<Value, ApiError> {
+        let exists:bool=self.db.query_row("SELECT EXISTS(SELECT 1 FROM solutions WHERE problem_id=?1) OR EXISTS(SELECT 1 FROM detailed_solutions WHERE problem_id=?1)",[id],|r|r.get(0))?;
+        if !exists {
+            return Ok(json!([]));
+        }
+        let raw: Option<String> = self
+            .db
+            .query_row(
+                "SELECT content FROM solution_methods WHERE problem_id=?",
+                [id],
+                |r| r.get(0),
+            )
+            .optional()?;
+        let catalog: Value = match raw {
+            Some(v) => serde_json::from_str(&v)?,
+            None => json!({}),
+        };
+        let methods = catalog["methods"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .map(|v| {
+                v.as_object()
+                    .unwrap()
+                    .iter()
+                    .filter(|(k, _)| ["id", "title", "supplemental"].contains(&k.as_str()))
+                    .map(|(k, v)| (k.clone(), v.clone()))
+                    .collect::<serde_json::Map<_, _>>()
+            })
+            .collect::<Vec<_>>();
+        Ok(if methods.is_empty() {
+            json!([{"id":"original","title":"题解1"}])
+        } else {
+            json!(methods)
+        })
+    }
+    pub fn hydrate(&self, value: &mut Value) -> Result<(), ApiError> {
+        self.hydrate_with(value, None)
+    }
+    pub fn hydrate_with(
+        &self,
+        value: &mut Value,
+        derived: Option<&Connection>,
+    ) -> Result<(), ApiError> {
+        fn convert(
+            library: &Library,
+            value: &mut Value,
+            derived: Option<&Connection>,
+        ) -> Result<(), ApiError> {
+            if let Some(sha) = value.as_str().and_then(|s| s.strip_prefix("tb-asset:")) {
+                if sha.len() != 64 || !sha.bytes().all(|b| b.is_ascii_hexdigit()) {
+                    return Err(ApiError::new(500, "ASSET_ID", "资源摘要无效"));
+                }
+                let asset: Option<(String, Vec<u8>)> = library
+                    .db
+                    .query_row(
+                        "SELECT mime,data FROM statement_assets WHERE sha256=?",
+                        [sha],
+                        |r| Ok((r.get(0)?, r.get(1)?)),
+                    )
+                    .optional()?;
+                let asset = match (asset, derived) {
+                    (Some(asset), _) => Some(asset),
+                    (None, Some(db)) => db
+                        .query_row(
+                            "SELECT mime,data FROM derived_assets WHERE sha256=?",
+                            [sha],
+                            |row| Ok((row.get::<_, String>(0)?, row.get::<_, Vec<u8>>(1)?)),
+                        )
+                        .optional()?,
+                    (None, None) => None,
+                };
+                let Some((mime, data)) = asset else {
+                    return Err(ApiError::new(
+                        503,
+                        "ASSET_NOT_CACHED",
+                        "原始图片或 PDF 尚未缓存，资源下载迁移完成后可读取",
+                    ));
+                };
+                if format!("{:x}", Sha256::digest(&data)) != sha {
+                    return Err(ApiError::new(422, "ASSET_INTEGRITY", "原始资源校验失败"));
+                }
+                *value = json!(format!("data:{mime};base64,{}", STANDARD.encode(data)));
+            }
+            Ok(())
+        }
+        for field in ["images", "archivedImages"] {
+            if let Some(images) = value.get_mut(field).and_then(Value::as_object_mut) {
+                for item in images.values_mut() {
+                    convert(self, item, derived)?;
+                }
+            }
+        }
+        if let Some(attachments) = value.get_mut("attachments").and_then(Value::as_object_mut) {
+            for attachment in attachments.values_mut() {
+                if let Some(data) = attachment.get_mut("data") {
+                    convert(self, data, derived)?;
+                }
+            }
+        }
+        if let Some(pdf) = value
+            .get_mut("statementPdf")
+            .and_then(|v| v.get_mut("data"))
+        {
+            convert(self, pdf, derived)?;
+        }
+        if let Some(translation) = value.get_mut("translation") {
+            self.hydrate_with(translation, derived)?;
+        }
+        Ok(())
     }
     pub fn training_lists(&self) -> Result<Vec<Value>, ApiError> {
         let mut st = self
@@ -127,6 +298,30 @@ impl Library {
             rows.push(row);
         }
         Ok(json!({"lectures":rows}))
+    }
+    pub fn lectures_for_problem(&self, id: &str) -> Result<Value, ApiError> {
+        let mut st=self.db.prepare_cached("SELECT l.content,pl.kind FROM problem_lectures pl JOIN lectures l ON l.id=pl.lecture_id WHERE pl.problem_id=? ORDER BY pl.position")?;
+        let mut result = Vec::new();
+        let mut seen = std::collections::HashSet::new();
+        for row in st.query_map([id], |r| {
+            Ok((r.get::<_, String>(0)?, r.get::<_, String>(1)?))
+        })? {
+            let (content, kind) = row?;
+            let mut value: Value = serde_json::from_str(&content)?;
+            let digest = Sha256::digest(value["markdown"].as_str().unwrap_or("").as_bytes());
+            if !seen.insert(digest) {
+                continue;
+            }
+            let object = value
+                .as_object_mut()
+                .ok_or_else(|| ApiError::new(500, "INVALID_STORED_DATA", "讲义记录格式异常"))?;
+            for field in ["images", "sourceMarkdown", "markdown", "sourceCodeHashes"] {
+                object.remove(field);
+            }
+            value["referenceKind"] = json!(kind);
+            result.push(value);
+        }
+        Ok(json!(result))
     }
     pub fn asset(&self, sha256: &str) -> Result<Value, ApiError> {
         if sha256.len() != 64 || !sha256.bytes().all(|b| b.is_ascii_hexdigit()) {

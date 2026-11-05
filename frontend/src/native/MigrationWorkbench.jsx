@@ -20,7 +20,8 @@ export default function MigrationWorkbench() {
     {error && <p role="alert">{error}</p>}
     <section className="native-progress" aria-label="迁移状态">
       <strong>{capabilities ? `${capabilities.legacyImplemented} / ${capabilities.legacyTotal}` : '读取中'}</strong>
-      <div><p>已接入的原有接口</p><p>独立验证工作区；当前正式版和个人数据保留。完整功能验收后再切换。</p></div>
+      <div><p>已接入的原有接口</p><p>仅供本地测试；正式更新继续使用原有架构。</p></div>
+      <button className="native-open-workspace" onClick={() => { location.hash = 'native-workspace'; }}>打开本地测试工作区</button>
     </section>
     <div className="native-columns">
       <section className="native-catalog"><h2>现有题库 <small>{catalog?.total?.toLocaleString()} 道</small></h2>

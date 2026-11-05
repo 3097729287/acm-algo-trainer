@@ -127,6 +127,7 @@ impl PersonalStore {
             .optional()?;
         let language = self
             .pref(&Self::draft_key(id, context))?
+            .filter(|s| ["cpp17", "python3"].contains(&s.as_str()))
             .unwrap_or_else(|| "cpp17".into());
         Ok(match row {
             Some((code, stamp)) => {
@@ -163,6 +164,9 @@ impl PersonalStore {
         Ok(())
     }
     pub fn save_draft(&mut self, body: &Value) -> Result<Value, ApiError> {
+        self.save_draft_at(body, &now())
+    }
+    pub fn save_draft_at(&mut self, body: &Value, stamp: &str) -> Result<Value, ApiError> {
         fields(body, &["id", "code", "contestId", "language", "reviewId"])?;
         let id = required_text(body, "id", 512)?;
         let code = body
@@ -194,7 +198,6 @@ impl PersonalStore {
         {
             return Ok(json!({"savedAt":previous["draftSavedAt"]}));
         }
-        let stamp = now();
         let tx = self.db.transaction()?;
         if language != "cpp17"
             || tx
@@ -209,7 +212,7 @@ impl PersonalStore {
             Self::put(&tx, &key, language, &stamp)?;
         }
         if !code.trim().is_empty() {
-            tx.execute("INSERT INTO training(id,active_at) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET active=1,removed_at=NULL",params![id,stamp])?;
+            tx.execute("INSERT INTO training(id,active_at) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET active=1,removed_at=NULL,active_at=MAX(training.active_at,excluded.active_at)",params![id,stamp])?;
         }
         tx.execute("INSERT INTO drafts(problem_id,context,code,saved_at) VALUES(?,'',?,?) ON CONFLICT(problem_id,context) DO UPDATE SET code=excluded.code,saved_at=excluded.saved_at",params![id,code,stamp])?;
         tx.commit()?;

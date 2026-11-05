@@ -33,7 +33,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         );
     }
     let config = ServiceConfig::sandbox(PathBuf::from(&args[1]), PathBuf::from(&args[2]));
-    let service = Service::open(config)?;
+    let mut service = Service::open(config)?;
+    if let Ok(value) = std::env::var("TB_NATIVE_TEST_NOW") {
+        service = service.with_test_clock(
+            chrono::DateTime::parse_from_rfc3339(&value)?.with_timezone(&chrono::Utc),
+        );
+    }
     let stdin = io::stdin();
     let mut stdout = io::stdout().lock();
     for line in stdin.lock().lines() {

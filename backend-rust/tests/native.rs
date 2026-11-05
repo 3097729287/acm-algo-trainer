@@ -101,6 +101,53 @@ fn separates_read_and_write_envelopes() {
     assert!(request.validate().is_err());
 }
 #[test]
+fn supplemental_public_assets_preserve_bytes_and_verify_integrity() {
+    use base64::{Engine, engine::general_purpose::STANDARD};
+    use sha2::{Digest, Sha256};
+    let (_temp, config) = fixture();
+    let library = tobe_core::library::Library::open(&config.library).unwrap();
+    let derived = Connection::open_in_memory().unwrap();
+    derived
+        .execute_batch("CREATE TABLE derived_assets(sha256 TEXT PRIMARY KEY,mime TEXT,data BLOB)")
+        .unwrap();
+    let raw = b"original public resource bytes";
+    let sha = format!("{:x}", Sha256::digest(raw));
+    derived
+        .execute(
+            "INSERT INTO derived_assets VALUES(?,'image/png',?)",
+            params![sha, raw.as_slice()],
+        )
+        .unwrap();
+    let mut value = json!({"images":{"original":format!("tb-asset:{sha}")},"translation":{"statementPdf":{"data":format!("tb-asset:{sha}")}}});
+    library.hydrate_with(&mut value, Some(&derived)).unwrap();
+    let expected = format!("data:image/png;base64,{}", STANDARD.encode(raw));
+    assert_eq!(value["images"]["original"], expected);
+    assert_eq!(value["translation"]["statementPdf"]["data"], expected);
+    derived
+        .execute(
+            "UPDATE derived_assets SET data=?",
+            [b"corrupted".as_slice()],
+        )
+        .unwrap();
+    let mut value = json!({"images":{"original":format!("tb-asset:{sha}")}});
+    assert_eq!(
+        library
+            .hydrate_with(&mut value, Some(&derived))
+            .unwrap_err()
+            .code,
+        "ASSET_INTEGRITY"
+    );
+    assert_eq!(
+        library
+            .db
+            .query_row("SELECT count(*) FROM statement_assets", [], |row| row
+                .get::<_, i64>(0))
+            .unwrap(),
+        0
+    );
+}
+
+#[test]
 fn rejects_extra_envelope_fields() {
     let value =
         json!({"version":1,"id":"x","method":"GET","path":"preferences","shell":"anything"});
@@ -367,7 +414,7 @@ fn unfinished_routes_are_explicit_and_release_gate_cannot_be_bypassed() {
     assert_eq!(bootstrap["authenticated"], false);
     assert_eq!(
         service
-            .handle(ApiRequest::get("learning-summary"))
+            .handle(ApiRequest::get("insights"))
             .error
             .unwrap()
             .code,

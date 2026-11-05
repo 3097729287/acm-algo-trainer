@@ -1,8 +1,8 @@
-## Rust 重构开发分支（2.0.0-alpha.1）
+## Rust 本地测试分支（2.0.0-alpha.2）
 
 桌面目标为 React → 版本化 Tauri IPC → Rust 领域服务 → SQLite。`backend-rust` 不依赖窗口或 HTTP；`src-tauri` 负责原生宿主、可信窗口边界与后台执行。JSON Schema、134 项旧接口清单和由旧代码生成的个人表结构提供迁移基线，既有账号、草稿、比赛、学习与奖励事实须逐项对照。
 
-当前是隔离的迁移诊断候选，完整应用尚未迁移。`releaseReady=false` 阻止打开正式工作区；未移植操作返回 `MIGRATION_PENDING`，不回退 Python 或伪造完成状态。公共库只读，个人迁移通过 SQLite 在线备份形成新副本，含 WAL、未知表及校验回执，拒绝覆盖已有目标。[迁移进度、验证与剩余工作](native-migration.md)。
+用户明确要求：Rust/Tauri 先仅在本地测试，正式更新继续使用原 React + Python 架构和原打包流程。当前为隔离的迁移测试程序，完整应用尚未迁移；`releaseReady=false` 阻止打开正式工作区。原接口接线 29/134，其中工作区、题目和学习操作等按范围标记 `partial`，不支持的操作返回 `MIGRATION_PENDING`。公共库及构建时生成的压缩目录索引只读，额外内嵌公共资源按摘要去重并校验；运行时不启动 Python。个人迁移通过 SQLite 在线备份形成新副本，含 WAL、未知表及校验回执，拒绝覆盖已有目标。[迁移进度、验证与剩余工作](native-migration.md)。
 
 ## 1.6.1 工作区和背景修订
 

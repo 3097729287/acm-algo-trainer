@@ -30,6 +30,7 @@ const child = spawn(binary, [], { windowsHide: true, cwd: packaged ? sandbox : r
 let launchError;
 child.on('error', error => { launchError = error; });
 let browser;
+const failures = [], consoleErrors = [];
 try {
   const deadline = Date.now() + 45000;
   while (true) {
@@ -47,8 +48,8 @@ try {
     await delay(100);
   }
   assert.ok(page, 'Tauri must load its bundled React entrypoint');
-  const failures = [];
   page.on('pageerror', error => failures.push(error.message));
+  page.on('console', event => { if (event.type() === 'error') consoleErrors.push(event.text()); });
   await page.getByRole('heading', { name: /现有题库/ }).waitFor();
   await page.getByRole('listitem').first().waitFor();
   const readyMillis = performance.now() - start;
@@ -87,13 +88,55 @@ try {
   await page.getByRole('listitem').first().click();
   await page.locator('.native-reading pre').waitFor();
   await page.screenshot({ path: resolve(output, 'wide.png') });
+  await page.getByRole('button', { name: '打开本地测试工作区', exact: true }).click();
+  await page.locator('.sidebar').first().waitFor();
+  await page.locator('.problem-title').filter({ hasText: results.originalTitle }).first().waitFor();
+  await page.locator('.problem-title').filter({ hasText: results.originalTitle }).first().click();
+  const editor = page.getByRole('textbox', { name: 'C++ 代码', exact: true });
+  await page.locator('.tb-workbench').waitFor();
+  if (!await editor.isVisible()) await page.keyboard.press('Alt+2');
+  await editor.waitFor();
+  const savedCode = '// Native React editor persistence\nint main() { return 0; }\n';
+  await editor.fill(savedCode);
+  await editor.press('Control+s');
+  await page.waitForFunction(() => document.querySelector('.wb-save-state')?.textContent.includes('已保存') || document.body.innerText.includes('草稿已保存'));
+  const saved = await page.evaluate(async () => {
+    const invoke = window.__TAURI__.core.invoke;
+    const base = { version: 1, method: 'GET', query: {} };
+    const workspace = await invoke('api_request', { request: { ...base, id: 'workspace-check', path: 'workspace' } });
+    const id = workspace.data.training[0].id;
+    const result = await invoke('api_request', { request: { ...base, id: 'draft-check', path: 'problem', query: { id: [id] } } });
+    return { code: result.data.draft, id, training: workspace.data.training.length };
+  });
+  assert.equal(saved.code, savedCode);
+  await page.screenshot({ path: resolve(output, 'react-workspace-wide.png') });
+  await page.reload();
+  await page.locator('.sidebar').first().waitFor({ state: 'attached' });
+  if (!await editor.isVisible()) await page.locator('.problem-title').filter({ hasText: results.originalTitle }).first().click();
+  await editor.waitFor();
+  assert.equal((await editor.innerText()).trimEnd(), savedCode.trimEnd());
   await page.setViewportSize({ width: 800, height: 650 });
-  await page.screenshot({ path: resolve(output, 'narrow.png') });
+  await page.screenshot({ path: resolve(output, 'react-workspace-narrow.png') });
+  results.reactWorkspace = { saved: true, recoveredAfterReload: true, training: saved.training, problemId: saved.id };
+  assert.equal(results.capabilities.deployment, 'local-test-only');
+  assert.equal(results.capabilities.formalArchitecture, 'react-python');
   assert.deepEqual(failures, []);
   await writeFile(resolve(output, 'result.json'), JSON.stringify({ ...results, readyMillis, memory,
     binaryBytes: (await stat(binary)).size, binary, sandbox, packaged, pageErrors: failures,
     scope: 'Native migration diagnostic; feature parity and full application resource comparison are still pending' }, null, 2) + '\n');
   console.log(`Native Tauri/WebView2 IPC passed: ${results.totalProblems} real problems, committed draft, wide/narrow screenshots; ${resolve(output, 'result.json')}`);
+} catch (error) {
+  const page = browser?.contexts().flatMap(context => context.pages())[0];
+  if (page) {
+    await page.screenshot({ path: resolve(output, 'failure.png') }).catch(() => {});
+    await writeFile(resolve(output, 'failure.txt'), await page.locator('body').innerText()).catch(() => {});
+    await writeFile(resolve(output, 'failure.json'), JSON.stringify({ failures, consoleErrors, dom: await page.evaluate(() => ({
+      innerWidth, width: document.documentElement.clientWidth, workbenches: [...document.querySelectorAll('.tb-workbench')].map(node => node.className),
+      textboxes: [...document.querySelectorAll('[role=textbox]')].map(node => ({ label: node.getAttribute('aria-label'), rect: node.getBoundingClientRect().toJSON() })),
+      layout: [...document.querySelectorAll('.wb-layout-toggle')].map(node => ({label: node.getAttribute('aria-label'), pressed: node.getAttribute('aria-pressed')})),
+    })) }, null, 2)).catch(() => {});
+  }
+  throw error;
 } finally {
   if (browser) await browser.close();
   child.kill();
