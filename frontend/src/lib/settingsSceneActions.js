@@ -1,18 +1,15 @@
 // Decorative interactions stay inside the owning settings tile. No learning
 // progress or rewards are inferred from these gestures.
+import {fractureCells,clipFracturePolygon,fractureGeometry,createFractureBodies,stepFracture} from './sceneFracturePhysics.js';
 const ns='http://www.w3.org/2000/svg';
 let fractureId=0;
-function fractureCells(bounds,seeds){
- const {x,y,width,height}=bounds;
- return seeds.map(([sx,sy],index)=>{
-  let polygon=[[x,y],[x+width,y],[x+width,y+height],[x,y+height]];
-  for(const [other,[tx,ty]] of seeds.entries()){
-   if(other===index)continue;const nx=tx-sx,ny=ty-sy,boundary=(tx*tx+ty*ty-sx*sx-sy*sy)/2,next=[];
-   for(let i=0;i<polygon.length;i++){const a=polygon[i],b=polygon[(i+1)%polygon.length],da=a[0]*nx+a[1]*ny-boundary,db=b[0]*nx+b[1]*ny-boundary;if(da<=0)next.push(a);if((da<0&&db>0)||(da>0&&db<0)){const fraction=da/(da-db);next.push([a[0]+(b[0]-a[0])*fraction,a[1]+(b[1]-a[1])*fraction]);}}
-   polygon=next;
-  }
-  return {polygon,x:sx,y:sy};
- });
+
+function materialOutline(path,strokeWidth){
+ const length=path.getTotalLength(),count=Math.max(32,Math.ceil(length/1.5));
+ const points=Array.from({length:count+1},(_,i)=>{const p=path.getPointAtLength(i/count*length);return [p.x,p.y];});
+ if(!strokeWidth)return points;
+ const side=sign=>points.map((p,i)=>{const a=points[Math.max(0,i-1)],b=points[Math.min(count,i+1)],length=Math.hypot(b[0]-a[0],b[1]-a[1])||1;return [p[0]-(b[1]-a[1])/length*strokeWidth/2*sign,p[1]+(b[0]-a[0])/length*strokeWidth/2*sign];});
+ return [...side(1),...side(-1).reverse()];
 }
 export function attachSceneActions(root,kind){
  const listeners=[],frames=new Set(),timers=new Set(),animations=new Set(),layers=new Set();let alive=true;
@@ -29,24 +26,47 @@ export function attachSceneActions(root,kind){
   Object.assign(svg.style,{position:'absolute',inset:'0',width:'100%',height:'100%',overflow:'hidden',pointerEvents:'none',color:getComputedStyle(root).color,zIndex:'2'});
   host.append(svg);layers.add(svg);return {svg,box,remove:()=>{svg.remove();layers.delete(svg);}};
  }
- function shatter(node,name,{colour}={}){
-  const bulb=name==='bulb-glass-fragments',layer=overlay(name),matrix=node.getScreenCTM(),stage=document.createElementNS(ns,'g'),defs=document.createElementNS(ns,'defs'),prefix='fracture-'+(++fractureId);
-  stage.setAttribute('transform',`matrix(${matrix.a} ${matrix.b} ${matrix.c} ${matrix.d} ${matrix.e-layer.box.left} ${matrix.f-layer.box.top})`);stage.setAttribute('fill','none');stage.setAttribute('stroke','currentColor');stage.setAttribute('stroke-width','2');stage.setAttribute('stroke-linecap','round');layer.svg.append(defs,stage);layer.svg.dataset.material=bulb?'glass':'ceramic';layer.svg.dataset.fracturePhase='cracking';
-  const seeds=bulb?[[78,33],[98,34],[65,49],[85,51],[110,51],[71,68],[94,69],[107,77],[79,87],[97,90]]:[[64,70],[81,70],[100,72],[64,86],[83,88],[102,88],[74,102],[95,103],[121,81]];
-  const bounds=bulb?{x:55,y:23,width:70,height:77}:{x:54,y:62,width:80,height:49},cells=fractureCells(bounds,seeds);
-  const silhouette=document.createElementNS(ns,'clipPath'),outline=(bulb?node:node.querySelector('.coffee-cup')).cloneNode(true);silhouette.id=prefix+'-silhouette';for(const attribute of ['style','class','data-scene-interactive'])outline.removeAttribute(attribute);outline.setAttribute('fill','white');outline.setAttribute('stroke','none');silhouette.append(outline);defs.append(silhouette);
+ function shatter(node,name,{colour,impactSpeed=300}={}){
+  if(reduced())return ()=>{};
+  const bulb=name==='bulb-glass-fragments',material=bulb?'glass':'ceramic',layer=overlay(name),matrix=node.getScreenCTM(),scale=Math.hypot(matrix.a,matrix.b);
+  const stage=document.createElementNS(ns,'g'),defs=document.createElementNS(ns,'defs'),prefix='fracture-'+(++fractureId),lineWidth=parseFloat(getComputedStyle(root).getPropertyValue('--settings-line-width'))||2.4;
+  stage.setAttribute('transform',`matrix(${matrix.a} ${matrix.b} ${matrix.c} ${matrix.d} ${matrix.e-layer.box.left} ${matrix.f-layer.box.top})`);
+  stage.setAttribute('fill','none');stage.setAttribute('stroke','currentColor');stage.setAttribute('stroke-linecap','round');stage.setAttribute('stroke-linejoin','round');stage.style.opacity=getComputedStyle(root).opacity;
+  layer.svg.append(defs,stage);layer.svg.dataset.material=material;layer.svg.dataset.fracturePhase='separating';
+  const seeds=bulb?[[77,33],[91,30],[103,35],[66,43],[80,43],[96,41],[113,46],[62,57],[73,55],[85,54],[92,52],[100,57],[116,60],[66,69],[78,66],[88,64],[95,68],[107,71],[73,78],[85,76],[97,79],[105,86],[77,91],[86,88],[96,92]]:
+   [[60,68],[75,70],[86,67],[105,71],[64,79],[78,84],[94,79],[104,88],[61,94],[72,91],[86,93],[100,98],[69,101],[81,106],[97,105],[77,98],[84,101],[92,100],[115,71],[127,76],[125,87],[114,94]];
+  const paths=bulb?[node]:[...node.querySelectorAll('path:not(.coffee-steam)')];
+  const outlines=paths.map(path=>materialOutline(path,!bulb&&!path.classList.contains('coffee-cup')?lineWidth/scale:0));
+  const silhouette=document.createElementNS(ns,'clipPath');silhouette.id=prefix+'-silhouette';
+  outlines.forEach(points=>{const polygon=document.createElementNS(ns,'polygon');polygon.setAttribute('points',points.map(p=>p.join(',')).join(' '));silhouette.append(polygon);});defs.append(silhouette);
+  const bounds=bulb?{x:53,y:23,width:74,height:77}:{x:54,y:62,width:82,height:49};
+  const cells=fractureCells(bounds,seeds).map(cell=>({...cell,geometry:fractureGeometry(outlines.map(outline=>clipFracturePolygon(outline,cell.polygon)))})).filter(cell=>cell.geometry);
+  const bodies=createFractureBodies(cells.map(cell=>cell.geometry),{material,impact:bulb?{x:90,y:58}:{x:83,y:108},impactSpeed});
   const pieces=cells.map((cell,index)=>{
    const clip=document.createElementNS(ns,'clipPath'),polygon=document.createElementNS(ns,'polygon'),piece=document.createElementNS(ns,'g'),cut=document.createElementNS(ns,'g'),source=node.cloneNode(true),seam=document.createElementNS(ns,'polygon'),seamClip=document.createElementNS(ns,'g');
    clip.id=prefix+'-'+index;polygon.setAttribute('points',cell.polygon.map(point=>point.join(',')).join(' '));clip.append(polygon);defs.append(clip);
    source.removeAttribute('transform');source.removeAttribute('data-scene-interactive');source.style.pointerEvents='none';source.querySelectorAll('.coffee-steam').forEach(steam=>steam.remove());
-   if(bulb){source.style.fillOpacity='.14';source.style.strokeOpacity='.9';}
-   cut.setAttribute('clip-path',`url(#${clip.id})`);seamClip.setAttribute('clip-path',`url(#${silhouette.id})`);seam.setAttribute('points',polygon.getAttribute('points'));seam.setAttribute('fill',colour);seam.setAttribute('fill-opacity',bulb?'.04':'.12');seam.setAttribute('stroke',colour);seam.setAttribute('stroke-width',bulb?'.65':'1.1');seam.style.opacity='0';seamClip.append(seam);cut.append(source,seamClip);piece.append(cut);stage.append(piece);piece.dataset.fracturePiece=String(index);piece.dataset.sourceX=String(cell.x);piece.dataset.sourceY=String(cell.y);
-   return {piece,seam,...cell,dx:0,dy:0,vx:(cell.x-(bulb?90:86))*(bulb?1.5:2.2),vy:bulb?-65-Math.random()*55:-95-Math.random()*90,angle:0,spin:(index%2?1:-1)*(50+index*11),bounces:0};
+   const copies=bulb?[source]:[...source.querySelectorAll('path')];
+   copies.forEach((copy,i)=>{const css=getComputedStyle(paths[i]);for(const property of ['fill','fill-opacity','stroke','stroke-opacity','opacity'])copy.style.setProperty(property,css.getPropertyValue(property));copy.style.animation='none';copy.style.strokeWidth=lineWidth+'px';copy.style.vectorEffect='non-scaling-stroke';});
+   if(bulb){source.style.fill=colour;source.style.fillOpacity='.12';source.style.strokeOpacity='.85';}
+   cut.setAttribute('clip-path',`url(#${clip.id})`);seamClip.setAttribute('clip-path',`url(#${silhouette.id})`);seam.setAttribute('points',polygon.getAttribute('points'));seam.setAttribute('fill',colour);seam.setAttribute('fill-opacity',bulb?'.05':'.15');seam.setAttribute('stroke',colour);seam.setAttribute('stroke-width',bulb?'.65':'1.1');seam.setAttribute('opacity','.7');seamClip.append(seam);cut.append(source,seamClip);piece.append(cut);stage.append(piece);
+   piece.dataset.fracturePiece=String(index);piece.dataset.sourceX=String(bodies[index].cx);piece.dataset.sourceY=String(bodies[index].cy);piece.dataset.fractureMode=bodies[index].mode;
+   return piece;
   });
-  const inverse=matrix.inverse(),point=root.createSVGPoint();point.x=matrix.e;point.y=layer.box.bottom-9;const floor=bulb?point.matrixTransform(inverse).y:109;
-  let t=0;const cancel=loop(dt=>{t+=dt;const separation=Math.max(0,Math.min(1,(t-.12)/.26));if(t>.12)layer.svg.dataset.fracturePhase='separating';
-   for(const piece of pieces){piece.seam.style.opacity=String(Math.min(.65,t/.12*.65));if(t>.12){piece.vy+=(bulb?420:650)*dt;piece.dx+=piece.vx*dt*separation;piece.dy+=piece.vy*dt*separation;piece.angle+=piece.spin*dt*separation;if(piece.y+piece.dy>=floor){piece.dy=floor-piece.y;piece.vy=-Math.abs(piece.vy)*.27;piece.vx*=.6;piece.spin*=.45;piece.bounces++;if(piece.bounces>3){piece.vy=0;piece.spin=0;}}piece.piece.setAttribute('transform',`translate(${piece.dx} ${piece.dy}) rotate(${piece.angle} ${piece.x} ${piece.y})`);}piece.piece.style.opacity=String(Math.max(0,Math.min(1,(2.05-t)/.35)));}
-   if(t>2.05||reduced()){layer.remove();return false;}
+  const inverse=matrix.inverse(),point=root.createSVGPoint();point.x=matrix.e;point.y=layer.box.bottom-9;
+  const floor=(bulb?point.matrixTransform(inverse).y:109)-lineWidth/scale/2,options={floor,material};
+  let t=0,accumulator=0;
+  const cancel=loop(dt=>{
+   t+=dt;accumulator+=dt;
+   while(accumulator>=1/240){stepFracture(bodies,1/240,options);accumulator-=1/240;}
+   layer.svg.dataset.fractureTime=t.toFixed(3);
+   layer.svg.dataset.fracturePhase=bodies.every(body=>body.asleep)?'settled':t<.14?'separating':'falling';
+   for(const [index,body] of bodies.entries()){
+    pieces[index].setAttribute('transform',`translate(${body.x-body.cx} ${body.y-body.cy}) rotate(${body.angle*180/Math.PI} ${body.cx} ${body.cy})`);
+    pieces[index].dataset.fractureState=body.asleep?'resting':'moving';
+   }
+   stage.style.opacity=String(Number(getComputedStyle(root).opacity)*Math.max(0,Math.min(1,(1.2-t)/.18)));
+   if(t>=1.2||reduced()){layer.remove();return false;}
   });
   return ()=>{cancel();layer.remove();};
  }
@@ -99,7 +119,7 @@ export function attachSceneActions(root,kind){
    clearTimeout(cooling);filament.style.animation='none';filament.style.stroke=`rgb(255,${Math.round(Math.max(35,205-heat*32))},${Math.round(Math.max(25,110-heat*16))})`;filament.style.strokeOpacity='1';
    halo.style.animation='none';halo.style.fill='#ffdb75';halo.style.fillOpacity=String(Math.min(.62,.08+heat*.09));halo.setAttribute('r',String(43+heat*2));glass.style.animation='none';glass.style.fill='#ffe7ad';glass.style.fillOpacity=String(Math.min(.66,.1+heat*.09));rays.style.animation='none';rays.style.stroke='#ffe7ad';rays.style.opacity=String(Math.min(1,.45+heat*.09));root.dataset.heat=String(heat);
    const cool=()=>{heat=0;delete root.dataset.heat;halo.setAttribute('r','43');[filament,halo,glass,rays].forEach(node=>{for(const key of ['animation','stroke','fill','stroke-opacity','fill-opacity','opacity'])node.style.removeProperty(key);});};
-   if(heat>=6){broken=true;root.dataset.sceneState='broken';shatter(glass,'bulb-glass-fragments',{colour:'#d6eee8'});[glass,halo,rays].forEach(node=>node.style.visibility='hidden');filament.style.stroke='#8f766b';filament.style.opacity='.35';later(()=>{broken=false;[glass,halo,rays].forEach(node=>node.style.visibility='');filament.style.removeProperty('opacity');delete root.dataset.sceneState;cool();},reduced()?100:2400);}
+   if(heat>=6){broken=true;root.dataset.sceneState='broken';shatter(glass,'bulb-glass-fragments',{colour:'#d6eee8'});[glass,halo,rays].forEach(node=>node.style.visibility='hidden');filament.style.stroke='#8f766b';filament.style.opacity='.35';later(()=>{broken=false;[glass,halo,rays].forEach(node=>node.style.visibility='');filament.style.removeProperty('opacity');delete root.dataset.sceneState;cool();},reduced()?100:1450);}
    else cooling=later(cool,2200);
   });
  }
@@ -112,8 +132,8 @@ export function attachSceneActions(root,kind){
   });
   listen(cup,'pointermove',event=>{if(!drag||drag.id!==event.pointerId)return;stop(event);const dx=Math.max(drag.host.left-drag.box.left,Math.min(drag.host.right-drag.box.right,event.clientX-drag.x)),dy=Math.max(drag.host.top+45-drag.box.top,Math.min(drag.host.bottom-drag.box.bottom,event.clientY-drag.y));offset={x:drag.offset.x+dx/drag.scale,y:drag.offset.y+dy/drag.scale};cup.setAttribute('transform',`translate(${offset.x} ${offset.y})`);});
   const release=event=>{if(!drag||drag.id!==event.pointerId)return;stop(event);const high=offset.y< -18;drag=null;cup.style.cursor='grab';try{cup.releasePointerCapture(event.pointerId);}catch{}let vy=0;root.dataset.sceneState='falling';
-   cancelFall=loop(dt=>{vy+=800*dt;offset.y+=vy*dt;cup.setAttribute('transform',`translate(${offset.x} ${Math.min(0,offset.y)})`);
-    if(offset.y>=0||reduced()){offset.y=0;cup.setAttribute('transform',`translate(${offset.x} 0)`);root.dataset.sceneState=high?'broken':'resting';if(high){broken=true;shatter(cup,'coffee-shards',{colour:'#c2b08e'});cup.style.visibility='hidden';later(()=>{broken=false;offset={x:0,y:0};cup.removeAttribute('transform');cup.style.visibility='';delete root.dataset.sceneState;},2100);}return false;}
+   cancelFall=loop(dt=>{offset.y+=vy*dt+900*dt*dt;vy+=1800*dt;cup.setAttribute('transform',`translate(${offset.x} ${Math.min(0,offset.y)})`);
+    if(offset.y>=0||reduced()){const impactSpeed=Math.sqrt(Math.max(0,vy*vy-3600*Math.max(0,offset.y)));offset.y=0;cup.setAttribute('transform',`translate(${offset.x} 0)`);root.dataset.sceneState=high?'broken':'resting';if(high){broken=true;shatter(cup,'coffee-shards',{colour:'#c2b08e',impactSpeed});cup.style.visibility='hidden';later(()=>{broken=false;offset={x:0,y:0};cup.removeAttribute('transform');cup.style.visibility='';delete root.dataset.sceneState;},reduced()?100:1350);}return false;}
    });
   };listen(cup,'pointerup',release);listen(cup,'pointercancel',release);listen(cup,'lostpointercapture',event=>{if(drag)release(event);});
  }
