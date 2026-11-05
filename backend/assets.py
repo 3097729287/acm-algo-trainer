@@ -234,7 +234,9 @@ class AssetLibrary:
                 if row.get('catalogHidden') or row.get('problemType') in {'communication','output-only','attachment'}:continue
                 if not native_submission_supported(row.get('url')):continue
                 ready=row.get('catalogReplayReady')
-                if ready is None:
+                # School imports may carry a stale failure flag even when a
+                # complete statement is already bundled or cached locally.
+                if ready is None or ready is False and row.get('schoolTraining'):
                     value=self._cached(row['id'])
                     ready=content_complete(value) and statement_type(value) not in {'communication','output-only','attachment'}
                 if ready:result.append(dict(row,judgeScope='official'))

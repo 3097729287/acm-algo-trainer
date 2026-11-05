@@ -12,7 +12,7 @@ function materialOutline(path,strokeWidth){
  return [...side(1),...side(-1).reverse()];
 }
 export function attachSceneActions(root,kind){
- const listeners=[],frames=new Set(),timers=new Set(),animations=new Set(),layers=new Set();let alive=true;
+ const listeners=[],frames=new Set(),timers=new Set(),animations=new Set(),layers=new Set(),prepared=new WeakMap();let alive=true;
  const stop=e=>{e.preventDefault();e.stopPropagation();};
  const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.dataset.motion==='off';
  const listen=(node,type,fn)=>{node.addEventListener(type,fn);listeners.push(()=>node.removeEventListener(type,fn));};
@@ -26,17 +26,23 @@ export function attachSceneActions(root,kind){
   Object.assign(svg.style,{position:'absolute',inset:'0',width:'100%',height:'100%',overflow:'hidden',pointerEvents:'none',color:getComputedStyle(root).color,zIndex:'2'});
   host.append(svg);layers.add(svg);return {svg,box,remove:()=>{svg.remove();layers.delete(svg);}};
  }
+ function prepareFracture(node,bulb){
+  if(prepared.has(node))return prepared.get(node);
+  const scale=Math.hypot(node.getScreenCTM().a,node.getScreenCTM().b),lineWidth=parseFloat(getComputedStyle(root).getPropertyValue('--settings-line-width'))||2.4;
+  const paths=bulb?[node]:[...node.querySelectorAll('path:not(.coffee-steam)')],properties=['fill','fill-opacity','stroke','stroke-opacity','opacity'];
+  const styles=paths.map(path=>{const css=getComputedStyle(path);return Object.fromEntries(properties.map(property=>[property,css.getPropertyValue(property)]));});
+  const outlines=paths.map(path=>materialOutline(path,!bulb&&!path.classList.contains('coffee-cup')?lineWidth/scale:0));
+  const value={outlines,styles};prepared.set(node,value);return value;
+ }
  function shatter(node,name,{colour,impactSpeed=300,initialSeconds=0}={}){
   if(reduced())return ()=>{};
-  const bulb=name==='bulb-glass-fragments',material=bulb?'glass':'ceramic',layer=overlay(name),matrix=node.getScreenCTM(),scale=Math.hypot(matrix.a,matrix.b);
+  const bulb=name==='bulb-glass-fragments',material=bulb?'glass':'ceramic',matrix=node.getScreenCTM(),scale=Math.hypot(matrix.a,matrix.b),opacity=Number(getComputedStyle(root).opacity),{outlines,styles}=prepareFracture(node,bulb),layer=overlay(name);
   const stage=document.createElementNS(ns,'g'),defs=document.createElementNS(ns,'defs'),prefix='fracture-'+(++fractureId),lineWidth=parseFloat(getComputedStyle(root).getPropertyValue('--settings-line-width'))||2.4;
   stage.setAttribute('transform',`matrix(${matrix.a} ${matrix.b} ${matrix.c} ${matrix.d} ${matrix.e-layer.box.left} ${matrix.f-layer.box.top})`);
-  stage.setAttribute('fill','none');stage.setAttribute('stroke','currentColor');stage.setAttribute('stroke-linecap','round');stage.setAttribute('stroke-linejoin','round');stage.style.opacity=getComputedStyle(root).opacity;
+  stage.setAttribute('fill','none');stage.setAttribute('stroke','currentColor');stage.setAttribute('stroke-linecap','round');stage.setAttribute('stroke-linejoin','round');stage.style.opacity=String(opacity);
   layer.svg.append(defs,stage);layer.svg.dataset.material=material;layer.svg.dataset.fracturePhase='separating';
   const seeds=bulb?[[77,33],[91,30],[103,35],[66,43],[80,43],[96,41],[113,46],[62,57],[73,55],[85,54],[92,52],[100,57],[116,60],[66,69],[78,66],[88,64],[95,68],[107,71],[73,78],[85,76],[97,79],[105,86],[77,91],[86,88],[96,92]]:
    [[60,68],[75,70],[86,67],[105,71],[64,79],[78,84],[94,79],[104,88],[61,94],[72,91],[86,93],[100,98],[69,101],[81,106],[97,105],[77,98],[84,101],[92,100],[115,71],[127,76],[125,87],[114,94]];
-  const paths=bulb?[node]:[...node.querySelectorAll('path:not(.coffee-steam)')];
-  const outlines=paths.map(path=>materialOutline(path,!bulb&&!path.classList.contains('coffee-cup')?lineWidth/scale:0));
   const silhouette=document.createElementNS(ns,'clipPath');silhouette.id=prefix+'-silhouette';
   outlines.forEach(points=>{const polygon=document.createElementNS(ns,'polygon');polygon.setAttribute('points',points.map(p=>p.join(',')).join(' '));silhouette.append(polygon);});defs.append(silhouette);
   const bounds=bulb?{x:53,y:23,width:74,height:77}:{x:54,y:62,width:82,height:49};
@@ -47,7 +53,7 @@ export function attachSceneActions(root,kind){
    clip.id=prefix+'-'+index;polygon.setAttribute('points',cell.polygon.map(point=>point.join(',')).join(' '));clip.append(polygon);defs.append(clip);
    source.removeAttribute('transform');source.removeAttribute('data-scene-interactive');source.style.pointerEvents='none';source.querySelectorAll('.coffee-steam').forEach(steam=>steam.remove());
    const copies=bulb?[source]:[...source.querySelectorAll('path')];
-   copies.forEach((copy,i)=>{const css=getComputedStyle(paths[i]);for(const property of ['fill','fill-opacity','stroke','stroke-opacity','opacity'])copy.style.setProperty(property,css.getPropertyValue(property));copy.style.animation='none';copy.style.strokeWidth=lineWidth+'px';copy.style.vectorEffect='non-scaling-stroke';});
+   copies.forEach((copy,i)=>{for(const [property,value] of Object.entries(styles[i]))copy.style.setProperty(property,value);copy.style.animation='none';copy.style.strokeWidth=lineWidth+'px';copy.style.vectorEffect='non-scaling-stroke';});
    if(bulb){source.style.fill=colour;source.style.fillOpacity='.12';source.style.strokeOpacity='.85';}
    cut.setAttribute('clip-path',`url(#${clip.id})`);seamClip.setAttribute('clip-path',`url(#${silhouette.id})`);seam.setAttribute('points',polygon.getAttribute('points'));seam.setAttribute('fill',colour);seam.setAttribute('fill-opacity',bulb?'.05':'.15');seam.setAttribute('stroke',colour);seam.setAttribute('stroke-width',bulb?'.65':'1.1');seam.setAttribute('opacity','.7');seamClip.append(seam);cut.append(source,seamClip);piece.append(cut);stage.append(piece);
    piece.dataset.fracturePiece=String(index);piece.dataset.sourceX=String(bodies[index].cx);piece.dataset.sourceY=String(bodies[index].cy);piece.dataset.fractureMode=bodies[index].mode;
@@ -69,7 +75,7 @@ export function attachSceneActions(root,kind){
     pieces[index].setAttribute('transform',`translate(${body.x-body.cx} ${body.y-body.cy}) rotate(${body.angle*180/Math.PI} ${body.cx} ${body.cy})`);
     pieces[index].dataset.fractureState=body.asleep?'resting':'moving';
    }
-   stage.style.opacity=String(Number(getComputedStyle(root).opacity)*Math.max(0,Math.min(1,(1.2-t)/.18)));
+   stage.style.opacity=String(opacity*Math.max(0,Math.min(1,(1.2-t)/.18)));
   };
   // Render the impact pose now. Waiting for the next RAF presents a complete
   // cup on the ground before any fragment has moved apart.
@@ -99,11 +105,11 @@ export function attachSceneActions(root,kind){
  }
  if(kind==='globe'){
   const turn=root.querySelector('.globe-turn'),planet=root.querySelector('.globe-planet');let speed=40,angle=0,running=false,exploded=false,pausedCity=[];
-  const city=root.getAnimations({subtree:true}).filter(a=>/^(planet-cycle|planet-burst|shockwave-spread|fragment-flight|settings-city-drop-\d+)$/.test(a.animationName||''));
-  const buildings=[...root.querySelectorAll('.globe-building')],cityPhase=()=>Number(city.find(a=>a.animationName==='planet-cycle')?.currentTime||0)%14000;
+  const city=()=>root.getAnimations({subtree:true}).filter(a=>/^(planet-cycle|planet-burst|shockwave-spread|fragment-flight|settings-city-drop-\d+)$/.test(a.animationName||''));
+  const buildings=[...root.querySelectorAll('.globe-building')],cityPhase=()=>Number(city().find(a=>a.animationName==='planet-cycle')?.currentTime||0)%14000;
   const fullCity=()=>buildings.every(node=>!node.dataset.uprooted&&getComputedStyle(node).visibility!=='hidden'&&Number(getComputedStyle(node).opacity)>.99);
-  const pauseCity=()=>{if(pausedCity.length)return;pausedCity=city.filter(a=>a.playState!=='paused');city.forEach(a=>a.pause());};
-  const resumeCity=()=>{if(buildings.some(node=>node.dataset.uprooted))return;if(cityPhase()>=8680)city.forEach(a=>{a.currentTime=8680;});pausedCity.forEach(a=>a.play());pausedCity=[];};
+  const pauseCity=()=>{if(pausedCity.length)return;pausedCity=city().filter(a=>a.playState!=='paused');city().forEach(a=>a.pause());};
+  const resumeCity=()=>{if(buildings.some(node=>node.dataset.uprooted))return;if(cityPhase()>=8680)city().forEach(a=>{a.currentTime=8680;});pausedCity.forEach(a=>a.play());pausedCity=[];};
   buildings.forEach(node=>{interactive(node,'building');listen(node,'click',event=>{
    stop(event);if(exploded||node.dataset.uprooted||Number(getComputedStyle(node).opacity)<.99||cityPhase()>=11620)return;node.dataset.uprooted='true';pauseCity();
    const flying=node.cloneNode(true);flying.removeAttribute('data-scene-interactive');flying.style.pointerEvents='none';flying.style.animation='none';flying.style.visibility='visible';node.parentElement.append(flying);
@@ -111,11 +117,11 @@ export function attachSceneActions(root,kind){
    node.style.visibility='hidden';later(()=>{node.style.visibility='';const growth=animate(node,[{transform:'translateY(-15px) scaleY(.3)',opacity:0},{transform:'translateY(0) scaleY(1)',opacity:1}],{duration:1000,easing:'ease-out'});growth.finished.then(()=>{if(alive){delete node.dataset.uprooted;resumeCity();}}).catch(()=>{});},1200);
    a.finished.then(()=>flying.remove()).catch(()=>flying.remove());
   });});
-  const face=turn.querySelector('circle');interactive(face,'globe');listen(face,'click',event=>{
+  const face=turn.querySelector('circle');interactive(face,'globe');turn.style.pointerEvents='all';listen(turn,'click',event=>{
    stop(event);if(exploded)return;
    if(!running){const m=new DOMMatrixReadOnly(getComputedStyle(turn).transform);angle=Math.atan2(m.b,m.a)*180/Math.PI;turn.style.animation='none';}
    speed+=230;turn.dataset.spinSpeed=String(speed);
-   if(speed>=1100){exploded=true;root.dataset.sceneState='exploded';city.forEach(a=>{a.currentTime=11620;if(!reduced())a.play();});later(()=>{exploded=false;speed=40;delete root.dataset.sceneState;},2380);}
+   if(speed>=1100){exploded=true;pausedCity=[];root.dataset.sceneState='exploded';city().forEach(a=>{a.currentTime=11802;if(!reduced())a.play();});later(()=>{exploded=false;speed=40;delete root.dataset.sceneState;},2198);}
    if(running)return;running=true;loop(dt=>{
     speed=40+(speed-40)*Math.exp(-.7*dt);angle+=speed*dt;turn.style.transform=`rotate(${angle}deg)`;turn.dataset.spinSpeed=String(speed);
     if(speed<41&&!exploded){running=false;turn.style.removeProperty('transform');turn.style.removeProperty('animation');turn.style.animationDelay=`${-(angle%360+360)%360/40}s`;delete turn.dataset.spinSpeed;return false;}
@@ -138,6 +144,7 @@ export function attachSceneActions(root,kind){
   listen(cup,'click',stop);
   listen(cup,'pointerdown',event=>{
    if(event.button!==0||broken)return;stop(event);cancelFall?.();const box=cup.getBoundingClientRect(),matrix=root.getScreenCTM(),scale=Math.hypot(matrix.a,matrix.b);
+   prepared.delete(cup);if(!reduced())prepareFracture(cup,false);
    drag={id:event.pointerId,x:event.clientX,y:event.clientY,offset:{...offset},scale,box,host:root.closest('.settings-tile').getBoundingClientRect()};cup.setPointerCapture(event.pointerId);cup.style.cursor='grabbing';root.dataset.sceneState='held';
   });
   listen(cup,'pointermove',event=>{if(!drag||drag.id!==event.pointerId)return;stop(event);const dx=Math.max(drag.host.left-drag.box.left,Math.min(drag.host.right-drag.box.right,event.clientX-drag.x)),dy=Math.max(drag.host.top+45-drag.box.top,Math.min(drag.host.bottom-drag.box.bottom,event.clientY-drag.y));offset={x:drag.offset.x+dx/drag.scale,y:drag.offset.y+dy/drag.scale};cup.setAttribute('transform',`translate(${offset.x} ${offset.y})`);});

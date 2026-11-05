@@ -1,4 +1,5 @@
 import PageSearch from '@/components/PageSearch.jsx';
+import {includeSchoolContests,schoolContestName} from '@/lib/schoolContests.js';
 import FilterMenu from '@/components/FilterMenu.jsx';
 import {contestShelvesFor} from '@/components/ContestTabs.jsx';
 import {matchesShelf} from '@/lib/contestShelves.js';
@@ -14,6 +15,7 @@ import {defaultTrainingDuration} from '@/lib/trainingDuration.js';
 import {useEffect,useMemo,useRef,useState} from 'react';
 import {Clock,LoaderCircle,Play,RefreshCw,Search} from 'lucide-react';
 export const TRAINING_DIFFICULTIES=[['简单',1000,1400,'easy'],['普通',1300,1700,'normal'],['困难',1600,2000,'hard'],['极难',1900,2200,'expert']];
+const EMPTY_ROWS=[];
 const MODES=[['comprehensive','综合训练'],['topic','专项训练'],['replay','重现赛']];
 function PaperTitle({name,onChange,disabled,count,duration}) {
  const [editing,setEditing]=useState(false),[draft,setDraft]=useState(name),finished=useRef(false),button=useRef(null);
@@ -21,7 +23,7 @@ function PaperTitle({name,onChange,disabled,count,duration}) {
  const finish=(save,focus=false)=>{if(finished.current)return;finished.current=true;if(save&&draft.trim())onChange(draft.trim());setEditing(false);if(focus)requestAnimationFrame(()=>button.current?.focus());};
  return <div className="paper-preview-title" onClick={open}>{editing?<input aria-label="模拟赛名称" autoFocus maxLength={80} value={draft} onFocus={event=>event.target.select()} onChange={event=>setDraft(event.target.value)} onBlur={()=>finish(true)} onKeyDown={event=>{if(event.key==='Enter'||event.key==='Escape'){event.preventDefault();event.stopPropagation();finish(event.key==='Enter',true);}}}/>:<button ref={button} type="button" className="paper-title-button" aria-label="重命名模拟赛" disabled={disabled} onClick={open}><strong>{name}</strong></button>}<span>{count} 题 · {duration} 分钟</span></div>;
 }
-export default function MockSetup({api,onStarted,onError,activeContest,onResume,categories=[],platforms=[],historyQuery='',onHistoryQuery,onPreviewChange,recommendation}) {
+export default function MockSetup({api,onStarted,onError,activeContest,onResume,categories=[],platforms=[],rows=EMPTY_ROWS,historyQuery='',onHistoryQuery,onPreviewChange,recommendation}) {
  const [config,setConfig]=useState({mode:'comprehensive',count:4,duration:120,min:1000,max:1400,tags:[],platform:'',excludeSolved:true,reviewedOnly:false,rules:'acm',wrongPenalty:20,compilePenalty:false,contest:''});
  const [events,setEvents]=useState([]),[eventsLoading,setEventsLoading]=useState(false),[eventAttempt,setEventAttempt]=useState(0);
  const [eventDescending,setEventDescending]=useState(true);
@@ -31,7 +33,7 @@ export default function MockSetup({api,onStarted,onError,activeContest,onResume,
  useEffect(()=>{if(!recommendation||!['topic','replay'].includes(recommendation.mode)||activeContest)return;setConfig(previous=>({...previous,mode:recommendation.mode,...(recommendation.tags?.length?{tags:recommendation.tags}:{})}));if(recommendation.tags?.length)setTopic(recommendation.tags[0]);setPlan(null);setError('');setModeMenu(null);},[recommendation?.requestId]);
  useEffect(()=>{onPreviewChange?.(Boolean(plan));},[plan,onPreviewChange]);
  useEffect(()=>()=>onPreviewChange?.(false),[onPreviewChange]);
- useEffect(()=>{if(!replay)return;let alive=true;setEventsLoading(true);api('contests/events').then(value=>{if(alive)setEvents(value.events||[]);}).catch(issue=>{if(alive)setError(issue.message);}).finally(()=>{if(alive)setEventsLoading(false);});return()=>{alive=false;};},[replay,api,eventAttempt]);
+ useEffect(()=>{if(!replay)return;let alive=true;setEventsLoading(true);api('contests/events').then(value=>{if(alive)setEvents(includeSchoolContests(value.events||[],rows));}).catch(issue=>{if(alive)setError(issue.message);}).finally(()=>{if(alive)setEventsLoading(false);});return()=>{alive=false;};},[replay,api,eventAttempt,rows]);
  const topicOptions=useMemo(()=>{const build=nodes=>nodes.map(node=>{const children=build(node.children||[]),tags=knowledgeFilterNames(node);return {label:children.length?node.name:canonicalKnowledgeName(node.name),value:node.name,tags,...(children.length?{children}:{})};});return build(categories);},[categories]);
  const topics=useMemo(()=>{const walk=nodes=>nodes.flatMap(node=>[node,...walk(node.children||[])]);return walk(topicOptions);},[topicOptions]);
  const shownEvents=useMemo(()=>{
@@ -58,8 +60,8 @@ export default function MockSetup({api,onStarted,onError,activeContest,onResume,
   else{setModeMenu(previous=>!forceOpen&&previous===mode?null:mode);setMenuRequest(value=>value+1);}
  };
  function validation(){if(config.mode==='topic'&&!config.tags.length)return '请选择知识点';if(replay&&!config.contest)return '请选择比赛';if(![config.min,config.max,config.duration].every(value=>String(value).trim()!==''&&Number.isFinite(Number(value)))||Number(config.min)>Number(config.max))return '请检查难度范围';if(Number(config.duration)<1||Number(config.duration)>1440)return '时长应为 1–1440 分钟';return '';}
- async function generate(){if(busy||activeContest)return;const issue=validation();if(issue){setError(issue);return;}const seq=++sequence.current;setBusy(true);setError('');try {const value=await api('contests/preview',{...config,count:config.mode==='single'?1:Number(config.count),duration:Number(config.duration),min:Number(config.min),max:Number(config.max),wrongPenalty:Number(config.wrongPenalty),tags:config.mode==='topic'?config.tags:[]});if(sequence.current===seq){setPlan(value.plan);if(replay)setEventAttempt(value=>value+1);}}catch(issue){if(sequence.current===seq)setError(issue.message);}finally{setBusy(false);}}
- const paperName=name||`${MODES.find(([mode])=>mode===config.mode)[1]}${config.mode==='topic'?` · ${topic}`:replay?` · ${plan?.event?.displayName||config.contest}`:''}`;
+ async function generate(){if(busy||activeContest)return;const issue=validation();if(issue){setError(issue);return;}const seq=++sequence.current;setBusy(true);setError('');try {const event=events.find(item=>item.name===config.contest);if(replay&&event?.schoolTraining&&event.complete===false){for(const id of event.problemIds||[])await api('problem?id='+encodeURIComponent(id));}const value=await api('contests/preview',{...config,count:config.mode==='single'?1:Number(config.count),duration:Number(config.duration),min:Number(config.min),max:Number(config.max),wrongPenalty:Number(config.wrongPenalty),tags:config.mode==='topic'?config.tags:[]});if(sequence.current===seq){setPlan(value.plan);if(replay)setEventAttempt(value=>value+1);}}catch(issue){if(sequence.current===seq)setError(issue.message);}finally{setBusy(false);}}
+ const paperName=name||`${MODES.find(([mode])=>mode===config.mode)[1]}${config.mode==='topic'?` · ${topic}`:replay?` · ${schoolContestName(plan?.event?.displayName||config.contest)}`:''}`;
  const range=replay?plan?.difficultyRange:config;
  const rangeText=range?.min!=null&&range?.max!=null?`${range.min}–${range.max}`:plan?'待评估':'—';
  async function start(){if(!plan||busy||activeContest)return;setBusy(true);setError('');try{const value=await api('contests/start',{previewId:plan.previewId,ids:plan.slots.map(slot=>slot.id),duration:Number(config.duration),name:paperName});onStarted(value);}catch(issue){setError(issue.message);onError?.(issue.message,'error');setBusy(false);}}

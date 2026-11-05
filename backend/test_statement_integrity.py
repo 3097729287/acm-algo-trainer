@@ -18,6 +18,18 @@ from test_library import record
 
 
 class StatementIntegrityTests(unittest.TestCase):
+    def test_school_replay_rechecks_cached_content_after_stale_import_failure(self):
+        assets=AssetLibrary.__new__(AssetLibrary)
+        complete={'markdown':'Original complete mathematical problem statement.', 'samples':[{'input':'1','output':'2'}]}
+        assets._cached=lambda identity:dict(complete,**({'integrity':{'status':'incomplete'}} if identity=='broken' else {}))
+        rows=[{'id':identity,'url':'https://ac.nowcoder.com/acm/contest/142622/A','schoolTraining':True,'catalogReplayReady':False}
+              for identity in ['math','broken']]
+        self.assertEqual([row['id'] for row in assets.candidates(rows,official=True)],['math'])
+        from contest_rules import event_info
+        ready={row['id'] for row in assets.candidates(rows[:1],official=True)}
+        roster=[dict(row,catalogReplayReady=row['id'] in ready,contestProblemCount=1) for row in rows[:1]]
+        self.assertTrue(event_info('1024数学专场考核',roster)['complete'])
+
     def test_background_fetch_cannot_undo_audit_retirement_or_replace_chinese(self):
         import hashlib
         with tempfile.TemporaryDirectory() as directory:

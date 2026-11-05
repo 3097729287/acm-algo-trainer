@@ -1,3 +1,4 @@
+import {schoolContestName} from '@/lib/schoolContests.js';
 import {compareCompetitionNewest} from '@/lib/competitionOrder.js';
 import StickerCanvas from '@/components/StickerCanvas.jsx';
 import {PACK_NAMES} from '@/components/StickerBoxes.jsx';
@@ -172,7 +173,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
     return groups.filter(group => (!catalogPath.length || group.rows.some(row => catalogMatches(row, {path:catalogPath})))
       && (!platform || group.rows.some(row=>rowPlatform(row)===platform))
       && (!examYear || String(group.examYear) === examYear)
-      && (!search || `${group.name} ${group.platform} ${group.rows.map(row => `${row.title} ${row.problem} ${lockedIds.has(row.id) ? '' : list(row.tags).join(' ')}`).join(' ')}`.toLowerCase().includes(search))
+      && (!search || `${group.name} ${schoolContestName(group.name)} ${group.platform} ${group.rows.map(row => `${row.title} ${row.problem} ${lockedIds.has(row.id) ? '' : list(row.tags).join(' ')}`).join(' ')}`.toLowerCase().includes(search))
       && (filter === 'all' || filter === 'joined' ? filter === 'all' || counts.get(group.key).active > 0 : filter === 'available' ? counts.get(group.key).active === 0 : counts.get(group.key).accepted < group.rows.length))
       .sort((a,b) => (sort === 'name' ? a.name.localeCompare(b.name, 'zh-CN', {numeric:true}) : -compareCompetitionNewest(a,b)) * (descending ? -1 : 1));
   }, [groups, catalogPath, platform, examYear, deferredQuery, lockedIds, filter, counts, sort, descending]);
@@ -206,7 +207,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   if (current) {
     const inMock = current.rows.some(row => lockedIds.has(row.id));
     return <div ref={panelRef} onScroll={rememberScroll} className="list-page competition-page competition-detail" tabIndex={0} aria-label={`${current.name}比赛详情`}>
-      <div className="competition-detail-heading"><button type="button" className="progress-button" onClick={() => { setSelected(null); if (initialContest) onBack?.(); }}><ArrowLeft size={14} />全部比赛</button><div><h2>{current.name}</h2></div>{onJoin && <button type="button" className="progress-button" disabled={joining || inMock || activeCount(current) === current.rows.length} onClick={() => join(current)}>{joining ? <LoaderCircle size={14} className="progress-spin" /> : <Flag size={14} />}{activeCount(current) === current.rows.length ? '已加入训练' : activeCount(current) ? '加入剩余题目' : '加入我的训练'}</button>}{startButton(current)}</div>
+      <div className="competition-detail-heading"><button type="button" className="progress-button" onClick={() => { setSelected(null); if (initialContest) onBack?.(); }}><ArrowLeft size={14} />全部比赛</button><div><h2>{schoolContestName(current.name)}</h2></div>{onJoin && <button type="button" className="progress-button" disabled={joining || inMock || activeCount(current) === current.rows.length} onClick={() => join(current)}>{joining ? <LoaderCircle size={14} className="progress-spin" /> : <Flag size={14} />}{activeCount(current) === current.rows.length ? '已加入训练' : activeCount(current) ? '加入剩余题目' : '加入我的训练'}</button>}{startButton(current)}</div>
       {inMock && <div className="competition-notice">本场部分题目正在模拟赛中，难度和知识点将在赛后显示。请从模拟赛页继续。</div>}
       {joinError && <p className="connection-error" role="alert">{joinError}</p>}
       <div className="competition-question-list">{current.rows.map(row => {

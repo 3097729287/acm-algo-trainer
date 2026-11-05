@@ -2291,6 +2291,7 @@ export default function App() {
               </div>
             ) : <>{active ? <div className="mock-resume-row"><button className="secondary" onClick={()=>setMockTab("create")}><Play size={15}/>继续比赛</button></div> : (
               <MockSetup
+                rows={rows}
                 recommendation={mockRecommendation}
                 historyQuery={mockHistoryQuery}
                 onHistoryQuery={setMockHistoryQuery}

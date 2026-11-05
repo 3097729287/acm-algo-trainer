@@ -97,7 +97,9 @@ export function createFractureBodies(geometries, {material, impact, impactSpeed 
   if (!glass) angle = -Math.PI / 2 + clamp(dx / 30, -1, 1) * 1.05 + (random() - .5) * .3;
   const speed = impactSpeed * strength * size;
   return {...geometry, x: cx, y: cy, angle: 0, mass, inertia: mass * geometry.inertia,
-   vx: Math.cos(angle) * speed, vy: local ? (glass ? 10 : 0) : Math.sin(angle) * speed,
+   // The upper wall retains its downward momentum as the base hits. Stopping
+   // these bodies here leaves a recognisable cup standing on the floor.
+   vx: Math.cos(angle) * speed, vy: local ? (glass ? 10 : impactSpeed*clamp(.25+(impact.y-cy)/55,.25,.85)) : Math.sin(angle) * speed,
    spin: (random() - .5) * speed / Math.max(3, radius) * (local ? .6 : 1.5),
    mode: local ? 'collapse' : 'eject', asleep: false, quiet: 0, contacts: 0};
  });

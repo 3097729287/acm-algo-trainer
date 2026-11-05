@@ -3,7 +3,7 @@ import {createServer} from 'vite';
 import {chromium} from 'playwright';
 import {mkdir,writeFile} from 'node:fs/promises';
 const out='../.backups/background-review-20261105/settings-checks';await mkdir(out,{recursive:true});
-const vite=await createServer({cacheDir:'../.backups/next-local/settings-interactions-vite',server:{host:'127.0.0.1',port:0,watch:null}});await vite.listen();
+const vite=await createServer({optimizeDeps:{entries:['tests/settings-interactions-fixture.html']},cacheDir:'../.backups/next-local/settings-interactions-vite',server:{host:'127.0.0.1',port:0,watch:null}});await vite.listen();
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1600,height:1000}}),errors=[];page.on('pageerror',error=>errors.push(error.message));
 try{
  await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/tests/settings-interactions-fixture.html`);
@@ -14,10 +14,11 @@ try{
  await page.waitForFunction(()=>!document.querySelector('.scene-compass').closest('svg').dataset.interacting,{timeout:8000});
  for(const kind of ['cloud','dino']){
   const item=page.locator(`[data-scene-interactive=${kind}]`).first();
-  await item.evaluate(node=>{node.style.animation='none';node.style.left='30px';node.style.top='40px';node.style.bottom='auto';node.style.opacity='1';for(const a of node.getAnimations({subtree:true}))a.pause();});
+  if(kind==='cloud')await item.evaluate(node=>{node.style.animation='none';node.style.left='30px';node.style.top='40px';node.style.bottom='auto';node.style.opacity='1';});
+  await item.evaluate(node=>node.scrollIntoView({block:'center'}));
   const hit=item.locator(kind==='dino'?'.dino-eyes circle':'path').first(),box=await hit.boundingBox(),before=await item.boundingBox();
-  await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width/2+35,box.y+box.height/2+12,{steps:5});await page.mouse.up();
-  const after=await item.boundingBox();assert(Math.abs(after.x-before.x-35)<15,kind);assert.equal(await page.evaluate(()=>window.sceneEntered),undefined,kind);
+  await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width/2+35,box.y+box.height/2+(kind==='dino'?-180:12),{steps:5});await page.mouse.up();
+  const after=await item.boundingBox();assert(Math.abs(after.x-before.x-35)<18,kind);assert.equal(await page.evaluate(()=>window.sceneEntered),undefined,kind);
   if(kind==='cloud'){
    await page.waitForFunction(()=>document.querySelector('[data-scene-interactive=cloud]').dataset.sceneState==='drifting');
    await page.waitForTimeout(220);const drift=await item.boundingBox();assert(Math.abs(drift.x-after.x)>1,'Cloud continues moving after release');

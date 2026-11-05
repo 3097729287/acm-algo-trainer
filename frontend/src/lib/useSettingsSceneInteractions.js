@@ -1,6 +1,7 @@
 import {useEffect} from 'react';
 import {attachSceneActions} from './settingsSceneActions.js';
 import {cloudStep,fallStep} from './scenePhysics.js';
+import {attachDinosaur} from './dinosaurMotion.js';
 
 export default function useSettingsSceneInteractions(ref,kind){
  useEffect(()=>{
@@ -31,7 +32,8 @@ export default function useSettingsSceneInteractions(ref,kind){
    });
    cleanup.push(()=>{settling?.cancel();resume();});
   }
-  if(kind==='cloud'||kind==='dino'){
+  if(kind==='dino')cleanup.push(attachDinosaur(root));
+  if(kind==='cloud'){
    const nodes=root.querySelectorAll(kind==='cloud'?'.cloud-flight':'.dino-traveler');
    for(const [index,node] of [...nodes].entries()){
     let drag=null,motion=0,body=null,stamp=0,deadUntil=0;
