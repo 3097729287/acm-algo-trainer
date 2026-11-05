@@ -26,7 +26,7 @@ export function attachSceneActions(root,kind){
   Object.assign(svg.style,{position:'absolute',inset:'0',width:'100%',height:'100%',overflow:'hidden',pointerEvents:'none',color:getComputedStyle(root).color,zIndex:'2'});
   host.append(svg);layers.add(svg);return {svg,box,remove:()=>{svg.remove();layers.delete(svg);}};
  }
- function shatter(node,name,{colour,impactSpeed=300}={}){
+ function shatter(node,name,{colour,impactSpeed=300,initialSeconds=0}={}){
   if(reduced())return ()=>{};
   const bulb=name==='bulb-glass-fragments',material=bulb?'glass':'ceramic',layer=overlay(name),matrix=node.getScreenCTM(),scale=Math.hypot(matrix.a,matrix.b);
   const stage=document.createElementNS(ns,'g'),defs=document.createElementNS(ns,'defs'),prefix='fracture-'+(++fractureId),lineWidth=parseFloat(getComputedStyle(root).getPropertyValue('--settings-line-width'))||2.4;
@@ -54,11 +54,15 @@ export function attachSceneActions(root,kind){
    return piece;
   });
   const inverse=matrix.inverse(),point=root.createSVGPoint();point.x=matrix.e;point.y=layer.box.bottom-9;
-  const floor=(bulb?point.matrixTransform(inverse).y:109)-lineWidth/scale/2,options={floor,material};
+  let floor=point.matrixTransform(inverse).y-lineWidth/scale/2;
+  if(!bulb){point.x=83;point.y=109;floor=point.matrixTransform(root.getScreenCTM()).matrixTransform(inverse).y-lineWidth/scale;}
+  const options={floor,material};
   let t=0,accumulator=0;
-  const cancel=loop(dt=>{
+  const advance=dt=>{
    t+=dt;accumulator+=dt;
    while(accumulator>=1/240){stepFracture(bodies,1/240,options);accumulator-=1/240;}
+  };
+  const paint=()=>{
    layer.svg.dataset.fractureTime=t.toFixed(3);
    layer.svg.dataset.fracturePhase=bodies.every(body=>body.asleep)?'settled':t<.14?'separating':'falling';
    for(const [index,body] of bodies.entries()){
@@ -66,6 +70,12 @@ export function attachSceneActions(root,kind){
     pieces[index].dataset.fractureState=body.asleep?'resting':'moving';
    }
    stage.style.opacity=String(Number(getComputedStyle(root).opacity)*Math.max(0,Math.min(1,(1.2-t)/.18)));
+  };
+  // Render the impact pose now. Waiting for the next RAF presents a complete
+  // cup on the ground before any fragment has moved apart.
+  advance(initialSeconds);paint();
+  const cancel=loop(dt=>{
+   advance(dt);paint();
    if(t>=1.2||reduced()){layer.remove();return false;}
   });
   return ()=>{cancel();layer.remove();};
@@ -127,13 +137,17 @@ export function attachSceneActions(root,kind){
   const cup=root.querySelector('.coffee-vessel');interactive(cup,'coffee');let drag=null,offset={x:0,y:0},cancelFall=null,broken=false;
   listen(cup,'click',stop);
   listen(cup,'pointerdown',event=>{
-   if(event.button!==0||broken)return;stop(event);cancelFall?.();const box=cup.getBoundingClientRect(),scale=root.getBoundingClientRect().width/180;
+   if(event.button!==0||broken)return;stop(event);cancelFall?.();const box=cup.getBoundingClientRect(),matrix=root.getScreenCTM(),scale=Math.hypot(matrix.a,matrix.b);
    drag={id:event.pointerId,x:event.clientX,y:event.clientY,offset:{...offset},scale,box,host:root.closest('.settings-tile').getBoundingClientRect()};cup.setPointerCapture(event.pointerId);cup.style.cursor='grabbing';root.dataset.sceneState='held';
   });
   listen(cup,'pointermove',event=>{if(!drag||drag.id!==event.pointerId)return;stop(event);const dx=Math.max(drag.host.left-drag.box.left,Math.min(drag.host.right-drag.box.right,event.clientX-drag.x)),dy=Math.max(drag.host.top+45-drag.box.top,Math.min(drag.host.bottom-drag.box.bottom,event.clientY-drag.y));offset={x:drag.offset.x+dx/drag.scale,y:drag.offset.y+dy/drag.scale};cup.setAttribute('transform',`translate(${offset.x} ${offset.y})`);});
-  const release=event=>{if(!drag||drag.id!==event.pointerId)return;stop(event);const high=offset.y< -18;drag=null;cup.style.cursor='grab';try{cup.releasePointerCapture(event.pointerId);}catch{}let vy=0;root.dataset.sceneState='falling';
-   cancelFall=loop(dt=>{offset.y+=vy*dt+900*dt*dt;vy+=1800*dt;cup.setAttribute('transform',`translate(${offset.x} ${Math.min(0,offset.y)})`);
-    if(offset.y>=0||reduced()){const impactSpeed=Math.sqrt(Math.max(0,vy*vy-3600*Math.max(0,offset.y)));offset.y=0;cup.setAttribute('transform',`translate(${offset.x} 0)`);root.dataset.sceneState=high?'broken':'resting';if(high){broken=true;shatter(cup,'coffee-shards',{colour:'#c2b08e',impactSpeed});cup.style.visibility='hidden';later(()=>{broken=false;offset={x:0,y:0};cup.removeAttribute('transform');cup.style.visibility='';delete root.dataset.sceneState;},reduced()?100:1350);}return false;}
+  const release=event=>{if(!drag||drag.id!==event.pointerId)return;stop(event);const high=offset.y< -18,face=cup.querySelector('.coffee-cup'),ground=root.querySelector('.scene-ground'),shape=face.getBBox();
+   const contactY=ground.getBBox().y-shape.y-shape.height-(parseFloat(getComputedStyle(face).strokeWidth)+parseFloat(getComputedStyle(ground).strokeWidth))/(2*drag.scale);
+   drag=null;cup.style.cursor='grab';try{cup.releasePointerCapture(event.pointerId);}catch{}let vy=0;root.dataset.sceneState='falling';
+   cancelFall=loop(dt=>{const fromY=offset.y,fromVy=vy;offset.y+=vy*dt+900*dt*dt;vy+=1800*dt;
+    if(offset.y>=contactY||reduced()){const impactSpeed=Math.sqrt(Math.max(0,fromVy*fromVy+3600*Math.max(0,contactY-fromY))),hitTime=(impactSpeed-fromVy)/1800;
+     offset.y=contactY;cup.setAttribute('transform',`translate(${offset.x} ${contactY})`);root.dataset.sceneState=high?'broken':'resting';if(high){broken=true;shatter(cup,'coffee-shards',{colour:'#c2b08e',impactSpeed,initialSeconds:Math.max(1/60,dt-hitTime)});cup.style.visibility='hidden';later(()=>{broken=false;offset={x:0,y:0};cup.removeAttribute('transform');cup.style.visibility='';delete root.dataset.sceneState;},reduced()?100:1350);}return false;}
+    cup.setAttribute('transform',`translate(${offset.x} ${offset.y})`);
    });
   };listen(cup,'pointerup',release);listen(cup,'pointercancel',release);listen(cup,'lostpointercapture',event=>{if(drag)release(event);});
  }

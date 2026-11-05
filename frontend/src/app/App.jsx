@@ -2226,7 +2226,15 @@ export default function App() {
               onNext={nextPractice}
             />
           ) : page==='tasks' ? (
-            <TasksBoard key={account?.userId||'local'} owner={account?.userId||'local'} initialView={taskView} onView={setTaskView} model={learningSummary} api={api} prefs={prefs} setPrefs={setPrefs} onOpenTask={openSummaryTask} problemRows={rows} onNextAction={task=>{const item=recommendationSnapshot.items.find(item=>!item.summaryTask&&item.id!==task?.id);if(item)openRecommendation(item);}}/>
+            <TasksBoard key={account?.userId||'local'} owner={account?.userId||'local'} initialView={taskView} onView={setTaskView} model={learningSummary} api={api} prefs={prefs} setPrefs={setPrefs} onOpenTask={openSummaryTask} problemRows={rows} calendar={calendar} contestRecords={workspace.contests||[]} onCalendarTask={async task=>{
+              if(task.contestId&&task.contestId===workspace.activeContest?.id){setPage('mock');setMockTab('create');setMockSlot(workspace.activeContest.slots[0]?.id);return;}
+              if(task.status==='done'){const record=workspace.contests.find(item=>item.id===task.contestId);if(record)openRecord(record);return;}
+              if(task.availability==='upcoming'){setDialog('contest-calendar');return;}
+              if(task.availability==='ended'){await openCalendarContest(task.event);return;}
+              const owner=account?.userId,result=await api('contests/start-calendar',{id:task.event.id});
+              if(calendarDataOwner.current!==owner||window.__tbAccountUserId!==undefined&&window.__tbAccountUserId!==owner)return;
+              await calendarDataReader.refresh(owner);if(calendarDataOwner.current===owner)startedMock(result);
+            }} onNextAction={task=>{const item=recommendationSnapshot.items.find(item=>!item.summaryTask&&item.id!==task?.id);if(item)openRecommendation(item);}}/>
           ) : LEARNING_PAGES.includes(page) ? (
             <SectionWorkspace key={'learning:'+(account?.userId||'local')} id="learning" entries={LEARNING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label}))} activeId={page} onActivate={setPage} render={renderLearningPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
           ) : TRAINING_PAGES.includes(page) ? (

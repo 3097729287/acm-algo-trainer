@@ -7,13 +7,14 @@ import hashlib
 import re
 import logging
 import os
+import ssl
 from pathlib import Path
 import sys
 import threading
 import time
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlsplit
-from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHandler
+from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHandler, getproxies
 
 from progression import SHANGHAI
 
@@ -78,16 +79,64 @@ class NoRedirect(HTTPRedirectHandler):
         raise URLError("排行榜服务发生重定向，请使用最终 HTTPS 地址")
 
 
+class AdaptiveServiceOpener:
+    """Recover a broken direct connection using the configured system route.
+
+    Only safe GETs may try a second route, within the original timeout. Writes
+    use the last successful route once; they are never replayed by this layer.
+    Both routes verify TLS and reject redirects before forwarding credentials.
+    """
+    routes = {}
+
+    def __init__(self, host, direct, system):
+        self.host, self.direct, self.system = host, direct, system
+
+    def open(self, request, data=None, timeout=10):
+        duration = 10 if timeout is None else float(timeout)
+        use_proxy = self.routes.get(self.host, False)
+        first, second = (self.system, self.direct) if use_proxy else (self.direct, self.system)
+        method = request.get_method() if isinstance(request, Request) else 'POST' if data is not None else 'GET'
+        if method != 'GET':
+            return first.open(request, data=data, timeout=duration)
+        deadline = time.monotonic() + duration
+        def connect(opener, budget):
+            response = opener.open(request, data=data, timeout=budget)
+            sock = getattr(getattr(getattr(response, 'fp', None), 'raw', None), '_sock', None)
+            if sock is not None:
+                sock.settimeout(max(.001, deadline - time.monotonic()))
+            return response
+        try:
+            return connect(first, min(3, duration / 2))
+        except HTTPError:
+            raise
+        except (URLError, TimeoutError, OSError) as issue:
+            cause = getattr(issue, 'reason', issue)
+            # Certificate failures and intentional redirect rejections are not
+            # connection failures. Preserve their existing hard failure.
+            if not isinstance(cause, OSError) or isinstance(cause, ssl.SSLCertVerificationError):
+                raise
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise
+            response = connect(second, remaining)
+            self.routes[self.host] = not use_proxy
+            return response
+
+
 def service_opener(endpoint):
-    """The bundled service is reachable directly; do not tunnel it via an OJ proxy."""
+    """Prefer direct service access, with a verified system-route recovery."""
     host = urlsplit(endpoint).hostname
     bundled_host = urlsplit(bundled_endpoint()).hostname
     handlers = [NoRedirect()]
-    if host in {"127.0.0.1", "localhost", "::1"} or host and host == bundled_host:
+    loopback = host in {"127.0.0.1", "localhost", "::1"}
+    if loopback or host and host == bundled_host:
         handlers.append(ProxyHandler({}))
+    direct = build_opener(*handlers)
+    if not loopback and host and host == bundled_host and getproxies().get('https'):
+        return AdaptiveServiceOpener(host, direct, build_opener(NoRedirect()))
     # Custom servers retain the user's system proxy. HTTPS verification stays
     # enabled, redirects remain forbidden and requests are never replayed.
-    return build_opener(*handlers)
+    return direct
 
 
 class LeaderboardClient:
