@@ -1,7 +1,22 @@
-param([string]$Destination = 'E:\项目\ToBe\版本\重构验证\2.0.0-alpha.1')
+param(
+    [string]$Destination = 'E:\项目\ToBe\版本\重构验证\2.0.0-alpha.1',
+    [switch]$VerifyOnly
+)
 $ErrorActionPreference = 'Stop'
 $sourceRoot = Split-Path -Parent $PSScriptRoot
 $targetRoot = [IO.Path]::GetFullPath($Destination)
+if ($VerifyOnly) {
+    $info = Get-Content -LiteralPath (Join-Path $targetRoot 'BUILD-INFO.json') -Raw | ConvertFrom-Json
+    $totalBytes = 0L
+    foreach ($member in $info.members) {
+        $target = [IO.Path]::GetFullPath((Join-Path $targetRoot $member.path))
+        if (-not $target.StartsWith($targetRoot.TrimEnd('\')+'\',[StringComparison]::OrdinalIgnoreCase)) { throw 'Invalid candidate member path.' }
+        if ((Get-Item -LiteralPath $target).Length -ne $member.bytes -or (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash.ToLowerInvariant() -ne $member.sha256) { throw "Candidate verification failed: $($member.path)" }
+        $totalBytes += [long]$member.bytes
+    }
+    [PSCustomObject]@{ CandidateBytes=$totalBytes; VerifiedMembers=$info.members.Count; Entry=(Join-Path $targetRoot $info.entry) }
+    exit 0
+}
 if (Test-Path -LiteralPath $targetRoot) { throw 'Candidate destination already exists; choose a new directory so no existing data is replaced.' }
 $binary = Join-Path $sourceRoot 'target\release\tobe-desktop.exe'
 if (-not (Test-Path -LiteralPath $binary)) { throw 'Build the native desktop candidate first: scripts/native.ps1 -Action desktop' }
@@ -35,4 +50,5 @@ $info = [ordered]@{
 }
 $info | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath (Join-Path $targetRoot 'BUILD-INFO.json') -Encoding UTF8
 Copy-Item -LiteralPath (Join-Path $sourceRoot 'docs\native-migration.md') -Destination (Join-Path $targetRoot '重构进度.md')
-$manifest | Measure-Object -Property bytes -Sum | Select-Object @{n='CandidateBytes';e={$_.Sum}},@{n='Entry';e={Join-Path $targetRoot 'ToBe-Rust.exe'}}
+$totalBytes = ($manifest | ForEach-Object { [long]$_['bytes'] } | Measure-Object -Sum).Sum
+[PSCustomObject]@{ CandidateBytes=$totalBytes; Entry=(Join-Path $targetRoot 'ToBe-Rust.exe') }
