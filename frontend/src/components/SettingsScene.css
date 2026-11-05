@@ -7,6 +7,7 @@
 .balloon-flight {position:absolute;left:calc(50% - 38px);width:76px;height:140px;animation:balloon-ascent 22s linear infinite;animation-delay:-5s}
 .coffee-steam {animation:steam-rise 4s ease-in-out infinite}
 .orbit-system {transform-origin:90px 70px;animation:planet-drift 14s ease-in-out infinite}
+.orbit-ring-frame {transform-box:view-box;transform-origin:90px 70px;transform:rotate(-22deg)}
 .orbit-ring-drift {animation:ring-drift 10s linear infinite}
 .orbit-satellite {offset-path:path('M25 70a65 23 0 1 0 130 0a65 23 0 1 0-130 0');animation:ring-lap 12s linear infinite}
 .orbit-planet-lines {transform-origin:90px 70px;animation:planet-lines 18s ease-in-out infinite}
@@ -129,5 +130,4 @@ html[data-motion=off] .settings-scene .globe-burst {opacity:0}
 .settings-scene-effect{border-radius:inherit}
 .settings-scene [data-scene-interactive]{touch-action:none}
 .dipper-star{transform-box:fill-box;transform-origin:center}
-.orbit-ring-front,.orbit-ring-back{transform-origin:90px 70px}
 .settings-scene-effect [data-fracture-piece]{will-change:transform,opacity}

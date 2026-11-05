@@ -52,8 +52,14 @@ export function attachSceneActions(root,kind){
  }
  if(kind==='orbit'){
   const face=root.querySelector('.orbit-face'),system=root.querySelector('.orbit-system');let speed=1,running=false;
+  const ringFrames=[...root.querySelectorAll('.orbit-ring-frame')];let ringTilt=[];
   interactive(face,'orbit');listen(face,'click',event=>{stop(event);speed=Math.min(7,speed+2);root.dataset.sceneState='orbiting';const moving=root.getAnimations({subtree:true});moving.forEach(animation=>animation.updatePlaybackRate(speed));animate(system,[{opacity:1},{opacity:.65},{opacity:1}],{duration:500});if(running)return;running=true;loop(dt=>{speed=1+(speed-1)*Math.exp(-1.25*dt);moving.forEach(animation=>animation.updatePlaybackRate(speed));if(speed<1.02||reduced()){moving.forEach(animation=>animation.updatePlaybackRate(1));running=false;delete root.dataset.sceneState;return false;}});});
-  for(const ring of root.querySelectorAll('.orbit-ring-front,.orbit-ring-back')){interactive(ring,'orbit-ring');listen(ring,'click',event=>{stop(event);const frame=ring.parentElement;frame.style.transformOrigin='90px 70px';frame.style.transformBox='view-box';animate(frame,[{transform:'rotate(-22deg)'},{transform:'rotate(-10deg)'},{transform:'rotate(-22deg)'}],{duration:1500,easing:'ease-in-out'});});}
+  for(const ring of root.querySelectorAll('.orbit-ring-front,.orbit-ring-back')){interactive(ring,'orbit-ring');listen(ring,'click',event=>{
+   stop(event);if(reduced()||!ringFrames.length)return;
+   const from=getComputedStyle(ringFrames[0]).transform,startedAt=document.timeline.currentTime;
+   ringTilt.forEach(animation=>animation.cancel());
+   ringTilt=ringFrames.map(frame=>{const animation=animate(frame,[{transform:from},{transform:'rotate(-10deg)'},{transform:'rotate(-22deg)'}],{duration:1500,easing:'ease-in-out'});if(startedAt!==null)animation.startTime=startedAt;return animation;});
+  });}
  }
  if(kind==='stars'){
   const constellation=root.querySelector('.big-dipper'),line=root.querySelector('.dipper-lines'),stars=[...root.querySelectorAll('.dipper-star')];let tracing=false,traceAnimations=[];
