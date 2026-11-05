@@ -9,8 +9,8 @@ import '../src/styles/unified.css';
 import '../src/styles/revision.css';
 import '../src/styles/interaction.css';
 import '../src/styles/followups-1434.css';
-const catalogue=['duck','semicolon','rainbow','envelope','orbit','gem','crown','galaxy','phoenix','cloud','leaf'].map((shape,i)=>({id:'art-'+shape,shape,title:shape,rarity:i<9?'legendary':'common'}));
-const units=catalogue.map((item,i)=>({id:'unit-'+item.shape,stickerId:item.id,revision:0,placement:{x:.12+(i%4)*.24,y:.18+Math.floor(i/4)*.3,angle:0,scale:1}}));
+const catalogue=['duck','semicolon','rainbow','envelope','orbit','gem','crown','galaxy','phoenix','cloud','leaf','owl','rocket'].map((shape,i)=>({id:'art-'+shape,shape,title:shape,rarity:i<9||shape==='rocket'?'legendary':shape==='owl'?'rare':'common'}));
+const units=catalogue.map((item,i)=>({id:'unit-'+item.shape,stickerId:item.id,revision:0,placement:item.shape==='rocket'?{x:.52,y:.27,angle:78,scale:1.5}:{x:.12+(i%4)*.24,y:.18+Math.floor(i/4)*.3,angle:0,scale:1}}));
 let inventory={owner:'fixture-a',revision:1,catalogue,units,placementPolicy:{scale:true}};
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function Fixture(){

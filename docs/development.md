@@ -599,3 +599,5 @@ UI 检查包括原 App 全流程、课程／维基嵌套返回、贴纸直接操
 在 `frontend` 下运行 `npm run test:appearance`。真实 App 使用隔离接口，检查深浅主题、四种风格和四档不透明度的题表／任务卡片，单独页面设置、任务弹窗、窄窗口与大字号，并比较滚动前后的固定表头图像，防止题目文字从透明表头下漏出；随后继续运行组合工作区的既有操作回归。
 
 2026-11-06：从零讲目录改为简短标题列表；介绍和目录使用内容行高，长标题撑高整行。原文及检索字段保留。
+
+2026-11-06 本机界面与贴纸反馈修复：顶部书签无滚动条，从零讲复用共享学习目录，推荐主项加最多四项候选。普通声音反馈支持连续点击；火箭按保存朝向完成带加减速的闭合飞行，摆放和库存不变。正式程序继续 React + Python，仅同步前端资源，保留当前原生源码身份。验证命令：`node tests/duck-audio-model.mjs`、`node tests/rocket-flight-model.mjs`、`node tests/sticker-interactions.mjs`、`node tests/lectures-catalogue.mjs`、`node tests/workspace-sections.mjs`、`node tests/next-actions.mjs`。

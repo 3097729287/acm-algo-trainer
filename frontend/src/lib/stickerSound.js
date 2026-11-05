@@ -1,5 +1,6 @@
 import DUCK_CALLS from './stickerDuckCalls.js';
 import {STICKER_FEEDBACK} from './stickerFeedbackCatalog.js';
+import {duckPcmBuffer} from './stickerDuckClip.js';
 let context,duckBuffers=[],decoding;
 const playing=[];
 
@@ -9,7 +10,11 @@ export function stopStickerSounds(){for(const source of [...playing])try{source.
 function audio(){try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return null;if(!context||context.state==='closed')context=new Audio({latencyHint:'interactive'});return context;}catch{return null;}}
 export function prepareStickerAudio(){
  const ctx=audio();if(!ctx||duckBuffers.length===1)return Promise.resolve();
- if(!decoding){decoding=Promise.all(DUCK_CALLS.slice(0,1).map(call=>{const raw=atob(call),bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));return ctx.decodeAudioData(bytes.buffer);})).then(values=>{duckBuffers=values.slice(0,1);}).catch(()=>{}).finally(()=>{decoding=null;});}
+ if(!decoding){
+  const bytes=Uint8Array.from(atob(DUCK_CALLS[0]),c=>c.charCodeAt(0)),buffer=duckPcmBuffer(ctx,bytes);
+  if(buffer){duckBuffers=[buffer];return Promise.resolve();}
+  decoding=ctx.decodeAudioData(bytes.buffer).then(buffer=>{duckBuffers=[buffer];}).catch(()=>{}).finally(()=>{decoding=null;});
+ }
  return decoding;
 }
 function keep(source,nodes){
@@ -31,11 +36,12 @@ export function playStickerSound(shape){
   // The approved export keeps source call 1 only.
   const play=()=>{
    if(!duckBuffers.length||ctx.state==='closed')return;
-   const buffer=duckBuffers[0],at=ctx.currentTime+.008,length=buffer.duration;
+   const buffer=duckBuffers[0],at=ctx.currentTime,length=buffer.duration;
    const source=ctx.createBufferSource(),gain=ctx.createGain();source.buffer=buffer;
-   gain.gain.setValueAtTime(0,at);gain.gain.linearRampToValueAtTime(.65,at+.008);gain.gain.setValueAtTime(.65,at+length-.025);gain.gain.linearRampToValueAtTime(0,at+length);
+   gain.gain.setValueAtTime(0,at);gain.gain.linearRampToValueAtTime(.65,at+.001);gain.gain.setValueAtTime(.65,at+length-.025);gain.gain.linearRampToValueAtTime(0,at+length);
    source.connect(gain);gain.connect(ctx.destination);source.start(at);keep(source,[source,gain]);
   };
+  if(!duckBuffers.length)void prepareStickerAudio();
   if(duckBuffers.length)play();
   else{const clickedAt=performance.now();void prepareStickerAudio().then(()=>{if(performance.now()-clickedAt<450)play();});}
  }else if(shape==='semicolon'){for(const delay of [0,.11,.27]){breath(ctx,now+delay,.035,2400,.14);tone(ctx,220,now+delay,.055,.025,'triangle');}}

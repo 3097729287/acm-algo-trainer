@@ -111,6 +111,7 @@ try{
  await nav('学习').click();const workspace=page.locator('.section-workspace[data-section=learning]');await workspace.waitFor();
  for(const name of ['从零讲','维基百科','模板','实验室'])assert.equal(await page.getByRole('tab',{name,exact:true}).count(),1);
  for(const [name,label,text] of [['从零讲','搜索从零讲知识','lecture-query'],['维基百科','搜索维基百科','wiki-query'],['模板','搜索模板','template-query'],['实验室','搜索算法','lab-query']]){
+  if(name==='从零讲'){await page.getByRole('tab',{name,exact:true}).click();assert.equal(await workspace.locator('.lecture-catalogue').count(),1);assert.equal(await workspace.locator('.lectures-intro,.lectures-detail').count(),0);}
   await page.getByRole('tab',{name,exact:true}).click();const search=page.locator('#tb-page-search').getByRole('textbox',{name:label,exact:true});await search.waitFor();assert.equal(await page.locator('#tb-page-search input').count(),1);assert.equal(await workspace.locator('.section-document-tools input').count(),0);const box=await search.boundingBox();assert(box.x>(await page.locator('#tb-page-bookmarks').boundingBox()).x&&box.y<100,'Search follows the topbar bookmarks');await search.fill(text);
  }
  await page.locator('#tb-page-bookmarks').getByRole('tab',{name:'维基百科',exact:true}).click();assert.equal(await page.locator('#tb-page-search').getByRole('textbox',{name:'搜索维基百科',exact:true}).inputValue(),'wiki-query');
@@ -157,6 +158,20 @@ try{
  await page.getByRole('tab',{name:'团队训练排行榜',exact:true}).click();await rankings.getByText('尚未接入团队训练成绩。',{exact:true}).waitFor();assert.equal(await rankings.locator('.team-standings tbody tr').count(),0,'Missing team records never become invented standings');
  await nav('成长').click();await rankings.waitFor({state:'detached'});await nav('排行榜').click();await page.getByRole('tab',{name:'过题数排行榜',exact:true}).waitFor();assert.equal(await page.getByRole('tab',{name:'过题数排行榜',exact:true}).getAttribute('aria-selected'),'true','Returning to the rankings starts with the accepted-problem board');
  await nav('任务').click();assert.equal(await page.locator('.summary-floating').count(),0);
- for(const width of [1280,900,640,390]){await page.setViewportSize({width,height:1000});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Document overflow at '+width);}
+ const headers=[];
+ for(const width of [2048,1280,900,640,390]){
+  await page.setViewportSize({width,height:1000});
+  for(const name of ['我的训练','任务','学习','竞赛','成长','排行榜']){
+   await nav(name).click();await page.waitForTimeout(40);
+   assert.equal(await page.locator('.topbar-actions [aria-label="任务概览"]').count(),0,'The redundant task overview button is removed');
+   const slot=await page.locator('#tb-page-bookmarks').evaluate(node=>{const css=getComputedStyle(node);return {overflowY:css.overflowY,scrollbarWidth:css.scrollbarWidth,webkitDisplay:getComputedStyle(node,'::-webkit-scrollbar').display};});
+   assert.equal(slot.overflowY,'hidden');assert.equal(slot.scrollbarWidth,'none');assert.equal(slot.webkitDisplay,'none');
+   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`Document overflow at ${width}/${name}`);
+   if(width===2048){const recommendation=await page.locator('.next-actions').boundingBox(),actions=await page.locator('.topbar-actions').boundingBox();assert(recommendation&&actions);assert(Math.abs(recommendation.y-actions.y)<30);assert(actions.x-recommendation.x-recommendation.width<=18,'Recommendation sits beside the right status area');}
+   headers.push({width,page:name,bookmarkScrollbarsHidden:true});
+  }
+ }
+ await page.setViewportSize({width:2048,height:1000});await nav('任务').click();await page.locator('.next-actions-primary').hover();await page.locator('.next-actions-flyout').waitFor();assert((await page.locator('.next-actions-item').count())<=4);await page.mouse.move(80,500);
+ await page.screenshot({path:out+'/updated-header.png'});await writeFile(out+'/header-catalogue.json',JSON.stringify({ok:true,headers,taskOverviewRemoved:true,recommendationBesideStatus:true,dropdownMaximum:4,introductionRemoved:true},null,2));
  assert.deepEqual(errors,[]);const result={ok:true,groupedNavigation:true,defaultGroups:6,independentCompetition:true,trainingTabs:3,competitionTabs:3,learningBookmarks:4,learningSearchInTopbar:true,focusedSearchAndQueryPreserved:true,rankingBookmarks:3,defaultRanking:'accepted',taskBookmarks:4,todayPageRemoved:true,dailySummaryRemoved:true,existingDailyDialog:true,timeSettingsDialog:true,mainlineVisibleAndSwitchable:true,phaseMastery:true,topicDetailsOnDemand:true,horizontalQuiz:true,emptyHistoryFixed:true,archivedTasksReadOnly:true,topLevelSplitRemoved:true,trainingPageStateIndependent:true,legacySplitMerged:true,legacyTodayLayoutMigrated:true,dragReorder:true,topLevelSinglePane:true,taskSurfaceOpacity:true,compactOverview:true,minimumMinutes:60,customTodoPersisted:true,completionAndDelete:true,layoutRestored:true,responsive:true,errors};await writeFile(out+'/result.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));
 }catch(error){await page.screenshot({path:out+'/failure.png',fullPage:true});throw error;}finally{await browser.close();await vite.close();}

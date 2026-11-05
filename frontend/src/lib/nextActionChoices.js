@@ -1,10 +1,13 @@
 import {planActions} from './learningSummaryModel.js';
 import {original} from './problemIdentity.js';
 
+// One primary action and at most four alternatives in the dropdown.
+export const MAX_NEXT_ACTION_CHOICES=5;
+
 // Choices are actual unfinished work or an existing picker. No completion or
 // ability evidence is inferred from opening one of these actions.
 export function nextActionChoices({snapshot,items=[],rows=[],training=[],dailyTasks,availablePages=[],activeContest,now=Date.now()}){
- if(activeContest)return items;
+ if(activeContest)return items.slice(0,MAX_NEXT_ACTION_CHOICES);
  const result=[],seen=new Set(),titles=new Set(),counts=new Map(),byId=new Map(rows.flatMap(row=>[row.id,...(row.aliasIds||[])].map(id=>[id,row]))),accepted=new Set([...rows,...training].filter(row=>row.accepted).map(row=>original(byId.get(row.id)||row)));
  const problemKinds=new Set(['problem','stretch','review','template-problem','knowledge-review','random']);
  const push=item=>{
@@ -25,5 +28,5 @@ export function nextActionChoices({snapshot,items=[],rows=[],training=[],dailyTa
  if(availablePages.includes('mine'))for(const task of training){if((counts.get('problem')||0)>=2)break;const row={...byId.get(task.id),...task};if(row.accepted||accepted.has(original(row))||['review','check'].includes(row.queue)||row.catalogHidden||row.locked||row.catalogContentReady!==true)continue;push({kind:'problem',page:'mine',id:row.id,title:row.title||'继续训练题',reason:'我的训练中尚未完成的题目'});}
  for(const item of items)push(item);
  if(availablePages.includes('mock'))push({kind:'replay',page:'mock',id:'replay-picker',title:'选择一场重现赛',reason:'从现有完整试卷中选择一场限时训练，按自己的可用时间安排；本轮任务完成后也可以继续。'});
- return result.slice(0,12);
+ return result.slice(0,MAX_NEXT_ACTION_CHOICES);
 }
