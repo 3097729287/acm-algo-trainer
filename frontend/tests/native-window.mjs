@@ -7,6 +7,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright';
+import { exerciseNativePlanning } from './native-learning-flow.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const packaged = process.argv.includes('--packaged');
@@ -28,6 +29,8 @@ if (packaged) delete runtimeEnvironment.TB_NATIVE_SOURCE_ROOT;
 else runtimeEnvironment.TB_NATIVE_SOURCE_ROOT = root;
 const child = spawn(binary, [], { windowsHide: true, cwd: packaged ? sandbox : root, env: runtimeEnvironment });
 let launchError;
+let nativeStderr = '';
+child.stderr?.on('data', data => { nativeStderr = (nativeStderr + data).slice(-8192); });
 child.on('error', error => { launchError = error; });
 let browser;
 const failures = [], consoleErrors = [];
@@ -115,6 +118,10 @@ try {
   if (!await editor.isVisible()) await page.locator('.problem-title').filter({ hasText: results.originalTitle }).first().click();
   await editor.waitFor();
   assert.equal((await editor.innerText()).trimEnd(), savedCode.trimEnd());
+  results.reactPlanning = await exerciseNativePlanning(page, output);
+  await page.locator('.sidebar').getByRole('button', { name: '我的训练', exact: true }).click();
+  await page.locator('.problem-title').filter({ hasText: results.originalTitle }).first().click();
+  await editor.waitFor();
   await page.setViewportSize({ width: 800, height: 650 });
   await page.screenshot({ path: resolve(output, 'react-workspace-narrow.png') });
   results.reactWorkspace = { saved: true, recoveredAfterReload: true, training: saved.training, problemId: saved.id };
@@ -126,6 +133,7 @@ try {
     scope: 'Native migration diagnostic; feature parity and full application resource comparison are still pending' }, null, 2) + '\n');
   console.log(`Native Tauri/WebView2 IPC passed: ${results.totalProblems} real problems, committed draft, wide/narrow screenshots; ${resolve(output, 'result.json')}`);
 } catch (error) {
+  await writeFile(resolve(output, 'failure-runtime.json'), JSON.stringify({ error: String(error), exitCode: child.exitCode, signal: child.signalCode, nativeStderr }, null, 2));
   const page = browser?.contexts().flatMap(context => context.pages())[0];
   if (page) {
     await page.screenshot({ path: resolve(output, 'failure.png') }).catch(() => {});

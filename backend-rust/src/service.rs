@@ -3,6 +3,7 @@ use crate::{
     catalogue::Catalogue,
     learning,
     library::{self, Library},
+    planner::Planner,
     preferences,
     storage::PersonalStore,
     templates,
@@ -45,6 +46,7 @@ pub const NATIVE_ROUTES: &[(&str, &str)] = &[
     ("GET", "learning-summary/history"),
     ("GET", "learning-summary/quiz"),
     ("POST", "learning-summary/update"),
+    ("POST", "learning-summary/refresh"),
     ("POST", "learning-summary/time"),
     ("POST", "preferences"),
     ("GET", "usage"),
@@ -205,7 +207,16 @@ impl Service {
                 | "training/remove"
                 | "training/clear"
         ) || method == "POST"
-            && (r.path == "preferences" || r.path == "draft" && self.catalogue.is_some())
+            && (r.path == "preferences"
+                || r.path == "draft" && self.catalogue.is_some()
+                || r.path == "learning-summary/refresh"
+                || r.path == "learning-summary/update"
+                    && !r.body.as_ref().is_some_and(|b| {
+                        matches!(
+                            b["action"].as_str(),
+                            Some("seen" | "view" | "delete-history")
+                        )
+                    }))
         {
             let catalogue = self
                 .catalogue
@@ -237,6 +248,19 @@ impl Service {
                     }
                 }
                 ("GET", "workspace") => training.workspace(),
+                ("POST", "learning-summary/refresh" | "learning-summary/update") => {
+                    let mut planner = Planner {
+                        training,
+                        curriculum: &self.curriculum,
+                        quizzes: &self.quizzes,
+                        builtins: &self.builtins,
+                    };
+                    if r.path.ends_with("/refresh") {
+                        planner.refresh()
+                    } else {
+                        planner.update(r.body.as_ref().unwrap())
+                    }
+                }
                 ("GET", "problem") => training.problem(r),
                 ("GET", "submissions") => training.submissions(r, false),
                 ("GET", "submission") => {
@@ -397,7 +421,8 @@ impl Service {
                         "training/remove",
                         "training/clear",
                         "learning-summary",
-                        "learning-summary/update"
+                        "learning-summary/update",
+                        "learning-summary/refresh"
                     ]
                     .contains(&path)
                     {

@@ -20,7 +20,7 @@ function LocalWorkspace() {
       window.__tbAccount = { userId: capabilities.owner, nickname: '本地测试', loginId: '' };
       const saved = await request('preferences');
       const preferences = saved.preferences || {};
-      const required = ['library', 'wiki', 'templates', 'lectures'];
+      const required = ['library', 'wiki', 'templates', 'lectures', 'tasks'];
       const paths = preferences.learningPaths || {};
       if (!required.every(id => paths.navigationAccess?.retained?.includes(id))) {
         const retained = [...new Set([...(paths.navigationAccess?.retained || []), ...required])];
@@ -33,7 +33,7 @@ function LocalWorkspace() {
   }, []);
   if (error) return <main className="native-migration"><p role="alert">{error}</p><button onClick={() => { location.hash = 'native-check'; }}>返回迁移检查</button></main>;
   if (!ready) return <main className="native-migration"><p>正在读取本地测试工作区…</p></main>;
-  return <><BackgroundPlayback/><App/></>;
+  return <><BackgroundPlayback/><App localNavigation/></>;
 }
 
 export default function NativeRoot() {

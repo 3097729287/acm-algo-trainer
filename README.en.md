@@ -2,7 +2,7 @@ The latest local 1.6.1 interface adds split bookmarks for My Training, Library a
 
 The local 1.6.1 interface revision adds the chosen task workspace, daily and weekly tasks, private to-dos, persistent split bookmarks, grouped navigation, and a 60-minute minimum study budget with +30/+60 controls. Fourteen distinct atmospheric backgrounds replace rarity duplicates, including a legendary Milky Way scene. The supplied sticker and sound approvals are applied. The shared drop catalogue is updated in source and awaits service deployment; existing installers and public downloads retain their original build. See [release notes](docs/releases/1.6.1.md).
 
-Rust migration branch `2.0.0-alpha.2` is for local testing only. Tauri + React + Rust IPC connects 29 of 134 legacy endpoints, with explicit partial scopes; the existing React workspace can open ordinary practice and save/recover drafts. Complete parity and resource comparisons remain pending. Formal updates continue using the existing React + Python architecture and packaging workflow; the normal version remains 1.6.1. See [migration progress and verification](docs/native-migration.md).
+Rust migration branch `2.0.0-alpha.3` is for local testing only. Tauri + React + Rust IPC connects 30 of 134 legacy endpoints, with explicit partial scopes. The original React UI verifies ordinary practice, draft recovery, local weekly plans, concept checks, mainline changes and archived plans. Complete official/review/contest evidence and resource comparisons remain pending. Formal updates continue using React + Python and the existing packaging workflow; the normal version remains 1.6.1. See [migration progress and verification](docs/native-migration.md).
 
 # ToBe · Training Workbench
 

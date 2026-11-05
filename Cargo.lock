@@ -3453,7 +3453,7 @@ checksum = "fd3ca314f692efd6c868f8408f53fe444634a845f96c028b97d35f6a1f79f0ee"
 
 [[package]]
 name = "tobe-core"
-version = "2.0.0-alpha.2"
+version = "2.0.0-alpha.3"
 dependencies = [
  "base64 0.22.1",
  "chrono",
@@ -3468,7 +3468,7 @@ dependencies = [
 
 [[package]]
 name = "tobe-desktop"
-version = "2.0.0-alpha.2"
+version = "2.0.0-alpha.3"
 dependencies = [
  "serde_json",
  "tauri",

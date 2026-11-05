@@ -1,5 +1,5 @@
 param(
-    [string]$Destination = 'E:\项目\ToBe\临时验证\Rust本地测试\2.0.0-alpha.2',
+    [string]$Destination = 'E:\项目\ToBe\临时验证\Rust本地测试\2.0.0-alpha.3',
     [switch]$VerifyOnly
 )
 $ErrorActionPreference = 'Stop'
@@ -49,7 +49,7 @@ foreach ($entry in $members.GetEnumerator()) {
 }
 $commit = git -C $sourceRoot rev-parse HEAD
 $info = [ordered]@{
-    version='2.0.0-alpha.2'; status='native-local-test'; releaseReady=$false
+    version='2.0.0-alpha.3'; status='native-local-test'; releaseReady=$false
     createdAt=[DateTime]::UtcNow.ToString('o'); sourceCommit=$commit; sourceRoot=$sourceRoot
     entry='ToBe-Rust.exe'; runtime='Tauri 2 + React + Rust + SQLite'; pythonRuntime=$false
     replacesCurrentInstallation=$false; publicRelease=$false; members=$manifest

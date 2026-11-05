@@ -4,6 +4,7 @@ pub mod catalogue;
 pub mod learning;
 pub mod library;
 pub mod migration;
+pub mod planner;
 pub mod preferences;
 pub mod service;
 pub mod storage;

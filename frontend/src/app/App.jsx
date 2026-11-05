@@ -596,7 +596,7 @@ function KnowledgeTree({
 
 const foundationListState=()=>({curriculumVersion:1,mode:'algorithm',folder:['01 编程基础'],trail:[],sections:[],flat:false,query:'',page:1});
 
-export default function App() {
+export default function App({ localNavigation = false }) {
   useNavigationKeys();
   const [finishAnchor,setFinishAnchor] = useState(null);
   const [clearTrainingAnchor,setClearTrainingAnchor] = useState(null);
@@ -2123,7 +2123,7 @@ export default function App() {
           </button>
 
         </div>
-        <ReorderableNavigation entries={navigationEntries} pending={navigation.pending} fallback={<NavigationPending/>} onReorder={entries=>setPrefs(previous=>{
+        <ReorderableNavigation entries={navigationEntries} pending={navigation.pending&&!localNavigation} fallback={<NavigationPending/>} onReorder={entries=>setPrefs(previous=>{
           const visible=entries.flatMap(entry=>entry.members?entry.members.map(member=>member.id):[entry.id]);
           const selected=new Set(visible),queue=[...visible];
           const navOrder=orderedPages(PAGES,previous).map(entry=>selected.has(entry.id)?queue.shift():entry.id);
@@ -2199,8 +2199,8 @@ export default function App() {
           </div>
         )}
         {!practiceId && !LEARNING_PAGES.includes(page) && !TRAINING_PAGES.includes(page) && mergedPages.length > 1 && <div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}{item.id === "mine" && dueCount > 0 && <i className="training-tab-dot" role="img" aria-label="有未完成训练待办" />}</button>)}</div>}
+        <TaskContinuation owner={account?.userId||'local'} snapshot={learningSummary.snapshot} training={workspace.training} actions={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]} content={studyContent||((practiceId||studyProblemId)?{kind:'problem',id:practiceId||studyProblemId}:null)} update={learningSummary.update} onOpen={openRecommendation} suspended={Boolean(active||loading)} insideStudy={learningBrowserActive}/>
         <div data-page={practiceId ? "practice" : page} className={"workspace-area " + (practiceId ? "practicing" : "")} style={{ '--page-opacity': `var(--opacity-${practiceId ? 'mock' : page}, var(--panel-opacity))` }}>
-          <TaskContinuation owner={account?.userId||'local'} snapshot={learningSummary.snapshot} training={workspace.training} actions={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]} content={studyContent||((practiceId||studyProblemId)?{kind:'problem',id:practiceId||studyProblemId}:null)} update={learningSummary.update} onOpen={openRecommendation} suspended={Boolean(active||loading)} insideStudy={learningBrowserActive}/>
           <Suspense fallback={<div className="loading-screen" role="status"><LoaderCircle size={27} className="spin" /><p>正在载入</p></div>}>
           {loading ? (
             <div className="loading-screen">

@@ -322,7 +322,7 @@ impl Training<'_> {
                 }
             }
         }
-        let tx = self.personal.db.transaction()?;
+        let tx = self.personal.db.savepoint()?;
         for record in training.as_array().unwrap() {
             let mut mock = truth(&record["mock_due"]);
             if mock
