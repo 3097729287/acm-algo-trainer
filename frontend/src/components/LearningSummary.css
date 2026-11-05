@@ -24,3 +24,6 @@ html .lectures-detail-bar>.lecture-next,html .lecture-prerequisites>button,html 
  .learning-task-dialog::backdrop{background:#080c1470}
  .learning-task-dialog>header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}.learning-task-dialog h2{font-size:1.15rem;margin:0}.learning-task-dialog h3{font-size:1rem;line-height:1.7}
  .learning-task-dialog form,.learning-task-dialog form>label{display:flex;flex-direction:column;gap:14px}.learning-task-dialog textarea{min-height:110px;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:5px;padding:10px;font:inherit}
+.summary-quiz-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));gap:10px;align-items:stretch;margin-top:16px}
+.summary-quiz-options>button{display:flex;align-items:center;justify-content:center;min-width:0;min-height:46px;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--hover);color:var(--text);font:inherit;font-size:.9rem;line-height:1.6;text-align:center;overflow-wrap:anywhere;cursor:pointer}
+.summary-quiz-options>button:hover{border-color:var(--accent);background:var(--accent-soft)}.summary-quiz-options>button:disabled{opacity:.5;cursor:default}

@@ -156,6 +156,7 @@ const loadWorkbench = () => import("./Workbench.jsx");
 const Workbench = lazy(loadWorkbench);
 const TasksBoard=lazy(()=>import('@/components/TasksBoard.jsx'));
 const LEARNING_PAGES=['lectures','wiki','templates','paths'];
+const TRAINING_PAGES=['mine','library','training-lists'];
 const PAGE_GROUPS={mine:'我的训练',library:'我的训练','training-lists':'我的训练',competitions:'竞赛',mock:'竞赛',duel:'竞赛',growth:'成长',records:'成长',activity:'成长',lectures:'学习',wiki:'学习',templates:'学习',paths:'学习'};
 const GROUP_ICONS={'我的训练':Target,'竞赛':Flag,'成长':ChartNoAxesCombined,'学习':BookOpen};
 const AccountPanel=lazy(()=>import('@/components/AccountPanel.jsx'));
@@ -677,8 +678,10 @@ export default function App() {
   const token = useRef(""),
     loadSeq = useRef(0),
     workspaceTime = useRef(0),
-    searchRef = useRef(null),
-    listRef = useRef(null),
+    searchRefs = useRef({mine:{current:null},library:{current:null}}),
+    listRefs = useRef({mine:{current:null},library:{current:null}}),
+    inactiveSearchRef = useRef(null),
+    inactiveListRef = useRef(null),
     toastTimer = useRef(null),
     readerSeq = useRef(0),
     contextRef = useRef(null),
@@ -687,6 +690,7 @@ export default function App() {
     selectedRef = useRef(null),
     serverOffset = useRef(0),
     previousActive = useRef(null);
+  const searchRef=searchRefs.current[page]||inactiveSearchRef,listRef=listRefs.current[page]||inactiveListRef;
   const api = useCallback((path, body) => request(path, body, token.current), []);
   const [account, setAccount] = useState(() => window.__tbAccount || null);
   const [recommendationSnapshot,setRecommendationSnapshot]=useState({owner:null,items:[]});
@@ -1153,43 +1157,44 @@ export default function App() {
     mineQuery = useDeferredValue(filters.mine.query);
   const currentFilters = filters[page] || blankFilters(),
     query = page === "mine" ? mineQuery : libraryQuery;
-  const visible = useMemo(() => {
-    if (!["library", "mine"].includes(page)) return [];
-    const base = page === "mine" ? todayMine : rows.filter(row => !row.catalogHidden),
-      params = { ...currentFilters, query, favorites: prefs.favorites };
+  const visibleByPage = useMemo(() => Object.fromEntries(["mine","library"].map(target => {
+    const targetFilters=filters[target],targetQuery=target==='mine'?mineQuery:libraryQuery;
+    const base = target === "mine" ? todayMine : rows.filter(row => !row.catalogHidden),
+      params = { ...targetFilters, query:targetQuery, favorites: prefs.favorites };
     let filtered = filterRows(base, params);
-    if (page === "mine" && params.setId === "@single") {
+    if (target === "mine" && params.setId === "@single") {
       const grouped = new Set([...workspace.sets.flatMap(set => set.ids || []), ...workspace.contests.flatMap(contest => contest.slots?.map(slot => slot.id) || [])]);
       filtered = filtered.filter(row => !grouped.has(row.id));
-    } else if (page === "mine" && params.setId) {
+    } else if (target === "mine" && params.setId) {
       const set =
         workspace.sets?.find((s) => s.id === params.setId) ||
         workspace.contests?.find((s) => s.id === params.setId);
       const ids = new Set(set?.ids || set?.slots?.map((s) => s.id) || []);
       filtered = filtered.filter((r) => ids.has(r.id));
     }
-    if (page === "mine") {
+    if (target === "mine") {
       filtered.sort((left, right) => trainingPriority(left) - trainingPriority(right));
     }
-    if (listOrder?.page === page && listOrder.filters === currentFilters && listOrder.query === query) {
+    if (listOrder?.page === target && listOrder.filters === targetFilters && listOrder.query === targetQuery) {
       const positions = new Map(listOrder.ids.map((id, index) => [id, index]));
       filtered.sort((left, right) => (positions.get(left.id) ?? Infinity) - (positions.get(right.id) ?? Infinity));
     }
-    return filtered;
-  }, [
-    page,
+    return [target,filtered];
+  })), [
     todayMine,
     rows,
     workspace.goalTasks,
-    currentFilters,
-    query,
+    filters,
+    mineQuery,
+    libraryQuery,
     prefs.favorites,
     workspace.sets,
     workspace.contests,
     listOrder,
   ]);
-  const libraryPageSize=useFittedPageSize(listRef,`${page}:${Boolean(data)}:${Boolean(practiceId)}`,"tbody tr[data-id]");
-  const libraryPages = Math.max(1, Math.ceil(visible.length / libraryPageSize)),
+  const visible=useMemo(()=>visibleByPage[page]||[],[visibleByPage,page]);
+  const libraryPageSize=useFittedPageSize(listRefs.current.library,`${page}:${Boolean(data)}:${Boolean(practiceId)}`,"tbody tr[data-id]");
+  const libraryPages = Math.max(1, Math.ceil(visibleByPage.library.length / libraryPageSize)),
     currentLibraryPage = Math.min(libraryPage, libraryPages),
     libraryStart = (currentLibraryPage - 1) * libraryPageSize;
   const displayedRows = useMemo(
@@ -1198,7 +1203,7 @@ export default function App() {
   );
   useEffect(() => { setLibraryPage(1); }, [filters.library, libraryQuery]);
   useEffect(() => { if (page === "library") setLibraryPage(currentLibraryPage); }, [page, currentLibraryPage]);
-  useEffect(() => { if (page === "library") listRef.current?.scrollTo({ top: 0 }); }, [page, currentLibraryPage, libraryPageSize]);
+  useEffect(() => { listRefs.current.library.current?.scrollTo({ top: 0 }); }, [currentLibraryPage, libraryPageSize]);
   visibleRef.current = visible;
   selectedRef.current = selected;
   useEffect(() => {
@@ -1336,8 +1341,8 @@ export default function App() {
       focusList();
     } catch (e) { notice(e.message, "error"); }
   }
-  function resetFilters() {
-    setFilters((f) => ({ ...f, [page]: blankFilters() }));
+  function resetFilters(target=page) {
+    setFilters((f) => ({ ...f, [target]: blankFilters() }));
   }
   function toggleFavorite(id) {
     setPrefs((p) => ({
@@ -1347,10 +1352,10 @@ export default function App() {
         : [...p.favorites, id],
     }));
   }
-  function focusList() {
-    requestAnimationFrame(() => listRef.current?.focus({ preventScroll: true }));
+  function focusList(target=page) {
+    requestAnimationFrame(() => (listRefs.current[target]||listRef).current?.focus({ preventScroll: true }));
   }
-  async function openPractice(id, { assisted = false, problemIds = null, recommendation = null, stage = null, newTab = false, restoreReviewId = null } = {}) {
+  async function openPractice(id, { assisted = false, problemIds = null, recommendation = null, stage = null, newTab = false, restoreReviewId = null, sourcePage = page } = {}) {
     if (!id || busy) return;
     if (active?.slots.some((s) => s.id === id)) {
       learningBrowserRef.current?.hide({silent:true});
@@ -1364,13 +1369,13 @@ export default function App() {
     void loadWorkbench().catch(()=>{});
     // Start the bounded statement fetch while training activation is persisted.
     const prepared = api(`problem?id=${encodeURIComponent(id)}&background=1`).catch(()=>null);
-    const list = listRef.current;
-    const context = contextRef.current && (practiceId||learningBrowserActive&&contextRef.current.page===page) ? contextRef.current : {
-      page, ids: problemIds || visibleRef.current.map(row => row.id), id, libraryPage: currentLibraryPage,
+    const list = listRefs.current[sourcePage]?.current;
+    const context = contextRef.current && (practiceId||learningBrowserActive&&contextRef.current.page===sourcePage) ? contextRef.current : {
+      page:sourcePage, ids: problemIds || (visibleByPage[sourcePage]||visibleRef.current).map(row => row.id), id, libraryPage: currentLibraryPage,
       scrollTop: list?.scrollTop || 0, scrollLeft: list?.scrollLeft || 0,
     };
     if (list) {
-      setListOrder({ page, filters: currentFilters, query, ids: context.ids });
+      setListOrder({ page:sourcePage, filters: filters[sourcePage], query:sourcePage==='mine'?mineQuery:libraryQuery, ids: context.ids });
     }
     pointerPosition.current = null;
     setHoveredRow(null);
@@ -1861,36 +1866,37 @@ export default function App() {
     return () => window.removeEventListener("keydown", keyboard, true);
   });
 
-  function renderRows(items) {
+  function renderRows(items,listPage) {
     return items.map((row) => (
       <tr
         key={row.id}
         data-id={row.id}
-        data-selected={keyboardSelection && selected === row.id}
-        aria-selected={keyboardSelection && selected === row.id}
-        data-hovered={hoveredRow === row.id}
+        data-selected={page===listPage && keyboardSelection && selected === row.id}
+        aria-selected={page===listPage && keyboardSelection && selected === row.id}
+        data-hovered={page===listPage && hoveredRow === row.id}
         onClick={(e) => {
           if (!e.target.closest("button,a,input,select,label,summary")) {
             setSelected(row.id);
-            openPractice(row.id);
+            openPractice(row.id,{sourcePage:listPage});
           }
         }}
       >
-        <ProblemCells row={row} favorites={prefs.favorites} showPlatforms={prefs.showPlatforms} busy={busy} onTrain={id=>{setSelected(id);openPractice(id);}} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined} onRemove={page==='mine'?removeTraining:undefined}/>
+        <ProblemCells row={row} favorites={prefs.favorites} showPlatforms={prefs.showPlatforms} busy={busy} onTrain={id=>{setSelected(id);openPractice(id,{sourcePage:listPage});}} onTag={node=>filterCategory(node,listPage)} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined} onRemove={listPage==='mine'?removeTraining:undefined}/>
       </tr>
     ));
   }
-  function renderTable(items) {
+  function renderTable(items,listPage) {
+    const currentFilters=filters[listPage];
     const goalIds = new Set((workspace.goalTasks || []).map(task => task.id));
     const groupOf=row=>trainingGroup(row,goalIds);
-    const groups = page === "mine" ? [
+    const groups = listPage === "mine" ? [
       { id: "goals", name: "今日目标", color: "accent", rows: items.filter(row => groupOf(row)==='goals') },
       ...QUEUES.map(queue => ({ ...queue, rows: items.filter(row => groupOf(row)===queue.id) })),
       { id: "practice", name: "继续练习", color: "neutral", rows: items.filter(row => groupOf(row)==='practice') },
       { id: "accepted", name: "已 AC", color: "green", rows: items.filter(row => groupOf(row)==='accepted') },
     ] : null;
     return (
-      <div className="table-scroll" ref={listRef} tabIndex={0} role="region" aria-label="题目列表"
+      <div className="table-scroll" ref={node=>{const ref=listRefs.current[listPage];if(ref.current)ref.position={top:ref.current.scrollTop,left:ref.current.scrollLeft};ref.current=node;if(node&&ref.position){node.scrollTop=ref.position.top;node.scrollLeft=ref.position.left;}}} tabIndex={0} role="region" aria-label="题目列表"
         onPointerMove={event => {
           pointerPosition.current = { x:event.clientX,y:event.clientY };
           setHoveredRow(event.target.closest('tr[data-id]')?.dataset.id || null);
@@ -1901,29 +1907,32 @@ export default function App() {
           const position=pointerPosition.current;
           if (!position) return;
           const row=document.elementFromPoint(position.x,position.y)?.closest('tr[data-id]');
-          setHoveredRow(row && listRef.current?.contains(row) ? row.dataset.id : null);
+          setHoveredRow(row && listRefs.current[listPage].current?.contains(row) ? row.dataset.id : null);
         }}>
         <table className="problem-table">
-          <ProblemTableHead onSort={()=>setFilter({sort:'difficulty',desc:currentFilters.sort==='difficulty'?!currentFilters.desc:false})} sorted={currentFilters.sort==='difficulty'} descending={currentFilters.desc}/>
+          <ProblemTableHead onSort={()=>setFilter({sort:'difficulty',desc:currentFilters.sort==='difficulty'?!currentFilters.desc:false},listPage)} sorted={currentFilters.sort==='difficulty'} descending={currentFilters.desc}/>
           <tbody>{groups ? groups.filter(group => group.rows.length).map(group => (
             <FragmentRows key={group.id} header={<tr className={"queue-heading " + group.color}><td colSpan={6}><strong>{group.name}</strong><span>{group.rows.length} 题</span></td></tr>}>
-              {renderRows(group.rows)}
+              {renderRows(group.rows,listPage)}
             </FragmentRows>
-          )) : renderRows(items)}</tbody>
+          )) : renderRows(items,listPage)}</tbody>
         </table>
-        {!items.length && <Empty icon={page === "mine" && !todayMine.length ? Check : Search} title={page === "mine" && !todayMine.length ? "今天暂无训练题目" : "没有匹配的题目"} description={page === "mine" && !todayMine.length ? "到期复习会自动出现在这里，也可以去题库开始今天的练习。" : "试试减少筛选条件，或换一个关键词。"}>
-          <button className="secondary" onClick={resetFilters}>清除筛选</button>
+        {!items.length && <Empty icon={listPage === "mine" && !todayMine.length ? Check : Search} title={listPage === "mine" && !todayMine.length ? "今天暂无训练题目" : "没有匹配的题目"} description={listPage === "mine" && !todayMine.length ? "到期复习会自动出现在这里，也可以去题库开始今天的练习。" : "试试减少筛选条件，或换一个关键词。"}>
+          <button className="secondary" onClick={()=>resetFilters(listPage)}>清除筛选</button>
           <button className="primary" onClick={() => go("library")}>选择新的练习</button>
         </Empty>}
       </div>
     );
   }
-  function toolbar() {
-    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}}/>{page==='mine'&&<Tooltip text="清空我的训练"><button type="button" className="icon-button clear-training-trigger" aria-label="清空我的训练" disabled={busy||!clearableMine.length||!!active||!!workspace.summary.pending} onClick={event=>setClearTrainingAnchor(event.currentTarget)}><Trash2 size={17}/></button></Tooltip>}{page==='library'&&featureAvailable('training-lists')&&<Tooltip text={Boolean(currentFilters.query||currentFilters.category||currentFilters.result||currentFilters.catalogPath?.length)?`将筛选结果加入题单（${visible.length} 道题）`:`加入题单（${visible.length} 道题）`}><button type="button" className="icon-button" aria-label="将筛选结果加入题单" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>setListProblemIds(visible.map(row=>row.id))}><ListPlus size={17}/></button></Tooltip>}{page==='library'&&<RandomProblem rows={visible} disabled={busy||query!==currentFilters.query} onChoose={openPractice} onError={error=>notice(error.message,'error')}/>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
+  function toolbar(listPage) {
+    const page=listPage,currentFilters=filters[listPage],visible=visibleByPage[listPage],query=listPage==='mine'?mineQuery:libraryQuery;
+    const updateFilter=patch=>setFilter(patch,listPage),reset=()=>resetFilters(listPage);
+    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRefs.current[listPage]} aria-label="搜索题目" value={currentFilters.query} onChange={event=>updateFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList(listPage);}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>updateFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={updateFilter} onReset={reset} onSave={()=>{setViewName('');setDialog('saveView');}}/>{page==='mine'&&<Tooltip text="清空我的训练"><button type="button" className="icon-button clear-training-trigger" aria-label="清空我的训练" disabled={busy||!clearableMine.length||!!active||!!workspace.summary.pending} onClick={event=>setClearTrainingAnchor(event.currentTarget)}><Trash2 size={17}/></button></Tooltip>}{page==='library'&&featureAvailable('training-lists')&&<Tooltip text={Boolean(currentFilters.query||currentFilters.category||currentFilters.result||currentFilters.catalogPath?.length)?`将筛选结果加入题单（${visible.length} 道题）`:`加入题单（${visible.length} 道题）`}><button type="button" className="icon-button" aria-label="将筛选结果加入题单" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>setListProblemIds(visible.map(row=>row.id))}><ListPlus size={17}/></button></Tooltip>}{page==='library'&&<RandomProblem rows={visible} disabled={busy||query!==currentFilters.query} onChoose={openPractice} onError={error=>notice(error.message,'error')}/>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>updateFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
   }
 
-  function renderListPage() {
-    if (page === "mine" && !mine.length&&!learningSummary.snapshot?.plan)
+  function renderListPage(listPage) {
+    const visible=visibleByPage[listPage],items=listPage==='library'?visible.slice(libraryStart,libraryStart+libraryPageSize):visible;
+    if (listPage === "mine" && !mine.length&&!learningSummary.snapshot?.plan)
       return (
         <Empty
           icon={Target}
@@ -1943,10 +1952,10 @@ export default function App() {
         </Empty>
       );
     return (
-      <div className="list-page">
-        {toolbar()}
-        {renderTable(displayedRows)}
-        {page === "library" ? <PagePagination label="题库分页" count={`共 ${visible.length} 题`} page={currentLibraryPage} pages={libraryPages} onPageChange={setLibraryPage} previousLabel="题库上一页" nextLabel="题库下一页" onPrevious={()=>setLibraryPage(currentLibraryPage-1)} onNext={()=>setLibraryPage(currentLibraryPage+1)}/> : <div className="list-footer"><span role="status">共 {visible.length} 题</span></div>}
+      <div className="list-page" style={{'--page-opacity':`var(--opacity-${listPage}, var(--panel-opacity))`}}>
+        {toolbar(listPage)}
+        {renderTable(items,listPage)}
+        {listPage === "library" ? <PagePagination label="题库分页" count={`共 ${visible.length} 题`} page={currentLibraryPage} pages={libraryPages} onPageChange={setLibraryPage} previousLabel="题库上一页" nextLabel="题库下一页" onPrevious={()=>setLibraryPage(currentLibraryPage-1)} onNext={()=>setLibraryPage(currentLibraryPage+1)}/> : <div className="list-footer"><span role="status">共 {visible.length} 题</span></div>}
       </div>
     );
   }
@@ -2019,6 +2028,11 @@ export default function App() {
   }
   function settingsPage() {
     return <PreferencesPage availablePages={visiblePageIds} level={navigationLevel} rows={rows} insights={insights} onTrain={openPractice} tab={settingsTab} onTab={setSettingsTab} prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={applyFullscreen} api={api} softwareUpdate={softwareUpdate} hub={hub} account={account} accountFocus={accountFocus} profileSnapshot={profileSnapshot} onProfileChanged={profileChanged} onRefresh={()=>refreshBackground(true)} onHubChanged={setHub} onError={message=>notice(message, "error")} onContent={openUpdate} onMessages={()=>setDialog("updates")} onTutorial={openGuide} onKeyboard={()=>{setPage("settings");setSettingsTab("training");}} commands={{pages:PAGES,items:commands}}/>;
+  }
+
+  function renderTrainingPanel(id) {
+    if(id!=='training-lists')return renderListPage(id);
+    return <TrainingListsPage level={experienceAccess?.allNavigationUnlocked?6:navigationLevel} onLocationChange={location=>setPrefs(previous=>JSON.stringify(previous.trainingListLocation)===JSON.stringify(location)?previous:{...previous,trainingListLocation:location})} rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} navigationRequest={trainingListRequest} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined}/>;
   }
 
   function renderLearningPanel(id) {
@@ -2184,7 +2198,7 @@ export default function App() {
             <button onClick={() => reload(true)}>重新读取</button>
           </div>
         )}
-        {!practiceId && !LEARNING_PAGES.includes(page) && mergedPages.length > 1 && <div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}{item.id === "mine" && dueCount > 0 && <i className="training-tab-dot" role="img" aria-label="有未完成训练待办" />}</button>)}</div>}
+        {!practiceId && !LEARNING_PAGES.includes(page) && !TRAINING_PAGES.includes(page) && mergedPages.length > 1 && <div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}{item.id === "mine" && dueCount > 0 && <i className="training-tab-dot" role="img" aria-label="有未完成训练待办" />}</button>)}</div>}
         <div data-page={practiceId ? "practice" : page} className={"workspace-area " + (practiceId ? "practicing" : "")} style={{ '--page-opacity': `var(--opacity-${practiceId ? 'mock' : page}, var(--panel-opacity))` }}>
           <TaskContinuation owner={account?.userId||'local'} snapshot={learningSummary.snapshot} training={workspace.training} actions={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]} content={studyContent||((practiceId||studyProblemId)?{kind:'problem',id:practiceId||studyProblemId}:null)} update={learningSummary.update} onOpen={openRecommendation} suspended={Boolean(active||loading)} insideStudy={learningBrowserActive}/>
           <Suspense fallback={<div className="loading-screen" role="status"><LoaderCircle size={27} className="spin" /><p>正在载入</p></div>}>
@@ -2212,11 +2226,11 @@ export default function App() {
               onNext={nextPractice}
             />
           ) : page==='tasks' ? (
-            <TasksBoard key={account?.userId||'local'} owner={account?.userId||'local'} initialView={taskView} onView={setTaskView} model={learningSummary} api={api} prefs={prefs} setPrefs={setPrefs} onOpenTask={openSummaryTask} onOpenDailyTasks={()=>setDialog('daily-tasks')} dailyTasks={insights?.dailyTasks} onNextAction={task=>{const item=recommendationSnapshot.items.find(item=>!item.summaryTask&&item.id!==task?.id);if(item)openRecommendation(item);}}/>
+            <TasksBoard key={account?.userId||'local'} owner={account?.userId||'local'} initialView={taskView} onView={setTaskView} model={learningSummary} api={api} prefs={prefs} setPrefs={setPrefs} onOpenTask={openSummaryTask} problemRows={rows} onNextAction={task=>{const item=recommendationSnapshot.items.find(item=>!item.summaryTask&&item.id!==task?.id);if(item)openRecommendation(item);}}/>
           ) : LEARNING_PAGES.includes(page) ? (
             <SectionWorkspace key={'learning:'+(account?.userId||'local')} id="learning" entries={LEARNING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label}))} activeId={page} onActivate={setPage} render={renderLearningPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
-          ) : ["mine", "library"].includes(page) ? (
-            renderListPage()
+          ) : TRAINING_PAGES.includes(page) ? (
+            <SectionWorkspace key={'training:'+(account?.userId||'local')} id="training" entries={TRAINING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label,icon:item.icon,attention:item.id==='mine'&&dueCount>0}))} activeId={page} onActivate={setPage} render={renderTrainingPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
           ) : page === "mock" ? (
             <div className="mock-page">{record ? recordDetail() : <>{active && mockTab === "create" ? (
               <div className="contest-player">
@@ -2325,8 +2339,6 @@ export default function App() {
             <GoalsPanel api={api} overview={workspace.goals} onChanged={() => reload()} />
           ) : page === "activity" ? (
             <ActivityPage insights={insights} onTrain={openPractice} />
-          ) : page === "training-lists" ? (
-            <TrainingListsPage level={experienceAccess?.allNavigationUnlocked?6:navigationLevel} onLocationChange={location=>setPrefs(previous=>JSON.stringify(previous.trainingListLocation)===JSON.stringify(location)?previous:{...previous,trainingListLocation:location})} rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} navigationRequest={trainingListRequest} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined}/>
           ) : page === "rankings" ? (
             <RankingsWorkspace key={account?.userId||'local'} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'} presence={presence} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
           ) : (

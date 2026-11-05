@@ -1,3 +1,7 @@
+## 设计理念和任务工作区检查
+
+新增功能、制作新内容或调整界面前先完整阅读[设计理念](design-principles.md)。`npm run test:sections --prefix frontend` 检查训练分屏、搜索与翻页隔离、任务层级、七格掌握进度、时间弹窗及空历史；在 `frontend` 下运行 `node tests/learning-summary.mjs`，验证隔离 SQLite 中保存与取消、主线替换及历史保留、真实阅读完成后接续。
+
 ## 1.6.1 工作区与背景检查
 
 `npm run test:sections --prefix frontend` 检查真实应用中的组合导航、学习与任务书签、拖动分屏、布局恢复、时间下限和私有待办。`npm run test:atmosphere --prefix frontend` 使用旧 52 份背景库存检查主题去重、份数保留、摆放与背景交互。`node frontend/scripts/build-material-review.mjs` 和 `node frontend/scripts/build-task-workspace-preview.mjs` 构建可离线打开的单文件预览，复用正式组件。构建前会从共享奖励配置生成前端展示策略。

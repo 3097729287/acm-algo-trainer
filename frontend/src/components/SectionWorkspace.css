@@ -7,6 +7,20 @@
 .section-bookmarks>button[draggable=true]{cursor:grab}.section-bookmarks>.section-split-button{margin-left:auto;padding:0 10px}.section-split-button:disabled{opacity:.3}
 .section-document{min-height:0;flex:1;display:flex;flex-direction:column;overflow:hidden}.section-document[hidden]{display:none!important}
 .section-document-content{min-height:0;flex:1;overflow:auto;position:relative}.section-document-content>.wiki-page,.section-document-content>.templates-page,.section-document-content>.learning-paths-page,.section-document-content>.lectures-panel{min-height:100%}
+.section-workspace[data-section=training] .section-document-content{display:flex;padding:15px 18px 14px;overflow:hidden;container:training-pane/inline-size}
+.section-workspace[data-section=training] .section-bookmarks>button[role=tab]{display:inline-flex;align-items:center;gap:7px}
+.section-workspace[data-section=training] .problem-table{min-width:900px}
+.section-workspace[data-section=training] .problem-table :is(th,td):nth-child(1){width:280px}
+.section-workspace[data-section=training] .problem-table :is(th,td):nth-child(2){width:190px}
+@container training-pane (max-width:600px){
+ .training-list-directory{flex-wrap:wrap;gap:5px;padding-inline:9px}.training-list-directory .catalog-path{flex-basis:100%}.training-list-directory .training-list-summary{flex-basis:100%;justify-content:flex-start;padding-block:0 7px;font-size:.72rem}
+ .training-list-content .catalog-folder-row{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:8px;padding:12px;min-height:76px;height:auto;max-height:none}
+ .training-list-content .catalog-folder-row>strong{grid-column:2;grid-row:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .training-list-content .catalog-folder-row>svg:first-child{grid-column:1;grid-row:1}.training-list-content .catalog-folder-row>svg:last-child{grid-column:3;grid-row:1}
+ .training-list-content .catalog-folder-row>.training-folder-progress{grid-column:2;grid-row:2;min-width:0;width:100%;margin:0;gap:7px}
+ .training-list-content .catalog-folder-row>span:not(.training-folder-progress){grid-column:3;grid-row:2;font-size:.7rem;white-space:nowrap}
+ .training-folder-progress-count{min-width:0;font-size:.7rem}
+}
 .section-document-tools:has(>div:not(:empty)){display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .section-document-tools .page-search-controls{display:flex;align-items:center;gap:6px;max-width:100%}.section-document-tools .search-box{max-width:300px;width:100%}
 .section-divider{grid-row:1;cursor:col-resize;background:transparent;z-index:5;touch-action:none;outline:none}.section-divider:hover,.section-divider:focus-visible{background:var(--accent-soft)}
