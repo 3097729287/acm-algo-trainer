@@ -57,6 +57,9 @@ try{
   for(let i=0;i<60&&await page.locator('.coffee-shards').count()===0;i++)await page.clock.runFor(16);
   const ceramic='.coffee-shards';assert.equal(await page.locator(ceramic).count(),1,'A real cup drag and ground impact triggers fracture');
   const cupFirst=await sample(page,ceramic);assert(cupFirst.pieces.length>=20);assert.equal(await page.locator(ceramic+' .coffee-steam').count(),0);
+  assert(cupFirst.time>=1/60-.001,'The contact frame already advances and renders the fracture');
+  assert(await page.locator(ceramic+' [data-fracture-piece]').evaluateAll(pieces=>pieces.every(piece=>piece.hasAttribute('transform'))),'No complete, stationary cup pose is presented on contact');
+  assert(Math.max(...cupFirst.pieces.filter(p=>p.mode==='eject').map(p=>Math.hypot(p.x-p.cx,p.y-p.cy)))>2,'Ejected fragments are visibly separate on the contact frame');
   assert.equal(await page.locator(ceramic).getAttribute('data-material'),'ceramic');
   await page.clock.runFor(64);const cupEarly=await sample(page,ceramic);
   const cupSpread=Math.max(...cupEarly.pieces.filter(p=>p.mode==='eject').map(p=>Math.hypot(p.x-p.cx,p.y-p.cy)));
