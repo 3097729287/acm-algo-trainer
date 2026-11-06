@@ -2,7 +2,7 @@ import {BACKGROUND_THEMES} from './stickerPolicy.js';
 import threeURL from '../vendor/vanta/three.r134.min.js?url';
 const effects=import.meta.glob('../vendor/vanta/vanta.*.min.js',{eager:true,query:'?url',import:'default'});
 const images=import.meta.glob('../assets/backgrounds/*.jpg',{eager:true,query:'?url',import:'default'});
-export const MOTION_SCENES=BACKGROUND_THEMES.map(theme=>({id:theme.id,name:theme.title,collection:theme.title,source:theme.id==='meteors'?'Web Motion Showcase':theme.id==='rainfall'?'CheapWater':'Vanta.js',hint:theme.id==='meteors'?'蓝白细尾流星':theme.id==='rainfall'?'雨落湖面，多圈涟漪缓缓扩散':'移动鼠标改变视角',colors:['#071321','#16475e']}));
+export const MOTION_SCENES=BACKGROUND_THEMES.map(theme=>({id:theme.id,name:theme.title,collection:theme.title,source:theme.id==='meteors'?'Web Motion Showcase':theme.id==='rainfall'?'ElementalFX':'Vanta.js',hint:theme.id==='meteors'?'蓝白细尾流星':theme.id==='rainfall'?'雨落湖面，涟漪缓缓扩散':'移动鼠标改变视角',colors:['#071321','#16475e']}));
 export const backgroundThumbnail=id=>images[`../assets/backgrounds/${id}.jpg`];
 const scripts=new Map();
 function script(url){if(!scripts.has(url))scripts.set(url,new Promise((resolve,reject)=>{const tag=document.createElement('script');tag.src=url;tag.onload=resolve;tag.onerror=()=>{scripts.delete(url);tag.remove();reject(Error('Background library unavailable'));};document.head.append(tag);}));return scripts.get(url);}
@@ -32,7 +32,7 @@ export class MotionScene{
   if(id==='rainfall'){
    try{const {RainBackground}=await import('./rainBackground.js');if(this.destroyed||ticket!==this.generation)return;
     const rain=new RainBackground(this.host,{light:document.documentElement.dataset.theme==='light',lightning:this.lightning,onFrame:dt=>{this.frames++;this.time+=dt;}});this.rain=rain;await rain.ready;if(this.destroyed||ticket!==this.generation)return;
-    this.host.dataset.library='cheapwater';this.host.dataset.ready='true';this.host.style.backgroundImage='';this.sync();
+    this.host.dataset.library='elementalfx';this.host.dataset.ready='true';this.host.style.backgroundImage='';this.sync();
    }catch(error){if(!this.destroyed&&ticket===this.generation){this.dispose();this.host.dataset.ready='fallback';this.onError(error);}}return;
   }
   try{
@@ -51,7 +51,7 @@ export class MotionScene{
  sync(){const stopped=this.stopped;this.host.dataset.paused=String(stopped);this.rain?.setPaused(stopped);const effect=this.effect;if(!effect)return;if(stopped){cancelAnimationFrame(effect.req);effect.req=null;}else if(effect.req==null){effect.prevNow=performance.now();effect.animationLoop();}}
  setLightning(value){this.lightning=value===true;this.host.dataset.lightning=String(this.lightning);this.rain?.setLightning(this.lightning);}
  setPaused(value){this.paused=value;this.sync();}
- snapshot(){this.render();return this.rain?.canvas.toDataURL('image/jpeg',.88)||this.effect?.renderer?.domElement.toDataURL('image/jpeg',.88)||backgroundThumbnail(this.id)||'';}
+ snapshot(){this.render();return this.rain?.snapshot()||this.effect?.renderer?.domElement.toDataURL('image/jpeg',.88)||backgroundThumbnail(this.id)||'';}
  meteors(){const sky=document.createElement('div');sky.className='meteors-background';const stars=document.createElementNS('http://www.w3.org/2000/svg','svg');stars.setAttribute('viewBox','0 0 1600 1000');stars.classList.add('meteors-background-stars');let seed=5;const random=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};for(let i=0;i<180;i++){const star=document.createElementNS(stars.namespaceURI,'circle');for(const [key,value]of Object.entries({cx:random()*1600,cy:random()*1000,r:.3+random()*1.2,opacity:.2+random()*.8}))star.setAttribute(key,value);stars.append(star);}const rays=document.createElement('div');rays.className='meteors-background-rays';for(let i=0;i<28;i++){const ray=document.createElement('span');ray.className='meteors-background-ray';ray.style.cssText=`top:${random()*70-10}%;left:${random()*90+10}%;--meteor-tail:${160+random()*120}px;animation-duration:${1+random()*1.2}s;animation-delay:${-random()*6}s`;rays.append(ray);}sky.append(stars,rays);this.host.append(sky);}
  dispose(){this.rain?.destroy();this.rain=null;const effect=this.effect;this.effect=null;if(effect){cancelAnimationFrame(effect.req);const renderer=effect.renderer;effect.destroy();renderer?.dispose();renderer?.forceContextLoss();}this.host.replaceChildren();}
  destroy(){this.destroyed=true;this.generation++;this.dispose();this.observer.disconnect();this.resizeObserver.disconnect();this.media.removeEventListener('change',this.visibility);document.removeEventListener('visibilitychange',this.visibility);}

@@ -1,6 +1,6 @@
 # ToBe · Current build
 
-The **local 1.6.3 revision dated 2026-11-07** fixes complete statement translation, verdict colors, bookmark order and shortcuts, per-content and per-region zoom, editable defaults, lecture search, streak gaps, and untouched contest problems entering training. It retains the photographic rain-lake revision and existing code and study records. See the [revision notes](docs/local-delivery-1.6.3-ui.md).
+The **local 1.6.3 follow-up dated 2026-11-07** replaces the rain lake with the public MIT ElementalFX rain and wave solver, reduces dense-water brightness changes, preserves matching impacts and slow ripples, and separates the fixed lecture-directory header from its scrolling list. See the [rain-lake revision](docs/local-delivery-1.6.3-rain.md). The previous [interaction fixes](docs/local-delivery-1.6.3-ui.md), saved code and study records remain.
 
 Public downloads remain the [original 1.6.3 release](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.3); local follow-ups do not replace published assets. The older statements below are retained as history.
 

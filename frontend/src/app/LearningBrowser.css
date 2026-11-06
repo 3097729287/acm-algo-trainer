@@ -101,12 +101,13 @@ html .study-browser.study-compact .study-pane :is(.lab-course-header,.template-h
 
 .study-pane .lectures-layout{position:relative}
 .study-pane .lectures-detail{min-width:0}
-.study-pane .lectures-layout.lecture-directory-open>.lectures-list{display:block;flex:0 0 clamp(250px,25vw,350px);width:clamp(250px,25vw,350px);min-width:0;height:100%;max-height:100%;overflow:auto;border:0;border-right:1px solid var(--line);border-radius:0;background:var(--study-paper,var(--panel-base))}
+.study-pane .lectures-layout.lecture-directory-open>.lecture-directory{display:flex;flex-direction:column;flex:0 0 clamp(250px,25vw,350px);width:clamp(250px,25vw,350px);min-width:0;min-height:0;height:100%;max-height:100%;overflow:hidden;border:0;border-right:1px solid var(--line);border-radius:0;background:var(--study-paper,var(--panel-base))}
+.study-pane .lecture-directory-open>.lecture-directory>.lectures-list{display:block;flex:1;min-height:0;min-width:0}
 .study-pane .lecture-directory-open .lecture-curriculum-group{padding:12px 16px;background:var(--study-paper,var(--panel-base))}
 .study-pane .lecture-directory-open .lectures-list>button{width:100%;padding:14px 16px;text-align:left}
 .study-pane .lecture-directory-open .lecture-item-heading{align-items:flex-start;gap:10px}
 .study-pane .lecture-directory-open .lecture-item-heading>strong{flex:1;min-width:0}
-@media(max-width:760px){.study-pane .lectures-layout.lecture-directory-open>.lectures-list{position:absolute;left:0;top:44px;bottom:0;z-index:4;width:min(340px,86%);height:auto;max-height:none;box-shadow:10px 0 24px #0003}.study-pane .lecture-directory-open>.lectures-detail{width:100%}}
+@media(max-width:760px){.study-pane .lectures-layout.lecture-directory-open>.lecture-directory{position:absolute;left:0;top:44px;bottom:0;z-index:4;width:min(340px,86%);height:auto;max-height:none;box-shadow:10px 0 24px #0003}.study-pane .lecture-directory-open>.lectures-detail{width:100%}}
 
 html .study-browser .study-pane .wiki-reader-toolbar>.wiki-return-button{margin-right:auto}
 
