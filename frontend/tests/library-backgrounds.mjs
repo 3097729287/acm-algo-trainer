@@ -23,7 +23,19 @@ try{
   if(id!=='meteors'){assert(after.frames>before.frames,`${id} animates`);assert.notEqual(after.snapshot,before.snapshot,`${id} changes the picture`);}
   if(id==='rainfall'){const rain=await page.evaluate(()=>{const rain=engine.rain.engine;return{library:engine.host.dataset.library,depths:new Set(rain.drops.map(drop=>Math.round(drop.position.y))).size,impacts:rain.impactCount,rings:rain.ripples.length,lightning:engine.rain.flash.options.lightning,camera:rain.camera.position.toArray()};});assert.equal(rain.library,'cheapwater');assert(rain.depths>10&&rain.impacts>0&&rain.rings>100,'Public scene shares 3D rain impacts and expanding rings');assert.equal(rain.lightning,false);}
 
-  await page.evaluate(()=>engine.setPaused(true));const paused=await page.evaluate(()=>({frames:engine.frames,snapshot:engine.snapshot()}));await page.mouse.move(300,400);await page.waitForTimeout(100);assert.equal(await page.evaluate(()=>engine.frames),paused.frames,`${id} stops when paused`);if(id==='rainfall')assert.equal(await page.evaluate(()=>engine.snapshot()),paused.snapshot,'Paused rain keeps an unchanged still frame');
+  await page.evaluate(()=>engine.setPaused(true));
+  if(id==='rainfall'){
+   const optical=await page.evaluate(()=>{
+    const s=engine.rain.engine,gl=s.renderer.getContext(),w=s.renderer.domElement.width,h=s.renderer.domElement.height;
+    const before=new Uint8Array(w*h*4),after=new Uint8Array(w*h*4);
+    s.opticalRain.mesh.visible=false;s.draw();gl.readPixels(0,0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,before);
+    s.opticalRain.mesh.visible=true;s.draw();gl.readPixels(0,0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,after);
+    let visiblePixels=0;for(let i=0;i<after.length;i+=4)if(Math.max(...[0,1,2].map(c=>Math.abs(after[i+c]-before[i+c])))>=8)visiblePixels++;
+    return{material:s.opticalRain.material.name,solidDrops:s.drops.filter(d=>d.geometry||d.material).length,instances:s.opticalRain.geometry.instanceCount,drops:s.drops.length,visiblePixels};
+   });
+   assert.equal(optical.material,'Open Water photographic rain');assert.equal(optical.solidDrops,0,'Rain has no sphere, ellipsoid or opaque bead material');assert.equal(optical.instances,optical.drops);assert(optical.visiblePixels>=25,'The real rendered public rain must remain visibly distinct from the lake: '+JSON.stringify(optical));
+  }
+  const paused=await page.evaluate(()=>({frames:engine.frames,snapshot:engine.snapshot()}));await page.mouse.move(300,400);await page.waitForTimeout(100);assert.equal(await page.evaluate(()=>engine.frames),paused.frames,`${id} stops when paused`);if(id==='rainfall')assert.equal(await page.evaluate(()=>engine.snapshot()),paused.snapshot,'Paused rain keeps an unchanged still frame');
   await page.locator('#capture').screenshot({path:fileURLToPath(new URL(id+'.jpg',out)),type:'jpeg',quality:85});
   results.push({id,frames:after.frames-before.frames,paused:true});await page.evaluate(()=>engine.setPaused(false));
  }

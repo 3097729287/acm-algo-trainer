@@ -2,6 +2,7 @@
 // Original index.html and textures retained byte-for-byte beside this adapter.
 // Both passes share one camera; upstream updateDrops creates every ripple.
 import * as THREE from 'three';
+import {createPhotographicRain,rainTerminalSpeed} from '../open-water-rain/photographicRain.js';
 import rippleURL from './ripple.png?url';
 import waterURL from './water_normal.png?url';
 import px from './px.jpg?url';
@@ -179,15 +180,10 @@ export function createWaterScene(host){
 
 		let drops = []
 		function makeDrop(x, y, z) {
-			let d = new THREE.Mesh(
-				dropGeometry,
-				dropMaterial
-			)
+			let d = new THREE.Object3D()
 			d.position.set(x, y, z)
-			d.userData.vz = -12
-            const size = 0.45 + Math.random() * 0.35
-            d.scale.set(size,size,size*1.6)
-            d.userData.size = size
+            d.userData.rainSeed = [Math.random(),Math.random(),Math.random(),Math.random()]
+			d.userData.vz = -rainTerminalSpeed(d.userData.rainSeed)
 			colorScene.add(d)
 			drops.push(d)
 		}
@@ -195,7 +191,6 @@ export function createWaterScene(host){
 		function updateDrops(dt) {
 			for (let d of [...drops]) {
 				d.position.z += d.userData.vz * dt
-				d.userData.vz -= 9.81 * dt
 				if (d.position.z < 0) {
 					colorScene.remove(d)
 					drops.splice(drops.indexOf(d), 1)
@@ -211,15 +206,15 @@ export function createWaterScene(host){
  colorScene.environmentIntensity=.85;
  colorScene.fog=new THREE.FogExp2(0x283f50,.004);
  colorScene.add(new THREE.HemisphereLight(0xadc4d0,0x34596d,2.1));
- const dropGeometry=new THREE.SphereGeometry(.1,16,16);
- const dropMaterial=new THREE.MeshPhysicalMaterial({color:0xc7e9f7,emissive:0x6a8598,emissiveIntensity:.6,roughness:.08,metalness:0,ior:1.33,transmission:.25,thickness:.03,transparent:true,opacity:.88,depthWrite:false});
+ envMap.generateMipmaps=true;envMap.minFilter=THREE.LinearMipmapLinearFilter;
+ const opticalRain=createPhotographicRain(envMap);colorScene.add(opticalRain.mesh);
  function step(dt,{rain=true}={}){
   elapsed+=dt;timeUniform.value=elapsed;
-  if(rain){emission+=dt*72;while(emission>=1){const depth=Math.random(),distant=depth<.25,foreground=depth>.75,y=distant?35+Math.random()*65:foreground?-16+Math.random()*14:-2+Math.random()*37,x=(Math.random()-.5)*(distant?y*1.5:foreground?28:52);makeDrop(x,y,22);emission--;}}
+  if(rain){emission+=dt*128;while(emission>=1){const depth=Math.random(),distant=depth<.25,foreground=depth>.75,y=distant?35+Math.random()*65:foreground?-23+Math.random()*15:-2+Math.random()*37,x=(Math.random()-.5)*(distant?y*1.5:foreground?20:52);makeDrop(x,y,22);emission--;}}
   updateRipples(dt);updateDrops(dt);
  }
- function draw(){if(destroyed)return;renderer.setRenderTarget(normalTarget);renderer.render(normalScene,camera);renderer.setRenderTarget(null);renderer.render(colorScene,camera);}
+ function draw(){if(destroyed)return;opticalRain.sync(drops,camera,renderer.domElement.height);renderer.setRenderTarget(normalTarget);renderer.render(normalScene,camera);renderer.setRenderTarget(null);renderer.render(colorScene,camera);}
  function resize(width,height){renderer.setSize(width,height,false);normalTarget.setSize(renderer.domElement.width,renderer.domElement.height);resolutionUniform.value.set(renderer.domElement.width,renderer.domElement.height);camera.aspect=width/height;camera.updateProjectionMatrix();draw();}
- function destroy(){destroyed=true;const geometries=new Set(),materials=new Set();for(const scene of [normalScene,colorScene])scene.traverse(node=>{if(node.geometry)geometries.add(node.geometry);if(node.material)materials.add(node.material)});for(const geometry of geometries)geometry.dispose();for(const material of materials)material.dispose();texture.dispose();waterMaterial.normalMap.dispose();envMap.dispose();colorScene.environment?.dispose();pmremGenerator.dispose();normalTarget.dispose();dropGeometry.dispose();dropMaterial.dispose();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();}
- return {renderer,camera,normalScene,colorScene,ready,step,draw,resize,destroy,makeDrop,makeRipple,updateRipples,updateDrops,get drops(){return drops},get ripples(){return ripples},get impactCount(){return impacts},get lastImpact(){return lastImpact}};
+ function destroy(){destroyed=true;const geometries=new Set(),materials=new Set();for(const scene of [normalScene,colorScene])scene.traverse(node=>{if(node.geometry)geometries.add(node.geometry);if(node.material)materials.add(node.material)});for(const geometry of geometries)geometry.dispose();for(const material of materials)material.dispose();texture.dispose();waterMaterial.normalMap.dispose();envMap.dispose();colorScene.environment?.dispose();pmremGenerator.dispose();normalTarget.dispose();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();}
+ return {renderer,camera,normalScene,colorScene,opticalRain,ready,step,draw,resize,destroy,makeDrop,makeRipple,updateRipples,updateDrops,get drops(){return drops},get ripples(){return ripples},get impactCount(){return impacts},get lastImpact(){return lastImpact}};
 }
