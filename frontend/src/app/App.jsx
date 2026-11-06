@@ -1,5 +1,5 @@
 import {addCalendarLearningTasks} from '@/lib/calendarLearningTasks.js';
-import {taskNeighbours} from '@/lib/taskNavigation.js';
+import {taskNeighbours,todayTaskSequence} from '@/lib/taskNavigation.js';
 import {readSectionBookmark,readPageBookmark,rememberPageBookmark} from '@/lib/bookmarkMemory.js';
 import WorkspaceSearchResults,{WorkspaceSearchInput} from '@/components/WorkspaceSearch.jsx';
 import StickerBoxes from '@/components/StickerBoxes.jsx';
@@ -1340,7 +1340,7 @@ export default function App() {
 
   }
   function openSummaryTask(task) {
-    const flow={planId:learningSummary.snapshot?.plan?.id,taskKey:task.key};if(task.key)setActiveTaskFlow(flow);
+    const sequence=todayTaskSequence(navigationPlan),flow={planId:learningSummary.snapshot?.plan?.id,taskKey:task.key,mode:sequence.length&&sequence.every(item=>item.status==='done')?'review':'work'};if(task.key)setActiveTaskFlow(flow);
     if(task.kind==='calendar-contest'){void openCalendarTask(task).catch(issue=>notice(issue.message,'error'));return;}
     if(task.id==='summary'||task.kind==='summary-task'){learningSummary.setOpen(false);setTaskView('overview');go('tasks');return;}
     if(task.kind==='mixed'){
@@ -1351,7 +1351,7 @@ export default function App() {
     if(['quiz','reflection'].includes(task.kind)){learningSummary.setOpen(true);window.dispatchEvent(new CustomEvent('tb:learning-summary-task',{detail:task}));return;}
     const current=practiceId||studyProblemId;
     const proceed=()=>{
-      if(['problem','review','template-problem'].includes(task.kind))openPractice(task.id,{restoreReviewId:task.reviewId||null,taskFlow:flow});
+      if(['problem','review','template-problem'].includes(task.kind))openPractice(task.id,{restoreReviewId:task.status==='done'?null:task.reviewId||null,taskFlow:flow});
       else openLearning({kind:task.kind==='course'?'lab':task.kind,id:task.id,title:task.title,visit:{taskFlow:flow}});
     };
     if(current&&['lecture','course','template'].includes(task.kind))learningSummary.update('assist',{problemId:current,key:task.key}).then(proceed).catch(issue=>notice(issue.message,'error'));
@@ -2279,7 +2279,7 @@ export default function App() {
               onNext={nextPractice}
             />
           ) : page==='tasks' ? (
-            <TasksBoard key={account?.userId||'local'} owner={account?.userId||'local'} initialView={taskView} onView={setTaskView} model={learningSummary} api={api} prefs={prefs} setPrefs={setPrefs} onOpenTask={openSummaryTask} problemRows={rows} calendar={calendar} contestRecords={workspace.contests||[]} onCalendarTask={openCalendarTask} onNextAction={task=>{const item=recommendationSnapshot.items.find(item=>!item.summaryTask&&item.id!==task?.id);if(item)openRecommendation(item);}}/>
+            <TasksBoard key={account?.userId||'local'} owner={account?.userId||'local'} initialView={taskView} onView={setTaskView} model={learningSummary} api={api} prefs={prefs} setPrefs={setPrefs} onOpenTask={openSummaryTask} problemRows={rows} calendar={calendar} contestRecords={workspace.contests||[]} onCalendarTask={openCalendarTask}/>
           ) : LEARNING_PAGES.includes(page) ? (
             <SectionWorkspace key={'learning:'+(account?.userId||'local')} id="learning" entries={LEARNING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label,icon:item.icon}))} activeId={page} onActivate={setPage} render={renderLearningPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
           ) : TRAINING_PAGES.includes(page) ? (
