@@ -1,8 +1,8 @@
 # ToBe · Current build
 
-**1.6.4 · Domestic release revision, 2026-11-07** consolidates the local interface, keyboard, reading zoom, contest training, task, Nowcoder catalogue and rain lake fixes. A full user installer and a 1.6.3 → 1.6.4 incremental update are prepared. See the [1.6.4 release notes](docs/releases/1.6.4.md).
+**1.6.4 · Domestic release revision, 2026-11-07** consolidates the local interface, keyboard, reading zoom, contest training, task, Nowcoder catalogue and rain lake fixes. A full user installer and a 1.6.3 → 1.6.4 incremental update are available. See the [1.6.4 release notes](docs/releases/1.6.4.md).
 
-Domestic distribution uses the [fixed update source](https://47.82.84.74/updates/); its stable manifest is authoritative for publication. Existing GitHub 1.6.3 installer assets are retained. Older statements below remain as history.
+The domestic update source and [GitHub 1.6.4](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.4) are live. [Download the 1.6.3 → 1.6.4 incremental update (13.2 MB)](https://47.82.84.74/updates/assets/1.6.4/ToBe-Update-1.6.3-to-1.6.4-win64.zip), or check for updates in the app. See the [release verification](docs/domestic-release-1.6.4-verification.md). Previous release assets and the historical statements below are retained.
 
 ---
 
