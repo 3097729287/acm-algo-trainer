@@ -9,7 +9,8 @@ export default function RocketSticker({reaction,point,bounds,size,children}){
   const stop=()=>{animations.forEach(animation=>animation.cancel());animations=[];};
   const preferences=()=>{if(media.matches||document.documentElement.dataset.motion==='off')stop();};
   if(!media.matches&&document.documentElement.dataset.motion!=='off'){
-   const frames=rocketFlight({...bounds,...point,size});
+   const surface=node.closest('.sticker-surface')?.getBoundingClientRect();
+   const frames=rocketFlight({...point,width:surface?.width||bounds.width,height:surface?.height||bounds.height,size});
    if(frames.length){
     animations.push(node.animate(frames.map(({offset,transform})=>({offset,transform})),{duration:ROCKET_FLIGHT_MS,easing:'linear'}));
     const plume=node.querySelector('.rocket-plume');

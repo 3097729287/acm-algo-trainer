@@ -30,9 +30,9 @@ def admin_catalogue():
                                     ('rare', ['flame', 'bolt', 'sun', 'comet']),
                                     ('epic', ['moon', 'planet', 'crystal', 'butterfly']),
                                     ('legendary', ['gem', 'crown', 'galaxy', 'phoenix'])] for shape in shapes]
-    backgrounds = [{'id': f"background-{theme['id']}-{theme['rarity']}", 'kind': 'background',
+    backgrounds = [{'id': f"background-{theme['id']}", 'kind': 'background',
                     'shape': 'background-' + theme['id'], 'theme': theme['id'],
-                    'title': theme['title'], 'rarity': theme['rarity']} for theme in policy['backgroundThemes']]
+                    'title': theme['title']} for theme in policy['backgroundThemes']]
     result = []
     for item in legacy + policy.get('collection', []) + policy['stickers'] + backgrounds:
         item = {'title': titles.get(item['shape'], item['shape']), **item}
@@ -81,6 +81,14 @@ def stickers(training, kind=None, value=None):
         owner = training._ranking_profile()['user_id']
         row = training.connection.execute('SELECT value FROM account_preferences WHERE key=?', (KEY,)).fetchone()
         state = json.loads(row['value']) if row else {'revision': 0, 'serials': {}, 'units': [], 'scenePresets': [], 'requests': {}}
+        aliases = {old: 'background-' + theme['id'] for theme in catalogue()['backgroundThemes']
+                   for name in [theme['id'], *theme.get('legacyThemes', [])]
+                   for old in ['background-' + name, *['background-' + name + '-' + rarity for rarity in ('common', 'rare', 'epic', 'legendary')]]}
+        def canonical(entry):
+            return {**entry, 'stickerId': aliases.get(entry['stickerId'], entry['stickerId'])}
+        state['units'] = [canonical(unit) for unit in state['units']]
+        state['scenePresets'] = [{**preset, 'items': [canonical(item) for item in preset['items']]} for preset in state['scenePresets']]
+        state['serials'] = {aliases.get(key, key): max(value, state['serials'].get(aliases.get(key, key), 0)) for key, value in state['serials'].items()}
         if not kind:
             return _snapshot(owner, state, items)
         if kind not in FIELDS or not isinstance(value, dict) or set(value) - FIELDS[kind]:

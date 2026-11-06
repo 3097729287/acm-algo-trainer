@@ -36,3 +36,11 @@ html .rankings-page .ranking-identity>.user-presence{margin-left:0;flex:none;ali
  html .rankings-page .ranking-identity .profile-badge{grid-template-columns:88px 7.5rem;gap:18px}
  html .rankings-page .ranking-identity .profile-nickname{max-width:7.5rem}
 }
+
+/* The search column is independent of the bookmark labels on its left. */
+html .app-shell .main-area .topbar>.topbar-leading{display:grid;grid-template-columns:clamp(260px,28vw,500px) minmax(0,1fr);column-gap:18px;align-items:center}
+html .topbar-leading>.topbar-bookmark-slot{grid-column:1;grid-row:1;width:100%;max-width:100%}
+html .topbar-leading>.topbar-bookmark-slot:empty{display:block}
+html .topbar-leading>.topbar-search-slot{grid-column:2;grid-row:1;max-width:none!important;width:100%;min-width:0!important}
+html .topbar-leading>.page-location-slot{grid-column:1;grid-row:2;min-width:0}
+@media(max-width:800px){html .app-shell .main-area .topbar>.topbar-leading{grid-template-columns:minmax(0,1fr);row-gap:8px}html .topbar-leading>.topbar-bookmark-slot{grid-column:1;grid-row:1}html .topbar-leading>.topbar-search-slot{grid-column:1;grid-row:2}html .topbar-leading>.page-location-slot{grid-column:1;grid-row:3}}

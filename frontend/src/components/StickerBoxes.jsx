@@ -63,9 +63,9 @@ export default function StickerBoxes({api,state,onUpdated,onClose}){
   {stage==='cards'&&<section className="pack-result" aria-label="本次获得的贴纸">
    <div className="pack-result-caption"><h4>{opening?.kind==='background'?'获得背景':'获得贴纸'}</h4>{packs.length>1&&<span>{packIndex+1} / {packs.length}</span>}</div>
    <div className="pack-reveal-grid" style={{'--card-count':cards.length}} key={packIndex}>{cards.map((card,index)=>{
-    const item=catalogue.find(item=>item.id===card.stickerId),face=revealed.has(card.id);
-    return <button type="button" key={card.id} className={'pack-result-card pack-'+card.rarity+(face?' card-revealed':'')} style={{'--card-index':index}} aria-label={face?`${PACK_NAMES[card.rarity]}贴纸 ${item?.title||item?.shape}`:`翻开第 ${index+1} 张贴纸`} aria-pressed={face} onClick={()=>setRevealed(previous=>new Set([...previous,card.id]))}>
-     <div className="pack-card-turn"><div className="pack-card-back"><div className="pack-card-border"/><Sparkles size={34} strokeWidth={1}/><span>ToBe</span></div><div className="pack-card-front"><span className="card-rarity-mark"/><StickerArt item={item} size={96}/><strong>{item?.title||item?.shape}</strong><small>{PACK_NAMES[card.rarity]}</small></div></div>
+    const item=catalogue.find(item=>item.id===card.stickerId),face=revealed.has(card.id),background=opening?.kind==='background';
+    return <button type="button" key={card.id} className={'pack-result-card pack-'+(background?'background':card.rarity)+(face?' card-revealed':'')} style={{'--card-index':index}} aria-label={face?`${background?'动效背景':PACK_NAMES[card.rarity]+'贴纸'} ${item?.title||item?.shape}`:`翻开第 ${index+1} 张${background?'背景':'贴纸'}`} aria-pressed={face} onClick={()=>setRevealed(previous=>new Set([...previous,card.id]))}>
+     <div className="pack-card-turn"><div className="pack-card-back"><div className="pack-card-border"/><Sparkles size={34} strokeWidth={1}/><span>ToBe</span></div><div className="pack-card-front"><span className="card-rarity-mark"/><StickerArt item={item} size={96}/><strong>{item?.title||item?.shape}</strong><small>{background?'动效背景':PACK_NAMES[card.rarity]}</small></div></div>
     </button>;
    })}</div>
    <div className="pack-result-actions"><button type="button" className="progress-button progress-primary" onClick={advance}>{!allRevealed?<><Eye size={18}/>全部翻开</>:packIndex+1<packs.length?<><ArrowRight size={18}/>下一包</>:<><Check size={18}/>完成</>}</button></div>

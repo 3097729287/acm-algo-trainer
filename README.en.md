@@ -1,5 +1,7 @@
 The latest local 1.6.1 interface adds split bookmarks for My Training, Library and Lists. Tasks emphasize the active learning track and current step, settings use dialogs, mastery advances through seven segments, and empty archived plans render safely. Read the [design principles](docs/design-principles.md) before future changes; see the [release notes](docs/releases/1.6.1.md).
 
+2026-11-06 local frontend revision: 11 library motion backgrounds without tiers; unified cross-section search, remembered bookmarks, fresh lab entries, and heterogeneous task navigation. Native release stays at 1.6.1; public release and service deployment are unchanged.
+
 The local 1.6.1 interface revision adds the chosen task workspace, daily and weekly tasks, private to-dos, persistent split bookmarks, grouped navigation, and a 60-minute minimum study budget with +30/+60 controls. Fourteen distinct atmospheric backgrounds replace rarity duplicates, including a legendary Milky Way scene. The supplied sticker and sound approvals are applied. The shared drop catalogue is updated in source and awaits service deployment; existing installers and public downloads retain their original build. See [release notes](docs/releases/1.6.1.md).
 
 # ToBe · Training Workbench

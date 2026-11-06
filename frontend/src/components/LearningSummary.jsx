@@ -1,6 +1,7 @@
+import {taskNeighbours} from '@/lib/taskNavigation.js';
 import {useEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
-import {ArrowRight,Check,Clock,Shuffle,X} from 'lucide-react';
+import {ArrowLeft,ArrowRight,Check,Clock,Shuffle,X} from 'lucide-react';
 import {trainingDay} from '@/lib/trainingDate.js';
 import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
 import './LearningSummary.css';
@@ -21,7 +22,7 @@ export function WeeklyLearningTasks({plan,onOpen,onPostpone,onReplace,compact=fa
 
 // Only the task's question or reflection uses a modal. Planning lives in Tasks;
 // there is no movable, pinned or automatically reopened study window.
-export default function LearningTaskDialog({model,api,onOpenTask}){
+export default function LearningTaskDialog({model,api,onOpenTask,navigationPlan}){
  const [task,setTask]=useState(null),[quiz,setQuiz]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),dialog=useRef(null),generation=useRef(0),current=useRef({model,api});current.current={model,api};
  useEffect(()=>{
   const requested=async event=>{const task=event.detail;if(!['quiz','reflection'].includes(task?.kind))return;const epoch=++generation.current;setTask(task);setQuiz(null);setError('');current.current.model.setOpen(true);if(task.kind==='quiz')try{const quiz=await current.current.api('learning-summary/quiz?id='+encodeURIComponent(task.id));if(epoch===generation.current)setQuiz(quiz);}catch(issue){if(epoch===generation.current)setError(issue.message);}};
@@ -32,5 +33,6 @@ export default function LearningTaskDialog({model,api,onOpenTask}){
  const close=()=>{generation.current++;model.setOpen(false);setTask(null);};
  const submit=async(action,fields)=>{setBusy(true);setError('');try{const result=await model.update(action,fields);close();const next=result?.plan?.tasks.find(item=>item.status!=='done'&&item.date<=trainingDay());if(next)onOpenTask(next);}catch(issue){setError(issue.message);}finally{setBusy(false);}};
  if(!task||!model.open)return null;
- return createPortal(<dialog ref={dialog} className="learning-task-dialog" aria-label={task.kind==='quiz'?'原理检查':'任务复盘'} onCancel={event=>{event.preventDefault();close();}} onPointerDown={dialogPointerDown} onClick={dialogBackdropClick}><header><h2>{task.title||'原理检查'}</h2><button className="icon-button" aria-label="关闭任务" onClick={close}><X size={18}/></button></header>{error&&<p role="alert" className="connection-error">{error}</p>}{task.kind==='quiz'?(quiz?<section className="summary-quiz"><h3>{quiz.question}</h3><div className="summary-quiz-options">{quiz.options.map((answer,index)=><button key={index} disabled={busy} onClick={()=>submit('quiz',{topicId:quiz.topicId,answer:index})}>{answer}</button>)}</div></section>:<p role="status">正在读取检查题…</p>):<form onSubmit={event=>{event.preventDefault();submit(task.contestId?'reflect':'complete',{key:task.key,...(task.contestId?{note:new FormData(event.currentTarget).get('note')}:{})});}}>{task.contestId&&<label>这次训练的卡点与下一步<textarea name="note" required minLength={5} maxLength={2000}/></label>}<button className="primary" disabled={busy}>完成并继续下一项<ArrowRight size={16}/></button></form>}</dialog>,document.body);
+ const navigation=taskNeighbours({planId:model.snapshot?.plan?.id,taskKey:task.key},navigationPlan||model.snapshot?.plan),navigate=target=>{if(target){close();onOpenTask(target);}};
+ return createPortal(<dialog ref={dialog} className="learning-task-dialog" aria-label={task.kind==='quiz'?'原理检查':'任务复盘'} onCancel={event=>{event.preventDefault();close();}} onPointerDown={dialogPointerDown} onClick={dialogBackdropClick}><header><button type="button" className="icon-button" aria-label="上一项" disabled={!navigation.previous} onClick={()=>navigate(navigation.previous)}><ArrowLeft size={17}/></button><h2>{task.title||'原理检查'}</h2><button type="button" className="task-text" disabled={!navigation.next} onClick={()=>navigate(navigation.next)}>{navigation.label}<ArrowRight size={16}/></button><button className="icon-button" aria-label="关闭任务" onClick={close}><X size={18}/></button></header>{error&&<p role="alert" className="connection-error">{error}</p>}{task.kind==='quiz'?(quiz?<section className="summary-quiz"><h3>{quiz.question}</h3><div className="summary-quiz-options">{quiz.options.map((answer,index)=><button key={index} disabled={busy} onClick={()=>submit('quiz',{topicId:quiz.topicId,answer:index})}>{answer}</button>)}</div></section>:<p role="status">正在读取检查题…</p>):<form onSubmit={event=>{event.preventDefault();submit(task.contestId?'reflect':'complete',{key:task.key,...(task.contestId?{note:new FormData(event.currentTarget).get('note')}:{})});}}>{task.contestId&&<label>这次训练的卡点与下一步<textarea name="note" required minLength={5} maxLength={2000}/></label>}<button className="primary" disabled={busy}>完成并继续下一项<ArrowRight size={16}/></button></form>}</dialog>,document.body);
 }

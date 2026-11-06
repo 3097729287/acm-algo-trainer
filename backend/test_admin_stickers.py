@@ -35,7 +35,7 @@ class AdminStickerTests(unittest.TestCase):
         self.assertEqual(self.inventory()['catalogue'], json.loads(raw))
         state = self.inventory()
         self.assertTrue(state['unlimited'])
-        self.assertEqual(len([item for item in state['catalogue'] if item.get('kind') == 'background']), 14)
+        self.assertEqual(len([item for item in state['catalogue'] if item.get('kind') == 'background']), 11)
         self.assertEqual(set(state['discoveredStickers']), {item['id'] for item in state['catalogue']})
 
     def test_inventory_reads_do_not_mint_or_write_any_rewards(self):

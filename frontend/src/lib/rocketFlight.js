@@ -10,14 +10,14 @@ function travel(t){
 
 export function rocketFlight({width,height,x,y,angle=0,size=56}){
  if(![width,height,x,y,size,angle].every(Number.isFinite)||width<=0||height<=0)return [];
- const radians=angle*Math.PI/180,heading={x:Math.sin(radians),y:-Math.cos(radians)},origin={x:x*width,y:y*height},margin=size*Math.SQRT1_2+2;
+ const radians=angle*Math.PI/180,heading={x:Math.sin(radians),y:-Math.cos(radians)},origin={x:x*width,y:y*height},margin=Math.min(size*Math.SQRT1_2+2,Math.max(0,origin.x-2),Math.max(0,origin.y-2),Math.max(0,width-origin.x-2),Math.max(0,height-origin.y-2));
  const a=Math.min(240,Math.min(width,height)*.3),b=a*.66;
  const options=[1,-1].map(side=>{
   const normal={x:Math.cos(radians)*side,y:Math.sin(radians)*side};let scale=1;
   for(const [axis,extent] of [['x',width],['y',height]]){
    const center=normal[axis]*b,radius=Math.hypot(heading[axis]*a,normal[axis]*b),low=center-radius,high=center+radius;
-   if(low<0)scale=Math.min(scale,(origin[axis]-margin)/-low);
-   if(high>0)scale=Math.min(scale,(extent-margin-origin[axis])/high);
+   if(low< -1e-7)scale=Math.min(scale,(origin[axis]-margin)/-low);
+   if(high>1e-7)scale=Math.min(scale,(extent-margin-origin[axis])/high);
   }
   return {side,scale:Math.max(0,scale)};
  });

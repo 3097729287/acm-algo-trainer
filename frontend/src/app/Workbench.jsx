@@ -208,7 +208,7 @@ function CaseResults({ cases }) {
   })}</div>;
 }
 
-export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, onCloseSolution, onNotice, solutionOpen=false, solutionMethodId=null, onNext, nextDisabled=false, headerStart, headerEnd,navigationBack }) {
+export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, onCloseSolution, onNotice, solutionOpen=false, solutionMethodId=null, onNext, nextDisabled=false, nextLabel='下一题', headerStart, headerEnd,navigationBack }) {
   const studyPane=useStudyPane();
   const featureAvailable=useFeatureVisibility();
   const contestId = contest?.id || null;
@@ -951,7 +951,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
             <button type="button" className="wb-button" aria-label="任务概览" title={`任务概览 · ${shortcutValue('learning-summary',shortcuts)}`} onClick={()=>window.dispatchEvent(new Event('tb:learning-summary-open'))}><BookOpen size={14}/></button>
             {featureAvailable('templates',true)&&<button type="button" className="wb-button" aria-label="打开模板" title={`打开模板 · ${shortcutValue('code-templates',shortcuts)}`} disabled={loading||!problem||unavailable} onClick={()=>setTemplatesOpen(true)}><Code2 size={14}/></button>}
             {solutionButtons}
-            {onNext && <button type="button" className="wb-button wb-next-button" disabled={nextDisabled} title={`下一题 · ${shortcutValue('workbench-next',shortcuts)}`} onClick={async () => { if(await saveRecord(activeRecord.current)&&!callbacks.current.nextDisabled) callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
+            {onNext && <button type="button" className="wb-button wb-next-button" disabled={nextDisabled} title={`${nextLabel} · ${shortcutValue('workbench-next',shortcuts)}`} onClick={async () => { if(await saveRecord(activeRecord.current)&&!callbacks.current.nextDisabled) callbacks.current.onNext?.(); }}>{nextLabel}<ArrowRight size={14} /></button>}
             {localDraftRecovery !== null && <button type="button" className="wb-button" disabled={unavailable} title="当前为更新的同步版本；可恢复本机未上传的旧草稿" onClick={() => {
               undoReplace.current = code;
               updateCode(localDraftRecovery);

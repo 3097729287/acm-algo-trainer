@@ -115,3 +115,14 @@ html .study-browser .study-pane .wiki-reader-toolbar>.wiki-return-button{margin-
 .study-result>.study-training-status{padding:3px 8px;border-radius:4px;background:var(--hover);color:var(--accent);white-space:nowrap;}
 .study-training-status[data-training-group=fill]{color:#e4b16b;}
 .study-training-status[data-training-group=accepted]{color:#78c8ad;}
+
+.study-task-previous{position:absolute;left:8px;top:7px;z-index:101;height:30px;width:30px;background:var(--study-paper)}.study-compact .study-task-previous{left:78px}
+.study-task-next{position:absolute;right:10px;top:6px;z-index:101;display:inline-flex;align-items:center;gap:7px;height:32px;padding:5px 10px;border:0;border-radius:6px;background:var(--study-paper);color:var(--text);font:inherit;font-size:.85rem}
+.study-pane[data-task-flow=true] :is(.lab-page-navigation,.lecture-next){display:none!important}
+.study-pane[data-task-flow=true] :is(.lab-course-header,.template-heading,.wiki-reader-toolbar,.lectures-detail-bar,.solution-reader-header){padding-right:110px!important;padding-left:46px!important}
+.study-compact .study-pane[data-task-flow=true] :is(.lab-course-header,.template-heading,.wiki-reader-toolbar,.lectures-detail-bar,.solution-reader-header){padding-left:114px!important}
+
+.study-unified-header{position:relative;height:48px;min-height:48px;flex:none;background:var(--study-paper);border-bottom:1px solid var(--line);z-index:130}
+.study-unified-header>.workspace-search-input{position:absolute;left:var(--global-search-left,calc(50% - 210px));top:4px;width:var(--global-search-width,420px);max-width:calc(100vw - 16px)}
+.study-browser[data-global-search=true]>.study-stage{visibility:hidden;pointer-events:none}.study-browser>.workspace-search-results{top:48px;z-index:125}
+.study-pack-button{position:absolute;bottom:5px;right:14px;z-index:124;border:0;border-radius:6px;background:var(--study-paper);color:var(--accent);height:30px;width:34px;padding:5px}

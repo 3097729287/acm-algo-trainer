@@ -1,17 +1,16 @@
 import {guideAction} from '@/lib/guideActions.js';
 import {StickerArt,STICKER_NAMES as NAMES} from './StickerArt.jsx';
 export {StickerArt} from './StickerArt.jsx';
-import {cloneElement,useCallback,useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
+import {useCallback,useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import {readStickerLayout,cacheStickerLayout} from '@/lib/stickerCache.js';
 import {normalizeStickerInventory} from '@/lib/stickerCatalogue.js';
 import {createPortal} from 'react-dom';
 import {fitStickerPlacement,stickerSize} from '@/lib/stickerPlacement.js';
-import {Gift,Layers,RefreshCw,Sticker,Target,X} from 'lucide-react';
+import {Layers,RefreshCw,Sticker,X} from 'lucide-react';
 import {readStickerOrder,bringStickerForward} from '@/lib/stickerOrder.js';
 import {WeatherArt} from './SceneStickerArt.jsx';
 import {StickerScenePresets,StickerWardrobe} from './StickerScenePanels.jsx';
 import {previewPreset,stickerWeather} from '@/lib/stickerScenes.js';
-import StickerBoxes from './StickerBoxes.jsx';
 import PopConfirm from './PopConfirm.jsx';
 import Tooltip from './Tooltip.jsx';
 import StickerReaction,{useStickerReaction} from './StickerReaction.jsx';
@@ -192,10 +191,10 @@ export default function StickerCanvas({api,owner,children,statistics,goals}){
   {statistics}
   {wardrobe&&<StickerWardrobe {...wardrobe} choices={state.wardrobe} onClose={()=>setWardrobe(null)} onSave={wear}/>}
   {scenesOpen&&owned&&<StickerScenePresets state={visibleState} disabled={sceneBlocked} status={sceneStatus||(optimistic.size?'正在保存位置…':'')} onClose={()=>setScenesOpen(false)} onSave={(name,presetId)=>void sceneAction('scene-save',{name,...(presetId?{presetId}:{})})} onApply={preset=>void sceneAction('scene-apply',{presetId:preset.id})} onDelete={presetId=>void sceneAction('scene-delete',{presetId})}/>}
-  {toolbarHost&&createPortal(<div className="growth-footer-actions" role="group" aria-label="成长内容">{state?.capabilities?.scenes&&<><Tooltip text="场景预设"><button type="button" className="achievement-top-button" aria-label="场景预设" aria-pressed={scenesOpen} disabled={busy} onClick={()=>{if(draft)fix();setScenesOpen(v=>!v);setGoalsOpen(false);setPicker(null);}}><Layers size={19}/></button></Tooltip></>}{<Tooltip text="卡包"><button type="button" className="achievement-top-button sticker-box-trigger" aria-label="卡包" disabled={busy||Boolean(draft)||!state} onClick={()=>setBoxesOpen(true)}><Gift size={19}/>{pendingRewardCount>0&&<small>{pendingRewardCount}</small>}</button></Tooltip>}<Tooltip text="目标"><button type="button" className="achievement-top-button" aria-label="目标" aria-expanded={goalsOpen} aria-pressed={goalsOpen} disabled={busy} onClick={()=>{setGoalsOpen(value=>!value);setMode(false);setDraft(null);setPicker(null);setConfirm(null);drag.current=null;request.current=null;}}><Target size={19}/></button></Tooltip><Tooltip text="贴纸"><button type="button" className="achievement-top-button" aria-label="贴纸" aria-pressed={mode} disabled={busy} onClick={()=>{setGoalsOpen(false);setMode(value=>!value);setDraft(null);setPicker(null);setConfirm(null);drag.current=null;request.current=null;void refresh();}}><Sticker size={19}/></button></Tooltip>{error&&<button type="button" className="achievement-top-button" aria-label="刷新贴纸" onClick={refresh}><RefreshCw size={16}/></button>}</div>,toolbarHost)}
-  {goalsOpen&&!mode&&goals&&cloneElement(goals,{onClose:()=>setGoalsOpen(false)})}
+  {toolbarHost&&createPortal(<div className="growth-footer-actions" role="group" aria-label="成长内容">{<><Tooltip text="场景预设"><button type="button" className="achievement-top-button" aria-label="场景预设" aria-pressed={scenesOpen} disabled={busy||!state?.capabilities?.scenes} onClick={()=>{if(draft)fix();setScenesOpen(v=>!v);setGoalsOpen(false);setPicker(null);}}><Layers size={19}/></button></Tooltip></>}<Tooltip text="贴纸"><button type="button" className="achievement-top-button" aria-label="贴纸" aria-pressed={mode} disabled={busy} onClick={()=>{setGoalsOpen(false);setMode(value=>!value);setDraft(null);setPicker(null);setConfirm(null);drag.current=null;request.current=null;void refresh();}}><Sticker size={19}/></button></Tooltip>{error&&<button type="button" className="achievement-top-button" aria-label="刷新贴纸" onClick={refresh}><RefreshCw size={16}/></button>}</div>,toolbarHost)}
+
   {(recycleError||mode&&error)&&<p className="sticker-error connection-error" role="alert">{recycleError||error}</p>}
-  {boxesOpen&&owned&&<StickerBoxes api={api} state={state} onUpdated={value=>accept(value,owner)} onClose={()=>setBoxesOpen(false)}/>}
+
   {confirm&&<PopConfirm anchor={confirm.anchor} label="回收贴纸确认" title="回收贴纸？" confirmLabel="回收" busyLabel="正在回收…" busy={busy} error={error} onCancel={()=>setConfirm(null)} onConfirm={()=>recycle(confirm.unit)}/>}
  </div>;
 }

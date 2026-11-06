@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {ArrowRight,BookOpen,CalendarClock,Check,ChevronRight,Clock,Compass,History,Play,Plus,RefreshCw,Search,Shuffle,Trash2} from 'lucide-react';
+import {ArrowRight,BookOpen,CalendarClock,Check,ChevronRight,Clock,Compass,History,Play,Plus,RefreshCw,Search,Shuffle,Target,Trash2} from 'lucide-react';
 import PageSearch from './PageSearch.jsx';
 import {useStudyState} from '@/lib/StudyPane.jsx';
 import SectionWorkspace from './SectionWorkspace.jsx';
@@ -9,7 +9,7 @@ import {trainingDay} from '@/lib/trainingDate.js';
 import {addCalendarLearningTasks} from '@/lib/calendarLearningTasks.js';
 import './TasksBoard.css';
 
-export const TASK_VIEWS=[['overview','学习概览'],['week','本周计划'],['progress','专题进度'],['history','历史记录']].map(([id,title])=>({id,title}));
+export const TASK_VIEWS=[['overview','概况'],['week','计划'],['progress','进度'],['history','历史记录']].map(([id,title])=>({id,title}));
 const TYPES={lecture:'讲解',course:'实验',problem:'练习',review:'复习',quiz:'检验',reflection:'复盘',mixed:'综合训练','template-problem':'实现练习','calendar-contest':'比赛'};
 const CONDITIONS={lecture:'读完讲解后确认完成',course:'完成课程练习并通过对应检验',problem:'在原站正式通过这道题',review:'空白重写后，在原站正式通过',quiz:'答对原理检查题',reflection:'保存训练复盘',mixed:'交卷并完成训练复盘','template-problem':'通过本操作练习的全部案例'};
 function TaskPanel({view,model,api,prefs,setPrefs,onOpenTask,onNextAction,problemRows=[],calendar,contestRecords=[],onCalendarTask}){
@@ -39,7 +39,7 @@ function TaskPanel({view,model,api,prefs,setPrefs,onOpenTask,onNextAction,proble
  const currentAction=current?.kind==='calendar-contest'?(current.contestId&&current.contestId===snapshot.activeContest?.id?'回到比赛':'开始比赛'):current?.kind==='mixed'&&current.contestId&&!snapshot.activeContest?'完成复盘':current?.kind==='review'?'开始复习':current?.kind==='problem'?'开始练习':current?.kind==='quiz'?'开始检验':'开始学习';
  return <div className={'task-board-pane task-view-'+view}>
   <PageSearch><label className="search-box"><Search size={17}/><input aria-label={'搜索'+TASK_VIEWS.find(item=>item.id===view)?.title} value={query} onChange={event=>setQuery(event.target.value)}/></label></PageSearch>
-  <header className="task-page-heading"><time dateTime={today}>{today.replaceAll('-',' / ')}</time>{view==='overview'&&<div className="task-page-actions"><button className="task-text" aria-haspopup="dialog" onClick={()=>setSettings('time')}><Clock size={16}/>可用时间</button><button className="task-text" aria-haspopup="dialog" onClick={()=>setSettings('todos')}><Plus size={16}/>自建待办{todos.some(item=>!item.done)&&<small>{todos.filter(item=>!item.done).length}</small>}</button></div>}</header>
+  <header className="task-page-heading"><time dateTime={today}>{today.replaceAll('-',' / ')}</time>{view==='overview'&&<div className="task-page-actions"><button type="button" className="task-text" aria-haspopup="dialog" onClick={()=>setSettings('mainline')}><Target size={16}/>目标</button><button className="task-text" aria-haspopup="dialog" onClick={()=>setSettings('time')}><Clock size={16}/>可用时间</button><button className="task-text" aria-haspopup="dialog" onClick={()=>setSettings('todos')}><Plus size={16}/>自建待办{todos.some(item=>!item.done)&&<small>{todos.filter(item=>!item.done).length}</small>}</button></div>}</header>
   {needle&&view==='overview'&&<section className="task-card task-search-results" aria-label="任务搜索结果">{rows(tasks.filter(matches),'没有匹配的任务。')}</section>}
   {(error||model.error)&&<p className="connection-error" role="alert">{error||model.error}</p>}
   {view==='overview'&&!needle&&<>

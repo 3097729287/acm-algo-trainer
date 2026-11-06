@@ -1,4 +1,4 @@
-.motion-background{position:fixed;inset:0;overflow:hidden;pointer-events:none;contain:strict;background:#050d18}
+.motion-background{position:fixed;inset:0;overflow:hidden;pointer-events:none;contain:strict;background:#050d18;background-size:cover;background-position:center}
 .motion-background>canvas{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 .motion-background>canvas[hidden]{display:none}
 .motion-background>.meteors-background{z-index:0}
@@ -17,3 +17,8 @@ html:has(.workspace-area:not([data-page=settings])) button:focus-visible,.study-
 .study-browser .study-pane{background:transparent}
 .study-browser .study-pane :is(.lectures-page,.templates-page,.learning-paths-page,.wiki-page){background:transparent}
 .study-browser .study-pane .tb-workbench{background:transparent}
+
+.motion-background{position:absolute}.motion-background>.meteors-background{position:absolute}
+html[data-workspace-background=off] .app-shell:before{background:none!important}
+
+.motion-background:after{content:"";position:absolute;inset:0;background:#02071240;pointer-events:none}html[data-theme=light] .motion-background:after{background:#eaf2f52b}

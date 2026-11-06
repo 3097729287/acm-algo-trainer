@@ -1,13 +1,13 @@
 import {randomInt,randomUUID} from 'node:crypto';
 import {AccountError} from './accounts.mjs';
-import {REWARDS,rollRarity} from './sticker-rewards.mjs';
+import {REWARDS} from './sticker-rewards.mjs';
 import {resolveScene} from './scene-presets.mjs';
 export {resolveScene,giftSceneWarnings} from './scene-presets.mjs';
 
 const fail=(status,message)=>{throw new AccountError(status,message);};
 const scalar=(v,lo,hi)=>typeof v==='number'&&Number.isFinite(v)&&v>=lo&&v<=hi;
 const own=(object,key)=>Object.hasOwn(object,key);
-export const backgroundCards=()=>REWARDS.backgroundThemes.map(theme=>({id:`background-${theme.id}-${theme.rarity}`,shape:`background-${theme.id}`,theme:theme.id,kind:'background',rarity:theme.rarity,title:theme.title}));
+export const backgroundCards=()=>REWARDS.backgroundThemes.map(theme=>({id:`background-${theme.id}`,shape:`background-${theme.id}`,theme:theme.id,kind:'background',title:theme.title}));
 export const shapePolicy=item=>item?.kind==='background'?{baseScale:1,minScale:1,maxScale:1}:REWARDS.shapePolicy[item?.shape]||{baseScale:1,minScale:.5,maxScale:2};
 export function outfit(value={}){
  if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).some(key=>!own(REWARDS.wardrobe,key)))fail(400,'服装选项无效');
@@ -18,10 +18,6 @@ export function placement(value,item){
  const policy=shapePolicy(item);
  if(!scalar(value.x,0,1)||!scalar(value.y,0,1)||!scalar(value.angle,-180,180)||value.scale!==undefined&&!scalar(value.scale,policy.minScale,policy.maxScale))fail(400,'贴纸位置或大小无效');
  return {x:value.x,y:value.y,angle:value.angle,scale:value.scale??1};
-}
-export function backgroundWeights(difficulty,accepted){
- const band=difficulty>=2200?3:difficulty>=1600?2:difficulty>=1000?1:0;
- return REWARDS.backgroundRewards.weights[Math.min(5,band+Math.floor(Math.max(0,accepted-2)/2))];
 }
 export function replayEvidence(value,now){
  const e=value.evidence;
@@ -49,11 +45,10 @@ export async function sceneWrite(game,owner,auth,kind,value,now){
     const reward=state.backgroundRewards?.[value.rewardId];if(!reward)fail(404,'没有找到这份背景奖励');
     if(!reward.openedAt){
      if(state.units.length>=20000)fail(409,'贴纸库存已满，背景奖励仍保持未拆');
-     const rarity=rollRarity(backgroundWeights(reward.difficulty,reward.accepted));
-     const owned=new Set([...(state.discoveredStickers||[]),...state.units.map(unit=>unit.stickerId)]),pool=game.catalogue.filter(item=>item.kind==='background'&&item.rarity===rarity),novel=pool.filter(item=>!owned.has(item.id)),choices=novel.length?novel:pool;
+     const owned=new Set([...(state.discoveredStickers||[]),...state.units.map(unit=>unit.stickerId)]),pool=game.catalogue.filter(item=>item.kind==='background'),novel=pool.filter(item=>!owned.has(item.id)),choices=novel.length?novel:pool;
      const card=choices[randomInt(choices.length)],unit={id:randomUUID(),stickerId:card.id,revision:0,placement:null,source:{kind:'replay-background',id:reward.contestKey}};
      state.units.push(unit);state.discoveredStickers=[...new Set([...owned,card.id])];state.revision++;
-     reward.openedAt=now;reward.opening={id:reward.id,kind:'background',rarity,drops:[{id:unit.id,stickerId:card.id,rarity}]};
+     reward.openedAt=now;reward.opening={id:reward.id,kind:'background',drops:[{id:unit.id,stickerId:card.id}]};
     }result.opening=reward.opening;
    }else{
     if(value.inventoryRevision!==state.revision)fail(409,'场景已在其他窗口更新，请刷新后重试');

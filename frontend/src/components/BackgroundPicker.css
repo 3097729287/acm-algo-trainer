@@ -4,11 +4,11 @@
 .background-picker-tabs>button[aria-pressed=true]{background:var(--accent-soft);color:var(--accent)}
 .background-picker-tabs>.task-icon{margin-left:auto}
 .background-choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
-.background-choice{padding:0;min-width:0;border:0;border-radius:9px;background:var(--hover);overflow:hidden;color:var(--text);text-align:left;cursor:pointer}
-.background-choice-art{position:relative;display:block;aspect-ratio:16/9;overflow:hidden}
+.background-choice{display:flex;flex-direction:column;padding:0;min-width:0;border:0;border-radius:9px;background:var(--hover);overflow:hidden;color:var(--text);text-align:left;cursor:pointer}
+.background-choice-art{width:100%;flex:none;position:relative;display:block;aspect-ratio:16/9;overflow:hidden}
 .background-choice-art>img{display:block;width:100%;height:100%;object-fit:cover}
 .background-choice-art>svg{position:absolute;right:9px;top:9px;background:var(--accent);color:var(--bg);padding:3px;border-radius:50%;width:24px;height:24px}
-.background-choice>span:last-child{position:relative;display:block;padding:11px 13px}
+.background-choice>span:last-child{width:100%;box-sizing:border-box;position:relative;display:block;padding:11px 13px}
 .background-choice b{display:block;font-size:.86rem;font-weight:550}.background-choice small{display:block;font-size:.72rem;color:var(--muted);margin-top:3px}.background-choice em{position:absolute;right:13px;top:12px;font-style:normal;font-size:.8rem;color:var(--muted)}
 .background-choice[aria-pressed=true]{background:var(--accent-soft)}
 .background-picker .playlist-images{grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
@@ -17,3 +17,5 @@
 .background-picker .playlist-images>div>.background-image-select{position:static;inset:auto;width:100%;height:auto;padding:0;border:0;border-radius:7px;overflow:hidden}
 .background-image-select[aria-pressed=true]{outline:2px solid var(--accent);outline-offset:2px}
 @media(max-width:650px){.background-choice-grid,.background-picker .playlist-images{grid-template-columns:repeat(2,minmax(0,1fr))}.background-picker{padding:20px 16px}}
+
+.background-unlock{display:flex;align-items:center;justify-content:center;gap:10px;padding:32px 16px}

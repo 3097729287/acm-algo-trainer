@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {startGameplayFixture} from './gameplay-fixture.mjs';
 import {STICKERS} from '../src/gameplay.mjs';
-import {backgroundWeights,resolveScene} from '../src/sticker-scenes.mjs';
+import {resolveScene} from '../src/sticker-scenes.mjs';
 import {normalizeBackgroundState} from '../src/sticker-catalogue.mjs';
 
 const now=Date.parse('2026-11-04T12:00:00Z');
@@ -20,11 +20,10 @@ async function seed(f,user,stickers){
 }
 const evidence=(changes={})=>({version:1,contestKey:'replay:'+'a'.repeat(64),replayId:'contest-'+'b'.repeat(32),duration:120,originalDuration:120,startedAt:now-7200000,finishedAt:now,difficulty:1800,total:5,accepted:[0,1].map(i=>({problemKey:'p:'+String(i).repeat(64),submissionId:'official-'+i,submittedAt:now-4000000+i*1000,scope:'official',verdict:'AC'})),...changes});
 
-test('backgrounds never enter ordinary packs; both contest difficulty and additional ACs improve their rarity weights',()=>{
- assert.equal(STICKERS.filter(s=>s.kind==='background').length,14);
- assert.equal(new Set(STICKERS.filter(s=>s.kind==='background').map(item=>item.theme)).size,14);
- assert(backgroundWeights(2200,2).legendary>backgroundWeights(1000,2).legendary);
- assert(backgroundWeights(1800,6).legendary>backgroundWeights(1800,2).legendary);
+test('background rewards share one ungraded catalogue and never enter ordinary packs',()=>{
+ assert.equal(STICKERS.filter(s=>s.kind==='background').length,11);
+ assert.equal(new Set(STICKERS.filter(s=>s.kind==='background').map(item=>item.theme)).size,11);
+ assert(STICKERS.filter(item=>item.kind==='background').every(item=>!('rarity' in item)));
  assert.equal(resolveScene({items:[{stickerId:'x',unitId:'old'},{stickerId:'x',unitId:'other'}]},[{id:'new',stickerId:'x'}]).missing.length,1);
 });
 test('historic background rarity aliases preserve every owned unit, placement, discovery and preset',()=>{
@@ -32,9 +31,9 @@ test('historic background rarity aliases preserve every owned unit, placement, d
  const before=structuredClone(original),migrated=normalizeBackgroundState(original);
  assert.deepEqual(original,before);assert.equal(migrated.units.length,4);
  assert.deepEqual(migrated.units.map(unit=>unit.id),before.units.map(unit=>unit.id));
- assert(migrated.units.every(unit=>unit.stickerId==='background-night-common'));
+ assert(migrated.units.every(unit=>unit.stickerId==='background-meteors'));
  assert.deepEqual(migrated.units[1].placement,before.units[1].placement);
- assert.deepEqual(migrated.discoveredStickers,['background-night-common']);
+ assert.deepEqual(migrated.discoveredStickers,['background-meteors']);
  assert.equal(resolveScene(migrated.scenePresets[0],migrated.units).missing.length,0);
  assert.deepEqual(normalizeBackgroundState(migrated),migrated);
 });
@@ -46,7 +45,7 @@ test('background draw is a single, durable card per owner/original contest despi
   const retry=await a.post('/v1/stickers/replay-background',{evidence:evidence({replayId:'contest-'+'c'.repeat(32)})});assert.equal(retry.status,200);assert.equal((await a.read()).units.length,0);
   assert.equal((await b.post('/v1/stickers/replay-background',{evidence:evidence()})).status,200);assert.equal((await b.read()).units.length,0);
   assert.equal((await b.post('/v1/stickers/open-background',{rewardId:reward.id})).status,404);
-  const open={requestId:randomUUID(),rewardId:reward.id},opened=await Promise.all(Array.from({length:5},()=>a.send('/v1/stickers/open-background',open)));assert(opened.every(r=>r.status===200));assert.equal(new Set(opened.map(r=>r.value.opening.drops[0].id)).size,1);assert.equal(opened[0].value.opening.drops.length,1);assert.equal(opened[0].value.opening.kind,'background');assert.equal((await a.read()).units.length,1);assert.equal((await a.post('/v1/stickers/open-background',{rewardId:reward.id})).value.opening.drops[0].id,opened[0].value.opening.drops[0].id);
+  const open={requestId:randomUUID(),rewardId:reward.id},opened=await Promise.all(Array.from({length:5},()=>a.send('/v1/stickers/open-background',open)));assert(opened.every(r=>r.status===200));assert.equal(new Set(opened.map(r=>r.value.opening.drops[0].id)).size,1);assert.equal(opened[0].value.opening.drops.length,1);assert.equal(opened[0].value.opening.kind,'background');assert(!('rarity' in opened[0].value.opening));assert(opened[0].value.opening.drops.every(drop=>!('rarity' in drop)));assert.equal((await a.read()).units.length,1);assert.equal((await a.post('/v1/stickers/open-background',{rewardId:reward.id})).value.opening.drops[0].id,opened[0].value.opening.drops[0].id);
   for(const change of [{duration:60},{accepted:[evidence().accepted[0]]},{finishedAt:now-4000000},{accepted:evidence().accepted.map(a=>({...a,verdict:'SAMPLE_PASS'}))},{accepted:[evidence().accepted[0],evidence().accepted[0]]}])assert.equal((await a.post('/v1/stickers/replay-background',{evidence:evidence(change)})).status,400);
   assert.equal((await a.read()).units.length,1);
  }finally{await f.close();}
