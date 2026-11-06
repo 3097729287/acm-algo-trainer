@@ -30,7 +30,8 @@ html .lecture-focus .lectures-detail {border:0;border-radius:0}
 .lecture-directory-search{display:flex;align-items:center;gap:7px;width:100%;min-width:0;height:32px;padding:0 8px;border:0;border-radius:5px;background:var(--hover);color:var(--muted)}
 html .lecture-directory-search>input{flex:1;width:0;min-width:0;height:100%;padding:0;border:0;background:transparent;color:var(--text);font:inherit;font-size:.85rem;outline:none;box-shadow:none}
 .lecture-directory-search:focus-within{outline:1px solid var(--accent);outline-offset:-1px}
-.lectures-list:has(>.lecture-directory-toolbar)>.lecture-curriculum-group{top:44px}
+.lectures-list:has(>.lecture-directory-toolbar)>.lecture-curriculum-group{position:static}
+html .lecture-directory-search>input:is(:focus,:focus-visible){outline:0!important;box-shadow:none!important;border:0!important}
 html .study-compact .study-pane .lectures-list>.lecture-directory-toolbar{padding-left:84px}
 .lectures-list .lecture-prerequisite-preview{display:block;max-width:100%;font-size:.72rem;line-height:1.5;color:var(--muted);overflow-wrap:anywhere}
 .lecture-difficulty.lecture-level-1{color:var(--success)}
