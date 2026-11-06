@@ -16,8 +16,8 @@ export function createWaterScene(host){
  renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.25));
  renderer.domElement.style.cssText='position:absolute;inset:0;width:100%;height:100%;pointer-events:none';
  host.append(renderer.domElement);
- const camera=new THREE.PerspectiveCamera(56,1,.1,1000);
- camera.up.set(0,0,1);camera.position.set(0,-26,8);camera.lookAt(0,0,1.2);camera.updateMatrixWorld();
+ const camera=new THREE.PerspectiveCamera(56,1,.1,2500);
+ camera.up.set(0,0,1);camera.position.set(0,-26,8);camera.lookAt(0,0,0);camera.updateMatrixWorld();
  let resolveReady,rejectReady;
  const ready=new Promise((resolve,reject)=>{resolveReady=resolve;rejectReady=reject});
  const manager=new THREE.LoadingManager(()=>resolveReady(),undefined,url=>rejectReady(Error('Rain texture unavailable: '+url)));
@@ -110,25 +110,27 @@ export function createWaterScene(host){
 				const pmremTexture = pmremGenerator.fromCubemap(texture).texture
 				colorScene.environment = pmremTexture
 				colorScene.environmentRotation.set(-Math.PI / 2, 0, Math.PI, "XYZ")
-				colorScene.background = new THREE.Color(0x07111b)
+				colorScene.background = new THREE.Color(0x283f50)
 				colorScene.backgroundRotation.set(-Math.PI / 2, 0, Math.PI, "XYZ")
 			}
 		)
 		let waterMaterial = new THREE.MeshStandardMaterial({
-			color: 0x36536b,
-			metalness: 1,
-			roughness: 0.38,
+			color: 0x50778f,
+			metalness: 0.82,
+			roughness: 0.48,
+            emissive: 0x17394c,
+            emissiveIntensity: 0.4,
 			normalMap: new THREE.TextureLoader(manager).load(waterURL),
 			normalMapType: THREE.ObjectSpaceNormalMap,
 			side: THREE.DoubleSide
 		})
 		waterMaterial.normalMap.wrapS = THREE.RepeatWrapping
 		waterMaterial.normalMap.wrapT = THREE.RepeatWrapping
-		waterMaterial.normalMap.repeat.set(10, 10)
+		waterMaterial.normalMap.repeat.set(80, 80)
 
 		let timeUniform = { value: 0 }
 		let resolutionUniform = { value: new THREE.Vector2(1, 1) }
-		let overlaysUniform = { value: 0 }
+		let overlaysUniform = { value: 1 }
 
 		waterMaterial.onBeforeCompile = (shader) => {
 			shader.uniforms.time = timeUniform
@@ -172,7 +174,7 @@ export function createWaterScene(host){
 				)
 		}
 
-		let waterPlane = new THREE.Mesh(new THREE.PlaneGeometry(600, 600), waterMaterial)
+		let waterPlane = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), waterMaterial)
 		colorScene.add(waterPlane)
 
 		let drops = []
@@ -210,15 +212,15 @@ export function createWaterScene(host){
 		}
 
 
- colorScene.background=new THREE.Color(0x07111b);
- colorScene.environmentIntensity=.46;
- colorScene.fog=new THREE.FogExp2(0x07111b,.012);
- colorScene.add(new THREE.HemisphereLight(0x739db9,0x10202e,1.7));
+ colorScene.background=new THREE.Color(0x283f50);
+ colorScene.environmentIntensity=.85;
+ colorScene.fog=new THREE.FogExp2(0x283f50,.004);
+ colorScene.add(new THREE.HemisphereLight(0xadc4d0,0x34596d,2.1));
  const dropGeometry=new THREE.SphereGeometry(.1,8,6);
- const dropMaterial=new THREE.MeshStandardMaterial({color:0x8caabd,emissive:0x304858,emissiveIntensity:2.2,roughness:.35,metalness:.2,transparent:true,opacity:.72});
+ const dropMaterial=new THREE.MeshStandardMaterial({color:0xb2cbd6,emissive:0x467085,emissiveIntensity:1.4,roughness:.35,metalness:.2,transparent:true,opacity:.72});
  function step(dt,{rain=true}={}){
   elapsed+=dt;timeUniform.value=elapsed;
-  if(rain){emission+=dt*96;while(emission>=1){makeDrop(Math.random()*52-26,Math.random()*54-19,22);emission--;}}
+  if(rain){emission+=dt*96;while(emission>=1){const distant=Math.random()<.2,y=distant?35+Math.random()*105:Math.random()*54-19,x=(Math.random()-.5)*(distant?y*1.5:52);makeDrop(x,y,22);emission--;}}
   updateRipples(dt);updateDrops(dt);
  }
  function draw(){if(destroyed)return;renderer.setRenderTarget(normalTarget);renderer.render(normalScene,camera);renderer.setRenderTarget(null);renderer.render(colorScene,camera);}
