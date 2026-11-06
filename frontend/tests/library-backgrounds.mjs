@@ -31,8 +31,8 @@ try{
  // Follow one real upstream impact: the wave front must expand and stay visible.
  await page.evaluate(async()=>{await engine.setScene('rainfall');engine.setPaused(true);});
  const propagation=await page.evaluate(()=>{const scene=engine.rain.engine;for(const drop of scene.drops)scene.colorScene.remove(drop);scene.drops.length=0;for(const ripple of scene.ripples){scene.normalScene.remove(ripple.minus,ripple.plus);ripple.minus.material.dispose();ripple.plus.material.dispose();}scene.ripples.length=0;scene.makeDrop(0,0,.01);scene.step(.02,{rain:false});const rings=scene.ripples.map(r=>({origin:r.plus.position.toArray(),scale:r.plus.scale.x}));const readings=[];for(let i=0;i<150;i++){scene.step(1/30,{rain:false});if([29,59,119,149].includes(i)){scene.draw();readings.push({seconds:(i+1)/30,rings:scene.ripples.map(r=>({radius:r.plus.scale.x,opacity:r.plus.material.opacity})),picture:engine.snapshot()});}}return {rings,readings};});
- assert.equal(propagation.rings.length,3);assert(propagation.rings.every(r=>r.origin.join(',')==='0,0,0'),'Every ring uses the actual falling drop collision point');
- assert(propagation.readings[3].rings.length>=2&&propagation.readings[3].rings[0].opacity>.025,'Multiple rings remain visible five seconds after the collision');
+ assert.equal(propagation.rings.length,1);assert(propagation.rings.every(r=>r.origin.join(',')==='0,0,0'),'Every ring uses the actual falling drop collision point');
+ assert(propagation.readings[3].rings.length===1&&propagation.readings[3].rings[0].opacity>.025,'The single impact ring remains visible five seconds after the collision');
  assert(propagation.readings[3].rings[0].radius>propagation.readings[0].rings[0].radius+2,'The same collision rings expand across the lake');
  assert.notEqual(propagation.readings[3].picture,propagation.readings[0].picture);for(const reading of propagation.readings)delete reading.picture;
  await page.evaluate(()=>{engine.destroy();document.getElementById('capture').remove();});

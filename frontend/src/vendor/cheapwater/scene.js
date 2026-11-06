@@ -117,9 +117,9 @@ export function createWaterScene(host){
 		let waterMaterial = new THREE.MeshStandardMaterial({
 			color: 0x50778f,
 			metalness: 0.82,
-			roughness: 0.48,
+			roughness: 0.32,
             emissive: 0x17394c,
-            emissiveIntensity: 0.4,
+            emissiveIntensity: 0.25,
 			normalMap: new THREE.TextureLoader(manager).load(waterURL),
 			normalMapType: THREE.ObjectSpaceNormalMap,
 			side: THREE.DoubleSide
@@ -130,7 +130,7 @@ export function createWaterScene(host){
 
 		let timeUniform = { value: 0 }
 		let resolutionUniform = { value: new THREE.Vector2(1, 1) }
-		let overlaysUniform = { value: 1 }
+		let overlaysUniform = { value: 0 }
 
 		waterMaterial.onBeforeCompile = (shader) => {
 			shader.uniforms.time = timeUniform
@@ -184,9 +184,9 @@ export function createWaterScene(host){
 				dropMaterial
 			)
 			d.position.set(x, y, z)
-			d.userData.vz = -16
-            const size = 0.65 + Math.random() * 0.8
-            d.scale.set(size * 0.55, size * 0.55, size * 5.5)
+			d.userData.vz = -12
+            const size = 0.35 + Math.random() * 0.3
+            d.scale.setScalar(size)
             d.userData.size = size
 			colorScene.add(d)
 			drops.push(d)
@@ -199,12 +199,7 @@ export function createWaterScene(host){
 				if (d.position.z < 0) {
 					colorScene.remove(d)
 					drops.splice(drops.indexOf(d), 1)
-					for (const [scale,strength] of [[.1,.12],[.23,.095],[.36,.07]]) {
-                        makeRipple(d.position.x, d.position.y, strength)
-                        const ripple = ripples.at(-1)
-                        ripple.minus.scale.set(scale,scale,1)
-                        ripple.plus.scale.set(scale,scale,1)
-                    }
+                    makeRipple(d.position.x, d.position.y, .18)
                     impacts++
                     lastImpact = {x: d.position.x, y: d.position.y, z: 0}
 				}
@@ -216,11 +211,11 @@ export function createWaterScene(host){
  colorScene.environmentIntensity=.85;
  colorScene.fog=new THREE.FogExp2(0x283f50,.004);
  colorScene.add(new THREE.HemisphereLight(0xadc4d0,0x34596d,2.1));
- const dropGeometry=new THREE.SphereGeometry(.1,8,6);
- const dropMaterial=new THREE.MeshStandardMaterial({color:0xb2cbd6,emissive:0x467085,emissiveIntensity:1.4,roughness:.35,metalness:.2,transparent:true,opacity:.72});
+ const dropGeometry=new THREE.SphereGeometry(.1,16,16);
+ const dropMaterial=new THREE.MeshPhysicalMaterial({color:0xd4e5eb,roughness:.04,metalness:0,ior:1.33,transmission:.7,thickness:.03,transparent:true,opacity:.6,depthWrite:false});
  function step(dt,{rain=true}={}){
   elapsed+=dt;timeUniform.value=elapsed;
-  if(rain){emission+=dt*96;while(emission>=1){const distant=Math.random()<.2,y=distant?35+Math.random()*105:Math.random()*54-19,x=(Math.random()-.5)*(distant?y*1.5:52);makeDrop(x,y,22);emission--;}}
+  if(rain){emission+=dt*72;while(emission>=1){const distant=Math.random()<.35,y=distant?35+Math.random()*65:Math.random()*54-19,x=(Math.random()-.5)*(distant?y*1.5:52);makeDrop(x,y,22);emission--;}}
   updateRipples(dt);updateDrops(dt);
  }
  function draw(){if(destroyed)return;renderer.setRenderTarget(normalTarget);renderer.render(normalScene,camera);renderer.setRenderTarget(null);renderer.render(colorScene,camera);}
