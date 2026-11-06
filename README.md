@@ -1,6 +1,6 @@
 # ToBe · 当前版本说明
 
-本机 **1.6.3 · 2026-11-07 牛客题单与经验环修订**：牛客阶段内直接显示知识点卡片，点开即看题目；合并来源拆出的入门、补充与精选目录，57 个题单保留全部 1,083 道不同原题。右上角经验环恢复实色进度带，侧栏只保留 ToBe，排行榜本人行改用细标记。[本次修订](docs/local-delivery-1.6.3-catalog.md)。此前的[学习任务与阅读修订](docs/local-delivery-1.6.3-learning.md)、[雨湖](docs/local-delivery-1.6.3-rain.md)与[交互修订](docs/local-delivery-1.6.3-ui.md)继续保留。
+本机 **1.6.3 · 2026-11-07 排行榜行高修订**：压缩单元格与用户信息容器叠加的上下留白，头像、等级牌和字号保持，昵称、在线状态、互动与成绩继续居中对齐。[本次修订](docs/local-delivery-1.6.3-ranking-density.md)。此前的[牛客题单与经验环](docs/local-delivery-1.6.3-catalog.md)、[学习任务与阅读](docs/local-delivery-1.6.3-learning.md)、[雨湖](docs/local-delivery-1.6.3-rain.md)与[交互修订](docs/local-delivery-1.6.3-ui.md)继续保留。
 
 公开下载仍为 [正式 1.6.3](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.3)；本机追加修订没有覆盖正式资产。以下旧版本说明作为历史记录保留。
 

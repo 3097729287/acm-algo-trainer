@@ -1,4 +1,6 @@
-当前本机修订为 1.6.3 · 2026-11-07（牛客题单与经验环）。`node tests/nowcoder-curriculum.mjs` 使用完整公开来源核对 1,083 个原题身份、合并后的阶段卡片与直接打开；`node tests/training-list-platforms-model.mjs` 验证旧位置与入口迁移，`node tests/training-lists-model.mjs` 和 `node tests/training-list-cache.mjs` 验证原始来源、章节、搜索、去重和缓存。`node tests/avatar-size.mjs` 检查九档头像中真实比例的实色经验带、方向与对齐，`node tests/workspace-revisions.mjs` 验证原标识收起、展开和恢复以及既有主界面行为。公开 1.6.3 标签与资产保持不变，本机修订见[本次记录](local-delivery-1.6.3-catalog.md)。此前[学习任务](local-delivery-1.6.3-learning.md)、[雨湖](local-delivery-1.6.3-rain.md)与[交互修订](local-delivery-1.6.3-ui.md)保留。以下旧版本交付记录继续保留。
+当前本机追加修订为 1.6.3 · 2026-11-07（排行榜行高）：合并过题榜单元格与用户信息容器的垂直留白，保留头像、等级牌、字号及各列居中。用实际排行榜核对宽窄窗口、深浅主题和完整头像，构建后复核本机两版前端。公开 1.6.3 标签与资产保持不变，见[本次记录](local-delivery-1.6.3-ranking-density.md)。
+
+此前牛客题单与经验环修订：`node tests/nowcoder-curriculum.mjs` 使用完整公开来源核对 1,083 个原题身份、合并后的阶段卡片与直接打开；`node tests/training-list-platforms-model.mjs` 验证旧位置与入口迁移，`node tests/training-lists-model.mjs` 和 `node tests/training-list-cache.mjs` 验证原始来源、章节、搜索、去重和缓存。`node tests/avatar-size.mjs` 检查九档头像中真实比例的实色经验带、方向与对齐，`node tests/workspace-revisions.mjs` 验证原标识收起、展开和恢复以及既有主界面行为。详见[题单修订](local-delivery-1.6.3-catalog.md)。此前[学习任务](local-delivery-1.6.3-learning.md)、[雨湖](local-delivery-1.6.3-rain.md)与[交互修订](local-delivery-1.6.3-ui.md)保留。以下旧版本交付记录继续保留。
 
 ## 设计理念和任务工作区检查
 
