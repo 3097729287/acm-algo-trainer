@@ -185,8 +185,8 @@ export function createWaterScene(host){
 			)
 			d.position.set(x, y, z)
 			d.userData.vz = -12
-            const size = 0.35 + Math.random() * 0.3
-            d.scale.setScalar(size)
+            const size = 0.45 + Math.random() * 0.35
+            d.scale.set(size,size,size*1.6)
             d.userData.size = size
 			colorScene.add(d)
 			drops.push(d)
@@ -212,10 +212,10 @@ export function createWaterScene(host){
  colorScene.fog=new THREE.FogExp2(0x283f50,.004);
  colorScene.add(new THREE.HemisphereLight(0xadc4d0,0x34596d,2.1));
  const dropGeometry=new THREE.SphereGeometry(.1,16,16);
- const dropMaterial=new THREE.MeshPhysicalMaterial({color:0xd4e5eb,roughness:.04,metalness:0,ior:1.33,transmission:.7,thickness:.03,transparent:true,opacity:.6,depthWrite:false});
+ const dropMaterial=new THREE.MeshPhysicalMaterial({color:0xc7e9f7,emissive:0x6a8598,emissiveIntensity:.6,roughness:.08,metalness:0,ior:1.33,transmission:.25,thickness:.03,transparent:true,opacity:.88,depthWrite:false});
  function step(dt,{rain=true}={}){
   elapsed+=dt;timeUniform.value=elapsed;
-  if(rain){emission+=dt*72;while(emission>=1){const distant=Math.random()<.35,y=distant?35+Math.random()*65:Math.random()*54-19,x=(Math.random()-.5)*(distant?y*1.5:52);makeDrop(x,y,22);emission--;}}
+  if(rain){emission+=dt*72;while(emission>=1){const depth=Math.random(),distant=depth<.25,foreground=depth>.75,y=distant?35+Math.random()*65:foreground?-16+Math.random()*14:-2+Math.random()*37,x=(Math.random()-.5)*(distant?y*1.5:foreground?28:52);makeDrop(x,y,22);emission--;}}
   updateRipples(dt);updateDrops(dt);
  }
  function draw(){if(destroyed)return;renderer.setRenderTarget(normalTarget);renderer.render(normalScene,camera);renderer.setRenderTarget(null);renderer.render(colorScene,camera);}
