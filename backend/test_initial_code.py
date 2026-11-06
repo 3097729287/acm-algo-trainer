@@ -65,11 +65,30 @@ class InitialCodeTests(unittest.TestCase):
         self.assertFalse(any(row['id']==item['id'] for row in value['templates']))
         with self.assertRaises(ServiceError):self.choose(item)
 
-    def test_byte_limits_and_immutable_default(self):
+    def test_byte_limits_and_reserved_default_name(self):
         for body in ({'title':'x','language':'cpp17','code':'中'*22000}, {'title':'x','language':'cpp17','code':'\x00'},
                      {'id':'default','title':'x','language':'cpp17','code':'x'}, {'title':'x','language':'javascript','code':'x'}):
             with self.assertRaises(ServiceError):save(self.service,body)
         self.assertEqual(len(catalog(self.service)['templates']),2)
+
+    def test_editable_default_survives_restart_is_private_and_keeps_existing_drafts(self):
+        self.service.save_draft('fixture::A', 'actual user code')
+        body={'id':'default','title':'默认','language':'cpp17','revision':'','code':'// my exact default\nlong long value;\n'}
+        value=save(self.service,body)
+        self.assertTrue(value['template']['customized'])
+        self.assertTrue(value['template']['builtin'])
+        self.assertEqual(len(value['templates']),2)
+        self.assertEqual(selected(self.service)['templates'][0]['code'],body['code'])
+        self.assertEqual(selected(self.service)['templates'][1]['code'],DEFAULTS['python3'])
+        self.assertEqual(self.service.problem('fixture::A')['draft'],'actual user code')
+        self.assertTrue(any(row['key']=='initial-code-default:cpp17' for row in self.service.connection.execute('SELECT key FROM account_preferences')))
+        with self.assertRaises(ServiceError) as issue:save(self.service,body)
+        self.assertEqual(issue.exception.status,409)
+        self.service.close()
+        self.service=TrainingService(self.library,self.db,self.assets,self.judge,self.clock,self.root/'backups')
+        default=next(row for row in catalog(self.service)['templates'] if row['id']=='default' and row['language']=='cpp17')
+        self.assertEqual(default['code'],body['code'])
+        with self.assertRaises(ServiceError):save(self.service,dict(body,revision=default['revision'],delete=True))
 
     def test_private_journal_merge_retains_independent_templates_and_selection(self):
         item=self.create();self.choose(item)

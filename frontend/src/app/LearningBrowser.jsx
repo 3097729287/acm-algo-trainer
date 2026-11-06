@@ -8,6 +8,7 @@ import {QUEUES,trainingGroup} from '@/models/workspaceModel.js';
 import {forwardRef,lazy,Suspense,useCallback,useEffect,useImperativeHandle,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import {createPortal,flushSync} from 'react-dom';
 import {ArrowLeft,ArrowRight,Gift,BookOpen,BookText,ChevronRight,Code2,FlaskConical,FolderClosed,House,LoaderCircle,NotebookTabs,Plus,Search,X} from 'lucide-react';
+import useReadingZoom from '@/lib/readingZoom.js';
 import {StudyPaneContext} from '@/lib/StudyPane.jsx';
 import {activateStudyTab,buildLearningIndex,closeStudyTab,emptyStudyBrowser,learningDirectory,MAX_STUDY_TABS,moveStudyTab,openStudyTab,replaceStudyProblem,replaceStudyContent,resizeStudyGroups,restoreStudyBrowser as restoreTabs,splitStudyTab,STUDY_LABELS,studyGroups,studyKey,studySnapshot,updateStudyDocument} from '@/lib/learningBrowser.js';
 import {foundationLectures,lectureDestination} from '@/lib/algorithmLearning.js';
@@ -108,6 +109,7 @@ function StudyTab({tab,visible,focused,side,groupId,column,compact,onAdd,patch,f
 }
 
 const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,rows=[],trainingRows=[],prefs,setPrefs,onTrain,onProgress,onNotice,onExit,onActiveChange,onFlush,categories=[],lockedProblems=[],practiceWorkspace,recommendations,weeklyPlan,onSummaryTask,taskPlan,onTaskNavigate,onPacks},ref){
+ useReadingZoom();
  const [state,setState]=useState(emptyStudyBrowser),[stateOwner,setStateOwner]=useState(null),[initialized,setInitialized]=useState(false);
  const [searching,setSearching]=useState(null),[query,setQuery]=useState(''),[directory,setDirectory]=useState([]),[resultIndex,setResultIndex]=useState(0),[limit,setLimit]=useState(80);
  const closeSearch=useCallback(()=>{setSearching(null);setState(previous=>studyGroups(previous).length===1&&previous.tabs.length===1?{...previous,chrome:false}:previous);},[]);
@@ -270,7 +272,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
   <main className="study-stage" style={{gridTemplateColumns:groups.map(group=>`minmax(0,${group.weight}fr)`).join(' 1px ')}}>
    {!compact&&groups.map((group,groupIndex)=><header key={group.id} className="study-bar study-group-header" data-group-id={group.id} data-focused={group.id===state.focusedGroup} style={{gridColumn:groupIndex*2+1}} onPointerDownCapture={()=>{checkpoint();focus(group.active);}}>
     {groupIndex===0&&<button type="button" className="study-icon study-back" aria-label="返回主界面" title="返回主界面 · Esc" onClick={hide}><House size={18}/></button>}
-    <div role="tablist" aria-label={`第 ${groupIndex+1} 组学习标签页`} className="study-tabs" onWheel={event=>{if(Math.abs(event.deltaY)>Math.abs(event.deltaX))event.currentTarget.scrollLeft+=event.deltaY;}}>
+    <div role="tablist" aria-label={`第 ${groupIndex+1} 组学习标签页`} className="study-tabs" onWheel={event=>{if(!event.ctrlKey&&Math.abs(event.deltaY)>Math.abs(event.deltaX))event.currentTarget.scrollLeft+=event.deltaY;}}>
      {group.tabs.map(key=>{const tab=state.tabs.find(tab=>tab.key===key),Icon=ICONS[tab.kind];return <div key={key} className="study-tab-wrap" data-tab-key={key}>
       <button type="button" role="tab" draggable aria-selected={key===group.active} aria-controls={'study-panel-'+key} tabIndex={key===group.active?0:-1} title={`${tab.title} · ${STUDY_LABELS[tab.kind]}`} onClick={()=>activate(key)} onAuxClick={event=>{if(event.button===1){event.preventDefault();close(key);}}} onKeyDown={event=>{
        if(!['ArrowLeft','ArrowRight','Home','End','Delete'].includes(event.key))return;event.preventDefault();if(event.key==='Delete'){close(key);return;}

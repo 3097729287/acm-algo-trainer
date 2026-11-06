@@ -14,14 +14,14 @@ const ThemedSelect=forwardRef(function ThemedSelect({children,onChange,onKeyDown
   function choose(index){const option=items[index];if(!option || option.disabled)return;const select=native.current;select.value=option.value;select.dispatchEvent(new Event('change',{bubbles:true}));setOpen(false);select.focus({preventScroll:true});}
   function move(direction){let index=active;for(let count=0;count<items.length;count++){index=(index+direction+items.length)%items.length;if(!items[index].disabled){setActive(index);break;}}}
   useLayoutEffect(()=>{
-    const select=native.current;if(!select?.closest('.wb-language-select'))return;
+    const select=native.current;if(!select||!hideChevron)return;
     let live=true;
-    const measure=()=>{if(!live)return;const font=getComputedStyle(select),context=document.createElement('canvas').getContext('2d');context.font=font.font;const text=select.selectedOptions[0]?.text||'';const width=Math.ceil(context.measureText(text).width+parseFloat(font.paddingLeft)+parseFloat(font.paddingRight)+4)+'px';if(select.parentElement.style.width!==width)select.parentElement.style.width=width;};
+    const measure=()=>{if(!live)return;const font=getComputedStyle(select),context=document.createElement('canvas').getContext('2d');context.font=font.font;const text=select.selectedOptions[0]?.text||'';const width=Math.ceil(context.measureText(text).width+parseFloat(font.paddingLeft)+parseFloat(font.paddingRight)+parseFloat(font.borderLeftWidth)+parseFloat(font.borderRightWidth))+'px';if(select.parentElement.style.width!==width)select.parentElement.style.width=width;};
     measure();const observer=new MutationObserver(measure);observer.observe(document.documentElement,{attributes:true,attributeFilter:['style','class','data-theme']});document.fonts?.ready.then(measure);return()=>{live=false;observer.disconnect();};
-  },[children,props.value]);
+  },[children,props.value,hideChevron]);
   useLayoutEffect(()=>{
     if(!open)return;
-    const layout=()=>{const rect=native.current.getBoundingClientRect(),font=getComputedStyle(native.current),context=document.createElement('canvas').getContext('2d');context.font=font.font;const textWidth=Math.max(0,...items.map(item=>context.measureText(item.text).width));const width=Math.min(Math.max(rect.width,Math.ceil(textWidth)+(hideSelectedOption?34:54)),innerWidth-16);const below=innerHeight-rect.bottom-12,above=rect.top-12;const height=Math.min(288,Math.max(80,Math.max(below,above)));const upwards=below<Math.min(240,items.length*36)&&above>below;
+    const layout=()=>{const rect=native.current.getBoundingClientRect(),font=getComputedStyle(native.current),context=document.createElement('canvas').getContext('2d');context.font=font.font;const textWidth=Math.max(0,...items.map(item=>context.measureText(item.text).width));const width=Math.min(Math.max(rect.width,Math.ceil(textWidth)+(hideSelectedOption?Math.max(0,parseFloat(font.paddingLeft))+Math.max(0,parseFloat(font.paddingRight))+2:54)),innerWidth-16);const below=innerHeight-rect.bottom-12,above=rect.top-12;const height=Math.min(288,Math.max(80,Math.max(below,above)));const upwards=below<Math.min(240,items.length*36)&&above>below;
       setPosition({position:'fixed',left:Math.max(8,Math.min(rect.left,innerWidth-width-8)),width,maxHeight:height,fontFamily:font.fontFamily,fontSize:font.fontSize,fontWeight:font.fontWeight,'--select-option-height':rect.height+'px','--select-option-indent':Math.max(0,parseFloat(font.paddingLeft))+'px',...(upwards?{bottom:innerHeight-rect.top+5}:{top:rect.bottom+5})});};
     layout();const outside=event=>{if(!native.current?.contains(event.target)&&!menu.current?.contains(event.target))setOpen(false);};
     document.addEventListener('pointerdown',outside,true);window.addEventListener('resize',layout);window.addEventListener('scroll',layout,true);
@@ -52,7 +52,7 @@ const ThemedSelect=forwardRef(function ThemedSelect({children,onChange,onKeyDown
         const found=values.findIndex(item=>!item.disabled&&item.text.toLocaleLowerCase().startsWith(search.current.text));if(found>=0)setActive(found);
       }
     }}>{children}</select>{!hideChevron&&<ChevronDown className="tb-select-chevron" size={14} aria-hidden="true"/>}</span>
-    {open&&createPortal(<div ref={menu} id={id} className="tb-select-menu" role="listbox" aria-label={props['aria-label'] || native.current?.labels?.[0]?.textContent || '选项'} style={position} onPointerDown={event=>event.preventDefault()}>{items.map((item,index)=><div key={`${item.value}:${index}`}>
+    {open&&createPortal(<div ref={menu} id={id} className="tb-select-menu" data-compact={hideSelectedOption||undefined} role="listbox" aria-label={props['aria-label'] || native.current?.labels?.[0]?.textContent || '选项'} style={position} onPointerDown={event=>event.preventDefault()}>{items.map((item,index)=><div key={`${item.value}:${index}`}>
       {item.group&&item.group!==items[index-1]?.group&&<div className="tb-select-group">{item.group}</div>}
       <button type="button" role="option" id={`${id}-${index}`} data-index={index} aria-selected={native.current.value===item.value} aria-disabled={item.disabled} data-active={active===index} disabled={item.disabled} tabIndex={-1} onPointerMove={()=>setActive(index)} onClick={()=>choose(index)}><span>{item.text}</span>{native.current.value===item.value&&<Check size={14} aria-hidden="true"/>}</button>
     </div>)}</div>,native.current?.closest('dialog') || document.body)}

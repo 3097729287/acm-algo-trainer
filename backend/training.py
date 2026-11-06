@@ -1371,8 +1371,8 @@ class TrainingService:
             saved_at = iso(self._now())
             with self._write() as connection:
                 self._save_language(connection,self._draft_language_key(identity,context),language)
-                if not contest_id and not review_id and code.strip():
-                    self._claim_training(connection, identity)
+                if not review_id and (contest_id or code.strip()):
+                    if not contest_id:self._claim_training(connection, identity)
                     self._activate(connection, identity, saved_at)
                 connection.execute("INSERT INTO drafts VALUES(?,?,?,?) ON CONFLICT(problem_id,context) DO UPDATE SET code=excluded.code,saved_at=excluded.saved_at", (identity, context, code, saved_at))
             return {"savedAt": saved_at}
@@ -2110,9 +2110,8 @@ class TrainingService:
                 for slot in slots:
                     before = connection.execute('SELECT active,active_at,removed_at FROM training WHERE id=?', (slot['id'],)).fetchone()
                     slot['trainingBefore'] = dict(before) if before else None
+                options = {**options, 'editedTrainingOnly': True}
                 connection.execute("INSERT INTO contests(id,name,status,started_at,deadline,finished_at,duration,slots,config) VALUES(?,?,'running',?,?,NULL,?,?,?)", (identity, name, timestamp, deadline, duration, json.dumps(slots, ensure_ascii=False), json.dumps(options, ensure_ascii=False)))
-                for problem_id in ids:
-                    self._activate(connection, problem_id, timestamp)
             self.previews.pop(tuple(ids), None)
             return {"contest": self._contest(self._contest_record(identity)), "workspace": self.workspace()}
 
@@ -2257,6 +2256,41 @@ class TrainingService:
                 names.add(contest_name(original))
         return sorted(names)
 
+    def _prune_unedited_contest_entries(self, aliases):
+        """Retire only provable legacy auto-joins; never discard code/history."""
+        key='contest-edited-training-v1'
+        if getattr(self,'_contest_entries_checked',False):return
+        if self.connection.execute('SELECT 1 FROM account_preferences WHERE key=?',(key,)).fetchone():
+            self._contest_entries_checked=True
+            return
+        canonical=lambda identity:aliases.get(identity,identity)
+        refs={}
+        for contest in self.connection.execute('SELECT slots,config,started_at FROM contests WHERE deleted_at IS NULL'):
+            if json.loads(contest['config'] or '{}').get('editedTrainingOnly'):continue
+            for slot in json.loads(contest['slots']):
+                if 'trainingBefore' not in slot:continue
+                refs.setdefault(canonical(slot['id']),[]).append((slot,contest['started_at']))
+        if not refs:
+            self._contest_entries_checked=True
+            return
+        protected={canonical(row[0]) for table in ('drafts','submissions') for row in self.connection.execute('SELECT DISTINCT problem_id FROM '+table)}
+        protected.update(canonical(identity) for row in self.connection.execute('SELECT ids FROM practice_sets') for identity in json.loads(row[0]))
+        retired=[]
+        for row in self.connection.execute('SELECT * FROM training WHERE active=1'):
+            entries=refs.get(canonical(row['id']),[])
+            if not entries or canonical(row['id']) in protected:continue
+            if any(not slot.get('trainingAdded') for slot,_ in entries):continue
+            if not any(not slot['trainingBefore'] or not slot['trainingBefore'].get('active') for slot,_ in entries):continue
+            if row['active_at'] not in {at for _,at in entries}:continue
+            if any(row[field] for field in ('accepted_at','last_local_at','last_review_at','review_count','solution_pending','solution_seen_at')):continue
+            retired.append(row['id'])
+        at=iso(self._now())
+        with self._write() as connection:
+            for identity in retired:
+                connection.execute('UPDATE training SET active=0,removed_at=?,mock_due=0 WHERE id=?',(at,identity))
+            connection.execute('INSERT INTO account_preferences VALUES(?,?,?)',(key,json.dumps({'retired':retired,'at':at}),at))
+        self._contest_entries_checked=True
+
     def workspace(self):
         from copy import deepcopy
         with self.lock:
@@ -2282,6 +2316,9 @@ class TrainingService:
     def _build_workspace(self):
         with self.lock, self._library_view():
             self._expire()
+            library = {row['id']: row for row in self._library()}
+            aliases = self._identity_map(list(library.values()))
+            self._prune_unedited_contest_entries(aliases)
             review_plan = self.review_plan()
             review_tasks = {item['problemId']: item for item in review_plan['tasks']}
             from goals import Goals
@@ -2292,8 +2329,6 @@ class TrainingService:
             goal_tasks = [] if summary_active else goal_overview.get('goalTasks', [])
             if summary_active:
                 goal_overview.update(goalTasks=[], summaryGoal=learning_plan['config']['goal'])
-            library = {row["id"]: row for row in self._library()}
-            aliases = self._identity_map(list(library.values()))
             records = self.connection.execute("SELECT * FROM submissions WHERE mode='submit' ORDER BY submitted_at,rowid").fetchall()
             grouped = {}
             for submission in records:
@@ -2380,7 +2415,14 @@ class TrainingService:
                 if ids:
                     sets.append({"id": record["id"], "name": record["name"], "type": "practice", "ids": ids, "createdAt": record["created_at"], "accepted": len(set(ids) & accepted_ids), "total": len(set(ids))})
             contests = [self._contest(record) for record in self.connection.execute("SELECT * FROM contests WHERE deleted_at IS NULL ORDER BY started_at DESC,rowid DESC")]
-            days = {parse_time(record["submitted_at"]).astimezone(TRAINING_ZONE).date() for record in records if record["finished_at"] and record["scope"]=="official" and record["verdict"]=="AC"}
+            first_passes = {}
+            for record in records:
+                if record['mode'] != 'submit' or not record['finished_at'] or record['scope'] != 'official' or record['verdict'] != 'AC':
+                    continue
+                identity = aliases.get(record['problem_id'], record['problem_id'])
+                accepted_day = parse_time(record['submitted_at']).astimezone(TRAINING_ZONE).date()
+                first_passes[identity] = min(first_passes.get(identity, accepted_day), accepted_day)
+            days = set(first_passes.values())
             day = now.astimezone(TRAINING_ZONE).date()
             if day not in days:
                 day -= dt.timedelta(days=1)

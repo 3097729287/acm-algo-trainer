@@ -78,6 +78,10 @@ class AssetLibrary:
         prepared=bundled_translation(value)
         if prepared:value['translation']=dict(prepared,cached=True)
         elif isinstance(value.get('translation'),dict) and value['translation'].get('kind')=='bundled':value.pop('translation',None)
+        if isinstance(value.get('translation'),dict) and value['translation'].get('markdown'):
+            from translation import validate_translation, TranslationIncomplete
+            try:validate_translation(value.get('currentSourceMarkdown') or value.get('markdown') or '',value['translation']['markdown'])
+            except TranslationIncomplete:value.pop('translation',None)
         from translation import needs_translation
         value['autoTranslate']=needs_translation(value)
         bundle=self.bundle(identity)

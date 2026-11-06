@@ -118,7 +118,7 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
   const openPrerequisite=item=>item.destination&&onOpenTemplate?onOpenTemplate(item.destination.templateId):openLecture(item.id);
   const toggleLearned=()=>setPrefs?.(previous=>{const keys=new Set(previous.learnedLectures||[]),key=lessonKey(lesson);keys.has(key)?keys.delete(key):keys.add(key);return recordKnowledgeLesson(previous,{...previous,learnedLectures:[...keys]},key);});
   const isLearned=(prefs.learnedLectures||[]).includes(lessonKey(lesson));
-  return <div className="lectures-page" aria-label="从零讲知识总结">
+  return <div className="lectures-page" data-lecture-id={selected||undefined} aria-label="从零讲知识总结">
     <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索从零讲知识" value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换讲解排序方向" descending={descending} onChange={setDescending}/><FolderSelect iconOnly label="从零讲知识分类" placeholder="全部知识分类" options={classifications} value={classification} onChange={event=>setClassification(event.target.value)}/><button type="button" className="icon-button lecture-learned-filter" aria-label={showLearned?'隐藏已学会':'显示已学会'} title={showLearned?'隐藏已学会':'显示已学会'} aria-pressed={showLearned} onClick={()=>setShowLearned(value=>!value)}>{showLearned?<BookCheck size={17}/>:<BookOpen size={17}/>}</button></PageSearch>
     {!selected&&error&&<p role="alert">{error}</p>}
     {!selected&&!study?<div className="learning-catalogue lecture-catalogue" aria-label="完整知识讲解">
@@ -126,7 +126,7 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
       {!snapshot&&!error&&<LoaderCircle className="spin" role="status" aria-label="正在读取完整讲解" size={19}/>}
       {snapshot&&!filtered.length&&<p className="progress-muted">没有匹配的完整讲解。</p>}
     </div>:<div className={'lectures-layout' + (selected ? ' has-selection' : '')+(readingFull&&selected?' lecture-reading-full':'')+(directoryOpen?' lecture-directory-open':'')}>
-      {(!study||directoryOpen)&&<nav ref={directory} id={directoryId} className="lectures-list" aria-label="完整知识讲解" onScroll={event=>{if(visit)visit.directoryScrollTop=event.currentTarget.scrollTop;}}>{filtered.map((item,index) => <Fragment key={item.id}>
+      {(!study||directoryOpen)&&<nav ref={directory} id={directoryId} className="lectures-list" aria-label="完整知识讲解" onScroll={event=>{if(visit)visit.directoryScrollTop=event.currentTarget.scrollTop;}}><div className="lecture-directory-toolbar"><label className="lecture-directory-search"><Search size={15}/><input type="search" aria-label="搜索从零讲目录" value={query} onChange={event=>setQuery(event.target.value)}/></label></div>{filtered.map((item,index) => <Fragment key={item.id}>
         {(index===0||filtered[index-1].curriculum.kind!==item.curriculum.kind)&&<h3 className="lecture-curriculum-group">{item.curriculum.kind==='language'?'基础学习':LECTURE_ROLES[item.curriculum.kind]}</h3>}
         <button className={[selected===item.id?'selected':'',learnedKeys.has(lessonKey(item))?'lecture-learned':''].filter(Boolean).join(' ')} aria-current={selected===item.id?'page':undefined} data-lesson-kind={item.curriculum.kind} onClick={() => {if((study||readingFull)&&onNextLecture)onNextLecture(item.id);else openLecture(item.id,true);}}>
           <strong><LessonTitle>{catalogueTitle(item)}</LessonTitle></strong>

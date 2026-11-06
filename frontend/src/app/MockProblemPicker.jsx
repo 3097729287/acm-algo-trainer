@@ -1,7 +1,7 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import {createPortal} from 'react-dom';
-import { Check, ChevronDown, History } from 'lucide-react';
-import { verdictLabel } from '@/models/workspaceModel.js';
+import { Check, ChevronDown, History, X, Clock, CircleAlert, Code2, LoaderCircle } from 'lucide-react';
+import { verdictLabel, verdictTone } from '@/models/workspaceModel.js';
 import InlineTitle from '@/components/InlineTitle.jsx';
 import './MockProblemPicker.css';
 import {opacityStyle} from '@/lib/surfaceOpacity.js';
@@ -70,7 +70,7 @@ export default function MockProblemPicker({ contest, currentId, onSelect, onHist
         onClick={() => { close(); onSelect(slot.id); }}>
         <span className="mock-picker-letter">{slot.letter}</span>
         <span className="mock-picker-title"><InlineTitle>{slot.title}</InlineTitle></span>
-        <span className="mock-picker-verdict">{slot.accepted ? <><Check size={12} aria-hidden="true" />AC</> : slot.verdict ? verdictLabel(slot.verdict) : '未提交'}</span>
+        <span className={'mock-picker-verdict verdict-'+verdictTone(slot.accepted?'AC':slot.verdict)}>{(()=>{const verdict=slot.accepted?'AC':slot.verdict,Icon=verdict==='AC'?Check:verdict==='WA'?X:['TLE','MLE','OLE'].includes(verdict)?Clock:verdict==='CE'?Code2:['QUEUED','RUNNING'].includes(verdict)?LoaderCircle:verdict?CircleAlert:null;return <>{Icon&&<Icon size={12} aria-hidden="true"/>}{verdict?verdictLabel(verdict):'未提交'}</>;})()}</span>
       </button>)}
       <button type="button" className="mock-picker-history" role="menuitem" onClick={() => { close(); onHistory(); }}>
         <History size={14} aria-hidden="true" />模拟赛记录

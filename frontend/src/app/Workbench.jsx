@@ -34,6 +34,7 @@ import {insertTemplate,normalizeCppTemplate} from '@/lib/insertTemplate.js';
 import {platformInfo,rowPlatform} from '@/lib/platformRegistry.js';
 import './Workbench.css';
 import useWorkbenchToolbar from './useWorkbenchToolbar.js';
+import useReadingZoom from '@/lib/readingZoom.js';
 
 const TemplatesPage=lazy(()=>import('@/pages/TemplatesPage.jsx'));
 const TEMPLATE = '#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    \n    return 0;\n}\n';
@@ -41,7 +42,7 @@ const PYTHON_TEMPLATE = 'import sys\n\ndef solve():\n    pass\n\nif __name__ == 
 function startingTemplate(snapshot,language){
   const item=snapshot?.templates?.find(item=>item.language===language&&item.id===(snapshot.selection?.[language]||'default'))
     ||{id:'default',title:'默认',language,code:language==='python3'?PYTHON_TEMPLATE:TEMPLATE};
-  return language==='cpp17'&&item.id==='default'?{...item,code:normalizeCppTemplate(item.code)}:item;
+  return language==='cpp17'&&item.id==='default'&&!item.customized?{...item,code:normalizeCppTemplate(item.code)}:item;
 }
 const MAX_BYTES = 64 * 1024;
 const statementSource=value=>JSON.stringify([value?.currentSourceMarkdown||value?.markdown||'',value?.statementPdf?.sha256||null]);
@@ -209,6 +210,7 @@ function CaseResults({ cases }) {
 }
 
 export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, onCloseSolution, onNotice, solutionOpen=false, solutionMethodId=null, onNext, nextDisabled=false, nextLabel='下一题', headerStart, headerEnd,navigationBack }) {
+  useReadingZoom();
   const studyPane=useStudyPane();
   const featureAvailable=useFeatureVisibility();
   const contestId = contest?.id || null;
@@ -945,7 +947,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const solutionButtons=(onSolution && !runningContest && !problem?.locked && <span className="wb-solution-methods">{(problem?.solutionMethods??(problem?[{id:'original',title:'题解'}]:[])).map((method,index,methods)=><button key={method.id} type="button" className="wb-button wb-solution-button" aria-label={methods.length===1?'题解':`题解${index+1}`} title={method.title||`题解${index+1}`} aria-pressed={solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0)} onClick={()=>{const opened=solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0);if(opened&&callbacks.current.onCloseSolution)callbacks.current.onCloseSolution();else callbacks.current.onSolution?.(problemId,method.id);}}><BookOpen size={14}/></button>)}</span>);
   const editorHeader=(<div className="wb-pane-header wb-editor-header">{effectivePane==='code'&&!narrow&&navigationBack}
           <span className="wb-language-select"><ThemedSelect hideSelectedOption hideChevron aria-label="编程语言" title={`编程语言 · ${shortcutValue('code-language',shortcuts)}`} value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python3</option></ThemedSelect></span>
-          <InitialCodeSelect api={api} snapshot={initialCode} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} title={`选择初始代码模板 · ${shortcutValue('initial-code',shortcuts)}`} disabled={loading||!problem||unavailable||busy||officialBusy} onOpenChange={setInitialPickerOpen} onError={setActionError} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.language==='cpp17'&&item.id==='default'?normalizeCppTemplate(item.code):item.code);}}/>
+          <InitialCodeSelect api={api} snapshot={initialCode} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} title={`选择初始代码模板 · ${shortcutValue('initial-code',shortcuts)}`} disabled={loading||!problem||unavailable||busy||officialBusy} onOpenChange={setInitialPickerOpen} onError={setActionError} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.language==='cpp17'&&item.id==='default'&&!item.customized?normalizeCppTemplate(item.code):item.code);}}/>
           {!['saved','automatic'].includes(saveState.kind)&&<span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message||saveLabel} aria-label={saveLabel} role={saveState.kind==='error'?'alert':'status'}>{saveState.kind==='saving'?<LoaderCircle size={14} className="wb-spinner"/>:saveState.kind==='unsaved'?<span className="wb-pending-dot"/>:saveLabel}</span>}
           <div className="wb-editor-actions">
             <button type="button" className="wb-button" aria-label="任务概览" title={`任务概览 · ${shortcutValue('learning-summary',shortcuts)}`} onClick={()=>window.dispatchEvent(new Event('tb:learning-summary-open'))}><BookOpen size={14}/></button>

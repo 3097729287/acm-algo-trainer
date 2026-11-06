@@ -291,6 +291,40 @@ def sample_spans(text):
     return spans
 
 
+def dollar_math_spans(text, occupied=()):
+    """Consume adjacent math delimiters from left to right, including $$$a$$$$$$b$$$.
+
+    A closing triple may touch the next opening triple. Requiring a non-dollar
+    after it skips that close and incorrectly shields the English paragraphs
+    up to a later formula. Fenced code is already owned by the caller.
+    """
+    spans = []
+    cursor = 0
+    while match := re.search(r'(?<!\\)\$+', text[cursor:]):
+        start = cursor + match.start()
+        run = len(match[0])
+        cursor += match.end()
+        if any(a <= start < b for a, b in occupied):
+            continue
+        size = 3 if run % 3 == 0 else 2 if run % 2 == 0 else 1 if run == 1 else 0
+        if not size:
+            continue
+        # Search starting after just the opening delimiter, so any remainder
+        # of a run can be consumed independently on the next iteration.
+        at = start + size
+        limit = text.find('\n', at) if size == 1 else -1
+        for closing in re.finditer(r'(?<!\\)\$+', text[at:]):
+            end_start = at + closing.start()
+            if limit >= 0 and end_start >= limit:
+                break
+            if len(closing[0]) < size or any(a <= end_start < b for a, b in occupied):
+                continue
+            cursor = end_start + size
+            spans.append((start, cursor))
+            break
+    return spans
+
+
 def protect(text):
     spans=[];offset=0;on=None;start=0
     # Legacy imported statements store samples as plain text rather than fenced
@@ -325,7 +359,10 @@ def protect(text):
             elif fence[1][0]==on[0] and len(fence[1])>=len(on):spans.append((start,offset+len(line)));on=None
         offset+=len(line)
     if on:spans.append((start,len(text)))
-    pattern=r'`+[^`\n]*`+|(?<![\\$])\$\$\$(?!\$)[\s\S]*?(?<!\\)\$\$\$(?!\$)|(?<!\\)\$\$[\s\S]*?(?<!\\)\$\$|(?<!\\)\$(?!\$)[^\n]*?(?<!\\)\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]|https?://[^\s<>\)]+|(?<![A-Za-z0-9_])\d+(?:\.\d+)?(?:(?=(?:st|nd|rd|th)\b)|(?![A-Za-z0-9_]))|(?m:^[ \t]*(?:#{1,6} |[-*+] |\d+\. ))|\n+'
+    for code in re.finditer(r'`+[^`\n]*`+', text):
+        if not any(a <= code.start() < b for a, b in spans):spans.append(code.span())
+    spans.extend(dollar_math_spans(text, spans))
+    pattern=r'`+[^`\n]*`+|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]|https?://[^\s<>\)]+|(?<![A-Za-z0-9_])\d+(?:\.\d+)?(?:(?=(?:st|nd|rd|th)\b)|(?![A-Za-z0-9_]))|(?m:^[ \t]*(?:#{1,6} |[-*+] |\d+\. ))|\n+'
     for match in re.finditer(pattern,text):
         if not any(a<=match.start()<b for a,b in spans):spans.append(match.span())
     spans.sort();merged=[]
@@ -462,7 +499,9 @@ class TranslationService:
         with self.assets.lock:problem=dict(self.assets._cached(identity))
         localized=bundled_translation(problem) or getattr(self.assets,'localized_statement',lambda _:None)(identity)
         if isinstance(localized,dict) and localized.get('markdown'):
-            return dict(localized,id=identity,sourceLanguage=localized.get('sourceLanguage','en'),targetLanguage='zh-CN',cached=True)
+            try:validate_translation(problem.get('currentSourceMarkdown') or problem.get('markdown') or '',localized['markdown'])
+            except TranslationIncomplete:localized=None
+            else:return dict(localized,id=identity,sourceLanguage=localized.get('sourceLanguage','en'),targetLanguage='zh-CN',cached=True)
         if problem.get('translationAvailable') is False:raise ServiceError(422,'当前原题仅提供 PDF，请阅读原文题面')
         original=problem.get('markdown') or ''
         host=__import__('urllib.parse',fromlist=['urlsplit']).urlsplit(problem.get('url') or '').hostname

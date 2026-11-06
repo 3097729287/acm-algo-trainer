@@ -41,6 +41,7 @@ import SortDirection from '@/components/SortDirection.jsx';
 import RandomProblem from '@/components/RandomProblem.jsx';
 import AddToTrainingLists from '@/components/AddToTrainingLists.jsx';
 import useNavigationKeys from '@/lib/useNavigationKeys.js';
+import useReadingZoom from '@/lib/readingZoom.js';
 import {pageAvailable,availablePages,hiddenPages,guideAvailable} from '@/lib/navigationVisibility.js';
 import {FeatureVisibilityContext} from '@/lib/FeatureVisibility.jsx';
 import {NAVIGATION_ORDER,navigationOrder} from '@/lib/navigationDefaults.js';
@@ -609,7 +610,6 @@ function KnowledgeTree({
 const foundationListState=()=>({curriculumVersion:1,mode:'algorithm',folder:['01 编程基础'],trail:[],sections:[],flat:false,query:'',page:1});
 
 export default function App() {
-  useNavigationKeys();
   const [finishAnchor,setFinishAnchor] = useState(null);
   const [clearTrainingAnchor,setClearTrainingAnchor] = useState(null);
   const [prefs, setPrefs] = useState(readPreferences),
@@ -619,6 +619,8 @@ export default function App() {
     [insights, setInsights] = useState(null),
     [loading, setLoading] = useState(true),
     [error, setError] = useState("");
+  useNavigationKeys(prefs.shortcuts);
+  useReadingZoom();
   const [page, setPage] = useState(()=>window.__tbNewAccount?'training-lists':'mine'),
     [filters, setFilters] = useState({
       library: blankFilters(),
@@ -2216,7 +2218,7 @@ export default function App() {
           <div id="tb-page-search" className="topbar-search-slot" data-unified="true"><WorkspaceSearchInput value={globalQuery} onChange={setGlobalQuery}/></div></div>
           <div className="topbar-trailing">{!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} contentReady={Boolean(data&&!loading)} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} onActionsChange={updateRecommendationItems} adoptedSummary={navigationSummary} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
           <div className="topbar-actions">{learningTabCount>0&&<button type="button" className="icon-button" aria-label="返回学习标签页" title="返回学习标签页" onClick={()=>learningBrowserRef.current?.resume()}><BookOpen size={18}/></button>}
-            <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
+            <PracticeStreak days={insights?.summary?.streak??summary.streak??0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
             {active && page !== "mock" && (
               <button className="live-contest" aria-label="返回比赛" onClick={() => go("mock")}>
                 <Clock size={14} />
