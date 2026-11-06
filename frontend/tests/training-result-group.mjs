@@ -1,11 +1,10 @@
-import fs from 'node:fs';
 import assert from 'node:assert/strict';
-import { mkdir } from 'node:fs/promises';
-import { createServer } from 'vite';
+import { preview } from 'vite';
 import { chromium } from 'playwright';
 
-const vite=await createServer({server:{host:'127.0.0.1',port:0,fs:{allow:[process.cwd(),fs.realpathSync('node_modules')]}}});
-await vite.listen();
+// Use the built application. A dev dependency reload while opening the editor
+// discards its open tab; that reload does not occur in the installed program.
+const vite=await preview({preview:{host:'127.0.0.1',port:0}});
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const page=await browser.newPage({viewport:{width:1600,height:1000}}),errors=[],writes=[];
 page.on('pageerror',error=>errors.push(error.message));
@@ -76,5 +75,5 @@ try {
   assert.match(await group(),/已 AC/);
   assert.equal(await page.locator('.queue-heading').filter({hasText:'待攻克'}).count(),0);
   assert.deepEqual(errors,[]);
-  console.log('PASS actual App: official AC replaces the frozen failure group; topbar hearts show history + today.');
-} finally {await browser.close();await vite.close();}
+  console.log('PASS actual App: official AC replaces the frozen failure group; topbar has no heart counter.');
+} finally {await browser.close();await new Promise(resolve=>vite.httpServer.close(resolve));}
