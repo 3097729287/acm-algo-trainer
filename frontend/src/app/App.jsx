@@ -2116,7 +2116,7 @@ export default function App() {
       active?.slots.find((slot) => slot.id === mockSlot) || active?.slots[0];
   const conciseSolution = reader && briefSolution(reader.markdown, rows.find(row => row.id === readerId)?.difficulty);
   const readerPanel = readerId && (
-    <ReaderFrame fullscreen={readerFull} width={prefs.readerWidth}
+    <ReaderFrame identity={readerId} fullscreen={readerFull} width={prefs.readerWidth}
       onKeyDown={(e) => {
         if (e.key === "Escape") {
           e.preventDefault();

@@ -44,7 +44,7 @@ export function installReadingZoom(doc=document){
     try{doc.defaultView.localStorage.setItem('tb.readingZoom.v1.'+owner(),JSON.stringify(value));}catch{}
     apply();
   }
-  const wheel=event=>{const node=event.target?.nodeType===1?event.target:event.target?.parentElement;if(!node||doc.querySelector('dialog[open],[aria-modal=true]'))return;const zone=node.closest('.study-group-header')?'bookmarks':node.closest(headers)?'toolbar':'content';adjust(event,node,zone);};
+  const wheel=event=>{const node=event.target?.nodeType===1?event.target:event.target?.parentElement;if(!node||doc.querySelector('dialog[open],[aria-modal=true]:not(.reader-full)'))return;const zone=node.closest('.study-group-header')?'bookmarks':node.closest(headers)?'toolbar':'content';adjust(event,node,zone);};
   const observer=new MutationObserver(schedule);observer.observe(doc.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['data-problem-id','data-study-key','data-lecture-id','aria-selected','hidden']});
   doc.addEventListener('wheel',wheel,{capture:true,passive:false});apply();
   return()=>{observer.disconnect();doc.defaultView.cancelAnimationFrame(frame);doc.removeEventListener('wheel',wheel,true);for(const remove of frames.values())remove();for(const[node,zoom]of touched)if(node.isConnected){node.style.zoom=zoom;delete node.dataset.readingZoom;}};

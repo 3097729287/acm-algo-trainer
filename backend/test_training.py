@@ -399,7 +399,8 @@ class ServiceTests(unittest.TestCase):
             self.service.submit(expired["slots"][0]["id"], "AC", contest_id=contest["id"])
         with self.assertRaises(ServiceError):
             self.service.save_draft(expired["slots"][0]["id"], "new code", contest["id"])
-        self.assertEqual(self.service.workspace()["summary"]["due"], 6)
+        # Reading or starting a paper no longer joins untouched slots.
+        self.assertEqual(self.service.workspace()["summary"]["due"], 0)
         self.assertIn("difficulty", expired["slots"][0])
         self.service.assert_solution_unlocked(expired["slots"][0]["id"])
 
@@ -416,8 +417,8 @@ class ServiceTests(unittest.TestCase):
             time.sleep(.01)
         result = self.service.contest(contest["id"])["contest"]
         self.assertEqual(result["accepted"], 1)
-        # 该题本地全过只记样例通过，个人队列仍是“待验证”（不是官方 AC）；6 题全部待办。
-        self.assertEqual(self.service.workspace()["summary"]["due"], 6)
+        # 只有实际提交过的这一题进入待办，未动过的题目不加入训练。
+        self.assertEqual(self.service.workspace()["summary"]["due"], 1)
         self.assertEqual(result["deadline"], contest["deadline"])
 
     def test_early_finish_is_idempotent_and_scoped_history_and_drafts(self):

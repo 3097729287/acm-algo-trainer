@@ -1,3 +1,5 @@
+当前本机修订为 1.6.3 · 2026-11-07（界面与后端）。公开 1.6.3 的既有标签与资产保持不变；不要把本机追加修订描述成已覆盖公开下载。[修订与验证范围](local-delivery-1.6.3-ui.md)。以下旧版本交付记录继续保留。
+
 ## 设计理念和任务工作区检查
 
 新增功能、制作新内容或调整界面前先完整阅读[设计理念](design-principles.md)。`npm run test:sections --prefix frontend` 检查训练分屏、搜索与翻页隔离、任务层级、七格掌握进度、时间弹窗及空历史；在 `frontend` 下运行 `node tests/learning-summary.mjs`，验证隔离 SQLite 中保存与取消、主线替换及历史保留、真实阅读完成后接续。

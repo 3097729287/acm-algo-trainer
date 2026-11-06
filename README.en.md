@@ -1,3 +1,11 @@
+# ToBe · Current build
+
+The **local 1.6.3 revision dated 2026-11-07** fixes complete statement translation, verdict colors, bookmark order and shortcuts, per-content and per-region zoom, editable defaults, lecture search, streak gaps, and untouched contest problems entering training. It retains the photographic rain-lake revision and existing code and study records. See the [revision notes](docs/local-delivery-1.6.3-ui.md).
+
+Public downloads remain the [original 1.6.3 release](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.3); local follow-ups do not replace published assets. The older statements below are retained as history.
+
+---
+
 The latest local 1.6.1 interface adds split bookmarks for My Training, Library and Lists. Tasks emphasize the active learning track and current step, settings use dialogs, mastery advances through seven segments, and empty archived plans render safely. Read the [design principles](docs/design-principles.md) before future changes; see the [release notes](docs/releases/1.6.1.md).
 
 2026-11-06 local frontend revision: 7 library motion backgrounds without tiers; unified cross-section search, remembered bookmarks, fresh lab entries, and heterogeneous task navigation. Native release stays at 1.6.1; public release and service deployment are unchanged.
