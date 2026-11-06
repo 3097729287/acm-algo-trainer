@@ -1,8 +1,8 @@
 # ToBe · Current build
 
-The **local 1.6.3 ranking follow-up dated 2026-11-07** removes stacked vertical padding from standings rows while preserving avatar, level and font sizes. Names, presence, interaction controls and scores remain centered. See the [row-height revision](docs/local-delivery-1.6.3-ranking-density.md). Previous [catalogue changes](docs/local-delivery-1.6.3-catalog.md), [learning changes](docs/local-delivery-1.6.3-learning.md), [rain lake](docs/local-delivery-1.6.3-rain.md) and [interaction fixes](docs/local-delivery-1.6.3-ui.md) remain.
+**1.6.4 · Domestic release revision, 2026-11-07** consolidates the local interface, keyboard, reading zoom, contest training, task, Nowcoder catalogue and rain lake fixes. A full user installer and a 1.6.3 → 1.6.4 incremental update are prepared. See the [1.6.4 release notes](docs/releases/1.6.4.md).
 
-Public downloads remain the [original 1.6.3 release](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.3); local follow-ups do not replace published assets. The older statements below are retained as history.
+Domestic distribution uses the [fixed update source](https://47.82.84.74/updates/); its stable manifest is authoritative for publication. Existing GitHub 1.6.3 installer assets are retained. Older statements below remain as history.
 
 ---
 
