@@ -6,7 +6,7 @@ import {searchWorkspace,workspaceSearchIndex} from '@/lib/workspaceSearch.js';
 import InlineTitle from './InlineTitle.jsx';
 import './WorkspaceSearch.css';
 export function WorkspaceSearchInput({value,onChange}){
- return <div className="workspace-search-input"><Search size={17}/><input type="search" aria-label="统一搜索" placeholder="搜索知识、讲解、模板或题目" value={value} onChange={event=>onChange(event.target.value)} onKeyDown={event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();onChange('');}}}/>{value&&<button type="button" aria-label="清空搜索" onClick={()=>onChange('')}><X size={15}/></button>}</div>;
+ return <div className="workspace-search-input"><Search size={17}/><input type="search" aria-label="统一搜索" value={value} onChange={event=>onChange(event.target.value)} onKeyDown={event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();onChange('');}}}/>{value&&<button type="button" aria-label="清空搜索" onClick={()=>onChange('')}><X size={15}/></button>}</div>;
 }
 const ICONS={lecture:BookOpen,template:Code2,wiki:NotebookTabs,problem:FileCode2,lab:FlaskConical};
 export default function WorkspaceSearchResults({query,api,owner,rows,onOpen,onClose}){

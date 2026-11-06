@@ -1,4 +1,3 @@
-import WorkspaceSearchResults,{WorkspaceSearchInput} from '@/components/WorkspaceSearch.jsx';
 import {taskNeighbours} from '@/lib/taskNavigation.js';
 import {loadCatalogue} from '@/lib/catalogueCache.js';
 import {mergeLearningTasks} from '@/lib/learningTaskRows.js';
@@ -108,7 +107,7 @@ function StudyTab({tab,visible,focused,side,groupId,column,compact,onAdd,patch,f
  </section>;
 }
 
-const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,rows=[],trainingRows=[],prefs,setPrefs,onTrain,onProgress,onNotice,onExit,onActiveChange,onFlush,categories=[],lockedProblems=[],practiceWorkspace,recommendations,weeklyPlan,onSummaryTask,taskPlan,onTaskNavigate,workspaceQuery='',onWorkspaceQuery,onPacks},ref){
+const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,rows=[],trainingRows=[],prefs,setPrefs,onTrain,onProgress,onNotice,onExit,onActiveChange,onFlush,categories=[],lockedProblems=[],practiceWorkspace,recommendations,weeklyPlan,onSummaryTask,taskPlan,onTaskNavigate,onPacks},ref){
  const [state,setState]=useState(emptyStudyBrowser),[stateOwner,setStateOwner]=useState(null),[initialized,setInitialized]=useState(false);
  const [searching,setSearching]=useState(null),[query,setQuery]=useState(''),[directory,setDirectory]=useState([]),[resultIndex,setResultIndex]=useState(0),[limit,setLimit]=useState(80);
  const closeSearch=useCallback(()=>{setSearching(null);setState(previous=>studyGroups(previous).length===1&&previous.tabs.length===1?{...previous,chrome:false}:previous);},[]);
@@ -116,8 +115,6 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
  const [mounted,setMounted]=useState(new Set()),[preview,setPreview]=useState(null),[dragging,setDragging]=useState(false),[resizing,setResizing]=useState(null);
  const frame=useRef(null),input=useRef(null),results=useRef(null),drag=useRef(null),resizeSession=useRef(null),catalogOwner=useRef(null),loadedOwner=useRef(null),current=useRef(state),saveRef=useRef(setPrefs),returnFocus=useRef(null),opening=useRef(0);
  current.current=state;saveRef.current=setPrefs;
- const searchHeader=useRef(null);
- useLayoutEffect(()=>{if(!state.open||!onWorkspaceQuery)return;const reference=document.querySelector('#tb-page-search .workspace-search-input'),header=searchHeader.current;if(!reference||!header)return;const place=()=>{const box=reference.getBoundingClientRect();header.style.setProperty('--global-search-left',box.left+'px');header.style.setProperty('--global-search-width',box.width+'px');};place();const observer=new ResizeObserver(place);observer.observe(reference);window.addEventListener('resize',place);return()=>{observer.disconnect();window.removeEventListener('resize',place);};},[state.open,onWorkspaceQuery]);
  const saved=prefs.learningPaths?.browserV1;
  useEffect(()=>{
   if(!ready||loadedOwner.current===accountId)return;
@@ -267,9 +264,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
   else if(event.key==='Escape'){event.preventDefault();event.stopPropagation();closeSearch();}
   else if((event.key==='Backspace'&&!query||event.altKey&&event.key==='ArrowLeft')&&listing.path.length){event.preventDefault();goDirectory(listing.path.slice(0,-1));}
  };
- return createPortal(<div ref={frame} className={'study-browser'+(groups.length>1?' study-split':'')+(compact?' study-compact':'')} aria-label="学习内容" data-global-search={Boolean(workspaceQuery.trim())} data-dragging={dragging||undefined} data-resizing={resizing!==null||undefined} onDragOver={dragOver} onDropCapture={drop} onDragLeave={event=>{if(!frame.current.contains(event.relatedTarget))setPreview(null);}}>
-  {onWorkspaceQuery&&<header ref={searchHeader} className="study-unified-header"><WorkspaceSearchInput value={workspaceQuery} onChange={onWorkspaceQuery}/></header>}
-  {workspaceQuery.trim()&&onWorkspaceQuery&&<WorkspaceSearchResults query={workspaceQuery} api={api} owner={accountId} rows={rows} onClose={()=>onWorkspaceQuery('')} onOpen={item=>{onWorkspaceQuery('');if(item.kind==='problem')onTrain(item.id);else open(item);}}/>}
+ return createPortal(<div ref={frame} className={'study-browser'+(groups.length>1?' study-split':'')+(compact?' study-compact':'')} aria-label="学习内容" data-dragging={dragging||undefined} data-resizing={resizing!==null||undefined} onDragOver={dragOver} onDropCapture={drop} onDragLeave={event=>{if(!frame.current.contains(event.relatedTarget))setPreview(null);}}>
   {onPacks&&<button type="button" className="study-pack-button achievement-top-button" aria-label="卡包" title="卡包" onClick={onPacks}><Gift size={18}/></button>}
   <div id="tb-study-continuation" className="study-task-flow"/>
   <main className="study-stage" style={{gridTemplateColumns:groups.map(group=>`minmax(0,${group.weight}fr)`).join(' 1px ')}}>

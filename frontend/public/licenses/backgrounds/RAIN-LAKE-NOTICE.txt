@@ -1,0 +1,33 @@
+雨湖 · Rain Lake
+Copyright (c) 2026 Chen-Yu Chu (曲宸宇)
+
+Conceptual lineage: ascii-sharks → 雲龍 (Yunlong) → 御三家錦鯉 (Gosanke Koi) → 雨湖 (Rain Lake).
+https://github.com/stackedlol/ascii-sharks
+https://github.com/poplolioi11/yunlong
+https://github.com/poplolioi11/gosanke-koi
+
+The signed wave field, rain and underwater silhouettes are procedurally drawn.
+No third-party fish, sky or lake photographs are distributed.
+The following original ascii-sharks MIT notice is retained for attribution:
+
+MIT License
+
+Copyright (c) 2026 drewdi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
