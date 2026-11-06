@@ -9,6 +9,7 @@ export const uniqueTrainingProblems=items=>[...new Map(items.map(item=>[problemK
 
 export function trainingIndex(lists, rows) {
   const byId = new Map(), byUrl = new Map(), byList = new Map(lists.map(list => [list.id, list]));
+  for(const list of lists)for(const id of list.legacyIds||[])if(!byList.has(id))byList.set(id,list);
   for (const row of rows) {
     for (const id of [row.id, ...(row.aliasIds || [])]) byId.set(id, row);
     byUrl.set(urlKey(row.url), row);
@@ -26,6 +27,7 @@ export function trainingIndex(lists, rows) {
   }));
   const cache = new Map();
   function all(id) {
+    const canonical=byList.get(id)?.id;if(canonical&&canonical!==id)return all(canonical);
     if (cache.has(id)) return cache.get(id);
     const found = new Map(), visited = new Set();
     function visit(key) {

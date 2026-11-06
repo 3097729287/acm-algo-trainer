@@ -131,4 +131,6 @@ html .profile-badge .profile-avatar-button>.profile-level-number{z-index:4}
 /* Leave clear space between the original portrait and the complete XP track. */
 html .growth-dashboard .profile-badge .profile-avatar-button>.profile-xp-ring{inset:5%;width:90%;height:90%;z-index:3;overflow:visible}
 html .profile-badge .profile-xp-ring>.profile-xp-track{stroke:color-mix(in srgb,var(--xp-progress-color) 28%,var(--panel-base,#191c24))}
+/* A compact ring needs a solid band, even when the portrait SVG is scaled. */
+html .topbar .profile-badge .profile-xp-ring>circle{stroke-width:3px;vector-effect:non-scaling-stroke}
 html .growth-dashboard .profile-badge .profile-level-number{font-size:clamp(11px,1vw,18px);min-width:2.2em;height:1.45em;bottom:1px;line-height:1}

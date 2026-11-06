@@ -2171,7 +2171,6 @@ export default function App() {
         <div className="brand">
           <button type="button" className="brand-toggle sidebar-toggle" aria-label={prefs.collapsed?"展开侧栏":"收起侧栏"} title={prefs.collapsed?"展开侧栏":"收起侧栏"} aria-expanded={!prefs.collapsed} aria-controls="tb-primary-sidebar" onClick={()=>setPrefs(previous=>({...previous,collapsed:!previous.collapsed}))}>
             <span className="brand-mark" aria-label="ToBe"><BrandWordmark/></span>
-            <span className="sidebar-toggle-label">{prefs.collapsed?"展开侧栏":"收起侧栏"}</span>
           </button>
 
         </div>

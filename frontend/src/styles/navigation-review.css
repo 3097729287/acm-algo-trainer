@@ -78,14 +78,12 @@ html .app-statusbar>.notification-trigger>.notification-dot{display:block}
  html .app-shell .app-statusbar button>small{display:none}
 }
 
-/* The wordmark and its label form the original single sidebar toggle. */
+/* The original wordmark remains the single sidebar toggle. */
 html .app-shell aside.sidebar .brand{gap:0;flex-direction:row;justify-content:flex-start}
-html .app-shell aside.sidebar .brand-toggle{display:flex;flex:1;min-width:0;align-items:center;justify-content:flex-start;gap:8px;width:100%;height:42px;min-height:42px;padding:0;border:0;border-radius:6px;background:transparent;color:var(--muted);font:inherit;white-space:nowrap}
+html .app-shell aside.sidebar .brand-toggle{display:flex;flex:none;min-width:0;align-items:center;justify-content:center;gap:0;width:40px;height:42px;min-height:42px;padding:0;border:0;border-radius:6px;background:transparent;color:var(--muted);font:inherit;white-space:nowrap}
 html .app-shell aside.sidebar .brand-toggle>.brand-mark{flex:0 0 40px;width:40px;height:40px;padding:0;border-radius:10px}
-html .app-shell aside.sidebar .sidebar-toggle-label{display:inline;font-size:clamp(11px,calc(var(--ui-font-size,16px) - 3px),13px);font-weight:500;line-height:20px;letter-spacing:0}
 html .app-shell aside.sidebar .brand-toggle:hover{background:transparent;color:var(--accent)}
 html .app-shell.sidebar-collapsed aside.sidebar .brand{padding-inline:0}
 html .app-shell.sidebar-collapsed aside.sidebar .brand-toggle{justify-content:center;gap:0}
 html .app-shell.sidebar-collapsed aside.sidebar .brand-mark{flex-basis:36px;width:36px;height:36px}
-html .app-shell.sidebar-collapsed aside.sidebar .sidebar-toggle-label{display:none}
-@media(max-width:800px){html .app-shell aside.sidebar .brand{padding-inline:0}html .app-shell aside.sidebar .brand-toggle{justify-content:center;gap:0}html .app-shell aside.sidebar .brand-mark{flex-basis:36px;width:36px;height:36px}html .app-shell aside.sidebar .sidebar-toggle-label{display:none}}
+@media(max-width:800px){html .app-shell aside.sidebar .brand{padding-inline:0}html .app-shell aside.sidebar .brand-toggle{justify-content:center;gap:0}html .app-shell aside.sidebar .brand-mark{flex-basis:36px;width:36px;height:36px}}

@@ -117,6 +117,8 @@ jobs:
       - run: node tests/radar-frequency.mjs
       - run: node tests/navigation-defaults-model.mjs
       - run: node tests/training-list-platforms-model.mjs
+      - run: node tests/nowcoder-curriculum.mjs
+      - run: node tests/avatar-size.mjs
       - run: node tests/platform-registry-model.mjs
       - run: node tests/course-entry-model.mjs
       - run: node tests/next-actions-model.mjs

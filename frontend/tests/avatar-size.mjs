@@ -10,6 +10,8 @@ try{
  const frames=await page.locator('.avatar-rank-frame').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().width));assert(frames.every(w=>w>180));
  for(const badge of await page.locator('.profile-badge').all()){const face=await badge.locator('.profile-avatar-face').boundingBox(),name=await badge.locator('.profile-nickname').boundingBox();assert(Math.abs(face.y+face.height/2-name.y-name.height/2)<=1);}
  const starts=await page.locator('.profile-xp-value').evaluateAll(nodes=>nodes.map(n=>{const m=n.getScreenCTM(),a=n.getPointAtLength(0),b=n.getPointAtLength(n.getTotalLength()*.1),c=new DOMPoint(22,22).matrixTransform(m);const p=new DOMPoint(a.x,a.y).matrixTransform(m),q=new DOMPoint(b.x,b.y).matrixTransform(m);return Math.abs(p.x-c.x)<1&&p.y>c.y&&q.x<c.x&&q.y>c.y;}));assert(starts.every(Boolean),'Experience starts at the bottom and grows clockwise');
+ const bands=await page.locator('.profile-xp-value').evaluateAll(nodes=>nodes.map(n=>{const c=getComputedStyle(n),scale=n.getScreenCTM().a||n.getScreenCTM().b;return{visibleWidth:parseFloat(c.strokeWidth)*(c.vectorEffect==='non-scaling-stroke'?1:Math.abs(scale)),progress:n.parentElement.getAttribute('aria-valuenow'),color:c.stroke};}));
+ assert(bands.every(band=>band.visibleWidth>=2.5&&band.progress==='50'&&band.color!=='none'),'Every compact avatar shows a solid earned band with the real XP fraction');
  await mkdir('../.backups/followups-157',{recursive:true});await page.screenshot({path:'../.backups/followups-157/avatar-all-tiers.png'});
  console.log(JSON.stringify({ok:true,tiers:9,facePixels:widths[0],frameScale:3.4,nicknameCentered:true,bottomClockwiseExperience:true}));
 }finally{await browser.close();await vite.close();}

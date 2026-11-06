@@ -709,7 +709,12 @@ html .competition-card-open:hover {background:transparent}
 html .competition-question-list {gap:0}
 html .ranking-table,html[data-panel-style] .workspace-area .problem-table {border-collapse:separate!important;border-spacing:0;padding-inline:0}
 html .ranking-table tbody td,html[data-panel-style] .workspace-area .problem-table tbody tr:not(.queue-heading)>td {border:0!important;border-bottom:1px solid var(--soft-line)!important;border-radius:0!important;background:transparent}
-html .ranking-table tbody tr.ranking-self {background:var(--accent-soft)}
+html .ranking-table tbody tr.ranking-self {background:transparent}
+html .ranking-table tbody tr.ranking-self>td {background:transparent}
+html .ranking-table tbody tr.ranking-self>td:first-child {box-shadow:inset 2px 0 var(--accent)}
+html .ranking-table tbody tr.ranking-self:is(:hover,:focus-within) {background:var(--hover)}
+html .duel-ranking tr[data-self=true] {background:transparent}
+html .duel-ranking tr[data-self=true]>td:first-child {box-shadow:inset 2px 0 var(--accent)}
 html .ranking-table tbody tr:is(:hover,:focus-within) {background:var(--accent-soft)}
 html .ranking-table tbody tr:is(:hover,:focus-within)>td:first-child {box-shadow:inset 2px 0 var(--accent)}
 html .workspace-area .problem-table tbody tr.training-problem-row:not([aria-disabled=true]):is(:hover,:focus-visible,:focus-within) {background:var(--accent-soft);outline:none}

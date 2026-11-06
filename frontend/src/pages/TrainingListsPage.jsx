@@ -94,10 +94,10 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
     if(!navigationRequest||session.navigationRequest===navigationRequest)return;
     const requested=navigationRequest.state||{},mode=requested.mode||'algorithm',id=navigationRequest.id||requested.trail?.at(-1);
     if(!id)return;
-    if(state.mode!==mode){setState(platformListState({...INITIAL,...requested,nowcoderLearningVersion:1,mode}));return;}
+    if(state.mode!==mode){setState(platformListState({...INITIAL,...requested,mode}));return;}
     const target=index.byList.get(id);if(!target)return;
     session.navigationRequest=navigationRequest;session.scrollTop=0;
-    setState(platformListState({...INITIAL,...requested,nowcoderLearningVersion:1,mode,folder:mode==='algorithm'?[...(target.topicPath||[])]:requested.folder||[],trail:[id],sections:[],flat:false,query:'',status:'',page:1}));
+    setState(platformListState({...INITIAL,...requested,nowcoderLearningVersion:2,mode,folder:mode==='algorithm'?[...(target.topicPath||[])]:requested.folder||[],trail:[target.id],sections:[],flat:false,query:'',status:'',page:1}));
     if(panel.current)panel.current.scrollTop=0;
   },[navigationRequest,index,state.mode,session]);
   const search = state.query.trim().toLocaleLowerCase();

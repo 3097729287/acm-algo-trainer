@@ -1,6 +1,6 @@
 # ToBe · Current build
 
-The **local 1.6.3 learning follow-up dated 2026-11-07** keeps future calendar contests in Upcoming while the current position offers available study or review. With no adopted plan, the mainline’s actual lecture can be opened directly. Lecture toolbars form one continuous fixed row above independently scrolling content; learned rows use a success tint. Challenger frame tips follow the marked smooth curves. See the [learning revision](docs/local-delivery-1.6.3-learning.md). The [rain-lake revision](docs/local-delivery-1.6.3-rain.md), [interaction fixes](docs/local-delivery-1.6.3-ui.md), saved code and study records remain.
+The **local 1.6.3 catalogue follow-up dated 2026-11-07** presents Nowcoder topic cards directly inside each stage and opens problems without redundant folders. Merged sources form 57 learning lists while retaining all 1,083 distinct originals. Compact avatars show a solid earned XP band; the sidebar keeps only ToBe, and standings identify the current user with a narrow marker. See the [catalogue revision](docs/local-delivery-1.6.3-catalog.md). Previous [learning changes](docs/local-delivery-1.6.3-learning.md), [rain lake](docs/local-delivery-1.6.3-rain.md) and [interaction fixes](docs/local-delivery-1.6.3-ui.md) remain.
 
 Public downloads remain the [original 1.6.3 release](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.3); local follow-ups do not replace published assets. The older statements below are retained as history.
 

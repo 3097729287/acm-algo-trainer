@@ -1,4 +1,4 @@
-当前本机修订为 1.6.3 · 2026-11-07（学习界面与任务）。`node tests/calendar-learning-tasks-model.mjs` 与 `node tests/calendar-tasks.mjs` 验证未开赛、进行中、结束、无学习计划和已完成计划的当前任务选择。`node tests/learned-lectures.mjs` 检查真实学习标记、通过色底色、刷新恢复、取消及深浅主题。`node tests/lecture-directory-fixed.mjs` 检查左右工具栏接成同一行、下方滚动裁剪与分区缩放。公开 1.6.3 的既有标签与资产保持不变；本机修订见[本次记录](local-delivery-1.6.3-learning.md)。此前[雨湖](local-delivery-1.6.3-rain.md)与[交互修订](local-delivery-1.6.3-ui.md)保留。以下旧版本交付记录继续保留。
+当前本机修订为 1.6.3 · 2026-11-07（牛客题单与经验环）。`node tests/nowcoder-curriculum.mjs` 使用完整公开来源核对 1,083 个原题身份、合并后的阶段卡片与直接打开；`node tests/training-list-platforms-model.mjs` 验证旧位置与入口迁移，`node tests/training-lists-model.mjs` 和 `node tests/training-list-cache.mjs` 验证原始来源、章节、搜索、去重和缓存。`node tests/avatar-size.mjs` 检查九档头像中真实比例的实色经验带、方向与对齐，`node tests/workspace-revisions.mjs` 验证原标识收起、展开和恢复以及既有主界面行为。公开 1.6.3 标签与资产保持不变，本机修订见[本次记录](local-delivery-1.6.3-catalog.md)。此前[学习任务](local-delivery-1.6.3-learning.md)、[雨湖](local-delivery-1.6.3-rain.md)与[交互修订](local-delivery-1.6.3-ui.md)保留。以下旧版本交付记录继续保留。
 
 ## 设计理念和任务工作区检查
 
