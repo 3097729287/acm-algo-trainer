@@ -21,6 +21,11 @@ assert.equal(selected.learningPaths.activePath,'arrays');
 assert.deepEqual(selected.learningPaths.browserV1,prefs.learningPaths.browserV1);
 assert.equal(JSON.stringify({prefs,inventory}),before,'Choosing a background cannot change reward copies or stored paths');
 assert(ownedBackgrounds({...inventory,unlimited:true},'alice')[0].unlimited);
+assert.equal(BACKGROUND_CARDS.length,7);
+for(const theme of ['globe','cells','halo','rings','dots','underground','rain','river','galaxy','desert','snow']){
+ const legacy={...inventory,units:[{id:'original-copy',stickerId:'background-'+theme+'-legendary',placement:null}]};
+ const rain=ownedBackgrounds(legacy,'alice');assert.equal(rain.length,1);assert.equal(rain[0].theme,'rainfall');assert.equal(rain[0].count,1);assert.equal(legacy.units[0].id,'original-copy');
+}
 
 const index=[{key:'problem:p',kind:'problem',id:'p',title:'原题标题',trainingGroup:'pending',trainingOrder:100000},{key:'lecture:l',kind:'lecture',id:'l',title:'已有讲解'}];
 const plan={tasks:[{key:'p-solve',id:'p',kind:'problem',title:'计划题名',status:'done',order:2},{key:'p-review',id:'p',kind:'review',title:'复习同一道题',status:'pending',order:3},{key:'l-read',id:'l',kind:'lecture',title:'已有讲解',status:'pending',order:1},{key:'new',id:'new',kind:'course',title:'新课程',status:'pending',order:4}]};

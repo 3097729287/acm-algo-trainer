@@ -104,7 +104,7 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
     return () => { seq.current++; };
   }, [selected, api]);
   useEffect(()=>{if(lesson&&detail.current){detail.current.scrollTop=restoreScroll.current??0;restoreScroll.current=null;}},[lesson]);
-  const entries=useMemo(()=>readingQueue(snapshot,prefs,selected),[snapshot,prefs.learnedLectures,selected]);
+  const entries=useMemo(()=>readingQueue(snapshot,prefs,selected,{includeAll:window.__tbAdmin===true}),[snapshot,prefs.learnedLectures,selected]);
   const classifications = useMemo(() => lectureFolderOptions(entries,categories), [entries,categories]);
   const sorted=entries;
   const currentIndex=sorted.findIndex(item=>item.id===selected),previous=currentIndex>0?sorted[currentIndex-1]:null;

@@ -4,6 +4,7 @@ import {Check,X} from 'lucide-react';
 import TimeBudget,{studyMinutes} from './TimeBudget.jsx';
 import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
 import {opacityStyle} from '@/lib/surfaceOpacity.js';
+import './TaskBoardControls.css';
 
 export const MASTERY_STAGES=['阅读学习','原理检查','跟练实现','独立实现','独立解题','间隔复习','综合检验'];
 export function masteryStage(topic){const level=Math.max(0,Math.min(6,Number.isInteger(topic?.level)?topic.level:0));return level===6&&topic.mixed?7:level;}

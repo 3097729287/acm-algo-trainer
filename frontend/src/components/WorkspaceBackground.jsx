@@ -3,10 +3,11 @@ import MeteorsBackground from './MeteorsBackground.jsx';
 import {MotionScene} from '@/lib/motionBackgrounds.js';
 import './WorkspaceBackground.css';
 
-export function MotionBackground({id,motion=true}){
+export function MotionBackground({id,motion=true,lightning=false}){
  const host=useRef(null),engine=useRef(null);
- useEffect(()=>{if(!host.current)return;const scene=new MotionScene(host.current,{id,paused:!motion});engine.current=scene;return()=>{scene.destroy();engine.current=null;};},[]);
+ useEffect(()=>{if(!host.current)return;const scene=new MotionScene(host.current,{id,paused:!motion,lightning});engine.current=scene;return()=>{scene.destroy();engine.current=null;};},[]);
  useEffect(()=>{if(engine.current?.id!==id)engine.current?.setScene(id);},[id]);
+ useEffect(()=>engine.current?.setLightning(lightning),[lightning]);
  useEffect(()=>{const query=matchMedia('(prefers-reduced-motion: reduce)'),apply=()=>engine.current?.setPaused(!motion||query.matches||document.documentElement.dataset.motion==='off'),observer=new MutationObserver(apply);apply();query.addEventListener('change',apply);observer.observe(document.documentElement,{attributes:true,attributeFilter:['data-motion']});return()=>{query.removeEventListener('change',apply);observer.disconnect();};},[motion]);
  return <div ref={host} className="motion-background" aria-hidden="true"/>;
 }
@@ -25,5 +26,5 @@ function CustomBackground({motion}){
 export default function WorkspaceBackground({value,motion=true}){
  useEffect(()=>{document.documentElement.dataset.workspaceBackground=value.kind==='none'?'off':'on';return()=>{delete document.documentElement.dataset.workspaceBackground;};},[value.kind]);
  if(value.kind==='none')return null;
- return <div className="workspace-background-layer" data-background-source={value.source} data-background-id={value.id} aria-hidden="true">{value.kind==='image'?<CustomBackground motion={motion}/>:value.id==='meteors'?<MeteorsBackground/>:<MotionBackground key={value.id} id={value.id} motion={motion}/>}</div>;
+ return <div className="workspace-background-layer" data-background-source={value.source} data-background-id={value.id} aria-hidden="true">{value.kind==='image'?<CustomBackground motion={motion}/>:value.id==='meteors'?<MeteorsBackground/>:<MotionBackground key={value.id} id={value.id} motion={motion} lightning={value.lightning}/>}</div>;
 }

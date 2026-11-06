@@ -93,6 +93,8 @@ const out='../.backups/library-backgrounds/app-checks';await mkdir(out,{recursiv
 try{
  rows[0].title='二分';rows[1].title='二分';
  await page.goto(vite.resolvedUrls.local[0]);await page.locator('.problem-table tr[data-id]').first().waitFor();const search=page.getByRole('searchbox',{name:'统一搜索',exact:true}),bookmarks=page.locator('#tb-page-bookmarks');await search.waitFor();
+ // Open directly from the first page before any lazy task-page CSS is loaded.
+ await page.locator('.app-statusbar').getByRole('button',{name:'背景选择',exact:true}).click();const background=page.getByRole('dialog',{name:'背景选择',exact:true});await background.waitFor();for(const width of [2048,390]){await page.setViewportSize({width,height:1000});const [title,close,panel]=await Promise.all([background.getByRole('heading',{name:'背景选择',exact:true}).boundingBox(),background.getByRole('button',{name:'关闭背景选择',exact:true}).boundingBox(),background.boundingBox()]);assert(Math.abs(title.y+title.height/2-close.y-close.height/2)<2,'Close control belongs on the title line');assert(panel.x+panel.width-close.x-close.width<30,'Close control belongs at the upper right');assert.equal(await background.evaluate(node=>node.scrollWidth>node.clientWidth+1),false);}await page.keyboard.press('Escape');await background.waitFor({state:'detached'});await page.setViewportSize({width:1600,height:1000});
  // These two same-name problem results are independent records too.
  rows[0].title='二分';rows[1].title='二分';
  if(process.argv.includes('--appearance')){await (await import('./surface-appearance.mjs')).checkSurfaceAppearance({page,nav});await nav('任务').click();await bookmarks.getByRole('tab',{name:'概况',exact:true}).click();}

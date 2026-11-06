@@ -21,8 +21,8 @@ async function seed(f,user,stickers){
 const evidence=(changes={})=>({version:1,contestKey:'replay:'+'a'.repeat(64),replayId:'contest-'+'b'.repeat(32),duration:120,originalDuration:120,startedAt:now-7200000,finishedAt:now,difficulty:1800,total:5,accepted:[0,1].map(i=>({problemKey:'p:'+String(i).repeat(64),submissionId:'official-'+i,submittedAt:now-4000000+i*1000,scope:'official',verdict:'AC'})),...changes});
 
 test('background rewards share one ungraded catalogue and never enter ordinary packs',()=>{
- assert.equal(STICKERS.filter(s=>s.kind==='background').length,11);
- assert.equal(new Set(STICKERS.filter(s=>s.kind==='background').map(item=>item.theme)).size,11);
+ assert.equal(STICKERS.filter(s=>s.kind==='background').length,7);
+ assert.equal(new Set(STICKERS.filter(s=>s.kind==='background').map(item=>item.theme)).size,7);
  assert(STICKERS.filter(item=>item.kind==='background').every(item=>!('rarity' in item)));
  assert.equal(resolveScene({items:[{stickerId:'x',unitId:'old'},{stickerId:'x',unitId:'other'}]},[{id:'new',stickerId:'x'}]).missing.length,1);
 });

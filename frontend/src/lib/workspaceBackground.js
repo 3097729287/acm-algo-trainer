@@ -10,7 +10,7 @@ export function ownedBackgrounds(inventory,owner){
 }
 export function workspaceBackground(prefs,inventory,owner,access={}){
  const selected=prefs.learningPaths?.workspaceBackground;
- if(selected?.kind==='reward'){const item=ownedBackgrounds(inventory,owner).find(item=>item.id===canonicalStickerId(selected.id));if(item)return {kind:'motion',id:item.theme,source:'reward',item};}
+ if(selected?.kind==='reward'){const item=ownedBackgrounds(inventory,owner).find(item=>item.id===canonicalStickerId(selected.id));if(item)return {kind:'motion',id:item.theme,source:'reward',item,lightning:item.theme==='rainfall'&&prefs.learningPaths?.rainLightning===true};}
  if(selected?.kind!=='reward'&&prefs.backdrop==='custom'&&customBackgroundUnlocked(access))return {kind:'image',id:'custom',source:'image'};
  return {kind:'none',id:'none',source:'builtin'};
 }

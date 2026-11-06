@@ -10,9 +10,10 @@ import '../src/styles/revision.css';
 import 'katex/dist/katex.min.css';
 const lecture={id:'one',concept:'位运算：$v \\oplus (v-1)$',title:'数学标题',tags:['位运算'],markdown:'## 位运算\n\n一个可手算的例子：$4 \\oplus 3 = 7$。\n\n```cpp\nint value = 4 ^ 3;\n```',images:{}};
 const catalogue=new URLSearchParams(location.search).has('catalogue');
-const applications=[{...lecture,id:'application-one'},{...lecture,id:'application-two',concept:'位运算：两个数的异或',title:'两个数的异或'}];
+const applications=[{...lecture,id:'application-one',sourceProblemIds:['encountered']},{...lecture,id:'application-two',sourceProblemIds:['unseen'],concept:'位运算：两个数的异或',title:'两个数的异或'}];
 const entries=catalogue?[...FOUNDATION_LESSONS.map(item=>({...item,concept:item.title,markdown:'# '+item.title+'\n\n基础讲解正文保持完整。',images:{}})),...applications]:[lecture];
-const api=async path=>path==='lectures'?{lectures:entries,learningQueue:{version:1,foundationIds:entries.filter(item=>!applications.includes(item)).map(item=>item.id),encounteredIds:catalogue?applications.map(item=>item.id):[]}}:entries.find(item=>item.id===new URL(path,'http://fixture').searchParams.get('id'));
+const fresh=new URLSearchParams(location.search).has('fresh');
+const api=async path=>path==='lectures'?{lectures:entries,learningQueue:{version:1,foundationIds:entries.filter(item=>!applications.includes(item)&&(!fresh||item.kind==='language')).map(item=>item.id),encounteredIds:catalogue&&!fresh?applications.map(item=>item.id):[]}}:entries.find(item=>item.id===new URL(path,'http://fixture').searchParams.get('id'));
 function Fixture(){const [full,setFull]=useState(false),[prefs,setPrefs]=useState({}),visit=useRef({});return <div className={(full?'lecture-focus ':'')+(catalogue?'lecture-review workspace-area':'')} style={{height:'100%',padding:20}}><LecturesPanel api={api} visit={visit.current} prefs={prefs} setPrefs={setPrefs} onFullscreenChange={setFull}/></div>;}
 document.documentElement.dataset.theme='dark';
 document.head.insertAdjacentHTML('beforeend','<style>.lecture-review{margin-left:140px;width:calc(100% - 140px);container:workspace/inline-size}@media(max-width:700px){.lecture-review{margin-left:0;width:100%}}</style>');

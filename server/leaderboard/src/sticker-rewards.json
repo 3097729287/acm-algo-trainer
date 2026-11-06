@@ -441,38 +441,19 @@
       ]
     },
     {
-      "id": "globe",
-      "title": "星球连线",
+      "id": "rainfall",
+      "title": "静夜细雨",
       "legacyThemes": [
-        "underground"
-      ]
-    },
-    {
-      "id": "cells",
-      "title": "细胞涌动",
-      "legacyThemes": [
-        "rain"
-      ]
-    },
-    {
-      "id": "halo",
-      "title": "光晕流转",
-      "legacyThemes": [
-        "river"
-      ]
-    },
-    {
-      "id": "rings",
-      "title": "立体光环",
-      "legacyThemes": [
+        "globe",
+        "underground",
+        "cells",
+        "rain",
+        "halo",
+        "river",
+        "rings",
         "desert",
-        "galaxy"
-      ]
-    },
-    {
-      "id": "dots",
-      "title": "点阵波浪",
-      "legacyThemes": [
+        "galaxy",
+        "dots",
         "snow"
       ]
     },

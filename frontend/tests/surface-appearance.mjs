@@ -23,13 +23,15 @@ export async function checkSurfaceAppearance({page,nav}) {
    await nav('我的训练').click();await bookmarks().getByRole('tab',{name:'我的训练',exact:true}).click();await mode(theme,preset,opacity);
    const list=await paint(mine()),header=await paint(mine().locator('thead th').first()),group=await paint(mine().locator('.queue-heading td').first()),row=await paint(mine().locator('tr[data-id] td').first()),footer=await paint(mine().locator('.list-footer'));
    for(const [name,value] of Object.entries({list,header,group,row,footer})){near(value.alpha,opacity/100,`${theme}/${preset}/${opacity}/${name}`);assert.equal(value.contentOpacity,1);assert.equal(value.text,1);}
+   await nav('成长').click();await page.locator('.knowledge-radar .radar-detail-row').first().waitFor();await mode(theme,preset,opacity);
+   for(const locator of [page.locator('.knowledge-radar'),page.locator('.radar-detail-heading'),page.locator('.radar-detail-row>span').first()]){const radar=await paint(locator);near(radar.alpha,opacity/100,`${theme}/${preset}/${opacity}/radar`);assert.equal(radar.contentOpacity,1);assert.equal(radar.text,1);}
    await nav('任务').click();await bookmarks().getByRole('tab',{name:'概况',exact:true}).click();await task().waitFor();await mode(theme,preset,opacity);
    const card=await paint(task());near(card.alpha,opacity/100,'task '+JSON.stringify({theme,preset,opacity}));assert.equal(card.contentOpacity,1);assert.equal(card.text,1);
    for(const property of ['border','borderColor','radius','image'])assert.equal(card[property],list[property],`${property} matches between tasks and training`);
    assert.equal(card.border,preset==='blueprint'?'dashed':'solid');assert.equal(card.radius,({minimal:'10px',outlined:'18px',aurora:'22px',blueprint:'3px'})[preset]);
    if(opacity===0)assert(!card.image.match(/\/ (?!0(?:[\s,) ]|$))[\d.]+/),'No decorative color remains when opacity is zero');
    if(opacity===44&&['outlined','blueprint'].includes(preset))await page.screenshot({path:`${out}/tasks-${theme}-${preset}.png`});
-   proof.push({theme,preset,opacity,headerGroupAndBodyOneFill:true,taskPresetMatches:true});
+   proof.push({theme,preset,opacity,headerGroupAndBodyOneFill:true,taskPresetMatches:true,radarHeaderOneFill:true});
   }
   for(const view of ['概况','计划','进度','历史记录']){
    await bookmarks().getByRole('tab',{name:view,exact:true}).click();await mode('dark','blueprint',31);
