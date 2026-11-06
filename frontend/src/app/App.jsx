@@ -97,8 +97,6 @@ import {
   ChevronRight,
   ChevronDown,
   ChevronLeft,
-  PanelLeftClose,
-  PanelLeftOpen,
   Command,
   Plus,
   X,
@@ -2169,9 +2167,9 @@ export default function App() {
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
       <aside id="tb-primary-sidebar" className="sidebar">
         <div className="brand">
-          <div className="brand-mark" aria-label="ToBe"><BrandWordmark/></div>
-          <button type="button" className="icon-button sidebar-toggle" aria-label={prefs.collapsed?"展开侧边栏":"收起侧边栏"} title={prefs.collapsed?"展开侧边栏":"收起侧边栏"} aria-expanded={!prefs.collapsed} aria-controls="tb-primary-sidebar" onClick={()=>setPrefs(previous=>({...previous,collapsed:!previous.collapsed}))}>
-            {prefs.collapsed?<PanelLeftOpen size={18}/>:<PanelLeftClose size={18}/>}
+          <button type="button" className="brand-toggle sidebar-toggle" aria-label={prefs.collapsed?"展开侧栏":"收起侧栏"} title={prefs.collapsed?"展开侧栏":"收起侧栏"} aria-expanded={!prefs.collapsed} aria-controls="tb-primary-sidebar" onClick={()=>setPrefs(previous=>({...previous,collapsed:!previous.collapsed}))}>
+            <span className="brand-mark" aria-label="ToBe"><BrandWordmark/></span>
+            <span className="sidebar-toggle-label">{prefs.collapsed?"展开侧栏":"收起侧栏"}</span>
           </button>
 
         </div>
