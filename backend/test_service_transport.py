@@ -15,7 +15,7 @@ class ServiceTransportTests(unittest.TestCase):
         self.direct.open.side_effect=URLError(TimeoutError())
         response=self.opener.open(Request('https://official.test/v2/accounts/state'),timeout=12)
         self.assertIs(response,self.system.open.return_value)
-        self.assertEqual(self.direct.open.call_args.kwargs['timeout'],3)
+        self.assertEqual(self.direct.open.call_args.kwargs['timeout'],12)
         self.assertLessEqual(self.system.open.call_args.kwargs['timeout'],12)
         self.direct.open.reset_mock()
         another=AdaptiveServiceOpener('official.test',self.direct,self.system)

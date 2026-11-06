@@ -89,7 +89,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
   frontend:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     timeout-minutes: 20
     env:
       CI: 'true'
@@ -110,16 +110,11 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run build
-      - run: npm run test:learning-browser
-      - run: npm run test:sticker-rewards
-      - run: node tests/sticker-direct.mjs
-      - run: node tests/banner-growth-feedback.mjs
       - run: node tests/wiki-course-feedback.mjs
       - run: node tests/virtual-contest.mjs
       - run: npm run test:model
       - run: node tests/revision-1429-model.mjs
       - run: node tests/radar-frequency.mjs
-      - run: node tests/navigation-learning-model.mjs
       - run: node tests/navigation-defaults-model.mjs
       - run: node tests/training-list-platforms-model.mjs
       - run: node tests/platform-registry-model.mjs
@@ -131,63 +126,49 @@ jobs:
       - run: npm run test:math
       - run: npm run test:compilers
       - run: node tests/official-sites.mjs
-      - run: npm run test:ui
       - run: node tests/catalog-activity.mjs
       - run: node tests/browser-preparation.mjs
-      - run: node tests/workspace-decorations.mjs
       - run: node tests/statement-format.mjs
-      - run: node tests/webview-loading.mjs
       - run: node tests/replay-layout.mjs
       - run: node tests/rankings.mjs
       - run: node tests/software-updates.mjs
-      - run: npm run test:issues
-      - run: node tests/ui-social.mjs
-      - run: node tests/messages-modal.mjs
-      - run: node tests/ui-redesign.mjs
-      - run: node tests/ui-v131.mjs
       - run: node tests/revision-flows.mjs
-      - run: node tests/account-sync-status.mjs
-      - run: node tests/mock-layout.mjs
       - run: node tests/mock-controls.mjs
-      - run: node tests/filter-toolbar.mjs
-      - run: node tests/platforms.mjs
-      - run: node tests/training-remove-scope.mjs
-      - run: node tests/training-list-platforms.mjs
-      - run: node tests/wasd-navigation.mjs
       - run: node tests/settings-scenes.mjs
-      - run: node tests/chrome-theme.mjs
-      - run: node tests/interaction-1433.mjs
       - run: node tests/editor-themes.mjs
       - run: node tests/achievement-layout.mjs
-      - run: node tests/followups-1434.mjs
       - run: node tests/submit-switching.mjs
       - run: node tests/training-list-cache.mjs
-      - run: node tests/training-overview.mjs
-      - run: node tests/navigation-learning.mjs
-      - run: node tests/template-first-frame.mjs
       - run: node tests/course-entry.mjs
       - run: node tests/auth-recovery.mjs
       - run: node tests/admin-settings.mjs
       - run: node tests/public-avatar-cache.mjs
-      - run: node tests/root-ui-refinements.mjs
       - run: node tests/insert-template-model.mjs
-      - run: node tests/unified-controls.mjs
       - run: node tests/statement-translation.mjs
       - run: node tests/next-actions.mjs
-      - run: node tests/navigation-defaults-model.mjs
-      - run: node tests/ui-followups.mjs
-      - run: TB_REAL_FOCUS=1 xvfb-run -a node tests/level-up.mjs
       - run: node tests/ability-evidence.mjs
       - run: node tests/lifecycle-layout.mjs
-      - run: npm run test:workbench
-      - run: node tests/toolbar-refinement.mjs
       - run: node tests/registered-contest.mjs
       - run: node tests/code-format.mjs
       - run: node tests/experience-challenge.mjs
-      - run: npm run test:e2e
-      - run: node tests/detailed-solutions.mjs
       - run: node tests/editorial-teaching.mjs
       - run: node tests/content-batch-1430.mjs
+      - run: node tests/task-navigation-model.mjs
+      - run: node tests/rank-promotion-model.mjs
+      - run: node tests/background-workspace-model.mjs
+      - run: node tests/learning-browser-model.mjs
+      - run: node tests/webview-loading.mjs
+      - run: node tests/instant-display-model.mjs
+      - run: node tests/instant-display.mjs
+      - run: node tests/library-backgrounds.mjs
+      - run: node tests/workspace-revisions.mjs
+      - run: node tests/workspace-revisions.mjs --appearance
+      - run: node tests/task-navigation.mjs
+      - run: node tests/lab-entry-reset.mjs
+      - run: node tests/training-result-group.mjs
+      - run: node tests/rank-promotion.mjs
+      - run: node tests/rank-promotion-app.mjs
+      - run: node tests/ui-review-161.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

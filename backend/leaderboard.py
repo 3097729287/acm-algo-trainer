@@ -12,9 +12,10 @@ from pathlib import Path
 import sys
 import threading
 import time
+from http.client import HTTPConnection, HTTPSConnection
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlsplit
-from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHandler, getproxies
+from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHandler, HTTPHandler, HTTPSHandler, getproxies
 
 from progression import SHANGHAI
 
@@ -79,6 +80,38 @@ class NoRedirect(HTTPRedirectHandler):
         raise URLError("排行榜服务发生重定向，请使用最终 HTTPS 地址")
 
 
+class ServiceConnectionBudget:
+    """Bound only the connection attempt; response headers keep their budget."""
+    def connect(self):
+        original = self.timeout
+        started = time.monotonic()
+        self.timeout = min(3, original / 2) if isinstance(original, (int, float)) else original
+        try:
+            super().connect()
+        finally:
+            self.timeout = original
+        if self.sock is not None:
+            self.sock.settimeout(max(.001, original - (time.monotonic() - started)) if isinstance(original, (int, float)) else original)
+
+
+class ServiceHTTPConnection(ServiceConnectionBudget, HTTPConnection):
+    pass
+
+
+class ServiceHTTPSConnection(ServiceConnectionBudget, HTTPSConnection):
+    pass
+
+
+class ServiceHTTPHandler(HTTPHandler):
+    def http_open(self, request):
+        return self.do_open(ServiceHTTPConnection, request)
+
+
+class ServiceHTTPSHandler(HTTPSHandler):
+    def https_open(self, request):
+        return self.do_open(ServiceHTTPSConnection, request, context=self._context)
+
+
 class AdaptiveServiceOpener:
     """Recover a broken direct connection using the configured system route.
 
@@ -106,7 +139,7 @@ class AdaptiveServiceOpener:
                 sock.settimeout(max(.001, deadline - time.monotonic()))
             return response
         try:
-            return connect(first, min(3, duration / 2))
+            return connect(first, duration)
         except HTTPError:
             raise
         except (URLError, TimeoutError, OSError) as issue:
@@ -127,13 +160,13 @@ def service_opener(endpoint):
     """Prefer direct service access, with a verified system-route recovery."""
     host = urlsplit(endpoint).hostname
     bundled_host = urlsplit(bundled_endpoint()).hostname
-    handlers = [NoRedirect()]
+    handlers = [NoRedirect(), ServiceHTTPHandler(), ServiceHTTPSHandler()]
     loopback = host in {"127.0.0.1", "localhost", "::1"}
     if loopback or host and host == bundled_host:
         handlers.append(ProxyHandler({}))
     direct = build_opener(*handlers)
     if not loopback and host and host == bundled_host and getproxies().get('https'):
-        return AdaptiveServiceOpener(host, direct, build_opener(NoRedirect()))
+        return AdaptiveServiceOpener(host, direct, build_opener(NoRedirect(), ServiceHTTPHandler(), ServiceHTTPSHandler()))
     # Custom servers retain the user's system proxy. HTTPS verification stays
     # enabled, redirects remain forbidden and requests are never replayed.
     return direct

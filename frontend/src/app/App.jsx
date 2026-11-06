@@ -1,5 +1,5 @@
 import {addCalendarLearningTasks} from '@/lib/calendarLearningTasks.js';
-import {taskNeighbours,todayTaskSequence} from '@/lib/taskNavigation.js';
+import {todayTaskSequence} from '@/lib/taskNavigation.js';
 import {readSectionBookmark,readPageBookmark,rememberPageBookmark} from '@/lib/bookmarkMemory.js';
 import WorkspaceSearchResults,{WorkspaceSearchInput} from '@/components/WorkspaceSearch.jsx';
 import StickerBoxes from '@/components/StickerBoxes.jsx';
@@ -10,7 +10,6 @@ import WorkspaceBackground from '@/components/WorkspaceBackground.jsx';
 import BackgroundPicker from '@/components/BackgroundPicker.jsx';
 import useBackgroundInventory from '@/lib/useBackgroundInventory.js';
 import {workspaceBackground,chooseRewardBackground} from '@/lib/workspaceBackground.js';
-import {Images} from 'lucide-react';
 import PageBookmarks from '@/components/PageBookmarks.jsx';
 import '@/styles/navigation-review.css';
 import TaskContinuation from '@/components/TaskContinuation.jsx';
@@ -128,7 +127,6 @@ import {
   Layers,
   ArrowLeft,
   Bell,
-  Heart,
   ChartNoAxesCombined,
   CalendarDays,
   CalendarClock,
@@ -718,8 +716,8 @@ export default function App() {
   const social = useSocial(api, Boolean(data&&account?.userId),account?.userId||'');
   const presence=usePresence(api,data&&account?.userId,currentActivity({page,practice:practiceId,studyKind:learningBrowserActive?studyActivity:null,contest:workspace?.activeContest,duel:duel?.state,thought:thought?.state}));
   const learningSummary=useLearningSummary(api,account?.userId||'local',Boolean(data&&!loading),Boolean(learningBrowserActive||practiceId||readerId||['lectures','paths','templates','wiki'].includes(page)||workspace.activeContest));
-  const [taskView,setTaskView]=useState(undefined),[globalQuery,setGlobalQuery]=useState(''),[activeTaskFlow,setActiveTaskFlow]=useState(null);
-  useEffect(()=>{setGlobalQuery('');setActiveTaskFlow(null);},[account?.userId]);
+  const [taskView,setTaskView]=useState(undefined),[globalQuery,setGlobalQuery]=useState('');
+  useEffect(()=>{setGlobalQuery('');},[account?.userId]);
   useEffect(()=>{const group=PAGE_GROUPS[page];if(!group||!preferencesLoaded.current)return;setPrefs(previous=>previous.learningPaths?.pageBookmarkActive?.[group]===page?previous:{...previous,learningPaths:{...previous.learningPaths,pageBookmarkActive:{...previous.learningPaths?.pageBookmarkActive,[group]:page}}});},[page,account?.userId]);
   const [backgroundPickerOpen,setBackgroundPickerOpen]=useState(false),[cardPacksOpen,setCardPacksOpen]=useState(false);
   const backgroundInventory=useBackgroundInventory(api,account?.userId||'local',!loading);
@@ -729,7 +727,6 @@ export default function App() {
   useEffect(()=>setCardPacksOpen(false),[account?.userId]);
   const navigationPlan=useMemo(()=>addCalendarLearningTasks(learningSummary.snapshot?.plan,calendar?.snapshot?.contests||[],workspace.contests||[],now),[learningSummary.snapshot?.plan,calendar?.snapshot?.contests,workspace.contests,now]);
   const navigationSummary=useMemo(()=>learningSummary.snapshot?{...learningSummary.snapshot,plan:navigationPlan}:null,[learningSummary.snapshot,navigationPlan]);
-  const flowNavigation=taskNeighbours(activeTaskFlow,navigationPlan);
   const backgroundAccess={level:entryGrowth?.level??1,admin:Boolean(window.__tbAdmin)};
   const backgroundValue=workspaceBackground(prefs,backgroundInventory.inventory,account?.userId||'local',backgroundAccess);
   useEffect(()=>{setBackgroundPickerOpen(false);setCardPacksOpen(false);},[account?.userId]);
@@ -885,10 +882,10 @@ export default function App() {
   useEffect(() => {
     if (!data || !preferencesLoaded.current || !window.__tbAccountUserId) return;
     const value = portablePreferences(prefs), signature = JSON.stringify(value);
-    if (signature === uploadedPreferences.current) return;
     let disposed=false,retryTimer,failures=0;
     const save = () => {
       const pending = preferencesQueue.current.catch(() => false).then(async () => {
+        if (disposed) return true;
         if (signature === uploadedPreferences.current) return true;
         try {
           await api('preferences', { preferences: value });
@@ -1289,7 +1286,6 @@ export default function App() {
       [target]: { ...current[target], ...patch, ...(target === "mine" ? { shelf: "all", setId: "" } : {}) },
     }));
   function go(next) {
-    setActiveTaskFlow(null);
     if(PAGE_GROUPS[next])rememberPageBookmark(account?.userId||'local',PAGE_GROUPS[next],next);
     setGlobalQuery('');
     learningBrowserRef.current?.hide({silent:true});
@@ -1333,7 +1329,6 @@ export default function App() {
     go(item.page);
   }
   async function openCalendarTask(task) {
-    if(task.key)setActiveTaskFlow({planId:learningSummary.snapshot?.plan?.id,taskKey:task.key});
               if(task.contestId&&task.contestId===workspace.activeContest?.id){setPage('mock');setMockTab('create');setMockSlot(workspace.activeContest.slots[0]?.id);return;}
               if(task.status==='done'){const record=workspace.contests.find(item=>item.id===task.contestId);if(record)openRecord(record);return;}
               if(task.availability==='upcoming'){setDialog('contest-calendar');return;}
@@ -1344,7 +1339,7 @@ export default function App() {
 
   }
   function openSummaryTask(task) {
-    const sequence=todayTaskSequence(navigationPlan),flow={planId:learningSummary.snapshot?.plan?.id,taskKey:task.key,mode:sequence.length&&sequence.every(item=>item.status==='done')?'review':'work'};if(task.key)setActiveTaskFlow(flow);
+    const sequence=todayTaskSequence(navigationPlan),flow={planId:learningSummary.snapshot?.plan?.id,taskKey:task.key,mode:sequence.length&&sequence.every(item=>item.status==='done')?'review':'work'};
     if(task.kind==='calendar-contest'){void openCalendarTask(task).catch(issue=>notice(issue.message,'error'));return;}
     if(task.id==='summary'||task.kind==='summary-task'){learningSummary.setOpen(false);setTaskView('overview');go('tasks');return;}
     if(task.kind==='mixed'){
@@ -2172,10 +2167,11 @@ export default function App() {
       {!loading&&<LearningBrowser ref={learningBrowserRef} api={api} accountId={account?.userId||'local'} ready={!loading&&(!account?.userId||preferencesLoaded.current)} onFlush={flushLearningBrowser} rows={rows} trainingRows={todayMine} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} onProgress={progressChanged} onNotice={notice} onExit={exitPractice} onActiveChange={learningBrowserChanged} categories={categories} lockedProblems={active?.slots||[]} practiceWorkspace={workspace} recommendations={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]} weeklyPlan={learningSummary.snapshot?.plan} onSummaryTask={openSummaryTask} taskPlan={navigationPlan} onTaskNavigate={openSummaryTask} onPacks={openCardPacks}/>}
       <LearningSummary navigationPlan={navigationPlan} model={learningSummary} api={api} onOpenTask={openSummaryTask} currentProblem={practiceId||studyProblemId} currentContent={studyContent} rows={rows}/>
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
-      <aside className="sidebar">
+      <aside id="tb-primary-sidebar" className="sidebar">
         <div className="brand">
-          <button type="button" className="brand-mark" aria-label={prefs.collapsed?"展开侧边栏":"收起侧边栏"} aria-expanded={!prefs.collapsed} onClick={()=>setPrefs(previous=>({...previous,collapsed:!previous.collapsed}))}>
-            <BrandWordmark/>
+          <div className="brand-mark" aria-label="ToBe"><BrandWordmark/></div>
+          <button type="button" className="icon-button sidebar-toggle" aria-label={prefs.collapsed?"展开侧边栏":"收起侧边栏"} title={prefs.collapsed?"展开侧边栏":"收起侧边栏"} aria-expanded={!prefs.collapsed} aria-controls="tb-primary-sidebar" onClick={()=>setPrefs(previous=>({...previous,collapsed:!previous.collapsed}))}>
+            {prefs.collapsed?<PanelLeftOpen size={18}/>:<PanelLeftClose size={18}/>}
           </button>
 
         </div>
@@ -2220,7 +2216,7 @@ export default function App() {
         <header ref={topbarRef} className={"topbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>
           <div className="topbar-leading"><div id="tb-page-bookmarks" className="topbar-bookmark-slot"/><div id="tb-page-location" className="page-location-slot"/>
           <div id="tb-page-search" className="topbar-search-slot" data-unified="true"><WorkspaceSearchInput value={globalQuery} onChange={setGlobalQuery}/></div></div>
-          <div className="topbar-trailing">{!mockFocus&&(flowNavigation.managed?<section className="next-actions task-header-navigation" aria-label="任务顺序"><button type="button" className="icon-button" aria-label="上一项" disabled={!flowNavigation.previous} onClick={()=>flowNavigation.previous&&openSummaryTask(flowNavigation.previous)}><ArrowLeft size={17}/></button><button type="button" className="next-actions-primary" disabled={!flowNavigation.next} onClick={()=>{const target=flowNavigation.allDone?flowNavigation.tasks[0]:flowNavigation.next;if(target)openSummaryTask(target);}}><span>{flowNavigation.allDone?'已完成':flowNavigation.label}</span></button></section>:account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} contentReady={Boolean(data&&!loading)} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} onActionsChange={updateRecommendationItems} adoptedSummary={navigationSummary} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
+          <div className="topbar-trailing">{!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} contentReady={Boolean(data&&!loading)} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} onActionsChange={updateRecommendationItems} adoptedSummary={navigationSummary} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
           <div className="topbar-actions">{learningTabCount>0&&<button type="button" className="icon-button" aria-label="返回学习标签页" title="返回学习标签页" onClick={()=>learningBrowserRef.current?.resume()}><BookOpen size={18}/></button>}
             <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
             {active && page !== "mock" && (
@@ -2230,13 +2226,12 @@ export default function App() {
               </button>
             )}
             <button className="text-button topbar-daily-ac topbar-status-chip" aria-label={`AC：历史 ${beforeTodayAc}，今日 ${todayAc}`} onClick={()=>go('mine')}><span className="metric-label">AC</span><span className="metric-separator" aria-hidden="true">:</span><b>{beforeTodayAc}{todayAc>0&&<span className="topbar-ac-today">+{todayAc}</span>}</b></button>
-            <button className="text-button topbar-love-count topbar-status-chip" data-positive={Number(social.snapshot?.todayLikes)>=1} data-cached={social.snapshot?.countsCached||undefined} aria-busy={!social.snapshot?.available} aria-label={social.snapshot?.totalLikes!=null?`爱心：历史 ${Math.max(0,(social.snapshot.totalLikes||0)-(social.snapshot.todayLikes||0))}，今日 ${social.snapshot.todayLikes||0}${social.snapshot.available?'':'，上次确认数据'}`:'爱心，正在读取'} onClick={() => setDialog('updates')}><Heart size={18} fill="currentColor"/><span className="metric-separator" aria-hidden="true">:</span><b>{social.snapshot?.totalLikes!=null?Math.max(0,(social.snapshot.totalLikes||0)-(social.snapshot.todayLikes||0)):'—'}{social.snapshot?.todayLikes>0&&<span className="topbar-ac-today">+{social.snapshot.todayLikes}</span>}</b></button>
             <ProfileBadge growth={growth} avatar={prefs.avatarData} nickname={account?.nickname || profileSnapshot?.profile?.nickname} onClick={()=>openAccounts('profile')} onAvatarClick={()=>setDialog('avatar')}/>
 
 
           </div></div>
         </header>
-        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}><button type="button" className="achievement-top-button sticker-box-trigger" aria-label="卡包" title="卡包" aria-busy={backgroundInventory.loading} onClick={openCardPacks}><Gift size={18}/></button><button type="button" className="achievement-top-button" aria-label="背景选择" title="背景选择" onClick={()=>setBackgroundPickerOpen(true)}><Images size={18}/></button><span className="statusbar-online" role="status" data-online={presence?.available||false} aria-label="在线人数">在线 · {presence?.available?presence.count:'—'}人</span>{featureAvailable('competitions')&&<Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip>}<button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><DailyTaskCount value={insights?.dailyTasks}/>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
+        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}><button type="button" className="achievement-top-button sticker-box-trigger" aria-label="卡包" title="卡包" aria-busy={backgroundInventory.loading} onClick={openCardPacks}><Gift size={18}/></button><span className="statusbar-online" role="status" data-online={presence?.available||false} aria-label="在线人数">在线 · {presence?.available?presence.count:'—'}人</span>{featureAvailable('competitions')&&<Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip>}<button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><DailyTaskCount value={insights?.dailyTasks}/>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><small>{unlockedAchievements.length}/{achievements.length}</small>{(unseenAchievements.length > 0 || unlockedAchievements.some(item=>!item.rewardClaimed)) && <i className="notification-dot" />}</button>
             <IconButton label="切换深浅主题" className="achievement-top-button theme-toggle" icon={prefs.theme==='dark'?Sun:Moon} aria-pressed={prefs.theme==='light'} onClick={()=>setPrefs(previous=>({...previous,theme:previous.theme==='dark'?'light':'dark'}))}/>
             <IconButton

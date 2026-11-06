@@ -6,7 +6,7 @@ import {readDuelBoard,loadDuelBoard} from '../lib/duelBoardCache.js';
 import {trainingDay} from '../lib/trainingDate.js';
 export default function DuelCommunity({api,owner,mode,revision,standingsOnly=false}){
  const [savedView,setView]=useState(()=>readDuelBoard(owner,mode)),[error,setError]=useState(''),[busy,setBusy]=useState(false),request=useRef(0),fresh=useRef(null),live=useRef(owner);live.current=owner;
- const view=savedView?.owner===owner&&savedView.mode===mode?savedView:readDuelBoard(owner,mode);
+ const view=savedView&&savedView.owner===owner&&savedView.mode===mode?savedView:readDuelBoard(owner,mode);
  const load=useCallback(async(more=false)=>{
   if(!api||!owner)return;const seq=++request.current;setBusy(true);
   const next=more?view?.next:null;
@@ -15,7 +15,7 @@ export default function DuelCommunity({api,owner,mode,revision,standingsOnly=fal
   finally{if(seq===request.current)setBusy(false);}
  },[api,owner,mode,view?.next]);
  const current=useRef(load);current.current=load;
- useEffect(()=>{request.current++;setView(previous=>previous?.owner===owner&&previous.mode===mode&&previous.date===trainingDay()?previous:readDuelBoard(owner,mode));setError('');void current.current();const timer=setInterval(()=>{if(!document.hidden)void current.current();},25000);return()=>{request.current++;clearInterval(timer);};},[api,owner,mode,revision]);
+ useEffect(()=>{request.current++;setView(previous=>previous&&previous.owner===owner&&previous.mode===mode&&previous.date===trainingDay()?previous:readDuelBoard(owner,mode));setError('');void current.current();const timer=setInterval(()=>{if(!document.hidden)void current.current();},25000);return()=>{request.current++;clearInterval(timer);};},[api,owner,mode,revision]);
  if(!api)return null;
  const time=stamp=>new Date(stamp).toLocaleTimeString('zh-CN',{timeZone:'Asia/Shanghai',hour:'2-digit',minute:'2-digit'});
  return <section className={'duel-community'+(standingsOnly?' standings-only':'')} aria-label={standingsOnly?'排位分排行榜':'排位排行榜与对战记录'}>

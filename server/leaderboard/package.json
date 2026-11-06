@@ -2,7 +2,7 @@
   "name": "tb-shared-leaderboard",
   "private": true,
   "type": "module",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "scripts": {
     "test": "node --test tests/api.test.mjs tests/server.test.mjs tests/chunks.test.mjs tests/ranking-dominance.test.mjs tests/gameplay.test.mjs tests/ranking-week-boundary.test.mjs tests/gameplay-restore.test.mjs tests/sticker-rewards.test.mjs tests/card-packs.test.mjs tests/sticker-scenes.test.mjs tests/feedback-regressions.test.mjs tests/release-stream.test.mjs tests/library-assets.test.mjs tests/thought-duels.test.mjs tests/duel-community.test.mjs",
     "test:mysql": "node --test tests/mysql.test.mjs",

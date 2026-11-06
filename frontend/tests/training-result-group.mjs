@@ -67,10 +67,10 @@ try {
   const row=page.locator('tr[data-id="fixture::0"]');await row.waitFor();
   const group=()=>row.evaluate(node=>{while(node=node.previousElementSibling){if(node.classList.contains('queue-heading'))return node.textContent;}return '';});
   assert.match(await group(),/待攻克/);
-  assert.equal(await page.locator('.topbar-love-count b').textContent(),'6+3');
+  assert.equal(await page.locator('.topbar-love-count').count(),0);
   await row.locator('.problem-title').click();await page.locator('.cm-editor').waitFor();
   training[0].accepted=true;training[0].verdict='AC';training[0].queue=null;
-  await page.getByRole('button',{name:'返回列表',exact:true}).click();
+  await page.getByRole('button',{name:'返回主界面',exact:true}).click();
   await row.waitFor();
   await page.waitForFunction(()=>{let node=document.querySelector('tr[data-id="fixture::0"]');while(node=node?.previousElementSibling){if(node.classList.contains('queue-heading'))return node.textContent.includes('已 AC');}return false;});
   assert.match(await group(),/已 AC/);

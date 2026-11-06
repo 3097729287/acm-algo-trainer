@@ -47,9 +47,9 @@ html .app-shell .main-area .topbar-leading>.topbar-search-slot{position:relative
 html .topbar-leading>.page-location-slot{grid-column:1;grid-row:2;min-width:0}
 html .topbar-leading .workspace-search-input{width:100%;flex:0 0 100%}
 html #tb-page-search[data-unified=true]>.page-search-controls{position:absolute;left:calc(100% + 8px);width:max-content;max-width:none}
-html .topbar>.topbar-trailing{display:flex;grid-column:3;grid-row:1;align-items:center;justify-content:flex-end;gap:16px;min-width:0;padding-left:120px}
-html .topbar-trailing>.next-actions{flex:0 1 224px;width:max-content;min-width:50px;max-width:224px;margin:0}
-html .topbar-trailing>.topbar-actions{display:flex;flex:none;align-items:center;justify-content:flex-end;flex-wrap:nowrap;min-width:0;margin:0}
+html .topbar>.topbar-trailing{display:flex;grid-column:3;grid-row:1;align-items:center;justify-content:flex-end;gap:8px;min-width:0;padding-left:120px}
+html .topbar-trailing>.next-actions{flex:0 1 auto;width:max-content;min-width:50px;max-width:224px;margin:0}
+html .topbar-trailing>.topbar-actions{display:flex;gap:8px;flex:none;align-items:center;justify-content:flex-end;flex-wrap:nowrap;min-width:0;margin:0}
 html .topbar .topbar-actions .profile-badge{gap:4px}
 html .app-shell aside.sidebar{padding-top:0}
 html .app-shell .sidebar .brand{height:var(--chrome-header-height,66px);min-height:var(--chrome-header-height,66px);flex:0 0 var(--chrome-header-height,66px);margin-block:0 12px}
@@ -76,3 +76,12 @@ html .app-statusbar>.notification-trigger>.notification-dot{display:block}
  html .app-shell .app-statusbar button{flex:none;width:28px;min-width:28px;height:28px;min-height:28px;padding:4px}
  html .app-shell .app-statusbar button>small{display:none}
 }
+
+/* A separate, always reachable control beside the wordmark. */
+html .app-shell aside.sidebar .brand{gap:8px}
+html .app-shell aside.sidebar .sidebar-toggle{display:inline-flex;flex:none;align-items:center;justify-content:center;width:28px;height:28px;padding:4px;border:0;border-radius:6px;background:transparent;color:var(--muted)}
+html .app-shell aside.sidebar .sidebar-toggle:hover{color:var(--accent);background:var(--accent-soft)}
+html .app-shell.sidebar-collapsed aside.sidebar .brand{gap:2px;padding-inline:0}
+html .app-shell.sidebar-collapsed aside.sidebar .brand-mark{width:20px;height:28px;font-size:9px;border-radius:5px}
+html .app-shell.sidebar-collapsed aside.sidebar .sidebar-toggle{width:22px;padding:2px}
+@media(max-width:800px){html .app-shell aside.sidebar .brand{gap:2px;padding-inline:0}html .app-shell aside.sidebar .brand-mark{width:20px;height:28px;font-size:9px;border-radius:5px}html .app-shell aside.sidebar .sidebar-toggle{width:22px;padding:2px}}
