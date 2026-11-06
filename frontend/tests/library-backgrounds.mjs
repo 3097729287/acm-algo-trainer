@@ -11,6 +11,11 @@ try{
  await page.goto(`http://127.0.0.1:${server.httpServer.address().port}/tests/library-backgrounds-fixture.html`);await page.waitForFunction(()=>window.scenes?.length===11);
  const results=[];
  await page.evaluate(()=>{const host=document.createElement('div');host.id='capture';host.style.cssText='position:fixed;inset:0;z-index:99999';document.body.append(host);window.engine=new MotionScene(host,{id:'waves'});});
+ await page.waitForFunction(()=>engine.host.dataset.ready==='true');
+ const uninterrupted=await page.evaluate(async()=>{const effect=engine.effect,canvas=effect.renderer.domElement,frames=engine.frames;for(let i=0;i<3;i++){document.documentElement.dataset.theme=document.documentElement.dataset.theme||'dark';await new Promise(resolve=>setTimeout(resolve,40));}return{sameEffect:engine.effect===effect,sameCanvas:engine.effect?.renderer.domElement===canvas,moving:engine.frames>frames};});
+ assert.deepEqual(uninterrupted,{sameEffect:true,sameCanvas:true,moving:true},'Saving unchanged appearance preferences must not restart the background');
+ await page.evaluate(()=>{window.previousEffect=engine.effect;document.documentElement.dataset.theme='light';});await page.waitForFunction(()=>engine.effect&&engine.effect!==previousEffect&&engine.host.dataset.ready==='true');
+ await page.evaluate(()=>{window.previousEffect=engine.effect;document.documentElement.dataset.theme='dark';});await page.waitForFunction(()=>engine.effect&&engine.effect!==previousEffect&&engine.host.dataset.ready==='true');
  for(const {id}of await page.evaluate(()=>window.scenes)){
   await page.evaluate(async id=>{if(engine.id!==id)await engine.setScene(id);else await engine.ready;},id);
   await page.waitForFunction(()=>document.getElementById('capture').dataset.ready==='true');await page.waitForTimeout(450);
@@ -28,6 +33,6 @@ try{
  await page.getByRole('button',{name:'火箭',exact:true}).click();await page.waitForTimeout(600);const displacement=await page.locator('.rocket-flight').evaluate(node=>{const m=new DOMMatrix(getComputedStyle(node).transform);return Math.hypot(m.m41,m.m42);});assert(displacement>2,'An edge placement must fly, rather than only showing flame');
  await page.waitForTimeout(3000);assert.equal(await page.locator('.rocket-flight').evaluate(node=>getComputedStyle(node).transform),'none');
  for(const width of [1440,900,640,390]){await page.setViewportSize({width,height:900});await page.getByRole('button',{name:'背景选择',exact:true}).first().click();await picker.waitFor();assert(await picker.evaluate(node=>node.scrollWidth<=node.clientWidth+1));await picker.getByRole('button',{name:'关闭背景选择'}).click();}
- assert.deepEqual(errors,[]);assert.deepEqual(remote,[]);const result={ok:true,effects:results,customImageLevels:[9,10],onlySolidDefault:true,noBackgroundRarity:true,rocketEdgeFlight:true,noRemoteAssets:true,errors};await writeFile(new URL('result.json',out),JSON.stringify(result,null,2));
- const assets=new URL('../src/assets/backgrounds/',import.meta.url);await mkdir(assets,{recursive:true});for(const {id}of results)await copyFile(new URL(id+'.jpg',out),new URL(id+'.jpg',assets));console.log(JSON.stringify(result));
+ assert.deepEqual(errors,[]);assert.deepEqual(remote,[]);const result={ok:true,effects:results,unchangedThemeKeepsAnimation:true,themePaletteSwitch:true,customImageLevels:[9,10],onlySolidDefault:true,noBackgroundRarity:true,rocketEdgeFlight:true,noRemoteAssets:true,errors};await writeFile(new URL('result.json',out),JSON.stringify(result,null,2));
+ if(process.env.TB_UPDATE_BACKGROUND_THUMBNAILS==='1'){const assets=new URL('../src/assets/backgrounds/',import.meta.url);await mkdir(assets,{recursive:true});for(const {id}of results)await copyFile(new URL(id+'.jpg',out),new URL(id+'.jpg',assets));}console.log(JSON.stringify(result));
 }catch(error){await page.screenshot({path:fileURLToPath(new URL('failure.png',out))});throw error;}finally{await browser.close();await server.close();}

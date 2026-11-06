@@ -24,7 +24,8 @@ export class MotionScene{
   this.host=host;this.paused=paused;this.onError=onError;this.generation=0;this.frames=0;this.time=0;this.destroyed=false;host.classList.add('motion-background');
   this.visibility=()=>this.sync();document.addEventListener('visibilitychange',this.visibility);
   this.media=matchMedia('(prefers-reduced-motion: reduce)');this.media.addEventListener('change',this.visibility);
-  this.observer=new MutationObserver(records=>{if(records.some(record=>record.attributeName==='data-theme'))this.setScene(this.id);else this.sync();});this.observer.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','data-motion']});
+  this.theme=document.documentElement.dataset.theme;
+  this.observer=new MutationObserver(()=>{const theme=document.documentElement.dataset.theme;if(theme!==this.theme){this.theme=theme;this.ready=this.setScene(this.id);}else this.sync();});this.observer.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','data-motion']});
   this.resizeObserver=new ResizeObserver(()=>{if(this.effect){this.effect.resize();this.render();}});this.resizeObserver.observe(host);
   this.ready=this.setScene(id);
  }
