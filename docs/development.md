@@ -1,4 +1,4 @@
-当前本机修订为 1.6.3 · 2026-11-07（雨湖与固定目录顶栏）。运行 `node tests/rain-lake-stability.mjs` 验证实际落点、慢扩散、密集水纹亮度和资源释放；运行 `node tests/lecture-directory-fixed.mjs` 验证滚动裁剪与缩放。公开 1.6.3 的既有标签与资产保持不变；不要把本机追加修订描述成已覆盖公开下载。[本次修订](local-delivery-1.6.3-rain.md)与[此前交互修订](local-delivery-1.6.3-ui.md)。以下旧版本交付记录继续保留。
+当前本机修订为 1.6.3 · 2026-11-07（学习界面与任务）。`node tests/calendar-learning-tasks-model.mjs` 与 `node tests/calendar-tasks.mjs` 验证未开赛、进行中、结束、无学习计划和已完成计划的当前任务选择。`node tests/learned-lectures.mjs` 检查真实学习标记、通过色底色、刷新恢复、取消及深浅主题。`node tests/lecture-directory-fixed.mjs` 检查左右工具栏接成同一行、下方滚动裁剪与分区缩放。公开 1.6.3 的既有标签与资产保持不变；本机修订见[本次记录](local-delivery-1.6.3-learning.md)。此前[雨湖](local-delivery-1.6.3-rain.md)与[交互修订](local-delivery-1.6.3-ui.md)保留。以下旧版本交付记录继续保留。
 
 ## 设计理念和任务工作区检查
 

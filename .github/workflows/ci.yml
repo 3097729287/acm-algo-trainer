@@ -163,6 +163,9 @@ jobs:
       - run: node tests/library-backgrounds.mjs
       - run: node tests/rain-lake-stability.mjs
       - run: node tests/lecture-directory-fixed.mjs
+      - run: node tests/learned-lectures.mjs
+      - run: node tests/calendar-learning-tasks-model.mjs
+      - run: node tests/calendar-tasks.mjs
       - run: node tests/workspace-revisions.mjs
       - run: node tests/workspace-revisions.mjs --appearance
       - run: node tests/task-navigation.mjs

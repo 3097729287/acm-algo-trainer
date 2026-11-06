@@ -1339,7 +1339,7 @@ export default function App() {
 
   }
   function openSummaryTask(task) {
-    const sequence=todayTaskSequence(navigationPlan),flow={planId:learningSummary.snapshot?.plan?.id,taskKey:task.key,mode:sequence.length&&sequence.every(item=>item.status==='done')?'review':'work'};
+    const sequence=todayTaskSequence(navigationPlan),flow=task.key?{planId:learningSummary.snapshot?.plan?.id,taskKey:task.key,mode:sequence.length&&sequence.every(item=>item.status==='done')?'review':'work'}:null;
     if(task.kind==='calendar-contest'){void openCalendarTask(task).catch(issue=>notice(issue.message,'error'));return;}
     if(task.id==='summary'||task.kind==='summary-task'){learningSummary.setOpen(false);setTaskView('overview');go('tasks');return;}
     if(task.kind==='mixed'){
@@ -1353,7 +1353,7 @@ export default function App() {
       if(['problem','review','template-problem'].includes(task.kind))openPractice(task.id,{restoreReviewId:task.status==='done'?null:task.reviewId||null,taskFlow:flow});
       else openLearning({kind:task.kind==='course'?'lab':task.kind,id:task.id,title:task.title,visit:{taskFlow:flow}});
     };
-    if(current&&['lecture','course','template'].includes(task.kind))learningSummary.update('assist',{problemId:current,key:task.key}).then(proceed).catch(issue=>notice(issue.message,'error'));
+    if(current&&task.key&&['lecture','course','template'].includes(task.kind))learningSummary.update('assist',{problemId:current,key:task.key}).then(proceed).catch(issue=>notice(issue.message,'error'));
     else proceed();
     if(learningSummary.snapshot?.view?.pinned===false)learningSummary.setOpen(false);
   }
