@@ -419,12 +419,13 @@
   font-variant-numeric: tabular-nums;
 }
 .wb-run-toolbar {
+  --wb-run-toolbar-inset: 6px;
   display: flex;
   align-items: center;
   flex: 0 0 auto;
   gap: 8px;
   min-height: 43px;
-  padding: 6px 10px;
+  padding: var(--wb-run-toolbar-inset) 10px;
   background: var(--panel-2);
   border-top: 1px solid var(--line);
 }
@@ -724,7 +725,7 @@
   }
   .wb-run-toolbar {
     gap: 6px;
-    padding: 6px 8px;
+    padding: var(--wb-run-toolbar-inset) 8px;
   }
   .wb-run-toolbar select {
     width: 88px;
@@ -955,8 +956,15 @@ html .tb-workbench .wb-editor-header .tb-select {display:block;line-height:norma
 html .tb-workbench .wb-language-select .tb-select-wrap {width:calc(7ch + 40px)}
 html .tb-workbench .wb-editor-header>.tb-select-wrap:has(.initial-code-select) {flex:0 1 auto;min-width:calc(3em + 20px);max-width:180px}
 html .tb-workbench .wb-editor-header .initial-code-select {min-width:calc(3em + 20px);padding-left:10px}
-.wb-cursor-position {flex:0 0 auto;display:inline-flex;align-items:center;align-self:stretch;color:var(--muted);font:12px/1 Consolas,monospace;white-space:nowrap;font-variant-numeric:tabular-nums;padding-inline:8px;user-select:none}
-@container code-pane (max-width:420px) {.wb-cursor-position {font-size:11px;padding-inline:2px}}
+/* Coordinates sit at the row's bottom edge, below the centered run controls. */
+.wb-cursor-position {flex:0 0 auto;display:inline-flex;align-items:flex-end;align-self:stretch;margin-bottom:calc(2px - var(--wb-run-toolbar-inset));color:var(--muted);font:max(14px,var(--wb-toolbar-font-size))/1 Consolas,monospace;white-space:nowrap;font-variant-numeric:tabular-nums;padding-inline:8px;user-select:none}
+@container code-pane (max-width:420px) {
+ .wb-run-toolbar {display:grid;grid-template-columns:minmax(0,1fr) auto}
+ .wb-input-modes {grid-column:1;grid-row:1}
+ .wb-run-button {grid-column:1;grid-row:2;justify-self:start}
+ .wb-run-actions {grid-column:2;grid-row:1}
+ .wb-cursor-position {grid-column:2;grid-row:2;justify-self:end;padding-inline:2px}
+}
 
 /* Code controls use the same unboxed surface as the statement toolbar. */
 html .tb-workbench :is(.wb-editor-header,.wb-compact-toolbar) :is(.tb-select,.wb-button) {border:0;background:transparent;box-shadow:none}

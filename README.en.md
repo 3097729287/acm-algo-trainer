@@ -1,5 +1,7 @@
 # ToBe · Current build
 
+**Local 1.6.5 interface revision · 2026-11-07** enlarges the editor coordinates and aligns them to the toolbar's bottom edge. The separate green completion/next-item panel is removed, restoring the table width; header recommendations and manual reading completion remain available. See the [revision and validation](docs/local-editor-panel-20261107.md). Published 1.6.5 assets below retain their original release build.
+
 **1.6.5 domestic stable update · 2026-11-07** is live. Official 1.6.4 installations prefer the [227.7 MB delta](https://47.82.84.74/updates/assets/1.6.5/ToBe-Update-1.6.4-to-1.6.5-win64.zip); other versions and modified installations can use the [484.6 MB user installer](https://47.82.84.74/updates/assets/1.6.5/ToBe-Setup-1.6.5-win64.exe). This release restores 219 statements, keeps contests with missing problems playable, corrects Chinese translations, adds Alt+T / Alt+Shift+T toolbar controls, and shows the Ctrl+wheel zoom percentage. See the [release notes](docs/releases/1.6.5.md) and [verification](docs/domestic-release-1.6.5-verification.md).
 
 **1.6.4 · Domestic release revision, 2026-11-07** consolidates the local interface, keyboard, reading zoom, contest training, task, Nowcoder catalogue and rain lake fixes. A full user installer and a 1.6.3 → 1.6.4 incremental update are available. See the [1.6.4 release notes](docs/releases/1.6.4.md).
