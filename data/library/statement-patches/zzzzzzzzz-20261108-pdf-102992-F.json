@@ -1,0 +1,161 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:102992::F",
+      "beforeSha256": "fcc3d9797f5fc7f9713aa8713656db9bbb95da6a8ee5290f0ebd53f0e3be2ed1",
+      "content": {
+        "markdown": "# Fireworks\n\nFireworks\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nKotori is practicing making fireworks for the upcoming hanabi taikai1\r\n. It takes her n minutes to make a\r\nsingle firework, and as she is not really proficient in making fireworks, each firework only has a probability\r\nof p × 10−4\r\nto be perfect.\r\nAfter she finishes making a firework, she can just start making the next firework, or take m minutes to\r\nlight all the remaining fireworks finished before. If there is at least one perfect firework among the lit ones,\r\nshe will be happy and go to rest. Otherwise, she will continue practicing. Can you tell her the minimum\r\nexpected practicing time before she goes to rest if she takes the optimal strategy?\r\nNotice that no matter how many fireworks remain, it always takes m minutes to light them all.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 104\r\n) indicating\r\nthe number of test cases. For each test case:\r\nThe first and only line contains three integers n, m and p (1 ≤ n, m ≤ 109\r\n, 1 ≤ p ≤ 104\r\n).\r\nOutput\r\nFor each test case, output one line containing one number indicating the minimum expected practicing\r\ntime.\r\nYour answer will be considered correct if and only if the absolute or relative error does not exceed 10−4\r\n.\r\nExample\r\nstandard input standard output\r\n3\r\n1 1 5000\r\n1 1 1\r\n1 2 10000\r\n4.0000000000\r\n10141.5852891136\r\n3.0000000000\r\n1Hanabi taikai: Romaji of the Japanese word “花火大會”, which means the firework... err... party?\r\nPage 1 of 1\n\n[PDF](https://codeforces.com/gym/102992/problem/F)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n1 1 5000\n1 1 1\n1 2 10000",
+            "output": "4.0000000000\n10141.5852891136\n3.0000000000"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "# Fireworks\n\nTime limit: $1$ second. Memory limit: $256$ MB. Standard input and standard output.\n\nKotori is practicing making fireworks for the upcoming hanabi taikai [1]. It takes her $n$ minutes to make a single firework. Each firework has a probability of $p\\times 10^{-4}$ to be perfect.\n\nAfter finishing a firework, she can start making the next one, or spend $m$ minutes lighting all remaining fireworks made so far. If at least one of the lit fireworks is perfect, she will be happy and go to rest. Otherwise, she continues practicing. Find the minimum expected practicing time before she rests, assuming an optimal strategy.\n\nLighting all remaining fireworks always takes $m$ minutes, regardless of their number.\n\n## Input\n\nThe first line contains the number of test cases $T$ ($1\\leq T\\leq 10^4$).\n\nEach test case consists of one line containing three integers $n,m,p$ ($1\\leq n,m\\leq 10^9$, $1\\leq p\\leq 10^4$).\n\n## Output\n\nFor each test case, output the minimum expected practicing time. The absolute or relative error must not exceed $10^{-4}$.\n\n## Note\n\n[1] Hanabi taikai is the romanization of the Japanese phrase “花火大會”, referring to a fireworks gathering.\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:102992::F",
+        "title": "Fireworks",
+        "url": "https://codeforces.com/gym/102992/problem/F",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 256
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/102992/problem/F",
+        "sourcePageNumbers": [
+          1
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/102992",
+        "sourceRosterSha256": "a459c291f8203c11631358bcec6624810e7ee39716da0a026d20fd37db52a8da",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "F",
+          "pdfTitle": "Fireworks",
+          "rosterTitle": "Fireworks",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/102992/problem/F": {
+            "sourceUrl": "https://codeforces.com/gym/102992/problem/F",
+            "sha256": "dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08",
+            "bytes": 172338,
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "data": "tb-asset:dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08",
+            "fileName": "gym-102992.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/102992/problem/F",
+          "sha256": "3e45894c19b3ceff6e1f7ffab31a5eac3410c302f62ad9e3df46c11ba423dd20",
+          "data": "tb-asset:3e45894c19b3ceff6e1f7ffab31a5eac3410c302f62ad9e3df46c11ba423dd20",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            1
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08",
+          "fileName": "gym-102992-F.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/102992/problem/F": {
+            "sourceUrl": "https://codeforces.com/gym/102992/problem/F",
+            "sha256": "dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08",
+            "bytes": 172338,
+            "mime": "application/pdf",
+            "pageCount": 1
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:58.819258+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/102992/problem/F",
+              "sha256": "dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08"
+            },
+            {
+              "url": "https://codeforces.com/gym/102992",
+              "sha256": "a459c291f8203c11631358bcec6624810e7ee39716da0a026d20fd37db52a8da",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/102992/problem/F",
+              "sha256": "dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08"
+            }
+          ],
+          "markdownSha256": "377a016dc8ac9b86fe11943e15db75c4d580092c46a9368628f0125efc1b14c9",
+          "corpusAuditVerifiedSha256": "377a016dc8ac9b86fe11943e15db75c4d580092c46a9368628f0125efc1b14c9"
+        },
+        "translationAvailable": true,
+        "translationReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "3e45894c19b3ceff6e1f7ffab31a5eac3410c302f62ad9e3df46c11ba423dd20",
+          "pages": 1,
+          "sourceTextSha256": "6ea40377d76af32e4a2c897e67f3d07b01cbae015c07ee6a34ebed5f71d2185f",
+          "reviewedAt": "2026-11-07T18:39:09.200655+00:00",
+          "samplesRetainedSeparately": true,
+          "status": "complete",
+          "immutableSpansValidated": true
+        },
+        "sourceTextArchive": [
+          {
+            "sha256": "999b6e33bc793589db3cafd1310b86c3ff6a778c52bb3b95718a594c378c6345",
+            "text": "Fireworks\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nKotori is practicing making fireworks for the upcoming hanabi taikai1\r\n. It takes her n minutes to make a\r\nsingle firework, and as she is not really proficient in making fireworks, each firework only has a probability\r\nof p × 10−4\r\nto be perfect.\r\nAfter she finishes making a firework, she can just start making the next firework, or take m minutes to\r\nlight all the remaining fireworks finished before. If there is at least one perfect firework among the lit ones,\r\nshe will be happy and go to rest. Otherwise, she will continue practicing. Can you tell her the minimum\r\nexpected practicing time before she goes to rest if she takes the optimal strategy?\r\nNotice that no matter how many fireworks remain, it always takes m minutes to light them all.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 104\r\n) indicating\r\nthe number of test cases. For each test case:\r\nThe first and only line contains three integers n, m and p (1 ≤ n, m ≤ 109\r\n, 1 ≤ p ≤ 104\r\n).\r\nOutput\r\nFor each test case, output one line containing one number indicating the minimum expected practicing\r\ntime.\r\nYour answer will be considered correct if and only if the absolute or relative error does not exceed 10−4\r\n.\r\nExample\r\nstandard input standard output\r\n3\r\n1 1 5000\r\n1 1 1\r\n1 2 10000\r\n4.0000000000\r\n10141.5852891136\r\n3.0000000000\r\n1Hanabi taikai: Romaji of the Japanese word “花火大會”, which means the firework... err... party?\r\nPage 1 of 1",
+            "kind": "unreviewed-pdf-extraction"
+          }
+        ],
+        "sourceTextReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "3e45894c19b3ceff6e1f7ffab31a5eac3410c302f62ad9e3df46c11ba423dd20",
+          "pages": 1,
+          "sourceTextSha256": "6ea40377d76af32e4a2c897e67f3d07b01cbae015c07ee6a34ebed5f71d2185f",
+          "reviewedAt": "2026-11-07T18:39:09.200655+00:00",
+          "samplesRetainedSeparately": true
+        },
+        "translationReviewHistory": [
+          {
+            "translationReview": {
+              "status": "withheld",
+              "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+              "inputHash": "377a016dc8ac9b86fe11943e15db75c4d580092c46a9368628f0125efc1b14c9"
+            },
+            "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+            "translationAvailable": false
+          }
+        ],
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "377a016dc8ac9b86fe11943e15db75c4d580092c46a9368628f0125efc1b14c9",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "6ea40377d76af32e4a2c897e67f3d07b01cbae015c07ee6a34ebed5f71d2185f",
+          "sourcePdfSha256": "3e45894c19b3ceff6e1f7ffab31a5eac3410c302f62ad9e3df46c11ba423dd20",
+          "markdown": "# Fireworks\n\n时间限制：$1$ 秒。内存限制：$256$ MB。使用标准输入和标准输出。\n\nKotori 正在练习制作烟花，为即将到来的 hanabi taikai [1] 做准备。她制作一枚烟花需要 $n$ 分钟。每枚烟花完美制成的概率为 $p\\times 10^{-4}$。\n\n完成一枚烟花后，她可以继续制作下一枚，也可以花 $m$ 分钟点燃此前做好且尚未点燃的所有烟花。如果点燃的烟花中至少有一枚是完美的，她就会高兴地结束练习、去休息；否则她会继续练习。假设她采取最优策略，求开始练习到去休息所需时间的最小期望。\n\n无论剩余多少枚烟花，将它们全部点燃都恰好需要 $m$ 分钟。\n\n## 输入\n\n第一行包含测试用例数 $T$（$1\\leq T\\leq 10^4$）。\n\n每个测试用例占一行，包含三个整数 $n,m,p$（$1\\leq n,m\\leq 10^9$，$1\\leq p\\leq 10^4$）。\n\n## 输出\n\n对于每个测试用例，输出练习时间的最小期望。绝对误差或相对误差不超过 $10^{-4}$ 的答案将被接受。\n\n## 注释\n\n[1] hanabi taikai 是日语“花火大會”的罗马字写法，指烟花聚会。\n"
+        }
+      }
+    }
+  ]
+}

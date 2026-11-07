@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:104857::L",
+      "beforeSha256": "a028a93e9954d8dad6fdbc3bbf3a2971e72091d9cbb4f62f330f05638cc56b4d",
+      "content": {
+        "markdown": "# Information Spread\n\nInformation Spread\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 3 seconds\r\nMemory limit: 512 megabytes\r\nIn Mr. Ham’s class, there are n students numbered from 1 to n. One day, a student 1 learns a piece of\r\ninformation. Subsequently, the students initiate the process of spreading the information to each other.\r\nThe relationships among the students are represented by a directed graph with n vertices and m edges.\r\nEach edge has a weight w, a real number between 0 and 1 (inclusive). The process of information spreading\r\nis carried out according to the following pseudocode:\r\nAlgorithm 1 SPREAD\r\n1: Let aware[1..n] be a new array initialized as F alse\r\n2: Let visited[1..n] be a new array initialized as F alse\r\n3: procedure DFS(u)\r\n4: if visited[u] then\r\n5: return\r\n6: end if\r\n7: visited[u] ← T rue\r\n8: for (u, v, w) ∈ edges starting from u do\r\n9: . Enumerate edges in the order of input /\r\n10: if aware[u] and not aware[v] then\r\n11: with probability w, aware[v] ← T rue\r\n12: end if\r\n13: DF S(v)\r\n14: end for\r\n15: end procedure\r\n16: procedure SPREAD\r\n17: aware[1] ← T rue . The first student knows the information at the beginning\r\n18: DF S(1)\r\n19: end procedure\r\nPlease compute the probability that student i becomes aware of the information through this process, for\r\nall 1 ≤ i ≤ n. In other words, calculate the probability of aware[u] being T rue in the above pseudocode.\r\nInput\r\nThe first line contains two integers n and m (3 ≤ n ≤ 105\r\n, n − 1 ≤ m ≤ 3 · 105\r\n), denoting the number of\r\nstudents and the number of relationships.\r\nThe next m lines each contains four integers ui\r\n, vi\r\n, pi and qi (1 ≤ ai\r\n, bi ≤ n, 0 ≤ pi ≤ qi ≤ 105\r\n, qi 6= 0),\r\ndenoting a relationship from student ui to student vi with a weight wi =\r\npi\r\nqi\r\n.\r\nIt is guaranteed that there is no relationship from student i to student i (1 ≤ i ≤ n), and there is at most\r\none relationship from student i to student j (1 ≤ i, j ≤ n). It is also guaranteed that all students can be\r\nreached from student 1 in the process.\r\nOutput\r\nOutput n lines, the i-th line contains a single integer xi denoting the probability that student i becomes\r\naware of the information after the process modulo 998 244 353.\r\nFormally, it can be proven that the answer is a rational number p\r\nq\r\n. To avoid issues related to precisions,\r\nplease output the integer (pq−1 mod M) as the answer, where M = 998 244 353 and q\r\n−1\r\nis the integer\r\nsatisfying qq−1 ≡ 1 (mod M).\r\nPage 1 of 2\n\nExamples\r\nstandard input standard output\r\n4 4\r\n1 2 1 2\r\n2 3 1 2\r\n2 4 1 2\r\n4 3 1 1\r\n1\r\n499122177\r\n623902721\r\n748683265\r\n6 12\r\n1 2 81804 95651\r\n2 3 39701 95895\r\n2 4 6178 17992\r\n3 5 72756 84510\r\n5 6 40007 83640\r\n2 6 60491 92219\r\n5 3 37590 47735\r\n4 5 6867 20289\r\n4 3 75051 93231\r\n6 5 48102 54448\r\n6 1 40190 45274\r\n1 5 37010 60312\r\n1\r\n947252499\r\n124986918\r\n535320090\r\n929273289\r\n551177734\r\nNote\r\nFor the first example, the process unfolds as follows:\r\n• Student 1 knows the information initially.\r\n• We choose the edge (1, 2,\r\n1\r\n2\r\n). As a result, student 2 becomes aware of the information with a\r\nprobability of 1\r\n2\r\n.\r\n• We choose the edge (2, 3,\r\n1\r\n2\r\n).\r\n• We choose the edge (2, 4,\r\n1\r\n2\r\n). Consequently, student 4 becomes aware of the information with a\r\nprobability of 1\r\n2 ×\r\n1\r\n2 =\r\n1\r\n4\r\n.\r\n• We choose the edge (4, 3, 1).\r\nNow, let’s analyze the scenario where student 3 remains unaware of the information. This can happen in\r\ntwo cases:\r\n• Student 2 did not become aware when we selected the edge (1, 2,\r\n1\r\n2\r\n).\r\n• Student 2 became aware when we selected the edge (1, 2,\r\n1\r\n2\r\n), but student 3 did not become aware\r\nwhen we selected the edge (2, 3,\r\n1\r\n2\r\n), and student 4 did not become aware when we selected the edge\r\n(2, 4,\r\n1\r\n2\r\n).\r\nTherefore, the probability of student 3 becoming aware is given by: 1 −\r\n1\r\n2 −\r\n1\r\n2 ×\r\n1\r\n2 ×\r\n1\r\n2 =\r\n3\r\n8\r\n.\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/104857/problem/L)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "4 4\n1 2 1 2\n2 3 1 2\n2 4 1 2\n4 3 1 1",
+            "output": "1\n499122177\n623902721\n748683265"
+          },
+          {
+            "name": "样例 2",
+            "input": "6 12\n1 2 81804 95651\n2 3 39701 95895\n2 4 6178 17992\n3 5 72756 84510\n5 6 40007 83640\n2 6 60491 92219\n5 3 37590 47735\n4 5 6867 20289\n4 3 75051 93231\n6 5 48102 54448\n6 1 40190 45274\n1 5 37010 60312",
+            "output": "1\n947252499\n124986918\n535320090\n929273289\n551177734"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# Information Spread\n\nTime limit: $3$ seconds. Memory limit: $512$ MB. Standard input and standard output.\n\nMr. Ham's class has $n$ students numbered from $1$ to $n$. Initially, student $1$ learns a piece of information. The students then spread it according to a directed graph with $n$ vertices and $m$ edges. Each edge has a real weight $w\\in[0,1]$.\n\nThe process is exactly the following pseudocode. Outgoing edges are processed in their input order.\n\n```text\naware[1..n] = False\nvisited[1..n] = False\n\nprocedure DFS(u):\n    if visited[u]:\n        return\n    visited[u] = True\n    for (u, v, w) in outgoing edges of u, in input order:\n        if aware[u] and not aware[v]:\n            with probability w:\n                aware[v] = True\n        DFS(v)\n\nprocedure SPREAD():\n    aware[1] = True\n    DFS(1)\n```\n\nFor every student $i$ with $1\\leq i\\leq n$, compute the probability that the student knows the information after this process; that is, the probability that `aware[i]` is `True`.\n\n## Input\n\nThe first line contains $n,m$ ($3\\leq n\\leq10^5$, $n-1\\leq m\\leq3\\cdot10^5$), the number of students and relationships.\n\nEach of the next $m$ lines contains four integers $u_i,v_i,p_i,q_i$ ($1\\leq u_i,v_i\\leq n$, $0\\leq p_i\\leq q_i\\leq10^5$, $q_i\\ne0$), describing a directed edge from $u_i$ to $v_i$ with weight $w_i=p_i/q_i$.\n\nThere are no self-loops and at most one edge from any student $i$ to any student $j$. All students are reachable from student $1$ during the traversal.\n\n## Output\n\nOutput $n$ lines. Line $i$ contains the probability that student $i$ knows the information, modulo $998244353$.\n\nMore precisely, the answer is a rational number $p/q$. Output $pq^{-1}\\bmod M$, where $M=998244353$ and $q^{-1}$ satisfies $qq^{-1}\\equiv1\\pmod M$.\n\n## Note\n\nIn the first example, the process visits the edges as follows:\n\n- Student $1$ knows the information initially.\n- On edge $(1,2,\\frac12)$, student $2$ learns it with probability $\\frac12$.\n- Edge $(2,3,\\frac12)$ is processed.\n- On edge $(2,4,\\frac12)$, student $4$ learns it with probability $\\frac12\\times\\frac12=\\frac14$.\n- Edge $(4,3,1)$ is processed.\n\nStudent $3$ remains unaware in either of these cases:\n\n- Student $2$ did not learn the information on edge $(1,2,\\frac12)$.\n- Student $2$ learned it on edge $(1,2,\\frac12)$, but student $3$ did not learn it on edge $(2,3,\\frac12)$ and student $4$ did not learn it on edge $(2,4,\\frac12)$.\n\nTherefore, the probability that student $3$ learns the information is $1-\\frac12-\\frac12\\times\\frac12\\times\\frac12=\\frac38$.\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:104857::L",
+        "title": "Information Spread",
+        "url": "https://codeforces.com/gym/104857/problem/L",
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 512
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/104857/problem/L",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/104857",
+        "sourceRosterSha256": "b9c25ac9d461fb12708aca283e56054898dc004c21336ddec572780188a00c4d",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "L",
+          "pdfTitle": "Information Spread",
+          "rosterTitle": "Information Spread",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/104857/problem/L": {
+            "sourceUrl": "https://codeforces.com/gym/104857/problem/L",
+            "sha256": "dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b",
+            "bytes": 224692,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "data": "tb-asset:dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b",
+            "fileName": "gym-104857.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/104857/problem/L",
+          "sha256": "5ce486b616ff0ec1f9abc687a95dd8c812a170b2c947f1de98c838154992952c",
+          "data": "tb-asset:5ce486b616ff0ec1f9abc687a95dd8c812a170b2c947f1de98c838154992952c",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b",
+          "fileName": "gym-104857-L.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/104857/problem/L": {
+            "sourceUrl": "https://codeforces.com/gym/104857/problem/L",
+            "sha256": "dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b",
+            "bytes": 224692,
+            "mime": "application/pdf",
+            "pageCount": 2
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:59.407889+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/104857/problem/L",
+              "sha256": "dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b"
+            },
+            {
+              "url": "https://codeforces.com/gym/104857",
+              "sha256": "b9c25ac9d461fb12708aca283e56054898dc004c21336ddec572780188a00c4d",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/104857/problem/L",
+              "sha256": "dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b"
+            }
+          ],
+          "markdownSha256": "087466cceec2a7e47b752386212ff6a2431bf0b3d9ced2951e684d6a8680ee63",
+          "corpusAuditVerifiedSha256": "087466cceec2a7e47b752386212ff6a2431bf0b3d9ced2951e684d6a8680ee63"
+        },
+        "translationAvailable": true,
+        "translationReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "5ce486b616ff0ec1f9abc687a95dd8c812a170b2c947f1de98c838154992952c",
+          "pages": 2,
+          "sourceTextSha256": "d6799d9650ce015f253766916fa84bc7c9f9202e96123a4675bc68c9f0e52389",
+          "reviewedAt": "2026-11-07T18:52:04.697474+00:00",
+          "samplesRetainedSeparately": true,
+          "status": "complete",
+          "immutableSpansValidated": true
+        },
+        "sourceTextArchive": [
+          {
+            "sha256": "2225a1d56cff86879bdb391338a7e71bbe117d23b90c7642ae289d4a3e896ae1",
+            "text": "Information Spread\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 3 seconds\r\nMemory limit: 512 megabytes\r\nIn Mr. Ham’s class, there are n students numbered from 1 to n. One day, a student 1 learns a piece of\r\ninformation. Subsequently, the students initiate the process of spreading the information to each other.\r\nThe relationships among the students are represented by a directed graph with n vertices and m edges.\r\nEach edge has a weight w, a real number between 0 and 1 (inclusive). The process of information spreading\r\nis carried out according to the following pseudocode:\r\nAlgorithm 1 SPREAD\r\n1: Let aware[1..n] be a new array initialized as F alse\r\n2: Let visited[1..n] be a new array initialized as F alse\r\n3: procedure DFS(u)\r\n4: if visited[u] then\r\n5: return\r\n6: end if\r\n7: visited[u] ← T rue\r\n8: for (u, v, w) ∈ edges starting from u do\r\n9: . Enumerate edges in the order of input /\r\n10: if aware[u] and not aware[v] then\r\n11: with probability w, aware[v] ← T rue\r\n12: end if\r\n13: DF S(v)\r\n14: end for\r\n15: end procedure\r\n16: procedure SPREAD\r\n17: aware[1] ← T rue . The first student knows the information at the beginning\r\n18: DF S(1)\r\n19: end procedure\r\nPlease compute the probability that student i becomes aware of the information through this process, for\r\nall 1 ≤ i ≤ n. In other words, calculate the probability of aware[u] being T rue in the above pseudocode.\r\nInput\r\nThe first line contains two integers n and m (3 ≤ n ≤ 105\r\n, n − 1 ≤ m ≤ 3 · 105\r\n), denoting the number of\r\nstudents and the number of relationships.\r\nThe next m lines each contains four integers ui\r\n, vi\r\n, pi and qi (1 ≤ ai\r\n, bi ≤ n, 0 ≤ pi ≤ qi ≤ 105\r\n, qi 6= 0),\r\ndenoting a relationship from student ui to student vi with a weight wi =\r\npi\r\nqi\r\n.\r\nIt is guaranteed that there is no relationship from student i to student i (1 ≤ i ≤ n), and there is at most\r\none relationship from student i to student j (1 ≤ i, j ≤ n). It is also guaranteed that all students can be\r\nreached from student 1 in the process.\r\nOutput\r\nOutput n lines, the i-th line contains a single integer xi denoting the probability that student i becomes\r\naware of the information after the process modulo 998 244 353.\r\nFormally, it can be proven that the answer is a rational number p\r\nq\r\n. To avoid issues related to precisions,\r\nplease output the integer (pq−1 mod M) as the answer, where M = 998 244 353 and q\r\n−1\r\nis the integer\r\nsatisfying qq−1 ≡ 1 (mod M).\r\nPage 1 of 2\n\nExamples\r\nstandard input standard output\r\n4 4\r\n1 2 1 2\r\n2 3 1 2\r\n2 4 1 2\r\n4 3 1 1\r\n1\r\n499122177\r\n623902721\r\n748683265\r\n6 12\r\n1 2 81804 95651\r\n2 3 39701 95895\r\n2 4 6178 17992\r\n3 5 72756 84510\r\n5 6 40007 83640\r\n2 6 60491 92219\r\n5 3 37590 47735\r\n4 5 6867 20289\r\n4 3 75051 93231\r\n6 5 48102 54448\r\n6 1 40190 45274\r\n1 5 37010 60312\r\n1\r\n947252499\r\n124986918\r\n535320090\r\n929273289\r\n551177734\r\nNote\r\nFor the first example, the process unfolds as follows:\r\n• Student 1 knows the information initially.\r\n• We choose the edge (1, 2,\r\n1\r\n2\r\n). As a result, student 2 becomes aware of the information with a\r\nprobability of 1\r\n2\r\n.\r\n• We choose the edge (2, 3,\r\n1\r\n2\r\n).\r\n• We choose the edge (2, 4,\r\n1\r\n2\r\n). Consequently, student 4 becomes aware of the information with a\r\nprobability of 1\r\n2 ×\r\n1\r\n2 =\r\n1\r\n4\r\n.\r\n• We choose the edge (4, 3, 1).\r\nNow, let’s analyze the scenario where student 3 remains unaware of the information. This can happen in\r\ntwo cases:\r\n• Student 2 did not become aware when we selected the edge (1, 2,\r\n1\r\n2\r\n).\r\n• Student 2 became aware when we selected the edge (1, 2,\r\n1\r\n2\r\n), but student 3 did not become aware\r\nwhen we selected the edge (2, 3,\r\n1\r\n2\r\n), and student 4 did not become aware when we selected the edge\r\n(2, 4,\r\n1\r\n2\r\n).\r\nTherefore, the probability of student 3 becoming aware is given by: 1 −\r\n1\r\n2 −\r\n1\r\n2 ×\r\n1\r\n2 ×\r\n1\r\n2 =\r\n3\r\n8\r\n.\r\nPage 2 of 2",
+            "kind": "unreviewed-pdf-extraction"
+          }
+        ],
+        "sourceTextReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "5ce486b616ff0ec1f9abc687a95dd8c812a170b2c947f1de98c838154992952c",
+          "pages": 2,
+          "sourceTextSha256": "d6799d9650ce015f253766916fa84bc7c9f9202e96123a4675bc68c9f0e52389",
+          "reviewedAt": "2026-11-07T18:52:04.697474+00:00",
+          "samplesRetainedSeparately": true
+        },
+        "translationReviewHistory": [
+          {
+            "translationReview": {
+              "status": "withheld",
+              "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+              "inputHash": "087466cceec2a7e47b752386212ff6a2431bf0b3d9ced2951e684d6a8680ee63"
+            },
+            "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+            "translationAvailable": false
+          }
+        ],
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "087466cceec2a7e47b752386212ff6a2431bf0b3d9ced2951e684d6a8680ee63",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "d6799d9650ce015f253766916fa84bc7c9f9202e96123a4675bc68c9f0e52389",
+          "sourcePdfSha256": "5ce486b616ff0ec1f9abc687a95dd8c812a170b2c947f1de98c838154992952c",
+          "markdown": "# Information Spread\n\n时间限制：$3$ 秒。内存限制：$512$ MB。使用标准输入和标准输出。\n\nHam 老师的班上有 $n$ 名学生，从 $1$ 到 $n$ 编号。最初，学生 $1$ 得知了一条消息，随后学生们开始传播消息。学生关系用一张有 $n$ 个顶点、$m$ 条边的有向图表示，每条边的权值都是实数 $w\\in[0,1]$。\n\n传播过程严格按照以下伪代码执行。枚举某个顶点的出边时，必须遵循这些边在输入中出现的顺序。\n\n```text\naware[1..n] = False\nvisited[1..n] = False\n\nprocedure DFS(u):\n    if visited[u]:\n        return\n    visited[u] = True\n    for (u, v, w) in outgoing edges of u, in input order:\n        if aware[u] and not aware[v]:\n            with probability w:\n                aware[v] = True\n        DFS(v)\n\nprocedure SPREAD():\n    aware[1] = True\n    DFS(1)\n```\n\n对于每个满足 $1\\leq i\\leq n$ 的学生 $i$，求过程结束后他得知消息的概率，也就是 `aware[i]` 为 `True` 的概率。\n\n## 输入\n\n第一行包含整数 $n,m$（$3\\leq n\\leq10^5$、$n-1\\leq m\\leq3\\cdot10^5$），分别表示学生数和关系数。\n\n接下来 $m$ 行，每行包含四个整数 $u_i,v_i,p_i,q_i$（$1\\leq u_i,v_i\\leq n$、$0\\leq p_i\\leq q_i\\leq10^5$、$q_i\\ne0$），表示一条从 $u_i$ 指向 $v_i$、权值为 $w_i=p_i/q_i$ 的有向边。\n\n保证没有自环，任意学生 $i$ 到任意学生 $j$ 至多有一条边，并且遍历过程中能从学生 $1$ 到达所有学生。\n\n## 输出\n\n输出 $n$ 行。第 $i$ 行输出学生 $i$ 最终得知消息的概率，对 $998244353$ 取模。\n\n具体地，答案可以表示为有理数 $p/q$。请输出 $pq^{-1}\\bmod M$，其中 $M=998244353$，$q^{-1}$ 满足 $qq^{-1}\\equiv1\\pmod M$。\n\n## 说明\n\n第一组样例按以下顺序处理各条边：\n\n- 学生 $1$ 最初就知道消息。\n- 处理边 $(1,2,\\frac12)$，学生 $2$ 以 $\\frac12$ 的概率得知消息。\n- 处理边 $(2,3,\\frac12)$。\n- 处理边 $(2,4,\\frac12)$，学生 $4$ 得知消息的概率为 $\\frac12\\times\\frac12=\\frac14$。\n- 处理边 $(4,3,1)$。\n\n学生 $3$ 最终仍不知道消息，可能出现以下两种情况：\n\n- 处理边 $(1,2,\\frac12)$ 时，学生 $2$ 没有得知消息。\n- 处理边 $(1,2,\\frac12)$ 时学生 $2$ 得知了消息，但处理边 $(2,3,\\frac12)$ 时学生 $3$ 没有得知消息，并且处理边 $(2,4,\\frac12)$ 时学生 $4$ 也没有得知消息。\n\n因此，学生 $3$ 得知消息的概率为 $1-\\frac12-\\frac12\\times\\frac12\\times\\frac12=\\frac38$。\n"
+        }
+      }
+    }
+  ]
+}

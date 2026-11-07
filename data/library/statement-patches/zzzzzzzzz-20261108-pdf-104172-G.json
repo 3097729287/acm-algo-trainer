@@ -1,0 +1,174 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:104172::G",
+      "beforeSha256": "4d77b25b0e7c27ccb0830d553d43148a48fddc43bb2382625057c99b41f05b56",
+      "content": {
+        "markdown": "# Paddle Star\n\nPaddle Star\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 mebibytes\r\nPutata is fascinated with playing Zoe these days. Putata is practicing Zoe’s ability, paddle star at this\r\nmoment.\r\nThis ability allows Zoe to fire a star that she can redirect in flight. The damage dealt by the star is\r\npositively correlated to its flying distance. Formally, assume Zoe is currently at point X and she fires in\r\nany direction. At any moment, Zoe can change the direction of the star. If the star is at point Y , and the\r\nnew direction leads to some point Z, then the track of the star will be X → Y → Z. If the star meets\r\nany enemy on its trace, it will immediately disappear and cause damage to the enemy.\r\nSince Putata is not skilled enough to control this ability, the stars he fires always fit the following\r\nrestrictions. The first segment XY always has length `1, and the second segment Y Z always has length\r\n`2. Assume Zoe is facing direction −−→XP (which is a certain direction), and let h\r\n−−→XP ,\r\n−−→XY i be θ degrees,\r\nh\r\n−−→XY ,\r\n−−→Y Zi be φ degrees, then θ ∈ [−α, α] and φ ∈ [−β, β]. You can refer to the following picture to help\r\nyou understand.\r\nX\r\nY\r\nZ\r\nP\r\nφ\r\nθ\r\nPutata’s rival, Budada, wants to know the total area that could possibly be attacked by Putata’s Zoe.\r\nHowever, Budada is busy with math problems, so he wants you to help him solve this problem.\r\nInput\r\nThe first line contains one integer T (1 ≤ T ≤ 105\r\n), the number of test cases.\r\nFor each test case, the input is a single line containing four integers `1, `2, α and β (1 ≤ `2 ≤ `1 ≤ 109\r\n,\r\n0 ≤ α ≤ 90, 0 ≤ β < 180), indicating the attributes of the ability.\r\nOutput\r\nPrint one line for each test case, containing one real number indicating the answer.\r\nYour answer will be considered correct if its absolute or relative error does not exceed 10−6\r\n. Formally, let\r\nyour answer be a, and the jury’s answer be b. Your answer will be considered correct if |a−b|\r\nmax(1,|b|) ≤ 10−6\r\n.\r\nExample\r\nstandard input standard output\r\n5\r\n2 1 20 20\r\n3 3 0 0\r\n20 20 90 120\r\n20 10 50 170\r\n100 10 1 93\r\n3.490658503988659\r\n0.000000000000000\r\n3367.157611906510738\r\n1098.863278984081717\r\n373.960489570087645\r\nPage 1 of 1\n\n[PDF](https://codeforces.com/gym/104172/problem/G)",
+        "images": {
+          "paddle-star-diagram.png": "data:image/png;base64,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"
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "5\n2 1 20 20\n3 3 0 0\n20 20 90 120\n20 10 50 170\n100 10 1 93",
+            "output": "3.490658503988659\n0.000000000000000\n3367.157611906510738\n1098.863278984081717\n373.960489570087645"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "# Paddle Star\n\nTime limit: $1$ second. Memory limit: $1024$ MiB. Standard input and standard output.\n\nPutata has recently become fascinated with playing Zoe. He is practicing her ability, Paddle Star.\n\nZoe fires a star and can redirect it during flight. The damage increases with the flying distance. Suppose she is at point $X$ and fires in any direction. If she redirects the star at point $Y$ toward point $Z$, its path is $X\\to Y\\to Z$. If the star meets an enemy anywhere on its path, it disappears immediately and damages that enemy.\n\nPutata is not skilled enough to control the ability freely. The first segment $XY$ always has length $\\ell_1$, and the second segment $YZ$ always has length $\\ell_2$. Zoe faces a fixed direction $\\overrightarrow{XP}$. Let the directed angle from $\\overrightarrow{XP}$ to $\\overrightarrow{XY}$ be $\\theta$ degrees, and the directed angle from $\\overrightarrow{XY}$ to $\\overrightarrow{YZ}$ be $\\varphi$ degrees. They satisfy $\\theta\\in[-\\alpha,\\alpha]$ and $\\varphi\\in[-\\beta,\\beta]$.\n\n![diagram](paddle-star-diagram.png)\n\nPutata's rival Budada wants to know the total area that could possibly be attacked by Putata's Zoe. Budada is busy with mathematics, so help him find it.\n\n## Input\n\nThe first line contains the number of test cases $T$ ($1\\leq T\\leq 10^5$).\n\nEach test case consists of one line containing four integers $\\ell_1,\\ell_2,\\alpha,\\beta$ ($1\\leq\\ell_2\\leq\\ell_1\\leq 10^9$, $0\\leq\\alpha\\leq90$, $0\\leq\\beta<180$), describing the ability.\n\n## Output\n\nFor each test case, output one real number: the total area. The absolute or relative error must not exceed $10^{-6}$.\n\nFormally, if your answer is $a$ and the jury's answer is $b$, it is accepted when\n\n$$\n\\frac{|a-b|}{\\max(1,|b|)}\\leq10^{-6}.\n$$\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:104172::G",
+        "title": "Paddle Star",
+        "url": "https://codeforces.com/gym/104172/problem/G",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/104172/problem/G",
+        "sourcePageNumbers": [
+          1
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/104172",
+        "sourceRosterSha256": "8f99af3743af98060e2e244289697ecbe97e22965cf6a9221ad73f59cb985a4e",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "G",
+          "pdfTitle": "Paddle Star",
+          "rosterTitle": "Paddle Star",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/104172/problem/G": {
+            "sourceUrl": "https://codeforces.com/gym/104172/problem/G",
+            "sha256": "e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9",
+            "bytes": 166855,
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "data": "tb-asset:e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9",
+            "fileName": "gym-104172.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/104172/problem/G",
+          "sha256": "5ab6f19fc30fbcf39ce909ddceae18d90c6d84eb2e409b8a456763894b9665c1",
+          "data": "tb-asset:5ab6f19fc30fbcf39ce909ddceae18d90c6d84eb2e409b8a456763894b9665c1",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            1
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9",
+          "fileName": "gym-104172-G.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/104172/problem/G": {
+            "sourceUrl": "https://codeforces.com/gym/104172/problem/G",
+            "sha256": "e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9",
+            "bytes": 166855,
+            "mime": "application/pdf",
+            "pageCount": 1
+          },
+          "paddle-star-diagram.png": {
+            "sourceUrl": "https://codeforces.com/gym/104172/problem/G",
+            "sha256": "37bb4e3db2f66c2311625445c30e2298451cc4816a4389acb369bdee7f19a1bb",
+            "bytes": 8384,
+            "mime": "image/png",
+            "frameCount": 1,
+            "width": 476,
+            "height": 229,
+            "derivedFromPdfSha256": "5ab6f19fc30fbcf39ce909ddceae18d90c6d84eb2e409b8a456763894b9665c1",
+            "kind": "reviewed-original-diagram"
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:59.346774+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/104172/problem/G",
+              "sha256": "e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9"
+            },
+            {
+              "url": "https://codeforces.com/gym/104172",
+              "sha256": "8f99af3743af98060e2e244289697ecbe97e22965cf6a9221ad73f59cb985a4e",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/104172/problem/G",
+              "sha256": "e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9"
+            }
+          ],
+          "markdownSha256": "a9c083a9df819058be9cec0d05aea6823d497637f121276a4c8f9850cfe442f3",
+          "corpusAuditVerifiedSha256": "a9c083a9df819058be9cec0d05aea6823d497637f121276a4c8f9850cfe442f3"
+        },
+        "translationAvailable": true,
+        "translationReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "5ab6f19fc30fbcf39ce909ddceae18d90c6d84eb2e409b8a456763894b9665c1",
+          "pages": 1,
+          "sourceTextSha256": "829cacbd28a033be963443f3b5ac2ba6eb4cd93d7885bc1572a7da3e3a36bd6d",
+          "reviewedAt": "2026-11-07T18:40:55.709514+00:00",
+          "samplesRetainedSeparately": true,
+          "status": "complete",
+          "immutableSpansValidated": true
+        },
+        "sourceTextArchive": [
+          {
+            "sha256": "dd633fc05eccd52c5a63a08650ec9070ae3e2f10642adfcacd6d927ed044cb19",
+            "text": "Paddle Star\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 mebibytes\r\nPutata is fascinated with playing Zoe these days. Putata is practicing Zoe’s ability, paddle star at this\r\nmoment.\r\nThis ability allows Zoe to fire a star that she can redirect in flight. The damage dealt by the star is\r\npositively correlated to its flying distance. Formally, assume Zoe is currently at point X and she fires in\r\nany direction. At any moment, Zoe can change the direction of the star. If the star is at point Y , and the\r\nnew direction leads to some point Z, then the track of the star will be X → Y → Z. If the star meets\r\nany enemy on its trace, it will immediately disappear and cause damage to the enemy.\r\nSince Putata is not skilled enough to control this ability, the stars he fires always fit the following\r\nrestrictions. The first segment XY always has length `1, and the second segment Y Z always has length\r\n`2. Assume Zoe is facing direction −−→XP (which is a certain direction), and let h\r\n−−→XP ,\r\n−−→XY i be θ degrees,\r\nh\r\n−−→XY ,\r\n−−→Y Zi be φ degrees, then θ ∈ [−α, α] and φ ∈ [−β, β]. You can refer to the following picture to help\r\nyou understand.\r\nX\r\nY\r\nZ\r\nP\r\nφ\r\nθ\r\nPutata’s rival, Budada, wants to know the total area that could possibly be attacked by Putata’s Zoe.\r\nHowever, Budada is busy with math problems, so he wants you to help him solve this problem.\r\nInput\r\nThe first line contains one integer T (1 ≤ T ≤ 105\r\n), the number of test cases.\r\nFor each test case, the input is a single line containing four integers `1, `2, α and β (1 ≤ `2 ≤ `1 ≤ 109\r\n,\r\n0 ≤ α ≤ 90, 0 ≤ β < 180), indicating the attributes of the ability.\r\nOutput\r\nPrint one line for each test case, containing one real number indicating the answer.\r\nYour answer will be considered correct if its absolute or relative error does not exceed 10−6\r\n. Formally, let\r\nyour answer be a, and the jury’s answer be b. Your answer will be considered correct if |a−b|\r\nmax(1,|b|) ≤ 10−6\r\n.\r\nExample\r\nstandard input standard output\r\n5\r\n2 1 20 20\r\n3 3 0 0\r\n20 20 90 120\r\n20 10 50 170\r\n100 10 1 93\r\n3.490658503988659\r\n0.000000000000000\r\n3367.157611906510738\r\n1098.863278984081717\r\n373.960489570087645\r\nPage 1 of 1",
+            "kind": "unreviewed-pdf-extraction"
+          }
+        ],
+        "sourceTextReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "5ab6f19fc30fbcf39ce909ddceae18d90c6d84eb2e409b8a456763894b9665c1",
+          "pages": 1,
+          "sourceTextSha256": "829cacbd28a033be963443f3b5ac2ba6eb4cd93d7885bc1572a7da3e3a36bd6d",
+          "reviewedAt": "2026-11-07T18:40:55.709514+00:00",
+          "samplesRetainedSeparately": true
+        },
+        "translationReviewHistory": [
+          {
+            "translationReview": {
+              "status": "withheld",
+              "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+              "inputHash": "a9c083a9df819058be9cec0d05aea6823d497637f121276a4c8f9850cfe442f3"
+            },
+            "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+            "translationAvailable": false
+          }
+        ],
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "a9c083a9df819058be9cec0d05aea6823d497637f121276a4c8f9850cfe442f3",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "829cacbd28a033be963443f3b5ac2ba6eb4cd93d7885bc1572a7da3e3a36bd6d",
+          "sourcePdfSha256": "5ab6f19fc30fbcf39ce909ddceae18d90c6d84eb2e409b8a456763894b9665c1",
+          "markdown": "# Paddle Star\n\n时间限制：$1$ 秒。内存限制：$1024$ MiB。使用标准输入和标准输出。\n\nPutata 最近迷上了使用佐伊，现在正在练习她的技能“飞星乱入”。\n\n佐伊可以发射一颗星星，并在飞行过程中改变它的方向。星星飞行的距离越长，造成的伤害就越大。假设佐伊位于点 $X$，先向任意方向发射星星，再在星星到达点 $Y$ 时将其转向点 $Z$，那么星星的轨迹就是 $X\\to Y\\to Z$。星星在轨迹上的任意位置遇到敌人时，都会立即消失并对该敌人造成伤害。\n\nPutata 还不能熟练地控制这个技能，因此他发出的星星总是满足以下限制：第一段 $XY$ 的长度固定为 $\\ell_1$，第二段 $YZ$ 的长度固定为 $\\ell_2$。佐伊面向固定方向 $\\overrightarrow{XP}$。从 $\\overrightarrow{XP}$ 到 $\\overrightarrow{XY}$ 的有向角为 $\\theta$ 度，从 $\\overrightarrow{XY}$ 到 $\\overrightarrow{YZ}$ 的有向角为 $\\varphi$ 度，并且 $\\theta\\in[-\\alpha,\\alpha]$、$\\varphi\\in[-\\beta,\\beta]$。\n\n![diagram](paddle-star-diagram.png)\n\nPutata 的对手 Budada 想知道，Putata 操作的佐伊有可能攻击到的区域总面积是多少。Budada 正忙于研究数学问题，请你帮他求出答案。\n\n## 输入\n\n第一行包含测试用例数 $T$（$1\\leq T\\leq 10^5$）。\n\n每个测试用例占一行，包含描述该技能的四个整数 $\\ell_1,\\ell_2,\\alpha,\\beta$（$1\\leq\\ell_2\\leq\\ell_1\\leq 10^9$、$0\\leq\\alpha\\leq90$、$0\\leq\\beta<180$）。\n\n## 输出\n\n对于每个测试用例，输出一个实数，表示可攻击区域的总面积。绝对误差或相对误差不超过 $10^{-6}$ 的答案将被接受。\n\n准确地说，设你的答案为 $a$，标准答案为 $b$，满足以下条件时接受答案：\n\n$$\n\\frac{|a-b|}{\\max(1,|b|)}\\leq10^{-6}.\n$$\n"
+        }
+      }
+    }
+  ]
+}

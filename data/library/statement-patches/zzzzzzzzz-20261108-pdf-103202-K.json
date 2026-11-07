@@ -1,0 +1,186 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:103202::K",
+      "beforeSha256": "a291a2917b77b1d4e7e723becf448a6557486001ed25a4e6fd260a9914853c7c",
+      "content": {
+        "markdown": "# Scholomance Academy\n\nScholomance Academy\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nAs a student of the Scholomance Academy, you are studying a course called Machine Learning. You are\r\ncurrently working on your course project: training a binary classifier.\r\nA binary classifier is an algorithm that predicts the classes of instances, which may be positive (+) or\r\nnegative (-). A typical binary classifier consists of a scoring function S that gives a score for every instance\r\nand a threshold θ that determines the category. Specifically, if the score of an instance S(x) ≥ θ, then\r\nthe instance x is classified as positive; otherwise, it is classified as negative. Clearly, choosing different\r\nthresholds may yield different classifiers.\r\nOf course, a binary classifier may have misclassification: it could either classify a positive instance as\r\nnegative (false negative) or classify a negative instance as positive (false positive).\r\nPredicted class\r\nActual class Positive Negative\r\nPositive True positive (TP) False negative (FN )\r\nNegative False positive (FP) True negative (TN )\r\nТаблица 1: Predicted classes and actual classes.\r\nGiven a dataset and a classifier, we may define the true positive rate (TPR) and the false positive rate\r\n(FPR) as follows:\r\nTPR = #TP\r\n#TP + #FN\r\n, FPR = #FP\r\n#TN + #FP\r\nwhere #TP is the number of true positives in the dataset; #FP, #TN , #FN are defined likewise.\r\nNow you have trained a scoring function, and you want to evaluate the performance of your classifier.\r\nThe classifier may exhibit different TPR and FPR if we change the threshold θ. Let TPR(θ), FPR(θ) be\r\nthe TPR, FPR when the threshold is θ, define the area under curve (AUC) as\r\nAUC = Z 1\r\n0\r\nmax\r\nθ∈R\r\n{TPR(θ)|FPR(θ) ≤ r}dr\r\nwhere the integrand, called receiver operating characteristic (ROC), means the maximum possible of TPR\r\ngiven that FPR ≤ r.\r\nGiven the actual classes and predicted scores of the instances in a dataset, can you compute the AUC of\r\nyour classifier?\r\nFor example, consider the third test data. If we set threshold θ = 30, there are 3 true positives, 2 false\r\npositives, 2 true negatives, and 1 false negative; hence, TPR(30) = 0.75 and FPR(30) = 0.5. Also, as θ\r\nvaries, we may plot the ROC curve and compute the AUC accordingly, as shown in Figure 1.\r\nInput\r\nThe first line contains a single integer n (2 ≤ n ≤ 106\r\n), the number of instances in the dataset. Then\r\nfollow n lines, each line containing a character c ∈ {+, -} and an integer s (1 ≤ s ≤ 109\r\n), denoting the\r\nactual class and the predicted score of an instance.\r\nIt is guaranteed that there is at least one instance of either class.\r\nOutput\r\nPrint the AUC of your classifier within an absolute error of no more than 10−9\r\n.\r\nPage 1 of 2\n\n\u0001\u0001 \u0001 \u0001\u0004 \u0001\u0005 \u0001\u0006 \u0001\r\n\u0007\b\t\r\n\u0001\u0001\r\n\u0001\r\n\u0001\u0004\r\n\u0001\u0005\r\n\u0001\u0006\r\n\u0001\r\n\n\b\t\r\nРис. 1: ROC and AUC of the third sample data.\r\nExamples\r\nstandard input standard output\r\n3\r\n+ 2\r\n- 3\r\n- 1\r\n0.5\r\n6\r\n+ 7\r\n- 2\r\n- 5\r\n+ 4\r\n- 2\r\n+ 6\r\n0.888888888888889\r\n8\r\n+ 34\r\n+ 33\r\n+ 26\r\n- 34\r\n- 38\r\n+ 39\r\n- 7\r\n- 27\r\n0.5625\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/103202/problem/K)",
+        "images": {
+          "scholomance-roc.png": "data:image/png;base64,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OXLjxo07d+4cMGCAnZ3de++9Z5KVA4AlM80xcH9//99++y0mJmbw4MH29vbR0dEzZ860srJS9jZu3LhLly6Gl57s7Ozi4+Pnzp07fvz40tLSiIiIdevWPf744zW9yDlz5gwcOFBYko8//jgsLExYknnz5tXCz1KdMmvWLMO/NQsxbdq0K1euCEsyduzY9u3b18SfrDLtKf+qebvUI5kPAKg/zQAAmBGunwEAkEUzAACyaAYAQJZFN6OoqGjp0qXdu3cPCwtbtGhRQUFBNZP1ev3OnTsjIiKCg4MnTJhw6dIlYYa0Wu3atWt79eoVEhISExNz586dqmbm5uauW7cuKiqqW7du3bt3nzFjxvnz54UZ0uv1W7duffrpp7t16zZ58uSsrCyZW924cWPCPfLXkaw79Hp9QkLCwIEDg4ODo6Oj7/uN0+l0P/3006BBg7p27TpgwICFCxcKM7R///4hQ4YEBwePGDHi5MmT1U/+6aefXnrppSeffDI8PPyjjz66ffu2MDfXrl3buXPnRx99NGHChA0bNtx3/s2bN999992QkJDevXtv2rSprKzsIf9ivaXSarU9e/a0s7ObNm3ajBkzGjRo0Llz56Kioqrmz5kzRwgxbNiw+fPnt2nTxtnZOSUlRW9WdDrd8OHDraysJkyYMHv2bHd399atW9++fbvSycuWLVOr1eHh4VOnTh0/fnzDhg1dXFxOnDihNzdTp05VPuXz8ccfP/74425ubhcuXLjvrf72t78ppynLzc3Vm5vPP/9cCBEZGfnJJ5/4+/s7ODgcO3asqsmlpaWDBw9WqVQDBw585513Xn31VV9fX725+ec//ymE6N2794IFC4KDg9VqdWJiYlWTlyxZIoTo16/fJ598Mm3aNEdHx7Zt2xYWFurNSo8ePYQQyklUx40bV/3k69eve3p6Nm3adM6cOa+99pparR4zZszD/b2W24z169crp8JVNjUajRBiyZIllU7OyMiwtraeOHGispmdnf3YY48NHjxYb1YSExOFECtXrlQ2U1NTra2t33333UonHz582Ph3a0pKipOT04gRI/Rm5dSpUyqVKiYmRtm8fv26i4vLyy+/XP2ttm3b1qhRo7Fjx5pjM65du2Zvbz969GhlMz8/38vLq9wZ24zNnz9frVYnJCQYRrRard6sFBYWuru79+/fX6fTKet/8skn27Vr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"
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n+ 2\n- 3\n- 1",
+            "output": "0.5"
+          },
+          {
+            "name": "样例 2",
+            "input": "6\n+ 7\n- 2\n- 5\n+ 4\n- 2\n+ 6",
+            "output": "0.888888888888889"
+          },
+          {
+            "name": "样例 3",
+            "input": "8\n+ 34\n+ 33\n+ 26\n- 34\n- 38\n+ 39\n- 7\n- 27",
+            "output": "0.5625"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# Scholomance Academy\n\nTime limit: $4$ seconds. Memory limit: $1024$ MB. Standard input and standard output.\n\nAs a student of Scholomance Academy, you are taking Machine Learning and working on a course project: training a binary classifier.\n\nA binary classifier predicts whether an instance is positive (`+`) or negative (`-`). A typical classifier has a scoring function $S$ and a threshold $\\theta$. If an instance $x$ satisfies $S(x)\\geq\\theta$, it is classified as positive; otherwise it is classified as negative. Different thresholds can give different classifiers.\n\nMisclassifying a positive instance as negative is a false negative. Misclassifying a negative instance as positive is a false positive. The possible outcomes are:\n\n| Actual class | Predicted positive | Predicted negative |\n| --- | --- | --- |\n| Positive | True positive ($\\mathrm{TP}$) | False negative ($\\mathrm{FN}$) |\n| Negative | False positive ($\\mathrm{FP}$) | True negative ($\\mathrm{TN}$) |\n\nFor a given dataset and classifier, the true positive rate and false positive rate are\n\n$$\n\\mathrm{TPR}=\\frac{\\#\\mathrm{TP}}{\\#\\mathrm{TP}+\\#\\mathrm{FN}},\\qquad\n\\mathrm{FPR}=\\frac{\\#\\mathrm{FP}}{\\#\\mathrm{TN}+\\#\\mathrm{FP}}.\n$$\n\nHere $\\#\\mathrm{TP}$ counts true positives; $\\#\\mathrm{FP}$, $\\#\\mathrm{TN}$, and $\\#\\mathrm{FN}$ are defined similarly.\n\nYour scoring function is trained, and you want to evaluate the classifier. Let $\\mathrm{TPR}(\\theta)$ and $\\mathrm{FPR}(\\theta)$ be the rates at threshold $\\theta$. Define the area under curve as\n\n$$\n\\mathrm{AUC}=\\int_0^1\\max_{\\theta\\in\\mathbb{R}}\\{\\mathrm{TPR}(\\theta)\\mid\\mathrm{FPR}(\\theta)\\leq r\\}\\,dr.\n$$\n\nThe integrand, called the receiver operating characteristic (ROC), is the maximum attainable $\\mathrm{TPR}$ under the constraint $\\mathrm{FPR}\\leq r$.\n\nGiven the actual classes and predicted scores in the dataset, compute the classifier's AUC.\n\nFor the third example, threshold $\\theta=30$ gives $3$ true positives, $2$ false positives, $2$ true negatives, and $1$ false negative. Thus $\\mathrm{TPR}(30)=0.75$ and $\\mathrm{FPR}(30)=0.5$. Varying the threshold gives the ROC curve and AUC illustrated below.\n\n![diagram](scholomance-roc.png)\n\n## Input\n\nThe first line contains $n$ ($2\\leq n\\leq10^6$), the number of instances. Each of the next $n$ lines contains a character $c\\in\\{+,-\\}$ and an integer $s$ ($1\\leq s\\leq10^9$), the actual class and predicted score of an instance.\n\nThere is at least one instance of each class.\n\n## Output\n\nOutput the AUC with an absolute error no greater than $10^{-9}$.\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:103202::K",
+        "title": "Scholomance Academy",
+        "url": "https://codeforces.com/gym/103202/problem/K",
+        "limits": {
+          "timeMs": 4000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/103202/problem/K",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/103202",
+        "sourceRosterSha256": "36d9ada7d131c3362fff97da3df38393df3bd11b4b062f48ac20661d891a3f1b",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "K",
+          "pdfTitle": "Scholomance Academy",
+          "rosterTitle": "Scholomance Academy",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/103202/problem/K": {
+            "sourceUrl": "https://codeforces.com/gym/103202/problem/K",
+            "sha256": "70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb",
+            "bytes": 189701,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "data": "tb-asset:70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb",
+            "fileName": "gym-103202.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/103202/problem/K",
+          "sha256": "758ab2dd0cfbf6dfd973a552079296fd5894e19d905f9795cafe253d43d50e46",
+          "data": "tb-asset:758ab2dd0cfbf6dfd973a552079296fd5894e19d905f9795cafe253d43d50e46",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb",
+          "fileName": "gym-103202-K.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/103202/problem/K": {
+            "sourceUrl": "https://codeforces.com/gym/103202/problem/K",
+            "sha256": "70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb",
+            "bytes": 189701,
+            "mime": "application/pdf",
+            "pageCount": 2
+          },
+          "scholomance-roc.png": {
+            "sourceUrl": "https://codeforces.com/gym/103202/problem/K",
+            "sha256": "21d0c3585f0e9c0845a22658dffdfaa7759223d9f0637cb42b3364710b99e1a5",
+            "bytes": 10995,
+            "mime": "image/png",
+            "frameCount": 1,
+            "width": 529,
+            "height": 496,
+            "derivedFromPdfSha256": "758ab2dd0cfbf6dfd973a552079296fd5894e19d905f9795cafe253d43d50e46",
+            "kind": "reviewed-original-diagram"
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 3,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:58.927414+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/103202/problem/K",
+              "sha256": "70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb"
+            },
+            {
+              "url": "https://codeforces.com/gym/103202",
+              "sha256": "36d9ada7d131c3362fff97da3df38393df3bd11b4b062f48ac20661d891a3f1b",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/103202/problem/K",
+              "sha256": "70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb"
+            }
+          ],
+          "markdownSha256": "37ea497e62fcd29c2ad73f07606e4d8b9ee9bdd1f1b24a0b239d2d7d23fee292",
+          "corpusAuditVerifiedSha256": "37ea497e62fcd29c2ad73f07606e4d8b9ee9bdd1f1b24a0b239d2d7d23fee292"
+        },
+        "translationAvailable": true,
+        "translationReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "758ab2dd0cfbf6dfd973a552079296fd5894e19d905f9795cafe253d43d50e46",
+          "pages": 2,
+          "sourceTextSha256": "a705b54053c4deca904bfb6406b7aa211668c37e699e0098e5b378585b6b8c34",
+          "reviewedAt": "2026-11-07T18:49:01.064681+00:00",
+          "samplesRetainedSeparately": true,
+          "status": "complete",
+          "immutableSpansValidated": true
+        },
+        "sourceTextArchive": [
+          {
+            "sha256": "4a7106a4065542654af78fee1a8756a01e5adcb1de99309058382acbd278aac1",
+            "text": "Scholomance Academy\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nAs a student of the Scholomance Academy, you are studying a course called Machine Learning. You are\r\ncurrently working on your course project: training a binary classifier.\r\nA binary classifier is an algorithm that predicts the classes of instances, which may be positive (+) or\r\nnegative (-). A typical binary classifier consists of a scoring function S that gives a score for every instance\r\nand a threshold θ that determines the category. Specifically, if the score of an instance S(x) ≥ θ, then\r\nthe instance x is classified as positive; otherwise, it is classified as negative. Clearly, choosing different\r\nthresholds may yield different classifiers.\r\nOf course, a binary classifier may have misclassification: it could either classify a positive instance as\r\nnegative (false negative) or classify a negative instance as positive (false positive).\r\nPredicted class\r\nActual class Positive Negative\r\nPositive True positive (TP) False negative (FN )\r\nNegative False positive (FP) True negative (TN )\r\nТаблица 1: Predicted classes and actual classes.\r\nGiven a dataset and a classifier, we may define the true positive rate (TPR) and the false positive rate\r\n(FPR) as follows:\r\nTPR = #TP\r\n#TP + #FN\r\n, FPR = #FP\r\n#TN + #FP\r\nwhere #TP is the number of true positives in the dataset; #FP, #TN , #FN are defined likewise.\r\nNow you have trained a scoring function, and you want to evaluate the performance of your classifier.\r\nThe classifier may exhibit different TPR and FPR if we change the threshold θ. Let TPR(θ), FPR(θ) be\r\nthe TPR, FPR when the threshold is θ, define the area under curve (AUC) as\r\nAUC = Z 1\r\n0\r\nmax\r\nθ∈R\r\n{TPR(θ)|FPR(θ) ≤ r}dr\r\nwhere the integrand, called receiver operating characteristic (ROC), means the maximum possible of TPR\r\ngiven that FPR ≤ r.\r\nGiven the actual classes and predicted scores of the instances in a dataset, can you compute the AUC of\r\nyour classifier?\r\nFor example, consider the third test data. If we set threshold θ = 30, there are 3 true positives, 2 false\r\npositives, 2 true negatives, and 1 false negative; hence, TPR(30) = 0.75 and FPR(30) = 0.5. Also, as θ\r\nvaries, we may plot the ROC curve and compute the AUC accordingly, as shown in Figure 1.\r\nInput\r\nThe first line contains a single integer n (2 ≤ n ≤ 106\r\n), the number of instances in the dataset. Then\r\nfollow n lines, each line containing a character c ∈ {+, -} and an integer s (1 ≤ s ≤ 109\r\n), denoting the\r\nactual class and the predicted score of an instance.\r\nIt is guaranteed that there is at least one instance of either class.\r\nOutput\r\nPrint the AUC of your classifier within an absolute error of no more than 10−9\r\n.\r\nPage 1 of 2\n\n\u0001\u0001 \u0001 \u0001\u0004 \u0001\u0005 \u0001\u0006 \u0001\r\n\u0007\b\t\r\n\u0001\u0001\r\n\u0001\r\n\u0001\u0004\r\n\u0001\u0005\r\n\u0001\u0006\r\n\u0001\r\n\n\b\t\r\nРис. 1: ROC and AUC of the third sample data.\r\nExamples\r\nstandard input standard output\r\n3\r\n+ 2\r\n- 3\r\n- 1\r\n0.5\r\n6\r\n+ 7\r\n- 2\r\n- 5\r\n+ 4\r\n- 2\r\n+ 6\r\n0.888888888888889\r\n8\r\n+ 34\r\n+ 33\r\n+ 26\r\n- 34\r\n- 38\r\n+ 39\r\n- 7\r\n- 27\r\n0.5625\r\nPage 2 of 2",
+            "kind": "unreviewed-pdf-extraction"
+          }
+        ],
+        "sourceTextReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "758ab2dd0cfbf6dfd973a552079296fd5894e19d905f9795cafe253d43d50e46",
+          "pages": 2,
+          "sourceTextSha256": "a705b54053c4deca904bfb6406b7aa211668c37e699e0098e5b378585b6b8c34",
+          "reviewedAt": "2026-11-07T18:49:01.064681+00:00",
+          "samplesRetainedSeparately": true
+        },
+        "translationReviewHistory": [
+          {
+            "translationReview": {
+              "status": "withheld",
+              "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+              "inputHash": "37ea497e62fcd29c2ad73f07606e4d8b9ee9bdd1f1b24a0b239d2d7d23fee292"
+            },
+            "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+            "translationAvailable": false
+          }
+        ],
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "37ea497e62fcd29c2ad73f07606e4d8b9ee9bdd1f1b24a0b239d2d7d23fee292",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "a705b54053c4deca904bfb6406b7aa211668c37e699e0098e5b378585b6b8c34",
+          "sourcePdfSha256": "758ab2dd0cfbf6dfd973a552079296fd5894e19d905f9795cafe253d43d50e46",
+          "markdown": "# Scholomance Academy\n\n时间限制：$4$ 秒。内存限制：$1024$ MB。使用标准输入和标准输出。\n\n作为通灵学院的学生，你正在学习机器学习，并完成课程项目：训练一个二分类器。\n\n二分类器预测一个样本属于正类（`+`）还是负类（`-`）。典型的二分类器包含评分函数 $S$ 和阈值 $\\theta$。如果样本 $x$ 满足 $S(x)\\geq\\theta$，就将其预测为正类；否则预测为负类。选择不同的阈值，可能得到不同的分类器。\n\n将正类样本误判为负类，称为假阴性；将负类样本误判为正类，称为假阳性。各情况如下：\n\n| 实际类别 | 预测为正类 | 预测为负类 |\n| --- | --- | --- |\n| 正类 | 真阳性（$\\mathrm{TP}$） | 假阴性（$\\mathrm{FN}$） |\n| 负类 | 假阳性（$\\mathrm{FP}$） | 真阴性（$\\mathrm{TN}$） |\n\n对于给定数据集和分类器，定义真正例率和假正例率为\n\n$$\n\\mathrm{TPR}=\\frac{\\#\\mathrm{TP}}{\\#\\mathrm{TP}+\\#\\mathrm{FN}},\\qquad\n\\mathrm{FPR}=\\frac{\\#\\mathrm{FP}}{\\#\\mathrm{TN}+\\#\\mathrm{FP}}.\n$$\n\n其中，$\\#\\mathrm{TP}$ 表示真阳性样本数，$\\#\\mathrm{FP}$、$\\#\\mathrm{TN}$、$\\#\\mathrm{FN}$ 的含义类似。\n\n现在你已经训练好了评分函数，希望评估分类器的表现。设 $\\mathrm{TPR}(\\theta)$ 和 $\\mathrm{FPR}(\\theta)$ 表示阈值为 $\\theta$ 时的两个比率。定义曲线下面积为\n\n$$\n\\mathrm{AUC}=\\int_0^1\\max_{\\theta\\in\\mathbb{R}}\\{\\mathrm{TPR}(\\theta)\\mid\\mathrm{FPR}(\\theta)\\leq r\\}\\,dr.\n$$\n\n被积函数称为受试者工作特征（ROC），表示在 $\\mathrm{FPR}\\leq r$ 的限制下能够达到的最大 $\\mathrm{TPR}$。\n\n给定数据集中各样本的实际类别和预测分数，请计算分类器的 AUC。\n\n例如，第三组样例取阈值 $\\theta=30$ 时，有 $3$ 个真阳性、$2$ 个假阳性、$2$ 个真阴性和 $1$ 个假阴性，因此 $\\mathrm{TPR}(30)=0.75$、$\\mathrm{FPR}(30)=0.5$。不断改变阈值，就能得到下图所示的 ROC 曲线及 AUC。\n\n![diagram](scholomance-roc.png)\n\n## 输入\n\n第一行包含整数 $n$（$2\\leq n\\leq10^6$），表示样本数。接下来 $n$ 行，每行包含一个字符 $c\\in\\{+,-\\}$ 和一个整数 $s$（$1\\leq s\\leq10^9$），表示一个样本的实际类别及预测分数。\n\n保证正类和负类都至少有一个样本。\n\n## 输出\n\n输出分类器的 AUC，要求绝对误差不超过 $10^{-9}$。\n"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:103202::C",
+      "beforeSha256": "043fdee591319b914416d723af5352c75eb638d194fd7769acd04508342798cf",
+      "content": {
+        "markdown": "# Mean Streets of Gadgetzan\n\nMean Streets of Gadgetzan\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nDespite being a city of opportunity, Gadgetzan is a place where gangs rule the streets.\r\nRecently, a group of robbers broke the exterior wall of the First Bank of Gadgetzan and stole several crates\r\nof jade antiques. The bank’s owner has just posted an announcement in Gadgetzan Gazette, offering a\r\ngreat quantity of arcane dust and many unused decks for the capture of perpetrators.\r\nYou, as a famous detective in Gadgetzan, have collected several testimonies from witnesses. Here is how\r\nthese testimonies may look like.\r\n“Kazakus was not at home on the day of the robbery.”\r\n“If the courier was at home, so was the Kazakus.”\r\n“If Kazakus and the courier were at home that day, then the Kazakus must not be the robber.”\r\nGenerically, each testimony is in one of the following four forms:\r\nUnconditional Affirmation This kind of testimony asserts that some proposition is true.\r\nUnconditioanl Denial This kind of testimony asserts that some proposition is false.\r\nConditional Affirmation This kind of testimony asserts that some proposition is true if several\r\npropositions (called the antecedents) are true.\r\nConditional Denial This kind of testimony asserts that some proposition is false if several propositions\r\nare true.\r\nNote that every proposition is either true or false.\r\nHaving collected these testimonies, you are going to solve the mystery. You want to find out if these\r\ntestimonies conflict with each other. And if not, you want to figure out the truth of this incidence; that\r\nis, you want to identify the truth of each proposition, such that all testimonies are valid.\r\nInput\r\nThe first line of input contains a single integer n, m (1 ≤ n, m ≤ 106\r\n), denoting the number of testimonies,\r\nand the number of propositions that may involve in the testimonies. The propositions are numbered 1\r\nthrough m.\r\nThen follow n lines, specifying these testimonies. Each line represents a testimony and is in the following\r\nformat.\r\nUnconditional Affirmation The line contains a single integer, the number of the proposition to\r\nconfirm.\r\nUnconditioanl Denial The line contains a single integer preceded with an exclamation mark (!).\r\nConditional Affirmation The line starts with a list of integers denoting the numbers of antecedents,\r\nfollowed by the -> symbol, and ends with an integer denoting the proposition to confirm.\r\nConditional Denial The line starts with a list of integers denoting the numbers of antecedents, followed\r\nby the -> symbol, and ends with an integer preceded with an exclamation mark denoting the\r\nconsequent proposition to deny.\r\nPage 1 of 2\n\nNote that there is exactly one space between the numbers and before and after the -> symbol, but there\r\nis no space after the exclamation mark.\r\nIt is guaranteed that the antecedents of a conditional testimony are distinct and do not contain the\r\nconsequent. Also, the total number of antecedents in all conditional testimonies does not exceed 106\r\n.\r\nOutput\r\nIf these testimonies conflict with each other, print conflict in a single line. Otherwise, print m characters\r\nwithout spacing, each being either T (representing true) or F (representing false), denoting the truth\r\nassignment to these propositions respecting the testimonies. If there are multiple possible assignments,\r\nany assignment is acceptable.\r\nExamples\r\nstandard input standard output\r\n3 3\r\n!1\r\n2 -> 1\r\n1 2 -> !3\r\nFFT\r\n6 4\r\n1 -> 2\r\n1 3 -> !2\r\n1 -> 3\r\n4 -> 2\r\n1\r\n2 3 4 -> !1\r\nconflict\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/103202/problem/C)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 3\n!1\n2 -> 1\n1 2 -> !3",
+            "output": "FFT"
+          },
+          {
+            "name": "样例 2",
+            "input": "6 4\n1 -> 2\n1 3 -> !2\n1 -> 3\n4 -> 2\n1\n2 3 4 -> !1",
+            "output": "conflict"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# Mean Streets of Gadgetzan\n\nTime limit: $4$ seconds. Memory limit: $1024$ MB. Standard input and standard output.\n\nGadgetzan is a city of opportunity, but gangs rule its streets. Recently, robbers broke through the outer wall of the First Bank of Gadgetzan and stole crates of jade antiques. The bank's owner advertised in the Gadgetzan Gazette, offering arcane dust and unused decks as a reward for capturing the perpetrators.\n\nAs a famous detective, you collected witness testimonies such as:\n\n- “Kazakus was not at home on the day of the robbery.”\n- “If the courier was at home, then Kazakus was also at home.”\n- “If Kazakus and the courier were at home that day, then Kazakus was not the robber.”\n\nEvery testimony has one of four forms:\n\n- Unconditional affirmation: a proposition is true.\n- Unconditional denial: a proposition is false.\n- Conditional affirmation: if all the listed antecedent propositions are true, a specified consequent proposition is true.\n- Conditional denial: if all the listed antecedent propositions are true, a specified consequent proposition is false.\n\nEach proposition is either true or false. Determine whether the testimonies conflict. If they do not, assign a truth value to every proposition so that all testimonies hold.\n\n## Input\n\nThe first line contains two integers $n,m$ ($1\\leq n,m\\leq10^6$), the number of testimonies and propositions. Propositions are numbered from $1$ to $m$.\n\nEach of the next $n$ lines contains one testimony, with the following syntax:\n\n- Unconditional affirmation: one integer, the proposition to affirm.\n- Unconditional denial: one integer preceded by `!`, the proposition to deny.\n- Conditional affirmation: a list of antecedent integers, followed by `->`, then the consequent integer to affirm.\n- Conditional denial: a list of antecedent integers, followed by `->`, then the consequent integer preceded by `!`.\n\nThere is exactly one space between integers and on either side of `->`. There is no space after `!`.\n\nThe antecedents in any conditional testimony are distinct and do not include its consequent. The total number of antecedents in all conditional testimonies does not exceed $10^6$.\n\n## Output\n\nIf the testimonies conflict, print `conflict` on one line. Otherwise, print $m$ characters without spaces. Each character is `T` for true or `F` for false, giving a valid assignment in proposition order. If there are multiple valid assignments, print any one.\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:103202::C",
+        "title": "Mean Streets of Gadgetzan",
+        "url": "https://codeforces.com/gym/103202/problem/C",
+        "limits": {
+          "timeMs": 4000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/103202/problem/C",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/103202",
+        "sourceRosterSha256": "5583007283cd0007bca79194188fd25d9a2e6ad58e04e03ca89b2a0f98ea4188",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "C",
+          "pdfTitle": "Mean Streets of Gadgetzan",
+          "rosterTitle": "Mean Streets of Gadgetzan",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/103202/problem/C": {
+            "sourceUrl": "https://codeforces.com/gym/103202/problem/C",
+            "sha256": "cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95",
+            "bytes": 164049,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "data": "tb-asset:cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95",
+            "fileName": "gym-103202.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/103202/problem/C",
+          "sha256": "a7e5c500623c7582eb6e89671ad929fc5ee5699e4541fcf2078e35d32fc37662",
+          "data": "tb-asset:a7e5c500623c7582eb6e89671ad929fc5ee5699e4541fcf2078e35d32fc37662",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95",
+          "fileName": "gym-103202-C.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/103202/problem/C": {
+            "sourceUrl": "https://codeforces.com/gym/103202/problem/C",
+            "sha256": "cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95",
+            "bytes": 164049,
+            "mime": "application/pdf",
+            "pageCount": 2
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:58.888953+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/103202/problem/C",
+              "sha256": "cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95"
+            },
+            {
+              "url": "https://codeforces.com/gym/103202",
+              "sha256": "5583007283cd0007bca79194188fd25d9a2e6ad58e04e03ca89b2a0f98ea4188",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/103202/problem/C",
+              "sha256": "cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95"
+            }
+          ],
+          "markdownSha256": "6b2b52b6b53295409b1567d08da33239f90d297b4c43fd84725ba90c115716da",
+          "corpusAuditVerifiedSha256": "6b2b52b6b53295409b1567d08da33239f90d297b4c43fd84725ba90c115716da"
+        },
+        "translationAvailable": true,
+        "translationReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "a7e5c500623c7582eb6e89671ad929fc5ee5699e4541fcf2078e35d32fc37662",
+          "pages": 2,
+          "sourceTextSha256": "a79f5f1dcf57b01ea968cb67a411cd34e806c9876e7e74d1e01f409d9449a34f",
+          "reviewedAt": "2026-11-07T18:49:01.021225+00:00",
+          "samplesRetainedSeparately": true,
+          "status": "complete",
+          "immutableSpansValidated": true
+        },
+        "sourceTextArchive": [
+          {
+            "sha256": "6b346786183e1f14ef72ab7ab69d0ead0f4eb54674326162eb313cb3a00981e3",
+            "text": "Mean Streets of Gadgetzan\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nDespite being a city of opportunity, Gadgetzan is a place where gangs rule the streets.\r\nRecently, a group of robbers broke the exterior wall of the First Bank of Gadgetzan and stole several crates\r\nof jade antiques. The bank’s owner has just posted an announcement in Gadgetzan Gazette, offering a\r\ngreat quantity of arcane dust and many unused decks for the capture of perpetrators.\r\nYou, as a famous detective in Gadgetzan, have collected several testimonies from witnesses. Here is how\r\nthese testimonies may look like.\r\n“Kazakus was not at home on the day of the robbery.”\r\n“If the courier was at home, so was the Kazakus.”\r\n“If Kazakus and the courier were at home that day, then the Kazakus must not be the robber.”\r\nGenerically, each testimony is in one of the following four forms:\r\nUnconditional Affirmation This kind of testimony asserts that some proposition is true.\r\nUnconditioanl Denial This kind of testimony asserts that some proposition is false.\r\nConditional Affirmation This kind of testimony asserts that some proposition is true if several\r\npropositions (called the antecedents) are true.\r\nConditional Denial This kind of testimony asserts that some proposition is false if several propositions\r\nare true.\r\nNote that every proposition is either true or false.\r\nHaving collected these testimonies, you are going to solve the mystery. You want to find out if these\r\ntestimonies conflict with each other. And if not, you want to figure out the truth of this incidence; that\r\nis, you want to identify the truth of each proposition, such that all testimonies are valid.\r\nInput\r\nThe first line of input contains a single integer n, m (1 ≤ n, m ≤ 106\r\n), denoting the number of testimonies,\r\nand the number of propositions that may involve in the testimonies. The propositions are numbered 1\r\nthrough m.\r\nThen follow n lines, specifying these testimonies. Each line represents a testimony and is in the following\r\nformat.\r\nUnconditional Affirmation The line contains a single integer, the number of the proposition to\r\nconfirm.\r\nUnconditioanl Denial The line contains a single integer preceded with an exclamation mark (!).\r\nConditional Affirmation The line starts with a list of integers denoting the numbers of antecedents,\r\nfollowed by the -> symbol, and ends with an integer denoting the proposition to confirm.\r\nConditional Denial The line starts with a list of integers denoting the numbers of antecedents, followed\r\nby the -> symbol, and ends with an integer preceded with an exclamation mark denoting the\r\nconsequent proposition to deny.\r\nPage 1 of 2\n\nNote that there is exactly one space between the numbers and before and after the -> symbol, but there\r\nis no space after the exclamation mark.\r\nIt is guaranteed that the antecedents of a conditional testimony are distinct and do not contain the\r\nconsequent. Also, the total number of antecedents in all conditional testimonies does not exceed 106\r\n.\r\nOutput\r\nIf these testimonies conflict with each other, print conflict in a single line. Otherwise, print m characters\r\nwithout spacing, each being either T (representing true) or F (representing false), denoting the truth\r\nassignment to these propositions respecting the testimonies. If there are multiple possible assignments,\r\nany assignment is acceptable.\r\nExamples\r\nstandard input standard output\r\n3 3\r\n!1\r\n2 -> 1\r\n1 2 -> !3\r\nFFT\r\n6 4\r\n1 -> 2\r\n1 3 -> !2\r\n1 -> 3\r\n4 -> 2\r\n1\r\n2 3 4 -> !1\r\nconflict\r\nPage 2 of 2",
+            "kind": "unreviewed-pdf-extraction"
+          }
+        ],
+        "sourceTextReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "a7e5c500623c7582eb6e89671ad929fc5ee5699e4541fcf2078e35d32fc37662",
+          "pages": 2,
+          "sourceTextSha256": "a79f5f1dcf57b01ea968cb67a411cd34e806c9876e7e74d1e01f409d9449a34f",
+          "reviewedAt": "2026-11-07T18:49:01.021225+00:00",
+          "samplesRetainedSeparately": true
+        },
+        "translationReviewHistory": [
+          {
+            "translationReview": {
+              "status": "withheld",
+              "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+              "inputHash": "6b2b52b6b53295409b1567d08da33239f90d297b4c43fd84725ba90c115716da"
+            },
+            "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+            "translationAvailable": false
+          }
+        ],
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "6b2b52b6b53295409b1567d08da33239f90d297b4c43fd84725ba90c115716da",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "a79f5f1dcf57b01ea968cb67a411cd34e806c9876e7e74d1e01f409d9449a34f",
+          "sourcePdfSha256": "a7e5c500623c7582eb6e89671ad929fc5ee5699e4541fcf2078e35d32fc37662",
+          "markdown": "# Mean Streets of Gadgetzan\n\n时间限制：$4$ 秒。内存限制：$1024$ MB。使用标准输入和标准输出。\n\n加基森虽然充满机遇，街头却由帮派掌控。最近，一群劫匪打破加基森第一银行的外墙，偷走了几箱翡翠古董。银行老板在《加基森公报》上刊登悬赏，愿用大量奥术之尘和未使用过的套牌奖励抓到劫匪的人。\n\n作为加基森的著名侦探，你收集到了若干目击者证词，例如：\n\n- “抢劫发生的那天，卡扎库斯不在家。”\n- “如果信使在家，那么卡扎库斯也在家。”\n- “如果那天卡扎库斯和信使都在家，那么卡扎库斯一定不是劫匪。”\n\n每条证词都属于以下四种形式之一：\n\n- 无条件肯定：断言某个命题为真。\n- 无条件否定：断言某个命题为假。\n- 有条件肯定：如果列出的所有前提命题都为真，那么指定的结论命题为真。\n- 有条件否定：如果列出的所有前提命题都为真，那么指定的结论命题为假。\n\n每个命题非真即假。请判断这些证词是否相互矛盾。如果不矛盾，为每个命题确定一个真假值，使所有证词同时成立。\n\n## 输入\n\n第一行包含两个整数 $n,m$（$1\\leq n,m\\leq10^6$），分别表示证词数和命题数。命题从 $1$ 到 $m$ 编号。\n\n接下来 $n$ 行，每行表示一条证词，格式如下：\n\n- 无条件肯定：一个整数，表示要肯定的命题编号。\n- 无条件否定：感叹号 `!` 后紧接一个整数，表示要否定的命题编号。\n- 有条件肯定：先给出一列前提命题编号，再给出 `->`，最后给出要肯定的结论命题编号。\n- 有条件否定：先给出一列前提命题编号，再给出 `->`，最后给出以 `!` 开头的结论命题编号。\n\n整数之间以及 `->` 的两侧都恰好有一个空格；`!` 后没有空格。\n\n保证每条有条件证词中的前提互不相同，并且不包含该条证词的结论。所有有条件证词的前提总数不超过 $10^6$。\n\n## 输出\n\n如果证词相互矛盾，在一行中输出 `conflict`。否则，连续输出 $m$ 个字符，中间不加空格：用 `T` 表示真、`F` 表示假，按命题编号顺序给出一种合法赋值。若存在多种合法赋值，输出任意一种即可。\n"
+        }
+      }
+    }
+  ]
+}

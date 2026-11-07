@@ -1,0 +1,132 @@
+[
+  {
+    "file": "mountain-diagram.png",
+    "sha256": "851b29f7699b80dcb4d34de329562be3beff2b556bcb44d27c247a9c55cc4a7b",
+    "sourcePdfSha256": "8c9159aa90e0bfc77bb1f840fc59830dacd3c813266a22778a11aa985d1e99f7",
+    "page": 1,
+    "cropPdfPoints": [
+      163,
+      268,
+      167,
+      310
+    ],
+    "method": "PDFium original-page crop; original colors and labels"
+  },
+  {
+    "file": "paddle-star-diagram.png",
+    "sha256": "37bb4e3db2f66c2311625445c30e2298451cc4816a4389acb369bdee7f19a1bb",
+    "sourcePdfSha256": "5ab6f19fc30fbcf39ce909ddceae18d90c6d84eb2e409b8a456763894b9665c1",
+    "page": 1,
+    "cropPdfPoints": [
+      202,
+      431,
+      203,
+      319
+    ],
+    "method": "PDFium original-page crop; original labels"
+  },
+  {
+    "file": "zhang-fei-portrait.png",
+    "sha256": "9c8b8833da6fc26b3bb45054a17aa74ccfab5929796e1ed4d60c39d918074d4b",
+    "sourcePdfSha256": "aacf0e7936e6401c18a04f749a92eddc9f7c52141885a80726e7685ab088d8d8",
+    "page": 1,
+    "cropPdfPoints": [
+      227,
+      392,
+      231,
+      267
+    ],
+    "method": "PDFium original-page crop; original colors and labels"
+  },
+  {
+    "file": "inside-triangle-diagram.png",
+    "sha256": "ace54e830e9745a2bff21e6eaddb4e2c39badeab4416d8b97736c61130c93eca",
+    "sourcePdfSha256": "b394999ee7b7e9e42fd5836049aef0497cbb55dddcd497519b57872abae25a7b",
+    "page": 1,
+    "cropPdfPoints": [
+      44,
+      317,
+      45,
+      241
+    ],
+    "method": "PDFium original-page crop; original colors and labels"
+  },
+  {
+    "file": "grand-tournament-diagram.png",
+    "sha256": "819c305f853f7923b6403483c98aa898906d1b6984624e4738d276ea6df84357",
+    "sourcePdfSha256": "3be703e38ba9e35976325d4fa307dc13304f59b004d4ff75bc9f031dbe2e4476",
+    "page": 1,
+    "cropPdfPoints": [
+      115,
+      367,
+      119,
+      302
+    ],
+    "method": "PDFium original-page crop; original line styles and shaded region"
+  },
+  {
+    "file": "scholomance-roc.png",
+    "sha256": "21d0c3585f0e9c0845a22658dffdfaa7759223d9f0637cb42b3364710b99e1a5",
+    "sourcePdfSha256": "758ab2dd0cfbf6dfd973a552079296fd5894e19d905f9795cafe253d43d50e46",
+    "page": 2,
+    "cropPdfPoints": [
+      151,
+      506,
+      180,
+      88
+    ],
+    "method": "PDFium original-page crop; original axes, curve and shading"
+  },
+  {
+    "file": "frozen-throne-cost.png",
+    "sha256": "1750c7350f0937ffd614f2a90a19a72cfe99f833300d01433cc477c908ce31c1",
+    "sourcePdfSha256": "f1749d5a0911cbde395f69378ebe7c4be7a3184b54e3893dcc21b5564b96b845",
+    "page": 2,
+    "cropPdfPoints": [
+      136,
+      207,
+      157,
+      403
+    ],
+    "method": "PDFium original-page crop; original axes, curve and shading"
+  },
+  {
+    "file": "sumplete-introduction.png",
+    "sha256": "05fe74a0affbc4adffd5e9642c7e1f0d6b51b83b3a7d097889b5e09a14c0488e",
+    "sourcePdfSha256": "6e7648d9ae3f5e7fad80efde21e148e3f214419642320256e0392c1c01703919",
+    "page": 1,
+    "cropPdfPoints": [
+      122,
+      452,
+      128,
+      259
+    ],
+    "method": "PDFium original-page crop; original grid, numbers and crossings"
+  },
+  {
+    "file": "sumplete-first-sample.png",
+    "sha256": "011f0f7b53f68bd846704f4ae96312476c9eb806ca34402456951b0c86523a65",
+    "sourcePdfSha256": "6e7648d9ae3f5e7fad80efde21e148e3f214419642320256e0392c1c01703919",
+    "page": 2,
+    "cropPdfPoints": [
+      243,
+      223,
+      247,
+      509
+    ],
+    "method": "PDFium original-page crop; original grid, numbers and crossings"
+  },
+  {
+    "file": "sumplete-three-solutions.png",
+    "sha256": "c8e7ff3b6908856ea659ac4b80c21e57a604d34ec0d39f7653cbe945a4b85784",
+    "sourcePdfSha256": "6e7648d9ae3f5e7fad80efde21e148e3f214419642320256e0392c1c01703919",
+    "page": 2,
+    "cropPdfPoints": [
+      129,
+      67,
+      129,
+      690
+    ],
+    "method": "PDFium original-page crop; original grid, numbers and crossings"
+  }
+]
