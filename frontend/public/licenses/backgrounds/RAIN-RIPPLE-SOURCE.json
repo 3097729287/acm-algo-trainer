@@ -1,0 +1,12 @@
+{
+  "name": "rain-ripple",
+  "version": "1.0.0",
+  "source": "https://www.npmjs.com/package/rain-ripple",
+  "resolved": "https://registry.npmjs.org/rain-ripple/-/rain-ripple-1.0.0.tgz",
+  "integrity": "sha512-EymJ5wMJNpZCuQFTP9hpqu7wpUZYrsHGiCj0vMnAxHRGoO2qkeSChGSKoB6Cwc0bsw+LtPpYko8bae/MaT6Jnw==",
+  "license": "MIT",
+  "files": {
+    "dist/rain-ripple.js": "400685550faefd807f071315f70e600ccf1db92b033ffd6394803410a47f468f",
+    "LICENSE": "c85b4733e1d758a47042068c6a0f64dc2619b86116cbb37a7255c31f549d9134"
+  }
+}

@@ -4,18 +4,19 @@ import LessonLearnedButton from '@/components/LessonLearnedButton.jsx';
 import {lessonKey} from '@/lib/lessonKey.js';
 import {lectureDestination} from '@/lib/algorithmLearning.js';
 import PageSearch from '@/components/PageSearch.jsx';
+import {CatalogueGroup,CatalogueEntry} from '@/components/LearningCatalogue.jsx';
 import {useStudyState} from '@/lib/StudyPane.jsx';
 import {lectureCurriculum,prerequisiteTitle,LECTURE_ROLES} from '@/lib/learningCurriculum.js';
 import {recordKnowledgeLesson} from '@/lib/knowledgeJourney.js';
-import Tooltip from '@/components/Tooltip.jsx';
 import FolderSelect from '@/components/FolderSelect.jsx';
-import { lectureFolderOptions, lectureMatchesFolder,primaryLectureTopic } from '@/lib/lectureFolders.js';
+import { lectureFolderOptions, lectureMatchesFolder } from '@/lib/lectureFolders.js';
 import {canonicalKnowledgeName} from '@/lib/knowledgeNames.js';
 import SortDirection from '@/components/SortDirection.jsx';
 import { Fragment, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import ReadingImage, { readingUrlTransform } from '@/components/ReadingImage.jsx';
 import InlineTitle from '@/components/InlineTitle.jsx';
+import CollapsibleReadingToolbar from '@/components/CollapsibleReadingToolbar.jsx';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -25,6 +26,13 @@ import './LecturesPanel.css';
 
 function LessonTitle({ children }) {
   return <span className="inline-lesson-markdown"><ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[[rehypeKatex, { strict: 'ignore', throwOnError: false }]]} components={{ p: ({ children }) => <span>{children}</span> }}>{normalizeMarkdown(children || '')}</ReactMarkdown></span>;
+}
+
+function catalogueTitle(item) {
+  const title=(item.displayTitle||item.concept||item.title).replace(/^从零讲[：:]\s*/,'');
+  // Reviewed foundation titles have a descriptive suffix. Problem-specific
+  // titles keep their identifying detail instead of collapsing to one topic.
+  return ['language','algorithm'].includes(item.curriculum.kind)?title.split(/：|:\s+/)[0]:title;
 }
 
 function LessonMarkdown({ lesson }) {
@@ -64,6 +72,7 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
   const [showLearned,setShowLearned]=useState(true);
   const learnedKeys=useMemo(()=>new Set(prefs.learnedLectures||[]),[prefs.learnedLectures]);
   const [readingFull,setReadingFull]=useState(visit?.readingFull||false);
+  const readingRoot=useRef(null);
   const [localDirectoryOpen,setLocalDirectoryOpen]=useState(visit?.directoryOpen||false),directoryId=useId(),directory=useRef(null);
   const directoryOpen=controlledDirectoryOpen??localDirectoryOpen;
   const setDirectoryOpen=value=>{const next=typeof value==='function'?value(directoryOpen):value;setLocalDirectoryOpen(next);if(visit)visit.directoryOpen=next;onDirectoryChange?.(next);};
@@ -97,35 +106,39 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
     return () => { seq.current++; };
   }, [selected, api]);
   useEffect(()=>{if(lesson&&detail.current){detail.current.scrollTop=restoreScroll.current??0;restoreScroll.current=null;}},[lesson]);
-  const entries=useMemo(()=>readingQueue(snapshot,prefs,selected),[snapshot,prefs.learnedLectures,selected]);
+  const entries=useMemo(()=>readingQueue(snapshot,prefs,selected,{includeAll:window.__tbAdmin===true}),[snapshot,prefs.learnedLectures,selected]);
   const classifications = useMemo(() => lectureFolderOptions(entries,categories), [entries,categories]);
   const sorted=entries;
   const currentIndex=sorted.findIndex(item=>item.id===selected),previous=currentIndex>0?sorted[currentIndex-1]:null;
-  const next=nextReading(sorted,selected),resume=sorted.find(item=>!learnedKeys.has(lessonKey(item)))||sorted[0];
-  const foundations=sorted.filter(item=>item.curriculum.kind==='language');
-  const foundationRead=foundations.filter(item=>learnedKeys.has(lessonKey(item))).length;
+  const next=nextReading(sorted,selected);
   const categoryPath = classification ? JSON.parse(classification) : [];
   const filtered = sorted.filter(item => (showLearned||!learnedKeys.has(lessonKey(item))) && lectureMatchesFolder(item, categoryPath,categories) && `${item.concept} ${item.displayTitle || ''} ${item.originalTitle || item.title} ${(item.tags || []).join(' ')} ${item.category || ''} ${item.sourceContest} ${item.sourceTitle}`.toLowerCase().includes(query.trim().toLowerCase()));
   if(descending)filtered.reverse();
+  const groups=[...new Set(filtered.map(item=>item.curriculum.kind))];
   const current=entries.find(item=>item.id===selected)||lesson;
   const prerequisites=useMemo(()=>lectureCurriculum(current||{}).prerequisites.map(id=>({id,title:prerequisiteTitle(id),destination:lectureDestination(id)})),[current]);
   const openPrerequisite=item=>item.destination&&onOpenTemplate?onOpenTemplate(item.destination.templateId):openLecture(item.id);
   const toggleLearned=()=>setPrefs?.(previous=>{const keys=new Set(previous.learnedLectures||[]),key=lessonKey(lesson);keys.has(key)?keys.delete(key):keys.add(key);return recordKnowledgeLesson(previous,{...previous,learnedLectures:[...keys]},key);});
   const isLearned=(prefs.learnedLectures||[]).includes(lessonKey(lesson));
-  return <div className="lectures-page" aria-label="从零讲知识总结">
+  return <div className="lectures-page" data-lecture-id={selected||undefined} aria-label="从零讲知识总结">
     <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索从零讲知识" value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换讲解排序方向" descending={descending} onChange={setDescending}/><FolderSelect iconOnly label="从零讲知识分类" placeholder="全部知识分类" options={classifications} value={classification} onChange={event=>setClassification(event.target.value)}/><button type="button" className="icon-button lecture-learned-filter" aria-label={showLearned?'隐藏已学会':'显示已学会'} title={showLearned?'隐藏已学会':'显示已学会'} aria-pressed={showLearned} onClick={()=>setShowLearned(value=>!value)}>{showLearned?<BookCheck size={17}/>:<BookOpen size={17}/>}</button></PageSearch>
-    <div className={'lectures-layout' + (selected ? ' has-selection' : !study?' lecture-catalog':'')+(readingFull&&selected?' lecture-reading-full':'')+(directoryOpen?' lecture-directory-open':'')}>
-      {(!study||directoryOpen)&&<nav ref={directory} id={directoryId} className="lectures-list" aria-label="完整知识讲解" onScroll={event=>{if(visit)visit.directoryScrollTop=event.currentTarget.scrollTop;}}>{filtered.map((item,index) => <Fragment key={item.id}>
-        {(index===0||filtered[index-1].curriculum.kind!==item.curriculum.kind)&&<h3 className="lecture-curriculum-group">{item.curriculum.kind==='language'?`基础学习 · ${foundationRead}/${foundations.length}`:LECTURE_ROLES[item.curriculum.kind]}</h3>}
+    {!selected&&error&&<p role="alert">{error}</p>}
+    {!selected&&!study?<div className="learning-catalogue lecture-catalogue" aria-label="完整知识讲解">
+      {groups.map(kind=><CatalogueGroup key={kind} title={kind==='language'?'基础学习':LECTURE_ROLES[kind]}>{filtered.filter(item=>item.curriculum.kind===kind).map(item=>{const title=catalogueTitle(item);return <CatalogueEntry key={item.id} className={'lecture-entry'+(learnedKeys.has(lessonKey(item))?' lecture-learned':'')} title={<LessonTitle>{title}</LessonTitle>} label={title} onOpen={()=>openLecture(item.id,true)}/>;})}</CatalogueGroup>)}
+      {!snapshot&&!error&&<LoaderCircle className="spin" role="status" aria-label="正在读取完整讲解" size={19}/>}
+      {snapshot&&!filtered.length&&<p className="progress-muted">没有匹配的完整讲解。</p>}
+    </div>:<div ref={readingRoot} className={'lectures-layout' + (selected ? ' has-selection' : '')+(readingFull&&selected?' lecture-reading-full':'')+(directoryOpen?' lecture-directory-open':'')}>
+      {!study&&<CollapsibleReadingToolbar root={readingRoot} enabled={Boolean(readingFull&&selected)} shortcuts={prefs.shortcuts}/>}
+      {(!study||directoryOpen)&&<aside id={directoryId} className="lecture-directory"><div className="lecture-directory-toolbar"><label className="lecture-directory-search"><Search size={15}/><input type="search" aria-label="搜索从零讲目录" value={query} onChange={event=>setQuery(event.target.value)}/></label></div><nav ref={directory} className="lectures-list" aria-label="完整知识讲解" onScroll={event=>{if(visit)visit.directoryScrollTop=event.currentTarget.scrollTop;}}>{filtered.map((item,index) => <Fragment key={item.id}>
+        {(index===0||filtered[index-1].curriculum.kind!==item.curriculum.kind)&&<h3 className="lecture-curriculum-group">{item.curriculum.kind==='language'?'基础学习':LECTURE_ROLES[item.curriculum.kind]}</h3>}
         <button className={[selected===item.id?'selected':'',learnedKeys.has(lessonKey(item))?'lecture-learned':''].filter(Boolean).join(' ')} aria-current={selected===item.id?'page':undefined} data-lesson-kind={item.curriculum.kind} onClick={() => {if((study||readingFull)&&onNextLecture)onNextLecture(item.id);else openLecture(item.id,true);}}>
-          <span className="lecture-item-heading">{item.curriculum.kind==='language'&&<span className="lecture-step" aria-label={'第'+(foundations.findIndex(row=>row.id===item.id)+1)+'篇'}>{String(foundations.findIndex(row=>row.id===item.id)+1).padStart(2,'0')}</span>}<strong><LessonTitle>{(item.displayTitle || item.concept || item.title).replace(/^从零讲[：:]\s*/,'')}</LessonTitle></strong><Tooltip text="学习层次依据内容和先修安排，与比赛评分分开"><b className={'lecture-difficulty lecture-level-'+(item.curriculum.level??'unknown')}>{item.curriculum.levelLabel}</b></Tooltip></span>
-          <span className="lecture-category">{primaryLectureTopic(item)}</span>
-          {item.curriculum.prerequisites.length>0&&<span className="lecture-prerequisite-preview">先修：{item.curriculum.prerequisites.map(prerequisiteTitle).join('、')}</span>}
+          <strong><LessonTitle>{catalogueTitle(item)}</LessonTitle></strong>
         </button>
-      </Fragment>)}{snapshot && !filtered.length && <p>没有匹配的完整讲解。仅有指针的段落会链接已有讲解。</p>}</nav>}
+      </Fragment>)}{snapshot && !filtered.length && <p>没有匹配的完整讲解。仅有指针的段落会链接已有讲解。</p>}</nav></aside>}
+      <div className="lecture-reading-pane">{selected&&<div className="lectures-detail-bar">{(study||readingFull)&&<button type="button" className="icon-button lecture-directory-toggle" aria-label="讲解目录" title="讲解目录" aria-expanded={directoryOpen} aria-controls={directoryId} onClick={()=>setDirectoryOpen(value=>!value)}><PanelLeft size={18}/></button>}<button type="button" onClick={()=>{if(history.length)backLecture();else if(previous)(onNextLecture||openLecture)(previous.id);}} disabled={!history.length&&!previous} data-folder-up className="icon-button" aria-label="返回上篇" title={history.length?"返回上篇讲解":previous?"上一篇 · "+(previous.displayTitle||previous.concept||previous.title):"已到第一篇"}><ArrowLeft size={17} /></button>{history.length>0&&<button type="button" className="icon-button" aria-label="返回根页面" title="返回根页面" onClick={()=>{restoreScroll.current=history[0].scrollTop;setSelected(history[0].id);setHistory([]);}}><House size={15}/></button>}{lesson&&setPrefs&&<LessonLearnedButton learned={isLearned} onClick={toggleLearned}/>}{lesson && onTrain && lesson.sourceProblemIds?.[0] && <button type="button" className="icon-button" aria-label="练习来源题" title="练习来源题" onClick={() => onTrain(lesson.sourceProblemIds[0])}><ExternalLink size={17} /></button>}{lesson&&<span className="lecture-source-inline" aria-label="来源题目" title={[lesson.sourceContest,lesson.sourceProblem,lesson.sourceTitle].filter(Boolean).join(" · ")}>{lesson.sourceContest} · {lesson.sourceProblem} <InlineTitle>{lesson.sourceTitle}</InlineTitle></span>}<button type="button" className="lecture-next" aria-label="下一篇" title={next?.displayTitle||next?.concept||next?.title||'已到最后一篇'} disabled={!next} onClick={()=>{if(next)(onNextLecture||openLecture)(next.id);}}>下一篇<ArrowRight size={16}/></button><button type="button" className="icon-button lecture-fullscreen-toggle" aria-label={readingFull?'退出从零讲全屏':'从零讲全屏'} title={readingFull?'退出从零讲全屏 · Esc':'从零讲全屏'} aria-pressed={readingFull} onClick={()=>changeReadingFull(!readingFull)}>{readingFull?<Minimize2 size={17}/>:<Maximize2 size={17}/>}</button></div>}
       <article ref={detail} onScroll={event=>{if(visit)visit.scrollTop=event.currentTarget.scrollTop;}} className="lectures-detail" tabIndex={0} aria-label="知识讲解正文">
-        {selected ? <><div className="lectures-detail-bar">{(study||readingFull)&&<button type="button" className="icon-button lecture-directory-toggle" aria-label="讲解目录" title="讲解目录" aria-expanded={directoryOpen} aria-controls={directoryId} onClick={()=>setDirectoryOpen(value=>!value)}><PanelLeft size={18}/></button>}<button type="button" onClick={()=>{if(history.length)backLecture();else if(previous)(onNextLecture||openLecture)(previous.id);}} disabled={!history.length&&!previous} data-folder-up className="icon-button" aria-label="返回上篇" title={history.length?"返回上篇讲解":previous?"上一篇 · "+(previous.displayTitle||previous.concept||previous.title):"已到第一篇"}><ArrowLeft size={17} /></button>{history.length>0&&<button type="button" className="icon-button" aria-label="返回根页面" title="返回根页面" onClick={()=>{restoreScroll.current=history[0].scrollTop;setSelected(history[0].id);setHistory([]);}}><House size={15}/></button>}{lesson&&setPrefs&&<LessonLearnedButton learned={isLearned} onClick={toggleLearned}/>}{lesson && onTrain && lesson.sourceProblemIds?.[0] && <button type="button" className="icon-button" aria-label="练习来源题" title="练习来源题" onClick={() => onTrain(lesson.sourceProblemIds[0])}><ExternalLink size={17} /></button>}{lesson&&<span className="lecture-source-inline" aria-label="来源题目" title={[lesson.sourceContest,lesson.sourceProblem,lesson.sourceTitle].filter(Boolean).join(" · ")}>{lesson.sourceContest} · {lesson.sourceProblem} <InlineTitle>{lesson.sourceTitle}</InlineTitle></span>}<button type="button" className="lecture-next" aria-label="下一篇" title={next?.displayTitle||next?.concept||next?.title||'已到最后一篇'} disabled={!next} onClick={()=>{if(next)(onNextLecture||openLecture)(next.id);}}>下一篇<ArrowRight size={16}/></button><button type="button" className="icon-button lecture-fullscreen-toggle" aria-label={readingFull?'退出从零讲全屏':'从零讲全屏'} title={readingFull?'退出从零讲全屏 · Esc':'从零讲全屏'} aria-pressed={readingFull} onClick={()=>changeReadingFull(!readingFull)}>{readingFull?<Minimize2 size={17}/>:<Maximize2 size={17}/>}</button></div>{lesson ? <>{prerequisites.length>0&&<nav className="lecture-prerequisites" aria-label="学习先修"><span>先修知识</span>{prerequisites.map(item=><button type="button" key={item.id} onClick={()=>openPrerequisite(item)}><BookOpen size={14}/>{item.title}<ArrowRight size={13}/></button>)}</nav>}<LessonMarkdown lesson={lesson} /></> : error ? <p role="alert">{error}</p> : <p role="status">正在读取完整讲解…</p>}</> : <div className="lectures-intro"><BookOpen size={25} /><h3>按顺序学习基础，再阅读练习中遇到的讲解</h3><p className="lecture-route-progress">基础学习 {foundationRead} / {foundations.length}</p>{entries.length > 0 && <button onClick={() => openLecture(query||classification?filtered[0]?.id:resume?.id,true)}>{foundationRead?'继续阅读':'阅读第一篇'}<ArrowRight size={14} /></button>}{error && <p role="alert">{error}</p>}</div>}
-      </article>
-    </div>
+        {selected ? <>{lesson ? <>{prerequisites.length>0&&<nav className="lecture-prerequisites" aria-label="学习先修"><span>先修知识</span>{prerequisites.map(item=><button type="button" key={item.id} onClick={()=>openPrerequisite(item)}><BookOpen size={14}/>{item.title}<ArrowRight size={13}/></button>)}</nav>}<LessonMarkdown lesson={lesson} /></> : error ? <p role="alert">{error}</p> : <p role="status">正在读取完整讲解…</p>}</> : null}
+      </article></div>
+    </div>}
   </div>;
 }

@@ -13,3 +13,5 @@
 @media(prefers-reduced-motion:reduce){.card-pack-dialog *, .card-pack-dialog *:before,.card-pack-dialog *:after{animation:none!important;transition:none!important}}
 
 .pack-background{--pack-colour:#99d2d6;--pack-dark:#284a53}
+.pack-inventory-status{display:flex;min-height:240px;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--muted)}
+.pack-inventory-status>p{display:flex;align-items:center;gap:9px;margin:0}

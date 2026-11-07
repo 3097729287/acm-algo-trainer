@@ -7,6 +7,7 @@ from training import ServiceError, iso
 
 PREFIX = 'initial-code:'
 SELECTION = 'initial-code-selection:'
+DEFAULT_OVERRIDE = 'initial-code-default:'
 MAX_CODE_BYTES = 64 * 1024
 DEFAULTS = {
     'cpp17': '#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    \n    return 0;\n}\n',
@@ -36,8 +37,10 @@ def _owned(training):
                   key=lambda value: (value['title'].casefold(), value['id']))
 
 
-def _default(language):
-    return {'id': 'default', 'title': '默认', 'language': language, 'code': DEFAULTS[language], 'builtin': True}
+def _default(language, training=None):
+    original = {'id': 'default', 'title': '默认', 'language': language, 'code': DEFAULTS[language], 'builtin': True, 'revision': ''}
+    value = _read(training, DEFAULT_OVERRIDE + language) if training else None
+    return {**original, **value, 'customized': True} if value and not value.get('deleted') else original
 
 
 def selected(training):
@@ -49,7 +52,7 @@ def selected(training):
             identity = choice.get('id', 'default')
             value = _read(training, identity) if isinstance(identity, str) and re.fullmatch(PREFIX + r'[a-f0-9]{32}', identity) else None
             if not value or value.get('deleted') or value.get('language') != language:
-                value = _default(language)
+                value = _default(language, training)
             choices[language] = value['id']
             revisions[language] = choice.get('revision', '')
             templates.append(value)
@@ -58,7 +61,7 @@ def selected(training):
 
 def catalog(training):
     with training.lock:
-        return {**selected(training), 'templates': [_default(language) for language in DEFAULTS] + _owned(training)}
+        return {**selected(training), 'templates': [_default(language, training) for language in DEFAULTS] + _owned(training)}
 
 
 def choose(training, body):
@@ -86,11 +89,26 @@ def save(training, body):
     if not isinstance(body, dict) or set(body) - {'id', 'title', 'language', 'code', 'revision', 'delete'}:
         raise ServiceError(400, '初始代码模板格式无效')
     identity = body.get('id')
-    if identity is not None and (not isinstance(identity, str) or not re.fullmatch(PREFIX + r'[a-f0-9]{32}', identity)):
-        raise ServiceError(400, '默认模板请另存为自己的模板')
+    if identity is not None and (not isinstance(identity, str) or identity != 'default' and not re.fullmatch(PREFIX + r'[a-f0-9]{32}', identity)):
+        raise ServiceError(400, '初始代码模板无效')
     if type(body.get('delete', False)) is not bool:
         raise ServiceError(400, '初始代码模板操作无效')
     with training.lock:
+        if identity == 'default':
+            language = _language(body.get('language'))
+            if body.get('delete') or body.get('title') != '默认':
+                raise ServiceError(400, '默认模板不能删除或重命名')
+            previous = _default(language, training)
+            if body.get('revision', '') != previous['revision']:
+                raise ServiceError(409, '初始代码模板已在其它位置修改，请重新读取后保存')
+            code = body.get('code')
+            if not isinstance(code, str) or '\x00' in code or len(code.encode('utf8')) > MAX_CODE_BYTES:
+                raise ServiceError(400, '代码不得超过 64 KiB')
+            value = {**previous, 'code': code, 'customized': True, 'revision': uuid.uuid4().hex,
+                     'updatedAt': iso(training._now())}
+            with training._write() as db:
+                _write(training, db, DEFAULT_OVERRIDE + language, value)
+            return {**catalog(training), 'template': value}
         previous = _read(training, identity) if identity else None
         if identity and (not previous or previous.get('deleted')):
             raise ServiceError(404, '没有找到这个初始代码模板')

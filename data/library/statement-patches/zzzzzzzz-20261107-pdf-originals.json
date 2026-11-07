@@ -1,0 +1,1530 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:102992::F",
+      "beforeSha256": "73cd385ecfbd3a7e74f4f0bd86a6bb160574151566d92c67c7956d4facc4d417",
+      "content": {
+        "markdown": "# Fireworks\n\nFireworks\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nKotori is practicing making fireworks for the upcoming hanabi taikai1\r\n. It takes her n minutes to make a\r\nsingle firework, and as she is not really proficient in making fireworks, each firework only has a probability\r\nof p × 10−4\r\nto be perfect.\r\nAfter she finishes making a firework, she can just start making the next firework, or take m minutes to\r\nlight all the remaining fireworks finished before. If there is at least one perfect firework among the lit ones,\r\nshe will be happy and go to rest. Otherwise, she will continue practicing. Can you tell her the minimum\r\nexpected practicing time before she goes to rest if she takes the optimal strategy?\r\nNotice that no matter how many fireworks remain, it always takes m minutes to light them all.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 104\r\n) indicating\r\nthe number of test cases. For each test case:\r\nThe first and only line contains three integers n, m and p (1 ≤ n, m ≤ 109\r\n, 1 ≤ p ≤ 104\r\n).\r\nOutput\r\nFor each test case, output one line containing one number indicating the minimum expected practicing\r\ntime.\r\nYour answer will be considered correct if and only if the absolute or relative error does not exceed 10−4\r\n.\r\nExample\r\nstandard input standard output\r\n3\r\n1 1 5000\r\n1 1 1\r\n1 2 10000\r\n4.0000000000\r\n10141.5852891136\r\n3.0000000000\r\n1Hanabi taikai: Romaji of the Japanese word “花火大會”, which means the firework... err... party?\r\nPage 1 of 1\n\n[PDF](https://codeforces.com/gym/102992/problem/F)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n1 1 5000\n1 1 1\n1 2 10000",
+            "output": "4.0000000000\n10141.5852891136\n3.0000000000"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "Fireworks\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nKotori is practicing making fireworks for the upcoming hanabi taikai1\r\n. It takes her n minutes to make a\r\nsingle firework, and as she is not really proficient in making fireworks, each firework only has a probability\r\nof p × 10−4\r\nto be perfect.\r\nAfter she finishes making a firework, she can just start making the next firework, or take m minutes to\r\nlight all the remaining fireworks finished before. If there is at least one perfect firework among the lit ones,\r\nshe will be happy and go to rest. Otherwise, she will continue practicing. Can you tell her the minimum\r\nexpected practicing time before she goes to rest if she takes the optimal strategy?\r\nNotice that no matter how many fireworks remain, it always takes m minutes to light them all.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T (1 ≤ T ≤ 104\r\n) indicating\r\nthe number of test cases. For each test case:\r\nThe first and only line contains three integers n, m and p (1 ≤ n, m ≤ 109\r\n, 1 ≤ p ≤ 104\r\n).\r\nOutput\r\nFor each test case, output one line containing one number indicating the minimum expected practicing\r\ntime.\r\nYour answer will be considered correct if and only if the absolute or relative error does not exceed 10−4\r\n.\r\nExample\r\nstandard input standard output\r\n3\r\n1 1 5000\r\n1 1 1\r\n1 2 10000\r\n4.0000000000\r\n10141.5852891136\r\n3.0000000000\r\n1Hanabi taikai: Romaji of the Japanese word “花火大會”, which means the firework... err... party?\r\nPage 1 of 1",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:102992::F",
+        "title": "Fireworks",
+        "url": "https://codeforces.com/gym/102992/problem/F",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 256
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/102992/problem/F",
+        "sourcePageNumbers": [
+          1
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/102992",
+        "sourceRosterSha256": "a459c291f8203c11631358bcec6624810e7ee39716da0a026d20fd37db52a8da",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "F",
+          "pdfTitle": "Fireworks",
+          "rosterTitle": "Fireworks",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/102992/problem/F": {
+            "sourceUrl": "https://codeforces.com/gym/102992/problem/F",
+            "sha256": "dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08",
+            "bytes": 172338,
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "data": "tb-asset:dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08",
+            "fileName": "gym-102992.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/102992/problem/F",
+          "sha256": "3e45894c19b3ceff6e1f7ffab31a5eac3410c302f62ad9e3df46c11ba423dd20",
+          "data": "tb-asset:3e45894c19b3ceff6e1f7ffab31a5eac3410c302f62ad9e3df46c11ba423dd20",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            1
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08",
+          "fileName": "gym-102992-F.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/102992/problem/F": {
+            "sourceUrl": "https://codeforces.com/gym/102992/problem/F",
+            "sha256": "dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08",
+            "bytes": 172338,
+            "mime": "application/pdf",
+            "pageCount": 1
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:58.819258+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/102992/problem/F",
+              "sha256": "dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08"
+            },
+            {
+              "url": "https://codeforces.com/gym/102992",
+              "sha256": "a459c291f8203c11631358bcec6624810e7ee39716da0a026d20fd37db52a8da",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/102992/problem/F",
+              "sha256": "dd8212bb5aa5b95e80bb0ce94fe2d4d18b6b7dea2bc3b7b20d626c200701ce08"
+            }
+          ],
+          "markdownSha256": "377a016dc8ac9b86fe11943e15db75c4d580092c46a9368628f0125efc1b14c9",
+          "corpusAuditVerifiedSha256": "377a016dc8ac9b86fe11943e15db75c4d580092c46a9368628f0125efc1b14c9"
+        },
+        "translationAvailable": false,
+        "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+        "translationReview": {
+          "status": "withheld",
+          "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+          "inputHash": "377a016dc8ac9b86fe11943e15db75c4d580092c46a9368628f0125efc1b14c9"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103119::E",
+      "beforeSha256": "0a32b6f7ee6484bbad0e479670cb7c3dbf97ced2b90a29b168f2ee95ba2d4705",
+      "content": {
+        "markdown": "# Mountain\n\nMountain\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nDreamGrid is climbing a mountain. The mountain is described by a polyline on a 2D plane:\r\n(0, 0) − (1, h1) − (2, h2) − · · · − (n, hn) − (n + 1, 0)\r\nThe region surrounded by the polyline and the x-axis denotes the mountain.\r\nDreamGrid takes n pictures at the points (i, hi) for each integer i where 1 ≤ i ≤ n. A picture\r\ncovers a rectangle on the plane. Formally, a picture taken at (i, hi) covers all the points (x, y) where\r\ni − W ≤ x ≤ i + W and hi − H ≤ y ≤ hi + H.\r\nHowever, his hard disk has limited space. When he saves the pictures into his hard disk, he can keep only\r\nK pictures. He wants to maximize the total area of the mountain which is covered by at least one picture.\r\nYou are asked to find the maximum area for K = 1, 2, · · · , n.\r\nThe graph above is a sample where n = 3, W = 1, H = 2. The polyline describing the mountain is\r\nA-B-C-D-E. DreamGrid keeps 2 pictures taken at C and D. The red area (polygon F-M-C-D-E-N-F) is\r\nthe part of the mountain covered by the kept pictures.\r\nInput\r\nThe first line of the input contains three integers n, W and H (1 ≤ n ≤ 200, 1 ≤ W ≤ 5, 1 ≤ H ≤ 10 000),\r\nindicating the number of points on the polyline and the size of the pictures.\r\nThe second line contains n integers h1, h2, · · · , hn (1 ≤ hi ≤ 10 000), indicating the y coordinates of the\r\nn points on the polyline.\r\nOutput\r\nOutput n lines, the i-th line contains a float number indicating the maximum area when K = i.\r\nYour answer is acceptable if its absolute or relative error does not exceed 10−6\r\n.\r\nPage 1 of 2\n\nFormally speaking, suppose that your output is x and the jury’s answer is y. Your output is accepted if\r\nand only if |x−y|\r\nmax(1,|y|) ≤ 10−6\r\n.\r\nExample\r\nstandard input standard output\r\n3 1 2\r\n2 1 3\r\n3.5000000000\r\n4.5000000000\r\n5.1666666667\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/103119/problem/E)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 1 2\n2 1 3",
+            "output": "3.5000000000\n4.5000000000\n5.1666666667"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "Mountain\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nDreamGrid is climbing a mountain. The mountain is described by a polyline on a 2D plane:\r\n(0, 0) − (1, h1) − (2, h2) − · · · − (n, hn) − (n + 1, 0)\r\nThe region surrounded by the polyline and the x-axis denotes the mountain.\r\nDreamGrid takes n pictures at the points (i, hi) for each integer i where 1 ≤ i ≤ n. A picture\r\ncovers a rectangle on the plane. Formally, a picture taken at (i, hi) covers all the points (x, y) where\r\ni − W ≤ x ≤ i + W and hi − H ≤ y ≤ hi + H.\r\nHowever, his hard disk has limited space. When he saves the pictures into his hard disk, he can keep only\r\nK pictures. He wants to maximize the total area of the mountain which is covered by at least one picture.\r\nYou are asked to find the maximum area for K = 1, 2, · · · , n.\r\nThe graph above is a sample where n = 3, W = 1, H = 2. The polyline describing the mountain is\r\nA-B-C-D-E. DreamGrid keeps 2 pictures taken at C and D. The red area (polygon F-M-C-D-E-N-F) is\r\nthe part of the mountain covered by the kept pictures.\r\nInput\r\nThe first line of the input contains three integers n, W and H (1 ≤ n ≤ 200, 1 ≤ W ≤ 5, 1 ≤ H ≤ 10 000),\r\nindicating the number of points on the polyline and the size of the pictures.\r\nThe second line contains n integers h1, h2, · · · , hn (1 ≤ hi ≤ 10 000), indicating the y coordinates of the\r\nn points on the polyline.\r\nOutput\r\nOutput n lines, the i-th line contains a float number indicating the maximum area when K = i.\r\nYour answer is acceptable if its absolute or relative error does not exceed 10−6\r\n.\r\nPage 1 of 2\n\nFormally speaking, suppose that your output is x and the jury’s answer is y. Your output is accepted if\r\nand only if |x−y|\r\nmax(1,|y|) ≤ 10−6\r\n.\r\nExample\r\nstandard input standard output\r\n3 1 2\r\n2 1 3\r\n3.5000000000\r\n4.5000000000\r\n5.1666666667\r\nPage 2 of 2",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "b5c5b4979fd722a765aa9448d7eab719154a376e2c23991d57855ead4133ab3a",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:103119::E",
+        "title": "Mountain",
+        "url": "https://codeforces.com/gym/103119/problem/E",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 512
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/103119/problem/E",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/103119",
+        "sourceRosterSha256": "966b4b6e081d1ddd80edb6a7a5f7b61506fc9837b5387555810a5391c830f600",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "E",
+          "pdfTitle": "Mountain",
+          "rosterTitle": "Mountain",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/103119/problem/E": {
+            "sourceUrl": "https://codeforces.com/gym/103119/problem/E",
+            "sha256": "b5c5b4979fd722a765aa9448d7eab719154a376e2c23991d57855ead4133ab3a",
+            "bytes": 163081,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "data": "tb-asset:b5c5b4979fd722a765aa9448d7eab719154a376e2c23991d57855ead4133ab3a",
+            "fileName": "gym-103119.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/103119/problem/E",
+          "sha256": "8c9159aa90e0bfc77bb1f840fc59830dacd3c813266a22778a11aa985d1e99f7",
+          "data": "tb-asset:8c9159aa90e0bfc77bb1f840fc59830dacd3c813266a22778a11aa985d1e99f7",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "b5c5b4979fd722a765aa9448d7eab719154a376e2c23991d57855ead4133ab3a",
+          "fileName": "gym-103119-E.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/103119/problem/E": {
+            "sourceUrl": "https://codeforces.com/gym/103119/problem/E",
+            "sha256": "b5c5b4979fd722a765aa9448d7eab719154a376e2c23991d57855ead4133ab3a",
+            "bytes": 163081,
+            "mime": "application/pdf",
+            "pageCount": 2
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:58.863289+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/103119/problem/E",
+              "sha256": "b5c5b4979fd722a765aa9448d7eab719154a376e2c23991d57855ead4133ab3a"
+            },
+            {
+              "url": "https://codeforces.com/gym/103119",
+              "sha256": "966b4b6e081d1ddd80edb6a7a5f7b61506fc9837b5387555810a5391c830f600",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/103119/problem/E",
+              "sha256": "b5c5b4979fd722a765aa9448d7eab719154a376e2c23991d57855ead4133ab3a"
+            }
+          ],
+          "markdownSha256": "bb9a5a532f175087592826204cefa6512601e952f2cf3819101d98c9613e988a",
+          "corpusAuditVerifiedSha256": "bb9a5a532f175087592826204cefa6512601e952f2cf3819101d98c9613e988a"
+        },
+        "translationAvailable": false,
+        "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+        "translationReview": {
+          "status": "withheld",
+          "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+          "inputHash": "bb9a5a532f175087592826204cefa6512601e952f2cf3819101d98c9613e988a"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103202::A",
+      "beforeSha256": "935d19b31c2277eba3c573a8fa5e1d0569eea6cf47c9a85322946705485d1727",
+      "content": {
+        "markdown": "# The Grand Tournament\n\nThe Grand Tournament\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nToday, The First Grand Tournament of Automated Driving has officially commenced!\r\nThe experiment field of this tournament is a rectangular region on a 2-dimensional plane, with axes\r\nparallel to the coordinate axes. The bottom-left corner of the field is at coordinate (xl\r\n, yl) while the top￾right corner is at coordinate (xr, yr). There are two segments A and B lying strictly inside the rectangle.\r\nThe two segments may share common points. There is also a car inside the rectangle, which can be\r\nregarded as a point.\r\nA subtask of this tournament requires that the distances between the car and the two segments must be\r\nequal all the time during the movement. The distance between a point P and a segment Q is defined as\r\nthe minimum Euclidean distance from P to any point on Q.\r\nРис. 1: Explanation of the sample data.\r\nPlease write a program to find the area of valid positions of the car.\r\nInput\r\nThe input contains multiple cases. The first line of the input contains a single integer T (1 ≤ T ≤ 105\r\n),\r\nindicating the number of test cases.\r\nFor each case, the first line of the input contains four integers xl\r\n, yl\r\n, xr, yr (−1 000 ≤ xl < xr ≤ 1 000,\r\n−1 000 ≤ yl < yr ≤ 1 000), denoting the coordinates of the bottom-left and the top-right corners of the\r\nrectangle. Each of the next two lines contains four integers x1, y1, x2, y2, denoting a segment that connects\r\n(x1, y1) and (x2, y2), where x1, x2 ∈ (xl\r\n, xr) and y1, y2 ∈ (yl\r\n, yr).\r\nFor each case, it is guaranteed that the two endpoints of each segment do not coincide.\r\nOutput\r\nFor each test case, print a single line containing a single real number, the area of valid positions of the\r\ncar. Your answer will be considered correct if the absolute or relative error does not exceed 10−9\r\n.\r\nFormally, if your answer is a and the jury’s answer is b, then your answer will be considered correct if and\r\nonly if |a−b|\r\nmax{1,|b|} ≤ 10−9\r\n.\r\nPage 1 of 2\n\nExample\r\nstandard input standard output\r\n2\r\n0 0 3 3\r\n1 1 1 2\r\n2 1 2 2\r\n0 0 3 3\r\n1 1 1 2\r\n1 2 2 2\r\n0.000000000000000\r\n1.000000000000000\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/103202/problem/A)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2\n0 0 3 3\n1 1 1 2\n2 1 2 2\n0 0 3 3\n1 1 1 2\n1 2 2 2",
+            "output": "0.000000000000000\n1.000000000000000"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "The Grand Tournament\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nToday, The First Grand Tournament of Automated Driving has officially commenced!\r\nThe experiment field of this tournament is a rectangular region on a 2-dimensional plane, with axes\r\nparallel to the coordinate axes. The bottom-left corner of the field is at coordinate (xl\r\n, yl) while the top￾right corner is at coordinate (xr, yr). There are two segments A and B lying strictly inside the rectangle.\r\nThe two segments may share common points. There is also a car inside the rectangle, which can be\r\nregarded as a point.\r\nA subtask of this tournament requires that the distances between the car and the two segments must be\r\nequal all the time during the movement. The distance between a point P and a segment Q is defined as\r\nthe minimum Euclidean distance from P to any point on Q.\r\nРис. 1: Explanation of the sample data.\r\nPlease write a program to find the area of valid positions of the car.\r\nInput\r\nThe input contains multiple cases. The first line of the input contains a single integer T (1 ≤ T ≤ 105\r\n),\r\nindicating the number of test cases.\r\nFor each case, the first line of the input contains four integers xl\r\n, yl\r\n, xr, yr (−1 000 ≤ xl < xr ≤ 1 000,\r\n−1 000 ≤ yl < yr ≤ 1 000), denoting the coordinates of the bottom-left and the top-right corners of the\r\nrectangle. Each of the next two lines contains four integers x1, y1, x2, y2, denoting a segment that connects\r\n(x1, y1) and (x2, y2), where x1, x2 ∈ (xl\r\n, xr) and y1, y2 ∈ (yl\r\n, yr).\r\nFor each case, it is guaranteed that the two endpoints of each segment do not coincide.\r\nOutput\r\nFor each test case, print a single line containing a single real number, the area of valid positions of the\r\ncar. Your answer will be considered correct if the absolute or relative error does not exceed 10−9\r\n.\r\nFormally, if your answer is a and the jury’s answer is b, then your answer will be considered correct if and\r\nonly if |a−b|\r\nmax{1,|b|} ≤ 10−9\r\n.\r\nPage 1 of 2\n\nExample\r\nstandard input standard output\r\n2\r\n0 0 3 3\r\n1 1 1 2\r\n2 1 2 2\r\n0 0 3 3\r\n1 1 1 2\r\n1 2 2 2\r\n0.000000000000000\r\n1.000000000000000\r\nPage 2 of 2",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "869df01180ec12370e65e52b749404813bb35b7b3654b73e9df461543dae0e24",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:103202::A",
+        "title": "The Grand Tournament",
+        "url": "https://codeforces.com/gym/103202/problem/A",
+        "limits": {
+          "timeMs": 4000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/103202/problem/A",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/103202",
+        "sourceRosterSha256": "1dff8bccd644233d581ed0a8812029f4424e76767cd65a220f5e41a5a0067468",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "A",
+          "pdfTitle": "The Grand Tournament",
+          "rosterTitle": "The Grand Tournament",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/103202/problem/A": {
+            "sourceUrl": "https://codeforces.com/gym/103202/problem/A",
+            "sha256": "869df01180ec12370e65e52b749404813bb35b7b3654b73e9df461543dae0e24",
+            "bytes": 149603,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "data": "tb-asset:869df01180ec12370e65e52b749404813bb35b7b3654b73e9df461543dae0e24",
+            "fileName": "gym-103202.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/103202/problem/A",
+          "sha256": "3be703e38ba9e35976325d4fa307dc13304f59b004d4ff75bc9f031dbe2e4476",
+          "data": "tb-asset:3be703e38ba9e35976325d4fa307dc13304f59b004d4ff75bc9f031dbe2e4476",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "869df01180ec12370e65e52b749404813bb35b7b3654b73e9df461543dae0e24",
+          "fileName": "gym-103202-A.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/103202/problem/A": {
+            "sourceUrl": "https://codeforces.com/gym/103202/problem/A",
+            "sha256": "869df01180ec12370e65e52b749404813bb35b7b3654b73e9df461543dae0e24",
+            "bytes": 149603,
+            "mime": "application/pdf",
+            "pageCount": 2
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:58.876542+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/103202/problem/A",
+              "sha256": "869df01180ec12370e65e52b749404813bb35b7b3654b73e9df461543dae0e24"
+            },
+            {
+              "url": "https://codeforces.com/gym/103202",
+              "sha256": "1dff8bccd644233d581ed0a8812029f4424e76767cd65a220f5e41a5a0067468",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/103202/problem/A",
+              "sha256": "869df01180ec12370e65e52b749404813bb35b7b3654b73e9df461543dae0e24"
+            }
+          ],
+          "markdownSha256": "16bc8a6de2041d9a9bc09134ba4afdb0726bc1102cea5a719385d291eeecf9b1",
+          "corpusAuditVerifiedSha256": "16bc8a6de2041d9a9bc09134ba4afdb0726bc1102cea5a719385d291eeecf9b1"
+        },
+        "translationAvailable": false,
+        "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+        "translationReview": {
+          "status": "withheld",
+          "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+          "inputHash": "16bc8a6de2041d9a9bc09134ba4afdb0726bc1102cea5a719385d291eeecf9b1"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103202::C",
+      "beforeSha256": "5c80aa2bc4291a8b908ec31dd87ab5a5aa8e99719d7c063193920556c4982757",
+      "content": {
+        "markdown": "# Mean Streets of Gadgetzan\n\nMean Streets of Gadgetzan\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nDespite being a city of opportunity, Gadgetzan is a place where gangs rule the streets.\r\nRecently, a group of robbers broke the exterior wall of the First Bank of Gadgetzan and stole several crates\r\nof jade antiques. The bank’s owner has just posted an announcement in Gadgetzan Gazette, offering a\r\ngreat quantity of arcane dust and many unused decks for the capture of perpetrators.\r\nYou, as a famous detective in Gadgetzan, have collected several testimonies from witnesses. Here is how\r\nthese testimonies may look like.\r\n“Kazakus was not at home on the day of the robbery.”\r\n“If the courier was at home, so was the Kazakus.”\r\n“If Kazakus and the courier were at home that day, then the Kazakus must not be the robber.”\r\nGenerically, each testimony is in one of the following four forms:\r\nUnconditional Affirmation This kind of testimony asserts that some proposition is true.\r\nUnconditioanl Denial This kind of testimony asserts that some proposition is false.\r\nConditional Affirmation This kind of testimony asserts that some proposition is true if several\r\npropositions (called the antecedents) are true.\r\nConditional Denial This kind of testimony asserts that some proposition is false if several propositions\r\nare true.\r\nNote that every proposition is either true or false.\r\nHaving collected these testimonies, you are going to solve the mystery. You want to find out if these\r\ntestimonies conflict with each other. And if not, you want to figure out the truth of this incidence; that\r\nis, you want to identify the truth of each proposition, such that all testimonies are valid.\r\nInput\r\nThe first line of input contains a single integer n, m (1 ≤ n, m ≤ 106\r\n), denoting the number of testimonies,\r\nand the number of propositions that may involve in the testimonies. The propositions are numbered 1\r\nthrough m.\r\nThen follow n lines, specifying these testimonies. Each line represents a testimony and is in the following\r\nformat.\r\nUnconditional Affirmation The line contains a single integer, the number of the proposition to\r\nconfirm.\r\nUnconditioanl Denial The line contains a single integer preceded with an exclamation mark (!).\r\nConditional Affirmation The line starts with a list of integers denoting the numbers of antecedents,\r\nfollowed by the -> symbol, and ends with an integer denoting the proposition to confirm.\r\nConditional Denial The line starts with a list of integers denoting the numbers of antecedents, followed\r\nby the -> symbol, and ends with an integer preceded with an exclamation mark denoting the\r\nconsequent proposition to deny.\r\nPage 1 of 2\n\nNote that there is exactly one space between the numbers and before and after the -> symbol, but there\r\nis no space after the exclamation mark.\r\nIt is guaranteed that the antecedents of a conditional testimony are distinct and do not contain the\r\nconsequent. Also, the total number of antecedents in all conditional testimonies does not exceed 106\r\n.\r\nOutput\r\nIf these testimonies conflict with each other, print conflict in a single line. Otherwise, print m characters\r\nwithout spacing, each being either T (representing true) or F (representing false), denoting the truth\r\nassignment to these propositions respecting the testimonies. If there are multiple possible assignments,\r\nany assignment is acceptable.\r\nExamples\r\nstandard input standard output\r\n3 3\r\n!1\r\n2 -> 1\r\n1 2 -> !3\r\nFFT\r\n6 4\r\n1 -> 2\r\n1 3 -> !2\r\n1 -> 3\r\n4 -> 2\r\n1\r\n2 3 4 -> !1\r\nconflict\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/103202/problem/C)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 3\n!1\n2 -> 1\n1 2 -> !3",
+            "output": "FFT"
+          },
+          {
+            "name": "样例 2",
+            "input": "6 4\n1 -> 2\n1 3 -> !2\n1 -> 3\n4 -> 2\n1\n2 3 4 -> !1",
+            "output": "conflict"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "Mean Streets of Gadgetzan\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nDespite being a city of opportunity, Gadgetzan is a place where gangs rule the streets.\r\nRecently, a group of robbers broke the exterior wall of the First Bank of Gadgetzan and stole several crates\r\nof jade antiques. The bank’s owner has just posted an announcement in Gadgetzan Gazette, offering a\r\ngreat quantity of arcane dust and many unused decks for the capture of perpetrators.\r\nYou, as a famous detective in Gadgetzan, have collected several testimonies from witnesses. Here is how\r\nthese testimonies may look like.\r\n“Kazakus was not at home on the day of the robbery.”\r\n“If the courier was at home, so was the Kazakus.”\r\n“If Kazakus and the courier were at home that day, then the Kazakus must not be the robber.”\r\nGenerically, each testimony is in one of the following four forms:\r\nUnconditional Affirmation This kind of testimony asserts that some proposition is true.\r\nUnconditioanl Denial This kind of testimony asserts that some proposition is false.\r\nConditional Affirmation This kind of testimony asserts that some proposition is true if several\r\npropositions (called the antecedents) are true.\r\nConditional Denial This kind of testimony asserts that some proposition is false if several propositions\r\nare true.\r\nNote that every proposition is either true or false.\r\nHaving collected these testimonies, you are going to solve the mystery. You want to find out if these\r\ntestimonies conflict with each other. And if not, you want to figure out the truth of this incidence; that\r\nis, you want to identify the truth of each proposition, such that all testimonies are valid.\r\nInput\r\nThe first line of input contains a single integer n, m (1 ≤ n, m ≤ 106\r\n), denoting the number of testimonies,\r\nand the number of propositions that may involve in the testimonies. The propositions are numbered 1\r\nthrough m.\r\nThen follow n lines, specifying these testimonies. Each line represents a testimony and is in the following\r\nformat.\r\nUnconditional Affirmation The line contains a single integer, the number of the proposition to\r\nconfirm.\r\nUnconditioanl Denial The line contains a single integer preceded with an exclamation mark (!).\r\nConditional Affirmation The line starts with a list of integers denoting the numbers of antecedents,\r\nfollowed by the -> symbol, and ends with an integer denoting the proposition to confirm.\r\nConditional Denial The line starts with a list of integers denoting the numbers of antecedents, followed\r\nby the -> symbol, and ends with an integer preceded with an exclamation mark denoting the\r\nconsequent proposition to deny.\r\nPage 1 of 2\n\nNote that there is exactly one space between the numbers and before and after the -> symbol, but there\r\nis no space after the exclamation mark.\r\nIt is guaranteed that the antecedents of a conditional testimony are distinct and do not contain the\r\nconsequent. Also, the total number of antecedents in all conditional testimonies does not exceed 106\r\n.\r\nOutput\r\nIf these testimonies conflict with each other, print conflict in a single line. Otherwise, print m characters\r\nwithout spacing, each being either T (representing true) or F (representing false), denoting the truth\r\nassignment to these propositions respecting the testimonies. If there are multiple possible assignments,\r\nany assignment is acceptable.\r\nExamples\r\nstandard input standard output\r\n3 3\r\n!1\r\n2 -> 1\r\n1 2 -> !3\r\nFFT\r\n6 4\r\n1 -> 2\r\n1 3 -> !2\r\n1 -> 3\r\n4 -> 2\r\n1\r\n2 3 4 -> !1\r\nconflict\r\nPage 2 of 2",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:103202::C",
+        "title": "Mean Streets of Gadgetzan",
+        "url": "https://codeforces.com/gym/103202/problem/C",
+        "limits": {
+          "timeMs": 4000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/103202/problem/C",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/103202",
+        "sourceRosterSha256": "5583007283cd0007bca79194188fd25d9a2e6ad58e04e03ca89b2a0f98ea4188",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "C",
+          "pdfTitle": "Mean Streets of Gadgetzan",
+          "rosterTitle": "Mean Streets of Gadgetzan",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/103202/problem/C": {
+            "sourceUrl": "https://codeforces.com/gym/103202/problem/C",
+            "sha256": "cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95",
+            "bytes": 164049,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "data": "tb-asset:cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95",
+            "fileName": "gym-103202.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/103202/problem/C",
+          "sha256": "a7e5c500623c7582eb6e89671ad929fc5ee5699e4541fcf2078e35d32fc37662",
+          "data": "tb-asset:a7e5c500623c7582eb6e89671ad929fc5ee5699e4541fcf2078e35d32fc37662",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95",
+          "fileName": "gym-103202-C.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/103202/problem/C": {
+            "sourceUrl": "https://codeforces.com/gym/103202/problem/C",
+            "sha256": "cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95",
+            "bytes": 164049,
+            "mime": "application/pdf",
+            "pageCount": 2
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:58.888953+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/103202/problem/C",
+              "sha256": "cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95"
+            },
+            {
+              "url": "https://codeforces.com/gym/103202",
+              "sha256": "5583007283cd0007bca79194188fd25d9a2e6ad58e04e03ca89b2a0f98ea4188",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/103202/problem/C",
+              "sha256": "cbb30e09b5f12d0b2f15736e7c9807cf1aa6b65e3c68f2034c1eba1904f1dc95"
+            }
+          ],
+          "markdownSha256": "6b2b52b6b53295409b1567d08da33239f90d297b4c43fd84725ba90c115716da",
+          "corpusAuditVerifiedSha256": "6b2b52b6b53295409b1567d08da33239f90d297b4c43fd84725ba90c115716da"
+        },
+        "translationAvailable": false,
+        "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+        "translationReview": {
+          "status": "withheld",
+          "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+          "inputHash": "6b2b52b6b53295409b1567d08da33239f90d297b4c43fd84725ba90c115716da"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103202::E",
+      "beforeSha256": "4ff2ff8bae4c6be624bda92e6f90453c4039a44b06051bc987a3c7828bdca944",
+      "content": {
+        "markdown": "# Knights of the Frozen Throne\n\nKnights of the Frozen Throne\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nKnights of the Frozen Throne is a famous online game developed and published by ICPC Entertainment,\r\nInc.\r\nA single server called Zeus Super Computer (ZSC) handles all requests from all players of the game.\r\nOriginally, all players’ data is stored in ZSC’s memory so that the server can respond to a request without\r\nquerying the database. However, this design hardly scales as the game becomes more and more popular.\r\nAs a great engineer in ICPC Entertainment, Tom wants to help the company save costs by using an\r\nawesome database with a very large capacity. After some investigation, Tom discovers the behavior\r\npatterns of all players, and he can accurately predict when a player will send a request. Now it’s time to\r\ndeploy his optimization design: time-based caching.\r\nTo introduce the time-based caching policy, instead of holding all players’ data in memory all the time,\r\na player’s data is retained in memory only for a while, and ZSC will drop this player’s data if he doesn’t\r\nsend any request for some time. Specifically, when the request from one player comes,\r\n• if the player’s data is not in memory, ZSC loads his data into memory and records the last request\r\ntime of the player;\r\n• if the player’s data is already in memory, ZSC responds to this request immediately, then updates\r\nthe last request time of the player.\r\nAlso, ZSC would drop a player’s data from memory if X seconds (X is a positive integer parameter to\r\nbe determined) have elapsed since his last request. In particular, if a request is sent exactly X seconds\r\nafter the player’s last request time, ZSC does have to load the player’s data into memory. Initially, ZSC’s\r\nmemory is empty.\r\nTom wants you to help him determine the best positive integer X such that the total cost is minimized.\r\nAs for the cost of CPU and memory, it costs a dollars for ZSC to hold one player’s data in memory for\r\none second. ZSC’s CPU is pretty powerful, and it costs i · bi\r\nif i players’ data is loaded in one second.\r\nInput\r\nThe input starts with a line of a single integer m (1 ≤ m ≤ 105\r\n), indicating the number of game players.\r\nThen follow m lines, specifying the predicted requests of the players. Each of them begins with a single\r\ninteger k (1 ≤ k ≤ 5 × 105\r\n), denoting the number of requests player i will send. The remaining k integers\r\np1, p2, · · · , pk (1 ≤ p1 ≤ p2 ≤ · · · ≤ pk ≤ 109\r\n) are the times(in second) predicted by Tom that the player\r\nwill send request to ZSC. It is guaranteed that the total number of requests sent by all players does not\r\nexceed 5 × 105\r\n.\r\nThe next line contains an integer a (1 ≤ a ≤ 104\r\n), the cost for ZSC to hold one player’s data in memory\r\nfor one second.\r\nThe last line contains m integers b1, b2, · · · , bm (1 ≤ bi ≤ 109\r\n), the cost of loading one player’s data if i\r\nplayers’ data is loaded in one second.\r\nOutput\r\nPrint two integers in the first line, denoting the minimum total cost and the number of different positive\r\nintegers X that can achieve this minimum cost. Then list all these values of X in increasing order in the\r\nsecond line.\r\nPage 1 of 2\n\nIt can be proved that there are finitely many different positive integers X, such that the total cost is\r\nminimized.\r\nExamples\r\nstandard input standard output\r\n4\r\n3 1 4 5\r\n2 2 4\r\n4 2 4 7 8\r\n6 1 3 5 7 8 10\r\n1\r\n2 4 6 5\r\n53 2\r\n3 4\r\n3\r\n3 1 1 4\r\n5 1 4 4 5 7\r\n3 3 4 5\r\n2\r\n6 4 3\r\n55 1\r\n1\r\nNote\r\nThe total cost of different values of X is shown in Figure 1.\r\nРис. 1: The first sample data.\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/103202/problem/E)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "4\n3 1 4 5\n2 2 4\n4 2 4 7 8\n6 1 3 5 7 8 10\n1\n2 4 6 5",
+            "output": "53 2\n3 4"
+          },
+          {
+            "name": "样例 2",
+            "input": "3\n3 1 1 4\n5 1 4 4 5 7\n3 3 4 5\n2\n6 4 3",
+            "output": "55 1\n1"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "Knights of the Frozen Throne\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nKnights of the Frozen Throne is a famous online game developed and published by ICPC Entertainment,\r\nInc.\r\nA single server called Zeus Super Computer (ZSC) handles all requests from all players of the game.\r\nOriginally, all players’ data is stored in ZSC’s memory so that the server can respond to a request without\r\nquerying the database. However, this design hardly scales as the game becomes more and more popular.\r\nAs a great engineer in ICPC Entertainment, Tom wants to help the company save costs by using an\r\nawesome database with a very large capacity. After some investigation, Tom discovers the behavior\r\npatterns of all players, and he can accurately predict when a player will send a request. Now it’s time to\r\ndeploy his optimization design: time-based caching.\r\nTo introduce the time-based caching policy, instead of holding all players’ data in memory all the time,\r\na player’s data is retained in memory only for a while, and ZSC will drop this player’s data if he doesn’t\r\nsend any request for some time. Specifically, when the request from one player comes,\r\n• if the player’s data is not in memory, ZSC loads his data into memory and records the last request\r\ntime of the player;\r\n• if the player’s data is already in memory, ZSC responds to this request immediately, then updates\r\nthe last request time of the player.\r\nAlso, ZSC would drop a player’s data from memory if X seconds (X is a positive integer parameter to\r\nbe determined) have elapsed since his last request. In particular, if a request is sent exactly X seconds\r\nafter the player’s last request time, ZSC does have to load the player’s data into memory. Initially, ZSC’s\r\nmemory is empty.\r\nTom wants you to help him determine the best positive integer X such that the total cost is minimized.\r\nAs for the cost of CPU and memory, it costs a dollars for ZSC to hold one player’s data in memory for\r\none second. ZSC’s CPU is pretty powerful, and it costs i · bi\r\nif i players’ data is loaded in one second.\r\nInput\r\nThe input starts with a line of a single integer m (1 ≤ m ≤ 105\r\n), indicating the number of game players.\r\nThen follow m lines, specifying the predicted requests of the players. Each of them begins with a single\r\ninteger k (1 ≤ k ≤ 5 × 105\r\n), denoting the number of requests player i will send. The remaining k integers\r\np1, p2, · · · , pk (1 ≤ p1 ≤ p2 ≤ · · · ≤ pk ≤ 109\r\n) are the times(in second) predicted by Tom that the player\r\nwill send request to ZSC. It is guaranteed that the total number of requests sent by all players does not\r\nexceed 5 × 105\r\n.\r\nThe next line contains an integer a (1 ≤ a ≤ 104\r\n), the cost for ZSC to hold one player’s data in memory\r\nfor one second.\r\nThe last line contains m integers b1, b2, · · · , bm (1 ≤ bi ≤ 109\r\n), the cost of loading one player’s data if i\r\nplayers’ data is loaded in one second.\r\nOutput\r\nPrint two integers in the first line, denoting the minimum total cost and the number of different positive\r\nintegers X that can achieve this minimum cost. Then list all these values of X in increasing order in the\r\nsecond line.\r\nPage 1 of 2\n\nIt can be proved that there are finitely many different positive integers X, such that the total cost is\r\nminimized.\r\nExamples\r\nstandard input standard output\r\n4\r\n3 1 4 5\r\n2 2 4\r\n4 2 4 7 8\r\n6 1 3 5 7 8 10\r\n1\r\n2 4 6 5\r\n53 2\r\n3 4\r\n3\r\n3 1 1 4\r\n5 1 4 4 5 7\r\n3 3 4 5\r\n2\r\n6 4 3\r\n55 1\r\n1\r\nNote\r\nThe total cost of different values of X is shown in Figure 1.\r\nРис. 1: The first sample data.\r\nPage 2 of 2",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "83623b6d2fe78182bcb66858b670e1e57ae59c61f14d85d32d8790b787ec7026",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:103202::E",
+        "title": "Knights of the Frozen Throne",
+        "url": "https://codeforces.com/gym/103202/problem/E",
+        "limits": {
+          "timeMs": 2000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/103202/problem/E",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/103202",
+        "sourceRosterSha256": "a73ef96fb2b828c86a9d0e1cd077746ff8c53167dd71b1a0a68bc72d9ab550d4",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "E",
+          "pdfTitle": "Knights of the Frozen Throne",
+          "rosterTitle": "Knights of the Frozen Throne",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/103202/problem/E": {
+            "sourceUrl": "https://codeforces.com/gym/103202/problem/E",
+            "sha256": "83623b6d2fe78182bcb66858b670e1e57ae59c61f14d85d32d8790b787ec7026",
+            "bytes": 185118,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "data": "tb-asset:83623b6d2fe78182bcb66858b670e1e57ae59c61f14d85d32d8790b787ec7026",
+            "fileName": "gym-103202.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/103202/problem/E",
+          "sha256": "f1749d5a0911cbde395f69378ebe7c4be7a3184b54e3893dcc21b5564b96b845",
+          "data": "tb-asset:f1749d5a0911cbde395f69378ebe7c4be7a3184b54e3893dcc21b5564b96b845",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "83623b6d2fe78182bcb66858b670e1e57ae59c61f14d85d32d8790b787ec7026",
+          "fileName": "gym-103202-E.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/103202/problem/E": {
+            "sourceUrl": "https://codeforces.com/gym/103202/problem/E",
+            "sha256": "83623b6d2fe78182bcb66858b670e1e57ae59c61f14d85d32d8790b787ec7026",
+            "bytes": 185118,
+            "mime": "application/pdf",
+            "pageCount": 2
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:58.902076+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/103202/problem/E",
+              "sha256": "83623b6d2fe78182bcb66858b670e1e57ae59c61f14d85d32d8790b787ec7026"
+            },
+            {
+              "url": "https://codeforces.com/gym/103202",
+              "sha256": "a73ef96fb2b828c86a9d0e1cd077746ff8c53167dd71b1a0a68bc72d9ab550d4",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/103202/problem/E",
+              "sha256": "83623b6d2fe78182bcb66858b670e1e57ae59c61f14d85d32d8790b787ec7026"
+            }
+          ],
+          "markdownSha256": "d2b5e2c7e22fc15aaa3159de6356363d3b7dd3df22f2b973feb23a5af136a614",
+          "corpusAuditVerifiedSha256": "d2b5e2c7e22fc15aaa3159de6356363d3b7dd3df22f2b973feb23a5af136a614"
+        },
+        "translationAvailable": false,
+        "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+        "translationReview": {
+          "status": "withheld",
+          "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+          "inputHash": "d2b5e2c7e22fc15aaa3159de6356363d3b7dd3df22f2b973feb23a5af136a614"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103202::K",
+      "beforeSha256": "d77622abd074484fc9449e95cf5f9e6b0e78c469426bdcac7e3e6ceb8c0cd8d2",
+      "content": {
+        "markdown": "# Scholomance Academy\n\nScholomance Academy\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nAs a student of the Scholomance Academy, you are studying a course called Machine Learning. You are\r\ncurrently working on your course project: training a binary classifier.\r\nA binary classifier is an algorithm that predicts the classes of instances, which may be positive (+) or\r\nnegative (-). A typical binary classifier consists of a scoring function S that gives a score for every instance\r\nand a threshold θ that determines the category. Specifically, if the score of an instance S(x) ≥ θ, then\r\nthe instance x is classified as positive; otherwise, it is classified as negative. Clearly, choosing different\r\nthresholds may yield different classifiers.\r\nOf course, a binary classifier may have misclassification: it could either classify a positive instance as\r\nnegative (false negative) or classify a negative instance as positive (false positive).\r\nPredicted class\r\nActual class Positive Negative\r\nPositive True positive (TP) False negative (FN )\r\nNegative False positive (FP) True negative (TN )\r\nТаблица 1: Predicted classes and actual classes.\r\nGiven a dataset and a classifier, we may define the true positive rate (TPR) and the false positive rate\r\n(FPR) as follows:\r\nTPR = #TP\r\n#TP + #FN\r\n, FPR = #FP\r\n#TN + #FP\r\nwhere #TP is the number of true positives in the dataset; #FP, #TN , #FN are defined likewise.\r\nNow you have trained a scoring function, and you want to evaluate the performance of your classifier.\r\nThe classifier may exhibit different TPR and FPR if we change the threshold θ. Let TPR(θ), FPR(θ) be\r\nthe TPR, FPR when the threshold is θ, define the area under curve (AUC) as\r\nAUC = Z 1\r\n0\r\nmax\r\nθ∈R\r\n{TPR(θ)|FPR(θ) ≤ r}dr\r\nwhere the integrand, called receiver operating characteristic (ROC), means the maximum possible of TPR\r\ngiven that FPR ≤ r.\r\nGiven the actual classes and predicted scores of the instances in a dataset, can you compute the AUC of\r\nyour classifier?\r\nFor example, consider the third test data. If we set threshold θ = 30, there are 3 true positives, 2 false\r\npositives, 2 true negatives, and 1 false negative; hence, TPR(30) = 0.75 and FPR(30) = 0.5. Also, as θ\r\nvaries, we may plot the ROC curve and compute the AUC accordingly, as shown in Figure 1.\r\nInput\r\nThe first line contains a single integer n (2 ≤ n ≤ 106\r\n), the number of instances in the dataset. Then\r\nfollow n lines, each line containing a character c ∈ {+, -} and an integer s (1 ≤ s ≤ 109\r\n), denoting the\r\nactual class and the predicted score of an instance.\r\nIt is guaranteed that there is at least one instance of either class.\r\nOutput\r\nPrint the AUC of your classifier within an absolute error of no more than 10−9\r\n.\r\nPage 1 of 2\n\n\u0001\u0001 \u0001 \u0001\u0004 \u0001\u0005 \u0001\u0006 \u0001\r\n\u0007\b\t\r\n\u0001\u0001\r\n\u0001\r\n\u0001\u0004\r\n\u0001\u0005\r\n\u0001\u0006\r\n\u0001\r\n\n\b\t\r\nРис. 1: ROC and AUC of the third sample data.\r\nExamples\r\nstandard input standard output\r\n3\r\n+ 2\r\n- 3\r\n- 1\r\n0.5\r\n6\r\n+ 7\r\n- 2\r\n- 5\r\n+ 4\r\n- 2\r\n+ 6\r\n0.888888888888889\r\n8\r\n+ 34\r\n+ 33\r\n+ 26\r\n- 34\r\n- 38\r\n+ 39\r\n- 7\r\n- 27\r\n0.5625\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/103202/problem/K)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n+ 2\n- 3\n- 1",
+            "output": "0.5"
+          },
+          {
+            "name": "样例 2",
+            "input": "6\n+ 7\n- 2\n- 5\n+ 4\n- 2\n+ 6",
+            "output": "0.888888888888889"
+          },
+          {
+            "name": "样例 3",
+            "input": "8\n+ 34\n+ 33\n+ 26\n- 34\n- 38\n+ 39\n- 7\n- 27",
+            "output": "0.5625"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "Scholomance Academy\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 1024 megabytes\r\nAs a student of the Scholomance Academy, you are studying a course called Machine Learning. You are\r\ncurrently working on your course project: training a binary classifier.\r\nA binary classifier is an algorithm that predicts the classes of instances, which may be positive (+) or\r\nnegative (-). A typical binary classifier consists of a scoring function S that gives a score for every instance\r\nand a threshold θ that determines the category. Specifically, if the score of an instance S(x) ≥ θ, then\r\nthe instance x is classified as positive; otherwise, it is classified as negative. Clearly, choosing different\r\nthresholds may yield different classifiers.\r\nOf course, a binary classifier may have misclassification: it could either classify a positive instance as\r\nnegative (false negative) or classify a negative instance as positive (false positive).\r\nPredicted class\r\nActual class Positive Negative\r\nPositive True positive (TP) False negative (FN )\r\nNegative False positive (FP) True negative (TN )\r\nТаблица 1: Predicted classes and actual classes.\r\nGiven a dataset and a classifier, we may define the true positive rate (TPR) and the false positive rate\r\n(FPR) as follows:\r\nTPR = #TP\r\n#TP + #FN\r\n, FPR = #FP\r\n#TN + #FP\r\nwhere #TP is the number of true positives in the dataset; #FP, #TN , #FN are defined likewise.\r\nNow you have trained a scoring function, and you want to evaluate the performance of your classifier.\r\nThe classifier may exhibit different TPR and FPR if we change the threshold θ. Let TPR(θ), FPR(θ) be\r\nthe TPR, FPR when the threshold is θ, define the area under curve (AUC) as\r\nAUC = Z 1\r\n0\r\nmax\r\nθ∈R\r\n{TPR(θ)|FPR(θ) ≤ r}dr\r\nwhere the integrand, called receiver operating characteristic (ROC), means the maximum possible of TPR\r\ngiven that FPR ≤ r.\r\nGiven the actual classes and predicted scores of the instances in a dataset, can you compute the AUC of\r\nyour classifier?\r\nFor example, consider the third test data. If we set threshold θ = 30, there are 3 true positives, 2 false\r\npositives, 2 true negatives, and 1 false negative; hence, TPR(30) = 0.75 and FPR(30) = 0.5. Also, as θ\r\nvaries, we may plot the ROC curve and compute the AUC accordingly, as shown in Figure 1.\r\nInput\r\nThe first line contains a single integer n (2 ≤ n ≤ 106\r\n), the number of instances in the dataset. Then\r\nfollow n lines, each line containing a character c ∈ {+, -} and an integer s (1 ≤ s ≤ 109\r\n), denoting the\r\nactual class and the predicted score of an instance.\r\nIt is guaranteed that there is at least one instance of either class.\r\nOutput\r\nPrint the AUC of your classifier within an absolute error of no more than 10−9\r\n.\r\nPage 1 of 2\n\n\u0001\u0001 \u0001 \u0001\u0004 \u0001\u0005 \u0001\u0006 \u0001\r\n\u0007\b\t\r\n\u0001\u0001\r\n\u0001\r\n\u0001\u0004\r\n\u0001\u0005\r\n\u0001\u0006\r\n\u0001\r\n\n\b\t\r\nРис. 1: ROC and AUC of the third sample data.\r\nExamples\r\nstandard input standard output\r\n3\r\n+ 2\r\n- 3\r\n- 1\r\n0.5\r\n6\r\n+ 7\r\n- 2\r\n- 5\r\n+ 4\r\n- 2\r\n+ 6\r\n0.888888888888889\r\n8\r\n+ 34\r\n+ 33\r\n+ 26\r\n- 34\r\n- 38\r\n+ 39\r\n- 7\r\n- 27\r\n0.5625\r\nPage 2 of 2",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:103202::K",
+        "title": "Scholomance Academy",
+        "url": "https://codeforces.com/gym/103202/problem/K",
+        "limits": {
+          "timeMs": 4000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/103202/problem/K",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/103202",
+        "sourceRosterSha256": "36d9ada7d131c3362fff97da3df38393df3bd11b4b062f48ac20661d891a3f1b",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "K",
+          "pdfTitle": "Scholomance Academy",
+          "rosterTitle": "Scholomance Academy",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/103202/problem/K": {
+            "sourceUrl": "https://codeforces.com/gym/103202/problem/K",
+            "sha256": "70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb",
+            "bytes": 189701,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "data": "tb-asset:70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb",
+            "fileName": "gym-103202.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/103202/problem/K",
+          "sha256": "758ab2dd0cfbf6dfd973a552079296fd5894e19d905f9795cafe253d43d50e46",
+          "data": "tb-asset:758ab2dd0cfbf6dfd973a552079296fd5894e19d905f9795cafe253d43d50e46",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb",
+          "fileName": "gym-103202-K.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/103202/problem/K": {
+            "sourceUrl": "https://codeforces.com/gym/103202/problem/K",
+            "sha256": "70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb",
+            "bytes": 189701,
+            "mime": "application/pdf",
+            "pageCount": 2
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 3,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:58.927414+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/103202/problem/K",
+              "sha256": "70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb"
+            },
+            {
+              "url": "https://codeforces.com/gym/103202",
+              "sha256": "36d9ada7d131c3362fff97da3df38393df3bd11b4b062f48ac20661d891a3f1b",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/103202/problem/K",
+              "sha256": "70f2953aa544c0815be86474fb0c88f2d4850f22b6516f3c036ad12d21201aeb"
+            }
+          ],
+          "markdownSha256": "37ea497e62fcd29c2ad73f07606e4d8b9ee9bdd1f1b24a0b239d2d7d23fee292",
+          "corpusAuditVerifiedSha256": "37ea497e62fcd29c2ad73f07606e4d8b9ee9bdd1f1b24a0b239d2d7d23fee292"
+        },
+        "translationAvailable": false,
+        "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+        "translationReview": {
+          "status": "withheld",
+          "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+          "inputHash": "37ea497e62fcd29c2ad73f07606e4d8b9ee9bdd1f1b24a0b239d2d7d23fee292"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:104172::G",
+      "beforeSha256": "574b42491aee8f93ae1970b5338565f2df0fef5f2d4c79a5c750b82fe30bebb7",
+      "content": {
+        "markdown": "# Paddle Star\n\nPaddle Star\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 mebibytes\r\nPutata is fascinated with playing Zoe these days. Putata is practicing Zoe’s ability, paddle star at this\r\nmoment.\r\nThis ability allows Zoe to fire a star that she can redirect in flight. The damage dealt by the star is\r\npositively correlated to its flying distance. Formally, assume Zoe is currently at point X and she fires in\r\nany direction. At any moment, Zoe can change the direction of the star. If the star is at point Y , and the\r\nnew direction leads to some point Z, then the track of the star will be X → Y → Z. If the star meets\r\nany enemy on its trace, it will immediately disappear and cause damage to the enemy.\r\nSince Putata is not skilled enough to control this ability, the stars he fires always fit the following\r\nrestrictions. The first segment XY always has length `1, and the second segment Y Z always has length\r\n`2. Assume Zoe is facing direction −−→XP (which is a certain direction), and let h\r\n−−→XP ,\r\n−−→XY i be θ degrees,\r\nh\r\n−−→XY ,\r\n−−→Y Zi be φ degrees, then θ ∈ [−α, α] and φ ∈ [−β, β]. You can refer to the following picture to help\r\nyou understand.\r\nX\r\nY\r\nZ\r\nP\r\nφ\r\nθ\r\nPutata’s rival, Budada, wants to know the total area that could possibly be attacked by Putata’s Zoe.\r\nHowever, Budada is busy with math problems, so he wants you to help him solve this problem.\r\nInput\r\nThe first line contains one integer T (1 ≤ T ≤ 105\r\n), the number of test cases.\r\nFor each test case, the input is a single line containing four integers `1, `2, α and β (1 ≤ `2 ≤ `1 ≤ 109\r\n,\r\n0 ≤ α ≤ 90, 0 ≤ β < 180), indicating the attributes of the ability.\r\nOutput\r\nPrint one line for each test case, containing one real number indicating the answer.\r\nYour answer will be considered correct if its absolute or relative error does not exceed 10−6\r\n. Formally, let\r\nyour answer be a, and the jury’s answer be b. Your answer will be considered correct if |a−b|\r\nmax(1,|b|) ≤ 10−6\r\n.\r\nExample\r\nstandard input standard output\r\n5\r\n2 1 20 20\r\n3 3 0 0\r\n20 20 90 120\r\n20 10 50 170\r\n100 10 1 93\r\n3.490658503988659\r\n0.000000000000000\r\n3367.157611906510738\r\n1098.863278984081717\r\n373.960489570087645\r\nPage 1 of 1\n\n[PDF](https://codeforces.com/gym/104172/problem/G)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "5\n2 1 20 20\n3 3 0 0\n20 20 90 120\n20 10 50 170\n100 10 1 93",
+            "output": "3.490658503988659\n0.000000000000000\n3367.157611906510738\n1098.863278984081717\n373.960489570087645"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "Paddle Star\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 mebibytes\r\nPutata is fascinated with playing Zoe these days. Putata is practicing Zoe’s ability, paddle star at this\r\nmoment.\r\nThis ability allows Zoe to fire a star that she can redirect in flight. The damage dealt by the star is\r\npositively correlated to its flying distance. Formally, assume Zoe is currently at point X and she fires in\r\nany direction. At any moment, Zoe can change the direction of the star. If the star is at point Y , and the\r\nnew direction leads to some point Z, then the track of the star will be X → Y → Z. If the star meets\r\nany enemy on its trace, it will immediately disappear and cause damage to the enemy.\r\nSince Putata is not skilled enough to control this ability, the stars he fires always fit the following\r\nrestrictions. The first segment XY always has length `1, and the second segment Y Z always has length\r\n`2. Assume Zoe is facing direction −−→XP (which is a certain direction), and let h\r\n−−→XP ,\r\n−−→XY i be θ degrees,\r\nh\r\n−−→XY ,\r\n−−→Y Zi be φ degrees, then θ ∈ [−α, α] and φ ∈ [−β, β]. You can refer to the following picture to help\r\nyou understand.\r\nX\r\nY\r\nZ\r\nP\r\nφ\r\nθ\r\nPutata’s rival, Budada, wants to know the total area that could possibly be attacked by Putata’s Zoe.\r\nHowever, Budada is busy with math problems, so he wants you to help him solve this problem.\r\nInput\r\nThe first line contains one integer T (1 ≤ T ≤ 105\r\n), the number of test cases.\r\nFor each test case, the input is a single line containing four integers `1, `2, α and β (1 ≤ `2 ≤ `1 ≤ 109\r\n,\r\n0 ≤ α ≤ 90, 0 ≤ β < 180), indicating the attributes of the ability.\r\nOutput\r\nPrint one line for each test case, containing one real number indicating the answer.\r\nYour answer will be considered correct if its absolute or relative error does not exceed 10−6\r\n. Formally, let\r\nyour answer be a, and the jury’s answer be b. Your answer will be considered correct if |a−b|\r\nmax(1,|b|) ≤ 10−6\r\n.\r\nExample\r\nstandard input standard output\r\n5\r\n2 1 20 20\r\n3 3 0 0\r\n20 20 90 120\r\n20 10 50 170\r\n100 10 1 93\r\n3.490658503988659\r\n0.000000000000000\r\n3367.157611906510738\r\n1098.863278984081717\r\n373.960489570087645\r\nPage 1 of 1",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:104172::G",
+        "title": "Paddle Star",
+        "url": "https://codeforces.com/gym/104172/problem/G",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/104172/problem/G",
+        "sourcePageNumbers": [
+          1
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/104172",
+        "sourceRosterSha256": "8f99af3743af98060e2e244289697ecbe97e22965cf6a9221ad73f59cb985a4e",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "G",
+          "pdfTitle": "Paddle Star",
+          "rosterTitle": "Paddle Star",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/104172/problem/G": {
+            "sourceUrl": "https://codeforces.com/gym/104172/problem/G",
+            "sha256": "e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9",
+            "bytes": 166855,
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "data": "tb-asset:e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9",
+            "fileName": "gym-104172.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/104172/problem/G",
+          "sha256": "5ab6f19fc30fbcf39ce909ddceae18d90c6d84eb2e409b8a456763894b9665c1",
+          "data": "tb-asset:5ab6f19fc30fbcf39ce909ddceae18d90c6d84eb2e409b8a456763894b9665c1",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            1
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9",
+          "fileName": "gym-104172-G.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/104172/problem/G": {
+            "sourceUrl": "https://codeforces.com/gym/104172/problem/G",
+            "sha256": "e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9",
+            "bytes": 166855,
+            "mime": "application/pdf",
+            "pageCount": 1
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:59.346774+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/104172/problem/G",
+              "sha256": "e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9"
+            },
+            {
+              "url": "https://codeforces.com/gym/104172",
+              "sha256": "8f99af3743af98060e2e244289697ecbe97e22965cf6a9221ad73f59cb985a4e",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/104172/problem/G",
+              "sha256": "e5af5814140582725023549c91a2d0bda830e18db27dd58660594d2079c676b9"
+            }
+          ],
+          "markdownSha256": "a9c083a9df819058be9cec0d05aea6823d497637f121276a4c8f9850cfe442f3",
+          "corpusAuditVerifiedSha256": "a9c083a9df819058be9cec0d05aea6823d497637f121276a4c8f9850cfe442f3"
+        },
+        "translationAvailable": false,
+        "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+        "translationReview": {
+          "status": "withheld",
+          "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+          "inputHash": "a9c083a9df819058be9cec0d05aea6823d497637f121276a4c8f9850cfe442f3"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:104385::L",
+      "beforeSha256": "94fbee589ad1db0d5c681aed81a2120063aaa9d336497e32b905705a75deca82",
+      "content": {
+        "markdown": "# Zhang Fei Threading Needles - Thick with Fine\n\nZhang Fei Threading Needles - Thick with Fine\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nThe meaning of \"Zhang Fei threading needles - thick with fine\": People like Zhang Fei who appear careless\r\nalso have a meticulous side. Tell us not to look at the surface when looking at people, as each person’s\r\nbody contains abilities that others do not know.\r\nWhen it comes to Zhang Fei, the words \"rude and reckless\"come to mind. Especially his roar on the\r\nChangban Bridge in Dangyang scared away Cao Cao’s million strong army. General Xia Houjie was\r\nstartled to the point where his liver and gallbladder were shattered and he crashed into the horse. Even\r\nthe river under the bridge flows backwards, which can be said to be shocking and deeply remembered,\r\nand has shaken the hearts of countless generations for thousands of years.\r\nIn his military career, whether it was capturing Liu Dai and Shi Yanyan, or in battles such as the powerful\r\nChangban Bridge and the Eight Mongs winning Zhang He, he repeatedly made remarkable achievements\r\nand became famous among the three armies, making ordinary people stand out. Therefore, there is a folk\r\nsaying of \"Zhang Fei threading needles - thick with fine\".\r\nDo you know how many people on the Changban Bridge were scared away by Zhang Fei’s angry roar back\r\nthen?\r\nExplanation: General Xia Houjie was shocked to the point where his liver and gallbladder were shattered\r\nand he crashed into the horse, so he stayed in the local area and was not included in the number of people\r\nwho were scared away.\r\nInput\r\nThe input is an integer N (1 ≤ N ≤ 1000000) , representing the number of Cao Cao’s troops in front of\r\nthe Changban Bridge.\r\nOutput\r\nThe output is an integer, which is the number of Cao Cao’s troops that Zhang Fei scared away with a\r\nroar.\r\nExample\r\nstandard input standard output\r\n500000 499999\r\nPage 1 of 1\n\n[PDF](https://codeforces.com/gym/104385/problem/L)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "500000",
+            "output": "499999"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "Zhang Fei Threading Needles - Thick with Fine\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nThe meaning of \"Zhang Fei threading needles - thick with fine\": People like Zhang Fei who appear careless\r\nalso have a meticulous side. Tell us not to look at the surface when looking at people, as each person’s\r\nbody contains abilities that others do not know.\r\nWhen it comes to Zhang Fei, the words \"rude and reckless\"come to mind. Especially his roar on the\r\nChangban Bridge in Dangyang scared away Cao Cao’s million strong army. General Xia Houjie was\r\nstartled to the point where his liver and gallbladder were shattered and he crashed into the horse. Even\r\nthe river under the bridge flows backwards, which can be said to be shocking and deeply remembered,\r\nand has shaken the hearts of countless generations for thousands of years.\r\nIn his military career, whether it was capturing Liu Dai and Shi Yanyan, or in battles such as the powerful\r\nChangban Bridge and the Eight Mongs winning Zhang He, he repeatedly made remarkable achievements\r\nand became famous among the three armies, making ordinary people stand out. Therefore, there is a folk\r\nsaying of \"Zhang Fei threading needles - thick with fine\".\r\nDo you know how many people on the Changban Bridge were scared away by Zhang Fei’s angry roar back\r\nthen?\r\nExplanation: General Xia Houjie was shocked to the point where his liver and gallbladder were shattered\r\nand he crashed into the horse, so he stayed in the local area and was not included in the number of people\r\nwho were scared away.\r\nInput\r\nThe input is an integer N (1 ≤ N ≤ 1000000) , representing the number of Cao Cao’s troops in front of\r\nthe Changban Bridge.\r\nOutput\r\nThe output is an integer, which is the number of Cao Cao’s troops that Zhang Fei scared away with a\r\nroar.\r\nExample\r\nstandard input standard output\r\n500000 499999\r\nPage 1 of 1",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "3fe16baf141ac39c985dc51450ac4907b6703b65d822c132664156549b881b0c",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:104385::L",
+        "title": "Zhang Fei Threading Needles - Thick with Fine",
+        "url": "https://codeforces.com/gym/104385/problem/L",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 512
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/104385/problem/L",
+        "sourcePageNumbers": [
+          1
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/104385",
+        "sourceRosterSha256": "102c4640fe7d43bcda8afab3e528bcf846390525a5b2bd18dc8958a0d45ecf52",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "L",
+          "pdfTitle": "Zhang Fei Threading Needles - Thick with Fine",
+          "rosterTitle": "Zhang Fei Threading Needles - Thick with Fine",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/104385/problem/L": {
+            "sourceUrl": "https://codeforces.com/gym/104385/problem/L",
+            "sha256": "3fe16baf141ac39c985dc51450ac4907b6703b65d822c132664156549b881b0c",
+            "bytes": 240424,
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "data": "tb-asset:3fe16baf141ac39c985dc51450ac4907b6703b65d822c132664156549b881b0c",
+            "fileName": "gym-104385.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/104385/problem/L",
+          "sha256": "aacf0e7936e6401c18a04f749a92eddc9f7c52141885a80726e7685ab088d8d8",
+          "data": "tb-asset:aacf0e7936e6401c18a04f749a92eddc9f7c52141885a80726e7685ab088d8d8",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            1
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "3fe16baf141ac39c985dc51450ac4907b6703b65d822c132664156549b881b0c",
+          "fileName": "gym-104385-L.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/104385/problem/L": {
+            "sourceUrl": "https://codeforces.com/gym/104385/problem/L",
+            "sha256": "3fe16baf141ac39c985dc51450ac4907b6703b65d822c132664156549b881b0c",
+            "bytes": 240424,
+            "mime": "application/pdf",
+            "pageCount": 1
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:59.387876+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/104385/problem/L",
+              "sha256": "3fe16baf141ac39c985dc51450ac4907b6703b65d822c132664156549b881b0c"
+            },
+            {
+              "url": "https://codeforces.com/gym/104385",
+              "sha256": "102c4640fe7d43bcda8afab3e528bcf846390525a5b2bd18dc8958a0d45ecf52",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/104385/problem/L",
+              "sha256": "3fe16baf141ac39c985dc51450ac4907b6703b65d822c132664156549b881b0c"
+            }
+          ],
+          "markdownSha256": "621ce54e2f361894371f6cf1cbe09928f5687cb30c0503b685f3bd9e55ee9941",
+          "corpusAuditVerifiedSha256": "621ce54e2f361894371f6cf1cbe09928f5687cb30c0503b685f3bd9e55ee9941"
+        },
+        "translationAvailable": false,
+        "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+        "translationReview": {
+          "status": "withheld",
+          "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+          "inputHash": "621ce54e2f361894371f6cf1cbe09928f5687cb30c0503b685f3bd9e55ee9941"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:104857::L",
+      "beforeSha256": "227a37dce81305264b39cbfc3febaabd27c249965465c097101f3f9fe9de41ca",
+      "content": {
+        "markdown": "# Information Spread\n\nInformation Spread\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 3 seconds\r\nMemory limit: 512 megabytes\r\nIn Mr. Ham’s class, there are n students numbered from 1 to n. One day, a student 1 learns a piece of\r\ninformation. Subsequently, the students initiate the process of spreading the information to each other.\r\nThe relationships among the students are represented by a directed graph with n vertices and m edges.\r\nEach edge has a weight w, a real number between 0 and 1 (inclusive). The process of information spreading\r\nis carried out according to the following pseudocode:\r\nAlgorithm 1 SPREAD\r\n1: Let aware[1..n] be a new array initialized as F alse\r\n2: Let visited[1..n] be a new array initialized as F alse\r\n3: procedure DFS(u)\r\n4: if visited[u] then\r\n5: return\r\n6: end if\r\n7: visited[u] ← T rue\r\n8: for (u, v, w) ∈ edges starting from u do\r\n9: . Enumerate edges in the order of input /\r\n10: if aware[u] and not aware[v] then\r\n11: with probability w, aware[v] ← T rue\r\n12: end if\r\n13: DF S(v)\r\n14: end for\r\n15: end procedure\r\n16: procedure SPREAD\r\n17: aware[1] ← T rue . The first student knows the information at the beginning\r\n18: DF S(1)\r\n19: end procedure\r\nPlease compute the probability that student i becomes aware of the information through this process, for\r\nall 1 ≤ i ≤ n. In other words, calculate the probability of aware[u] being T rue in the above pseudocode.\r\nInput\r\nThe first line contains two integers n and m (3 ≤ n ≤ 105\r\n, n − 1 ≤ m ≤ 3 · 105\r\n), denoting the number of\r\nstudents and the number of relationships.\r\nThe next m lines each contains four integers ui\r\n, vi\r\n, pi and qi (1 ≤ ai\r\n, bi ≤ n, 0 ≤ pi ≤ qi ≤ 105\r\n, qi 6= 0),\r\ndenoting a relationship from student ui to student vi with a weight wi =\r\npi\r\nqi\r\n.\r\nIt is guaranteed that there is no relationship from student i to student i (1 ≤ i ≤ n), and there is at most\r\none relationship from student i to student j (1 ≤ i, j ≤ n). It is also guaranteed that all students can be\r\nreached from student 1 in the process.\r\nOutput\r\nOutput n lines, the i-th line contains a single integer xi denoting the probability that student i becomes\r\naware of the information after the process modulo 998 244 353.\r\nFormally, it can be proven that the answer is a rational number p\r\nq\r\n. To avoid issues related to precisions,\r\nplease output the integer (pq−1 mod M) as the answer, where M = 998 244 353 and q\r\n−1\r\nis the integer\r\nsatisfying qq−1 ≡ 1 (mod M).\r\nPage 1 of 2\n\nExamples\r\nstandard input standard output\r\n4 4\r\n1 2 1 2\r\n2 3 1 2\r\n2 4 1 2\r\n4 3 1 1\r\n1\r\n499122177\r\n623902721\r\n748683265\r\n6 12\r\n1 2 81804 95651\r\n2 3 39701 95895\r\n2 4 6178 17992\r\n3 5 72756 84510\r\n5 6 40007 83640\r\n2 6 60491 92219\r\n5 3 37590 47735\r\n4 5 6867 20289\r\n4 3 75051 93231\r\n6 5 48102 54448\r\n6 1 40190 45274\r\n1 5 37010 60312\r\n1\r\n947252499\r\n124986918\r\n535320090\r\n929273289\r\n551177734\r\nNote\r\nFor the first example, the process unfolds as follows:\r\n• Student 1 knows the information initially.\r\n• We choose the edge (1, 2,\r\n1\r\n2\r\n). As a result, student 2 becomes aware of the information with a\r\nprobability of 1\r\n2\r\n.\r\n• We choose the edge (2, 3,\r\n1\r\n2\r\n).\r\n• We choose the edge (2, 4,\r\n1\r\n2\r\n). Consequently, student 4 becomes aware of the information with a\r\nprobability of 1\r\n2 ×\r\n1\r\n2 =\r\n1\r\n4\r\n.\r\n• We choose the edge (4, 3, 1).\r\nNow, let’s analyze the scenario where student 3 remains unaware of the information. This can happen in\r\ntwo cases:\r\n• Student 2 did not become aware when we selected the edge (1, 2,\r\n1\r\n2\r\n).\r\n• Student 2 became aware when we selected the edge (1, 2,\r\n1\r\n2\r\n), but student 3 did not become aware\r\nwhen we selected the edge (2, 3,\r\n1\r\n2\r\n), and student 4 did not become aware when we selected the edge\r\n(2, 4,\r\n1\r\n2\r\n).\r\nTherefore, the probability of student 3 becoming aware is given by: 1 −\r\n1\r\n2 −\r\n1\r\n2 ×\r\n1\r\n2 ×\r\n1\r\n2 =\r\n3\r\n8\r\n.\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/104857/problem/L)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "4 4\n1 2 1 2\n2 3 1 2\n2 4 1 2\n4 3 1 1",
+            "output": "1\n499122177\n623902721\n748683265"
+          },
+          {
+            "name": "样例 2",
+            "input": "6 12\n1 2 81804 95651\n2 3 39701 95895\n2 4 6178 17992\n3 5 72756 84510\n5 6 40007 83640\n2 6 60491 92219\n5 3 37590 47735\n4 5 6867 20289\n4 3 75051 93231\n6 5 48102 54448\n6 1 40190 45274\n1 5 37010 60312",
+            "output": "1\n947252499\n124986918\n535320090\n929273289\n551177734"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "Information Spread\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 3 seconds\r\nMemory limit: 512 megabytes\r\nIn Mr. Ham’s class, there are n students numbered from 1 to n. One day, a student 1 learns a piece of\r\ninformation. Subsequently, the students initiate the process of spreading the information to each other.\r\nThe relationships among the students are represented by a directed graph with n vertices and m edges.\r\nEach edge has a weight w, a real number between 0 and 1 (inclusive). The process of information spreading\r\nis carried out according to the following pseudocode:\r\nAlgorithm 1 SPREAD\r\n1: Let aware[1..n] be a new array initialized as F alse\r\n2: Let visited[1..n] be a new array initialized as F alse\r\n3: procedure DFS(u)\r\n4: if visited[u] then\r\n5: return\r\n6: end if\r\n7: visited[u] ← T rue\r\n8: for (u, v, w) ∈ edges starting from u do\r\n9: . Enumerate edges in the order of input /\r\n10: if aware[u] and not aware[v] then\r\n11: with probability w, aware[v] ← T rue\r\n12: end if\r\n13: DF S(v)\r\n14: end for\r\n15: end procedure\r\n16: procedure SPREAD\r\n17: aware[1] ← T rue . The first student knows the information at the beginning\r\n18: DF S(1)\r\n19: end procedure\r\nPlease compute the probability that student i becomes aware of the information through this process, for\r\nall 1 ≤ i ≤ n. In other words, calculate the probability of aware[u] being T rue in the above pseudocode.\r\nInput\r\nThe first line contains two integers n and m (3 ≤ n ≤ 105\r\n, n − 1 ≤ m ≤ 3 · 105\r\n), denoting the number of\r\nstudents and the number of relationships.\r\nThe next m lines each contains four integers ui\r\n, vi\r\n, pi and qi (1 ≤ ai\r\n, bi ≤ n, 0 ≤ pi ≤ qi ≤ 105\r\n, qi 6= 0),\r\ndenoting a relationship from student ui to student vi with a weight wi =\r\npi\r\nqi\r\n.\r\nIt is guaranteed that there is no relationship from student i to student i (1 ≤ i ≤ n), and there is at most\r\none relationship from student i to student j (1 ≤ i, j ≤ n). It is also guaranteed that all students can be\r\nreached from student 1 in the process.\r\nOutput\r\nOutput n lines, the i-th line contains a single integer xi denoting the probability that student i becomes\r\naware of the information after the process modulo 998 244 353.\r\nFormally, it can be proven that the answer is a rational number p\r\nq\r\n. To avoid issues related to precisions,\r\nplease output the integer (pq−1 mod M) as the answer, where M = 998 244 353 and q\r\n−1\r\nis the integer\r\nsatisfying qq−1 ≡ 1 (mod M).\r\nPage 1 of 2\n\nExamples\r\nstandard input standard output\r\n4 4\r\n1 2 1 2\r\n2 3 1 2\r\n2 4 1 2\r\n4 3 1 1\r\n1\r\n499122177\r\n623902721\r\n748683265\r\n6 12\r\n1 2 81804 95651\r\n2 3 39701 95895\r\n2 4 6178 17992\r\n3 5 72756 84510\r\n5 6 40007 83640\r\n2 6 60491 92219\r\n5 3 37590 47735\r\n4 5 6867 20289\r\n4 3 75051 93231\r\n6 5 48102 54448\r\n6 1 40190 45274\r\n1 5 37010 60312\r\n1\r\n947252499\r\n124986918\r\n535320090\r\n929273289\r\n551177734\r\nNote\r\nFor the first example, the process unfolds as follows:\r\n• Student 1 knows the information initially.\r\n• We choose the edge (1, 2,\r\n1\r\n2\r\n). As a result, student 2 becomes aware of the information with a\r\nprobability of 1\r\n2\r\n.\r\n• We choose the edge (2, 3,\r\n1\r\n2\r\n).\r\n• We choose the edge (2, 4,\r\n1\r\n2\r\n). Consequently, student 4 becomes aware of the information with a\r\nprobability of 1\r\n2 ×\r\n1\r\n2 =\r\n1\r\n4\r\n.\r\n• We choose the edge (4, 3, 1).\r\nNow, let’s analyze the scenario where student 3 remains unaware of the information. This can happen in\r\ntwo cases:\r\n• Student 2 did not become aware when we selected the edge (1, 2,\r\n1\r\n2\r\n).\r\n• Student 2 became aware when we selected the edge (1, 2,\r\n1\r\n2\r\n), but student 3 did not become aware\r\nwhen we selected the edge (2, 3,\r\n1\r\n2\r\n), and student 4 did not become aware when we selected the edge\r\n(2, 4,\r\n1\r\n2\r\n).\r\nTherefore, the probability of student 3 becoming aware is given by: 1 −\r\n1\r\n2 −\r\n1\r\n2 ×\r\n1\r\n2 ×\r\n1\r\n2 =\r\n3\r\n8\r\n.\r\nPage 2 of 2",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:104857::L",
+        "title": "Information Spread",
+        "url": "https://codeforces.com/gym/104857/problem/L",
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 512
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/104857/problem/L",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/104857",
+        "sourceRosterSha256": "b9c25ac9d461fb12708aca283e56054898dc004c21336ddec572780188a00c4d",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "L",
+          "pdfTitle": "Information Spread",
+          "rosterTitle": "Information Spread",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/104857/problem/L": {
+            "sourceUrl": "https://codeforces.com/gym/104857/problem/L",
+            "sha256": "dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b",
+            "bytes": 224692,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "data": "tb-asset:dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b",
+            "fileName": "gym-104857.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/104857/problem/L",
+          "sha256": "5ce486b616ff0ec1f9abc687a95dd8c812a170b2c947f1de98c838154992952c",
+          "data": "tb-asset:5ce486b616ff0ec1f9abc687a95dd8c812a170b2c947f1de98c838154992952c",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b",
+          "fileName": "gym-104857-L.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/104857/problem/L": {
+            "sourceUrl": "https://codeforces.com/gym/104857/problem/L",
+            "sha256": "dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b",
+            "bytes": 224692,
+            "mime": "application/pdf",
+            "pageCount": 2
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:59.407889+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/104857/problem/L",
+              "sha256": "dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b"
+            },
+            {
+              "url": "https://codeforces.com/gym/104857",
+              "sha256": "b9c25ac9d461fb12708aca283e56054898dc004c21336ddec572780188a00c4d",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/104857/problem/L",
+              "sha256": "dc024a67378b0f95d49437178dc54dafbd15d8b5958e8426a778f2fa10373f4b"
+            }
+          ],
+          "markdownSha256": "087466cceec2a7e47b752386212ff6a2431bf0b3d9ced2951e684d6a8680ee63",
+          "corpusAuditVerifiedSha256": "087466cceec2a7e47b752386212ff6a2431bf0b3d9ced2951e684d6a8680ee63"
+        },
+        "translationAvailable": false,
+        "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+        "translationReview": {
+          "status": "withheld",
+          "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+          "inputHash": "087466cceec2a7e47b752386212ff6a2431bf0b3d9ced2951e684d6a8680ee63"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:104891::A",
+      "beforeSha256": "9ec62a35af853bca737bcadcfafd8f74e69b7e6f3255f340a298073245f8bcbf",
+      "content": {
+        "markdown": "# (-1,1)-Sumplete\n\n(-1,1)-Sumplete\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nSumplete is a logic puzzle similar to Sudoku, Kakuro, and Hitori. It is famous for being developed with\r\nthe help of 1ChatGPT.\r\nThe Sumplete puzzle consists of a square grid, with each cell containing an integer. Each row and column\r\nalso has an integer “hint” assigned. The player must cross out some numbers in the grid such that the sum\r\nof uncrossed numbers in each row and column equals the corresponding hint. See the following picture for\r\nan illustration.\r\nAn example of a 5 × 5 Sumplete puzzle (left) and its solution (right)\r\nRecently, on September 15th, 2023, a paper Sumplete is Hard, Even with Two Different Numbers by\r\nSuthee Ruangwises was uploaded to 2arxiv. The paper showed that if we allow the grid of Sumplete\r\npuzzles to be rectangular, then deciding the solvability of a given Sumplete puzzle is NP-complete, even\r\nif the grid contains only two different numbers 1 and 3.\r\nBobo is quite unsatisfied with this result. He insists that there must exist some Sumplete puzzles that are\r\neasy to solve. Now he provides you with a Sumplete puzzle, where the grid contains only two different\r\nnumbers −1 and 1. Can you please solve the puzzle for him?\r\nInput\r\nThe first line of input contains an integer n (1 ≤ n ≤ 4 000), denoting the height and width of the grid of\r\nthe Sumplete puzzle.\r\nThen n lines follow, where the i-th (1 ≤ i ≤ n) line contains a string si of length n consisting of ’+‘s and\r\n‘−’s, such that ai,j = 1 if the j-th character of si\r\nis ‘+’ and ai,j = −1 if the j-th character of si\r\nis ‘−’.\r\nThe input then contains a line containing n integers r1, r2, . . . , rn (−n ≤ ri ≤ n), where the i-th number\r\ndenotes the hint in the i-th row.\r\nLastly, the input contains a line containing n integers c1, c2, . . . , cn (−n ≤ ci ≤ n), where the i-th number\r\ndenotes the hint in the i-th column.\r\nOutput\r\nIf the given Sumplete puzzle has no solutions, output “No” in the first line. Otherwise, output “Yes” in\r\nthe first line. You can output each letter in any case (lowercase or uppercase). For example, the strings\r\n“yEs”, “yes”, “Yes”, and “YES” will all be considered as positive replies.\r\n1See https://sumplete.com/about/ to learn more about the creation of this puzzle.\r\n2\r\nhttps://arxiv.org/pdf/2309.07161.pdf\r\nPage 1 of 2\n\nIf your answer is “Yes”, output a binary string of length n in each of the following n lines. In the i-th\r\n(1 ≤ i ≤ n) line you need to output a string ti of length n consisting of ’0‘s and ‘1’s, such that the j-th\r\ncharacter of ti being ‘0’ denotes you cross out the number on the i-th row and j-th column, and the\r\nj-th character of ti being ‘1’ denotes you keep it. Your solution must satisfy that the sum of uncrossed\r\nnumbers in each row and column equals the corresponding hint. If there are multiple solutions, outputting\r\nany of them will be considered correct.\r\nExamples\r\nstandard input standard output\r\n3\r\n+-+\r\n-++\r\n+-+\r\n1 1 1\r\n1 -1 3\r\nYes\r\n111\r\n001\r\n001\r\n3\r\n---\r\n-++\r\n+++\r\n-2 -1 0\r\n-2 -1 0\r\nYes\r\n110\r\n100\r\n000\r\n3\r\n+-+\r\n-++\r\n++-\r\n1 0 2\r\n2 2 -1\r\nNo\r\nNote\r\nThe first sample corresponds to the following 3 × 3 Sumplete puzzle:\r\nIts three solutions are listed as follows (the third one corresponds to crossing out none of the numbers in\r\nthe grid), and outputting any of them will be considered correct.\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/104891/problem/A)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n+-+\n-++\n+-+\n1 1 1\n1 -1 3",
+            "output": "Yes\n111\n001\n001"
+          },
+          {
+            "name": "样例 2",
+            "input": "3\n---\n-++\n+++\n-2 -1 0\n-2 -1 0",
+            "output": "Yes\n110\n100\n000"
+          },
+          {
+            "name": "样例 3",
+            "input": "3\n+-+\n-++\n++-\n1 0 2\n2 2 -1",
+            "output": "No"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "(-1,1)-Sumplete\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nSumplete is a logic puzzle similar to Sudoku, Kakuro, and Hitori. It is famous for being developed with\r\nthe help of 1ChatGPT.\r\nThe Sumplete puzzle consists of a square grid, with each cell containing an integer. Each row and column\r\nalso has an integer “hint” assigned. The player must cross out some numbers in the grid such that the sum\r\nof uncrossed numbers in each row and column equals the corresponding hint. See the following picture for\r\nan illustration.\r\nAn example of a 5 × 5 Sumplete puzzle (left) and its solution (right)\r\nRecently, on September 15th, 2023, a paper Sumplete is Hard, Even with Two Different Numbers by\r\nSuthee Ruangwises was uploaded to 2arxiv. The paper showed that if we allow the grid of Sumplete\r\npuzzles to be rectangular, then deciding the solvability of a given Sumplete puzzle is NP-complete, even\r\nif the grid contains only two different numbers 1 and 3.\r\nBobo is quite unsatisfied with this result. He insists that there must exist some Sumplete puzzles that are\r\neasy to solve. Now he provides you with a Sumplete puzzle, where the grid contains only two different\r\nnumbers −1 and 1. Can you please solve the puzzle for him?\r\nInput\r\nThe first line of input contains an integer n (1 ≤ n ≤ 4 000), denoting the height and width of the grid of\r\nthe Sumplete puzzle.\r\nThen n lines follow, where the i-th (1 ≤ i ≤ n) line contains a string si of length n consisting of ’+‘s and\r\n‘−’s, such that ai,j = 1 if the j-th character of si\r\nis ‘+’ and ai,j = −1 if the j-th character of si\r\nis ‘−’.\r\nThe input then contains a line containing n integers r1, r2, . . . , rn (−n ≤ ri ≤ n), where the i-th number\r\ndenotes the hint in the i-th row.\r\nLastly, the input contains a line containing n integers c1, c2, . . . , cn (−n ≤ ci ≤ n), where the i-th number\r\ndenotes the hint in the i-th column.\r\nOutput\r\nIf the given Sumplete puzzle has no solutions, output “No” in the first line. Otherwise, output “Yes” in\r\nthe first line. You can output each letter in any case (lowercase or uppercase). For example, the strings\r\n“yEs”, “yes”, “Yes”, and “YES” will all be considered as positive replies.\r\n1See https://sumplete.com/about/ to learn more about the creation of this puzzle.\r\n2\r\nhttps://arxiv.org/pdf/2309.07161.pdf\r\nPage 1 of 2\n\nIf your answer is “Yes”, output a binary string of length n in each of the following n lines. In the i-th\r\n(1 ≤ i ≤ n) line you need to output a string ti of length n consisting of ’0‘s and ‘1’s, such that the j-th\r\ncharacter of ti being ‘0’ denotes you cross out the number on the i-th row and j-th column, and the\r\nj-th character of ti being ‘1’ denotes you keep it. Your solution must satisfy that the sum of uncrossed\r\nnumbers in each row and column equals the corresponding hint. If there are multiple solutions, outputting\r\nany of them will be considered correct.\r\nExamples\r\nstandard input standard output\r\n3\r\n+-+\r\n-++\r\n+-+\r\n1 1 1\r\n1 -1 3\r\nYes\r\n111\r\n001\r\n001\r\n3\r\n---\r\n-++\r\n+++\r\n-2 -1 0\r\n-2 -1 0\r\nYes\r\n110\r\n100\r\n000\r\n3\r\n+-+\r\n-++\r\n++-\r\n1 0 2\r\n2 2 -1\r\nNo\r\nNote\r\nThe first sample corresponds to the following 3 × 3 Sumplete puzzle:\r\nIts three solutions are listed as follows (the third one corresponds to crossing out none of the numbers in\r\nthe grid), and outputting any of them will be considered correct.\r\nPage 2 of 2",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "403cf3fdfe8b83eb2da7bdef670cca175078d6f753ae7af18ad93bf6eb66a8c5",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:104891::A",
+        "title": "(-1,1)-Sumplete",
+        "url": "https://codeforces.com/gym/104891/problem/A",
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/104891/problem/A",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/104891",
+        "sourceRosterSha256": "409c8b92a6e15bfa49d754e1921cf8ca0d704d082e58ebef704147e054f6e59d",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "A",
+          "pdfTitle": "(-1,1)-Sumplete",
+          "rosterTitle": "(-1,1)-Sumplete",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/104891/problem/A": {
+            "sourceUrl": "https://codeforces.com/gym/104891/problem/A",
+            "sha256": "403cf3fdfe8b83eb2da7bdef670cca175078d6f753ae7af18ad93bf6eb66a8c5",
+            "bytes": 309363,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "data": "tb-asset:403cf3fdfe8b83eb2da7bdef670cca175078d6f753ae7af18ad93bf6eb66a8c5",
+            "fileName": "gym-104891.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/104891/problem/A",
+          "sha256": "6e7648d9ae3f5e7fad80efde21e148e3f214419642320256e0392c1c01703919",
+          "data": "tb-asset:6e7648d9ae3f5e7fad80efde21e148e3f214419642320256e0392c1c01703919",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "403cf3fdfe8b83eb2da7bdef670cca175078d6f753ae7af18ad93bf6eb66a8c5",
+          "fileName": "gym-104891-A.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/104891/problem/A": {
+            "sourceUrl": "https://codeforces.com/gym/104891/problem/A",
+            "sha256": "403cf3fdfe8b83eb2da7bdef670cca175078d6f753ae7af18ad93bf6eb66a8c5",
+            "bytes": 309363,
+            "mime": "application/pdf",
+            "pageCount": 2
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 3,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:59.427003+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/104891/problem/A",
+              "sha256": "403cf3fdfe8b83eb2da7bdef670cca175078d6f753ae7af18ad93bf6eb66a8c5"
+            },
+            {
+              "url": "https://codeforces.com/gym/104891",
+              "sha256": "409c8b92a6e15bfa49d754e1921cf8ca0d704d082e58ebef704147e054f6e59d",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/104891/problem/A",
+              "sha256": "403cf3fdfe8b83eb2da7bdef670cca175078d6f753ae7af18ad93bf6eb66a8c5"
+            }
+          ],
+          "markdownSha256": "52a42399f63d2e136ce763c603e1dc7e78bdfa58fed65820b3d5bff0b255955d",
+          "corpusAuditVerifiedSha256": "52a42399f63d2e136ce763c603e1dc7e78bdfa58fed65820b3d5bff0b255955d"
+        },
+        "previousSourceMarkdown": "# (-1,1)-Sumplete\n\n来源：[原赛题目](https://codeforces.com/gym/104891/problem/A)、[完整原赛题册](https://contest.ucup.ac/download.php?id=1459&r=0&type=attachments)。以下用中文整理原题的完整规则、输入输出与全部数据范围；原题册保留原文及原图。\n\n## 题目描述\n\n给定一个 $n\\times n$ 的方阵，每格的数只能为 $-1$ 或 $1$。每行有一个目标和 $r_i$，每列有一个目标和 $c_j$。\n\n可以划掉任意一些格子，要求每一行未划掉的数之和恰好等于该行目标，每一列未划掉的数之和恰好等于该列目标。判断是否有解；有解时给出一个保留方案。\n\n## 输入格式\n\n第一行输入 $1\\le n\\le4000$。随后 $n$ 行，每行一个长度为 $n$、仅含加号与减号的字符串，分别表示对应格子为正一、负一。接着一行输入 $n$ 个行目标 $r_1,\\ldots,r_n$；最后一行输入 $n$ 个列目标 $c_1,\\ldots,c_n$，所有目标都介于 $-n$ 与 $n$。\n\n## 输出格式\n\n无解输出 No。有解先输出 Yes，随后输出 $n$ 个长度为 $n$ 的二进制字符串：一表示保留，零表示划掉。若有多个答案，任意合法方案均可。Yes、No 不区分字母大小写。\n",
+        "translationAvailable": false,
+        "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+        "translationReview": {
+          "status": "withheld",
+          "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+          "inputHash": "52a42399f63d2e136ce763c603e1dc7e78bdfa58fed65820b3d5bff0b255955d"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:104976::D",
+      "beforeSha256": "fa940f05d1331fff54220930ca70fab477618f627fa16887cf704237b8ace42e",
+      "content": {
+        "markdown": "# Operator Precedence\n\nOperator Precedence\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 mebibytes\r\nRandias is facing his primary school homework:\r\nFind a nonzero integer sequence a of length 2n satisfying\r\n(a1 × a2)+(a3 × a4)+ . . . +(a2n−1 × a2n)\r\n= a1 ×(a2 + a3)×(a4 + a5)× . . . ×(a2n−2 + a2n−1)× a2n 6= 0.\r\nIn shorter form, Pn\r\ni=1\r\na2i−1a2i = a1a2n\r\nQn\r\ni=2\r\n(a2i−2 + a2i−1) 6= 0.\r\nOf course, Randias knows how to solve it. But he wants to give you a test. Can you solve the question\r\nabove?\r\nInput\r\nEach test contains multiple test cases. The first line contains a single integer t (1 ≤ t ≤ 105\r\n) denoting the\r\nnumber of test cases.\r\nFor each test case, the only line contains a single integer n (2 ≤ n ≤ 105\r\n).\r\nIt is guaranteed that the sum of n over all test cases does not exceed 2 · 105\r\n.\r\nOutput\r\nFor each test case, output one line with 2n integers: a1, a2, . . . , a2n (1 ≤ |ai\r\n| ≤ 1010).\r\nIt can be shown that the answer always exists.\r\nIf there are several possible answers, output any one of them.\r\nExample\r\nstandard input standard output\r\n3\r\n2\r\n3\r\n4\r\n1 -3 -3 1\r\n1 -10 6 6 -10 1\r\n1 -15 10 -1 -1 10 -15 1\r\nPage 1 of 1\n\n[PDF](https://codeforces.com/gym/104976/problem/D)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n2\n3\n4",
+            "output": "1 -3 -3 1\n1 -10 6 6 -10 1\n1 -15 10 -1 -1 10 -15 1"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "Operator Precedence\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 mebibytes\r\nRandias is facing his primary school homework:\r\nFind a nonzero integer sequence a of length 2n satisfying\r\n(a1 × a2)+(a3 × a4)+ . . . +(a2n−1 × a2n)\r\n= a1 ×(a2 + a3)×(a4 + a5)× . . . ×(a2n−2 + a2n−1)× a2n 6= 0.\r\nIn shorter form, Pn\r\ni=1\r\na2i−1a2i = a1a2n\r\nQn\r\ni=2\r\n(a2i−2 + a2i−1) 6= 0.\r\nOf course, Randias knows how to solve it. But he wants to give you a test. Can you solve the question\r\nabove?\r\nInput\r\nEach test contains multiple test cases. The first line contains a single integer t (1 ≤ t ≤ 105\r\n) denoting the\r\nnumber of test cases.\r\nFor each test case, the only line contains a single integer n (2 ≤ n ≤ 105\r\n).\r\nIt is guaranteed that the sum of n over all test cases does not exceed 2 · 105\r\n.\r\nOutput\r\nFor each test case, output one line with 2n integers: a1, a2, . . . , a2n (1 ≤ |ai\r\n| ≤ 1010).\r\nIt can be shown that the answer always exists.\r\nIf there are several possible answers, output any one of them.\r\nExample\r\nstandard input standard output\r\n3\r\n2\r\n3\r\n4\r\n1 -3 -3 1\r\n1 -10 6 6 -10 1\r\n1 -15 10 -1 -1 10 -15 1\r\nPage 1 of 1",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:104976::D",
+        "title": "Operator Precedence",
+        "url": "https://codeforces.com/gym/104976/problem/D",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/104976/problem/D",
+        "sourcePageNumbers": [
+          1
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/104976",
+        "sourceRosterSha256": "4e4cb5211559dc24d7beea7de7180d5d42bfbec9a3f1e2e003589390cb8738d8",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "D",
+          "pdfTitle": "Operator Precedence",
+          "rosterTitle": "Operator Precedence",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/104976/problem/D": {
+            "sourceUrl": "https://codeforces.com/gym/104976/problem/D",
+            "sha256": "fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242",
+            "bytes": 167905,
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "data": "tb-asset:fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242",
+            "fileName": "gym-104976.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/104976/problem/D",
+          "sha256": "f1fd2b0db4567678c9e76995e8f07619d8ba12d8d60c1a24189ed211bd01fed7",
+          "data": "tb-asset:f1fd2b0db4567678c9e76995e8f07619d8ba12d8d60c1a24189ed211bd01fed7",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            1
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242",
+          "fileName": "gym-104976-D.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "unavailable",
+        "sitePdfError": "原版 PDF 题名与原站题单未能双侧核对",
+        "resourceManifest": {
+          "https://codeforces.com/gym/104976/problem/D": {
+            "sourceUrl": "https://codeforces.com/gym/104976/problem/D",
+            "sha256": "fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242",
+            "bytes": 167905,
+            "mime": "application/pdf",
+            "pageCount": 1
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:59.470830+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/104976/problem/D",
+              "sha256": "fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242"
+            },
+            {
+              "url": "https://codeforces.com/gym/104976",
+              "sha256": "4e4cb5211559dc24d7beea7de7180d5d42bfbec9a3f1e2e003589390cb8738d8"
+            },
+            {
+              "url": "https://codeforces.com/gym/104976/problem/D",
+              "sha256": "fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242"
+            },
+            {
+              "url": "https://codeforces.com/gym/104976",
+              "sha256": "4e4cb5211559dc24d7beea7de7180d5d42bfbec9a3f1e2e003589390cb8738d8"
+            },
+            {
+              "url": "https://codeforces.com/gym/104976/attachments/download/24254/hangzhou(zh).pdf",
+              "sha256": "5ba825f9453dc3dfc3b571b1cc90011dbc16d027ee261f72a9d1ee5c8803dbc1"
+            }
+          ],
+          "markdownSha256": "32b7b437dfe92412b789df90535bc2abfcb721d1c9a2bfd58efd5776d341e068",
+          "corpusAuditVerifiedSha256": "32b7b437dfe92412b789df90535bc2abfcb721d1c9a2bfd58efd5776d341e068"
+        },
+        "previousSourceMarkdown": "# Operator Precedence\n\n来源：[原赛题目](https://codeforces.com/gym/104976/problem/D)、[完整原赛题册](https://contest.ucup.ac/download.php?id=1516&r=0&type=attachments)。以下用中文整理原题的完整规则、输入输出与全部数据范围；原题册保留原文及原图。\n\n## 题目描述\n\n给定整数 $n$，构造 $2n$ 个非零整数，使下式成立且两边均非零：\n\n$$\\sum_{i=1}^{n}a_{2i-1}a_{2i}\n=a_1a_{2n}\\prod_{i=2}^{n}(a_{2i-2}+a_{2i-1})\\ne0.$$\n\n左边先把一二、三四等相邻项相乘再求和；右边把二三、四五等错位相邻项先相加，再与首尾项一起相乘。允许输出负整数。\n\n## 输入格式\n\n第一行输入组数 $1\\le T\\le10^5$。每组一行输入 $2\\le n\\le10^5$。全部组的 $n$ 之和不超过 $2\\times10^5$。\n\n## 输出格式\n\n每组输出一行 $2n$ 个整数，要求每个数满足 $1\\le|a_i|\\le10^{10}$，并满足上述非零等式。保证存在答案，多个方案可以任选。\n",
+        "translationAvailable": false,
+        "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+        "translationReview": {
+          "status": "withheld",
+          "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+          "inputHash": "32b7b437dfe92412b789df90535bc2abfcb721d1c9a2bfd58efd5776d341e068"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:105471::N",
+      "beforeSha256": "5695148a48118326d9140f49fd343eff3255886a0b5a8a50235fe7ac0a47a5cc",
+      "content": {
+        "markdown": "# Python Program\n\nPython Program\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nYou need to calculate the output of a Python program.\r\nTo simplify the problem, the code satisfies the following constraints.\r\nThe program has exactly 5 lines. The first line of the code is\r\n1 ans =0\r\nThe second and the third lines are of the form\r\n1 for i in range (a ,b , c ) :\r\n2 for j in range (d ,e , f ) :\r\nHere, i and j are loop variables. i and j can be any two different lowercase English letters. a, b, c, d, e, f\r\ncan be integers without leading zeroes or loop variables that have been introduced before. That is, d, e\r\nand f may be i. The tokens c or f (or both) can be omitted. When omitted, they equal 1.\r\nThe fourth line of the code is of the form:\r\n1 ans += j\r\nHere, j is the loop variable of the inner loop (note that it can be some letter other than j).\r\nThe fifth line of the code is\r\n1 print ( ans )\r\nFor any c 6= 0, the statement\r\n1 for i in range (a ,b , c ) :\r\nin the Python language is interpreted as follows.\r\n• If c > 0, i will take the values of a, a + c, a + 2c, · · · until a + kc, where k is the maximum integer\r\nsuch that a + kc < b. If a ≥ b, i won’t take any value.\r\n• If c < 0, i will take the values of a, a + c, a + 2c, · · · until a + kc, where k is the maximum integer\r\nsuch that a + kc > b. If a ≤ b, i won’t take any value.\r\nInput\r\n5 lines, representing the code.\r\nIt is guaranteed that there are no extra spaces at the end of each line. However, there may be extra line\r\nfeeds at the end of the input file. Please note that each tab is represented by 4 spaces in the input file.\r\nIt is guaranteed that 1 ≤ a, b, |c|, d, e, |f| ≤ 106\r\n.\r\nOutput\r\nOne integer representing the output of the program.\r\nPage 1 of 2\n\nExamples\r\nstandard input standard output\r\nans=0\r\nfor a in range(1,3):\r\nfor b in range(5,1,-2):\r\nans+=b\r\nprint(ans)\r\n16\r\nans=0\r\nfor q in range(100,50,-1):\r\nfor i in range(q,77,20):\r\nans+=i\r\nprint(ans)\r\n2092\r\nNote\r\nFor the first example, a will take the values of 1, 2 in order, and for each value that a takes, b will take\r\nthe values of 5, 3, so the answer is 2 × (5 + 3) = 16.\r\nYou can test the programs with a Python interpreter.\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/105471/problem/N)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "ans=0\nfor a in range(1,3):\nfor b in range(5,1,-2):\nans+=b\nprint(ans)",
+            "output": "16"
+          },
+          {
+            "name": "样例 2",
+            "input": "ans=0\nfor q in range(100,50,-1):\nfor i in range(q,77,20):\nans+=i\nprint(ans)",
+            "output": "2092"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "Python Program\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nYou need to calculate the output of a Python program.\r\nTo simplify the problem, the code satisfies the following constraints.\r\nThe program has exactly 5 lines. The first line of the code is\r\n1 ans =0\r\nThe second and the third lines are of the form\r\n1 for i in range (a ,b , c ) :\r\n2 for j in range (d ,e , f ) :\r\nHere, i and j are loop variables. i and j can be any two different lowercase English letters. a, b, c, d, e, f\r\ncan be integers without leading zeroes or loop variables that have been introduced before. That is, d, e\r\nand f may be i. The tokens c or f (or both) can be omitted. When omitted, they equal 1.\r\nThe fourth line of the code is of the form:\r\n1 ans += j\r\nHere, j is the loop variable of the inner loop (note that it can be some letter other than j).\r\nThe fifth line of the code is\r\n1 print ( ans )\r\nFor any c 6= 0, the statement\r\n1 for i in range (a ,b , c ) :\r\nin the Python language is interpreted as follows.\r\n• If c > 0, i will take the values of a, a + c, a + 2c, · · · until a + kc, where k is the maximum integer\r\nsuch that a + kc < b. If a ≥ b, i won’t take any value.\r\n• If c < 0, i will take the values of a, a + c, a + 2c, · · · until a + kc, where k is the maximum integer\r\nsuch that a + kc > b. If a ≤ b, i won’t take any value.\r\nInput\r\n5 lines, representing the code.\r\nIt is guaranteed that there are no extra spaces at the end of each line. However, there may be extra line\r\nfeeds at the end of the input file. Please note that each tab is represented by 4 spaces in the input file.\r\nIt is guaranteed that 1 ≤ a, b, |c|, d, e, |f| ≤ 106\r\n.\r\nOutput\r\nOne integer representing the output of the program.\r\nPage 1 of 2\n\nExamples\r\nstandard input standard output\r\nans=0\r\nfor a in range(1,3):\r\nfor b in range(5,1,-2):\r\nans+=b\r\nprint(ans)\r\n16\r\nans=0\r\nfor q in range(100,50,-1):\r\nfor i in range(q,77,20):\r\nans+=i\r\nprint(ans)\r\n2092\r\nNote\r\nFor the first example, a will take the values of 1, 2 in order, and for each value that a takes, b will take\r\nthe values of 5, 3, so the answer is 2 × (5 + 3) = 16.\r\nYou can test the programs with a Python interpreter.\r\nPage 2 of 2",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:105471::N",
+        "title": "Python Program",
+        "url": "https://codeforces.com/gym/105471/problem/N",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 256
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105471/problem/N",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105471",
+        "sourceRosterSha256": "a024a0c7eedde8249c8a9711ad6482a5b28f20b8ad9a509e7a16f573fd2634bc",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "N",
+          "pdfTitle": "Python Program",
+          "rosterTitle": "Python Program",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105471/problem/N": {
+            "sourceUrl": "https://codeforces.com/gym/105471/problem/N",
+            "sha256": "6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc",
+            "bytes": 162495,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "data": "tb-asset:6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc",
+            "fileName": "gym-105471.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105471/problem/N",
+          "sha256": "7de2e03d8515927f47dec4ffb505f11e5d3bdb7c3a4f541585e9b1766b8e1c08",
+          "data": "tb-asset:7de2e03d8515927f47dec4ffb505f11e5d3bdb7c3a4f541585e9b1766b8e1c08",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc",
+          "fileName": "gym-105471-N.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/105471/problem/N": {
+            "sourceUrl": "https://codeforces.com/gym/105471/problem/N",
+            "sha256": "6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc",
+            "bytes": 162495,
+            "mime": "application/pdf",
+            "pageCount": 2
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:59.497826+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105471/problem/N",
+              "sha256": "6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc"
+            },
+            {
+              "url": "https://codeforces.com/gym/105471",
+              "sha256": "a024a0c7eedde8249c8a9711ad6482a5b28f20b8ad9a509e7a16f573fd2634bc",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/105471/problem/N",
+              "sha256": "6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc"
+            }
+          ],
+          "markdownSha256": "bc35db75909fafd084439e20b3c623e01099d57648fd19f033ff06922eb2df24",
+          "corpusAuditVerifiedSha256": "bc35db75909fafd084439e20b3c623e01099d57648fd19f033ff06922eb2df24"
+        },
+        "previousSourceMarkdown": "# Python Program\n\n来源：[原赛题目](https://codeforces.com/gym/105471/problem/N)、[完整原赛题册](https://contest.ucup.ac/download.php?id=1784&r=0&type=attachments)。以下用中文整理原题的完整规则、输入输出与全部数据范围；原题册保留原文及原图。\n\n## 题目描述\n\n计算输入中一个受限 Python 程序的输出。程序恰有五行，结构如下；循环变量可为任意两个不同的小写字母：\n\n```python\nans=0\nfor i in range(a,b,c):\n    for j in range(d,e,f):\n        ans+=j\nprint(ans)\n```\n\n第一行固定为 ans=0，第五行固定输出答案；第四行累加内层循环变量。两行 range 的第三个参数均可以省略，省略时为一。参数可以是不带前导零的整数，或此前已引入的循环变量，因此内层的起点、终点、步长都可能引用外层变量。\n\nrange 从起点开始每次加步长，严格不包含终点。步长为正时，只取小于终点的值；起点不小于终点则为空。步长为负时，只取大于终点的值；起点不大于终点则为空。步长保证非零。\n\n## 输入格式\n\n输入五行代码，每个制表符均以四个空格表示，各行末尾没有多余空格，文件末尾可能有额外换行。保证所有涉及的参数满足 $1\\le a,b,|c|,d,e,|f|\\le10^6$，其中引用变量时使用当轮变量值。\n\n## 输出格式\n\n输出一行一个整数，表示程序打印的答案。原题已修订过，以上采用当前公开原赛题册中的参数范围与 range 语义。\n",
+        "translationAvailable": false,
+        "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+        "translationReview": {
+          "status": "withheld",
+          "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+          "inputHash": "bc35db75909fafd084439e20b3c623e01099d57648fd19f033ff06922eb2df24"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:106161::I",
+      "beforeSha256": "08e070d7424ab758b6c40321ec66bcc90d904520603633317203d258b9c11b6a",
+      "content": {
+        "markdown": "# Inside Triangle\n\nInside Triangle\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nA polygon P1 contains polygon P2 if every point in or on P2 is also in or on P1. A polygon P1 strictly\r\ncontains P2 if every point in or on P2 is strictly inside P1 (no point on the boundary).\r\nPanda has two convex polygons, P and Q. Polygon P has n vertices, and polygon Q has m vertices. It is\r\nguaranteed that Q is strictly contained by P.\r\nYou should help Panda find the total number of ways to choose exactly 3 distinct vertices from polygon\r\nP that form a triangle P∆ such that P∆ (not strictly) contains polygon Q.\r\nInput\r\nThe first line contains a single integer T (1 ≤ T ≤ 1000), denoting the number of test cases.\r\nFor each test case, the first line contains an integer n (3 ≤ n ≤ 3 · 105\r\n), denoting the number of vertices\r\nof P.\r\nFor the next n lines, each line contains two integers x, y (|x|, |y| ≤ 109\r\n), denoting the coordinates of the\r\nvertices of P. It is guaranteed that the vertices are given in counter-clockwise order, and no three vertices\r\nare collinear.\r\nThe next line contains an integer m (3 ≤ m ≤ 3 · 105\r\n), denoting the number of vertices of Q.\r\nFor the next m lines, each line contains two integers x, y (|x|, |y| ≤ 109\r\n), denoting the coordinates of the\r\nvertices of Q. It is guaranteed that the vertices are given in counter-clockwise order, and no three vertices\r\nare collinear, and Q is strictly contained by P.\r\nIt is guaranteed that both Pn and Pm over all test cases do not exceed 5 · 105\r\n.\r\nOutput\r\nFor each test case, output an integer in a single line, denoting the answer.\r\nPage 1 of 2\n\nExample\r\nstandard input standard output\r\n3\r\n6\r\n-5 0\r\n-4 -4\r\n0 -4\r\n3 1\r\n2 5\r\n-3 4\r\n4\r\n-2 1\r\n-2 0\r\n0 0\r\n0 1\r\n6\r\n-5 0\r\n-4 -4\r\n0 -4\r\n3 1\r\n2 5\r\n-3 4\r\n4\r\n-1 1\r\n-1 0\r\n0 0\r\n0 1\r\n7\r\n1 -3\r\n4 -1\r\n5 0\r\n1 4\r\n0 4\r\n-1 0\r\n0 -2\r\n3\r\n0 0\r\n2 0\r\n0 2\r\n2\r\n4\r\n6\r\nNote\r\nFor the first example, as shown in the figure, the polygon P is ABCDEF, and the polygon Q is GHIJ.\r\nThe triangles △ACE and △BDF are the ones that contain Q.\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/106161/problem/I)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n6\n-5 0\n-4 -4\n0 -4\n3 1\n2 5\n-3 4\n4\n-2 1\n-2 0\n0 0\n0 1\n6\n-5 0\n-4 -4\n0 -4\n3 1\n2 5\n-3 4\n4\n-1 1\n-1 0\n0 0\n0 1\n7\n1 -3\n4 -1\n5 0\n1 4\n0 4\n-1 0\n0 -2\n3\n0 0\n2 0\n0 2",
+            "output": "2\n4\n6"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "Inside Triangle\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nA polygon P1 contains polygon P2 if every point in or on P2 is also in or on P1. A polygon P1 strictly\r\ncontains P2 if every point in or on P2 is strictly inside P1 (no point on the boundary).\r\nPanda has two convex polygons, P and Q. Polygon P has n vertices, and polygon Q has m vertices. It is\r\nguaranteed that Q is strictly contained by P.\r\nYou should help Panda find the total number of ways to choose exactly 3 distinct vertices from polygon\r\nP that form a triangle P∆ such that P∆ (not strictly) contains polygon Q.\r\nInput\r\nThe first line contains a single integer T (1 ≤ T ≤ 1000), denoting the number of test cases.\r\nFor each test case, the first line contains an integer n (3 ≤ n ≤ 3 · 105\r\n), denoting the number of vertices\r\nof P.\r\nFor the next n lines, each line contains two integers x, y (|x|, |y| ≤ 109\r\n), denoting the coordinates of the\r\nvertices of P. It is guaranteed that the vertices are given in counter-clockwise order, and no three vertices\r\nare collinear.\r\nThe next line contains an integer m (3 ≤ m ≤ 3 · 105\r\n), denoting the number of vertices of Q.\r\nFor the next m lines, each line contains two integers x, y (|x|, |y| ≤ 109\r\n), denoting the coordinates of the\r\nvertices of Q. It is guaranteed that the vertices are given in counter-clockwise order, and no three vertices\r\nare collinear, and Q is strictly contained by P.\r\nIt is guaranteed that both Pn and Pm over all test cases do not exceed 5 · 105\r\n.\r\nOutput\r\nFor each test case, output an integer in a single line, denoting the answer.\r\nPage 1 of 2\n\nExample\r\nstandard input standard output\r\n3\r\n6\r\n-5 0\r\n-4 -4\r\n0 -4\r\n3 1\r\n2 5\r\n-3 4\r\n4\r\n-2 1\r\n-2 0\r\n0 0\r\n0 1\r\n6\r\n-5 0\r\n-4 -4\r\n0 -4\r\n3 1\r\n2 5\r\n-3 4\r\n4\r\n-1 1\r\n-1 0\r\n0 0\r\n0 1\r\n7\r\n1 -3\r\n4 -1\r\n5 0\r\n1 4\r\n0 4\r\n-1 0\r\n0 -2\r\n3\r\n0 0\r\n2 0\r\n0 2\r\n2\r\n4\r\n6\r\nNote\r\nFor the first example, as shown in the figure, the polygon P is ABCDEF, and the polygon Q is GHIJ.\r\nThe triangles △ACE and △BDF are the ones that contain Q.\r\nPage 2 of 2",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "25a2892995b0f5d721aa0bb05556111f4f55832a80572008228e12fedd5fe6fb",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:106161::I",
+        "title": "Inside Triangle",
+        "url": "https://codeforces.com/gym/106161/problem/I",
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/106161/problem/I",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/106161",
+        "sourceRosterSha256": "733d2f5f339b8c796e3d96b479cec5e0a658bedd8f6e1d465a0211df70845553",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "I",
+          "pdfTitle": "Inside Triangle",
+          "rosterTitle": "Inside Triangle",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/106161/problem/I": {
+            "sourceUrl": "https://codeforces.com/gym/106161/problem/I",
+            "sha256": "25a2892995b0f5d721aa0bb05556111f4f55832a80572008228e12fedd5fe6fb",
+            "bytes": 224568,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "data": "tb-asset:25a2892995b0f5d721aa0bb05556111f4f55832a80572008228e12fedd5fe6fb",
+            "fileName": "gym-106161.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/106161/problem/I",
+          "sha256": "b394999ee7b7e9e42fd5836049aef0497cbb55dddcd497519b57872abae25a7b",
+          "data": "tb-asset:b394999ee7b7e9e42fd5836049aef0497cbb55dddcd497519b57872abae25a7b",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "25a2892995b0f5d721aa0bb05556111f4f55832a80572008228e12fedd5fe6fb",
+          "fileName": "gym-106161-I.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/106161/problem/I": {
+            "sourceUrl": "https://codeforces.com/gym/106161/problem/I",
+            "sha256": "25a2892995b0f5d721aa0bb05556111f4f55832a80572008228e12fedd5fe6fb",
+            "bytes": 224568,
+            "mime": "application/pdf",
+            "pageCount": 2
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:45:00.914855+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/106161/problem/I",
+              "sha256": "25a2892995b0f5d721aa0bb05556111f4f55832a80572008228e12fedd5fe6fb"
+            },
+            {
+              "url": "https://codeforces.com/gym/106161",
+              "sha256": "733d2f5f339b8c796e3d96b479cec5e0a658bedd8f6e1d465a0211df70845553",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/106161/problem/I",
+              "sha256": "25a2892995b0f5d721aa0bb05556111f4f55832a80572008228e12fedd5fe6fb"
+            }
+          ],
+          "markdownSha256": "9d600a2bfa3df71faaa34b7fea8788e0fd7f23c47e22d7c850d66eb91601b112",
+          "corpusAuditVerifiedSha256": "9d600a2bfa3df71faaa34b7fea8788e0fd7f23c47e22d7c850d66eb91601b112"
+        },
+        "translationAvailable": false,
+        "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+        "translationReview": {
+          "status": "withheld",
+          "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+          "inputHash": "9d600a2bfa3df71faaa34b7fea8788e0fd7f23c47e22d7c850d66eb91601b112"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "Rain Lake / 雨湖 — Smooth",
+  "repository": "https://github.com/poplolioi11/rain-lake",
+  "commit": "d50f6f067048a975cc78f3d847a117717621e6dc",
+  "upstreamPath": "smooth/dist",
+  "license": "MIT",
+  "files": {
+    "scene.js": "14511882a7196cb7d180d48c64a54b0e7440ec60d98f39ff0e4e1ad5c1645950",
+    "wave-field.js": "8f8bd72dba99c6a618ff55583fdc864f5bd05c8985061b8b25d4d4c1929813ad",
+    "fish-shadows.js": "2705c674e7e7a9088ed1bbf0bc8e51a31ce9904eb996121faef63befd4c7c84f"
+  },
+  "adaptation": "Unmodified upstream rain, impact and signed wave-field renderer. Host adapter adjusts impact placement to the lower lake, extends rain travel and reduces interior damping; hides fish silhouettes. Optional flash uses the pinned rain-ripple 1.0.0 routine. No custom rain, ripple geometry or shaders."
+}

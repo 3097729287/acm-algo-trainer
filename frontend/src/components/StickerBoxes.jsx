@@ -16,20 +16,20 @@ export function PackArtwork({rarity='common',opening=false}){
  </div>;
 }
 
-export default function StickerBoxes({api,state,onUpdated,onClose}){
- const dialog=useRef(null),request=useRef(null),alive=useRef(true),owner=useRef(state.owner),inFlight=useRef(false);
+export default function StickerBoxes({api,state,owner:accountId,loading=false,inventoryError='',onRefresh,onUpdated,onClose}){
+ const dialog=useRef(null),request=useRef(null),alive=useRef(true),owner=useRef(accountId||state?.owner),inFlight=useRef(false);
  const [busy,setBusy]=useState(false),[error,setError]=useState(''),[opening,setOpening]=useState(null),[selected,setSelected]=useState(null);
  const [stage,setStage]=useState('packs'),[draw,setDraw]=useState(null),[packIndex,setPackIndex]=useState(0),[revealed,setRevealed]=useState(new Set());
  useEffect(()=>{alive.current=true;const node=dialog.current;node.showModal();return()=>{alive.current=false;node.close();};},[]);
- const boxes=Object.values(state.boxes||{}).filter(box=>!box.openedAt),catalogue=state.catalogue||[];
+ const boxes=Object.values(state?.boxes||{}).filter(box=>!box.openedAt),catalogue=state?.catalogue||[];
  const groups=tiers.map(rarity=>({rarity,boxes:boxes.filter(box=>(box.rarity||(box.level?'legendary':'common'))===rarity)})).filter(group=>group.boxes.length);
- const backgrounds=Object.values(state.backgroundRewards||{}).filter(reward=>!reward.openedAt);
+ const backgrounds=Object.values(state?.backgroundRewards||{}).filter(reward=>!reward.openedAt);
  if(backgrounds.length)groups.push({rarity:'background',boxes:backgrounds});
  const current=groups.find(group=>group.rarity===selected)||groups[0];
  const packs=opening?.packs||(opening?[opening]:[]),cards=packs[packIndex]?.drops||[];
  const allRevealed=cards.length>0&&cards.every(card=>revealed.has(card.id));
  async function open(rarity,count){
-  if(inFlight.current)return;
+  if(inFlight.current||!state)return;
   const payload=request.current||{rarity,count,requestId:crypto.randomUUID(),...(rarity==='background'?{rewardId:current.boxes[0].id}:{})};
   request.current=payload;inFlight.current=true;setBusy(true);setError('');setDraw(payload);setStage('opening');
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -49,7 +49,10 @@ export default function StickerBoxes({api,state,onUpdated,onClose}){
  }
  return <dialog ref={dialog} className={'sticker-box-dialog card-pack-dialog stage-'+stage} aria-labelledby="sticker-box-title" onPointerDown={event=>{if(!busy)dialogPointerDown(event);}} onClick={event=>{if(!busy)dialogBackdropClick(event);}} onCancel={event=>{event.preventDefault();if(!busy)onClose();}}>
   <header><h3 id="sticker-box-title"><Gift size={20}/>卡包</h3><button type="button" className="icon-button" aria-label="关闭卡包" disabled={busy} onClick={onClose}><X size={18}/></button></header>
-  {stage==='packs'&&<>
+  {stage==='packs'&&!state&&<div className="pack-inventory-status">
+   {loading?<p role="status"><LoaderCircle size={20} className="spin"/>正在读取卡包</p>:<><p role="alert" className="connection-error">{inventoryError||'暂时无法读取卡包'}</p><button type="button" className="progress-button" onClick={onRefresh}><RotateCcw size={16}/>重新读取</button></>}
+  </div>}
+  {stage==='packs'&&state&&<>
    <div className="pack-selection" role="group" aria-label="持有的卡包">{groups.map(group=><button type="button" key={group.rarity} className={'pack-selection-item pack-'+group.rarity+(current?.rarity===group.rarity?' pack-selected':'')} aria-label={`${group.rarity==='background'?'背景奖励':PACK_NAMES[group.rarity]+'卡包'} ${group.boxes.length} 个`} aria-pressed={current?.rarity===group.rarity} disabled={busy||Boolean(request.current)} onClick={()=>setSelected(group.rarity)}>
     <PackArtwork rarity={group.rarity}/><span>{group.rarity==='background'?'背景奖励':PACK_NAMES[group.rarity]+'卡包'} <b>× {group.boxes.length}</b></span>
    </button>)}</div>
@@ -63,9 +66,9 @@ export default function StickerBoxes({api,state,onUpdated,onClose}){
   {stage==='cards'&&<section className="pack-result" aria-label="本次获得的贴纸">
    <div className="pack-result-caption"><h4>{opening?.kind==='background'?'获得背景':'获得贴纸'}</h4>{packs.length>1&&<span>{packIndex+1} / {packs.length}</span>}</div>
    <div className="pack-reveal-grid" style={{'--card-count':cards.length}} key={packIndex}>{cards.map((card,index)=>{
-    const item=catalogue.find(item=>item.id===card.stickerId),face=revealed.has(card.id);
-    return <button type="button" key={card.id} className={'pack-result-card pack-'+card.rarity+(face?' card-revealed':'')} style={{'--card-index':index}} aria-label={face?`${PACK_NAMES[card.rarity]}贴纸 ${item?.title||item?.shape}`:`翻开第 ${index+1} 张贴纸`} aria-pressed={face} onClick={()=>setRevealed(previous=>new Set([...previous,card.id]))}>
-     <div className="pack-card-turn"><div className="pack-card-back"><div className="pack-card-border"/><Sparkles size={34} strokeWidth={1}/><span>ToBe</span></div><div className="pack-card-front"><span className="card-rarity-mark"/><StickerArt item={item} size={96}/><strong>{item?.title||item?.shape}</strong><small>{PACK_NAMES[card.rarity]}</small></div></div>
+    const item=catalogue.find(item=>item.id===card.stickerId),face=revealed.has(card.id),background=opening?.kind==='background';
+    return <button type="button" key={card.id} className={'pack-result-card pack-'+(background?'background':card.rarity)+(face?' card-revealed':'')} style={{'--card-index':index}} aria-label={face?`${background?'动效背景':PACK_NAMES[card.rarity]+'贴纸'} ${item?.title||item?.shape}`:`翻开第 ${index+1} 张${background?'背景':'贴纸'}`} aria-pressed={face} onClick={()=>setRevealed(previous=>new Set([...previous,card.id]))}>
+     <div className="pack-card-turn"><div className="pack-card-back"><div className="pack-card-border"/><Sparkles size={34} strokeWidth={1}/><span>ToBe</span></div><div className="pack-card-front"><span className="card-rarity-mark"/><StickerArt item={item} size={96}/><strong>{item?.title||item?.shape}</strong><small>{background?'动效背景':PACK_NAMES[card.rarity]}</small></div></div>
     </button>;
    })}</div>
    <div className="pack-result-actions"><button type="button" className="progress-button progress-primary" onClick={advance}>{!allRevealed?<><Eye size={18}/>全部翻开</>:packIndex+1<packs.length?<><ArrowRight size={18}/>下一包</>:<><Check size={18}/>完成</>}</button></div>

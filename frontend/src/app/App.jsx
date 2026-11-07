@@ -1,4 +1,17 @@
+import {addCalendarLearningTasks} from '@/lib/calendarLearningTasks.js';
+import {todayTaskSequence} from '@/lib/taskNavigation.js';
+import {readSectionBookmark,readPageBookmark,rememberPageBookmark} from '@/lib/bookmarkMemory.js';
+import WorkspaceSearchResults,{WorkspaceSearchInput} from '@/components/WorkspaceSearch.jsx';
+import StickerBoxes from '@/components/StickerBoxes.jsx';
+import TopPageTabs from '@/components/TopPageTabs.jsx';
 import SectionWorkspace from '@/components/SectionWorkspace.jsx';
+import useRankPromotion from '@/lib/useRankPromotion.js';
+import WorkspaceBackground from '@/components/WorkspaceBackground.jsx';
+import BackgroundPicker from '@/components/BackgroundPicker.jsx';
+import useBackgroundInventory from '@/lib/useBackgroundInventory.js';
+import {workspaceBackground,chooseRewardBackground} from '@/lib/workspaceBackground.js';
+import PageBookmarks from '@/components/PageBookmarks.jsx';
+import '@/styles/navigation-review.css';
 import TaskContinuation from '@/components/TaskContinuation.jsx';
 import {ClipboardList} from 'lucide-react';
 import usePresence,{currentActivity} from '@/lib/usePresence.js';
@@ -28,6 +41,7 @@ import SortDirection from '@/components/SortDirection.jsx';
 import RandomProblem from '@/components/RandomProblem.jsx';
 import AddToTrainingLists from '@/components/AddToTrainingLists.jsx';
 import useNavigationKeys from '@/lib/useNavigationKeys.js';
+import useReadingZoom from '@/lib/readingZoom.js';
 import {pageAvailable,availablePages,hiddenPages,guideAvailable} from '@/lib/navigationVisibility.js';
 import {FeatureVisibilityContext} from '@/lib/FeatureVisibility.jsx';
 import {NAVIGATION_ORDER,navigationOrder} from '@/lib/navigationDefaults.js';
@@ -69,6 +83,7 @@ import {
 } from "react";
 import {
   BookOpen,
+  Gift,
   Swords,
   NotebookTabs,
   FlaskConical,
@@ -83,8 +98,6 @@ import {
   ChevronRight,
   ChevronDown,
   ChevronLeft,
-  PanelLeftClose,
-  PanelLeftOpen,
   Command,
   Plus,
   X,
@@ -113,7 +126,6 @@ import {
   Layers,
   ArrowLeft,
   Bell,
-  Heart,
   ChartNoAxesCombined,
   CalendarDays,
   CalendarClock,
@@ -180,6 +192,7 @@ const TrainingListsPage=lazy(loadTrainingListsPage);
 const PreferencesPage = lazy(() => import('@/pages/PreferencesPage.jsx'));
 const ExperienceChallenge=lazy(()=>import('@/components/ExperienceChallenge.jsx'));
 const LevelUpDialog=lazy(()=>import('@/components/LevelUpDialog.jsx'));
+const RankPromotion=lazy(()=>import('@/components/RankPromotion.jsx'));
 
 const PAGES = [
   {id:"tasks",label:"任务",icon:ClipboardList,key:""},
@@ -607,6 +620,8 @@ export default function App({ localNavigation = false }) {
     [insights, setInsights] = useState(null),
     [loading, setLoading] = useState(true),
     [error, setError] = useState("");
+  useNavigationKeys(prefs.shortcuts);
+  useReadingZoom();
   const [page, setPage] = useState(()=>window.__tbNewAccount?'training-lists':'mine'),
     [filters, setFilters] = useState({
       library: blankFilters(),
@@ -702,7 +717,23 @@ export default function App({ localNavigation = false }) {
   const social = useSocial(api, Boolean(data&&account?.userId),account?.userId||'');
   const presence=usePresence(api,data&&account?.userId,currentActivity({page,practice:practiceId,studyKind:learningBrowserActive?studyActivity:null,contest:workspace?.activeContest,duel:duel?.state,thought:thought?.state}));
   const learningSummary=useLearningSummary(api,account?.userId||'local',Boolean(data&&!loading),Boolean(learningBrowserActive||practiceId||readerId||['lectures','paths','templates','wiki'].includes(page)||workspace.activeContest));
-  const [taskView,setTaskView]=useState('overview');
+  const [taskView,setTaskView]=useState(undefined),[globalQuery,setGlobalQuery]=useState('');
+  useEffect(()=>{setGlobalQuery('');},[account?.userId]);
+  useEffect(()=>{const group=PAGE_GROUPS[page];if(!group||!preferencesLoaded.current)return;setPrefs(previous=>previous.learningPaths?.pageBookmarkActive?.[group]===page?previous:{...previous,learningPaths:{...previous.learningPaths,pageBookmarkActive:{...previous.learningPaths?.pageBookmarkActive,[group]:page}}});},[page,account?.userId]);
+  const [backgroundPickerOpen,setBackgroundPickerOpen]=useState(false),[cardPacksOpen,setCardPacksOpen]=useState(false);
+  const backgroundInventory=useBackgroundInventory(api,account?.userId||'local',!loading);
+  const openCardPacks=useCallback(()=>{setCardPacksOpen(true);if(!backgroundInventory.loading)void backgroundInventory.refresh();},[backgroundInventory.loading,backgroundInventory.refresh]);
+  const topbarRef=useRef(null);
+  useLayoutEffect(()=>{const header=topbarRef.current;if(!header)return;const shell=header.closest('.app-shell'),align=()=>shell.style.setProperty('--chrome-header-height',header.getBoundingClientRect().height+'px');align();const observer=new ResizeObserver(align);observer.observe(header);return()=>observer.disconnect();},[loading,account?.userId]);
+  useEffect(()=>setCardPacksOpen(false),[account?.userId]);
+  const navigationPlan=useMemo(()=>addCalendarLearningTasks(learningSummary.snapshot?.plan,calendar?.snapshot?.contests||[],workspace.contests||[],now),[learningSummary.snapshot?.plan,calendar?.snapshot?.contests,workspace.contests,now]);
+  const navigationSummary=useMemo(()=>learningSummary.snapshot?{...learningSummary.snapshot,plan:navigationPlan}:null,[learningSummary.snapshot,navigationPlan]);
+  const backgroundAccess={level:entryGrowth?.level??1,admin:Boolean(window.__tbAdmin)};
+  const backgroundValue=workspaceBackground(prefs,backgroundInventory.inventory,account?.userId||'local',backgroundAccess);
+  useEffect(()=>{setBackgroundPickerOpen(false);setCardPacksOpen(false);},[account?.userId]);
+  useEffect(()=>{const open=()=>setBackgroundPickerOpen(true),select=event=>{if(event.detail?.owner===account?.userId&&event.detail.id)setPrefs(previous=>chooseRewardBackground(previous,event.detail.id));};window.addEventListener('tb:background-picker',open);window.addEventListener('tb:workspace-background-select',select);return()=>{window.removeEventListener('tb:background-picker',open);window.removeEventListener('tb:workspace-background-select',select);};},[account?.userId]);
+  useEffect(()=>{if(prefs.learningPaths?.workspaceBackground||prefs.backdrop!=='none'||!backgroundInventory.inventory)return;const value=backgroundInventory.inventory,unit=value.units.find(unit=>unit.placement&&value.catalogue.find(item=>item.id===unit.stickerId)?.kind==='background');if(unit)setPrefs(previous=>previous.learningPaths?.workspaceBackground?previous:chooseRewardBackground(previous,unit.stickerId));},[backgroundInventory.inventory,prefs.backdrop,prefs.learningPaths?.workspaceBackground]);
+
   const summaryNavigation=useRef(null);summaryNavigation.current=()=>{setTaskView('overview');go('tasks');};
   useEffect(()=>{const navigate=()=>summaryNavigation.current?.();window.addEventListener('tb:learning-summary-open',navigate);return()=>window.removeEventListener('tb:learning-summary-open',navigate);},[]);
   const [messagesReading,setMessagesReading]=useState(false);
@@ -852,10 +883,10 @@ export default function App({ localNavigation = false }) {
   useEffect(() => {
     if (!data || !preferencesLoaded.current || !window.__tbAccountUserId) return;
     const value = portablePreferences(prefs), signature = JSON.stringify(value);
-    if (signature === uploadedPreferences.current) return;
     let disposed=false,retryTimer,failures=0;
     const save = () => {
       const pending = preferencesQueue.current.catch(() => false).then(async () => {
+        if (disposed) return true;
         if (signature === uploadedPreferences.current) return true;
         try {
           await api('preferences', { preferences: value });
@@ -980,7 +1011,7 @@ export default function App({ localNavigation = false }) {
     try { localStorage.setItem(preferencesKey(), JSON.stringify(prefs.avatarData?.length>48*1024?{...prefs,avatarData:''}:prefs)); } catch { /* SQLite/cloud still retain account preferences. */ }
     const root = document.documentElement;
     root.dataset.panelStyle = prefs.panelStyle;
-    root.dataset.backdrop = prefs.backdrop;
+    root.dataset.backdrop = backgroundValue.kind==='none'?'none':backgroundValue.kind==='image'?'custom':'reward';
     root.style.setProperty('--panel-opacity', `${Math.min(100, Math.max(0, Number(prefs.panelOpacity ?? 76)))}%`);
     for (const [key, value] of Object.entries(prefs.pageOpacities || {}))
       root.style.setProperty(`--opacity-${key}`, `${Math.min(100, Math.max(0, Number(value) || 0))}%`);
@@ -999,7 +1030,7 @@ export default function App({ localNavigation = false }) {
       `${Math.min(22, Math.max(13, Number(prefs.fontSize) || 15))}px`,
     );
     return ()=>motionQuery.removeEventListener('change',applyMotion);
-  }, [prefs]);
+  }, [prefs,backgroundValue.kind,backgroundValue.id]);
   // 桌面全屏：浏览器测试环境没有原生窗口，available=false 时设置项禁用。
   const [display, setDisplay] = useState({ available: false, fullscreen: false });
   const applyFullscreen = useCallback(async (value) => {
@@ -1233,14 +1264,15 @@ export default function App({ localNavigation = false }) {
   const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
   const [recommendationOpen,setRecommendationOpen]=useState(false);
   const levelNoticeBlocked=Boolean(learningBrowserActive||loading||busy||practiceId||active||workspace.summary?.pending||dialog||clearTrainingAnchor||tourOpen||recommendationOpen||learningSummary.open||labFocus||templateFocus||lectureFull||readerFull||experienceOpen);
-  const levelUp=useLevelUp({owner:account?.userId,growth:insights?.growth,preferences:prefs,preferencesReady:preferencesLoaded.current&&!loading,setPreferences:setPrefs,blocked:levelNoticeBlocked});
-  const levelFeedbackVisible=!levelNoticeBlocked&&!levelUp.dialog&&!document.hidden&&document.hasFocus();
+  const rankUp=useRankPromotion({owner:account?.userId,growth:insights?.growth,ready:preferencesLoaded.current&&!loading,blocked:Boolean(loading||busy||active||workspace.summary?.pending||dialog||clearTrainingAnchor||tourOpen||recommendationOpen||learningSummary.open||experienceOpen||experienceAttention)});
+  const levelUp=useLevelUp({owner:account?.userId,growth:insights?.growth,preferences:prefs,preferencesReady:preferencesLoaded.current&&!loading,setPreferences:setPrefs,blocked:levelNoticeBlocked||rankUp.pending||Boolean(rankUp.notice)});
+  const levelFeedbackVisible=!levelNoticeBlocked&&!levelUp.dialog&&!rankUp.notice&&!document.hidden&&document.hasFocus();
   const calendarReminderAllowed = featureAvailable('competitions');
   useEffect(() => {
     if (dialog === 'contest-reminder' && !calendar.reminder) { setDialog(null); return; }
-    if (calendar.reminder && calendarReminderAllowed && !dialog && !tourOpen && !levelUp.dialog && !loading && !experienceOpen && !experienceAttention)
+    if (calendar.reminder && calendarReminderAllowed && !dialog && !tourOpen && !levelUp.dialog && !rankUp.notice && !rankUp.pending && !loading && !experienceOpen && !experienceAttention)
       setDialog('contest-reminder');
-  }, [calendar.reminder?.signature, calendar.reminder?.ownerKey, calendarReminderAllowed, dialog, tourOpen, levelUp.dialog, loading, experienceOpen, experienceAttention]);
+  }, [calendar.reminder?.signature, calendar.reminder?.ownerKey, calendarReminderAllowed, dialog, tourOpen, levelUp.dialog, rankUp.notice, rankUp.pending, loading, experienceOpen, experienceAttention]);
   useEffect(()=>{if(!levelFeedbackVisible||!levelUp.feedback.length)return;const timer=setTimeout(levelUp.clearFeedback,1400);return()=>clearTimeout(timer);},[levelFeedbackVisible,levelUp.feedback,levelUp.clearFeedback]);
   useEffect(()=>setFinishAnchor(null),[active?.id,page,mockTab,Boolean(record),Boolean(practiceId)]);
   useEffect(()=>setClearTrainingAnchor(null),[page,Boolean(practiceId),active?.id,workspace.summary?.pending]);
@@ -1255,6 +1287,8 @@ export default function App({ localNavigation = false }) {
       [target]: { ...current[target], ...patch, ...(target === "mine" ? { shelf: "all", setId: "" } : {}) },
     }));
   function go(next) {
+    if(PAGE_GROUPS[next])rememberPageBookmark(account?.userId||'local',PAGE_GROUPS[next],next);
+    setGlobalQuery('');
     learningBrowserRef.current?.hide({silent:true});
     learningSummary.setOpen(false);
     if(!featureAvailable(next))return;
@@ -1295,7 +1329,19 @@ export default function App({ localNavigation = false }) {
     }
     go(item.page);
   }
+  async function openCalendarTask(task) {
+              if(task.contestId&&task.contestId===workspace.activeContest?.id){setPage('mock');setMockTab('create');setMockSlot(workspace.activeContest.slots[0]?.id);return;}
+              if(task.status==='done'){const record=workspace.contests.find(item=>item.id===task.contestId);if(record)openRecord(record);return;}
+              if(task.availability==='upcoming'){setDialog('contest-calendar');return;}
+              if(task.availability==='ended'){await openCalendarContest(task.event);return;}
+              const owner=account?.userId,result=await api('contests/start-calendar',{id:task.event.id});
+              if(calendarDataOwner.current!==owner||window.__tbAccountUserId!==undefined&&window.__tbAccountUserId!==owner)return;
+              await calendarDataReader.refresh(owner);if(calendarDataOwner.current===owner)startedMock(result);
+
+  }
   function openSummaryTask(task) {
+    const sequence=todayTaskSequence(navigationPlan),flow=task.key?{planId:learningSummary.snapshot?.plan?.id,taskKey:task.key,mode:sequence.length&&sequence.every(item=>item.status==='done')?'review':'work'}:null;
+    if(task.kind==='calendar-contest'){void openCalendarTask(task).catch(issue=>notice(issue.message,'error'));return;}
     if(task.id==='summary'||task.kind==='summary-task'){learningSummary.setOpen(false);setTaskView('overview');go('tasks');return;}
     if(task.kind==='mixed'){
       if(!task.contestId){api('learning-summary/start',{key:task.key,planId:learningSummary.snapshot?.plan?.id}).then(result=>{learningSummary.refresh();openSummaryTask({...task,contestId:result.contest.id});}).catch(issue=>notice(issue.message,'error'));return;}
@@ -1305,10 +1351,10 @@ export default function App({ localNavigation = false }) {
     if(['quiz','reflection'].includes(task.kind)){learningSummary.setOpen(true);window.dispatchEvent(new CustomEvent('tb:learning-summary-task',{detail:task}));return;}
     const current=practiceId||studyProblemId;
     const proceed=()=>{
-      if(['problem','review','template-problem'].includes(task.kind))openPractice(task.id,{restoreReviewId:task.reviewId||null});
-      else openRecommendation({...task,summaryTask:false,page:task.kind==='course'?'paths':task.kind==='template'?'templates':'lectures'});
+      if(['problem','review','template-problem'].includes(task.kind))openPractice(task.id,{restoreReviewId:task.status==='done'?null:task.reviewId||null,taskFlow:flow});
+      else openLearning({kind:task.kind==='course'?'lab':task.kind,id:task.id,title:task.title,visit:{taskFlow:flow}});
     };
-    if(current&&['lecture','course','template'].includes(task.kind))learningSummary.update('assist',{problemId:current,key:task.key}).then(proceed).catch(issue=>notice(issue.message,'error'));
+    if(current&&task.key&&['lecture','course','template'].includes(task.kind))learningSummary.update('assist',{problemId:current,key:task.key}).then(proceed).catch(issue=>notice(issue.message,'error'));
     else proceed();
     if(learningSummary.snapshot?.view?.pinned===false)learningSummary.setOpen(false);
   }
@@ -1355,7 +1401,7 @@ export default function App({ localNavigation = false }) {
   function focusList(target=page) {
     requestAnimationFrame(() => (listRefs.current[target]||listRef).current?.focus({ preventScroll: true }));
   }
-  async function openPractice(id, { assisted = false, problemIds = null, recommendation = null, stage = null, newTab = false, restoreReviewId = null, sourcePage = page } = {}) {
+  async function openPractice(id, { assisted = false, problemIds = null, recommendation = null, stage = null, newTab = false, restoreReviewId = null, sourcePage = page, taskFlow = null } = {}) {
     if (!id || busy) return;
     if (active?.slots.some((s) => s.id === id)) {
       learningBrowserRef.current?.hide({silent:true});
@@ -1390,7 +1436,7 @@ export default function App({ localNavigation = false }) {
       setPracticeId(null);
       setPracticeReview(null);
       const practiceFlow={stage:result.reviewTask?'review':stage|| (recommendation?'recommendation':'list'),baselineSubmittedAt:workspace.training.find(row=>row.id===id)?.lastSubmittedAt||null,openedAt:new Date(Date.now()+serverOffset.current).toISOString()};
-      openLearning({kind:'problem',id,title:rows.find(row=>row.id===id)?.title,reviewTask:result.reviewTask||null,preparedProblem:practicePrefetch.current?.promise,problemIds:context.ids,visit:{practiceFlow},newTab});
+      openLearning({kind:'problem',id,title:rows.find(row=>row.id===id)?.title,reviewTask:result.reviewTask||null,preparedProblem:practicePrefetch.current?.promise,problemIds:context.ids,visit:{practiceFlow,...(taskFlow?{taskFlow}:{})},newTab});
       setReaderId(null);
       setReaderFull(false);
     } catch (e) {
@@ -1530,7 +1576,7 @@ export default function App({ localNavigation = false }) {
     setReaderFull(false);
     setPage("mock");
     setMockTab("create");
-    setMockSlot(result.contest.slots[0]?.id);
+    setMockSlot(result.contest.slots.find(slot=>slot.statementAvailable!==false)?.id);
     notice("计时已开始，祝你专注", "success");
   }
   async function finishMock(cancelled=false) {
@@ -1645,6 +1691,7 @@ export default function App({ localNavigation = false }) {
   ];
   useEffect(() => {
     function keyboard(e) {
+      if(e.key==='Escape'&&document.querySelector('[data-rank-promotion]'))return;
       if(document.querySelector('.study-browser')){
         if(e.defaultPrevented||e.isComposing)return;
         const target=PAGES.find(item=>featureAvailable(item.id)&&matchesShortcut(e,'page-'+item.id,prefs.shortcuts));
@@ -1788,7 +1835,7 @@ export default function App({ localNavigation = false }) {
       }
       if (page === "mock" && active && /^[1-9]$/.test(e.key)) {
         const slot = active.slots[Number(e.key) - 1];
-        if (slot) {
+        if (slot&&slot.statementAvailable!==false) {
           e.preventDefault();
           setMockSlot(slot.id);
         }
@@ -1896,14 +1943,15 @@ export default function App({ localNavigation = false }) {
       { id: "accepted", name: "已 AC", color: "green", rows: items.filter(row => groupOf(row)==='accepted') },
     ] : null;
     return (
-      <div className="table-scroll" ref={node=>{const ref=listRefs.current[listPage];if(ref.current)ref.position={top:ref.current.scrollTop,left:ref.current.scrollLeft};ref.current=node;if(node&&ref.position){node.scrollTop=ref.position.top;node.scrollLeft=ref.position.left;}}} tabIndex={0} role="region" aria-label="题目列表"
+      <div className="table-scroll" ref={node=>{const ref=listRefs.current[listPage];if(ref.current)ref.position={top:ref.current.scrollTop,left:ref.current.scrollLeft};ref.current=node;if(node){if(ref.position){node.scrollTop=ref.position.top;node.scrollLeft=ref.position.left;}node.style.setProperty('--table-scroll-y',`${node.scrollTop}px`);}}} tabIndex={0} role="region" aria-label="题目列表"
         onPointerMove={event => {
           pointerPosition.current = { x:event.clientX,y:event.clientY };
           setHoveredRow(event.target.closest('tr[data-id]')?.dataset.id || null);
           if (keyboardSelection) setKeyboardSelection(false);
         }}
         onPointerLeave={() => { pointerPosition.current=null;setHoveredRow(null); }}
-        onScroll={() => {
+        onScroll={event => {
+          event.currentTarget.style.setProperty('--table-scroll-y',`${event.currentTarget.scrollTop}px`);
           const position=pointerPosition.current;
           if (!position) return;
           const row=document.elementFromPoint(position.x,position.y)?.closest('tr[data-id]');
@@ -1952,7 +2000,7 @@ export default function App({ localNavigation = false }) {
         </Empty>
       );
     return (
-      <div className="list-page" style={{'--page-opacity':`var(--opacity-${listPage}, var(--panel-opacity))`}}>
+      <div className="list-page" style={opacityStyle(listPage)}>
         {toolbar(listPage)}
         {renderTable(items,listPage)}
         {listPage === "library" ? <PagePagination label="题库分页" count={`共 ${visible.length} 题`} page={currentLibraryPage} pages={libraryPages} onPageChange={setLibraryPage} previousLabel="题库上一页" nextLabel="题库下一页" onPrevious={()=>setLibraryPage(currentLibraryPage-1)} onNext={()=>setLibraryPage(currentLibraryPage+1)}/> : <div className="list-footer"><span role="status">共 {visible.length} 题</span></div>}
@@ -2066,10 +2114,10 @@ export default function App({ localNavigation = false }) {
   }
   const currentPage = navigationPages.find((p) => p.id === page),
     currentMockSlot =
-      active?.slots.find((slot) => slot.id === mockSlot) || active?.slots[0];
+      active?.slots.find((slot) => slot.id === mockSlot&&slot.statementAvailable!==false) || active?.slots.find(slot=>slot.statementAvailable!==false);
   const conciseSolution = reader && briefSolution(reader.markdown, rows.find(row => row.id === readerId)?.difficulty);
   const readerPanel = readerId && (
-    <ReaderFrame fullscreen={readerFull} width={prefs.readerWidth}
+    <ReaderFrame identity={readerId} fullscreen={readerFull} width={prefs.readerWidth} shortcuts={prefs.shortcuts}
       onKeyDown={(e) => {
         if (e.key === "Escape") {
           e.preventDefault();
@@ -2104,22 +2152,26 @@ export default function App({ localNavigation = false }) {
           }
         }}
       />}
-      <Suspense fallback={<div className="reader-content" role="status"><LoaderCircle className="spin" size={20}/></div>}><SolutionReader key={readerId} reader={reader} error={readerError} api={api} methodId={readerMethod} onMethodChange={setReaderMethod} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} fullscreen={readerFull} onFullscreen={()=>setReaderFull(!readerFull)} onClose={()=>{readerSeq.current++;setReaderId(null);setReader(null);setReaderFull(false);focusList();}}/></Suspense>
+      <Suspense fallback={<div className="reader-content" role="status"><LoaderCircle className="spin" size={20}/></div>}><SolutionReader key={readerId} problemId={readerId} reader={reader} error={readerError} api={api} methodId={readerMethod} onMethodChange={setReaderMethod} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} fullscreen={readerFull} onFullscreen={()=>setReaderFull(!readerFull)} onClose={()=>{readerSeq.current++;setReaderId(null);setReader(null);setReaderFull(false);focusList();}}/></Suspense>
     </ReaderFrame>
   );
   const beforeTodayAc = insights?.summary?.beforeTodaySolved ?? Math.max(summary.beforeTodayAccepted || 0, (insights?.summary?.totalSolved ?? summary.historicalAccepted ?? 0) - (summary.todayAccepted || 0));
   const todayAc = insights?.summary?.todaySolved ?? summary.todayAccepted ?? 0;
   return (
     <FeatureVisibilityContext.Provider value={featureAvailable}><DifficultyDisplayProvider mode={prefs.difficultyDisplay}><DifficultyBoundsProvider rows={data?.rows||[]}><div
+      data-study-open={learningBrowserActive}
       className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : labFocus?"lab-focus":templateFocus?"template-focus practice-focus":page==='lectures'&&lectureFull?"lecture-focus practice-focus":"")}
     >
-      {!loading&&<LearningBrowser ref={learningBrowserRef} api={api} accountId={account?.userId||'local'} ready={!loading&&(!account?.userId||preferencesLoaded.current)} onFlush={flushLearningBrowser} rows={rows} trainingRows={todayMine} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} onProgress={progressChanged} onNotice={notice} onExit={exitPractice} onActiveChange={learningBrowserChanged} categories={categories} lockedProblems={active?.slots||[]} practiceWorkspace={workspace} recommendations={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]} weeklyPlan={learningSummary.snapshot?.plan} onSummaryTask={openSummaryTask}/>}
-      <LearningSummary model={learningSummary} api={api} onOpenTask={openSummaryTask} currentProblem={practiceId||studyProblemId} currentContent={studyContent} rows={rows}/>
+      <WorkspaceBackground value={backgroundValue} motion={prefs.motion!==false}/>
+      {cardPacksOpen&&!loading&&<StickerBoxes key={account?.userId||'local'} api={api} owner={account?.userId||'local'} state={backgroundInventory.inventory} loading={backgroundInventory.loading} inventoryError={backgroundInventory.error} onRefresh={backgroundInventory.refresh} onUpdated={backgroundInventory.accept} onClose={()=>setCardPacksOpen(false)}/>}
+      {backgroundPickerOpen&&!loading&&<BackgroundPicker owner={account?.userId||'local'} prefs={prefs} setPrefs={setPrefs} model={backgroundInventory} access={backgroundAccess} onClose={()=>setBackgroundPickerOpen(false)}/>}
+      {!loading&&<LearningBrowser ref={learningBrowserRef} api={api} accountId={account?.userId||'local'} ready={!loading&&(!account?.userId||preferencesLoaded.current)} onFlush={flushLearningBrowser} rows={rows} trainingRows={todayMine} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} onProgress={progressChanged} onNotice={notice} onExit={exitPractice} onActiveChange={learningBrowserChanged} categories={categories} lockedProblems={active?.slots||[]} practiceWorkspace={workspace} recommendations={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]} weeklyPlan={learningSummary.snapshot?.plan} onSummaryTask={openSummaryTask} taskPlan={navigationPlan} onTaskNavigate={openSummaryTask} onPacks={openCardPacks}/>}
+      <LearningSummary navigationPlan={navigationPlan} model={learningSummary} api={api} onOpenTask={openSummaryTask} currentProblem={practiceId||studyProblemId} currentContent={studyContent} rows={rows}/>
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
-      <aside className="sidebar">
+      <aside id="tb-primary-sidebar" className="sidebar">
         <div className="brand">
-          <button type="button" className="brand-mark" aria-label={prefs.collapsed?"展开侧边栏":"收起侧边栏"} aria-expanded={!prefs.collapsed} onClick={()=>setPrefs(previous=>({...previous,collapsed:!previous.collapsed}))}>
-            <BrandWordmark/>
+          <button type="button" className="brand-toggle sidebar-toggle" aria-label={prefs.collapsed?"展开侧栏":"收起侧栏"} title={prefs.collapsed?"展开侧栏":"收起侧栏"} aria-expanded={!prefs.collapsed} aria-controls="tb-primary-sidebar" onClick={()=>setPrefs(previous=>({...previous,collapsed:!previous.collapsed}))}>
+            <span className="brand-mark" aria-label="ToBe"><BrandWordmark/></span>
           </button>
 
         </div>
@@ -2137,7 +2189,7 @@ export default function App({ localNavigation = false }) {
               aria-label={p.label}
               aria-describedby={dueCount > 0 && (p.id === "mine" || p.members?.some(member => member.id === "mine")) ? `training-pending-${p.id}` : undefined}
               title={prefs.collapsed ? p.label + (p.key ? " · Ctrl+" + p.key : "") : undefined}
-              onClick={() => go(p.members ? p.members.find(member => member.id === page)?.id || p.members[0].id : p.id)}
+              onClick={() => {const section=p.members?.some(item=>LEARNING_PAGES.includes(item.id))?'learning':p.members?.some(item=>TRAINING_PAGES.includes(item.id))?'training':null;const focused=section?(readSectionBookmark(account?.userId||'local',section)?.focused||prefs.learningPaths?.sectionWorkspaces?.[section]?.focused)?.replace(/^panel:/,''):readPageBookmark(account?.userId||'local',p.group)||prefs.learningPaths?.pageBookmarkActive?.[p.group];go(p.members ? p.members.find(member => member.id === page)?.id || p.members.find(member=>member.id===focused)?.id || p.members[0].id : p.id);}}
             >
               <p.icon size={18} />
               <span className="nav-label" aria-hidden="true">{p.label}</span>
@@ -2161,12 +2213,12 @@ export default function App({ localNavigation = false }) {
         </div>
       </aside>
       <main className="main-area">
-        <header className={"topbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>
-          <div className="topbar-leading"><div id="tb-page-location" className="page-location-slot"/>
-          <div id="tb-page-search" className="topbar-search-slot"/></div>
-          {!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} contentReady={Boolean(data&&!loading)} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} onActionsChange={updateRecommendationItems} adoptedSummary={learningSummary.snapshot} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
-          <div className="topbar-actions"><button type="button" className="icon-button" aria-label="任务概览" title="任务概览 · Ctrl+Shift+P" onClick={()=>{setTaskView('overview');go('tasks');}}><NotebookTabs size={18}/></button>{learningTabCount>0&&<button type="button" className="icon-button" aria-label="返回学习标签页" title="返回学习标签页" onClick={()=>learningBrowserRef.current?.resume()}><BookOpen size={18}/></button>}
-            <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
+        <header ref={topbarRef} className={"topbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>
+          <div className="topbar-leading"><div id="tb-page-bookmarks" className="topbar-bookmark-slot"/><div id="tb-page-location" className="page-location-slot"/>
+          <div id="tb-page-search" className="topbar-search-slot" data-unified="true"><WorkspaceSearchInput value={globalQuery} onChange={setGlobalQuery}/></div></div>
+          <div className="topbar-trailing">{!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} contentReady={Boolean(data&&!loading)} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} onActionsChange={updateRecommendationItems} adoptedSummary={navigationSummary} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
+          <div className="topbar-actions">{learningTabCount>0&&<button type="button" className="icon-button" aria-label="返回学习标签页" title="返回学习标签页" onClick={()=>learningBrowserRef.current?.resume()}><BookOpen size={18}/></button>}
+            <PracticeStreak days={insights?.summary?.streak??summary.streak??0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
             {active && page !== "mock" && (
               <button className="live-contest" aria-label="返回比赛" onClick={() => go("mock")}>
                 <Clock size={14} />
@@ -2174,11 +2226,16 @@ export default function App({ localNavigation = false }) {
               </button>
             )}
             <button className="text-button topbar-daily-ac topbar-status-chip" aria-label={`AC：历史 ${beforeTodayAc}，今日 ${todayAc}`} onClick={()=>go('mine')}><span className="metric-label">AC</span><span className="metric-separator" aria-hidden="true">:</span><b>{beforeTodayAc}{todayAc>0&&<span className="topbar-ac-today">+{todayAc}</span>}</b></button>
-            <button className="text-button topbar-love-count topbar-status-chip" data-positive={Number(social.snapshot?.todayLikes)>=1} data-cached={social.snapshot?.countsCached||undefined} aria-busy={!social.snapshot?.available} aria-label={social.snapshot?.totalLikes!=null?`爱心：历史 ${Math.max(0,(social.snapshot.totalLikes||0)-(social.snapshot.todayLikes||0))}，今日 ${social.snapshot.todayLikes||0}${social.snapshot.available?'':'，上次确认数据'}`:'爱心，正在读取'} onClick={() => setDialog('updates')}><Heart size={18} fill="currentColor"/><span className="metric-separator" aria-hidden="true">:</span><b>{social.snapshot?.totalLikes!=null?Math.max(0,(social.snapshot.totalLikes||0)-(social.snapshot.todayLikes||0)):'—'}{social.snapshot?.todayLikes>0&&<span className="topbar-ac-today">+{social.snapshot.todayLikes}</span>}</b></button>
             <ProfileBadge growth={growth} avatar={prefs.avatarData} nickname={account?.nickname || profileSnapshot?.profile?.nickname} onClick={()=>openAccounts('profile')} onAvatarClick={()=>setDialog('avatar')}/>
-            <IconButton label="切换深浅主题" className="icon-button theme-toggle" icon={prefs.theme==='dark'?Sun:Moon} aria-pressed={prefs.theme==='light'} onClick={()=>setPrefs(previous=>({...previous,theme:previous.theme==='dark'?'light':'dark'}))}/>
+
+
+          </div></div>
+        </header>
+        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}><button type="button" className="achievement-top-button sticker-box-trigger" aria-label="卡包" title="卡包" aria-busy={backgroundInventory.loading} onClick={openCardPacks}><Gift size={18}/></button><span className="statusbar-online" role="status" data-online={presence?.available||false} aria-label="在线人数">在线 · {presence?.available?presence.count:'—'}人</span>{featureAvailable('competitions')&&<Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip>}<button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><DailyTaskCount value={insights?.dailyTasks}/>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
+            <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><small>{unlockedAchievements.length}/{achievements.length}</small>{(unseenAchievements.length > 0 || unlockedAchievements.some(item=>!item.rewardClaimed)) && <i className="notification-dot" />}</button>
+            <IconButton label="切换深浅主题" className="achievement-top-button theme-toggle" icon={prefs.theme==='dark'?Sun:Moon} aria-pressed={prefs.theme==='light'} onClick={()=>setPrefs(previous=>({...previous,theme:previous.theme==='dark'?'light':'dark'}))}/>
             <IconButton
-              label="消息通知"
+              label="消息通知" className="achievement-top-button notification-trigger"
               icon={Bell}
               onClick={() => setDialog("updates")}
             >
@@ -2186,11 +2243,6 @@ export default function App({ localNavigation = false }) {
                 <span className="notification-dot" />
               )}
             </IconButton>
-
-          </div>
-        </header>
-        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}><span className="statusbar-online" role="status" data-online={presence?.available||false} aria-label="在线人数">在线 · {presence?.available?presence.count:'—'}人</span>{featureAvailable('competitions')&&<Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip>}<button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><DailyTaskCount value={insights?.dailyTasks}/>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
-            <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><small>{unlockedAchievements.length}/{achievements.length}</small>{(unseenAchievements.length > 0 || unlockedAchievements.some(item=>!item.rewardClaimed)) && <i className="notification-dot" />}</button>
 {prefs.widgets && <TopbarClock />}</footer>
         {error && (
           <div className="error-banner" role="alert">
@@ -2198,9 +2250,10 @@ export default function App({ localNavigation = false }) {
             <button onClick={() => reload(true)}>重新读取</button>
           </div>
         )}
-        {!practiceId && !LEARNING_PAGES.includes(page) && !TRAINING_PAGES.includes(page) && mergedPages.length > 1 && <div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}{item.id === "mine" && dueCount > 0 && <i className="training-tab-dot" role="img" aria-label="有未完成训练待办" />}</button>)}</div>}
-        <TaskContinuation owner={account?.userId||'local'} snapshot={learningSummary.snapshot} training={workspace.training} actions={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]} content={studyContent||((practiceId||studyProblemId)?{kind:'problem',id:practiceId||studyProblemId}:null)} update={learningSummary.update} onOpen={openRecommendation} suspended={Boolean(active||loading)} insideStudy={learningBrowserActive}/>
-        <div data-page={practiceId ? "practice" : page} className={"workspace-area " + (practiceId ? "practicing" : "")} style={{ '--page-opacity': `var(--opacity-${practiceId ? 'mock' : page}, var(--panel-opacity))` }}>
+        {!practiceId && !LEARNING_PAGES.includes(page) && !TRAINING_PAGES.includes(page) && mergedPages.length > 1 && <PageBookmarks><TopPageTabs items={mergedPages} group={currentPage?.group} activeId={page} onActivate={go} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/></PageBookmarks>}
+        <div data-page={practiceId ? "practice" : page} data-global-search={Boolean(globalQuery.trim())} className={"workspace-area " + (practiceId ? "practicing" : "")} style={{ '--page-opacity': `var(--opacity-${practiceId ? 'mock' : page}, var(--panel-opacity))` }}>
+          <TaskContinuation owner={account?.userId||'local'} snapshot={learningSummary.snapshot} training={workspace.training} actions={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]} content={studyContent||((practiceId||studyProblemId)?{kind:'problem',id:practiceId||studyProblemId}:null)} update={learningSummary.update} onOpen={openRecommendation} suspended={Boolean(active||loading)} insideStudy={learningBrowserActive}/>
+          {globalQuery.trim()&&!loading&&<WorkspaceSearchResults key={account?.userId||'local'} query={globalQuery} api={api} owner={account?.userId||'local'} rows={rows} onClose={()=>setGlobalQuery('')} onOpen={item=>{setGlobalQuery('');if(item.kind==='problem')void openPractice(item.id);else openLearning(item);}}/>}
           <Suspense fallback={<div className="loading-screen" role="status"><LoaderCircle size={27} className="spin" /><p>正在载入</p></div>}>
           {loading ? (
             <div className="loading-screen">
@@ -2226,17 +2279,9 @@ export default function App({ localNavigation = false }) {
               onNext={nextPractice}
             />
           ) : page==='tasks' ? (
-            <TasksBoard key={account?.userId||'local'} owner={account?.userId||'local'} initialView={taskView} onView={setTaskView} model={learningSummary} api={api} prefs={prefs} setPrefs={setPrefs} onOpenTask={openSummaryTask} problemRows={rows} calendar={calendar} contestRecords={workspace.contests||[]} onCalendarTask={async task=>{
-              if(task.contestId&&task.contestId===workspace.activeContest?.id){setPage('mock');setMockTab('create');setMockSlot(workspace.activeContest.slots[0]?.id);return;}
-              if(task.status==='done'){const record=workspace.contests.find(item=>item.id===task.contestId);if(record)openRecord(record);return;}
-              if(task.availability==='upcoming'){setDialog('contest-calendar');return;}
-              if(task.availability==='ended'){await openCalendarContest(task.event);return;}
-              const owner=account?.userId,result=await api('contests/start-calendar',{id:task.event.id});
-              if(calendarDataOwner.current!==owner||window.__tbAccountUserId!==undefined&&window.__tbAccountUserId!==owner)return;
-              await calendarDataReader.refresh(owner);if(calendarDataOwner.current===owner)startedMock(result);
-            }} onNextAction={task=>{const item=recommendationSnapshot.items.find(item=>!item.summaryTask&&item.id!==task?.id);if(item)openRecommendation(item);}}/>
+            <TasksBoard key={account?.userId||'local'} owner={account?.userId||'local'} initialView={taskView} onView={setTaskView} model={learningSummary} api={api} prefs={prefs} setPrefs={setPrefs} onOpenTask={openSummaryTask} problemRows={rows} calendar={calendar} contestRecords={workspace.contests||[]} onCalendarTask={openCalendarTask}/>
           ) : LEARNING_PAGES.includes(page) ? (
-            <SectionWorkspace key={'learning:'+(account?.userId||'local')} id="learning" entries={LEARNING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label}))} activeId={page} onActivate={setPage} render={renderLearningPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
+            <SectionWorkspace key={'learning:'+(account?.userId||'local')} id="learning" entries={LEARNING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label,icon:item.icon}))} activeId={page} onActivate={setPage} render={renderLearningPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
           ) : TRAINING_PAGES.includes(page) ? (
             <SectionWorkspace key={'training:'+(account?.userId||'local')} id="training" entries={TRAINING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label,icon:item.icon,attention:item.id==='mine'&&dueCount>0}))} activeId={page} onActivate={setPage} render={renderTrainingPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
           ) : page === "mock" ? (
@@ -2279,7 +2324,7 @@ export default function App({ localNavigation = false }) {
                         (s) => s.id === currentMockSlot.id,
                       );
                       setMockSlot(
-                        active.slots[(index + 1) % active.slots.length].id,
+                        [...active.slots.slice(index+1),...active.slots.slice(0,index+1)].find(slot=>slot.statementAvailable!==false)?.id,
                       );
                     }}
                   />
@@ -2287,6 +2332,7 @@ export default function App({ localNavigation = false }) {
               </div>
             ) : <>{active ? <div className="mock-resume-row"><button className="secondary" onClick={()=>setMockTab("create")}><Play size={15}/>继续比赛</button></div> : (
               <MockSetup
+                rows={rows}
                 recommendation={mockRecommendation}
                 historyQuery={mockHistoryQuery}
                 onHistoryQuery={setMockHistoryQuery}
@@ -2379,6 +2425,7 @@ export default function App({ localNavigation = false }) {
       {tourOpen && <Suspense fallback={null}><Onboarding availablePages={visiblePageIds} key={tourContext} initialGuide={tourContext} practiceId={studyProblemId||practiceId||(mockFocus?currentMockSlot?.id:null)} onShown={markGuideShown} onComplete={finishOnboarding} onDirectory={()=>openGuide('catalog')} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
       {experienceOffer?.owner===account?.userId&&experienceOffer?.policyVersion===1&&<Suspense fallback={null}><ExperienceChallenge owner={account?.userId} offer={experienceOffer} ready={preferencesLoaded.current&&!loading&&prefs.levelNoticeVersion===1&&prefs.levelNoticeSeen>=Math.min(navigationLevel,4)} blocked={levelNoticeBlocked||Boolean(levelUp.dialog)} api={api} onOpenChange={setExperienceOpen} onOpen={openPractice} onGrowth={growth=>{const owner=window.__tbAccountUserId;if(confirmedGrowth(growth,owner))setInsights(previous=>protectGrowth(previous,{...previous,growth},owner,retiredGrowthEpochs.current));}}/></Suspense>}
       {levelUp.dialog&&<Suspense fallback={null}><LevelUpDialog notice={levelUp.dialog} pages={PAGES} preferences={prefs} onPresented={levelUp.markPresented} onClose={levelUp.close} onOpen={go}/></Suspense>}
+      {rankUp.notice&&<Suspense fallback={null}><RankPromotion key={rankUp.notice.id} notice={rankUp.notice} motion={prefs.motion} onPresented={rankUp.presented} onClose={rankUp.close}/></Suspense>}
       {dialog === "achievements" && <Modal opacityKey="achievements" title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => {setDialog(null);backgroundDialog.current=null;void refreshBackground(true);}} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} onClaim={async id=>{const owner=window.__tbAccountUserId;dailyClaimPending.current=true;backgroundSeq.current++;try{const result=await api('achievements/claim',{id,compact:true});if(owner!==window.__tbAccountUserId)return;backgroundSeq.current++;setInsights(previous=>result.achievement?{...previous,achievements:(previous?.achievements||[]).map(item=>item.id===id?{...item,...result.achievement}:item)}:protectGrowth(previous,result,owner,retiredGrowthEpochs.current));window.dispatchEvent(new Event('tb:sticker-rewards'));notice('奖励已领取','success');}finally{dailyClaimPending.current=false;}}} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span></div><HistoricalCode submission={selectedSubmission} api={api}/>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (

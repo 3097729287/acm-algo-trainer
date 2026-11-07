@@ -1,3 +1,4 @@
+import {todayTaskSequence} from '@/lib/taskNavigation.js';
 import {useEffect,useId,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {Check,Clock,RefreshCw,Square,X} from 'lucide-react';
@@ -44,7 +45,7 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
  useEffect(()=>{if(!contentReady)return;let alive=true;setMetadata({lists:[],templates:[],templatesReady:false});const requests=[['training-lists','lists'],['templates','templates']].filter(([page])=>availablePages.includes(page));Promise.allSettled(requests.map(async([page,key])=>[key,(await api(page))[key]||[]])).then(results=>{if(alive){const values=Object.fromEntries([['lists',[]],['templates',[]],...results.filter(item=>item.status==='fulfilled').map(item=>item.value)]);setMetadata({...values,templatesReady:results.some(item=>item.status==='fulfilled'&&item.value[0]==='templates')});}});return()=>{alive=false;};},[api,scope,revision,contentReady]);
  const progression=JSON.stringify(Object.keys(LEARNING_COURSES).map(id=>[id,prefs.learningPaths?.[id]?.mode,prefs.learningPaths?.[id]?.labV1?.chapter]));
  const model=useMemo(()=>recommendationState({rows,training,insights:insights||{},prefs,...metadata,availablePages,activeContest,reviewPlan,now:Math.max(now,Date.now())}),[rows,training,insights,metadata,scope,activeContest,reviewPlan,now,prefs.learnedLectures,prefs.learningPaths?.knowledgeLearning,progression]);
- const journey=model.journey,items=useMemo(()=>nextActionChoices({snapshot:adoptedSummary,items:model.items,rows,training,dailyTasks:insights?.dailyTasks,availablePages,activeContest,now}),[adoptedSummary,model,rows,training,insights?.dailyTasks,scope,activeContest,now]),primary=items[0],rest=items.slice(1),activeTopic=adoptedSummary?null:KNOWLEDGE_BY_ID[knowledgeState(prefs).activeTopicId];
+ const journey=model.journey,items=useMemo(()=>{const choices=nextActionChoices({snapshot:adoptedSummary,items:model.items,rows,training,dailyTasks:insights?.dailyTasks,availablePages,activeContest,now});const tasks=todayTaskSequence(adoptedSummary?.plan,now);return tasks.length&&tasks.every(task=>task.status==='done')?[{...tasks[0],summaryTask:true,taskKind:tasks[0].kind,todayComplete:true},...choices]:choices;},[adoptedSummary,model,rows,training,insights?.dailyTasks,scope,activeContest,now]),primary=items[0],rest=items.slice(1),activeTopic=adoptedSummary?null:KNOWLEDGE_BY_ID[knowledgeState(prefs).activeTopicId];
  const manualAction=item=>{const task=item?.rawAction||item;return !task?.reviewOnly&&task?.journeyTopicId===activeTopic?.id&&['lecture','course'].includes(task?.kind)?task:null;};
  const requestCompletion=(event,item)=>{const task=manualAction(item);if(task){const node=event.currentTarget,rect=node.getBoundingClientRect();const anchor=root.current?.contains(node)?node:{getBoundingClientRect:()=>rect,contains:()=>false,focus:()=>trigger.current?.focus()};close();setCompleteAnchor({anchor,task});}};
  useEffect(()=>{onActionsChange?.(preferencesReady&&contentReady?items:[]);},[onActionsChange,preferencesReady,contentReady,items]);
@@ -73,7 +74,7 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
   return()=>{observer?.disconnect();window.removeEventListener('resize',update);window.removeEventListener('scroll',update,true);};
  },[expanded,primary?.kind,primary?.id,rest.map(item=>item.title).join("| ")]);
  const start=item=>{
-  close();if(item.kind==='knowledge'){if(item.completed&&!item.mastered){const task=item.rawAction||{kind:'lecture',page:'lectures',id:item.topic.lectures[0],title:item.title,journeyTopicId:item.id};start(task);}else item.completed?setInformation(item):setCandidate(item);return;}
+  close();if(item.summaryTask){onNavigate(item);return;}if(item.kind==='knowledge'){if(item.completed&&!item.mastered){const task=item.rawAction||{kind:'lecture',page:'lectures',id:item.topic.lectures[0],title:item.title,journeyTopicId:item.id};start(task);}else item.completed?setInformation(item):setCandidate(item);return;}
   if(item.journeyTopicId)setPrefs?.(previous=>assignKnowledgeProblem(previous,{...item,id:item.problemId||item.id}));
   ['problem','stretch','review','template-problem','knowledge-review','random'].includes(item.kind)?onTrain(item.id,{recommendation:item}):onNavigate(item);
  };
@@ -89,10 +90,10 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
  const blur=event=>{if(!contains(event.relatedTarget))leave(true);};
  if(!preferencesReady)return <section ref={root} className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>;
  if(!primary)return null;
- const Icon=icons[primary.kind]||icons.problem;
+ const Icon=primary.todayComplete?Check:icons[primary.kind]||icons.problem;
  return <section ref={root} className="next-actions" aria-label="下一步推荐做的事" data-open={expanded} data-expandable={expandable} data-suspended={suspended} onPointerEnter={event=>{if(event.pointerType==='mouse')show();}} onPointerLeave={event=>{if(event.pointerType==='mouse')leave();}} onFocus={event=>{if(!ignoreFocus.current&&event.target.matches(':focus-visible'))show();}} onBlur={blur}>
-  <button ref={trigger} type="button" className="next-actions-primary" data-recommendation={primary.kind} aria-label={`开始${labels[primary.kind]} ${primary.title}`} aria-describedby={reasonId} aria-expanded={expandable?expanded:undefined} aria-controls={expandable?popupId:undefined} disabled={suspended} onPointerDown={event=>{if(event.pointerType==='touch'&&expandable&&!open){touchOpened.current=true;show();}}} onClick={event=>{if(touchOpened.current){touchOpened.current=false;event.preventDefault();return;}start(primary);}} onKeyDown={openWithKeys}>
-   <Icon size={18} aria-hidden="true"/><span className="next-actions-primary-copy"><strong>{primary.title}</strong></span>
+  <button ref={trigger} type="button" className="next-actions-primary" data-recommendation={primary.kind} aria-label={primary.todayComplete?'已完成，查看今日第一项任务':`开始${labels[primary.kind]} ${primary.title}`} aria-describedby={reasonId} aria-expanded={expandable?expanded:undefined} aria-controls={expandable?popupId:undefined} disabled={suspended} onPointerDown={event=>{if(event.pointerType==='touch'&&expandable&&!open){touchOpened.current=true;show();}}} onClick={event=>{if(touchOpened.current){touchOpened.current=false;event.preventDefault();return;}start(primary);}} onKeyDown={openWithKeys}>
+   <Icon size={18} aria-hidden="true"/><span className="next-actions-primary-copy"><strong>{primary.todayComplete?'已完成':primary.title}</strong></span>
   </button>
   {activeTopic&&primary?.journeyTopicId===activeTopic.id&&<small className="next-actions-daily-progress" aria-label="今日知识点进度">{journey.dailyCompleted}/{journey.dailyTarget}</small>}
   {manualAction(primary)&&<button type="button" role="checkbox" aria-checked="false" className="next-action-control" aria-label={`完成 ${manualAction(primary).title}`} title="完成这一步学习" onClick={event=>requestCompletion(event,primary)}><Square size={16}/></button>}

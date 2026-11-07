@@ -26,7 +26,7 @@ export default function LearningPathsPage({ rows = [], prefs, setPrefs:savePrefe
   const matches = COURSES.filter(course => `${course.title} ${course.search}`.toLowerCase().includes(query.trim().toLowerCase()));
   const fallback=useRef({leftAt:null,scrollTop:0}),session=visit||fallback.current,panel=useRef(null),enteredCourse=useRef(null);
   const active = !catalogOnly&&COURSES.find(course=>course.id===(initialPath||prefs.learningPaths?.activePath));
-  const resume=active&&(study||prefs.learningPaths?.resumePath===active.id);
+  const resume=false;
   const displayedPrefs=initialPath?{...prefs,learningPaths:{...prefs.learningPaths,activePath:initialPath}}:prefs;
   const coursePreferences=active&&enteredCourse.current!==active.id&&!resume?startCourseAtBeginning(displayedPrefs,active):displayedPrefs;
   useLayoutEffect(()=>{

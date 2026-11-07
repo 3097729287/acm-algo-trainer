@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {nextActionChoices} from '../src/lib/nextActionChoices.js';
+import {nextActionChoices,MAX_NEXT_ACTION_CHOICES} from '../src/lib/nextActionChoices.js';
 const now=Date.parse('2026-11-05T03:00:00Z'),date='2026-11-05',availablePages=['mine','tasks','mock'],rows=[{id:'a',title:'已通过',accepted:true,catalogContentReady:true},{id:'b',title:'剩余训练题',catalogContentReady:true},{id:'c',title:'缺题面'},{id:'d',title:'已锁定',locked:true,catalogContentReady:true}];
 const plan={tasks:[{key:'lesson',kind:'lecture',id:'lecture',title:'窗口边界',date,status:'pending'},{key:'future',kind:'problem',id:'c',title:'明天的任务',date:'2026-11-06',status:'pending'}]},dailyTasks={tasks:[{id:'daily',title:'训练',completed:false},{id:'done',completed:true,claimed:true}]};
 const input={snapshot:{plan},items:[{kind:'review',id:'b',title:'复习'},{kind:'knowledge',id:'done',title:'已完成',completed:true}],training:rows,rows,dailyTasks,availablePages,now};
@@ -20,7 +20,8 @@ const capped={snapshot:{plan:{tasks:[]}},availablePages:['mock'],rows:originalRo
 choices=nextActionChoices(capped);
 assert.deepEqual(choices.filter(item=>item.kind==='problem').map(item=>item.title),['第一道题','第二道题']);
 assert(!choices.some(item=>item.kind==='random'),'Original problem aliases do not return under another task type');
-for(const kind of ['problem','lecture','review','template','course'])assert.equal(choices.filter(item=>item.kind===kind).length,2,kind+' includes the primary in its limit');
+assert.equal(choices.length,MAX_NEXT_ACTION_CHOICES);assert.equal(choices.length-1,4,'Four alternatives remain beside the primary recommendation');
+assert.equal(nextActionChoices({...capped,activeContest:{id:'in-progress'}}).length,MAX_NEXT_ACTION_CHOICES,'Active-contest choices follow the same total limit');
 for(const kind of new Set(choices.map(item=>item.kind)))assert(choices.filter(item=>item.kind===kind).length<=2);
 choices=nextActionChoices({...capped,items:capped.items.filter(item=>['replay','problem'].includes(item.kind))});assert.equal(choices.filter(item=>item.kind==='replay').length,1,'Both replay labels are one picker');
 const plannedProblems={plan:{tasks:['a','b','c'].map(id=>({key:id,kind:'problem',id,title:id,date,status:'pending'}))}};

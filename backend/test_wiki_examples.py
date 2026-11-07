@@ -17,6 +17,10 @@ class WikiExampleTests(unittest.TestCase):
         manifest=json.loads((ROOT/'backend/resources/wiki-examples.json').read_text(encoding='utf-8'))
         problems=json.loads((ROOT/'data/library/problems.json').read_text(encoding='utf-8'))
         rows={row['id']:row for row in problems}
+        from statement_seed import load_statements
+        from statement_cleanup import clean_statement
+        from statement_integrity import content_complete,native_submission_supported
+        bodies={row['problem_id']:row['content'] for row in load_statements(ROOT/'data/library')}
         self.assertEqual(manifest['wikiSha256'],hashlib.sha256((ROOT/'backend/resources/oi-wiki.sqlite3').read_bytes()).hexdigest())
         self.assertEqual(set(entries),{item['identity'] for item in manifest['entries']})
         self.assertEqual(len(entries),110)
@@ -26,9 +30,13 @@ class WikiExampleTests(unittest.TestCase):
             self.assertTrue(item['references'])
             if row['encoded'].get('wikiExample'):
                 self.assertIsNone(row['encoded']['difficulty'])
-                self.assertFalse(row['encoded']['catalogStatementReady'])
-                self.assertFalse(row['encoded']['catalogReplayReady'])
-                self.assertFalse(excluded(row),'Explicit Wiki examples remain visible under the requested catalogue scope')
+                if row['encoded']['catalogStatementReady']:
+                    self.assertTrue(content_complete(clean_statement(bodies[row['id']])),row['id'])
+                    if row['encoded']['catalogReplayReady']:self.assertTrue(native_submission_supported(row['url']))
+                else:
+                    self.assertFalse(row['encoded']['catalogReplayReady'])
+                if row['encoded'].get('statementRetired'):self.assertTrue(row['encoded']['catalogHidden'])
+                else:self.assertFalse(excluded(row),'Readable explicit Wiki examples remain visible under the requested catalogue scope')
                 self.assertEqual(row['encoded']['difficultyConfidence'],'UNKNOWN')
                 self.assertTrue(row['encoded']['knowledgeReviewRequired'])
         _,added,rebuilt=prepare()

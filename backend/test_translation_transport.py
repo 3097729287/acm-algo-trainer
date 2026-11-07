@@ -126,6 +126,7 @@ class TransportTests(unittest.TestCase):
         service=self.service(original)
         def reply(payload):
             text=re.sub(r'TBPROTECT[A-F0-9]{8}\d{4}TOKEN','',payload['messages'][1]['content'])
+            text=re.sub(r'\$[nm]\$','',text)
             text=text.replace('Given a positive integer','给定一个正整数').replace('find the answer and print its value.','计算答案并输出其值。')
             return {'choices':[{'message':{'content':text}}]}
         self.reply=reply

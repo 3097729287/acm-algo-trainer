@@ -3,6 +3,13 @@ from functools import lru_cache
 import json
 from paths import resource
 from insights import canonical_url
+
+def replay_visible(row):
+    """Keep an audited missing slot in its contest without reviving other retirements."""
+    return (not row.get('catalogHidden') or bool(row.get('schoolTraining'))
+            or row.get('statementRetirementPolicy')=='public-statement-audit-v1'
+            and not (row.get('statementPriorVisibility') or {}).get('catalogHidden'))
+
 @lru_cache(maxsize=1)
 def mirrors():return {canonical_url(key):canonical_url(value) for key,value in json.loads(resource('replay-mirrors.json').read_text(encoding='utf8')).items()}
 def unique_replay_rows(rows):

@@ -4,6 +4,26 @@
 
 用户明确要求：Rust/Tauri 先仅在本地测试，正式更新继续使用原 React + Python 架构和原打包流程。当前为隔离的迁移测试程序，完整应用尚未迁移；`releaseReady=false` 阻止打开正式工作区。原接口接线 30/134，工作区、题目和学习操作等按范围标记 `partial`。`planner.rs` 按既有紧凑目录生成共享预算与待采纳方案，在同一 SQLite 保存点中写入状态、历史及辅助标记；阅读、原理和模板阶段只使用对应事实，正式提交／复习／比赛事实完整接入前明确拒绝受其影响的规划刷新与变更。未支持的操作返回 `MIGRATION_PENDING`。公共内容只读，运行时不启动 Python；在线备份包含 WAL、未知表及校验回执，拒绝覆盖已有目标。[迁移进度、验证与剩余工作](native-migration.md)。
 
+## 1.6.5 题面与增量边界
+
+客户端继续采用 React + Python。缺题保留原 ID 和比赛位置，题面可读、中文可用与正式提交能力分别判断；不完整赛事不发完整赛事奖励。精简题库响应保留 statementRetired、statementRetirementPolicy 与 statementPriorVisibility，使界面与完整题库采用同一套可见性规则。
+
+中文补丁绑定原稿摘要；换源不再匹配的旧译文归档。完整原件尚未找到时禁用入口，只有 PDF 提取不可靠时保留原件并关闭中文。公共种子合并不替换个人库。1.6.4 → 1.6.5 继续使用原 schema-1 文件增量的版本、摘要、目录及恢复校验；不新增个人或服务端表。
+
+## 1.6.1 统一搜索与任务上下文
+
+WorkspaceSearch 复用按账号隔离的 catalogueCache，将讲解、模板、百科、单题与实验室统一索引；身份仍是 kind:id，同名标题不去重，搜索不改变训练记录。主界面和学习阅读窗口共享查询状态，结果打开原有阅读／单题入口。
+
+SectionWorkspace 的即时、账号隔离导航缓存只保存书签及滚动等界面状态，防止刷新早于 600 ms SQLite 偏好回写时丢失位置；原有偏好持久化同时保留。实验室每次激活清除临时章内导航，保留 prefs 中的真实完成与作品。
+
+任务入口将 planId/taskKey 存入学习标签 visit.taskFlow，taskNavigation 从今日实际任务与日历投影寻找相邻项，跨内容类型复用 openSummaryTask。普通题目保留 problemIds 的列表顺序。切换先走草稿刷新屏障；导航无完成写入，计划变更拒绝旧链。当天已确认完成后末项循环到首项，顶部完成入口从首项开始；所有库存和学习事实继续由既有后台核实。
+
+## 1.6.1 现成动效背景与固定卡包入口
+
+背景目录取消稀有度，使用 Vanta.js 0.5.24 的五种原始效果、CheapWater（提交 f892228d701522fb26d8cdbcf0b360767705aedf）的现成雨滴碰水与同相机波纹场景及已认可的流星。库与依赖离线打包，缩略图为实际库渲染；全窗口只挂载一个效果，隐藏与减少动态效果停止帧循环，卸载释放渲染器。旧主题和品质后缀只作为库存身份的兼容别名，单位 UUID、归属、数量、记录与预设保留。奖励开启在服务端同一事务均匀选择未收集背景（集齐后全池），不读取难度或品质。源代码中的服务与管理员目录一起更新，已安装旧原生/服务仍由客户端投影兼容。
+
+默认只开放纯色，自选图片按已确认账号等级在 10 级开放；其它动效只接受当前账号已确认库存。原始动图不改写。卡包按钮与弹窗归 App 管理，后台统一读取库存，与成长页挂载无关；场景预设的入口不等待库存，加载期禁用。目标设置归任务页管理。
+
 ## 1.6.1 工作区和背景修订
 
 学习与任务的 SectionWorkspace 复用 learningBrowser 的分组、分屏、转移与调宽模型，panel 类型只描述页面书签；布局存入既有账号私有 UI 偏好的 learningPaths.sectionWorkspaces。自建待办存入 learningPaths.taskBoard，使用独立 UUID、更新时间及删除标记，不充当学习事实或奖励依据。任务页继续调用既有学习规划和每日奖励接口，前端时间选择始终不低于 60 分钟；原生 API 协议与个人数据库结构不变。
@@ -820,3 +840,23 @@ Normal LearningBrowser problem navigation awaits a targeted draft flush before r
 Review cancellation writes cancelledAt on the existing account-owned review-task journal. It suppresses only that task, preserves receipts/drafts/rewards, and a genuinely later WA may create a new task. Existing training/start accepts an owner- and problem-validated restoreReviewId for undo. No schema migration or public progress seed is added.
 
 Sticker scale is optional, finite and bounded to 0.5–2 through the existing placement owner/CAS boundary. Older services omit the capability and keep legacy placement requests. The sticker surface is below original profile content.
+
+
+## 1.6.1 全窗口背景与学习目录任务
+
+`WorkspaceBackground` 是应用唯一的背景层，覆盖整个窗口并独立于成长贴纸画布；读题窗口打开时保留背景，主界面本体保持状态但整体隐藏，避免透明读题窗口透出底层列表。既有 `MeteorsBackground` 组件及样式不改动，其余主题使用共享 `MotionScene` 的 WebGL2 或 Canvas2D 渲染。窗口隐藏与动态偏好暂停 RAF；卸载释放程序、缓冲、上下文、观察器及全局监听。渲染像素预算独立于正文字号与布局。
+
+奖励背景选择保存在既有通用 UI 偏好的 `learningPaths.workspaceBackground={kind:'reward',id:<canonical sticker ID>}`，不扩展后端 `backdrop` 枚举，也不改变服务器奖励策略。`useBackgroundInventory` 读取实际 `/stickers`，校验 owner、代数和请求世代；选择时只保存 UI 偏好，真实副本和场景预设仍保留。恢复旧背景摆放时仅在用户未作显式选择且原背景为纯色时迁移。奖励消失或账号不匹配时回退原有基础背景，不以过期缓存授予所有权。成长场景预设成功切换后可通过带 owner 的事件选择对应全局背景。
+
+自选背景继续使用本机 `tb-backgrounds/images` IndexedDB 原始 Blob，支持 GIF、动态 WebP / PNG，不转码、不上传；选择与轮播位置沿用 `tb.background.playlist`。旧 `tb.appearance.background` 图片在打开“我的背景”时按原字节复制到 IndexedDB 并去重，成功提交后才移除旧入口值。减少动态效果或窗口隐藏时捕获静止帧，恢复后继续原动图；缩放静止帧不会继续推进动画。设置和状态栏共用同一个直接打开的选择弹窗，成长贴纸弹窗只显示贴纸。
+
+`mergeLearningTasks` 把当前周计划映射到既有学习索引的内容身份：problem/review/template-problem 共用题目行，待完成复习优先于同题已完成练习；讲解、课程等复用其既有行，目录缺失项补为同样格式的行。行尾使用计划实际状态，点击调用原 `openSummaryTask`，不把打开操作当完成；当前任务完成后行位置稳定。任务页中的正式本周计划详情保留。
+
+`frontend/scripts/build-background-preview.mjs` 将同一引擎、原流星样式与预览控件嵌入离线单文件 HTML；它提供全部主题的视觉预览，不授予正式程序的背景所有权。
+
+雨湖的 scene、wave-field、fish-shadows 三个模块按原字节收录于 `frontend/src/vendor/rain-lake`，SHA-256、MIT 和 NOTICE 随程序打包。适配层只负责雨滴落点范围、行程、阻尼参数和生命周期，不改写雨滴绘制、落水或波场算法；隐藏鱼影。闪电继续使用已固定版本 rain-ripple 1.0.0 的原有闪光例程，不运行其地平线或雨景循环。普通板块搜索框相对整窗居中；全屏学习浏览器不挂载统一搜索与占位，卡包独立浮于底部，并由根库存弹窗处理读取、失败重试和账号隔离。
+
+
+## 1.6.2 雨景与主界面修整
+
+雨景采用 CheapWater 原有雨滴、碰撞触发波纹、双通道法线合成和同一透视相机。原 HTML、贴图、MIT 与 SHA-256 随源码保存；适配只调整相机、颜色、雨量、每次碰撞的原有波纹精灵数量与生命周期，不单独随机生成水纹。移除演示球和交互相机，隐藏/卸载停止并释放。主界面顶栏维持正常推荐，不显示任务内容内部的前后项；侧栏显式收起按钮沿用账号偏好。背景选择统一收在设置外观。共享服务连接建立与响应等待使用不同预算，慢响应头不再被 3 秒连接预算截断，写入不重放。

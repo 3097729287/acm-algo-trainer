@@ -86,6 +86,7 @@ html[data-motion=off] .dipper-lines {stroke-dashoffset:0}
 .dino-body {animation:dino-bob .8s ease-in-out infinite}
 .dino-foot {transform-box:fill-box;transform-origin:50% 0;animation:dino-step .8s ease-in-out infinite}
 .dino-foot-back {animation-delay:-.4s}
+.dino-traveler:not([data-scene-state=walking]) :is(.dino-body,.dino-foot){animation:none}
 @keyframes dino-bob {0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
 @keyframes dino-step {0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
 @media(max-width:800px){.dino-traveler{--dino-width:114px}}

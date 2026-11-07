@@ -79,14 +79,21 @@ class StartupRestoreTests(unittest.TestCase):
         self.signup(); self.login(); self.stop(); self.start()
         self.server.training.save_draft('fixture::A','unflushed local code')
         original=self.server.accounts._remote
+        restore_deadline=self.server.accounts._restoration_deadline
+        uploads=[]
         from training import ServiceError
         def remote(method,path,*args,**kwargs):
             if method == 'PUT' and path == '/v2/accounts/state':
+                uploads.append(path)
                 raise ServiceError(503,'fixture upload unavailable')
             return original(method,path,*args,**kwargs)
-        with patch.object(self.server.accounts,'_remote',side_effect=remote), patch.object(AccountStateSync,'start'):
+        # Exercise the explicit upload rejection. A slow CI loopback GET can
+        # exhaust the production fast-resume budget first, taking the separately
+        # tested offline-lease path before this fault is ever injected.
+        with patch.object(self.server.accounts,'_restoration_deadline',side_effect=lambda seconds:restore_deadline(5)), patch.object(self.server.accounts,'_remote',side_effect=remote), patch.object(AccountStateSync,'start'):
             status,value=self.call('/api/account')
         self.assertEqual(status,200,value)
+        self.assertGreaterEqual(len(uploads),1,'The injected upload rejection must be reached')
         self.assertFalse(value['authenticated'])
         self.assertEqual(self.call('/api/workspace')[0],401)
         self.assertEqual(self.server.training.problem('fixture::A')['draft'],'unflushed local code')

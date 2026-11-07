@@ -40,7 +40,11 @@ def fixture():
          'knowledge':'模拟','knowledgeCategories':['基础技巧'],'difficulty':1000,'examYear':2026,'examStage':'初赛','examGroup':'C/C++大学B'},
         {'id':'hidden::A','title':'Retained history','contest':'教育赛 195','problem':'A','platform':'Codeforces',
          'series':'教育赛','source':'remote','status':'未做','date':'','tags':[],'knowledge':'','difficulty':None,
-         'catalogHidden':True,'catalogNotice':'不在指定系列','catalogVisibilityPolicy':'authorized-content-v2'}],
+         'catalogHidden':True,'catalogNotice':'不在指定系列','catalogVisibilityPolicy':'authorized-content-v2'},
+        {'id':'missing::B','title':'Missing original','contest':'教育赛 195','problem':'B','platform':'Codeforces',
+         'series':'教育赛','source':'remote','status':'未做','date':'','tags':[],'knowledge':'','difficulty':None,
+         'catalogHidden':True,'catalogStatementReady':False,'catalogReplayReady':False,'statementRetired':True,
+         'statementRetirementPolicy':'public-statement-audit-v1','statementPriorVisibility':{}}],
         'revision':'catalog-revision','categories':[{'name':'构造','tags':['构造']}],
         'token':'fixture-token','today':'2026-10-15','statuses':['未做','独立AC']}
 
@@ -63,6 +67,7 @@ class CataloguePayloadTests(unittest.TestCase):
             for key in ('id','title','url','contest','problem','tags','knowledge','knowledgeCategories','knowledgeReviewRequired','difficulty',
                         'difficultySource','difficultyBand','difficultyConfidence','difficultyEvidence','difficultyEstimated',
                         'catalogHidden','catalogNotice','contestDate','startedAt','endedAt','contestDatePrecision',
+                        'statementRetired','statementRetirementPolicy','statementPriorVisibility',
                         'eventYear','xcpcYear','xcpcKind','examYear','examStage','contestVariant','contestProblemCount',
                         'contestDifficulty','contestDifficultySource','solutionAvailable','collectionNotice'):
                 if key in old:self.assertEqual(new[key],old[key],key)
@@ -87,7 +92,11 @@ const {filteredRows}=await load('models/model.js');
 const {difficultyLabel,difficultyDescription,compareContestNewest}=await load('lib/practiceMetadata.js');
 const {matchesShelf}=await load('lib/contestShelves.js');
 const {knowledgeLabels}=await load('lib/knowledgeLabels.js');
+const {replayVisible}=await load('lib/completeContest.js');
 const ids=rows=>rows.map(row=>row.id);
+assert.deepEqual(ids(data.original.rows.filter(replayVisible)),ids(data.compact.rows.filter(replayVisible)));
+assert(ids(data.compact.rows.filter(replayVisible)).includes('missing::B'));
+assert(!ids(data.compact.rows.filter(replayVisible)).includes('hidden::A'));
 for (const options of [{query:'构造'},{query:'1127 C'},{platform:'Codeforces',min:1200,sort:'difficulty'},
                        {tags:['模拟']},{query:'未做'},{sort:'title',desc:true}]) {
   assert.deepEqual(ids(filteredRows(data.original.rows,options)),ids(filteredRows(data.compact.rows,options)));

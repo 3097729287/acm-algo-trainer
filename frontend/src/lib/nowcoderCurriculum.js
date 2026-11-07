@@ -58,32 +58,37 @@ function placement(list,item){
  return UNITS[map.find(([pattern])=>pattern.test(text))?.[1]]||unit(8,'01 基础综合练习');
 }
 
-export function buildNowcoderCurriculum(lists){
+export const nowcoderUnitId=path=>'nowcoder-curriculum:unit:'+encodeURIComponent(path.join('/'));
+
+export function buildNowcoderCurriculum(lists,rows=[]){
  const byId=new Map(lists.map(list=>[list.id,list])),parents=new Map();
  for(const id of ROOTS)for(const child of byId.get(id)?.children||[])parents.set(child,id);
+ const byProblem=new Map(),byUrl=new Map(),urlKey=url=>String(url||'').replace(/[?#].*$/,'').replace(/\/$/,'');
+ for(const row of rows){for(const id of [row.id,...row.aliasIds||[]])byProblem.set(id,row);if(row.url)byUrl.set(urlKey(row.url),row);}
+ const identity=item=>(byProblem.get(item.problemId)||byUrl.get(urlKey(item.url)))?.id||refKey(item);
  const inherited=new Set();for(const id of byId.get(ROOTS[0])?.children||[])for(const p of byId.get(id)?.problems||[])inherited.add(refKey(p));
- const groups=new Map();
+ const groups=new Map(),standalone=[];
  for(const list of lists){
   if(list.id===ROOTS[2])continue;
+  if(!ROOTS.includes(list.id)&&!parents.has(list.id)&&!UNITS[key(list)]&&list.id!=='nowcoder-817596-sequential-verified'){
+   standalone.push({...list,catalogHidden:false,topicPath:['牛客'],directoryRow:false});continue;
+  }
   for(const item of list.problems||[]){
    if(list.id===ROOTS[0]&&inherited.has(refKey(item)))continue;
-   const path=placement(list,item),parent=parents.get(list.id)||list.id;
-   const origin=parent===ROOTS[1]?2:parent===ROOTS[2]?3:1;
-   const groupId=JSON.stringify([path,origin,list.id]);
-   if(!groups.has(groupId))groups.set(groupId,{list,path,origin,problems:[]});
-   const sections=list.id===ROOTS[1]?(item.sections||[]).slice(1):[];
-   groups.get(groupId).problems.push({...item,sections,membershipSource:item.membershipSource||list.url,sourceListId:list.id});
+   const path=placement(list,item),groupId=JSON.stringify(path);
+   if(!groups.has(groupId))groups.set(groupId,{list,path,legacyIds:new Set(),sources:new Set(),problems:new Map()});
+   const group=groups.get(groupId),id=identity(item),previous=group.problems.get(id);
+   group.legacyIds.add(`nowcoder-curriculum:${list.id}:${encodeURIComponent(path.join('/'))}`);group.sources.add(list.id);
+   if(previous){previous.sourceListIds=[...new Set([...previous.sourceListIds,list.id])];continue;}
+   group.problems.set(id,{...item,originalSections:item.originalSections||item.sections||[],sections:[],membershipSource:item.membershipSource||list.url,sourceListId:list.id,sourceListIds:[list.id]});
   }
  }
- const learningOrder=list=>list.id===ROOTS[0]?2000:list.id==='nowcoder-817596-sequential-verified'?1000:(list.curriculumOrder||0);
- const counts=new Map(),curriculum=[];
- for(const group of [...groups.values()].sort((a,b)=>a.origin-b.origin||learningOrder(a.list)-learningOrder(b.list))){
-  const {list,path,origin,problems}=group,base=['','入门练习','基础精选','进阶练习'][origin];
-  const sourceName=list.displayTitle||list.title;
-  const name=list.id==='nowcoder-817596-sequential-verified'?'入门精选练习':list.id===ROOTS[0]?'入门补充练习':origin===3?sourceName:['nowcoder-contest-19851','nowcoder-contest-20960'].includes(list.id)?`入门练习 · 第 ${list.id.endsWith('19851')?1:2} 组`:base;
-  const positionKey=path.join('\0'),position=(counts.get(positionKey)||0)+1;counts.set(positionKey,position);
-  curriculum.push({...list,id:`nowcoder-curriculum:${list.id}:${encodeURIComponent(path.join('/'))}`,title:name,displayTitle:`${String(position).padStart(2,'0')} ${name}`,sourceListId:list.id,sourceLabel:origin===1?'语法与算法入门':origin===2?'算法基础精选':'算法进阶',
-   originalTitle:list.originalTitle||list.title,topicPath:['牛客',...path],catalogHidden:false,directoryRow:true,learningSequence:true,aggregateChildren:false,children:[],problems,curriculumOrder:origin*1000+(list.curriculumOrder||0)});
+ const curriculum=[];
+ for(const {list,path,legacyIds,sources,problems} of groups.values()){
+  const name=path[1].replace(/^\d+\s+/,''),order=NOWCODER_STAGES.indexOf(path[0])*100+Number.parseInt(path[1],10);
+  curriculum.push({...list,id:nowcoderUnitId(path),legacyIds:[...legacyIds],title:name,displayTitle:name,sourceListId:list.id,sourceListIds:[...sources],sourceLabel:'',
+   originalTitle:list.originalTitle||list.title,topicPath:['牛客',path[0]],catalogHidden:false,directoryRow:false,hideSectionFolders:true,learningSequence:true,aggregateChildren:false,children:[],problems:[...problems.values()],problemCount:problems.size,curriculumOrder:order});
  }
- return [...lists.map(list=>({...list,catalogHidden:true})),...curriculum];
+ const visible=new Set(standalone.map(list=>list.id));
+ return [...lists.filter(list=>!visible.has(list.id)).map(list=>({...list,catalogHidden:true})),...standalone,...curriculum];
 }

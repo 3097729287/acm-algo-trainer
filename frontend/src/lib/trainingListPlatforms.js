@@ -1,7 +1,7 @@
 import {buildTrainingCurriculum,CURRICULUM_STAGES} from './trainingCurriculum.js';
 import {normalizePlatform,platformFromUrl} from './platformRegistry.js';
 import {organizeNowcoderTrainingLists} from './nowcoderTrainingLists.js';
-import {buildNowcoderCurriculum} from './nowcoderCurriculum.js';
+import {buildNowcoderCurriculum,nowcoderUnitId} from './nowcoderCurriculum.js';
 
 // A collection's source is its own provenance, not its title or its problems'
 // platforms. Luogu collections legitimately contain mirrored contest tasks.
@@ -22,7 +22,7 @@ export function platformTrainingLists(lists,rows,mode='algorithm') {
  if(mode==='source')return organizeNowcoderTrainingLists(lists);
  const luogu=lists.filter(list=>trainingListPlatform(list)==='洛谷');
  const other=organizeNowcoderTrainingLists(lists.filter(list=>trainingListPlatform(list)!=='洛谷'));
- const nowcoder=buildNowcoderCurriculum(other.filter(list=>trainingListPlatform(list)==='牛客'));
+ const nowcoder=buildNowcoderCurriculum(other.filter(list=>trainingListPlatform(list)==='牛客'),rows);
  const curriculum=buildTrainingCurriculum(luogu,rows).map(list=>({...list,topicPath:['洛谷',...list.topicPath]}));
  return [...curriculum,...other.filter(list=>trainingListPlatform(list)!=='牛客').map(list=>{
   const platform=trainingListPlatform(list);
@@ -34,7 +34,16 @@ export function platformTrainingLists(lists,rows,mode='algorithm') {
 // Existing new-user and remembered stage paths predate the platform root.
 // Their original curriculum IDs and the user's personal folders stay intact.
 export function platformListState(state) {
- if(state?.nowcoderLearningVersion!==1)state={...state,nowcoderLearningVersion:1,...(state?.mode==='algorithm'&&state.folder?.[0]==='牛客'?{folder:['牛客'],trail:[],sections:[],flat:false,page:1}:{})};
+ if(state?.nowcoderLearningVersion!==2){
+  const previous=state?.nowcoderLearningVersion;state={...state,nowcoderLearningVersion:2};
+  if(state.mode==='algorithm'&&state.folder?.[0]==='牛客'){
+   const old=state.trail?.find(id=>id.startsWith('nowcoder-curriculum:')&&!id.startsWith('nowcoder-curriculum:unit:'));
+   let path=state.folder.slice(1);
+   if(old)try{path=decodeURIComponent(old.slice(old.lastIndexOf(':')+1)).split('/');}catch{/* Fall back to the saved folder. */}
+   if(path.length>=2)state={...state,folder:['牛客',path[0]],trail:[nowcoderUnitId(path.slice(0,2))],sections:[],flat:false,page:1};
+   else if(previous!==1)state={...state,folder:['牛客'],trail:[],sections:[],flat:false,page:1};
+  }
+ }
  if(state?.mode==='algorithm'&&CURRICULUM_STAGES.includes(state.folder?.[0]))return {...state,folder:['洛谷',...state.folder]};
  return state;
 }

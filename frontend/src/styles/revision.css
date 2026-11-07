@@ -87,7 +87,7 @@ html .topbar .topbar-love-count,html .topbar .topbar-love-count b {color:var(--t
 html .topbar .topbar-love-count svg {color:#ee6b81}
 html .topbar .topbar-love-count[data-positive=true] :is(b,.metric-separator) {color:#ee6b81}
 html .topbar .topbar-love-count svg {display:block;flex:none;width:20px;height:20px}
-html .topbar-actions>.live-contest {display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;min-height:40px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;color:var(--accent);font-size:1rem;font-weight:650;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
+html .topbar-actions>.live-contest {display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;min-height:40px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;color:var(--text);font-size:1rem;font-weight:650;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
 html .topbar-actions>.live-contest svg {display:block;flex:none;width:18px;height:18px}
 html .practice-streak {gap:5px;min-width:0;white-space:nowrap;line-height:1}
 html .practice-streak b {font-size:.9rem}
@@ -358,9 +358,17 @@ html[data-panel-style=minimal] {--surface-image:none;--surface-border:transparen
 html[data-panel-style=outlined] {--surface-image:none;--surface-border:color-mix(in srgb,var(--accent) 60%,var(--line));--surface-line:solid;--surface-radius:18px;--surface-grid:auto}
 html[data-panel-style=aurora] {--surface-image:radial-gradient(ellipse at top left,color-mix(in srgb,var(--accent) 20%,transparent),transparent 65%);--surface-border:color-mix(in srgb,var(--accent) 30%,var(--line));--surface-line:solid;--surface-radius:22px;--surface-grid:auto}
 html[data-panel-style=blueprint] {--surface-image:linear-gradient(color-mix(in srgb,var(--accent) 9%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--accent) 9%,transparent) 1px,transparent 1px);--surface-border:color-mix(in srgb,var(--accent) 60%,var(--line));--surface-line:dashed;--surface-radius:3px;--surface-grid:22px 22px}
-html[data-panel-style] .workspace-area :is(.progress-section,.list-page,.records-page,.competition-card,.settings-column>section,.settings-home-grid,.mock-config,.paper-preview,.lectures-list,.lectures-detail,.lab-panel,.goal-card,.catalog-explorer,.lab-page-surface) {
- background-image:var(--surface-image,none);background-size:var(--surface-grid,auto);border:1px var(--surface-line,solid) var(--surface-border,var(--line));border-radius:var(--surface-radius,10px);box-shadow:none
+html[data-panel-style] .workspace-area :is(.progress-section,.list-page,.records-page,.competition-card,.settings-column>section,.settings-home-grid,.mock-config,.paper-preview,.lectures-list,.lectures-detail,.lab-panel,.goal-card,.catalog-explorer,.lab-page-surface,.task-card),html[data-panel-style] .task-settings-dialog {
+ --surface-opacity:var(--page-opacity,var(--panel-opacity,76%));
+ background-image:none;background-size:var(--surface-grid,auto);border:1px var(--surface-line,solid) var(--surface-border,var(--line));border-radius:var(--surface-radius,10px);box-shadow:none;
+ &:where([data-panel-style=aurora] *) {background-image:radial-gradient(ellipse at top left,color-mix(in srgb,var(--accent) calc(var(--surface-opacity) * .2),transparent),transparent 65%)}
+ &:where([data-panel-style=blueprint] *) {background-image:linear-gradient(color-mix(in srgb,var(--accent) calc(var(--surface-opacity) * .09),transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--accent) calc(var(--surface-opacity) * .09),transparent) 1px,transparent 1px)}
 }
+html .workspace-area .task-card {background-color:var(--panel)}
+
+/* The list has one translucent fill. Clip scrolling text below the sticky header. */
+html .workspace-area .list-page .problem-table :is(thead,th,.queue-heading td) {background:transparent}
+html .workspace-area .list-page .problem-table tbody {clip-path:inset(var(--table-scroll-y,0px) 0 0)}
 
 /* Bounded columns keep the radar list inside the same height as the profile. */
 html .growth-dashboard {overflow:hidden;min-height:0}
@@ -368,7 +376,8 @@ html .growth-dashboard .progress-growth-columns {flex:1;min-height:0;height:100%
 html .growth-dashboard .knowledge-radar {height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 html .growth-dashboard .knowledge-radar>svg {flex:none;height:clamp(190px,38dvh,470px);min-height:0}
 html .growth-dashboard .radar-knowledge-details {flex:1;min-height:96px;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding-right:5px}
-html .growth-dashboard .radar-detail-heading {position:sticky;top:0;z-index:1;background:var(--panel-raised-base);min-height:36px}
+html .growth-dashboard .radar-detail-heading {position:sticky;top:0;z-index:1;background:transparent;min-height:36px}
+html .growth-dashboard .radar-detail-rows {clip-path:inset(var(--radar-scroll-y,0px) 0 0)}
 html .growth-dashboard .growth-account-hero {height:100%;min-height:0;overflow:auto;overscroll-behavior:contain;gap:clamp(16px,2.5dvh,28px)}
 html .growth-dashboard .account-hero-identity {min-height:190px;flex:1;align-items:center}
 html .submission-record-meta {display:flex;align-items:center;gap:7px;min-width:0;font-variant-numeric:tabular-nums}
@@ -700,7 +709,12 @@ html .competition-card-open:hover {background:transparent}
 html .competition-question-list {gap:0}
 html .ranking-table,html[data-panel-style] .workspace-area .problem-table {border-collapse:separate!important;border-spacing:0;padding-inline:0}
 html .ranking-table tbody td,html[data-panel-style] .workspace-area .problem-table tbody tr:not(.queue-heading)>td {border:0!important;border-bottom:1px solid var(--soft-line)!important;border-radius:0!important;background:transparent}
-html .ranking-table tbody tr.ranking-self {background:var(--accent-soft)}
+html .ranking-table tbody tr.ranking-self {background:transparent}
+html .ranking-table tbody tr.ranking-self>td {background:transparent}
+html .ranking-table tbody tr.ranking-self>td:first-child {box-shadow:inset 2px 0 var(--accent)}
+html .ranking-table tbody tr.ranking-self:is(:hover,:focus-within) {background:var(--hover)}
+html .duel-ranking tr[data-self=true] {background:transparent}
+html .duel-ranking tr[data-self=true]>td:first-child {box-shadow:inset 2px 0 var(--accent)}
 html .ranking-table tbody tr:is(:hover,:focus-within) {background:var(--accent-soft)}
 html .ranking-table tbody tr:is(:hover,:focus-within)>td:first-child {box-shadow:inset 2px 0 var(--accent)}
 html .workspace-area .problem-table tbody tr.training-problem-row:not([aria-disabled=true]):is(:hover,:focus-visible,:focus-within) {background:var(--accent-soft);outline:none}

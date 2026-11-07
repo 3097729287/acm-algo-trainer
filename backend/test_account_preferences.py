@@ -17,7 +17,7 @@ class AccountPreferencesTests(unittest.TestCase):
         return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jPqEAAAAASUVORK5CYII='
 
     def test_favorites_views_and_navigation_survive_restart(self):
-        value = {'theme': 'dark', 'favorites': ['fixture::A'],
+        value = {'theme': 'dark', 'backdrop': 'meteors', 'favorites': ['fixture::A'],
                  'views': [{'id': 'saved', 'name': '复习', 'query': 'A'}],
                  'navLabels': {'mine': '训练'}, 'navGroups': {}, 'navOrder': ['mine', 'library']}
         self.assertIsNone(read_preferences(self.service)['preferences'])

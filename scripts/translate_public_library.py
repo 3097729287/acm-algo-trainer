@@ -20,6 +20,14 @@ from insights import canonical_url
 
 def sha(text):return hashlib.sha256(text.encode()).hexdigest()
 
+def japanese_prose(text):
+    prose=english_prose(text);kana=len(re.findall('[\u3040-\u30ff]',prose));chinese=len(re.findall('[\u3400-\u9fff]',prose))
+    return kana>=12 and kana*3>chinese
+
+def pdf_language_text(text):
+    # PDF running headers and literal sample strings are not the task's language.
+    return re.sub(r'(?mi)^(?:[^\n]*(?:ACM[- ]ICPC|\bCCPC\b)[^\n]*|Input file:[^\n]*|Output file:[^\n]*|Time limit:[^\n]*|Memory limit:[^\n]*|Problem [A-Z]\d?\.[^\n]*|(?:China|Nanjing|Beijing),[^\n]*)\r?\n','',text)
+
 def connect(work):
     work.mkdir(parents=True,exist_ok=True)
     db=sqlite3.connect(work/'translations.sqlite3',timeout=30)
@@ -39,9 +47,11 @@ def seed(library,work):
                 counts['existingChinese']+=1;continue
             candidate={**value,'translation':None,'translationAvailable':True,'statementAvailable':True}
             text=value.get('markdown') or '';kind='markdown'
-            if not needs_translation(candidate) and len(re.findall('[\u3040-\u30ff]',english_prose(text)))<12:
+            if not needs_translation(candidate) and not japanese_prose(text):
                 text=value.get('sourceText') or '';kind='pdf-text'
-                if not text or not (needs_translation({**candidate,'markdown':text}) or len(re.findall('[\u3040-\u30ff]',english_prose(text)))>=12):
+                probe=pdf_language_text(text)
+                if not text or not (needs_translation({**candidate,'markdown':probe}) or japanese_prose(probe)):
+                    db.execute('DELETE FROM jobs WHERE id=?',(identity,))
                     if not value.get('statementAvailable'):counts['unavailable']+=1
                     continue
             language='en' if needs_translation({**candidate,'markdown':text}) else 'ja'
@@ -58,8 +68,9 @@ def bind(content,text,kind,language,translated,provider):
     if kind=='pdf-text':
         value.update(sourceTextHash=sha(text),sourcePdfSha256=(content.get('statementPdf') or {}).get('sha256') or content.get('sourcePdfSha256'))
     candidate=clean_statement(dict(content,translation=value))
-    if not bundled_translation(candidate):raise ValueError('Translation failed completeness or immutable-span validation')
-    return value
+    prepared=bundled_translation(candidate)
+    if not prepared:raise ValueError('Translation failed completeness or immutable-span validation')
+    return dict(value,markdown=prepared['markdown'])
 
 def run(work,state,workers,limit):
     pending=stats(work)
@@ -75,15 +86,21 @@ def run(work,state,workers,limit):
         if not hasattr(local,'service'):
             local.service=TranslationService(None,work/'provider-cache',provider=DeepSeekProvider(settings=settings))
         content=json.loads(raw)
+        translated=None
         try:
             translated=''.join(local.service._translate_chunk(chunk) for chunk in translation_chunks(text))
             return identity,bind(content,text,kind,language,translated,provider.name),None
         except Exception as error:
+            if translated is not None:
+                rejected=work/'rejected';rejected.mkdir(exist_ok=True)
+                (rejected/(sha(identity)+'.json')).write_text(json.dumps({'id':identity,'inputSha256':sha(text),'markdown':translated,'error':str(error)},ensure_ascii=False,indent=2)+'\n',encoding='utf8')
             message=str(error)
             if any(code in message for code in ['API Key','余额','额度不足','HTTP 400','拒绝访问']):stop.set()
             return identity,None,message[:300]
     with closing(connect(work)) as db:
-        sql='SELECT id,content,input,input_kind,language FROM jobs WHERE result IS NULL ORDER BY attempts,id'+(' LIMIT ?' if limit else '')
+        # Aliases of one original share the same provider input. Translate it
+        # once, then bind and validate against each alias's own source record.
+        sql='SELECT id,content,input,input_kind,language FROM jobs WHERE result IS NULL GROUP BY input_sha,input_kind,language ORDER BY attempts,id'+(' LIMIT ?' if limit else '')
         rows=iter(db.execute(sql,(limit,) if limit else ()).fetchall())
         with ThreadPoolExecutor(max_workers=workers) as pool:
             pending={}
@@ -98,7 +115,13 @@ def run(work,state,workers,limit):
                 for future in completed:
                     pending.pop(future);identity,value,error=future.result()
                     if error!='cancelled':
-                        db.execute('UPDATE jobs SET result=?,error=?,attempts=attempts+1 WHERE id=?',(json.dumps(value,ensure_ascii=False) if value else None,error,identity));db.commit()
+                        if value:
+                            source=db.execute('SELECT input_sha,input_kind,language FROM jobs WHERE id=?',(identity,)).fetchone()
+                            for alias,raw,text,kind,language in db.execute('SELECT id,content,input,input_kind,language FROM jobs WHERE result IS NULL AND input_sha=? AND input_kind=? AND language=?',source).fetchall():
+                                prepared=bind(json.loads(raw),text,kind,language,value['markdown'],value['provider'])
+                                db.execute('UPDATE jobs SET result=?,error=NULL,attempts=attempts+1 WHERE id=?',(json.dumps(prepared,ensure_ascii=False),alias))
+                        else:db.execute('UPDATE jobs SET error=?,attempts=attempts+1 WHERE id=?',(error,identity))
+                        db.commit()
                     schedule()
                 summary=stats(work)
                 (work/'progress.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf8')

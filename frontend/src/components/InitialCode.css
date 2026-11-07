@@ -34,6 +34,7 @@ html .initial-code-settings-toolbar> .tb-select-wrap {flex:none;max-width:min(28
 html .initial-code-settings-toolbar {align-items:center;min-height:36px;gap:10px;}
 html .initial-code-settings-toolbar>.tb-select-wrap {align-self:center;}
 html .initial-code-settings-toolbar :is(select,.initial-code-trigger) {height:36px;min-height:36px;padding-block:0!important;line-height:1.2;box-sizing:border-box;}
+html .initial-code-settings-toolbar select {border:0;background:transparent;box-shadow:none;}
 html .initial-code-settings-actions {align-self:center;min-height:36px;gap:6px;}
 html .initial-code-settings-actions>button {width:36px;height:36px;min-height:36px;padding:0;display:inline-flex;align-items:center;justify-content:center;}
 .initial-code-save-notice {align-self:center;margin-right:8px;color:var(--success);font-size:.85rem;white-space:nowrap;}

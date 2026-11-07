@@ -31,7 +31,7 @@ try{
   await page.goto(base+'/tests/settings-interactions-fixture.html');
   await page.locator('[data-scene-interactive=bulb]').waitFor();
   await page.evaluate(theme=>{document.documentElement.dataset.theme=theme;document.documentElement.dataset.motion='on';},theme);
-  await page.clock.pauseAt(await page.evaluate(()=>Date.now()));
+  await page.clock.pauseAt(await page.evaluate(()=>Date.now()+100));
   const bulb=page.locator('[data-scene-interactive=bulb]');
   for(let i=0;i<6;i++)await bulb.dispatchEvent('click');
   const glass='.bulb-glass-fragments';
@@ -60,6 +60,7 @@ try{
   assert(cupFirst.time>=1/60-.001,'The contact frame already advances and renders the fracture');
   assert(await page.locator(ceramic+' [data-fracture-piece]').evaluateAll(pieces=>pieces.every(piece=>piece.hasAttribute('transform'))),'No complete, stationary cup pose is presented on contact');
   assert(Math.max(...cupFirst.pieces.filter(p=>p.mode==='eject').map(p=>Math.hypot(p.x-p.cx,p.y-p.cy)))>2,'Ejected fragments are visibly separate on the contact frame');
+  assert(median(cupFirst.pieces.filter(p=>p.mode==='collapse').map(p=>Math.hypot(p.x-p.cx,p.y-p.cy)))>1,'The main cup wall already collapses on the first contact frame');
   assert.equal(await page.locator(ceramic).getAttribute('data-material'),'ceramic');
   await page.clock.runFor(64);const cupEarly=await sample(page,ceramic);
   const cupSpread=Math.max(...cupEarly.pieces.filter(p=>p.mode==='eject').map(p=>Math.hypot(p.x-p.cx,p.y-p.cy)));

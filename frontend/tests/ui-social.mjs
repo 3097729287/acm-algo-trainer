@@ -180,7 +180,7 @@ try {
   await font.fill('19');await font.blur();assert.equal(await page.locator('html').evaluate(node=>node.style.getPropertyValue('--ui-font-size')),'19px');
   await font.fill('99');await font.blur();assert.equal(await font.inputValue(),'22');
   await font.fill('16');await font.blur();
-  await page.getByRole('button',{name:'落日余晖',exact:true}).click();
+  await page.getByRole('button',{name:'熔金流体',exact:true}).click();
   assert.equal(await page.locator('html').getAttribute('data-backdrop'),'sunset');
   await setTheme(page,'light');
   await page.getByRole('button',{name:'强调色说明',exact:true}).hover();

@@ -1,3 +1,4 @@
+import BookmarkLabel from '@/components/BookmarkLabel.jsx';
 import PresenceLabel from '@/components/PresenceLabel.jsx';
 import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
 import usePublicAvatar from '@/lib/usePublicAvatar.js';
@@ -120,7 +121,7 @@ export default function RankingsPage({ api, onConfigure, onError, avatarData, ow
     const request = generation.current;
     const timer = setTimeout(() => {
       api('leaderboard?period=' + period).then(value => { if(request===generation.current){setSnapshot(value);rankingCache.set(api,{...rankingCache.get(api),[period]:{date:rankingDate(),value,owner:rankingOwner}});} }).catch(issue => { if (request === generation.current) setError(issue.message); });
-    }, snapshot.status === 'syncing' ? 1000 : 25000);
+    }, snapshot.status === 'syncing' ? 1000 : 10000);
     return () => clearTimeout(timer);
   }, [api, period, snapshot, deleting, rankingOwner]);
   const entries = Array.isArray(snapshot?.entries) ? snapshot.entries.map(item=>{
@@ -154,7 +155,7 @@ export default function RankingsPage({ api, onConfigure, onError, avatarData, ow
     <div className="ranking-header">
       <div className="ranking-period-controls">
       <Tooltip text="按不同题目的首次官方 AC 数排名，同分按完成时间排序。"><Trophy size={20} aria-label="过题排行榜"/></Tooltip>
-      <div className="ranking-tabs" role="tablist" aria-label="排行榜时间范围">{periods.map(([value,title])=><button role="tab" disabled={deleting} aria-selected={period===value} className={period===value?'active':''} key={value} onClick={()=>setPeriod(value)}>{title.replace('过题','')}</button>)}</div>
+      <div className="ranking-tabs" role="tablist" aria-label="排行榜时间范围">{periods.map(([value,title])=><button role="tab" disabled={deleting} aria-selected={period===value} className={period===value?'active':''} key={value} onClick={()=>setPeriod(value)}><BookmarkLabel>{title.replace('过题','')}</BookmarkLabel></button>)}</div>
       <Tooltip text={`${period==='total'?'累计榜前三名佩戴专属冠饰徽章。':`前三名奖励 ${awards.join(' / ')} XP，按北京时间结算，自动到账。`}统计日期：${snapshot?.date || '读取中'}`}><button className="hint-icon" aria-label="排名与奖励说明"><Sparkles size={16}/></button></Tooltip>
       </div><div className="ranking-overview-controls">
       {snapshot&&<div className="ranking-board-summary"><Tooltip text="本榜训练者"><span><UsersRound size={18}/><b>{entries.length}</b></span></Tooltip><Tooltip text="本榜通过"><span><CircleCheckBig size={18}/><b>{entries.reduce((sum,item)=>sum+Number(item.count||0),0)}</b></span></Tooltip><>{!window.__tbAdmin&&<Tooltip text="我的过题"><span><UserRoundCheck size={18}/><b>{entries.find(item=>item.userId===snapshot.self?.userId)?.count ?? snapshot.self?.count ?? 0}</b></span></Tooltip>}</></div>}

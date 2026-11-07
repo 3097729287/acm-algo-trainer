@@ -1,0 +1,26 @@
+.motion-background{position:fixed;inset:0;overflow:hidden;pointer-events:none;contain:strict;background:#050d18;background-size:cover;background-position:center}
+.motion-background>canvas{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.motion-background>canvas[hidden]{display:none}
+.motion-background>.meteors-background{z-index:0}
+.rain-lake-stage{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.rain-lake-surface{position:absolute;transform:rotateX(62deg);transform-origin:50% 0;pointer-events:none;mask-image:linear-gradient(transparent,#000 9%);-webkit-mask-image:linear-gradient(transparent,#000 9%)}
+.motion-background[data-paused=true] *{animation-play-state:paused!important}
+.workspace-background-layer{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.workspace-background-image{position:absolute;inset:0}
+.workspace-background-image>img,.workspace-background-image>canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.workspace-background-image>[hidden]{display:none}
+.workspace-background-image:after{content:'';position:absolute;inset:0;background:#03091628;pointer-events:none}
+html[data-theme=light] .workspace-background-image:after{background:#edf4f514}
+html[data-workspace-background=on] .app-shell:before{background:none!important}
+html:has(.workspace-area:not([data-page=settings])) button,.study-browser button{border-color:transparent!important;box-shadow:none!important}
+html:has(.workspace-area:not([data-page=settings])) button:focus-visible,.study-browser button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.app-shell[data-study-open=true]>.sidebar,.app-shell[data-study-open=true]>.main-area,.app-shell[data-study-open=true]>.app-statusbar{visibility:hidden;opacity:0!important;pointer-events:none}
+.study-browser{background:transparent!important;--study-paper:color-mix(in srgb,var(--panel-base) var(--panel-opacity,76%),transparent)!important}
+.study-browser .study-pane{background:transparent}
+.study-browser .study-pane :is(.lectures-page,.templates-page,.learning-paths-page,.wiki-page){background:transparent}
+.study-browser .study-pane .tb-workbench{background:transparent}
+
+.motion-background{position:absolute}.motion-background>.meteors-background{position:absolute}
+html[data-workspace-background=off] .app-shell:before{background:none!important}
+
+.motion-background:after{content:"";position:absolute;inset:0;background:#02071240;pointer-events:none}html[data-theme=light] .motion-background:after{background:#eaf2f52b}

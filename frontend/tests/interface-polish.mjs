@@ -1,3 +1,4 @@
+import {sectionNav} from './section-navigation.mjs';
 import { setTheme } from './settings-navigation.mjs';
 import assert from 'node:assert/strict';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
@@ -42,7 +43,7 @@ await page.route('**/api/**',async route=>{
  else if(path==='/api/desktop/fullscreen')value={available:false,fullscreen:false};
  await route.fulfill({json:value});
 });
-const nav=name=>page.locator('.sidebar').getByRole('button',{name,exact:true});
+const nav=name=>sectionNav(page,name);
 let charts=0,maxLabelGap=0;
 async function checkRadar(){
  const result=await page.locator('.knowledge-radar>svg').evaluate(svg=>{
@@ -68,7 +69,7 @@ try{
   await page.setViewportSize(viewport);
   for(const font of [14,18,22]){
    await page.evaluate(font=>document.documentElement.style.setProperty('--ui-font-size',font+'px'),font);
-   const centers=await page.locator('.topbar-actions').evaluate(node=>[node.querySelector('.practice-streak'),node.querySelector('.topbar-daily-ac'),node.querySelector('.topbar-love-count'),node.querySelector('[aria-label="消息通知"]')].map(element=>{const r=element.getBoundingClientRect();return r.y+r.height/2;}));
+   const centers=await page.locator('.topbar-actions').evaluate(node=>[node.querySelector('.practice-streak'),node.querySelector('.topbar-daily-ac')].map(element=>{const r=element.getBoundingClientRect();return r.y+r.height/2;}));
    assert(Math.max(...centers)-Math.min(...centers)<.6,JSON.stringify(centers));
    const textCenters=await page.locator('.topbar-actions').evaluate(node=>[...node.querySelectorAll('.metric-label,.metric-separator,.topbar-status-chip b,.practice-streak b')].map(element=>{const r=element.getBoundingClientRect();return r.y+r.height/2;}));
    assert(Math.max(...textCenters)-Math.min(...textCenters)<.6,JSON.stringify(textCenters));

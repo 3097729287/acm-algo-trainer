@@ -56,8 +56,44 @@ def publish(args):
     setup = next(asset for asset in record['assets'] if asset['name'].endswith('.exe'))
     page = args.work/f'release-{version}.html'
     page.write_text('<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ToBe '+version+'</title><style>body{font:17px/1.8 system-ui;background:#101116;color:#eee;max-width:850px;margin:7vh auto;padding:24px}a{color:#a99bff}pre{white-space:pre-wrap;font:inherit}code{word-break:break-all}</style><h1>ToBe '+version+'</h1><p><a href="'+setup['url']+'">下载 Windows 安装版</a></p><p>安装后自动检查、下载并安装后续版本。学习记录和草稿会保留。</p><pre>'+html.escape(record['notes'])+'</pre><p>SHA-256：<code>'+setup['sha256']+'</code></p></html>', encoding='utf8')
-    remote(f'mkdir -p {REMOTE}/assets/{version} {REMOTE}/stable')
-    for path in assets:
+    remote(f'mkdir -p {REMOTE}/stable')
+    if getattr(args, 'relay', False):
+        # Reuse the deployed bounded, checksummed relay. Large binaries remain
+        # on their public release; only this approved index is stored locally.
+        release = json.loads(subprocess.check_output([
+            'gh', 'release', 'view', 'v'+version, '--repo',
+            '3097729287/acm-algo-trainer', '--json', 'isDraft,assets'], cwd=ROOT))
+        public_assets = {item['name']: item for item in release['assets']}
+        if release['isDraft'] or any(public_assets.get(item['name'], {}).get('size') != item['size']
+                                     or public_assets[item['name']].get('digest') != 'sha256:'+item['sha256']
+                                     for item in record['assets']):
+            raise ValueError('Relay requires the exact public GitHub assets first')
+        index_path = '/opt/tb-leaderboard/runtime/public-release-assets.json'
+        existing = json.loads(remote(f'cat {index_path}'))
+        if existing.get('schema') != 1 or not isinstance(existing.get('assets'), list):
+            raise ValueError('Invalid existing relay index')
+        additions = [{'version': version, 'name': item['name'], 'size': item['size'],
+                      'sha256': item['sha256']} for item in record['assets']]
+        identities = {(item['version'], item['name']) for item in additions}
+        merged = {'schema': 1, 'assets': [item for item in existing['assets']
+                                        if (item['version'], item['name']) not in identities] + additions}
+        if len(merged['assets']) > 100:
+            raise ValueError('Relay index exceeds its approved limit')
+        index = args.work / 'public-release-assets.json'
+        index.write_text(json.dumps(merged, indent=2)+'\n', encoding='utf8')
+        previous_index = args.work / 'public-release-assets.before.json'
+        previous_index.write_text(json.dumps(existing, indent=2)+'\n', encoding='utf8')
+        upload(index, index_path+'.next')
+        remote(f'cp {index_path} {index_path}.before-{version}\nmv {index_path}.next {index_path}')
+        # HEAD must be served by the current relay before the feed advertises it.
+        for asset in record['assets']:
+            command = ['curl', '--fail', '--silent', '--show-error', '--head', asset['url']]
+            headers = subprocess.check_output(command, timeout=45).decode('utf8').lower()
+            if ('content-length: '+str(asset['size'])) not in headers or asset['sha256'] not in headers:
+                raise ValueError('Domestic relay HEAD differs: '+asset['name'])
+    else:
+        remote(f'mkdir -p {REMOTE}/assets/{version}')
+    for path in ([] if getattr(args, 'relay', False) else assets):
         target = f'{REMOTE}/assets/{version}/{path.name}'
         present = remote(f'if test -f {target}; then sha256sum {target}; fi').split()
         if not present or present[0] != sha(path):
@@ -68,8 +104,10 @@ def publish(args):
             remote(f'mv {target}.upload {target}')
     # Use the already persistent config volume; reload Caddy without recreating
     # the API, database, Redis, containers or any existing personal data.
-    remote(f'docker exec {CONTAINER} mkdir -p /config/tb-updates/assets /config/tb-updates/stable\ndocker cp {REMOTE}/assets/{version} {CONTAINER}:/config/tb-updates/assets/')
-    for asset in record['assets']:
+    remote(f'docker exec {CONTAINER} mkdir -p /config/tb-updates/assets /config/tb-updates/stable')
+    if not getattr(args, 'relay', False):
+        remote(f'docker cp {REMOTE}/assets/{version} {CONTAINER}:/config/tb-updates/assets/')
+    for asset in ([] if getattr(args, 'relay', False) else record['assets']):
         actual = remote(f'docker exec {CONTAINER} sha256sum /config/tb-updates/assets/{version}/{asset["name"]}').split()[0]
         if actual != asset['sha256']: raise ValueError('Served asset checksum differs')
     candidate = '/opt/tb-leaderboard/Caddyfile.updates-next'
@@ -94,4 +132,5 @@ if __name__ == '__main__':
     parser.add_argument('--key', required=True, type=Path)
     parser.add_argument('--notes', required=True, type=Path)
     parser.add_argument('--work', required=True, type=Path)
+    parser.add_argument('--relay', action='store_true', help='Use the existing approved SHA-256 relay without storing duplicate release binaries on the account server')
     publish(parser.parse_args())

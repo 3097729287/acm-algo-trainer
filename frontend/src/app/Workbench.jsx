@@ -34,6 +34,7 @@ import {insertTemplate,normalizeCppTemplate} from '@/lib/insertTemplate.js';
 import {platformInfo,rowPlatform} from '@/lib/platformRegistry.js';
 import './Workbench.css';
 import useWorkbenchToolbar from './useWorkbenchToolbar.js';
+import useReadingZoom from '@/lib/readingZoom.js';
 
 const TemplatesPage=lazy(()=>import('@/pages/TemplatesPage.jsx'));
 const TEMPLATE = '#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    \n    return 0;\n}\n';
@@ -41,7 +42,7 @@ const PYTHON_TEMPLATE = 'import sys\n\ndef solve():\n    pass\n\nif __name__ == 
 function startingTemplate(snapshot,language){
   const item=snapshot?.templates?.find(item=>item.language===language&&item.id===(snapshot.selection?.[language]||'default'))
     ||{id:'default',title:'默认',language,code:language==='python3'?PYTHON_TEMPLATE:TEMPLATE};
-  return language==='cpp17'&&item.id==='default'?{...item,code:normalizeCppTemplate(item.code)}:item;
+  return language==='cpp17'&&item.id==='default'&&!item.customized?{...item,code:normalizeCppTemplate(item.code)}:item;
 }
 const MAX_BYTES = 64 * 1024;
 const statementSource=value=>JSON.stringify([value?.currentSourceMarkdown||value?.markdown||'',value?.statementPdf?.sha256||null]);
@@ -208,7 +209,8 @@ function CaseResults({ cases }) {
   })}</div>;
 }
 
-export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, onCloseSolution, onNotice, solutionOpen=false, solutionMethodId=null, onNext, nextDisabled=false, headerStart, headerEnd,navigationBack }) {
+export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, onCloseSolution, onNotice, solutionOpen=false, solutionMethodId=null, onNext, nextDisabled=false, nextLabel='下一题', headerStart, headerEnd,navigationBack }) {
+  useReadingZoom();
   const studyPane=useStudyPane();
   const featureAvailable=useFeatureVisibility();
   const contestId = contest?.id || null;
@@ -252,6 +254,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const [saveState, setSaveState] = useState({ kind: 'automatic' });
   const [pane, setPane] = useStudyState('Workbench.pane','both');
   const toolbar=useWorkbenchToolbar(sectionRef,initialPickerOpen||templatesOpen);
+  useEffect(()=>{const node=sectionRef.current,toggle=()=>toolbar.toggle();node?.addEventListener('tb:toolbar-toggle',toggle);return()=>node?.removeEventListener('tb:toolbar-toggle',toggle);},[toolbar.toggle]);
   const toolbarKind=contest?(contest.constraints?.calendarEvent||contest.calendarId||contest.live?'contest':'mock'):'practice';
   const [splitRatio,setSplitRatio]=useStudyState('Workbench.splitRatio',50),[splitBounds,setSplitBounds]=useState([30,70]);
   const dragCleanup=useRef(null),saveFeedback=useRef({at:0,key:null,revision:0}),[saveToast,setSaveToast]=useState(false),saveToastTimer=useRef(null);
@@ -278,6 +281,26 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const [pollError, setPollError] = useState('');
   const [consoleOpen, setConsoleOpen] = useStudyState('Workbench.consoleOpen',true);
   const [consoleTab, setConsoleTab] = useStudyState('Workbench.consoleTab','input');
+  const [consoleHeight,setConsoleHeight]=useStudyState('Workbench.consoleHeight',null);
+  const codePaneRef=useRef(null),consoleMetrics=useRef(null);
+  const [consoleBounds,setConsoleBounds]=useState({min:0,max:100,default:30});
+  useEffect(()=>{
+    const node=codePaneRef.current;if(!node)return;
+    const measure=()=>{
+      const rect=node.getBoundingClientRect();if(!rect.height||!rect.width)return;
+      const scale=rect.height/node.clientHeight;
+      const height=selector=>node.querySelector(selector)?.getBoundingClientRect().height||0;
+      const controls=height('.wb-run-toolbar')+height('.wb-console-tabs');
+      const maximum=Math.max(0,rect.height-height('.wb-editor-header')-controls-120*scale-1);
+      const minimum=Math.min(125*scale,maximum),normal=Math.max(minimum,Math.min(225*scale,rect.height*(narrow?.45:.38),maximum));
+      consoleMetrics.current={rect,controls,minimum,maximum,normal};
+      const next={min:minimum/rect.height*100,max:maximum/rect.height*100,default:normal/rect.height*100};
+      setConsoleBounds(old=>Object.keys(next).every(key=>Math.abs(old[key]-next[key])<.05)?old:next);
+    };
+    const observer=new ResizeObserver(measure);observer.observe(node);
+    for(const child of node.querySelectorAll('.wb-editor-header,.wb-run-toolbar,.wb-console-tabs'))observer.observe(child);
+    measure();return()=>observer.disconnect();
+  },[narrow]);
   const [sample, setSample] = useStudyState('Workbench.sample','custom');
   const [input, setInput] = useState('');
   const [restoreAvailable, setRestoreAvailable] = useState(false);
@@ -912,6 +935,23 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     const stop=()=>{handle.removeEventListener('pointermove',move);handle.removeEventListener('pointerup',stop);handle.removeEventListener('pointercancel',stop);handle.removeEventListener('lostpointercapture',stop);dragCleanup.current=null;};
     handle.addEventListener('pointermove',move);handle.addEventListener('pointerup',stop);handle.addEventListener('pointercancel',stop);handle.addEventListener('lostpointercapture',stop);dragCleanup.current=stop;
   };
+  const adjustConsole=value=>{setConsoleOpen(true);setConsoleHeight(value===null?null:Math.max(consoleBounds.min,Math.min(consoleBounds.max,value)));};
+  const startConsoleResize=event=>{
+    if(event.button!==0||!consoleMetrics.current)return;event.preventDefault();event.stopPropagation();dragCleanup.current?.();
+    const handle=event.currentTarget,metrics=consoleMetrics.current;handle.focus();handle.setPointerCapture(event.pointerId);
+    let snapped=consoleHeight===null;
+    const move=next=>{
+      const wanted=metrics.rect.bottom-next.clientY-metrics.controls;
+      snapped=Math.abs(wanted-metrics.normal)<=(snapped?28:16);
+      adjustConsole(snapped?null:wanted/metrics.rect.height*100);
+    };
+    const stop=()=>{for(const name of ['pointermove','pointerup','pointercancel','lostpointercapture'])handle.removeEventListener(name,name==='pointermove'?move:stop);if(handle.hasPointerCapture(event.pointerId))handle.releasePointerCapture(event.pointerId);dragCleanup.current=null;};
+    handle.addEventListener('pointermove',move);for(const name of ['pointerup','pointercancel','lostpointercapture'])handle.addEventListener(name,stop);dragCleanup.current=stop;
+  };
+  const consoleResizeKeys=event=>{
+    if(event.key==='Home'){event.preventDefault();event.stopPropagation();adjustConsole(null);}
+    else if(['ArrowUp','ArrowDown','End'].includes(event.key)){event.preventDefault();event.stopPropagation();const value=consoleHeight??consoleBounds.default;adjustConsole(event.key==='End'?consoleBounds.max:value+(event.key==='ArrowUp'?1:-1)*(event.shiftKey?6:2));}
+  };
   const toggleStatementLanguage=()=>{if(activeRecord.current)activeRecord.current.languageChoice=language==='zh'?'original':'zh';if(language==='zh'){setLanguage('original');setTranslationError('');}else translateStatement();};
   const displayTranslation=translation&&activeRecord.current?.translatedSource===statementSource(problem)?translation:null;
   const copyStatement=async()=>{
@@ -945,13 +985,13 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const solutionButtons=(onSolution && !runningContest && !problem?.locked && <span className="wb-solution-methods">{(problem?.solutionMethods??(problem?[{id:'original',title:'题解'}]:[])).map((method,index,methods)=><button key={method.id} type="button" className="wb-button wb-solution-button" aria-label={methods.length===1?'题解':`题解${index+1}`} title={method.title||`题解${index+1}`} aria-pressed={solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0)} onClick={()=>{const opened=solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0);if(opened&&callbacks.current.onCloseSolution)callbacks.current.onCloseSolution();else callbacks.current.onSolution?.(problemId,method.id);}}><BookOpen size={14}/></button>)}</span>);
   const editorHeader=(<div className="wb-pane-header wb-editor-header">{effectivePane==='code'&&!narrow&&navigationBack}
           <span className="wb-language-select"><ThemedSelect hideSelectedOption hideChevron aria-label="编程语言" title={`编程语言 · ${shortcutValue('code-language',shortcuts)}`} value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python3</option></ThemedSelect></span>
-          <InitialCodeSelect api={api} snapshot={initialCode} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} title={`选择初始代码模板 · ${shortcutValue('initial-code',shortcuts)}`} disabled={loading||!problem||unavailable||busy||officialBusy} onOpenChange={setInitialPickerOpen} onError={setActionError} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.language==='cpp17'&&item.id==='default'?normalizeCppTemplate(item.code):item.code);}}/>
+          <InitialCodeSelect api={api} snapshot={initialCode} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} title={`选择初始代码模板 · ${shortcutValue('initial-code',shortcuts)}`} disabled={loading||!problem||unavailable||busy||officialBusy} onOpenChange={setInitialPickerOpen} onError={setActionError} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.language==='cpp17'&&item.id==='default'&&!item.customized?normalizeCppTemplate(item.code):item.code);}}/>
           {!['saved','automatic'].includes(saveState.kind)&&<span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message||saveLabel} aria-label={saveLabel} role={saveState.kind==='error'?'alert':'status'}>{saveState.kind==='saving'?<LoaderCircle size={14} className="wb-spinner"/>:saveState.kind==='unsaved'?<span className="wb-pending-dot"/>:saveLabel}</span>}
           <div className="wb-editor-actions">
             <button type="button" className="wb-button" aria-label="任务概览" title={`任务概览 · ${shortcutValue('learning-summary',shortcuts)}`} onClick={()=>window.dispatchEvent(new Event('tb:learning-summary-open'))}><BookOpen size={14}/></button>
             {featureAvailable('templates',true)&&<button type="button" className="wb-button" aria-label="打开模板" title={`打开模板 · ${shortcutValue('code-templates',shortcuts)}`} disabled={loading||!problem||unavailable} onClick={()=>setTemplatesOpen(true)}><Code2 size={14}/></button>}
             {solutionButtons}
-            {onNext && <button type="button" className="wb-button wb-next-button" disabled={nextDisabled} title={`下一题 · ${shortcutValue('workbench-next',shortcuts)}`} onClick={async () => { if(await saveRecord(activeRecord.current)&&!callbacks.current.nextDisabled) callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
+            {onNext && <button type="button" className="wb-button wb-next-button" disabled={nextDisabled} title={`${nextLabel} · ${shortcutValue('workbench-next',shortcuts)}`} onClick={async () => { if(await saveRecord(activeRecord.current)&&!callbacks.current.nextDisabled) callbacks.current.onNext?.(); }}>{nextLabel}<ArrowRight size={14} /></button>}
             {localDraftRecovery !== null && <button type="button" className="wb-button" disabled={unavailable} title="当前为更新的同步版本；可恢复本机未上传的旧草稿" onClick={() => {
               undoReplace.current = code;
               updateCode(localDraftRecovery);
@@ -997,11 +1037,12 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
 
       {!narrow&&pane==='both'&&<div className="wb-splitter" role="separator" aria-label="调整题面与代码宽度" aria-orientation="vertical" tabIndex={0} aria-valuemin={Math.round(splitBounds[0])} aria-valuemax={Math.round(splitBounds[1])} aria-valuenow={Math.round(splitRatio)} aria-valuetext={`题面 ${Math.round(splitRatio)}%，代码 ${Math.round(100-splitRatio)}%`} onPointerDown={startSplit} onKeyDown={event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();adjustSplit(event.key==='Home'?splitBounds[0]:event.key==='End'?splitBounds[1]:splitRatio+(event.key==='ArrowRight'?1:-1)*(event.shiftKey?10:2));}}/>}
 
-      <div className="wb-code-pane">
+      <div className="wb-code-pane" ref={codePaneRef} data-console-resized={consoleHeight!==null||undefined} style={consoleHeight===null?undefined:{'--wb-console-height':Math.max(consoleBounds.min,Math.min(consoleBounds.max,Number(consoleHeight)||0))+'%'}}>
         {narrow&&editorHeader}
         <div className="wb-editor">
           <CodeEditor shortcuts={shortcuts} ref={editorRef} value={code} docKey={contextKey} onChange={updateCode} onCursorChange={setCursor} onCommand={editorCommand} onLeave={() => consoleButtonRef.current?.focus()} readOnly={unavailable} disabled={loading || !problem} language={codeLanguage} ariaLabel={codeLanguage==='python3'?'Python 代码':'C++ 代码'} />
         </div>
+        <div className="wb-console-splitter" role="separator" aria-label="调整运行区与代码高度" aria-orientation="horizontal" aria-valuemin={Math.round(consoleBounds.min)} aria-valuemax={Math.round(consoleBounds.max)} aria-valuenow={Math.round(consoleHeight??consoleBounds.default)} aria-valuetext={`运行内容高度 ${Math.round(consoleHeight??consoleBounds.default)}%`} tabIndex={0} title="拖动调整运行区高度；双击复位" onPointerDown={startConsoleResize} onDoubleClick={()=>adjustConsole(null)} onKeyDown={consoleResizeKeys}/>
         <div className="wb-run-toolbar">
           <div className="wb-input-modes" role="group" aria-label="运行输入">
             <button type="button" aria-pressed={sample==='samples'} disabled={loading||!problem||!samples.length} onClick={()=>selectSample('samples')}>官方样例</button>

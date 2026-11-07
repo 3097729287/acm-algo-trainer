@@ -54,6 +54,21 @@ class ActivityCountsTests(unittest.TestCase):
 
 
 class FirstAcRegressionTests(unittest.TestCase):
+    def test_streak_matches_calendar_and_repeated_ac_does_not_bridge_a_blank_day(self):
+        rows=[{'id':str(i),'url':f'https://codeforces.com/contest/9/problem/{i}','tags':[],'difficulty':800} for i in range(4)]
+        def ac(pid,date):return dict(problem_id=pid,mode='submit',scope='official',verdict='AC',code='x',submitted_at=date+'T10:00:00Z',finished_at=date+'T10:00:01Z')
+        records=[ac('0','2026-11-03'),ac('1','2026-11-04'),ac('1','2026-11-05')]
+        now=dt.datetime(2026,11,6,12,tzinfo=dt.timezone.utc)
+        value=build_insights(rows,records,[],{}, {},now)
+        self.assertEqual(value['summary']['streak'],0)
+        self.assertEqual(next(day for day in value['activity'] if day['date']=='2026-11-05')['officialAccepted'],0)
+        value=build_insights(rows,records+[ac('2','2026-11-06')],[],{}, {},now)
+        self.assertEqual(value['summary']['streak'],1)
+        self.assertEqual(value['summary']['longestStreak'],2)
+        hub={'accounts':[{'solved':[{'url':rows[3]['url'],'acceptedAt':'2026-11-05T10:00:00Z'}]}]}
+        value=build_insights(rows,records+[ac('2','2026-11-06')],[],{},hub,now)
+        self.assertEqual(value['summary']['streak'],4)
+
     def test_unsorted_receipts_aliases_public_evidence_and_beijing_midnight(self):
         rows=[{'id': 'p', 'url': 'https://codeforces.com/contest/9/problem/A', 'tags': [], 'difficulty': 1200},
               {'id': 'alias', 'url': 'https://codeforces.com/problemset/problem/9/A', 'tags': [], 'difficulty': 1200}]

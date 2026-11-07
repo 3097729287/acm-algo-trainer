@@ -72,12 +72,14 @@ try{
   const acknowledgeGuide=async()=>{
     await guide().waitFor();assert.match(await guide().innerText(),/Lv\.2.*Lv\.5/);
     await page.keyboard.press('Escape');await guide().waitFor({state:'detached'});
-    for(let i=0;i<100;i++){const prefs=(await get('preferences')).preferences;if(prefs?.onboardingCompleted&&prefs.onboardingGuideVersion===2)return;await wait(50);}
-    assert.fail('The account-owned current guide acknowledgement was not persisted');
+    // Escape dismisses the tour; it records that this account saw the current
+    // guide without claiming its required practice steps were completed.
+    for(let i=0;i<100;i++){const prefs=(await get('preferences')).preferences;if(prefs?.onboardingGuideVersion===2)return;await wait(50);}
+    assert.fail('The account-owned current guide seen version was not persisted');
   };
   const levelOne=async()=>{
-    await page.waitForFunction(()=>[...document.querySelectorAll('.sidebar nav button')].map(node=>node.textContent).join('|')==='我的训练|题单|提交记录');
-    assert.deepEqual(await nav().getByRole('button').allTextContents(),['我的训练','题单','提交记录']);
+    await page.waitForFunction(()=>[...document.querySelectorAll('.sidebar nav button')].map(node=>node.textContent).join('|')==='我的训练|任务|学习|成长');
+    assert.deepEqual(await nav().getByRole('button').allTextContents(),['我的训练','任务','学习','成长']);
     assert.equal((await get('insights')).growth.level,1);
     assert.equal((await page.request.get(base+'/api/data')).status(),200,'Level gates affect UI navigation, not authenticated catalog APIs');
     assert.equal((await page.request.get(base+'/api/training-lists')).status(),200);
@@ -87,6 +89,9 @@ try{
   const logIn=async(loginId,password)=>{await page.getByLabel('登录号',{exact:true}).fill(loginId);await page.getByLabel('密码',{exact:true}).fill(password);await page.getByRole('button',{name:'登录',exact:true}).click();};
   const openTraining=async problemId=>{
     await nav().getByRole('button',{name:'我的训练',exact:true}).click();
+    // The section restores its last bookmark (including the introductory list).
+    // Select the training bookmark explicitly before opening its real row.
+    await page.locator('#tb-page-bookmarks').getByRole('tab',{name:'我的训练',exact:true}).click();
     await page.locator(`tr[data-id=${JSON.stringify(problemId)}] .problem-title`).click();await editor().waitFor();
   };
 
@@ -129,7 +134,7 @@ try{
   await page.screenshot({path:path.join(state,'startup-loading.png'),animations:'disabled'});await nav().waitFor();await page.unroute(/\/api\/account(?:\?.*)?$/,pendingRestore);
   assert(restoreRecognitionMs!==null&&restoreRecognitionMs<1200,'Completed restore is shown promptly: '+restoreRecognitionMs);
   await openTraining(problemId);await page.waitForFunction(()=>document.querySelector('.cm-content')?.textContent.includes('old private browser draft'));
-  assert((await editor().innerText()).includes('old private browser draft'));await page.getByRole('button',{name:'返回列表',exact:true}).click();
+  assert((await editor().innerText()).includes('old private browser draft'));await page.getByRole('button',{name:'返回主界面',exact:true}).click();
   assert.equal((await get('problem?id='+encodeURIComponent(problemId))).draft,'old private browser draft');
 
   phase='nickname-and-password';await openAccount();
@@ -160,7 +165,7 @@ try{
   assert.equal((await page.request.post(base+'/api/draft',{data:{id:problemId,code:'must be rejected'},headers:{'X-TB-Token':a.token}})).status(),403,'An old local token cannot write another account draft');
   await post('training/start',{id:problemId});await page.reload();await nav().waitFor();await openTraining(problemId);
   await page.waitForFunction(()=>document.querySelector('.cm-content')?.getAttribute('contenteditable')==='true');assert(!(await editor().innerText()).includes('old private browser draft'));
-  const bCode='// private B draft\nint main(){return 2;}';await editor().fill(bCode);await editor().press('Control+s');await page.getByRole('button',{name:'返回列表',exact:true}).click();
+  const bCode='// private B draft\nint main(){return 2;}';await editor().fill(bCode);await editor().press('Control+s');await page.getByRole('button',{name:'返回主界面',exact:true}).click();
   assert.equal((await get('problem?id='+encodeURIComponent(problemId))).draft,bCode);await logout();
   await logIn('ui_account_a','next-fixture-password');await nav().waitFor();assert.equal(await guide().count(),0);
   assert.equal((await get('account')).account.userId,a.account.userId);assert.equal((await get('problem?id='+encodeURIComponent(problemId))).draft,'old private browser draft');assert.equal((await get('profile')).profile.displayName,'新昵称');
@@ -168,7 +173,7 @@ try{
   phase='actual-backend-restart';await stopApp();await startApp();await page.goto(base);await nav().waitFor();await levelOne();
   assert.equal((await get('account')).account.userId,a.account.userId);assert.equal((await get('problem?id='+encodeURIComponent(problemId))).draft,'old private browser draft');
   assert.equal((await get('profile')).profile.displayName,'新昵称');assert.equal(await guide().count(),0,'An actual service restart does not repeat the acknowledged guide');
-  await openTraining(problemId);assert.equal(await editor().innerText(),'old private browser draft');await page.getByRole('button',{name:'返回列表',exact:true}).click();await logout();
+  await openTraining(problemId);assert.equal(await editor().innerText(),'old private browser draft');await page.getByRole('button',{name:'返回主界面',exact:true}).click();await logout();
   assert.equal((await page.request.get(base+'/api/workspace')).status(),401);
   phase='mobile-login';await page.setViewportSize({width:390,height:844});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=390));
   await page.screenshot({path:path.join(state,'login-mobile.png'),fullPage:true});assert.deepEqual(errors,[]);assert.deepEqual(external,[]);

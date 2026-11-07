@@ -138,6 +138,10 @@
 .mock-picker-item.solved .mock-picker-verdict {
   color: var(--success);
 }
+.mock-picker-verdict:is(.verdict-wrong,.verdict-failed) {color:var(--danger)}
+.mock-picker-verdict:is(.verdict-limit,.verdict-runtime) {color:var(--warning)}
+.mock-picker-verdict.verdict-compile {color:var(--purple,#b69bea)}
+.mock-picker-verdict.verdict-pending {color:var(--blue,#79a9e5)}
 .mock-picker-history {
   display: flex;
   align-items: center;

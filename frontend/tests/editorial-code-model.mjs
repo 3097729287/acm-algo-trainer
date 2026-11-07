@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {normalizeEditorialCode,editorialTokens,editorialLanguage} from '../src/lib/editorialCode.js';
+const normalize=code=>normalizeEditorialCode(code,'cpp17');
+assert.equal(normalize('for (int i = 0; i < n; ++i) sum += a[i];'),'for (int i = 0; i < n; i++) sum += a[i];');
+assert.equal(normalize('for (unsigned long long i = 0; i < n; ++i) {}'),'for (unsigned long long i = 0; i < n; i++) {}');
+assert.equal(normalize('for (int i = 0, j = 0; i < n; ++i, ++j) {}'),'for (int i = 0, j = 0; i < n; i++, j++) {}');
+for(const code of ['for(int i=0;i<n;sum+=++i) {}','for(int i=0;i<n;f(++i)) {}','for(auto it=v.begin();it!=v.end();++it) {}','for(Counter i;i.ok();++i) {}','const char *s="for(int i=0;i<n;++i)"; // for(int j=0;j<n;++j)\n','for(int i=0;++i<n;i++) {}'])assert.equal(normalize(code),code);
+assert.equal(normalizeEditorialCode('for i in range(5):\n    print(i)','python3'),'for i in range(5):\n    print(i)');
+const code='// <script> stays text\nint main(){const char*s="<&>"; for(int i=0;i<3;i++) cout<<i;}';
+const tokens=editorialTokens(code,'cpp17');assert.equal(tokens.map(part=>part.text).join(''),code);assert(tokens.some(part=>part.classes.includes('keyword')));assert(tokens.some(part=>part.classes.includes('comment')));assert(tokens.some(part=>part.classes.includes('string')));
+assert.equal(editorialLanguage('language-cpp'),'cpp17');assert.equal(editorialLanguage('language-python'),'python3');assert.equal(editorialLanguage('language-text'),null);
+console.log(JSON.stringify({ok:true,integerPostfix:true,valueUsedPrefixPreserved:true,iteratorsPreserved:true,literalsAndCommentsPreserved:true,highlightTextExact:true}));

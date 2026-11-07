@@ -80595,9 +80595,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -80668,10 +80667,6 @@
         "斜率维护技巧 slope trick"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Snuketoon",
@@ -85189,9 +85184,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -85249,10 +85243,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Uninity",
@@ -87922,9 +87912,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -88019,10 +88008,6 @@
         "构造"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "并查集",
@@ -92732,9 +92717,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -92794,10 +92778,6 @@
         "构造"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "构造"
@@ -103746,9 +103726,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -103807,10 +103786,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Triangular Lamps Easy",
@@ -148130,9 +148105,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -148201,10 +148175,6 @@
         "循环结构"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "百万富翁",
@@ -148229,9 +148199,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -148300,10 +148269,6 @@
         "数组"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "卡牌游戏",
@@ -148328,9 +148293,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -148399,10 +148363,6 @@
         "数组"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "地铁计费",
@@ -148427,9 +148387,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -148500,10 +148459,6 @@
         "数组"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "代数瓜子式",
@@ -148528,9 +148483,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -148605,10 +148559,6 @@
         "字符串（入门）"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "LZW 压缩",
@@ -148633,9 +148583,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -148697,10 +148646,6 @@
         "模拟"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "模拟"
@@ -164599,9 +164544,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -164718,10 +164662,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "贪心",
@@ -179569,9 +179509,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -179652,10 +179591,6 @@
         "最大公约数 gcd"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "模拟",
@@ -193411,9 +193346,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -193540,10 +193474,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "二分查找",
@@ -196103,9 +196033,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -196209,10 +196138,6 @@
         "Ad-hoc"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "FFT",
@@ -208930,9 +208855,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -209047,10 +208971,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "位运算",
@@ -215198,9 +215118,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -215308,10 +215227,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "二分查找",
@@ -218544,9 +218459,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -218676,10 +218590,6 @@
         "差分"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "DFS",
@@ -236464,9 +236374,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -236574,10 +236483,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "构造",
@@ -243036,9 +242941,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -243142,10 +243046,6 @@
         "Ad-hoc"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "构造",
@@ -250592,9 +250492,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -250713,10 +250612,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "位运算",
@@ -257114,9 +257009,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -257219,10 +257113,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "贪心"
@@ -257249,9 +257139,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -257347,10 +257236,6 @@
         "栈"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "图论",
@@ -257876,9 +257761,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -258003,10 +257887,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "二分查找",
@@ -261504,9 +261384,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -261627,10 +261506,6 @@
         "摊还分析"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "枚举",
@@ -263685,9 +263560,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -263775,10 +263649,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "期望与概率"
@@ -263925,9 +263795,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -264027,10 +263896,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "并查集"
@@ -265156,9 +265021,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -265252,10 +265116,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Fox And Travelling",
@@ -269155,9 +269015,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -269260,10 +269119,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "构造",
@@ -270571,9 +270426,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -270660,10 +270514,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "分治"
@@ -273021,9 +272871,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -273125,10 +272974,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "二分查找",
@@ -274948,9 +274793,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -275041,10 +274885,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "矩阵运算",
@@ -275323,9 +275163,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -275440,10 +275279,6 @@
         "Lucas 定理"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "高精度",
@@ -277635,9 +277470,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -277726,10 +277560,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Lipshitz Sequence",
@@ -282025,9 +281855,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -282119,10 +281948,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "模拟"
@@ -288141,9 +287966,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -288252,10 +288076,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "图论",
@@ -293120,9 +292940,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -293224,10 +293043,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "图论",
@@ -297136,9 +296951,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -297208,10 +297022,6 @@
         "反悔贪心"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "April Fools' Problem (medium)",
@@ -298265,9 +298075,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -298397,10 +298206,6 @@
         "树形 DP"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "DFS",
@@ -302539,9 +302344,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -302667,10 +302471,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "二分查找",
@@ -345945,9 +345745,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -346005,10 +345804,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "交互题"
@@ -351856,9 +351651,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -351949,10 +351743,6 @@
         "二分"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "模拟",
@@ -352215,9 +352005,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -352279,10 +352068,6 @@
         "数学"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "First Town of This Journey／Grid Covering",
@@ -352685,9 +352470,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -352813,10 +352597,6 @@
         "拉格朗日反演"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "容斥",
@@ -378959,9 +378739,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -379023,10 +378802,6 @@
         "构造"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "构造"
@@ -379053,9 +378828,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -379117,10 +378891,6 @@
         "数学"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Sigma",
@@ -379145,9 +378915,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -379226,10 +378995,6 @@
         "生成树"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "生成树",
@@ -379257,9 +379022,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -379341,10 +379105,6 @@
         "组合数学"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "贪心"
@@ -379759,9 +379519,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -379832,10 +379591,6 @@
         "Ad-hoc"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "帝国少女",
@@ -379860,9 +379615,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -379935,10 +379689,6 @@
         "前缀和"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "前缀和"
@@ -379965,9 +379715,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -380039,10 +379788,6 @@
         "可持久化线段树"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "倍增",
@@ -380070,9 +379815,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -380157,10 +379901,6 @@
         "拉格朗日反演"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "神曲",
@@ -380185,9 +379925,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -380280,10 +380019,6 @@
         "拉格朗日反演"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "生成函数"
@@ -381251,9 +380986,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -381313,10 +381047,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "等你下课",
@@ -381341,9 +381071,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -381432,10 +381161,6 @@
         "排序"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "贪心",
@@ -381464,9 +381189,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -381549,10 +381273,6 @@
         "Ad-hoc"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "一路向北",
@@ -381577,9 +381297,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -381650,10 +381369,6 @@
         "组合数学"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "枫",
@@ -381678,9 +381393,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -381739,10 +381453,6 @@
         "构造"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "构造"
@@ -392504,9 +392214,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -392579,10 +392288,6 @@
         "前缀和"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "前缀和"
@@ -397636,9 +397341,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -397709,10 +397413,6 @@
         "构造"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "位运算",
@@ -410646,9 +410346,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -410710,10 +410409,6 @@
         "位运算"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "位运算"
@@ -410938,9 +410633,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -411025,10 +410719,6 @@
         "最短路"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "最短路"
@@ -419985,9 +419675,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -420066,10 +419755,6 @@
         "构造"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "构造",
@@ -427389,9 +427074,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -427486,10 +427170,6 @@
         "费用流"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "二分查找",
@@ -428465,9 +428145,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -428564,10 +428243,6 @@
         "基环树"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "最大公约数",
@@ -428709,9 +428384,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -428785,10 +428459,6 @@
         "组合数学"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "If",
@@ -436093,9 +435763,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -436188,10 +435857,6 @@
         "分块"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "线段树",
@@ -445162,9 +444827,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -445237,10 +444901,6 @@
         "构造"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "构造"
@@ -447808,9 +447468,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -447881,10 +447540,6 @@
         "构造"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "构造"
@@ -447911,9 +447566,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -447971,10 +447625,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "染色³",
@@ -448734,9 +448384,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -448815,10 +448464,6 @@
         "分块"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "线段树",
@@ -600837,9 +600482,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -600908,10 +600552,6 @@
         "区间 DP"
       ],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "区间 DP"
@@ -604534,9 +604174,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -604616,10 +604255,6 @@
         "位运算"
       ],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "线段树",
@@ -660558,9 +660193,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -660640,10 +660274,6 @@
         "树状数组"
       ],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "线段树",
@@ -677113,9 +676743,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
       "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -677159,10 +676788,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "染色",
@@ -677448,9 +677073,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -677496,10 +677120,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Subway",
@@ -677661,9 +677281,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -677709,10 +677328,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Chain & Co.",
@@ -678837,9 +678452,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -678885,10 +678499,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Java2016",
@@ -696742,9 +696352,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -696806,10 +696415,6 @@
         "线段树"
       ],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "线段树"
@@ -698848,9 +698453,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -698931,10 +698535,6 @@
         "不定方程"
       ],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "等你下课",
@@ -717855,9 +717455,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -717903,10 +717502,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "打捞",
@@ -719146,9 +718741,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -719210,10 +718804,6 @@
         "动态规划 DP"
       ],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "恋弹者们的黑集市",
@@ -758744,9 +758334,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -758825,10 +758414,6 @@
         "差分约束"
       ],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "贪心",
@@ -759021,9 +758606,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -759084,10 +758668,6 @@
         "模拟"
       ],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "模拟"
@@ -759113,9 +758693,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -759180,10 +758759,6 @@
         "素数判断"
       ],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "CNTPRIME - Counting Primes",
@@ -759747,9 +759322,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -759820,10 +759394,6 @@
         "扫描线"
       ],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "线段树",
@@ -761720,9 +761290,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -761802,10 +761371,6 @@
         "概率论"
       ],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "分治",
@@ -763001,9 +762566,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -763083,10 +762647,6 @@
         "素数判断"
       ],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "PON - Prime or Not",
@@ -775116,9 +774676,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -775163,10 +774722,6 @@
       "source": "luogu-training",
       "sourceTags": [],
       "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Low Cost Air Travel",
@@ -860124,9 +859679,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "AGC 25",
       "contestDate": "2018-06-03T12:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
@@ -860190,10 +859744,6 @@
       "source": "remote",
       "sourceTags": [],
       "startedAt": "2018-06-03T12:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "图论"
@@ -901505,9 +901055,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "AGC 69",
       "contestDate": "2024-11-24T12:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
@@ -901581,10 +901130,6 @@
       "source": "remote",
       "sourceTags": [],
       "startedAt": "2024-11-24T12:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Pair Guessing",
@@ -931790,9 +931335,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/102992",
       "contest": "ICPC 2020 南京区域赛",
@@ -931868,10 +931412,6 @@
         "期望与概率"
       ],
       "startedAt": "2020-12-20T03:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "期望与概率"
@@ -931899,9 +931439,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/102992",
       "contest": "ICPC 2020 南京区域赛",
@@ -931954,10 +931493,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2020-12-20T03:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Go",
@@ -933192,9 +932727,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/103119",
       "contest": "ICPC 2020 澳门区域赛",
@@ -933309,10 +932843,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "模拟",
@@ -933341,9 +932871,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/103119",
       "contest": "ICPC 2020 澳门区域赛",
@@ -933467,10 +932996,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "状压 DP",
@@ -934767,9 +934292,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/103202",
       "contest": "ICPC 2020 沈阳区域赛",
@@ -934837,10 +934361,6 @@
         "计算几何"
       ],
       "startedAt": "2021-07-18T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "计算几何"
@@ -934970,9 +934490,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/103202",
       "contest": "ICPC 2020 沈阳区域赛",
@@ -935060,10 +934579,6 @@
         "枚举"
       ],
       "startedAt": "2021-07-18T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "FFT",
@@ -935194,9 +934709,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/103202",
       "contest": "ICPC 2020 沈阳区域赛",
@@ -935249,10 +934763,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2021-07-18T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Knights of the Frozen Throne",
@@ -935696,9 +935206,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/103202",
       "contest": "ICPC 2020 沈阳区域赛",
@@ -935751,10 +935260,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2021-07-18T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Descent of Dragons",
@@ -935780,9 +935285,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/103202",
       "contest": "ICPC 2020 沈阳区域赛",
@@ -935843,10 +935347,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2021-07-18T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Scholomance Academy",
@@ -954814,9 +954314,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104021",
       "contest": "ICPC 2019 银川区域赛",
@@ -954925,10 +954424,6 @@
       ],
       "startedAt": "2019-10-20T01:00:00+00:00",
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "前缀和",
@@ -961717,9 +961212,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104065",
       "contest": "CCPC 2022 绵阳区域赛",
@@ -961852,10 +961346,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "线段树",
@@ -962363,9 +961853,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104065",
       "contest": "CCPC 2022 绵阳区域赛",
@@ -962498,10 +961987,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "计算几何",
@@ -963128,9 +962613,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104065",
       "contest": "CCPC 2022 绵阳区域赛",
@@ -963245,10 +962729,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "哈希",
@@ -968321,9 +967801,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104128",
       "contest": "ICPC 2022 南京区域赛",
@@ -968474,10 +967953,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "组合计数",
@@ -971599,9 +971074,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104172",
       "contest": "ICPC 2023 香港区域赛",
@@ -971654,10 +971128,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Paddle Star",
@@ -973245,9 +972715,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104373",
       "contest": "ICPC 2021 澳门区域赛",
@@ -973403,10 +972872,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "构造",
@@ -973635,9 +973100,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104373",
       "contest": "ICPC 2021 澳门区域赛",
@@ -973786,10 +973250,6 @@
         "图论"
       ],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "构造",
@@ -976158,9 +975618,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104385",
       "contest": "ICPC 2023 江西省赛",
@@ -976213,10 +975672,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Zhang Fei Threading Needles - Thick with Fine",
@@ -985447,9 +984902,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104857",
       "contest": "ICPC 2023 合肥区域赛",
@@ -985512,10 +984966,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2023-11-26T01:30:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Information Spread",
@@ -986921,9 +986371,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104891",
       "contest": "ICPC 2023 澳门区域赛",
@@ -986997,10 +986446,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2023-11-19T03:05:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "枚举"
@@ -989498,9 +988943,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104976",
       "contest": "ICPC 2023 杭州区域赛",
@@ -989563,10 +989007,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2023-12-10T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Submissions",
@@ -989802,9 +989242,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104976",
       "contest": "ICPC 2023 杭州区域赛",
@@ -989878,10 +989317,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2023-12-10T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "枚举"
@@ -997365,9 +996800,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105231",
       "contest": "ICPC 2024 江西省赛",
@@ -997420,10 +996854,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Convolution",
@@ -1003137,9 +1002567,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105471",
       "contest": "ICPC 2023 西安区域赛",
@@ -1003223,10 +1002652,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2023-10-22T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "模拟",
@@ -1005859,9 +1005284,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105486",
       "contest": "ICPC 2024 成都区域赛",
@@ -1005916,7 +1005340,7 @@
       "originalTitle": "Chinese Chess",
       "platform": "Codeforces",
       "problem": "C",
-      "problemType": "standard",
+      "problemType": "interactive",
       "queue": null,
       "series": "XCPC",
       "solutionAvailable": false,
@@ -1005924,10 +1005348,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2024-10-27T01:05:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Chinese Chess",
@@ -1017271,9 +1016691,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105901",
       "contest": "ICPC 2025 武汉邀请赛",
@@ -1017326,10 +1016745,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2025-04-27T02:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "WildFire, This Is for You!",
@@ -1021355,9 +1020770,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105977",
       "contest": "CCPC 2025 福建邀请赛",
@@ -1021435,10 +1020849,6 @@
         "二分查找"
       ],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "二分查找"
@@ -1021466,9 +1020876,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105977",
       "contest": "CCPC 2025 福建邀请赛",
@@ -1021546,10 +1020955,6 @@
         "图论"
       ],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "图论"
@@ -1021577,9 +1020982,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105977",
       "contest": "CCPC 2025 福建邀请赛",
@@ -1021657,10 +1021061,6 @@
         "前缀和"
       ],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "前缀和"
@@ -1021688,9 +1021088,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105977",
       "contest": "CCPC 2025 福建邀请赛",
@@ -1021768,10 +1021167,6 @@
         "扫描线"
       ],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "扫描线"
@@ -1021799,9 +1021194,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105977",
       "contest": "CCPC 2025 福建邀请赛",
@@ -1021884,10 +1021278,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "贪心",
@@ -1021916,9 +1021306,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105977",
       "contest": "CCPC 2025 福建邀请赛",
@@ -1021996,10 +1021385,6 @@
         "BFS"
       ],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "BFS"
@@ -1022027,9 +1021412,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105977",
       "contest": "CCPC 2025 福建邀请赛",
@@ -1022122,10 +1021506,6 @@
         "构造"
       ],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "图论",
@@ -1022344,9 +1021724,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105977",
       "contest": "CCPC 2025 福建邀请赛",
@@ -1022429,10 +1021808,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "组合计数",
@@ -1022461,9 +1021836,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105977",
       "contest": "CCPC 2025 福建邀请赛",
@@ -1022516,10 +1021890,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "致谢",
@@ -1022545,9 +1021915,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106030",
       "contest": "CCPC 2024 重庆区域赛",
@@ -1022645,10 +1022014,6 @@
         "枚举"
       ],
       "startedAt": "2024-11-10T01:20:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "容斥",
@@ -1023122,9 +1022487,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106030",
       "contest": "CCPC 2024 重庆区域赛",
@@ -1023200,10 +1022564,6 @@
         "图论"
       ],
       "startedAt": "2024-11-10T01:20:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "图论"
@@ -1023231,9 +1022591,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106030",
       "contest": "CCPC 2024 重庆区域赛",
@@ -1023309,10 +1022668,6 @@
         "图论"
       ],
       "startedAt": "2024-11-10T01:20:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "图论"
@@ -1023764,9 +1023119,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106030",
       "contest": "CCPC 2024 重庆区域赛",
@@ -1023842,10 +1023196,6 @@
         "图论"
       ],
       "startedAt": "2024-11-10T01:20:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "图论"
@@ -1023873,9 +1023223,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106030",
       "contest": "CCPC 2024 重庆区域赛",
@@ -1023936,10 +1023285,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2024-11-10T01:20:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Median Replacement",
@@ -1024844,9 +1024189,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106161",
       "contest": "ICPC 2025 成都区域赛",
@@ -1024909,10 +1024253,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2025-10-26T01:10:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Inside Triangle",
@@ -1025483,9 +1024823,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106184",
       "contest": "CCPC 2025 哈尔滨区域赛（热身赛）",
@@ -1025548,10 +1024887,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2025-11-08T06:30:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "天才琪露诺与雾之湖的宝藏",
@@ -1029183,9 +1028518,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106551",
       "contest": "ICPC 2026 南昌邀请赛暨省赛",
@@ -1029238,10 +1028572,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Little Z's Function",
@@ -1029267,9 +1028597,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106551",
       "contest": "ICPC 2026 南昌邀请赛暨省赛",
@@ -1029322,10 +1028651,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Kingdam of Construction",
@@ -1030618,9 +1029943,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106565",
       "contest": "CCPC 2026 福建邀请赛",
@@ -1030673,10 +1029997,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "贝贝拯救FJCPC",
@@ -1030702,9 +1030022,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106565",
       "contest": "CCPC 2026 福建邀请赛",
@@ -1030757,10 +1030076,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "排考场",
@@ -1030786,9 +1030101,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106565",
       "contest": "CCPC 2026 福建邀请赛",
@@ -1030841,10 +1030155,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Of course，宁宁",
@@ -1030870,9 +1030180,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106565",
       "contest": "CCPC 2026 福建邀请赛",
@@ -1030925,10 +1030234,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "哦~搞错了",
@@ -1030954,9 +1030259,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106565",
       "contest": "CCPC 2026 福建邀请赛",
@@ -1031009,10 +1030313,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "胖虎与线段树",
@@ -1031038,9 +1030338,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106565",
       "contest": "CCPC 2026 福建邀请赛",
@@ -1031093,10 +1030392,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "青青草原扛把子",
@@ -1031122,9 +1030417,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106565",
       "contest": "CCPC 2026 福建邀请赛",
@@ -1031177,10 +1030471,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "变幻自在",
@@ -1031206,9 +1030496,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106565",
       "contest": "CCPC 2026 福建邀请赛",
@@ -1031261,10 +1030550,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "抱歉，这没有集美",
@@ -1031384,9 +1030669,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106565",
       "contest": "CCPC 2026 福建邀请赛",
@@ -1031439,10 +1030723,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "高级程序设计",
@@ -1031468,9 +1030748,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106565",
       "contest": "CCPC 2026 福建邀请赛",
@@ -1031523,10 +1030802,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "高阶情景口语",
@@ -1031552,9 +1030827,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106565",
       "contest": "CCPC 2026 福建邀请赛",
@@ -1031607,10 +1030881,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "蛇小弟与奶龙",
@@ -1031636,9 +1030906,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/106565",
       "contest": "CCPC 2026 福建邀请赛",
@@ -1031691,10 +1030960,6 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "夜空之猴",
@@ -1094581,9 +1093846,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "教育赛 92",
       "contestDate": "2020-07-29T14:35:00+00:00",
       "contestDateSource": "原站公开比赛时间",
@@ -1094686,10 +1093950,6 @@
         "math"
       ],
       "startedAt": "2020-07-29T14:35:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "枚举",
@@ -1136327,9 +1135587,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "教育赛 120",
       "contestDate": "2021-12-27T14:35:00+00:00",
       "contestDateSource": "原站公开比赛时间",
@@ -1136426,10 +1135685,6 @@
         "two pointers"
       ],
       "startedAt": "2021-12-27T14:35:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "组合计数",
@@ -1210773,9 +1210028,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "教育赛 173",
       "contestDate": "2024-12-24T14:35:00+00:00",
       "contestDateSource": "原站公开比赛时间",
@@ -1210914,10 +1210168,6 @@
         "implementation"
       ],
       "startedAt": "2024-12-24T14:35:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "位运算",
@@ -1315004,9 +1314254,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://www.luogu.com.cn/contest/273413",
       "contest": "月赛 304",
@@ -1315101,10 +1314350,6 @@
       "source": "contest-completion",
       "sourceTags": [],
       "startedAt": "2026-10-04T06:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "贪心",
@@ -1326923,9 +1326168,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://ac.nowcoder.com/acm/contest/12548",
       "contest": "ICPC 2020 昆明区域赛",
@@ -1327014,10 +1326258,6 @@
       "source": "xcpc-roster",
       "sourceTags": [],
       "startedAt": "2021-04-03T03:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "图论"
@@ -1333344,9 +1332584,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://ac.nowcoder.com/acm/contest/14055",
       "contest": "ICPC 2020 昆明区域赛",
@@ -1333435,10 +1332674,6 @@
       "source": "xcpc-roster",
       "sourceTags": [],
       "startedAt": "2021-04-03T03:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "图论"
@@ -1335681,9 +1334916,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "牛客 2026 国庆集训第 2 场",
       "contestDate": "2026-10-02T04:00:00+00:00",
       "contestDateSource": "原站公开比赛时间",
@@ -1335764,10 +1334998,6 @@
       "source": "remote",
       "sourceTags": [],
       "startedAt": "2026-10-02T04:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "图论"
@@ -1346193,9 +1345423,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://ac.nowcoder.com/acm/contest/15597",
       "contest": "山东省赛 2021（热身赛）",
@@ -1346277,10 +1345506,6 @@
       "source": "xcpc-roster",
       "sourceTags": [],
       "startedAt": "2021-05-08T04:30:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "枚举"
@@ -1351392,9 +1350617,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://ac.nowcoder.com/acm/contest/17624",
       "contest": "ICPC 2021 四川区域赛",
@@ -1351480,10 +1350704,6 @@
       "source": "xcpc-roster",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "计算几何"
@@ -1352460,9 +1351680,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://ac.nowcoder.com/acm/contest/17797",
       "contest": "广东省赛 2021",
@@ -1352544,10 +1351763,6 @@
       "source": "xcpc-roster",
       "sourceTags": [],
       "startedAt": "2021-06-20T02:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "期望与概率"
@@ -1356412,9 +1355627,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://ac.nowcoder.com/acm/contest/21592",
       "contest": "ICPC 2021 江西区域赛",
@@ -1356526,10 +1355740,6 @@
       "source": "xcpc-roster",
       "sourceTags": [],
       "startedAt": "2021-10-23T02:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "树形 DP",
@@ -1377770,9 +1376980,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://ac.nowcoder.com/acm/contest/4370",
       "contest": "ICPC 2019 上海区域赛",
@@ -1377850,10 +1377059,6 @@
       "source": "xcpc-roster",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Bob's Poor Math",
@@ -1383019,9 +1382224,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://ac.nowcoder.com/acm/contest/68503",
       "contest": "辽宁省赛 2023（热身赛）",
@@ -1383091,10 +1382295,6 @@
       "source": "xcpc-roster",
       "sourceTags": [],
       "startedAt": "2023-10-28T06:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "正则表达式匹配",
@@ -1422754,9 +1421954,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://www.luogu.com.cn/contest/358583",
       "contest": "ICPC 2019 银川区域赛",
@@ -1422845,10 +1422044,6 @@
       "source": "xcpc-history",
       "sourceTags": [],
       "startedAt": "2019-10-20T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "线段树",
@@ -1432003,9 +1431198,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2693?v=1",
       "contest": "CCPC 2025 济南区域赛",
@@ -1432039,10 +1431233,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-16T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Make SYSU Great Again IV",
@@ -1432069,9 +1431259,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2693?v=1",
       "contest": "CCPC 2025 济南区域赛",
@@ -1432105,10 +1431294,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-16T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Hashing",
@@ -1432135,9 +1431320,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2693?v=1",
       "contest": "CCPC 2025 济南区域赛",
@@ -1432171,10 +1431355,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-16T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "I Love CCPC",
@@ -1432445,9 +1431625,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2661?v=1",
       "contest": "CCPC 2025 郑州区域赛",
@@ -1432481,10 +1431660,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-23T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Challenge Matrix Multiplication II",
@@ -1432511,9 +1431686,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2661?v=1",
       "contest": "CCPC 2025 郑州区域赛",
@@ -1432547,10 +1431721,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-23T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Cutting Chocolate",
@@ -1432577,9 +1431747,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2661?v=1",
       "contest": "CCPC 2025 郑州区域赛",
@@ -1432613,10 +1431782,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-23T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Basic Counting Practice Problems",
@@ -1432643,9 +1431808,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2661?v=1",
       "contest": "CCPC 2025 郑州区域赛",
@@ -1432679,10 +1431843,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-23T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Diameter of a Tree",
@@ -1432709,9 +1431869,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2661?v=1",
       "contest": "CCPC 2025 郑州区域赛",
@@ -1432745,10 +1431904,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-23T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Doo Doo Doo",
@@ -1432775,9 +1431930,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2661?v=1",
       "contest": "CCPC 2025 郑州区域赛",
@@ -1432811,10 +1431965,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-23T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Challenge NPC II",
@@ -1432841,9 +1431991,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2661?v=1",
       "contest": "CCPC 2025 郑州区域赛",
@@ -1432877,10 +1432026,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-23T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Plus Xor",
@@ -1432907,9 +1432052,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2661?v=1",
       "contest": "CCPC 2025 郑州区域赛",
@@ -1432943,10 +1432087,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-23T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Random Shuffle",
@@ -1432973,9 +1432113,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2661?v=1",
       "contest": "CCPC 2025 郑州区域赛",
@@ -1433009,10 +1432148,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-23T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Dumb Problem II",
@@ -1433039,9 +1432174,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2661?v=1",
       "contest": "CCPC 2025 郑州区域赛",
@@ -1433075,10 +1432209,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-23T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Subrectangle Count",
@@ -1433105,9 +1432235,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2661?v=1",
       "contest": "CCPC 2025 郑州区域赛",
@@ -1433141,10 +1432270,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-23T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Parentheses and Swapping",
@@ -1433171,9 +1432296,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2661?v=1",
       "contest": "CCPC 2025 郑州区域赛",
@@ -1433207,10 +1432331,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-23T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Triangle Grid",
@@ -1433237,9 +1432357,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/2661?v=1",
       "contest": "CCPC 2025 郑州区域赛",
@@ -1433273,10 +1432392,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-23T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Replacement",
@@ -1433369,9 +1432484,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/3387?v=1",
       "contest": "CCPC 2025 重庆区域赛",
@@ -1433405,10 +1432519,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-30T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Abstract Portal",
@@ -1433435,9 +1432545,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/3387?v=1",
       "contest": "CCPC 2025 重庆区域赛",
@@ -1433471,10 +1432580,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-30T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "GPA Optimization Plan",
@@ -1433501,9 +1432606,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/3387?v=1",
       "contest": "CCPC 2025 重庆区域赛",
@@ -1433537,10 +1432641,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-30T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Route Investigation",
@@ -1433567,9 +1432667,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://qoj.ac/contest/3387?v=1",
       "contest": "CCPC 2025 重庆区域赛",
@@ -1433603,10 +1432702,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "startedAt": "2025-11-30T01:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "Dinner Invitation",
@@ -1453387,9 +1452482,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://ac.nowcoder.com/acm/contest/137073",
       "contest": "周赛 150",
@@ -1453496,10 +1452590,6 @@
         "组合计数"
       ],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "位运算",
@@ -1466836,9 +1465926,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://www.luogu.com.cn/contest/324944",
       "contest": "基础赛 35",
@@ -1466921,10 +1466010,6 @@
         "枚举"
       ],
       "startedAt": "2026-06-13T06:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "枚举"
@@ -1466948,9 +1466033,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://www.luogu.com.cn/contest/324944",
       "contest": "基础赛 35",
@@ -1467059,10 +1466143,6 @@
         "枚举"
       ],
       "startedAt": "2026-06-13T06:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "组合计数",
@@ -1467087,9 +1466167,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://www.luogu.com.cn/contest/324944",
       "contest": "基础赛 35",
@@ -1467174,10 +1466253,6 @@
         "前缀和"
       ],
       "startedAt": "2026-06-13T06:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "前缀和"
@@ -1467201,9 +1466276,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://www.luogu.com.cn/contest/324944",
       "contest": "基础赛 35",
@@ -1467334,10 +1466408,6 @@
         "栈"
       ],
       "startedAt": "2026-06-13T06:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "线性 DP",
@@ -1484124,9 +1483194,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://www.luogu.com.cn/contest/330173",
       "contest": "月赛 295",
@@ -1484235,10 +1483304,6 @@
         "扫描线"
       ],
       "startedAt": "2026-07-31T06:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "字典树",
@@ -1486930,9 +1485995,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://www.luogu.com.cn/contest/278842",
       "contest": "月赛 310",
@@ -1487071,10 +1486135,6 @@
         "乘法逆元"
       ],
       "startedAt": "2026-09-30T10:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "根号分治",
@@ -1487100,9 +1486160,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://www.luogu.com.cn/contest/278842",
       "contest": "月赛 310",
@@ -1487211,10 +1486270,6 @@
         "树形 DP"
       ],
       "startedAt": "2026-09-30T10:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "组合计数",
@@ -1499354,8 +1498409,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
@@ -1499382,7 +1498437,8 @@
       "tags": [],
       "title": "洛谷 U69096 前缀和的逆",
       "url": "https://www.luogu.com.cn/problem/U69096",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-04fdb6023eddfeec07b3",
     "raw": {
@@ -1499398,8 +1498454,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "AtCoder",
       "date": "",
       "difficulty": null,
@@ -1499426,7 +1498482,8 @@
       "tags": [],
       "title": "AtCoder joi2007ho_a 最大の和",
       "url": "https://atcoder.jp/contests/joi2007ho/tasks/joi2007ho_a",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-5c19aaba0b2c5c47294e",
     "raw": {
@@ -1499442,8 +1498499,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
@@ -1499470,7 +1498527,8 @@
       "tags": [],
       "title": "Moo Volume S",
       "url": "https://www.luogu.com.cn/problem/P6067",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-66a784e804074964a966",
     "raw": {
@@ -1499486,8 +1498544,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1499514,7 +1498572,8 @@
       "tags": [],
       "title": "CF 165E Compatible Numbers",
       "url": "https://codeforces.com/contest/165/problem/E",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-7155300440d32638c872",
     "raw": {
@@ -1499530,8 +1498589,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1499558,7 +1498617,8 @@
       "tags": [],
       "title": "CF 383E Vowels",
       "url": "https://codeforces.com/contest/383/problem/E",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-4e94c20adc2a064109d3",
     "raw": {
@@ -1499574,8 +1498634,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "AtCoder",
       "date": "",
       "difficulty": null,
@@ -1499602,7 +1498662,8 @@
       "tags": [],
       "title": "ARC 100C Or Plus Max",
       "url": "https://atcoder.jp/contests/arc100/tasks/arc100_c",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-fe6b65beec5a6eafdcfd",
     "raw": {
@@ -1499618,8 +1498679,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1499646,7 +1498707,8 @@
       "tags": [],
       "title": "Problem D. Mex Tree",
       "url": "https://codeforces.com/contest/1830/problem/D",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-7d7b950ec49c1d6cb728",
     "raw": {
@@ -1499662,8 +1498724,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "AtCoder",
       "date": "",
       "difficulty": null,
@@ -1499690,7 +1498752,8 @@
       "tags": [],
       "title": "Atcoder Educational DP Contest, Problem V, Subtree",
       "url": "https://atcoder.jp/contests/dp/tasks/dp_v",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-76810b46090d765ab2ab",
     "raw": {
@@ -1499706,8 +1498769,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1499734,7 +1498797,8 @@
       "tags": [],
       "title": "CodeForce 708C Centroids",
       "url": "https://codeforces.com/contest/708/problem/C",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-6722713ce6333c2162be",
     "raw": {
@@ -1499750,8 +1498814,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "AtCoder",
       "date": "",
       "difficulty": null,
@@ -1499778,7 +1498842,8 @@
       "tags": [],
       "title": "ABC396E Min of Restricted Sum",
       "url": "https://atcoder.jp/contests/abc396/tasks/abc396_e",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-6972aa83009910235305",
     "raw": {
@@ -1499794,8 +1498859,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
@@ -1499822,7 +1498887,8 @@
       "tags": [],
       "title": "洛谷 P1901 发射站",
       "url": "https://www.luogu.com.cn/problem/P1901",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-fc75abe91de7fed34fe0",
     "raw": {
@@ -1499838,8 +1498904,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
@@ -1499866,7 +1498932,8 @@
       "tags": [],
       "title": "Luogu B3656【模板】双端队列 1",
       "url": "https://www.luogu.com.cn/problem/B3656",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-d82f0df20074af8010fe",
     "raw": {
@@ -1499882,8 +1498949,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "AtCoder",
       "date": "",
       "difficulty": null,
@@ -1499910,7 +1498977,8 @@
       "tags": [],
       "title": "AtCoder Library Practice Contest J - Segment Tree",
       "url": "https://atcoder.jp/contests/practice2/tasks/practice2_j",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-1834b0824dbf4db9fa1b",
     "raw": {
@@ -1499926,8 +1498994,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "AtCoder",
       "date": "",
       "difficulty": null,
@@ -1499954,7 +1499022,8 @@
       "tags": [],
       "title": "AtCoder Beginner Contest 292 Ex - Rating Estimator",
       "url": "https://atcoder.jp/contests/abc292/tasks/abc292_h",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-edaf83280a0cb175edbb",
     "raw": {
@@ -1499970,8 +1499039,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1499998,7 +1499067,8 @@
       "tags": [],
       "title": "Codeforces 773 E. Blog Post Rating",
       "url": "https://codeforces.com/contest/773/problem/E",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-7be4eabf2f3512e8ad4e",
     "raw": {
@@ -1500014,8 +1499084,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1500042,7 +1499112,8 @@
       "tags": [],
       "title": "Codeforces 407 E. k-d-sequence",
       "url": "https://codeforces.com/contest/407/problem/E",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-0d6f00f94153acf8e3d0",
     "raw": {
@@ -1500058,8 +1499129,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1500086,7 +1499157,8 @@
       "tags": [],
       "title": "Codeforces 671 E. Organizing a Race",
       "url": "https://codeforces.com/contest/671/problem/E",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-33b9b87821530d3575f6",
     "raw": {
@@ -1500102,8 +1499174,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1500130,7 +1499202,8 @@
       "tags": [],
       "title": "Legacy",
       "url": "https://codeforces.com/contest/786/problem/B",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-6d9adf08ae08ad0cf107",
     "raw": {
@@ -1500146,8 +1499219,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
@@ -1500174,7 +1499247,8 @@
       "tags": [],
       "title": "聪明的猴子",
       "url": "https://www.luogu.com.cn/problem/P2504",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-c073896f0d0751e70058",
     "raw": {
@@ -1500190,8 +1499264,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1500218,7 +1499292,8 @@
       "tags": [],
       "title": "CF 1385E",
       "url": "https://codeforces.com/contest/1385/problem/E",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-7d6287a4c67d7db02e7c",
     "raw": {
@@ -1500234,8 +1499309,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
@@ -1500262,7 +1499337,8 @@
       "tags": [],
       "title": "Luogu P1347",
       "url": "https://www.luogu.com.cn/problem/P1347",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-9bbaa8b2372a684fc7c2",
     "raw": {
@@ -1500278,8 +1499354,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1500306,7 +1499382,8 @@
       "tags": [],
       "title": "Codeforces - Parking Lot",
       "url": "https://codeforces.com/contest/630/problem/I",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-2847abc108cd46f22014",
     "raw": {
@@ -1500350,7 +1499427,12 @@
       "tags": [],
       "title": "Once Upon A Time",
       "url": "https://codeforces.com/gym/100963/problem/J",
-      "wikiExample": true
+      "wikiExample": true,
+      "statementPriorVisibility": {},
+      "statementRetired": true,
+      "statementRetirementPolicy": "public-statement-audit-v1",
+      "statementRetirementReason": "公开题面尚未核实完整，暂不可打开；原题身份与历史记录保留",
+      "catalogHidden": true
     },
     "id": "wiki-example-f3111abcb4011fc83c9c",
     "raw": {
@@ -1500366,8 +1499448,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
@@ -1500394,7 +1499476,8 @@
       "tags": [],
       "title": "luogu P3066 Running Away From the Barn G",
       "url": "https://www.luogu.com.cn/problem/P3066",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-7a771086e9d531b70e14",
     "raw": {
@@ -1500410,8 +1499493,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
@@ -1500438,7 +1499521,8 @@
       "tags": [],
       "title": "Luogu P1126 机器人搬重物",
       "url": "https://www.luogu.com.cn/problem/P1126",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-a9f7769e69ad93710b9a",
     "raw": {
@@ -1500454,8 +1499538,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
@@ -1500482,7 +1499566,8 @@
       "tags": [],
       "title": "洛谷 U461211 字符串 Hash（数据加强）",
       "url": "https://www.luogu.com.cn/problem/U461211",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-b2f4832b71e0cec14697",
     "raw": {
@@ -1500498,8 +1499583,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1500526,7 +1499611,8 @@
       "tags": [],
       "title": "CF1200E Compress Words",
       "url": "https://codeforces.com/contest/1200/problem/E",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-23b670472c1296cf2837",
     "raw": {
@@ -1500542,8 +1499628,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1500570,7 +1499656,8 @@
       "tags": [],
       "title": "Codeforces - MUH and Cube Walls",
       "url": "https://codeforces.com/contest/471/problem/D",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-d97185272515e8baee74",
     "raw": {
@@ -1500586,8 +1499673,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
@@ -1500614,7 +1499701,8 @@
       "tags": [],
       "title": "树",
       "url": "https://www.luogu.com.cn/problem/P6623",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-1365ae7cbc32a63ee458",
     "raw": {
@@ -1500630,8 +1499718,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1500658,7 +1499746,8 @@
       "tags": [],
       "title": "CF126B Password",
       "url": "https://codeforces.com/contest/126/problem/B",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-9b7020aed0af59babe76",
     "raw": {
@@ -1500674,8 +1499763,8 @@
   },
   {
     "encoded": {
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
@@ -1500702,7 +1499791,8 @@
       "tags": [],
       "title": "Codeforces - Prefixes and Suffixes",
       "url": "https://codeforces.com/contest/432/problem/D",
-      "wikiExample": true
+      "wikiExample": true,
+      "problemType": "standard"
     },
     "id": "wiki-example-4f57be51e6f8340ff148",
     "raw": {

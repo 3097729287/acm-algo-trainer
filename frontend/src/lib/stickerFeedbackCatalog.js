@@ -18,7 +18,7 @@ export const STICKER_FEEDBACK=Object.freeze({
  planet:{sound:'低沉环绕音'},
  crystal:{sound:'水晶碰响'},
  butterfly:{sound:'轻轻振翅'},
- rocket:{sound:'推进器升空',motion:'rocket',animation:'点火 · 升空 · 星尘尾迹'},
+ rocket:{sound:'推进器升空',motion:'rocket',animation:'沿头部朝向点火 · 加速绕行 · 减速返回'},
  whale:{sound:'悠长鲸鸣'},
  cottage:{sound:'木门轻开 · 门铃'},
  sofa:{sound:'软垫轻弹'},

@@ -16,13 +16,20 @@ function closing(text, marker, start, singleLine=false){
 }
 
 function display(out, body, suffix){
-  if(out.slice(out.lastIndexOf('\n')+1).trim())out+='\n\n';
-  out+='$$'+(body.startsWith('\n')?'':'\n')+body+(body.endsWith('\n')?'':'\n')+'$$';
+  const tail=out.slice(out.lastIndexOf('\n')+1);
+  // List-contained display math needs the closing delimiter at the same
+  // indentation as its opener. A column-zero close makes Markdown consume
+  // later prose as another equation.
+  const indent=tail.trim()?'':tail;
+  if(tail.trim())out+='\n\n';else if(indent)out=out.slice(0,-indent.length);
+  const lines=body.replace(/^(?:[ \t]*\n)+|(?:\n[ \t]*)+$/g,'').split('\n').map(line=>line.startsWith(indent)?line:indent+line);
+  out+=indent+'$$\n'+lines.join('\n')+'\n'+indent+'$$';
   if(suffix.split('\n',1)[0].trim())out+='\n\n';
   return out;
 }
 
 function inlineFormula(out, body, suffix){
+  if(/\\tag\s*\{|\\begin\{(?:equation\*?|align\*?)\}/.test(body))return display(out,body,suffix);
   if(out.endsWith('$')&&!escaped(out,out.length-1))out+=' ';
   out+='$'+body+'$';
   if(suffix.startsWith('$')||suffix.startsWith('\\('))out+=' ';
@@ -42,6 +49,9 @@ function prose(text){
       const close=closing(text,block?'\\]':'\\)',end,!block);
       if(close>=0){
         const body=text.slice(end,close);
+        // Imported prose uses Markdown-escaped brackets for optional syntax
+        // such as \[_object_\] and intervals containing their own $...$ math.
+        if(block&&(body.includes('$')||/(?:\\?_)[A-Za-z][A-Za-z0-9]*_/.test(body))){out+=text.slice(i,end);i=end;continue;}
         out=block?display(out,body,text.slice(close+2)):inlineFormula(out,body,text.slice(close+2));
         i=close+2;continue;
       }
@@ -49,6 +59,12 @@ function prose(text){
     if(text[i]!=='$'||escaped(text,i)){out+=text[i++];continue}
     let end=i;while(text[end]==='$')end++;
     const count=end-i;
+    if(count===6&&!inline){
+      const close=closing(text,'$$$$$$',end),body=close>=0?text.slice(end,close):'';
+      if(close>=0&&!body.includes('$')&&/\\[A-Za-z]+/.test(body)){
+        out=display(out,body,text.slice(close+6));i=close+6;continue;
+      }
+    }
     if(count===3&&!inline){
       // Codeforces uses $$$...$$$ for inline math, including adjacent runs.
       const close=closing(text,'$$$',end);
@@ -59,6 +75,12 @@ function prose(text){
       }
     }
     if(count===1){
+      if(!inline){
+        const close=closing(text,'$',end),body=close>=0?text.slice(end,close):'';
+        if(close>=0&&!body.includes('$')&&/\\tag\s*\{|\\begin\{(?:equation\*?|align\*?)\}/.test(body)){
+          out=display(out,body,text.slice(close+1));i=close+1;continue;
+        }
+      }
       // Avoid interpreting an unmatched currency/dollar as an inline opener.
       const lineEnd=text.indexOf('\n',end),limit=lineEnd<0?text.length:lineEnd;
       let closes=false;
@@ -82,8 +104,8 @@ function prose(text){
     }
     if(close<0){out+='$$';i=end;continue}
     const body=text.slice(end,close);
-    if(!body.includes('\n')){out+=text.slice(i,close+2);i=close+2;continue}
-    // Multiline display math needs both delimiter runs on their own lines.
+    // Markdown treats same-line double dollars as inline math. Native pages
+    // use them for display equations, including tagged equations.
     out=display(out,body,text.slice(close+2));
     i=close+2;
   }

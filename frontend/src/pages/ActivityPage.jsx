@@ -43,7 +43,7 @@ export default function ActivityPage({insights}) {
  useEffect(()=>{
  const moveCell=event=>{
   const direction={ArrowLeft:[0,-1],ArrowRight:[0,1],ArrowUp:[-1,0],ArrowDown:[1,0]}[event.key];
-  if(!direction||event.defaultPrevented||event.isComposing||event.altKey||event.ctrlKey||event.metaKey||!isVisible(rootRef.current)||modalOpen())return;
+  if(!direction||event.defaultPrevented||event.isComposing||event.altKey||event.ctrlKey||event.metaKey||!isVisible(rootRef.current)||!gridRef.current?.contains(event.target)||modalOpen())return;
   event.preventDefault();event.stopImmediatePropagation();
   focusCell();
   const day=selectedRef.current,index=cells.indexOf(day);

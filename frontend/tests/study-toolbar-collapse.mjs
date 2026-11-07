@@ -1,0 +1,84 @@
+import assert from 'node:assert/strict';
+import {mkdir} from 'node:fs/promises';
+import {createServer} from 'vite';
+import {chromium} from 'playwright';
+
+const server=await createServer({optimizeDeps:{entries:['tests/learning-browser-fixture.html']},server:{host:'127.0.0.1',port:0}});await server.listen();
+const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1536,height:900}}),errors=[];
+page.on('pageerror',error=>errors.push(error.message));
+const output='../.backups/statements-zh/ui';await mkdir(output,{recursive:true});
+try{
+ await page.goto(`http://127.0.0.1:${server.httpServer.address().port}/tests/learning-browser-fixture.html`);
+ await page.getByRole('button',{name:'题目入口',exact:true}).click();
+ const editor=page.getByRole('textbox',{name:'C++ 代码',exact:true});await editor.waitFor();
+ const controls=page.locator('.study-pane:not([hidden])>.study-single-controls');
+ await controls.waitFor({state:'visible'});
+ await editor.click();await page.mouse.move(1100,500);await editor.press('Alt+t');
+ await page.waitForFunction(()=>document.querySelector('.wb-toolbar-hidden'));
+ assert.equal(await controls.isVisible(),false,'Home/add must collapse with the single-problem toolbar');
+ assert.equal(await page.locator('.wb-statement').evaluate(node=>node.getBoundingClientRect().top),0);
+ await page.screenshot({path:output+'/single-collapsed.png'});
+ await page.mouse.move(8,2);await page.waitForFunction(()=>!document.querySelector('.wb-toolbar-hidden'));
+ assert(await controls.isVisible());await editor.press('Alt+t');
+ await page.evaluate(()=>studyFixture.open({kind:'wiki',id:'ds/stack',title:'栈',newTab:true}));
+ await page.getByRole('tab',{name:'小月的数组',exact:true}).click();await editor.waitFor();
+ for(const viewport of [{width:1536,height:900},{width:820,height:700}]){
+  await page.setViewportSize(viewport);await page.locator('.study-pane:not([hidden]) .wb-statement').focus();await page.mouse.move(viewport.width-120,400);
+  await page.keyboard.press('Alt+Shift+t');await page.waitForFunction(()=>document.querySelector('.study-tabs-hidden'));
+  assert.equal(await page.locator('.wb-toolbar-hidden').count(),0,'The two toolbar shortcuts must remain independent');
+  assert.equal(await page.locator('.study-group-header').evaluate(node=>node.getBoundingClientRect().height),0);
+  assert.equal(await page.locator('.study-pane:not([hidden])').evaluate(node=>node.getBoundingClientRect().top),0);
+  await page.mouse.move(120,2);await page.waitForFunction(()=>!document.querySelector('.study-tabs-hidden'));
+  await page.getByRole('tab',{name:'栈',exact:true}).click();await page.mouse.move(200,350);
+  await page.waitForFunction(()=>document.querySelector('.study-tabs-hidden'));
+  await page.mouse.move(120,2);await page.waitForFunction(()=>!document.querySelector('.study-tabs-hidden'));
+  await page.getByRole('tab',{name:'小月的数组',exact:true}).click();await page.locator('.study-pane:not([hidden]) .wb-statement').focus();
+  await page.keyboard.press('Alt+Shift+t');await page.mouse.move(viewport.width-120,400);
+  await page.waitForTimeout(250);assert.equal(await page.locator('.study-tabs-hidden').count(),0);
+ }
+ await page.setViewportSize({width:1536,height:900});
+ await page.getByRole('tab',{name:'栈',exact:true}).click();
+ const wiki=page.frameLocator('.study-pane:not([hidden]) .wiki-reader').locator('body');await wiki.click({position:{x:250,y:180}});await wiki.press('Alt+t');
+ await page.waitForFunction(()=>document.querySelector('.study-pane:not([hidden])[data-reading-toolbar-hidden]'));
+ assert.equal(await page.locator('.study-pane:not([hidden]) .wiki-reader-toolbar').evaluate(node=>node.getBoundingClientRect().height),0);
+ const paneTop=await page.locator('.study-pane:not([hidden])').evaluate(node=>node.getBoundingClientRect().top);
+ await page.mouse.move(120,paneTop+2);await page.waitForFunction(()=>!document.querySelector('.study-pane:not([hidden])[data-reading-toolbar-hidden]'));
+ await wiki.press('Alt+t');await wiki.click({position:{x:250,y:180}});
+ await wiki.press('Alt+Shift+t');await page.waitForFunction(()=>document.querySelector('.study-tabs-hidden'));
+ await wiki.press('Alt+Shift+t');await page.waitForFunction(()=>!document.querySelector('.study-tabs-hidden'));
+ await page.keyboard.down('Control');await page.mouse.wheel(0,-100);await page.keyboard.up('Control');
+ await page.getByRole('status',{name:'缩放比例'}).filter({hasText:'110%'}).waitFor();
+ assert.equal(await page.locator('.reading-zoom-toast').evaluate(node=>getComputedStyle(node).pointerEvents),'none');
+ await page.keyboard.down('Control');await page.mouse.wheel(0,-100);await page.keyboard.up('Control');
+ await page.getByRole('status',{name:'缩放比例'}).filter({hasText:'120%'}).waitFor();
+ await page.screenshot({path:output+'/wiki-zoom-toast.png'});
+ await page.locator('.reading-zoom-toast').waitFor({state:'detached'});
+ const lecture=await page.evaluate(()=>({kind:'lecture',id:studyFixture.lectures[0].id,title:studyFixture.lectures[0].title,newTab:true}));
+ for(const [tab,selector]of [[{kind:'template',id:'builtin:dsu',title:'并查集模板',newTab:true},'.template-heading'],[{kind:'lab',id:'sorting-basics',title:'排序基础',newTab:true},'.lab-course-header'],[lecture,'.lectures-detail-bar']]){
+  await page.evaluate(tab=>studyFixture.open(tab),tab);const pane=page.locator('.study-pane:not([hidden])');await pane.locator(selector).waitFor();
+  await pane.evaluate(node=>{node.tabIndex=-1;node.focus();});await page.mouse.move(1000,500);await page.keyboard.press('Alt+t');
+  await page.waitForFunction(()=>document.querySelector('.study-pane:not([hidden])[data-reading-toolbar-hidden]'));
+  assert.equal(await pane.locator(selector).evaluate(node=>node.getBoundingClientRect().height),0,tab.kind+' toolbar must collapse');
+  const top=await pane.evaluate(node=>node.getBoundingClientRect().top);await page.mouse.move(120,top+2);
+  await page.waitForFunction(()=>!document.querySelector('.study-pane:not([hidden])[data-reading-toolbar-hidden]'));
+  await page.keyboard.press('Alt+t');
+ }
+ await page.getByRole('tab',{name:'小月的数组',exact:true}).click();await editor.click();await editor.press('Alt+u');
+ const inline=page.locator('.study-pane:not([hidden]) .study-inline-solution'),reader=inline.locator('.reader-content');await reader.waitFor();
+ await reader.focus();await page.mouse.move(1200,500);await reader.press('Alt+t');
+ await page.waitForFunction(()=>document.querySelector('.wb-toolbar-hidden'));
+ assert.equal(await inline.locator('.solution-reader-header').evaluate(node=>node.getBoundingClientRect().height),0,'Inline solution and workbench headers must collapse together');
+ const inlineTop=await inline.locator('..').evaluate(node=>node.getBoundingClientRect().top);
+ await page.mouse.move(120,inlineTop+2);await page.waitForFunction(()=>!document.querySelector('.wb-toolbar-hidden'));
+ await reader.press('Alt+t');await inline.getByRole('button',{name:'收起题解',exact:true}).click();await editor.click();
+ await page.keyboard.down('Control');await page.mouse.wheel(0,-100);await page.keyboard.up('Control');
+ await page.getByRole('status',{name:'缩放比例'}).filter({hasText:'110%'}).waitFor();
+ await page.screenshot({path:output+'/workbench-zoom-toast.png'});
+ await page.locator('.reading-zoom-toast').waitFor({state:'detached'});
+ await page.mouse.move(1200,500);
+ await editor.press('Alt+Shift+t');await page.waitForFunction(()=>document.querySelector('.study-tabs-hidden'));
+ await editor.press('Alt+t');await page.waitForFunction(()=>document.querySelector('.wb-toolbar-hidden'));
+ await page.screenshot({path:output+'/both-collapsed.png'});
+ assert.deepEqual(errors,[]);console.log('PASS compact home/add alignment, independent Alt+T and Alt+Shift+T, Wiki iframe keys, template/lab/lecture toolbars, live zoom toast, hover reveal and wide/narrow layouts.');
+}finally{await browser.close();await server.close();}

@@ -1,0 +1,18 @@
+{
+  "repository": "https://github.com/mqnc/cheapwater",
+  "commit": "f892228d701522fb26d8cdbcf0b360767705aedf",
+  "license": "MIT",
+  "files": {
+    "index.html": "923f2f05fade8aadaf6bea195c03476055a9ec4cb3fe015bee8191a8bceeeb5a",
+    "LICENSE": "5f1774084130e18baede9872b062f060487b37ec6d7015ceecc0c0ba47414fd1",
+    "nx.jpg": "99a31440e2656c235855b20b2e0c4143e94775a9070ca752d20a14b694057d16",
+    "ny.jpg": "88c6d7cb76bfb7564d8ebda45849de800a63ac7c4a3a3626c638a9c71a534328",
+    "nz.jpg": "4dda90cd38c57a43d488155f9e6ac485c9c30367764e9164d48e0cf356a74c2c",
+    "px.jpg": "2a0a53e8fa6138dbbab01cafef4a437707bb0fbc774e7ad55d7de4c40bf4ab1c",
+    "py.jpg": "4ac0487d9b7e058c657f40738454e14ebb3842f106bbbeb1fd0454b8358b9160",
+    "pz.jpg": "f7055ef074abf9af20577aea77622431af1a592b672dd49dbfbc9cec69219825",
+    "README.md": "f95f8404103e2ee8acedd3e8372b95e23dcd083b78bd0087adffd9f805d61d58",
+    "ripple.png": "e1aaac8818d0879d7801fd7eb7444f67a8f5dc91d9a9b230c6b37e3daecb516a",
+    "water_normal.png": "dbae79c595aa93ffac0dae79750b63d4b04ba0bb81516f790dc3cfadcf3f8f69"
+  }
+}

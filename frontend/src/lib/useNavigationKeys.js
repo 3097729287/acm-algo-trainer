@@ -1,4 +1,5 @@
 import {useEffect} from 'react';
+import {matchesShortcut} from './shortcuts.js';
 const visible=node=>node.getClientRects().length>0&&!node.closest('[inert],[hidden],[aria-hidden=true]');
 const arrows={w:'ArrowUp',a:'ArrowLeft',s:'ArrowDown',d:'ArrowRight'};
 const arrowCodes={ArrowUp:38,ArrowLeft:37,ArrowDown:40,ArrowRight:39};
@@ -36,12 +37,25 @@ export function installDirectionKeys(host=window) {
   host.addEventListener('keydown',map,true);host.addEventListener('keyup',map,true);
   return()=>{host.removeEventListener('keydown',map,true);host.removeEventListener('keyup',map,true);};
 }
-export default function useNavigationKeys() {
+export default function useNavigationKeys(shortcuts={}) {
   useEffect(()=>{
     const removeDirectionKeys=installDirectionKeys();
+    const bookmarkKey=event=>{
+      if(event.defaultPrevented||event.isComposing||event.target.closest?.('[data-shortcut-input]'))return;
+      const direction=matchesShortcut(event,'bookmark-previous',shortcuts)?-1:matchesShortcut(event,'bookmark-next',shortcuts)?1:0;
+      if(!direction||document.querySelector('dialog[open],[aria-modal=true],[data-popconfirm],.tb-select-menu,.filter-popover'))return;
+      const lists=[...document.querySelectorAll('#tb-page-bookmarks [role=tablist]')].filter(visible);
+      if(lists.length!==1)return;
+      // The rendered order includes the user's drag order, unlike page IDs.
+      const tabs=[...lists[0].querySelectorAll('[role=tab]')].filter(node=>visible(node)&&!node.disabled);
+      const index=tabs.findIndex(node=>node.getAttribute('aria-selected')==='true');
+      if(index<0||tabs.length<2)return;
+      event.preventDefault();event.stopImmediatePropagation();
+      const next=tabs[(index+direction+tabs.length)%tabs.length];next.click();next.focus({preventScroll:true});next.scrollIntoView({block:'nearest',inline:'nearest'});
+    };
     const key=event=>{
       if(event.defaultPrevented||event.isComposing||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey)return;
-      if(event.target.closest?.('input,textarea,select,[contenteditable]:not([contenteditable=false]),.cm-editor,[role=slider],[role=grid],[role=tree],video'))return;
+      if((event.composedPath?.()||[event.target]).some(node=>node?.closest?.('input,textarea,select,[contenteditable]:not([contenteditable=false]),.cm-editor,[role=slider],[role=grid],[role=tree],video')))return;
       if(document.querySelector('dialog[open],[aria-modal=true],[data-popconfirm],.tb-select-menu,.filter-popover'))return;
       if(event.key==='Backspace') {
         const up=[...document.querySelectorAll('[data-folder-up]')].find(visible);
@@ -55,7 +69,7 @@ export default function useNavigationKeys() {
       const button=[...containers[0].querySelectorAll('button')].find(node=>(node.getAttribute('aria-label')||node.textContent).includes(direction));
       if(button){event.preventDefault();if(!button.disabled)button.click();}
     };
-    window.addEventListener('keydown',key);
-    return()=>{removeDirectionKeys();window.removeEventListener('keydown',key);};
-  },[]);
+    window.addEventListener('keydown',bookmarkKey,true);window.addEventListener('keydown',key);
+    return()=>{removeDirectionKeys();window.removeEventListener('keydown',bookmarkKey,true);window.removeEventListener('keydown',key);};
+  },[shortcuts]);
 }

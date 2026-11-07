@@ -192,7 +192,9 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     growth = build_growth(xp)
     today = now.astimezone(SHANGHAI).date()
     days = {day for day, value in per_day.items() if value["submissions"]}
-    ac_days = {date for dates in solved_dates.values() for date in dates if date <= today}
+    # The flame and calendar use the same first verified AC dates. Repeating an
+    # old problem cannot bridge a blank day in the training calendar.
+    ac_days = {date for date in first_solved_days.values() if date <= today}
     day = today if today in ac_days else today - dt.timedelta(days=1)
     streak = 0
     while day in ac_days:

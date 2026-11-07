@@ -1,0 +1,170 @@
+{
+  "name": "ElementalFX weather + ripples",
+  "repository": "https://github.com/iyerav42/elementalfx",
+  "commit": "278bce20c688a35a6aeb28407e7c6a165a762681",
+  "tree": "6845b9e1c2db50d21771d25518204e89f7e8c1b3",
+  "license": "MIT",
+  "files": {
+    "LICENSE": {
+      "upstreamSha256": "2dcba0c988aa809699a3b825a8ab5c8ca4d43cd119beae97ef9583b6a65596d0",
+      "vendoredSha256": "2dcba0c988aa809699a3b825a8ab5c8ca4d43cd119beae97ef9583b6a65596d0",
+      "upstreamGitBlob": "6373387a44fb726db18cbb45761e7cb21b344e32"
+    },
+    "README.md": {
+      "upstreamSha256": "3242c5403454fb6447234865662861018ece20d588937b1253a4200b72b78df7",
+      "vendoredSha256": "3242c5403454fb6447234865662861018ece20d588937b1253a4200b72b78df7",
+      "upstreamGitBlob": "4707789127dea6b0968520cd17af1fa698f0cd4c"
+    },
+    "packages/core/src/element.ts": {
+      "upstreamSha256": "be4f4b8ebfae137984c9dc93268fd8fb2044042def2ecde1676c545c730162f8",
+      "vendoredSha256": "be4f4b8ebfae137984c9dc93268fd8fb2044042def2ecde1676c545c730162f8",
+      "upstreamGitBlob": "16a6a43335038e4cf13c05bce55db9c1708852e3"
+    },
+    "packages/core/src/env.ts": {
+      "upstreamSha256": "22e39d06227364007c2d4f1000beed5a2e814c4c19161328444079855391e973",
+      "vendoredSha256": "22e39d06227364007c2d4f1000beed5a2e814c4c19161328444079855391e973",
+      "upstreamGitBlob": "c63d87c2ea32f212b4aefb7f8ed90784babf43bf"
+    },
+    "packages/core/src/index.ts": {
+      "upstreamSha256": "da4930341d323563ecefac4351c0082d308c1695343d6bc0e797c96da72fa563",
+      "vendoredSha256": "da4930341d323563ecefac4351c0082d308c1695343d6bc0e797c96da72fa563",
+      "upstreamGitBlob": "6a6f3a6810ab86656d06e17193db72157c0f26c0"
+    },
+    "packages/core/src/noise.ts": {
+      "upstreamSha256": "c1ad9b189d6c8c51f75b7774c72a2122af8cc675d1b06092e1979690fe6dfb67",
+      "vendoredSha256": "c1ad9b189d6c8c51f75b7774c72a2122af8cc675d1b06092e1979690fe6dfb67",
+      "upstreamGitBlob": "e0e211f9653fad3d4d7e0cfd6036712c8ea87961"
+    },
+    "packages/core/src/runtime.ts": {
+      "upstreamSha256": "28bcccda7f99678ccf22c47e1d8892b60aca6ef300397138ec3884d28cc670cb",
+      "vendoredSha256": "28bcccda7f99678ccf22c47e1d8892b60aca6ef300397138ec3884d28cc670cb",
+      "upstreamGitBlob": "7b58a6565c830d0d5e67d6395cbe04ce78d44eb3"
+    },
+    "packages/core/src/ticker.ts": {
+      "upstreamSha256": "830a7341e9a1a810b6415a95caf5f4264ee5dc032e51a2bed2a628e484ad9f5c",
+      "vendoredSha256": "830a7341e9a1a810b6415a95caf5f4264ee5dc032e51a2bed2a628e484ad9f5c",
+      "upstreamGitBlob": "34b2a3b3c3d55e854e3e27e28b77cad56b400f27"
+    },
+    "packages/core/src/wind.ts": {
+      "upstreamSha256": "1dfe8be723780c937fb5653782a86fa39472e8cf68e2292ca2693b7ea2c06208",
+      "vendoredSha256": "1dfe8be723780c937fb5653782a86fa39472e8cf68e2292ca2693b7ea2c06208",
+      "upstreamGitBlob": "07e6c5fb473d6aff9c03d31913c1f635fd2effa4"
+    },
+    "packages/gl/src/context.ts": {
+      "upstreamSha256": "12af9052400227079c10f54e6d354448a5a2eb8cd619be989cd2c81ae232f9f4",
+      "vendoredSha256": "fe3805fcd750f6d0187ec7a11bbefb287ad3742d1ec3f7c2bbe6ad74105e31ab",
+      "upstreamGitBlob": "a09e122fc4d61c58670d213054f95a83565a59b0"
+    },
+    "packages/gl/src/index.ts": {
+      "upstreamSha256": "63246bb6b676415e10964a40f3fee03200f0ae8edda89e908acf6b5b3c6a9b37",
+      "vendoredSha256": "63246bb6b676415e10964a40f3fee03200f0ae8edda89e908acf6b5b3c6a9b37",
+      "upstreamGitBlob": "7c79cf3cd632af3fc3d023ea7063b061ea0b4234"
+    },
+    "packages/gl/src/program.ts": {
+      "upstreamSha256": "046f3b0aa21c174280562d46d1b357d55f2edea459f286f8a3dc82a83d04327f",
+      "vendoredSha256": "046f3b0aa21c174280562d46d1b357d55f2edea459f286f8a3dc82a83d04327f",
+      "upstreamGitBlob": "c16fc9b7b5b2b22e3d640d951af65691925612c6"
+    },
+    "packages/gl/src/targets.ts": {
+      "upstreamSha256": "fecffcb3d983bd6271fc4d0518926c41dc6229c9796a25f13ebb6b85fa24396c",
+      "vendoredSha256": "fecffcb3d983bd6271fc4d0518926c41dc6229c9796a25f13ebb6b85fa24396c",
+      "upstreamGitBlob": "774767fa15bc74f7b2d652f73380645c2e1d1441"
+    },
+    "packages/gl/src/texture.ts": {
+      "upstreamSha256": "982c7d3740ef365dc3f39dec0a0b5b734530f891fa0779346a52e3605a6661e0",
+      "vendoredSha256": "982c7d3740ef365dc3f39dec0a0b5b734530f891fa0779346a52e3605a6661e0",
+      "upstreamGitBlob": "473ab04b98df0739b3106a71717bd52e97c93f53"
+    },
+    "packages/ripples/README.md": {
+      "upstreamSha256": "03521d709be8c13df5747293015a90b585c35444c42153470800f4eaa7245e93",
+      "vendoredSha256": "03521d709be8c13df5747293015a90b585c35444c42153470800f4eaa7245e93",
+      "upstreamGitBlob": "1661832cd8cfce3a9a042133555d0ebc121bbfb8"
+    },
+    "packages/ripples/src/element.ts": {
+      "upstreamSha256": "43c061a250465f68cb3f4c9fa64b91030527e25f18aa345626699699b0520e28",
+      "vendoredSha256": "a7e208ecf2f27a0168fab74f0713b1be36f0d73891409d411c5f700a36dae352",
+      "upstreamGitBlob": "62f7bec8d9f3e02357921e8950a7ff1962af16fd"
+    },
+    "packages/ripples/src/global.ts": {
+      "upstreamSha256": "d0c3bd9d703aaf89b44790b9b801147c477a9291dc2d633fcb1da1a5cddb0945",
+      "vendoredSha256": "d0c3bd9d703aaf89b44790b9b801147c477a9291dc2d633fcb1da1a5cddb0945",
+      "upstreamGitBlob": "a780aa59749a56bc220bce2ad7a4ba3903234264"
+    },
+    "packages/ripples/src/index.ts": {
+      "upstreamSha256": "cef83a2fa195e4b06755672533bbb0e192da54a5464769859ea16d2e9a3f032d",
+      "vendoredSha256": "cef83a2fa195e4b06755672533bbb0e192da54a5464769859ea16d2e9a3f032d",
+      "upstreamGitBlob": "8477a4063e96c15d639a73e0b78c867ebedfbd8f"
+    },
+    "packages/ripples/src/layout.ts": {
+      "upstreamSha256": "1ed14cdf944f74b10612616ce71faae0dc399e469229f661c13ce52a737c5d24",
+      "vendoredSha256": "1ed14cdf944f74b10612616ce71faae0dc399e469229f661c13ce52a737c5d24",
+      "upstreamGitBlob": "6b00a3d97ca8dd31b4420cd69e3ad35de5467afb"
+    },
+    "packages/ripples/src/options.ts": {
+      "upstreamSha256": "eb2546306c73c18d3812b5298426fe71a4dcb543161de508f41251cf75b0de0d",
+      "vendoredSha256": "47e63c5ba3d00db49894b603ed5311619607567ca6744eec9b3bebe45483762b",
+      "upstreamGitBlob": "e5c0be07a8b4efcc8e20acaffe84142eb1aebbe4"
+    },
+    "packages/ripples/src/ripples.ts": {
+      "upstreamSha256": "b18ac02da3882b678115f0793797429dd0347b216132771ddef82531784a2dd4",
+      "vendoredSha256": "ed1ceb742f57c803c9f5aca32798a43d5f67b80c97f507586b88107bd897f350",
+      "upstreamGitBlob": "d5a01de05dcd037acb6687bb4a1db982ba81e984"
+    },
+    "packages/ripples/src/shaders.ts": {
+      "upstreamSha256": "c8463ae5fd8191a9c1b55e2103fcf60d892bc7defb0be11e7615a7a9aa27c9cc",
+      "vendoredSha256": "28d62484b9d9afa15cd632d1b2869fdf62a09cd5dbc6954ae7894bde2aa818b2",
+      "upstreamGitBlob": "1b49d5165a5879ddd06cbc1cf4253491ae4cb763"
+    },
+    "packages/weather/README.md": {
+      "upstreamSha256": "176ae793cd6c64dd72c79b6d7f9cec14c64d3da3b9af426e6a7161d1c6f2156f",
+      "vendoredSha256": "176ae793cd6c64dd72c79b6d7f9cec14c64d3da3b9af426e6a7161d1c6f2156f",
+      "upstreamGitBlob": "dd93edd680a73617baa57015dc32e2b667a8f500"
+    },
+    "packages/weather/src/element.ts": {
+      "upstreamSha256": "8d3db4835185740a0279b92e8d452ee65a382b1ac2d40b3d63e514ecd0afeacb",
+      "vendoredSha256": "c03d0666e20a05cf53e8b66ea34f23dfb4cff3f878d99b215ce6920655091ba8",
+      "upstreamGitBlob": "1e7f2f1d2016277c1ccc981fa78d772315da1a98"
+    },
+    "packages/weather/src/global.ts": {
+      "upstreamSha256": "6fc5af43e554989d427e251377644cdaac38f47fdcddf4498ef2dd4e383b4c54",
+      "vendoredSha256": "6fc5af43e554989d427e251377644cdaac38f47fdcddf4498ef2dd4e383b4c54",
+      "upstreamGitBlob": "2dff064165ee2ad933d645329cbb640b6426c5d0"
+    },
+    "packages/weather/src/index.ts": {
+      "upstreamSha256": "b4aaed74543dfd74ad80c7d0179f21c7103a89b75affc96a44dc2f2b883f3915",
+      "vendoredSha256": "f8edf733a8316aa88e4582c356c7ef0aecc45c87b57489cd87b28e42d749695e",
+      "upstreamGitBlob": "42d956f3b3f19db9b7867a5b6625630377895a61"
+    },
+    "packages/weather/src/lightning.ts": {
+      "upstreamSha256": "2da003122b446d3c6d7e2d0202eb078173614bb74c85608fdf716825f814623d",
+      "vendoredSha256": "e36a09cae11f94309eece34a83fc678499702c709dab81a4c3740c3a602b87c7",
+      "upstreamGitBlob": "7a542a9dff94e2dee5c0335e2787ecb570c4664c"
+    },
+    "packages/weather/src/options.ts": {
+      "upstreamSha256": "5842c4a71a71f807b85243278f8b4ad48b61b17fccf7e12b7dc6868e6659c4df",
+      "vendoredSha256": "b93488c015408aabc24cdaa811665760947f13c5a3efdcb6cfa2cdea500c44ff",
+      "upstreamGitBlob": "29fb4c6a9bdd1fe6c15dad8b4b80e34ce7f188e9"
+    },
+    "packages/weather/src/particles.ts": {
+      "upstreamSha256": "e5dbddc0e02f591001f6eb9bf88c95ce6e5e8ea53025fc4a45de26aee2cc7e68",
+      "vendoredSha256": "08339491979d4d5e3bb8f2b99aded7c2f335435cf77ec6b01767fe9133b36e45",
+      "upstreamGitBlob": "94742399330654a3311a25e32a020095d69d7172"
+    },
+    "packages/weather/src/render.ts": {
+      "upstreamSha256": "8e4ec95b5dfc1f22f2ea63ba684beef402e9a4e12ca8e77506e4a916baaf5744",
+      "vendoredSha256": "a9607d2c91037f9a3b2813a32afea9d2aaaad001873ac5fcdde2902f12cbbeba",
+      "upstreamGitBlob": "e094c3def4d4986e6d9cecceb9b6d94adfcf3111"
+    },
+    "packages/weather/src/surfaces.ts": {
+      "upstreamSha256": "8cd630fffac6201ea5271409531bbdd92e44234d1cb9338cd7438301cfc8984f",
+      "vendoredSha256": "8cd630fffac6201ea5271409531bbdd92e44234d1cb9338cd7438301cfc8984f",
+      "upstreamGitBlob": "dddb4ded36dc01048e3a8bb2b00e20da4b40c81a"
+    },
+    "packages/weather/src/weather.ts": {
+      "upstreamSha256": "33f2c221246d905ac8e0e176e605d4af466a00e83171ec107001f9deba99d4e3",
+      "vendoredSha256": "8b6b76162ff479a6a95b8aa1684d1afd97a7c70df91ed8ad9c34fe32e58e7f45",
+      "upstreamGitBlob": "9f7abff4e18fcc4d26f66dec63aca6965795a5f5"
+    }
+  },
+  "adaptation": "Unchanged upstream GLSL for rain and the damped GPU wave solver. Local relative imports, fixed-step playback rate, unprojected layout, snapshot API and larger queued-impact limit. Configurable depth/ground placement; every visible rain impact calls its ripple target (upstream random 50% skip removed). Host applies a CSS perspective and inverse coordinate map; no custom rain or ripple shaders."
+}

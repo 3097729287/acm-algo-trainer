@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "problems": 13417,
+  "statementRecords": 13363,
+  "visible": 13217,
+  "visibleAttachedChinese": 6048,
+  "sourceRestored": 219,
+  "unresolvedOriginals": 152,
+  "documents": 19265,
+  "renderedMarkdown": 19007,
+  "nativePdfViews": 258,
+  "renderIssues": 0,
+  "missingChineseOutsideWithheldPdfs": [],
+  "pdfChineseWithheld": [
+    "remote:codeforces:102992::F",
+    "remote:codeforces:103119::E",
+    "remote:codeforces:103202::A",
+    "remote:codeforces:103202::C",
+    "remote:codeforces:103202::E",
+    "remote:codeforces:103202::K",
+    "remote:codeforces:104172::G",
+    "remote:codeforces:104385::L",
+    "remote:codeforces:104857::L",
+    "remote:codeforces:104891::A",
+    "remote:codeforces:104976::D",
+    "remote:codeforces:105471::N",
+    "remote:codeforces:106161::I"
+  ],
+  "siteTranslationReview": [
+    {
+      "id": "luogu-training-AT_agc032_c",
+      "reason": "untranslated-prose",
+      "kind": "site",
+      "review": "same-Chinese-source",
+      "status": "retained-after-review"
+    },
+    {
+      "id": "luogu-training-AT_arc066_d",
+      "reason": "untranslated-prose",
+      "kind": "site",
+      "review": "same-Chinese-source",
+      "status": "retained-after-review"
+    },
+    {
+      "id": "luogu-training-AT_arc083_d",
+      "reason": "untranslated-prose",
+      "kind": "site",
+      "review": "same-Chinese-source",
+      "status": "retained-after-review"
+    },
+    {
+      "id": "luogu-training-AT_arc161_e",
+      "reason": "untranslated-prose",
+      "kind": "site",
+      "review": "same-Chinese-source",
+      "status": "retained-after-review"
+    },
+    {
+      "id": "luogu-training-CF228E",
+      "reason": "untranslated-prose",
+      "kind": "site",
+      "review": "proper-names-or-source-header",
+      "status": "retained-after-review"
+    },
+    {
+      "id": "luogu-training-CF928D",
+      "reason": "untranslated-prose",
+      "kind": "site",
+      "review": "literal-input-string",
+      "status": "retained-after-review"
+    },
+    {
+      "id": "luogu-training-P10944",
+      "reason": "untranslated-prose",
+      "kind": "site",
+      "review": "proper-names-or-source-header",
+      "status": "retained-after-review"
+    },
+    {
+      "id": "remote:codeforces:104128::K",
+      "reason": "untranslated-prose",
+      "kind": "site",
+      "review": "literal-pseudocode",
+      "status": "retained-after-review"
+    },
+    {
+      "id": "remote:codeforces:106551::M",
+      "reason": "untranslated-prose",
+      "kind": "site",
+      "review": "proper-names-or-source-header",
+      "status": "retained-after-review"
+    }
+  ]
+}

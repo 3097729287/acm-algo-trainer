@@ -1,11 +1,10 @@
-import fs from 'node:fs';
 import assert from 'node:assert/strict';
-import { mkdir } from 'node:fs/promises';
-import { createServer } from 'vite';
+import { preview } from 'vite';
 import { chromium } from 'playwright';
 
-const vite=await createServer({server:{host:'127.0.0.1',port:0,fs:{allow:[process.cwd(),fs.realpathSync('node_modules')]}}});
-await vite.listen();
+// Use the built application. A dev dependency reload while opening the editor
+// discards its open tab; that reload does not occur in the installed program.
+const vite=await preview({preview:{host:'127.0.0.1',port:0}});
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const page=await browser.newPage({viewport:{width:1600,height:1000}}),errors=[],writes=[];
 page.on('pageerror',error=>errors.push(error.message));
@@ -67,14 +66,14 @@ try {
   const row=page.locator('tr[data-id="fixture::0"]');await row.waitFor();
   const group=()=>row.evaluate(node=>{while(node=node.previousElementSibling){if(node.classList.contains('queue-heading'))return node.textContent;}return '';});
   assert.match(await group(),/待攻克/);
-  assert.equal(await page.locator('.topbar-love-count b').textContent(),'6+3');
+  assert.equal(await page.locator('.topbar-love-count').count(),0);
   await row.locator('.problem-title').click();await page.locator('.cm-editor').waitFor();
   training[0].accepted=true;training[0].verdict='AC';training[0].queue=null;
-  await page.getByRole('button',{name:'返回列表',exact:true}).click();
+  await page.getByRole('button',{name:'返回主界面',exact:true}).click();
   await row.waitFor();
   await page.waitForFunction(()=>{let node=document.querySelector('tr[data-id="fixture::0"]');while(node=node?.previousElementSibling){if(node.classList.contains('queue-heading'))return node.textContent.includes('已 AC');}return false;});
   assert.match(await group(),/已 AC/);
   assert.equal(await page.locator('.queue-heading').filter({hasText:'待攻克'}).count(),0);
   assert.deepEqual(errors,[]);
-  console.log('PASS actual App: official AC replaces the frozen failure group; topbar hearts show history + today.');
-} finally {await browser.close();await vite.close();}
+  console.log('PASS actual App: official AC replaces the frozen failure group; topbar has no heart counter.');
+} finally {await browser.close();await new Promise(resolve=>vite.httpServer.close(resolve));}

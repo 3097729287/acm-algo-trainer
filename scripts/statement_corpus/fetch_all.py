@@ -20,6 +20,17 @@ def raw_name(data):
     return 'by-sha/'+target.name
 class Client:
     def __init__(self):self.opener=urllib.request.build_opener(urllib.request.ProxyHandler({}))
+    def read(self,response):
+        maximum=32*1024*1024
+        if int(response.headers.get('Content-Length') or 0)>maximum:raise ValueError('response_too_large')
+        chunks=[];size=0;began=time.monotonic()
+        while size<=maximum:
+            if time.monotonic()-began>90:raise TimeoutError('public_resource_time_budget')
+            chunk=response.read(min(16384,maximum+1-size))
+            if not chunk:break
+            chunks.append(chunk);size+=len(chunk)
+        if size>maximum:raise ValueError('response_too_large')
+        return b''.join(chunks)
     def bytes(self,url,headers=None):
         key=hashlib.sha256((url+json.dumps(headers or {},sort_keys=True)).encode()).hexdigest();path=RAW/(key+'.bin')
         if path.exists():
@@ -45,7 +56,7 @@ class Client:
             try:
                 request=urllib.request.Request(quote(url,safe=":/?#[]@!$&'()*+,;=%"),headers={'User-Agent':'TB/1.4.31 public-statement-archive (+read-only)','Accept':'text/html,application/json,application/pdf;q=.9',**(headers or {}),**({'Cookie':ANONYMOUS[host]} if host in ANONYMOUS else {})})
                 with self.opener.open(request,timeout=18) as response:
-                    data=response.read(32*1024*1024+1);attempt.update(status=response.status,finalUrl=response.url,mime=response.headers.get_content_type())
+                    attempt.update(status=response.status,finalUrl=response.url,mime=response.headers.get_content_type());data=self.read(response)
                 # Only the literal anonymous first-party re-open cookie supplied
                 # by this response; no scripts, login sessions or CAPTCHA logic.
                 cookie=re.search(br'cookie="(C3VK=[a-zA-Z0-9]+); path=/; max-age=300;',data) if host=='www.luogu.com.cn' else None
@@ -54,7 +65,7 @@ class Client:
                     ANONYMOUS[host]=cookie[1].decode('ascii')
                     request.add_header('Cookie',ANONYMOUS[host])
                     with self.opener.open(request,timeout=18) as response:
-                        data=response.read(32*1024*1024+1);attempt.update(status=response.status,finalUrl=response.url,mime=response.headers.get_content_type())
+                        attempt.update(status=response.status,finalUrl=response.url,mime=response.headers.get_content_type());data=self.read(response)
                 if len(data)>32*1024*1024:raise ValueError('response_too_large')
                 attempt.update(bytes=len(data),sha256=hashlib.sha256(data).hexdigest(),file=raw_name(data))
                 path.write_bytes(data);LOCAL.sources.append(dict(attempt));return data

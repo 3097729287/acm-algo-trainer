@@ -7,3 +7,11 @@ export function completeContest(rows){
  // Compatibility for callers which supply old metadata-free projections.
  return !rows.some(row=>Object.hasOwn(row,'catalogContentReady'))&&rows.length>1;
 }
+
+export function replayVisible(row){
+ return !row.catalogHidden||row.schoolTraining||row.statementRetirementPolicy==='public-statement-audit-v1'&&!row.statementPriorVisibility?.catalogHidden;
+}
+
+export function canReplayContest(rows){
+ return rows.some(row=>row.catalogReplayReady===true||row.catalogReplayReady!==false&&(row.catalogContentReady===true||!Object.hasOwn(row,'catalogContentReady')));
+}

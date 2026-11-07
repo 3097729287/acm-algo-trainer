@@ -1,3 +1,4 @@
+import BookmarkLabel from '@/components/BookmarkLabel.jsx';
 import {PLATFORM_REGISTRY,platformNames} from '@/lib/platformRegistry.js';
 export const CONTEST_SHELVES = [
   ['all', '全部比赛'], ['牛客', '牛客'], ['洛谷', '洛谷'],
@@ -12,6 +13,6 @@ export default function ContestTabs({ value = 'all', onChange, rows=[], label = 
   return <div className="ranking-tabs contest-shelves" role="tablist" aria-label={label}>
     {contestShelvesFor(rows).map(([key, name]) => <button type="button" role="tab" key={key}
       aria-selected={value === key} className={value === key ? 'active' : ''}
-      onClick={() => onChange(key)}>{name}</button>)}
+      onClick={() => onChange(key)}><BookmarkLabel>{name}</BookmarkLabel></button>)}
   </div>;
 }

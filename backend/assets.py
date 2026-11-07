@@ -78,6 +78,10 @@ class AssetLibrary:
         prepared=bundled_translation(value)
         if prepared:value['translation']=dict(prepared,cached=True)
         elif isinstance(value.get('translation'),dict) and value['translation'].get('kind')=='bundled':value.pop('translation',None)
+        if isinstance(value.get('translation'),dict) and value['translation'].get('markdown'):
+            from translation import validate_translation, TranslationIncomplete
+            try:validate_translation(value.get('currentSourceMarkdown') or value.get('markdown') or '',value['translation']['markdown'])
+            except TranslationIncomplete:value.pop('translation',None)
         from translation import needs_translation
         value['autoTranslate']=needs_translation(value)
         bundle=self.bundle(identity)
@@ -234,7 +238,9 @@ class AssetLibrary:
                 if row.get('catalogHidden') or row.get('problemType') in {'communication','output-only','attachment'}:continue
                 if not native_submission_supported(row.get('url')):continue
                 ready=row.get('catalogReplayReady')
-                if ready is None:
+                # School imports may carry a stale failure flag even when a
+                # complete statement is already bundled or cached locally.
+                if ready is None or ready is False and row.get('schoolTraining'):
                     value=self._cached(row['id'])
                     ready=content_complete(value) and statement_type(value) not in {'communication','output-only','attachment'}
                 if ready:result.append(dict(row,judgeScope='official'))

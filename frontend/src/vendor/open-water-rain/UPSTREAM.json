@@ -1,0 +1,12 @@
+{
+  "project": "Open Water",
+  "repository": "https://github.com/Leonxlnx/open-water",
+  "commit": "3d1adaa1154f98e639a6c6e0f7c514bbeb0496b8",
+  "license": "MIT",
+  "scope": "Rain optical shaders only; no upstream independent random splash/ripple generators or audio",
+  "files": {
+    "upstream-rain.js": "c967e0b956ac14d5c8cf245bc196edd1f7a6834b44124c6bd5b7bda99012864f",
+    "LICENSE": "76597b0b2d98797492aedcdadfd525da35f9316737984d767bef2466db526c7b",
+    "upstream-README.md": "952ae1ad213d7b822133e562b802b76d68231e5021193aa9fa5d4b1a5871e1e8"
+  }
+}

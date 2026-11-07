@@ -1,3 +1,4 @@
+import BookmarkLabel from '@/components/BookmarkLabel.jsx';
 import BrandWordmark from '../components/BrandWordmark.jsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Eye, EyeOff, LoaderCircle, LockKeyhole, LogIn, UserRoundPlus } from 'lucide-react';
@@ -129,8 +130,8 @@ export default function AccountGate({ children }) {
       <h1>{registering ? '创建你的 ToBe 账号' : '登录 ToBe'}</h1>
       <p className="account-intro">{registering ? '注册账号，记录训练进步，参与过题排行榜。' : '登录后继续训练，排行榜使用你的昵称。'}</p>
         <div className="account-tabs" role="tablist" aria-label="账号操作">
-          <button type="button" role="tab" aria-selected={!registering} disabled={busy} onClick={() => changeMode('login')}>登录</button>
-          <button type="button" role="tab" aria-selected={registering} disabled={busy} onClick={() => changeMode('register')}>注册</button>
+          <button type="button" role="tab" aria-selected={!registering} disabled={busy} onClick={() => changeMode('login')}><BookmarkLabel>登录</BookmarkLabel></button>
+          <button type="button" role="tab" aria-selected={registering} disabled={busy} onClick={() => changeMode('register')}><BookmarkLabel>注册</BookmarkLabel></button>
         </div>
         <form onSubmit={submit} className="account-form">
           {registering && <label>昵称<input name="nickname" autoComplete="nickname" maxLength={32} value={nickname} onChange={event => setNickname(event.target.value)} placeholder="排行榜上显示的名字" required disabled={busy}/></label>}

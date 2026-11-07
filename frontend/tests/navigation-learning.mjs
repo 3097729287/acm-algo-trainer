@@ -99,7 +99,7 @@ try{
  }
  preferences={...originalPreferences};
  await load(1);
- assert.equal(await page.locator('.topbar > .next-actions').count(),1,'the next task occupies the shared top bar');
+ assert.equal(await page.locator('.topbar .next-actions').count(),1,'the next task occupies the shared top bar');
  assert.equal(await page.locator('.workspace-area .next-actions').count(),0,'recommendations do not consume training list space');
  await page.locator('.next-actions').hover();await page.locator('.next-actions-popover').waitFor();
  const firstAdvice=page.locator('.next-actions-popover .next-actions-item').first();
@@ -188,7 +188,7 @@ try{
  assert(!preferences.hiddenNavPages.includes('training-lists')&&!preferences.hiddenNavPages.includes('templates'));
  for(const theme of ['dark','light'])for(const fontSize of [15,22])for(const width of [2048,1294,960,430]){
   preferences={...preferences,theme,fontSize};await page.setViewportSize({width,height:850});await load(11);
-  const recommendation=page.locator('.topbar > .next-actions');await recommendation.hover();await page.locator('.next-actions-popover').waitFor();
+  const recommendation=page.locator('.topbar .next-actions');await recommendation.hover();await page.locator('.next-actions-popover').waitFor();
   const geometry=await page.locator('.next-actions-popover').evaluate(node=>{const r=node.getBoundingClientRect(),header=document.querySelector('.topbar');return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:innerWidth,height:innerHeight,headerOverflow:header.scrollWidth>header.clientWidth+1};});
   const trigger=await recommendation.boundingBox();
   const spacing=await recommendation.evaluate(node=>{const control=node.getBoundingClientRect(),button=node.querySelector('.next-actions-primary'),title=button.querySelector('strong'),range=document.createRange();range.selectNodeContents(title);const css=getComputedStyle(button),icon=button.querySelector('svg').getBoundingClientRect();return {width:control.width,natural:range.getBoundingClientRect().width+icon.width+parseFloat(css.columnGap)+parseFloat(css.paddingLeft)+parseFloat(css.paddingRight),gap:document.querySelector('.topbar-actions').getBoundingClientRect().left-control.right};});

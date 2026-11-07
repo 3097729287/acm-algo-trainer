@@ -1,6 +1,6 @@
 /* Current review: larger identities, one baseline for ranking actions, full lobby width. */
-html .rankings-page .ranking-table tbody td{height:auto;padding:4px 12px!important;vertical-align:middle}
-html .rankings-page .ranking-identity{gap:18px}
+html .rankings-page .ranking-table tbody td{height:auto;padding:0 12px!important;vertical-align:middle}
+html .rankings-page .ranking-identity{gap:18px;padding-block:0}
 html .rankings-page .ranking-identity .profile-badge{gap:36px}
 html .rankings-page .ranking-identity .profile-avatar-button{width:88px;height:88px;min-width:88px}
 html .rankings-page .ranking-identity .profile-avatar-face{width:61px;height:61px}
@@ -59,4 +59,4 @@ html .duel-lobby-result{font-size:.9rem;line-height:1.6}
 html .rankings-page .ranking-identity .profile-avatar-face>svg{width:30px;height:30px}
 html .duel-lobby-identity .profile-badge .profile-avatar-face>svg{width:58px;height:58px}
 /* Let the avatar or earned title determine height, including narrow windows. */
-html .rankings-page .ranking-table tbody td{height:auto;padding-block:4px!important}
+html .rankings-page .ranking-table tbody td{height:auto;padding-block:0!important}

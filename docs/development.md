@@ -1,3 +1,13 @@
+## 1.6.5 国内发行验证
+
+本版从已验证的题面与全屏阅读修订构建。公开种子为 13,417 道题、13,363 份题面、1,939 份默认题解和 1,938 份详细题解；不重新生成已有内容。发布前检查固定源码、生产前端、冻结程序、正式 1.6.4 原始更新器增量、新装／覆盖安装及个人数据保留。服务器沿用现有校验转发和更新清单，不更换账号服务、容器或数据库。
+
+增量必须对比正式 1.6.4 用户包的完整 SHA-256 清单，本机追加修订不冒充公开基线；工具链逐文件一致。完整用户安装包放到桌面，管理员产物只保留在本机 private-admin。当前发行结果以独立验证回执为准。
+
+当前本机追加修订为 1.6.3 · 2026-11-07（排行榜行高）：合并过题榜单元格与用户信息容器的垂直留白，保留头像、等级牌、字号及各列居中。用实际排行榜核对宽窄窗口、深浅主题和完整头像，构建后复核本机两版前端。公开 1.6.3 标签与资产保持不变，见[本次记录](local-delivery-1.6.3-ranking-density.md)。
+
+此前牛客题单与经验环修订：`node tests/nowcoder-curriculum.mjs` 使用完整公开来源核对 1,083 个原题身份、合并后的阶段卡片与直接打开；`node tests/training-list-platforms-model.mjs` 验证旧位置与入口迁移，`node tests/training-lists-model.mjs` 和 `node tests/training-list-cache.mjs` 验证原始来源、章节、搜索、去重和缓存。`node tests/avatar-size.mjs` 检查九档头像中真实比例的实色经验带、方向与对齐，`node tests/workspace-revisions.mjs` 验证原标识收起、展开和恢复以及既有主界面行为。详见[题单修订](local-delivery-1.6.3-catalog.md)。此前[学习任务](local-delivery-1.6.3-learning.md)、[雨湖](local-delivery-1.6.3-rain.md)与[交互修订](local-delivery-1.6.3-ui.md)保留。以下旧版本交付记录继续保留。
+
 ## 设计理念和任务工作区检查
 
 新增功能、制作新内容或调整界面前先完整阅读[设计理念](design-principles.md)。`npm run test:sections --prefix frontend` 检查训练分屏、搜索与翻页隔离、任务层级、七格掌握进度、时间弹窗及空历史；在 `frontend` 下运行 `node tests/learning-summary.mjs`，验证隔离 SQLite 中保存与取消、主线替换及历史保留、真实阅读完成后接续。
@@ -582,3 +592,22 @@ UI 检查包括原 App 全流程、课程／维基嵌套返回、贴纸直接操
 ## 1.5.8 显示速度验证
 
 `instant-display-model.mjs` 覆盖缓存所属账号／模式／日期／寿命、并发去重、私人代码不持久缓存、十八份嵌入 PNG 与源文件字节相同，以及真实编辑保护。`instant-display.mjs` 延迟联网响应，测得确认快照首屏 6ms，段位图片 HTTP 请求为零；覆盖模板、Wiki 正文与慢目录解耦、账号切换、未加载空题目的退出与真实保存失败拦截。公开 13,417 题索引和搜索另有本机计时；这些是本机隔离验证，不承诺未知联网内容零延时。
+
+## 分屏宽度和边界检查
+
+在 `frontend` 下运行 `npm run test:split`，验证细接缝、表格及分页适配、两侧最小宽度、鼠标与键盘的极限拖动、旧比例恢复、大字号及两栏和三栏的窗口适配。空间不足时暂时上下排列，增大窗口后恢复原左右比例，不删除书签或改写该比例。
+管理员贴纸通过 `gameplay.stickers` 的管理员分支进入 `admin_stickers.py`，只在 `training.admin_mode` 为真时启用。完整目录沿用公共贴纸政策；无限库存只为每类保留一个待取用副本，实际摆放、序号、预设及幂等请求存入当前管理员数据库的独立 `admin-stickers:v1` 记录，不连接公共库存服务。
+
+2026-11-06：顶部书签、任务搜索、校队训练显示与场景接触修复见 `docs/releases/1.6.1.md`。数学专场的已知题单保持可见；旧的未核验原站内容仍不允许生成试卷。
+
+## 段位晋升动画检查
+
+在 `frontend` 下运行 `npm run test:rank-promotion`，覆盖真实段位变化与等级分离、账号及回执顺序、跨段合并、输入与弹窗等候、刷新恢复、逐帧展开、减少动态效果和完整做题工作台的隔离结算。提示缓存仅记录本机展示状态，不能授予段位、经验或奖励。
+
+## 面板透明度和风格检查
+
+在 `frontend` 下运行 `npm run test:appearance`。真实 App 使用隔离接口，检查深浅主题、四种风格和四档不透明度的题表／任务卡片，单独页面设置、任务弹窗、窄窗口与大字号，并比较滚动前后的固定表头图像，防止题目文字从透明表头下漏出；随后继续运行组合工作区的既有操作回归。
+
+2026-11-06：从零讲目录改为简短标题列表；介绍和目录使用内容行高，长标题撑高整行。原文及检索字段保留。
+
+2026-11-06 本机界面与贴纸反馈修复：顶部书签无滚动条，从零讲复用共享学习目录，推荐主项加最多四项候选。普通声音反馈支持连续点击；火箭按保存朝向完成带加减速的闭合飞行，摆放和库存不变。正式程序继续 React + Python，仅同步前端资源，保留当前原生源码身份。验证命令：`node tests/duck-audio-model.mjs`、`node tests/rocket-flight-model.mjs`、`node tests/sticker-interactions.mjs`、`node tests/lectures-catalogue.mjs`、`node tests/workspace-sections.mjs`、`node tests/next-actions.mjs`。

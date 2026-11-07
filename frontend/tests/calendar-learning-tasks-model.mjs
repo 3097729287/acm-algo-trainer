@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {calendarLearningTasks,addCalendarLearningTasks} from '../src/lib/calendarLearningTasks.js';
+import {currentLearningTask} from '../src/lib/learningSummaryModel.js';
 const now=Date.parse('2026-11-05T20:00:00+08:00');
 const event={id:'cf-real',title:'正式日历赛',url:'https://codeforces.com/contest/1',startAt:'2026-11-05T19:00:00+08:00',endAt:'2026-11-05T21:00:00+08:00'};
 const record={id:'receipt',name:event.title,status:'finished',startedAt:'2026-11-05T19:01:00+08:00',finishedAt:'2026-11-05T19:59:00+08:00',constraints:{calendarEvent:event},slots:[{judgeScope:'official',attempts:1,verdict:'WA'}]};
@@ -15,5 +16,13 @@ assert.equal(calendarLearningTasks([{...event,startAt:'2026-11-07T19:00:00+08:00
 assert.equal(calendarLearningTasks([event],[],now)[0].availability,'live');
 assert.equal(calendarLearningTasks([event],[],now+86400000)[0].availability,'ended');
 assert.equal(addCalendarLearningTasks(plan,[],[],now),plan);
+const upcoming=calendarLearningTasks([event],[],now-7200000),ready={...plan.tasks[0],date:'2026-11-05',status:'pending'},snapshot={plan:{...plan,tasks:[ready]},recommendation:{tracks:['io']},availableTopics:[{id:'io',title:'输入输出',lectures:['lecture:foundation-io-basics']}]};
+assert.equal(currentLearningTask(snapshot,[...upcoming,ready],now-7200000),ready);
+const suggested=currentLearningTask({...snapshot,plan:null},upcoming,now-7200000);
+assert.equal(suggested.id,'lecture:foundation-io-basics');assert.equal(suggested.suggested,true);assert.equal(suggested.key,undefined,'A suggested reader is not a fabricated plan task');
+assert.equal(currentLearningTask(snapshot,[...upcoming,{...ready,date:'2026-11-06'}],now-7200000),undefined,'Tomorrow’s study task cannot become today’s current task');
+assert.equal(currentLearningTask(snapshot,[{...ready,minimumAt:'2026-11-06T10:00:00+08:00'}],now),undefined,'A delayed review cannot start before its required interval');
+assert.equal(currentLearningTask(snapshot,[ready,...calendarLearningTasks([event],[],now)],now).kind,'calendar-contest','A contest enters the current position only once live');
+assert.equal(currentLearningTask(snapshot,[ready,...calendarLearningTasks([event],[],now+86400000)],now+86400000),ready,'An expired calendar event cannot block overdue study');
 const out='../.backups/direct-fixes-20261105';await mkdir(out,{recursive:true});await writeFile(out+'/calendar-model.json',JSON.stringify({ok:true,studyAndReviewPreserved:true,realCalendarOnly:true,officialParticipationRequired:true,clickAndSamplesRejected:true,receiptsRetained:true,weekScope:true},null,2));
 console.log('PASS calendar tasks preserve existing plans, require trusted event receipts and official participation, reject clicks/samples/replays and retain completed events');

@@ -1,4 +1,18 @@
+# ToBe · Current build
+
+**Local 1.6.5 interface revision · 2026-11-07** enlarges the editor coordinates and aligns them to the toolbar's bottom edge. The separate green completion/next-item panel is removed, restoring the table width; header recommendations and manual reading completion remain available. See the [revision and validation](docs/local-editor-panel-20261107.md). Published 1.6.5 assets below retain their original release build.
+
+**1.6.5 domestic stable update · 2026-11-07** is live. Official 1.6.4 installations prefer the [227.7 MB delta](https://47.82.84.74/updates/assets/1.6.5/ToBe-Update-1.6.4-to-1.6.5-win64.zip); other versions and modified installations can use the [484.6 MB user installer](https://47.82.84.74/updates/assets/1.6.5/ToBe-Setup-1.6.5-win64.exe). This release restores 219 statements, keeps contests with missing problems playable, corrects Chinese translations, adds Alt+T / Alt+Shift+T toolbar controls, and shows the Ctrl+wheel zoom percentage. See the [release notes](docs/releases/1.6.5.md) and [verification](docs/domestic-release-1.6.5-verification.md).
+
+**1.6.4 · Domestic release revision, 2026-11-07** consolidates the local interface, keyboard, reading zoom, contest training, task, Nowcoder catalogue and rain lake fixes. A full user installer and a 1.6.3 → 1.6.4 incremental update are available. See the [1.6.4 release notes](docs/releases/1.6.4.md).
+
+The domestic update source and [GitHub 1.6.4](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.4) are live. [Download the 1.6.3 → 1.6.4 incremental update (13.2 MB)](https://47.82.84.74/updates/assets/1.6.4/ToBe-Update-1.6.3-to-1.6.4-win64.zip), or check for updates in the app. See the [release verification](docs/domestic-release-1.6.4-verification.md). Previous release assets and the historical statements below are retained.
+
+---
+
 The latest local 1.6.1 interface adds split bookmarks for My Training, Library and Lists. Tasks emphasize the active learning track and current step, settings use dialogs, mastery advances through seven segments, and empty archived plans render safely. Read the [design principles](docs/design-principles.md) before future changes; see the [release notes](docs/releases/1.6.1.md).
+
+2026-11-06 local frontend revision: 7 library motion backgrounds without tiers; unified cross-section search, remembered bookmarks, fresh lab entries, and heterogeneous task navigation. Native release stays at 1.6.1; public release and service deployment are unchanged.
 
 The local 1.6.1 interface revision adds the chosen task workspace, daily and weekly tasks, private to-dos, persistent split bookmarks, grouped navigation, and a 60-minute minimum study budget with +30/+60 controls. Fourteen distinct atmospheric backgrounds replace rarity duplicates, including a legendary Milky Way scene. The supplied sticker and sound approvals are applied. The shared drop catalogue is updated in source and awaits service deployment; existing installers and public downloads retain their original build. See [release notes](docs/releases/1.6.1.md).
 
@@ -12,7 +26,7 @@ No new editorials are authored in this round. English statements remain English 
 
 The candidate adds live presence and activity labels, separate ranked points, and side-by-side ranking and today's public match records. Packs use the revised level schedule, lower high-rarity random odds, undiscovered-first draws within the rolled rarity, and immediate inventory updates from claim receipts. Settings scenes add the requested balloon, globe, bulb, cup and dinosaur interactions. The rarity-bordered sticker picker uses a two-dimensional grid; the subsequent scene release adds 24 more stickers, for 62 normal stickers and 52 rarity-specific backgrounds. The central profile moves from Growth to Duels. From Zero, Wiki, Templates and Lab move to the end of the default navigation order; the duck randomly plays either of the two user-selected original calls.
 
-The public seed contains **13,417 problems, 13,287 statements, 1,939 default and 1,938 detailed editorials, 480 lessons, 9,258 references and 635 lists**. Existing editorial text is unchanged. PDFs and larger images support verified downloads from a pinned public source, account-server fallback and offline caching; hidden readers release canvases and workers. The prototype public SQLite shrank from 917,262,336 to 313,544,704 bytes. This is not a measured installer size.
+The public seed contains **13,417 problems, 13,363 statements, 1,939 default and 1,938 detailed editorials, 480 lessons, 9,258 references and 635 lists**. Existing editorial text is unchanged. PDFs and larger images support verified downloads from a pinned public source, account-server fallback and offline caching; hidden readers release canvases and workers. The prototype public SQLite shrank from 917,262,336 to 313,544,704 bytes. This is not a measured installer size.
 
 The shared account service **1.4.7 / f7118e5d** is deployed. Sealed background rewards, scene presets and wardrobes shipped locally in 1.5.5; existing data volumes were preserved. Thought-duel UI, timing, drafts, recovery and points are implemented, but a real AI judge is not configured and production matching stays disabled. See the [protocol](docs/thought-duel.md).
 
@@ -20,7 +34,7 @@ Validation includes a complete 1,156-test backend run with two conditional skips
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.5.2/ToBe-Setup-1.5.2-win64.exe) includes C++, Python 3 and offline WebView2. It supports overwrite installation and retains identities, drafts, code and training. Versions 1.4.0–1.4.35 have matching one-step cumulative program updates. The administrator edition remains private. [GitHub download](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.5.2/ToBe-Setup-1.5.2-win64.exe).
+Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.6.5/ToBe-Setup-1.6.5-win64.exe) includes C++, Python 3 and offline WebView2. Overwrite installation retains identities, drafts, code, training and private imports. Official 1.6.4 installations prefer the matching delta; other older versions use the full installer. The administrator edition remains private. [GitHub download](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.6.5/ToBe-Setup-1.6.5-win64.exe).
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
 

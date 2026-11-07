@@ -1,3 +1,4 @@
+import {schoolContestName} from './schoolContests.js';
 import {createContestComparator} from './practiceMetadata.js';
 import {rowPlatform,PLATFORM_REGISTRY} from './platformRegistry.js';
 const folderOrder=new Intl.Collator('zh-CN',{numeric:true});
@@ -65,8 +66,8 @@ export function compactCatalogOptions(nodes, parent = []) {
   return nodes.flatMap(node => {
     const path = [...parent, node.label];
     const children = node.children?.length ? compactCatalogOptions(node.children, path) : undefined;
-    const current = {...node, children};
-    if (!children) return [{...current, label: node.selectionLabel || node.label}];
+    const current = {...node, label:schoolContestName(node.label), children};
+    if (!children) return [{...current, label: schoolContestName(node.selectionLabel || node.label)}];
     if (parent[0]?.startsWith('蓝桥杯') && isYear(node.label)) return children;
     if (children.length === 1 && !preserveFolder(parent, node.label)) return children;
     return [current];
@@ -112,7 +113,7 @@ function catalogEntriesFor(rows,path,cache,descending){
 export function contestOptions(events,{descending=true,shelf=''}={}) {
   const roots=[];
   const ensure=(parts)=>{let nodes=roots;for(const label of parts){let folder=nodes.find(node=>node.value===undefined&&node.label===label);if(!folder){folder={label,children:[]};nodes.push(folder);}nodes=folder.children;}return nodes;};
-  for(const item of events)for(const parts of catalogPaths({...item,contest:item.displayName||item.name})){const nodes=ensure(parts.slice(0,-1));nodes.push({label:`${parts.at(-1)} · ${item.expectedCount||item.count} 题`,selectionLabel:`${item.displayName||item.name} · ${item.expectedCount||item.count} 题`,value:item.name,event:item});}
+  for(const item of events)for(const parts of catalogPaths({...item,contest:item.displayName||item.name})){const nodes=ensure(parts.slice(0,-1)),suffix=item.complete===false?' · 题面待核验':'';nodes.push({label:`${parts.at(-1)} · ${item.expectedCount||item.count} 题${suffix}`,selectionLabel:`${schoolContestName(item.displayName||item.name)} · ${item.expectedCount||item.count} 题${suffix}`,value:item.name,event:item,disabled:item.complete===false});}
   const compareNewest=createContestComparator();
   const sort=nodes=>{nodes.sort((a,b)=>a.event&&b.event?compareNewest(a.event,b.event)*(descending?1:-1):/^20\d{2}年$/.test(a.label)&&/^20\d{2}年$/.test(b.label)?b.label.localeCompare(a.label)*(descending?1:-1):folderOrder.compare(a.label,b.label));nodes.forEach(node=>node.children&&sort(node.children));};
   sort(roots);return compactCatalogOptions(roots);

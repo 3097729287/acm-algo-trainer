@@ -3,9 +3,12 @@ import {mkdir,writeFile} from 'node:fs/promises';
 import {createServer} from 'vite';
 import {chromium} from 'playwright';
 const out='../.backups/cleanup-startup/wiki-course';await mkdir(out,{recursive:true});
-const vite=await createServer({cacheDir:out+'/vite',server:{host:'127.0.0.1',port:0,watch:null}});await vite.listen();
+const vite=await createServer({cacheDir:out+'/vite',optimizeDeps:{entries:['tests/learning-browser-fixture.html']},server:{host:'127.0.0.1',port:0,watch:null}});await vite.listen();
 const browser=await chromium.launch({channel:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1720,height:1000}}),errors=[];
 page.on('pageerror',issue=>errors.push(issue.message));page.setDefaultTimeout(10000);
+// Software-rendered cloud runners can need longer to capture an already
+// asserted layout. Interaction assertions retain their existing timeout.
+const screenshot=options=>page.screenshot({timeout:30000,...options});
 const visible=kind=>page.locator(`.study-${kind}:not([hidden])`);
 const wiki=()=>visible('wiki').locator('.wiki-reader');
 try{
@@ -24,7 +27,7 @@ try{
  await visible('lecture').locator('.lectures-list>button').first().click();await visible('lecture').locator('.lecture-markdown').waitFor();
  assert.equal(await page.getByRole('button',{name:'讲解目录',exact:true}).getAttribute('aria-expanded'),'true','Returning to a cached course retains the directory');
  assert.equal(await visible('lecture').locator('.lectures-list [aria-current=page]').count(),1);
- await page.screenshot({path:out+'/course-directory.png'});
+ await screenshot({path:out+'/course-directory.png'});
  await page.evaluate(()=>studyFixture.lectures[1].markdown='# 已有大标题\n\n正文');await visible('lecture').locator('.lectures-list>button').nth(1).click();await visible('lecture').locator('.lecture-markdown h1').waitFor();assert.equal(await visible('lecture').locator('.lecture-markdown h1').count(),1);assert.equal(await visible('lecture').locator('.lecture-title').count(),0,'Existing H1 is not duplicated');
  await page.evaluate(()=>studyFixture.open({kind:'wiki',id:'ds/dsu',title:'并查集'}));await wiki().waitFor();
  await wiki().evaluate(frame=>frame.contentDocument.scrollingElement.scrollTop=1300);await page.waitForTimeout(100);
@@ -36,7 +39,7 @@ try{
  const back=page.getByRole('button',{name:'返回《栈》',exact:true});await back.waitFor();
  assert.equal(await page.getByRole('button',{name:'返回主界面',exact:true}).count(),1);
  await visible('problem').locator('.cm-content').fill('// preserved wiki return draft\nint main(){}');
- await page.screenshot({path:out+'/single-problem-return.png'});
+ await screenshot({path:out+'/single-problem-return.png'});
  await back.click();await visible('wiki').locator('iframe[title="栈"]').waitFor();
  assert((await page.evaluate(()=>studyFixture.calls.filter(x=>x.path==='draft').at(-1)?.body.code)).includes('preserved wiki return draft'));
  await page.getByRole('button',{name:'返回《并查集》',exact:true}).click();await visible('wiki').locator('iframe[title="并查集"]').waitFor();
@@ -46,11 +49,11 @@ try{
  await page.waitForFunction(()=>studyFixture.prefs().learningPaths.browserV1?.tabs.some(t=>t.kind==='problem'&&t.visit.wikiTrail?.length));
  await page.reload();await visible('problem').locator('.cm-content').waitFor();await page.getByRole('button',{name:'返回《并查集》',exact:true}).waitFor();
  await page.setViewportSize({width:540,height:900});assert.equal(await page.getByRole('button',{name:'返回《并查集》',exact:true}).count(),1);
- await page.screenshot({path:out+'/single-problem-narrow.png'});
+ await screenshot({path:out+'/single-problem-narrow.png'});
  await page.getByRole('button',{name:'返回《并查集》',exact:true}).click();await wiki().waitFor();
  await page.setViewportSize({width:1720,height:1000});await page.evaluate(()=>studyFixture.open({kind:'wiki',id:'ds/queue',title:'队列',visit:{wikiTrail:[]}}));await wiki().waitFor();await page.getByRole('button',{name:'返回维基目录',exact:true}).click();await visible('wiki').getByRole('button',{name:'队列',exact:true}).click();await wiki().waitFor();await wiki().evaluate(frame=>frame.contentDocument.querySelector('a[href*="P1706"]').click());await visible('problem').locator('.cm-content').waitFor();await page.getByRole('button',{name:'返回《队列》',exact:true}).click();await wiki().waitFor();await page.getByRole('button',{name:'返回维基目录',exact:true}).click();await visible('wiki').getByRole('button',{name:'队列',exact:true}).click();await wiki().waitFor();
  await page.getByRole('button',{name:'返回主界面',exact:true}).click();assert.equal(await page.locator('.study-browser').count(),0);
  assert.deepEqual(errors,[]);
  await writeFile(out+'/result.json',JSON.stringify({ok:true,coldAndWarmDirectoryRetained:true,currentCourseOnly:true,foundationTitleAdded:true,wikiNestedReturn:true,draftSavedBeforeBack:true,originalWikiScroll:before,restoredWikiScroll:restored,returnAfterReload:true,narrowReturnEntry:true,separateHomeEntry:true,errors},null,2));
  console.log('PASS cold/cached courses, foundation heading, nested wiki/problem returns, saved drafts, restored scroll, restart, narrow layout and separate Home.');
-}catch(error){await page.screenshot({path:out+'/failure.png'});throw error;}finally{await browser.close();await vite.close();}
+}catch(error){await screenshot({path:out+'/failure.png'});throw error;}finally{await browser.close();await vite.close();}

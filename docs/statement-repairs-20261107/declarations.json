@@ -1,0 +1,79 @@
+[
+  {
+    "id": "Div.2 1113::C",
+    "url": "https://codeforces.com/contest/2248/problem/C",
+    "sourceHash": "90098b44c68b24f84f950165eab2d87c9e088b8d9403a261cac028b0854f137c",
+    "changes": [
+      {
+        "before": "长度为 $a$ 的数组 $2n$",
+        "after": "长度为 $2n$ 的数组 $a$"
+      }
+    ]
+  },
+  {
+    "id": "Div.3 1109::D",
+    "url": "https://codeforces.com/contest/2244/problem/D",
+    "sourceHash": "596742ffdc92725df61c76a0243b4204679f828dd9eb91f2645b9b9b2a98e4a9",
+    "changes": [
+      {
+        "before": "长度为 $a$ 的数组 $n$",
+        "after": "长度为 $n$ 的数组 $a$"
+      }
+    ]
+  },
+  {
+    "id": "remote:atcoder:abc479::B",
+    "url": "https://atcoder.jp/contests/abc479/tasks/abc479_b",
+    "sourceHash": "d1a18d8978d325256669605b02f5094c28f876e54f095119761b32b4270fb379",
+    "changes": [
+      {
+        "before": "长度为 $S$ 的字符串 $N$",
+        "after": "长度为 $N$ 的字符串 $S$"
+      }
+    ]
+  },
+  {
+    "id": "remote:atcoder:agc007::F",
+    "url": "https://atcoder.jp/contests/agc007/tasks/agc007_f",
+    "sourceHash": "3abe21ab8d2a7a41f989ece5fbeffc37064c81fc89222a2bd2b5524414c218fa",
+    "changes": [
+      {
+        "before": "长度为 $S_0$ 的字符串 $N$",
+        "after": "长度为 $N$ 的字符串 $S_0$"
+      }
+    ]
+  },
+  {
+    "id": "remote:atcoder:arc223::F",
+    "url": "https://atcoder.jp/contests/arc223/tasks/arc223_f",
+    "sourceHash": "78b524f8f11552f506cea3455f37c16ee5e7cd59dde0240822e3c70acf8d4ab9",
+    "changes": [
+      {
+        "before": "长度为$Q$的整数序列$N$",
+        "after": "长度为$N$的整数序列$Q$"
+      }
+    ]
+  },
+  {
+    "id": "remote:atcoder:arc227::D",
+    "url": "https://atcoder.jp/contests/arc227/tasks/arc227_d",
+    "sourceHash": "82ddc96a2f5bda84355cc2583a560a49e1ef5cacf3d4aa47d58fa7211f3f6074",
+    "changes": [
+      {
+        "before": "长度为$D$的字符串$M$",
+        "after": "长度为$M$的字符串$D$"
+      }
+    ]
+  },
+  {
+    "id": "xcpc-luogu::P17503",
+    "url": "https://www.luogu.com.cn/problem/P17503",
+    "sourceHash": "fb3fc82144f4f7c71ed524b86e5976dfc60838f138fa232ef7f62f13b7e1f8cb",
+    "changes": [
+      {
+        "before": "长度为 $S$ 的整数序列 $n$",
+        "after": "长度为 $n$ 的整数序列 $S$"
+      }
+    ]
+  }
+]

@@ -1,0 +1,63 @@
+/* Motion reference: holynova/web-motion-showcase, Meteors Shower Background. */
+.meteors-background {
+  --meteor-core: #fff;
+  --meteor-blue: #bae6fd;
+  --meteor-tail-color: #38bdf84d;
+  --meteor-glow: #38bdf8a6;
+  --meteor-brightness: .85;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  contain: strict;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 75% 5%, #0b1b32, transparent 65%), #030712;
+}
+[data-theme=light] .meteors-background {
+  --meteor-core: #527eaa;
+  --meteor-blue: #719dbd;
+  --meteor-tail-color: #8db1d13d;
+  --meteor-glow: #78a9d04d;
+  --meteor-brightness: .65;
+  background: radial-gradient(ellipse at 75% 5%, #dce9f7, transparent 65%), #eff4fa;
+}
+.meteors-background-stars, .meteors-background-rays {position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden;}
+.meteors-background-stars {fill: #e2e8f0;}
+[data-theme=light] .meteors-background-stars {fill: #6b91b5;}
+.meteors-star-group {animation: meteors-starlight 9s ease-in-out infinite alternate;}
+.meteors-star-group:nth-child(2) {animation-duration: 13s; animation-delay: -5s;}
+.meteors-star-group:nth-child(3) {animation-duration: 17s; animation-delay: -11s;}
+.meteors-background-ray {
+  position: absolute;
+  width: min(var(--meteor-tail), 36vw);
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--meteor-core), var(--meteor-blue) 20%, var(--meteor-tail-color) 60%, transparent);
+  transform-origin: left center;
+  opacity: 0;
+  animation: meteors-celestial-flight 1.4s cubic-bezier(.25, .1, .25, 1) infinite;
+}
+.meteors-background-ray::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+  background: var(--meteor-core);
+  box-shadow: 0 0 6px 1px var(--meteor-core), 0 0 14px 3px var(--meteor-glow);
+}
+@keyframes meteors-celestial-flight {
+  0% {transform: rotate(-35deg) translateX(0); opacity: 0;}
+  12% {opacity: var(--meteor-brightness);}
+  75%, 100% {transform: rotate(-35deg) translateX(clamp(-900px, -65vw, -360px)); opacity: 0;}
+}
+@keyframes meteors-starlight {from {opacity: .45;} to {opacity: 1;}}
+.meteors-background[data-paused=true] :is(.meteors-background-ray, .meteors-star-group) {animation-play-state: paused;}
+html[data-motion=off] .meteors-background-rays {display: none;}
+html[data-motion=off] .meteors-star-group {animation: none;}
+@media (max-width: 650px) {.meteors-background-ray:nth-child(n+15) {display: none;}}
+@media (prefers-reduced-motion: reduce) {
+  .meteors-background-rays {display: none;}
+  .meteors-star-group {animation: none;}
+}
