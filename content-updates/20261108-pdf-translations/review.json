@@ -1,0 +1,93 @@
+[
+  {
+    "id": "remote:codeforces:102992::F",
+    "pdfSha256": "3e45894c19b3ceff6e1f7ffab31a5eac3410c302f62ad9e3df46c11ba423dd20",
+    "pagesReviewed": 1,
+    "samples": 1,
+    "formulaProtection": true
+  },
+  {
+    "id": "remote:codeforces:103119::E",
+    "pdfSha256": "8c9159aa90e0bfc77bb1f840fc59830dacd3c813266a22778a11aa985d1e99f7",
+    "pagesReviewed": 2,
+    "samples": 1,
+    "formulaProtection": true
+  },
+  {
+    "id": "remote:codeforces:104172::G",
+    "pdfSha256": "5ab6f19fc30fbcf39ce909ddceae18d90c6d84eb2e409b8a456763894b9665c1",
+    "pagesReviewed": 1,
+    "samples": 1,
+    "formulaProtection": true
+  },
+  {
+    "id": "remote:codeforces:104976::D",
+    "pdfSha256": "f1fd2b0db4567678c9e76995e8f07619d8ba12d8d60c1a24189ed211bd01fed7",
+    "pagesReviewed": 1,
+    "samples": 1,
+    "formulaProtection": true
+  },
+  {
+    "id": "remote:codeforces:104385::L",
+    "pdfSha256": "aacf0e7936e6401c18a04f749a92eddc9f7c52141885a80726e7685ab088d8d8",
+    "pagesReviewed": 1,
+    "samples": 1,
+    "formulaProtection": true
+  },
+  {
+    "id": "remote:codeforces:106161::I",
+    "pdfSha256": "b394999ee7b7e9e42fd5836049aef0497cbb55dddcd497519b57872abae25a7b",
+    "pagesReviewed": 2,
+    "samples": 1,
+    "formulaProtection": true
+  },
+  {
+    "id": "remote:codeforces:103202::A",
+    "pdfSha256": "3be703e38ba9e35976325d4fa307dc13304f59b004d4ff75bc9f031dbe2e4476",
+    "pagesReviewed": 2,
+    "samples": 1,
+    "formulaProtection": true
+  },
+  {
+    "id": "remote:codeforces:105471::N",
+    "pdfSha256": "7de2e03d8515927f47dec4ffb505f11e5d3bdb7c3a4f541585e9b1766b8e1c08",
+    "pagesReviewed": 2,
+    "samples": 2,
+    "formulaProtection": true
+  },
+  {
+    "id": "remote:codeforces:103202::C",
+    "pdfSha256": "a7e5c500623c7582eb6e89671ad929fc5ee5699e4541fcf2078e35d32fc37662",
+    "pagesReviewed": 2,
+    "samples": 2,
+    "formulaProtection": true
+  },
+  {
+    "id": "remote:codeforces:103202::E",
+    "pdfSha256": "f1749d5a0911cbde395f69378ebe7c4be7a3184b54e3893dcc21b5564b96b845",
+    "pagesReviewed": 2,
+    "samples": 2,
+    "formulaProtection": true
+  },
+  {
+    "id": "remote:codeforces:103202::K",
+    "pdfSha256": "758ab2dd0cfbf6dfd973a552079296fd5894e19d905f9795cafe253d43d50e46",
+    "pagesReviewed": 2,
+    "samples": 3,
+    "formulaProtection": true
+  },
+  {
+    "id": "remote:codeforces:104857::L",
+    "pdfSha256": "5ce486b616ff0ec1f9abc687a95dd8c812a170b2c947f1de98c838154992952c",
+    "pagesReviewed": 2,
+    "samples": 2,
+    "formulaProtection": true
+  },
+  {
+    "id": "remote:codeforces:104891::A",
+    "pdfSha256": "6e7648d9ae3f5e7fad80efde21e148e3f214419642320256e0392c1c01703919",
+    "pagesReviewed": 2,
+    "samples": 3,
+    "formulaProtection": true
+  }
+]

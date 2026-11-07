@@ -1,0 +1,193 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105471::N",
+      "beforeSha256": "f129ef1359508079cd85e788ee068d44596dd8ed40c939884fd7b2ea387f30a1",
+      "content": {
+        "markdown": "# Python Program\n\nPython Program\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nYou need to calculate the output of a Python program.\r\nTo simplify the problem, the code satisfies the following constraints.\r\nThe program has exactly 5 lines. The first line of the code is\r\n1 ans =0\r\nThe second and the third lines are of the form\r\n1 for i in range (a ,b , c ) :\r\n2 for j in range (d ,e , f ) :\r\nHere, i and j are loop variables. i and j can be any two different lowercase English letters. a, b, c, d, e, f\r\ncan be integers without leading zeroes or loop variables that have been introduced before. That is, d, e\r\nand f may be i. The tokens c or f (or both) can be omitted. When omitted, they equal 1.\r\nThe fourth line of the code is of the form:\r\n1 ans += j\r\nHere, j is the loop variable of the inner loop (note that it can be some letter other than j).\r\nThe fifth line of the code is\r\n1 print ( ans )\r\nFor any c 6= 0, the statement\r\n1 for i in range (a ,b , c ) :\r\nin the Python language is interpreted as follows.\r\n• If c > 0, i will take the values of a, a + c, a + 2c, · · · until a + kc, where k is the maximum integer\r\nsuch that a + kc < b. If a ≥ b, i won’t take any value.\r\n• If c < 0, i will take the values of a, a + c, a + 2c, · · · until a + kc, where k is the maximum integer\r\nsuch that a + kc > b. If a ≤ b, i won’t take any value.\r\nInput\r\n5 lines, representing the code.\r\nIt is guaranteed that there are no extra spaces at the end of each line. However, there may be extra line\r\nfeeds at the end of the input file. Please note that each tab is represented by 4 spaces in the input file.\r\nIt is guaranteed that 1 ≤ a, b, |c|, d, e, |f| ≤ 106\r\n.\r\nOutput\r\nOne integer representing the output of the program.\r\nPage 1 of 2\n\nExamples\r\nstandard input standard output\r\nans=0\r\nfor a in range(1,3):\r\nfor b in range(5,1,-2):\r\nans+=b\r\nprint(ans)\r\n16\r\nans=0\r\nfor q in range(100,50,-1):\r\nfor i in range(q,77,20):\r\nans+=i\r\nprint(ans)\r\n2092\r\nNote\r\nFor the first example, a will take the values of 1, 2 in order, and for each value that a takes, b will take\r\nthe values of 5, 3, so the answer is 2 × (5 + 3) = 16.\r\nYou can test the programs with a Python interpreter.\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/105471/problem/N)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "ans=0\nfor a in range(1,3):\n    for b in range(5,1,-2):\n        ans+=b\nprint(ans)",
+            "output": "16"
+          },
+          {
+            "name": "样例 2",
+            "input": "ans=0\nfor q in range(100,50,-1):\n    for i in range(q,77,20):\n        ans+=i\nprint(ans)",
+            "output": "2092"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# Python Program\n\nTime limit: $1$ second. Memory limit: $256$ MB. Standard input and standard output.\n\nCalculate the output of a Python program. To simplify the task, the program satisfies the following constraints.\n\nThe program has exactly $5$ lines. Its first line is:\n\n```python\nans=0\n```\n\nThe second and third lines have the form:\n\n```python\nfor i in range(a,b,c):\n    for j in range(d,e,f):\n```\n\nHere $i$ and $j$ are two distinct lowercase English letters used as loop variables. Each of $a,b,c,d,e,f$ is an integer without leading zeroes or a previously introduced loop variable. Thus $d,e,f$ may be $i$. The step argument $c$, $f$, or both may be omitted; an omitted step equals $1$.\n\nThe fourth line, inside the inner loop, has the form:\n\n```python\n        ans+=j\n```\n\nHere $j$ denotes the inner loop's variable, which can be a letter other than `j`.\n\nThe fifth line is:\n\n```python\nprint(ans)\n```\n\nFor $c\\ne0$, Python interprets the following loop as described below:\n\n```python\nfor i in range(a,b,c):\n```\n\n- If $c>0$, $i$ takes the values $a,a+c,a+2c,\\ldots,a+kc$, where $k$ is the largest integer satisfying $a+kc<b$. If $a\\geq b$, there are no iterations.\n- If $c<0$, $i$ takes the values $a,a+c,a+2c,\\ldots,a+kc$, where $k$ is the largest integer satisfying $a+kc>b$. If $a\\leq b$, there are no iterations.\n\n## Input\n\nThe input consists of the $5$ program lines. There are no trailing spaces on any line, but extra newlines may occur at the end of the input. Each tab is represented by $4$ spaces.\n\nIt is guaranteed that $1\\leq a,b,|c|,d,e,|f|\\leq10^6$.\n\n## Output\n\nOutput one integer: the program's output.\n\n## Note\n\nIn the first example, the outer variable takes values $1,2$. For each of them the inner variable takes values $5,3$, so the answer is $2\\times(5+3)=16$.\n\nYou may test the programs with a Python interpreter.\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf",
+          "sourcePdfSha256": "7de2e03d8515927f47dec4ffb505f11e5d3bdb7c3a4f541585e9b1766b8e1c08",
+          "page": 2,
+          "reason": "Restore the four-space and eight-space indentation visible in the original sample programs."
+        },
+        "id": "remote:codeforces:105471::N",
+        "title": "Python Program",
+        "url": "https://codeforces.com/gym/105471/problem/N",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 256
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105471/problem/N",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105471",
+        "sourceRosterSha256": "a024a0c7eedde8249c8a9711ad6482a5b28f20b8ad9a509e7a16f573fd2634bc",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "N",
+          "pdfTitle": "Python Program",
+          "rosterTitle": "Python Program",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105471/problem/N": {
+            "sourceUrl": "https://codeforces.com/gym/105471/problem/N",
+            "sha256": "6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc",
+            "bytes": 162495,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "data": "tb-asset:6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc",
+            "fileName": "gym-105471.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105471/problem/N",
+          "sha256": "7de2e03d8515927f47dec4ffb505f11e5d3bdb7c3a4f541585e9b1766b8e1c08",
+          "data": "tb-asset:7de2e03d8515927f47dec4ffb505f11e5d3bdb7c3a4f541585e9b1766b8e1c08",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc",
+          "fileName": "gym-105471-N.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "resourceManifest": {
+          "https://codeforces.com/gym/105471/problem/N": {
+            "sourceUrl": "https://codeforces.com/gym/105471/problem/N",
+            "sha256": "6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc",
+            "bytes": 162495,
+            "mime": "application/pdf",
+            "pageCount": 2
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:59.497826+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105471/problem/N",
+              "sha256": "6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc"
+            },
+            {
+              "url": "https://codeforces.com/gym/105471",
+              "sha256": "a024a0c7eedde8249c8a9711ad6482a5b28f20b8ad9a509e7a16f573fd2634bc",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/105471/problem/N",
+              "sha256": "6ea4a3d6a7f485500b2b3ccb672a7e88aaa20aec5ef6c814d89cdd55800bf7fc"
+            }
+          ],
+          "markdownSha256": "bc35db75909fafd084439e20b3c623e01099d57648fd19f033ff06922eb2df24",
+          "corpusAuditVerifiedSha256": "bc35db75909fafd084439e20b3c623e01099d57648fd19f033ff06922eb2df24"
+        },
+        "previousSourceMarkdown": "# Python Program\n\n来源：[原赛题目](https://codeforces.com/gym/105471/problem/N)、[完整原赛题册](https://contest.ucup.ac/download.php?id=1784&r=0&type=attachments)。以下用中文整理原题的完整规则、输入输出与全部数据范围；原题册保留原文及原图。\n\n## 题目描述\n\n计算输入中一个受限 Python 程序的输出。程序恰有五行，结构如下；循环变量可为任意两个不同的小写字母：\n\n```python\nans=0\nfor i in range(a,b,c):\n    for j in range(d,e,f):\n        ans+=j\nprint(ans)\n```\n\n第一行固定为 ans=0，第五行固定输出答案；第四行累加内层循环变量。两行 range 的第三个参数均可以省略，省略时为一。参数可以是不带前导零的整数，或此前已引入的循环变量，因此内层的起点、终点、步长都可能引用外层变量。\n\nrange 从起点开始每次加步长，严格不包含终点。步长为正时，只取小于终点的值；起点不小于终点则为空。步长为负时，只取大于终点的值；起点不大于终点则为空。步长保证非零。\n\n## 输入格式\n\n输入五行代码，每个制表符均以四个空格表示，各行末尾没有多余空格，文件末尾可能有额外换行。保证所有涉及的参数满足 $1\\le a,b,|c|,d,e,|f|\\le10^6$，其中引用变量时使用当轮变量值。\n\n## 输出格式\n\n输出一行一个整数，表示程序打印的答案。原题已修订过，以上采用当前公开原赛题册中的参数范围与 range 语义。\n",
+        "translationAvailable": true,
+        "translationReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "7de2e03d8515927f47dec4ffb505f11e5d3bdb7c3a4f541585e9b1766b8e1c08",
+          "pages": 2,
+          "sourceTextSha256": "917d4f9866b906df0a68bb93c22e9e85e6a3ddad4044d7e1310e141b10b75326",
+          "reviewedAt": "2026-11-07T18:45:56.534052+00:00",
+          "samplesRetainedSeparately": true,
+          "sampleInputsCorrected": true,
+          "status": "complete",
+          "immutableSpansValidated": true
+        },
+        "sourceTextArchive": [
+          {
+            "sha256": "6f13ff0c0c3416c3601480795950bbeb8039783169a4be1c23e3c614a4a0746d",
+            "text": "Python Program\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nYou need to calculate the output of a Python program.\r\nTo simplify the problem, the code satisfies the following constraints.\r\nThe program has exactly 5 lines. The first line of the code is\r\n1 ans =0\r\nThe second and the third lines are of the form\r\n1 for i in range (a ,b , c ) :\r\n2 for j in range (d ,e , f ) :\r\nHere, i and j are loop variables. i and j can be any two different lowercase English letters. a, b, c, d, e, f\r\ncan be integers without leading zeroes or loop variables that have been introduced before. That is, d, e\r\nand f may be i. The tokens c or f (or both) can be omitted. When omitted, they equal 1.\r\nThe fourth line of the code is of the form:\r\n1 ans += j\r\nHere, j is the loop variable of the inner loop (note that it can be some letter other than j).\r\nThe fifth line of the code is\r\n1 print ( ans )\r\nFor any c 6= 0, the statement\r\n1 for i in range (a ,b , c ) :\r\nin the Python language is interpreted as follows.\r\n• If c > 0, i will take the values of a, a + c, a + 2c, · · · until a + kc, where k is the maximum integer\r\nsuch that a + kc < b. If a ≥ b, i won’t take any value.\r\n• If c < 0, i will take the values of a, a + c, a + 2c, · · · until a + kc, where k is the maximum integer\r\nsuch that a + kc > b. If a ≤ b, i won’t take any value.\r\nInput\r\n5 lines, representing the code.\r\nIt is guaranteed that there are no extra spaces at the end of each line. However, there may be extra line\r\nfeeds at the end of the input file. Please note that each tab is represented by 4 spaces in the input file.\r\nIt is guaranteed that 1 ≤ a, b, |c|, d, e, |f| ≤ 106\r\n.\r\nOutput\r\nOne integer representing the output of the program.\r\nPage 1 of 2\n\nExamples\r\nstandard input standard output\r\nans=0\r\nfor a in range(1,3):\r\nfor b in range(5,1,-2):\r\nans+=b\r\nprint(ans)\r\n16\r\nans=0\r\nfor q in range(100,50,-1):\r\nfor i in range(q,77,20):\r\nans+=i\r\nprint(ans)\r\n2092\r\nNote\r\nFor the first example, a will take the values of 1, 2 in order, and for each value that a takes, b will take\r\nthe values of 5, 3, so the answer is 2 × (5 + 3) = 16.\r\nYou can test the programs with a Python interpreter.\r\nPage 2 of 2",
+            "kind": "unreviewed-pdf-extraction"
+          }
+        ],
+        "sourceTextReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "7de2e03d8515927f47dec4ffb505f11e5d3bdb7c3a4f541585e9b1766b8e1c08",
+          "pages": 2,
+          "sourceTextSha256": "917d4f9866b906df0a68bb93c22e9e85e6a3ddad4044d7e1310e141b10b75326",
+          "reviewedAt": "2026-11-07T18:45:56.534052+00:00",
+          "samplesRetainedSeparately": true,
+          "sampleInputsCorrected": true
+        },
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "ans=0\nfor a in range(1,3):\nfor b in range(5,1,-2):\nans+=b\nprint(ans)",
+                "output": "16"
+              },
+              {
+                "name": "样例 2",
+                "input": "ans=0\nfor q in range(100,50,-1):\nfor i in range(q,77,20):\nans+=i\nprint(ans)",
+                "output": "2092"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          }
+        ],
+        "translationReviewHistory": [
+          {
+            "translationReview": {
+              "status": "withheld",
+              "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+              "inputHash": "bc35db75909fafd084439e20b3c623e01099d57648fd19f033ff06922eb2df24"
+            },
+            "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+            "translationAvailable": false
+          }
+        ],
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "bc35db75909fafd084439e20b3c623e01099d57648fd19f033ff06922eb2df24",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "917d4f9866b906df0a68bb93c22e9e85e6a3ddad4044d7e1310e141b10b75326",
+          "sourcePdfSha256": "7de2e03d8515927f47dec4ffb505f11e5d3bdb7c3a4f541585e9b1766b8e1c08",
+          "markdown": "# Python Program\n\n时间限制：$1$ 秒。内存限制：$256$ MB。使用标准输入和标准输出。\n\n请计算一个 Python 程序的输出。为简化问题，程序满足以下限制。\n\n程序恰好有 $5$ 行，第一行为：\n\n```python\nans=0\n```\n\n第二行和第三行的形式为：\n\n```python\nfor i in range(a,b,c):\n    for j in range(d,e,f):\n```\n\n这里 $i$ 和 $j$ 是两个不同的小写英文字母，分别作为循环变量。$a,b,c,d,e,f$ 中的每一个参数，都可以是不含前导零的整数，或者此前已经引入的循环变量。因此，$d,e,f$ 可以使用外层变量 $i$。步长参数 $c$、$f$ 可以省略其中任意一个，也可以同时省略；省略的步长默认为 $1$。\n\n第四行位于内层循环中，形式为：\n\n```python\n        ans+=j\n```\n\n这里 $j$ 表示内层循环的变量，它也可以是字母 `j` 之外的其他小写字母。\n\n第五行为：\n\n```python\nprint(ans)\n```\n\n对于 $c\\ne0$，Python 中以下循环的含义如下：\n\n```python\nfor i in range(a,b,c):\n```\n\n- 若 $c>0$，$i$ 依次取值 $a,a+c,a+2c,\\ldots,a+kc$，其中 $k$ 是满足 $a+kc<b$ 的最大整数。若 $a\\geq b$，则循环不执行。\n- 若 $c<0$，$i$ 依次取值 $a,a+c,a+2c,\\ldots,a+kc$，其中 $k$ 是满足 $a+kc>b$ 的最大整数。若 $a\\leq b$，则循环不执行。\n\n## 输入\n\n输入为程序的 $5$ 行代码。保证每行末尾没有多余空格，但输入文件末尾可能有额外换行。每个制表符都用 $4$ 个空格表示。\n\n保证 $1\\leq a,b,|c|,d,e,|f|\\leq10^6$。\n\n## 输出\n\n输出一个整数，表示该程序的输出。\n\n## 说明\n\n第一组样例中，外层变量依次取值 $1,2$；对于其中每个值，内层变量都依次取值 $5,3$，因此答案为 $2\\times(5+3)=16$。\n\n你可以使用 Python 解释器测试这些程序。\n"
+        }
+      }
+    }
+  ]
+}

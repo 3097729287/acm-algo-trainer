@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "status": "verified-source-only",
+  "problems": 13,
+  "originalPagesReviewed": 22,
+  "rendered": 13,
+  "renderIssues": 0,
+  "usableChineseBefore": 6064,
+  "usableChineseAfter": 6077,
+  "remainingChineseWithReadableOriginals": 0,
+  "remainingOriginals": 152,
+  "correctedPythonSamples": {
+    "cases": 2,
+    "outputs": [
+      "16",
+      "2092"
+    ],
+    "isolatedExecution": true
+  },
+  "libraryRows": {
+    "problems": 13417,
+    "statements": 13363,
+    "solutions": 1939,
+    "detailed_solutions": 1938,
+    "lectures": 480,
+    "links": 9258
+  },
+  "originalPdfPreserved": true,
+  "diagramSource": "original PDF page crop",
+  "installed": false
+}

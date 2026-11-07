@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:104976::D",
+      "beforeSha256": "a44fe4ec1676102bb54cc763ab46659d94d71707ead70c179b4373a0f8629f54",
+      "content": {
+        "markdown": "# Operator Precedence\n\nOperator Precedence\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 mebibytes\r\nRandias is facing his primary school homework:\r\nFind a nonzero integer sequence a of length 2n satisfying\r\n(a1 × a2)+(a3 × a4)+ . . . +(a2n−1 × a2n)\r\n= a1 ×(a2 + a3)×(a4 + a5)× . . . ×(a2n−2 + a2n−1)× a2n 6= 0.\r\nIn shorter form, Pn\r\ni=1\r\na2i−1a2i = a1a2n\r\nQn\r\ni=2\r\n(a2i−2 + a2i−1) 6= 0.\r\nOf course, Randias knows how to solve it. But he wants to give you a test. Can you solve the question\r\nabove?\r\nInput\r\nEach test contains multiple test cases. The first line contains a single integer t (1 ≤ t ≤ 105\r\n) denoting the\r\nnumber of test cases.\r\nFor each test case, the only line contains a single integer n (2 ≤ n ≤ 105\r\n).\r\nIt is guaranteed that the sum of n over all test cases does not exceed 2 · 105\r\n.\r\nOutput\r\nFor each test case, output one line with 2n integers: a1, a2, . . . , a2n (1 ≤ |ai\r\n| ≤ 1010).\r\nIt can be shown that the answer always exists.\r\nIf there are several possible answers, output any one of them.\r\nExample\r\nstandard input standard output\r\n3\r\n2\r\n3\r\n4\r\n1 -3 -3 1\r\n1 -10 6 6 -10 1\r\n1 -15 10 -1 -1 10 -15 1\r\nPage 1 of 1\n\n[PDF](https://codeforces.com/gym/104976/problem/D)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n2\n3\n4",
+            "output": "1 -3 -3 1\n1 -10 6 6 -10 1\n1 -15 10 -1 -1 10 -15 1"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "# Operator Precedence\n\nTime limit: $1$ second. Memory limit: $1024$ MiB. Standard input and standard output.\n\nRandias has a primary-school homework problem. Find an integer sequence $a$ of length $2n$, all of whose elements are nonzero, satisfying\n\n$$\n\\begin{aligned}\n&(a_1\\times a_2)+(a_3\\times a_4)+\\cdots+(a_{2n-1}\\times a_{2n})\\\\\n&=a_1\\times(a_2+a_3)\\times(a_4+a_5)\\times\\cdots\\times(a_{2n-2}+a_{2n-1})\\times a_{2n}\\ne 0.\n\\end{aligned}\n$$\n\nEquivalently,\n\n$$\n\\sum_{i=1}^{n}a_{2i-1}a_{2i}=a_1a_{2n}\\prod_{i=2}^{n}(a_{2i-2}+a_{2i-1})\\ne 0.\n$$\n\nRandias knows how to solve it, but wants to test you. Can you solve it?\n\n## Input\n\nThe first line contains the number of test cases $t$ ($1\\leq t\\leq 10^5$).\n\nEach test case consists of one line containing an integer $n$ ($2\\leq n\\leq 10^5$).\n\nThe sum of $n$ over all test cases does not exceed $2\\cdot 10^5$.\n\n## Output\n\nFor each test case, output $2n$ integers $a_1,a_2,\\ldots,a_{2n}$ on one line, with $1\\leq |a_i|\\leq 10^{10}$.\n\nA solution always exists. If there are multiple valid solutions, output any one.\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:104976::D",
+        "title": "Operator Precedence",
+        "url": "https://codeforces.com/gym/104976/problem/D",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/104976/problem/D",
+        "sourcePageNumbers": [
+          1
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/104976",
+        "sourceRosterSha256": "4e4cb5211559dc24d7beea7de7180d5d42bfbec9a3f1e2e003589390cb8738d8",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "problem": "D",
+          "pdfTitle": "Operator Precedence",
+          "rosterTitle": "Operator Precedence",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/104976/problem/D": {
+            "sourceUrl": "https://codeforces.com/gym/104976/problem/D",
+            "sha256": "fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242",
+            "bytes": 167905,
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "data": "tb-asset:fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242",
+            "fileName": "gym-104976.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/104976/problem/D",
+          "sha256": "f1fd2b0db4567678c9e76995e8f07619d8ba12d8d60c1a24189ed211bd01fed7",
+          "data": "tb-asset:f1fd2b0db4567678c9e76995e8f07619d8ba12d8d60c1a24189ed211bd01fed7",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            1
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242",
+          "fileName": "gym-104976-D.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "unavailable",
+        "sitePdfError": "原版 PDF 题名与原站题单未能双侧核对",
+        "resourceManifest": {
+          "https://codeforces.com/gym/104976/problem/D": {
+            "sourceUrl": "https://codeforces.com/gym/104976/problem/D",
+            "sha256": "fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242",
+            "bytes": 167905,
+            "mime": "application/pdf",
+            "pageCount": 1
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-07T06:44:59.470830+00:00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/104976/problem/D",
+              "sha256": "fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242"
+            },
+            {
+              "url": "https://codeforces.com/gym/104976",
+              "sha256": "4e4cb5211559dc24d7beea7de7180d5d42bfbec9a3f1e2e003589390cb8738d8"
+            },
+            {
+              "url": "https://codeforces.com/gym/104976/problem/D",
+              "sha256": "fdb5281d03e32889d9acbbb7499d809bf37c2768f8918c11d35dbc96c55d0242"
+            },
+            {
+              "url": "https://codeforces.com/gym/104976",
+              "sha256": "4e4cb5211559dc24d7beea7de7180d5d42bfbec9a3f1e2e003589390cb8738d8"
+            },
+            {
+              "url": "https://codeforces.com/gym/104976/attachments/download/24254/hangzhou(zh).pdf",
+              "sha256": "5ba825f9453dc3dfc3b571b1cc90011dbc16d027ee261f72a9d1ee5c8803dbc1"
+            }
+          ],
+          "markdownSha256": "32b7b437dfe92412b789df90535bc2abfcb721d1c9a2bfd58efd5776d341e068",
+          "corpusAuditVerifiedSha256": "32b7b437dfe92412b789df90535bc2abfcb721d1c9a2bfd58efd5776d341e068"
+        },
+        "previousSourceMarkdown": "# Operator Precedence\n\n来源：[原赛题目](https://codeforces.com/gym/104976/problem/D)、[完整原赛题册](https://contest.ucup.ac/download.php?id=1516&r=0&type=attachments)。以下用中文整理原题的完整规则、输入输出与全部数据范围；原题册保留原文及原图。\n\n## 题目描述\n\n给定整数 $n$，构造 $2n$ 个非零整数，使下式成立且两边均非零：\n\n$$\\sum_{i=1}^{n}a_{2i-1}a_{2i}\n=a_1a_{2n}\\prod_{i=2}^{n}(a_{2i-2}+a_{2i-1})\\ne0.$$\n\n左边先把一二、三四等相邻项相乘再求和；右边把二三、四五等错位相邻项先相加，再与首尾项一起相乘。允许输出负整数。\n\n## 输入格式\n\n第一行输入组数 $1\\le T\\le10^5$。每组一行输入 $2\\le n\\le10^5$。全部组的 $n$ 之和不超过 $2\\times10^5$。\n\n## 输出格式\n\n每组输出一行 $2n$ 个整数，要求每个数满足 $1\\le|a_i|\\le10^{10}$，并满足上述非零等式。保证存在答案，多个方案可以任选。\n",
+        "translationAvailable": true,
+        "translationReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "f1fd2b0db4567678c9e76995e8f07619d8ba12d8d60c1a24189ed211bd01fed7",
+          "pages": 1,
+          "sourceTextSha256": "353d222be289375c5433c163457dce7431e27fdf3f8ed2ed64554dc4041a0689",
+          "reviewedAt": "2026-11-07T18:40:55.745036+00:00",
+          "samplesRetainedSeparately": true,
+          "status": "complete",
+          "immutableSpansValidated": true
+        },
+        "sourceTextArchive": [
+          {
+            "sha256": "b1524ace6b1bee786bbadb1ac79a27ab814480699b6fc2cc3cfaf4723fb4b9d7",
+            "text": "Operator Precedence\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 mebibytes\r\nRandias is facing his primary school homework:\r\nFind a nonzero integer sequence a of length 2n satisfying\r\n(a1 × a2)+(a3 × a4)+ . . . +(a2n−1 × a2n)\r\n= a1 ×(a2 + a3)×(a4 + a5)× . . . ×(a2n−2 + a2n−1)× a2n 6= 0.\r\nIn shorter form, Pn\r\ni=1\r\na2i−1a2i = a1a2n\r\nQn\r\ni=2\r\n(a2i−2 + a2i−1) 6= 0.\r\nOf course, Randias knows how to solve it. But he wants to give you a test. Can you solve the question\r\nabove?\r\nInput\r\nEach test contains multiple test cases. The first line contains a single integer t (1 ≤ t ≤ 105\r\n) denoting the\r\nnumber of test cases.\r\nFor each test case, the only line contains a single integer n (2 ≤ n ≤ 105\r\n).\r\nIt is guaranteed that the sum of n over all test cases does not exceed 2 · 105\r\n.\r\nOutput\r\nFor each test case, output one line with 2n integers: a1, a2, . . . , a2n (1 ≤ |ai\r\n| ≤ 1010).\r\nIt can be shown that the answer always exists.\r\nIf there are several possible answers, output any one of them.\r\nExample\r\nstandard input standard output\r\n3\r\n2\r\n3\r\n4\r\n1 -3 -3 1\r\n1 -10 6 6 -10 1\r\n1 -15 10 -1 -1 10 -15 1\r\nPage 1 of 1",
+            "kind": "unreviewed-pdf-extraction"
+          }
+        ],
+        "sourceTextReview": {
+          "schema": 1,
+          "method": "page-by-page-original-pdf-review",
+          "pdfSha256": "f1fd2b0db4567678c9e76995e8f07619d8ba12d8d60c1a24189ed211bd01fed7",
+          "pages": 1,
+          "sourceTextSha256": "353d222be289375c5433c163457dce7431e27fdf3f8ed2ed64554dc4041a0689",
+          "reviewedAt": "2026-11-07T18:40:55.745036+00:00",
+          "samplesRetainedSeparately": true
+        },
+        "translationReviewHistory": [
+          {
+            "translationReview": {
+              "status": "withheld",
+              "reason": "PDF text extraction does not faithfully retain mathematical layout; no incomplete Chinese is displayed",
+              "inputHash": "32b7b437dfe92412b789df90535bc2abfcb721d1c9a2bfd58efd5776d341e068"
+            },
+            "translationNotice": "中文提取尚未核对完整，请阅读原文 PDF。",
+            "translationAvailable": false
+          }
+        ],
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "32b7b437dfe92412b789df90535bc2abfcb721d1c9a2bfd58efd5776d341e068",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "353d222be289375c5433c163457dce7431e27fdf3f8ed2ed64554dc4041a0689",
+          "sourcePdfSha256": "f1fd2b0db4567678c9e76995e8f07619d8ba12d8d60c1a24189ed211bd01fed7",
+          "markdown": "# Operator Precedence\n\n时间限制：$1$ 秒。内存限制：$1024$ MiB。使用标准输入和标准输出。\n\nRandias 遇到了一道小学作业题：找出一个长度为 $2n$、所有元素都非零的整数序列 $a$，使它满足\n\n$$\n\\begin{aligned}\n&(a_1\\times a_2)+(a_3\\times a_4)+\\cdots+(a_{2n-1}\\times a_{2n})\\\\\n&=a_1\\times(a_2+a_3)\\times(a_4+a_5)\\times\\cdots\\times(a_{2n-2}+a_{2n-1})\\times a_{2n}\\ne 0.\n\\end{aligned}\n$$\n\n等价地，要求\n\n$$\n\\sum_{i=1}^{n}a_{2i-1}a_{2i}=a_1a_{2n}\\prod_{i=2}^{n}(a_{2i-2}+a_{2i-1})\\ne 0.\n$$\n\nRandias 已经知道做法，但他想考考你。你能解决这道题吗？\n\n## 输入\n\n第一行包含测试用例数 $t$（$1\\leq t\\leq 10^5$）。\n\n每个测试用例占一行，包含一个整数 $n$（$2\\leq n\\leq 10^5$）。\n\n保证所有测试用例的 $n$ 之和不超过 $2\\cdot 10^5$。\n\n## 输出\n\n对于每个测试用例，在一行中输出 $2n$ 个整数 $a_1,a_2,\\ldots,a_{2n}$，满足 $1\\leq |a_i|\\leq 10^{10}$。\n\n可以证明答案总是存在。如果有多个合法答案，输出任意一个即可。\n"
+        }
+      }
+    }
+  ]
+}

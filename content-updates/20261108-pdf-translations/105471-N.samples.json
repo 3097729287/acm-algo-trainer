@@ -1,0 +1,8 @@
+{
+  "sourcePage": 2,
+  "reason": "Restore the four-space and eight-space indentation visible in the original sample programs.",
+  "samples": [
+    {"name":"样例 1","input":"ans=0\nfor a in range(1,3):\n    for b in range(5,1,-2):\n        ans+=b\nprint(ans)","output":"16"},
+    {"name":"样例 2","input":"ans=0\nfor q in range(100,50,-1):\n    for i in range(q,77,20):\n        ans+=i\nprint(ans)","output":"2092"}
+  ]
+}
