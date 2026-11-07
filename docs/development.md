@@ -1,3 +1,9 @@
+## 1.6.5 国内发行验证
+
+本版从已验证的题面与全屏阅读修订构建。公开种子为 13,417 道题、13,363 份题面、1,939 份默认题解和 1,938 份详细题解；不重新生成已有内容。发布前检查固定源码、生产前端、冻结程序、正式 1.6.4 原始更新器增量、新装／覆盖安装及个人数据保留。服务器沿用现有校验转发和更新清单，不更换账号服务、容器或数据库。
+
+增量必须对比正式 1.6.4 用户包的完整 SHA-256 清单，本机追加修订不冒充公开基线；工具链逐文件一致。完整用户安装包放到桌面，管理员产物只保留在本机 private-admin。当前发行结果以独立验证回执为准。
+
 当前本机追加修订为 1.6.3 · 2026-11-07（排行榜行高）：合并过题榜单元格与用户信息容器的垂直留白，保留头像、等级牌、字号及各列居中。用实际排行榜核对宽窄窗口、深浅主题和完整头像，构建后复核本机两版前端。公开 1.6.3 标签与资产保持不变，见[本次记录](local-delivery-1.6.3-ranking-density.md)。
 
 此前牛客题单与经验环修订：`node tests/nowcoder-curriculum.mjs` 使用完整公开来源核对 1,083 个原题身份、合并后的阶段卡片与直接打开；`node tests/training-list-platforms-model.mjs` 验证旧位置与入口迁移，`node tests/training-lists-model.mjs` 和 `node tests/training-list-cache.mjs` 验证原始来源、章节、搜索、去重和缓存。`node tests/avatar-size.mjs` 检查九档头像中真实比例的实色经验带、方向与对齐，`node tests/workspace-revisions.mjs` 验证原标识收起、展开和恢复以及既有主界面行为。详见[题单修订](local-delivery-1.6.3-catalog.md)。此前[学习任务](local-delivery-1.6.3-learning.md)、[雨湖](local-delivery-1.6.3-rain.md)与[交互修订](local-delivery-1.6.3-ui.md)保留。以下旧版本交付记录继续保留。
