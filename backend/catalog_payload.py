@@ -16,6 +16,7 @@ ROW_FIELDS = frozenset('''
     solutionAvailable solutionState detailedSolutionAvailable statementAvailable
     catalogHidden catalogNotice catalogVisibilityPolicy catalogContentReady
     catalogStatementReady catalogReplayReady problemType localJudgeSupported rosterVerified contestLetterVerified
+    statementRetired statementRetirementPolicy statementPriorVisibility
     contestDate startedAt endedAt contestDateSource contestDatePrecision
     contestFullName contestId contestLetter contestFamily contestRoster contestProblemCount
     contestVariant contestDifficulty contestDifficultySource contestPhase

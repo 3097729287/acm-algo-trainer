@@ -5,7 +5,8 @@
     "passed": 1233,
     "skipped": 2,
     "failures": 0,
-    "errors": 0
+    "errors": 0,
+    "sourceCommit": "7aa68316dc52753297781fa7467a16a470689ac7"
   },
   "sourceMath": {
     "documents": 19265,
@@ -101,5 +102,12 @@
     "remoteDescriptorsRetainedExactly": true
   },
   "originalSubmissions": 0,
-  "publicRelease": false
+  "publicRelease": false,
+  "compactReplayFollowup": {
+    "tests": 23,
+    "passed": 23,
+    "failures": 0,
+    "errors": 0,
+    "scope": "Compact row retirement metadata and actual frontend replay filtering, plus partial replay and public source regression checks"
+  }
 }
