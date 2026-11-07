@@ -52,7 +52,7 @@ function restoreStudyBrowser(value){
 function StudySolution({tab,api,prefs,setPrefs,onTrain,onOpen,onPatch,onClose,fullscreen,onFullscreen}) {
  const [reader,setReader]=useState(null),[error,setError]=useState('');
  useEffect(()=>{let live=true;setReader(null);api('solution?id='+encodeURIComponent(tab.id)).then(value=>{if(live)setReader(value);}).catch(issue=>{if(live)setError(issue.message);});return()=>{live=false;};},[api,tab.id]);
- return <div className="study-solution"><SolutionReader reader={reader} error={error} api={api} prefs={prefs} setPrefs={setPrefs} methodId={tab.methodId} onMethodChange={methodId=>onPatch({methodId})} onTrain={onTrain} onClose={onClose} fullscreen={fullscreen} onFullscreen={onFullscreen} embedded onOpenLecture={id=>onOpen({kind:'lecture',id})}/></div>;
+ return <div className="study-solution"><SolutionReader reader={reader} problemId={tab.id} error={error} api={api} prefs={prefs} setPrefs={setPrefs} methodId={tab.methodId} onMethodChange={methodId=>onPatch({methodId})} onTrain={onTrain} onClose={onClose} fullscreen={fullscreen} onFullscreen={onFullscreen} embedded onOpenLecture={id=>onOpen({kind:'lecture',id})}/></div>;
 }
 
 function StudyTab({tab,visible,focused,side,groupId,column,compact,onAdd,patch,focus,api,rows,prefs,setPrefs,onTrain,onProgress,onNotice,onOpen,onClose,onDocumentChange,onReplaceProblem,lockedProblems,categories,practiceWorkspace,recommendations,taskPlan,onTaskNavigate}) {

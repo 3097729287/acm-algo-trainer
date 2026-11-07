@@ -56,11 +56,13 @@ export default function ProfileBadge({ growth, avatar, nickname, onClick, onAvat
   return <div className={`profile-badge ${badge}${compact ? ' profile-badge-compact' : ''}${qualified ? '' : ' profile-badge-unplaced'}`}>
     <Tooltip text={showXp ? xpText : `等级 ${level ?? '—'} · ${rankName}`}>
       <AvatarControl className="profile-avatar-button" {...(onAvatarClick ? { type: 'button', onClick: onAvatarClick, 'aria-label': '设置头像' } : { tabIndex: 0, 'aria-label': `等级 ${level ?? '读取中'}` })}>
-        {showXp && <svg className="profile-xp-ring" viewBox="0 0 44 44" role="meter" aria-label="本级经验进度" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)} aria-valuetext={xpText}>
-          <circle className="profile-xp-track" cx="22" cy="22" r="19.5" />
-          <circle className="profile-xp-value" cx="22" cy="22" r="19.5" pathLength="100" strokeDasharray={`${progress} 100`} />
-        </svg>}
-        <AvatarFrame index={Number(badge.slice(5)) || 0}/>
+        <span className="avatar-rank-frame rank-reference-art">
+          <AvatarFrame index={Number(badge.slice(5)) || 0} className="avatar-frame-art"/>
+          {showXp && <svg className="profile-xp-ring" viewBox="0 0 512 512" role="meter" aria-label="本级经验进度" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)} aria-valuetext={xpText}>
+            <circle className="profile-xp-track" cx="256" cy="256" r="58" />
+            <circle className="profile-xp-value" cx="256" cy="256" r="58" pathLength="100" strokeDasharray={`${progress} 100`} style={{opacity:progress>0?1:0}}/>
+          </svg>}
+        </span>
         <span className="profile-avatar-face" aria-hidden="true">{image ? <img src={image} alt="" /> : <UserRound size={19} />}</span>
         <b className="profile-level-number" aria-hidden="true">{level ?? '—'}</b>
       </AvatarControl>

@@ -151,7 +151,7 @@ class BrowserProcess:
             startup = ['--no-startup-window'] if background else ['--new-window', 'about:blank']
             self.process = subprocess.Popen([str(executable), '--user-data-dir=' + str(self.profile),
                 '--remote-debugging-port=' + str(self.port), '--remote-debugging-address=127.0.0.1',
-                '--no-first-run', '--no-default-browser-check', '--disable-background-mode', *startup],
+                '--no-first-run', '--no-default-browser-check', '--disable-background-mode', '--mute-audio', *startup],
                 creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0),
                 stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             deadline = time.monotonic() + 12
@@ -203,6 +203,34 @@ class BrowserProcess:
             return next(item for item in self.request('/json/list') if item.get('id')==target)
         finally:
             page.close()
+
+    def present_page(self, identity, page, visible):
+        version=self.request('/json/version')
+        browser=DevToolsPage(version['webSocketDebuggerUrl'],lambda *_:None)
+        marker='[ToBe-'+uuid.uuid4().hex+'] '
+        original=None
+        try:
+            window=browser.call('Browser.getWindowForTarget',{'targetId':identity})
+            processes=browser.call('SystemInfo.getProcessInfo')['processInfo']
+            pid=next((item['id'] for item in processes if item.get('type')=='browser'),None)
+            if type(pid) is not int or pid<=0:return False
+            if visible and window.get('bounds',{}).get('windowState')=='minimized':
+                browser.call('Browser.setWindowBounds',{'windowId':window['windowId'],'bounds':{'windowState':'normal'}})
+            # A short-lived title tag binds a Win32 handle to this exact target,
+            # even when several submissions share the browser PID and bounds.
+            original=page.evaluate('(()=>{const value=document.title;document.title='+json.dumps(marker)+'+value;return value;})()')
+            if not isinstance(original,str):return False
+            if visible:page.call('Page.bringToFront')
+            if os.name=='nt':
+                from browser_presentation import present_window
+                return present_window(pid,marker,visible)
+            if not visible:browser.call('Browser.setWindowBounds',{'windowId':window['windowId'],'bounds':{'windowState':'minimized'}})
+            return True
+        finally:
+            if isinstance(original,str):
+                try:page.evaluate('if(document.title==='+json.dumps(marker+original)+')document.title='+json.dumps(original))
+                except Exception:pass
+            browser.close()
 
     def new_probe_page(self, url):
         """Create an invisible, disposable target in the managed profile.
@@ -366,6 +394,7 @@ class ExternalBrowserBridge:
                         session['autoClose'] = True
                         session['retry'] = session.get('retry', 0) + 1
                     session['focus'] = True
+                    session['explicitVisible'] = not intent
                     return self.status(session['sessionId'])
             if sum(item['status'] not in self.terminal for item in self.sessions.values()) >= 8:
                 raise ServiceError(409, '请先处理已有的浏览器提交，再打开新的提交页')
@@ -374,7 +403,7 @@ class ExternalBrowserBridge:
             identity = uuid.uuid4().hex
             session = dict(target, sessionId=identity, code=code, title=title, language=language, intent=intent, autoClose=bool(intent),
                            status='loading', attempted=False, retry=1 if intent else 0, created=time.monotonic(),
-                           transport='external', message='正在后台打开原站提交页…' if intent else '正在打开浏览器原站提交页…', focus=not intent)
+                           transport='external', message='正在后台打开原站提交页…' if intent else '正在打开浏览器原站提交页…', focus=not intent, explicitVisible=not intent)
             self.sessions[identity] = session
         threading.Thread(target=self._run, args=(identity,), name='tb-visible-submit', daemon=True).start()
         return self.status(identity)
@@ -391,7 +420,7 @@ class ExternalBrowserBridge:
             if not session:
                 raise ServiceError(404, '没有找到本次浏览器提交')
             result = {key: value for key, value in session.items() if key not in
-                    {'code', 'title', 'intent', 'created', 'focus', 'originalUrl', 'target', 'dispatching', 'dispatched', 'awaitingLogin'}}
+                    {'code', 'title', 'intent', 'created', 'focus', 'originalUrl', 'target', 'dispatching', 'dispatched', 'awaitingLogin', 'explicitVisible'}}
             if result['status'] == 'finished' and self.on_receipt and not result.get('receiptSaved'):
                 result['status'] = 'judging'
             return result
@@ -489,6 +518,7 @@ class ExternalBrowserBridge:
 
     def _run(self, identity):
         page = None
+        presentation = None
         try:
             target = self.browser.new_submission_page() if hasattr(self.browser,'new_submission_page') else self.browser.new_page()
             page = DevToolsPage(target['webSocketDebuggerUrl'], lambda event, connection: self._event(identity, event, connection))
@@ -501,6 +531,12 @@ class ExternalBrowserBridge:
             with self.lock:
                 self.sessions[identity]['target'] = target['id']
                 url = self.sessions[identity]['url']
+                explicit=self.sessions[identity].get('explicitVisible',False)
+            if hasattr(self.browser,'present_page'):
+                try:
+                    if self.browser.present_page(target['id'],page,explicit):presentation=explicit
+                except Exception:
+                    logging.getLogger('tb.visible-submit').debug('Initial browser presentation deferred')
             page.call('Page.navigate', {'url': url})
             # Submit keeps TB in front. Explicit inspection/login requests and
             # verification transitions can reveal this session's own window.
@@ -523,12 +559,11 @@ class ExternalBrowserBridge:
                             self._update(identity, {'status':'error', 'message':'页面已离开支持的原站，自动操作已停止。'})
                         page.wake.wait(.4)
                         continue
-                    if focus:
-                        page.call('Page.bringToFront')
                     state = page.evaluate(self._script(session, 'inspect', install=False))
                     self._update(identity, state, inspection=True)
                     with self.lock:
                         live = self.sessions[identity]
+                        visible=bool(live.get('explicitVisible') or live['status'] in ('needs_login','needs_verification'))
                         resume = live.get('awaitingLogin') and live.get('intent') and not live.get('dispatched') and isinstance(state, dict) and state.get('loggedIn')
                         if resume:
                             live.update(awaitingLogin=False, status='loading', message='登录成功，正在返回本题并填入代码…')
@@ -536,6 +571,15 @@ class ExternalBrowserBridge:
                         if dispatch:
                             live.update(dispatching=True, dispatched=True, intent=False)
                             session = dict(live)
+                    if visible!=presentation or focus:
+                        try:
+                            if hasattr(self.browser,'present_page'):
+                                if self.browser.present_page(target['id'],page,visible):presentation=visible
+                            elif visible:page.call('Page.bringToFront')
+                        except Exception:
+                            # Focus/OS restrictions cannot consume the durable
+                            # pre-click checkpoint or prevent its one dispatch.
+                            logging.getLogger('tb.visible-submit').debug('Browser presentation deferred')
                     if resume:
                         page.call('Page.navigate', {'url': session['url']})
                         continue
@@ -562,6 +606,11 @@ class ExternalBrowserBridge:
             self._update(identity, {'status':'error', 'message':'浏览器未能连接，请重新打开提交页；代码已保留。'})
         finally:
             if page:
+                with self.lock:session=self.sessions.get(identity,{})
+                if (hasattr(self.browser,'present_page') and not session.get('explicitVisible')
+                        and session.get('status') not in ('needs_login','needs_verification')):
+                    try:self.browser.present_page(target['id'],page,False)
+                    except Exception:pass
                 page.close()
 
     def acknowledge(self, identity):

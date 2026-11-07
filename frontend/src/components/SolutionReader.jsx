@@ -10,7 +10,7 @@ import InlineTitle from './InlineTitle.jsx';
 
 import {lessonKey} from '@/lib/lessonKey.js';
 import {useStudyPane,useStudyState} from '@/lib/StudyPane.jsx';
-export default function SolutionReader({reader,error,api,methodId,onMethodChange,onClose,fullscreen,onFullscreen,prefs,setPrefs,onTrain,embedded=false,onOpenLecture}){
+export default function SolutionReader({reader,error,api,problemId,methodId,onMethodChange,onClose,fullscreen,onFullscreen,prefs,setPrefs,onTrain,embedded=false,onOpenLecture}){
  const pane=useStudyPane();
  const copyCode=useCallback(text=>navigator.clipboard?.writeText(String(text)),[]);
  const methods=reader?.methods?.length?reader.methods:reader?[{...reader,id:'original'}]:[];
@@ -51,7 +51,7 @@ export default function SolutionReader({reader,error,api,methodId,onMethodChange
  </header><div ref={body} className="reader-content" tabIndex={0} aria-label={selected?'从零讲正文':'题解正文'} onScroll={remember}>
   {!reader?error?<p role="alert">{error}</p>:<LoaderCircle className="spin" size={22}/>:selected?.loading?<LoaderCircle className="spin" size={22}/>:selected?.error?<p role="alert">{selected.error}</p>:<>
    {related.map(item=>link(item))}
-   {blocks.map((block,index)=>block.type==='lecture'?link(block.lecture||{heading:block.heading},block.markdown,document?.images,index):<Markdown key={index} text={block.markdown} images={document?.images} onCopy={copyCode}/>)}
+   {blocks.map((block,index)=>block.type==='lecture'?link(block.lecture||{heading:block.heading},block.markdown,document?.images,index):<Markdown key={index} text={block.markdown} images={document?.images} onCopy={copyCode} api={api} problemId={problemId}/>)}
    {!selected&&variant==='detailed'&&!method?.detailedSolution&&<p role="status">详细题解待补充</p>}
    {!selected&&(method?.lectureIds?lectures.filter(item=>method.lectureIds.includes(item.id)):reader?.lectures||[]).filter(item=>!blocks.some(block=>block.type==='lecture'&&lessonKey(block.lecture||{heading:block.heading})===lessonKey(item))).map(item=>link(item))}
    {selected&&selected.sourceProblemIds?.[0]&&onTrain&&<button type="button" className="icon-button" aria-label="练习来源题" title="练习来源题" onClick={()=>onTrain(selected.sourceProblemIds[0])}><ArrowUpRight size={17}/></button>}

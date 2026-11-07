@@ -277,6 +277,7 @@ class OfficialBridge:
                 self._update(identity, {'status': 'error', 'message': '官方登录组件初始化失败，请检查 WebView2。'})
                 return
             core = view.CoreWebView2
+            core.IsMuted = True
             core.Settings.AreDevToolsEnabled = core.Settings.IsStatusBarEnabled = False
             core.NavigationStarting += navigation
             core.WebMessageReceived += message
@@ -388,9 +389,23 @@ class OfficialBridge:
         entry['panel'].Visible = True
         entry['panel'].BringToFront()
         self.main_window.native.browser.webview.Visible = False
+        form=self.main_window.native
+        pinned=None
+        try:
+            import System.Windows.Forms as Forms
+            if form.WindowState==Forms.FormWindowState.Minimized:form.WindowState=Forms.FormWindowState.Normal
+            pinned=form.TopMost
+            form.Show();form.TopMost=True;form.BringToFront();form.Activate()
+        except Exception:
+            logging.debug('Native verification window activation deferred')
+        finally:
+            if pinned is not None:form.TopMost=pinned
         session = self.sessions[identity]
-        if session['status'] in ('needs_login', 'needs_verification'):
-            entry['view'].CoreWebView2.Navigate(session['loginUrl'] if session['status'] == 'needs_login' else session['url'])
+        if session['status']=='needs_login':
+            core=entry['view'].CoreWebView2
+            if core is not None:
+                current,login=urlsplit(str(getattr(core,'Source','') or '')),urlsplit(session['loginUrl'])
+                if (current.hostname,current.path)!=(login.hostname,login.path):core.Navigate(session['loginUrl'])
 
     def close(self, identity=None):
         from training import ServiceError

@@ -121,7 +121,7 @@ export default function RankingsPage({ api, onConfigure, onError, avatarData, ow
     const request = generation.current;
     const timer = setTimeout(() => {
       api('leaderboard?period=' + period).then(value => { if(request===generation.current){setSnapshot(value);rankingCache.set(api,{...rankingCache.get(api),[period]:{date:rankingDate(),value,owner:rankingOwner}});} }).catch(issue => { if (request === generation.current) setError(issue.message); });
-    }, snapshot.status === 'syncing' ? 1000 : 25000);
+    }, snapshot.status === 'syncing' ? 1000 : 10000);
     return () => clearTimeout(timer);
   }, [api, period, snapshot, deleting, rankingOwner]);
   const entries = Array.isArray(snapshot?.entries) ? snapshot.entries.map(item=>{

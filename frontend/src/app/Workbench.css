@@ -507,6 +507,11 @@
   background: var(--panel);
   border-top: 1px solid var(--line);
 }
+.wb-code-pane[data-console-resized=true]>.wb-console{flex:0 0 var(--wb-console-height);height:var(--wb-console-height);max-height:none;min-height:0}
+.wb-console-splitter{position:relative;flex:0 0 1px;height:1px;min-height:1px;background:var(--line);cursor:row-resize;touch-action:none;z-index:21}
+.wb-console-splitter::before{content:'';position:absolute;left:0;right:0;top:-5px;bottom:-5px}
+.wb-console-splitter:hover,.wb-console-splitter:focus-visible{background:var(--accent);outline:0}
+.wb-console-splitter:focus-visible::after{content:'';position:absolute;left:40%;right:40%;top:-1px;height:3px;border-radius:2px;background:var(--accent)}
 .wb-input-grid {
   display: flex;
   gap: 10px;

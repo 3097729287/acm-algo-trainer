@@ -190,6 +190,9 @@ class LeaderboardClient:
         self.retry_timer = None
         self.last_public_progress = None
         self.avatar_cache = {}
+        self.avatar_cache_at = {}
+        self.board_refreshing = set()
+        self.board_refresh_attempted = {}
 
     def _request(self, profile, method, path, data=None, *, timeout=None):
         if self.closed or getattr(self.training,'closed',False):
@@ -362,6 +365,27 @@ class LeaderboardClient:
                         self.retry_timer.daemon = True
                         self.retry_timer.start()
 
+    def _refresh_board(self, period):
+        started=time.monotonic()
+        started_date=self.training._now().astimezone(SHANGHAI).date().isoformat()
+        try:
+            profile=self._local('_ranking_profile')
+            if self.closed or not profile.get('endpoint') or not profile.get('auth_token'):return
+            value=self._request(profile,'GET','/v1/leaderboard?'+urlencode({'period':period}))
+            if value.get('period')!=period or not isinstance(value.get('entries'),list):return
+            current=self._local('_ranking_profile')
+            if any(current.get(key)!=profile.get(key) for key in ('endpoint','user_id','auth_token')):return
+            date=self.training._now().astimezone(SHANGHAI).date().isoformat()
+            if date!=started_date:return
+            with self.lock:
+                previous=self.cache.get(period)
+                if not self.closed and (not previous or previous[0]<=started):
+                    self.cache[period]=(time.monotonic(),value,date)
+        except Exception:
+            logging.getLogger('tb.ranking').debug('Board metadata refresh deferred')
+        finally:
+            with self.lock:self.board_refreshing.discard(period)
+
     def rankings(self, period="daily"):
         from training import ServiceError
         if period not in {"daily", "weekly", "total"}:
@@ -375,8 +399,22 @@ class LeaderboardClient:
         if state["configured"] and (cached is None or time.monotonic() - cached[0] > 60):
             self.queue_sync()
             state = self.snapshot()
+        # Profile hashes must not wait for the next upload/reward sync. Poll
+        # only the small board metadata; cached portrait bytes stay untouched.
+        refresh=False
+        with self.lock:
+            now=time.monotonic()
+            if (state['configured'] and cached and now-cached[0]>8 and not self.closed
+                    and period not in self.board_refreshing and now-self.board_refresh_attempted.get(period,float('-inf'))>=8):
+                self.board_refreshing.add(period);self.board_refresh_attempted[period]=now;refresh=True
+        if refresh:threading.Thread(target=self._refresh_board,args=(period,),name='TB-board-profile',daemon=True).start()
+        with self.lock:
+            latest=self.cache.get(period)
+            if latest and latest[2]==date and (not cached or latest[0]>cached[0]):cached=latest
         value = dict(cached[1]) if cached else {"period": period, "date": date, "entries": [], "self": None}
         value.update(state)
+        with self.lock:
+            if period in self.board_refreshing and value.get('status') not in ('error','offline'):value['status']='syncing'
         value['hasSnapshot'] = cached is not None
         value['isAdmin'] = False  # User edition never exposes management authority.
         return value
@@ -391,7 +429,7 @@ class LeaderboardClient:
             raise ServiceError(401, '请先登录账号')
         key = (profile['endpoint'], profile['user_id'], profile['auth_token'], user_id, expected_hash)
         with self.lock:
-            if key in self.avatar_cache:
+            if key in self.avatar_cache and time.monotonic()-self.avatar_cache_at.get(key,0)<15:
                 return dict(self.avatar_cache[key])
         try:
             value = self._request(profile, 'GET', '/v1/avatars/' + user_id)
@@ -401,18 +439,21 @@ class LeaderboardClient:
         digest = hashlib.sha256(value['avatarData'].encode()).hexdigest() if value['avatarData'] else None
         if value.get('avatarHash') != digest:
             raise ServiceError(502, '头像校验失败')
-        # A changed/deleted avatar is fetched under its new board hash next time.
+        # The board can still contain the old hash. Revalidate it periodically
+        # so a changed/deleted portrait does not depend on a score refresh.
         value = {'avatarData': value['avatarData'], 'avatarHash': digest}
         current = self.training._ranking_profile()
-        if (current.get('user_id'), current.get('auth_token')) != (profile['user_id'], profile['auth_token']):
+        if any(current.get(name)!=profile.get(name) for name in ('endpoint','user_id','auth_token')):
             raise ServiceError(401, '账号已切换')
-        if digest == expected_hash:
-            with self.lock:
-                if len(self.avatar_cache) >= 100:
-                    self.avatar_cache.pop(next(iter(self.avatar_cache)))
-                self.avatar_cache[key] = value
-                while sum(len(item['avatarData']) for item in self.avatar_cache.values())>32*1024*1024:
-                    self.avatar_cache.pop(next(iter(self.avatar_cache)))
+        with self.lock:
+            for old in list(self.avatar_cache):
+                if old[:4]==key[:4] and old[-1]!=digest:self.avatar_cache.pop(old)
+            if digest is not None:
+                current_key=(*key[:4],digest)
+                if len(self.avatar_cache)>=100:self.avatar_cache.pop(next(iter(self.avatar_cache)))
+                self.avatar_cache[current_key]=value;self.avatar_cache_at[current_key]=time.monotonic()
+            while sum(len(item['avatarData']) for item in self.avatar_cache.values())>32*1024*1024:self.avatar_cache.pop(next(iter(self.avatar_cache)))
+            self.avatar_cache_at={item:self.avatar_cache_at[item] for item in self.avatar_cache if item in self.avatar_cache_at}
         return dict(value)
 
     def admin_delete(self, body):

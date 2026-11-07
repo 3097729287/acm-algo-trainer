@@ -2151,7 +2151,7 @@ export default function App() {
           }
         }}
       />}
-      <Suspense fallback={<div className="reader-content" role="status"><LoaderCircle className="spin" size={20}/></div>}><SolutionReader key={readerId} reader={reader} error={readerError} api={api} methodId={readerMethod} onMethodChange={setReaderMethod} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} fullscreen={readerFull} onFullscreen={()=>setReaderFull(!readerFull)} onClose={()=>{readerSeq.current++;setReaderId(null);setReader(null);setReaderFull(false);focusList();}}/></Suspense>
+      <Suspense fallback={<div className="reader-content" role="status"><LoaderCircle className="spin" size={20}/></div>}><SolutionReader key={readerId} problemId={readerId} reader={reader} error={readerError} api={api} methodId={readerMethod} onMethodChange={setReaderMethod} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} fullscreen={readerFull} onFullscreen={()=>setReaderFull(!readerFull)} onClose={()=>{readerSeq.current++;setReaderId(null);setReader(null);setReaderFull(false);focusList();}}/></Suspense>
     </ReaderFrame>
   );
   const beforeTodayAc = insights?.summary?.beforeTodaySolved ?? Math.max(summary.beforeTodayAccepted || 0, (insights?.summary?.totalSolved ?? summary.historicalAccepted ?? 0) - (summary.todayAccepted || 0));

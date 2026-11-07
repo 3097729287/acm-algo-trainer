@@ -14,12 +14,20 @@ export function installReadingZoom(doc=document){
     const group=node.closest?.('.study-group-header');
     const toolbar=zone==='bookmarks'?group:root?.querySelector('.wb-editor-header,.wiki-reader-toolbar,.lectures-detail-bar,.template-heading,.lab-course-header,.solution-reader-header');
     const shown=toolbar&&win.getComputedStyle(toolbar).visibility!=='hidden'&&toolbar.getBoundingClientRect().height>0;
-    const bounds=(shown?toolbar:root||group||node).getBoundingClientRect(),actions=shown&&toolbar.querySelector('.wb-editor-actions');
+    const bounds=(shown?toolbar:root||group||node).getBoundingClientRect();
     if(!toast){toast=doc.createElement('output');toast.className='reading-zoom-toast';toast.setAttribute('role','status');toast.setAttribute('aria-label','缩放比例');doc.body.append(toast);}
     clearTimeout(toastTimer);clearTimeout(removeTimer);toast.classList.remove('is-fading');
     toast.textContent=percentage+'%';toast.dataset.zone=zone;
-    const right=actions?actions.getBoundingClientRect().left-8:Math.min(win.innerWidth-12,bounds.right-12);
-    toast.style.left=Math.max(64,right)+'px';toast.style.top=Math.max(4,bounds.top+(shown?bounds.height/2-13:6))+'px';
+    toast.classList.toggle('is-inline',Boolean(shown));
+    if(shown){
+      const actions=toolbar.querySelector('.wb-editor-actions')||[...toolbar.children].find((child,index)=>index>0&&child.matches('a,button')&&!child.matches('.wiki-origin-back,.wb-back-button'));
+      toolbar.insertBefore(toast,actions||null);
+      let zoom=1;for(let parent=toolbar;parent;parent=parent.parentElement)zoom*=parseFloat(win.getComputedStyle(parent).zoom)||1;
+      toast.style.zoom=String(1/zoom);toast.style.left='';toast.style.top='';
+    }else{
+      doc.body.append(toast);toast.style.zoom='';
+      toast.style.left=Math.max(64,Math.min(win.innerWidth-12,bounds.right-12))+'px';toast.style.top=Math.max(4,bounds.top+6)+'px';
+    }
     toastTimer=setTimeout(()=>{toast?.classList.add('is-fading');removeTimer=setTimeout(()=>{toast?.remove();toast=null;},160);},1100);
   };
   const owner=()=>doc.defaultView.__tbAccountUserId||'local';

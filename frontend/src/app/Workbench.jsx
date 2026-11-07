@@ -281,6 +281,26 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const [pollError, setPollError] = useState('');
   const [consoleOpen, setConsoleOpen] = useStudyState('Workbench.consoleOpen',true);
   const [consoleTab, setConsoleTab] = useStudyState('Workbench.consoleTab','input');
+  const [consoleHeight,setConsoleHeight]=useStudyState('Workbench.consoleHeight',null);
+  const codePaneRef=useRef(null),consoleMetrics=useRef(null);
+  const [consoleBounds,setConsoleBounds]=useState({min:0,max:100,default:30});
+  useEffect(()=>{
+    const node=codePaneRef.current;if(!node)return;
+    const measure=()=>{
+      const rect=node.getBoundingClientRect();if(!rect.height||!rect.width)return;
+      const scale=rect.height/node.clientHeight;
+      const height=selector=>node.querySelector(selector)?.getBoundingClientRect().height||0;
+      const controls=height('.wb-run-toolbar')+height('.wb-console-tabs');
+      const maximum=Math.max(0,rect.height-height('.wb-editor-header')-controls-120*scale-1);
+      const minimum=Math.min(125*scale,maximum),normal=Math.max(minimum,Math.min(225*scale,rect.height*(narrow?.45:.38),maximum));
+      consoleMetrics.current={rect,controls,minimum,maximum,normal};
+      const next={min:minimum/rect.height*100,max:maximum/rect.height*100,default:normal/rect.height*100};
+      setConsoleBounds(old=>Object.keys(next).every(key=>Math.abs(old[key]-next[key])<.05)?old:next);
+    };
+    const observer=new ResizeObserver(measure);observer.observe(node);
+    for(const child of node.querySelectorAll('.wb-editor-header,.wb-run-toolbar,.wb-console-tabs'))observer.observe(child);
+    measure();return()=>observer.disconnect();
+  },[narrow]);
   const [sample, setSample] = useStudyState('Workbench.sample','custom');
   const [input, setInput] = useState('');
   const [restoreAvailable, setRestoreAvailable] = useState(false);
@@ -915,6 +935,23 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     const stop=()=>{handle.removeEventListener('pointermove',move);handle.removeEventListener('pointerup',stop);handle.removeEventListener('pointercancel',stop);handle.removeEventListener('lostpointercapture',stop);dragCleanup.current=null;};
     handle.addEventListener('pointermove',move);handle.addEventListener('pointerup',stop);handle.addEventListener('pointercancel',stop);handle.addEventListener('lostpointercapture',stop);dragCleanup.current=stop;
   };
+  const adjustConsole=value=>{setConsoleOpen(true);setConsoleHeight(value===null?null:Math.max(consoleBounds.min,Math.min(consoleBounds.max,value)));};
+  const startConsoleResize=event=>{
+    if(event.button!==0||!consoleMetrics.current)return;event.preventDefault();event.stopPropagation();dragCleanup.current?.();
+    const handle=event.currentTarget,metrics=consoleMetrics.current;handle.focus();handle.setPointerCapture(event.pointerId);
+    let snapped=consoleHeight===null;
+    const move=next=>{
+      const wanted=metrics.rect.bottom-next.clientY-metrics.controls;
+      snapped=Math.abs(wanted-metrics.normal)<=(snapped?28:16);
+      adjustConsole(snapped?null:wanted/metrics.rect.height*100);
+    };
+    const stop=()=>{for(const name of ['pointermove','pointerup','pointercancel','lostpointercapture'])handle.removeEventListener(name,name==='pointermove'?move:stop);if(handle.hasPointerCapture(event.pointerId))handle.releasePointerCapture(event.pointerId);dragCleanup.current=null;};
+    handle.addEventListener('pointermove',move);for(const name of ['pointerup','pointercancel','lostpointercapture'])handle.addEventListener(name,stop);dragCleanup.current=stop;
+  };
+  const consoleResizeKeys=event=>{
+    if(event.key==='Home'){event.preventDefault();event.stopPropagation();adjustConsole(null);}
+    else if(['ArrowUp','ArrowDown','End'].includes(event.key)){event.preventDefault();event.stopPropagation();const value=consoleHeight??consoleBounds.default;adjustConsole(event.key==='End'?consoleBounds.max:value+(event.key==='ArrowUp'?1:-1)*(event.shiftKey?6:2));}
+  };
   const toggleStatementLanguage=()=>{if(activeRecord.current)activeRecord.current.languageChoice=language==='zh'?'original':'zh';if(language==='zh'){setLanguage('original');setTranslationError('');}else translateStatement();};
   const displayTranslation=translation&&activeRecord.current?.translatedSource===statementSource(problem)?translation:null;
   const copyStatement=async()=>{
@@ -1000,11 +1037,12 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
 
       {!narrow&&pane==='both'&&<div className="wb-splitter" role="separator" aria-label="调整题面与代码宽度" aria-orientation="vertical" tabIndex={0} aria-valuemin={Math.round(splitBounds[0])} aria-valuemax={Math.round(splitBounds[1])} aria-valuenow={Math.round(splitRatio)} aria-valuetext={`题面 ${Math.round(splitRatio)}%，代码 ${Math.round(100-splitRatio)}%`} onPointerDown={startSplit} onKeyDown={event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();adjustSplit(event.key==='Home'?splitBounds[0]:event.key==='End'?splitBounds[1]:splitRatio+(event.key==='ArrowRight'?1:-1)*(event.shiftKey?10:2));}}/>}
 
-      <div className="wb-code-pane">
+      <div className="wb-code-pane" ref={codePaneRef} data-console-resized={consoleHeight!==null||undefined} style={consoleHeight===null?undefined:{'--wb-console-height':Math.max(consoleBounds.min,Math.min(consoleBounds.max,Number(consoleHeight)||0))+'%'}}>
         {narrow&&editorHeader}
         <div className="wb-editor">
           <CodeEditor shortcuts={shortcuts} ref={editorRef} value={code} docKey={contextKey} onChange={updateCode} onCursorChange={setCursor} onCommand={editorCommand} onLeave={() => consoleButtonRef.current?.focus()} readOnly={unavailable} disabled={loading || !problem} language={codeLanguage} ariaLabel={codeLanguage==='python3'?'Python 代码':'C++ 代码'} />
         </div>
+        <div className="wb-console-splitter" role="separator" aria-label="调整运行区与代码高度" aria-orientation="horizontal" aria-valuemin={Math.round(consoleBounds.min)} aria-valuemax={Math.round(consoleBounds.max)} aria-valuenow={Math.round(consoleHeight??consoleBounds.default)} aria-valuetext={`运行内容高度 ${Math.round(consoleHeight??consoleBounds.default)}%`} tabIndex={0} title="拖动调整运行区高度；双击复位" onPointerDown={startConsoleResize} onDoubleClick={()=>adjustConsole(null)} onKeyDown={consoleResizeKeys}/>
         <div className="wb-run-toolbar">
           <div className="wb-input-modes" role="group" aria-label="运行输入">
             <button type="button" aria-pressed={sample==='samples'} disabled={loading||!problem||!samples.length} onClick={()=>selectSample('samples')}>官方样例</button>

@@ -12,12 +12,13 @@ import logging
 import os
 from pathlib import Path
 import re
+import ssl
 import tempfile
 import threading
 import time
 from urllib.error import HTTPError
 from urllib.parse import quote,urlsplit
-from urllib.request import Request,build_opener,HTTPRedirectHandler
+from urllib.request import Request,build_opener,HTTPRedirectHandler,ProxyHandler
 import public_platforms as P
 
 from version import VERSION
@@ -130,6 +131,28 @@ class PublicClient:
     def __init__(self,state_dir,stop=None,transport=None,spacing=2):
         self.directory=Path(state_dir)/'http';self.stop=stop or threading.Event();self.transport=transport;self.spacing=spacing
         self.lock=threading.RLock();self.pacing={};self.backoff={};self.request_locks={};self.opener=build_opener(_Redirect())
+    def _read_bytes(self,url,headers):
+        from urllib.error import URLError
+        from http.client import IncompleteRead
+        transient=(ssl.SSLEOFError,ConnectionResetError,TimeoutError,IncompleteRead)
+        for attempt in range(3):
+            try:
+                if self.transport:return self.transport(url,headers)
+                opener=self.opener
+                if attempt==2 and urlsplit(url).hostname=='atcoder.jp':
+                    opener=build_opener(ProxyHandler({}),_Redirect())
+                with opener.open(Request(quote(url,safe=":/?#[]@!$&'()*+,;=%"),headers=headers,method='GET'),timeout=8) as response:
+                    safe_url(response.url)
+                    return response.read(32*1024*1024+1),response.headers.get('ETag')
+            except (OSError,IncompleteRead) as issue:
+                reason=issue.reason if isinstance(issue,URLError) else issue
+                # Only a dropped anonymous GET is retried. Access denials,
+                # certificate failures and rate limits retain normal backoff.
+                if urlsplit(url).hostname!='atcoder.jp' or not isinstance(reason,transient) or attempt==2:
+                    if isinstance(issue,IncompleteRead):raise RuntimeError('原站公开响应传输中断') from issue
+                    raise
+                if self.stop.wait(max(1,self.spacing)*(attempt+1)):raise RuntimeError('同步已停止')
+
     def _get(self,url,headers=None,public_fields=None,owner_filter=None,max_age=300,binary=False):
         safe_url(url);host=urlsplit(url).hostname
         cache_key=url+('\0contest-metadata' if public_fields else '')
@@ -152,10 +175,7 @@ class PublicClient:
             if headers:request_headers.update(headers)
             if saved.get('etag'):request_headers['If-None-Match']=saved['etag']
             try:
-                if self.transport:body,etag=self.transport(url,request_headers)
-                else:
-                    with self.opener.open(Request(quote(url,safe=":/?#[]@!$&'()*+,;=%"),headers=request_headers,method='GET'),timeout=8) as response:
-                        safe_url(response.url);body=response.read(32*1024*1024+1);etag=response.headers.get('ETag')
+                body,etag=self._read_bytes(url,request_headers)
                 if len(body)>32*1024*1024:raise ValueError('公开响应超过大小限制')
                 text=base64.b64encode(body).decode('ascii') if binary else body.decode('utf-8','replace')
                 if owner_filter:text=json.dumps(owner_filter[1](json.loads(text)),ensure_ascii=False)
