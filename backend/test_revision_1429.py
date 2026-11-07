@@ -45,15 +45,16 @@ class RevisionTests(unittest.TestCase):
             with self.assertRaises(ServiceError):calendar.ongoing('nowcoder:999')
             calendar.close()
 
-    def test_real_partial_or_unverified_rosters_are_hidden_without_removing_tasks(self):
+    def test_real_partial_or_unverified_rosters_remain_visible_without_removing_tasks(self):
         from contest_rules import event_info
         for row in self.library.rows:row.update(catalogContentReady=True,contestProblemCount=9)
         self.assertFalse(event_info('fixture',self.library.rows)['complete'])
-        self.assertEqual(self.service.replay_events()['events'],[])
+        partial=self.service.replay_events()['events'][0]
+        self.assertFalse(partial['complete']);self.assertEqual((partial['count'],partial['expectedCount']),(8,9))
         self.assertEqual(len(self.library.rows),8)
         for row in self.library.rows:row['contestProblemCount']=8
         self.assertEqual(len(self.service.replay_events()['events']),1)
         self.library.rows[0]['catalogContentReady']=False
-        self.assertEqual(self.service.replay_events()['events'],[])
+        self.assertFalse(self.service.replay_events()['events'][0]['complete'])
 
 if __name__=='__main__':unittest.main()

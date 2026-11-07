@@ -1,0 +1,80 @@
+[
+  {
+    "id": "remote:codeforces:102992::F",
+    "url": "https://codeforces.com/gym/102992/problem/F",
+    "status": "original-pdf-readable-chinese-withheld",
+    "error": "Translation failed completeness or immutable-span validation"
+  },
+  {
+    "id": "remote:codeforces:103119::E",
+    "url": "https://codeforces.com/gym/103119/problem/E",
+    "status": "original-pdf-readable-chinese-withheld",
+    "error": "Translation failed completeness or immutable-span validation"
+  },
+  {
+    "id": "remote:codeforces:103202::A",
+    "url": "https://codeforces.com/gym/103202/problem/A",
+    "status": "original-pdf-readable-chinese-withheld",
+    "error": "Translation failed completeness or immutable-span validation"
+  },
+  {
+    "id": "remote:codeforces:103202::C",
+    "url": "https://codeforces.com/gym/103202/problem/C",
+    "status": "original-pdf-readable-chinese-withheld",
+    "error": "Translation failed completeness or immutable-span validation"
+  },
+  {
+    "id": "remote:codeforces:103202::E",
+    "url": "https://codeforces.com/gym/103202/problem/E",
+    "status": "original-pdf-readable-chinese-withheld",
+    "error": "Translation failed completeness or immutable-span validation"
+  },
+  {
+    "id": "remote:codeforces:103202::K",
+    "url": "https://codeforces.com/gym/103202/problem/K",
+    "status": "original-pdf-readable-chinese-withheld",
+    "error": "Translation failed completeness or immutable-span validation"
+  },
+  {
+    "id": "remote:codeforces:104172::G",
+    "url": "https://codeforces.com/gym/104172/problem/G",
+    "status": "original-pdf-readable-chinese-withheld",
+    "error": "Translation failed completeness or immutable-span validation"
+  },
+  {
+    "id": "remote:codeforces:104385::L",
+    "url": "https://codeforces.com/gym/104385/problem/L",
+    "status": "original-pdf-readable-chinese-withheld",
+    "error": "Translation failed completeness or immutable-span validation"
+  },
+  {
+    "id": "remote:codeforces:104857::L",
+    "url": "https://codeforces.com/gym/104857/problem/L",
+    "status": "original-pdf-readable-chinese-withheld",
+    "error": "Translation failed completeness or immutable-span validation"
+  },
+  {
+    "id": "remote:codeforces:104891::A",
+    "url": "https://codeforces.com/gym/104891/problem/A",
+    "status": "original-pdf-readable-chinese-withheld",
+    "error": "译文改变了公式或代码标记，已拒绝缓存；原题面保持不变"
+  },
+  {
+    "id": "remote:codeforces:104976::D",
+    "url": "https://codeforces.com/gym/104976/problem/D",
+    "status": "original-pdf-readable-chinese-withheld",
+    "error": "Translation failed completeness or immutable-span validation"
+  },
+  {
+    "id": "remote:codeforces:105471::N",
+    "url": "https://codeforces.com/gym/105471/problem/N",
+    "status": "original-pdf-readable-chinese-withheld",
+    "error": "服务仍保留了未翻译的英文正文或省略了正文，已拒绝将其显示为中文；请重试或更换模型"
+  },
+  {
+    "id": "remote:codeforces:106161::I",
+    "url": "https://codeforces.com/gym/106161/problem/I",
+    "status": "original-pdf-readable-chinese-withheld",
+    "error": "Translation failed completeness or immutable-span validation"
+  }
+]

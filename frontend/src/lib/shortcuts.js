@@ -6,6 +6,7 @@ export const SHORTCUTS=[
  ['run','自测运行','Ctrl+R','编辑器'],['submit','提交','Ctrl+Enter','编辑器'],['official','原站提交','Ctrl+Shift+Enter','编辑器'],['save','格式化代码','Ctrl+S','编辑器'],['pane-0','题面与代码','Alt+0','编辑器'],['pane-1','只看题面','Alt+1','编辑器'],['pane-2','只看代码','Alt+2','编辑器']
 ];
 export const EXTRA_SHORTCUTS=[
+ ['study-toolbar-lock','锁定或解锁学习书签栏','Alt+Shift+T','编辑器'],
  ['learning-summary','任务概览','Ctrl+Shift+P','全局'],
  ['statement-font','调整题面字号','Alt+F','编辑器'],['statement-original','在浏览器打开原题','Alt+O','编辑器'],['code-language','选择编程语言','Alt+G','编辑器'],['workbench-undo','撤销载入代码','Alt+Z','编辑器'],
  ['theme','切换日夜间模式','Ctrl+Shift+L','全局'],['calendar','比赛日历','Ctrl+Shift+C','全局'],['daily-tasks','每日任务','Ctrl+Shift+D','全局'],['achievements','成就','Ctrl+Shift+A','全局'],

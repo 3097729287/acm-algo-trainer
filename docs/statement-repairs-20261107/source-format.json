@@ -1,0 +1,23 @@
+[
+  {
+    "id": "remote:codeforces:104021::E",
+    "url": "https://codeforces.com/gym/104021/problem/E",
+    "sourceSha256": "323d93ea856f5a92c62a1a6333159eb7d03cf343ce0fa4ddcdc9fb28cb7b85da",
+    "before": "\\text{$$$y$$$ is in the subtree of $$$x$$$ and}",
+    "after": "y\\text{ is in the subtree of }x\\text{ and}"
+  },
+  {
+    "id": "remote:nowcoder:12548::C",
+    "url": "https://ac.nowcoder.com/acm/contest/12548/C",
+    "sourceSha256": "40aeaeb3ef268794aba2e9373b5f860862c7a4089e082b8b3d39010ffd609ef0",
+    "before": "$\\textbf{currently no Lord will have more than 15 cities, which means no one $a_i$ will appear more than 15 times in this line.}$",
+    "after": "**currently no Lord will have more than 15 cities, which means no one $a_i$ will appear more than 15 times in this line.**"
+  },
+  {
+    "id": "remote:nowcoder:14055::C",
+    "url": "https://ac.nowcoder.com/acm/contest/14055/C",
+    "sourceSha256": "40aeaeb3ef268794aba2e9373b5f860862c7a4089e082b8b3d39010ffd609ef0",
+    "before": "$\\textbf{currently no Lord will have more than 15 cities, which means no one $a_i$ will appear more than 15 times in this line.}$",
+    "after": "**currently no Lord will have more than 15 cities, which means no one $a_i$ will appear more than 15 times in this line.**"
+  }
+]

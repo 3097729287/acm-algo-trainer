@@ -1,0 +1,114 @@
+[
+  {
+    "id": "luogu-training-CF1017F",
+    "url": "https://www.luogu.com.cn/problem/CF1017F",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "9c0d805cd267b51bd54a98494ea47d17bb5cc436619d5d7ac4e56603ffc75564",
+    "afterSha256": "25159aabc6838866e487f84bbd77e221f18235fe3d32829d2d10b2bbb83fab27"
+  },
+  {
+    "id": "luogu-training-CF1054H",
+    "url": "https://www.luogu.com.cn/problem/CF1054H",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "85666493c5c8cae257fa1d0f7af73a75e6139ea7bb43917c8d637a2095720682",
+    "afterSha256": "94d5b0e568e0d84bd232c0e8ce2e0c47521afc6d74f7a6b0b0fc103579780cbb"
+  },
+  {
+    "id": "luogu-training-CF1089F",
+    "url": "https://www.luogu.com.cn/problem/CF1089F",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "d2cdb8e9c0c5f6ce10e03d13ccb832b09f1c37e6d7dee906c65d01af08cf7465",
+    "afterSha256": "6cec7651835fb0a8cf59b04b05ebb0b797da87af5a51b44f91e8e27fbc50f351"
+  },
+  {
+    "id": "luogu-training-CF1110C",
+    "url": "https://www.luogu.com.cn/problem/CF1110C",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "56aa3ed6d40b748173362cf46dabd4806c7c618f8e48588fb17b5f13bdc78de6",
+    "afterSha256": "d17b68fc6321b5e93de4e9b5a63fe26f438bfdd05418687f6fe8424a75f67b8e"
+  },
+  {
+    "id": "luogu-training-CF1151E",
+    "url": "https://www.luogu.com.cn/problem/CF1151E",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "b28ddbca7ab7a14dc9078a85cd20e95e205f3fa4565ba7b7f088d43c078632b2",
+    "afterSha256": "3a873f11c8ee6bf9e61ee28b6c0d5e3e3079ba0e495f1e3847bf1741a8e74156"
+  },
+  {
+    "id": "luogu-training-CF1204E",
+    "url": "https://www.luogu.com.cn/problem/CF1204E",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "31cfefe65855927214bf5fd10686b5a5b9a61e5ec30c93ec7312594da4999887",
+    "afterSha256": "b03645daa31e9c86731226c813da408a56dd7be18d383922c3545f80539297c6"
+  },
+  {
+    "id": "luogu-training-CF1266D",
+    "url": "https://www.luogu.com.cn/problem/CF1266D",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "265e9f3518bc4c004b5d4761b5a434ebbbfce80c8d0ef5a575ef6bbcd56b9986",
+    "afterSha256": "22486258e5f66de44d56f248f8bab1fa5cabaf58a1d22de2fb5af1356040126f"
+  },
+  {
+    "id": "luogu-training-CF1271E",
+    "url": "https://www.luogu.com.cn/problem/CF1271E",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "1e9050be953cb83c29e80d6a37d70d3a23620081d4d8a5379d31c5fb3d3039bf",
+    "afterSha256": "e8402994e1ee254614d8ccdcaf53f82545de814f8de42eaca8affb731a5039bf"
+  },
+  {
+    "id": "luogu-training-CF1292C",
+    "url": "https://www.luogu.com.cn/problem/CF1292C",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "b5c5bba78cb50324bfa2e6c5874098b485caaf3190717d5baf4e520db54908e0",
+    "afterSha256": "e7a7b680616e515a88e17352b408efc399c1d8e139358950140d9b1d7653793d"
+  },
+  {
+    "id": "luogu-training-CF1580D",
+    "url": "https://www.luogu.com.cn/problem/CF1580D",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "2d0e38412f09fab2bceb1aef904b76c1981cceabfd1fc7deb7ad666d97e9bf96",
+    "afterSha256": "498926c8db726383dc106d16cc087dbd4bccd594b2f56e73712fadda8455498d"
+  },
+  {
+    "id": "luogu-training-CF1776I",
+    "url": "https://www.luogu.com.cn/problem/CF1776I",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "1ff9a480cfd65a49002d8f57d60a6fdb35e0b60c420a7dccbdf66d0d384d0757",
+    "afterSha256": "83d0c4f943c339d2073fab56c6ce9e11fd29248bb37b5b8144c2c4bc240d1829"
+  },
+  {
+    "id": "luogu-training-CF1909I",
+    "url": "https://www.luogu.com.cn/problem/CF1909I",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "5d47da80cffc4f5c2aa042083fda945fb781c8a86d5e44a96b8c951a6ccec0cd",
+    "afterSha256": "0d201b931d6a3cc100e8fbdac1cd90dc1554afff526fca6a920a88c2d38306d7"
+  },
+  {
+    "id": "luogu-training-CF505C",
+    "url": "https://www.luogu.com.cn/problem/CF505C",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "4538e217209f659bbebb05e5d7f40ad1ebed9183b9b2f004a2d91b3cd885a8f8",
+    "afterSha256": "2ceb1d1fb68b09dd80c291f97d7eb45a0d8abfecd1427c6f08414f98756584ce"
+  },
+  {
+    "id": "luogu-training-CF925F",
+    "url": "https://www.luogu.com.cn/problem/CF925F",
+    "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot",
+    "beforeSha256": "2546a3941eed72afe290e96a4bcfe4fe5113609b8dd260529a5730c201a3ed3f",
+    "afterSha256": "20067e1554c554d5d9c2f0a2d705753681647e46e1d3669bb99ab6b99c28969a"
+  },
+  {
+    "id": "nowcoder-global::15666",
+    "url": "https://ac.nowcoder.com/acm/problem/15666",
+    "reason": "Restore missing array column specification in the unchanged piecewise recurrence",
+    "beforeSha256": "b080cb22354545af335063fecf778cc88608f6613f0aef94417945ef35eb4b48",
+    "afterSha256": "65eceaf0c02d1b0e34221a3630cb353622fa06fa73750d3490394ae3166c665c"
+  },
+  {
+    "id": "nowcoder-global::24870",
+    "url": "https://ac.nowcoder.com/acm/problem/24870",
+    "reason": "Escape literal currency dollars; retain all original amounts and prose",
+    "beforeSha256": "4425ad4364ced9e83ed42af375b1544fb22dda591c607e2388a4c110fc8ba348",
+    "afterSha256": "d4867e8472be8f58eb7e8800a556515436275e5200de814d5f6b1ea68c9610fd"
+  }
+]

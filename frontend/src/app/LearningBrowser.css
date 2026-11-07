@@ -27,6 +27,12 @@ html .study-browser .study-search-box>input{flex:1;width:0;min-width:0;height:10
 .study-search-box>.study-icon{width:30px;height:28px;}
 .study-stage{position:relative;z-index:0;display:grid;grid-template-rows:auto minmax(0,1fr);flex:1;min-height:0;min-width:0;overflow:hidden;}
 .study-compact>.study-stage{grid-template-rows:0 minmax(0,1fr);}
+.study-tabs-hidden>.study-stage{grid-template-rows:0 minmax(0,1fr);}
+.study-tabs-hidden .study-group-header{height:0;min-height:0;overflow:hidden;visibility:hidden;border:0;}
+.study-tabs-reveal{position:absolute;inset:0 0 auto;z-index:110;height:7px;padding:0;border:0;background:transparent;}
+/* The compact home/add controls share the workbench toolbar's visibility. */
+.study-compact .study-pane:has(.wb-toolbar-hidden)>.study-single-controls{display:none;}
+.study-compact:has(.study-pane:not([hidden]) .wb-toolbar-hidden) .study-task-previous{display:none;}
 .study-pane{container:workspace / inline-size;position:relative;display:flex;flex-direction:column;grid-row:2;min-height:0;min-width:0;overflow:hidden;background:var(--study-paper);}
 .study-pane[hidden]{display:none!important;}
 .study-pane>.tb-workbench{border:0;}

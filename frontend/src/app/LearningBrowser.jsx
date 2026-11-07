@@ -9,11 +9,14 @@ import {forwardRef,lazy,Suspense,useCallback,useEffect,useImperativeHandle,useLa
 import {createPortal,flushSync} from 'react-dom';
 import {ArrowLeft,ArrowRight,Gift,BookOpen,BookText,ChevronRight,Code2,FlaskConical,FolderClosed,House,LoaderCircle,NotebookTabs,Plus,Search,X} from 'lucide-react';
 import useReadingZoom from '@/lib/readingZoom.js';
+import {matchesShortcut} from '@/lib/shortcuts.js';
+import useWorkbenchToolbar from './useWorkbenchToolbar.js';
 import {StudyPaneContext} from '@/lib/StudyPane.jsx';
 import {activateStudyTab,buildLearningIndex,closeStudyTab,emptyStudyBrowser,learningDirectory,MAX_STUDY_TABS,moveStudyTab,openStudyTab,replaceStudyProblem,replaceStudyContent,resizeStudyGroups,restoreStudyBrowser as restoreTabs,splitStudyTab,STUDY_LABELS,studyGroups,studyKey,studySnapshot,updateStudyDocument} from '@/lib/learningBrowser.js';
 import {foundationLectures,lectureDestination} from '@/lib/algorithmLearning.js';
 import {LAB_CATALOG} from '@/lib/labCatalog.js';
 import InlineTitle from '@/components/InlineTitle.jsx';
+import CollapsibleReadingToolbar from '@/components/CollapsibleReadingToolbar.jsx';
 import './LearningBrowser.css';
 
 const Workbench=lazy(()=>import('./Workbench.jsx'));
@@ -101,7 +104,8 @@ function StudyTab({tab,visible,focused,side,groupId,column,compact,onAdd,patch,f
   :tab.kind==='lecture'&&target?<TemplatesPage api={api} visit={visit.current} initialTemplate={target.templateId} embedded study shortcuts={prefs.shortcuts} onTrain={onTrain} onOpenCourse={id=>onOpen({kind:'lab',id})}/>
   :tab.kind==='lecture'?<LecturesPanel api={api} initialLecture={tab.id} visit={visit.current} prefs={prefs} setPrefs={setPrefs} categories={categories} onTrain={onTrain} onOpenTemplate={id=>onOpen({kind:'template',id})} onOpenLecture={id=>onOpen({kind:'lecture',id})} directoryOpen={tab.visit?.directoryOpen} onDirectoryChange={value=>{visit.current.directoryOpen=value;patch(tab.key,previous=>({...previous,visit:{...previous.visit,directoryOpen:value}}));}} onNextLecture={id=>onOpen({kind:'lecture',id,replaceKey:tab.key,visit:{directoryOpen:visit.current.directoryOpen===true,directoryScrollTop:visit.current.directoryScrollTop||0,readingFull:visit.current.readingFull===true}})} study onError={message=>onNotice?.(message,'error')}/>
   :<StudySolution tab={tab} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} onOpen={onOpen} onPatch={values=>patch(tab.key,previous=>({...previous,...values}))}/>;
- return <section ref={root} role="tabpanel" id={'study-panel-'+tab.key} aria-label={tab.title} data-task-flow={taskNavigation.managed} className={'study-pane study-'+tab.kind} data-study-key={tab.key} data-side={side} data-group-id={groupId} data-group-content={groupId} style={{gridColumn:column}} hidden={!visible} inert={!visible?true:undefined} onPointerDownCapture={stopRestore} onKeyDownCapture={stopRestore} onFocusCapture={()=>focus(tab.key)} onScrollCapture={()=>{if(!restoring.current)record();}}>
+ return <section ref={root} role="tabpanel" id={'study-panel-'+tab.key} aria-label={tab.title} data-task-flow={taskNavigation.managed} className={'study-pane study-'+tab.kind} data-study-key={tab.key} data-side={side} data-group-id={groupId} data-group-content={groupId} style={{gridColumn:column}} hidden={!visible} inert={!visible?true:undefined} onPointerDownCapture={stopRestore} onKeyDownCapture={event=>{stopRestore();if(tab.kind==='problem'&&event.target.closest('.study-inline-solution')&&matchesShortcut(event,'toolbar-lock',prefs.shortcuts)){event.preventDefault();event.stopPropagation();root.current?.querySelector('.tb-workbench')?.dispatchEvent(new Event('tb:toolbar-toggle'));}}} onFocusCapture={()=>focus(tab.key)} onScrollCapture={()=>{if(!restoring.current)record();}}>
+  {tab.kind!=='problem'&&<CollapsibleReadingToolbar root={root} enabled={visible} active={focused} shortcuts={prefs.shortcuts}/>}
   {compact&&<div className="study-single-controls"><button type="button" className="study-icon study-back" aria-label="返回主界面" title="返回主界面 · Esc" onClick={onClose}><House size={18}/></button><button type="button" className="study-icon study-add" aria-label="新建学习标签页" title="新建学习标签页 · Ctrl+T" onClick={()=>onAdd(groupId)}><Plus size={18}/></button></div>}
   {taskNavigation.managed&&tab.kind!=='problem'&&<><button type="button" className="study-icon study-task-previous" aria-label="上一项" disabled={!taskNavigation.previous} onClick={onPrevious}><ArrowLeft size={17}/></button><button type="button" className="study-task-next" disabled={!taskNavigation.next} onClick={onNext}>{taskNavigation.label}<ArrowRight size={15}/></button></>}
   <StudyPaneContext.Provider value={context}><Suspense fallback={loading}>{content}</Suspense></StudyPaneContext.Provider>
@@ -116,6 +120,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
  const [catalog,setCatalog]=useState({templates:[],lectures:[],wiki:[]}),[catalogLoading,setCatalogLoading]=useState(false),[catalogErrors,setCatalogErrors]=useState([]);
  const [mounted,setMounted]=useState(new Set()),[preview,setPreview]=useState(null),[dragging,setDragging]=useState(false),[resizing,setResizing]=useState(null);
  const frame=useRef(null),input=useRef(null),results=useRef(null),drag=useRef(null),resizeSession=useRef(null),catalogOwner=useRef(null),loadedOwner=useRef(null),current=useRef(state),saveRef=useRef(setPrefs),returnFocus=useRef(null),opening=useRef(0);
+ const tabToolbar=useWorkbenchToolbar(frame,Boolean(searching||dragging||resizing!==null),{selector:'.study-group-header,.study-tabs-reveal',enabled:state.open&&Boolean(state.chrome||studyGroups(state).length>1)});
  current.current=state;saveRef.current=setPrefs;
  const saved=prefs.learningPaths?.browserV1;
  useEffect(()=>{
@@ -213,7 +218,8 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
   if(event.key==='Escape'&&document.querySelector('[data-rank-promotion]'))return;
   if(event.defaultPrevented||event.isComposing||document.querySelector('dialog[open],.tb-select-menu,[data-popconfirm]'))return;
   const control=event.ctrlKey||event.metaKey;
-  if(control&&!event.altKey&&event.key.toLowerCase()==='t'){event.preventDefault();startSearch();}
+  if(matchesShortcut(event,'study-toolbar-lock',prefs.shortcuts)){event.preventDefault();event.stopPropagation();tabToolbar.toggle();}
+  else if(control&&!event.altKey&&event.key.toLowerCase()==='t'){event.preventDefault();startSearch();}
   else if(control&&!event.altKey&&event.key.toLowerCase()==='w'){event.preventDefault();if(searching)closeSearch();else close(current.current.focused||current.current.active);}
   else if(control&&event.key==='Tab'){
    event.preventDefault();const value=current.current,group=studyGroups(value).find(group=>group.id===value.focusedGroup);if(!group)return;
@@ -224,7 +230,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
     return event.altKey&&target?moveStudyTab(previous,previous.focused,target.id):splitStudyTab(previous,previous.focused,{targetGroupId:groups[at]?.id,side:direction<0?'left':'right'});
    });
   }else if(event.key==='Escape'&&!event.target.closest?.('input,textarea,select,[contenteditable=true]')){event.preventDefault();if(searching)closeSearch();else hide();}
- };window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);},[state.open,searching,startSearch,close,activate,hide]);
+ };window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);},[state.open,searching,startSearch,close,activate,hide,tabToolbar.toggle,prefs.shortcuts]);
  useEffect(()=>{
   const unknown=state.tabs.filter(tab=>tab.title===STUDY_LABELS[tab.kind]);if(!unknown.length)return;
   setState(previous=>{let changed=false;const tabs=previous.tabs.map(tab=>{const item=index.find(item=>item.key===tab.key)||(tab.kind==='problem'||tab.kind==='solution'?rows.find(row=>row.id===tab.id):tab.kind==='lab'?LAB_CATALOG.find(item=>item.id===tab.id):null);if(item?.title&&item.title!==tab.title){changed=true;return {...tab,title:item.title};}return tab;});return changed?{...previous,tabs}:previous;});
@@ -266,7 +272,8 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
   else if(event.key==='Escape'){event.preventDefault();event.stopPropagation();closeSearch();}
   else if((event.key==='Backspace'&&!query||event.altKey&&event.key==='ArrowLeft')&&listing.path.length){event.preventDefault();goDirectory(listing.path.slice(0,-1));}
  };
- return createPortal(<div ref={frame} className={'study-browser'+(groups.length>1?' study-split':'')+(compact?' study-compact':'')} aria-label="学习内容" data-dragging={dragging||undefined} data-resizing={resizing!==null||undefined} onDragOver={dragOver} onDropCapture={drop} onDragLeave={event=>{if(!frame.current.contains(event.relatedTarget))setPreview(null);}}>
+ return createPortal(<div ref={frame} className={'study-browser'+(groups.length>1?' study-split':'')+(compact?' study-compact':'')+(!compact&&!tabToolbar.shown?' study-tabs-hidden':'')} aria-label="学习内容" data-dragging={dragging||undefined} data-resizing={resizing!==null||undefined} onDragOver={dragOver} onDropCapture={drop} onDragLeave={event=>{if(!frame.current.contains(event.relatedTarget))setPreview(null);}}>
+  {!compact&&!tabToolbar.pinned&&!tabToolbar.shown&&<button type="button" className="study-tabs-reveal" aria-label="显示学习书签栏" onFocus={tabToolbar.reveal} onPointerEnter={tabToolbar.reveal} onClick={tabToolbar.reveal}/>}
   {onPacks&&<button type="button" className="study-pack-button achievement-top-button" aria-label="卡包" title="卡包" onClick={onPacks}><Gift size={18}/></button>}
   <div id="tb-study-continuation" className="study-task-flow"/>
   <main className="study-stage" style={{gridTemplateColumns:groups.map(group=>`minmax(0,${group.weight}fr)`).join(' 1px ')}}>

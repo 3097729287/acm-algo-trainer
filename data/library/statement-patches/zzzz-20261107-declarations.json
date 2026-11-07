@@ -1,0 +1,488 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "Div.2 1113::C",
+      "beforeSha256": "136d25fc22475d026022598eb39bff5587d43ed14a5cab32b3a2ff7ba6060d02",
+      "content": {
+        "attachments": {},
+        "currentSourceMarkdown": "# Maximize the Score\n\nYou are given an array $$$a$$$ of length $$$2n$$$. Each integer from $$$1$$$ to $$$n$$$ occurs exactly twice in $$$a$$$.\n\n\n\nInitially, your score is $$$0$$$.\n\n\n\nYou can repeatedly perform the following operation while $$$a$$$ is non-empty:\n\n\n\n- Choose an integer $$$x$$$ that is present in $$$a$$$.\n\n- Let $$$l$$$ and $$$r$$$ be the indices of the leftmost and rightmost occurrences of $$$x$$$ in the current array, respectively. If $$$x$$$ occurs only once, then $$$l = r$$$.\n\n- Add $$$(r - l + 1)^2$$$ to your score.\n\n- Delete the elements $$$a_l, a_{l + 1}, \\ldots, a_r$$$ from $$$a$$$. The remaining elements are concatenated without changing their order and re-indexed starting from $$$1$$$.\n\n\n\nFind the maximum possible score after making the array empty.\n\n\n\n## Input\n\n\n\nEach test contains multiple test cases. The first line contains the number of test cases $$$t$$$ ($$$1 \\le t \\le 10^4$$$). The description of the test cases follows.\n\n\n\nThe first line of each test case contains a single integer $$$n$$$ ($$$1 \\le n \\le 2 \\cdot 10^5$$$).\n\n\n\nThe second line contains $$$2n$$$ integers $$$a_1, a_2, \\ldots, a_{2n}$$$ ($$$1 \\le a_i \\le n$$$).\n\n\n\nIt is guaranteed that each integer from $$$1$$$ to $$$n$$$ occurs exactly twice in $$$a$$$.\n\n\n\nIt is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.\n\n\n\n## Output\n\n\n\nFor each test case, output a single integer — the maximum possible score.\n\n\n\n## Note\n\n\n\nIn the second test case, one optimal strategy is to choose $$$x = 1$$$ first. This deletes the subarray $$$[1, 2, 1]$$$ and adds $$$3^2 = 9$$$ to the score. The remaining array is $$$[2]$$$; choosing $$$x = 2$$$ adds $$$1$$$. The total score is $$$10$$$.\n\n\n\nIn the third test case, choosing $$$x = 1$$$ deletes the whole array and adds $$$4^2 = 16$$$ to the score.\n\n\n\nIn the fourth test case, choose $$$x = 1$$$ first and then choose $$$x = 2$$$. The total score is $$$2^2 + 4^2 = 20$$$.\n\n\n\nIn the sixth test case, choose $$$x = 2$$$ first. This deletes the subarray $$$[2, 3, 4, 1, 2]$$$ from the middle of the array and adds $$$5^2 = 25$$$ to the score. After deleting this subarray and concatenating the remaining elements, the array becomes $$$[1, 3, 4]$$$. Choosing each of the three remaining values then adds $$$1$$$, so the total score is $$$28$$$.",
+        "id": "Div.2 1113::C",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+          "issues": [],
+          "markdownSha256": "5e65d3174b7a497bfb75bf290ff73fa5effe650485978b7a9aff83cf060c346c",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "fabf492f39ac8822d0b0b4ac786a869554559d930981f822be6202450a573d54",
+              "url": "https://codeforces.com/contest/2248/problem/C"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "##################################################################\n# C. Maximize the Score\n# 来源：https://codeforces.com/contest/2248/problem/C\n##################################################################\n\nTime limit: 2 seconds ｜ Memory limit: 256 megabytes\n\nYou are given an array $a$ of length $2n$. Each integer from $1$ to $n$ occurs exactly twice in $a$.\n\nInitially, your score is $0$.\n\nYou can repeatedly perform the following operation while $a$ is non-empty:\n\n-  Choose an integer $x$ that is present in $a$.\n\n-  Let $l$ and $r$ be the indices of the leftmost and rightmost occurrences of $x$ in the current array, respectively. If $x$ occurs only once, then $l = r$.\n\n-  Add $(r - l + 1)^2$ to your score.\n\n-  Delete the elements $a_l, a_{l + 1}, \\ldots, a_r$ from $a$. The remaining elements are concatenated without changing their order and re-indexed starting from $1$.\n\nFind the maximum possible score after making the array empty.\n\n## Input\n\nEach test contains multiple test cases. The first line contains the number of test cases $t$ ($1 \\le t \\le 10^4$). The description of the test cases follows.\n\nThe first line of each test case contains a single integer $n$ ($1 \\le n \\le 2 \\cdot 10^5$).\n\nThe second line contains $2n$ integers $a_1, a_2, \\ldots, a_{2n}$ ($1 \\le a_i \\le n$).\n\nIt is guaranteed that each integer from $1$ to $n$ occurs exactly twice in $a$.\n\nIt is guaranteed that the sum of $n$ over all test cases does not exceed $2 \\cdot 10^5$.\n\n## Output\n\nFor each test case, output a single integer — the maximum possible score.\n\n## Note\n\nIn the second test case, one optimal strategy is to choose $x = 1$ first. This deletes the subarray $[1, 2, 1]$ and adds $3^2 = 9$ to the score. The remaining array is $[2]$; choosing $x = 2$ adds $1$. The total score is $10$.\n\nIn the third test case, choosing $x = 1$ deletes the whole array and adds $4^2 = 16$ to the score.\n\nIn the fourth test case, choose $x = 1$ first and then choose $x = 2$. The total score is $2^2 + 4^2 = 20$.\n\nIn the sixth test case, choose $x = 2$ first. This deletes the subarray $[2, 3, 4, 1, 2]$ from the middle of the array and adds $5^2 = 25$ to the score. After deleting this subarray and concatenating the remaining elements, the array becomes $[1, 3, 4]$. Choosing each of the three remaining values then adds $1$, so the total score is $28$.\n\n==================================================================\n官方样例\n==================================================================\n\n--- 样例 1 输入 ---\n6\n1\n1 1\n2\n1 2 1 2\n2\n1 2 2 1\n3\n1 1 2 3 3 2\n3\n1 2 3 3 2 1\n4\n1 2 3 4 1 2 3 4\n\n--- 样例 1 输出 ---\n4\n10\n16\n20\n36\n28\n",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "6\n1\n1 1\n2\n1 2 1 2\n2\n1 2 2 1\n3\n1 1 2 3 3 2\n3\n1 2 3 3 2 1\n4\n1 2 3 4 1 2 3 4",
+            "name": "样例 1",
+            "output": "4\n10\n16\n20\n36\n28"
+          }
+        ],
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Maximize the Score",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "##################################################################\n# C. 最大化得分\n# 来源：https://codeforces.com/contest/2248/problem/C\n##################################################################\n\n时间限制：2 秒 ｜ 内存限制：256 兆字节\n\n给定一个长度为 $2n$ 的数组 $a$。从 $1$ 到 $n$ 的每个整数在 $a$ 中恰好出现两次。\n\n初始时，你的得分为 $0$。\n\n当 $a$ 非空时，你可以重复执行以下操作：\n\n-  选择一个存在于 $a$ 中的整数 $x$。\n\n-  设 $l$ 和 $r$ 分别为 $x$ 在当前数组中第一次和最后一次出现的下标。如果 $x$ 只出现一次，则 $l = r$。\n\n-  将 $(r - l + 1)^2$ 加到你的得分中。\n\n-  从 $a$ 中删除元素 $a_l, a_{l + 1}, \\ldots, a_r$。剩余元素保持顺序拼接，并从 $1$ 开始重新编号。\n\n求使数组为空后可能获得的最大得分。\n\n## 输入\n\n每个测试包含多个测试用例。第一行包含测试用例数 $t$（$1 \\le t \\le 10^4$）。测试用例描述如下。\n\n每个测试用例的第一行包含一个整数 $n$（$1 \\le n \\le 2 \\cdot 10^5$）。\n\n第二行包含 $2n$ 个整数 $a_1, a_2, \\ldots, a_{2n}$（$1 \\le a_i \\le n$）。\n\n保证从 $1$ 到 $n$ 的每个整数在 $a$ 中恰好出现两次。\n\n保证所有测试用例中 $n$ 的总和不超过 $2 \\cdot 10^5$。\n\n## 输出\n\n对于每个测试用例，输出一个整数——可能获得的最大得分。\n\n## 说明\n\n在第二个测试用例中，一种最优策略是先选择 $x = 1$。这会删除子数组 $[1, 2, 1]$ 并将 $3^2 = 9$ 加到得分中。剩余数组为 $[2]$；选择 $x = 2$ 会增加 $1$。总得分为 $10$。\n\n在第三个测试用例中，选择 $x = 1$ 会删除整个数组并将 $4^2 = 16$ 加到得分中。\n\n在第四个测试用例中，先选择 $x = 1$，然后选择 $x = 2$。总得分为 $2^2 + 4^2 = 20$。\n\n在第六个测试用例中，先选择 $x = 2$。这会从数组中间删除子数组 $[2, 3, 4, 1, 2]$ 并将 $5^2 = 25$ 加到得分中。删除该子数组并拼接剩余元素后，数组变为 $[1, 3, 4]$。然后选择剩余三个值中的每一个都会增加 $1$，因此总得分为 $28$。\n\n==================================================================\n官方样例\n==================================================================\n\n--- 样例 1 输入 ---\n6\n1\n1 1\n2\n1 2 1 2\n2\n1 2 2 1\n3\n1 1 2 3 3 2\n3\n1 2 3 3 2 1\n4\n1 2 3 4 1 2 3 4\n\n--- 样例 1 输出 ---\n4\n10\n16\n20\n36\n28\n",
+          "provider": "预置中文译文",
+          "sourceHash": "90098b44c68b24f84f950165eab2d87c9e088b8d9403a261cac028b0854f137c",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "translationSourceSnapshot": {
+          "currentSourceHash": "5e65d3174b7a497bfb75bf290ff73fa5effe650485978b7a9aff83cf060c346c",
+          "equivalentFormattingVerified": true,
+          "samplesUnchanged": true,
+          "sourceHash": "90098b44c68b24f84f950165eab2d87c9e088b8d9403a261cac028b0854f137c"
+        },
+        "url": "https://codeforces.com/contest/2248/problem/C"
+      }
+    },
+    {
+      "problem_id": "Div.3 1109::D",
+      "beforeSha256": "125eb10f120747481fe4c5e77b495c1205eb1445ef84dc8567dcdf87fbc3f7c4",
+      "content": {
+        "attachments": {},
+        "currentSourceMarkdown": "# Yaroslav and Productivity\n\nYaroslav's productivity during the day is described by an array $$$a$$$ of length $$$n$$$. His productivity can be negative if he watches short videos, or positive if he works. The *total productivity* is defined as the **sum** of all values in the array.\n\n\n\nSometimes Yaroslav reads motivational posts. He has $$$m$$$ posts, where the $$$j$$$-th post has an impact value $$$b_j$$$. If Yaroslav reads a post with value $$$b_j$$$, then all productivity values from the beginning of the day up to position $$$b_j$$$ change sign, that is, all integers $$$a_1, a_2, a_3, \\dots, a_{b_j}$$$ are multiplied by $$$-1$$$.\n\n\n\nFor example, let $$$a = [1, -4, 3, -4]$$$, and Yaroslav reads a post with value $$$3$$$. Then the signs of the first three elements are flipped, and the array becomes $$$[-1, 4, -3, -4]$$$. If he then reads a post with value $$$1$$$, the first element changes sign again, and the array becomes $$$[1, 4, -3, -4]$$$.\n\n\n\nWhat is the **maximum** possible *total productivity* Yaroslav can achieve by reading any (possibly none) of the posts?\n\n\n\n## Input\n\n\n\nThe first line contains a single integer $$$t$$$ ($$$1 \\le t \\le 10^4$$$) — the number of test cases.\n\n\n\nThe first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le m \\le n \\le 2 \\cdot 10^5$$$) — the number of measurements and the number of motivational posts.\n\n\n\nThe second line of each test case contains $$$n$$$ integers $$$a_i$$$ ($$$-10^9 \\le a_i \\le 10^9$$$) — the productivity values.\n\n\n\nThe third line of each test case contains $$$m$$$ integers $$$b_i$$$ ($$$1 \\le b_i \\le n$$$) — the impact values of the posts. It is guaranteed that all $$$b_i$$$ are distinct.\n\n\n\nIt is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2 \\cdot 10^5$$$.\n\n\n\n## Output\n\n\n\nFor each test case, output a single integer — the maximum possible *total productivity*.",
+        "id": "Div.3 1109::D",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+          "issues": [],
+          "markdownSha256": "cf8cb4908ca7cb904d01b1bc1f00b87322d410016b02f73def9042a5953f43af",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "6d8bb70e4bdfed25fe7108165138896e57288021494ca848be19e91f21124e73",
+              "url": "https://codeforces.com/contest/2244/problem/D"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "##################################################################\n# D. Yaroslav and Productivity\n# 来源：https://codeforces.com/contest/2244/problem/D\n##################################################################\n\nTime limit: 2 seconds ｜ Memory limit: 256 megabytes\n\nYaroslav's productivity during the day is described by an array $a$ of length $n$. His productivity can be negative if he watches short videos, or positive if he works. The *total productivity* is defined as the **sum** of all values in the array.\n\nSometimes Yaroslav reads motivational posts. He has $m$ posts, where the $j$-th post has an impact value $b_j$. If Yaroslav reads a post with value $b_j$, then all productivity values from the beginning of the day up to position $b_j$ change sign, that is, all integers $a_1, a_2, a_3, \\dots, a_{b_j}$ are multiplied by $-1$.\n\nFor example, let $a = [1, -4, 3, -4]$, and Yaroslav reads a post with value $3$. Then the signs of the first three elements are flipped, and the array becomes $[-1, 4, -3, -4]$. If he then reads a post with value $1$, the first element changes sign again, and the array becomes $[1, 4, -3, -4]$.\n\nWhat is the **maximum** possible *total productivity* Yaroslav can achieve by reading any (possibly none) of the posts?\n\n## Input\n\nThe first line contains a single integer $t$ ($1 \\le t \\le 10^4$) — the number of test cases.\n\nThe first line of each test case contains two integers $n$ and $m$ ($1 \\le m \\le n \\le 2 \\cdot 10^5$) — the number of measurements and the number of motivational posts.\n\nThe second line of each test case contains $n$ integers $a_i$ ($-10^9 \\le a_i \\le 10^9$) — the productivity values.\n\nThe third line of each test case contains $m$ integers $b_i$ ($1 \\le b_i \\le n$) — the impact values of the posts. It is guaranteed that all $b_i$ are distinct.\n\nIt is guaranteed that the sum of $n$ over all test cases does not exceed $2 \\cdot 10^5$.\n\n## Output\n\nFor each test case, output a single integer — the maximum possible *total productivity*.\n\n==================================================================\n官方样例\n==================================================================\n\n--- 样例 1 输入 ---\n4\n5 3\n-1 2 -3 4 -5\n1 5 3\n4 2\n3 -1 3 -1\n4 2\n3 1\n-5 -5 -5\n2\n4 3\n3 -1 1 -3\n4 3 2\n\n--- 样例 1 输出 ---\n3\n4\n5\n6\n",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "4\n5 3\n-1 2 -3 4 -5\n1 5 3\n4 2\n3 -1 3 -1\n4 2\n3 1\n-5 -5 -5\n2\n4 3\n3 -1 1 -3\n4 3 2",
+            "name": "样例 1",
+            "output": "3\n4\n5\n6"
+          }
+        ],
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Yaroslav and Productivity",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "##################################################################\n# D. Yaroslav 与生产力\n# 来源：https://codeforces.com/contest/2244/problem/D\n##################################################################\n\n时间限制：2 秒 ｜ 内存限制：256 兆字节\n\nYaroslav 一天中的生产力由一个长度为 $n$ 的数组 $a$ 描述。如果他看短视频，生产力可能为负；如果他工作，生产力可能为正。*总生产力*定义为数组中所有值的**和**。\n\n有时 Yaroslav 会阅读励志帖子。他有 $m$ 篇帖子，其中第 $j$ 篇帖子的影响值为 $b_j$。如果 Yaroslav 阅读了一篇值为 $b_j$ 的帖子，那么从一天开始到位置 $b_j$ 的所有生产力值都会改变符号，也就是说，所有整数 $a_1, a_2, a_3, \\dots, a_{b_j}$ 都乘以 $-1$。\n\n例如，设 $a = [1, -4, 3, -4]$，并且 Yaroslav 阅读了一篇值为 $3$ 的帖子。那么前三个元素的符号会被翻转，数组变为 $[-1, 4, -3, -4]$。如果他随后阅读了一篇值为 $1$ 的帖子，第一个元素再次改变符号，数组变为 $[1, 4, -3, -4]$。\n\n通过阅读任意（可能不读）帖子，Yaroslav 能达到的**最大**可能*总生产力*是多少？\n\n## 输入\n\n第一行包含一个整数 $t$（$1 \\le t \\le 10^4$）——测试用例的数量。\n\n每个测试用例的第一行包含两个整数 $n$ 和 $m$（$1 \\le m \\le n \\le 2 \\cdot 10^5$）——测量值的数量和励志帖子的数量。\n\n每个测试用例的第二行包含 $n$ 个整数 $a_i$（$-10^9 \\le a_i \\le 10^9$）——生产力值。\n\n每个测试用例的第三行包含 $m$ 个整数 $b_i$（$1 \\le b_i \\le n$）——帖子的影响值。保证所有 $b_i$ 互不相同。\n\n保证所有测试用例中 $n$ 的总和不超过 $2 \\cdot 10^5$。\n\n## 输出\n\n对于每个测试用例，输出一个整数——最大可能的*总生产力*。\n\n==================================================================\n官方样例\n==================================================================\n\n--- 样例 1 输入 ---\n4\n5 3\n-1 2 -3 4 -5\n1 5 3\n4 2\n3 -1 3 -1\n4 2\n3 1\n-5 -5 -5\n2\n4 3\n3 -1 1 -3\n4 3 2\n\n--- 样例 1 输出 ---\n3\n4\n5\n6\n",
+          "provider": "预置中文译文",
+          "sourceHash": "596742ffdc92725df61c76a0243b4204679f828dd9eb91f2645b9b9b2a98e4a9",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "translationSourceSnapshot": {
+          "currentSourceHash": "cf8cb4908ca7cb904d01b1bc1f00b87322d410016b02f73def9042a5953f43af",
+          "equivalentFormattingVerified": true,
+          "samplesUnchanged": true,
+          "sourceHash": "596742ffdc92725df61c76a0243b4204679f828dd9eb91f2645b9b9b2a98e4a9"
+        },
+        "url": "https://codeforces.com/contest/2244/problem/D"
+      }
+    },
+    {
+      "problem_id": "remote:atcoder:abc479::B",
+      "beforeSha256": "625e2d6b9d36a553f29977234665707bc0b68e1b2acbd2824be2e06ddb08eda2",
+      "content": {
+        "attachments": {},
+        "id": "remote:atcoder:abc479::B",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+          "issues": [],
+          "markdownSha256": "d1a18d8978d325256669605b02f5094c28f876e54f095119761b32b4270fb379",
+          "pdfPageCountVerified": false,
+          "sampleCount": 3,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "1bb02b0822afcff93b8f87c0d800e334222c42ec562c296b1551ab8a22301bfb",
+              "url": "https://atcoder.jp/contests/abc479/tasks_print?lang=en"
+            },
+            {
+              "sha256": "b0ab7f780fed39d11c11e5e40f2066f5f192a889869b9809f00a8c4ee2ecdfc5",
+              "url": "https://atcoder.jp/contests/abc479/tasks?lang=en"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Longest Rainy Streak\n\nScore : $200$ points\n\n### Problem Statement\n\nTakahashi recorded the weather for $N$ consecutive days, recording each day as \"sunny\" or \"rainy\".\nHis record is given as a string $S$ of length $N$ in the following format.\n\n- The $i$-th character ( $1 \\le i \\le N$ ) of $S$ represents the weather on the $i$-th day from the start of the record.\n- If the $i$-th character of $S$ is `S`, the record for that day was \"sunny\".\n\n- If the $i$-th character of $S$ is `R`, the record for that day was \"rainy\".\n\nFind the maximum number of consecutive days for which Takahashi recorded \"rainy\".\nIf Takahashi never recorded \"rainy\", the answer is $0$.\n\n### Constraints\n\n- $N$ is an integer satisfying $1 \\le N \\le 100$.\n\n- $S$ is a string of length $N$ consisting of `S` and `R`.\n\n### Input\n\nThe input is given from Standard Input in the following format:\n\n```input-format\n$N$\r\n$S$\r\n```\n\n### Output\n\nOutput the answer.\n\n### Sample Input 1\n\n```text\n7\r\nRRSRRRS\r\n```\n\n### Sample Output 1\n\n```text\n3\r\n```\n\nStarting from the first day, Takahashi recorded rainy, rainy, sunny, rainy, rainy, rainy, sunny.\n\"Rainy\" was recorded consecutively on days $4,5,6$, and there is no longer consecutive run of \"rainy\", so the maximum number of consecutive days with \"rainy\" recorded is $3$.\n\n### Sample Input 2\n\n```text\n10\r\nSSSSSSSSSS\r\n```\n\n### Sample Output 2\n\n```text\n0\r\n```\n\nTakahashi never recorded \"rainy\". In this case, the answer is $0$.\n\n### Sample Input 3\n\n```text\n20\r\nRRRSRRRRSSRRRRSRSRRR\r\n```\n\n### Sample Output 3\n\n```text\n4\r\n```",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "explanation": "Starting from the first day, Takahashi recorded rainy, rainy, sunny, rainy, rainy, rainy, sunny.\n\n\"Rainy\" was recorded consecutively on days $4,5,6$, and there is no longer consecutive run of \"rainy\", so the maximum number of consecutive days with \"rainy\" recorded is $3$.",
+            "input": "7\r\nRRSRRRS",
+            "name": "样例 1",
+            "output": "3"
+          },
+          {
+            "explanation": "Takahashi never recorded \"rainy\". In this case, the answer is $0$.",
+            "input": "10\r\nSSSSSSSSSS",
+            "name": "样例 2",
+            "output": "0"
+          },
+          {
+            "input": "20\r\nRRRSRRRRSSRRRRSRSRRR",
+            "name": "样例 3",
+            "output": "4"
+          }
+        ],
+        "sourceBinding": {
+          "letter": "B",
+          "sourceRosterUrl": "https://atcoder.jp/contests/abc479/tasks?lang=en",
+          "sourceUrl": "https://atcoder.jp/contests/abc479/tasks_print?lang=en",
+          "taskId": "abc479_b"
+        },
+        "statementAvailable": true,
+        "statementVersion": 7,
+        "title": "Longest Rainy Streak",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "# 最长连续降雨天数\n\n得分：$200$ 分\n\n### 问题陈述\n\nTakahashi 记录了连续 $N$ 天的天气，将每天记录为“晴天”或“雨天”。\n他的记录以如下格式给出为长度为 $N$ 的字符串 $S$。\n\n- $S$ 的第 $i$ 个字符（$1 \\le i \\le N$）表示从记录开始算起第 $i$ 天的天气。\n- 如果 $S$ 的第 $i$ 个字符是 `S`，则那天的记录为“晴天”。\n\n- 如果 $S$ 的第 $i$ 个字符是 `R`，则那天的记录为“雨天”。\n\n求 Takahashi 记录为“雨天”的最大连续天数。\n如果 Takahashi 从未记录过“雨天”，则答案为 $0$。\n\n### 约束\n\n- $N$ 是满足 $1 \\le N \\le 100$ 的整数。\n\n- $S$ 是由 `S` 和 `R` 组成的长度为 $N$ 的字符串.\n\n### 输入\n\n输入从标准输入按以下格式给出：\n\n```input-format\n$N$\r\n$S$\r\n```\n\n### 输出\n\n输出答案。\n\n### 样例输入 1\n\n```text\n7\r\nRRSRRRS\r\n```\n\n### 样例输出 1\n\n```text\n3\r\n```\n\n从第一天开始，高桥记录了下雨、下雨、晴天、下雨、下雨、下雨、晴天。\n“下雨”在第$4,5,6$天连续被记录，并且不存在更长的连续“下雨”记录，因此记录为“下雨”的最大连续天数是$3$。\n\n### 样例输入 2\n\n```text\n10\r\nSSSSSSSSSS\r\n```\n\n### 样例输出 2\n\n```text\n0\r\n```\n\n高桥从未记录“下雨”。在这种情况下，答案是$0$。\n\n### 样例输入 3\n\n```text\n20\r\nRRRSRRRRSSRRRRSRSRRR\r\n```\n\n### 样例输出 3\n\n```text\n4\r\n```",
+          "notice": "译文保留原题条件、公式与样例；判断以原站题面为准。",
+          "provider": "公开题面机器翻译",
+          "sourceHash": "d1a18d8978d325256669605b02f5094c28f876e54f095119761b32b4270fb379",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "url": "https://atcoder.jp/contests/abc479/tasks/abc479_b"
+      }
+    },
+    {
+      "problem_id": "remote:atcoder:agc007::F",
+      "beforeSha256": "c0481bf8573ff27a4773a38f662304b3ecce54f84b54b24aa998242431ba27e6",
+      "content": {
+        "attachments": {},
+        "id": "remote:atcoder:agc007::F",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+          "issues": [],
+          "markdownSha256": "3abe21ab8d2a7a41f989ece5fbeffc37064c81fc89222a2bd2b5524414c218fa",
+          "pdfPageCountVerified": false,
+          "sampleCount": 4,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "fbacdeb51fdbc4c330ccecae51f7cde902b5e3e88a58ace1d419497b21556644",
+              "url": "https://atcoder.jp/contests/agc007/tasks_print?lang=en"
+            },
+            {
+              "sha256": "1d79df86790103a19f43c50702c2e448d5ade23db25bcc93198d3185b29d898b",
+              "url": "https://atcoder.jp/contests/agc007/tasks?lang=en"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Shik and Copying String\n\nScore : $1500$ points\n\n### Problem Statement\n\nShik's job is very boring. At day $0$, his boss gives him a string $S_0$ of length $N$ which consists of only lowercase English letters. In the $i$-th day after day $0$, Shik's job is to copy the string $S_{i-1}$ to a string $S_i$. We denote the $j$-th letter of $S_i$ as $S_i[j]$.\n\nShik is inexperienced in this job. In each day, when he is copying letters one by one from the first letter to the last letter, he would make mistakes. That is, he sometimes accidentally writes down the same letter that he wrote previously instead of the correct one. More specifically, $S_i[j]$ is equal to either $S_{i-1}[j]$ or $S_{i}[j-1]$. (Note that $S_i[1]$ always equals to $S_{i-1}[1]$.)\n\nYou are given the string $S_0$ and another string $T$. Please determine the smallest integer $i$ such that $S_i$ could be equal to $T$. If no such $i$ exists, please print `-1`.\n\n### Constraints\n\n- $1 \\leq N \\leq 1,000,000$\n\n- The lengths of $S_0$ and $T$ are both $N$.\n\n- Both $S_0$ and $T$ consist of lowercase English letters.\n\n### Input\n\nThe input is given from Standard Input in the following format:\n\n```input-format\n$N$\r\n$S_0$\r\n$T$\r\n```\n\n### Output\n\nPrint the smallest integer $i$ such that $S_i$ could be equal to $T$. If no such $i$ exists, print `-1` instead.\n\n### Sample Input 1\n\n```text\n5\r\nabcde\r\naaacc\r\n```\n\n### Sample Output 1\n\n```text\n2\r\n```\n\n$S_0$ = `abcde`, $S_1$ = `aaccc` and $S_2$ = `aaacc` is a possible sequence such that $S_2 = T$.\n\n### Sample Input 2\n\n```text\n5\r\nabcde\r\nabcde\r\n```\n\n### Sample Output 2\n\n```text\n0\r\n```\n\n### Sample Input 3\n\n```text\n4\r\nacaa\r\naaca\r\n```\n\n### Sample Output 3\n\n```text\n2\r\n```\n\n### Sample Input 4\n\n```text\n5\r\nabcde\r\nbbbbb\r\n```\n\n### Sample Output 4\n\n```text\n-1\r\n```",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "explanation": "$S_0$ = abcde, $S_1$ = aaccc and $S_2$ = aaacc is a possible sequence such that $S_2 = T$.",
+            "input": "5\r\nabcde\r\naaacc",
+            "name": "样例 1",
+            "output": "2"
+          },
+          {
+            "input": "5\r\nabcde\r\nabcde",
+            "name": "样例 2",
+            "output": "0"
+          },
+          {
+            "input": "4\r\nacaa\r\naaca",
+            "name": "样例 3",
+            "output": "2"
+          },
+          {
+            "input": "5\r\nabcde\r\nbbbbb",
+            "name": "样例 4",
+            "output": "-1"
+          }
+        ],
+        "sourceBinding": {
+          "letter": "F",
+          "sourceRosterUrl": "https://atcoder.jp/contests/agc007/tasks?lang=en",
+          "sourceUrl": "https://atcoder.jp/contests/agc007/tasks_print?lang=en",
+          "taskId": "agc007_f"
+        },
+        "statementAvailable": true,
+        "statementVersion": 7,
+        "title": "Shik and Copying String",
+        "url": "https://atcoder.jp/contests/agc007/tasks/agc007_f",
+        "translation": {
+          "kind": "bundled",
+          "format": "complete-prose-v4",
+          "markdown": "# Shik 与抄写字符串\n\n分值：$1500$ 分\n\n### 题目描述\n\nShik 的工作十分无聊。在第 $0$ 天，老板给了他一个长度为 $N$ 的字符串 $S_0$，其中只包含小写英文字母。在此后的第 $i$ 天，即从第 $0$ 天起计数，Shik 的工作是将字符串 $S_{i-1}$ 抄写为字符串 $S_i$。用下标 $j$ 表示 $S_i$ 中的字母位置，记作 $S_i[j]$。\n\nShik 对这份工作还不熟练。每天从首字母到末字母依次抄写时，他都会犯错。有时，他会不小心写下刚才写过的字母，而非正确的字母。具体地，$S_i[j]$ 等于 $S_{i-1}[j]$ 或 $S_{i}[j-1]$ 之一。注意，$S_i[1]$ 始终等于 $S_{i-1}[1]$。\n\n给定字符串 $S_0$ 和另一个字符串 $T$。请确定最小的整数 $i$，使 $S_i$ 有可能等于 $T$。如果不存在这样的 $i$，输出 `-1`。\n\n### 约束\n\n- $1 \\leq N \\leq 1,000,000$\n\n- $S_0$ 和 $T$ 的长度均为 $N$。\n\n- $S_0$ 和 $T$ 均只包含小写英文字母。\n\n### 输入\n\n输入通过标准输入给出，格式如下：\n\n```input-format\n$N$\r\n$S_0$\r\n$T$\r\n```\n\n### 输出\n\n输出最小整数 $i$，使 $S_i$ 有可能等于 $T$。如果不存在这样的 $i$，输出 `-1`。\n\n### 样例输入 1\n\n```text\n5\r\nabcde\r\naaacc\r\n```\n\n### 样例输出 1\n\n```text\n2\r\n```\n\n$S_0$ = `abcde`，$S_1$ = `aaccc`，$S_2$ = `aaacc`，是一种满足 $S_2 = T$ 的可能序列。\n\n### 样例输入 2\n\n```text\n5\r\nabcde\r\nabcde\r\n```\n\n### 样例输出 2\n\n```text\n0\r\n```\n\n### 样例输入 3\n\n```text\n4\r\nacaa\r\naaca\r\n```\n\n### 样例输出 3\n\n```text\n2\r\n```\n\n### 样例输入 4\n\n```text\n5\r\nabcde\r\nbbbbb\r\n```\n\n### 样例输出 4\n\n```text\n-1\r\n```",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "sourceHash": "3abe21ab8d2a7a41f989ece5fbeffc37064c81fc89222a2bd2b5524414c218fa",
+          "provider": "Codex 直接翻译（无外部翻译 API）",
+          "inputKind": "markdown",
+          "notice": "机器翻译仅供理解；原题、公式、代码、样例与资源保留。"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:atcoder:arc223::F",
+      "beforeSha256": "58019508eba0ed6f5a1e8154cfbaac30f1509d1a7b9a2d16392149e55b392709",
+      "content": {
+        "attachments": {},
+        "id": "remote:atcoder:arc223::F",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+          "issues": [],
+          "markdownSha256": "78b524f8f11552f506cea3455f37c16ee5e7cd59dde0240822e3c70acf8d4ab9",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "9dfa42ea7fdf766bcaa46af665546256002b9ff6a2043838e7653b71f2e7aab0",
+              "url": "https://atcoder.jp/contests/arc223/tasks_print?lang=en"
+            },
+            {
+              "sha256": "367f5a217f59d3e4174ee6fe6b6a25920266c4cc1f4acdd2221c18b73cf007fd",
+              "url": "https://atcoder.jp/contests/arc223/tasks?lang=en"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 4000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Zonal Score Maximization\n\nScore : $800$ points\n\n### Problem Statement\n\nDefine the score of a positive integer sequence with length $2$ or more as the sum of its maximum and minimum values.\nFor a positive integer sequence $A$ of length $2$ or more, let $f(A)$ be the maximum possible value of the total score of the contiguous subsequences when $A$ is divided into one or more contiguous subsequences each of length $2$ or more.\nMore formally, for a positive integer $K$, let $f(A)$ be the maximum possible value of $\\sum_{k=1}^{K}\\left(\\max(B_k)+\\min(B_k)\\right)$ when concatenating $K$ positive integer sequences $B_1, B_2, \\dots, B_K$, each of length $2$ or more, in this order yields the same sequence as $A$.\n\nYou are given an integer sequence $Q$ of length $N$ where each element is either an integer between $1$ and $N$ inclusive or $-1$, and a positive integer $X$.\nFind the total number, modulo $998244353$, of permutations $P=(P_1,P_2,\\dots,P_N)$ of $(1,2,\\dots,N)$ satisfying all of the following conditions.\n\n- For $i=1,2,\\dots,N$, if $Q_i \\neq -1$ then $P_i=Q_i$.\n\n- $f(P)=X$\n\nSolve $T$ test cases per input.\n\n### Constraints\n\n- $1 \\leq T \\leq 10^5$\n\n- $2 \\leq N \\leq 10^5$\n\n- $1 \\leq X \\leq 10^{18}$\n\n- $Q_i=-1$ or $1 \\leq Q_i \\leq N$\n\n- If $Q_i \\neq -1$ and $Q_j \\neq -1$, then $Q_i \\neq Q_j\\;(i \\neq j)$.\n\n- The sum of $N$ over all test cases is at most $10^5$.\n\n- All input values are integers.\n\n### Input\n\nThe input is given from Standard Input in the following format:\n\n```input-format\n$T$\n$\\mathrm{case}_1$\n$\\mathrm{case}_2$\n$\\vdots$\n$\\mathrm{case}_T$\n```\n\nEach test case $\\mathrm{case}_t$ is given in the following format:\n\n```input-format\n$N$ $X$  \n$Q_1$ $Q_2$ $\\dots$ $Q_N$  \n```\n\n### Output\n\nOutput the answers over a total of $T$ lines. The $t$-th line should contain the answer for the $t$-th test case.\n\n### Sample Input 1\n\n```text\n3\n3 4\n2 -1 -1\n4 10\n1 3 4 2\n9 42\n-1 -1 -1 -1 -1 -1 -1 -1 -1\n```\n\n### Sample Output 1\n\n```text\n2\n1\n155520\n```\n\nFor the first test case, the permutations $P$ satisfying the first condition are these two: $(2,1,3)$ and $(2,3,1)$. In either case, the only way to divide $P$ into contiguous subsequences each of length $2$ or more is to take $P$ itself as a single contiguous subsequence. The total score in that case is $3+1=4$, so $f(P)=4$.\nFor the second test case, dividing $P=(1,3,4,2)$ into $(1,3)$ and $(4,2)$ gives a total score of $10$, which cannot be exceeded, so $f(P)=10$.",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "explanation": "For the first test case, the permutations $P$ satisfying the first condition are these two: $(2,1,3)$ and $(2,3,1)$.\nIn either case, the only way to divide $P$ into contiguous subsequences each of length $2$ or more is to take $P$ itself as a single contiguous subsequence. The total score in that case is $3+1=4$, so $f(P)=4$.\n\nFor the second test case, dividing $P=(1,3,4,2)$ into $(1,3)$ and $(4,2)$ gives a total score of $10$, which cannot be exceeded, so $f(P)=10$.",
+            "input": "3\n3 4\n2 -1 -1\n4 10\n1 3 4 2\n9 42\n-1 -1 -1 -1 -1 -1 -1 -1 -1",
+            "name": "样例 1",
+            "output": "2\n1\n155520"
+          }
+        ],
+        "sourceBinding": {
+          "letter": "F",
+          "sourceRosterUrl": "https://atcoder.jp/contests/arc223/tasks?lang=en",
+          "sourceUrl": "https://atcoder.jp/contests/arc223/tasks_print?lang=en",
+          "taskId": "arc223_f"
+        },
+        "statementAvailable": true,
+        "statementVersion": 7,
+        "title": "Zonal Score Maximization",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "# 区域得分最大化\n\n得分：$800$分\n\n### 问题陈述\n\n将长度至少为$2$的正整数序列的得分定义为其最大值与最小值之和。\n对于长度至少为$A$的正整数序列$2$，令$f(A)$为将$A$划分为一个或多个长度均至少为$2$的连续子序列时，这些连续子序列的总得分的最大可能值。\n更形式化地，对于正整数$K$，令$f(A)$为按此顺序连接$\\sum_{k=1}^{K}\\left(\\max(B_k)+\\min(B_k)\\right)$个长度均至少为$K$的正整数序列$B_1, B_2, \\dots, B_K$，且所得序列与$2$相同时，$A$的最大可能值。\n\n给定一个长度为$N$的整数序列$Q$，其中每个元素要么是$1$到$N$之间（含端点）的整数，要么是$-1$，并给定一个正整数$X$。\n求$998244353$的排列$P=(P_1,P_2,\\dots,P_N)$中，满足以下所有条件的排列总数对$(1,2,\\dots,N)$取模后的值。\n\n- 对于$i=1,2,\\dots,N$，如果$Q_i \\neq -1$，则$P_i=Q_i$.\n\n- $f(P)=X$\n\n每个输入解决 $T$ 个测试用例。\n\n### 约束\n\n- $1 \\leq T \\leq 10^5$\n\n- $2 \\leq N \\leq 10^5$\n\n- $1 \\leq X \\leq 10^{18}$\n\n- $Q_i=-1$ 或 $1 \\leq Q_i \\leq N$\n\n- 如果 $Q_i \\neq -1$ 且 $Q_j \\neq -1$，则 $Q_i \\neq Q_j\\;(i \\neq j)$。\n\n- 所有测试用例中 $N$ 的总和至多为 $10^5$。\n\n- 所有输入值均为整数。\n\n### 输入\n\n输入按以下格式从标准输入给出：\n\n```input-format\n$T$\n$\\mathrm{case}_1$\n$\\mathrm{case}_2$\n$\\vdots$\n$\\mathrm{case}_T$\n```\n\n每个测试用例 $\\mathrm{case}_t$ 按以下格式给出：\n\n```input-format\n$N$ $X$  \n$Q_1$ $Q_2$ $\\dots$ $Q_N$  \n```\n\n### 输出\n\n在总共 $T$ 行中输出答案。第 $t$ 行应包含第 $t$ 个测试用例的答案。\n\n### 样例输入 1\n\n```text\n3\n3 4\n2 -1 -1\n4 10\n1 3 4 2\n9 42\n-1 -1 -1 -1 -1 -1 -1 -1 -1\n```\n\n### 样例输出 1\n\n```text\n2\n1\n155520\n```\n\n对于第一个测试用例，满足第一个条件的排列 $P$ 有这两个：$(2,1,3)$ 和 $(2,3,1)$。在任一情况下，将 $P$ 划分为每个长度至少为 $2$ 的连续子序列的唯一方法是将 $P$ 本身作为一个连续子序列。此时的总分为 $3+1=4$，因此 $f(P)=4$。\n对于第二个测试用例，将 $P=(1,3,4,2)$ 划分为 $(1,3)$ 和 $(4,2)$ 得到的总分为 $10$，这无法被超过，因此 $f(P)=10$。",
+          "notice": "译文保留原题条件、公式与样例；判断以原站题面为准。",
+          "provider": "公开题面机器翻译",
+          "sourceHash": "78b524f8f11552f506cea3455f37c16ee5e7cd59dde0240822e3c70acf8d4ab9",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "url": "https://atcoder.jp/contests/arc223/tasks/arc223_f"
+      }
+    },
+    {
+      "problem_id": "remote:atcoder:arc227::D",
+      "beforeSha256": "0f9e8e8b52ab10fa4ae3a1f2626c2e4408a6e0716fd3a6acfa9264c9cf4cc564",
+      "content": {
+        "attachments": {},
+        "id": "remote:atcoder:arc227::D",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+          "issues": [],
+          "markdownSha256": "82ddc96a2f5bda84355cc2583a560a49e1ef5cacf3d4aa47d58fa7211f3f6074",
+          "pdfPageCountVerified": false,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "52c52ebd4857088e6488e6186ffb0d179f4c9167e0a5fd7d5c476980e091b10b",
+              "url": "https://atcoder.jp/contests/arc227/tasks_print?lang=en"
+            },
+            {
+              "sha256": "4ef3c8d51a6bafd5abfc1896f4bc012abdf339719bf5ff8476ce36149ce09aef",
+              "url": "https://atcoder.jp/contests/arc227/tasks?lang=en"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Median of Binary Strings\n\nScore : $700$ points\n\n### Problem Statement\n\nYou are given length-$M$ strings $S_1,S_2,\\ldots,S_N$ consisting of `0` and `1`.\n\nInitially, $S_1,S_2,\\ldots,S_N$ are written on the blackboard.\n\nYou can perform the following operation zero or more times.\n\n- Choose three strings from those written on the blackboard, allowing the same string to be chosen multiple times, and call them $A,B,C$. Newly write on the blackboard a string $D$ of length $M$ satisfying the following condition:\n- For each $i=1,2,\\ldots,M$, letting $A_i,B_i,C_i,D_i$ denote the $i$-th characters of $A,B,C,D$, respectively, $D_i$ is equal to at least two of $A_i,B_i,C_i$.\n\nYou are given $Q$ strings $T_1,T_2,\\ldots,T_Q$. For each $i=1,2,\\ldots,Q$, determine whether it is possible to make $T_i$ be written on the blackboard by performing operations starting from the initial state.\n\n### Constraints\n\n- $1 \\leq N \\leq 500$\n\n- $1 \\leq M \\leq 500$\n\n- $1 \\leq Q \\leq 500$\n\n- $S_i$ is a string of length $M$ consisting of `0` and `1`. $(1 \\leq i \\leq N)$\n\n- $T_i$ is a string of length $M$ consisting of `0` and `1`. $(1 \\leq i \\leq Q)$\n\n- All input values are integers.\n\n### Input\n\nThe input is given from Standard Input in the following format:\n\n```input-format\n$N$ $M$ $Q$\n$S_1$\n$S_2$\n$\\vdots$\n$S_N$\n$T_1$\n$T_2$\n$\\vdots$\n$T_Q$\n```\n\n### Output\n\nOutput $Q$ lines. The $i$-th line should contain `Yes` if $T_i$ can be made to be written on the blackboard, and `No` otherwise.\n\n### Sample Input 1\n\n```text\n3 3 2\n000\n011\n101\n000\n001\n```\n\n### Sample Output 1\n\n```text\nYes\nYes\n```\n\n$T_1$ is written on the blackboard from the beginning.\n\n$T_2$ is `001`. If we perform the operation choosing the three strings `000`, `011`, `101`, we can newly write `001` on the blackboard.\n\n### Sample Input 2\n\n```text\n2 1 2\n0\n0\n0\n1\n```\n\n### Sample Output 2\n\n```text\nYes\nNo\n```\n\nThe strings initially written on the blackboard are both `0`, and the string newly written by the operation is also `0`. Therefore, it is impossible to make `1` be written on the blackboard.",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "explanation": "$T_1$ is written on the blackboard from the beginning.\n\n$T_2$ is 001. If we perform the operation choosing the three strings 000, 011, 101, we can newly write 001 on the blackboard.",
+            "input": "3 3 2\n000\n011\n101\n000\n001",
+            "name": "样例 1",
+            "output": "Yes\nYes"
+          },
+          {
+            "explanation": "The strings initially written on the blackboard are both 0, and the string newly written by the operation is also 0. Therefore, it is impossible to make 1 be written on the blackboard.",
+            "input": "2 1 2\n0\n0\n0\n1",
+            "name": "样例 2",
+            "output": "Yes\nNo"
+          }
+        ],
+        "sourceBinding": {
+          "letter": "D",
+          "sourceRosterUrl": "https://atcoder.jp/contests/arc227/tasks?lang=en",
+          "sourceUrl": "https://atcoder.jp/contests/arc227/tasks_print?lang=en",
+          "taskId": "arc227_d"
+        },
+        "statementAvailable": true,
+        "statementVersion": 7,
+        "title": "Median of Binary Strings",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "# 二进制字符串的中位数\n\n得分：$700$分\n\n### 问题陈述\n\n给定长度为$M$的字符串$S_1,S_2,\\ldots,S_N$，由`0`和`1`组成。\n\n初始时，黑板上写有$S_1,S_2,\\ldots,S_N$。\n\n你可以执行以下操作零次或多次。\n\n- 从黑板上写有的字符串中选择三个字符串，允许同一个字符串被多次选择，并将它们称为$A,B,C$。在黑板上新写入一个长度为$M$的字符串$D$，满足以下条件：\n- 对于每个$i=1,2,\\ldots,M$，分别令$A_i,B_i,C_i,D_i$表示$A,B,C,D$的第$i$个字符，则$D_i$至少等于$A_i,B_i,C_i$中的两个。\n\n给定$Q$个字符串$T_1,T_2,\\ldots,T_Q$。对于每个$i=1,2,\\ldots,Q$，判断是否可以通过从初始状态开始执行操作，使得$T_i$被写在黑板上。\n\n### 约束\n\n- $1 \\leq N \\leq 500$\n\n- $1 \\leq M \\leq 500$\n\n- $1 \\leq Q \\leq 500$\n\n- $S_i$ 是一个长度为 $M$ 的字符串，由 `0` 和 `1` 组成。$(1 \\leq i \\leq N)$\n\n- $T_i$ 是一个长度为 $M$ 的字符串，由 `0` 和 `1` 组成。$(1 \\leq i \\leq Q)$\n\n- 所有输入值均为整数。\n\n### 输入\n\n输入按以下格式从标准输入给出：\n\n```input-format\n$N$ $M$ $Q$\n$S_1$\n$S_2$\n$\\vdots$\n$S_N$\n$T_1$\n$T_2$\n$\\vdots$\n$T_Q$\n```\n\n### 输出\n\n输出$Q$行。第$i$行应包含`Yes`，如果可以使$T_i$被写在黑板上，否则包含`No`。\n\n### 样例输入1\n\n```text\n3 3 2\n000\n011\n101\n000\n001\n```\n\n### 样例输出 1\n\n```text\nYes\nYes\n```\n\n$T_1$ 从一开始就写在黑板上。\n\n$T_2$ 是 `001`。如果我们选择三个字符串 `000`、`011`、`101` 执行操作，就可以新将 `001` 写在黑板上。\n\n### 样例输入 2\n\n```text\n2 1 2\n0\n0\n0\n1\n```\n\n### 样例输出 2\n\n```text\nYes\nNo\n```\n\n黑板上最初写着的两个字符串都是`0`，而操作新写入的字符串也是`0`。因此，不可能使`1`被写在黑板上。",
+          "notice": "译文保留原题条件、公式与样例；判断以原站题面为准。",
+          "provider": "公开题面机器翻译",
+          "sourceHash": "82ddc96a2f5bda84355cc2583a560a49e1ef5cacf3d4aa47d58fa7211f3f6074",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "url": "https://atcoder.jp/contests/arc227/tasks/arc227_d"
+      }
+    },
+    {
+      "problem_id": "xcpc-luogu::P17503",
+      "beforeSha256": "3459846e21b7ec445192fd64754cde108dfe4387a1293655c2d677fb7c4347fb",
+      "content": {
+        "attachments": {},
+        "currentSourceMarkdown": "# Deletion Game\n\n## 题目描述\n\nYachiyo has an integer sequence $S$ of length $n$, and each position in the sequence (indexed from $1$) has a weight $a_i$.\n\nShe can copy this sequence together with its weights and concatenate the copies end to end several times. Specifically, if she chooses to concatenate $m$ copies in total ($m \\ge 1$), she will obtain a new sequence $S'$ of length $m\\times n$ and a corresponding new weight sequence $a'$. For any $0 \\le c<m$ and $1 \\le i \\le n$, we have $S'_{cn+i}=S_i$ and $a'_{cn+i}=a_i$.\n\nNow Yachiyo wants to perform several elimination operations on the resulting sequence $S'$ (possibly zero times). Each operation works as follows:\n\n- Choose two indices $i,j$ such that $1 \\le i<j \\le |S'|$ and $S'_i=S'_j$.\n- Delete the $(i+1)$-th through $j$-th elements from both $S'$ and $a'$.\n- After the operation, the remaining elements are compacted in their original order, and the total length decreases accordingly.\n\nYachiyo wants to know: after choosing an appropriate number of copies and performing any number of elimination operations, what is the minimum possible sum of the weights of the remaining sequence? Also, under the condition that this minimum weight sum is achieved, what is the minimum number of copies of the original sequence needed (that is, the minimum $m$)?\n\n## 输入格式\n\nThe input contains three lines.\n\nThe first line contains an integer $n$ ($1 \\le n \\le 3\\times10^5$), the length of the initial sequence $S$.\n\nThe second line contains $n$ integers $S_1,S_2,\\cdots,S_n$ ($1 \\le S_i \\le 3\\times10^5$), representing the elements of the initial sequence $S$.\n\nThe third line contains $n$ integers $a_1,a_2,\\cdots,a_n$ ($1 \\le a_i \\le 3\\times10^5$), representing the weight of each position.\n\n\n## 输出格式\n\nOutput one line containing two integers separated by a space:\n\n- The first integer is the minimum possible sum of weights of the remaining sequence after the operations.\n- The second integer is the minimum total number of copies of the original sequence needed to achieve that minimum weight sum.\n\n\n## 提示\n\nIn this sample, the optimal strategy is to use only $1$ copy of the original sequence (that is, $m=1$, with no extra copying).\n\nThe initial sequence $S'$ is $[1,1,4,5,1,4]$, and the corresponding weight sequence $a'$ is $[1,9,1,9,8,10]$.\n\nYachiyo can perform the following two operations:\n\n1. Choose $i=1,j=2$ (at this time $S'_1=S'_2=1$), and delete the $(i+1)$-th through $j$-th elements (that is, delete the 2nd element). After the operation, $S'$ becomes $[1,4,5,1,4]$, and $a'$ becomes $[1,1,9,8,10]$.\n2. In the new sequence, choose $i=2,j=5$ (at this time $S'_2=S'_5=4$), and delete the $(i+1)$-th through $j$-th elements (that is, delete the 3rd, 4th, and 5th elements). After the operation, the remaining $S'$ is $[1,4]$, and the remaining $a'$ is $[1,1]$.\n\nAt this point, no further elimination is possible, and the sum of the remaining weights is $1+1=2$. It can be proved that under any number of copies and any sequence of operations, the weight sum cannot be smaller than $2$.\n",
+        "id": "xcpc-luogu::P17503",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+          "issues": [],
+          "markdownSha256": "622edbf5c74a7eb7967bff908a79f6cd6f89fac54a52da1bf119d3c3370e33fe",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "14fd4e038a2831d56eac9ec52057e049919896cac5eba61277475506e555dce1",
+              "url": "https://www.luogu.com.cn/problem/P17503"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 524,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Deletion Game\n\n## 题目描述\n\nYachiyo has an integer sequence $S$ of length $n$, and each position in the sequence (indexed from $1$) has a weight $a_i$.\n\nShe can copy this sequence together with its weights and concatenate the copies end to end several times. Specifically, if she chooses to concatenate $m$ copies in total ($m \\ge 1$), she will obtain a new sequence $S'$ of length $m\\times n$ and a corresponding new weight sequence $a'$. For any $0 \\le c<m$ and $1 \\le i \\le n$, we have $S'_{cn+i}=S_i$ and $a'_{cn+i}=a_i$.\n\nNow Yachiyo wants to perform several elimination operations on the resulting sequence $S'$ (possibly zero times). Each operation works as follows:\n\n- Choose two indices $i,j$ such that $1 \\le i<j \\le |S'|$ and $S'_i=S'_j$.\n- Delete the $(i+1)$-th through $j$-th elements from both $S'$ and $a'$.\n- After the operation, the remaining elements are compacted in their original order, and the total length decreases accordingly.\n\nYachiyo wants to know: after choosing an appropriate number of copies and performing any number of elimination operations, what is the minimum possible sum of the weights of the remaining sequence? Also, under the condition that this minimum weight sum is achieved, what is the minimum number of copies of the original sequence needed (that is, the minimum $m$)?\n\n## 输入格式\n\nThe input contains three lines.\n\nThe first line contains an integer $n$ ($1 \\le n \\le 3\\times10^5$), the length of the initial sequence $S$.\n\nThe second line contains $n$ integers $S_1,S_2,\\cdots,S_n$ ($1 \\le S_i \\le 3\\times10^5$), representing the elements of the initial sequence $S$.\n\nThe third line contains $n$ integers $a_1,a_2,\\cdots,a_n$ ($1 \\le a_i \\le 3\\times10^5$), representing the weight of each position.\n\n## 输出格式\n\nOutput one line containing two integers separated by a space:\n\n- The first integer is the minimum possible sum of weights of the remaining sequence after the operations.\n- The second integer is the minimum total number of copies of the original sequence needed to achieve that minimum weight sum.\n\n## 提示\n\nIn this sample, the optimal strategy is to use only $1$ copy of the original sequence (that is, $m=1$, with no extra copying).\n\nThe initial sequence $S'$ is $[1,1,4,5,1,4]$, and the corresponding weight sequence $a'$ is $[1,9,1,9,8,10]$.\n\nYachiyo can perform the following two operations:\n\n1. Choose $i=1,j=2$ (at this time $S'_1=S'_2=1$), and delete the $(i+1)$-th through $j$-th elements (that is, delete the 2nd element). After the operation, $S'$ becomes $[1,4,5,1,4]$, and $a'$ becomes $[1,1,9,8,10]$.\n2. In the new sequence, choose $i=2,j=5$ (at this time $S'_2=S'_5=4$), and delete the $(i+1)$-th through $j$-th elements (that is, delete the 3rd, 4th, and 5th elements). After the operation, the remaining $S'$ is $[1,4]$, and the remaining $a'$ is $[1,1]$.\n\nAt this point, no further elimination is possible, and the sum of the remaining weights is $1+1=2$. It can be proved that under any number of copies and any sequence of operations, the weight sum cannot be smaller than $2$.",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "6\n1 1 4 5 1 4\n1 9 1 9 8 10",
+            "name": "样例 1",
+            "output": "2 1"
+          }
+        ],
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Deletion Game",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "# 删除游戏\n\n## 题目描述\n\nYachiyo 有一个长度为 $n$ 的整数序列 $S$，序列中的每个位置（下标从 $1$ 开始）都有一个权重 $a_i$。\n\n她可以将这个序列连同其权重一起复制，并将若干份首尾相接拼接起来。具体来说，如果她选择总共拼接 $m$ 份（$m \\ge 1$），她将得到一个长度为 $m\\times n$ 的新序列 $S'$ 以及对应的新权重序列 $a'$。对于任意 $0 \\le c<m$ 和 $1 \\le i \\le n$，有 $S'_{cn+i}=S_i$ 和 $a'_{cn+i}=a_i$。\n\n现在 Yachiyo 想要对得到的序列 $S'$ 执行若干次消除操作（可能为零次）。每次操作如下：\n\n- 选择两个下标 $i,j$，使得 $1 \\le i<j \\le |S'|$ 且 $S'_i=S'_j$。\n- 从 $S'$ 和 $a'$ 中同时删除第 $(i+1)$ 个到第 $j$ 个元素。\n- 操作后，剩余元素按原顺序紧凑排列，总长度相应减少。\n\nYachiyo 想知道：在选择合适的复制份数并执行任意次消除操作后，剩余序列的权重之和最小可能是多少？并且，在达到该最小权重和的前提下，所需原序列的最少复制份数是多少（即最小的 $m$）？\n\n## 输入格式\n\n输入包含三行。\n\n第一行包含一个整数 $n$（$1 \\le n \\le 3\\times10^5$），表示初始序列 $S$ 的长度。\n\n第二行包含 $n$ 个整数 $S_1,S_2,\\cdots,S_n$（$1 \\le S_i \\le 3\\times10^5$），表示初始序列 $S$ 的元素。\n\n第三行包含 $n$ 个整数 $a_1,a_2,\\cdots,a_n$（$1 \\le a_i \\le 3\\times10^5$），表示每个位置的权重。\n\n## 输出格式\n\n输出一行，包含两个用空格分隔的整数：\n\n- 第一个整数是操作后剩余序列可能的最小权重和。\n- 第二个整数是达到该最小权重和所需原序列的最少复制总份数。\n\n## 提示\n\n在本样例中，最优策略是只使用原序列的 $1$ 份（即 $m=1$，不进行额外复制）。\n\n初始序列 $S'$ 为 $[1,1,4,5,1,4]$，对应的权重序列 $a'$ 为 $[1,9,1,9,8,10]$。\n\nYachiyo 可以执行以下两次操作：\n\n1。选择 $i=1,j=2$（此时 $S'_1=S'_2=1$），删除第 $(i+1)$ 个到第 $j$ 个元素（即删除第 2 个元素）。操作后，$S'$ 变为 $[1,4,5,1,4]$，$a'$ 变为 $[1,1,9,8,10]$。\n2。在新序列中，选择 $i=2,j=5$（此时 $S'_2=S'_5=4$），删除第 $(i+1)$ 个到第 $j$ 个元素（即删除第 3、4、5 个元素）。操作后，剩余的 $S'$ 为 $[1,4]$，剩余的 $a'$ 为 $[1,1]$。\n\n此时无法再进行消除，剩余权重之和为 $1+1=2$。可以证明，在任意复制份数和任意操作序列下，权重和都不可能小于 $2$。",
+          "provider": "预置中文译文",
+          "sourceHash": "fb3fc82144f4f7c71ed524b86e5976dfc60838f138fa232ef7f62f13b7e1f8cb",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "translationSourceSnapshot": {
+          "currentSourceHash": "622edbf5c74a7eb7967bff908a79f6cd6f89fac54a52da1bf119d3c3370e33fe",
+          "equivalentFormattingVerified": true,
+          "samplesUnchanged": true,
+          "sourceHash": "fb3fc82144f4f7c71ed524b86e5976dfc60838f138fa232ef7f62f13b7e1f8cb"
+        },
+        "url": "https://www.luogu.com.cn/problem/P17503"
+      }
+    }
+  ]
+}

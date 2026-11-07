@@ -43,7 +43,7 @@ export default function MockProblemPicker({ contest, currentId, onSelect, onHist
       event.preventDefault();
       event.stopPropagation();
       if (!open) { setOpen(true); return; }
-      const items = [...menuRef.current.querySelectorAll('button')];
+      const items = [...menuRef.current.querySelectorAll('button:not(:disabled)')];
       const index = items.indexOf(document.activeElement);
       const next = event.key === 'Home' ? 0 : event.key === 'End' ? items.length - 1
         : (index + (event.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
@@ -65,12 +65,13 @@ export default function MockProblemPicker({ contest, currentId, onSelect, onHist
         <strong>{contest.name}</strong><span>{contest.accepted}/{contest.total} 原站 AC</span>
       </div>
       {contest.slots.map(slot => <button type="button" key={slot.id} role="menuitemradio"
+        disabled={slot.statementAvailable===false} title={slot.statementAvailable===false?'题面缺失，暂不可打开':undefined}
         aria-checked={slot.id === currentId}
         className={'mock-picker-item' + (slot.id === currentId ? ' active' : '') + (slot.accepted ? ' solved' : '')}
-        onClick={() => { close(); onSelect(slot.id); }}>
+        onClick={() => { if(slot.statementAvailable===false)return;close(); onSelect(slot.id); }}>
         <span className="mock-picker-letter">{slot.letter}</span>
         <span className="mock-picker-title"><InlineTitle>{slot.title}</InlineTitle></span>
-        <span className={'mock-picker-verdict verdict-'+verdictTone(slot.accepted?'AC':slot.verdict)}>{(()=>{const verdict=slot.accepted?'AC':slot.verdict,Icon=verdict==='AC'?Check:verdict==='WA'?X:['TLE','MLE','OLE'].includes(verdict)?Clock:verdict==='CE'?Code2:['QUEUED','RUNNING'].includes(verdict)?LoaderCircle:verdict?CircleAlert:null;return <>{Icon&&<Icon size={12} aria-hidden="true"/>}{verdict?verdictLabel(verdict):'未提交'}</>;})()}</span>
+        <span className={'mock-picker-verdict verdict-'+verdictTone(slot.accepted?'AC':slot.verdict)}>{slot.statementAvailable===false?'题面缺失':(()=>{const verdict=slot.accepted?'AC':slot.verdict,Icon=verdict==='AC'?Check:verdict==='WA'?X:['TLE','MLE','OLE'].includes(verdict)?Clock:verdict==='CE'?Code2:['QUEUED','RUNNING'].includes(verdict)?LoaderCircle:verdict?CircleAlert:null;return <>{Icon&&<Icon size={12} aria-hidden="true"/>}{verdict?verdictLabel(verdict):'未提交'}</>;})()}</span>
       </button>)}
       <button type="button" className="mock-picker-history" role="menuitem" onClick={() => { close(); onHistory(); }}>
         <History size={14} aria-hidden="true" />模拟赛记录

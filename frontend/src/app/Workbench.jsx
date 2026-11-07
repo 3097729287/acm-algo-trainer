@@ -254,6 +254,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const [saveState, setSaveState] = useState({ kind: 'automatic' });
   const [pane, setPane] = useStudyState('Workbench.pane','both');
   const toolbar=useWorkbenchToolbar(sectionRef,initialPickerOpen||templatesOpen);
+  useEffect(()=>{const node=sectionRef.current,toggle=()=>toolbar.toggle();node?.addEventListener('tb:toolbar-toggle',toggle);return()=>node?.removeEventListener('tb:toolbar-toggle',toggle);},[toolbar.toggle]);
   const toolbarKind=contest?(contest.constraints?.calendarEvent||contest.calendarId||contest.live?'contest':'mock'):'practice';
   const [splitRatio,setSplitRatio]=useStudyState('Workbench.splitRatio',50),[splitBounds,setSplitBounds]=useState([30,70]);
   const dragCleanup=useRef(null),saveFeedback=useRef({at:0,key:null,revision:0}),[saveToast,setSaveToast]=useState(false),saveToastTimer=useRef(null);

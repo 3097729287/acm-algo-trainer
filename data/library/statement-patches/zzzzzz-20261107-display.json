@@ -1,0 +1,1471 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "luogu-training-CF1017F",
+      "beforeSha256": "88e3fab817ec22ad8955467fd5c3eb19ca28f3ceb1386282454a403750651ae5",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF1017F",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:35.895090+00:00",
+          "markdownSha256": "25159aabc6838866e487f84bbd77e221f18235fe3d32829d2d10b2bbb83fab27",
+          "pdfPageCountVerified": false,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "12a72e569293f64e5046b49c7258c78cfede84877bb809e14b7c2dc58a371f58",
+              "url": "https://codeforces.com/problemset/problem/1017/F"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 16,
+          "timeMs": 5000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# The Neutral Zone\n\n## 题目描述\n\n注意：本题的内存限制不同寻常！\n\n战争结束后，中立区被毁坏的城市得到了重建，孩子们也重返校园。\n\n战争改变了世界，也改变了教育。在那些艰难的日子里，诞生了一个新的数学概念。\n\n众所周知，对数函数可以表示为：\n$$\n\\log(p_1^{a_1}p_2^{a_2}\\ldots p_k^{a_k}) = a_1 \\log p_1 + a_2 \\log p_2 + \\ldots + a_k \\log p_k\n$$\n其中 $p_1^{a_1}p_2^{a_2}\\ldots p_k^{a_k}$ 是一个整数的质因数分解。问题在于，这个函数在定义中用到了自身，这也是它难以计算的原因。\n\n因此，中立区的数学家们发明了这样一个概念：\n$$\n\\text{exlog}_f(p_1^{a_1}p_2^{a_2}\\ldots p_k^{a_k}) = a_1 f(p_1) + a_2 f(p_2) + \\ldots + a_k f(p_k)\n$$\n\n注意，$\\text{exlog}_f(1)$ 总是等于 $0$。\n\n对于任意函数 $f$，这个概念对孩子们来说太难了。因此老师告诉他们，在日常使用中，$f$ 只能是次数不超过 $3$ 的多项式（即 $f(x) = Ax^3 + Bx^2 + Cx + D$）。\n\n“下课了！别忘了做作业！”作业如下：\n$$\n\\sum_{i=1}^n \\text{exlog}_f(i)\n$$\n\n请帮助孩子们完成作业。由于答案可能非常大，你需要输出答案对 $2^{32}$ 取模的结果。\n\n## 输入格式\n\n一行包含五个整数 $n$、$A$、$B$、$C$、$D$，满足 $1 \\leq n \\leq 3 \\times 10^8$，$0 \\leq A,B,C,D \\leq 10^6$。\n\n## 输出格式\n\n输出答案对 $2^{32}$ 取模后的结果。\n\n## 提示\n\n在第一个样例中：\n\n$\\text{exlog}_f(1) = 0$\n\n$\\text{exlog}_f(2) = 2$\n\n$\\text{exlog}_f(3) = 3$\n\n$\\text{exlog}_f(4) = 2 + 2 = 4$\n\n$\\text{exlog}_f(5) = 5$\n\n$\\text{exlog}_f(6) = 2 + 3 = 5$\n\n$\\text{exlog}_f(7) = 7$\n\n$\\text{exlog}_f(8) = 2 + 2 + 2 = 6$\n\n$\\text{exlog}_f(9) = 3 + 3 = 6$\n\n$\\text{exlog}_f(10) = 2 + 5 = 7$\n\n$\\text{exlog}_f(11) = 11$\n\n$\\text{exlog}_f(12) = 2 + 2 + 3 = 7$\n\n$\\sum_{i=1}^{12} \\text{exlog}_f(i) = 63$\n\n在第二个样例中：\n\n$\\text{exlog}_f(1) = 0$\n\n$\\text{exlog}_f(2) = (1 \\times 2^3 + 2 \\times 2^2 + 3 \\times 2 + 4) = 26$\n\n$\\text{exlog}_f(3) = (1 \\times 3^3 + 2 \\times 3^2 + 3 \\times 3 + 4) = 58$\n\n$\\text{exlog}_f(4) = 2 \\times \\text{exlog}_f(2) = 52$\n\n$\\sum_{i=1}^4 \\text{exlog}_f(i) = 0 + 26 + 58 + 52 = 136$\n\n由 ChatGPT 4.1 翻译",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "12 0 0 1 0",
+            "name": "样例 1",
+            "output": "63"
+          },
+          {
+            "input": "4 1 2 3 4",
+            "name": "样例 2",
+            "output": "136"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "9c0d805cd267b51bd54a98494ea47d17bb5cc436619d5d7ac4e56603ffc75564",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF1017F",
+          "originalUrl": "https://codeforces.com/problemset/problem/1017/F",
+          "sourceProblemId": "CF1017F",
+          "textAlignment": 0.9952
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "The Neutral Zone",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "ffcef1d0aecd5bc92ee900d7788fa02422b5c63a7b2cff43bd8d2fd86432cb51",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "9c0d805cd267b51bd54a98494ea47d17bb5cc436619d5d7ac4e56603ffc75564"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF1017F",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# The Neutral Zone\n\n## 题目描述\n\n注意：本题的内存限制不同寻常！\n\n战争结束后，中立区被毁坏的城市得到了重建，孩子们也重返校园。\n\n战争改变了世界，也改变了教育。在那些艰难的日子里，诞生了一个新的数学概念。\n\n众所周知，对数函数可以表示为：\n$$\n\\log(p_1^{a_1}p_2^{a_2}\\ldots p_k^{a_k}) = a_1 \\log p_1 + a_2 \\log p_2 + \\ldots + a_k \\log p_k\n$$\n其中 $p_1^{a_1}p_2^{a_2}\\ldots p_k^{a_k}$ 是一个整数的质因数分解。问题在于，这个函数在定义中用到了自身，这也是它难以计算的原因。\n\n因此，中立区的数学家们发明了这样一个概念：\n$$\n\\text{exlog}_f(p_1^{a_1}p_2^{a_2}\\ldots p_k^{a_k}) = a_1 f(p_1) + a_2 f(p_2) + \\ldots + a_k f(p_k)\n$$\n\n注意，$\\text{exlog}_f(1)$ 总是等于 $0$。\n\n对于任意函数 $f$，这个概念对孩子们来说太难了。因此老师告诉他们，在日常使用中，$f$ 只能是次数不超过 $3$ 的多项式（即 $f(x) = Ax^3 + Bx^2 + Cx + D$）。\n\n“下课了！别忘了做作业！”作业如下：\n$$\n\\sum_{i=1}^n \\text{exlog}_f(i)\n$$\n\n请帮助孩子们完成作业。由于答案可能非常大，你需要输出答案对 $2^{32}$ 取模的结果。\n\n## 输入格式\n\n一行包含五个整数 $n$、$A$、$B$、$C$、$D$，满足 $1 \\leq n \\leq 3 \\times 10^8$，$0 \\leq A,B,C,D \\leq 10^6$。\n\n## 输出格式\n\n输出答案对 $2^{32}$ 取模后的结果。\n\n## 提示\n\n在第一个样例中：\n\n$\\text{exlog}_f(1) = 0$\n\n$\\text{exlog}_f(2) = 2$\n\n$\\text{exlog}_f(3) = 3$\n\n$\\text{exlog}_f(4) = 2 + 2 = 4$\n\n$\\text{exlog}_f(5) = 5$\n\n$\\text{exlog}_f(6) = 2 + 3 = 5$\n\n$\\text{exlog}_f(7) = 7$\n\n$\\text{exlog}_f(8) = 2 + 2 + 2 = 6$\n\n$\\text{exlog}_f(9) = 3 + 3 = 6$\n\n$\\text{exlog}_f(10) = 2 + 5 = 7$\n\n$\\text{exlog}_f(11) = 11$\n\n$\\text{exlog}_f(12) = 2 + 2 + 3 = 7$\n\n$\\sum_{i=1}^{12} \\text{exlog}_f(i) = 63$\n\n在第二个样例中：\n\n$\\text{exlog}_f(1) = 0$\n\n$\\text{exlog}_f(2) = (1 \\times 2^3 + 2 \\times 2^2 + 3 \\times 2 + 4) = 26$\n\n$\\text{exlog}_f(3) = (1 \\times 3^3 + 2 \\times 3^2 + 3 \\times 3 + 4) = 58$\n\n$\\text{exlog}_f(4) = 2 \\times \\text{exlog}_f(2) = 52$\n\n$\\sum_{i=1}^4 \\text{exlog}_f(i) = 0 + 26 + 58 + 52 = 136$\n\n由 ChatGPT 4.1 翻译",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF1017F",
+            "sourceMarkdown": "# The Neutral Zone\n\n## 题目描述\n\nNotice: unusual memory limit!\n\nAfter the war, destroyed cities in the neutral zone were restored. And children went back to school.\n\nThe war changed the world, as well as education. In those hard days, a new math concept was created.\n\nAs we all know, logarithm function can be described as: $ $$$ \\log(p_1^{a_1}p_2^{a_2}...p_k^{a_2}) = a_1 \\log p_1 + a_2 \\log p_2 + ... + a_k \\log p_k  $ $  Where  $ p\\_1^{a\\_1}p\\_2^{a\\_2}...p\\_k^{a\\_2} $  is the prime factorization of a integer. A problem is that the function uses itself in the definition. That is why it is hard to calculate.</p><p>So, the mathematicians from the neutral zone invented this:  $ $  \\text{exlog}_f(p_1^{a_1}p_2^{a_2}...p_k^{a_2}) = a_1 f(p_1) + a_2 f(p_2) + ... + a_k f(p_k)  $ $ </p><p>Notice that  $ \\\\text{exlog}\\_f(1) $  is always equal to  $ 0 $ .</p><p>This concept for any function  $ f $  was too hard for children. So teachers told them that  $ f $  can only be a polynomial of degree no more than  $ 3 $  in daily uses (i.e.,  $ f(x) = Ax^3+Bx^2+Cx+D $ ).</p><p>\"Class is over! Don't forget to do your homework!\" Here it is:  $ $  \\sum_{i=1}^n \\text{exlog}_f(i)  $ $ </p><p>Help children to do their homework. Since the value can be very big, you need to find the answer modulo  $ 2^{32}$$$.\n\n## 输入格式\n\nThe only line contains five integers $ n $ , $ A $ , $ B $ , $ C $ , and $ D $ ( $ 1 \\le n \\le 3 \\cdot 10^8 $ , $ 0 \\le A,B,C,D \\le 10^6 $ ).\n\n## 输出格式\n\nPrint the answer modulo $ 2^{32} $ .\n\n## 提示\n\nIn the first sample:\n\n $ \\text{exlog}_f(1) = 0 $\n\n $ \\text{exlog}_f(2) = 2 $\n\n $ \\text{exlog}_f(3) = 3 $\n\n $ \\text{exlog}_f(4) = 2 + 2 = 4 $\n\n $ \\text{exlog}_f(5) = 5 $\n\n $ \\text{exlog}_f(6) = 2 + 3 = 5 $\n\n $ \\text{exlog}_f(7) = 7 $\n\n $ \\text{exlog}_f(8) = 2 + 2 + 2 = 6 $\n\n $ \\text{exlog}_f(9) = 3 + 3 = 6 $\n\n $ \\text{exlog}_f(10) = 2 + 5 = 7 $\n\n $ \\text{exlog}_f(11) = 11 $\n\n $ \\text{exlog}_f(12) = 2 + 2 + 3 = 7 $\n\n $  \\sum_{i=1}^{12} \\text{exlog}_f(i)=63  $\n\nIn the second sample:\n\n $ \\text{exlog}_f(1) = 0 $\n\n $ \\text{exlog}_f(2) = (1 \\times 2^3 + 2 \\times 2^2 + 3 \\times 2 + 4) = 26 $\n\n $ \\text{exlog}_f(3) = (1 \\times 3^3 + 2 \\times 3^2 + 3 \\times 3 + 4) = 58 $\n\n $ \\text{exlog}_f(4) = 2 \\times \\text{exlog}_f(2) = 52 $\n\n $  \\sum_{i=1}^4 \\text{exlog}_f(i)=0+26+58+52=136  $"
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# The Neutral Zone\n\n## 题目描述\n\nNotice: unusual memory limit!\n\nAfter the war, destroyed cities in the neutral zone were restored. And children went back to school.\n\nThe war changed the world, as well as education. In those hard days, a new math concept was created.\n\nAs we all know, logarithm function can be described as: $ $$$ \\log(p_1^{a_1}p_2^{a_2}...p_k^{a_2}) = a_1 \\log p_1 + a_2 \\log p_2 + ... + a_k \\log p_k  $ $  Where  $ p\\_1^{a\\_1}p\\_2^{a\\_2}...p\\_k^{a\\_2} $  is the prime factorization of a integer. A problem is that the function uses itself in the definition. That is why it is hard to calculate.</p><p>So, the mathematicians from the neutral zone invented this:  $ $  \\text{exlog}_f(p_1^{a_1}p_2^{a_2}...p_k^{a_2}) = a_1 f(p_1) + a_2 f(p_2) + ... + a_k f(p_k)  $ $ </p><p>Notice that  $ \\\\text{exlog}\\_f(1) $  is always equal to  $ 0 $ .</p><p>This concept for any function  $ f $  was too hard for children. So teachers told them that  $ f $  can only be a polynomial of degree no more than  $ 3 $  in daily uses (i.e.,  $ f(x) = Ax^3+Bx^2+Cx+D $ ).</p><p>\"Class is over! Don't forget to do your homework!\" Here it is:  $ $  \\sum_{i=1}^n \\text{exlog}_f(i)  $ $ </p><p>Help children to do their homework. Since the value can be very big, you need to find the answer modulo  $ 2^{32}$$$.\n\n## 输入格式\n\nThe only line contains five integers $ n $ , $ A $ , $ B $ , $ C $ , and $ D $ ( $ 1 \\le n \\le 3 \\cdot 10^8 $ , $ 0 \\le A,B,C,D \\le 10^6 $ ).\n\n## 输出格式\n\nPrint the answer modulo $ 2^{32} $ .\n\n## 提示\n\nIn the first sample:\n\n $ \\text{exlog}_f(1) = 0 $\n\n $ \\text{exlog}_f(2) = 2 $\n\n $ \\text{exlog}_f(3) = 3 $\n\n $ \\text{exlog}_f(4) = 2 + 2 = 4 $\n\n $ \\text{exlog}_f(5) = 5 $\n\n $ \\text{exlog}_f(6) = 2 + 3 = 5 $\n\n $ \\text{exlog}_f(7) = 7 $\n\n $ \\text{exlog}_f(8) = 2 + 2 + 2 = 6 $\n\n $ \\text{exlog}_f(9) = 3 + 3 = 6 $\n\n $ \\text{exlog}_f(10) = 2 + 5 = 7 $\n\n $ \\text{exlog}_f(11) = 11 $\n\n $ \\text{exlog}_f(12) = 2 + 2 + 3 = 7 $\n\n $  \\sum_{i=1}^{12} \\text{exlog}_f(i)=63  $\n\nIn the second sample:\n\n $ \\text{exlog}_f(1) = 0 $\n\n $ \\text{exlog}_f(2) = (1 \\times 2^3 + 2 \\times 2^2 + 3 \\times 2 + 4) = 26 $\n\n $ \\text{exlog}_f(3) = (1 \\times 3^3 + 2 \\times 3^2 + 3 \\times 3 + 4) = 58 $\n\n $ \\text{exlog}_f(4) = 2 \\times \\text{exlog}_f(2) = 52 $\n\n $  \\sum_{i=1}^4 \\text{exlog}_f(i)=0+26+58+52=136  $",
+            "url": "https://www.luogu.com.cn/problem/CF1017F",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "luogu-training-CF1054H",
+      "beforeSha256": "68382a2946726fe13806b0fb090a041818233f8421b5e264247a7242aa52988a",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF1054H",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:36.001558+00:00",
+          "markdownSha256": "94d5b0e568e0d84bd232c0e8ce2e0c47521afc6d74f7a6b0b0fc103579780cbb",
+          "pdfPageCountVerified": false,
+          "sampleCount": 3,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "43d67c1a754a6e270ea21e067fe98877e20f9e7eaaf75275d9f5066129ce28c5",
+              "url": "https://codeforces.com/problemset/problem/1054/H"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 4000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Epic Convolution\n\n## 题目描述\n\n给定两个数组 $a_0, a_1, \\ldots, a_{n-1}$ 和 $b_0, b_1, \\ldots, b_{m-1}$，以及一个整数 $c$。\n\n计算如下的和：\n\n$$\n\\sum_{i=0}^{n-1} \\sum_{j=0}^{m-1} a_i b_j c^{i^2 j^3}\n$$\n\n由于结果可能非常大，请输出其对 $490019$ 取模的值。\n\n## 输入格式\n\n第一行包含三个整数 $n$、$m$ 和 $c$，满足 $1 \\le n, m \\le 100\\,000$，$1 \\le c < 490019$。\n\n第二行包含恰好 $n$ 个整数 $a_i$，表示数组 $a$，其中 $0 \\le a_i \\le 1000$。\n\n第三行包含恰好 $m$ 个整数 $b_i$，表示数组 $b$，其中 $0 \\le b_i \\le 1000$。\n\n## 输出格式\n\n输出一个整数，表示该和对 $490019$ 取模的结果。\n\n## 提示\n\n在第一个样例中，唯一的非零项对应 $i = 1$，$j = 1$，其值为 $1 \\cdot 1 \\cdot 3^1 = 3$。\n\n在第二个样例中，所有项的值都等于 $1$。\n\n由 ChatGPT 4.1 翻译",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "2 2 3\n0 1\n0 1",
+            "name": "样例 1",
+            "output": "3"
+          },
+          {
+            "input": "3 4 1\n1 1 1\n1 1 1 1",
+            "name": "样例 2",
+            "output": "12"
+          },
+          {
+            "input": "2 3 3\n1 2\n3 4 5",
+            "name": "样例 3",
+            "output": "65652"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "85666493c5c8cae257fa1d0f7af73a75e6139ea7bb43917c8d637a2095720682",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF1054H",
+          "originalUrl": "https://codeforces.com/problemset/problem/1054/H",
+          "sourceProblemId": "CF1054H",
+          "textAlignment": 0.986784140969163
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Epic Convolution",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "f9a56ac60c8b4e01f2ffef7f70d4c3f8d4acb6d06a2e6de715802b6a90185eaf",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "85666493c5c8cae257fa1d0f7af73a75e6139ea7bb43917c8d637a2095720682"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF1054H",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# Epic Convolution\n\n## 题目描述\n\n给定两个数组 $a_0, a_1, \\ldots, a_{n-1}$ 和 $b_0, b_1, \\ldots, b_{m-1}$，以及一个整数 $c$。\n\n计算如下的和：\n\n$$\n\\sum_{i=0}^{n-1} \\sum_{j=0}^{m-1} a_i b_j c^{i^2 j^3}\n$$\n\n由于结果可能非常大，请输出其对 $490019$ 取模的值。\n\n## 输入格式\n\n第一行包含三个整数 $n$、$m$ 和 $c$，满足 $1 \\le n, m \\le 100\\,000$，$1 \\le c < 490019$。\n\n第二行包含恰好 $n$ 个整数 $a_i$，表示数组 $a$，其中 $0 \\le a_i \\le 1000$。\n\n第三行包含恰好 $m$ 个整数 $b_i$，表示数组 $b$，其中 $0 \\le b_i \\le 1000$。\n\n## 输出格式\n\n输出一个整数，表示该和对 $490019$ 取模的结果。\n\n## 提示\n\n在第一个样例中，唯一的非零项对应 $i = 1$，$j = 1$，其值为 $1 \\cdot 1 \\cdot 3^1 = 3$。\n\n在第二个样例中，所有项的值都等于 $1$。\n\n由 ChatGPT 4.1 翻译",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF1054H",
+            "sourceMarkdown": "# Epic Convolution\n\n## 题目描述\n\nYou are given two arrays $ a_0, a_1, \\ldots, a_{n - 1} $ and $ b_0, b_1, \\ldots, b_{m-1} $ , and an integer $ c $ .\n\nCompute the following sum:\n\n $ $$$\\sum_{i=0}^{n-1} \\sum_{j=0}^{m-1} a_i b_j c^{i^2\\,j^3} $ $ </p><p>Since it's value can be really large, print it modulo  $ 490019$$$.\n\n## 输入格式\n\nFirst line contains three integers $ n $ , $ m $ and $ c $ ( $ 1 \\le n, m \\le 100\\,000 $ , $ 1 \\le c < 490019 $ ).\n\nNext line contains exactly $ n $ integers $ a_i $ and defines the array $ a $ ( $ 0 \\le a_i \\le 1000 $ ).\n\nLast line contains exactly $ m $ integers $ b_i $ and defines the array $ b $ ( $ 0 \\le b_i \\le 1000 $ ).\n\n## 输出格式\n\nPrint one integer — value of the sum modulo $ 490019 $ .\n\n## 提示\n\nIn the first example, the only non-zero summand corresponds to $ i = 1 $ , $ j = 1 $ and is equal to $ 1 \\cdot 1 \\cdot 3^1 = 3 $ .\n\nIn the second example, all summands are equal to $ 1 $ ."
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# Epic Convolution\n\n## 题目描述\n\nYou are given two arrays $ a_0, a_1, \\ldots, a_{n - 1} $ and $ b_0, b_1, \\ldots, b_{m-1} $ , and an integer $ c $ .\n\nCompute the following sum:\n\n $ $$$\\sum_{i=0}^{n-1} \\sum_{j=0}^{m-1} a_i b_j c^{i^2\\,j^3} $ $ </p><p>Since it's value can be really large, print it modulo  $ 490019$$$.\n\n## 输入格式\n\nFirst line contains three integers $ n $ , $ m $ and $ c $ ( $ 1 \\le n, m \\le 100\\,000 $ , $ 1 \\le c < 490019 $ ).\n\nNext line contains exactly $ n $ integers $ a_i $ and defines the array $ a $ ( $ 0 \\le a_i \\le 1000 $ ).\n\nLast line contains exactly $ m $ integers $ b_i $ and defines the array $ b $ ( $ 0 \\le b_i \\le 1000 $ ).\n\n## 输出格式\n\nPrint one integer — value of the sum modulo $ 490019 $ .\n\n## 提示\n\nIn the first example, the only non-zero summand corresponds to $ i = 1 $ , $ j = 1 $ and is equal to $ 1 \\cdot 1 \\cdot 3^1 = 3 $ .\n\nIn the second example, all summands are equal to $ 1 $ .",
+            "url": "https://www.luogu.com.cn/problem/CF1054H",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "luogu-training-CF1089F",
+      "beforeSha256": "0a83f40bd238f4a0f332982c8fdd7967b470b2d25548787374bfc4f7798c0a69",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF1089F",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:36.314683+00:00",
+          "markdownSha256": "6cec7651835fb0a8cf59b04b05ebb0b797da87af5a51b44f91e8e27fbc50f351",
+          "pdfPageCountVerified": false,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "30fe95aecfe538edfaec98d801eb673ff441ad7e3337973f2017bbe05ebdf702",
+              "url": "https://codeforces.com/problemset/problem/1089/F"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 1500
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Fractions\n\n## 题目描述\n\n给定一个$n$，确定一些分数，使得这些分数的分母是$n$的因数，且$<n$，并且这些分数都是真分数，这些分数的和+$\\frac{1}{n}=1$。\n\n## 输入格式\n\n只有一行，是一个正整数$n$\n\n## 输出格式\n\n如果无解输出一行\"NO\"（没有引号）\r\n\r\n如果有解，先输出\"YES\"（没有引号），然后输出一个$k$，表示有多少个分数。接下来$k$行，每行两个数，是一个经过化简的分数，第一个是分子，第二个是分母。注意您输出的$k$要$<=10^5$，因为数据保证一定在$10^5$长度内有解。如果您输出的$k$超过了$10^5$，就会被判错（具体是$OLE$还是$WA$不知道，反正都是错了）。",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "2",
+            "name": "样例 1",
+            "output": "NO"
+          },
+          {
+            "input": "6",
+            "name": "样例 2",
+            "output": "YES\n2\n1 2\n1 3"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "d2cdb8e9c0c5f6ce10e03d13ccb832b09f1c37e6d7dee906c65d01af08cf7465",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF1089F",
+          "originalUrl": "https://codeforces.com/problemset/problem/1089/F",
+          "sourceProblemId": "CF1089F",
+          "textAlignment": 0.9896193771626297
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Fractions",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "0cf578c7fd6e17cc67295927a52803e9c189ba43720f9ed67c3db94d5b91351e",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "d2cdb8e9c0c5f6ce10e03d13ccb832b09f1c37e6d7dee906c65d01af08cf7465"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF1089F",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# Fractions\n\n## 题目描述\n\n给定一个$n$，确定一些分数，使得这些分数的分母是$n$的因数，且$<n$，并且这些分数都是真分数，这些分数的和+$\\frac{1}{n}=1$。\n\n## 输入格式\n\n只有一行，是一个正整数$n$\n\n## 输出格式\n\n如果无解输出一行\"NO\"（没有引号）\r\n\r\n如果有解，先输出\"YES\"（没有引号），然后输出一个$k$，表示有多少个分数。接下来$k$行，每行两个数，是一个经过化简的分数，第一个是分子，第二个是分母。注意您输出的$k$要$<=10^5$，因为数据保证一定在$10^5$长度内有解。如果您输出的$k$超过了$10^5$，就会被判错（具体是$OLE$还是$WA$不知道，反正都是错了）。",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF1089F",
+            "sourceMarkdown": "# Fractions\n\n## 题目描述\n\nYou are given a positive integer $ n $ .\n\nFind a sequence of fractions $ \\frac{a_i}{b_i} $ , $ i = 1 \\ldots k $ (where $ a_i $ and $ b_i $ are positive integers) for some $ k $ such that:\n\n $ $$$ \\begin{cases} \\text{$b_i$ divides $n$, $1 < b_i < n$ for $i = 1 \\ldots k$} \\\\ \\text{$1 \\le a_i < b_i$ for $i = 1 \\ldots k$} \\\\ \\text{$\\sum\\limits_{i=1}^k \\frac{a_i}{b_i} = 1 - \\frac{1}{n}$} \\end{cases}  $ $$$\n\n## 输入格式\n\nThe input consists of a single integer $ n $ ( $ 2 \\le n \\le 10^9 $ ).\n\n## 输出格式\n\nIn the first line print \"YES\" if there exists such a sequence of fractions or \"NO\" otherwise.\n\nIf there exists such a sequence, next lines should contain a description of the sequence in the following format.\n\nThe second line should contain integer $ k $ ( $ 1 \\le k \\le 100\\,000 $ ) — the number of elements in the sequence. It is guaranteed that if such a sequence exists, then there exists a sequence of length at most $ 100\\,000 $ .\n\nNext $ k $ lines should contain fractions of the sequence with two integers $ a_i $ and $ b_i $ on each line.\n\n## 提示\n\nIn the second example there is a sequence $ \\frac{1}{2}, \\frac{1}{3} $ such that $ \\frac{1}{2} + \\frac{1}{3} = 1 - \\frac{1}{6} $ ."
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# Fractions\n\n## 题目描述\n\nYou are given a positive integer $ n $ .\n\nFind a sequence of fractions $ \\frac{a_i}{b_i} $ , $ i = 1 \\ldots k $ (where $ a_i $ and $ b_i $ are positive integers) for some $ k $ such that:\n\n $ $$$ \\begin{cases} \\text{$b_i$ divides $n$, $1 < b_i < n$ for $i = 1 \\ldots k$} \\\\ \\text{$1 \\le a_i < b_i$ for $i = 1 \\ldots k$} \\\\ \\text{$\\sum\\limits_{i=1}^k \\frac{a_i}{b_i} = 1 - \\frac{1}{n}$} \\end{cases}  $ $$$\n\n## 输入格式\n\nThe input consists of a single integer $ n $ ( $ 2 \\le n \\le 10^9 $ ).\n\n## 输出格式\n\nIn the first line print \"YES\" if there exists such a sequence of fractions or \"NO\" otherwise.\n\nIf there exists such a sequence, next lines should contain a description of the sequence in the following format.\n\nThe second line should contain integer $ k $ ( $ 1 \\le k \\le 100\\,000 $ ) — the number of elements in the sequence. It is guaranteed that if such a sequence exists, then there exists a sequence of length at most $ 100\\,000 $ .\n\nNext $ k $ lines should contain fractions of the sequence with two integers $ a_i $ and $ b_i $ on each line.\n\n## 提示\n\nIn the second example there is a sequence $ \\frac{1}{2}, \\frac{1}{3} $ such that $ \\frac{1}{2} + \\frac{1}{3} = 1 - \\frac{1}{6} $ .",
+            "url": "https://www.luogu.com.cn/problem/CF1089F",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "luogu-training-CF1110C",
+      "beforeSha256": "12a5daddb9bec1007ba9847c76b54cc64aca12c4cfab5bab2bb383c15e581737",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF1110C",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:36.039790+00:00",
+          "markdownSha256": "d17b68fc6321b5e93de4e9b5a63fe26f438bfdd05418687f6fe8424a75f67b8e",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "fb4d3bb780329c024170c729e928bc98f48688a5d4b78710368e97d7b0b0164a",
+              "url": "https://codeforces.com/problemset/problem/1110/C"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Meaningless Operations\n\n## 题目描述\n\n最大公约数和位运算之间会有什么联系吗？现在是解答这个问题的时候了。\n\n给定一个正整数 $a$。你需要从 $1$ 到 $a-1$（包含 $1$ 和 $a-1$）中选择一个整数 $b$，使得整数 $a \\oplus b$ 与 $a \\& b$ 的最大公约数尽可能大。换句话说，你需要计算如下函数：\n\n$$\nf(a) = \\max_{0 < b < a} \\gcd(a \\oplus b, a \\& b)\n$$\n\n其中，$\\oplus$ 表示[按位异或运算](https://en.wikipedia.org/wiki/Bitwise_operation#XOR)，$\\&$ 表示[按位与运算](https://en.wikipedia.org/wiki/Bitwise_operation#AND)。\n\n两个整数 $x$ 和 $y$ 的最大公约数是能够整除 $x$ 和 $y$ 的最大整数 $g$。\n\n现在给定 $q$ 个整数 $a_1, a_2, \\ldots, a_q$，对于每个整数，计算在最优选择 $b$ 时，最大公约数的最大可能值。\n\n## 输入格式\n\n第一行包含一个整数 $q$（$1 \\leq q \\leq 10^3$），表示需要计算答案的整数个数。\n\n接下来有 $q$ 行，每行一个整数，分别为 $a_1, a_2, \\ldots, a_q$（$2 \\leq a_i \\leq 2^{25} - 1$），表示需要计算答案的整数。\n\n## 输出格式\n\n对于每个整数，按照输入顺序输出答案，每行一个。\n\n## 提示\n\n对于第一个整数，最优选择是 $b = 1$，此时 $a \\oplus b = 3$，$a \\& b = 0$，$3$ 和 $0$ 的最大公约数是 $3$。\n\n对于第二个整数，一种最优选择是 $b = 2$，此时 $a \\oplus b = 1$，$a \\& b = 2$，$1$ 和 $2$ 的最大公约数是 $1$。\n\n对于第三个整数，最优选择是 $b = 2$，此时 $a \\oplus b = 7$，$a \\& b = 0$，$7$ 和 $0$ 的最大公约数是 $7$。\n\n由 ChatGPT 4.1 翻译",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "3\n2\n3\n5",
+            "name": "样例 1",
+            "output": "3\n1\n7"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "56aa3ed6d40b748173362cf46dabd4806c7c618f8e48588fb17b5f13bdc78de6",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF1110C",
+          "originalUrl": "https://codeforces.com/problemset/problem/1110/C",
+          "sourceProblemId": "CF1110C",
+          "textAlignment": 0.9696969696969697
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Meaningless Operations",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "d0dc8c360a6dc608cbb3e42e591804dea938d48b4365dc13b10e251a4fd16355",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "56aa3ed6d40b748173362cf46dabd4806c7c618f8e48588fb17b5f13bdc78de6"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF1110C",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# Meaningless Operations\n\n## 题目描述\n\n最大公约数和位运算之间会有什么联系吗？现在是解答这个问题的时候了。\n\n给定一个正整数 $a$。你需要从 $1$ 到 $a-1$（包含 $1$ 和 $a-1$）中选择一个整数 $b$，使得整数 $a \\oplus b$ 与 $a \\& b$ 的最大公约数尽可能大。换句话说，你需要计算如下函数：\n\n$$\nf(a) = \\max_{0 < b < a} \\gcd(a \\oplus b, a \\& b)\n$$\n\n其中，$\\oplus$ 表示[按位异或运算](https://en.wikipedia.org/wiki/Bitwise_operation#XOR)，$\\&$ 表示[按位与运算](https://en.wikipedia.org/wiki/Bitwise_operation#AND)。\n\n两个整数 $x$ 和 $y$ 的最大公约数是能够整除 $x$ 和 $y$ 的最大整数 $g$。\n\n现在给定 $q$ 个整数 $a_1, a_2, \\ldots, a_q$，对于每个整数，计算在最优选择 $b$ 时，最大公约数的最大可能值。\n\n## 输入格式\n\n第一行包含一个整数 $q$（$1 \\leq q \\leq 10^3$），表示需要计算答案的整数个数。\n\n接下来有 $q$ 行，每行一个整数，分别为 $a_1, a_2, \\ldots, a_q$（$2 \\leq a_i \\leq 2^{25} - 1$），表示需要计算答案的整数。\n\n## 输出格式\n\n对于每个整数，按照输入顺序输出答案，每行一个。\n\n## 提示\n\n对于第一个整数，最优选择是 $b = 1$，此时 $a \\oplus b = 3$，$a \\& b = 0$，$3$ 和 $0$ 的最大公约数是 $3$。\n\n对于第二个整数，一种最优选择是 $b = 2$，此时 $a \\oplus b = 1$，$a \\& b = 2$，$1$ 和 $2$ 的最大公约数是 $1$。\n\n对于第三个整数，最优选择是 $b = 2$，此时 $a \\oplus b = 7$，$a \\& b = 0$，$7$ 和 $0$ 的最大公约数是 $7$。\n\n由 ChatGPT 4.1 翻译",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF1110C",
+            "sourceMarkdown": "# Meaningless Operations\n\n## 题目描述\n\nCan the greatest common divisor and bitwise operations have anything in common? It is time to answer this question.\n\nSuppose you are given a positive integer $ a $ . You want to choose some integer $ b $ from $ 1 $ to $ a - 1 $ inclusive in such a way that the [greatest common divisor (GCD)](https://en.wikipedia.org/wiki/Greatest_common_divisor) of integers $ a \\oplus b $ and $ a \\> \\& \\> b $ is as large as possible. In other words, you'd like to compute the following function:\n\n $ $$$f(a) = \\max_{0 < b < a}{gcd(a \\oplus b, a \\> \\& \\> b)}. $ $ </p><p>Here  $ \\\\oplus $  denotes the <a href=\"https://en.wikipedia.org/wiki/Bitwise_operation#XOR\">bitwise XOR operation</a>, and  $ \\\\& $  denotes the <a href=\"https://en.wikipedia.org/wiki/Bitwise_operation#AND\">bitwise AND operation</a>.</p><p>The greatest common divisor of two integers  $ x $  and  $ y $  is the largest integer  $ g $  such that both  $ x $  and  $ y $  are divided by  $ g $  without remainder.</p><p>You are given  $ q $  integers  $ a\\_1, a\\_2, \\\\ldots, a\\_q $ . For each of these integers compute the largest possible value of the greatest common divisor (when  $ b$$$ is chosen optimally).\n\n## 输入格式\n\nThe first line contains an integer $ q $ ( $ 1 \\le q \\le 10^3 $ ) — the number of integers you need to compute the answer for.\n\nAfter that $ q $ integers are given, one per line: $ a_1, a_2, \\ldots, a_q $ ( $ 2 \\le a_i \\le 2^{25} - 1 $ ) — the integers you need to compute the answer for.\n\n## 输出格式\n\nFor each integer, print the answer in the same order as the integers are given in input.\n\n## 提示\n\nFor the first integer the optimal choice is $ b = 1 $ , then $ a \\oplus b = 3 $ , $ a \\> \\& \\> b = 0 $ , and the greatest common divisor of $ 3 $ and $ 0 $ is $ 3 $ .\n\nFor the second integer one optimal choice is $ b = 2 $ , then $ a \\oplus b = 1 $ , $ a \\> \\& \\> b = 2 $ , and the greatest common divisor of $ 1 $ and $ 2 $ is $ 1 $ .\n\nFor the third integer the optimal choice is $ b = 2 $ , then $ a \\oplus b = 7 $ , $ a \\> \\& \\> b = 0 $ , and the greatest common divisor of $ 7 $ and $ 0 $ is $ 7 $ ."
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# Meaningless Operations\n\n## 题目描述\n\nCan the greatest common divisor and bitwise operations have anything in common? It is time to answer this question.\n\nSuppose you are given a positive integer $ a $ . You want to choose some integer $ b $ from $ 1 $ to $ a - 1 $ inclusive in such a way that the [greatest common divisor (GCD)](https://en.wikipedia.org/wiki/Greatest_common_divisor) of integers $ a \\oplus b $ and $ a \\> \\& \\> b $ is as large as possible. In other words, you'd like to compute the following function:\n\n $ $$$f(a) = \\max_{0 < b < a}{gcd(a \\oplus b, a \\> \\& \\> b)}. $ $ </p><p>Here  $ \\\\oplus $  denotes the <a href=\"https://en.wikipedia.org/wiki/Bitwise_operation#XOR\">bitwise XOR operation</a>, and  $ \\\\& $  denotes the <a href=\"https://en.wikipedia.org/wiki/Bitwise_operation#AND\">bitwise AND operation</a>.</p><p>The greatest common divisor of two integers  $ x $  and  $ y $  is the largest integer  $ g $  such that both  $ x $  and  $ y $  are divided by  $ g $  without remainder.</p><p>You are given  $ q $  integers  $ a\\_1, a\\_2, \\\\ldots, a\\_q $ . For each of these integers compute the largest possible value of the greatest common divisor (when  $ b$$$ is chosen optimally).\n\n## 输入格式\n\nThe first line contains an integer $ q $ ( $ 1 \\le q \\le 10^3 $ ) — the number of integers you need to compute the answer for.\n\nAfter that $ q $ integers are given, one per line: $ a_1, a_2, \\ldots, a_q $ ( $ 2 \\le a_i \\le 2^{25} - 1 $ ) — the integers you need to compute the answer for.\n\n## 输出格式\n\nFor each integer, print the answer in the same order as the integers are given in input.\n\n## 提示\n\nFor the first integer the optimal choice is $ b = 1 $ , then $ a \\oplus b = 3 $ , $ a \\> \\& \\> b = 0 $ , and the greatest common divisor of $ 3 $ and $ 0 $ is $ 3 $ .\n\nFor the second integer one optimal choice is $ b = 2 $ , then $ a \\oplus b = 1 $ , $ a \\> \\& \\> b = 2 $ , and the greatest common divisor of $ 1 $ and $ 2 $ is $ 1 $ .\n\nFor the third integer the optimal choice is $ b = 2 $ , then $ a \\oplus b = 7 $ , $ a \\> \\& \\> b = 0 $ , and the greatest common divisor of $ 7 $ and $ 0 $ is $ 7 $ .",
+            "url": "https://www.luogu.com.cn/problem/CF1110C",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "luogu-training-CF1151E",
+      "beforeSha256": "61549a168058e50393ba48f65cb06fa86889522fd620b2d5b56e3163a7c0c343",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF1151E",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:35.717457+00:00",
+          "markdownSha256": "3a873f11c8ee6bf9e61ee28b6c0d5e3e3079ba0e495f1e3847bf1741a8e74156",
+          "pdfPageCountVerified": false,
+          "sampleCount": 3,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "1e90c3cc3032e15cb7c008fc3e74c018b3ca77e388ac768c5ed43d1f135d56d7",
+              "url": "https://codeforces.com/problemset/problem/1151/E"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Number of Components\n\n## 题目描述\n\n克雷姆兰王国是一棵树（一个无环连通无向图），包含 $n$ 个顶点。每个顶点 $i$ 有一个权值 $a_i$。所有顶点通过边依次相连。具体来说，对于每个 $1 \\leq i < n$，存在一条连接顶点 $i$ 和 $i+1$ 的边。\n\n定义函数 $f(l, r)$，它接收两个整数 $l$ 和 $r$（$l \\leq r$）：\n\n- 只保留权值在 $l$ 到 $r$ 范围内的顶点。\n- 该函数的值为新图中的连通块数量。\n\n你的任务是计算如下的和：$$\\sum_{l=1}^{n} \\sum_{r=l}^{n} f(l, r)$$\n\n## 输入格式\n\n第一行包含一个整数 $n$（$1 \\leq n \\leq 10^5$），表示树的顶点数。\n\n第二行包含 $n$ 个整数 $a_1, a_2, \\ldots, a_n$（$1 \\leq a_i \\leq n$），表示每个顶点的权值。\n\n## 输出格式\n\n输出一个整数，表示答案。\n\n## 提示\n\n在第一个样例中，函数值如下：\n\n- $f(1, 1)=1$（只剩下编号为 $2$ 的顶点，形成一个连通块）\n- $f(1, 2)=1$（剩下编号为 $1$ 和 $2$ 的顶点，形成一个连通块）\n- $f(1, 3)=1$（所有顶点都保留，形成一个连通块）\n- $f(2, 2)=1$（只剩下编号为 $1$ 的顶点）\n- $f(2, 3)=2$（剩下编号为 $1$ 和 $3$ 的顶点，形成两个连通块）\n- $f(3, 3)=1$（只剩下编号为 $3$ 的顶点）\n\n总和为 $7$。\n\n在第二个样例中，函数值如下：\n\n- $f(1, 1)=1$\n- $f(1, 2)=1$\n- $f(1, 3)=1$\n- $f(1, 4)=1$\n- $f(2, 2)=1$\n- $f(2, 3)=2$\n- $f(2, 4)=2$\n- $f(3, 3)=1$\n- $f(3, 4)=1$\n- $f(4, 4)=0$（没有顶点剩下，连通块数量为 $0$）\n\n总和为 $11$。\n\n由 ChatGPT 4.1 翻译",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "3\n2 1 3",
+            "name": "样例 1",
+            "output": "7"
+          },
+          {
+            "input": "4\n2 1 1 3",
+            "name": "样例 2",
+            "output": "11"
+          },
+          {
+            "input": "10\n1 5 2 5 5 3 10 6 5 1",
+            "name": "样例 3",
+            "output": "104"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "b28ddbca7ab7a14dc9078a85cd20e95e205f3fa4565ba7b7f088d43c078632b2",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF1151E",
+          "originalUrl": "https://codeforces.com/problemset/problem/1151/E",
+          "sourceProblemId": "CF1151E",
+          "textAlignment": 0.9942857142857143
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Number of Components",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "be6c5b977303b9f69dbb91420ccd4b1beca1cc8a099bdef49d31e584142d3dd7",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "b28ddbca7ab7a14dc9078a85cd20e95e205f3fa4565ba7b7f088d43c078632b2"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF1151E",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# Number of Components\n\n## 题目描述\n\n克雷姆兰王国是一棵树（一个无环连通无向图），包含 $n$ 个顶点。每个顶点 $i$ 有一个权值 $a_i$。所有顶点通过边依次相连。具体来说，对于每个 $1 \\leq i < n$，存在一条连接顶点 $i$ 和 $i+1$ 的边。\n\n定义函数 $f(l, r)$，它接收两个整数 $l$ 和 $r$（$l \\leq r$）：\n\n- 只保留权值在 $l$ 到 $r$ 范围内的顶点。\n- 该函数的值为新图中的连通块数量。\n\n你的任务是计算如下的和：$$\\sum_{l=1}^{n} \\sum_{r=l}^{n} f(l, r)$$\n\n## 输入格式\n\n第一行包含一个整数 $n$（$1 \\leq n \\leq 10^5$），表示树的顶点数。\n\n第二行包含 $n$ 个整数 $a_1, a_2, \\ldots, a_n$（$1 \\leq a_i \\leq n$），表示每个顶点的权值。\n\n## 输出格式\n\n输出一个整数，表示答案。\n\n## 提示\n\n在第一个样例中，函数值如下：\n\n- $f(1, 1)=1$（只剩下编号为 $2$ 的顶点，形成一个连通块）\n- $f(1, 2)=1$（剩下编号为 $1$ 和 $2$ 的顶点，形成一个连通块）\n- $f(1, 3)=1$（所有顶点都保留，形成一个连通块）\n- $f(2, 2)=1$（只剩下编号为 $1$ 的顶点）\n- $f(2, 3)=2$（剩下编号为 $1$ 和 $3$ 的顶点，形成两个连通块）\n- $f(3, 3)=1$（只剩下编号为 $3$ 的顶点）\n\n总和为 $7$。\n\n在第二个样例中，函数值如下：\n\n- $f(1, 1)=1$\n- $f(1, 2)=1$\n- $f(1, 3)=1$\n- $f(1, 4)=1$\n- $f(2, 2)=1$\n- $f(2, 3)=2$\n- $f(2, 4)=2$\n- $f(3, 3)=1$\n- $f(3, 4)=1$\n- $f(4, 4)=0$（没有顶点剩下，连通块数量为 $0$）\n\n总和为 $11$。\n\n由 ChatGPT 4.1 翻译",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF1151E",
+            "sourceMarkdown": "# Number of Components\n\n## 题目描述\n\nThe Kingdom of Kremland is a tree (a connected undirected graph without cycles) consisting of $ n $ vertices. Each vertex $ i $ has its own value $ a_i $ . All vertices are connected in series by edges. Formally, for every $ 1 \\leq i < n $ there is an edge between the vertices of $ i $ and $ i+1 $ .\n\nDenote the function $ f(l, r) $ , which takes two integers $ l $ and $ r $ ( $ l \\leq r $ ):\n\n- We leave in the tree only vertices whose values ​​range from $ l $ to $ r $ .\n- The value of the function will be the number of connected components in the new graph.\n\nYour task is to calculate the following sum: $ $$$\\sum_{l=1}^{n} \\sum_{r=l}^{n} f(l, r)  $ $$$\n\n## 输入格式\n\nThe first line contains a single integer $ n $ ( $ 1 \\leq n \\leq 10^5 $ ) — the number of vertices in the tree.\n\nThe second line contains $ n $ integers $ a_1, a_2, \\ldots, a_n $ ( $ 1 \\leq a_i \\leq n $ ) — the values of the vertices.\n\n## 输出格式\n\nPrint one number — the answer to the problem.\n\n## 提示\n\nIn the first example, the function values ​​will be as follows:\n\n- $ f(1, 1)=1 $ (there is only a vertex with the number $ 2 $ , which forms one component)\n- $ f(1, 2)=1 $ (there are vertices $ 1 $ and $ 2 $ that form one component)\n- $ f(1, 3)=1 $ (all vertices remain, one component is obtained)\n- $ f(2, 2)=1 $ (only vertex number $ 1 $ )\n- $ f(2, 3)=2 $ (there are vertices $ 1 $ and $ 3 $ that form two components)\n- $ f(3, 3)=1 $ (only vertex $ 3 $ )\n\n Totally out $ 7 $ .In the second example, the function values ​​will be as follows:\n\n- $ f(1, 1)=1 $\n- $ f(1, 2)=1 $\n- $ f(1, 3)=1 $\n- $ f(1, 4)=1 $\n- $ f(2, 2)=1 $\n- $ f(2, 3)=2 $\n- $ f(2, 4)=2 $\n- $ f(3, 3)=1 $\n- $ f(3, 4)=1 $\n- $ f(4, 4)=0 $ (there is no vertex left, so the number of components is $ 0 $ )\n\n Totally out $ 11 $ ."
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# Number of Components\n\n## 题目描述\n\nThe Kingdom of Kremland is a tree (a connected undirected graph without cycles) consisting of $ n $ vertices. Each vertex $ i $ has its own value $ a_i $ . All vertices are connected in series by edges. Formally, for every $ 1 \\leq i < n $ there is an edge between the vertices of $ i $ and $ i+1 $ .\n\nDenote the function $ f(l, r) $ , which takes two integers $ l $ and $ r $ ( $ l \\leq r $ ):\n\n- We leave in the tree only vertices whose values ​​range from $ l $ to $ r $ .\n- The value of the function will be the number of connected components in the new graph.\n\nYour task is to calculate the following sum: $ $$$\\sum_{l=1}^{n} \\sum_{r=l}^{n} f(l, r)  $ $$$\n\n## 输入格式\n\nThe first line contains a single integer $ n $ ( $ 1 \\leq n \\leq 10^5 $ ) — the number of vertices in the tree.\n\nThe second line contains $ n $ integers $ a_1, a_2, \\ldots, a_n $ ( $ 1 \\leq a_i \\leq n $ ) — the values of the vertices.\n\n## 输出格式\n\nPrint one number — the answer to the problem.\n\n## 提示\n\nIn the first example, the function values ​​will be as follows:\n\n- $ f(1, 1)=1 $ (there is only a vertex with the number $ 2 $ , which forms one component)\n- $ f(1, 2)=1 $ (there are vertices $ 1 $ and $ 2 $ that form one component)\n- $ f(1, 3)=1 $ (all vertices remain, one component is obtained)\n- $ f(2, 2)=1 $ (only vertex number $ 1 $ )\n- $ f(2, 3)=2 $ (there are vertices $ 1 $ and $ 3 $ that form two components)\n- $ f(3, 3)=1 $ (only vertex $ 3 $ )\n\n Totally out $ 7 $ .In the second example, the function values ​​will be as follows:\n\n- $ f(1, 1)=1 $\n- $ f(1, 2)=1 $\n- $ f(1, 3)=1 $\n- $ f(1, 4)=1 $\n- $ f(2, 2)=1 $\n- $ f(2, 3)=2 $\n- $ f(2, 4)=2 $\n- $ f(3, 3)=1 $\n- $ f(3, 4)=1 $\n- $ f(4, 4)=0 $ (there is no vertex left, so the number of components is $ 0 $ )\n\n Totally out $ 11 $ .",
+            "url": "https://www.luogu.com.cn/problem/CF1151E",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "luogu-training-CF1204E",
+      "beforeSha256": "ad786a07467b439be7962aef590126875f27e1c18b59f2f72c9b12517ceb3cf3",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF1204E",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:35.973385+00:00",
+          "markdownSha256": "b03645daa31e9c86731226c813da408a56dd7be18d383922c3545f80539297c6",
+          "pdfPageCountVerified": false,
+          "sampleCount": 4,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "5ef774b2393ee36729c1bcc7506a0f335571fa98d1ddaf6080ef520c8c8e9c1c",
+              "url": "https://codeforces.com/problemset/problem/1204/E"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Natasha, Sasha and the Prefix Sums\n\n## 题目描述\n\nNaCly_Fish 最喜欢的数字是 $n$ 和 $1$；$\\mathsf E \\color{red} \\mathsf{ntropyIncreaser}$ 最喜欢 $m$ 和 $-1$。\n\n有一天，她们在一起写出了一个长度为 $n+m$，有 $n$ 个 $1$ 和 $m$ 个 $-1$ 的序列 $a$，定义其最大前缀和为： \n$$\\large \\max\\{ 0,\\max\\limits_{1\\le i\\le n+m}\\sum\\limits_{j=1}^ia_j \\}$$\n换句话说，就是对于 $a$ 的前缀和的所有项和 $0$ 取 $\\max$ 的值。\n\nNaCly_Fish 想知道，对于全部可能的序列，它们的 最大前缀和 之和是多少。  \n为了防止答案过大，要对 ${998244\\textcolor{red}853}$ (是个质数) 取模。\n\n$\\mathsf E \\color{red} \\mathsf{ntropyIncreaser}$ 只用 1s 就想到了做法，但是 NaCly_Fish 还不会，你能帮帮她吗？\n\n## 输入格式\n\n一行两个非负整数 $n,m$\n\n## 输出格式\n\n一行一个整数表示答案。\n\n## 提示\n\n【样例 $3$ 解释】  \n可能的序列有 $6$ 种：  \n$1,1,-1,-1$  \n$1,-1,1,-1$  \n$1,-1,-1,1$  \n$-1,1,1,-1$  \n$-1,1,-1,1$  \n$-1,-1,1,1$  \n它们的最大前缀和分别为 $2,1,1,1,0,0$，加起来答案为 $5$。\n\n$0\\le n,m \\le 2000$",
+        "officialTags": [
+          "数学",
+          "组合数学",
+          "排列组合",
+          "容斥原理"
+        ],
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "0 2",
+            "name": "样例 1",
+            "output": "0"
+          },
+          {
+            "input": "2 0",
+            "name": "样例 2",
+            "output": "2"
+          },
+          {
+            "input": "2 2",
+            "name": "样例 3",
+            "output": "5"
+          },
+          {
+            "input": "2000 2000",
+            "name": "样例 4",
+            "output": "674532367"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "31cfefe65855927214bf5fd10686b5a5b9a61e5ec30c93ec7312594da4999887",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF1204E",
+          "originalUrl": "https://codeforces.com/problemset/problem/1204/E",
+          "sourceProblemId": "CF1204E",
+          "textAlignment": 0.9946332737030411
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Natasha, Sasha and the Prefix Sums",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "1a1602795866b977337a9c39c56b9abac1786b3ec8594e02b47d9cdbd1d4bcc4",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "31cfefe65855927214bf5fd10686b5a5b9a61e5ec30c93ec7312594da4999887"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF1204E",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# Natasha, Sasha and the Prefix Sums\n\n## 题目描述\n\nNaCly_Fish 最喜欢的数字是 $n$ 和 $1$；$\\mathsf E \\color{red} \\mathsf{ntropyIncreaser}$ 最喜欢 $m$ 和 $-1$。\n\n有一天，她们在一起写出了一个长度为 $n+m$，有 $n$ 个 $1$ 和 $m$ 个 $-1$ 的序列 $a$，定义其最大前缀和为： \n$$\\large \\max\\{ 0,\\max\\limits_{1\\le i\\le n+m}\\sum\\limits_{j=1}^ia_j \\}$$\n换句话说，就是对于 $a$ 的前缀和的所有项和 $0$ 取 $\\max$ 的值。\n\nNaCly_Fish 想知道，对于全部可能的序列，它们的 最大前缀和 之和是多少。  \n为了防止答案过大，要对 ${998244\\textcolor{red}853}$ (是个质数) 取模。\n\n$\\mathsf E \\color{red} \\mathsf{ntropyIncreaser}$ 只用 1s 就想到了做法，但是 NaCly_Fish 还不会，你能帮帮她吗？\n\n## 输入格式\n\n一行两个非负整数 $n,m$\n\n## 输出格式\n\n一行一个整数表示答案。\n\n## 提示\n\n【样例 $3$ 解释】  \n可能的序列有 $6$ 种：  \n$1,1,-1,-1$  \n$1,-1,1,-1$  \n$1,-1,-1,1$  \n$-1,1,1,-1$  \n$-1,1,-1,1$  \n$-1,-1,1,1$  \n它们的最大前缀和分别为 $2,1,1,1,0,0$，加起来答案为 $5$。\n\n$0\\le n,m \\le 2000$",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF1204E",
+            "sourceMarkdown": "# Natasha, Sasha and the Prefix Sums\n\n## 题目描述\n\nNatasha's favourite numbers are $ n $ and $ 1 $ , and Sasha's favourite numbers are $ m $ and $ -1 $ . One day Natasha and Sasha met and wrote down every possible array of length $ n+m $ such that some $ n $ of its elements are equal to $ 1 $ and another $ m $ elements are equal to $ -1 $ . For each such array they counted its maximal prefix sum, probably an empty one which is equal to $ 0 $ (in another words, if every nonempty prefix sum is less to zero, then it is considered equal to zero). Formally, denote as $ f(a) $ the maximal prefix sum of an array $ a_{1, \\ldots ,l} $ of length $ l \\geq 0 $ . Then:\n\n $ $$$f(a) = \\max (0, \\smash{\\displaystyle\\max_{1 \\leq i \\leq l}} \\sum_{j=1}^{i} a_j ) $ $ </p><p>Now they want to count the sum of maximal prefix sums for each such an array and they are asking you to help. As this sum can be very large, output it modulo  $ 998\\\\: 244\\\\: 853$$$.\n\n## 输入格式\n\nThe only line contains two integers $ n $ and $ m $ ( $ 0 \\le n,m \\le 2\\,000 $ ).\n\n## 输出格式\n\nOutput the answer to the problem modulo $ 998\\: 244\\: 853 $ .\n\n## 提示\n\nIn the first example the only possible array is \\[-1,-1\\], its maximal prefix sum is equal to $ 0 $ .\n\nIn the second example the only possible array is \\[1,1\\], its maximal prefix sum is equal to $ 2 $ .\n\nThere are $ 6 $ possible arrays in the third example:\n\n\\[1,1,-1,-1\\], f(\\[1,1,-1,-1\\]) = 2\n\n\\[1,-1,1,-1\\], f(\\[1,-1,1,-1\\]) = 1\n\n\\[1,-1,-1,1\\], f(\\[1,-1,-1,1\\]) = 1\n\n\\[-1,1,1,-1\\], f(\\[-1,1,1,-1\\]) = 1\n\n\\[-1,1,-1,1\\], f(\\[-1,1,-1,1\\]) = 0\n\n\\[-1,-1,1,1\\], f(\\[-1,-1,1,1\\]) = 0\n\nSo the answer for the third example is $ 2+1+1+1+0+0 = 5 $ ."
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# Natasha, Sasha and the Prefix Sums\n\n## 题目描述\n\nNatasha's favourite numbers are $ n $ and $ 1 $ , and Sasha's favourite numbers are $ m $ and $ -1 $ . One day Natasha and Sasha met and wrote down every possible array of length $ n+m $ such that some $ n $ of its elements are equal to $ 1 $ and another $ m $ elements are equal to $ -1 $ . For each such array they counted its maximal prefix sum, probably an empty one which is equal to $ 0 $ (in another words, if every nonempty prefix sum is less to zero, then it is considered equal to zero). Formally, denote as $ f(a) $ the maximal prefix sum of an array $ a_{1, \\ldots ,l} $ of length $ l \\geq 0 $ . Then:\n\n $ $$$f(a) = \\max (0, \\smash{\\displaystyle\\max_{1 \\leq i \\leq l}} \\sum_{j=1}^{i} a_j ) $ $ </p><p>Now they want to count the sum of maximal prefix sums for each such an array and they are asking you to help. As this sum can be very large, output it modulo  $ 998\\\\: 244\\\\: 853$$$.\n\n## 输入格式\n\nThe only line contains two integers $ n $ and $ m $ ( $ 0 \\le n,m \\le 2\\,000 $ ).\n\n## 输出格式\n\nOutput the answer to the problem modulo $ 998\\: 244\\: 853 $ .\n\n## 提示\n\nIn the first example the only possible array is \\[-1,-1\\], its maximal prefix sum is equal to $ 0 $ .\n\nIn the second example the only possible array is \\[1,1\\], its maximal prefix sum is equal to $ 2 $ .\n\nThere are $ 6 $ possible arrays in the third example:\n\n\\[1,1,-1,-1\\], f(\\[1,1,-1,-1\\]) = 2\n\n\\[1,-1,1,-1\\], f(\\[1,-1,1,-1\\]) = 1\n\n\\[1,-1,-1,1\\], f(\\[1,-1,-1,1\\]) = 1\n\n\\[-1,1,1,-1\\], f(\\[-1,1,1,-1\\]) = 1\n\n\\[-1,1,-1,1\\], f(\\[-1,1,-1,1\\]) = 0\n\n\\[-1,-1,1,1\\], f(\\[-1,-1,1,1\\]) = 0\n\nSo the answer for the third example is $ 2+1+1+1+0+0 = 5 $ .",
+            "url": "https://www.luogu.com.cn/problem/CF1204E",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "luogu-training-CF1266D",
+      "beforeSha256": "42bd92b8d403e5bac1853d5578cc74b6eb1e1dff53d4bd535b68229525536811",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF1266D",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:36.457875+00:00",
+          "markdownSha256": "22486258e5f66de44d56f248f8bab1fa5cabaf58a1d22de2fb5af1356040126f",
+          "pdfPageCountVerified": false,
+          "sampleCount": 4,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "173f86f15ab389529ae96bc9041e3dfe40d750564c34a37a9ec22bca3ef754f4",
+              "url": "https://codeforces.com/problemset/problem/1266/D"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Decreasing Debts\n\n## 题目描述\n\n这个世界上有 $n$ 个人，编号为 $1$ 到 $n$。他们使用 burles 购买商品和服务。有时候，一个人可能没有足够的货币来购买他想要或需要的东西，于是他会向别人借钱，并打算以后连本带息偿还这笔贷款。记 $d(a,b)$ 表示 $a$ 欠 $b$ 的债务金额，如果没有这笔债务则为 $0$。\n\n有时，这种情况会变得非常复杂，因为出借人可能在债务人还钱之前遇到经济困难，自己也需要向别人借钱。\n\n当这种过程持续足够长的时间后，可能会出现很多债务，这些债务可以进行合并。合并的方法有两种：\n\n1. 设 $d(a,b) > 0$ 且 $d(c,d) > 0$，其中 $a \\neq c$ 或 $b \\neq d$。我们可以将 $d(a,b)$ 和 $d(c,d)$ 各减少 $z$，同时将 $d(c,b)$ 和 $d(a,d)$ 各增加 $z$，其中 $0 < z \\leq \\min(d(a,b), d(c,d))$。\n2. 设 $d(a,a) > 0$。我们可以将 $d(a,a)$ 设为 $0$。\n\n总债务定义为所有债务的和：\n\n$$\n\\Sigma_d = \\sum_{a,b} d(a,b)\n$$\n\n你的目标是任意次、任意顺序地使用上述两种操作，使总债务尽可能小。注意，你不需要最小化非零债务的数量，只需最小化总债务。\n\n## 输入格式\n\n第一行包含两个用空格分隔的整数 $n$（$1 \\leq n \\leq 10^5$）和 $m$（$0 \\leq m \\leq 3 \\cdot 10^5$），分别表示人数和债务数。\n\n接下来 $m$ 行，每行包含三个用空格分隔的整数 $u_i$、$v_i$（$1 \\leq u_i, v_i \\leq n, u_i \\neq v_i$）、$d_i$（$1 \\leq d_i \\leq 10^9$），表示 $u_i$ 向 $v_i$ 借了 $d_i$ 个 burles。\n\n## 输出格式\n\n第一行输出一个整数 $m'$（$0 \\leq m' \\leq 3 \\cdot 10^5$），表示合并后剩余的债务数。可以证明一定存在满足该条件的解。\n\n接下来输出 $m'$ 行，每行包含三个用空格分隔的整数 $u_i, v_i, d_i$，表示 $u_i$ 恰好欠 $v_i$ $d_i$ 个 burles。输出需满足 $1 \\leq u_i, v_i \\leq n$，$u_i \\neq v_i$ 且 $0 < d_i \\leq 10^{18}$。\n\n对于每对 $i \\neq j$，应满足 $u_i \\neq u_j$ 或 $v_i \\neq v_j$，即每对人之间最多只出现一次债务。\n\n## 提示\n\n在第一个样例中，最优的操作序列可以如下：\n\n1. 对 $a=1$，$b=2$，$c=2$，$d=3$，$z=5$ 执行第一种操作。此时债务为：$d(1,2)=5$，$d(2,2)=5$，$d(1,3)=5$，其余债务为 $0$；\n2. 对 $a=2$ 执行第二种操作。此时债务为：$d(1,2)=5$，$d(1,3)=5$，其余债务为 $0$。\n\n在第二个样例中，最优的操作序列可以如下：\n\n1. 对 $a=1$，$b=2$，$c=3$，$d=1$，$z=10$ 执行第一种操作。此时债务为：$d(3,2)=10$，$d(2,3)=15$，$d(1,1)=10$，其余债务为 $0$；\n2. 对 $a=2$，$b=3$，$c=3$，$d=2$，$z=10$ 执行第一种操作。此时债务为：$d(2,2)=10$，$d(3,3)=10$，$d(2,3)=5$，$d(1,1)=10$，其余债务为 $0$；\n3. 对 $a=2$ 执行第二种操作。此时债务为：$d(3,3)=10$，$d(2,3)=5$，$d(1,1)=10$，其余债务为 $0$；\n4. 对 $a=3$ 执行第二种操作。此时债务为：$d(2,3)=5$，$d(1,1)=10$，其余债务为 $0$；\n5. 对 $a=1$ 执行第二种操作。此时债务为：$d(2,3)=5$，其余债务为 $0$。\n\n由 ChatGPT 4.1 翻译",
+        "officialTags": [
+          "贪心",
+          "双指针 two-pointer"
+        ],
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "3 2\n1 2 10\n2 3 5",
+            "name": "样例 1",
+            "output": "2\n1 2 5\n1 3 5"
+          },
+          {
+            "input": "3 3\n1 2 10\n2 3 15\n3 1 10",
+            "name": "样例 2",
+            "output": "1\n2 3 5"
+          },
+          {
+            "input": "4 2\n1 2 12\n3 4 8",
+            "name": "样例 3",
+            "output": "2\n1 2 12\n3 4 8"
+          },
+          {
+            "input": "3 4\n2 3 1\n2 3 2\n2 3 4\n2 3 8",
+            "name": "样例 4",
+            "output": "1\n2 3 15"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "265e9f3518bc4c004b5d4761b5a434ebbbfce80c8d0ef5a575ef6bbcd56b9986",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF1266D",
+          "originalUrl": "https://codeforces.com/problemset/problem/1266/D",
+          "sourceProblemId": "CF1266D",
+          "textAlignment": 0.989492119089317
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Decreasing Debts",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "935564d507f3e7a1bad56dfec78b6b5a28340fa13ccea1fc7ee3863babdccfcf",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "265e9f3518bc4c004b5d4761b5a434ebbbfce80c8d0ef5a575ef6bbcd56b9986"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF1266D",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# Decreasing Debts\n\n## 题目描述\n\n这个世界上有 $n$ 个人，编号为 $1$ 到 $n$。他们使用 burles 购买商品和服务。有时候，一个人可能没有足够的货币来购买他想要或需要的东西，于是他会向别人借钱，并打算以后连本带息偿还这笔贷款。记 $d(a,b)$ 表示 $a$ 欠 $b$ 的债务金额，如果没有这笔债务则为 $0$。\n\n有时，这种情况会变得非常复杂，因为出借人可能在债务人还钱之前遇到经济困难，自己也需要向别人借钱。\n\n当这种过程持续足够长的时间后，可能会出现很多债务，这些债务可以进行合并。合并的方法有两种：\n\n1. 设 $d(a,b) > 0$ 且 $d(c,d) > 0$，其中 $a \\neq c$ 或 $b \\neq d$。我们可以将 $d(a,b)$ 和 $d(c,d)$ 各减少 $z$，同时将 $d(c,b)$ 和 $d(a,d)$ 各增加 $z$，其中 $0 < z \\leq \\min(d(a,b), d(c,d))$。\n2. 设 $d(a,a) > 0$。我们可以将 $d(a,a)$ 设为 $0$。\n\n总债务定义为所有债务的和：\n\n$$\n\\Sigma_d = \\sum_{a,b} d(a,b)\n$$\n\n你的目标是任意次、任意顺序地使用上述两种操作，使总债务尽可能小。注意，你不需要最小化非零债务的数量，只需最小化总债务。\n\n## 输入格式\n\n第一行包含两个用空格分隔的整数 $n$（$1 \\leq n \\leq 10^5$）和 $m$（$0 \\leq m \\leq 3 \\cdot 10^5$），分别表示人数和债务数。\n\n接下来 $m$ 行，每行包含三个用空格分隔的整数 $u_i$、$v_i$（$1 \\leq u_i, v_i \\leq n, u_i \\neq v_i$）、$d_i$（$1 \\leq d_i \\leq 10^9$），表示 $u_i$ 向 $v_i$ 借了 $d_i$ 个 burles。\n\n## 输出格式\n\n第一行输出一个整数 $m'$（$0 \\leq m' \\leq 3 \\cdot 10^5$），表示合并后剩余的债务数。可以证明一定存在满足该条件的解。\n\n接下来输出 $m'$ 行，每行包含三个用空格分隔的整数 $u_i, v_i, d_i$，表示 $u_i$ 恰好欠 $v_i$ $d_i$ 个 burles。输出需满足 $1 \\leq u_i, v_i \\leq n$，$u_i \\neq v_i$ 且 $0 < d_i \\leq 10^{18}$。\n\n对于每对 $i \\neq j$，应满足 $u_i \\neq u_j$ 或 $v_i \\neq v_j$，即每对人之间最多只出现一次债务。\n\n## 提示\n\n在第一个样例中，最优的操作序列可以如下：\n\n1. 对 $a=1$，$b=2$，$c=2$，$d=3$，$z=5$ 执行第一种操作。此时债务为：$d(1,2)=5$，$d(2,2)=5$，$d(1,3)=5$，其余债务为 $0$；\n2. 对 $a=2$ 执行第二种操作。此时债务为：$d(1,2)=5$，$d(1,3)=5$，其余债务为 $0$。\n\n在第二个样例中，最优的操作序列可以如下：\n\n1. 对 $a=1$，$b=2$，$c=3$，$d=1$，$z=10$ 执行第一种操作。此时债务为：$d(3,2)=10$，$d(2,3)=15$，$d(1,1)=10$，其余债务为 $0$；\n2. 对 $a=2$，$b=3$，$c=3$，$d=2$，$z=10$ 执行第一种操作。此时债务为：$d(2,2)=10$，$d(3,3)=10$，$d(2,3)=5$，$d(1,1)=10$，其余债务为 $0$；\n3. 对 $a=2$ 执行第二种操作。此时债务为：$d(3,3)=10$，$d(2,3)=5$，$d(1,1)=10$，其余债务为 $0$；\n4. 对 $a=3$ 执行第二种操作。此时债务为：$d(2,3)=5$，$d(1,1)=10$，其余债务为 $0$；\n5. 对 $a=1$ 执行第二种操作。此时债务为：$d(2,3)=5$，其余债务为 $0$。\n\n由 ChatGPT 4.1 翻译",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF1266D",
+            "sourceMarkdown": "# Decreasing Debts\n\n## 题目描述\n\nThere are $ n $ people in this world, conveniently numbered $ 1 $ through $ n $ . They are using burles to buy goods and services. Occasionally, a person might not have enough currency to buy what he wants or needs, so he borrows money from someone else, with the idea that he will repay the loan later with interest. Let $ d(a,b) $ denote the debt of $ a $ towards $ b $ , or $ 0 $ if there is no such debt.\n\nSometimes, this becomes very complex, as the person lending money can run into financial troubles before his debtor is able to repay his debt, and finds himself in the need of borrowing money.\n\nWhen this process runs for a long enough time, it might happen that there are so many debts that they can be consolidated. There are two ways this can be done:\n\n1. Let $ d(a,b) > 0 $ and $ d(c,d) > 0 $ such that $ a \\neq c $ or $ b \\neq d $ . We can decrease the $ d(a,b) $ and $ d(c,d) $ by $ z $ and increase $ d(c,b) $ and $ d(a,d) $ by $ z $ , where $ 0 < z \\leq \\min(d(a,b),d(c,d)) $ .\n2. Let $ d(a,a) > 0 $ . We can set $ d(a,a) $ to $ 0 $ .\n\nThe total debt is defined as the sum of all debts:\n\n $ $$$\\Sigma_d = \\sum_{a,b} d(a,b) $ $$$\n\nYour goal is to use the above rules in any order any number of times, to make the total debt as small as possible. Note that you don't have to minimise the number of non-zero debts, only the total debt.\n\n## 输入格式\n\nThe first line contains two space separated integers $ n $ ( $ 1 \\leq n \\leq 10^5 $ ) and $ m $ ( $ 0 \\leq m \\leq 3\\cdot 10^5 $ ), representing the number of people and the number of debts, respectively.\n\n $ m $ lines follow, each of which contains three space separated integers $ u_i $ , $ v_i $ ( $ 1 \\leq u_i, v_i \\leq n, u_i \\neq v_i $ ), $ d_i $ ( $ 1 \\leq d_i \\leq 10^9 $ ), meaning that the person $ u_i $ borrowed $ d_i $ burles from person $ v_i $ .\n\n## 输出格式\n\nOn the first line print an integer $ m' $ ( $ 0 \\leq m' \\leq 3\\cdot 10^5 $ ), representing the number of debts after the consolidation. It can be shown that an answer always exists with this additional constraint.\n\nAfter that print $ m' $ lines, $ i $ -th of which contains three space separated integers $ u_i, v_i, d_i $ , meaning that the person $ u_i $ owes the person $ v_i $ exactly $ d_i $ burles. The output must satisfy $ 1 \\leq u_i, v_i \\leq n $ , $ u_i \\neq v_i $ and $ 0 < d_i \\leq 10^{18} $ .\n\nFor each pair $ i \\neq j $ , it should hold that $ u_i \\neq u_j $ or $ v_i \\neq v_j $ . In other words, each pair of people can be included at most once in the output.\n\n## 提示\n\nIn the first example the optimal sequence of operations can be the following:\n\n1. Perform an operation of the first type with $ a = 1 $ , $ b = 2 $ , $ c = 2 $ , $ d = 3 $ and $ z = 5 $ . The resulting debts are: $ d(1, 2) = 5 $ , $ d(2, 2) = 5 $ , $ d(1, 3) = 5 $ , all other debts are $ 0 $ ;\n2. Perform an operation of the second type with $ a = 2 $ . The resulting debts are: $ d(1, 2) = 5 $ , $ d(1, 3) = 5 $ , all other debts are $ 0 $ .\n\nIn the second example the optimal sequence of operations can be the following:\n\n1. Perform an operation of the first type with $ a = 1 $ , $ b = 2 $ , $ c = 3 $ , $ d = 1 $ and $ z = 10 $ . The resulting debts are: $ d(3, 2) = 10 $ , $ d(2, 3) = 15 $ , $ d(1, 1) = 10 $ , all other debts are $ 0 $ ;\n2. Perform an operation of the first type with $ a = 2 $ , $ b = 3 $ , $ c = 3 $ , $ d = 2 $ and $ z = 10 $ . The resulting debts are: $ d(2, 2) = 10 $ , $ d(3, 3) = 10 $ , $ d(2, 3) = 5 $ , $ d(1, 1) = 10 $ , all other debts are $ 0 $ ;\n3. Perform an operation of the second type with $ a = 2 $ . The resulting debts are: $ d(3, 3) = 10 $ , $ d(2, 3) = 5 $ , $ d(1, 1) = 10 $ , all other debts are $ 0 $ ;\n4. Perform an operation of the second type with $ a = 3 $ . The resulting debts are: $ d(2, 3) = 5 $ , $ d(1, 1) = 10 $ , all other debts are $ 0 $ ;\n5. Perform an operation of the second type with $ a = 1 $ . The resulting debts are: $ d(2, 3) = 5 $ , all other debts are $ 0 $ ."
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# Decreasing Debts\n\n## 题目描述\n\nThere are $ n $ people in this world, conveniently numbered $ 1 $ through $ n $ . They are using burles to buy goods and services. Occasionally, a person might not have enough currency to buy what he wants or needs, so he borrows money from someone else, with the idea that he will repay the loan later with interest. Let $ d(a,b) $ denote the debt of $ a $ towards $ b $ , or $ 0 $ if there is no such debt.\n\nSometimes, this becomes very complex, as the person lending money can run into financial troubles before his debtor is able to repay his debt, and finds himself in the need of borrowing money.\n\nWhen this process runs for a long enough time, it might happen that there are so many debts that they can be consolidated. There are two ways this can be done:\n\n1. Let $ d(a,b) > 0 $ and $ d(c,d) > 0 $ such that $ a \\neq c $ or $ b \\neq d $ . We can decrease the $ d(a,b) $ and $ d(c,d) $ by $ z $ and increase $ d(c,b) $ and $ d(a,d) $ by $ z $ , where $ 0 < z \\leq \\min(d(a,b),d(c,d)) $ .\n2. Let $ d(a,a) > 0 $ . We can set $ d(a,a) $ to $ 0 $ .\n\nThe total debt is defined as the sum of all debts:\n\n $ $$$\\Sigma_d = \\sum_{a,b} d(a,b) $ $$$\n\nYour goal is to use the above rules in any order any number of times, to make the total debt as small as possible. Note that you don't have to minimise the number of non-zero debts, only the total debt.\n\n## 输入格式\n\nThe first line contains two space separated integers $ n $ ( $ 1 \\leq n \\leq 10^5 $ ) and $ m $ ( $ 0 \\leq m \\leq 3\\cdot 10^5 $ ), representing the number of people and the number of debts, respectively.\n\n $ m $ lines follow, each of which contains three space separated integers $ u_i $ , $ v_i $ ( $ 1 \\leq u_i, v_i \\leq n, u_i \\neq v_i $ ), $ d_i $ ( $ 1 \\leq d_i \\leq 10^9 $ ), meaning that the person $ u_i $ borrowed $ d_i $ burles from person $ v_i $ .\n\n## 输出格式\n\nOn the first line print an integer $ m' $ ( $ 0 \\leq m' \\leq 3\\cdot 10^5 $ ), representing the number of debts after the consolidation. It can be shown that an answer always exists with this additional constraint.\n\nAfter that print $ m' $ lines, $ i $ -th of which contains three space separated integers $ u_i, v_i, d_i $ , meaning that the person $ u_i $ owes the person $ v_i $ exactly $ d_i $ burles. The output must satisfy $ 1 \\leq u_i, v_i \\leq n $ , $ u_i \\neq v_i $ and $ 0 < d_i \\leq 10^{18} $ .\n\nFor each pair $ i \\neq j $ , it should hold that $ u_i \\neq u_j $ or $ v_i \\neq v_j $ . In other words, each pair of people can be included at most once in the output.\n\n## 提示\n\nIn the first example the optimal sequence of operations can be the following:\n\n1. Perform an operation of the first type with $ a = 1 $ , $ b = 2 $ , $ c = 2 $ , $ d = 3 $ and $ z = 5 $ . The resulting debts are: $ d(1, 2) = 5 $ , $ d(2, 2) = 5 $ , $ d(1, 3) = 5 $ , all other debts are $ 0 $ ;\n2. Perform an operation of the second type with $ a = 2 $ . The resulting debts are: $ d(1, 2) = 5 $ , $ d(1, 3) = 5 $ , all other debts are $ 0 $ .\n\nIn the second example the optimal sequence of operations can be the following:\n\n1. Perform an operation of the first type with $ a = 1 $ , $ b = 2 $ , $ c = 3 $ , $ d = 1 $ and $ z = 10 $ . The resulting debts are: $ d(3, 2) = 10 $ , $ d(2, 3) = 15 $ , $ d(1, 1) = 10 $ , all other debts are $ 0 $ ;\n2. Perform an operation of the first type with $ a = 2 $ , $ b = 3 $ , $ c = 3 $ , $ d = 2 $ and $ z = 10 $ . The resulting debts are: $ d(2, 2) = 10 $ , $ d(3, 3) = 10 $ , $ d(2, 3) = 5 $ , $ d(1, 1) = 10 $ , all other debts are $ 0 $ ;\n3. Perform an operation of the second type with $ a = 2 $ . The resulting debts are: $ d(3, 3) = 10 $ , $ d(2, 3) = 5 $ , $ d(1, 1) = 10 $ , all other debts are $ 0 $ ;\n4. Perform an operation of the second type with $ a = 3 $ . The resulting debts are: $ d(2, 3) = 5 $ , $ d(1, 1) = 10 $ , all other debts are $ 0 $ ;\n5. Perform an operation of the second type with $ a = 1 $ . The resulting debts are: $ d(2, 3) = 5 $ , all other debts are $ 0 $ .",
+            "url": "https://www.luogu.com.cn/problem/CF1266D",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "luogu-training-CF1271E",
+      "beforeSha256": "bef3775f056ea591b54b28766604f276eebb80725bcd956aab19fe84ff1416e9",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF1271E",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:36.103253+00:00",
+          "markdownSha256": "e8402994e1ee254614d8ccdcaf53f82545de814f8de42eaca8affb731a5039bf",
+          "pdfPageCountVerified": false,
+          "sampleCount": 5,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "f42498c9b81db13c27159c62e92bd53a54a0e3356be1359f8daddf81c004b614",
+              "url": "https://codeforces.com/problemset/problem/1271/E"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Common Number\n\n## 题目描述\n\n首先，定义函数 $f(x)$ 如下：\n$$\nf(x) = \\begin{cases}\n\\frac{x}{2} & \\text{如果 } x \\text{ 是偶数} \\\\\nx - 1 & \\text{否则}\n\\end{cases}\n$$\n\n我们可以发现，如果选择某个值 $v$，并不断对其应用函数 $f$，即对 $f(v)$ 再应用 $f$，如此反复，最终一定会得到 $1$。我们将这个过程中得到的所有值按顺序记录在一个列表中，记为 $path(v)$。例如，$path(1) = [1]$，$path(15) = [15, 14, 7, 6, 3, 2, 1]$，$path(32) = [32, 16, 8, 4, 2, 1]$。\n\n现在，对于每个 $x$ 从 $1$ 到 $n$，都写出 $path(x)$。问题是：存在多少个不同的 $x$，使得某个值 $y$ 出现在 $path(x)$ 中？请你求出最大的 $y$，使得 $y$ 至少出现在 $k$ 个不同的 $path(x)$ 中。\n\n形式化地说，你需要找到最大的 $y$，使得\n$$\n\\left| \\{ x \\mid 1 \\le x \\le n,\\, y \\in path(x) \\} \\right| \\ge k\n$$\n成立。\n\n## 输入格式\n\n第一行包含两个整数 $n$ 和 $k$，满足 $1 \\le k \\le n \\le 10^{18}$。\n\n## 输出格式\n\n输出唯一的整数——在至少 $k$ 个不同路径中出现的最大值。\n\n## 提示\n\n在第一个样例中，答案是 $5$，因为 $5$ 出现在 $path(5)$、$path(10)$ 和 $path(11)$ 中。\n\n在第二个样例中，答案是 $4$，因为 $4$ 出现在 $path(4)$、$path(5)$、$path(8)$、$path(9)$、$path(10)$ 和 $path(11)$ 中。\n\n在第三个样例中，$n = k$，所以答案是 $1$，因为 $1$ 是唯一一个在 $1$ 到 $20$ 的所有路径中都出现的数字。\n\n由 ChatGPT 4.1 翻译",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "11 3",
+            "name": "样例 1",
+            "output": "5"
+          },
+          {
+            "input": "11 6",
+            "name": "样例 2",
+            "output": "4"
+          },
+          {
+            "input": "20 20",
+            "name": "样例 3",
+            "output": "1"
+          },
+          {
+            "input": "14 5",
+            "name": "样例 4",
+            "output": "6"
+          },
+          {
+            "input": "1000000 100",
+            "name": "样例 5",
+            "output": "31248"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "1e9050be953cb83c29e80d6a37d70d3a23620081d4d8a5379d31c5fb3d3039bf",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF1271E",
+          "originalUrl": "https://codeforces.com/problemset/problem/1271/E",
+          "sourceProblemId": "CF1271E",
+          "textAlignment": 0.9931662870159453
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Common Number",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "8f3d32130771c8b7ff5fa3655a0570f78bc0460af3c3dcfe711c738f350bb6e5",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "1e9050be953cb83c29e80d6a37d70d3a23620081d4d8a5379d31c5fb3d3039bf"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF1271E",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# Common Number\n\n## 题目描述\n\n首先，定义函数 $f(x)$ 如下：\n$$\nf(x) = \\begin{cases}\n\\frac{x}{2} & \\text{如果 } x \\text{ 是偶数} \\\\\nx - 1 & \\text{否则}\n\\end{cases}\n$$\n\n我们可以发现，如果选择某个值 $v$，并不断对其应用函数 $f$，即对 $f(v)$ 再应用 $f$，如此反复，最终一定会得到 $1$。我们将这个过程中得到的所有值按顺序记录在一个列表中，记为 $path(v)$。例如，$path(1) = [1]$，$path(15) = [15, 14, 7, 6, 3, 2, 1]$，$path(32) = [32, 16, 8, 4, 2, 1]$。\n\n现在，对于每个 $x$ 从 $1$ 到 $n$，都写出 $path(x)$。问题是：存在多少个不同的 $x$，使得某个值 $y$ 出现在 $path(x)$ 中？请你求出最大的 $y$，使得 $y$ 至少出现在 $k$ 个不同的 $path(x)$ 中。\n\n形式化地说，你需要找到最大的 $y$，使得\n$$\n\\left| \\{ x \\mid 1 \\le x \\le n,\\, y \\in path(x) \\} \\right| \\ge k\n$$\n成立。\n\n## 输入格式\n\n第一行包含两个整数 $n$ 和 $k$，满足 $1 \\le k \\le n \\le 10^{18}$。\n\n## 输出格式\n\n输出唯一的整数——在至少 $k$ 个不同路径中出现的最大值。\n\n## 提示\n\n在第一个样例中，答案是 $5$，因为 $5$ 出现在 $path(5)$、$path(10)$ 和 $path(11)$ 中。\n\n在第二个样例中，答案是 $4$，因为 $4$ 出现在 $path(4)$、$path(5)$、$path(8)$、$path(9)$、$path(10)$ 和 $path(11)$ 中。\n\n在第三个样例中，$n = k$，所以答案是 $1$，因为 $1$ 是唯一一个在 $1$ 到 $20$ 的所有路径中都出现的数字。\n\n由 ChatGPT 4.1 翻译",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF1271E",
+            "sourceMarkdown": "# Common Number\n\n## 题目描述\n\nAt first, let's define function $ f(x) $ as follows: $ $$$ \\begin{matrix} f(x) & = & \\left\\{ \\begin{matrix} \\frac{x}{2} & \\mbox{if } x \\text{ is even} \\\\ x - 1 & \\mbox{otherwise } \\end{matrix} \\right. \\end{matrix}  $ $ </p><p>We can see that if we choose some value  $ v $  and will apply function  $ f $  to it, then apply  $ f $  to  $ f(v) $ , and so on, we'll eventually get  $ 1 $ . Let's write down all values we get in this process in a list and denote this list as  $ path(v) $ . For example,  $ path(1) = \\[1\\] $ ,  $ path(15) = \\[15, 14, 7, 6, 3, 2, 1\\] $ ,  $ path(32) = \\[32, 16, 8, 4, 2, 1\\] $ .</p><p>Let's write all lists  $ path(x) $  for every  $ x $  from  $ 1 $  to  $ n $ . The question is next: what is the maximum value  $ y $  such that  $ y $  is contained in at least  $ k $  different lists  $ path(x) $ ?</p><p>Formally speaking, you need to find maximum  $ y $  such that  $ \\\\left| \\\\{ x ~|~ 1 \\\\le x \\\\le n, y \\\\in path(x) \\\\} \\\\right| \\\\ge k$$$.\n\n## 输入格式\n\nThe first line contains two integers $ n $ and $ k $ ( $ 1 \\le k \\le n \\le 10^{18} $ ).\n\n## 输出格式\n\nPrint the only integer — the maximum value that is contained in at least $ k $ paths.\n\n## 提示\n\nIn the first example, the answer is $ 5 $ , since $ 5 $ occurs in $ path(5) $ , $ path(10) $ and $ path(11) $ .\n\nIn the second example, the answer is $ 4 $ , since $ 4 $ occurs in $ path(4) $ , $ path(5) $ , $ path(8) $ , $ path(9) $ , $ path(10) $ and $ path(11) $ .\n\nIn the third example $ n = k $ , so the answer is $ 1 $ , since $ 1 $ is the only number occuring in all paths for integers from $ 1 $ to $ 20 $ ."
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# Common Number\n\n## 题目描述\n\nAt first, let's define function $ f(x) $ as follows: $ $$$ \\begin{matrix} f(x) & = & \\left\\{ \\begin{matrix} \\frac{x}{2} & \\mbox{if } x \\text{ is even} \\\\ x - 1 & \\mbox{otherwise } \\end{matrix} \\right. \\end{matrix}  $ $ </p><p>We can see that if we choose some value  $ v $  and will apply function  $ f $  to it, then apply  $ f $  to  $ f(v) $ , and so on, we'll eventually get  $ 1 $ . Let's write down all values we get in this process in a list and denote this list as  $ path(v) $ . For example,  $ path(1) = \\[1\\] $ ,  $ path(15) = \\[15, 14, 7, 6, 3, 2, 1\\] $ ,  $ path(32) = \\[32, 16, 8, 4, 2, 1\\] $ .</p><p>Let's write all lists  $ path(x) $  for every  $ x $  from  $ 1 $  to  $ n $ . The question is next: what is the maximum value  $ y $  such that  $ y $  is contained in at least  $ k $  different lists  $ path(x) $ ?</p><p>Formally speaking, you need to find maximum  $ y $  such that  $ \\\\left| \\\\{ x ~|~ 1 \\\\le x \\\\le n, y \\\\in path(x) \\\\} \\\\right| \\\\ge k$$$.\n\n## 输入格式\n\nThe first line contains two integers $ n $ and $ k $ ( $ 1 \\le k \\le n \\le 10^{18} $ ).\n\n## 输出格式\n\nPrint the only integer — the maximum value that is contained in at least $ k $ paths.\n\n## 提示\n\nIn the first example, the answer is $ 5 $ , since $ 5 $ occurs in $ path(5) $ , $ path(10) $ and $ path(11) $ .\n\nIn the second example, the answer is $ 4 $ , since $ 4 $ occurs in $ path(4) $ , $ path(5) $ , $ path(8) $ , $ path(9) $ , $ path(10) $ and $ path(11) $ .\n\nIn the third example $ n = k $ , so the answer is $ 1 $ , since $ 1 $ is the only number occuring in all paths for integers from $ 1 $ to $ 20 $ .",
+            "url": "https://www.luogu.com.cn/problem/CF1271E",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "luogu-training-CF1292C",
+      "beforeSha256": "4003af2676e9c211e682e6c75d447b7e4e92fbc4bc23f25479fa9f08a415878c",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF1292C",
+        "images": {
+          "https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/0f9f2baa435ba687ee4d32b6435c04b03bd650e3.png": "tb-asset:2bb08e58da9e896b11c371f0f9716592f770baaf7855d4b51d5b50c5b3c31281",
+          "https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/4e86fe7c73ce5613cf34e53621032aa8d877caf3.png": "tb-asset:b2907f6048e9ab0475047701c5fbb981df374a9854cf4191a5f3b68695a8517f",
+          "https://espresso.codeforces.com/065740667c8647c707ad619f58cd0a29b572e6b8.png": "tb-asset:868e02cfb7521cc80771678f8d7cdd4180b932a95276ae8b26eaa74d0d343569",
+          "https://espresso.codeforces.com/638dfcc9819948956ce6d4a0c7ceba099203fdc0.png": "tb-asset:b45024b1197f24c1666c274945728b6b826b39b50ab7e5ff2907e62618acec16"
+        },
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:35.935308+00:00",
+          "markdownSha256": "e7a7b680616e515a88e17352b408efc399c1d8e139358950140d9b1d7653793d",
+          "pdfPageCountVerified": false,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "0d3e6d2aa091ae7c93c9d6a01c5f2c4a311a834b61929079991ddb24d60c98ed",
+              "url": "https://codeforces.com/problemset/problem/1292/C"
+            },
+            {
+              "sha256": "b45024b1197f24c1666c274945728b6b826b39b50ab7e5ff2907e62618acec16",
+              "url": "https://espresso.codeforces.com/638dfcc9819948956ce6d4a0c7ceba099203fdc0.png"
+            },
+            {
+              "sha256": "868e02cfb7521cc80771678f8d7cdd4180b932a95276ae8b26eaa74d0d343569",
+              "url": "https://espresso.codeforces.com/065740667c8647c707ad619f58cd0a29b572e6b8.png"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Xenon's Attack on the Gangs\n\n## 题目描述\n\n在 A.R.C. Markland-N 的另一层楼，年轻人 Simon \"Xenon\" Jackson 在提前完成项目后（如往常一样）正在休息。由于有大量空闲时间，他决定发挥自己传奇黑客“X”的本能，去对抗网络世界中的黑帮。\n\n他的目标是一个由 $n$ 个小黑帮组成的网络。该网络恰好有 $n-1$ 条直接连接，每条连接将两个黑帮连接在一起。这些连接的方式保证了任意两个黑帮之间都存在一条由直接连接组成的路径。\n\n通过数据挖掘，Xenon 发现这些黑帮采用了一种交叉加密方式来防止被破获：每条连接被分配一个从 $0$ 到 $n-2$ 的整数，所有被分配的整数互不相同，并且每个整数都被分配给某条连接。如果有入侵者试图访问加密数据，他们需要突破 $S$ 层密码保护，其中 $S$ 的定义如下：\n\n$$\nS = \\sum_{1 \\leq u < v \\leq n} mex(u, v)\n$$\n\n其中，$mex(u, v)$ 表示在黑帮 $u$ 到黑帮 $v$ 的唯一简单路径上，没有出现的最小非负整数。\n\nXenon 并不知道这些整数的具体分配方式，但这对他来说不是问题。他决定让自己的 AI 实例尝试所有密码，但在此之前，他需要知道 $S$ 的最大可能值，以便高效部署 AI。\n\n现在，Xenon 正在编写 AI 脚本，预计两小时后完成。在他回来之前，你能帮他求出 $S$ 的最大可能值吗？\n\n## 输入格式\n\n第一行包含一个整数 $n$（$2 \\leq n \\leq 3000$），表示网络中的黑帮数量。\n\n接下来的 $n-1$ 行，每行包含两个整数 $u_i$ 和 $v_i$（$1 \\leq u_i, v_i \\leq n$，$u_i \\neq v_i$），表示黑帮 $u_i$ 和 $v_i$ 之间有一条直接连接。\n\n保证这些连接的方式使得任意两个黑帮之间都恰好有一条简单路径。\n\n## 输出格式\n\n输出一个整数，表示黑帮网络中密码层数 $S$ 的最大可能值。\n\n## 提示\n\n在第一个样例中，可以通过如下分配获得最大的 $S$：\n\n![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/0f9f2baa435ba687ee4d32b6435c04b03bd650e3.png)\n\n在这种分配下，$mex(1, 2) = 0$，$mex(1, 3) = 2$，$mex(2, 3) = 1$。因此，$S = 0 + 2 + 1 = 3$。\n\n在第二个样例中，可以通过如下分配获得最大的 $S$：\n\n![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/4e86fe7c73ce5613cf34e53621032aa8d877caf3.png)\n\n在这种分配下，所有非零的 $mex$ 值如下：\n\n- $mex(1, 3) = 1$\n- $mex(1, 5) = 2$\n- $mex(2, 3) = 1$\n- $mex(2, 5) = 2$\n- $mex(3, 4) = 1$\n- $mex(4, 5) = 3$\n\n因此，$S = 1 + 2 + 1 + 2 + 1 + 3 = 10$。\n\n由 ChatGPT 4.1 翻译",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/0f9f2baa435ba687ee4d32b6435c04b03bd650e3.png": {
+            "bytes": 5893,
+            "frameCount": 1,
+            "height": 62,
+            "mime": "image/png",
+            "sha256": "2bb08e58da9e896b11c371f0f9716592f770baaf7855d4b51d5b50c5b3c31281",
+            "sourceUrl": "https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/0f9f2baa435ba687ee4d32b6435c04b03bd650e3.png",
+            "width": 315
+          },
+          "https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/4e86fe7c73ce5613cf34e53621032aa8d877caf3.png": {
+            "bytes": 13368,
+            "frameCount": 1,
+            "height": 180,
+            "mime": "image/png",
+            "sha256": "b2907f6048e9ab0475047701c5fbb981df374a9854cf4191a5f3b68695a8517f",
+            "sourceUrl": "https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/4e86fe7c73ce5613cf34e53621032aa8d877caf3.png",
+            "width": 359
+          },
+          "https://espresso.codeforces.com/065740667c8647c707ad619f58cd0a29b572e6b8.png": {
+            "bytes": 7594,
+            "frameCount": 1,
+            "height": 300,
+            "mime": "image/png",
+            "sha256": "868e02cfb7521cc80771678f8d7cdd4180b932a95276ae8b26eaa74d0d343569",
+            "sourceUrl": "https://espresso.codeforces.com/065740667c8647c707ad619f58cd0a29b572e6b8.png",
+            "width": 598
+          },
+          "https://espresso.codeforces.com/638dfcc9819948956ce6d4a0c7ceba099203fdc0.png": {
+            "bytes": 2996,
+            "frameCount": 1,
+            "height": 103,
+            "mime": "image/png",
+            "sha256": "b45024b1197f24c1666c274945728b6b826b39b50ab7e5ff2907e62618acec16",
+            "sourceUrl": "https://espresso.codeforces.com/638dfcc9819948956ce6d4a0c7ceba099203fdc0.png",
+            "width": 525
+          }
+        },
+        "samples": [
+          {
+            "input": "3\n1 2\n2 3",
+            "name": "样例 1",
+            "output": "3"
+          },
+          {
+            "input": "5\n1 2\n1 3\n1 4\n3 5",
+            "name": "样例 2",
+            "output": "10"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "b5c5bba78cb50324bfa2e6c5874098b485caaf3190717d5baf4e520db54908e0",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF1292C",
+          "originalUrl": "https://codeforces.com/problemset/problem/1292/C",
+          "sourceProblemId": "CF1292C",
+          "textAlignment": 0.9233954451345756
+        },
+        "statementAvailable": true,
+        "statementSupplement": "![](https://espresso.codeforces.com/638dfcc9819948956ce6d4a0c7ceba099203fdc0.png)\n\n![](https://espresso.codeforces.com/065740667c8647c707ad619f58cd0a29b572e6b8.png)",
+        "statementVersion": 7,
+        "title": "Xenon's Attack on the Gangs",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "0de83d2c881ff3a9c19f865e84077aa85173570323e4b7c21105f0917c536883",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "b5c5bba78cb50324bfa2e6c5874098b485caaf3190717d5baf4e520db54908e0"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF1292C",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# Xenon's Attack on the Gangs\n\n## 题目描述\n\n在 A.R.C. Markland-N 的另一层楼，年轻人 Simon \"Xenon\" Jackson 在提前完成项目后（如往常一样）正在休息。由于有大量空闲时间，他决定发挥自己传奇黑客“X”的本能，去对抗网络世界中的黑帮。\n\n他的目标是一个由 $n$ 个小黑帮组成的网络。该网络恰好有 $n-1$ 条直接连接，每条连接将两个黑帮连接在一起。这些连接的方式保证了任意两个黑帮之间都存在一条由直接连接组成的路径。\n\n通过数据挖掘，Xenon 发现这些黑帮采用了一种交叉加密方式来防止被破获：每条连接被分配一个从 $0$ 到 $n-2$ 的整数，所有被分配的整数互不相同，并且每个整数都被分配给某条连接。如果有入侵者试图访问加密数据，他们需要突破 $S$ 层密码保护，其中 $S$ 的定义如下：\n\n$$\nS = \\sum_{1 \\leq u < v \\leq n} mex(u, v)\n$$\n\n其中，$mex(u, v)$ 表示在黑帮 $u$ 到黑帮 $v$ 的唯一简单路径上，没有出现的最小非负整数。\n\nXenon 并不知道这些整数的具体分配方式，但这对他来说不是问题。他决定让自己的 AI 实例尝试所有密码，但在此之前，他需要知道 $S$ 的最大可能值，以便高效部署 AI。\n\n现在，Xenon 正在编写 AI 脚本，预计两小时后完成。在他回来之前，你能帮他求出 $S$ 的最大可能值吗？\n\n## 输入格式\n\n第一行包含一个整数 $n$（$2 \\leq n \\leq 3000$），表示网络中的黑帮数量。\n\n接下来的 $n-1$ 行，每行包含两个整数 $u_i$ 和 $v_i$（$1 \\leq u_i, v_i \\leq n$，$u_i \\neq v_i$），表示黑帮 $u_i$ 和 $v_i$ 之间有一条直接连接。\n\n保证这些连接的方式使得任意两个黑帮之间都恰好有一条简单路径。\n\n## 输出格式\n\n输出一个整数，表示黑帮网络中密码层数 $S$ 的最大可能值。\n\n## 提示\n\n在第一个样例中，可以通过如下分配获得最大的 $S$：\n\n![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/0f9f2baa435ba687ee4d32b6435c04b03bd650e3.png)\n\n在这种分配下，$mex(1, 2) = 0$，$mex(1, 3) = 2$，$mex(2, 3) = 1$。因此，$S = 0 + 2 + 1 = 3$。\n\n在第二个样例中，可以通过如下分配获得最大的 $S$：\n\n![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/4e86fe7c73ce5613cf34e53621032aa8d877caf3.png)\n\n在这种分配下，所有非零的 $mex$ 值如下：\n\n- $mex(1, 3) = 1$\n- $mex(1, 5) = 2$\n- $mex(2, 3) = 1$\n- $mex(2, 5) = 2$\n- $mex(3, 4) = 1$\n- $mex(4, 5) = 3$\n\n因此，$S = 1 + 2 + 1 + 2 + 1 + 3 = 10$。\n\n由 ChatGPT 4.1 翻译",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF1292C",
+            "sourceMarkdown": "# Xenon's Attack on the Gangs\n\n## 题目描述\n\n[INSPION FullBand Master - INSPION](https://www.youtube.com/watch?v=kwsciXm_7sA)\n\n\n\n[INSPION - IOLITE-SUNSTONE](https://www.youtube.com/watch?v=kwsciXm_7sA)\n\n\n\nOn another floor of the A.R.C. Markland-N, the young man Simon \"Xenon\" Jackson, takes a break after finishing his project early (as always). Having a lot of free time, he decides to put on his legendary hacker \"X\" instinct and fight against the gangs of the cyber world.\n\nHis target is a network of $ n $ small gangs. This network contains exactly $ n - 1 $ direct links, each of them connecting two gangs together. The links are placed in such a way that every pair of gangs is connected through a sequence of direct links.\n\nBy mining data, Xenon figured out that the gangs used a form of cross-encryption to avoid being busted: every link was assigned an integer from $ 0 $ to $ n - 2 $ such that all assigned integers are distinct and every integer was assigned to some link. If an intruder tries to access the encrypted data, they will have to surpass $ S $ password layers, with $ S $ being defined by the following formula:\n\n $ $$$S = \\sum_{1 \\leq u < v \\leq n} mex(u, v) $ $ </p><p>Here,  $ mex(u, v) $  denotes the smallest non-negative integer that does not appear on any link on the unique simple path from gang  $ u $  to gang  $ v $ .</p><p>Xenon doesn't know the way the integers are assigned, but it's not a problem. He decides to let his AI's instances try all the passwords on his behalf, but before that, he needs to know the maximum possible value of  $ S $ , so that the AIs can be deployed efficiently.</p><p>Now, Xenon is out to write the AI scripts, and he is expected to finish them in two hours. Can you find the maximum possible  $ S$$$ before he returns?\n\n## 输入格式\n\nThe first line contains an integer $ n $ ( $ 2 \\leq n \\leq 3000 $ ), the number of gangs in the network.\n\nEach of the next $ n - 1 $ lines contains integers $ u_i $ and $ v_i $ ( $ 1 \\leq u_i, v_i \\leq n $ ; $ u_i \\neq v_i $ ), indicating there's a direct link between gangs $ u_i $ and $ v_i $ .\n\nIt's guaranteed that links are placed in such a way that each pair of gangs will be connected by exactly one simple path.\n\n## 输出格式\n\nPrint the maximum possible value of $ S $ — the number of password layers in the gangs' network.\n\n## 提示\n\nIn the first example, one can achieve the maximum $ S $ with the following assignment:\n\n ![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/0f9f2baa435ba687ee4d32b6435c04b03bd650e3.png)With this assignment, $ mex(1, 2) = 0 $ , $ mex(1, 3) = 2 $ and $ mex(2, 3) = 1 $ . Therefore, $ S = 0 + 2 + 1 = 3 $ .\n\nIn the second example, one can achieve the maximum $ S $ with the following assignment:\n\n ![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/4e86fe7c73ce5613cf34e53621032aa8d877caf3.png)With this assignment, all non-zero mex value are listed below:\n\n- $ mex(1, 3) = 1 $\n- $ mex(1, 5) = 2 $\n- $ mex(2, 3) = 1 $\n- $ mex(2, 5) = 2 $\n- $ mex(3, 4) = 1 $\n- $ mex(4, 5) = 3 $\n\nTherefore, $ S = 1 + 2 + 1 + 2 + 1 + 3 = 10 $ ."
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# Xenon's Attack on the Gangs\n\n## 题目描述\n\n[INSPION FullBand Master - INSPION](https://www.youtube.com/watch?v=kwsciXm_7sA)\n\n\n\n[INSPION - IOLITE-SUNSTONE](https://www.youtube.com/watch?v=kwsciXm_7sA)\n\n\n\nOn another floor of the A.R.C. Markland-N, the young man Simon \"Xenon\" Jackson, takes a break after finishing his project early (as always). Having a lot of free time, he decides to put on his legendary hacker \"X\" instinct and fight against the gangs of the cyber world.\n\nHis target is a network of $ n $ small gangs. This network contains exactly $ n - 1 $ direct links, each of them connecting two gangs together. The links are placed in such a way that every pair of gangs is connected through a sequence of direct links.\n\nBy mining data, Xenon figured out that the gangs used a form of cross-encryption to avoid being busted: every link was assigned an integer from $ 0 $ to $ n - 2 $ such that all assigned integers are distinct and every integer was assigned to some link. If an intruder tries to access the encrypted data, they will have to surpass $ S $ password layers, with $ S $ being defined by the following formula:\n\n $ $$$S = \\sum_{1 \\leq u < v \\leq n} mex(u, v) $ $ </p><p>Here,  $ mex(u, v) $  denotes the smallest non-negative integer that does not appear on any link on the unique simple path from gang  $ u $  to gang  $ v $ .</p><p>Xenon doesn't know the way the integers are assigned, but it's not a problem. He decides to let his AI's instances try all the passwords on his behalf, but before that, he needs to know the maximum possible value of  $ S $ , so that the AIs can be deployed efficiently.</p><p>Now, Xenon is out to write the AI scripts, and he is expected to finish them in two hours. Can you find the maximum possible  $ S$$$ before he returns?\n\n## 输入格式\n\nThe first line contains an integer $ n $ ( $ 2 \\leq n \\leq 3000 $ ), the number of gangs in the network.\n\nEach of the next $ n - 1 $ lines contains integers $ u_i $ and $ v_i $ ( $ 1 \\leq u_i, v_i \\leq n $ ; $ u_i \\neq v_i $ ), indicating there's a direct link between gangs $ u_i $ and $ v_i $ .\n\nIt's guaranteed that links are placed in such a way that each pair of gangs will be connected by exactly one simple path.\n\n## 输出格式\n\nPrint the maximum possible value of $ S $ — the number of password layers in the gangs' network.\n\n## 提示\n\nIn the first example, one can achieve the maximum $ S $ with the following assignment:\n\n ![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/0f9f2baa435ba687ee4d32b6435c04b03bd650e3.png)With this assignment, $ mex(1, 2) = 0 $ , $ mex(1, 3) = 2 $ and $ mex(2, 3) = 1 $ . Therefore, $ S = 0 + 2 + 1 = 3 $ .\n\nIn the second example, one can achieve the maximum $ S $ with the following assignment:\n\n ![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1292C/4e86fe7c73ce5613cf34e53621032aa8d877caf3.png)With this assignment, all non-zero mex value are listed below:\n\n- $ mex(1, 3) = 1 $\n- $ mex(1, 5) = 2 $\n- $ mex(2, 3) = 1 $\n- $ mex(2, 5) = 2 $\n- $ mex(3, 4) = 1 $\n- $ mex(4, 5) = 3 $\n\nTherefore, $ S = 1 + 2 + 1 + 2 + 1 + 3 = 10 $ .",
+            "url": "https://www.luogu.com.cn/problem/CF1292C",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "luogu-training-CF1580D",
+      "beforeSha256": "24abf04476255181105c528cd70e615ac8498a603a6bc8b91388ed4cbdd963ea",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF1580D",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:35.960856+00:00",
+          "markdownSha256": "498926c8db726383dc106d16cc087dbd4bccd594b2f56e73712fadda8455498d",
+          "pdfPageCountVerified": false,
+          "sampleCount": 4,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "b734b7c7c3ce62589a76401085197d646dc7016fa5ebea056b43b5fa7efea8dd",
+              "url": "https://codeforces.com/problemset/problem/1580/D"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Subsequence\n\n## 题目描述\n\nAlice 有一个长度为 $n$ 的整数序列 $a$，所有元素都是不同的。她将选择一个长度为 $m$ 的 $a$ 的子序列，并将一个子序列 $a_{b1},a_{b2},...,a_{bm}$ 的价值定义为\n\n$$\\sum_{i = 1}^m (m \\cdot a_{b_i}) - \\sum_{i = 1}^m \\sum_{j = 1}^m f(\\min(b_i, b_j), \\max(b_i, b_j))$$\n\n其中 $f(i,j)$ 表示 $\\min(a_i,a_{i+1},..., a_j)$。\n\nAlice 希望你能帮助她将她所选择的子序列的价值最大化。\n\n如果一个序列 $s$ 可以通过删除序列 $t$ 中几个元素（可以不删除任何元素或删除全部元素）得到，那么这个序列 $s$ 就是序列 $t$ 的一个子序列。\n\n## 输入格式\n\n第一行包含两个整数 $n$ 和 $m\\ (1≤m≤n≤4000)$。\n\n第二行包含 $n$ 个不同的整数 $a_1,a_2,...,a_n\\ (1≤a_i<2^{31})$。\n\n## 输出格式\n\n输出 Alice 能够得到的最大子序列价值\n\n## 提示\n\n### 样例解释\n\n在第一个例子中，Alice 可以选择子序列 $[15, 2, 18, 13]$ , 该子序列的值为 $4 \\cdot (15 + 2 + 18 + 13) - (15 + 2 + 2 + 2) - (2 + 2 + 2 + 2) - (2 + 2 + 18 + 12) - (2 + 2 + 12 + 13) = 100$。\n\n在第二个例子中，有多种价值为 $176$ 的子序列，其中一个是 $[9,7,12,20,18]$。",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "6 4\n15 2 18 12 13 4",
+            "name": "样例 1",
+            "output": "100"
+          },
+          {
+            "input": "11 5\n9 3 7 1 8 12 10 20 15 18 5",
+            "name": "样例 2",
+            "output": "176"
+          },
+          {
+            "input": "1 1\n114514",
+            "name": "样例 3",
+            "output": "0"
+          },
+          {
+            "input": "2 1\n666 888",
+            "name": "样例 4",
+            "output": "0"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "2d0e38412f09fab2bceb1aef904b76c1981cceabfd1fc7deb7ad666d97e9bf96",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF1580D",
+          "originalUrl": "https://codeforces.com/problemset/problem/1580/D",
+          "sourceProblemId": "CF1580D",
+          "textAlignment": 0.9905362776025236
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Subsequence",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "afc9f95d28d8eec5f96f051d109653cc8a6f1d4e2a6109237bfc2a4d5875f8fe",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "2d0e38412f09fab2bceb1aef904b76c1981cceabfd1fc7deb7ad666d97e9bf96"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF1580D",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# Subsequence\n\n## 题目描述\n\nAlice 有一个长度为 $n$ 的整数序列 $a$，所有元素都是不同的。她将选择一个长度为 $m$ 的 $a$ 的子序列，并将一个子序列 $a_{b1},a_{b2},...,a_{bm}$ 的价值定义为\n\n$$\\sum_{i = 1}^m (m \\cdot a_{b_i}) - \\sum_{i = 1}^m \\sum_{j = 1}^m f(\\min(b_i, b_j), \\max(b_i, b_j))$$\n\n其中 $f(i,j)$ 表示 $\\min(a_i,a_{i+1},..., a_j)$。\n\nAlice 希望你能帮助她将她所选择的子序列的价值最大化。\n\n如果一个序列 $s$ 可以通过删除序列 $t$ 中几个元素（可以不删除任何元素或删除全部元素）得到，那么这个序列 $s$ 就是序列 $t$ 的一个子序列。\n\n## 输入格式\n\n第一行包含两个整数 $n$ 和 $m\\ (1≤m≤n≤4000)$。\n\n第二行包含 $n$ 个不同的整数 $a_1,a_2,...,a_n\\ (1≤a_i<2^{31})$。\n\n## 输出格式\n\n输出 Alice 能够得到的最大子序列价值\n\n## 提示\n\n### 样例解释\n\n在第一个例子中，Alice 可以选择子序列 $[15, 2, 18, 13]$ , 该子序列的值为 $4 \\cdot (15 + 2 + 18 + 13) - (15 + 2 + 2 + 2) - (2 + 2 + 2 + 2) - (2 + 2 + 18 + 12) - (2 + 2 + 12 + 13) = 100$。\n\n在第二个例子中，有多种价值为 $176$ 的子序列，其中一个是 $[9,7,12,20,18]$。",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF1580D",
+            "sourceMarkdown": "# Subsequence\n\n## 题目描述\n\nAlice has an integer sequence $ a $ of length $ n $ and all elements are different. She will choose a subsequence of $ a $ of length $ m $ , and defines the value of a subsequence $ a_{b_1},a_{b_2},\\ldots,a_{b_m} $ as $ $$$\\sum_{i = 1}^m (m \\cdot a_{b_i}) - \\sum_{i = 1}^m \\sum_{j = 1}^m f(\\min(b_i, b_j), \\max(b_i, b_j)), $ $  where  $ f(i, j) $  denotes  $ \\\\min(a\\_i, a\\_{i + 1}, \\\\ldots, a\\_j) $ .</p><p>Alice wants you to help her to maximize the value of the subsequence she choose.</p><p>A sequence  $ s $  is a subsequence of a sequence  $ t $  if  $ s $  can be obtained from  $ t$$$ by deletion of several (possibly, zero or all) elements.\n\n## 输入格式\n\nThe first line contains two integers $ n $ and $ m $ ( $ 1 \\le m \\le n \\le 4000 $ ).\n\nThe second line contains $ n $ distinct integers $ a_1, a_2, \\ldots, a_n $ ( $ 1 \\le a_i < 2^{31} $ ).\n\n## 输出格式\n\nPrint the maximal value Alice can get.\n\n## 提示\n\nIn the first example, Alice can choose the subsequence $ [15, 2, 18, 13] $ , which has the value $ 4 \\cdot (15 + 2 + 18 + 13) - (15 + 2 + 2 + 2) - (2 + 2 + 2 + 2) - (2 + 2 + 18 + 12) - (2 + 2 + 12 + 13) = 100 $ . In the second example, there are a variety of subsequences with value $ 176 $ , and one of them is $ [9, 7, 12, 20, 18] $ ."
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# Subsequence\n\n## 题目描述\n\nAlice has an integer sequence $ a $ of length $ n $ and all elements are different. She will choose a subsequence of $ a $ of length $ m $ , and defines the value of a subsequence $ a_{b_1},a_{b_2},\\ldots,a_{b_m} $ as $ $$$\\sum_{i = 1}^m (m \\cdot a_{b_i}) - \\sum_{i = 1}^m \\sum_{j = 1}^m f(\\min(b_i, b_j), \\max(b_i, b_j)), $ $  where  $ f(i, j) $  denotes  $ \\\\min(a\\_i, a\\_{i + 1}, \\\\ldots, a\\_j) $ .</p><p>Alice wants you to help her to maximize the value of the subsequence she choose.</p><p>A sequence  $ s $  is a subsequence of a sequence  $ t $  if  $ s $  can be obtained from  $ t$$$ by deletion of several (possibly, zero or all) elements.\n\n## 输入格式\n\nThe first line contains two integers $ n $ and $ m $ ( $ 1 \\le m \\le n \\le 4000 $ ).\n\nThe second line contains $ n $ distinct integers $ a_1, a_2, \\ldots, a_n $ ( $ 1 \\le a_i < 2^{31} $ ).\n\n## 输出格式\n\nPrint the maximal value Alice can get.\n\n## 提示\n\nIn the first example, Alice can choose the subsequence $ [15, 2, 18, 13] $ , which has the value $ 4 \\cdot (15 + 2 + 18 + 13) - (15 + 2 + 2 + 2) - (2 + 2 + 2 + 2) - (2 + 2 + 18 + 12) - (2 + 2 + 12 + 13) = 100 $ . In the second example, there are a variety of subsequences with value $ 176 $ , and one of them is $ [9, 7, 12, 20, 18] $ .",
+            "url": "https://www.luogu.com.cn/problem/CF1580D",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "luogu-training-CF1776I",
+      "beforeSha256": "fc0f270ae748097e80e49d5a4665202a6eaee738909e0d3fd6c50525b67112fa",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF1776I",
+        "images": {
+          "https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/6de08d54ecde090a85188cff2608644bd6cbb65d.png": "tb-asset:73460c0403623fa0394ceb6801b3abca2aeb77d4c9df948e1e4de83380f9238d",
+          "https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/a11c8c619d68b6a5662a71ab8e5d506280dbfa1e.png": "tb-asset:9a57ba9b0f0d519b2712e189138426ecc3aadde0e09f847ed1b286502f05d452",
+          "https://espresso.codeforces.com/46ad7ab3420cde43230c826a0a54a5d8c78de0f9.png": "tb-asset:926403c01d531bada247b2635611e611183e4980537929f8df329f149dba86e3",
+          "https://espresso.codeforces.com/5c793cf174b810e32885c20e67a653a8522f4e88.png": "tb-asset:4076cdb07078c4ab7b7903f0ce10da174d765a9ddbae6737beb29ca00c61e85c"
+        },
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:35.833327+00:00",
+          "markdownSha256": "83d0c4f943c339d2073fab56c6ce9e11fd29248bb37b5b8144c2c4bc240d1829",
+          "pdfPageCountVerified": false,
+          "sampleCount": 3,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "2d923ad1e7ea21a71f6f941e823a223caad470673d6d2f1ae783b4c887c82593",
+              "url": "https://codeforces.com/problemset/problem/1776/I"
+            },
+            {
+              "sha256": "4076cdb07078c4ab7b7903f0ce10da174d765a9ddbae6737beb29ca00c61e85c",
+              "url": "https://espresso.codeforces.com/5c793cf174b810e32885c20e67a653a8522f4e88.png"
+            },
+            {
+              "sha256": "926403c01d531bada247b2635611e611183e4980537929f8df329f149dba86e3",
+              "url": "https://espresso.codeforces.com/46ad7ab3420cde43230c826a0a54a5d8c78de0f9.png"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Spinach Pizza\n\n## 题目描述\n\nAlberto 和 Beatrice 两兄妹必须一起吃菠菜披萨。但是他们都不喜欢吃菠菜，所以都想尽量少吃。\n\n披萨的形状是一个由 $n$ 个位于平面的整数坐标的顶点 $(x_1, y_1), \\, (x_2, y_2), \\, \\dots, \\, (x_n, y_n)$ 组成的严格凸多边形。\n\n兄妹俩决定以下面的方式吃掉披萨：从 Alberto 开始，兄妹轮流选择披萨剩余部分的一个顶点，吃掉由其两条相邻边决定的三角形（详情请查看样例解释）。在这样的前 $n - 3$ 轮，披萨上的顶点每轮会减少一个。在第 $(n - 2)$ 轮，披萨全部被吃掉，游戏结束。\n\n假设 Alberto 和 Beatrice 以最优策略吃披萨，那么谁会吃掉**最多一半**披萨？你应该找出谁会赢，并帮他们适当地选择披萨片。请注意，如果 Alberto 和 Beatrice 都以最优策略吃披萨，那么他们最终吃掉的面积有可能正好是一半。\n\n## 输入格式\n\n第一行包含一个整数 $n$ ( $4\\le n \\le 100$ ) 表示披萨的顶点数。\n\n接下来的 $n$ 行分别包含两个整数 $x_i$ 和 $y_i$ ( $-10^6 \\le x_i, y_i \\le 10^6$ ) 代表披萨初始形状的多边形第 $i$ 个顶点的坐标。\n\n保证该多边形是严格凸多边形，且其顶点按逆时针顺序给出。\n\n## 输出格式\n\n首先，您应该打印一个字符串 $\\texttt{Alberto}$ 或 $\\texttt{Beatrice}$ 表示您将帮助获胜的兄弟姐妹。\n\n然后，在接下来的 $n - 2$ 个回合中，你将与交互器交替选择一片披萨并取出它，如果你选择帮助 Alberto，则从你开始；如果你选择帮助 Beatrice，则从交互器开始。\n\n- 当轮到你的时候，打印一行包含一个之前没有选择过的整数 $p$ ( $1 \\leq p \\leq n$ )，表示你想吃位于 $(x_p, y_p)$ 的顶点决定的那片披萨。\n\n- 当轮到交互器时，读取一个整数 $q$ ( $1 \\leq q \\leq n$ )，表示交互器想吃由位于 $(x_q, y_q)$ 的顶点决定的披萨。 保证 $q$ 之前没有被选择过。\n\n如果你的回答之一是错误的，交互器会立即终止，你的程序会收到判决 $\\texttt{WRONG-ANSWER}$。否则，如果最后你的玩家吃掉了最多一半的披萨，你就会收到 $\\texttt{CORRECT}$，否则就会收到 $\\texttt{WRONG-ANSWER}$。\n\n打印完一行后，不要忘记结束该行并刷新输出。要刷新输出，请使用：\n\n- 在 C 语言中使用： $\\texttt{fflush(stdout)}$ ；\n- 在 C++ 中使用： $\\texttt{fflush(stdout)}$ , $\\texttt{cout <}\\texttt{< flush}$ 或 $\\texttt{cout.flush()}$ ；\n- 在 Java 和 Kotlin 中：$\\texttt{System.out.flush()}$ ；\n- 在 Python 中：$\\texttt{sys.stdout.flush()}$ 。\n\n### 样例解释\n\n在第一个样例中，披萨的面积为 $15$。Alberto 可以在顶点 $2$（面积为 $6.5$）或顶点 $3$（面积为 $3.5$）吃掉少于一半的披萨。\n\n![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/a11c8c619d68b6a5662a71ab8e5d506280dbfa1e.png)\n\n在第二个样例中，可以证明如果两位玩家都以最佳方式进食，他们将恰好吃掉披萨的一半。因此可以选择帮助 Alberto 或 Beatrice。\n\n在第三个样例中，可以证明只有 Beartric 的最优策略是最多吃掉一半披萨。下面是一个有效交互的示例（读取输入后）：\n\n$$ \\begin{array}{|c|c|c|} \\hline \\textbf{选手} & \\textbf{交互器} & \\textbf{解释} \\\\ \\hline \\texttt{Beatrice} & & \\text{选手会帮助 Beatrice} \\\\ \\hline & \\texttt{7} & \\text{Alberto 吃掉了顶点为 $6$, $7$, $1$ 的三角形, 面积为 $1$} \\\\ \\hline \\texttt{2} & & \\text{Beatrice 吃掉了顶点为 $1$, $2$, $3$ 的三角形，面积为 $2$} \\\\ \\hline & \\texttt{5} & \\text{Alberto 吃掉了顶点为 $4$, $5$, $6$ 的三角形，面积为 $1.5$} \\\\ \\hline \\texttt{4} & & \\text{Beatrice 吃掉了顶点为 $3$, $4$, $6$ 的三角形，面积为 $8$} \\\\ \\hline & \\texttt{6} & \\text{Alberto 吃掉了顶点为 $3$, $6$, $1$ 的三角形，面积为 $11$} \\\\ \\hline \\end{array} $$  \n\nAlberto 吃掉的总面积为 $13.5$，Beatrice 吃掉的总面积为 $10$，不到整个披萨面积的一半。在这个互动示例中，参赛者和交互库执行的操作可能不是最优的。具体过程如下：\n\n![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/6de08d54ecde090a85188cff2608644bd6cbb65d.png)",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/6de08d54ecde090a85188cff2608644bd6cbb65d.png": {
+            "bytes": 38133,
+            "frameCount": 1,
+            "height": 588,
+            "mime": "image/png",
+            "sha256": "73460c0403623fa0394ceb6801b3abca2aeb77d4c9df948e1e4de83380f9238d",
+            "sourceUrl": "https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/6de08d54ecde090a85188cff2608644bd6cbb65d.png",
+            "width": 1142
+          },
+          "https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/a11c8c619d68b6a5662a71ab8e5d506280dbfa1e.png": {
+            "bytes": 6017,
+            "frameCount": 1,
+            "height": 231,
+            "mime": "image/png",
+            "sha256": "9a57ba9b0f0d519b2712e189138426ecc3aadde0e09f847ed1b286502f05d452",
+            "sourceUrl": "https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/a11c8c619d68b6a5662a71ab8e5d506280dbfa1e.png",
+            "width": 733
+          },
+          "https://espresso.codeforces.com/46ad7ab3420cde43230c826a0a54a5d8c78de0f9.png": {
+            "bytes": 25570,
+            "frameCount": 1,
+            "height": 588,
+            "mime": "image/png",
+            "sha256": "926403c01d531bada247b2635611e611183e4980537929f8df329f149dba86e3",
+            "sourceUrl": "https://espresso.codeforces.com/46ad7ab3420cde43230c826a0a54a5d8c78de0f9.png",
+            "width": 1142
+          },
+          "https://espresso.codeforces.com/5c793cf174b810e32885c20e67a653a8522f4e88.png": {
+            "bytes": 5023,
+            "frameCount": 1,
+            "height": 231,
+            "mime": "image/png",
+            "sha256": "4076cdb07078c4ab7b7903f0ce10da174d765a9ddbae6737beb29ca00c61e85c",
+            "sourceUrl": "https://espresso.codeforces.com/5c793cf174b810e32885c20e67a653a8522f4e88.png",
+            "width": 733
+          }
+        },
+        "samples": [
+          {
+            "input": "4\n0 0\n6 1\n5 3\n1 4",
+            "name": "样例 1",
+            "output": "-"
+          },
+          {
+            "input": "6\n0 0\n2 0\n3 2\n2 4\n0 4\n-1 2",
+            "name": "样例 2",
+            "output": "-"
+          },
+          {
+            "input": "7\n0 0\n2 0\n5 2\n4 5\n1 5\n-1 4\n-1 2",
+            "name": "样例 3",
+            "output": "-"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "1ff9a480cfd65a49002d8f57d60a6fdb35e0b60c420a7dccbdf66d0d384d0757",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF1776I",
+          "originalUrl": "https://codeforces.com/problemset/problem/1776/I",
+          "sourceProblemId": "CF1776I",
+          "textAlignment": 0.9510395707578806
+        },
+        "statementAvailable": true,
+        "statementSupplement": "![](https://espresso.codeforces.com/5c793cf174b810e32885c20e67a653a8522f4e88.png)\n\n![](https://espresso.codeforces.com/46ad7ab3420cde43230c826a0a54a5d8c78de0f9.png)",
+        "statementVersion": 7,
+        "title": "Spinach Pizza",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "18eb490730c37310ec2127923fbe3cdf285310c1fc185d790fab888c54b69fca",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "1ff9a480cfd65a49002d8f57d60a6fdb35e0b60c420a7dccbdf66d0d384d0757"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF1776I",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# Spinach Pizza\n\n## 题目描述\n\nAlberto 和 Beatrice 两兄妹必须一起吃菠菜披萨。但是他们都不喜欢吃菠菜，所以都想尽量少吃。\n\n披萨的形状是一个由 $n$ 个位于平面的整数坐标的顶点 $(x_1, y_1), \\, (x_2, y_2), \\, \\dots, \\, (x_n, y_n)$ 组成的严格凸多边形。\n\n兄妹俩决定以下面的方式吃掉披萨：从 Alberto 开始，兄妹轮流选择披萨剩余部分的一个顶点，吃掉由其两条相邻边决定的三角形（详情请查看样例解释）。在这样的前 $n - 3$ 轮，披萨上的顶点每轮会减少一个。在第 $(n - 2)$ 轮，披萨全部被吃掉，游戏结束。\n\n假设 Alberto 和 Beatrice 以最优策略吃披萨，那么谁会吃掉**最多一半**披萨？你应该找出谁会赢，并帮他们适当地选择披萨片。请注意，如果 Alberto 和 Beatrice 都以最优策略吃披萨，那么他们最终吃掉的面积有可能正好是一半。\n\n## 输入格式\n\n第一行包含一个整数 $n$ ( $4\\le n \\le 100$ ) 表示披萨的顶点数。\n\n接下来的 $n$ 行分别包含两个整数 $x_i$ 和 $y_i$ ( $-10^6 \\le x_i, y_i \\le 10^6$ ) 代表披萨初始形状的多边形第 $i$ 个顶点的坐标。\n\n保证该多边形是严格凸多边形，且其顶点按逆时针顺序给出。\n\n## 输出格式\n\n首先，您应该打印一个字符串 $\\texttt{Alberto}$ 或 $\\texttt{Beatrice}$ 表示您将帮助获胜的兄弟姐妹。\n\n然后，在接下来的 $n - 2$ 个回合中，你将与交互器交替选择一片披萨并取出它，如果你选择帮助 Alberto，则从你开始；如果你选择帮助 Beatrice，则从交互器开始。\n\n- 当轮到你的时候，打印一行包含一个之前没有选择过的整数 $p$ ( $1 \\leq p \\leq n$ )，表示你想吃位于 $(x_p, y_p)$ 的顶点决定的那片披萨。\n\n- 当轮到交互器时，读取一个整数 $q$ ( $1 \\leq q \\leq n$ )，表示交互器想吃由位于 $(x_q, y_q)$ 的顶点决定的披萨。 保证 $q$ 之前没有被选择过。\n\n如果你的回答之一是错误的，交互器会立即终止，你的程序会收到判决 $\\texttt{WRONG-ANSWER}$。否则，如果最后你的玩家吃掉了最多一半的披萨，你就会收到 $\\texttt{CORRECT}$，否则就会收到 $\\texttt{WRONG-ANSWER}$。\n\n打印完一行后，不要忘记结束该行并刷新输出。要刷新输出，请使用：\n\n- 在 C 语言中使用： $\\texttt{fflush(stdout)}$ ；\n- 在 C++ 中使用： $\\texttt{fflush(stdout)}$ , $\\texttt{cout <}\\texttt{< flush}$ 或 $\\texttt{cout.flush()}$ ；\n- 在 Java 和 Kotlin 中：$\\texttt{System.out.flush()}$ ；\n- 在 Python 中：$\\texttt{sys.stdout.flush()}$ 。\n\n### 样例解释\n\n在第一个样例中，披萨的面积为 $15$。Alberto 可以在顶点 $2$（面积为 $6.5$）或顶点 $3$（面积为 $3.5$）吃掉少于一半的披萨。\n\n![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/a11c8c619d68b6a5662a71ab8e5d506280dbfa1e.png)\n\n在第二个样例中，可以证明如果两位玩家都以最佳方式进食，他们将恰好吃掉披萨的一半。因此可以选择帮助 Alberto 或 Beatrice。\n\n在第三个样例中，可以证明只有 Beartric 的最优策略是最多吃掉一半披萨。下面是一个有效交互的示例（读取输入后）：\n\n$$ \\begin{array}{|c|c|c|} \\hline \\textbf{选手} & \\textbf{交互器} & \\textbf{解释} \\\\ \\hline \\texttt{Beatrice} & & \\text{选手会帮助 Beatrice} \\\\ \\hline & \\texttt{7} & \\text{Alberto 吃掉了顶点为 $6$, $7$, $1$ 的三角形, 面积为 $1$} \\\\ \\hline \\texttt{2} & & \\text{Beatrice 吃掉了顶点为 $1$, $2$, $3$ 的三角形，面积为 $2$} \\\\ \\hline & \\texttt{5} & \\text{Alberto 吃掉了顶点为 $4$, $5$, $6$ 的三角形，面积为 $1.5$} \\\\ \\hline \\texttt{4} & & \\text{Beatrice 吃掉了顶点为 $3$, $4$, $6$ 的三角形，面积为 $8$} \\\\ \\hline & \\texttt{6} & \\text{Alberto 吃掉了顶点为 $3$, $6$, $1$ 的三角形，面积为 $11$} \\\\ \\hline \\end{array} $$  \n\nAlberto 吃掉的总面积为 $13.5$，Beatrice 吃掉的总面积为 $10$，不到整个披萨面积的一半。在这个互动示例中，参赛者和交互库执行的操作可能不是最优的。具体过程如下：\n\n![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/6de08d54ecde090a85188cff2608644bd6cbb65d.png)",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF1776I",
+            "sourceMarkdown": "# Spinach Pizza\n\n## 题目描述\n\nThe two siblings Alberto and Beatrice have to eat a spinach pizza together. However, none of them likes spinach, so they both want to eat as little as possible.\n\nThe pizza has the shape of a strictly convex polygon with $ n $ vertices located at integer coordinates $ (x_1, y_1), \\, (x_2, y_2), \\, \\dots, \\, (x_n, y_n) $ of the plane.\n\nThe siblings have decided to eat the pizza in the following way: taking turns, starting with Alberto, each sibling chooses a vertex of the remaining part of the pizza and eats out the triangle determined by its two neighboring edges. In this way, after each of the first $ n - 3 $ turns the pizza will have one less vertex. The game ends after the $ (n - 2) $ -th turn, when all the pizza has been eaten.\n\nAssuming that Alberto and Beatrice choose the slices to eat optimally, which of the siblings manages to eat at most half of the pizza? You should identify a sibling that has a strategy to do so and help them choose the slices appropriately. Note that it is possible that both Alberto and Beatrice end up eating exactly half of the area if they choose their slices optimally.\n\n## 输入格式\n\nThe first line contains a single integer $ n $ ( $ 4 \\le n \\le 100 $ ) — the number of vertices.\n\nThe next $ n $ lines contain two integers $ x_i $ and $ y_i $ each ( $ -10^6 \\le x_i, y_i \\le 10^6 $ ) — the coordinates of the $ i $ -th vertex of the polygon representing the initial shape of the pizza.\n\nIt is guaranteed that the polygon is strictly convex and that its vertices are given in counterclockwise order.\n\n## 输出格式\n\nFirst, you should print a line containing either the string $ \\texttt{Alberto} $ or the string $ \\texttt{Beatrice} $ — the sibling that you will help to win.\n\nThen, for the next $ n - 2 $ turns, you will alternate with the judge in choosing a slice of the pizza and removing it, starting with you if you chose to help Alberto, or starting with the judge if you chose to help Beatrice.\n\n- When it is your turn, print a single line containing an integer $ p $ ( $ 1 \\leq p \\leq n $ ) that has not been chosen before, indicating that you want to eat the slice determined by the vertex located at $ (x_p, y_p) $ .\n- When it is the judge's turn, read an integer $ q $ ( $ 1 \\leq q \\leq n $ ), indicating that the other player eats the slice determined by the vertex located at $ (x_q, y_q) $ . It is guaranteed that $ q $ has not been chosen before.\n\nIf one of your interactions is malformed, the interactor terminates immediately and your program receives the verdict $ \\texttt{WRONG-ANSWER} $ . Otherwise, you will receive $ \\texttt{CORRECT} $ if at the end your player has eaten at most half of the pizza, and $ \\texttt{WRONG-ANSWER} $ otherwise.\n\nAfter printing a line do not forget to end the line and flush the output. Otherwise, you will get the verdict $ \\texttt{TIMELIMIT} $ . To flush the output, use:\n\n- $ \\texttt{fflush(stdout)} $ in C;\n- $ \\texttt{fflush(stdout)} $ , $ \\texttt{cout <}\\texttt{< flush} $ or $ \\texttt{cout.flush()} $ in C++;\n- $ \\texttt{System.out.flush()} $ in Java and Kotlin;\n- $ \\texttt{sys.stdout.flush()} $ in Python.\n\n## 提示\n\nIn the first sample, the pizza has area $ 15 $ . Alberto can eat less than half of the pizza by eating the slice around vertex $ 2 $ (which has area $ 6.5 $ ) or around vertex $ 3 $ (which has area $ 3.5 $ ).\n\n ![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/a11c8c619d68b6a5662a71ab8e5d506280dbfa1e.png)In the second sample, it can be proved that both players will eat exactly half of the pizza if they eat optimally. Therefore it is possible to choose to help either Alberto or Beatrice.\n\nIn the third sample, it is possible to show that only Beatrice has a strategy to eat at most half of the pizza. The following is an example of a valid interaction (after reading the input):\n\n $ $$$ \\begin{array}{|c|c|c|} \\hline \\textbf{Contestant} & \\textbf{Judge} & \\textbf{Explanation} \\\\ \\hline \\texttt{Beatrice} & & \\text{The contestant will help Beatrice} \\\\ \\hline & \\texttt{7} & \\text{Alberto eats the triangle with vertices $6$, $7$, $1$ and area $1$} \\\\ \\hline \\texttt{2} & & \\text{Beatrice eats the triangle with vertices $1$, $2$, $3$ and area $2$} \\\\ \\hline & \\texttt{5} & \\text{Alberto eats the triangle with vertices $4$, $5$, $6$ and area $1.5$} \\\\ \\hline \\texttt{4} & & \\text{Beatrice eats the triangle with vertices $3$, $4$, $6$ and area $8$} \\\\ \\hline & \\texttt{6} & \\text{Alberto eats the triangle with vertices $3$, $6$, $1$ and area $11$} \\\\ \\hline \\end{array}  $ $  The total area eaten by Alberto is  $ 13.5 $  and the total area eaten by Beatrice is  $ 10$$$, which is less than half the area of the whole pizza. The actions performed by the contestant and the judge in this example of interaction may be non-optimal. The process is illustrated below:\n\n ![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/6de08d54ecde090a85188cff2608644bd6cbb65d.png)"
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# Spinach Pizza\n\n## 题目描述\n\nThe two siblings Alberto and Beatrice have to eat a spinach pizza together. However, none of them likes spinach, so they both want to eat as little as possible.\n\nThe pizza has the shape of a strictly convex polygon with $ n $ vertices located at integer coordinates $ (x_1, y_1), \\, (x_2, y_2), \\, \\dots, \\, (x_n, y_n) $ of the plane.\n\nThe siblings have decided to eat the pizza in the following way: taking turns, starting with Alberto, each sibling chooses a vertex of the remaining part of the pizza and eats out the triangle determined by its two neighboring edges. In this way, after each of the first $ n - 3 $ turns the pizza will have one less vertex. The game ends after the $ (n - 2) $ -th turn, when all the pizza has been eaten.\n\nAssuming that Alberto and Beatrice choose the slices to eat optimally, which of the siblings manages to eat at most half of the pizza? You should identify a sibling that has a strategy to do so and help them choose the slices appropriately. Note that it is possible that both Alberto and Beatrice end up eating exactly half of the area if they choose their slices optimally.\n\n## 输入格式\n\nThe first line contains a single integer $ n $ ( $ 4 \\le n \\le 100 $ ) — the number of vertices.\n\nThe next $ n $ lines contain two integers $ x_i $ and $ y_i $ each ( $ -10^6 \\le x_i, y_i \\le 10^6 $ ) — the coordinates of the $ i $ -th vertex of the polygon representing the initial shape of the pizza.\n\nIt is guaranteed that the polygon is strictly convex and that its vertices are given in counterclockwise order.\n\n## 输出格式\n\nFirst, you should print a line containing either the string $ \\texttt{Alberto} $ or the string $ \\texttt{Beatrice} $ — the sibling that you will help to win.\n\nThen, for the next $ n - 2 $ turns, you will alternate with the judge in choosing a slice of the pizza and removing it, starting with you if you chose to help Alberto, or starting with the judge if you chose to help Beatrice.\n\n- When it is your turn, print a single line containing an integer $ p $ ( $ 1 \\leq p \\leq n $ ) that has not been chosen before, indicating that you want to eat the slice determined by the vertex located at $ (x_p, y_p) $ .\n- When it is the judge's turn, read an integer $ q $ ( $ 1 \\leq q \\leq n $ ), indicating that the other player eats the slice determined by the vertex located at $ (x_q, y_q) $ . It is guaranteed that $ q $ has not been chosen before.\n\nIf one of your interactions is malformed, the interactor terminates immediately and your program receives the verdict $ \\texttt{WRONG-ANSWER} $ . Otherwise, you will receive $ \\texttt{CORRECT} $ if at the end your player has eaten at most half of the pizza, and $ \\texttt{WRONG-ANSWER} $ otherwise.\n\nAfter printing a line do not forget to end the line and flush the output. Otherwise, you will get the verdict $ \\texttt{TIMELIMIT} $ . To flush the output, use:\n\n- $ \\texttt{fflush(stdout)} $ in C;\n- $ \\texttt{fflush(stdout)} $ , $ \\texttt{cout <}\\texttt{< flush} $ or $ \\texttt{cout.flush()} $ in C++;\n- $ \\texttt{System.out.flush()} $ in Java and Kotlin;\n- $ \\texttt{sys.stdout.flush()} $ in Python.\n\n## 提示\n\nIn the first sample, the pizza has area $ 15 $ . Alberto can eat less than half of the pizza by eating the slice around vertex $ 2 $ (which has area $ 6.5 $ ) or around vertex $ 3 $ (which has area $ 3.5 $ ).\n\n ![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/a11c8c619d68b6a5662a71ab8e5d506280dbfa1e.png)In the second sample, it can be proved that both players will eat exactly half of the pizza if they eat optimally. Therefore it is possible to choose to help either Alberto or Beatrice.\n\nIn the third sample, it is possible to show that only Beatrice has a strategy to eat at most half of the pizza. The following is an example of a valid interaction (after reading the input):\n\n $ $$$ \\begin{array}{|c|c|c|} \\hline \\textbf{Contestant} & \\textbf{Judge} & \\textbf{Explanation} \\\\ \\hline \\texttt{Beatrice} & & \\text{The contestant will help Beatrice} \\\\ \\hline & \\texttt{7} & \\text{Alberto eats the triangle with vertices $6$, $7$, $1$ and area $1$} \\\\ \\hline \\texttt{2} & & \\text{Beatrice eats the triangle with vertices $1$, $2$, $3$ and area $2$} \\\\ \\hline & \\texttt{5} & \\text{Alberto eats the triangle with vertices $4$, $5$, $6$ and area $1.5$} \\\\ \\hline \\texttt{4} & & \\text{Beatrice eats the triangle with vertices $3$, $4$, $6$ and area $8$} \\\\ \\hline & \\texttt{6} & \\text{Alberto eats the triangle with vertices $3$, $6$, $1$ and area $11$} \\\\ \\hline \\end{array}  $ $  The total area eaten by Alberto is  $ 13.5 $  and the total area eaten by Beatrice is  $ 10$$$, which is less than half the area of the whole pizza. The actions performed by the contestant and the judge in this example of interaction may be non-optimal. The process is illustrated below:\n\n ![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1776I/6de08d54ecde090a85188cff2608644bd6cbb65d.png)",
+            "url": "https://www.luogu.com.cn/problem/CF1776I",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "luogu-training-CF1909I",
+      "beforeSha256": "551e40d47853419db48da4356f13a1f3b672b778accbb0a191a359111ce2a66b",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF1909I",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:35.797844+00:00",
+          "markdownSha256": "0d201b931d6a3cc100e8fbdac1cd90dc1554afff526fca6a920a88c2d38306d7",
+          "pdfPageCountVerified": false,
+          "sampleCount": 4,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "4977c5e0269c366feea13b36106f48808a1cb575d3a0bb74677ba525062afe32",
+              "url": "https://codeforces.com/problemset/problem/1909/I"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 7000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Short Permutation Problem\n\n## 题目描述\n\n给定一个正整数 $n$，对于满足 $3\\le m\\le n+1,0\\le k\\le n-1$ 的所有二元组 $(m,k)$，求满足有恰好 $k$ 个 $i$ 满足 $p_i+p_{i+1}\\ge m$ 的 $1\\sim n$ 的排列 $p$ 的数量，模 $998244353$。\n\n## 输入格式\n\n一行两个正整数 $n,x(2\\le n\\le 4000,1\\le x< 10^9+7)$。\n\n## 输出格式\n\n令 $a_{m,k}$ 是二元组 $(m,k)$ 的答案模 $998244353$ 的值，令 $S=\\sum_{m=3}^{n+1}\\sum_{k=0}^{n-1}a_{m,k}x^{mn+k}$，你只需输出 $S$ 模 $10^9+7$ 的值。",
+        "officialTags": [
+          "动态规划 DP",
+          "组合数学",
+          "快速数论变换 NTT"
+        ],
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "3 2",
+            "name": "样例 1",
+            "output": "77824"
+          },
+          {
+            "input": "4 1000000000",
+            "name": "样例 2",
+            "output": "30984329"
+          },
+          {
+            "input": "8 327869541",
+            "name": "样例 3",
+            "output": "85039220"
+          },
+          {
+            "input": "4000 1149333",
+            "name": "样例 4",
+            "output": "584870166"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "5d47da80cffc4f5c2aa042083fda945fb781c8a86d5e44a96b8c951a6ccec0cd",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF1909I",
+          "originalUrl": "https://codeforces.com/problemset/problem/1909/I",
+          "sourceProblemId": "CF1909I",
+          "textAlignment": 0.9962073324905183
+        },
+        "statementAvailable": true,
+        "statementSupplement": "|  | $$$k = 0$$$ | $$$k = 1$$$ | $$$k = 2$$$ |\n| --- | --- | --- | --- |\n| $$$m = 3$$$ | $$$0$$$ | $$$0$$$ | $$$6$$$ |\n| $$$m = 4$$$ | $$$0$$$ | $$$4$$$ | $$$2$$$ |\n\n|  | $$$k = 0$$$ | $$$k = 1$$$ | $$$k = 2$$$ | $$$k = 3$$$ |\n| --- | --- | --- | --- | --- |\n| $$$m = 3$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$24$$$ |\n| $$$m = 4$$$ | $$$0$$$ | $$$0$$$ | $$$12$$$ | $$$12$$$ |\n| $$$m = 5$$$ | $$$0$$$ | $$$4$$$ | $$$16$$$ | $$$4$$$ |\n\n|  | $$$k = 0$$$ | $$$k = 1$$$ | $$$k = 2$$$ | $$$k = 3$$$ | $$$k = 4$$$ | $$$k = 5$$$ | $$$k = 6$$$ | $$$k = 7$$$ |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| $$$m = 3$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$40320$$$ |\n| $$$m = 4$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$10080$$$ | $$$30240$$$ |\n| $$$m = 5$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$1440$$$ | $$$17280$$$ | $$$21600$$$ |\n| $$$m = 6$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$480$$$ | $$$8640$$$ | $$$21600$$$ | $$$9600$$$ |\n| $$$m = 7$$$ | $$$0$$$ | $$$0$$$ | $$$0$$$ | $$$96$$$ | $$$3456$$$ | $$$16416$$$ | $$$16896$$$ | $$$3456$$$ |\n| $$$m = 8$$$ | $$$0$$$ | $$$0$$$ | $$$48$$$ | $$$2160$$$ | $$$12960$$$ | $$$18240$$$ | $$$6480$$$ | $$$432$$$ |\n| $$$m = 9$$$ | $$$0$$$ | $$$16$$$ | $$$1152$$$ | $$$9648$$$ | $$$18688$$$ | $$$9648$$$ | $$$1152$$$ | $$$16$$$ |",
+        "statementVersion": 7,
+        "title": "Short Permutation Problem",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "95648726e0f8997e10a7364341ca685e3dcb52ca30e6f9687cb30c2efcb1b214",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "5d47da80cffc4f5c2aa042083fda945fb781c8a86d5e44a96b8c951a6ccec0cd"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF1909I",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# Short Permutation Problem\n\n## 题目描述\n\n给定一个正整数 $n$，对于满足 $3\\le m\\le n+1,0\\le k\\le n-1$ 的所有二元组 $(m,k)$，求满足有恰好 $k$ 个 $i$ 满足 $p_i+p_{i+1}\\ge m$ 的 $1\\sim n$ 的排列 $p$ 的数量，模 $998244353$。\n\n## 输入格式\n\n一行两个正整数 $n,x(2\\le n\\le 4000,1\\le x< 10^9+7)$。\n\n## 输出格式\n\n令 $a_{m,k}$ 是二元组 $(m,k)$ 的答案模 $998244353$ 的值，令 $S=\\sum_{m=3}^{n+1}\\sum_{k=0}^{n-1}a_{m,k}x^{mn+k}$，你只需输出 $S$ 模 $10^9+7$ 的值。",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF1909I",
+            "sourceMarkdown": "# Short Permutation Problem\n\n## 题目描述\n\n[Xomu - Last Dance](https://soundcloud.com/xomuu/xomu-last-dance)\n\n⠀\n\n\n\nYou are given an integer $ n $ .\n\nFor each $ (m, k) $ such that $ 3 \\leq m \\leq n+1 $ and $ 0 \\leq k \\leq n-1 $ , count the permutations of $ [1, 2, ..., n] $ such that $ p_i + p_{i+1} \\geq m $ for exactly $ k $ indices $ i $ , modulo $ 998\\,244\\,353 $ .\n\n## 输入格式\n\nThe input consists of a single line, which contains two integers $ n $ , $ x $ ( $ 2 \\leq n \\leq 4000 $ , $ 1 \\leq x < 1\\,000\\,000\\,007 $ ).\n\n## 输出格式\n\nLet $ a_{m,k} $ be the answer for the pair $ (m, k) $ , modulo $ 998\\,244\\,353 $ .\n\nLet $ $$$\\large S = \\sum_{m=3}^{n+1} \\sum_{k=0}^{n-1} a_{m,k}x^{mn+k}\\phantom{0}. $ $ </p><p>Output a single line with an integer:  $ S $  modulo  $ 1\\\\,000\\\\,000\\\\,007 $ .</p><p>Note that using two different modulos is intentional. We want you to calculate all the  $ a\\_{m,k} $  modulo  $ 998\\\\,244\\\\,353 $ , then treat them like integers in the range  $ \\[0, 998\\\\,244\\\\,352\\] $ , and hash them modulo  $ 1\\\\,000\\\\,000\\\\,007$$$.\n\n## 提示\n\nIn the first test case, the answers for all $ (m, k) $ are shown in the following table:\n\n  $ k = 0 $  $ k = 1 $  $ k = 2 $  $ m = 3 $  $ 0 $  $ 0 $  $ 6 $  $ m = 4 $  $ 0 $  $ 4 $  $ 2 $ - The answer for $ (m, k) = (3, 2) $ is $ 6 $ , because for every permutation of length $ 3 $ , $ a_i + a_{i+1} \\geq 3 $ exactly $ 2 $ times.\n- The answer for $ (m, k) = (4, 2) $ is $ 2 $ . In fact, there are $ 2 $ permutations of length $ 3 $ such that $ a_i + a_{i+1} \\geq 4 $ exactly $ 2 $ times: $ [1, 3, 2] $ , $ [2, 3, 1] $ .\n\nTherefore, the value to print is $ 2^9 \\cdot 0 + 2^{10} \\cdot 0 + 2^{11} \\cdot 6 + 2^{12} \\cdot 0 + 2^{13} \\cdot 4 + 2^{14} \\cdot 2 \\equiv 77\\,824 \\phantom{0} (\\text{mod} \\phantom{0} 1\\,000\\,000\\,007) $ .\n\nIn the second test case, the answers for all $ (m, k) $ are shown in the following table:\n\n  $ k = 0 $  $ k = 1 $  $ k = 2 $  $ k = 3 $  $ m = 3 $  $ 0 $  $ 0 $  $ 0 $  $ 24 $  $ m = 4 $  $ 0 $  $ 0 $  $ 12 $  $ 12 $  $ m = 5 $  $ 0 $  $ 4 $  $ 16 $  $ 4 $ - The answer for $ (m, k) = (5, 1) $ is $ 4 $ . In fact, there are $ 4 $ permutations of length $ 4 $ such that $ a_i + a_{i+1} \\geq 5 $ exactly $ 1 $ time: $ [2, 1, 3, 4] $ , $ [3, 1, 2, 4] $ , $ [4, 2, 1, 3] $ , $ [4, 3, 1, 2] $ .\n\nIn the third test case, the answers for all $ (m, k) $ are shown in the following table:\n\n  $ k = 0 $  $ k = 1 $  $ k = 2 $  $ k = 3 $  $ k = 4 $  $ k = 5 $  $ k = 6 $  $ k = 7 $  $ m = 3 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 40320 $  $ m = 4 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 10080 $  $ 30240 $  $ m = 5 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 1440 $  $ 17280 $  $ 21600 $  $ m = 6 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 480 $  $ 8640 $  $ 21600 $  $ 9600 $  $ m = 7 $  $ 0 $  $ 0 $  $ 0 $  $ 96 $  $ 3456 $  $ 16416 $  $ 16896 $  $ 3456 $  $ m = 8 $  $ 0 $  $ 0 $  $ 48 $  $ 2160 $  $ 12960 $  $ 18240 $  $ 6480 $  $ 432 $  $ m = 9 $  $ 0 $  $ 16 $  $ 1152 $  $ 9648 $  $ 18688 $  $ 9648 $  $ 1152 $  $ 16 $"
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# Short Permutation Problem\n\n## 题目描述\n\n[Xomu - Last Dance](https://soundcloud.com/xomuu/xomu-last-dance)\n\n⠀\n\n\n\nYou are given an integer $ n $ .\n\nFor each $ (m, k) $ such that $ 3 \\leq m \\leq n+1 $ and $ 0 \\leq k \\leq n-1 $ , count the permutations of $ [1, 2, ..., n] $ such that $ p_i + p_{i+1} \\geq m $ for exactly $ k $ indices $ i $ , modulo $ 998\\,244\\,353 $ .\n\n## 输入格式\n\nThe input consists of a single line, which contains two integers $ n $ , $ x $ ( $ 2 \\leq n \\leq 4000 $ , $ 1 \\leq x < 1\\,000\\,000\\,007 $ ).\n\n## 输出格式\n\nLet $ a_{m,k} $ be the answer for the pair $ (m, k) $ , modulo $ 998\\,244\\,353 $ .\n\nLet $ $$$\\large S = \\sum_{m=3}^{n+1} \\sum_{k=0}^{n-1} a_{m,k}x^{mn+k}\\phantom{0}. $ $ </p><p>Output a single line with an integer:  $ S $  modulo  $ 1\\\\,000\\\\,000\\\\,007 $ .</p><p>Note that using two different modulos is intentional. We want you to calculate all the  $ a\\_{m,k} $  modulo  $ 998\\\\,244\\\\,353 $ , then treat them like integers in the range  $ \\[0, 998\\\\,244\\\\,352\\] $ , and hash them modulo  $ 1\\\\,000\\\\,000\\\\,007$$$.\n\n## 提示\n\nIn the first test case, the answers for all $ (m, k) $ are shown in the following table:\n\n  $ k = 0 $  $ k = 1 $  $ k = 2 $  $ m = 3 $  $ 0 $  $ 0 $  $ 6 $  $ m = 4 $  $ 0 $  $ 4 $  $ 2 $ - The answer for $ (m, k) = (3, 2) $ is $ 6 $ , because for every permutation of length $ 3 $ , $ a_i + a_{i+1} \\geq 3 $ exactly $ 2 $ times.\n- The answer for $ (m, k) = (4, 2) $ is $ 2 $ . In fact, there are $ 2 $ permutations of length $ 3 $ such that $ a_i + a_{i+1} \\geq 4 $ exactly $ 2 $ times: $ [1, 3, 2] $ , $ [2, 3, 1] $ .\n\nTherefore, the value to print is $ 2^9 \\cdot 0 + 2^{10} \\cdot 0 + 2^{11} \\cdot 6 + 2^{12} \\cdot 0 + 2^{13} \\cdot 4 + 2^{14} \\cdot 2 \\equiv 77\\,824 \\phantom{0} (\\text{mod} \\phantom{0} 1\\,000\\,000\\,007) $ .\n\nIn the second test case, the answers for all $ (m, k) $ are shown in the following table:\n\n  $ k = 0 $  $ k = 1 $  $ k = 2 $  $ k = 3 $  $ m = 3 $  $ 0 $  $ 0 $  $ 0 $  $ 24 $  $ m = 4 $  $ 0 $  $ 0 $  $ 12 $  $ 12 $  $ m = 5 $  $ 0 $  $ 4 $  $ 16 $  $ 4 $ - The answer for $ (m, k) = (5, 1) $ is $ 4 $ . In fact, there are $ 4 $ permutations of length $ 4 $ such that $ a_i + a_{i+1} \\geq 5 $ exactly $ 1 $ time: $ [2, 1, 3, 4] $ , $ [3, 1, 2, 4] $ , $ [4, 2, 1, 3] $ , $ [4, 3, 1, 2] $ .\n\nIn the third test case, the answers for all $ (m, k) $ are shown in the following table:\n\n  $ k = 0 $  $ k = 1 $  $ k = 2 $  $ k = 3 $  $ k = 4 $  $ k = 5 $  $ k = 6 $  $ k = 7 $  $ m = 3 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 40320 $  $ m = 4 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 10080 $  $ 30240 $  $ m = 5 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 1440 $  $ 17280 $  $ 21600 $  $ m = 6 $  $ 0 $  $ 0 $  $ 0 $  $ 0 $  $ 480 $  $ 8640 $  $ 21600 $  $ 9600 $  $ m = 7 $  $ 0 $  $ 0 $  $ 0 $  $ 96 $  $ 3456 $  $ 16416 $  $ 16896 $  $ 3456 $  $ m = 8 $  $ 0 $  $ 0 $  $ 48 $  $ 2160 $  $ 12960 $  $ 18240 $  $ 6480 $  $ 432 $  $ m = 9 $  $ 0 $  $ 16 $  $ 1152 $  $ 9648 $  $ 18688 $  $ 9648 $  $ 1152 $  $ 16 $",
+            "url": "https://www.luogu.com.cn/problem/CF1909I",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "luogu-training-CF505C",
+      "beforeSha256": "64840390e97ce9561753ec9835165da2fe4dde9d788fa82e54bf5b19b80adf8e",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF505C",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:36.121002+00:00",
+          "markdownSha256": "2ceb1d1fb68b09dd80c291f97d7eb45a0d8abfecd1427c6f08414f98756584ce",
+          "pdfPageCountVerified": false,
+          "sampleCount": 3,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "e2f4d41f7483d85d7444f8cd9a8695e61f0fb44452add4d0cede1c40148e86f5",
+              "url": "https://codeforces.com/problemset/problem/505/C"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Mr. Kitayuta, the Treasure Hunter\n\n## 题目描述\n\n秀石群岛是郁潭海域中由 $30001$ 个小岛组成的列岛。这些岛屿沿着直线均匀分布，自西向东编号为 $0$ 至 $30000$。众所周知，这些岛屿蕴藏着许多宝藏，整个秀石群岛共有 $n$ 颗宝石，其中第 $i$ 颗宝石位于 $p_i$ 号岛屿。\n\n北谷先生刚刚抵达 $0$ 号岛。凭借其出色的跳跃能力，他将按照以下过程在东面岛屿之间反复跳跃：\n\n- 首先，他将从 $0$ 号岛跳到 $d$ 号岛。\n- 之后，他将继续按照以下规则跳跃。设 $l$ 为上一次跳跃的距离，也就是说，如果他上一次跳跃是从 $prev$ 岛跳到 $cur$ 岛，则 $l=cur-prev$。他将向东进行距离为 $l-1$、$l$ 或 $l+1$ 的跳跃。也就是说，他将跳到 $(cur+l-1)$ 号岛、$(cur+l)$ 号岛或 $(cur+l+1)$ 号岛（如果它们存在的话）。跳跃的距离必须为正，也就是说，当 $l=1$ 时，他不能进行距离为 $0$ 的跳跃。如果没有有效的目的地，他将停止跳跃。\n\n北谷先生将收集在此过程中经过的岛屿上的宝石。找到他可以收集的最大宝石数量。\n\n## 输入格式\n\n输入的第一行包含两个空格分隔的整数 $n$ 和 $d$（$1\\le n,d\\le30000$），分别表示秀石群岛中的宝石数量和北谷先生第一次跳跃的距离。\n\n接下来的 $n$ 行描述了宝石的位置。其中的第 $i$（$1 \\le i \\le n$）包含一个整数 $p_{i}$（$d\\le p_{1}\\le p_{2}\\le …\\le p_{n}\\le 30000$），表示包含第 $i$ 个宝石所在的岛的编号。\n\n## 输出格式\n\n输出北谷先生可以收集的最大宝石数量。\n\n## 提示\n\n在第一个样例中，最优路径为 $0\\to10$（宝石数量加 $1$）$\\to 19 \\to 27$（宝石数量加 $2$）$\\to\\cdots$\n\n在第二个样例中，最优路径为 $0\\to 8 \\to 15 \\to 21 \\to 28$（宝石数量加 $1$）$\\to 36$（宝石数量加 $1$）$\\to 45$（宝石数量加 $1$）$\\to 55$（宝石数量加 $1$）$\\to 66$（宝石数量加 $1$）$\\to 78$（宝石数量加 $1$）$\\to\\cdots$\n\n在第三个样例中，最优路径为 $0\\to 7 \\to 13 \\to 18$（宝石数量加 $1$）$\\to 24$（宝石数量加 $2$）$\\to 30$（宝石数量加 $1$）$\\to\\cdots$",
+        "officialTags": [
+          "动态规划 DP",
+          "数学",
+          "枚举"
+        ],
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "4 10\n10\n21\n27\n27",
+            "name": "样例 1",
+            "output": "3"
+          },
+          {
+            "input": "8 8\n9\n19\n28\n36\n45\n55\n66\n78",
+            "name": "样例 2",
+            "output": "6"
+          },
+          {
+            "input": "13 7\n8\n8\n9\n16\n17\n17\n18\n21\n23\n24\n24\n26\n30",
+            "name": "样例 3",
+            "output": "4"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "4538e217209f659bbebb05e5d7f40ad1ebed9183b9b2f004a2d91b3cd885a8f8",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF505C",
+          "originalUrl": "https://codeforces.com/problemset/problem/505/C",
+          "sourceProblemId": "CF505C",
+          "textAlignment": 0.9957805907172996
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Mr. Kitayuta, the Treasure Hunter",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "41eeb1c2fceeaafcab9b67d3f36823f05a57bfc7a0adf977c1f81d0d5d9ceb66",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "4538e217209f659bbebb05e5d7f40ad1ebed9183b9b2f004a2d91b3cd885a8f8"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF505C",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# Mr. Kitayuta, the Treasure Hunter\n\n## 题目描述\n\n秀石群岛是郁潭海域中由 $30001$ 个小岛组成的列岛。这些岛屿沿着直线均匀分布，自西向东编号为 $0$ 至 $30000$。众所周知，这些岛屿蕴藏着许多宝藏，整个秀石群岛共有 $n$ 颗宝石，其中第 $i$ 颗宝石位于 $p_i$ 号岛屿。\n\n北谷先生刚刚抵达 $0$ 号岛。凭借其出色的跳跃能力，他将按照以下过程在东面岛屿之间反复跳跃：\n\n- 首先，他将从 $0$ 号岛跳到 $d$ 号岛。\n- 之后，他将继续按照以下规则跳跃。设 $l$ 为上一次跳跃的距离，也就是说，如果他上一次跳跃是从 $prev$ 岛跳到 $cur$ 岛，则 $l=cur-prev$。他将向东进行距离为 $l-1$、$l$ 或 $l+1$ 的跳跃。也就是说，他将跳到 $(cur+l-1)$ 号岛、$(cur+l)$ 号岛或 $(cur+l+1)$ 号岛（如果它们存在的话）。跳跃的距离必须为正，也就是说，当 $l=1$ 时，他不能进行距离为 $0$ 的跳跃。如果没有有效的目的地，他将停止跳跃。\n\n北谷先生将收集在此过程中经过的岛屿上的宝石。找到他可以收集的最大宝石数量。\n\n## 输入格式\n\n输入的第一行包含两个空格分隔的整数 $n$ 和 $d$（$1\\le n,d\\le30000$），分别表示秀石群岛中的宝石数量和北谷先生第一次跳跃的距离。\n\n接下来的 $n$ 行描述了宝石的位置。其中的第 $i$（$1 \\le i \\le n$）包含一个整数 $p_{i}$（$d\\le p_{1}\\le p_{2}\\le …\\le p_{n}\\le 30000$），表示包含第 $i$ 个宝石所在的岛的编号。\n\n## 输出格式\n\n输出北谷先生可以收集的最大宝石数量。\n\n## 提示\n\n在第一个样例中，最优路径为 $0\\to10$（宝石数量加 $1$）$\\to 19 \\to 27$（宝石数量加 $2$）$\\to\\cdots$\n\n在第二个样例中，最优路径为 $0\\to 8 \\to 15 \\to 21 \\to 28$（宝石数量加 $1$）$\\to 36$（宝石数量加 $1$）$\\to 45$（宝石数量加 $1$）$\\to 55$（宝石数量加 $1$）$\\to 66$（宝石数量加 $1$）$\\to 78$（宝石数量加 $1$）$\\to\\cdots$\n\n在第三个样例中，最优路径为 $0\\to 7 \\to 13 \\to 18$（宝石数量加 $1$）$\\to 24$（宝石数量加 $2$）$\\to 30$（宝石数量加 $1$）$\\to\\cdots$",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF505C",
+            "sourceMarkdown": "# Mr. Kitayuta, the Treasure Hunter\n\n## 题目描述\n\nThe Shuseki Islands are an archipelago of $ 30001 $ small islands in the Yutampo Sea. The islands are evenly spaced along a line, numbered from $ 0 $ to $ 30000 $ from the west to the east. These islands are known to contain many treasures. There are $ n $ gems in the Shuseki Islands in total, and the $ i $ -th gem is located on island $ p_{i} $ .\n\nMr. Kitayuta has just arrived at island $ 0 $ . With his great jumping ability, he will repeatedly perform jumps between islands to the east according to the following process:\n\n- First, he will jump from island $ 0 $ to island $ d $ .\n- After that, he will continue jumping according to the following rule. Let $ l $ be the length of the previous jump, that is, if his previous jump was from island $ prev $ to island $ cur $ , let $ l=cur-prev $ . He will perform a jump of length $ l-1 $ , $ l $ or $ l+1 $ to the east. That is, he will jump to island $ (cur+l-1) $ , $ (cur+l) $ or $ (cur+l+1) $ (if they exist). The length of a jump must be positive, that is, he cannot perform a jump of length $ 0 $ when $ l=1 $ . If there is no valid destination, he will stop jumping.\n\nMr. Kitayuta will collect the gems on the islands visited during the process. Find the maximum number of gems that he can collect.\n\n## 输入格式\n\nThe first line of the input contains two space-separated integers $ n $ and $ d $ ( $ 1<=n,d<=30000 $ ), denoting the number of the gems in the Shuseki Islands and the length of the Mr. Kitayuta's first jump, respectively.\n\nThe next $ n $ lines describe the location of the gems. The $ i $ -th of them ( $ 1<=i<=n $ ) contains a integer $ p_{i} $ ( $ d<=p_{1}<=p_{2}<=...<=p_{n}<=30000 $ ), denoting the number of the island that contains the $ i $ -th gem.\n\n## 输出格式\n\nPrint the maximum number of gems that Mr. Kitayuta can collect.\n\n## 提示\n\nIn the first sample, the optimal route is 0 $ → $ 10 (+1 gem) $ → $ 19 $ → $ 27 (+2 gems) $ →...&#x1; $\n\nIn the second sample, the optimal route is 0 $ → $ 8 $ → $ 15 $ → $ 21 $ → $ 28 (+1 gem) $ → $ 36 (+1 gem) $ → $ 45 (+1 gem) $ → $ 55 (+1 gem) $ → $ 66 (+1 gem) $ → $ 78 (+1 gem) $ →... $\n\nIn the third sample, the optimal route is 0 $ → $ 7 $ → $ 13 $ → $ 18 (+1 gem) $ → $ 24 (+2 gems) $ → $ 30 (+1 gem) $ →... $"
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# Mr. Kitayuta, the Treasure Hunter\n\n## 题目描述\n\nThe Shuseki Islands are an archipelago of $ 30001 $ small islands in the Yutampo Sea. The islands are evenly spaced along a line, numbered from $ 0 $ to $ 30000 $ from the west to the east. These islands are known to contain many treasures. There are $ n $ gems in the Shuseki Islands in total, and the $ i $ -th gem is located on island $ p_{i} $ .\n\nMr. Kitayuta has just arrived at island $ 0 $ . With his great jumping ability, he will repeatedly perform jumps between islands to the east according to the following process:\n\n- First, he will jump from island $ 0 $ to island $ d $ .\n- After that, he will continue jumping according to the following rule. Let $ l $ be the length of the previous jump, that is, if his previous jump was from island $ prev $ to island $ cur $ , let $ l=cur-prev $ . He will perform a jump of length $ l-1 $ , $ l $ or $ l+1 $ to the east. That is, he will jump to island $ (cur+l-1) $ , $ (cur+l) $ or $ (cur+l+1) $ (if they exist). The length of a jump must be positive, that is, he cannot perform a jump of length $ 0 $ when $ l=1 $ . If there is no valid destination, he will stop jumping.\n\nMr. Kitayuta will collect the gems on the islands visited during the process. Find the maximum number of gems that he can collect.\n\n## 输入格式\n\nThe first line of the input contains two space-separated integers $ n $ and $ d $ ( $ 1<=n,d<=30000 $ ), denoting the number of the gems in the Shuseki Islands and the length of the Mr. Kitayuta's first jump, respectively.\n\nThe next $ n $ lines describe the location of the gems. The $ i $ -th of them ( $ 1<=i<=n $ ) contains a integer $ p_{i} $ ( $ d<=p_{1}<=p_{2}<=...<=p_{n}<=30000 $ ), denoting the number of the island that contains the $ i $ -th gem.\n\n## 输出格式\n\nPrint the maximum number of gems that Mr. Kitayuta can collect.\n\n## 提示\n\nIn the first sample, the optimal route is 0 $ → $ 10 (+1 gem) $ → $ 19 $ → $ 27 (+2 gems) $ →...&#x1; $\n\nIn the second sample, the optimal route is 0 $ → $ 8 $ → $ 15 $ → $ 21 $ → $ 28 (+1 gem) $ → $ 36 (+1 gem) $ → $ 45 (+1 gem) $ → $ 55 (+1 gem) $ → $ 66 (+1 gem) $ → $ 78 (+1 gem) $ →... $\n\nIn the third sample, the optimal route is 0 $ → $ 7 $ → $ 13 $ → $ 18 (+1 gem) $ → $ 24 (+2 gems) $ → $ 30 (+1 gem) $ →... $",
+            "url": "https://www.luogu.com.cn/problem/CF505C",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "luogu-training-CF925F",
+      "beforeSha256": "c3b06cdb359852cd0d382f5b34135f6a705adab819bed7fc7aa77c7a1a3f8443",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-CF925F",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T07:14:35.865351+00:00",
+          "markdownSha256": "20067e1554c554d5d9c2f0a2d705753681647e46e1d3669bb99ab6b99c28969a",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "024aaef3eab69b9190f0d3556bc6f93e1ed91c819495b430036a93e1219ec489",
+              "url": "https://codeforces.com/problemset/problem/925/F"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete",
+          "displayRepair": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Parametric Circulation\n\n## 题目描述\n\nVova 最近刚学会了图中的“环流”是什么。回顾一下定义：设 $G = (V, E)$ 是一个有向图。一个环流 $f$ 是这样一组非负实数 $f_e$（$e \\in E$），使得对于每个顶点 $v \\in V$，都满足如下的守恒条件：\n\n$$\n\\sum\\limits_{e \\in \\delta^{-}(v)} f_e = \\sum\\limits_{e \\in \\delta^{+}(v)} f_e\n$$\n\n其中，$\\delta^{+}(v)$ 表示所有终点为顶点 $v$ 的边的集合，$\\delta^{-}(v)$ 表示所有起点为顶点 $v$ 的边的集合。换句话说，对于每个顶点，流入的总流量应等于流出的总流量。\n\n称 $lr$-环流为这样一个环流 $f$，对于每条边都满足 $l_e \\leq f_e \\leq r_e$，其中 $l_e$ 和 $r_e$ 是每条边 $e \\in E$ 上环流的下界和上界，均为非负实数。\n\nVova 对新学的知识应用爱不释手。现在他思考如下“自然”的问题：设图已固定，每个 $l_e$ 和 $r_e$ 都是关于实变量 $t$ 的线性函数：\n\n$$\nl_e(t) = a_e t + b_e\n$$\n$$\nr_e(t) = c_e t + d_e\n$$\n\n注意，$t$ 对所有边都是相同的。\n\n现在，$t$ 从区间 $[0, 1]$ 上的均匀分布中随机选取。问在图中存在 $lr$-环流的概率是多少？\n\n## 输入格式\n\n第一行包含两个整数 $n$、$m$（$1 \\leq n \\leq 1000$，$1 \\leq m \\leq 2000$）。\n\n接下来的 $m$ 行，每行描述一条边，格式为 $u_e$、$v_e$、$a_e$、$b_e$、$c_e$、$d_e$（$1 \\leq u_e, v_e \\leq n$，$-10^4 \\leq a_e, c_e \\leq 10^4$，$0 \\leq b_e, d_e \\leq 10^4$），其中 $u_e$ 和 $v_e$ 分别为边 $e$ 的起点和终点，后四个整数描述该边上环流上下界的线性函数。\n\n保证对于任意 $t \\in [0, 1]$ 和任意边 $e \\in E$，都有 $0 \\leq l_e(t) \\leq r_e(t) \\leq 10^4$。\n\n## 输出格式\n\n输出一个实数，表示当 $t$ 从区间 $[0, 1]$ 上均匀随机选取时，存在 $lr$-环流的概率。只要你的答案与标准答案的绝对误差不超过 $10^{-6}$，就视为正确。\n\n## 提示\n\n在第一个样例中，守恒条件只允许所有三条边的流量 $f_e$ 相等。最后一条边的流量无论 $t$ 取何值都必须为 $4$，因此概率为\n\n$$\nP(4 \\in [3, -4t + 7]~~\\&~~4 \\in [-2t + 5, t + 6]) = 0.25\n$$\n\n由 ChatGPT 4.1 翻译",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "3 3\n1 2 0 3 -4 7\n2 3 -2 5 1 6\n3 1 0 4 0 4",
+            "name": "样例 1",
+            "output": "0.25"
+          }
+        ],
+        "sourceBinding": {
+          "allSamplesEqual": true,
+          "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+          "mirrorMarkdownSha256": "2546a3941eed72afe290e96a4bcfe4fe5113609b8dd260529a5730c201a3ed3f",
+          "mirrorUrl": "https://www.luogu.com.cn/problem/CF925F",
+          "originalUrl": "https://codeforces.com/problemset/problem/925/F",
+          "sourceProblemId": "CF925F",
+          "textAlignment": 0.9760900140646976
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Parametric Circulation",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "64ae854906ebe8117d01de422c7bc96c15eb4db6da14c47938a25b1897e926ae",
+          "equivalentFormattingVerified": false,
+          "samplesUnchanged": true,
+          "sourceHash": "2546a3941eed72afe290e96a4bcfe4fe5113609b8dd260529a5730c201a3ed3f"
+        },
+        "url": "https://www.luogu.com.cn/problem/CF925F",
+        "archivedTranslations": [
+          {
+            "kind": "site",
+            "markdown": "# Parametric Circulation\n\n## 题目描述\n\nVova 最近刚学会了图中的“环流”是什么。回顾一下定义：设 $G = (V, E)$ 是一个有向图。一个环流 $f$ 是这样一组非负实数 $f_e$（$e \\in E$），使得对于每个顶点 $v \\in V$，都满足如下的守恒条件：\n\n$$\n\\sum\\limits_{e \\in \\delta^{-}(v)} f_e = \\sum\\limits_{e \\in \\delta^{+}(v)} f_e\n$$\n\n其中，$\\delta^{+}(v)$ 表示所有终点为顶点 $v$ 的边的集合，$\\delta^{-}(v)$ 表示所有起点为顶点 $v$ 的边的集合。换句话说，对于每个顶点，流入的总流量应等于流出的总流量。\n\n称 $lr$-环流为这样一个环流 $f$，对于每条边都满足 $l_e \\leq f_e \\leq r_e$，其中 $l_e$ 和 $r_e$ 是每条边 $e \\in E$ 上环流的下界和上界，均为非负实数。\n\nVova 对新学的知识应用爱不释手。现在他思考如下“自然”的问题：设图已固定，每个 $l_e$ 和 $r_e$ 都是关于实变量 $t$ 的线性函数：\n\n$$\nl_e(t) = a_e t + b_e\n$$\n$$\nr_e(t) = c_e t + d_e\n$$\n\n注意，$t$ 对所有边都是相同的。\n\n现在，$t$ 从区间 $[0, 1]$ 上的均匀分布中随机选取。问在图中存在 $lr$-环流的概率是多少？\n\n## 输入格式\n\n第一行包含两个整数 $n$、$m$（$1 \\leq n \\leq 1000$，$1 \\leq m \\leq 2000$）。\n\n接下来的 $m$ 行，每行描述一条边，格式为 $u_e$、$v_e$、$a_e$、$b_e$、$c_e$、$d_e$（$1 \\leq u_e, v_e \\leq n$，$-10^4 \\leq a_e, c_e \\leq 10^4$，$0 \\leq b_e, d_e \\leq 10^4$），其中 $u_e$ 和 $v_e$ 分别为边 $e$ 的起点和终点，后四个整数描述该边上环流上下界的线性函数。\n\n保证对于任意 $t \\in [0, 1]$ 和任意边 $e \\in E$，都有 $0 \\leq l_e(t) \\leq r_e(t) \\leq 10^4$。\n\n## 输出格式\n\n输出一个实数，表示当 $t$ 从区间 $[0, 1]$ 上均匀随机选取时，存在 $lr$-环流的概率。只要你的答案与标准答案的绝对误差不超过 $10^{-6}$，就视为正确。\n\n## 提示\n\n在第一个样例中，守恒条件只允许所有三条边的流量 $f_e$ 相等。最后一条边的流量无论 $t$ 取何值都必须为 $4$，因此概率为\n\n$$\nP(4 \\in [3, -4t + 7]~~\\&~~4 \\in [-2t + 5, t + 6]) = 0.25\n$$\n\n由 ChatGPT 4.1 翻译",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/CF925F",
+            "sourceMarkdown": "# Parametric Circulation\n\n## 题目描述\n\nVova has recently learned what a circulaton in a graph is. Recall the definition: let $ G = (V, E) $ be a directed graph. A circulation $ f $ is such a collection of non-negative real numbers $ f_e $ ( $ e \\in E $ ), that for each vertex $ v \\in V $ the following conservation condition holds:\n\n $ $$$\\sum\\limits_{e \\in \\delta^{-}(v)} f_e = \\sum\\limits_{e \\in \\delta^{+}(v)} f_e $ $ </p><p>where  $ \\\\delta^{+}(v) $  is the set of edges that end in the vertex  $ v $ , and  $ \\\\delta^{-}(v) $  is the set of edges that start in the vertex  $ v $ . In other words, for each vertex the total incoming flow should be equal to the total outcoming flow.</p><p>Let a  $ lr $ -circulation be such a circulation  $ f $  that for each edge the condition  $ l\\_e \\\\leq f\\_e \\\\leq r\\_e $  holds, where  $ l\\_e $  and  $ r\\_e $  for each edge  $ e \\\\in E $  are two non-negative real numbers denoting the lower and upper bounds on the value of the circulation on this edge  $ e $ .</p><p>Vova can't stop thinking about applications of a new topic. Right now he thinks about the following <span class=\"tex-font-style-it\">natural</span> question: let the graph be fixed, and each value  $ l\\_e $  and  $ r\\_e $  be a linear function of a real variable  $ t $ :</p><p> $ $ l_e(t) = a_e t + b_e $ $   $ $ r_e(t) = c_e t + d_e $ $ </p><p>Note that  $ t $  is the <span class=\"tex-font-style-bf\">same</span> for all edges.</p><p>Let  $ t $  be chosen at random from uniform distribution on a segment  $ \\[0, 1\\] $ . What is the probability of existence of  $ lr$$$-circulation in the graph?\n\n## 输入格式\n\nThe first line contains two integers $ n $ , $ m $ ( $ 1 \\leq n \\leq 1000 $ , $ 1 \\leq m \\leq 2000 $ ).\n\nEach of the next $ m $ lines describes edges of the graph in the format $ u_e $ , $ v_e $ , $ a_e $ , $ b_e $ , $ c_e $ , $ d_e $ ( $ 1 \\leq u_e, v_e \\leq n $ , $ -10^4 \\leq a_e, c_e \\leq 10^4 $ , $ 0 \\leq b_e, d_e \\leq 10^4 $ ), where $ u_e $ and $ v_e $ are the startpoint and the endpoint of the edge $ e $ , and the remaining 4 integers describe the linear functions for the upper and lower bound of circulation.\n\nIt is guaranteed that for any $ t \\in [0, 1] $ and for any edge $ e \\in E $ the following condition holds $ 0 \\leq l_e(t) \\leq r_e(t) \\leq 10^4 $ .\n\n## 输出格式\n\nPrint a single real integer — the probability of existence of $ lr $ -circulation in the graph, given that $ t $ is chosen uniformly at random from the segment $ [0, 1] $ . Your answer is considered correct if its absolute difference from jury's answer is not greater than $ 10^{-6} $ .\n\n## 提示\n\nIn the first example the conservation condition allows only circulations with equal values $ f_e $ for all three edges. The value of circulation on the last edge should be $ 4 $ whatever $ t $ is chosen, so the probability is\n\n $ $$$P(4 \\in [3, -4t + 7]~~\\&~~4 \\in [-2t + 5, t + 6]) = 0.25 $ $$$"
+          }
+        ],
+        "statementLanguage": "zh",
+        "statementSource": "洛谷原站中文题面",
+        "sourceSnapshots": [
+          {
+            "markdown": "# Parametric Circulation\n\n## 题目描述\n\nVova has recently learned what a circulaton in a graph is. Recall the definition: let $ G = (V, E) $ be a directed graph. A circulation $ f $ is such a collection of non-negative real numbers $ f_e $ ( $ e \\in E $ ), that for each vertex $ v \\in V $ the following conservation condition holds:\n\n $ $$$\\sum\\limits_{e \\in \\delta^{-}(v)} f_e = \\sum\\limits_{e \\in \\delta^{+}(v)} f_e $ $ </p><p>where  $ \\\\delta^{+}(v) $  is the set of edges that end in the vertex  $ v $ , and  $ \\\\delta^{-}(v) $  is the set of edges that start in the vertex  $ v $ . In other words, for each vertex the total incoming flow should be equal to the total outcoming flow.</p><p>Let a  $ lr $ -circulation be such a circulation  $ f $  that for each edge the condition  $ l\\_e \\\\leq f\\_e \\\\leq r\\_e $  holds, where  $ l\\_e $  and  $ r\\_e $  for each edge  $ e \\\\in E $  are two non-negative real numbers denoting the lower and upper bounds on the value of the circulation on this edge  $ e $ .</p><p>Vova can't stop thinking about applications of a new topic. Right now he thinks about the following <span class=\"tex-font-style-it\">natural</span> question: let the graph be fixed, and each value  $ l\\_e $  and  $ r\\_e $  be a linear function of a real variable  $ t $ :</p><p> $ $ l_e(t) = a_e t + b_e $ $   $ $ r_e(t) = c_e t + d_e $ $ </p><p>Note that  $ t $  is the <span class=\"tex-font-style-bf\">same</span> for all edges.</p><p>Let  $ t $  be chosen at random from uniform distribution on a segment  $ \\[0, 1\\] $ . What is the probability of existence of  $ lr$$$-circulation in the graph?\n\n## 输入格式\n\nThe first line contains two integers $ n $ , $ m $ ( $ 1 \\leq n \\leq 1000 $ , $ 1 \\leq m \\leq 2000 $ ).\n\nEach of the next $ m $ lines describes edges of the graph in the format $ u_e $ , $ v_e $ , $ a_e $ , $ b_e $ , $ c_e $ , $ d_e $ ( $ 1 \\leq u_e, v_e \\leq n $ , $ -10^4 \\leq a_e, c_e \\leq 10^4 $ , $ 0 \\leq b_e, d_e \\leq 10^4 $ ), where $ u_e $ and $ v_e $ are the startpoint and the endpoint of the edge $ e $ , and the remaining 4 integers describe the linear functions for the upper and lower bound of circulation.\n\nIt is guaranteed that for any $ t \\in [0, 1] $ and for any edge $ e \\in E $ the following condition holds $ 0 \\leq l_e(t) \\leq r_e(t) \\leq 10^4 $ .\n\n## 输出格式\n\nPrint a single real integer — the probability of existence of $ lr $ -circulation in the graph, given that $ t $ is chosen uniformly at random from the segment $ [0, 1] $ . Your answer is considered correct if its absolute difference from jury's answer is not greater than $ 10^{-6} $ .\n\n## 提示\n\nIn the first example the conservation condition allows only circulations with equal values $ f_e $ for all three edges. The value of circulation on the last edge should be $ 4 $ whatever $ t $ is chosen, so the probability is\n\n $ $$$P(4 \\in [3, -4t + 7]~~\\&~~4 \\in [-2t + 5, t + 6]) = 0.25 $ $$$",
+            "url": "https://www.luogu.com.cn/problem/CF925F",
+            "reason": "Use successfully rendered existing Chinese source; retain malformed original snapshot"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "nowcoder-global::15666",
+      "beforeSha256": "01a33f29f94c7220d83302d729479f2956e8a943686c3129a5bc9e2bfa185a0e",
+      "content": {
+        "id": "nowcoder-global::15666",
+        "title": "又见斐波那契",
+        "url": "https://ac.nowcoder.com/acm/problem/15666",
+        "markdown": "# 又见斐波那契\n\n## 题目描述\n\n这是一个加强版的斐波那契数列。\n \n\n给定递推式$F(i) = \\left\\{ \\begin{array}{ll} F(i-1) + F(i-2) + i^3 + i^2 + i + 1 & i>1 \\\\0 & i = 0 \\\\1 & i = 1\\end{array}\\right.$\n\n \n\n求F(n)的值，由于这个值可能太大，请对10$^{9}$+7取模。\n\n \n\n## 输入描述:\n\n \n\n第一行是一个整数T(1 ≤ T ≤ 1000)，表示样例的个数。\n以后每个样例一行，是一个整数n(1 ≤ n ≤ 10$^{18}$)。\n\n \n\n## 输出描述:\n\n \n\n每个样例输出一行，一个整数，表示F(n) mod 1000000007。",
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "4\n1\n2\n3\n100",
+            "output": "1\n16\n57\n558616258"
+          }
+        ],
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 32
+        },
+        "statementAvailable": true,
+        "statementVersion": 7,
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "images": {},
+        "attachments": {},
+        "resourceManifest": {},
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": false,
+          "checkedAt": "2026-11-03T19:31:40.585987+00:00",
+          "markdownSha256": "65eceaf0c02d1b0e34221a3630cb353622fa06fa73750d3490394ae3166c665c",
+          "displayRepair": "Restore missing array column specification in the unchanged piecewise recurrence"
+        },
+        "sourceHtmlSha256": "78be5fdfa57c9fec2fb3c25b00816cf529f62d7b3a0792d109358ac5c70fac08",
+        "sourceSnapshots": [
+          {
+            "markdown": "# 又见斐波那契\n\n## 题目描述\n\n这是一个加强版的斐波那契数列。\n \n\n给定递推式$F(i) = \\left\\{ \\begin{array} \\\\F(i-1) + F(i-2) + i^3 + i^2 + i + 1 & i>1 \\\\0 & i = 0 \\\\1 & i = 1\\end{array}\\right.$\n\n \n\n求F(n)的值，由于这个值可能太大，请对10$^{9}$+7取模。\n\n \n\n## 输入描述:\n\n \n\n第一行是一个整数T(1 ≤ T ≤ 1000)，表示样例的个数。\n以后每个样例一行，是一个整数n(1 ≤ n ≤ 10$^{18}$)。\n\n \n\n## 输出描述:\n\n \n\n每个样例输出一行，一个整数，表示F(n) mod 1000000007。",
+            "url": "https://ac.nowcoder.com/acm/problem/15666",
+            "reason": "Restore missing array column specification in the unchanged piecewise recurrence"
+          }
+        ]
+      }
+    },
+    {
+      "problem_id": "nowcoder-global::24870",
+      "beforeSha256": "6283d3a27d62b05e7a045c4687c14a096d213a6ef3f2bf8c4311bc99f0ced0be",
+      "content": {
+        "id": "nowcoder-global::24870",
+        "title": "[USACO 2009 Dec G]Video Game Troubles",
+        "url": "https://ac.nowcoder.com/acm/problem/24870",
+        "markdown": "# Video Game Troubles\n\n## 题目描述\n\nFarmer John's cows love their video games! FJ noticed that after playing these games that his cows produced much more milk than usual, surely because contented cows make more milk.\n The cows disagree, though, on which is the best game console. One cow wanted to buy the Xbox 360 to play Halo 3; another wanted to buy the Nintendo Wii to play Super Smash Brothers Brawl; a third wanted to play Metal Gear Solid 4 on the PlayStation 3. FJ wants to purchase the set of game consoles (no more than one each) and games (no more than one each -- and within the constraints of a given budget) that helps his cows produce the most milk and thus nourish the most children.\n FJ researched N (1 <= N <= 50) consoles, each with a console price Pi (1 <= Pi <= 1000) and a number of console-specific games Gi (1 <= Gi <= 10). A cow must, of course, own a console before she can buy any game that is specific to that console. Each individual game has a game price GPj (1 <= GPj price <= 100) and a production value (1 <= PVj <= 1,000,000), which indicates how much milk a cow will produce after playing the game. Lastly, Farmer John has a budget V (1 <= V <= 100,000) which is the maximum amount of money he can spend. Help him maximize the sum of the production values of the games he buys. \n\nConsider one dataset with N=3 consoles and a V=\\$800 budget. The first console costs \\$300 and has 2 games with cost \\$30 and \\$25 and production values as shown: Game # Cost Production Value 1 \\$30 50 2 \\$25 80 The second console costs \\$600 and has only 1 game: Game # Cost Production Value 1 \\$50 130 The third console costs \\$400 and has 3 games: Game # Cost Production Value 1 \\$40 70 2 \\$30 40 3 \\$35 60 Farmer John should buy consoles 1 and 3, game 2 for console 1, and games 1 and 3 for console 3 to maximize his expected production at 210: Production Value Budget: \\$800 Console 1 -\\$300 Game 2 -\\$25 80 Console 3 -\\$400 Game 1 -\\$40 70 Game 3 -\\$35 60 ------------------------------------------- Total: 0 (>= 0) 210\n\n \n\n## 输入描述:\n\n \n\n* Line 1: Two space-separated integers: N and V\n* Lines 2..N+1: Line i+1 describes the price of and the games ?available for console i; it contains: Pi, Gi, and Gi pairs of space-separated integers GPj, PVj\n\n \n\n## 输出描述:\n\n \n\n* Line 1: The maximum production value that Farmer John can get with his budget.",
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 800 \n300 2 30 50 25 80 \n600 1 50 130 \n400 3 40 70 30 40 35 60 ",
+            "output": "210"
+          }
+        ],
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 32
+        },
+        "statementAvailable": true,
+        "statementVersion": 7,
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "images": {},
+        "attachments": {},
+        "resourceManifest": {},
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": false,
+          "checkedAt": "2026-11-03T19:30:36.727274+00:00",
+          "markdownSha256": "d4867e8472be8f58eb7e8800a556515436275e5200de814d5f6b1ea68c9610fd",
+          "displayRepair": "Escape literal currency dollars; retain all original amounts and prose"
+        },
+        "sourceHtmlSha256": "12f730c73df211dc299313dc1d6395f45b5295200c18b7a871a7e9e220e73f69",
+        "translation": {
+          "kind": "bundled",
+          "format": "complete-prose-v4",
+          "markdown": "# 电子游戏的烦恼\n\n## 题目描述\n\nFarmer John 的奶牛喜欢电子游戏！FJ 发现，玩过游戏后，奶牛的产奶量比平时大得多，显然是因为开心的奶牛产奶更多。\n不过，奶牛们对哪种游戏机最好意见不一。一头想买 Xbox 360 玩 Halo 3，另一头想买 Nintendo Wii 玩 Super Smash Brothers Brawl，第三头想玩 Metal Gear Solid 4，使用 PlayStation 3。FJ 想在预算限制内购买一些游戏机，每种至多一台，以及游戏，每款至多一份，使奶牛产奶最多，从而滋养最多孩子。\nFJ 研究了 N（1 <= N <= 50）种主机，每种价格为 Pi（1 <= Pi <= 1000），并有 Gi（1 <= Gi <= 10）款专属游戏。奶牛必须先拥有主机，才能购买对应游戏。每款游戏价格为 GPj（1 <= GPj price <= 100），产值为（1 <= PVj <= 1,000,000），表示游玩后奶牛会产多少奶。最后，预算 V（1 <= V <= 100,000）是最多可花的钱。请帮助他最大化所购游戏的产值之和。\n\n考虑 N=3，预算 V=\\$800 budget. The first console costs \\$300，有 2 款游戏，价格为 \\$30 and \\$25，产值如下。游戏编号、价格、产值：1 \\$30 50 2 \\$25 80。第二台主机价格为 \\$600 and has only 1 game: Game # Cost Production Value 1 \\$50 130。第三台主机价格为 \\$400 and has 3 games: Game # Cost Production Value 1 \\$40 70 2 \\$30 40 3 \\$35 60。Farmer John 应购买主机 1 和 3、主机 1 的游戏 2，以及主机 3 的游戏 1 和 3，使预期产值最大，为 210。产值与预算明细：\\$800 Console 1 -\\$300，游戏 2 扣除 \\$25 80 Console 3 -\\$400，游戏 1 扣除 \\$40 70 Game 3 -\\$35 60。总计：0（>= 0）210。原例完整含义如下：考虑 N=3、预算 V 为 800 美元的数据。第一台主机价 300 美元，有 2 款游戏，价格为 30 和 25 美元，产值表为：游戏 1，价格 30 美元，产值 50；游戏 2，价格 25 美元，产值 80。第二台主机价 600 美元，仅有 1 款游戏：游戏 1，价格 50 美元，产值 130。第三台主机价 400 美元，有 3 款游戏：游戏 1，价格 40 美元，产值 70；游戏 2，价格 30 美元，产值 40；游戏 3，价格 35 美元，产值 60。FJ 应购买主机 1 和 3、主机 1 的游戏 2，以及主机 3 的游戏 1 和 3，使产值最大为 210。明细如下：预算 800 美元；主机 1 扣除 300 美元；游戏 2 扣除 25 美元，产值 80；主机 3 扣除 400 美元；游戏 1 扣除 40 美元，产值 70；游戏 3 扣除 35 美元，产值 60；总计剩余 0，满足大于等于 0，产值为 210。\n\n \n\n## 输入描述:\n\n \n\n* 第 1 行：两个用空格隔开的整数 N 和 V。\n* 第 2..N+1 行：第 i+1 行描述主机 i 的价格及可用游戏，包含 Pi、Gi，以及 Gi 对用空格隔开的整数 GPj、PVj。\n\n \n\n## 输出描述:\n\n \n\n* 第 1 行：Farmer John 在预算内能获得的最大产值。",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "sourceHash": "d4867e8472be8f58eb7e8800a556515436275e5200de814d5f6b1ea68c9610fd",
+          "provider": "Codex 直接翻译（无外部翻译 API）",
+          "inputKind": "markdown",
+          "notice": "机器翻译仅供理解；原题、公式、代码、样例与资源保留。"
+        },
+        "sourceSnapshots": [
+          {
+            "markdown": "# Video Game Troubles\n\n## 题目描述\n\nFarmer John's cows love their video games! FJ noticed that after playing these games that his cows produced much more milk than usual, surely because contented cows make more milk.\n The cows disagree, though, on which is the best game console. One cow wanted to buy the Xbox 360 to play Halo 3; another wanted to buy the Nintendo Wii to play Super Smash Brothers Brawl; a third wanted to play Metal Gear Solid 4 on the PlayStation 3. FJ wants to purchase the set of game consoles (no more than one each) and games (no more than one each -- and within the constraints of a given budget) that helps his cows produce the most milk and thus nourish the most children.\n FJ researched N (1 <= N <= 50) consoles, each with a console price Pi (1 <= Pi <= 1000) and a number of console-specific games Gi (1 <= Gi <= 10). A cow must, of course, own a console before she can buy any game that is specific to that console. Each individual game has a game price GPj (1 <= GPj price <= 100) and a production value (1 <= PVj <= 1,000,000), which indicates how much milk a cow will produce after playing the game. Lastly, Farmer John has a budget V (1 <= V <= 100,000) which is the maximum amount of money he can spend. Help him maximize the sum of the production values of the games he buys. \n\nConsider one dataset with N=3 consoles and a V=$800 budget. The first console costs $300 and has 2 games with cost $30 and $25 and production values as shown: Game # Cost Production Value 1 $30 50 2 $25 80 The second console costs $600 and has only 1 game: Game # Cost Production Value 1 $50 130 The third console costs $400 and has 3 games: Game # Cost Production Value 1 $40 70 2 $30 40 3 $35 60 Farmer John should buy consoles 1 and 3, game 2 for console 1, and games 1 and 3 for console 3 to maximize his expected production at 210: Production Value Budget: $800 Console 1 -$300 Game 2 -$25 80 Console 3 -$400 Game 1 -$40 70 Game 3 -$35 60 ------------------------------------------- Total: 0 (>= 0) 210\n\n \n\n## 输入描述:\n\n \n\n* Line 1: Two space-separated integers: N and V\n* Lines 2..N+1: Line i+1 describes the price of and the games ?available for console i; it contains: Pi, Gi, and Gi pairs of space-separated integers GPj, PVj\n\n \n\n## 输出描述:\n\n \n\n* Line 1: The maximum production value that Farmer John can get with his budget.",
+            "url": "https://ac.nowcoder.com/acm/problem/24870",
+            "reason": "Escape literal currency dollars; retain all original amounts and prose"
+          }
+        ]
+      }
+    }
+  ]
+}

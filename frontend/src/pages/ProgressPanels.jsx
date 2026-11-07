@@ -39,7 +39,7 @@ import { knowledgeLabels } from '@/lib/knowledgeLabels.js';
 import { ProfileSettings } from './CommunityPanel.jsx';
 import { MiniLeaderboard } from '../components/WorkspaceDecorations.jsx';
 import {verdictLabel,verdictTone} from '@/models/workspaceModel.js';
-import {completeContest} from '@/lib/completeContest.js';
+import {canReplayContest,replayVisible} from '@/lib/completeContest.js';
 import {contestOriginalUrl} from '@/lib/contestOriginalUrl.js';
 import {platformNames,rowPlatform} from '@/lib/platformRegistry.js';
 
@@ -144,11 +144,11 @@ function contestGroups(rows) {
     if (!map.has(key)) map.set(key, { key, name: row.contest, platform: row.platform, series: row.series, examYear: contestYear(row), examStage: row.examStage ?? row.xcpcKind, xcpc: isXcpc(row), notice: row.collectionNotice, rows: [] });
     map.get(key).rows.push(row);
   }
-  return [...map.values()].filter(group=>completeContest(group.rows)||group.rows.every(row=>row.schoolTraining)&&group.rows.some(row=>row.solutionAvailable||row.catalogContentReady)).map(group => ({ ...group, rows: withContestLetters(group.rows.sort((a, b) => String(a.problem).localeCompare(String(b.problem), 'en', { numeric: true }))) })).sort(compareCompetitionNewest);
+  return [...map.values()].filter(group=>canReplayContest(group.rows)||group.rows.every(row=>row.schoolTraining)&&group.rows.some(row=>row.solutionAvailable||row.catalogContentReady)).map(group => ({ ...group, rows: withContestLetters(group.rows.sort((a, b) => String(a.problem).localeCompare(String(b.problem), 'en', { numeric: true }))) })).sort(compareCompetitionNewest);
 }
 function Difficulty({ row, locked = false }) { const mode=useDifficultyDisplay();return <span className={`competition-difficulty competition-difficulty-${locked ? 'unknown' : difficultyBand(row.difficulty)}${locked ? ' competition-hidden-difficulty' : ''}`} title={locked ? '比赛进行中，赛后显示难度' : difficultyDescription(row)}>{locked ? '赛中隐藏' : difficultyLabel(row,mode)}</span>; }
 export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStartReproduction, initialContest, onBack, visit, onTag }) {
-  const groups = useMemo(() => contestGroups(list(rows).filter(row => (!row.catalogHidden||row.schoolTraining&&row.solutionAvailable) && row.source !== 'luogu-training' && row.source !== 'algorithm-lab' && row.source !== 'algorithm-lab-curation')), [rows]);
+  const groups = useMemo(() => contestGroups(list(rows).filter(row => replayVisible(row) && row.source !== 'luogu-training' && row.source !== 'algorithm-lab' && row.source !== 'algorithm-lab-curation')), [rows]);
   const fallbackVisit=useRef({}),session=visit||fallbackVisit.current,saved=session.state||{};
   const panelRef=useRef(null);
   const [query, setQuery] = useState(saved.query||''), [filter, setFilter] = useState(saved.filter||'all');
@@ -211,12 +211,12 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       {inMock && <div className="competition-notice">本场部分题目正在模拟赛中，难度和知识点将在赛后显示。请从模拟赛页继续。</div>}
       {joinError && <p className="connection-error" role="alert">{joinError}</p>}
       <div className="competition-question-list">{current.rows.map(row => {
-        const state = progress.get(row.id), locked = lockedIds.has(row.id);
+        const state = progress.get(row.id), locked = lockedIds.has(row.id),missing=row.catalogStatementReady===false||row.statementRetired===true;
         const verdict=state?.accepted?'AC':state?.verdict;
-        const practice=()=>{if(!locked)onTrain?.(row.id,{problemIds:current.rows.map(item=>item.id)});};
-        return <div className="competition-question" key={row.id} aria-disabled={!onTrain||locked} onClick={event=>{if(!event.target.closest('button'))practice();}}>
+        const practice=()=>{if(!locked&&!missing)onTrain?.(row.id,{problemIds:current.rows.filter(item=>item.catalogStatementReady!==false&&!item.statementRetired).map(item=>item.id)});};
+        return <div className="competition-question" key={row.id} aria-disabled={!onTrain||locked||missing} onClick={event=>{if(!event.target.closest('button'))practice();}}>
           <span className="competition-letter" title={contestLetterTitle(row)}>{row.displayLetter}</span>
-          <div className="competition-question-main"><button type="button" className="competition-question-open" disabled={!onTrain||locked} onClick={practice} aria-label={`练习 ${row.displayLetter} ${row.title}`}><strong><InlineTitle>{row.title}</InlineTitle></strong></button></div>
+          <div className="competition-question-main"><button type="button" className="competition-question-open" disabled={!onTrain||locked||missing} title={missing?'题面缺失，暂不可打开':undefined} onClick={practice} aria-label={`练习 ${row.displayLetter} ${row.title}`}><strong><InlineTitle>{row.title}</InlineTitle></strong></button></div>
           <div className="competition-question-meta">{locked?<span>模拟赛进行中</span>:knowledgeLabels(row).map(tag=>onTag?<button type="button" className="competition-tag" key={tag} onClick={()=>onTag({name:tag,tags:[tag]})}>{tag}</button>:<span className="competition-tag" key={tag}>{tag}</span>)}</div>
           {showDifficulty(row)&&<Difficulty row={row}/>}
           <span className={`competition-result verdict-${verdictTone(verdict)}${state?.accepted?' competition-accepted':''}`}>{locked?'考场中':verdict?verdictLabel(verdict):state?'已加入':'未加入'}</span><ChevronRight size={15} aria-hidden="true"/>

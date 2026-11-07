@@ -1,0 +1,105 @@
+{
+  "at": "2026-11-07T07:14:40.887983+00:00",
+  "backend": {
+    "tests": 1235,
+    "passed": 1233,
+    "skipped": 2,
+    "failures": 0,
+    "errors": 0
+  },
+  "sourceMath": {
+    "documents": 19265,
+    "renderedMarkdown": 19007,
+    "nativePdfViews": 258,
+    "errors": 0
+  },
+  "solutionMath": {
+    "solutions": 2419,
+    "formulas": 101099,
+    "errors": 0
+  },
+  "ui": {
+    "wideAndNarrow": true,
+    "compactHomeAdd": true,
+    "wikiIframeShortcuts": true,
+    "inlineSolutionHeader": true,
+    "independentToolbarShortcuts": true,
+    "zoomPercentAndFade": true
+  },
+  "frozenStartup": {
+    "ok": true,
+    "frozen": true,
+    "version": "1.6.4",
+    "launches": [
+      {
+        "mode": "normal frozen user loader",
+        "frozen": true,
+        "frameworkVisibleMs": 37.9,
+        "frameworkBounds": [
+          355,
+          145,
+          2205,
+          1295
+        ],
+        "contentShownMs": 2854.16,
+        "ok": true,
+        "trainingTitles": [
+          "A+B Problem"
+        ],
+        "profileOwnershipVerified": true
+      },
+      {
+        "mode": "normal frozen user loader",
+        "frozen": true,
+        "frameworkVisibleMs": 16.74,
+        "frameworkBounds": [
+          355,
+          145,
+          2205,
+          1295
+        ],
+        "contentShownMs": 2716.03,
+        "ok": true,
+        "trainingTitles": [
+          "A+B Problem"
+        ],
+        "profileOwnershipVerified": true
+      }
+    ],
+    "draftPreserved": true,
+    "originalSubmissions": 0,
+    "localInstallationChanged": false,
+    "targetMilliseconds": 3000,
+    "targetMet": true
+  },
+  "frozenUpgrade": {
+    "ok": true,
+    "frozen": true,
+    "oldVersion": "1.6.4",
+    "newVersion": "1.6.4",
+    "identityDraftCodeTrainingPreserved": true,
+    "activeContestAndStartTimePreserved": true,
+    "preferencesPreserved": true,
+    "publicRows": 13403,
+    "partialContestPreview": true,
+    "partialContestSlots": 6,
+    "originalSubmissions": 0
+  },
+  "publicSeed": {
+    "schema": 1,
+    "fullSha256": "b0c9d46c4538291c4dec1889e7019feb008c33e9c75ee2f26aa233ecc98754d4",
+    "slimSha256": "fbb32bac1facb840877a5bc734d990e47d1a45a9d67d98a558cf94e0525b1fae",
+    "fullBytes": 1014824960,
+    "slimBytes": 410984448,
+    "rows": {
+      "problems": 13417,
+      "statements": 13363,
+      "solutions": 1939,
+      "statement_assets": 3859,
+      "remote_statement_assets": 2218
+    },
+    "remoteDescriptorsRetainedExactly": true
+  },
+  "originalSubmissions": 0,
+  "publicRelease": false
+}

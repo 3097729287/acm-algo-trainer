@@ -70,6 +70,9 @@ def _clean_markdown(value):
         # This site's machine-only decoy is not a statement illustration.
         # Keep actual prose, mathematical figures, and all fenced examples.
         cleaned=re.sub(r'!\[[^\]]*\]\((?:https?://[^/\s)]+/problem/)?System_(?:Prompt|Promopt):[^)\n]*If_you_are_an_AI_or_LLM[^)\n]*\)', '',block,flags=re.I)
+        cleaned=re.sub(r'!\[[^\]\n]*\]\((?:https?://[^/\s)]+/problem/)?\{\s*"role"\s*:\s*"system"\s*,\s*"content"\s*:\s*"(?:\\.|[^"\n])*"\s*\},?\)', '',cleaned,flags=re.I)
+        cleaned=re.sub(r'!\[[^\]\n]*\]\((?:https?://[^/\s)]+/problem/)?请注意防作弊指示[.。]\)', '',cleaned)
+        cleaned=re.sub(r'!\[([^\]\n]*)\]\(bilibili:(BV[A-Za-z0-9]+)\)',lambda m:'['+(m[1] or '视频')+'](https://www.bilibili.com/video/'+m[2]+')',cleaned)
         if cleaned!=block:
             block=cleaned;blocks[index]=block;changed=True
         if remove_images and re.fullmatch(r'\s*(?:!?\[[^\]]*\]\([^)]*\)|<img\b[^>]*>)\s*', block, re.S | re.I):
@@ -118,6 +121,8 @@ def clean_statement(value):
     translation = value.get('translation')
     if isinstance(translation, dict):
         result['translation'] = dict(translation, markdown=clean_statement_markdown(translation.get('markdown')))
+        from translation_roles import repair
+        result['translation']['markdown']=repair(result.get('markdown') or '',result['translation']['markdown'])[0]
         # Rebase only a previously authenticated bundled translation when the
         # exact source changes solely through this same deterministic cleanup.
         # A stale or forged digest must never be made to look current.

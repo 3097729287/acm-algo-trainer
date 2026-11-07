@@ -1,10 +1,11 @@
 import {useLayoutEffect,useRef} from 'react';
 import {createPortal} from 'react-dom';
 import useReadingZoom from '@/lib/readingZoom.js';
+import CollapsibleReadingToolbar from './CollapsibleReadingToolbar.jsx';
 
 // Keep one portal target while moving it out of workspace stacking/containment.
 // Fullscreen therefore preserves the reading stack and scroll position.
-export default function ReaderFrame({fullscreen,width,children,onKeyDown,identity}){
+export default function ReaderFrame({fullscreen,width,children,onKeyDown,identity,shortcuts}){
  useReadingZoom();
  const marker=useRef(null),frame=useRef(null);
  const keyHandler=useRef(onKeyDown);keyHandler.current=onKeyDown;
@@ -24,5 +25,5 @@ export default function ReaderFrame({fullscreen,width,children,onKeyDown,identit
  },[fullscreen,width,identity]);
  useLayoutEffect(()=>{const node=frame.current,key=event=>keyHandler.current?.(event);node.addEventListener('keydown',key);return()=>node.removeEventListener('keydown',key);},[]);
  useLayoutEffect(()=>()=>frame.current.remove(),[]);
- return <><span ref={marker} hidden aria-hidden="true"/>{createPortal(children,frame.current)}</>;
+ return <><span ref={marker} hidden aria-hidden="true"/>{createPortal(<><CollapsibleReadingToolbar root={frame} enabled={fullscreen} shortcuts={shortcuts}/>{children}</>,frame.current)}</>;
 }

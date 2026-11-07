@@ -1,0 +1,13 @@
+{
+  "method": "both-rendered-original-PDF-pages",
+  "pdfSha256": "3bd11ae4a0f6606c41093a4b53078e7c598e70a2d0cc2530c53c1ebc6b844462",
+  "pageCount": 2,
+  "beforeSha256": "f78ce45fbfe97a996f55e3441d42648bc3e253bd9b2bafa38c848c36c273a073",
+  "afterSha256": "f7d654f85fef41f1bc07208633c62ed5b700abe894ec73cc735c5a86d20d4935",
+  "repairs": [
+    "fraction-layout",
+    "binary-subscripts",
+    "10^7",
+    "both-examples"
+  ]
+}

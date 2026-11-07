@@ -10,6 +10,7 @@ import hashlib
 import inspect
 import json
 import logging
+import re
 from pathlib import Path
 import secrets
 import sqlite3
@@ -1126,7 +1127,7 @@ class TrainingService:
         aliases = self._identity_map() if replay else {}
         solved = {aliases.get(row[0], row[0]) for row in connection.execute("SELECT problem_id FROM submissions WHERE contest_id=? AND mode='submit' AND ((?=0 AND scope='local' AND verdict IN ('AC','SAMPLE_PASS')) OR (scope='official' AND verdict='AC')) AND finished_at IS NOT NULL", (contest['id'], int(replay)))}
         for slot in json.loads(contest["slots"]):
-            if aliases.get(slot['id'], slot['id']) not in solved:
+            if slot.get('statementAvailable') is not False and aliases.get(slot['id'], slot['id']) not in solved:
                 connection.execute("UPDATE training SET mock_due=1,mock_due_at=?,mock_due_context=? WHERE id=?", (finished_at, contest["id"], slot["id"]))
         from background_rewards import record_eligible
         record_eligible(self,connection,connection.execute('SELECT * FROM contests WHERE id=?',(contest['id'],)).fetchone())
@@ -1239,8 +1240,13 @@ class TrainingService:
         self._expire()
         if contest_id:
             contest = self._contest_record(contest_id)
-            if not any(slot["id"] == identity for slot in json.loads(contest["slots"])):
+            slot=next((slot for slot in json.loads(contest['slots']) if slot['id']==identity),None)
+            if slot is None:
                 raise ServiceError(403, "这道题不属于该模拟赛")
+            if contest['status']=='running' and slot.get('statementAvailable') is False:
+                current=self._row(identity)
+                if current.get('catalogReplayReady') is not True or current.get('catalogHidden'):
+                    raise ServiceError(422,'题面缺失，暂不可打开')
             if writing and contest["status"] != "running":
                 raise ServiceError(409, "模拟赛已经结束，不能继续提交或改写考场草稿")
             return contest
@@ -1934,17 +1940,18 @@ class TrainingService:
 
     def replay_events(self):
         from contest_rules import event_info
+        from replay_catalog import replay_visible
         with self.lock:
             groups={}
             for row in self._library():
-                if (not row.get('catalogHidden') or row.get('schoolTraining')) and row.get('source') not in {'luogu-training','algorithm-lab','algorithm-lab-curation'} and not row.get('labTopic'):groups.setdefault(row['contest'],[]).append(row)
+                if replay_visible(row) and row.get('source') not in {'luogu-training','algorithm-lab','algorithm-lab-curation'} and not row.get('labTopic'):groups.setdefault(row['contest'],[]).append(row)
             from replay_catalog import unique_replay_rows
             groups={name:unique_replay_rows(rows) for name,rows in groups.items()}
             for name, rows in groups.items():
                 if rows and all(row.get('schoolTraining') for row in rows) and event_info(name,rows)['complete'] is False:
                     ready={row['id'] for row in self._contest_candidates(rows,official=True)}
                     groups[name]=[dict(row,catalogReplayReady=row['id'] in ready) for row in rows]
-            result=[info for name,rows in groups.items() if (info:=event_info(name,rows))['complete'] is not False or all(row.get('schoolTraining') for row in rows)]
+            result=[event_info(name,rows) for name,rows in groups.items()]
             from contest_names import contest_name, natural_key
             for item in result:
                 item['displayName'] = contest_name(item['name'])
@@ -1967,24 +1974,25 @@ class TrainingService:
         if not isinstance(name,str) or not name:raise ServiceError(400,'请选择已收录比赛')
         with self.lock:
             from graph_lab import replay_rows
-            from replay_catalog import unique_replay_rows
+            from replay_catalog import unique_replay_rows,replay_visible
             lab = replay_rows(name, self._library())
-            rows=lab if lab is not None else unique_replay_rows([row for row in self._library() if row['contest']==name and row.get('source') not in {'luogu-training','algorithm-lab','algorithm-lab-curation'} and not row.get('labTopic')])
+            rows=lab if lab is not None else unique_replay_rows([row for row in self._library() if row['contest']==name and replay_visible(row) and row.get('source') not in {'luogu-training','algorithm-lab','algorithm-lab-curation'} and not row.get('labTopic')])
             if not rows:raise ServiceError(404,'这场比赛尚未收录')
             if all(row.get('schoolTraining') for row in rows):
                 ready={row['id'] for row in self._contest_candidates(rows,official=True)}
                 rows=[dict(row,catalogReplayReady=row['id'] in ready) for row in rows]
             info=event_info(name,rows)
             if lab is not None: info.update(complete=True, expectedCount=5, labTopic=name.split(' · ',1)[-1])
-            if info['complete'] is False:raise ServiceError(422,'这场比赛题单尚不完整，请先收录剩余赛题')
             def order(row):
                 return tuple((0,int(piece)) if piece.isdecimal() else (1,piece.upper()) for piece in re.findall(r'\d+|\D+',row['problem']))
             if lab is None: rows.sort(key=order)
-        # Load missing public statements before freezing; never silently omit a slot.
-        for row in rows:self._asset_library().problem(row['id'])
+        # A missing statement blocks that slot, not the rest of the contest.
+        # Keep the original roster and never wait on every missing network GET.
         available={row['id']:row for row in self._contest_candidates(rows,official=True)}
         missing=[row['problem'] for row in rows if row['id'] not in available]
-        if missing:raise ServiceError(422,'以下题目尚缺完整题面或样例：'+', '.join(missing)+'。补全后才能重现整场已收录赛题')
+        if not available:raise ServiceError(422,'这场比赛暂无可打开的题目，请先补全题面')
+        info.update(availableCount=len(available),missingProblems=missing)
+        if missing:info['complete']=False
         try:duration=int(body.get('duration',info['duration']))
         except (ValueError,TypeError):raise ServiceError(400,'重现赛时长无效')
         if not 1<=duration<=1440:raise ServiceError(400,'时长须为 1–1440 分钟')
@@ -1992,9 +2000,13 @@ class TrainingService:
         from background_rewards import freeze
         background=freeze(rows,info,duration,self._ranking_profile()['user_id'],lab=lab is not None)
         if background:options['backgroundReward']=background
-        slots=[{'letter':chr(65+position),'id':row['id'],'title':row['title'],'difficulty':row.get('difficulty'),'tags':row.get('tags',[]),'judgeScope':available[row['id']]['judgeScope']} for position,row in enumerate(rows)]
+        def paper_letter(row,position):
+            if row.get('contestLetter'):return row['contestLetter']
+            label=str(row.get('problem') or '')
+            return label if re.fullmatch(r'[A-Z][0-9]{0,2}',label) else chr(65+position)
+        slots=[{'letter':paper_letter(row,position),'id':row['id'],'title':row['title'],'difficulty':row.get('difficulty'),'tags':row.get('tags',[]),'judgeScope':available.get(row['id'],{}).get('judgeScope','unsupported'),'statementAvailable':row['id'] in available} for position,row in enumerate(rows)]
         rated=[row['difficulty'] for row in rows if isinstance(row.get('difficulty'),(int,float))]
-        plan={'previewId':uuid.uuid4().hex,'name':'重现赛 · '+name,'slots':[{key:slot[key] for key in ('letter','id','title','judgeScope')} for slot in slots],
+        plan={'previewId':uuid.uuid4().hex,'name':'重现赛 · '+name,'slots':[{key:slot[key] for key in ('letter','id','title','judgeScope','statementAvailable')} for slot in slots],
               'duration':duration,'min':0,'max':10000,'strategy':'replay','constraints':options,'event':info,
               'difficultyRange':{'min':min(rated,default=None),'max':max(rated,default=None)}}
         with self.lock:self.previews[tuple(slot['id'] for slot in slots)]={'plan':plan,'slots':slots,'at':self._now()}
@@ -2072,7 +2084,12 @@ class TrainingService:
                     raise ServiceError(409, "难度条件已变化，请重新生成题目")
             solved = self._solved_problem_keys(self._library()) if options["excludeSolved"] else set()
             current_rows = {row['id']:row for row in [self._row(identity) for identity in ids]}
-            if not options.get('calendarEvent'):
+            if options['strategy']=='replay' and not options.get('calendarEvent'):
+                ready={row['id'] for row in self._contest_candidates(list(current_rows.values()),official=True)}
+                for slot in preview['slots']:
+                    slot.update(statementAvailable=slot['id'] in ready,judgeScope='official' if slot['id'] in ready else 'unsupported')
+                if not ready:raise ServiceError(409,'这场比赛暂无可打开的题目，请先补全题面')
+            elif not options.get('calendarEvent'):
                 current_rows={row['id']:row for row in self._contest_candidates(list(current_rows.values()),official=options['strategy']=='replay')}
             elif not self._contest_candidates([current_rows[ids[0]]],official=True):
                 raise ServiceError(409,'A 题题面尚未就绪，请稍后重试')
@@ -2133,6 +2150,13 @@ class TrainingService:
             latest = attempts[-1] if attempts else None
             sample_ok = accepted is not None or any(submission["finished_at"] and submission["verdict"] == "SAMPLE_PASS" for submission in attempts)
             slot = {"letter": frozen["letter"], "id": frozen["id"], "title": frozen["title"], "accepted": accepted is not None, "samplePassed": sample_ok, "verdict": latest["verdict"] if latest else None, "attempts": len(attempts), "solvedAt": accepted["submitted_at"] if accepted else None}
+            if 'statementAvailable' in frozen:
+                slot['statementAvailable']=frozen['statementAvailable']
+                if record['status']=='running' and frozen['statementAvailable'] is False:
+                    try:
+                        current=self._row(frozen['id'])
+                        slot['statementAvailable']=current.get('catalogReplayReady') is True and not current.get('catalogHidden')
+                    except ServiceError:pass
             if record["status"] == "finished":
                 slot.update({key: frozen[key] for key in ("difficulty", "tags", "judgeScope")})
             if accepted:

@@ -1,4 +1,5 @@
 import {useEffect} from 'react';
+import './readingZoom.css';
 
 const headers='.wb-top-toolbar,.wb-compact-toolbar,.lectures-detail-bar,.lecture-directory-toolbar,.wiki-reader-toolbar,.template-heading,.lab-course-header,.solution-reader-header,.study-single-controls,.study-task-previous,.study-task-next';
 const bodySelectors='.tb-workbench>.wb-body,.study-pane .lecture-markdown,.study-pane .lecture-prerequisites,.study-pane .template-body,.study-pane .template-fields,.study-pane .template-notes,.study-pane .template-contest-variations,.study-pane .template-example,.study-pane .lab-lesson,.study-pane .reader-content,.lecture-reading-full .lecture-markdown,.lecture-reading-full .lecture-prerequisites,.reader-full .reader-content';
@@ -7,7 +8,20 @@ const clamp=value=>Math.max(.6,Math.min(1.8,Math.round(value*100)/100));
 let users=0,dispose;
 
 export function installReadingZoom(doc=document){
-  const frames=new Map(),touched=new Map(),cache=new Map(),painted=new Set();let frame=0;
+  const frames=new Map(),touched=new Map(),cache=new Map(),painted=new Set();let frame=0,toast,toastTimer,removeTimer;
+  const showZoom=(node,zone,percentage)=>{
+    const win=doc.defaultView,root=node.closest?.('.study-pane,.reader-full,.lecture-reading-full')||node.closest?.('.tb-workbench');
+    const group=node.closest?.('.study-group-header');
+    const toolbar=zone==='bookmarks'?group:root?.querySelector('.wb-editor-header,.wiki-reader-toolbar,.lectures-detail-bar,.template-heading,.lab-course-header,.solution-reader-header');
+    const shown=toolbar&&win.getComputedStyle(toolbar).visibility!=='hidden'&&toolbar.getBoundingClientRect().height>0;
+    const bounds=(shown?toolbar:root||group||node).getBoundingClientRect(),actions=shown&&toolbar.querySelector('.wb-editor-actions');
+    if(!toast){toast=doc.createElement('output');toast.className='reading-zoom-toast';toast.setAttribute('role','status');toast.setAttribute('aria-label','缩放比例');doc.body.append(toast);}
+    clearTimeout(toastTimer);clearTimeout(removeTimer);toast.classList.remove('is-fading');
+    toast.textContent=percentage+'%';toast.dataset.zone=zone;
+    const right=actions?actions.getBoundingClientRect().left-8:Math.min(win.innerWidth-12,bounds.right-12);
+    toast.style.left=Math.max(64,right)+'px';toast.style.top=Math.max(4,bounds.top+(shown?bounds.height/2-13:6))+'px';
+    toastTimer=setTimeout(()=>{toast?.classList.add('is-fading');removeTimer=setTimeout(()=>{toast?.remove();toast=null;},160);},1100);
+  };
   const owner=()=>doc.defaultView.__tbAccountUserId||'local';
   const values=()=>{const id=owner();if(!cache.has(id)){let value={};try{value=JSON.parse(doc.defaultView.localStorage.getItem('tb.readingZoom.v1.'+id))||{};}catch{}cache.set(id,value);}return cache.get(id);};
   const scope=node=>{
@@ -43,11 +57,12 @@ export function installReadingZoom(doc=document){
     const value=values();value[k]=clamp(level(k)+(event.deltaY<0?.1:-.1));
     try{doc.defaultView.localStorage.setItem('tb.readingZoom.v1.'+owner(),JSON.stringify(value));}catch{}
     apply();
+    showZoom(node,zone,Math.round(value[k]*100));
   }
   const wheel=event=>{const node=event.target?.nodeType===1?event.target:event.target?.parentElement;if(!node||doc.querySelector('dialog[open],[aria-modal=true]:not(.reader-full)'))return;const zone=node.closest('.study-group-header')?'bookmarks':node.closest(headers)?'toolbar':'content';adjust(event,node,zone);};
   const observer=new MutationObserver(schedule);observer.observe(doc.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','data-problem-id','data-study-key','data-lecture-id','aria-selected','hidden']});
   doc.addEventListener('wheel',wheel,{capture:true,passive:false});apply();
-  return()=>{observer.disconnect();doc.defaultView.cancelAnimationFrame(frame);doc.removeEventListener('wheel',wheel,true);for(const remove of frames.values())remove();for(const[node,zoom]of touched)if(node.isConnected){node.style.zoom=zoom;delete node.dataset.readingZoom;}};
+  return()=>{observer.disconnect();clearTimeout(toastTimer);clearTimeout(removeTimer);toast?.remove();doc.defaultView.cancelAnimationFrame(frame);doc.removeEventListener('wheel',wheel,true);for(const remove of frames.values())remove();for(const[node,zoom]of touched)if(node.isConnected){node.style.zoom=zoom;delete node.dataset.readingZoom;}};
 }
 
 export default function useReadingZoom(){useEffect(()=>{if(users++===0)dispose=installReadingZoom();return()=>{if(--users===0){dispose?.();dispose=null;}};},[]);}

@@ -1575,7 +1575,7 @@ export default function App() {
     setReaderFull(false);
     setPage("mock");
     setMockTab("create");
-    setMockSlot(result.contest.slots[0]?.id);
+    setMockSlot(result.contest.slots.find(slot=>slot.statementAvailable!==false)?.id);
     notice("计时已开始，祝你专注", "success");
   }
   async function finishMock(cancelled=false) {
@@ -1834,7 +1834,7 @@ export default function App() {
       }
       if (page === "mock" && active && /^[1-9]$/.test(e.key)) {
         const slot = active.slots[Number(e.key) - 1];
-        if (slot) {
+        if (slot&&slot.statementAvailable!==false) {
           e.preventDefault();
           setMockSlot(slot.id);
         }
@@ -2113,10 +2113,10 @@ export default function App() {
   }
   const currentPage = navigationPages.find((p) => p.id === page),
     currentMockSlot =
-      active?.slots.find((slot) => slot.id === mockSlot) || active?.slots[0];
+      active?.slots.find((slot) => slot.id === mockSlot&&slot.statementAvailable!==false) || active?.slots.find(slot=>slot.statementAvailable!==false);
   const conciseSolution = reader && briefSolution(reader.markdown, rows.find(row => row.id === readerId)?.difficulty);
   const readerPanel = readerId && (
-    <ReaderFrame identity={readerId} fullscreen={readerFull} width={prefs.readerWidth}
+    <ReaderFrame identity={readerId} fullscreen={readerFull} width={prefs.readerWidth} shortcuts={prefs.shortcuts}
       onKeyDown={(e) => {
         if (e.key === "Escape") {
           e.preventDefault();
@@ -2323,7 +2323,7 @@ export default function App() {
                         (s) => s.id === currentMockSlot.id,
                       );
                       setMockSlot(
-                        active.slots[(index + 1) % active.slots.length].id,
+                        [...active.slots.slice(index+1),...active.slots.slice(0,index+1)].find(slot=>slot.statementAvailable!==false)?.id,
                       );
                     }}
                   />

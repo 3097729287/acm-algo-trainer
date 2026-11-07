@@ -16,6 +16,7 @@ import { Fragment, useEffect, useId, useLayoutEffect, useMemo, useRef, useState 
 import ReactMarkdown from 'react-markdown';
 import ReadingImage, { readingUrlTransform } from '@/components/ReadingImage.jsx';
 import InlineTitle from '@/components/InlineTitle.jsx';
+import CollapsibleReadingToolbar from '@/components/CollapsibleReadingToolbar.jsx';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -71,6 +72,7 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
   const [showLearned,setShowLearned]=useState(true);
   const learnedKeys=useMemo(()=>new Set(prefs.learnedLectures||[]),[prefs.learnedLectures]);
   const [readingFull,setReadingFull]=useState(visit?.readingFull||false);
+  const readingRoot=useRef(null);
   const [localDirectoryOpen,setLocalDirectoryOpen]=useState(visit?.directoryOpen||false),directoryId=useId(),directory=useRef(null);
   const directoryOpen=controlledDirectoryOpen??localDirectoryOpen;
   const setDirectoryOpen=value=>{const next=typeof value==='function'?value(directoryOpen):value;setLocalDirectoryOpen(next);if(visit)visit.directoryOpen=next;onDirectoryChange?.(next);};
@@ -125,7 +127,8 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
       {groups.map(kind=><CatalogueGroup key={kind} title={kind==='language'?'基础学习':LECTURE_ROLES[kind]}>{filtered.filter(item=>item.curriculum.kind===kind).map(item=>{const title=catalogueTitle(item);return <CatalogueEntry key={item.id} className={'lecture-entry'+(learnedKeys.has(lessonKey(item))?' lecture-learned':'')} title={<LessonTitle>{title}</LessonTitle>} label={title} onOpen={()=>openLecture(item.id,true)}/>;})}</CatalogueGroup>)}
       {!snapshot&&!error&&<LoaderCircle className="spin" role="status" aria-label="正在读取完整讲解" size={19}/>}
       {snapshot&&!filtered.length&&<p className="progress-muted">没有匹配的完整讲解。</p>}
-    </div>:<div className={'lectures-layout' + (selected ? ' has-selection' : '')+(readingFull&&selected?' lecture-reading-full':'')+(directoryOpen?' lecture-directory-open':'')}>
+    </div>:<div ref={readingRoot} className={'lectures-layout' + (selected ? ' has-selection' : '')+(readingFull&&selected?' lecture-reading-full':'')+(directoryOpen?' lecture-directory-open':'')}>
+      {!study&&<CollapsibleReadingToolbar root={readingRoot} enabled={Boolean(readingFull&&selected)} shortcuts={prefs.shortcuts}/>}
       {(!study||directoryOpen)&&<aside id={directoryId} className="lecture-directory"><div className="lecture-directory-toolbar"><label className="lecture-directory-search"><Search size={15}/><input type="search" aria-label="搜索从零讲目录" value={query} onChange={event=>setQuery(event.target.value)}/></label></div><nav ref={directory} className="lectures-list" aria-label="完整知识讲解" onScroll={event=>{if(visit)visit.directoryScrollTop=event.currentTarget.scrollTop;}}>{filtered.map((item,index) => <Fragment key={item.id}>
         {(index===0||filtered[index-1].curriculum.kind!==item.curriculum.kind)&&<h3 className="lecture-curriculum-group">{item.curriculum.kind==='language'?'基础学习':LECTURE_ROLES[item.curriculum.kind]}</h3>}
         <button className={[selected===item.id?'selected':'',learnedKeys.has(lessonKey(item))?'lecture-learned':''].filter(Boolean).join(' ')} aria-current={selected===item.id?'page':undefined} data-lesson-kind={item.curriculum.kind} onClick={() => {if((study||readingFull)&&onNextLecture)onNextLecture(item.id);else openLecture(item.id,true);}}>

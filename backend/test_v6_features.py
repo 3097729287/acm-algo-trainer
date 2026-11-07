@@ -111,11 +111,12 @@ class FeatureTests(unittest.TestCase):
         finished=self.service.finish_contest(contest['id'])['contest']
         self.assertEqual([slot['difficulty'] for slot in finished['slots']][:3],[50,4500,None])
 
-    def test_replay_rejects_partial_catalog_and_missing_statement(self):
+    def test_replay_allows_partial_catalog_and_rejects_zero_readable_slots(self):
         self.library.rows[0]['contestProblemCount']=9
-        with self.assertRaisesRegex(ServiceError,'题单尚不完整'):self.service.preview_contest({'mode':'replay','contest':'fixture'})
+        plan=self.service.preview_contest({'mode':'replay','contest':'fixture'})['plan']
+        self.assertFalse(plan['event']['complete']);self.assertEqual(len(plan['slots']),8)
         self.library.rows[0].pop('contestProblemCount')
-        with patch.object(self.assets,'candidates',return_value=[]),self.assertRaisesRegex(ServiceError,'尚缺完整题面'):
+        with patch.object(self.assets,'candidates',return_value=[]),self.assertRaisesRegex(ServiceError,'暂无可打开'):
             self.service.preview_contest({'mode':'replay','contest':'fixture'})
 
     def test_replay_uses_paper_letters_without_changing_original_problem_ids(self):
