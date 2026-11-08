@@ -5,10 +5,10 @@ import { resolve } from 'node:path';
 import { createApiServer } from '../src/server.mjs';
 import { SQLiteStore } from './sqlite-store.mjs';
 
-export async function startFixture({ database = ':memory:', now } = {}) {
+export async function startFixture({ database = ':memory:', now,serverOptions={} } = {}) {
   const STORE = new SQLiteStore(database);
   const env = { STORE, RATE_LIMIT_SALT: 'test-only', ...(now ? { TEST_NOW: now } : {}) };
-  const server = createApiServer(env);
+  const server = createApiServer(env,serverOptions);
   await listenFixture(server);
   return { server, STORE, env, endpoint: `http://127.0.0.1:${server.address().port}`,
     async countEvents() { return STORE.database.prepare('SELECT COUNT(*) AS n FROM official_ac_events').get().n; },

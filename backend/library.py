@@ -442,7 +442,8 @@ class LibraryDatabase:
             row = db.execute('SELECT content FROM statements WHERE problem_id=?', (identity,)).fetchone()
             from statement_cleanup import clean_statement
             from statement_asset_store import hydrate
-            return clean_statement(hydrate(json.loads(row[0]),db)) if row else None
+            from required_downloads import attach_statement
+            return clean_statement(hydrate(attach_statement(json.loads(row[0]),identity),db)) if row else None
 
     def solution_methods(self, identity=None):
         with self.connection() as db:

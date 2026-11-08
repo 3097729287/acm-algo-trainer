@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-09",
+  "scope": "Later production branch required-downloads, after frozen1.6.10",
+  "checks": [
+    "Reviewed ordinary32MiB asset validators, runtime asset hydration, build inclusion, HTTP route guards and existing cache/streaming code.",
+    "All referenced ordinary assets and prior snapshots remain necessary; no obsolete source or duplicate public original exists in this new scope.",
+    "One canonical native ZIP will be placed outside the normal installer data subset; previous ignored Git/capture evidence is kept as necessary provenance."
+  ],
+  "removed": [
+    {
+      "path": ".backups/required-downloads-production-20261109/e2e-first/deployment/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
+      "bytes": 42049784,
+      "reason": "Unused duplicate staging payload from a failed disposable fixture, superseded by the single shared deployment folder and the real passing E2E; no runtime/script references. Kept its metadata and diagnostic database."
+    },
+    {
+      "path": ".backups/required-downloads-production-20261109/e2e-second/deployment/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
+      "bytes": 42049784,
+      "reason": "Unused duplicate staging payload from a failed disposable fixture, superseded by the single shared deployment folder and the real passing E2E; no runtime/script references. Kept its metadata and diagnostic database."
+    },
+    {
+      "path": ".backups/required-downloads-production-20261109/e2e-fourth/cache/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
+      "bytes": 42049784,
+      "reason": "Superseded passing-test cache payload after final production E2E and deployment CLI both passed. Earlier result/screenshots and all final evidence remain."
+    }
+  ],
+  "removedBytes": 126149352,
+  "cleanupSafety": "Resolved all three literal file targets inside this task disposable fixture root; removed only expected regular files without recursive deletion. Canonical original, source/Git evidence, reports, diagnostic databases, screenshots, current deployment and final caches remain.",
+  "personalStateReadOrWritten": false
+}
