@@ -133,8 +133,8 @@ def run(binary=None,report=None):
         compare('training-clear',lambda:rpc('training/clear',{'ids':[identity]}),lambda:legacy.clear_training([identity]))
         # Scope guards must reject incomplete projections before any write.
         guards=[]
-        native_db.execute("INSERT INTO contests(id,name,status,started_at,deadline,duration,slots,config) VALUES('archived-replay','Historic','finished',?,?,60,'[]',?)",(NOW.isoformat(),NOW.isoformat(),json.dumps({'strategy':'replay','contest':'ABC 469'})))
-        assert rpc('workspace',fail=True)['code']=='MIGRATION_PENDING';guards.append('finished-replay-history-not-hidden')
+        native_db.execute("INSERT INTO contests(id,name,status,started_at,deadline,duration,slots,config) VALUES('archived-replay','Historic','running',?,?,60,'[]',?)",(NOW.isoformat(),NOW.isoformat(),json.dumps({'strategy':'replay','contest':'ABC 469'})))
+        assert rpc('workspace',fail=True)['code']=='MIGRATION_PENDING';guards.append('running-replay-finalization-not-hidden')
         previous=native_db.execute('SELECT * FROM training ORDER BY id').fetchall()
         assert rpc('training/start',{'id':identity,'deferWorkspace':True,'deferActivation':True},fail=True)['code']=='MIGRATION_PENDING'
         assert native_db.execute('SELECT * FROM training ORDER BY id').fetchall()==previous;guards.append('unsupported-start-does-not-mutate-training')

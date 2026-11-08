@@ -10,6 +10,7 @@ import { chromium } from 'playwright';
 import { exerciseNativePlanning } from './native-learning-flow.mjs';
 import { exerciseNativeRuns } from './native-run-flow.mjs';
 import { exerciseNativeReviews } from './native-review-flow.mjs';
+import { exerciseNativeContestHistory } from './native-contest-history-flow.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const packaged = process.argv.includes('--packaged');
@@ -137,6 +138,7 @@ try {
   results.reactWorkspace = { saved: true, recoveredAfterReload: true, training: saved.training, problemId: saved.id };
   if(process.env.TB_NATIVE_TEST_RUNNER==='1')results.localRuns=await exerciseNativeRuns(page,output);
   if(process.env.TB_NATIVE_TEST_REVIEWS==='1')results.reviews=await exerciseNativeReviews(page,output,sandbox,process.env.TB_NATIVE_TEST_PYTHON);
+  if(process.env.TB_NATIVE_TEST_CONTEST_HISTORY==='1')results.contestHistory=await exerciseNativeContestHistory(page,output,sandbox,process.env.TB_NATIVE_TEST_PYTHON);
   assert.equal(results.capabilities.deployment, 'local-test-only');
   assert.equal(results.capabilities.formalArchitecture, 'react-python');
   assert.deepEqual(failures, []);

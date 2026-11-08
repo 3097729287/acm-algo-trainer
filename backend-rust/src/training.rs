@@ -91,10 +91,10 @@ impl Training<'_> {
         Ok(())
     }
     fn simple_workspace_supported(&self) -> Result<(), ApiError> {
-        // Contest finalization and legacy goal allocation remain separate.
+        // Running-contest finalization and legacy goal allocation remain separate.
         // Refuse before mutation rather than project their facts as empty.
         let special: bool = self.personal.db.query_row(
-            "SELECT EXISTS(SELECT 1 FROM goals WHERE archived=0) OR EXISTS(SELECT 1 FROM contests)",
+            "SELECT EXISTS(SELECT 1 FROM goals WHERE archived=0) OR EXISTS(SELECT 1 FROM contests WHERE status='running')",
             [],
             |r| r.get(0),
         )?;
@@ -105,6 +105,11 @@ impl Training<'_> {
     }
     pub fn workspace(&self) -> Result<Value, ApiError> {
         self.simple_workspace_supported()?;
+        // Validate frozen views before cleanup or scheduling can write.
+        let completed_replays = crate::contest_history::completed_replays(self)?;
+        let mut contests = Vec::new();
+        for record in self.personal.rows("SELECT * FROM contests WHERE deleted_at IS NULL ORDER BY started_at DESC,rowid DESC",[])?.as_array().unwrap(){contests.push(self.contest_projection(record)?);}
+        crate::contest_history::prune_legacy_joins(self)?;
         let reviews = crate::reviews::plan(self)?;
         let review_tasks = reviews["tasks"]
             .as_array()
@@ -255,8 +260,6 @@ impl Training<'_> {
             for id in values {let id=self.canonical(&id)?;if active_ids.contains(id.as_str())&&!ids.contains(&id) {ids.push(id);}}
             if !ids.is_empty(){sets.push(json!({"id":record["id"],"name":record["name"],"type":"practice","createdAt":record["created_at"],"accepted":ids.iter().filter(|id|accepted_ids.contains(id.as_str())).count(),"total":ids.len(),"ids":ids}));}
         }
-        let mut contests = Vec::new();
-        for record in self.personal.rows("SELECT * FROM contests WHERE deleted_at IS NULL ORDER BY started_at DESC,rowid DESC",[])?.as_array().unwrap() {contests.push(self.contest_projection(record)?);}
         let date = day(self.now);
         let mut goals = json!({"goals":[],"date":date,"contestPlan":{"contests":[],"total":0,"goalCount":0},"goalTasks":[]});
         if let Some(state) = self.personal.document(crate::learning::KEY)? {
@@ -304,7 +307,7 @@ impl Training<'_> {
             |r| r.get(0),
         )?;
         Ok(
-            json!({"training":training,"sets":sets,"contests":contests,"completedReplayContests":[],"reviews":reviews,"goals":goals,"goalTasks":[],"activeContest":null,
+            json!({"training":training,"sets":sets,"contests":contests,"completedReplayContests":completed_replays,"reviews":reviews,"goals":goals,"goalTasks":[],"activeContest":null,
             "summary":{"todayAccepted":today_accepted.len(),"historicalAccepted":historical.len(),"beforeTodayAccepted":before_today.len(),"total":training.len(),"accepted":accepted_ids.len(),"samplePassed":training.iter().filter(|r|r["verdict"]=="SAMPLE_PASS"&&r["accepted"]!=true).count(),"attempts":records.as_array().unwrap().len(),"due":training.iter().filter(|v|truth(&v["queue"])).count(),"streak":streak,"pending":pending},"now":stamp(self.now)}),
         )
     }
@@ -550,7 +553,10 @@ impl Training<'_> {
         row_or_portable(self.catalogue, self.personal, id)?;
         self.assert_unlocked(id)?;
         if truth(&body["contestId"]) {
-            return Err(ApiError::pending());
+            let context = body["contestId"]
+                .as_str()
+                .ok_or_else(|| ApiError::bad("比赛编号无效"))?;
+            crate::contest_history::assert_problem_context(self, id, context, true)?;
         }
         let review = match body.get("reviewId") {
             None | Some(Value::Null) => None,
@@ -565,12 +571,54 @@ impl Training<'_> {
             .save_draft_context_at(body, &stamp(self.now), &context)
     }
     pub fn contest_projection(&self, record: &Value) -> Result<Value, ApiError> {
-        let config: Value = serde_json::from_str(text(record, "config"))?;
+        if !["running", "finished", "cancelled"].contains(&text(record, "status")) {
+            return Err(ApiError::new(
+                500,
+                "INVALID_STORED_DATA",
+                "比赛状态记录格式异常，原数据已保留",
+            ));
+        }
+        let config: Value = serde_json::from_str(if text(record, "config").is_empty() {
+            "{}"
+        } else {
+            text(record, "config")
+        })?;
+        if !config.is_object() {
+            return Err(ApiError::new(
+                500,
+                "INVALID_STORED_DATA",
+                "比赛配置格式异常，原数据已保留",
+            ));
+        }
+        let wrong_penalty = match config.get("wrongPenalty") {
+            None => 20,
+            Some(value) => value.as_i64().ok_or_else(|| {
+                ApiError::new(
+                    500,
+                    "INVALID_STORED_DATA",
+                    "比赛罚时记录格式异常，原数据已保留",
+                )
+            })?,
+        };
         let frozen: Vec<Value> = serde_json::from_str(text(record, "slots"))?;
         let rows=self.personal.rows("SELECT * FROM submissions WHERE contest_id=? AND mode='submit' ORDER BY submitted_at,rowid",[text(record,"id")])?;
         let mut slots = Vec::new();
-        let mut penalty = 0;
+        let mut penalty = 0_i64;
         for frozen in frozen {
+            if ["id", "title", "letter"]
+                .iter()
+                .any(|key| !frozen[*key].is_string())
+                || record["status"] == "finished"
+                    && ["difficulty", "tags", "judgeScope"]
+                        .iter()
+                        .any(|key| frozen.get(*key).is_none())
+            {
+                return Err(ApiError::new(
+                    500,
+                    "INVALID_STORED_DATA",
+                    "比赛题目记录格式异常，原数据已保留",
+                ));
+            }
             let canonical = self.canonical(text(&frozen, "id"))?;
             let attempts = rows
                 .as_array()
@@ -585,12 +633,15 @@ impl Training<'_> {
             let accepted = attempts.iter().position(|r| {
                 truth(&r["finished_at"])
                     && (r["scope"] == "official" && r["verdict"] == "AC"
-                        || config["strategy"] != "replay"
+                        || ![json!("replay"), json!("team")].contains(&config["strategy"])
                             && r["scope"] == "local"
                             && ["AC", "SAMPLE_PASS"].contains(&text(r, "verdict")))
             });
             let latest = attempts.last();
             let mut slot = json!({"letter":frozen["letter"],"id":frozen["id"],"title":frozen["title"],"accepted":accepted.is_some(),"samplePassed":accepted.is_some()||attempts.iter().any(|r|truth(&r["finished_at"])&&r["verdict"]=="SAMPLE_PASS"),"verdict":latest.map(|r|r["verdict"].clone()),"attempts":attempts.len(),"solvedAt":accepted.map(|i|attempts[i]["submitted_at"].clone())});
+            if let Some(available) = frozen.get("statementAvailable") {
+                slot["statementAvailable"] = available.clone();
+            }
             if record["status"] == "finished" {
                 for key in ["difficulty", "tags", "judgeScope"] {
                     slot[key] = frozen[key].clone();
@@ -609,9 +660,29 @@ impl Training<'_> {
                             || config["compilePenalty"] == true && r["verdict"] == "CE"
                     })
                     .count() as i64;
-                penalty += minutes + config["wrongPenalty"].as_i64().unwrap_or(20) * wrong;
+                penalty = wrong_penalty
+                    .checked_mul(wrong)
+                    .and_then(|value| value.checked_add(minutes))
+                    .and_then(|value| penalty.checked_add(value))
+                    .ok_or_else(|| {
+                        ApiError::new(500, "INVALID_STORED_DATA", "比赛罚时超出范围，原数据已保留")
+                    })?;
             }
             slots.push(slot);
+        }
+        let name = crate::contest_history::live_label(self, record, &config, &slots)?;
+        if truth(&config["calendarEvent"]) {
+            for slot in &mut slots {
+                slot["statementReady"] =
+                    match row_or_portable(self.catalogue, self.personal, text(slot, "id")) {
+                        Ok(row) => row
+                            .get("catalogContentReady")
+                            .cloned()
+                            .unwrap_or(json!(true)),
+                        Err(e) if e.status == 404 => json!(false),
+                        Err(e) => return Err(e),
+                    };
+            }
         }
         let end = parse(if truth(&record["finished_at"]) {
             text(record, "finished_at")
@@ -622,7 +693,7 @@ impl Training<'_> {
             .num_seconds()
             .max(0);
         Ok(
-            json!({"id":record["id"],"name":record["name"],"status":record["status"],"startedAt":record["started_at"],"deadline":record["deadline"],"finishedAt":record["finished_at"],"duration":record["duration"],"accepted":slots.iter().filter(|s|s["accepted"]==true).count(),"total":slots.len(),"slots":slots,"penalty":penalty,"elapsedSeconds":elapsed,"strategy":config.get("strategy").cloned().unwrap_or(json!("comprehensive")),"constraints":config}),
+            json!({"id":record["id"],"name":name,"status":record["status"],"startedAt":record["started_at"],"deadline":record["deadline"],"finishedAt":record["finished_at"],"duration":record["duration"],"accepted":slots.iter().filter(|s|s["accepted"]==true).count(),"total":slots.len(),"slots":slots,"penalty":penalty,"elapsedSeconds":elapsed,"strategy":config.get("strategy").cloned().unwrap_or(json!("comprehensive")),"constraints":config}),
         )
     }
     pub fn submission_projection(&self, record: &Value, compact: bool) -> Result<Value, ApiError> {
@@ -910,24 +981,25 @@ impl Training<'_> {
     pub fn problem(&self, r: &ApiRequest) -> Result<Value, ApiError> {
         let id = r.param("id").ok_or_else(|| ApiError::bad("题目编号无效"))?;
         let row = row_or_portable(self.catalogue, self.personal, id)?;
-        if r.param("contestId").filter(|id| !id.is_empty()).is_some() {
+        let contest_context = r.param("contestId").filter(|id| !id.is_empty());
+        if let Some(context) = contest_context {
             if r.param("reviewId").filter(|id| !id.is_empty()).is_some() {
                 return Err(ApiError::bad("复习上下文无效"));
             }
-            return Err(ApiError::pending());
+            crate::contest_history::assert_problem_context(self, id, context, false)?;
         }
-        self.history_visible(id, None)?;
+        self.history_visible(id, contest_context)?;
         let review = crate::reviews::task(self, id, r.param("reviewId"), true)?;
         let context = review
             .as_ref()
             .map(|task| format!("review:{}", text(task, "id")))
-            .unwrap_or_default();
+            .unwrap_or_else(|| contest_context.unwrap_or("").to_owned());
         let canonical = self.canonical(id)?;
         let mut problem = self.library.statement(&canonical)?;
         let mut knowledge = self
             .catalogue
             .problem_projection(&canonical, &mut problem)?;
-        if review.is_some() {
+        if review.is_some() || contest_context.is_some() {
             knowledge = self.catalogue.review_knowledge(&canonical)?;
         }
         self.library
@@ -969,7 +1041,10 @@ impl Training<'_> {
         problem["locked"] = json!(self.locked(id)?);
         problem["solutionMethods"] = self.library.solution_summary(&canonical)?;
         let ids = self.ids(id)?;
-        let draft=self.personal.rows("SELECT problem_id,context,code,saved_at FROM drafts WHERE problem_id IN(SELECT value FROM json_each(?)) AND context=? ORDER BY saved_at DESC LIMIT 1",params![json!(ids).to_string(),context])?;
+        let mut draft=self.personal.rows("SELECT problem_id,context,code,saved_at FROM drafts WHERE problem_id IN(SELECT value FROM json_each(?)) AND context=? ORDER BY saved_at DESC LIMIT 1",params![json!(ids).to_string(),context])?;
+        if draft.as_array().unwrap().is_empty() && context.is_empty() {
+            draft=self.personal.rows("SELECT problem_id,context,code,saved_at FROM drafts WHERE problem_id IN(SELECT value FROM json_each(?)) AND context IN(SELECT id FROM contests WHERE status='cancelled') ORDER BY saved_at DESC LIMIT 1",[json!(ids).to_string()])?;
+        }
         let draft = if let Some(record) = draft.as_array().unwrap().first() {
             self.personal
                 .draft(text(record, "problem_id"), text(record, "context"))?

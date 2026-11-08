@@ -45,6 +45,7 @@ pub const NATIVE_ROUTES: &[(&str, &str)] = &[
     ("GET", "data"),
     ("GET", "data/export"),
     ("GET", "contests/events"),
+    ("GET", "contest"),
     ("GET", "workspace"),
     ("GET", "problem"),
     ("GET", "submissions"),
@@ -416,6 +417,7 @@ impl Service {
             r.path.as_str(),
             "data"
                 | "contests/events"
+                | "contest"
                 | "workspace"
                 | "problem"
                 | "submissions"
@@ -473,6 +475,11 @@ impl Service {
                 }
                 ("GET", "workspace") => training.workspace(),
                 ("GET", "contests/events") => catalogue.replay_events(training.personal),
+                ("GET", "contest") => crate::contest_history::get(
+                    &training,
+                    r.param("id")
+                        .ok_or_else(|| ApiError::bad("缺少模拟赛编号"))?,
+                ),
                 ("POST", "learning-summary/refresh" | "learning-summary/update") => {
                     let mut planner = Planner {
                         training,
@@ -488,11 +495,15 @@ impl Service {
                 }
                 ("GET", "problem") => {
                     let mut value = training.problem(r)?;
-                    value["formattingAvailable"] = crate::code_format::available(
-                        &self.config.resources,
-                        &crate::code_format::tools_root(&self.config.resources),
-                    )
-                    .into();
+                    value["formattingAvailable"] =
+                        (r.param("contestId").filter(|id| !id.is_empty()).is_none()
+                            && value["locked"] != true
+                            && training.running()?.is_none()
+                            && crate::code_format::available(
+                                &self.config.resources,
+                                &crate::code_format::tools_root(&self.config.resources),
+                            ))
+                        .into();
                     Ok(value)
                 }
                 ("GET", "submissions") => training.submissions(r, false),
@@ -676,6 +687,7 @@ impl Service {
                         "data",
                         "data/export",
                         "contests/events",
+                        "contest",
                         "workspace",
                         "problem",
                         "submission",

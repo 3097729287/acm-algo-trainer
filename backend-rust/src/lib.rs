@@ -3,6 +3,7 @@ pub mod ability;
 pub mod api;
 pub mod catalogue;
 pub mod code_format;
+pub mod contest_history;
 pub mod custom_lists;
 pub mod identity;
 pub mod journal_export;

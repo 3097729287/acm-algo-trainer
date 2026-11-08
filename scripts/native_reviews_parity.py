@@ -149,6 +149,51 @@ def run(binary,output):
         stop();now[0]+=dt.timedelta(days=1);launch()
         workspace('restart-next-day-restores-spaced-queue')
         documents('restart-preserves-all-receipts')
+        # Frozen history is a real workspace input, including tombstones,
+        # absent statements and saved exam drafts. No contest is started here.
+        def contest(cid,strategy='replay',*,slots=None,config=None,deleted=None,status='finished'):
+            frozen=slots if slots is not None else [dict(letter=chr(65+i),id=row['id'],title=row['title'],difficulty=row['difficulty'],tags=row.get('tags',[]),judgeScope='official',statementAvailable=i==0) for i,row in enumerate(selected[:2])]
+            cfg={'strategy':strategy,'contest':selected[0]['contest'],'wrongPenalty':20,'compilePenalty':False,**(config or {})}
+            seed('INSERT INTO contests(id,name,status,started_at,deadline,finished_at,duration,slots,config,deleted_at) VALUES(?,?,?,?,?,?,?,?,?,?)',(cid,'重现赛 · '+selected[0]['contest'],status,'2026-11-03T00:00:00.000000Z','2026-11-03T01:00:00.000000Z','2026-11-03T01:00:00.000000Z',60,json.dumps(frozen,ensure_ascii=False),json.dumps(cfg,ensure_ascii=False),deleted))
+        contest('finished-replay')
+        compare('frozen-replay-read',rpc('contest',query={'id':'finished-replay'}),old.contest('finished-replay'))
+        workspace('finished-replay-history-no-longer-blocks-workspace')
+        for sid,verdict,scope,minute in [('exam-ce','CE','official',1),('exam-wa','WA','official',2),('exam-ac','AC','official',8)]:
+            receipt(sid,pid,verdict,f'2026-11-03T00:{minute:02}:00.000000Z',scope=scope)
+            seed('UPDATE submissions SET contest_id=? WHERE id=?',('finished-replay',sid))
+        compare('replay-official-score-alias-and-penalty',rpc('contest',query={'id':'finished-replay'}),old.contest('finished-replay'))
+        compare('finished-exam-draft-context',rpc('problem',query={'id':pid,'contestId':'finished-replay'}),old.problem(pid,contest_id='finished-replay'))
+        reject('finished-exam-cannot-rewrite-draft','draft',{'id':pid,'contestId':'finished-replay','code':'must not be written'},lambda:old.save_draft(pid,'must not be written',contest_id='finished-replay'),409)
+        contest('finished-team',strategy='team')
+        receipt('peer-local-sample',pid,'SAMPLE_PASS','2026-11-03T00:10:00.000000Z',scope='local');seed('UPDATE submissions SET contest_id=? WHERE id=?',('finished-team','peer-local-sample'))
+        value=compare('team-history-local-samples-are-not-official-score',rpc('contest',query={'id':'finished-team'}),old.contest('finished-team'));assert value['contest']['accepted']==0
+        contest('finished-blind',strategy='comprehensive',config={'compilePenalty':True})
+        for sid,verdict,minute in [('blind-ce','CE',1),('blind-sample','SAMPLE_PASS',5)]:
+            receipt(sid,pid,verdict,f'2026-11-03T00:{minute:02}:00.000000Z',scope='local');seed('UPDATE submissions SET contest_id=? WHERE id=?',('finished-blind',sid))
+        compare('reviewed-local-history-keeps-legacy-score',rpc('contest',query={'id':'finished-blind'}),old.contest('finished-blind'))
+        contest('finished-calendar',config={'calendarEvent':{'id':'generated-calendar-event'}})
+        compare('calendar-history-keeps-live-label-and-statement-readiness',rpc('contest',query={'id':'finished-calendar'}),old.contest('finished-calendar'))
+        contest('deleted-replay',deleted='2026-11-06T00:00:00.000000Z')
+        workspace('tombstoned-replay-still-keeps-reveal-evidence')
+        compare('tombstoned-contest-stays-readable-by-id',rpc('contest',query={'id':'deleted-replay'}),old.contest('deleted-replay'))
+        cancelled=selected[11]['id'];contest('cancelled-exam',status='cancelled',deleted='2026-11-06T00:00:00.000000Z',slots=[{'letter':'A','id':cancelled,'title':selected[11]['title']}])
+        seed('INSERT INTO drafts VALUES(?,?,?,?)',(cancelled,'cancelled-exam','withdrawn exam draft 😀','2026-11-06T00:00:00.000000Z'))
+        compare('cancelled-draft-recovered-without-overwriting-normal-context',rpc('problem',query={'id':cancelled}),old.problem(cancelled))
+        extra=candidates[16:20];assert len(extra)==4
+        frozen=[dict(letter=chr(65+i),id=row['id'],title=row['title'],difficulty=row['difficulty'],tags=row.get('tags',[]),judgeScope='official',trainingBefore=None,trainingAdded=i!=3) for i,row in enumerate(extra)]
+        contest('legacy-auto-joins',slots=frozen)
+        for row in extra:seed('INSERT INTO training(id,active_at) VALUES(?,?)',(row['id'],'2026-11-03T00:00:00.000000Z'))
+        seed('INSERT INTO drafts VALUES(?,?,?,?)',(extra[1]['id'],'','','2026-11-03T00:00:00.000000Z'))
+        receipt('protected-history',extra[2]['id'],'RUN_OK','2026-11-03T00:00:00.000000Z',scope='samples',mode='run')
+        stop();launch();old._contest_entries_checked=False
+        workspace('prune-only-proven-unedited-legacy-auto-joins')
+        assert native.execute('SELECT active FROM training WHERE id=?',(extra[0]['id'],)).fetchone()[0]==0
+        assert all(native.execute('SELECT active FROM training WHERE id=?',(row['id'],)).fetchone()[0]==1 for row in extra[1:])
+        compare('legacy-prune-receipt',json.loads(native.execute("SELECT value FROM account_preferences WHERE key='contest-edited-training-v1'").fetchone()[0]),json.loads(legacy.execute("SELECT value FROM account_preferences WHERE key='contest-edited-training-v1'").fetchone()[0]))
+        contest('unknown-retained-name',config={'contest':'Unknown private provenance fixture'})
+        unchanged=native.execute('SELECT * FROM training ORDER BY id').fetchall()
+        assert rpc('workspace',fail=True)['code']=='MIGRATION_PENDING';assert native.execute('SELECT * FROM training ORDER BY id').fetchall()==unchanged;guards.append('unported-event-name-does-not-drop-history-or-mutate-training')
+        seed("DELETE FROM contests WHERE id='unknown-retained-name'")
         # Goals, contests and planner evidence are still explicitly guarded.
         seed("INSERT INTO goals(id,created_at,config) VALUES('not-ported',?,'{}')",(now[0].isoformat(),))
         assert rpc('workspace',fail=True)['code']=='MIGRATION_PENDING';guards.append('active-goal-is-not-hidden')

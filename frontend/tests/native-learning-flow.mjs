@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import { resolve } from 'node:path';
-import { trainingDay } from '../src/lib/trainingDate.js';
 
 export async function exerciseNativePlanning(page, output) {
   const snapshot = () => page.evaluate(async () => {
@@ -41,10 +40,10 @@ export async function exerciseNativePlanning(page, output) {
   const quizTask=state.plan.tasks.find(task=>task.kind==='quiz'&&task.topicId==='io-basics');
   assert(quizTask);
   const quiz = page.getByRole('dialog', { name: '原理检查', exact: true });
-  const due=state.plan.tasks.find(task=>task.status!=='done'&&task.date<=trainingDay());
-  if(due?.key===quizTask.key){
-    await quiz.waitFor();
-  }else{
+  // The reading completion can asynchronously open its next check. Wait for
+  // that rendered transition instead of assuming the first stored task is it.
+  const automaticallyOpened=await quiz.waitFor({state:'visible',timeout:3000}).then(()=>true,()=>false);
+  if(!automaticallyOpened){
     const readingBack=page.getByRole('button',{name:'返回主界面',exact:true}).first();
     if(await readingBack.isVisible())await readingBack.click();
     await nav.click();await openTask(quizTask);
