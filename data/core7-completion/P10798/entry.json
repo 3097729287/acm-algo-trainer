@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P10798",
+  "method": "单调栈分组后平衡正负数量",
+  "variants": {
+    "default": "## P10798 消除威胁\n\n原题：[P10798](https://www.luogu.com.cn/problem/P10798)\n\n### 思路\n\n绝对值无法改变。对每个绝对值，只在中间没有更大绝对值的同值元素间形成威胁。这些元素形成独立组，非零组把正负数量尽量平分；零不能变号，组内任意两点都贡献一次。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<pair<long long, long long>> st;\n    long long ans = 0;\n    auto settle = [&]() {\n        auto [v, c] = st.back();\n        st.pop_back();\n        if (v == 0)\n            ans += c * (c - 1) / 2;\n        else {\n            long long a = c / 2, b = c - a;\n            ans += a * (a - 1) / 2 + b * (b - 1) / 2;\n        }\n    };\n    for (int i = 0; i < n; i++) {\n        long long x;\n        cin >> x;\n        x = llabs(x);\n        while (!st.empty() && st.back().first < x)\n            settle();\n        if (!st.empty() && st.back().first == x)\n            st.back().second++;\n        else\n            st.push_back({x, 1});\n    }\n    while (!st.empty())\n        settle();\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n0 无法改变符号；只在遇到严格更大绝对值时结算小组；答案用 long long。\n",
+    "detailed": "## P10798 消除威胁\n\n原题：[P10798](https://www.luogu.com.cn/problem/P10798)\n\n### 从问题到算法\n\n一次翻转只改变符号，不能改变谁是区间绝对值的最大值。若两端的绝对值为 v，中间出现大于 v 的元素，这对端点永远不形成威胁；否则只取决于两端符号是否相同。\n\n用绝对值单调不增的栈保存还没有遇到更大值的组。当读入 v，所有栈顶小于 v 的组都被这个更大的元素截断，可以结算；栈顶等于 v 时把当前元素计入同一组，否则建立新组。更小值不会隔断一组。\n\n一组有 c 个非零元素，若 p 个为正，威胁数为 p(p−1)/2+(c−p)(c−p−1)/2。两种数量相差超过一时，把一个多数符号改成少数符号会减少答案，所以最优为尽量平分。v=0 时翻转仍是零，贡献 c(c−1)/2。每组的元素互不相交，可独立安排符号，故各组最小值相加就是全局最优。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<pair<long long, long long>> st;\n    long long ans = 0;\n    auto settle = [&]() {\n        auto [v, c] = st.back();\n        st.pop_back();\n        if (v == 0)\n            ans += c * (c - 1) / 2;\n        else {\n            long long a = c / 2, b = c - a;\n            ans += a * (a - 1) / 2 + b * (b - 1) / 2;\n        }\n    };\n    for (int i = 0; i < n; i++) {\n        long long x;\n        cin >> x;\n        x = llabs(x);\n        while (!st.empty() && st.back().first < x)\n            settle();\n        if (!st.empty() && st.back().first == x)\n            st.back().second++;\n        else\n            st.push_back({x, 1});\n    }\n    while (!st.empty())\n        settle();\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n0 无法改变符号；只在遇到严格更大绝对值时结算小组；答案用 long long。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P10798",
+    "id": "luogu-training-P10798",
+    "programSha256": "70f90bed892f08fd4d9b1f69509b669fac9cc6ee1aa8c7fc3bd9971d2912cddd",
+    "samples": 1,
+    "independentCases": 24,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

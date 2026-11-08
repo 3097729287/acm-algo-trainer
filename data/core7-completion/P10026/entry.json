@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P10026",
+  "method": "把所有减一的影响看作二的幂",
+  "variants": {
+    "default": "## P10026 哀之变化\n\n原题：[P10026](https://www.luogu.com.cn/problem/P10026)\n\n### 思路\n\n若做 d 次翻倍，最终 n=2^d−D，D 是 k−d 个二次幂之和。对 n>0，D 的最少项数为 d−popcount(n−1)，最多为 D；选满足最少项数限制的最大 d，再判断最多项数是否足够。\n\n### 复杂度\n\n每组时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        unsigned long long k, n;\n        cin >> k >> n;\n        bool ok;\n        if (n == 0)\n            ok = k >= 1;\n        else {\n            unsigned long long ones = __builtin_popcountll(n - 1), d = min(k, (k + ones) / 2);\n            if (d >= 61)\n                ok = true;\n            else {\n                unsigned long long value = 1ULL << d;\n                ok = value >= n && value - n >= k - d;\n            }\n        }\n        cout << (ok ? \"Yes\" : \"No\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n次数必须恰好；n=0 另处理；大指数先判断，不能执行超范围移位。\n",
+    "detailed": "## P10026 哀之变化\n\n原题：[P10026](https://www.luogu.com.cn/problem/P10026)\n\n### 从问题到算法\n\n一次减一之后若还有 j 次翻倍，它对最终值的减少量就是 2^j。因此固定翻倍次数 d 后，剩下 s=k−d 次减一，要把 D=2^d−n 表示成恰好 s 个二次幂。\n\n非负整数 D 的最少二次幂项数为 popcount(D)，最多为 D；把一个大于一的幂拆成两个较小幂，会让项数恰增加一，所以这两个界之间的所有项数都能实现。\n\n对 n>0 且 2^d>=n，D 的 d 位二进制恰为 n−1 的按位补，故 popcount(D)=d−popcount(n−1)。条件变为 d<=k、2d<=k+popcount(n−1)，以及 k−d<=2^d−n。前两者给出 d 上界，最后一式随着 d 增大只会更容易满足，因此取最大允许 d 即可判断。\n\nd>=61 时，2^d 已大于 n+k 的最大可能和，可直接判为满足而不真的移位。n=0 时先从一减到零，之后任意次翻倍仍为零，所以恰好任意正次数都可行。\n\n### 复杂度\n\n每组时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        unsigned long long k, n;\n        cin >> k >> n;\n        bool ok;\n        if (n == 0)\n            ok = k >= 1;\n        else {\n            unsigned long long ones = __builtin_popcountll(n - 1), d = min(k, (k + ones) / 2);\n            if (d >= 61)\n                ok = true;\n            else {\n                unsigned long long value = 1ULL << d;\n                ok = value >= n && value - n >= k - d;\n            }\n        }\n        cout << (ok ? \"Yes\" : \"No\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n次数必须恰好；n=0 另处理；大指数先判断，不能执行超范围移位。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P10026",
+    "id": "luogu-training-P10026",
+    "programSha256": "d350a15be2682d1977f7dbdfcdfaf458374aa2a3d43cbc9e7fa6bdd5cd4288cd",
+    "samples": 2,
+    "independentCases": 1,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

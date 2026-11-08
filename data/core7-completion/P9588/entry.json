@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P9588",
+  "method": "连续块编号与单调队列维护最大值",
+  "variants": {
+    "default": "## P9588 队列\n\n原题：[P9588](https://www.luogu.com.cn/problem/P9588)\n\n### 思路\n\n每次加入 1..x 只记录为一个块。所有加入元素使用全局连续编号，弹出只增加已删除总数；第 z 个元素二分定位所属块，最大值用各未删完块的 x 的单调队列维护。\n\n### 复杂度\n\n时间 O(q log q)，空间 O(q)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int caseId, q;\n    cin >> caseId >> q;\n    vector<long long> ends, lengths;\n    deque<int> maximum;\n    long long total = 0, removed = 0;\n    while (q--) {\n        int type;\n        cin >> type;\n        if (type == 1) {\n            long long x;\n            cin >> x;\n            total += x;\n            ends.push_back(total);\n            lengths.push_back(x);\n            int i = ends.size() - 1;\n            while (!maximum.empty() && lengths[maximum.back()] <= x)\n                maximum.pop_back();\n            maximum.push_back(i);\n        } else if (type == 2) {\n            long long y;\n            cin >> y;\n            removed += y;\n            while (!maximum.empty() && ends[maximum.front()] <= removed)\n                maximum.pop_front();\n        } else if (type == 3) {\n            long long z;\n            cin >> z;\n            long long p = removed + z;\n            int i = lower_bound(ends.begin(), ends.end(), p) - ends.begin();\n            cout << p - (ends[i] - lengths[i]) << '\\n';\n        } else\n            cout << lengths[maximum.front()] << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n半删块的最大值仍是 x；全局编号不回收；二分找第一个 end≥p。\n",
+    "detailed": "## P9588 队列\n\n原题：[P9588](https://www.luogu.com.cn/problem/P9588)\n\n### 从问题到算法\n\n将一次入队的 1..x 视为区间块，记录累计右端 end 与块长 x。若全局编号为 p，它属于第一个 end≥p 的块，值就是 p−(end−x)。队头删除 y 个只让 removed 增加 y；第 z 个元素的全局编号是 removed+z。\n\n一个尚未删完的块，无论前端已经删了多少，它的最大元素 x 都还在末尾，所以全队最大值就是所有 end>removed 的块长最大值。维护块长递减的双端队列，新块到来时弹出较小末项；它们更早结束且最大值不更大，之后也不会有用。\n\n删除时弹去已经完全消失的队首块。全局长度可达二乘十的十四次方，累计编号必须用 long long。\n\n### 复杂度\n\n时间 O(q log q)，空间 O(q)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int caseId, q;\n    cin >> caseId >> q;\n    vector<long long> ends, lengths;\n    deque<int> maximum;\n    long long total = 0, removed = 0;\n    while (q--) {\n        int type;\n        cin >> type;\n        if (type == 1) {\n            long long x;\n            cin >> x;\n            total += x;\n            ends.push_back(total);\n            lengths.push_back(x);\n            int i = ends.size() - 1;\n            while (!maximum.empty() && lengths[maximum.back()] <= x)\n                maximum.pop_back();\n            maximum.push_back(i);\n        } else if (type == 2) {\n            long long y;\n            cin >> y;\n            removed += y;\n            while (!maximum.empty() && ends[maximum.front()] <= removed)\n                maximum.pop_front();\n        } else if (type == 3) {\n            long long z;\n            cin >> z;\n            long long p = removed + z;\n            int i = lower_bound(ends.begin(), ends.end(), p) - ends.begin();\n            cout << p - (ends[i] - lengths[i]) << '\\n';\n        } else\n            cout << lengths[maximum.front()] << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n半删块的最大值仍是 x；全局编号不回收；二分找第一个 end≥p。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P9588",
+    "id": "luogu-training-P9588",
+    "programSha256": "b4335093b1d2ef7f717aa72ffaca09bad3c3da6a8d5d436f22e7d330229a87fb",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

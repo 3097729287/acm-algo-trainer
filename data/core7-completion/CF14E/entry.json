@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF14E",
+  "method": "记录高度、上升下降趋势与峰数",
+  "variants": {
+    "default": "## CF14E Camels\n\n原题：[CF14E](https://www.luogu.com.cn/problem/CF14E)\n\n### 思路\n\n峰比谷恰好多一意味着第一段上升、最后一段下降。先枚举上升的前两个高度，随后 DP 记录末高度、趋势和已出现峰数，最后只取下降且有 t 个峰的状态。\n\n### 复杂度\n\n时间 O(nt·4²)，空间 O(t·4)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, t;\n    cin >> n >> t;\n    long long dp[11][4][2]{};\n    for (int a = 0; a < 4; a++)\n        for (int b = a + 1; b < 4; b++)\n            dp[0][b][1]++;\n    for (int len = 2; len < n; len++) {\n        long long next[11][4][2]{};\n        for (int p = 0; p <= t; p++)\n            for (int h = 0; h < 4; h++)\n                for (int up = 0; up < 2; up++)\n                    for (int v = 0; v < 4; v++)\n                        if (v != h) {\n                            int newUp = v > h, np = p + (up && !newUp);\n                            if (np <= t)\n                                next[np][v][newUp] += dp[p][h][up];\n                        }\n        memcpy(dp, next, sizeof dp);\n    }\n    long long ans = 0;\n    for (int h = 0; h < 4; h++)\n        ans += dp[t][h][0];\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相邻高度不能相等；峰在趋势翻转时计数；必须首升末降。\n",
+    "detailed": "## CF14E Camels\n\n原题：[CF14E](https://www.luogu.com.cn/problem/CF14E)\n\n### 从问题到算法\n\n相邻高度不能相等，所以每段只有上升或下降。上升转下降形成峰，下降转上升形成谷。二者交替出现，峰数比谷数多一当且仅当起始趋势上升、结束趋势下降。\n\n因此不用同时记录谷数。状态 dp[peaks][lastHeight][trend]，添加一个不同新高度时决定新趋势；若旧上升、新下降，峰数加一，其余不变。高度只有一到四，转移数是常数。\n\n初始两点枚举所有严格上升高度组合，峰数零。最终累加 t 峰、下降趋势的全部末高度，自动保证恰有 t−1 个谷。计数使用六十四位，全部候选至多 4·3^(n−1)。\n\n### 复杂度\n\n时间 O(nt·4²)，空间 O(t·4)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, t;\n    cin >> n >> t;\n    long long dp[11][4][2]{};\n    for (int a = 0; a < 4; a++)\n        for (int b = a + 1; b < 4; b++)\n            dp[0][b][1]++;\n    for (int len = 2; len < n; len++) {\n        long long next[11][4][2]{};\n        for (int p = 0; p <= t; p++)\n            for (int h = 0; h < 4; h++)\n                for (int up = 0; up < 2; up++)\n                    for (int v = 0; v < 4; v++)\n                        if (v != h) {\n                            int newUp = v > h, np = p + (up && !newUp);\n                            if (np <= t)\n                                next[np][v][newUp] += dp[p][h][up];\n                        }\n        memcpy(dp, next, sizeof dp);\n    }\n    long long ans = 0;\n    for (int h = 0; h < 4; h++)\n        ans += dp[t][h][0];\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相邻高度不能相等；峰在趋势翻转时计数；必须首升末降。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF14E",
+    "id": "luogu-training-CF14E",
+    "programSha256": "c25789ae4966e4ab2badf4d9335bb60622b4ec8726664e78a2964593af7c3551",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

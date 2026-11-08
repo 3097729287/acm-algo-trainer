@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1328",
+  "method": "胜负表与循环出拳序列",
+  "variants": {
+    "default": "## P1328 生活大爆炸版石头剪刀布\n\n原题：[P1328](https://www.luogu.com.cn/problem/P1328)\n\n### 思路\n\n把五种手势的胜负写成固定表。第 i 轮分别使用两人序列的 i%长度 项，胜者分数加一，平局不加，累计指定轮数。\n\n### 复杂度\n\n时间 O(n+na+nb)，空间 O(na+nb)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, na, nb;\n    cin >> n >> na >> nb;\n    vector<int> a(na), b(nb);\n    for (int &x : a)\n        cin >> x;\n    for (int &x : b)\n        cin >> x;\n    int win[5][5] = {\n        {0, 0, 1, 1, 0}, {1, 0, 0, 1, 0}, {0, 1, 0, 0, 1}, {0, 0, 1, 0, 1}, {1, 1, 0, 0, 0}};\n    int first = 0, second = 0;\n    for (int i = 0; i < n; i++) {\n        int x = a[i % na], y = b[i % nb];\n        first += win[x][y];\n        second += win[y][x];\n    }\n    cout << first << ' ' << second << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n两人各自按自己的序列长度取模；平局双方都不加分。\n",
+    "detailed": "## P1328 生活大爆炸版石头剪刀布\n\n原题：[P1328](https://www.luogu.com.cn/problem/P1328)\n\n### 从问题到算法\n\n五种手势规则固定，逐条分支容易漏掉某一对。建立 win[a][b]，表示手势 a 是否战胜 b；反方向表项判断乙是否得分，两者都为零就是平局。\n\n两人的出拳序列分别循环，第 i 轮用 a[i%na]、b[i%nb]，循环周期不同也无需显式求最小公倍数。每轮从表中取甲胜、乙胜各加到对应总分。\n\n表的行表示己方，列表示对方，填表后应检查每种手势恰好战胜两种、输给两种，且对角线全为零。\n\n### 复杂度\n\n时间 O(n+na+nb)，空间 O(na+nb)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, na, nb;\n    cin >> n >> na >> nb;\n    vector<int> a(na), b(nb);\n    for (int &x : a)\n        cin >> x;\n    for (int &x : b)\n        cin >> x;\n    int win[5][5] = {\n        {0, 0, 1, 1, 0}, {1, 0, 0, 1, 0}, {0, 1, 0, 0, 1}, {0, 0, 1, 0, 1}, {1, 1, 0, 0, 0}};\n    int first = 0, second = 0;\n    for (int i = 0; i < n; i++) {\n        int x = a[i % na], y = b[i % nb];\n        first += win[x][y];\n        second += win[y][x];\n    }\n    cout << first << ' ' << second << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n两人各自按自己的序列长度取模；平局双方都不加分。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1328",
+    "id": "luogu-training-P1328",
+    "programSha256": "9de005d53a5ea2de7e86a8201961c1533087c843f26e5dce6bffe1264978c2b3",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-UVA11732",
+  "method": "排序后用相邻 LCP 的区间最小值统计比较",
+  "variants": {
+    "default": "## UVA11732 \"strcmp()\" Anyone?\n\n原题：[UVA11732](https://www.luogu.com.cn/problem/UVA11732)\n\n### 思路\n\n两串比较次数为 2·LCP+1，相同字符串再多一次结束判断。排序后任意两串 LCP 等于其间相邻 LCP 的最小值，用单调栈求所有区间最小值之和。\n\n### 复杂度\n\n设输入总长度为 S，时间 O(S log n+n)，空间 O(S+n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, caseNo = 0;\n    while (cin >> n && n) {\n        vector<string> a(n);\n        for (auto &s : a)\n            cin >> s;\n        sort(a.begin(), a.end());\n        long long same = 0;\n        for (int l = 0; l < n;) {\n            int r = l + 1;\n            while (r < n && a[r] == a[l])\n                r++;\n            same += 1LL * (r - l) * (r - l - 1) / 2;\n            l = r;\n        }\n        vector<pair<int, int>> st;\n        long long ending = 0, totalLcp = 0;\n        for (int i = 1; i < n; i++) {\n            int h = 0;\n            while (h < (int)min(a[i].size(), a[i - 1].size()) && a[i][h] == a[i - 1][h])\n                h++;\n            int count = 1;\n            while (!st.empty() && st.back().first >= h) {\n                ending -= 1LL * st.back().first * st.back().second;\n                count += st.back().second;\n                st.pop_back();\n            }\n            st.push_back({h, count});\n            ending += 1LL * h * count;\n            totalLcp += ending;\n        }\n        cout << \"Case \" << ++caseNo << \": \" << 1LL * n * (n - 1) / 2 + 2 * totalLcp + same << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相同串额外补一次；输入含大小写字母和数字；答案六十四位。\n",
+    "detailed": "## UVA11732 \"strcmp()\" Anyone?\n\n原题：[UVA11732](https://www.luogu.com.cn/problem/UVA11732)\n\n### 从问题到算法\n\n按原题 strcmp 伪代码，每个相同的非空字符要做字符相等与是否结束两次比较，第一次不同只做一次；完全相同还要对结束符做两次。因此每对贡献 2LCP+1，再对完全相同的一对补一。伪代码可核对[原题 PDF](https://onlinejudge.org/external/117/11732.pdf)。\n\n将所有字符串字典序排序，令 h[i] 为相邻两串的 LCP。排序后第 l、r 两串的 LCP 恰好是 h[l+1..r] 的最小值。因此全部 LCP 之和等价于 h 所有非空子数组的最小值之和。\n\n单调递增栈按“以当前元素结尾的子数组”维护最小值与数量。弹出不小于新 h 的栈项，将这些项的数量合并给新值，同时更新当前结尾的最小值总和。最后答案为 n(n−1)/2+2·LCP总和+同串对数。这个方法避免为长字母数字串建立巨大字符表。\n\n### 复杂度\n\n设输入总长度为 S，时间 O(S log n+n)，空间 O(S+n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, caseNo = 0;\n    while (cin >> n && n) {\n        vector<string> a(n);\n        for (auto &s : a)\n            cin >> s;\n        sort(a.begin(), a.end());\n        long long same = 0;\n        for (int l = 0; l < n;) {\n            int r = l + 1;\n            while (r < n && a[r] == a[l])\n                r++;\n            same += 1LL * (r - l) * (r - l - 1) / 2;\n            l = r;\n        }\n        vector<pair<int, int>> st;\n        long long ending = 0, totalLcp = 0;\n        for (int i = 1; i < n; i++) {\n            int h = 0;\n            while (h < (int)min(a[i].size(), a[i - 1].size()) && a[i][h] == a[i - 1][h])\n                h++;\n            int count = 1;\n            while (!st.empty() && st.back().first >= h) {\n                ending -= 1LL * st.back().first * st.back().second;\n                count += st.back().second;\n                st.pop_back();\n            }\n            st.push_back({h, count});\n            ending += 1LL * h * count;\n            totalLcp += ending;\n        }\n        cout << \"Case \" << ++caseNo << \": \" << 1LL * n * (n - 1) / 2 + 2 * totalLcp + same << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相同串额外补一次；输入含大小写字母和数字；答案六十四位。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "UVA11732",
+    "id": "luogu-training-UVA11732",
+    "programSha256": "c995a1fcb1ec34d6d2cc8a1866469efafa95b7341e4f1f5fe5c424b8c70db220",
+    "samples": 1,
+    "independentCases": 20,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

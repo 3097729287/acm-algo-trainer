@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-UVA1401",
+  "method": "字典前缀树上的分词 DP",
+  "variants": {
+    "default": "## UVA1401 Remember the Word\n\n原题：[UVA1401](https://www.luogu.com.cn/problem/UVA1401)\n\n### 思路\n\ndp[i] 表示后缀 i..末尾的分词数。从每个 i 沿字典 Trie 向右匹配，遇到一个完整单词就把后面的 dp 加进来，模 20071027。\n\n### 复杂度\n\n设最长词长 L、字典总长 S，时间 O(S+nL)，空间 O(S+n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string s;\n    int caseNo = 0;\n    while (cin >> s) {\n        int count;\n        cin >> count;\n        struct Node {\n            array<int, 26> next{};\n            bool terminal = false;\n        };\n        vector<Node> trie(1);\n        int maxLength = 0;\n        while (count--) {\n            string word;\n            cin >> word;\n            maxLength = max(maxLength, (int)word.size());\n            int v = 0;\n            for (char c : word) {\n                int x = c - 'a';\n                if (!trie[v].next[x]) {\n                    trie[v].next[x] = trie.size();\n                    trie.emplace_back();\n                }\n                v = trie[v].next[x];\n            }\n            trie[v].terminal = true;\n        }\n        const int P = 20071027;\n        int n = s.size();\n        vector<int> dp(n + 1);\n        dp[n] = 1;\n        for (int i = n - 1; i >= 0; i--) {\n            int v = 0;\n            for (int j = i; j < n && j < i + maxLength; j++) {\n                v = trie[v].next[s[j] - 'a'];\n                if (!v)\n                    break;\n                if (trie[v].terminal) {\n                    dp[i] += dp[j + 1];\n                    if (dp[i] >= P)\n                        dp[i] -= P;\n                }\n            }\n        }\n        cout << \"Case \" << ++caseNo << \": \" << dp[0] << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n空后缀为一；词与词可以相接；每次累加取模。\n",
+    "detailed": "## UVA1401 Remember the Word\n\n原题：[UVA1401](https://www.luogu.com.cn/problem/UVA1401)\n\n### 从问题到算法\n\n每个划分有唯一第一个单词。若 s[i..j] 是字典词，则这个选择的方案数为 dp[j+1]；对所有可行单词求和即可。空后缀有一种划分，设 dp[n]=1。\n\n从右向左计算 i，Trie 从根开始逐字走，若无对应边立即停止，若到达单词结点便加 dp[j+1]。这样避免为每个字典词重复比较相同前缀。\n\n字典表示可用词集合，相同单词只应标为同一个终止结点，不能因重复输入虚增方案。每组读一个目标串和词数，直到文件结束，按 Case 编号输出。\n\n### 复杂度\n\n设最长词长 L、字典总长 S，时间 O(S+nL)，空间 O(S+n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string s;\n    int caseNo = 0;\n    while (cin >> s) {\n        int count;\n        cin >> count;\n        struct Node {\n            array<int, 26> next{};\n            bool terminal = false;\n        };\n        vector<Node> trie(1);\n        int maxLength = 0;\n        while (count--) {\n            string word;\n            cin >> word;\n            maxLength = max(maxLength, (int)word.size());\n            int v = 0;\n            for (char c : word) {\n                int x = c - 'a';\n                if (!trie[v].next[x]) {\n                    trie[v].next[x] = trie.size();\n                    trie.emplace_back();\n                }\n                v = trie[v].next[x];\n            }\n            trie[v].terminal = true;\n        }\n        const int P = 20071027;\n        int n = s.size();\n        vector<int> dp(n + 1);\n        dp[n] = 1;\n        for (int i = n - 1; i >= 0; i--) {\n            int v = 0;\n            for (int j = i; j < n && j < i + maxLength; j++) {\n                v = trie[v].next[s[j] - 'a'];\n                if (!v)\n                    break;\n                if (trie[v].terminal) {\n                    dp[i] += dp[j + 1];\n                    if (dp[i] >= P)\n                        dp[i] -= P;\n                }\n            }\n        }\n        cout << \"Case \" << ++caseNo << \": \" << dp[0] << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n空后缀为一；词与词可以相接；每次累加取模。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "UVA1401",
+    "id": "luogu-training-UVA1401",
+    "programSha256": "9f39f0476992ad34a914c1fb47da057b4f81227af0c0105dd4850f443ad19208",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

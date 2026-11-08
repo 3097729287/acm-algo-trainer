@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF632D",
+  "method": "筛每个候选公倍数能容纳多少元素",
+  "variants": {
+    "default": "## CF632D Longest Subsequence\n\n原题：[CF632D](https://www.luogu.com.cn/problem/CF632D)\n\n### 思路\n\n若最小公倍数为 L，选中的数都必须整除 L，而且所有整除 L 的输入数都可以选。按倍数枚举累加频次，找到可容纳最多元素的 L，再输出所有整除它的下标。\n\n### 复杂度\n\n时间 O(n+m log m)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<int> a(n), cnt(m + 1), score(m + 1);\n    for (int &x : a) {\n        cin >> x;\n        if (x <= m)\n            cnt[x]++;\n    }\n    for (int v = 1; v <= m; v++)\n        if (cnt[v])\n            for (int L = v; L <= m; L += v)\n                score[L] += cnt[v];\n    int best = 1;\n    for (int L = 2; L <= m; L++)\n        if (score[L] > score[best])\n            best = L;\n    vector<int> indices;\n    long long L = 1;\n    for (int i = 0; i < n; i++)\n        if (best % a[i] == 0) {\n            indices.push_back(i + 1);\n            L = L / gcd(L, (long long)a[i]) * a[i];\n        }\n    cout << L << ' ' << indices.size() << '\\n';\n    for (int i = 0; i < (int)indices.size(); i++)\n        cout << indices[i] << (i + 1 == (int)indices.size() ? '\\n' : ' ');\n    if (indices.empty())\n        cout << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n超过 m 的数忽略；下标保持递增；空序列的 LCM 为一。\n",
+    "detailed": "## CF632D Longest Subsequence\n\n原题：[CF632D](https://www.luogu.com.cn/problem/CF632D)\n\n### 从问题到算法\n\n任何 LCM≤m 的子序列，必然包含在“所有能整除该 LCM 的输入元素”中，补上这些元素不会让 LCM 超出 L。因此只要对每个 L≤m 计算输入中有多少个 L 的因数。\n\n统计 cnt[v] 后，枚举每个 v≤m，把 cnt[v] 加到所有倍数 v、2v、3v……的得分。得分最大的候选 L 对应最优长度；大于 m 的输入数无法加入任何合法非空子序列，可直接略过。\n\n输出这些元素的下标，并实际累积它们的 LCM 作为输出值，保证输出与子序列完全一致。若一个都选不到，空序列的 LCM 按题意为一。\n\n### 复杂度\n\n时间 O(n+m log m)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<int> a(n), cnt(m + 1), score(m + 1);\n    for (int &x : a) {\n        cin >> x;\n        if (x <= m)\n            cnt[x]++;\n    }\n    for (int v = 1; v <= m; v++)\n        if (cnt[v])\n            for (int L = v; L <= m; L += v)\n                score[L] += cnt[v];\n    int best = 1;\n    for (int L = 2; L <= m; L++)\n        if (score[L] > score[best])\n            best = L;\n    vector<int> indices;\n    long long L = 1;\n    for (int i = 0; i < n; i++)\n        if (best % a[i] == 0) {\n            indices.push_back(i + 1);\n            L = L / gcd(L, (long long)a[i]) * a[i];\n        }\n    cout << L << ' ' << indices.size() << '\\n';\n    for (int i = 0; i < (int)indices.size(); i++)\n        cout << indices[i] << (i + 1 == (int)indices.size() ? '\\n' : ' ');\n    if (indices.empty())\n        cout << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n超过 m 的数忽略；下标保持递增；空序列的 LCM 为一。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF632D",
+    "id": "luogu-training-CF632D",
+    "programSha256": "882918b15735ccb24dda47c7a4a20ebdd05b37d4cec84591504ccfd055d9822d",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

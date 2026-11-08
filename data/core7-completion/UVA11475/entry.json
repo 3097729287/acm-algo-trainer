@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-UVA11475",
+  "method": "寻找最长回文后缀",
+  "variants": {
+    "default": "## UVA11475 Extend to Palindrome\n\n原题：[UVA11475](https://www.luogu.com.cn/problem/UVA11475)\n\n### 思路\n\n只允许向末尾添加字符，故保留原串最长的回文后缀，把前面剩余部分反转后追加。用反串与原串构造 KMP 前缀函数求该后缀长度。\n\n### 复杂度\n\n每串时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> prefix(const string &s) {\n    vector<int> p(s.size());\n    for (int i = 1; i < (int)s.size(); i++) {\n        int j = p[i - 1];\n        while (j && s[i] != s[j])\n            j = p[j - 1];\n        if (s[i] == s[j])\n            j++;\n        p[i] = j;\n    }\n    return p;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string s;\n    while (cin >> s) {\n        string rev = s;\n        reverse(rev.begin(), rev.end());\n        int len = prefix(rev + '#' + s).back();\n        cout << s << rev.substr(len) << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n求最长回文后缀而非前缀；输入到 EOF；保留原串。\n",
+    "detailed": "## UVA11475 Extend to Palindrome\n\n原题：[UVA11475](https://www.luogu.com.cn/problem/UVA11475)\n\n### 从问题到算法\n\n假设原串分为 A+B，其中 B 是回文，那么追加 reverse(A) 后得到 A+B+reverse(A)，显然是回文。要添加最少，就要让 B 尽可能长。\n\n令 rev=reverse(s)，对 rev+# +s 求前缀函数。末尾的 border 同时是 rev 的前缀和 s 的后缀，意味着这段后缀等于自身反转，因此正好是最长回文后缀。分隔符防止匹配越过反串边界。\n\n答案可以直接输出原串，再输出 rev 从该回文长度之后的部分。输入多行直到 EOF，每个串单独处理，单字符与原本就是回文的串无需添加。\n\n### 复杂度\n\n每串时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> prefix(const string &s) {\n    vector<int> p(s.size());\n    for (int i = 1; i < (int)s.size(); i++) {\n        int j = p[i - 1];\n        while (j && s[i] != s[j])\n            j = p[j - 1];\n        if (s[i] == s[j])\n            j++;\n        p[i] = j;\n    }\n    return p;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string s;\n    while (cin >> s) {\n        string rev = s;\n        reverse(rev.begin(), rev.end());\n        int len = prefix(rev + '#' + s).back();\n        cout << s << rev.substr(len) << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n求最长回文后缀而非前缀；输入到 EOF；保留原串。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "UVA11475",
+    "id": "luogu-training-UVA11475",
+    "programSha256": "b2f26029fd486dce9889d7cc7f81c5cf727a09df9e2606f1bf93e42524d16c7a",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

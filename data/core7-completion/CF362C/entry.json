@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF362C",
+  "method": "交换逆序端点时统计中间值域",
+  "variants": {
+    "default": "## CF362C Insertion Sort\n\n原题：[CF362C](https://www.luogu.com.cn/problem/CF362C)\n\n### 思路\n\n插入排序交换次数就是逆序对数。交换 i<j 且 a[i]>a[j] 会减少 1+2·count 个逆序，其中 count 是中间位置且值严格夹在两端之间的元素数。二维前缀计数使每对查询为常数时间。\n\n### 复杂度\n\n时间 O(n²)，空间 O(n²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    for (int &x : a)\n        cin >> x;\n    vector<unsigned short> pref((n + 1) * n);\n    for (int i = 0; i < n; i++)\n        for (int v = 0; v < n; v++)\n            pref[(i + 1) * n + v] = pref[i * n + v] + (a[i] <= v);\n    long long inversions = 0, ways = 0;\n    int best = -1;\n    for (int i = 0; i < n; i++)\n        for (int j = i + 1; j < n; j++)\n            if (a[i] > a[j]) {\n                inversions++;\n                int high = a[i] - 1, low = a[j];\n                int inside = pref[j * n + high] - pref[(i + 1) * n + high] - pref[j * n + low] +\n                             pref[(i + 1) * n + low];\n                int reduction = 1 + 2 * inside;\n                if (reduction > best) {\n                    best = reduction;\n                    ways = 1;\n                } else if (reduction == best)\n                    ways++;\n            }\n    cout << inversions - best << ' ' << ways << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n端点和数值边界都严格排除；排列从零开始；输出剩余逆序数和交换方案数。\n",
+    "detailed": "## CF362C Insertion Sort\n\n原题：[CF362C](https://www.luogu.com.cn/problem/CF362C)\n\n### 从问题到算法\n\n交换两端后，它们自身的逆序消失，减少一。中间某值 x 若在 a[j] 与 a[i] 之间，它原来与两端形成两个逆序，交换后两个都消失，减少二；若在范围外，总逆序贡献不变。数组是排列，不存在相等边界。\n\n原数组有可改善交换，最优必取逆序端点；枚举全部逆序对，最大化这个减少量，并统计达到最大值的端点对数。初始逆序数用平方枚举即可。\n\n预处理 pref[i][v] 表示前 i 个位置中≤v 的元素数，用四个前缀值求中间矩形计数。n≤5000，计数最大五千，用 unsigned short 存表约五十兆字节，避免平方表浪费内存。\n\n### 复杂度\n\n时间 O(n²)，空间 O(n²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    for (int &x : a)\n        cin >> x;\n    vector<unsigned short> pref((n + 1) * n);\n    for (int i = 0; i < n; i++)\n        for (int v = 0; v < n; v++)\n            pref[(i + 1) * n + v] = pref[i * n + v] + (a[i] <= v);\n    long long inversions = 0, ways = 0;\n    int best = -1;\n    for (int i = 0; i < n; i++)\n        for (int j = i + 1; j < n; j++)\n            if (a[i] > a[j]) {\n                inversions++;\n                int high = a[i] - 1, low = a[j];\n                int inside = pref[j * n + high] - pref[(i + 1) * n + high] - pref[j * n + low] +\n                             pref[(i + 1) * n + low];\n                int reduction = 1 + 2 * inside;\n                if (reduction > best) {\n                    best = reduction;\n                    ways = 1;\n                } else if (reduction == best)\n                    ways++;\n            }\n    cout << inversions - best << ' ' << ways << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n端点和数值边界都严格排除；排列从零开始；输出剩余逆序数和交换方案数。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF362C",
+    "id": "luogu-training-CF362C",
+    "programSha256": "4de343d843392fe9c3c9e35cbcab642a9525134ce753ee37067f5830bc0d9e1d",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

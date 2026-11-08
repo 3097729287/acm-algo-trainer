@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-B3969",
+  "method": "筛去含过大质因子的整数",
+  "variants": {
+    "default": "## B3969 B-smooth 数\n\n原题：[B3969](https://www.luogu.com.cn/problem/B3969)\n\n### 思路\n\n筛出 n 以内的质数，将所有大于 B 的质数的倍数标为不合法。剩下的正整数恰好没有过大的质因子，统计即可。\n\n### 复杂度\n\n时间 O(n log log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, B;\n    cin >> n >> B;\n    vector<bool> composite(n + 1), bad(n + 1);\n    for (int p = 2; p <= n; p++)\n        if (!composite[p]) {\n            if (1LL * p * p <= n)\n                for (int j = p * p; j <= n; j += p)\n                    composite[j] = 1;\n            if (p > B)\n                for (int j = p; j <= n; j += p)\n                    bad[j] = 1;\n        }\n    int ans = 0;\n    for (int i = 1; i <= n; i++)\n        ans += !bad[i];\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n一也算；不能只判断数本身是否大于 B；标记所有倍数。\n",
+    "detailed": "## B3969 B-smooth 数\n\n原题：[B3969](https://www.luogu.com.cn/problem/B3969)\n\n### 从问题到算法\n\n一个数不满足 B-smooth，当且仅当它有一个大于 B 的质因子。先用埃氏筛判断质数，再枚举所有 p>B 的质数，把 p 的倍数标为不合法。\n\n不合法数一定会被它的过大质因子标记；被标记的数也确实含这个质因子，所以筛法既不遗漏也不误删。注意一没有任何质因子，应当计入。B≥n 时全部一到 n 都合法。\n\n### 复杂度\n\n时间 O(n log log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, B;\n    cin >> n >> B;\n    vector<bool> composite(n + 1), bad(n + 1);\n    for (int p = 2; p <= n; p++)\n        if (!composite[p]) {\n            if (1LL * p * p <= n)\n                for (int j = p * p; j <= n; j += p)\n                    composite[j] = 1;\n            if (p > B)\n                for (int j = p; j <= n; j += p)\n                    bad[j] = 1;\n        }\n    int ans = 0;\n    for (int i = 1; i <= n; i++)\n        ans += !bad[i];\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n一也算；不能只判断数本身是否大于 B；标记所有倍数。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "B3969",
+    "id": "luogu-training-B3969",
+    "programSha256": "2699f7edf38aded15da3891662b66762e060fff1744b262e886fe394ed57dcb2",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

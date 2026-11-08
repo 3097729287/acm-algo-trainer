@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-SP4033",
+  "method": "排序后只比较相邻号码",
+  "variants": {
+    "default": "## SP4033 PHONELST - Phone List\n\n原题：[SP4033](https://www.luogu.com.cn/problem/SP4033)\n\n### 思路\n\n将所有电话号码按字典序排序。若一个号码是另一个的前缀，它们之间紧邻它的下一个号码也以它为前缀，因此只需检查相邻两项。\n\n### 复杂度\n\n时间 O(nL log n)，空间 O(nL)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int t;\n    cin >> t;\n    while (t--) {\n        int n;\n        cin >> n;\n        vector<string> a(n);\n        for (auto &s : a)\n            cin >> s;\n        sort(a.begin(), a.end());\n        bool ok = true;\n        for (int i = 1; i < n; i++)\n            if (a[i].compare(0, a[i - 1].size(), a[i - 1]) == 0)\n                ok = false;\n        cout << (ok ? \"YES\" : \"NO\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n使用字符串保存前导零；重复号码也不一致；每组读完再判断。\n",
+    "detailed": "## SP4033 PHONELST - Phone List\n\n原题：[SP4033](https://www.luogu.com.cn/problem/SP4033)\n\n### 从问题到算法\n\n字典序会把拥有同一前缀的字符串放在连续的一段中，而且前缀本身排在它所有更长的扩展之前。因此只要某号码是另一个号码的前缀，排序后它紧邻的后一个号码也必定拥有这个前缀。\n\n依次比较相邻号码，检查后一项开头与前一项是否相同。找到一次就不一致；全部检查通过才一致。相同的两个号码也互为前缀，应判为不一致。\n\n号码须作为字符串读取，不能转整数，否则前导零会丢失，长度与前缀关系会改变。\n\n### 复杂度\n\n时间 O(nL log n)，空间 O(nL)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int t;\n    cin >> t;\n    while (t--) {\n        int n;\n        cin >> n;\n        vector<string> a(n);\n        for (auto &s : a)\n            cin >> s;\n        sort(a.begin(), a.end());\n        bool ok = true;\n        for (int i = 1; i < n; i++)\n            if (a[i].compare(0, a[i - 1].size(), a[i - 1]) == 0)\n                ok = false;\n        cout << (ok ? \"YES\" : \"NO\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n使用字符串保存前导零；重复号码也不一致；每组读完再判断。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "SP4033",
+    "id": "luogu-training-SP4033",
+    "programSha256": "9280ef97661214b236a746655c477e977b59b981da3308eb4fac1b00ddf89f3c",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

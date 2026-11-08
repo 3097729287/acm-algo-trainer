@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P9087",
+  "method": "等号覆盖无重音窗口的分段线性优化",
+  "variants": {
+    "default": "## P9087 音符\n\n原题：[P9087](https://www.luogu.com.cn/problem/P9087)\n\n### 思路\n\n相邻相同的一处最多覆盖 k−1 个长度 k 窗口。若设置 c 处重音，最少仍有 max(0,n−k+1−c(k−1)) 个干净窗口。代价分段线性，只需检查零、整除点及再多一处。\n\n### 复杂度\n\n每组时间 O(n)，额外空间 O(n) 用于输出。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    while (T--) {\n        int n, k;\n        long long a, b;\n        cin >> n >> k >> a >> b;\n        if (k > n) {\n            cout << 0 << '\\n';\n            for (int i = 0; i < n; i++)\n                cout << (i % 2 ? 'b' : 'a');\n            cout << '\\n';\n            continue;\n        }\n        long long W = n - k + 1, width = k - 1, best = LLONG_MAX, count = 0;\n        for (long long c : {0LL, W / width, (W + width - 1) / width}) {\n            long long value = c * a + max(0LL, W - c * width) * b;\n            if (value < best) {\n                best = value;\n                count = c;\n            }\n        }\n        string s(n, 'a');\n        for (int i = 1; i < n; i++) {\n            bool accent = i % width == 0 && i / width <= count;\n            s[i] = accent ? s[i - 1] : (s[i - 1] == 'a' ? 'b' : 'a');\n        }\n        cout << best << '\\n' << s << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n重音按相邻一对计数；末次覆盖可以不满；所有乘积六十四位。\n",
+    "detailed": "## P9087 音符\n\n原题：[P9087](https://www.luogu.com.cn/problem/P9087)\n\n### 从问题到算法\n\n把相邻字符是否相同视为边。一个长度 k 子串有重音，当且仅当它内部 k−1 条边至少一条被选中。总窗口数 W=n−k+1，一条重音边最多覆盖 k−1 个窗口，所以 c 处至少留下 max(0,W−c(k−1)) 个干净窗口。\n\n这个下界可以达到：把重音边放在 k−1、2(k−1)、……处，它们覆盖的窗口连续且不重复，最后一处允许覆盖不足 k−1 个。其它边让相邻字符不同，只用 a、b 两个字母就能实现任意边选择。\n\n总费用 c·a+max(0,W−c(k−1))·b，在最后一次覆盖前后分别线性，所以只需 c=0、floor(W/(k−1))、ceil(W/(k−1)) 三种候选。k>n 时没有长度 k 窗口，直接输出交替串、费用零。\n\n### 复杂度\n\n每组时间 O(n)，额外空间 O(n) 用于输出。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    while (T--) {\n        int n, k;\n        long long a, b;\n        cin >> n >> k >> a >> b;\n        if (k > n) {\n            cout << 0 << '\\n';\n            for (int i = 0; i < n; i++)\n                cout << (i % 2 ? 'b' : 'a');\n            cout << '\\n';\n            continue;\n        }\n        long long W = n - k + 1, width = k - 1, best = LLONG_MAX, count = 0;\n        for (long long c : {0LL, W / width, (W + width - 1) / width}) {\n            long long value = c * a + max(0LL, W - c * width) * b;\n            if (value < best) {\n                best = value;\n                count = c;\n            }\n        }\n        string s(n, 'a');\n        for (int i = 1; i < n; i++) {\n            bool accent = i % width == 0 && i / width <= count;\n            s[i] = accent ? s[i - 1] : (s[i - 1] == 'a' ? 'b' : 'a');\n        }\n        cout << best << '\\n' << s << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n重音按相邻一对计数；末次覆盖可以不满；所有乘积六十四位。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P9087",
+    "id": "luogu-training-P9087",
+    "programSha256": "776cf01a4db430329d46cf063ffec48bcb532e09e7927624b4b87cc79d2f5bdb",
+    "samples": 1,
+    "independentCases": 2,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4799",
+  "method": "折半枚举不超预算的子集数",
+  "variants": {
+    "default": "## P4799 世界冰球锦标赛 (Day2)\n\n原题：[P4799](https://www.luogu.com.cn/problem/P4799)\n\n### 思路\n\n分别枚举两半装备的价格和并保留不超过预算的值。排序右半，对每个左半价格 x，用 upper_bound 统计右半中不超过 M−x 的个数。\n\n### 复杂度\n\n时间 O(n·2^(n/2))，空间 O(2^(n/2))。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    long long m;\n    cin >> n >> m;\n    vector<long long> a(n);\n    for (auto &x : a)\n        cin >> x;\n    auto generate = [&](int l, int r) {\n        vector<long long> s = {0};\n        for (int i = l; i < r; i++) {\n            int size = s.size();\n            for (int j = 0; j < size; j++)\n                if (a[i] <= m - s[j])\n                    s.push_back(s[j] + a[i]);\n        }\n        return s;\n    };\n    auto l = generate(0, n / 2), r = generate(n / 2, n);\n    sort(r.begin(), r.end());\n    long long ans = 0;\n    for (long long x : l)\n        ans += upper_bound(r.begin(), r.end(), m - x) - r.begin();\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相同价格的不同子集不能去重；答案和预算都用 long long。\n",
+    "detailed": "## P4799 世界冰球锦标赛 (Day2)\n\n原题：[P4799](https://www.luogu.com.cn/problem/P4799)\n\n### 从问题到算法\n\n每件装备只有选和不选两种状态。把装备分为两半，每个完整选择唯一对应一个左半选择和一个右半选择，因此可以先生成两个价格列表，再统计符合预算的配对数。\n\n生成列表时，从只含空集价格零的列表开始，每加入一件装备，就把原有每个价格加上它的价格形成新状态。由于所有价格非负，超过预算的状态不可能在以后恢复合法，可以直接丢弃。\n\n右半列表排序后，固定左半价格 x，合法右半价格恰好构成不超过 M−x 的前缀，upper_bound 与 begin 的距离就是数量。不同装备组合即使价格相同，也要分别计数，所以列表不能去重。答案最多为 2⁴⁰，使用六十四位整数。空集是否购买零件均由原题的方案定义自然包含。\n\n### 复杂度\n\n时间 O(n·2^(n/2))，空间 O(2^(n/2))。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    long long m;\n    cin >> n >> m;\n    vector<long long> a(n);\n    for (auto &x : a)\n        cin >> x;\n    auto generate = [&](int l, int r) {\n        vector<long long> s = {0};\n        for (int i = l; i < r; i++) {\n            int size = s.size();\n            for (int j = 0; j < size; j++)\n                if (a[i] <= m - s[j])\n                    s.push_back(s[j] + a[i]);\n        }\n        return s;\n    };\n    auto l = generate(0, n / 2), r = generate(n / 2, n);\n    sort(r.begin(), r.end());\n    long long ans = 0;\n    for (long long x : l)\n        ans += upper_bound(r.begin(), r.end(), m - x) - r.begin();\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相同价格的不同子集不能去重；答案和预算都用 long long。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4799",
+    "id": "luogu-training-P4799",
+    "programSha256": "6127727fc8c5e6e90578b0b2f17040023a7c1399684fc307e369a6fac0230758",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

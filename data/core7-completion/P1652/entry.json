@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1652",
+  "method": "比较起终点位于每个圆的哪一侧",
+  "variants": {
+    "default": "## P1652 圆\n\n原题：[P1652](https://www.luogu.com.cn/problem/P1652)\n\n### 思路\n\n对每个圆，若起终点一个在内部、一个在外部，则任何连续曲线都必须穿过它的边界一次；两点在同一侧时可以避开。统计内外状态不同的圆数。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> x(n), y(n), r(n);\n    for (auto &v : x)\n        cin >> v;\n    for (auto &v : y)\n        cin >> v;\n    for (auto &v : r)\n        cin >> v;\n    long long x1, y1, x2, y2;\n    cin >> x1 >> y1 >> x2 >> y2;\n    int ans = 0;\n    for (int i = 0; i < n; i++) {\n        bool a = (x1 - x[i]) * (x1 - x[i]) + (y1 - y[i]) * (y1 - y[i]) < r[i] * r[i];\n        bool b = (x2 - x[i]) * (x2 - x[i]) + (y2 - y[i]) * (y2 - y[i]) < r[i] * r[i];\n        ans += a != b;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n圆参数按三组数组读取；用平方比较；起终点保证不在圆周上。\n",
+    "detailed": "## P1652 圆\n\n原题：[P1652](https://www.luogu.com.cn/problem/P1652)\n\n### 从问题到算法\n\n圆周把平面分成内部与外部。若两点分处两侧，连续曲线必须跨过边界，至少一次；若在同侧，这个圆本身不强制跨越。\n\n题目保证各圆互不相交也不相切，它们只能分离或相互包含，因此这些圆周形成无交叉的层次边界。可以沿圆形成的区域层次从起点所在区域走到终点区域，恰好跨过内外状态不同的那些圆，达到上述下界。\n\n判断是否在内部只比较距离平方与半径平方，无需开方。输入的所有 x、所有 y、所有 r 分三行给出，不能错读成逐圆的三元组。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> x(n), y(n), r(n);\n    for (auto &v : x)\n        cin >> v;\n    for (auto &v : y)\n        cin >> v;\n    for (auto &v : r)\n        cin >> v;\n    long long x1, y1, x2, y2;\n    cin >> x1 >> y1 >> x2 >> y2;\n    int ans = 0;\n    for (int i = 0; i < n; i++) {\n        bool a = (x1 - x[i]) * (x1 - x[i]) + (y1 - y[i]) * (y1 - y[i]) < r[i] * r[i];\n        bool b = (x2 - x[i]) * (x2 - x[i]) + (y2 - y[i]) * (y2 - y[i]) < r[i] * r[i];\n        ans += a != b;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n圆参数按三组数组读取；用平方比较；起终点保证不在圆周上。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1652",
+    "id": "luogu-training-P1652",
+    "programSha256": "e8802398ac35faf2fcabd72572032ced43488cd8ec4ea5350748dd31a8e09e0c",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

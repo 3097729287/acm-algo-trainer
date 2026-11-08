@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2325",
+  "method": "DFS 待分配栈凑足一省就切出",
+  "variants": {
+    "default": "## P2325 王室联邦\n\n原题：[P2325](https://www.luogu.com.cn/problem/P2325)\n\n### 思路\n\n后序遍历中把尚未归省的点留在栈上。处理一个孩子后，若当前根累计的待分配点不少于 B，就把这一段整体划为一省，以当前根为省会。最后剩余点并入最后一省。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, B;\n    cin >> n >> B;\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        int a, b;\n        cin >> a >> b;\n        a--;\n        b--;\n        g[a].push_back(b);\n        g[b].push_back(a);\n    }\n    vector<int> st, belong(n), capitals;\n    function<void(int, int)> dfs = [&](int v, int p) {\n        int base = st.size();\n        for (int u : g[v])\n            if (u != p) {\n                dfs(u, v);\n                if ((int)st.size() - base >= B) {\n                    capitals.push_back(v);\n                    int id = capitals.size();\n                    while ((int)st.size() > base) {\n                        belong[st.back()] = id;\n                        st.pop_back();\n                    }\n                }\n            }\n        st.push_back(v);\n    };\n    dfs(0, -1);\n    if (capitals.empty())\n        capitals.push_back(0);\n    for (int v : st)\n        belong[v] = capitals.size();\n    cout << capitals.size() << '\\n';\n    for (int i = 0; i < n; i++)\n        cout << belong[i] << (i + 1 == n ? '\\n' : ' ');\n    for (int i = 0; i < (int)capitals.size(); i++)\n        cout << capitals[i] + 1 << (i + 1 == (int)capitals.size() ? '\\n' : ' ');\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n省会可以在省外；只弹当前根积累的栈段；末尾剩余不能独立形成过小省。\n",
+    "detailed": "## P2325 王室联邦\n\n原题：[P2325](https://www.luogu.com.cn/problem/P2325)\n\n### 从问题到算法\n\n每个孩子返回时未分配的部分少于或等于 B；在当前根下累计未分配点，达到 B 就立即切出。切出前累计不足 B，加上一个孩子剩余最多 B，因此新省大小不超过 2B−1。\n\n这些点到当前根的路径，除省会本身外都处在本次切出的栈段内，所以满足省会可在省外的路径条件。当前根随后也留在未分配栈中，可以作为多个省的省会。\n\n最后根返回的剩余最多 B 个点，并入最后一省后大小不超过 3B−1，连接路径也都在该省或省会中。若从未切出省，全部 n 个点一起为一省；此时由算法可知 n≤B，结合题设 B≤n，恰为 B。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, B;\n    cin >> n >> B;\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        int a, b;\n        cin >> a >> b;\n        a--;\n        b--;\n        g[a].push_back(b);\n        g[b].push_back(a);\n    }\n    vector<int> st, belong(n), capitals;\n    function<void(int, int)> dfs = [&](int v, int p) {\n        int base = st.size();\n        for (int u : g[v])\n            if (u != p) {\n                dfs(u, v);\n                if ((int)st.size() - base >= B) {\n                    capitals.push_back(v);\n                    int id = capitals.size();\n                    while ((int)st.size() > base) {\n                        belong[st.back()] = id;\n                        st.pop_back();\n                    }\n                }\n            }\n        st.push_back(v);\n    };\n    dfs(0, -1);\n    if (capitals.empty())\n        capitals.push_back(0);\n    for (int v : st)\n        belong[v] = capitals.size();\n    cout << capitals.size() << '\\n';\n    for (int i = 0; i < n; i++)\n        cout << belong[i] << (i + 1 == n ? '\\n' : ' ');\n    for (int i = 0; i < (int)capitals.size(); i++)\n        cout << capitals[i] + 1 << (i + 1 == (int)capitals.size() ? '\\n' : ' ');\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n省会可以在省外；只弹当前根积累的栈段；末尾剩余不能独立形成过小省。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2325",
+    "id": "luogu-training-P2325",
+    "programSha256": "80ab834b42a4561c56e6bda9768f4144b07444568bcd70e2aa05959cd6253efa",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

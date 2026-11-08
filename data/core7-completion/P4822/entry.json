@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4822",
+  "method": "已用卡数分层的 Dijkstra",
+  "variants": {
+    "default": "## P4822 冻结\n\n原题：[P4822](https://www.luogu.com.cn/problem/P4822)\n\n### 思路\n\n状态记录城市和已使用卡片数。走一条路可以保持层数、支付原价，也可以在卡片够用时进入下一层、支付一半。对这些状态跑 Dijkstra，取终点各层的最小距离。\n\n### 复杂度\n\n时间 O((nK+mK) log(nK))，空间 O(nK+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m, K;\n    cin >> n >> m >> K;\n    vector<vector<pair<int, int>>> g(n);\n    while (m--) {\n        int u, v, w;\n        cin >> u >> v >> w;\n        u--;\n        v--;\n        g[u].push_back({v, w});\n        g[v].push_back({u, w});\n    }\n    const long long INF = 1LL << 60;\n    vector<long long> d(n * (K + 1), INF);\n    priority_queue<pair<long long, int>, vector<pair<long long, int>>,\n                   greater<pair<long long, int>>>\n        q;\n    d[0] = 0;\n    q.push({0, 0});\n    while (!q.empty()) {\n        auto [dist, state] = q.top();\n        q.pop();\n        if (dist != d[state])\n            continue;\n        int used = state / n, v = state % n;\n        for (auto [u, w] : g[v])\n            for (int take = 0; take <= 1 && used + take <= K; take++) {\n                int next = (used + take) * n + u;\n                long long nd = dist + (take ? w / 2 : w);\n                if (nd < d[next]) {\n                    d[next] = nd;\n                    q.push({nd, next});\n                }\n            }\n    }\n    long long ans = INF;\n    for (int k = 0; k <= K; k++)\n        ans = min(ans, d[k * n + n - 1]);\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n同一条路不能连续叠卡；允许少用卡；道路双向。\n",
+    "detailed": "## P4822 冻结\n\n原题：[P4822](https://www.luogu.com.cn/problem/P4822)\n\n### 从问题到算法\n\n同一座城市已经用掉多少卡，会影响后续可选择的路线，因此不能只为城市保存一个距离。把状态写为 (城市,used)，used 从零到 K。\n\n每条原边产生两种转移：不用卡走到 (邻点,used)，花费 w；若 used<K，使用一张卡走到 (邻点,used+1)，花费 w/2。每条路最多用一张卡，恰好对应一次转移最多跨一层。所有费用非负，可以用 Dijkstra。\n\n题目不要求用完卡，所以答案取终点所有层的最小值。原边保证偶数，除二是精确整数。\n\n### 复杂度\n\n时间 O((nK+mK) log(nK))，空间 O(nK+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m, K;\n    cin >> n >> m >> K;\n    vector<vector<pair<int, int>>> g(n);\n    while (m--) {\n        int u, v, w;\n        cin >> u >> v >> w;\n        u--;\n        v--;\n        g[u].push_back({v, w});\n        g[v].push_back({u, w});\n    }\n    const long long INF = 1LL << 60;\n    vector<long long> d(n * (K + 1), INF);\n    priority_queue<pair<long long, int>, vector<pair<long long, int>>,\n                   greater<pair<long long, int>>>\n        q;\n    d[0] = 0;\n    q.push({0, 0});\n    while (!q.empty()) {\n        auto [dist, state] = q.top();\n        q.pop();\n        if (dist != d[state])\n            continue;\n        int used = state / n, v = state % n;\n        for (auto [u, w] : g[v])\n            for (int take = 0; take <= 1 && used + take <= K; take++) {\n                int next = (used + take) * n + u;\n                long long nd = dist + (take ? w / 2 : w);\n                if (nd < d[next]) {\n                    d[next] = nd;\n                    q.push({nd, next});\n                }\n            }\n    }\n    long long ans = INF;\n    for (int k = 0; k <= K; k++)\n        ans = min(ans, d[k * n + n - 1]);\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n同一条路不能连续叠卡；允许少用卡；道路双向。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4822",
+    "id": "luogu-training-P4822",
+    "programSha256": "32ec8f3c9b05709c9a94b0e8edfd4e9ca6c656ea4c9a6f46ced625c9ddbe5903",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

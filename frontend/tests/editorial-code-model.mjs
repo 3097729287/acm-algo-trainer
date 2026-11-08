@@ -3,10 +3,17 @@ import {normalizeEditorialCode,editorialTokens,editorialLanguage} from '../src/l
 const normalize=code=>normalizeEditorialCode(code,'cpp17');
 assert.equal(normalize('for (int i = 0; i < n; ++i) sum += a[i];'),'for (int i = 0; i < n; i++) sum += a[i];');
 assert.equal(normalize('for (unsigned long long i = 0; i < n; ++i) {}'),'for (unsigned long long i = 0; i < n; i++) {}');
+for(const type of ['size_t','std::size_t','int64_t','uint32_t','std::uint_fast64_t'])assert.equal(normalize(`for (${type} i = 0; i < n; ++i) {}`),`for (${type} i = 0; i < n; i++) {}`);
+assert.equal(normalize('const char*s=R"tag(for(int i=0;i<3;++i))tag"; for(int j=0;j<3;++j){}'),'const char*s=R"tag(for(int i=0;i<3;++i))tag"; for(int j=0;j<3;j++){}');
+assert.equal(normalize("int n=1'000; for(int i=0;i<n;++i){}"),"int n=1'000; for(int i=0;i<n;i++){}");
+assert.equal(normalize("auto c=u8'x'; for(int i=0;i<n;++i){}"),"auto c=u8'x'; for(int i=0;i<n;i++){}");
 assert.equal(normalize('for (int i = 0, j = 0; i < n; ++i, ++j) {}'),'for (int i = 0, j = 0; i < n; i++, j++) {}');
 for(const code of ['for(int i=0;i<n;sum+=++i) {}','for(int i=0;i<n;f(++i)) {}','for(auto it=v.begin();it!=v.end();++it) {}','for(Counter i;i.ok();++i) {}','const char *s="for(int i=0;i<n;++i)"; // for(int j=0;j<n;++j)\n','for(int i=0;++i<n;i++) {}'])assert.equal(normalize(code),code);
 assert.equal(normalizeEditorialCode('for i in range(5):\n    print(i)','python3'),'for i in range(5):\n    print(i)');
 const code='// <script> stays text\nint main(){const char*s="<&>"; for(int i=0;i<3;i++) cout<<i;}';
 const tokens=editorialTokens(code,'cpp17');assert.equal(tokens.map(part=>part.text).join(''),code);assert(tokens.some(part=>part.classes.includes('keyword')));assert(tokens.some(part=>part.classes.includes('comment')));assert(tokens.some(part=>part.classes.includes('string')));
 assert.equal(editorialLanguage('language-cpp'),'cpp17');assert.equal(editorialLanguage('language-python'),'python3');assert.equal(editorialLanguage('language-text'),null);
+for(const name of ['cxx','CXX','cc','C++17','cpp20','cpp23'])assert.equal(editorialLanguage('language-'+name),'cpp17',name);
+assert.equal(editorialLanguage('language-cxx',code),'cpp17');
+assert(editorialTokens(code,editorialLanguage('language-cxx',code)).some(part=>part.classes.includes('keyword')));
 console.log(JSON.stringify({ok:true,integerPostfix:true,valueUsedPrefixPreserved:true,iteratorsPreserved:true,literalsAndCommentsPreserved:true,highlightTextExact:true}));

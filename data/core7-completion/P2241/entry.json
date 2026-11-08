@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2241",
+  "method": "全部矩形减去正方形",
+  "variants": {
+    "default": "## P2241 统计方形（数据加强版）\n\n原题：[P2241](https://www.luogu.com.cn/problem/P2241)\n\n### 思路\n\n全部矩形由两条横边与两条竖边确定，共 C(n+1,2)C(m+1,2)。边长 k 的正方形有 (n−k+1)(m−k+1) 个，枚举 k 求和，再相减得到非正方形矩形数。\n\n### 复杂度\n\n时间 O(min(n,m))，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long n, m;\n    cin >> n >> m;\n    long long squares = 0;\n    for (long long k = 1; k <= min(n, m); k++)\n        squares += (n - k + 1) * (m - k + 1);\n    long long total = n * (n + 1) / 2 * (m * (m + 1) / 2);\n    cout << squares << ' ' << total - squares << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n边界线比小格数多一；第二项不包含正方形；乘法使用 long long。\n",
+    "detailed": "## P2241 统计方形（数据加强版）\n\n原题：[P2241](https://www.luogu.com.cn/problem/P2241)\n\n### 从问题到算法\n\nn 行 m 列小方格有 n+1 条横线、m+1 条竖线，任意各取两条就确定一个矩形，所以全部矩形数是两个组合数的乘积。\n\n正方形还要求横纵跨度相同。固定整数边长 k，它的左上角可在 n−k+1 个行位置与 m−k+1 个列位置选择，二者相乘就是这个尺寸的数量。枚举一到两维较小值，所有尺寸互不重复。\n\n题目分别输出正方形与其它矩形，因此第二项必须用全部矩形减去正方形。乘法全程使用六十四位整数。\n\n### 复杂度\n\n时间 O(min(n,m))，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long n, m;\n    cin >> n >> m;\n    long long squares = 0;\n    for (long long k = 1; k <= min(n, m); k++)\n        squares += (n - k + 1) * (m - k + 1);\n    long long total = n * (n + 1) / 2 * (m * (m + 1) / 2);\n    cout << squares << ' ' << total - squares << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n边界线比小格数多一；第二项不包含正方形；乘法使用 long long。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2241",
+    "id": "luogu-training-P2241",
+    "programSha256": "ba9c2cfbf740b9e128da9e8979374264b5454d1b845bcd8a4aaf271e83a4fda9",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

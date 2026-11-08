@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1204",
+  "method": "排序后合并覆盖区间",
+  "variants": {
+    "default": "## P1204 挤牛奶 Milking Cows\n\n原题：[P1204](https://www.luogu.com.cn/problem/P1204)\n\n### 思路\n\n把工作区间按左端点排序，维护当前连续覆盖的左右端点。相交或首尾相接就合并，出现空隙时结算最长忙碌和空闲时间。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<pair<int, int>> a(n);\n    for (auto &[l, r] : a)\n        cin >> l >> r;\n    sort(a.begin(), a.end());\n    int l = a[0].first, r = a[0].second, busy = 0, idle = 0;\n    for (int i = 1; i < n; i++) {\n        if (a[i].first <= r)\n            r = max(r, a[i].second);\n        else {\n            busy = max(busy, r - l);\n            idle = max(idle, a[i].first - r);\n            tie(l, r) = a[i];\n        }\n    }\n    busy = max(busy, r - l);\n    cout << busy << ' ' << idle << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相接时合并；不要漏结算最后一段；时间长度是右端减左端。\n",
+    "detailed": "## P1204 挤牛奶 Milking Cows\n\n原题：[P1204](https://www.luogu.com.cn/problem/P1204)\n\n### 从问题到算法\n\n同一时刻多名农夫工作仍只计一段忙碌时间，不能累加每个人的工作时长。排序后，尚未处理的区间左端不会比当前区间更早，因此只需维护最后一段合并区间。\n\n若下一区间左端不大于当前右端，覆盖连续，右端更新为两者较大值。否则中间存在长度为新左端减旧右端的空闲段；先结算旧忙碌长度，再开始新的忙碌段。扫描结束还需结算最后一段。\n\n只计算第一次开始工作到最后一次结束之间的空闲，前后无限长的无工作时间不计入。首尾相接没有正长度空隙，应当合并。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<pair<int, int>> a(n);\n    for (auto &[l, r] : a)\n        cin >> l >> r;\n    sort(a.begin(), a.end());\n    int l = a[0].first, r = a[0].second, busy = 0, idle = 0;\n    for (int i = 1; i < n; i++) {\n        if (a[i].first <= r)\n            r = max(r, a[i].second);\n        else {\n            busy = max(busy, r - l);\n            idle = max(idle, a[i].first - r);\n            tie(l, r) = a[i];\n        }\n    }\n    busy = max(busy, r - l);\n    cout << busy << ' ' << idle << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相接时合并；不要漏结算最后一段；时间长度是右端减左端。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1204",
+    "id": "luogu-training-P1204",
+    "programSha256": "e7ddf2e5b361a501bf09e912fbd46a52700a495b46aaf64afb6b8b41ca50904c",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

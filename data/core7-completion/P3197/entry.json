@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3197",
+  "method": "全部染色减去相邻不同的方案",
+  "variants": {
+    "default": "## P3197 越狱\n\n原题：[P3197](https://www.luogu.com.cn/problem/P3197)\n\n### 思路\n\n全部安排有 m^n 种。没有相邻同教派的安排中，第一个人有 m 种选择，后面每个人有 m−1 种，所以答案为 m^n−m(m−1)^(n−1)。\n\n### 复杂度\n\n时间 O(log n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long power(long long a, long long b, long long mod) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % mod)\n        if (b & 1)\n            r = r * a % mod;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long m, n;\n    cin >> m >> n;\n    const long long mod = 100003;\n    cout << (power(m % mod, n, mod) - (m % mod) * power((m - 1) % mod, n - 1, mod) % mod + mod) %\n                mod\n         << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n模数为 100003；减法规范化；n=1 时答案为 0。\n",
+    "detailed": "## P3197 越狱\n\n原题：[P3197](https://www.luogu.com.cn/problem/P3197)\n\n### 从问题到算法\n\n直接统计至少一对相邻者相同，会让同时出现多对相同的方案被重复计算。改为统计补集：所有相邻位置都不同。\n\n第一人可以属于任意一个教派，有 m 种。固定前一个人的教派后，当前人只能避开这一种，因此始终有 m−1 种，不受更早位置影响。由乘法原理，补集大小为 m·(m−1)^(n−1)。\n\n所有安排为 m^n，两者相减就是至少存在一对相邻相同的方案数。分别快速幂取模，最后加上模数再取余，避免负数。\n\n### 复杂度\n\n时间 O(log n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long power(long long a, long long b, long long mod) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % mod)\n        if (b & 1)\n            r = r * a % mod;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long m, n;\n    cin >> m >> n;\n    const long long mod = 100003;\n    cout << (power(m % mod, n, mod) - (m % mod) * power((m - 1) % mod, n - 1, mod) % mod + mod) %\n                mod\n         << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n模数为 100003；减法规范化；n=1 时答案为 0。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3197",
+    "id": "luogu-training-P3197",
+    "programSha256": "6dcbe20599c5b0cfba6c112c8dc623d414869c58af3f0e09802f87d8d2c5e19e",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

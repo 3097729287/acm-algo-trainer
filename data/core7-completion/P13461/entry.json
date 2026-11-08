@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P13461",
+  "method": "筛出能连接区间内两数的质因子",
+  "variants": {
+    "default": "## P13461 Number Sets\n\n原题：[P13461](https://www.luogu.com.cn/problem/P13461)\n\n### 思路\n\n若质数 p>B−A，它在区间内至多有一个倍数，无法产生合并。因此只筛到区间长度，对 p≥P 的倍数逐个与第一个倍数合并，最后统计并查集块数。\n\n### 复杂度\n\n每组时间 O(D log log D)，空间 O(D)，D=B−A。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct DSU {\n    vector<int> p, size;\n    explicit DSU(int n) : p(n), size(n, 1) { iota(p.begin(), p.end(), 0); }\n    int find(int x) {\n        while (p[x] != x) {\n            p[x] = p[p[x]];\n            x = p[x];\n        }\n        return x;\n    }\n    bool join(int a, int b) {\n        a = find(a);\n        b = find(b);\n        if (a == b)\n            return false;\n        if (size[a] < size[b])\n            swap(a, b);\n        p[b] = a;\n        size[a] += size[b];\n        return true;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    for (int test = 1; test <= tests; test++) {\n        long long a, b, minimum;\n        cin >> a >> b >> minimum;\n        int width = b - a;\n        vector<char> composite(width + 1);\n        DSU d(width + 1);\n        int answer = width + 1;\n        for (int p = 2; p <= width; p++)\n            if (!composite[p]) {\n                for (int j = p + p; j <= width; j += p)\n                    composite[j] = 1;\n                if (p < minimum)\n                    continue;\n                long long first = (a + p - 1) / p * p;\n                for (long long x = first + p; x <= b; x += p)\n                    if (d.join(first - a, x - a))\n                        answer--;\n            }\n        cout << \"Case #\" << test << \": \" << answer << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n只筛到区间宽度；端点运算用 long long；质因子阈值含等号。\n",
+    "detailed": "## P13461 Number Sets\n\n原题：[P13461](https://www.luogu.com.cn/problem/P13461)\n\n### 从问题到算法\n\n两个不同的 p 倍数相差至少 p；如果 p 超过区间宽度 B−A，就不可能同时出现两个倍数，因此无需分解高达十的十二次方的端点。\n\n对每个 P<=p<=B−A 的质数，算出区间内第一个倍数 first=ceil(A/p)p，再把后续 first+p、first+2p… 全部与 first 合并。这相当于把共享该质因子的所有数连成一组，所有质因子处理后，传递合并也由并查集自动完成。\n\n并查集下标使用数值减 A，只需 B−A+1 个元素。每次合并成功就把集合数减一，按 Case #编号输出。\n\n### 复杂度\n\n每组时间 O(D log log D)，空间 O(D)，D=B−A。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct DSU {\n    vector<int> p, size;\n    explicit DSU(int n) : p(n), size(n, 1) { iota(p.begin(), p.end(), 0); }\n    int find(int x) {\n        while (p[x] != x) {\n            p[x] = p[p[x]];\n            x = p[x];\n        }\n        return x;\n    }\n    bool join(int a, int b) {\n        a = find(a);\n        b = find(b);\n        if (a == b)\n            return false;\n        if (size[a] < size[b])\n            swap(a, b);\n        p[b] = a;\n        size[a] += size[b];\n        return true;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    for (int test = 1; test <= tests; test++) {\n        long long a, b, minimum;\n        cin >> a >> b >> minimum;\n        int width = b - a;\n        vector<char> composite(width + 1);\n        DSU d(width + 1);\n        int answer = width + 1;\n        for (int p = 2; p <= width; p++)\n            if (!composite[p]) {\n                for (int j = p + p; j <= width; j += p)\n                    composite[j] = 1;\n                if (p < minimum)\n                    continue;\n                long long first = (a + p - 1) / p * p;\n                for (long long x = first + p; x <= b; x += p)\n                    if (d.join(first - a, x - a))\n                        answer--;\n            }\n        cout << \"Case #\" << test << \": \" << answer << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n只筛到区间宽度；端点运算用 long long；质因子阈值含等号。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P13461",
+    "id": "luogu-training-P13461",
+    "programSha256": "989defcddfc54502400a88684495ed0c82fd83f6e0a886be7951cdb527bd4f1f",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

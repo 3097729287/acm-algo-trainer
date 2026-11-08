@@ -1,0 +1,61 @@
+{
+  "ok": true,
+  "model": {
+    "ok": true,
+    "realLibraryRows": 13417,
+    "realNumberCases": 16,
+    "recordedProblemField": true,
+    "legacyCodeAndId": true,
+    "officialUrlIdentifiers": true,
+    "caseAndWidthInsensitive": true,
+    "exactCodeFirst": true,
+    "additionalWordsPreserved": true,
+    "learningSearch": true
+  },
+  "ui": {
+    "ok": true,
+    "numberSearch": true,
+    "lowercase": true,
+    "fullWidth": true,
+    "numberShown": true,
+    "enterOpensMatchingProblem": true,
+    "returnPreservesNumber": true,
+    "returnFocus": true
+  },
+  "builtWorkspaceRegression": {
+    "ok": true,
+    "errors": [],
+    "searchOverlayCases": 3
+  },
+  "integration": [
+    {
+      "workspace": "tb-complete-20261108",
+      "files": [
+        "frontend/src/lib/learningBrowser.js",
+        "frontend/src/lib/workspaceSearch.js",
+        "frontend/src/lib/problemSearchCodes.js"
+      ],
+      "otherSourcePreserved": true
+    },
+    {
+      "workspace": "tb-core7-complete-20261108",
+      "files": [
+        "frontend/src/lib/learningBrowser.js",
+        "frontend/src/lib/workspaceSearch.js",
+        "frontend/src/lib/problemSearchCodes.js"
+      ],
+      "otherSourcePreserved": true
+    },
+    {
+      "workspace": "tb-tauri-rust",
+      "files": [
+        "frontend/src/lib/learningBrowser.js",
+        "frontend/src/lib/workspaceSearch.js",
+        "frontend/src/lib/problemSearchCodes.js"
+      ],
+      "otherSourcePreserved": true
+    }
+  ],
+  "backendAndLibraryUnchanged": true,
+  "publicRelease": false
+}

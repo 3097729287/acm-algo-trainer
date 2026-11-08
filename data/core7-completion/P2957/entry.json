@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2957",
+  "method": "枚举两种前后缀重合",
+  "variants": {
+    "default": "## P2957 Barn Echoes G\n\n原题：[P2957](https://www.luogu.com.cn/problem/P2957)\n\n### 思路\n\n重合可以是第一串后缀与第二串前缀，也可以反过来。枚举长度并比较两种方向，取最大的相等长度。\n\n### 复杂度\n\n时间 O(L²)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string a, b;\n    cin >> a >> b;\n    int ans = 0;\n    for (int len = 1; len <= (int)min(a.size(), b.size()); len++)\n        if (a.compare(a.size() - len, len, b, 0, len) == 0 ||\n            b.compare(b.size() - len, len, a, 0, len) == 0)\n            ans = len;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n两个方向都检查；允许整个较短串成为重合部分。\n",
+    "detailed": "## P2957 Barn Echoes G\n\n原题：[P2957](https://www.luogu.com.cn/problem/P2957)\n\n### 从问题到算法\n\n题目中的重合不要求出现在两个串内部的任意位置，而是必须同时是某串的后缀和另一串的前缀。只有两种方向，都要检查。\n\n对长度 len，从 1 到两个长度的较小值，分别比较 a 的最后 len 个字符与 b 的前 len 个字符，以及 b 的最后 len 个字符与 a 的前 len 个字符。任意一组相等，就能更新答案为 len。\n\n字符串至多八十个字符，直接调用 compare 逐字符比较已经足够，避免为很小的输入引入不必要的哈希与碰撞问题。完全没有非空重合时答案保持零。\n\n### 复杂度\n\n时间 O(L²)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string a, b;\n    cin >> a >> b;\n    int ans = 0;\n    for (int len = 1; len <= (int)min(a.size(), b.size()); len++)\n        if (a.compare(a.size() - len, len, b, 0, len) == 0 ||\n            b.compare(b.size() - len, len, a, 0, len) == 0)\n            ans = len;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n两个方向都检查；允许整个较短串成为重合部分。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2957",
+    "id": "luogu-training-P2957",
+    "programSha256": "c743b449fd4eb22140fbd6de0af31756cae9afa5485fda11b470beb844443e55",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

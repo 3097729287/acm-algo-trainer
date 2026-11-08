@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF687B",
+  "method": "检查所有模数能否确定 k 的余数",
+  "variants": {
+    "default": "## CF687B Remainders Game\n\n原题：[CF687B](https://www.luogu.com.cn/problem/CF687B)\n\n### 思路\n\n所有给定余数把原数确定到它们最小公倍数的同余类。能确定模 k 的余数，当且仅当 k 整除这个最小公倍数。只累积 gcd(a_i,k) 的 lcm，避免大整数。\n\n### 复杂度\n\n时间 O(n log A)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    long long k;\n    cin >> n >> k;\n    long long value = 1;\n    while (n--) {\n        long long x;\n        cin >> x;\n        long long g = gcd(x, k);\n        value = value / gcd(value, g) * g;\n    }\n    cout << (value == k ? \"Yes\" : \"No\") << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n不要直接累乘所有数；只保留 k 的因数；lcm 先除后乘。\n",
+    "detailed": "## CF687B Remainders Game\n\n原题：[CF687B](https://www.luogu.com.cn/problem/CF687B)\n\n### 从问题到算法\n\n两个整数对所有给定模数取余相同，当且仅当它们之差被所有模数整除，也就是被这些模数的最小公倍数 L 整除。要进一步保证它们模 k 相同，就必须且只须 k 整除 L。\n\n实际 L 可能极大，但只关心 k 所含的质因数及指数。把每个 a_i 替换为 gcd(a_i,k) 后，所有因子都来自 k，不影响判断 k 是否被最终 lcm 覆盖。累积 lcm 永远是 k 的因数，不会爆炸。\n\n更新时写 current/gcd(current,g)*g，先除再乘。读完全部数后，current==k 就输出 Yes，否则 No。\n\n### 复杂度\n\n时间 O(n log A)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    long long k;\n    cin >> n >> k;\n    long long value = 1;\n    while (n--) {\n        long long x;\n        cin >> x;\n        long long g = gcd(x, k);\n        value = value / gcd(value, g) * g;\n    }\n    cout << (value == k ? \"Yes\" : \"No\") << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n不要直接累乘所有数；只保留 k 的因数；lcm 先除后乘。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF687B",
+    "id": "luogu-training-CF687B",
+    "programSha256": "228e4a55adcd80fdabe0a949a1ae2377bb0a2adeaa74ce438f00cd24a03d4dc0",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

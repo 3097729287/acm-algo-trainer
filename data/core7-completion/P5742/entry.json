@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P5742",
+  "method": "把加权成绩化成整数比较",
+  "variants": {
+    "default": "## P5742 评等级\n\n原题：[P5742](https://www.luogu.com.cn/problem/P5742)\n\n### 思路\n\n优秀须同时满足两项分数和大于 140、综合分至少 80。综合分 0.7a+0.3b≥80 等价于 7a+3b≥800，用整数判断即可。\n\n### 复杂度\n\n时间 O(n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    while (n--) {\n        int id, a, b;\n        cin >> id >> a >> b;\n        cout << ((a + b > 140 && 7 * a + 3 * b >= 800) ? \"Excellent\" : \"Not excellent\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n总分严格大于 140；加权分至少 80；编号不计入成绩。\n",
+    "detailed": "## P5742 评等级\n\n原题：[P5742](https://www.luogu.com.cn/problem/P5742)\n\n### 从问题到算法\n\n两条标准必须同时成立，因此使用逻辑与。第一条是严格大于一百四十，恰等于不够；第二条是大于等于八十，恰等于可以。\n\n综合分带小数权重，可以把不等式两边同乘十，变成 7a+3b>=800，不需要浮点运算，也不必先四舍五入综合分。\n\n每行开头的编号只标识学生，不参与成绩计算。按输入顺序为每名学生输出指定字符串 Excellent 或 Not excellent。\n\n### 复杂度\n\n时间 O(n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    while (n--) {\n        int id, a, b;\n        cin >> id >> a >> b;\n        cout << ((a + b > 140 && 7 * a + 3 * b >= 800) ? \"Excellent\" : \"Not excellent\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n总分严格大于 140；加权分至少 80；编号不计入成绩。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P5742",
+    "id": "luogu-training-P5742",
+    "programSha256": "1497728341e8899a7feac66557caf36f539aee583f8373015eaa5b88a0db6c39",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

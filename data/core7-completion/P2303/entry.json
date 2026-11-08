@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2303",
+  "method": "按 gcd 的取值分组",
+  "variants": {
+    "default": "## P2303 Longge 的问题\n\n原题：[P2303](https://www.luogu.com.cn/problem/P2303)\n\n### 思路\n\n若 gcd(i,n)=d，约去 d 后共有 φ(n/d) 个合法 i，所以答案为 Σ(d|n) d·φ(n/d)。成对枚举约数并计算欧拉函数即可。\n\n### 复杂度\n\n时间 O(sqrt n + τ(n)·ω(n))，空间 O(ω(n))，τ 是约数数，ω 是不同质因数数。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long n;\n    cin >> n;\n    long long x = n;\n    vector<long long> primes;\n    for (long long p = 2; p <= x / p; p++)\n        if (x % p == 0) {\n            primes.push_back(p);\n            while (x % p == 0)\n                x /= p;\n        }\n    if (x > 1)\n        primes.push_back(x);\n    auto phi = [&](long long x) {\n        long long r = x;\n        for (long long p : primes)\n            if (x % p == 0)\n                r = r / p * (p - 1);\n        return r;\n    };\n    long long ans = 0;\n    for (long long d = 1; d <= n / d; d++)\n        if (n % d == 0) {\n            ans += d * phi(n / d);\n            if (d != n / d)\n                ans += (n / d) * phi(d);\n        }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n平方因数只算一次；φ(1)=1；先除再乘。\n",
+    "detailed": "## P2303 Longge 的问题\n\n原题：[P2303](https://www.luogu.com.cn/problem/P2303)\n\n### 从问题到算法\n\n要求所有 gcd 的和，可以把产生同一个 gcd 的整数放在一起。固定 n 的因数 d，令 i=dj，则 gcd(i,n)=d 等价于 j 与 n/d 互质。在 1 到 n/d 中有 φ(n/d) 个这样的 j，每个贡献 d。\n\n因此答案是所有因数 d 对应的 d·φ(n/d) 之和。先分解 n 得到不同质因数。计算某个因数的欧拉函数时，仅检查这些质因数，按 φ(x)=x·∏(1−1/p) 依次先除 p 再乘 p−1。\n\n枚举到平方根时，同时处理 d 和 n/d，二者相等时只处理一次。乘法和答案使用 long long。\n\n### 复杂度\n\n时间 O(sqrt n + τ(n)·ω(n))，空间 O(ω(n))，τ 是约数数，ω 是不同质因数数。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long n;\n    cin >> n;\n    long long x = n;\n    vector<long long> primes;\n    for (long long p = 2; p <= x / p; p++)\n        if (x % p == 0) {\n            primes.push_back(p);\n            while (x % p == 0)\n                x /= p;\n        }\n    if (x > 1)\n        primes.push_back(x);\n    auto phi = [&](long long x) {\n        long long r = x;\n        for (long long p : primes)\n            if (x % p == 0)\n                r = r / p * (p - 1);\n        return r;\n    };\n    long long ans = 0;\n    for (long long d = 1; d <= n / d; d++)\n        if (n % d == 0) {\n            ans += d * phi(n / d);\n            if (d != n / d)\n                ans += (n / d) * phi(d);\n        }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n平方因数只算一次；φ(1)=1；先除再乘。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2303",
+    "id": "luogu-training-P2303",
+    "programSha256": "8212b0083eb9082b52ef9707c16f15681720c7ce723b48a09e2f9ab76f2c80a6",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

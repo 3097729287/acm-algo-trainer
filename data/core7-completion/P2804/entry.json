@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2804",
+  "method": "减去平均值后统计递增前缀对",
+  "variants": {
+    "default": "## P2804 神秘数字\n\n原题：[P2804](https://www.luogu.com.cn/problem/P2804)\n\n### 思路\n\n把每项减去 M，原子段平均值严格大于 M 等价于新子段和大于 0，也就是右前缀和大于左前缀和。离散化后用树状数组统计此前更小前缀的数量。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Fenwick {\n    int n;\n    vector<long long> t;\n    explicit Fenwick(int n) : n(n), t(n + 1) {}\n    void add(int x, long long v) {\n        for (; x <= n; x += x & -x)\n            t[x] += v;\n    }\n    long long sum(int x) const {\n        long long s = 0;\n        for (; x; x -= x & -x)\n            s += t[x];\n        return s;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<long long> p(n + 1), values;\n    for (int i = 1; i <= n; i++) {\n        int x;\n        cin >> x;\n        p[i] = p[i - 1] + x - m;\n    }\n    values = p;\n    sort(values.begin(), values.end());\n    values.erase(unique(values.begin(), values.end()), values.end());\n    Fenwick bit(values.size());\n    long long ans = 0;\n    for (long long x : p) {\n        int rank = lower_bound(values.begin(), values.end(), x) - values.begin() + 1;\n        ans += bit.sum(rank - 1);\n        bit.add(rank, 1);\n    }\n    cout << ans % 92084931 << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n严格小于，查询排名减一；插入 p[0]；每项先减 M。\n",
+    "detailed": "## P2804 神秘数字\n\n原题：[P2804](https://www.luogu.com.cn/problem/P2804)\n\n### 从问题到算法\n\n子段平均值大于 M，可以同乘正的长度，得到原子段和大于 M×长度。因此逐项减去 M 后，只需统计和严格为正的子段。\n\n定义前缀和 p[0]=0，子段 [l,r] 的新和为 p[r]−p[l−1]。它严格为正，当且仅当 p[l−1]<p[r]。从左到右扫描前缀和，在树状数组中保存此前前缀值出现次数，查询当前排名之前的总数，就得到以当前位置结尾的合法子段数。\n\n先查询再插入，防止把当前前缀与自己配对；查询 rank−1，防止把和为零的子段计入。重复前缀值应按次数保存。答案最后对 92084931 取模。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Fenwick {\n    int n;\n    vector<long long> t;\n    explicit Fenwick(int n) : n(n), t(n + 1) {}\n    void add(int x, long long v) {\n        for (; x <= n; x += x & -x)\n            t[x] += v;\n    }\n    long long sum(int x) const {\n        long long s = 0;\n        for (; x; x -= x & -x)\n            s += t[x];\n        return s;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<long long> p(n + 1), values;\n    for (int i = 1; i <= n; i++) {\n        int x;\n        cin >> x;\n        p[i] = p[i - 1] + x - m;\n    }\n    values = p;\n    sort(values.begin(), values.end());\n    values.erase(unique(values.begin(), values.end()), values.end());\n    Fenwick bit(values.size());\n    long long ans = 0;\n    for (long long x : p) {\n        int rank = lower_bound(values.begin(), values.end(), x) - values.begin() + 1;\n        ans += bit.sum(rank - 1);\n        bit.add(rank, 1);\n    }\n    cout << ans % 92084931 << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n严格小于，查询排名减一；插入 p[0]；每项先减 M。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2804",
+    "id": "luogu-training-P2804",
+    "programSha256": "57afe6aa9ddbca19a63de69281f948b0e34720e7ca4a8c04c05e6b1ccd84f912",
+    "samples": 2,
+    "independentCases": 18,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

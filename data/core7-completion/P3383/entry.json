@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3383",
+  "method": "线性筛保存升序质数表",
+  "variants": {
+    "default": "## P3383 线性筛素数\n\n原题：[P3383](https://www.luogu.com.cn/problem/P3383)\n\n### 思路\n\n从小到大扫描，未被标记的数加入质数表。每个合数只由它的最小质因子标记一次，最后第 k 个质数直接访问 primes[k−1]。\n\n### 复杂度\n\n预处理 O(n)，每问 O(1)，空间 O(n) 位加 O(π(n)) 个整数。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    cin >> n >> q;\n    vector<bool> composite(n + 1);\n    vector<int> primes;\n    for (int i = 2; i <= n; i++) {\n        if (!composite[i])\n            primes.push_back(i);\n        for (int p : primes) {\n            long long x = 1LL * i * p;\n            if (x > n)\n                break;\n            composite[x] = 1;\n            if (i % p == 0)\n                break;\n        }\n    }\n    while (q--) {\n        int k;\n        cin >> k;\n        cout << primes[k - 1] << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n一不是质数；整除时立即 break；先判断六十四位乘积是否越界。\n",
+    "detailed": "## P3383 线性筛素数\n\n原题：[P3383](https://www.luogu.com.cn/problem/P3383)\n\n### 从问题到算法\n\n处理整数 i 时，按升序枚举已发现质数 p，标记 i·p。当 p 整除 i 后立即停止：之后更大的质数不再是 i·p 的最小质因子，应交由其它整数处理。\n\n每个合数 x 唯一对应 p=最小质因子、i=x/p，且这对会在停止条件之前被枚举，所以每个合数恰好标记一次。未标记数就是质数，扫描顺序保证质数表递增。\n\n范围达到一亿，标记使用位压缩的 vector<bool>，质数表仍保存整数。乘积用六十四位判断边界，查询使用一开始的序号。\n\n### 复杂度\n\n预处理 O(n)，每问 O(1)，空间 O(n) 位加 O(π(n)) 个整数。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    cin >> n >> q;\n    vector<bool> composite(n + 1);\n    vector<int> primes;\n    for (int i = 2; i <= n; i++) {\n        if (!composite[i])\n            primes.push_back(i);\n        for (int p : primes) {\n            long long x = 1LL * i * p;\n            if (x > n)\n                break;\n            composite[x] = 1;\n            if (i % p == 0)\n                break;\n        }\n    }\n    while (q--) {\n        int k;\n        cin >> k;\n        cout << primes[k - 1] << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n一不是质数；整除时立即 break；先判断六十四位乘积是否越界。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3383",
+    "id": "luogu-training-P3383",
+    "programSha256": "685a267c978f528bbb5e25006f4b22e147e2f683c840d919fa39fa95a51d6180",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

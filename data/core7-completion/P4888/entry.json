@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4888",
+  "method": "从给定中心向两边直接扩展",
+  "variants": {
+    "default": "## P4888 三去矩阵\n\n原题：[P4888](https://www.luogu.com.cn/problem/P4888)\n\n### 思路\n\n每次询问分别沿所在行和列向两侧同步扩展，只要两侧字母相同就继续。中心固定为一个格子，因此只需检查奇数长度回文，取水平和竖直的最大值。\n\n### 复杂度\n\n每次 O(l)，总时间 O(l²+ql)，空间 O(l²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    cin >> n >> q;\n    vector<string> a(n);\n    for (auto &s : a)\n        cin >> s;\n    while (q--) {\n        int x, y;\n        cin >> x >> y;\n        x--;\n        y--;\n        int horizontal = 0, vertical = 0;\n        while (y - horizontal - 1 >= 0 && y + horizontal + 1 < n &&\n               a[x][y - horizontal - 1] == a[x][y + horizontal + 1])\n            horizontal++;\n        while (x - vertical - 1 >= 0 && x + vertical + 1 < n &&\n               a[x - vertical - 1][y] == a[x + vertical + 1][y])\n            vertical++;\n        cout << 2 * max(horizontal, vertical) + 1 << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n坐标转为 0 起始；只取水平或竖直，不能走对角线；中心本身长度为 1。\n",
+    "detailed": "## P4888 三去矩阵\n\n原题：[P4888](https://www.luogu.com.cn/problem/P4888)\n\n### 从问题到算法\n\n题目只问给定格子为中心的回文，不要求预处理全部中心。中心是一个实际格子，所以所有合法回文长度都是奇数，初始长度为一。\n\n沿水平方向比较左右距离一的两格，再比较距离二，直到越界或不相同为止。由于更长回文必须包含更短回文，第一次失败后不可能再有更大半径。竖直方向完全相同。\n\n每次最多检查矩阵边长的常数倍，边长和询问数都不超过两千，总比较次数只有几百万，直接扩展已经足够。这样实现比为所有行列建立哈希更简单，且没有碰撞。\n\n### 复杂度\n\n每次 O(l)，总时间 O(l²+ql)，空间 O(l²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    cin >> n >> q;\n    vector<string> a(n);\n    for (auto &s : a)\n        cin >> s;\n    while (q--) {\n        int x, y;\n        cin >> x >> y;\n        x--;\n        y--;\n        int horizontal = 0, vertical = 0;\n        while (y - horizontal - 1 >= 0 && y + horizontal + 1 < n &&\n               a[x][y - horizontal - 1] == a[x][y + horizontal + 1])\n            horizontal++;\n        while (x - vertical - 1 >= 0 && x + vertical + 1 < n &&\n               a[x - vertical - 1][y] == a[x + vertical + 1][y])\n            vertical++;\n        cout << 2 * max(horizontal, vertical) + 1 << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n坐标转为 0 起始；只取水平或竖直，不能走对角线；中心本身长度为 1。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4888",
+    "id": "luogu-training-P4888",
+    "programSha256": "65637fb87e909582c4366504d1a46193a3f8e9139ae28347cb623e4f3b8fd5bd",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

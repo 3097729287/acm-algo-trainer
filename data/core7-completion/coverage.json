@@ -1,0 +1,36 @@
+{
+  "defaultAndDetailedAvailable": 619,
+  "independentInputGroups": 1378,
+  "newProblems": 316,
+  "newRequestedProblems": 285,
+  "originalJudgeSubmissions": 0,
+  "protocolCases": 52,
+  "requestedProblems": 619,
+  "revision": "2026-11-08-live619-complete-v1",
+  "sampleCases": 454,
+  "semanticLimitations": {
+    "P1766": "仅核验非水平、非竖直且每次首次命中唯一的轨道；同时命中规则原题未定义。",
+    "P1858": "仅核验至少有 K 种装满方案的输入；不足 K 种时原题未定义输出。"
+  },
+  "sourceChanges": {
+    "detailed_solutions": {
+      "added": 316,
+      "total": 2254,
+      "updatedExisting": 0
+    },
+    "solutions": {
+      "added": 316,
+      "total": 2255,
+      "updatedExisting": 0
+    }
+  },
+  "stages": {
+    "01 编程基础": 69,
+    "02 基础解题方法": 110,
+    "03 搜索与图": 116,
+    "04 动态规划": 108,
+    "05 数据结构进阶": 70,
+    "06 数学与字符串": 74,
+    "07 CF 2300 综合训练": 72
+  }
+}

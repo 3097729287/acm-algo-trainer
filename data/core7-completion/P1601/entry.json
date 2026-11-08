@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1601",
+  "method": "从低位到高位模拟竖式加法",
+  "variants": {
+    "default": "## P1601 高精度加法\n\n原题：[P1601](https://www.luogu.com.cn/problem/P1601)\n\n### 思路\n\n从两个数字字符串末尾向前取位，连同进位相加。当前位取模十，新的进位除以十，最后反转结果并去掉多余前导零。\n\n### 复杂度\n\n时间 O(两数位数之和)，空间 O(答案位数)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string a, b;\n    cin >> a >> b;\n    int i = (int)a.size() - 1, j = (int)b.size() - 1, carry = 0;\n    string ans;\n    while (i >= 0 || j >= 0 || carry) {\n        int sum = carry;\n        if (i >= 0)\n            sum += a[i--] - '0';\n        if (j >= 0)\n            sum += b[j--] - '0';\n        ans.push_back('0' + sum % 10);\n        carry = sum / 10;\n    }\n    while (ans.size() > 1 && ans.back() == '0')\n        ans.pop_back();\n    reverse(ans.begin(), ans.end());\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n最后进位不能漏；数位字符要减 0；至少保留一个零。\n",
+    "detailed": "## P1601 高精度加法\n\n原题：[P1601](https://www.luogu.com.cn/problem/P1601)\n\n### 从问题到算法\n\n整数类型无法保存很长的十进制数，但竖式加法每次只需要当前两个数位和一个进位，数值最大十九。\n\n用两个下标从字符串末尾开始。某个数已用完时当作该位为零；只要还有任何一位或进位，就继续处理。将这一位和的个位字符追加到答案，十位作为下一轮进位。\n\n生成顺序是低位到高位，最后整体反转。输入允许前导零时，反转前删去答案高位的多余零，但至少保留一位，使零正确输出为 0。\n\n### 复杂度\n\n时间 O(两数位数之和)，空间 O(答案位数)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string a, b;\n    cin >> a >> b;\n    int i = (int)a.size() - 1, j = (int)b.size() - 1, carry = 0;\n    string ans;\n    while (i >= 0 || j >= 0 || carry) {\n        int sum = carry;\n        if (i >= 0)\n            sum += a[i--] - '0';\n        if (j >= 0)\n            sum += b[j--] - '0';\n        ans.push_back('0' + sum % 10);\n        carry = sum / 10;\n    }\n    while (ans.size() > 1 && ans.back() == '0')\n        ans.pop_back();\n    reverse(ans.begin(), ans.end());\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n最后进位不能漏；数位字符要减 0；至少保留一个零。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1601",
+    "id": "luogu-training-P1601",
+    "programSha256": "638f36fb7933f02fffb8a348a26696c8da42a0afbe45c334eebaecbb82e5662f",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

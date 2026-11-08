@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2866",
+  "method": "递减栈统计能看见当前牛的前辈",
+  "variants": {
+    "default": "## P2866 Bad Hair Day S\n\n原题：[P2866](https://www.luogu.com.cn/problem/P2866)\n\n### 思路\n\n从左往右扫描，身高不大于当前牛的栈顶都被当前牛挡住，弹出。剩余栈中每头牛都能看见当前牛，答案加栈大小，再压入当前身高。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> stack;\n    long long answer = 0;\n    while (n--) {\n        long long x;\n        cin >> x;\n        while (!stack.empty() && stack.back() <= x)\n            stack.pop_back();\n        answer += stack.size();\n        stack.push_back(x);\n    }\n    cout << answer << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n同身高也会挡住，应弹出小于等于；先弹再计数；答案六十四位。\n",
+    "detailed": "## P2866 Bad Hair Day S\n\n原题：[P2866](https://www.luogu.com.cn/problem/P2866)\n\n### 从问题到算法\n\n某头牛向右看，遇到第一头不比自己矮的牛就被挡住。扫描到当前身高 h 时，栈里不高于 h 的牛从此再也看不到更右侧，且它们不能把当前牛算作可见的更矮牛，所以先全部弹出。\n\n剩余牛的身高严格递减且都大于 h，中间没有能挡住它们的牛，因此每头都新增一次可见关系，贡献就是栈大小。然后当前牛入栈，等待更矮者出现。\n\n每头牛最多进出栈一次，所以总时间线性；可见对数最多平方级，答案用 long long。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> stack;\n    long long answer = 0;\n    while (n--) {\n        long long x;\n        cin >> x;\n        while (!stack.empty() && stack.back() <= x)\n            stack.pop_back();\n        answer += stack.size();\n        stack.push_back(x);\n    }\n    cout << answer << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n同身高也会挡住，应弹出小于等于；先弹再计数；答案六十四位。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2866",
+    "id": "luogu-training-P2866",
+    "programSha256": "414e2a4adaa45b1dbffabccdc10de169290f9fdb2511a79073b8fce0212c06b1",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

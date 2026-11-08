@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1256",
+  "method": "全部白点同时开始广搜",
+  "variants": {
+    "default": "## P1256 显示图像\n\n原题：[P1256](https://www.luogu.com.cn/problem/P1256)\n\n### 思路\n\n把所有白色像素作为距离零的起点一起入队。四方向广搜中第一次到达一个格子时，就得到它到最近白点的曼哈顿距离。\n\n### 复杂度\n\n时间 O(NM)，空间 O(NM)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<vector<int>> d(n, vector<int>(m, -1));\n    queue<pair<int, int>> q;\n    for (int i = 0; i < n; i++)\n        for (int j = 0; j < m; j++) {\n            char c;\n            cin >> c;\n            if (c == '1') {\n                d[i][j] = 0;\n                q.push({i, j});\n            }\n        }\n    int dx[4] = {1, -1, 0, 0}, dy[4] = {0, 0, 1, -1};\n    while (!q.empty()) {\n        auto [x, y] = q.front();\n        q.pop();\n        for (int k = 0; k < 4; k++) {\n            int nx = x + dx[k], ny = y + dy[k];\n            if (nx >= 0 && nx < n && ny >= 0 && ny < m && d[nx][ny] < 0) {\n                d[nx][ny] = d[x][y] + 1;\n                q.push({nx, ny});\n            }\n        }\n    }\n    for (auto &r : d) {\n        for (int j = 0; j < m; j++)\n            cout << r[j] << (j + 1 == m ? '\\n' : ' ');\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n所有白点必须先入队；白点自身输出零；入队时赋距离。\n",
+    "detailed": "## P1256 显示图像\n\n原题：[P1256](https://www.luogu.com.cn/problem/P1256)\n\n### 从问题到算法\n\n单个白点到任意格子的最短四方向步数等于曼哈顿距离。若分别为每个黑点搜索，会重复遍历大量格子；将所有白点放在同一个队列中，相当于让距离一、二、三的波前同时扩展。\n\n所有起点距离设零，其余设为未访问。每次从距离 d 的格子扩展到未访问邻居，令其距离为 d+1。BFS 按距离非降序处理，因此不存在另一个白点能在首次赋值之后提供更短路线。\n\n### 复杂度\n\n时间 O(NM)，空间 O(NM)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<vector<int>> d(n, vector<int>(m, -1));\n    queue<pair<int, int>> q;\n    for (int i = 0; i < n; i++)\n        for (int j = 0; j < m; j++) {\n            char c;\n            cin >> c;\n            if (c == '1') {\n                d[i][j] = 0;\n                q.push({i, j});\n            }\n        }\n    int dx[4] = {1, -1, 0, 0}, dy[4] = {0, 0, 1, -1};\n    while (!q.empty()) {\n        auto [x, y] = q.front();\n        q.pop();\n        for (int k = 0; k < 4; k++) {\n            int nx = x + dx[k], ny = y + dy[k];\n            if (nx >= 0 && nx < n && ny >= 0 && ny < m && d[nx][ny] < 0) {\n                d[nx][ny] = d[x][y] + 1;\n                q.push({nx, ny});\n            }\n        }\n    }\n    for (auto &r : d) {\n        for (int j = 0; j < m; j++)\n            cout << r[j] << (j + 1 == m ? '\\n' : ' ');\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n所有白点必须先入队；白点自身输出零；入队时赋距离。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1256",
+    "id": "luogu-training-P1256",
+    "programSha256": "94ad7eaca61f477b0eeb4baceefb88aab8d7112b9c479e1bc61654e8c0f070af",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

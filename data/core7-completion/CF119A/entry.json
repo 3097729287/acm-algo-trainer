@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF119A",
+  "method": "按回合计算最大公约数",
+  "variants": {
+    "default": "## CF119A Epic Game\n\n原题：[CF119A](https://www.luogu.com.cn/problem/CF119A)\n\n### 思路\n\n轮到某人时，用他的固定数字与剩余石子数求 gcd，移走对应数量。当前不能移走的玩家输，逐回合模拟即可。\n\n### 复杂度\n\n时间 O(n log max(a,b,n))，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int a, b, n;\n    cin >> a >> b >> n;\n    int turn = 0;\n    while (n) {\n        n -= gcd(turn ? b : a, n);\n        turn ^= 1;\n    }\n    cout << (turn ^ 1) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n取完石子后换手，再判另一方获胜；gcd(a,0) 不为零。\n",
+    "detailed": "## CF119A Epic Game\n\n原题：[CF119A](https://www.luogu.com.cn/problem/CF119A)\n\n### 从问题到算法\n\n每一步移走的数量由当前剩余石子数唯一决定，没有可以优化的策略。令 turn=0 表示 Simon，turn=1 表示 Antisimon；按对应固定数字计算 gcd，并从石堆中扣除。\n\n石子数为正时 gcd 至少为一且不会超过石子数，因此总会向结束推进。石子数为零时 gcd(a,0)=a，当前玩家无法移动，所以另一人获胜。代码在取走最后一颗后切换回合，最后输出当前回合的另一方。\n\n求 gcd 使用欧几里得算法，它利用 gcd(a,b)=gcd(b,a%b)，直到余数为零。\n\n### 复杂度\n\n时间 O(n log max(a,b,n))，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int a, b, n;\n    cin >> a >> b >> n;\n    int turn = 0;\n    while (n) {\n        n -= gcd(turn ? b : a, n);\n        turn ^= 1;\n    }\n    cout << (turn ^ 1) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n取完石子后换手，再判另一方获胜；gcd(a,0) 不为零。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF119A",
+    "id": "luogu-training-CF119A",
+    "programSha256": "57a5c6429499c0c600938025ce55675fd7ad163c6d89b5c2dcc68319fe592dfb",
+    "samples": 2,
+    "independentCases": 2,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

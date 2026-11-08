@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3194",
+  "method": "斜率排序后维护直线上包络",
+  "variants": {
+    "default": "## P3194 水平可见直线\n\n原题：[P3194](https://www.luogu.com.cn/problem/P3194)\n\n### 思路\n\n同斜率只保留最高一条。按斜率递增加入直线，维护每条线开始成为最高线的横坐标；新交点不在上条线可见区间右侧时弹掉上条线。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Line {\n    long long k, b;\n    int id;\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<Line> a(n);\n    for (int i = 0; i < n; i++) {\n        cin >> a[i].k >> a[i].b;\n        a[i].id = i + 1;\n    }\n    sort(a.begin(), a.end(), [](Line a, Line b) {\n        if (a.k != b.k)\n            return a.k < b.k;\n        return a.b > b.b;\n    });\n    vector<Line> h;\n    vector<long double> start;\n    for (auto line : a) {\n        if (!h.empty() && line.k == h.back().k)\n            continue;\n        long double x = -numeric_limits<long double>::infinity();\n        while (!h.empty()) {\n            x = (long double)(h.back().b - line.b) / (line.k - h.back().k);\n            if (x > start.back())\n                break;\n            h.pop_back();\n            start.pop_back();\n        }\n        if (h.empty())\n            x = -numeric_limits<long double>::infinity();\n        h.push_back(line);\n        start.push_back(x);\n    }\n    vector<int> ans;\n    for (auto line : h)\n        ans.push_back(line.id);\n    sort(ans.begin(), ans.end());\n    for (int id : ans)\n        cout << id << ' ';\n    cout << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n同斜率保留最高截距；只在单个交点出现不算可见；输出原编号。\n",
+    "detailed": "## P3194 水平可见直线\n\n原题：[P3194](https://www.luogu.com.cn/problem/P3194)\n\n### 从问题到算法\n\n从上方看到的正是所有直线的逐点最大值，也叫上包络。斜率越大的线越可能在更右侧占优，因此按斜率从小到大处理，可见区间也按横坐标递增。\n\n平行线中截距较小者永远被覆盖，先去掉。对新线与栈顶线求交点 x；如果 x 不大于栈顶开始可见的位置，那么栈顶线还没获得正长度的可见区间就被新线压住，必须弹出，并继续与更前一条比较。\n\n最终保留的直线各自拥有一个非空开区间可见。三线恰在一点交会时，中间线若只在一个点达到最大，不算看见一段线，因此相等时也要弹出。输出原始编号并按编号排序。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Line {\n    long long k, b;\n    int id;\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<Line> a(n);\n    for (int i = 0; i < n; i++) {\n        cin >> a[i].k >> a[i].b;\n        a[i].id = i + 1;\n    }\n    sort(a.begin(), a.end(), [](Line a, Line b) {\n        if (a.k != b.k)\n            return a.k < b.k;\n        return a.b > b.b;\n    });\n    vector<Line> h;\n    vector<long double> start;\n    for (auto line : a) {\n        if (!h.empty() && line.k == h.back().k)\n            continue;\n        long double x = -numeric_limits<long double>::infinity();\n        while (!h.empty()) {\n            x = (long double)(h.back().b - line.b) / (line.k - h.back().k);\n            if (x > start.back())\n                break;\n            h.pop_back();\n            start.pop_back();\n        }\n        if (h.empty())\n            x = -numeric_limits<long double>::infinity();\n        h.push_back(line);\n        start.push_back(x);\n    }\n    vector<int> ans;\n    for (auto line : h)\n        ans.push_back(line.id);\n    sort(ans.begin(), ans.end());\n    for (int id : ans)\n        cout << id << ' ';\n    cout << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n同斜率保留最高截距；只在单个交点出现不算可见；输出原编号。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3194",
+    "id": "luogu-training-P3194",
+    "programSha256": "79f46514e0f50b35b3b7be9e6d266d28ef6ab65083e47a10cae6515a78ec4c1c",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

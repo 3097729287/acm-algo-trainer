@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4407",
+  "method": "枚举一次编辑并用集合去重",
+  "variants": {
+    "default": "## P4407 电子字典\n\n原题：[P4407](https://www.luogu.com.cn/problem/P4407)\n\n### 思路\n\n若查询词已在字典中，输出 -1。否则枚举删除一个字符、替换一个字符、插入一个字符产生的所有字符串，用字典查找，并把命中的单词去重计数。\n\n### 复杂度\n\n平均时间 O(M·26L²+NL)，空间 O(NL+26L²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    unordered_set<string> dict;\n    while (n--) {\n        string s;\n        cin >> s;\n        dict.insert(s);\n    }\n    while (m--) {\n        string s;\n        cin >> s;\n        if (dict.count(s)) {\n            cout << -1 << '\\n';\n            continue;\n        }\n        unordered_set<string> found;\n        auto test = [&](const string &v) {\n            if (dict.count(v))\n                found.insert(v);\n        };\n        for (int i = 0; i < (int)s.size(); i++) {\n            test(s.substr(0, i) + s.substr(i + 1));\n            string v = s;\n            for (char c = 'a'; c <= 'z'; c++) {\n                v[i] = c;\n                test(v);\n            }\n        }\n        for (int i = 0; i <= (int)s.size(); i++)\n            for (char c = 'a'; c <= 'z'; c++)\n                test(s.substr(0, i) + c + s.substr(i));\n        cout << found.size() << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先判断完全相等；命中单词要去重；插入位置包含末尾。\n",
+    "detailed": "## P4407 电子字典\n\n原题：[P4407](https://www.luogu.com.cn/problem/P4407)\n\n### 从问题到算法\n\n编辑距离为一意味着恰好进行一次删除、插入或替换，反过来这三类操作产生的每个不同字典词与查询的距离都为一。因为查询词本身不在字典中，不会混入距离为零的情况。\n\n长度至多二十，删除只有 L 种，替换至多 25L 种，插入至多 26(L+1) 种，数量很小。直接构造每个候选，查询 unordered_set 保存的完整字符串；该容器仍会在哈希冲突时比较实际内容，不会把冲突当相等。\n\n相同候选可能由多个编辑位置产生，例如在重复字母串中删除任意一个相同字母，因此另用集合保存命中字典词，最后取集合大小，不能直接数命中次数。\n\n### 复杂度\n\n平均时间 O(M·26L²+NL)，空间 O(NL+26L²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    unordered_set<string> dict;\n    while (n--) {\n        string s;\n        cin >> s;\n        dict.insert(s);\n    }\n    while (m--) {\n        string s;\n        cin >> s;\n        if (dict.count(s)) {\n            cout << -1 << '\\n';\n            continue;\n        }\n        unordered_set<string> found;\n        auto test = [&](const string &v) {\n            if (dict.count(v))\n                found.insert(v);\n        };\n        for (int i = 0; i < (int)s.size(); i++) {\n            test(s.substr(0, i) + s.substr(i + 1));\n            string v = s;\n            for (char c = 'a'; c <= 'z'; c++) {\n                v[i] = c;\n                test(v);\n            }\n        }\n        for (int i = 0; i <= (int)s.size(); i++)\n            for (char c = 'a'; c <= 'z'; c++)\n                test(s.substr(0, i) + c + s.substr(i));\n        cout << found.size() << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先判断完全相等；命中单词要去重；插入位置包含末尾。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4407",
+    "id": "luogu-training-P4407",
+    "programSha256": "778fa873d62928f8c0cfebcd8ab1a2854adbd88d5f0b8adf91b531f90a64c2eb",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

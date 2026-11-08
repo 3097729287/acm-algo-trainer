@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF1614D1",
+  "method": "在约数链上安排 gcd 降低的时机",
+  "variants": {
+    "default": "## CF1614D1 Divan and Kostomuksha (easy version)\n\n原题：[CF1614D1](https://www.luogu.com.cn/problem/CF1614D1)\n\n### 思路\n\n统计每个 d 有多少输入是其倍数。令 dp[d] 为先处理所有 d 倍数的最优贡献；从更大的倍数 j 转移：dp[d]=max(dp[j]+d(cnt[d]−cnt[j]))。倒序枚举 d。\n\n### 复杂度\n\n时间 O(A log A)，空间 O(A)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    int maximum = 0;\n    for (int &x : a) {\n        cin >> x;\n        maximum = max(maximum, x);\n    }\n    vector<int> frequency(maximum + 1), count(maximum + 1);\n    for (int x : a)\n        frequency[x]++;\n    for (int d = 1; d <= maximum; d++)\n        for (int j = d; j <= maximum; j += d)\n            count[d] += frequency[j];\n    vector<long long> dp(maximum + 1);\n    for (int d = maximum; d >= 1; d--) {\n        dp[d] = 1LL * d * count[d];\n        for (int j = d + d; j <= maximum; j += d)\n            dp[d] = max(dp[d], dp[j] + 1LL * d * (count[d] - count[j]));\n    }\n    cout << dp[1] << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n输入重复值按次数计；dp 用 long long；倒序计算因数状态。\n",
+    "detailed": "## CF1614D1 Divan and Kostomuksha (easy version)\n\n原题：[CF1614D1](https://www.luogu.com.cn/problem/CF1614D1)\n\n### 从问题到算法\n\n一个排列的前缀 gcd 只能保持或变成自己的约数。若当前 gcd 仍至少含 d，那么所有 d 的倍数都可以先加入，它们不会使 gcd 跌到 d 以下；将这些数尽量提前只会增加或保持前缀 gcd 总和。\n\n设 cnt[d] 为数组中 d 的倍数数量。若不利用更高 gcd，就先按 gcd=d 的下界给出 d·cnt[d]。若先处理 j 的倍数，其中 j 是 d 的真倍数，可以获得 dp[j]；接着把其余 d 的倍数加入，每个至少贡献 d，新增 d(cnt[d]−cnt[j])。枚举所有 j 得到最优。\n\n按 d 从大到小计算，所有依赖已完成。cnt 可由值域频数按倍数求和，转移也按倍数枚举。最终 dp[1] 已包含全部数，即所求最大值。\n\n### 复杂度\n\n时间 O(A log A)，空间 O(A)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    int maximum = 0;\n    for (int &x : a) {\n        cin >> x;\n        maximum = max(maximum, x);\n    }\n    vector<int> frequency(maximum + 1), count(maximum + 1);\n    for (int x : a)\n        frequency[x]++;\n    for (int d = 1; d <= maximum; d++)\n        for (int j = d; j <= maximum; j += d)\n            count[d] += frequency[j];\n    vector<long long> dp(maximum + 1);\n    for (int d = maximum; d >= 1; d--) {\n        dp[d] = 1LL * d * count[d];\n        for (int j = d + d; j <= maximum; j += d)\n            dp[d] = max(dp[d], dp[j] + 1LL * d * (count[d] - count[j]));\n    }\n    cout << dp[1] << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n输入重复值按次数计；dp 用 long long；倒序计算因数状态。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF1614D1",
+    "id": "luogu-training-CF1614D1",
+    "programSha256": "78aa2b972920adc0b50264e6a46adf8bc5ce3cfb0a3f34eb9931138f156c8642",
+    "samples": 2,
+    "independentCases": 12,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

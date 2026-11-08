@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1355",
+  "method": "叉积判断三角形内外与边界",
+  "variants": {
+    "default": "## P1355 神秘大三角\n\n原题：[P1355](https://www.luogu.com.cn/problem/P1355)\n\n### 思路\n\n先判断是否与顶点重合，再判断是否在线段上。其它点若始终位于三条有向边的同一侧，就在三角形内部，否则在外部。\n\n### 复杂度\n\n时间 O(输入长度)，空间 O(输入长度)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Point {\n    long long x, y;\n};\nlong long cross(Point a, Point b, Point c) {\n    return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string all, line;\n    while (getline(cin, line))\n        all += line + ' ';\n    for (char &c : all)\n        if (!isdigit((unsigned char)c) && c != '-')\n            c = ' ';\n    stringstream input(all);\n    array<Point, 4> p;\n    for (auto &v : p)\n        input >> v.x >> v.y;\n    Point q = p[3];\n    for (int i = 0; i < 3; i++)\n        if (p[i].x == q.x && p[i].y == q.y) {\n            cout << 4 << '\\n';\n            return 0;\n        }\n    long long value[3];\n    for (int i = 0; i < 3; i++) {\n        auto a = p[i], b = p[(i + 1) % 3];\n        value[i] = cross(a, b, q);\n        if (value[i] == 0 && min(a.x, b.x) <= q.x && q.x <= max(a.x, b.x) && min(a.y, b.y) <= q.y &&\n            q.y <= max(a.y, b.y)) {\n            cout << 3 << '\\n';\n            return 0;\n        }\n    }\n    bool inside = (value[0] > 0 && value[1] > 0 && value[2] > 0) ||\n                  (value[0] < 0 && value[1] < 0 && value[2] < 0);\n    cout << (inside ? 1 : 2) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n顶点先于边界判断；共线还要检查在线段范围；输出编号按题面。\n",
+    "detailed": "## P1355 神秘大三角\n\n原题：[P1355](https://www.luogu.com.cn/problem/P1355)\n\n### 从问题到算法\n\n有向边 A→B 与向量 A→P 的叉积，正负表示 P 在边的左侧或右侧，零表示共线。按三角形顶点顺序，内部点必须对三条边都在同一侧；顶点为顺时针或逆时针都能用“全正或全负”判断。\n\n边界情况要先处理。点与任一顶点坐标相等，输出四。叉积为零还不够，因为点可能落在边的延长线上；同时要求横纵坐标均在两端的闭范围内，才在线段上，输出三。\n\n剩余点的三个叉积若全正或全负输出一，否则输出二。输入坐标带括号和逗号，先把非数字且非负号字符替换为空格，再按整数读入。\n\n### 复杂度\n\n时间 O(输入长度)，空间 O(输入长度)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Point {\n    long long x, y;\n};\nlong long cross(Point a, Point b, Point c) {\n    return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string all, line;\n    while (getline(cin, line))\n        all += line + ' ';\n    for (char &c : all)\n        if (!isdigit((unsigned char)c) && c != '-')\n            c = ' ';\n    stringstream input(all);\n    array<Point, 4> p;\n    for (auto &v : p)\n        input >> v.x >> v.y;\n    Point q = p[3];\n    for (int i = 0; i < 3; i++)\n        if (p[i].x == q.x && p[i].y == q.y) {\n            cout << 4 << '\\n';\n            return 0;\n        }\n    long long value[3];\n    for (int i = 0; i < 3; i++) {\n        auto a = p[i], b = p[(i + 1) % 3];\n        value[i] = cross(a, b, q);\n        if (value[i] == 0 && min(a.x, b.x) <= q.x && q.x <= max(a.x, b.x) && min(a.y, b.y) <= q.y &&\n            q.y <= max(a.y, b.y)) {\n            cout << 3 << '\\n';\n            return 0;\n        }\n    }\n    bool inside = (value[0] > 0 && value[1] > 0 && value[2] > 0) ||\n                  (value[0] < 0 && value[1] < 0 && value[2] < 0);\n    cout << (inside ? 1 : 2) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n顶点先于边界判断；共线还要检查在线段范围；输出编号按题面。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1355",
+    "id": "luogu-training-P1355",
+    "programSha256": "4c7c83e074eb3d5c10019eb09bf13cea1112ecaa89e2bfdd12d31ee4d2906908",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

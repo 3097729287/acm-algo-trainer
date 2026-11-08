@@ -16,7 +16,7 @@ const initial = [
   {rank:4,userId:'10000000-0000-4000-8000-000000000004',nickname:'练习者四',count:41},
 ];
 let rows=initial;
-window.rankingWrites=[];window.rankingAdmin=true;window.rankingState=null;
+window.rankingWrites=[];window.rankingAdmin=true;window.rankingState=new URLSearchParams(location.search).has('disconnected')?{status:'unconfigured',hasSnapshot:false,entries:[],self:null}:null;
 async function api(path,body) {
   if(path==='leaderboard/admin/delete') {
     window.rankingWrites.push(body);
@@ -24,6 +24,7 @@ async function api(path,body) {
     return {removed:body.userId?1:4};
   }
   if(path==='leaderboard/sync') { window.rankingSyncs=(window.rankingSyncs || 0)+1; return {}; }
+  if(path==='account/sync') {window.rankingReconnects=(window.rankingReconnects||0)+1;return {status:'ready'};}
   const period=new URL('http://fixture/'+path).searchParams.get('period');
   await new Promise(resolve=>setTimeout(resolve,period==='daily'?50:10));
   return {configured:true,status:'ready',hasSnapshot:true,isAdmin:window.rankingAdmin,period,date:'2026-10-12',entries:rows,self:initial[0],rewardPolicy:{daily:[100,60,30],weekly:[500,300,150]},...window.rankingState};

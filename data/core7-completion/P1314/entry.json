@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1314",
+  "method": "二分单调检验值并检查分界两侧",
+  "variants": {
+    "default": "## P1314 聪明的质监员\n\n原题：[P1314](https://www.luogu.com.cn/problem/P1314)\n\n### 思路\n\n阈值 W 增大时，每个区间的合格数量与价值和都不增，检验值单调不增。每次用两组前缀和计算检验值，二分跨过 s 的位置，并保留搜索中最小差值。\n\n### 复杂度\n\n时间 O((n+m) log max w)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    long long target;\n    cin >> n >> m >> target;\n    vector<int> w(n + 1), v(n + 1);\n    int maximum = 0;\n    for (int i = 1; i <= n; i++) {\n        cin >> w[i] >> v[i];\n        maximum = max(maximum, w[i]);\n    }\n    vector<pair<int, int>> ranges(m);\n    for (auto &[l, r] : ranges)\n        cin >> l >> r;\n    vector<long long> cnt(n + 1), sum(n + 1);\n    auto value = [&](int W) {\n        for (int i = 1; i <= n; i++) {\n            bool take = w[i] >= W;\n            cnt[i] = cnt[i - 1] + take;\n            sum[i] = sum[i - 1] + (take ? v[i] : 0);\n        }\n        __int128 y = 0;\n        for (auto [l, r] : ranges)\n            y += (__int128)(cnt[r] - cnt[l - 1]) * (sum[r] - sum[l - 1]);\n        return y;\n    };\n    long long ans = target;\n    int lo = 0, hi = maximum + 1;\n    while (lo <= hi) {\n        int mid = lo + (hi - lo) / 2;\n        __int128 y = value(mid), diff = y - target;\n        if (diff < 0)\n            diff = -diff;\n        if (diff < ans)\n            ans = diff;\n        if (y > target)\n            lo = mid + 1;\n        else\n            hi = mid - 1;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n比较的是总检验值；区间可以重复；中间乘积和总和用 __int128。\n",
+    "detailed": "## P1314 聪明的质监员\n\n原题：[P1314](https://www.luogu.com.cn/problem/P1314)\n\n### 从问题到算法\n\n固定 W 后，令 count 前缀统计 w≥W 的矿石个数，sum 前缀统计它们的价值和。一个区间的检验值就是两段前缀差的乘积，因此一次评估为 O(n+m)。\n\nW 增大只会移走一些正价值矿石，个数与和都不会增，所以 y(W) 单调不增。若 y>s，就需要增大 W；若 y<s，就需要减小 W。在搜索过程中更新最小绝对差，最后必覆盖跨越 s 的两个相邻阈值；阶梯函数的其它值不可能更接近。\n\n搜索范围包括 maxWeight+1，它使所有区间检验值为零。累加检验值可能远超六十四位，使用 __int128；答案初始 s，因为全空方案已保证差值不超过 s。\n\n### 复杂度\n\n时间 O((n+m) log max w)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    long long target;\n    cin >> n >> m >> target;\n    vector<int> w(n + 1), v(n + 1);\n    int maximum = 0;\n    for (int i = 1; i <= n; i++) {\n        cin >> w[i] >> v[i];\n        maximum = max(maximum, w[i]);\n    }\n    vector<pair<int, int>> ranges(m);\n    for (auto &[l, r] : ranges)\n        cin >> l >> r;\n    vector<long long> cnt(n + 1), sum(n + 1);\n    auto value = [&](int W) {\n        for (int i = 1; i <= n; i++) {\n            bool take = w[i] >= W;\n            cnt[i] = cnt[i - 1] + take;\n            sum[i] = sum[i - 1] + (take ? v[i] : 0);\n        }\n        __int128 y = 0;\n        for (auto [l, r] : ranges)\n            y += (__int128)(cnt[r] - cnt[l - 1]) * (sum[r] - sum[l - 1]);\n        return y;\n    };\n    long long ans = target;\n    int lo = 0, hi = maximum + 1;\n    while (lo <= hi) {\n        int mid = lo + (hi - lo) / 2;\n        __int128 y = value(mid), diff = y - target;\n        if (diff < 0)\n            diff = -diff;\n        if (diff < ans)\n            ans = diff;\n        if (y > target)\n            lo = mid + 1;\n        else\n            hi = mid - 1;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n比较的是总检验值；区间可以重复；中间乘积和总和用 __int128。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1314",
+    "id": "luogu-training-P1314",
+    "programSha256": "d62fab283eb8407b401165ad7a46d3a26e0b0a11f2b364d9aac260f16f2d2f88",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

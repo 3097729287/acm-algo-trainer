@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF797E",
+  "method": "按小参数分组离线计算跳跃次数",
+  "variants": {
+    "default": "## CF797E Array Queries\n\n原题：[CF797E](https://www.luogu.com.cn/problem/CF797E)\n\n### 思路\n\n小 k 逐个倒序 DP，计算所有起点的次数；大 k 每步至少前进 k，直接模拟只需 O(n/k) 步。将小 k 的询问分组处理，只保留一份 DP 数组。\n\n### 复杂度\n\n时间 O(n√n+q√n)，空间 O(n+q)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> a(n + 1);\n    for (int i = 1; i <= n; i++)\n        cin >> a[i];\n    int q;\n    cin >> q;\n    int B = sqrt(n) + 1;\n    vector<vector<pair<int, int>>> small(B + 1);\n    vector<int> ans(q), dp(n + 1);\n    for (int i = 0; i < q; i++) {\n        int p, k;\n        cin >> p >> k;\n        if (k <= B)\n            small[k].push_back({p, i});\n        else {\n            int count = 0;\n            for (; p <= n; p += a[p] + k)\n                count++;\n            ans[i] = count;\n        }\n    }\n    for (int k = 0; k <= B; k++)\n        if (!small[k].empty()) {\n            for (int i = n; i >= 1; i--) {\n                long long next = 1LL * i + a[i] + k;\n                dp[i] = 1 + (next <= n ? dp[next] : 0);\n            }\n            for (auto [p, id] : small[k])\n                ans[id] = dp[p];\n        }\n    for (int x : ans)\n        cout << x << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n下一位置严格更大；倒序 DP；离线分组节省平方根倍内存。\n",
+    "detailed": "## CF797E Array Queries\n\n原题：[CF797E](https://www.luogu.com.cn/problem/CF797E)\n\n### 从问题到算法\n\n位置 i 的下一跳为 i+a[i]+k，严格向右，所以固定 k 后可以从 n 到一递推 dp[i]=1+dp[next]，越界位置为零。\n\n取 B≈sqrt(n)。对出现过的 k≤B，各花 O(n) 计算全部起点；对 k>B，每步至少移动 B+1，直接模拟最多 O(n/B) 次。两部分总量平衡。\n\n先读完询问，将相同小 k 聚在一起。处理一组后即可覆盖旧 dp，无须保存 n×B 的大表。大参数的答案直接存到原询问编号，最后按输入顺序输出。\n\n### 复杂度\n\n时间 O(n√n+q√n)，空间 O(n+q)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> a(n + 1);\n    for (int i = 1; i <= n; i++)\n        cin >> a[i];\n    int q;\n    cin >> q;\n    int B = sqrt(n) + 1;\n    vector<vector<pair<int, int>>> small(B + 1);\n    vector<int> ans(q), dp(n + 1);\n    for (int i = 0; i < q; i++) {\n        int p, k;\n        cin >> p >> k;\n        if (k <= B)\n            small[k].push_back({p, i});\n        else {\n            int count = 0;\n            for (; p <= n; p += a[p] + k)\n                count++;\n            ans[i] = count;\n        }\n    }\n    for (int k = 0; k <= B; k++)\n        if (!small[k].empty()) {\n            for (int i = n; i >= 1; i--) {\n                long long next = 1LL * i + a[i] + k;\n                dp[i] = 1 + (next <= n ? dp[next] : 0);\n            }\n            for (auto [p, id] : small[k])\n                ans[id] = dp[p];\n        }\n    for (int x : ans)\n        cout << x << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n下一位置严格更大；倒序 DP；离线分组节省平方根倍内存。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF797E",
+    "id": "luogu-training-CF797E",
+    "programSha256": "f0ec00d5fc4e11c72e6d3bd811878a00266720210a868e6ef7eeeec7f813d6cd",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

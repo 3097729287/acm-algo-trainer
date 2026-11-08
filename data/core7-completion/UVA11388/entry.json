@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-UVA11388",
+  "method": "由 gcd 与 lcm 的整除关系构造",
+  "variants": {
+    "default": "## UVA11388 GCD LCM\n\n原题：[UVA11388](https://www.luogu.com.cn/problem/UVA11388)\n\n### 思路\n\n若给出的最小公倍数不能被最大公约数整除，就无解。否则直接取这两个数本身，它们的 gcd 与 lcm 恰好符合要求。\n\n### 复杂度\n\n每组时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int t;\n    cin >> t;\n    while (t--) {\n        long long g, l;\n        cin >> g >> l;\n        if (l % g)\n            cout << -1 << '\\n';\n        else\n            cout << g << ' ' << l << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n输入顺序是 gcd、lcm；不要计算可能溢出的乘积。\n",
+    "detailed": "## UVA11388 GCD LCM\n\n原题：[UVA11388](https://www.luogu.com.cn/problem/UVA11388)\n\n### 从问题到算法\n\n对于任意两个正整数，最大公约数一定整除最小公倍数，因此 L%G!=0 是不可能条件。\n\n这个条件也是充分的：当 G 整除 L 时，选择 a=G、b=L，就有 gcd(a,b)=G、lcm(a,b)=L。并且任何合法 a 都是 G 的倍数，所以 G 已经是第一个数能够取得的最小值。无需分解质因数，也无需逐个寻找其它数对。\n\n每组测试只做一次取余，成功时输出 G L，失败时按原题输出 -1。\n\n### 复杂度\n\n每组时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int t;\n    cin >> t;\n    while (t--) {\n        long long g, l;\n        cin >> g >> l;\n        if (l % g)\n            cout << -1 << '\\n';\n        else\n            cout << g << ' ' << l << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n输入顺序是 gcd、lcm；不要计算可能溢出的乘积。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "UVA11388",
+    "id": "luogu-training-UVA11388",
+    "programSha256": "6f22a58da14a38362dbb2601845266f6b244faee72be8185f0eb7e51b5d3a6a6",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

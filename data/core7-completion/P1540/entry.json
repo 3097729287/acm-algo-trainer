@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1540",
+  "method": "队列模拟先进先出的词典缓存",
+  "variants": {
+    "default": "## P1540 机器翻译\n\n原题：[P1540](https://www.luogu.com.cn/problem/P1540)\n\n### 思路\n\n用集合判断词是否已在内存，用队列记录进入顺序。缺词时查询次数加一；内存满则移走最早进入的词，再加入新词。命中不会调整顺序。\n\n### 复杂度\n\n平均时间 O(n)，空间 O(m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int m, n;\n    cin >> m >> n;\n    queue<int> q;\n    unordered_set<int> memory;\n    int ans = 0;\n    while (n--) {\n        int x;\n        cin >> x;\n        if (memory.count(x))\n            continue;\n        ans++;\n        if (!m)\n            continue;\n        if ((int)q.size() == m) {\n            memory.erase(q.front());\n            q.pop();\n        }\n        q.push(x);\n        memory.insert(x);\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n命中不移动单词；先淘汰再加入；队列与集合同时更新。\n",
+    "detailed": "## P1540 机器翻译\n\n原题：[P1540](https://www.luogu.com.cn/problem/P1540)\n\n### 从问题到算法\n\n题目淘汰的是最早进入内存的单词，不是最近最少使用的单词。命中时既不访问外存，也不改变进入顺序。\n\n队列存实际缓存的单词，队首是最早进入者；集合负责判断当前是否缓存。缺词时计数加一，若队列已满，删除队首在集合中的记录并出队，然后将新词入队、加入集合。两种结构始终保存同一批单词。\n\n容量为零时没有词可以缓存，每个请求都要访问外存，代码也自然单独处理。\n\n### 复杂度\n\n平均时间 O(n)，空间 O(m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int m, n;\n    cin >> m >> n;\n    queue<int> q;\n    unordered_set<int> memory;\n    int ans = 0;\n    while (n--) {\n        int x;\n        cin >> x;\n        if (memory.count(x))\n            continue;\n        ans++;\n        if (!m)\n            continue;\n        if ((int)q.size() == m) {\n            memory.erase(q.front());\n            q.pop();\n        }\n        q.push(x);\n        memory.insert(x);\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n命中不移动单词；先淘汰再加入；队列与集合同时更新。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1540",
+    "id": "luogu-training-P1540",
+    "programSha256": "899d0c9ae06987a6788955ed5004b2807bb886e53fb5f7fa19fe0f7d0e2a0ab4",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

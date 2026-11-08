@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF388C",
+  "method": "两半归属固定，奇数中点轮流争夺",
+  "variants": {
+    "default": "## CF388C Fox and Card Game\n\n原题：[CF388C](https://www.luogu.com.cn/problem/CF388C)\n\n### 思路\n\n每堆上半归先手、下半归后手；奇数堆多出的中间牌拿出来，按数值从大到小由两人轮流分配。把这三部分分别累加。\n\n### 复杂度\n\n时间 O(总牌数+n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    long long first = 0, second = 0;\n    vector<int> middle;\n    while (n--) {\n        int size;\n        cin >> size;\n        vector<int> a(size);\n        for (int &x : a)\n            cin >> x;\n        for (int i = 0; i < size / 2; i++) {\n            first += a[i];\n            second += a[size - 1 - i];\n        }\n        if (size % 2)\n            middle.push_back(a[size / 2]);\n    }\n    sort(middle.rbegin(), middle.rend());\n    for (int i = 0; i < (int)middle.size(); i++)\n        if (i % 2)\n            second += middle[i];\n        else\n            first += middle[i];\n    cout << first << ' ' << second << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n输入按从顶到底顺序；偶数堆没有中点；先手先拿最大中点。\n",
+    "detailed": "## CF388C Fox and Card Game\n\n原题：[CF388C](https://www.luogu.com.cn/problem/CF388C)\n\n### 从问题到算法\n\n偶数堆的前后两半可以通过配对回应保证：对手从某堆拿一张后，自己从该堆另一端回应，就能守住本方的一半。偏离这种配对不能迫使对方放弃它能够保证的牌。\n\n奇数堆在两侧各取相同数量后，还会剩一张中间牌。它属于谁是唯一未确定的部分；各堆中点之间没有其它相互限制，争夺者总应优先拿当前最大中点。若先拿更小中点而把更大留给对手，交换选择只会提高自己的最终总分。\n\n所以每堆前 floor(s/2) 张累加给 Ciel，后 floor(s/2) 张给 Jiro；所有奇数中点降序排列，从 Ciel 开始交替累加。\n\n### 复杂度\n\n时间 O(总牌数+n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    long long first = 0, second = 0;\n    vector<int> middle;\n    while (n--) {\n        int size;\n        cin >> size;\n        vector<int> a(size);\n        for (int &x : a)\n            cin >> x;\n        for (int i = 0; i < size / 2; i++) {\n            first += a[i];\n            second += a[size - 1 - i];\n        }\n        if (size % 2)\n            middle.push_back(a[size / 2]);\n    }\n    sort(middle.rbegin(), middle.rend());\n    for (int i = 0; i < (int)middle.size(); i++)\n        if (i % 2)\n            second += middle[i];\n        else\n            first += middle[i];\n    cout << first << ' ' << second << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n输入按从顶到底顺序；偶数堆没有中点；先手先拿最大中点。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF388C",
+    "id": "luogu-training-CF388C",
+    "programSha256": "eb0ba16e64520754959a3ba5a9c7ecf63d001be8fc4d7866de3d6a982664152c",
+    "samples": 4,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-SP30919",
+  "method": "最小可用整数一定是质数",
+  "variants": {
+    "default": "## SP30919 GCDS - Sabbir and gcd problem\n\n原题：[SP30919](https://www.luogu.com.cn/problem/SP30919)\n\n### 思路\n\n若一个合数与所有输入互质，它的任一质因数也与所有输入互质且更小，所以最优一定是质数。筛最小质因数并标记输入中出现过的全部质因数，取最小未标记者。\n\n### 复杂度\n\n预处理 O(A)，每组分解 O(n log A)，空间 O(A)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    const int limit = 10000010;\n    vector<int> least(limit + 1), primes;\n    for (int i = 2; i <= limit; i++) {\n        if (!least[i]) {\n            least[i] = i;\n            primes.push_back(i);\n        }\n        for (int p : primes) {\n            if (p > least[i] || 1LL * i * p > limit)\n                break;\n            least[i * p] = p;\n        }\n    }\n    int tests;\n    cin >> tests;\n    vector<int> stamp(limit + 1);\n    for (int test = 1; test <= tests; test++) {\n        int n;\n        cin >> n;\n        while (n--) {\n            int x;\n            cin >> x;\n            while (x > 1) {\n                int p = least[x];\n                stamp[p] = test;\n                while (x % p == 0)\n                    x /= p;\n            }\n        }\n        for (int p : primes)\n            if (stamp[p] != test) {\n                cout << p << '\\n';\n                break;\n            }\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n寻找 x>1；质因子去重标记；不要只计算所有数的 gcd。\n",
+    "detailed": "## SP30919 GCDS - Sabbir and gcd problem\n\n原题：[SP30919](https://www.luogu.com.cn/problem/SP30919)\n\n### 从问题到算法\n\n设最优 x 为合数，取它的一个质因数 p<x。若某个输入能被 p 整除，则它与 x 的 gcd 也至少为 p，与 x 合法矛盾；所以 p 本身也合法，违背 x 最小。因此只需考虑质数。\n\n预处理至最大输入值范围的最小质因数，读取每个数后不断按最小质因数剥除，并把出现过的质数标记。一个质数 p 合法，当且仅当没有任何输入含 p 这个因子。按质数递增找第一个未标记者即可。\n\n同一数的一个质因子出现多次只需标一次；输入为一不带任何质因子。筛到 10000010，包含超过全部允许输入的下一个质数，保证能找到未出现的候选。\n\n### 复杂度\n\n预处理 O(A)，每组分解 O(n log A)，空间 O(A)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    const int limit = 10000010;\n    vector<int> least(limit + 1), primes;\n    for (int i = 2; i <= limit; i++) {\n        if (!least[i]) {\n            least[i] = i;\n            primes.push_back(i);\n        }\n        for (int p : primes) {\n            if (p > least[i] || 1LL * i * p > limit)\n                break;\n            least[i * p] = p;\n        }\n    }\n    int tests;\n    cin >> tests;\n    vector<int> stamp(limit + 1);\n    for (int test = 1; test <= tests; test++) {\n        int n;\n        cin >> n;\n        while (n--) {\n            int x;\n            cin >> x;\n            while (x > 1) {\n                int p = least[x];\n                stamp[p] = test;\n                while (x % p == 0)\n                    x /= p;\n            }\n        }\n        for (int p : primes)\n            if (stamp[p] != test) {\n                cout << p << '\\n';\n                break;\n            }\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n寻找 x>1；质因子去重标记；不要只计算所有数的 gcd。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "SP30919",
+    "id": "luogu-training-SP30919",
+    "programSha256": "c7646288fa2e974a91dba01c62df51e91500f053fcc7cb9a665d0d2d5b801b60",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

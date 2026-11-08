@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF757B",
+  "method": "按共同质因数计数",
+  "variants": {
+    "default": "## CF757B Bash's Big Day\n\n原题：[CF757B](https://www.luogu.com.cn/problem/CF757B)\n\n### 思路\n\n一组数的 gcd 大于 1，当且仅当存在一个质数整除组内所有数。统计每个质数的倍数在数组中出现多少次，取最大值即可；全为 1 时仍可选一个数。\n\n### 复杂度\n\n时间 O(A log log A)，空间 O(A)，A 为最大值。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    int limit = 1;\n    for (int &x : a) {\n        cin >> x;\n        limit = max(limit, x);\n    }\n    vector<int> freq(limit + 1);\n    for (int x : a)\n        freq[x]++;\n    vector<char> composite(limit + 1);\n    int ans = 1;\n    for (int p = 2; p <= limit; p++)\n        if (!composite[p]) {\n            int total = 0;\n            for (int j = p; j <= limit; j += p) {\n                total += freq[j];\n                if (j > p)\n                    composite[j] = 1;\n            }\n            ans = max(ans, total);\n        }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n统计出现次数而非不同值数；答案至少为 1。\n",
+    "detailed": "## CF757B Bash's Big Day\n\n原题：[CF757B](https://www.luogu.com.cn/problem/CF757B)\n\n### 从问题到算法\n\n若某个合法组的 gcd 大于一，这个 gcd 至少有一个质因数 p，组内每个数都被 p 整除。因此任何合法组的大小，都不超过某个质数倍数的总出现次数。\n\n反过来，把数组中所有 p 的倍数选出来，gcd 至少含因子 p，是合法组。所以逐个质数统计其倍数出现次数便能达到最优。重复的值代表不同位置，出现几次就应计几次。\n\n先建立值域频数，再用筛法找质数并按倍数累加。没有任何可共享的质因数时，题目仍允许保留单个元素，答案至少为一。\n\n### 复杂度\n\n时间 O(A log log A)，空间 O(A)，A 为最大值。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    int limit = 1;\n    for (int &x : a) {\n        cin >> x;\n        limit = max(limit, x);\n    }\n    vector<int> freq(limit + 1);\n    for (int x : a)\n        freq[x]++;\n    vector<char> composite(limit + 1);\n    int ans = 1;\n    for (int p = 2; p <= limit; p++)\n        if (!composite[p]) {\n            int total = 0;\n            for (int j = p; j <= limit; j += p) {\n                total += freq[j];\n                if (j > p)\n                    composite[j] = 1;\n            }\n            ans = max(ans, total);\n        }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n统计出现次数而非不同值数；答案至少为 1。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF757B",
+    "id": "luogu-training-CF757B",
+    "programSha256": "fdc3372ece540eda5c0812d80fc6f720e0c83f7553c3422278a2d13ab24a6aaf",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

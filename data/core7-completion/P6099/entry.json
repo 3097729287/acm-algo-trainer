@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P6099",
+  "method": "递增堆底与已冲洗下界",
+  "variants": {
+    "default": "## P6099 Dishwashing G\n\n原题：[P6099](https://www.luogu.com.cn/problem/P6099)\n\n### 思路\n\n把新盘放到堆底编号大于它的最左堆中；若该堆顶较小，就先冲洗掉这些更小盘。记录已经冲洗过的最大编号，一旦新盘小于它，当前前缀便不可能排好。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    for (int &x : a)\n        cin >> x;\n    vector<int> bottom;\n    vector<vector<int>> stacks;\n    int washed = 0;\n    for (int i = 0; i < n; i++) {\n        int x = a[i];\n        if (x < washed) {\n            cout << i << '\\n';\n            return 0;\n        }\n        int p = lower_bound(bottom.begin(), bottom.end(), x) - bottom.begin();\n        if (p == (int)bottom.size()) {\n            bottom.push_back(x);\n            stacks.push_back({});\n        }\n        while (!stacks[p].empty() && stacks[p].back() < x) {\n            washed = max(washed, stacks[p].back());\n            stacks[p].pop_back();\n        }\n        stacks[p].push_back(x);\n    }\n    cout << n << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\nwashed 只增不减；找最左的较大堆底；失败盘不计入前缀。\n",
+    "detailed": "## P6099 Dishwashing G\n\n原题：[P6099](https://www.luogu.com.cn/problem/P6099)\n\n### 从问题到算法\n\n桌面各堆的底部保持递增。把盘 x 放到堆底大于 x 的最左堆，能够尽量靠左，同时不会让更大的底盘提前挡住它；若不存在，就在最右边开新堆。堆底数组递增，可用二分找位置。\n\n同一堆中，若顶盘小于新来的 x，为了不把较小盘压在 x 下方，必须先把这些顶盘冲洗。它们以及更左堆能够按顺序处理，故记录最大已冲洗编号 washed 即可。之后任何 x<washed 的新盘都应排在已经洗好的大盘下面，却已来不及，说明从这一盘开始失败。\n\n在尚未失败时，上述放置与必要弹栈保持可整理性；遇到失败便输出此前长度。每盘最多进出一个栈一次，二分只依赖堆底，不随弹栈变化。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    for (int &x : a)\n        cin >> x;\n    vector<int> bottom;\n    vector<vector<int>> stacks;\n    int washed = 0;\n    for (int i = 0; i < n; i++) {\n        int x = a[i];\n        if (x < washed) {\n            cout << i << '\\n';\n            return 0;\n        }\n        int p = lower_bound(bottom.begin(), bottom.end(), x) - bottom.begin();\n        if (p == (int)bottom.size()) {\n            bottom.push_back(x);\n            stacks.push_back({});\n        }\n        while (!stacks[p].empty() && stacks[p].back() < x) {\n            washed = max(washed, stacks[p].back());\n            stacks[p].pop_back();\n        }\n        stacks[p].push_back(x);\n    }\n    cout << n << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\nwashed 只增不减；找最左的较大堆底；失败盘不计入前缀。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P6099",
+    "id": "luogu-training-P6099",
+    "programSha256": "e310c9d80fcd57bb097e98009360165c335cdb529454f0b2c6870534d6931aa2",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3929",
+  "method": "一次修改只能修复相邻两条比较",
+  "variants": {
+    "default": "## P3929 SAC E#1 - 一道神题 Sequence1\n\n原题：[P3929](https://www.luogu.com.cn/problem/P3929)\n\n### 思路\n\n分别尝试两种波动方向，记录不满足的相邻比较。若有错误，唯一修改位置必须是第一条错误边的某个端点；检查所有错误是否都与它相邻即可。\n\n### 复杂度\n\n每组时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    while (cin >> n) {\n        vector<long long> a(n);\n        for (auto &x : a)\n            cin >> x;\n        auto ok = [&](bool firstUp) {\n            vector<int> bad;\n            for (int i = 0; i + 1 < n; i++) {\n                bool up = ((i % 2) == 0) == firstUp;\n                if (up ? a[i] > a[i + 1] : a[i] < a[i + 1])\n                    bad.push_back(i);\n            }\n            if (bad.empty())\n                return true;\n            for (int p : {bad[0], bad[0] + 1}) {\n                bool valid = true;\n                for (int edge : bad)\n                    if (edge != p - 1 && edge != p)\n                        valid = false;\n                if (valid)\n                    return true;\n            }\n            return false;\n        };\n        cout << (ok(true) || ok(false) ? \"Yes\" : \"No\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n两种方向都尝试；允许相等；一次修改只能涉及两条相邻边。\n",
+    "detailed": "## P3929 SAC E#1 - 一道神题 Sequence1\n\n原题：[P3929](https://www.luogu.com.cn/problem/P3929)\n\n### 从问题到算法\n\n固定“低高低高”或“高低高低”后，每对相邻元素的大小方向确定。修改一个位置 p，只会影响 p−1 与 p、p 与 p+1 这两条比较，其它错误无法修复。\n\n找到第一条错误边 (i,i+1)，候选修改点只有 i 或 i+1。对每个候选，若所有错误边都包含这个点，则其余比较原本正确。候选点在该方向中要么是局部峰，要么是局部谷，因此只需把它改得至少和两邻居一样大，或至多一样小，就能同时修复两侧。\n\n因为允许弱不等号，不存在两侧要求互相冲突的情况。没有错误时不用修改；两种方向任意一种可行就输出 Yes。输入包含多组，读至 EOF。\n\n### 复杂度\n\n每组时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    while (cin >> n) {\n        vector<long long> a(n);\n        for (auto &x : a)\n            cin >> x;\n        auto ok = [&](bool firstUp) {\n            vector<int> bad;\n            for (int i = 0; i + 1 < n; i++) {\n                bool up = ((i % 2) == 0) == firstUp;\n                if (up ? a[i] > a[i + 1] : a[i] < a[i + 1])\n                    bad.push_back(i);\n            }\n            if (bad.empty())\n                return true;\n            for (int p : {bad[0], bad[0] + 1}) {\n                bool valid = true;\n                for (int edge : bad)\n                    if (edge != p - 1 && edge != p)\n                        valid = false;\n                if (valid)\n                    return true;\n            }\n            return false;\n        };\n        cout << (ok(true) || ok(false) ? \"Yes\" : \"No\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n两种方向都尝试；允许相等；一次修改只能涉及两条相邻边。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3929",
+    "id": "luogu-training-P3929",
+    "programSha256": "9f61b90598bed8ace3d45ff6c25b631b35f0f36d26b0d1f7b490776be142ca1c",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

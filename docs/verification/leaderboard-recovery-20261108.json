@@ -1,0 +1,231 @@
+{
+  "verifiedAt": "2026-11-08T09:16:40.996368+00:00",
+  "baseInstalledFrontendCommit": "d2bec8c52995dfee4b34eb06fe1d1e3fb37911b5",
+  "implementationCommit": "85bdf38f",
+  "incident": {
+    "cause": "Root filesystem exhausted; MySQL blocked writing binlog. Existing retention was six hours.",
+    "rootBytes": 20747476992,
+    "beforeUsedBytes": 20114432000,
+    "reclaimedBytes": 1908740096,
+    "afterAvailableBytes": 1831092224,
+    "originalExt4ReserveRestoredPercent": 3,
+    "removedArtifacts": [
+      {
+        "path": "updates/candidates/1.4.36-73dfa046/ToBe-Setup-1.4.36-win64.exe",
+        "size": 923114178,
+        "allocated": 923119616,
+        "inode": 826759,
+        "mtimeNs": 1793557619649311498,
+        "sha256": "6128ff19fb01b641b2da2bde9c19f40355717b2913f336cafd8b116fb44c8c98"
+      },
+      {
+        "path": "updates/candidates/1.4.36-a178edc3/ToBe-Setup-1.4.36-win64.exe",
+        "size": 923121269,
+        "allocated": 923127808,
+        "inode": 825200,
+        "mtimeNs": 1793557081952414858,
+        "sha256": "773fb65e19c5c0ba8c75f89c99d9f5065a9ea8a15fca0d985e216b27938c897a"
+      },
+      {
+        "path": "updates/candidates/1.4.36-6907a654/ToBe-Setup-1.4.36-win64.exe.upload",
+        "size": 923129972,
+        "allocated": 62492672,
+        "inode": 829721,
+        "mtimeNs": 1793560260227820519,
+        "sha256": "33203419f8c95d5a4a4a275bbdc609e541e160cf94255cafbcb28f682beb790d"
+      }
+    ],
+    "releaseManifestsUnchanged": true,
+    "publishedAssetsAndDatabaseBackupsPreserved": true
+  },
+  "authenticatedRemoteReadOnly": {
+    "readOnly": true,
+    "results": [
+      {
+        "path": "/v1/accounts/me",
+        "http": 200,
+        "seconds": 1.745,
+        "sameAccount": true
+      },
+      {
+        "path": "/v1/leaderboard?period=daily",
+        "http": 200,
+        "seconds": 1.9,
+        "rows": 3,
+        "selfPresent": true,
+        "countTotal": 1,
+        "date": "2026-11-08"
+      },
+      {
+        "path": "/v1/leaderboard?period=weekly",
+        "http": 200,
+        "seconds": 1.371,
+        "rows": 5,
+        "selfPresent": true,
+        "countTotal": 63,
+        "date": "2026-11-08"
+      },
+      {
+        "path": "/v1/leaderboard?period=total",
+        "http": 200,
+        "seconds": 4.507,
+        "rows": 11,
+        "selfPresent": true,
+        "countTotal": 232,
+        "date": "2026-11-08"
+      }
+    ]
+  },
+  "actualInstalledClient": {
+    "authenticated": true,
+    "accountSync": "ready",
+    "accountError": "",
+    "boards": [
+      {
+        "period": "daily",
+        "status": "syncing",
+        "hasSnapshot": true,
+        "rows": 3,
+        "error": ""
+      },
+      {
+        "period": "weekly",
+        "status": "syncing",
+        "hasSnapshot": true,
+        "rows": 5,
+        "error": ""
+      },
+      {
+        "period": "total",
+        "status": "syncing",
+        "hasSnapshot": true,
+        "rows": 11,
+        "error": ""
+      }
+    ]
+  },
+  "model": {
+    "ok": true,
+    "checks": 12,
+    "ownerPeriodDateAndEndpointIsolation": true,
+    "verifiedEmptyPreserved": true,
+    "recoveryClearsStaleState": true
+  },
+  "browser": {
+    "ok": true,
+    "firstConnectionIsNotAnEmptyBoard": true,
+    "accountReconnectOnRetry": true,
+    "verifiedBoardSurvivesOutage": true,
+    "periodIsolation": true,
+    "automaticRecovery": true,
+    "errors": []
+  },
+  "existingRankings": {
+    "publicProgressAndNickname": true,
+    "idsHidden": true,
+    "legacyProgressPlaceholder": true,
+    "nineDistinctMedals": true,
+    "gradeOrder": true,
+    "threeWinners": true,
+    "adminControls": true,
+    "confirmationAndCancel": true,
+    "ordinaryUserHidden": true,
+    "periodSwitchRace": true,
+    "emptySnapshotPreserved": true,
+    "connectionRetry": true,
+    "mobile": true,
+    "errors": []
+  },
+  "builtApplication": {
+    "ok": true,
+    "globalSearch": true,
+    "searchOverlay": {
+      "cases": 3,
+      "allUnderlyingContentHidden": true,
+      "keyboardIsolation": true,
+      "scrollAndSortRestored": true,
+      "closeMethods": [
+        "Escape",
+        "close",
+        "clear"
+      ]
+    },
+    "sameNameRowsPreserved": true,
+    "searchCoordinates": [
+      {
+        "name": "我的训练",
+        "x": 608,
+        "width": 384,
+        "y": 6
+      },
+      {
+        "name": "任务",
+        "x": 608,
+        "width": 384,
+        "y": 6
+      },
+      {
+        "name": "学习",
+        "x": 608,
+        "width": 384,
+        "y": 6
+      },
+      {
+        "name": "竞赛",
+        "x": 608,
+        "width": 384,
+        "y": 6
+      },
+      {
+        "name": "成长",
+        "x": 608,
+        "width": 384,
+        "y": 6
+      },
+      {
+        "name": "排行榜",
+        "x": 608,
+        "width": 384,
+        "y": 6
+      },
+      {
+        "name": "设置",
+        "x": 608,
+        "width": 384,
+        "y": 6
+      }
+    ],
+    "alignedChrome": {
+      "brandTop": 0,
+      "brandMarkCenter": 33,
+      "avatarGap": "4px",
+      "statusGap": "16px",
+      "recommendationGap": "16px",
+      "barHeight": 66,
+      "brandHeight": 66,
+      "searchCenter": 1024,
+      "barCenter": 33,
+      "searchVerticalCenter": 33,
+      "footerTop": 1110,
+      "settingsTop": 1110,
+      "footerHeight": 42,
+      "settingsHeight": 42
+    },
+    "loveCounterRemoved": true,
+    "backgroundOnlyInSettings": true,
+    "sidebarToggleAndRestore": true,
+    "settingsSearch": true,
+    "packEverywhere": true,
+    "delayedPackLoadingAndRetry": true,
+    "fullscreenWithoutSearch": true,
+    "footerThemeAndNotifications": true,
+    "goalInTasks": true,
+    "shortLabels": true,
+    "bookmarkResume": true,
+    "refreshResume": true,
+    "labOpenFromSearch": true,
+    "responsive": true,
+    "errors": []
+  },
+  "actualOjSubmissions": 0
+}

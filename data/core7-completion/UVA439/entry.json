@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-UVA439",
+  "method": "棋盘上的八方向马步 BFS",
+  "variants": {
+    "default": "## UVA439 骑士的移动 Knight Moves\n\n原题：[UVA439](https://www.luogu.com.cn/problem/UVA439)\n\n### 思路\n\n将 a1 到 h8 映射到 8×8 数组，按八种马步 BFS，输出终点第一次被访问时的距离。\n\n### 复杂度\n\n每组时间 O(64)，空间 O(64)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string a, b;\n    while (cin >> a >> b) {\n        int d[8][8];\n        memset(d, -1, sizeof d);\n        queue<pair<int, int>> q;\n        int sx = a[0] - 'a', sy = a[1] - '1';\n        d[sx][sy] = 0;\n        q.push({sx, sy});\n        int dx[] = {1, 1, -1, -1, 2, 2, -2, -2}, dy[] = {2, -2, 2, -2, 1, -1, 1, -1};\n        while (!q.empty()) {\n            auto [x, y] = q.front();\n            q.pop();\n            for (int k = 0; k < 8; k++) {\n                int u = x + dx[k], v = y + dy[k];\n                if (u >= 0 && u < 8 && v >= 0 && v < 8 && d[u][v] < 0) {\n                    d[u][v] = d[x][y] + 1;\n                    q.push({u, v});\n                }\n            }\n        }\n        cout << \"To get from \" << a << \" to \" << b << \" takes \" << d[b[0] - 'a'][b[1] - '1']\n             << \" knight moves.\\n\";\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n读到 EOF；保留原坐标字符串用于输出；每组清空距离。\n",
+    "detailed": "## UVA439 骑士的移动 Knight Moves\n\n原题：[UVA439](https://www.luogu.com.cn/problem/UVA439)\n\n### 从问题到算法\n\n每次移动的代价都为一步，因此不能按几何直线距离估算，而要在棋盘允许的边上求最短路。横坐标由字母减 a 得到，纵坐标由数字减 1 得到。\n\n为每组起终点重新建立距离数组，只把起点置为 0。队列逐层扩展，八种马步均检查是否仍在棋盘内。第一次访问某格时记录当前格距离加 1；后来的路线不可能更短，所以不再入队。起终点相同时自然得到 0。\n\n输入直到文件结束，多组之间不能复用旧距离。最后保留题目规定的整句输出和标点。\n\n### 复杂度\n\n每组时间 O(64)，空间 O(64)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string a, b;\n    while (cin >> a >> b) {\n        int d[8][8];\n        memset(d, -1, sizeof d);\n        queue<pair<int, int>> q;\n        int sx = a[0] - 'a', sy = a[1] - '1';\n        d[sx][sy] = 0;\n        q.push({sx, sy});\n        int dx[] = {1, 1, -1, -1, 2, 2, -2, -2}, dy[] = {2, -2, 2, -2, 1, -1, 1, -1};\n        while (!q.empty()) {\n            auto [x, y] = q.front();\n            q.pop();\n            for (int k = 0; k < 8; k++) {\n                int u = x + dx[k], v = y + dy[k];\n                if (u >= 0 && u < 8 && v >= 0 && v < 8 && d[u][v] < 0) {\n                    d[u][v] = d[x][y] + 1;\n                    q.push({u, v});\n                }\n            }\n        }\n        cout << \"To get from \" << a << \" to \" << b << \" takes \" << d[b[0] - 'a'][b[1] - '1']\n             << \" knight moves.\\n\";\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n读到 EOF；保留原坐标字符串用于输出；每组清空距离。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "UVA439",
+    "id": "luogu-training-UVA439",
+    "programSha256": "dd89b05cd7149bb597d3076a82ccebf0d105b59650b41884138dcdb8f4b6be11",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

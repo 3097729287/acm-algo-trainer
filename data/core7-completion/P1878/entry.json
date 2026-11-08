@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1878",
+  "method": "链表维护相邻关系，堆选择最优舞伴",
+  "variants": {
+    "default": "## P1878 舞蹈课\n\n原题：[P1878](https://www.luogu.com.cn/problem/P1878)\n\n### 思路\n\n用双向链表表示还在队伍中的人，把相邻异性对按技术差、左端编号放入最小堆。弹出时检查是否仍相邻，删除有效的一对，并加入新产生的邻接对。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    string gender;\n    cin >> n >> gender;\n    vector<int> a(n), left(n), right(n);\n    vector<char> alive(n, 1);\n    for (int &x : a)\n        cin >> x;\n    for (int i = 0; i < n; i++) {\n        left[i] = i - 1;\n        right[i] = i + 1 < n ? i + 1 : -1;\n    }\n    using P = tuple<int, int, int>;\n    priority_queue<P, vector<P>, greater<P>> heap;\n    auto push = [&](int l, int r) {\n        if (l >= 0 && r >= 0 && gender[l] != gender[r])\n            heap.push({abs(a[l] - a[r]), l, r});\n    };\n    for (int i = 1; i < n; i++)\n        push(i - 1, i);\n    vector<pair<int, int>> ans;\n    while (!heap.empty()) {\n        auto [diff, l, r] = heap.top();\n        heap.pop();\n        if (!alive[l] || !alive[r] || right[l] != r)\n            continue;\n        ans.push_back({l + 1, r + 1});\n        alive[l] = alive[r] = 0;\n        int L = left[l], R = right[r];\n        if (L >= 0)\n            right[L] = R;\n        if (R >= 0)\n            left[R] = L;\n        push(L, R);\n    }\n    cout << ans.size() << '\\n';\n    for (auto [l, r] : ans)\n        cout << l << ' ' << r << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n技术差取绝对值；同差按左端编号；堆内过期对必须跳过。\n",
+    "detailed": "## P1878 舞蹈课\n\n原题：[P1878](https://www.luogu.com.cn/problem/P1878)\n\n### 从问题到算法\n\n删除一对后，只有左侧邻居与右侧邻居之间出现一个新的相邻关系，其它候选对的技术差不变。因此不必每轮重新扫描全部队伍。\n\n初始将所有相邻异性对入堆，关键字先比较技术绝对差，再比较左端编号。原始编号随队伍保持顺序，左端编号最小正好表示最左一对。\n\n堆内旧候选不必立即删除，弹出时检查两人未离队且 next[left]==right，失效就丢弃。有效对离队后，将前后邻居接起来，若性别不同则插入新候选。每次删除最多产生一对，所有堆项数量为线性。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    string gender;\n    cin >> n >> gender;\n    vector<int> a(n), left(n), right(n);\n    vector<char> alive(n, 1);\n    for (int &x : a)\n        cin >> x;\n    for (int i = 0; i < n; i++) {\n        left[i] = i - 1;\n        right[i] = i + 1 < n ? i + 1 : -1;\n    }\n    using P = tuple<int, int, int>;\n    priority_queue<P, vector<P>, greater<P>> heap;\n    auto push = [&](int l, int r) {\n        if (l >= 0 && r >= 0 && gender[l] != gender[r])\n            heap.push({abs(a[l] - a[r]), l, r});\n    };\n    for (int i = 1; i < n; i++)\n        push(i - 1, i);\n    vector<pair<int, int>> ans;\n    while (!heap.empty()) {\n        auto [diff, l, r] = heap.top();\n        heap.pop();\n        if (!alive[l] || !alive[r] || right[l] != r)\n            continue;\n        ans.push_back({l + 1, r + 1});\n        alive[l] = alive[r] = 0;\n        int L = left[l], R = right[r];\n        if (L >= 0)\n            right[L] = R;\n        if (R >= 0)\n            left[R] = L;\n        push(L, R);\n    }\n    cout << ans.size() << '\\n';\n    for (auto [l, r] : ans)\n        cout << l << ' ' << r << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n技术差取绝对值；同差按左端编号；堆内过期对必须跳过。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1878",
+    "id": "luogu-training-P1878",
+    "programSha256": "5a5e29833219c6ec5c0703705a06a9ecad27300b920dd5ff88880b3b431f69b6",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

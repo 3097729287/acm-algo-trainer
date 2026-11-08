@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P14253",
+  "method": "最大前缀和频次减一",
+  "variants": {
+    "default": "## P14253 旅行（trip）\n\n原题：[P14253](https://www.luogu.com.cn/problem/P14253)\n\n### 思路\n\n子段内的一个前缀和为零，等价于原数组两个前缀和相等。选择某个前缀和值第一次出现之后作为起点，就能把它所有后续出现计入，因此答案是全部前缀和的最大频次减一。\n\n### 复杂度\n\n每组期望时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Hash {\n    static uint64_t mix(uint64_t x) {\n        x += 0x9e3779b97f4a7c15ULL;\n        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;\n        x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;\n        return x ^ (x >> 31);\n    }\n    size_t operator()(long long x) const {\n        static const uint64_t seed = chrono::steady_clock::now().time_since_epoch().count();\n        return mix(x + seed);\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    while (T--) {\n        int n;\n        cin >> n;\n        unordered_map<long long, int, Hash> cnt;\n        cnt.reserve(2 * n + 1);\n        cnt[0] = 1;\n        long long sum = 0;\n        int ans = 0;\n        for (int i = 0; i < n; i++) {\n            long long x;\n            cin >> x;\n            sum += x;\n            ans = max(ans, ++cnt[sum] - 1);\n        }\n        cout << ans << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n包含 S[0]=0；答案是频次减一；每组重新清空。\n",
+    "detailed": "## P14253 旅行（trip）\n\n原题：[P14253](https://www.luogu.com.cn/problem/P14253)\n\n### 从问题到算法\n\n令 S[0]=0、S[i]=a1+…+ai。对起点 l，子段的零前缀恰好对应 S[j]=S[l−1] 的后续位置 j。固定 l 后，延长右端不会减少零的个数，因此可以一直取到 n。\n\n若某个前缀和值共出现 f 次，从它第一次出现的位置之后开始，恰好能得到 f−1 个零前缀；其它起点不可能得到更多。对所有前缀和值取最大频次即可，S[0] 也必须计入。\n\n代码使用带随机混合的整数哈希，避免简单整型哈希在特殊构造输入上退化。前缀和可能达到万亿，使用 long long。\n\n### 复杂度\n\n每组期望时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Hash {\n    static uint64_t mix(uint64_t x) {\n        x += 0x9e3779b97f4a7c15ULL;\n        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;\n        x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;\n        return x ^ (x >> 31);\n    }\n    size_t operator()(long long x) const {\n        static const uint64_t seed = chrono::steady_clock::now().time_since_epoch().count();\n        return mix(x + seed);\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    while (T--) {\n        int n;\n        cin >> n;\n        unordered_map<long long, int, Hash> cnt;\n        cnt.reserve(2 * n + 1);\n        cnt[0] = 1;\n        long long sum = 0;\n        int ans = 0;\n        for (int i = 0; i < n; i++) {\n            long long x;\n            cin >> x;\n            sum += x;\n            ans = max(ans, ++cnt[sum] - 1);\n        }\n        cout << ans << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n包含 S[0]=0；答案是频次减一；每组重新清空。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P14253",
+    "id": "luogu-training-P14253",
+    "programSha256": "e1319d3e79781a15c3d9611b1cc7422894cab786accf5be5f0f9d31be4ea7003",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

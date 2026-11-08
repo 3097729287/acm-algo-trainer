@@ -1,0 +1,66 @@
+{
+  "backendTests": 14,
+  "blocks": 25186,
+  "browserScenarios": 12,
+  "changedDocuments": 3848,
+  "changedUniqueBlocks": 1696,
+  "documents": 4299,
+  "failures": [],
+  "freshLibraryRebuild": true,
+  "integration": [
+    {
+      "files": [
+        "data\\library\\solutions.json",
+        "data\\library\\detailed_solutions.json"
+      ],
+      "workspace": "tb-background-redesign-20261106"
+    },
+    {
+      "files": [
+        "frontend\\src\\lib\\editorialCode.js",
+        "data\\library\\solutions.json",
+        "data\\library\\detailed_solutions.json",
+        "data\\library\\solution_methods.json",
+        "data\\library\\lectures.json",
+        "frontend/scripts/standardize-editorial-code.mjs",
+        "scripts/standardize_editorial_code.py",
+        "docs\\design-principles.md"
+      ],
+      "workspace": "tb-complete-20261108"
+    },
+    {
+      "files": [
+        "frontend\\src\\lib\\editorialCode.js",
+        "data\\library\\solutions.json",
+        "data\\library\\detailed_solutions.json",
+        "data\\library\\solution_methods.json",
+        "data\\library\\lectures.json",
+        "frontend/scripts/standardize-editorial-code.mjs",
+        "scripts/standardize_editorial_code.py",
+        "docs\\design-principles.md"
+      ],
+      "workspace": "tb-core7-complete-20261108"
+    },
+    {
+      "files": [
+        "frontend\\src\\lib\\editorialCode.js",
+        "data\\library\\solutions.json",
+        "data\\library\\detailed_solutions.json",
+        "data\\library\\solution_methods.json",
+        "data\\library\\lectures.json",
+        "frontend/scripts/standardize-editorial-code.mjs",
+        "scripts/standardize_editorial_code.py",
+        "docs\\design-principles.md"
+      ],
+      "workspace": "tb-tauri-rust"
+    }
+  ],
+  "isbnCompiledCases": 3,
+  "isolatedDatabases": 4,
+  "issues": [],
+  "personalCodeFormatted": false,
+  "proseAndStructurePreserved": true,
+  "publicRelease": false,
+  "repeatMigrationChangedDocuments": 0,
+  "uniqueBlocks": 2122
+}

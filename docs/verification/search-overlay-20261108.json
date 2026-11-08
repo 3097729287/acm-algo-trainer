@@ -37,6 +37,13 @@
     "search-overlay-2048-dark.png": "837681e59b303d2c7fccc54e213958698f44612a735ff4859270eba0aec4c767",
     "search-overlay-640-dark.png": "63052cacc43259304dca05752082f8bcdc438597d34ef8c4cee417b2be815fb2"
   },
-  "localInstall": false,
-  "domesticPublication": false
+  "localInstall": true,
+  "domesticPublication": false,
+  "installedSourceCommit": "e502fb25129cc09d05b00e68d1c97225facf0c5b",
+  "installedBothEditions": true,
+  "privateDatabasesChecked": 22,
+  "privateCodeDraftIdentityTrainingPreserved": true,
+  "normalUserRestartAndLoginRestore": true,
+  "sourcePushed": true,
+  "deliveryReceipt": "E:\\项目\\ToBe\\版本\\本地升级恢复\\search-overlay-20261108\\delivery.json"
 }

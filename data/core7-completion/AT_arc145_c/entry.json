@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-AT_arc145_c",
+  "method": "最优相邻数配对与不嵌套匹配",
+  "variants": {
+    "default": "## AT_arc145_c Split and Maximize\n\n原题：[AT_arc145_c](https://www.luogu.com.cn/problem/AT_arc145_c)\n\n### 思路\n\n全局最大得分必须配对 (1,2)、(3,4)、……。这些配对在排列中的两个端点不能相互嵌套；不嵌套匹配由 Catalan 数计数，再乘 N! 种配对标签排列及 2^N 种内部方向。\n\n### 复杂度\n\n时间 O(N+log MOD)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    const long long P = 998244353;\n    auto powmod = [&](long long a, long long b) {\n        long long r = 1;\n        for (; b; b >>= 1, a = a * a % P)\n            if (b & 1)\n                r = r * a % P;\n        return r;\n    };\n    long long factorial = 1, denominator = 1;\n    for (int i = 1; i <= 2 * n; i++) {\n        factorial = factorial * i % P;\n        if (i <= n + 1)\n            denominator = denominator * i % P;\n    }\n    cout << factorial * powmod(denominator, P - 2) % P * powmod(2, n) % P << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n禁止的是端点嵌套，允许交错；两侧子序列都要保持顺序；N! 不能遗漏。\n",
+    "detailed": "## AT_arc145_c Split and Maximize\n\n原题：[AT_arc145_c](https://www.luogu.com.cn/problem/AT_arc145_c)\n\n### 从问题到算法\n\n对 a<b<c<d，ab+cd 比 ac+bd 和 ad+bc 都大，交换论证说明最大乘积和唯一使用相邻数配对。因此问题变为：这些固定配对能否按相同次序出现在两个子序列中。\n\n若两个配对的端点次序为 XYYX，外层 X 在一个子序列中早于 Y，在另一个中却晚于 Y，不能实现。反之，没有这种嵌套时，把每对先出现者放 A、后出现者放 B；各对的开始次序与结束次序相同，便能逐项配对。\n\n将每对的先出现记左括号，后出现记右括号，得到合法括号序列。给定这个序列，不嵌套匹配必须按先进先出连接，恰好一种；合法括号序列共有 Catalan(N) 种。再为 N 对分配标签 N! 种、每对决定两个数的先后 2^N 种。答案为 Catalan(N)·N!·2^N=(2N)!·2^N/(N+1)!，在质数模下用逆元计算。\n\n### 复杂度\n\n时间 O(N+log MOD)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    const long long P = 998244353;\n    auto powmod = [&](long long a, long long b) {\n        long long r = 1;\n        for (; b; b >>= 1, a = a * a % P)\n            if (b & 1)\n                r = r * a % P;\n        return r;\n    };\n    long long factorial = 1, denominator = 1;\n    for (int i = 1; i <= 2 * n; i++) {\n        factorial = factorial * i % P;\n        if (i <= n + 1)\n            denominator = denominator * i % P;\n    }\n    cout << factorial * powmod(denominator, P - 2) % P * powmod(2, n) % P << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n禁止的是端点嵌套，允许交错；两侧子序列都要保持顺序；N! 不能遗漏。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "AT_arc145_c",
+    "id": "luogu-training-AT_arc145_c",
+    "programSha256": "2a919ab5d8e69f16191b4c1e51d05ba3e3c1ae6cf77a11e92d3717564d3e6abc",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

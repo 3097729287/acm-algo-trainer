@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> prefix(const string &s) {
+    vector<int> p(s.size());
+    for (int i = 1; i < (int)s.size(); i++) {
+        int j = p[i - 1];
+        while (j && s[i] != s[j])
+            j = p[j - 1];
+        if (s[i] == s[j])
+            j++;
+        p[i] = j;
+    }
+    return p;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string s;
+    while (cin >> s) {
+        string rev = s;
+        reverse(rev.begin(), rev.end());
+        int len = prefix(rev + '#' + s).back();
+        cout << s << rev.substr(len) << '\n';
+    }
+
+    return 0;
+}

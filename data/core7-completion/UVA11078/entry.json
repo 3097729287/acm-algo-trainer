@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-UVA11078",
+  "method": "维护前面元素的最大值",
+  "variants": {
+    "default": "## UVA11078 Open Credit System\n\n原题：[UVA11078](https://www.luogu.com.cn/problem/UVA11078)\n\n### 思路\n\n逐项作为后面那个人，最优前者就是此前最大分数。用它减当前值更新答案，再把当前值纳入历史最大值。\n\n### 复杂度\n\n每组时间 O(n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        int n;\n        cin >> n;\n        long long best;\n        cin >> best;\n        long long answer = LLONG_MIN;\n        for (int i = 1; i < n; i++) {\n            long long x;\n            cin >> x;\n            answer = max(answer, best - x);\n            best = max(best, x);\n        }\n        cout << answer << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先比较再更新历史最大；答案允许负数；两位置不能相同。\n",
+    "detailed": "## UVA11078 Open Credit System\n\n原题：[UVA11078](https://www.luogu.com.cn/problem/UVA11078)\n\n### 从问题到算法\n\n要求 i<j 且最大化 a[i]−a[j]。当后者 j 固定时，减数固定，只需选择前面最大 a[i]，所以无需枚举所有数对。\n\n先读第一项作为历史最大，从第二项开始更新“历史最大减当前值”，然后再更新历史最大，保证比较的两个位置不同且顺序合法。\n\n数组严格递增时所有差都是负数，题目仍要输出最大的负差，不能把答案初始化为零。\n\n### 复杂度\n\n每组时间 O(n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        int n;\n        cin >> n;\n        long long best;\n        cin >> best;\n        long long answer = LLONG_MIN;\n        for (int i = 1; i < n; i++) {\n            long long x;\n            cin >> x;\n            answer = max(answer, best - x);\n            best = max(best, x);\n        }\n        cout << answer << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先比较再更新历史最大；答案允许负数；两位置不能相同。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "UVA11078",
+    "id": "luogu-training-UVA11078",
+    "programSha256": "f7935ecfeccfb4e338c0750ac987920036f09af696be7c2676f7f6b984894dc5",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

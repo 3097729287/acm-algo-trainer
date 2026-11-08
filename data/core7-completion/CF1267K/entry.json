@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF1267K",
+  "method": "阶乘进制数位的受限排列",
+  "variants": {
+    "default": "## CF1267K Key Storage\n\n原题：[CF1267K](https://www.luogu.com.cn/problem/CF1267K)\n\n### 思路\n\n依次除以二、三、四所得余数，正是各位上界分别为一、二、三的阶乘进制。统计同一数位多重集合的合法排列，减去最高位为零的排列，再减去原数字。\n\n### 复杂度\n\n每组 O(L log L)，空间 O(L)，L=O(log k/log log k)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    while (T--) {\n        long long k;\n        cin >> k;\n        vector<int> d;\n        for (int base = 2; k; base++) {\n            d.push_back(k % base);\n            k /= base;\n        }\n        auto countWays = [&](vector<int> a) {\n            int L = a.size();\n            sort(a.rbegin(), a.rend());\n            __int128 ways = 1;\n            vector<int> cnt(22);\n            for (int i = 0; i < L; i++) {\n                int choices = L - max(1, a[i]) + 1 - i;\n                if (choices <= 0)\n                    return (long long)0;\n                ways *= choices;\n                cnt[a[i]]++;\n            }\n            for (int c : cnt)\n                for (int i = 2; i <= c; i++)\n                    ways /= i;\n            return (long long)ways;\n        };\n        long long ans = countWays(d);\n        auto it = find(d.begin(), d.end(), 0);\n        if (it != d.end()) {\n            d.erase(it);\n            ans -= countWays(d);\n        }\n        cout << ans - 1 << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n最高位不能为零；相同余数要除重；最后减去原数。\n",
+    "detailed": "## CF1267K Key Storage\n\n原题：[CF1267K](https://www.luogu.com.cn/problem/CF1267K)\n\n### 从问题到算法\n\n连续整除可唯一反向还原原数，所以每个满足“第 i 位小于 i+2、最高位非零”的数位序列对应一个密钥。指纹只保留数位多重集合，任务就是给这些数位重新安排位置。\n\n从大数位到小数位放置。若长度为 L，数位 d 可放入容量至少 d 的位置，共 L−max(1,d)+1 个；再减去已经放过的大数位数量，得到当前选择数。乘起来先把相同数位当成不同对象，最后除以每种数位频次的阶乘。上界限制是嵌套的，因此这个乘法直接计完全部安排。\n\n最高位为零会使实际除法提前结束，必须减去。固定最高位零后，去掉一个零，用长度 L−1 的容量重新计算。最后减一排除原密钥。十八位范围的数位不足二十位，中间使用 __int128 保证精确。\n\n### 复杂度\n\n每组 O(L log L)，空间 O(L)，L=O(log k/log log k)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    while (T--) {\n        long long k;\n        cin >> k;\n        vector<int> d;\n        for (int base = 2; k; base++) {\n            d.push_back(k % base);\n            k /= base;\n        }\n        auto countWays = [&](vector<int> a) {\n            int L = a.size();\n            sort(a.rbegin(), a.rend());\n            __int128 ways = 1;\n            vector<int> cnt(22);\n            for (int i = 0; i < L; i++) {\n                int choices = L - max(1, a[i]) + 1 - i;\n                if (choices <= 0)\n                    return (long long)0;\n                ways *= choices;\n                cnt[a[i]]++;\n            }\n            for (int c : cnt)\n                for (int i = 2; i <= c; i++)\n                    ways /= i;\n            return (long long)ways;\n        };\n        long long ans = countWays(d);\n        auto it = find(d.begin(), d.end(), 0);\n        if (it != d.end()) {\n            d.erase(it);\n            ans -= countWays(d);\n        }\n        cout << ans - 1 << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n最高位不能为零；相同余数要除重；最后减去原数。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF1267K",
+    "id": "luogu-training-CF1267K",
+    "programSha256": "a06f80b72812f9a82918859839381ca8836b1aabe689c2677a09c52f0298f953",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

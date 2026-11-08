@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3403",
+  "method": "同余最短路统计可达楼层",
+  "variants": {
+    "default": "## P3403 跳楼机\n\n原题：[P3403](https://www.luogu.com.cn/problem/P3403)\n\n### 思路\n\n以最小步长 x 为模数，求每个余数最小可达楼层。之后不断加 x，得到该余数的全部可达楼层，用等差数列计数。\n\n### 复杂度\n\n设 x 为最小步长，时间 O(x log x)，空间 O(x)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long h;\n    array<int, 3> a;\n    cin >> h >> a[0] >> a[1] >> a[2];\n    sort(a.begin(), a.end());\n    int x = a[0];\n    vector<long long> d(x, -1);\n    priority_queue<pair<long long, int>, vector<pair<long long, int>>,\n                   greater<pair<long long, int>>>\n        q;\n    d[1 % x] = 1;\n    q.push({1, 1 % x});\n    while (!q.empty()) {\n        auto [v, r] = q.top();\n        q.pop();\n        if (d[r] != v)\n            continue;\n        for (int step : {a[1], a[2]})\n            if (h >= step && v <= h - step) {\n                long long nd = v + step;\n                int nr = (r + step) % x;\n                if (d[nr] < 0 || nd < d[nr]) {\n                    d[nr] = nd;\n                    q.push({nd, nr});\n                }\n            }\n    }\n    long long ans = 0;\n    for (long long v : d)\n        if (v >= 0 && v <= h)\n            ans += (h - v) / x + 1;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n从一楼开始；不会把零楼算入；大整数加法先检查上界。\n",
+    "detailed": "## P3403 跳楼机\n\n原题：[P3403](https://www.luogu.com.cn/problem/P3403)\n\n### 从问题到算法\n\n任意可达楼层再加 x 仍可达，因此对每个模 x 余数，只需知道最小可达值 dist[r]。从一楼出发，对“加 y”“加 z”建立余数图边，边权就是实际增加的楼层数；加 x 不改变余数且不会改善最小值，可以省略。\n\n用 Dijkstra 求余数图最短路，初始 dist[1%x]=1。若 dist[r]≤h，该余数贡献 floor((h−dist[r])/x)+1。不同余数不重叠，直接求和。\n\n把三种步长排序以减小状态数。h 可能达到有符号六十四位上界，松弛时先判断 dist≤h−step，避免加法溢出；超过楼顶的状态无须访问。\n\n### 复杂度\n\n设 x 为最小步长，时间 O(x log x)，空间 O(x)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long h;\n    array<int, 3> a;\n    cin >> h >> a[0] >> a[1] >> a[2];\n    sort(a.begin(), a.end());\n    int x = a[0];\n    vector<long long> d(x, -1);\n    priority_queue<pair<long long, int>, vector<pair<long long, int>>,\n                   greater<pair<long long, int>>>\n        q;\n    d[1 % x] = 1;\n    q.push({1, 1 % x});\n    while (!q.empty()) {\n        auto [v, r] = q.top();\n        q.pop();\n        if (d[r] != v)\n            continue;\n        for (int step : {a[1], a[2]})\n            if (h >= step && v <= h - step) {\n                long long nd = v + step;\n                int nr = (r + step) % x;\n                if (d[nr] < 0 || nd < d[nr]) {\n                    d[nr] = nd;\n                    q.push({nd, nr});\n                }\n            }\n    }\n    long long ans = 0;\n    for (long long v : d)\n        if (v >= 0 && v <= h)\n            ans += (h - v) / x + 1;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n从一楼开始；不会把零楼算入；大整数加法先检查上界。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3403",
+    "id": "luogu-training-P3403",
+    "programSha256": "77b7328e008a4e632cb460870315e28fa674621d55f643686b236c4dfeef6283",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

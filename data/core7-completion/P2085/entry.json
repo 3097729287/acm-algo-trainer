@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2085",
+  "method": "合并多个递增函数值序列",
+  "variants": {
+    "default": "## P2085 最小函数值\n\n原题：[P2085](https://www.luogu.com.cn/problem/P2085)\n\n### 思路\n\n每个二次函数在正整数 x 上给出一个递增序列。先把各函数的 f(1) 入堆，弹出最小值后输出，并把同一函数的下一个 x 对应值放回。\n\n### 复杂度\n\n时间 O((n+m) log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<array<long long, 3>> f(n);\n    for (auto &v : f)\n        cin >> v[0] >> v[1] >> v[2];\n    auto value = [&](int i, long long x) { return f[i][0] * x * x + f[i][1] * x + f[i][2]; };\n    using Item = tuple<long long, int, int>;\n    priority_queue<Item, vector<Item>, greater<Item>> q;\n    for (int i = 0; i < n; i++)\n        q.push({value(i, 1), i, 1});\n    for (int step = 0; step < m; step++) {\n        auto [v, i, x] = q.top();\n        q.pop();\n        cout << v << (step + 1 == m ? '\\n' : ' ');\n        q.push({value(i, x + 1), i, x + 1});\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n依赖函数单调；重复值保留；堆中保存函数身份和 x。\n",
+    "detailed": "## P2085 最小函数值\n\n原题：[P2085](https://www.luogu.com.cn/problem/P2085)\n\n### 从问题到算法\n\n题目系数保证函数在正整数范围递增，因此每个函数尚未输出的最小值一定是它当前的首项。把每条序列的首项放进小根堆，全局最小值就是堆顶。\n\n弹出时同时保存函数编号与当前 x，输出该值后，仅这条序列向前一步，计算 f(x+1) 再入堆。其余函数的候选不变。\n\n不同函数或不同 x 可能给出相同数值，它们仍属于多个函数值，必须按出现次数分别输出，不能去重。计算二次项先转六十四位。\n\n### 复杂度\n\n时间 O((n+m) log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<array<long long, 3>> f(n);\n    for (auto &v : f)\n        cin >> v[0] >> v[1] >> v[2];\n    auto value = [&](int i, long long x) { return f[i][0] * x * x + f[i][1] * x + f[i][2]; };\n    using Item = tuple<long long, int, int>;\n    priority_queue<Item, vector<Item>, greater<Item>> q;\n    for (int i = 0; i < n; i++)\n        q.push({value(i, 1), i, 1});\n    for (int step = 0; step < m; step++) {\n        auto [v, i, x] = q.top();\n        q.pop();\n        cout << v << (step + 1 == m ? '\\n' : ' ');\n        q.push({value(i, x + 1), i, x + 1});\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n依赖函数单调；重复值保留；堆中保存函数身份和 x。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2085",
+    "id": "luogu-training-P2085",
+    "programSha256": "7b4586ed77e419ad790428feab4ca9946e62714d1caf39d883b2c06e7fc9a4ee",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

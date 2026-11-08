@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-AT_dp_j",
+  "method": "按一盘一、二、三个寿司计数",
+  "variants": {
+    "default": "## AT_dp_j Sushi\n\n原题：[AT_dp_j](https://www.luogu.com.cn/problem/AT_dp_j)\n\n### 思路\n\n状态只记录分别剩一、二、三个寿司的盘数 a,b,c。选到空盘会原地停留，把这部分期望移到等式左边，得到 E=(n+aE1+bE2+cE3)/(a+b+c)。\n\n### 复杂度\n\n时间 O(n³)，空间 O(n³)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    int count[4] = {};\n    for (int i = 0; i < n; i++) {\n        int x;\n        cin >> x;\n        count[x]++;\n    }\n    int side = n + 2;\n    vector<double> dp((size_t)side * side * side);\n    auto at = [&](int a, int b, int c) -> double & {\n        return dp[((size_t)c * side + b) * side + a];\n    };\n    for (int c = 0; c <= n; c++)\n        for (int b = 0; b + c <= n; b++)\n            for (int a = 0; a + b + c <= n; a++) {\n                if (a + b + c == 0)\n                    continue;\n                double value = n;\n                if (a)\n                    value += a * at(a - 1, b, c);\n                if (b)\n                    value += b * at(a + 1, b - 1, c);\n                if (c)\n                    value += c * at(a, b + 1, c - 1);\n                at(a, b, c) = value / (a + b + c);\n            }\n    cout << fixed << setprecision(12) << at(count[1], count[2], count[3]) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n分子常数是总盘数 n；分母是非空盘数；不能忽略选到空盘的操作。\n",
+    "detailed": "## AT_dp_j Sushi\n\n原题：[AT_dp_j](https://www.luogu.com.cn/problem/AT_dp_j)\n\n### 从问题到算法\n\n盘子编号不影响之后的随机选择，只需要知道三类非空盘的数量。设 E(a,b,c) 为从当前状态吃完所需的期望操作数。选中一寿司盘后变为 (a−1,b,c)，二寿司盘变为 (a+1,b−1,c)，三寿司盘变为 (a,b+1,c−1)。\n\n每次无论选中什么都花费一步，另有 (n−a−b−c)/n 的概率选中空盘并保持原状态。因此 E=1+[aE1+bE2+cE3+(n−a−b−c)E]/n。把自身项移到左边，便得到实现中的除式。\n\n空状态 E(0,0,0)=0。按 c、b、a 依次递增枚举，二寿司转移用到更小的 b，三寿司转移用到更小的 c，都已计算。只存 a+b+c<=n 的状态。使用 double 输出足够精度。\n\n### 复杂度\n\n时间 O(n³)，空间 O(n³)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    int count[4] = {};\n    for (int i = 0; i < n; i++) {\n        int x;\n        cin >> x;\n        count[x]++;\n    }\n    int side = n + 2;\n    vector<double> dp((size_t)side * side * side);\n    auto at = [&](int a, int b, int c) -> double & {\n        return dp[((size_t)c * side + b) * side + a];\n    };\n    for (int c = 0; c <= n; c++)\n        for (int b = 0; b + c <= n; b++)\n            for (int a = 0; a + b + c <= n; a++) {\n                if (a + b + c == 0)\n                    continue;\n                double value = n;\n                if (a)\n                    value += a * at(a - 1, b, c);\n                if (b)\n                    value += b * at(a + 1, b - 1, c);\n                if (c)\n                    value += c * at(a, b + 1, c - 1);\n                at(a, b, c) = value / (a + b + c);\n            }\n    cout << fixed << setprecision(12) << at(count[1], count[2], count[3]) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n分子常数是总盘数 n；分母是非空盘数；不能忽略选到空盘的操作。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "AT_dp_j",
+    "id": "luogu-training-AT_dp_j",
+    "programSha256": "55efaafb9b07d5dc8d1096d282e8f5c571ee2ec08126c7db1eb11dcd50c3e6d7",
+    "samples": 4,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

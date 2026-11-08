@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF59E",
+  "method": "BFS 状态保留前两个顶点",
+  "variants": {
+    "default": "## CF59E Shortest Path\n\n原题：[CF59E](https://www.luogu.com.cn/problem/CF59E)\n\n### 思路\n\n下一步是否合法取决于上一个点和当前点，因此用 (prev,cur) 作为状态。沿未被禁止的三元组转移并保存前驱，第一次到终点时还原最短路线。\n\n### 复杂度\n\n时间 O(n²+Σdeg(v)²+k)，空间 O(n²+m+k)；实际只扩展可达的有向边状态。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m, k;\n    cin >> n >> m >> k;\n    vector<vector<int>> g(n);\n    while (m--) {\n        int a, b;\n        cin >> a >> b;\n        a--;\n        b--;\n        g[a].push_back(b);\n        g[b].push_back(a);\n    }\n    unordered_set<long long> bad;\n    auto key = [&](int a, int b, int c) { return (1LL * a * n + b) * n + c; };\n    while (k--) {\n        int a, b, c;\n        cin >> a >> b >> c;\n        bad.insert(key(a - 1, b - 1, c - 1));\n    }\n    vector<int> parent((n + 1) * n, -2), q = {n * n};\n    parent[n * n] = -1;\n    int goal = -1;\n    for (int i = 0; i < (int)q.size(); i++) {\n        int state = q[i], pre = state / n, v = state % n;\n        if (v == n - 1) {\n            goal = state;\n            break;\n        }\n        for (int u : g[v])\n            if (!bad.count(key(pre, v, u))) {\n                int next = v * n + u;\n                if (parent[next] == -2) {\n                    parent[next] = state;\n                    q.push_back(next);\n                }\n            }\n    }\n    if (goal < 0) {\n        cout << -1 << '\\n';\n        return 0;\n    }\n    vector<int> path;\n    for (int s = goal; s >= 0; s = parent[s])\n        path.push_back(s % n + 1);\n    reverse(path.begin(), path.end());\n    cout << path.size() - 1 << '\\n';\n    for (int i = 0; i < (int)path.size(); i++)\n        cout << path[i] << (i + 1 == (int)path.size() ? '\\n' : ' ');\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n状态不能只记当前点；禁止关系有方向；无解输出 −1。\n",
+    "detailed": "## CF59E Shortest Path\n\n原题：[CF59E](https://www.luogu.com.cn/problem/CF59E)\n\n### 从问题到算法\n\n仅记录当前点会把不同来路混在一起：同一顶点从不同前驱进入，允许的下一步可能不同。状态 (prev,cur) 足以检查禁止三元组 (prev,cur,next)。起点使用一个虚拟前驱，第一次走边不受三元组约束。\n\n每次转移走一条边，普通 BFS 给出最短边数。前驱数组同时作为访问标记，记录从哪个状态到达，以便逆序恢复顶点。终点可以由任意前驱进入，第一次出队的终点状态就是最短答案。\n\n禁止三元组按三进制位置式编码成六十四位整数后存哈希集合；状态用整数编码，避免为每条候选路线复制完整路径。\n\n### 复杂度\n\n时间 O(n²+Σdeg(v)²+k)，空间 O(n²+m+k)；实际只扩展可达的有向边状态。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m, k;\n    cin >> n >> m >> k;\n    vector<vector<int>> g(n);\n    while (m--) {\n        int a, b;\n        cin >> a >> b;\n        a--;\n        b--;\n        g[a].push_back(b);\n        g[b].push_back(a);\n    }\n    unordered_set<long long> bad;\n    auto key = [&](int a, int b, int c) { return (1LL * a * n + b) * n + c; };\n    while (k--) {\n        int a, b, c;\n        cin >> a >> b >> c;\n        bad.insert(key(a - 1, b - 1, c - 1));\n    }\n    vector<int> parent((n + 1) * n, -2), q = {n * n};\n    parent[n * n] = -1;\n    int goal = -1;\n    for (int i = 0; i < (int)q.size(); i++) {\n        int state = q[i], pre = state / n, v = state % n;\n        if (v == n - 1) {\n            goal = state;\n            break;\n        }\n        for (int u : g[v])\n            if (!bad.count(key(pre, v, u))) {\n                int next = v * n + u;\n                if (parent[next] == -2) {\n                    parent[next] = state;\n                    q.push_back(next);\n                }\n            }\n    }\n    if (goal < 0) {\n        cout << -1 << '\\n';\n        return 0;\n    }\n    vector<int> path;\n    for (int s = goal; s >= 0; s = parent[s])\n        path.push_back(s % n + 1);\n    reverse(path.begin(), path.end());\n    cout << path.size() - 1 << '\\n';\n    for (int i = 0; i < (int)path.size(); i++)\n        cout << path[i] << (i + 1 == (int)path.size() ? '\\n' : ' ');\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n状态不能只记当前点；禁止关系有方向；无解输出 −1。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF59E",
+    "id": "luogu-training-CF59E",
+    "programSha256": "45c2d8e7a93ebaf31d552360aae53b6072984fad207d37ce4e49defe6d0c0270",
+    "samples": 3,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

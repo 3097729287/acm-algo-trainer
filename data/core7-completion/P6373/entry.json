@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P6373",
+  "method": "按子序列拼接维护 IOI 计数",
+  "variants": {
+    "default": "## P6373 IOI 计数\n\n原题：[P6373](https://www.luogu.com.cn/problem/P6373)\n\n### 思路\n\n节点保存 I、O、IO、OI、IOI 的子序列数。跨界的 IOI 只能拆成左 I 与右 OI，或左 IO 与右 I，两类相加即可。\n\n### 复杂度\n\n建树 O(n)，每次操作 O(log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Node {\n    long long i = 0, o = 0, io = 0, oi = 0, ioi = 0;\n};\nNode leaf(char c) {\n    Node a;\n    a.i = c == 'I';\n    a.o = c == 'O';\n    return a;\n}\nNode merge(Node a, Node b) {\n    return {a.i + b.i, a.o + b.o, a.io + b.io + a.i * b.o, a.oi + b.oi + a.o * b.i,\n            a.ioi + b.ioi + a.i * b.oi + a.io * b.i};\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    string s;\n    cin >> n >> m >> s;\n    int size = 1;\n    while (size < n)\n        size *= 2;\n    vector<Node> t(2 * size);\n    for (int i = 0; i < n; i++)\n        t[size + i] = leaf(s[i]);\n    for (int p = size - 1; p; p--)\n        t[p] = merge(t[p * 2], t[p * 2 + 1]);\n    while (m--) {\n        int op, l;\n        cin >> op >> l;\n        if (op == 1) {\n            char c;\n            cin >> c;\n            int p = size + l - 1;\n            t[p] = leaf(c);\n            for (p /= 2; p; p /= 2)\n                t[p] = merge(t[p * 2], t[p * 2 + 1]);\n        } else {\n            int r;\n            cin >> r;\n            Node a, b;\n            for (l += size - 1, r += size; l < r; l /= 2, r /= 2) {\n                if (l & 1)\n                    a = merge(a, t[l++]);\n                if (r & 1)\n                    b = merge(t[--r], b);\n            }\n            cout << merge(a, b).ioi << '\\n';\n        }\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n统计子序列；合并顺序不能交换；乘法和计数使用六十四位整数。\n",
+    "detailed": "## P6373 IOI 计数\n\n原题：[P6373](https://www.luogu.com.cn/problem/P6373)\n\n### 从问题到算法\n\n题目要求下标递增，不要求字符连续，因此一个区间的计数需要记录可以与另一段拼接的短子序列。除了单字符 I、O，还要记录 IO、OI 以及完整的 IOI。\n\n合并左右两段时，IO 的跨界贡献为左 I 数乘右 O 数；OI 类似。IOI 要么完全在某一边，要么第一个字符在左边、后两个在右边，或前两个在左边、最后一个在右边。于是跨界贡献为左 I×右 OI+左 IO×右 I。\n\n这两类按跨界前字符数划分，互不重叠且覆盖所有可能。单点修改只改变一个叶子，再沿祖先合并。查询采用左右两个累积节点，始终按原字符串顺序拼接。三元组数可达 O(n³)，所有计数都用 long long。\n\n### 复杂度\n\n建树 O(n)，每次操作 O(log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Node {\n    long long i = 0, o = 0, io = 0, oi = 0, ioi = 0;\n};\nNode leaf(char c) {\n    Node a;\n    a.i = c == 'I';\n    a.o = c == 'O';\n    return a;\n}\nNode merge(Node a, Node b) {\n    return {a.i + b.i, a.o + b.o, a.io + b.io + a.i * b.o, a.oi + b.oi + a.o * b.i,\n            a.ioi + b.ioi + a.i * b.oi + a.io * b.i};\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    string s;\n    cin >> n >> m >> s;\n    int size = 1;\n    while (size < n)\n        size *= 2;\n    vector<Node> t(2 * size);\n    for (int i = 0; i < n; i++)\n        t[size + i] = leaf(s[i]);\n    for (int p = size - 1; p; p--)\n        t[p] = merge(t[p * 2], t[p * 2 + 1]);\n    while (m--) {\n        int op, l;\n        cin >> op >> l;\n        if (op == 1) {\n            char c;\n            cin >> c;\n            int p = size + l - 1;\n            t[p] = leaf(c);\n            for (p /= 2; p; p /= 2)\n                t[p] = merge(t[p * 2], t[p * 2 + 1]);\n        } else {\n            int r;\n            cin >> r;\n            Node a, b;\n            for (l += size - 1, r += size; l < r; l /= 2, r /= 2) {\n                if (l & 1)\n                    a = merge(a, t[l++]);\n                if (r & 1)\n                    b = merge(t[--r], b);\n            }\n            cout << merge(a, b).ioi << '\\n';\n        }\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n统计子序列；合并顺序不能交换；乘法和计数使用六十四位整数。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P6373",
+    "id": "luogu-training-P6373",
+    "programSha256": "577d461d16de9f30bca459a00700a116efebfae152069f29c07595295ed0d6b1",
+    "samples": 2,
+    "independentCases": 18,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}
