@@ -1,36 +1,26 @@
 """Bounded anonymous discovery of newly published, post-2016 XCPC Gyms."""
 import datetime as dt
-from html.parser import HTMLParser
 import re
 
 
-class Roster(HTMLParser):
+class Roster:
     def __init__(self, identity):
-        super().__init__()
-        self.identity=str(identity);self.current=None;self.content=[];self.tasks={}
+        self.identity=str(identity);self.tasks={}
 
-    def handle_starttag(self,tag,attrs):
-        if tag!='a':return
-        href=dict(attrs).get('href','')
-        match=re.fullmatch(r'/gym/'+re.escape(self.identity)+r'/problem/([A-Z]\d?)',href)
-        if match:self.current=match[1];self.content=[]
-
-    def handle_data(self,text):
-        if self.current:self.content.append(text)
-
-    def handle_endtag(self,tag):
-        if tag!='a' or self.current is None:return
-        title=' '.join(''.join(self.content).split())
-        if title and title!=self.current:self.tasks[self.current]=title
-        self.current=None
+    def feed(self, page):
+        from codeforces_pdf import roster_titles
+        self.tasks = roster_titles(page, self.identity)
 
 
 def historical(contest,now):
+    from contest_scope import excluded
+    from contest_translations import xcpc_name
     name=contest.get('name','')
     year=re.search(r'20\d{2}',name)
     if not year or not 2017<=int(year[0])<=now.year or contest.get('phase')!='FINISHED':return False
     if not re.search(r'ICPC|CCPC',name,re.I):return False
-    if re.search(r'ICPC[- ]style|ICPC format|Team (?:Selection|Formation)|Selection Contest|Internal Round|Mock Contest|ICPC.?de.?Tryst|Columbia University Local|\+ Some Problems|\+ GCJ',name,re.I):return False
+    if excluded({'contestFullName':name,'contest':xcpc_name(name)}):return False
+    if re.search(r'ICPC[- ]style|ICPC format|Team (?:Selection|Formation)|Selection Contest|Internal Round|Mock (?:Contest|Competition)|Warm.?up|Practice Session|ICPC.?de.?Tryst|Columbia University Local|\+ Some Problems|\+ GCJ',name,re.I):return False
     start=contest.get('startTimeSeconds');duration=contest.get('durationSeconds')
     return not (type(start) is int and type(duration) is int and start+duration>now.timestamp())
 
