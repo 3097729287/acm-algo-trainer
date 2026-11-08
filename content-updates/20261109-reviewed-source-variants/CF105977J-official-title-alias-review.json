@@ -1,0 +1,61 @@
+{
+  "kind": "individually-reviewed-official-contest-letter-title-variants",
+  "contestId": 105977,
+  "letter": "J",
+  "originalId": "remote:codeforces:105977::J",
+  "originalUrl": "https://codeforces.com/gym/105977/problem/J",
+  "titles": {
+    "officialDashboard": "构造大师周三金",
+    "officialStatementPdf": "构造大师贝贝",
+    "officialTutorial": "构造大师CFJ"
+  },
+  "officialRoster": {
+    "url": "https://codeforces.com/gym/105977",
+    "sha256": "b7ce7d1f13ab2d0840c07a661eaa580c50053cf2e35ec3dae934bd01f769d105",
+    "bytes": 108591,
+    "status": 200,
+    "captureMethod": "direct"
+  },
+  "officialAttachmentPage": {
+    "url": "https://codeforces.com/gym/105977/problem/J",
+    "sha256": "5c046746e17ce577c7ba53e551c9668484cfa5a313ff13c02255a91fdc8e159d",
+    "bytes": 67838,
+    "status": 200,
+    "captureMethod": "direct"
+  },
+  "officialStatement": {
+    "url": "https://codeforces.com/gym/105977/attachments/download/32243/statements.pdf",
+    "sha256": "2d3a6d5234b293ab393710eb9512eb5d5efaeba582bd6f956068ed84618a8071",
+    "pages": [
+      18,
+      19
+    ],
+    "fullBookPages": 22
+  },
+  "officialTutorial": {
+    "url": "https://codeforces.com/gym/105977/attachments/download/32216/Slide.pdf",
+    "sha256": "fba6c2e89e84f64fe599a565a949cb1a632a7ee62b5a4fd0ac35093dc6093e71",
+    "pages": [
+      12
+    ],
+    "binding": "Same contest J: repeatedly add lowbit(n), a current positive divisor; chosen addends increase and differ from every earlier addend; target is a perfect square."
+  },
+  "limits": {
+    "testCasesMax": 1000,
+    "initialNMax": 1000000000000,
+    "operationsMax": 100,
+    "intermediateNMax": 1000000000000000000
+  },
+  "sampleBinding": {
+    "input": "2\n2025\n182",
+    "output": "0\n\n3\n7 3 4",
+    "trace": [
+      "2025 = 45*45",
+      "182+7=189",
+      "189+3=192",
+      "192+4=196 = 14*14"
+    ]
+  },
+  "automaticTitleMatchingChanged": false,
+  "reviewedPdfPagesVisually": true
+}

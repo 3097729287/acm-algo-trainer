@@ -1,0 +1,1028 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "luogu-training-P13110",
+      "beforeSha256": "48416b10f9315e6833282405bba387718aaf8c87cf1fd04145fd0c998a99a51d",
+      "content": {
+        "attachments": {
+          "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/statement.pdf": {
+            "sourceUrl": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/statement.pdf",
+            "sha256": "de9a8c25b642a7309da61993c7a575644f4cde987bb82caa347a7c5a9b128b77",
+            "bytes": 73991,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "fileName": "statement.pdf",
+            "data": "tb-asset:de9a8c25b642a7309da61993c7a575644f4cde987bb82caa347a7c5a9b128b77"
+          },
+          "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/problem_statement/local_testing_tool.py": {
+            "sourceUrl": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/problem_statement/local_testing_tool.py",
+            "sha256": "87df70865a6a6485cb7333063d073fb19467a98f19415d076aa3fc2aba06a742",
+            "bytes": 3188,
+            "mime": "application/octet-stream",
+            "fileName": "local_testing_tool.py",
+            "data": "tb-asset:87df70865a6a6485cb7333063d073fb19467a98f19415d076aa3fc2aba06a742"
+          }
+        },
+        "id": "luogu-training-P13110",
+        "images": {},
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "checkedAt": "2026-11-08T20:54:18.387031+00:00",
+          "markdownSha256": "0409a163bc94ebbea6129ee80c1708b5b0c03e5ed7c6e083c423d17c15c0aa58",
+          "sourceDocuments": [
+            {
+              "url": "https://www.luogu.com.cn/problem/P13110",
+              "sha256": "eb343092132cf4577fc2a7a750a5c67b5be2ffd2b79a666eadfe02bdc04b2478",
+              "status": 200
+            },
+            {
+              "url": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/problem_statement/problem.html",
+              "sha256": "551142ebfe9c16feda41024872fbc7278df9a3cee2d6712f134bac3cc0a774a3",
+              "bytes": 13941,
+              "status": 200,
+              "captureMethod": "direct"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/statement.pdf",
+              "sha256": "de9a8c25b642a7309da61993c7a575644f4cde987bb82caa347a7c5a9b128b77",
+              "bytes": 73991,
+              "status": 200,
+              "captureMethod": "direct"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/problem_statement/local_testing_tool.py",
+              "sha256": "87df70865a6a6485cb7333063d073fb19467a98f19415d076aa3fc2aba06a742",
+              "bytes": 3188,
+              "status": 200,
+              "captureMethod": "direct"
+            }
+          ],
+          "sampleCount": 0,
+          "pdfPageCountVerified": false,
+          "corpusAuditVerifiedSha256": "0409a163bc94ebbea6129ee80c1708b5b0c03e5ed7c6e083c423d17c15c0aa58",
+          "recoveryBinding": {
+            "nativeProblemId": "P13110",
+            "nativeSourceSha256": "eb343092132cf4577fc2a7a750a5c67b5be2ffd2b79a666eadfe02bdc04b2478",
+            "method": "complete-native-source-and-reviewed-official-originals-with-explicit-optional-resource-boundary",
+            "officialTask": "Draupnir",
+            "originalPdfSha256": "de9a8c25b642a7309da61993c7a575644f4cde987bb82caa347a7c5a9b128b77",
+            "originalTestingToolSha256": "87df70865a6a6485cb7333063d073fb19467a98f19415d076aa3fc2aba06a742",
+            "originalSampleInventory": "inline interaction; native empty placeholder archived"
+          },
+          "reviewedRecoveryRecordSha256": "e04311105f763ca36d047d1abf48e6ad0af1effc7545aed221922cbd7ec458ab"
+        },
+        "limits": {
+          "memoryMb": 1049,
+          "timeMs": 20000
+        },
+        "localJudgeSupported": false,
+        "markdown": "# Draupnir\n\n## Description\n\nOdin has some magical rings which produce copies of themselves. Each \"X-day ring\" produces one more X-day ring every X days after the day it came into existence. These rings come in six possible varieties: 1-day, 2-day, ..., all the way up to 6-day.\n\nFor example, a 3-day ring that came into existence on day 0 would do nothing until day 3, when it would produce another 3-day ring. Then, on day 6, each of those two rings would produce another 3-day ring, and so on.\n\nYou know that Odin had no rings before day 0. On day 0, some rings came into existence. At the end of day 0, Odin had $R_i$ i-day rings, for each $1 \\leqslant i \\leqslant 6$. You know that $0 \\leqslant R_i \\leqslant 100$, for all $i$, and at least one of the $R_i$ values is positive.\n\nFortunately, you also have access to the secret well of knowledge. Each time you use it, you can find out the total number of rings that Odin had at the end of a particular day between day 1 and day 500, inclusive. The well will give you the answer modulo $2^{63}$, because even it can only hold so much information! Moreover, you can only use the well up to W times.\n\nYour goal is to determine how many rings of each type Odin had at the end of day 0 — that is, you must find each of the $R_i$ values.\n\n### Interactive Protocol\n\nThis is an interactive problem.\n\nInitially, your program should read a single line containing two integers $\\mathbf{T}$, the number of test cases, and $\\mathbf{W}$, the number of times you are allowed to use the well of knowledge per test case. Then, you need to process $\\mathbf{T}$ test cases.\n\nIn each test case, your program processes up to $\\mathbf{W} + 1$ exchanges with our judge. You may make up to $\\mathbf{W}$ exchanges of the following form:\n\n* Your program outputs one line with a single integer $\\mathbf{D}$ between 1 and 500, inclusive.\n* The judge responds with one line with a single integer: the total number of rings that Odin had at the end of day $\\mathbf{D}$, modulo $2^{63}$. If you send invalid data (e.g., a number out of range, or a malformed line), the judge instead responds with -1.\n\nAfter between 0 and $\\mathbf{W}$ exchanges as explained above, you must perform one more exchange of the following form:\n\n* Your program outputs one line with six integers $\\mathbf{R}_1$, $\\mathbf{R}_2$, $\\mathbf{R}_3$, $\\mathbf{R}_4$, $\\mathbf{R}_5$, $\\mathbf{R}_6$, where $\\mathbf{R}_i$ represents the number of i-day rings that Odin had at the end of day 0.\n* The judge responds with one line with a single integer: 1 if your answer is correct, and -1 if it is not (or you have provided a malformed line).\n\nAfter the judge sends -1 to your input stream (because of either invalid data or an incorrect answer), it will not send any other output. If your program continues to wait for the judge after receiving -1, your program will time out, resulting in a Time Limit Exceeded error. Notice that it is your responsibility to have your program exit in time to receive a Wrong Answer judgment instead of a Time Limit Exceeded error. As usual, if the memory limit is exceeded, or your program gets a runtime error, you will receive the appropriate judgment.\n\n## Input\n\nSee Interactive Protocol.\n\n## Output\n\nSee Interactive Protocol.\n\n## Note\n\n**Sample Interaction**\n\nThis interaction corresponds to Test set 1. Suppose that, unbeknownst to us, the judge has decided that Odin had one ring of each of the six types at the end of day 0.\n\n```\n  t, w = readline_int_list()   // Reads 50 into t and 6 into w\n  printline 3 to stdout        // Asks about day 3.\n  flush stdout\n  n = readline_int()           // Reads 15 into n.\n  printline 1 to stdout        // Asks about day 1.\n  flush stdout\n  n = readline_int()           // Reads 7 into n.\n  printline 1 1 1 3 0 0 to stdout\n  flush stdout                 // We make a guess even though we could have\n                               // queried the well up to four more times.\n  verdict = readline_int()     // Reads -1 into verdict (judge has decided our\n                               //   solution is incorrect)\n  exit                         // Exits to avoid an ambiguous TLE error\n```\n\nNotice that even though the guess was consistent with the information we received from the judge, we were still wrong because we did not find the correct values.\n\nYou can use this testing tool to test locally or on our platform. To test locally, you will need to run the tool in parallel with your code; you can use our [interactive runner](https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py) for that. For more information, read the instructions in comments in that file.\n\nInstructions for the testing tool are included in comments within the tool. We encourage you to add your own test cases. Please be advised that although the testing tool is intended to simulate the judging system, it is **NOT** the real judging system and might behave differently.\n\n**Limits**\n\n- $1 \\leq T \\leq 50$.\n\n**Test set 1 (10 Pts, Visible)**\n\n- $W = 6$.\n\n**Test set 2 (21 Pts, Hidden)**\n\n- $W = 2$.\n\n## Official Resources\n\n[Original Google statement PDF](https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/statement.pdf)\n\n[Original problem-specific local testing tool](https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/problem_statement/local_testing_tool.py)\n\nThe original Google limits are 20 seconds per test set and 1 GB of memory. The complete interaction protocol and example above do not depend on a particular local process launcher.\n\n**Optional helper availability:** The linked generic `interactive_runner.py` has not been recovered: its original Google URL currently returns HTTP 403. The original link is retained, but no replacement script is supplied or claimed to be cached. The original problem-specific testing tool is available above.\n",
+        "officialTags": [
+          "2019",
+          "交互题",
+          "Special Judge",
+          "进制",
+          "位运算",
+          "Google Code Jam"
+        ],
+        "problemType": "interactive",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/statement.pdf": {
+            "sourceUrl": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/statement.pdf",
+            "sha256": "de9a8c25b642a7309da61993c7a575644f4cde987bb82caa347a7c5a9b128b77",
+            "bytes": 73991,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "fileName": "statement.pdf"
+          },
+          "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/problem_statement/local_testing_tool.py": {
+            "sourceUrl": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/problem_statement/local_testing_tool.py",
+            "sha256": "87df70865a6a6485cb7333063d073fb19467a98f19415d076aa3fc2aba06a742",
+            "bytes": 3188,
+            "mime": "application/octet-stream",
+            "fileName": "local_testing_tool.py"
+          }
+        },
+        "samples": [],
+        "statementAvailable": true,
+        "statementVersion": 12,
+        "title": "Draupnir",
+        "url": "https://www.luogu.com.cn/problem/P13110",
+        "statementSource": "原站完整正文与已复核官方原件",
+        "sourceSnapshots": [
+          {
+            "kind": "native-public-markdown-before-recovery",
+            "markdown": "# Draupnir\n\n## 题目描述\n\nOdin has some magical rings which produce copies of themselves. Each \"X-day ring\" produces one more X-day ring every X days after the day it came into existence. These rings come in six possible varieties: 1-day, 2-day, ..., all the way up to 6-day.\n\nFor example, a 3-day ring that came into existence on day 0 would do nothing until day 3, when it would produce another 3-day ring. Then, on day 6, each of those two rings would produce another 3-day ring, and so on.\n\nYou know that Odin had no rings before day 0. On day 0, some rings came into existence. At the end of day 0, Odin had $R_i$ i-day rings, for each $1 \\leqslant i \\leqslant 6$. You know that $0 \\leqslant R_i \\leqslant 100$, for all $i$, and at least one of the $R_i$ values is positive.\n\nFortunately, you also have access to the secret well of knowledge. Each time you use it, you can find out the total number of rings that Odin had at the end of a particular day between day 1 and day 500, inclusive. The well will give you the answer modulo $2^{63}$, because even it can only hold so much information! Moreover, you can only use the well up to W times.\n\nYour goal is to determine how many rings of each type Odin had at the end of day 0 — that is, you must find each of the $R_i$ values.\n\n### Interactive Protocol\n\nThis is an interactive problem.\n\nInitially, your program should read a single line containing two integers $\\mathbf{T}$, the number of test cases, and $\\mathbf{W}$, the number of times you are allowed to use the well of knowledge per test case. Then, you need to process $\\mathbf{T}$ test cases.\n\nIn each test case, your program processes up to $\\mathbf{W} + 1$ exchanges with our judge. You may make up to $\\mathbf{W}$ exchanges of the following form:\n\n* Your program outputs one line with a single integer $\\mathbf{D}$ between 1 and 500, inclusive.\n* The judge responds with one line with a single integer: the total number of rings that Odin had at the end of day $\\mathbf{D}$, modulo $2^{63}$. If you send invalid data (e.g., a number out of range, or a malformed line), the judge instead responds with -1.\n\nAfter between 0 and $\\mathbf{W}$ exchanges as explained above, you must perform one more exchange of the following form:\n\n* Your program outputs one line with six integers $\\mathbf{R}_1$, $\\mathbf{R}_2$, $\\mathbf{R}_3$, $\\mathbf{R}_4$, $\\mathbf{R}_5$, $\\mathbf{R}_6$, where $\\mathbf{R}_i$ represents the number of i-day rings that Odin had at the end of day 0.\n* The judge responds with one line with a single integer: 1 if your answer is correct, and -1 if it is not (or you have provided a malformed line).\n\nAfter the judge sends -1 to your input stream (because of either invalid data or an incorrect answer), it will not send any other output. If your program continues to wait for the judge after receiving -1, your program will time out, resulting in a Time Limit Exceeded error. Notice that it is your responsibility to have your program exit in time to receive a Wrong Answer judgment instead of a Time Limit Exceeded error. As usual, if the memory limit is exceeded, or your program gets a runtime error, you will receive the appropriate judgment.\n\n## 输入格式\n\nSee Interactive Protocol.\n\n## 输出格式\n\nSee Interactive Protocol.\n\n## 提示\n\n**Sample Interaction**\n\nThis interaction corresponds to Test set 1. Suppose that, unbeknownst to us, the judge has decided that Odin had one ring of each of the six types at the end of day 0.\n\n```\n  t, w = readline_int_list()   // Reads 50 into t and 6 into w\n  printline 3 to stdout        // Asks about day 3.\n  flush stdout\n  n = readline_int()           // Reads 15 into n.\n  printline 1 to stdout        // Asks about day 1.\n  flush stdout\n  n = readline_int()           // Reads 7 into n.\n  printline 1 1 1 3 0 0 to stdout\n  flush stdout                 // We make a guess even though we could have\n                               // queried the well up to four more times.\n  verdict = readline_int()     // Reads -1 into verdict (judge has decided our\n                               //   solution is incorrect)\n  exit                         // Exits to avoid an ambiguous TLE error\n```\n\nNotice that even though the guess was consistent with the information we received from the judge, we were still wrong because we did not find the correct values.\n\nYou can use this testing tool to test locally or on our platform. To test locally, you will need to run the tool in parallel with your code; you can use our [interactive runner](https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py) for that. For more information, read the instructions in comments in that file.\n\nInstructions for the testing tool are included in comments within the tool. We encourage you to add your own test cases. Please be advised that although the testing tool is intended to simulate the judging system, it is **NOT** the real judging system and might behave differently.\n\n**Limits**\n\n- $1 \\leq T \\leq 50$.\n\n**Test set 1 (10 Pts, Visible)**\n\n- $W = 6$.\n\n**Test set 2 (21 Pts, Hidden)**\n\n- $W = 2$.",
+            "sha256": "93b66966dc5127679ee6be9da5a085cf29564eec58d4a01210707b6b25b2a0bc",
+            "sourceDocumentSha256": "eb343092132cf4577fc2a7a750a5c67b5be2ffd2b79a666eadfe02bdc04b2478"
+          }
+        ],
+        "optionalExternalResources": [
+          {
+            "url": "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py",
+            "role": "optional-generic-process-launcher",
+            "sourceHash": "0409a163bc94ebbea6129ee80c1708b5b0c03e5ed7c6e083c423d17c15c0aa58",
+            "sourceSnapshotHash": "93b66966dc5127679ee6be9da5a085cf29564eec58d4a01210707b6b25b2a0bc",
+            "cached": false,
+            "requiredForStatement": false,
+            "individuallyReviewed": true,
+            "sourceEvidence": {
+              "nativeProblemId": "P13110",
+              "quote": "you can use our [interactive runner]",
+              "officialHtmlSha256": "551142ebfe9c16feda41024872fbc7278df9a3cee2d6712f134bac3cc0a774a3",
+              "officialPdfSha256": "de9a8c25b642a7309da61993c7a575644f4cde987bb82caa347a7c5a9b128b77",
+              "reviewedPages": [
+                1,
+                2
+              ]
+            },
+            "availability": {
+              "httpStatus": 403,
+              "fileRecovered": false,
+              "checkedAt": "2026-11-08T20:34:43.778699+00:00",
+              "attempts": [
+                {
+                  "mode": "direct",
+                  "error": "HTTP Error 403: Forbidden"
+                },
+                {
+                  "mode": "socks",
+                  "error": "curl: (22) The requested URL returned error: 403\r\n"
+                }
+              ]
+            },
+            "reason": "Generic convenience launcher for running two local processes in parallel; complete protocol, constraints, inline example and exact problem-specific testing tool are present. Original link retained visibly; no script bytes fabricated."
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "kind": "native-empty-interactive-placeholder",
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "",
+                "output": ""
+              }
+            ],
+            "reason": "Official original has an inline interaction trace, not an independent empty input/output test."
+          }
+        ],
+        "sampleInventory": {
+          "kind": "inline-interaction-without-standalone-sample-pairs",
+          "fullInteractionIncluded": true,
+          "inlineInteractionExamples": 1,
+          "nativeEmptyPlaceholderArchived": true,
+          "reviewedOriginalPages": [
+            1,
+            2
+          ]
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "format": "complete-prose-v4",
+          "provider": "逐页核对 Google 官方原稿的预置中文译文",
+          "sourceHash": "0409a163bc94ebbea6129ee80c1708b5b0c03e5ed7c6e083c423d17c15c0aa58",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# Draupnir\n\n## 题目描述\n\nOdin 有一些能自我复制的魔法戒指。每一枚“X 日戒指”从诞生之日起，每经过 X 天就会再产生一枚 X 日戒指。这些戒指共有六种：1 日戒指、2 日戒指，直到 6 日戒指。\n\n例如，一枚在第 0 天诞生的 3 日戒指，在第 3 天之前不会产生新戒指；到了第 3 天，它会产生另一枚 3 日戒指。然后在第 6 天，这两枚戒指又会各自产生一枚 3 日戒指，以此类推。\n\n你知道 Odin 在第 0 天之前没有戒指。第 0 天，一些戒指出现了。第 0 天结束时，对于每个 $1 \\leqslant i \\leqslant 6$，Odin 有 $R_i$ 枚 i 日戒指。你知道对所有 $i$ 都有 $0 \\leqslant R_i \\leqslant 100$，而且至少一个 $R_i$ 为正。\n\n幸运的是，你还能使用神秘的知识之井。每次使用时，你可以得知从第 1 天到第 500 天（含两端）中某一天结束时，Odin 拥有的戒指总数。知识之井会将答案对 $2^{63}$ 取模后告诉你，因为它能容纳的信息也有限！此外，最多只能使用知识之井 W 次。\n\n你的目标是确定第 0 天结束时每种戒指的数量，即求出每一个 $R_i$。\n\n### 交互协议\n\n这是一道交互题。\n\n程序首先应读入一行两个整数 $\\mathbf{T}$ 和 $\\mathbf{W}$，分别表示测试用例数，以及每个测试用例允许使用知识之井的次数。接下来处理 $\\mathbf{T}$ 个测试用例。\n\n每个测试用例中，程序最多与评测器进行 $\\mathbf{W} + 1$ 轮交互。其中，你可以进行至多 $\\mathbf{W}$ 轮如下形式的交互：\n\n* 程序输出一行，仅包含一个位于 1 到 500 之间（含两端）的整数 $\\mathbf{D}$。\n* 评测器返回一行一个整数，表示第 $\\mathbf{D}$ 天结束时 Odin 拥有的戒指总数对 $2^{63}$ 取模后的值。若你输出的数据非法，例如数字超出范围或行格式错误，评测器会返回 -1。\n\n完成上述 0 到 $\\mathbf{W}$ 轮查询后，还必须进行最后一轮如下形式的交互：\n\n* 程序输出一行六个整数 $\\mathbf{R}_1$、$\\mathbf{R}_2$、$\\mathbf{R}_3$、$\\mathbf{R}_4$、$\\mathbf{R}_5$、$\\mathbf{R}_6$，其中 $\\mathbf{R}_i$ 表示第 0 天结束时 i 日戒指的数量。\n* 评测器返回一行一个整数：若答案正确则返回 1；若答案错误或行格式错误，则返回 -1。\n\n评测器由于非法数据或错误答案向你的输入流发送 -1 后，不会再发送任何内容。若程序收到 -1 后仍继续等待评测器，就会超时并得到 Time Limit Exceeded。你应及时结束程序，使其获得应有的 Wrong Answer，而不是由于等待造成的 Time Limit Exceeded。和通常情况一样，若超过内存限制或发生运行错误，会得到相应的评测结果。\n\n## 输入格式\n\n见交互协议。\n\n## 输出格式\n\n见交互协议。\n\n## 提示\n\n**交互示例**\n\n这段交互对应测试集 1。假设在我们不知道的情况下，评测器已经决定 Odin 在第 0 天结束时，六种戒指各有一枚。\n\n```\n  t, w = readline_int_list()   // Reads 50 into t and 6 into w\n  printline 3 to stdout        // Asks about day 3.\n  flush stdout\n  n = readline_int()           // Reads 15 into n.\n  printline 1 to stdout        // Asks about day 1.\n  flush stdout\n  n = readline_int()           // Reads 7 into n.\n  printline 1 1 1 3 0 0 to stdout\n  flush stdout                 // We make a guess even though we could have\n                               // queried the well up to four more times.\n  verdict = readline_int()     // Reads -1 into verdict (judge has decided our\n                               //   solution is incorrect)\n  exit                         // Exits to avoid an ambiguous TLE error\n```\n\n注意，虽然猜测与已获得的查询信息相容，但它仍然错误，因为我们没有求出真正的各类戒指数量。\n\n你可以使用题目专用测试工具，在本地或原平台测试程序。在本地测试时，需要让测试工具与你的程序并行运行；为此，可以使用原有的 [interactive runner](https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py)。具体用法见该脚本中的注释。\n\n测试工具的使用说明写在工具自身的注释中，也鼓励你添加自己的测试数据。请注意，虽然测试工具旨在模拟评测系统，但它**不是**真正的评测系统，行为可能与实际评测器不同。\n\n**数据范围**\n\n- $1 \\leq T \\leq 50$。\n\n**测试集 1（10 分，公开评测）**\n\n- $W = 6$。\n\n**测试集 2（21 分，隐藏评测）**\n\n- $W = 2$。\n\n## 官方资源\n\n[Google 原始题面 PDF](https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/statement.pdf)\n\n[原题专用本地测试工具](https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/problem_statement/local_testing_tool.py)\n\nGoogle 原始限制为每个测试集 20 秒、内存 1 GB。上文给出了完整交互协议与示例，并不依赖某个特定的本地进程启动器。\n\n**可选辅助脚本状态：** 原文链接的通用 `interactive_runner.py` 尚未找回，其 Google 原址当前返回 HTTP 403。原链接仍予保留，但这里没有提供替代脚本，也没有声称已离线缓存该脚本。原题专用测试工具可从上方下载。\n"
+        },
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-P13110",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py"
+            ],
+            "markdownSha256": "93b66966dc5127679ee6be9da5a085cf29564eec58d4a01210707b6b25b2a0bc",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "b825436e6e14b9e9de5878bf375e8794ee8d830add31583930a50a3b3fc8e7da",
+                "url": "https://www.luogu.com.cn/problem/P13110"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 1049,
+            "timeMs": 20000
+          },
+          "localJudgeSupported": false,
+          "markdown": "# Draupnir\n\n## 题目描述\n\nOdin has some magical rings which produce copies of themselves. Each \"X-day ring\" produces one more X-day ring every X days after the day it came into existence. These rings come in six possible varieties: 1-day, 2-day, ..., all the way up to 6-day.\n\nFor example, a 3-day ring that came into existence on day 0 would do nothing until day 3, when it would produce another 3-day ring. Then, on day 6, each of those two rings would produce another 3-day ring, and so on.\n\nYou know that Odin had no rings before day 0. On day 0, some rings came into existence. At the end of day 0, Odin had $R_i$ i-day rings, for each $1 \\leqslant i \\leqslant 6$. You know that $0 \\leqslant R_i \\leqslant 100$, for all $i$, and at least one of the $R_i$ values is positive.\n\nFortunately, you also have access to the secret well of knowledge. Each time you use it, you can find out the total number of rings that Odin had at the end of a particular day between day 1 and day 500, inclusive. The well will give you the answer modulo $2^{63}$, because even it can only hold so much information! Moreover, you can only use the well up to W times.\n\nYour goal is to determine how many rings of each type Odin had at the end of day 0 — that is, you must find each of the $R_i$ values.\n\n### Interactive Protocol\n\nThis is an interactive problem.\n\nInitially, your program should read a single line containing two integers $\\mathbf{T}$, the number of test cases, and $\\mathbf{W}$, the number of times you are allowed to use the well of knowledge per test case. Then, you need to process $\\mathbf{T}$ test cases.\n\nIn each test case, your program processes up to $\\mathbf{W} + 1$ exchanges with our judge. You may make up to $\\mathbf{W}$ exchanges of the following form:\n\n* Your program outputs one line with a single integer $\\mathbf{D}$ between 1 and 500, inclusive.\n* The judge responds with one line with a single integer: the total number of rings that Odin had at the end of day $\\mathbf{D}$, modulo $2^{63}$. If you send invalid data (e.g., a number out of range, or a malformed line), the judge instead responds with -1.\n\nAfter between 0 and $\\mathbf{W}$ exchanges as explained above, you must perform one more exchange of the following form:\n\n* Your program outputs one line with six integers $\\mathbf{R}_1$, $\\mathbf{R}_2$, $\\mathbf{R}_3$, $\\mathbf{R}_4$, $\\mathbf{R}_5$, $\\mathbf{R}_6$, where $\\mathbf{R}_i$ represents the number of i-day rings that Odin had at the end of day 0.\n* The judge responds with one line with a single integer: 1 if your answer is correct, and -1 if it is not (or you have provided a malformed line).\n\nAfter the judge sends -1 to your input stream (because of either invalid data or an incorrect answer), it will not send any other output. If your program continues to wait for the judge after receiving -1, your program will time out, resulting in a Time Limit Exceeded error. Notice that it is your responsibility to have your program exit in time to receive a Wrong Answer judgment instead of a Time Limit Exceeded error. As usual, if the memory limit is exceeded, or your program gets a runtime error, you will receive the appropriate judgment.\n\n## 输入格式\n\nSee Interactive Protocol.\n\n## 输出格式\n\nSee Interactive Protocol.\n\n## 提示\n\n**Sample Interaction**\n\nThis interaction corresponds to Test set 1. Suppose that, unbeknownst to us, the judge has decided that Odin had one ring of each of the six types at the end of day 0.\n\n```\n  t, w = readline_int_list()   // Reads 50 into t and 6 into w\n  printline 3 to stdout        // Asks about day 3.\n  flush stdout\n  n = readline_int()           // Reads 15 into n.\n  printline 1 to stdout        // Asks about day 1.\n  flush stdout\n  n = readline_int()           // Reads 7 into n.\n  printline 1 1 1 3 0 0 to stdout\n  flush stdout                 // We make a guess even though we could have\n                               // queried the well up to four more times.\n  verdict = readline_int()     // Reads -1 into verdict (judge has decided our\n                               //   solution is incorrect)\n  exit                         // Exits to avoid an ambiguous TLE error\n```\n\nNotice that even though the guess was consistent with the information we received from the judge, we were still wrong because we did not find the correct values.\n\nYou can use this testing tool to test locally or on our platform. To test locally, you will need to run the tool in parallel with your code; you can use our [interactive runner](https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py) for that. For more information, read the instructions in comments in that file.\n\nInstructions for the testing tool are included in comments within the tool. We encourage you to add your own test cases. Please be advised that although the testing tool is intended to simulate the judging system, it is **NOT** the real judging system and might behave differently.\n\n**Limits**\n\n- $1 \\leq T \\leq 50$.\n\n**Test set 1 (10 Pts, Visible)**\n\n- $W = 6$.\n\n**Test set 2 (21 Pts, Hidden)**\n\n- $W = 2$.",
+          "officialTags": [
+            "2019",
+            "交互题",
+            "Special Judge",
+            "进制",
+            "位运算",
+            "Google Code Jam"
+          ],
+          "problemType": "interactive",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py",
+              "kind": "attachment",
+              "url": "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "",
+              "name": "样例 1",
+              "output": ""
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "Draupnir",
+          "translation": {
+            "kind": "site",
+            "markdown": "# Draupnir\n\n## 题目描述\n\n奥丁拥有一些能够自我复制的魔法戒指。每个“X 天戒指”会在其诞生后的每隔 $X$ 天生产一个同样的 X 天戒指。这些戒指共有六种类型：1 天、2 天、……，一直到 6 天。\n\n例如，一个在第 0 天诞生的 3 天戒指，在第 3 天才会产生另一个 3 天戒指。然后在第 6 天，这两个戒指都会各自再产生一个 3 天戒指，以此类推。\n\n你知道奥丁在第 0 天之前没有任何戒指。在第 0 天，有一些戒指诞生了。在第 0 天结束时，奥丁拥有 $R_i$ 个 $i$ 天戒指，其中 $1 \\leqslant i \\leqslant 6$。你知道 $0 \\leqslant R_i \\leqslant 100$，且至少有一个 $R_i$ 是正数。\n\n幸运的是，你还可以使用知识之井。每次使用时，你可以得知奥丁在某一天（第 1 天到第 500 天之间，包含端点）结束时拥有的戒指总数。由于知识之井的信息容量有限，答案会对 $2^{63}$ 取模。此外，每个测试用例你最多只能使用知识之井 $W$ 次。\n\n你的目标是确定奥丁在第 0 天结束时每种类型的戒指数量——也就是找出每个 $R_i$ 的值。\n\n### 交互协议\n\n这是一个交互题。\n\n最开始，你的程序应读取一行，包含两个整数 $\\mathbf{T}$（测试用例数量）和 $\\mathbf{W}$（每个测试用例允许使用知识之井的次数）。然后，你需要处理 $\\mathbf{T}$ 个测试用例。\n\n在每个测试用例中，你的程序最多可以与评测机进行 $\\mathbf{W} + 1$ 次交互。你可以进行最多 $\\mathbf{W}$ 次如下形式的交互：\n\n- 你的程序输出一行，包含一个整数 $\\mathbf{D}$，表示询问第 $\\mathbf{D}$ 天（$1 \\leqslant D \\leqslant 500$）。\n- 评测机回复一行，包含一个整数：奥丁在第 $\\mathbf{D}$ 天结束时拥有的戒指总数，对 $2^{63}$ 取模。如果你发送了无效数据（如超出范围的数字或格式错误），评测机会回复 $-1$。\n\n在上述 0 到 $\\mathbf{W}$ 次交互后，你必须再进行一次如下形式的交互：\n\n- 你的程序输出一行，包含六个整数 $\\mathbf{R}_1, \\mathbf{R}_2, \\mathbf{R}_3, \\mathbf{R}_4, \\mathbf{R}_5, \\mathbf{R}_6$，分别表示奥丁在第 0 天结束时拥有的 1 天至 6 天戒指数量。\n- 评测机回复一行，包含一个整数：如果你的答案正确，则为 $1$，否则为 $-1$（或格式错误）。\n\n当评测机向你的输入流发送 $-1$（无效数据或答案错误时），它不会再发送其他输出。如果你的程序在收到 $-1$ 后仍然等待评测机回复，将会超时（TLE）。请确保你的程序在收到 $-1$ 后及时退出，以获得 Wrong Answer 判定而不是 Time Limit Exceeded。如果超出内存限制或运行时错误，将获得相应的判定。\n\n#\n\n## 输入格式\n\n见交互协议。\n\n#\n\n## 输出格式\n\n见交互协议。\n\n#\n\n## 提示\n\n**交互样例**\n\n该交互对应于测试集 1。假设我们不知道，评测机设定奥丁在第 0 天拥有每种类型各一个戒指。\n\n```\n  t, w = readline_int_list()   // 读取 t=50, w=6\n  printline 3 to stdout        // 询问第 3 天\n  flush stdout\n  n = readline_int()           // 读取 n=15\n  printline 1 to stdout        // 询问第 1 天\n  flush stdout\n  n = readline_int()           // 读取 n=7\n  printline 1 1 1 3 0 0 to stdout\n  flush stdout                 // 我们做出猜测，尽管还可以再询问四次\n  verdict = readline_int()     // 读取 verdict=-1（评测机判定答案错误）\n  exit                         // 及时退出，避免超时\n```\n\n注意，即使我们的猜测与评测机返回的信息一致，但如果答案不正确，依然会被判错。\n\n你可以使用测试工具在本地或平台上测试。若在本地测试，需要并行运行测试工具和你的代码；你可以使用我们的 [interactive runner](https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py)。更多信息请阅读该文件中的注释。\n\n测试工具的使用说明已包含在工具的注释中。建议你添加自己的测试用例。请注意，虽然测试工具旨在模拟评测系统，但它**不是**真实的评测系统，行为可能有所不同。\n\n**数据范围**\n\n- $1 \\leq T \\leq 50$。\n\n**测试集 1（10 分，可见）**\n\n- $W = 6$。\n\n**测试集 2（21 分，隐藏）**\n\n- $W = 2$。\n\n由 ChatGPT 4.1 翻译",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P13110"
+          },
+          "url": "https://www.luogu.com.cn/problem/P13110"
+        }
+      }
+    },
+    {
+      "problem_id": "luogu-training-P13143",
+      "beforeSha256": "03f991c83acfb2ffac1a131250a8331b6f64a12be5d952cc07153751f3abca0a",
+      "content": {
+        "attachments": {
+          "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/statement.pdf?download=1": {
+            "sourceUrl": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/statement.pdf?download=1",
+            "sha256": "6c1e4489ed51f323f443960181da38fd1a63a2bcf1b9a5616f9b3f218f0123a0",
+            "bytes": 69432,
+            "mime": "application/pdf",
+            "pageCount": 3,
+            "fileName": "statement.pdf",
+            "data": "tb-asset:6c1e4489ed51f323f443960181da38fd1a63a2bcf1b9a5616f9b3f218f0123a0"
+          },
+          "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/problem_statement/local_testing_tool.py?download=1": {
+            "sourceUrl": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/problem_statement/local_testing_tool.py?download=1",
+            "sha256": "d48181d216648628fa0442a7ed6fc593d4e69219135df6cf37268c44c57187f3",
+            "bytes": 6882,
+            "mime": "application/octet-stream",
+            "fileName": "local_testing_tool.py",
+            "data": "tb-asset:d48181d216648628fa0442a7ed6fc593d4e69219135df6cf37268c44c57187f3"
+          }
+        },
+        "id": "luogu-training-P13143",
+        "images": {},
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "checkedAt": "2026-11-08T20:54:18.441853+00:00",
+          "markdownSha256": "47ea33cf0f2625c915a90d214fb78145f450960599fa500d7ef7b4dd178d21ea",
+          "sourceDocuments": [
+            {
+              "url": "https://www.luogu.com.cn/problem/P13143",
+              "sha256": "f0220245363769fbd02a6ca3099cf1092ab1e1ffc8eaaacb6dd669f4133fea0b",
+              "status": 200
+            },
+            {
+              "url": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/problem_statement/problem.html",
+              "sha256": "c62caf283711000ae71a874ef866ce5027bd811eb564c31e8dbb09895ce3125b",
+              "bytes": 17590,
+              "status": 200,
+              "captureMethod": "direct"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/statement.pdf?download=1",
+              "sha256": "6c1e4489ed51f323f443960181da38fd1a63a2bcf1b9a5616f9b3f218f0123a0",
+              "bytes": 69432,
+              "status": 200,
+              "captureMethod": "direct"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/problem_statement/local_testing_tool.py?download=1",
+              "sha256": "d48181d216648628fa0442a7ed6fc593d4e69219135df6cf37268c44c57187f3",
+              "bytes": 6882,
+              "status": 200,
+              "captureMethod": "direct"
+            }
+          ],
+          "sampleCount": 0,
+          "pdfPageCountVerified": false,
+          "corpusAuditVerifiedSha256": "47ea33cf0f2625c915a90d214fb78145f450960599fa500d7ef7b4dd178d21ea",
+          "recoveryBinding": {
+            "nativeProblemId": "P13143",
+            "nativeSourceSha256": "f0220245363769fbd02a6ca3099cf1092ab1e1ffc8eaaacb6dd669f4133fea0b",
+            "method": "complete-native-source-and-reviewed-official-originals-with-explicit-optional-resource-boundary",
+            "officialTask": "Lollipop Shop",
+            "originalPdfSha256": "6c1e4489ed51f323f443960181da38fd1a63a2bcf1b9a5616f9b3f218f0123a0",
+            "originalTestingToolSha256": "d48181d216648628fa0442a7ed6fc593d4e69219135df6cf37268c44c57187f3",
+            "originalSampleInventory": "inline interaction; native empty placeholder archived"
+          },
+          "reviewedRecoveryRecordSha256": "3f24a94aab81f7770c2e42ebfe00ec2123109e85620190860e80fb7bdb30e3db"
+        },
+        "limits": {
+          "memoryMb": 1049,
+          "timeMs": 25000
+        },
+        "localJudgeSupported": false,
+        "markdown": "# Lollipop Shop\n\n## Description\n\nYou own a lollipop shop. At the start of the day, you make $N$ lollipops, each of a single unique flavor, like huckleberry, cherry or lime. $N$ customers come into the shop during the day, one at a time. Each customer gives you a list of which of your lollipop flavors they like. You can sell them one lollipop of any of those flavors, as long as you have not already sold someone else the same flavor earlier in the day (since there is only one lollipop of each flavor). If none of the flavors they like are still available, you cannot sell them a lollipop, and they leave your shop disappointed.\n\nYou do not know what each customer's flavor preferences are going to be until they arrive. Each customer decides if they like or dislike each flavor randomly, independently of whether they like any other flavor, or what flavors anyone else likes. However, your market studies have shown that some flavors may have a higher probability of being liked in general! For example, the lime flavor might have a $10\\%$ chance of being liked by any particular customer, whereas that chance might be $1\\%$ for the cherry flavor. These values are always chosen independently and uniformly at random from the interval $[0.005, 0.1]$.\n\nObviously, you want to sell lollipops to as many of the $N$ customers as possible! But, since you do not know what flavors your customers will ask for ahead of time, you cannot always make an optimal decision — sometimes you might sell a customer one flavor, and then later wish you had sold them another.\n\nSuppose that you somehow knew all the customers' preferences in advance and could plan ahead; then there is some maximum number $M$ of lollipops that you could possibly sell. You do not know the customers' preferences in advance, but we require you to sell a number of lollipops that is at least $90\\%$ of $M$ for each input case.\n\n### Interactive Protocol\n\nThis problem is interactive, which means that the concepts of input and output are different than in standard Code Jam problems. You will interact with a separate process that both provides you with information and evaluates your responses. All information comes into your program via standard input; anything that you need to communicate should be sent via standard output. Remember that many programming languages buffer the output by default, so make sure your output actually goes out (for instance, by flushing the buffer) before blocking to wait for a response. See the FAQ for an explanation of what it means to flush the buffer. Anything your program sends through standard error is ignored, but it might consume some memory and be counted against your memory limit, so do not overflow it.\n\nInitially, your program should read a single line containing a single integer $\\mathbf{T}$ indicating the number of test cases. Then, you need to process $\\mathbf{T}$ test cases.\n\nFor each test case, your program should read a single line with one integer $\\mathbf{N}$, the number of lollipops (which is the same as the number of customers).\n\nThen, for each of the customers, your program should read a single line, which will contain space-separated integers. The first integer is $\\mathbf{D}$, the number of flavors that customer likes. Then, $\\mathbf{D}$ integers follow, the ID numbers of those flavors, in strictly increasing order. Flavors have unique ID numbers in the range $[0, \\mathbf{N} - 1]$. Note that $\\mathbf{D}$ might be zero for some or all customers.\n\nAfter each of these lines, your program must write a single line to standard output, containing the ID number of one of the $\\mathbf{D}$ flavors to sell to the customer, or -1 if no lollipop is to be sold to the customer. After you have written the $\\mathbf{N}$th line for the test case, your program should terminate if it was the last test case; otherwise, it should start reading data for the next test case.\n\nIf your program gets something wrong (e.g., tries to sell a customer a flavor that was already sold, or tries to sell a customer a flavor they don't like, or uses the wrong output format, or outputs an out-of-bounds value), the judge will send -1 to your input stream and it will not send any other output after that. If your program continues to wait for the judge after receiving -1, your program will time out, resulting in a Time Limit Exceeded error. Notice that it is your responsibility to have your program exit in time to receive the appropriate verdict (Wrong Answer, Runtime Error, etc.) instead of a Time Limit Exceeded error. As usual, if the total time or memory is exceeded, or your program gets a runtime error, you will receive the appropriate verdict. Not selling enough lollipops for a test case will not cause you to get the -1 message.\n\nYou should not send additional information to the judge after processing all test cases. In other words, if your program keeps printing to standard output after the last test case, you will get a Wrong Answer judgment.\n\n## Input\n\nSee Interactive Protocol.\n\n## Output\n\nSee Interactive Protocol.\n\n## Note\n\nNote that this sample interaction has smaller values of $\\mathbf T$ and $\\mathbf N$ than the real data. The local testing tool also uses smaller cases.\n\n```\n  t = readline_int()           // reads 10 into t\n  n = readline_int()           // reads 4 into n (four customers & flavors)\n  prefs = readline_int_list()  // reads 1 2 (customer only likes flavor 2)\n  printline 2 to stdout        // sells this customer flavor 2\n  flush stdout\n  prefs = readline_int_list()  // reads 0 (customer likes nothing)\n  printline -1 to stdout       // no flavor to sell to the customer!\n  flush stdout\n  prefs = readline_int_list()  // reads 1 2 (customer only likes flavor 2)\n  printline -1 to stdout       // already used flavor 2, so no flavor to sell\n  flush stdout\n  prefs = readline_int_list()  // reads 2 1 3 (customer likes 1 and 3)\n  printline 3 to stdout        // note: we could have also sold flavor 1\n  flush stdout\n  n = readline_int()           // (start of case 2) reads 1\n  prefs = readline_int_list()  // reads 1 0\n  printline -1 to stdout       // non-optimal but legal choice\n  flush stdout\n  n = readline_int()           // (start of case 3) reads 5\n  prefs = readline_int_list()  // reads 2 1 3\n  printline 1 to stdout\n  flush stdout\n  prefs = readline_int_list()  // reads 2 1 2\n  printline 1 to stdout        // error -- tried to give same flavor twice!\n  flush stdout\n  prefs = readline_int_list()  // reads -1 (judge has given up on us)\n  exit                         // exits to avoid an ambiguous TLE error\n```\n\nThe pseudocode above demonstrates the following scenario.\n\n- In the first test case, the program sells a total of two lollipops. It would not have been possible to sell more than two, so the actual number sold is definitely at least 90% of the maximum possible number sold.\n- In the second test case, the program chooses (for the sake of demonstration here) not to sell the customer a lollipop, although it could have. It sells a total of 0 when it could have sold a total of 1. So, the program will not pass this test set, but note that this does not cause the judge to stop sending input.\n- In the third case, the program makes an error (again for the sake of demonstration) that causes the judge to stop sending input. The program recognizes this and terminates. The user will see a Wrong Answer judgment.\n\nYou can use this testing tool to test locally or on our platform. To test locally, you will need to run the tool in parallel with your code; you can use our [interactive runner](https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py) for that. For more information, read the instructions in comments in that file.\n\nInstructions for the testing tool are included in comments within the tool. We encourage you to add your own test cases. Please be advised that although the testing tool is intended to simulate the judging system, it is **NOT** the real judging system and might behave differently.\n\n**A note on judge behavior**\n\nAt the start of each test case, the judge will determine all customers' preferences. That is, it will use a (hidden) list of probabilities $P_i$ between 0.005 and 0.1, one for each flavor; each customer has a probability $P_i$ of liking the i-th flavor. That is, the random variables indicating whether customer j likes flavor i are independent and identically distributed. These preferences are constant throughout the test and will not be modified e.g. in response to your choices.\n\n**Test set 1 (29 Pts, Visible)**\n\n- $\\mathbf{T} = 50.$\n- $\\mathbf{N} = 200.$\n- $0 \\leqslant \\mathbf{D} \\leqslant \\mathbf{N}.$\n\n## Official Resources\n\n[Original Google statement PDF](https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/statement.pdf?download=1)\n\n[Original problem-specific local testing tool](https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/problem_statement/local_testing_tool.py?download=1)\n\nThe original Google limits are 25 seconds per test set and 1 GB of memory. The complete interaction protocol and example above do not depend on a particular local process launcher.\n\n**Optional helper availability:** The linked generic `interactive_runner.py` has not been recovered: its original Google URL currently returns HTTP 403. The original link is retained, but no replacement script is supplied or claimed to be cached. The original problem-specific testing tool is available above.\n",
+        "officialTags": [
+          "数学",
+          "2018",
+          "交互题",
+          "Special Judge",
+          "概率论",
+          "Google Code Jam"
+        ],
+        "problemType": "interactive",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/statement.pdf?download=1": {
+            "sourceUrl": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/statement.pdf?download=1",
+            "sha256": "6c1e4489ed51f323f443960181da38fd1a63a2bcf1b9a5616f9b3f218f0123a0",
+            "bytes": 69432,
+            "mime": "application/pdf",
+            "pageCount": 3,
+            "fileName": "statement.pdf"
+          },
+          "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/problem_statement/local_testing_tool.py?download=1": {
+            "sourceUrl": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/problem_statement/local_testing_tool.py?download=1",
+            "sha256": "d48181d216648628fa0442a7ed6fc593d4e69219135df6cf37268c44c57187f3",
+            "bytes": 6882,
+            "mime": "application/octet-stream",
+            "fileName": "local_testing_tool.py"
+          }
+        },
+        "samples": [],
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 12,
+        "title": "Lollipop Shop",
+        "translationSourceSnapshot": {
+          "currentSourceHash": "730597f28023ded434e8ec89ad79179520e397065693533828579a51c4f690f6",
+          "equivalentFormattingVerified": true,
+          "samplesUnchanged": true,
+          "sourceHash": "fdbcc1b1516d09dc20ebe9b46a4b98e88ee5d20b37c55f00a15dd16df082410b"
+        },
+        "url": "https://www.luogu.com.cn/problem/P13143",
+        "statementSource": "原站完整正文与已复核官方原件",
+        "sourceSnapshots": [
+          {
+            "kind": "native-public-markdown-before-recovery",
+            "markdown": "# Lollipop Shop\n\n## 题目描述\n\nYou own a lollipop shop. At the start of the day, you make $N$ lollipops, each of a single unique flavor, like huckleberry, cherry or lime. $N$ customers come into the shop during the day, one at a time. Each customer gives you a list of which of your lollipop flavors they like. You can sell them one lollipop of any of those flavors, as long as you have not already sold someone else the same flavor earlier in the day (since there is only one lollipop of each flavor). If none of the flavors they like are still available, you cannot sell them a lollipop, and they leave your shop disappointed.\n\nYou do not know what each customer's flavor preferences are going to be until they arrive. Each customer decides if they like or dislike each flavor randomly, independently of whether they like any other flavor, or what flavors anyone else likes. However, your market studies have shown that some flavors may have a higher probability of being liked in general! For example, the lime flavor might have a $10\\%$ chance of being liked by any particular customer, whereas that chance might be $1\\%$ for the cherry flavor. These values are always chosen independently and uniformly at random from the interval $[0.005, 0.1]$.\n\nObviously, you want to sell lollipops to as many of the $N$ customers as possible! But, since you do not know what flavors your customers will ask for ahead of time, you cannot always make an optimal decision — sometimes you might sell a customer one flavor, and then later wish you had sold them another.\n\nSuppose that you somehow knew all the customers' preferences in advance and could plan ahead; then there is some maximum number $M$ of lollipops that you could possibly sell. You do not know the customers' preferences in advance, but we require you to sell a number of lollipops that is at least $90\\%$ of $M$ for each input case.\n\n### Interactive Protocol\n\nThis problem is interactive, which means that the concepts of input and output are different than in standard Code Jam problems. You will interact with a separate process that both provides you with information and evaluates your responses. All information comes into your program via standard input; anything that you need to communicate should be sent via standard output. Remember that many programming languages buffer the output by default, so make sure your output actually goes out (for instance, by flushing the buffer) before blocking to wait for a response. See the FAQ for an explanation of what it means to flush the buffer. Anything your program sends through standard error is ignored, but it might consume some memory and be counted against your memory limit, so do not overflow it.\n\nInitially, your program should read a single line containing a single integer $\\mathbf{T}$ indicating the number of test cases. Then, you need to process $\\mathbf{T}$ test cases.\n\nFor each test case, your program should read a single line with one integer $\\mathbf{N}$, the number of lollipops (which is the same as the number of customers).\n\nThen, for each of the customers, your program should read a single line, which will contain space-separated integers. The first integer is $\\mathbf{D}$, the number of flavors that customer likes. Then, $\\mathbf{D}$ integers follow, the ID numbers of those flavors, in strictly increasing order. Flavors have unique ID numbers in the range $[0, \\mathbf{N} - 1]$. Note that $\\mathbf{D}$ might be zero for some or all customers.\n\nAfter each of these lines, your program must write a single line to standard output, containing the ID number of one of the $\\mathbf{D}$ flavors to sell to the customer, or -1 if no lollipop is to be sold to the customer. After you have written the $\\mathbf{N}$th line for the test case, your program should terminate if it was the last test case; otherwise, it should start reading data for the next test case.\n\nIf your program gets something wrong (e.g., tries to sell a customer a flavor that was already sold, or tries to sell a customer a flavor they don't like, or uses the wrong output format, or outputs an out-of-bounds value), the judge will send -1 to your input stream and it will not send any other output after that. If your program continues to wait for the judge after receiving -1, your program will time out, resulting in a Time Limit Exceeded error. Notice that it is your responsibility to have your program exit in time to receive the appropriate verdict (Wrong Answer, Runtime Error, etc.) instead of a Time Limit Exceeded error. As usual, if the total time or memory is exceeded, or your program gets a runtime error, you will receive the appropriate verdict. Not selling enough lollipops for a test case will not cause you to get the -1 message.\n\nYou should not send additional information to the judge after processing all test cases. In other words, if your program keeps printing to standard output after the last test case, you will get a Wrong Answer judgment.\n\n## 输入格式\n\nSee Interactive Protocol.\n\n## 输出格式\n\nSee Interactive Protocol.\n\n## 提示\n\nNote that this sample interaction has smaller values of $\\mathbf T$ and $\\mathbf N$ than the real data. The local testing tool also uses smaller cases.\n\n```\n  t = readline_int()           // reads 10 into t\n  n = readline_int()           // reads 4 into n (four customers & flavors)\n  prefs = readline_int_list()  // reads 1 2 (customer only likes flavor 2)\n  printline 2 to stdout        // sells this customer flavor 2\n  flush stdout\n  prefs = readline_int_list()  // reads 0 (customer likes nothing)\n  printline -1 to stdout       // no flavor to sell to the customer!\n  flush stdout\n  prefs = readline_int_list()  // reads 1 2 (customer only likes flavor 2)\n  printline -1 to stdout       // already used flavor 2, so no flavor to sell\n  flush stdout\n  prefs = readline_int_list()  // reads 2 1 3 (customer likes 1 and 3)\n  printline 3 to stdout        // note: we could have also sold flavor 1\n  flush stdout\n  n = readline_int()           // (start of case 2) reads 1\n  prefs = readline_int_list()  // reads 1 0\n  printline -1 to stdout       // non-optimal but legal choice\n  flush stdout\n  n = readline_int()           // (start of case 3) reads 5\n  prefs = readline_int_list()  // reads 2 1 3\n  printline 1 to stdout\n  flush stdout\n  prefs = readline_int_list()  // reads 2 1 2\n  printline 1 to stdout        // error -- tried to give same flavor twice!\n  flush stdout\n  prefs = readline_int_list()  // reads -1 (judge has given up on us)\n  exit                         // exits to avoid an ambiguous TLE error\n```\n\nThe pseudocode above demonstrates the following scenario.\n\n- In the first test case, the program sells a total of two lollipops. It would not have been possible to sell more than two, so the actual number sold is definitely at least 90% of the maximum possible number sold.\n- In the second test case, the program chooses (for the sake of demonstration here) not to sell the customer a lollipop, although it could have. It sells a total of 0 when it could have sold a total of 1. So, the program will not pass this test set, but note that this does not cause the judge to stop sending input.\n- In the third case, the program makes an error (again for the sake of demonstration) that causes the judge to stop sending input. The program recognizes this and terminates. The user will see a Wrong Answer judgment.\n\nYou can use this testing tool to test locally or on our platform. To test locally, you will need to run the tool in parallel with your code; you can use our [interactive runner](https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py) for that. For more information, read the instructions in comments in that file.\n\nInstructions for the testing tool are included in comments within the tool. We encourage you to add your own test cases. Please be advised that although the testing tool is intended to simulate the judging system, it is **NOT** the real judging system and might behave differently.\n\n**A note on judge behavior**\n\nAt the start of each test case, the judge will determine all customers' preferences. That is, it will use a (hidden) list of probabilities $P_i$ between 0.005 and 0.1, one for each flavor; each customer has a probability $P_i$ of liking the i-th flavor. That is, the random variables indicating whether customer j likes flavor i are independent and identically distributed. These preferences are constant throughout the test and will not be modified e.g. in response to your choices.\n\n**Test set 1 (29 Pts, Visible)**\n\n- $\\mathbf{T} = 50.$\n- $\\mathbf{N} = 200.$\n- $0 \\leqslant \\mathbf{D} \\leqslant \\mathbf{N}.$",
+            "sha256": "fdbcc1b1516d09dc20ebe9b46a4b98e88ee5d20b37c55f00a15dd16df082410b",
+            "sourceDocumentSha256": "f0220245363769fbd02a6ca3099cf1092ab1e1ffc8eaaacb6dd669f4133fea0b"
+          }
+        ],
+        "optionalExternalResources": [
+          {
+            "url": "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py",
+            "role": "optional-generic-process-launcher",
+            "sourceHash": "47ea33cf0f2625c915a90d214fb78145f450960599fa500d7ef7b4dd178d21ea",
+            "sourceSnapshotHash": "fdbcc1b1516d09dc20ebe9b46a4b98e88ee5d20b37c55f00a15dd16df082410b",
+            "cached": false,
+            "requiredForStatement": false,
+            "individuallyReviewed": true,
+            "sourceEvidence": {
+              "nativeProblemId": "P13143",
+              "quote": "you can use our [interactive runner]",
+              "officialHtmlSha256": "c62caf283711000ae71a874ef866ce5027bd811eb564c31e8dbb09895ce3125b",
+              "officialPdfSha256": "6c1e4489ed51f323f443960181da38fd1a63a2bcf1b9a5616f9b3f218f0123a0",
+              "reviewedPages": [
+                1,
+                2,
+                3
+              ]
+            },
+            "availability": {
+              "httpStatus": 403,
+              "fileRecovered": false,
+              "checkedAt": "2026-11-08T20:34:43.778699+00:00",
+              "attempts": [
+                {
+                  "mode": "direct",
+                  "error": "HTTP Error 403: Forbidden"
+                },
+                {
+                  "mode": "socks",
+                  "error": "curl: (22) The requested URL returned error: 403\r\n"
+                }
+              ]
+            },
+            "reason": "Generic convenience launcher for running two local processes in parallel; complete protocol, constraints, inline example and exact problem-specific testing tool are present. Original link retained visibly; no script bytes fabricated."
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "kind": "native-empty-interactive-placeholder",
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "",
+                "output": ""
+              }
+            ],
+            "reason": "Official original has an inline interaction trace, not an independent empty input/output test."
+          }
+        ],
+        "sampleInventory": {
+          "kind": "inline-interaction-without-standalone-sample-pairs",
+          "fullInteractionIncluded": true,
+          "inlineInteractionExamples": 1,
+          "nativeEmptyPlaceholderArchived": true,
+          "reviewedOriginalPages": [
+            1,
+            2,
+            3
+          ]
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "format": "complete-prose-v4",
+          "provider": "逐页核对 Google 官方原稿的预置中文译文",
+          "sourceHash": "47ea33cf0f2625c915a90d214fb78145f450960599fa500d7ef7b4dd178d21ea",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# Lollipop Shop\n\n## 题目描述\n\n你经营着一家棒棒糖店。每天开始时，你制作 $N$ 根棒棒糖，每根都有一种独一无二的口味，例如越橘、樱桃或青柠。当天有 $N$ 名顾客依次进店，每名顾客会告诉你自己喜欢哪些口味。只要某种口味之前还没卖给其他顾客，你就可以把该口味的一根棒棒糖卖给当前顾客，因为每种口味只有一根。若顾客喜欢的所有口味都已经售出，就无法卖给他棒棒糖，他只能失望地离开。\n\n在顾客到来之前，你不知道他喜欢哪些口味。每名顾客是否喜欢某种口味都是随机决定的，并且独立于他是否喜欢其他口味，以及其他顾客的喜好。不过，市场调查表明，有些口味总体上更受欢迎。例如，每名顾客喜欢青柠口味的概率可能为 $10\\%$，而喜欢樱桃口味的概率可能为 $1\\%$。每种口味对应的喜欢概率，均从区间 $[0.005, 0.1]$ 中独立、均匀随机选取。\n\n显然，你希望尽可能多地卖出棒棒糖，让这 $N$ 名顾客尽量满意！但由于无法预先知道后续顾客的喜好，并不总能作出最优选择：有时你给当前顾客卖出一种口味，之后才发现，当时卖给他另一种口味会更好。\n\n假设你预先知道了所有顾客的喜好并能提前规划，此时最多能卖出 $M$ 根棒棒糖。虽然你实际上并不知道后续喜好，但对于每个测试用例，仍要求你卖出的棒棒糖数量至少达到 $M$ 的 $90\\%$。\n\n### 交互协议\n\n这是一道交互题，输入输出与普通 Code Jam 题目不同。你需要与一个独立的进程交互，由它提供信息并判断你的回答。所有信息从标准输入读入，向评测器发送的内容必须写到标准输出。许多语言默认会缓冲输出，因此在阻塞等待回应前，要确保内容已真正输出，例如刷新输出缓冲区。原 FAQ 中有关于刷新缓冲区的说明。标准错误输出中的内容会被忽略，但它可能占用内存并计入内存限制，因此不要无限输出。\n\n程序首先应读入一行一个整数 $\\mathbf{T}$，表示测试用例数，然后依次处理 $\\mathbf{T}$ 个测试用例。\n\n每个测试用例开始时，读入一行一个整数 $\\mathbf{N}$，表示棒棒糖数量，同时也是顾客数量。\n\n接下来依次处理每名顾客。对于每名顾客，读入一行用空格分隔的整数。第一个整数为 $\\mathbf{D}$，表示该顾客喜欢的口味数量；后面跟着 $\\mathbf{D}$ 个严格递增的整数，表示这些口味的编号。每种口味的编号唯一，范围为 $[0, \\mathbf{N} - 1]$。某些顾客甚至所有顾客的 $\\mathbf{D}$ 都可能为零。\n\n每次读入上述一行后，必须向标准输出写入一行，包含你决定卖给该顾客的某种口味编号，该编号必须属于他喜欢的 $\\mathbf{D}$ 种口味；若不出售，则输出 -1。输出本组的第 $\\mathbf{N}$ 行后，若这是最后一组测试数据，则程序应结束；否则继续读入下一组数据。\n\n若程序出现错误，例如卖出了已经售出的口味、卖出了顾客不喜欢的口味、输出格式错误或数值越界，评测器会向输入流发送 -1，此后不再发送任何内容。若程序收到 -1 后继续等待，就会超时并得到 Time Limit Exceeded。你应及时终止程序，以获得应有的评测结果（例如 Wrong Answer 或 Runtime Error），而不是由于等待导致的 Time Limit Exceeded。和通常情况一样，总运行时间或内存超限、运行错误都会得到相应评测结果。某组卖出的棒棒糖数量未达到要求，并不会触发这里的 -1 消息。\n\n所有测试用例处理完后，不应继续向评测器发送额外内容。也就是说，若程序在最后一组之后继续向标准输出打印，会得到 Wrong Answer。\n\n## 输入格式\n\n见交互协议。\n\n## 输出格式\n\n见交互协议。\n\n## 提示\n\n注意，下面交互示例中的 $\\mathbf T$ 和 $\\mathbf N$ 小于真实数据；本地测试工具使用的数据规模也更小。\n\n```\n  t = readline_int()           // reads 10 into t\n  n = readline_int()           // reads 4 into n (four customers & flavors)\n  prefs = readline_int_list()  // reads 1 2 (customer only likes flavor 2)\n  printline 2 to stdout        // sells this customer flavor 2\n  flush stdout\n  prefs = readline_int_list()  // reads 0 (customer likes nothing)\n  printline -1 to stdout       // no flavor to sell to the customer!\n  flush stdout\n  prefs = readline_int_list()  // reads 1 2 (customer only likes flavor 2)\n  printline -1 to stdout       // already used flavor 2, so no flavor to sell\n  flush stdout\n  prefs = readline_int_list()  // reads 2 1 3 (customer likes 1 and 3)\n  printline 3 to stdout        // note: we could have also sold flavor 1\n  flush stdout\n  n = readline_int()           // (start of case 2) reads 1\n  prefs = readline_int_list()  // reads 1 0\n  printline -1 to stdout       // non-optimal but legal choice\n  flush stdout\n  n = readline_int()           // (start of case 3) reads 5\n  prefs = readline_int_list()  // reads 2 1 3\n  printline 1 to stdout\n  flush stdout\n  prefs = readline_int_list()  // reads 2 1 2\n  printline 1 to stdout        // error -- tried to give same flavor twice!\n  flush stdout\n  prefs = readline_int_list()  // reads -1 (judge has given up on us)\n  exit                         // exits to avoid an ambiguous TLE error\n```\n\n以上伪代码展示了如下情形。\n\n- 第一组中，程序共卖出两根棒棒糖，而最多也只能卖出两根，因此实际卖出数量至少达到了最大可能数量的 90%。\n- 第二组中，为了展示交互，程序明明可以出售一根棒棒糖，却选择不卖。它本可以卖出 1 根，实际却卖出了 0 根。因此程序不能通过这组测试，但注意，评测器不会因此停止发送输入。\n- 第三组中，程序又为了演示而进行了一次非法操作，导致评测器停止发送输入。程序识别出这一情况并终止，最终会得到 Wrong Answer。\n\n你可以使用题目专用测试工具，在本地或原平台测试程序。在本地测试时，需要让测试工具与你的程序并行运行；可以使用原有的 [interactive runner](https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py)，具体使用方式见该脚本中的注释。\n\n测试工具的使用说明写在工具自身的注释中，也鼓励你添加自己的测试数据。请注意，虽然测试工具旨在模拟评测系统，但它**不是**真正的评测系统，行为可能与实际评测器不同。\n\n**关于评测器行为**\n\n每组测试开始时，评测器就会决定所有顾客的喜好。具体而言，每种口味都有一个位于 0.005 到 0.1 之间的隐藏概率 $P_i$，每名顾客喜欢第 i 种口味的概率为 $P_i$。对于固定的口味 i，各顾客 j 是否喜欢它的随机变量相互独立且同分布。这些喜好在整组测试中保持不变，不会根据你的选择而调整。\n\n**测试集 1（29 分，公开评测）**\n\n- $\\mathbf{T} = 50.$\n- $\\mathbf{N} = 200.$\n- $0 \\leqslant \\mathbf{D} \\leqslant \\mathbf{N}.$\n\n## 官方资源\n\n[Google 原始题面 PDF](https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/statement.pdf?download=1)\n\n[原题专用本地测试工具](https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/problem_statement/local_testing_tool.py?download=1)\n\nGoogle 原始限制为每个测试集 25 秒、内存 1 GB。上文给出了完整交互协议与示例，并不依赖某个特定的本地进程启动器。\n\n**可选辅助脚本状态：** 原文链接的通用 `interactive_runner.py` 尚未找回，其 Google 原址当前返回 HTTP 403。原链接仍予保留，但这里没有提供替代脚本，也没有声称已离线缓存该脚本。原题专用测试工具可从上方下载。\n"
+        },
+        "previousSourceStatement": {
+          "attachments": {},
+          "currentSourceMarkdown": "# Lollipop Shop\n\n## 题目描述\n\nYou own a lollipop shop. At the start of the day, you make $N$ lollipops, each of a single unique flavor, like huckleberry, cherry or lime. $N$ customers come into the shop during the day, one at a time. Each customer gives you a list of which of your lollipop flavors they like. You can sell them one lollipop of any of those flavors, as long as you have not already sold someone else the same flavor earlier in the day (since there is only one lollipop of each flavor). If none of the flavors they like are still available, you cannot sell them a lollipop, and they leave your shop disappointed.\n\nYou do not know what each customer's flavor preferences are going to be until they arrive. Each customer decides if they like or dislike each flavor randomly, independently of whether they like any other flavor, or what flavors anyone else likes. However, your market studies have shown that some flavors may have a higher probability of being liked in general! For example, the lime flavor might have a $10\\%$ chance of being liked by any particular customer, whereas that chance might be $1\\%$ for the cherry flavor. These values are always chosen independently and uniformly at random from the interval $[0.005, 0.1]$.\n\nObviously, you want to sell lollipops to as many of the $N$ customers as possible! But, since you do not know what flavors your customers will ask for ahead of time, you cannot always make an optimal decision — sometimes you might sell a customer one flavor, and then later wish you had sold them another.\n\nSuppose that you somehow knew all the customers' preferences in advance and could plan ahead; then there is some maximum number $M$ of lollipops that you could possibly sell. You do not know the customers' preferences in advance, but we require you to sell a number of lollipops that is at least $90\\%$ of $M$ for each input case.\n\n### Interactive Protocol\n\nThis problem is interactive, which means that the concepts of input and output are different than in standard Code Jam problems. You will interact with a separate process that both provides you with information and evaluates your responses. All information comes into your program via standard input; anything that you need to communicate should be sent via standard output. Remember that many programming languages buffer the output by default, so make sure your output actually goes out (for instance, by flushing the buffer) before blocking to wait for a response. See the FAQ for an explanation of what it means to flush the buffer. Anything your program sends through standard error is ignored, but it might consume some memory and be counted against your memory limit, so do not overflow it.\n\nInitially, your program should read a single line containing a single integer $\\mathbf{T}$ indicating the number of test cases. Then, you need to process $\\mathbf{T}$ test cases.\n\nFor each test case, your program should read a single line with one integer $\\mathbf{N}$, the number of lollipops (which is the same as the number of customers).\n\nThen, for each of the customers, your program should read a single line, which will contain space-separated integers. The first integer is $\\mathbf{D}$, the number of flavors that customer likes. Then, $\\mathbf{D}$ integers follow, the ID numbers of those flavors, in strictly increasing order. Flavors have unique ID numbers in the range $[0, \\mathbf{N} - 1]$. Note that $\\mathbf{D}$ might be zero for some or all customers.\n\nAfter each of these lines, your program must write a single line to standard output, containing the ID number of one of the $\\mathbf{D}$ flavors to sell to the customer, or -1 if no lollipop is to be sold to the customer. After you have written the $\\mathbf{N}$th line for the test case, your program should terminate if it was the last test case; otherwise, it should start reading data for the next test case.\n\nIf your program gets something wrong (e.g., tries to sell a customer a flavor that was already sold, or tries to sell a customer a flavor they don't like, or uses the wrong output format, or outputs an out-of-bounds value), the judge will send -1 to your input stream and it will not send any other output after that. If your program continues to wait for the judge after receiving -1, your program will time out, resulting in a Time Limit Exceeded error. Notice that it is your responsibility to have your program exit in time to receive the appropriate verdict (Wrong Answer, Runtime Error, etc.) instead of a Time Limit Exceeded error. As usual, if the total time or memory is exceeded, or your program gets a runtime error, you will receive the appropriate verdict. Not selling enough lollipops for a test case will not cause you to get the -1 message.\n\nYou should not send additional information to the judge after processing all test cases. In other words, if your program keeps printing to standard output after the last test case, you will get a Wrong Answer judgment.\n\n## 输入格式\n\nSee Interactive Protocol.\n\n## 输出格式\n\nSee Interactive Protocol.\n\n## 提示\n\nNote that this sample interaction has smaller values of $\\mathbf T$ and $\\mathbf N$ than the real data. The local testing tool also uses smaller cases.\n\n```\n  t = readline_int()           // reads 10 into t\n  n = readline_int()           // reads 4 into n (four customers & flavors)\n  prefs = readline_int_list()  // reads 1 2 (customer only likes flavor 2)\n  printline 2 to stdout        // sells this customer flavor 2\n  flush stdout\n  prefs = readline_int_list()  // reads 0 (customer likes nothing)\n  printline -1 to stdout       // no flavor to sell to the customer!\n  flush stdout\n  prefs = readline_int_list()  // reads 1 2 (customer only likes flavor 2)\n  printline -1 to stdout       // already used flavor 2, so no flavor to sell\n  flush stdout\n  prefs = readline_int_list()  // reads 2 1 3 (customer likes 1 and 3)\n  printline 3 to stdout        // note: we could have also sold flavor 1\n  flush stdout\n  n = readline_int()           // (start of case 2) reads 1\n  prefs = readline_int_list()  // reads 1 0\n  printline -1 to stdout       // non-optimal but legal choice\n  flush stdout\n  n = readline_int()           // (start of case 3) reads 5\n  prefs = readline_int_list()  // reads 2 1 3\n  printline 1 to stdout\n  flush stdout\n  prefs = readline_int_list()  // reads 2 1 2\n  printline 1 to stdout        // error -- tried to give same flavor twice!\n  flush stdout\n  prefs = readline_int_list()  // reads -1 (judge has given up on us)\n  exit                         // exits to avoid an ambiguous TLE error\n```\n\nThe pseudocode above demonstrates the following scenario.\n\n- In the first test case, the program sells a total of two lollipops. It would not have been possible to sell more than two, so the actual number sold is definitely at least 90% of the maximum possible number sold.\n- In the second test case, the program chooses (for the sake of demonstration here) not to sell the customer a lollipop, although it could have. It sells a total of 0 when it could have sold a total of 1. So, the program will not pass this test set, but note that this does not cause the judge to stop sending input.\n- In the third case, the program makes an error (again for the sake of demonstration) that causes the judge to stop sending input. The program recognizes this and terminates. The user will see a Wrong Answer judgment.\n\nYou can use this testing tool to test locally or on our platform. To test locally, you will need to run the tool in parallel with your code; you can use our [interactive runner](https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py) for that. For more information, read the instructions in comments in that file.\n\nInstructions for the testing tool are included in comments within the tool. We encourage you to add your own test cases. Please be advised that although the testing tool is intended to simulate the judging system, it is **NOT** the real judging system and might behave differently.\n\n**A note on judge behavior**\n\nAt the start of each test case, the judge will determine all customers' preferences. That is, it will use a (hidden) list of probabilities $P_i$ between 0.005 and 0.1, one for each flavor; each customer has a probability $P_i$ of liking the i-th flavor. That is, the random variables indicating whether customer j likes flavor i are independent and identically distributed. These preferences are constant throughout the test and will not be modified e.g. in response to your choices.\n\n**Test set 1 (29 Pts, Visible)**\n\n- $\\mathbf{T} = 50.$\n- $\\mathbf{N} = 200.$\n- $0 \\leqslant \\mathbf{D} \\leqslant \\mathbf{N}.$\n",
+          "id": "luogu-training-P13143",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py"
+            ],
+            "markdownSha256": "730597f28023ded434e8ec89ad79179520e397065693533828579a51c4f690f6",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "10d04cdbcb2f198dc0cd8a6622a6f7e48d81f0b80dd6069e14dcf00dbf1d0824",
+                "url": "https://www.luogu.com.cn/problem/P13143"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 1049,
+            "timeMs": 25000
+          },
+          "localJudgeSupported": false,
+          "markdown": "# Lollipop Shop\n\n## 题目描述\n\nYou own a lollipop shop. At the start of the day, you make $N$ lollipops, each of a single unique flavor, like huckleberry, cherry or lime. $N$ customers come into the shop during the day, one at a time. Each customer gives you a list of which of your lollipop flavors they like. You can sell them one lollipop of any of those flavors, as long as you have not already sold someone else the same flavor earlier in the day (since there is only one lollipop of each flavor). If none of the flavors they like are still available, you cannot sell them a lollipop, and they leave your shop disappointed.\n\nYou do not know what each customer's flavor preferences are going to be until they arrive. Each customer decides if they like or dislike each flavor randomly, independently of whether they like any other flavor, or what flavors anyone else likes. However, your market studies have shown that some flavors may have a higher probability of being liked in general! For example, the lime flavor might have a $10\\%$ chance of being liked by any particular customer, whereas that chance might be $1\\%$ for the cherry flavor. These values are always chosen independently and uniformly at random from the interval $[0.005, 0.1]$.\n\nObviously, you want to sell lollipops to as many of the $N$ customers as possible! But, since you do not know what flavors your customers will ask for ahead of time, you cannot always make an optimal decision — sometimes you might sell a customer one flavor, and then later wish you had sold them another.\n\nSuppose that you somehow knew all the customers' preferences in advance and could plan ahead; then there is some maximum number $M$ of lollipops that you could possibly sell. You do not know the customers' preferences in advance, but we require you to sell a number of lollipops that is at least $90\\%$ of $M$ for each input case.\n\n### Interactive Protocol\n\nThis problem is interactive, which means that the concepts of input and output are different than in standard Code Jam problems. You will interact with a separate process that both provides you with information and evaluates your responses. All information comes into your program via standard input; anything that you need to communicate should be sent via standard output. Remember that many programming languages buffer the output by default, so make sure your output actually goes out (for instance, by flushing the buffer) before blocking to wait for a response. See the FAQ for an explanation of what it means to flush the buffer. Anything your program sends through standard error is ignored, but it might consume some memory and be counted against your memory limit, so do not overflow it.\n\nInitially, your program should read a single line containing a single integer $\\mathbf{T}$ indicating the number of test cases. Then, you need to process $\\mathbf{T}$ test cases.\n\nFor each test case, your program should read a single line with one integer $\\mathbf{N}$, the number of lollipops (which is the same as the number of customers).\n\nThen, for each of the customers, your program should read a single line, which will contain space-separated integers. The first integer is $\\mathbf{D}$, the number of flavors that customer likes. Then, $\\mathbf{D}$ integers follow, the ID numbers of those flavors, in strictly increasing order. Flavors have unique ID numbers in the range $[0, \\mathbf{N} - 1]$. Note that $\\mathbf{D}$ might be zero for some or all customers.\n\nAfter each of these lines, your program must write a single line to standard output, containing the ID number of one of the $\\mathbf{D}$ flavors to sell to the customer, or -1 if no lollipop is to be sold to the customer. After you have written the $\\mathbf{N}$th line for the test case, your program should terminate if it was the last test case; otherwise, it should start reading data for the next test case.\n\nIf your program gets something wrong (e.g., tries to sell a customer a flavor that was already sold, or tries to sell a customer a flavor they don't like, or uses the wrong output format, or outputs an out-of-bounds value), the judge will send -1 to your input stream and it will not send any other output after that. If your program continues to wait for the judge after receiving -1, your program will time out, resulting in a Time Limit Exceeded error. Notice that it is your responsibility to have your program exit in time to receive the appropriate verdict (Wrong Answer, Runtime Error, etc.) instead of a Time Limit Exceeded error. As usual, if the total time or memory is exceeded, or your program gets a runtime error, you will receive the appropriate verdict. Not selling enough lollipops for a test case will not cause you to get the -1 message.\n\nYou should not send additional information to the judge after processing all test cases. In other words, if your program keeps printing to standard output after the last test case, you will get a Wrong Answer judgment.\n\n## 输入格式\n\nSee Interactive Protocol.\n\n## 输出格式\n\nSee Interactive Protocol.\n\n## 提示\n\nNote that this sample interaction has smaller values of $\\mathbf T$ and $\\mathbf N$ than the real data. The local testing tool also uses smaller cases.\n\n```\n  t = readline_int()           // reads 10 into t\n  n = readline_int()           // reads 4 into n (four customers & flavors)\n  prefs = readline_int_list()  // reads 1 2 (customer only likes flavor 2)\n  printline 2 to stdout        // sells this customer flavor 2\n  flush stdout\n  prefs = readline_int_list()  // reads 0 (customer likes nothing)\n  printline -1 to stdout       // no flavor to sell to the customer!\n  flush stdout\n  prefs = readline_int_list()  // reads 1 2 (customer only likes flavor 2)\n  printline -1 to stdout       // already used flavor 2, so no flavor to sell\n  flush stdout\n  prefs = readline_int_list()  // reads 2 1 3 (customer likes 1 and 3)\n  printline 3 to stdout        // note: we could have also sold flavor 1\n  flush stdout\n  n = readline_int()           // (start of case 2) reads 1\n  prefs = readline_int_list()  // reads 1 0\n  printline -1 to stdout       // non-optimal but legal choice\n  flush stdout\n  n = readline_int()           // (start of case 3) reads 5\n  prefs = readline_int_list()  // reads 2 1 3\n  printline 1 to stdout\n  flush stdout\n  prefs = readline_int_list()  // reads 2 1 2\n  printline 1 to stdout        // error -- tried to give same flavor twice!\n  flush stdout\n  prefs = readline_int_list()  // reads -1 (judge has given up on us)\n  exit                         // exits to avoid an ambiguous TLE error\n```\n\nThe pseudocode above demonstrates the following scenario.\n\n- In the first test case, the program sells a total of two lollipops. It would not have been possible to sell more than two, so the actual number sold is definitely at least 90% of the maximum possible number sold.\n- In the second test case, the program chooses (for the sake of demonstration here) not to sell the customer a lollipop, although it could have. It sells a total of 0 when it could have sold a total of 1. So, the program will not pass this test set, but note that this does not cause the judge to stop sending input.\n- In the third case, the program makes an error (again for the sake of demonstration) that causes the judge to stop sending input. The program recognizes this and terminates. The user will see a Wrong Answer judgment.\n\nYou can use this testing tool to test locally or on our platform. To test locally, you will need to run the tool in parallel with your code; you can use our [interactive runner](https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py) for that. For more information, read the instructions in comments in that file.\n\nInstructions for the testing tool are included in comments within the tool. We encourage you to add your own test cases. Please be advised that although the testing tool is intended to simulate the judging system, it is **NOT** the real judging system and might behave differently.\n\n**A note on judge behavior**\n\nAt the start of each test case, the judge will determine all customers' preferences. That is, it will use a (hidden) list of probabilities $P_i$ between 0.005 and 0.1, one for each flavor; each customer has a probability $P_i$ of liking the i-th flavor. That is, the random variables indicating whether customer j likes flavor i are independent and identically distributed. These preferences are constant throughout the test and will not be modified e.g. in response to your choices.\n\n**Test set 1 (29 Pts, Visible)**\n\n- $\\mathbf{T} = 50.$\n- $\\mathbf{N} = 200.$\n- $0 \\leqslant \\mathbf{D} \\leqslant \\mathbf{N}.$",
+          "officialTags": [
+            "数学",
+            "2018",
+            "交互题",
+            "Special Judge",
+            "概率论",
+            "Google Code Jam"
+          ],
+          "problemType": "interactive",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py",
+              "kind": "attachment",
+              "url": "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "",
+              "name": "样例 1",
+              "output": ""
+            }
+          ],
+          "statementAvailable": true,
+          "statementSupplement": "",
+          "statementVersion": 7,
+          "title": "Lollipop Shop",
+          "translation": {
+            "kind": "site",
+            "markdown": "# Lollipop Shop\n\n## 题目描述\n\n你拥有一家棒棒糖店。在一天开始时，你制作了 $N$ 根棒棒糖，每根棒棒糖都有唯一的口味，比如越橘、樱桃或青柠。当天会有 $N$ 位顾客依次进入你的店铺。每位顾客会给你一份他们喜欢的棒棒糖口味列表。你可以卖给他们其中任意一种他们喜欢的口味的棒棒糖，只要这种口味的棒棒糖还没有在当天卖给其他人（因为每种口味只有一根棒棒糖）。如果他们喜欢的所有口味都已经卖完了，你就不能卖棒棒糖给他们，他们会失望地离开你的店。\n\n你在顾客到来之前并不知道他们的口味偏好。每位顾客会随机决定是否喜欢每种口味，这一决定与他们是否喜欢其他口味、以及其他人喜欢什么口味都无关。然而，你的市场调研显示，有些口味被喜欢的概率更高！例如，青柠口味被某位顾客喜欢的概率可能是 $10\\%$，而樱桃口味可能只有 $1\\%$。这些概率值总是独立且均匀地从区间 $[0.005, 0.1]$ 中随机选取。\n\n显然，你希望能卖出尽可能多的棒棒糖！但由于你事先不知道顾客的口味偏好，因此你无法总是做出最优决策——有时你可能会把某种口味卖给一位顾客，之后又希望当时卖给他们另一种口味。\n\n假设你能提前知道所有顾客的偏好并做好规划，那么你最多能卖出 $M$ 根棒棒糖。虽然你无法提前知道顾客的偏好，但本题要求你在每组输入中，卖出的棒棒糖数量至少达到 $M$ 的 $90\\%$。\n\n### 交互协议\n\n本题为交互题，这意味着输入输出方式与标准题目不同。你需要与一个独立的进程进行交互，该进程既向你提供信息，也会评判你的回答。所有信息都通过标准输入进入你的程序；你需要传递的信息应通过标准输出输出。请注意，许多编程语言默认会缓冲输出，因此请确保你的输出实际被发送出去（例如，通过刷新缓冲区），再等待下一步输入。详见 FAQ 关于刷新缓冲区的说明。你通过标准错误输出的内容会被忽略，但可能会占用内存并计入内存限制，因此请勿输出过多内容。\n\n最初，你的程序应读取一行，包含一个整数 $\\mathbf{T}$，表示测试用例的数量。然后，你需要处理 $\\mathbf{T}$ 组测试数据。\n\n对于每组测试数据，你的程序应读取一行，包含一个整数 $\\mathbf{N}$，表示棒棒糖的数量（也等于顾客数量）。\n\n接下来，对于每位顾客，你的程序应读取一行，包含若干用空格分隔的整数。第一个整数为 $\\mathbf{D}$，表示该顾客喜欢的口味数量。接下来有 $\\mathbf{D}$ 个整数，表示这些口味的编号，严格递增。口味编号唯一，范围为 $[0, \\mathbf{N} - 1]$。注意，有些顾客的 $\\mathbf{D}$ 可能为零。\n\n在每一行顾客信息后，你的程序必须输出一行，包含一个整数，表示你卖给该顾客的口味编号（必须是他们喜欢且尚未卖出的口味），或者输出 $-1$ 表示不卖棒棒糖给该顾客。在每组测试数据的第 $\\mathbf{N}$ 行输出后，如果这是最后一组测试数据，程序应终止；否则，继续读取下一组测试数据。\n\n如果你的程序出现错误（例如，尝试卖出已经卖掉的口味，或者卖给顾客他们不喜欢的口味，或者输出格式错误，或者输出超出范围的值），评测机会向你的输入流发送 $-1$，并且不会再发送其他输出。如果你的程序在收到 $-1$ 后仍然等待评测机输入，则会超时，导致超时错误。请注意，程序应自行及时退出，以获得正确的判题结果（如 Wrong Answer、Runtime Error 等），而不是超时。如果总时间或内存超限，或程序运行时出错，也会得到相应的判题结果。如果某组测试数据卖出的棒棒糖数量不足，不会导致收到 $-1$。\n\n在处理完所有测试数据后，不要再向评测机输出任何内容。换句话说，如果你的程序在最后一组测试数据后仍然输出内容，将会被判为 Wrong Answer。\n\n你可以使用本地测试工具进行测试。要在本地测试，你需要让测试工具与你的代码并行运行；可以使用我们的 [interactive runner](https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py)。更多信息请阅读该文件中的注释说明。\n\n测试工具的使用说明已包含在工具的注释中。我们鼓励你添加自己的测试用例。请注意，虽然测试工具旨在模拟评测系统，但它**不是**真实的评测系统，行为可能有所不同。\n\n**关于评测机行为的说明**\n\n在每组测试数据开始时，评测机会确定所有顾客的偏好。即，对于每种口味，评测机会生成一个（隐藏的）概率列表 $P_i$，每个 $P_i$ 取值在 $[0.005, 0.1]$ 之间；每位顾客喜欢第 $i$ 种口味的概率为 $P_i$。也就是说，顾客 $j$ 是否喜欢口味 $i$ 的随机变量是独立同分布的。这些偏好在整个测试过程中保持不变，不会因你的选择而改变。\n\n**测试点 1（29 分，公开）**\n\n- $\\mathbf{T} = 50$。\n- $\\mathbf{N} = 200$。\n- $0 \\leqslant \\mathbf{D} \\leqslant \\mathbf{N}$。\n\n## 输入格式\n\n见交互协议。\n\n## 输出格式\n\n见交互协议。\n\n## 提示\n\n请注意，以下样例交互中的 $\\mathbf T$ 和 $\\mathbf N$ 都比真实数据要小。用于本地测试的工具也使用更小的样例。\n\n```\n  t = readline_int()           // 读取 t，值为 10\n  n = readline_int()           // 读取 n，值为 4（4 位顾客和 4 种口味）\n  prefs = readline_int_list()  // 读取 1 2（顾客只喜欢口味 2）\n  printline 2 to stdout        // 卖给该顾客口味 2\n  flush stdout\n  prefs = readline_int_list()  // 读取 0（顾客什么都不喜欢）\n  printline -1 to stdout       // 没有可卖的口味！\n  flush stdout\n  prefs = readline_int_list()  // 读取 1 2（顾客只喜欢口味 2）\n  printline -1 to stdout       // 口味 2 已经卖出，无法再卖\n  flush stdout\n  prefs = readline_int_list()  // 读取 2 1 3（顾客喜欢 1 和 3）\n  printline 3 to stdout        // 注意：也可以卖 1\n  flush stdout\n  n = readline_int()           // （第二组数据开始）读取 1\n  prefs = readline_int_list()  // 读取 1 0\n  printline -1 to stdout       // 非最优但合法的选择\n  flush stdout\n  n = readline_int()           // （第三组数据开始）读取 5\n  prefs = readline_int_list()  // 读取 2 1 3\n  printline 1 to stdout\n  flush stdout\n  prefs = readline_int_list()  // 读取 2 1 2\n  printline 1 to stdout        // 错误——尝试重复卖出同一口味！\n  flush stdout\n  prefs = readline_int_list()  // 读取 -1（评测机放弃评测）\n  exit                         // 退出，避免超时\n```\n\n上述伪代码演示了如下场景：\n\n- 第一组数据，程序共卖出两根棒棒糖。无法卖出更多，因此实际卖出数量肯定至少为最大可能数量的 $90\\%$。\n- 第二组数据，程序（仅为演示）选择不卖棒棒糖，虽然本可以卖。实际卖出 0 根，最大可卖 1 根。因此该组数据无法通过测试，但不会导致评测机停止输入。\n- 第三组数据，程序出现错误（同样仅为演示），导致评测机停止输入。程序识别到这一点并终止。用户会看到 Wrong Answer 判定。\n\n# 输入格式\n\n见交互协议。\n\n# 输出格式\n\n见交互协议。\n\n# 提示\n\n请注意，以下样例交互中的 $\\mathbf T$ 和 $\\mathbf N$ 都比真实数据要小。用于本地测试的工具也使用更小的样例。\n\n由 ChatGPT 4.1 翻译",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P13143"
+          },
+          "translationSourceSnapshot": {
+            "currentSourceHash": "730597f28023ded434e8ec89ad79179520e397065693533828579a51c4f690f6",
+            "equivalentFormattingVerified": true,
+            "samplesUnchanged": true,
+            "sourceHash": "fdbcc1b1516d09dc20ebe9b46a4b98e88ee5d20b37c55f00a15dd16df082410b"
+          },
+          "url": "https://www.luogu.com.cn/problem/P13143"
+        }
+      }
+    },
+    {
+      "problem_id": "luogu-training-P7562",
+      "beforeSha256": "aea2aa437a1126e929efbc8166382f81938ea82d009f44455475c7bca8b3f969",
+      "content": {
+        "attachments": {
+          "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2.pdf": {
+            "sourceUrl": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2.pdf",
+            "sha256": "b141390dcce8bcf3d4e70aea9d6e324418ef7ddfc708502bfdc301e71ffccb8c",
+            "bytes": 78905,
+            "mime": "application/pdf",
+            "pageCount": 4,
+            "data": "tb-asset:b141390dcce8bcf3d4e70aea9d6e324418ef7ddfc708502bfdc301e71ffccb8c",
+            "fileName": "event2.pdf"
+          },
+          "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/2021-sp-d4-notice.pdf": {
+            "sourceUrl": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/2021-sp-d4-notice.pdf",
+            "sha256": "0fca2dbba4395b95e912ca0929012599de54997543f11c94914202b574d77d3b",
+            "bytes": 86762,
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "data": "tb-asset:0fca2dbba4395b95e912ca0929012599de54997543f11c94914202b574d77d3b",
+            "fileName": "2021-sp-d4-notice.pdf"
+          }
+        },
+        "id": "luogu-training-P7562",
+        "images": {},
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "checkedAt": "2026-11-08T20:54:18.472918+00:00",
+          "markdownSha256": "61de51e7c301ee49c805fa0499323ab197137f22be7840c2145e1635d81f5958",
+          "sourceDocuments": [
+            {
+              "url": "https://www.luogu.com.cn/problem/P7562",
+              "sha256": "3911ff9bef9117988bef3d744175ae7a9982b9cd8fb8486a4eafd87b59652061",
+              "status": 200
+            },
+            {
+              "url": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2.pdf",
+              "sha256": "b141390dcce8bcf3d4e70aea9d6e324418ef7ddfc708502bfdc301e71ffccb8c",
+              "bytes": 78905,
+              "status": 200,
+              "captureMethod": "direct"
+            },
+            {
+              "url": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/2021-sp-d4-notice.pdf",
+              "sha256": "0fca2dbba4395b95e912ca0929012599de54997543f11c94914202b574d77d3b",
+              "bytes": 86762,
+              "status": 200,
+              "captureMethod": "direct"
+            }
+          ],
+          "sampleCount": 4,
+          "pdfPageCountVerified": false,
+          "corpusAuditVerifiedSha256": "61de51e7c301ee49c805fa0499323ab197137f22be7840c2145e1635d81f5958",
+          "recoveryBinding": {
+            "nativeProblemId": "P7562",
+            "nativeSourceSha256": "3911ff9bef9117988bef3d744175ae7a9982b9cd8fb8486a4eafd87b59652061",
+            "method": "complete-native-source-and-reviewed-official-originals-with-explicit-optional-resource-boundary",
+            "standardInputFullyDefined": true,
+            "optionalTestDataBytes": 99667903,
+            "officialPdfPages": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "officialNoticePages": [
+              1
+            ]
+          },
+          "reviewedRecoveryRecordSha256": "1fed8b0e48a7884677056ebb1cdfeb62a106de0a723809d02adaa3f0da7360d3"
+        },
+        "limits": {
+          "memoryMb": 524,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# イベント巡り 2 (Event Hopping 2) (Day4)\n\n## 题目背景\n\n**如果无法在洛谷下载测试数据，可以 [点此](https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2-data.zip) 下载所有数据。**\n\n## 题目描述\n\nIOI Park 将有 $n$ 场活动。\n\n这些活动的编号从 $1$ 到 $n$。 活动 $i$ 从时间 $L_i+10^{-1}$ 到时间 $R_i-10^{-1}$ 举行。数据保证 $L_i$ 和 $R_i$ 是整数。\n\nJOI 君决定参加其中的 $k$ 个活动。但是，JOI 君不能在中间加入或离开每个活动。**在两个活动场所间移动的时间忽略不计**。\n\nJOI 君希望参加编号较小的活动。严格来说，JOI 君参加的 $k$ 个活动的编号依次为 $a_1,\\cdots,a_k$，其中 $1 \\le a_1 < \\cdots < a_k \\le n$。如果序列 $(a_1, \\cdots, a_k)$ 的编号小于 $(b_1, \\cdots, b_k)$，当且仅当存在 $j\\ (1 \\le j \\le k)$ 满足在区间 $[1,j-1]$ 里的所有 $l$ 都有 $a_l=b_l$ 和 $a_j<b_j$。\n\n\n\n给出每个活动的信息和 JOI 君参加的活动个数 $k$，判断 JOI 君是否可以参加 $k$ 个活动，如果可以，输出所有的 $k$ 个活动的编号。\n\n## 输入格式\n\n第一行，两个正整数 $n,k$。\n\n第 $2 \\sim n + 1$ 行，每行 $2$ 个正整数，$L_i, R_i$。\n\n## 输出格式\n\n如果 JOI 君可以参加 $k$ 个活动：\n- 输出 $k$ 行。\n- 我们设 JOI 君参与的 $k$ 个活动的编号为 $a_1, a_2, \\cdots, a_k\\ (1\\le a_1 < \\cdots < a_k \\le n)$，你需要在第 $j$ 行输出 $a_j\\ (1\\le j \\le k)$。 请注意，序列 $(a_1, \\cdots, a_k)$ 必须是 **最小字典序**。\n\n\n\n\n如果 JOI 君无法参加 $k$ 个活动，输出 $\\texttt{-1}$。\n\n## 提示\n\n#### 样例 #1 解释\n\n有 $2$ 种方式可以参加正好 $4$ 个活动。\n\n- 参加 $1, 3, 4, 5$；\n- 参加 $2, 3, 4, 5$。\n\n数列 $(1,3,4,5)$ 比数列 $(2, 3, 4, 5)$ 字典序小，所以输出 $1, 3, 4, 5$。\n\n#### 样例 #2 解释\n\n无论怎么选择都不可能正好参加 $3$ 个活动，所以输出 $\\tt -1$。\n\n#### 样例 #3 解释\n\n本样例满足所有 Subtask 的条件。\n\n#### 数据规模与约定\n\n**因洛谷限制，本题不予评测每个 Subtask 的第 $1\\sim 20$ 个测试点。**\n\n**本题采用 Subtask 计分法。**\n\n| Subtask | 分值占比百分率 | $n$ | $L_i$ |\n| :----: | :----: | :----: | :----:|\n| $1$ | $7\\%$ | / | $L_i \\le L_{i+1}\\ (1 \\le i \\le n − 1)$ |\n| $2$ | $1\\%$ | $\\le20$ | / |\n| $3$ | $31\\%$ | $\\le 3 \\times 10^3$ |/ |\n| $4$ | $61\\%$ | / | / |\n\n**注：斜线表示无特殊限制。**\n\n对于 $100\\%$ 的数据：\n- $1\\le n\\le 10^5$；\n- $1 \\le k \\le n$；\n- $1\\le L_i < R_i \\le 10^9 (1\\le i \\le n)$。\n\n\n#### 说明\n\n本题译自 [第２０回日本情報オリンピック 2020/2021春季トレーニング合宿 -](https://www.ioi-jp.org/camp/2021/2021-sp-tasks/index.html) [競技 4 -](https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/2021-sp-d4-notice.pdf) [T1 日文题面](https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2.pdf)。\n\n## 可选测试数据下载\n\n上方保留的官方完整测试集下载入口仍可使用。该 ZIP 为 99,667,903 字节（约 95.1 MiB），超过单个题面附件的离线缓存上限，因此未随题面缓存，可在浏览器中下载。它仅用于额外的本地测试；本题的完整输入格式、规则和四组样例均已在题面中给出。\n",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2.pdf": {
+            "sourceUrl": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2.pdf",
+            "sha256": "b141390dcce8bcf3d4e70aea9d6e324418ef7ddfc708502bfdc301e71ffccb8c",
+            "bytes": 78905,
+            "mime": "application/pdf",
+            "pageCount": 4
+          },
+          "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/2021-sp-d4-notice.pdf": {
+            "sourceUrl": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/2021-sp-d4-notice.pdf",
+            "sha256": "0fca2dbba4395b95e912ca0929012599de54997543f11c94914202b574d77d3b",
+            "bytes": 86762,
+            "mime": "application/pdf",
+            "pageCount": 1
+          }
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "5 4\n1 3\n2 5\n8 9\n6 8\n10 15\n",
+            "output": "1\n3\n4\n5\n"
+          },
+          {
+            "name": "样例 2",
+            "input": "4 3\n1 4\n3 5\n4 9\n7 10\n",
+            "output": "-1\n"
+          },
+          {
+            "name": "样例 3",
+            "input": "10 6\n77412002 93858605\n244306432 318243514\n280338037 358494212\n439397354 492065507\n485779890 529132783\n571714810 632053254\n659767854 709114867\n718405631 733610573\n786950301 815106357\n878719468 899999649\n",
+            "output": "1\n2\n4\n6\n7\n8\n"
+          },
+          {
+            "name": "样例 4",
+            "input": "20 16\n250732298 258217736\n26470443 34965880\n252620676 260043105\n692063405 697656580\n497457675 504191511\n391372149 397942668\n858168758 867389085\n235756850 241022021\n585764751 593366541\n207824318 217052204\n661682908 671226688\n886273261 892279963\n770109416 778960597\n264372562 270395107\n176883483 186662376\n509929119 519063796\n109491630 118520141\n162731982 168101507\n662727316 668317158\n757072772 765493222\n",
+            "output": "1\n2\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n"
+          }
+        ],
+        "statementAvailable": true,
+        "statementVersion": 12,
+        "title": "イベント巡り 2 (Event Hopping 2) (Day4)",
+        "url": "https://www.luogu.com.cn/problem/P7562",
+        "statementSource": "原站完整正文与已复核官方原件",
+        "sourceSnapshots": [
+          {
+            "kind": "native-public-markdown-before-recovery",
+            "markdown": "# イベント巡り 2 (Event Hopping 2) (Day4)\n\n## 题目背景\n\n**如果无法在洛谷下载测试数据，可以 [点此](https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2-data.zip) 下载所有数据。**\n\n## 题目描述\n\nIOI Park 将有 $n$ 场活动。\n\n这些活动的编号从 $1$ 到 $n$。 活动 $i$ 从时间 $L_i+10^{-1}$ 到时间 $R_i-10^{-1}$ 举行。数据保证 $L_i$ 和 $R_i$ 是整数。\n\nJOI 君决定参加其中的 $k$ 个活动。但是，JOI 君不能在中间加入或离开每个活动。**在两个活动场所间移动的时间忽略不计**。\n\nJOI 君希望参加编号较小的活动。严格来说，JOI 君参加的 $k$ 个活动的编号依次为 $a_1,\\cdots,a_k$，其中 $1 \\le a_1 < \\cdots < a_k \\le n$。如果序列 $(a_1, \\cdots, a_k)$ 的编号小于 $(b_1, \\cdots, b_k)$，当且仅当存在 $j\\ (1 \\le j \\le k)$ 满足在区间 $[1,j-1]$ 里的所有 $l$ 都有 $a_l=b_l$ 和 $a_j<b_j$。\n\n\n\n给出每个活动的信息和 JOI 君参加的活动个数 $k$，判断 JOI 君是否可以参加 $k$ 个活动，如果可以，输出所有的 $k$ 个活动的编号。\n\n## 输入格式\n\n第一行，两个正整数 $n,k$。\n\n第 $2 \\sim n + 1$ 行，每行 $2$ 个正整数，$L_i, R_i$。\n\n## 输出格式\n\n如果 JOI 君可以参加 $k$ 个活动：\n- 输出 $k$ 行。\n- 我们设 JOI 君参与的 $k$ 个活动的编号为 $a_1, a_2, \\cdots, a_k\\ (1\\le a_1 < \\cdots < a_k \\le n）$，你需要在第 $j$ 行输出 $a_j\\ (1\\le j \\le k)$。 请注意，序列 $(a_1, \\cdots, a_k)$ 必须是 **最小字典序**。\n\n\n\n\n如果 JOI 君无法参加 $k$ 个活动，输出 $\\texttt{-1}$。\n\n## 提示\n\n#### 样例 #1 解释\n\n有 $2$ 种方式可以参加正好 $4$ 个活动。\n\n- 参加 $1, 3, 4, 5$；\n- 参加 $2, 3, 4, 5$。\n\n数列 $(1,3,4,5)$ 比数列 $(2, 3, 4, 5)$ 字典序小，所以输出 $1, 3, 4, 5$。\n\n#### 样例 #2 解释\n\n无论怎么选择都不可能正好参加 $3$ 个活动，所以输出 $\\tt -1$。\n\n#### 样例 #3 解释\n\n本样例满足所有 Subtask 的条件。\n\n#### 数据规模与约定\n\n**因洛谷限制，本题不予评测每个 Subtask 的第 $1\\sim 20$ 个测试点。**\n\n**本题采用 Subtask 计分法。**\n\n| Subtask | 分值占比百分率 | $n$ | $L_i$ |\n| :----: | :----: | :----: | :----:|\n| $1$ | $7\\%$ | / | $L_i \\le L_{i+1}\\ (1 \\le i \\le n − 1)$ |\n| $2$ | $1\\%$ | $\\le20$ | / |\n| $3$ | $31\\%$ | $\\le 3 \\times 10^3$ |/ |\n| $4$ | $61\\%$ | / | / |\n\n**注：斜线表示无特殊限制。**\n\n对于 $100\\%$ 的数据：\n- $1\\le n\\le 10^5$；\n- $1 \\le k \\le n$；\n- $1\\le L_i < R_i \\le 10^9 (1\\le i \\le n)$。\n\n\n#### 说明\n\n本题译自 [第２０回日本情報オリンピック 2020/2021春季トレーニング合宿 -](https://www.ioi-jp.org/camp/2021/2021-sp-tasks/index.html) [競技 4 -](https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/2021-sp-d4-notice.pdf) [T1 日文题面](https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2.pdf)。",
+            "sha256": "aca68eb530d66aa274a97441ccf1c170bb1d2e76012e7eeaabf89bc811bb89bb",
+            "sourceDocumentSha256": "3911ff9bef9117988bef3d744175ae7a9982b9cd8fb8486a4eafd87b59652061"
+          }
+        ],
+        "optionalExternalResources": [
+          {
+            "url": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2-data.zip",
+            "role": "optional-complete-official-test-suite",
+            "sourceHash": "61de51e7c301ee49c805fa0499323ab197137f22be7840c2145e1635d81f5958",
+            "sourceSnapshotHash": "aca68eb530d66aa274a97441ccf1c170bb1d2e76012e7eeaabf89bc811bb89bb",
+            "cached": false,
+            "requiredForStatement": false,
+            "individuallyReviewed": true,
+            "sourceEvidence": {
+              "nativeProblemId": "P7562",
+              "quote": "如果无法在洛谷下载测试数据",
+              "officialPdfSha256": "b141390dcce8bcf3d4e70aea9d6e324418ef7ddfc708502bfdc301e71ffccb8c",
+              "reviewedPages": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "definition": "Standard stdin n,k and n pairs L_i,R_i, output selected event IDs or -1; all necessary input is defined in the statement."
+            },
+            "availability": {
+              "httpStatus": 200,
+              "contentLength": 99667903,
+              "inlineResourceLimitBytes": 33554432,
+              "checkedAt": "2026-11-08T20:45:42.740689+00:00",
+              "method": "HEAD",
+              "downloadCached": false
+            },
+            "reason": "Optional full official test-data suite, not an output-only task input. Original download entry remains unchanged. No required input/image exemption and no resource-size-limit change."
+          }
+        ],
+        "previousSourceStatement": {
+          "attachments": {
+            "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/2021-sp-d4-notice.pdf": {
+              "bytes": 86762,
+              "data": "tb-asset:0fca2dbba4395b95e912ca0929012599de54997543f11c94914202b574d77d3b",
+              "fileName": "2021-sp-d4-notice.pdf",
+              "mime": "application/pdf",
+              "pageCount": 1,
+              "sha256": "0fca2dbba4395b95e912ca0929012599de54997543f11c94914202b574d77d3b",
+              "sourceUrl": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/2021-sp-d4-notice.pdf"
+            },
+            "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2.pdf": {
+              "bytes": 78905,
+              "data": "tb-asset:b141390dcce8bcf3d4e70aea9d6e324418ef7ddfc708502bfdc301e71ffccb8c",
+              "fileName": "event2.pdf",
+              "mime": "application/pdf",
+              "pageCount": 4,
+              "sha256": "b141390dcce8bcf3d4e70aea9d6e324418ef7ddfc708502bfdc301e71ffccb8c",
+              "sourceUrl": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2.pdf"
+            }
+          },
+          "id": "luogu-training-P7562",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2-data.zip"
+            ],
+            "markdownSha256": "f457dce055210a6cc3a8a707f8f3204e66f5d9a19fe37cb9c5811ccd417b178f",
+            "pdfPageCountVerified": false,
+            "sampleCount": 4,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "f8624c5d2b2b14e6832935824fa99e3dabd34b710f4834a4e0048e535d839f51",
+                "url": "https://www.luogu.com.cn/problem/P7562"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 524,
+            "timeMs": 3000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# イベント巡り 2 (Event Hopping 2) (Day4)\n\n## 题目背景\n\n**如果无法在洛谷下载测试数据，可以 [点此](https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2-data.zip) 下载所有数据。**\n\n\n## 题目描述\n\nIOI Park 将有 $n$ 场活动。\n\n这些活动的编号从 $1$ 到 $n$。 活动 $i$ 从时间 $L_i+10^{-1}$ 到时间 $R_i-10^{-1}$ 举行。数据保证 $L_i$ 和 $R_i$ 是整数。\n\nJOI 君决定参加其中的 $k$ 个活动。但是，JOI 君不能在中间加入或离开每个活动。**在两个活动场所间移动的时间忽略不计**。\n\nJOI 君希望参加编号较小的活动。严格来说，JOI 君参加的 $k$ 个活动的编号依次为 $a_1,\\cdots,a_k$，其中 $1 \\le a_1 < \\cdots < a_k \\le n$。如果序列 $(a_1, \\cdots, a_k)$ 的编号小于 $(b_1, \\cdots, b_k)$，当且仅当存在 $j\\ (1 \\le j \\le k)$ 满足在区间 $[1,j-1]$ 里的所有 $l$ 都有 $a_l=b_l$ 和 $a_j<b_j$。\n\n\n\n给出每个活动的信息和 JOI 君参加的活动个数 $k$，判断 JOI 君是否可以参加 $k$ 个活动，如果可以，输出所有的 $k$ 个活动的编号。\n\n\n\n## 输入格式\n\n第一行，两个正整数 $n,k$。\n\n第 $2 \\sim n + 1$ 行，每行 $2$ 个正整数，$L_i, R_i$。\n\n## 输出格式\n\n如果 JOI 君可以参加 $k$ 个活动：\n- 输出 $k$ 行。\n- 我们设 JOI 君参与的 $k$ 个活动的编号为 $a_1, a_2, \\cdots, a_k\\ (1\\le a_1 < \\cdots < a_k \\le n）$，你需要在第 $j$ 行输出 $a_j\\ (1\\le j \\le k)$。 请注意，序列 $(a_1, \\cdots, a_k)$ 必须是 **最小字典序**。\n\n\n\n\n如果 JOI 君无法参加 $k$ 个活动，输出 $\\texttt{-1}$。\n\n## 提示\n\n#### 样例 #1 解释\n\n有 $2$ 种方式可以参加正好 $4$ 个活动。\n\n- 参加 $1, 3, 4, 5$；\n- 参加 $2, 3, 4, 5$。\n\n数列 $(1,3,4,5)$ 比数列 $(2, 3, 4, 5)$ 字典序小，所以输出 $1, 3, 4, 5$。\n\n#### 样例 #2 解释\n\n无论怎么选择都不可能正好参加 $3$ 个活动，所以输出 $\\tt -1$。\n\n#### 样例 #3 解释\n\n本样例满足所有 Subtask 的条件。\n\n#### 数据规模与约定\n\n**因洛谷限制，本题不予评测每个 Subtask 的第 $1\\sim 20$ 个测试点。**\n\n**本题采用 Subtask 计分法。**\n\n| Subtask | 分值占比百分率 | $n$ | $L_i$ |\n| :----: | :----: | :----: | :----:|\n| $1$ | $7\\%$ | / | $L_i \\le L_{i+1}\\ (1 \\le i \\le n − 1)$ |\n| $2$ | $1\\%$ | $\\le20$ | / |\n| $3$ | $31\\%$ | $\\le 3 \\times 10^3$ |/ |\n| $4$ | $61\\%$ | / | / |\n\n**注：斜线表示无特殊限制。**\n\n对于 $100\\%$ 的数据：\n- $1\\le n\\le 10^5$；\n- $1 \\le k \\le n$；\n- $1\\le L_i < R_i \\le 10^9 (1\\le i \\le n)$。\n\n\n#### 说明\n\n本题译自 [第２０回日本情報オリンピック 2020/2021春季トレーニング合宿 -](https://www.ioi-jp.org/camp/2021/2021-sp-tasks/index.html) [競技 4 -](https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/2021-sp-d4-notice.pdf) [T1 日文题面](https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2.pdf)。\n",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2-data.zip",
+              "kind": "attachment",
+              "url": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2-data.zip"
+            }
+          ],
+          "resourceManifest": {
+            "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/2021-sp-d4-notice.pdf": {
+              "bytes": 86762,
+              "mime": "application/pdf",
+              "pageCount": 1,
+              "sha256": "0fca2dbba4395b95e912ca0929012599de54997543f11c94914202b574d77d3b",
+              "sourceUrl": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/2021-sp-d4-notice.pdf"
+            },
+            "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2.pdf": {
+              "bytes": 78905,
+              "mime": "application/pdf",
+              "pageCount": 4,
+              "sha256": "b141390dcce8bcf3d4e70aea9d6e324418ef7ddfc708502bfdc301e71ffccb8c",
+              "sourceUrl": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2.pdf"
+            }
+          },
+          "samples": [
+            {
+              "input": "5 4\n1 3\n2 5\n8 9\n6 8\n10 15\n",
+              "name": "样例 1",
+              "output": "1\n3\n4\n5\n"
+            },
+            {
+              "input": "4 3\n1 4\n3 5\n4 9\n7 10\n",
+              "name": "样例 2",
+              "output": "-1\n"
+            },
+            {
+              "input": "10 6\n77412002 93858605\n244306432 318243514\n280338037 358494212\n439397354 492065507\n485779890 529132783\n571714810 632053254\n659767854 709114867\n718405631 733610573\n786950301 815106357\n878719468 899999649\n",
+              "name": "样例 3",
+              "output": "1\n2\n4\n6\n7\n8\n"
+            },
+            {
+              "input": "20 16\n250732298 258217736\n26470443 34965880\n252620676 260043105\n692063405 697656580\n497457675 504191511\n391372149 397942668\n858168758 867389085\n235756850 241022021\n585764751 593366541\n207824318 217052204\n661682908 671226688\n886273261 892279963\n770109416 778960597\n264372562 270395107\n176883483 186662376\n509929119 519063796\n109491630 118520141\n162731982 168101507\n662727316 668317158\n757072772 765493222\n",
+              "name": "样例 4",
+              "output": "1\n2\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "イベント巡り 2 (Event Hopping 2) (Day4)",
+          "url": "https://www.luogu.com.cn/problem/P7562"
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:105977::J",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "id": "remote:codeforces:105977::J",
+        "url": "https://codeforces.com/gym/105977/problem/J",
+        "title": "构造大师周三金",
+        "markdown": "# 构造大师周三金\n\n本题提供比赛官方中文 PDF。原公开题面题名为“构造大师贝贝”；比赛目录题名为“构造大师周三金”，官方题解中记作“构造大师 CFJ”。这三个名称对应同一正式比赛的 J 题。下方为原题面第 18、19 页，未改动题意。\n",
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2\n2025\n182",
+            "output": "0\n\n3\n7 3 4"
+          }
+        ],
+        "statementAvailable": true,
+        "statementVersion": 12,
+        "statementSource": "Codeforces 官方比赛题面 PDF 与官方题解人工核验",
+        "statementFormat": "pdf-v1",
+        "images": {},
+        "attachments": {
+          "https://codeforces.com/gym/105977/attachments/download/32243/statements.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105977/attachments/download/32243/statements.pdf",
+            "sha256": "2d3a6d5234b293ab393710eb9512eb5d5efaeba582bd6f956068ed84618a8071",
+            "bytes": 1733435,
+            "mime": "application/pdf",
+            "pageCount": 22,
+            "fileName": "FJCPC2025-original-statements.pdf",
+            "data": "tb-asset:2d3a6d5234b293ab393710eb9512eb5d5efaeba582bd6f956068ed84618a8071"
+          }
+        },
+        "resourceManifest": {
+          "https://codeforces.com/gym/105977/attachments/download/32243/statements.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105977/attachments/download/32243/statements.pdf",
+            "sha256": "2d3a6d5234b293ab393710eb9512eb5d5efaeba582bd6f956068ed84618a8071",
+            "bytes": 1733435,
+            "mime": "application/pdf",
+            "pageCount": 22,
+            "fileName": "FJCPC2025-original-statements.pdf"
+          }
+        },
+        "resourceIssues": [],
+        "limits": {
+          "timeMs": 2000,
+          "memoryMb": 1024
+        },
+        "sourceText": "孆孊孃子孃嬲嬰嬲嬵\n孆孵孪孩孡孮嬬嬰嬶嬮嬲嬱\nProblem J. 构造大师贝贝\n孉孮孰孵孴嬜孬孥嬺\nstandard input\n孏孵孴孰孵孴嬜孬孥嬺\nstandard output\n孔孩孭孥孬孩孭孩孴嬺\n嬲孳孥季孯孮孤孳\n孍孥孭孯孲孹孬孩孭孩孴嬺\n嬱嬰嬲嬴孭孥孧孡孢孹孴孥孳\n贝贝励志成为孆孊嬭孁孃孍中最强的构造选手，于是他每日苦练构造题。\n为了检验贝贝的训练成果，宁宁同学提出了一道十分甚至九分困难的构造题来检验他的学习成果：\n给定一个正整数n，请在100 次操作以内，将其变为一个完全平方数。每次操作的内容为如下：\n• 选择一个当前数字n 的正约数x，即n mod x = 0；\n• 每次选择的x 需跟之前任何一次选择的都不同；\n• 随后让n 加上x。\n在整个操作过程中，n 不允许超过1018。\n这可难坏了贝贝，于是他找到了无比聪明的你来解决这个问题。\n其中，n mod x 表示n 除以x 的余数。\nInput\n本题包含多组评测用例。\n第一行，包含一个整数T(1 ≤T ≤103)，表示评测用例组数。\n接下来的T 行，一行一个正整数n(1 ≤n ≤1012)。\nOutput\n对于每组评测用例：\n第一行，输出一个整数m(0 ≤m ≤100)，表示操作次数。\n第二行，包含m 个由空格分隔的不同的正整数，表示每次操作所加上的数字x。\n在整个操作过程中，你需要保证n 不超过1018。\nExample\nstandard input\nstandard output\n2\n2025\n182\n0\n3\n7 3 4\nNote\n对于第1 个评测用例的说明如下：\n• 因为2025 = 45 × 45 原本就是平方数，故无需操作。\n对于第2 个评测用例的说明如下：\n• 第一次操作：\n– 选择x = 7，数字7 是182 的因子；\n子孡孧孥嬱嬸孯学嬲嬲\n\n\n孆孊孃子孃嬲嬰嬲嬵\n孆孵孪孩孡孮嬬嬰嬶嬮嬲嬱\n– 令n := 182 + 7 = 189。\n• 第二次操作：\n– 选择x = 3，数字3 是189 的因子且3 不在之前选择的数字集合{7} 中；\n– 令n := 189 + 3 = 192；\n• 第三次操作：\n– 选择x = 4，数字4 是192 的因子且4 不在之前选择的数字集合{7, 3} 中；\n– 令n := 192 + 4 = 196；\n– 196 = 14 × 14 是完全平方数，结束。\n其中:= 表示赋值符号。\n子孡孧孥嬱嬹孯学嬲嬲\n",
+        "sourcePdfUrl": "https://codeforces.com/gym/105977/attachments/download/32243/statements.pdf",
+        "sourcePdfSha256": "2d3a6d5234b293ab393710eb9512eb5d5efaeba582bd6f956068ed84618a8071",
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105977/attachments/download/32243/statements.pdf",
+          "sha256": "1bdd599f374fdf5211c746e04af14f2d070093a54f43de97cc787f5ceab47059",
+          "bytes": 565783,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:1bdd599f374fdf5211c746e04af14f2d070093a54f43de97cc787f5ceab47059",
+          "fileName": "FJCPC2025-J-original.pdf",
+          "sourceSha256": "2d3a6d5234b293ab393710eb9512eb5d5efaeba582bd6f956068ed84618a8071",
+          "sourcePageNumbers": [
+            18,
+            19
+          ],
+          "widthPoints": 595.2760009765625
+        },
+        "manualSourceAliasReview": {
+          "kind": "individually-reviewed-official-contest-letter-title-variants",
+          "contestId": 105977,
+          "letter": "J",
+          "originalId": "remote:codeforces:105977::J",
+          "originalUrl": "https://codeforces.com/gym/105977/problem/J",
+          "titles": {
+            "officialDashboard": "构造大师周三金",
+            "officialStatementPdf": "构造大师贝贝",
+            "officialTutorial": "构造大师CFJ"
+          },
+          "officialRoster": {
+            "url": "https://codeforces.com/gym/105977",
+            "sha256": "b7ce7d1f13ab2d0840c07a661eaa580c50053cf2e35ec3dae934bd01f769d105",
+            "bytes": 108591,
+            "status": 200,
+            "captureMethod": "direct"
+          },
+          "officialAttachmentPage": {
+            "url": "https://codeforces.com/gym/105977/problem/J",
+            "sha256": "5c046746e17ce577c7ba53e551c9668484cfa5a313ff13c02255a91fdc8e159d",
+            "bytes": 67838,
+            "status": 200,
+            "captureMethod": "direct"
+          },
+          "officialStatement": {
+            "url": "https://codeforces.com/gym/105977/attachments/download/32243/statements.pdf",
+            "sha256": "2d3a6d5234b293ab393710eb9512eb5d5efaeba582bd6f956068ed84618a8071",
+            "pages": [
+              18,
+              19
+            ],
+            "fullBookPages": 22
+          },
+          "officialTutorial": {
+            "url": "https://codeforces.com/gym/105977/attachments/download/32216/Slide.pdf",
+            "sha256": "fba6c2e89e84f64fe599a565a949cb1a632a7ee62b5a4fd0ac35093dc6093e71",
+            "pages": [
+              12
+            ],
+            "binding": "Same contest J: repeatedly add lowbit(n), a current positive divisor; chosen addends increase and differ from every earlier addend; target is a perfect square."
+          },
+          "limits": {
+            "testCasesMax": 1000,
+            "initialNMax": 1000000000000,
+            "operationsMax": 100,
+            "intermediateNMax": 1000000000000000000
+          },
+          "sampleBinding": {
+            "input": "2\n2025\n182",
+            "output": "0\n\n3\n7 3 4",
+            "trace": [
+              "2025 = 45*45",
+              "182+7=189",
+              "189+3=192",
+              "192+4=196 = 14*14"
+            ]
+          },
+          "automaticTitleMatchingChanged": false,
+          "reviewedPdfPagesVisually": true
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "checkedAt": "2026-11-08T20:54:18.821006+00:00",
+          "markdownSha256": "bfa117e7533481aca8404a3cedfc6303a7c7feef2eb0de41cf871cd93a41aa05",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105977/attachments/download/32243/statements.pdf",
+              "sha256": "2d3a6d5234b293ab393710eb9512eb5d5efaeba582bd6f956068ed84618a8071",
+              "status": 200
+            },
+            {
+              "url": "https://codeforces.com/gym/105977",
+              "sha256": "b7ce7d1f13ab2d0840c07a661eaa580c50053cf2e35ec3dae934bd01f769d105",
+              "bytes": 108591,
+              "status": 200,
+              "captureMethod": "direct"
+            },
+            {
+              "url": "https://codeforces.com/gym/105977/problem/J",
+              "sha256": "5c046746e17ce577c7ba53e551c9668484cfa5a313ff13c02255a91fdc8e159d",
+              "bytes": 67838,
+              "status": 200,
+              "captureMethod": "direct"
+            },
+            {
+              "url": "https://codeforces.com/gym/105977/attachments/download/32216/Slide.pdf",
+              "sha256": "fba6c2e89e84f64fe599a565a949cb1a632a7ee62b5a4fd0ac35093dc6093e71",
+              "bytes": 531599,
+              "status": 200,
+              "captureMethod": "direct"
+            }
+          ],
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "corpusAuditVerifiedSha256": "bfa117e7533481aca8404a3cedfc6303a7c7feef2eb0de41cf871cd93a41aa05",
+          "recoveryBinding": {
+            "kind": "individually-reviewed-official-contest-letter-title-variants",
+            "contestId": 105977,
+            "letter": "J",
+            "originalId": "remote:codeforces:105977::J",
+            "originalUrl": "https://codeforces.com/gym/105977/problem/J",
+            "titles": {
+              "officialDashboard": "构造大师周三金",
+              "officialStatementPdf": "构造大师贝贝",
+              "officialTutorial": "构造大师CFJ"
+            },
+            "officialRoster": {
+              "url": "https://codeforces.com/gym/105977",
+              "sha256": "b7ce7d1f13ab2d0840c07a661eaa580c50053cf2e35ec3dae934bd01f769d105",
+              "bytes": 108591,
+              "status": 200,
+              "captureMethod": "direct"
+            },
+            "officialAttachmentPage": {
+              "url": "https://codeforces.com/gym/105977/problem/J",
+              "sha256": "5c046746e17ce577c7ba53e551c9668484cfa5a313ff13c02255a91fdc8e159d",
+              "bytes": 67838,
+              "status": 200,
+              "captureMethod": "direct"
+            },
+            "officialStatement": {
+              "url": "https://codeforces.com/gym/105977/attachments/download/32243/statements.pdf",
+              "sha256": "2d3a6d5234b293ab393710eb9512eb5d5efaeba582bd6f956068ed84618a8071",
+              "pages": [
+                18,
+                19
+              ],
+              "fullBookPages": 22
+            },
+            "officialTutorial": {
+              "url": "https://codeforces.com/gym/105977/attachments/download/32216/Slide.pdf",
+              "sha256": "fba6c2e89e84f64fe599a565a949cb1a632a7ee62b5a4fd0ac35093dc6093e71",
+              "pages": [
+                12
+              ],
+              "binding": "Same contest J: repeatedly add lowbit(n), a current positive divisor; chosen addends increase and differ from every earlier addend; target is a perfect square."
+            },
+            "limits": {
+              "testCasesMax": 1000,
+              "initialNMax": 1000000000000,
+              "operationsMax": 100,
+              "intermediateNMax": 1000000000000000000
+            },
+            "sampleBinding": {
+              "input": "2\n2025\n182",
+              "output": "0\n\n3\n7 3 4",
+              "trace": [
+                "2025 = 45*45",
+                "182+7=189",
+                "189+3=192",
+                "192+4=196 = 14*14"
+              ]
+            },
+            "automaticTitleMatchingChanged": false,
+            "reviewedPdfPagesVisually": true
+          },
+          "reviewedRecoveryRecordSha256": "bfcf0e7b12626b1cc47b6223898ee98db7f5cb56f2707742d9350b970acaca52"
+        }
+      }
+    }
+  ]
+}

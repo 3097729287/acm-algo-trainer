@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-09",
+  "scope": "Separate reviewed Google optional-helper, Event Hopping optional-testdata and official FJCPC title-alias recovery",
+  "checked": [
+    "Existing canonical assets and prior stable packets remain referenced; catalogue owner has removed three redundant authoring PNG copies in d74b7e9f.",
+    "This new packet has no obsolete draft, duplicate canonical resources, or temporary builds to remove.",
+    "Original identities, native source snapshots, samples, private account and personal learning records are preserved."
+  ],
+  "removed": [],
+  "result": "No obsolete public content or duplicate new canonical assets. Automatic approval rejected clearing the isolated ignored test caches; they remain outside all released content. Original source and verification history preserved.",
+  "disposableCacheInventory": {
+    "relativeDirectories": [
+      ".backups/original-recovery-20261109/followup-workbench/vite-review",
+      ".backups/original-recovery-20261109/reviewed-variants-workbench/vite-review",
+      ".backups/original-recovery-20261109/workbench/vite-review"
+    ],
+    "files": 183,
+    "bytes": 44497716,
+    "allAbsoluteTargetsVerifiedInsideThisWorktree": true,
+    "reparsePoints": 0
+  },
+  "cleanupBlocked": {
+    "action": "Remove only these completed isolated Vite dependency caches",
+    "attempts": 2,
+    "automaticApprovalResult": "blocked by policy",
+    "filesDeleted": 0,
+    "furtherAttemptsStopped": true
+  }
+}
