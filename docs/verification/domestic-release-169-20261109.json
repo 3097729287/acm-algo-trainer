@@ -1,0 +1,158 @@
+{
+  "version": "1.6.9",
+  "applicationSourceCommit": "b5fee8bc2016f580c09c0aec9dd63f95ba1e542f",
+  "nativeBuildSourceCommit": "1723db9f2504107fac4e61a8ed9d5038049c2a44",
+  "frontendBuildSourceCommit": "1723db9f2504107fac4e61a8ed9d5038049c2a44",
+  "updateBridgeSourceCommit": "b5fee8bc2016f580c09c0aec9dd63f95ba1e542f",
+  "nativeBuildInputsVerified": 427,
+  "programFiles": 5094,
+  "backend": {
+    "tests": 1317,
+    "skipped": 2,
+    "failed": 0
+  },
+  "translations": {
+    "problemPairs": 18,
+    "renderedDocuments": 36,
+    "originalImages": 11,
+    "samplePairs": 30,
+    "browserOrFormulaErrors": 0,
+    "externalRequests": 0
+  },
+  "installer": {
+    "freshInstallAndUninstall": true,
+    "upgradeFrom167": true,
+    "all5094FileHashesMatch": true,
+    "identityDraftsTrainingAndPreferencesPreserved": true
+  },
+  "compact": {
+    "approvedBaselines": 4,
+    "filesVerifiedPerBaseline": 5094,
+    "versions": [
+      "1.6.6",
+      "1.6.7",
+      "1.6.8 canonical",
+      "1.6.8 from-167 profile"
+    ],
+    "allFileHashesMatch": true
+  },
+  "realUpgrade": {
+    "oldSourceCommit": "4c730482f2876e9deeaa278196b9fa183ad449e8",
+    "oldUpdaterAndAllLoadedDependenciesExact": true,
+    "oldSourceFilesVerified": 413,
+    "privateDatabases": 14,
+    "privateDatabaseBytes": 3678785536,
+    "apiReadySeconds": 71.342,
+    "visibleWindowConfirmedAfterApiReady": true,
+    "visibleWindowClosedNormally": true,
+    "oldParentAlreadyClosedBeforeTiming": true,
+    "browserProfilesCopied": false,
+    "personalTablesPreserved": 22,
+    "personalTablesChanged": 0,
+    "bridge": {
+      "fullFallback": false,
+      "seconds": 30.8359942,
+      "bridgeSetupSeconds": 0.4829405,
+      "privateJournalDirectlyWritten": false,
+      "prepareStartupSeconds": 13.209537599999999,
+      "downloadBytes": 2013172,
+      "credentialsRead": false,
+      "ok": true,
+      "applySeconds": 13.164605499999999,
+      "version": "1.6.9",
+      "downloadSeconds": 3.970078
+    },
+    "oneMinuteGoalAchieved": false
+  },
+  "publicLibrary": {
+    "problems": 13480,
+    "statements": 13459,
+    "completeOriginals": 13389,
+    "usableChineseTranslations": 6103,
+    "xcpcProblems": 2004,
+    "gaps": {
+      "originals": 91,
+      "translations": 57,
+      "translation-disabled": 0,
+      "translation-invalid": 0,
+      "knowledge": 3776,
+      "difficulty": 1124
+    },
+    "display": {
+      "projectedRows": 13466,
+      "visibleRows": 13158,
+      "hiddenRows": 308,
+      "knowledgeStatuses": {
+        "classified": 9964,
+        "pending": 3194
+      },
+      "gaps": {
+        "display-knowledge": 3194,
+        "display-difficulty": 1033
+      },
+      "personalStateRead": false,
+      "publicLibraryReadOnly": true
+    }
+  },
+  "assets": [
+    {
+      "name": "TB-Setup-1.6.9-win64.exe",
+      "size": 77824,
+      "sha256": "993eebde960bbe74d9a18799172e7b8d6da0296936add287a5b3583236558887",
+      "url": "https://47.82.84.74/updates/assets/1.6.9/TB-Setup-1.6.9-win64.exe"
+    },
+    {
+      "name": "ToBe-Compact-Update-1.6.6-to-1.6.9-win64.zip",
+      "size": 2589096,
+      "sha256": "684357ba8b9eb9c8297e1ca1400fcc141aa847f2547a290789bd4e0d7c703fd7",
+      "url": "https://47.82.84.74/updates/assets/1.6.9/ToBe-Compact-Update-1.6.6-to-1.6.9-win64.zip"
+    },
+    {
+      "name": "ToBe-Compact-Update-1.6.7-to-1.6.9-win64.zip",
+      "size": 2013172,
+      "sha256": "526caf8e923f370fa00dac5ebe71ae113ee6e2cb570c38e6d5e0e9e98fc116c9",
+      "url": "https://47.82.84.74/updates/assets/1.6.9/ToBe-Compact-Update-1.6.7-to-1.6.9-win64.zip"
+    },
+    {
+      "name": "ToBe-Compact-Update-1.6.8-to-1.6.9-win64.zip",
+      "size": 7181898,
+      "sha256": "9d29ffe80ca93d069ebd30071d4dcb9d965c22dd4d2a0ef2b1b0521f5403ce13",
+      "url": "https://47.82.84.74/updates/assets/1.6.9/ToBe-Compact-Update-1.6.8-to-1.6.9-win64.zip"
+    },
+    {
+      "name": "ToBe-Full-Setup-1.6.9-win64.exe",
+      "size": 489876396,
+      "sha256": "7be4f7589ab7d029476503d8cfbaea8f2f977a443c0ff7e27824d62955918ed6",
+      "url": "https://47.82.84.74/updates/assets/1.6.9/ToBe-Full-Setup-1.6.9-win64.exe"
+    }
+  ],
+  "desktopInstallerSha256": "7be4f7589ab7d029476503d8cfbaea8f2f977a443c0ff7e27824d62955918ed6",
+  "normalApplicationLaunchedOrReplaced": false,
+  "accountCloudWritten": false,
+  "privateCopiesUploaded": false,
+  "cleanup": {
+    "supersededPublicSeedsRecycled": 3,
+    "bytesRecycled": 3159474176,
+    "claimedFreeBytes": 0
+  },
+  "domestic": {
+    "ok": true,
+    "version": "1.6.9",
+    "sourceCommit": "b5fee8bc2016f580c09c0aec9dd63f95ba1e542f",
+    "feed": "https://47.82.84.74/updates/stable/manifest-v1.json",
+    "feedSha256": "eadf6963ae5412243a0ede2d32790b8f18c8f38cdfe2a5404e8e7f93ddf31679",
+    "accountTablesChanged": false,
+    "apiRestarted": false,
+    "normalClientRestarted": false,
+    "externalFeedVerified": true
+  },
+  "githubMirror": {
+    "ok": true,
+    "sourceCommit": "b5fee8bc2016f580c09c0aec9dd63f95ba1e542f",
+    "tag": "v1.6.9",
+    "url": "https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.9",
+    "latestUnchanged": "v1.6.4",
+    "assetsVerified": 11,
+    "assetSizeAndDigestMatch": true
+  }
+}
