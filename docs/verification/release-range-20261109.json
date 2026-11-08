@@ -1,0 +1,178 @@
+{
+  "schema": 1,
+  "checkedAt": "2026-11-09",
+  "scope": "feature/release-range-prefetch-20261109; follow-up source only, not deployed and separate from frozen1.6.10",
+  "cleanupRecord": "docs/verification/release-range-cleanup-20261109.json",
+  "source": {
+    "releaseUrl": "https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.10",
+    "captureCommand": "gh release view v1.6.10 --repo 3097729287/acm-algo-trainer --json isDraft,tagName,assets",
+    "metadataFile": "docs/verification/release-range-20261109/github-public.json",
+    "metadataSha256": "1c36fcba6624f16346130f902fdbd646979100831224fc6ef651b921ebd5dcd0",
+    "fullInstallerName": "ToBe-Full-Setup-1.6.10-win64.exe",
+    "bytes": 494336411,
+    "sha256": "8511c31ced17ef43aac67a1a8c4f973050496092863ad7ae639b307c65079fe4",
+    "githubDigest": "sha256:8511c31ced17ef43aac67a1a8c4f973050496092863ad7ae639b307c65079fe4",
+    "localFile": "E:/项目/ToBe/开发/tb-content-integration-20261109/.backups/public-release1610/ToBe-Full-Setup-1.6.10-win64.exe",
+    "localFileOnlyReadNeverCopiedOrChanged": true
+  },
+  "approvedExampleIndex": {
+    "file": "docs/verification/release-range-20261109/full-installer-index.json",
+    "sha256": "15ce70c8c0a225f74d0dd39ed6cf1cece9dba259d6ac84940f4b44545d423827",
+    "chunkBytes": 1048576,
+    "chunks": 472,
+    "usage": "An additive item for the existing approved server index. Merge with release_stream_index.merge_stream_index or CLI --existing. Do not replace the complete production index with this single-asset evidence file."
+  },
+  "productionContract": {
+    "paths": [
+      "/assets/{version}/{approvedName}",
+      "/updates/assets/{version}/{approvedName}"
+    ],
+    "methods": [
+      "GET",
+      "HEAD"
+    ],
+    "sourceAuthority": "Fixed repository/version and safe original filename from locally approved index. No requester URL or headers enter upstream requests. New range proofs require exact matching githubDigest, local whole SHA256 and one SHA256 per1MiB.",
+    "legacy": "Indices without range proofs retain checked whole-file streaming. Existing Caddy-cached small files, ordinary32MiB policy and account routes stay unchanged.",
+    "range": "One bytes=start-end or bytes=start- interval, whole source blocks checked then cropped; ETag and If-Range supported. Invalid or multiple ranges416. No unrelated prefix fetched.",
+    "fullFile": "For complete transfers, including bytes=0-, whole original SHA256 is checked and the final64KiB is withheld until length and digest succeed.",
+    "partialFile": "An isolated range proves its selected complete source blocks. The installing client must verify the reconstructed entire artifact SHA256; no claim is made about retransmitting an absent prefix.",
+    "sourceRedirects": "HTTPS only, standard443, no userinfo/fragment; github.com, release-assets.githubusercontent.com, objects.githubusercontent.com, objects.github.com; at most5 requests in a redirect chain.",
+    "buffers": "Exactly prefetch reusable1MiB buffers per transfer. Copy only outgoing<=64KiB pieces, with bounded stream queues and rolling64KiB tail; no artifact-sized buffer or filesystem cache.",
+    "defaultPrefetch": 4,
+    "allowedPrefetch": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "defaultActiveTransfers": 2,
+    "maximumConfiguredActiveTransfers": 4,
+    "defaultReusableChunkPoolBytes": 8388608,
+    "maximumConfiguredReusableChunkPoolBytes": 16777216,
+    "retry": "At most2 retries of a failed network chunk, reusing its same buffer/range. Checksum, size, encoding, range and redirect failures do not retry as if trustworthy.",
+    "deadlines": "60s default source-chunk deadline, bounded to10min when explicitly configured; existing total relay timeout at most1h. Abandoning the client aborts and releases all prefetch slots.",
+    "privateState": "No account data, headers, cookies or credentials are used upstream. No private DB or normal installation was touched."
+  },
+  "validation": {
+    "completeServerSuite": {
+      "command": "npm test",
+      "cwd": "server/leaderboard",
+      "tests": 137,
+      "passed": 136,
+      "failed": 0,
+      "skipped": 1,
+      "skipReason": "Existing opt-in MySQL migration test has no MySQL environment; no test was disabled for this change.",
+      "log": ".backups/release-range-prefetch-20261109/npm-final.log"
+    },
+    "pythonAuthorAndPublicBoundary": {
+      "command": "python -m unittest test_release_stream_index test_release_assets",
+      "passed": 14
+    },
+    "realLoopbackNewRangeTests": {
+      "tests": 12,
+      "includes": [
+        "Widths1-4 and exact4 reusable1MiB allocations",
+        "Real HTTP source disconnection and same-block retry",
+        "Arbitrary offsets, If-Range, exact reconstruction with whole SHA",
+        "Block tampering and wrong complete SHA cannot satisfy length; final64KiB withheld",
+        "Unknown route/query/ranges and redirect/encoding refusals",
+        "Stall timeout and abandoned client release all slots"
+      ]
+    },
+    "real494MbInstallerLoopback": {
+      "schema": 1,
+      "loopbackOnly": true,
+      "domesticDeploymentClaimed": false,
+      "realProductionApiServer": true,
+      "localOriginalNotCopiedOrChanged": true,
+      "artifact": {
+        "name": "ToBe-Full-Setup-1.6.10-win64.exe",
+        "sourceName": "ToBe-Full-Setup-1.6.10-win64.exe",
+        "bytes": 494336411,
+        "sha256": "8511c31ced17ef43aac67a1a8c4f973050496092863ad7ae639b307c65079fe4",
+        "githubDigest": "sha256:8511c31ced17ef43aac67a1a8c4f973050496092863ad7ae639b307c65079fe4"
+      },
+      "indexSha256": "15ce70c8c0a225f74d0dd39ed6cf1cece9dba259d6ac84940f4b44545d423827",
+      "sourceChunkBytes": 1048576,
+      "chunkProofCount": 472,
+      "fullDownload": {
+        "bytes": 494336411,
+        "sha256": "8511c31ced17ef43aac67a1a8c4f973050496092863ad7ae639b307c65079fe4",
+        "seconds": 2.65,
+        "upstreamRequests": 473,
+        "interruptedBlockRetriedWithoutRestart": true,
+        "wholeSha256Verified": true
+      },
+      "range": {
+        "start": 1048699,
+        "end": 2097386,
+        "bytes": 1048688,
+        "sha256": "48ad5760dfcc95f5fccfaba6f222005b98f79a5aa24916cf12ccac63de17015e",
+        "unrelatedPrefixNotFetched": true,
+        "sourceRanges": [
+          "bytes=1048576-2097151",
+          "bytes=2097152-3145727"
+        ]
+      },
+      "reusableOneMiBBuffers": 4,
+      "maximumObservedUpstreamRequests": 4,
+      "sourceTamperingRejected": true,
+      "nextVerifiedRangeRecovered": true,
+      "unknownPathsAndRequesterUrlsRefused": true,
+      "accountHealthAndEventCountUnchanged": true,
+      "requesterCredentialsNotForwarded": true,
+      "limits": {
+        "defaultActiveDownloads": 2,
+        "maximumConfigurableActiveDownloads": 4,
+        "prefetchRange": [
+          1,
+          4
+        ],
+        "defaultFullChunkPoolBytesPerTransfer": 4194304,
+        "protectedTailBytes": 65536,
+        "ordinary32MiBPolicyUnchanged": true
+      },
+      "speedMeaning": "This is loopback transport and integrity evidence, not a claim about domestic Internet bandwidth or one-minute installation."
+    },
+    "realGitHubFirstRange": {
+      "realGitHubRangeVerified": true,
+      "bytes": 65536,
+      "sha256": "843c42df32bf9a3416a850b452d1ed2b03c6ec8a2deebc82dff68646b51bb0ce",
+      "verifiedSourceBlockBytes": 1048576,
+      "upstreamHosts": [
+        "github.com",
+        "release-assets.githubusercontent.com"
+      ],
+      "seconds": 4.103,
+      "requesterCredentialsForwarded": false,
+      "domesticDeployment": false
+    },
+    "allRequestsWithoutAccountCredentials": true,
+    "rawProofs": [
+      ".backups/release-range-prefetch-20261109/full-installer-loopback.json",
+      ".backups/release-range-prefetch-20261109/github-first-range.json"
+    ],
+    "speedMeaning": "Loopback2.65s and the developer-machine GitHub first-block check establish protocol correctness. They do not establish domestic bandwidth or one-minute installation."
+  },
+  "reproduction": {
+    "author": "python scripts/release_stream_index.py --asset LOCAL_PUBLIC_FULL_INSTALLER --version 1.6.10 --github-release docs/verification/release-range-20261109/github-public.json --existing CURRENT_APPROVED_INDEX --output NEW_APPROVED_INDEX",
+    "loopback": "node server/leaderboard/scripts/verify-release-range-loopback.mjs --index NEW_APPROVED_INDEX --asset LOCAL_PUBLIC_FULL_INSTALLER --output NEW_RECEIPT.json",
+    "publisher": "The existing --relay publisher generates proofs for selected installer EXEs after checking the published GitHub digest; small update ZIP entries retain their existing whole-file indexing."
+  },
+  "sourceFilesNormalizedUtf8Sha256": {
+    "server/leaderboard/src/release-stream.mjs": "a164826f51f614b8c36faa19b4a052d6cb7a96d769f71b207577d5c61a7dc3da",
+    "server/leaderboard/scripts/verify-release-range-loopback.mjs": "500ff9d013bcf93c73c575c4da82d4cad8c8ddee2056cc3608d0f16527a9a183",
+    "server/leaderboard/tests/release-stream-ranges.test.mjs": "fe606de62e8a10ac099c0108bfddc808a7580cd051658bd787772dd3e6e509f4",
+    "server/leaderboard/package.json": "9bfd6364522f5d070bb1abf06b83a4f2e09879c8a5ec62b73ffa34c4c9a73c47",
+    "scripts/release_stream_index.py": "c320c8064a47695ae41e0fdce2e0f9140b6603f13289cc330895883d21e1a3bb",
+    "scripts/publish_domestic_update.py": "af763cf13e8326d1f64f002f5898ad27e5e02e94768b5393c814e702d9ce5987",
+    "backend/test_release_stream_index.py": "539913221209eccecb018348797ade671189bd2ef8678f9640b5b14c06842a06"
+  },
+  "unchanged": [
+    "Frozen1.6.10 package and source installer",
+    "Version numbers and native Rust32MiB module",
+    "Existing cached small-update route and ordinary32MiB assets",
+    "Production servers, account databases and normal installation",
+    "P7351 retirement/source registration state"
+  ]
+}

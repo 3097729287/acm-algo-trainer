@@ -10,6 +10,7 @@ import subprocess
 import sys
 
 from release_assets import public_release_files
+from release_stream_index import reviewed_stream_asset,merge_stream_index
 
 ROOT = Path(__file__).resolve().parents[1]
 HOST = 'root@47.82.84.74'
@@ -72,13 +73,15 @@ def publish(args):
         existing = json.loads(remote(f'cat {index_path}'))
         if existing.get('schema') != 1 or not isinstance(existing.get('assets'), list):
             raise ValueError('Invalid existing relay index')
-        additions = [{'version': version, 'name': item['name'], 'size': item['size'],
-                      'sha256': item['sha256']} for item in record['assets']]
-        identities = {(item['version'], item['name']) for item in additions}
-        merged = {'schema': 1, 'assets': [item for item in existing['assets']
-                                        if (item['version'], item['name']) not in identities] + additions}
-        if len(merged['assets']) > 100:
-            raise ValueError('Relay index exceeds its approved limit')
+        # Installer range proofs are authored only from our complete local
+        # bytes and the already checked public GitHub digest. Cached small
+        # update packages retain their ordinary whole-file index behavior.
+        local_files={path.name:path for path in assets}
+        additions=[reviewed_stream_asset(local_files[item['name']],version,public_assets[item['name']])
+                   if item['name'].endswith('.exe')else
+                   {'version':version,'name':item['name'],'size':item['size'],'sha256':item['sha256']}
+                   for item in record['assets']]
+        merged=merge_stream_index(existing,additions)
         index = args.work / 'public-release-assets.json'
         index.write_text(json.dumps(merged, indent=2)+'\n', encoding='utf8')
         previous_index = args.work / 'public-release-assets.before.json'
