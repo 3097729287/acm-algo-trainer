@@ -106,7 +106,9 @@ public static class ToBeDownload {
 '@
     function Fetch($asset){
         $name=[string]$asset.name
-        if($name -notmatch '^(?:ToBe|TB)-(?:Compact-Update-[\d.]+-to-[\d.]+-win64\.zip|Setup-[\d.]+-win64\.exe)$' -or $asset.url -ne ('https://47.82.84.74/updates/assets/'+$release.version+'/'+$name) -or $asset.sha256 -notmatch '^[a-f0-9]{64}$'){throw 'Untrusted update asset'}
+        if($name -notmatch '^(?:ToBe|TB)-(?:Compact-Update-[\d.]+-to-[\d.]+-win64\.zip|(?:Full-)?Setup-[\d.]+-win64\.exe)$' -or $asset.url -ne ('https://47.82.84.74/updates/assets/'+$release.version+'/'+$name) -or $asset.sha256 -notmatch '^[a-f0-9]{64}$'){throw 'Untrusted update asset'}
+        $cached=Join-Path $AppDir ('cache\updates\'+$name)
+        if((Test-Path -LiteralPath $cached) -and (Plain $cached) -and (Get-Item -LiteralPath $cached).Length -eq $asset.size -and (Hash $cached) -eq $asset.sha256){return $cached}
         $drive=[IO.DriveInfo]::new([IO.Path]::GetPathRoot($WorkDir))
         if($drive.AvailableFreeSpace -lt (2*[long]$asset.size+268435456)){throw 'Insufficient update space; existing files retained'}
         $file=Join-Path $WorkDir $name
@@ -120,12 +122,11 @@ public static class ToBeDownload {
         $result.downloadSeconds=$download.Elapsed.TotalSeconds;$result.downloadBytes=$profile.size
         $python=Join-Path $AppDir '_internal\python3\python.exe';$helper=Join-Path $WorkDir 'compact-helper.pyz'
         $parameters='-I -S "'+$helper+'" --bundle "'+$bundle+'" --app "'+$AppDir+'" --version '+$release.version
-        $check=Run $python ($parameters+' --check') 'compatibility'
-        if($check -eq 0){
-            Progress 2
-            if((Run $python $parameters 'apply') -ne 0){throw 'Update reconstruction failed; recovery files retained'}
+        Progress 2
+        $applied=Run $python $parameters 'apply'
+        if($applied -eq 0){
             $full=$false
-        }elseif($check -ne 3){throw 'Update payload validation failed; existing files retained'}
+        }elseif($applied -ne 3){throw 'Update payload validation failed; recovery files retained'}
     }
     if($full){
         $installer=Fetch $release.full

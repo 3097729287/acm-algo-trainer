@@ -32,11 +32,12 @@ def sha(path):
 def valid_sha(value):return isinstance(value,str) and re.fullmatch('[a-f0-9]{64}',value)
 
 
-def public_path(root,name):
+def public_path(root,name,*,filesystem=True):
     if not isinstance(name,str) or '\\' in name or ':' in name or name not in ROOT_FILES and name!='data/library.sqlite3' and not name.startswith(PREFIXES):raise ValueError('更新路径不属于程序文件')
     parts=name.split('/')
     if any(p in ('','.','..') or p.endswith((' ','.')) or re.fullmatch(r'(?i)(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\..*)?',p) for p in parts) or PurePosixPath(name).is_absolute():raise ValueError('更新文件路径无效')
     path=root.joinpath(*parts)
+    if not filesystem:return path  # This unchanged entry has no filesystem operation.
     for item in [root,*[root.joinpath(*parts[:i]) for i in range(1,len(parts)+1)]]:
         if item.exists() and (item.is_symlink() or getattr(item.lstat(),'st_file_attributes',0)&0x400):raise ValueError('更新文件路径包含重定向')
     if not path.resolve().is_relative_to(root):raise ValueError('更新路径离开程序目录')
@@ -90,11 +91,12 @@ def select(root,value):
         if current(name) not in values:raise BaseMismatch('当前程序需要使用完整安装包修复：'+name)
     result={}
     for name,entry in value['files'].items():
-        public_path(root,name)
         # These exact bytes are common to every approved baseline. They are
         # neither read, copied nor replaced; the builder and full upgrade
         # rehearsal verify their inventory. Runtime anchors are checked above.
-        if entry.get('unchanged'):continue
+        if entry.get('unchanged'):
+            public_path(root,name,filesystem=False);continue
+        public_path(root,name)
         if current(name)==entry['sha256']:continue
         variant=next((v for v in entry['variants'] if v['format']=='binary' and current(v['source'])==v['sourceSha256']),None)
         if variant is None:variant=next((v for v in entry['variants'] if v['format']=='literal'),None)
@@ -207,9 +209,10 @@ def apply(bundle,app,version,*,check=False,fail_after=None):
                 if not patch.exists():patch.write_bytes(raw)
                 if 'publicFields' in variant:
                     from public_field_patch import patch_file
-                    patch_file(source,patch,target,app=app,expected_target=entry['sha256'],template_sha=variant['templateSha256'],fields=variant['publicFields'],target_bytes=entry['bytes'])
-                else:file_delta(source,patch,target,expected_target=entry['sha256'])
-            if target.stat().st_size!=entry['bytes'] or sha(target)!=entry['sha256']:raise ValueError('紧凑更新重建文件未通过校验')
+                    verified=patch_file(source,patch,target,app=app,expected_target=entry['sha256'],template_sha=variant['templateSha256'],fields=variant['publicFields'],target_bytes=entry['bytes'])
+                else:verified=file_delta(source,patch,target,expected_target=entry['sha256'])
+            if variant['format']=='literal':verified={'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}
+            if target.stat().st_size!=entry['bytes'] or verified.get('bytes')!=entry['bytes'] or verified.get('sha256')!=entry['sha256']:raise ValueError('紧凑更新重建文件未通过校验')
             original=public_path(app,name);previous=sha(original) if original.is_file() else None
             if previous!=hashes[name]:raise ValueError('准备更新时程序文件发生变化，已停止替换')
             journal['previous'][name]=previous
@@ -220,14 +223,18 @@ def apply(bundle,app,version,*,check=False,fail_after=None):
                 if sha(saved)!=previous:raise ValueError('紧凑更新恢复副本未通过校验')
         journal['status']='applying';document(folder/'journal.json',journal);document(active,{'folder':str(folder)})
         try:
+            verified_program=False
             for index,name in enumerate(sorted(selected,key=lambda n:n=='VERSION')):
                 if name=='VERSION':
                     for other,entry in value['files'].items():
                         if other!='VERSION' and not entry.get('unchanged') and sha(public_path(app,other))!=entry['sha256']:raise ValueError('替换后的程序文件未通过校验')
+                    verified_program=True
                 target=public_path(app,name);target.parent.mkdir(parents=True,exist_ok=True);os.replace(folder/'new'/name,target)
                 if fail_after is not None and index>=fail_after:raise OSError('isolated compact update failure')
-            for name,entry in value['files'].items():
-                if not entry.get('unchanged') and sha(public_path(app,name))!=entry['sha256']:raise ValueError('完整程序未通过校验')
+            if not verified_program:
+                for name,entry in value['files'].items():
+                    if name!='VERSION' and not entry.get('unchanged') and sha(public_path(app,name))!=entry['sha256']:raise ValueError('完整程序未通过校验')
+            if sha(public_path(app,'VERSION'))!=value['files']['VERSION']['sha256']:raise ValueError('安装版本摘要不一致')
             if (app/'VERSION').read_text(encoding='utf-8').strip()!=version:raise ValueError('安装版本不一致')
             document(folder/'journal.json',{**journal,'status':'complete'})
         except Exception:

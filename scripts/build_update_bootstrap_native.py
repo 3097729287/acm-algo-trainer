@@ -11,7 +11,7 @@ def build(specification,stage,compiler):
     if not re.fullmatch(r'\d+\.\d+\.\d+',version):raise ValueError('Invalid version')
     def asset(item):
         name=item['name']
-        if not re.fullmatch(r'(?:ToBe|TB)-(?:Setup-'+re.escape(version)+r'-win64\.exe|Compact-Update-[\d.]+-to-'+re.escape(version)+r'-win64\.zip)',name):raise ValueError('Invalid asset name')
+        if not re.fullmatch(r'(?:ToBe|TB)-(?:(?:Full-)?Setup-'+re.escape(version)+r'-win64\.exe|Compact-Update-[\d.]+-to-'+re.escape(version)+r'-win64\.zip)',name):raise ValueError('Invalid asset name')
         if item['url']!='https://47.82.84.74/updates/assets/'+version+'/'+name or not re.fullmatch('[a-f0-9]{64}',item['sha256']) or type(item['size']) is not int or item['size']<=0:raise ValueError('Invalid trusted download')
         return {key:item[key] for key in ('name','url','size','sha256')}
     profiles={}
@@ -66,7 +66,9 @@ END
     compiler=compiler.resolve(strict=True);windres=compiler.with_name('windres.exe')
     env={**os.environ,'PATH':str(compiler.parent)+os.pathsep+os.environ.get('PATH','')}
     subprocess.run([str(windres),'-I',str(stage.resolve()),'-O','coff',str(stage/'bootstrap.rc'),str(stage/'bootstrap.res')],env=env,check=True)
-    output=stage/f'ToBe-Setup-{version}-win64.exe'
+    name=value.get('bridgeName',f'ToBe-Setup-{version}-win64.exe')
+    if name not in (f'ToBe-Setup-{version}-win64.exe',f'TB-Setup-{version}-win64.exe'):raise ValueError('Invalid bridge name')
+    output=stage/name
     subprocess.run([str(compiler),'-x','c','-municode','-mwindows','-Os','-s','-static','-Wl,--no-insert-timestamp','-finput-charset=UTF-8',str(ROOT/'packaging/installer/compact-bootstrap.c'),'-x','none',str(stage/'bootstrap.res'),'-o',str(output),'-lole32','-lshell32','-lcomctl32','-lgdi32','-luser32'],env=env,check=True)
     report={'version':version,'path':str(output.resolve()),'bytes':output.stat().st_size,'sha256':sha(output),'helperSha256':sha(stage/'compact-helper.pyz'),'powershellSha256':sha(stage/'apply.ps1'),'metadataSha256':sha(stage/'release.json'),'profiles':sorted(profiles),'runtimeFiles':len(runtime),'fullFallback':metadata['full']['name'],'compiler':str(compiler)}
     (stage/'bootstrap.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8');print(json.dumps(report,ensure_ascii=False),flush=True);return report

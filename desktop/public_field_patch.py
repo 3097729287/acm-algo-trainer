@@ -87,4 +87,4 @@ def patch_file(source,patch,target,*,app,expected_target,template_sha,fields,tar
         output.flush();os.fsync(output.fileno())
         output.seek(0)
         if hashlib.file_digest(output,'sha256').hexdigest()!=expected_target:raise ValueError('公共题库重建校验失败')
-    return {'reusedPublicFields':reused,'downloadedPublicFields':len(fields)-reused,'privateStateWritten':False}
+    return {'bytes':target_bytes,'sha256':expected_target,'reusedPublicFields':reused,'downloadedPublicFields':len(fields)-reused,'privateStateWritten':False}
