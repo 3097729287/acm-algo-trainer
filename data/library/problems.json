@@ -697861,9 +697861,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
       "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -697906,11 +697905,7 @@
       "solutionAvailable": false,
       "source": "luogu-training",
       "sourceTags": [],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [],
       "title": "Dream SMP",
