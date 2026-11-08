@@ -94,7 +94,11 @@ def build(package,baselines,output,tool,prebuilt=(),field_delta=None):
             best=None
             for source,item in candidates[:4]:
                 if field_proof and item['sha256']==field_proof['sourceSha256'] and entry['sha256']==field_proof['targetSha256']:
-                    payload=add(Path(field_proof['patch']));candidate={'format':'binary','source':source,'sourceSha256':item['sha256'],'payload':payload,'templateSha256':field_proof['templateSha256'],'publicFields':field_proof['fields']}
+                    payload=add(Path(field_proof['patch']));candidate={'format':'binary','source':source,'sourceSha256':item['sha256'],'payload':payload}
+                    if field_proof['fields']:
+                        candidate.update(templateSha256=field_proof['templateSha256'],publicFields=field_proof['fields'])
+                    elif field_proof['templateSha256']!=entry['sha256']:
+                        raise ValueError('An empty public-field proof must reconstruct the final file directly')
                 else:
                     payload=binary(item,entry);candidate={'format':'binary','source':source,'sourceSha256':item['sha256'],'payload':payload}
                 if best is None or payloads[payload]['bytes']<payloads[best['payload']]['bytes']:best=candidate
