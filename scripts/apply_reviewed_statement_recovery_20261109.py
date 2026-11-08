@@ -23,7 +23,7 @@ def write(path,value,*,sort_keys=True):
     path.write_text(json.dumps(value,ensure_ascii=False,indent=2,sort_keys=sort_keys)+'\n',encoding='utf8')
 
 
-def main(review=REVIEW,patch=PATCH):
+def main(review=REVIEW,patch=PATCH,statements_only=False):
     assert review.resolve().is_relative_to((ROOT/'content-updates').resolve())
     assert patch.parent.resolve()==(SOURCE/'statement-patches').resolve() and patch.suffix=='.json'
     records=json.loads((review/'records.json').read_text('utf8'))
@@ -42,7 +42,7 @@ def main(review=REVIEW,patch=PATCH):
         for record in records:
             saved=current[record['problem_id']]
             assert saved['integrity']['reviewedRecoveryRecordSha256']==checksum(record['content'])
-            assert not by_id[record['problem_id']]['encoded'].get('statementRetired')
+            if not statements_only:assert not by_id[record['problem_id']]['encoded'].get('statementRetired')
         print(json.dumps({'alreadyApplied':len(records),'originalIdsPreserved':True}));return
     patches=[]
     for record in records:
@@ -57,6 +57,7 @@ def main(review=REVIEW,patch=PATCH):
         incoming['integrity']['reviewedRecoveryRecordSha256']=checksum(record['content'])
         if old:incoming['previousSourceStatement']=copy.deepcopy(old)
         patches.append({'problem_id':identity,'beforeSha256':checksum(old),'content':incoming})
+        if statements_only:continue
         meta=by_id[identity]['encoded']
         assert meta.get('statementRetirementPolicy')=='public-statement-audit-v1'
         prior=meta.get('statementPriorVisibility') or {}
@@ -69,14 +70,17 @@ def main(review=REVIEW,patch=PATCH):
                     catalogReplayReady=native_submission_supported(incoming['url']) and kind not in {'communication','output-only','attachment'})
     assert set(reviewed)=={p['problem_id'] for p in patches}
     # Existing order keeps public SQLite page layout stable for small updates.
-    write(SOURCE/'statement_assets.json',assets,sort_keys=False)
-    write(SOURCE/'problems.json',rows,sort_keys=False);write(patch,{'schema':1,'statements':patches})
-    print(json.dumps({'restoredOriginals':len(patches),'offlineAssets':len(assets),'originalIdsPreserved':True,'personalStateRead':False}))
+    if not statements_only:
+        write(SOURCE/'statement_assets.json',assets,sort_keys=False)
+        write(SOURCE/'problems.json',rows,sort_keys=False)
+    write(patch,{'schema':1,'statements':patches})
+    print(json.dumps({'restoredOriginals':len(patches),'offlineAssets':len(assets),'originalIdsPreserved':True,'personalStateRead':False,'catalogAndAssetRegistrationPending':statements_only}))
 
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--review',type=Path,default=REVIEW)
     parser.add_argument('--patch-name',default=PATCH.name)
+    parser.add_argument('--statements-only',action='store_true',help='Prepare guarded statements; leave catalogue and asset registration to the owning integration worktree')
     args=parser.parse_args()
-    main(args.review,SOURCE/'statement-patches'/args.patch_name)
+    main(args.review,SOURCE/'statement-patches'/args.patch_name,args.statements_only)
