@@ -1,0 +1,27 @@
+{
+  "at": "2026-11-08T07:20:22.357333+00:00",
+  "backend": "rust",
+  "formalReleaseReady": false,
+  "businessRunnerConnected": false,
+  "legacyBackendFallback": false,
+  "checks": 59,
+  "realProcessChecks": 8,
+  "testInterpreter": "C:/Users/lenovo/AppData/Local/Programs/Python/Python313/python.exe",
+  "logSha256": "7ea5b3ef98698680a3f396f68ca71b7756f4a75416739b61c50565f618b70372",
+  "command": "powershell -NoProfile -File scripts/native.ps1 -Action test -TestPython C:/Users/lenovo/AppData/Local/Programs/Python/Python313/python.exe",
+  "features": [
+    "atomic Win32 process Job Object attachment",
+    "Unicode argv, input and environment",
+    "hidden process and explicit inherited handles",
+    "CPU and wall time, whole-job memory, output and active-process limits",
+    "kernel memory-limit facts without stderr inference",
+    "cancellation and whole child-tree cleanup",
+    "UTF-8 display bound under invalid byte streams"
+  ],
+  "productionDatabasesRead": false,
+  "productionFilesModified": false,
+  "limitations": [
+    "Windows resource isolation; no filesystem sandbox",
+    "Compilation, sample checking and asynchronous submission persistence still need business integration"
+  ]
+}

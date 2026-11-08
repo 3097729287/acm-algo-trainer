@@ -7,6 +7,7 @@ pub mod library;
 pub mod migration;
 pub mod planner;
 pub mod preferences;
+pub mod process_job;
 pub mod service;
 pub mod storage;
 pub mod templates;
