@@ -1,0 +1,1191 @@
+{
+  "ok": true,
+  "at": "2026-11-08T12:43:34.107107+00:00",
+  "package": "E:\\项目\\ToBe\\临时验证\\Rust本地测试\\1.6.7同步-20261108",
+  "packageSourceCommit": "2800814e3dd8686e08380a41a9b20a8c130d2a3d",
+  "nativeBuildSourceCommit": "7a1d2d11cc5196ec5917a1daa22d40df83203bad",
+  "sourceBaseVersion": "1.6.7",
+  "releaseReady": false,
+  "nativeLegacyEndpoints": 32,
+  "legacyEndpoints": 136,
+  "rustTests": 75,
+  "verifiedMembers": [
+    {
+      "path": "ToBe-Rust.exe",
+      "bytes": 17618254,
+      "sha256": "5b574d45617a85754ad9a4bf61ee55a3a9adbb0a2ee9558eff15a9cce34ebb85"
+    },
+    {
+      "path": "WebView2Loader.dll",
+      "bytes": 160880,
+      "sha256": "86545b66cdb0603bc26b626fb9ad610cb6e71f28d468f5ea66df23b03dda96d5"
+    },
+    {
+      "path": "data/library.sqlite3",
+      "bytes": 1040789504,
+      "sha256": "c6678266ac5750bf34b55a1596d10a9ecf557e1aff237cb32c482074d6d0bf54"
+    },
+    {
+      "path": "data/native-catalog.sqlite3",
+      "bytes": 78876672,
+      "sha256": "6599728710337073d8274804e4e04ba3454ffc0cb5d56772fde56eb7c279ffa2"
+    },
+    {
+      "path": "backend/resources/oi-wiki.sqlite3",
+      "bytes": 27525120,
+      "sha256": "b20821999da1393f2202a396b64cf7a5490293e88f0bbf7c27929cc22139be38"
+    },
+    {
+      "path": "backend/resources/code-templates.json",
+      "bytes": 149758,
+      "sha256": "8bc62e13388b24d21c2bcc8bbc70766e40681cf4fbfcc7ff7e48ad1f7cb81981"
+    },
+    {
+      "path": "backend/resources/template-teaching.json",
+      "bytes": 41826,
+      "sha256": "8ecf69ca4122277dfd68b6b5271e036186194e0781c764fe5a6f4f32244f87aa"
+    },
+    {
+      "path": "backend/resources/learning-curriculum.json",
+      "bytes": 33342,
+      "sha256": "44d19611054093214eade6f373048d5864e38422dd5e61696f6c17258869659f"
+    },
+    {
+      "path": "backend/resources/native-quizzes.json",
+      "bytes": 3448,
+      "sha256": "ec8a200955c570d3f5e1722a6998b67073f6d677ef116bc03384f0d3afb94d29"
+    }
+  ],
+  "actualPackagedWindow": {
+    "capabilities": {
+      "backend": "rust",
+      "deployment": "local-test-only",
+      "endpoints": [
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.account",
+          "path": "account",
+          "status": "sandbox-bootstrap-only"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.admin",
+          "path": "admin"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.admin.accounts",
+          "path": "admin/accounts"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.admin.scenario",
+          "path": "admin/scenario"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.admin.session",
+          "path": "admin/session"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.browser-preparation",
+          "path": "browser-preparation"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.content-update",
+          "path": "content-update"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.contest",
+          "path": "contest"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.contest-calendar",
+          "path": "contest-calendar"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.contests.events",
+          "path": "contests/events"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.daily-tasks",
+          "path": "daily-tasks"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.data",
+          "path": "data",
+          "status": "partial"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.data.export",
+          "path": "data/export"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.desktop.fullscreen",
+          "path": "desktop/fullscreen"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.duel",
+          "path": "duel"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.duel.board",
+          "path": "duel/board"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.experience-challenge",
+          "path": "experience-challenge"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.goals",
+          "path": "goals"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.hub",
+          "path": "hub"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.identity",
+          "path": "identity"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.initial-code",
+          "path": "initial-code",
+          "status": "implemented"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.insights",
+          "path": "insights"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.leaderboard",
+          "path": "leaderboard"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.leaderboard.avatar",
+          "path": "leaderboard/avatar"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.learning-summary",
+          "path": "learning-summary",
+          "status": "partial"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.learning-summary.history",
+          "path": "learning-summary/history",
+          "status": "implemented"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.learning-summary.quiz",
+          "path": "learning-summary/quiz",
+          "status": "implemented"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.lecture",
+          "path": "lecture",
+          "status": "implemented"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.lectures",
+          "path": "lectures",
+          "status": "implemented"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.navigation",
+          "path": "navigation"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.official.status",
+          "path": "official/status"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.pk.v1.*",
+          "path": "pk/v1/*"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.preferences",
+          "path": "preferences",
+          "status": "implemented"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.problem",
+          "path": "problem",
+          "status": "partial"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.problem.translate",
+          "path": "problem/translate"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.profile",
+          "path": "profile"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.rankings",
+          "path": "rankings"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.social",
+          "path": "social"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.software-update",
+          "path": "software-update"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.solution",
+          "path": "solution",
+          "status": "implemented"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.statement-backfill",
+          "path": "statement-backfill"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.stickers",
+          "path": "stickers"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.submission",
+          "path": "submission",
+          "status": "partial"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.submissions",
+          "path": "submissions",
+          "status": "partial"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.team-training.*",
+          "path": "team-training/*"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.templates",
+          "path": "templates",
+          "status": "implemented"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.training-list-likes",
+          "path": "training-list-likes"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.training-lists",
+          "path": "training-lists",
+          "status": "implemented"
+        },
+        {
+          "method": "GET",
+          "native": false,
+          "operation": "get.translation.settings",
+          "path": "translation/settings"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.usage",
+          "path": "usage",
+          "status": "implemented"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.wiki",
+          "path": "wiki",
+          "status": "implemented"
+        },
+        {
+          "method": "GET",
+          "native": true,
+          "operation": "get.workspace",
+          "path": "workspace",
+          "status": "partial"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.account.logout",
+          "path": "account/logout"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.account.sync",
+          "path": "account/sync"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.achievements.claim",
+          "path": "achievements/claim"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.admin",
+          "path": "admin"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.admin.accounts.delete",
+          "path": "admin/accounts/delete"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.admin.accounts.reset-password",
+          "path": "admin/accounts/reset-password"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.admin.logout",
+          "path": "admin/logout"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.admin.scenario",
+          "path": "admin/scenario"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.admin.session",
+          "path": "admin/session"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.browser-preparation",
+          "path": "browser-preparation"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.code.format",
+          "path": "code/format",
+          "status": "implemented"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.contests.cancel",
+          "path": "contests/cancel"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.contests.delete",
+          "path": "contests/delete"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.contests.finish",
+          "path": "contests/finish"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.contests.preview",
+          "path": "contests/preview"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.contests.start",
+          "path": "contests/start"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.contests.start-calendar",
+          "path": "contests/start-calendar"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.daily-tasks.claim",
+          "path": "daily-tasks/claim"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.desktop.fullscreen",
+          "path": "desktop/fullscreen"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.draft",
+          "path": "draft",
+          "status": "implemented"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.duel.cancel",
+          "path": "duel/cancel"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.duel.decline",
+          "path": "duel/decline"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.duel.dismiss",
+          "path": "duel/dismiss"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.duel.join",
+          "path": "duel/join"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.duel.poll",
+          "path": "duel/poll"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.duel.ready",
+          "path": "duel/ready"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.experience-challenge",
+          "path": "experience-challenge"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.goals.archive",
+          "path": "goals/archive"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.goals.save",
+          "path": "goals/save"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.hub.configure",
+          "path": "hub/configure"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.hub.dismiss",
+          "path": "hub/dismiss"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.hub.dismiss-all",
+          "path": "hub/dismiss-all"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.hub.sync",
+          "path": "hub/sync"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.identity",
+          "path": "identity"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.initial-code.save",
+          "path": "initial-code/save",
+          "status": "implemented"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.initial-code.select",
+          "path": "initial-code/select",
+          "status": "implemented"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.leaderboard.admin.delete",
+          "path": "leaderboard/admin/delete"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.leaderboard.sync",
+          "path": "leaderboard/sync"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.learning-summary.refresh",
+          "path": "learning-summary/refresh",
+          "status": "partial"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.learning-summary.start",
+          "path": "learning-summary/start"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.learning-summary.time",
+          "path": "learning-summary/time",
+          "status": "implemented"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.learning-summary.update",
+          "path": "learning-summary/update",
+          "status": "partial"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.official.ack",
+          "path": "official/ack"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.official.close",
+          "path": "official/close"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.official.open",
+          "path": "official/open"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.official.submit",
+          "path": "official/submit"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.official.sync",
+          "path": "official/sync"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.pk.v1.*",
+          "path": "pk/v1/*"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.preferences",
+          "path": "preferences",
+          "status": "implemented"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.presence",
+          "path": "presence"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.problem.translate",
+          "path": "problem/translate"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.profile",
+          "path": "profile"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.rankings.sync",
+          "path": "rankings/sync"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.social.comments",
+          "path": "social/comments"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.social.likes",
+          "path": "social/likes"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.social.read",
+          "path": "social/read"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.software-update.check",
+          "path": "software-update/check"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.software-update.download",
+          "path": "software-update/download"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.software-update.install",
+          "path": "software-update/install"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.software-update.settings",
+          "path": "software-update/settings"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.status",
+          "path": "status"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.stickers.open-background",
+          "path": "stickers/open-background"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.stickers.open-box",
+          "path": "stickers/open-box"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.stickers.open-packs",
+          "path": "stickers/open-packs"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.stickers.outfit",
+          "path": "stickers/outfit"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.stickers.place",
+          "path": "stickers/place"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.stickers.recycle",
+          "path": "stickers/recycle"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.stickers.scene-apply",
+          "path": "stickers/scene-apply"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.stickers.scene-delete",
+          "path": "stickers/scene-delete"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.stickers.scene-save",
+          "path": "stickers/scene-save"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.submissions",
+          "path": "submissions",
+          "status": "partial"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.team-training.*",
+          "path": "team-training/*"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.templates.save",
+          "path": "templates/save",
+          "status": "implemented"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.training-list-likes",
+          "path": "training-list-likes"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.training-lists.add",
+          "path": "training-lists/add"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.training-lists.save",
+          "path": "training-lists/save"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.training.clear",
+          "path": "training/clear",
+          "status": "partial"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.training.contest",
+          "path": "training/contest"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.training.remove",
+          "path": "training/remove",
+          "status": "partial"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.training.start",
+          "path": "training/start",
+          "status": "partial"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.translation.settings",
+          "path": "translation/settings"
+        },
+        {
+          "method": "POST",
+          "native": false,
+          "operation": "post.translation.test",
+          "path": "translation/test"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.usage",
+          "path": "usage",
+          "status": "implemented"
+        },
+        {
+          "method": "POST",
+          "native": true,
+          "operation": "post.workspace.ready",
+          "path": "workspace/ready",
+          "status": "implemented"
+        }
+      ],
+      "formalArchitecture": "react-python",
+      "legacyImplemented": 32,
+      "legacyTotal": 136,
+      "nativeRoutes": [
+        [
+          "GET",
+          "api/capabilities"
+        ],
+        [
+          "GET",
+          "account"
+        ],
+        [
+          "GET",
+          "preferences"
+        ],
+        [
+          "GET",
+          "initial-code"
+        ],
+        [
+          "POST",
+          "initial-code/save"
+        ],
+        [
+          "POST",
+          "initial-code/select"
+        ],
+        [
+          "GET",
+          "templates"
+        ],
+        [
+          "POST",
+          "templates/save"
+        ],
+        [
+          "GET",
+          "wiki"
+        ],
+        [
+          "GET",
+          "library/page"
+        ],
+        [
+          "GET",
+          "library/statement"
+        ],
+        [
+          "GET",
+          "library/asset"
+        ],
+        [
+          "GET",
+          "library/lecture"
+        ],
+        [
+          "GET",
+          "library/lectures"
+        ],
+        [
+          "GET",
+          "library/training-lists"
+        ],
+        [
+          "POST",
+          "draft"
+        ],
+        [
+          "POST",
+          "code/format"
+        ],
+        [
+          "POST",
+          "workspace/ready"
+        ],
+        [
+          "GET",
+          "data"
+        ],
+        [
+          "GET",
+          "workspace"
+        ],
+        [
+          "GET",
+          "problem"
+        ],
+        [
+          "GET",
+          "submissions"
+        ],
+        [
+          "POST",
+          "submissions"
+        ],
+        [
+          "GET",
+          "solution"
+        ],
+        [
+          "GET",
+          "lectures"
+        ],
+        [
+          "GET",
+          "lecture"
+        ],
+        [
+          "POST",
+          "training/start"
+        ],
+        [
+          "POST",
+          "training/remove"
+        ],
+        [
+          "POST",
+          "training/clear"
+        ],
+        [
+          "GET",
+          "learning-summary"
+        ],
+        [
+          "GET",
+          "learning-summary/history"
+        ],
+        [
+          "GET",
+          "learning-summary/quiz"
+        ],
+        [
+          "POST",
+          "learning-summary/update"
+        ],
+        [
+          "POST",
+          "learning-summary/refresh"
+        ],
+        [
+          "POST",
+          "learning-summary/time"
+        ],
+        [
+          "POST",
+          "preferences"
+        ],
+        [
+          "GET",
+          "usage"
+        ],
+        [
+          "POST",
+          "usage"
+        ],
+        [
+          "GET",
+          "submission"
+        ],
+        [
+          "GET",
+          "training-lists"
+        ]
+      ],
+      "owner": "rust-migration-sandbox",
+      "pendingDomains": [
+        "catalogue-projection",
+        "training-and-reviews",
+        "learning-summary",
+        "accounts-and-sync",
+        "growth-and-rewards",
+        "judge-and-official-browser",
+        "online-services",
+        "updates-and-installer"
+      ],
+      "protocol": 1,
+      "releaseReady": false,
+      "sandbox": true,
+      "transport": "tauri-ipc"
+    },
+    "totalProblems": 13480,
+    "originalTitle": "Train Car",
+    "draftCommitted": true,
+    "ipcInitialCodeP50Millis": 1.4000000059604645,
+    "ipcInitialCodeP95Millis": 2.0999999940395355,
+    "origin": "http://tauri.localhost",
+    "nativeGlobal": true,
+    "reactPlanning": {
+      "configured": true,
+      "readingStage": 1,
+      "conceptStage": 2,
+      "independentSolved": 0,
+      "cancellationPreserved": true,
+      "mainlineChanged": true,
+      "historyPreserved": true,
+      "recoveredAfterReload": true,
+      "weeklyBudgetShared": true
+    },
+    "reactWorkspace": {
+      "saved": true,
+      "recoveredAfterReload": true,
+      "training": 1,
+      "problemId": "ABC 469::A"
+    },
+    "localRuns": {
+      "realTauriIpc": true,
+      "realCppCompiler": true,
+      "realPythonInterpreter": true,
+      "problemId": "luogu-training-P1001",
+      "officialSamples": 1,
+      "cppVerdict": "SAMPLE_PASS",
+      "pythonVerdict": "RUN_OK",
+      "customOutput": "42",
+      "pendingReadMillis": 15.700400000001537,
+      "draftLanguageAndHistoryRestored": true,
+      "officialAcClaims": 0
+    },
+    "readyMillis": 1049.4766,
+    "memory": [
+      {
+        "name": "ToBe-Rust.exe",
+        "pid": 32364,
+        "workingSetBytes": 44019712,
+        "privateBytes": 11075584
+      },
+      {
+        "name": "msedgewebview2.exe",
+        "pid": 27900,
+        "workingSetBytes": 111906816,
+        "privateBytes": 36655104
+      },
+      {
+        "name": "msedgewebview2.exe",
+        "pid": 9472,
+        "workingSetBytes": 13471744,
+        "privateBytes": 2760704
+      },
+      {
+        "name": "msedgewebview2.exe",
+        "pid": 21060,
+        "workingSetBytes": 80908288,
+        "privateBytes": 96870400
+      },
+      {
+        "name": "msedgewebview2.exe",
+        "pid": 27672,
+        "workingSetBytes": 43491328,
+        "privateBytes": 13242368
+      },
+      {
+        "name": "msedgewebview2.exe",
+        "pid": 34304,
+        "workingSetBytes": 23863296,
+        "privateBytes": 8019968
+      },
+      {
+        "name": "msedgewebview2.exe",
+        "pid": 8668,
+        "workingSetBytes": 100302848,
+        "privateBytes": 54308864
+      }
+    ],
+    "binaryBytes": 17618254,
+    "binary": "E:\\项目\\ToBe\\临时验证\\Rust本地测试\\1.6.7同步-20261108\\ToBe-Rust.exe",
+    "sandbox": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-167-packaged-window-20261108\\sandbox-lusMH3",
+    "packaged": true,
+    "pageErrors": [],
+    "scope": "Native migration diagnostic; feature parity and full application resource comparison are still pending"
+  },
+  "externalTestTools": {
+    "cpp17": "D:\\Work\\Msys64\\ucrt64\\bin\\g++.exe",
+    "python3": "C:\\Users\\lenovo\\AppData\\Local\\Programs\\Python\\Python313\\python.exe"
+  },
+  "sourcePathVariableRemoved": true,
+  "existingInstallationChanged": false,
+  "completeScopeAchieved": false
+}
