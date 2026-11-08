@@ -156,6 +156,22 @@
           "originalDownloadByteIdentity": true,
           "realJudgeSubmissions": 0,
           "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "436bb02cbe572afab01568ade3e4e88a0f5e8e2e98af51bcff171e64b032a3f2",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "d69483235030e0a5dde28349b84895343690aa7e75e21624a8055b7aa73c4e7c",
+          "issues": []
         }
       }
     },
@@ -296,6 +312,22 @@
           "originalDownloadByteIdentity": true,
           "realJudgeSubmissions": 0,
           "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "440c8515fff5c3e136762c70f60e5cfc7b77a9701b081ed71c32611121efeeab",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "87914448f43ddb8da1ea443dbeaacf7153237ea7344397ce4e39fa212ee7df2f",
+          "issues": []
         }
       }
     },
@@ -487,6 +519,22 @@
           "originalDownloadByteIdentity": true,
           "realJudgeSubmissions": 0,
           "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 4,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "081ee0965798695a12de96b05d790901ddf39254f64fb6a3c2101c5c951e5a6e",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "0c83525fd3e9e5536a9e582e4d4490f02c25d675d4e4546fe55fe3b80b63fc80",
+          "issues": []
         }
       }
     },
@@ -627,6 +675,22 @@
           "originalDownloadByteIdentity": true,
           "realJudgeSubmissions": 0,
           "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "ab5332690bb2e58b0e6cb86cde4a7ce3e489a3ccfa5d929c66510dbddebfd570",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "374165a8046a26450c806280cc76a819d8eec74c300f8bba30e9733bc7805bbc",
+          "issues": []
         }
       }
     },
@@ -783,6 +847,22 @@
           "originalDownloadByteIdentity": true,
           "realJudgeSubmissions": 0,
           "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "1ace611d29b191a59b47fba7843ee025088ddc50da537053d5257fe215222a97",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "938a3b2f52ea37caa40cc733fed618d81bc8e7bdd482a553be143113f5101778",
+          "issues": []
         }
       }
     },
@@ -949,6 +1029,22 @@
           "originalDownloadByteIdentity": true,
           "realJudgeSubmissions": 0,
           "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "ee9cb9d822ebcc2a24a0510014c1e77e7962667fbdfe116e92276f0a74e7e608",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "2c702c22e47a7c5c357ee75cdf2fadf2c1c0b5834873bb68c739fbb11e5d8175",
+          "issues": []
         }
       }
     },
@@ -1125,6 +1221,22 @@
           "originalDownloadByteIdentity": true,
           "realJudgeSubmissions": 0,
           "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "b2dc81ec04cdc44bcf8699cd7d5fb3bbadcc5091fc8f37d17fa244bec26671e7",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "e7278147ca2706ffc6c49a43917c845f26048a09786f8ec7a16feeb14a16cbd2",
+          "issues": []
         }
       }
     },
@@ -1282,6 +1394,22 @@
           "realJudgeSubmissions": 0,
           "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used.",
           "existingEquivalentIdentity": "luogu-training-P10865"
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "36008551259b16e5ee0ea9e2f960c238f7a83daf9e33ea9bd52b3a369a8aeb3f",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "7bc67f88fd7502a23ff20a5c9d6844747a58b25fd427a3a9a0a6bf04eb64bab8",
+          "issues": []
         }
       }
     },
@@ -1422,6 +1550,22 @@
           "originalDownloadByteIdentity": true,
           "realJudgeSubmissions": 0,
           "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "b139df878bea9b3447e3383512fbdbc6fc74cbf7cbe9e381d7f43d06de63d30c",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "40c542fdc424084639d27ccada724ef5a4d9c300a2d1f02b19212f0c63da02c1",
+          "issues": []
         }
       }
     },
@@ -1562,6 +1706,22 @@
           "originalDownloadByteIdentity": true,
           "realJudgeSubmissions": 0,
           "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "60f5cc5cc6e28f0903d296cf73dbed898bc38a2ecc08cddd0fdce7929d217f2c",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "e59ec9630af3bcabc37193d5bfc175a61487e17b11ad2f06d63b577a4cd7d523",
+          "issues": []
         }
       }
     },
@@ -1702,6 +1862,22 @@
           "originalDownloadByteIdentity": true,
           "realJudgeSubmissions": 0,
           "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "bdc2b1aa8538423704a0dc5a00ac76b3cab7537dd8b96ff0557edca56c29cb00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "4df4294f2842651cbb54ee00e68cdd530bc7a8617e34ee023fb2310c5705478d",
+          "issues": []
         }
       }
     },
@@ -1842,6 +2018,22 @@
           "originalDownloadByteIdentity": true,
           "realJudgeSubmissions": 0,
           "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "109b0483c19c3911386b1251e73af1d9c8cdb5cc64b090c839e1811a17b8db49",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "1aa2e0f076413f7f3713f4055a80bd6aa72a193e59f78259e4f198416d9539fe",
+          "issues": []
         }
       }
     }

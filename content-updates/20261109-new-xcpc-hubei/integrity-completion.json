@@ -1,0 +1,321 @@
+{
+  "schema": 1,
+  "checkedAt": "2026-11-08T23:15:24.702647+00:00",
+  "supersedesSourceMetadataAt": "7839fb0fba6c35dce437529d3bff324f2a79021d",
+  "reason": "The complete page-reviewed originals lacked the explicit integrity receipt required by the global completion inventory. Only verified completion metadata is added; source text, translations, samples, attachments and images do not change.",
+  "beforePacketSha256": "3ba3e23d597c1cb4b0a4614e5a80ed13412b5b4737223d2540bbc5a038b0e7c8",
+  "afterPacketSha256": "93107a0589091276cf759a5f62b7e01e2af7c0f682de6dbb8fa8ab922bd69a8c",
+  "items": [
+    {
+      "id": "remote:codeforces:105139::A",
+      "beforeStatementSha256": "d4063f270abd78d550b8fe068cac0380539a6f19fec4f8073a5ec49c520ae53f",
+      "afterStatementSha256": "a275afce33a42d759c380d5c299715dcb33a4559d8cb82cce2e0cdbdef71b8bd",
+      "markdownSha256": "436bb02cbe572afab01568ade3e4e88a0f5e8e2e98af51bcff171e64b032a3f2",
+      "sampleCount": 1,
+      "beforeIntegrity": null,
+      "afterIntegrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 1,
+        "pdfPageCountVerified": true,
+        "markdownSha256": "436bb02cbe572afab01568ade3e4e88a0f5e8e2e98af51bcff171e64b032a3f2",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        ],
+        "reviewedSourceBindingSha256": "d69483235030e0a5dde28349b84895343690aa7e75e21624a8055b7aa73c4e7c",
+        "issues": []
+      }
+    },
+    {
+      "id": "remote:codeforces:105139::B",
+      "beforeStatementSha256": "812d626a626609cf40f8de3a3857941b759b37355805f2ca8d362939b63bd9d8",
+      "afterStatementSha256": "20d527f52cbce1b31e405da0430b2a3340552e054511882e7847d61d71e3d166",
+      "markdownSha256": "440c8515fff5c3e136762c70f60e5cfc7b77a9701b081ed71c32611121efeeab",
+      "sampleCount": 1,
+      "beforeIntegrity": null,
+      "afterIntegrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 1,
+        "pdfPageCountVerified": true,
+        "markdownSha256": "440c8515fff5c3e136762c70f60e5cfc7b77a9701b081ed71c32611121efeeab",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        ],
+        "reviewedSourceBindingSha256": "87914448f43ddb8da1ea443dbeaacf7153237ea7344397ce4e39fa212ee7df2f",
+        "issues": []
+      }
+    },
+    {
+      "id": "remote:codeforces:105139::C",
+      "beforeStatementSha256": "6189a65ffc432ec30fbb00e66ec29a943e2fd0b9483272e46a0ebbf584327723",
+      "afterStatementSha256": "b97dc78a6d84b269b841e549c7ba20bb94c0d5ab23492aad59fa5c7ccd7fa32a",
+      "markdownSha256": "081ee0965798695a12de96b05d790901ddf39254f64fb6a3c2101c5c951e5a6e",
+      "sampleCount": 4,
+      "beforeIntegrity": null,
+      "afterIntegrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 4,
+        "pdfPageCountVerified": true,
+        "markdownSha256": "081ee0965798695a12de96b05d790901ddf39254f64fb6a3c2101c5c951e5a6e",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        ],
+        "reviewedSourceBindingSha256": "0c83525fd3e9e5536a9e582e4d4490f02c25d675d4e4546fe55fe3b80b63fc80",
+        "issues": []
+      }
+    },
+    {
+      "id": "remote:codeforces:105139::D",
+      "beforeStatementSha256": "786907ea42494fe43fd00e2f0ad31ac0c1eae447f04277e6208be4c5daf0f106",
+      "afterStatementSha256": "b0b02b16326fcce8b960d37ff21ddb8a979b9fa7332994d636896297640a4ead",
+      "markdownSha256": "ab5332690bb2e58b0e6cb86cde4a7ce3e489a3ccfa5d929c66510dbddebfd570",
+      "sampleCount": 1,
+      "beforeIntegrity": null,
+      "afterIntegrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 1,
+        "pdfPageCountVerified": true,
+        "markdownSha256": "ab5332690bb2e58b0e6cb86cde4a7ce3e489a3ccfa5d929c66510dbddebfd570",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        ],
+        "reviewedSourceBindingSha256": "374165a8046a26450c806280cc76a819d8eec74c300f8bba30e9733bc7805bbc",
+        "issues": []
+      }
+    },
+    {
+      "id": "remote:codeforces:105139::E",
+      "beforeStatementSha256": "41f3d738925d2b669c2b69a248799312e80b7576cac823e5cd4bac16d96f74ec",
+      "afterStatementSha256": "40ef02b5c12b0bb41f352aabd75fd3b7cf94bf0c60dc18903d97905c0e118afc",
+      "markdownSha256": "1ace611d29b191a59b47fba7843ee025088ddc50da537053d5257fe215222a97",
+      "sampleCount": 1,
+      "beforeIntegrity": null,
+      "afterIntegrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 1,
+        "pdfPageCountVerified": true,
+        "markdownSha256": "1ace611d29b191a59b47fba7843ee025088ddc50da537053d5257fe215222a97",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        ],
+        "reviewedSourceBindingSha256": "938a3b2f52ea37caa40cc733fed618d81bc8e7bdd482a553be143113f5101778",
+        "issues": []
+      }
+    },
+    {
+      "id": "remote:codeforces:105139::F",
+      "beforeStatementSha256": "1acd4c832d1c9099843d8a953cd7eae98f4fca39c30e3f9c32b1cadae52f40c5",
+      "afterStatementSha256": "7c0aa19e113ae93565184d9843f7c40132fe368f8132fc7029f4c824e12a5c55",
+      "markdownSha256": "ee9cb9d822ebcc2a24a0510014c1e77e7962667fbdfe116e92276f0a74e7e608",
+      "sampleCount": 2,
+      "beforeIntegrity": null,
+      "afterIntegrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 2,
+        "pdfPageCountVerified": true,
+        "markdownSha256": "ee9cb9d822ebcc2a24a0510014c1e77e7962667fbdfe116e92276f0a74e7e608",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        ],
+        "reviewedSourceBindingSha256": "2c702c22e47a7c5c357ee75cdf2fadf2c1c0b5834873bb68c739fbb11e5d8175",
+        "issues": []
+      }
+    },
+    {
+      "id": "remote:codeforces:105139::G",
+      "beforeStatementSha256": "2375c76fbab404d5dcd37f9c6f5c935425e3b0001a7479720be6a8b95e7d1dbf",
+      "afterStatementSha256": "4b118e8b6ada712345038f63d2f4570e36882eb45592915115f3991cca3536a9",
+      "markdownSha256": "b2dc81ec04cdc44bcf8699cd7d5fb3bbadcc5091fc8f37d17fa244bec26671e7",
+      "sampleCount": 1,
+      "beforeIntegrity": null,
+      "afterIntegrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 1,
+        "pdfPageCountVerified": true,
+        "markdownSha256": "b2dc81ec04cdc44bcf8699cd7d5fb3bbadcc5091fc8f37d17fa244bec26671e7",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        ],
+        "reviewedSourceBindingSha256": "e7278147ca2706ffc6c49a43917c845f26048a09786f8ec7a16feeb14a16cbd2",
+        "issues": []
+      }
+    },
+    {
+      "id": "remote:codeforces:105139::H",
+      "beforeStatementSha256": "a1dbe0842177ccfa784c01fbc5d554e3342331966750963b41e04824324cc9aa",
+      "afterStatementSha256": "e1cda403a9c37debf26a89ccb1458703041538f98c47179c421007cb563a933f",
+      "markdownSha256": "36008551259b16e5ee0ea9e2f960c238f7a83daf9e33ea9bd52b3a369a8aeb3f",
+      "sampleCount": 1,
+      "beforeIntegrity": null,
+      "afterIntegrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 1,
+        "pdfPageCountVerified": true,
+        "markdownSha256": "36008551259b16e5ee0ea9e2f960c238f7a83daf9e33ea9bd52b3a369a8aeb3f",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        ],
+        "reviewedSourceBindingSha256": "7bc67f88fd7502a23ff20a5c9d6844747a58b25fd427a3a9a0a6bf04eb64bab8",
+        "issues": []
+      }
+    },
+    {
+      "id": "remote:codeforces:105139::I",
+      "beforeStatementSha256": "f363f9afaaa2e78fca0730a6973068585d795c7ae64cd350edb13153b407b224",
+      "afterStatementSha256": "ccc171b57da551ced3a6f239f85a20012bc19adca48eee5db491fc07a57521d3",
+      "markdownSha256": "b139df878bea9b3447e3383512fbdbc6fc74cbf7cbe9e381d7f43d06de63d30c",
+      "sampleCount": 1,
+      "beforeIntegrity": null,
+      "afterIntegrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 1,
+        "pdfPageCountVerified": true,
+        "markdownSha256": "b139df878bea9b3447e3383512fbdbc6fc74cbf7cbe9e381d7f43d06de63d30c",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        ],
+        "reviewedSourceBindingSha256": "40c542fdc424084639d27ccada724ef5a4d9c300a2d1f02b19212f0c63da02c1",
+        "issues": []
+      }
+    },
+    {
+      "id": "remote:codeforces:105139::J",
+      "beforeStatementSha256": "fe8fa21cfe3b0509956ea8709b42db365c1989044e2367d74d4ea2d4c43b2e43",
+      "afterStatementSha256": "f4dc4a839f908bc44a5d808b95fec40db856e3e5ff453cf1ce193d6e4935b228",
+      "markdownSha256": "60f5cc5cc6e28f0903d296cf73dbed898bc38a2ecc08cddd0fdce7929d217f2c",
+      "sampleCount": 1,
+      "beforeIntegrity": null,
+      "afterIntegrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 1,
+        "pdfPageCountVerified": true,
+        "markdownSha256": "60f5cc5cc6e28f0903d296cf73dbed898bc38a2ecc08cddd0fdce7929d217f2c",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        ],
+        "reviewedSourceBindingSha256": "e59ec9630af3bcabc37193d5bfc175a61487e17b11ad2f06d63b577a4cd7d523",
+        "issues": []
+      }
+    },
+    {
+      "id": "remote:codeforces:105139::K",
+      "beforeStatementSha256": "b1629e14d2124dc0a6e8bf5db790b78f425ada1f68395b1b2043d83b9e072f38",
+      "afterStatementSha256": "3b4f7de3deb5605c65d3b46570746aca2f77c244a48d42816134748fe4ea7bee",
+      "markdownSha256": "bdc2b1aa8538423704a0dc5a00ac76b3cab7537dd8b96ff0557edca56c29cb00",
+      "sampleCount": 1,
+      "beforeIntegrity": null,
+      "afterIntegrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 1,
+        "pdfPageCountVerified": true,
+        "markdownSha256": "bdc2b1aa8538423704a0dc5a00ac76b3cab7537dd8b96ff0557edca56c29cb00",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        ],
+        "reviewedSourceBindingSha256": "4df4294f2842651cbb54ee00e68cdd530bc7a8617e34ee023fb2310c5705478d",
+        "issues": []
+      }
+    },
+    {
+      "id": "remote:codeforces:105139::L",
+      "beforeStatementSha256": "577cea40b5b113e4c6471adaa56801195179f5c081722d6f43cb916d183d0496",
+      "afterStatementSha256": "fb8e7c3a2db5bfcb0a7e2ed81d6f859c6cec892669c7737c9e8f9ad74a0081b8",
+      "markdownSha256": "109b0483c19c3911386b1251e73af1d9c8cdb5cc64b090c839e1811a17b8db49",
+      "sampleCount": 1,
+      "beforeIntegrity": null,
+      "afterIntegrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 1,
+        "pdfPageCountVerified": true,
+        "markdownSha256": "109b0483c19c3911386b1251e73af1d9c8cdb5cc64b090c839e1811a17b8db49",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        ],
+        "reviewedSourceBindingSha256": "1aa2e0f076413f7f3713f4055a80bd6aa72a193e59f78259e4f198416d9539fe",
+        "issues": []
+      }
+    }
+  ],
+  "cleanupPreflight": {
+    "gitWasClean": true,
+    "duplicateResourceCopiesAdded": 0,
+    "existingGuardedPacketUpdatedWithoutDuplicateBodyPacket": true,
+    "originalCandidateAvailableInGitHistory": true,
+    "obsoleteFilesConfirmed": [],
+    "noDeletionNecessary": true
+  },
+  "runtimeChanged": false,
+  "sourceAssetsChanged": false,
+  "problemIdsChanged": false,
+  "personalStateOpened": false,
+  "productionCompleteUpdateClaimed": false,
+  "validation": {
+    "sourceAndDisposableProductionReplay": "scripts/verify_xcpc_hubei_20261109.py --check-base passed after metadata completion",
+    "sourceCatalogueResourceAndExactKnowledgeBindings": {
+      "tests": 34,
+      "errors": 0,
+      "failures": 0
+    },
+    "unchangedRealWorkbenchReceipt": "docs/verification/release1611-source-integration-20261109.json#checks/hubeiRealWorkbench",
+    "integrityCompletionDoesNotChangeUiTextOrDownloadBytes": true
+  }
+}
