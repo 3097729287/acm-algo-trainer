@@ -239,9 +239,7 @@ impl Catalogue {
                 lists.push(serde_json::from_str::<Value>(&raw?)?);
             }
         }
-        for row in personal.rows("SELECT value FROM account_preferences WHERE key LIKE 'custom-training-list:%' ORDER BY updated_at DESC,key",[])?.as_array().unwrap(){
-            if let Ok(value)=serde_json::from_str::<Value>(row["value"].as_str().unwrap_or("")) {if value.is_object()&&value["deleted"]!=true&&value["problems"].is_array(){lists.push(value);}}
-        }
+        lists.extend(crate::custom_lists::read(personal)?);
         Ok(json!({"lists":lists}))
     }
 }

@@ -2,6 +2,8 @@
 pub mod api;
 pub mod catalogue;
 pub mod code_format;
+pub mod custom_lists;
+pub mod identity;
 pub mod learning;
 pub mod library;
 pub mod migration;

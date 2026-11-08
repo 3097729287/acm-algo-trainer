@@ -24,9 +24,11 @@ sys.path[:0] = [str(ROOT), str(ROOT / 'backend'), str(ROOT / 'backend/common'), 
 
 
 class Native:
-    def __init__(self, executable, state, cpp, python):
+    def __init__(self, executable, state, cpp, python, *, test_clock=None):
         environment = dict(os.environ, TB_NATIVE_CPP17=str(cpp), TB_NATIVE_PYTHON3=str(python))
         environment.pop('TB_NATIVE_TEST_NOW', None)
+        if test_clock is not None:
+            environment['TB_NATIVE_TEST_NOW'] = test_clock
         self.process = subprocess.Popen([str(executable), 'sandbox', str(ROOT), str(state)],
                                         stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                         text=True, encoding='utf-8', env=environment)

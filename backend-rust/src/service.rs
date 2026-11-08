@@ -62,6 +62,8 @@ pub const NATIVE_ROUTES: &[(&str, &str)] = &[
     ("POST", "usage"),
     ("GET", "submission"),
     ("GET", "training-lists"),
+    ("POST", "training-lists/save"),
+    ("POST", "training-lists/add"),
 ];
 
 #[derive(Clone)]
@@ -196,7 +198,7 @@ impl Service {
                 .map_err(|_| ApiError::pending())?;
             let library = self.library.lock().map_err(|_| ApiError::pending())?;
             let mut personal = self.personal.lock().map_err(|_| ApiError::pending())?;
-            let mut training = Training {
+            let training = Training {
                 catalogue: &catalogue,
                 library: &library,
                 personal: &mut personal,
@@ -358,6 +360,8 @@ impl Service {
                 | "lectures"
                 | "lecture"
                 | "training-lists"
+                | "training-lists/save"
+                | "training-lists/add"
                 | "training/start"
                 | "training/remove"
                 | "training/clear"
@@ -443,6 +447,18 @@ impl Service {
                 ("GET", "training-lists") => {
                     catalogue.training_lists(&personal, r.param("custom") == Some("1"))
                 }
+                ("POST", "training-lists/save") => crate::custom_lists::save(
+                    training.personal,
+                    r.body.as_ref().unwrap(),
+                    self.now(),
+                    |store, id| crate::catalogue::row_or_portable(&catalogue, store, id),
+                ),
+                ("POST", "training-lists/add") => crate::custom_lists::add(
+                    training.personal,
+                    r.body.as_ref().unwrap(),
+                    self.now(),
+                    |store, id| crate::catalogue::row_or_portable(&catalogue, store, id),
+                ),
                 ("GET", "lecture") => {
                     let lecture = library
                         .lecture(r.param("id").ok_or_else(|| ApiError::bad("缺少讲义编号"))?)?;
