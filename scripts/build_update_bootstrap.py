@@ -22,7 +22,7 @@ def build(specification,stage,inno,app_id=None):
     stage.mkdir(parents=True,exist_ok=False)
     helper=stage/'compact-helper.pyz'
     with zipfile.ZipFile(helper,'x',zipfile.ZIP_DEFLATED,compresslevel=9) as archive:
-        for name in ('compact_update.py','binary_delta.py'):
+        for name in ('compact_update.py','binary_delta.py','public_field_patch.py'):
             archive.writestr(zipfile.ZipInfo(name,(1980,1,1,0,0,0)),(ROOT/'desktop'/name).read_bytes(),compress_type=zipfile.ZIP_DEFLATED)
         archive.writestr(zipfile.ZipInfo('system_recycle.py',(1980,1,1,0,0,0)),(ROOT/'backend/system_recycle.py').read_bytes(),compress_type=zipfile.ZIP_DEFLATED)
         archive.writestr(zipfile.ZipInfo('__main__.py',(1980,1,1,0,0,0)),b'from compact_update import main\nraise SystemExit(main())\n',compress_type=zipfile.ZIP_DEFLATED)

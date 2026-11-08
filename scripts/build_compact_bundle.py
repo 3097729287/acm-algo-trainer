@@ -38,7 +38,7 @@ def asset_key(name):
     return (match[1],p.suffix) if match else None
 
 
-def build(package,baselines,output,tool,prebuilt=()):
+def build(package,baselines,output,tool,prebuilt=(),field_delta=None):
     package=package.resolve(strict=True);baselines=[b.resolve(strict=True) for b in baselines]
     if output.exists():raise ValueError('Use a new compact payload destination')
     target=inventory(package);versions={(b/'VERSION').read_text(encoding='utf-8').strip() for b in baselines}
@@ -55,6 +55,7 @@ def build(package,baselines,output,tool,prebuilt=()):
     payloads={};files={};blobs={};cache={}
     scratch=Path(tempfile.mkdtemp(prefix='ToBe-compact-payload-'))
     supplied={}
+    field_proof=json.loads(field_delta.read_text('utf8')) if field_delta else None
     for path in prebuilt:
         with path.open('rb') as f:
             if f.read(8)!=b'TBBD1\r\n\x00':raise ValueError('Prebuilt delta format mismatch')
@@ -92,7 +93,10 @@ def build(package,baselines,output,tool,prebuilt=()):
             if not candidates:literal=True;continue
             best=None
             for source,item in candidates[:4]:
-                payload=binary(item,entry);candidate={'format':'binary','source':source,'sourceSha256':item['sha256'],'payload':payload}
+                if field_proof and item['sha256']==field_proof['sourceSha256'] and entry['sha256']==field_proof['targetSha256']:
+                    payload=add(Path(field_proof['patch']));candidate={'format':'binary','source':source,'sourceSha256':item['sha256'],'payload':payload,'templateSha256':field_proof['templateSha256'],'publicFields':field_proof['fields']}
+                else:
+                    payload=binary(item,entry);candidate={'format':'binary','source':source,'sourceSha256':item['sha256'],'payload':payload}
                 if best is None or payloads[payload]['bytes']<payloads[best['payload']]['bytes']:best=candidate
             if best not in variants:variants.append(best)
         if literal:
@@ -109,5 +113,5 @@ def build(package,baselines,output,tool,prebuilt=()):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--package',type=Path,required=True);p.add_argument('--base',type=Path,action='append',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--bsdiff-tool',type=Path,required=True);p.add_argument('--prebuilt',type=Path,action='append',default=[]);p.add_argument('--receipt',type=Path,required=True);a=p.parse_args()
-    value=build(a.package,a.base,a.output,a.bsdiff_tool,a.prebuilt);a.receipt.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8');print(json.dumps(value),flush=True)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--package',type=Path,required=True);p.add_argument('--base',type=Path,action='append',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--bsdiff-tool',type=Path,required=True);p.add_argument('--prebuilt',type=Path,action='append',default=[]);p.add_argument('--field-delta-receipt',type=Path);p.add_argument('--receipt',type=Path,required=True);a=p.parse_args()
+    value=build(a.package,a.base,a.output,a.bsdiff_tool,a.prebuilt,a.field_delta_receipt);a.receipt.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8');print(json.dumps(value),flush=True)

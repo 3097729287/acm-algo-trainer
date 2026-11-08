@@ -68,6 +68,10 @@ def load(archive,version):
         for variant in entry['variants']:
             if not isinstance(variant,dict) or variant.get('payload') not in payloads or variant.get('format') not in {'literal','binary'}:raise ValueError('紧凑更新差分描述无效')
             if variant['format']=='binary' and (not isinstance(variant.get('source'),str) or not valid_sha(variant.get('sourceSha256'))):raise ValueError('紧凑更新基线描述无效')
+            if 'publicFields' in variant:
+                from public_field_patch import validate
+                if variant['format']!='binary' or not valid_sha(variant.get('templateSha256')):raise ValueError('公共内容差分描述无效')
+                validate(variant['publicFields'],entry['bytes'])
     if total>6*1024**3:raise ValueError('紧凑更新输出过大')
     for name,entry in payloads.items():
         if not re.fullmatch(r'payloads/[a-f0-9]{64}\.bin',name) or not isinstance(entry,dict) or not valid_sha(entry.get('sha256')) or type(entry.get('bytes')) is not int or not 0<=entry['bytes']<=64*1024**2 or archive.getinfo(name).file_size!=entry['bytes']:raise ValueError('紧凑更新数据块无效')
@@ -201,7 +205,10 @@ def apply(bundle,app,version,*,check=False,fail_after=None):
             else:
                 source=public_path(app,variant['source']);patch=data/Path(variant['payload']).name
                 if not patch.exists():patch.write_bytes(raw)
-                file_delta(source,patch,target,expected_target=entry['sha256'])
+                if 'publicFields' in variant:
+                    from public_field_patch import patch_file
+                    patch_file(source,patch,target,app=app,expected_target=entry['sha256'],template_sha=variant['templateSha256'],fields=variant['publicFields'],target_bytes=entry['bytes'])
+                else:file_delta(source,patch,target,expected_target=entry['sha256'])
             if target.stat().st_size!=entry['bytes'] or sha(target)!=entry['sha256']:raise ValueError('紧凑更新重建文件未通过校验')
             original=public_path(app,name);previous=sha(original) if original.is_file() else None
             if previous!=hashes[name]:raise ValueError('准备更新时程序文件发生变化，已停止替换')
