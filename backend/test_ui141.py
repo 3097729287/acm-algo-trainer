@@ -84,6 +84,24 @@ class ReviewedKnowledgeTests(unittest.TestCase):
         published={item['id']:item for item in audit.get('knowledgeReviews',[])}
         for rule in review['problems'].values():
             for source in rule['sources']:
+                if rule.get('reviewMethod')=='source-reviewed-classification':
+                    reference=source['reference']
+                    self.assertFalse(rule['official'])
+                    self.assertIn(source['problemId'],rule['problemIds'])
+                    if reference.startswith('data/core7-completion/'):
+                        path=(root/reference).resolve(strict=True)
+                        self.assertTrue(path.is_relative_to(root/'data/core7-completion'))
+                        self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),source['sha256'])
+                        self.assertRegex(source['programSha256'],r'^[0-9a-f]{64}$')
+                    else:
+                        self.assertEqual(reference.split('#',1)[0],'https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf')
+                        self.assertRegex(reference,r'#page=[1-9][0-9]*$')
+                        assets=json.loads((root/'data/library/statement_assets.json').read_text('utf8'))
+                        asset=next(item for item in assets if item['sha256']==source['sha256'])
+                        with (root/'data/library'/asset['file']).open('rb') as stream:
+                            stream.seek(asset.get('offset',0));data=stream.read(asset['bytes'])
+                        self.assertEqual(hashlib.sha256(data).hexdigest(),source['sha256'])
+                    continue
                 # An independent derivation binds to its complete source
                 # statement and reproducible review payload, not a nonexistent
                 # public editorial. Keep the existing editorial checks below.
@@ -112,9 +130,10 @@ class ReviewedKnowledgeTests(unittest.TestCase):
                     self.assertIn(identity,rule['problemIds'])
                     self.assertEqual(source['reference'],'data/library/detailed_solutions.json#'+identity)
                     digest=hashlib.sha256(detailed[identity].encode()).hexdigest()
-                    self.assertEqual(digest,source['sha256'])
-                    self.assertEqual(digest,item['articles']['detailed_solutions']['markdownSha256'])
-                    self.assertEqual(hashlib.sha256(solutions[identity].encode()).hexdigest(),item['articles']['solutions']['markdownSha256'])
+                    from scripts.editorial_evidence import reviewed_editorial_matches
+                    self.assertTrue(digest==source['sha256'] or reviewed_editorial_matches(detailed[identity],source['sha256']),identity)
+                    self.assertTrue(reviewed_editorial_matches(detailed[identity],item['articles']['detailed_solutions']['markdownSha256']),identity)
+                    self.assertTrue(reviewed_editorial_matches(solutions[identity],item['articles']['solutions']['markdownSha256']),identity)
                     self.assertEqual(hashlib.sha256(statements[identity]['markdown'].encode()).hexdigest(),source['statementMarkdownSha256'])
                     continue
                 if source.get('kind')=='self-reviewed-statement':
@@ -425,7 +444,8 @@ class ReviewedKnowledgeTests(unittest.TestCase):
                     self.assertIn(source['problemId'],rule['problemIds'])
                     continue
                 identity=source['reference'].split('#')[-1]
-                self.assertEqual(hashlib.sha256(solutions[identity].encode()).hexdigest(),source['sha256'],identity)
+                from scripts.editorial_evidence import reviewed_editorial_matches
+                self.assertTrue(reviewed_editorial_matches(solutions[identity],source['sha256']),identity)
     def test_current_rank_ladder_has_nine_names_and_preserves_threshold_meanings(self):
         self.assertEqual(TIERS,('黑铁','青铜','白银','黄金','翡翠','钻石','大师','宗师','王者'))
         for index,boundary in enumerate(RANK_THRESHOLDS):self.assertEqual(rank_index(boundary),index)

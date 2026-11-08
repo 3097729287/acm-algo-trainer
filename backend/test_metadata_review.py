@@ -5,6 +5,7 @@ from pathlib import Path
 import re
 import unicodedata
 import unittest
+from scripts.editorial_evidence import reviewed_editorial_matches
 
 import backend
 from knowledge import enrich_row
@@ -57,7 +58,7 @@ class MetadataReviewTests(unittest.TestCase):
                         self.assertEqual(proof['source'],review['source'])
                         self.assertEqual(proof['editorialSha256'],review['editorialSha256'])
                     elif review['id'] in self.solutions:
-                        self.assertEqual(hashlib.sha256(self.solutions[review['id']].encode('utf8')).hexdigest(),review['editorialSha256'])
+                        self.assertTrue(reviewed_editorial_matches(self.solutions[review['id']],review['editorialSha256']),review['id'])
 
     def test_independent_algorithm_estimates_bind_to_the_actual_statement(self):
         estimates={x['id']:x for x in self.audit['estimated']}
