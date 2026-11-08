@@ -1012362,32 +1012362,49 @@
       "contestProblemCount": 13,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 800,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:105544::A",
-      "knowledge": "",
+      "knowledge": "模拟",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "模拟"
+        ],
+        "knowledge": "模拟",
+        "categories": [
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "模拟"
+            ],
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sourceHash": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "reason": "官方提示要求从右向左每三位分组，交替加减，输出结果绝对值并判其能否被13整除；仅需按十进制字符串模拟，不把字符串大类硬转叶子。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "fae2d9bb3015a9b5bb1a56143937c1be7659d379aab60ca6a877cc5926e5f4d1",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "思维与策略"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Counterfeit Money",
       "platform": "Codeforces",
@@ -1012401,11 +1012418,53 @@
       "sourceTags": [],
       "startedAt": null,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "模拟"
+      ],
       "title": "Counterfeit Money",
       "url": "https://codeforces.com/gym/105544/problem/A",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReview": {
+        "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+        "official": false,
+        "tags": [
+          "模拟"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105544::A",
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "sourcePageNumbers": [
+              1,
+              2
+            ],
+            "sourceProblemHeading": "Problem PA",
+            "sourceProblemTitle": "Counterfeit Money",
+            "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/A",
+            "sourceStatementMarkdownSha256": "63ad63b9ab123c546552a05f93f28e2b835de3623f786228194956238fdaa480",
+            "reasons": [
+              "官方提示要求从右向左每三位分组，交替加减，输出结果绝对值并判其能否被13整除；仅需按十进制字符串模拟，不把字符串大类硬转叶子。"
+            ],
+            "method": "official-statement-and-contest-hint-reviewed-classification",
+            "implementationDetailInferredByToBe": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        800,
+        1000
+      ],
+      "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
+      "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+        "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+        "最多1000位十进制数，三位一组线性扫描、交替符号和取模；不需高精度除法或额外数据结构。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105544::A",
     "raw": {
@@ -1012416,8 +1012475,8 @@
       "场次": "ICPC 2023 桃园区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "模拟",
+      "难度": "800",
       "题号": "A",
       "题名": "Counterfeit Money"
     },
@@ -1012441,32 +1012500,53 @@
       "contestProblemCount": 13,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 1100,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:105544::B",
-      "knowledge": "",
+      "knowledge": "分数运算 + 最大公约数",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "分数运算",
+          "最大公约数"
+        ],
+        "knowledge": "分数运算 + 最大公约数",
+        "categories": [
+          "数学与计数",
+          "数学 / 数论"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "分数运算",
+              "最大公约数"
+            ],
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sourceHash": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "reason": "官方提示明确 Euclidean algorithm；非循环段长a、循环段长b，用整数 (int(s1+s2)-int(s1))/(10^a(10^b-1)) 表示，再以gcd约分；a+b<=10。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "491813d795843ef26fbafe09d5111b0b37771b5165967efea1e76f1c1bd7c07b",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数学与计数",
+        "数学 / 数论"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Recurring Decimal to Fractions",
       "platform": "Codeforces",
@@ -1012480,11 +1012560,55 @@
       "sourceTags": [],
       "startedAt": null,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "分数运算",
+        "最大公约数"
+      ],
       "title": "Recurring Decimal to Fractions",
       "url": "https://codeforces.com/gym/105544/problem/B",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReview": {
+        "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+        "official": false,
+        "tags": [
+          "分数运算",
+          "最大公约数"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105544::B",
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "sourcePageNumbers": [
+              3,
+              4
+            ],
+            "sourceProblemHeading": "Problem PB",
+            "sourceProblemTitle": "Recurring Decimal to Fractions",
+            "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/B",
+            "sourceStatementMarkdownSha256": "e40f883acbb71d40233ba9c77b2a9e1a3e1950710a1ec57b1a20b459fb28909c",
+            "reasons": [
+              "官方提示明确 Euclidean algorithm；非循环段长a、循环段长b，用整数 (int(s1+s2)-int(s1))/(10^a(10^b-1)) 表示，再以gcd约分；a+b<=10。"
+            ],
+            "method": "official-statement-and-contest-hint-reviewed-classification",
+            "implementationDetailInferredByToBe": true,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        900,
+        1300
+      ],
+      "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
+      "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+        "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+        "先建立循环小数的分数表达式，再处理前导零与整数gcd约分；a+b<=10，64位整数足够，核心为分数建模和边界。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105544::B",
     "raw": {
@@ -1012495,8 +1012619,8 @@
       "场次": "ICPC 2023 桃园区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "分数运算 + 最大公约数",
+      "难度": "1100",
       "题号": "B",
       "题名": "Recurring Decimal to Fractions"
     },
@@ -1012520,32 +1012644,55 @@
       "contestProblemCount": 13,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 1900,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:105544::C",
-      "knowledge": "",
+      "knowledge": "线段树 + 懒标记 + 二分查找",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "线段树",
+          "懒标记",
+          "二分查找"
+        ],
+        "knowledge": "线段树 + 懒标记 + 二分查找",
+        "categories": [
+          "数据结构",
+          "基础技巧 / 二分"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "线段树",
+              "懒标记",
+              "二分查找"
+            ],
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sourceHash": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "reason": "官方提示删除损坏灯后建立正常灯数组、以二分映射原编号区间；线段树懒标记维护亮灯数量，翻转区间，评分时只加q乘当前亮灯数。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "f4f9854ed2876ca70fe58634684d4afaae98a0dad082bbcd15c5847d05da75bc",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数据结构",
+        "基础技巧 / 二分"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Where the Lantern Lights are Dimming",
       "platform": "Codeforces",
@@ -1012559,11 +1012706,58 @@
       "sourceTags": [],
       "startedAt": null,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "线段树",
+        "懒标记",
+        "二分查找"
+      ],
       "title": "Where the Lantern Lights are Dimming",
       "url": "https://codeforces.com/gym/105544/problem/C",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReview": {
+        "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+        "official": false,
+        "tags": [
+          "线段树",
+          "懒标记",
+          "二分查找"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105544::C",
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "sourcePageNumbers": [
+              5,
+              6,
+              7
+            ],
+            "sourceProblemHeading": "Problem PC",
+            "sourceProblemTitle": "Where the Lantern Lights are Dimming",
+            "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/C",
+            "sourceStatementMarkdownSha256": "701b15f1262e5371d02515b0e103fab5e73b49d1c4d90c31ec26eff5708d4c04",
+            "reasons": [
+              "官方提示删除损坏灯后建立正常灯数组、以二分映射原编号区间；线段树懒标记维护亮灯数量，翻转区间，评分时只加q乘当前亮灯数。"
+            ],
+            "method": "official-statement-and-contest-hint-reviewed-classification",
+            "implementationDetailInferredByToBe": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1700,
+        2200
+      ],
+      "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
+      "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+        "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+        "需将区间翻转与全局计分拆开；n,m均到10^6，懒标记维护正常灯/亮灯数，区间切换O(log n)、评分O(1)，总分用64位。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105544::C",
     "raw": {
@@ -1012574,8 +1012768,8 @@
       "场次": "ICPC 2023 桃园区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "线段树 + 懒标记 + 二分查找",
+      "难度": "1900",
       "题号": "C",
       "题名": "Where the Lantern Lights are Dimming"
     },
@@ -1012599,32 +1012793,49 @@
       "contestProblemCount": 13,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 900,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:105544::D",
-      "knowledge": "",
+      "knowledge": "模拟",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "模拟"
+        ],
+        "knowledge": "模拟",
+        "categories": [
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "模拟"
+            ],
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sourceHash": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "reason": "官方提示类比Minesweeper，区分四邻和对角邻居，对各感染座位的8个邻位取最大隔离天数；不是累计隔离天数。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "8d42218b929ee5142152a69e91f4d92518592df9f2ade883fa3c3ab399f98cb5",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "思维与策略"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Quarantine Policy",
       "platform": "Codeforces",
@@ -1012638,11 +1012849,53 @@
       "sourceTags": [],
       "startedAt": null,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "模拟"
+      ],
       "title": "Quarantine Policy",
       "url": "https://codeforces.com/gym/105544/problem/D",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReview": {
+        "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+        "official": false,
+        "tags": [
+          "模拟"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105544::D",
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "sourcePageNumbers": [
+              9,
+              10
+            ],
+            "sourceProblemHeading": "Problem PD",
+            "sourceProblemTitle": "Quarantine Policy",
+            "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/D",
+            "sourceStatementMarkdownSha256": "1073260a2699a2872d2346ab68a4c047281fc6fdbe1627a57fc8e162f139bb3e",
+            "reasons": [
+              "官方提示类比Minesweeper，区分四邻和对角邻居，对各感染座位的8个邻位取最大隔离天数；不是累计隔离天数。"
+            ],
+            "method": "official-statement-and-contest-hint-reviewed-classification",
+            "implementationDetailInferredByToBe": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        800,
+        1100
+      ],
+      "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
+      "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+        "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+        "最多100×100网格，逐个感染座位更新八邻格并取最大值，保留感染/空位的输出符号；主要是边界及状态模拟。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105544::D",
     "raw": {
@@ -1012653,8 +1012906,8 @@
       "场次": "ICPC 2023 桃园区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "模拟",
+      "难度": "900",
       "题号": "D",
       "题名": "Quarantine Policy"
     },
@@ -1012678,32 +1012931,49 @@
       "contestProblemCount": 13,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 1900,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:105544::E",
-      "knowledge": "",
+      "knowledge": "拓扑排序",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "拓扑排序"
+        ],
+        "knowledge": "拓扑排序",
+        "categories": [
+          "图论"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "拓扑排序"
+            ],
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sourceHash": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "reason": "官方提示把竖直投影重叠的矩形按原左右关系转成DAG，用带点宽度与边最小间距的最长路径确定压缩后的总宽；据此用拓扑序进行最大值转移。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "d2003606a3299c7cd0d00bef37f7547d718dd980bab8f0753f7f34de02530076",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "图论"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Slabstones Rearrangement",
       "platform": "Codeforces",
@@ -1012717,11 +1012987,53 @@
       "sourceTags": [],
       "startedAt": null,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "拓扑排序"
+      ],
       "title": "Slabstones Rearrangement",
       "url": "https://codeforces.com/gym/105544/problem/E",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReview": {
+        "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+        "official": false,
+        "tags": [
+          "拓扑排序"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105544::E",
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "sourcePageNumbers": [
+              11,
+              12
+            ],
+            "sourceProblemHeading": "Problem PE",
+            "sourceProblemTitle": "Slabstones Rearrangement",
+            "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/E",
+            "sourceStatementMarkdownSha256": "13b645e845bcec23d3491cd41caf784e1f380e308df33f49584952a72bf1b3c8",
+            "reasons": [
+              "官方提示把竖直投影重叠的矩形按原左右关系转成DAG，用带点宽度与边最小间距的最长路径确定压缩后的总宽；据此用拓扑序进行最大值转移。"
+            ],
+            "method": "official-statement-and-contest-hint-reviewed-classification",
+            "implementationDetailInferredByToBe": true,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1600,
+        2200
+      ],
+      "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
+      "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+        "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+        "关键在把只能水平平移且左右顺序受约束的几何模型改写为DAG差值下界；最长路径给最小可行宽度，处理开区间重叠与间距。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105544::E",
     "raw": {
@@ -1012732,8 +1013044,8 @@
       "场次": "ICPC 2023 桃园区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "拓扑排序",
+      "难度": "1900",
       "题号": "E",
       "题名": "Slabstones Rearrangement"
     },
@@ -1012757,32 +1013069,51 @@
       "contestProblemCount": 13,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 1300,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:105544::F",
-      "knowledge": "",
+      "knowledge": "贪心 + 排序",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "贪心",
+          "排序"
+        ],
+        "knowledge": "贪心 + 排序",
+        "categories": [
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "贪心",
+              "排序"
+            ],
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sourceHash": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "reason": "官方提示使用贪心排序。交换相邻订单可得i在j前当且仅当D_i*S_j<=D_j*S_i，交叉乘比较以免浮点；相等时按原编号保证字典序最小。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "d476039f69f9cc898bebf55da7f59dadd99a0dd2bd2e3b031f9610c3a8b1d091",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "思维与策略"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Baker's Dilemma",
       "platform": "Codeforces",
@@ -1012796,11 +1013127,55 @@
       "sourceTags": [],
       "startedAt": null,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "贪心",
+        "排序"
+      ],
       "title": "Baker's Dilemma",
       "url": "https://codeforces.com/gym/105544/problem/F",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReview": {
+        "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+        "official": false,
+        "tags": [
+          "贪心",
+          "排序"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105544::F",
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "sourcePageNumbers": [
+              13,
+              14
+            ],
+            "sourceProblemHeading": "Problem PF",
+            "sourceProblemTitle": "Baker's Dilemma",
+            "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/F",
+            "sourceStatementMarkdownSha256": "8c91954dc7d1b5ada2273069992596480a6b43b574f2ebd6c9c3e435b3e98100",
+            "reasons": [
+              "官方提示使用贪心排序。交换相邻订单可得i在j前当且仅当D_i*S_j<=D_j*S_i，交叉乘比较以免浮点；相等时按原编号保证字典序最小。"
+            ],
+            "method": "official-statement-and-contest-hint-reviewed-classification",
+            "implementationDetailInferredByToBe": true,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1100,
+        1600
+      ],
+      "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
+      "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+        "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+        "需要相邻交换论证获得耗时/日罚金的比较器，而非直接按耗时、罚金或乘积排序；还需稳定处理同比率的字典序，O(N log N)。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105544::F",
     "raw": {
@@ -1012811,8 +1013186,8 @@
       "场次": "ICPC 2023 桃园区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "贪心 + 排序",
+      "难度": "1300",
       "题号": "F",
       "题名": "Baker's Dilemma"
     },
@@ -1012836,32 +1013211,53 @@
       "contestProblemCount": 13,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 2800,
+      "difficultyConfidence": "LOW",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:105544::G",
-      "knowledge": "",
+      "knowledge": "线性规划 + 构造",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "线性规划",
+          "构造"
+        ],
+        "knowledge": "线性规划 + 构造",
+        "categories": [
+          "数学与计数",
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "线性规划",
+              "构造"
+            ],
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sourceHash": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "reason": "原题明确要求7/4容量下的分配构造或LP不可行对偶证书，官方提示将其归约为大/小作业的固定makespan调度并建议局部搜索；没有宣称采用通用LP求解器。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "6dc8b0a3bb8441212e4ffca144796248853f091d2fe9f3aeb4595196a884ec30",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数学与计数",
+        "思维与策略"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "A Packing Problem",
       "platform": "Codeforces",
@@ -1012875,11 +1013271,56 @@
       "sourceTags": [],
       "startedAt": null,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "线性规划",
+        "构造"
+      ],
       "title": "A Packing Problem",
       "url": "https://codeforces.com/gym/105544/problem/G",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReview": {
+        "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+        "official": false,
+        "tags": [
+          "线性规划",
+          "构造"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105544::G",
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "sourcePageNumbers": [
+              15,
+              16,
+              17
+            ],
+            "sourceProblemHeading": "Problem PG",
+            "sourceProblemTitle": "A Packing Problem",
+            "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/G",
+            "sourceStatementMarkdownSha256": "6755ef130515638da824fda3a309cc80db8dfdfb04e7794e83d30c2749e534b6",
+            "reasons": [
+              "原题明确要求7/4容量下的分配构造或LP不可行对偶证书，官方提示将其归约为大/小作业的固定makespan调度并建议局部搜索；没有宣称采用通用LP求解器。"
+            ],
+            "method": "official-statement-and-contest-hint-reviewed-classification",
+            "implementationDetailInferredByToBe": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        2400,
+        3200
+      ],
+      "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
+      "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+        "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+        "须在受限可放置盒子中构造至多7T/4且每盒至多一大件的分配，或输出满足全部对偶不等式的不可行证书；官方仅给局部搜索方向，区间保留较大不确定性。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105544::G",
     "raw": {
@@ -1012890,8 +1013331,8 @@
       "场次": "ICPC 2023 桃园区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "线性规划 + 构造",
+      "难度": "2800",
       "题号": "G",
       "题名": "A Packing Problem"
     },
@@ -1012915,32 +1013356,49 @@
       "contestProblemCount": 13,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 1200,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:105544::H",
-      "knowledge": "",
+      "knowledge": "背包 DP",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "背包 DP"
+        ],
+        "knowledge": "背包 DP",
+        "categories": [
+          "动态规划"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "背包 DP"
+            ],
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sourceHash": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "reason": "官方提示明确knapsack与DP；每家存款活动只能选一次，金额w_i恰为物品重量、收益v_i为价值、现金C为容量，是0/1背包而非完全背包。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "f26b9574fa3cd459cd18e4538af091d025d06bc6cf3f3d81797baf39a28b5179",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "动态规划"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Bank Deposit Challenge",
       "platform": "Codeforces",
@@ -1012954,11 +1013412,53 @@
       "sourceTags": [],
       "startedAt": null,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "背包 DP"
+      ],
       "title": "Bank Deposit Challenge",
       "url": "https://codeforces.com/gym/105544/problem/H",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReview": {
+        "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+        "official": false,
+        "tags": [
+          "背包 DP"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105544::H",
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "sourcePageNumbers": [
+              19,
+              20
+            ],
+            "sourceProblemHeading": "Problem PH",
+            "sourceProblemTitle": "Bank Deposit Challenge",
+            "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/H",
+            "sourceStatementMarkdownSha256": "17e4d9631556489b9036911c7eaf947229132194dddcaa3b89be5df292a51534",
+            "reasons": [
+              "官方提示明确knapsack与DP；每家存款活动只能选一次，金额w_i恰为物品重量、收益v_i为价值、现金C为容量，是0/1背包而非完全背包。"
+            ],
+            "method": "official-statement-and-contest-hint-reviewed-classification",
+            "implementationDetailInferredByToBe": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1000,
+        1400
+      ],
+      "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
+      "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+        "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+        "识别每家仅选一次的0/1背包，按容量逆序更新，N<=100、C<=1000，O(NC)；输入的N由给出的收益/金额列表确定。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105544::H",
     "raw": {
@@ -1012969,8 +1013469,8 @@
       "场次": "ICPC 2023 桃园区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "背包 DP",
+      "难度": "1200",
       "题号": "H",
       "题名": "Bank Deposit Challenge"
     },
@@ -1012995,21 +1013495,41 @@
       "contestProblemCount": 13,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 2700,
+      "difficultyConfidence": "LOW",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:105544::I",
-      "knowledge": "",
+      "knowledge": "随机算法 + 构造",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "随机算法",
+          "构造"
+        ],
+        "knowledge": "随机算法 + 构造",
         "categories": [
+          "思维与策略",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "随机算法",
+              "构造"
+            ],
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sourceHash": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "reason": "官方给出大量三角形保证存在五环的理论，并给随机选顶点、O(m)检查该顶点是否属于五环、期望O(n^2)的路线；输入已给三角形，不误标为必须三元环计数。",
+            "verified": false
+          },
           {
             "categories": [
               "数学"
@@ -1013018,20 +1013538,14 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "3b57a984db2bf78eee34d1a163aa8d99a6cb5938d0f8d379b3693459e8824033",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "a4e2cf916db5302777438e01d52f758a96ae4a2f6d604bc6f6c85d319edac49e",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "思维与策略",
         "数学"
       ],
       "metadataVersion": "1.0.18",
@@ -1013048,11 +1013562,58 @@
       "startedAt": null,
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "随机算法",
+        "构造"
+      ],
       "title": "The Pentagon Conjecture",
       "url": "https://codeforces.com/gym/105544/problem/I",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+        "official": false,
+        "tags": [
+          "随机算法",
+          "构造"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105544::I",
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "sourcePageNumbers": [
+              21,
+              22,
+              23,
+              24
+            ],
+            "sourceProblemHeading": "Problem PI",
+            "sourceProblemTitle": "The Pentagon Conjecture",
+            "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/I",
+            "sourceStatementMarkdownSha256": "d346ca05b93892e8291e8146e29e0ffbe85ba2485f4f0690ed6d6f1bd8bff49d",
+            "reasons": [
+              "官方给出大量三角形保证存在五环的理论，并给随机选顶点、O(m)检查该顶点是否属于五环、期望O(n^2)的路线；输入已给三角形，不误标为必须三元环计数。"
+            ],
+            "method": "official-statement-and-contest-hint-reviewed-classification",
+            "implementationDetailInferredByToBe": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        2300,
+        3100
+      ],
+      "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
+      "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+        "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+        "需要把大量给定三角形的图转为五环构造，理解存在性保证与随机化检测的期望复杂度；n<=10^4、三角形数约n^1.5，朴素三角形三重枚举不可行。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105544::I",
     "raw": {
@@ -1013063,8 +1013624,8 @@
       "场次": "ICPC 2023 桃园区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "随机算法 + 构造",
+      "难度": "2700",
       "题号": "I",
       "题名": "The Pentagon Conjecture"
     },
@@ -1013088,32 +1013649,49 @@
       "contestProblemCount": 13,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 1600,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:105544::J",
-      "knowledge": "",
+      "knowledge": "拓扑排序",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "拓扑排序"
+        ],
+        "knowledge": "拓扑排序",
+        "categories": [
+          "图论"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "拓扑排序"
+            ],
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sourceHash": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "reason": "原题明确工序无环，官方提示核对最长关键路径与是否唯一；按拓扑序计算含工序点权和运输边权的最长完成时间，并把最优路径计数截断到2以输出唯一序列或M。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "e189fb5d18b1799b4aae2bf67794a3512290fe6e759086f79cb724809b654438",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "图论"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Lead Time Estimation",
       "platform": "Codeforces",
@@ -1013127,11 +1013705,55 @@
       "sourceTags": [],
       "startedAt": null,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "拓扑排序"
+      ],
       "title": "Lead Time Estimation",
       "url": "https://codeforces.com/gym/105544/problem/J",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReview": {
+        "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+        "official": false,
+        "tags": [
+          "拓扑排序"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105544::J",
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "sourcePageNumbers": [
+              25,
+              26,
+              27,
+              28
+            ],
+            "sourceProblemHeading": "Problem PJ",
+            "sourceProblemTitle": "Lead Time Estimation",
+            "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/J",
+            "sourceStatementMarkdownSha256": "b040eaeb8501a3a7acf59fdfa868f6c9aaf829419908f10ef5ef4fba99ffd9eb",
+            "reasons": [
+              "原题明确工序无环，官方提示核对最长关键路径与是否唯一；按拓扑序计算含工序点权和运输边权的最长完成时间，并把最优路径计数截断到2以输出唯一序列或M。"
+            ],
+            "method": "official-statement-and-contest-hint-reviewed-classification",
+            "implementationDetailInferredByToBe": true,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1400,
+        1900
+      ],
+      "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
+      "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+        "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+        "除DAG最长路径外还要判断整条最长路径是否唯一、恢复唯一序列，并正确读逗号分隔工序时长与多组EOF输入；|V|<=50、|E|<=100。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105544::J",
     "raw": {
@@ -1013142,8 +1013764,8 @@
       "场次": "ICPC 2023 桃园区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "拓扑排序",
+      "难度": "1600",
       "题号": "J",
       "题名": "Lead Time Estimation"
     },
@@ -1013167,32 +1013789,53 @@
       "contestProblemCount": 13,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 2500,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:105544::K",
-      "knowledge": "",
+      "knowledge": "队列 + DFS",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "队列",
+          "DFS"
+        ],
+        "knowledge": "队列 + DFS",
+        "categories": [
+          "数据结构",
+          "搜索"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "队列",
+              "DFS"
+            ],
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sourceHash": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "reason": "官方算法反复剥离可滑动化学点以留下刚性点，要求两状态刚性点完全相同，再删除这些点及邻点，核对余下各树分量的化学点数；可用队列维护新增可剥离点、DFS统计分量。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "373442e9f6809a46dbf9a489bc247abb3fbe0f87edff552b7ab9960062d49a6c",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数据结构",
+        "搜索"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Chemical Storage",
       "platform": "Codeforces",
@@ -1013206,11 +1013849,58 @@
       "sourceTags": [],
       "startedAt": null,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "队列",
+        "DFS"
+      ],
       "title": "Chemical Storage",
       "url": "https://codeforces.com/gym/105544/problem/K",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReview": {
+        "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+        "official": false,
+        "tags": [
+          "队列",
+          "DFS"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105544::K",
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "sourcePageNumbers": [
+              29,
+              30,
+              31,
+              32,
+              33
+            ],
+            "sourceProblemHeading": "Problem PK",
+            "sourceProblemTitle": "Chemical Storage",
+            "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/K",
+            "sourceStatementMarkdownSha256": "4bd0805acdc6d47b38ef41cd654afa311a1a279265986f60a6c794d9923810a8",
+            "reasons": [
+              "官方算法反复剥离可滑动化学点以留下刚性点，要求两状态刚性点完全相同，再删除这些点及邻点，核对余下各树分量的化学点数；可用队列维护新增可剥离点、DFS统计分量。"
+            ],
+            "method": "official-statement-and-contest-hint-reviewed-classification",
+            "implementationDetailInferredByToBe": true,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        2200,
+        2900
+      ],
+      "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
+      "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+        "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+        "困难在刚性点判据与可达性充分条件，随后用化学邻居计数和队列线性剥离，再以DFS比较每个剩余连通块；不是普通树形DP题。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105544::K",
     "raw": {
@@ -1013221,8 +1013911,8 @@
       "场次": "ICPC 2023 桃园区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "队列 + DFS",
+      "难度": "2500",
       "题号": "K",
       "题名": "Chemical Storage"
     },
@@ -1013246,32 +1013936,51 @@
       "contestProblemCount": 13,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 2200,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:105544::L",
-      "knowledge": "",
+      "knowledge": "分类讨论 + 枚举",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "分类讨论",
+          "枚举"
+        ],
+        "knowledge": "分类讨论 + 枚举",
+        "categories": [
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "分类讨论",
+              "枚举"
+            ],
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sourceHash": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "reason": "官方证明N<9全分1、偶数N>=10全分2、大奇数N>=29取11及若干2最优；剩余小奇数枚举整数分拆且禁止任何子集和9，最后K对10^9+7取模，不需要快速幂。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "598566b0b17d06be50139ef9011768fe896cede6c6e17af41739e665ceb60d74",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "思维与策略"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Nine Never",
       "platform": "Codeforces",
@@ -1013285,11 +1013994,56 @@
       "sourceTags": [],
       "startedAt": null,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "分类讨论",
+        "枚举"
+      ],
       "title": "Nine Never",
       "url": "https://codeforces.com/gym/105544/problem/L",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReview": {
+        "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+        "official": false,
+        "tags": [
+          "分类讨论",
+          "枚举"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105544::L",
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "sourcePageNumbers": [
+              35,
+              36,
+              37
+            ],
+            "sourceProblemHeading": "Problem PL",
+            "sourceProblemTitle": "Nine Never",
+            "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/L",
+            "sourceStatementMarkdownSha256": "de496c6c28f067233b25b3dba526012f43d42acdbeffdefc6395baf8dfd1a667",
+            "reasons": [
+              "官方证明N<9全分1、偶数N>=10全分2、大奇数N>=29取11及若干2最优；剩余小奇数枚举整数分拆且禁止任何子集和9，最后K对10^9+7取模，不需要快速幂。"
+            ],
+            "method": "official-statement-and-contest-hint-reviewed-classification",
+            "implementationDetailInferredByToBe": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1900,
+        2500
+      ],
+      "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
+      "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+        "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+        "须推导避免子集和9时最多组数的分奇偶结论，结合小范围分拆枚举处理N<29；输入N到10^15，不能对N直接做DP或枚举。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105544::L",
     "raw": {
@@ -1013300,8 +1014054,8 @@
       "场次": "ICPC 2023 桃园区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "分类讨论 + 枚举",
+      "难度": "2200",
       "题号": "L",
       "题名": "Nine Never"
     },
@@ -1013325,32 +1014079,55 @@
       "contestProblemCount": 13,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 900,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:105544::M",
-      "knowledge": "",
+      "knowledge": "链表 + 模拟 + 排序",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "链表",
+          "模拟",
+          "排序"
+        ],
+        "knowledge": "链表 + 模拟 + 排序",
+        "categories": [
+          "数据结构",
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "链表",
+              "模拟",
+              "排序"
+            ],
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sourceHash": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "reason": "官方提示建立链表，按优先级插入并保留相同优先级的到达先后，最后遍历输出；稳定排序也是同一调度顺序的等价实现，输入N<=100。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "31d608c2c3ec0bc4d4f9627fb8fe54b9aa5b84b43d8d84879f12daf877d99f3b",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数据结构",
+        "思维与策略"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Task scheduler",
       "platform": "Codeforces",
@@ -1013364,11 +1014141,57 @@
       "sourceTags": [],
       "startedAt": null,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "链表",
+        "模拟",
+        "排序"
+      ],
       "title": "Task scheduler",
       "url": "https://codeforces.com/gym/105544/problem/M",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReview": {
+        "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+        "official": false,
+        "tags": [
+          "链表",
+          "模拟",
+          "排序"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105544::M",
+            "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+            "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+            "sourcePageNumbers": [
+              39,
+              40
+            ],
+            "sourceProblemHeading": "Problem PM",
+            "sourceProblemTitle": "Task scheduler",
+            "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/M",
+            "sourceStatementMarkdownSha256": "442d04ccfd17bf5b65875b0e3a051b6168c19c95cf95812169d89ee6cf28f55b",
+            "reasons": [
+              "官方提示建立链表，按优先级插入并保留相同优先级的到达先后，最后遍历输出；稳定排序也是同一调度顺序的等价实现，输入N<=100。"
+            ],
+            "method": "official-statement-and-contest-hint-reviewed-classification",
+            "implementationDetailInferredByToBe": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        800,
+        1100
+      ],
+      "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
+      "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+        "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+        "按(优先级,输入顺序)稳定输出任务ID即可，官方链表插入O(N^2)或等价稳定排序均满足N<=100；不按任务ID处理平局。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105544::M",
     "raw": {
@@ -1013379,8 +1014202,8 @@
       "场次": "ICPC 2023 桃园区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "链表 + 模拟 + 排序",
+      "难度": "900",
       "题号": "M",
       "题名": "Task scheduler"
     },

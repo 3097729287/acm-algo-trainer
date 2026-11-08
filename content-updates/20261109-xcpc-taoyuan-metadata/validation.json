@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "topicReviews": 13,
+  "explicitUnofficialDifficultyEstimates": 13,
+  "allCanonicalLeafLabelsReencoded": true,
+  "allPriorOfficialRatingsAndPersonalStateUnchanged": true,
+  "semanticCatalogueChangesOnly": [
+    "remote:codeforces:105544::A",
+    "remote:codeforces:105544::B",
+    "remote:codeforces:105544::C",
+    "remote:codeforces:105544::D",
+    "remote:codeforces:105544::E",
+    "remote:codeforces:105544::F",
+    "remote:codeforces:105544::G",
+    "remote:codeforces:105544::H",
+    "remote:codeforces:105544::I",
+    "remote:codeforces:105544::J",
+    "remote:codeforces:105544::K",
+    "remote:codeforces:105544::L",
+    "remote:codeforces:105544::M"
+  ],
+  "verifiedNonproblemVUnchanged": true,
+  "repeatedApplyIncludingReceiptIdempotent": true,
+  "independentInferredAlgorithmChecks": {
+    "weightedOrderFourJobCases": 256,
+    "nineNeverSubsetSumStateLimit": 60,
+    "nineNeverSample11": 4
+  },
+  "newSourceAssetBytes": 450338,
+  "privateRecordsReadOrWritten": false,
+  "release1610SourceBoundaryUnchanged": true,
+  "backendRegressionTests": 55
+}

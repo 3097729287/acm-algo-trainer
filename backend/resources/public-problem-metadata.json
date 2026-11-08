@@ -187148,147 +187148,264 @@
     "metadataVersion": "1.0.18"
   },
   "https://codeforces.com/gym/105544/problem/A": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 800,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      800,
+      1000
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "最多1000位十进制数，三位一组线性扫描、交替符号和取模；不需高精度除法或额外数据结构。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/B": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 1100,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      900,
+      1300
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "先建立循环小数的分数表达式，再处理前导零与整数gcd约分；a+b<=10，64位整数足够，核心为分数建模和边界。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/C": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 1900,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      1700,
+      2200
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "需将区间翻转与全局计分拆开；n,m均到10^6，懒标记维护正常灯/亮灯数，区间切换O(log n)、评分O(1)，总分用64位。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/D": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 900,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      800,
+      1100
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "最多100×100网格，逐个感染座位更新八邻格并取最大值，保留感染/空位的输出符号；主要是边界及状态模拟。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/E": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 1900,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      1600,
+      2200
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "关键在把只能水平平移且左右顺序受约束的几何模型改写为DAG差值下界；最长路径给最小可行宽度，处理开区间重叠与间距。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/F": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 1300,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      1100,
+      1600
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "需要相邻交换论证获得耗时/日罚金的比较器，而非直接按耗时、罚金或乘积排序；还需稳定处理同比率的字典序，O(N log N)。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/G": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 2800,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "LOW",
+    "difficultyBand": [
+      2400,
+      3200
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "须在受限可放置盒子中构造至多7T/4且每盒至多一大件的分配，或输出满足全部对偶不等式的不可行证书；官方仅给局部搜索方向，区间保留较大不确定性。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/H": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 1200,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      1000,
+      1400
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "识别每家仅选一次的0/1背包，按容量逆序更新，N<=100、C<=1000，O(NC)；输入的N由给出的收益/金额列表确定。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/I": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 2700,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "LOW",
+    "difficultyBand": [
+      2300,
+      3100
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "需要把大量给定三角形的图转为五环构造，理解存在性保证与随机化检测的期望复杂度；n<=10^4、三角形数约n^1.5，朴素三角形三重枚举不可行。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/J": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 1600,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      1400,
+      1900
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "除DAG最长路径外还要判断整条最长路径是否唯一、恢复唯一序列，并正确读逗号分隔工序时长与多组EOF输入；|V|<=50、|E|<=100。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/K": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 2500,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      2200,
+      2900
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "困难在刚性点判据与可达性充分条件，随后用化学邻居计数和队列线性剥离，再以DFS比较每个剩余连通块；不是普通树形DP题。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/L": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 2200,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      1900,
+      2500
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "须推导避免子集和9时最多组数的分奇偶结论，结合小范围分拆枚举处理N<29；输入N到10^15，不能对N直接做DP或枚举。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/M": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 900,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      800,
+      1100
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "按(优先级,输入顺序)稳定输出任务ID即可，官方链表插入O(N^2)或等价稳定排序均满足N<=100；不按任务ID处理平局。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/V": {
     "difficulty": null,
