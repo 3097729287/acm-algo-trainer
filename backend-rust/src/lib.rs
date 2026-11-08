@@ -22,6 +22,7 @@ pub mod preferences;
 pub mod process_job;
 pub mod public_assets;
 pub mod replay_setup;
+pub mod reviewed_judge;
 pub mod reviews;
 pub mod run_queue;
 pub mod service;
