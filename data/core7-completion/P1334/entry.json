@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1334",
+  "method": "每次合并最短的两段木板",
+  "variants": {
+    "default": "## P1334 瑞瑞的木板\n\n原题：[P1334](https://www.luogu.com.cn/problem/P1334)\n\n### 思路\n\n把所有木板长度放进小根堆，每次取最小两段合并，付出长度和并将新段放回。重复至只剩一段，累计费用。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    priority_queue<long long, vector<long long>, greater<long long>> q;\n    while (n--) {\n        long long x;\n        cin >> x;\n        q.push(x);\n    }\n    long long answer = 0;\n    while (q.size() > 1) {\n        long long a = q.top();\n        q.pop();\n        long long b = q.top();\n        q.pop();\n        answer += a + b;\n        q.push(a + b);\n    }\n    cout << answer << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n每次取当前最短两段；合并结果重新入堆；总费用用 long long。\n",
+    "detailed": "## P1334 瑞瑞的木板\n\n原题：[P1334](https://www.luogu.com.cn/problem/P1334)\n\n### 从问题到算法\n\n反过来看切割过程，每段最终木板的长度会按它在切割树中的深度被重复计费，总费用是长度乘深度之和。\n\n最优二叉合并树中，可以让两个最短段成为最深的兄弟叶子：若更长段放得更深，交换它与更短段不会增加费用。合并这两个最短段以后，它们可以作为一个新段递归处理，这就是 Huffman 贪心。\n\n小根堆每次直接取最短两段，合并后重新参加后续选择。总费用与合并长度都使用 long long。只有一段时无需切割或合并，费用为零。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    priority_queue<long long, vector<long long>, greater<long long>> q;\n    while (n--) {\n        long long x;\n        cin >> x;\n        q.push(x);\n    }\n    long long answer = 0;\n    while (q.size() > 1) {\n        long long a = q.top();\n        q.pop();\n        long long b = q.top();\n        q.pop();\n        answer += a + b;\n        q.push(a + b);\n    }\n    cout << answer << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n每次取当前最短两段；合并结果重新入堆；总费用用 long long。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1334",
+    "id": "luogu-training-P1334",
+    "programSha256": "9fa46d28933e873715089bfd12c7d8388523ed202ee9937448d9baf95371ac70",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

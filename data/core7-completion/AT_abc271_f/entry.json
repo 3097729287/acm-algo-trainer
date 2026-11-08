@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-AT_abc271_f",
+  "method": "在中间对角线连接两半异或路径",
+  "variants": {
+    "default": "## AT_abc271_f XOR on Grid Path\n\n原题：[AT_abc271_f](https://www.luogu.com.cn/problem/AT_abc271_f)\n\n### 思路\n\n从左上角走 n−1 步，按终点记录路径异或值的频次；再从右下角反向走 n−1 步。两半在同一个格子相遇时，结合中心格异或值即可查表累计答案。\n\n### 复杂度\n\n平均时间 O(2^n)，空间 O(2^n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<vector<int>> a(n, vector<int>(n));\n    for (auto &r : a)\n        for (int &x : r)\n            cin >> x;\n    vector<unordered_map<int, long long>> cnt(n);\n    function<void(int, int, int)> go = [&](int x, int y, int v) {\n        v ^= a[x][y];\n        if (x + y == n - 1) {\n            cnt[x][v]++;\n            return;\n        }\n        if (x + 1 < n)\n            go(x + 1, y, v);\n        if (y + 1 < n)\n            go(x, y + 1, v);\n    };\n    go(0, 0, 0);\n    long long ans = 0;\n    function<void(int, int, int)> back = [&](int x, int y, int v) {\n        v ^= a[x][y];\n        if (x + y == n - 1) {\n            auto it = cnt[x].find(v ^ a[x][y]);\n            if (it != cnt[x].end())\n                ans += it->second;\n            return;\n        }\n        if (x)\n            back(x - 1, y, v);\n        if (y)\n            back(x, y - 1, v);\n    };\n    back(n - 1, n - 1, 0);\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n频次按相遇格区分；中心格不能重复异或两次；答案用六十四位。\n",
+    "detailed": "## AT_abc271_f XOR on Grid Path\n\n原题：[AT_abc271_f](https://www.luogu.com.cn/problem/AT_abc271_f)\n\n### 从问题到算法\n\n完整路径长二 n 减二，直接枚举有接近四的 n 次方种可能。所有完整路径都会恰好经过一个 i+j=n−1 的格子，可以在这里分成两半，每半最多二的 n−1 次方条路径。\n\n前半异或 A、后半异或 B 都包含中心格的值 x，所以整条路径异或为 A xor B xor x。要使它为零，需要 A=B xor x。为每个中心格分别记录前半异或频次，反向枚举后半时查对应频次并相加。\n\n每条路径由两半唯一确定，查表不会重复计数。路径数量可能超过三十二位，频次和答案使用 long long。\n\n### 复杂度\n\n平均时间 O(2^n)，空间 O(2^n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<vector<int>> a(n, vector<int>(n));\n    for (auto &r : a)\n        for (int &x : r)\n            cin >> x;\n    vector<unordered_map<int, long long>> cnt(n);\n    function<void(int, int, int)> go = [&](int x, int y, int v) {\n        v ^= a[x][y];\n        if (x + y == n - 1) {\n            cnt[x][v]++;\n            return;\n        }\n        if (x + 1 < n)\n            go(x + 1, y, v);\n        if (y + 1 < n)\n            go(x, y + 1, v);\n    };\n    go(0, 0, 0);\n    long long ans = 0;\n    function<void(int, int, int)> back = [&](int x, int y, int v) {\n        v ^= a[x][y];\n        if (x + y == n - 1) {\n            auto it = cnt[x].find(v ^ a[x][y]);\n            if (it != cnt[x].end())\n                ans += it->second;\n            return;\n        }\n        if (x)\n            back(x - 1, y, v);\n        if (y)\n            back(x, y - 1, v);\n    };\n    back(n - 1, n - 1, 0);\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n频次按相遇格区分；中心格不能重复异或两次；答案用六十四位。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "AT_abc271_f",
+    "id": "luogu-training-AT_abc271_f",
+    "programSha256": "788ee9c68dfc80c3d5e89849f72d3943a8651a63ab1198e1ebe8a75d87c0d47c",
+    "samples": 3,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

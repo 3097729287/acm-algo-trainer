@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P6566",
+  "method": "先找星座，再按大小汇总星系",
+  "variants": {
+    "default": "## P6566 观星\n\n原题：[P6566](https://www.luogu.com.cn/problem/P6566)\n\n### 思路\n\n八方向搜索每个星座，得到它包含的星星数 s。令 count[s] 表示大小为 s 的星座个数，那么该星系大小为 s·count[s]。统计出现的 s 的数量及最大乘积。\n\n### 复杂度\n\n时间 O(NM)，空间 O(NM)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<string> a(n);\n    for (auto &s : a)\n        cin >> s;\n    vector<int> cnt(n * m + 1);\n    for (int i = 0; i < n; i++)\n        for (int j = 0; j < m; j++)\n            if (a[i][j] == '*') {\n                vector<int> q = {i * m + j};\n                a[i][j] = '.';\n                for (int k = 0; k < (int)q.size(); k++) {\n                    int x = q[k] / m, y = q[k] % m;\n                    for (int dx = -1; dx <= 1; dx++)\n                        for (int dy = -1; dy <= 1; dy++) {\n                            int nx = x + dx, ny = y + dy;\n                            if (nx >= 0 && nx < n && ny >= 0 && ny < m && a[nx][ny] == '*') {\n                                a[nx][ny] = '.';\n                                q.push_back(nx * m + ny);\n                            }\n                        }\n                }\n                cnt[q.size()]++;\n            }\n    int systems = 0, best = 0;\n    for (int s = 1; s <= n * m; s++)\n        if (cnt[s]) {\n            systems++;\n            best = max(best, s * cnt[s]);\n        }\n    cout << systems << ' ' << best << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相邻有八方向；最大的是星系总星数，不是单个星座大小；计数表按大小归类。\n",
+    "detailed": "## P6566 观星\n\n原题：[P6566](https://www.luogu.com.cn/problem/P6566)\n\n### 从问题到算法\n\n星座由位置连接决定，星系由星座大小决定，这两个步骤必须分别处理。先对所有 * 做八方向连通块搜索，每个块的格子数就是星座大小。\n\n得到一个大小 s 后令 count[s] 加一。大小相同但位置不同的星座属于同一星系，因此这个星系共含 s·count[s] 颗星；不同的 s 对应不同星系。遍历计数表，非零项数是星系数，最大乘积是最大星系大小。没有星星时两者都是零。\n\n矩阵可达一千五百行，使用显式队列，避免递归深度随星座大小增长。\n\n### 复杂度\n\n时间 O(NM)，空间 O(NM)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<string> a(n);\n    for (auto &s : a)\n        cin >> s;\n    vector<int> cnt(n * m + 1);\n    for (int i = 0; i < n; i++)\n        for (int j = 0; j < m; j++)\n            if (a[i][j] == '*') {\n                vector<int> q = {i * m + j};\n                a[i][j] = '.';\n                for (int k = 0; k < (int)q.size(); k++) {\n                    int x = q[k] / m, y = q[k] % m;\n                    for (int dx = -1; dx <= 1; dx++)\n                        for (int dy = -1; dy <= 1; dy++) {\n                            int nx = x + dx, ny = y + dy;\n                            if (nx >= 0 && nx < n && ny >= 0 && ny < m && a[nx][ny] == '*') {\n                                a[nx][ny] = '.';\n                                q.push_back(nx * m + ny);\n                            }\n                        }\n                }\n                cnt[q.size()]++;\n            }\n    int systems = 0, best = 0;\n    for (int s = 1; s <= n * m; s++)\n        if (cnt[s]) {\n            systems++;\n            best = max(best, s * cnt[s]);\n        }\n    cout << systems << ' ' << best << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相邻有八方向；最大的是星系总星数，不是单个星座大小；计数表按大小归类。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P6566",
+    "id": "luogu-training-P6566",
+    "programSha256": "7442d18b65423f6e70704d8a1a0e75238c734c5663bcab403021bf1793d1ec0e",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P9813",
+  "method": "累计损伤作为最短路的第二维",
+  "variants": {
+    "default": "## P9813 Convex Hull\n\n原题：[P9813](https://www.luogu.com.cn/problem/P9813)\n\n### 思路\n\n把状态设为顶点和累计损伤，只扩展新损伤严格小于 k 的边。按时间跑 Dijkstra，取终点所有合法损伤状态的最短时间。\n\n### 复杂度\n\n时间 O((nk+mk) log(nk))，空间 O(nk+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int K, n, m;\n    cin >> K >> n >> m;\n    vector<vector<array<int, 3>>> g(n);\n    while (m--) {\n        int u, v, t, h;\n        cin >> u >> v >> t >> h;\n        u--;\n        v--;\n        g[u].push_back({v, t, h});\n        g[v].push_back({u, t, h});\n    }\n    int s, t;\n    cin >> s >> t;\n    s--;\n    t--;\n    const long long INF = 1LL << 60;\n    vector<long long> d(n * K, INF);\n    priority_queue<pair<long long, int>, vector<pair<long long, int>>,\n                   greater<pair<long long, int>>>\n        q;\n    d[s] = 0;\n    q.push({0, s});\n    while (!q.empty()) {\n        auto [dist, state] = q.top();\n        q.pop();\n        if (d[state] != dist)\n            continue;\n        int h = state / n, v = state % n;\n        for (auto [u, cost, damage] : g[v])\n            if (h + damage < K) {\n                int next = (h + damage) * n + u;\n                if (d[next] > dist + cost) {\n                    d[next] = dist + cost;\n                    q.push({d[next], next});\n                }\n            }\n    }\n    long long ans = INF;\n    for (int h = 0; h < K; h++)\n        ans = min(ans, d[h * n + t]);\n    cout << (ans == INF ? -1 : ans) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n限制是严格小于 k；道路双向；零损伤边保留。\n",
+    "detailed": "## P9813 Convex Hull\n\n原题：[P9813](https://www.luogu.com.cn/problem/P9813)\n\n### 从问题到算法\n\n最快到达某点的路线可能损伤很高，后面无法继续，因此每点需要分别保留不同损伤值的最佳时间。k 不超过二百，直接建立 n·k 个状态。\n\n从 (v,h) 沿边走到 (u,h+损伤)，仅当新损伤<k 时允许；距离增加边的时间。边时间为正，可以使用 Dijkstra。任意合法原路线与状态图路线一一对应，最终对终点所有损伤取最小即可。\n\n损伤为零的边同样合法，不能要求损伤每步严格上升。没有终点状态可达时输出 −1。\n\n### 复杂度\n\n时间 O((nk+mk) log(nk))，空间 O(nk+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int K, n, m;\n    cin >> K >> n >> m;\n    vector<vector<array<int, 3>>> g(n);\n    while (m--) {\n        int u, v, t, h;\n        cin >> u >> v >> t >> h;\n        u--;\n        v--;\n        g[u].push_back({v, t, h});\n        g[v].push_back({u, t, h});\n    }\n    int s, t;\n    cin >> s >> t;\n    s--;\n    t--;\n    const long long INF = 1LL << 60;\n    vector<long long> d(n * K, INF);\n    priority_queue<pair<long long, int>, vector<pair<long long, int>>,\n                   greater<pair<long long, int>>>\n        q;\n    d[s] = 0;\n    q.push({0, s});\n    while (!q.empty()) {\n        auto [dist, state] = q.top();\n        q.pop();\n        if (d[state] != dist)\n            continue;\n        int h = state / n, v = state % n;\n        for (auto [u, cost, damage] : g[v])\n            if (h + damage < K) {\n                int next = (h + damage) * n + u;\n                if (d[next] > dist + cost) {\n                    d[next] = dist + cost;\n                    q.push({d[next], next});\n                }\n            }\n    }\n    long long ans = INF;\n    for (int h = 0; h < K; h++)\n        ans = min(ans, d[h * n + t]);\n    cout << (ans == INF ? -1 : ans) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n限制是严格小于 k；道路双向；零损伤边保留。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P9813",
+    "id": "luogu-training-P9813",
+    "programSha256": "384351d1e04252e03e088767dac6d8c243adf3c08ac0fe8b3c4c02b962f24dc2",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

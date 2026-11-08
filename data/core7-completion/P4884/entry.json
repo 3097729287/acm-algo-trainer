@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4884",
+  "method": "把全一数转为十的离散对数",
+  "variants": {
+    "default": "## P4884 多少个 1？\n\n原题：[P4884](https://www.luogu.com.cn/problem/P4884)\n\n### 思路\n\n全一数 R_N=(10^N−1)/9，因质数 m≥7，9 在模 m 下可逆，所以原式等价于 10^N≡9K+1(mod m)。用 BSGS 求最小指数。\n\n### 复杂度\n\n平均时间 O(sqrt m)，空间 O(sqrt m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long multiply(long long a, long long b, long long mod) { return (__int128)a * b % mod; }\nlong long modularPower(long long a, long long b, long long mod) {\n    long long ans = 1;\n    for (; b; b >>= 1, a = multiply(a, a, mod))\n        if (b & 1)\n            ans = multiply(ans, a, mod);\n    return ans;\n}\nlong long logarithm(long long base, long long target, long long mod) {\n    long long block = sqrt((long double)mod) + 1;\n    unordered_map<long long, int> baby;\n    baby.reserve(2 * block);\n    long long value = 1;\n    for (int j = 0; j < block; j++) {\n        baby.emplace(value, j);\n        value = multiply(value, base, mod);\n    }\n    long long inverse = modularPower(value, mod - 2, mod);\n    value = target;\n    for (long long i = 0; i <= block; i++) {\n        auto it = baby.find(value);\n        if (it != baby.end())\n            return i * block + it->second;\n        value = multiply(value, inverse, mod);\n    }\n    return -1;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long k, m;\n    cin >> k >> m;\n    cout << logarithm(10, (9 * k + 1) % m, m) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n利用质数保证九可逆；模乘使用 __int128；答案要求正整数。\n",
+    "detailed": "## P4884 多少个 1？\n\n原题：[P4884](https://www.luogu.com.cn/problem/P4884)\n\n### 从问题到算法\n\nN 位全一数乘九后等于 10^N−1，因此原条件推出 10^N≡9K+1。反过来，因为 m 是至少七的质数，与九互质，可以消去九，所以两条件完全等价。这里若随意对合数模数消去九就可能出错。\n\n用 BSGS 将 N 拆成 iB+j，预存 10^j，再枚举 (9K+1)·(10^B)^(−i)。表中保留每个余数最小的小步指数，首次命中得到最小解。\n\nK 在 1 到 m−1 内，9K+1 不可能模 m 等于一，所以不会错误地取到 N=0；原题保证有解。m 可达十的十一次方，两个余数相乘会超出六十四位，中间乘法使用 __int128。\n\n### 复杂度\n\n平均时间 O(sqrt m)，空间 O(sqrt m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long multiply(long long a, long long b, long long mod) { return (__int128)a * b % mod; }\nlong long modularPower(long long a, long long b, long long mod) {\n    long long ans = 1;\n    for (; b; b >>= 1, a = multiply(a, a, mod))\n        if (b & 1)\n            ans = multiply(ans, a, mod);\n    return ans;\n}\nlong long logarithm(long long base, long long target, long long mod) {\n    long long block = sqrt((long double)mod) + 1;\n    unordered_map<long long, int> baby;\n    baby.reserve(2 * block);\n    long long value = 1;\n    for (int j = 0; j < block; j++) {\n        baby.emplace(value, j);\n        value = multiply(value, base, mod);\n    }\n    long long inverse = modularPower(value, mod - 2, mod);\n    value = target;\n    for (long long i = 0; i <= block; i++) {\n        auto it = baby.find(value);\n        if (it != baby.end())\n            return i * block + it->second;\n        value = multiply(value, inverse, mod);\n    }\n    return -1;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long k, m;\n    cin >> k >> m;\n    cout << logarithm(10, (9 * k + 1) % m, m) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n利用质数保证九可逆；模乘使用 __int128；答案要求正整数。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4884",
+    "id": "luogu-training-P4884",
+    "programSha256": "4c989eea6ec9f8deda2309ebc468e288e8df7b46d256f031cfeb36072576f9e5",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

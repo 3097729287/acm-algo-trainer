@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P6146",
+  "method": "按每个连通块的最左端点计贡献",
+  "variants": {
+    "default": "## P6146 Help Yourself G\n\n原题：[P6146](https://www.luogu.com.cn/problem/P6146)\n\n### 思路\n\n每个连通块恰有一个最左端点。扫描端点，若某线段左端点前有 c 条线段覆盖该位置，那么让它成为新块起点的子集有 2^(N−1−c) 个。\n\n### 复杂度\n\n时间 O(N)，空间 O(N)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nconst long long MOD = 1000000007;\nlong long power(long long a, long long b) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % MOD)\n        if (b & 1)\n            r = r * a % MOD;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> event(2 * n + 2);\n    for (int i = 0; i < n; i++) {\n        int l, r;\n        cin >> l >> r;\n        event[l] = 1;\n        event[r] = -1;\n    }\n    vector<long long> two(n + 1, 1);\n    for (int i = 1; i <= n; i++)\n        two[i] = two[i - 1] * 2 % MOD;\n    int active = 0;\n    long long ans = 0;\n    for (int x = 1; x <= 2 * n; x++) {\n        if (event[x] == 1) {\n            ans = (ans + two[n - 1 - active]) % MOD;\n            active++;\n        } else if (event[x] == -1)\n            active--;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n贡献在将当前线段加入活跃集合之前计算；空集贡献零；端点不重复是题目保证。\n",
+    "detailed": "## P6146 Help Yourself G\n\n原题：[P6146](https://www.luogu.com.cn/problem/P6146)\n\n### 从问题到算法\n\n固定线段 i，若它的左端点是某个并集连通块的最左点，i 必须被选择，所有覆盖这个左端点的其它线段都不能选择；剩下线段任意选。\n\n端点两两不同，因此覆盖其左端点的其它线段恰好是扫描时已开始且未结束的 c 条线段。自由选择的线段有 N−1−c 条，贡献为二的该次方。\n\n每个子集的每个连通块都由唯一最左端点计一次，总贡献正好是所有复杂度之和。端点范围是一到二 N，可以直接建立起终事件数组，线性扫描。\n\n### 复杂度\n\n时间 O(N)，空间 O(N)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nconst long long MOD = 1000000007;\nlong long power(long long a, long long b) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % MOD)\n        if (b & 1)\n            r = r * a % MOD;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> event(2 * n + 2);\n    for (int i = 0; i < n; i++) {\n        int l, r;\n        cin >> l >> r;\n        event[l] = 1;\n        event[r] = -1;\n    }\n    vector<long long> two(n + 1, 1);\n    for (int i = 1; i <= n; i++)\n        two[i] = two[i - 1] * 2 % MOD;\n    int active = 0;\n    long long ans = 0;\n    for (int x = 1; x <= 2 * n; x++) {\n        if (event[x] == 1) {\n            ans = (ans + two[n - 1 - active]) % MOD;\n            active++;\n        } else if (event[x] == -1)\n            active--;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n贡献在将当前线段加入活跃集合之前计算；空集贡献零；端点不重复是题目保证。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P6146",
+    "id": "luogu-training-P6146",
+    "programSha256": "28d2ea50354570eb49334093d3b1325dbf901883e560af34ad8f670234f222d3",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

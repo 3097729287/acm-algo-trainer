@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P5740",
+  "method": "维护最高总分的第一名",
+  "variants": {
+    "default": "## P5740 最厉害的学生\n\n原题：[P5740](https://www.luogu.com.cn/problem/P5740)\n\n### 思路\n\n对每个学生求三科总分，仅在总分严格大于当前最高值时替换答案。这样并列时保留先输入的学生，最后输出姓名和三科原成绩。\n\n### 复杂度\n\n时间 O(n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    string name;\n    int x = 0, y = 0, z = 0, best = -1;\n    while (n--) {\n        string s;\n        int a, b, c;\n        cin >> s >> a >> b >> c;\n        if (a + b + c > best) {\n            best = a + b + c;\n            name = s;\n            x = a;\n            y = b;\n            z = c;\n        }\n    }\n    cout << name << ' ' << x << ' ' << y << ' ' << z << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n并列不替换；输出三科分数，不是只输出总分。\n",
+    "detailed": "## P5740 最厉害的学生\n\n原题：[P5740](https://www.luogu.com.cn/problem/P5740)\n\n### 从问题到算法\n\n题目按总分比较，而输出需要原来的各科分数，因此答案记录应同时保存姓名和三个成绩，不能只存总分。\n\n初始最高分设为小于任何合法总分的值。每读一人，计算总和并严格比较；只有更高才整体更新答案。分数相同不更新，正好满足并列时选输入较早者。\n\n这只需一次扫描，不必排序；排序还容易错误改变并列者的原先次序。\n\n### 复杂度\n\n时间 O(n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    string name;\n    int x = 0, y = 0, z = 0, best = -1;\n    while (n--) {\n        string s;\n        int a, b, c;\n        cin >> s >> a >> b >> c;\n        if (a + b + c > best) {\n            best = a + b + c;\n            name = s;\n            x = a;\n            y = b;\n            z = c;\n        }\n    }\n    cout << name << ' ' << x << ' ' << y << ' ' << z << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n并列不替换；输出三科分数，不是只输出总分。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P5740",
+    "id": "luogu-training-P5740",
+    "programSha256": "00eb54e12431fe0a8f39aa3211388268be987b9a9e5b5da3aa37f578e89a99f8",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

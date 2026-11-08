@@ -1,0 +1,162 @@
+## CF1919H Tree Diameter
+
+原题：[CF1919H](https://www.luogu.com.cn/problem/CF1919H)
+
+### 从问题到算法
+
+原题是交互重构；Hacks 格式中给出的树不能直接当作原题已知输入。分层重构的起点可对照[官方提示](https://codeforces.com/blog/entry/124220)。以下实现维护已构建树及真实边编号的对应，最终只要求同构，允许交换仍对称的候选位置。
+
+把一号边两端作为初始前沿，其余边到一号边的距离用 n−2 次第二类询问取得。距离为 d 的边，其父边在上一层前沿。普通边权一，前沿边权设为 n、2n……；路径上普通边不足 n 条，所以直径除以 n 的整数部分可分离编码权值与普通长度。待加入边权十亿，远大于全部其它边权和，直径必经过它。
+
+最初还没有叶锚点，保持前沿最后两个位置在已构建部分对称，让它们同用最大编码。直径从新边出发，还会经过一个其它最大编码前沿边，所以可减去这个固定最大编码解码父边；只有最后两位置无法区分，暂把第一个这样的新边挂到其中一个，并把它也设为十亿作为本层参考。
+
+之后的新边与本层参考同时强制在直径上。若共父，路径不会经过父边，编码和为零；否则会经过两个父边，减去参考父边的编码后得到新父边。这样可以区分先前那两个等编码候选。初始根边只有一条，单独按是否跨过它判断两端。
+
+完成一层后，如果前沿某位置没有孩子，它对应一条确定叶边，且比后续待加入边更浅。若仅两个对称候选中一条为空，用至多一次第二类询问确认本层参考实际邻接哪条原边，从而找到真实叶边。以后把叶边与新边都设十亿，直径两端被固定，只经过一条待解码前沿父边，所有父边编码可不同。
+
+若尚无叶边，每个前沿位置都有孩子：有同父的两个孩子就把它们作为新的对称候选；若每个都只有一个孩子，原对称位置的两个孩子仍然对称。每条非根边恰用一次第一类询问，合计 n−2；第二类至多 n−1。所有查询值和刷新动作由本地真实树反馈器逐项核验。
+
+### 复杂度
+
+算法本地计算和输出 O(n²)，存储 O(n²) 的查询量上界；第一类 n−2 次、第二类至多 n−1 次。
+
+### 参考代码
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n))
+        return 0;
+    const long long HEAVY = 1000000000;
+    auto askDistance = [&](int a, int b) {
+        cout << "? 2 " << a + 1 << ' ' << b + 1 << endl;
+        int result;
+        if (!(cin >> result) || result < 0)
+            exit(0);
+        return result;
+    };
+    auto askDiameter = [&](const vector<long long> &weight) {
+        cout << "? 1";
+        for (long long x : weight)
+            cout << ' ' << x;
+        cout << endl;
+        long long result;
+        if (!(cin >> result) || result < 0)
+            exit(0);
+        return result;
+    };
+    vector<int> level(n - 1, -1);
+    for (int edge = 1; edge < n - 1; edge++)
+        level[edge] = askDistance(0, edge);
+    vector<int> label(n), frontier = {0, 1};
+    label[0] = label[1] = 0;
+    vector<vector<int>> children(n);
+    vector<pair<int, int>> answer = {{0, 1}};
+    int created = 2, anchor = -1;
+    for (int depth = 0; created < n; depth++) {
+        int width = frontier.size(), pivot = -1;
+        vector<int> nextFrontier;
+        for (int edge = 1; edge < n - 1; edge++)
+            if (level[edge] == depth) {
+                vector<long long> weight(n - 1, 1);
+                for (int i = 0; i < width; i++)
+                    weight[label[frontier[i]]] =
+                        1LL * n * (anchor < 0 ? min(i + 1, width - 1) : i + 1);
+                if (anchor >= 0)
+                    weight[anchor] = HEAVY;
+                if (pivot >= 0)
+                    weight[pivot] = HEAVY;
+                weight[edge] = HEAVY;
+                long long value = askDiameter(weight) - HEAVY;
+                if (anchor >= 0 || pivot >= 0)
+                    value -= HEAVY;
+                int code = value / n, parentIndex = -1;
+                if (anchor >= 0)
+                    parentIndex = code - 1;
+                else if (depth == 0) {
+                    if (pivot < 0) {
+                        parentIndex = 0;
+                        pivot = edge;
+                    } else
+                        parentIndex = code == 0 ? 0 : 1;
+                } else {
+                    code -= width - 1;
+                    if (pivot >= 0 && code == -(width - 1))
+                        parentIndex = width - 2;
+                    else if (code == width - 1) {
+                        if (pivot < 0) {
+                            parentIndex = width - 2;
+                            pivot = edge;
+                        } else
+                            parentIndex = width - 1;
+                    } else
+                        parentIndex = code - 1;
+                }
+                if (parentIndex < 0 || parentIndex >= width)
+                    return 0;
+                int parent = frontier[parentIndex], v = created++;
+                label[v] = edge;
+                children[parent].push_back(v);
+                nextFrontier.push_back(v);
+                answer.push_back({parent, v});
+            }
+        if (created == n)
+            break;
+        if (nextFrontier.empty())
+            return 0;
+        if (anchor < 0) {
+            int A = frontier[width - 2], B = frontier[width - 1];
+            for (int i = 0; i < width - 2; i++)
+                if (children[frontier[i]].empty()) {
+                    anchor = label[frontier[i]];
+                    break;
+                }
+            if (anchor < 0 && (children[A].empty() || children[B].empty())) {
+                if (label[A] == label[B] || (children[A].empty() && children[B].empty()))
+                    anchor = label[A];
+                else {
+                    int actualParent = askDistance(pivot, label[A]) == 0 ? A : B;
+                    anchor = label[actualParent == A ? B : A];
+                }
+            }
+            if (anchor < 0) {
+                int a = -1, b = -1;
+                for (int parent : frontier)
+                    if (children[parent].size() >= 2) {
+                        a = children[parent][0];
+                        b = children[parent][1];
+                        break;
+                    }
+                if (a < 0) {
+                    a = children[A][0];
+                    b = children[B][0];
+                }
+                vector<int> ordered;
+                for (int v : nextFrontier)
+                    if (v != a && v != b)
+                        ordered.push_back(v);
+                ordered.push_back(a);
+                ordered.push_back(b);
+                nextFrontier.swap(ordered);
+            }
+        }
+        frontier.swap(nextFrontier);
+    }
+    cout << "!" << endl;
+    for (auto [a, b] : answer)
+        cout << a + 1 << ' ' << b + 1 << '\n';
+    cout.flush();
+
+    return 0;
+}
+```
+
+### 实现提醒
+
+这是原题交互程序；边层数按到根边的距离；编码基数取 n；重权十亿；答案只要求同构。

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2036",
+  "method": "枚举每种非空配料子集",
+  "variants": {
+    "default": "## P2036 PERKET\n\n原题：[P2036](https://www.luogu.com.cn/problem/P2036)\n\n### 思路\n\n每种配料选或不选，枚举所有非空子集。酸度连乘、苦度相加，比较二者差的绝对值，取最小。\n\n### 复杂度\n\n时间 O(n·2^n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> s(n), b(n);\n    for (int i = 0; i < n; i++)\n        cin >> s[i] >> b[i];\n    long long ans = LLONG_MAX;\n    for (int mask = 1; mask < (1 << n); mask++) {\n        long long sour = 1, bitter = 0;\n        for (int i = 0; i < n; i++)\n            if ((mask >> i) & 1) {\n                sour *= s[i];\n                bitter += b[i];\n            }\n        ans = min(ans, llabs(sour - bitter));\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n不枚举空集；酸度乘积初始为 1，苦度和初始为 0。\n",
+    "detailed": "## P2036 PERKET\n\n原题：[P2036](https://www.luogu.com.cn/problem/P2036)\n\n### 从问题到算法\n\n配料不要求连续，也没有可安全丢弃某种组合的单调性，数量较少时直接枚举子集最可靠。二进制掩码的第 i 位表示是否选第 i 种配料。\n\n每个非零掩码都对应唯一非空选择，从酸度乘积一、苦度和零开始，逐个累加被选配料，计算绝对差。空掩码不允许，否则会把没有做出任何食物的状态混入答案。\n\n酸度乘法与差值使用 long long，避免中间乘积先溢出 int。\n\n### 复杂度\n\n时间 O(n·2^n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> s(n), b(n);\n    for (int i = 0; i < n; i++)\n        cin >> s[i] >> b[i];\n    long long ans = LLONG_MAX;\n    for (int mask = 1; mask < (1 << n); mask++) {\n        long long sour = 1, bitter = 0;\n        for (int i = 0; i < n; i++)\n            if ((mask >> i) & 1) {\n                sour *= s[i];\n                bitter += b[i];\n            }\n        ans = min(ans, llabs(sour - bitter));\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n不枚举空集；酸度乘积初始为 1，苦度和初始为 0。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2036",
+    "id": "luogu-training-P2036",
+    "programSha256": "feef18bbecb652daf672e9fa255834d0dfb0ad66c5c4ddfa4c8c541ab62c43c0",
+    "samples": 3,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

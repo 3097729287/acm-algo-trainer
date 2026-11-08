@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1531",
+  "method": "单点更新与区间最大值",
+  "variants": {
+    "default": "## P1531 I Hate It\n\n原题：[P1531](https://www.luogu.com.cn/problem/P1531)\n\n### 思路\n\n用线段树保存每段的最大成绩。修改沿叶子到根更新最大值，查询把目标区间拆成若干完整节点并取最大值。\n\n### 复杂度\n\n建树 O(n)，每次操作 O(log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    while (cin >> n >> m) {\n        int size = 1;\n        while (size < n)\n            size *= 2;\n        vector<int> t(2 * size, INT_MIN);\n        for (int i = 0; i < n; i++)\n            cin >> t[size + i];\n        for (int i = size - 1; i; i--)\n            t[i] = max(t[i * 2], t[i * 2 + 1]);\n        while (m--) {\n            char op;\n            int x, y;\n            cin >> op >> x >> y;\n            if (op == 'U') {\n                int p = size + x - 1;\n                t[p] = y;\n                for (p /= 2; p; p /= 2)\n                    t[p] = max(t[p * 2], t[p * 2 + 1]);\n            } else {\n                if (x > y)\n                    swap(x, y);\n                int ans = INT_MIN;\n                for (int l = size + x - 1, r = size + y; l < r; l /= 2, r /= 2) {\n                    if (l & 1)\n                        ans = max(ans, t[l++]);\n                    if (r & 1)\n                        ans = max(ans, t[--r]);\n                }\n                cout << ans << '\\n';\n            }\n        }\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n更新是赋值；输入到 EOF；最大值查询的空段使用最小整数。\n",
+    "detailed": "## P1531 I Hate It\n\n原题：[P1531](https://www.luogu.com.cn/problem/P1531)\n\n### 从问题到算法\n\n一个区间的最大值等于左右两个子区间最大值中的较大者，因此可以用二叉树分治维护。叶子存一个学生的成绩，父节点存两个孩子的最大值。\n\n修改某个成绩时，只有包含这个位置的节点会改变，从叶子一路重新计算到根。查询 [l,r] 时，完整落在范围内的节点可直接使用；其它节点继续分解。代码采用迭代线段树，把闭区间转换为左闭右开区间，左侧结果和右侧结果最终一起取最大值。\n\n输入包含多组数据，直到文件结束。U 表示将成绩改成给定值，不是增加；Q 的两个参数是查询端点。\n\n### 复杂度\n\n建树 O(n)，每次操作 O(log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    while (cin >> n >> m) {\n        int size = 1;\n        while (size < n)\n            size *= 2;\n        vector<int> t(2 * size, INT_MIN);\n        for (int i = 0; i < n; i++)\n            cin >> t[size + i];\n        for (int i = size - 1; i; i--)\n            t[i] = max(t[i * 2], t[i * 2 + 1]);\n        while (m--) {\n            char op;\n            int x, y;\n            cin >> op >> x >> y;\n            if (op == 'U') {\n                int p = size + x - 1;\n                t[p] = y;\n                for (p /= 2; p; p /= 2)\n                    t[p] = max(t[p * 2], t[p * 2 + 1]);\n            } else {\n                if (x > y)\n                    swap(x, y);\n                int ans = INT_MIN;\n                for (int l = size + x - 1, r = size + y; l < r; l /= 2, r /= 2) {\n                    if (l & 1)\n                        ans = max(ans, t[l++]);\n                    if (r & 1)\n                        ans = max(ans, t[--r]);\n                }\n                cout << ans << '\\n';\n            }\n        }\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n更新是赋值；输入到 EOF；最大值查询的空段使用最小整数。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1531",
+    "id": "luogu-training-P1531",
+    "programSha256": "2532c531d7e75e09bf7390dfabb2e97429ad6ec189c36f9f42b749871f7fcb9a",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

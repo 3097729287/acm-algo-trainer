@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1029",
+  "method": "约去最大公约数后枚举互质因子",
+  "variants": {
+    "default": "## P1029 最大公约数和最小公倍数问题\n\n原题：[P1029](https://www.luogu.com.cn/problem/P1029)\n\n### 思路\n\n设两个数为 x·a、x·b，则需要 a·b=y/x 且 gcd(a,b)=1。枚举 y/x 的因子 a，检查互补因子是否互质；不相同的一对贡献两个有序数对。\n\n### 复杂度\n\n时间 O(sqrt(y/x)·log(y/x))，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long x, y;\n    cin >> x >> y;\n    if (y % x) {\n        cout << 0 << '\\n';\n        return 0;\n    }\n    long long p = y / x, ans = 0;\n    for (long long a = 1; a <= p / a; a++)\n        if (p % a == 0 && gcd(a, p / a) == 1)\n            ans += a == p / a ? 1 : 2;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n有序数对需计交换；x 不整除 y 时为零。\n",
+    "detailed": "## P1029 最大公约数和最小公倍数问题\n\n原题：[P1029](https://www.luogu.com.cn/problem/P1029)\n\n### 从问题到算法\n\n若最大公约数是 x，两个数都含有公共因子 x。约去它后，剩下的 a、b 必须互质；此时最小公倍数为 xab，因此 ab=y/x。若 y 不能被 x 整除，立即无解。\n\n枚举 a 从 1 到 sqrt(y/x)，只在它整除乘积时检查 b=(y/x)/a。gcd(a,b)=1 时得到合法数对。题目把先后顺序不同算成不同方案，所以 a!=b 时贡献二；a=b 时只贡献一，这只会在乘积为一的情况下通过互质检查。\n\n循环用 a<=product/a 判断边界，避免直接计算 a² 溢出。\n\n### 复杂度\n\n时间 O(sqrt(y/x)·log(y/x))，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long x, y;\n    cin >> x >> y;\n    if (y % x) {\n        cout << 0 << '\\n';\n        return 0;\n    }\n    long long p = y / x, ans = 0;\n    for (long long a = 1; a <= p / a; a++)\n        if (p % a == 0 && gcd(a, p / a) == 1)\n            ans += a == p / a ? 1 : 2;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n有序数对需计交换；x 不整除 y 时为零。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1029",
+    "id": "luogu-training-P1029",
+    "programSha256": "973357c5f595dad19aa9db89a70e205401f35e22495d6ff497f5f9567173dd12",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

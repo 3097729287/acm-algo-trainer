@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2568",
+  "method": "枚举素数 gcd，欧拉函数统计互质点对",
+  "variants": {
+    "default": "## P2568 GCD\n\n原题：[P2568](https://www.luogu.com.cn/problem/P2568)\n\n### 思路\n\n若 gcd(x,y)=p，令 x=pa、y=pb，则 a、b 在一到 floor(n/p) 中互质。这个范围的有序互质对数为 2·Σφ(i)−1，筛出欧拉函数前缀和后对所有质数求和。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> phi(n + 1);\n    vector<bool> composite(n + 1);\n    vector<int> primes;\n    phi[1] = 1;\n    for (int i = 2; i <= n; i++) {\n        if (!composite[i]) {\n            primes.push_back(i);\n            phi[i] = i - 1;\n        }\n        for (int p : primes) {\n            long long x = 1LL * i * p;\n            if (x > n)\n                break;\n            composite[x] = true;\n            if (i % p == 0) {\n                phi[x] = phi[i] * p;\n                break;\n            }\n            phi[x] = phi[i] * (p - 1);\n        }\n    }\n    for (int i = 1; i <= n; i++)\n        phi[i] += phi[i - 1];\n    long long ans = 0;\n    for (int p : primes)\n        ans += 2 * phi[n / p] - 1;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n统计有序点对；φ(1)=1；前缀和和答案用 long long。\n",
+    "detailed": "## P2568 GCD\n\n原题：[P2568](https://www.luogu.com.cn/problem/P2568)\n\n### 从问题到算法\n\n按 gcd 的素数值 p 分类，各类互不重叠。除去 p 后，需要统计一到 t=floor(n/p) 的有序互质对。\n\n最大值为 i>1 时，小于 i 且与 i 互质的数有 φ(i) 个，它们可放在两个位置，贡献 2φ(i)。最大值为一只有 (1,1) 一对，所以总数为 1+2Σ(i=2..t)φ(i)=2Σ(i=1..t)φ(i)−1。\n\n用线性筛同时求质数表和 φ。若 p|i，则 φ(ip)=pφ(i)；否则 φ(ip)=(p−1)φ(i)。把 φ 数组原地改成六十四位前缀和，再枚举质数 p≤n 累加公式。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> phi(n + 1);\n    vector<bool> composite(n + 1);\n    vector<int> primes;\n    phi[1] = 1;\n    for (int i = 2; i <= n; i++) {\n        if (!composite[i]) {\n            primes.push_back(i);\n            phi[i] = i - 1;\n        }\n        for (int p : primes) {\n            long long x = 1LL * i * p;\n            if (x > n)\n                break;\n            composite[x] = true;\n            if (i % p == 0) {\n                phi[x] = phi[i] * p;\n                break;\n            }\n            phi[x] = phi[i] * (p - 1);\n        }\n    }\n    for (int i = 1; i <= n; i++)\n        phi[i] += phi[i - 1];\n    long long ans = 0;\n    for (int p : primes)\n        ans += 2 * phi[n / p] - 1;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n统计有序点对；φ(1)=1；前缀和和答案用 long long。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2568",
+    "id": "luogu-training-P2568",
+    "programSha256": "f83bdebe64e043626ef0ba2c0cae193cb40c6f20123a1b3feb1fb35b0482358c",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

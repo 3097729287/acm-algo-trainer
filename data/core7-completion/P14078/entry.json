@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P14078",
+  "method": "位置与等待时间组成二维最长链",
+  "variants": {
+    "default": "## P14078 金币收集\n\n原题：[P14078](https://www.luogu.com.cn/problem/P14078)\n\n### 思路\n\n把金币变为点 (x,t−x)。从一枚走到下一枚，等价于两个坐标都不减。排除起点不可达金币，按第一维、第二维升序排序，再求第二维最长不下降子序列。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<pair<long long, long long>> points;\n    for (int i = 0; i < n; i++) {\n        long long x, t;\n        cin >> x >> t;\n        if (x >= 0 && t >= x)\n            points.push_back({x, t - x});\n    }\n    sort(points.begin(), points.end());\n    vector<long long> tails;\n    for (auto [x, y] : points) {\n        auto it = upper_bound(tails.begin(), tails.end(), y);\n        if (it == tails.end())\n            tails.push_back(y);\n        else\n            *it = y;\n    }\n    cout << tails.size() << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n第二维是 t−x；用 upper_bound 允许相等；同点金币不能去重。\n",
+    "detailed": "## P14078 金币收集\n\n原题：[P14078](https://www.luogu.com.cn/problem/P14078)\n\n### 从问题到算法\n\n从 (x1,t1) 到 (x2,t2) 只能右移或等待，条件是 x2≥x1 且 t2−t1≥x2−x1，第二个条件等价于 t2−x2≥t1−x1。因此变换后变成两维非降链。\n\n从零出发要求 x≥0、t−x≥0。满足这两个条件的点按 x、t−x 升序排序，第一维已经合法，剩下求第二维最长不下降子序列。用 upper_bound 替换牌堆顶，允许相等值延长。\n\n同一位置同一时刻出现多枚金币可以同时收走，它们对应完全相同的点，应分别计数，不能去重。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<pair<long long, long long>> points;\n    for (int i = 0; i < n; i++) {\n        long long x, t;\n        cin >> x >> t;\n        if (x >= 0 && t >= x)\n            points.push_back({x, t - x});\n    }\n    sort(points.begin(), points.end());\n    vector<long long> tails;\n    for (auto [x, y] : points) {\n        auto it = upper_bound(tails.begin(), tails.end(), y);\n        if (it == tails.end())\n            tails.push_back(y);\n        else\n            *it = y;\n    }\n    cout << tails.size() << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n第二维是 t−x；用 upper_bound 允许相等；同点金币不能去重。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P14078",
+    "id": "luogu-training-P14078",
+    "programSha256": "8ac7add0a92ad32477c67a2d61220ba8169dd07ce98cc4db6db66f0d081165bd",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

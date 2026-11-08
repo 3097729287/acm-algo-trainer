@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4058",
+  "method": "按月份二分并累加达标树木",
+  "variants": {
+    "default": "## P4058 木材\n\n原题：[P4058](https://www.luogu.com.cn/problem/P4058)\n\n### 思路\n\n给定月份 t，第 i 棵树高为 h_i+a_i·t，只有达到 L 的树才可砍伐。累计可砍高度是否达到 S 是单调条件，二分最早满足的月份。\n\n### 复杂度\n\n时间 O(n log 答案)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    long long need, limit;\n    cin >> n >> need >> limit;\n    vector<long long> h(n), growth(n);\n    for (auto &x : h)\n        cin >> x;\n    for (auto &x : growth)\n        cin >> x;\n    auto ok = [&](long long day) {\n        __int128 sum = 0;\n        for (int i = 0; i < n; i++) {\n            __int128 height = h[i] + (__int128)growth[i] * day;\n            if (height >= limit)\n                sum += height;\n            if (sum >= need)\n                return true;\n        }\n        return false;\n    };\n    long long l = 0, r = 1;\n    while (!ok(r))\n        r *= 2;\n    while (l < r) {\n        long long mid = l + (r - l) / 2;\n        if (ok(mid))\n            r = mid;\n        else\n            l = mid + 1;\n    }\n    cout << l << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n达标后计整棵树高度；零月也可能满足；乘法先转 __int128。\n",
+    "detailed": "## P4058 木材\n\n原题：[P4058](https://www.luogu.com.cn/problem/P4058)\n\n### 从问题到算法\n\n随时间增加，每棵树只会长高，已达到最低高度要求的树不会重新失去资格，可获得的总木材量因此单调不减。\n\n判定某月时，对每棵树计算当前高度；小于 L 的不计，否则加入总量。达到 S 就可提前返回，避免累加无关大数。高度乘法和总量使用 __int128，以覆盖月份和生长速度的乘积。\n\n先从零月检查，若不够则把右界从一不断翻倍，直到找到可行时间，再在零到右界之间找第一个可行值。这样无需猜测紧的答案上界。\n\n### 复杂度\n\n时间 O(n log 答案)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    long long need, limit;\n    cin >> n >> need >> limit;\n    vector<long long> h(n), growth(n);\n    for (auto &x : h)\n        cin >> x;\n    for (auto &x : growth)\n        cin >> x;\n    auto ok = [&](long long day) {\n        __int128 sum = 0;\n        for (int i = 0; i < n; i++) {\n            __int128 height = h[i] + (__int128)growth[i] * day;\n            if (height >= limit)\n                sum += height;\n            if (sum >= need)\n                return true;\n        }\n        return false;\n    };\n    long long l = 0, r = 1;\n    while (!ok(r))\n        r *= 2;\n    while (l < r) {\n        long long mid = l + (r - l) / 2;\n        if (ok(mid))\n            r = mid;\n        else\n            l = mid + 1;\n    }\n    cout << l << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n达标后计整棵树高度；零月也可能满足；乘法先转 __int128。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4058",
+    "id": "luogu-training-P4058",
+    "programSha256": "e879818ca7c3ed4dd6df49855bc580ddf4c417415ec51c28ba25bc4a3f6a2fd5",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

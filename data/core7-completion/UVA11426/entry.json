@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-UVA11426",
+  "method": "欧拉函数预处理每个右端点的贡献",
+  "variants": {
+    "default": "## UVA11426 拿行李（极限版） GCD - Extreme (II)\n\n原题：[UVA11426](https://www.luogu.com.cn/problem/UVA11426)\n\n### 思路\n\n固定右端点 j，按 gcd(i,j)=d 分组，其和为 Σ(d|j,d<j)d·φ(j/d)。用倍数枚举一次加入所有 j，再前缀求和，回答多组 n。\n\n### 复杂度\n\n时间 O(A log A)，空间 O(A)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    vector<int> queries;\n    int n, maximum = 0;\n    while (cin >> n && n) {\n        queries.push_back(n);\n        maximum = max(maximum, n);\n    }\n    vector<int> phi(maximum + 1);\n    iota(phi.begin(), phi.end(), 0);\n    for (int p = 2; p <= maximum; p++)\n        if (phi[p] == p)\n            for (int j = p; j <= maximum; j += p)\n                phi[j] = phi[j] / p * (p - 1);\n    vector<long long> sum(maximum + 1);\n    for (int d = 1; d <= maximum / 2; d++)\n        for (int j = d + d; j <= maximum; j += d)\n            sum[j] += 1LL * d * phi[j / d];\n    for (int i = 1; i <= maximum; i++)\n        sum[i] += sum[i - 1];\n    for (int x : queries)\n        cout << sum[x] << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n只统计 i<j，倍数系数从 2 起；先求单个右端贡献，再做前缀和。\n",
+    "detailed": "## UVA11426 拿行李（极限版） GCD - Extreme (II)\n\n原题：[UVA11426](https://www.luogu.com.cn/problem/UVA11426)\n\n### 从问题到算法\n\n目标是所有 1<=i<j<=n 的 gcd 和。固定较大的 j，若 gcd(i,j)=d，写 i=dt、j=dk，那么 1<=t<k 且 gcd(t,k)=1。k>1 时满足条件的 t 有 φ(k) 个，因此这组贡献 dφ(k)。\n\n预处理欧拉函数后，枚举 d，再枚举 k>=2，把 dφ(k) 加到 j=d·k 的单点贡献中。每一对 (i,j) 按其唯一 gcd 恰好计一次。\n\n最后对 j 的贡献做前缀和，预处理到所有输入的最大 n。输入以零结束，结果可能很大，使用 long long。筛 phi 时先将 phi[i]=i，再对每个质数的倍数应用乘法公式。\n\n### 复杂度\n\n时间 O(A log A)，空间 O(A)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    vector<int> queries;\n    int n, maximum = 0;\n    while (cin >> n && n) {\n        queries.push_back(n);\n        maximum = max(maximum, n);\n    }\n    vector<int> phi(maximum + 1);\n    iota(phi.begin(), phi.end(), 0);\n    for (int p = 2; p <= maximum; p++)\n        if (phi[p] == p)\n            for (int j = p; j <= maximum; j += p)\n                phi[j] = phi[j] / p * (p - 1);\n    vector<long long> sum(maximum + 1);\n    for (int d = 1; d <= maximum / 2; d++)\n        for (int j = d + d; j <= maximum; j += d)\n            sum[j] += 1LL * d * phi[j / d];\n    for (int i = 1; i <= maximum; i++)\n        sum[i] += sum[i - 1];\n    for (int x : queries)\n        cout << sum[x] << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n只统计 i<j，倍数系数从 2 起；先求单个右端贡献，再做前缀和。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "UVA11426",
+    "id": "luogu-training-UVA11426",
+    "programSha256": "332395e54160bdbb548a9ee36466670399f12fd0c7288853b3dcbf2d5f21ef6d",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

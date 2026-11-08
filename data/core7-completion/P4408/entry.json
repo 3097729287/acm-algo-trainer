@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4408",
+  "method": "直径两端与第三点的最坏绕行",
+  "variants": {
+    "default": "## P4408 逃学的小孩 / 数据生成器\n\n原题：[P4408](https://www.luogu.com.cn/problem/P4408)\n\n### 思路\n\n求树直径端点 A、B，保留所有点到两端的距离。答案是直径长度加上 max_v min(dist(A,v),dist(B,v))。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<vector<pair<int, long long>>> g(n);\n    while (m--) {\n        int a, b;\n        long long w;\n        cin >> a >> b >> w;\n        a--;\n        b--;\n        g[a].push_back({b, w});\n        g[b].push_back({a, w});\n    }\n    auto distances = [&](int s) {\n        vector<long long> d(n, -1);\n        vector<int> q = {s};\n        d[s] = 0;\n        for (int i = 0; i < (int)q.size(); i++)\n            for (auto [u, w] : g[q[i]])\n                if (d[u] < 0) {\n                    d[u] = d[q[i]] + w;\n                    q.push_back(u);\n                }\n        return d;\n    };\n    auto d = distances(0);\n    int A = max_element(d.begin(), d.end()) - d.begin();\n    auto x = distances(A);\n    int B = max_element(x.begin(), x.end()) - x.begin();\n    auto y = distances(B);\n    long long extra = 0;\n    for (int i = 0; i < n; i++)\n        extra = max(extra, min(x[i], y[i]));\n    cout << x[B] + extra << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n边权可为零；答案和路径长度用 long long；按较近的朋友先找。\n",
+    "detailed": "## P4408 逃学的小孩 / 数据生成器\n\n原题：[P4408](https://www.luogu.com.cn/problem/P4408)\n\n### 从问题到算法\n\n给定三处位置 A、B、C，先去较近朋友家再去另一家，最坏耗时为 dist(A,B)+min(dist(C,A),dist(C,B))。要让这个值最大，可以将朋友家取为一组树直径端点。\n\n使用树的直径替换引理：对任意三点形成的三叉子树，若两处朋友不是直径端点，将分支延伸或替换到直径两端，不会减小“朋友间距离加家到较近朋友距离”的最大值。也可以把三点投影到直径路径证明：直径外任意分支高度不超过其投影到直径两端距离的较小者，否则会产生更长直径；把这个上界代入三叉子树的三段长度即可得到公式的上界。取朋友为直径两端又能达到公式，因此上下界相等。\n\n从任一点找最远点 A，再从 A 找最远点 B，得到直径。树上只有一条路，遍历累加边权即可求距离，不需要 Dijkstra。再从 B 遍历一次，枚举 C 即可。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<vector<pair<int, long long>>> g(n);\n    while (m--) {\n        int a, b;\n        long long w;\n        cin >> a >> b >> w;\n        a--;\n        b--;\n        g[a].push_back({b, w});\n        g[b].push_back({a, w});\n    }\n    auto distances = [&](int s) {\n        vector<long long> d(n, -1);\n        vector<int> q = {s};\n        d[s] = 0;\n        for (int i = 0; i < (int)q.size(); i++)\n            for (auto [u, w] : g[q[i]])\n                if (d[u] < 0) {\n                    d[u] = d[q[i]] + w;\n                    q.push_back(u);\n                }\n        return d;\n    };\n    auto d = distances(0);\n    int A = max_element(d.begin(), d.end()) - d.begin();\n    auto x = distances(A);\n    int B = max_element(x.begin(), x.end()) - x.begin();\n    auto y = distances(B);\n    long long extra = 0;\n    for (int i = 0; i < n; i++)\n        extra = max(extra, min(x[i], y[i]));\n    cout << x[B] + extra << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n边权可为零；答案和路径长度用 long long；按较近的朋友先找。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4408",
+    "id": "luogu-training-P4408",
+    "programSha256": "dd4c4a499d19da1e26263e272db620fee44532b49a03c18cff3940bd8d349bcd",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF1761C",
+  "method": "求每个顶点的祖先集合",
+  "variants": {
+    "default": "## CF1761C Set Construction\n\n原题：[CF1761C](https://www.luogu.com.cn/problem/CF1761C)\n\n### 思路\n\n若矩阵第 i 行第 j 列为 1，就让 j 的集合包含 i 的集合。对每个目标点沿反向边遍历，把所有能到达它的顶点编号与它自身放入集合。\n\n### 复杂度\n\n每组时间 O(n³)，空间 O(n²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int t;\n    cin >> t;\n    while (t--) {\n        int n;\n        cin >> n;\n        vector<string> a(n);\n        for (auto &s : a)\n            cin >> s;\n        for (int target = 0; target < n; target++) {\n            vector<char> seen(n);\n            vector<int> st = {target};\n            seen[target] = 1;\n            while (!st.empty()) {\n                int v = st.back();\n                st.pop_back();\n                for (int u = 0; u < n; u++)\n                    if (a[u][v] == '1' && !seen[u]) {\n                        seen[u] = 1;\n                        st.push_back(u);\n                    }\n            }\n            cout << count(seen.begin(), seen.end(), 1);\n            for (int u = 0; u < n; u++)\n                if (seen[u])\n                    cout << ' ' << u + 1;\n            cout << '\\n';\n        }\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n矩阵方向不能反；每个集合包含自己的编号；输出的是集合元素。\n",
+    "detailed": "## CF1761C Set Construction\n\n原题：[CF1761C](https://www.luogu.com.cn/problem/CF1761C)\n\n### 从问题到算法\n\n给第 i 个集合放入一个专属于它的编号 i。如果图中有从 i 到 j 的路径，子集关系的传递性要求 i 的编号也出现在 j 的集合中。因此可以令第 j 个集合恰好包含所有能到达 j 的顶点。\n\n对每个 j，从 j 沿反向边搜索，访问到的编号就是答案。存在 i→j 时，i 的每个祖先也能到达 j，所以构造满足包含关系。原题保证可构造且对应关系允许这种偏序构造，不会要求相互严格包含。\n\n矩阵大小至多一百，直接为每个顶点做一次遍历即可。输出集合大小和实际编号，不需要枚举整数子集。\n\n### 复杂度\n\n每组时间 O(n³)，空间 O(n²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int t;\n    cin >> t;\n    while (t--) {\n        int n;\n        cin >> n;\n        vector<string> a(n);\n        for (auto &s : a)\n            cin >> s;\n        for (int target = 0; target < n; target++) {\n            vector<char> seen(n);\n            vector<int> st = {target};\n            seen[target] = 1;\n            while (!st.empty()) {\n                int v = st.back();\n                st.pop_back();\n                for (int u = 0; u < n; u++)\n                    if (a[u][v] == '1' && !seen[u]) {\n                        seen[u] = 1;\n                        st.push_back(u);\n                    }\n            }\n            cout << count(seen.begin(), seen.end(), 1);\n            for (int u = 0; u < n; u++)\n                if (seen[u])\n                    cout << ' ' << u + 1;\n            cout << '\\n';\n        }\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n矩阵方向不能反；每个集合包含自己的编号；输出的是集合元素。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF1761C",
+    "id": "luogu-training-CF1761C",
+    "programSha256": "b29c32012b97f808d59edaafac77c2d58fecdc9c33fa53c5707fe47bc1194864",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1443",
+  "method": "广度优先搜索马步距离",
+  "variants": {
+    "default": "## P1443 马的遍历\n\n原题：[P1443](https://www.luogu.com.cn/problem/P1443)\n\n### 思路\n\n把一次合法马步看作一条长度为 1 的边，从起点 BFS。第一次到达的步数就是最少步数，未到达的格子保留 -1。\n\n### 复杂度\n\n时间 O(nm)，空间 O(nm)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m, x, y;\n    cin >> n >> m >> x >> y;\n    x--;\n    y--;\n    vector<vector<int>> d(n, vector<int>(m, -1));\n    queue<pair<int, int>> q;\n    q.push({x, y});\n    d[x][y] = 0;\n    int dx[] = {1, 1, -1, -1, 2, 2, -2, -2}, dy[] = {2, -2, 2, -2, 1, -1, 1, -1};\n    while (!q.empty()) {\n        auto [a, b] = q.front();\n        q.pop();\n        for (int k = 0; k < 8; k++) {\n            int u = a + dx[k], v = b + dy[k];\n            if (u >= 0 && u < n && v >= 0 && v < m && d[u][v] < 0) {\n                d[u][v] = d[a][b] + 1;\n                q.push({u, v});\n            }\n        }\n    }\n    for (auto &row : d) {\n        for (int value : row)\n            cout << left << setw(5) << value;\n        cout << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n输入坐标是 1 起始；八种位移不能漏；不要把未访问初始化成 0。\n",
+    "detailed": "## P1443 马的遍历\n\n原题：[P1443](https://www.luogu.com.cn/problem/P1443)\n\n### 从问题到算法\n\n从起点走一步能到的格子距离是 1，再从这些格子走一步，才可能得到距离为 2 的新格子。这种逐层扩展正是广度优先搜索。\n\n距离数组初始为 -1，起点置 0 并入队。每次取出队首，枚举横向 1、纵向 2 或横向 2、纵向 1 的八种带符号位移；合法且距离仍为 -1 的格子得到当前距离加 1，再加入队尾。\n\n队列中的距离单调不降。假设第一次到某格的路线不是最短路线，那么更短路线的倒数第二格会先出队，并且更早发现它，产生矛盾。无须重复松弛。输出按题目要求使用左对齐固定列宽，-1 表示不可达。\n\n### 复杂度\n\n时间 O(nm)，空间 O(nm)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m, x, y;\n    cin >> n >> m >> x >> y;\n    x--;\n    y--;\n    vector<vector<int>> d(n, vector<int>(m, -1));\n    queue<pair<int, int>> q;\n    q.push({x, y});\n    d[x][y] = 0;\n    int dx[] = {1, 1, -1, -1, 2, 2, -2, -2}, dy[] = {2, -2, 2, -2, 1, -1, 1, -1};\n    while (!q.empty()) {\n        auto [a, b] = q.front();\n        q.pop();\n        for (int k = 0; k < 8; k++) {\n            int u = a + dx[k], v = b + dy[k];\n            if (u >= 0 && u < n && v >= 0 && v < m && d[u][v] < 0) {\n                d[u][v] = d[a][b] + 1;\n                q.push({u, v});\n            }\n        }\n    }\n    for (auto &row : d) {\n        for (int value : row)\n            cout << left << setw(5) << value;\n        cout << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n输入坐标是 1 起始；八种位移不能漏；不要把未访问初始化成 0。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1443",
+    "id": "luogu-training-P1443",
+    "programSha256": "da0adc0d8e446725984f874b19ada88883fb7681487e927d9ef222e05c937a00",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1032",
+  "method": "正反各五步的双向 BFS",
+  "variants": {
+    "default": "## P1032 字串变换（疑似错题）\n\n原题：[P1032](https://www.luogu.com.cn/problem/P1032)\n\n### 思路\n\n从起始串按原规则搜索至五步，从目标串按反向规则搜索至五步。任意不超过十步的最短路径都能在两边覆盖的某个中间串相遇，取两侧距离和的最小值。\n\n### 复杂度\n\n时间与五层内实际产生的不同字符串及匹配位置数量成正比，空间与访问状态总长度成正比。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string start, goal;\n    cin >> start >> goal;\n    vector<pair<string, string>> rules;\n    string a, b;\n    while (cin >> a >> b)\n        rules.push_back({a, b});\n    auto search = [&](string initial, bool reverseRule) {\n        unordered_map<string, int> distance;\n        queue<string> q;\n        distance[initial] = 0;\n        q.push(initial);\n        while (!q.empty()) {\n            string s = q.front();\n            q.pop();\n            int depth = distance[s];\n            if (depth == 5)\n                continue;\n            for (auto rule : rules) {\n                string from = reverseRule ? rule.second : rule.first,\n                       to = reverseRule ? rule.first : rule.second;\n                for (size_t pos = s.find(from); pos != string::npos; pos = s.find(from, pos + 1)) {\n                    string next = s.substr(0, pos) + to + s.substr(pos + from.size());\n                    if (distance.emplace(next, depth + 1).second)\n                        q.push(next);\n                }\n            }\n        }\n        return distance;\n    };\n    auto forward = search(start, false), backward = search(goal, true);\n    int ans = 11;\n    for (auto &[s, d] : forward) {\n        auto it = backward.find(s);\n        if (it != backward.end())\n            ans = min(ans, d + it->second);\n    }\n    if (ans <= 10)\n        cout << ans << '\\n';\n    else\n        cout << \"NO ANSWER!\\n\";\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n枚举同规则所有出现位置；反向规则要交换两端；恰好十步也允许。\n",
+    "detailed": "## P1032 字串变换（疑似错题）\n\n原题：[P1032](https://www.luogu.com.cn/problem/P1032)\n\n### 从问题到算法\n\n一次操作只能替换某个具体出现位置的子串，所以同一条规则在一个字符串中可能产生多个后继，必须枚举全部出现位置，包括相互重叠的位置。BFS 首次访问某串的层数就是最少替换次数。\n\n十层单向搜索分支可能太多，改为两边各搜五层。反向搜索把每条规则的左右串交换；如果存在长度 L<=10 的路径，可在距离起点 min(5,L) 的位置切开，剩余长度也不超过五，所以两个搜索集合必有交集。\n\n每边用映射保存最短距离并去重，深度五的状态保留但不继续扩展。最后枚举交集，取距离和最小者；超过十步或没有交集时输出 NO ANSWER!。\n\n### 复杂度\n\n时间与五层内实际产生的不同字符串及匹配位置数量成正比，空间与访问状态总长度成正比。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string start, goal;\n    cin >> start >> goal;\n    vector<pair<string, string>> rules;\n    string a, b;\n    while (cin >> a >> b)\n        rules.push_back({a, b});\n    auto search = [&](string initial, bool reverseRule) {\n        unordered_map<string, int> distance;\n        queue<string> q;\n        distance[initial] = 0;\n        q.push(initial);\n        while (!q.empty()) {\n            string s = q.front();\n            q.pop();\n            int depth = distance[s];\n            if (depth == 5)\n                continue;\n            for (auto rule : rules) {\n                string from = reverseRule ? rule.second : rule.first,\n                       to = reverseRule ? rule.first : rule.second;\n                for (size_t pos = s.find(from); pos != string::npos; pos = s.find(from, pos + 1)) {\n                    string next = s.substr(0, pos) + to + s.substr(pos + from.size());\n                    if (distance.emplace(next, depth + 1).second)\n                        q.push(next);\n                }\n            }\n        }\n        return distance;\n    };\n    auto forward = search(start, false), backward = search(goal, true);\n    int ans = 11;\n    for (auto &[s, d] : forward) {\n        auto it = backward.find(s);\n        if (it != backward.end())\n            ans = min(ans, d + it->second);\n    }\n    if (ans <= 10)\n        cout << ans << '\\n';\n    else\n        cout << \"NO ANSWER!\\n\";\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n枚举同规则所有出现位置；反向规则要交换两端；恰好十步也允许。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1032",
+    "id": "luogu-training-P1032",
+    "programSha256": "f7604cd85c9c6a145ad33533c6eefa3bfafb8855c039ee05cf0057adf1a61d8a",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

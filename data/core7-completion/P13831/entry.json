@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P13831",
+  "method": "按二叉搜索树满层分段求和",
+  "variants": {
+    "default": "## P13831 比亚多西\n\n原题：[P13831](https://www.luogu.com.cn/problem/P13831)\n\n### 思路\n\n二分查找形成近完全二叉搜索树。令 k=floor(log2(n+1))，前 k 层满，剩余点在第 k+1 层，可得 f(n)=(k+1)n−2^(k+1)+k+2。按 k 相同的 n 区间用等差数列求前缀和。\n\n### 复杂度\n\n每组时间 O(log R)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    const long long mod = 998244353, inv2 = (mod + 1) / 2;\n    auto solve = [&](long long n) {\n        long long ans = 0;\n        for (long long power = 4, k = 1; power / 2 - 1 <= n; power *= 2, k++) {\n            long long l = max(1LL, power / 2 - 1), r = min(n, power - 2);\n            if (l <= r) {\n                long long count = (r - l + 1) % mod,\n                          sum = (l % mod + r % mod) % mod * count % mod * inv2 % mod;\n                long long constant = (-power % mod + k + 2 + mod) % mod;\n                ans = (ans + (k + 1) * sum + constant * count) % mod;\n            }\n        }\n        return ans;\n    };\n    while (tests--) {\n        long long l, r;\n        cin >> l >> r;\n        cout << (solve(r) - solve(l - 1) + mod) % mod << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n分界是 n+1 的最高位；L=1 时 F(0)=0；模减法规范化。\n",
+    "detailed": "## P13831 比亚多西\n\n原题：[P13831](https://www.luogu.com.cn/problem/P13831)\n\n### 从问题到算法\n\n每个目标被比较的次数就是它在二分搜索决策树中的深度。长度 n 的区间每次按中点分成大小相差至多一的两段，因此前 k=floor(log2(n+1)) 层均为满层，第 k+1 层容纳余下节点。\n\n满层贡献 Σ(d=1..k)d·2^(d−1)=(k−1)2^k+1，最后一层有 n−(2^k−1) 个点，每点深度 k+1。整理得 f(n)=(k+1)n−2^(k+1)+k+2。\n\nk 在 n∈[2^k−1,2^(k+1)−2] 内不变，所以 f(n) 是一次函数。求 F(N)=Σ(n=1..N)f(n) 时，枚举至多六十段，对 n 求等差和、常数乘段长，再取模。最终回答 F(R)−F(L−1)。所有分段端点使用六十四位整数，模乘使用先取模后的值。\n\n### 复杂度\n\n每组时间 O(log R)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    const long long mod = 998244353, inv2 = (mod + 1) / 2;\n    auto solve = [&](long long n) {\n        long long ans = 0;\n        for (long long power = 4, k = 1; power / 2 - 1 <= n; power *= 2, k++) {\n            long long l = max(1LL, power / 2 - 1), r = min(n, power - 2);\n            if (l <= r) {\n                long long count = (r - l + 1) % mod,\n                          sum = (l % mod + r % mod) % mod * count % mod * inv2 % mod;\n                long long constant = (-power % mod + k + 2 + mod) % mod;\n                ans = (ans + (k + 1) * sum + constant * count) % mod;\n            }\n        }\n        return ans;\n    };\n    while (tests--) {\n        long long l, r;\n        cin >> l >> r;\n        cout << (solve(r) - solve(l - 1) + mod) % mod << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n分界是 n+1 的最高位；L=1 时 F(0)=0；模减法规范化。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P13831",
+    "id": "luogu-training-P13831",
+    "programSha256": "c72e1ec6756cbbaaaf057ec0cf3a8c543932371fdc80f10da03a2add0e527500",
+    "samples": 1,
+    "independentCases": 1,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

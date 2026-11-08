@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF659E",
+  "method": "数出没有环的连通分量",
+  "variants": {
+    "default": "## CF659E New Reform\n\n原题：[CF659E](https://www.luogu.com.cn/problem/CF659E)\n\n### 思路\n\n每个连通分量单独考虑。树无论怎样定向都至少留下一个入度为 0 的点；含环分量可以沿环定向，再由环向外扩展，使所有点入度至少为 1。答案是树形连通分量个数。\n\n### 复杂度\n\n时间 O(n+m)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<vector<int>> g(n);\n    while (m--) {\n        int u, v;\n        cin >> u >> v;\n        u--;\n        v--;\n        g[u].push_back(v);\n        g[v].push_back(u);\n    }\n    vector<char> seen(n);\n    int ans = 0;\n    for (int s = 0; s < n; s++)\n        if (!seen[s]) {\n            long long edges = 0;\n            int vertices = 0;\n            vector<int> st = {s};\n            seen[s] = 1;\n            while (!st.empty()) {\n                int v = st.back();\n                st.pop_back();\n                vertices++;\n                edges += g[v].size();\n                for (int u : g[v])\n                    if (!seen[u]) {\n                        seen[u] = 1;\n                        st.push_back(u);\n                    }\n            }\n            ans += edges / 2 == vertices - 1;\n        }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n无向边在邻接表中出现两次；孤立点也要统计。\n",
+    "detailed": "## CF659E New Reform\n\n原题：[CF659E](https://www.luogu.com.cn/problem/CF659E)\n\n### 从问题到算法\n\n目标是尽量减少入度为零的顶点。一个有 v 个点的树只有 v−1 条边，全部顶点入度之和也是 v−1，不可能人人入度至少为一，因此至少有一个零入度点。任选根，所有边由根指向孩子，恰好只有根为零，达到下界。\n\n如果连通分量含环，把一个环按环方向定向；环上每点已有入边。再从环向未覆盖的点做搜索，把搜索树边由内向外定向，每个新点也得到一条入边，其余边任意定向即可。此时贡献为零。\n\n所以只需遍历无向连通分量，统计点数 v 和邻接表总长度的一半 e。连通无向图满足 e=v−1 当且仅当它是树。孤立点同样是一棵树，要贡献一。\n\n### 复杂度\n\n时间 O(n+m)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<vector<int>> g(n);\n    while (m--) {\n        int u, v;\n        cin >> u >> v;\n        u--;\n        v--;\n        g[u].push_back(v);\n        g[v].push_back(u);\n    }\n    vector<char> seen(n);\n    int ans = 0;\n    for (int s = 0; s < n; s++)\n        if (!seen[s]) {\n            long long edges = 0;\n            int vertices = 0;\n            vector<int> st = {s};\n            seen[s] = 1;\n            while (!st.empty()) {\n                int v = st.back();\n                st.pop_back();\n                vertices++;\n                edges += g[v].size();\n                for (int u : g[v])\n                    if (!seen[u]) {\n                        seen[u] = 1;\n                        st.push_back(u);\n                    }\n            }\n            ans += edges / 2 == vertices - 1;\n        }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n无向边在邻接表中出现两次；孤立点也要统计。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF659E",
+    "id": "luogu-training-CF659E",
+    "programSha256": "e50195812f317dee48d75a878ace7d110aff7ae6adc7800b3553a7e97722f95e",
+    "samples": 3,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P6046",
+  "method": "随机删边次序与最近更强者",
+  "variants": {
+    "default": "## P6046 纯粹容器\n\n原题：[P6046](https://www.luogu.com.cn/problem/P6046)\n\n### 思路\n\n相邻决斗等价于随机删除原数组中的一条剩余分界，合并两段并留下较大者。对每个位置，只需看左右最近更强者的距离，利用随机排列中指定边集合全部出现的概率求存活期望。\n\n### 复杂度\n\n时间 O(n+log MOD)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    const long long mod = 998244353;\n    vector<int> a(n), left(n, -1), right(n, n), st;\n    for (int &x : a)\n        cin >> x;\n    for (int i = 0; i < n; i++) {\n        while (!st.empty() && a[st.back()] < a[i])\n            st.pop_back();\n        if (!st.empty())\n            left[i] = st.back();\n        st.push_back(i);\n    }\n    st.clear();\n    for (int i = n - 1; i >= 0; i--) {\n        while (!st.empty() && a[st.back()] < a[i])\n            st.pop_back();\n        if (!st.empty())\n            right[i] = st.back();\n        st.push_back(i);\n    }\n    vector<long long> inv(2 * n + 2);\n    inv[1] = 1;\n    for (int i = 2; i < (int)inv.size(); i++)\n        inv[i] = (mod - mod / i) * inv[mod % i] % mod;\n    for (int i = 0; i < n; i++) {\n        long long ans = n - 1;\n        if (left[i] >= 0)\n            ans = (ans - n * inv[i - left[i] + 1] % mod + mod) % mod;\n        if (right[i] < n)\n            ans = (ans - n * inv[right[i] - i + 1] % mod + mod) % mod;\n        if (left[i] >= 0 && right[i] < n)\n            ans = (ans + n * inv[right[i] - left[i] + 1]) % mod;\n        cout << ans << (i + 1 == n ? '\\n' : ' ');\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n存活轮数比被击倒的轮次少一；缺少一侧时去掉对应项；点值互不相同。\n",
+    "detailed": "## P6046 纯粹容器\n\n原题：[P6046](https://www.luogu.com.cn/problem/P6046)\n\n### 从问题到算法\n\n把每个存活容器看成它已经击败的连续段的最大值。相邻两者决斗就是删除这两段之间的一条原始分界边，并把两段合并。每轮所有剩余分界等概率被选，因此等价于将 n−1 条原始分界随机排列，依次删除。\n\n位置 i 被淘汰，当且仅当它的连通段首次包含一个更强者。只需考虑左右最近更强者：若要连到更远的强者，途中也必先连到最近的。设左、右距离分别为 L、R，连接到一侧要求该侧路径上的全部分界已经被删除。\n\n经过 t 轮后，一组固定 k 条边全部出现的概率为 C(t,k)/C(n−1,k)。存活概率用左右两个“已经连到强者”事件容斥；两侧路径不重叠，同时发生要求 L+R 条边全部出现。\n\n整数存活轮数 X 的期望为 Σ(t=1..n−1)P(X>=t)。由组合恒等式 Σ(t=k..n−1)C(t,k)=C(n,k+1)，每个长度 k 的路径项求和后等于 n/(k+1)。所以 E=n−1−n/(L+1)−n/(R+1)+n/(L+R+1)，不存在的一侧及其交集项不加入。\n\n最近更大位置用单调栈求出。分数在模 998244353 下用分母逆元表示；全局最大者没有任何更强者，期望正好为 n−1。\n\n### 复杂度\n\n时间 O(n+log MOD)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    const long long mod = 998244353;\n    vector<int> a(n), left(n, -1), right(n, n), st;\n    for (int &x : a)\n        cin >> x;\n    for (int i = 0; i < n; i++) {\n        while (!st.empty() && a[st.back()] < a[i])\n            st.pop_back();\n        if (!st.empty())\n            left[i] = st.back();\n        st.push_back(i);\n    }\n    st.clear();\n    for (int i = n - 1; i >= 0; i--) {\n        while (!st.empty() && a[st.back()] < a[i])\n            st.pop_back();\n        if (!st.empty())\n            right[i] = st.back();\n        st.push_back(i);\n    }\n    vector<long long> inv(2 * n + 2);\n    inv[1] = 1;\n    for (int i = 2; i < (int)inv.size(); i++)\n        inv[i] = (mod - mod / i) * inv[mod % i] % mod;\n    for (int i = 0; i < n; i++) {\n        long long ans = n - 1;\n        if (left[i] >= 0)\n            ans = (ans - n * inv[i - left[i] + 1] % mod + mod) % mod;\n        if (right[i] < n)\n            ans = (ans - n * inv[right[i] - i + 1] % mod + mod) % mod;\n        if (left[i] >= 0 && right[i] < n)\n            ans = (ans + n * inv[right[i] - left[i] + 1]) % mod;\n        cout << ans << (i + 1 == n ? '\\n' : ' ');\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n存活轮数比被击倒的轮次少一；缺少一侧时去掉对应项；点值互不相同。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P6046",
+    "id": "luogu-training-P6046",
+    "programSha256": "8a3f4a82e17d7f7e2642d346768eb20745cfb802bb1f4771f89ff04aa49cbccf",
+    "samples": 3,
+    "independentCases": 18,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

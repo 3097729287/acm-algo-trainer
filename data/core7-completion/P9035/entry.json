@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P9035",
+  "method": "按最大值是否超过一半分类的组合数",
+  "variants": {
+    "default": "## P9035 Pont des souvenirs\n\n原题：[P9035](https://www.luogu.com.cn/problem/P9035)\n\n### 思路\n\n令 h=floor((k+1)/2)。全部元素≤h 时是多重组合 C(n+h−1,n)；若最大值>h，它只能出现一次，枚举它后用曲棍球杆恒等式合并为 C(n+k−h−1,n)。\n\n### 复杂度\n\n设最大组合数上标为 V，预处理 O(V)，每组 O(1)，空间 O(V+T)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nconst long long MOD = 1000000007;\nlong long power(long long a, long long b) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % MOD)\n        if (b & 1)\n            r = r * a % MOD;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    vector<pair<int, int>> queries(T);\n    int V = 0;\n    for (auto &[n, k] : queries) {\n        cin >> n >> k;\n        int h = (k + 1) / 2;\n        V = max({V, n + h - 1, n + k - h - 1});\n    }\n    vector<int> f(V + 1, 1), inv(V + 1, 1);\n    for (int i = 1; i <= V; i++)\n        f[i] = 1LL * f[i - 1] * i % MOD;\n    inv[V] = power(f[V], MOD - 2);\n    for (int i = V; i >= 1; i--)\n        inv[i - 1] = 1LL * inv[i] * i % MOD;\n    auto C = [&](int n, int k) -> long long {\n        if (n < k || k < 0)\n            return 0;\n        return 1LL * f[n] * inv[k] % MOD * inv[n - k] % MOD;\n    };\n    for (auto [n, k] : queries) {\n        int h = (k + 1) / 2;\n        cout << (C(n + h - 1, n) + C(n + k - h - 1, n)) % MOD << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n最大值大于一半时只能一次；组合数越界返回零；单元素也适用。\n",
+    "detailed": "## P9035 Pont des souvenirs\n\n原题：[P9035](https://www.luogu.com.cn/problem/P9035)\n\n### 从问题到算法\n\n序列不降，只要最大的两个数之和≤k+1，其它任意两数也满足。若最大值≤h，限制自动成立，从 h 种值中可重复选 n 个，共 C(n+h−1,n)。\n\n若最大值 x>h，不能出现两次，其余 n−1 个数都≤k+1−x=y。它们有 C(n+y−2,n−1) 种选择。x 从 h+1 到 k，等价于 y 从一到 k−h，求和由组合恒等式变为 C(n+k−h−1,n)。\n\n两类互斥且覆盖所有序列。n=1 同一公式仍给出 h+(k−h)=k；组合数上标小于下标时定义为零。先读全部询问，按实际最大上标预处理阶乘和逆阶乘。\n\n### 复杂度\n\n设最大组合数上标为 V，预处理 O(V)，每组 O(1)，空间 O(V+T)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nconst long long MOD = 1000000007;\nlong long power(long long a, long long b) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % MOD)\n        if (b & 1)\n            r = r * a % MOD;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    vector<pair<int, int>> queries(T);\n    int V = 0;\n    for (auto &[n, k] : queries) {\n        cin >> n >> k;\n        int h = (k + 1) / 2;\n        V = max({V, n + h - 1, n + k - h - 1});\n    }\n    vector<int> f(V + 1, 1), inv(V + 1, 1);\n    for (int i = 1; i <= V; i++)\n        f[i] = 1LL * f[i - 1] * i % MOD;\n    inv[V] = power(f[V], MOD - 2);\n    for (int i = V; i >= 1; i--)\n        inv[i - 1] = 1LL * inv[i] * i % MOD;\n    auto C = [&](int n, int k) -> long long {\n        if (n < k || k < 0)\n            return 0;\n        return 1LL * f[n] * inv[k] % MOD * inv[n - k] % MOD;\n    };\n    for (auto [n, k] : queries) {\n        int h = (k + 1) / 2;\n        cout << (C(n + h - 1, n) + C(n + k - h - 1, n)) % MOD << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n最大值大于一半时只能一次；组合数越界返回零；单元素也适用。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P9035",
+    "id": "luogu-training-P9035",
+    "programSha256": "762daf2d97f3eb94a481f8b0d958d73ac8cba7d3b255ce29eb87bfab8fb9edda",
+    "samples": 1,
+    "independentCases": 3,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

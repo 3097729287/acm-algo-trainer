@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3375",
+  "method": "前缀函数驱动的 KMP",
+  "variants": {
+    "default": "## P3375 KMP\n\n原题：[P3375](https://www.luogu.com.cn/problem/P3375)\n\n### 思路\n\n先求模式串的前缀函数。扫描文本时，失配沿前缀函数回退，匹配到整个模式就输出起点并继续回退，以保留重叠匹配。最后输出模式串前缀函数。\n\n### 复杂度\n\n时间 O(|文本|+|模式|)，空间 O(|模式|)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> prefix(const string &s) {\n    vector<int> p(s.size());\n    for (int i = 1; i < (int)s.size(); i++) {\n        int j = p[i - 1];\n        while (j && s[i] != s[j])\n            j = p[j - 1];\n        if (s[i] == s[j])\n            j++;\n        p[i] = j;\n    }\n    return p;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string text, pattern;\n    cin >> text >> pattern;\n    auto p = prefix(pattern);\n    int j = 0;\n    for (int i = 0; i < (int)text.size(); i++) {\n        while (j && text[i] != pattern[j])\n            j = p[j - 1];\n        if (text[i] == pattern[j])\n            j++;\n        if (j == (int)pattern.size()) {\n            cout << i - j + 2 << '\\n';\n            j = p[j - 1];\n        }\n    }\n    for (int x : p)\n        cout << x << ' ';\n    cout << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n匹配输出使用 1 起始位置；完整匹配后回退而非清零。\n",
+    "detailed": "## P3375 KMP\n\n原题：[P3375](https://www.luogu.com.cn/problem/P3375)\n\n### 从问题到算法\n\n前缀函数 pi[i] 表示模式前缀 0…i 的最长相等真前后缀长度。计算时令 j=pi[i−1]，若新字符不能接在长度 j 的前缀之后，就退到 pi[j−1]，直到能匹配或 j 为零。\n\n扫描文本时，j 同样表示已匹配的模式前缀长度。匹配成功就 j++，失配则沿同一条前后缀链回退。被跳过的前缀不可能匹配，因为它们不是当前已匹配串的后缀。每个字符至多使 j 前进一步，回退总次数也线性。\n\n当 j 等于模式长度时，一次匹配在当前文本下标结束，转换为从一开始的起点输出。随后令 j=pi[j−1]，这样 aaa 在 aaaaa 中的重叠出现不会遗漏。\n\n### 复杂度\n\n时间 O(|文本|+|模式|)，空间 O(|模式|)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> prefix(const string &s) {\n    vector<int> p(s.size());\n    for (int i = 1; i < (int)s.size(); i++) {\n        int j = p[i - 1];\n        while (j && s[i] != s[j])\n            j = p[j - 1];\n        if (s[i] == s[j])\n            j++;\n        p[i] = j;\n    }\n    return p;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string text, pattern;\n    cin >> text >> pattern;\n    auto p = prefix(pattern);\n    int j = 0;\n    for (int i = 0; i < (int)text.size(); i++) {\n        while (j && text[i] != pattern[j])\n            j = p[j - 1];\n        if (text[i] == pattern[j])\n            j++;\n        if (j == (int)pattern.size()) {\n            cout << i - j + 2 << '\\n';\n            j = p[j - 1];\n        }\n    }\n    for (int x : p)\n        cout << x << ' ';\n    cout << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n匹配输出使用 1 起始位置；完整匹配后回退而非清零。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3375",
+    "id": "luogu-training-P3375",
+    "programSha256": "c83600cee4622bb01d8c95335a991c26be2f9367c1155e23354fd47085fd258b",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

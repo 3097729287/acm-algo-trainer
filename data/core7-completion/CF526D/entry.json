@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF526D",
+  "method": "Z 函数确定重复段，再批量标记可延伸前缀",
+  "variants": {
+    "default": "## CF526D Om Nom and Necklace\n\n原题：[CF526D](https://www.luogu.com.cn/problem/CF526D)\n\n### 思路\n\n对每个块长 p，若前 kp 个字符由 k 个相同块组成，再允许附加最多 p 个与首块前缀相同的字符。用差分数组标记这一整段合法前缀长度。\n\n### 复杂度\n\n时间 O(n+n/k)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> zfunction(const string &s) {\n    int n = s.size();\n    vector<int> z(n);\n    z[0] = n;\n    for (int i = 1, l = 0, r = 0; i < n; i++) {\n        if (i <= r)\n            z[i] = min(r - i + 1, z[i - l]);\n        while (i + z[i] < n && s[z[i]] == s[i + z[i]])\n            z[i]++;\n        if (i + z[i] - 1 > r) {\n            l = i;\n            r = i + z[i] - 1;\n        }\n    }\n    return z;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    string s;\n    cin >> n >> k >> s;\n    auto z = zfunction(s);\n    z.push_back(0);\n    vector<int> diff(n + 2);\n    for (int p = 1; 1LL * k * p <= n; p++)\n        if (z[p] >= (k - 1) * p) {\n            int l = k * p, r = min(n, l + min(p, z[l]));\n            diff[l]++;\n            diff[r + 1]--;\n        }\n    int active = 0;\n    for (int i = 1; i <= n; i++) {\n        active += diff[i];\n        cout << (active ? '1' : '0');\n    }\n    cout << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n允许 A 或 B 为空；kp 本身也合法；Z[n] 按零处理。\n",
+    "detailed": "## CF526D Om Nom and Necklace\n\n原题：[CF526D](https://www.luogu.com.cn/problem/CF526D)\n\n### 从问题到算法\n\n题目要求的 ABAB…A 可写为 k 个同长块 AB 加一个不超过整块长的前缀 A。A、B 可以为空，因此块长 p 只要至少一，额外长度可从零到 p。\n\n若 Z[p]≥(k−1)p，则前 kp 个字符是 k 次重复。接下来与开头相同的长度为 Z[kp]，所以合法总长度是区间 [kp,kp+min(p,Z[kp])]，并截断到 n。当 kp=n，额外只能为零。\n\n枚举 p≤n/k，将每个区间加到差分数组，最后前缀和大于零的位置输出一。k=1 时所有前缀都合法，也由同一公式得到。\n\n### 复杂度\n\n时间 O(n+n/k)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> zfunction(const string &s) {\n    int n = s.size();\n    vector<int> z(n);\n    z[0] = n;\n    for (int i = 1, l = 0, r = 0; i < n; i++) {\n        if (i <= r)\n            z[i] = min(r - i + 1, z[i - l]);\n        while (i + z[i] < n && s[z[i]] == s[i + z[i]])\n            z[i]++;\n        if (i + z[i] - 1 > r) {\n            l = i;\n            r = i + z[i] - 1;\n        }\n    }\n    return z;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    string s;\n    cin >> n >> k >> s;\n    auto z = zfunction(s);\n    z.push_back(0);\n    vector<int> diff(n + 2);\n    for (int p = 1; 1LL * k * p <= n; p++)\n        if (z[p] >= (k - 1) * p) {\n            int l = k * p, r = min(n, l + min(p, z[l]));\n            diff[l]++;\n            diff[r + 1]--;\n        }\n    int active = 0;\n    for (int i = 1; i <= n; i++) {\n        active += diff[i];\n        cout << (active ? '1' : '0');\n    }\n    cout << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n允许 A 或 B 为空；kp 本身也合法；Z[n] 按零处理。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF526D",
+    "id": "luogu-training-CF526D",
+    "programSha256": "8493d256868ccb389c3cc1e2dbb84b553524d32c5d925836bd8df3df9e9c8f8f",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

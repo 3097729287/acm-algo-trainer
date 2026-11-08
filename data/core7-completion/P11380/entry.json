@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P11380",
+  "method": "把唯一前后继关系压成链",
+  "variants": {
+    "default": "## P11380 排队\n\n原题：[P11380](https://www.luogu.com.cn/problem/P11380)\n\n### 思路\n\n每人最多有一个必须紧邻的前驱和后继。若出现冲突或有向环就无解；否则各条定向链内部顺序固定，把链当作整体任意排列，答案为链数的阶乘。\n\n### 复杂度\n\n时间 O(n+m)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<int> next(n + 1), previous(n + 1);\n    bool ok = true;\n    while (m--) {\n        int a, b;\n        cin >> a >> b;\n        if (a == b || (next[a] && next[a] != b) || (previous[b] && previous[b] != a))\n            ok = false;\n        else {\n            next[a] = b;\n            previous[b] = a;\n        }\n    }\n    int chains = 0, visited = 0;\n    for (int i = 1; i <= n; i++)\n        if (!previous[i]) {\n            chains++;\n            for (int v = i; v; v = next[v])\n                visited++;\n        }\n    if (!ok || visited != n) {\n        cout << 0 << '\\n';\n        return 0;\n    }\n    long long ans = 1;\n    for (int i = 1; i <= chains; i++)\n        ans = ans * i % 1000000007;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n重复约束不重复计数；自环无解；检查所有点是否属于某条链。\n",
+    "detailed": "## P11380 排队\n\n原题：[P11380](https://www.luogu.com.cn/problem/P11380)\n\n### 从问题到算法\n\n约束 a 紧挨着 b 前面，意味着 next[a]=b 且 previous[b]=a。某人若被要求接两个不同后继或前驱，无法同时满足；重复的同一条约束则没有新增限制。\n\n没有冲突时，每个点入度、出度至多一，连通结构只能是定向链或定向环。环不可能放到一条直线队伍中。从所有没有前驱的人出发沿后继遍历，若未覆盖全部人，就说明剩余结构中存在环。\n\n合法时，每条链的内部次序被完全确定，且不能在中间插入其它人，否则破坏相邻关系。不同链之间没有约束，所以把链作为整体排列，有 K! 种。单独一个人也算一条链。\n\n### 复杂度\n\n时间 O(n+m)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<int> next(n + 1), previous(n + 1);\n    bool ok = true;\n    while (m--) {\n        int a, b;\n        cin >> a >> b;\n        if (a == b || (next[a] && next[a] != b) || (previous[b] && previous[b] != a))\n            ok = false;\n        else {\n            next[a] = b;\n            previous[b] = a;\n        }\n    }\n    int chains = 0, visited = 0;\n    for (int i = 1; i <= n; i++)\n        if (!previous[i]) {\n            chains++;\n            for (int v = i; v; v = next[v])\n                visited++;\n        }\n    if (!ok || visited != n) {\n        cout << 0 << '\\n';\n        return 0;\n    }\n    long long ans = 1;\n    for (int i = 1; i <= chains; i++)\n        ans = ans * i % 1000000007;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n重复约束不重复计数；自环无解；检查所有点是否属于某条链。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P11380",
+    "id": "luogu-training-P11380",
+    "programSha256": "4fbbe87aa09bc90b4b8370aa7a952f23ca8f5dc845f9367b8b2fed841b000f97",
+    "samples": 3,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

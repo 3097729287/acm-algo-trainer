@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1949",
+  "method": "密码与光标位置共同作为 BFS 状态",
+  "variants": {
+    "default": "## P1949 聪明的打字员\n\n原题：[P1949](https://www.luogu.com.cn/problem/P1949)\n\n### 思路\n\n相同密码在不同光标位置的下一步不同，必须把六位密码与光标位置一起编码。六种按键均为一步，BFS 首次遇到目标密码时就是最少击键次数，目标光标任意。\n\n### 复杂度\n\n时间 O(6·10^6)，空间 O(6·10^6)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string s, t;\n    cin >> s >> t;\n    int start = stoi(s), goal = stoi(t);\n    if (start == goal) {\n        cout << 0 << '\\n';\n        return 0;\n    }\n    int power[6] = {100000, 10000, 1000, 100, 10, 1};\n    vector<unsigned char> distance(6000000, 255);\n    vector<int> queue;\n    queue.reserve(6000000);\n    queue.push_back(start * 6);\n    distance[start * 6] = 0;\n    for (size_t front = 0; front < queue.size(); front++) {\n        int state = queue[front], code = state / 6, p = state % 6, depth = distance[state];\n        if (code == goal) {\n            cout << depth << '\\n';\n            return 0;\n        }\n        auto push = [&](int next) {\n            if (distance[next] == 255) {\n                distance[next] = depth + 1;\n                queue.push_back(next);\n            }\n        };\n        if (p)\n            push(code * 6 + p - 1);\n        if (p < 5)\n            push(code * 6 + p + 1);\n        int digit = code / power[p] % 10;\n        if (digit < 9)\n            push((code + power[p]) * 6 + p);\n        if (digit > 0)\n            push((code - power[p]) * 6 + p);\n        for (int q : {0, 5}) {\n            int other = code / power[q] % 10;\n            int next = code + (other - digit) * power[p] + (digit - other) * power[q];\n            push(next * 6 + p);\n        }\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n密码与光标共同编码；up/down 不循环；允许前导零；目标光标任意。\n",
+    "detailed": "## P1949 聪明的打字员\n\n原题：[P1949](https://www.luogu.com.cn/problem/P1949)\n\n### 从问题到算法\n\n密码只有一百万种，光标六种位置，总状态六百万，可以直接使用数组记录距离，避免字符串映射开销。密码虽按整数编码，仍按六位固定十进制权值取出某位，因此前导零不会丢失。\n\n对状态 (code,p)，左右键改变 p；up、down 只在当前位未达九或零时增减相应十进制权值；swap0、swap1 通过两个位置数位差更新整数，光标不动。所有状态转移代价都是一，用普通队列 BFS。\n\n目标只要求密码等于目标串，不限制光标。因此任意光标的目标状态首次出队就能返回。最坏可逐位调整并向右移动，距离不超过几十，使用一个字节保存距离、255 表示未访问即可节省空间。\n\n### 复杂度\n\n时间 O(6·10^6)，空间 O(6·10^6)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string s, t;\n    cin >> s >> t;\n    int start = stoi(s), goal = stoi(t);\n    if (start == goal) {\n        cout << 0 << '\\n';\n        return 0;\n    }\n    int power[6] = {100000, 10000, 1000, 100, 10, 1};\n    vector<unsigned char> distance(6000000, 255);\n    vector<int> queue;\n    queue.reserve(6000000);\n    queue.push_back(start * 6);\n    distance[start * 6] = 0;\n    for (size_t front = 0; front < queue.size(); front++) {\n        int state = queue[front], code = state / 6, p = state % 6, depth = distance[state];\n        if (code == goal) {\n            cout << depth << '\\n';\n            return 0;\n        }\n        auto push = [&](int next) {\n            if (distance[next] == 255) {\n                distance[next] = depth + 1;\n                queue.push_back(next);\n            }\n        };\n        if (p)\n            push(code * 6 + p - 1);\n        if (p < 5)\n            push(code * 6 + p + 1);\n        int digit = code / power[p] % 10;\n        if (digit < 9)\n            push((code + power[p]) * 6 + p);\n        if (digit > 0)\n            push((code - power[p]) * 6 + p);\n        for (int q : {0, 5}) {\n            int other = code / power[q] % 10;\n            int next = code + (other - digit) * power[p] + (digit - other) * power[q];\n            push(next * 6 + p);\n        }\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n密码与光标共同编码；up/down 不循环；允许前导零；目标光标任意。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1949",
+    "id": "luogu-training-P1949",
+    "programSha256": "108e9effd5b0405590c9ee6549dc9d5189b50821c4343feb188c5ec3849ceab2",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

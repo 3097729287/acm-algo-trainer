@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF1245D",
+  "method": "建电站作为虚拟源边的 Prim",
+  "variants": {
+    "default": "## CF1245D Shichikuji and Power Grid\n\n原题：[CF1245D](https://www.luogu.com.cn/problem/CF1245D)\n\n### 思路\n\n增加虚拟电源 0，连接城市 i 的费用为建站费 c_i，城市间边权为曼哈顿距离乘 (k_i+k_j)。对这张隐式完全图做 Prim，同时记录每个城市是建站还是接线。\n\n### 复杂度\n\n时间 O(n²)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> x(n), y(n), c(n), k(n), distance;\n    for (int i = 0; i < n; i++)\n        cin >> x[i] >> y[i];\n    for (auto &v : c)\n        cin >> v;\n    for (auto &v : k)\n        cin >> v;\n    distance = c;\n    vector<int> from(n, -1), stations;\n    vector<pair<int, int>> wires;\n    vector<char> used(n);\n    long long answer = 0;\n    for (int step = 0; step < n; step++) {\n        int v = -1;\n        for (int i = 0; i < n; i++)\n            if (!used[i] && (v < 0 || distance[i] < distance[v]))\n                v = i;\n        used[v] = 1;\n        answer += distance[v];\n        if (from[v] < 0)\n            stations.push_back(v + 1);\n        else\n            wires.push_back({from[v] + 1, v + 1});\n        for (int u = 0; u < n; u++)\n            if (!used[u]) {\n                long long cost = (llabs(x[u] - x[v]) + llabs(y[u] - y[v])) * (k[u] + k[v]);\n                if (cost < distance[u]) {\n                    distance[u] = cost;\n                    from[u] = v;\n                }\n            }\n    }\n    cout << answer << '\\n' << stations.size() << '\\n';\n    for (int v : stations)\n        cout << v << ' ';\n    cout << '\\n' << wires.size() << '\\n';\n    for (auto [a, b] : wires)\n        cout << a << ' ' << b << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n允许建多座电站；线路单价是两城市 k 之和；记录来源并输出实际方案。\n",
+    "detailed": "## CF1245D Shichikuji and Power Grid\n\n原题：[CF1245D](https://www.luogu.com.cn/problem/CF1245D)\n\n### 从问题到算法\n\n一个合法供电网络中，每座城市都必须通过线路连到某座电站。增加虚拟点 0，把建站看作连接 0 的一条边后，供电要求就等价于所有城市与 0 连通，目标为最小生成树。\n\n初始化每个城市的最佳费用为它自己的建站费、来源为 0，表示已经把虚拟点加入树。每轮选费用最小的未选城市，累加费用并记录它的来源；随后用它到其它城市的线路费用尝试改进。\n\n来源为 0 的城市需要建站，其余来源记录一条电线。Prim 的割性质保证总价最小。n<=2000，平方扫描即可，不必储存全部城市边；费用乘积与总额用 long long。\n\n### 复杂度\n\n时间 O(n²)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> x(n), y(n), c(n), k(n), distance;\n    for (int i = 0; i < n; i++)\n        cin >> x[i] >> y[i];\n    for (auto &v : c)\n        cin >> v;\n    for (auto &v : k)\n        cin >> v;\n    distance = c;\n    vector<int> from(n, -1), stations;\n    vector<pair<int, int>> wires;\n    vector<char> used(n);\n    long long answer = 0;\n    for (int step = 0; step < n; step++) {\n        int v = -1;\n        for (int i = 0; i < n; i++)\n            if (!used[i] && (v < 0 || distance[i] < distance[v]))\n                v = i;\n        used[v] = 1;\n        answer += distance[v];\n        if (from[v] < 0)\n            stations.push_back(v + 1);\n        else\n            wires.push_back({from[v] + 1, v + 1});\n        for (int u = 0; u < n; u++)\n            if (!used[u]) {\n                long long cost = (llabs(x[u] - x[v]) + llabs(y[u] - y[v])) * (k[u] + k[v]);\n                if (cost < distance[u]) {\n                    distance[u] = cost;\n                    from[u] = v;\n                }\n            }\n    }\n    cout << answer << '\\n' << stations.size() << '\\n';\n    for (int v : stations)\n        cout << v << ' ';\n    cout << '\\n' << wires.size() << '\\n';\n    for (auto [a, b] : wires)\n        cout << a << ' ' << b << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n允许建多座电站；线路单价是两城市 k 之和；记录来源并输出实际方案。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF1245D",
+    "id": "luogu-training-CF1245D",
+    "programSha256": "eae3bfe01a9c6c6cbe80827b5655d8ddd668a00af0bc8e44dbbc970f82c93254",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

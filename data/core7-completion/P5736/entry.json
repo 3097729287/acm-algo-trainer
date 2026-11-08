@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P5736",
+  "method": "试除到平方根判质数",
+  "variants": {
+    "default": "## P5736 质数筛\n\n原题：[P5736](https://www.luogu.com.cn/problem/P5736)\n\n### 思路\n\n小于二的数不是质数。对每个输入整数检查是否存在 2 到平方根之间的因子，没有就按原顺序输出。\n\n### 复杂度\n\n时间 O(n sqrt A)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    bool first = true;\n    while (n--) {\n        long long x;\n        cin >> x;\n        bool prime = x >= 2;\n        for (long long d = 2; prime && d <= x / d; d++)\n            if (x % d == 0)\n                prime = false;\n        if (prime) {\n            if (!first)\n                cout << ' ';\n            first = false;\n            cout << x;\n        }\n    }\n    cout << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n1 不是质数；保留顺序与重复；平方根条件避免乘法溢出。\n",
+    "detailed": "## P5736 质数筛\n\n原题：[P5736](https://www.luogu.com.cn/problem/P5736)\n\n### 从问题到算法\n\n如果合数 x=a·b 的两个因子都大于 sqrt(x)，乘积就会大于 x，矛盾。因此一个合数一定有不超过平方根的非平凡因子。\n\n先排除 x<2，再枚举 d，只要 d<=x/d 就继续；若 x%d==0，则为合数。使用 d<=x/d 能避免 d*d 的溢出。枚举结束没有因子，就是质数。\n\n逐个处理、只输出质数，原输入顺序和重复出现次数都保留，不要把题名中的筛字理解为必须对答案排序去重。\n\n### 复杂度\n\n时间 O(n sqrt A)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    bool first = true;\n    while (n--) {\n        long long x;\n        cin >> x;\n        bool prime = x >= 2;\n        for (long long d = 2; prime && d <= x / d; d++)\n            if (x % d == 0)\n                prime = false;\n        if (prime) {\n            if (!first)\n                cout << ' ';\n            first = false;\n            cout << x;\n        }\n    }\n    cout << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n1 不是质数；保留顺序与重复；平方根条件避免乘法溢出。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P5736",
+    "id": "luogu-training-P5736",
+    "programSha256": "42dc7368d31f81a100920c4c0b63d7cbe52bc46795a4f5b92e9030af0cded45a",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

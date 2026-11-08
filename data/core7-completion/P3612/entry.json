@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3612",
+  "method": "把查询位置倒推到前一半",
+  "variants": {
+    "default": "## P3612 Secret Cow Code S\n\n原题：[P3612](https://www.luogu.com.cn/problem/P3612)\n\n### 思路\n\n每轮新串是原串加上“末字符移到最前”的原串。查询在后一半时，第一位对应前一半末位，其余位置向前错一位；反复倒推直到落进初始串。\n\n### 复杂度\n\n时间 O(log N)，空间 O(初始串长度)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string s;\n    long long p;\n    cin >> s >> p;\n    long long length = s.size();\n    while (length < p)\n        length *= 2;\n    while (length > (long long)s.size()) {\n        long long half = length / 2;\n        if (p > half)\n            p = p == half + 1 ? half : p - half - 1;\n        length = half;\n    }\n    cout << s[p - 1] << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n后一半第一位单独映射；下标从 1；只增长长度，不生成长串。\n",
+    "detailed": "## P3612 Secret Cow Code S\n\n原题：[P3612](https://www.luogu.com.cn/problem/P3612)\n\n### 从问题到算法\n\n字符串长度每轮翻倍，目标下标可到十的十八次方，实际生成字符串不可行。但每个新位置都对应上一轮的一个位置。\n\n设上一轮长度为 half。前 half 个字符不变；后一半的第一个字符来自上一轮最后一位，所以下标 half+1 映射为 half；后一半其它位置 p 映射为 p−half−1。\n\n先把长度翻倍到足够覆盖查询，再每次折半并进行上述映射。位置始终保持从一开始，最后落进原串后输出它的第 p−1 个字符。\n\n### 复杂度\n\n时间 O(log N)，空间 O(初始串长度)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string s;\n    long long p;\n    cin >> s >> p;\n    long long length = s.size();\n    while (length < p)\n        length *= 2;\n    while (length > (long long)s.size()) {\n        long long half = length / 2;\n        if (p > half)\n            p = p == half + 1 ? half : p - half - 1;\n        length = half;\n    }\n    cout << s[p - 1] << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n后一半第一位单独映射；下标从 1；只增长长度，不生成长串。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3612",
+    "id": "luogu-training-P3612",
+    "programSha256": "6de68d7030d1b03dc68f6c3cf05e4d018242d17949e8c06985d38581e339f900",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

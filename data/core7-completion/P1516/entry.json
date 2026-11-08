@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1516",
+  "method": "扩展欧几里得解相遇同余方程",
+  "variants": {
+    "default": "## P1516 青蛙的约会\n\n原题：[P1516](https://www.luogu.com.cn/problem/P1516)\n\n### 思路\n\n跳 t 次后相遇等价于 (m−n)t≡y−x mod L。用扩展欧几里得判断是否有解，再将一个解规范化到模 L/gcd(m−n,L) 的最小非负剩余。\n\n### 复杂度\n\n时间 O(log L)，空间 O(log L) 的递归栈。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long exgcd(long long a, long long b, long long &x, long long &y) {\n    if (!b) {\n        x = 1;\n        y = 0;\n        return a;\n    }\n    long long u, v;\n    long long g = exgcd(b, a % b, u, v);\n    x = v;\n    y = u - a / b * v;\n    return g;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long x, y, m, n, L;\n    cin >> x >> y >> m >> n >> L;\n    long long a = m - n, b = y - x, u, v, g = exgcd(llabs(a), L, u, v);\n    if (b % g) {\n        cout << \"Impossible\\n\";\n        return 0;\n    }\n    if (a < 0)\n        u = -u;\n    long long mod = L / g;\n    long long t = (__int128)u * (b / g) % mod;\n    if (t < 0)\n        t += mod;\n    cout << t << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相对速度可能为负；按 L/g 取模；无解输出 Impossible。\n",
+    "detailed": "## P1516 青蛙的约会\n\n原题：[P1516](https://www.luogu.com.cn/problem/P1516)\n\n### 从问题到算法\n\n两只青蛙位置分别为 x+mt、y+nt，首尾相接表示两者相差 L 的整数倍，所以得到线性同余方程。记 a=m−n、b=y−x，g=gcd(|a|,L)。只有 g 整除 b 时有解。\n\n扩展欧几里得求出 |a|u+Lv=g；若 a 为负，将 u 取反。乘上 b/g 得到一个 t 解。所有解相差 L/g，将它规范化到零至 L/g−1 就得到首次相遇的非负次数。\n\n若步长相同，方程左边恒为零：初始位置模 L 相同则答案零，否则不可能。代码统一处理为 g=L。乘解系数时用 __int128，避免中间乘积溢出。\n\n### 复杂度\n\n时间 O(log L)，空间 O(log L) 的递归栈。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long exgcd(long long a, long long b, long long &x, long long &y) {\n    if (!b) {\n        x = 1;\n        y = 0;\n        return a;\n    }\n    long long u, v;\n    long long g = exgcd(b, a % b, u, v);\n    x = v;\n    y = u - a / b * v;\n    return g;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long x, y, m, n, L;\n    cin >> x >> y >> m >> n >> L;\n    long long a = m - n, b = y - x, u, v, g = exgcd(llabs(a), L, u, v);\n    if (b % g) {\n        cout << \"Impossible\\n\";\n        return 0;\n    }\n    if (a < 0)\n        u = -u;\n    long long mod = L / g;\n    long long t = (__int128)u * (b / g) % mod;\n    if (t < 0)\n        t += mod;\n    cout << t << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相对速度可能为负；按 L/g 取模；无解输出 Impossible。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1516",
+    "id": "luogu-training-P1516",
+    "programSha256": "b6e7a9fd96162f20467b2b0c99396353a22ee86e0d9e8a188a95426787f3d94a",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

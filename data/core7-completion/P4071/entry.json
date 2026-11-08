@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4071",
+  "method": "选择不动点后对剩余位置错排",
+  "variants": {
+    "default": "## P4071 排列计数\n\n原题：[P4071](https://www.luogu.com.cn/problem/P4071)\n\n### 思路\n\n先选择 m 个不动点，再让其余 n−m 个元素全部错位。答案是 C(n,m)·D[n−m]，其中错排数满足 D[k]=(k−1)(D[k−1]+D[k−2])。\n\n### 复杂度\n\n预处理 O(max n)，每问 O(1)，空间 O(max n+T)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nconst long long MOD = 1000000007;\nlong long power(long long a, long long b) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % MOD)\n        if (b & 1)\n            r = r * a % MOD;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    vector<pair<int, int>> queries(T);\n    int N = 0;\n    for (auto &[n, m] : queries) {\n        cin >> n >> m;\n        N = max(N, n);\n    }\n    vector<long long> f(N + 1, 1), inv(N + 1, 1), d(N + 1);\n    d[0] = 1;\n    for (int i = 1; i <= N; i++)\n        f[i] = f[i - 1] * i % MOD;\n    for (int i = 2; i <= N; i++)\n        d[i] = (i - 1) * (d[i - 1] + d[i - 2]) % MOD;\n    inv[N] = power(f[N], MOD - 2);\n    for (int i = N; i >= 1; i--)\n        inv[i - 1] = inv[i] * i % MOD;\n    for (auto [n, m] : queries)\n        cout << (m > n ? 0 : f[n] * inv[m] % MOD * inv[n - m] % MOD * d[n - m] % MOD) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n空错排有一种；一个元素不能错排；m>n 输出零。\n",
+    "detailed": "## P4071 排列计数\n\n原题：[P4071](https://www.luogu.com.cn/problem/P4071)\n\n### 从问题到算法\n\n恰好 m 个位置保持原值时，这些位置有 C(n,m) 种选法。删除已固定元素后，其余元素不能出现在自己的位置，正是 n−m 个标号的错排。两步选择独立。\n\n错排递推可按元素一的去向 j 分类。若 j 回到一的位置，两者组成二元环，剩下 D[k−2] 种；否则把一接入 j 所在循环，相当于剩下 k−1 个元素错排，有 D[k−1] 种。j 有 k−1 种选择，所以得到递推。初值 D[0]=1、D[1]=0。\n\n预处理阶乘、逆阶乘与错排数，所有查询常数时间。m>n 时直接为零。\n\n### 复杂度\n\n预处理 O(max n)，每问 O(1)，空间 O(max n+T)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nconst long long MOD = 1000000007;\nlong long power(long long a, long long b) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % MOD)\n        if (b & 1)\n            r = r * a % MOD;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    vector<pair<int, int>> queries(T);\n    int N = 0;\n    for (auto &[n, m] : queries) {\n        cin >> n >> m;\n        N = max(N, n);\n    }\n    vector<long long> f(N + 1, 1), inv(N + 1, 1), d(N + 1);\n    d[0] = 1;\n    for (int i = 1; i <= N; i++)\n        f[i] = f[i - 1] * i % MOD;\n    for (int i = 2; i <= N; i++)\n        d[i] = (i - 1) * (d[i - 1] + d[i - 2]) % MOD;\n    inv[N] = power(f[N], MOD - 2);\n    for (int i = N; i >= 1; i--)\n        inv[i - 1] = inv[i] * i % MOD;\n    for (auto [n, m] : queries)\n        cout << (m > n ? 0 : f[n] * inv[m] % MOD * inv[n - m] % MOD * d[n - m] % MOD) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n空错排有一种；一个元素不能错排；m>n 输出零。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4071",
+    "id": "luogu-training-P4071",
+    "programSha256": "24ceaff03a490cf09f7cc9cf22dd6fe20451197cbfc9deb580a3be66909e6882",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1854",
+  "method": "按花束数和花瓶前缀 DP 并回溯",
+  "variants": {
+    "default": "## P1854 花店橱窗布置\n\n原题：[P1854](https://www.luogu.com.cn/problem/P1854)\n\n### 思路\n\ndp[i][j] 表示前 i 束花放进前 j 个花瓶的最大价值。第 j 瓶可以空着，也可以放第 i 束花。记录取舍后从 dp[F][V] 回溯方案。\n\n### 复杂度\n\n时间 O(FV)，空间 O(FV)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int F, V;\n    cin >> F >> V;\n    vector<vector<int>> a(F + 1, vector<int>(V + 1));\n    for (int i = 1; i <= F; i++)\n        for (int j = 1; j <= V; j++)\n            cin >> a[i][j];\n    const int NEG = -1000000000;\n    vector<vector<int>> dp(F + 1, vector<int>(V + 1, NEG));\n    vector<vector<char>> take(F + 1, vector<char>(V + 1));\n    for (int j = 0; j <= V; j++)\n        dp[0][j] = 0;\n    for (int i = 1; i <= F; i++)\n        for (int j = 1; j <= V; j++) {\n            dp[i][j] = dp[i][j - 1];\n            if (dp[i - 1][j - 1] != NEG && dp[i - 1][j - 1] + a[i][j] > dp[i][j]) {\n                dp[i][j] = dp[i - 1][j - 1] + a[i][j];\n                take[i][j] = 1;\n            }\n        }\n    cout << dp[F][V] << '\\n';\n    vector<int> path;\n    for (int i = F, j = V; i;) {\n        if (take[i][j]) {\n            path.push_back(j);\n            i--;\n        }\n        j--;\n    }\n    reverse(path.begin(), path.end());\n    for (int i = 0; i < F; i++)\n        cout << path[i] << (i + 1 == F ? '\\n' : ' ');\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n必须放完所有花；价值可能为负；输出方案也需核对最优值。\n",
+    "detailed": "## P1854 花店橱窗布置\n\n原题：[P1854](https://www.luogu.com.cn/problem/P1854)\n\n### 从问题到算法\n\n由于花束必须保持顺序，第 j 个花瓶若被使用，它只能承接当前最后一束花 i，前 i−1 束必须放在前 j−1 瓶中。因此 dp[i][j]=max(dp[i][j−1],dp[i−1][j−1]+a[i][j])。\n\n初始 dp[0][j]=0，i>j 等不可能状态设为负无穷。所有花都必须放，不能把负价值状态误初始化成零。\n\n记录每次是否使用当前花瓶，回溯时若使用就保存 j 并让 i、j 同时减一，否则只减 j。回溯结果逆序输出，恰好得到递增花瓶下标；相同最大值可以选择任意一个方案。\n\n### 复杂度\n\n时间 O(FV)，空间 O(FV)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int F, V;\n    cin >> F >> V;\n    vector<vector<int>> a(F + 1, vector<int>(V + 1));\n    for (int i = 1; i <= F; i++)\n        for (int j = 1; j <= V; j++)\n            cin >> a[i][j];\n    const int NEG = -1000000000;\n    vector<vector<int>> dp(F + 1, vector<int>(V + 1, NEG));\n    vector<vector<char>> take(F + 1, vector<char>(V + 1));\n    for (int j = 0; j <= V; j++)\n        dp[0][j] = 0;\n    for (int i = 1; i <= F; i++)\n        for (int j = 1; j <= V; j++) {\n            dp[i][j] = dp[i][j - 1];\n            if (dp[i - 1][j - 1] != NEG && dp[i - 1][j - 1] + a[i][j] > dp[i][j]) {\n                dp[i][j] = dp[i - 1][j - 1] + a[i][j];\n                take[i][j] = 1;\n            }\n        }\n    cout << dp[F][V] << '\\n';\n    vector<int> path;\n    for (int i = F, j = V; i;) {\n        if (take[i][j]) {\n            path.push_back(j);\n            i--;\n        }\n        j--;\n    }\n    reverse(path.begin(), path.end());\n    for (int i = 0; i < F; i++)\n        cout << path[i] << (i + 1 == F ? '\\n' : ' ');\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n必须放完所有花；价值可能为负；输出方案也需核对最优值。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1854",
+    "id": "luogu-training-P1854",
+    "programSha256": "481b1b5f3dc6c839341dc4c804fe17b5817695ed005c94882ef941d1b9b822ec",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

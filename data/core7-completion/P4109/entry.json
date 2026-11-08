@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4109",
+  "method": "枚举十进制末尾零的数量",
+  "variants": {
+    "default": "## P4109 定价\n\n原题：[P4109](https://www.luogu.com.cn/problem/P4109)\n\n### 思路\n\n枚举 10 的幂作为末尾零因子。对每种因子，检查区间内最小的倍数，以及去零后末位为 5 的最小倍数，比较真实荒谬度，并列取最小价格。\n\n### 复杂度\n\n每组时间 O(log² R)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        long long l, r;\n        cin >> l >> r;\n        int best = INT_MAX;\n        long long answer = l;\n        auto test = [&](long long p) {\n            if (p < l || p > r)\n                return;\n            long long x = p;\n            while (x % 10 == 0)\n                x /= 10;\n            int score = 2 * (int)to_string(x).size() - (x % 10 == 5);\n            if (score < best || (score == best && p < answer)) {\n                best = score;\n                answer = p;\n            }\n        };\n        for (long long power = 1; power <= r; power *= 10) {\n            long long q = (l + power - 1) / power;\n            test(q * power);\n            long long five = q + (5 - q % 10 + 10) % 10;\n            test(five * power);\n        }\n        cout << answer << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n候选必须在 [L,R]；并列取更小；最小倍数使用向上取整。\n",
+    "detailed": "## P4109 定价\n\n原题：[P4109](https://www.luogu.com.cn/problem/P4109)\n\n### 从问题到算法\n\n去掉末尾零后，荒谬度只取决于剩余位数，以及最后一位是不是五。设价格是 q·10^k，枚举 k 后，可行 q 落在一个整数区间。\n\n在同一 k 下，最小 q 的位数不会比其它候选更大，它给出了普通偶数荒谬度的最优候选。若末位为五可能降低一，则还需检查不小于下界且模十为五的最小 q；更大的同类 q 不会有更少位数，也不会有更小价格。\n\n对这两类候选都重新按题意去零计算荒谬度，避免它实际上带有更多尾零时误判。所有 k 的最优候选中，先比较荒谬度，再比较价格。上界至多十亿，只有十种幂需要考虑。\n\n### 复杂度\n\n每组时间 O(log² R)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        long long l, r;\n        cin >> l >> r;\n        int best = INT_MAX;\n        long long answer = l;\n        auto test = [&](long long p) {\n            if (p < l || p > r)\n                return;\n            long long x = p;\n            while (x % 10 == 0)\n                x /= 10;\n            int score = 2 * (int)to_string(x).size() - (x % 10 == 5);\n            if (score < best || (score == best && p < answer)) {\n                best = score;\n                answer = p;\n            }\n        };\n        for (long long power = 1; power <= r; power *= 10) {\n            long long q = (l + power - 1) / power;\n            test(q * power);\n            long long five = q + (5 - q % 10 + 10) % 10;\n            test(five * power);\n        }\n        cout << answer << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n候选必须在 [L,R]；并列取更小；最小倍数使用向上取整。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4109",
+    "id": "luogu-training-P4109",
+    "programSha256": "402052091a41866934b4f0e5f1baaeb44476a50339ec0bf53fa116efb9f5e80c",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1396",
+  "method": "按边权排序的 Kruskal",
+  "variants": {
+    "default": "## P1396 营救\n\n原题：[P1396](https://www.luogu.com.cn/problem/P1396)\n\n### 思路\n\n将边按权值从小到大排序，用并查集判断两端是否已连通。连接两个不同连通块的边才能进入生成树。两指定点第一次连通时的边权就是路径最大边权的最小值。\n\n### 复杂度\n\n时间 O(m log m)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct DSU {\n    vector<int> p, size;\n    explicit DSU(int n) : p(n), size(n, 1) { iota(p.begin(), p.end(), 0); }\n    int find(int x) {\n        while (p[x] != x) {\n            p[x] = p[p[x]];\n            x = p[x];\n        }\n        return x;\n    }\n    bool join(int a, int b) {\n        a = find(a);\n        b = find(b);\n        if (a == b)\n            return false;\n        if (size[a] < size[b])\n            swap(a, b);\n        p[b] = a;\n        size[a] += size[b];\n        return true;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    int n, m;\n    cin >> n >> m;\n    int s, t;\n    cin >> s >> t;\n    struct E {\n        int u, v;\n        long long w;\n    };\n    vector<E> e(m);\n    long long total = 0;\n    for (auto &x : e) {\n        cin >> x.u >> x.v >> x.w;\n        total += x.w;\n    }\n    sort(e.begin(), e.end(), [](E a, E b) { return a.w < b.w; });\n    DSU d(n + 1);\n    long long answer = 0;\n    int used = 0;\n    if (s == t) {\n        cout << 0 << '\\n';\n        return 0;\n    }\n    for (auto x : e) {\n        d.join(x.u, x.v);\n        if (d.find(s) == d.find(t)) {\n            cout << x.w << '\\n';\n            return 0;\n        }\n    }\n    return 0;\n}\n```\n\n### 实现提醒\n\n并查集按顶点编号开空间；总权值使用六十四位整数；相同权值任意处理。\n",
+    "detailed": "## P1396 营救\n\n原题：[P1396](https://www.luogu.com.cn/problem/P1396)\n\n### 从问题到算法\n\n已经选出的边形成若干互不相交的连通块。下一条连接不同连通块的最小边，对跨越相应割的任何生成树都是安全选择：若某棵最优树没有它，加入后产生的环中可以删除一条不更小的跨块边，总代价不会增加。\n\n依次处理排好序的边，若两端代表元相同，加入会成环，应跳过；否则合并并累计边权。并查集采用路径压缩与按大小合并。\n\n把所有权值不超过 W 的边加入后，两点连通等价于存在最大边权不超过 W 的路径。排序扫描中首次连通的阈值正是所求。\n\n### 复杂度\n\n时间 O(m log m)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct DSU {\n    vector<int> p, size;\n    explicit DSU(int n) : p(n), size(n, 1) { iota(p.begin(), p.end(), 0); }\n    int find(int x) {\n        while (p[x] != x) {\n            p[x] = p[p[x]];\n            x = p[x];\n        }\n        return x;\n    }\n    bool join(int a, int b) {\n        a = find(a);\n        b = find(b);\n        if (a == b)\n            return false;\n        if (size[a] < size[b])\n            swap(a, b);\n        p[b] = a;\n        size[a] += size[b];\n        return true;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    int n, m;\n    cin >> n >> m;\n    int s, t;\n    cin >> s >> t;\n    struct E {\n        int u, v;\n        long long w;\n    };\n    vector<E> e(m);\n    long long total = 0;\n    for (auto &x : e) {\n        cin >> x.u >> x.v >> x.w;\n        total += x.w;\n    }\n    sort(e.begin(), e.end(), [](E a, E b) { return a.w < b.w; });\n    DSU d(n + 1);\n    long long answer = 0;\n    int used = 0;\n    if (s == t) {\n        cout << 0 << '\\n';\n        return 0;\n    }\n    for (auto x : e) {\n        d.join(x.u, x.v);\n        if (d.find(s) == d.find(t)) {\n            cout << x.w << '\\n';\n            return 0;\n        }\n    }\n    return 0;\n}\n```\n\n### 实现提醒\n\n并查集按顶点编号开空间；总权值使用六十四位整数；相同权值任意处理。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1396",
+    "id": "luogu-training-P1396",
+    "programSha256": "3fb66e07a8ff0ddb61eb59bc9a129c0554df1d1ebf708e419b7bc84da262f6ee",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

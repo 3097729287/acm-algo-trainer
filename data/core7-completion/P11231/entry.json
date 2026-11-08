@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P11231",
+  "method": "严格递增链覆盖与最大频数",
+  "variants": {
+    "default": "## P11231 决斗\n\n原题：[P11231](https://www.luogu.com.cn/problem/P11231)\n\n### 思路\n\n一条严格递增链可以按从小到大攻击，最终仅留一个怪兽。同攻击力的怪兽不能在同一条链中，因此最少链数等于某个攻击力的最大出现次数，这就是答案。\n\n### 复杂度\n\n时间 O(n+A)，空间 O(A)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> count(100001);\n    int ans = 0;\n    while (n--) {\n        int x;\n        cin >> x;\n        ans = max(ans, ++count[x]);\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n攻击必须严格更强才能击败；统计频数最大值即可。\n",
+    "detailed": "## P11231 决斗\n\n原题：[P11231](https://www.luogu.com.cn/problem/P11231)\n\n### 从问题到算法\n\n每个怪兽最多打倒一个更弱者，因此成功攻击构成若干互不相交的链，沿链攻击力严格递增，最终每条链至少留一个怪兽。相同攻击力的怪兽不能出现在同一条严格递增链上，所以若某值出现 c 次，最终至少需要 c 条链。\n\n把所有怪兽按攻击力排序，设最大频数为 C。对每一种攻击力，把它的各个副本分配给不同的 C 条链；同一条链只会拿到同值的一个副本，不同批次值递增，因此链均严格递增。这样确实能用 C 条链覆盖全部怪兽。\n\n每条链从小到大安排攻击：最小者先作一次无效攻击，之后每个更强者打倒前一个，最后只剩最大者。由下界与构造，上述最大频数就是最优答案。实现只需计数，无需输出攻击顺序。\n\n### 复杂度\n\n时间 O(n+A)，空间 O(A)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> count(100001);\n    int ans = 0;\n    while (n--) {\n        int x;\n        cin >> x;\n        ans = max(ans, ++count[x]);\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n攻击必须严格更强才能击败；统计频数最大值即可。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P11231",
+    "id": "luogu-training-P11231",
+    "programSha256": "f1d64cd248736321b74c8d08678daef002442a1433fcec070f28952c1ba16937",
+    "samples": 2,
+    "independentCases": 18,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

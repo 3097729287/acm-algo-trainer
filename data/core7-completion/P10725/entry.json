@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P10725",
+  "method": "维护向下最远的黑点与白点",
+  "variants": {
+    "default": "## P10725 最远点对\n\n原题：[P10725](https://www.luogu.com.cn/problem/P10725)\n\n### 思路\n\n每个点分别记录子树内到黑点、白点的最长向下距离。合并孩子时，把已有白分支与孩子黑分支、已有黑分支与孩子白分支相接，更新答案。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    for (int &x : a)\n        cin >> x;\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        int u, v;\n        cin >> u >> v;\n        u--;\n        v--;\n        g[u].push_back(v);\n        g[v].push_back(u);\n    }\n    vector<int> parent(n, -1), order = {0};\n    parent[0] = 0;\n    for (int i = 0; i < n; i++)\n        for (int u : g[order[i]])\n            if (parent[u] < 0) {\n                parent[u] = order[i];\n                order.push_back(u);\n            }\n    const int NEG = -1000000000;\n    vector<array<int, 2>> down(n, {NEG, NEG});\n    int ans = 0;\n    for (int i = n - 1; i >= 0; i--) {\n        int v = order[i];\n        down[v][a[v]] = 0;\n        for (int u : g[v])\n            if (parent[u] == v) {\n                ans = max({ans, down[v][0] + down[u][1] + 1, down[v][1] + down[u][0] + 1});\n                for (int c = 0; c < 2; c++)\n                    down[v][c] = max(down[v][c], down[u][c] + 1);\n            }\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n两端颜色不同；距离按边数；不存在颜色用负无穷。\n",
+    "detailed": "## P10725 最远点对\n\n原题：[P10725](https://www.luogu.com.cn/problem/P10725)\n\n### 从问题到算法\n\n任意一条树路径有唯一最高点。只要在这个点处理连接两条不同分支的路径，就能覆盖所有候选。\n\n令 down[u][c] 是 u 到子树中颜色 c 的最远距离，不存在则为负无穷。当前点自身给对应颜色距离零。逐个合并孩子 v：用 down[u][0]+down[v][1]+1 和 down[u][1]+down[v][0]+1 更新答案，再将孩子距离加一并入 down[u]。\n\n必须先计算跨分支贡献再合并，避免把同一个孩子中的两条路线错误拼成经过 u 的路径。孩子内部的最优路径已经在处理孩子时计算。按迭代遍历顺序逆序处理，可避免长链递归溢出。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    for (int &x : a)\n        cin >> x;\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        int u, v;\n        cin >> u >> v;\n        u--;\n        v--;\n        g[u].push_back(v);\n        g[v].push_back(u);\n    }\n    vector<int> parent(n, -1), order = {0};\n    parent[0] = 0;\n    for (int i = 0; i < n; i++)\n        for (int u : g[order[i]])\n            if (parent[u] < 0) {\n                parent[u] = order[i];\n                order.push_back(u);\n            }\n    const int NEG = -1000000000;\n    vector<array<int, 2>> down(n, {NEG, NEG});\n    int ans = 0;\n    for (int i = n - 1; i >= 0; i--) {\n        int v = order[i];\n        down[v][a[v]] = 0;\n        for (int u : g[v])\n            if (parent[u] == v) {\n                ans = max({ans, down[v][0] + down[u][1] + 1, down[v][1] + down[u][0] + 1});\n                for (int c = 0; c < 2; c++)\n                    down[v][c] = max(down[v][c], down[u][c] + 1);\n            }\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n两端颜色不同；距离按边数；不存在颜色用负无穷。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P10725",
+    "id": "luogu-training-P10725",
+    "programSha256": "6190e6f833aa1f1b19f76b59897ca45d1bf06f58671671e2395b022e872dd4fc",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF888E",
+  "method": "折半枚举与有序查找",
+  "variants": {
+    "default": "## CF888E Maximum Subsequence\n\n原题：[CF888E](https://www.luogu.com.cn/problem/CF888E)\n\n### 思路\n\n把数组分成两半，分别枚举子集和对 m 的余数。对于左半余数 x，在排好序的右半余数中找不超过 m−1−x 的最大值，更新不回绕的最优和。\n\n### 复杂度\n\n时间 O(2^(n/2)·n)，空间 O(2^(n/2))。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    long long mod;\n    cin >> n >> mod;\n    vector<long long> a(n);\n    for (auto &x : a)\n        cin >> x;\n    auto enumerate = [&](int l, int r) {\n        vector<long long> s = {0};\n        for (int i = l; i < r; i++) {\n            int z = s.size();\n            for (int j = 0; j < z; j++)\n                s.push_back((s[j] + a[i]) % mod);\n        }\n        return s;\n    };\n    auto l = enumerate(0, n / 2), r = enumerate(n / 2, n);\n    sort(r.begin(), r.end());\n    long long ans = 0;\n    for (long long x : l) {\n        auto it = upper_bound(r.begin(), r.end(), mod - 1 - x);\n        if (it != r.begin())\n            ans = max(ans, x + *prev(it));\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n两半都包含空集；先取余；upper_bound 返回位置，取前驱前检查边界。\n",
+    "detailed": "## CF888E Maximum Subsequence\n\n原题：[CF888E](https://www.luogu.com.cn/problem/CF888E)\n\n### 从问题到算法\n\n三十五个元素不能枚举全部 2³⁵ 个子集，但分成两半后，各自只有约 2¹⁸ 个子集。每个完整子集唯一拆成一个左半子集和一个右半子集。\n\n两半的和都先对 m 取余，结果为 x、y。若 x+y<m，答案就是 x+y；若回绕，结果为 x+y−m，它不超过 x 或 y 中任一非负较大者，而另一半取空集时已经能够得到单半余数。因此全局最优一定可由一对不回绕的余数达到。\n\n排序右半列表。对每个 x，用 upper_bound 找第一个大于 m−1−x 的元素，向前一步就得到允许范围内的最大 y。空子集提供余数零，所以始终存在可选值。余数与加法使用 long long，避免两个接近模数的数相加溢出 int。\n\n### 复杂度\n\n时间 O(2^(n/2)·n)，空间 O(2^(n/2))。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    long long mod;\n    cin >> n >> mod;\n    vector<long long> a(n);\n    for (auto &x : a)\n        cin >> x;\n    auto enumerate = [&](int l, int r) {\n        vector<long long> s = {0};\n        for (int i = l; i < r; i++) {\n            int z = s.size();\n            for (int j = 0; j < z; j++)\n                s.push_back((s[j] + a[i]) % mod);\n        }\n        return s;\n    };\n    auto l = enumerate(0, n / 2), r = enumerate(n / 2, n);\n    sort(r.begin(), r.end());\n    long long ans = 0;\n    for (long long x : l) {\n        auto it = upper_bound(r.begin(), r.end(), mod - 1 - x);\n        if (it != r.begin())\n            ans = max(ans, x + *prev(it));\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n两半都包含空集；先取余；upper_bound 返回位置，取前驱前检查边界。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF888E",
+    "id": "luogu-training-CF888E",
+    "programSha256": "aebcae8839bbbc609db74a555a5fb385a1f08280b194b0477fbe853e6128dfe4",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

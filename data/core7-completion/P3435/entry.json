@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3435",
+  "method": "沿 border 链求最短非空 border",
+  "variants": {
+    "default": "## P3435 OKR-Periods of Words\n\n原题：[P3435](https://www.luogu.com.cn/problem/P3435)\n\n### 思路\n\n对每个前缀，若它存在真 border，最长合法周期块长度等于前缀长度减去最短非空 border 长度。用前缀函数递推每个前缀的最短 border，再求和。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> prefix(const string &s) {\n    vector<int> p(s.size());\n    for (int i = 1; i < (int)s.size(); i++) {\n        int j = p[i - 1];\n        while (j && s[i] != s[j])\n            j = p[j - 1];\n        if (s[i] == s[j])\n            j++;\n        p[i] = j;\n    }\n    return p;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    string s;\n    cin >> n >> s;\n    auto p = prefix(s);\n    vector<int> shortest(n + 1);\n    long long ans = 0;\n    for (int len = 1; len <= n; len++) {\n        int b = p[len - 1];\n        if (b) {\n            shortest[len] = shortest[b] ? shortest[b] : b;\n            ans += len - shortest[len];\n        }\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n这里要最短非空 border；不能只使用最长 border；总和用六十四位。\n",
+    "detailed": "## P3435 OKR-Periods of Words\n\n原题：[P3435](https://www.luogu.com.cn/problem/P3435)\n\n### 从问题到算法\n\n若长度为 len 的前缀存在长度 b 的真 border，就满足首 b 个字符等于末 b 个字符，相应可选重复结构的块长为 len−b。要让块最长，就应取最短的非空 border。\n\n最长 border 为 pi[len−1]，其它 border 正好沿着这个前缀的 border 链继续回退。令 shortest[len] 为最短非空 border：没有 border 时为零；若最长 border 本身没有更短 border，则取它；否则复用 shortest[最长border]。\n\n按长度递增计算，依赖总是已经算好的更短前缀。对有 border 的前缀把 len−shortest[len] 累加，没有 border 则贡献零。总答案可能二次增长，要用 long long。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> prefix(const string &s) {\n    vector<int> p(s.size());\n    for (int i = 1; i < (int)s.size(); i++) {\n        int j = p[i - 1];\n        while (j && s[i] != s[j])\n            j = p[j - 1];\n        if (s[i] == s[j])\n            j++;\n        p[i] = j;\n    }\n    return p;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    string s;\n    cin >> n >> s;\n    auto p = prefix(s);\n    vector<int> shortest(n + 1);\n    long long ans = 0;\n    for (int len = 1; len <= n; len++) {\n        int b = p[len - 1];\n        if (b) {\n            shortest[len] = shortest[b] ? shortest[b] : b;\n            ans += len - shortest[len];\n        }\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n这里要最短非空 border；不能只使用最长 border；总和用六十四位。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3435",
+    "id": "luogu-training-P3435",
+    "programSha256": "74f11032efbdc9c58803fdec71bdaf2fa624ebc7d007faec48f4ad92b83824cc",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF685B",
+  "method": "从最大孩子子树的重心向上调整",
+  "variants": {
+    "default": "## CF685B Kay and Snowflake\n\n原题：[CF685B](https://www.luogu.com.cn/problem/CF685B)\n\n### 思路\n\n求子树大小后，若最大孩子不超过子树的一半，当前根就是重心；否则从这个大孩子的重心开始，向上移动到祖先侧大小不超过一半的位置。每个子树答案预先保存。\n\n### 复杂度\n\n预处理 O(n log n) 的保守上界，每问 O(1)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    cin >> n >> q;\n    vector<int> parent(n), size(n, 1), heavy(n, -1), center(n);\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        cin >> parent[i];\n        parent[i]--;\n        g[parent[i]].push_back(i);\n    }\n    vector<int> order = {0};\n    for (int i = 0; i < n; i++)\n        for (int u : g[order[i]])\n            order.push_back(u);\n    for (int i = n - 1; i >= 0; i--) {\n        int v = order[i];\n        for (int u : g[v]) {\n            size[v] += size[u];\n            if (heavy[v] < 0 || size[u] > size[heavy[v]])\n                heavy[v] = u;\n        }\n        int h = heavy[v];\n        if (h < 0 || size[h] * 2 <= size[v])\n            center[v] = v;\n        else {\n            int c = center[h];\n            while ((size[v] - size[c]) * 2 > size[v])\n                c = parent[c];\n            center[v] = c;\n        }\n    }\n    while (q--) {\n        int v;\n        cin >> v;\n        cout << center[v - 1] + 1 << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n子树大小包括自己；只沿过半孩子进入；两重心均可。\n",
+    "detailed": "## CF685B Kay and Snowflake\n\n原题：[CF685B](https://www.luogu.com.cn/problem/CF685B)\n\n### 从问题到算法\n\n删去 u 后，若每个孩子子树都不超过 size[u]/2，u 就满足重心定义。否则只有一个孩子 h 超过一半，重心必在 h 子树中。\n\n已知 h 子树的重心 c，它向下的各部分不超过 size[h]/2，也就不超过 size[u]/2。扩大到 u 子树后，唯一可能过大的部分是祖先侧，大小为 size[u]−size[c]。当这个值超过一半时，将 c 移到父亲。移动时原来的下方 c 部分小于一半，其它孩子也不会超过原最大孩子，所以新的唯一潜在问题仍是祖先侧。\n\n这样向上走到第一次满足条件即得到重心。后序处理全部子树，再按询问直接输出保存结点。子树可能有两个重心，任意一个都合法。\n\n### 复杂度\n\n预处理 O(n log n) 的保守上界，每问 O(1)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    cin >> n >> q;\n    vector<int> parent(n), size(n, 1), heavy(n, -1), center(n);\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        cin >> parent[i];\n        parent[i]--;\n        g[parent[i]].push_back(i);\n    }\n    vector<int> order = {0};\n    for (int i = 0; i < n; i++)\n        for (int u : g[order[i]])\n            order.push_back(u);\n    for (int i = n - 1; i >= 0; i--) {\n        int v = order[i];\n        for (int u : g[v]) {\n            size[v] += size[u];\n            if (heavy[v] < 0 || size[u] > size[heavy[v]])\n                heavy[v] = u;\n        }\n        int h = heavy[v];\n        if (h < 0 || size[h] * 2 <= size[v])\n            center[v] = v;\n        else {\n            int c = center[h];\n            while ((size[v] - size[c]) * 2 > size[v])\n                c = parent[c];\n            center[v] = c;\n        }\n    }\n    while (q--) {\n        int v;\n        cin >> v;\n        cout << center[v - 1] + 1 << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n子树大小包括自己；只沿过半孩子进入；两重心均可。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF685B",
+    "id": "luogu-training-CF685B",
+    "programSha256": "e40db8c28292e9a6c9af8937b3811589955f831e09b1fdeab04f6c38d5ddbcb3",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2638",
+  "method": "加入未使用区后的两次隔板法",
+  "variants": {
+    "default": "## P2638 安全系统\n\n原题：[P2638](https://www.luogu.com.cn/problem/P2638)\n\n### 思路\n\n把没有使用的零也看成放在一个额外储存区，分配 a 个相同零到 n+1 区有 C(n+a,n) 种。一的分配独立，答案为 C(n+a,n)·C(n+b,n)。\n\n### 复杂度\n\n时间 O(50²)，空间 O(50²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, a, b;\n    cin >> n >> a >> b;\n    __int128 C[51][51]{};\n    for (int i = 0; i <= 50; i++) {\n        C[i][0] = C[i][i] = 1;\n        for (int j = 1; j < i; j++)\n            C[i][j] = C[i - 1][j - 1] + C[i - 1][j];\n    }\n    __int128 ans = C[n + a][n] * C[n + b][n];\n    string out;\n    do {\n        out += char('0' + ans % 10);\n        ans /= 10;\n    } while (ans);\n    reverse(out.begin(), out.end());\n    cout << out << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n未用信号也参与一一对应；两种信号独立；答案不能只用 unsigned long long。\n",
+    "detailed": "## P2638 安全系统\n\n原题：[P2638](https://www.luogu.com.cn/problem/P2638)\n\n### 从问题到算法\n\n每个实际储存区可以存任意多个零与一，因此两种信号的数量选择没有相互限制。对零额外设置一个“未使用区”，原来最多使用 a 个的方案就与把恰好 a 个零分配到 n+1 个有标号区一一对应。\n\n非负整数方程 x0+x1+…+xn=a 的解数由隔板法为 C(n+a,n)，一同理。两者独立相乘。\n\nn+a、n+b 都不超过五十，单个组合数能放在六十四位，但两者乘积可能远超六十四位。用 __int128 做 Pascal 递推与最终乘积，再手动输出十进制。\n\n### 复杂度\n\n时间 O(50²)，空间 O(50²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, a, b;\n    cin >> n >> a >> b;\n    __int128 C[51][51]{};\n    for (int i = 0; i <= 50; i++) {\n        C[i][0] = C[i][i] = 1;\n        for (int j = 1; j < i; j++)\n            C[i][j] = C[i - 1][j - 1] + C[i - 1][j];\n    }\n    __int128 ans = C[n + a][n] * C[n + b][n];\n    string out;\n    do {\n        out += char('0' + ans % 10);\n        ans /= 10;\n    } while (ans);\n    reverse(out.begin(), out.end());\n    cout << out << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n未用信号也参与一一对应；两种信号独立；答案不能只用 unsigned long long。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2638",
+    "id": "luogu-training-P2638",
+    "programSha256": "4524d82517d0023178a9073f50c2dca8760f9bac02e0ace4e147e51f29c65bbe",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

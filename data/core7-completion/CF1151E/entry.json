@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF1151E",
+  "method": "每个区间的连通块数等于点数减边数",
+  "variants": {
+    "default": "## CF1151E Number of Components\n\n原题：[CF1151E](https://www.luogu.com.cn/problem/CF1151E)\n\n### 思路\n\n把保留下来的位置看作原路径图的顶点，连续段数等于保留点数减相邻保留边数。交换对值域区间的求和，值 x 的点贡献 x(n−x+1)，相邻值 u,v 的边贡献 min(u,v)(n−max(u,v)+1)。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)，也可只保存前一个值降为空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    long long ans = 0;\n    for (auto &x : a) {\n        cin >> x;\n        ans += x * (n - x + 1);\n    }\n    for (int i = 1; i < n; i++)\n        ans -= min(a[i - 1], a[i]) * (n - max(a[i - 1], a[i]) + 1);\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相邻关系来自原下标；点减边；乘积与总答案用 long long。\n",
+    "detailed": "## CF1151E Number of Components\n\n原题：[CF1151E](https://www.luogu.com.cn/problem/CF1151E)\n\n### 从问题到算法\n\n固定值域区间 [l,r]，只保留值落在其中的位置，原下标相邻且都保留的位置之间连边。这是路径图的一个森林，每个连通块恰好是一段，块数等于顶点数减边数。\n\n对所有 [l,r] 求和时，固定一个值为 x 的位置。要保留它，l 可以从 1 到 x 选择，r 可以从 x 到 n 选择，贡献 x(n−x+1)。\n\n固定两个相邻位置，值为 u、v。要同时保留，左界不超过较小值，右界不小于较大值，因此这条边被计入 min(u,v)(n−max(u,v)+1) 个区间。把所有点贡献加上、边贡献减去，就是答案。重复值与同一值出现多段都自然处理。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)，也可只保存前一个值降为空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    long long ans = 0;\n    for (auto &x : a) {\n        cin >> x;\n        ans += x * (n - x + 1);\n    }\n    for (int i = 1; i < n; i++)\n        ans -= min(a[i - 1], a[i]) * (n - max(a[i - 1], a[i]) + 1);\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相邻关系来自原下标；点减边；乘积与总答案用 long long。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF1151E",
+    "id": "luogu-training-CF1151E",
+    "programSha256": "b78ddae959c0d5345818e67f6fc89f500c89092ba840a9f61912deb240fcc95f",
+    "samples": 3,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

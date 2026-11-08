@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2181",
+  "method": "每四个顶点对应一对相交对角线",
+  "variants": {
+    "default": "## P2181 对角线\n\n原题：[P2181](https://www.luogu.com.cn/problem/P2181)\n\n### 思路\n\n凸多边形中任取四个顶点，其两条对角线在内部相交；每个交点又由唯一一组四顶点确定，因此答案是 C(n,4)。\n\n### 复杂度\n\n时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long n;\n    cin >> n;\n    if (n < 4) {\n        cout << 0 << '\\n';\n        return 0;\n    }\n    __int128 value = (__int128)n * (n - 1) * (n - 2) * (n - 3) / 24;\n    string s;\n    do {\n        s.push_back('0' + value % 10);\n        value /= 10;\n    } while (value);\n    reverse(s.begin(), s.end());\n    cout << s << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n只数内部对角线交点；先用宽整数计算；n<4 输出 0。\n",
+    "detailed": "## P2181 对角线\n\n原题：[P2181](https://www.luogu.com.cn/problem/P2181)\n\n### 从问题到算法\n\n两条在多边形内部相交的对角线，必须拥有四个不同端点；这些端点沿凸多边形边界交错出现，恰好组成一个凸四边形，两条所选线就是它的两条对角线。\n\n反过来，任取四个顶点，得到的凸四边形两条对角线必定相交。按题目对交点位置的约定，这样每组选出的四顶点贡献一个内部交点，所以只需计算组合数 n(n−1)(n−2)(n−3)/24。\n\n中间四个数的乘积可能先溢出六十四位，因此用 __int128 完成乘法和除法，再十进制输出。少于四个顶点时答案为零。\n\n### 复杂度\n\n时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long n;\n    cin >> n;\n    if (n < 4) {\n        cout << 0 << '\\n';\n        return 0;\n    }\n    __int128 value = (__int128)n * (n - 1) * (n - 2) * (n - 3) / 24;\n    string s;\n    do {\n        s.push_back('0' + value % 10);\n        value /= 10;\n    } while (value);\n    reverse(s.begin(), s.end());\n    cout << s << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n只数内部对角线交点；先用宽整数计算；n<4 输出 0。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2181",
+    "id": "luogu-training-P2181",
+    "programSha256": "f961994446c968a33003e70a55768c2e4799358d67f6cf0eac29bb1e260453c7",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

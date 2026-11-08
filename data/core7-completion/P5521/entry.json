@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P5521",
+  "method": "按“计算峰值减保留花数”排序孩子",
+  "variants": {
+    "default": "## P5521 梅深不见冬\n\n原题：[P5521](https://www.luogu.com.cn/problem/P5521)\n\n### 思路\n\n设 f[v] 为完成孩子 v 的最少花数，完成后只需保留 w[v]。按 f[v]−w[v] 从大到小处理孩子，维护已保留花数；最后还要同时放上当前点的 w[u]。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        int p;\n        cin >> p;\n        g[p - 1].push_back(i);\n    }\n    vector<long long> w(n), f(n);\n    for (auto &x : w)\n        cin >> x;\n    for (int v = n - 1; v >= 0; v--) {\n        sort(g[v].begin(), g[v].end(), [&](int a, int b) { return f[a] - w[a] > f[b] - w[b]; });\n        long long saved = 0, best = 0;\n        for (int u : g[v]) {\n            best = max(best, saved + f[u]);\n            saved += w[u];\n        }\n        f[v] = max(best, saved + w[v]);\n    }\n    for (int i = 0; i < n; i++)\n        cout << f[i] << (i + 1 == n ? '\\n' : ' ');\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先完成孩子且保留其根；最终要同时拥有孩子与当前点的花；按 f−w 而非 f 排序。\n",
+    "detailed": "## P5521 梅深不见冬\n\n原题：[P5521](https://www.luogu.com.cn/problem/P5521)\n\n### 从问题到算法\n\n完成一个孩子后，除了该孩子根上的 w[v]，它子树内的花都可以收回。若此前其它孩子已经留下 S 朵，处理 v 的资源峰值为 S+f[v]，完成后保留量增加 w[v]。所有孩子完成后，放当前点需要 Σw[v]+w[u]。\n\n相邻孩子 a、b 交换顺序时，两种峰值为 max(f[a],w[a]+f[b]) 与 max(f[b],w[b]+f[a])，其它已保留量相同。若 f[a]−w[a]≥f[b]−w[b]，前一种不大于后一种。因此按这个差降序可以不断交换到最优顺序。\n\n每个点的答案只涉及自己子树，先在其它子树摆花不能创造额外花朵，也不会改善目标。父编号小于子编号，可以从大到小计算 f；不必递归访问十万层树。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        int p;\n        cin >> p;\n        g[p - 1].push_back(i);\n    }\n    vector<long long> w(n), f(n);\n    for (auto &x : w)\n        cin >> x;\n    for (int v = n - 1; v >= 0; v--) {\n        sort(g[v].begin(), g[v].end(), [&](int a, int b) { return f[a] - w[a] > f[b] - w[b]; });\n        long long saved = 0, best = 0;\n        for (int u : g[v]) {\n            best = max(best, saved + f[u]);\n            saved += w[u];\n        }\n        f[v] = max(best, saved + w[v]);\n    }\n    for (int i = 0; i < n; i++)\n        cout << f[i] << (i + 1 == n ? '\\n' : ' ');\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先完成孩子且保留其根；最终要同时拥有孩子与当前点的花；按 f−w 而非 f 排序。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P5521",
+    "id": "luogu-training-P5521",
+    "programSha256": "7e957147baf01731537284d833a9080a1ca84cc3c88d6c428fdbfb4e0ce4f969",
+    "samples": 3,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

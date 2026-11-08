@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4549",
+  "method": "所有数的 gcd 决定最小正线性组合",
+  "variants": {
+    "default": "## P4549 裴蜀定理\n\n原题：[P4549](https://www.luogu.com.cn/problem/P4549)\n\n### 思路\n\n裴蜀定理说明，整数系数线性组合能得到的最小正整数就是所有输入数绝对值的最大公约数。逐项求 gcd 即可。\n\n### 复杂度\n\n时间 O(n log A)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    long long g = 0;\n    while (n--) {\n        long long x;\n        cin >> x;\n        g = gcd(g, llabs(x));\n    }\n    cout << g << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n系数可为负数；输入取绝对值；累积 gcd 从 0 开始。\n",
+    "detailed": "## P4549 裴蜀定理\n\n原题：[P4549](https://www.luogu.com.cn/problem/P4549)\n\n### 从问题到算法\n\n两个整数 a、b 的所有整数线性组合 ax+by 都是 gcd(a,b) 的倍数；扩展欧几里得算法又保证 gcd(a,b) 本身能被某组整数系数表示。所以最小正值就是这个 gcd。\n\n对多个数，可以先把前两个数能形成的组合压缩为它们的 gcd，再与第三个数合并，依次进行，最终得到全部数的 gcd。负号不改变公约数，因此统一取绝对值。\n\n累积变量初始化为零，利用 gcd(0,a)=|a| 自然处理第一个数。题目允许零时，它不会影响其余数的 gcd。\n\n### 复杂度\n\n时间 O(n log A)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    long long g = 0;\n    while (n--) {\n        long long x;\n        cin >> x;\n        g = gcd(g, llabs(x));\n    }\n    cout << g << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n系数可为负数；输入取绝对值；累积 gcd 从 0 开始。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4549",
+    "id": "luogu-training-P4549",
+    "programSha256": "ad89ee5e167a2a9357496a5665a7666eb0f0c9dc216e9eb9422172970f18cc44",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

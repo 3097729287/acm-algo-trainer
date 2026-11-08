@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P5686",
+  "method": "按右端点展开两个前缀和的乘积",
+  "variants": {
+    "default": "## P5686 和积和\n\n原题：[P5686](https://www.luogu.com.cn/problem/P5686)\n\n### 思路\n\n设前缀和为 A、B。固定右端 r，所有左端贡献为 rArBr−ArΣBl−BrΣAl+ΣAlBl，其中 l 从零到 r−1。维护这三个前缀统计量即可线性求和。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nconst long long MOD = 1000000007;\nlong long power(long long a, long long b) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % MOD)\n        if (b & 1)\n            r = r * a % MOD;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> A(n + 1);\n    for (int i = 1; i <= n; i++) {\n        long long x;\n        cin >> x;\n        A[i] = (A[i - 1] + x) % MOD;\n    }\n    long long B = 0, sumA = 0, sumB = 0, sumAB = 0, ans = 0;\n    for (int r = 1; r <= n; r++) {\n        long long x;\n        cin >> x;\n        B = (B + x) % MOD;\n        long long term = (r * A[r] % MOD * B - A[r] * sumB % MOD - B * sumA % MOD + sumAB) % MOD;\n        ans = (ans + term + 2 * MOD) % MOD;\n        sumA = (sumA + A[r]) % MOD;\n        sumB = (sumB + B) % MOD;\n        sumAB = (sumAB + A[r] * B) % MOD;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n前缀零也在历史中；先计贡献再插入；乘积及时取模。\n",
+    "detailed": "## P5686 和积和\n\n原题：[P5686](https://www.luogu.com.cn/problem/P5686)\n\n### 从问题到算法\n\n区间和积为 (A[r]−A[l−1])(B[r]−B[l−1])。将前一个前缀下标记为 j，并展开乘积：ArBr−ArBj−BrAj+AjBj。\n\n固定 r 时，j 有 r 个取值零到 r−1，因此第一项累加为 rArBr，其余三项只需要之前 A 的和、B 的和、A·B 的和。计算本次贡献后再把当前前缀加入统计，避免把空区间混入。\n\n输入先给完整 a 再给 b，可先存 A 前缀，读取 b 时递推 B 并累计答案。每一步取模，负项统一加模数规范化。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nconst long long MOD = 1000000007;\nlong long power(long long a, long long b) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % MOD)\n        if (b & 1)\n            r = r * a % MOD;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> A(n + 1);\n    for (int i = 1; i <= n; i++) {\n        long long x;\n        cin >> x;\n        A[i] = (A[i - 1] + x) % MOD;\n    }\n    long long B = 0, sumA = 0, sumB = 0, sumAB = 0, ans = 0;\n    for (int r = 1; r <= n; r++) {\n        long long x;\n        cin >> x;\n        B = (B + x) % MOD;\n        long long term = (r * A[r] % MOD * B - A[r] * sumB % MOD - B * sumA % MOD + sumAB) % MOD;\n        ans = (ans + term + 2 * MOD) % MOD;\n        sumA = (sumA + A[r]) % MOD;\n        sumB = (sumB + B) % MOD;\n        sumAB = (sumAB + A[r] * B) % MOD;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n前缀零也在历史中；先计贡献再插入；乘积及时取模。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P5686",
+    "id": "luogu-training-P5686",
+    "programSha256": "b3a9abcb9032599a5bdb6deba6b9fbbc2086137aba88a889f43a2c5a8c344d22",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

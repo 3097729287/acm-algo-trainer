@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2580",
+  "method": "名单查询与已点名标记",
+  "variants": {
+    "default": "## P2580 于是他错误的点名开始了\n\n原题：[P2580](https://www.luogu.com.cn/problem/P2580)\n\n### 思路\n\n用集合保存合法姓名，另一个集合保存已经正确点到的姓名。先判断是否合法，再区分首次点名和重复点名。\n\n### 复杂度\n\n时间 O((n+m)·L log(n+m))，空间 O((n+m)L)，L 为姓名长度。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    set<string> names, called;\n    while (n--) {\n        string s;\n        cin >> s;\n        names.insert(s);\n    }\n    int m;\n    cin >> m;\n    while (m--) {\n        string s;\n        cin >> s;\n        if (!names.count(s))\n            cout << \"WRONG\\n\";\n        else\n            cout << (called.insert(s).second ? \"OK\" : \"REPEAT\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先判断名单合法性；错误名字不能进入正确点名记录。\n",
+    "detailed": "## P2580 于是他错误的点名开始了\n\n原题：[P2580](https://www.luogu.com.cn/problem/P2580)\n\n### 从问题到算法\n\n同一个名字需要区分三种状态：不在名单、在名单且未点到、在名单且已点到。把名单和已点名记录分开保存，就能让状态转换清楚。\n\n每次收到名字，先查询合法名单。不存在就输出 WRONG，且不修改任何合法同学的记录。存在时向已点名集合插入：插入成功表示此前没有它，输出 OK；插入失败表示早已出现，输出 REPEAT。\n\n重复报错名仍应一直输出 WRONG，不能因为曾经输入过就变成 REPEAT。使用 set 按完整字符串比较，不依赖可能冲突的手写哈希。\n\n### 复杂度\n\n时间 O((n+m)·L log(n+m))，空间 O((n+m)L)，L 为姓名长度。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    set<string> names, called;\n    while (n--) {\n        string s;\n        cin >> s;\n        names.insert(s);\n    }\n    int m;\n    cin >> m;\n    while (m--) {\n        string s;\n        cin >> s;\n        if (!names.count(s))\n            cout << \"WRONG\\n\";\n        else\n            cout << (called.insert(s).second ? \"OK\" : \"REPEAT\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先判断名单合法性；错误名字不能进入正确点名记录。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2580",
+    "id": "luogu-training-P2580",
+    "programSha256": "a03a55919b1735535c1208109561a300414fea0c071f8ac3fbcd667797008a74",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

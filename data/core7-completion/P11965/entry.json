@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P11965",
+  "method": "前缀字母奇偶状态相同即能消除",
+  "variants": {
+    "default": "## P11965 等价消除\n\n原题：[P11965](https://www.luogu.com.cn/problem/P11965)\n\n### 思路\n\n任意两个相同字符都可以删除，所以子串能被清空当且仅当每种字母出现偶数次。用二十六位掩码记录前缀奇偶，统计相同掩码的前缀对。\n\n### 复杂度\n\n平均时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    string s;\n    cin >> n >> s;\n    unordered_map<int, long long> cnt;\n    cnt.reserve(2 * n + 1);\n    cnt[0] = 1;\n    int mask = 0;\n    long long ans = 0;\n    for (char c : s) {\n        mask ^= 1 << (c - 'a');\n        ans += cnt[mask];\n        cnt[mask]++;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n删除字符不要求相邻；空前缀要预先加入；查询计数后再增加当前频次。\n",
+    "detailed": "## P11965 等价消除\n\n原题：[P11965](https://www.luogu.com.cn/problem/P11965)\n\n### 从问题到算法\n\n一次删除让同一字母出现次数减少二，不改变奇偶性，因此每个字母偶数次是必要条件；每种字母自行两两删除又证明它充分。题目没有要求被删除字符相邻。\n\n设前缀状态 mask 的第 c 位为字母 c 出现次数的奇偶。子串 l..r 的状态是 prefix[r] xor prefix[l−1]，为零等价于两个前缀状态相同。\n\n初始空前缀状态零出现一次。每读一个字母就翻转对应位，将之前相同状态的次数加到答案，再将当前状态次数加一。答案最多 n(n+1)/2，使用 long long。\n\n### 复杂度\n\n平均时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    string s;\n    cin >> n >> s;\n    unordered_map<int, long long> cnt;\n    cnt.reserve(2 * n + 1);\n    cnt[0] = 1;\n    int mask = 0;\n    long long ans = 0;\n    for (char c : s) {\n        mask ^= 1 << (c - 'a');\n        ans += cnt[mask];\n        cnt[mask]++;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n删除字符不要求相邻；空前缀要预先加入；查询计数后再增加当前频次。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P11965",
+    "id": "luogu-training-P11965",
+    "programSha256": "2f1b45e9a0e768aaad7af2068c3e0f2b547a990640ed7e647ad78caa4346f1ed",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

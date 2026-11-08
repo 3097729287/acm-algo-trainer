@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3805",
+  "method": "奇偶两组 Manacher 半径",
+  "variants": {
+    "default": "## P3805 Manacher\n\n原题：[P3805](https://www.luogu.com.cn/problem/P3805)\n\n### 思路\n\n分别计算字符为中心的奇回文半径和字符间隙为中心的偶回文半径。利用当前最右回文的对称位置初始化，只扩展尚未确定的部分，最终取最大长度。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\npair<vector<int>, vector<int>> manacher(const string &s) {\n    int n = s.size();\n    vector<int> odd(n), even(n);\n    for (int i = 0, l = 0, r = -1; i < n; i++) {\n        int k = i > r ? 1 : min(odd[l + r - i], r - i + 1);\n        while (i - k >= 0 && i + k < n && s[i - k] == s[i + k])\n            k++;\n        odd[i] = k;\n        if (i + k - 1 > r) {\n            l = i - k + 1;\n            r = i + k - 1;\n        }\n    }\n    for (int i = 0, l = 0, r = -1; i < n; i++) {\n        int k = i > r ? 0 : min(even[l + r - i + 1], r - i + 1);\n        while (i - k - 1 >= 0 && i + k < n && s[i - k - 1] == s[i + k])\n            k++;\n        even[i] = k;\n        if (i + k - 1 > r) {\n            l = i - k;\n            r = i + k - 1;\n        }\n    }\n    return {move(odd), move(even)};\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string s;\n    cin >> s;\n    auto [odd, even] = manacher(s);\n    int ans = 0;\n    for (int i = 0; i < (int)s.size(); i++)\n        ans = max({ans, 2 * odd[i] - 1, 2 * even[i]});\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n奇半径含中心，偶半径不含；偶回文镜像下标与奇回文不同；不要逐个中心从零扩展。\n",
+    "detailed": "## P3805 Manacher\n\n原题：[P3805](https://www.luogu.com.cn/problem/P3805)\n\n### 从问题到算法\n\nodd[i] 包含中心字符，代表区间 i−odd[i]+1 到 i+odd[i]−1；even[i] 的中心在 i−1 与 i 之间，代表 i−even[i] 到 i+even[i]−1。因此对应长度分别为 2odd[i]−1 与 2even[i]。\n\n维护已经求出的、右端最远的回文 [l,r]。若中心 i 在它内部，可以从镜像中心继承半径，但最多继承到 r；超出范围的部分再逐个比较。若 i 在外部，则从最小半径开始。\n\n每次成功扩展到未知区域都会推动最右端，失败比较每个中心最多一次，所以总比较次数为线性。使用两套半径避免构造长度翻倍的带分隔符字符串，适合千万字符输入。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\npair<vector<int>, vector<int>> manacher(const string &s) {\n    int n = s.size();\n    vector<int> odd(n), even(n);\n    for (int i = 0, l = 0, r = -1; i < n; i++) {\n        int k = i > r ? 1 : min(odd[l + r - i], r - i + 1);\n        while (i - k >= 0 && i + k < n && s[i - k] == s[i + k])\n            k++;\n        odd[i] = k;\n        if (i + k - 1 > r) {\n            l = i - k + 1;\n            r = i + k - 1;\n        }\n    }\n    for (int i = 0, l = 0, r = -1; i < n; i++) {\n        int k = i > r ? 0 : min(even[l + r - i + 1], r - i + 1);\n        while (i - k - 1 >= 0 && i + k < n && s[i - k - 1] == s[i + k])\n            k++;\n        even[i] = k;\n        if (i + k - 1 > r) {\n            l = i - k;\n            r = i + k - 1;\n        }\n    }\n    return {move(odd), move(even)};\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    string s;\n    cin >> s;\n    auto [odd, even] = manacher(s);\n    int ans = 0;\n    for (int i = 0; i < (int)s.size(); i++)\n        ans = max({ans, 2 * odd[i] - 1, 2 * even[i]});\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n奇半径含中心，偶半径不含；偶回文镜像下标与奇回文不同；不要逐个中心从零扩展。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3805",
+    "id": "luogu-training-P3805",
+    "programSha256": "68da2775ab5fb48c3d5bc43d6aa9554982f5b0b0eb6285e69fa0c1950ad20bfb",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

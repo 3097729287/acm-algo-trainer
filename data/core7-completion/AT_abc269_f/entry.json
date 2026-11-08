@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-AT_abc269_f",
+  "method": "按行列奇偶分解矩形和",
+  "variants": {
+    "default": "## AT_abc269_f Numbered Checker\n\n原题：[AT_abc269_f](https://www.luogu.com.cn/problem/AT_abc269_f)\n\n### 思路\n\n保留的格子满足行列同奇偶。对奇行奇列、偶行偶列两类，分别用等差数列求行号减一之和、列号之和，再组合 (行号−1)·M+列号。\n\n### 复杂度\n\n每问 O(1)，额外空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long N, M;\n    int Q;\n    cin >> N >> M >> Q;\n    const long long P = 998244353, INV2 = (P + 1) / 2;\n    auto range = [&](long long l, long long r, int parity) {\n        if (l % 2 != parity)\n            l++;\n        if (l > r)\n            return pair<long long, long long>{0, 0};\n        long long count = (r - l) / 2 + 1, last = l + 2 * (count - 1);\n        long long sum = (l + last) % P * (count % P) % P * INV2 % P;\n        return pair<long long, long long>{count % P, sum};\n    };\n    while (Q--) {\n        long long A, B, C, D;\n        cin >> A >> B >> C >> D;\n        long long ans = 0;\n        for (int parity = 0; parity < 2; parity++) {\n            auto [nr, sr] = range(A, B, parity);\n            auto [nc, sc] = range(C, D, parity);\n            sr = (sr - nr + P) % P;\n            ans = (ans + (M % P) * sr % P * nc + sc * nr) % P;\n        }\n        cout << ans << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n保留行列同奇偶；列公式使用原始 M；乘法中间及时取模。\n",
+    "detailed": "## AT_abc269_f Numbered Checker\n\n原题：[AT_abc269_f](https://www.luogu.com.cn/problem/AT_abc269_f)\n\n### 从问题到算法\n\n矩形内有效格可以拆为奇行×奇列与偶行×偶列，两个笛卡尔积不相交。设某类有 nr 行、nc 列，行号减一之和为 sr，列号之和为 sc，则该类总和为 M·sr·nc+sc·nr。\n\n同奇偶的行列是公差为二的等差数列。将起点调整到所需奇偶，算出项数和末项，用“首末项之和乘项数除二”求和；模数为奇质数，可用二的逆元。\n\n每次询问直接处理两个奇偶类，不必枚举格子，也不必存储巨大网格。先将各因子取模再乘，避免原始矩形总和溢出。\n\n### 复杂度\n\n每问 O(1)，额外空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long N, M;\n    int Q;\n    cin >> N >> M >> Q;\n    const long long P = 998244353, INV2 = (P + 1) / 2;\n    auto range = [&](long long l, long long r, int parity) {\n        if (l % 2 != parity)\n            l++;\n        if (l > r)\n            return pair<long long, long long>{0, 0};\n        long long count = (r - l) / 2 + 1, last = l + 2 * (count - 1);\n        long long sum = (l + last) % P * (count % P) % P * INV2 % P;\n        return pair<long long, long long>{count % P, sum};\n    };\n    while (Q--) {\n        long long A, B, C, D;\n        cin >> A >> B >> C >> D;\n        long long ans = 0;\n        for (int parity = 0; parity < 2; parity++) {\n            auto [nr, sr] = range(A, B, parity);\n            auto [nc, sc] = range(C, D, parity);\n            sr = (sr - nr + P) % P;\n            ans = (ans + (M % P) * sr % P * nc + sc * nr) % P;\n        }\n        cout << ans << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n保留行列同奇偶；列公式使用原始 M；乘法中间及时取模。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "AT_abc269_f",
+    "id": "luogu-training-AT_abc269_f",
+    "programSha256": "e358b3932a05e5dad1e8794075b49197200ed252a624eb0b72e09d3b7504cbfd",
+    "samples": 3,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

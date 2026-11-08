@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2911",
+  "method": "枚举三个骰子的点数",
+  "variants": {
+    "default": "## P2911 Bovine Bones G\n\n原题：[P2911](https://www.luogu.com.cn/problem/P2911)\n\n### 思路\n\n逐个枚举三个骰子的所有点数组合，累计和的出现次数，再从小到大找出现次数最多的和。\n\n### 复杂度\n\n时间 O(s1·s2·s3)，空间 O(s1+s2+s3)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int a, b, c;\n    cin >> a >> b >> c;\n    vector<int> cnt(a + b + c + 1);\n    for (int x = 1; x <= a; x++)\n        for (int y = 1; y <= b; y++)\n            for (int z = 1; z <= c; z++)\n                cnt[x + y + z]++;\n    int ans = 0;\n    for (int i = 1; i < (int)cnt.size(); i++)\n        if (cnt[i] > cnt[ans])\n            ans = i;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n点数从 1 开始；并列时选择最小和。\n",
+    "detailed": "## P2911 Bovine Bones G\n\n原题：[P2911](https://www.luogu.com.cn/problem/P2911)\n\n### 从问题到算法\n\n三个骰子的每一面等概率，任意点数组合的概率相同，所以和的概率与产生这个和的组合数成正比。\n\n开一个长度为三个最大点数之和加一的频数数组。三层循环枚举 x、y、z，把 freq[x+y+z] 加一。然后按和递增扫描，仅在频数严格更大时更新答案。这样出现次数相同时，自动保留较小的和。\n\n没有必要使用浮点概率，也不能仅凭骰子平均值四舍五入，因为多个和可能并列最高。\n\n### 复杂度\n\n时间 O(s1·s2·s3)，空间 O(s1+s2+s3)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int a, b, c;\n    cin >> a >> b >> c;\n    vector<int> cnt(a + b + c + 1);\n    for (int x = 1; x <= a; x++)\n        for (int y = 1; y <= b; y++)\n            for (int z = 1; z <= c; z++)\n                cnt[x + y + z]++;\n    int ans = 0;\n    for (int i = 1; i < (int)cnt.size(); i++)\n        if (cnt[i] > cnt[ans])\n            ans = i;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n点数从 1 开始；并列时选择最小和。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2911",
+    "id": "luogu-training-P2911",
+    "programSha256": "ee43ba000315fcaeafe55e6034f41c71ee19bd9b1b31e65d0e57e9dd47d9eaff",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

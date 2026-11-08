@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P6523",
+  "method": "相邻不同乘积的最大公约数确定中间质数",
+  "variants": {
+    "default": "## P6523 加密通信\n\n原题：[P6523](https://www.luogu.com.cn/problem/P6523)\n\n### 思路\n\n找到一对不同的相邻 A，它们的 gcd 恰好是共同的中间质数。以此向左右逐项相除还原全部 B，最后检查是否均不超过 M。\n\n### 复杂度\n\n时间 O(n+log max A)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    while (T--) {\n        int n;\n        long long M;\n        cin >> n >> M;\n        vector<long long> a(n - 1), b(n);\n        for (auto &x : a)\n            cin >> x;\n        int k = 0;\n        while (a[k] == a[k + 1])\n            k++;\n        b[k + 1] = gcd(a[k], a[k + 1]);\n        for (int i = k; i >= 0; i--)\n            b[i] = a[i] / b[i + 1];\n        for (int i = k + 1; i < n - 1; i++)\n            b[i + 1] = a[i] / b[i];\n        bool ok = all_of(b.begin(), b.end(), [&](long long x) { return x <= M; });\n        if (!ok)\n            cout << -1 << '\\n';\n        else\n            for (int i = 0; i < n; i++)\n                cout << b[i] << (i + 1 == n ? '\\n' : ' ');\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n使用相邻且不同的乘积；gcd 对应中间位置；依赖题目保证的质数分解存在性。\n",
+    "detailed": "## P6523 加密通信\n\n原题：[P6523](https://www.luogu.com.cn/problem/P6523)\n\n### 从问题到算法\n\n若 A[i]=B[i]B[i+1]、A[i+1]=B[i+1]B[i+2] 且两者不等，那么两侧质数 B[i] 与 B[i+2] 不同，故 gcd(A[i],A[i+1])=B[i+1]。这一位置唯一确定后，利用相邻乘积依次反推出所有其它质数。\n\n题目保证忽略 M 时存在合法质数序列，且至少有两个 A 不同，因此必然能找到一对相邻不同值；无须为可能达到十八位的数做质因数分解或质性测试。\n\n还原后若存在 B[i]>M，则唯一序列不满足限制，输出 −1；否则输出该序列。所有计算都在六十四位范围内，不要直接相乘两个十八位输入。\n\n### 复杂度\n\n时间 O(n+log max A)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    while (T--) {\n        int n;\n        long long M;\n        cin >> n >> M;\n        vector<long long> a(n - 1), b(n);\n        for (auto &x : a)\n            cin >> x;\n        int k = 0;\n        while (a[k] == a[k + 1])\n            k++;\n        b[k + 1] = gcd(a[k], a[k + 1]);\n        for (int i = k; i >= 0; i--)\n            b[i] = a[i] / b[i + 1];\n        for (int i = k + 1; i < n - 1; i++)\n            b[i + 1] = a[i] / b[i];\n        bool ok = all_of(b.begin(), b.end(), [&](long long x) { return x <= M; });\n        if (!ok)\n            cout << -1 << '\\n';\n        else\n            for (int i = 0; i < n; i++)\n                cout << b[i] << (i + 1 == n ? '\\n' : ' ');\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n使用相邻且不同的乘积；gcd 对应中间位置；依赖题目保证的质数分解存在性。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P6523",
+    "id": "luogu-training-P6523",
+    "programSha256": "1d1ff45dfb292e0fa22727c131c994bf817e4c62e3fcb6c329c9d234484cceba",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-AT_arc172_c",
+  "method": "比较相邻插入位置的唯一变化",
+  "variants": {
+    "default": "## AT_arc172_c Election\n\n原题：[AT_arc172_c](https://www.luogu.com.cn/problem/AT_arc172_c)\n\n### 思路\n\n把第一张选票依次向后移动，与相邻选票交换。两种开票顺序只会在交换中间的那一次公布结果上不同。累计真正改变结果的相邻交换次数，再加一。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    string s;\n    cin >> n >> s;\n    auto sign = [](int x) { return (x > 0) - (x < 0); };\n    int first = s[0] == 'A' ? 1 : -1, difference = 0, ans = 1;\n    for (int i = 1; i < n; i++) {\n        int v = s[i] == 'A' ? 1 : -1;\n        if (sign(difference + first) != sign(difference + v))\n            ans++;\n        difference += v;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n统计公布结果的不同序列，不是开票顺序；差值需在比较后再加入当前票。\n",
+    "detailed": "## AT_arc172_c Election\n\n原题：[AT_arc172_c](https://www.luogu.com.cn/problem/AT_arc172_c)\n\n### 从问题到算法\n\n第一位投票者之外的顺序固定，所以全部可能顺序只由第一张票插入在什么位置决定。从最前插入开始，逐次把它与下一张票交换，就枚举了所有 n 种顺序。\n\n比较相邻两种顺序：交换前后，在这两张票之前的票数完全相同，在两张都开出后也完全相同。只有开出其中第一张时，公布的领先或平局结果可能不同。用 A=+1、B=−1，设此前差为 d，比较 sign(d+第一票) 与 sign(d+当前票)。不同就产生一个新结果序列。\n\n每次交换改变的是一个此前从未改动过的公布位置，之后也不会再改变它。因此一旦产生新序列，就不可能与更早的序列重复。答案正好是一加上发生变化的交换数，无须保存或哈希全部长度 n 的序列。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    string s;\n    cin >> n >> s;\n    auto sign = [](int x) { return (x > 0) - (x < 0); };\n    int first = s[0] == 'A' ? 1 : -1, difference = 0, ans = 1;\n    for (int i = 1; i < n; i++) {\n        int v = s[i] == 'A' ? 1 : -1;\n        if (sign(difference + first) != sign(difference + v))\n            ans++;\n        difference += v;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n统计公布结果的不同序列，不是开票顺序；差值需在比较后再加入当前票。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "AT_arc172_c",
+    "id": "luogu-training-AT_arc172_c",
+    "programSha256": "e36956c50160007df5cfd2edc4a166b22cd8140ce70ba4496924baa8b6687aaf",
+    "samples": 4,
+    "independentCases": 30,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

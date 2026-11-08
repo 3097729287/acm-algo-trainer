@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P14075",
+  "method": "无重复子段最长二十六，枚举最后一段",
+  "variants": {
+    "default": "## P14075 划分字符串\n\n原题：[P14075](https://www.luogu.com.cn/problem/P14075)\n\n### 思路\n\n合法子串不含重复小写字母，长度最多二十六。令 dp[i] 为前 i 字符的最大划分价值，向左枚举不重复的最后一段，更新 dp[i]=max(dp[j]+a[i−j])。\n\n### 复杂度\n\n时间 O(26n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    string s;\n    cin >> n >> s;\n    vector<long long> a(n + 1), dp(n + 1);\n    for (int i = 1; i <= n; i++)\n        cin >> a[i];\n    for (int i = 1; i <= n; i++) {\n        int mask = 0;\n        for (int j = i; j >= 1; j--) {\n            int bit = 1 << (s[j - 1] - 'a');\n            if (mask & bit)\n                break;\n            mask |= bit;\n            dp[i] = max(dp[i], dp[j - 1] + a[i - j + 1]);\n        }\n    }\n    cout << dp[n] << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n长度价值无单调性；重复时立即停止；答案可超过三十二位。\n",
+    "detailed": "## P14075 划分字符串\n\n原题：[P14075](https://www.luogu.com.cn/problem/P14075)\n\n### 从问题到算法\n\n任意最优划分都有最后一段。若最后一段是 j..i，前面必须采用前 j−1 字符的最优划分，否则可以替换使总价值更高。因此枚举所有合法最后段即可得到完备转移。\n\n从 i 向左扫描，用二十六位 mask 记录已经出现的字母；遇到重复就停止，更长的段必然也含重复。最多查看二十六个字符，时间不再是平方。\n\n价值并不保证随长度增长，不能贪心尽量切长或尽量切短。动态规划会同时比较全部可能长度，答案使用六十四位。\n\n### 复杂度\n\n时间 O(26n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    string s;\n    cin >> n >> s;\n    vector<long long> a(n + 1), dp(n + 1);\n    for (int i = 1; i <= n; i++)\n        cin >> a[i];\n    for (int i = 1; i <= n; i++) {\n        int mask = 0;\n        for (int j = i; j >= 1; j--) {\n            int bit = 1 << (s[j - 1] - 'a');\n            if (mask & bit)\n                break;\n            mask |= bit;\n            dp[i] = max(dp[i], dp[j - 1] + a[i - j + 1]);\n        }\n    }\n    cout << dp[n] << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n长度价值无单调性；重复时立即停止；答案可超过三十二位。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P14075",
+    "id": "luogu-training-P14075",
+    "programSha256": "464b02c288e2e7e713971c1cd69c2b04cf0327f2357449c0b03e93d5c740e077",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

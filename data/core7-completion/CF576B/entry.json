@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF576B",
+  "method": "用树中心给出必要条件与构造",
+  "variants": {
+    "default": "## CF576B Invariance of Tree\n\n原题：[CF576B](https://www.luogu.com.cn/problem/CF576B)\n\n### 思路\n\n若置换有不动点，以它为中心建星形树。否则必须存在一个二元环，且所有置换环长度均为偶数；用该二元环作中心边，其它偶环的点交替连向两个中心。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> p(n);\n    int fixed = -1;\n    for (int i = 0; i < n; i++) {\n        cin >> p[i];\n        p[i]--;\n        if (p[i] == i)\n            fixed = i;\n    }\n    if (fixed >= 0) {\n        cout << \"YES\\n\";\n        for (int i = 0; i < n; i++)\n            if (i != fixed)\n                cout << fixed + 1 << ' ' << i + 1 << '\\n';\n        return 0;\n    }\n    vector<char> seen(n);\n    vector<vector<int>> cycles;\n    int center = -1;\n    bool ok = true;\n    for (int i = 0; i < n; i++)\n        if (!seen[i]) {\n            vector<int> c;\n            for (int v = i; !seen[v]; v = p[v]) {\n                seen[v] = 1;\n                c.push_back(v);\n            }\n            if (c.size() % 2)\n                ok = false;\n            if (c.size() == 2)\n                center = cycles.size();\n            cycles.push_back(c);\n        }\n    if (!ok || center < 0) {\n        cout << \"NO\\n\";\n        return 0;\n    }\n    int a = cycles[center][0], b = cycles[center][1];\n    cout << \"YES\\n\" << a + 1 << ' ' << b + 1 << '\\n';\n    for (int j = 0; j < (int)cycles.size(); j++)\n        if (j != center)\n            for (int i = 0; i < (int)cycles[j].size(); i++)\n                cout << cycles[j][i] + 1 << ' ' << (i % 2 ? b : a) + 1 << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n没有不动点时二元环必需；其它奇环不可行；中心二元环不再重复挂边。\n",
+    "detailed": "## CF576B Invariance of Tree\n\n原题：[CF576B](https://www.luogu.com.cn/problem/CF576B)\n\n### 从问题到算法\n\n树的中心是一个顶点或一条边，任何保持边关系的置换都必须保持中心。若中心是顶点，它必须是不动点，有不动点时直接建星形树即可。\n\n没有不动点时，中心只能是一条被交换端点的边，因此必须有一个二元环。删除中心边得到两半树，置换每次交换两半，于是所有顶点的置换周期必须为偶数。这给出必要条件。\n\n条件成立时取二元环 (a,b) 为中心边。对每个其它偶长置换环，沿置换顺序交替把点连到 a、b。置换会同时交换中心并走到下一个环点，所以每条边被映成另一条已存在的边。图连通且有 n−1 条边，因此是一棵满足条件的树。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> p(n);\n    int fixed = -1;\n    for (int i = 0; i < n; i++) {\n        cin >> p[i];\n        p[i]--;\n        if (p[i] == i)\n            fixed = i;\n    }\n    if (fixed >= 0) {\n        cout << \"YES\\n\";\n        for (int i = 0; i < n; i++)\n            if (i != fixed)\n                cout << fixed + 1 << ' ' << i + 1 << '\\n';\n        return 0;\n    }\n    vector<char> seen(n);\n    vector<vector<int>> cycles;\n    int center = -1;\n    bool ok = true;\n    for (int i = 0; i < n; i++)\n        if (!seen[i]) {\n            vector<int> c;\n            for (int v = i; !seen[v]; v = p[v]) {\n                seen[v] = 1;\n                c.push_back(v);\n            }\n            if (c.size() % 2)\n                ok = false;\n            if (c.size() == 2)\n                center = cycles.size();\n            cycles.push_back(c);\n        }\n    if (!ok || center < 0) {\n        cout << \"NO\\n\";\n        return 0;\n    }\n    int a = cycles[center][0], b = cycles[center][1];\n    cout << \"YES\\n\" << a + 1 << ' ' << b + 1 << '\\n';\n    for (int j = 0; j < (int)cycles.size(); j++)\n        if (j != center)\n            for (int i = 0; i < (int)cycles[j].size(); i++)\n                cout << cycles[j][i] + 1 << ' ' << (i % 2 ? b : a) + 1 << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n没有不动点时二元环必需；其它奇环不可行；中心二元环不再重复挂边。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF576B",
+    "id": "luogu-training-CF576B",
+    "programSha256": "ed64af0d86dfbbda8d454389eb669997c50f1bf6396bfb4be74cfd7d17876c67",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

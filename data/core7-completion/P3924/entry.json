@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3924",
+  "method": "将路径期望拆成各叶子的固定系数",
+  "variants": {
+    "default": "## P3924 康娜的线段树\n\n原题：[P3924](https://www.luogu.com.cn/problem/P3924)\n\n### 思路\n\n深度为 d 的节点被走到的概率为 2^(−d)。一个叶子数值会出现在其所有祖先区间和中，系数为 1+1/2+…+1/2^depth=2−2^(−depth)。预处理系数前缀和，区间加直接更新总期望。\n\n### 复杂度\n\n预处理 O(n)，每次修改 O(1)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    long long denominator;\n    cin >> n >> m >> denominator;\n    int h = 0;\n    while ((1 << h) < n)\n        h++;\n    long long base = 1LL << h;\n    vector<long long> a(n + 1), weight(n + 1), prefix(n + 1);\n    for (int i = 1; i <= n; i++)\n        cin >> a[i];\n    function<void(int, int, int)> build = [&](int l, int r, int depth) {\n        if (l == r) {\n            weight[l] = 2 * base - (1LL << (h - depth));\n            return;\n        }\n        int mid = (l + r) / 2;\n        build(l, mid, depth + 1);\n        build(mid + 1, r, depth + 1);\n    };\n    build(1, n, 0);\n    __int128 value = 0;\n    for (int i = 1; i <= n; i++) {\n        prefix[i] = prefix[i - 1] + weight[i];\n        value += (__int128)a[i] * weight[i];\n    }\n    auto print = [](__int128 x) {\n        if (x < 0) {\n            cout << '-';\n            x = -x;\n        }\n        string s;\n        do {\n            s.push_back('0' + x % 10);\n            x /= 10;\n        } while (x);\n        reverse(s.begin(), s.end());\n        cout << s << '\\n';\n    };\n    while (m--) {\n        int l, r;\n        long long x;\n        cin >> l >> r >> x;\n        value += (__int128)x * (prefix[r] - prefix[l - 1]);\n        print(value * denominator / base);\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n使用题目给出的按中点分割；叶深不一定全相等；中间加权和用 __int128。\n",
+    "detailed": "## P3924 康娜的线段树\n\n原题：[P3924](https://www.luogu.com.cn/problem/P3924)\n\n### 从问题到算法\n\n每个线段树节点的值是它区间内叶子值之和。随机走树时，某节点对期望的贡献是“到达概率×节点值”。把求和顺序交换，改为固定某个叶子的 a[i]，它会被所有祖先节点包含。\n\n根深度为零，每次左右等概率，所以祖先深度 d 的到达概率为 1/2^d。叶深 D 的总系数为 Σ(d=0..D)2^(−d)=2−2^(−D)。这个系数只依赖分割方式，不随 a[i] 或修改改变。\n\n取所有叶子的最大深度 H，把系数同时乘 2^H 转成整数 weight[i]=2^(H+1)−2^(H−D)。维护加权和 V=Σa[i]weight[i]；区间加 x 只需 V+=x·Σ区间weight。系数前缀和使每次修改成为 O(1)。\n\n输出时再乘 qwq 并除以 2^H。按题目保证最终是整数，程序用 __int128 保存累计乘积，避免多次大范围加法后的中间溢出。\n\n### 复杂度\n\n预处理 O(n)，每次修改 O(1)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    long long denominator;\n    cin >> n >> m >> denominator;\n    int h = 0;\n    while ((1 << h) < n)\n        h++;\n    long long base = 1LL << h;\n    vector<long long> a(n + 1), weight(n + 1), prefix(n + 1);\n    for (int i = 1; i <= n; i++)\n        cin >> a[i];\n    function<void(int, int, int)> build = [&](int l, int r, int depth) {\n        if (l == r) {\n            weight[l] = 2 * base - (1LL << (h - depth));\n            return;\n        }\n        int mid = (l + r) / 2;\n        build(l, mid, depth + 1);\n        build(mid + 1, r, depth + 1);\n    };\n    build(1, n, 0);\n    __int128 value = 0;\n    for (int i = 1; i <= n; i++) {\n        prefix[i] = prefix[i - 1] + weight[i];\n        value += (__int128)a[i] * weight[i];\n    }\n    auto print = [](__int128 x) {\n        if (x < 0) {\n            cout << '-';\n            x = -x;\n        }\n        string s;\n        do {\n            s.push_back('0' + x % 10);\n            x /= 10;\n        } while (x);\n        reverse(s.begin(), s.end());\n        cout << s << '\\n';\n    };\n    while (m--) {\n        int l, r;\n        long long x;\n        cin >> l >> r >> x;\n        value += (__int128)x * (prefix[r] - prefix[l - 1]);\n        print(value * denominator / base);\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n使用题目给出的按中点分割；叶深不一定全相等；中间加权和用 __int128。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3924",
+    "id": "luogu-training-P3924",
+    "programSha256": "f92ebee5dda7203484283c10dad6f2f136ee3588eacde359b34ba73feb6b3ca7",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

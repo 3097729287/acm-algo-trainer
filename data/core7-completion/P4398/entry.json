@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4398",
+  "method": "枚举相对位移并做公共正方形 DP",
+  "variants": {
+    "default": "## P4398 Blue Mary的战役地图\n\n原题：[P4398](https://www.luogu.com.cn/problem/P4398)\n\n### 思路\n\n固定第二张图相对第一张图的平移后，每对对齐格子的相等关系固定。对重叠区域求全为相等格的最大正方形，枚举所有平移取最大值。\n\n### 复杂度\n\n时间 O(n⁴)，空间 O(n²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<vector<int>> a(n, vector<int>(n)), b = a;\n    for (auto &row : a)\n        for (int &x : row)\n            cin >> x;\n    for (auto &row : b)\n        for (int &x : row)\n            cin >> x;\n    int ans = 0;\n    for (int dx = 1 - n; dx < n; dx++)\n        for (int dy = 1 - n; dy < n; dy++) {\n            vector<vector<int>> dp(n + 1, vector<int>(n + 1));\n            for (int i = 0; i < n; i++)\n                for (int j = 0; j < n; j++) {\n                    int x = i + dx, y = j + dy;\n                    if (x >= 0 && x < n && y >= 0 && y < n && a[i][j] == b[x][y]) {\n                        dp[i + 1][j + 1] = 1 + min({dp[i][j + 1], dp[i + 1][j], dp[i][j]});\n                        ans = max(ans, dp[i + 1][j + 1]);\n                    }\n                }\n        }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n只允许平移，不旋转；越界格当不相等；DP 取三个方向最小值。\n",
+    "detailed": "## P4398 Blue Mary的战役地图\n\n原题：[P4398](https://www.luogu.com.cn/problem/P4398)\n\n### 从问题到算法\n\n两个公共子矩阵一旦选定左上角，它们对应格子的横纵坐标差就是固定平移。因此枚举所有从 −n+1 到 n−1 的横纵位移，就覆盖了全部公共子矩阵的对齐方式。\n\n固定平移后，把对应值相等的格子视作一，不等或超出另一图范围的视作零。令 dp[i][j] 为以当前格为右下角的最大全一正方形边长。当前格为零时值为零；为一时，必须同时拥有上方、左方、左上方三个可扩展正方形，所以取三者最小值加一。\n\n这个判定逐格比较原整数，完全避免二维哈希的碰撞。n 至多五十，O(n⁴) 的直接计算可以接受。每个平移都清空 DP，不能让上一种对齐的信息混入。\n\n### 复杂度\n\n时间 O(n⁴)，空间 O(n²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<vector<int>> a(n, vector<int>(n)), b = a;\n    for (auto &row : a)\n        for (int &x : row)\n            cin >> x;\n    for (auto &row : b)\n        for (int &x : row)\n            cin >> x;\n    int ans = 0;\n    for (int dx = 1 - n; dx < n; dx++)\n        for (int dy = 1 - n; dy < n; dy++) {\n            vector<vector<int>> dp(n + 1, vector<int>(n + 1));\n            for (int i = 0; i < n; i++)\n                for (int j = 0; j < n; j++) {\n                    int x = i + dx, y = j + dy;\n                    if (x >= 0 && x < n && y >= 0 && y < n && a[i][j] == b[x][y]) {\n                        dp[i + 1][j + 1] = 1 + min({dp[i][j + 1], dp[i + 1][j], dp[i][j]});\n                        ans = max(ans, dp[i + 1][j + 1]);\n                    }\n                }\n        }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n只允许平移，不旋转；越界格当不相等；DP 取三个方向最小值。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4398",
+    "id": "luogu-training-P4398",
+    "programSha256": "f529afc13c8e1afe0f4d543d8ecbcbd2039388c46ca6bd3195738076c0966341",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

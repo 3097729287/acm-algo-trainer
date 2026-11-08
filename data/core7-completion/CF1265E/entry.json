@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF1265E",
+  "method": "整段重来使期望递推除以成功概率",
+  "variants": {
+    "default": "## CF1265E Beautiful Mirrors\n\n原题：[CF1265E](https://www.luogu.com.cn/problem/CF1265E)\n\n### 思路\n\n设 E[i] 为从头通过前 i 面镜子的期望次数。到第 i 面前平均已经花 E[i−1] 次，再尝试一次；失败就整段重来，因此 E[i]=(E[i−1]+1)/p[i]。\n\n### 复杂度\n\n时间 O(n log MOD)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    const long long P = 998244353;\n    auto power = [&](long long a, long long b) {\n        long long r = 1;\n        for (; b; b >>= 1, a = a * a % P)\n            if (b & 1)\n                r = r * a % P;\n        return r;\n    };\n    long long E = 0;\n    for (int i = 0; i < n; i++) {\n        long long p;\n        cin >> p;\n        E = (E + 1) * 100 % P * power(p, P - 2) % P;\n    }\n    cout << E << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n失败回到第一面；百分数转为 100 的因子；分母非零。\n",
+    "detailed": "## CF1265E Beautiful Mirrors\n\n原题：[CF1265E](https://www.luogu.com.cn/problem/CF1265E)\n\n### 从问题到算法\n\n把“到达并尝试第 i 面”看成一次完整尝试周期，周期成本期望为 E[i−1]+1。成功概率 p[i]，失败后返回开头，恢复为同一个问题，所以 E[i]=E[i−1]+1+(1−p[i])E[i]。移项便得到递推。\n\n题目用百分整数输入概率，p[i]=a[i]/100，在模质数下递推为 (E[i−1]+1)·100·inv(a[i])。概率非零保证逆元存在。\n\n必须先给前段期望加一再整体除以成功率，不能只给当前一次尝试乘逆概率。\n\n### 复杂度\n\n时间 O(n log MOD)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    const long long P = 998244353;\n    auto power = [&](long long a, long long b) {\n        long long r = 1;\n        for (; b; b >>= 1, a = a * a % P)\n            if (b & 1)\n                r = r * a % P;\n        return r;\n    };\n    long long E = 0;\n    for (int i = 0; i < n; i++) {\n        long long p;\n        cin >> p;\n        E = (E + 1) * 100 % P * power(p, P - 2) % P;\n    }\n    cout << E << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n失败回到第一面；百分数转为 100 的因子；分母非零。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF1265E",
+    "id": "luogu-training-CF1265E",
+    "programSha256": "12f09f0932f7b5654646acfeefc0858700d1599e721617fb9a7e4bdfd867ec53",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2922",
+  "method": "字典树中统计祖先终点与子树终点",
+  "variants": {
+    "default": "## P2922 Secret Message G\n\n原题：[P2922](https://www.luogu.com.cn/problem/P2922)\n\n### 思路\n\n把拦截到的信息插入二进制字典树。对每条暗号，沿路径累加严格祖先的结束次数，走到末端后再加整棵子树的信息数，即覆盖信息更短和信息不短于暗号的两种情况。\n\n### 复杂度\n\n时间 O(输入总位数)，空间 O(拦截信息总位数)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Node {\n    int child[2] = {0, 0};\n    int sub = 0, end = 0;\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int m, n;\n    cin >> m >> n;\n    vector<Node> t(1);\n    for (int i = 0; i < m; i++) {\n        int len;\n        cin >> len;\n        int v = 0;\n        t[v].sub++;\n        while (len--) {\n            int b;\n            cin >> b;\n            if (!t[v].child[b]) {\n                t[v].child[b] = t.size();\n                t.push_back(Node());\n            }\n            v = t[v].child[b];\n            t[v].sub++;\n        }\n        t[v].end++;\n    }\n    while (n--) {\n        int len;\n        cin >> len;\n        int v = 0, ans = 0;\n        bool alive = true;\n        while (len--) {\n            int b;\n            cin >> b;\n            if (alive) {\n                ans += t[v].end;\n                int next = t[v].child[b];\n                if (!next)\n                    alive = false;\n                else\n                    v = next;\n            }\n        }\n        if (alive)\n            ans += t[v].sub;\n        cout << ans << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n同一信息可能重复，应按次数计；等长匹配不重复；失败后继续读取剩余位。\n",
+    "detailed": "## P2922 Secret Message G\n\n原题：[P2922](https://www.luogu.com.cn/problem/P2922)\n\n### 从问题到算法\n\n两串匹配要求它们在较短长度内完全相同，因此合法信息要么是暗号的前缀，要么以暗号为前缀。字典树恰好把这两种关系变成祖先和后代。\n\n插入每条信息时，经过的节点的 sub 都加一，最后节点的 end 加一。查询暗号时，在每次向下一位之前，把当前节点的 end 加入答案，这些是已经结束、严格短于暗号的信息。若路径不存在，后面不再有更长匹配，但此前得到的短信息仍有效。\n\n若整个暗号走完，加入当前节点的 sub，它包括与暗号等长以及更长的信息。祖先累加不含当前节点，所以等长信息只计一次。路径丢失后仍须把本条查询剩余输入读完。\n\n### 复杂度\n\n时间 O(输入总位数)，空间 O(拦截信息总位数)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Node {\n    int child[2] = {0, 0};\n    int sub = 0, end = 0;\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int m, n;\n    cin >> m >> n;\n    vector<Node> t(1);\n    for (int i = 0; i < m; i++) {\n        int len;\n        cin >> len;\n        int v = 0;\n        t[v].sub++;\n        while (len--) {\n            int b;\n            cin >> b;\n            if (!t[v].child[b]) {\n                t[v].child[b] = t.size();\n                t.push_back(Node());\n            }\n            v = t[v].child[b];\n            t[v].sub++;\n        }\n        t[v].end++;\n    }\n    while (n--) {\n        int len;\n        cin >> len;\n        int v = 0, ans = 0;\n        bool alive = true;\n        while (len--) {\n            int b;\n            cin >> b;\n            if (alive) {\n                ans += t[v].end;\n                int next = t[v].child[b];\n                if (!next)\n                    alive = false;\n                else\n                    v = next;\n            }\n        }\n        if (alive)\n            ans += t[v].sub;\n        cout << ans << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n同一信息可能重复，应按次数计；等长匹配不重复；失败后继续读取剩余位。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2922",
+    "id": "luogu-training-P2922",
+    "programSha256": "743e270fe3dd9bf830b79725192b64fa26bef12849eec5c4a8d550b6b63aa4b6",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

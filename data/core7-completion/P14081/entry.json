@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P14081",
+  "method": "边数容量下界与独立集上界",
+  "variants": {
+    "default": "## P14081 炸弹游戏\n\n原题：[P14081](https://www.luogu.com.cn/problem/P14081)\n\n### 思路\n\n能连出 m 条边要求 C(n,2)≥m，给出最小 n。获胜还要求能把最大独立集压到 m−1，最大的可行 n 为 2m−2。若两界交错则 Lose!，否则输出该区间。\n\n### 复杂度\n\n每组时间 O(log m)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        long long m;\n        cin >> m;\n        long long l = 1, r = 2 * m;\n        while (l < r) {\n            long long mid = (l + r) / 2;\n            if (mid * (mid - 1) / 2 >= m)\n                r = mid;\n            else\n                l = mid + 1;\n        }\n        long long high = 2 * m - 2;\n        if (l > high)\n            cout << \"Lose!\\n\";\n        else\n            cout << l << ' ' << high << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n不允许重边与自环；m=1、2 由边界比较自然判输；容量乘积用六十四位。\n",
+    "detailed": "## P14081 炸弹游戏\n\n原题：[P14081](https://www.luogu.com.cn/problem/P14081)\n\n### 从问题到算法\n\n炸弹只能放在不相邻的点上，花火能否放 m 个炸弹就是图是否存在大小至少 m 的独立集。首先简单图最多有 n(n−1)/2 条边，故 n 不能小于容量下界 L。\n\n若 m 条边不是两两不相交，就有两条共享一个端点，选这个端点并对其余每边选一个端点，可用至多 m−1 个点覆盖所有边，其余至少 n−m+1 个点构成独立集。若边两两不相交，则至少需要 2m 个顶点，独立集更不可能小于 m。因此 n≥2m−1 时必输。\n\n当 m≥3，三角形加 m−3 条独立边、再加一个孤立点，共 2m−2 点、m 边，最大独立集恰有 m−1 点，可以获胜。对任何 L<=n<=2m−2，删去多余顶点，再补边至 m 条，不会增大独立集；容量条件保证能补足。二分最小 L，右界取 2m−2，比较两者即可。\n\n### 复杂度\n\n每组时间 O(log m)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        long long m;\n        cin >> m;\n        long long l = 1, r = 2 * m;\n        while (l < r) {\n            long long mid = (l + r) / 2;\n            if (mid * (mid - 1) / 2 >= m)\n                r = mid;\n            else\n                l = mid + 1;\n        }\n        long long high = 2 * m - 2;\n        if (l > high)\n            cout << \"Lose!\\n\";\n        else\n            cout << l << ' ' << high << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n不允许重边与自环；m=1、2 由边界比较自然判输；容量乘积用六十四位。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P14081",
+    "id": "luogu-training-P14081",
+    "programSha256": "24b90ab3012d8c25b04f8147d70873639b402d937b6c6155cdb47c3c13980acc",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

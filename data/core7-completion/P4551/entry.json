@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4551",
+  "method": "根路径异或与二进制字典树",
+  "variants": {
+    "default": "## P4551 最长异或路径\n\n原题：[P4551](https://www.luogu.com.cn/problem/P4551)\n\n### 思路\n\n任选根，记录根到每点的边权异或 d。两点路径异或为 d[u] xor d[v]。把所有 d 插入二进制字典树，逐位优先走相反位，求最大异或值。\n\n### 复杂度\n\n时间 O(n log W)，空间 O(n log W)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<vector<pair<int, int>>> g(n);\n    for (int i = 1; i < n; i++) {\n        int a, b, w;\n        cin >> a >> b >> w;\n        a--;\n        b--;\n        g[a].push_back({b, w});\n        g[b].push_back({a, w});\n    }\n    vector<int> d(n), parent(n, -1), order = {0};\n    parent[0] = 0;\n    for (int i = 0; i < (int)order.size(); i++) {\n        int v = order[i];\n        for (auto [u, w] : g[v])\n            if (u != parent[v]) {\n                parent[u] = v;\n                d[u] = d[v] ^ w;\n                order.push_back(u);\n            }\n    }\n    vector<array<int, 2>> t(1);\n    for (int x : d) {\n        int v = 0;\n        for (int b = 30; b >= 0; b--) {\n            int bit = (x >> b) & 1;\n            if (!t[v][bit]) {\n                t[v][bit] = t.size();\n                t.push_back({0, 0});\n            }\n            v = t[v][bit];\n        }\n    }\n    int ans = 0;\n    for (int x : d) {\n        int v = 0, value = 0;\n        for (int b = 30; b >= 0; b--) {\n            int bit = (x >> b) & 1;\n            if (t[v][bit ^ 1]) {\n                value |= 1 << b;\n                v = t[v][bit ^ 1];\n            } else\n                v = t[v][bit];\n        }\n        ans = max(ans, value);\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先求根路径异或而非距离和；高位优先；非递归遍历避免长链栈溢出。\n",
+    "detailed": "## P4551 最长异或路径\n\n原题：[P4551](https://www.luogu.com.cn/problem/P4551)\n\n### 从问题到算法\n\n两条根路径的公共部分在异或中出现两次，会相互抵消，剩下的正是 u 到 v 的路径。因此树上路径问题变成从全部根路径异或值中选两个数，使异或最大。\n\n从最高二进制位开始比较大小。查询值这一位为 b 时，若字典树存在 1−b 分支，就使结果当前位为一；高位一的收益大于所有低位之和，所以这是安全的贪心选择。不存在反位才走同位。\n\n先用显式遍历计算 d，再插入并查询所有数。允许与自己配对得到零，不会使最大值变错；只有一个顶点时答案也为零。\n\n### 复杂度\n\n时间 O(n log W)，空间 O(n log W)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<vector<pair<int, int>>> g(n);\n    for (int i = 1; i < n; i++) {\n        int a, b, w;\n        cin >> a >> b >> w;\n        a--;\n        b--;\n        g[a].push_back({b, w});\n        g[b].push_back({a, w});\n    }\n    vector<int> d(n), parent(n, -1), order = {0};\n    parent[0] = 0;\n    for (int i = 0; i < (int)order.size(); i++) {\n        int v = order[i];\n        for (auto [u, w] : g[v])\n            if (u != parent[v]) {\n                parent[u] = v;\n                d[u] = d[v] ^ w;\n                order.push_back(u);\n            }\n    }\n    vector<array<int, 2>> t(1);\n    for (int x : d) {\n        int v = 0;\n        for (int b = 30; b >= 0; b--) {\n            int bit = (x >> b) & 1;\n            if (!t[v][bit]) {\n                t[v][bit] = t.size();\n                t.push_back({0, 0});\n            }\n            v = t[v][bit];\n        }\n    }\n    int ans = 0;\n    for (int x : d) {\n        int v = 0, value = 0;\n        for (int b = 30; b >= 0; b--) {\n            int bit = (x >> b) & 1;\n            if (t[v][bit ^ 1]) {\n                value |= 1 << b;\n                v = t[v][bit ^ 1];\n            } else\n                v = t[v][bit];\n        }\n        ans = max(ans, value);\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先求根路径异或而非距离和；高位优先；非递归遍历避免长链栈溢出。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4551",
+    "id": "luogu-training-P4551",
+    "programSha256": "18b8d536b2eb031e6d3204123628316d1bae9f913ea6403d039f89253e63906b",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

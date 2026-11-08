@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1451",
+  "method": "四方向连通块计数",
+  "variants": {
+    "default": "## P1451 求细胞数量\n\n原题：[P1451](https://www.luogu.com.cn/problem/P1451)\n\n### 思路\n\n每次找到尚未访问的非零格，就发现一个新细胞。用队列把与它四方向连通的所有非零格标记，最后统计启动搜索的次数。\n\n### 复杂度\n\n时间 O(nm)，空间 O(nm)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<string> a(n);\n    for (auto &s : a)\n        cin >> s;\n    int ans = 0;\n    int dx[4] = {1, -1, 0, 0}, dy[4] = {0, 0, 1, -1};\n    for (int i = 0; i < n; i++)\n        for (int j = 0; j < m; j++)\n            if (a[i][j] != '0') {\n                ans++;\n                queue<pair<int, int>> q;\n                q.push({i, j});\n                a[i][j] = '0';\n                while (!q.empty()) {\n                    auto [x, y] = q.front();\n                    q.pop();\n                    for (int d = 0; d < 4; d++) {\n                        int nx = x + dx[d], ny = y + dy[d];\n                        if (nx >= 0 && nx < n && ny >= 0 && ny < m && a[nx][ny] != '0') {\n                            a[nx][ny] = '0';\n                            q.push({nx, ny});\n                        }\n                    }\n                }\n            }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n字符零是 '0'；只走四方向；入队时标记。\n",
+    "detailed": "## P1451 求细胞数量\n\n原题：[P1451](https://www.luogu.com.cn/problem/P1451)\n\n### 从问题到算法\n\n数字的具体大小不影响连接，只有零与非零的区别。按行列扫描，每遇到未标记的非零格，答案加一，从它开始广搜。\n\n搜索只走上下左右四个方向，不能走对角线；发现新格时立即标记，避免重复入队。一次搜索恰好遍历一个连通块，扫描会为每个块启动且仅启动一次，所以启动次数就是细胞数量。\n\n### 复杂度\n\n时间 O(nm)，空间 O(nm)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<string> a(n);\n    for (auto &s : a)\n        cin >> s;\n    int ans = 0;\n    int dx[4] = {1, -1, 0, 0}, dy[4] = {0, 0, 1, -1};\n    for (int i = 0; i < n; i++)\n        for (int j = 0; j < m; j++)\n            if (a[i][j] != '0') {\n                ans++;\n                queue<pair<int, int>> q;\n                q.push({i, j});\n                a[i][j] = '0';\n                while (!q.empty()) {\n                    auto [x, y] = q.front();\n                    q.pop();\n                    for (int d = 0; d < 4; d++) {\n                        int nx = x + dx[d], ny = y + dy[d];\n                        if (nx >= 0 && nx < n && ny >= 0 && ny < m && a[nx][ny] != '0') {\n                            a[nx][ny] = '0';\n                            q.push({nx, ny});\n                        }\n                    }\n                }\n            }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n字符零是 '0'；只走四方向；入队时标记。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1451",
+    "id": "luogu-training-P1451",
+    "programSha256": "69010ad7062f93a7f9863a3cec41f154baba393f3e944801e4267e84b045ca34",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

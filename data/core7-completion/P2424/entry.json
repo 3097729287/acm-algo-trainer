@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2424",
+  "method": "交换求和顺序后整除分块",
+  "variants": {
+    "default": "## P2424 约数和\n\n原题：[P2424](https://www.luogu.com.cn/problem/P2424)\n\n### 思路\n\n约数 d 在 1 到 N 中出现 floor(N/d) 次，因此前缀约数和为 Σ d·floor(N/d)。同一商对应一段连续的 d，用等差数列求和，区间答案是 F(y)−F(x−1)。\n\n### 复杂度\n\n时间 O(sqrt y)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long x, y;\n    cin >> x >> y;\n    auto solve = [](long long n) {\n        __int128 ans = 0;\n        for (long long l = 1, r; l <= n; l = r + 1) {\n            long long q = n / l;\n            r = n / q;\n            ans += (__int128)(l + r) * (r - l + 1) / 2 * q;\n        }\n        return ans;\n    };\n    __int128 v = solve(y) - solve(x - 1);\n    string s;\n    do {\n        s.push_back('0' + v % 10);\n        v /= 10;\n    } while (v);\n    reverse(s.begin(), s.end());\n    cout << s << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n右端是 N/(N/l)；x=1 时前缀为 0；乘积先转宽整数。\n",
+    "detailed": "## P2424 约数和\n\n原题：[P2424](https://www.luogu.com.cn/problem/P2424)\n\n### 从问题到算法\n\n直接对每个整数枚举约数会重复大量工作。反过来固定约数 d：在 1 到 N 中，它整除 d、2d、…，共 floor(N/d) 个数，所以贡献 d·floor(N/d)。\n\n设当前左端为 l，商 q=N/l。这个商保持不变的最远右端为 r=N/q；区间 [l,r] 内的贡献就是 q·(l+r)(r−l+1)/2。结算后令 l=r+1。不同整商只有 O(sqrt N) 种。\n\n定义 F(0)=0，闭区间 [x,y] 的答案为 F(y)−F(x−1)。中间乘积使用 __int128，最终同样用十进制输出，避免先乘后除时溢出。\n\n### 复杂度\n\n时间 O(sqrt y)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long x, y;\n    cin >> x >> y;\n    auto solve = [](long long n) {\n        __int128 ans = 0;\n        for (long long l = 1, r; l <= n; l = r + 1) {\n            long long q = n / l;\n            r = n / q;\n            ans += (__int128)(l + r) * (r - l + 1) / 2 * q;\n        }\n        return ans;\n    };\n    __int128 v = solve(y) - solve(x - 1);\n    string s;\n    do {\n        s.push_back('0' + v % 10);\n        v /= 10;\n    } while (v);\n    reverse(s.begin(), s.end());\n    cout << s << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n右端是 N/(N/l)；x=1 时前缀为 0；乘积先转宽整数。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2424",
+    "id": "luogu-training-P2424",
+    "programSha256": "40b62410ab08c192875293b1e693b30ce6bf1c2ff916b98a31446960f5f09df1",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

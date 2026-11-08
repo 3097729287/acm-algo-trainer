@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2789",
+  "method": "按平行类大小划分直线",
+  "variants": {
+    "default": "## P2789 直线交点数\n\n原题：[P2789](https://www.luogu.com.cn/problem/P2789)\n\n### 思路\n\n没有三线共点时，每对不平行直线产生唯一交点。将直线按斜率分组，添加 k 条新平行线到已有 i 条线时增加 ik 个交点。布尔 DP 记录每种线数可达到的交点数。\n\n### 复杂度\n\n时间 O(n⁴)，空间 O(n³)，n<=25。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    int maximum = n * (n - 1) / 2;\n    vector<vector<char>> dp(n + 1, vector<char>(maximum + 1));\n    dp[0][0] = 1;\n    for (int i = 0; i < n; i++)\n        for (int s = 0; s <= maximum; s++)\n            if (dp[i][s])\n                for (int k = 1; i + k <= n; k++)\n                    dp[i + k][s + i * k] = 1;\n    cout << count(dp[n].begin(), dp[n].end(), 1) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n只问不同交点数量有几种；新组内部平行；不能把三线共点计为一种压缩方式。\n",
+    "detailed": "## P2789 直线交点数\n\n原题：[P2789](https://www.luogu.com.cn/problem/P2789)\n\n### 从问题到算法\n\n交点数量只受哪些线平行影响。不同平行类中的任意两线相交，且没有三线共点保证这些交点各不相同；同类内不相交。\n\n设 dp[i][s] 表示 i 条直线可以得到 s 个交点。再加入一组 k 条相互平行、且与已有所有线均不平行的新线，它们内部不产生交点，与原图增加 i·k 个交点，所以更新 dp[i+k][s+i·k]。\n\n每一种平行类划分都能按某个组序生成，所有生成结果也都能选择不同斜率实现；不必统计生成次数，只记录是否可达，重复划分不会影响答案。n<=25，最大交点数为 C(n,2)，直接枚举状态和新组大小即可。\n\n### 复杂度\n\n时间 O(n⁴)，空间 O(n³)，n<=25。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    int maximum = n * (n - 1) / 2;\n    vector<vector<char>> dp(n + 1, vector<char>(maximum + 1));\n    dp[0][0] = 1;\n    for (int i = 0; i < n; i++)\n        for (int s = 0; s <= maximum; s++)\n            if (dp[i][s])\n                for (int k = 1; i + k <= n; k++)\n                    dp[i + k][s + i * k] = 1;\n    cout << count(dp[n].begin(), dp[n].end(), 1) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n只问不同交点数量有几种；新组内部平行；不能把三线共点计为一种压缩方式。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2789",
+    "id": "luogu-training-P2789",
+    "programSha256": "eae4b55a18f469fe74a7f08e9a29c48dda1531c0992f2e1d1013fd25cce7df9e",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

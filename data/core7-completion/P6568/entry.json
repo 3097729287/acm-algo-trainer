@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P6568",
+  "method": "长度为 k+1 的最大区间和",
+  "variants": {
+    "default": "## P6568 水壶\n\n原题：[P6568](https://www.luogu.com.cn/problem/P6568)\n\n### 思路\n\n要把连续 s 个水壶的水集中到最右侧，至少且只需 s−1 次倾倒。最多 k 次操作能汇集最多 k+1 个连续水壶，非负水量下取长度恰为 k+1 的最大窗口和。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    cin >> n >> k;\n    vector<long long> a(n);\n    for (auto &x : a)\n        cin >> x;\n    long long sum = accumulate(a.begin(), a.begin() + k + 1, 0LL), ans = sum;\n    for (int r = k + 1; r < n; r++) {\n        sum += a[r] - a[r - k - 1];\n        ans = max(ans, sum);\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n操作次数比壶数少一；只能向右汇集；k=0 时取最大单项。\n",
+    "detailed": "## P6568 水壶\n\n原题：[P6568](https://www.luogu.com.cn/problem/P6568)\n\n### 从问题到算法\n\n水只能向右流。最终选中某个水壶时，能流入的初始水壶一定来自它左侧的一个连续区间；要跨过区间中每条边，至少执行一次对应倾倒。区间长度 s 需要至少 s−1 次。\n\n从左到右把水逐次倒向下一壶，恰好 s−1 次即可汇集整个区间，所以这个下界可达。由于 A 非负，较短区间可以扩充到 k+1 长度而不变差，问题变为定长最大区间和。\n\n先算首个窗口，每次向右移动时减去离开的数、加上新数，维护最大值。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    cin >> n >> k;\n    vector<long long> a(n);\n    for (auto &x : a)\n        cin >> x;\n    long long sum = accumulate(a.begin(), a.begin() + k + 1, 0LL), ans = sum;\n    for (int r = k + 1; r < n; r++) {\n        sum += a[r] - a[r - k - 1];\n        ans = max(ans, sum);\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n操作次数比壶数少一；只能向右汇集；k=0 时取最大单项。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P6568",
+    "id": "luogu-training-P6568",
+    "programSha256": "284c4f67ceab47a3c72193d7750638b9dec3a5b2349dbc16003b90f95f548bc8",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}
