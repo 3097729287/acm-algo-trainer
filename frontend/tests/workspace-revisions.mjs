@@ -1,6 +1,7 @@
 import {openSettings} from './settings-navigation.mjs';
 import {checkSearchOverlay} from './workspace-search-overlay.mjs';
 import {checkSearchReturn} from './workspace-search-return.mjs';
+import {checkProblemNumberSearch} from './problem-number-search-ui.mjs';
 import assert from 'node:assert/strict';
 import { mkdir,writeFile } from 'node:fs/promises';
 import { createServer,preview } from 'vite';
@@ -97,10 +98,12 @@ const nav=name=>page.locator('.sidebar').getByRole('button',{name,exact:true});
 const out='../.backups/library-backgrounds/app-checks';await mkdir(out,{recursive:true});
 try{
  rows[0].title='二分';rows[1].title='二分';
+ Object.assign(rows[119],{title:'单调队列 / 滑动窗口',platform:'洛谷',problem:'P1886',url:'https://www.luogu.com.cn/problem/P1886'});
  await page.goto(vite.resolvedUrls.local[0]);await page.locator('.problem-table tr[data-id]').first().waitFor();const search=page.getByRole('searchbox',{name:'统一搜索',exact:true}),bookmarks=page.locator('#tb-page-bookmarks');await search.waitFor();
 
  const searchOverlay=await checkSearchOverlay({page,search,out});
  const searchReturn=await checkSearchReturn({page,search});
+ const problemNumberSearch=await checkProblemNumberSearch({page,search});
  // Opening the inventory must work before its initial request completes and after a failure.
  const packDialog=page.getByRole('dialog',{name:'卡包',exact:true});
  await page.locator('.app-statusbar').getByRole('button',{name:'卡包',exact:true}).click();await packDialog.getByRole('status').waitFor();releaseInventory();await packDialog.getByRole('alert').waitFor();await packDialog.getByRole('button',{name:'重新读取',exact:true}).click();await packDialog.getByText('暂无待开启的卡包',{exact:true}).waitFor();await packDialog.getByRole('button',{name:'关闭卡包',exact:true}).click();
