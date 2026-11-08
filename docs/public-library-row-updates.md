@@ -26,10 +26,16 @@ second startup idempotent. Unknown bases, corrupt transports and missing reused
 resources stop before a private library merge. Unrecognized existing cache files
 are preserved; a distinct verified cache file is used instead.
 
-Validation on 2026-11-09: 46 targeted checks pass, including original compact
+Validation on 2026-11-09: 47 targeted checks pass, including original compact
 installer recovery, base tampering, complete versus partial merges, multiple
 released base contents, local explanations, course deletion, inline image reuse
-and cache filename collisions. The 1.6.9 to frozen 1.6.10 content prototype is
+and cache filename collisions. A pre-existing merge bug was also fixed: parsing
+one fetched statement must not replace the table-wide saved-row lookup and
+overwrite subsequent fetched overrides. The new two-path regression fails on
+the prior implementation and passes on the fix. Two actual released 1.6.9 public
+seed layouts produce the same eleven checked tables and 6,441 resource identities
+as a full merge, including independent local explanation and draft fixtures.
+The 1.6.9 to frozen 1.6.10 content prototype is
 about 1.05 MB. This is a content transport measurement, not a claim that the
 whole user-visible update meets the one-minute goal. The new path is not yet on
 the stable channel.
