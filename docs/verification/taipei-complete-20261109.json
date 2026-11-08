@@ -1,0 +1,84 @@
+{
+  "date": "2026-11-09",
+  "status": "verified-unpublished-source",
+  "publicReleaseUpdated": false,
+  "formalVersion": "1.6.8",
+  "publicLibrarySha256": "72da9cad1565ae5fdd9bec79bbbcc6d33842cb5ca0012fdfb272ff2f79d2915c",
+  "sourceFingerprint": "18ef6c06dcd9b353129246d93e6d570c7a248cec2961c23a95a8a3b02b946d4a",
+  "counts": {
+    "problems": 13480,
+    "statements": 13459,
+    "normalEditorials": 3191,
+    "detailedEditorials": 2306,
+    "usableChineseTranslations": 6102,
+    "originalsIncomplete": 91,
+    "translationsPending": 58,
+    "translationsDisabled": 0,
+    "translationsInvalid": 0,
+    "visibleKnowledgePending": 3194,
+    "visibleDifficultyPending": 1033
+  },
+  "reviewedTaipei2021": {
+    "problems": 13,
+    "pages": 34,
+    "samplePairs": 20,
+    "originalDiagramsRestored": 5,
+    "allPagesVisuallyReviewed": true,
+    "pdfOriginalsRetained": true,
+    "protectedFormulasAndCodeValidated": true,
+    "communityServiceFailureLiteral": ">_<",
+    "frameSampleOutputDimensions": [
+      [
+        11,
+        7
+      ],
+      [
+        34,
+        19
+      ]
+    ]
+  },
+  "postReleaseTranslations": 17,
+  "actualMarkdownRender": {
+    "total": 34,
+    "rendered": 34,
+    "nativePdf": 0,
+    "issues": []
+  },
+  "actualWorkbench": {
+    "checked": [
+      "remote:codeforces:103443::A",
+      "remote:codeforces:103443::B",
+      "remote:codeforces:103443::C",
+      "remote:codeforces:103443::D",
+      "remote:codeforces:103443::E",
+      "remote:codeforces:103443::F",
+      "remote:codeforces:103443::G",
+      "remote:codeforces:103443::H",
+      "remote:codeforces:103443::I",
+      "remote:codeforces:103443::J",
+      "remote:codeforces:103443::K",
+      "remote:codeforces:103443::L",
+      "remote:codeforces:103443::M",
+      "remote:codeforces:102835::C",
+      "remote:codeforces:102835::F",
+      "remote:codeforces:102835::G",
+      "remote:codeforces:102835::H"
+    ],
+    "originalImagesLoaded": 11,
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "samplesPreserved": true,
+    "originalPdfRestored": true,
+    "externalRequests": 0
+  },
+  "targetedBackendTests": 58,
+  "exactPublicLibraryChecked": true,
+  "personalStateReadOrWritten": false,
+  "previousFullBackendBaseline": {
+    "sourceCommit": "e56b94ac",
+    "tests": 1313,
+    "skipped": 2,
+    "proof": "source-completion-20261109.json"
+  }
+}

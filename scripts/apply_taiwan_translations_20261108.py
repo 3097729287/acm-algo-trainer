@@ -1,6 +1,7 @@
 """Apply six page-reviewed translations and exact native sample corrections."""
 import copy
 import argparse
+import base64
 import datetime
 import hashlib
 import json
@@ -11,7 +12,28 @@ import sys
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'backend'),str(ROOT/'backend/common')]
 from statement_seed import checksum,load_statements
+from statement_resources import inspect_resource
 from translation import TRANSLATION_FORMAT,bundled_translation
+
+
+def reviewed_figures(folder, proof, original, english, chinese):
+    figures=proof.get('figures',[])
+    names=[entry['file'] for entry in figures]
+    assert len(names)==len(set(names))
+    for text in (english,chinese):
+        assert set(re.findall(r'!\[[^\]]*\]\(([^)]+)\)',text))==set(names)
+    images={};manifest={}
+    for figure in figures:
+        name=figure['file']
+        assert Path(name).name==name and figure['page'] in proof['pagesReviewed']
+        raw=(folder/name).read_bytes()
+        assert hashlib.sha256(raw).hexdigest()==figure['sha256']
+        entry=inspect_resource(raw,original['statementPdf']['sourceUrl'],'image')
+        entry.update(derivedFromPdfSha256=proof['pdfSha256'],kind='reviewed-original-diagram',
+                     sourcePage=figure['page'],clipRect=figure['clipRect'])
+        images[name]='data:'+entry['mime']+';base64,'+base64.b64encode(raw).decode('ascii')
+        manifest[name]=entry
+    return images,manifest
 
 
 def main(folder=None,contest='105544',review_file='review.json',packet_prefix='zzzzzzzzzzz-20261108-taiwan'):
@@ -37,12 +59,15 @@ def main(folder=None,contest='105544',review_file='review.json',packet_prefix='z
             for language,text in [('en',english),('zh',chinese)]:
                 assert '```text\n'+sample['input']+'\n```' in text,(identity,language,i,'input')
                 assert '```text\n'+sample['output']+'\n```' in text,(identity,language,i,'output')
+        images,manifest=reviewed_figures(folder,proof,current[identity],english,chinese)
         target=ROOT/('data/library/statement-patches/'+packet_prefix+'-'+letter+'.json')
         if target.exists():
             stored=json.loads(target.read_text('utf8'))['statements'][0]['content']
             assert current[identity]==stored
             assert stored['sourceText']==english and stored['translation']['markdown']==chinese
             assert stored['samples']==sample_record['samples']
+            assert all(stored.get('images',{}).get(name)==value for name,value in images.items())
+            assert all(stored.get('resourceManifest',{}).get(name)==value for name,value in manifest.items())
             assert bundled_translation(stored)
             continue
         before=current[identity];value=copy.deepcopy(before)
@@ -56,6 +81,9 @@ def main(folder=None,contest='105544',review_file='review.json',packet_prefix='z
         value['sampleExtraction']={k:v for k,v in sample_record.items() if k!='samples'}
         value['sourceTextReview']={**proof,'method':'page-by-page-original-pdf-review','sourceTextSha256':hashlib.sha256(english.encode()).hexdigest()}
         value['translationAvailable']=True
+        if images:
+            value.setdefault('images',{}).update(images)
+            value.setdefault('resourceManifest',{}).update(manifest)
         value['translation']={'kind':'bundled','provider':'逐页核对原始 PDF 的预置中文译文','format':TRANSLATION_FORMAT,
             'sourceHash':hashlib.sha256(value['markdown'].encode()).hexdigest(),'sourceLanguage':'en','targetLanguage':'zh-CN',
             'inputKind':'pdf-text','sourceTextHash':hashlib.sha256(english.encode()).hexdigest(),

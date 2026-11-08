@@ -1,0 +1,305 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:103443::E",
+      "beforeSha256": "830a795918bc36613f26762651d8637c5e4cefe4e0a7f905791e54a6f5368418",
+      "content": {
+        "markdown": "# Composition with Large Red Plane, Yellow, Black, Gray, and Blue\n\n2021 ICPC Asia Taipei Regional\r\nProblem E\r\nComposition with Large Red Plane, Yellow, Black, Gray,\r\nand Blue\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nMona is a mosaic designer. Recently many customers ask her to build rectangle frames with\r\nindicated size to embed photos with instructed layouts. The frames contain borders with 1\r\npixel thick, and 1 pixel gaps between embedded photos. These photos could be resized with\r\npreserved width-height ratios. And they must have integer widths and heights after being\r\nresized.\r\nAnd she needs your help to give her a program to check if each customer’s request could be\r\nfulfilled.\r\nInput Format\r\nThe first line will be 2 positive integers 𝑊 and 𝐻 indicating the width and height of the\r\nrequested frame.\r\nThe following lines will describe the layout. The description composed by H-blocks, V-blocks\r\nand photos, each occupies a rectangle region.\r\nAn H-block describes a region separated horizontally into one or more subregions. The first\r\nline of the H-block description will be a positive integer 𝑆, which means this region will be\r\nsplit into 𝑆 subregions. Each subregion will be a V-block or a photo. And the followings are\r\ndescriptions for subregions.\r\nA V-block describes a region separated vertically into one or more subregions. The first line of\r\nthe V-block description will be a positive integer 𝑆, which means this region will be split into 𝑆\r\nsubregions. Each subregion will be an H-blocks or a photo. And the followings are descriptions\r\nfor subregions.\r\nA photo description describes a region which occupied by a photo. The first line of the descrip￾tion is a 0 to make this description distinguishable from descriptions of H-blocks and V-blocks.\r\nThe second line has 2 positive integers 𝑤 and ℎ indicating the width and the height of the given\r\nphoto.\r\nThe whole layout is an H-block or a photo, distinguished by the first number.\r\nOutput Format\r\nIf the request could be fulfilled. Print a preview of the frame.\r\nThe preview should have 𝐻 lines and 𝑊 columns in each line. For each character, print a blank\r\nspace ‘ ’ for embedded photos, and print an asterisk ‘*’ for borders or photo gaps.\r\n11\n\n2021 ICPC Asia Taipei Regional\r\nIf the request couldn’t be fulfilled. Print a line with message ‘Impossible’.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑊, 𝐻 ≤ 1000, the width and the height of the frame.\r\n∙ 1 ≤ 𝑤, ℎ ≤ 1000, the width and the height of each photo.\r\n∙ 𝑁 ≤ 2000, the total number of H-blocks, V-blocks and photos.\r\nSample Input 1\r\n11 7\r\n2\r\n2\r\n0\r\n3 1\r\n0\r\n2 2\r\n0\r\n1 1\r\nSample Output 1\r\n***********\r\n* * *\r\n***** *\r\n* * *\r\n* * *\r\n* * *\r\n***********\r\nSample Input 2\r\n11 7\r\n2\r\n2\r\n0\r\n3 1\r\n0\r\n2 2\r\n0\r\n1 2\r\nSample Output 2\r\nImpossible\r\n12\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 3\r\n34 19\r\n2\r\n2\r\n3\r\n0\r\n7 1\r\n0\r\n11 1\r\n0\r\n9 1\r\n2\r\n3\r\n0\r\n3 3\r\n0\r\n3 5\r\n0\r\n3 5\r\n2\r\n2\r\n0\r\n15 7\r\n2\r\n0\r\n9 3\r\n2\r\n0\r\n4 3\r\n0\r\n4 3\r\n2\r\n2\r\n0\r\n7 3\r\n0\r\n7 3\r\n3\r\n2\r\n0\r\n7 1\r\n13\n\n2021 ICPC Asia Taipei Regional\r\n0\r\n9 1\r\n2\r\n2\r\n0\r\n7 1\r\n0\r\n7 1\r\n0\r\n9 3\r\n0\r\n17 1\r\n2\r\n0\r\n2 11\r\n0\r\n2 5\r\nSample Output 3\r\n**********************************\r\n* * * * *\r\n******************************* *\r\n* * * * *\r\n* * * * *\r\n* * * * *\r\n***** *********** *\r\n* * * * * *\r\n* * * * * *\r\n* * * * * *\r\n* *************************** *\r\n* * * * * *\r\n***** **********************\r\n* * * * * *\r\n* ***************** * *\r\n* * * * * *\r\n* * ******************* *\r\n* * * * *\r\n**********************************\r\n14\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 1",
+            "output": "***********\n*   *     *\n*****     *\n*   *     *\n*   *     *\n*   *     *\n***********"
+          },
+          {
+            "name": "样例 2",
+            "input": "11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 2",
+            "output": "Impossible"
+          },
+          {
+            "name": "样例 3",
+            "input": "34 19\n2\n2\n3\n0\n7 1\n0\n11 1\n0\n9 1\n2\n3\n0\n3 3\n0\n3 5\n0\n3 5\n2\n2\n0\n15 7\n2\n0\n9 3\n2\n0\n4 3\n0\n4 3\n2\n2\n0\n7 3\n0\n7 3\n3\n2\n0\n7 1\n0\n9 1\n2\n2\n0\n7 1\n0\n7 1\n0\n9 3\n0\n17 1\n2\n0\n2 11\n0\n2 5",
+            "output": "**********************************\n*       *           *         *  *\n*******************************  *\n*   *               *         *  *\n*   *               *         *  *\n*   *               *         *  *\n*****               ***********  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   ***************************  *\n*   *       *       *         *  *\n*****       **********************\n*   *       *       *         *  *\n*   *****************         *  *\n*   *       *       *         *  *\n*   *       *******************  *\n*   *       *                 *  *\n**********************************"
+          }
+        ],
+        "pageCount": 4,
+        "sourceText": "# Composition with Large Red Plane, Yellow, Black, Gray, and Blue\n\nTime limit: 1 second. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nMona is a mosaic designer. Customers ask her to build rectangular frames of specified sizes, with photos embedded in specified layouts. Each frame has a border of thickness $1$ pixel, and a gap of $1$ pixel separates neighboring photos. Photos may be resized while preserving their width-to-height ratios, but both dimensions after resizing must be integers.\n\nHelp Mona check whether each customer's request can be fulfilled.\n\n## Input Format\n\nThe first line contains two positive integers $W$ and $H$, the requested frame's width and height.\n\nThe remaining input describes the layout. A layout consists of H-blocks, V-blocks and photos, each occupying a rectangular region.\n\nAn H-block divides its region horizontally into one or more subregions arranged from left to right. Its description begins with a positive integer $S$, the number of subregions. Each subregion is a V-block or a photo, and the descriptions of these subregions follow in order.\n\nA V-block divides its region vertically into one or more subregions arranged from top to bottom. Its description begins with a positive integer $S$, the number of subregions. Each subregion is an H-block or a photo, and the descriptions of these subregions follow in order.\n\nA photo description begins with $0$, distinguishing it from a block description. The next line contains two positive integers $w$ and $h$, the original photo's width and height.\n\nThe entire layout is either an H-block or a photo, as determined by its first number.\n\n## Output Format\n\nIf the request can be fulfilled, print a preview of the frame consisting of $H$ lines, each containing $W$ characters. Use a space character for each photo pixel and `*` for each border or gap pixel.\n\nIf it cannot be fulfilled, print `Impossible` on one line.\n\n## Technical Specification\n\n- $1\\le W,H\\le1000$.\n- $1\\le w,h\\le1000$ for each photo.\n- $N\\le2000$, where $N$ is the total number of H-blocks, V-blocks and photos.\n\n## Sample 1\n\n### Input\n\n```text\n11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 1\n```\n\n### Output\n\n```text\n***********\n*   *     *\n*****     *\n*   *     *\n*   *     *\n*   *     *\n***********\n```\n\n## Sample 2\n\n### Input\n\n```text\n11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 2\n```\n\n### Output\n\n```text\nImpossible\n```\n\n## Sample 3\n\n### Input\n\n```text\n34 19\n2\n2\n3\n0\n7 1\n0\n11 1\n0\n9 1\n2\n3\n0\n3 3\n0\n3 5\n0\n3 5\n2\n2\n0\n15 7\n2\n0\n9 3\n2\n0\n4 3\n0\n4 3\n2\n2\n0\n7 3\n0\n7 3\n3\n2\n0\n7 1\n0\n9 1\n2\n2\n0\n7 1\n0\n7 1\n0\n9 3\n0\n17 1\n2\n0\n2 11\n0\n2 5\n```\n\n### Output\n\n```text\n**********************************\n*       *           *         *  *\n*******************************  *\n*   *               *         *  *\n*   *               *         *  *\n*   *               *         *  *\n*****               ***********  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   ***************************  *\n*   *       *       *         *  *\n*****       **********************\n*   *       *       *         *  *\n*   *****************         *  *\n*   *       *       *         *  *\n*   *       *******************  *\n*   *       *                 *  *\n**********************************\n```\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "sourcePdfSha256": "9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+          "pages": [
+            11,
+            12,
+            13,
+            14
+          ]
+        },
+        "id": "remote:codeforces:103443::E",
+        "title": "Composition with Large Red Plane, Yellow, Black, Gray, and Blue",
+        "url": "https://codeforces.com/gym/103443/problem/E",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+          "bytes": 127516,
+          "mime": "application/pdf",
+          "pageCount": 4,
+          "data": "tb-asset:9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+          "fileName": "gym-103443-E.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            11,
+            12,
+            13,
+            14
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          11,
+          12,
+          13,
+          14
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "E",
+          "pdfTitle": "Composition with Large Red Plane, Yellow, Black, Gray, and Blue",
+          "rosterTitle": "Composition with Large Red Plane, Yellow, Black, Gray, and Blue",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 3,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.631433+00:00",
+          "corpusAuditVerifiedSha256": "57f99f6a11ec721e228c5a4fc4c3b008122bca0c3a68378f0ab2cdcddf19b029"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": true,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::E",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+          "sourcePages": [
+            11,
+            12,
+            13,
+            14
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 3,
+          "samplesSha256": "bbbceea6e67b20c8a33902da67b2aea0fd6c1f64e6ac901e1516b54582031c0d",
+          "samplePagesReviewed": [
+            2,
+            3,
+            4
+          ],
+          "allPagesRendered": true
+        },
+        "sourceTextArchive": [
+          {
+            "text": "2021 ICPC Asia Taipei Regional\r\nProblem E\r\nComposition with Large Red Plane, Yellow, Black, Gray,\r\nand Blue\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nMona is a mosaic designer. Recently many customers ask her to build rectangle frames with\r\nindicated size to embed photos with instructed layouts. The frames contain borders with 1\r\npixel thick, and 1 pixel gaps between embedded photos. These photos could be resized with\r\npreserved width-height ratios. And they must have integer widths and heights after being\r\nresized.\r\nAnd she needs your help to give her a program to check if each customer’s request could be\r\nfulfilled.\r\nInput Format\r\nThe first line will be 2 positive integers 𝑊 and 𝐻 indicating the width and height of the\r\nrequested frame.\r\nThe following lines will describe the layout. The description composed by H-blocks, V-blocks\r\nand photos, each occupies a rectangle region.\r\nAn H-block describes a region separated horizontally into one or more subregions. The first\r\nline of the H-block description will be a positive integer 𝑆, which means this region will be\r\nsplit into 𝑆 subregions. Each subregion will be a V-block or a photo. And the followings are\r\ndescriptions for subregions.\r\nA V-block describes a region separated vertically into one or more subregions. The first line of\r\nthe V-block description will be a positive integer 𝑆, which means this region will be split into 𝑆\r\nsubregions. Each subregion will be an H-blocks or a photo. And the followings are descriptions\r\nfor subregions.\r\nA photo description describes a region which occupied by a photo. The first line of the descrip￾tion is a 0 to make this description distinguishable from descriptions of H-blocks and V-blocks.\r\nThe second line has 2 positive integers 𝑤 and ℎ indicating the width and the height of the given\r\nphoto.\r\nThe whole layout is an H-block or a photo, distinguished by the first number.\r\nOutput Format\r\nIf the request could be fulfilled. Print a preview of the frame.\r\nThe preview should have 𝐻 lines and 𝑊 columns in each line. For each character, print a blank\r\nspace ‘ ’ for embedded photos, and print an asterisk ‘*’ for borders or photo gaps.\r\n11\n\n2021 ICPC Asia Taipei Regional\r\nIf the request couldn’t be fulfilled. Print a line with message ‘Impossible’.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑊, 𝐻 ≤ 1000, the width and the height of the frame.\r\n∙ 1 ≤ 𝑤, ℎ ≤ 1000, the width and the height of each photo.\r\n∙ 𝑁 ≤ 2000, the total number of H-blocks, V-blocks and photos.\r\nSample Input 1\r\n11 7\r\n2\r\n2\r\n0\r\n3 1\r\n0\r\n2 2\r\n0\r\n1 1\r\nSample Output 1\r\n***********\r\n* * *\r\n***** *\r\n* * *\r\n* * *\r\n* * *\r\n***********\r\nSample Input 2\r\n11 7\r\n2\r\n2\r\n0\r\n3 1\r\n0\r\n2 2\r\n0\r\n1 2\r\nSample Output 2\r\nImpossible\r\n12\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 3\r\n34 19\r\n2\r\n2\r\n3\r\n0\r\n7 1\r\n0\r\n11 1\r\n0\r\n9 1\r\n2\r\n3\r\n0\r\n3 3\r\n0\r\n3 5\r\n0\r\n3 5\r\n2\r\n2\r\n0\r\n15 7\r\n2\r\n0\r\n9 3\r\n2\r\n0\r\n4 3\r\n0\r\n4 3\r\n2\r\n2\r\n0\r\n7 3\r\n0\r\n7 3\r\n3\r\n2\r\n0\r\n7 1\r\n13\n\n2021 ICPC Asia Taipei Regional\r\n0\r\n9 1\r\n2\r\n2\r\n0\r\n7 1\r\n0\r\n7 1\r\n0\r\n9 3\r\n0\r\n17 1\r\n2\r\n0\r\n2 11\r\n0\r\n2 5\r\nSample Output 3\r\n**********************************\r\n* * * * *\r\n******************************* *\r\n* * * * *\r\n* * * * *\r\n* * * * *\r\n***** *********** *\r\n* * * * * *\r\n* * * * * *\r\n* * * * * *\r\n* *************************** *\r\n* * * * * *\r\n***** **********************\r\n* * * * * *\r\n* ***************** * *\r\n* * * * * *\r\n* * ******************* *\r\n* * * * *\r\n**********************************\r\n14",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "5e62c4e049b04db4152da82ae512577bb5e684be0d2dd8cff1421c2802234aff"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 1",
+                "output": "***********\n*   *     *\n*****     *\n*   *     *\n*   *     *\n*   *     *\n***********"
+              },
+              {
+                "name": "样例 2",
+                "input": "11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 2",
+                "output": "Impossible"
+              },
+              {
+                "name": "样例 3",
+                "input": "34 19\n2\n2\n3\n0\n7 1\n0\n11 1\n0\n9 1\n2\n3\n0\n3 3\n0\n3 5\n0\n3 5\n2\n2\n0\n15 7\n2\n0\n9 3\n2\n0\n4 3\n0\n4 3\n2\n2\n0\n7 3\n0\n7 3\n3\n2\n0\n7 1\n0\n9 1\n2\n2\n0\n7 1\n0\n7 1\n0\n9 3\n0\n17 1\n2\n0\n2 11\n0\n2 5",
+                "output": "**********************************\n*       *           *         *  *\n*******************************  *\n*   *               *         *  *\n*   *               *         *  *\n*   *               *         *  *\n*****               ***********  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   ***************************  *\n*   *       *       *         *  *\n*****       **********************\n*   *       *       *         *  *\n*   *****************         *  *\n*   *       *       *         *  *\n*   *       *******************  *\n*   *       *                 *  *\n**********************************"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+              "pagesReviewed": [
+                2,
+                3,
+                4
+              ],
+              "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+              "samples": [
+                {
+                  "name": "样例 1",
+                  "input": "11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 1",
+                  "output": "***********\n*   *     *\n*****     *\n*   *     *\n*   *     *\n*   *     *\n***********"
+                },
+                {
+                  "name": "样例 2",
+                  "input": "11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 2",
+                  "output": "Impossible"
+                },
+                {
+                  "name": "样例 3",
+                  "input": "34 19\n2\n2\n3\n0\n7 1\n0\n11 1\n0\n9 1\n2\n3\n0\n3 3\n0\n3 5\n0\n3 5\n2\n2\n0\n15 7\n2\n0\n9 3\n2\n0\n4 3\n0\n4 3\n2\n2\n0\n7 3\n0\n7 3\n3\n2\n0\n7 1\n0\n9 1\n2\n2\n0\n7 1\n0\n7 1\n0\n9 3\n0\n17 1\n2\n0\n2 11\n0\n2 5",
+                  "output": "**********************************\n*       *           *         *  *\n*******************************  *\n*   *               *         *  *\n*   *               *         *  *\n*   *               *         *  *\n*****               ***********  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   ***************************  *\n*   *       *       *         *  *\n*****       **********************\n*   *       *       *         *  *\n*   *****************         *  *\n*   *       *       *         *  *\n*   *       *******************  *\n*   *       *                 *  *\n**********************************"
+                }
+              ],
+              "geometryReview": {
+                "method": "page-reviewed-cross-page-code-and-glyph-grid",
+                "sampleCount": 3,
+                "outputGeometry": [
+                  {
+                    "rowPitches": [
+                      7.284303283691406,
+                      7.383531188964843,
+                      7.344079971313477,
+                      7.383531188964843,
+                      7.383531188964843,
+                      7.383531188964843,
+                      7.284303283691406
+                    ],
+                    "columns": 11,
+                    "rows": 7,
+                    "maximumCellRoundingError": 0.2
+                  },
+                  {
+                    "rowPitches": [
+                      7.352084997928504,
+                      7.382879546194365,
+                      7.369472966049656,
+                      7.382879546194365,
+                      7.382879546194365,
+                      7.382879546194365,
+                      7.372371442390211,
+                      7.383241133256392,
+                      7.383241133256392,
+                      7.383241133256392,
+                      7.386498191139915,
+                      7.383242058031486,
+                      7.356790831594756,
+                      7.383242058031486,
+                      7.385050918116714,
+                      7.383242058031486,
+                      7.385413429953835,
+                      7.382879546194365,
+                      7.352084997928504
+                    ],
+                    "columns": 34,
+                    "rows": 19,
+                    "maximumCellRoundingError": 0.2
+                  }
+                ],
+                "pagesReviewed": [
+                  2,
+                  3,
+                  4
+                ]
+              }
+            }
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "E",
+          "pdfSha256": "9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+          "pageCount": 4,
+          "pagesReviewed": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourcePageNumbers": [
+            11,
+            12,
+            13,
+            14
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [],
+          "notes": [
+            "逐页核对全部四页；H 块从左到右排列，V 块从上到下排列，与原稿样例一致。",
+            "样例 1 和样例 3 按原始 PDF 中星号的字符坐标恢复空格；分别严格为 11×7 和 34×19。",
+            "缩放后宽高为整数，不要求原尺寸的整数倍。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "20916fe5b68350b5621183c186c0ad22f3b8284c184fdaf1ea8be48901993a92"
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "57f99f6a11ec721e228c5a4fc4c3b008122bca0c3a68378f0ab2cdcddf19b029",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "20916fe5b68350b5621183c186c0ad22f3b8284c184fdaf1ea8be48901993a92",
+          "sourcePdfSha256": "9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+          "markdown": "# 大红平面与黄、黑、灰、蓝的构图\n\n时间限制：1 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\nMona 是一位马赛克设计师。顾客要求她制作指定尺寸的矩形相框，并按指定布局嵌入照片。相框的边框厚度为 $1$ 像素，相邻照片之间的间隔也是 $1$ 像素。照片可以保持宽高比进行缩放，但缩放后的宽度和高度都必须是整数。\n\n请帮助 Mona 判断每位顾客的要求能否实现。\n\n## 输入格式\n\n第一行包含两个正整数 $W$ 和 $H$，分别表示所需相框的宽度和高度。\n\n其余输入描述布局。布局由 H 块、V 块和照片组成，每个部分占据一个矩形区域。\n\nH 块将所在区域沿水平方向划分为一个或多个从左到右排列的子区域。其描述首先包含一个正整数 $S$，表示子区域数。每个子区域都是一个 V 块或一张照片，随后按顺序给出各子区域的描述。\n\nV 块将所在区域沿竖直方向划分为一个或多个从上到下排列的子区域。其描述首先包含一个正整数 $S$，表示子区域数。每个子区域都是一个 H 块或一张照片，随后按顺序给出各子区域的描述。\n\n照片的描述以 $0$ 开头，用于区分照片和块。下一行包含两个正整数 $w$ 和 $h$，分别表示原照片的宽度和高度。\n\n整个布局要么是一个 H 块，要么是一张照片，由第一个数区分。\n\n## 输出格式\n\n如果能够实现要求，输出相框预览，共 $H$ 行，每行 $W$ 个字符。照片所占的像素输出空格，边框或照片间隔所占的像素输出 `*`。\n\n如果无法实现，单独一行输出 `Impossible`。\n\n## 数据范围\n\n- $1\\le W,H\\le1000$。\n- 每张照片满足 $1\\le w,h\\le1000$。\n- $N\\le2000$，其中 $N$ 是 H 块、V 块和照片的总数。\n\n## 样例 1\n\n### 输入\n\n```text\n11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 1\n```\n\n### 输出\n\n```text\n***********\n*   *     *\n*****     *\n*   *     *\n*   *     *\n*   *     *\n***********\n```\n\n## 样例 2\n\n### 输入\n\n```text\n11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 2\n```\n\n### 输出\n\n```text\nImpossible\n```\n\n## 样例 3\n\n### 输入\n\n```text\n34 19\n2\n2\n3\n0\n7 1\n0\n11 1\n0\n9 1\n2\n3\n0\n3 3\n0\n3 5\n0\n3 5\n2\n2\n0\n15 7\n2\n0\n9 3\n2\n0\n4 3\n0\n4 3\n2\n2\n0\n7 3\n0\n7 3\n3\n2\n0\n7 1\n0\n9 1\n2\n2\n0\n7 1\n0\n7 1\n0\n9 3\n0\n17 1\n2\n0\n2 11\n0\n2 5\n```\n\n### 输出\n\n```text\n**********************************\n*       *           *         *  *\n*******************************  *\n*   *               *         *  *\n*   *               *         *  *\n*   *               *         *  *\n*****               ***********  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   ***************************  *\n*   *       *       *         *  *\n*****       **********************\n*   *       *       *         *  *\n*   *****************         *  *\n*   *       *       *         *  *\n*   *       *******************  *\n*   *       *                 *  *\n**********************************\n```\n"
+        },
+        "translationReview": {
+          "letter": "E",
+          "pdfSha256": "9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+          "pageCount": 4,
+          "pagesReviewed": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourcePageNumbers": [
+            11,
+            12,
+            13,
+            14
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [],
+          "notes": [
+            "逐页核对全部四页；H 块从左到右排列，V 块从上到下排列，与原稿样例一致。",
+            "样例 1 和样例 3 按原始 PDF 中星号的字符坐标恢复空格；分别严格为 11×7 和 34×19。",
+            "缩放后宽高为整数，不要求原尺寸的整数倍。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "20916fe5b68350b5621183c186c0ad22f3b8284c184fdaf1ea8be48901993a92",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

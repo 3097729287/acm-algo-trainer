@@ -1,0 +1,202 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:103443::I",
+      "beforeSha256": "ef363f7f1f3a57114d9e2ac6b146e44b1215071f04378d040a8a13e7e0706eb3",
+      "content": {
+        "markdown": "# Seesaw\n\n2021 ICPC Asia Taipei Regional\r\nProblem I\r\nSeesaw\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThere is a seesaw in a playground. On each side of the seesaw, there are 𝑆 seats, where the\r\nseats are located at distance exactly 1, 2, . . . , 𝑆 units from the center. When a seat at distance\r\n𝑑 units from the center is occupied by someone with weight 𝑤, a torque of magnitude 𝑤 × 𝑑\r\nwill appear on the corresponding side of the seesaw. The seesaw is balanced when the total\r\ntorque on both sides have the same magnitude.\r\nInitially, all the seats on the seesaw are occupied with kids with positive integral weights.\r\nFurthermore, on the left side of the seesaw, all kids have odd weights, while on the right side\r\nof the seesaw, all kids have even weights. Unfortunately, the seesaw is not balanced. Someone\r\nsuggests to exchange the kids around, so as to see if the seesaw can be balanced. However, kids\r\nwith weight more than 2 are unwilling to move, so that they will never change their seats. Your\r\ntask is to determine if it is possible to make the seesaw balanced, and if so, what the minimum\r\nnumber of exchanges is.\r\nFor example, suppose 𝑆 = 3, the kids on the left side all have weight 1, and the kids on the\r\nright side all have weight 2. Then, it is possible to make 1 exchange, by exchanging the kids at\r\ndistance 3 on both sides, so that the total torque of the left side becomes 1×1+1×2+2×3 = 9,\r\nand the total torque of the right side becomes 2 × 1 + 2 × 2 + 1 × 3 = 9, and the seesaw is\r\nbalanced.\r\nFor another example, suppose 𝑆 = 3, the kids on the left side all have weight 1, and the kids\r\non the right side of the seesaw have weights 4, 2, 2, at distance 1, 2, 3 units, respectively. Then,\r\nit is possible to make 2 exchanges, first by exchanging the kids at distance 2 on both sides, and\r\nthen by exchanging the kid at distance 1 on the left with the kid at distance 3 on the right, so\r\nthat the total torque on the left side becomes 2 × 1 + 2 × 2 + 1 × 3 = 9, and the total torque of\r\nthe right side becomes 4 × 1 + 1 × 2 + 1 × 3 = 9, and the seesaw is balanced. In contrast, we\r\nsee that it is impossible to balance the seesaw with just 1 exchange, so the minimum number\r\nof exchanges in this example is 2.\r\nInput Format\r\nThe first line of the input is a positive integer 𝑇 denoting the number of test cases. Each test\r\ncase begins with a positive integer 𝑆, denoting the number of seats on each side of the seesaw.\r\nThen, the next line contains 𝑆 odd integers, which are the weights of the kids on the left side of\r\nthe seesaw, listed from the one with distance 1 unit to the one with distance 𝑆 units from the\r\ncenter, respectively. After that will be a line containing 𝑆 even integers, which are the weights\r\nof the kids on the right side of the seesaw, listed from the one with distance 1 unit to the one\r\n23\n\n2021 ICPC Asia Taipei Regional\r\nwith distance 𝑆 units from the center, respectively.\r\nOutput Format\r\nFor each of the test cases, if the seesaw can be balanced, output the minimum number of\r\nexchanges needed; otherwise, output -1. Each output is on a single line.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑇 ≤ 5\r\n∙ 1 ≤ 𝑆 ≤ 100\r\n∙ 1 ≤ 𝑤 ≤ 50000; 𝑤 is an integer\r\nSample Input 1\r\n4\r\n3\r\n1 1 3\r\n2 2 2\r\n3\r\n1 1 1\r\n2 2 2\r\n3\r\n1 1 1\r\n4 2 2\r\n3\r\n3 3 3\r\n2 2 2\r\nSample Output 1\r\n0\r\n1\r\n2\r\n-1\r\n24\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "4\n3\n1 1 3\n2 2 2\n3\n1 1 1\n2 2 2\n3\n1 1 1\n4 2 2\n3\n3 3 3\n2 2 2",
+            "output": "0\n1\n2\n-1"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# Seesaw\n\nTime limit: 1 second. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nA playground has a seesaw with $S$ seats on each side, at distances $1,2,\\ldots,S$ from its center. A person of weight $w$ sitting at distance $d$ produces torque of magnitude $w\\times d$ on that side. The seesaw is balanced when both sides have equal total torque.\n\nInitially every seat is occupied by a child of positive integer weight. All children on the left have odd weights, and all children on the right have even weights. Someone suggests exchanging children to balance the seesaw. However, children weighing more than $2$ refuse to move and never change their seats. Determine whether the seesaw can be balanced, and if so, the minimum number of exchanges.\n\nFor example, let $S=3$, with all left weights equal to $1$ and all right weights equal to $2$. Exchanging the children at distance $3$ on the two sides makes the left torque $1\\times1+1\\times2+2\\times3=9$ and the right torque $2\\times1+2\\times2+1\\times3=9$. Thus one exchange balances the seesaw.\n\nFor another example, let $S=3$. The left weights are all $1$, while the right weights at distances $1,2,3$ are $4,2,2$. First exchange the children at distance $2$ on the two sides. Then exchange the child at distance $1$ on the left with the child at distance $3$ on the right. The left torque becomes $2\\times1+2\\times2+1\\times3=9$, and the right torque becomes $4\\times1+1\\times2+1\\times3=9$. One exchange cannot balance this example, so two exchanges are necessary.\n\n## Input Format\n\nThe first line contains a positive integer $T$, the number of test cases. Each test case begins with a positive integer $S$, the number of seats on each side. The next line contains $S$ odd integers giving the left-side children's weights in order of distances from $1$ through $S$. The following line contains $S$ even integers giving the right-side children's weights in the same distance order from $1$ through $S$.\n\n## Output Format\n\nFor each test case, output the minimum number of exchanges needed to balance the seesaw, or $-1$ if it is impossible. Output one answer per line.\n\n## Technical Specification\n\n- $1\\le T\\le5$.\n- $1\\le S\\le100$.\n- Each weight $w$ is an integer satisfying $1\\le w\\le50000$.\n\n## Sample 1\n\n### Input\n\n```text\n4\n3\n1 1 3\n2 2 2\n3\n1 1 1\n2 2 2\n3\n1 1 1\n4 2 2\n3\n3 3 3\n2 2 2\n```\n\n### Output\n\n```text\n0\n1\n2\n-1\n```\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "sourcePdfSha256": "041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+          "pages": [
+            23,
+            24
+          ]
+        },
+        "id": "remote:codeforces:103443::I",
+        "title": "Seesaw",
+        "url": "https://codeforces.com/gym/103443/problem/I",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+          "bytes": 124880,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+          "fileName": "gym-103443-I.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            23,
+            24
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          23,
+          24
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "I",
+          "pdfTitle": "Seesaw",
+          "rosterTitle": "Seesaw",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.830904+00:00",
+          "corpusAuditVerifiedSha256": "c1e83bd2864de39677f992bbb34ac8569a18b48cf45c45fa74258c76fd60c313"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": true,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::I",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+          "sourcePages": [
+            23,
+            24
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "6f56c95bf1b9ac4d1962c57d02a516e9849838298542918bf35aee4330819a88",
+          "samplePagesReviewed": [
+            2
+          ],
+          "allPagesRendered": true
+        },
+        "sourceTextArchive": [
+          {
+            "text": "2021 ICPC Asia Taipei Regional\r\nProblem I\r\nSeesaw\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThere is a seesaw in a playground. On each side of the seesaw, there are 𝑆 seats, where the\r\nseats are located at distance exactly 1, 2, . . . , 𝑆 units from the center. When a seat at distance\r\n𝑑 units from the center is occupied by someone with weight 𝑤, a torque of magnitude 𝑤 × 𝑑\r\nwill appear on the corresponding side of the seesaw. The seesaw is balanced when the total\r\ntorque on both sides have the same magnitude.\r\nInitially, all the seats on the seesaw are occupied with kids with positive integral weights.\r\nFurthermore, on the left side of the seesaw, all kids have odd weights, while on the right side\r\nof the seesaw, all kids have even weights. Unfortunately, the seesaw is not balanced. Someone\r\nsuggests to exchange the kids around, so as to see if the seesaw can be balanced. However, kids\r\nwith weight more than 2 are unwilling to move, so that they will never change their seats. Your\r\ntask is to determine if it is possible to make the seesaw balanced, and if so, what the minimum\r\nnumber of exchanges is.\r\nFor example, suppose 𝑆 = 3, the kids on the left side all have weight 1, and the kids on the\r\nright side all have weight 2. Then, it is possible to make 1 exchange, by exchanging the kids at\r\ndistance 3 on both sides, so that the total torque of the left side becomes 1×1+1×2+2×3 = 9,\r\nand the total torque of the right side becomes 2 × 1 + 2 × 2 + 1 × 3 = 9, and the seesaw is\r\nbalanced.\r\nFor another example, suppose 𝑆 = 3, the kids on the left side all have weight 1, and the kids\r\non the right side of the seesaw have weights 4, 2, 2, at distance 1, 2, 3 units, respectively. Then,\r\nit is possible to make 2 exchanges, first by exchanging the kids at distance 2 on both sides, and\r\nthen by exchanging the kid at distance 1 on the left with the kid at distance 3 on the right, so\r\nthat the total torque on the left side becomes 2 × 1 + 2 × 2 + 1 × 3 = 9, and the total torque of\r\nthe right side becomes 4 × 1 + 1 × 2 + 1 × 3 = 9, and the seesaw is balanced. In contrast, we\r\nsee that it is impossible to balance the seesaw with just 1 exchange, so the minimum number\r\nof exchanges in this example is 2.\r\nInput Format\r\nThe first line of the input is a positive integer 𝑇 denoting the number of test cases. Each test\r\ncase begins with a positive integer 𝑆, denoting the number of seats on each side of the seesaw.\r\nThen, the next line contains 𝑆 odd integers, which are the weights of the kids on the left side of\r\nthe seesaw, listed from the one with distance 1 unit to the one with distance 𝑆 units from the\r\ncenter, respectively. After that will be a line containing 𝑆 even integers, which are the weights\r\nof the kids on the right side of the seesaw, listed from the one with distance 1 unit to the one\r\n23\n\n2021 ICPC Asia Taipei Regional\r\nwith distance 𝑆 units from the center, respectively.\r\nOutput Format\r\nFor each of the test cases, if the seesaw can be balanced, output the minimum number of\r\nexchanges needed; otherwise, output -1. Each output is on a single line.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑇 ≤ 5\r\n∙ 1 ≤ 𝑆 ≤ 100\r\n∙ 1 ≤ 𝑤 ≤ 50000; 𝑤 is an integer\r\nSample Input 1\r\n4\r\n3\r\n1 1 3\r\n2 2 2\r\n3\r\n1 1 1\r\n2 2 2\r\n3\r\n1 1 1\r\n4 2 2\r\n3\r\n3 3 3\r\n2 2 2\r\nSample Output 1\r\n0\r\n1\r\n2\r\n-1\r\n24",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "90c5c3c42aa9ac6331205c20e548d66a2e103fb5c9dd540e12c63c39daff1b5d"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "4\n3\n1 1 3\n2 2 2\n3\n1 1 1\n2 2 2\n3\n1 1 1\n4 2 2\n3\n3 3 3\n2 2 2",
+                "output": "0\n1\n2\n-1"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+              "pagesReviewed": [
+                2
+              ],
+              "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+              "samples": [
+                {
+                  "name": "样例 1",
+                  "input": "4\n3\n1 1 3\n2 2 2\n3\n1 1 1\n2 2 2\n3\n1 1 1\n4 2 2\n3\n3 3 3\n2 2 2",
+                  "output": "0\n1\n2\n-1"
+                }
+              ]
+            }
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "I",
+          "pdfSha256": "041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            23,
+            24
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [],
+          "notes": [
+            "体重大于 2 的孩子位置固定；交换位置不要求距离相同。",
+            "第一个样例已经平衡，答案为 0；译文保留零次交换的情况。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "23a361476daa4b02075e626f7477edbc761fc1147f60fcf87f2e689765b9cc16"
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "c1e83bd2864de39677f992bbb34ac8569a18b48cf45c45fa74258c76fd60c313",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "23a361476daa4b02075e626f7477edbc761fc1147f60fcf87f2e689765b9cc16",
+          "sourcePdfSha256": "041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+          "markdown": "# 跷跷板\n\n时间限制：1 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\n游乐场里有一个跷跷板，两侧各有 $S$ 个座位，到中心的距离分别为 $1,2,\\ldots,S$。体重为 $w$ 的人坐在距离中心 $d$ 的座位上，会在对应一侧产生大小为 $w\\times d$ 的力矩。当两侧的总力矩相等时，跷跷板平衡。\n\n最初每个座位上都坐着一个体重为正整数的孩子。左侧所有孩子的体重都是奇数，右侧所有孩子的体重都是偶数。有人提议交换孩子的位置，使跷跷板平衡。但是体重大于 $2$ 的孩子不愿意移动，他们的座位始终不变。请判断能否使跷跷板平衡；如果可以，求最少交换次数。\n\n例如，设 $S=3$，左侧孩子的体重均为 $1$，右侧均为 $2$。交换两侧距离中心 $3$ 的两个孩子后，左侧总力矩为 $1\\times1+1\\times2+2\\times3=9$，右侧为 $2\\times1+2\\times2+1\\times3=9$，一次交换就能使跷跷板平衡。\n\n再例如，设 $S=3$，左侧体重均为 $1$，右侧距离中心 $1,2,3$ 的体重依次为 $4,2,2$。先交换两侧距离中心 $2$ 的孩子，再交换左侧距离中心 $1$ 的孩子与右侧距离中心 $3$ 的孩子。此时左侧总力矩为 $2\\times1+2\\times2+1\\times3=9$，右侧为 $4\\times1+1\\times2+1\\times3=9$。这个例子无法只通过一次交换达到平衡，因此最少需要两次交换。\n\n## 输入格式\n\n第一行包含一个正整数 $T$，表示测试用例数。每个测试用例首先包含一个正整数 $S$，表示每侧的座位数。接下来一行包含 $S$ 个奇数，依次给出左侧从距离中心 $1$ 到 $S$ 的孩子体重。再下一行包含 $S$ 个偶数，以同样从 $1$ 到 $S$ 的距离顺序给出右侧孩子的体重。\n\n## 输出格式\n\n对于每个测试用例，输出使跷跷板平衡所需的最少交换次数；如果不可能，输出 $-1$。每个答案单独一行。\n\n## 数据范围\n\n- $1\\le T\\le5$。\n- $1\\le S\\le100$。\n- 每个体重 $w$ 都是整数，满足 $1\\le w\\le50000$。\n\n## 样例 1\n\n### 输入\n\n```text\n4\n3\n1 1 3\n2 2 2\n3\n1 1 1\n2 2 2\n3\n1 1 1\n4 2 2\n3\n3 3 3\n2 2 2\n```\n\n### 输出\n\n```text\n0\n1\n2\n-1\n```\n"
+        },
+        "translationReview": {
+          "letter": "I",
+          "pdfSha256": "041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            23,
+            24
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [],
+          "notes": [
+            "体重大于 2 的孩子位置固定；交换位置不要求距离相同。",
+            "第一个样例已经平衡，答案为 0；译文保留零次交换的情况。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "23a361476daa4b02075e626f7477edbc761fc1147f60fcf87f2e689765b9cc16",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

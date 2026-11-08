@@ -1,0 +1,246 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:103443::M",
+      "beforeSha256": "3500d32aacc9f810b575ab5fd109c5b1849618f80980710f8d6380c7c175b9bd",
+      "content": {
+        "markdown": "# Escaping the Foggy Forest\n\n2021 ICPC Asia Taipei Regional\r\nProblem M\r\nEscaping the Foggy Forest\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nNobi is walking in a foggy forest. He tries to locate himself using a map. The forest is divided\r\nusing vertical and horizontal lines into 𝑚 × 𝑛 regions so the map is represented by an 𝑚 by 𝑛\r\nmatrix, with rows indexed from 0 to 𝑚 −1 and columns indexed from 0 to 𝑛−1. Each entry of\r\nthe matrix corresponds to a region of the forest, where the entry with row index 𝑟 and column\r\nindex 𝑐 is denoted by 𝑀(𝑟, 𝑐). Each entry is either 1 or 0. A 1 indicates that there are very\r\ntall trees in the region, and a 0 indicates that the region contains only bushes. It is known that\r\nthe outside of the forest is surrounded by bushes, which means that regions not specified in the\r\nmap are treated as 0s.\r\nNobi wants to know which region he might be in. Because the fog is heavy, Nobi can only\r\nobserve the region he stays in, the region in the front, and the region on the right\r\nside. However, he does not know which direction he faces to. Please help Nobi to find the\r\npossible regions he is in, assuming that there are only four directions, “N”, “E”, “S”, and “W”.\r\nFor example, below is a 2 by 3 matrix.\r\n1 1 0\r\n0 0 1\r\n↑ N\r\n→ E\r\n↓ S\r\n← W\r\nrow 0\r\nrow 1\r\ncolumn 0 column 2\r\nNobi observes that there are tall trees in the regions he stays in and in front of him (cor￾responding to matrix entries of 1), and the region on the right side of him has only bushes\r\n(corresponding to a matrix entry of 0). It is possible that Nobi is in the region corresponding\r\nto entry 𝑀(0, 0) because 𝑀(0, 0) = 1, and when he faces to the direction “E”, the entry in\r\nfront of him, 𝑀(0, 1), is 1; the entry on the right side of him, 𝑀(1, 0), is 0. The other possible\r\nregion is 𝑀(0, 1) because 𝑀(0, 1) = 1 and when he faces to “W”, the entries in the front is\r\n𝑀(0, 0) = 1; the entry on the right side is outside the map, which is treated as 0.\r\nInput Format\r\nThe first line of a test case contains two integers 𝑚 and 𝑛, which are the numbers of rows and\r\ncolumns of the matrix, respectively. The rows of the matrix are indexed from 0 to 𝑚 − 1, and\r\ncolumns are indexed from 0 to 𝑛−1. The following 𝑚 lines are the content of the map. Each of\r\n33\n\n2021 ICPC Asia Taipei Regional\r\nthe 𝑚 lines contains 𝑛 integers. The last line contains three integers 𝑠, 𝑓, and 𝑟. The number\r\n𝑠, 𝑓, and 𝑟 indicate what Nobi observes in the regions he stays in, in front of him, and on the\r\nright side of him, respectively.\r\nOutput Format\r\nEach line of the output contains two integers, which are the possible row and column indices\r\nof the region Nobi is in, respectively. It is guaranteed that Nobi is in the forest. If there\r\nare more than one possible regions, output the regions with smaller row index first; for regions\r\nwith the same row index, output the one with smaller column index first.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑚, 𝑛 ≤ 100\r\n∙ Each entry is either 0 or 1.\r\n∙ 𝑠, 𝑓, 𝑟 ∈ {0, 1}\r\nSample Input 1\r\n2 3\r\n1 1 0\r\n0 0 1\r\n1 1 0\r\nSample Output 1\r\n0 0\r\n0 1\r\n34\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {
+          "taipei-M-figure-1.png": "data:image/png;base64,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"
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2 3\n1 1 0\n0 0 1\n1 1 0",
+            "output": "0 0\n0 1"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# Escaping the Foggy Forest\n\nTime limit: 1 second. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nNobi is walking in a foggy forest and tries to locate himself using a map. The forest is divided into $m\\times n$ regions, represented by a matrix with rows numbered from $0$ through $m-1$ and columns from $0$ through $n-1$. Entry $M(r,c)$ describes the region in row $r$, column $c$. Each entry is either $1$, for tall trees, or $0$, for bushes. Bushes surround the forest, so every region outside the map is treated as $0$.\n\nBecause of the heavy fog, Nobi can observe only his current region, the region directly in front of him and the region on his right. He does not know which direction he is facing. Find all possible regions where he could be, assuming that he faces one of the four directions `N`, `E`, `S` and `W`.\n\nHere is an example with a $2\\times3$ matrix.\n\n![Forest map and directions](taipei-M-figure-1.png)\n\nSuppose Nobi sees tall trees in his current region and in front of him, corresponding to $1$, and bushes on his right, corresponding to $0$. One possible location is $M(0,0)$: its value is $M(0,0)=1$, and when facing `E`, the region in front has $M(0,1)=1$, while the region to the right has $M(1,0)=0$. Another possible location is $M(0,1)$: its value is $M(0,1)=1$, and when facing `W`, the front region has $M(0,0)=1$, while the region on the right is outside the map and is treated as $0$.\n\n## Input Format\n\nThe first line of a test case contains two integers $m$ and $n$, the number of rows and columns. Rows are indexed from $0$ through $m-1$ and columns from $0$ through $n-1$. The following $m$ lines each contain $n$ integers describing the map. The last line contains three integers $s$, $f$ and $r$, describing what Nobi observes in his current region, directly in front and on his right, respectively.\n\n## Output Format\n\nEach output line contains the row and column indices of one possible location. Nobi is guaranteed to be inside the forest. List regions in increasing row order; among regions in the same row, list them in increasing column order.\n\n## Technical Specification\n\n- $1\\le m,n\\le100$.\n- Every matrix entry is $0$ or $1$.\n- $s,f,r\\in\\{0,1\\}$.\n\n## Sample 1\n\n### Input\n\n```text\n2 3\n1 1 0\n0 0 1\n1 1 0\n```\n\n### Output\n\n```text\n0 0\n0 1\n```\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "sourcePdfSha256": "c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+          "pages": [
+            33,
+            34
+          ]
+        },
+        "id": "remote:codeforces:103443::M",
+        "title": "Escaping the Foggy Forest",
+        "url": "https://codeforces.com/gym/103443/problem/M",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+          "bytes": 154548,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+          "fileName": "gym-103443-M.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            33,
+            34
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          33,
+          34
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "M",
+          "pdfTitle": "Escaping the Foggy Forest",
+          "rosterTitle": "Escaping the Foggy Forest",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:42.042660+00:00",
+          "corpusAuditVerifiedSha256": "db81d1e9bb4d036aa068aa93a441afdd851e35e1880e3d7a829cf0040a9bd5bf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": true,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::M",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+          "sourcePages": [
+            33,
+            34
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "35b68cad76ffc5d4595ac1519999e2e0fcf50f2070a3ded8a2016672e59e8d59",
+          "samplePagesReviewed": [
+            2
+          ],
+          "allPagesRendered": true
+        },
+        "sourceTextArchive": [
+          {
+            "text": "2021 ICPC Asia Taipei Regional\r\nProblem M\r\nEscaping the Foggy Forest\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nNobi is walking in a foggy forest. He tries to locate himself using a map. The forest is divided\r\nusing vertical and horizontal lines into 𝑚 × 𝑛 regions so the map is represented by an 𝑚 by 𝑛\r\nmatrix, with rows indexed from 0 to 𝑚 −1 and columns indexed from 0 to 𝑛−1. Each entry of\r\nthe matrix corresponds to a region of the forest, where the entry with row index 𝑟 and column\r\nindex 𝑐 is denoted by 𝑀(𝑟, 𝑐). Each entry is either 1 or 0. A 1 indicates that there are very\r\ntall trees in the region, and a 0 indicates that the region contains only bushes. It is known that\r\nthe outside of the forest is surrounded by bushes, which means that regions not specified in the\r\nmap are treated as 0s.\r\nNobi wants to know which region he might be in. Because the fog is heavy, Nobi can only\r\nobserve the region he stays in, the region in the front, and the region on the right\r\nside. However, he does not know which direction he faces to. Please help Nobi to find the\r\npossible regions he is in, assuming that there are only four directions, “N”, “E”, “S”, and “W”.\r\nFor example, below is a 2 by 3 matrix.\r\n1 1 0\r\n0 0 1\r\n↑ N\r\n→ E\r\n↓ S\r\n← W\r\nrow 0\r\nrow 1\r\ncolumn 0 column 2\r\nNobi observes that there are tall trees in the regions he stays in and in front of him (cor￾responding to matrix entries of 1), and the region on the right side of him has only bushes\r\n(corresponding to a matrix entry of 0). It is possible that Nobi is in the region corresponding\r\nto entry 𝑀(0, 0) because 𝑀(0, 0) = 1, and when he faces to the direction “E”, the entry in\r\nfront of him, 𝑀(0, 1), is 1; the entry on the right side of him, 𝑀(1, 0), is 0. The other possible\r\nregion is 𝑀(0, 1) because 𝑀(0, 1) = 1 and when he faces to “W”, the entries in the front is\r\n𝑀(0, 0) = 1; the entry on the right side is outside the map, which is treated as 0.\r\nInput Format\r\nThe first line of a test case contains two integers 𝑚 and 𝑛, which are the numbers of rows and\r\ncolumns of the matrix, respectively. The rows of the matrix are indexed from 0 to 𝑚 − 1, and\r\ncolumns are indexed from 0 to 𝑛−1. The following 𝑚 lines are the content of the map. Each of\r\n33\n\n2021 ICPC Asia Taipei Regional\r\nthe 𝑚 lines contains 𝑛 integers. The last line contains three integers 𝑠, 𝑓, and 𝑟. The number\r\n𝑠, 𝑓, and 𝑟 indicate what Nobi observes in the regions he stays in, in front of him, and on the\r\nright side of him, respectively.\r\nOutput Format\r\nEach line of the output contains two integers, which are the possible row and column indices\r\nof the region Nobi is in, respectively. It is guaranteed that Nobi is in the forest. If there\r\nare more than one possible regions, output the regions with smaller row index first; for regions\r\nwith the same row index, output the one with smaller column index first.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑚, 𝑛 ≤ 100\r\n∙ Each entry is either 0 or 1.\r\n∙ 𝑠, 𝑓, 𝑟 ∈ {0, 1}\r\nSample Input 1\r\n2 3\r\n1 1 0\r\n0 0 1\r\n1 1 0\r\nSample Output 1\r\n0 0\r\n0 1\r\n34",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "a2e5aa2cb272b1d3c2bafa3e49df375028cbd7a51f6f12ceb4470b379bb917fe"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "2 3\n1 1 0\n0 0 1\n1 1 0",
+                "output": "0 0\n0 1"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+              "pagesReviewed": [
+                2
+              ],
+              "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+              "samples": [
+                {
+                  "name": "样例 1",
+                  "input": "2 3\n1 1 0\n0 0 1\n1 1 0",
+                  "output": "0 0\n0 1"
+                }
+              ]
+            }
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "M",
+          "pdfSha256": "c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            33,
+            34
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [
+            {
+              "file": "taipei-M-figure-1.png",
+              "page": 1,
+              "clipRect": [
+                170,
+                455,
+                420,
+                578
+              ],
+              "sha256": "c4431414dce7ed1477f8c620058dcbbc2ad5f053a82895f4bfe356eae7197df5"
+            }
+          ],
+          "notes": [
+            "保留地图外视为 0、朝向未知、人在地图内，以及行列排序要求。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "f1b5aa5fd86d7a7aaa771358aeaa10ed18e2b7c9cde2a6431377aa3dd9d6259d"
+        },
+        "resourceManifest": {
+          "taipei-M-figure-1.png": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "c4431414dce7ed1477f8c620058dcbbc2ad5f053a82895f4bfe356eae7197df5",
+            "bytes": 10963,
+            "mime": "image/png",
+            "frameCount": 1,
+            "width": 625,
+            "height": 308,
+            "derivedFromPdfSha256": "c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+            "kind": "reviewed-original-diagram",
+            "sourcePage": 1,
+            "clipRect": [
+              170,
+              455,
+              420,
+              578
+            ]
+          }
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "db81d1e9bb4d036aa068aa93a441afdd851e35e1880e3d7a829cf0040a9bd5bf",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "f1b5aa5fd86d7a7aaa771358aeaa10ed18e2b7c9cde2a6431377aa3dd9d6259d",
+          "sourcePdfSha256": "c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+          "markdown": "# 逃离迷雾森林\n\n时间限制：1 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\nNobi 正走在一片雾气弥漫的森林里，试图利用地图确定自己的位置。森林被划分为 $m\\times n$ 个区域，用一个矩阵表示，行号为 $0$ 到 $m-1$，列号为 $0$ 到 $n-1$。元素 $M(r,c)$ 对应第 $r$ 行、第 $c$ 列的区域。每个元素要么为 $1$，表示高大的树木；要么为 $0$，表示灌木。森林外围都是灌木，因此地图外的所有区域都视为 $0$。\n\n由于浓雾，Nobi 只能观察自己所在的区域、正前方的区域和右侧的区域。他不知道自己朝向哪个方向。假设他只可能面向 `N`、`E`、`S`、`W` 四个方向之一，请找出他可能所在的所有区域。\n\n下面是一个 $2\\times3$ 矩阵的例子。\n\n![森林地图与方向](taipei-M-figure-1.png)\n\n假设 Nobi 看到当前位置和正前方都是高大的树木，对应 $1$，右侧是灌木，对应 $0$。一个可能的位置是 $M(0,0)$：该处满足 $M(0,0)=1$，当面朝 `E` 时，前方满足 $M(0,1)=1$，右侧满足 $M(1,0)=0$。另一个可能的位置是 $M(0,1)$：该处满足 $M(0,1)=1$，当面朝 `W` 时，前方满足 $M(0,0)=1$，右侧在地图之外，视为 $0$。\n\n## 输入格式\n\n每组测试数据的第一行包含两个整数 $m$ 和 $n$，分别表示行数和列数。行号为 $0$ 到 $m-1$，列号为 $0$ 到 $n-1$。接下来 $m$ 行，每行包含 $n$ 个整数，描述地图。最后一行包含三个整数 $s$、$f$ 和 $r$，分别表示 Nobi 在当前位置、正前方和右侧观察到的情况。\n\n## 输出格式\n\n每行输出一个可能位置的行号和列号。保证 Nobi 位于森林内部。按行号从小到大输出；行号相同时，按列号从小到大输出。\n\n## 数据范围\n\n- $1\\le m,n\\le100$。\n- 每个矩阵元素为 $0$ 或 $1$。\n- $s,f,r\\in\\{0,1\\}$。\n\n## 样例 1\n\n### 输入\n\n```text\n2 3\n1 1 0\n0 0 1\n1 1 0\n```\n\n### 输出\n\n```text\n0 0\n0 1\n```\n"
+        },
+        "translationReview": {
+          "letter": "M",
+          "pdfSha256": "c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            33,
+            34
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [
+            {
+              "file": "taipei-M-figure-1.png",
+              "page": 1,
+              "clipRect": [
+                170,
+                455,
+                420,
+                578
+              ],
+              "sha256": "c4431414dce7ed1477f8c620058dcbbc2ad5f053a82895f4bfe356eae7197df5"
+            }
+          ],
+          "notes": [
+            "保留地图外视为 0、朝向未知、人在地图内，以及行列排序要求。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "f1b5aa5fd86d7a7aaa771358aeaa10ed18e2b7c9cde2a6431377aa3dd9d6259d",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}
