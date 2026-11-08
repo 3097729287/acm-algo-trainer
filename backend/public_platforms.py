@@ -333,6 +333,31 @@ def discover_nc(client,now):
 
 DISCOVERY_ADAPTERS={'codeforces':discover_curated_cf,'luogu':discover_lg,'atcoder':discover_at,'nowcoder':discover_nc}
 
+def _check_codeforces_title(page, fragment, heading, letter, title):
+    """Bind unnumbered Gym headings to the enclosing native problem marker."""
+    import fetch_problem as adapter
+    from statement_format import Tree, classes, plain
+    actual = plain(heading).strip()
+    numbered = re.match(r'^([A-Z]\d?)\.', actual)
+    if numbered:
+        if numbered[1] == letter:
+            return
+    else:
+        holders = []
+        for start in re.finditer(r'<div\b[^>]*class=["\'][^"\']*\bproblemindexholder\b[^"\']*["\'][^>]*>', page, re.I):
+            subtree = adapter.cf_balanced(page, start.start(), 'div')
+            if fragment in subtree:
+                root = Tree(subtree).root
+                holder = next(root.find(lambda n: 'problemindexholder' in classes(n)), None)
+                statements = list(root.find(lambda n: 'problem-statement' in classes(n)))
+                holders.append((holder, statements))
+        normalize = lambda value: re.sub(r'\s+', ' ', value.replace('$', '')).strip().casefold()
+        if (len(holders) == 1 and holders[0][0].attrs.get('problemindex') == letter
+                and len(holders[0][1]) == 1 and normalize(actual) == normalize(title)):
+            return
+    raise ValueError('Codeforces 题面与原题编号不一致')
+
+
 def statement(client,identity,title,url):
     if urlsplit(url).hostname=='qoj.ac':
         from qoj import statement as qoj_statement
@@ -392,8 +417,8 @@ def statement(client,identity,title,url):
         if original is not None:
             heading=next(original.find(lambda n:'title' in classes(n)),None)
             expected=re.search(r'/(?:problem/|problemset/problem/\d+/)([A-Z]\d?)/?$',parsed.path)
-            if heading is not None and expected and not re.match(re.escape(expected[1])+r'\.',plain(heading).strip()):
-                raise ValueError('Codeforces 题面与原题编号不一致')
+            if heading is not None and expected:
+                _check_codeforces_title(page, fragment, heading, expected[1], title)
             body=markdown(original,url).strip()
             for name,key,pattern in [('time-limit','timeMs',r'([\d.]+)\s*(?:seconds?|s)\b'),('memory-limit','memoryMb',r'(\d+)\s*megabytes')]:
                 node=next(original.find(lambda n:name in classes(n)),None)

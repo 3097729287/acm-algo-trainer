@@ -43,6 +43,47 @@ def cached():
 
 
 class CodeforcesPdfTests(unittest.TestCase):
+    def test_unnumbered_heading_requires_matching_enclosing_index_and_roster_title(self):
+        from public_platforms import _check_codeforces_title
+        from statement_format import Tree
+        fragment = '<div class="problem-statement"><div class="title">The $$$n^2 + 1$$$ Conjecture</div></div>'
+        heading = next(Tree(fragment).root.find(lambda n: n.attrs.get('class') == 'title'))
+        page = '<div class="problemindexholder" problemindex="A">' + fragment + '</div>'
+        _check_codeforces_title(page, fragment, heading, 'A', 'The $n^2 + 1$ Conjecture')
+        for wrong_page, wrong_title in [(fragment, 'The $n^2 + 1$ Conjecture'),
+                (page.replace('problemindex="A"', 'problemindex="B"'), 'The $n^2 + 1$ Conjecture'),
+                (page, 'The $n^2 - 1$ Conjecture'), (page + page, 'The $n^2 + 1$ Conjecture')]:
+            with self.assertRaises(ValueError):
+                _check_codeforces_title(wrong_page, fragment, heading, 'A', wrong_title)
+        numbered = '<div class="problem-statement"><div class="title">B. Different problem</div></div>'
+        wrong_heading = next(Tree(numbered).root.find(lambda n: n.attrs.get('class') == 'title'))
+        with self.assertRaises(ValueError):
+            _check_codeforces_title('<div class="problemindexholder" problemindex="A">'+numbered+'</div>',
+                                    numbered, wrong_heading, 'A', 'Different problem')
+
+    def test_russian_booklet_requires_full_native_roster_and_stops_at_next_task(self):
+        from codeforces_pdf import _starts, _selection_roster
+        texts = ['Квалификация\nИТМО\nЗадача A. Два охранника\nтекст',
+                 'продолжение', 'Квалификация\nИТМО\nЗадача B. Расписание конференции\nтекст']
+        starts = _starts(texts)
+        self.assertEqual(starts, [(0, 'A', 'Два охранника'), (2, 'B', 'Расписание конференции')])
+        tasks = {'A': {'title': 'Two Guards', 'limits': {'timeMs': 1000}},
+                 'B': {'title': 'Conference Schedule', 'limits': {'timeMs': 2000}}}
+        page = ''.join('<tr><td><a href="/gym/123456/problem/'+label+'">'+label+'</a></td>'
+            '<td><a href="/gym/123456/problem/'+label+'">'+title+'</a></td></tr>'
+            for _, label, title in starts)
+        c = Mock();c.text.return_value = page
+        selected, binding = _selection_roster(c, '123456', 'A', tasks, starts)
+        self.assertEqual(selected['A']['limits'], tasks['A']['limits'])
+        self.assertEqual(binding[0], 'https://codeforces.com/gym/123456?locale=ru')
+        reader = Mock();reader.pages = [None] * 3
+        self.assertEqual(selected_pages(reader, 'A', selected['A']['title'], texts=texts)[0], [0, 1])
+        for wrong in [page.replace('Два охранника', 'Другой заголовок'),
+                      page.replace('/problem/B', '/problem/C'), page + page]:
+            c.text.return_value = wrong
+            with self.assertRaises(ValueError):
+                _selection_roster(c, '123456', 'A', tasks, starts)
+
     def test_english_html_also_discovers_original_chinese_booklet(self):
         value = public_statement(client(), 'fixture::A', 'Addition', URL)
         self.assertEqual(value['sitePdfStatus'], 'verified')
@@ -108,6 +149,20 @@ class CodeforcesPdfTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             selected_pages(reader, 'A', 'Addition', texts=texts)
 
+    def test_split_titles_ignore_page_footers_and_prefix_requires_complete_inventory(self):
+        from codeforces_pdf import _starts
+        reader = Mock();reader.pages = [None] * 3
+        texts = ['Problem A\nAddition\nBody\nProblem A: Addition Page 1 of 3',
+                 'Continuation\nProblem A: Addition Page 2 of 3',
+                 'Problem B\nMultiplication\nBody\nProblem B: Multiplication Page 3 of 3']
+        self.assertEqual(_starts(texts), [(0, 'A', 'Addition'), (2, 'B', 'Multiplication')])
+        self.assertEqual(selected_pages(reader, 'A', 'Addition', texts=texts)[0], [0, 1])
+        prefixed = ['Problem PA\nAddition\nBody', 'Continuation', 'Problem PB\nMultiplication\nBody']
+        tasks = {'A': {'title': 'Addition'}, 'B': {'title': 'Multiplication'}}
+        self.assertEqual(selected_pages(reader, 'A', 'Addition', texts=prefixed, tasks=tasks)[0], [0, 1])
+        with self.assertRaises(ValueError):
+            selected_pages(reader, 'A', 'Addition', texts=prefixed, tasks={'A': tasks['A']})
+
     def test_bare_letter_headings_chinese_samples_cross_pages_and_real_input_integers(self):
         from qoj import pdf_statement
         from pypdf import PdfReader
@@ -126,7 +181,7 @@ class CodeforcesPdfTests(unittest.TestCase):
         writer=PdfWriter();page=writer.add_blank_page(width=440,height=600)
         font=DictionaryObject({NameObject('/Type'):NameObject('/Font'),NameObject('/Subtype'):NameObject('/Type1'),NameObject('/BaseFont'):NameObject('/Helvetica')})
         page[NameObject('/Resources')]=DictionaryObject({NameObject('/Font'):DictionaryObject({NameObject('/F1'):font})})
-        stream=DecodedStreamObject();stream.set_data(b'BT /F1 12 Tf 30 560 Td (Addition) Tj ET\nBT /F1 12 Tf 30 520 Td (Given two integers, print their sum.) Tj ET')
+        stream=DecodedStreamObject();stream.set_data(b'BT /F1 12 Tf 30 580 Td (,) Tj ET\nBT /F1 12 Tf 30 560 Td (Addition) Tj ET\nBT /F1 12 Tf 30 520 Td (Given two integers, print their sum.) Tj ET')
         page[NameObject('/Contents')]=writer._add_object(stream)
         output=io.BytesIO();writer.write(output);data=output.getvalue()
         c=client();c.text.side_effect=lambda url: data.decode('utf-8','replace') if url==URL else ROSTER+LINK

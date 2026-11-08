@@ -47,7 +47,7 @@ class CataloguePolicyTests(unittest.TestCase):
         client=Client({'https://codeforces.com/api/contest.list?gym=false':{'status':'OK','result':contests},
                        'https://codeforces.com/api/problemset.problems':{'status':'OK','result':{'problems':[{'contestId':i,'index':'A','name':'Task','rating':1200} for i in (10,11)]}},
                        'https://codeforces.com/api/contest.list?gym=true':{'status':'OK','result':gyms},
-                       'https://codeforces.com/gym/106800':'<a href="/gym/106800/problem/A">A</a><a href="/gym/106800/problem/A">Real task name</a>'})
+                       'https://codeforces.com/gym/106800':'<tr><td><a href="/gym/106800/problem/A">A</a></td><td><a href="/gym/106800/problem/A">Real task name</a></td></tr>'})
         with patch('contest_policy.policy',return_value=policy):
             rows,pending,_=P.discover_curated_cf(client,now)
         self.assertEqual({r['contestId'] for r in rows},{'10','106800'})
@@ -57,6 +57,21 @@ class CataloguePolicyTests(unittest.TestCase):
         self.assertEqual(gym['contestDifficulty'],4)
         self.assertIsNone(gym['difficulty'])
         self.assertNotIn('https://codeforces.com/gym/101600',client.calls)
+
+    def test_roster_retains_one_letter_titles_and_discovery_respects_current_scope(self):
+        parser = Roster('106800')
+        parser.feed('<a href="/gym/106800/problem/A">sidebar link</a>'
+                    '<tr><td><a href="/gym/106800/problem/I">I</a></td>'
+                    '<td><a href="/gym/106800/problem/I">I</a></td></tr>')
+        self.assertEqual(parser.tasks, {'I': 'I'})
+        now = dt.datetime(2026, 11, 8, tzinfo=dt.timezone.utc)
+        for name in ['2026 ICPC German Collegiate Programming Contest',
+                     '2026 CCPC Online Contest', '2026 ICPC World Finals',
+                     '2024 ICPC Belarus Regional Contest', '2024 KAIST ICPC Mock Competition',
+                     '2023-2024 Квалификационный тур Уральского четвертьфинала ICPC',
+                     '2023 CCPC Qinhuangdao Onsite Warmup']:
+            self.assertFalse(historical({'name': name, 'phase': 'FINISHED'}, now))
+        self.assertTrue(historical({'name': '2026 ICPC Asia Chengdu Regional Contest', 'phase': 'FINISHED'}, now))
 
     def test_shared_weekly_plan_takes_each_strongest_requirement_once(self):
         first={'id':'one','currentRating':1000,'contestPlan':[{'contest':'Codeforces Div.3','target':4,'problems':'A–D'},{'contest':'牛客周赛','target':1,'problems':'A–D'}]}

@@ -1,0 +1,35 @@
+{
+  "at": "2026-11-08",
+  "offlineRegressionTests": 81,
+  "officialSubmissions": 0,
+  "sourceIdentityGuardsPreserved": true,
+  "cases": [
+    "unnumbered HTML title with exact enclosing problem marker and roster title",
+    "localized Russian booklet with complete independent native roster",
+    "two-line Problem A headings with footer rejection",
+    "PA..PM booklet with complete A..M inventory binding",
+    "native problem PDF with banner before exact title",
+    "single-letter roster title",
+    "ended Gym discovery respects existing catalogue scope"
+  ],
+  "nativeBooklets": [
+    {
+      "gymId": "105544",
+      "url": "https://codeforces.com/gym/105544",
+      "pdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+      "pages": 31
+    },
+    {
+      "gymId": "106790",
+      "url": "https://codeforces.com/gym/106790",
+      "pdfSha256": "e1a241e7299315e956bd41d58fdaf29214700a6d87d557e0144d3595a0dabf1b",
+      "pages": 18
+    },
+    {
+      "gymId": "100963",
+      "url": "https://codeforces.com/gym/100963",
+      "pdfSha256": "1b03691a932031300c2482ec5b48e45fb35d3eb2ce5c67449d184c663433067c",
+      "pages": 16
+    }
+  ]
+}

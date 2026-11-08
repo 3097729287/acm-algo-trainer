@@ -82,8 +82,10 @@ def _pdf_samples(textpage,horizontal,vertical):
                 result.append((min(c[0] for c in chars),min(c[1] for c in chars),max(c[2] for c in chars),max(c[3] for c in chars)))
         return result
     samples=[]
-    for left_header in boxes('standard input'):
-        outputs=[box for box in boxes('standard output') if abs(box[1]-left_header[1])<4 and box[0]>left_header[2]]
+    inputs=boxes('standard input')+boxes('стандартный ввод')
+    output_headers=boxes('standard output')+boxes('стандартный вывод')
+    for left_header in inputs:
+        outputs=[box for box in output_headers if abs(box[1]-left_header[1])<4 and box[0]>left_header[2]]
         if len(outputs)!=1:continue
         right_header=outputs[0];y=(left_header[1]+left_header[3])/2
         borders=[line for line in vertical if line[1]<y<line[2]]

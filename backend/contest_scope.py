@@ -8,7 +8,7 @@ import json
 from functools import lru_cache
 from urllib.parse import urlsplit
 
-VERSION = 'china-xcpc-20261104-v5-retired-judges'
+VERSION = 'china-xcpc-20261108-v6-roster-scope'
 _RETIRED_PLATFORMS = frozenset({'hdu','libreoj','loj','poj','spoj','uoj','uva'})
 _RETIRED_HOSTS = frozenset({'acm.hdu.edu.cn','hdu.edu.cn','loj.ac','libreoj.cn','libreoj.net','poj.org','spoj.com','uoj.ac','onlinejudge.org','uva.onlinejudge.org'})
 
@@ -33,12 +33,12 @@ _FINALS = re.compile(r'决赛|\bFinals?\b', re.I)
 _ONLINE = re.compile(r'网络(?:预选|资格|选拔)?赛|\bOnline\b', re.I)
 _FOREIGN = re.compile(
     r'东南欧|西南欧|西北欧|中欧|北欧|北美|南美|拉丁美洲|东西伯利亚|俄罗斯|乌拉尔|莫斯科|'
-    r'德国|瑞士|希腊|哥伦比亚|墨西哥|巴西|玻利维亚|吉尔吉斯斯坦|叙利亚|'
+    r'德国|瑞士|希腊|哥伦比亚|墨西哥|巴西|玻利维亚|吉尔吉斯斯坦|白俄罗斯|叙利亚|'
     r'日本|横滨|筑波|东京|韩国|大田|首尔|雅加达|马尼拉|曼谷|佛统|达卡|德黑兰|'
     r'印度|阿姆里塔普里|坎普尔|克勒格布尔|瓜廖尔|金奈|哥印拜陀|喀布尔|河内|岘港|胡志明|泰国|马来西亚|'
     r'\b(?:NAC|NWERC|SWERC|SEERC|NCPC|GCPC|ECNA|CERC|NEERC|NERC)\b|'
     r'\b(?:Europe(?:an)?|Eurasia|America(?:n)?|Nordic|German|Swiss|Greek|Greece|Russia(?:n)?|Siberia(?:n)?|Moscow|Ural|'
-    r'Colombia|Columbia University|Mexico|Brazil(?:ian)?|UFBA|Bolivia|Kyrgyzstan|Syri(?:a|an)|HIAST|Samara|'
+    r'Colombia|Columbia University|Mexico|Brazil(?:ian)?|UFBA|Bolivia|Kyrgyzstan|Belarus(?:ian)?|Syri(?:a|an)|HIAST|Samara|'
     r'Japan|Yokohama|Tsukuba|Tokyo|Taejon|Daejeon|Seoul|Korea|Jakarta|Manila|Bangkok|Nakhon Pathom|Dhaka|Tehran|'
     r'India|Amritapuri|Kanpur|Kharagpur|Gwalior|Chennai|Coimbatore|Kabul|Hanoi|Danang|Ho Chi Minh|Thailand|Malaysia)\b|'
     r'Самар[а-яё]*|Всероссийск[а-яё]*', re.I)
