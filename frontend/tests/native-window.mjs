@@ -12,6 +12,7 @@ import { exerciseNativeRuns } from './native-run-flow.mjs';
 import { exerciseNativeReviews } from './native-review-flow.mjs';
 import { exerciseNativeContestHistory } from './native-contest-history-flow.mjs';
 import { exerciseNativeAssets } from './native-assets-flow.mjs';
+import { exerciseNativeGoals } from './native-goals-flow.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const packaged = process.argv.includes('--packaged');
@@ -130,6 +131,7 @@ try {
   if (!await editor.isVisible()) await page.locator('.problem-title').filter({ hasText: results.originalTitle }).first().click();
   await editor.waitFor();
   assert.equal((await editor.innerText()).trimEnd(), savedCode.trimEnd());
+  if(process.env.TB_NATIVE_TEST_GOALS==='1')results.goals=await exerciseNativeGoals(page,output,results.originalTitle);
   results.reactPlanning = await exerciseNativePlanning(page, output);
   await page.locator('.sidebar').getByRole('button', { name: '我的训练', exact: true }).click();
   await page.locator('.problem-title').filter({ hasText: results.originalTitle }).first().click();

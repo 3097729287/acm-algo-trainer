@@ -194,9 +194,9 @@ def run(binary,output):
         unchanged=native.execute('SELECT * FROM training ORDER BY id').fetchall()
         assert rpc('workspace',fail=True)['code']=='MIGRATION_PENDING';assert native.execute('SELECT * FROM training ORDER BY id').fetchall()==unchanged;guards.append('unported-event-name-does-not-drop-history-or-mutate-training')
         seed("DELETE FROM contests WHERE id='unknown-retained-name'")
-        # Goals, contests and planner evidence are still explicitly guarded.
+        # Malformed retained goals and unported planner evidence are guarded.
         seed("INSERT INTO goals(id,created_at,config) VALUES('not-ported',?,'{}')",(now[0].isoformat(),))
-        assert rpc('workspace',fail=True)['code']=='MIGRATION_PENDING';guards.append('active-goal-is-not-hidden')
+        assert rpc('workspace',fail=True)['code']=='INVALID_STORED_DATA';guards.append('malformed-goal-is-not-hidden')
         native.execute("DELETE FROM goals WHERE id='not-ported'");legacy.execute("DELETE FROM goals WHERE id='not-ported'")
         previous=native.execute('SELECT * FROM training ORDER BY id').fetchall()
         assert rpc('learning-summary/refresh',{},fail=True)['code']=='MIGRATION_PENDING';guards.append('full-learning-evidence-not-projected-as-empty')

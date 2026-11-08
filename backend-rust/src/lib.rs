@@ -5,6 +5,7 @@ pub mod catalogue;
 pub mod code_format;
 pub mod contest_history;
 pub mod custom_lists;
+pub mod goals;
 pub mod identity;
 pub mod journal_export;
 pub mod learning;

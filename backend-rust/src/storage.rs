@@ -12,6 +12,38 @@ pub const SCHEMA: &str = include_str!("../schema/personal.sql");
 pub struct PersonalStore {
     pub db: Connection,
 }
+/// Nested journal operations share one connection and roll back as a unit.
+/// The guard also restores the savepoint while unwinding a failed operation.
+pub(crate) fn atomic<T>(
+    db: &Connection,
+    operation: impl FnOnce(&Connection) -> Result<T, ApiError>,
+) -> Result<T, ApiError> {
+    struct Guard<'a> {
+        db: &'a Connection,
+        name: String,
+        committed: bool,
+    }
+    impl Drop for Guard<'_> {
+        fn drop(&mut self) {
+            if !self.committed {
+                let _ = self
+                    .db
+                    .execute_batch(&format!("ROLLBACK TO {}; RELEASE {}", self.name, self.name));
+            }
+        }
+    }
+    let name = format!("native_{}", uuid::Uuid::new_v4().simple());
+    db.execute_batch(&format!("SAVEPOINT {name}"))?;
+    let mut guard = Guard {
+        db,
+        name,
+        committed: false,
+    };
+    let value = operation(db)?;
+    db.execute_batch(&format!("RELEASE {}", guard.name))?;
+    guard.committed = true;
+    Ok(value)
+}
 impl PersonalStore {
     pub fn open(path: &Path) -> Result<Self, ApiError> {
         if let Some(parent) = path.parent() {

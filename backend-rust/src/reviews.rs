@@ -576,21 +576,22 @@ pub fn plan(t: &Training<'_>) -> Result<Value, ApiError> {
     // Compute and validate the entire plan first. A failed write rolls back
     // task creation, receipt binding, reward ledger and daily allocation.
     if !updates.is_empty() {
-        let tx = t.personal.db.unchecked_transaction()?;
-        for (key, value) in updates {
-            let payload = value.to_string();
-            let prior: Option<String> = tx
-                .query_row(
-                    "SELECT value FROM account_preferences WHERE key=?",
-                    [&key],
-                    |r| r.get(0),
-                )
-                .optional()?;
-            if prior.as_deref() != Some(&payload) {
-                PersonalStore::put(&tx, &key, &payload, &stamp(t.now))?;
+        crate::storage::atomic(&t.personal.db, |tx| {
+            for (key, value) in updates {
+                let payload = value.to_string();
+                let prior: Option<String> = tx
+                    .query_row(
+                        "SELECT value FROM account_preferences WHERE key=?",
+                        [&key],
+                        |r| r.get(0),
+                    )
+                    .optional()?;
+                if prior.as_deref() != Some(&payload) {
+                    PersonalStore::put(tx, &key, &payload, &stamp(t.now))?;
+                }
             }
-        }
-        tx.commit()?;
+            Ok(())
+        })?;
     }
     Ok(result)
 }

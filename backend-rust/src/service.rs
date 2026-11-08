@@ -47,6 +47,9 @@ pub const NATIVE_ROUTES: &[(&str, &str)] = &[
     ("GET", "data/export"),
     ("GET", "contests/events"),
     ("GET", "contest"),
+    ("GET", "goals"),
+    ("POST", "goals/save"),
+    ("POST", "goals/archive"),
     ("GET", "workspace"),
     ("GET", "problem"),
     ("GET", "submissions"),
@@ -580,6 +583,9 @@ impl Service {
             "data"
                 | "contests/events"
                 | "contest"
+                | "goals"
+                | "goals/save"
+                | "goals/archive"
                 | "workspace"
                 | "problem"
                 | "submissions"
@@ -636,6 +642,12 @@ impl Service {
                     }
                 }
                 ("GET", "workspace") => training.workspace(),
+                ("GET", "goals") => crate::goals::list(&training, false),
+                ("POST", "goals/save") => crate::goals::save(&training, r.body.as_ref().unwrap()),
+                ("POST", "goals/archive") => crate::goals::archive(
+                    &training,
+                    r.body.as_ref().unwrap()["id"].as_str().unwrap_or(""),
+                ),
                 ("GET", "contests/events") => catalogue.replay_events(training.personal),
                 ("GET", "contest") => crate::contest_history::get(
                     &training,
@@ -884,6 +896,9 @@ impl Service {
                         "data/export",
                         "contests/events",
                         "contest",
+                        "goals",
+                        "goals/save",
+                        "goals/archive",
                         "workspace",
                         "problem",
                         "submission",

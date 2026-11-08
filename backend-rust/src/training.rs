@@ -91,17 +91,17 @@ impl Training<'_> {
         Ok(())
     }
     fn simple_workspace_supported(&self) -> Result<(), ApiError> {
-        // Running-contest finalization and legacy goal allocation remain separate.
+        // Running-contest finalization remains a separate migration boundary.
         // Refuse before mutation rather than project their facts as empty.
         let special: bool = self.personal.db.query_row(
-            "SELECT EXISTS(SELECT 1 FROM goals WHERE archived=0) OR EXISTS(SELECT 1 FROM contests WHERE status='running')",
+            "SELECT EXISTS(SELECT 1 FROM contests WHERE status='running')",
             [],
             |r| r.get(0),
         )?;
         if special {
             return Err(ApiError::pending());
         }
-        Ok(())
+        crate::goals::validate_existing(self)
     }
     pub fn workspace(&self) -> Result<Value, ApiError> {
         self.simple_workspace_supported()?;
@@ -111,6 +111,26 @@ impl Training<'_> {
         for record in self.personal.rows("SELECT * FROM contests WHERE deleted_at IS NULL ORDER BY started_at DESC,rowid DESC",[])?.as_array().unwrap(){contests.push(self.contest_projection(record)?);}
         crate::contest_history::prune_legacy_joins(self)?;
         let reviews = crate::reviews::plan(self)?;
+        let summary = self.personal.document(crate::learning::KEY)?;
+        let summary_active = summary
+            .as_ref()
+            .is_some_and(|summary| truth(&summary["plan"]));
+        let mut goals = crate::goals::list(self, !summary_active)?;
+        let mut goal_tasks = if summary_active {
+            Vec::new()
+        } else {
+            goals["goalTasks"].as_array().unwrap().clone()
+        };
+        let mut goal_ids = HashSet::new();
+        for task in &mut goal_tasks {
+            let id = self.canonical(text(task, "id"))?;
+            goal_ids.insert(id.clone());
+            task["id"] = json!(id);
+        }
+        goals["goalTasks"] = json!(goal_tasks);
+        if summary_active {
+            goals["summaryGoal"] = summary.as_ref().unwrap()["config"]["goal"].clone();
+        }
         let review_tasks = reviews["tasks"]
             .as_array()
             .unwrap()
@@ -245,6 +265,12 @@ impl Training<'_> {
                 training.push(item);
             }
         }
+        for item in &mut training {
+            if goal_ids.contains(text(item, "id")) {
+                item["goalTask"] = json!(true);
+                item["today"] = json!(true);
+            }
+        }
         let active_ids = training
             .iter()
             .map(|v| text(v, "id"))
@@ -261,12 +287,6 @@ impl Training<'_> {
             if !ids.is_empty(){sets.push(json!({"id":record["id"],"name":record["name"],"type":"practice","createdAt":record["created_at"],"accepted":ids.iter().filter(|id|accepted_ids.contains(id.as_str())).count(),"total":ids.len(),"ids":ids}));}
         }
         let date = day(self.now);
-        let mut goals = json!({"goals":[],"date":date,"contestPlan":{"contests":[],"total":0,"goalCount":0},"goalTasks":[]});
-        if let Some(state) = self.personal.document(crate::learning::KEY)? {
-            if truth(&state["plan"]) {
-                goals["summaryGoal"] = state["config"]["goal"].clone();
-            }
-        }
         let mut historical = HashSet::new();
         let mut today_accepted = HashSet::new();
         let mut before_today = HashSet::new();
@@ -307,7 +327,7 @@ impl Training<'_> {
             |r| r.get(0),
         )?;
         Ok(
-            json!({"training":training,"sets":sets,"contests":contests,"completedReplayContests":completed_replays,"reviews":reviews,"goals":goals,"goalTasks":[],"activeContest":null,
+            json!({"training":training,"sets":sets,"contests":contests,"completedReplayContests":completed_replays,"reviews":reviews,"goals":goals,"goalTasks":goal_tasks,"activeContest":null,
             "summary":{"todayAccepted":today_accepted.len(),"historicalAccepted":historical.len(),"beforeTodayAccepted":before_today.len(),"total":training.len(),"accepted":accepted_ids.len(),"samplePassed":training.iter().filter(|r|r["verdict"]=="SAMPLE_PASS"&&r["accepted"]!=true).count(),"attempts":records.as_array().unwrap().len(),"due":training.iter().filter(|v|truth(&v["queue"])).count(),"streak":streak,"pending":pending},"now":stamp(self.now)}),
         )
     }
@@ -388,7 +408,7 @@ impl Training<'_> {
         tx.commit()?;
         self.recompute(id)
     }
-    pub fn recompute(&mut self, id: &str) -> Result<(), ApiError> {
+    pub fn recompute(&self, id: &str) -> Result<(), ApiError> {
         let ids = json!(self.ids(id)?).to_string();
         let training = self.personal.rows(
             "SELECT * FROM training WHERE id IN(SELECT value FROM json_each(?))",
@@ -410,31 +430,31 @@ impl Training<'_> {
                 }
             }
         }
-        let tx = self.personal.db.savepoint()?;
-        for record in training.as_array().unwrap() {
-            let mut mock = truth(&record["mock_due"]);
-            if mock
-                && accepted.iter().chain(done.as_array().unwrap()).any(|r| {
-                    r["contest_id"] == record["mock_due_context"]
-                        || !truth(&record["mock_due_at"])
-                        || text(r, "submitted_at") >= text(record, "mock_due_at")
-                })
-            {
-                mock = false;
+        crate::storage::atomic(&self.personal.db, |tx| {
+            for record in training.as_array().unwrap() {
+                let mut mock = truth(&record["mock_due"]);
+                if mock
+                    && accepted.iter().chain(done.as_array().unwrap()).any(|r| {
+                        r["contest_id"] == record["mock_due_context"]
+                            || !truth(&record["mock_due_at"])
+                            || text(r, "submitted_at") >= text(record, "mock_due_at")
+                    })
+                {
+                    mock = false;
+                }
+                if accepted.is_empty() {
+                    tx.execute("UPDATE training SET accepted_at=NULL,review_count=0,rewrite_due=CASE WHEN solution_pending=1 THEN 1 ELSE rewrite_due END,mock_due=? WHERE id=?",params![mock,text(record,"id")])?;
+                } else {
+                    let first = &accepted[0];
+                    let last = accepted.last().unwrap();
+                    let rewrite = truth(&last["solution_seen"])
+                        || truth(&record["solution_seen_at"])
+                            && text(record, "solution_seen_at") >= text(last, "submitted_at");
+                    tx.execute("UPDATE training SET accepted_at=?,last_local_at=?,last_review_at=?,review_count=?,rewrite_due=?,solution_pending=?,mock_due=? WHERE id=?",params![text(first,"submitted_at"),text(last,"submitted_at"),review_at.as_str(),reviews,rewrite,rewrite,mock,text(record,"id")])?;
+                }
             }
-            if accepted.is_empty() {
-                tx.execute("UPDATE training SET accepted_at=NULL,review_count=0,rewrite_due=CASE WHEN solution_pending=1 THEN 1 ELSE rewrite_due END,mock_due=? WHERE id=?",params![mock,text(record,"id")])?;
-            } else {
-                let first = &accepted[0];
-                let last = accepted.last().unwrap();
-                let rewrite = truth(&last["solution_seen"])
-                    || truth(&record["solution_seen_at"])
-                        && text(record, "solution_seen_at") >= text(last, "submitted_at");
-                tx.execute("UPDATE training SET accepted_at=?,last_local_at=?,last_review_at=?,review_count=?,rewrite_due=?,solution_pending=?,mock_due=? WHERE id=?",params![text(first,"submitted_at"),text(last,"submitted_at"),review_at.as_str(),reviews,rewrite,rewrite,mock,text(record,"id")])?;
-            }
-        }
-        tx.commit()?;
-        Ok(())
+            Ok(())
+        })
     }
     pub fn remove(&mut self, body: &Value) -> Result<Value, ApiError> {
         let id = required_text(body, "id", 512)?;
