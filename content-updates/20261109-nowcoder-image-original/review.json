@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "cleanupInspection": {
+    "checkedAt": "2026-11-09",
+    "scope": "Separate NC8827A recovery after frozen four-source batch 67299ea0",
+    "checks": [
+      "Inspected the old incomplete A statement, native public HTML, prior source packets and resource ownership before creating this packet.",
+      "Existing source patches, native original resources and prior snapshots remain necessary and referenced.",
+      "Checked each new PNG hash against the existing global asset manifest and canonical asset path; store each original byte sequence only once.",
+      "Research captures and browser fixtures remain isolated in ignored .backups; previously rejected cache deletions were not retried."
+    ],
+    "removed": [],
+    "result": "No obsolete or unreferenced content eligible for cleanup within this new packet; original IDs, samples and historical source retained."
+  },
+  "problems": [
+    {
+      "id": "remote:nowcoder:8827::A",
+      "url": "https://ac.nowcoder.com/acm/contest/8827/A",
+      "markdownSha256": "72670ace3a15acc9a3e602bcbf31899dba8a082eda028a43d6f0ebe9002606c3",
+      "sourceDocuments": [
+        {
+          "url": "https://ac.nowcoder.com/acm/contest/8827/A",
+          "sha256": "7f53f36368b5355360c3522cc059885972badad8dfe940d8a6473ddb5461de5c",
+          "bytes": 16673,
+          "status": 200,
+          "captureMethod": "ordinary-anonymous-GET",
+          "evidenceFile": "NC8827A-contest-original.html"
+        },
+        {
+          "url": "https://ac.nowcoder.com/acm/problem/213978",
+          "sha256": "d8b6d51bef10f2cd059aa8e27497cfa6081fa4161fa5dac61f76eb44145d5982",
+          "bytes": 16315,
+          "status": 200,
+          "captureMethod": "direct",
+          "evidenceFile": "NC8827A-public-original.html"
+        },
+        {
+          "url": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007544414_0F0156CB174CF479509CF8413D2E592F",
+          "sha256": "97842c2d79e31d84f378f013df80d0c32fee00ede94575513a545f394b943eb8",
+          "bytes": 24266,
+          "status": 200,
+          "captureMethod": "direct"
+        },
+        {
+          "url": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007579980_4E2F37424B70794803184F46F70140B5",
+          "sha256": "ef6fbda9e4f93cc727c4e5d373373c9f5de6f6d35e0a19b72991c5585b8d091a",
+          "bytes": 4546,
+          "status": 200,
+          "captureMethod": "direct"
+        },
+        {
+          "url": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007603618_02E3AC28D5CAEEF242717B0B656C1F42",
+          "sha256": "3a4bc84349f5a05c983df200392987919a75de36715fc0c10c68a3f7200565dc",
+          "bytes": 4751,
+          "status": 200,
+          "captureMethod": "direct"
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "binding": {
+        "method": "native-contest-letter-and-public-problem-id-with-identical-three-images-and-exact-sample",
+        "contestId": 8827,
+        "letter": "A",
+        "nativeProblemId": 213978,
+        "nativeQuestionId": 1133962,
+        "originalId": "remote:nowcoder:8827::A",
+        "originalUrl": "https://ac.nowcoder.com/acm/contest/8827/A",
+        "publicProblemUrl": "https://ac.nowcoder.com/acm/problem/213978",
+        "contestNeedPassword": false,
+        "isProblemAutoOpen": true,
+        "originalImages": [
+          {
+            "url": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007544414_0F0156CB174CF479509CF8413D2E592F",
+            "sha256": "97842c2d79e31d84f378f013df80d0c32fee00ede94575513a545f394b943eb8",
+            "bytes": 24266,
+            "status": 200,
+            "captureMethod": "direct",
+            "section": "description",
+            "width": 758,
+            "height": 249,
+            "visuallyReviewed": true
+          },
+          {
+            "url": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007579980_4E2F37424B70794803184F46F70140B5",
+            "sha256": "ef6fbda9e4f93cc727c4e5d373373c9f5de6f6d35e0a19b72991c5585b8d091a",
+            "bytes": 4546,
+            "status": 200,
+            "captureMethod": "direct",
+            "section": "input",
+            "width": 687,
+            "height": 46,
+            "visuallyReviewed": true
+          },
+          {
+            "url": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007603618_02E3AC28D5CAEEF242717B0B656C1F42",
+            "sha256": "3a4bc84349f5a05c983df200392987919a75de36715fc0c10c68a3f7200565dc",
+            "bytes": 4751,
+            "status": 200,
+            "captureMethod": "direct",
+            "section": "output",
+            "width": 637,
+            "height": 44,
+            "visuallyReviewed": true
+          }
+        ],
+        "sampleBinding": {
+          "input": "3",
+          "output": "5"
+        },
+        "formulaReviewed": "\\sum_{i=1}^{n}\\sum_{j=1}^{i}[\\gcd(j,i)=1]F(j)",
+        "boundsReviewed": "1\\le j\\le i\\le n; 1\\le n\\le10^5",
+        "nativeLimitsReviewed": {
+          "C/C++/Rust/Pascal": {
+            "timeMs": 1000,
+            "memoryMb": 128
+          },
+          "other": {
+            "timeMs": 2000,
+            "memoryMb": 256
+          }
+        },
+        "sourceImageBytesChanged": false,
+        "globalParserRulesChanged": false
+      },
+      "reviewedSourcePages": [],
+      "notes": [
+        "The contest and public problem pages both expose problemId 213978 and questionId 1133962, the identical three PNG URLs and exact sample 3 -> 5. The contest explicitly has needPassword:false. This was an image-only extraction failure, not an inaccessible invitation contest.",
+        "All three original PNGs reviewed visually: decimal digit-sum definition and both examples; both summation bounds; Iverson condition gcd(j,i)=1; single test case and n up to 10^5; one integer output. Original image bytes retained with three visible offline download links in both languages.",
+        "English transcription and complete Chinese preserve all protected formulas, numbers, URLs and sample byte strings. Current native language-specific time/memory limits retained explicitly; previous generic 2s/256MB values remain in the old source snapshot.",
+        "The sample was independently enumerated: i=1 contributes 1, i=2 contributes 1, i=3 contributes F(1)+F(2)=3, total 5."
+      ]
+    }
+  ]
+}

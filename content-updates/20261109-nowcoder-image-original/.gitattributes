@@ -1,0 +1,2 @@
+# Exact public source captures: retain native whitespace and line endings.
+NC8827A-*-original.html -text -diff

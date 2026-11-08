@@ -1,0 +1,7 @@
+{
+  "ids": [
+    "remote:nowcoder:8827::A"
+  ],
+  "newAssets": 3,
+  "note": "Independent follow-up batch after 1.6.10 source freeze; catalogue owner validates and registers without changing the frozen source boundary."
+}
