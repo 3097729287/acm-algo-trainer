@@ -7,7 +7,7 @@ import {createHash} from 'node:crypto';
 
 const ROOT='https://github.com/3097729287/acm-algo-trainer/releases/download/';
 const REDIRECT_HOSTS=new Set(['github.com','release-assets.githubusercontent.com','objects.githubusercontent.com','objects.github.com']);
-const filePattern=/^(?:ToBe|TB)-(?:Setup-\d+\.\d+\.\d+-win64\.exe|Update-\d+\.\d+\.\d+-to-\d+\.\d+\.\d+-win64\.zip)$/;
+const filePattern=/^(?:ToBe|TB)-(?:Setup-\d+\.\d+\.\d+-win64\.exe|(?:Compact-)?Update-\d+\.\d+\.\d+-to-\d+\.\d+\.\d+-win64\.zip)$/;
 export function createReleaseStream(indexFile,{fetcher=fetch,maximumActive=2,transferTimeoutMs=60*60*1000}={}){
  if(!Number.isSafeInteger(transferTimeoutMs)||transferTimeoutMs<1||transferTimeoutMs>60*60*1000)throw Error('Invalid transfer timeout');
  let active=0,cached=null,modified=0;

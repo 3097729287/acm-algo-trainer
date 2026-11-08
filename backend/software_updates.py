@@ -31,7 +31,7 @@ MAX_DOWNLOAD_CACHE = 8 * 1024**3
 def _retire_downloads(directory,current):
     from update_backups import ordinary,recycle_directory
     for path in directory.iterdir():
-        match=re.fullmatch(r'(?:ToBe|TB)-(?:Setup-(\d+\.\d+\.\d+)|Update-\d+\.\d+\.\d+-to-(\d+\.\d+\.\d+))-win64\.(?:exe|zip|download(?:\.failed-[a-f0-9]{32})?)',path.name)
+        match=re.fullmatch(r'(?:ToBe|TB)-(?:Setup-(\d+\.\d+\.\d+)|(?:Compact-)?Update-\d+\.\d+\.\d+-to-(\d+\.\d+\.\d+))-win64\.(?:exe|zip|download(?:\.failed-[a-f0-9]{32})?)',path.name)
         if not match or not path.is_file() or not ordinary(path):continue
         try:obsolete=version_tuple(match.group(1) or match.group(2))<version_tuple(current)
         except ValueError:continue
@@ -55,7 +55,7 @@ def trusted_url(url):
     if parsed.scheme != "https" or parsed.username or parsed.password or port not in (None, 443) or parsed.fragment or '\\' in url:
         return False
     if parsed.hostname == '47.82.84.74':
-        return url == DOMESTIC_FEED or bool(re.fullmatch(r'/updates/(?:assets/\d+\.\d+\.\d+/(?:ToBe|TB)-(?:Update-[\d.]+-to-[\d.]+-win64\.zip|Setup-[\d.]+-win64\.exe)|stable/(?:index\.html|release-[\d.]+\.html))', parsed.path) and not parsed.query)
+        return url == DOMESTIC_FEED or bool(re.fullmatch(r'/updates/(?:assets/\d+\.\d+\.\d+/(?:ToBe|TB)-(?:(?:Compact-)?Update-[\d.]+-to-[\d.]+-win64\.zip|Setup-[\d.]+-win64\.exe)|stable/(?:index\.html|release-[\d.]+\.html))', parsed.path) and not parsed.query)
     return parsed.hostname in {"api.github.com", "github.com", "release-assets.githubusercontent.com", "objects.githubusercontent.com"}
 
 
@@ -91,13 +91,14 @@ def domestic_release_info(payload, current):
         if not isinstance(assets, list) or len(assets) > 100:
             raise ValueError('国内更新资产无效')
         deltas = [f'{brand}-Update-{current}-to-{version}-win64.zip' for brand in ('ToBe', 'TB')]
+        compact=[f'{brand}-Compact-Update-{current}-to-{version}-win64.zip' for brand in ('ToBe','TB')] if version_tuple(current)>=(1,6,8) else []
         installers = [f'{brand}-Setup-{version}-win64.exe' for brand in ('ToBe', 'TB')]
         # A complete verified installer repairs an installation whose original
         # baseline is unavailable; prefer a matching delta whenever published.
         available = {item.get('name'): item for item in assets if isinstance(item, dict)}
         if len(available) != len(assets):
             raise ValueError('国内更新资产重复或无效')
-        name = next((name for name in deltas + installers if name in available), None)
+        name = next((name for name in compact + deltas + installers if name in available), None)
         asset = available.get(name)
         if asset is None:
             continue
@@ -107,12 +108,12 @@ def domestic_release_info(payload, current):
                 not isinstance(sha, str) or not re.fullmatch('[a-f0-9]{64}', sha) or
                 asset.get('url') != expected or not trusted_url(expected)):
             raise ValueError('国内更新包地址、大小或 SHA-256 校验值无效')
-        candidate={'kind': 'delta' if name in deltas else 'installer', 'version': version,
+        candidate={'kind': 'compact' if name in compact else 'delta' if name in deltas else 'installer', 'version': version,
                            'name': name, 'url': expected, 'size': size, 'sha256': sha,
                            'notes': str(record.get('notes') or '')[:12000],
                            'releaseUrl': f'{DOMESTIC_ROOT}/stable/release-{version}.html'}
         fallback_name=next((item for item in installers if item in available),None)
-        if candidate['kind']=='delta' and fallback_name:
+        if candidate['kind'] in {'delta','compact'} and fallback_name:
             fallback=available[fallback_name]
             fallback_url=f'{DOMESTIC_ROOT}/assets/{version}/{fallback_name}'
             if (type(fallback.get('size')) is not int or not 0<fallback['size']<=MAX_INSTALLER or
@@ -365,14 +366,14 @@ class SoftwareUpdates:
                 if not ordinary(pending) or not pending.is_file():raise ValueError('更新缓存路径无效')
                 try:resumable=json.loads(metadata.read_text('utf-8'))==expected and pending.stat().st_size<=release['size']
                 except (OSError,ValueError):pass
-                if not resumable:
-                    pending.replace(pending.with_name(pending.name+'.failed-'+uuid.uuid4().hex))
             size=pending.stat().st_size if resumable else 0
             if occupied+release['size']-size>MAX_DOWNLOAD_CACHE:
                 raise UpdateStorageError('更新下载缓存已达上限，已暂停下载')
             if len(list(directory.glob(pending.name+'.failed-*')))>=2:
                 raise UpdateStorageError('下载失败文件已达保留上限，原文件保留，更新已暂停')
             require_space(directory,release['size']-size)
+            if pending.exists() and not resumable:
+                pending.replace(pending.with_name(pending.name+'.failed-'+uuid.uuid4().hex))
             partial=pending
             if metadata.exists() and not ordinary(metadata):raise ValueError('更新缓存校验路径无效')
             metadata.write_text(json.dumps(expected,sort_keys=True)+'\n',encoding='utf-8')
@@ -452,7 +453,7 @@ class SoftwareUpdates:
                 self.launcher(self.installer, self.release["sha256"], self.release["version"])
                 self.status = "installing"
             except UpdateBaseMismatch as error:
-                fallback=self.release.get('fallbackInstaller') if self.release.get('kind')=='delta' else None
+                fallback=self.release.get('fallbackInstaller') if self.release.get('kind') in {'delta','compact'} else None
                 if fallback:
                     self.release,self.installer,self.repairing=fallback,None,True
                     self.status='available'

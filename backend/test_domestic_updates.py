@@ -23,6 +23,15 @@ def manifest(delta=True):
 
 
 class DomesticUpdateTests(unittest.TestCase):
+    def test_compact_payloads_require_a_capable_client_and_keep_installer_fallback(self):
+        version='1.6.9'
+        names=['ToBe-Setup-1.6.9-win64.exe','ToBe-Compact-Update-1.6.8-to-1.6.9-win64.zip','ToBe-Compact-Update-1.6.7-to-1.6.9-win64.zip']
+        payload={'schema':1,'channel':'stable','releases':[{'version':version,'assets':[{'name':name,'size':len(DATA),'sha256':hashlib.sha256(DATA).hexdigest(),'url':f'{DOMESTIC_ROOT}/assets/{version}/{name}'} for name in names]}]}
+        modern=domestic_release_info(payload,'1.6.8');self.assertEqual(modern['kind'],'compact')
+        self.assertEqual(modern['fallbackInstaller']['name'],names[0])
+        self.assertTrue(trusted_url(modern['url']))
+        self.assertEqual(domestic_release_info(payload,'1.6.7')['kind'],'installer')
+
     def test_default_channel_checks_and_downloads_without_any_github_request(self):
         with tempfile.TemporaryDirectory() as root:
             opener = Mock()
