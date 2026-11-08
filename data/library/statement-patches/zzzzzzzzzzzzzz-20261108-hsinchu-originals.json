@@ -1,0 +1,699 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:102835::C",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Pyramid\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem C\r\nPyramid\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nConsider an 𝑛×𝑛 grid where nodes are labelled as (𝑖, 𝑗) for 0 ≤ 𝑖, 𝑗 < 𝑛. We rotate it 45 degree\r\nin clockwise direction and keep only its top half part. Then you get a pyramid, as shown in\r\nFigure 1. All of the nodes laid on the anti-diagonal of the grid have labels (𝑛 − 1 − 𝑗, 𝑗) for\r\n0 ≤ 𝑗 < 𝑛. They are located at the bottom line of the pyramid. For simplicity and clarity,\r\nwe name node (𝑛 − 1 − 𝑗, 𝑗) as exit 𝑗. Node (0, 0) is called the starting point (labelled as 𝑃\r\nin Figure 1). When you insert a ball from the starting point, this ball will roll down to some\r\nof the exits. A ball located at node (𝑖, 𝑗) can only roll down to either node (𝑖 + 1, 𝑗) or node\r\n(𝑖, 𝑗 + 1), and the ball shall never be broken or split. There is a tiny switch equipped on every\r\nnode other than the exits that controls the move direction of the ball, and this switch always\r\nworks well. The switch has exactly two states: either 𝐿 or 𝑅, indicates that the ball can move\r\nto node (𝑖 + 1, 𝑗) or (𝑖, 𝑗 + 1), respectively. After the ball leaves this node, the switch changes\r\nimmediately to the other state. The default setting for a switch is at 𝐿.\r\nFigure 1: An example for 𝑛 = 5.\r\nWhen you insert the first ball into 𝑃, this ball will reach exit 0, and the states of nodes (𝑖, 0)\r\nfor 0 ≤ 𝑖 < 𝑛 − 1 are now all 𝑅’s. Then you insert the second, third, and so on so forth, one by\r\none, until the 𝑘\r\n𝑡ℎ ball finishes. The status of every switch accumulates with these balls. Please\r\nwrite a program to determine the number of the exit point for the 𝑘\r\n𝑡ℎ ball.\r\nInput Format\r\nThe first line of the input is a number that specifies the number of test cases. Each test case\r\nhas only one line that gives you two space-delimited numbers 𝑛 and 𝑘.\r\nOutput Format\r\nPlease output the exit number of the 𝑘\r\n𝑡ℎ ball in one line.\r\n5\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nTechnical Specification\r\n• There are at most 20 test cases.\r\n• 1 ≤ 𝑛 ≤ 104\r\n.\r\n• 1 ≤ 𝑘 ≤ 108\r\n.\r\nSample Input 1\r\n2\r\n5 1\r\n5 2\r\nSample Output 1\r\n0\r\n1\r\nSample Input 2\r\n3\r\n5 3\r\n5 4\r\n5 5\r\nSample Output 2\r\n2\r\n3\r\n2\r\n6\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2\n5 1\n5 2",
+            "output": "0\n1"
+          },
+          {
+            "name": "样例 2",
+            "input": "3\n5 3\n5 4\n5 5",
+            "output": "2\n3\n2"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem C\r\nPyramid\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nConsider an 𝑛×𝑛 grid where nodes are labelled as (𝑖, 𝑗) for 0 ≤ 𝑖, 𝑗 < 𝑛. We rotate it 45 degree\r\nin clockwise direction and keep only its top half part. Then you get a pyramid, as shown in\r\nFigure 1. All of the nodes laid on the anti-diagonal of the grid have labels (𝑛 − 1 − 𝑗, 𝑗) for\r\n0 ≤ 𝑗 < 𝑛. They are located at the bottom line of the pyramid. For simplicity and clarity,\r\nwe name node (𝑛 − 1 − 𝑗, 𝑗) as exit 𝑗. Node (0, 0) is called the starting point (labelled as 𝑃\r\nin Figure 1). When you insert a ball from the starting point, this ball will roll down to some\r\nof the exits. A ball located at node (𝑖, 𝑗) can only roll down to either node (𝑖 + 1, 𝑗) or node\r\n(𝑖, 𝑗 + 1), and the ball shall never be broken or split. There is a tiny switch equipped on every\r\nnode other than the exits that controls the move direction of the ball, and this switch always\r\nworks well. The switch has exactly two states: either 𝐿 or 𝑅, indicates that the ball can move\r\nto node (𝑖 + 1, 𝑗) or (𝑖, 𝑗 + 1), respectively. After the ball leaves this node, the switch changes\r\nimmediately to the other state. The default setting for a switch is at 𝐿.\r\nFigure 1: An example for 𝑛 = 5.\r\nWhen you insert the first ball into 𝑃, this ball will reach exit 0, and the states of nodes (𝑖, 0)\r\nfor 0 ≤ 𝑖 < 𝑛 − 1 are now all 𝑅’s. Then you insert the second, third, and so on so forth, one by\r\none, until the 𝑘\r\n𝑡ℎ ball finishes. The status of every switch accumulates with these balls. Please\r\nwrite a program to determine the number of the exit point for the 𝑘\r\n𝑡ℎ ball.\r\nInput Format\r\nThe first line of the input is a number that specifies the number of test cases. Each test case\r\nhas only one line that gives you two space-delimited numbers 𝑛 and 𝑘.\r\nOutput Format\r\nPlease output the exit number of the 𝑘\r\n𝑡ℎ ball in one line.\r\n5\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nTechnical Specification\r\n• There are at most 20 test cases.\r\n• 1 ≤ 𝑛 ≤ 104\r\n.\r\n• 1 ≤ 𝑘 ≤ 108\r\n.\r\nSample Input 1\r\n2\r\n5 1\r\n5 2\r\nSample Output 1\r\n0\r\n1\r\nSample Input 2\r\n3\r\n5 3\r\n5 4\r\n5 5\r\nSample Output 2\r\n2\r\n3\r\n2\r\n6",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf",
+          "sourcePdfSha256": "1d7aae5495e139e360c4f406dbf321b5716e5e570c164b7182688108ad509ca6",
+          "pages": [
+            6
+          ],
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "2\n5 1\n5 2",
+              "output": "0\n1"
+            },
+            {
+              "name": "样例 2",
+              "input": "3\n5 3\n5 4\n5 5",
+              "output": "2\n3\n2"
+            }
+          ],
+          "corrections": []
+        },
+        "id": "remote:codeforces:102835::C",
+        "title": "Pyramid",
+        "url": "https://codeforces.com/gym/102835/problem/C",
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          5,
+          6
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/102835",
+        "sourceRosterSha256": "b8d7bf0e42a4825a97d465dab685a6963f3d42423de5f09730bc76c94ddd474d",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "C",
+          "pdfTitle": "Pyramid",
+          "rosterTitle": "Pyramid",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "经原站题单核对的赛事原始 PDF（归档副本）",
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36,
+            "data": "tb-asset:54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "fileName": "gym-102835.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sha256": "1d7aae5495e139e360c4f406dbf321b5716e5e570c164b7182688108ad509ca6",
+          "data": "tb-asset:1d7aae5495e139e360c4f406dbf321b5716e5e570c164b7182688108ad509ca6",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            5,
+            6
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "fileName": "gym-102835-C.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterFormat": "reviewed-structured-native-roster",
+        "resourceManifest": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T09:51:28.201396+00:00",
+          "corpusAuditVerifiedSha256": "bc20738cb9d075f16e2d4cf608894ac7f24e7d9e3832c188691ecdc47bf69c06"
+        },
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:102835::C",
+          "nativeRosterUrl": "https://codeforces.com/gym/102835",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "pdfSha256": "1d7aae5495e139e360c4f406dbf321b5716e5e570c164b7182688108ad509ca6",
+          "sourcePages": [
+            5,
+            6
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 2,
+          "samplesSha256": "05f71a10ee238831019ae6c6e83001fc1247e61f3ffa5606b89c9b9e2687f99d",
+          "samplePagesReviewed": [
+            6
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:102835::F",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Cable Protection\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem F\r\nCable Protection\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nA company ICPC (International Cable Protection Company) produces a cable protection tool\r\nthat can be installed in a network switch to monitor whether all cable links connected to it are\r\nworking properly. Because the protection tool would cause transmission delay, it is not suitable\r\nfor installation on every switch.\r\nUsually network topology consists of two parts: a backbone and several subnets. The switches\r\non the backbone are linked as a ring structure and each backbone switch is treated as a root of\r\na subnet in which the switches are linked as a tree structure. We call such topology as unicyclic\r\ntopology. Figure 2 shows an example of a unicyclic topology.\r\nFigure 2: An example of uncyclic topology.\r\nSuppose there are 𝑛 backbone switches and 𝑚 subnet switches. The switches are numbered by\r\nintegers from 0 to 𝑚 + 𝑛 − 1. Backbone switches are numbered from 0 to 𝑛 − 1 in clockwise\r\norder and the subnet switches are numbered from 𝑛 to 𝑛 + 𝑚 − 1 where the index of each\r\nsubnet switch is larger than the index of its parent in the rooted tree structure of the subnet it\r\nbelongs. Figure 3 shows an example of switch numbering.\r\nFigure 3: An example of switch numbering.\r\n11\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nPlease write a program for ICPC to decide the minimum number of switches selected for\r\ninstalling cable protection tools that can monitor all the cable links. Figure 4 shows an optimum\r\nsolution (circled by ellipses) for the given network.\r\nFigure 4: An optimum solution for the given network.\r\nInput Format\r\nThe first line of the input file contains two integers 𝑛 and 𝑚, separated by a space, indicating\r\nthe numbers of backbone switches and subnet switches respectively. Each of the next 𝑛+𝑚 lines\r\nconsists of two integers, separated by a space, indicating the indices of the two end switches of\r\na link.\r\nOutput Format\r\nOutput the minimum number of switches selected for installing cable protection tools that can\r\nmonitor all the cable links.\r\nTechnical Specification\r\n• 3 ≤ 𝑛 ≤ 100000\r\n• 1 ≤ 𝑚 ≤ 100000\r\nSample Input 1\r\n3 2\r\n0 1\r\n1 2\r\n0 2\r\n1 3\r\n2 4\r\nSample Output 1\r\n2\r\n12\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nSample Input 2\r\n4 11\r\n0 1\r\n0 3\r\n0 4\r\n0 5\r\n1 2\r\n1 6\r\n2 3\r\n2 9\r\n3 12\r\n6 7\r\n6 8\r\n9 10\r\n10 11\r\n12 13\r\n12 14\r\nSample Output 2\r\n5\r\n13\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nAlmost blank page\r\n14\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 2\n0 1\n1 2\n0 2\n1 3\n2 4",
+            "output": "2"
+          },
+          {
+            "name": "样例 2",
+            "input": "4 11\n0 1\n0 3\n0 4\n0 5\n1 2\n1 6\n2 3\n2 9\n3 12\n6 7\n6 8\n9 10\n10 11\n12 13\n12 14",
+            "output": "5"
+          }
+        ],
+        "pageCount": 4,
+        "sourceText": "2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem F\r\nCable Protection\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nA company ICPC (International Cable Protection Company) produces a cable protection tool\r\nthat can be installed in a network switch to monitor whether all cable links connected to it are\r\nworking properly. Because the protection tool would cause transmission delay, it is not suitable\r\nfor installation on every switch.\r\nUsually network topology consists of two parts: a backbone and several subnets. The switches\r\non the backbone are linked as a ring structure and each backbone switch is treated as a root of\r\na subnet in which the switches are linked as a tree structure. We call such topology as unicyclic\r\ntopology. Figure 2 shows an example of a unicyclic topology.\r\nFigure 2: An example of uncyclic topology.\r\nSuppose there are 𝑛 backbone switches and 𝑚 subnet switches. The switches are numbered by\r\nintegers from 0 to 𝑚 + 𝑛 − 1. Backbone switches are numbered from 0 to 𝑛 − 1 in clockwise\r\norder and the subnet switches are numbered from 𝑛 to 𝑛 + 𝑚 − 1 where the index of each\r\nsubnet switch is larger than the index of its parent in the rooted tree structure of the subnet it\r\nbelongs. Figure 3 shows an example of switch numbering.\r\nFigure 3: An example of switch numbering.\r\n11\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nPlease write a program for ICPC to decide the minimum number of switches selected for\r\ninstalling cable protection tools that can monitor all the cable links. Figure 4 shows an optimum\r\nsolution (circled by ellipses) for the given network.\r\nFigure 4: An optimum solution for the given network.\r\nInput Format\r\nThe first line of the input file contains two integers 𝑛 and 𝑚, separated by a space, indicating\r\nthe numbers of backbone switches and subnet switches respectively. Each of the next 𝑛+𝑚 lines\r\nconsists of two integers, separated by a space, indicating the indices of the two end switches of\r\na link.\r\nOutput Format\r\nOutput the minimum number of switches selected for installing cable protection tools that can\r\nmonitor all the cable links.\r\nTechnical Specification\r\n• 3 ≤ 𝑛 ≤ 100000\r\n• 1 ≤ 𝑚 ≤ 100000\r\nSample Input 1\r\n3 2\r\n0 1\r\n1 2\r\n0 2\r\n1 3\r\n2 4\r\nSample Output 1\r\n2\r\n12\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nSample Input 2\r\n4 11\r\n0 1\r\n0 3\r\n0 4\r\n0 5\r\n1 2\r\n1 6\r\n2 3\r\n2 9\r\n3 12\r\n6 7\r\n6 8\r\n9 10\r\n10 11\r\n12 13\r\n12 14\r\nSample Output 2\r\n5\r\n13\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nAlmost blank page\r\n14",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf",
+          "sourcePdfSha256": "5067175af2a34ad4907efde6e3eacded10f3b406b75abfc1d269026441aae6c8",
+          "pages": [
+            12,
+            13
+          ],
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "3 2\n0 1\n1 2\n0 2\n1 3\n2 4",
+              "output": "2"
+            },
+            {
+              "name": "样例 2",
+              "input": "4 11\n0 1\n0 3\n0 4\n0 5\n1 2\n1 6\n2 3\n2 9\n3 12\n6 7\n6 8\n9 10\n10 11\n12 13\n12 14",
+              "output": "5"
+            }
+          ],
+          "corrections": []
+        },
+        "id": "remote:codeforces:102835::F",
+        "title": "Cable Protection",
+        "url": "https://codeforces.com/gym/102835/problem/F",
+        "limits": {
+          "timeMs": 2000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          11,
+          12,
+          13,
+          14
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/102835",
+        "sourceRosterSha256": "b8d7bf0e42a4825a97d465dab685a6963f3d42423de5f09730bc76c94ddd474d",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "F",
+          "pdfTitle": "Cable Protection",
+          "rosterTitle": "Cable Protection",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "经原站题单核对的赛事原始 PDF（归档副本）",
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36,
+            "data": "tb-asset:54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "fileName": "gym-102835.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sha256": "5067175af2a34ad4907efde6e3eacded10f3b406b75abfc1d269026441aae6c8",
+          "data": "tb-asset:5067175af2a34ad4907efde6e3eacded10f3b406b75abfc1d269026441aae6c8",
+          "pageCount": 4,
+          "sourcePageNumbers": [
+            11,
+            12,
+            13,
+            14
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "fileName": "gym-102835-F.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterFormat": "reviewed-structured-native-roster",
+        "resourceManifest": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T09:51:28.233155+00:00",
+          "corpusAuditVerifiedSha256": "712eaeea5a5af9775dccbaa8feebde614b562550633e5dad36f0272e22f5e841"
+        },
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:102835::F",
+          "nativeRosterUrl": "https://codeforces.com/gym/102835",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "pdfSha256": "5067175af2a34ad4907efde6e3eacded10f3b406b75abfc1d269026441aae6c8",
+          "sourcePages": [
+            11,
+            12,
+            13,
+            14
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 2,
+          "samplesSha256": "b0d5642cdbaf45630063e2c3e8e88ca036888f2ff0d6aa304dc25297d3b5da3f",
+          "samplePagesReviewed": [
+            12,
+            13
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:102835::G",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Graph Cards\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem G\r\nGraph Cards\r\nTime limit: 30 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nA deck of graph cards is placed on the table. Each graph card 𝜒 is decorated with an undirected\r\nsimple graph 𝐺𝜒 so that 𝐺𝜒 is connected and 𝐺𝜒 has the same number of nodes and edges.\r\nNote that different graph cards may have different numbers of nodes. An example is depicted\r\nas follows.\r\nWe say two graph cards are identical if and only if the graphs associated with them, say\r\n𝐺1 = (𝑉1, 𝐸1) and 𝐺2 = (𝑉2, 𝐸2), are isomorphism; that is, there exists a bijection 𝑓 between\r\nthe node sets 𝑉1 and 𝑉2 so that for every 𝑥, 𝑦 ∈ 𝑉1, edge (𝑥, 𝑦) ∈ 𝐸1 if and only if edge\r\n(𝑓(𝑥), 𝑓(𝑦)) ∈ 𝐸2. Our goal is to compute the number of distinct graph cards in the deck.\r\nInput Format\r\nThe first line contains an integer 𝑡 that indicates the number of test cases. For each test case,\r\nyou are given a deck of graph cards. It begins with a line containing the number of graph cards\r\n𝑛 > 0. Then, 𝑛 lines follow. Each line represents a graph card associated with a graph 𝐺 in\r\nthe following format:\r\n𝑘 𝑢1 𝑣1 𝑢2 𝑣2 · · · 𝑢𝑘 𝑣𝑘\r\nwhere 𝑘 > 0 denotes the number of nodes (also edges) in 𝐺 and for each 𝑖 ∈ [1, 𝑘] (𝑢𝑖\r\n, 𝑣𝑖)\r\ndenotes an edge in 𝐺 that connects nodes 𝑢𝑖 and 𝑣𝑖\r\n. Note that the identifiers of nodes are\r\nintegers in [1, 𝑘].\r\n15\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nOutput Format\r\nFor each test case, output the number of distinct graph cards in the given deck on a line.\r\nTechnical Specification\r\n• 0 < 𝑡 ≤ 30.\r\n• 0 < 𝑛, 𝑘 ≤ 106\r\n.\r\n• For each test case, the numbers of nodes in the 𝑛 graph cards sum up to at most 106\r\n.\r\nSample Input 1\r\n1\r\n2\r\n4 1 2 2 3 3 1 1 4\r\n4 1 2 2 3 3 1 2 4\r\nSample Output 1\r\n1\r\nSample Input 2\r\n2\r\n2\r\n4 1 2 2 3 3 1 1 4\r\n5 1 2 2 3 3 1 2 4 2 5\r\n3\r\n9 1 2 2 5 5 7 7 6 6 3 3 1 2 4 7 9 9 8\r\n9 1 4 4 2 2 3 3 5 5 7 7 6 6 4 7 8 8 9\r\n9 1 2 2 5 5 4 4 1 4 7 7 8 8 6 8 9 5 3\r\nSample Output 2\r\n2\r\n2\r\n16\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "1\n2\n4 1 2 2 3 3 1 1 4\n4 1 2 2 3 3 1 2 4",
+            "output": "1"
+          },
+          {
+            "name": "样例 2",
+            "input": "2\n2\n4 1 2 2 3 3 1 1 4\n5 1 2 2 3 3 1 2 4 2 5\n3\n9 1 2 2 5 5 7 7 6 6 3 3 1 2 4 7 9 9 8\n9 1 4 4 2 2 3 3 5 5 7 7 6 6 4 7 8 8 9\n9 1 2 2 5 5 4 4 1 4 7 7 8 8 6 8 9 5 3",
+            "output": "2\n2"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem G\r\nGraph Cards\r\nTime limit: 30 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nA deck of graph cards is placed on the table. Each graph card 𝜒 is decorated with an undirected\r\nsimple graph 𝐺𝜒 so that 𝐺𝜒 is connected and 𝐺𝜒 has the same number of nodes and edges.\r\nNote that different graph cards may have different numbers of nodes. An example is depicted\r\nas follows.\r\nWe say two graph cards are identical if and only if the graphs associated with them, say\r\n𝐺1 = (𝑉1, 𝐸1) and 𝐺2 = (𝑉2, 𝐸2), are isomorphism; that is, there exists a bijection 𝑓 between\r\nthe node sets 𝑉1 and 𝑉2 so that for every 𝑥, 𝑦 ∈ 𝑉1, edge (𝑥, 𝑦) ∈ 𝐸1 if and only if edge\r\n(𝑓(𝑥), 𝑓(𝑦)) ∈ 𝐸2. Our goal is to compute the number of distinct graph cards in the deck.\r\nInput Format\r\nThe first line contains an integer 𝑡 that indicates the number of test cases. For each test case,\r\nyou are given a deck of graph cards. It begins with a line containing the number of graph cards\r\n𝑛 > 0. Then, 𝑛 lines follow. Each line represents a graph card associated with a graph 𝐺 in\r\nthe following format:\r\n𝑘 𝑢1 𝑣1 𝑢2 𝑣2 · · · 𝑢𝑘 𝑣𝑘\r\nwhere 𝑘 > 0 denotes the number of nodes (also edges) in 𝐺 and for each 𝑖 ∈ [1, 𝑘] (𝑢𝑖\r\n, 𝑣𝑖)\r\ndenotes an edge in 𝐺 that connects nodes 𝑢𝑖 and 𝑣𝑖\r\n. Note that the identifiers of nodes are\r\nintegers in [1, 𝑘].\r\n15\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nOutput Format\r\nFor each test case, output the number of distinct graph cards in the given deck on a line.\r\nTechnical Specification\r\n• 0 < 𝑡 ≤ 30.\r\n• 0 < 𝑛, 𝑘 ≤ 106\r\n.\r\n• For each test case, the numbers of nodes in the 𝑛 graph cards sum up to at most 106\r\n.\r\nSample Input 1\r\n1\r\n2\r\n4 1 2 2 3 3 1 1 4\r\n4 1 2 2 3 3 1 2 4\r\nSample Output 1\r\n1\r\nSample Input 2\r\n2\r\n2\r\n4 1 2 2 3 3 1 1 4\r\n5 1 2 2 3 3 1 2 4 2 5\r\n3\r\n9 1 2 2 5 5 7 7 6 6 3 3 1 2 4 7 9 9 8\r\n9 1 4 4 2 2 3 3 5 5 7 7 6 6 4 7 8 8 9\r\n9 1 2 2 5 5 4 4 1 4 7 7 8 8 6 8 9 5 3\r\nSample Output 2\r\n2\r\n2\r\n16",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf",
+          "sourcePdfSha256": "85e7c693b7613b0d418c7c399bb5829dd7d8d129ef2bf9291785605fd0d1373c",
+          "pages": [
+            16
+          ],
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "1\n2\n4 1 2 2 3 3 1 1 4\n4 1 2 2 3 3 1 2 4",
+              "output": "1"
+            },
+            {
+              "name": "样例 2",
+              "input": "2\n2\n4 1 2 2 3 3 1 1 4\n5 1 2 2 3 3 1 2 4 2 5\n3\n9 1 2 2 5 5 7 7 6 6 3 3 1 2 4 7 9 9 8\n9 1 4 4 2 2 3 3 5 5 7 7 6 6 4 7 8 8 9\n9 1 2 2 5 5 4 4 1 4 7 7 8 8 6 8 9 5 3",
+              "output": "2\n2"
+            }
+          ],
+          "corrections": []
+        },
+        "id": "remote:codeforces:102835::G",
+        "title": "Graph Cards",
+        "url": "https://codeforces.com/gym/102835/problem/G",
+        "limits": {
+          "timeMs": 4000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          15,
+          16
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/102835",
+        "sourceRosterSha256": "b8d7bf0e42a4825a97d465dab685a6963f3d42423de5f09730bc76c94ddd474d",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "G",
+          "pdfTitle": "Graph Cards",
+          "rosterTitle": "Graph Cards",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "经原站题单核对的赛事原始 PDF（归档副本）",
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36,
+            "data": "tb-asset:54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "fileName": "gym-102835.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sha256": "85e7c693b7613b0d418c7c399bb5829dd7d8d129ef2bf9291785605fd0d1373c",
+          "data": "tb-asset:85e7c693b7613b0d418c7c399bb5829dd7d8d129ef2bf9291785605fd0d1373c",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            15,
+            16
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "fileName": "gym-102835-G.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterFormat": "reviewed-structured-native-roster",
+        "resourceManifest": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T09:51:28.266656+00:00",
+          "corpusAuditVerifiedSha256": "6037eb41eeff1b3a75e296277bf15787d6ce2118d42d5e9ebf98caf682568de4"
+        },
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:102835::G",
+          "nativeRosterUrl": "https://codeforces.com/gym/102835",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "pdfSha256": "85e7c693b7613b0d418c7c399bb5829dd7d8d129ef2bf9291785605fd0d1373c",
+          "sourcePages": [
+            15,
+            16
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 2,
+          "samplesSha256": "30c329d10ae5ea95a658e07ee0e9b705ef8aad86e9e1ce54a962cef7a61b0ce0",
+          "samplePagesReviewed": [
+            16
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:102835::H",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Optimization for UltraNet\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem H\r\nOptimization for UltraNet\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe UltraNet company provides network connectivity for all cities in a country. For a pair of\r\ncities, they are either directly connected or indirectly connected. A city 𝑖 and another city 𝑗\r\nare directly connected if a cable with a symmetrical bandwidth of 𝑏𝑖,𝑗 = 𝑏𝑗,𝑖 is wired between\r\nthem. For two cities that are not directly connected, at least one path between the two cities\r\nexists. In the current UltraNet, more than one path is possibly available for a city pair.\r\nThe current UltraNet is perfectly working, while the maintenance fee of each cable is costly.\r\nEnergy conservation is another concern. The energy consumption of a cable is proportional\r\nto its bandwidth. Therefore, the company has an optimization plan to reorganize the network\r\nwith the policies in the following order:\r\n1. The number of cables should be minimized without sacrificing the connectivity of the\r\nwhole UltraNet. In other words, exactly one path between every city pair should be\r\nsatisfied.\r\n2. If there is more than one way to minimize the number of cables, the bottleneck of the\r\nwhole network should be maximized. The bottleneck of a network is determined by the\r\ncity pair with the narrowest bandwidth, and the bandwidth of a city pair (𝑖, 𝑗), 𝑏\r\n′\r\n𝑖,𝑗 , is\r\ndetermined by the cable with the narrowest bandwidth on the only path from 𝑖 to 𝑗.\r\n3. If there is still more than one way to meet the above two points, the total energy con￾sumption of the network should be minimized. In other words, the sum of bandwidths of\r\nthe remaining cables should be minimized.\r\nYour task is to help UltraNet optimize the network and then output the sum of the bandwidths\r\namong all city pairs in the optimized network. For optimizing the following example, the three\r\ncables in dotted will be discarded. In the resulting network, the bottleneck is 3, the sum of\r\nbandwidths of the remaining four cables is 6 + 3 + 8 + 4 = 21, and the sum of the bandwidths\r\namong all city pairs is ∑︀𝑛−1\r\n𝑖=1\r\n∑︀𝑛\r\n𝑗=𝑖+1 𝑏\r\n′\r\n𝑖,𝑗 = 6 + 4 + 6 + 3 + 4 + 8 + 3 + 4 + 3 + 3 = 44.\r\n1 2\r\n5\r\n3 4\r\n12\r\n10\r\n6\r\n8\r\n3\r\n4\r\n2\r\n17\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nInput Format\r\nEach test case begins with two integers 𝑛 and 𝑚, denoting numbers of cities and cables, respec￾tively. Then, 𝑚 lines will follow for specifying the 𝑚 cables. Each of the 𝑚 lines contains three\r\npositive integers, 𝑖, 𝑗, and 𝑏𝑖,𝑗 , denoting that a cable with a bandwidth of 𝑏𝑖,𝑗 directly connects\r\nthe city pair (𝑖, 𝑗), where the cities are numbered from 1 to 𝑛, and 𝑖 < 𝑗 since 𝑏𝑖,𝑗 = 𝑏𝑗,𝑖.\r\nNo more than one cable will be available between every city pair in the current network. In\r\naddition, the bandwidths of all cables are distinct; no two cables have the same bandwidth\r\nrating.\r\nOutput Format\r\nThe output is a single integer that is the sum of the bandwidths of all city pairs in the optimized\r\nnetwork.\r\nTechnical Specification\r\n• 2 ≤ 𝑛 ≤ 10000\r\n• 1 ≤ 𝑚 ≤ 500000\r\n• 1 ≤ 𝑖 < 𝑗 ≤ 𝑛\r\n• 0 < 𝑏𝑖,𝑗 < 107\r\nSample Input 1\r\n3 3\r\n1 2 5\r\n1 3 6\r\n2 3 8\r\nSample Output 1\r\n20\r\nSample Input 2\r\n5 7\r\n1 2 6\r\n1 3 10\r\n1 4 12\r\n2 4 8\r\n2 5 3\r\n3 4 4\r\n4 5 2\r\nSample Output 2\r\n44\r\n18\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nSample Input 3\r\n5 5\r\n2 5 1\r\n1 2 2\r\n2 3 4\r\n1 3 5\r\n2 4 6\r\nSample Output 3\r\n24\r\n19\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nAlmost blank page\r\n20\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 3\n1 2 5\n1 3 6\n2 3 8",
+            "output": "20"
+          },
+          {
+            "name": "样例 2",
+            "input": "5 7\n1 2 6\n1 3 10\n1 4 12\n2 4 8\n2 5 3\n3 4 4\n4 5 2",
+            "output": "44"
+          },
+          {
+            "name": "样例 3",
+            "input": "5 5\n2 5 1\n1 2 2\n2 3 4\n1 3 5\n2 4 6",
+            "output": "24"
+          }
+        ],
+        "pageCount": 4,
+        "sourceText": "2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem H\r\nOptimization for UltraNet\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe UltraNet company provides network connectivity for all cities in a country. For a pair of\r\ncities, they are either directly connected or indirectly connected. A city 𝑖 and another city 𝑗\r\nare directly connected if a cable with a symmetrical bandwidth of 𝑏𝑖,𝑗 = 𝑏𝑗,𝑖 is wired between\r\nthem. For two cities that are not directly connected, at least one path between the two cities\r\nexists. In the current UltraNet, more than one path is possibly available for a city pair.\r\nThe current UltraNet is perfectly working, while the maintenance fee of each cable is costly.\r\nEnergy conservation is another concern. The energy consumption of a cable is proportional\r\nto its bandwidth. Therefore, the company has an optimization plan to reorganize the network\r\nwith the policies in the following order:\r\n1. The number of cables should be minimized without sacrificing the connectivity of the\r\nwhole UltraNet. In other words, exactly one path between every city pair should be\r\nsatisfied.\r\n2. If there is more than one way to minimize the number of cables, the bottleneck of the\r\nwhole network should be maximized. The bottleneck of a network is determined by the\r\ncity pair with the narrowest bandwidth, and the bandwidth of a city pair (𝑖, 𝑗), 𝑏\r\n′\r\n𝑖,𝑗 , is\r\ndetermined by the cable with the narrowest bandwidth on the only path from 𝑖 to 𝑗.\r\n3. If there is still more than one way to meet the above two points, the total energy con￾sumption of the network should be minimized. In other words, the sum of bandwidths of\r\nthe remaining cables should be minimized.\r\nYour task is to help UltraNet optimize the network and then output the sum of the bandwidths\r\namong all city pairs in the optimized network. For optimizing the following example, the three\r\ncables in dotted will be discarded. In the resulting network, the bottleneck is 3, the sum of\r\nbandwidths of the remaining four cables is 6 + 3 + 8 + 4 = 21, and the sum of the bandwidths\r\namong all city pairs is ∑︀𝑛−1\r\n𝑖=1\r\n∑︀𝑛\r\n𝑗=𝑖+1 𝑏\r\n′\r\n𝑖,𝑗 = 6 + 4 + 6 + 3 + 4 + 8 + 3 + 4 + 3 + 3 = 44.\r\n1 2\r\n5\r\n3 4\r\n12\r\n10\r\n6\r\n8\r\n3\r\n4\r\n2\r\n17\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nInput Format\r\nEach test case begins with two integers 𝑛 and 𝑚, denoting numbers of cities and cables, respec￾tively. Then, 𝑚 lines will follow for specifying the 𝑚 cables. Each of the 𝑚 lines contains three\r\npositive integers, 𝑖, 𝑗, and 𝑏𝑖,𝑗 , denoting that a cable with a bandwidth of 𝑏𝑖,𝑗 directly connects\r\nthe city pair (𝑖, 𝑗), where the cities are numbered from 1 to 𝑛, and 𝑖 < 𝑗 since 𝑏𝑖,𝑗 = 𝑏𝑗,𝑖.\r\nNo more than one cable will be available between every city pair in the current network. In\r\naddition, the bandwidths of all cables are distinct; no two cables have the same bandwidth\r\nrating.\r\nOutput Format\r\nThe output is a single integer that is the sum of the bandwidths of all city pairs in the optimized\r\nnetwork.\r\nTechnical Specification\r\n• 2 ≤ 𝑛 ≤ 10000\r\n• 1 ≤ 𝑚 ≤ 500000\r\n• 1 ≤ 𝑖 < 𝑗 ≤ 𝑛\r\n• 0 < 𝑏𝑖,𝑗 < 107\r\nSample Input 1\r\n3 3\r\n1 2 5\r\n1 3 6\r\n2 3 8\r\nSample Output 1\r\n20\r\nSample Input 2\r\n5 7\r\n1 2 6\r\n1 3 10\r\n1 4 12\r\n2 4 8\r\n2 5 3\r\n3 4 4\r\n4 5 2\r\nSample Output 2\r\n44\r\n18\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nSample Input 3\r\n5 5\r\n2 5 1\r\n1 2 2\r\n2 3 4\r\n1 3 5\r\n2 4 6\r\nSample Output 3\r\n24\r\n19\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nAlmost blank page\r\n20",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf",
+          "sourcePdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+          "pages": [
+            18,
+            19
+          ],
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "3 3\n1 2 5\n1 3 6\n2 3 8",
+              "output": "20"
+            },
+            {
+              "name": "样例 2",
+              "input": "5 7\n1 2 6\n1 3 10\n1 4 12\n2 4 8\n2 5 3\n3 4 4\n4 5 2",
+              "output": "44"
+            },
+            {
+              "name": "样例 3",
+              "input": "5 5\n2 5 1\n1 2 2\n2 3 4\n1 3 5\n2 4 6",
+              "output": "24"
+            }
+          ],
+          "corrections": []
+        },
+        "id": "remote:codeforces:102835::H",
+        "title": "Optimization for UltraNet",
+        "url": "https://codeforces.com/gym/102835/problem/H",
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          17,
+          18,
+          19,
+          20
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/102835",
+        "sourceRosterSha256": "b8d7bf0e42a4825a97d465dab685a6963f3d42423de5f09730bc76c94ddd474d",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "H",
+          "pdfTitle": "Optimization for UltraNet",
+          "rosterTitle": "Optimization for UltraNet",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "经原站题单核对的赛事原始 PDF（归档副本）",
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36,
+            "data": "tb-asset:54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "fileName": "gym-102835.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+          "data": "tb-asset:d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+          "pageCount": 4,
+          "sourcePageNumbers": [
+            17,
+            18,
+            19,
+            20
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "fileName": "gym-102835-H.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterFormat": "reviewed-structured-native-roster",
+        "resourceManifest": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 3,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T09:51:28.302861+00:00",
+          "corpusAuditVerifiedSha256": "decf853b1f98447ddde3833ee992041e5885b1b2e051701b869caeb5613d7f29"
+        },
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:102835::H",
+          "nativeRosterUrl": "https://codeforces.com/gym/102835",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "pdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+          "sourcePages": [
+            17,
+            18,
+            19,
+            20
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 3,
+          "samplesSha256": "e37aae103924e82acfe5b3e498e9e7d1141608c468b9247938f4640316c7986a",
+          "samplePagesReviewed": [
+            18,
+            19
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:102835::K",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Number with Bachelors\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem K\r\nNumber with Bachelors\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nNumbers without duplicated digits are considered bachelor numbers. For example, 123 is a\r\nbachelor number in decimal number system, and 9af is a bachelor number in a hexadecimal\r\nnumber system. Both decimal number 101 and hexadecimal number aba are not bachelor\r\nnumbers since there are duplicated digits in them. In this problem, you get two types of\r\nquestion. For one, given an interval, say, [𝑎, 𝑏] in a designated number system, decimal or\r\nhexadecimal, you have to figure out the total number of bachelor numbers in the interval,\r\nincluding 𝑎 and 𝑏. For another, you are given a number, say, 𝑖 in a designated number system\r\nyou have to find the 𝑖\r\n𝑡ℎ bachelor number in that number system.\r\nInput Format\r\nThe first line of the input is a number 𝑛, which specifies the number of test cases. Each test case\r\nis a question and appears in one line. Each question starts with a letter ‘d’ or ‘h’, indicating\r\nthe question is in decimal domain or hexadecimal domain, respectively. For decimal domain,\r\nthe following numbers are all represented in decimal. For hexadecimal domain, the following\r\nnumbers are all represented in hexadecimal. Next to the first letter is a digit 0 or 1, indicating\r\nthe type of question to be asked. For type 0 question, two integers 𝑎 and 𝑏 (0 ≤ 𝑎 ≤ 𝑏 < 2\r\n64)\r\nfollow, which represent an interval. For type 1 question, an integer 1 ≤ 𝑖 < 2\r\n64 follows, which\r\nrepresents an order.\r\nOutput Format\r\nOutput an integer for each question in its corresponding test case. For each question in decimal\r\ndomain, the answer must be in decimal. For each question in hexadecimal domain, the answer\r\nmust be in hexadecimal. For type 1 question, if the 𝑖\r\n𝑡ℎ bachelor number does not exist, output\r\na single letter ‘-’ in its corresponding line.\r\nTechnical Specification\r\n• 1 ≤ 𝑛 ≤ 50000.\r\n• 0 ≤ 𝑎 ≤ 𝑏 < 2\r\n64\r\n.\r\n• 1 ≤ 𝑖 < 2\r\n64\r\n.\r\n27\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nSample Input 1\r\n6\r\nd 0 10 20\r\nh 0 10 1 f\r\nd 1 10\r\nh 1 f\r\nd 1 1000000000\r\nh 1 ffffffffffffffff\r\nSample Output 1\r\n10\r\nf\r\n9\r\ne\r\n-\r\n-\r\n28\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "6\nd 0 10 20\nh 0 10 1f\nd 1 10\nh 1 f\nd 1 1000000000\nh 1 ffffffffffffffff",
+            "output": "10\nf\n9\ne\n-\n-"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem K\r\nNumber with Bachelors\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nNumbers without duplicated digits are considered bachelor numbers. For example, 123 is a\r\nbachelor number in decimal number system, and 9af is a bachelor number in a hexadecimal\r\nnumber system. Both decimal number 101 and hexadecimal number aba are not bachelor\r\nnumbers since there are duplicated digits in them. In this problem, you get two types of\r\nquestion. For one, given an interval, say, [𝑎, 𝑏] in a designated number system, decimal or\r\nhexadecimal, you have to figure out the total number of bachelor numbers in the interval,\r\nincluding 𝑎 and 𝑏. For another, you are given a number, say, 𝑖 in a designated number system\r\nyou have to find the 𝑖\r\n𝑡ℎ bachelor number in that number system.\r\nInput Format\r\nThe first line of the input is a number 𝑛, which specifies the number of test cases. Each test case\r\nis a question and appears in one line. Each question starts with a letter ‘d’ or ‘h’, indicating\r\nthe question is in decimal domain or hexadecimal domain, respectively. For decimal domain,\r\nthe following numbers are all represented in decimal. For hexadecimal domain, the following\r\nnumbers are all represented in hexadecimal. Next to the first letter is a digit 0 or 1, indicating\r\nthe type of question to be asked. For type 0 question, two integers 𝑎 and 𝑏 (0 ≤ 𝑎 ≤ 𝑏 < 2\r\n64)\r\nfollow, which represent an interval. For type 1 question, an integer 1 ≤ 𝑖 < 2\r\n64 follows, which\r\nrepresents an order.\r\nOutput Format\r\nOutput an integer for each question in its corresponding test case. For each question in decimal\r\ndomain, the answer must be in decimal. For each question in hexadecimal domain, the answer\r\nmust be in hexadecimal. For type 1 question, if the 𝑖\r\n𝑡ℎ bachelor number does not exist, output\r\na single letter ‘-’ in its corresponding line.\r\nTechnical Specification\r\n• 1 ≤ 𝑛 ≤ 50000.\r\n• 0 ≤ 𝑎 ≤ 𝑏 < 2\r\n64\r\n.\r\n• 1 ≤ 𝑖 < 2\r\n64\r\n.\r\n27\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nSample Input 1\r\n6\r\nd 0 10 20\r\nh 0 10 1 f\r\nd 1 10\r\nh 1 f\r\nd 1 1000000000\r\nh 1 ffffffffffffffff\r\nSample Output 1\r\n10\r\nf\r\n9\r\ne\r\n-\r\n-\r\n28",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf",
+          "sourcePdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+          "pages": [
+            28
+          ],
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "6\nd 0 10 20\nh 0 10 1f\nd 1 10\nh 1 f\nd 1 1000000000\nh 1 ffffffffffffffff",
+              "output": "10\nf\n9\ne\n-\n-"
+            }
+          ],
+          "corrections": [
+            {
+              "kind": "pdf-text-token-spacing",
+              "page": 28,
+              "before": "h 0 10 1 f",
+              "after": "h 0 10 1f",
+              "reason": "Original page 28 visibly prints the hexadecimal endpoint 1f as a single number."
+            }
+          ]
+        },
+        "id": "remote:codeforces:102835::K",
+        "title": "Number with Bachelors",
+        "url": "https://codeforces.com/gym/102835/problem/K",
+        "limits": {
+          "timeMs": 2000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          27,
+          28
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/102835",
+        "sourceRosterSha256": "b8d7bf0e42a4825a97d465dab685a6963f3d42423de5f09730bc76c94ddd474d",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "K",
+          "pdfTitle": "Number with Bachelors",
+          "rosterTitle": "Number with Bachelors",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "经原站题单核对的赛事原始 PDF（归档副本）",
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36,
+            "data": "tb-asset:54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "fileName": "gym-102835.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+          "data": "tb-asset:e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            27,
+            28
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "fileName": "gym-102835-K.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterFormat": "reviewed-structured-native-roster",
+        "resourceManifest": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T09:51:28.336114+00:00",
+          "corpusAuditVerifiedSha256": "7f14896cf729f9847ca34d347086db85d1dec50e8635dc7254a7aa1773419c80"
+        },
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:102835::K",
+          "nativeRosterUrl": "https://codeforces.com/gym/102835",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "pdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+          "sourcePages": [
+            27,
+            28
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "3715fc7383fa35f54b79584788c2da80a62a91f931d0611d6dc0a06d6fc9fd0b",
+          "samplePagesReviewed": [
+            28
+          ],
+          "allPagesRendered": true
+        }
+      }
+    }
+  ]
+}

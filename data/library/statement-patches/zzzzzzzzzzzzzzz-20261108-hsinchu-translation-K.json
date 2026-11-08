@@ -1,0 +1,219 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:102835::K",
+      "beforeSha256": "a4985a6ecc5e3995942025fa39333e9bbdb050c0ac3bec22f6443aa203bf26d0",
+      "content": {
+        "markdown": "# Number with Bachelors\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem K\r\nNumber with Bachelors\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nNumbers without duplicated digits are considered bachelor numbers. For example, 123 is a\r\nbachelor number in decimal number system, and 9af is a bachelor number in a hexadecimal\r\nnumber system. Both decimal number 101 and hexadecimal number aba are not bachelor\r\nnumbers since there are duplicated digits in them. In this problem, you get two types of\r\nquestion. For one, given an interval, say, [𝑎, 𝑏] in a designated number system, decimal or\r\nhexadecimal, you have to figure out the total number of bachelor numbers in the interval,\r\nincluding 𝑎 and 𝑏. For another, you are given a number, say, 𝑖 in a designated number system\r\nyou have to find the 𝑖\r\n𝑡ℎ bachelor number in that number system.\r\nInput Format\r\nThe first line of the input is a number 𝑛, which specifies the number of test cases. Each test case\r\nis a question and appears in one line. Each question starts with a letter ‘d’ or ‘h’, indicating\r\nthe question is in decimal domain or hexadecimal domain, respectively. For decimal domain,\r\nthe following numbers are all represented in decimal. For hexadecimal domain, the following\r\nnumbers are all represented in hexadecimal. Next to the first letter is a digit 0 or 1, indicating\r\nthe type of question to be asked. For type 0 question, two integers 𝑎 and 𝑏 (0 ≤ 𝑎 ≤ 𝑏 < 2\r\n64)\r\nfollow, which represent an interval. For type 1 question, an integer 1 ≤ 𝑖 < 2\r\n64 follows, which\r\nrepresents an order.\r\nOutput Format\r\nOutput an integer for each question in its corresponding test case. For each question in decimal\r\ndomain, the answer must be in decimal. For each question in hexadecimal domain, the answer\r\nmust be in hexadecimal. For type 1 question, if the 𝑖\r\n𝑡ℎ bachelor number does not exist, output\r\na single letter ‘-’ in its corresponding line.\r\nTechnical Specification\r\n• 1 ≤ 𝑛 ≤ 50000.\r\n• 0 ≤ 𝑎 ≤ 𝑏 < 2\r\n64\r\n.\r\n• 1 ≤ 𝑖 < 2\r\n64\r\n.\r\n27\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nSample Input 1\r\n6\r\nd 0 10 20\r\nh 0 10 1 f\r\nd 1 10\r\nh 1 f\r\nd 1 1000000000\r\nh 1 ffffffffffffffff\r\nSample Output 1\r\n10\r\nf\r\n9\r\ne\r\n-\r\n-\r\n28\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "6\nd 0 10 20\nh 0 10 1f\nd 1 10\nh 1 f\nd 1 1000000000\nh 1 ffffffffffffffff",
+            "output": "10\nf\n9\ne\n-\n-"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# Number with Bachelors\n\nNumbers without duplicated digits are considered bachelor numbers. For example, `123` is a bachelor number in the decimal number system, and `9af` is a bachelor number in the hexadecimal number system. Decimal `101` and hexadecimal `aba` are not bachelor numbers because they have duplicated digits.\n\nThere are two types of questions. Given an interval $[a,b]$ in a designated number system, decimal or hexadecimal, count the bachelor numbers in the interval, including both endpoints. Alternatively, given an integer $i$ in a designated number system, find the $i$-th bachelor number in that number system.\n\n## Input Format\n\nThe first line contains an integer $n$, the number of test cases. Each following line describes one question.\n\nEach question starts with `d` or `h`, indicating the decimal or hexadecimal domain, respectively. In the decimal domain, all following numbers are represented in decimal. In the hexadecimal domain, all following numbers are represented in hexadecimal.\n\nThe next digit is `0` or `1`, indicating the question type:\n\n- For type `0`, two integers $a$ and $b$ follow, where $0\\le a\\le b<2^{64}$. They specify the interval.\n- For type `1`, an integer $i$ follows, where $1\\le i<2^{64}$. It specifies the order.\n\n## Output Format\n\nOutput one integer for each question, in decimal for a decimal-domain question and in hexadecimal for a hexadecimal-domain question. For a type `1` question, if the $i$-th bachelor number does not exist, output `-`.\n\n## Technical Specification\n\n- $1\\le n\\le 50000$.\n- $0\\le a\\le b<2^{64}$.\n- $1\\le i<2^{64}$.\n\n## Sample Input 1\n\n```text\n6\nd 0 10 20\nh 0 10 1f\nd 1 10\nh 1 f\nd 1 1000000000\nh 1 ffffffffffffffff\n```\n\n## Sample Output 1\n\n```text\n10\nf\n9\ne\n-\n-\n```\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf",
+          "sourcePdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+          "pages": [
+            28
+          ],
+          "corrections": [
+            {
+              "kind": "pdf-text-token-spacing",
+              "page": 28,
+              "before": "h 0 10 1 f",
+              "after": "h 0 10 1f",
+              "reason": "Original page 28 visibly prints the hexadecimal endpoint 1f as a single number."
+            }
+          ]
+        },
+        "id": "remote:codeforces:102835::K",
+        "title": "Number with Bachelors",
+        "url": "https://codeforces.com/gym/102835/problem/K",
+        "limits": {
+          "timeMs": 2000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          27,
+          28
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/102835",
+        "sourceRosterSha256": "b8d7bf0e42a4825a97d465dab685a6963f3d42423de5f09730bc76c94ddd474d",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "K",
+          "pdfTitle": "Number with Bachelors",
+          "rosterTitle": "Number with Bachelors",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "经原站题单核对的赛事原始 PDF（归档副本）",
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36,
+            "data": "tb-asset:54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "fileName": "gym-102835.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+          "data": "tb-asset:e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            27,
+            28
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "fileName": "gym-102835-K.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterFormat": "reviewed-structured-native-roster",
+        "resourceManifest": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T09:51:28.336114+00:00",
+          "corpusAuditVerifiedSha256": "7f14896cf729f9847ca34d347086db85d1dec50e8635dc7254a7aa1773419c80"
+        },
+        "translationAvailable": true,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:102835::K",
+          "nativeRosterUrl": "https://codeforces.com/gym/102835",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "pdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+          "sourcePages": [
+            27,
+            28
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "3715fc7383fa35f54b79584788c2da80a62a91f931d0611d6dc0a06d6fc9fd0b",
+          "samplePagesReviewed": [
+            28
+          ],
+          "allPagesRendered": true
+        },
+        "sourceTextArchive": [
+          {
+            "text": "2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem K\r\nNumber with Bachelors\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nNumbers without duplicated digits are considered bachelor numbers. For example, 123 is a\r\nbachelor number in decimal number system, and 9af is a bachelor number in a hexadecimal\r\nnumber system. Both decimal number 101 and hexadecimal number aba are not bachelor\r\nnumbers since there are duplicated digits in them. In this problem, you get two types of\r\nquestion. For one, given an interval, say, [𝑎, 𝑏] in a designated number system, decimal or\r\nhexadecimal, you have to figure out the total number of bachelor numbers in the interval,\r\nincluding 𝑎 and 𝑏. For another, you are given a number, say, 𝑖 in a designated number system\r\nyou have to find the 𝑖\r\n𝑡ℎ bachelor number in that number system.\r\nInput Format\r\nThe first line of the input is a number 𝑛, which specifies the number of test cases. Each test case\r\nis a question and appears in one line. Each question starts with a letter ‘d’ or ‘h’, indicating\r\nthe question is in decimal domain or hexadecimal domain, respectively. For decimal domain,\r\nthe following numbers are all represented in decimal. For hexadecimal domain, the following\r\nnumbers are all represented in hexadecimal. Next to the first letter is a digit 0 or 1, indicating\r\nthe type of question to be asked. For type 0 question, two integers 𝑎 and 𝑏 (0 ≤ 𝑎 ≤ 𝑏 < 2\r\n64)\r\nfollow, which represent an interval. For type 1 question, an integer 1 ≤ 𝑖 < 2\r\n64 follows, which\r\nrepresents an order.\r\nOutput Format\r\nOutput an integer for each question in its corresponding test case. For each question in decimal\r\ndomain, the answer must be in decimal. For each question in hexadecimal domain, the answer\r\nmust be in hexadecimal. For type 1 question, if the 𝑖\r\n𝑡ℎ bachelor number does not exist, output\r\na single letter ‘-’ in its corresponding line.\r\nTechnical Specification\r\n• 1 ≤ 𝑛 ≤ 50000.\r\n• 0 ≤ 𝑎 ≤ 𝑏 < 2\r\n64\r\n.\r\n• 1 ≤ 𝑖 < 2\r\n64\r\n.\r\n27\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nSample Input 1\r\n6\r\nd 0 10 20\r\nh 0 10 1 f\r\nd 1 10\r\nh 1 f\r\nd 1 1000000000\r\nh 1 ffffffffffffffff\r\nSample Output 1\r\n10\r\nf\r\n9\r\ne\r\n-\r\n-\r\n28",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "5305ce982396c3104db0f992c75da8f43ed221558a73278f017750b3b9d54596"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "6\nd 0 10 20\nh 0 10 1f\nd 1 10\nh 1 f\nd 1 1000000000\nh 1 ffffffffffffffff",
+                "output": "10\nf\n9\ne\n-\n-"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf",
+              "sourcePdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+              "pages": [
+                28
+              ],
+              "samples": [
+                {
+                  "name": "样例 1",
+                  "input": "6\nd 0 10 20\nh 0 10 1f\nd 1 10\nh 1 f\nd 1 1000000000\nh 1 ffffffffffffffff",
+                  "output": "10\nf\n9\ne\n-\n-"
+                }
+              ],
+              "corrections": [
+                {
+                  "kind": "pdf-text-token-spacing",
+                  "page": 28,
+                  "before": "h 0 10 1 f",
+                  "after": "h 0 10 1f",
+                  "reason": "Original page 28 visibly prints the hexadecimal endpoint 1f as a single number."
+                }
+              ]
+            }
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "K",
+          "pdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+          "pageCount": 2,
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sourcePageNumbers": [
+            27,
+            28
+          ],
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "reviewedAt": "2026-11-08T09:53:50.843784+00:00",
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "10d5777591403f5163490d9f51b24589903b1c2b399e1e861ff6c6a67d08d824"
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "7f14896cf729f9847ca34d347086db85d1dec50e8635dc7254a7aa1773419c80",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "10d5777591403f5163490d9f51b24589903b1c2b399e1e861ff6c6a67d08d824",
+          "sourcePdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+          "markdown": "# Number with Bachelors\n\n没有重复数位的数称为独身数。例如，十进制数 `123` 是独身数，十六进制数 `9af` 也是独身数。十进制数 `101` 和十六进制数 `aba` 都有重复数位，因此不是独身数。\n\n本题有两类询问。第一类给定十进制或十六进制下的区间 $[a,b]$，求区间内独身数的数量，包含两个端点。第二类给定某种进制下的整数 $i$，求该进制下的第 $i$ 个独身数。\n\n## 输入格式\n\n第一行包含整数 $n$，表示测试用例数。接下来每行描述一个询问。\n\n每个询问以字母 `d` 或 `h` 开头，分别表示十进制或十六进制。对于十进制询问，后续数值均以十进制表示；对于十六进制询问，后续数值均以十六进制表示。\n\n接下来的数字为 `0` 或 `1`，表示询问类型：\n\n- 对于类型 `0`，后面给出整数 $a$ 和 $b$，满足 $0\\le a\\le b<2^{64}$，表示询问区间。\n- 对于类型 `1`，后面给出整数 $i$，满足 $1\\le i<2^{64}$，表示询问的序号。\n\n## 输出格式\n\n对每个询问输出一个整数。十进制询问的答案以十进制输出，十六进制询问的答案以十六进制输出。对于类型 `1`，如果第 $i$ 个独身数不存在，输出 `-`。\n\n## 数据范围\n\n- $1\\le n\\le 50000$。\n- $0\\le a\\le b<2^{64}$。\n- $1\\le i<2^{64}$。\n\n## 样例输入 1\n\n```text\n6\nd 0 10 20\nh 0 10 1f\nd 1 10\nh 1 f\nd 1 1000000000\nh 1 ffffffffffffffff\n```\n\n## 样例输出 1\n\n```text\n10\nf\n9\ne\n-\n-\n```\n"
+        },
+        "translationReview": {
+          "letter": "K",
+          "pdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+          "pageCount": 2,
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sourcePageNumbers": [
+            27,
+            28
+          ],
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "reviewedAt": "2026-11-08T09:53:50.843784+00:00",
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "10d5777591403f5163490d9f51b24589903b1c2b399e1e861ff6c6a67d08d824",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

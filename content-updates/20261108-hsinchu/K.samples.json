@@ -1,0 +1,23 @@
+{
+  "method": "page-reviewed-original-pdf",
+  "sourcePdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+  "pages": [
+    28
+  ],
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "6\nd 0 10 20\nh 0 10 1f\nd 1 10\nh 1 f\nd 1 1000000000\nh 1 ffffffffffffffff",
+      "output": "10\nf\n9\ne\n-\n-"
+    }
+  ],
+  "corrections": [
+    {
+      "kind": "pdf-text-token-spacing",
+      "page": 28,
+      "before": "h 0 10 1 f",
+      "after": "h 0 10 1f",
+      "reason": "Original page 28 visibly prints the hexadecimal endpoint 1f as a single number."
+    }
+  ]
+}

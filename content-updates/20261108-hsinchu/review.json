@@ -1,0 +1,157 @@
+{
+  "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+  "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+  "nativeRosterUrl": "https://codeforces.com/gym/102835",
+  "rosterFormat": "reviewed-structured-native-roster",
+  "problems": [
+    {
+      "id": "remote:codeforces:102835::C",
+      "letter": "C",
+      "sourcePages": [
+        5,
+        6
+      ],
+      "pdfSha256": "1d7aae5495e139e360c4f406dbf321b5716e5e570c164b7182688108ad509ca6",
+      "numberedSamples": 2,
+      "samplesSha256": "05f71a10ee238831019ae6c6e83001fc1247e61f3ffa5606b89c9b9e2687f99d",
+      "samplePages": [
+        6
+      ],
+      "samplePagesReviewed": [
+        6
+      ],
+      "sampleCorrections": [],
+      "reviewedTags": [
+        "模拟"
+      ],
+      "knowledgeReason": "每个节点开关在小球通过后翻转，题目直接定义了离散状态转移。"
+    },
+    {
+      "id": "remote:codeforces:102835::F",
+      "letter": "F",
+      "sourcePages": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "pdfSha256": "5067175af2a34ad4907efde6e3eacded10f3b406b75abfc1d269026441aae6c8",
+      "numberedSamples": 2,
+      "samplesSha256": "b0d5642cdbaf45630063e2c3e8e88ca036888f2ff0d6aa304dc25297d3b5da3f",
+      "samplePages": [
+        12,
+        13
+      ],
+      "samplePagesReviewed": [
+        12,
+        13
+      ],
+      "sampleCorrections": [],
+      "reviewedTags": [
+        "树形 DP"
+      ],
+      "knowledgeReason": "环上挂树，要求选择最少顶点覆盖每条边；树部分按根是否选择分状态，环单独合并。"
+    },
+    {
+      "id": "remote:codeforces:102835::G",
+      "letter": "G",
+      "sourcePages": [
+        15,
+        16
+      ],
+      "pdfSha256": "85e7c693b7613b0d418c7c399bb5829dd7d8d129ef2bf9291785605fd0d1373c",
+      "numberedSamples": 2,
+      "samplesSha256": "30c329d10ae5ea95a658e07ee0e9b705ef8aad86e9e1ce54a962cef7a61b0ce0",
+      "samplePages": [
+        16
+      ],
+      "samplePagesReviewed": [
+        16
+      ],
+      "sampleCorrections": [],
+      "reviewedTags": [
+        "哈希"
+      ],
+      "knowledgeReason": "连通且点边数相等的简单图同构：可对挂树赋规范标识，再比较环的旋转与反向规范序列。标识可用精确排序编号实现，非原站官方标签。"
+    },
+    {
+      "id": "remote:codeforces:102835::H",
+      "letter": "H",
+      "sourcePages": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "pdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+      "numberedSamples": 3,
+      "samplesSha256": "e37aae103924e82acfe5b3e498e9e7d1141608c468b9247938f4640316c7986a",
+      "samplePages": [
+        18,
+        19
+      ],
+      "samplePagesReviewed": [
+        18,
+        19
+      ],
+      "sampleCorrections": [],
+      "reviewedTags": [
+        "最小生成树",
+        "并查集"
+      ],
+      "knowledgeReason": "先求最大瓶颈阈值，再在阈值允许的边上求最小生成树；树上路径最小边贡献可按边权降序合并连通块统计。"
+    },
+    {
+      "id": "remote:codeforces:102835::K",
+      "letter": "K",
+      "sourcePages": [
+        27,
+        28
+      ],
+      "pdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+      "numberedSamples": 1,
+      "samplesSha256": "3715fc7383fa35f54b79584788c2da80a62a91f931d0611d6dc0a06d6fc9fd0b",
+      "samplePages": [
+        28
+      ],
+      "samplePagesReviewed": [
+        28
+      ],
+      "sampleCorrections": [
+        {
+          "kind": "pdf-text-token-spacing",
+          "page": 28,
+          "before": "h 0 10 1 f",
+          "after": "h 0 10 1f",
+          "reason": "Original page 28 visibly prints the hexadecimal endpoint 1f as a single number."
+        }
+      ],
+      "reviewedTags": [
+        "数位 DP"
+      ],
+      "knowledgeReason": "两类询问均涉及指定进制下不重复数位的计数与按序选择，可用已用数位集合进行数位计数。"
+    }
+  ],
+  "packetName": "zzzzzzzzzzzzzz-20261108-hsinchu-originals.json",
+  "expectedRestoredProblems": 5,
+  "completeNativeRosterTitlesVerified": 13,
+  "textLayerIssues": [
+    {
+      "letter": "G",
+      "page": 16,
+      "extracted": "0 < t <= 30",
+      "visibleOriginal": "0 < t <= 3",
+      "action": "Original PDF remains authoritative; no unreviewed translation is enabled."
+    },
+    {
+      "letter": "G",
+      "page": 15,
+      "extractedTimeLimit": "30 seconds",
+      "visibleOriginalTimeLimit": "No visible number in the booklet time field",
+      "nativeTimeLimitMs": 4000,
+      "nativeRosterUrl": "https://codeforces.com/gym/102835"
+    }
+  ],
+  "verificationName": "hsinchu-originals-20261108.json",
+  "statementSource": "经原站题单核对的赛事原始 PDF（归档副本）"
+}

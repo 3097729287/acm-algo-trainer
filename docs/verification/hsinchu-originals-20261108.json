@@ -1,0 +1,110 @@
+{
+  "at": "2026-11-08T09:51:30.933644+00:00",
+  "restoredOriginals": 5,
+  "newIdentities": 0,
+  "nativePdfPagesRendered": 14,
+  "newResources": 6,
+  "newResourceBytes": 2209045,
+  "privateDatabasesRead": false,
+  "installed": false,
+  "productionDeployed": false,
+  "translationComplete": false,
+  "problems": [
+    {
+      "id": "remote:codeforces:102835::C",
+      "nativeRosterUrl": "https://codeforces.com/gym/102835",
+      "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+      "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+      "pdfSha256": "1d7aae5495e139e360c4f406dbf321b5716e5e570c164b7182688108ad509ca6",
+      "sourcePages": [
+        5,
+        6
+      ],
+      "completeRosterTitlesVerified": 13,
+      "samplePairs": 2,
+      "samplesSha256": "05f71a10ee238831019ae6c6e83001fc1247e61f3ffa5606b89c9b9e2687f99d",
+      "samplePagesReviewed": [
+        6
+      ],
+      "allPagesRendered": true
+    },
+    {
+      "id": "remote:codeforces:102835::F",
+      "nativeRosterUrl": "https://codeforces.com/gym/102835",
+      "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+      "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+      "pdfSha256": "5067175af2a34ad4907efde6e3eacded10f3b406b75abfc1d269026441aae6c8",
+      "sourcePages": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "completeRosterTitlesVerified": 13,
+      "samplePairs": 2,
+      "samplesSha256": "b0d5642cdbaf45630063e2c3e8e88ca036888f2ff0d6aa304dc25297d3b5da3f",
+      "samplePagesReviewed": [
+        12,
+        13
+      ],
+      "allPagesRendered": true
+    },
+    {
+      "id": "remote:codeforces:102835::G",
+      "nativeRosterUrl": "https://codeforces.com/gym/102835",
+      "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+      "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+      "pdfSha256": "85e7c693b7613b0d418c7c399bb5829dd7d8d129ef2bf9291785605fd0d1373c",
+      "sourcePages": [
+        15,
+        16
+      ],
+      "completeRosterTitlesVerified": 13,
+      "samplePairs": 2,
+      "samplesSha256": "30c329d10ae5ea95a658e07ee0e9b705ef8aad86e9e1ce54a962cef7a61b0ce0",
+      "samplePagesReviewed": [
+        16
+      ],
+      "allPagesRendered": true
+    },
+    {
+      "id": "remote:codeforces:102835::H",
+      "nativeRosterUrl": "https://codeforces.com/gym/102835",
+      "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+      "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+      "pdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+      "sourcePages": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "completeRosterTitlesVerified": 13,
+      "samplePairs": 3,
+      "samplesSha256": "e37aae103924e82acfe5b3e498e9e7d1141608c468b9247938f4640316c7986a",
+      "samplePagesReviewed": [
+        18,
+        19
+      ],
+      "allPagesRendered": true
+    },
+    {
+      "id": "remote:codeforces:102835::K",
+      "nativeRosterUrl": "https://codeforces.com/gym/102835",
+      "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+      "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+      "pdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+      "sourcePages": [
+        27,
+        28
+      ],
+      "completeRosterTitlesVerified": 13,
+      "samplePairs": 1,
+      "samplesSha256": "3715fc7383fa35f54b79584788c2da80a62a91f931d0611d6dc0a06d6fc9fd0b",
+      "samplePagesReviewed": [
+        28
+      ],
+      "allPagesRendered": true
+    }
+  ]
+}
