@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "sourceCommitIntegratedWithCanonicalResourceDeduplication": "72c512d3",
+  "registeredProblemIds": [
+    "luogu-training-P4911",
+    "luogu-training-P7007",
+    "luogu-training-P7687",
+    "luogu-training-P7689",
+    "luogu-training-P7690",
+    "luogu-training-P8922",
+    "luogu-training-P8923",
+    "luogu-training-P9512"
+  ],
+  "newlyRevived": 8,
+  "sourceRecordDigestsVerified": true,
+  "canonicalAssetDescriptors": 6247,
+  "missingRealOriginals": 38,
+  "verifiedNonproblemIds": [
+    "luogu-training-U711466",
+    "remote:codeforces:105544::V"
+  ],
+  "completePublicOriginals": 13440,
+  "newAssetBytes": 2187966,
+  "duplicateCanonicalAssetDescriptors": 0,
+  "removedDuplicateImageBytes": 19964,
+  "unchangedOriginalIdsAndRawRows": true,
+  "workbench": {
+    "checked": [
+      {
+        "id": "luogu-training-P4911",
+        "pages": 0,
+        "images": 0,
+        "attachments": 1,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P7007",
+        "pages": 0,
+        "images": 3,
+        "attachments": 1,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P7687",
+        "pages": 0,
+        "images": 0,
+        "attachments": 1,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P7689",
+        "pages": 0,
+        "images": 2,
+        "attachments": 1,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P7690",
+        "pages": 0,
+        "images": 1,
+        "attachments": 1,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P8922",
+        "pages": 0,
+        "images": 1,
+        "attachments": 0,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P8923",
+        "pages": 0,
+        "images": 1,
+        "attachments": 0,
+        "samples": 3
+      },
+      {
+        "id": "luogu-training-P9512",
+        "pages": 0,
+        "images": 0,
+        "attachments": 3,
+        "samples": 1
+      }
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true,
+    "originalAttachmentByteIdentity": true
+  },
+  "noFullSeedRebuild": true,
+  "privateRecordsReadOrWritten": false
+}
