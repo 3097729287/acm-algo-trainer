@@ -238,12 +238,12 @@ class LibraryDatabase:
                 bundled[table][identity]=checksum
             for table, (key, columns) in tables.items():
                 identities=json.dumps([row[key] for row in rows[table]])
-                saved={row[key]:row for row in db.execute('SELECT '+','.join(columns)+' FROM '+table+' WHERE '+key+' IN (SELECT value FROM json_each(?))',(identities,))}
+                saved_rows={row[key]:row for row in db.execute('SELECT '+','.join(columns)+' FROM '+table+' WHERE '+key+' IN (SELECT value FROM json_each(?))',(identities,))}
                 for row in rows[table]:
                     identity = row[key]
                     content = {column: row[column] for column in columns}
                     checksum = digest(content)
-                    current = saved.get(identity)
+                    current = saved_rows.get(identity)
                     if current is not None and all(current[column]==content[column] for column in columns):
                         if previous(table,identity)!=checksum:remember(table,identity,checksum)
                         continue

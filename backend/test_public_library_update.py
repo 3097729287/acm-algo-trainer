@@ -97,4 +97,26 @@ class PublicLibraryUpdateTests(unittest.TestCase):
         self.descriptor.write_text(json.dumps(value));before=self.live.path.read_bytes()
         with self.assertRaisesRegex(ValueError,'inline public resource is missing'):merge_public_seed(self.live,self.base.path,descriptor=self.descriptor,cache=self.root/'cache')
         self.assertEqual(self.live.path.read_bytes(),before)
+    def test_multiple_fetched_overrides_are_preserved_independently_in_both_merge_paths(self):
+        # An earlier fetched statement must not replace the table-wide row
+        # lookup with its own JSON dictionary and overwrite later overrides.
+        for path in (self.base.path,self.target.path):
+            library=LibraryDatabase(path)
+            library.save_statement('fixture::A',{'markdown':'bundled A','samples':[]})
+            library.save_statement('fixture::B',{'markdown':'bundled B','samples':[]})
+        # Make both rows part of the public delta while keeping a different
+        # original in the fetched private cache.
+        self.target.save_statement('fixture::A',{'markdown':'updated bundled A','samples':[]})
+        self.target.save_statement('fixture::B',{'markdown':'updated bundled B','samples':[]})
+        build([self.base.path],self.target.path,self.root/'overrides-payload')
+        for name,partial in (('full',False),('partial',True)):
+            with self.subTest(merge=name):
+                live=LibraryDatabase(self.root/('override-'+name+'.sqlite3'));live.merge_seed(self.base.path)
+                with live.connection() as db:
+                    for pid in ('fixture::A','fixture::B'):
+                        db.execute('UPDATE statements SET content=? WHERE problem_id=?',(json.dumps({'markdown':'fetched '+pid,'samples':[],'privateNote':'keep independent metadata'}),pid))
+                if partial:merge_public_seed(live,self.base.path,descriptor=self.root/'overrides-payload/public-library-update.json',cache=self.root/'overrides-cache')
+                else:live.merge_seed(self.target.path)
+                for pid in ('fixture::A','fixture::B'):
+                    value=live.statement(pid);self.assertEqual(value['markdown'],'fetched '+pid);self.assertEqual(value['privateNote'],'keep independent metadata')
 if __name__=='__main__':unittest.main()
