@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:104270::A",
+      "beforeSha256": "3e94db8793f7bacaa02b11e507e50d5d31a322ed18b681cab171bf2f2fe1a8cf",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:104270::A",
+        "images": {
+          "https://espresso.codeforces.com/1b3f84e40b0dbe20d168d5d2777515d47ab2c7e6.png": "tb-asset:efa3b10000b42e42fb6c950158e5f48e435898d0be6b384273cb14881a3894ed"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T02:50:17.630589+00:00",
+          "corpusAuditVerifiedSha256": "621288df08ad0ed3b34303236525ac417463f773891a88c3f2467f7f0239087e",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 10000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Sequence and Sequence\n\nConsider the following two sequences $$$P$$$ and $$$Q$$$. We denote $$$P(i)$$$ as the $$$i$$$-th element in sequence $$$P$$$, and $$$Q(i)$$$ as the $$$i$$$-th element in sequence $$$Q$$$:\n\n\n\n- Sequence $$$P$$$ is a **sorted** sequence where for all $$$k \\in \\mathbb{Z^+}$$$, $$$k$$$ appears in sequence $$$P$$$ for $$$(k+1)$$$ times ($$$\\mathbb{Z^+}$$$ is the set of all positive integers). That is to say, $$$$$$P = \\{1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, \\dots \\}$$$$$$\n\n- Sequence $$$Q$$$ can be derived from the following equations: $$$$$$\\begin{cases} Q(1) = 1 & \\\\ Q(i) = Q(i-1) + Q(P(i)) & \\text{if } i \\gt 1 \\end{cases}$$$$$$ That is to say, $$$$$$Q = \\{1, 2, 4, 6, 8, 12, 16, 20, 24, 30, 36, 42, 48, 54, 62, \\dots \\}$$$$$$\n\n ![](https://espresso.codeforces.com/1b3f84e40b0dbe20d168d5d2777515d47ab2c7e6.png) \n\nGiven a positive integer $$$n$$$, please calculate the value of $$$Q(n)$$$.\n\n\n\n## Input\n\n\n\nThere are multiple test cases. The first line of the input contains an integer $$$T$$$ (about $$$10^4$$$), indicating the number of test cases. For each test case:\n\n\n\nThe first and only line contains an integer $$$n$$$ ($$$1 \\le n \\le 10^{40}$$$).\n\n\n\n## Output\n\n\n\nFor each test case output one line containing one integer, indicating the value of $$$Q(n)$$$.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:104270::A",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "2c4cadf88dbecace27d7b860f9f290adbf6036e49e01f34547e017756ee1aff5",
+          "url": "https://codeforces.com/gym/104270/problem/A"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://espresso.codeforces.com/1b3f84e40b0dbe20d168d5d2777515d47ab2c7e6.png": {
+            "bytes": 16793,
+            "frameCount": 1,
+            "height": 373,
+            "mime": "image/png",
+            "sha256": "efa3b10000b42e42fb6c950158e5f48e435898d0be6b384273cb14881a3894ed",
+            "sourceUrl": "https://espresso.codeforces.com/1b3f84e40b0dbe20d168d5d2777515d47ab2c7e6.png",
+            "width": 587
+          }
+        },
+        "samples": [
+          {
+            "input": "4\n10\n100\n1000\n987654321123456789",
+            "name": "样例 1",
+            "output": "30\n2522\n244274\n235139898689017607381017686096176798"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Sequence and Sequence",
+        "url": "https://codeforces.com/gym/104270/problem/A",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "621288df08ad0ed3b34303236525ac417463f773891a88c3f2467f7f0239087e",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 数列与数列\n\n\n\n考虑以下两个数列 $$$P$$$ 和 $$$Q$$$。用 $$$P(i)$$$ 表示数列 $$$P$$$ 的第 $$$i$$$ 个元素，用 $$$Q(i)$$$ 表示数列 $$$Q$$$ 的第 $$$i$$$ 个元素：\n\n\n\n- 数列 $$$P$$$ 是一个**有序**数列。对于所有 $$$k \\in \\mathbb{Z^+}$$$，$$$k$$$ 在数列 $$$P$$$ 中恰好出现 $$$(k+1)$$$ 次（$$$\\mathbb{Z^+}$$$ 表示所有正整数的集合）。也就是说，$$$$$$P = \\{1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, \\dots \\}$$$$$$\n- 数列 $$$Q$$$ 由以下递推式定义：$$$$$$\\begin{cases} Q(1) = 1 & \\\\ Q(i) = Q(i-1) + Q(P(i)) & \\text{if } i \\gt 1 \\end{cases}$$$$$$ 也就是说，$$$$$$Q = \\{1, 2, 4, 6, 8, 12, 16, 20, 24, 30, 36, 42, 48, 54, 62, \\dots \\}$$$$$$\n\n\n\n![](https://espresso.codeforces.com/1b3f84e40b0dbe20d168d5d2777515d47ab2c7e6.png)\n\n\n\n给定正整数 $$$n$$$，请计算 $$$Q(n)$$$。\n\n\n\n## 输入格式\n\n\n\n有多组测试数据。第一行包含一个整数 $$$T$$$（约为 $$$10^4$$$），表示测试用例数。对于每个测试用例：\n\n\n\n唯一一行包含一个整数 $$$n$$$（$$$1 \\le n \\le 10^{40}$$$）。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，在一行中输出一个整数，表示 $$$Q(n)$$$ 的值。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:104270::A",
+          "slug": "104270-A",
+          "sourceUrl": "https://codeforces.com/gym/104270/problem/A",
+          "sourceSha256": "621288df08ad0ed3b34303236525ac417463f773891a88c3f2467f7f0239087e",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "4\n10\n100\n1000\n987654321123456789",
+              "name": "样例 1",
+              "output": "30\n2522\n244274\n235139898689017607381017686096176798"
+            }
+          ],
+          "notes": [
+            "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+            "Original Markdown, sample records, image map and resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

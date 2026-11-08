@@ -1,0 +1,23 @@
+{
+  "registeredProblems": 9,
+  "allChangedRowsExactlyApproved": true,
+  "rawRecordsPreserved": true,
+  "totalStatements": 13469,
+  "completeStatements": 13430,
+  "remainingRealOriginals": 49,
+  "nonProblemArtifact": 1,
+  "canonicalAssetCount": 6230,
+  "statementReferencesValid": true,
+  "privateRecordsReadOrWritten": false,
+  "registrationIdempotent": true,
+  "relatedRegressionTests": 73,
+  "actualWorkbenchRechecked": 9,
+  "originalAttachmentDownloadsRechecked": 7,
+  "headerAttachmentRegressionPassed": true,
+  "cleanupInspection": {
+    "noUnreferencedTrackedOriginalsRemoved": true,
+    "canonicalOriginalAssetsDeduplicated": true,
+    "allNewAssetsReferencedByReviewedPacket": true,
+    "generatedIgnoredBrowserCachesRetained": "Automatic tool approval rejected the requested cache cleanup (blocked by policy); no alternate deletion attempted. Caches are outside tracked/published content."
+  }
+}

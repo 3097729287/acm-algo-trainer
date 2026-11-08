@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:104270::M",
+      "beforeSha256": "27ac6444c0906c2bca2115c31a866be0460f052273944d35fb4ac9e1325a00cd",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:104270::M",
+        "images": {
+          "https://espresso.codeforces.com/5f82354d0ec52f4f0cab7d178e2df8f0d611999a.png": "tb-asset:9f26be4421ace08a79ee58c6efd9ac156f9c62d9ea1d166c8ddc20ad1c57afb7"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T02:50:55.491811+00:00",
+          "corpusAuditVerifiedSha256": "14436dbec8bca21f634e7b7932c229e1fd00f585d825ff7c1c555699c35a908c",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Function and Function\n\nIf we define $$$f(0) = 1, f(1) = 0, f(4) = 1, f(8) = 2, f(16) = 1, \\dots$$$, do you know what function $$$f$$$ means?\n\n\n\nActually, $$$f(x)$$$ calculates the total number of enclosed areas produced by each digit in $$$x$$$. The following table shows the number of enclosed areas produced by each digit:\n\n \n\n| **Digit** | **Enclosed Area** | **Digit** | **Enclosed Area** |\n| --- | --- | --- | --- |\n| 0 | 1 | 5 | 0 |\n| 1 | 0 | 6 | 1 |\n| 2 | 0 | 7 | 0 |\n| 3 | 0 | 8 | 2 |\n| 4 | 1 | 9 | 1 |\n\n \n\nFor example, $$$f(1234) = 0 + 0 + 0 + 1 = 1$$$, and $$$f(5678) = 0 + 1 + 0 + 2 = 3$$$.\n\n\n\nWe now define a recursive function $$$g$$$ by the following equations: $$$$$$\\begin{cases} g^0(x) = x \\\\ g^k(x) = f(g^{k-1}(x)) & \\text{if } k \\ge 1 \\end{cases}$$$$$$\n\n\n\nFor example, $$$g^2(1234) = f(f(1234)) = f(1) = 0$$$, and $$$g^2(5678) = f(f(5678)) = f(3) = 0$$$.\n\n\n\nGiven two integers $$$x$$$ and $$$k$$$, please calculate the value of $$$g^k(x)$$$.\n\n\n\n## Input\n\n\n\nThere are multiple test cases. The first line of the input contains an integer $$$T$$$ (about $$$10^5$$$), indicating the number of test cases. For each test case:\n\n\n\nThe first and only line contains two integers $$$x$$$ and $$$k$$$ ($$$0 \\le x, k \\le 10^9$$$). Positive integers are given without leading zeros, and zero is given with exactly one '0'.\n\n\n\n## Output\n\n\n\nFor each test case output one line containing one integer, indicating the value of $$$g^k(x)$$$.\n\n\n\n## Note\n\n ![](https://espresso.codeforces.com/5f82354d0ec52f4f0cab7d178e2df8f0d611999a.png)",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:104270::M",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "e5f23fa0e1990dc3c6af5e26368b1a0b56b2076ce1391a6cd663443758b2ab36",
+          "url": "https://codeforces.com/gym/104270/problem/M"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://espresso.codeforces.com/5f82354d0ec52f4f0cab7d178e2df8f0d611999a.png": {
+            "bytes": 27754,
+            "frameCount": 1,
+            "height": 240,
+            "mime": "image/png",
+            "sha256": "9f26be4421ace08a79ee58c6efd9ac156f9c62d9ea1d166c8ddc20ad1c57afb7",
+            "sourceUrl": "https://espresso.codeforces.com/5f82354d0ec52f4f0cab7d178e2df8f0d611999a.png",
+            "width": 240
+          }
+        },
+        "samples": [
+          {
+            "input": "6\n123456789 1\n888888888 1\n888888888 2\n888888888 999999999\n98640 12345\n1000000000 0",
+            "name": "样例 1",
+            "output": "5\n18\n2\n0\n0\n1000000000"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Function and Function",
+        "url": "https://codeforces.com/gym/104270/problem/M",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "14436dbec8bca21f634e7b7932c229e1fd00f585d825ff7c1c555699c35a908c",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 函数与函数\n\n\n\n如果定义 $$$f(0) = 1, f(1) = 0, f(4) = 1, f(8) = 2, f(16) = 1, \\dots$$$，你知道函数 $$$f$$$ 的含义吗？\n\n\n\n实际上，$$$f(x)$$$ 计算的是 $$$x$$$ 的各个数位中封闭区域的总数。下表给出了每个数位包含的封闭区域数量：\n\n\n\n| **数位** | **封闭区域数** | **数位** | **封闭区域数** |\n| --- | --- | --- | --- |\n| 0 | 1 | 5 | 0 |\n| 1 | 0 | 6 | 1 |\n| 2 | 0 | 7 | 0 |\n| 3 | 0 | 8 | 2 |\n| 4 | 1 | 9 | 1 |\n\n\n\n例如，$$$f(1234) = 0 + 0 + 0 + 1 = 1$$$，且 $$$f(5678) = 0 + 1 + 0 + 2 = 3$$$。\n\n\n\n现在用以下递推式定义函数 $$$g$$$：$$$$$$\\begin{cases} g^0(x) = x \\\\ g^k(x) = f(g^{k-1}(x)) & \\text{if } k \\ge 1 \\end{cases}$$$$$$\n\n\n\n例如，$$$g^2(1234) = f(f(1234)) = f(1) = 0$$$，且 $$$g^2(5678) = f(f(5678)) = f(3) = 0$$$。\n\n\n\n给定两个整数 $$$x$$$ 和 $$$k$$$，请计算 $$$g^k(x)$$$。\n\n\n\n## 输入格式\n\n\n\n有多组测试数据。输入第一行包含一个整数 $$$T$$$（约为 $$$10^5$$$），表示测试用例数。对于每个测试用例：\n\n\n\n唯一一行包含两个整数 $$$x$$$ 和 $$$k$$$（$$$0 \\le x, k \\le 10^9$$$）。正整数没有前导零，零恰好用一个字符 '0' 表示。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，在一行中输出一个整数，表示 $$$g^k(x)$$$ 的值。\n\n\n\n## 说明\n\n\n\n![](https://espresso.codeforces.com/5f82354d0ec52f4f0cab7d178e2df8f0d611999a.png)\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:104270::M",
+          "slug": "104270-M",
+          "sourceUrl": "https://codeforces.com/gym/104270/problem/M",
+          "sourceSha256": "14436dbec8bca21f634e7b7932c229e1fd00f585d825ff7c1c555699c35a908c",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "6\n123456789 1\n888888888 1\n888888888 2\n888888888 999999999\n98640 12345\n1000000000 0",
+              "name": "样例 1",
+              "output": "5\n18\n2\n0\n0\n1000000000"
+            }
+          ],
+          "notes": [
+            "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+            "Original Markdown, sample records, image map and resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

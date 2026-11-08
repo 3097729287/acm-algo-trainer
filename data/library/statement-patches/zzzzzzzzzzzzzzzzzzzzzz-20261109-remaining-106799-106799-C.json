@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:106799::C",
+      "beforeSha256": "bd1dfbac5b3247c6d958d13e6bbee91daddf5261bc80206c1871ef51c1314143",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:106799::C",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-07T19:10:48.407130+00:00",
+          "corpusAuditVerifiedSha256": "70fdbe7c3de8869d0fc02b11322e7db667710ee6a156082b29382461447452fe",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Counting Arrays\n\nVegiCat gives you two integers $$$n$$$ and $$$m$$$. Consider integer arrays $$$a_1,a_2,\\ldots,a_n$$$ such that\n\n\n\n$$$$$$a_1=0,\\qquad 0\\le a_{i+1}-a_i\\le 1\\quad(1\\le i \\lt n).$$$$$$\n\n\n\nLet $$$s_i=a_1+a_2+\\ldots+a_i$$$ be the prefix sums of $$$a$$$. VegiCat also tells you the prefix sums at $$$m$$$ positions; that is, you are given $$$m$$$ constraints of the form $$$s_{p_j}=v_j$$$ ($$$1\\le j\\le m$$$).\n\n\n\nCount the number of arrays satisfying all constraints, modulo $$$998244353$$$. If no array satisfies all the constraints, the answer is $$$0$$$.\n\n\n\n## Input\n\n\n\nThe first line contains an integer $$$T$$$ ($$$1\\le T\\le 10^4$$$), the number of test cases. The description of the test cases follows.\n\n\n\nEach test case is given as follows:\n\n\n\nThe first line contains two integers $$$n$$$ and $$$m$$$ ($$$1\\le n\\le100$$$, $$$0\\le m\\le n$$$), the length of the array and the number of prefix sum constraints, respectively.\n\n\n\nThe $$$j$$$-th of the next $$$m$$$ lines contains two integers $$$p_j$$$ and $$$v_j$$$ ($$$1\\le p_j\\le n$$$, $$$0\\le v_j\\le10^9$$$). This describes a constraint: the sum of the first $$$p_j$$$ elements of the array must equal $$$v_j$$$.\n\n\n\nThe positions $$$p_j$$$ are given in strictly increasing order.\n\n\n\n## Output\n\n\n\nFor each test case, output an integer — the number of valid arrays modulo $$$998244353$$$.\n\n\n\n## Note\n\n\n\nWithout any prefix constraints there are exactly $$$2^{n-1}$$$ such arrays, because each of the $$$n-1$$$ adjacent differences may independently be $$$0$$$ or $$$1$$$.\n\n\n\nIn the second test case, the only array with $$$s_3=1$$$ is $$$(0,0,1)$$$.\n\n\n\nIn the third test case, $$$s_2=0$$$ forces $$$a_2=0$$$, after which $$$a_3$$$ may be $$$0$$$ or $$$1$$$.\n\n\n\nIn the fourth test case, the arrays are $$$(0,1,1,1)$$$ and $$$(0,0,1,2)$$$.\n\n\n\nIn the fifth test case, the arrays with $$$s_5=4$$$ are $$$(0,0,1,1,2)$$$ and $$$(0,1,1,1,1)$$$.\n\n\n\nIn the sixth test case, $$$s_2=0$$$ forces $$$a_1=a_2=0$$$, so $$$s_5\\le6$$$. The constraint $$$s_5=10$$$ is impossible.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:106799::C",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "7e7f4f3378b3ee0d67ead0b2cb10a2822bdcd19696fffd98f756bb7f3d32b134",
+          "url": "https://codeforces.com/gym/106799/problem/C"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "6\n1 0\n3 1\n3 1\n3 1\n2 0\n4 1\n4 3\n5 2\n1 0\n5 4\n5 2\n2 0\n5 10",
+            "name": "样例 1",
+            "output": "1\n1\n2\n2\n2\n0"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Counting Arrays",
+        "url": "https://codeforces.com/gym/106799/problem/C",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "70fdbe7c3de8869d0fc02b11322e7db667710ee6a156082b29382461447452fe",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 数组计数\n\n\n\nVegiCat 给你两个整数 $$$n$$$ 和 $$$m$$$。考虑满足以下条件的整数数组 $$$a_1,a_2,\\ldots,a_n$$$：\n\n\n\n$$$$$$a_1=0,\\qquad 0\\le a_{i+1}-a_i\\le 1\\quad(1\\le i \\lt n).$$$$$$\n\n\n\n令 $$$s_i=a_1+a_2+\\ldots+a_i$$$ 表示 $$$a$$$ 的前缀和。VegiCat 还告诉你 $$$m$$$ 个位置的前缀和，即给出 $$$m$$$ 条形如 $$$s_{p_j}=v_j$$$（$$$1\\le j\\le m$$$）的限制。\n\n\n\n计算满足全部限制的数组数量，对 $$$998244353$$$ 取模。如果不存在满足全部限制的数组，答案为 $$$0$$$。\n\n\n\n## 输入格式\n\n\n\n第一行包含整数 $$$T$$$（$$$1\\le T\\le 10^4$$$），表示测试用例数。接下来描述各测试用例。\n\n\n\n每个测试用例的格式如下：\n\n\n\n第一行包含两个整数 $$$n$$$ 和 $$$m$$$（$$$1\\le n\\le100$$$，$$$0\\le m\\le n$$$），分别表示数组长度和前缀和限制数量。\n\n\n\n接下来 $$$m$$$ 行，第 $$$j$$$ 行包含两个整数 $$$p_j$$$ 和 $$$v_j$$$（$$$1\\le p_j\\le n$$$，$$$0\\le v_j\\le10^9$$$），表示数组前 $$$p_j$$$ 个元素之和必须等于 $$$v_j$$$。\n\n\n\n位置 $$$p_j$$$ 按严格递增顺序给出。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，输出一个整数，表示合法数组数量对 $$$998244353$$$ 取模的结果。\n\n\n\n## 样例说明\n\n\n\n没有前缀和限制时，恰好有 $$$2^{n-1}$$$ 个这样的数组，因为 $$$n-1$$$ 个相邻元素的差可以独立选择为 $$$0$$$ 或 $$$1$$$。\n\n\n\n第二组样例中，满足 $$$s_3=1$$$ 的唯一数组为 $$$(0,0,1)$$$。\n\n\n\n第三组样例中，$$$s_2=0$$$ 迫使 $$$a_2=0$$$，此后 $$$a_3$$$ 可以为 $$$0$$$ 或 $$$1$$$。\n\n\n\n第四组样例中，合法数组为 $$$(0,1,1,1)$$$ 和 $$$(0,0,1,2)$$$。\n\n\n\n第五组样例中，满足 $$$s_5=4$$$ 的数组为 $$$(0,0,1,1,2)$$$ 和 $$$(0,1,1,1,1)$$$。\n\n\n\n第六组样例中，$$$s_2=0$$$ 迫使 $$$a_1=a_2=0$$$，因此 $$$s_5\\le6$$$。限制 $$$s_5=10$$$ 不可能满足。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:106799::C",
+          "slug": "106799-C",
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/C",
+          "sourceSha256": "70fdbe7c3de8869d0fc02b11322e7db667710ee6a156082b29382461447452fe",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "6\n1 0\n3 1\n3 1\n3 1\n2 0\n4 1\n4 3\n5 2\n1 0\n5 4\n5 2\n2 0\n5 10",
+              "name": "样例 1",
+              "output": "1\n1\n2\n2\n2\n0"
+            }
+          ],
+          "notes": [
+            "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+            "Original Markdown, samples and resource bindings retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

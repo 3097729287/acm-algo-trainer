@@ -1,4 +1,5 @@
 """Apply exact-identity topic reviews without inventing official tags or results."""
+import argparse
 import copy
 import hashlib
 import json
@@ -18,8 +19,9 @@ def key(url):
     assert parts.scheme=='https' and not parts.username and not parts.password and not parts.query and not parts.fragment
     return (parts.hostname or '').removeprefix('www.').lower()+parts.path.rstrip('/')
 
-def main():
-    folder=ROOT/'content-updates/20261108-knowledge-followup'
+def main(folder=None):
+    folder=folder or ROOT/'content-updates/20261108-knowledge-followup'
+    assert folder.resolve().is_relative_to((ROOT/'content-updates').resolve())
     plan=read(folder/'review.json');source=ROOT/'data/library/problems.json'
     resource=ROOT/'backend/resources/knowledge_topic_review.json'
     rows=read(source);by_id={row['id']:row for row in rows};curation=read(resource)
@@ -78,4 +80,8 @@ def main():
     dump(folder/'applied.json',{'revision':plan['revision'],'problems':results,'privateStateReadOrWritten':False})
     print(json.dumps({'newReviews':len(results),'reviewedUrlEntries':curation['reviewedProblems'],'privateStateReadOrWritten':False}))
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--review',type=Path)
+    args=parser.parse_args()
+    main(args.review)

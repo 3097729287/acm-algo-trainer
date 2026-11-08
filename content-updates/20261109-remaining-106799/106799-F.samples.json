@@ -1,0 +1,12 @@
+{
+  "method": "page-reviewed-original-pdf-samples",
+  "sourcePdfSha256": "78fde50ab49d794a7e31041452caba3d191fdd4f5aaf79b8df1a8f82f7d80f79",
+  "page": 1,
+  "samples": [
+    {
+      "input": "3\n3\naab\n4\nppqq\n7\nabcaabc",
+      "name": "样例 1",
+      "output": "5 4 3\n8 10 11 10\n21 52 87 119 139 128 84"
+    }
+  ]
+}

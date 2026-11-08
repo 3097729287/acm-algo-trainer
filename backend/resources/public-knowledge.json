@@ -6903,11 +6903,21 @@
     },
     "https://www.luogu.com.cn/problem/P8742": {
       "tags": [
-        "数学"
+        "动态规划 DP",
+        "背包 DP"
       ],
       "source": "https://www.luogu.com.cn/problem/P8742",
-      "reason": "公开题面模型分类；具体算法未复验",
-      "checkedAt": "2026-10-15"
+      "sourceSha256": "ae079dd124307f8b4065c15099b535568e91267148dfc71e3ac946f911036ffb",
+      "nativeProblemId": "P8742",
+      "nativeTagIds": [
+        3,
+        58,
+        139,
+        363
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
     },
     "https://www.luogu.com.cn/problem/P8745": {
       "tags": [
@@ -30562,6 +30572,289 @@
       "source": "https://acmicpc-pacnw.org/ProblemSet/2019/editorial.zip#editorial/editorials.pdf",
       "reason": "完整阅读1000x1000、斜线奇偶格约束和作者放大网格解说。将每格放大2或3倍画斜线阻挡，外围添空圈后四邻洪泛，空区域连通分量减1即最少拆墙数；每拆一面墙最多合并两个区域，区域邻接图连通使该下界可达。不能把原字符格直接当四邻可通行单元，需包含外部区域。 人工估分 1700。",
       "checkedAt": "2026-10-28"
+    },
+    "https://www.luogu.com.cn/problem/P10112": {
+      "tags": [
+        "数学",
+        "组合数学",
+        "排列组合"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10112",
+      "sourceSha256": "093243b72ed74e7dfa3178b2186a35d6eee56b759989d2e642813abeba6400e4",
+      "nativeProblemId": "P10112",
+      "nativeTagIds": [
+        5,
+        60,
+        252,
+        253,
+        409
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P10310": {
+      "tags": [
+        "数学",
+        "组合数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10310",
+      "sourceSha256": "a59cdc952138ae68a49224e8ef6ca44a181b4d240019b2f9eb9dc0d95e3c68e7",
+      "nativeProblemId": "P10310",
+      "nativeTagIds": [
+        5,
+        81,
+        108,
+        252,
+        337
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P11250": {
+      "tags": [
+        "数学",
+        "组合数学",
+        "排列组合"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P11250",
+      "sourceSha256": "5b93909ab9d93c6dab4adf8a7fca0238d53ab8657db48adfcf726a1e5d09de36",
+      "nativeProblemId": "P11250",
+      "nativeTagIds": [
+        5,
+        61,
+        252,
+        253,
+        409
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P11362": {
+      "tags": [
+        "组合数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P11362",
+      "sourceSha256": "f18852613aa3e9e0a7e2c5a1a4ebcfd75ab04b98ce62126ea8b0ac1e55775849",
+      "nativeProblemId": "P11362",
+      "nativeTagIds": [
+        61,
+        83,
+        108,
+        252
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P11487": {
+      "tags": [
+        "组合数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P11487",
+      "sourceSha256": "149b38c7973c4c71ea3837eb4daa3fd60a5924b77d431d54de1dc6a2acc17a19",
+      "nativeProblemId": "P11487",
+      "nativeTagIds": [
+        81,
+        108,
+        252,
+        337
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P12405": {
+      "tags": [
+        "数学",
+        "组合数学",
+        "排列组合",
+        "Ad-hoc"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12405",
+      "sourceSha256": "33419aaa49959473689192466c7912d115a2d21ddb67c12465ede4f0aaacd79e",
+      "nativeProblemId": "P12405",
+      "nativeTagIds": [
+        5,
+        81,
+        108,
+        252,
+        253,
+        365,
+        429
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P12415": {
+      "tags": [
+        "动态规划 DP",
+        "组合数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12415",
+      "sourceSha256": "a9c670db77dc2afb10c21772e39d16691c2ef5c5d340492fcca20c8c89fe0a6b",
+      "nativeProblemId": "P12415",
+      "nativeTagIds": [
+        3,
+        81,
+        108,
+        252,
+        337
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P1313": {
+      "tags": [
+        "数学",
+        "组合数学",
+        "排列组合",
+        "二项式定理"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P1313",
+      "sourceSha256": "7d9a5ab1fa541d5485390074fe6d079f7ca2c48795ffc5277265063230a851dc",
+      "nativeProblemId": "P1313",
+      "nativeTagIds": [
+        5,
+        28,
+        83,
+        252,
+        253,
+        255
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P13280": {
+      "tags": [
+        "数学",
+        "置换",
+        "组合数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P13280",
+      "sourceSha256": "67b954c13e7beeddd7a2ca5806f53cc74dff7e7639e58d8bb8a38bcf5ded34a9",
+      "nativeProblemId": "P13280",
+      "nativeTagIds": [
+        5,
+        81,
+        108,
+        247,
+        252,
+        337
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P13550": {
+      "tags": [
+        "组合数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P13550",
+      "sourceSha256": "584777a83817ed18e89b184f37cc5462752f25e45d6743fb61f7b6bf03dcfa09",
+      "nativeProblemId": "P13550",
+      "nativeTagIds": [
+        81,
+        108,
+        252,
+        337
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P14006": {
+      "tags": [
+        "动态规划 DP",
+        "组合数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P14006",
+      "sourceSha256": "2a1299cf63db742b2f9e87721127ac4a2033e0268aba3049c42c5dab65fe2068",
+      "nativeProblemId": "P14006",
+      "nativeTagIds": [
+        3,
+        81,
+        252,
+        337
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P14254": {
+      "tags": [
+        "组合数学",
+        "排列组合"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P14254",
+      "sourceSha256": "a3f20aa99d15399ec3ec87fa9696b10a7edbb6b802204e711d79dd7e76b61005",
+      "nativeProblemId": "P14254",
+      "nativeTagIds": [
+        62,
+        81,
+        108,
+        252,
+        253,
+        337
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P15015": {
+      "tags": [
+        "组合数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P15015",
+      "sourceSha256": "15213bd7a9c4a7ef2bfcf3adfb348e4d03c1474522c1f62b48403d0abedc2ec5",
+      "nativeProblemId": "P15015",
+      "nativeTagIds": [
+        81,
+        108,
+        252,
+        337
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P16246": {
+      "tags": [
+        "组合数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16246",
+      "sourceSha256": "b3f5b577b71f69bfbc5a969705328fc9dc02c44d3c8823ba00e760c121d37de3",
+      "nativeProblemId": "P16246",
+      "nativeTagIds": [
+        107,
+        252,
+        486
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
+    },
+    "https://www.luogu.com.cn/problem/P11786": {
+      "tags": [
+        "双指针 two-pointer"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P11786",
+      "sourceSha256": "d69d612bce3e95d985043db5f86f39f5688388e69257396ffc93d1af33d43cfa",
+      "nativeProblemId": "P11786",
+      "nativeTagIds": [
+        81,
+        108,
+        337,
+        345
+      ],
+      "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+      "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。"
     }
   },
   "https://www.luogu.com.cn/problem/P8799": {

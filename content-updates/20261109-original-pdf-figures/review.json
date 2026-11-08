@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "cleanupInspection": {
+    "checkedBeforeAddingContent": true,
+    "canonicalAssetDescriptors": 6247,
+    "duplicateDescriptors": 0,
+    "unusedTrackedContentEligibleForRemoval": [],
+    "keptPreviousWholeSourceStatements": true,
+    "previousIntegrationRemovedDuplicateImageBytes": 19964,
+    "result": "No further unused tracked content found. Existing sources and reference history remain required.",
+    "ignoredBuildCaches": "Retained after the earlier automatic approval rejection; not retried or packaged.",
+    "removedUnusedUnpublishedCrop": {
+      "unpublishedIntermediateFigure": {
+        "sha256": "b2e3f2bfea9e70403d4745a32aa79736570e3931a25c787d064e2622125fbda8",
+        "mime": "image/png",
+        "bytes": 28849,
+        "file": "statement-assets/b2e3f2bfea9e70403d4745a32aa79736570e3931a25c787d064e2622125fbda8.bin"
+      },
+      "reason": "Prepublication visual review requires slightly wider crop so the rightmost and bottom node borders are complete.",
+      "notInCanonicalAssetManifest": true,
+      "noAppliedSourcePacket": true,
+      "originalPdfBytesUnchanged": true,
+      "oldClipRect": [
+        150,
+        400,
+        435,
+        539
+      ],
+      "newClipRect": [
+        145,
+        395,
+        450,
+        546
+      ],
+      "removedBeforePublishing": true
+    }
+  },
+  "problems": [
+    {
+      "id": "luogu-training-P4740",
+      "url": "https://www.luogu.com.cn/problem/P4740",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P4740",
+          "sha256": "b84f18a6f5399eaf708cc90f11c04c69d436e88811c88e2c1a2ae1413cc444c3",
+          "status": 200
+        },
+        {
+          "url": "https://cerc.hsin.hr/index.php?page=contest_data",
+          "sha256": "fa80624a4f396d6e278e69011015d3e636ada1da0cbf48ef135727d20cb8a77b",
+          "status": 200
+        },
+        {
+          "url": "https://cerc.hsin.hr/tasks/cerc2017_problems.pdf",
+          "sha256": "382a79c79323200e576dea167d90a18320cfb76e0eca9c7ff8d5ad25e4ae457a",
+          "status": 200,
+          "bytes": 877253,
+          "pageCount": 17
+        }
+      ],
+      "samples": 1,
+      "markdownSha256": "b0aacf75ecb7b3d89c4d41a9109ade171b9aa54165dc993e31e8a27d4a3ae620",
+      "originalDescriptionReviewed": true,
+      "nativeChineseReviewed": true,
+      "originalImagesRestored": 1,
+      "sourceFigure": {
+        "file": "data/library/statement-assets/5c4dad20c430dbcd682062e17bedb1618ecbda142a53114c38b0a8b8a597f5e2.bin",
+        "sha256": "5c4dad20c430dbcd682062e17bedb1618ecbda142a53114c38b0a8b8a597f5e2",
+        "sourcePage1Based": 9,
+        "clipRect": [
+          175,
+          480,
+          400,
+          607
+        ],
+        "rasterScale": 3
+      },
+      "corrections": [
+        "保留完整英文原稿，逐段核对现有中文的 2×n 嵌入条件、n<=300000、模数及唯一原样例；恢复含四种嵌入的官方原图。"
+      ]
+    },
+    {
+      "id": "luogu-training-P5530",
+      "url": "https://www.luogu.com.cn/problem/P5530",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P5530",
+          "sha256": "0472a7d9cb35192d677ced4e874ef9c98320fbf0d16ad2956333f07d2a6f8b82",
+          "status": 200
+        },
+        {
+          "url": "https://boi.cses.fi/tasks.php",
+          "sha256": "475683e5a537f5144297905742a764a0d9e478d531fae159757bec5084bb9e5b",
+          "status": 200
+        },
+        {
+          "url": "https://boi.cses.fi/files/boi2002_day2.pdf",
+          "sha256": "3a52ca344aef33606e05733b5f3c326016044d671267b5375762be8b256d23eb",
+          "status": 200,
+          "bytes": 64153,
+          "pageCount": 6
+        }
+      ],
+      "samples": 1,
+      "markdownSha256": "57d97bb7987df29a224828f0df54c7677ec13ce2fcf8970eebbea04447e094bc",
+      "originalDescriptionReviewed": true,
+      "nativeChineseReviewed": true,
+      "originalImagesRestored": 1,
+      "sourceFigure": {
+        "file": "data/library/statement-assets/ef2003152b8bf1e9d528d91bdb6d6ffd7afb0cbdffd00f254e57edd4563049cc.bin",
+        "sha256": "ef2003152b8bf1e9d528d91bdb6d6ffd7afb0cbdffd00f254e57edd4563049cc",
+        "sourcePage1Based": 1,
+        "clipRect": [
+          145,
+          395,
+          450,
+          546
+        ],
+        "rasterScale": 3
+      },
+      "corrections": [
+        "按原赛 BIC 原稿明确两维严格/非严格的支配条件、允许同一对城市间多条道路及按不同（费用，时间）计数，恢复官方带费用/时间标注原图。"
+      ]
+    }
+  ],
+  "verifiedWorkbenchResult": "content-updates/20261109-original-pdf-figures/validation.json"
+}

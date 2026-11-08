@@ -1,0 +1,1864 @@
+[
+  {
+    "problem_id": "luogu-training-P4331",
+    "content": {
+      "attachments": {
+        "https://boi.cses.fi/files/boi2004_day1.pdf": {
+          "sourceUrl": "https://qoj.ac/download.php?id=16014&type=statement",
+          "sha256": "247dafde1a4465ba9f106b3980576c598c0c0266725597dbe04d067a3455d1f4",
+          "bytes": 365929,
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "data": "tb-asset:247dafde1a4465ba9f106b3980576c598c0c0266725597dbe04d067a3455d1f4",
+          "fileName": "boi2004_day1.pdf"
+        },
+        "https://qoj.ac/download.php?id=16014&type=statement": {
+          "sourceUrl": "https://qoj.ac/download.php?id=16014&type=statement",
+          "sha256": "247dafde1a4465ba9f106b3980576c598c0c0266725597dbe04d067a3455d1f4",
+          "bytes": 365929,
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "data": "tb-asset:247dafde1a4465ba9f106b3980576c598c0c0266725597dbe04d067a3455d1f4",
+          "fileName": "boi2004_day1.pdf"
+        }
+      },
+      "id": "luogu-training-P4331",
+      "images": {},
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "checkedAt": "2026-11-08T20:10:40.912944+00:00",
+        "markdownSha256": "bd92a6a6dec0e6b6ad4f951f8e269aeb060b15b40d11b6b383b09c879f7c05ef",
+        "sourceDocuments": [
+          {
+            "url": "https://www.luogu.com.cn/problem/P4331",
+            "sha256": "6f58a4e9f5038f86a6166af300e65ebe52659f1d6a98d7227cba3464a81e9fb8",
+            "status": 200
+          },
+          {
+            "url": "https://qoj.ac/download.php?id=16014&type=statement",
+            "sha256": "247dafde1a4465ba9f106b3980576c598c0c0266725597dbe04d067a3455d1f4",
+            "status": 200
+          },
+          {
+            "url": "https://qoj.ac/problem/16014",
+            "sha256": "7f8ab442662e4e74acfd52d6888621a29544ef0fa014ef82ad8ee310cbc9a10c",
+            "status": 200
+          }
+        ],
+        "sampleCount": 1,
+        "pdfPageCountVerified": false,
+        "corpusAuditVerifiedSha256": "bd92a6a6dec0e6b6ad4f951f8e269aeb060b15b40d11b6b383b09c879f7c05ef",
+        "recoveryBinding": {
+          "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+          "nativeProblemId": "P4331",
+          "originalStatementTitle": "Sequence",
+          "reviewedSourcePages": [
+            1
+          ],
+          "recoveredResource": {
+            "originalDestination": "https://boi.cses.fi/files/boi2004_day1.pdf",
+            "verifiedSource": "https://qoj.ac/download.php?id=16014&type=statement",
+            "sha256": "247dafde1a4465ba9f106b3980576c598c0c0266725597dbe04d067a3455d1f4",
+            "pageCount": 1
+          }
+        }
+      },
+      "limits": {
+        "memoryMb": 128,
+        "timeMs": 1000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Sequence (Day1)\n\n## 题目描述\n\n给定一个序列 $t_1,t_2,\\dots,t_n$，求出一个递增序列 $z_1,z_2,\\dots,z_n$，使得序列 $t_i$ 和 $z_i$ 的各项之差的绝对值之和 $|t_1-z_1|+|t_2-z_2|+\\dots+|t_n-z_n|$ 最小。\n\n## 输入格式\n\n输入文件的第一行包含一个整数 $n$。\n\n接下来 $n$ 行，每行包含一个整数，表示给定的序列 $t_i$。\n\n## 输出格式\n\n输出文件的第一行应当包含最小的各项之差的绝对值之和。\n\n接下来 $n$ 行，每行应当包含一个整数，表示所求的序列 $z_i$。\n\n## 提示\n\n#### 数据规模与约定\n\n对于 $100\\%$ 的数据，有 $1\\le n\\le 10^6$，$0\\le t_i\\le 2\\times 10^9$。\n\n#### 说明\n\n译自 [BalticOI 2004 Day1 C Sequence](https://boi.cses.fi/files/boi2004_day1.pdf)。\n\n感谢 @TimeTraveller 提供的 SPJ！",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://boi.cses.fi/files/boi2004_day1.pdf": {
+          "sourceUrl": "https://qoj.ac/download.php?id=16014&type=statement",
+          "sha256": "247dafde1a4465ba9f106b3980576c598c0c0266725597dbe04d067a3455d1f4",
+          "bytes": 365929,
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "previousSourceUrl": "https://boi.cses.fi/files/boi2004_day1.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        },
+        "https://qoj.ac/download.php?id=16014&type=statement": {
+          "sourceUrl": "https://qoj.ac/download.php?id=16014&type=statement",
+          "sha256": "247dafde1a4465ba9f106b3980576c598c0c0266725597dbe04d067a3455d1f4",
+          "bytes": 365929,
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "previousSourceUrl": "https://boi.cses.fi/files/boi2004_day1.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        }
+      },
+      "samples": [
+        {
+          "name": "样例 1",
+          "input": "7\n9\n4\n8\n20\n14\n15\n18",
+          "output": "13\n6\n7\n8\n13\n14\n15\n18"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 10,
+      "title": "Sequence (Day1)",
+      "url": "https://www.luogu.com.cn/problem/P4331",
+      "statementSource": "洛谷公开正文与已核对的原赛资源",
+      "sourceLimits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000
+        ]
+      }
+    }
+  },
+  {
+    "problem_id": "luogu-training-P6078",
+    "content": {
+      "attachments": {
+        "https://www.oi.edu.pl/old/ceoi2004/problems/swe.pdf": {
+          "sourceUrl": "https://qoj.ac/download.php?id=16020&type=statement",
+          "sha256": "31e6b9d9c593b3c945e8aea072bb2cf0048c9fcda5032e3b0ec691ef7db25807",
+          "bytes": 131425,
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "data": "tb-asset:31e6b9d9c593b3c945e8aea072bb2cf0048c9fcda5032e3b0ec691ef7db25807",
+          "fileName": "swe.pdf"
+        },
+        "https://qoj.ac/download.php?id=16020&type=statement": {
+          "sourceUrl": "https://qoj.ac/download.php?id=16020&type=statement",
+          "sha256": "31e6b9d9c593b3c945e8aea072bb2cf0048c9fcda5032e3b0ec691ef7db25807",
+          "bytes": 131425,
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "data": "tb-asset:31e6b9d9c593b3c945e8aea072bb2cf0048c9fcda5032e3b0ec691ef7db25807",
+          "fileName": "swe.pdf"
+        }
+      },
+      "id": "luogu-training-P6078",
+      "images": {},
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "checkedAt": "2026-11-08T20:10:40.917711+00:00",
+        "markdownSha256": "2a73693b15df31b05d07f1f8ee35d26461673deaced998d0be527052f85a3cf9",
+        "sourceDocuments": [
+          {
+            "url": "https://www.luogu.com.cn/problem/P6078",
+            "sha256": "752781db1803556d4c4c948530bbcdd545dd418d7df3ab5552b27655e7319a90",
+            "status": 200
+          },
+          {
+            "url": "https://qoj.ac/download.php?id=16020&type=statement",
+            "sha256": "31e6b9d9c593b3c945e8aea072bb2cf0048c9fcda5032e3b0ec691ef7db25807",
+            "status": 200
+          },
+          {
+            "url": "https://qoj.ac/problem/16020",
+            "sha256": "db19a2c9a798418426b4814538e192824d109eef5a1a99e9bc716664885ef46d",
+            "status": 200
+          }
+        ],
+        "sampleCount": 1,
+        "pdfPageCountVerified": false,
+        "corpusAuditVerifiedSha256": "2a73693b15df31b05d07f1f8ee35d26461673deaced998d0be527052f85a3cf9",
+        "recoveryBinding": {
+          "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+          "nativeProblemId": "P6078",
+          "originalStatementTitle": "Sweets",
+          "reviewedSourcePages": [
+            1
+          ],
+          "recoveredResource": {
+            "originalDestination": "https://www.oi.edu.pl/old/ceoi2004/problems/swe.pdf",
+            "verifiedSource": "https://qoj.ac/download.php?id=16020&type=statement",
+            "sha256": "31e6b9d9c593b3c945e8aea072bb2cf0048c9fcda5032e3b0ec691ef7db25807",
+            "pageCount": 1
+          }
+        }
+      },
+      "limits": {
+        "memoryMb": 66,
+        "timeMs": 100
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Sweets\n\n## 题目描述\n\nJohn 得到了 $n$ 罐糖果。不同的糖果罐，糖果的种类不同（即同一个糖果罐里的糖果种类是相同的，不同的糖果罐里的糖果的种类是不同的）。第 $i$ 个糖果罐里有 $m_{i}$ 个糖果。John 决定吃掉一些糖果，他想吃掉至少 $a$ 个糖果，但不超过 $b$ 个。问题是 John 无法确定吃多少个糖果和每种糖果各吃几个。有多少种方法可以做这件事呢？\n\n## 输入格式\n\n输入共 $n+1$ 行：\n\n第一行读入 $n$，$a$，$b$。\n\n接下来 $n$ 行，一行一个数，代表 $m_{i}$。\n\n## 输出格式\n\n仅一行，表示 John 能够选择的满足以上条件的吃掉糖果的方法数，答案对 $2004$ 取模。\n\n## 提示\n\n#### 数据范围及限制\n对于 $100\\%$ 的数据，保证 $1\\leq n \\leq 10$，$0\\leq a \\leq b \\leq 10^7$，$0 \\leq m_{i} \\leq 10^6$。\n\n#### 说明\n本题译自 [Central European Olympiad\nin Informatics 2004](https://www.oi.edu.pl/old/php/ceoi2004.php?module=show&file=news) [Day 1](https://www.oi.edu.pl/old/php/ceoi2004.php?module=show&file=tasks) [T2 Sweets](https://www.oi.edu.pl/old/ceoi2004/problems/swe.pdf)。",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://www.oi.edu.pl/old/ceoi2004/problems/swe.pdf": {
+          "sourceUrl": "https://qoj.ac/download.php?id=16020&type=statement",
+          "sha256": "31e6b9d9c593b3c945e8aea072bb2cf0048c9fcda5032e3b0ec691ef7db25807",
+          "bytes": 131425,
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "previousSourceUrl": "https://www.oi.edu.pl/old/ceoi2004/problems/swe.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        },
+        "https://qoj.ac/download.php?id=16020&type=statement": {
+          "sourceUrl": "https://qoj.ac/download.php?id=16020&type=statement",
+          "sha256": "31e6b9d9c593b3c945e8aea072bb2cf0048c9fcda5032e3b0ec691ef7db25807",
+          "bytes": 131425,
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "previousSourceUrl": "https://www.oi.edu.pl/old/ceoi2004/problems/swe.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        }
+      },
+      "samples": [
+        {
+          "name": "样例 1",
+          "input": "2 1 3\n3\n5",
+          "output": "9"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 10,
+      "title": "Sweets",
+      "url": "https://www.luogu.com.cn/problem/P6078",
+      "statementSource": "洛谷公开正文与已核对的原赛资源",
+      "sourceLimits": {
+        "time": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "memory": [
+          65536,
+          65536,
+          65536,
+          65536,
+          65536,
+          65536,
+          65536,
+          65536,
+          65536,
+          65536,
+          65536,
+          65536,
+          65536
+        ]
+      }
+    }
+  },
+  {
+    "problem_id": "luogu-training-P6644",
+    "content": {
+      "attachments": {
+        "https://cemc.math.uwaterloo.ca/contests/computing/2020/cco/day2.pdf": {
+          "sourceUrl": "https://cemc.uwaterloo.ca/sites/default/files/documents/2020/day12.pdf",
+          "sha256": "c6086eb7ca8b852329109b679169b9dc49bdabae6c8845c222fc60636fdcfcdf",
+          "bytes": 215600,
+          "mime": "application/pdf",
+          "pageCount": 14,
+          "data": "tb-asset:c6086eb7ca8b852329109b679169b9dc49bdabae6c8845c222fc60636fdcfcdf",
+          "fileName": "day2.pdf"
+        },
+        "https://cemc.uwaterloo.ca/sites/default/files/documents/2020/day12.pdf": {
+          "sourceUrl": "https://cemc.uwaterloo.ca/sites/default/files/documents/2020/day12.pdf",
+          "sha256": "c6086eb7ca8b852329109b679169b9dc49bdabae6c8845c222fc60636fdcfcdf",
+          "bytes": 215600,
+          "mime": "application/pdf",
+          "pageCount": 14,
+          "data": "tb-asset:c6086eb7ca8b852329109b679169b9dc49bdabae6c8845c222fc60636fdcfcdf",
+          "fileName": "day2.pdf"
+        }
+      },
+      "id": "luogu-training-P6644",
+      "images": {
+        "https://cdn.luogu.com.cn/upload/image_hosting/j79801x8.png?x-oss-process=image/resize,m_lfit,h_170,w_225": "tb-asset:d079fa699ad96f677931da76c7d4fa26c27a984c08c7584be6bba3f48b29a2ac"
+      },
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "checkedAt": "2026-11-08T20:10:40.922396+00:00",
+        "markdownSha256": "d335ac249783ba75a566ab21684e1c5f046d40a102aa17d50113006dd13807df",
+        "sourceDocuments": [
+          {
+            "url": "https://www.luogu.com.cn/problem/P6644",
+            "sha256": "c1e0c37486d7b7363c7b9c6ed6cf7cad89f13e9aa5666255e83c76cac7d32a73",
+            "status": 200
+          },
+          {
+            "url": "https://cemc.uwaterloo.ca/sites/default/files/documents/2020/day12.pdf",
+            "sha256": "c6086eb7ca8b852329109b679169b9dc49bdabae6c8845c222fc60636fdcfcdf",
+            "status": 200
+          }
+        ],
+        "sampleCount": 1,
+        "pdfPageCountVerified": false,
+        "corpusAuditVerifiedSha256": "d335ac249783ba75a566ab21684e1c5f046d40a102aa17d50113006dd13807df",
+        "recoveryBinding": {
+          "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+          "nativeProblemId": "P6644",
+          "originalStatementTitle": "Travelling Salesperson",
+          "reviewedSourcePages": [
+            8,
+            9
+          ],
+          "recoveredResource": {
+            "originalDestination": "https://cemc.math.uwaterloo.ca/contests/computing/2020/cco/day2.pdf",
+            "verifiedSource": "https://cemc.uwaterloo.ca/sites/default/files/documents/2020/day12.pdf",
+            "sha256": "c6086eb7ca8b852329109b679169b9dc49bdabae6c8845c222fc60636fdcfcdf",
+            "pageCount": 14
+          }
+        }
+      },
+      "limits": {
+        "memoryMb": 524,
+        "timeMs": 7000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Travelling Salesperson\n\n## 题目描述\n\n有一个有 $N$ 个点的完全图，边权为 $1$，边是红色或蓝色。\n\n对于每一个点，您需要构造从该点出发，经过每一个点至少一次且边权和最小的路径。\n\n为了增大难度，我们要求您从一条边走到另一条异色的边需花费一张票，并且您只有一张票。\n\n## 输入格式\n\n第一行为一个整数 $N$。\n\n接下来 $N-1$ 行，一行一个字符串，字符串的第 $i$ 行为 $C_{i+1}=C_{i+1,1},C_{i+1,2}\\ldots C_{i+1,i}$，如果 $C_{i+1,j}$ 为 `R`，说明从 $i+1$ 到 $j$ 的边为红色的，反之，则为蓝色。\n\n## 输出格式\n\n输出共 $2\\times N$ 行。\n\n对于 $2\\times i-1(1\\le i\\le N)$ 行，您需要输出一个整数 $M_i$，表示您所构造的从 $i$ 出发的遍历每一个点的方案的长度。\n\n对于 $2\\times i (1\\le i\\le N)$ 行，您需要输出 $M_i$ 个整数，表示您的方案所遍历点的顺序。\n\n## 提示\n\n#### 样例解释\n![](https://cdn.luogu.com.cn/upload/image_hosting/j79801x8.png?x-oss-process=image/resize,m_lfit,h_170,w_225)\n\n聪明的你一定发现了这个样例输出不是最优的。\n\n从 $3$ 出发的话，有最优方案为 $3\\to 1\\to 2\\to 4$，长度为 $4$，所以这个方案得 $\\lfloor 8+8\\times \\frac{2\\times 4-5}{4-1}\\rfloor=16$ 分。\n\n#### SPJ 计分策略\n本题的每个测试点按您设计的路线计分。\n\n对于您设计的第 $i$ 个方案，设其长度为 $M_i$，标准答案的第 $i$ 个方案长度为 $K_i$。\n\n如果 $M_i>2\\times K_i$ 或者您的方案错误，您会得 $0$ 分。\n\n如果 $M_i=K_i$ 且您的方案合法，您会得 $25$ 分。\n\n否则，如果您的方案合法，您会得 $\\lfloor 8+8\\times \\frac{2\\times K_i-M_i}{K_i-1}\\rfloor$ 分。\n\n这个测试点的分数为每个方案的得分的最小值。\n\n您的提交得分为每个测试点得分的最小值。\n\n**译者提醒：为了方便 SPJ 的编写和测试点的计分，每个测试点 $100$ 分，题目的计分策略里的所有分数会按比例计算。**\n\n#### 数据范围及限制\n对于 $100\\%$ 的数据，保证 $1\\le N\\le 2\\times 10^3$，$C_{i,j}$ 为 `R` 或 `B`。\n\n#### 说明\n本题译自 [Canadian Computing Olympiad 2020](https://cemc.math.uwaterloo.ca/contests/computing/2020/) [Day 2](https://cemc.math.uwaterloo.ca/contests/computing/2020/cco/day2.pdf) T1 Travelling Salesperson。\n\n感谢 @[tiger2005](https://www.luogu.com.cn/user/60864) 提供的 SPJ。",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://cemc.math.uwaterloo.ca/contests/computing/2020/cco/day2.pdf": {
+          "sourceUrl": "https://cemc.uwaterloo.ca/sites/default/files/documents/2020/day12.pdf",
+          "sha256": "c6086eb7ca8b852329109b679169b9dc49bdabae6c8845c222fc60636fdcfcdf",
+          "bytes": 215600,
+          "mime": "application/pdf",
+          "pageCount": 14,
+          "previousSourceUrl": "https://cemc.math.uwaterloo.ca/contests/computing/2020/cco/day2.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        },
+        "https://cemc.uwaterloo.ca/sites/default/files/documents/2020/day12.pdf": {
+          "sourceUrl": "https://cemc.uwaterloo.ca/sites/default/files/documents/2020/day12.pdf",
+          "sha256": "c6086eb7ca8b852329109b679169b9dc49bdabae6c8845c222fc60636fdcfcdf",
+          "bytes": 215600,
+          "mime": "application/pdf",
+          "pageCount": 14,
+          "previousSourceUrl": "https://cemc.math.uwaterloo.ca/contests/computing/2020/cco/day2.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        },
+        "https://cdn.luogu.com.cn/upload/image_hosting/j79801x8.png?x-oss-process=image/resize,m_lfit,h_170,w_225": {
+          "bytes": 2477,
+          "frameCount": 1,
+          "height": 90,
+          "mime": "image/png",
+          "sha256": "d079fa699ad96f677931da76c7d4fa26c27a984c08c7584be6bba3f48b29a2ac",
+          "sourceUrl": "https://cdn.luogu.com.cn/upload/image_hosting/j79801x8.png?x-oss-process=image/resize,m_lfit,h_170,w_225",
+          "width": 114
+        }
+      },
+      "samples": [
+        {
+          "name": "样例 1",
+          "input": "4\nR\nRR\nBRB",
+          "output": "5\n1 4 2 1 3\n6\n2 3 1 2 3 4\n5\n3 1 2 3 4\n4\n4 3 1 2"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 10,
+      "title": "Travelling Salesperson",
+      "url": "https://www.luogu.com.cn/problem/P6644",
+      "statementSource": "洛谷公开正文与已核对的原赛资源",
+      "sourceLimits": {
+        "time": [
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000,
+          7000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      }
+    }
+  },
+  {
+    "problem_id": "luogu-training-P6648",
+    "content": {
+      "attachments": {
+        "https://cemc.math.uwaterloo.ca/contests/computing/2019/stage%201/seniorEF.pdf": {
+          "sourceUrl": "https://cemc.uwaterloo.ca/sites/default/files/documents/2019/seniorEF.pdf",
+          "sha256": "56bc85dd1950c8d061fcacfdcd3def68d5d97f1a84bbab122b8acb7d2e40614a",
+          "bytes": 743751,
+          "mime": "application/pdf",
+          "pageCount": 17,
+          "data": "tb-asset:56bc85dd1950c8d061fcacfdcd3def68d5d97f1a84bbab122b8acb7d2e40614a",
+          "fileName": "seniorEF.pdf"
+        },
+        "https://cemc.uwaterloo.ca/sites/default/files/documents/2019/seniorEF.pdf": {
+          "sourceUrl": "https://cemc.uwaterloo.ca/sites/default/files/documents/2019/seniorEF.pdf",
+          "sha256": "56bc85dd1950c8d061fcacfdcd3def68d5d97f1a84bbab122b8acb7d2e40614a",
+          "bytes": 743751,
+          "mime": "application/pdf",
+          "pageCount": 17,
+          "data": "tb-asset:56bc85dd1950c8d061fcacfdcd3def68d5d97f1a84bbab122b8acb7d2e40614a",
+          "fileName": "seniorEF.pdf"
+        }
+      },
+      "id": "luogu-training-P6648",
+      "images": {
+        "https://cdn.luogu.com.cn/upload/image_hosting/fdut4hrs.png": "tb-asset:28693e40f9633c2d8683252842f01739365ab0bec5a7a8fd612ff1ed9096e949"
+      },
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "checkedAt": "2026-11-08T20:10:40.927448+00:00",
+        "markdownSha256": "544f4c6d5f806b7b73147e7c432107a3f3168050071544cb86be372107c495af",
+        "sourceDocuments": [
+          {
+            "url": "https://www.luogu.com.cn/problem/P6648",
+            "sha256": "61c02918f197ae4040682556f7add7b1096fdbc3dc2aaf5adf8d31c376477f49",
+            "status": 200
+          },
+          {
+            "url": "https://cemc.uwaterloo.ca/sites/default/files/documents/2019/seniorEF.pdf",
+            "sha256": "56bc85dd1950c8d061fcacfdcd3def68d5d97f1a84bbab122b8acb7d2e40614a",
+            "status": 200
+          }
+        ],
+        "sampleCount": 1,
+        "pdfPageCountVerified": false,
+        "corpusAuditVerifiedSha256": "544f4c6d5f806b7b73147e7c432107a3f3168050071544cb86be372107c495af",
+        "recoveryBinding": {
+          "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+          "nativeProblemId": "P6648",
+          "originalStatementTitle": "Triangle: The Data Structure",
+          "reviewedSourcePages": [
+            16
+          ],
+          "recoveredResource": {
+            "originalDestination": "https://cemc.math.uwaterloo.ca/contests/computing/2019/stage%201/seniorEF.pdf",
+            "verifiedSource": "https://cemc.uwaterloo.ca/sites/default/files/documents/2019/seniorEF.pdf",
+            "sha256": "56bc85dd1950c8d061fcacfdcd3def68d5d97f1a84bbab122b8acb7d2e40614a",
+            "pageCount": 17
+          }
+        }
+      },
+      "limits": {
+        "memoryMb": 131,
+        "timeMs": 2000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Triangle: The Data Structure\n\n## 题目背景\n\n在 Shuchong 的平行宇宙里，计算机学中的最重要的数据结构就是三角形。   \n注：因为原数据包太大，故这题缩减了一些数据，具体缩减的数据点如下：\n\n- Subtask 1：1 ~ 10\n- Subtask 2：1 ~ 10\n\n所以此题拥有的测试点为：\n\n- Subtask 1：11 ~ 26\n- Subtask 2：11 ~ 24\n\n若想测试本题没有的测试点请到 [此处](https://www.luogu.com.cn/problem/U120704) 测试。\n\n## 题目描述\n\n大小为 $m$ 的一个三角形由 $m$ 行组成，第 $i$ 行包含 $i$ 个整数。   \n并且，这些行必须排为等边三角形的形状。  \n比如说，以下是一个 $m=4$ 的三角形。   \n![](https://cdn.luogu.com.cn/upload/image_hosting/fdut4hrs.png)    \n每个三角形还包含子三角形。   \n比如说上面这个三角形，包含：\n- $10$ 个大小为 $1$ 的三角形。\n- $6$ 个大小为 $2$ 的三角形。\n- $3$ 个大小为 $3$ 的三角形。\n\n注意，每个三角形都是自身的子三角形。   \n现在给定一个大小为 $n$ 的三角形，求对于每个大小为 $k$ 的子三角形，子三角形内几个数的最大值的和。\n\n## 输入格式\n\n第一行两个整数 $n,k$ 代表三角形的大小和要求的子三角形的大小。   \n接下来 $n$ 行第 $i$ 行有 $i$ 个整数代表这个三角形。\n\n## 输出格式\n\n一行一个整数代表对于每个大小为 $k$ 的子三角形，子三角形内几个数的最大值的和。\n\n## 提示\n\n#### 数据规模与约定\n\n- Subtask 1（25 pts）：$n \\le 1000$。\n- Subtask 2（75 pts）：无特殊限制。\n\n对于 $100\\%$ 的数据，$1 \\le k \\le n \\le 3000$，$0 \\le $ 三角形内每个数 $\\le 10^9$。\n\n#### 说明\n\n**翻译自 [CCC 2019](https://cemc.math.uwaterloo.ca/contests/computing/2019/index.html) Senior T5 [Triangle: The Data Structure](https://cemc.math.uwaterloo.ca/contests/computing/2019/stage%201/seniorEF.pdf)。**   \n翻译者：@[一只书虫仔](https://www.luogu.com.cn/user/114914)。",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://cemc.math.uwaterloo.ca/contests/computing/2019/stage%201/seniorEF.pdf": {
+          "sourceUrl": "https://cemc.uwaterloo.ca/sites/default/files/documents/2019/seniorEF.pdf",
+          "sha256": "56bc85dd1950c8d061fcacfdcd3def68d5d97f1a84bbab122b8acb7d2e40614a",
+          "bytes": 743751,
+          "mime": "application/pdf",
+          "pageCount": 17,
+          "previousSourceUrl": "https://cemc.math.uwaterloo.ca/contests/computing/2019/stage%201/seniorEF.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        },
+        "https://cemc.uwaterloo.ca/sites/default/files/documents/2019/seniorEF.pdf": {
+          "sourceUrl": "https://cemc.uwaterloo.ca/sites/default/files/documents/2019/seniorEF.pdf",
+          "sha256": "56bc85dd1950c8d061fcacfdcd3def68d5d97f1a84bbab122b8acb7d2e40614a",
+          "bytes": 743751,
+          "mime": "application/pdf",
+          "pageCount": 17,
+          "previousSourceUrl": "https://cemc.math.uwaterloo.ca/contests/computing/2019/stage%201/seniorEF.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        },
+        "https://cdn.luogu.com.cn/upload/image_hosting/fdut4hrs.png": {
+          "bytes": 15941,
+          "frameCount": 1,
+          "height": 203,
+          "mime": "image/png",
+          "sha256": "28693e40f9633c2d8683252842f01739365ab0bec5a7a8fd612ff1ed9096e949",
+          "sourceUrl": "https://cdn.luogu.com.cn/upload/image_hosting/fdut4hrs.png",
+          "width": 290
+        }
+      },
+      "samples": [
+        {
+          "name": "样例 1",
+          "input": "4 2\n3\n1 2\n4 2 1\n6 1 4 2",
+          "output": "23"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 10,
+      "title": "Triangle: The Data Structure",
+      "url": "https://www.luogu.com.cn/problem/P6648",
+      "statementSource": "洛谷公开正文与已核对的原赛资源",
+      "sourceLimits": {
+        "time": [
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000
+        ],
+        "memory": [
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072
+        ]
+      }
+    }
+  },
+  {
+    "problem_id": "luogu-training-P6754",
+    "content": {
+      "attachments": {
+        "https://boi.cses.fi/files/boi2013_day1.pdf": {
+          "sourceUrl": "https://qoj.ac/download.php?id=15582&type=statement",
+          "sha256": "a32b141ac9f3d4722745a1994cb83c406d951d0d8f8a3b066abee8ac15b84fba",
+          "bytes": 86619,
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "data": "tb-asset:a32b141ac9f3d4722745a1994cb83c406d951d0d8f8a3b066abee8ac15b84fba",
+          "fileName": "boi2013_day1.pdf"
+        },
+        "https://qoj.ac/download.php?id=15582&type=statement": {
+          "sourceUrl": "https://qoj.ac/download.php?id=15582&type=statement",
+          "sha256": "a32b141ac9f3d4722745a1994cb83c406d951d0d8f8a3b066abee8ac15b84fba",
+          "bytes": 86619,
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "data": "tb-asset:a32b141ac9f3d4722745a1994cb83c406d951d0d8f8a3b066abee8ac15b84fba",
+          "fileName": "boi2013_day1.pdf"
+        }
+      },
+      "id": "luogu-training-P6754",
+      "images": {},
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "checkedAt": "2026-11-08T20:10:40.930025+00:00",
+        "markdownSha256": "3a374c9a6196115a08d87792da995076adc70d0820757b0eef999ec86f80c4f9",
+        "sourceDocuments": [
+          {
+            "url": "https://www.luogu.com.cn/problem/P6754",
+            "sha256": "aa8e816c27d4fc064075d6126c08230e7628fee815fefbc7aed28935e73990c0",
+            "status": 200
+          },
+          {
+            "url": "https://qoj.ac/download.php?id=15582&type=statement",
+            "sha256": "a32b141ac9f3d4722745a1994cb83c406d951d0d8f8a3b066abee8ac15b84fba",
+            "status": 200
+          },
+          {
+            "url": "https://qoj.ac/problem/15582",
+            "sha256": "0bc073e78eeac6a92ec911d4ff5d680862fd0e0ca07699f953ada8da1a3d01df",
+            "status": 200
+          }
+        ],
+        "sampleCount": 2,
+        "pdfPageCountVerified": false,
+        "corpusAuditVerifiedSha256": "3a374c9a6196115a08d87792da995076adc70d0820757b0eef999ec86f80c4f9",
+        "recoveryBinding": {
+          "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+          "nativeProblemId": "P6754",
+          "originalStatementTitle": "Palindrome-Free Numbers",
+          "reviewedSourcePages": [
+            1
+          ],
+          "recoveredResource": {
+            "originalDestination": "https://boi.cses.fi/files/boi2013_day1.pdf",
+            "verifiedSource": "https://qoj.ac/download.php?id=15582&type=statement",
+            "sha256": "a32b141ac9f3d4722745a1994cb83c406d951d0d8f8a3b066abee8ac15b84fba",
+            "pageCount": 1
+          }
+        }
+      },
+      "limits": {
+        "memoryMb": 131,
+        "timeMs": 100
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Palindrome-Free Numbers (Day1)\n\n## 题目描述\n\n我们定义回文串为正着读反着读都一样的数字串，如果一个数字串的一个长度大于 $1$ 的子串也为回文串的话，那么我们也定义这个数字串为回文串。\n\n顾名思义，不是回文串的数字串为非回文串。\n\n给定 $a,b$，求区间 $[a,b]$ 中有多少个数字串为非回文串。\n\n## 输入格式\n\n一行两个整数 $a,b$ 代表这个区间。\n\n## 输出格式\n\n一行一个整数代表答案。\n\n## 提示\n\n#### 数据规模与约定\n\n对于 $100\\%$ 的数据，$0 \\le a \\le b \\le 10^{18}$。    \n对于其中的 $25\\%$ 的数据，$b-a \\le 10^5$。\n\n#### 说明\n\n翻译自 [BalticOI 2013 Day1 B Palindrome-Free Numbers](https://boi.cses.fi/files/boi2013_day1.pdf)。",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://boi.cses.fi/files/boi2013_day1.pdf": {
+          "sourceUrl": "https://qoj.ac/download.php?id=15582&type=statement",
+          "sha256": "a32b141ac9f3d4722745a1994cb83c406d951d0d8f8a3b066abee8ac15b84fba",
+          "bytes": 86619,
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "previousSourceUrl": "https://boi.cses.fi/files/boi2013_day1.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        },
+        "https://qoj.ac/download.php?id=15582&type=statement": {
+          "sourceUrl": "https://qoj.ac/download.php?id=15582&type=statement",
+          "sha256": "a32b141ac9f3d4722745a1994cb83c406d951d0d8f8a3b066abee8ac15b84fba",
+          "bytes": 86619,
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "previousSourceUrl": "https://boi.cses.fi/files/boi2013_day1.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        }
+      },
+      "samples": [
+        {
+          "name": "样例 1",
+          "input": "123 321",
+          "output": "153"
+        },
+        {
+          "name": "样例 2",
+          "input": "123456789 987654321",
+          "output": "167386971"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 10,
+      "title": "Palindrome-Free Numbers (Day1)",
+      "url": "https://www.luogu.com.cn/problem/P6754",
+      "statementSource": "洛谷公开正文与已核对的原赛资源",
+      "sourceLimits": {
+        "time": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "memory": [
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072
+        ]
+      }
+    }
+  },
+  {
+    "problem_id": "luogu-training-P6843",
+    "content": {
+      "attachments": {
+        "https://boi.cses.fi/files/boi2015_day2.pdf": {
+          "sourceUrl": "https://qoj.ac/download.php?id=13036&type=statement",
+          "sha256": "f58616cbb70e75245fc800bc23eec8ff3e2002dcc9c036969be9003b4d3eda66",
+          "bytes": 860881,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:f58616cbb70e75245fc800bc23eec8ff3e2002dcc9c036969be9003b4d3eda66",
+          "fileName": "boi2015_day2.pdf"
+        },
+        "https://qoj.ac/download.php?id=13036&type=statement": {
+          "sourceUrl": "https://qoj.ac/download.php?id=13036&type=statement",
+          "sha256": "f58616cbb70e75245fc800bc23eec8ff3e2002dcc9c036969be9003b4d3eda66",
+          "bytes": 860881,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:f58616cbb70e75245fc800bc23eec8ff3e2002dcc9c036969be9003b4d3eda66",
+          "fileName": "boi2015_day2.pdf"
+        }
+      },
+      "id": "luogu-training-P6843",
+      "images": {},
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "checkedAt": "2026-11-08T20:10:40.938915+00:00",
+        "markdownSha256": "e3aac8ab4859daa02c4b632c1db5ec1e513c37020a526c2a99ff04e1399d6436",
+        "sourceDocuments": [
+          {
+            "url": "https://www.luogu.com.cn/problem/P6843",
+            "sha256": "8f0ef12d996c6cf2f78bd05b597ca3efeff0170a69804b7d64c08a66091141cf",
+            "status": 200
+          },
+          {
+            "url": "https://qoj.ac/download.php?id=13036&type=statement",
+            "sha256": "f58616cbb70e75245fc800bc23eec8ff3e2002dcc9c036969be9003b4d3eda66",
+            "status": 200
+          },
+          {
+            "url": "https://qoj.ac/problem/13036",
+            "sha256": "bc25a18a2e6de9d563ea89978930d4c4a445d7ff0779f2478148998f7a046697",
+            "status": 200
+          }
+        ],
+        "sampleCount": 1,
+        "pdfPageCountVerified": false,
+        "corpusAuditVerifiedSha256": "e3aac8ab4859daa02c4b632c1db5ec1e513c37020a526c2a99ff04e1399d6436",
+        "recoveryBinding": {
+          "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+          "nativeProblemId": "P6843",
+          "originalStatementTitle": "File Paths",
+          "reviewedSourcePages": [
+            1,
+            2
+          ],
+          "recoveredResource": {
+            "originalDestination": "https://boi.cses.fi/files/boi2015_day2.pdf",
+            "verifiedSource": "https://qoj.ac/download.php?id=13036&type=statement",
+            "sha256": "f58616cbb70e75245fc800bc23eec8ff3e2002dcc9c036969be9003b4d3eda66",
+            "pageCount": 2
+          }
+        }
+      },
+      "limits": {
+        "memoryMb": 262,
+        "timeMs": 1000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# File Paths\n\n## 题目描述\n\n一个文件 $\\tt file$ 都需要在一个包含很多文件 $\\tt dir1,dir2,\\cdots,dirj$ 的目录中，这个文件的绝对路径为 $\\tt/dir1/dir2/\\cdots/dirj/file$，根目录用 $\\tt /$ 表示，每一个放在根目录下的文件的绝对路径的形式为 $\\tt /file$。\n\n符号链接指向一个已被命名的目录，可以看作一个快捷方式，他可以放置在任意目录下，注意，符号链接不能指向文件。比如，我们在 $\\tt /$ 下放一个指向 $\\tt /$ 的符号链接 $\\tt hello$，那么，$\\tt /dir/file$，$\\tt /hello/dir/file$，$\\tt /hello/hello/dir/dile$ 都指向同一个文件 $\\tt file$。另比如，我们在 $\\tt /dir$ 下放一个指向 $\\tt /$ 的符号链接 $\\tt hi$，那么，$\\tt /dir/file$，$\\tt /dir/hi/dir/file$，$\\tt /dir/hi/dir/hi/dir/file$ 都指向同一个文件 $\\tt file$。符号链接指向上一层，下一层，甚至同层都可以，但是不允许 $\\tt ./$，$\\tt ../$，$\\tt //$ 之类的操作。\n\n现在想问，是否能通过引入一个长为 $s$ 的符号链接使得找到一个文件的绝对路径长度恰好为 $k$？\n\n## 输入格式\n\n第一行三个整数 $n,m,k$ 代表除根目录之外的目录数，文件数和要求等于的路径长度。        \n第二行一个整数 $s$ 代表符号链接长。       \n接下来 $n$ 行每行两个整数 $p_i,l_i$ 描述一个目录，这个目录的目录名长度为 $l_i$，父目录编号为 $p_i$。        \n接下来 $m$ 行每行两个整数 $p_j,l_j$，描述一个文件，这个文件的长度为 $l_j$，父目录编号为 $p_j$。\n\n## 输出格式\n\n$m$ 行每行一个字符串代表是否能通过引入一个长为 $s$ 的符号链接使得找到编号为 $j$ 的文件的绝对路径长度恰好为 $k$，如果是的话输出 $\\tt YES$，否则输出 $\\tt NO$。\n\n## 提示\n\n#### 样例 1 解释\n\n假设符号链接名字为 $\\tt LL$，目录名字为 $\\tt a$，$\\tt bbbbb$，文件名字为 $\\tt ccccccccccccc$，$\\tt dddddddddd$，$\\tt eee$，$\\tt fffffff$，根目录下包含目录 $\\tt a$ 和文件 $\\tt fffffff$，目录 $\\tt a$ 下包含目录 $\\tt bbbbb$ 和文件 $\\tt eee$，目录 $\\tt bbbbb$ 包含文件 $\\tt ccccccccccccc$ 和 $\\tt dddddddddd$。下面是形象化的表述：\n\n```plain\n/\n|-- a\n| |-- bbbbb\n| | |-- ccccccccccccc\n| | +-- dddddddddd\n| +-- eeee\n+-- fffffff\n```\n\n- 对于第 $1$ 个文件，满足条件的路径为 $\\tt /a/bbbbb/ccccccccccccc$。\n- 对于第 $2$ 个文件，满足条件的路径为 $\\tt /a/LL/bbbbb/dddddddddd$。\n- 对于第 $3$ 个文件，满足条件的路径为 $\\tt /a/LL/a/LL/a/LL/a/eeee$。\n- 对于第 $4$ 个文件，无满足条件的路径。\n\n#### 数据规模与约定\n\n**本题采用捆绑测试。**\n\n- Subtask 1（33 pts）：$n,m \\le 500$。\n- Subtask 2（33 pts）：$n,m \\le 3 \\times 10^3$，符号链接最多被调用一次。\n- Subtask 3（34 pts）：无特殊限制。\n\n对于 $100\\%$ 的数据，$1 \\le k,s \\le 10^6$，$1\\le m,n\\le 3\\times 10^3$。\n\n#### 说明\n\n翻译自 [BalticOI 2015 Day2 A File Paths](https://boi.cses.fi/files/boi2015_day2.pdf)。\n\n在 2026 年 6 月 16 日修改了翻译者的一处笔误。",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://boi.cses.fi/files/boi2015_day2.pdf": {
+          "sourceUrl": "https://qoj.ac/download.php?id=13036&type=statement",
+          "sha256": "f58616cbb70e75245fc800bc23eec8ff3e2002dcc9c036969be9003b4d3eda66",
+          "bytes": 860881,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "previousSourceUrl": "https://boi.cses.fi/files/boi2015_day2.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        },
+        "https://qoj.ac/download.php?id=13036&type=statement": {
+          "sourceUrl": "https://qoj.ac/download.php?id=13036&type=statement",
+          "sha256": "f58616cbb70e75245fc800bc23eec8ff3e2002dcc9c036969be9003b4d3eda66",
+          "bytes": 860881,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "previousSourceUrl": "https://boi.cses.fi/files/boi2015_day2.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        }
+      },
+      "samples": [
+        {
+          "name": "样例 1",
+          "input": "2 4 22\n2\n0 1\n1 5\n2 13\n2 10\n1 4\n0 7",
+          "output": "YES\nYES\nYES\nNO"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 10,
+      "title": "File Paths",
+      "url": "https://www.luogu.com.cn/problem/P6843",
+      "statementSource": "洛谷公开正文与已核对的原赛资源",
+      "sourceLimits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144
+        ]
+      }
+    }
+  },
+  {
+    "problem_id": "luogu-training-P7167",
+    "content": {
+      "attachments": {
+        "https://ejoi2020.ge/static/assets/Day1/Problems/Fountain.pdf": {
+          "sourceUrl": "https://qoj.ac/download.php?id=6981&type=statement",
+          "sha256": "d1f2c0c22eef808a33a7ee6494d6e1d700c5ecedfd2bdd18f5ce0b338c34cc39",
+          "bytes": 182791,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:d1f2c0c22eef808a33a7ee6494d6e1d700c5ecedfd2bdd18f5ce0b338c34cc39",
+          "fileName": "Fountain.pdf"
+        },
+        "https://qoj.ac/download.php?id=6981&type=statement": {
+          "sourceUrl": "https://qoj.ac/download.php?id=6981&type=statement",
+          "sha256": "d1f2c0c22eef808a33a7ee6494d6e1d700c5ecedfd2bdd18f5ce0b338c34cc39",
+          "bytes": 182791,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:d1f2c0c22eef808a33a7ee6494d6e1d700c5ecedfd2bdd18f5ce0b338c34cc39",
+          "fileName": "Fountain.pdf"
+        }
+      },
+      "id": "luogu-training-P7167",
+      "images": {
+        "https://cdn.luogu.com.cn/upload/image_hosting/64e7acuq.png": "tb-asset:a6ef7ca9e5669acaa7d2a9cb13853a100e30c66a1c30d88306c32671a14cfcca"
+      },
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "checkedAt": "2026-11-08T20:10:40.941863+00:00",
+        "markdownSha256": "2d334280c6e778dac8ffc6d4e564eafdd2013146eb21b7810a80712a73e2d3e5",
+        "sourceDocuments": [
+          {
+            "url": "https://www.luogu.com.cn/problem/P7167",
+            "sha256": "df3d0ac9b411ba75410b808a72371de0bb9b62560066eb055b9ac09eff594b6b",
+            "status": 200
+          },
+          {
+            "url": "https://qoj.ac/download.php?id=6981&type=statement",
+            "sha256": "d1f2c0c22eef808a33a7ee6494d6e1d700c5ecedfd2bdd18f5ce0b338c34cc39",
+            "status": 200
+          },
+          {
+            "url": "https://qoj.ac/problem/6981",
+            "sha256": "5a323a5744dcd2ecb203344500a4a5b490a079111d2ca038aa62bc8f4c7abe17",
+            "status": 200
+          }
+        ],
+        "sampleCount": 1,
+        "pdfPageCountVerified": false,
+        "corpusAuditVerifiedSha256": "2d334280c6e778dac8ffc6d4e564eafdd2013146eb21b7810a80712a73e2d3e5",
+        "recoveryBinding": {
+          "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+          "nativeProblemId": "P7167",
+          "originalStatementTitle": "Fountain",
+          "reviewedSourcePages": [
+            1,
+            2
+          ],
+          "recoveredResource": {
+            "originalDestination": "https://ejoi2020.ge/static/assets/Day1/Problems/Fountain.pdf",
+            "verifiedSource": "https://qoj.ac/download.php?id=6981&type=statement",
+            "sha256": "d1f2c0c22eef808a33a7ee6494d6e1d700c5ecedfd2bdd18f5ce0b338c34cc39",
+            "pageCount": 2
+          }
+        }
+      },
+      "limits": {
+        "memoryMb": 524,
+        "timeMs": 1500
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Fountain (Day1)\n\n## 题目描述\n\n大家都知道喷泉吧？现在有一个喷泉由 $N$ 个圆盘组成，从上到下以此编号为 $1 \\sim N$，第 $i$ 个圆盘的直径为 $D_i$，容量为 $C_i$，当一个圆盘里的水大于了这个圆盘的容量，那么水就会溢出往下流，直到流入下方最近的、直径严格大于当前圆盘的圆盘里。如果下面没有满足要求的圆盘，水就会流到喷泉下的水池里。\n\n现在给定 $Q$ 组询问，每一组询问这么描述：\n\n- 向第 $R_i$ 个圆盘里倒入 $V_i$ 的水，求水最后会流到哪一个圆盘停止。\n\n如果最终流入了水池里，那么输出 $0$。\n\n**注意，每个询问互不影响。**\n\n## 输入格式\n\n第一行两个整数 $N,Q$ 代表圆盘数和询问数。      \n接下来 $N$ 行每行两个整数 $D_i,C_i$ 代表一个圆盘。       \n接下来 $Q$ 行每行两个整数 $R_i,V_i$ 代表一个询问。\n\n## 输出格式\n\n$Q$ 行每行一个整数代表询问的答案。\n\n## 提示\n\n#### 样例 1 解释\n\n前两个询问的解释如下图所示：\n\n![](https://cdn.luogu.com.cn/upload/image_hosting/64e7acuq.png)\n\n因为每个询问互不影响，对于第三个询问，第 $5$ 个圆盘里的水不会溢出。\n\n#### 数据规模与约定\n\n**本题采用捆绑测试。**\n\n- Subtask 1（30 pts）：$N \\le 1000$，$Q \\le 2000$。\n- Subtask 2（30 pts）：$D_i$ 为严格单调递增序列。\n- Subtask 3（40 pts）：无特殊限制。\n\n对于 $100\\%$ 的数据：\n\n- $2 \\le N \\le 10^5$。\n- $1 \\le Q \\le 2 \\times 10^5$。\n- $1 \\le C_i \\le 1000$。\n- $1 \\le D_i,V_i \\le 10^9$。\n- $ 1\\le R_i \\le N$。\n\n#### 说明\n\n翻译自 [eJOI 2020 Day1 A Fountain](https://ejoi2020.ge/static/assets/Day1/Problems/Fountain.pdf)。",
+      "officialTags": [
+        "2020",
+        "倍增",
+        "eJOI（欧洲）",
+        "ST 表",
+        "单调栈"
+      ],
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://ejoi2020.ge/static/assets/Day1/Problems/Fountain.pdf": {
+          "sourceUrl": "https://qoj.ac/download.php?id=6981&type=statement",
+          "sha256": "d1f2c0c22eef808a33a7ee6494d6e1d700c5ecedfd2bdd18f5ce0b338c34cc39",
+          "bytes": 182791,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "previousSourceUrl": "https://ejoi2020.ge/static/assets/Day1/Problems/Fountain.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        },
+        "https://qoj.ac/download.php?id=6981&type=statement": {
+          "sourceUrl": "https://qoj.ac/download.php?id=6981&type=statement",
+          "sha256": "d1f2c0c22eef808a33a7ee6494d6e1d700c5ecedfd2bdd18f5ce0b338c34cc39",
+          "bytes": 182791,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "previousSourceUrl": "https://ejoi2020.ge/static/assets/Day1/Problems/Fountain.pdf",
+          "recovery": "verified-original-from-current-official-or-judge-archive"
+        },
+        "https://cdn.luogu.com.cn/upload/image_hosting/64e7acuq.png": {
+          "bytes": 29031,
+          "frameCount": 1,
+          "height": 470,
+          "mime": "image/png",
+          "sha256": "a6ef7ca9e5669acaa7d2a9cb13853a100e30c66a1c30d88306c32671a14cfcca",
+          "sourceUrl": "https://cdn.luogu.com.cn/upload/image_hosting/64e7acuq.png",
+          "width": 817
+        }
+      },
+      "samples": [
+        {
+          "name": "样例 1",
+          "input": "6 5\n4 10\n6 8\n3 5\n4 14\n10 9\n4 20\n1 25\n6 30\n5 8\n3 13\n2 8",
+          "output": "5\n0\n5\n4\n2"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 10,
+      "title": "Fountain (Day1)",
+      "url": "https://www.luogu.com.cn/problem/P7167",
+      "statementSource": "洛谷公开正文与已核对的原赛资源",
+      "sourceLimits": {
+        "time": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      }
+    }
+  },
+  {
+    "problem_id": "luogu-training-SP22393",
+    "content": {
+      "id": "luogu-training-SP22393",
+      "title": "KATHTHI - KATHTHI",
+      "url": "https://www.luogu.com.cn/problem/SP22393",
+      "markdown": "# KATHTHI - KATHTHI\n\n## Problem Description\n\nKathiresan is initially locked in cell $(0,0)$ of a highly guarded rectangular prison with $R$ rows and $C$ columns. He must reach the gate at $(R-1,C-1)$ to escape. He can move north, east, west or south to an adjacent cell. A move from $(x_1,y_1)$ to $(x_2,y_2)$ is allowed exactly when $|x_2-x_1|+|y_2-y_1|=1$, $0\\le x_2<R$ and $0\\le y_2<C$.\n\nKathiresan manages to obtain the map of the prison. If `map[x1][y1] == map[x2][y2]`, he can make the move without killing any guards. If `map[x1][y1] != map[x2][y2]`, he must kill one guard to make the move.\n\nGiven the map, find the minimum number of guards he must kill to escape.\n\n## Input Format\n\nThe first line contains $t$, the number of test cases. For each test case, the first line contains $R$ and $C$, followed by $R$ strings describing the prison map.\n\n## Output Format\n\nFor each test case, output the minimum number of guards Kathiresan must kill to escape.\n\n## Constraints\n\n- $1\\le t\\le10$.\n- $2\\le R\\le1000$.\n- $2\\le C\\le1000$.\n- Each map character is between `a` and `z`.\n\n\n## Sample\n\n### Input\n\n```text\n4\n2 2\naa\naa\n2 3\nabc\ndef\n6 6\nakaccc\naaacfc\namdfcc\naokhdd\nzyxwdp\nzyxwdd\n5 5\nabbbc\nabacc\naaacc\naefci\ncdgdd\n```\n\n### Output\n\n```text\n0\n3\n2\n2\n```\n",
+      "samples": [
+        {
+          "name": "样例 1",
+          "input": "4\n2 2\naa\naa\n2 3\nabc\ndef\n6 6\nakaccc\naaacfc\namdfcc\naokhdd\nzyxwdp\nzyxwdd\n5 5\nabbbc\nabacc\naaacc\naefci\ncdgdd\n",
+          "output": "0\n3\n2\n2"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 10,
+      "statementSource": "洛谷公开正文与已核对的原赛资源",
+      "resourceIssues": [],
+      "images": {},
+      "attachments": {},
+      "resourceManifest": {},
+      "sourceLimits": {
+        "time": [
+          1000
+        ],
+        "memory": [
+          1536000
+        ]
+      },
+      "limits": {
+        "timeMs": 1000,
+        "memoryMb": 1536
+      },
+      "sourceTextArchive": [
+        {
+          "kind": "native-raw-markdown-before-layout-repair",
+          "text": "# KATHTHI - KATHTHI\n\n## 题目描述\n\n```\n         Kathiresan is initially locked at cell (0,0) in a highly guarded rectangular prison of order RxC. He must reach the gate at (R-1,C-1) in order to escape from the prison. Kathiresan can move from any cell, to any of it's 4 adjacent cells (North, East, West and South). If Kathiresan is currently at (x1,y1), then he can move to (x2,y2) if and only if abs(x2-x1)+abs(y2-y1) == 1 and 0<=x2<R and 0<=y2<CKathiresan somehow manages to get the map of the prison.\nIf map[x1][y1] == map[x2][y2] then Kathiresan can move from (x1,y1) to (x2,y2) without killing any guards.\nIf map[x1][y1] != map[x2][y2], then Kathiresan can move from (x1,y1) to (x2,y2) by killing a guard.\n\nGiven the map of the prison, find the minimum number of guards Kathiresan must kill in order to escape from the prison.\n \nInput:\nThe first line consists of an integer t, the number of test cases. For each test case, the first line consists of two integers R and C representing the order of the rectangular prison followed by R strings representing the map of the rectangular prison.\n \nOutput:\nFor each test case find the minimum number of guards Kathiresan must kill in order to escape from the prison.\n \nInput Constraints:\n1 <= t <= 10\n2 <= R <= 1000\n2 <= C <= 1000\n'a' <= map[i][j] <= 'z'\nSample Input:\n4\n2 2\naa\naa\n2 3\nabc\ndef6 6akacccaaacfcamdfccaokhddzyxwdpzyxwdd5 5abbbcabaccaaaccaefcicdgdd Sample Output:\n0\n322\n```",
+          "sha256": "7124d3a7b836823b7c3f294a2f11d1d5ed6739d5a8bf557b1785ec3434514818"
+        }
+      ],
+      "translation": {
+        "kind": "bundled",
+        "format": "complete-prose-v4",
+        "provider": "核对洛谷原始正文的预置中文译文",
+        "sourceHash": "743481b6e22330abc6e07031e5b4e1b427f78b2783d979469ae13347f4ee016d",
+        "sourceLanguage": "en",
+        "targetLanguage": "zh-CN",
+        "inputKind": "markdown",
+        "markdown": "# KATHTHI - KATHTHI\n\n## 题目描述\n\nKathiresan 被关在一座戒备森严、共有 $R$ 行和 $C$ 列的矩形监狱中，初始位于格子 $(0,0)$。他必须到达位于 $(R-1,C-1)$ 的大门才能逃脱。他可以向北、东、西或南移动到相邻格子。从 $(x_1,y_1)$ 移动到 $(x_2,y_2)$ 合法，当且仅当 $|x_2-x_1|+|y_2-y_1|=1$、$0\\le x_2<R$ 且 $0\\le y_2<C$。\n\nKathiresan 设法得到了监狱地图。如果 `map[x1][y1] == map[x2][y2]`，他无需杀死守卫就能移动过去；如果 `map[x1][y1] != map[x2][y2]`，则必须杀死一名守卫才能移动过去。\n\n给定地图，请求出他逃离监狱最少需要杀死的守卫数量。\n\n## 输入格式\n\n第一行包含测试用例数 $t$。对于每个测试用例，第一行包含 $R$ 和 $C$，随后 $R$ 个字符串描述监狱地图。\n\n## 输出格式\n\n对于每个测试用例，输出 Kathiresan 逃脱所需杀死的最少守卫数量。\n\n## 数据范围\n\n- $1\\le t\\le10$。\n- $2\\le R\\le1000$。\n- $2\\le C\\le1000$。\n- 地图中的每个字符都在 `a` 到 `z` 之间。\n\n\n## 样例\n\n### 输入\n\n```text\n4\n2 2\naa\naa\n2 3\nabc\ndef\n6 6\nakaccc\naaacfc\namdfcc\naokhdd\nzyxwdp\nzyxwdd\n5 5\nabbbc\nabacc\naaacc\naefci\ncdgdd\n```\n\n### 输出\n\n```text\n0\n3\n2\n2\n```\n"
+      },
+      "problemType": "standard",
+      "localJudgeSupported": true,
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "checkedAt": "2026-11-08T20:10:40.948561+00:00",
+        "markdownSha256": "743481b6e22330abc6e07031e5b4e1b427f78b2783d979469ae13347f4ee016d",
+        "sourceDocuments": [
+          {
+            "url": "https://www.luogu.com.cn/problem/SP22393",
+            "sha256": "1fbaf8a22b989cdd5da231108b0a1019b921aa76aa4ddfe5e28614e96b69d574",
+            "status": 200
+          }
+        ],
+        "sampleCount": 1,
+        "pdfPageCountVerified": false,
+        "corpusAuditVerifiedSha256": "743481b6e22330abc6e07031e5b4e1b427f78b2783d979469ae13347f4ee016d",
+        "recoveryBinding": {
+          "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+          "nativeProblemId": "SP22393",
+          "normalization": "native-prose-reflow-and-separate-exact-sample-records"
+        }
+      }
+    }
+  },
+  {
+    "problem_id": "luogu-training-P3493",
+    "content": {
+      "attachments": {},
+      "id": "luogu-training-P3493",
+      "images": {
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.1.png": "tb-asset:f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.2.png": "tb-asset:b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.3.png": "tb-asset:3edb31b49102ab8575fb7620fd3e6cf613ae81af2c5afa32496e69fc0056cf37",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.4.png": "tb-asset:dafb45fa2204952f06eeafdbbb0c2a88a9234cc0254a36e16ab6d93d5725529a",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.5.png": "tb-asset:e0c6dcf247c6e7197953f4e8793e109cf91352a10f984ad54d4d091d2fe33459",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.6.png": "tb-asset:f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.7.png": "tb-asset:f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.8.png": "tb-asset:f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.9.png": "tb-asset:ba77a3ab9cbdbc0c0e6fe4e2b9bca6f4a8d7fbde3ce6f2ec92c51c31ab715dfa",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.10.png": "tb-asset:7e79431eb68ef779b6ee09a190dfce54ce6857712d639224607a50d7d24a1241",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.11.png": "tb-asset:f89eb17fc9e921a833b4b5f7edeb6091104f1278e9a6ac1c3d050002a0993bdd",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.12.png": "tb-asset:01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.13.png": "tb-asset:b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.14.png": "tb-asset:2c2f93fcdce1c3b415d4f0f61773fa5a9c8bc81c03f58adc76f1bbaadb363bcc",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.15.png": "tb-asset:f726cfa9a387225db381ca6d164bd7786dd98569a1d72640266af0bb80937e89",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.16.png": "tb-asset:5f1de1c43e61816050a8a92792f9c8fbc5afae283ae7e9d6b31bf5ed531ac0fa",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.17.png": "tb-asset:2c2f93fcdce1c3b415d4f0f61773fa5a9c8bc81c03f58adc76f1bbaadb363bcc",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.18.png": "tb-asset:f726cfa9a387225db381ca6d164bd7786dd98569a1d72640266af0bb80937e89",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.19.png": "tb-asset:f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.20.png": "tb-asset:358f0e9b6d4b858d355881ea73827d1071edc250d6291090ac1ffd03c1c407ad",
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp1.gif": "tb-asset:450a802abc982a6ab1132630abf82c5a93161cf80eaf7c07c77dad51c82376dc"
+      },
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "checkedAt": "2026-11-08T20:10:40.975968+00:00",
+        "markdownSha256": "4fecb1fe4b6a2198196125c73a1b659988d9382ec3b248e4d135b9be6ccb47aa",
+        "sourceDocuments": [
+          {
+            "url": "https://www.luogu.com.cn/problem/P3493",
+            "sha256": "7f8697bc0ae46effdae992403d5711025c23e4daf6f5a8963f17ed680b4bc9c2",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/?key=statement",
+            "sha256": "2e03fcc417df0c2989e97d325f3ba982b963d05e575b9a9ae1d4376ba00d9d24",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.1.png",
+            "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.2.png",
+            "sha256": "b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.3.png",
+            "sha256": "3edb31b49102ab8575fb7620fd3e6cf613ae81af2c5afa32496e69fc0056cf37",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.4.png",
+            "sha256": "dafb45fa2204952f06eeafdbbb0c2a88a9234cc0254a36e16ab6d93d5725529a",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.5.png",
+            "sha256": "e0c6dcf247c6e7197953f4e8793e109cf91352a10f984ad54d4d091d2fe33459",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.6.png",
+            "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.7.png",
+            "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.8.png",
+            "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.9.png",
+            "sha256": "ba77a3ab9cbdbc0c0e6fe4e2b9bca6f4a8d7fbde3ce6f2ec92c51c31ab715dfa",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.10.png",
+            "sha256": "7e79431eb68ef779b6ee09a190dfce54ce6857712d639224607a50d7d24a1241",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.11.png",
+            "sha256": "f89eb17fc9e921a833b4b5f7edeb6091104f1278e9a6ac1c3d050002a0993bdd",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.12.png",
+            "sha256": "01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.13.png",
+            "sha256": "b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.14.png",
+            "sha256": "2c2f93fcdce1c3b415d4f0f61773fa5a9c8bc81c03f58adc76f1bbaadb363bcc",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.15.png",
+            "sha256": "f726cfa9a387225db381ca6d164bd7786dd98569a1d72640266af0bb80937e89",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.16.png",
+            "sha256": "5f1de1c43e61816050a8a92792f9c8fbc5afae283ae7e9d6b31bf5ed531ac0fa",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.17.png",
+            "sha256": "2c2f93fcdce1c3b415d4f0f61773fa5a9c8bc81c03f58adc76f1bbaadb363bcc",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.18.png",
+            "sha256": "f726cfa9a387225db381ca6d164bd7786dd98569a1d72640266af0bb80937e89",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.19.png",
+            "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.20.png",
+            "sha256": "358f0e9b6d4b858d355881ea73827d1071edc250d6291090ac1ffd03c1c407ad",
+            "status": 200
+          },
+          {
+            "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp1.gif",
+            "sha256": "450a802abc982a6ab1132630abf82c5a93161cf80eaf7c07c77dad51c82376dc",
+            "status": 200
+          }
+        ],
+        "sampleCount": 1,
+        "pdfPageCountVerified": false,
+        "corpusAuditVerifiedSha256": "4fecb1fe4b6a2198196125c73a1b659988d9382ec3b248e4d135b9be6ccb47aa",
+        "recoveryBinding": {
+          "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+          "nativeProblemId": "P3493",
+          "canonicalSource": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/?key=statement",
+          "taskCode": "wsp",
+          "originalFormulaImages": 20,
+          "originalDiagram": "wsp1.gif"
+        }
+      },
+      "limits": {
+        "memoryMb": 128,
+        "timeMs": 1000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Island\n\n### Memory limit: 32 MB\n\nByteasar is the king of Byteotia, an island in The Ocean of Happiness. The island is a convex shape, and all the towns of Byteotia are located on the shore. One of these towns is Byteburg, the famous capital of Byteotia. Every pair of towns is connected by a road that goes along the line segment between the towns. Some roads that connect different pairs of towns intersect - there is a crossroad at each such intersection.\n\nBitratio, Byteasar's rival to the throne, had hatched a sordid plot. While Byteasar was travelling from the capital to an **adjacent** town, Bitratio's people seized Byteburg. Now Byteasar has to return to Byteburg as soon as possible in order to restore his rule. Unfortunately, some of the roads are controlled by Bitratio's guerrilla. Byteasar cannot risk the use of such roads, he can however cross them at the crossroads. Needless to say, he has to travel along the roads and hence turn only at the crossroads, for otherwise the journey would take far too long.\n\nByteasar's loyal servants have informed him which roads are safe. Byteasar believes your loyalty, and thus entrusts you with a task to find the shortest safe route from the town he is currently in to Byteburg.\n\n## Input\n\nIn the first line of the standard input two integers ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.1.png) and ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.2.png) are given (![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.3.png), ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.4.png)), separated by a single space, that denote respectively: the number of towns and the number of roads controlled by Bitratio's guerrilla. Let us number the towns from ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.5.png) to ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.6.png) starting from Byteburg and moving clockwise along the shore. Bytesar is currently in the town no. ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.7.png). Each of the following ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.8.png) lines holds a pair of integers ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.9.png) and ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.10.png) (![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.11.png)), separated by a single space, that denote the town's no ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.12.png) coordinates.\n\nEach of the following ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.13.png) lines contains a pair of integers ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.14.png) and ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.15.png) (![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.16.png)). Such pair means that the road connecting the towns ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.17.png) and ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.18.png) is controlled by Bitratio's guerrilla. Every such pair is unique. You can assume that in every test data set Byteasar can get to Byteburg.\n\n## Output\n\nYour programme is to print out one floating point number to the standard output: the length of the shortest safe route leading from the town no. ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.19.png) to Byteburg. The absolute difference between the number returned and the correct one has to be at most ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.20.png).\n\n## Example\n\nFor the input data:\n\n```text\n6 9\n-12 -10\n-11 6\n-4 12\n6 14\n16 6\n18 -2\n3 4\n1 5\n2 6\n2 3\n4 5\n3 5\n1 3\n3 6\n1 6\n```\n\nthe correct result is:\n\n```text\n42.0000000000\n```\n\n![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp1.gif)\n\nThe route that Byteasar should follow leaves town no. 6 in the direction of town no. 4, then turns to the road connecting towns no. 2 and 5, and finally goes along the road connecting Byteburg with the town no. 4.\n\n*Task author: Jakub Onufry Wojtaszczyk.*\n",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.1.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.1.png",
+          "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "bytes": 105,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 9,
+          "height": 7
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.2.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.2.png",
+          "sha256": "b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+          "bytes": 111,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 14,
+          "height": 7
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.3.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.3.png",
+          "sha256": "3edb31b49102ab8575fb7620fd3e6cf613ae81af2c5afa32496e69fc0056cf37",
+          "bytes": 266,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 113,
+          "height": 13
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.4.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.4.png",
+          "sha256": "dafb45fa2204952f06eeafdbbb0c2a88a9234cc0254a36e16ab6d93d5725529a",
+          "bytes": 274,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 129,
+          "height": 13
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.5.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.5.png",
+          "sha256": "e0c6dcf247c6e7197953f4e8793e109cf91352a10f984ad54d4d091d2fe33459",
+          "bytes": 102,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 6,
+          "height": 11
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.6.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.6.png",
+          "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "bytes": 105,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 9,
+          "height": 7
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.7.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.7.png",
+          "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "bytes": 105,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 9,
+          "height": 7
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.8.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.8.png",
+          "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "bytes": 105,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 9,
+          "height": 7
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.9.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.9.png",
+          "sha256": "ba77a3ab9cbdbc0c0e6fe4e2b9bca6f4a8d7fbde3ce6f2ec92c51c31ab715dfa",
+          "bytes": 120,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 11,
+          "height": 10
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.10.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.10.png",
+          "sha256": "7e79431eb68ef779b6ee09a190dfce54ce6857712d639224607a50d7d24a1241",
+          "bytes": 119,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 10,
+          "height": 10
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.11.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.11.png",
+          "sha256": "f89eb17fc9e921a833b4b5f7edeb6091104f1278e9a6ac1c3d050002a0993bdd",
+          "bytes": 364,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 216,
+          "height": 14
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.12.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.12.png",
+          "sha256": "01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71",
+          "bytes": 103,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 4,
+          "height": 11
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.13.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.13.png",
+          "sha256": "b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+          "bytes": 111,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 14,
+          "height": 7
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.14.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.14.png",
+          "sha256": "2c2f93fcdce1c3b415d4f0f61773fa5a9c8bc81c03f58adc76f1bbaadb363bcc",
+          "bytes": 129,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 12,
+          "height": 12
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.15.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.15.png",
+          "sha256": "f726cfa9a387225db381ca6d164bd7786dd98569a1d72640266af0bb80937e89",
+          "bytes": 144,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 11,
+          "height": 16
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.16.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.16.png",
+          "sha256": "5f1de1c43e61816050a8a92792f9c8fbc5afae283ae7e9d6b31bf5ed531ac0fa",
+          "bytes": 266,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 111,
+          "height": 16
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.17.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.17.png",
+          "sha256": "2c2f93fcdce1c3b415d4f0f61773fa5a9c8bc81c03f58adc76f1bbaadb363bcc",
+          "bytes": 129,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 12,
+          "height": 12
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.18.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.18.png",
+          "sha256": "f726cfa9a387225db381ca6d164bd7786dd98569a1d72640266af0bb80937e89",
+          "bytes": 144,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 11,
+          "height": 16
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.19.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.19.png",
+          "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "bytes": 105,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 9,
+          "height": 7
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.20.png": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.20.png",
+          "sha256": "358f0e9b6d4b858d355881ea73827d1071edc250d6291090ac1ffd03c1c407ad",
+          "bytes": 146,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 30,
+          "height": 14
+        },
+        "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp1.gif": {
+          "sourceUrl": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp1.gif",
+          "sha256": "450a802abc982a6ab1132630abf82c5a93161cf80eaf7c07c77dad51c82376dc",
+          "bytes": 3113,
+          "mime": "image/gif",
+          "frameCount": 1,
+          "width": 171,
+          "height": 138
+        }
+      },
+      "samples": [
+        {
+          "name": "样例 1",
+          "input": "6 9\n-12 -10\n-11 6\n-4 12\n6 14\n16 6\n18 -2\n3 4\n1 5\n2 6\n2 3\n4 5\n3 5\n1 3\n3 6\n1 6\n",
+          "output": "42.0000000000\n"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 10,
+      "title": "WSP-Island",
+      "url": "https://www.luogu.com.cn/problem/P3493",
+      "statementSource": "洛谷公开正文与已核对的原赛资源",
+      "sourceLimits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000
+        ]
+      },
+      "translation": {
+        "kind": "bundled",
+        "format": "complete-prose-v4",
+        "provider": "核对原赛全文与原始数学图片的预置中文译文",
+        "sourceHash": "4fecb1fe4b6a2198196125c73a1b659988d9382ec3b248e4d135b9be6ccb47aa",
+        "sourceLanguage": "en",
+        "targetLanguage": "zh-CN",
+        "inputKind": "markdown",
+        "markdown": "# 岛屿\n\n### 内存限制：32 MB\n\nByteasar 是 Byteotia 岛的国王。岛屿位于幸福之海，形状为凸形，所有城市都位于海岸上，其中一座是著名的首都 Byteburg。任意两座城市之间都有一条沿两城连线修建的直路。不同道路可能相交，每个交点处都有路口。\n\nByteasar 的王位竞争者 Bitratio 策划了一场阴谋。Byteasar 从首都前往相邻城市时，Bitratio 的人占领了 Byteburg。现在，Byteasar 必须尽快返回首都，恢复统治。\n\n不幸的是，部分道路受到 Bitratio 的游击队控制。Byteasar 不能冒险沿这些道路行走，但可以在路口横穿它们。他必须沿道路前进，只能在路口转弯，否则行程会花费过长时间。\n\n忠诚的仆人已告知哪些道路安全。Byteasar 相信你的忠诚，请你求出从他所在城市返回 Byteburg 的最短安全路线。\n\n## 输入格式\n\n标准输入第一行包含两个以单个空格分隔的整数 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.1.png) 和 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.2.png)（![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.3.png)，![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.4.png)），分别表示城市数量和受游击队控制的道路数量。\n\n从 Byteburg 开始沿海岸顺时针，将城市编号为 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.5.png) 到 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.6.png)。Byteasar 当前位于编号为 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.7.png) 的城市。\n\n接下来 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.8.png) 行，每行包含两个以单个空格分隔的整数 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.9.png) 和 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.10.png)（![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.11.png)），表示编号为 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.12.png) 的城市坐标。\n\n接下来 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.13.png) 行，每行包含两个以单个空格分隔的整数 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.14.png) 和 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.15.png)（![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.16.png)），表示连接城市 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.17.png) 和 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.18.png) 的道路受游击队控制。每一对城市只会给出一次。可以假设每组数据中 Byteasar 都能够到达 Byteburg。\n\n## 输出格式\n\n向标准输出打印一个浮点数，表示从编号为 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.19.png) 的城市前往 Byteburg 的最短安全路线长度。你的答案与正确答案的绝对误差至多为 ![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.20.png)。\n\n## 样例\n\n对于以下输入：\n\n```text\n6 9\n-12 -10\n-11 6\n-4 12\n6 14\n16 6\n18 -2\n3 4\n1 5\n2 6\n2 3\n4 5\n3 5\n1 3\n3 6\n1 6\n```\n\n正确输出为：\n\n```text\n42.0000000000\n```\n\n![](https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp1.gif)\n\nByteasar 应从城市 6 向城市 4 的方向出发，然后转到连接城市 2 和 5 的道路上，最后沿连接 Byteburg 与城市 4 的道路返回首都。\n\n*命题人：Jakub Onufry Wojtaszczyk。*\n\n"
+      }
+    }
+  }
+]

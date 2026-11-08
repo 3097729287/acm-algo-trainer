@@ -1,0 +1,2861 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "beforeSha256": "d3653344e397ba6524949924592625a7aec7d8dd0e86b08de8300735117fdb98",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-P3488",
+        "images": {
+          "http://main.edu.pl/images/OI16/lyz-en-tex.1.png": "tb-asset:e0c6dcf247c6e7197953f4e8793e109cf91352a10f984ad54d4d091d2fe33459",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.10.png": "tb-asset:b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.11.png": "tb-asset:5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.12.png": "tb-asset:97bb1c021285dbbc506f82de24393449c3aaa5c0eee33910d7b06c350c9569b1",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.13.png": "tb-asset:f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.14.png": "tb-asset:b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.15.png": "tb-asset:4cdbc438591a79294d6052cc6015ca8f40e0a0049335cb5757fac3cb50a1f360",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.16.png": "tb-asset:ecc2739f133862cf3101483beccab22aac7e3007f3cfc6324a03582880f9cbfc",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.17.png": "tb-asset:a086e6438f7b1172c057eb2583dd3b7246d0859239bcc478cf93fd7dc406e540",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.18.png": "tb-asset:d7e9d6ca2554d20d5767beae578525ebf4aa01ab7b4b568253847eaaff97dad0",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.19.png": "tb-asset:6cf6f8971c459e1dd75f247422840d923a3f7b496e0ef24cd2cde524c6c1059b",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.2.png": "tb-asset:f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.20.png": "tb-asset:890ba6eca9f219a8fdd7966141be6cad6df9990d9786071d4a82dacd68ab6c5d",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.21.png": "tb-asset:b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.22.png": "tb-asset:b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.23.png": "tb-asset:bbb04d8ebf86841f16f1e4cb69c93747c34d7b604080841adc30846386a983dd",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.3.png": "tb-asset:ecc2739f133862cf3101483beccab22aac7e3007f3cfc6324a03582880f9cbfc",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.35.png": "tb-asset:b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.36.png": "tb-asset:01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.37.png": "tb-asset:1f4620497808440c4abb2645bcf50dd6e6514b4ad9612c6297986996069fbcb1",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.38.png": "tb-asset:01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.4.png": "tb-asset:97bb1c021285dbbc506f82de24393449c3aaa5c0eee33910d7b06c350c9569b1",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.5.png": "tb-asset:97bb1c021285dbbc506f82de24393449c3aaa5c0eee33910d7b06c350c9569b1",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.6.png": "tb-asset:116d140bb4fe5192f2b54a718cff21c49b422f5767817740851a806fe297275f",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.7.png": "tb-asset:4cdbc438591a79294d6052cc6015ca8f40e0a0049335cb5757fac3cb50a1f360",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.8.png": "tb-asset:e0c6dcf247c6e7197953f4e8793e109cf91352a10f984ad54d4d091d2fe33459",
+          "http://main.edu.pl/images/OI16/lyz-en-tex.9.png": "tb-asset:f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T20:02:55.489692+00:00",
+          "corpusAuditVerifiedSha256": "ede0de0abbc84f4abe672bcc7607e22fcce536fcbf1920e92d126fc1c0d2486c",
+          "markdownSha256": "ede0de0abbc84f4abe672bcc7607e22fcce536fcbf1920e92d126fc1c0d2486c",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-problem-id-and-full-localized-statement",
+            "nativeChineseRawSha256": "7aa4be0d823f8fc3f452cec516d27268f62dfd8c9662cd474013f10ff8ddbfe9",
+            "nativeLocale": "zh-CN",
+            "nativeProblemId": "P3488",
+            "originalSourceMarkdownSha256": "ede0de0abbc84f4abe672bcc7607e22fcce536fcbf1920e92d126fc1c0d2486c"
+          },
+          "reviewedRecoveryRecordSha256": "5f74aa90306627c8fe672b8c1ce45177b7d28747f77e7a7b5b79fff72f4e2653",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "49ab18c68f8354a46d4615081cda7c725c884fd197a3fee7d7461e8f1a5d03c5",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P3488"
+            },
+            {
+              "sha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+              "status": 200,
+              "url": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 128,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# LYZ-Ice Skates\n\n## 题目描述\n\nByteasar runs a skate club. Its members meet on a regular basis and train    together, and they always use the club's ice-skates. The skate sizes are    (by convention) numbered from ![](http://main.edu.pl/images/OI16/lyz-en-tex.1.png) to ![](http://main.edu.pl/images/OI16/lyz-en-tex.2.png). Naturally, each club member has    some foot size, but that is not all to it! Skaters have skate size tolerance    factor ![](http://main.edu.pl/images/OI16/lyz-en-tex.3.png): a skater with foot size ![](http://main.edu.pl/images/OI16/lyz-en-tex.4.png) can wear skates with    sizes from ![](http://main.edu.pl/images/OI16/lyz-en-tex.5.png) up to ![](http://main.edu.pl/images/OI16/lyz-en-tex.6.png). It should be noted, though, that    no skater ever wears two skates of different size simultaneously.\n\nTo supply the club, Byteasar bought ![](http://main.edu.pl/images/OI16/lyz-en-tex.7.png) pairs of ice-skates of each size,    i.e. from ![](http://main.edu.pl/images/OI16/lyz-en-tex.8.png) to ![](http://main.edu.pl/images/OI16/lyz-en-tex.9.png). As time passes, some people join the club, just as    some established members leave it. Byteasar worries if he will have enough    skates of appropriate size for every member at each training.\n\nWe assume that initially the club has no members at all. Byteasar will give    you a sequence of ![](http://main.edu.pl/images/OI16/lyz-en-tex.10.png) events of the following form: ![](http://main.edu.pl/images/OI16/lyz-en-tex.11.png) (new) members with    foot size ![](http://main.edu.pl/images/OI16/lyz-en-tex.12.png) have joined/left the club. Right after each such event    Byteasar wants to know whether he has enough skates of appropriate size for    every club member. He asks you to write a programme that will check it for    him.\n\n## 输入格式\n\nThe first line of the standard input contains four integers ![](http://main.edu.pl/images/OI16/lyz-en-tex.13.png), ![](http://main.edu.pl/images/OI16/lyz-en-tex.14.png),      ![](http://main.edu.pl/images/OI16/lyz-en-tex.15.png) and ![](http://main.edu.pl/images/OI16/lyz-en-tex.16.png) (![](http://main.edu.pl/images/OI16/lyz-en-tex.17.png), ![](http://main.edu.pl/images/OI16/lyz-en-tex.18.png),      ![](http://main.edu.pl/images/OI16/lyz-en-tex.19.png), ![](http://main.edu.pl/images/OI16/lyz-en-tex.20.png)), separated by single spaces, that      denote, respectively: maximum skate size, number of events, number of      skate pairs of each size Byteasar initially bought, and the skate size      tolerance factor. The following ![](http://main.edu.pl/images/OI16/lyz-en-tex.21.png) lines contain the sequence of ![](http://main.edu.pl/images/OI16/lyz-en-tex.22.png)      events, one per line. The ![](http://main.edu.pl/images/OI16/lyz-en-tex.23.png)-th line (for ![](http://main.edu.pl…\n\n## 输出格式\n\nYour programme should print out ![](http://main.edu.pl/images/OI16/lyz-en-tex.35.png) lines to the standard output.\n\nThe ![](http://main.edu.pl/images/OI16/lyz-en-tex.36.png)-th line (for ![](http://main.edu.pl/images/OI16/lyz-en-tex.37.png)) should either contain the word      TAK (Polish for yes), or the word NIE (Polish for      no), depending on whether Byteasar has the skates of appropriate      size for every club member right after the ![](http://main.edu.pl/images/OI16/lyz-en-tex.38.png)-th event.",
+        "previousSourceStatement": {
+          "attachments": {},
+          "currentSourceMarkdown": "# LYZ-Ice Skates\n\n## 题目描述\n\nByteasar runs a skate club. Its members meet on a regular basis and train    together, and they always use the club's ice-skates. The skate sizes are    (by convention) numbered from ![](http://main.edu.pl/images/OI16/lyz-en-tex.1.png) to ![](http://main.edu.pl/images/OI16/lyz-en-tex.2.png). Naturally, each club member has    some foot size, but that is not all to it! Skaters have skate size tolerance    factor ![](http://main.edu.pl/images/OI16/lyz-en-tex.3.png): a skater with foot size ![](http://main.edu.pl/images/OI16/lyz-en-tex.4.png) can wear skates with    sizes from ![](http://main.edu.pl/images/OI16/lyz-en-tex.5.png) up to ![](http://main.edu.pl/images/OI16/lyz-en-tex.6.png). It should be noted, though, that    no skater ever wears two skates of different size simultaneously.\n\nTo supply the club, Byteasar bought ![](http://main.edu.pl/images/OI16/lyz-en-tex.7.png) pairs of ice-skates of each size,    i.e. from ![](http://main.edu.pl/images/OI16/lyz-en-tex.8.png) to ![](http://main.edu.pl/images/OI16/lyz-en-tex.9.png). As time passes, some people join the club, just as    some established members leave it. Byteasar worries if he will have enough    skates of appropriate size for every member at each training.\n\nWe assume that initially the club has no members at all. Byteasar will give    you a sequence of ![](http://main.edu.pl/images/OI16/lyz-en-tex.10.png) events of the following form: ![](http://main.edu.pl/images/OI16/lyz-en-tex.11.png) (new) members with    foot size ![](http://main.edu.pl/images/OI16/lyz-en-tex.12.png) have joined/left the club. Right after each such event    Byteasar wants to know whether he has enough skates of appropriate size for    every club member. He asks you to write a programme that will check it for    him.\n\n\n## 输入格式\n\nThe first line of the standard input contains four integers ![](http://main.edu.pl/images/OI16/lyz-en-tex.13.png), ![](http://main.edu.pl/images/OI16/lyz-en-tex.14.png),      ![](http://main.edu.pl/images/OI16/lyz-en-tex.15.png) and ![](http://main.edu.pl/images/OI16/lyz-en-tex.16.png) (![](http://main.edu.pl/images/OI16/lyz-en-tex.17.png), ![](http://main.edu.pl/images/OI16/lyz-en-tex.18.png),      ![](http://main.edu.pl/images/OI16/lyz-en-tex.19.png), ![](http://main.edu.pl/images/OI16/lyz-en-tex.20.png)), separated by single spaces, that      denote, respectively: maximum skate size, number of events, number of      skate pairs of each size Byteasar initially bought, and the skate size      tolerance factor. The following ![](http://main.edu.pl/images/OI16/lyz-en-tex.21.png) lines contain the sequence of ![](http://main.edu.pl/images/OI16/lyz-en-tex.22.png)      events, one per line. The ![](http://main.edu.pl/images/OI16/lyz-en-tex.23.png)-th line (for ![](http://main.edu.pl…\n\n\n## 输出格式\n\nYour programme should print out ![](http://main.edu.pl/images/OI16/lyz-en-tex.35.png) lines to the standard output.\n\nThe ![](http://main.edu.pl/images/OI16/lyz-en-tex.36.png)-th line (for ![](http://main.edu.pl/images/OI16/lyz-en-tex.37.png)) should either contain the word      TAK (Polish for yes), or the word NIE (Polish for      no), depending on whether Byteasar has the skates of appropriate      size for every club member right after the ![](http://main.edu.pl/images/OI16/lyz-en-tex.38.png)-th event.\n",
+          "id": "luogu-training-P3488",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.1.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.2.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.3.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.4.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.5.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.6.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.7.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.8.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.9.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.10.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.11.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.12.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.13.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.14.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.15.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.16.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.17.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.18.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.19.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.20.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.21.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.22.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.23.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.35.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.36.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.37.png",
+              "resource:http://main.edu.pl/images/OI16/lyz-en-tex.38.png"
+            ],
+            "markdownSha256": "3e74b5b9835d191ce18eaeaeed245c6e9855d15959ed8b5702f018da1ec5a854",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "2cc896591e6134220f861283f4a3afde7c89a3b2fd50c7257d1ff6f4ef0bc512",
+                "url": "https://www.luogu.com.cn/problem/P3488"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 128,
+            "timeMs": 1000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# LYZ-Ice Skates\n\n## 题目描述\n\nByteasar runs a skate club. Its members meet on a regular basis and train    together, and they always use the club's ice-skates. The skate sizes are    (by convention) numbered from ![](http://main.edu.pl/images/OI16/lyz-en-tex.1.png) to ![](http://main.edu.pl/images/OI16/lyz-en-tex.2.png). Naturally, each club member has    some foot size, but that is not all to it! Skaters have skate size tolerance    factor ![](http://main.edu.pl/images/OI16/lyz-en-tex.3.png): a skater with foot size ![](http://main.edu.pl/images/OI16/lyz-en-tex.4.png) can wear skates with    sizes from ![](http://main.edu.pl/images/OI16/lyz-en-tex.5.png) up to ![](http://main.edu.pl/images/OI16/lyz-en-tex.6.png). It should be noted, though, that    no skater ever wears two skates of different size simultaneously.\n\nTo supply the club, Byteasar bought ![](http://main.edu.pl/images/OI16/lyz-en-tex.7.png) pairs of ice-skates of each size,    i.e. from ![](http://main.edu.pl/images/OI16/lyz-en-tex.8.png) to ![](http://main.edu.pl/images/OI16/lyz-en-tex.9.png). As time passes, some people join the club, just as    some established members leave it. Byteasar worries if he will have enough    skates of appropriate size for every member at each training.\n\nWe assume that initially the club has no members at all. Byteasar will give    you a sequence of ![](http://main.edu.pl/images/OI16/lyz-en-tex.10.png) events of the following form: ![](http://main.edu.pl/images/OI16/lyz-en-tex.11.png) (new) members with    foot size ![](http://main.edu.pl/images/OI16/lyz-en-tex.12.png) have joined/left the club. Right after each such event    Byteasar wants to know whether he has enough skates of appropriate size for    every club member. He asks you to write a programme that will check it for    him.\n\n## 输入格式\n\nThe first line of the standard input contains four integers ![](http://main.edu.pl/images/OI16/lyz-en-tex.13.png), ![](http://main.edu.pl/images/OI16/lyz-en-tex.14.png),      ![](http://main.edu.pl/images/OI16/lyz-en-tex.15.png) and ![](http://main.edu.pl/images/OI16/lyz-en-tex.16.png) (![](http://main.edu.pl/images/OI16/lyz-en-tex.17.png), ![](http://main.edu.pl/images/OI16/lyz-en-tex.18.png),      ![](http://main.edu.pl/images/OI16/lyz-en-tex.19.png), ![](http://main.edu.pl/images/OI16/lyz-en-tex.20.png)), separated by single spaces, that      denote, respectively: maximum skate size, number of events, number of      skate pairs of each size Byteasar initially bought, and the skate size      tolerance factor. The following ![](http://main.edu.pl/images/OI16/lyz-en-tex.21.png) lines contain the sequence of ![](http://main.edu.pl/images/OI16/lyz-en-tex.22.png)      events, one per line. The ![](http://main.edu.pl/images/OI16/lyz-en-tex.23.png)-th line (for ![](http://main.edu.pl…\n\n## 输出格式\n\nYour programme should print out ![](http://main.edu.pl/images/OI16/lyz-en-tex.35.png) lines to the standard output.\n\nThe ![](http://main.edu.pl/images/OI16/lyz-en-tex.36.png)-th line (for ![](http://main.edu.pl/images/OI16/lyz-en-tex.37.png)) should either contain the word      TAK (Polish for yes), or the word NIE (Polish for      no), depending on whether Byteasar has the skates of appropriate      size for every club member right after the ![](http://main.edu.pl/images/OI16/lyz-en-tex.38.png)-th event.",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.1.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.1.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.2.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.2.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.3.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.3.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.4.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.4.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.5.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.5.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.6.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.6.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.7.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.7.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.8.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.8.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.9.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.9.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.10.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.10.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.11.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.11.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.12.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.12.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.13.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.13.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.14.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.14.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.15.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.15.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.16.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.16.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.17.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.17.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.18.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.18.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.19.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.19.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.20.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.20.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.21.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.21.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.22.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.22.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.23.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.23.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.35.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.35.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.36.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.36.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.37.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.37.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI16/lyz-en-tex.38.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI16/lyz-en-tex.38.png"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "4 4 2 1\n1 3\n2 3\n3 3\n2 -1\n",
+              "name": "样例 1",
+              "output": "TAK\nTAK\nNIE\nTAK\n"
+            }
+          ],
+          "statementAvailable": true,
+          "statementSupplement": "",
+          "statementVersion": 7,
+          "title": "LYZ-Ice Skates",
+          "translation": {
+            "kind": "site",
+            "markdown": "# LYZ-Ice Skates\n\n## 题目描述\n\n滑冰俱乐部初始有 $[1,n]$ 号码溜冰鞋各 $k$ 双，已知 $x$ 号脚的人可以穿 $[x,x+d]$ 号码的鞋子。\n\n现在有 $m$ 次操作，每次两个数 $r,x$，表示来了 $x$ 个 $r$ 号脚的人，$x$ 为负则表示离开。在每次操作之后，你需要判断溜冰鞋是否足够。\n\n## 输入格式\n\n第一行 $4$ 个整数 $n,m,k,d$。\n\n接下来 $m$ 行，每行两个整数 $r_i,x_i$，代表一次操作。\n\n## 输出格式\n\n$m$ 行，每行一个字符串，若此次操作后满足题意则输出 `TAK`，否则输出 `NIE`。\n\n## 提示\n\n$n\\le 2\\times 10^5,m\\le 5\\times 10^5,k\\le 10^9,1\\le r_i\\le n-d,-10^9\\le x_i\\le 10^9,0\\le d<n$",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P3488"
+          },
+          "translationSourceSnapshot": {
+            "currentSourceHash": "3e74b5b9835d191ce18eaeaeed245c6e9855d15959ed8b5702f018da1ec5a854",
+            "equivalentFormattingVerified": true,
+            "samplesUnchanged": true,
+            "sourceHash": "ede0de0abbc84f4abe672bcc7607e22fcce536fcbf1920e92d126fc1c0d2486c"
+          },
+          "url": "https://www.luogu.com.cn/problem/P3488"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "http://main.edu.pl/images/OI16/lyz-en-tex.1.png": {
+            "bytes": 102,
+            "frameCount": 1,
+            "height": 11,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.1.png",
+            "sha256": "e0c6dcf247c6e7197953f4e8793e109cf91352a10f984ad54d4d091d2fe33459",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.1.png",
+            "width": 6
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.10.png": {
+            "bytes": 111,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.10.png",
+            "sha256": "b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.10.png",
+            "width": 14
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.11.png": {
+            "bytes": 101,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.11.png",
+            "sha256": "5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.11.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.12.png": {
+            "bytes": 106,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.12.png",
+            "sha256": "97bb1c021285dbbc506f82de24393449c3aaa5c0eee33910d7b06c350c9569b1",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.12.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.13.png": {
+            "bytes": 105,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.13.png",
+            "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.13.png",
+            "width": 9
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.14.png": {
+            "bytes": 111,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.14.png",
+            "sha256": "b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.14.png",
+            "width": 14
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.15.png": {
+            "bytes": 112,
+            "frameCount": 1,
+            "height": 11,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.15.png",
+            "sha256": "4cdbc438591a79294d6052cc6015ca8f40e0a0049335cb5757fac3cb50a1f360",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.15.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.16.png": {
+            "bytes": 111,
+            "frameCount": 1,
+            "height": 11,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.16.png",
+            "sha256": "ecc2739f133862cf3101483beccab22aac7e3007f3cfc6324a03582880f9cbfc",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.16.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.17.png": {
+            "bytes": 270,
+            "frameCount": 1,
+            "height": 13,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.17.png",
+            "sha256": "a086e6438f7b1172c057eb2583dd3b7246d0859239bcc478cf93fd7dc406e540",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.17.png",
+            "width": 113
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.18.png": {
+            "bytes": 272,
+            "frameCount": 1,
+            "height": 13,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.18.png",
+            "sha256": "d7e9d6ca2554d20d5767beae578525ebf4aa01ab7b4b568253847eaaff97dad0",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.18.png",
+            "width": 119
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.19.png": {
+            "bytes": 225,
+            "frameCount": 1,
+            "height": 16,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.19.png",
+            "sha256": "6cf6f8971c459e1dd75f247422840d923a3f7b496e0ef24cd2cde524c6c1059b",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.19.png",
+            "width": 83
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.2.png": {
+            "bytes": 105,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.2.png",
+            "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.2.png",
+            "width": 9
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.20.png": {
+            "bytes": 211,
+            "frameCount": 1,
+            "height": 13,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.20.png",
+            "sha256": "890ba6eca9f219a8fdd7966141be6cad6df9990d9786071d4a82dacd68ab6c5d",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.20.png",
+            "width": 69
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.21.png": {
+            "bytes": 111,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.21.png",
+            "sha256": "b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.21.png",
+            "width": 14
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.22.png": {
+            "bytes": 111,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.22.png",
+            "sha256": "b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.22.png",
+            "width": 14
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.23.png": {
+            "bytes": 194,
+            "frameCount": 1,
+            "height": 18,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.23.png",
+            "sha256": "bbb04d8ebf86841f16f1e4cb69c93747c34d7b604080841adc30846386a983dd",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.23.png",
+            "width": 43
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.3.png": {
+            "bytes": 111,
+            "frameCount": 1,
+            "height": 11,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.3.png",
+            "sha256": "ecc2739f133862cf3101483beccab22aac7e3007f3cfc6324a03582880f9cbfc",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.3.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.35.png": {
+            "bytes": 111,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.35.png",
+            "sha256": "b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.35.png",
+            "width": 14
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.36.png": {
+            "bytes": 103,
+            "frameCount": 1,
+            "height": 11,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.36.png",
+            "sha256": "01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.36.png",
+            "width": 4
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.37.png": {
+            "bytes": 212,
+            "frameCount": 1,
+            "height": 13,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.37.png",
+            "sha256": "1f4620497808440c4abb2645bcf50dd6e6514b4ad9612c6297986996069fbcb1",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.37.png",
+            "width": 71
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.38.png": {
+            "bytes": 103,
+            "frameCount": 1,
+            "height": 11,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.38.png",
+            "sha256": "01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.38.png",
+            "width": 4
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.4.png": {
+            "bytes": 106,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.4.png",
+            "sha256": "97bb1c021285dbbc506f82de24393449c3aaa5c0eee33910d7b06c350c9569b1",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.4.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.5.png": {
+            "bytes": 106,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.5.png",
+            "sha256": "97bb1c021285dbbc506f82de24393449c3aaa5c0eee33910d7b06c350c9569b1",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.5.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.6.png": {
+            "bytes": 159,
+            "frameCount": 1,
+            "height": 13,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.6.png",
+            "sha256": "116d140bb4fe5192f2b54a718cff21c49b422f5767817740851a806fe297275f",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.6.png",
+            "width": 36
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.7.png": {
+            "bytes": 112,
+            "frameCount": 1,
+            "height": 11,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.7.png",
+            "sha256": "4cdbc438591a79294d6052cc6015ca8f40e0a0049335cb5757fac3cb50a1f360",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.7.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.8.png": {
+            "bytes": 102,
+            "frameCount": 1,
+            "height": 11,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.8.png",
+            "sha256": "e0c6dcf247c6e7197953f4e8793e109cf91352a10f984ad54d4d091d2fe33459",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.8.png",
+            "width": 6
+          },
+          "http://main.edu.pl/images/OI16/lyz-en-tex.9.png": {
+            "bytes": 105,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+            "originalImageKey": "http://main.edu.pl/images/OI16/lyz-en-tex.9.png",
+            "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/images/OI16/lyz-en-tex.9.png",
+            "width": 9
+          }
+        },
+        "samples": [
+          {
+            "input": "4 4 2 1\n1 3\n2 3\n3 3\n2 -1\n",
+            "name": "样例 1",
+            "output": "TAK\nTAK\nNIE\nTAK\n"
+          }
+        ],
+        "sourceLimits": {
+          "memory": [
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000
+          ],
+          "time": [
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ]
+        },
+        "statementAvailable": true,
+        "statementLanguage": "en",
+        "statementSource": "洛谷原稿 / 原赛 Szkopuł 原图",
+        "statementVersion": 9,
+        "title": "LYZ-Ice Skates",
+        "translation": {
+          "kind": "site",
+          "markdown": "# LYZ-Ice Skates\n\n## 题目描述\n\n滑冰俱乐部初始有 $[1,n]$ 号码溜冰鞋各 $k$ 双，已知 $x$ 号脚的人可以穿 $[x,x+d]$ 号码的鞋子。\n\n开始时俱乐部没有成员。输入保证不会出现尚未加入的成员离开的情况。\n\n现在有 $m$ 次操作，每次两个数 $r,x$，表示来了 $x$ 个 $r$ 号脚的人，$x$ 为负则表示离开。在每次操作之后，你需要判断溜冰鞋是否足够。\n\n## 输入格式\n\n第一行 $4$ 个整数 $n,m,k,d$。\n\n接下来 $m$ 行，每行两个整数 $r_i,x_i$，代表一次操作。\n\n## 输出格式\n\n$m$ 行，每行一个字符串，若此次操作后满足题意则输出 `TAK`，否则输出 `NIE`。\n\n## 提示\n\n$n\\le 2\\times 10^5,m\\le 5\\times 10^5,k\\le 10^9,1\\le r_i\\le n-d,-10^9\\le x_i\\le 10^9,0\\le d<n$",
+          "provider": "洛谷原站中文核对稿",
+          "sourceUrl": "https://www.luogu.com.cn/problem/P3488"
+        },
+        "url": "https://www.luogu.com.cn/problem/P3488"
+      },
+      "problem_id": "luogu-training-P3488"
+    },
+    {
+      "beforeSha256": "82ded5b2f9f07a94663220b9631686dd17a60d34511129a2e5c473475bb34671",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-P3501",
+        "images": {
+          "http://main.edu.pl/images/OI17/ant-en-tex.1.png": "tb-asset:5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+          "http://main.edu.pl/images/OI17/ant-en-tex.10.png": "tb-asset:01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71",
+          "http://main.edu.pl/images/OI17/ant-en-tex.11.png": "tb-asset:5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+          "http://main.edu.pl/images/OI17/ant-en-tex.12.png": "tb-asset:3b57f48c661857eaa27bc62f2d5843dff323f6ed52cc16bc42f37f18c1d3c276",
+          "http://main.edu.pl/images/OI17/ant-en-tex.13.png": "tb-asset:f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "http://main.edu.pl/images/OI17/ant-en-tex.14.png": "tb-asset:a335c5ddffa8ebbced1373929d8c0394f27316e61b84d62f9f3bacd20cfea33d",
+          "http://main.edu.pl/images/OI17/ant-en-tex.15.png": "tb-asset:f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "http://main.edu.pl/images/OI17/ant-en-tex.2.png": "tb-asset:aaa7177bba109915ab1513b7891cd8d05941a8fce5cc7b3a964be2a6bdd13906",
+          "http://main.edu.pl/images/OI17/ant-en-tex.3.png": "tb-asset:5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+          "http://main.edu.pl/images/OI17/ant-en-tex.4.png": "tb-asset:95b4cca9c523a1d2485a9187754c5208727046040df83bc5f3dfd5f0b24d8c12",
+          "http://main.edu.pl/images/OI17/ant-en-tex.5.png": "tb-asset:5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+          "http://main.edu.pl/images/OI17/ant-en-tex.6.png": "tb-asset:5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+          "http://main.edu.pl/images/OI17/ant-en-tex.7.png": "tb-asset:01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71",
+          "http://main.edu.pl/images/OI17/ant-en-tex.8.png": "tb-asset:5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+          "http://main.edu.pl/images/OI17/ant-en-tex.9.png": "tb-asset:01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T20:02:55.541777+00:00",
+          "corpusAuditVerifiedSha256": "75c46b853e04e02fb7f1f13b0e7cb92a2f2eeed2b1c9b461c2b37cb98b9d8819",
+          "markdownSha256": "75c46b853e04e02fb7f1f13b0e7cb92a2f2eeed2b1c9b461c2b37cb98b9d8819",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-problem-id-and-full-localized-statement",
+            "nativeChineseRawSha256": "fdd8487273465ccb6c2ab4e4d129e869c69037741de44186c9281942d202b84d",
+            "nativeLocale": "zh-CN",
+            "nativeProblemId": "P3501",
+            "originalSourceMarkdownSha256": "75c46b853e04e02fb7f1f13b0e7cb92a2f2eeed2b1c9b461c2b37cb98b9d8819"
+          },
+          "reviewedRecoveryRecordSha256": "a8c7f3aea895d048e625c90bdd61472238f0a0f37b06d62584d161b3a97ecf77",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "94fae00e89c5d8882088fb86ed572df3574826af4db21574534d98918ed0da5e",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P3501"
+            },
+            {
+              "sha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+              "status": 200,
+              "url": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 128,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# ANT-Antisymmetry\n\n## 题目描述\n\nByteasar studies certain strings of zeroes and ones.\n\nLet ![](http://main.edu.pl/images/OI17/ant-en-tex.1.png) be such a string. By ![](http://main.edu.pl/images/OI17/ant-en-tex.2.png) we will denote the reversed (i.e., \"read backwards\") string ![](http://main.edu.pl/images/OI17/ant-en-tex.3.png),    and by ![](http://main.edu.pl/images/OI17/ant-en-tex.4.png) we will denote the string obtained from ![](http://main.edu.pl/images/OI17/ant-en-tex.5.png) by changing all the zeroes to ones and ones to zeroes.\n\nByteasar is interested in antisymmetry, while all things symmetric bore him.\n\nAntisymmetry however is not a mere lack of symmetry.\n\nWe will say that a (nonempty) string ![](http://main.edu.pl/images/OI17/ant-en-tex.6.png) is antisymmetric if, for every position ![](http://main.edu.pl/images/OI17/ant-en-tex.7.png) in ![](http://main.edu.pl/images/OI17/ant-en-tex.8.png),    the ![](http://main.edu.pl/images/OI17/ant-en-tex.9.png)-th last character is different than the ![](http://main.edu.pl/images/OI17/ant-en-tex.10.png)-th (first) character.\n\nIn particular, a string ![](http://main.edu.pl/images/OI17/ant-en-tex.11.png) consisting of zeroes and ones is antisymmetric if and only if    ![](http://main.edu.pl/images/OI17/ant-en-tex.12.png).\n\nFor example, the strings 00001111 and 010101 are antisymmetric, while 1001 is not.\n\nIn a given string consisting of zeroes and ones we would like to determine the number of contiguous    nonempty antisymmetric fragments.\n\nDifferent fragments corresponding to the same substrings should be counted multiple times.\n\n## 输入格式\n\nThe first line of the standard input contains an integer ![](http://main.edu.pl/images/OI17/ant-en-tex.13.png) (![](http://main.edu.pl/images/OI17/ant-en-tex.14.png)) that denotes the length of the string.\n\nThe second line gives a string of 0 and/or 1 of length ![](http://main.edu.pl/images/OI17/ant-en-tex.15.png).\n\nThere are no spaces in the string.\n\n## 输出格式\n\nThe first and only line of the standard output should contain a single integer,      namely the number of contiguous (non empty) fragments of the given string      that are antisymmetric.",
+        "previousSourceStatement": {
+          "attachments": {},
+          "currentSourceMarkdown": "# ANT-Antisymmetry\n\n## 题目描述\n\nByteasar studies certain strings of zeroes and ones.\n\nLet ![](http://main.edu.pl/images/OI17/ant-en-tex.1.png) be such a string. By ![](http://main.edu.pl/images/OI17/ant-en-tex.2.png) we will denote the reversed (i.e., \"read backwards\") string ![](http://main.edu.pl/images/OI17/ant-en-tex.3.png),    and by ![](http://main.edu.pl/images/OI17/ant-en-tex.4.png) we will denote the string obtained from ![](http://main.edu.pl/images/OI17/ant-en-tex.5.png) by changing all the zeroes to ones and ones to zeroes.\n\nByteasar is interested in antisymmetry, while all things symmetric bore him.\n\nAntisymmetry however is not a mere lack of symmetry.\n\nWe will say that a (nonempty) string ![](http://main.edu.pl/images/OI17/ant-en-tex.6.png) is antisymmetric if, for every position ![](http://main.edu.pl/images/OI17/ant-en-tex.7.png) in ![](http://main.edu.pl/images/OI17/ant-en-tex.8.png),    the ![](http://main.edu.pl/images/OI17/ant-en-tex.9.png)-th last character is different than the ![](http://main.edu.pl/images/OI17/ant-en-tex.10.png)-th (first) character.\n\nIn particular, a string ![](http://main.edu.pl/images/OI17/ant-en-tex.11.png) consisting of zeroes and ones is antisymmetric if and only if    ![](http://main.edu.pl/images/OI17/ant-en-tex.12.png).\n\nFor example, the strings 00001111 and 010101 are antisymmetric, while 1001 is not.\n\nIn a given string consisting of zeroes and ones we would like to determine the number of contiguous    nonempty antisymmetric fragments.\n\nDifferent fragments corresponding to the same substrings should be counted multiple times.\n\n## 输入格式\n\nThe first line of the standard input contains an integer ![](http://main.edu.pl/images/OI17/ant-en-tex.13.png) (![](http://main.edu.pl/images/OI17/ant-en-tex.14.png)) that denotes the length of the string.\n\nThe second line gives a string of 0 and/or 1 of length ![](http://main.edu.pl/images/OI17/ant-en-tex.15.png).\n\nThere are no spaces in the string.\n\n\n## 输出格式\n\nThe first and only line of the standard output should contain a single integer,      namely the number of contiguous (non empty) fragments of the given string      that are antisymmetric.\n",
+          "id": "luogu-training-P3501",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.1.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.2.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.3.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.4.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.5.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.6.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.7.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.8.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.9.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.10.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.11.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.12.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.13.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.14.png",
+              "resource:http://main.edu.pl/images/OI17/ant-en-tex.15.png"
+            ],
+            "markdownSha256": "fa8a7aee0beac256e08e3d225ee76ba60ca2bb755cdb9b9ec0e355a8f35625c3",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "f5dce6230f0e0be2374c6d8ef73bba7d88bb0ceb4906238e0afd67a5ea5637ed",
+                "url": "https://www.luogu.com.cn/problem/P3501"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 128,
+            "timeMs": 1000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# ANT-Antisymmetry\n\n## 题目描述\n\nByteasar studies certain strings of zeroes and ones.\n\nLet ![](http://main.edu.pl/images/OI17/ant-en-tex.1.png) be such a string. By ![](http://main.edu.pl/images/OI17/ant-en-tex.2.png) we will denote the reversed (i.e., \"read backwards\") string ![](http://main.edu.pl/images/OI17/ant-en-tex.3.png),    and by ![](http://main.edu.pl/images/OI17/ant-en-tex.4.png) we will denote the string obtained from ![](http://main.edu.pl/images/OI17/ant-en-tex.5.png) by changing all the zeroes to ones and ones to zeroes.\n\nByteasar is interested in antisymmetry, while all things symmetric bore him.\n\nAntisymmetry however is not a mere lack of symmetry.\n\nWe will say that a (nonempty) string ![](http://main.edu.pl/images/OI17/ant-en-tex.6.png) is antisymmetric if, for every position ![](http://main.edu.pl/images/OI17/ant-en-tex.7.png) in ![](http://main.edu.pl/images/OI17/ant-en-tex.8.png),    the ![](http://main.edu.pl/images/OI17/ant-en-tex.9.png)-th last character is different than the ![](http://main.edu.pl/images/OI17/ant-en-tex.10.png)-th (first) character.\n\nIn particular, a string ![](http://main.edu.pl/images/OI17/ant-en-tex.11.png) consisting of zeroes and ones is antisymmetric if and only if    ![](http://main.edu.pl/images/OI17/ant-en-tex.12.png).\n\nFor example, the strings 00001111 and 010101 are antisymmetric, while 1001 is not.\n\nIn a given string consisting of zeroes and ones we would like to determine the number of contiguous    nonempty antisymmetric fragments.\n\nDifferent fragments corresponding to the same substrings should be counted multiple times.\n\n## 输入格式\n\nThe first line of the standard input contains an integer ![](http://main.edu.pl/images/OI17/ant-en-tex.13.png) (![](http://main.edu.pl/images/OI17/ant-en-tex.14.png)) that denotes the length of the string.\n\nThe second line gives a string of 0 and/or 1 of length ![](http://main.edu.pl/images/OI17/ant-en-tex.15.png).\n\nThere are no spaces in the string.\n\n## 输出格式\n\nThe first and only line of the standard output should contain a single integer,      namely the number of contiguous (non empty) fragments of the given string      that are antisymmetric.",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.1.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.1.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.2.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.2.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.3.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.3.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.4.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.4.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.5.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.5.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.6.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.6.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.7.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.7.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.8.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.8.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.9.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.9.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.10.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.10.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.11.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.11.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.12.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.12.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.13.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.13.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.14.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.14.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/ant-en-tex.15.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/ant-en-tex.15.png"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "8\n11001011",
+              "name": "样例 1",
+              "output": "7"
+            }
+          ],
+          "statementAvailable": true,
+          "statementSupplement": "",
+          "statementVersion": 7,
+          "title": "ANT-Antisymmetry",
+          "translation": {
+            "kind": "site",
+            "markdown": "# ANT-Antisymmetry\n\n## 题目描述\n\n**译自 POI 2010 Stage 2. Day 0「[Antisymmetry](https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement)」**\n\n对于一个 $0/1$ 字符串，如果将这个字符串 $0$ 和 $1$ 取反后，再将整个串反过来和原串一样，就称作「反对称」字符串。比如 $00001111$ 和 $010101$ 就是反对称的，而 $1001$ 就不是。  \n现在给出一个长度为 $n$ 的 $0/1$ 字符串，求它有多少个子串是反对称的，注意这里相同的子串出现在不同的位置会被重复计算。\n\n## 输入格式\n\n第一行一个正整数 $n$ 。  \n第二行一个长度为 $n$ 的 $0/1$ 字符串。\n\n## 输出格式\n\n一行一个整数，表示原串的反对称子串个数。\n\n## 提示\n\n样例的 $7$ 个反对称子串分别是：$01$（出现两次），$10$（出现两次），$0101$，$1100$ 和 $001011$。\n\n对于 $100\\%$ 的数据， $1\\le n\\le 500\\ 000$ 。\n\n翻译来自于 [LibreOJ](https://loj.ac/p/2452)。",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P3501"
+          },
+          "translationSourceSnapshot": {
+            "currentSourceHash": "fa8a7aee0beac256e08e3d225ee76ba60ca2bb755cdb9b9ec0e355a8f35625c3",
+            "equivalentFormattingVerified": true,
+            "samplesUnchanged": true,
+            "sourceHash": "75c46b853e04e02fb7f1f13b0e7cb92a2f2eeed2b1c9b461c2b37cb98b9d8819"
+          },
+          "url": "https://www.luogu.com.cn/problem/P3501"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "http://main.edu.pl/images/OI17/ant-en-tex.1.png": {
+            "bytes": 101,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.1.png",
+            "sha256": "5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.1.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.10.png": {
+            "bytes": 103,
+            "frameCount": 1,
+            "height": 11,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.10.png",
+            "sha256": "01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.10.png",
+            "width": 4
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.11.png": {
+            "bytes": 101,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.11.png",
+            "sha256": "5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.11.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.12.png": {
+            "bytes": 178,
+            "frameCount": 1,
+            "height": 15,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.12.png",
+            "sha256": "3b57f48c661857eaa27bc62f2d5843dff323f6ed52cc16bc42f37f18c1d3c276",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.12.png",
+            "width": 60
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.13.png": {
+            "bytes": 105,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.13.png",
+            "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.13.png",
+            "width": 9
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.14.png": {
+            "bytes": 271,
+            "frameCount": 1,
+            "height": 13,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.14.png",
+            "sha256": "a335c5ddffa8ebbced1373929d8c0394f27316e61b84d62f9f3bacd20cfea33d",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.14.png",
+            "width": 113
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.15.png": {
+            "bytes": 105,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.15.png",
+            "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.15.png",
+            "width": 9
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.2.png": {
+            "bytes": 144,
+            "frameCount": 1,
+            "height": 15,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.2.png",
+            "sha256": "aaa7177bba109915ab1513b7891cd8d05941a8fce5cc7b3a964be2a6bdd13906",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.2.png",
+            "width": 18
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.3.png": {
+            "bytes": 101,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.3.png",
+            "sha256": "5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.3.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.4.png": {
+            "bytes": 112,
+            "frameCount": 1,
+            "height": 10,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.4.png",
+            "sha256": "95b4cca9c523a1d2485a9187754c5208727046040df83bc5f3dfd5f0b24d8c12",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.4.png",
+            "width": 10
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.5.png": {
+            "bytes": 101,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.5.png",
+            "sha256": "5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.5.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.6.png": {
+            "bytes": 101,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.6.png",
+            "sha256": "5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.6.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.7.png": {
+            "bytes": 103,
+            "frameCount": 1,
+            "height": 11,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.7.png",
+            "sha256": "01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.7.png",
+            "width": 4
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.8.png": {
+            "bytes": 101,
+            "frameCount": 1,
+            "height": 7,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.8.png",
+            "sha256": "5773211cb0c8cdf13833b8323441d43087577dc49d99fb907fb3d6c9c5ee9caf",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.8.png",
+            "width": 7
+          },
+          "http://main.edu.pl/images/OI17/ant-en-tex.9.png": {
+            "bytes": 103,
+            "frameCount": 1,
+            "height": 11,
+            "mime": "image/png",
+            "nativeStatementSha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+            "nativeStatementUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+            "originalImageKey": "http://main.edu.pl/images/OI17/ant-en-tex.9.png",
+            "sha256": "01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71",
+            "sourceUrl": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/images/OI17/ant-en-tex.9.png",
+            "width": 4
+          }
+        },
+        "samples": [
+          {
+            "input": "8\n11001011",
+            "name": "样例 1",
+            "output": "7"
+          }
+        ],
+        "sourceLimits": {
+          "memory": [
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000
+          ],
+          "time": [
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ]
+        },
+        "statementAvailable": true,
+        "statementLanguage": "en",
+        "statementSource": "洛谷原稿 / 原赛 Szkopuł 原图",
+        "statementVersion": 9,
+        "title": "ANT-Antisymmetry",
+        "translation": {
+          "kind": "site",
+          "markdown": "# ANT-Antisymmetry\n\n## 题目描述\n\n**译自 POI 2010 Stage 2. Day 0「[Antisymmetry](https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement)」**\n\n对于一个 $0/1$ 字符串，如果将这个字符串 $0$ 和 $1$ 取反后，再将整个串反过来和原串一样，就称作「反对称」字符串。比如 $00001111$ 和 $010101$ 就是反对称的，而 $1001$ 就不是。  \n现在给出一个长度为 $n$ 的 $0/1$ 字符串，求它有多少个子串是反对称的，注意这里相同的子串出现在不同的位置会被重复计算。\n\n## 输入格式\n\n第一行一个正整数 $n$ 。  \n第二行一个长度为 $n$ 的 $0/1$ 字符串。\n\n## 输出格式\n\n一行一个整数，表示原串的反对称子串个数。\n\n## 提示\n\n样例的 $7$ 个反对称子串分别是：$01$（出现两次），$10$（出现两次），$0101$，$1100$ 和 $001011$。\n\n对于 $100\\%$ 的数据， $1\\le n\\le 500\\ 000$ 。\n\n翻译来自于 [LibreOJ](https://loj.ac/p/2452)。",
+          "provider": "洛谷原站中文核对稿",
+          "sourceUrl": "https://www.luogu.com.cn/problem/P3501"
+        },
+        "url": "https://www.luogu.com.cn/problem/P3501"
+      },
+      "problem_id": "luogu-training-P3501"
+    },
+    {
+      "beforeSha256": "9b113ee2631030c0fb10ea619a9f27046183dc15f68afd72186d3d207becfd46",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-P3502",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T20:02:55.551307+00:00",
+          "corpusAuditVerifiedSha256": "d4f84f9daecb2cc7107b0eb608d6fd8febda21a141237cd508b277b886f96197",
+          "markdownSha256": "d4f84f9daecb2cc7107b0eb608d6fd8febda21a141237cd508b277b886f96197",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-problem-id-and-full-localized-statement",
+            "nativeChineseRawSha256": "eebacfe3baf04fc141e11755664a15eb700cfa9d92ae023a02385c0d6c3ce1e8",
+            "nativeLocale": "zh-CN",
+            "nativeProblemId": "P3502",
+            "originalSourceMarkdownSha256": "1d3132efd0e191fede2695e7f2a3880b9189832b9bda5a181df9c71b37aa906b"
+          },
+          "reviewedRecoveryRecordSha256": "9b26e20c0f04dc5d69ae9ad3a4c2ff818e15aa21bc3d1d28c58fa2b4137a06d9",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "5574041dd1cc1555156564250e311f1d79fef3930ee7d434bbae62dfa5792e6c",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P3502"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 262,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# CHO-Hamsters\n\n## 题目描述\n\nByteasar 养了许多仓鼠。\n\n每只仓鼠都有一个唯一的名字，由小写英文字母组成。\n\n这些仓鼠有一个宽敞舒适的笼子。\n\nByteasar 打算在笼子下方放置一个显示器，以可视化显示他仓鼠的名字。\n\n这个显示器只是一个字母序列，每个字母可以独立地亮起或不亮起。\n\n同时只会显示一个名字。\n\n亮起的字母必须相邻，即形成一个连续子串。\n\nByteasar 希望能够在至少 $m$ 个不同的位置显示这些仓鼠的名字。\n\n然而，他允许在多个不同的位置显示相同的名字，并且不要求能够显示每一个仓鼠的名字。\n\n注意，名字在显示器上的出现可以重叠。\n\n可以假设没有任何仓鼠的名字会作为连续片段出现在其他仓鼠的名字中。\n\nByteasar 请求你帮助确定显示器需要的最小字母数。\n\n换句话说，你需要确定一个字符串的最小长度（由小写英文字母组成），使得仓鼠名字的总出现次数（计入重复）至少为 $m$。\n\n（我们说字符串 $A$ 出现在字符串 $B$ 中，如果 $A$ 形成 $B$ 的一个连续片段。）\n\n## 输入格式\n\n标准输入的第一行包含两个整数 $n$ 和 $m$ ($1 \\le n \\le 200$, $1 \\le m \\le 10^9$)，用一个空格分隔，表示 Byteasar 的仓鼠数量和显示器上仓鼠名字出现的最小次数。\n\n接下来的 $n$ 行中的每一行包含一个非空的小写英文字母字符串，表示仓鼠的名字。\n\n所有名字的总长度不超过 $10^5$ 个字母。\n\n## 输出格式\n\n标准输出的第一行应包含一个整数——显示器需要的最小字母数。\n\n## 提示\n\n$1 \\le n \\le 200$，$1 \\le m \\le 10^9$，所有字符串的总长 $\\le 10^5$。\n\n题面翻译由 ChatGPT-4o 提供。",
+        "previousSourceStatement": {
+          "attachments": {},
+          "currentSourceMarkdown": "# CHO-Hamsters\n\n## 题目描述\n\nByteasar breeds hamsters.\n\nEach hamster has a unique name,    consisting of lower case letters of the English alphabet.\n\n    The hamsters have a vast and comfortable cage.\n\n    Byteasar intends to place a display under the cage to visualize the names of his hamsters.\n\n    This display is simply a sequence of letters, each of which can be either lit or not independently.\n\nOnly one name will be displayed simultaneously.\n\nThe lit letters forming the name have to stand next to each other,    i.e., form a contiguous subsequence.\n\nByteasar wants to be able to display the names of the hamsters on at least ![](http://main.edu.pl/images/OI17/cho-en-tex.1.png) different positions.\n\nHowever, he allows displaying the same name on multiple different positions,    and does not require to be able to display each and every hamster's name.\n\nNote that the occurrences of the names on the display can overlap.\n\nYou can assume that no hamster's name occurs (as a contiguous fragment) in any other hamster's name.\n\nBytesar asks your help in determining the minimum number of letters the display has to have.\n\nIn other words, you are to determine the minimum length of a string    (consisting of non-capital letters of the English alphabet)    that has at least ![](http://main.edu.pl/images/OI17/cho-en-tex.2.png) total occurrences of the hamsters' names (counting multiplicities).\n\n(We say that a string ![](http://main.edu.pl/images/OI17/cho-en-tex.3.png) occurs in the string ![](http://main.edu.pl/images/OI17/cho-en-tex.4.png) if ![](http://main.edu.pl/images/OI17/cho-en-tex.5.png) forms a contiguous fragment of ![](http://main.edu.pl/images/OI17/cho-en-tex.6.png).)\n\n\n\n## 输入格式\n\nThe first line of the standard input holds two integers ![](http://main.edu.pl/images/OI17/cho-en-tex.7.png) and ![](http://main.edu.pl/images/OI17/cho-en-tex.8.png)      (![](http://main.edu.pl/images/OI17/cho-en-tex.9.png), ![](http://main.edu.pl/images/OI17/cho-en-tex.10.png)), separated by a single space, that denote      the number of Byteasar's hamsters and the minimum number of occurrences of the hamsters' names on the display.\n\nEach of the following ![](http://main.edu.pl/images/OI17/cho-en-tex.11.png) lines contains a non-empty string of non-capital letters of the English alphabet      that is the hamster's name.\n\nThe total length of all names does not exceed ![](http://main.edu.pl/images/OI17/cho-en-tex.12.png) letters.\n\n\n## 输出格式\n\nThe first and only line of the standard output should hold a single integer      - the minimum number of letters the display has to have.\n\n\n## 提示\n\n$1\\le n\\le 200$，$1\\le m\\le 10^9$ ，所有字符串的总长 $\\le 10^5$。\n",
+          "id": "luogu-training-P3502",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:http://main.edu.pl/images/OI17/cho-en-tex.1.png",
+              "resource:http://main.edu.pl/images/OI17/cho-en-tex.2.png",
+              "resource:http://main.edu.pl/images/OI17/cho-en-tex.3.png",
+              "resource:http://main.edu.pl/images/OI17/cho-en-tex.4.png",
+              "resource:http://main.edu.pl/images/OI17/cho-en-tex.5.png",
+              "resource:http://main.edu.pl/images/OI17/cho-en-tex.6.png",
+              "resource:http://main.edu.pl/images/OI17/cho-en-tex.7.png",
+              "resource:http://main.edu.pl/images/OI17/cho-en-tex.8.png",
+              "resource:http://main.edu.pl/images/OI17/cho-en-tex.9.png",
+              "resource:http://main.edu.pl/images/OI17/cho-en-tex.10.png",
+              "resource:http://main.edu.pl/images/OI17/cho-en-tex.11.png",
+              "resource:http://main.edu.pl/images/OI17/cho-en-tex.12.png"
+            ],
+            "markdownSha256": "d3af5415f6dd4f763fbc1247775b31281d068b320a5753ddf3a8380f2c6ca6a0",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "38952f4e513daad75bcc1f1ae587e2aaa25884fd623d42fd1256ab92323b88db",
+                "url": "https://www.luogu.com.cn/problem/P3502"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 262,
+            "timeMs": 1000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# CHO-Hamsters\n\n## 题目描述\n\nByteasar breeds hamsters.\n\nEach hamster has a unique name,    consisting of lower case letters of the English alphabet.\n\n    The hamsters have a vast and comfortable cage.\n\n    Byteasar intends to place a display under the cage to visualize the names of his hamsters.\n\n    This display is simply a sequence of letters, each of which can be either lit or not independently.\n\nOnly one name will be displayed simultaneously.\n\nThe lit letters forming the name have to stand next to each other,    i.e., form a contiguous subsequence.\n\nByteasar wants to be able to display the names of the hamsters on at least ![](http://main.edu.pl/images/OI17/cho-en-tex.1.png) different positions.\n\nHowever, he allows displaying the same name on multiple different positions,    and does not require to be able to display each and every hamster's name.\n\nNote that the occurrences of the names on the display can overlap.\n\nYou can assume that no hamster's name occurs (as a contiguous fragment) in any other hamster's name.\n\nBytesar asks your help in determining the minimum number of letters the display has to have.\n\nIn other words, you are to determine the minimum length of a string    (consisting of non-capital letters of the English alphabet)    that has at least ![](http://main.edu.pl/images/OI17/cho-en-tex.2.png) total occurrences of the hamsters' names (counting multiplicities).\n\n(We say that a string ![](http://main.edu.pl/images/OI17/cho-en-tex.3.png) occurs in the string ![](http://main.edu.pl/images/OI17/cho-en-tex.4.png) if ![](http://main.edu.pl/images/OI17/cho-en-tex.5.png) forms a contiguous fragment of ![](http://main.edu.pl/images/OI17/cho-en-tex.6.png).)\n\n## 输入格式\n\nThe first line of the standard input holds two integers ![](http://main.edu.pl/images/OI17/cho-en-tex.7.png) and ![](http://main.edu.pl/images/OI17/cho-en-tex.8.png)      (![](http://main.edu.pl/images/OI17/cho-en-tex.9.png), ![](http://main.edu.pl/images/OI17/cho-en-tex.10.png)), separated by a single space, that denote      the number of Byteasar's hamsters and the minimum number of occurrences of the hamsters' names on the display.\n\nEach of the following ![](http://main.edu.pl/images/OI17/cho-en-tex.11.png) lines contains a non-empty string of non-capital letters of the English alphabet      that is the hamster's name.\n\nThe total length of all names does not exceed ![](http://main.edu.pl/images/OI17/cho-en-tex.12.png) letters.\n\n## 输出格式\n\nThe first and only line of the standard output should hold a single integer      - the minimum number of letters the display has to have.\n\n## 提示\n\n$1\\le n\\le 200$，$1\\le m\\le 10^9$ ，所有字符串的总长 $\\le 10^5$。",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/cho-en-tex.1.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/cho-en-tex.1.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/cho-en-tex.2.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/cho-en-tex.2.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/cho-en-tex.3.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/cho-en-tex.3.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/cho-en-tex.4.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/cho-en-tex.4.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/cho-en-tex.5.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/cho-en-tex.5.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/cho-en-tex.6.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/cho-en-tex.6.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/cho-en-tex.7.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/cho-en-tex.7.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/cho-en-tex.8.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/cho-en-tex.8.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/cho-en-tex.9.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/cho-en-tex.9.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/cho-en-tex.10.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/cho-en-tex.10.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/cho-en-tex.11.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/cho-en-tex.11.png"
+            },
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/cho-en-tex.12.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/cho-en-tex.12.png"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "4 5\nmonika\ntomek\nszymon\nbernard",
+              "name": "样例 1",
+              "output": "23"
+            }
+          ],
+          "statementAvailable": true,
+          "statementSupplement": "",
+          "statementVersion": 7,
+          "title": "CHO-Hamsters",
+          "translation": {
+            "kind": "site",
+            "markdown": "# CHO-Hamsters\n\n## 题目描述\n\nByteasar 养了许多仓鼠。\n\n每只仓鼠都有一个唯一的名字，由小写英文字母组成。\n\n这些仓鼠有一个宽敞舒适的笼子。\n\nByteasar 打算在笼子下方放置一个显示器，以可视化显示他仓鼠的名字。\n\n这个显示器只是一个字母序列，每个字母可以独立地亮起或不亮起。\n\n同时只会显示一个名字。\n\n亮起的字母必须相邻，即形成一个连续的子序列。\n\nByteasar 希望能够在至少 $m$ 个不同的位置显示这些仓鼠的名字。\n\n然而，他允许在多个不同的位置显示相同的名字，并且不要求能够显示每一个仓鼠的名字。\n\n注意，名字在显示器上的出现可以重叠。\n\n可以假设没有任何仓鼠的名字会作为连续片段出现在其他仓鼠的名字中。\n\nByteasar 请求你帮助确定显示器需要的最小字母数。\n\n换句话说，你需要确定一个字符串的最小长度（由非大写英文字母组成），使得仓鼠名字的总出现次数（计入重复）至少为 $m$。\n\n（我们说字符串 $A$ 出现在字符串 $B$ 中，如果 $A$ 形成 $B$ 的一个连续片段。）\n\n## 输入格式\n\n标准输入的第一行包含两个整数 $n$ 和 $m$ ($1 \\le n \\le 200$, $1 \\le m \\le 10^9$)，用一个空格分隔，表示 Byteasar 的仓鼠数量和显示器上仓鼠名字出现的最小次数。\n\n接下来的 $n$ 行中的每一行包含一个非空的非大写英文字母字符串，表示仓鼠的名字。\n\n所有名字的总长度不超过 $10^5$ 个字母。\n\n## 输出格式\n\n标准输出的第一行应包含一个整数——显示器需要的最小字母数。\n\n## 提示\n\n$1 \\le n \\le 200$，$1 \\le m \\le 10^9$，所有字符串的总长 $\\le 10^5$。\n\n题面翻译由 ChatGPT-4o 提供。",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P3502"
+          },
+          "translationSourceSnapshot": {
+            "currentSourceHash": "d3af5415f6dd4f763fbc1247775b31281d068b320a5753ddf3a8380f2c6ca6a0",
+            "equivalentFormattingVerified": true,
+            "samplesUnchanged": true,
+            "sourceHash": "1d3132efd0e191fede2695e7f2a3880b9189832b9bda5a181df9c71b37aa906b"
+          },
+          "url": "https://www.luogu.com.cn/problem/P3502"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "4 5\nmonika\ntomek\nszymon\nbernard",
+            "name": "样例 1",
+            "output": "23"
+          }
+        ],
+        "sourceLimits": {
+          "memory": [
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144
+          ],
+          "time": [
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ]
+        },
+        "statementAvailable": true,
+        "statementLanguage": "zh-CN",
+        "statementSource": "洛谷中英文原稿核对",
+        "statementVersion": 9,
+        "title": "CHO-Hamsters",
+        "url": "https://www.luogu.com.cn/problem/P3502"
+      },
+      "problem_id": "luogu-training-P3502"
+    },
+    {
+      "beforeSha256": "69d6b3a32640f34934d121f8b2f9dcb1464da85175c4c4327b0616556edd95ff",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-P3511",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T20:02:55.559409+00:00",
+          "corpusAuditVerifiedSha256": "56bb6312d975ec424bef6141825c978590b4e2e50640f1e5118892dc97b97083",
+          "markdownSha256": "56bb6312d975ec424bef6141825c978590b4e2e50640f1e5118892dc97b97083",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-problem-id-and-full-localized-statement",
+            "nativeChineseRawSha256": "56bb6312d975ec424bef6141825c978590b4e2e50640f1e5118892dc97b97083",
+            "nativeLocale": "zh-CN",
+            "nativeProblemId": "P3511",
+            "originalSourceMarkdownSha256": "e8015e71783b8cde72526d9f63208468e25aa12ea5f5d67b86d164228fe3bfb2"
+          },
+          "reviewedRecoveryRecordSha256": "e082b237392ff28046ebb51d40439b32f4ff72d918e4d2514d9ad60beed4a51f",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "aeb54a6daaaf8c1f938ae2076d543c700112aa5c9fa1d3f81bb68f4429b3542d",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P3511"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 128,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# MOS-Bridges\n\n## 题目描述\n\nSan Bytecisco 是一个风景优美的沿海小镇。\n\n它由一些小而人口稠密的岛屿组成，编号从 $1$ 到 $n$。\n\n某些岛屿之间通过桥梁连接，用于双向的道路交通。\n\n每对岛屿之间最多有一座桥。\n\n这些岛屿之间连接的桥梁使得每个岛屿都可以到达其他岛屿。\n\nByteasar 和 Bytie 正计划在 San Bytecisco 骑自行车旅行。\n\n他们将从 $1$ 号岛出发。\n\n他们打算访问每个岛屿，同时每座桥只经过一次，并在旅行结束时回到出发地，即 $1$ 号岛。\n\n作为经验丰富的骑手，他们预计会遇到一些严重的麻烦……风！\n\n毕竟，沿海地区风很大，尤其是在岛屿之间的桥上。显然，根据风速和方向，风使得跨越桥梁面临不同程度上的困难。\n\n为了简单起见，我们假设每座桥的任意一个跨越方向遭到的逆风的速度是恒定的。\n\nByteasar 和 Bytie 决定将遭到的逆风的最大速度作为路线疲劳程度的衡量标准。帮助 Byteasar 和 Bytie 找到他们想要的路线，使得这条路线的疲劳程度最小。\n\n## 输入格式\n\n标准输入的第一行有两个用空格分隔的整数：$n$ 和 $m$（$2 \\le n \\le 1000$，$1 \\le m \\le 2000$），分别表示 San Bytecisco 的岛屿数量和桥梁数量。岛屿编号从 $1$ 到 $n$，桥梁编号从 $1$ 到 $m$。接下来的 $m$ 行给出了桥梁。第 $i+1$ 行包含四个用空格分隔的整数 $a_i,b_i,l_i,p_i$（$1 \\le l_i,p_i \\le 1000$），表示第 $i$ 号桥连接了第 $a_i$ 号和第 $b_i$ 号岛屿。当从 $a_i$ 到 $b_i$ 移动时遭到的逆风的速度为 $l_i$，而从 $b_i$ 到 $a_i$ 移动时遭到的逆风的速度为 $p_i$。\n\n## 输出格式\n\n如果没有满足这两位勇敢骑手要求的路线，标准输出的第一行应为单词 NIE（波兰语中的“不”）。\n\n否则，输出应有两行，指定 San Bytecisco 上最不疲劳的路线。\n\n第一行应包含该路线遭到的逆风的最大速度，即我们希望最小化的数字。\n\n第二行应包含 $m$ 个整数，用空格分隔，表示在最不疲劳的路线中依次经过的桥梁编号。\n\n如果有多条最不疲劳的路线，你可以输出任意一条。\n\n## 提示\n\n$2 \\le n \\le 1000$，$1 \\le m \\le 2000$，$1 \\le a_i,b_i \\le n$，$a_i\\neq b_i$，$1 \\le l_i,p_i \\le 1000$。\n\n题面翻译由 ChatGPT-4o 提供。",
+        "previousSourceStatement": {
+          "attachments": {},
+          "currentSourceMarkdown": "# MOS-Bridges\n\n## 题目描述\n\nSan Bytecisco is a beautifully situated coastal town. It consists of n small, yet densely populated islands, numbered from 1 to n. Certain islands are connected with bridges, used for (bidirectional) road traffic. Each pair of islands can be connected with at most one bridge. The islands are connected in such a way that every island can be reached from every other by using the bridges only.\n\nByteasar and Bytie are going for a bike trip in San Bytecisco. The will start their ride at the island no. 1. They intend to visit every island, while passing along every bridge once and ending the trip where it began, i.e., the island no. 1. Being quite seasoned riders, they expect some serious trouble from... the wind! After all, it is very windy along the coast, and especially so on the bridges between the islands. Obviously, depending on its speed and direction, the wind makes it hard to cross the bridge in different extent for either direction. For simplicity we will assume for every bridge and direction of crossing, the opposing wind speed is constant.\n\nHelp Byteasar and Bytie to find a route as they desire that will in addition be the least tiresome. Byteasar and Bytie agreed on the maximum opposing wind speed as a measure of a route's tiresomeness.\n\n## 输入格式\n\nIn the first line of the standard input there are two integers separated by a single space: $n$ and $m$ ($2 \\le n \\le 1000$, $1 \\le m \\le 2000$), denoting the number of islands and the number of bridges in San Bytecisco respectively. The islands are numbered from 1 to n, while the bridges from 1 to m. The following  lines specify the bridges. The line no.($n+1$)  contains four integers $a_i,b_i,l_i,p_i$ ($1\\le l_i,p_i \\le 1000$), separated by single spaces. These denote that the bridge no. $i$ connects the islands no. $a$ and $b$. The opposing wind speeds are  when one goes moves from  to , and  if one goes from $a$ to $b$.\n\n## 输出格式\n\nIf there is no route satisfying the requirements of the daring two riders,   the first and only line of the standard output should hold the word NIE   (no in Polish).\n\nOtherwise, the output should have two lines, specifying the least tiresome route   over San Bytecisco.\n\nThe first line should hold the maximum opposing wind speed for that route, i.e.,   the number we wish to minimize.\n\nThe second line should hold ![](http://main.edu.pl/images/OI17/mos-en-tex.28.png) integers, separated by single spaces, giving   the numbers of successive bridges one crosses on the least tiresome route.\n\nShould there be more than one least tiresome route, your program can pick one   arbitrarily.\n\n\n## 提示\n\n$2 \\le n \\le 1000$，$1 \\le m \\le 2000$，$1 \\le a_i,b_i \\le n$，$a_i \\neq b_i$，$1 \\le l_i,p_i \\le 1000$\n",
+          "id": "luogu-training-P3511",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:http://main.edu.pl/images/OI17/mos-en-tex.28.png"
+            ],
+            "markdownSha256": "972c618545136d368d6ac20a3c8b1d3cddd6b11a1823204c11a84180019409ce",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "cd9a394825edcff45415877693f5e6e076d18ea8a62b0346105f9e645845f8f0",
+                "url": "https://www.luogu.com.cn/problem/P3511"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 128,
+            "timeMs": 1000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# MOS-Bridges\n\n## 题目描述\n\nSan Bytecisco is a beautifully situated coastal town. It consists of n small, yet densely populated islands, numbered from 1 to n. Certain islands are connected with bridges, used for (bidirectional) road traffic. Each pair of islands can be connected with at most one bridge. The islands are connected in such a way that every island can be reached from every other by using the bridges only.\n\nByteasar and Bytie are going for a bike trip in San Bytecisco. The will start their ride at the island no. 1. They intend to visit every island, while passing along every bridge once and ending the trip where it began, i.e., the island no. 1. Being quite seasoned riders, they expect some serious trouble from... the wind! After all, it is very windy along the coast, and especially so on the bridges between the islands. Obviously, depending on its speed and direction, the wind makes it hard to cross the bridge in different extent for either direction. For simplicity we will assume for every bridge and direction of crossing, the opposing wind speed is constant.\n\nHelp Byteasar and Bytie to find a route as they desire that will in addition be the least tiresome. Byteasar and Bytie agreed on the maximum opposing wind speed as a measure of a route's tiresomeness.\n\n## 输入格式\n\nIn the first line of the standard input there are two integers separated by a single space: $n$ and $m$ ($2 \\le n \\le 1000$, $1 \\le m \\le 2000$), denoting the number of islands and the number of bridges in San Bytecisco respectively. The islands are numbered from 1 to n, while the bridges from 1 to m. The following  lines specify the bridges. The line no.($n+1$)  contains four integers $a_i,b_i,l_i,p_i$ ($1\\le l_i,p_i \\le 1000$), separated by single spaces. These denote that the bridge no. $i$ connects the islands no. $a$ and $b$. The opposing wind speeds are  when one goes moves from  to , and  if one goes from $a$ to $b$.\n\n## 输出格式\n\nIf there is no route satisfying the requirements of the daring two riders,   the first and only line of the standard output should hold the word NIE   (no in Polish).\n\nOtherwise, the output should have two lines, specifying the least tiresome route   over San Bytecisco.\n\nThe first line should hold the maximum opposing wind speed for that route, i.e.,   the number we wish to minimize.\n\nThe second line should hold ![](http://main.edu.pl/images/OI17/mos-en-tex.28.png) integers, separated by single spaces, giving   the numbers of successive bridges one crosses on the least tiresome route.\n\nShould there be more than one least tiresome route, your program can pick one   arbitrarily.\n\n## 提示\n\n$2 \\le n \\le 1000$，$1 \\le m \\le 2000$，$1 \\le a_i,b_i \\le n$，$a_i \\neq b_i$，$1 \\le l_i,p_i \\le 1000$",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: http://main.edu.pl/images/OI17/mos-en-tex.28.png",
+              "kind": "image",
+              "url": "http://main.edu.pl/images/OI17/mos-en-tex.28.png"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "4 4\n1 2 2 4\n2 3 3 4\n3 4 4 4\n4 1 5 4",
+              "name": "样例 1",
+              "output": "4\n4 3 2 1"
+            }
+          ],
+          "statementAvailable": true,
+          "statementSupplement": "",
+          "statementVersion": 7,
+          "title": "MOS-Bridges",
+          "translation": {
+            "kind": "site",
+            "markdown": "# MOS-Bridges\n\n## 题目描述\n\nSan Bytecisco 是一个风景优美的沿海小镇。\n\n它由一些小而人口稠密的岛屿组成，编号从 $1$ 到 $n$。\n\n某些岛屿之间通过桥梁连接，用于双向的道路交通。\n\n每对岛屿之间最多可以有一座桥。\n\n这些岛屿的连接方式使得每个岛屿都可以通过桥梁到达其他岛屿。\n\nByteasar 和 Bytie 正计划在 San Bytecisco 骑自行车旅行。\n\n他们将从 $1$ 号岛出发。\n\n他们打算访问每个岛屿，同时每座桥只经过一次，并在旅行结束时回到出发地，即 $1$ 号岛。\n\n作为经验丰富的骑手，他们预计会遇到一些严重的麻烦……风！\n\n毕竟，沿海地区风很大，尤其是在岛屿之间的桥上。显然，根据风速和方向，风会在不同程度上使得跨越桥梁变得困难。\n\n为了简单起见，我们假设每座桥和每个跨越方向的逆风速度是恒定的。\n\n帮助 Byteasar 和 Bytie 找到他们想要的路线，并且这条路线的疲劳程度最小。Byteasar 和 Bytie 同意将最大逆风速度作为路线疲劳程度的衡量标准。\n\n## 输入格式\n\n标准输入的第一行有两个用空格分隔的整数：$n$ 和 $m$（$2 \\le n \\le 1000$，$1 \\le m \\le 2000$），分别表示 San Bytecisco 的岛屿数量和桥梁数量。岛屿编号从 1 到 $n$，桥梁编号从 1 到 $m$。接下来的行指定了桥梁。第 ($n+1$) 行包含四个用空格分隔的整数 $a_i,b_i,l_i,p_i$（$1 \\le l_i,p_i \\le 1000$），表示第 $i$ 号桥连接了第 $a$ 号和第 $b$ 号岛屿。当从 $a$ 到 $b$ 移动时的逆风速度为 $l_i$，而从 $b$ 到 $a$ 移动时的逆风速度为 $p_i$。\n\n## 输出格式\n\n如果没有满足这两位勇敢骑手要求的路线，标准输出的第一行应为单词 NIE（波兰语中的“不”）。\n\n否则，输出应有两行，指定 San Bytecisco 上最不疲劳的路线。\n\n第一行应包含该路线的最大逆风速度，即我们希望最小化的数字。\n\n第二行应包含 $m$ 个整数，用空格分隔，给出在最不疲劳的路线中依次经过的桥梁编号。\n\n如果有多条最不疲劳的路线，程序可以任意选择一条。\n\n## 提示\n\n$2 \\le n \\le 1000$，$1 \\le m \\le 2000$，$1 \\le a_i,b_i \\le n$，$a_i\\neq b_i$，$1 \\le l_i,p_i \\le 1000$。\n\n题面翻译由 ChatGPT-4o 提供。",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P3511"
+          },
+          "translationSourceSnapshot": {
+            "currentSourceHash": "972c618545136d368d6ac20a3c8b1d3cddd6b11a1823204c11a84180019409ce",
+            "equivalentFormattingVerified": true,
+            "samplesUnchanged": true,
+            "sourceHash": "e8015e71783b8cde72526d9f63208468e25aa12ea5f5d67b86d164228fe3bfb2"
+          },
+          "url": "https://www.luogu.com.cn/problem/P3511"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "4 4\n1 2 2 4\n2 3 3 4\n3 4 4 4\n4 1 5 4",
+            "name": "样例 1",
+            "output": "4\n4 3 2 1"
+          }
+        ],
+        "sourceLimits": {
+          "memory": [
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000
+          ],
+          "time": [
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ]
+        },
+        "statementAvailable": true,
+        "statementLanguage": "zh-CN",
+        "statementSource": "洛谷中英文原稿核对",
+        "statementVersion": 9,
+        "title": "MOS-Bridges",
+        "url": "https://www.luogu.com.cn/problem/P3511"
+      },
+      "problem_id": "luogu-training-P3511"
+    },
+    {
+      "beforeSha256": "1f04901743d0249c510d9c0a278c5f8f33ed4cff1528599c72364d19cb8eea27",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-P4667",
+        "images": {
+          "https://cdn.luogu.com.cn/upload/pic/1285.png": "tb-asset:7ea09990945c2c2bbb247c82a50ae2ea6cae968463347575f3c9d1d87207e096",
+          "https://cdn.luogu.com.cn/upload/pic/1286.png": "tb-asset:7e697cad68531865d7e4aee5916d3db77dc7b2bb7b4deff206392a1d408f6a3b"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T20:02:55.572074+00:00",
+          "corpusAuditVerifiedSha256": "71f295bbcd449a0921fd86ff936eadec69c1efbae953ffe089db9babf1e8c854",
+          "markdownSha256": "71f295bbcd449a0921fd86ff936eadec69c1efbae953ffe089db9babf1e8c854",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-problem-id-and-full-localized-statement",
+            "nativeChineseRawSha256": "71f295bbcd449a0921fd86ff936eadec69c1efbae953ffe089db9babf1e8c854",
+            "nativeLocale": "zh-CN",
+            "nativeProblemId": "P4667",
+            "originalSourceMarkdownSha256": "05ee0662f497cd8b3e8e8af5ecb2bc131185cf355e1f5865ef90a23606856568"
+          },
+          "reviewedRecoveryRecordSha256": "8d5f2cc81eb282a9fb08b8baad0fa8ab5f47236b5af10306db23a5fa7e750ece",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "3bd1c3a649140fd7a531f1a9e34913719c0c1b8aab3d5684972eb26b5b0a739e",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P4667"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 128,
+          "timeMs": 150
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Switch the Lamp On (Day1)\n\n## 题目描述\n\nCasper 在一个 $N\\times M$ 的电路板上设计电路。有一种正方形的电路元件，在它的两组相对顶点中，有一组会用导线连接起来，另一组则不会。有 $N\\times M$ 个这样的元件，你想将其排列成 $N$ 行，每行 $M$ 个。 电源连接到板的左上角。灯连接到板的右下角。只有在电源和灯之间有一条电线连接的情况下，灯才会亮着。为了打开灯，任何数量的电路元件都可以转动 90°（两个方向）。\n\n![](https://cdn.luogu.com.cn/upload/pic/1286.png)\n\n![](https://cdn.luogu.com.cn/upload/pic/1285.png)\n\n在上面的图片中，灯是关着的。如果从右往左数第二列的任何一个电路元件被旋转 90°，电源和灯都会连接，灯被打开。现在请你编写一个程序，求出最小需要旋转多少电路元件。\n\n## 输入格式\n\n输入的第一行包含两个整数 $N$ 和 $M$，表示电路板的尺寸。 在以下 $N$ 行中，每一行有 $M$ 个符号 `\\` 或 `/`，表示连接对应电路元件对角线的导线的方向。\n\n## 输出格式\n\n如果可以打开灯，那么输出只包含一个整数，表示最少转动电路元件的数量。\n\n如果不可能打开灯，输出 `NO SOLUTION`。\n\n## 提示\n\n对于 $40\\%$ 的数据，$1 \\le N \\le 4$，$1 \\le M \\le 5$。\n\n对于所有数据，$1 \\le N,M \\le 500$。",
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-P4667",
+          "images": {
+            "https://cdn.luogu.com.cn/upload/pic/1285.png": "tb-asset:7ea09990945c2c2bbb247c82a50ae2ea6cae968463347575f3c9d1d87207e096",
+            "https://cdn.luogu.com.cn/upload/pic/1286.png": "tb-asset:7e697cad68531865d7e4aee5916d3db77dc7b2bb7b4deff206392a1d408f6a3b"
+          },
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:http://ruanx.pw/bzojch/file/2346_0.jpg"
+            ],
+            "markdownSha256": "05ee0662f497cd8b3e8e8af5ecb2bc131185cf355e1f5865ef90a23606856568",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "acb9089d71d3347df7c22428926d584e87fdbdfb9b3eed09fc1b510d994a3fca",
+                "url": "https://www.luogu.com.cn/problem/P4667"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 128,
+            "timeMs": 150
+          },
+          "localJudgeSupported": true,
+          "markdown": "# Switch the Lamp On (Day1)\n\n## 题目描述\n\nCasper is designing an electronic circuit on a $N \\times M$ rectangular grid plate. There are $N \\times M$ square tiles that are aligned to the grid on the plate. Two (out of four) opposite corners of each tile are connected by a wire.\n\nA power source is connected to the top left corner of the plate. A lamp is connected to the bottom right corner of the plate. The lamp is on only if there is a path of wires connecting power source to lamp. In order to switch the lamp on, any number of tiles can be turned by 90° (in both directions).\n\n![0](http://ruanx.pw/bzojch/file/2346_0.jpg)\n\nIn the picture above the lamp is off. If any one of the tiles in the second column from the right is turned by 90° , power source and lamp get connected, and the lamp is on.\n\nWrite a program to find out the minimal number of tiles that have to be turned by 90° to switch the lamp on.\n\n## 输入格式\n\nThe first line of input contains two integer numbers $N$ and $M$, the dimensions of the plate. In each of the following $N$ lines there are $M$ symbols – either \\ or / – which indicate the direction of the wire connecting the opposite vertices of the corresponding tile.\n\n## 输出格式\n\nThere must be exactly one line of output. If it is possible to switch the lamp on, this line must contain only one integer number: the minimal number of tiles that have to be turned to switch on the lamp. If it is not possible, output the string: ``NO SOLUTION``\n\n## 提示\n\n对于 $40\\%$ 的数据，$1 \\le N \\le 4$，$1 \\le M \\le 5$。\n\n对于所有数据，$1 \\le N,M \\le 500$。",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: http://ruanx.pw/bzojch/file/2346_0.jpg",
+              "kind": "image",
+              "url": "http://ruanx.pw/bzojch/file/2346_0.jpg"
+            }
+          ],
+          "resourceManifest": {
+            "https://cdn.luogu.com.cn/upload/pic/1285.png": {
+              "bytes": 22179,
+              "frameCount": 1,
+              "height": 280,
+              "mime": "image/gif",
+              "sha256": "7ea09990945c2c2bbb247c82a50ae2ea6cae968463347575f3c9d1d87207e096",
+              "sourceUrl": "https://cdn.luogu.com.cn/upload/pic/1285.png",
+              "width": 403
+            },
+            "https://cdn.luogu.com.cn/upload/pic/1286.png": {
+              "bytes": 21556,
+              "frameCount": 1,
+              "height": 280,
+              "mime": "image/gif",
+              "sha256": "7e697cad68531865d7e4aee5916d3db77dc7b2bb7b4deff206392a1d408f6a3b",
+              "sourceUrl": "https://cdn.luogu.com.cn/upload/pic/1286.png",
+              "width": 403
+            }
+          },
+          "samples": [
+            {
+              "input": "3 5\n\\\\/\\\\\n\\\\///\n/\\\\\\\\",
+              "name": "样例 1",
+              "output": "1"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "Switch the Lamp On (Day1)",
+          "translation": {
+            "kind": "site",
+            "markdown": "# Switch the Lamp On (Day1)\n\n## 题目描述\n\nCasper 在一个 $N\\times M$ 的电路板上设计电路。有一种正方形的电路元件，在它的两组相对顶点中，有一组会用导线连接起来，另一组则不会。有 $N\\times M$ 个这样的元件，你想将其排列成 $N$ 行，每行 $M$ 个。 电源连接到板的左上角。灯连接到板的右下角。只有在电源和灯之间有一条电线连接的情况下，灯才会亮着。为了打开灯，任何数量的电路元件都可以转动 90°（两个方向）。\n\n![](https://cdn.luogu.com.cn/upload/pic/1286.png)\n\n![](https://cdn.luogu.com.cn/upload/pic/1285.png)\n\n在上面的图片中，灯是关着的。如果从右往左数第二列的任何一个电路元件被旋转 90°，电源和灯都会连接，灯被打开。现在请你编写一个程序，求出最小需要旋转多少电路元件。\n\n## 输入格式\n\n输入的第一行包含两个整数 $N$ 和 $M$，表示电路板的尺寸。 在以下 $N$ 行中，每一行有 $M$ 个符号 `\\` 或 `/`，表示连接对应电路元件对角线的导线的方向。\n\n## 输出格式\n\n如果可以打开灯，那么输出只包含一个整数，表示最少转动电路元件的数量。\n\n如果不可能打开灯，输出 `NO SOLUTION`。\n\n## 提示\n\n对于 $40\\%$ 的数据，$1 \\le N \\le 4$，$1 \\le M \\le 5$。\n\n对于所有数据，$1 \\le N,M \\le 500$。",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P4667"
+          },
+          "url": "https://www.luogu.com.cn/problem/P4667"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://cdn.luogu.com.cn/upload/pic/1285.png": {
+            "bytes": 22179,
+            "frameCount": 1,
+            "height": 280,
+            "mime": "image/gif",
+            "sha256": "7ea09990945c2c2bbb247c82a50ae2ea6cae968463347575f3c9d1d87207e096",
+            "sourceUrl": "https://cdn.luogu.com.cn/upload/pic/1285.png",
+            "width": 403
+          },
+          "https://cdn.luogu.com.cn/upload/pic/1286.png": {
+            "bytes": 21556,
+            "frameCount": 1,
+            "height": 280,
+            "mime": "image/gif",
+            "sha256": "7e697cad68531865d7e4aee5916d3db77dc7b2bb7b4deff206392a1d408f6a3b",
+            "sourceUrl": "https://cdn.luogu.com.cn/upload/pic/1286.png",
+            "width": 403
+          }
+        },
+        "samples": [
+          {
+            "input": "3 5\n\\\\/\\\\\n\\\\///\n/\\\\\\\\",
+            "name": "样例 1",
+            "output": "1"
+          }
+        ],
+        "sourceLimits": {
+          "memory": [
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000,
+            128000
+          ],
+          "time": [
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150
+          ]
+        },
+        "statementAvailable": true,
+        "statementLanguage": "zh-CN",
+        "statementSource": "洛谷中英文原稿核对",
+        "statementVersion": 9,
+        "title": "Switch the Lamp On (Day1)",
+        "url": "https://www.luogu.com.cn/problem/P4667"
+      },
+      "problem_id": "luogu-training-P4667"
+    },
+    {
+      "beforeSha256": "a9d2812cc8426cf3828fb83e01b74ca700430b81511d5e2ca511827bab00a683",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-P7058",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T20:02:55.573546+00:00",
+          "corpusAuditVerifiedSha256": "dbf3ad4765d7eaeeaaef5b8d7e06ef7054a00fee8514585f4d23864d789a6d1d",
+          "markdownSha256": "dbf3ad4765d7eaeeaaef5b8d7e06ef7054a00fee8514585f4d23864d789a6d1d",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-problem-id-and-full-localized-statement",
+            "nativeChineseRawSha256": "dbf3ad4765d7eaeeaaef5b8d7e06ef7054a00fee8514585f4d23864d789a6d1d",
+            "nativeLocale": "zh-CN",
+            "nativeProblemId": "P7058",
+            "originalSourceMarkdownSha256": "de0aea2f36a9d53a4e1b9f44cb278b9eb1c4ffa030c64feb1ee480a1b76be28c"
+          },
+          "reviewedRecoveryRecordSha256": "805f372efb87981521823d24df45fbc06077203bd2ed15d53f846e7e53377101",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "71b6fe77dbd31882f785e19a835b326cc960670ece7ca7438002809aae74ae78",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P7058"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 262,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Kingdom Trip\n\n## 题目描述\n\n从前有一个王国，由一位聪明的国王统治。在他统治的四十三年间，通过成功的军事行动和娴熟的外交手段，王国变成了一个无限平坦的二维平面。这样的形式极大地简化了旅行，因为没有边界。\n\n王国计划举办一个盛大的节日。有 $n$ 个地点供人们聚集。国王希望能更近距离地观察他的子民，因此他下令在这些地点之间进行旅行。他希望在每个地点发表演讲。最初，他的旅行被设计为一个多边形链 $p$：$p_{1} \\to p_{2} \\to \\ldots \\to p_{n}$。\n\n国王不仅聪明，而且年事已高。因此，他的助手们想出了一个主意，跳过一些地点，以便让国王尽可能少地发表演讲。新的旅行计划必须是由 $p$ 的某个子序列组成的多边形链：从 $p_{1}$ 开始，到 $p_{n}$ 结束，形式上为 $p_{i_{1}} \\to p_{i_{2}} \\to \\cdots \\to p_{i_{m}}$，其中 $1 = i_{1} < i_{2} < \\cdots < i_{m} = n$。助手们知道，如果从 $p_{j}$ 到线段 $p_{i_{k}} \\to p_{i_{k+1}}$ 的距离超过 $d$，对于这样的 $k$，即 $i_{k} < j < i_{k+1}$，国王不会允许跳过地点 $j$。\n\n帮助助手们找到包含最少可能地点的新路线。\n\n## 输入格式\n\n输入文件的第一行包含两个整数 $n$ 和 $d$——旅行初始计划中的地点数和允许跳过地点的最大距离 $(2 \\le n \\le 2000$；$1 \\le d \\le 10^{6})$。\n\n接下来的 $n$ 行描述了旅行。第 $i$ 行包含两个整数 $x_{i}$ 和 $y_{i}$——点 $p_{i}$ 的坐标。坐标的绝对值不超过 $10^{6}$。没有两个点重合。\n\n## 输出格式\n\n输出国王将访问的最少地点数。保证对于 $d \\pm 10^{-4}$，答案是相同的。\n\n## 提示\n\n时间限制：2 秒，内存限制：256 MB。\n\n题面翻译由 ChatGPT-4o 提供。",
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-P7058",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/11476/1.png",
+              "resource:https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/11476/2.png"
+            ],
+            "markdownSha256": "de0aea2f36a9d53a4e1b9f44cb278b9eb1c4ffa030c64feb1ee480a1b76be28c",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "ed327015fcf71c7a5489228cd9d97a7bf88263542b442e891707104058bd6ecb",
+                "url": "https://www.luogu.com.cn/problem/P7058"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 262,
+            "timeMs": 1000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# Kingdom Trip\n\n## 题目描述\n\n\n\nOnce upon a time, there was a kingdom ruled by a wise king. After forty three years of his reign, by means of successful military actions and skillful diplomacy, the kingdom became an infinite flat two-dimensional surface. This form of the kingdom greatly simplified travelling, as there were no borders.\n\nA big holiday was planned in the kingdom. There were $n$ locations for people to gather. As the king wanted to have a closer look at his people, he ordered to make a trip through these locations. He wanted to give a speech in each of these locations. Initially his trip was designed as a polygonal chain $p$ : $p_{1} \\to p_{2} \\to $ . . . $ \\to p_{n}.$\n\nNot only the king was wise, but he was old, too. Therefore, his assistants came up with an idea to skip some locations, to make the king to give as few speeches as possible. The new plan of the trip has to be a polygonal chain consisting of some subsequence of $p$ : starting at $p_{1}$ and ending at $p_{n},$ formally, $p_{i_{1}} \\to p_{i_{2}} \\to · · · \\to p_{i_{m}},$ where $1 = i_{1} < i_{2} < · · · < i_{m} = n$ . Assistants know that the king wouldn't allow to skip location $j$ , if the distance from $p_{j}$ to segment $p_{i_{k}} \\to p_{i_{k+1}}$ exceeds $d$ , for such $k$ , that $i_{k} < j < i_{k+1}.$\n\n![](https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/11476/1.png)\n\nOriginal route\n\n![](https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/11476/2.png)\n\nNew route\n\nHelp the assistants to find the new route that contains the minimum possible number of locations.\n\n\n\n## 输入格式\n\n\n\nThe first line of the input file contains two integers $n$ and $d$ -- the number of locations in the initial plan of the trip and the maximum allowed distance to skipped locations $(2 \\le n \\le 2000$ ; $1 \\le d \\le 10^{6}).$\n\nThe following $n$ lines describe the trip. The i-th of these lines contains two integers $x_{i}$ and $y_{i}$ -- coordinates of point $p_{i}.$ The absolute value of coordinates does not exceed $10^{6}.$ No two points coincide.\n\n\n\n## 输出格式\n\n\n\nOutput the minimum number of locations the king will visit. It is guaranteed that the answer is the same for $d ± 10^{−4}.$\n\n\n\n## 提示\n\nTime limit: 2 s, Memory limit: 256 MB. \n\n",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/11476/1.png",
+              "kind": "image",
+              "url": "https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/11476/1.png"
+            },
+            {
+              "error": "Original resource not verified: https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/11476/2.png",
+              "kind": "image",
+              "url": "https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/11476/2.png"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "5 2\n2 6\n8 2\n14 2\n12 9\n13 8\n",
+              "name": "样例 1",
+              "output": "3\n"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "Kingdom Trip",
+          "translation": {
+            "kind": "site",
+            "markdown": "# Kingdom Trip\n\n## 题目描述\n\n从前有一个王国，由一位聪明的国王统治。在他统治的四十三年间，通过成功的军事行动和娴熟的外交手段，王国变成了一个无限平坦的二维平面。这样的形式极大地简化了旅行，因为没有边界。\n\n王国计划举办一个盛大的节日。有 $n$ 个地点供人们聚集。国王希望能更近距离地观察他的子民，因此他下令在这些地点之间进行旅行。他希望在每个地点发表演讲。最初，他的旅行被设计为一个多边形链 $p$：$p_{1} \\to p_{2} \\to \\ldots \\to p_{n}$。\n\n国王不仅聪明，而且年事已高。因此，他的助手们想出了一个主意，跳过一些地点，以便让国王尽可能少地发表演讲。新的旅行计划必须是由 $p$ 的某个子序列组成的多边形链：从 $p_{1}$ 开始，到 $p_{n}$ 结束，形式上为 $p_{i_{1}} \\to p_{i_{2}} \\to \\cdots \\to p_{i_{m}}$，其中 $1 = i_{1} < i_{2} < \\cdots < i_{m} = n$。助手们知道，如果从 $p_{j}$ 到线段 $p_{i_{k}} \\to p_{i_{k+1}}$ 的距离超过 $d$，对于这样的 $k$，即 $i_{k} < j < i_{k+1}$，国王不会允许跳过地点 $j$。\n\n帮助助手们找到包含最少可能地点的新路线。\n\n## 输入格式\n\n输入文件的第一行包含两个整数 $n$ 和 $d$——旅行初始计划中的地点数和允许跳过地点的最大距离 $(2 \\le n \\le 2000$；$1 \\le d \\le 10^{6})$。\n\n接下来的 $n$ 行描述了旅行。第 $i$ 行包含两个整数 $x_{i}$ 和 $y_{i}$——点 $p_{i}$ 的坐标。坐标的绝对值不超过 $10^{6}$。没有两个点重合。\n\n## 输出格式\n\n输出国王将访问的最少地点数。保证对于 $d \\pm 10^{-4}$，答案是相同的。\n\n## 提示\n\n时间限制：2 秒，内存限制：256 MB。\n\n题面翻译由 ChatGPT-4o 提供。",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P7058"
+          },
+          "url": "https://www.luogu.com.cn/problem/P7058"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "5 2\n2 6\n8 2\n14 2\n12 9\n13 8\n",
+            "name": "样例 1",
+            "output": "3\n"
+          }
+        ],
+        "sourceLimits": {
+          "memory": [
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144
+          ],
+          "time": [
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ]
+        },
+        "statementAvailable": true,
+        "statementLanguage": "zh-CN",
+        "statementSource": "洛谷中英文原稿核对",
+        "statementVersion": 9,
+        "title": "Kingdom Trip",
+        "url": "https://www.luogu.com.cn/problem/P7058"
+      },
+      "problem_id": "luogu-training-P7058"
+    },
+    {
+      "beforeSha256": "ad63545330a5bea7d387f8790b41ca1e9232b7f2e10a55aa0daeab3b4e56a907",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-P7087",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T20:02:55.574598+00:00",
+          "corpusAuditVerifiedSha256": "b17bd7908ed3dc9bf7e88f450a983fa49ea3bad3970e10edadacfd9850ad2fe1",
+          "markdownSha256": "b17bd7908ed3dc9bf7e88f450a983fa49ea3bad3970e10edadacfd9850ad2fe1",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-problem-id-and-full-localized-statement",
+            "nativeChineseRawSha256": "0f5f4e9bf3dcb4fce6b8150b1633404350ca591cd93143c228dba513e55f0b2d",
+            "nativeLocale": "zh-CN",
+            "nativeProblemId": "P7087",
+            "originalSourceMarkdownSha256": "98d1c18b4882201a4fa9c3acb76db75f2af478e60bd6bc5089129942ad971e5a"
+          },
+          "reviewedRecoveryRecordSha256": "76cc8b3d2cb114e74dbec04ee03f2b5ea4cce484f996cbd2728c77641dc638e6",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "3a210ecb38057fa45264053c2b7e90913348b9d04e364893af749f488ab17a67",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P7087"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 262,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Intellectual Property\n\n## 题目描述\n\nErast Kopi 是一位著名的数独谜题设计师。他的谜题合集取得了巨大成功，引发了许多模仿和抄袭。在提出诉讼之前，他决定收集更多证据。\n\n数独谜题是一个 $9 \\times 9$ 的表格，分为 $3 \\times 3$ 的子表格，每个子表格包含 $3 \\times 3$ 的单元格。每个单元格可以包含从 $1$ 到 $9$ 的一个数字。任务是用数字填充空单元格，使得每一行、每一列以及每个 $3 \\times 3$ 的子表格都恰好包含从 $1$ 到 $9$ 的每个数字一次。\n\nKopi 有一个数独谜题数据库，他想检查其中是否包含相似的谜题。谜题 $P$ 与谜题 $Q$ 相似，如果可以通过以下操作序列将谜题 $P$ 转换为谜题 $Q$：\n\n选择两个数字 $x$ 和 $y$，并将所有数字 $x$ 替换为 $y$，反之亦然；\n\n交换两组行：$(1 , 2 , 3) , (4 , 5 , 6) , (7 , 8 , 9)$；\n\n在一组行中交换两行；\n\n交换两组列：$(1 , 2 , 3) , (4 , 5 , 6) , (7 , 8 , 9)$；\n\n在一组列中交换两列；\n\n沿左上到右下轴翻转。此操作后，列变为行，反之亦然。\n\n帮助 Kopi 在他的数据库中找到相似的谜题。\n\n## 输入格式\n\n输入的第一行包含一个整数 $n$，表示数据库中的谜题数量 $(1 \\le n \\le 20)$。\n\n输入的其余部分包含 $n$ 个谜题的描述：$P_1 , P_2$，……，$P_n$。每个谜题由九行描述，每行包含九个字符。每个字符要么是从 $1$ 到 $9$ 的数字，要么是表示空单元格的点（‘.’）。数据库中连续的谜题之间用空行分隔。\n\n输入文件中没有空格。\n\n这些谜题不保证可解。\n\n## 输出格式\n\n检查谜题 $P_1$ 是否与谜题 $P_2$，$P_3$，……，$P_n$（按此顺序）相似，然后检查谜题 $P_2$ 是否与谜题 $P_3$，$P_4$，……，$P_n$（按此顺序）相似，依此类推。\n\n如果谜题 $P_i$ 与谜题 $P_j (1 \\le i < j \\le n)$ 相似，输出 `Yes`，否则输出 `No`。如果答案是肯定的，下一行应包含一个整数 $q_{ij}$，表示将谜题 $P_i$ 转换为谜题 $P_j$ 所需的操作数。操作数不要求是最小的，但不能超过 $1000$。在接下来的 $q_{ij}$ 行中，写出将谜题 $P_i$ 转换为谜题 $P_j$ 的操作，每行一个。\n\n操作以以下方式编码：\n\n`D x y` 表示交换数字 $x$ 和 $y$；\n\n`R a b` 表示交换行组 $(3a - 2, 3a - 1, 3a)$ 和 $(3b - 2, 3b - 1, 3b)$；\n\n`r a b` 表示交换行 $a$ 和 $b$，行必须属于同一组行；\n\n`C a b` 表示交换列组 $(3a - 2, 3a - 1, 3a)$ 和 $(3b - 2, 3b - 1, 3b)$；\n\n`c a b` 表示交换列 $a$ 和 $b$，列必须属于同一组列；\n\n`F` 表示沿左上到右下轴翻转。\n\n列从左到右编号，行从上到下编号，编号从一开始。\n\n## 提示\n\n时间限制：2 秒，内存限制：256 MB。\n\n题面翻译由 ChatGPT-4o 提供。",
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-P7087",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:https://www.luogu.com.cn/upload/images2/ip.png"
+            ],
+            "markdownSha256": "98d1c18b4882201a4fa9c3acb76db75f2af478e60bd6bc5089129942ad971e5a",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "4f55651828985e92a8f6c9cfad805137ae8e3013033a6ee1544f89aaac3156a3",
+                "url": "https://www.luogu.com.cn/problem/P7087"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 262,
+            "timeMs": 2000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# Intellectual Property\n\n## 题目描述\n\n\n\nErast Kopi is famous Sudoku puzzle designer. Resounding success of his puzzle compilations caused a number of imitations and plagiarisms. Prior to sending a lawsuit he decided to get more evidence.\n\nSudoku puzzle is a table $9 \\times 9$ , divided into $3 \\times 3$ subtables of $3 \\times 3$ cells each. Each cell may contain a digit from $1$ to $9$ . The task is to fill empty cells with digits in a way that each row, each column and each of the $9$ subtables $3 \\times 3$ contains each digit from $1$ to $9$ exactly once.\n\nKopi has a database of Sudoku puzzles and he wants to check if it contains similar puzzles. The puzzle $P$ is similar to the puzzle $Q$ , if it is possible to transform the puzzle $P$ into the puzzle $Q$ using a sequence of the following operations:\n\nchoose two digits $x$ and $y$ and replace all digits $x$ with $y$ and vice versa;\n\nswap two triples of rows: $(1 , 2 , 3) , (4 , 5 , 6) , (7 , 8 , 9)$ ;\n\nswap two rows in one triple of rows;\n\nswap two triples of columns: $(1 , 2 , 3) , (4 , 5 , 6) , (7 , 8 , 9)$ ;\n\nswap two columns in one triple of columns;\n\nflip along top-left -- bottom-right axis. After this operation columns become rows and vice versa.\n\n![](/upload/images2/ip.png)\n\nHelp Kopi to find similar puzzles in his database.\n\n\n\n## 输入格式\n\n\n\nThe first line of the input contains single integer $n$ -- the number of puzzles in the database $(1 \\le n \\le 20)$ .\n\nThe rest of the input contains description of $n$ puzzles: $P_1 , P_2$ , . . . , Pn. Each puzzle is described by nine lines that contain nine characters each. Each character is either a digit from $1$ to $9$ , or a dot $(‘. ')$ denoting an empty cell. An empty line separates consecutive puzzles in the database.\n\nThere are no spaces in the input file.\n\nThe puzzles are not guaranteed to be solvable.\n\n\n\n## 输出格式\n\n\n\nCheck if the puzzle $P_1$ is similar to puzzles $P_2$ , P3 , . . . , $P_n$ (in this order), than check if the puzzle $P_2$ is similar to puzzles P3 , P4 , . . . , $P_n$ (in this order) and so on.\n\nIf the puzzle $P_i$ is similar to the puzzle $Pj (1 \\le i < j \\le n)$ output `Yes`, otherwise output `No`. If the answer is positive, the next line should contain an integer qij -- the number of operations required to transform the puzzle $P_i$ to the puzzle $Pj$ . The number of operations is not required to be minimal, however it must not exceed $1000$ . In the following qij lines write the operations that transform the puzzle $P_i$ to the puzzle $Pj$ , one per line.\n\nOperations are encoded in the following way:\n\n`D $x$ y` for swapping digits $x$ and $y$ ;\n\n`R a b` for swapping triples of rows (3a $− 2$ , 3a $− 1 , 3a)$ and (3b $− 2$ , 3b $− 1 , 3b);$\n\n`r a b` for swapping rows a and $b$ , rows must belong to same triple of rows;\n\n`C a b` for swapping triples of columns (3a $− 2$ , 3a $− 1 , 3a)$ and (3b $− 2$ , 3b $− 1 , 3b);$\n\n`c a b` for swapping columns a and $b$ , columns must belong to same triple of columns;\n\n`F` for flipping along top-left -- bottom-right axis.\n\nThe columns are numbered from left to right and the rows are numbered from top to bottom as they are given in the input file, starting from one.\n\n\n\n## 提示\n\nTime limit: 2 s, Memory limit: 256 MB. \n\n",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: https://www.luogu.com.cn/upload/images2/ip.png",
+              "kind": "image",
+              "url": "https://www.luogu.com.cn/upload/images2/ip.png"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "4\n.....1...\n1........\n.2.....8.\n.........\n8....9...\n.........\n....7....\n...2...1.\n2...4....\n\n....2....\n...7.4...\n8.......9\n.8...2..1\n..2......\n.........\n.........\n..1.8....\n.........\n\n1........\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n\n.....1...\n1........\n.2.....8.\n.........\n8....9...\n.........\n....7....\n...2...1.\n2...4....\n",
+              "name": "样例 1",
+              "output": "Yes\n7\nC 1 2\nD 5 3\nF\nr 7 9\nc 6 5\nC 2 3\nD 1 8\nNo\nYes\n0\nNo\nYes\n8\nR 1 2\nC 2 3\nc 4 5\nF\nr 5 6\nc 7 9\nD 1 8\nD 3 5\nNo\n"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "Intellectual Property",
+          "translation": {
+            "kind": "site",
+            "markdown": "# Intellectual Property\n\n## 题目描述\n\nErast Kopi 是一位著名的数独谜题设计师。他的谜题合集取得了巨大成功，引发了许多模仿和抄袭。在提出诉讼之前，他决定收集更多证据。\n\n数独谜题是一个 $9 \\times 9$ 的表格，分为 $3 \\times 3$ 的子表格，每个子表格包含 $3 \\times 3$ 的单元格。每个单元格可以包含从 $1$ 到 $9$ 的一个数字。任务是用数字填充空单元格，使得每一行、每一列以及每个 $3 \\times 3$ 的子表格都恰好包含从 $1$ 到 $9$ 的每个数字一次。\n\nKopi 有一个数独谜题数据库，他想检查其中是否包含相似的谜题。谜题 $P$ 与谜题 $Q$ 相似，如果可以通过以下操作序列将谜题 $P$ 转换为谜题 $Q$：\n\n选择两个数字 $x$ 和 $y$，并将所有数字 $x$ 替换为 $y$，反之亦然；\n\n交换两组行：$(1 , 2 , 3) , (4 , 5 , 6) , (7 , 8 , 9)$；\n\n在一组行中交换两行；\n\n交换两组列：$(1 , 2 , 3) , (4 , 5 , 6) , (7 , 8 , 9)$；\n\n在一组列中交换两列；\n\n沿左上到右下轴翻转。此操作后，列变为行，反之亦然。\n\n帮助 Kopi 在他的数据库中找到相似的谜题。\n\n## 输入格式\n\n输入的第一行包含一个整数 $n$，表示数据库中的谜题数量 $(1 \\le n \\le 20)$。\n\n输入的其余部分包含 $n$ 个谜题的描述：$P_1 , P_2$，……，$P_n$。每个谜题由九行描述，每行包含九个字符。每个字符要么是从 $1$ 到 $9$ 的数字，要么是表示空单元格的点（‘.’）。数据库中连续的谜题之间用空行分隔。\n\n输入文件中没有空格。\n\n这些谜题不保证可解。\n\n## 输出格式\n\n检查谜题 $P_1$ 是否与谜题 $P_2$，$P_3$，……，$P_n$（按此顺序）相似，然后检查谜题 $P_2$ 是否与谜题 $P_3$，$P_4$，……，$P_n$（按此顺序）相似，依此类推。\n\n如果谜题 $P_i$ 与谜题 $P_j (1 \\le i < j \\le n)$ 相似，输出 `Yes`，否则输出 `No`。如果答案是肯定的，下一行应包含一个整数 $q_{ij}$，表示将谜题 $P_i$ 转换为谜题 $P_j$ 所需的操作数。操作数不要求是最小的，但不能超过 $1000$。在接下来的 $q_{ij}$ 行中，写出将谜题 $P_i$ 转换为谜题 $P_j$ 的操作，每行一个。\n\n操作以以下方式编码：\n\n`D $x$ y` 表示交换数字 $x$ 和 $y$；\n\n`R a b` 表示交换行组 $(3a - 2, 3a - 1, 3a)$ 和 $(3b - 2, 3b - 1, 3b)$；\n\n`r a b` 表示交换行 $a$ 和 $b$，行必须属于同一组行；\n\n`C a b` 表示交换列组 $(3a - 2, 3a - 1, 3a)$ 和 $(3b - 2, 3b - 1, 3b)$；\n\n`c a b` 表示交换列 $a$ 和 $b$，列必须属于同一组列；\n\n`F` 表示沿左上到右下轴翻转。\n\n列从左到右编号，行从上到下编号，编号从一开始。\n\n## 提示\n\n时间限制：2 秒，内存限制：256 MB。\n\n题面翻译由 ChatGPT-4o 提供。",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P7087"
+          },
+          "url": "https://www.luogu.com.cn/problem/P7087"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "4\n.....1...\n1........\n.2.....8.\n.........\n8....9...\n.........\n....7....\n...2...1.\n2...4....\n\n....2....\n...7.4...\n8.......9\n.8...2..1\n..2......\n.........\n.........\n..1.8....\n.........\n\n1........\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n\n.....1...\n1........\n.2.....8.\n.........\n8....9...\n.........\n....7....\n...2...1.\n2...4....\n",
+            "name": "样例 1",
+            "output": "Yes\n7\nC 1 2\nD 5 3\nF\nr 7 9\nc 6 5\nC 2 3\nD 1 8\nNo\nYes\n0\nNo\nYes\n8\nR 1 2\nC 2 3\nc 4 5\nF\nr 5 6\nc 7 9\nD 1 8\nD 3 5\nNo\n"
+          }
+        ],
+        "sourceLimits": {
+          "memory": [
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144
+          ],
+          "time": [
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000
+          ]
+        },
+        "statementAvailable": true,
+        "statementLanguage": "zh-CN",
+        "statementSource": "洛谷中英文原稿核对",
+        "statementVersion": 9,
+        "title": "Intellectual Property",
+        "url": "https://www.luogu.com.cn/problem/P7087"
+      },
+      "problem_id": "luogu-training-P7087"
+    },
+    {
+      "beforeSha256": "95071aa84e6c6cabb82afa54b2587a10dd697ac98c5303ffa35a27f65fc0a182",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-P7090",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T20:02:55.576081+00:00",
+          "corpusAuditVerifiedSha256": "3ff008237bf35ae26ad357dcee7521a96ecef90d030f7c1692bc302f9d6fc071",
+          "markdownSha256": "3ff008237bf35ae26ad357dcee7521a96ecef90d030f7c1692bc302f9d6fc071",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-problem-id-and-full-localized-statement",
+            "nativeChineseRawSha256": "6a03bc8d9491866438379bbf697500a7417cb569bc5269557bbc3bf275e21470",
+            "nativeLocale": "zh-CN",
+            "nativeProblemId": "P7090",
+            "originalSourceMarkdownSha256": "dc862e0258c5d7e4b7403cfb429a51badb52971e85dd7f81f150b052d30ed9e1"
+          },
+          "reviewedRecoveryRecordSha256": "5b444a32537a367796d1936ee2f8bb84076a9582d3880224bdc1852560702493",
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "5a8be580e364b650ecb944d1c6e200eabce773687dabcb37ece47ff5ac67c7af",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P7090"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 262,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Lonely Mountain\n\n## 题目描述\n\n给定一座山在 $Oxz$ 平面和 $Oyz$ 平面上的两幅平行投影。这两个投影平面都与地面垂直，且彼此垂直；每幅投影由一条山形折线描述。\n\n请根据这两幅投影，求出可能的最大体积。若没有山体能同时满足给定的两幅投影，报告无解。\n\n## 输入格式\n\n第一行一个整数 $n_x$，表示 $Oxz$ 平面上的投影折线的点数，$2\\le n_x\\le 100000$。\n\n第二行给出 $n_x$ 对整数 $x_i,z_i$，按 $x_i$ 严格递增的顺序描述折线，满足\n\n$$-10^9\\le x_1<x_2<\\cdots<x_{n_x}\\le10^9,$$\n$$0\\le z_i\\le10^9,\\qquad z_1=z_{n_x}=0.$$\n\n接下来的两行以相同格式给出 $Oyz$ 平面上的投影：点数为 $n_y$，点坐标为 $y_i,z_i$，取值范围与上述格式相同。\n\n## 输出格式\n\n若存在满足两幅投影的山体，输出最大可能体积；绝对误差或相对误差不超过 $10^{-6}$ 即可。\n\n若不存在合法山体，输出 `Invalid plan`。\n",
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-P7090",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:https://www.acmicpc.net/upload/images2/lonely.png"
+            ],
+            "markdownSha256": "dc862e0258c5d7e4b7403cfb429a51badb52971e85dd7f81f150b052d30ed9e1",
+            "pdfPageCountVerified": false,
+            "sampleCount": 2,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "d26a3630ed643b9cd2ece34d29e3e856a10db91e3817a1914e747a84c41df729",
+                "url": "https://www.luogu.com.cn/problem/P7090"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 262,
+            "timeMs": 2000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# Lonely Mountain\n\n## 题目描述\n\n\n\n\"This was made by Thror, your grandfather, Thorin\", he said in answer to the dwarves' excited questions. \"It is a plan of the Mountain. \"\n\n---\n\nJ. R. R. Tolkien. The Hobbit, or There and Back Again\n\nThe plan of the Lonely Mountain consists of two parallel projections of the mountain to two projection planes. Both planes are perpendicular to the ground and each other. Each projection has a mountain-like shape.\n\n![](https://www.acmicpc.net/upload/images2/lonely.png)\n\nSince Bilbo Baggins has never seen the mountain, he tries to imagine it. Is it really the Lonely Mountain or some ridges and other mountains surround it? In any case, it must be tremendous to hold the whole dwarves' kingdom!\n\nBilbo decided to estimate the maximum possible volume of the Lonely Mountain and nearby mountains (if any) based on the plan provided by Gandalf.\n\n\n\n## 输入格式\n\n\n\nThe first line contains single integer number $n_{x}$ -- the number of points in the parallel projection of the mountain to the plane Oxz $(2 \\le n_{x} \\le 100 000)$ . The second line contains $n_{x}$ pairs of integer numbers $x_{i}, z_{i}$ -- the coordinates of the polygonal chain, representing the projection $(−10^{9} \\le x_{1} < x_{2} <$ x3 $< · · · < x_{n_{x}} \\le 10^{9}; 0 \\le z_{i} \\le 10^{9}; z_{1} = z_{n_{x}} = 0)$ .\n\nThe following two lines contain projection to the Oyz plane in the same format.\n\n\n\n## 输出格式\n\n\n\nThe only line of the output file must contain a single number $V$ -- the maximum possible volume of the Lonely Mountain.\n\nThe absolute or relative precision of you answer should be at least $10^{−6}.$ E.g . if $V′is$ the actual maximum possible volume, the following must hold: $mi_n(|V−V′|,|V−V′|/V′) \\le 10^{−6}.$\n\nIf there are no mountains corresponding to the given projections, output a single line `Invalid plan`.\n\n\n\n## 提示\n\nTime limit: 2 s, Memory limit: 256 MB. \n\n",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: https://www.acmicpc.net/upload/images2/lonely.png",
+              "kind": "image",
+              "url": "https://www.acmicpc.net/upload/images2/lonely.png"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "6\n0 0 1 1 2 0 3 3 4 4 6 0\n5\n0 0 1 1 2 1 3 4 4 0\n",
+              "name": "样例 1",
+              "output": "21.824074074074074073\n"
+            },
+            {
+              "input": "3\n-1 0 0 1 2 0\n4\n0 0 1 1 2 2 3 0\n",
+              "name": "样例 2",
+              "output": "Invalid plan\n"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "Lonely Mountain",
+          "translation": {
+            "kind": "site",
+            "markdown": "# Lonely Mountain\n\n## 题目描述\n\n给定一个几何体的正视图和侧视图，求其最大体积。\n\n## 输入格式\n\n第一行一个整数 $n_x$ 表示正视图中点的数量。\n\n第二行按 $x_i$ 递增的顺序给出 $n_x$ 个点对 $(x_i,z_i)$ 描述其正视图，保证 $z_1=z_{n_x}=0$\n\n第三、四行同理，描述其侧视图。\n\n所有的输入都是整数。\n\n## 输出格式\n\n若不存在一个合法方案，输出 ```Invalid plan```，否则输出最大体积。\n\n你的答案与正确答案的绝对误差不应超过 $10^{-6}$.",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P7090"
+          },
+          "url": "https://www.luogu.com.cn/problem/P7090"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "6\n0 0 1 1 2 0 3 3 4 4 6 0\n5\n0 0 1 1 2 1 3 4 4 0\n",
+            "name": "样例 1",
+            "output": "21.824074074074074073\n"
+          },
+          {
+            "input": "3\n-1 0 0 1 2 0\n4\n0 0 1 1 2 2 3 0\n",
+            "name": "样例 2",
+            "output": "Invalid plan\n"
+          }
+        ],
+        "sourceLimits": {
+          "memory": [
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144,
+            262144
+          ],
+          "time": [
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000,
+            2000
+          ]
+        },
+        "statementAvailable": true,
+        "statementLanguage": "zh-CN",
+        "statementSource": "洛谷中英文原稿核对",
+        "statementVersion": 9,
+        "title": "Lonely Mountain",
+        "url": "https://www.luogu.com.cn/problem/P7090"
+      },
+      "problem_id": "luogu-training-P7090"
+    },
+    {
+      "beforeSha256": "63b53db3c4d66149927ac866cf6dde7f8fdd8194fb6b25ee49439c9f8160d114",
+      "content": {
+        "attachments": {},
+        "id": "luogu-training-SP12323",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T20:02:55.584536+00:00",
+          "corpusAuditVerifiedSha256": "3e379d446153d0c17195b743a74be6333ad94ca05c9df50c2d97dd62c0a4147c",
+          "markdownSha256": "3e379d446153d0c17195b743a74be6333ad94ca05c9df50c2d97dd62c0a4147c",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-problem-id-and-full-localized-statement",
+            "nativeChineseRawSha256": "e13944c2da0c909789f5aef002701c6a501a6f960965000e8ca1ff059128325e",
+            "nativeLocale": "zh-CN",
+            "nativeProblemId": "SP12323",
+            "originalSourceMarkdownSha256": "c0dc0ddfa2c58d9f5d90cf910d6e8728a3e110bf9bca30b796dab2d984cde229"
+          },
+          "reviewedRecoveryRecordSha256": "cd2e88ba33cb45dac7bd5fb0528f31be587f9736e0be9cc5bdd412f9f2f33890",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "be4b82461fd6de00121e1dfc76e670cbc5e001ceb7be69577520f1df705d4ae2",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/SP12323"
+            },
+            {
+              "sha256": "82d6ed01c1f4ef1b3376c4218c07f217bd0f3c1ab668ef11441d0fd820ece6b5",
+              "status": 200,
+              "url": "https://handbook.fide.com/chapter/e012023"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1536,
+          "timeMs": 165
+        },
+        "localJudgeSupported": true,
+        "markdown": "# NAKANJ - Minimum Knight moves !!!\n\n## 题目描述\n\nAnjali和Nakul是好朋友。他们最近在下棋时发生了争吵。Nakul想知道骑士从棋盘的一个方格到另一个方格所需的最小移动次数（8X8）。Nakul非常出色，他已经编写了一个程序来解决这个问题。Nakul想知道Anjali是否可以做到这一点。Anjali的编程非常薄弱。帮她解决问题。\n\n骑士每步以“L”形移动：先沿一个方向移动两格，再沿与前一方向垂直的方向移动一格。如果骑士移动如上所述并且它在棋盘的边界内（8×8），则骑士移动是有效的。\n\n## 输入格式\n\n总共有T个测试用例。下一个T行包含由空格分隔的两个字符串（开始和目标）。\n\n字符串的开头和目的地只包含两个字符 - 第一个字符是'a'和'h'（包括）之间的字母，第二个字符是'1'和'8'（包括）之间的数字 - （引号仅用于说明）。\n\n\n\n## 输出格式\n\n输出骑士在单独一行中从开始到目的地所需的最小移动次数。",
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-SP12323",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:http://0.tqn.com/d/chess/1/0/6/-/-/-/KnightMoves.gif"
+            ],
+            "markdownSha256": "c0dc0ddfa2c58d9f5d90cf910d6e8728a3e110bf9bca30b796dab2d984cde229",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "a817407fbffaa7a819c10e21dfb8f0da8c9d3b1f1833481b41ad54c3eae0a956",
+                "url": "https://www.luogu.com.cn/problem/SP12323"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 1536,
+            "timeMs": 165
+          },
+          "localJudgeSupported": true,
+          "markdown": "# NAKANJ - Minimum Knight moves !!!\n\n## 题目描述\n\nAnjali and Nakul are good friends. They both had a quarrel recently while playing chess. Nakul wants to know the minimum number of moves a knight takes to reach from one square to another square of a chess board (8X8). Nakul is brilliant and he had already written a program to solve the problem. Nakul wants to know whether Anjali can do it. Anjali is very weak in programming. Help her to solve the problem.\n\nA knight can move in the shape of an \"L\" in a chessboard - two squares either forward, backward, left, or right and then one square to its left or right. A knight move is valid if it moves as mentioned above and it is within the boundary of the chessboard (8 X 8).\n\n![http://0.tqn.com/d/chess/1/0/6/-/-/-/KnightMoves.gif](http://0.tqn.com/d/chess/1/0/6/-/-/-/KnightMoves.gif)\n\n## 输入格式\n\nThere are T test cases in total. The next T lines contain two strings (start and destination) separated by a space.\n\nThe strings start and destination will only contain two characters - First character is an alphabet between 'a' and 'h' (inclusive), Second character is a digit between '1' and '8' (inclusive) - (Quotes just for clarity).\n\nTo know the knight moves more clearly refer to the above figure.\n\n## 输出格式\n\nPrint the minimum number of moves a knight takes to reach from start to destination in a separate line.",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: http://0.tqn.com/d/chess/1/0/6/-/-/-/KnightMoves.gif",
+              "kind": "image",
+              "url": "http://0.tqn.com/d/chess/1/0/6/-/-/-/KnightMoves.gif"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "3\r\na1 h8\r\na1 c2\r\nh8 c3",
+              "name": "样例 1",
+              "output": "6\r\n1\r\n4"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "NAKANJ - Minimum Knight moves !!!",
+          "translation": {
+            "kind": "site",
+            "markdown": "# NAKANJ - Minimum Knight moves !!!\n\n## 题目描述\n\nAnjali和Nakul是好朋友。他们最近在下棋时发生了争吵。Nakul想知道骑士从棋盘的一个方格到另一个方格所需的最小移动次数（8X8）。Nakul非常出色，他已经编写了一个程序来解决这个问题。Nakul想知道Anjali是否可以做到这一点。Anjali的编程非常薄弱。帮她解决问题。\r\n\r\n骑士可以在棋盘中以“L”的形状移动 - 两个正方形向前，向后，向左或向右，然后向左或向右移动一个正方形。如果骑士移动如上所述并且它在棋盘的边界内（8×8），则骑士移动是有效的。\n\n## 输入格式\n\n总共有T个测试用例。下一个T行包含由空格分隔的两个字符串（开始和目标）。\r\n\r\n字符串的开头和目的地只包含两个字符 - 第一个字符是'a'和'h'（包括）之间的字母，第二个字符是'1'和'8'（包括）之间的数字 - （行情仅为了清晰起见） ）。\r\n\r\n要更清楚地了解骑士的动作，请参考上图。\n\n## 输出格式\n\n输出骑士在单独一行中从开始到目的地所需的最小移动次数。",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/SP12323"
+          },
+          "url": "https://www.luogu.com.cn/problem/SP12323"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "3\r\na1 h8\r\na1 c2\r\nh8 c3",
+            "name": "样例 1",
+            "output": "6\r\n1\r\n4"
+          }
+        ],
+        "sourceLimits": {
+          "memory": [
+            1536000
+          ],
+          "time": [
+            165
+          ]
+        },
+        "statementAvailable": true,
+        "statementLanguage": "zh-CN",
+        "statementSource": "洛谷中英文原稿核对",
+        "statementVersion": 9,
+        "title": "NAKANJ - Minimum Knight moves !!!",
+        "url": "https://www.luogu.com.cn/problem/SP12323"
+      },
+      "problem_id": "luogu-training-SP12323"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "letter": "E",
+    "problemId": "remote:codeforces:104385::E",
+    "pdfSha256": "8dbd7547a5345346f8ec3c8fc73066a6287c6d5dac4e47d46e78be9f46fb4af8",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      1,
+      2
+    ],
+    "sourceUrl": "https://codeforces.com/gym/104385/problem/E",
+    "figures": [
+      {
+        "file": "104385-E-figure1.png",
+        "page": 1,
+        "clipRect": [
+          56.428571,
+          235.0,
+          534.285714,
+          486.428571
+        ],
+        "sha256": "c4afa78aa20aac0fc248de84a879fc0514496a9cbf09cd9b1755c23ae802b321"
+      },
+      {
+        "file": "104385-E-figure2.png",
+        "page": 2,
+        "clipRect": [
+          131.428571,
+          250.714286,
+          439.285714,
+          426.428571
+        ],
+        "sha256": "5d450745100ab3f9f32bca75cbb8c6cba8628da4dc9f5e04d2c65764baa7d44d"
+      }
+    ],
+    "notes": [
+      "Both pages visually reviewed. Algorithm 1 is vector artwork missing from plain PDF extraction; the full original algorithm figure and a checked searchable pseudocode transcription are both retained.",
+      "Query midpoint is integer segment midpoint. Left edge value 0 belongs to Lyra; right edge value 1 belongs to Bon Bon. Root deletion only when tree becomes empty.",
+      "Exponent 2^n checked visually; must not become 2n. Limits T<=10^6 and n<=61 checked."
+    ]
+  }
+]

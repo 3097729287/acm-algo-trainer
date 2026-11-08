@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:106799::L",
+      "beforeSha256": "7910ae3bc2f6ed34c1d4c5722678351f2aa31025cffcebed8765ab818b5e64c4",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:106799::L",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-07T19:11:11.575722+00:00",
+          "corpusAuditVerifiedSha256": "212763f1566dbfb9c1661a46b8ef860083c26f5ea8de62fa021ddf3e78da6bcd",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Long Slides\n\n**This problem has an attachment. You can use it to simulate and visualize the movements of the robot.**\n\n\n\nVegiCat has a robot on an infinite two-dimensional grid. He wants it to move from cell $$$s=(s_x,s_y)$$$ to cell $$$t=(t_x,t_y)$$$. Each cell has integer coordinates. The cells $$$s$$$ and $$$t$$$ may be the same.\n\n\n\nThe robot follows a string $$$p$$$ of instructions. Each character is `L`, `R`, `U`, or `D`. Let $$$|p|$$$ denote the length of $$$p$$$.\n\n\n\nThe robot starts at $$$s$$$. Before it executes any instructions, you may place at most $$$|p|$$$ obstacles in distinct cells. The coordinates $$$(x,y)$$$ of each obstacle must satisfy $$$-2\\cdot10^9 \\le x,y \\le 2\\cdot10^9$$$. Neither $$$s$$$ nor $$$t$$$ may contain an obstacle. Each obstacle occupies one cell and remains fixed throughout the process; all other cells are free of obstacles.\n\n\n\nThe robot executes the instructions $$$p_1,p_2,\\ldots,p_{|p|}$$$ in order. For each instruction, starting from its current cell $$$(x,y)$$$, it moves along the following sequence of cells:\n\n\n\n- `L`: $$$(x,y)\\to(x-1,y)\\to(x-2,y)\\to\\cdots$$$;\n\n- `R`: $$$(x,y)\\to(x+1,y)\\to(x+2,y)\\to\\cdots$$$;\n\n- `U`: $$$(x,y)\\to(x,y+1)\\to(x,y+2)\\to\\cdots$$$;\n\n- `D`: $$$(x,y)\\to(x,y-1)\\to(x,y-2)\\to\\cdots$$$.\n\n The robot repeatedly takes one step in the specified direction while the next cell contains no obstacle. It stops in the cell immediately before the first obstacle in that direction. If the next cell in the specified direction already contains an obstacle before the instruction starts, the robot stays in place, but the instruction is still completed. If there is no obstacle ahead in that direction, the robot would move forever, and the placement is invalid.\n\nThe robot may reach $$$t$$$ before all instructions are completed. It **must still execute all remaining instructions**. Construct any obstacle placement satisfying the requirements above such that the robot finishes at $$$t$$$ after the last instruction, or report that no such placement exists.\n\n\n\n## Input\n\n\n\nThe first line contains an integer $$$T$$$ ($$$1 \\le T \\le 10^5$$$), the number of test cases. The description of the test cases follows.\n\n\n\nThe first line of each test case contains two integers $$$s_x$$$ and $$$s_y$$$ ($$$-10^9\\le s_x,s_y\\le10^9$$$), the coordinates of the starting cell.\n\n\n\nThe second line contains two integers $$$t_x$$$ and $$$t_y$$$ ($$$-10^9 \\le t_x,t_y \\le 10^9$$$), the coordinates of the target cell.\n\n\n\nThe third line contains the instruction string $$$p$$$ ($$$1 \\le |p| \\le 10^5$$$), consisting only of the characters `L`, `R`, `U`, and `D`.\n\n\n\nIt is guaranteed that the sum of $$$|p|$$$ over all test cases does not exceed $$$10^5$$$.\n\n\n\n## Output\n\n\n\nFor each test case, output an answer in input order. Obstacle placements for different test cases are independent.\n\n\n\nIf no valid placement exists, output `NO` on a line by itself.\n\n\n\nOtherwise, output `YES` on the first line. On the second line, output an integer $$$k$$$ ($$$0\\le k\\le|p|$$$), the number of obstacles.\n\n\n\nThen output $$$k$$$ lines. The $$$i$$$-th of these lines must contain two integers $$$x_i$$$ and $$$y_i$$$ ($$$-2\\cdot10^9 \\le x_i,y_i \\le 2\\cdot10^9$$$), specifying an obstacle in cell $$$(x_i,y_i)$$$.\n\n\n\nAll $$$k$$$ coordinate pairs must be distinct, and none may equal $$$s$$$ or $$$t$$$. The placement must allow every instruction to finish and leave the robot at $$$t$$$ after the last instruction. If there are multiple solutions, output any of them.\n\n\n\nYou can output the yes or no verdict in any case. For example, `yEs`, `yes`, `Yes`, and `YES` are all accepted as positive responses.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:106799::L",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "a1bf324c4aebddcedb2603e0d8f18e58922017da2d3a9ff57a64cb2bd42fce88",
+          "url": "https://codeforces.com/gym/106799/problem/L"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "6\n0 0\n1 0\nRL\n0 0\n-1 0\nURD\n0 0\n8 0\nRLR\n0 0\n0 0\nUDUD\n0 0\n2 5\nRDULR\n0 0\n1 1\nRURURU",
+            "name": "样例 1",
+            "output": "NO\nNO\nYES\n2\n-1 0\n9 0\nYES\n2\n0 -1\n0 1\nYES\n5\n-1 5\n2 -1\n2 6\n3 0\n3 5\nYES\n3\n1 2\n2 0\n2 1"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Long Slides",
+        "url": "https://codeforces.com/gym/106799/problem/L",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "212763f1566dbfb9c1661a46b8ef860083c26f5ea8de62fa021ddf3e78da6bcd",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 长距离滑行\n\n\n\n**本题有附件，可以用来模拟并可视化机器人的移动。**\n\n\n\nVegiCat 在无限大的二维网格上有一个机器人。他希望机器人从格子 $$$s=(s_x,s_y)$$$ 移动到格子 $$$t=(t_x,t_y)$$$。所有格子坐标均为整数。$$$s$$$ 和 $$$t$$$ 可以相同。\n\n\n\n机器人按字符串 $$$p$$$ 中的指令行动，每个字符为 `L`、`R`、`U` 或 `D`。用 $$$|p|$$$ 表示 $$$p$$$ 的长度。\n\n\n\n机器人从 $$$s$$$ 出发。执行任何指令之前，你可以在不同格子中放置至多 $$$|p|$$$ 个障碍物。每个障碍物的坐标 $$$(x,y)$$$ 必须满足 $$$-2\\cdot10^9 \\le x,y \\le 2\\cdot10^9$$$。$$$s$$$ 和 $$$t$$$ 都不能放置障碍物。每个障碍物占一个格子，且整个过程中保持不动；其他格子均无障碍物。\n\n\n\n机器人依次执行指令 $$$p_1,p_2,\\ldots,p_{|p|}$$$。对于每条指令，从当前位置 $$$(x,y)$$$ 开始，它会沿如下格子序列移动：\n\n\n\n- `L`：$$$(x,y)\\to(x-1,y)\\to(x-2,y)\\to\\cdots$$$；\n\n- `R`：$$$(x,y)\\to(x+1,y)\\to(x+2,y)\\to\\cdots$$$；\n\n- `U`：$$$(x,y)\\to(x,y+1)\\to(x,y+2)\\to\\cdots$$$；\n\n- `D`：$$$(x,y)\\to(x,y-1)\\to(x,y-2)\\to\\cdots$$$。\n\n\n\n只要指定方向的下一个格子没有障碍物，机器人就继续前进一步，直到停在该方向第一个障碍物前的格子。如果开始执行指令时，指定方向的相邻格子已有障碍物，机器人保持原位，但这条指令仍算执行完毕。如果该方向前方没有障碍物，机器人会无限移动，此时障碍物放置方案不合法。\n\n\n\n机器人可以在执行完全部指令前到达 $$$t$$$，但**仍必须执行全部剩余指令**。请构造任意一种满足上述要求的障碍物放置方案，使机器人执行最后一条指令后停在 $$$t$$$；或者报告不存在这样的方案。\n\n\n\n## 输入格式\n\n\n\n第一行包含整数 $$$T$$$（$$$1 \\le T \\le 10^5$$$），表示测试用例数。接下来描述各测试用例。\n\n\n\n每个测试用例的第一行包含两个整数 $$$s_x$$$ 和 $$$s_y$$$（$$$-10^9\\le s_x,s_y\\le10^9$$$），表示起始格子的坐标。\n\n\n\n第二行包含两个整数 $$$t_x$$$ 和 $$$t_y$$$（$$$-10^9 \\le t_x,t_y \\le 10^9$$$），表示目标格子的坐标。\n\n\n\n第三行包含指令字符串 $$$p$$$（$$$1 \\le |p| \\le 10^5$$$），仅由字符 `L`、`R`、`U`、`D` 组成。\n\n\n\n保证所有测试用例的 $$$|p|$$$ 之和不超过 $$$10^5$$$。\n\n\n\n## 输出格式\n\n\n\n按输入顺序输出各测试用例的答案，不同测试用例的障碍物方案相互独立。\n\n\n\n如果不存在合法方案，单独输出一行 `NO`。\n\n\n\n否则，第一行输出 `YES`，第二行输出整数 $$$k$$$（$$$0\\le k\\le|p|$$$），表示障碍物数量。\n\n\n\n然后输出 $$$k$$$ 行，其中第 $$$i$$$ 行必须包含两个整数 $$$x_i$$$ 和 $$$y_i$$$（$$$-2\\cdot10^9 \\le x_i,y_i \\le 2\\cdot10^9$$$），表示格子 $$$(x_i,y_i)$$$ 中有一个障碍物。\n\n\n\n全部 $$$k$$$ 对坐标必须互不相同，且都不能等于 $$$s$$$ 或 $$$t$$$。放置方案必须使每条指令都能结束，并使机器人执行最后一条指令后停在 $$$t$$$。如果有多个方案，输出任意一个。\n\n\n\n肯定或否定判定不区分大小写。例如 `yEs`、`yes`、`Yes` 和 `YES` 都会被视为肯定回答。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:106799::L",
+          "slug": "106799-L",
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/L",
+          "sourceSha256": "212763f1566dbfb9c1661a46b8ef860083c26f5ea8de62fa021ddf3e78da6bcd",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "6\n0 0\n1 0\nRL\n0 0\n-1 0\nURD\n0 0\n8 0\nRLR\n0 0\n0 0\nUDUD\n0 0\n2 5\nRDULR\n0 0\n1 1\nRURURU",
+              "name": "样例 1",
+              "output": "NO\nNO\nYES\n2\n-1 0\n9 0\nYES\n2\n0 -1\n0 1\nYES\n5\n-1 5\n2 -1\n2 6\n3 0\n3 5\nYES\n3\n1 2\n2 0\n2 1"
+            }
+          ],
+          "notes": [
+            "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+            "Original Markdown, samples and resource bindings retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

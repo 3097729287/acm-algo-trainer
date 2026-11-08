@@ -1,0 +1,144 @@
+{
+  "schema": 1,
+  "sourcePacketCommit": "67299ea0",
+  "sourcePacketEquivalentCommitOnThisBranch": "c2344fce",
+  "registeredProblemIds": [
+    "luogu-training-P13110",
+    "luogu-training-P13143",
+    "luogu-training-P7562",
+    "remote:codeforces:105977::J"
+  ],
+  "newlyRevived": 4,
+  "newUniqueAssets": 5,
+  "newAssetBytes": 719276,
+  "canonicalAssetDescriptors": 6256,
+  "completePublicOriginals": 13446,
+  "missingRealOriginals": 32,
+  "verifiedNonproblemIds": [
+    "luogu-training-U711466",
+    "remote:codeforces:105544::V"
+  ],
+  "workbench": {
+    "checked": [
+      {
+        "id": "luogu-training-P13110",
+        "pages": 0,
+        "images": 0,
+        "attachments": 2,
+        "samples": 0,
+        "bilingualVerified": false
+      },
+      {
+        "id": "luogu-training-P13143",
+        "pages": 0,
+        "images": 0,
+        "attachments": 2,
+        "samples": 0,
+        "bilingualVerified": false
+      },
+      {
+        "id": "luogu-training-P7562",
+        "pages": 0,
+        "images": 0,
+        "attachments": 2,
+        "samples": 4,
+        "bilingualVerified": false
+      },
+      {
+        "id": "remote:codeforces:105977::J",
+        "pages": 2,
+        "images": 0,
+        "attachments": 0,
+        "samples": 1,
+        "bilingualVerified": false
+      }
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true,
+    "originalAttachmentByteIdentity": true
+  },
+  "visibleOriginalOptionalLinks": {
+    "checked": [
+      {
+        "id": "luogu-training-P13110",
+        "language": "original",
+        "url": "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py",
+        "originalLinkRetained": true,
+        "fakeCachedDownload": false,
+        "availabilityNoticeVisible": true
+      },
+      {
+        "id": "luogu-training-P13110",
+        "language": "chinese",
+        "url": "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py",
+        "originalLinkRetained": true,
+        "fakeCachedDownload": false,
+        "availabilityNoticeVisible": true
+      },
+      {
+        "id": "luogu-training-P13143",
+        "language": "original",
+        "url": "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py",
+        "originalLinkRetained": true,
+        "fakeCachedDownload": false,
+        "availabilityNoticeVisible": true
+      },
+      {
+        "id": "luogu-training-P13143",
+        "language": "chinese",
+        "url": "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py",
+        "originalLinkRetained": true,
+        "fakeCachedDownload": false,
+        "availabilityNoticeVisible": true
+      },
+      {
+        "id": "luogu-training-P7562",
+        "language": "original",
+        "url": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2-data.zip",
+        "originalLinkRetained": true,
+        "fakeCachedDownload": false,
+        "availabilityNoticeVisible": true
+      }
+    ],
+    "browserErrors": 0,
+    "externalRequests": 0
+  },
+  "optionalAuthoringGuardPositiveRecords": 4,
+  "reviewedOptionalDestinations": 3,
+  "upstreamNegativeOptionalGuardChecks": {
+    "positiveRecordsValidated": 4,
+    "negativeChecksRejected": [
+      "source text hash cannot drift",
+      "required output-only inputs never exempt",
+      "missing necessary PDF rejected",
+      "missing necessary image rejected",
+      "fabricated generic helper cache rejected",
+      "ordinary test suite cannot exempt output-only",
+      "real sample cannot disappear",
+      "unreviewed optional URL rejected"
+    ],
+    "necessaryResourcesExempted": 0
+  },
+  "necessaryResourceExemptions": 0,
+  "automaticParserRulesOr32MiBLimitChanged": false,
+  "originalIdsAndRawRowsPreserved": true,
+  "catalogueSemanticChangesOnly": [
+    "luogu-training-P13110",
+    "luogu-training-P13143",
+    "luogu-training-P7562",
+    "remote:codeforces:105977::J"
+  ],
+  "registrationRepeatIdempotent": true,
+  "sourceDigestsAfterRepeat": {
+    "problems.json": "fbe66dc5045b72a767ba18f20356f978cce79c722c9172276afe4af7b44bd13d",
+    "statement_assets.json": "b939c2b35d49320247b2a63a9640d3c4591c35f7b0f34d89897e293bb1fb859f"
+  },
+  "actualRegistrationReplacesPendingMarker": true,
+  "viteReviewCacheKeptIsolated": true,
+  "noFullSeedRebuild": true,
+  "privateRecordsReadOrWritten": false
+}

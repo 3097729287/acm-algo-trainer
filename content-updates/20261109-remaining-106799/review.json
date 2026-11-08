@@ -1,0 +1,194 @@
+[
+  {
+    "problemId": "remote:codeforces:106799::C",
+    "slug": "106799-C",
+    "sourceUrl": "https://codeforces.com/gym/106799/problem/C",
+    "sourceSha256": "70fdbe7c3de8869d0fc02b11322e7db667710ee6a156082b29382461447452fe",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "6\n1 0\n3 1\n3 1\n3 1\n2 0\n4 1\n4 3\n5 2\n1 0\n5 4\n5 2\n2 0\n5 10",
+        "name": "样例 1",
+        "output": "1\n1\n2\n2\n2\n0"
+      }
+    ],
+    "notes": [
+      "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:106799::D",
+    "slug": "106799-D",
+    "sourceUrl": "https://codeforces.com/gym/106799/problem/D",
+    "sourceSha256": "6ccec4b672e6da745052ecd0ff33bf8d2c4087ac3b81b819a564cdb9c7870bae",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "5\n1 1 5 1\n1 1 4 1\n1 1 1 1\n1 1 1 5\n2 3 13 2",
+        "name": "样例 1",
+        "output": "YES\nNO\nNO\nNO\nYES"
+      },
+      {
+        "input": "4\n3 2 18 13\n3 2 16 13\n3 2 9 13\n3 2 17 13",
+        "name": "样例 2",
+        "output": "YES\nNO\nNO\nYES"
+      }
+    ],
+    "notes": [
+      "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:106799::E",
+    "slug": "106799-E",
+    "sourceUrl": "https://codeforces.com/gym/106799/problem/E",
+    "sourceSha256": "e470789f40a5286fd4fc7b43ae4c1e81a77d66ee4e62acfe80097c42f70e35e7",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "2\n5 1\n0 4\n-3 0\n-3 -3\n3 -3\n3 0\n0 0\n3 1\n0 4\n-3 0\n3 0\n0 0",
+        "name": "样例 1",
+        "output": "3\n4 1 2\n-1"
+      }
+    ],
+    "notes": [
+      "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:106799::G",
+    "slug": "106799-G",
+    "sourceUrl": "https://codeforces.com/gym/106799/problem/G",
+    "sourceSha256": "1e422fa541d8f2d457bb2c9b5641bd240d834cc29758946f750e78e6fd10c38a",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "2\n5\n-1 -1 -1 -1 -1\n-1 -1  3  1  2\n-1  3 -1  2  2\n-1  1  2 -1  1\n-1  2  2  1 -1\n7\n-1 -1 -1 -1 -1 -1 -1\n-1 -1  4  5  3  6  5\n-1  4 -1  5  4  5  5\n-1  5  5 -1  5  7  5\n-1  3  4  5 -1  4  4\n-1  6  5  7  4 -1  5\n-1  5  5  5  4  5 -1",
+        "name": "样例 1",
+        "output": "0 1 0 1 1\n1 0 0 0 0\n0 0 0 1 0\n1 0 1 0 1\n1 0 0 1 0\n0 1 1 0 1 0 0\n1 0 0 0 0 1 1\n1 0 0 0 1 0 1\n0 0 0 0 1 1 0\n1 0 1 1 0 0 1\n0 1 0 1 0 0 0\n0 1 1 0 1 0 0"
+      }
+    ],
+    "notes": [
+      "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:106799::H",
+    "slug": "106799-H",
+    "sourceUrl": "https://codeforces.com/gym/106799/problem/H",
+    "sourceSha256": "5639813e01abd90e101bf8deb0efaa7ac4daa7f0e4d82ccce685f0f33d370370",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "2\n3\n\n1\n\n1\n\n2\n\n0",
+        "name": "样例 1",
+        "output": "? 1 2\n\n? 2 3\n\n! 3 2 1\n\n? 1 2\n\n! 1 2"
+      }
+    ],
+    "notes": [
+      "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged.",
+      "Adaptive interactor: final permutation must work for every consistent array. Full query protocol, flush rules, response timing and 2n-3 cap retained."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:106799::I",
+    "slug": "106799-I",
+    "sourceUrl": "https://codeforces.com/gym/106799/problem/I",
+    "sourceSha256": "3a05def2ca8d7e3a558489db013b0de538fe2ba0b554c2a7a44616f7c0bd5ee4",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "cat\n4\n1 0\n4 3\n1 2\n4 3\n2 3\n7 2\n6 4\n7 1\n10 7\n10 9\n7 9\n10 5\n4 8\n3 7\n4 10\n1 2",
+        "name": "样例 1",
+        "output": "1\n2 5 8 5\n11 11 4 11 3 7 2\n10 13 12 5 3 2 16 6 19 3"
+      },
+      {
+        "input": "dog\n4\n1\n1\n4\n5 2 5 8\n7\n11 7 2 11 11 3 4\n10\n16 3 13 5 10 12 19 6 2 3",
+        "name": "样例 2",
+        "output": "0\n3\n1 4\n2 1\n4 3\n2\n4 3\n5 2\n7\n1 7\n4 8\n5 3\n6 1\n7 10\n10 2\n10 4"
+      }
+    ],
+    "notes": [
+      "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged.",
+      "Both runs, cat/dog labels, new vertex order, independent test order and sample non-universal strategy caveat retained."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:106799::J",
+    "slug": "106799-J",
+    "sourceUrl": "https://codeforces.com/gym/106799/problem/J",
+    "sourceSha256": "2d03e745b97948988a2835e932c0cfe9e76ab3f169fa0f842bd6eee2dd2d405e",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "2\n4 2\n2 1 3\n2 8 10\n8 3\n3 4 12 1\n2 3 2\n3 9 8 10",
+        "name": "样例 1",
+        "output": "4\n15"
+      }
+    ],
+    "notes": [
+      "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:106799::K",
+    "slug": "106799-K",
+    "sourceUrl": "https://codeforces.com/gym/106799/problem/K",
+    "sourceSha256": "7f33d38041fb0fa68e35ffef7e181c4f8d287f2b92c4c5e9de13655d9549b7a3",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "2\n2\n1 1\n1\n7\n2 6 12 14 14 16 19\n11 8 4 2 10 9",
+        "name": "样例 1",
+        "output": "1\n6"
+      }
+    ],
+    "notes": [
+      "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:106799::L",
+    "slug": "106799-L",
+    "sourceUrl": "https://codeforces.com/gym/106799/problem/L",
+    "sourceSha256": "212763f1566dbfb9c1661a46b8ef860083c26f5ea8de62fa021ddf3e78da6bcd",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "6\n0 0\n1 0\nRL\n0 0\n-1 0\nURD\n0 0\n8 0\nRLR\n0 0\n0 0\nUDUD\n0 0\n2 5\nRDULR\n0 0\n1 1\nRURURU",
+        "name": "样例 1",
+        "output": "NO\nNO\nYES\n2\n-1 0\n9 0\nYES\n2\n0 -1\n0 1\nYES\n5\n-1 5\n2 -1\n2 6\n3 0\n3 5\nYES\n3\n1 2\n2 0\n2 1"
+      }
+    ],
+    "notes": [
+      "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:106799::M",
+    "slug": "106799-M",
+    "sourceUrl": "https://codeforces.com/gym/106799/problem/M",
+    "sourceSha256": "c0db71b622450c96acd5902a84e4c0c64a648bec829d6212340cc7555712fcfc",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "2\n4\n1 1\n1 100\n20 20\n30 30\n8\n-3 -1\n-5 4\n0 1\n2 2\n1 8\n5 6\n10 12\n12 12",
+        "name": "样例 1",
+        "output": "2\n4"
+      }
+    ],
+    "notes": [
+      "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  }
+]

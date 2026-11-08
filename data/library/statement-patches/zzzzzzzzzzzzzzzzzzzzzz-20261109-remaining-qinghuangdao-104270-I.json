@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:104270::I",
+      "beforeSha256": "eb956e9c79cc03ef06b400a5bae422e1dd7f2d200478aabc78feb4ac89dcea39",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:104270::I",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:50:33.931049+00:00",
+          "corpusAuditVerifiedSha256": "2ff9babfc12e68a0b59aa8ba5131cb13dd0a8a3840e270e6df106d6d94282b04",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 4000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Soldier Game\n\nDreamGrid and BaoBao are playing a game. There are $$$n$$$ soldiers in the game, numbered from $$$1$$$ to $$$n$$$. The $$$i$$$-th soldier has a power value of $$$a_i$$$. DreamGrid and BaoBao are going to divide the soldiers into several teams according to the rules below:\n\n\n\n- A team must consist of 1 or 2 soldiers.\n\n- Every soldier must belong to exactly 1 team.\n\n- If a team consists of two soldiers (let's say they are the $$$i$$$-th and the $$$j$$$-th soldier), there must be $$$|i - j| = 1$$$.\n\n\n\nThe power value of a team is defined as the sum of the team members' power values. For the sake of fairness, they want to minimize the difference between the maximum team power value and the minimum team power value after the division. You are asked to find the minimum difference.\n\n\n\n## Input\n\n\n\nThere are multiple test cases. The first line of the input contains an integer $$$T$$$, indicating the number of test cases. For each test case:\n\n\n\nThe first line contains an integer $$$n$$$ ($$$1 \\le n \\le 10^5$$$), indicating the number of soldiers.\n\n\n\nThe second line contains $$$n$$$ integers $$$a_1, a_2, ... , a_n$$$ ($$$-10^9 \\le a_i \\le 10^9$$$), where $$$a_i$$$ indicates the power value of the $$$i$$$-th soldier.\n\n\n\nIt's guaranteed that the sum of $$$n$$$ in all test cases will not exceed $$$10^6$$$.\n\n\n\n## Output\n\n\n\nFor each test case output one line containing one integer, indicating the minimum difference between the maximum team power value and the minimum team power value.\n\n\n\n## Note\n\n\n\nWe now explain the first sample test case. All possible divisions are listed below.\n\n \n\n| **Division** | **Difference** | **Division** | **Difference** |\n| --- | --- | --- | --- |\n| , [4], [2], [1], [1] | 4 - (-1) = 5 | [-1, 4], [2], [1], [1] | 3 - 1 = 2 |\n| , [4], [2], [1, 1] | 4 - (-1) = 5 | [-1], [4, 2], [1, 1] | 6 - (-1) = 7 |\n| , [4], [2, 1], [1] | 4 - (-1) = 5 | [-1, 4], [2], [1, 1] | 3 - 2 = 1 |\n| , [4, 2], [1], [1] | 6 - (-1) = 7 | [-1, 4], [2, 1], [1] | 3 - 1 = 2 |\n\n\n\nSo the answer is $$$\\min(5, 5, 5, 7, 2, 7, 1, 2) = 1$$$.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:104270::I",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "65d423cced5f5bb6d2e4be30aa741fa535aa1b42fffb359216d1b6c6db7ec9fa",
+          "url": "https://codeforces.com/gym/104270/problem/I"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "3\n5\n-1 4 2 1 1\n4\n1 3 2 4\n1\n7",
+            "name": "样例 1",
+            "output": "1\n2\n0"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Soldier Game",
+        "url": "https://codeforces.com/gym/104270/problem/I",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "2ff9babfc12e68a0b59aa8ba5131cb13dd0a8a3840e270e6df106d6d94282b04",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 士兵游戏\n\n\n\nDreamGrid 和 BaoBao 正在玩一个游戏。游戏中有 $$$n$$$ 名士兵，编号为 $$$1$$$ 到 $$$n$$$。第 $$$i$$$ 名士兵的战斗力为 $$$a_i$$$。他们准备按以下规则将士兵分成若干队：\n\n\n\n- 每队必须包含 1 名或 2 名士兵。\n- 每名士兵必须恰好属于 1 支队伍。\n- 如果一队包含两名士兵，设他们分别为第 $$$i$$$ 名和第 $$$j$$$ 名士兵，则必须满足 $$$|i - j| = 1$$$。\n\n\n\n一支队伍的战斗力定义为队内所有士兵的战斗力之和。为了公平，他们希望最小化分队后最强队伍与最弱队伍的战斗力之差。请求出这个差值的最小值。\n\n\n\n## 输入格式\n\n\n\n有多组测试数据。输入第一行包含一个整数 $$$T$$$，表示测试用例数。对于每个测试用例：\n\n\n\n第一行包含一个整数 $$$n$$$（$$$1 \\le n \\le 10^5$$$），表示士兵数量。\n\n\n\n第二行包含 $$$n$$$ 个整数 $$$a_1, a_2, ... , a_n$$$（$$$-10^9 \\le a_i \\le 10^9$$$），其中 $$$a_i$$$ 表示第 $$$i$$$ 名士兵的战斗力。\n\n\n\n保证所有测试用例的 $$$n$$$ 之和不超过 $$$10^6$$$。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，在一行中输出一个整数，表示最强队伍与最弱队伍战斗力之差的最小值。\n\n\n\n## 样例说明\n\n\n\n下面解释第一组样例。所有可能的分队方式如下。\n\n\n\n| **分队方式** | **差值** | **分队方式** | **差值** |\n| --- | --- | --- | --- |\n| [-1], [4], [2], [1], [1] | 4 - (-1) = 5 | [-1, 4], [2], [1], [1] | 3 - 1 = 2 |\n| [-1], [4], [2], [1, 1] | 4 - (-1) = 5 | [-1], [4, 2], [1, 1] | 6 - (-1) = 7 |\n| [-1], [4], [2, 1], [1] | 4 - (-1) = 5 | [-1, 4], [2], [1, 1] | 3 - 2 = 1 |\n| [-1], [4, 2], [1], [1] | 6 - (-1) = 7 | [-1, 4], [2, 1], [1] | 3 - 1 = 2 |\n\n\n\n所以答案为 $$$\\min(5, 5, 5, 7, 2, 7, 1, 2) = 1$$$。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:104270::I",
+          "slug": "104270-I",
+          "sourceUrl": "https://codeforces.com/gym/104270/problem/I",
+          "sourceSha256": "2ff9babfc12e68a0b59aa8ba5131cb13dd0a8a3840e270e6df106d6d94282b04",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "3\n5\n-1 4 2 1 1\n4\n1 3 2 4\n1\n7",
+              "name": "样例 1",
+              "output": "1\n2\n0"
+            }
+          ],
+          "notes": [
+            "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+            "Original Markdown, sample records, image map and resource metadata retained unchanged.",
+            "Restored missing [-1] groups in the translated sample-explanation table using the exact first sample array [-1,4,2,1,1] and the corresponding printed difference expressions. The original extraction is retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

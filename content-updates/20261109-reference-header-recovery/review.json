@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "cleanupInspection": {
+    "unusedPriorContentChecked": true,
+    "replacedOnlyUnresolvedReference": 1,
+    "discardedWrongCurrentVersion": true,
+    "keptSmallTextResourceEmbeddedInSeed": true,
+    "serverMimeAllowlistUnchanged": true,
+    "privateRecordsReadOrWritten": false
+  },
+  "problems": [
+    {
+      "id": "luogu-training-P6750",
+      "url": "https://www.luogu.com.cn/problem/P6750",
+      "markdownSha256": "b062cd47119ee176c3165cd6a413c11f89e48ad69285f40b795c1aba96ce411e",
+      "samples": 4,
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P6750",
+          "sha256": "3f771f07012353d5441621f593d46589a2cc2ff9c62abcb864ace8224360a4be",
+          "status": 200
+        },
+        {
+          "url": "https://api.github.com/repos/kth-competitive-programming/kactl/contents/content/various/FastMod.h?ref=33f2644e601943ccd9defd28286cf05c33a55aff",
+          "sha256": "afb8ae03b4100c4ebf42e6913b711103c5542794f4d3c80a0abbb7de6f9acd21",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "sourceResource": {
+        "sourceUrl": "https://github.com/kth-competitive-programming/kactl/blob/33f2644e601943ccd9defd28286cf05c33a55aff/content/various/FastMod.h",
+        "sha256": "029163ce6ec861a5d3fca5a7813443e0329a40ca6dd697ebf4b74a78b2b03eb9",
+        "bytes": 674,
+        "mime": "application/octet-stream",
+        "fileName": "FastMod.h",
+        "sourceApiUrl": "https://api.github.com/repos/kth-competitive-programming/kactl/contents/content/various/FastMod.h?ref=33f2644e601943ccd9defd28286cf05c33a55aff",
+        "sourceCommit": "33f2644e601943ccd9defd28286cf05c33a55aff",
+        "sourceGitBlobSha1": "b62fa8773823b63c47f7d6e438020aee633b3f77"
+      },
+      "statementExcerptUnchanged": true,
+      "constructorAndReductionTokensVerified": true,
+      "historicalVersionBinding": {
+        "method": "historical-reference-header-matches-statement-excerpt",
+        "sourceCommit": "33f2644e601943ccd9defd28286cf05c33a55aff",
+        "sourceGitBlobSha1": "b62fa8773823b63c47f7d6e438020aee633b3f77",
+        "constructorAndReductionTokensVerified": true,
+        "allowedFormattingDifference": "The problem splits the ull q,r declaration and adds a comment; constructor and all calculations are unchanged."
+      }
+    }
+  ],
+  "uiReview": {
+    "checked": [
+      {
+        "id": "luogu-training-P6750",
+        "pages": 0,
+        "images": 1,
+        "samples": 4
+      }
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true
+  },
+  "smallTextAssetProbe": {
+    "embeddedBytes": 674,
+    "remoteAssets": 0,
+    "sha256": "029163ce6ec861a5d3fca5a7813443e0329a40ca6dd697ebf4b74a78b2b03eb9",
+    "serverMimeAllowlistUnchanged": true
+  }
+}

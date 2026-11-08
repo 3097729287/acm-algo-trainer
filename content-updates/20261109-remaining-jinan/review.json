@@ -1,0 +1,235 @@
+[
+  {
+    "problemId": "remote:codeforces:105170::A",
+    "slug": "105170-A",
+    "sourceUrl": "https://codeforces.com/gym/105170/problem/A",
+    "sourceSha256": "31837e380f683efc5a6b19e1d6bc0908a18a3ac2cf6a7fd1599607173ded8ca8",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "1",
+        "name": "样例 1",
+        "output": "1"
+      },
+      {
+        "input": "2",
+        "name": "样例 2",
+        "output": "6"
+      },
+      {
+        "input": "3",
+        "name": "样例 3",
+        "output": "91"
+      }
+    ],
+    "notes": [
+      "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:105170::C",
+    "slug": "105170-C",
+    "sourceUrl": "https://codeforces.com/gym/105170/problem/C",
+    "sourceSha256": "830e7410bb4e725ba19294565e8c2be348b5754380cee093dd6e9ce2ae0237b7",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "1",
+        "name": "样例 1",
+        "output": "1"
+      },
+      {
+        "input": "10",
+        "name": "样例 2",
+        "output": "2"
+      },
+      {
+        "input": "11",
+        "name": "样例 3",
+        "output": "3"
+      }
+    ],
+    "notes": [
+      "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:105170::D",
+    "slug": "105170-D",
+    "sourceUrl": "https://codeforces.com/gym/105170/problem/D",
+    "sourceSha256": "9fe03d3fc69a2d9e47f4a59054c249394b2c782518b93481b20a7c6e6b73bb69",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "4 2\n1 3\n2 5\n4 7\n5 9",
+        "name": "样例 1",
+        "output": "2 3 4 \n2 1 2 "
+      }
+    ],
+    "notes": [
+      "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:105170::E",
+    "slug": "105170-E",
+    "sourceUrl": "https://codeforces.com/gym/105170/problem/E",
+    "sourceSha256": "15d3502338b568c4e3698a1cdfaad7e78f6aff48822a0fc31095e239c8bf4937",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "5\n1 -4\n3 -2\n5 0\n7 2\n9 4",
+        "name": "样例 1",
+        "output": "5"
+      },
+      {
+        "input": "2\n1 2\n2 1",
+        "name": "样例 2",
+        "output": "1"
+      },
+      {
+        "input": "5\n5 4\n3 3\n2 5\n3 4\n4 5",
+        "name": "样例 3",
+        "output": "2"
+      }
+    ],
+    "notes": [
+      "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:105170::F",
+    "slug": "105170-F",
+    "sourceUrl": "https://codeforces.com/gym/105170/problem/F",
+    "sourceSha256": "3a7c4a6a19c4e8d303dc24219cfa729b3ecde1f7a2b28f97653c1923a2e78b7d",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "2\n3 2\n1 2 2 3 6\n2 3 6 6 2\n4 4\n1 2 2 4 1\n2 3 2 3 0\n3 4 4 1 2\n1 4 1 1 1",
+        "name": "样例 1",
+        "output": "3\n1 2 3\n2\n2 3"
+      }
+    ],
+    "notes": [
+      "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:105170::G",
+    "slug": "105170-G",
+    "sourceUrl": "https://codeforces.com/gym/105170/problem/G",
+    "sourceSha256": "f1ec3e7bfc2cce092298f03eb533ebd5db29f55b0881f05953ae2ac825e89bfb",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "2\n7\n4 6 1\n12 14 2\n5 11 3\n1 6 4\n11 13 4\n4 7 5\n3 5 6\n4 7\n1\n2 4 2\n2 5",
+        "name": "样例 1",
+        "output": "11\n2"
+      }
+    ],
+    "notes": [
+      "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:105170::H",
+    "slug": "105170-H",
+    "sourceUrl": "https://codeforces.com/gym/105170/problem/H",
+    "sourceSha256": "2bc0b9afb252aab2a8b0b6af215ba758b309f46274b033b5ca1b961adfc3cb31",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "2\n1 2\n1 2\n1 1\n2 2",
+        "name": "样例 1",
+        "output": "6"
+      }
+    ],
+    "notes": [
+      "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:105170::I",
+    "slug": "105170-I",
+    "sourceUrl": "https://codeforces.com/gym/105170/problem/I",
+    "sourceSha256": "004e7a0572dc97338ffe01d71054f9ba82e93e9c6932dcf32592a8049e62b01e",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "Scan the QR code to sign in now.",
+        "name": "样例 1",
+        "output": "-1"
+      }
+    ],
+    "notes": [
+      "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:105170::J",
+    "slug": "105170-J",
+    "sourceUrl": "https://codeforces.com/gym/105170/problem/J",
+    "sourceSha256": "3c9aa68ab51bd3d80ba701c536aa799b2bc702b5cc4702be2be3f87e50464fa9",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "5 10\n1 1 4 5 1\n4 1 9 1 9\n1 2\n2 3\n2 4\n1 5\n2 1\n1 2 3 2 3\n1 3 4 2 4\n1 4 2 1 8\n2 5\n1 6 1 5 7\n2 7\n2 8\n2 9\n2 10",
+        "name": "样例 1",
+        "output": "44\n83\n116\n134\n146\n158"
+      }
+    ],
+    "notes": [
+      "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:105170::K",
+    "slug": "105170-K",
+    "sourceUrl": "https://codeforces.com/gym/105170/problem/K",
+    "sourceSha256": "f05fee3db2ecd2053bc2a973c72cdce8036901e6630eef9423921fa7e3cb71c9",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "5 3\nbacbc",
+        "name": "样例 1",
+        "output": "0"
+      },
+      {
+        "input": "7 2\nababbba",
+        "name": "样例 2",
+        "output": "4"
+      }
+    ],
+    "notes": [
+      "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:105170::L",
+    "slug": "105170-L",
+    "sourceUrl": "https://codeforces.com/gym/105170/problem/L",
+    "sourceSha256": "531a303add83e5eaaced33ae16f98abc08ddc94230bc43c1ac0616d62ea146b1",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "3\n6 6 6\n9 6 2\n3 1 4",
+        "name": "样例 1",
+        "output": "3\n1\n2"
+      }
+    ],
+    "notes": [
+      "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+      "Original Markdown, samples and resource bindings retained unchanged."
+    ]
+  }
+]

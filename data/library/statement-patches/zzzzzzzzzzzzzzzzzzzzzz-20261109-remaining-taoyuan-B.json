@@ -1,0 +1,206 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105544::B",
+      "beforeSha256": "13399fed634fe1d1ef8021b474354447e6036b63100bd6f4cc6efbd85697e8f7",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "data": "tb-asset:7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "fileName": "gym-105544.pdf",
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "id": "remote:codeforces:105544::B",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:56:27.603396+00:00",
+          "corpusAuditVerifiedSha256": "e40f883acbb71d40233ba9c77b2a9e1a3e1950710a1ec57b1a20b459fb28909c",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 4500
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Recurring Decimal to Fractions\n\nProblem PB\r\nRecurring Decimal to Fractions\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nGiven two strings of numbers representing a fraction smaller than one in recurring decimal form.\r\nThe first string 𝑠1 indicates the non-repeating part after the decimal point of the recurring\r\ndecimal and the second string 𝑠2 indicates the repeating part of the recurring decimal such as\r\n1\r\n012\r\nmeans0.1012\r\nReturn two integers 𝑛, 𝑑 represent the fraction in the form of numerator and denominator. The\r\ntwo integers should be relatively prime.\r\nInput Format\r\nThe first line contains an integer 𝑇(≤ 40), representing the number of test cases. Each test case\r\nbelow contains three lines. For each test case, the first line has two integers 𝑎 and 𝑏 separated\r\nby a space. The second line is a string 𝑠1 with length 𝑎 and the third line is a string 𝑠2 with\r\nlength 𝑏.\r\nOutput Format\r\nEach test case outputs two integers 𝑛 and 𝑑, separated by a space. The first integer 𝑛 is the\r\nnumerator and the second integer 𝑑 is the denominator. It is necessary to simplify the fraction\r\nso that the numerator and denominator are relatively prime.\r\nTechnical Specification\r\n 1 ≤ 𝑎\r\n 1 ≤ 𝑏\r\n 1 ≤ 𝑎 + 𝑏 ≤ 10\r\n1\n\nSample Input 1\r\n2\r\n1 3\r\n0\r\n012\r\n3 1\r\n085\r\n3\r\nSample Output 1\r\n2 1665\r\n32 375\r\n2\n\n[PDF](https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "recovered",
+          "id": "remote:codeforces:105544::B",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 2,
+          "pdfSha256": "d6676368dc11955f6fe7383cf1d7c4273a6198c18f5a7c1f2fcc6a1a2e6d9317",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "9f7649fff951b54ce4e83b864a3639b01b0047df68f8f93b8904a2e4314c3018",
+          "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "url": "https://codeforces.com/gym/105544/problem/B"
+        },
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "d6676368dc11955f6fe7383cf1d7c4273a6198c18f5a7c1f2fcc6a1a2e6d9317",
+          "page": 2,
+          "reason": "Native outlined examples checked against the actual page; printed page numbers are outside the sample boxes."
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2\n1 3\n0\n012\n3 1\n085\n3",
+            "output": "2 1665\n32 375"
+          }
+        ],
+        "sourceBinding": {
+          "kind": "exact-title",
+          "pdfProblemLabel": "PB",
+          "pdfTitle": "Recurring Decimal to Fractions",
+          "problem": "B",
+          "problemInventoryVerified": 13,
+          "rosterTitle": "Recurring Decimal to Fractions",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          3,
+          4
+        ],
+        "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+        "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+        "sourceRosterSha256": "5ec88d8ed50da51a78d550da61b9a8e69dbbceb1b980a28aee4f3f3058f9163a",
+        "sourceRosterUrl": "https://codeforces.com/gym/105544",
+        "sourceText": "# Recurring Decimal to Fractions\n\nTime limit: 3 seconds. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nA recurring decimal is a decimal number with a repeating sequence of digits. We describe such a decimal, which is less than one, by two strings: the first contains the non-recurring digits after the decimal point, and the second contains the recurring digits. For example, the strings `1` and `012` describe $0.1\\overline{012}$.\n\nGiven these two strings, convert the recurring decimal to a fraction $n/d$, where $n$ and $d$ are relatively prime integers.\n\n## Input Format\n\nThe first line contains the number of test cases $T$. Each test case consists of three lines. The first line contains two integers $a$ and $b$, the lengths of the non-recurring and recurring strings, respectively. The second line contains the non-recurring string of length $a$. The third line contains the recurring string of length $b$. Leading zeroes in either string must be retained.\n\n## Output Format\n\nFor each test case, output the numerator $n$ and denominator $d$ of the reduced fraction, separated by a space.\n\n## Technical Specification\n\n- $1\\le T\\le40$.\n- $1\\le a$, $1\\le b$, and $1\\le a+b\\le10$.\n\n\n## Sample 1\n\n### Input\n\n```text\n2\n1 3\n0\n012\n3 1\n085\n3\n```\n\n### Output\n\n```text\n2 1665\n32 375\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:d6676368dc11955f6fe7383cf1d7c4273a6198c18f5a7c1f2fcc6a1a2e6d9317",
+          "fileName": "gym-105544-B.pdf",
+          "pageCount": 2,
+          "sha256": "d6676368dc11955f6fe7383cf1d7c4273a6198c18f5a7c1f2fcc6a1a2e6d9317",
+          "sourcePageNumbers": [
+            3,
+            4
+          ],
+          "sourceSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Recurring Decimal to Fractions",
+        "url": "https://codeforces.com/gym/105544/problem/B",
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "2\n1 3\n0\n012\n3 1\n085\n3\n2",
+                "name": "样例 1",
+                "output": "2 1665\n32 375"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          },
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "2\n1 3\n0\n012\n3 1\n085\n3",
+                "output": "2 1665\n32 375"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "d6676368dc11955f6fe7383cf1d7c4273a6198c18f5a7c1f2fcc6a1a2e6d9317",
+              "page": 2,
+              "reason": "Native outlined examples checked against the actual page; printed page numbers are outside the sample boxes."
+            }
+          }
+        ],
+        "sourceTextArchive": [
+          {
+            "text": "Problem PB\r\nRecurring Decimal to Fractions\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nGiven two strings of numbers representing a fraction smaller than one in recurring decimal form.\r\nThe first string 𝑠1 indicates the non-repeating part after the decimal point of the recurring\r\ndecimal and the second string 𝑠2 indicates the repeating part of the recurring decimal such as\r\n1\r\n012\r\nmeans0.1012\r\nReturn two integers 𝑛, 𝑑 represent the fraction in the form of numerator and denominator. The\r\ntwo integers should be relatively prime.\r\nInput Format\r\nThe first line contains an integer 𝑇(≤ 40), representing the number of test cases. Each test case\r\nbelow contains three lines. For each test case, the first line has two integers 𝑎 and 𝑏 separated\r\nby a space. The second line is a string 𝑠1 with length 𝑎 and the third line is a string 𝑠2 with\r\nlength 𝑏.\r\nOutput Format\r\nEach test case outputs two integers 𝑛 and 𝑑, separated by a space. The first integer 𝑛 is the\r\nnumerator and the second integer 𝑑 is the denominator. It is necessary to simplify the fraction\r\nso that the numerator and denominator are relatively prime.\r\nTechnical Specification\r\n 1 ≤ 𝑎\r\n 1 ≤ 𝑏\r\n 1 ≤ 𝑎 + 𝑏 ≤ 10\r\n1\n\nSample Input 1\r\n2\r\n1 3\r\n0\r\n012\r\n3 1\r\n085\r\n3\r\nSample Output 1\r\n2 1665\r\n32 375\r\n2",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "122a07278a0a8c2181bd1ca76466f1dcefd1e68dee712f26373514edbc8b2c9b"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "B",
+          "pdfSha256": "d6676368dc11955f6fe7383cf1d7c4273a6198c18f5a7c1f2fcc6a1a2e6d9317",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            3,
+            4
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "figures": [],
+          "notes": [
+            "Every original PDF page visually checked, including constraints and sample table boundaries.",
+            "English text was manually normalized from the original PDF; Chinese checked against the same pages."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "c488ff862522013a913fcd70bd65b9086f82b0fa01b1308844a263cece6e26d6"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "e40f883acbb71d40233ba9c77b2a9e1a3e1950710a1ec57b1a20b459fb28909c",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "c488ff862522013a913fcd70bd65b9086f82b0fa01b1308844a263cece6e26d6",
+          "sourcePdfSha256": "d6676368dc11955f6fe7383cf1d7c4273a6198c18f5a7c1f2fcc6a1a2e6d9317",
+          "markdown": "# 循环小数转分数\n\n时间限制：3 秒。内存限制：1024 MB。\n\n## 题目描述\n\n循环小数的小数部分有一段数字不断重复。本题用两个字符串描述一个小于一的循环小数：第一个字符串表示小数点后的非循环部分，第二个字符串表示循环节。例如，字符串 `1` 和 `012` 表示 $0.1\\overline{012}$。\n\n给定这两个字符串，请将该循环小数化为分数 $n/d$，其中 $n$ 和 $d$ 是互质的整数。\n\n## 输入格式\n\n第一行包含测试用例数 $T$。每个测试用例占三行。第一行包含两个整数 $a$ 和 $b$，分别表示非循环部分和循环节的长度。第二行包含长度为 $a$ 的非循环部分字符串。第三行包含长度为 $b$ 的循环节字符串。两个字符串中的前导零都属于小数表示的一部分，不能忽略。\n\n## 输出格式\n\n对于每个测试用例，在一行中输出最简分数的分子 $n$ 和分母 $d$，用一个空格分隔。\n\n## 数据范围\n\n- $1\\le T\\le40$。\n- $1\\le a$、$1\\le b$，且 $1\\le a+b\\le10$。\n\n\n## 样例 1\n\n### 输入\n\n```text\n2\n1 3\n0\n012\n3 1\n085\n3\n```\n\n### 输出\n\n```text\n2 1665\n32 375\n```\n"
+        },
+        "translationReview": {
+          "letter": "B",
+          "pdfSha256": "d6676368dc11955f6fe7383cf1d7c4273a6198c18f5a7c1f2fcc6a1a2e6d9317",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            3,
+            4
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "figures": [],
+          "notes": [
+            "Every original PDF page visually checked, including constraints and sample table boundaries.",
+            "English text was manually normalized from the original PDF; Chinese checked against the same pages."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "c488ff862522013a913fcd70bd65b9086f82b0fa01b1308844a263cece6e26d6",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

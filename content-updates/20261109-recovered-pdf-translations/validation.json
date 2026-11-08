@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "reviewed": [
+    {
+      "id": "remote:codeforces:102992::A",
+      "sourcePdfSha256": "a772778e0a0f8bcfffc285b260093bea4dce975eb25a789b097d23212256e6c5",
+      "pages": 3,
+      "samples": 1,
+      "figures": 1,
+      "originalPdfPreserved": true,
+      "originalMarkdownPreserved": true,
+      "sourceExtractionArchived": true,
+      "samplesUnchanged": true,
+      "bundledImmutableValidation": true
+    },
+    {
+      "id": "remote:codeforces:103409::A",
+      "sourcePdfSha256": "bb387de2e454e058599716e06eb7a30984bd56150f1ffd4f3bee161c46992c37",
+      "pages": 2,
+      "samples": 1,
+      "figures": 1,
+      "originalPdfPreserved": true,
+      "originalMarkdownPreserved": true,
+      "sourceExtractionArchived": true,
+      "samplesUnchanged": true,
+      "bundledImmutableValidation": true
+    },
+    {
+      "id": "remote:codeforces:103470::A",
+      "sourcePdfSha256": "f8a805d1123b6b56d2695b6617deb6891e375443159ffb556b4850b7bdf8d38b",
+      "pages": 2,
+      "samples": 2,
+      "figures": 1,
+      "originalPdfPreserved": true,
+      "originalMarkdownPreserved": true,
+      "sourceExtractionArchived": true,
+      "samplesUnchanged": true,
+      "bundledImmutableValidation": true
+    },
+    {
+      "id": "remote:codeforces:104065::H",
+      "sourcePdfSha256": "a9d58a83a76db719b209a1239e1314a9ab1f170acf7b5f624f4af098329d6bcc",
+      "pages": 3,
+      "samples": 2,
+      "figures": 5,
+      "originalPdfPreserved": true,
+      "originalMarkdownPreserved": true,
+      "sourceExtractionArchived": true,
+      "samplesUnchanged": true,
+      "bundledImmutableValidation": true
+    },
+    {
+      "id": "remote:codeforces:104385::E",
+      "sourcePdfSha256": "8dbd7547a5345346f8ec3c8fc73066a6287c6d5dac4e47d46e78be9f46fb4af8",
+      "pages": 2,
+      "samples": 1,
+      "figures": 2,
+      "originalPdfPreserved": true,
+      "originalMarkdownPreserved": true,
+      "sourceExtractionArchived": true,
+      "samplesUnchanged": true,
+      "bundledImmutableValidation": true
+    },
+    {
+      "id": "remote:codeforces:104891::G",
+      "sourcePdfSha256": "ed356eb332ed626871b03be20a397f0e8d8ae63be4388d29039218e7a20d5383",
+      "pages": 3,
+      "samples": 1,
+      "figures": 4,
+      "originalPdfPreserved": true,
+      "originalMarkdownPreserved": true,
+      "sourceExtractionArchived": true,
+      "samplesUnchanged": true,
+      "bundledImmutableValidation": true
+    },
+    {
+      "id": "remote:codeforces:105231::J",
+      "sourcePdfSha256": "96e37273ee41a8278f65eb2dca28ebbf2e6b44c3046f68327da958c857bd26e4",
+      "pages": 2,
+      "samples": 1,
+      "figures": 4,
+      "originalPdfPreserved": true,
+      "originalMarkdownPreserved": true,
+      "sourceExtractionArchived": true,
+      "samplesUnchanged": true,
+      "bundledImmutableValidation": true
+    }
+  ],
+  "checked": 7,
+  "checkedAt": "2026-11-09",
+  "status": "complete",
+  "originalPagesVisuallyReviewed": 17,
+  "originalFiguresPreserved": 18,
+  "immutableSpanValidation": "7/7",
+  "workbench": {
+    "checked": [
+      "remote:codeforces:102992::A",
+      "remote:codeforces:103409::A",
+      "remote:codeforces:103470::A",
+      "remote:codeforces:104065::H",
+      "remote:codeforces:104385::E",
+      "remote:codeforces:104891::G",
+      "remote:codeforces:105231::J"
+    ],
+    "originalImagesLoaded": 18,
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "samplesPreserved": true,
+    "originalPdfRestored": true,
+    "externalRequests": 0
+  },
+  "reactKatex": {
+    "total": 7,
+    "rendered": 7,
+    "nativePdf": 0,
+    "issues": []
+  },
+  "catalogueAndAssetRegistryUnmodified": true,
+  "versionUnmodified": true
+}

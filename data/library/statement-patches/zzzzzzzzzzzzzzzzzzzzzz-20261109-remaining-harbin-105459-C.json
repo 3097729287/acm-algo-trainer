@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105459::C",
+      "beforeSha256": "f1ac693939dc18eaa06d18d6cdd482b38e86be7d8d4d28e2fea0912d0b9e5c09",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:105459::C",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:49:22.667282+00:00",
+          "corpusAuditVerifiedSha256": "6d82b273d739c7368869534ae8002e8627b6e63378bad56177e5ed72f22b38b3",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Giving Directions in Harbin\n\nIn some regions, people are more accustomed to giving directions using cardinal directions, such as: go south to the second intersection, then head east to the first intersection. However, due to the complex road network planning in Harbin, many streets do not align perfectly with cardinal directions. Thus, if you provide directions using absolute directions to someone who has lived in Harbin for a long time, they may struggle to understand your intended route.\n\n\n\nIn Harbin, people are more accustomed to using relative directions to give guidance. For the same location, a Harbin resident might first instruct you to face south, and then say: walk straight along the road to the second intersection, then turn left, and then straight to the first intersection.\n\n\n\nTo address this difference, you decide to write a program that converts the direction-giving style using cardinal directions into the style preferred by Harbin residents. Of course, using a real map of Harbin would be too complicated, so in this problem, you can assume the map is an infinitely large grid.\n\n\n\n## Input\n\n\n\nThe first line contains an integer $$$T$$$ ($$$1 \\le T \\le 10^4$$$), indicating the number of test cases.\n\n\n\nFor each test case, the first line contains an integer $$$n$$$ ($$$1 \\le n \\le 10$$$), indicating the number of direction instructions.\n\n\n\nThe next $$$n$$$ lines each describe an instruction in absolute position, consisting of a character $$$d$$$ ($$$d\\in\\{\\texttt{N}, \\texttt{S}, \\texttt{W}, \\texttt{E}\\}$$$) and an integer $$$x$$$ ($$$1 \\le x \\le 10$$$), indicating \"go to the $$$x$$$-th intersection in the $$$d$$$ direction.\" Here, $$$\\texttt{N}$$$ represents north, $$$\\texttt{S}$$$ represents south, $$$\\texttt{W}$$$ represents west, and $$$\\texttt{E}$$$ represents east.\n\n\n\nIt is guaranteed that two consecutive instructions will not have the same direction or opposite directions (north and south are opposite, as are west and east).\n\n\n\n## Output\n\n\n\nFor each test case, the first line outputs an integer $$$m$$$ ($$$1 \\le m \\le 20$$$) and a character $$$f$$$ ($$$f \\in \\{\\texttt{N}, \\texttt{S}, \\texttt{W}, \\texttt{E}\\}$$$), representing the number of instructions in Harbin style and the initial facing direction, with the same meanings for directions as in the input.\n\n\n\nNext, output $$$m$$$ lines. Each line starts with a character $$$g \\in \\{\\texttt{Z}, \\texttt{L}, \\texttt{R}\\}$$$, where $$$\\texttt{Z}$$$ means to go straight, $$$\\texttt{L}$$$ means to turn left, and $$$\\texttt{R}$$$ means to turn right. If the character is $$$\\texttt{Z}$$$, the line must also include an integer $$$y$$$ ($$$1 \\le y \\le 100$$$), representing going straight to the $$$y$$$-th intersection. The first output instruction must start with $$$\\texttt{Z}$$$. Consecutive instructions cannot have the same character $$$g$$$, and $$$\\texttt{L}$$$ and $$$\\texttt{R}$$$ instructions cannot be adjacent.\n\n\n\nIn this problem, you do not need to minimize $$$m$$$. If there are multiple ways to reach the same destination, any valid solution is acceptable.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:105459::C",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "ac313f02a842f9751cb85fa935b94225ecbd2a479acbf9521a75ae58d6c072cd",
+          "url": "https://codeforces.com/gym/105459/problem/C"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "1\n2\nS 2\nE 1",
+            "name": "样例 1",
+            "output": "3 S\nZ 2\nL\nZ 1"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfError": "原版 PDF 未提供唯一、明确的题号分页",
+        "sitePdfStatus": "unavailable",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Giving Directions in Harbin",
+        "url": "https://codeforces.com/gym/105459/problem/C",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "6d82b273d739c7368869534ae8002e8627b6e63378bad56177e5ed72f22b38b3",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 在哈尔滨指路\n\n\n\n有些地区的人习惯用东南西北指路，例如：向南走到第二个路口，再向东走到第一个路口。但哈尔滨的路网规划较复杂，很多街道并不与正东、正西等方向完全对齐。因此，如果用绝对方向向一个长期住在哈尔滨的人指路，他可能很难理解你想表达的路线。\n\n\n\n哈尔滨人更习惯用相对方向指路。对于同一个地点，他可能先让你面朝南，然后说：沿路直走到第二个路口，左转，再直走到第一个路口。\n\n\n\n为解决这种差异，你决定编写程序，将使用东南西北的指路方式转换为哈尔滨人习惯的方式。当然，使用真实的哈尔滨地图过于复杂，因此本题假设地图是一个无限大的网格。\n\n\n\n## 输入格式\n\n\n\n第一行包含整数 $$$T$$$（$$$1 \\le T \\le 10^4$$$），表示测试用例数。\n\n\n\n对于每个测试用例，第一行包含整数 $$$n$$$（$$$1 \\le n \\le 10$$$），表示指路指令数量。\n\n\n\n接下来 $$$n$$$ 行，每行描述一条绝对方向指令，包含字符 $$$d$$$（$$$d\\in\\{\\texttt{N}, \\texttt{S}, \\texttt{W}, \\texttt{E}\\}$$$）和整数 $$$x$$$（$$$1 \\le x \\le 10$$$），表示“沿 $$$d$$$ 方向走到第 $$$x$$$ 个路口”。其中 $$$\\texttt{N}$$$ 表示北，$$$\\texttt{S}$$$ 表示南，$$$\\texttt{W}$$$ 表示西，$$$\\texttt{E}$$$ 表示东。\n\n\n\n保证相邻两条指令的方向既不相同，也不相反；南与北相反，东与西相反。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，第一行输出整数 $$$m$$$（$$$1 \\le m \\le 20$$$）和字符 $$$f$$$（$$$f \\in \\{\\texttt{N}, \\texttt{S}, \\texttt{W}, \\texttt{E}\\}$$$），分别表示哈尔滨式指令数量和初始朝向。方向字符的含义与输入相同。\n\n\n\n接下来输出 $$$m$$$ 行。每行以字符 $$$g \\in \\{\\texttt{Z}, \\texttt{L}, \\texttt{R}\\}$$$ 开头，其中 $$$\\texttt{Z}$$$ 表示直走，$$$\\texttt{L}$$$ 表示左转，$$$\\texttt{R}$$$ 表示右转。如果字符为 $$$\\texttt{Z}$$$，本行还必须包含整数 $$$y$$$（$$$1 \\le y \\le 100$$$），表示直走到第 $$$y$$$ 个路口。输出的第一条指令必须以 $$$\\texttt{Z}$$$ 开头。相邻指令的字符 $$$g$$$ 不能相同，且 $$$\\texttt{L}$$$ 与 $$$\\texttt{R}$$$ 指令不能相邻。\n\n\n\n本题不要求最小化 $$$m$$$。如果有多种方式能到达同一个终点，输出任意合法方案即可。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:105459::C",
+          "slug": "105459-C",
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/C",
+          "sourceSha256": "6d82b273d739c7368869534ae8002e8627b6e63378bad56177e5ed72f22b38b3",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "1\n2\nS 2\nE 1",
+              "name": "样例 1",
+              "output": "3 S\nZ 2\nL\nZ 1"
+            }
+          ],
+          "notes": [
+            "Complete original prose, formulas, constraints and sample explanations checked.",
+            "Original Markdown, samples and all resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

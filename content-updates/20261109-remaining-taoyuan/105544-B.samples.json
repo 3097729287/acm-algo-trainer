@@ -1,0 +1,13 @@
+{
+  "method": "page-reviewed-original-pdf-samples",
+  "sourcePdfSha256": "d6676368dc11955f6fe7383cf1d7c4273a6198c18f5a7c1f2fcc6a1a2e6d9317",
+  "page": 2,
+  "reason": "Native outlined examples checked against the actual page; printed page numbers are outside the sample boxes.",
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "2\n1 3\n0\n012\n3 1\n085\n3",
+      "output": "2 1665\n32 375"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "checkedBeforeCatalogueIntegration": true,
+  "upstreamContentCommit": "72c512d3",
+  "removedDuplicateResources": [
+    {
+      "removed": "content-updates/20261109-original-recovery-agent-followup/P7007-original-figure1.png",
+      "canonical": "data/library/statement-assets/70ded17d93fc6bcbf779eadf187363ee79c3dc68d472d5ed9da85473fa9341ed.bin",
+      "sha256": "70ded17d93fc6bcbf779eadf187363ee79c3dc68d472d5ed9da85473fa9341ed",
+      "bytes": 6820
+    },
+    {
+      "removed": "content-updates/20261109-original-recovery-agent-followup/P7007-original-figure2.png",
+      "canonical": "data/library/statement-assets/8f8cf0e7d85b7d05f9657d110db4fc275e5b0d8db407fffd0e0daa396fbe89b7.bin",
+      "sha256": "8f8cf0e7d85b7d05f9657d110db4fc275e5b0d8db407fffd0e0daa396fbe89b7",
+      "bytes": 6421
+    },
+    {
+      "removed": "content-updates/20261109-original-recovery-agent-followup/P7007-original-figure3.png",
+      "canonical": "data/library/statement-assets/e07621e7c7db18fe88c3535c139f34eb2a65cfb63652aec01b7ac13d933cd35d.bin",
+      "sha256": "e07621e7c7db18fe88c3535c139f34eb2a65cfb63652aec01b7ac13d933cd35d",
+      "bytes": 6723
+    }
+  ],
+  "removedBytes": 19964,
+  "originalAssetBytesUnchanged": true,
+  "sourceMarkdownAndSamplesUnchanged": true,
+  "retainedWholePriorStatement": true,
+  "privateRecordsReadOrWritten": false,
+  "oldIgnoredViteCaches": "Retained after an earlier unrelated cleanup review rejection; not retried or packaged.",
+  "replacedPendingMarkerRemoved": "catalog-registration-pending.json",
+  "actualRegistrationReceipt": "catalog-registration.json"
+}

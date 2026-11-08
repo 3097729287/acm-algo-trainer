@@ -8,6 +8,30 @@ from urllib.parse import unquote, urljoin, urlsplit
 ATTACHMENT = re.compile(r'\.(?:pdf|zip|7z|rar|tgz|gz|gif|png|jpg|jpeg|svg|txt|in|out|cpp|cc|c|h|hpp|py|java)(?:[?#]|$)|(?:download|attachment)(?:[/.?=]|$)', re.I)
 
 
+def _resource_markdown(document):
+    """Ignore literal code and empty image destinations when collecting links.
+
+    Problem statements can teach Markdown itself. Code examples are text, not
+    remotely fetched resources; an empty image must not consume the next word.
+    The stored original document is never rewritten by this scan.
+    """
+    lines = []; fence = None
+    for line in document.splitlines(keepends=True):
+        marker = re.match(r'^ {0,3}(`{3,}|~{3,})', line)
+        if fence:
+            if marker and marker[1][0] == fence[0] and len(marker[1]) >= len(fence) and not line[marker.end():].strip():
+                fence = None
+            lines.append('\n')
+        elif marker:
+            fence = marker[1]; lines.append('\n')
+        else:
+            lines.append(line)
+    document = ''.join(lines)
+    # Backtick spans allow a run of any length, closed by a matching run.
+    document = re.sub(r'(?<![\\`])(`+)(?!`)(.*?)(?<!`)\1(?!`)', '', document, flags=re.S)
+    return re.sub(r'!\[(?:\\.|[^\]\\])*\]\(\s*\)', '', document)
+
+
 def resource_references(value):
     """Return source destinations, including Markdown reference-style images."""
     documents = [value.get('markdown') or '']
@@ -17,6 +41,7 @@ def resource_references(value):
         documents.append(translation.get('markdown') or '')
     result = {}
     for document in documents:
+        document = _resource_markdown(document)
         definitions = {m[1].strip().casefold(): m[2] for m in re.finditer(r'(?m)^\s{0,3}\[([^\]]+)\]:\s*<?([^\s>]+)>?', document)}
         for match in re.finditer(r'(!?)\[(?:\\.|[^\]\\])*\]\(<?([^\s>]+?)(?:>|(?<!\\)\))', document):
             image, ref = bool(match[1]), match[2]

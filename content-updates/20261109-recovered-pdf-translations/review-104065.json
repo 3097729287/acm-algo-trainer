@@ -1,0 +1,81 @@
+[
+  {
+    "letter": "H",
+    "problemId": "remote:codeforces:104065::H",
+    "pdfSha256": "a9d58a83a76db719b209a1239e1314a9ab1f170acf7b5f624f4af098329d6bcc",
+    "pageCount": 3,
+    "pagesReviewed": [
+      1,
+      2,
+      3
+    ],
+    "sourcePageNumbers": [
+      1,
+      2,
+      3
+    ],
+    "sourceUrl": "https://codeforces.com/gym/104065/problem/H",
+    "figures": [
+      {
+        "file": "104065-H-figure1.png",
+        "page": 1,
+        "clipRect": [
+          72.857143,
+          285.0,
+          518.571429,
+          320.714286
+        ],
+        "sha256": "f552b35e09595d1dff0781ffa85977e2bb1bd169bc3ecdecd8e6fac5d68a195a"
+      },
+      {
+        "file": "104065-H-figure2.png",
+        "page": 2,
+        "clipRect": [
+          85.714286,
+          65.0,
+          505.714286,
+          246.428571
+        ],
+        "sha256": "7d4424b336e36782e7529e20f74ba4214ed9b7b7c9ff4fb89f080d0cce8054f4"
+      },
+      {
+        "file": "104065-H-figure3.png",
+        "page": 2,
+        "clipRect": [
+          95.0,
+          316.428571,
+          500.0,
+          438.571429
+        ],
+        "sha256": "477fe3f3215803a86f569a975317632a0e720627826a620a91d20ac5187553cd"
+      },
+      {
+        "file": "104065-H-figure4.png",
+        "page": 2,
+        "clipRect": [
+          111.428571,
+          496.428571,
+          477.142857,
+          655.714286
+        ],
+        "sha256": "47645b3055b5de56919b3b85132c00892b2ec67578fd9e9cc6c31f1be978a6a9"
+      },
+      {
+        "file": "104065-H-figure5.png",
+        "page": 2,
+        "clipRect": [
+          75.0,
+          716.428571,
+          504.285714,
+          770.0
+        ],
+        "sha256": "0906e6d7c36e5b610bb71b25c0dce6ecb01f575696bdc8b542db4d5f3874317b"
+      }
+    ],
+    "notes": [
+      "All three original pages and every diagram reviewed visually. All five original pictures retained, with explanatory captions translated.",
+      "Generation 0 is the chosen initial state; generation k-1 must be nonempty and generation k empty. The 300 bound applies to initial live coordinates, not an artificial finite board boundary.",
+      "Historical long-form background and source illustration credit retained; four Life rules checked separately."
+    ]
+  }
+]

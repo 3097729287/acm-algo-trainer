@@ -1,0 +1,237 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105459::B",
+      "beforeSha256": "9664b3d308ca37a8531d80880b5b077cddb5031ebadb084d0d8747a8760f6393",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105459/problem/B": {
+            "bytes": 156519,
+            "data": "tb-asset:0458f3dd7f14ccb4b82567233828587c6822ea697c71269f571699b2b24e4f6b",
+            "fileName": "gym-105459.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "0458f3dd7f14ccb4b82567233828587c6822ea697c71269f571699b2b24e4f6b",
+            "sourceUrl": "https://codeforces.com/gym/105459/problem/B"
+          }
+        },
+        "id": "remote:codeforces:105459::B",
+        "images": {
+          "105459-B-polygons.png": "data:image/png;base64,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"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T02:49:21.072535+00:00",
+          "corpusAuditVerifiedSha256": "58092a01f721f64438b6467a1a5f697098dc0a3ec5c5b1ea5e698c48aa40f729",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Concave Hull\n\nConcave Hull\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nA simple polygon is a closed curve in the Euclidean plane consisting of straight line segments meeting end￾to-end. Two line segments meet at every endpoint, and there are no other points of intersection between\r\nthe line segments.\r\nSimple polygons can be categorized into two types: convex and concave. A convex polygon is defined as a\r\npolygon where, for any two points inside it, all points on the line segment between these two points also\r\nlie inside the polygon, either within its interior or on its boundary. A simple polygon that is not convex is\r\ncalled a concave polygon. As shown in the figure below, the left one is a convex polygon, while the right\r\none is a concave polygon.\r\nNow, given n points such that all points are distinct and no three points are collinear, your task is to\r\nselect some of these n points (maybe all of them) and connect them in any order to form a concave\r\npolygon with a strictly positive area. You need to determine the maximum possible area of the concave\r\npolygon that can be formed.\r\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 104\r\n), indicating the number of test cases.\r\nFor each test case, the first line contains a positive integer n (3 ≤ n ≤ 105\r\n), indicating the number of\r\npoints.\r\nThe next n lines each contain two integers xi\r\n, yi (−109 ≤ xi\r\n, yi ≤ 109\r\n), representing the coordinates of\r\neach point. It is guaranteed that all points are distinct, and no three points are collinear.\r\nThe sum of n over all test cases does not exceed 2 · 105\r\n.\r\nOutput\r\nFor each test case, if it is not possible to form a concave polygon with a strictly positive area, output −1;\r\notherwise, output a positive integer representing twice the maximum area of the concave polygon that\r\ncan be formed. It can be proven that this answer is always a positive integer.\r\nPage 1 of 2\n\nExample\r\nstandard input standard output\r\n2\r\n6\r\n-2 0\r\n1 -2\r\n5 2\r\n0 4\r\n1 2\r\n3 1\r\n4\r\n0 0\r\n1 0\r\n0 1\r\n1 1\r\n40\r\n-1\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/105459/problem/B)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "new",
+          "id": "remote:codeforces:105459::B",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 2,
+          "pdfSha256": "afe961e45a20cfa2d126b1dc785527100d971581ada70df00bc17f4b6a601021",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "47b2edda7ae8ed83f0a4e2ccc011bbcb6e830a3c7076103f1c9a5633992848df",
+          "sourcePdfSha256": "0458f3dd7f14ccb4b82567233828587c6822ea697c71269f571699b2b24e4f6b",
+          "sourcePdfUrl": "https://codeforces.com/gym/105459/problem/B",
+          "url": "https://codeforces.com/gym/105459/problem/B"
+        },
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105459/problem/B": {
+            "bytes": 156519,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "0458f3dd7f14ccb4b82567233828587c6822ea697c71269f571699b2b24e4f6b",
+            "sourceUrl": "https://codeforces.com/gym/105459/problem/B"
+          },
+          "105459-B-polygons.png": {
+            "sourceUrl": "https://codeforces.com/gym/105459/problem/B",
+            "sha256": "ab2204667b61e087d4155cbd52d9da96aa2fd8b8ef12ed7a605903f9e6972708",
+            "bytes": 16972,
+            "mime": "image/png",
+            "frameCount": 1,
+            "width": 330,
+            "height": 214,
+            "derivedFromPdfSha256": "afe961e45a20cfa2d126b1dc785527100d971581ada70df00bc17f4b6a601021",
+            "kind": "reviewed-original-diagram",
+            "sourcePage": 1,
+            "clipRect": [
+              210,
+              260,
+              375,
+              367
+            ]
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "afe961e45a20cfa2d126b1dc785527100d971581ada70df00bc17f4b6a601021",
+          "page": 2
+        },
+        "samples": [
+          {
+            "input": "2\n6\n-2 0\n1 -2\n5 2\n0 4\n1 2\n3 1\n4\n0 0\n1 0\n0 1\n1 1",
+            "name": "样例 1",
+            "output": "40\n-1"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfError": "原版 PDF 未提供唯一、明确的题号分页",
+        "sitePdfStatus": "unavailable",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "Concave Hull",
+          "problem": "B",
+          "rosterTitle": "Concave Hull",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourcePdfSha256": "0458f3dd7f14ccb4b82567233828587c6822ea697c71269f571699b2b24e4f6b",
+        "sourcePdfUrl": "https://codeforces.com/gym/105459/problem/B",
+        "sourceRosterSha256": "03f1d588bbdb12ba3b4ccd5d4d5ea312fc431045c0f4ec33b70aa7f97e61a19a",
+        "sourceRosterUrl": "https://codeforces.com/gym/105459",
+        "sourceText": "# Concave Hull\n\nTime limit: 1 second. Memory limit: 1024 megabytes. Standard input and output.\n\nA simple polygon is a closed curve in the Euclidean plane formed by straight segments joined end to end. Exactly two segments meet at each endpoint, and the segments have no other intersections.\n\nA simple polygon is convex if, for any two points inside it, the entire segment between them lies in its interior or on its boundary. A simple polygon that is not convex is concave. The figure shows a convex polygon on the left and a concave polygon on the right.\n\n![Convex and concave polygon examples.](105459-B-polygons.png)\n\nGiven $n$ distinct points with no three collinear, select some of them, possibly all, and connect the selected points in any order to form a concave polygon with strictly positive area. Determine the maximum possible area.\n\n## Input Format\n\nThe first line contains $T$ ($1\\le T\\le10^4$), the number of test cases. For each test case, the first line contains $n$ ($3\\le n\\le10^5$), the number of points. The next $n$ lines each contain integers $x_i,y_i$ ($-10^9\\le x_i,y_i\\le10^9$), the coordinates of a point.\n\nAll points are distinct and no three are collinear. The sum of $n$ over all test cases does not exceed $2\\cdot10^5$.\n\n## Output Format\n\nFor each test case, output $-1$ if no concave polygon of strictly positive area can be formed. Otherwise, output a positive integer equal to twice the maximum possible area. This value is always a positive integer.\n\n\n## Sample 1\n\n### Input\n\n```text\n2\n6\n-2 0\n1 -2\n5 2\n0 4\n1 2\n3 1\n4\n0 0\n1 0\n0 1\n1 1\n```\n\n### Output\n\n```text\n40\n-1\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:afe961e45a20cfa2d126b1dc785527100d971581ada70df00bc17f4b6a601021",
+          "fileName": "gym-105459-B.pdf",
+          "pageCount": 2,
+          "sha256": "afe961e45a20cfa2d126b1dc785527100d971581ada70df00bc17f4b6a601021",
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceSha256": "0458f3dd7f14ccb4b82567233828587c6822ea697c71269f571699b2b24e4f6b",
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/B",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Concave Hull",
+        "url": "https://codeforces.com/gym/105459/problem/B",
+        "sourceTextArchive": [
+          {
+            "text": "Concave Hull\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nA simple polygon is a closed curve in the Euclidean plane consisting of straight line segments meeting end￾to-end. Two line segments meet at every endpoint, and there are no other points of intersection between\r\nthe line segments.\r\nSimple polygons can be categorized into two types: convex and concave. A convex polygon is defined as a\r\npolygon where, for any two points inside it, all points on the line segment between these two points also\r\nlie inside the polygon, either within its interior or on its boundary. A simple polygon that is not convex is\r\ncalled a concave polygon. As shown in the figure below, the left one is a convex polygon, while the right\r\none is a concave polygon.\r\nNow, given n points such that all points are distinct and no three points are collinear, your task is to\r\nselect some of these n points (maybe all of them) and connect them in any order to form a concave\r\npolygon with a strictly positive area. You need to determine the maximum possible area of the concave\r\npolygon that can be formed.\r\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 104\r\n), indicating the number of test cases.\r\nFor each test case, the first line contains a positive integer n (3 ≤ n ≤ 105\r\n), indicating the number of\r\npoints.\r\nThe next n lines each contain two integers xi\r\n, yi (−109 ≤ xi\r\n, yi ≤ 109\r\n), representing the coordinates of\r\neach point. It is guaranteed that all points are distinct, and no three points are collinear.\r\nThe sum of n over all test cases does not exceed 2 · 105\r\n.\r\nOutput\r\nFor each test case, if it is not possible to form a concave polygon with a strictly positive area, output −1;\r\notherwise, output a positive integer representing twice the maximum area of the concave polygon that\r\ncan be formed. It can be proven that this answer is always a positive integer.\r\nPage 1 of 2\n\nExample\r\nstandard input standard output\r\n2\r\n6\r\n-2 0\r\n1 -2\r\n5 2\r\n0 4\r\n1 2\r\n3 1\r\n4\r\n0 0\r\n1 0\r\n0 1\r\n1 1\r\n40\r\n-1\r\nPage 2 of 2",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "7e51a3279952d3b2d89cee56be0a72908038a46e459bb0cc5e1c9298ee4871dc"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "2\n6\n-2 0\n1 -2\n5 2\n0 4\n1 2\n3 1\n4\n0 0\n1 0\n0 1\n1 1",
+                "name": "样例 1",
+                "output": "40\n-1"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "B",
+          "problemId": "remote:codeforces:105459::B",
+          "pdfSha256": "afe961e45a20cfa2d126b1dc785527100d971581ada70df00bc17f4b6a601021",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/B",
+          "figures": [
+            {
+              "file": "105459-B-polygons.png",
+              "page": 1,
+              "clipRect": [
+                210,
+                260,
+                375,
+                367
+              ],
+              "sha256": "ab2204667b61e087d4155cbd52d9da96aa2fd8b8ef12ed7a605903f9e6972708"
+            }
+          ],
+          "notes": [
+            "Every original PDF page visually checked; sample input and output columns manually checked.",
+            "Positive-area simple concave polygon, arbitrary selected subset and doubled output area retained."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "874577dfe3c79e74dc1aeaafc6157dc690739fd35f94635c55fafdb2b8163739"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "58092a01f721f64438b6467a1a5f697098dc0a3ec5c5b1ea5e698c48aa40f729",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "874577dfe3c79e74dc1aeaafc6157dc690739fd35f94635c55fafdb2b8163739",
+          "sourcePdfSha256": "afe961e45a20cfa2d126b1dc785527100d971581ada70df00bc17f4b6a601021",
+          "markdown": "# 凹包\n\n时间限制：1 秒。内存限制：1024 MB。使用标准输入和标准输出。\n\n简单多边形是欧几里得平面上由线段首尾相接形成的闭合曲线。每个端点处恰好有两条线段相接，除此之外，线段之间没有其他交点。\n\n如果对于多边形内部的任意两点，连接它们的整条线段都位于多边形内部或边界上，就称该简单多边形为凸多边形。不是凸多边形的简单多边形称为凹多边形。下图左侧为凸多边形，右侧为凹多边形。\n\n![凸多边形与凹多边形的示例。](105459-B-polygons.png)\n\n给定 $n$ 个互不相同且任意三点不共线的点，从中选择一些点，也可以全部选择，并按任意顺序连接，使其形成面积严格为正的凹多边形。求能够得到的最大面积。\n\n## 输入格式\n\n第一行包含测试用例数 $T$（$1\\le T\\le10^4$）。对于每个测试用例，第一行包含点数 $n$（$3\\le n\\le10^5$）。接下来 $n$ 行，每行包含两个整数 $x_i,y_i$（$-10^9\\le x_i,y_i\\le10^9$），表示一个点的坐标。\n\n所有点互不相同，且任意三点不共线。所有测试用例的 $n$ 之和不超过 $2\\cdot10^5$。\n\n## 输出格式\n\n对于每个测试用例，如果无法构造面积严格为正的凹多边形，输出 $-1$。否则输出一个正整数，表示所能构造的凹多边形最大面积的两倍。可以证明，这个值总是正整数。\n\n\n## 样例 1\n\n### 输入\n\n```text\n2\n6\n-2 0\n1 -2\n5 2\n0 4\n1 2\n3 1\n4\n0 0\n1 0\n0 1\n1 1\n```\n\n### 输出\n\n```text\n40\n-1\n```\n"
+        },
+        "translationReview": {
+          "letter": "B",
+          "problemId": "remote:codeforces:105459::B",
+          "pdfSha256": "afe961e45a20cfa2d126b1dc785527100d971581ada70df00bc17f4b6a601021",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/B",
+          "figures": [
+            {
+              "file": "105459-B-polygons.png",
+              "page": 1,
+              "clipRect": [
+                210,
+                260,
+                375,
+                367
+              ],
+              "sha256": "ab2204667b61e087d4155cbd52d9da96aa2fd8b8ef12ed7a605903f9e6972708"
+            }
+          ],
+          "notes": [
+            "Every original PDF page visually checked; sample input and output columns manually checked.",
+            "Positive-area simple concave polygon, arbitrary selected subset and doubled output area retained."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "874577dfe3c79e74dc1aeaafc6157dc690739fd35f94635c55fafdb2b8163739",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

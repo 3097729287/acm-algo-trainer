@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-09",
+  "scope": "Isolated translation worktree and the 57 requested public problem authoring inputs",
+  "baseline": "1723db9f2504107fac4e61a8ed9d5038049c2a44",
+  "checkedBeforeNewContent": true,
+  "untrackedBuildArtifactsBeforeWork": 0,
+  "personalDataPresent": false,
+  "unusedItemsRemoved": [],
+  "findings": [
+    "New clean worktree has no superseded builds or local state to retire.",
+    "Existing 105544 sample records and previously reviewed patches remain referenced authoring/history inputs and are retained.",
+    "Reuse existing subset PDFs; do not duplicate native PDF assets in content authoring directories."
+  ],
+  "noUnusedItemsConfirmed": true,
+  "finalCheck": {
+    "unreferencedTrackedAuthoringResources": 0,
+    "supersededBuildsAdded": 0,
+    "personalDataTouched": false,
+    "unusedItemsRemoved": [],
+    "findings": [
+      "All original and derived diagram files are bound by SHA-256 in the authoring review.",
+      "Temporary review PDFs and isolated browser fixtures remain outside tracked content in .backups; no native PDF copies were added to authoring packets.",
+      "Original seed/patch history remains necessary and is retained."
+    ]
+  }
+}

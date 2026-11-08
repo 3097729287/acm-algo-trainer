@@ -1,0 +1,137 @@
+[
+  {
+    "problemId": "luogu-training-P8089",
+    "sample": 1,
+    "sha256": "f8766796683c9100c867747fa0434616844d4296cf8ea0476008f4d8be7d7d0e",
+    "depth": 2,
+    "bottomLevelCountBinary": "10",
+    "nodes": 3,
+    "preorderLabels": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "edges": [
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ]
+    ],
+    "officialValidConnectedSets": [
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        1
+      ]
+    ],
+    "allRootContainingConnectedSetsVerified": true,
+    "validSetsCount": 4,
+    "originalImageRecovered": false,
+    "diagramType": "explicit-text-reconstruction"
+  },
+  {
+    "problemId": "luogu-training-P8089",
+    "sample": 3,
+    "sha256": "b358626eb2c246e9df5be2a1b87c9362c54b1f129adf306d8427b7f79dd7c259",
+    "depth": 3,
+    "bottomLevelCountBinary": "010",
+    "nodes": 5,
+    "preorderLabels": {
+      "1": 1,
+      "2": 2,
+      "4": 3,
+      "5": 4,
+      "3": 5
+    },
+    "edges": [
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "officialValidConnectedSets": [
+      [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      [
+        1,
+        2,
+        3,
+        4
+      ],
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        1,
+        2,
+        4
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        2,
+        3,
+        5
+      ],
+      [
+        1,
+        2,
+        4,
+        5
+      ],
+      [
+        1,
+        2,
+        5
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        1
+      ]
+    ],
+    "allRootContainingConnectedSetsVerified": true,
+    "validSetsCount": 10,
+    "originalImageRecovered": false,
+    "diagramType": "explicit-text-reconstruction"
+  }
+]

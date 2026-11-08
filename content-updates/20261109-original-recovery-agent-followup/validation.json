@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "status": "complete",
+  "checkedAt": "2026-11-09",
+  "replay": [
+    {
+      "id": "luogu-training-P4911",
+      "originalIdPreserved": true,
+      "previousOriginalArchived": true,
+      "nativeSamplesPreserved": true,
+      "resourceReferences": 1
+    },
+    {
+      "id": "luogu-training-P7007",
+      "originalIdPreserved": true,
+      "previousOriginalArchived": true,
+      "nativeSamplesPreserved": true,
+      "resourceReferences": 4
+    },
+    {
+      "id": "luogu-training-P7687",
+      "originalIdPreserved": true,
+      "previousOriginalArchived": true,
+      "nativeSamplesPreserved": true,
+      "resourceReferences": 1
+    },
+    {
+      "id": "luogu-training-P7689",
+      "originalIdPreserved": true,
+      "previousOriginalArchived": true,
+      "nativeSamplesPreserved": true,
+      "resourceReferences": 3
+    },
+    {
+      "id": "luogu-training-P7690",
+      "originalIdPreserved": true,
+      "previousOriginalArchived": true,
+      "nativeSamplesPreserved": true,
+      "resourceReferences": 2
+    },
+    {
+      "id": "luogu-training-P8922",
+      "originalIdPreserved": true,
+      "previousOriginalArchived": true,
+      "nativeSamplesPreserved": true,
+      "resourceReferences": 1
+    },
+    {
+      "id": "luogu-training-P8923",
+      "originalIdPreserved": true,
+      "previousOriginalArchived": true,
+      "nativeSamplesPreserved": true,
+      "resourceReferences": 1
+    },
+    {
+      "id": "luogu-training-P9512",
+      "originalIdPreserved": true,
+      "previousOriginalArchived": true,
+      "nativeSamplesPreserved": true,
+      "resourceReferences": 3
+    }
+  ],
+  "workbench": {
+    "checked": [
+      {
+        "id": "luogu-training-P4911",
+        "pages": 0,
+        "images": 0,
+        "attachments": 1,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P7007",
+        "pages": 0,
+        "images": 3,
+        "attachments": 1,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P7687",
+        "pages": 0,
+        "images": 0,
+        "attachments": 1,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P7689",
+        "pages": 0,
+        "images": 2,
+        "attachments": 1,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P7690",
+        "pages": 0,
+        "images": 1,
+        "attachments": 1,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P8922",
+        "pages": 0,
+        "images": 1,
+        "attachments": 0,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P8923",
+        "pages": 0,
+        "images": 1,
+        "attachments": 0,
+        "samples": 3
+      },
+      {
+        "id": "luogu-training-P9512",
+        "pages": 0,
+        "images": 0,
+        "attachments": 3,
+        "samples": 1
+      }
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true,
+    "originalAttachmentByteIdentity": true
+  },
+  "reactKatex": {
+    "total": 9,
+    "rendered": 9,
+    "nativePdf": 0,
+    "issues": []
+  },
+  "translationWorkbench": {
+    "checked": [
+      "luogu-training-P7007"
+    ],
+    "originalImagesLoaded": 3,
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "samplesPreserved": true,
+    "originalPdfRestored": true,
+    "externalRequests": 0
+  },
+  "nativePdfPagesVisuallyReviewed": 22,
+  "preservedOriginalGifFrames": [
+    9,
+    2
+  ],
+  "catalogueAndGlobalAssetRegistryUnchanged": true,
+  "versionUnchanged": true
+}

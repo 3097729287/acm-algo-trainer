@@ -1,0 +1,488 @@
+{
+  "requested": 57,
+  "completed": 57,
+  "pending": 0,
+  "inputKinds": {
+    "pdf-text": 13,
+    "markdown": 44
+  },
+  "identityAndOriginalMarkdownPreserved": true,
+  "nativePdfIdentityAndPageBindingsPreserved": true,
+  "previousPdfExtractionAndSamplesArchived": true,
+  "immutableSpanValidation": true,
+  "workbenchChecked": 57,
+  "workbenchOriginalImageLoads": 27,
+  "browserErrors": 0,
+  "formulaErrors": 0,
+  "externalRequests": 0,
+  "problems": [
+    {
+      "id": "remote:codeforces:105544::B",
+      "slug": "105544-B",
+      "inputKind": "pdf-text",
+      "sourceSha256": "e40f883acbb71d40233ba9c77b2a9e1a3e1950710a1ec57b1a20b459fb28909c",
+      "translationSha256": "619d63f8707487542346c68e2f65d3e1e615612e3861d4ed59702ccab88de4a9",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105544::C",
+      "slug": "105544-C",
+      "inputKind": "pdf-text",
+      "sourceSha256": "701b15f1262e5371d02515b0e103fab5e73b49d1c4d90c31ec26eff5708d4c04",
+      "translationSha256": "9bd81e002669b78e3a8124567c71bed2144369bb1f62b6b9a6cdfdb38dc24e03",
+      "sampleCount": 2
+    },
+    {
+      "id": "remote:codeforces:105544::E",
+      "slug": "105544-E",
+      "inputKind": "pdf-text",
+      "sourceSha256": "13b645e845bcec23d3491cd41caf784e1f380e308df33f49584952a72bf1b3c8",
+      "translationSha256": "99ab4b39219bad608da44921fcab79173cf211887d48fae1edee504608b495ed",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105544::F",
+      "slug": "105544-F",
+      "inputKind": "pdf-text",
+      "sourceSha256": "8c91954dc7d1b5ada2273069992596480a6b43b574f2ebd6c9c3e435b3e98100",
+      "translationSha256": "96144468b7ffa168e6e958a36239029490223b4cce906b60a513fceba758a3ac",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105544::G",
+      "slug": "105544-G",
+      "inputKind": "pdf-text",
+      "sourceSha256": "6755ef130515638da824fda3a309cc80db8dfdfb04e7794e83d30c2749e534b6",
+      "translationSha256": "0f389528f58c5ce8afd097b02f84eed538fcbd0437ff1e9bc3040a0db96c868d",
+      "sampleCount": 2
+    },
+    {
+      "id": "remote:codeforces:105544::K",
+      "slug": "105544-K",
+      "inputKind": "pdf-text",
+      "sourceSha256": "4bd0805acdc6d47b38ef41cd654afa311a1a279265986f60a6c794d9923810a8",
+      "translationSha256": "f357c13de5e85e4912ec1402fde81f1fa48d9e017f25c7667acd07c42c2050f9",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:104270::A",
+      "slug": "104270-A",
+      "inputKind": "markdown",
+      "sourceSha256": "621288df08ad0ed3b34303236525ac417463f773891a88c3f2467f7f0239087e",
+      "translationSha256": "65b1248750c38ee74620870c6dee49593e1831a7615214931bbfd8cee1a5bba4",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:104270::B",
+      "slug": "104270-B",
+      "inputKind": "markdown",
+      "sourceSha256": "4200df890e32fdae072e062d73ea72013ab10acd2c15cecedce72f886cc23b25",
+      "translationSha256": "638c75a2268c6a355d9d30fea10d49eb2c2865ab58bafa35d57bec116e806c36",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:104270::C",
+      "slug": "104270-C",
+      "inputKind": "markdown",
+      "sourceSha256": "c5e8271213e53c2bf677c970172334021addb7d540940bfea802b2d2e3f00f52",
+      "translationSha256": "a93540536c42e6272401d1e5e99eefbf24f94441b50942130a1eb3024acbe8b8",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:104270::D",
+      "slug": "104270-D",
+      "inputKind": "markdown",
+      "sourceSha256": "a7b764021cc596737897120b33904b0a5fd35a3e22e2d616824c27fb3e065893",
+      "translationSha256": "e74cf9a90f08abbba90ced3b1614d54e982b446c2b4a66eec118df0506ddf57c",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:104270::E",
+      "slug": "104270-E",
+      "inputKind": "markdown",
+      "sourceSha256": "a45b731191df9931195d2cecbae2bc7e01003042cede83b6b15bfbd6a95f4775",
+      "translationSha256": "040bc6289ce5895f782f44f84b6a7c64ea5ca73cb446227561db8696eea485e5",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:104270::F",
+      "slug": "104270-F",
+      "inputKind": "markdown",
+      "sourceSha256": "6b4e6f2006458afcee8b1e87f8893ded11f629a274f7eaba407e0dd92dc17712",
+      "translationSha256": "d3e925b1aea8a48e118cc759246eab7f4156b0d8db65f7615e3d7ed208d1619f",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:104270::G",
+      "slug": "104270-G",
+      "inputKind": "markdown",
+      "sourceSha256": "3caaa2b9c834412d3cb8b7da94feb79f2fe4d62d40dff59842ffdc340db7e925",
+      "translationSha256": "36d3e9bff4c0a29652885c7000d21f0be75a3a9ad48f0cf070407ce896500da0",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:104270::H",
+      "slug": "104270-H",
+      "inputKind": "pdf-text",
+      "sourceSha256": "af579124c0e9bdb57bbf2329d77e137571f4585bc2c70715d074528d91bdf7ce",
+      "translationSha256": "57de7fdecfcc786465c155294af9ee1fa3ad5876eab9efc1da1ef42ace687c04",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:104270::I",
+      "slug": "104270-I",
+      "inputKind": "markdown",
+      "sourceSha256": "2ff9babfc12e68a0b59aa8ba5131cb13dd0a8a3840e270e6df106d6d94282b04",
+      "translationSha256": "d93c5796abec7eb8d0379b78df770f831bb80a9818e5fa671e93688126e316f1",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:104270::J",
+      "slug": "104270-J",
+      "inputKind": "markdown",
+      "sourceSha256": "8936f4ccbea01e98cff1535a9ba7844d65b3869d760436c1989c1d7f3739e9a7",
+      "translationSha256": "58724a2beb1d45813a077db5865307b1780ad1bc8fd37013c4a17c65bef39dd7",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:104270::K",
+      "slug": "104270-K",
+      "inputKind": "markdown",
+      "sourceSha256": "4107c43406666f94b6d6f69580ca01a225076c7f51b27bbd9951c83b1e86e791",
+      "translationSha256": "c0920c449516bbd51b5bc19ab55f0112ca5f0241a4f6bd618deb729b03f7f4b1",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:104270::L",
+      "slug": "104270-L",
+      "inputKind": "markdown",
+      "sourceSha256": "20f319470ceec87d2beed4345e66e75d3f574ce1ade4f4196d222137cf026aec",
+      "translationSha256": "65df26988828187e03ba0c9afeed89a6d3b28427a2c95193035eb39a3c14add0",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:104270::M",
+      "slug": "104270-M",
+      "inputKind": "markdown",
+      "sourceSha256": "14436dbec8bca21f634e7b7932c229e1fd00f585d825ff7c1c555699c35a908c",
+      "translationSha256": "979ed31468ef6be5c5f6cb99065c258547a885af59586189b773ed4ee100b22f",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105170::A",
+      "slug": "105170-A",
+      "inputKind": "markdown",
+      "sourceSha256": "31837e380f683efc5a6b19e1d6bc0908a18a3ac2cf6a7fd1599607173ded8ca8",
+      "translationSha256": "24a7505b8f1ea098c0cc770d595563f5fae3d1f739b3fde140bc79ffd337d0ab",
+      "sampleCount": 3
+    },
+    {
+      "id": "remote:codeforces:105170::B",
+      "slug": "105170-B",
+      "inputKind": "pdf-text",
+      "sourceSha256": "0a7bbca720b8e3bc807aaadfb9ce72196b2e38d75c3ba084d30efe4aa04536eb",
+      "translationSha256": "1cdce6e9a95f54ca5ede50a756ebb086b8c206e2ab37bebdc59772974f4853ef",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105170::C",
+      "slug": "105170-C",
+      "inputKind": "markdown",
+      "sourceSha256": "830e7410bb4e725ba19294565e8c2be348b5754380cee093dd6e9ce2ae0237b7",
+      "translationSha256": "c1f995d901bfcbb99cad88f1ed9cccd8dfde5acfc011cd9ee1bc63148fdf5c17",
+      "sampleCount": 3
+    },
+    {
+      "id": "remote:codeforces:105170::D",
+      "slug": "105170-D",
+      "inputKind": "markdown",
+      "sourceSha256": "9fe03d3fc69a2d9e47f4a59054c249394b2c782518b93481b20a7c6e6b73bb69",
+      "translationSha256": "925a53ae9b9e9697f6add6c97f5ff6d3a4a80f8cdd8b53402bb705c6d09ec530",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105170::E",
+      "slug": "105170-E",
+      "inputKind": "markdown",
+      "sourceSha256": "15d3502338b568c4e3698a1cdfaad7e78f6aff48822a0fc31095e239c8bf4937",
+      "translationSha256": "709e66ee0887c17e1a571e1a740e4365d2efa0e1a81b26b62f4991f5eb3f6253",
+      "sampleCount": 3
+    },
+    {
+      "id": "remote:codeforces:105170::F",
+      "slug": "105170-F",
+      "inputKind": "markdown",
+      "sourceSha256": "3a7c4a6a19c4e8d303dc24219cfa729b3ecde1f7a2b28f97653c1923a2e78b7d",
+      "translationSha256": "8204801872ca00aa078dea84255f633c4fecf89f73d0a48156a5ea237c62265c",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105170::G",
+      "slug": "105170-G",
+      "inputKind": "markdown",
+      "sourceSha256": "f1ec3e7bfc2cce092298f03eb533ebd5db29f55b0881f05953ae2ac825e89bfb",
+      "translationSha256": "99a8409e79902e23507ed7f49224aafcc54891dcf5b23923eac306c54d6b756e",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105170::H",
+      "slug": "105170-H",
+      "inputKind": "markdown",
+      "sourceSha256": "2bc0b9afb252aab2a8b0b6af215ba758b309f46274b033b5ca1b961adfc3cb31",
+      "translationSha256": "f739dddc4d5dd1acce271840af9e1facd4cd564f636d5912dedaeaed2feeb403",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105170::I",
+      "slug": "105170-I",
+      "inputKind": "markdown",
+      "sourceSha256": "004e7a0572dc97338ffe01d71054f9ba82e93e9c6932dcf32592a8049e62b01e",
+      "translationSha256": "d565e5cd6fa8341e6f574f3df9148230119c881900a021a8b2430289818963be",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105170::J",
+      "slug": "105170-J",
+      "inputKind": "markdown",
+      "sourceSha256": "3c9aa68ab51bd3d80ba701c536aa799b2bc702b5cc4702be2be3f87e50464fa9",
+      "translationSha256": "f12f51fd9d48d0e67a49f77dbf2b4f5a97adba28820a25a6df7d7a4b7f7a5a95",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105170::K",
+      "slug": "105170-K",
+      "inputKind": "markdown",
+      "sourceSha256": "f05fee3db2ecd2053bc2a973c72cdce8036901e6630eef9423921fa7e3cb71c9",
+      "translationSha256": "a85deb9c3e1bffbe53013f21da3c37700baf4466d779ceb11959e16c8e83b08e",
+      "sampleCount": 2
+    },
+    {
+      "id": "remote:codeforces:105170::L",
+      "slug": "105170-L",
+      "inputKind": "markdown",
+      "sourceSha256": "531a303add83e5eaaced33ae16f98abc08ddc94230bc43c1ac0616d62ea146b1",
+      "translationSha256": "2b1dc8d42a9d1c7af59eda67d34fe90ee2a44288f01e7674659863d09200473b",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105459::A",
+      "slug": "105459-A",
+      "inputKind": "markdown",
+      "sourceSha256": "a990ddb025a78d7a91230ba060d202984a922c20dd87fe7a9592a753acf84f8b",
+      "translationSha256": "13797d9038681514306bd3696aae29a13e56e538f769975762f9ee29fb523101",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105459::B",
+      "slug": "105459-B",
+      "inputKind": "pdf-text",
+      "sourceSha256": "58092a01f721f64438b6467a1a5f697098dc0a3ec5c5b1ea5e698c48aa40f729",
+      "translationSha256": "a9335f316f1802321cd5b56bb5ce37471f357543c9312ff39a2a4668b6b2f3c9",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105459::C",
+      "slug": "105459-C",
+      "inputKind": "markdown",
+      "sourceSha256": "6d82b273d739c7368869534ae8002e8627b6e63378bad56177e5ed72f22b38b3",
+      "translationSha256": "1a1f4a47440c6598129429261a43bb0d47d4388045d0d2c6eb723ecf09e988a2",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105459::D",
+      "slug": "105459-D",
+      "inputKind": "markdown",
+      "sourceSha256": "7b052aac02b98095021ffaaba516f12ee0ffafe0a2589671a4d69b1b6cc8bd8c",
+      "translationSha256": "c24a47581ccd8f7cde949cb6c43fc408e282409d6cbb9826c87808c7c9967ba9",
+      "sampleCount": 3
+    },
+    {
+      "id": "remote:codeforces:105459::E",
+      "slug": "105459-E",
+      "inputKind": "markdown",
+      "sourceSha256": "284a846d542bc956a336ab69f43c0e19927df12216ad80bed00fc37640e29db6",
+      "translationSha256": "564fbb57862636495af833645638a600e567bacb0409815a6551c14f7345c505",
+      "sampleCount": 3
+    },
+    {
+      "id": "remote:codeforces:105459::F",
+      "slug": "105459-F",
+      "inputKind": "markdown",
+      "sourceSha256": "3cc90acea15592b78aa63a0560d7b4fde6812dd5e5253d5cba769561e351be92",
+      "translationSha256": "92c4eab614bcc83cc188309d8354c937b6676f21c70bfa1b7439538c5edaeb81",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105459::G",
+      "slug": "105459-G",
+      "inputKind": "markdown",
+      "sourceSha256": "8aba583de7a4bbecc53a7c43c0c59939358771c57b7684a7b810cff7c38d97f8",
+      "translationSha256": "9f10a837a1c3c0b8eccf6517192323ba8688187db0f653592a3afb0e3d087682",
+      "sampleCount": 2
+    },
+    {
+      "id": "remote:codeforces:105459::H",
+      "slug": "105459-H",
+      "inputKind": "markdown",
+      "sourceSha256": "124fc9e185549f748fa04862a649552fbbaa8f43923218121adba714c9528252",
+      "translationSha256": "26584077e6e255c4fbd3f9bc24af813cfeb7941eb95ffdee0493e00602e6d93d",
+      "sampleCount": 2
+    },
+    {
+      "id": "remote:codeforces:105459::I",
+      "slug": "105459-I",
+      "inputKind": "markdown",
+      "sourceSha256": "7af08f5d382bcaace20ed8b9e623059373ee8aa6afe2f740cdb52b85a69648ea",
+      "translationSha256": "25c9f3a480e5b7bd2986eb088bb25914ea5221b85897d3dcc808eac7a51395be",
+      "sampleCount": 4
+    },
+    {
+      "id": "remote:codeforces:105459::J",
+      "slug": "105459-J",
+      "inputKind": "markdown",
+      "sourceSha256": "94d4547db2c6561f0a08472cd4517b2d9ccffe4d869487287e53fb465942f3ed",
+      "translationSha256": "8a27f6ea0f4c9248b186a62053429e798abb86bcc15f1172bff64483bde7e3bc",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105459::K",
+      "slug": "105459-K",
+      "inputKind": "markdown",
+      "sourceSha256": "87770d23ff2f3af35d69812760ed1574b7d91a9ede8ea040c6481e7dc7f5ed08",
+      "translationSha256": "e92d3d86ee50e2980fd246836a2ac9d496f820260369e730a242fa6ac9fb8de4",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105459::L",
+      "slug": "105459-L",
+      "inputKind": "markdown",
+      "sourceSha256": "7549c5ebf982301730f385ccdb8c94a4921804089d12d9b4672a59e2be9da8a9",
+      "translationSha256": "dc78cf47c1f212fb4371e76d4551f2563163c7f824cc4fd980a8f513cdbd8965",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:105459::M",
+      "slug": "105459-M",
+      "inputKind": "pdf-text",
+      "sourceSha256": "e0c4eb8331d9f276b08338538426ea84c2489897989a8f303d8f107a99bc2b05",
+      "translationSha256": "7ba2142d16a282b6c097ce7ddee464f5d42d057fe93ad82a0d35a37bf42f2bf8",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:106799::A",
+      "slug": "106799-A",
+      "inputKind": "pdf-text",
+      "sourceSha256": "c591ab334832ac90e57df4a1984067d8b6a3c1b0a3c375023abc114292209e4f",
+      "translationSha256": "d157b043e67ad61eac56526f310327e28370e3f2084ba989de7ee4dd989a72ec",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:106799::B",
+      "slug": "106799-B",
+      "inputKind": "pdf-text",
+      "sourceSha256": "11fd239844e5e3648b3f53cb44c5f1caef2e33fb85ad8318b7a7ef354d8b3778",
+      "translationSha256": "db398a3b8c723cd457b6e5fa119b9e9a052f22f4f0a0305cdd6e6ee8f9e79683",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:106799::C",
+      "slug": "106799-C",
+      "inputKind": "markdown",
+      "sourceSha256": "70fdbe7c3de8869d0fc02b11322e7db667710ee6a156082b29382461447452fe",
+      "translationSha256": "71fed657fef22ef02add565c728daf0fefb1e97266fcb6bfd3a6591cc40c420c",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:106799::D",
+      "slug": "106799-D",
+      "inputKind": "markdown",
+      "sourceSha256": "6ccec4b672e6da745052ecd0ff33bf8d2c4087ac3b81b819a564cdb9c7870bae",
+      "translationSha256": "39ede22bbf3a914e9c36b504df69e831fe3efbb1a123cb256c5fd1916a63bd25",
+      "sampleCount": 2
+    },
+    {
+      "id": "remote:codeforces:106799::E",
+      "slug": "106799-E",
+      "inputKind": "markdown",
+      "sourceSha256": "e470789f40a5286fd4fc7b43ae4c1e81a77d66ee4e62acfe80097c42f70e35e7",
+      "translationSha256": "36bd5093d1e16ea7643f1e91baa25383b2d13f878f73e61a8deca2ae73f42d47",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:106799::F",
+      "slug": "106799-F",
+      "inputKind": "pdf-text",
+      "sourceSha256": "6609312f3238ee70a2d4b0e14a2fda5dac08e03de2eda896a30cb2f57b844e44",
+      "translationSha256": "7f700fd89cce69c946c2bde518f38c47e74e3356abbf26937cd62361c3c12046",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:106799::G",
+      "slug": "106799-G",
+      "inputKind": "markdown",
+      "sourceSha256": "1e422fa541d8f2d457bb2c9b5641bd240d834cc29758946f750e78e6fd10c38a",
+      "translationSha256": "ee14fce8111c3fc97003de42108317379aea595f71d32de4b132f9eb9d592e95",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:106799::H",
+      "slug": "106799-H",
+      "inputKind": "markdown",
+      "sourceSha256": "5639813e01abd90e101bf8deb0efaa7ac4daa7f0e4d82ccce685f0f33d370370",
+      "translationSha256": "c3c44e4581f363bb484bd319ca4714d130fbfb6e8288150a772a61ca39e00f0d",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:106799::I",
+      "slug": "106799-I",
+      "inputKind": "markdown",
+      "sourceSha256": "3a05def2ca8d7e3a558489db013b0de538fe2ba0b554c2a7a44616f7c0bd5ee4",
+      "translationSha256": "5345a0f36a8ebb34eee166cbe127332d09f670fe8460b1dd9e5284bcac785499",
+      "sampleCount": 2
+    },
+    {
+      "id": "remote:codeforces:106799::J",
+      "slug": "106799-J",
+      "inputKind": "markdown",
+      "sourceSha256": "2d03e745b97948988a2835e932c0cfe9e76ab3f169fa0f842bd6eee2dd2d405e",
+      "translationSha256": "1f45966ddc73ea989349c2599e13662017455bfacabe77d6f62788050c84a8d8",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:106799::K",
+      "slug": "106799-K",
+      "inputKind": "markdown",
+      "sourceSha256": "7f33d38041fb0fa68e35ffef7e181c4f8d287f2b92c4c5e9de13655d9549b7a3",
+      "translationSha256": "0803f00a3116fc834340693de99657a3e3b7bbf2e17b53fa84e1af867e3a7a84",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:106799::L",
+      "slug": "106799-L",
+      "inputKind": "markdown",
+      "sourceSha256": "212763f1566dbfb9c1661a46b8ef860083c26f5ea8de62fa021ddf3e78da6bcd",
+      "translationSha256": "b794a2b1887f1c2a822bd8d7b70afa1f36cb76ca36a4f87ad2ba5418545463c5",
+      "sampleCount": 1
+    },
+    {
+      "id": "remote:codeforces:106799::M",
+      "slug": "106799-M",
+      "inputKind": "markdown",
+      "sourceSha256": "c0db71b622450c96acd5902a84e4c0c64a648bec829d6212340cc7555712fcfc",
+      "translationSha256": "6d54c50bffd5ce95b3352fbc5eaec1908d1c728610df0e2e647fe30f63ad29aa",
+      "sampleCount": 1
+    }
+  ],
+  "pythonRegression": {
+    "passed": 26,
+    "failed": 0,
+    "modules": [
+      "test_bundled_translation",
+      "test_translation_adjacent_math",
+      "test_translation_semantics",
+      "test_corpus_translations"
+    ],
+    "invocation": "Python 3.13 unittest with repository root, backend and backend/common on PYTHONPATH",
+    "initialInvocationCorrection": "Initial run from backend omitted repository root from PYTHONPATH and could not import two authoring modules; rerun from repository root passed all 26 tests."
+  }
+}

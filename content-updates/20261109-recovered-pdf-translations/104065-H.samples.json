@@ -1,0 +1,21 @@
+{
+  "sourcePdfSha256": "a9d58a83a76db719b209a1239e1314a9ab1f170acf7b5f624f4af098329d6bcc",
+  "pages": [
+    1,
+    2,
+    3
+  ],
+  "method": "Exact sample text checked against every relevant original PDF page; sample presentation separated without changing data.",
+  "samples": [
+    {
+      "input": "1",
+      "name": "样例 1",
+      "output": "1\n1 1"
+    },
+    {
+      "input": "2",
+      "name": "样例 2",
+      "output": "3\n100 100\n101 100\n102 99"
+    }
+  ]
+}

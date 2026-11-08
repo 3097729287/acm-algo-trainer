@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105170::K",
+      "beforeSha256": "e1ca054bcd5392dbccd271cd269f562d931a27e1a1e1e874a58413cf946e41d0",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:105170::K",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:50:12.901253+00:00",
+          "corpusAuditVerifiedSha256": "f05fee3db2ecd2053bc2a973c72cdce8036901e6630eef9423921fa7e3cb71c9",
+          "pdfPageCountVerified": false,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 15000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# String Divide II\n\nGiven a string $$$s=s_1s_2\\ldots s_n$$$ of length $$$n$$$, consisting of only lowercase English letters. For convenience, we define string $$$s_{[l,r]}=s_ls_{l+1}\\ldots s_r$$$, which is the substring of $$$s$$$ from index $$$l$$$ to $$$r$$$.\n\n\n\nGiven an integer $$$k$$$, you're curious about those substrings of $$$s$$$ which are composed by concatenating $$$k$$$ identical strings together. Please find out the longest length of those substrings.\n\n\n\nFormally, you should find a set of intervals $$$\\{[l_1,r_1]$$$, $$$[l_2,r_2]$$$,$$$\\ldots$$$,$$$[l_k,r_k]\\}$$$ which satisfies the following two conditions:\n\n\n\n- For each $$$i$$$ ($$$1\\leq i\\leq k$$$), $$$1\\leq l_i\\leq r_i\\leq n$$$;\n\n- For each $$$i$$$ ($$$1\\leq i \\lt k$$$), $$$r_i+1=l_{i+1}$$$, and $$$s_{[l_i,r_i]}=s_{[l_{i+1},r_{i+1}]}$$$.\n\n\n\nYou need to maximize $$$r_k-l_1+1$$$.\n\n\n\n## Input\n\n\n\nThe first line contains two integers $$$n$$$, $$$k$$$ ($$$2\\leq k \\leq n\\leq 10^6$$$).\n\n\n\nThe second line contains a string $$$s$$$ of length $$$n$$$, consisting of only lowercase English letters.\n\n\n\n## Output\n\n\n\nOutput a single integer, denoting the answer. Specially, if there are no such substrings, output $$$0$$$.\n\n\n\n## Note\n\n\n\nFor the second example, the set we choose is $$$\\{[1,2],[3,4]\\}$$$. It can be proved that this is the longest substring satisfying the condition.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:105170::K",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 2,
+          "samplesSha256": "938521ff12cc6762b5a772ea71b49c0413fcd80edd8f043defb450769e4e7907",
+          "url": "https://codeforces.com/gym/105170/problem/K"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "5 3\nbacbc",
+            "name": "样例 1",
+            "output": "0"
+          },
+          {
+            "input": "7 2\nababbba",
+            "name": "样例 2",
+            "output": "4"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "String Divide II",
+        "url": "https://codeforces.com/gym/105170/problem/K",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "f05fee3db2ecd2053bc2a973c72cdce8036901e6630eef9423921fa7e3cb71c9",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 字符串划分 II\n\n\n\n给定一个长度为 $$$n$$$、仅包含小写英文字母的字符串 $$$s=s_1s_2\\ldots s_n$$$。为方便起见，定义 $$$s_{[l,r]}=s_ls_{l+1}\\ldots s_r$$$，表示 $$$s$$$ 从下标 $$$l$$$ 到 $$$r$$$ 的子串。\n\n\n\n给定整数 $$$k$$$，你对那些由 $$$k$$$ 个相同字符串拼接而成的 $$$s$$$ 的子串很感兴趣。请找出这类子串的最长长度。\n\n\n\n形式化地，你需要找到一组区间 $$$\\{[l_1,r_1]$$$、$$$[l_2,r_2]$$$、$$$\\ldots$$$、$$$[l_k,r_k]\\}$$$，满足以下两个条件：\n\n\n\n- 对于每个 $$$i$$$（$$$1\\leq i\\leq k$$$），都有 $$$1\\leq l_i\\leq r_i\\leq n$$$；\n\n- 对于每个 $$$i$$$（$$$1\\leq i \\lt k$$$），都有 $$$r_i+1=l_{i+1}$$$，并且 $$$s_{[l_i,r_i]}=s_{[l_{i+1},r_{i+1}]}$$$。\n\n\n\n你需要最大化 $$$r_k-l_1+1$$$。\n\n\n\n## 输入格式\n\n\n\n第一行包含两个整数 $$$n$$$、$$$k$$$（$$$2\\leq k \\leq n\\leq 10^6$$$）。\n\n\n\n第二行包含一个长度为 $$$n$$$、仅由小写英文字母组成的字符串 $$$s$$$。\n\n\n\n## 输出格式\n\n\n\n输出一个整数，表示答案。特别地，如果不存在这样的子串，输出 $$$0$$$。\n\n\n\n## 样例说明\n\n\n\n第二组样例中，选择的区间组为 $$$\\{[1,2],[3,4]\\}$$$。可以证明，这已经是满足条件的最长子串。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:105170::K",
+          "slug": "105170-K",
+          "sourceUrl": "https://codeforces.com/gym/105170/problem/K",
+          "sourceSha256": "f05fee3db2ecd2053bc2a973c72cdce8036901e6630eef9423921fa7e3cb71c9",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "5 3\nbacbc",
+              "name": "样例 1",
+              "output": "0"
+            },
+            {
+              "input": "7 2\nababbba",
+              "name": "样例 2",
+              "output": "4"
+            }
+          ],
+          "notes": [
+            "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+            "Original Markdown, samples and resource bindings retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105459::F",
+      "beforeSha256": "9ce1f08442461e6f66e5b7feb5c268bcfec69e23cafd3635d0331e7252f2ea0d",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:105459::F",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:49:28.991309+00:00",
+          "corpusAuditVerifiedSha256": "3cc90acea15592b78aa63a0560d7b4fde6812dd5e5253d5cba769561e351be92",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 1D Galaxy\n\nIn a magical one-dimensional space, there are $$$n$$$ planets numbered from $$$1$$$ to $$$n$$$. Initially ($$$t=0$$$), the planet numbered $$$i$$$ is located at position $$$x_i$$$ with weight $$$w_i$$$ (which can be negative). In the real world, planets move under the influence of gravity, and similarly, in this one-dimensional galaxy, planets move due to attraction. However, the movement in this galaxy does not follow conventional physical laws. Specifically, for any planet in this one-dimensional galaxy, if the total weight of planets to its left is greater than the total weight of planets to its right, it moves one unit to the left at the next time step. Conversely, if the total weight on the right is greater than that on the left, it moves one unit to the right. If both sides are equal, it remains in the same position. You can assume that the planets do not physically collide, meaning they can pass through each other.\n\n\n\nFormally, let the position of the planet numbered $$$i$$$ at time $$$t$$$ ($$$t = 0, 1, 2, \\ldots$$$) be $$$x_{i,t}$$$. The total weight of the planets to its left at this time is $$$w_{i,t}^l = \\sum_{j\\ :\\ x_{j,t} \\lt x_{i,t}} w_j$$$, and the total weight of the planets to its right is $$$w_{i,t}^r = \\sum_{j\\ :\\ x_{j,t} \\gt x_{i,t}} w_j$$$. The position of the planet at the next time step, $$$x_{i, t+1}$$$, is given by:\n\n\n\n$$$$$$ x_{i, t+1} = \\begin{cases} x_{i,t} - 1, & w_{i,t}^l \\gt w_{i,t}^r \\\\ x_{i,t} + 1, & w_{i,t}^l \\lt w_{i,t}^r \\\\ x_{i,t}, & w_{i,t}^l = w_{i,t}^r \\end{cases} $$$$$$\n\n\n\nThere are $$$q$$$ queries, each asking for the position of the planet numbered $$$i$$$ at a specific time $$$t$$$. Please answer these queries.\n\n\n\n## Input\n\n\n\nThe first line contains two integers $$$n$$$ and $$$q$$$ ($$$1 \\le n, q \\le 10^5$$$), representing the number of planets and the number of queries, respectively.\n\n\n\nThe $$$i$$$-th of the next $$$n$$$ lines contains two integers $$$x_i, w_i$$$ ($$$-10^9 \\le x_i, w_i \\le 10^9$$$), representing the initial position and weight of the planet numbered $$$i$$$.\n\n\n\nThe following $$$q$$$ lines each contain two integers $$$t$$$ and $$$i$$$ ($$$0 \\le t \\le 10^9$$$, $$$1 \\le i \\le n$$$), representing a query.\n\n\n\n## Output\n\n\n\nOutput $$$q$$$ lines, each representing the answer to the corresponding query.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:105459::F",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "e73b30bd6105a275d44a9cba90c1ed7d5e1ba2e9863cb0b6c0a6dcd3421689c1",
+          "url": "https://codeforces.com/gym/105459/problem/F"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "4 12\n0 1\n1 2\n-1 3\n2 2\n0 1\n0 2\n0 3\n0 4\n1 1\n1 2\n1 3\n1 4\n2 1\n2 2\n2 3\n2 4",
+            "name": "样例 1",
+            "output": "0\n1\n-1\n2\n1\n0\n0\n1\n0\n1\n1\n0"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfError": "原版 PDF 未提供唯一、明确的题号分页",
+        "sitePdfStatus": "unavailable",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "1D Galaxy",
+        "url": "https://codeforces.com/gym/105459/problem/F",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "3cc90acea15592b78aa63a0560d7b4fde6812dd5e5253d5cba769561e351be92",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 一维星系\n\n\n\n在一个神奇的一维空间中，有 $$$n$$$ 颗行星，编号为 $$$1$$$ 到 $$$n$$$。初始时（$$$t=0$$$），编号为 $$$i$$$ 的行星位于 $$$x_i$$$，质量为 $$$w_i$$$，质量可以为负数。现实世界中行星受引力作用而运动，这个一维星系中的行星也受到吸引而移动，但其运动并不遵守通常的物理定律。具体来说，对于任意一颗行星，如果其左侧所有行星的质量之和大于右侧所有行星的质量之和，它会在下一时刻向左移动一个单位；如果右侧质量之和更大，则向右移动一个单位；如果两侧相等，则保持原位。可以认为行星不会发生物理碰撞，它们能够相互穿过。\n\n\n\n形式化地，令编号为 $$$i$$$ 的行星在时刻 $$$t$$$（$$$t = 0, 1, 2, \\ldots$$$）的位置为 $$$x_{i,t}$$$。此时它左侧行星的总质量为 $$$w_{i,t}^l = \\sum_{j\\ :\\ x_{j,t} \\lt x_{i,t}} w_j$$$，右侧行星的总质量为 $$$w_{i,t}^r = \\sum_{j\\ :\\ x_{j,t} \\gt x_{i,t}} w_j$$$。下一时刻的位置 $$$x_{i, t+1}$$$ 为：\n\n\n\n$$$$$$ x_{i, t+1} = \\begin{cases} x_{i,t} - 1, & w_{i,t}^l \\gt w_{i,t}^r \\\\ x_{i,t} + 1, & w_{i,t}^l \\lt w_{i,t}^r \\\\ x_{i,t}, & w_{i,t}^l = w_{i,t}^r \\end{cases} $$$$$$\n\n\n\n有 $$$q$$$ 次询问，每次询问编号为 $$$i$$$ 的行星在指定时刻 $$$t$$$ 的位置。请回答这些询问。\n\n\n\n## 输入格式\n\n\n\n第一行包含两个整数 $$$n$$$ 和 $$$q$$$（$$$1 \\le n, q \\le 10^5$$$），分别表示行星数量和询问数量。\n\n\n\n接下来 $$$n$$$ 行，第 $$$i$$$ 行包含两个整数 $$$x_i, w_i$$$（$$$-10^9 \\le x_i, w_i \\le 10^9$$$），表示编号为 $$$i$$$ 的行星的初始位置和质量。\n\n\n\n随后 $$$q$$$ 行，每行包含两个整数 $$$t$$$ 和 $$$i$$$（$$$0 \\le t \\le 10^9$$$，$$$1 \\le i \\le n$$$），描述一次询问。\n\n\n\n## 输出格式\n\n\n\n输出 $$$q$$$ 行，依次回答相应的询问。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:105459::F",
+          "slug": "105459-F",
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/F",
+          "sourceSha256": "3cc90acea15592b78aa63a0560d7b4fde6812dd5e5253d5cba769561e351be92",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "4 12\n0 1\n1 2\n-1 3\n2 2\n0 1\n0 2\n0 3\n0 4\n1 1\n1 2\n1 3\n1 4\n2 1\n2 2\n2 3\n2 4",
+              "name": "样例 1",
+              "output": "0\n1\n-1\n2\n1\n0\n0\n1\n0\n1\n1\n0"
+            }
+          ],
+          "notes": [
+            "Complete original prose, formulas, constraints and sample explanations checked.",
+            "Original Markdown, samples and all resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

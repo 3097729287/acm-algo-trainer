@@ -1,0 +1,20 @@
+{
+  "sourcePdfSha256": "f8a805d1123b6b56d2695b6617deb6891e375443159ffb556b4850b7bdf8d38b",
+  "pages": [
+    1,
+    2
+  ],
+  "method": "Exact sample text checked against every relevant original PDF page; sample presentation separated without changing data.",
+  "samples": [
+    {
+      "input": "3 3 3",
+      "name": "样例 1",
+      "output": "RRDD"
+    },
+    {
+      "input": "4 3 2",
+      "name": "样例 2",
+      "output": "DLDLDLUR"
+    }
+  ]
+}

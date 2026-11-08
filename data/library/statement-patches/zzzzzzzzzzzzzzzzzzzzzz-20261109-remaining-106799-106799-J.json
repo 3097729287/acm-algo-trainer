@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:106799::J",
+      "beforeSha256": "c9e32ed96d3f327f113f5f85ecfcdcd242fdd19c3df7c08da9f824a398b2d7ac",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:106799::J",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-07T19:11:07.258854+00:00",
+          "corpusAuditVerifiedSha256": "2d03e745b97948988a2835e932c0cfe9e76ab3f169fa0f842bd6eee2dd2d405e",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 4000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Joint Relocation\n\nVegiCat owns a company with $$$n$$$ employees in $$$k$$$ nonempty teams. The employees live along a straight road, represented by a number line. VegiCat wants to arrange two meeting points for them.\n\n\n\nVegiCat divides the teams into two sets, $$$A$$$ and $$$B$$$, with each team in exactly one set. He chooses a meeting point for each set at any real coordinate. **All employees on the same team must go to the same meeting point.** Each team in set $$$A$$$ goes to the meeting point for $$$A$$$, and each team in set $$$B$$$ goes to the meeting point for $$$B$$$. Either set may be empty.\n\n\n\nLet $$$S_A$$$ list the home positions of all employees on teams in $$$A$$$, and define $$$S_B$$$ similarly for $$$B$$$. Each employee is counted separately, even when home positions repeat.\n\n\n\nFor a list $$$S=(x_1,x_2,\\ldots,x_m)$$$ of home positions, the minimum total distance for these employees to travel to one meeting point is $$$$$$ M(S)=\\min_{p\\in\\mathbb{R}}\\sum_{j=1}^{m}|x_j-p|. $$$$$$ Define $$$M(S)=0$$$ when $$$S$$$ is empty. Help VegiCat minimize $$$M(S_A)+M(S_B)$$$ over all ways to divide the teams into the two sets.\n\n\n\n## Input\n\n\n\nThe first line contains an integer $$$T$$$ ($$$1\\le T\\le 3\\cdot10^5$$$), the number of test cases. The description of the test cases follows.\n\n\n\nThe first line of each test case contains two integers $$$n$$$ and $$$k$$$ ($$$1\\le k\\le n\\le 3\\cdot10^5$$$), denoting the number of employees and the number of teams, respectively.\n\n\n\nEach of the next $$$k$$$ lines describes one team. The $$$i$$$-th line contains an integer $$$m_i$$$ ($$$1\\le m_i\\le n$$$), the number of employees on team $$$i$$$, followed by $$$m_i$$$ integers $$$x_{i,1},\\ldots,x_{i,m_i}$$$ ($$$1\\le x_{i,j}\\le10^7$$$), their home positions. The sum of all $$$m_i$$$ in a test case is $$$n$$$.\n\n\n\nHome positions may repeat and may be given in any order.\n\n\n\nIt is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$3\\cdot10^5$$$.\n\n\n\n## Output\n\n\n\nFor each test case, output an integer — the minimum possible total travel distance.\n\n\n\n## Note\n\n\n\nIn the first test case, VegiCat sends team $$$1$$$ to a meeting point at position $$$1$$$ and team $$$2$$$ to a meeting point at position $$$8$$$. The employees in each team travel a total distance of $$$2$$$, giving the answer $$$4$$$.\n\n\n\nIn the second test case, VegiCat chooses meeting points at $$$3$$$ and $$$9$$$. He sends teams $$$1$$$ and $$$2$$$ to the first meeting point, and team $$$3$$$ to the second. The employees in teams $$$1$$$, $$$2$$$, and $$$3$$$ travel total distances of $$$12$$$, $$$1$$$, and $$$2$$$, respectively, giving the answer $$$15$$$.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:106799::J",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "85e9544f31ea715d176e6ea10ce15b32c7df6ef68a2076bd3e8cef7cc3779e30",
+          "url": "https://codeforces.com/gym/106799/problem/J"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "2\n4 2\n2 1 3\n2 8 10\n8 3\n3 4 12 1\n2 3 2\n3 9 8 10",
+            "name": "样例 1",
+            "output": "4\n15"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Joint Relocation",
+        "url": "https://codeforces.com/gym/106799/problem/J",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "2d03e745b97948988a2835e932c0cfe9e76ab3f169fa0f842bd6eee2dd2d405e",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 共同搬迁\n\n\n\nVegiCat 的公司有 $$$n$$$ 名员工，分属 $$$k$$$ 个非空团队。员工居住在一条直路上，用数轴表示。VegiCat 希望为他们安排两个集合地点。\n\n\n\nVegiCat 将团队分为 $$$A$$$ 和 $$$B$$$ 两组，每个团队恰好属于其中一组，并为每组在任意实数坐标处选择一个集合地点。**同一个团队的所有员工必须前往同一个集合地点。** 属于 $$$A$$$ 的团队前往 $$$A$$$ 的集合地点，属于 $$$B$$$ 的团队前往 $$$B$$$ 的集合地点。任意一组都可以为空。\n\n\n\n令 $$$S_A$$$ 列出 $$$A$$$ 中所有团队员工的家庭位置，对 $$$B$$$ 类似定义 $$$S_B$$$。即使家庭位置相同，每名员工也单独计数。\n\n\n\n对于家庭位置列表 $$$S=(x_1,x_2,\\ldots,x_m)$$$，这些员工前往同一个集合地点的最小总路程为 $$$$$$ M(S)=\\min_{p\\in\\mathbb{R}}\\sum_{j=1}^{m}|x_j-p|. $$$$$$ 当 $$$S$$$ 为空时，定义 $$$M(S)=0$$$。请在所有团队分组方案中，帮助 VegiCat 最小化 $$$M(S_A)+M(S_B)$$$。\n\n\n\n## 输入格式\n\n\n\n第一行包含整数 $$$T$$$（$$$1\\le T\\le 3\\cdot10^5$$$），表示测试用例数。接下来描述各测试用例。\n\n\n\n每个测试用例的第一行包含两个整数 $$$n$$$ 和 $$$k$$$（$$$1\\le k\\le n\\le 3\\cdot10^5$$$），分别表示员工数量和团队数量。\n\n\n\n接下来 $$$k$$$ 行，每行描述一个团队。第 $$$i$$$ 行先包含整数 $$$m_i$$$（$$$1\\le m_i\\le n$$$），表示团队 $$$i$$$ 的员工数量，随后包含 $$$m_i$$$ 个整数 $$$x_{i,1},\\ldots,x_{i,m_i}$$$（$$$1\\le x_{i,j}\\le10^7$$$），表示他们的家庭位置。同一测试用例中，所有 $$$m_i$$$ 之和为 $$$n$$$。\n\n\n\n家庭位置可以重复，也可以按任意顺序给出。\n\n\n\n保证所有测试用例的 $$$n$$$ 之和不超过 $$$3\\cdot10^5$$$。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，输出一个整数，表示最小可能的总路程。\n\n\n\n## 样例说明\n\n\n\n第一组样例中，VegiCat 让团队 $$$1$$$ 前往位置 $$$1$$$，团队 $$$2$$$ 前往位置 $$$8$$$。每个团队员工的总路程都为 $$$2$$$，因此答案为 $$$4$$$。\n\n\n\n第二组样例中，VegiCat 选择集合地点 $$$3$$$ 和 $$$9$$$。他让团队 $$$1$$$ 和 $$$2$$$ 前往第一个地点，团队 $$$3$$$ 前往第二个地点。团队 $$$1$$$、$$$2$$$、$$$3$$$ 的员工总路程分别为 $$$12$$$、$$$1$$$、$$$2$$$，因此答案为 $$$15$$$。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:106799::J",
+          "slug": "106799-J",
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/J",
+          "sourceSha256": "2d03e745b97948988a2835e932c0cfe9e76ab3f169fa0f842bd6eee2dd2d405e",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "2\n4 2\n2 1 3\n2 8 10\n8 3\n3 4 12 1\n2 3 2\n3 9 8 10",
+              "name": "样例 1",
+              "output": "4\n15"
+            }
+          ],
+          "notes": [
+            "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+            "Original Markdown, samples and resource bindings retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,411 @@
+[
+  {
+    "problem_id": "luogu-training-P7871",
+    "content": {
+      "id": "luogu-training-P7871",
+      "title": "芙兰？姆Q！贤者与谜题",
+      "url": "https://www.luogu.com.cn/problem/P7871",
+      "limits": {
+        "memoryMb": 128,
+        "timeMs": 1000
+      },
+      "sourceLimits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000,
+          128000
+        ]
+      },
+      "samples": [
+        {
+          "name": "样例 1",
+          "input": "10 4\n1 2\n3 7\n8 10\n5 6",
+          "output": "1 4 8 3 7 2 6 10 5 9"
+        },
+        {
+          "name": "样例 2",
+          "input": "100 50\r\n64 80\r\n85 57\r\n75 42\r\n78 23\r\n87 18\r\n84 61\r\n76 45\r\n47 43\r\n51 40\r\n87 18\r\n72 34\r\n40 39\r\n82 64\r\n73 29\r\n87 18\r\n72 55\r\n78 25\r\n83 55\r\n40 28\r\n87 18\r\n78 41\r\n55 35\r\n74 46\r\n77 35\r\n87 18\r\n83 34\r\n57 57\r\n66 25\r\n85 80\r\n87 18\r\n38 28\r\n57 53\r\n46 37\r\n59 19\r\n87 18\r\n81 40\r\n74 31\r\n75 32\r\n47 21\r\n87 18\r\n77 71\r\n72 26\r\n77 77\r\n56 41\r\n87 18\r\n83 73\r\n56 19\r\n85 63\r\n68 42\r\n87 18",
+          "output": "QED\r\n"
+        },
+        {
+          "name": "样例 3",
+          "input": "100 80\r\n54 65\r\n39 48\r\n58 68\r\n27 84\r\n23 100\r\n69 79\r\n24 54\r\n36 88\r\n30 46\r\n23 100\r\n64 93\r\n31 50\r\n74 88\r\n71 84\r\n23 100\r\n85 97\r\n56 96\r\n42 74\r\n34 88\r\n23 100\r\n80 91\r\n67 70\r\n60 97\r\n24 85\r\n23 100\r\n62 90\r\n48 48\r\n64 79\r\n55 86\r\n23 100\r\n32 98\r\n36 71\r\n37 75\r\n85 92\r\n23 100\r\n63 81\r\n62 69\r\n51 55\r\n58 89\r\n23 100\r\n67 74\r\n67 97\r\n44 44\r\n46 74\r\n23 100\r\n32 48\r\n57 64\r\n27 89\r\n83 98\r\n23 100\r\n58 88\r\n70 97\r\n48 50\r\n72 77\r\n23 100\r\n67 75\r\n72 91\r\n50 52\r\n23 38\r\n23 100\r\n51 89\r\n37 82\r\n48 49\r\n46 89\r\n23 100\r\n45 68\r\n72 86\r\n23 23\r\n54 69\r\n23 100\r\n53 91\r\n33 91\r\n77 78\r\n61 96\r\n23 100\r\n23 85\r\n52 69\r\n63 87\r\n38 74\r\n23 100",
+          "output": "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 61 100 60 99 59 98 58 97 57 96 56 95 55 94 54 93 53 92 52 91 51 90 50 89 49 88 48 87 47 86 46 85 45 84 44 83 43 82 42 81 41 80 40 79 39 78 38 77 37 76 36 75 35 74 34 73 33 72 32 71 31 70 30 69 29 68 28 67 27 66 26 65 25 64 24 63 23 62 22\r\n"
+        }
+      ],
+      "images": {},
+      "attachments": {
+        "https://www.luogu.com.cn/problem/P7871/attachment/pnhmys2x": {
+          "sourceUrl": "https://www.luogu.com.cn/problem/P7871/attachment/pnhmys2x",
+          "sha256": "febc87ba0a14e506fb18f332e0e6055de61b49886b0335984132e96b55104043",
+          "bytes": 1376,
+          "mime": "application/zip",
+          "fileName": "qed.zip",
+          "data": "tb-asset:febc87ba0a14e506fb18f332e0e6055de61b49886b0335984132e96b55104043"
+        }
+      },
+      "resourceManifest": {
+        "https://www.luogu.com.cn/problem/P7871/attachment/pnhmys2x": {
+          "sourceUrl": "https://www.luogu.com.cn/problem/P7871/attachment/pnhmys2x",
+          "sha256": "febc87ba0a14e506fb18f332e0e6055de61b49886b0335984132e96b55104043",
+          "bytes": 1376,
+          "mime": "application/zip",
+          "fileName": "qed.zip"
+        }
+      },
+      "statementAvailable": true,
+      "statementVersion": 9,
+      "statementLanguage": "zh-CN",
+      "statementSource": "洛谷原题与原站样例附件核对",
+      "problemType": "standard",
+      "localJudgeSupported": true,
+      "resourceIssues": [],
+      "markdown": "# 芙兰？姆Q！贤者与谜题\n\n## 题目背景\n\n题目背景不包含解题的关键信息，可以跳过。\n\n---\n\n芙兰朵露·斯卡蕾特是曾居住在红魔馆地下室的吸血鬼。与众不同的是，芙兰朵露有着彩色结晶的特殊翅膀，与其他吸血鬼蝙蝠一般的翅膀不同：颜色各异的结晶按照顺序一字排开。\n\n芙兰朵露翅膀的彩色结晶的颜色从内到外分别是天蓝、蓝、紫、粉、橙、黄、淡绿和天蓝。因此事实上，芙兰朵露的翅膀很可能就是帕秋莉的「贤者之石」组成的。\n\n但是芙兰朵露并不关心这些，她只关心排列成翅膀形状的贤者之石之间发生的能量流动——如果一块贤者之石被赋予了能量，就会处于激发态。处于激发态的贤者之石很不稳定——它大量能量的爆发会波及周围的贤者之石，以造成能量的转移。\n\n芙兰朵露非常感兴趣，并以此出了一个谜题来考考帕秋莉。但是作为贤者的帕秋莉不想思考只想摸鱼，于是任务就交给你啦！\n\n## 题目描述\n\n芙兰朵露从帕秋莉那里搞来了 $n$ 块贤者之石，并从左往右排成了一列。帕秋莉可以赋予每块贤者之石一定的能级，这会决定贤者之石之间能量的传递。值得注意的是，**能级必须要是正整数，并且不能有两块贤者之石能级相同**。\n\n如果第 $i$ 块贤者之石被赋予了能量（处于激发态），它就会将能量传递给第 $i-1$ 和第 $i+1$ 块里**能级较小**的那一块。特别地，如果某块贤者之石周围只有一块，那么它只会向这一块发送能量。注意，即使第 $i$ 块的能级低于第 $i-1$ 和第 $i+1$ 块，它**照样可以传输能量**。\n\n现在芙兰有 $q$ 个条件——每个条件给定两个正整数 $s,t$，表示如果芙兰激活了第 $s$ 块贤者之石的能量，那么能量最终会经过第 $t$ 块。\n\n然而由于帕秋莉有哮喘的老毛病，设定贤者之石的能级是很费力的。因此，如果存在一种合法的赋予贤者之石能级的方案，请你找出其中**字典序最小**的那个方案。对于两种方案 $A,B$，我们称 $A$ 的字典序小于 $B$，当且仅当存在一个 $p$，使得 $\\forall i<p$ 有 $A_i=B_i$，且 $A_p<B_p$。 \n\n如果存在合法方案，请你输出字典序最小的方案；否则输出 `QED`。\n\n## 输入格式\n\n第一行有两个整数 $n,q$，表示贤者之石的块数和芙兰的条件个数。  \n接下来 $q$ 行，每行有两个整数 $s_i,t_i$，描述一组条件。\n\n## 输出格式\n\n若不存在合法方案，输出 `QED`；否则输出 $n$ 个整数，表示字典序最小的那个方案。\n\n## 提示\n\n输入/输出样例 $2$ 见下发的附件 $\\textbf{\\textit{qed2.in}/\\textit{qed2.ans}}$。\n\n输入/输出样例 $3$ 见下发的附件 $\\textbf{\\textit{qed3.in}/\\textit{qed3.ans}}$。\n\n---\n\n### 数据范围及约定\n\n对于 $100\\%$ 的数据，$0\\le q \\le 3\\times 10^5$，$3\\le n \\le 3\\times 10^5$，$1\\le s_i,t_i \\le n$。\n\n$$\n\\def\\arraystretch{1.5}\n\\begin{array}{|c|c|c|c|} \\hline\n\\textbf{测试点} & \\bm{n\\le} & \\bm{q\\le} & \\textbf{特殊限制} \\cr \\hline\n1\\sim 3 & 7 & 7 & - \\cr \\hline\n4\\sim6 & 100 & 100 & - \\cr \\hline\n7 & 10^5 & 1 & -\\cr \\hline\n8\\sim 10 & 3\\times 10^5 & 3\\times 10^5 & s_i\\le t_i \\cr \\hline\n11\\sim 12 & 10^5 & 10 & - \\cr \\hline\n13\\sim 20 & 3\\times 10^5 & 3\\times 10^5 & -\\cr \\hline\n\\end{array}$$\n\n## 附件下载\n\n[qed.zip](https://www.luogu.com.cn/problem/P7871/attachment/pnhmys2x)",
+      "integrity": {
+        "schema": 1,
+        "status": "complete",
+        "sourceVerified": true,
+        "sampleCount": 3,
+        "issues": [],
+        "checkedAt": "2026-11-08T20:33:27.706088+00:00",
+        "sourceDocuments": [
+          {
+            "url": "https://www.luogu.com.cn/problem/P7871",
+            "sha256": "f1a08a8620d964fa9c25d998b572b65e374edde5483716bb06696df5967b260e",
+            "status": 200
+          },
+          {
+            "url": "https://www.luogu.com.cn/problem/P7871/attachment/pnhmys2x",
+            "sha256": "febc87ba0a14e506fb18f332e0e6055de61b49886b0335984132e96b55104043",
+            "status": 200,
+            "bytes": 1376
+          }
+        ],
+        "markdownSha256": "68a791edd2c3fcf81274eeacda47c2f1bb5864fcb8d2e59a35865d715ae66d57",
+        "corpusAuditVerifiedSha256": "68a791edd2c3fcf81274eeacda47c2f1bb5864fcb8d2e59a35865d715ae66d57",
+        "pdfPageCountVerified": false,
+        "recoveryBinding": {
+          "method": "native-id-full-statement-and-exact-source-zip",
+          "nativeProblemId": "P7871",
+          "attachmentId": "pnhmys2x",
+          "originalZipSha256": "febc87ba0a14e506fb18f332e0e6055de61b49886b0335984132e96b55104043",
+          "officialAttachmentMetadataVerified": true,
+          "optionalBackgroundImageRemoved": true,
+          "explicitlyReconstructedFigures": 0
+        }
+      }
+    }
+  },
+  {
+    "problem_id": "luogu-training-P8089",
+    "content": {
+      "id": "luogu-training-P8089",
+      "title": "Color",
+      "url": "https://www.luogu.com.cn/problem/P8089",
+      "limits": {
+        "memoryMb": 131,
+        "timeMs": 500
+      },
+      "sourceLimits": {
+        "time": [
+          500,
+          500,
+          500,
+          500,
+          500,
+          500,
+          500,
+          500,
+          500,
+          500
+        ],
+        "memory": [
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072
+        ]
+      },
+      "samples": [
+        {
+          "name": "样例 1",
+          "input": "1\n2\n10",
+          "output": "4"
+        },
+        {
+          "name": "样例 2",
+          "input": "1\n3\n100",
+          "output": "25"
+        },
+        {
+          "name": "样例 3",
+          "input": "1\n3\n010",
+          "output": "10"
+        },
+        {
+          "name": "样例 4",
+          "input": "10\r\n17\r\n01111110110110101 \r\n12\r\n001011000000 \r\n13\r\n0100101111101 \r\n10\r\n0010101101 \r\n5\r\n01000\r\n4\r\n1000 \r\n14\r\n01001001101000 \r\n20\r\n01100000000101010101 \r\n9\r\n000011101 \r\n5\r\n01000 \r\n",
+          "output": "804555643\r\n579588880\r\n435794084\r\n466422593\r\n17602\r\n676\r\n415280558\r\n725635665\r\n368679480\r\n17602\r\n"
+        }
+      ],
+      "images": {
+        "https://s4.ax1x.com/2022/01/19/7sc6Yj.png": "tb-asset:f8766796683c9100c867747fa0434616844d4296cf8ea0476008f4d8be7d7d0e",
+        "https://s4.ax1x.com/2022/01/19/7sc1eO.png": "tb-asset:b358626eb2c246e9df5be2a1b87c9362c54b1f129adf306d8427b7f79dd7c259"
+      },
+      "attachments": {
+        "https://www.luogu.com.cn/problem/P8089/attachment/amlq6ub9": {
+          "sourceUrl": "https://www.luogu.com.cn/problem/P8089/attachment/amlq6ub9",
+          "sha256": "36f8855455dcaec07b45b1675b46023bbab360daac53c8eedc4a14b12f1d8ef8",
+          "bytes": 576,
+          "mime": "application/zip",
+          "fileName": "sample.zip",
+          "data": "tb-asset:36f8855455dcaec07b45b1675b46023bbab360daac53c8eedc4a14b12f1d8ef8"
+        }
+      },
+      "resourceManifest": {
+        "https://www.luogu.com.cn/problem/P8089/attachment/amlq6ub9": {
+          "sourceUrl": "https://www.luogu.com.cn/problem/P8089/attachment/amlq6ub9",
+          "sha256": "36f8855455dcaec07b45b1675b46023bbab360daac53c8eedc4a14b12f1d8ef8",
+          "bytes": 576,
+          "mime": "application/zip",
+          "fileName": "sample.zip"
+        },
+        "https://s4.ax1x.com/2022/01/19/7sc6Yj.png": {
+          "sourceUrl": "https://www.luogu.com.cn/problem/P8089",
+          "sha256": "f8766796683c9100c867747fa0434616844d4296cf8ea0476008f4d8be7d7d0e",
+          "bytes": 938,
+          "mime": "image/svg+xml",
+          "origin": "verified-text-reconstruction",
+          "originalImageRecovered": false,
+          "originalImageUrl": "https://s4.ax1x.com/2022/01/19/7sc6Yj.png",
+          "reconstructionSourceSha256": "a1c0b11a9f8d9bb2a4cb18b4e2757c46172ac9ed67d8cccd28dc8562fe01756c",
+          "verifiedTreeStructure": {
+            "depth": 2,
+            "bottomLevelCountBinary": "10",
+            "nodes": 3,
+            "preorderLabels": {
+              "1": 1,
+              "2": 2,
+              "3": 3
+            },
+            "edges": [
+              [
+                1,
+                2
+              ],
+              [
+                1,
+                3
+              ]
+            ],
+            "officialValidConnectedSets": [
+              [
+                1,
+                2,
+                3
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                1,
+                3
+              ],
+              [
+                1
+              ]
+            ],
+            "allRootContainingConnectedSetsVerified": true,
+            "validSetsCount": 4,
+            "originalImageRecovered": false,
+            "diagramType": "explicit-text-reconstruction"
+          }
+        },
+        "https://s4.ax1x.com/2022/01/19/7sc1eO.png": {
+          "sourceUrl": "https://www.luogu.com.cn/problem/P8089",
+          "sha256": "b358626eb2c246e9df5be2a1b87c9362c54b1f129adf306d8427b7f79dd7c259",
+          "bytes": 1451,
+          "mime": "image/svg+xml",
+          "origin": "verified-text-reconstruction",
+          "originalImageRecovered": false,
+          "originalImageUrl": "https://s4.ax1x.com/2022/01/19/7sc1eO.png",
+          "reconstructionSourceSha256": "a1c0b11a9f8d9bb2a4cb18b4e2757c46172ac9ed67d8cccd28dc8562fe01756c",
+          "verifiedTreeStructure": {
+            "depth": 3,
+            "bottomLevelCountBinary": "010",
+            "nodes": 5,
+            "preorderLabels": {
+              "1": 1,
+              "2": 2,
+              "4": 3,
+              "5": 4,
+              "3": 5
+            },
+            "edges": [
+              [
+                1,
+                2
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                2,
+                4
+              ]
+            ],
+            "officialValidConnectedSets": [
+              [
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              [
+                1,
+                2,
+                3,
+                4
+              ],
+              [
+                1,
+                2,
+                3
+              ],
+              [
+                1,
+                2,
+                4
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                1,
+                2,
+                3,
+                5
+              ],
+              [
+                1,
+                2,
+                4,
+                5
+              ],
+              [
+                1,
+                2,
+                5
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                1
+              ]
+            ],
+            "allRootContainingConnectedSetsVerified": true,
+            "validSetsCount": 10,
+            "originalImageRecovered": false,
+            "diagramType": "explicit-text-reconstruction"
+          }
+        }
+      },
+      "statementAvailable": true,
+      "statementVersion": 9,
+      "statementLanguage": "zh-CN",
+      "statementSource": "洛谷原题与原站样例附件核对",
+      "problemType": "standard",
+      "localJudgeSupported": true,
+      "resourceIssues": [],
+      "markdown": "# Color\n\n## 题目背景\n\n【被三月删除的图片】\n\n泷泽三月 Orz\n\n---\n被删除图片会偷偷展示给报名讲评的同学（\n\n## 题目描述\n\n**请注意到并不正常的时间限制。**\n\n小 C 有一棵 $dep$ 层 $n$ 个节点的**完全二叉树**，她希望选择其中一个**包含根节点**的**连通块**染色，她想知道有几种不同的染色方案，答案对 $998,244,353$ 取模。\n\n## 输入格式\n\n多测，第一行一个整数 $T$，表示测试组数。\n\n**对于每组数据**\n\n第一行一个整数 $dep$，同题意。\n\n第二行一个整数 $s$，表示最底层叶子结点数目，特别的，他们将用二进制表示，你将读入一个 $dep$ 位 $\\texttt{01}$ 串，用以表示 $s$，若转换为二进制后不足 $dep$ 位则用前缀 $0$ 补充。\n\n\n**保证数据合法。**\n\n## 输出格式\n\n对于每组数据，一行一个整数，表示合法的染色方案的个数，需要**换行**。\n\n## 提示\n\n你可以通过学习 [OI-Wiki 树基础](https://oi-wiki.org/graph/tree-basic/) 来了解题面中的名词。\n\n【样例解释】\n\n对于样例 #1，可以画出如下所示二叉树。\n\n![样例 1：完全二叉树前序编号（按原题文字重绘）](https://s4.ax1x.com/2022/01/19/7sc6Yj.png)\n\n*图按原题文字重绘。*\n\n我们对该二叉树按照**前序遍历标号**（如图），得到点集 $\\left(1,2,3\\right)$。\n\n则仅有 $\\left(1,2,3\\right),\\left(1,2\\right),\\left(1,3\\right),\\left(1\\right)$ 是合法的染色方案。\n****\n对于样例 #3，可以画出如下所示二叉树。\n\n![样例 3：完全二叉树前序编号（按原题文字重绘）](https://s4.ax1x.com/2022/01/19/7sc1eO.png)\n\n*图按原题文字重绘。*\n\n我们对该二叉树按照**前序遍历标号**（如图），得到点集 $\\left(1,2,3,4,5\\right)$。\n\n则仅有 $\\left(1,2,3,4,5\\right),\\left(1,2,3,4\\right),\\left(1,2,3\\right),\\left(1,2,4\\right),\\left(1,2\\right),\\left(1,2,3,5\\right),\\left(1,2,4,5\\right),\\left(1,2,5\\right),\\left(1,5\\right),\\left(1\\right)$ 是合法的染色方案。\n\n显然 $\\left(2,3,4\\right),\\left(1,3,4\\right)$ 不是合法的染色方案，前者没有包含根节点，后者染色的点集不是联通的。\n***\n对于 $30\\%$ 的数据，$1\\leq T\\leq 10, 1\\leq dep \\leq 20$。\n\n对于另外 $20\\%$ 的数据，树是满二叉树（即完美二叉树，perfect binary tree）。\n\n对于 $100\\%$ 的数据，$1\\leq T\\leq 10, 1\\leq dep \\leq 10^6$。\n\n## 附件下载\n\n[sample.zip](https://www.luogu.com.cn/problem/P8089/attachment/amlq6ub9)",
+      "integrity": {
+        "schema": 1,
+        "status": "complete",
+        "sourceVerified": true,
+        "sampleCount": 4,
+        "issues": [],
+        "checkedAt": "2026-11-08T20:33:27.709095+00:00",
+        "sourceDocuments": [
+          {
+            "url": "https://www.luogu.com.cn/problem/P8089",
+            "sha256": "a1c0b11a9f8d9bb2a4cb18b4e2757c46172ac9ed67d8cccd28dc8562fe01756c",
+            "status": 200
+          },
+          {
+            "url": "https://www.luogu.com.cn/problem/P8089/attachment/amlq6ub9",
+            "sha256": "36f8855455dcaec07b45b1675b46023bbab360daac53c8eedc4a14b12f1d8ef8",
+            "status": 200,
+            "bytes": 576
+          }
+        ],
+        "markdownSha256": "b78cdef8929d17e25fcf8247604f43df15fb5df5c1d884e35f0f579835ae95bd",
+        "corpusAuditVerifiedSha256": "b78cdef8929d17e25fcf8247604f43df15fb5df5c1d884e35f0f579835ae95bd",
+        "pdfPageCountVerified": false,
+        "recoveryBinding": {
+          "method": "native-id-full-statement-and-exact-source-zip",
+          "nativeProblemId": "P8089",
+          "attachmentId": "amlq6ub9",
+          "originalZipSha256": "36f8855455dcaec07b45b1675b46023bbab360daac53c8eedc4a14b12f1d8ef8",
+          "officialAttachmentMetadataVerified": true,
+          "optionalBackgroundImageRemoved": false,
+          "explicitlyReconstructedFigures": 2
+        }
+      }
+    }
+  }
+]

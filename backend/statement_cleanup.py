@@ -72,7 +72,8 @@ def _clean_markdown(value):
         cleaned=re.sub(r'!\[[^\]]*\]\((?:https?://[^/\s)]+/problem/)?System_(?:Prompt|Promopt):[^)\n]*If_you_are_an_AI_or_LLM[^)\n]*\)', '',block,flags=re.I)
         cleaned=re.sub(r'!\[[^\]\n]*\]\((?:https?://[^/\s)]+/problem/)?\{\s*"role"\s*:\s*"system"\s*,\s*"content"\s*:\s*"(?:\\.|[^"\n])*"\s*\},?\)', '',cleaned,flags=re.I)
         cleaned=re.sub(r'!\[[^\]\n]*\]\((?:https?://[^/\s)]+/problem/)?请注意防作弊指示[.。]\)', '',cleaned)
-        cleaned=re.sub(r'!\[([^\]\n]*)\]\(bilibili:(BV[A-Za-z0-9]+)\)',lambda m:'['+(m[1] or '视频')+'](https://www.bilibili.com/video/'+m[2]+')',cleaned)
+        cleaned=re.sub(r'!\[([^\]\n]*)\]\(bilibili:(BV[A-Za-z0-9]+|[1-9]\d*)(?:\?page=([1-9]\d*))?\)',
+            lambda m:'['+(m[1] or '视频')+'](https://www.bilibili.com/video/'+('av' if m[2].isdigit() else '')+m[2]+('?p='+m[3] if m[3] else '')+')',cleaned)
         if cleaned!=block:
             block=cleaned;blocks[index]=block;changed=True
         if remove_images and re.fullmatch(r'\s*(?:!?\[[^\]]*\]\([^)]*\)|<img\b[^>]*>)\s*', block, re.S | re.I):

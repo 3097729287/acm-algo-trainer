@@ -1,6 +1,7 @@
 """Inventory the exact public library and text catalogue before filling gaps."""
 import argparse
 import collections
+from contextlib import closing
 import datetime
 import hashlib
 import json
@@ -12,6 +13,18 @@ import threading
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'backend'),str(ROOT/'backend/common')]
 from translation import bundled_translation,needs_translation
+
+def verified_nonproblem(encoded):
+    """Reviewed reference slots and import artifacts are not missing problems."""
+    policy=encoded.get('statementRetirementPolicy')
+    if policy not in {'verified-nonproblem-roster-v1','verified-nonproblem-attachment-v1'}:
+        return False
+    if policy=='verified-nonproblem-attachment-v1' and encoded.get('catalogEntryKind')!='reference-attachments':
+        return False
+    return (encoded.get('statementRetired') is True and encoded.get('catalogHidden') is True
+            and encoded.get('catalogStatementReady') is False and encoded.get('catalogReplayReady') is False
+            and encoded.get('contestRoster') is False and bool(encoded.get('statementRetirementReason')))
+
 
 def display_audit(library, destination):
     """Use the real public projection, including aliases and stored evidence."""
@@ -46,14 +59,19 @@ def display_audit(library, destination):
 def audit(library,destination,display=False):
     library=library.resolve(strict=True)
     rows=json.loads((ROOT/'data/library/problems.json').read_text('utf8'))
-    with sqlite3.connect(library.as_uri()+'?mode=ro',uri=True) as db:
+    with closing(sqlite3.connect(library.as_uri()+'?mode=ro',uri=True)) as db:
         statements={identity:json.loads(raw) for identity,raw in db.execute('SELECT problem_id,content FROM statements')}
         assert {row['id'] for row in rows}=={identity for identity, in db.execute('SELECT id FROM problems')}
     groups={name:[] for name in ['originals','translations','translation-disabled','translation-invalid','knowledge','difficulty']}
+    nonproblems=[]
     counts=collections.Counter()
     for row in rows:
         identity=row['id'];encoded=row['encoded'];value=statements.get(identity,{})
         base={'id':identity,'url':row['url'],'title':encoded.get('title'),'platform':encoded.get('platform'),'contest':encoded.get('contestFullName') or encoded.get('contest')}
+        if verified_nonproblem(encoded):
+            nonproblems.append(dict(base,kind=encoded.get('catalogEntryKind') or 'import-artifact',
+                policy=encoded['statementRetirementPolicy'],reason=encoded['statementRetirementReason']))
+            continue
         if not value or value.get('integrity',{}).get('status')!='complete' or encoded.get('statementRetired'):
             groups['originals'].append(dict(base,issues=value.get('integrity',{}).get('issues') or ['missing-original'],available=bool(value.get('statementAvailable'))))
         else:
@@ -77,9 +95,11 @@ def audit(library,destination,display=False):
             groups['difficulty'].append(dict(base,reason=encoded.get('difficultySource'),native=encoded.get('nativeDifficulty')))
         if str(encoded.get('source','')).startswith('xcpc') or encoded.get('series')=='XCPC':counts['xcpcProblems']+=1
     destination.mkdir(parents=True,exist_ok=True)
-    summary={'at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sourceRoot':str(ROOT),'publicLibrary':str(library),'problems':len(rows),'statements':len(statements),**counts,'gaps':{name:len(values) for name,values in groups.items()}}
+    summary={'at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sourceRoot':str(ROOT),'publicLibrary':str(library),'problems':len(rows),
+        'publicProblemEntries':len(rows)-len(nonproblems),'verifiedNonproblemEntries':len(nonproblems),'statements':len(statements),**counts,'gaps':{name:len(values) for name,values in groups.items()}}
     if display:summary['display']=display_audit(library,destination)
     for name,values in groups.items():(destination/(name+'.json')).write_text(json.dumps(values,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+    (destination/'nonproblems.json').write_text(json.dumps(nonproblems,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     (destination/'summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     return summary
 

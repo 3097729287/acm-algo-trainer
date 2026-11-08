@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:106799::I",
+      "beforeSha256": "414c7048920b73e826e126134b13d34cb0cc51838260f25e555f8b23caf8027a",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:106799::I",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-07T19:11:05.442948+00:00",
+          "corpusAuditVerifiedSha256": "3a05def2ca8d7e3a558489db013b0de538fe2ba0b554c2a7a44616f7c0bd5ee4",
+          "pdfPageCountVerified": false,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Invisible Edges\n\n**This is a multi-pass problem.**\n\n\n\nVegiCat and VegiDog play a game with a forest of $$$n$$$ vertices, numbered from $$$1$$$ to $$$n$$$, and $$$m$$$ edges. A forest is an undirected graph with no cycles. It is **not necessarily connected**.\n\n\n\nIn the first stage, VegiCat assigns an integer $$$a_u$$$ ($$$1\\le a_u\\le 2n$$$) to each vertex $$$u$$$. The values may repeat.\n\n\n\nAfter VegiCat finishes assigning the values, the vertices are renumbered. Let $$$p_1,p_2,\\ldots,p_n$$$ be a permutation of $$$1,2,\\ldots,n$$$, in which each integer from $$$1$$$ to $$$n$$$ appears exactly once. For each $$$u$$$, the vertex originally numbered $$$u$$$ is now numbered $$$p_u$$$.\n\n\n\nEach edge $$$(u,v)$$$ becomes $$$(p_u,p_v)$$$. Each vertex keeps its assigned value. Let $$$b_i$$$ be the value at vertex $$$i$$$ after renumbering. Then $$$b_{p_u}=a_u$$$.\n\n\n\nIn the second stage, VegiDog receives only $$$n$$$ and $$$b_1,b_2,\\ldots,b_n$$$, without the original forest or $$$p$$$. He must recover all edges using the new vertex numbers.\n\n\n\nDesign strategies for both players that work for every valid forest and every permutation $$$p$$$.\n\n\n\n## Input\n\n\n\nYour program will run twice: first as VegiCat, then as VegiDog. The test cases appear in the same order in both runs.\n\n\n\n**First Run.** The first line contains the string `cat`, indicating that you play VegiCat.\n\n\n\nThe second line contains an integer $$$T$$$ ($$$1\\le T\\le 10^4$$$), the number of test cases. The description of the test cases follows.\n\n\n\nThe first line of each test case contains two integers $$$n$$$ and $$$m$$$ ($$$1\\le n\\le 2\\cdot 10^5$$$, $$$0\\le m \\lt n$$$), the number of vertices and edges.\n\n\n\nEach of the next $$$m$$$ lines contains two integers $$$u$$$ and $$$v$$$ ($$$1\\le u,v\\le n$$$, $$$u\\ne v$$$), describing an undirected edge between vertices $$$u$$$ and $$$v$$$.\n\n\n\nIt is guaranteed that the graph has no cycles or multiple edges.\n\n\n\nIt is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2\\cdot 10^5$$$.\n\n\n\n**Second Run.** The first line contains the string `dog`, indicating that you play VegiDog.\n\n\n\nThe second line contains an integer $$$T$$$ ($$$1\\le T\\le 10^4$$$), the number of test cases. The description of the test cases follows.\n\n\n\nThe first line of each test case contains an integer $$$n$$$ ($$$1\\le n\\le 2\\cdot 10^5$$$), the number of vertices.\n\n\n\nThe second line contains $$$n$$$ integers $$$b_1,b_2,\\ldots,b_n$$$ ($$$1\\le b_i\\le 2n$$$), the assigned values in the new vertex order.\n\n\n\nIt is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$2\\cdot 10^5$$$.\n\n\n\n## Output\n\n\n\n**First Run.** For each test case, output $$$n$$$ integers $$$a_1,a_2,\\ldots,a_n$$$ ($$$1\\le a_i\\le 2n$$$) on one line. The integer $$$a_i$$$ is the value assigned to vertex $$$i$$$.\n\n\n\n**Second Run.** For each test case, output an integer $$$m$$$ on the first line, the number of edges. Each of the next $$$m$$$ lines must contain two integers $$$u$$$ and $$$v$$$ ($$$1\\le u,v\\le n$$$, $$$u\\ne v$$$), describing an edge using the new vertex numbers.\n\n\n\nOutput each edge once, in any order. Either endpoint may come first. If $$$m=0$$$, output only $$$0$$$.\n\n\n\n## Note\n\n\n\nIn the first test case, the forest has one vertex and no edges. VegiCat assigns the value $$$1$$$ to the vertex, and VegiDog outputs $$$0$$$.\n\n\n\nIn the last test case, the permutation is $$$p=[5,3,6,4,2,9,1,8,7,10]$$$.\n\n\n\nVegiCat assigns $$$a_7=16$$$. Since $$$p_7=1$$$, VegiDog receives $$$b_1=16$$$.\n\n\n\nThe original edge $$$(3,7)$$$ becomes $$$(p_3,p_7)=(6,1)$$$.\n\n\n\nThe original edge $$$(4,10)$$$ becomes $$$(p_4,p_{10})=(4,10)$$$. The sample outputs this edge as $$$(10,4)$$$, which represents the same undirected edge.\n\n\n\nThe sample illustrates the input and output formats. Its outputs are correct for the graphs and permutations shown. However, the sample assignments are not guaranteed to be part of a strategy that works for every valid forest and every permutation.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:106799::I",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 2,
+          "samplesSha256": "2a233e3c6a94488a3a0821297894ba459f1f37c5f2febe36564fdb0cf8d06044",
+          "url": "https://codeforces.com/gym/106799/problem/I"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "cat\n4\n1 0\n4 3\n1 2\n4 3\n2 3\n7 2\n6 4\n7 1\n10 7\n10 9\n7 9\n10 5\n4 8\n3 7\n4 10\n1 2",
+            "name": "样例 1",
+            "output": "1\n2 5 8 5\n11 11 4 11 3 7 2\n10 13 12 5 3 2 16 6 19 3"
+          },
+          {
+            "input": "dog\n4\n1\n1\n4\n5 2 5 8\n7\n11 7 2 11 11 3 4\n10\n16 3 13 5 10 12 19 6 2 3",
+            "name": "样例 2",
+            "output": "0\n3\n1 4\n2 1\n4 3\n2\n4 3\n5 2\n7\n1 7\n4 8\n5 3\n6 1\n7 10\n10 2\n10 4"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Invisible Edges",
+        "url": "https://codeforces.com/gym/106799/problem/I",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "3a05def2ca8d7e3a558489db013b0de538fe2ba0b554c2a7a44616f7c0bd5ee4",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 看不见的边\n\n\n\n**这是一道分两次运行的题目。**\n\n\n\nVegiCat 和 VegiDog 用一片有 $$$n$$$ 个顶点、$$$m$$$ 条边的森林玩游戏，顶点编号为 $$$1$$$ 到 $$$n$$$。森林是没有环的无向图，**不一定连通**。\n\n\n\n第一阶段，VegiCat 为每个顶点 $$$u$$$ 指定一个整数 $$$a_u$$$（$$$1\\le a_u\\le 2n$$$），不同顶点的数值可以相同。\n\n\n\n赋值完成后，所有顶点重新编号。令 $$$p_1,p_2,\\ldots,p_n$$$ 是 $$$1,2,\\ldots,n$$$ 的一个排列，其中从 $$$1$$$ 到 $$$n$$$ 的每个整数恰好出现一次。对于每个 $$$u$$$，原编号为 $$$u$$$ 的顶点变为编号 $$$p_u$$$。\n\n\n\n每条边 $$$(u,v)$$$ 变为 $$$(p_u,p_v)$$$。每个顶点仍保留原先的赋值。令 $$$b_i$$$ 表示重编号后顶点 $$$i$$$ 上的值，则 $$$b_{p_u}=a_u$$$。\n\n\n\n第二阶段，VegiDog 只能得到 $$$n$$$ 和 $$$b_1,b_2,\\ldots,b_n$$$，不知道原森林，也不知道 $$$p$$$。他必须恢复使用新顶点编号表示的全部边。\n\n\n\n请为两名玩家设计策略，要求对每个合法森林和每个排列 $$$p$$$ 都有效。\n\n\n\n## 输入格式\n\n\n\n你的程序会运行两次，先扮演 VegiCat，再扮演 VegiDog。两次运行中，测试用例按相同顺序出现。\n\n\n\n**第一次运行。** 第一行包含字符串 `cat`，表示你扮演 VegiCat。\n\n\n\n第二行包含整数 $$$T$$$（$$$1\\le T\\le 10^4$$$），表示测试用例数。接下来描述各测试用例。\n\n\n\n每个测试用例的第一行包含两个整数 $$$n$$$ 和 $$$m$$$（$$$1\\le n\\le 2\\cdot 10^5$$$，$$$0\\le m \\lt n$$$），分别表示顶点数和边数。\n\n\n\n接下来 $$$m$$$ 行，每行包含两个整数 $$$u$$$ 和 $$$v$$$（$$$1\\le u,v\\le n$$$，$$$u\\ne v$$$），描述顶点 $$$u$$$ 与 $$$v$$$ 之间的一条无向边。\n\n\n\n保证图中没有环和重边。\n\n\n\n保证所有测试用例的 $$$n$$$ 之和不超过 $$$2\\cdot 10^5$$$。\n\n\n\n**第二次运行。** 第一行包含字符串 `dog`，表示你扮演 VegiDog。\n\n\n\n第二行包含整数 $$$T$$$（$$$1\\le T\\le 10^4$$$），表示测试用例数。接下来描述各测试用例。\n\n\n\n每个测试用例的第一行包含整数 $$$n$$$（$$$1\\le n\\le 2\\cdot 10^5$$$），表示顶点数。\n\n\n\n第二行包含 $$$n$$$ 个整数 $$$b_1,b_2,\\ldots,b_n$$$（$$$1\\le b_i\\le 2n$$$），按新顶点顺序给出各顶点的赋值。\n\n\n\n保证所有测试用例的 $$$n$$$ 之和不超过 $$$2\\cdot 10^5$$$。\n\n\n\n## 输出格式\n\n\n\n**第一次运行。** 对于每个测试用例，在一行中输出 $$$n$$$ 个整数 $$$a_1,a_2,\\ldots,a_n$$$（$$$1\\le a_i\\le 2n$$$）。整数 $$$a_i$$$ 表示给顶点 $$$i$$$ 指定的值。\n\n\n\n**第二次运行。** 对于每个测试用例，第一行输出整数 $$$m$$$，表示边数。接下来 $$$m$$$ 行，每行必须包含两个整数 $$$u$$$ 和 $$$v$$$（$$$1\\le u,v\\le n$$$，$$$u\\ne v$$$），用新顶点编号描述一条边。\n\n\n\n每条边只输出一次，顺序任意，每条边的两个端点也可以交换。如果 $$$m=0$$$，只输出 $$$0$$$。\n\n\n\n## 样例说明\n\n\n\n第一组样例的森林只有一个顶点，没有边。VegiCat 给该顶点赋值 $$$1$$$，VegiDog 输出 $$$0$$$。\n\n\n\n最后一组样例的排列为 $$$p=[5,3,6,4,2,9,1,8,7,10]$$$。\n\n\n\nVegiCat 指定 $$$a_7=16$$$。由于 $$$p_7=1$$$，VegiDog 得到 $$$b_1=16$$$。\n\n\n\n原边 $$$(3,7)$$$ 变为 $$$(p_3,p_7)=(6,1)$$$。\n\n\n\n原边 $$$(4,10)$$$ 变为 $$$(p_4,p_{10})=(4,10)$$$。样例将其输出为 $$$(10,4)$$$，表示同一条无向边。\n\n\n\n样例用于展示输入输出格式，其中的输出对于给出的图和排列是正确的。但样例中的赋值不保证属于一种能适用于所有合法森林和排列的策略。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:106799::I",
+          "slug": "106799-I",
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/I",
+          "sourceSha256": "3a05def2ca8d7e3a558489db013b0de538fe2ba0b554c2a7a44616f7c0bd5ee4",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "cat\n4\n1 0\n4 3\n1 2\n4 3\n2 3\n7 2\n6 4\n7 1\n10 7\n10 9\n7 9\n10 5\n4 8\n3 7\n4 10\n1 2",
+              "name": "样例 1",
+              "output": "1\n2 5 8 5\n11 11 4 11 3 7 2\n10 13 12 5 3 2 16 6 19 3"
+            },
+            {
+              "input": "dog\n4\n1\n1\n4\n5 2 5 8\n7\n11 7 2 11 11 3 4\n10\n16 3 13 5 10 12 19 6 2 3",
+              "name": "样例 2",
+              "output": "0\n3\n1 4\n2 1\n4 3\n2\n4 3\n5 2\n7\n1 7\n4 8\n5 3\n6 1\n7 10\n10 2\n10 4"
+            }
+          ],
+          "notes": [
+            "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+            "Original Markdown, samples and resource bindings retained unchanged.",
+            "Both runs, cat/dog labels, new vertex order, independent test order and sample non-universal strategy caveat retained."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

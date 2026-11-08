@@ -1,0 +1,352 @@
+{
+  "schema": 1,
+  "problems": [
+    {
+      "id": "luogu-training-P3488",
+      "url": "https://www.luogu.com.cn/problem/P3488",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P3488",
+          "sha256": "49ab18c68f8354a46d4615081cda7c725c884fd197a3fee7d7461e8f1a5d03c5",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/EwpbJWZPly_zZ5i4ytg_8fDE/site/",
+          "sha256": "48f5f0ff6e94c9dddcf3189a5383ea47831f336ee374b82179a1b4444791d06f",
+          "status": 200
+        }
+      ],
+      "markdownSha256": "ede0de0abbc84f4abe672bcc7607e22fcce536fcbf1920e92d126fc1c0d2486c",
+      "samples": 1,
+      "originalDescriptionReviewed": true,
+      "originalImagesRestored": 27,
+      "nativeChineseVerified": true,
+      "originalEnglishPreserved": true,
+      "corrections": [
+        "按原赛同名题英文原文补回“初始无成员、离开操作合理”条件；没有改动任何数值范围。"
+      ],
+      "renderer": {
+        "id": "luogu-training-P3488",
+        "pages": 0,
+        "images": 27,
+        "samples": 1
+      },
+      "originalTitleAndAllSamplesMatchedOnNativeHost": true,
+      "chineseRenderer": {
+        "id": "luogu-training-P3488-zh",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-P3501",
+      "url": "https://www.luogu.com.cn/problem/P3501",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P3501",
+          "sha256": "94fae00e89c5d8882088fb86ed572df3574826af4db21574534d98918ed0da5e",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/EDxOyJiFZWb_PYVaYhhnhU0-/site/?key=statement",
+          "sha256": "4389d61e4b3203d75972be11ddbda59850c6ca65c4003775005452878b6eb047",
+          "status": 200
+        }
+      ],
+      "markdownSha256": "75c46b853e04e02fb7f1f13b0e7cb92a2f2eeed2b1c9b461c2b37cb98b9d8819",
+      "samples": 1,
+      "originalDescriptionReviewed": true,
+      "originalImagesRestored": 15,
+      "nativeChineseVerified": true,
+      "originalEnglishPreserved": true,
+      "corrections": [],
+      "renderer": {
+        "id": "luogu-training-P3501",
+        "pages": 0,
+        "images": 15,
+        "samples": 1
+      },
+      "originalTitleAndAllSamplesMatchedOnNativeHost": true,
+      "chineseRenderer": {
+        "id": "luogu-training-P3501-zh",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-P3502",
+      "url": "https://www.luogu.com.cn/problem/P3502",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P3502",
+          "sha256": "5574041dd1cc1555156564250e311f1d79fef3930ee7d434bbae62dfa5792e6c",
+          "status": 200
+        }
+      ],
+      "markdownSha256": "d4f84f9daecb2cc7107b0eb608d6fd8febda21a141237cd508b277b886f96197",
+      "samples": 1,
+      "originalDescriptionReviewed": true,
+      "originalImagesRestored": 0,
+      "nativeChineseVerified": true,
+      "originalEnglishPreserved": true,
+      "corrections": [
+        "按原稿 non-capital letters of the English alphabet 与 contiguous subsequence，规范为小写英文字母、连续子串。"
+      ],
+      "renderer": {
+        "id": "luogu-training-P3502",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-P3511",
+      "url": "https://www.luogu.com.cn/problem/P3511",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P3511",
+          "sha256": "aeb54a6daaaf8c1f938ae2076d543c700112aa5c9fa1d3f81bb68f4429b3542d",
+          "status": 200
+        }
+      ],
+      "markdownSha256": "56bb6312d975ec424bef6141825c978590b4e2e50640f1e5118892dc97b97083",
+      "samples": 1,
+      "originalDescriptionReviewed": true,
+      "originalImagesRestored": 0,
+      "nativeChineseVerified": true,
+      "originalEnglishPreserved": true,
+      "corrections": [],
+      "renderer": {
+        "id": "luogu-training-P3511",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-P4667",
+      "url": "https://www.luogu.com.cn/problem/P4667",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P4667",
+          "sha256": "3bd1c3a649140fd7a531f1a9e34913719c0c1b8aab3d5684972eb26b5b0a739e",
+          "status": 200
+        }
+      ],
+      "markdownSha256": "71f295bbcd449a0921fd86ff936eadec69c1efbae953ffe089db9babf1e8c854",
+      "samples": 1,
+      "originalDescriptionReviewed": true,
+      "originalImagesRestored": 2,
+      "nativeChineseVerified": true,
+      "originalEnglishPreserved": true,
+      "corrections": [],
+      "renderer": {
+        "id": "luogu-training-P4667",
+        "pages": 0,
+        "images": 2,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-P7058",
+      "url": "https://www.luogu.com.cn/problem/P7058",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P7058",
+          "sha256": "71b6fe77dbd31882f785e19a835b326cc960670ece7ca7438002809aae74ae78",
+          "status": 200
+        }
+      ],
+      "markdownSha256": "dbf3ad4765d7eaeeaaef5b8d7e06ef7054a00fee8514585f4d23864d789a6d1d",
+      "samples": 1,
+      "originalDescriptionReviewed": true,
+      "originalImagesRestored": 0,
+      "nativeChineseVerified": true,
+      "originalEnglishPreserved": true,
+      "corrections": [],
+      "renderer": {
+        "id": "luogu-training-P7058",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-P7087",
+      "url": "https://www.luogu.com.cn/problem/P7087",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P7087",
+          "sha256": "3a210ecb38057fa45264053c2b7e90913348b9d04e364893af749f488ab17a67",
+          "status": 200
+        }
+      ],
+      "markdownSha256": "b17bd7908ed3dc9bf7e88f450a983fa49ea3bad3970e10edadacfd9850ad2fe1",
+      "samples": 1,
+      "originalDescriptionReviewed": true,
+      "originalImagesRestored": 0,
+      "nativeChineseVerified": true,
+      "originalEnglishPreserved": true,
+      "corrections": [
+        "操作编码 D x y 的 x 是变量占位符，不保留反引号中的数学分隔符。"
+      ],
+      "renderer": {
+        "id": "luogu-training-P7087",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-P7090",
+      "url": "https://www.luogu.com.cn/problem/P7090",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P7090",
+          "sha256": "5a8be580e364b650ecb944d1c6e200eabce773687dabcb37ece47ff5ac67c7af",
+          "status": 200
+        }
+      ],
+      "markdownSha256": "3ff008237bf35ae26ad357dcee7521a96ecef90d030f7c1692bc302f9d6fc071",
+      "samples": 2,
+      "originalDescriptionReviewed": true,
+      "originalImagesRestored": 0,
+      "nativeChineseVerified": true,
+      "originalEnglishPreserved": true,
+      "corrections": [
+        "中文简稿遗漏 n<=100000、坐标界、非负高度、投影平面和相对误差条款；全部逐项从同一公开原题英文输入/输出段补齐，未补绘原图。"
+      ],
+      "renderer": {
+        "id": "luogu-training-P7090",
+        "pages": 0,
+        "images": 0,
+        "samples": 2
+      }
+    },
+    {
+      "id": "luogu-training-SP12323",
+      "url": "https://www.luogu.com.cn/problem/SP12323",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/SP12323",
+          "sha256": "be4b82461fd6de00121e1dfc76e670cbc5e001ceb7be69577520f1df705d4ae2",
+          "status": 200
+        },
+        {
+          "url": "https://handbook.fide.com/chapter/e012023",
+          "sha256": "82d6ed01c1f4ef1b3376c4218c07f217bd0f3c1ab668ef11441d0fd820ece6b5",
+          "status": 200
+        }
+      ],
+      "markdownSha256": "3e379d446153d0c17195b743a74be6333ad94ca05c9df50c2d97dd62c0a4147c",
+      "samples": 1,
+      "originalDescriptionReviewed": true,
+      "originalImagesRestored": 0,
+      "nativeChineseVerified": true,
+      "originalEnglishPreserved": true,
+      "corrections": [
+        "按英文原稿的 L 形走法及 FIDE 3.6 规则明确相对左右方向为垂直方向；删除中文里不再对应图片的上图指代，未编造原图。"
+      ],
+      "renderer": {
+        "id": "luogu-training-SP12323",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      }
+    }
+  ],
+  "cleanupInspection": {
+    "inspectedUnusedPriorContent": true,
+    "replacedBrokenActiveResourcesOrIncompleteChinese": 9,
+    "previousWholeStatementsRetained": true,
+    "privateRecordsReadOrWritten": false,
+    "duplicateNewOriginalAssetFiles": 0
+  },
+  "uiReview": {
+    "checked": [
+      {
+        "id": "luogu-training-P3488",
+        "pages": 0,
+        "images": 27,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P3488-zh",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P3501",
+        "pages": 0,
+        "images": 15,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P3501-zh",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P3502",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P3511",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P4667",
+        "pages": 0,
+        "images": 2,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P7058",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P7087",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P7090",
+        "pages": 0,
+        "images": 0,
+        "samples": 2
+      },
+      {
+        "id": "luogu-training-SP12323",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      }
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true
+  },
+  "counts": {
+    "restoredOriginals": 9,
+    "originalMathImageDestinations": 42,
+    "existingNativeChineseImagesRetained": 2,
+    "samplePairs": 10,
+    "nativeChineseStatementsReviewed": 9,
+    "newUniqueAssets": 19,
+    "newAssetBytes": 3099
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105544::F",
+      "beforeSha256": "f32d7e554046643fe5f685b772c970516c9d37153ea968faa009f0623f6a8127",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "data": "tb-asset:7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "fileName": "gym-105544.pdf",
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "id": "remote:codeforces:105544::F",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:56:35.516494+00:00",
+          "corpusAuditVerifiedSha256": "8c91954dc7d1b5ada2273069992596480a6b43b574f2ebd6c9c3e435b3e98100",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 4500
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Baker’s Dilemma\n\nProblem PF\r\nBaker’s Dilemma\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nA baker has 𝑁 bakery orders from customers that he must fulfill, but he can only handle one\r\norder a day. For the 𝑖\r\n𝑡ℎ order, the baker needs to spend 𝐷𝑖 (1 ≤ 𝐷𝑖 ≤ 1000) consecutive days\r\nto complete it; however, for every day of delay, the baker must be fined 𝑆𝑖 (1 ≤ 𝑆𝑖 ≤ 10000).\r\nFor example, if the baker receives four orders to make biscuits, the number of days required\r\nfor each order is 3, 1, 2, 5, and the penalty for each day of delay is 4, 1000, 2, 5. If the baker’s\r\nwork order is 1 2 3 4, the penalty will be 4×0 + 1000×3 + 2×4 + 5×6 = 3038, but if the work\r\norder is 2 1 3 4, the penalty will be 1000×0+ 4×1+ 2×4+ 5×6. 0+ 4×1+ 2×4+ 5×6 = 42,\r\nso the latter penalty is less. Please write a program to help the baker to find out the sequence\r\nof work which has the least penalty.\r\nInput Format\r\nThe first line of the input has a positive integer 𝑇 representing the number of groups of data.\r\nThen, there are 𝑇 groups of data. For each group, the first line has an integer 𝑁 between 1 and\r\n1000 representing the number of orders, followed by 𝑁 lines, each with two integers separated\r\nby a space character, representing the number of days required for each order, 𝐷, and the\r\npenalty, 𝑆, for each day of delay, in that order.\r\nOutput Format\r\nFor each set of data, output the sequence of jobs with the smallest penalty on one line. Each\r\njob is represented by its number, separated by a blank character. If there is more than one set\r\nof answers, print the one with the smallest dictionary order. Note that each group of jobs is\r\nnumbered starting with 1.\r\nTechnical Specification\r\n 1 ≤ 𝑇 ≤ 1000.\r\n 1 ≤ 𝑁 ≤ 1000.\r\n 1 ≤ 𝐷𝑖 ≤ 1000, ∀1 ≤ 𝑖 ≤ 𝑁.\r\n 1 ≤ 𝑆𝑖 ≤ 10000, ∀1 ≤ 𝑖 ≤ 𝑁.\r\n1\n\nSample Input 1\r\n2\r\n4\r\n3 4\r\n1 1000\r\n2 2\r\n5 5\r\n5\r\n3 4\r\n1 1000\r\n8 8\r\n2 2\r\n5 6\r\nSample Output 1\r\n2 1 3 4\r\n2 1 5 3 4\r\n2\n\n[PDF](https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "recovered",
+          "id": "remote:codeforces:105544::F",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 2,
+          "pdfSha256": "0aa9d4f205617b39b7b9827f77b713e1364bb21b2edd70d847d7e521ed8678a7",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "10e10e094c73e147a82b024643b1818a1f1df77eefe1fec4729d66ee13f88c7a",
+          "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "url": "https://codeforces.com/gym/105544/problem/F"
+        },
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "0aa9d4f205617b39b7b9827f77b713e1364bb21b2edd70d847d7e521ed8678a7",
+          "page": 2,
+          "reason": "Native outlined examples checked against the actual page; printed page numbers are outside the sample boxes."
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2\n4\n3 4\n1 1000\n2 2\n5 5\n5\n3 4\n1 1000\n8 8\n2 2\n5 6",
+            "output": "2 1 3 4\n2 1 5 3 4"
+          }
+        ],
+        "sourceBinding": {
+          "kind": "exact-title",
+          "pdfProblemLabel": "PF",
+          "pdfTitle": "Baker’s Dilemma",
+          "problem": "F",
+          "problemInventoryVerified": 13,
+          "rosterTitle": "Baker's Dilemma",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          11,
+          12
+        ],
+        "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+        "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+        "sourceRosterSha256": "5ec88d8ed50da51a78d550da61b9a8e69dbbceb1b980a28aee4f3f3058f9163a",
+        "sourceRosterUrl": "https://codeforces.com/gym/105544",
+        "sourceText": "# Baker's Dilemma\n\nTime limit: 3 seconds. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nA baker has $N$ orders, numbered from $1$ to $N$. He can process only one order at a time. Order $i$ requires $D_i$ consecutive days, and incurs a penalty of $S_i$ for every day it waits before processing begins. Choose an order in which to process all the orders so that the total penalty is minimized.\n\nFor example, suppose the four orders have processing times $3,1,2,5$ and daily penalties $4,1000,2,5$, respectively. Processing them in order $1,2,3,4$ incurs a total penalty of $4\\times0+1000\\times3+2\\times4+5\\times6=3038$. Processing them in order $2,1,3,4$ incurs $1000\\times0+4\\times1+2\\times4+5\\times6=42$.\n\nIf more than one processing order has minimum total penalty, output the lexicographically smallest sequence of order numbers.\n\n## Input Format\n\nThe first line contains the number of test cases $T$.\n\nFor each test case, the first line contains $N$. The next $N$ lines describe the orders in their numbered order, each containing two integers $D_i$ and $S_i$.\n\n## Output Format\n\nFor each test case, output the numbers of the orders in an optimal processing order on one line, separated by spaces. Break ties by the lexicographic order of the entire sequence.\n\n## Technical Specification\n\n- $1\\le T\\le1000$ and $1\\le N\\le1000$.\n- $1\\le D_i\\le1000$.\n- $1\\le S_i\\le10000$.\n\n\n## Sample 1\n\n### Input\n\n```text\n2\n4\n3 4\n1 1000\n2 2\n5 5\n5\n3 4\n1 1000\n8 8\n2 2\n5 6\n```\n\n### Output\n\n```text\n2 1 3 4\n2 1 5 3 4\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:0aa9d4f205617b39b7b9827f77b713e1364bb21b2edd70d847d7e521ed8678a7",
+          "fileName": "gym-105544-F.pdf",
+          "pageCount": 2,
+          "sha256": "0aa9d4f205617b39b7b9827f77b713e1364bb21b2edd70d847d7e521ed8678a7",
+          "sourcePageNumbers": [
+            11,
+            12
+          ],
+          "sourceSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Baker's Dilemma",
+        "url": "https://codeforces.com/gym/105544/problem/F",
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "2\n4\n3 4\n1 1000\n2 2\n5 5\n5\n3 4\n1 1000\n8 8\n2 2\n5 6\n2",
+                "name": "样例 1",
+                "output": "2 1 3 4\n2 1 5 3 4"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          },
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "2\n4\n3 4\n1 1000\n2 2\n5 5\n5\n3 4\n1 1000\n8 8\n2 2\n5 6",
+                "output": "2 1 3 4\n2 1 5 3 4"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "0aa9d4f205617b39b7b9827f77b713e1364bb21b2edd70d847d7e521ed8678a7",
+              "page": 2,
+              "reason": "Native outlined examples checked against the actual page; printed page numbers are outside the sample boxes."
+            }
+          }
+        ],
+        "sourceTextArchive": [
+          {
+            "text": "Problem PF\r\nBaker’s Dilemma\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nA baker has 𝑁 bakery orders from customers that he must fulfill, but he can only handle one\r\norder a day. For the 𝑖\r\n𝑡ℎ order, the baker needs to spend 𝐷𝑖 (1 ≤ 𝐷𝑖 ≤ 1000) consecutive days\r\nto complete it; however, for every day of delay, the baker must be fined 𝑆𝑖 (1 ≤ 𝑆𝑖 ≤ 10000).\r\nFor example, if the baker receives four orders to make biscuits, the number of days required\r\nfor each order is 3, 1, 2, 5, and the penalty for each day of delay is 4, 1000, 2, 5. If the baker’s\r\nwork order is 1 2 3 4, the penalty will be 4×0 + 1000×3 + 2×4 + 5×6 = 3038, but if the work\r\norder is 2 1 3 4, the penalty will be 1000×0+ 4×1+ 2×4+ 5×6. 0+ 4×1+ 2×4+ 5×6 = 42,\r\nso the latter penalty is less. Please write a program to help the baker to find out the sequence\r\nof work which has the least penalty.\r\nInput Format\r\nThe first line of the input has a positive integer 𝑇 representing the number of groups of data.\r\nThen, there are 𝑇 groups of data. For each group, the first line has an integer 𝑁 between 1 and\r\n1000 representing the number of orders, followed by 𝑁 lines, each with two integers separated\r\nby a space character, representing the number of days required for each order, 𝐷, and the\r\npenalty, 𝑆, for each day of delay, in that order.\r\nOutput Format\r\nFor each set of data, output the sequence of jobs with the smallest penalty on one line. Each\r\njob is represented by its number, separated by a blank character. If there is more than one set\r\nof answers, print the one with the smallest dictionary order. Note that each group of jobs is\r\nnumbered starting with 1.\r\nTechnical Specification\r\n 1 ≤ 𝑇 ≤ 1000.\r\n 1 ≤ 𝑁 ≤ 1000.\r\n 1 ≤ 𝐷𝑖 ≤ 1000, ∀1 ≤ 𝑖 ≤ 𝑁.\r\n 1 ≤ 𝑆𝑖 ≤ 10000, ∀1 ≤ 𝑖 ≤ 𝑁.\r\n1\n\nSample Input 1\r\n2\r\n4\r\n3 4\r\n1 1000\r\n2 2\r\n5 5\r\n5\r\n3 4\r\n1 1000\r\n8 8\r\n2 2\r\n5 6\r\nSample Output 1\r\n2 1 3 4\r\n2 1 5 3 4\r\n2",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "9007311bf6a83718a5385ca1cd1c8ea8f99dbe0565c9fa87fee495b9e3b19a9f"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "F",
+          "pdfSha256": "0aa9d4f205617b39b7b9827f77b713e1364bb21b2edd70d847d7e521ed8678a7",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            11,
+            12
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "figures": [],
+          "notes": [
+            "Every original PDF page visually checked, including constraints and sample table boundaries.",
+            "English text was manually normalized from the original PDF; Chinese checked against the same pages.",
+            "Original page 1 accidentally repeats part of the second penalty expression. Retained the complete intended expression yielding 42, without the duplicated fragment. Original PDF is retained unchanged."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "d194f806bd8dbdf5fed3cf4ae5e1177ac2efb5272e6595f16b4f607d583cedde"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "8c91954dc7d1b5ada2273069992596480a6b43b574f2ebd6c9c3e435b3e98100",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "d194f806bd8dbdf5fed3cf4ae5e1177ac2efb5272e6595f16b4f607d583cedde",
+          "sourcePdfSha256": "0aa9d4f205617b39b7b9827f77b713e1364bb21b2edd70d847d7e521ed8678a7",
+          "markdown": "# 面包师的难题\n\n时间限制：3 秒。内存限制：1024 MB。\n\n## 题目描述\n\n一位面包师有 $N$ 份订单，编号为 $1$ 到 $N$。他一次只能处理一份订单。订单 $i$ 需要连续处理 $D_i$ 天，并且在开始处理之前，每等待一天就产生 $S_i$ 的罚金。请安排全部订单的处理顺序，使总罚金最小。\n\n例如，四份订单的处理时间分别为 $3,1,2,5$，每天的罚金分别为 $4,1000,2,5$。按 $1,2,3,4$ 的顺序处理，总罚金为 $4\\times0+1000\\times3+2\\times4+5\\times6=3038$。按 $2,1,3,4$ 的顺序处理，总罚金为 $1000\\times0+4\\times1+2\\times4+5\\times6=42$。\n\n如果有多个顺序都能使总罚金最小，请输出订单编号序列中字典序最小的一个。\n\n## 输入格式\n\n第一行包含测试用例数 $T$。\n\n对于每个测试用例，第一行包含 $N$。接下来 $N$ 行按订单编号顺序描述订单，每行包含两个整数 $D_i$ 和 $S_i$。\n\n## 输出格式\n\n对于每个测试用例，在一行中按最优处理顺序输出订单编号，用空格分隔。若最优顺序不唯一，选择整个编号序列字典序最小的顺序。\n\n## 数据范围\n\n- $1\\le T\\le1000$，且 $1\\le N\\le1000$。\n- $1\\le D_i\\le1000$。\n- $1\\le S_i\\le10000$。\n\n\n## 样例 1\n\n### 输入\n\n```text\n2\n4\n3 4\n1 1000\n2 2\n5 5\n5\n3 4\n1 1000\n8 8\n2 2\n5 6\n```\n\n### 输出\n\n```text\n2 1 3 4\n2 1 5 3 4\n```\n"
+        },
+        "translationReview": {
+          "letter": "F",
+          "pdfSha256": "0aa9d4f205617b39b7b9827f77b713e1364bb21b2edd70d847d7e521ed8678a7",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            11,
+            12
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "figures": [],
+          "notes": [
+            "Every original PDF page visually checked, including constraints and sample table boundaries.",
+            "English text was manually normalized from the original PDF; Chinese checked against the same pages.",
+            "Original page 1 accidentally repeats part of the second penalty expression. Retained the complete intended expression yielding 42, without the duplicated fragment. Original PDF is retained unchanged."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "d194f806bd8dbdf5fed3cf4ae5e1177ac2efb5272e6595f16b4f607d583cedde",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

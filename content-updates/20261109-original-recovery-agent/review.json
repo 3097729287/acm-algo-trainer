@@ -1,0 +1,604 @@
+{
+  "schema": 1,
+  "cleanupInspection": {
+    "date": "2026-11-09",
+    "checkedBeforeNewContent": true,
+    "scope": "Assigned 34 original statement gaps in the isolated translation worktree",
+    "imports": [
+      "4af39f57",
+      "0406ca89",
+      "923cb593",
+      "b8e28c77"
+    ],
+    "personalDataRead": false,
+    "unusedItemsRemoved": [],
+    "noUnusedItemsConfirmed": true,
+    "findings": [
+      "Previously completed translation authoring packets and verification evidence are still required and retained.",
+      "Existing source captures are reused read-only rather than downloaded again.",
+      "No retired statement, native identifier, personal submission, or learning history is removed.",
+      "Expired-domain HTML and failed downloads are evidence only; they are never registered as statement assets.",
+      "New downloads and browser fixtures remain in the isolated .backups directory until their type and identity are verified."
+    ]
+  },
+  "problems": [
+    {
+      "id": "luogu-training-P4331",
+      "url": "https://www.luogu.com.cn/problem/P4331",
+      "markdownSha256": "bd92a6a6dec0e6b6ad4f951f8e269aeb060b15b40d11b6b383b09c879f7c05ef",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P4331",
+          "sha256": "6f58a4e9f5038f86a6166af300e65ebe52659f1d6a98d7227cba3464a81e9fb8",
+          "status": 200
+        },
+        {
+          "url": "https://qoj.ac/download.php?id=16014&type=statement",
+          "sha256": "247dafde1a4465ba9f106b3980576c598c0c0266725597dbe04d067a3455d1f4",
+          "status": 200
+        },
+        {
+          "url": "https://qoj.ac/problem/16014",
+          "sha256": "7f8ab442662e4e74acfd52d6888621a29544ef0fa014ef82ad8ee310cbc9a10c",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "reviewedSourcePages": [
+        1
+      ],
+      "resourceCount": 2,
+      "binding": {
+        "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+        "nativeProblemId": "P4331",
+        "originalStatementTitle": "Sequence",
+        "reviewedSourcePages": [
+          1
+        ],
+        "recoveredResource": {
+          "originalDestination": "https://boi.cses.fi/files/boi2004_day1.pdf",
+          "verifiedSource": "https://qoj.ac/download.php?id=16014&type=statement",
+          "sha256": "247dafde1a4465ba9f106b3980576c598c0c0266725597dbe04d067a3455d1f4",
+          "pageCount": 1
+        }
+      },
+      "notes": [
+        "Current official or judge archive source has matching original task title, specification and every native sample; corresponding PDF pages visually reviewed. The archived PDF bytes are unchanged. The previous stale destination is retained as a resource-map key with explicit new-source provenance."
+      ],
+      "renderer": {
+        "id": "luogu-training-P4331",
+        "pages": 0,
+        "images": 0,
+        "attachments": 1,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-P6078",
+      "url": "https://www.luogu.com.cn/problem/P6078",
+      "markdownSha256": "2a73693b15df31b05d07f1f8ee35d26461673deaced998d0be527052f85a3cf9",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P6078",
+          "sha256": "752781db1803556d4c4c948530bbcdd545dd418d7df3ab5552b27655e7319a90",
+          "status": 200
+        },
+        {
+          "url": "https://qoj.ac/download.php?id=16020&type=statement",
+          "sha256": "31e6b9d9c593b3c945e8aea072bb2cf0048c9fcda5032e3b0ec691ef7db25807",
+          "status": 200
+        },
+        {
+          "url": "https://qoj.ac/problem/16020",
+          "sha256": "db19a2c9a798418426b4814538e192824d109eef5a1a99e9bc716664885ef46d",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "reviewedSourcePages": [
+        1
+      ],
+      "resourceCount": 2,
+      "binding": {
+        "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+        "nativeProblemId": "P6078",
+        "originalStatementTitle": "Sweets",
+        "reviewedSourcePages": [
+          1
+        ],
+        "recoveredResource": {
+          "originalDestination": "https://www.oi.edu.pl/old/ceoi2004/problems/swe.pdf",
+          "verifiedSource": "https://qoj.ac/download.php?id=16020&type=statement",
+          "sha256": "31e6b9d9c593b3c945e8aea072bb2cf0048c9fcda5032e3b0ec691ef7db25807",
+          "pageCount": 1
+        }
+      },
+      "notes": [
+        "Current official or judge archive source has matching original task title, specification and every native sample; corresponding PDF pages visually reviewed. The archived PDF bytes are unchanged. The previous stale destination is retained as a resource-map key with explicit new-source provenance."
+      ],
+      "renderer": {
+        "id": "luogu-training-P6078",
+        "pages": 0,
+        "images": 0,
+        "attachments": 1,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-P6644",
+      "url": "https://www.luogu.com.cn/problem/P6644",
+      "markdownSha256": "d335ac249783ba75a566ab21684e1c5f046d40a102aa17d50113006dd13807df",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P6644",
+          "sha256": "c1e0c37486d7b7363c7b9c6ed6cf7cad89f13e9aa5666255e83c76cac7d32a73",
+          "status": 200
+        },
+        {
+          "url": "https://cemc.uwaterloo.ca/sites/default/files/documents/2020/day12.pdf",
+          "sha256": "c6086eb7ca8b852329109b679169b9dc49bdabae6c8845c222fc60636fdcfcdf",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "reviewedSourcePages": [
+        8,
+        9
+      ],
+      "resourceCount": 3,
+      "binding": {
+        "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+        "nativeProblemId": "P6644",
+        "originalStatementTitle": "Travelling Salesperson",
+        "reviewedSourcePages": [
+          8,
+          9
+        ],
+        "recoveredResource": {
+          "originalDestination": "https://cemc.math.uwaterloo.ca/contests/computing/2020/cco/day2.pdf",
+          "verifiedSource": "https://cemc.uwaterloo.ca/sites/default/files/documents/2020/day12.pdf",
+          "sha256": "c6086eb7ca8b852329109b679169b9dc49bdabae6c8845c222fc60636fdcfcdf",
+          "pageCount": 14
+        }
+      },
+      "notes": [
+        "Current official or judge archive source has matching original task title, specification and every native sample; corresponding PDF pages visually reviewed. The archived PDF bytes are unchanged. The previous stale destination is retained as a resource-map key with explicit new-source provenance."
+      ],
+      "renderer": {
+        "id": "luogu-training-P6644",
+        "pages": 0,
+        "images": 1,
+        "attachments": 1,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-P6648",
+      "url": "https://www.luogu.com.cn/problem/P6648",
+      "markdownSha256": "544f4c6d5f806b7b73147e7c432107a3f3168050071544cb86be372107c495af",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P6648",
+          "sha256": "61c02918f197ae4040682556f7add7b1096fdbc3dc2aaf5adf8d31c376477f49",
+          "status": 200
+        },
+        {
+          "url": "https://cemc.uwaterloo.ca/sites/default/files/documents/2019/seniorEF.pdf",
+          "sha256": "56bc85dd1950c8d061fcacfdcd3def68d5d97f1a84bbab122b8acb7d2e40614a",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "reviewedSourcePages": [
+        16
+      ],
+      "resourceCount": 3,
+      "binding": {
+        "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+        "nativeProblemId": "P6648",
+        "originalStatementTitle": "Triangle: The Data Structure",
+        "reviewedSourcePages": [
+          16
+        ],
+        "recoveredResource": {
+          "originalDestination": "https://cemc.math.uwaterloo.ca/contests/computing/2019/stage%201/seniorEF.pdf",
+          "verifiedSource": "https://cemc.uwaterloo.ca/sites/default/files/documents/2019/seniorEF.pdf",
+          "sha256": "56bc85dd1950c8d061fcacfdcd3def68d5d97f1a84bbab122b8acb7d2e40614a",
+          "pageCount": 17
+        }
+      },
+      "notes": [
+        "Current official or judge archive source has matching original task title, specification and every native sample; corresponding PDF pages visually reviewed. The archived PDF bytes are unchanged. The previous stale destination is retained as a resource-map key with explicit new-source provenance."
+      ],
+      "renderer": {
+        "id": "luogu-training-P6648",
+        "pages": 0,
+        "images": 1,
+        "attachments": 1,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-P6754",
+      "url": "https://www.luogu.com.cn/problem/P6754",
+      "markdownSha256": "3a374c9a6196115a08d87792da995076adc70d0820757b0eef999ec86f80c4f9",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P6754",
+          "sha256": "aa8e816c27d4fc064075d6126c08230e7628fee815fefbc7aed28935e73990c0",
+          "status": 200
+        },
+        {
+          "url": "https://qoj.ac/download.php?id=15582&type=statement",
+          "sha256": "a32b141ac9f3d4722745a1994cb83c406d951d0d8f8a3b066abee8ac15b84fba",
+          "status": 200
+        },
+        {
+          "url": "https://qoj.ac/problem/15582",
+          "sha256": "0bc073e78eeac6a92ec911d4ff5d680862fd0e0ca07699f953ada8da1a3d01df",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 2,
+      "reviewedSourcePages": [
+        1
+      ],
+      "resourceCount": 2,
+      "binding": {
+        "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+        "nativeProblemId": "P6754",
+        "originalStatementTitle": "Palindrome-Free Numbers",
+        "reviewedSourcePages": [
+          1
+        ],
+        "recoveredResource": {
+          "originalDestination": "https://boi.cses.fi/files/boi2013_day1.pdf",
+          "verifiedSource": "https://qoj.ac/download.php?id=15582&type=statement",
+          "sha256": "a32b141ac9f3d4722745a1994cb83c406d951d0d8f8a3b066abee8ac15b84fba",
+          "pageCount": 1
+        }
+      },
+      "notes": [
+        "Current official or judge archive source has matching original task title, specification and every native sample; corresponding PDF pages visually reviewed. The archived PDF bytes are unchanged. The previous stale destination is retained as a resource-map key with explicit new-source provenance."
+      ],
+      "renderer": {
+        "id": "luogu-training-P6754",
+        "pages": 0,
+        "images": 0,
+        "attachments": 1,
+        "samples": 2
+      }
+    },
+    {
+      "id": "luogu-training-P6843",
+      "url": "https://www.luogu.com.cn/problem/P6843",
+      "markdownSha256": "e3aac8ab4859daa02c4b632c1db5ec1e513c37020a526c2a99ff04e1399d6436",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P6843",
+          "sha256": "8f0ef12d996c6cf2f78bd05b597ca3efeff0170a69804b7d64c08a66091141cf",
+          "status": 200
+        },
+        {
+          "url": "https://qoj.ac/download.php?id=13036&type=statement",
+          "sha256": "f58616cbb70e75245fc800bc23eec8ff3e2002dcc9c036969be9003b4d3eda66",
+          "status": 200
+        },
+        {
+          "url": "https://qoj.ac/problem/13036",
+          "sha256": "bc25a18a2e6de9d563ea89978930d4c4a445d7ff0779f2478148998f7a046697",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "reviewedSourcePages": [
+        1,
+        2
+      ],
+      "resourceCount": 2,
+      "binding": {
+        "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+        "nativeProblemId": "P6843",
+        "originalStatementTitle": "File Paths",
+        "reviewedSourcePages": [
+          1,
+          2
+        ],
+        "recoveredResource": {
+          "originalDestination": "https://boi.cses.fi/files/boi2015_day2.pdf",
+          "verifiedSource": "https://qoj.ac/download.php?id=13036&type=statement",
+          "sha256": "f58616cbb70e75245fc800bc23eec8ff3e2002dcc9c036969be9003b4d3eda66",
+          "pageCount": 2
+        }
+      },
+      "notes": [
+        "Current official or judge archive source has matching original task title, specification and every native sample; corresponding PDF pages visually reviewed. The archived PDF bytes are unchanged. The previous stale destination is retained as a resource-map key with explicit new-source provenance."
+      ],
+      "renderer": {
+        "id": "luogu-training-P6843",
+        "pages": 0,
+        "images": 0,
+        "attachments": 1,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-P7167",
+      "url": "https://www.luogu.com.cn/problem/P7167",
+      "markdownSha256": "2d334280c6e778dac8ffc6d4e564eafdd2013146eb21b7810a80712a73e2d3e5",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P7167",
+          "sha256": "df3d0ac9b411ba75410b808a72371de0bb9b62560066eb055b9ac09eff594b6b",
+          "status": 200
+        },
+        {
+          "url": "https://qoj.ac/download.php?id=6981&type=statement",
+          "sha256": "d1f2c0c22eef808a33a7ee6494d6e1d700c5ecedfd2bdd18f5ce0b338c34cc39",
+          "status": 200
+        },
+        {
+          "url": "https://qoj.ac/problem/6981",
+          "sha256": "5a323a5744dcd2ecb203344500a4a5b490a079111d2ca038aa62bc8f4c7abe17",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "reviewedSourcePages": [
+        1,
+        2
+      ],
+      "resourceCount": 3,
+      "binding": {
+        "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+        "nativeProblemId": "P7167",
+        "originalStatementTitle": "Fountain",
+        "reviewedSourcePages": [
+          1,
+          2
+        ],
+        "recoveredResource": {
+          "originalDestination": "https://ejoi2020.ge/static/assets/Day1/Problems/Fountain.pdf",
+          "verifiedSource": "https://qoj.ac/download.php?id=6981&type=statement",
+          "sha256": "d1f2c0c22eef808a33a7ee6494d6e1d700c5ecedfd2bdd18f5ce0b338c34cc39",
+          "pageCount": 2
+        }
+      },
+      "notes": [
+        "Current official or judge archive source has matching original task title, specification and every native sample; corresponding PDF pages visually reviewed. The archived PDF bytes are unchanged. The previous stale destination is retained as a resource-map key with explicit new-source provenance.",
+        "Corrected the Chinese overflow condition to the nearest lower reservoir with strictly greater diameter, matching both original English pages."
+      ],
+      "renderer": {
+        "id": "luogu-training-P7167",
+        "pages": 0,
+        "images": 1,
+        "attachments": 1,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-SP22393",
+      "url": "https://www.luogu.com.cn/problem/SP22393",
+      "markdownSha256": "743481b6e22330abc6e07031e5b4e1b427f78b2783d979469ae13347f4ee016d",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/SP22393",
+          "sha256": "1fbaf8a22b989cdd5da231108b0a1019b921aa76aa4ddfe5e28614e96b69d574",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "reviewedSourcePages": null,
+      "resourceCount": 0,
+      "binding": {
+        "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+        "nativeProblemId": "SP22393",
+        "normalization": "native-prose-reflow-and-separate-exact-sample-records"
+      },
+      "notes": [
+        "Native source puts the entire English statement in a code fence and collapses its duplicate embedded sample lines. Restored paragraph/constraint boundaries without changing the rules; exact complete sample records come from the same native problem JSON."
+      ],
+      "renderer": {
+        "id": "luogu-training-SP22393",
+        "pages": 0,
+        "images": 0,
+        "attachments": 0,
+        "samples": 1
+      }
+    },
+    {
+      "id": "luogu-training-P3493",
+      "url": "https://www.luogu.com.cn/problem/P3493",
+      "markdownSha256": "4fecb1fe4b6a2198196125c73a1b659988d9382ec3b248e4d135b9be6ccb47aa",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P3493",
+          "sha256": "7f8697bc0ae46effdae992403d5711025c23e4daf6f5a8963f17ed680b4bc9c2",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/?key=statement",
+          "sha256": "2e03fcc417df0c2989e97d325f3ba982b963d05e575b9a9ae1d4376ba00d9d24",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.1.png",
+          "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.2.png",
+          "sha256": "b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.3.png",
+          "sha256": "3edb31b49102ab8575fb7620fd3e6cf613ae81af2c5afa32496e69fc0056cf37",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.4.png",
+          "sha256": "dafb45fa2204952f06eeafdbbb0c2a88a9234cc0254a36e16ab6d93d5725529a",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.5.png",
+          "sha256": "e0c6dcf247c6e7197953f4e8793e109cf91352a10f984ad54d4d091d2fe33459",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.6.png",
+          "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.7.png",
+          "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.8.png",
+          "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.9.png",
+          "sha256": "ba77a3ab9cbdbc0c0e6fe4e2b9bca6f4a8d7fbde3ce6f2ec92c51c31ab715dfa",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.10.png",
+          "sha256": "7e79431eb68ef779b6ee09a190dfce54ce6857712d639224607a50d7d24a1241",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.11.png",
+          "sha256": "f89eb17fc9e921a833b4b5f7edeb6091104f1278e9a6ac1c3d050002a0993bdd",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.12.png",
+          "sha256": "01520f0dc8b0e7dfc7ea16479b0b09a42fcb3114c94aa5af1fecc3c61b52cb71",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.13.png",
+          "sha256": "b6e067c4f70906b586e70692db71826446a1aea67705c13873c9a1f8171f5efa",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.14.png",
+          "sha256": "2c2f93fcdce1c3b415d4f0f61773fa5a9c8bc81c03f58adc76f1bbaadb363bcc",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.15.png",
+          "sha256": "f726cfa9a387225db381ca6d164bd7786dd98569a1d72640266af0bb80937e89",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.16.png",
+          "sha256": "5f1de1c43e61816050a8a92792f9c8fbc5afae283ae7e9d6b31bf5ed531ac0fa",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.17.png",
+          "sha256": "2c2f93fcdce1c3b415d4f0f61773fa5a9c8bc81c03f58adc76f1bbaadb363bcc",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.18.png",
+          "sha256": "f726cfa9a387225db381ca6d164bd7786dd98569a1d72640266af0bb80937e89",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.19.png",
+          "sha256": "f9fb40c33e5e1ace431b62e6c6cf384bad6db5c63e7a1f64a764ab12c0e9574c",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp-en-tex.20.png",
+          "sha256": "358f0e9b6d4b858d355881ea73827d1071edc250d6291090ac1ffd03c1c407ad",
+          "status": 200
+        },
+        {
+          "url": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/images/OI16/wsp1.gif",
+          "sha256": "450a802abc982a6ab1132630abf82c5a93161cf80eaf7c07c77dad51c82376dc",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "reviewedSourcePages": null,
+      "resourceCount": 21,
+      "binding": {
+        "method": "native-problem-id-and-existing-samples-with-reviewed-original-resources",
+        "nativeProblemId": "P3493",
+        "canonicalSource": "https://szkopul.edu.pl/problemset/problem/X_XFcxCm1xIAk2alKtQLN79O/site/?key=statement",
+        "taskCode": "wsp",
+        "originalFormulaImages": 20,
+        "originalDiagram": "wsp1.gif"
+      },
+      "notes": [
+        "Luogu input paragraph is truncated after the coordinate bound. Restored the complete original task from the official Szkopuł wsp page, matching title, original source prose and the entire sample. All twenty formula images and the original GIF diagram retained; no guessed OCR or borrowed task."
+      ],
+      "renderer": {
+        "id": "luogu-training-P3493",
+        "pages": 0,
+        "images": 21,
+        "attachments": 0,
+        "samples": 1
+      }
+    }
+  ],
+  "rendererValidation": {
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true,
+    "originalAttachmentByteIdentity": true
+  },
+  "translationValidation": {
+    "checked": [
+      "luogu-training-SP22393",
+      "luogu-training-P3493"
+    ],
+    "originalImagesLoaded": 21,
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "samplesPreserved": true,
+    "originalPdfRestored": true,
+    "externalRequests": 0
+  },
+  "integrationValidation": {
+    "guardedReplayPassed": 9,
+    "previousOriginalAndIdsPreserved": true,
+    "previousSourcePresent": 8,
+    "previousSourceNeverExisted": [
+      "luogu-training-SP22393"
+    ],
+    "assetReferencesResolvableWithDeclaredManifest": true,
+    "catalogAndGlobalAssetManifestWritten": false,
+    "pendingCatalogueIds": [
+      "luogu-training-P4331",
+      "luogu-training-P6078",
+      "luogu-training-P6644",
+      "luogu-training-P6648",
+      "luogu-training-P6754",
+      "luogu-training-P6843",
+      "luogu-training-P7167",
+      "luogu-training-SP22393",
+      "luogu-training-P3493"
+    ]
+  }
+}

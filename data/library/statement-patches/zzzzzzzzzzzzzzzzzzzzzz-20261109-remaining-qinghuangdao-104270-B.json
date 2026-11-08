@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:104270::B",
+      "beforeSha256": "b28aee88dff6e26cb3f46ad5d3d36e3363a434c0b2008455b4940f4e4b0232f1",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:104270::B",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:50:19.225689+00:00",
+          "corpusAuditVerifiedSha256": "4200df890e32fdae072e062d73ea72013ab10acd2c15cecedce72f886cc23b25",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Kawa Exam\n\nBaoBao is taking an online exam of the Kawa programming language, which consists of *n* multiple choice questions. The exam is not easy, as for each question, BaoBao needs to select the one and only one correct answer from 10$^{5}$ available choices! But don't worry, as an active committer of the famous *open-kdk*, BaoBao obviously knows all the correct answers.\n\n\n\nAlthough BaoBao is an expert in Kawa, the developers of the exam system are definitely not experts in software engineering. There are *m* bugs in the exam system, and the *i*-th bug can be described as (*u*$_{i}$, *v*$_{i}$), which means that BaoBao must select the same choice for question *u*$_{i}$ and *v*$_{i}$ (even if the choice he selects is incorrect!).\n\n\n\nTime is limited, and the exam must go on. The developers only have time to fix one bug. Now the developers are wondering, for all 1 ≤ *i* ≤ *m*, what's the maximum possible number of questions BaoBao can correctly answer if they fix the *i*-th bug. Please write a program to solve this problem so that the developers can select a proper bug to fix.\n\n\n\n## Input\n\n\n\nThere are multiple test cases. The first line of the input contains an integer *T*, indicating the number of test cases. For each test case:\n\n\n\nThe first line contains two integers *n* and *m* (1 ≤ *n* ≤ 10$^{5}$, 1 ≤ *m* ≤ 10$^{5}$), indicating the number of questions and the number of bugs.\n\n\n\nThe second line contains *n* integers *a*$_{1}$, *a*$_{2}$, ..., *a*$_{n}$ (1 ≤ *a*$_{i}$ ≤ 10$^{5}$), where *a*$_{i}$ indicates the correct answer for question *i*.\n\n\n\nFor the following *m* lines, the *i*-th line has two integers *u*$_{i}$ and *v*$_{i}$ (1 ≤ *u*$_{i}$, *v*$_{i}$ ≤ *n*), indicating the *i*-th bug.\n\n\n\nIt's guaranteed that neither the sum of *n* nor the sum of *m* over all test cases will exceed 10$^{6}$.\n\n\n\n## Output\n\n\n\nFor each test case output one line containing *m* integers *c*$_{1}$, *c*$_{2}$, ..., *c*$_{m}$ separated by a space, where *c*$_{i}$ indicates the maximum possible number of questions BaoBao can correctly answer if the *i*-th bug is fixed.\n\n\n\nPlease, DO NOT output extra spaces at the end of each line, or your answer may be considered incorrect!\n\n\n\n## Note\n\n\n\nThe following table explains the first sample test case.\n\n\n\n- The \"possible choices\" column indicates a possible set of choices to each question BaoBao can select, leading to a maximum possible number of correctly answered questions;\n\n- The \"correct\" column indicates the number of correctly answered questions using the set of choices provided in the \"possible choices\" column.\n\n \n\n| **Bug No.** | **Possible Choices** | **Correct** |\n| --- | --- | --- |\n| 1 | (1, 2, 1, 2, 1, 1, 1) | 6 |\n| 2 | (2, 2, 1, 2, 1, 1, 1) | 5 |\n| 3 | (1, 1, 1, 2, 1, 1, 1) | 5 |\n| 4 | (1, 1, 1, 1, 1, 2, 1) | 5 |\n| 5 | (1, 1, 1, 1, 1, 1, 1) | 4 |\n\n\n\nFor the second sample test case, no matter which bug is fixed, BaoBao has to select the same choice for all the three questions. As the correct answer for each question is different, BaoBao can only correctly answer 1 question.\n\n\n\nFor the third sample test case, note that even if the developers fix the first bug, the second bug is still taking effect and BaoBao still has to select the same choice for the two problems. It's the same if the second bug is fixed.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:104270::B",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "4466517c3259b6f7294f3f9fed09bb9ae10d2a4afaefa2ab2c52c68a54458ad6",
+          "url": "https://codeforces.com/gym/104270/problem/B"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "3\n7 5\n1 2 1 2 1 2 1\n1 2\n1 3\n2 4\n5 6\n5 7\n3 3\n1 2 3\n1 2\n1 3\n2 3\n2 3\n12345 54321\n1 2\n1 2\n1 1",
+            "name": "样例 1",
+            "output": "6 5 5 5 4\n1 1 1\n1 1 1"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Kawa Exam",
+        "url": "https://codeforces.com/gym/104270/problem/B",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "4200df890e32fdae072e062d73ea72013ab10acd2c15cecedce72f886cc23b25",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# Kawa 考试\n\n\n\nBaoBao 正在参加一场 Kawa 编程语言的在线考试，考试包含 *n* 道单项选择题。考试并不容易，因为每题都有 10$^{5}$ 个选项，而 BaoBao 必须从中选择唯一正确的选项！不过不用担心，作为著名项目 *open-kdk* 的活跃贡献者，BaoBao 知道所有题目的正确答案。\n\n\n\n虽然 BaoBao 精通 Kawa，但考试系统的开发者显然不擅长软件工程。考试系统中有 *m* 个缺陷，第 *i* 个缺陷可以用一对数（*u*$_{i}$，*v*$_{i}$）描述：BaoBao 必须为第 *u*$_{i}$ 题和第 *v*$_{i}$ 题选择相同的选项，即使这个选项是错误的也必须如此！\n\n\n\n时间有限，考试还得继续。开发者只来得及修复一个缺陷。现在，对于所有 1 ≤ *i* ≤ *m*，他们想知道：如果修复第 *i* 个缺陷，BaoBao 最多能够答对多少道题？请编写程序解决这个问题，帮助开发者选择要修复的缺陷。\n\n\n\n## 输入格式\n\n\n\n有多组测试数据。输入第一行包含一个整数 *T*，表示测试用例数。对于每个测试用例：\n\n\n\n第一行包含两个整数 *n* 和 *m*（1 ≤ *n* ≤ 10$^{5}$，1 ≤ *m* ≤ 10$^{5}$），分别表示题目数量和缺陷数量。\n\n\n\n第二行包含 *n* 个整数 *a*$_{1}$、*a*$_{2}$、...、*a*$_{n}$（1 ≤ *a*$_{i}$ ≤ 10$^{5}$），其中 *a*$_{i}$ 表示第 *i* 题的正确选项。\n\n\n\n接下来 *m* 行，第 *i* 行包含两个整数 *u*$_{i}$ 和 *v*$_{i}$（1 ≤ *u*$_{i}$，*v*$_{i}$ ≤ *n*），描述第 *i* 个缺陷。\n\n\n\n保证所有测试用例的 *n* 之和与 *m* 之和均不超过 10$^{6}$。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，在一行中输出 *m* 个以空格分隔的整数 *c*$_{1}$、*c*$_{2}$、...、*c*$_{m}$，其中 *c*$_{i}$ 表示修复第 *i* 个缺陷后，BaoBao 最多能够答对的题目数。\n\n\n\n请不要在每行末尾输出多余的空格，否则可能被判为错误！\n\n\n\n## 样例说明\n\n\n\n下表解释了第一组样例。\n\n\n\n- “可选方案”列给出 BaoBao 对各题选择的一组可能选项，按照这组方案作答可以使答对的题目数最多；\n- “答对题数”列给出采用“可选方案”中的选项时答对的题目数。\n\n\n\n| **缺陷编号** | **可选方案** | **答对题数** |\n| --- | --- | --- |\n| 1 | (1, 2, 1, 2, 1, 1, 1) | 6 |\n| 2 | (2, 2, 1, 2, 1, 1, 1) | 5 |\n| 3 | (1, 1, 1, 2, 1, 1, 1) | 5 |\n| 4 | (1, 1, 1, 1, 1, 2, 1) | 5 |\n| 5 | (1, 1, 1, 1, 1, 1, 1) | 4 |\n\n\n\n对于第二组样例，无论修复哪个缺陷，BaoBao 都必须为三道题选择相同的选项。由于每道题的正确答案不同，他最多只能答对 1 道题。\n\n\n\n对于第三组样例，即使开发者修复第一个缺陷，第二个缺陷仍然生效，所以 BaoBao 仍必须为这两道题选择相同的选项。修复第二个缺陷时也是如此。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:104270::B",
+          "slug": "104270-B",
+          "sourceUrl": "https://codeforces.com/gym/104270/problem/B",
+          "sourceSha256": "4200df890e32fdae072e062d73ea72013ab10acd2c15cecedce72f886cc23b25",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "3\n7 5\n1 2 1 2 1 2 1\n1 2\n1 3\n2 4\n5 6\n5 7\n3 3\n1 2 3\n1 2\n1 3\n2 3\n2 3\n12345 54321\n1 2\n1 2\n1 1",
+              "name": "样例 1",
+              "output": "6 5 5 5 4\n1 1 1\n1 1 1"
+            }
+          ],
+          "notes": [
+            "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+            "Original Markdown, sample records, image map and resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

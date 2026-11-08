@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:104270::L",
+      "beforeSha256": "90269203341582b9136077eca3dd24e24854ad2636744c2f9b8d8499afac05c6",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:104270::L",
+        "images": {
+          "https://espresso.codeforces.com/8ea7e8d4963d7e2e692b960f3208e1550d376981.png": "tb-asset:b7c18c858251a7b7bdd28cab91d6e5bcbf2e50ad151f2b9ba5e11cf245aa8938",
+          "https://espresso.codeforces.com/d84f10331013a69594787bf03ef577d1077e4763.png": "tb-asset:0e3787b1eb013fddc85728cb40ff3631b8d49d7da3c708b9e13b6914ff045caa"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T02:50:51.227046+00:00",
+          "corpusAuditVerifiedSha256": "20f319470ceec87d2beed4345e66e75d3f574ce1ade4f4196d222137cf026aec",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Sub-cycle Graph\n\nGiven an undirected simple graph with *n* (*n* ≥ 3) vertices and *m* edges where the vertices are numbered from 1 to *n*, we call it a \"sub-cycle\" graph if it's possible to add a non-negative number of edges to it and turn the graph into exactly one simple cycle of *n* vertices.\n\n\n\nGiven two integers *n* and *m*, your task is to calculate the number of different sub-cycle graphs with *n* vertices and *m* edges. As the answer may be quite large, please output the answer modulo 10$^{9}$ + 7.\n\n\n\nRecall that\n\n\n\n- A simple graph is a graph with no self loops or multiple edges;\n\n- A simple cycle of *n* (*n* ≥ 3) vertices is a connected undirected simple graph with *n* vertices and *n* edges, where the degree of each vertex equals to 2;\n\n- Two undirected simple graphs with *n* vertices and *m* edges are different, if they have different sets of edges;\n\n- Let *u* < *v*, we denote (*u*, *v*) as an undirected edge connecting vertices *u* and *v*. Two undirected edges (*u*$_{1}$, *v*$_{1}$) and (*u*$_{2}$, *v*$_{2}$) are different, if *u*$_{1}$ ≠ *u*$_{2}$ or *v*$_{1}$ ≠ *v*$_{2}$.\n\n\n\n## Input\n\n\n\nThere are multiple test cases. The first line of the input contains an integer *T* (about 2 × 10$^{4}$), indicating the number of test cases. For each test case:\n\n\n\nThe first and only line contains two integers *n* and *m* (3 ≤ *n* ≤ 10$^{5}$, ![](https://espresso.codeforces.com/8ea7e8d4963d7e2e692b960f3208e1550d376981.png)), indicating the number of vertices and the number of edges in the graph.\n\n\n\nIt's guaranteed that the sum of *n* in all test cases will not exceed 3 × 10$^{7}$.\n\n\n\n## Output\n\n\n\nFor each test case output one line containing one integer, indicating the number of different sub-cycle graphs with *n* vertices and *m* edges modulo 10$^{9}$ + 7.\n\n\n\n## Note\n\n\n\nThe 12 sub-cycle graphs of the second sample test case are illustrated below.\n\n ![](https://espresso.codeforces.com/d84f10331013a69594787bf03ef577d1077e4763.png)",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:104270::L",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "1e2a74e32aef80b14d831b688edc19d311eb005bd684097e686cff62f1e9ae7c",
+          "url": "https://codeforces.com/gym/104270/problem/L"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://espresso.codeforces.com/8ea7e8d4963d7e2e692b960f3208e1550d376981.png": {
+            "bytes": 1080,
+            "frameCount": 1,
+            "height": 25,
+            "mime": "image/png",
+            "sha256": "b7c18c858251a7b7bdd28cab91d6e5bcbf2e50ad151f2b9ba5e11cf245aa8938",
+            "sourceUrl": "https://espresso.codeforces.com/8ea7e8d4963d7e2e692b960f3208e1550d376981.png",
+            "width": 120
+          },
+          "https://espresso.codeforces.com/d84f10331013a69594787bf03ef577d1077e4763.png": {
+            "bytes": 54840,
+            "frameCount": 1,
+            "height": 234,
+            "mime": "image/png",
+            "sha256": "0e3787b1eb013fddc85728cb40ff3631b8d49d7da3c708b9e13b6914ff045caa",
+            "sourceUrl": "https://espresso.codeforces.com/d84f10331013a69594787bf03ef577d1077e4763.png",
+            "width": 790
+          }
+        },
+        "samples": [
+          {
+            "input": "3\n4 2\n4 3\n5 3",
+            "name": "样例 1",
+            "output": "15\n12\n90"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Sub-cycle Graph",
+        "url": "https://codeforces.com/gym/104270/problem/L",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "20f319470ceec87d2beed4345e66e75d3f574ce1ade4f4196d222137cf026aec",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 子环图\n\n\n\n给定一个有 *n*（*n* ≥ 3）个顶点和 *m* 条边的无向简单图，顶点编号为 1 到 *n*。如果可以向图中添加非负条数的边，使整个图恰好成为一个包含 *n* 个顶点的简单环，就称它为“子环图”。\n\n\n\n给定两个整数 *n* 和 *m*，请计算有 *n* 个顶点和 *m* 条边的不同子环图数量。答案可能很大，请输出答案对 10$^{9}$ + 7 取模的结果。\n\n\n\n相关定义如下：\n\n\n\n- 简单图是没有自环和重边的图；\n- 包含 *n*（*n* ≥ 3）个顶点的简单环，是一个有 *n* 个顶点、*n* 条边且每个顶点度数均为 2 的连通无向简单图；\n- 两个有 *n* 个顶点和 *m* 条边的无向简单图不同，当且仅当它们的边集不同；\n- 令 *u* < *v*，用（*u*，*v*）表示连接顶点 *u* 和 *v* 的无向边。如果 *u*$_{1}$ ≠ *u*$_{2}$ 或 *v*$_{1}$ ≠ *v*$_{2}$，则无向边（*u*$_{1}$，*v*$_{1}$）与（*u*$_{2}$，*v*$_{2}$）不同。\n\n\n\n## 输入格式\n\n\n\n有多组测试数据。输入第一行包含一个整数 *T*（约为 2 × 10$^{4}$），表示测试用例数。对于每个测试用例：\n\n\n\n唯一一行包含两个整数 *n* 和 *m*（3 ≤ *n* ≤ 10$^{5}$，![](https://espresso.codeforces.com/8ea7e8d4963d7e2e692b960f3208e1550d376981.png)），分别表示图的顶点数和边数。\n\n\n\n保证所有测试用例的 *n* 之和不超过 3 × 10$^{7}$。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，在一行中输出一个整数，表示有 *n* 个顶点和 *m* 条边的不同子环图数量对 10$^{9}$ + 7 取模的结果。\n\n\n\n## 样例说明\n\n\n\n第二组样例中的 12 个子环图如下所示。\n\n\n\n![](https://espresso.codeforces.com/d84f10331013a69594787bf03ef577d1077e4763.png)\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:104270::L",
+          "slug": "104270-L",
+          "sourceUrl": "https://codeforces.com/gym/104270/problem/L",
+          "sourceSha256": "20f319470ceec87d2beed4345e66e75d3f574ce1ade4f4196d222137cf026aec",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "3\n4 2\n4 3\n5 3",
+              "name": "样例 1",
+              "output": "15\n12\n90"
+            }
+          ],
+          "notes": [
+            "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+            "Original Markdown, sample records, image map and resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

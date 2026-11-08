@@ -1,0 +1,219 @@
+[
+  {
+    "problemId": "remote:codeforces:104270::A",
+    "slug": "104270-A",
+    "sourceUrl": "https://codeforces.com/gym/104270/problem/A",
+    "sourceSha256": "621288df08ad0ed3b34303236525ac417463f773891a88c3f2467f7f0239087e",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "4\n10\n100\n1000\n987654321123456789",
+        "name": "样例 1",
+        "output": "30\n2522\n244274\n235139898689017607381017686096176798"
+      }
+    ],
+    "notes": [
+      "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+      "Original Markdown, sample records, image map and resource metadata retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:104270::B",
+    "slug": "104270-B",
+    "sourceUrl": "https://codeforces.com/gym/104270/problem/B",
+    "sourceSha256": "4200df890e32fdae072e062d73ea72013ab10acd2c15cecedce72f886cc23b25",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "3\n7 5\n1 2 1 2 1 2 1\n1 2\n1 3\n2 4\n5 6\n5 7\n3 3\n1 2 3\n1 2\n1 3\n2 3\n2 3\n12345 54321\n1 2\n1 2\n1 1",
+        "name": "样例 1",
+        "output": "6 5 5 5 4\n1 1 1\n1 1 1"
+      }
+    ],
+    "notes": [
+      "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+      "Original Markdown, sample records, image map and resource metadata retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:104270::C",
+    "slug": "104270-C",
+    "sourceUrl": "https://codeforces.com/gym/104270/problem/C",
+    "sourceSha256": "c5e8271213e53c2bf677c970172334021addb7d540940bfea802b2d2e3f00f52",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "3\n1\n1\n0\n2\n00\n11\n5\n01010\n00111",
+        "name": "样例 1",
+        "output": "0\n2\n6"
+      }
+    ],
+    "notes": [
+      "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+      "Original Markdown, sample records, image map and resource metadata retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:104270::D",
+    "slug": "104270-D",
+    "sourceUrl": "https://codeforces.com/gym/104270/problem/D",
+    "sourceSha256": "a7b764021cc596737897120b33904b0a5fd35a3e22e2d616824c27fb3e065893",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "4\n2 2\n8101215\n3 4\n100000001000\n2 2\n80101215\n3 4\n1000000010000",
+        "name": "样例 1",
+        "output": "23 45\n101 1000\nImpossible\nImpossible"
+      }
+    ],
+    "notes": [
+      "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+      "Original Markdown, sample records, image map and resource metadata retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:104270::E",
+    "slug": "104270-E",
+    "sourceUrl": "https://codeforces.com/gym/104270/problem/E",
+    "sourceSha256": "a45b731191df9931195d2cecbae2bc7e01003042cede83b6b15bfbd6a95f4775",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "2\n4 8\n3 2 6 6\n3 9\n10 10 1",
+        "name": "样例 1",
+        "output": "6\n4"
+      }
+    ],
+    "notes": [
+      "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+      "Original Markdown, sample records, image map and resource metadata retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:104270::F",
+    "slug": "104270-F",
+    "sourceUrl": "https://codeforces.com/gym/104270/problem/F",
+    "sourceSha256": "6b4e6f2006458afcee8b1e87f8893ded11f629a274f7eaba407e0dd92dc17712",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "2\n3 1\n4 3",
+        "name": "样例 1",
+        "output": "Impossible\n2 1 4 3\n3 4 1 2\n4 3 2 1"
+      }
+    ],
+    "notes": [
+      "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+      "Original Markdown, sample records, image map and resource metadata retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:104270::G",
+    "slug": "104270-G",
+    "sourceUrl": "https://codeforces.com/gym/104270/problem/G",
+    "sourceSha256": "3caaa2b9c834412d3cb8b7da94feb79f2fe4d62d40dff59842ffdc340db7e925",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "3\n2 2\n2 0\n3 2\n2 1 0\n3 1\n2 1 0",
+        "name": "样例 1",
+        "output": "8\n3\n1"
+      }
+    ],
+    "notes": [
+      "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+      "Original Markdown, sample records, image map and resource metadata retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:104270::I",
+    "slug": "104270-I",
+    "sourceUrl": "https://codeforces.com/gym/104270/problem/I",
+    "sourceSha256": "2ff9babfc12e68a0b59aa8ba5131cb13dd0a8a3840e270e6df106d6d94282b04",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "3\n5\n-1 4 2 1 1\n4\n1 3 2 4\n1\n7",
+        "name": "样例 1",
+        "output": "1\n2\n0"
+      }
+    ],
+    "notes": [
+      "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+      "Original Markdown, sample records, image map and resource metadata retained unchanged.",
+      "Restored missing [-1] groups in the translated sample-explanation table using the exact first sample array [-1,4,2,1,1] and the corresponding printed difference expressions. The original extraction is retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:104270::J",
+    "slug": "104270-J",
+    "sourceUrl": "https://codeforces.com/gym/104270/problem/J",
+    "sourceSha256": "8936f4ccbea01e98cff1535a9ba7844d65b3869d760436c1989c1d7f3739e9a7",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "4\n4 2\n1 2 4 8\n4 0\n100 99 98 97\n2 2\n10000 10000\n5 3\n0 0 0 0 1",
+        "name": "样例 1",
+        "output": "6\n96\nRichman\nImpossible"
+      }
+    ],
+    "notes": [
+      "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+      "Original Markdown, sample records, image map and resource metadata retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:104270::K",
+    "slug": "104270-K",
+    "sourceUrl": "https://codeforces.com/gym/104270/problem/K",
+    "sourceSha256": "4107c43406666f94b6d6f69580ca01a225076c7f51b27bbd9951c83b1e86e791",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "3\n3 2\n1 2\n2 1\n3 5\n3 3\n2 1\n2 5\n4 3\n2 3\n1 3\n4 3",
+        "name": "样例 1",
+        "output": "1 3\n0 3\n2 2"
+      }
+    ],
+    "notes": [
+      "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+      "Original Markdown, sample records, image map and resource metadata retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:104270::L",
+    "slug": "104270-L",
+    "sourceUrl": "https://codeforces.com/gym/104270/problem/L",
+    "sourceSha256": "20f319470ceec87d2beed4345e66e75d3f574ce1ade4f4196d222137cf026aec",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "3\n4 2\n4 3\n5 3",
+        "name": "样例 1",
+        "output": "15\n12\n90"
+      }
+    ],
+    "notes": [
+      "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+      "Original Markdown, sample records, image map and resource metadata retained unchanged."
+    ]
+  },
+  {
+    "problemId": "remote:codeforces:104270::M",
+    "slug": "104270-M",
+    "sourceUrl": "https://codeforces.com/gym/104270/problem/M",
+    "sourceSha256": "14436dbec8bca21f634e7b7932c229e1fd00f585d825ff7c1c555699c35a908c",
+    "status": "complete",
+    "samples": [
+      {
+        "input": "6\n123456789 1\n888888888 1\n888888888 2\n888888888 999999999\n98640 12345\n1000000000 0",
+        "name": "样例 1",
+        "output": "5\n18\n2\n0\n0\n1000000000"
+      }
+    ],
+    "notes": [
+      "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+      "Original Markdown, sample records, image map and resource metadata retained unchanged."
+    ]
+  }
+]

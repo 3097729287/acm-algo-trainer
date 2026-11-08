@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "status": "complete",
+  "checkedAt": "2026-11-09",
+  "replay": [
+    {
+      "id": "luogu-training-P13110",
+      "originalIdPreserved": true,
+      "oldSourceStatementExisted": true,
+      "oldOriginalSnapshotPreserved": true,
+      "activeStandaloneSamples": 0,
+      "exactReviewedOptionalLinks": 1,
+      "actualHistoricalSamplePairsPreserved": true
+    },
+    {
+      "id": "luogu-training-P13143",
+      "originalIdPreserved": true,
+      "oldSourceStatementExisted": true,
+      "oldOriginalSnapshotPreserved": true,
+      "activeStandaloneSamples": 0,
+      "exactReviewedOptionalLinks": 1,
+      "actualHistoricalSamplePairsPreserved": true
+    },
+    {
+      "id": "luogu-training-P7562",
+      "originalIdPreserved": true,
+      "oldSourceStatementExisted": true,
+      "oldOriginalSnapshotPreserved": true,
+      "activeStandaloneSamples": 4,
+      "exactReviewedOptionalLinks": 1,
+      "actualHistoricalSamplePairsPreserved": true
+    },
+    {
+      "id": "remote:codeforces:105977::J",
+      "originalIdPreserved": true,
+      "oldSourceStatementExisted": false,
+      "oldOriginalSnapshotPreserved": false,
+      "activeStandaloneSamples": 1,
+      "exactReviewedOptionalLinks": 0,
+      "actualHistoricalSamplePairsPreserved": true
+    }
+  ],
+  "workbench": {
+    "checked": [
+      {
+        "id": "luogu-training-P13110",
+        "pages": 0,
+        "images": 0,
+        "attachments": 2,
+        "samples": 0
+      },
+      {
+        "id": "luogu-training-P13143",
+        "pages": 0,
+        "images": 0,
+        "attachments": 2,
+        "samples": 0
+      },
+      {
+        "id": "luogu-training-P7562",
+        "pages": 0,
+        "images": 0,
+        "attachments": 2,
+        "samples": 4
+      },
+      {
+        "id": "remote:codeforces:105977::J",
+        "pages": 2,
+        "images": 0,
+        "attachments": 0,
+        "samples": 1
+      }
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true,
+    "originalAttachmentByteIdentity": true
+  },
+  "reactKatex": {
+    "total": 3,
+    "rendered": 3,
+    "nativePdf": 0,
+    "issues": []
+  },
+  "translationWorkbench": {
+    "checked": [
+      "luogu-training-P13110",
+      "luogu-training-P13143"
+    ],
+    "originalImagesLoaded": 0,
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "samplesPreserved": true,
+    "originalPdfRestored": true,
+    "externalRequests": 0
+  },
+  "originalOptionalLinkBehaviour": {
+    "checked": [
+      {
+        "id": "luogu-training-P13110",
+        "language": "original",
+        "url": "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py",
+        "originalLinkRetained": true,
+        "fakeCachedDownload": false,
+        "availabilityNoticeVisible": true
+      },
+      {
+        "id": "luogu-training-P13110",
+        "language": "chinese",
+        "url": "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py",
+        "originalLinkRetained": true,
+        "fakeCachedDownload": false,
+        "availabilityNoticeVisible": true
+      },
+      {
+        "id": "luogu-training-P13143",
+        "language": "original",
+        "url": "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py",
+        "originalLinkRetained": true,
+        "fakeCachedDownload": false,
+        "availabilityNoticeVisible": true
+      },
+      {
+        "id": "luogu-training-P13143",
+        "language": "chinese",
+        "url": "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py",
+        "originalLinkRetained": true,
+        "fakeCachedDownload": false,
+        "availabilityNoticeVisible": true
+      },
+      {
+        "id": "luogu-training-P7562",
+        "language": "original",
+        "url": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2-data.zip",
+        "originalLinkRetained": true,
+        "fakeCachedDownload": false,
+        "availabilityNoticeVisible": true
+      }
+    ],
+    "browserErrors": 0,
+    "externalRequests": 0
+  },
+  "optionalScopeNegativeChecks": {
+    "positiveRecordsValidated": 4,
+    "negativeChecksRejected": [
+      "source text hash cannot drift",
+      "required output-only inputs never exempt",
+      "missing necessary PDF rejected",
+      "missing necessary image rejected",
+      "fabricated generic helper cache rejected",
+      "ordinary test suite cannot exempt output-only",
+      "real sample cannot disappear",
+      "unreviewed optional URL rejected"
+    ],
+    "necessaryResourcesExempted": 0
+  },
+  "sourcePdfPagesVisuallyReviewed": 12,
+  "additionalOfficialTutorialBindingPages": [
+    12
+  ],
+  "catalogueAndGlobalAssetRegistryUnchanged": true,
+  "globalAutomaticTitleAndSizeRulesUnchanged": true
+}

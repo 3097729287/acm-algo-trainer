@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "cleanupInspection": {
+    "inspectedBeforeContentChanges": true,
+    "canonicalAssetDescriptors": 6230,
+    "duplicateDescriptors": 0,
+    "newPacketExisted": false,
+    "existingPersonalDataReadOrWritten": false,
+    "priorSourceSnapshotsStillRequired": true,
+    "eligibleTrackedOldContentToRemove": [],
+    "result": "No unused tracked content found; old incomplete statements remain necessary provenance. Broken active image destinations will be replaced only in the new reviewed record, with the whole prior source retained.",
+    "ignoredBuildCaches": "Retained; an earlier automatic approval review rejected cache cleanup. No retry or packaging."
+  },
+  "problems": [
+    {
+      "id": "luogu-training-P7871",
+      "url": "https://www.luogu.com.cn/problem/P7871",
+      "originalDescriptionReviewed": true,
+      "markdownSha256": "68a791edd2c3fcf81274eeacda47c2f1bb5864fcb8d2e59a35865d715ae66d57",
+      "samples": 3,
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P7871",
+          "sha256": "f1a08a8620d964fa9c25d998b572b65e374edde5483716bb06696df5967b260e",
+          "status": 200
+        },
+        {
+          "url": "https://www.luogu.com.cn/problem/P7871/attachment/pnhmys2x",
+          "sha256": "febc87ba0a14e506fb18f332e0e6055de61b49886b0335984132e96b55104043",
+          "status": 200,
+          "bytes": 1376
+        }
+      ],
+      "originalZipBytesVerified": true,
+      "originalImageRecovered": false,
+      "explicitlyReconstructedFigures": 0,
+      "attachmentSampleReplacements": [],
+      "corrections": [
+        "按官方附件的真实文件名把 qed2.out/qed3.out 更正为 qed2.ans/qed3.ans；样例 1 逐项对齐，完整加入样例 2/3。",
+        "仅去掉原题已明确不含解题关键信息的背景末尾错误图片语法：其目的地为已 404 的 paste HTML 页面；背景其余文字全部保留，整份原稿保留在 previousSourceStatement。"
+      ]
+    },
+    {
+      "id": "luogu-training-P8089",
+      "url": "https://www.luogu.com.cn/problem/P8089",
+      "originalDescriptionReviewed": true,
+      "markdownSha256": "b78cdef8929d17e25fcf8247604f43df15fb5df5c1d884e35f0f579835ae95bd",
+      "samples": 4,
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P8089",
+          "sha256": "a1c0b11a9f8d9bb2a4cb18b4e2757c46172ac9ed67d8cccd28dc8562fe01756c",
+          "status": 200
+        },
+        {
+          "url": "https://www.luogu.com.cn/problem/P8089/attachment/amlq6ub9",
+          "sha256": "36f8855455dcaec07b45b1675b46023bbab360daac53c8eedc4a14b12f1d8ef8",
+          "status": 200,
+          "bytes": 576
+        }
+      ],
+      "originalZipBytesVerified": true,
+      "originalImageRecovered": false,
+      "explicitlyReconstructedFigures": 2,
+      "attachmentSampleReplacements": [
+        {
+          "oldSample": {
+            "input": "见附件",
+            "output": "见附件"
+          },
+          "attachmentSha256": "36f8855455dcaec07b45b1675b46023bbab360daac53c8eedc4a14b12f1d8ef8",
+          "inputFile": "sample/sample.in",
+          "outputFile": "sample/sample.out",
+          "inputSha256": "5f10615dc331677fba36cacb4f78116803149dba1113aa8d9d69660cc8bfd68d",
+          "outputSha256": "7a5c094fffe58a622a63806d42c80c2d86b84f3e7e66f9c640f8e7f25a4e5895"
+        }
+      ],
+      "corrections": [
+        "用官方 sample.zip 的真实样例 4 替换“见附件”占位；ZIP 内容和输入输出逐字 hash 绑定。",
+        "两张原图均已 404，公开镜像仍引用同一失效目的地；按原题完全二叉树/前序编号明示重绘，逐一枚举并核对原题列出的全部 4/10 个合法连通点集，不冒称找回原图。"
+      ]
+    }
+  ],
+  "officialCurrentAttachmentRoute": {
+    "configUrl": "https://www.luogu.com.cn/_lfe/config",
+    "configSha256": "0f0c896e03ab1bd015ff10cd8dbaed423c9a9944a86b7f74c14cad4c61f37658",
+    "routeName": "problem.attachment",
+    "route": "/problem/{pid}/attachment/{id}",
+    "sourceMetadataMatchesAllDownloadedByteLengths": true,
+    "temporaryOssSignaturesNotPublished": true
+  },
+  "verifiedWorkbenchResult": "content-updates/20261109-native-sample-attachments/validation.json"
+}

@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105170::C",
+      "beforeSha256": "6b7726845ac4fe5761c990623fad911e7ac679ecae6ea851ec93ff51616e7aa4",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:105170::C",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:49:51.961170+00:00",
+          "corpusAuditVerifiedSha256": "830e7410bb4e725ba19294565e8c2be348b5754380cee093dd6e9ce2ae0237b7",
+          "pdfPageCountVerified": false,
+          "sampleCount": 3,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Fibonacci Sum\n\nLet $$$f(i)$$$ denote the $$$i$$$-th number in the famous Fibonacci Sequence. Formally: $$$$$$f(i) = \\begin{cases} 1 & \\text{if } i \\leq 2, \\\\ f(i-1) + f(i-2) & \\text{if } i \\gt 2. \\end{cases} $$$$$$\n\n\n\nLet $$$g(x)$$$ denote the count of $$$1$$$'s in the binary representation of number $$$x$$$. For example, $$$g(5)=g(101_{(2)})=2$$$, $$$g(15)=g(1111_{(2)})=4$$$.\n\n\n\nYour task is to calculate the following value:\n\n\n\n$$$$$$\\sum_{i=1}^n f \\left( g(i)\\right) \\bmod {10^9+7}$$$$$$\n\n\n\n## Input\n\n\n\nThe input contains a string $$$s$$$ ($$$1\\le |s|\\le 10^7$$$) consisting of only '`0`' or '`1`', denoting the number $$$n$$$ **in binary form**.\n\n\n\nIt's guaranteed that the input contains no leading $$$0$$$'s.\n\n\n\n## Output\n\n\n\nThe output contains a single integer, denoting the answer modulo $$$10^9+7$$$.\n\n\n\n## Note\n\n\n\nIt can be calculated that $$$f\\left(g(1_{(2)})\\right) = 1$$$, $$$f\\left(g(10_{(2)})\\right) = 1$$$, $$$f\\left(g(11_{(2)})\\right) = 1$$$.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:105170::C",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 3,
+          "samplesSha256": "aa069691e392a412d3e7098d48a5d2760e4b85aa7539bf93fffaac4bbbe3b136",
+          "url": "https://codeforces.com/gym/105170/problem/C"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "1",
+            "name": "样例 1",
+            "output": "1"
+          },
+          {
+            "input": "10",
+            "name": "样例 2",
+            "output": "2"
+          },
+          {
+            "input": "11",
+            "name": "样例 3",
+            "output": "3"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Fibonacci Sum",
+        "url": "https://codeforces.com/gym/105170/problem/C",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "830e7410bb4e725ba19294565e8c2be348b5754380cee093dd6e9ce2ae0237b7",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 斐波那契求和\n\n\n\n用 $$$f(i)$$$ 表示著名的斐波那契数列的第 $$$i$$$ 项。形式化定义为：$$$$$$f(i) = \\begin{cases} 1 & \\text{if } i \\leq 2, \\\\ f(i-1) + f(i-2) & \\text{if } i \\gt 2. \\end{cases} $$$$$$\n\n\n\n用 $$$g(x)$$$ 表示数 $$$x$$$ 的二进制表示中 $$$1$$$ 的个数。例如，$$$g(5)=g(101_{(2)})=2$$$，$$$g(15)=g(1111_{(2)})=4$$$。\n\n\n\n你的任务是计算以下值：\n\n\n\n$$$$$$\\sum_{i=1}^n f \\left( g(i)\\right) \\bmod {10^9+7}$$$$$$\n\n\n\n## 输入格式\n\n\n\n输入包含一个仅由 '`0`' 和 '`1`' 组成的字符串 $$$s$$$（$$$1\\le |s|\\le 10^7$$$），表示整数 $$$n$$$ 的**二进制形式**。\n\n\n\n保证输入不包含前导 $$$0$$$。\n\n\n\n## 输出格式\n\n\n\n输出一个整数，表示答案对 $$$10^9+7$$$ 取模的结果。\n\n\n\n## 样例说明\n\n\n\n可以算出，$$$f\\left(g(1_{(2)})\\right) = 1$$$，$$$f\\left(g(10_{(2)})\\right) = 1$$$，$$$f\\left(g(11_{(2)})\\right) = 1$$$。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:105170::C",
+          "slug": "105170-C",
+          "sourceUrl": "https://codeforces.com/gym/105170/problem/C",
+          "sourceSha256": "830e7410bb4e725ba19294565e8c2be348b5754380cee093dd6e9ce2ae0237b7",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "1",
+              "name": "样例 1",
+              "output": "1"
+            },
+            {
+              "input": "10",
+              "name": "样例 2",
+              "output": "2"
+            },
+            {
+              "input": "11",
+              "name": "样例 3",
+              "output": "3"
+            }
+          ],
+          "notes": [
+            "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+            "Original Markdown, samples and resource bindings retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

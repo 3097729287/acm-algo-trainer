@@ -1,0 +1,35 @@
+[
+  {
+    "letter": "A",
+    "problemId": "remote:codeforces:103470::A",
+    "pdfSha256": "f8a805d1123b6b56d2695b6617deb6891e375443159ffb556b4850b7bdf8d38b",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      1,
+      2
+    ],
+    "sourceUrl": "https://codeforces.com/gym/103470/problem/A",
+    "figures": [
+      {
+        "file": "103470-A-figure1.png",
+        "page": 1,
+        "clipRect": [
+          122.142857,
+          302.142857,
+          467.142857,
+          533.571429
+        ],
+        "sha256": "fb4b18eeb5592024d124949ef6bf077dc819cc383455c33bba966fc0bc2a07c3"
+      }
+    ],
+    "notes": [
+      "Both original pages visually reviewed; photograph and historical random code retained.",
+      "The actual 2021 grid is all-empty n by n with n<=500; historical 2018 restrictions must not leak into this variant.",
+      "All four boundary conditions and 3(n-1) length cap checked."
+    ]
+  }
+]

@@ -1,0 +1,1404 @@
+{
+  "schema": 1,
+  "revision": "20261109-source-reviewed-metadata-followup",
+  "checkedAt": "2026-11-08T19:54:00.573652+00:00",
+  "resourceBeforeSha256": "2b7851430e233238768cc68e08ba66595299ef7ec37abf703e15ac92c276ef80",
+  "items": [
+    {
+      "id": "remote:codeforces:104821::B",
+      "beforeProblemSha256": "cf11489888a6bcbce32624685911a4c3cda17c55af3aac40168065425d053bd0",
+      "tags": [
+        "多边形面积",
+        "三分查找"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/104821/problem/B"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104821::B",
+          "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+          "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+          "sourcePageNumbers": [
+            43,
+            45,
+            46,
+            47
+          ],
+          "reasons": [
+            "原站题解先证两矩形中心重合最优，再证交并比对宽、高为单峰函数，明确给出三分求极值；保留矩形面积模型。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:104821::E",
+      "beforeProblemSha256": "c56dbd8e848f8343dada61677ac9db76604ea2ff099a9fc6de5aadefe7e59290",
+      "tags": [
+        "最小割",
+        "费用流",
+        "Dinic"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/104821/problem/E"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104821::E",
+          "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+          "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+          "sourcePageNumbers": [
+            28,
+            29,
+            30
+          ],
+          "reasons": [
+            "平面网格对偶后最短路对应最小割；先以 Dinic 推完零费用流，再通过单位费用边补足 K 流量。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:104821::H",
+      "beforeProblemSha256": "709c5c6b81388a0c4cd2241c3736b74b7eb76a84557feb96bfef61ee52268eb9",
+      "tags": [
+        "构造",
+        "递归"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/104821/problem/H"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104821::H",
+          "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+          "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+          "sourcePageNumbers": [
+            31,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38
+          ],
+          "reasons": [
+            "按 n 的奇偶和模4情况铺基本块；奇数大棋盘用两种递归扩展归约到 n=9，非题名推断。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:104821::J",
+      "beforeProblemSha256": "417ef0b2bbf83d45a6ff3d460f4fe40595ea2d46871c25f74f1299d6f7325065",
+      "tags": [
+        "AC自动机",
+        "Z 函数",
+        "可持久化线段树"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/104821/problem/J"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104821::J",
+          "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+          "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+          "sourcePageNumbers": [
+            39,
+            40,
+            41,
+            42
+          ],
+          "reasons": [
+            "原题解明确在 trie 上建立 AC 自动机，使用可持久化线段树处理大字符集；用 Z-algorithm 维护匹配长度，再在 fail 树上维护贡献。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:104821::K",
+      "beforeProblemSha256": "82be91842072a755fd37189e8014825d1a0affa426706281051bd2520ce025bf",
+      "tags": [
+        "线性 DP",
+        "枚举"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/104821/problem/K"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104821::K",
+          "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+          "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+          "sourcePageNumbers": [
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ],
+          "reasons": [
+            "按牌堆顺序 i 和二号牌张数 j 定义 f(i,j) 与 g(i,j)；每步枚举下一张1号/2号牌，枚举首次满手牌的时刻验证容量。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105231::B",
+      "beforeProblemSha256": "17e3c197ad88ae858c4e68239b42c53a729fa05f48dc7c740a02c12cb2ad26db",
+      "tags": [
+        "枚举",
+        "前缀和",
+        "等差数列"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105231/problem/B"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105231::B",
+          "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+          "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+          "sourcePageNumbers": [
+            7,
+            8
+          ],
+          "reasons": [
+            "区分初始韭菜和新生韭菜；时间较短时证明最多转向一次，枚举转向位置并用等差数列求和、前缀和计算收益。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105231::C",
+      "beforeProblemSha256": "0183fb595fedba8f2cc41a43d8fa8f7d69f564af66234470d530ff176c46975c",
+      "tags": [
+        "分类讨论"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105231/problem/C"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105231::C",
+          "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+          "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+          "sourcePageNumbers": [
+            5,
+            6
+          ],
+          "reasons": [
+            "题解证明宣称数之和为 s 时全部 n 人可诚实，否则能固定前 n-1 人诚实并仅改最后一人的真实数，答案 n-1。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105231::G",
+      "beforeProblemSha256": "9cb91f8d46702ecbb5107ed90d1c6d0a4b3b66af6247f891735f1e8e9d5d783a",
+      "tags": [
+        "模拟"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105231/problem/G"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105231::G",
+          "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+          "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+          "sourcePageNumbers": [
+            15,
+            16
+          ],
+          "reasons": [
+            "利用 11 的幂模5恒为1，将重复段(x,y)逐段累计 x*y 模5，未按题名猜测快速幂。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105231::H",
+      "beforeProblemSha256": "b980eaa562232c145ce323f3bd26b09ad358ae6384a47566ca23951219c9baf4",
+      "tags": [
+        "前缀和",
+        "贪心"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105231/problem/H"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105231::H",
+          "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+          "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+          "sourcePageNumbers": [
+            17,
+            18
+          ],
+          "reasons": [
+            "逐个核元素拆贡献；对应输入子矩阵和为正取1、为负取-1，用二维前缀和查询各子矩阵。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105231::I",
+      "beforeProblemSha256": "4081800cb95615df342c191d1f620fc2c056b19360b8e60983c540ff3308efc3",
+      "tags": [
+        "枚举",
+        "最小包围圆"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105231/problem/I"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105231::I",
+          "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+          "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+          "sourcePageNumbers": [
+            19,
+            20
+          ],
+          "reasons": [
+            "题解明确最小圆由两点直径或三点确定，枚举全部二/三点支持圆并统计覆盖点数，O(n^4)，不是随机增量算法的推断。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105231::J",
+      "beforeProblemSha256": "d030a3c3826fb04d34e3df0cda1e3c8a3768ba077f1e9753535a1971019be551",
+      "tags": [
+        "模拟"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105231/problem/J"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105231::J",
+          "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+          "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+          "sourcePageNumbers": [
+            21,
+            22
+          ],
+          "reasons": [
+            "官方题解J节描述14张麻将、国士无双和不重复七对子，逐项核对当前原稿的相同牌型规则；按牌种统计次数进行字符串模拟。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "sourceHeading": "J. Gensokyo Autobahn",
+          "nativeHeading": "Magic Mahjong",
+          "titleDifferenceReviewed": "题解标题与当前题单不同；同一原站赛事J节的14张手牌、13种幺九与七对子不重复三条定义已与当前原稿逐项核对，未据此更名或替换原稿。"
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105484::A",
+      "beforeProblemSha256": "0c0fdf096164a065b16674d07baf9aeaf253f45073fbffd344ca399cd7f58dee",
+      "tags": [
+        "基环树",
+        "模拟",
+        "前缀和"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105484/problem/A"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105484::A",
+          "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+          "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+          "sourcePageNumbers": [
+            22,
+            23,
+            24,
+            25
+          ],
+          "reasons": [
+            "整周期转移形成出度为1的基环树森林，用子树高度表示存活周期；模拟周期内合并，并前缀和求各时刻剩余格数。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105484::D",
+      "beforeProblemSha256": "3c285be2196e6d299626053210086ad0469030e2d28d51c060486e97240bc5cf",
+      "tags": [
+        "记忆化搜索",
+        "博弈论"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105484/problem/D"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105484::D",
+          "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+          "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+          "sourcePageNumbers": [
+            32,
+            33,
+            34,
+            35,
+            36,
+            37
+          ],
+          "reasons": [
+            "题解对单个井字棋盘进行记忆化搜索，将局面表示为数与nim部分的组合，所有棋盘的数值求和、nim部分异或判断胜负。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105484::F",
+      "beforeProblemSha256": "0483afaa5c0b95c92b3915673420113f96398d46e26c3659afd3026bfdfffbb1",
+      "tags": [
+        "最短路",
+        "李超线段树"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105484/problem/F"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105484::F",
+          "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+          "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+          "sourcePageNumbers": [
+            20,
+            21
+          ],
+          "reasons": [
+            "以站点和线路为状态建最短路；原题解明确换乘可视为直线取最小值，使用李超树或者动态凸包维护。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105484::H",
+      "beforeProblemSha256": "db2372ceac5d0c7af4f3c07423f39df90ad67ceee81411b1455a6c3be482edb0",
+      "tags": [
+        "后缀自动机",
+        "线段树"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105484/problem/H"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105484::H",
+          "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+          "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+          "sourcePageNumbers": [
+            26,
+            27,
+            28,
+            29,
+            30,
+            31
+          ],
+          "reasons": [
+            "证明最优序列可先非回文再回文，枚举左端点并逐次找反串后继；官方指定线段树或主席树配合后缀自动机维护出现位置。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105484::L",
+      "beforeProblemSha256": "f9939f4f75cabd92117f117350f67289d75ce98231e76927b0511e68f60fd9b7",
+      "tags": [
+        "构造",
+        "递归",
+        "位运算"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105484/problem/L"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105484::L",
+          "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+          "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+          "sourcePageNumbers": [
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49
+          ],
+          "reasons": [
+            "通过整体异或限制 n mod4，再从排列问题规约到双排列、带挡板子问题；从高位向低位按位递归构造。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105484::M",
+      "beforeProblemSha256": "15105814d0f1837958264830cc046c7365c8c9e89a71182307773bdc0e09ea74",
+      "tags": [
+        "圆与切线",
+        "三角函数"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105484/problem/M"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105484::M",
+          "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+          "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+          "sourcePageNumbers": [
+            18,
+            19
+          ],
+          "reasons": [
+            "将凸多边形扩张为顶点圆，求原点到各圆的切线极角；取可行角区间并将时间按2π整周期与余段求交。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    }
+  ],
+  "luoguNativeReviews": [
+    {
+      "id": "lanqiao:2021:省:::P8742",
+      "url": "https://www.luogu.com.cn/problem/P8742",
+      "beforeProblemSha256": "d15af96c96e5458ffe5b441872cab09d657bff6afeec0d7054d7371c7bc40d5c",
+      "nativeProblemId": "P8742",
+      "nativeTitle": "[蓝桥杯 2021 省 AB] 砝码称重",
+      "sourceSha256": "ae079dd124307f8b4065c15099b535568e91267148dfc71e3ac946f911036ffb",
+      "nativeTagIds": [
+        3,
+        58,
+        139,
+        363
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "背包 DP"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 139,
+          "name": "背包 DP",
+          "type": 2,
+          "parent": 3
+        }
+      ],
+      "normalizedTags": [
+        "背包 DP"
+      ],
+      "pendingCategories": [
+        "动态规划"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": {
+        "tags": [
+          "数学"
+        ],
+        "source": "https://www.luogu.com.cn/problem/P8742",
+        "reason": "公开题面模型分类；具体算法未复验",
+        "checkedAt": "2026-10-15"
+      }
+    },
+    {
+      "id": "luogu-training-P10112",
+      "url": "https://www.luogu.com.cn/problem/P10112",
+      "beforeProblemSha256": "f9dbb5d7be4f89227d98a4fb196d262a99b31859e250351319c70108bf5f216b",
+      "nativeProblemId": "P10112",
+      "nativeTitle": "[GESP202312 八级] 奖品分配",
+      "sourceSha256": "093243b72ed74e7dfa3178b2186a35d6eee56b759989d2e642813abeba6400e4",
+      "nativeTagIds": [
+        5,
+        60,
+        252,
+        253,
+        409
+      ],
+      "nativeTags": [
+        "数学",
+        "组合数学",
+        "排列组合"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 253,
+          "name": "排列组合",
+          "type": 2,
+          "parent": 252
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P10310",
+      "url": "https://www.luogu.com.cn/problem/P10310",
+      "beforeProblemSha256": "e411c6d2fd0680008d8b9f0917c385a6e649b9f8727a91aaad581724a434ae6f",
+      "nativeProblemId": "P10310",
+      "nativeTitle": "「Cfz Round 2」01 String",
+      "sourceSha256": "a59cdc952138ae68a49224e8ef6ca44a181b4d240019b2f9eb9dc0d95e3c68e7",
+      "nativeTagIds": [
+        5,
+        81,
+        108,
+        252,
+        337
+      ],
+      "nativeTags": [
+        "数学",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P11250",
+      "url": "https://www.luogu.com.cn/problem/P11250",
+      "beforeProblemSha256": "a024ea9e744657329496ab1b82528dfa698aa7f4364ef0c309004253557b0c30",
+      "nativeProblemId": "P11250",
+      "nativeTitle": "[GESP202409 八级] 手套配对",
+      "sourceSha256": "5b93909ab9d93c6dab4adf8a7fca0238d53ab8657db48adfcf726a1e5d09de36",
+      "nativeTagIds": [
+        5,
+        61,
+        252,
+        253,
+        409
+      ],
+      "nativeTags": [
+        "数学",
+        "组合数学",
+        "排列组合"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 253,
+          "name": "排列组合",
+          "type": 2,
+          "parent": 252
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P11362",
+      "url": "https://www.luogu.com.cn/problem/P11362",
+      "beforeProblemSha256": "0fb1f1f929043a4f29a729ff127ddace822460ac7793e1fce4cf59e05e5d1d14",
+      "nativeProblemId": "P11362",
+      "nativeTitle": "[NOIP2024] 遗失的赋值",
+      "sourceSha256": "f18852613aa3e9e0a7e2c5a1a4ebcfd75ab04b98ce62126ea8b0ac1e55775849",
+      "nativeTagIds": [
+        61,
+        83,
+        108,
+        252
+      ],
+      "nativeTags": [
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P11487",
+      "url": "https://www.luogu.com.cn/problem/P11487",
+      "beforeProblemSha256": "0f623940e7c0e6eb7e594a2469386f44bffb39bd10d6e54ec44bef2f2e58d396",
+      "nativeProblemId": "P11487",
+      "nativeTitle": "「Cfz Round 5」Gnirts 10",
+      "sourceSha256": "149b38c7973c4c71ea3837eb4daa3fd60a5924b77d431d54de1dc6a2acc17a19",
+      "nativeTagIds": [
+        81,
+        108,
+        252,
+        337
+      ],
+      "nativeTags": [
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P12405",
+      "url": "https://www.luogu.com.cn/problem/P12405",
+      "beforeProblemSha256": "d065c3e621fcaeeb9096b529f34f2e3341627495a88020f3b74b0ae157d3bb31",
+      "nativeProblemId": "P12405",
+      "nativeTitle": "「CZOI-R3」星光闪耀",
+      "sourceSha256": "33419aaa49959473689192466c7912d115a2d21ddb67c12465ede4f0aaacd79e",
+      "nativeTagIds": [
+        5,
+        81,
+        108,
+        252,
+        253,
+        365,
+        429
+      ],
+      "nativeTags": [
+        "数学",
+        "组合数学",
+        "排列组合",
+        "Ad-hoc"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 253,
+          "name": "排列组合",
+          "type": 2,
+          "parent": 252
+        },
+        {
+          "id": 365,
+          "name": "Ad-hoc",
+          "type": 2,
+          "parent": 308
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P12415",
+      "url": "https://www.luogu.com.cn/problem/P12415",
+      "beforeProblemSha256": "75aefc0736434427c60109d17f2fad96ba8956348e96d8e0442ab0d9c9721511",
+      "nativeProblemId": "P12415",
+      "nativeTitle": "「YLLOI-R1-T4」枫",
+      "sourceSha256": "a9c670db77dc2afb10c21772e39d16691c2ef5c5d340492fcca20c8c89fe0a6b",
+      "nativeTagIds": [
+        3,
+        81,
+        108,
+        252,
+        337
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P1313",
+      "url": "https://www.luogu.com.cn/problem/P1313",
+      "beforeProblemSha256": "b6604c5e41621af7776c27f677cbc857c713206ec4163ffaa0b19bae6d3de9ff",
+      "nativeProblemId": "P1313",
+      "nativeTitle": "[NOIP 2011 提高组] 计算系数",
+      "sourceSha256": "7d9a5ab1fa541d5485390074fe6d079f7ca2c48795ffc5277265063230a851dc",
+      "nativeTagIds": [
+        5,
+        28,
+        83,
+        252,
+        253,
+        255
+      ],
+      "nativeTags": [
+        "数学",
+        "组合数学",
+        "排列组合",
+        "二项式定理"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 253,
+          "name": "排列组合",
+          "type": 2,
+          "parent": 252
+        },
+        {
+          "id": 255,
+          "name": "二项式定理",
+          "type": 2,
+          "parent": 252
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P13280",
+      "url": "https://www.luogu.com.cn/problem/P13280",
+      "beforeProblemSha256": "277a4bb5d627e6bfa356fda55e5b608de190dfcb3202be513f9a2ecf2da90d62",
+      "nativeProblemId": "P13280",
+      "nativeTitle": "「CZOI-R4」午夜巡游",
+      "sourceSha256": "67b954c13e7beeddd7a2ca5806f53cc74dff7e7639e58d8bb8a38bcf5ded34a9",
+      "nativeTagIds": [
+        5,
+        81,
+        108,
+        247,
+        252,
+        337
+      ],
+      "nativeTags": [
+        "数学",
+        "置换",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 247,
+          "name": "置换",
+          "type": 2,
+          "parent": 246
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P13550",
+      "url": "https://www.luogu.com.cn/problem/P13550",
+      "beforeProblemSha256": "844c8c1e9f6408fb0ff1b926400fdea86a797b827fff57e7816f3177d4b1c166",
+      "nativeProblemId": "P13550",
+      "nativeTitle": "宇宙分解",
+      "sourceSha256": "584777a83817ed18e89b184f37cc5462752f25e45d6743fb61f7b6bf03dcfa09",
+      "nativeTagIds": [
+        81,
+        108,
+        252,
+        337
+      ],
+      "nativeTags": [
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P14006",
+      "url": "https://www.luogu.com.cn/problem/P14006",
+      "beforeProblemSha256": "927ed3e905ac0a70aa41a2afeffd0583321df4269254775773081dcaa825e6cc",
+      "nativeProblemId": "P14006",
+      "nativeTitle": "「florr IO Round 1」命运游戏",
+      "sourceSha256": "2a1299cf63db742b2f9e87721127ac4a2033e0268aba3049c42c5dab65fe2068",
+      "nativeTagIds": [
+        3,
+        81,
+        252,
+        337
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P14254",
+      "url": "https://www.luogu.com.cn/problem/P14254",
+      "beforeProblemSha256": "ce2d95cf43d3d92ce81957c875245c79f940748d15b7e053b5ab5309c04c22e5",
+      "nativeProblemId": "P14254",
+      "nativeTitle": "分割（divide）",
+      "sourceSha256": "a3f20aa99d15399ec3ec87fa9696b10a7edbb6b802204e711d79dd7e76b61005",
+      "nativeTagIds": [
+        62,
+        81,
+        108,
+        252,
+        253,
+        337
+      ],
+      "nativeTags": [
+        "组合数学",
+        "排列组合"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 253,
+          "name": "排列组合",
+          "type": 2,
+          "parent": 252
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P15015",
+      "url": "https://www.luogu.com.cn/problem/P15015",
+      "beforeProblemSha256": "215b786d501c1b3e83516cba0cbd2901488c37059ec28f3478ab3a878e420eef",
+      "nativeProblemId": "P15015",
+      "nativeTitle": "If",
+      "sourceSha256": "15213bd7a9c4a7ef2bfcf3adfb348e4d03c1474522c1f62b48403d0abedc2ec5",
+      "nativeTagIds": [
+        81,
+        108,
+        252,
+        337
+      ],
+      "nativeTags": [
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P16246",
+      "url": "https://www.luogu.com.cn/problem/P16246",
+      "beforeProblemSha256": "7bf52534bf17a423cc7bfb331175c3fc483c93841fdc39183f18b447c1dfd802",
+      "nativeProblemId": "P16246",
+      "nativeTitle": "【MX-X27-T7】但是什么也不会改变 2",
+      "sourceSha256": "b3f5b577b71f69bfbc5a969705328fc9dc02c44d3c8823ba00e760c121d37de3",
+      "nativeTagIds": [
+        107,
+        252,
+        486
+      ],
+      "nativeTags": [
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    },
+    {
+      "id": "luogu-training-P11786",
+      "url": "https://www.luogu.com.cn/problem/P11786",
+      "beforeProblemSha256": "c4eaab5d4ceb003eb4239099ed5a2343f0e02b64df124d4b5d3b28569d291187",
+      "nativeProblemId": "P11786",
+      "nativeTitle": "「FAOI-R4」说好的幸福呢",
+      "sourceSha256": "d69d612bce3e95d985043db5f86f39f5688388e69257396ffc93d1af33d43cfa",
+      "nativeTagIds": [
+        81,
+        108,
+        337,
+        345
+      ],
+      "nativeTags": [
+        "双指针 two-pointer"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 345,
+          "name": "双指针 two-pointer",
+          "type": 2,
+          "parent": 308
+        }
+      ],
+      "normalizedTags": [
+        "双指针"
+      ],
+      "pendingCategories": [
+        "基础技巧"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null
+    }
+  ],
+  "difficultyEstimates": [
+    {
+      "id": "remote:codeforces:105231::C",
+      "url": "https://codeforces.com/gym/105231/problem/C",
+      "difficulty": 800,
+      "difficultyBand": [
+        800,
+        1000
+      ],
+      "reason": "线性求和后仅区分是否等于 s；相等输出 n，否则按只允许最后一人撒谎的构造输出 n-1。",
+      "source": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+      "sourceSha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105231::G",
+      "url": "https://codeforces.com/gym/105231/problem/G",
+      "difficulty": 900,
+      "difficultyBand": [
+        800,
+        1100
+      ],
+      "reason": "11 的所有位权模5都为1；重复段逐项求 x*y 模5，线性读入即可，注意先取模避免中间乘法溢出。",
+      "source": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+      "sourceSha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105231::J",
+      "url": "https://codeforces.com/gym/105231/problem/J",
+      "difficulty": 1100,
+      "difficultyBand": [
+        900,
+        1400
+      ],
+      "reason": "14张固定长度手牌按牌种计数；核对13种幺九牌各至少1张，或恰好7种计数为2的对子，避免把四张同种牌算作两个对子。",
+      "source": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+      "sourceSha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105231::H",
+      "url": "https://codeforces.com/gym/105231/problem/H",
+      "difficulty": 1500,
+      "difficultyBand": [
+        1300,
+        1800
+      ],
+      "reason": "用贡献拆解独立选择每个核系数的符号，再以二维前缀和查询子矩阵；无需实际做每种卷积。",
+      "source": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+      "sourceSha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105231::I",
+      "url": "https://codeforces.com/gym/105231/problem/I",
+      "difficulty": 1900,
+      "difficultyBand": [
+        1700,
+        2200
+      ],
+      "reason": "用两/三点支持集枚举最小圆，统计覆盖点并维护每个 k 的最小半径；需处理共线与浮点容差，O(n^4)。",
+      "source": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+      "sourceSha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    }
+  ],
+  "newSourceAssets": [
+    {
+      "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+      "mime": "application/pdf",
+      "bytes": 644029,
+      "file": "statement-assets/f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77.bin"
+    },
+    {
+      "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+      "mime": "application/pdf",
+      "bytes": 312300,
+      "file": "statement-assets/a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e.bin"
+    },
+    {
+      "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+      "mime": "application/pdf",
+      "bytes": 574289,
+      "file": "statement-assets/63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19.bin"
+    }
+  ],
+  "cleanupInspection": {
+    "unusedContentCheckedBeforeUpdate": true,
+    "duplicateProofAssets": 0,
+    "newProofAssets": 3,
+    "replacedOnlyPendingOrMissingMetadata": true,
+    "preservedExistingVerifiedRatings": true,
+    "privateRecordsReadOrWritten": false
+  },
+  "unresolvedAtCoderModels": {
+    "source": {
+      "url": "https://kenkoooo.com/atcoder/resources/problem-models.json",
+      "sha256": "b54c525f53d15f7de2bbdfa323b0eec89921ad35e2a9435f9f805e44984a43ac",
+      "bytes": 1170892,
+      "status": 200
+    },
+    "tasks": {
+      "joi2007ho_a": null,
+      "dp_v": {
+        "slope": -0.00019143434996663432,
+        "intercept": 8.227947205830663
+      },
+      "practice2_j": null
+    },
+    "action": "No usable difficulty field; keep unknown rather than infer an official rating."
+  }
+}

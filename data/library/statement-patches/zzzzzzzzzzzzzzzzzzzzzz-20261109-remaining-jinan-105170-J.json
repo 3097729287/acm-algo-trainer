@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105170::J",
+      "beforeSha256": "d274778e6081b445f85e658c33966dda18c1f93296a8d6aa6ed28ce684cd21f3",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:105170::J",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:50:10.853957+00:00",
+          "corpusAuditVerifiedSha256": "3c9aa68ab51bd3d80ba701c536aa799b2bc702b5cc4702be2be3f87e50464fa9",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Lone Trail\n\n*If for millennia to come, our descendants have sailed along the stars, they shall greatly exalt her name.*\n\n\n\nIn case of uncovering the \"fake sky\" of Terra, Kristen has constructed a space station.\n\n\n\nThe space station can be represented as a tree consisting of $$$n$$$ nodes, numbered from $$$1$$$ to $$$n$$$. As the launching process of the space station kicked off, the energy of the station is increasing. Initially, there are $$$b_i$$$ units of energy at node $$$i$$$. At the start of each day, the energy at node $$$i$$$ will increase by $$$a_i$$$.\n\n\n\nPure water is essential for life. As a water elf, Muelsyse needs to transport pure water to each node in the space station.\n\n\n\nYou need to process $$$k$$$ operations, which are of two types:\n\n\n\n- At the end of day $$$x$$$, the station's mode is changed. Consequently, two **directly connected** nodes $$$u$$$ and $$$v$$$ will be chosen. $$$a_u$$$ (i.e. daily energy increase of node $$$u$$$) will decrease by $$$w$$$, and $$$a_v$$$ (i.e. daily energy increase of node $$$v$$$) will increase by $$$w$$$. It is guaranteed that there exists an edge connecting $$$u$$$ and $$$v$$$, and $$$a_u \\ge w$$$ before the operation is performed.\n\n- At the day $$$x$$$, Muelsyse needs to transport pure water to each node. Specifically, Muelsyse will select a node as the source of water, denoted as $$$r$$$. It costs her $$$dis_{u} \\times c_u$$$ flowing shapes to transport pure water from the source of water to node $$$u$$$, where $$$dis_{u}$$$ denotes the number of edges on the path from node $$$u$$$ to $$$r$$$, and $$$c_u$$$ denotes the energy units at node $$$u$$$. Please help her choose a suitable node as water source, so that she spends the least number of flowing shapes.\n\n\n\nIt's guaranteed that $$$x$$$ is increasing among these operations. Formally, let $$$x_i$$$ be the value of $$$x$$$ in the $$$i$$$-th operation, then $$$x_i \\lt x_{i+1}$$$ holds for all $$$1\\leq i\\leq k-1$$$.\n\n\n\n## Input\n\n\n\nThe first line contains two integers $$$n$$$, $$$k$$$ ($$$1 \\le n, k \\le 10^5$$$), denoting the number of nodes in the space station and the number of operations.\n\n\n\nThe second line contains $$$n$$$ integers $$$a_1,a_2,\\ldots,a_n$$$ ($$$0 \\leq a_i \\leq 1000$$$), where $$$a_i$$$ denotes the daily energy units increase of node $$$i$$$.\n\n\n\nThe third line contains $$$n$$$ integers $$$b_1,b_2,\\ldots,b_n$$$ ($$$0 \\leq b_i \\leq 1000$$$), where $$$b_i$$$ denotes the initial energy units of node $$$i$$$.\n\n\n\nThe next $$$n - 1$$$ lines, each contains two integers $$$u$$$, $$$v$$$ ($$$1 \\le u, v \\le n, u \\neq v$$$), denoting an edge in the tree.\n\n\n\nNext $$$k$$$ lines contain descriptions of operations. The $$$i$$$-th operation has one of two types:\n\n\n\n- \"$$$1\\ x_i\\ u_i\\ v_i\\ w_i$$$\" ($$$1 \\leq x_i \\leq 10^9$$$, $$$1 \\leq u_i, v_i \\leq n$$$), of which meanings are described above. It is guaranteed that there exists an edge connecting $$$u$$$ and $$$v$$$, and $$$a_{u_i} \\ge w_i$$$ before the operation is performed.\n\n- \"$$$2\\ x_i$$$\" ($$$1 \\leq x_i \\leq 10^9$$$), of which meaning is described above.\n\n\n\nIt's guaranteed that $$$x$$$ is increasing among these operations.\n\n\n\n## Output\n\n\n\nFor each operation type $$$2$$$, output a single integer, denoting the minimum flowing shapes Muelsyse spends.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:105170::J",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "1c832ca1a4c0e8d3884528bbff618c574c07ea2b0d082d78ee5fad0b4101ed15",
+          "url": "https://codeforces.com/gym/105170/problem/J"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "5 10\n1 1 4 5 1\n4 1 9 1 9\n1 2\n2 3\n2 4\n1 5\n2 1\n1 2 3 2 3\n1 3 4 2 4\n1 4 2 1 8\n2 5\n1 6 1 5 7\n2 7\n2 8\n2 9\n2 10",
+            "name": "样例 1",
+            "output": "44\n83\n116\n134\n146\n158"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Lone Trail",
+        "url": "https://codeforces.com/gym/105170/problem/J",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "3c9aa68ab51bd3d80ba701c536aa799b2bc702b5cc4702be2be3f87e50464fa9",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 孤星\n\n\n\n*倘若千年万载之后，我们的后代已航行于群星之间，他们必将高颂她的名字。*\n\n\n\n为了揭开泰拉“虚假天空”的秘密，克丽斯腾建造了一座空间站。\n\n\n\n空间站可以用一棵包含 $$$n$$$ 个结点的树表示，结点编号为 $$$1$$$ 到 $$$n$$$。空间站开始发射后，能量逐渐增长。初始时，结点 $$$i$$$ 有 $$$b_i$$$ 单位能量。每天开始时，结点 $$$i$$$ 的能量增加 $$$a_i$$$。\n\n\n\n纯净水是生命必需品。作为水精灵，缪尔赛思需要将纯净水输送到空间站的每个结点。\n\n\n\n你需要处理 $$$k$$$ 次操作，分为两类：\n\n\n\n- 在第 $$$x$$$ 天结束时，空间站改变模式，选择两个**直接相连**的结点 $$$u$$$ 和 $$$v$$$。结点 $$$u$$$ 的每日能量增量 $$$a_u$$$ 减少 $$$w$$$，结点 $$$v$$$ 的每日能量增量 $$$a_v$$$ 增加 $$$w$$$。保证 $$$u$$$ 和 $$$v$$$ 之间有边相连，且操作前 $$$a_u \\ge w$$$。\n\n- 在第 $$$x$$$ 天，缪尔赛思需要给每个结点输送纯净水。具体而言，她会选择一个结点 $$$r$$$ 作为水源。从水源向结点 $$$u$$$ 输水需要消耗 $$$dis_{u} \\times c_u$$$ 个流形，其中 $$$dis_{u}$$$ 表示结点 $$$u$$$ 到 $$$r$$$ 的路径上的边数，$$$c_u$$$ 表示结点 $$$u$$$ 当前的能量。请帮助她选择合适的水源，使流形消耗总数最少。\n\n\n\n保证所有操作中的 $$$x$$$ 严格递增。形式化地，令 $$$x_i$$$ 表示第 $$$i$$$ 次操作中的 $$$x$$$，则对于所有 $$$1\\leq i\\leq k-1$$$，都有 $$$x_i \\lt x_{i+1}$$$。\n\n\n\n## 输入格式\n\n\n\n第一行包含两个整数 $$$n$$$、$$$k$$$（$$$1 \\le n, k \\le 10^5$$$），分别表示空间站的结点数和操作数。\n\n\n\n第二行包含 $$$n$$$ 个整数 $$$a_1,a_2,\\ldots,a_n$$$（$$$0 \\leq a_i \\leq 1000$$$），其中 $$$a_i$$$ 表示结点 $$$i$$$ 的每日能量增量。\n\n\n\n第三行包含 $$$n$$$ 个整数 $$$b_1,b_2,\\ldots,b_n$$$（$$$0 \\leq b_i \\leq 1000$$$），其中 $$$b_i$$$ 表示结点 $$$i$$$ 的初始能量。\n\n\n\n接下来 $$$n - 1$$$ 行，每行包含两个整数 $$$u$$$、$$$v$$$（$$$1 \\le u, v \\le n, u \\neq v$$$），描述树的一条边。\n\n\n\n接下来 $$$k$$$ 行描述操作。第 $$$i$$$ 次操作为以下两种形式之一：\n\n\n\n- “$$$1\\ x_i\\ u_i\\ v_i\\ w_i$$$”（$$$1 \\leq x_i \\leq 10^9$$$，$$$1 \\leq u_i, v_i \\leq n$$$），含义如上所述。保证 $$$u$$$ 和 $$$v$$$ 之间有边相连，且操作前 $$$a_{u_i} \\ge w_i$$$。\n\n- “$$$2\\ x_i$$$”（$$$1 \\leq x_i \\leq 10^9$$$），含义如上所述。\n\n\n\n保证所有操作中的 $$$x$$$ 严格递增。\n\n\n\n## 输出格式\n\n\n\n对于每次类型为 $$$2$$$ 的操作，输出一个整数，表示缪尔赛思最少需要消耗的流形数量。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:105170::J",
+          "slug": "105170-J",
+          "sourceUrl": "https://codeforces.com/gym/105170/problem/J",
+          "sourceSha256": "3c9aa68ab51bd3d80ba701c536aa799b2bc702b5cc4702be2be3f87e50464fa9",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "5 10\n1 1 4 5 1\n4 1 9 1 9\n1 2\n2 3\n2 4\n1 5\n2 1\n1 2 3 2 3\n1 3 4 2 4\n1 4 2 1 8\n2 5\n1 6 1 5 7\n2 7\n2 8\n2 9\n2 10",
+              "name": "样例 1",
+              "output": "44\n83\n116\n134\n146\n158"
+            }
+          ],
+          "notes": [
+            "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+            "Original Markdown, samples and resource bindings retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

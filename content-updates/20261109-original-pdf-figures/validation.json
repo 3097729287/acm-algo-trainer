@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "recoveredOriginals": 2,
+  "nativeIds": [
+    "luogu-training-P4740",
+    "luogu-training-P5530"
+  ],
+  "originalPdfFiguresVerified": 2,
+  "sourcePdfPagesVisuallyReviewed": {
+    "P4740": [
+      9
+    ],
+    "P5530": [
+      1,
+      2
+    ]
+  },
+  "sourcePdfBookletPages": {
+    "P4740": 17,
+    "P5530": 6
+  },
+  "workbench": {
+    "checked": [
+      {
+        "id": "luogu-training-P4740",
+        "pages": 0,
+        "images": 1,
+        "attachments": 1,
+        "samples": 1,
+        "bilingualVerified": true
+      },
+      {
+        "id": "luogu-training-P4740-zh",
+        "pages": 0,
+        "images": 1,
+        "attachments": 1,
+        "samples": 1,
+        "bilingualVerified": false
+      },
+      {
+        "id": "luogu-training-P5530",
+        "pages": 0,
+        "images": 1,
+        "attachments": 1,
+        "samples": 1,
+        "bilingualVerified": false
+      }
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true,
+    "originalAttachmentByteIdentity": true
+  },
+  "independentSampleVerification": {
+    "P4740ExactEmbeddings": 4,
+    "P5530MinimalFeeTimePairs": [
+      [
+        4,
+        5
+      ],
+      [
+        6,
+        4
+      ]
+    ]
+  },
+  "reviewedBilingualToggle": true,
+  "originalIdsAndRawRowsUnchanged": true,
+  "semanticCatalogueChangesOnly": [
+    "luogu-training-P4740",
+    "luogu-training-P5530"
+  ],
+  "guardedApplyIdempotent": true,
+  "sourceDigestsAfterRepeat": {
+    "problems.json": "3a687cda20a002e322d9f6f9a56934d2c0207fc7b1eb40b8f37596e7d1cc41e3",
+    "statement_assets.json": "5cf97489e27baaac8f1b69d8b41de54d2138ac716cd268b294790546e993aeb4",
+    "zzzzzzzzzzzzzzzzzzzzzzzz-20261109-original-pdf-figures.json": "1fc6325c971189bb1b994fc41110afc8e75533186555f7e71137a10d89c6aa7b"
+  },
+  "canonicalAssetDescriptors": 6251,
+  "newUniqueAssets": 4,
+  "newAssetBytes": 1003317,
+  "completePublicOriginals": 13442,
+  "missingRealOriginals": 36,
+  "verifiedNonproblemIds": [
+    "luogu-training-U711466",
+    "remote:codeforces:105544::V"
+  ],
+  "slimProbeOnlyFourPublicAssets": {
+    "embeddedAssets": 2,
+    "embeddedBytes": 61911,
+    "remotePdfAssets": 2,
+    "externalBytes": 941406,
+    "noServerMimeChanges": true
+  },
+  "noFullSeedRebuild": true,
+  "privateRecordsReadOrWritten": false,
+  "priorBackendRegressionTests": 80
+}

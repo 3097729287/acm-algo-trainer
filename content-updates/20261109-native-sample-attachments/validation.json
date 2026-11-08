@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "checkedAt": "2026-11-08T20:37:02.249892+00:00",
+  "catalogueRows": 13480,
+  "statementRows": 13469,
+  "completePublicOriginals": 13432,
+  "missingRealOriginals": 46,
+  "verifiedNonproblemIds": [
+    "luogu-training-U711466",
+    "remote:codeforces:105544::V"
+  ],
+  "recoveredOriginalsThisBatch": 2,
+  "sourceZipDownloadsByteIdentical": true,
+  "reviewedReconstructedFigures": 2,
+  "originalFiguresClaimedRecovered": 0,
+  "canonicalAssetDescriptors": 6234,
+  "newAssetBytes": 4341,
+  "newUniqueAssets": 4,
+  "noFullSeedRebuild": true,
+  "privateRecordsReadOrWritten": false,
+  "workbench": {
+    "checked": [
+      {
+        "id": "luogu-training-P7871",
+        "pages": 0,
+        "images": 0,
+        "attachments": 1,
+        "samples": 3
+      },
+      {
+        "id": "luogu-training-P8089",
+        "pages": 0,
+        "images": 2,
+        "attachments": 1,
+        "samples": 4
+      }
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true,
+    "originalAttachmentByteIdentity": true
+  },
+  "backendRegressionTests": 80,
+  "independentSampleChecks": [
+    {
+      "id": "luogu-training-P8089",
+      "verifiedSamples": [
+        {
+          "name": "样例 1",
+          "testcases": 1,
+          "allOfficialOutputsVerifiedByIndependentTreeCount": true
+        },
+        {
+          "name": "样例 2",
+          "testcases": 1,
+          "allOfficialOutputsVerifiedByIndependentTreeCount": true
+        },
+        {
+          "name": "样例 3",
+          "testcases": 1,
+          "allOfficialOutputsVerifiedByIndependentTreeCount": true
+        },
+        {
+          "name": "样例 4",
+          "testcases": 10,
+          "allOfficialOutputsVerifiedByIndependentTreeCount": true
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P7871",
+      "verifiedSamples": [
+        {
+          "name": "样例 1",
+          "permutationAndAllEnergyTraversalConstraintsVerified": true,
+          "lexicographicOptimalityNotIndependentlyClaimed": true
+        },
+        {
+          "name": "样例 2",
+          "officialArchiveOutput": "QED",
+          "infeasibilityNotIndependentlyClaimed": true
+        },
+        {
+          "name": "样例 3",
+          "permutationAndAllEnergyTraversalConstraintsVerified": true,
+          "lexicographicOptimalityNotIndependentlyClaimed": true
+        }
+      ]
+    }
+  ],
+  "semanticCatalogueChangesOnly": [
+    "luogu-training-P7871",
+    "luogu-training-P8089",
+    "luogu-training-U711466"
+  ],
+  "existingCatalogueIdsAndRawRowsPreserved": true,
+  "recoveredMetadataAndOriginalPacketReplayVerified": true,
+  "slimSeedProbe": {
+    "onlyFourPublicAssets": true,
+    "embeddedAssets": 4,
+    "embeddedBytes": 4341,
+    "remoteAssets": 0,
+    "noServerMimeChanges": true,
+    "privateStateReadOrWritten": false
+  },
+  "repeatedGuardedApplyIdempotent": true,
+  "unchangedSourceDigestsAfterRepeat": {
+    "problems.json": "aaf67a4e969e957514aff0ed456671e24632deb144ee5975d57fbf7b0727daf4",
+    "statement_assets.json": "e58dc058eba6088b79309665793b4b8478afc997a0e5e792496bc55bfc25a806",
+    "zzzzzzzzzzzzzzzzzzzzzzzz-20261109-native-sample-attachments.json": "6de03aa0f2e754dd8ac54fbba67e31335daebcf142f8ceeb89be27ca812050db"
+  }
+}

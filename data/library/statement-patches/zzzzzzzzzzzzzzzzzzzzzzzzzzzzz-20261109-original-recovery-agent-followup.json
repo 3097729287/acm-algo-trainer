@@ -1,0 +1,1492 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "beforeSha256": "3fa7a1d9c7c466e2d8a5664f0ac511474f6fe9673fe1db5f6f11d0111816c96c",
+      "content": {
+        "attachments": {
+          "https://www.luogu.com.cn/problem/P4911/attachment/byhp459q": {
+            "bytes": 650817,
+            "data": "tb-asset:1e281bb0acb0f1590fe513475dd21e5841a6ead782cbb6d4b693a08aaf4d8460",
+            "fileName": "Ktx-65式微处理器汇编语言规范文件.pdf",
+            "mime": "application/pdf",
+            "nativeAttachmentId": "byhp459q",
+            "pageCount": 5,
+            "sha256": "1e281bb0acb0f1590fe513475dd21e5841a6ead782cbb6d4b693a08aaf4d8460",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P4911/attachment/byhp459q"
+          },
+          "https://www.touhou-oi.tk/uploads/Ktx-65%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83%E6%96%87%E4%BB%B6.pdf": {
+            "bytes": 650817,
+            "data": "tb-asset:1e281bb0acb0f1590fe513475dd21e5841a6ead782cbb6d4b693a08aaf4d8460",
+            "fileName": "Ktx-65式微处理器汇编语言规范文件.pdf",
+            "mime": "application/pdf",
+            "nativeAttachmentId": "byhp459q",
+            "pageCount": 5,
+            "sha256": "1e281bb0acb0f1590fe513475dd21e5841a6ead782cbb6d4b693a08aaf4d8460",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P4911/attachment/byhp459q"
+          }
+        },
+        "id": "luogu-training-P4911",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T20:38:15.954167+00:00",
+          "corpusAuditVerifiedSha256": "d116659d7e844fe4dd5bbbf3b2db23bef76da6a190ca59929cf2ac9f7eaee1e0",
+          "markdownSha256": "d116659d7e844fe4dd5bbbf3b2db23bef76da6a190ca59929cf2ac9f7eaee1e0",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-id-full-source-and-exact-samples-with-original-resource-verification",
+            "nativeAttachment": {
+              "filename": "Ktx-65式微处理器汇编语言规范文件.pdf",
+              "id": "byhp459q",
+              "size": 650817,
+              "uploadTime": 1595299250
+            },
+            "nativeProblemId": "P4911",
+            "originalSpecificationPdfSha256": "1e281bb0acb0f1590fe513475dd21e5841a6ead782cbb6d4b693a08aaf4d8460"
+          },
+          "reviewedRecoveryRecordSha256": "c4b3b93bcf74d6f1320798aa1493aeda301b22280e6987d8dd0cc9e092f66896",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "fdb54496a04b63e4ebb077175a97ab4433f07e4b8297fa3fb5949a7a200f28ba",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P4911"
+            },
+            {
+              "bytes": 650817,
+              "captureMethod": "ordinary-anonymous-cookiejar-original-problem-page-then-official-attachment-route",
+              "sha256": "1e281bb0acb0f1590fe513475dd21e5841a6ead782cbb6d4b693a08aaf4d8460",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P4911/attachment/byhp459q"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 524,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# 河童重工的计算机\n\n## 题目背景\n\n河童重工业会社的计算机产品在幻想乡中有着极其广泛的应用。\n\n有一天，妖怪之山发大水啦！洪水夹杂着泥沙和滚木汹涌着冲进了河童的城市。\n\n本来河童们的机械设施都是防水的，可是洪水还是对城市造成了不小的破坏。其中，河童们的服务器被砸坏了！\n\n坏掉的电脑在短时间内不能修复，可是幻想乡里的许多事情都离不开河童们的服务器！河童们也很无奈，于是荷取找到了你！你作为一名优秀的信竞选手，决定帮助荷取，减轻服务器故障所带来的压力。\n\n## 题目描述\n\n你从荷取那里得到了一份纸质资料，扫描版在这里：\n\n[Ktx-65式微处理器汇编语言规范文件.pdf](https://www.touhou-oi.tk/uploads/Ktx-65%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83%E6%96%87%E4%BB%B6.pdf)\n\n（若此网站无法打开，请在附件中下载）\n\n（为什么说是扫描版呢，因为，你应该不能复制里面的文字）\n\n以下这一段是汇编教程附带的示例：\n```asm\n[ progfunc.asm ]\n[ Shows the function functionailties of the KTX-65 ALI ]\n\n[main]\nwint #line;    [output the current physical line number]\nwch 13;        [putchar \\r]\nwch 10;        [putchar \\n]\ncallfunc $Function1;\ncallfunc $Function2;\nhlt;           [halt]\n\nfunction $Function1;\nrint %r1;      [read int]\nadd %r2 1 %r2; [loop contents]\nlle %r2 %r1;   [loop conditions]\njif 2;         [end loop conditional jump]\nwint %r2;      [output int]\nwch 13;        [putchar \\r]\nwch 10;        [putchar \\n]\nret;           [return]\n\nfunction $Function2;\nrint %r1;      [read int]\nrint %r2;      [read int]\nadd %r1, %r2;  [add]\nwint %val;     [output value]\nwch 13;        [putchar \\r]\nwch 10;        [putchar \\n]\nret;           [return]\n```\n你需要用洛谷评测机支持的语言编写一个程序，它读入一个Ktx-65汇编语言程序和一段输入，解释运行这个程序，然后输出这个程序输出的东西。\n\n## 输入格式\n\n第一行是一个整数 $N$，表示汇编程序的行数。\n\n接下来 $N$ 行是这个汇编程序，保证不会出现空行。\n\n接下来的所有行都是这个汇编程序的输入。\n\n## 输出格式\n\n一堆东西，表示这个汇编程序的输出。\n\n**~~评测系统将以逐字节比较的方式判断你的输出是否正确~~**。假的，洛谷不支持。\n\n## 提示\n\n**注意**：样例输出中只有 $9$ 这一个字节。\n\n**保证一行中只有一个指令。**\n\n对于 $10\\%$ 的数据：程序中只有输入和输出的指令，且不会出现数字常量，也不会有注释。\n\n对于另外 $10\\%$：程序中只有输入、输出和加法指令，且没有注释。\n\n对于另外 $30\\%$：包括除函数调用和跳转在内的所有指令。\n\n对于剩下 $50\\%$：指令没有限制。\n\n对于全部的数据：命令条数不超过 $50000$ 条，剩余输入不超过 $500$ 千字节，程序需要执行的步数不超过$80000$ 步。\n\n保证汇编程序和数据不出现编译或是运行时错误。\n\n保证程序输入足够满足汇编程序中读入的需要。\n\n不保证这是或不是一道毒瘤题。\n\n不保证考试时会不会有人 AC 这道题。\n\n不保证这次考试会不会有人 AK。\n\n保证出题人为：[洩矢诹访子](https://www.luogu.org/space/show?uid=53151)\n\n考试时打不开河童给的文件可以向我索要，不保证是否会回答。\n\n~~其实这道题数据非常简单，只是量大而已~~",
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-P4911",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:https://www.touhou-oi.tk/uploads/Ktx-65%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83%E6%96%87%E4%BB%B6.pdf"
+            ],
+            "markdownSha256": "d116659d7e844fe4dd5bbbf3b2db23bef76da6a190ca59929cf2ac9f7eaee1e0",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "aea88662dcda446315eab3da89c48c43e53866a2c727ddbba1a7da536fd24f68",
+                "url": "https://www.luogu.com.cn/problem/P4911"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 524,
+            "timeMs": 1000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# 河童重工的计算机\n\n## 题目背景\n\n河童重工业会社的计算机产品在幻想乡中有着极其广泛的应用。\n\n有一天，妖怪之山发大水啦！洪水夹杂着泥沙和滚木汹涌着冲进了河童的城市。\n\n本来河童们的机械设施都是防水的，可是洪水还是对城市造成了不小的破坏。其中，河童们的服务器被砸坏了！\n\n坏掉的电脑在短时间内不能修复，可是幻想乡里的许多事情都离不开河童们的服务器！河童们也很无奈，于是荷取找到了你！你作为一名优秀的信竞选手，决定帮助荷取，减轻服务器故障所带来的压力。\n\n## 题目描述\n\n你从荷取那里得到了一份纸质资料，扫描版在这里：\n\n[Ktx-65式微处理器汇编语言规范文件.pdf](https://www.touhou-oi.tk/uploads/Ktx-65%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83%E6%96%87%E4%BB%B6.pdf)\n\n（若此网站无法打开，请在附件中下载）\n\n（为什么说是扫描版呢，因为，你应该不能复制里面的文字）\n\n以下这一段是汇编教程附带的示例：\n```asm\n[ progfunc.asm ]\n[ Shows the function functionailties of the KTX-65 ALI ]\n\n[main]\nwint #line;    [output the current physical line number]\nwch 13;        [putchar \\r]\nwch 10;        [putchar \\n]\ncallfunc $Function1;\ncallfunc $Function2;\nhlt;           [halt]\n\nfunction $Function1;\nrint %r1;      [read int]\nadd %r2 1 %r2; [loop contents]\nlle %r2 %r1;   [loop conditions]\njif 2;         [end loop conditional jump]\nwint %r2;      [output int]\nwch 13;        [putchar \\r]\nwch 10;        [putchar \\n]\nret;           [return]\n\nfunction $Function2;\nrint %r1;      [read int]\nrint %r2;      [read int]\nadd %r1, %r2;  [add]\nwint %val;     [output value]\nwch 13;        [putchar \\r]\nwch 10;        [putchar \\n]\nret;           [return]\n```\n你需要用洛谷评测机支持的语言编写一个程序，它读入一个Ktx-65汇编语言程序和一段输入，解释运行这个程序，然后输出这个程序输出的东西。\n\n## 输入格式\n\n第一行是一个整数 $N$，表示汇编程序的行数。\n\n接下来 $N$ 行是这个汇编程序，保证不会出现空行。\n\n接下来的所有行都是这个汇编程序的输入。\n\n## 输出格式\n\n一堆东西，表示这个汇编程序的输出。\n\n**~~评测系统将以逐字节比较的方式判断你的输出是否正确~~**。假的，洛谷不支持。\n\n## 提示\n\n**注意**：样例输出中只有 $9$ 这一个字节。\n\n**保证一行中只有一个指令。**\n\n对于 $10\\%$ 的数据：程序中只有输入和输出的指令，且不会出现数字常量，也不会有注释。\n\n对于另外 $10\\%$：程序中只有输入、输出和加法指令，且没有注释。\n\n对于另外 $30\\%$：包括除函数调用和跳转在内的所有指令。\n\n对于剩下 $50\\%$：指令没有限制。\n\n对于全部的数据：命令条数不超过 $50000$ 条，剩余输入不超过 $500$ 千字节，程序需要执行的步数不超过$80000$ 步。\n\n保证汇编程序和数据不出现编译或是运行时错误。\n\n保证程序输入足够满足汇编程序中读入的需要。\n\n不保证这是或不是一道毒瘤题。\n\n不保证考试时会不会有人 AC 这道题。\n\n不保证这次考试会不会有人 AK。\n\n保证出题人为：[洩矢诹访子](https://www.luogu.org/space/show?uid=53151)\n\n考试时打不开河童给的文件可以向我索要，不保证是否会回答。\n\n~~其实这道题数据非常简单，只是量大而已~~",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: https://www.touhou-oi.tk/uploads/Ktx-65%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83%E6%96%87%",
+              "kind": "attachment",
+              "url": "https://www.touhou-oi.tk/uploads/Ktx-65%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83%E6%96%87%E4%BB%B6.pdf"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "5\nrint %r1;\nrint %r2;\nadd %r1 %r2;\nwint;\nhlt;\n5 4",
+              "name": "样例 1",
+              "output": "9"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "河童重工的计算机",
+          "url": "https://www.luogu.com.cn/problem/P4911"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://www.luogu.com.cn/problem/P4911/attachment/byhp459q": {
+            "bytes": 650817,
+            "fileName": "Ktx-65式微处理器汇编语言规范文件.pdf",
+            "mime": "application/pdf",
+            "nativeAttachmentId": "byhp459q",
+            "pageCount": 5,
+            "previousSourceUrl": "https://www.touhou-oi.tk/uploads/Ktx-65%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83%E6%96%87%E4%BB%B6.pdf",
+            "recovery": "verified-native-attachment-or-reviewed-original-pdf",
+            "sha256": "1e281bb0acb0f1590fe513475dd21e5841a6ead782cbb6d4b693a08aaf4d8460",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P4911/attachment/byhp459q"
+          },
+          "https://www.touhou-oi.tk/uploads/Ktx-65%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83%E6%96%87%E4%BB%B6.pdf": {
+            "bytes": 650817,
+            "fileName": "Ktx-65式微处理器汇编语言规范文件.pdf",
+            "mime": "application/pdf",
+            "nativeAttachmentId": "byhp459q",
+            "pageCount": 5,
+            "previousSourceUrl": "https://www.touhou-oi.tk/uploads/Ktx-65%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83%E6%96%87%E4%BB%B6.pdf",
+            "recovery": "verified-native-attachment-or-reviewed-original-pdf",
+            "sha256": "1e281bb0acb0f1590fe513475dd21e5841a6ead782cbb6d4b693a08aaf4d8460",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P4911/attachment/byhp459q"
+          }
+        },
+        "samples": [
+          {
+            "input": "5\nrint %r1;\nrint %r2;\nadd %r1 %r2;\nwint;\nhlt;\n5 4",
+            "name": "样例 1",
+            "output": "9"
+          }
+        ],
+        "statementAvailable": true,
+        "statementSource": "洛谷公开正文与核实的原始官方资源",
+        "statementVersion": 11,
+        "title": "河童重工的计算机",
+        "url": "https://www.luogu.com.cn/problem/P4911"
+      },
+      "problem_id": "luogu-training-P4911"
+    },
+    {
+      "beforeSha256": "5e0798d16d4698b5da0717478671fab9edf1b0222214cbfcfa75a8a793050a4e",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?id=12578&type=statement": {
+            "bytes": 375585,
+            "data": "tb-asset:ef6ea5bfd92095368e3c4a6da5360bbe3621f75d75fcb59c1336f66fef9d8195",
+            "fileName": "CERC2013-A-Rubiks-Rectangle.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "ef6ea5bfd92095368e3c4a6da5360bbe3621f75d75fcb59c1336f66fef9d8195",
+            "sourceUrl": "https://qoj.ac/download.php?id=12578&type=statement"
+          }
+        },
+        "id": "luogu-training-P7007",
+        "images": {
+          "/upload/images2/rubik1.png": "tb-asset:70ded17d93fc6bcbf779eadf187363ee79c3dc68d472d5ed9da85473fa9341ed",
+          "/upload/images2/rubik2.png": "tb-asset:8f8cf0e7d85b7d05f9657d110db4fc275e5b0d8db407fffd0e0daa396fbe89b7",
+          "/upload/images2/rubik3.png": "tb-asset:e07621e7c7db18fe88c3535c139f34eb2a65cfb63652aec01b7ac13d933cd35d"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T20:38:16.005335+00:00",
+          "corpusAuditVerifiedSha256": "434e64383a45bc0ff3a1f68e58fb68cca54f05f0f0e54e71a1ad9ba777bf29f5",
+          "markdownSha256": "434e64383a45bc0ff3a1f68e58fb68cca54f05f0f0e54e71a1ad9ba777bf29f5",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-id-full-source-and-exact-samples-with-original-resource-verification",
+            "nativeProblemId": "P7007",
+            "originalContest": "CERC 2013",
+            "originalDiagrams": [
+              {
+                "clipRect": [
+                  246.923077,
+                  216.153846,
+                  365.384615,
+                  314.615385
+                ],
+                "file": "data/library/statement-assets/70ded17d93fc6bcbf779eadf187363ee79c3dc68d472d5ed9da85473fa9341ed.bin",
+                "page": 1,
+                "sha256": "70ded17d93fc6bcbf779eadf187363ee79c3dc68d472d5ed9da85473fa9341ed"
+              },
+              {
+                "clipRect": [
+                  246.923077,
+                  418.461538,
+                  365.384615,
+                  516.923077
+                ],
+                "file": "data/library/statement-assets/8f8cf0e7d85b7d05f9657d110db4fc275e5b0d8db407fffd0e0daa396fbe89b7.bin",
+                "page": 1,
+                "sha256": "8f8cf0e7d85b7d05f9657d110db4fc275e5b0d8db407fffd0e0daa396fbe89b7"
+              },
+              {
+                "clipRect": [
+                  246.923077,
+                  620.0,
+                  365.384615,
+                  718.461538
+                ],
+                "file": "data/library/statement-assets/e07621e7c7db18fe88c3535c139f34eb2a65cfb63652aec01b7ac13d933cd35d.bin",
+                "page": 1,
+                "sha256": "e07621e7c7db18fe88c3535c139f34eb2a65cfb63652aec01b7ac13d933cd35d"
+              }
+            ],
+            "originalPdfSha256": "ef6ea5bfd92095368e3c4a6da5360bbe3621f75d75fcb59c1336f66fef9d8195",
+            "originalStatementTitle": "Rubik’s Rectangle",
+            "reviewedSourcePages": [
+              1,
+              2
+            ]
+          },
+          "reviewedRecoveryRecordSha256": "35a7d9d2b5cf1294a920e86b31db62cab3c2a448da426afb1e3ad02feb8b8c54",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "0e453bef8f88f2248dc53ac28f23b8b70a86ffa0db54d57af22d0acbb5f8eef8",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P7007"
+            },
+            {
+              "bytes": 375585,
+              "captureMethod": "direct",
+              "sha256": "ef6ea5bfd92095368e3c4a6da5360bbe3621f75d75fcb59c1336f66fef9d8195",
+              "status": 200,
+              "url": "https://qoj.ac/download.php?id=12578&type=statement"
+            },
+            {
+              "bytes": 21277,
+              "captureMethod": "direct",
+              "sha256": "aa957fd6132b85d40409fb567088e69b4d65d80b869b6cc849fe85d02433c998",
+              "status": 200,
+              "url": "https://qoj.ac/problem/12578"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 131,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Rubik's Rectangle\n\n## Description\n\nA new puzzle aiming to conquer the game market combines Rubik's Cube and Fifteen. Its board is an $H\\times W$ frame with tiles bearing every number from $1$ to $H\\cdot W$.\n\n![Original starting board](/upload/images2/rubik1.png)\n\nThe only allowed move is to flip one entire row or one entire column. Flipping reverses the order of all elements in that row or column. The following illustration flips the third row:\n\n![Original row-flip illustration](/upload/images2/rubik2.png)\n\nGiven a board with its tiles in an arbitrary order, determine a sequence of flips that puts it into the sorted order shown below, if possible.\n\n![Original sorted target board](/upload/images2/rubik3.png)\n\n## Input\n\nThe first line contains the number of test cases $T$. Each test case begins with an empty line.\n\nThe next line contains two space-separated integers $W,H$ ($1\\le W,H\\le100$), the width and height of the board, respectively. Each of the next $H$ lines contains $W$ space-separated integers, the numbers on the consecutive tiles.\n\n## Output\n\nPrint answers in input order. For each test case, start with `POSSIBLE` or `IMPOSSIBLE`, depending on whether the puzzle can be solved.\n\nIf a solution exists, on the same line print the number of moves (possibly $0$), followed by their descriptions. Each description consists of `R` or `C`, indicating a row or column flip, concatenated with the index of that row or column.\n\nAny solution using at most $10\\cdot W\\cdot H$ moves is accepted. Every test case is either solvable within this limit or impossible to solve at all.\n\n## Limits\n\nTime limit: $6$ seconds. Memory limit: $128$ MB.\n\n## Original Statement\n\n[Original CERC PDF, with all three board illustrations](https://qoj.ac/download.php?id=12578&type=statement)\n\n## Sample\n\n### Input\n\n```text\n4\n\n3 3\n1 2 3\n4 5 6\n9 8 7\n\n4 2\n1 2 3 4\n5 6 7 8\n\n4 4\n1 2 15 4\n8 7 11 5\n12 6 10 9\n13 14 3 16\n\n3 4\n1 2 4\n3 5 6\n7 8 9\n10 11 12\n```\n\n### Output\n\n```text\nPOSSIBLE 1 R3\nPOSSIBLE 0\nPOSSIBLE 3 R3 C3 R2\nIMPOSSIBLE\n```\n",
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-P7007",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:https://www.luogu.com.cn/upload/images2/rubik1.png",
+              "resource:https://www.luogu.com.cn/upload/images2/rubik2.png",
+              "resource:https://www.luogu.com.cn/upload/images2/rubik3.png"
+            ],
+            "markdownSha256": "c46f2b46379d250591f1b0f0303521fa803b394800aa860f28ed5dca882c9c0d",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "5cf070622e438fef0e1750fe83acda139946534419fa6e40e00bc8c292f5f56d",
+                "url": "https://www.luogu.com.cn/problem/P7007"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 131,
+            "timeMs": 3000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# Rubik's Rectangle\n\n## 题目描述\n\nA new puzzle which aims to conquer the game market is a fusion of Rubik's Cube and Fifteen. The board is an $H \\times W$ frame with tiles with all numbers from $1$ to $H · W$ printed on them.\n\n![](/upload/images2/rubik1.png)\n\nThe only type of move that is allowed is flipping either one of the rows or one of the columns. Flipping reverses the order of the row's (or column's) elements. Below the third row is flipped:\n\n![](/upload/images2/rubik2.png)\n\nYou are given a board with tiles numbered in some arbitrary order. Determine a sequence of flips that brings the board to the nicely sorted position, if possible.\n\n![](/upload/images2/rubik3.png)\n\n\n\n## 输入格式\n\nThe first line of input contains the number of test cases $T$ . The descriptions of the test cases follow:\n\nThe description of each test case starts with an empty line. The next line contains two space-separated integers $W$ and $H (1 \\leq W,H \\leq 100) -$ the width and height of the puzzle, respectively. Each of the next $H$ lines contains $W$ space-separated integers $-$ the numbers printed on consecutive tiles.\n\n\n\n## 输出格式\n\nPrint the answers to the test cases in the order in which they appear in the input. Start the output for each test case with the word POSSIBLE or IMPOSSIBLE, depending on whether it is possible to solve the puzzle. If a solution exists, print (in the same line) first the number of moves (possibly $0$) and then their descriptions, each consisting of a single letter $R$ or $C$ specifying whether we are to flip a row or a column, concatenated with the index of the row or column to flip.\n\nAny solution will be accepted as long as it does not use more than $10 · W · H$ moves. Each test case is either solvable within this limit, or not solvable at all.\n\n\n\n## 提示\n\nTime limit: 6 s, Memory limit: 128 MB. \n\n",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: https://www.luogu.com.cn/upload/images2/rubik1.png",
+              "kind": "image",
+              "url": "https://www.luogu.com.cn/upload/images2/rubik1.png"
+            },
+            {
+              "error": "Original resource not verified: https://www.luogu.com.cn/upload/images2/rubik2.png",
+              "kind": "image",
+              "url": "https://www.luogu.com.cn/upload/images2/rubik2.png"
+            },
+            {
+              "error": "Original resource not verified: https://www.luogu.com.cn/upload/images2/rubik3.png",
+              "kind": "image",
+              "url": "https://www.luogu.com.cn/upload/images2/rubik3.png"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "4\n\n3 3\n1 2 3\n4 5 6\n9 8 7\n\n4 2\n1 2 3 4\n5 6 7 8\n\n4 4\n1 2 15 4\n8 7 11 5\n12 6 10 9\n13 14 3 16\n\n3 4\n1 2 4\n3 5 6\n7 8 9\n10 11 12\n",
+              "name": "样例 1",
+              "output": "POSSIBLE 1 R3\nPOSSIBLE 0\nPOSSIBLE 3 R3 C3 R2\nIMPOSSIBLE\n"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "Rubik's Rectangle",
+          "translation": {
+            "kind": "site",
+            "markdown": "# Rubik's Rectangle\n\n## 题目描述\n\n一种旨在征服游戏市场的新型益智游戏是魔方与十五数码的融合。棋盘是一个 $H \\times W$ 的框架，上面印有从 $1$ 到 $H \\cdot W$ 的所有数字。\n\n![](/upload/images2/rubik1.png)\n\n唯一允许的移动类型是翻转其中一行或一列。翻转会逆转该行（或列）元素的顺序。下面第三行被翻转：\n\n![](/upload/images2/rubik2.png)\n\n给定一个以某种任意顺序编号的棋盘。确定一系列翻转操作，使棋盘达到整齐排序的位置，如果可能的话。\n\n![](/upload/images2/rubik3.png)\n\n## 输入格式\n\n输入的第一行包含测试用例的数量 $T$。测试用例的描述如下：\n\n每个测试用例的描述以一个空行开始。下一行包含两个用空格分隔的整数 $W$ 和 $H (1 \\leq W,H \\leq 100)$，分别表示拼图的宽度和高度。接下来的 $H$ 行中的每一行包含 $W$ 个用空格分隔的整数，表示连续瓷砖上印刷的数字。\n\n## 输出格式\n\n按输入中出现的顺序打印测试用例的答案。对于每个测试用例的输出以单词 POSSIBLE 或 IMPOSSIBLE 开始，具体取决于是否有可能解决拼图。如果存在解决方案，请在同一行打印首先是移动的次数（可能为 $0$），然后是它们的描述，每个描述由一个字母 $R$ 或 $C$ 组成，指定我们是要翻转行还是列，并与要翻转的行或列的索引连接。\n\n只要解决方案不使用超过 $10 \\cdot W \\cdot H$ 次移动，任何解决方案都将被接受。每个测试用例要么在此限制内可解，要么根本不可解。\n\n## 提示\n\n时间限制：6 秒，内存限制：128 MB。\n\n题面翻译由 ChatGPT-4o 提供。",
+            "provider": "洛谷原站中文题面",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P7007"
+          },
+          "url": "https://www.luogu.com.cn/problem/P7007"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "/upload/images2/rubik1.png": {
+            "bytes": 6820,
+            "clipRect": [
+              246.923077,
+              216.153846,
+              365.384615,
+              314.615385
+            ],
+            "derivation": "reviewed-original-pdf-diagram",
+            "derivedFromPdfSha256": "ef6ea5bfd92095368e3c4a6da5360bbe3621f75d75fcb59c1336f66fef9d8195",
+            "frameCount": 1,
+            "height": 198,
+            "mime": "image/png",
+            "previousSourceUrl": "/upload/images2/rubik1.png",
+            "recovery": "verified-native-attachment-or-reviewed-original-pdf",
+            "sha256": "70ded17d93fc6bcbf779eadf187363ee79c3dc68d472d5ed9da85473fa9341ed",
+            "sourcePage": 1,
+            "sourceUrl": "https://qoj.ac/download.php?id=12578&type=statement",
+            "width": 238
+          },
+          "/upload/images2/rubik2.png": {
+            "bytes": 6421,
+            "clipRect": [
+              246.923077,
+              418.461538,
+              365.384615,
+              516.923077
+            ],
+            "derivation": "reviewed-original-pdf-diagram",
+            "derivedFromPdfSha256": "ef6ea5bfd92095368e3c4a6da5360bbe3621f75d75fcb59c1336f66fef9d8195",
+            "frameCount": 1,
+            "height": 198,
+            "mime": "image/png",
+            "previousSourceUrl": "/upload/images2/rubik2.png",
+            "recovery": "verified-native-attachment-or-reviewed-original-pdf",
+            "sha256": "8f8cf0e7d85b7d05f9657d110db4fc275e5b0d8db407fffd0e0daa396fbe89b7",
+            "sourcePage": 1,
+            "sourceUrl": "https://qoj.ac/download.php?id=12578&type=statement",
+            "width": 238
+          },
+          "/upload/images2/rubik3.png": {
+            "bytes": 6723,
+            "clipRect": [
+              246.923077,
+              620.0,
+              365.384615,
+              718.461538
+            ],
+            "derivation": "reviewed-original-pdf-diagram",
+            "derivedFromPdfSha256": "ef6ea5bfd92095368e3c4a6da5360bbe3621f75d75fcb59c1336f66fef9d8195",
+            "frameCount": 1,
+            "height": 197,
+            "mime": "image/png",
+            "previousSourceUrl": "/upload/images2/rubik3.png",
+            "recovery": "verified-native-attachment-or-reviewed-original-pdf",
+            "sha256": "e07621e7c7db18fe88c3535c139f34eb2a65cfb63652aec01b7ac13d933cd35d",
+            "sourcePage": 1,
+            "sourceUrl": "https://qoj.ac/download.php?id=12578&type=statement",
+            "width": 238
+          },
+          "https://qoj.ac/download.php?id=12578&type=statement": {
+            "bytes": 375585,
+            "fileName": "CERC2013-A-Rubiks-Rectangle.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "ef6ea5bfd92095368e3c4a6da5360bbe3621f75d75fcb59c1336f66fef9d8195",
+            "sourceUrl": "https://qoj.ac/download.php?id=12578&type=statement"
+          }
+        },
+        "samples": [
+          {
+            "input": "4\n\n3 3\n1 2 3\n4 5 6\n9 8 7\n\n4 2\n1 2 3 4\n5 6 7 8\n\n4 4\n1 2 15 4\n8 7 11 5\n12 6 10 9\n13 14 3 16\n\n3 4\n1 2 4\n3 5 6\n7 8 9\n10 11 12\n",
+            "name": "样例 1",
+            "output": "POSSIBLE 1 R3\nPOSSIBLE 0\nPOSSIBLE 3 R3 C3 R2\nIMPOSSIBLE\n"
+          }
+        ],
+        "sourceTextArchive": [
+          {
+            "kind": "native-raw-markdown-before-reviewed-diagram-and-formula-layout-repair",
+            "sha256": "192f13350ab49dae3b0fe05a1d302d1d8900acd73c038f6f4e41a2d35fe4653c",
+            "text": "# Rubik's Rectangle\n\n## 题目描述\n\nA new puzzle which aims to conquer the game market is a fusion of Rubik's Cube and Fifteen. The board is an $H \\times W$ frame with tiles with all numbers from $1$ to $H · W$ printed on them.\n\n![](/upload/images2/rubik1.png)\n\nThe only type of move that is allowed is flipping either one of the rows or one of the columns. Flipping reverses the order of the row's (or column's) elements. Below the third row is flipped:\n\n![](/upload/images2/rubik2.png)\n\nYou are given a board with tiles numbered in some arbitrary order. Determine a sequence of flips that brings the board to the nicely sorted position, if possible.\n\n![](/upload/images2/rubik3.png)\n\n## 输入格式\n\nThe first line of input contains the number of test cases $T$ . The descriptions of the test cases follow:\n\nThe description of each test case starts with an empty line. The next line contains two space-separated integers $W$ and $H (1 \\leq W,H \\leq 100) -$ the width and height of the puzzle, respectively. Each of the next $H$ lines contains $W$ space-separated integers $-$ the numbers printed on consecutive tiles.\n\n## 输出格式\n\nPrint the answers to the test cases in the order in which they appear in the input. Start the output for each test case with the word POSSIBLE or IMPOSSIBLE, depending on whether it is possible to solve the puzzle. If a solution exists, print (in the same line) first the number of moves (possibly $0$) and then their descriptions, each consisting of a single letter $R$ or $C$ specifying whether we are to flip a row or a column, concatenated with the index of the row or column to flip.\n\nAny solution will be accepted as long as it does not use more than $10 · W · H$ moves. Each test case is either solvable within this limit, or not solvable at all.\n\n## 提示\n\nTime limit: 6 s, Memory limit: 128 MB."
+          }
+        ],
+        "statementAvailable": true,
+        "statementSource": "洛谷公开正文与核实的原始官方资源",
+        "statementVersion": 11,
+        "title": "Rubik's Rectangle",
+        "translation": {
+          "format": "complete-prose-v4",
+          "inputKind": "markdown",
+          "kind": "bundled",
+          "markdown": "# Rubik's Rectangle\n\n## 题目描述\n\n一款试图席卷游戏市场的新拼图结合了魔方与十五数码游戏。棋盘是一个 $H\\times W$ 的矩形框架，其中放有编号从 $1$ 到 $H\\cdot W$ 的所有方块。\n\n![原稿初始棋盘](/upload/images2/rubik1.png)\n\n唯一允许的操作是翻转完整的一行或一列。翻转会将该行或该列的所有元素顺序反转。下图展示了翻转第三行后的结果：\n\n![原稿行翻转示意图](/upload/images2/rubik2.png)\n\n给定一个方块按任意顺序排列的棋盘，请在可能的情况下构造一系列翻转操作，使棋盘变为下图所示的有序状态。\n\n![原稿排序后的目标棋盘](/upload/images2/rubik3.png)\n\n## 输入格式\n\n第一行包含测试用例数 $T$。每个测试用例的描述前有一个空行。\n\n接下来一行包含两个用空格分隔的整数 $W,H$（$1\\le W,H\\le100$），分别表示棋盘的宽度和高度。接下来 $H$ 行，每行包含 $W$ 个用空格分隔的整数，依次表示该行各方块上的数字。\n\n## 输出格式\n\n按照输入顺序输出各组答案。对于每组测试数据，若有解，先输出 `POSSIBLE`；否则输出 `IMPOSSIBLE`。\n\n若有解，在同一行继续输出操作次数（可以为 $0$），然后依次输出每次操作的描述。每次操作由字符 `R` 或 `C` 与对应行号或列号直接拼接而成，分别表示翻转一行或一列。\n\n任何操作次数不超过 $10\\cdot W\\cdot H$ 的合法方案都会被接受。对于每组数据，要么能在此次数限制内解决，要么根本无解。\n\n## 限制\n\n时间限制：$6$ 秒。内存限制：$128$ MB。\n\n## 原始题面\n\n[包含三幅棋盘原图的 CERC 原始 PDF](https://qoj.ac/download.php?id=12578&type=statement)\n\n## 样例\n\n### 输入\n\n```text\n4\n\n3 3\n1 2 3\n4 5 6\n9 8 7\n\n4 2\n1 2 3 4\n5 6 7 8\n\n4 4\n1 2 15 4\n8 7 11 5\n12 6 10 9\n13 14 3 16\n\n3 4\n1 2 4\n3 5 6\n7 8 9\n10 11 12\n```\n\n### 输出\n\n```text\nPOSSIBLE 1 R3\nPOSSIBLE 0\nPOSSIBLE 3 R3 C3 R2\nIMPOSSIBLE\n```\n",
+          "provider": "逐页核对 CERC 原稿与三幅原图的预置中文译文",
+          "sourceHash": "434e64383a45bc0ff3a1f68e58fb68cca54f05f0f0e54e71a1ad9ba777bf29f5",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "url": "https://www.luogu.com.cn/problem/P7007"
+      },
+      "problem_id": "luogu-training-P7007"
+    },
+    {
+      "beforeSha256": "40179baecf78e99ee4d2ee4f86344a3912aa503a9ff83df6603533015c964756",
+      "content": {
+        "attachments": {
+          "http://ceoi.inf.elte.hu/ceoi2005/download/tasks/day2/net.htm": {
+            "bytes": 60338,
+            "data": "tb-asset:dec7ec02b887d6ca94585035391acd0f1fb887480ca2282fae62e37276d8a126",
+            "fileName": "reviewed-original.pdf",
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "dec7ec02b887d6ca94585035391acd0f1fb887480ca2282fae62e37276d8a126",
+            "sourceUrl": "https://qoj.ac/download.php?id=5284&type=statement"
+          },
+          "https://qoj.ac/download.php?id=5284&type=statement": {
+            "bytes": 60338,
+            "data": "tb-asset:dec7ec02b887d6ca94585035391acd0f1fb887480ca2282fae62e37276d8a126",
+            "fileName": "reviewed-original.pdf",
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "dec7ec02b887d6ca94585035391acd0f1fb887480ca2282fae62e37276d8a126",
+            "sourceUrl": "https://qoj.ac/download.php?id=5284&type=statement"
+          }
+        },
+        "id": "luogu-training-P7687",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T20:38:16.010004+00:00",
+          "corpusAuditVerifiedSha256": "8fd9d1c1b68cefa89363210ddbdde9be140876084efba1b5bf5aa9742ee9b49c",
+          "markdownSha256": "8fd9d1c1b68cefa89363210ddbdde9be140876084efba1b5bf5aa9742ee9b49c",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-id-full-source-and-exact-samples-with-original-resource-verification",
+            "nativeProblemId": "P7687",
+            "originalPdfSha256": "dec7ec02b887d6ca94585035391acd0f1fb887480ca2282fae62e37276d8a126",
+            "originalStatementTitle": "Critical Network Lines",
+            "reviewedSourcePages": [
+              1
+            ],
+            "verifiedSource": "https://qoj.ac/download.php?id=5284&type=statement"
+          },
+          "reviewedRecoveryRecordSha256": "f912bb04fcf9f1326489033fe0481908d059c0808e758ebb16bc420677c0014f",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "efe3acaf70e01ea8baf4eee43089d2ee551865bbd302b342c14ef56cc3bba208",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P7687"
+            },
+            {
+              "bytes": 60338,
+              "captureMethod": "direct",
+              "sha256": "dec7ec02b887d6ca94585035391acd0f1fb887480ca2282fae62e37276d8a126",
+              "status": 200,
+              "url": "https://qoj.ac/download.php?id=5284&type=statement"
+            },
+            {
+              "bytes": 21008,
+              "captureMethod": "direct",
+              "sha256": "234c16ce02335bafcd455050549b02c03888591d02ce731dc09455ced21d7e43",
+              "status": 200,
+              "url": "https://qoj.ac/problem/5284"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 66,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Critical Network Lines\n\n## 题目描述\n\n一个通信网络包含若干个节点，以及若干条直接连接这些节点的双向**通信线路**。已知所研究的通信网络是连通的，即：任意一对节点之间都存在（若干条**通信线路**首尾相接而成的）**通信路径**。\n\n一些节点会向所有节点（包括它自己）提供 $A$ 类型服务，还有一些节点会向所有节点（包括它自己）提供 $B$ 类型服务。一个节点可能会同时提供两种类型的服务。每个节点都必须要访问这两种服务。\n\n当一条**通信线路**断开时，可能会出现某个节点不能访问某种服务的情况。（即：存在某个节点以及某种服务，使得不存在任何提供该类型服务，且与该节点连通的节点）我们称会造成这种情况的**通信线路**为**关键通信线路**。\n\n你的任务是，写一个程序计算有多少条**关键通信线路**，并求出每条**关键通信线路**所连接的两个端点。\n\n## 输入格式\n\n输入第一行包含四个整数 $N,M,K,L$。其中，$N \\; (1 \\le N \\le 10^5)$ 表示通信网络的节点数，$M \\; (1 \\le M \\le 10^6)$ 表示通信网络的**通信线路**数，$K \\; (1 \\le K \\le N)$ 表示提供 $A$ 类型服务的节点数，$L \\; (1 \\le L \\le N)$ 表示提供 $B$ 类型服务的节点数。节点编号为 $1$ 到 $N$。\n\n第二行包含 $K$ 个整数，表示提供 $A$ 类型服务的节点编号。\n\n第三行包含 $L$ 个整数，表示提供 $B$ 类型服务的节点编号。\n\n接下来 $M$ 行，每行包含两个整数 $p,q \\; (1 \\le p,q \\le N,p \\neq q)$，表示一条**通信线路**的两个端点的编号。保证任意两个节点之间至多只有一条**通信线路**。\n\n## 输出格式\n\n输出第一行包含一个整数 $S$，表示**关键通信线路**的数量。\n\n接下来 $S$ 行，每行包含两个整数 $p,q$，表示一条**关键通信线路**所连接的两个端点的编号。\n\n**关键通信线路**的顺序任意，每一条**关键通信线路**所连接的两个端点的顺序也任意。\n\n## 提示\n\n本题为 CEOI2005 D2T2，原题面请见：[Critical Network Lines](http://ceoi.inf.elte.hu/ceoi2005/download/tasks/day2/net.htm)。\n\n感谢 @[wsyhb](https://www.luogu.com.cn/user/145355) 提供的 Special Judge！",
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-P7687",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:http://ceoi.inf.elte.hu/ceoi2005/download/tasks/day2/net.htm"
+            ],
+            "markdownSha256": "8fd9d1c1b68cefa89363210ddbdde9be140876084efba1b5bf5aa9742ee9b49c",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "9d5c370d323555250130cad41c8b8e2ca827e61b29d5a8aa81c06bbd39eb0971",
+                "url": "https://www.luogu.com.cn/problem/P7687"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 66,
+            "timeMs": 3000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# Critical Network Lines\n\n## 题目描述\n\n一个通信网络包含若干个节点，以及若干条直接连接这些节点的双向**通信线路**。已知所研究的通信网络是连通的，即：任意一对节点之间都存在（若干条**通信线路**首尾相接而成的）**通信路径**。\n\n一些节点会向所有节点（包括它自己）提供 $A$ 类型服务，还有一些节点会向所有节点（包括它自己）提供 $B$ 类型服务。一个节点可能会同时提供两种类型的服务。每个节点都必须要访问这两种服务。\n\n当一条**通信线路**断开时，可能会出现某个节点不能访问某种服务的情况。（即：存在某个节点以及某种服务，使得不存在任何提供该类型服务，且与该节点连通的节点）我们称会造成这种情况的**通信线路**为**关键通信线路**。\n\n你的任务是，写一个程序计算有多少条**关键通信线路**，并求出每条**关键通信线路**所连接的两个端点。\n\n## 输入格式\n\n输入第一行包含四个整数 $N,M,K,L$。其中，$N \\; (1 \\le N \\le 10^5)$ 表示通信网络的节点数，$M \\; (1 \\le M \\le 10^6)$ 表示通信网络的**通信线路**数，$K \\; (1 \\le K \\le N)$ 表示提供 $A$ 类型服务的节点数，$L \\; (1 \\le L \\le N)$ 表示提供 $B$ 类型服务的节点数。节点编号为 $1$ 到 $N$。\n\n第二行包含 $K$ 个整数，表示提供 $A$ 类型服务的节点编号。\n\n第三行包含 $L$ 个整数，表示提供 $B$ 类型服务的节点编号。\n\n接下来 $M$ 行，每行包含两个整数 $p,q \\; (1 \\le p,q \\le N,p \\neq q)$，表示一条**通信线路**的两个端点的编号。保证任意两个节点之间至多只有一条**通信线路**。\n\n## 输出格式\n\n输出第一行包含一个整数 $S$，表示**关键通信线路**的数量。\n\n接下来 $S$ 行，每行包含两个整数 $p,q$，表示一条**关键通信线路**所连接的两个端点的编号。\n\n**关键通信线路**的顺序任意，每一条**关键通信线路**所连接的两个端点的顺序也任意。\n\n## 提示\n\n本题为 CEOI2005 D2T2，原题面请见：[Critical Network Lines](http://ceoi.inf.elte.hu/ceoi2005/download/tasks/day2/net.htm)。\n\n感谢 @[wsyhb](https://www.luogu.com.cn/user/145355) 提供的 Special Judge！",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: http://ceoi.inf.elte.hu/ceoi2005/download/tasks/day2/net.htm",
+              "kind": "attachment",
+              "url": "http://ceoi.inf.elte.hu/ceoi2005/download/tasks/day2/net.htm"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "9 10 3 4\n2 4 5\n4 9 8 3\n1 2\n4 1\n2 3\n4 2\n1 5\n5 6\n6 7\n6 8\n7 9\n8 7",
+              "name": "样例 1",
+              "output": "3\n3 2\n5 6\n7 9"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "Critical Network Lines",
+          "url": "https://www.luogu.com.cn/problem/P7687"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "http://ceoi.inf.elte.hu/ceoi2005/download/tasks/day2/net.htm": {
+            "bytes": 60338,
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "previousSourceUrl": "http://ceoi.inf.elte.hu/ceoi2005/download/tasks/day2/net.htm",
+            "recovery": "verified-native-attachment-or-reviewed-original-pdf",
+            "sha256": "dec7ec02b887d6ca94585035391acd0f1fb887480ca2282fae62e37276d8a126",
+            "sourceUrl": "https://qoj.ac/download.php?id=5284&type=statement"
+          },
+          "https://qoj.ac/download.php?id=5284&type=statement": {
+            "bytes": 60338,
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "previousSourceUrl": "http://ceoi.inf.elte.hu/ceoi2005/download/tasks/day2/net.htm",
+            "recovery": "verified-native-attachment-or-reviewed-original-pdf",
+            "sha256": "dec7ec02b887d6ca94585035391acd0f1fb887480ca2282fae62e37276d8a126",
+            "sourceUrl": "https://qoj.ac/download.php?id=5284&type=statement"
+          }
+        },
+        "samples": [
+          {
+            "input": "9 10 3 4\n2 4 5\n4 9 8 3\n1 2\n4 1\n2 3\n4 2\n1 5\n5 6\n6 7\n6 8\n7 9\n8 7",
+            "name": "样例 1",
+            "output": "3\n3 2\n5 6\n7 9"
+          }
+        ],
+        "statementAvailable": true,
+        "statementSource": "洛谷公开正文与核实的原始官方资源",
+        "statementVersion": 11,
+        "title": "Critical Network Lines",
+        "url": "https://www.luogu.com.cn/problem/P7687"
+      },
+      "problem_id": "luogu-training-P7687"
+    },
+    {
+      "beforeSha256": "682e718066b774a66f6bcdd933c8572d209aa10e2ae1b0101c50afc383d3d571",
+      "content": {
+        "attachments": {
+          "https://ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf": {
+            "bytes": 49969,
+            "data": "tb-asset:0ff7eef10c25a51175ab467e2ffd5305063343c542b0994773801347336039af",
+            "fileName": "bugs-tsk.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "0ff7eef10c25a51175ab467e2ffd5305063343c542b0994773801347336039af",
+            "sourceUrl": "https://ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf"
+          },
+          "https://web.ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf": {
+            "bytes": 49969,
+            "data": "tb-asset:0ff7eef10c25a51175ab467e2ffd5305063343c542b0994773801347336039af",
+            "fileName": "bugs-tsk.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "0ff7eef10c25a51175ab467e2ffd5305063343c542b0994773801347336039af",
+            "sourceUrl": "https://ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf"
+          }
+        },
+        "id": "luogu-training-P7689",
+        "images": {
+          "https://cdn.luogu.com.cn/upload/image_hosting/qqjfauh0.png": "tb-asset:fea2f1d24c8988463ac23f31754da543278fd7c0912df04797d6077f753ac0c5",
+          "https://cdn.luogu.com.cn/upload/image_hosting/v4ugwh72.png": "tb-asset:85dc989164cb04a591b8881efb096945ca926b535e0d0745acb039f928dc5670"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T20:38:16.016383+00:00",
+          "corpusAuditVerifiedSha256": "eac173bd3d09f4142ea8e952ba609863f0a48d44d6d5cb003e4320cd8dee9cba",
+          "markdownSha256": "eac173bd3d09f4142ea8e952ba609863f0a48d44d6d5cb003e4320cd8dee9cba",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-id-full-source-and-exact-samples-with-original-resource-verification",
+            "nativeProblemId": "P7689",
+            "originalPdfSha256": "0ff7eef10c25a51175ab467e2ffd5305063343c542b0994773801347336039af",
+            "originalStatementTitle": "Bugs Integrated, Inc.",
+            "reviewedSourcePages": [
+              1,
+              2
+            ],
+            "verifiedSource": "https://ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf"
+          },
+          "reviewedRecoveryRecordSha256": "65ec7cda69fc959778e380f024183ff9a99599532e83c5695ec354ef53eeee69",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "ff61e05845a2d8c5ddaad5e810ba92728830f8dad8239731ed83e1062f25024f",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P7689"
+            },
+            {
+              "bytes": 49969,
+              "captureMethod": "socks",
+              "sha256": "0ff7eef10c25a51175ab467e2ffd5305063343c542b0994773801347336039af",
+              "status": 200,
+              "url": "https://ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf"
+            },
+            {
+              "bytes": 25631,
+              "captureMethod": "socks",
+              "sha256": "21faf5932fde76636eea8fde5bfde925f8b67d2e831256a195cc364cbe55d665",
+              "status": 200,
+              "url": "https://ics.upjs.sk/ceoi/Documents.html"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 8,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Bugs Integrated,Inc.\n\n## 题目描述\n\nBugs Integrated,Inc. 是高级存储芯片的主要制造商。他们正在开始生产新的 $6$ TB Q-RAM 芯片。每个芯片由以 $2×3$ 的矩形排列的六个方形硅片块组成。Q-RAM 芯片的制造方式是将一块长方形的大硅片分成 $N×M$ 个方形硅片块。然后仔细测试所有方形硅片块，坏的用黑色标记。  \n![TuLi](https://cdn.luogu.com.cn/upload/image_hosting/qqjfauh0.png)  \n最后，将硅片切割成存储芯片。每个芯片由 $2×3$（或\n $3×2$）单位方形硅片块组成。当然，任何芯片都不能包含任何坏的（标记的）方形硅片块。它可能不能将硅片切割成每一个好的方形硅片块都成为某些存储芯片的一部分。该公司希望尽可能少地浪费好方形硅片块。因此他们想知道如何切割硅片以尽可能多地切出芯片。  \n现您将获得几个硅片的尺寸和其每个硅片所有坏方形硅片块的列表。你的任务是编写一个程序，计算每个硅片最多可以从其切下的芯片数量。\n\n## 输入格式\n\n第一行由一个整数 $D$ 组成，表示硅片的数量。接下来 $D$ 个部分，每个部分描述一个硅片。每个部分的第一行包含三个整数 $N$，$M$，$K$，其间由单个空格分隔。$N$ 是硅片的长度，$M$ 是它的高度，$K$ 是硅片中坏方硅片块的数量。以下 $K$ 行包含一个坏方硅片块列表。每行包含两个整数 $x$ 和 $y$，表示一个坏方硅片块的坐标（左上角的坐标为（$1,1$），右下角是 （$N,M$））。\n\n## 输出格式\n\n每行输出每个硅片最多可以从其切下的芯片数量。\n\n## 提示\n\n#### 数据规模与约定  \n对于 $100 \\%$ 的数据，$1 \\leq D \\leq 5$，$1 \\leq N \\leq 150$，$1 \\leq M \\leq 10$，$0 \\leq K \\leq M×N$，$1 \\leq x \\leq N$，$1 \\leq y \\leq M$。  \n#### 样例说明  \n![TuLi](https://cdn.luogu.com.cn/upload/image_hosting/v4ugwh72.png)  \n#### 题目说明  \n来源于 CENTRAL-EUROPEAN OLYMPIAD IN INFORMATICS 2002 的 [Bugs Integrated,Inc.](https://web.ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf)。  \n由 @[求学的企鹅](/user/271784) 翻译整理。",
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-P7689",
+          "images": {
+            "https://cdn.luogu.com.cn/upload/image_hosting/qqjfauh0.png": "tb-asset:fea2f1d24c8988463ac23f31754da543278fd7c0912df04797d6077f753ac0c5",
+            "https://cdn.luogu.com.cn/upload/image_hosting/v4ugwh72.png": "tb-asset:85dc989164cb04a591b8881efb096945ca926b535e0d0745acb039f928dc5670"
+          },
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:https://web.ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf"
+            ],
+            "markdownSha256": "eac173bd3d09f4142ea8e952ba609863f0a48d44d6d5cb003e4320cd8dee9cba",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "e1ff07edcdec71913ed6e33bbaee0aac53a2e2f7143ea13400d09d1a7f6c4832",
+                "url": "https://www.luogu.com.cn/problem/P7689"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 8,
+            "timeMs": 2000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# Bugs Integrated,Inc.\n\n## 题目描述\n\nBugs Integrated,Inc. 是高级存储芯片的主要制造商。他们正在开始生产新的 $6$ TB Q-RAM 芯片。每个芯片由以 $2×3$ 的矩形排列的六个方形硅片块组成。Q-RAM 芯片的制造方式是将一块长方形的大硅片分成 $N×M$ 个方形硅片块。然后仔细测试所有方形硅片块，坏的用黑色标记。  \n![TuLi](https://cdn.luogu.com.cn/upload/image_hosting/qqjfauh0.png)  \n最后，将硅片切割成存储芯片。每个芯片由 $2×3$（或\n $3×2$）单位方形硅片块组成。当然，任何芯片都不能包含任何坏的（标记的）方形硅片块。它可能不能将硅片切割成每一个好的方形硅片块都成为某些存储芯片的一部分。该公司希望尽可能少地浪费好方形硅片块。因此他们想知道如何切割硅片以尽可能多地切出芯片。  \n现您将获得几个硅片的尺寸和其每个硅片所有坏方形硅片块的列表。你的任务是编写一个程序，计算每个硅片最多可以从其切下的芯片数量。\n\n## 输入格式\n\n第一行由一个整数 $D$ 组成，表示硅片的数量。接下来 $D$ 个部分，每个部分描述一个硅片。每个部分的第一行包含三个整数 $N$，$M$，$K$，其间由单个空格分隔。$N$ 是硅片的长度，$M$ 是它的高度，$K$ 是硅片中坏方硅片块的数量。以下 $K$ 行包含一个坏方硅片块列表。每行包含两个整数 $x$ 和 $y$，表示一个坏方硅片块的坐标（左上角的坐标为（$1,1$），右下角是 （$N,M$））。\n\n## 输出格式\n\n每行输出每个硅片最多可以从其切下的芯片数量。\n\n## 提示\n\n#### 数据规模与约定  \n对于 $100 \\%$ 的数据，$1 \\leq D \\leq 5$，$1 \\leq N \\leq 150$，$1 \\leq M \\leq 10$，$0 \\leq K \\leq M×N$，$1 \\leq x \\leq N$，$1 \\leq y \\leq M$。  \n#### 样例说明  \n![TuLi](https://cdn.luogu.com.cn/upload/image_hosting/v4ugwh72.png)  \n#### 题目说明  \n来源于 CENTRAL-EUROPEAN OLYMPIAD IN INFORMATICS 2002 的 [Bugs Integrated,Inc.](https://web.ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf)。  \n由 @[求学的企鹅](/user/271784) 翻译整理。",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: https://web.ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf",
+              "kind": "attachment",
+              "url": "https://web.ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf"
+            }
+          ],
+          "resourceManifest": {
+            "https://cdn.luogu.com.cn/upload/image_hosting/qqjfauh0.png": {
+              "bytes": 50513,
+              "frameCount": 1,
+              "height": 361,
+              "mime": "image/png",
+              "sha256": "fea2f1d24c8988463ac23f31754da543278fd7c0912df04797d6077f753ac0c5",
+              "sourceUrl": "https://cdn.luogu.com.cn/upload/image_hosting/qqjfauh0.png",
+              "width": 783
+            },
+            "https://cdn.luogu.com.cn/upload/image_hosting/v4ugwh72.png": {
+              "bytes": 52204,
+              "frameCount": 1,
+              "height": 318,
+              "mime": "image/png",
+              "sha256": "85dc989164cb04a591b8881efb096945ca926b535e0d0745acb039f928dc5670",
+              "sourceUrl": "https://cdn.luogu.com.cn/upload/image_hosting/v4ugwh72.png",
+              "width": 709
+            }
+          },
+          "samples": [
+            {
+              "input": "2\n6 6 5\n1 4\n4 6\n2 2\n3 6\n6 4\n6 5 4\n3 3\n6 1\n6 2\n6 4",
+              "name": "样例 1",
+              "output": "3\n4"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "Bugs Integrated,Inc.",
+          "url": "https://www.luogu.com.cn/problem/P7689"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://cdn.luogu.com.cn/upload/image_hosting/qqjfauh0.png": {
+            "bytes": 50513,
+            "frameCount": 1,
+            "height": 361,
+            "mime": "image/png",
+            "sha256": "fea2f1d24c8988463ac23f31754da543278fd7c0912df04797d6077f753ac0c5",
+            "sourceUrl": "https://cdn.luogu.com.cn/upload/image_hosting/qqjfauh0.png",
+            "width": 783
+          },
+          "https://cdn.luogu.com.cn/upload/image_hosting/v4ugwh72.png": {
+            "bytes": 52204,
+            "frameCount": 1,
+            "height": 318,
+            "mime": "image/png",
+            "sha256": "85dc989164cb04a591b8881efb096945ca926b535e0d0745acb039f928dc5670",
+            "sourceUrl": "https://cdn.luogu.com.cn/upload/image_hosting/v4ugwh72.png",
+            "width": 709
+          },
+          "https://ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf": {
+            "bytes": 49969,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "previousSourceUrl": "https://web.ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf",
+            "recovery": "verified-native-attachment-or-reviewed-original-pdf",
+            "sha256": "0ff7eef10c25a51175ab467e2ffd5305063343c542b0994773801347336039af",
+            "sourceUrl": "https://ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf"
+          },
+          "https://web.ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf": {
+            "bytes": 49969,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "previousSourceUrl": "https://web.ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf",
+            "recovery": "verified-native-attachment-or-reviewed-original-pdf",
+            "sha256": "0ff7eef10c25a51175ab467e2ffd5305063343c542b0994773801347336039af",
+            "sourceUrl": "https://ics.upjs.sk/ceoi/documents/tasks/bugs-tsk.pdf"
+          }
+        },
+        "samples": [
+          {
+            "input": "2\n6 6 5\n1 4\n4 6\n2 2\n3 6\n6 4\n6 5 4\n3 3\n6 1\n6 2\n6 4",
+            "name": "样例 1",
+            "output": "3\n4"
+          }
+        ],
+        "statementAvailable": true,
+        "statementSource": "洛谷公开正文与核实的原始官方资源",
+        "statementVersion": 11,
+        "title": "Bugs Integrated,Inc.",
+        "url": "https://www.luogu.com.cn/problem/P7689"
+      },
+      "problem_id": "luogu-training-P7689"
+    },
+    {
+      "beforeSha256": "6dc18c52e70e3a136a1a9edb63017b9a5f65676b2ed0abc312cad66bcd79cdde",
+      "content": {
+        "attachments": {
+          "https://ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf": {
+            "bytes": 70130,
+            "data": "tb-asset:df600d7ded9428b54d116ff5047281a3bcc938c16ae14dd0afe23a9fc78b6aac",
+            "fileName": "fence-tsk.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "df600d7ded9428b54d116ff5047281a3bcc938c16ae14dd0afe23a9fc78b6aac",
+            "sourceUrl": "https://ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf"
+          },
+          "https://web.ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf": {
+            "bytes": 70130,
+            "data": "tb-asset:df600d7ded9428b54d116ff5047281a3bcc938c16ae14dd0afe23a9fc78b6aac",
+            "fileName": "fence-tsk.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "df600d7ded9428b54d116ff5047281a3bcc938c16ae14dd0afe23a9fc78b6aac",
+            "sourceUrl": "https://ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf"
+          }
+        },
+        "id": "luogu-training-P7690",
+        "images": {
+          "https://cdn.luogu.com.cn/upload/image_hosting/9kopwi5p.png": "tb-asset:58f65f27e9f22f88bbd6904f5867eaa75ec8d72819d337d308416da036a32332"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T20:38:16.021531+00:00",
+          "corpusAuditVerifiedSha256": "af45ee26e70043e2194aaee459170bfea09a14182c96b81c8bb23fb92003b347",
+          "markdownSha256": "af45ee26e70043e2194aaee459170bfea09a14182c96b81c8bb23fb92003b347",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-id-full-source-and-exact-samples-with-original-resource-verification",
+            "nativeProblemId": "P7690",
+            "originalPdfSha256": "df600d7ded9428b54d116ff5047281a3bcc938c16ae14dd0afe23a9fc78b6aac",
+            "originalStatementTitle": "A decorative fence",
+            "reviewedSourcePages": [
+              1,
+              2
+            ],
+            "verifiedSource": "https://ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf"
+          },
+          "reviewedRecoveryRecordSha256": "08e9198afef2fed1800bfc90ca2829e4de3f94b93496b5c97d9f92c246a479cb",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "ff1a75fb1dab09b246e9e9ac488e5d003800bc70f89579b9e4f347e5f21ea8ab",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P7690"
+            },
+            {
+              "bytes": 70130,
+              "captureMethod": "socks",
+              "sha256": "df600d7ded9428b54d116ff5047281a3bcc938c16ae14dd0afe23a9fc78b6aac",
+              "status": 200,
+              "url": "https://ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf"
+            },
+            {
+              "bytes": 25631,
+              "captureMethod": "socks",
+              "sha256": "21faf5932fde76636eea8fde5bfde925f8b67d2e831256a195cc364cbe55d665",
+              "status": 200,
+              "url": "https://ics.upjs.sk/ceoi/Documents.html"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 131,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# A decorative fence\n\n## 题目描述\n\n理查德刚刚盖完他的新房子。现在房子唯一缺少的是一个可爱的小木栅栏。他不知道如何制作木栅栏，所以他决定订购一个。不知何故，他拿到了 $\\texttt{ACME Fence Catalog 2002}$――可爱的小木栅栏的旗舰版资源（注：ACME 是一家什么都造的公司）。看完它的前言，他已经知道，什么使小木栅栏变得可爱。  \n一个木栅栏由 $N$ 块木板组成，每块木板垂直排成一排。除此之外，当且仅当满足以下条件时，围栏看起来很可爱：  \n- 木板有不同的长度，即 $1,2,\\cdots,N$ 为木板长度单位。  \n- 对于每块同时具有左右两个相邻木板的木板，它要么比它的相邻的都大，要么比它相邻的都小。（即，这会使得围栏顶部交替上升和下降（高低起伏））。  \n\n因此，我们可以将每个用 $N$ 块木板的可爱的栅栏唯一地描述为一个排列 $a_1,\\cdots,a_N$（$\\forall i$，$1 < i < N$）$(a_i - a_{i−1}) × (a_i - a_{i+1}) > 0$。反之亦然，每个这样的排列都描述了一个可爱的围栏。  \n很明显，可能有许多不同的可爱木栅栏由 $N$ 块木板制成。ACME 的销售经理决定以下列方式排列可爱围栏并放入清单：栅栏 A（由排列 $a_1,\\cdots,a_N$ 表示）在栅栏 B 之前（由 $b_1,\\cdots,b_N$ 表示），当且仅当存在这样的 $i$，使得（$\\forall j < i$）$a_j = b_j$ 和 （$a_i < b_i$）。（也就是说，比较两个围栏中哪个在清单中更早相当于取它们对应的排列，找出它们第一个不同的地方，并比较这个地方的值。）所有 $N$ 块木板的可爱围栏都被按照它们在清单中出现的顺序编号（从 $1$ 开始）。这个号码被称为他们的清单号。 \n![TuLi](https://cdn.luogu.com.cn/upload/image_hosting/9kopwi5p.png)\n仔细检查所有的可爱的小木栅栏后，理查德决定要它们中的一些。他记下木板的数量 $N$ 和清单号 $C$。后来，他遇到了他的朋友，他想向他们展示他围栏，但他失去了清单。他得到的唯一的事情是他的笔记。请帮助他查明，他的围栏将为何等样子。\n\n## 输入格式\n\n第一行包含一个整数 $K$。接下来 $K$ 行，每行描述一个输入数据集，每一行都包含两个以空格分割的整数 $N$ 和 $C$，$N$ 是围栏上木板的数量，$C$ 是围栏的栅栏的清单号。\n\n## 输出格式\n\n每个数据集输出一行，描述列表带有 $N$ 个木板的第 $C$ 个栅栏。更准确地说，如果栅栏排列 $a_1,\\cdots,a_N$，则输出的相应行应包含数字 $a_i$（按正确顺序），由单个空格分隔。\n\n## 提示\n\n#### 数据规模与约定  \n对于 $100 \\%$ 的数据，$1 \\leq K \\leq 100$，$1 \\leq N \\leq 20$。你可以认为，$20$ 块木板的可爱小木栅栏的总数适合转换为 $64$ 位有符号整数变量（C/C++ 中的 `long long`，FreePascal 中的 `int64`）。你也可以认为输入是正确的，特别是 $C$ 最小是 $1$ 并且它不超过有 $N$ 块木板的可爱围栏的数量。  \n#### 题目说明  \n来源于 CENTRAL-EUROPEAN OLYMPIAD IN INFORMATICS 2002 的 [A decorative fence](https://web.ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf)。  \n由 @[求学的企鹅](/user/271784) 翻译整理。",
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-P7690",
+          "images": {
+            "https://cdn.luogu.com.cn/upload/image_hosting/9kopwi5p.png": "tb-asset:58f65f27e9f22f88bbd6904f5867eaa75ec8d72819d337d308416da036a32332"
+          },
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:https://web.ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf"
+            ],
+            "markdownSha256": "fd70c692a315ea15fc9e233aaa670db3d326e695a553912a4a404f69e1463265",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "7570105f1afe4ebaf0d28d1492934ac303145c4d23e3bb357278857de292947c",
+                "url": "https://www.luogu.com.cn/problem/P7690"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 131,
+            "timeMs": 1000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# A decorative fence\n\n## 题目描述\n\n理查德刚刚盖完他的新房子。现在房子唯一缺少的是一个可爱的小木栅栏。他不知道如何制作木栅栏，所以他决定订购一个。不知何故，他拿到了 $\\texttt{ACME Fence Catalog 2002}$――可爱的小木栅栏的旗舰版资源（注：ACME 是一家什么都造的公司）。看完它的前言，他已经知道，什么使小木栅栏变得可爱。  \n一个木栅栏由 $N$ 块木板组成，每块木板垂直排成一排。除此之外，当且仅当满足以下条件时，围栏看起来很可爱：  \n- 木板有不同的长度，即 $1,2,\\cdots,N$ 为木板长度单位。  \n- 每块有两个相邻的木板，它要么比它的相邻的都大，要么比它相邻的都小。（即，这会使得围栏顶部交替上升和下降（高低起伏））。  \n\n因此，我们可以将每个用 $N$ 块木板的可爱的栅栏唯一地描述为一个排列 $a_1,\\cdots,a_N$（$\\forall i$，$1 < i < N$）$(a_i - a_{i−1}) × (a_i - a_{i+1}) > 0$。反之亦然，每个这样的排列都描述了一个可爱的围栏。  \n很明显，可能有许多不同的可爱木栅栏由 $N$ 块木板制成。ACME 的销售经理决定以下列方式排列可爱围栏并放入清单：栅栏 A（由排列 $a_1,\\cdots,a_N$ 表示）在栅栏 B 之前（由 $b_1,\\cdots,b_N$ 表示），当且仅当存在这样的 $i$，使得（$\\forall j < i$）$a_j = b_j$ 和 （$a_i < b_i$）。（也就是说，比较两个围栏中哪个在清单中更早相当于取它们对应的排列，找出它们第一个不同的地方，并比较这个地方的值。）所有 $N$ 块木板的可爱围栏都被按照它们在清单中出现的顺序编号（从 $1$ 开始）。这个号码被称为他们的清单号。 \n![TuLi](https://cdn.luogu.com.cn/upload/image_hosting/9kopwi5p.png)\n仔细检查所有的可爱的小木栅栏后，理查德决定要它们中的一些。他记下木板的数量 $N$ 和清单号 $C$。后来，他遇到了他的朋友，他想向他们展示他围栏，但他失去了清单。他得到的唯一的事情是他的笔记。请帮助他查明，他的围栏将为何等样子。\n\n## 输入格式\n\n第一行包含一个整数 $K$。接下来 $K$ 行，每行描述一个输入数据集，每一行都包含两个以空格分割的整数 $N$ 和 $C$，$N$ 是围栏上木板的数量，$C$ 是围栏的栅栏的清单号。\n\n## 输出格式\n\n每个数据集输出一行，描述列表带有 $N$ 个木板的第 $C$ 个栅栏。更准确地说，如果栅栏排列 $a_1,\\cdots,a_N$，则输出的相应行应包含数字 $a_i$（按正确顺序），由单个空格分隔。\n\n## 提示\n\n#### 数据规模与约定  \n对于 $100 \\%$ 的数据，$1 \\leq K \\leq 100$，$1 \\leq N \\leq 20$。你可以认为，$20$ 块木板的可爱小木栅栏的总数适合转换为 $64$ 位有符号整数变量（C/C++ 中的 `long long`，FreePascal 中的 `int64`）。你也可以认为输入是正确的，特别是 $C$ 最小是 $1$ 并且它不超过有 $N$ 块木板的可爱围栏的数量。  \n#### 题目说明  \n来源于 CENTRAL-EUROPEAN OLYMPIAD IN INFORMATICS 2002 的 [A decorative fence](https://web.ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf)。  \n由 @[求学的企鹅](/user/271784) 翻译整理。",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: https://web.ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf",
+              "kind": "attachment",
+              "url": "https://web.ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf"
+            }
+          ],
+          "resourceManifest": {
+            "https://cdn.luogu.com.cn/upload/image_hosting/9kopwi5p.png": {
+              "bytes": 45783,
+              "frameCount": 1,
+              "height": 199,
+              "mime": "image/png",
+              "sha256": "58f65f27e9f22f88bbd6904f5867eaa75ec8d72819d337d308416da036a32332",
+              "sourceUrl": "https://cdn.luogu.com.cn/upload/image_hosting/9kopwi5p.png",
+              "width": 935
+            }
+          },
+          "samples": [
+            {
+              "input": "2\n2 1\n3 3",
+              "name": "样例 1",
+              "output": "1 2\n2 3 1"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "A decorative fence",
+          "url": "https://www.luogu.com.cn/problem/P7690"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://cdn.luogu.com.cn/upload/image_hosting/9kopwi5p.png": {
+            "bytes": 45783,
+            "frameCount": 1,
+            "height": 199,
+            "mime": "image/png",
+            "sha256": "58f65f27e9f22f88bbd6904f5867eaa75ec8d72819d337d308416da036a32332",
+            "sourceUrl": "https://cdn.luogu.com.cn/upload/image_hosting/9kopwi5p.png",
+            "width": 935
+          },
+          "https://ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf": {
+            "bytes": 70130,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "previousSourceUrl": "https://web.ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf",
+            "recovery": "verified-native-attachment-or-reviewed-original-pdf",
+            "sha256": "df600d7ded9428b54d116ff5047281a3bcc938c16ae14dd0afe23a9fc78b6aac",
+            "sourceUrl": "https://ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf"
+          },
+          "https://web.ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf": {
+            "bytes": 70130,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "previousSourceUrl": "https://web.ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf",
+            "recovery": "verified-native-attachment-or-reviewed-original-pdf",
+            "sha256": "df600d7ded9428b54d116ff5047281a3bcc938c16ae14dd0afe23a9fc78b6aac",
+            "sourceUrl": "https://ics.upjs.sk/ceoi/documents/tasks/fence-tsk.pdf"
+          }
+        },
+        "samples": [
+          {
+            "input": "2\n2 1\n3 3",
+            "name": "样例 1",
+            "output": "1 2\n2 3 1"
+          }
+        ],
+        "statementAvailable": true,
+        "statementSource": "洛谷公开正文与核实的原始官方资源",
+        "statementVersion": 11,
+        "title": "A decorative fence",
+        "url": "https://www.luogu.com.cn/problem/P7690"
+      },
+      "problem_id": "luogu-training-P7690"
+    },
+    {
+      "beforeSha256": "25ab6ab1bea84c403c3849187466ce71944851601d6b16d94aa941f0146931fe",
+      "content": {
+        "attachments": {
+          "https://i.postimg.cc/7ZV6xBX6/1.gif": {
+            "bytes": 12809,
+            "data": "tb-asset:2b854343988519b25417b80d937f6dd37b61e6898b7feacfaaf55a306ef89a61",
+            "fileName": "1.gif",
+            "frameCount": 9,
+            "height": 151,
+            "mime": "image/gif",
+            "sha256": "2b854343988519b25417b80d937f6dd37b61e6898b7feacfaaf55a306ef89a61",
+            "sourceUrl": "https://i.postimg.cc/7ZV6xBX6/1.gif",
+            "width": 151
+          }
+        },
+        "id": "luogu-training-P8922",
+        "images": {
+          "https://i.postimg.cc/7ZV6xBX6/1.gif": "tb-asset:2b854343988519b25417b80d937f6dd37b61e6898b7feacfaaf55a306ef89a61"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T20:38:16.027216+00:00",
+          "corpusAuditVerifiedSha256": "57b5ff4dcf97bf3f4c9bad834f9d24e7e32214a26c7a679de94c02599e6befb7",
+          "markdownSha256": "57b5ff4dcf97bf3f4c9bad834f9d24e7e32214a26c7a679de94c02599e6befb7",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-id-full-source-and-exact-samples-with-original-resource-verification",
+            "nativeProblemId": "P8922",
+            "originalGifFrames": 9,
+            "originalGifSha256": "2b854343988519b25417b80d937f6dd37b61e6898b7feacfaaf55a306ef89a61"
+          },
+          "reviewedRecoveryRecordSha256": "2bd0d3feb82fa6a3e57a8fddf08032dec2d9c9c0f22db085e3ae9a6013976d8b",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "38482ec97077833d16546663e7d846cbeae6bc30d7171d9383cb73444ab218a4",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P8922"
+            },
+            {
+              "bytes": 12809,
+              "captureMethod": "socks",
+              "sha256": "2b854343988519b25417b80d937f6dd37b61e6898b7feacfaaf55a306ef89a61",
+              "status": 200,
+              "url": "https://i.postimg.cc/7ZV6xBX6/1.gif"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1049,
+          "timeMs": 4000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Squares\n\n## 题目背景\n\n本题不是数据结构题，建议先做 F。\n\n[![1.gif](https://i.postimg.cc/7ZV6xBX6/1.gif)](https://postimg.cc/HrrHz9qD)\n\n## 题目描述\n\n给定平面上的 $n$ 个点，定义平面上的一个区域是好的当且仅当它是一个**边与坐标轴平行的正方形**并且不存在任何一个给定的点被它**严格包含**。再给定 $m$ 次询问，每次给出一个点 $(x,y)$，求出**严格包含** $(x,y)$ 的最大的好区域的边长。如果可以无限大则输出 $-1$。\n\n点 $A$ 被区域 $B$ **严格包含**当且仅当 $A$ 在 $B$ 的内部且不在边界上。\n\n为了减少奇奇怪怪的细节，我们保证所有的 $n+m$ 个点都满足横坐标互不相同，纵坐标互不相同。\n\n## 输入格式\n\n第一行，两个正整数 $n,m$。\n\n接下来 $n$ 行，每行两个整数 $x,y$，表示一个给定的点 $(x,y)$。\n\n接下来 $m$ 行，每行两个整数 $x,y$，表示一组询问中给定的点 $(x,y)$。\n\n## 输出格式\n\n共 $m$ 行，每行一个整数，第 $i$ 行的数表示第 $i$ 组询问的答案。\n\n## 提示\n\n对于 $100\\%$ 的数据，$1\\le n,m\\le 3\\times 10^5$，$0\\le x,y\\le 10^8$。\n\n$\\operatorname{Subtask} 1(10\\%)$：$n,m\\le 10$。\n\n$\\operatorname{Subtask} 2(10\\%)$：$n,m\\le 100$。\n\n$\\operatorname{Subtask} 3(20\\%)$：$n,m\\le 10^3$。\n\n$\\operatorname{Subtask} 4(20\\%)$：$n,m\\le 5\\times 10^4$。\n\n$\\operatorname{Subtask} 5(20\\%)$：$n,m\\le 10^5$。\n\n$\\operatorname{Subtask} 6(20\\%)$：无特殊限制。\n\n#### 样例说明 1\n\n对于第一组询问，左下角为 $(0,0)$，边长为 $4$ 的正方形是严格包含 $(2,2)$ 的好区域中边长最大的。\n\n对于第二组询问，左下角为 $(4,4)$，边长为 $+\\infty$ 的正方形是严格包含 $(5,5)$ 的好区域中边长最大的。",
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-P8922",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:https://i.postimg.cc/7ZV6xBX6/1.gif"
+            ],
+            "markdownSha256": "57b5ff4dcf97bf3f4c9bad834f9d24e7e32214a26c7a679de94c02599e6befb7",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "1b50341b422e02d6afb68cd11851e08b829fe0c2344a9429ee7f368a9a3966d1",
+                "url": "https://www.luogu.com.cn/problem/P8922"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 1049,
+            "timeMs": 4000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# Squares\n\n## 题目背景\n\n本题不是数据结构题，建议先做 F。\n\n[![1.gif](https://i.postimg.cc/7ZV6xBX6/1.gif)](https://postimg.cc/HrrHz9qD)\n\n## 题目描述\n\n给定平面上的 $n$ 个点，定义平面上的一个区域是好的当且仅当它是一个**边与坐标轴平行的正方形**并且不存在任何一个给定的点被它**严格包含**。再给定 $m$ 次询问，每次给出一个点 $(x,y)$，求出**严格包含** $(x,y)$ 的最大的好区域的边长。如果可以无限大则输出 $-1$。\n\n点 $A$ 被区域 $B$ **严格包含**当且仅当 $A$ 在 $B$ 的内部且不在边界上。\n\n为了减少奇奇怪怪的细节，我们保证所有的 $n+m$ 个点都满足横坐标互不相同，纵坐标互不相同。\n\n## 输入格式\n\n第一行，两个正整数 $n,m$。\n\n接下来 $n$ 行，每行两个整数 $x,y$，表示一个给定的点 $(x,y)$。\n\n接下来 $m$ 行，每行两个整数 $x,y$，表示一组询问中给定的点 $(x,y)$。\n\n## 输出格式\n\n共 $m$ 行，每行一个整数，第 $i$ 行的数表示第 $i$ 组询问的答案。\n\n## 提示\n\n对于 $100\\%$ 的数据，$1\\le n,m\\le 3\\times 10^5$，$0\\le x,y\\le 10^8$。\n\n$\\operatorname{Subtask} 1(10\\%)$：$n,m\\le 10$。\n\n$\\operatorname{Subtask} 2(10\\%)$：$n,m\\le 100$。\n\n$\\operatorname{Subtask} 3(20\\%)$：$n,m\\le 10^3$。\n\n$\\operatorname{Subtask} 4(20\\%)$：$n,m\\le 5\\times 10^4$。\n\n$\\operatorname{Subtask} 5(20\\%)$：$n,m\\le 10^5$。\n\n$\\operatorname{Subtask} 6(20\\%)$：无特殊限制。\n\n#### 样例说明 1\n\n对于第一组询问，左下角为 $(0,0)$，边长为 $4$ 的正方形是严格包含 $(2,2)$ 的好区域中边长最大的。\n\n对于第二组询问，左下角为 $(4,4)$，边长为 $+\\infty$ 的正方形是严格包含 $(5,5)$ 的好区域中边长最大的。",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: https://i.postimg.cc/7ZV6xBX6/1.gif",
+              "kind": "attachment",
+              "url": "https://i.postimg.cc/7ZV6xBX6/1.gif"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "4 2\n1 0\n0 3\n4 1\n3 4\n2 2\n5 5",
+              "name": "样例 1",
+              "output": "4\n-1"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "Squares",
+          "url": "https://www.luogu.com.cn/problem/P8922"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://i.postimg.cc/7ZV6xBX6/1.gif": {
+            "bytes": 12809,
+            "frameCount": 9,
+            "height": 151,
+            "mime": "image/gif",
+            "sha256": "2b854343988519b25417b80d937f6dd37b61e6898b7feacfaaf55a306ef89a61",
+            "sourceUrl": "https://i.postimg.cc/7ZV6xBX6/1.gif",
+            "width": 151
+          }
+        },
+        "samples": [
+          {
+            "input": "4 2\n1 0\n0 3\n4 1\n3 4\n2 2\n5 5",
+            "name": "样例 1",
+            "output": "4\n-1"
+          }
+        ],
+        "statementAvailable": true,
+        "statementSource": "洛谷公开正文与核实的原始官方资源",
+        "statementVersion": 11,
+        "title": "Squares",
+        "url": "https://www.luogu.com.cn/problem/P8922"
+      },
+      "problem_id": "luogu-training-P8922"
+    },
+    {
+      "beforeSha256": "7a4b4bc8c9c0f76dc0b815421bde8636c07dcb925ae5de8dda6a8bae5383079e",
+      "content": {
+        "attachments": {
+          "https://i.postimg.cc/3JN9j60M/2.gif": {
+            "bytes": 8746,
+            "data": "tb-asset:4f34c82586c4921ff772b07b638be53fc003ffd64037d19731fc32e755d59e4c",
+            "fileName": "2.gif",
+            "frameCount": 2,
+            "height": 151,
+            "mime": "image/gif",
+            "sha256": "4f34c82586c4921ff772b07b638be53fc003ffd64037d19731fc32e755d59e4c",
+            "sourceUrl": "https://i.postimg.cc/3JN9j60M/2.gif",
+            "width": 151
+          }
+        },
+        "id": "luogu-training-P8923",
+        "images": {
+          "https://i.postimg.cc/3JN9j60M/2.gif": "tb-asset:4f34c82586c4921ff772b07b638be53fc003ffd64037d19731fc32e755d59e4c"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T20:38:16.035728+00:00",
+          "corpusAuditVerifiedSha256": "43edb7945166778a11b3b1639f34d64831043adf644de8a990fbd5556ac7a883",
+          "markdownSha256": "43edb7945166778a11b3b1639f34d64831043adf644de8a990fbd5556ac7a883",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "method": "native-id-full-source-and-exact-samples-with-original-resource-verification",
+            "nativeProblemId": "P8923",
+            "originalGifFrames": 2,
+            "originalGifSha256": "4f34c82586c4921ff772b07b638be53fc003ffd64037d19731fc32e755d59e4c"
+          },
+          "reviewedRecoveryRecordSha256": "b2f7d086fa94da868d4cad24377177b41fb13b3f86960ac8b392d04fd6e7c690",
+          "sampleCount": 3,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "6e058d82318ca743b0c64f55391db7fd147450933bd134d4fc11dcb6cc64f2be",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P8923"
+            },
+            {
+              "bytes": 8746,
+              "captureMethod": "socks",
+              "sha256": "4f34c82586c4921ff772b07b638be53fc003ffd64037d19731fc32e755d59e4c",
+              "status": 200,
+              "url": "https://i.postimg.cc/3JN9j60M/2.gif"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 524,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Many Minimizations\n\n## 题目背景\n\n本题不是多项式题，建议先做 E。\n\n[![2.gif](https://i.postimg.cc/3JN9j60M/2.gif)](https://postimg.cc/xcrKn6Pg)\n\n## 题目描述\n\n小 L 遇到了一个经典题：给定一个长度为 $n$ 的**整数**序列 $a$，你需要在所有**单调不降**的**实数**序列中选出一个作为 $b$，最小化 $\\sum\\limits_{i=1}^n |a_i-b_i|$。可以证明答案是整数。\n\n他一眼就秒了这个题：这不是保序回归板子吗！\n\n他觉得这题太水了，于是决定加强一下：\n\n对于所有长度为 $n$ 的且满足 $\\forall i\\in[1,n],a_i\\in[1,m]$ 的**整数**序列 $a$，求出上面这个问题的答案的总和对**质数** $p$ 取模后的结果。其中 $n,m,p$ 是给定的常数。\n\n这下小 L 不会了。为了不让你看出来他根本就不会，他随便写了一个数据范围就把这题扔给你做了。\n\n现在压力来到了你这边，你能否顺利切掉这个题呢？\n\n## 输入格式\n\n共一行，三个整数，依次表示 $n,m,p$。\n\n## 输出格式\n\n共一行，一个整数，表示答案。\n\n## 提示\n\n对于 $100\\%$ 的数据，$1\\le n\\le 5\\times 10^3$，$1\\le m\\le 10^9$，$10^9<p\\le 1.01\\times 10^9$，保证 $p$ 是质数。\n\n$\\operatorname{Subtask} 1(10\\%)$：$n,m\\le 7$。\n\n$\\operatorname{Subtask} 2(10\\%)$：$m\\le 2$。\n\n$\\operatorname{Subtask} 3(10\\%)$：$n,m\\le 50$。\n\n$\\operatorname{Subtask} 4(10\\%)$：$n\\le 50$。\n\n$\\operatorname{Subtask} 5(10\\%)$：$n,m\\le 500$。\n\n$\\operatorname{Subtask} 6(10\\%)$：$n\\le 500$。\n\n$\\operatorname{Subtask} 7(10\\%)$：$m\\le 5\\times 10^3$。\n\n$\\operatorname{Subtask} 8(30\\%)$：无特殊限制。\n\n#### 样例说明 1\n\n有以下 $8$ 种可能的情况：\n\n$a=(1,1,1),b=(1,1,1),ans=0$。\n\n$a=(1,1,2),b=(1,1,2),ans=0$。\n\n$a=(1,2,1),b=(1,1,1),ans=1$。\n\n$a=(1,2,2),b=(1,2,2),ans=0$。\n\n$a=(2,1,1),b=(1,1,1),ans=1$。\n\n$a=(2,1,2),b=(1,1,2),ans=1$。\n\n$a=(2,2,1),b=(2,2,2),ans=1$。\n\n$a=(2,2,2),b=(2,2,2),ans=0$。\n\n因此答案为 $0+0+1+0+1+1+1+0=4$。\n\n注意，对于一个固定的 $a$，最优的 $b$ 不一定唯一。上面只给出了一种可能的解。\n\n$\\operatorname{Bonus}$：在 $p$ 为 NTT 模数的情况下做到 $O(n\\log n)$。实际上在本题正解的基础上这一部分并不困难。",
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-P8923",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:https://i.postimg.cc/3JN9j60M/2.gif"
+            ],
+            "markdownSha256": "43edb7945166778a11b3b1639f34d64831043adf644de8a990fbd5556ac7a883",
+            "pdfPageCountVerified": false,
+            "sampleCount": 3,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "ff0f5d9199cebefe6c726840f78d70b9de00be8e7f9905030662969e0ed7631d",
+                "url": "https://www.luogu.com.cn/problem/P8923"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 524,
+            "timeMs": 2000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# Many Minimizations\n\n## 题目背景\n\n本题不是多项式题，建议先做 E。\n\n[![2.gif](https://i.postimg.cc/3JN9j60M/2.gif)](https://postimg.cc/xcrKn6Pg)\n\n## 题目描述\n\n小 L 遇到了一个经典题：给定一个长度为 $n$ 的**整数**序列 $a$，你需要在所有**单调不降**的**实数**序列中选出一个作为 $b$，最小化 $\\sum\\limits_{i=1}^n |a_i-b_i|$。可以证明答案是整数。\n\n他一眼就秒了这个题：这不是保序回归板子吗！\n\n他觉得这题太水了，于是决定加强一下：\n\n对于所有长度为 $n$ 的且满足 $\\forall i\\in[1,n],a_i\\in[1,m]$ 的**整数**序列 $a$，求出上面这个问题的答案的总和对**质数** $p$ 取模后的结果。其中 $n,m,p$ 是给定的常数。\n\n这下小 L 不会了。为了不让你看出来他根本就不会，他随便写了一个数据范围就把这题扔给你做了。\n\n现在压力来到了你这边，你能否顺利切掉这个题呢？\n\n## 输入格式\n\n共一行，三个整数，依次表示 $n,m,p$。\n\n## 输出格式\n\n共一行，一个整数，表示答案。\n\n## 提示\n\n对于 $100\\%$ 的数据，$1\\le n\\le 5\\times 10^3$，$1\\le m\\le 10^9$，$10^9<p\\le 1.01\\times 10^9$，保证 $p$ 是质数。\n\n$\\operatorname{Subtask} 1(10\\%)$：$n,m\\le 7$。\n\n$\\operatorname{Subtask} 2(10\\%)$：$m\\le 2$。\n\n$\\operatorname{Subtask} 3(10\\%)$：$n,m\\le 50$。\n\n$\\operatorname{Subtask} 4(10\\%)$：$n\\le 50$。\n\n$\\operatorname{Subtask} 5(10\\%)$：$n,m\\le 500$。\n\n$\\operatorname{Subtask} 6(10\\%)$：$n\\le 500$。\n\n$\\operatorname{Subtask} 7(10\\%)$：$m\\le 5\\times 10^3$。\n\n$\\operatorname{Subtask} 8(30\\%)$：无特殊限制。\n\n#### 样例说明 1\n\n有以下 $8$ 种可能的情况：\n\n$a=(1,1,1),b=(1,1,1),ans=0$。\n\n$a=(1,1,2),b=(1,1,2),ans=0$。\n\n$a=(1,2,1),b=(1,1,1),ans=1$。\n\n$a=(1,2,2),b=(1,2,2),ans=0$。\n\n$a=(2,1,1),b=(1,1,1),ans=1$。\n\n$a=(2,1,2),b=(1,1,2),ans=1$。\n\n$a=(2,2,1),b=(2,2,2),ans=1$。\n\n$a=(2,2,2),b=(2,2,2),ans=0$。\n\n因此答案为 $0+0+1+0+1+1+1+0=4$。\n\n注意，对于一个固定的 $a$，最优的 $b$ 不一定唯一。上面只给出了一种可能的解。\n\n$\\operatorname{Bonus}$：在 $p$ 为 NTT 模数的情况下做到 $O(n\\log n)$。实际上在本题正解的基础上这一部分并不困难。",
+          "problemType": "standard",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: https://i.postimg.cc/3JN9j60M/2.gif",
+              "kind": "attachment",
+              "url": "https://i.postimg.cc/3JN9j60M/2.gif"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "3 2 1000000007",
+              "name": "样例 1",
+              "output": "4"
+            },
+            {
+              "input": "5 5 1000000007",
+              "name": "样例 2",
+              "output": "11040"
+            },
+            {
+              "input": "50 50 1000000009",
+              "name": "样例 3",
+              "output": "875463033"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "Many Minimizations",
+          "url": "https://www.luogu.com.cn/problem/P8923"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://i.postimg.cc/3JN9j60M/2.gif": {
+            "bytes": 8746,
+            "frameCount": 2,
+            "height": 151,
+            "mime": "image/gif",
+            "sha256": "4f34c82586c4921ff772b07b638be53fc003ffd64037d19731fc32e755d59e4c",
+            "sourceUrl": "https://i.postimg.cc/3JN9j60M/2.gif",
+            "width": 151
+          }
+        },
+        "samples": [
+          {
+            "input": "3 2 1000000007",
+            "name": "样例 1",
+            "output": "4"
+          },
+          {
+            "input": "5 5 1000000007",
+            "name": "样例 2",
+            "output": "11040"
+          },
+          {
+            "input": "50 50 1000000009",
+            "name": "样例 3",
+            "output": "875463033"
+          }
+        ],
+        "statementAvailable": true,
+        "statementSource": "洛谷公开正文与核实的原始官方资源",
+        "statementVersion": 11,
+        "title": "Many Minimizations",
+        "url": "https://www.luogu.com.cn/problem/P8923"
+      },
+      "problem_id": "luogu-training-P8923"
+    },
+    {
+      "beforeSha256": "2b8c327dc7ef05d8f19b5e93de91f9a7ad52f53af5d77cc1b3180dd2c17366e1",
+      "content": {
+        "attachments": {
+          "https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement-en.pdf": {
+            "bytes": 424878,
+            "data": "tb-asset:24c8a69c584eaa9edf4ec83df025c81a9de3c5efbeca99681f8e5eee0d4e9872",
+            "fileName": "2023-open-ancient2-statement-en.pdf",
+            "mime": "application/pdf",
+            "pageCount": 5,
+            "sha256": "24c8a69c584eaa9edf4ec83df025c81a9de3c5efbeca99681f8e5eee0d4e9872",
+            "sourceUrl": "https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement-en.pdf"
+          },
+          "https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement.pdf": {
+            "bytes": 512989,
+            "data": "tb-asset:e21ae4024c6d4e354c5972c4526c4e1adc76c2a96c812cadc21f7febc3021be2",
+            "fileName": "2023-open-ancient2-statement.pdf",
+            "mime": "application/pdf",
+            "pageCount": 5,
+            "sha256": "e21ae4024c6d4e354c5972c4526c4e1adc76c2a96c812cadc21f7febc3021be2",
+            "sourceUrl": "https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement.pdf"
+          },
+          "https://www.luogu.com.cn/problem/P9512/attachment/yjrxz88p": {
+            "bytes": 1741,
+            "data": "tb-asset:49257e48c721751f7c38ff73e0be24366178fb3da35dbd48c9e9f9ba393ea3ad",
+            "fileName": "down.zip",
+            "mime": "application/zip",
+            "nativeAttachmentId": "yjrxz88p",
+            "sha256": "49257e48c721751f7c38ff73e0be24366178fb3da35dbd48c9e9f9ba393ea3ad",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P9512/attachment/yjrxz88p"
+          }
+        },
+        "id": "luogu-training-P9512",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T20:38:16.094221+00:00",
+          "corpusAuditVerifiedSha256": "e9c36d94939642a984cc0c1264e980a69ce02f2600a8f8bcf4c6b7472dfb6c55",
+          "markdownSha256": "e9c36d94939642a984cc0c1264e980a69ce02f2600a8f8bcf4c6b7472dfb6c55",
+          "pdfPageCountVerified": false,
+          "recoveryBinding": {
+            "englishOriginalPdfSha256": "24c8a69c584eaa9edf4ec83df025c81a9de3c5efbeca99681f8e5eee0d4e9872",
+            "englishPdfEqualsOriginalQojMirror": true,
+            "japaneseOriginalPdfSha256": "e21ae4024c6d4e354c5972c4526c4e1adc76c2a96c812cadc21f7febc3021be2",
+            "method": "native-id-full-source-and-exact-samples-with-original-resource-verification",
+            "nativeAttachment": {
+              "filename": "down.zip",
+              "id": "yjrxz88p",
+              "size": 1741,
+              "uploadTime": 1691595498
+            },
+            "nativeProblemId": "P9512",
+            "zipMembers": [
+              {
+                "bytes": 326,
+                "file": "ancient2.cpp",
+                "sha256": "559f087b441315f339de2a896be214e8849d20869c7045eea07d7acb8574f3da"
+              },
+              {
+                "bytes": 122,
+                "file": "ancient2.h",
+                "sha256": "4e09e9f87ad544b9b44dcd7d813c07f8513daeb1ded15eb298f40a7f111fb1ab"
+              },
+              {
+                "bytes": 67,
+                "file": "compile.sh",
+                "sha256": "33e21f38a72b8d884587691fa7ff41398fa3c949d7ba77e7606ce844bad0c835"
+              },
+              {
+                "bytes": 1476,
+                "file": "grader.cpp",
+                "sha256": "ecb3dc4ec69df8c6253dfe65ae876f218009f381da0936c5c4ed0f6b8c860234"
+              },
+              {
+                "bytes": 6,
+                "file": "sample-01.txt",
+                "sha256": "78271016777ab6016c1eac678323b505a8753527a7d53ebb9311f4e5b2a39320"
+              },
+              {
+                "bytes": 1006,
+                "file": "sample-02.txt",
+                "sha256": "bf06a167ec817c2e1693324c7cdb76ce865741100799108c7196638022edbc42"
+              }
+            ]
+          },
+          "reviewedRecoveryRecordSha256": "c55fb8fefed69a25d9f20cbd69eeee3f9f8587ff8456b394e8c86d5fb82cb24b",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "16d91ea0a9f230bbe0874a172726bf85050a57220e9e2700c955349d9ac32a33",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P9512"
+            },
+            {
+              "bytes": 512989,
+              "captureMethod": "socks",
+              "sha256": "e21ae4024c6d4e354c5972c4526c4e1adc76c2a96c812cadc21f7febc3021be2",
+              "status": 200,
+              "url": "https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement.pdf"
+            },
+            {
+              "bytes": 424878,
+              "captureMethod": "socks",
+              "sha256": "24c8a69c584eaa9edf4ec83df025c81a9de3c5efbeca99681f8e5eee0d4e9872",
+              "status": 200,
+              "url": "https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement-en.pdf"
+            },
+            {
+              "bytes": 1741,
+              "captureMethod": "ordinary-anonymous-cookiejar-original-problem-page-then-official-attachment-route",
+              "sha256": "49257e48c721751f7c38ff73e0be24366178fb3da35dbd48c9e9f9ba393ea3ad",
+              "status": 200,
+              "url": "https://www.luogu.com.cn/problem/P9512/attachment/yjrxz88p"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1049,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": false,
+        "markdown": "# 古代机器 2 / Ancient Machine 2\n\n## 题目背景\n\n**译自 [JOI Open 2023](https://contests.ioi-jp.org/open-2023/index.html) T1 「[古代の機械 2](https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement.pdf) / [Ancient Machine 2](https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement-en.pdf)」**\n\n**这是一道交互题。**\n\n**在提交本题前请务必仔细阅读以下内容。**\n\n本题只支持 C++ 语言提交（建议使用 C++14，请不要使用 C++14 (GCC9)）。\n\n由于洛谷特殊的交互机制，在提交本题时，请去掉代码中的 ```#include \"ancient2.h\"``` 语句，并将添加以下语句粘贴到代码最开头：\n\n```cpp\nint Query(int m, std::vector<int> a, std::vector<int> b);\n```\n\n## 题目描述\n\nBitaro 和 Bibako 是挖掘和调查 JOI 王国废墟的考古学家。在废墟中，Bitaro 发现了一块古老的石板，Bibako 发现了一台古老的机器。\n\n从研究结果中，Bitaro 发现石板上写有一个长为 $N$ 的字符串 $S$。字符串中每个字符要么是 `0`，要么是 `1`。然而，他还不知道字符串 $S$ 中的每个字符是什么。\n\n另一方面，从研究结果中，Bibako 弄清了如何使用机器。为了使用它，我们需要将石板放在机器上，输入一个整数 $m$ 和两个整数序列 $a,b$，然后做一次查询。这里整数 $m$ 和整数序列 $a,b$ 需满足如下条件：\n\n- 整数 $m$ 在 $1$ 和 $1\\ 002$ 之间（包括两端）。\n- 序列 $a$ 和 $b$ 的长度均为 $m$。\n- 序列 $a,b$ 中的元素都是 $0$ 和 $m-1$ 之间的整数（包括两端）。\n\n如果我们把石板放在机器上，输入一个整数 $m$ 和两个整数序列 $a,b$，然后做一次查询，机器会按如下方式操作并显示一个整数。\n\n1. 机器对其**内存区域**置 $0$。\n\n2. 机器进行如下的 $N$ 次操作。第 $i+1$ 次（$0\\le i\\le N-1$）操作按如下方式进行。\n\n   令 $x$ 表示机器内存区域中当前的整数。机器读取字符 $S_i$。这里，$S_i$ 是字符串 $S$ 中的第 $i$ 个字符（下标从 $0$ 开始）。\n\n   - 如果 $S_i$ 是 `0`，机器会将内存区域置为 $a_x$。其中 $a_x$ 是序列 $a$ 中第 $x$ 个元素（下标从 $0$ 开始）。\n   - 如果 $S_i$ 是 `1`，机器会将内存区域置为 $b_x$。其中 $b_x$ 是序列 $b$ 中第 $x$ 个元素（下标从 $0$ 开始）。\n\n3. 这个机器将展示内存区域中最终置为的整数。\n\n使用这个机器，Bitaro 想要确定石板上写的字符串。然而，因为这个机器十分脆弱，查询的次数不能超过 $1\\ 000$。此外，输入机器的整数 $m$ 的最大值需要越小越好。\n\n使用这个机器，写一个程序确定石板上写的字符串。\n\n**【实现细节】**\n\n你需要在程序一开始使用预处理指令 `#include` 引入库 `ancient2.h`。它应当实现如下函数。\n\n- `std::string Solve(int N)`\n\n  这个函数在每组测试数据中仅被调用一次。这个函数需要返回和石板上所写的字符串 $S$ 相同的字符串。\n\n  - 参数 `N` 表示石板上写的字符串 $S$ 的长度 $N$。\n  - 这个函数需要返回一个长度为 $N$ 的字符串。如果字符串长度不为 $N$，你的程序会被判为 **Wrong Answer [1]**。\n  - 返回值中每个字符要么是 `0`，要么是 `1`。如果该条件不满足，你的程序会被判为 **Wrong Answer [2]**。\n  - 返回值应当与石板上写的字符串 $S$ 相同。如果该条件不满足，你的程序会被判为 **Wrong Answer [3]**。\n\n  你的程序可以调用如下函数。\n\n  - `int Query(int m, std::vector<int> a, std::vector<int> b)`\n\n    使用这个函数，你的程序可以做一次查询。\n\n    - 参数 `m` 是输入机器的整数 $m$。\n    - 参数 `a`，`b` 是输入机器的两个整数序列 $a,b$。\n    - 返回值是当我们把石板放在机器上，并输入上述整数和序列，做一次查询是机器最后显示的整数。\n    - 参数 `m` 应当在 $1$ 和 $1\\ 002$ 之间（包括两端）。如果该条件不满足，你的程序会被判为 **Wrong Answer [4]**。\n    - 序列 `a` 和 `b` 的长度均应等于 $m$。如果该条件不满足，你的程序会被判为 **Wrong Answer [5]**。\n    - 序列 `a` 和 `b` 中元素均应在 $0$ 和 $m-1$ 之间（包括两端）。如果该条件不满足，你的程序会被判为 **Wrong Answer [6]**。\n    - 函数 `Query` 的调用次数不能超过 $1\\ 000$ 次。如果超过 $1\\ 000$ 次，你的程序会被判为 **Wrong Answer [7]**。\n    \n**【注意事项】**\n\n- 你的程序可以实现其它函数供内部使用，或者使用全局变量。\n- 你的程序禁止使用标准输入输出。你的程序禁止通过任何方式与其他文件通信。然而，你的程序可以将调试信息输出到标准错误输出。\n\n**【编译和测试运行】**\n\n你可以在「文件」中的「附加文件」下载样例 grader 来测试你的程序。「附加文件」中也包含一份你的程序的样例源程序。\n\n样例交互器是文件 `grader.cpp`。为了测试你的程序，你需要将 `grader.cpp`，`ancient2.cpp` 和 `ancient2.h` 三个文件放在同一文件夹下，并且执行如下命令编译你的程序。你也可以运行 `compile.sh` 来编译你的程序。\n\n```shell\ng++ -std=gnu++17 -O2 -o grader grader.cpp ancient2.cpp\n```\n\n当编译成功时，会生成一个可执行文件 `grader`。\n\n请注意，实际的交互器和样例不同。样例交互器会作为单进程运行，即它会从标准输入中读取输入数据，并输出结果到标准输出。\n\n## 输入格式\n\n第一行一个整数 $N$。\n\n第二行一个长为 $N$ 的字符串 $S$。\n\n## 输出格式\n\n样例交互器会输出如下内容到标准输出。\n\n- 如果你的程序被判为正确，它会输出 `Query` 函数中参数 `m` 的最大值，如 `Accepted: 22`。然而，如果你的程序没有调用 `Query` 函数并被判为正确，它会输出 `Accepted: 0`。\n- 如果你的程序被判为任一类的答案错误，样例交互器会输出其类别，如 `Wrong Answer [4]`。\n\n如果程序满足多种答案错误的类别，样例交互器只会输出其中一个。\n\n## 提示\n\n**【样例解释】**\n\n样例函数调用如下。\n\n| 对 `Solve` 的调用 |   返回值   |           对 `Query` 的调用            |    返回值     |\n| :---------------: | :--------: | :------------------------------------: | :-----------: |\n|    `Solve(3)`     |            |                              |               |\n|                   |   | `Query(4, [3, 3, 2, 2], [2, 2, 1, 0])` |      `3`      |\n|          |            |       `Query(2, [0, 1], [1, 0])`       |      `0`      |\n|                   |   |          `Query(1, [0], [0])`          | `0`  |\n|          |            |    `Query(3, [1, 1, 1], [1, 1, 1])`    |      `1`      |\n|                   |  `\"110\"`   |                                        |   |\n\n假设写在石板上的字符串 $S$ 是 `110`。如果我们把石板放在机器上，输入 $(m,a,b)=(4,[3,3,2,2],[2,2,1,0])$ 并做一次查询，机器将按如下方式操作。\n\n1. 机器将内存区域置为 $0$。\n2. 对于第一次操作，因为 $S_0$ 是 `1`，机器会将内存区域置为 $b_0$，即 $2$。\n3. 对于第二次操作，因为 $S_1$ 是 `1`，机器会将内存区域置为 $b_2$，即 $1$。\n4. 对于第三次操作，因为 $S_2$ 是 `0`，机器会将内存区域置为 $a_1$，即 $3$。\n5. 因为最终内存区域被置为的整数是 $3$，所以机器显示 $3$。\n\n注意这组样例输入不满足限制 $N=1\\ 000$。在文件中，`sample-02.txt` 满足这个限制。\n\n**【数据范围】**\n\n对于全部数据，满足：\n\n- $N=1\\ 000$\n- $S$ 是一个长为 $N$ 的字符串\n- $S$ 中的每个字符要么是 `0`，要么是 `1`\n\n对于每组数据，实际的交互器 **不是**适应性的。这意味着交互器在开始时答案就已经确定了。\n\n如果你的程序在任意一组数据上被判为任意一种答案错误，在本题你将获得 $0$ 分。\n\n如果你的程序在所有数据上都被判为正确，你的分数由 $M$ 确定，其中 $M$ 是所有数据的 `Query` 函数中参数 `m` 的最大值。然而，如果你的程序没有调用 `Query` 函数并且被判为正确，你的分数由 $M=0$ 确定。\n\n- 如果 $103\\le M\\le 1\\ 002$，你的得分为 $10+\\lfloor \\frac{(1002-M)^2}{9000}\\rfloor$\n- 如果 $0\\le M\\le 102$，你将获得 $100$ 分。\n\n这里 $\\lfloor x\\rfloor$ 表示不超过 $x$ 的最大整数。\n\n## 附加文件\n\n[下载原题样例交互器、头文件、编译脚本与样例输入（down.zip）](https://www.luogu.com.cn/problem/P9512/attachment/yjrxz88p)\n",
+        "previousSourceStatement": {
+          "attachments": {},
+          "id": "luogu-training-P9512",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "resource:https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement.pdf",
+              "resource:https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement-en.pdf"
+            ],
+            "markdownSha256": "69edf6dbf83852f656194e637ec0ab24ff2cff39a9fb75b3c43bc7bb0388c345",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [
+              {
+                "sha256": "7850e847df468bc5831d098c06013f4e48a8dc9760046c13125227d4722269d0",
+                "url": "https://www.luogu.com.cn/problem/P9512"
+              }
+            ],
+            "sourceVerified": true,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 1049,
+            "timeMs": 2000
+          },
+          "localJudgeSupported": false,
+          "markdown": "# 古代机器 2 / Ancient Machine 2\n\n## 题目背景\n\n**译自 [JOI Open 2023](https://contests.ioi-jp.org/open-2023/index.html) T1 「[古代の機械 2](https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement.pdf) / [Ancient Machine 2](https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement-en.pdf)」**\n\n**这是一道交互题。**\n\n**在提交本题前请务必仔细阅读以下内容。**\n\n本题只支持 C++ 语言提交（建议使用 C++14，请不要使用 C++14 (GCC9)）。\n\n由于洛谷特殊的交互机制，在提交本题时，请去掉代码中的 ```#include \"ancient2.h\"``` 语句，并将添加以下语句粘贴到代码最开头：\n\n```cpp\nint Query(int m, std::vector<int> a, std::vector<int> b);\n```\n\n## 题目描述\n\nBitaro 和 Bibako 是挖掘和调查 JOI 王国废墟的考古学家。在废墟中，Bitaro 发现了一块古老的石板，Bibako 发现了一台古老的机器。\n\n从研究结果中，Bitaro 发现石板上写有一个长为 $N$ 的字符串 $S$。字符串中每个字符要么是 `0`，要么是 `1`。然而，他还不知道字符串 $S$ 中的每个字符是什么。\n\n另一方面，从研究结果中，Bibako 弄清了如何使用机器。为了使用它，我们需要将石板放在机器上，输入一个整数 $m$ 和两个整数序列 $a,b$，然后做一次查询。这里整数 $m$ 和整数序列 $a,b$ 需满足如下条件：\n\n- 整数 $m$ 在 $1$ 和 $1\\ 002$ 之间（包括两端）。\n- 序列 $a$ 和 $b$ 的长度均为 $m$。\n- 序列 $a,b$ 中的元素都是 $0$ 和 $m-1$ 之间的整数（包括两端）。\n\n如果我们把石板放在机器上，输入一个整数 $m$ 和两个整数序列 $a,b$，然后做一次查询，机器会按如下方式操作并显示一个整数。\n\n1. 机器对其**内存区域**置 $0$。\n\n2. 机器进行如下的 $N$ 次操作。第 $i+1$ 次（$0\\le i\\le N-1$）操作按如下方式进行。\n\n   令 $x$ 表示机器内存区域中当前的整数。机器读取字符 $S_i$。这里，$S_i$ 是字符串 $S$ 中的第 $i$ 个字符（下标从 $0$ 开始）。\n\n   - 如果 $S_i$ 是 `0`，机器会将内存区域置为 $a_x$。其中 $a_x$ 是序列 $a$ 中第 $x$ 个元素（下标从 $0$ 开始）。\n   - 如果 $S_i$ 是 `1`，机器会将内存区域置为 $b_x$。其中 $b_x$ 是序列 $b$ 中第 $x$ 个元素（下标从 $0$ 开始）。\n\n3. 这个机器将展示内存区域中最终置为的整数。\n\n使用这个机器，Bitaro 想要确定石板上写的字符串。然而，因为这个机器十分脆弱，查询的次数不能超过 $1\\ 000$。此外，输入机器的整数 $m$ 的最大值需要越小越好。\n\n使用这个机器，写一个程序确定石板上写的字符串。\n\n**【实现细节】**\n\n你需要在程序一开始使用预处理指令 `#include` 引入库 `ancient2.h`。它应当实现如下函数。\n\n- `std::string Solve(int N)`\n\n  这个函数在每组测试数据中仅被调用一次。这个函数需要返回和石板上所写的字符串 $S$ 相同的字符串。\n\n  - 参数 `N` 表示石板上写的字符串 $S$ 的长度 $N$。\n  - 这个函数需要返回一个长度为 $N$ 的字符串。如果字符串长度不为 $N$，你的程序会被判为 **Wrong Answer [1]**。\n  - 返回值中每个字符要么是 `0`，要么是 `1`。如果该条件不满足，你的程序会被判为 **Wrong Answer [2]**。\n  - 返回值应当与石板上写的字符串 $S$ 相同。如果该条件不满足，你的程序会被判为 **Wrong Answer [3]**。\n\n  你的程序可以调用如下函数。\n\n  - `int Query(int m, std::vector<int> a, std::vector<int> b)`\n\n    使用这个函数，你的程序可以做一次查询。\n\n    - 参数 `m` 是输入机器的整数 $m$。\n    - 参数 `a`，`b` 是输入机器的两个整数序列 $a,b$。\n    - 返回值是当我们把石板放在机器上，并输入上述整数和序列，做一次查询是机器最后显示的整数。\n    - 参数 `m` 应当在 $1$ 和 $1\\ 002$ 之间（包括两端）。如果该条件不满足，你的程序会被判为 **Wrong Answer [4]**。\n    - 序列 `a` 和 `b` 的长度均应等于 $m$。如果该条件不满足，你的程序会被判为 **Wrong Answer [5]**。\n    - 序列 `a` 和 `b` 中元素均应在 $0$ 和 $m-1$ 之间（包括两端）。如果该条件不满足，你的程序会被判为 **Wrong Answer [6]**。\n    - 函数 `Query` 的调用次数不能超过 $1\\ 000$ 次。如果超过 $1\\ 000$ 次，你的程序会被判为 **Wrong Answer [7]**。\n    \n**【注意事项】**\n\n- 你的程序可以实现其它函数供内部使用，或者使用全局变量。\n- 你的程序禁止使用标准输入输出。你的程序禁止通过任何方式与其他文件通信。然而，你的程序可以将调试信息输出到标准错误输出。\n\n**【编译和测试运行】**\n\n你可以在「文件」中的「附加文件」下载样例 grader 来测试你的程序。「附加文件」中也包含一份你的程序的样例源程序。\n\n样例交互器是文件 `grader.cpp`。为了测试你的程序，你需要将 `grader.cpp`，`ancient2.cpp` 和 `ancient2.h` 三个文件放在同一文件夹下，并且执行如下命令编译你的程序。你也可以运行 `compile.sh` 来编译你的程序。\n\n```shell\ng++ -std=gnu++17 -O2 -o grader grader.cpp ancient2.cpp\n```\n\n当编译成功时，会生成一个可执行文件 `grader`。\n\n请注意，实际的交互器和样例不同。样例交互器会作为单进程运行，即它会从标准输入中读取输入数据，并输出结果到标准输出。\n\n## 输入格式\n\n第一行一个整数 $N$。\n\n第二行一个长为 $N$ 的字符串 $S$。\n\n## 输出格式\n\n样例交互器会输出如下内容到标准输出。\n\n- 如果你的程序被判为正确，它会输出 `Query` 函数中参数 `m` 的最大值，如 `Accepted: 22`。然而，如果你的程序没有调用 `Query` 函数并被判为正确，它会输出 `Accepted: 0`。\n- 如果你的程序被判为任一类的答案错误，样例交互器会输出其类别，如 `Wrong Answer [4]`。\n\n如果程序满足多种答案错误的类别，样例交互器只会输出其中一个。\n\n## 提示\n\n**【样例解释】**\n\n样例函数调用如下。\n\n| 对 `Solve` 的调用 |   返回值   |           对 `Query` 的调用            |    返回值     |\n| :---------------: | :--------: | :------------------------------------: | :-----------: |\n|    `Solve(3)`     |            |                              |               |\n|                   |   | `Query(4, [3, 3, 2, 2], [2, 2, 1, 0])` |      `3`      |\n|          |            |       `Query(2, [0, 1], [1, 0])`       |      `0`      |\n|                   |   |          `Query(1, [0], [0])`          | `0`  |\n|          |            |    `Query(3, [1, 1, 1], [1, 1, 1])`    |      `1`      |\n|                   |  `\"110\"`   |                                        |   |\n\n假设写在石板上的字符串 $S$ 是 `110`。如果我们把石板放在机器上，输入 $(m,a,b)=(4,[3,3,2,2],[2,2,1,0])$ 并做一次查询，机器将按如下方式操作。\n\n1. 机器将内存区域置为 $0$。\n2. 对于第一次操作，因为 $S_0$ 是 `1`，机器会将内存区域置为 $b_0$，即 $2$。\n3. 对于第二次操作，因为 $S_1$ 是 `1`，机器会将内存区域置为 $b_2$，即 $1$。\n4. 对于第三次操作，因为 $S_2$ 是 `0`，机器会将内存区域置为 $a_1$，即 $3$。\n5. 因为最终内存区域被置为的整数是 $3$，所以机器显示 $3$。\n\n注意这组样例输入不满足限制 $N=1\\ 000$。在文件中，`sample-02.txt` 满足这个限制。\n\n**【数据范围】**\n\n对于全部数据，满足：\n\n- $N=1\\ 000$\n- $S$ 是一个长为 $N$ 的字符串\n- $S$ 中的每个字符要么是 `0`，要么是 `1`\n\n对于每组数据，实际的交互器 **不是**适应性的。这意味着交互器在开始时答案就已经确定了。\n\n如果你的程序在任意一组数据上被判为任意一种答案错误，在本题你将获得 $0$ 分。\n\n如果你的程序在所有数据上都被判为正确，你的分数由 $M$ 确定，其中 $M$ 是所有数据的 `Query` 函数中参数 `m` 的最大值。然而，如果你的程序没有调用 `Query` 函数并且被判为正确，你的分数由 $M=0$ 确定。\n\n- 如果 $103\\le M\\le 1\\ 002$，你的得分为 $10+\\lfloor \\frac{(1002-M)^2}{9000}\\rfloor$\n- 如果 $0\\le M\\le 102$，你将获得 $100$ 分。\n\n这里 $\\lfloor x\\rfloor$ 表示不超过 $x$ 的最大整数。",
+          "problemType": "interactive",
+          "resourceIssues": [
+            {
+              "error": "Original resource not verified: https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement.pdf",
+              "kind": "attachment",
+              "url": "https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement.pdf"
+            },
+            {
+              "error": "Original resource not verified: https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement-en.pdf",
+              "kind": "attachment",
+              "url": "https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement-en.pdf"
+            }
+          ],
+          "resourceManifest": {},
+          "samples": [
+            {
+              "input": "3\n110",
+              "name": "样例 1",
+              "output": "Accepted: 4"
+            }
+          ],
+          "statementAvailable": true,
+          "statementVersion": 7,
+          "title": "古代机器 2 / Ancient Machine 2",
+          "url": "https://www.luogu.com.cn/problem/P9512"
+        },
+        "problemType": "interactive",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement-en.pdf": {
+            "bytes": 424878,
+            "mime": "application/pdf",
+            "pageCount": 5,
+            "sha256": "24c8a69c584eaa9edf4ec83df025c81a9de3c5efbeca99681f8e5eee0d4e9872",
+            "sourceUrl": "https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement-en.pdf"
+          },
+          "https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement.pdf": {
+            "bytes": 512989,
+            "mime": "application/pdf",
+            "pageCount": 5,
+            "sha256": "e21ae4024c6d4e354c5972c4526c4e1adc76c2a96c812cadc21f7febc3021be2",
+            "sourceUrl": "https://s3-ap-northeast-1.amazonaws.com/data.cms.ioi-jp.org/open-2023/ancient2/2023-open-ancient2-statement.pdf"
+          },
+          "https://www.luogu.com.cn/problem/P9512/attachment/yjrxz88p": {
+            "bytes": 1741,
+            "fileName": "down.zip",
+            "mime": "application/zip",
+            "nativeAttachmentId": "yjrxz88p",
+            "sha256": "49257e48c721751f7c38ff73e0be24366178fb3da35dbd48c9e9f9ba393ea3ad",
+            "sourceUrl": "https://www.luogu.com.cn/problem/P9512/attachment/yjrxz88p"
+          }
+        },
+        "samples": [
+          {
+            "input": "3\n110",
+            "name": "样例 1",
+            "output": "Accepted: 4"
+          }
+        ],
+        "statementAvailable": true,
+        "statementSource": "洛谷公开正文与核实的原始官方资源",
+        "statementVersion": 11,
+        "title": "古代机器 2 / Ancient Machine 2",
+        "url": "https://www.luogu.com.cn/problem/P9512"
+      },
+      "problem_id": "luogu-training-P9512"
+    }
+  ]
+}

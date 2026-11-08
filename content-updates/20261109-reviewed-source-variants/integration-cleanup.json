@@ -1,0 +1,12 @@
+{
+  "checkedBeforeFourOriginalIntegration": true,
+  "canonicalAssetDescriptors": 6251,
+  "duplicateDescriptors": 0,
+  "eligibleTrackedOldContentToRemove": [],
+  "allCurrentOriginalArchivesAndPriorPacketsRemainNeeded": true,
+  "privateRecordsReadOrWritten": false,
+  "newMetadataDeferredUntilFixedFourRegistered": true,
+  "ignoredBuildCaches": "Earlier review-rejected cache cleanup remains unmodified and excluded from packaging.",
+  "replacedPendingMarker": "catalog-registration-pending.json",
+  "retainedActualReceipt": "catalog-registration.json"
+}

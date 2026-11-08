@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105170::B",
+      "beforeSha256": "0da95daf3d59204cb2bed75e3c355dea614d10026247c5146de14b1de7b505f2",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105170/problem/B": {
+            "bytes": 169887,
+            "data": "tb-asset:16f95dfcc6029c1e3e04296e260941ca950fae787b3c5165b1a8ce43226eeae8",
+            "fileName": "gym-105170.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "16f95dfcc6029c1e3e04296e260941ca950fae787b3c5165b1a8ce43226eeae8",
+            "sourceUrl": "https://codeforces.com/gym/105170/problem/B"
+          }
+        },
+        "id": "remote:codeforces:105170::B",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:49:58.634072+00:00",
+          "corpusAuditVerifiedSha256": "0a7bbca720b8e3bc807aaadfb9ce72196b2e38d75c3ba084d30efe4aa04536eb",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Dfs Order 0.5\n\nDfs Order 0.5\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nShuishui has a rooted tree of n vertices numbered from 1 to n, where vertex 1 is the root. The value of\r\nthe i-th vertex is ai\r\n.\r\nNow we start the depth-first search at the root. Because sons of a node can be iterated in arbitrary order,\r\nmultiple possible depth-first orders exist. We define the value of a depth-first order to be adding up the\r\nvalue of vertices which appear in the depth-first order at an even index. Shuishui wonders among all\r\npossible depth-first orders of the given tree, what the maximum value is.\r\nFollowing is a pseudo-code for the depth-first search on a rooted tree. After calling main(), dfs_order\r\nwill be the depth-first search order.\r\nAlgorithm 1 An implementation of depth-first search\r\n1: procedure dfs(vertex x)\r\n2: Append x to the end of dfs_order\r\n3: for each son y of x do . Sons can be iterated in arbitrary order.\r\n4: dfs(y)\r\n5: procedure main()\r\n6: Let dfs_order be a global variable\r\n7: dfs_order ← empty list\r\n8: dfs(1)\r\nFollowing is a pseudo-code for calculating the value of a depth-first order. Calling calc(dfs_order) will\r\nreturn the value of it.\r\nAlgorithm 2 An implementation of calculating the value of a depth-first order\r\n1: procedure calc(dfs_order) . dfs_order is a 1-based array of length n\r\n2: s ← 0\r\n3: p ← 2\r\n4: while p ≤ n do\r\n5: u ← dfs_orderp\r\n6: s ← s + au\r\n7: p ← p + 2\r\n8: return s\r\nInput\r\nThe input contains multiple testcases.\r\nThe first line contains a single integer t (1 ≤ t ≤ 2 × 105\r\n), denoting the number of testcases.\r\nFor each testcase:\r\nThe first line contains a single integer n (1 ≤ n ≤ 2 × 105\r\n), denoting the number of vertices in the tree.\r\nThe second line contains n integers a1, a2, . . . , an (1 ≤ ai ≤ 109\r\n), denoting the values of these vertices.\r\nEach of the next n − 1 lines contains two integers ui\r\n, vi (1 ≤ ui\r\n, vi ≤ n, ui 6= vi), denoting an edge of the\r\ntree.\r\nIt is guaranteed that the given edges form a tree.\r\nIt is guaranteed that the sum of n over all test cases does not exceed 2 × 105\r\n.\r\nPage 1 of 2\n\nOutput\r\nFor each testcase, output a single integer in one line, denoting the answer.\r\nExample\r\nstandard input standard output\r\n3\r\n2\r\n1 2\r\n1 2\r\n4\r\n1 1 222 222\r\n1 2\r\n1 3\r\n2 4\r\n6\r\n1 5 4 6 1 1\r\n6 1\r\n4 5\r\n4 2\r\n1 4\r\n1 3\r\n2\r\n444\r\n15\r\nNote\r\nIn the first testcase of the example, the dfs_order is unique, which is [1, 2], and its value is a2 = 2. Note\r\nthat the dfs_order is 1-based.\r\nIn the second testcase of the example, the dfs_order with the maximum value is [1, 3, 2, 4], and its value\r\nis a3 + a4 = 444.\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/105170/problem/B)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "new",
+          "id": "remote:codeforces:105170::B",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 2,
+          "pdfSha256": "9971a58149df9a46604cc992f42cea2e6123030d9540396486919c6e68c41f5d",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "cea5d8388ef184b2139996f6169702c2518aea7a519e9cd48ae3804134fe9cb1",
+          "sourcePdfSha256": "16f95dfcc6029c1e3e04296e260941ca950fae787b3c5165b1a8ce43226eeae8",
+          "sourcePdfUrl": "https://codeforces.com/gym/105170/problem/B",
+          "url": "https://codeforces.com/gym/105170/problem/B"
+        },
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105170/problem/B": {
+            "bytes": 169887,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "16f95dfcc6029c1e3e04296e260941ca950fae787b3c5165b1a8ce43226eeae8",
+            "sourceUrl": "https://codeforces.com/gym/105170/problem/B"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "9971a58149df9a46604cc992f42cea2e6123030d9540396486919c6e68c41f5d",
+          "page": 2
+        },
+        "samples": [
+          {
+            "input": "3\n2\n1 2\n1 2\n4\n1 1 222 222\n1 2\n1 3\n2 4\n6\n1 5 4 6 1 1\n6 1\n4 5\n4 2\n1 4\n1 3",
+            "name": "样例 1",
+            "output": "2\n444\n15"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "Dfs Order 0.5",
+          "problem": "B",
+          "rosterTitle": "Dfs Order 0.5",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourcePdfSha256": "16f95dfcc6029c1e3e04296e260941ca950fae787b3c5165b1a8ce43226eeae8",
+        "sourcePdfUrl": "https://codeforces.com/gym/105170/problem/B",
+        "sourceRosterSha256": "c67c523cd473f0c802c4f8332dc9e24e7c502f9bca901d9c2c4da4347e66a0db",
+        "sourceRosterUrl": "https://codeforces.com/gym/105170",
+        "sourceText": "# Dfs Order 0.5\n\nTime limit: 1 second. Memory limit: 512 megabytes. Standard input and output.\n\nShuishui has a rooted tree with $n$ vertices numbered from $1$ to $n$. Vertex $1$ is the root, and vertex $i$ has value $a_i$.\n\nStart depth-first search at the root. The children of each vertex can be visited in any order, giving different possible depth-first orders. The value of an order is the sum of the values of vertices at even positions in that order. Find the maximum value among all possible depth-first orders of the tree.\n\nThe following pseudocode generates the order. Calling `main()` leaves the depth-first order in `dfs_order`.\n\n```text\nprocedure dfs(vertex x):\n    append x to the end of dfs_order\n    for each child y of x in an arbitrary order:\n        dfs(y)\nprocedure main():\n    let dfs_order be a global variable\n    dfs_order <- empty list\n    dfs(1)\n```\n\nThe following pseudocode calculates the value. The array is indexed from $1$ and has length $n$; `calc(dfs_order)` returns its value.\n\n```text\nprocedure calc(dfs_order):\n    s <- 0\n    p <- 2\n    while p <= n:\n        u <- dfs_order[p]\n        s <- s + a[u]\n        p <- p + 2\n    return s\n```\n\n## Input Format\n\nThe input contains multiple test cases. The first line contains $t$ ($1\\le t\\le2\\times10^5$), the number of test cases.\n\nFor each test case, the first line contains $n$ ($1\\le n\\le2\\times10^5$), the number of vertices. The second line contains $n$ integers $a_1,a_2,\\ldots,a_n$ ($1\\le a_i\\le10^9$), their values. Each of the next $n-1$ lines contains $u_i,v_i$ ($1\\le u_i,v_i\\le n$, $u_i\\ne v_i$), describing a tree edge.\n\nThe given edges form a tree. The sum of $n$ over all test cases does not exceed $2\\times10^5$.\n\n## Output Format\n\nFor each test case, output one integer on a line: the maximum value.\n\n## Sample Explanation\n\nIn the first test case, the unique depth-first order is $[1,2]$, with value $a_2=2$. Positions are indexed from $1$. In the second test case, a maximum-value order is $[1,3,2,4]$, with value $a_3+a_4=444$.\n\n\n## Sample 1\n\n### Input\n\n```text\n3\n2\n1 2\n1 2\n4\n1 1 222 222\n1 2\n1 3\n2 4\n6\n1 5 4 6 1 1\n6 1\n4 5\n4 2\n1 4\n1 3\n```\n\n### Output\n\n```text\n2\n444\n15\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:9971a58149df9a46604cc992f42cea2e6123030d9540396486919c6e68c41f5d",
+          "fileName": "gym-105170-B.pdf",
+          "pageCount": 2,
+          "sha256": "9971a58149df9a46604cc992f42cea2e6123030d9540396486919c6e68c41f5d",
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceSha256": "16f95dfcc6029c1e3e04296e260941ca950fae787b3c5165b1a8ce43226eeae8",
+          "sourceUrl": "https://codeforces.com/gym/105170/problem/B",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Dfs Order 0.5",
+        "url": "https://codeforces.com/gym/105170/problem/B",
+        "sourceTextArchive": [
+          {
+            "text": "Dfs Order 0.5\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nShuishui has a rooted tree of n vertices numbered from 1 to n, where vertex 1 is the root. The value of\r\nthe i-th vertex is ai\r\n.\r\nNow we start the depth-first search at the root. Because sons of a node can be iterated in arbitrary order,\r\nmultiple possible depth-first orders exist. We define the value of a depth-first order to be adding up the\r\nvalue of vertices which appear in the depth-first order at an even index. Shuishui wonders among all\r\npossible depth-first orders of the given tree, what the maximum value is.\r\nFollowing is a pseudo-code for the depth-first search on a rooted tree. After calling main(), dfs_order\r\nwill be the depth-first search order.\r\nAlgorithm 1 An implementation of depth-first search\r\n1: procedure dfs(vertex x)\r\n2: Append x to the end of dfs_order\r\n3: for each son y of x do . Sons can be iterated in arbitrary order.\r\n4: dfs(y)\r\n5: procedure main()\r\n6: Let dfs_order be a global variable\r\n7: dfs_order ← empty list\r\n8: dfs(1)\r\nFollowing is a pseudo-code for calculating the value of a depth-first order. Calling calc(dfs_order) will\r\nreturn the value of it.\r\nAlgorithm 2 An implementation of calculating the value of a depth-first order\r\n1: procedure calc(dfs_order) . dfs_order is a 1-based array of length n\r\n2: s ← 0\r\n3: p ← 2\r\n4: while p ≤ n do\r\n5: u ← dfs_orderp\r\n6: s ← s + au\r\n7: p ← p + 2\r\n8: return s\r\nInput\r\nThe input contains multiple testcases.\r\nThe first line contains a single integer t (1 ≤ t ≤ 2 × 105\r\n), denoting the number of testcases.\r\nFor each testcase:\r\nThe first line contains a single integer n (1 ≤ n ≤ 2 × 105\r\n), denoting the number of vertices in the tree.\r\nThe second line contains n integers a1, a2, . . . , an (1 ≤ ai ≤ 109\r\n), denoting the values of these vertices.\r\nEach of the next n − 1 lines contains two integers ui\r\n, vi (1 ≤ ui\r\n, vi ≤ n, ui 6= vi), denoting an edge of the\r\ntree.\r\nIt is guaranteed that the given edges form a tree.\r\nIt is guaranteed that the sum of n over all test cases does not exceed 2 × 105\r\n.\r\nPage 1 of 2\n\nOutput\r\nFor each testcase, output a single integer in one line, denoting the answer.\r\nExample\r\nstandard input standard output\r\n3\r\n2\r\n1 2\r\n1 2\r\n4\r\n1 1 222 222\r\n1 2\r\n1 3\r\n2 4\r\n6\r\n1 5 4 6 1 1\r\n6 1\r\n4 5\r\n4 2\r\n1 4\r\n1 3\r\n2\r\n444\r\n15\r\nNote\r\nIn the first testcase of the example, the dfs_order is unique, which is [1, 2], and its value is a2 = 2. Note\r\nthat the dfs_order is 1-based.\r\nIn the second testcase of the example, the dfs_order with the maximum value is [1, 3, 2, 4], and its value\r\nis a3 + a4 = 444.\r\nPage 2 of 2",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "92eb6b520de322733cb5b2415c29218f7e345a135bfd2156e3006cf78acc3a73"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "3\n2\n1 2\n1 2\n4\n1 1 222 222\n1 2\n1 3\n2 4\n6\n1 5 4 6 1 1\n6 1\n4 5\n4 2\n1 4\n1 3",
+                "name": "样例 1",
+                "output": "2\n444\n15"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "B",
+          "problemId": "remote:codeforces:105170::B",
+          "pdfSha256": "9971a58149df9a46604cc992f42cea2e6123030d9540396486919c6e68c41f5d",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105170/problem/B",
+          "figures": [],
+          "notes": [
+            "Both original PDF pages visually reviewed, including both pseudocode algorithms, 1-based even positions and sample table columns.",
+            "Pseudocode transcribed as an immutable text block; no diagram is present."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "cd64206f55d63a7f1cdba16022c4d726344b1abe68beb302908fcf72fe65cdab"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "0a7bbca720b8e3bc807aaadfb9ce72196b2e38d75c3ba084d30efe4aa04536eb",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "cd64206f55d63a7f1cdba16022c4d726344b1abe68beb302908fcf72fe65cdab",
+          "sourcePdfSha256": "9971a58149df9a46604cc992f42cea2e6123030d9540396486919c6e68c41f5d",
+          "markdown": "# 深度优先序 0.5\n\n时间限制：1 秒。内存限制：512 MB。使用标准输入和标准输出。\n\nShuishui 有一棵包含 $n$ 个顶点的有根树，顶点编号为 $1$ 到 $n$。顶点 $1$ 是根，顶点 $i$ 的权值为 $a_i$。\n\n从根开始进行深度优先搜索。每个顶点的子结点可以按任意顺序访问，因此可能产生不同的深度优先序。一个深度优先序的价值，定义为该序列中偶数位置上的顶点权值之和。求这棵树所有可能的深度优先序中的最大价值。\n\n以下伪代码生成深度优先序。调用 `main()` 后，`dfs_order` 中保存的就是该序列。\n\n```text\nprocedure dfs(vertex x):\n    append x to the end of dfs_order\n    for each child y of x in an arbitrary order:\n        dfs(y)\nprocedure main():\n    let dfs_order be a global variable\n    dfs_order <- empty list\n    dfs(1)\n```\n\n以下伪代码计算序列的价值。数组下标从 $1$ 开始，长度为 $n$；调用 `calc(dfs_order)` 返回其价值。\n\n```text\nprocedure calc(dfs_order):\n    s <- 0\n    p <- 2\n    while p <= n:\n        u <- dfs_order[p]\n        s <- s + a[u]\n        p <- p + 2\n    return s\n```\n\n## 输入格式\n\n输入包含多组测试数据。第一行包含测试用例数 $t$（$1\\le t\\le2\\times10^5$）。\n\n对于每个测试用例，第一行包含顶点数量 $n$（$1\\le n\\le2\\times10^5$）。第二行包含 $n$ 个整数 $a_1,a_2,\\ldots,a_n$（$1\\le a_i\\le10^9$），表示各顶点的权值。接下来 $n-1$ 行，每行包含 $u_i,v_i$（$1\\le u_i,v_i\\le n$，$u_i\\ne v_i$），描述树的一条边。\n\n保证给出的边组成一棵树。所有测试用例的 $n$ 之和不超过 $2\\times10^5$。\n\n## 输出格式\n\n对于每个测试用例，在一行中输出一个整数，表示最大价值。\n\n## 样例说明\n\n第一组样例只有一种深度优先序 $[1,2]$，价值为 $a_2=2$。序列下标从 $1$ 开始。第二组样例中，一个达到最大价值的深度优先序为 $[1,3,2,4]$，其价值为 $a_3+a_4=444$。\n\n\n## 样例 1\n\n### 输入\n\n```text\n3\n2\n1 2\n1 2\n4\n1 1 222 222\n1 2\n1 3\n2 4\n6\n1 5 4 6 1 1\n6 1\n4 5\n4 2\n1 4\n1 3\n```\n\n### 输出\n\n```text\n2\n444\n15\n```\n"
+        },
+        "translationReview": {
+          "letter": "B",
+          "problemId": "remote:codeforces:105170::B",
+          "pdfSha256": "9971a58149df9a46604cc992f42cea2e6123030d9540396486919c6e68c41f5d",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105170/problem/B",
+          "figures": [],
+          "notes": [
+            "Both original PDF pages visually reviewed, including both pseudocode algorithms, 1-based even positions and sample table columns.",
+            "Pseudocode transcribed as an immutable text block; no diagram is present."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "cd64206f55d63a7f1cdba16022c4d726344b1abe68beb302908fcf72fe65cdab",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

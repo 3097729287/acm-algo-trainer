@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:104270::K",
+      "beforeSha256": "b8451005450b9767e6fa3e8e0a8b188a2cc9acf4295442882e8aa4a3cf3b01ce",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:104270::K",
+        "images": {
+          "https://espresso.codeforces.com/295620d9071ea5457fcad8f6d800602a658e8e68.png": "tb-asset:2c6acb84deba41fe68f6dc92d70b09b54620c95e3973c14103e5ca69f8ecd1f3",
+          "https://espresso.codeforces.com/40a5c62ab8b19d8cbb78f0318250c2eeb951c253.png": "tb-asset:f790b8efc365ad59f3f26e14848d233f11bf85b2c14999bbb1a6b2d654d7f285",
+          "https://espresso.codeforces.com/66fe72a03a43263a469c58a1c2ceca60667dc0e4.png": "tb-asset:2402b81c62da5f3d21ec5c5ba46776eb35735c60dc87b99c302849e8c89bee74",
+          "https://espresso.codeforces.com/8b9278571945da66a9a4ccafc20103f266f514ef.png": "tb-asset:c5b04881a51a32412336faa890f586605e48fea9a8cae879e5c32be64e89d7eb",
+          "https://espresso.codeforces.com/b719c7ce5a7442a3bf64a8fa268fc460dcd2f3a3.png": "tb-asset:95b61973f667ea3987a0428efd3344e25a3e11e386b1ffa807403507284b58b1",
+          "https://espresso.codeforces.com/c17a977908181379d33a56edeaa16de87288ae4a.png": "tb-asset:a963ab8ec96dc65fdbdcdaebb8a92b06e66927c8f76ce9092d12fee5657f155e",
+          "https://espresso.codeforces.com/ebaf063f56f45e8a482a0e55de21436109ff839a.png": "tb-asset:5dcf79251839b43bbb92109ac7da1cd57d48b0deb011bd034fa040f7dd79a741"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T02:51:01.802274+00:00",
+          "corpusAuditVerifiedSha256": "4107c43406666f94b6d6f69580ca01a225076c7f51b27bbd9951c83b1e86e791",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Airdrop\n\nPUBG is a multiplayer online battle royale video game. In the game, up to one hundred players parachute onto an island and scavenge for weapons and equipment to kill others while avoiding getting killed themselves. Airdrop in this game is a key element, as airdrops often carry with them strong weapons or numerous supplies, helping players to survive.\n\n ![](https://espresso.codeforces.com/ebaf063f56f45e8a482a0e55de21436109ff839a.png) *Airdrop in the game(?)*\n\nConsider the battle field of the game to be a two-dimensional plane. An airdrop has just landed at point (*x*$_{0}$, *y*$_{0}$) (both *x*$_{0}$ and *y*$_{0}$ are integers), and all the *n* players on the battle field, where (*x*$_{i}$, *y*$_{i}$) (both *x*$_{i}$ and *y*$_{i}$ are integers) indicates the initial position of the *i*-th player, start moving towards the airdrop with the following pattern:\n\n\n\n- If the position of a living player at the beginning of this time unit is not equal to (*x*$_{0}$, *y*$_{0}$), he will begin his next move. \n  - Let's say he is currently at point (*x*, *y*). For his next move, he will consider four points (*x*, *y* - 1), (*x*, *y* + 1), (*x* - 1, *y*) and (*x* + 1, *y*).\n  - He will select one of the four points whose Manhattan distance to the airdrop (*x*$_{0}$, *y*$_{0}$) is the smallest to be the destination of his next move. Recall that the Manhattan distance between two points (*x*$_{a}$, *y*$_{a}$) and (*x*$_{b}$, *y*$_{b}$) is defined as |*x*$_{a}$ - *x*$_{b}$| + |*y*$_{a}$ - *y*$_{b}$|.\n  - If two or more points whose Manhattan distance to the airdrop is the same, he will use the following priority rule to break the tie: (*x*, *y* - 1) has the highest priority to be selected, (*x*, *y* + 1) has the second highest priority, (*x* - 1, *y*) has the third highest priority, and (*x* + 1, *y*) has the lowest priority.\n  - At the end of this time unit, he arrives at his destination.\n\n- If the position of a living player at the beginning of this time unit is equal to (*x*$_{0}$, *y*$_{0}$), he will continue to fatten his backpack with the supplies in the airdrop and stays at (*x*$_{0}$, *y*$_{0}$).\n\n\n\nBut the battle is tough and it's almost impossible for all the players to arrive at the airdrop safely. If two or more players meet at point (*x*', *y*') other than (*x*$_{0}$, *y*$_{0}$), where both *x*' and *y*' are integers, they will fight and kill each other and none of them survive.\n\n\n\nBaoBao is a big fan of the game and is interested in the number of players successfully arriving at the position of the airdrop, but he doesn't know the value of *x*$_{0}$. Given the value of *y*$_{0}$ and the initial position of each player, please help BaoBao calculate the minimum and maximum possible number of players successfully arriving at the position of the airdrop for all ![](https://espresso.codeforces.com/c17a977908181379d33a56edeaa16de87288ae4a.png), where ![](https://espresso.codeforces.com/b719c7ce5a7442a3bf64a8fa268fc460dcd2f3a3.png) is the set of all integers (note that *x*$_{0}$ can be positive, zero or negative).\n\n\n\n## Input\n\n\n\nThere are multiple test cases. The first line of the input contains an integer *T*, indicating the number of test cases. For each test case:\n\n\n\nThe first line contains two integers *n* and *y*$_{0}$ (1 ≤ *n* ≤ 10$^{5}$, 1 ≤ *y*$_{0}$ ≤ 10$^{5}$), indicating the number of players and the *y* value of the airdrop.\n\n\n\nFor the following *n* lines, the *i*-th line contains two integers *x*$_{i}$ and *y*$_{i}$ (1 ≤ *x*$_{i}$, *y*$_{i}$ ≤ 10$^{5}$), indicating the initial position of the *i*-th player.\n\n\n\nIt's guaranteed that the sum of *n* in all test cases will not exceed 10$^{6}$, and in each test case no two players share the same initial position.\n\n\n\n## Output\n\n\n\nFor each test case output one line containing two integers ![](https://espresso.codeforces.com/40a5c62ab8b19d8cbb78f0318250c2eeb951c253.png) and ![](https://espresso.codeforces.com/8b9278571945da66a9a4ccafc20103f266f514ef.png) separated by one space. ![](https://espresso.codeforces.com/40a5c62ab8b19d8cbb78f0318250c2eeb951c253.png) indicates the minimum possible number of players successfully arriving at the position of the airdrop, while ![](https://espresso.codeforces.com/8b9278571945da66a9a4ccafc20103f266f514ef.png) indicates the maximum possible number.\n\n\n\n## Note\n\n\n\nWe now explain the first sample test case.\n\n\n\nTo obtain the answer of ![](https://espresso.codeforces.com/66fe72a03a43263a469c58a1c2ceca60667dc0e4.png), one should consider *x*$_{0}$ = 3. The following table shows the position of each player at the end of each time unit when *x*$_{0}$ = 3.\n\n \n\n| **Time** | **Player 1** | **Player 2** | **Player 3** |\n| --- | --- | --- | --- |\n| 0 | (1, 2) | (2, 1) | (3, 5) |\n| 1 | (2, 2) | (2, 2) | (3, 4) |\n| 2 | eliminated | eliminated | (3, 3) |\n| 3 | eliminated | eliminated | (3, 2) |\n\n\n\nTo obtain the answer of ![](https://espresso.codeforces.com/295620d9071ea5457fcad8f6d800602a658e8e68.png), one should consider *x*$_{0}$ = 2. The following table shows the position of each player at the end of each time unit when *x*$_{0}$ = 2.\n\n \n\n| **Time** | **Player 1** | **Player 2** | **Player 3** |\n| --- | --- | --- | --- |\n| 0 | (1, 2) | (2, 1) | (3, 5) |\n| 1 | (2, 2) | (2, 2) | (3, 4) |\n| 2 | (2, 2) | (2, 2) | (3, 3) |\n| 3 | (2, 2) | (2, 2) | (3, 2) |\n| 4 | (2, 2) | (2, 2) | (2, 2) |",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:104270::K",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "dcdaf28ccca86aac04364d1872ba63f26e97528ee2d7765cbadf173424415d99",
+          "url": "https://codeforces.com/gym/104270/problem/K"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://espresso.codeforces.com/295620d9071ea5457fcad8f6d800602a658e8e68.png": {
+            "bytes": 617,
+            "frameCount": 1,
+            "height": 16,
+            "mime": "image/png",
+            "sha256": "2c6acb84deba41fe68f6dc92d70b09b54620c95e3973c14103e5ca69f8ecd1f3",
+            "sourceUrl": "https://espresso.codeforces.com/295620d9071ea5457fcad8f6d800602a658e8e68.png",
+            "width": 69
+          },
+          "https://espresso.codeforces.com/40a5c62ab8b19d8cbb78f0318250c2eeb951c253.png": {
+            "bytes": 405,
+            "frameCount": 1,
+            "height": 12,
+            "mime": "image/png",
+            "sha256": "f790b8efc365ad59f3f26e14848d233f11bf85b2c14999bbb1a6b2d654d7f285",
+            "sourceUrl": "https://espresso.codeforces.com/40a5c62ab8b19d8cbb78f0318250c2eeb951c253.png",
+            "width": 32
+          },
+          "https://espresso.codeforces.com/66fe72a03a43263a469c58a1c2ceca60667dc0e4.png": {
+            "bytes": 545,
+            "frameCount": 1,
+            "height": 16,
+            "mime": "image/png",
+            "sha256": "2402b81c62da5f3d21ec5c5ba46776eb35735c60dc87b99c302849e8c89bee74",
+            "sourceUrl": "https://espresso.codeforces.com/66fe72a03a43263a469c58a1c2ceca60667dc0e4.png",
+            "width": 65
+          },
+          "https://espresso.codeforces.com/8b9278571945da66a9a4ccafc20103f266f514ef.png": {
+            "bytes": 433,
+            "frameCount": 1,
+            "height": 12,
+            "mime": "image/png",
+            "sha256": "c5b04881a51a32412336faa890f586605e48fea9a8cae879e5c32be64e89d7eb",
+            "sourceUrl": "https://espresso.codeforces.com/8b9278571945da66a9a4ccafc20103f266f514ef.png",
+            "width": 35
+          },
+          "https://espresso.codeforces.com/b719c7ce5a7442a3bf64a8fa268fc460dcd2f3a3.png": {
+            "bytes": 252,
+            "frameCount": 1,
+            "height": 13,
+            "mime": "image/png",
+            "sha256": "95b61973f667ea3987a0428efd3344e25a3e11e386b1ffa807403507284b58b1",
+            "sourceUrl": "https://espresso.codeforces.com/b719c7ce5a7442a3bf64a8fa268fc460dcd2f3a3.png",
+            "width": 12
+          },
+          "https://espresso.codeforces.com/c17a977908181379d33a56edeaa16de87288ae4a.png": {
+            "bytes": 579,
+            "frameCount": 1,
+            "height": 16,
+            "mime": "image/png",
+            "sha256": "a963ab8ec96dc65fdbdcdaebb8a92b06e66927c8f76ce9092d12fee5657f155e",
+            "sourceUrl": "https://espresso.codeforces.com/c17a977908181379d33a56edeaa16de87288ae4a.png",
+            "width": 52
+          },
+          "https://espresso.codeforces.com/ebaf063f56f45e8a482a0e55de21436109ff839a.png": {
+            "bytes": 440826,
+            "frameCount": 1,
+            "height": 474,
+            "mime": "image/png",
+            "sha256": "5dcf79251839b43bbb92109ac7da1cd57d48b0deb011bd034fa040f7dd79a741",
+            "sourceUrl": "https://espresso.codeforces.com/ebaf063f56f45e8a482a0e55de21436109ff839a.png",
+            "width": 474
+          }
+        },
+        "samples": [
+          {
+            "input": "3\n3 2\n1 2\n2 1\n3 5\n3 3\n2 1\n2 5\n4 3\n2 3\n1 3\n4 3",
+            "name": "样例 1",
+            "output": "1 3\n0 3\n2 2"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Airdrop",
+        "url": "https://codeforces.com/gym/104270/problem/K",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "4107c43406666f94b6d6f69580ca01a225076c7f51b27bbd9951c83b1e86e791",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 空投\n\n\n\nPUBG 是一款多人在线大逃杀游戏。游戏中，最多一百名玩家跳伞到一座岛上，搜集武器和装备，在避免自己被击杀的同时击杀其他玩家。空投是游戏中的重要元素，因为它们往往带有强大的武器或大量补给，能够帮助玩家生存。\n\n\n\n![](https://espresso.codeforces.com/ebaf063f56f45e8a482a0e55de21436109ff839a.png) *游戏中的空投（？）*\n\n\n\n将游戏战场视为二维平面。一个空投刚刚落在点（*x*$_{0}$，*y*$_{0}$），其中 *x*$_{0}$ 和 *y*$_{0}$ 都是整数。战场上的全部 *n* 名玩家开始按以下规则向空投移动，其中（*x*$_{i}$，*y*$_{i}$）表示第 *i* 名玩家的初始位置，*x*$_{i}$ 和 *y*$_{i}$ 都是整数：\n\n\n\n- 如果一名存活玩家在当前时间单位开始时不位于（*x*$_{0}$，*y*$_{0}$），他将开始下一次移动。\n  - 假设他当前位于点（*x*，*y*），他会考虑四个点：（*x*，*y* - 1）、（*x*，*y* + 1）、（*x* - 1，*y*）和（*x* + 1，*y*）。\n  - 他会从中选择到空投（*x*$_{0}$，*y*$_{0}$）的曼哈顿距离最小的点，作为下一次移动的目的地。两点（*x*$_{a}$，*y*$_{a}$）和（*x*$_{b}$，*y*$_{b}$）之间的曼哈顿距离定义为 |*x*$_{a}$ - *x*$_{b}$| + |*y*$_{a}$ - *y*$_{b}$|。\n  - 如果有两个或更多候选点到空投的曼哈顿距离相同，则按以下优先级决定：（*x*，*y* - 1）优先级最高，其次是（*x*，*y* + 1），再次是（*x* - 1，*y*），最后是（*x* + 1，*y*）。\n  - 在当前时间单位结束时，他到达目的地。\n- 如果一名存活玩家在当前时间单位开始时已经位于（*x*$_{0}$，*y*$_{0}$），他会继续收集空投里的补给，留在（*x*$_{0}$，*y*$_{0}$）。\n\n\n\n但战斗很残酷，所有玩家都安全到达空投几乎是不可能的。如果两名或更多玩家在空投（*x*$_{0}$，*y*$_{0}$）以外的点（*x*'，*y*'）相遇，且 *x*' 和 *y*' 都是整数，他们就会互相战斗，全部被淘汰，没有人能存活。\n\n\n\nBaoBao 是这款游戏的忠实玩家，他对最终成功到达空投的玩家数量很感兴趣，但不知道 *x*$_{0}$ 的值。给定 *y*$_{0}$ 和每名玩家的初始位置，请帮助他计算在所有 ![](https://espresso.codeforces.com/c17a977908181379d33a56edeaa16de87288ae4a.png) 中，成功到达空投的玩家数量的最小值与最大值。其中 ![](https://espresso.codeforces.com/b719c7ce5a7442a3bf64a8fa268fc460dcd2f3a3.png) 表示整数集合；注意 *x*$_{0}$ 可以为正数、零或负数。\n\n\n\n## 输入格式\n\n\n\n有多组测试数据。输入第一行包含一个整数 *T*，表示测试用例数。对于每个测试用例：\n\n\n\n第一行包含两个整数 *n* 和 *y*$_{0}$（1 ≤ *n* ≤ 10$^{5}$，1 ≤ *y*$_{0}$ ≤ 10$^{5}$），分别表示玩家数量和空投的 *y* 坐标。\n\n\n\n接下来 *n* 行，第 *i* 行包含两个整数 *x*$_{i}$ 和 *y*$_{i}$（1 ≤ *x*$_{i}$，*y*$_{i}$ ≤ 10$^{5}$），表示第 *i* 名玩家的初始位置。\n\n\n\n保证所有测试用例的 *n* 之和不超过 10$^{6}$，并且同一个测试用例中任意两名玩家的初始位置不同。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，在一行中输出两个以单个空格分隔的整数 ![](https://espresso.codeforces.com/40a5c62ab8b19d8cbb78f0318250c2eeb951c253.png) 和 ![](https://espresso.codeforces.com/8b9278571945da66a9a4ccafc20103f266f514ef.png)。![](https://espresso.codeforces.com/40a5c62ab8b19d8cbb78f0318250c2eeb951c253.png) 表示成功到达空投的玩家数量的最小值，![](https://espresso.codeforces.com/8b9278571945da66a9a4ccafc20103f266f514ef.png) 表示最大值。\n\n\n\n## 样例说明\n\n\n\n下面解释第一组样例。\n\n\n\n要得到 ![](https://espresso.codeforces.com/66fe72a03a43263a469c58a1c2ceca60667dc0e4.png) 的答案，可以令 *x*$_{0}$ = 3。下表给出 *x*$_{0}$ = 3 时，每个时间单位结束后各玩家的位置。\n\n\n\n| **时间** | **玩家 1** | **玩家 2** | **玩家 3** |\n| --- | --- | --- | --- |\n| 0 | (1, 2) | (2, 1) | (3, 5) |\n| 1 | (2, 2) | (2, 2) | (3, 4) |\n| 2 | 已淘汰 | 已淘汰 | (3, 3) |\n| 3 | 已淘汰 | 已淘汰 | (3, 2) |\n\n\n\n要得到 ![](https://espresso.codeforces.com/295620d9071ea5457fcad8f6d800602a658e8e68.png) 的答案，可以令 *x*$_{0}$ = 2。下表给出 *x*$_{0}$ = 2 时，每个时间单位结束后各玩家的位置。\n\n\n\n| **时间** | **玩家 1** | **玩家 2** | **玩家 3** |\n| --- | --- | --- | --- |\n| 0 | (1, 2) | (2, 1) | (3, 5) |\n| 1 | (2, 2) | (2, 2) | (3, 4) |\n| 2 | (2, 2) | (2, 2) | (3, 3) |\n| 3 | (2, 2) | (2, 2) | (3, 2) |\n| 4 | (2, 2) | (2, 2) | (2, 2) |\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:104270::K",
+          "slug": "104270-K",
+          "sourceUrl": "https://codeforces.com/gym/104270/problem/K",
+          "sourceSha256": "4107c43406666f94b6d6f69580ca01a225076c7f51b27bbd9951c83b1e86e791",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "3\n3 2\n1 2\n2 1\n3 5\n3 3\n2 1\n2 5\n4 3\n2 3\n1 3\n4 3",
+              "name": "样例 1",
+              "output": "1 3\n0 3\n2 2"
+            }
+          ],
+          "notes": [
+            "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+            "Original Markdown, sample records, image map and resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

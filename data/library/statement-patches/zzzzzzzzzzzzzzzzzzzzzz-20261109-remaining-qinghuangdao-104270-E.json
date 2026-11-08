@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:104270::E",
+      "beforeSha256": "74e70c4beb9db6c0aeee3c9ddfdcdc273c07b9c0be454ee382b1f2ab1d138c8e",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:104270::E",
+        "images": {
+          "https://espresso.codeforces.com/67cb1bf92680e3419c15e3730a37bbb3c42768e5.png": "tb-asset:8769c334e9b2d27249bf2d3c8a3671f2ad28007bccd7f38e76bb34817701b117"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T02:50:26.141019+00:00",
+          "corpusAuditVerifiedSha256": "a45b731191df9931195d2cecbae2bc7e01003042cede83b6b15bfbd6a95f4775",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Plants vs. Zombies\n\nBaoBao and DreamGrid are playing the game *Plants vs. Zombies*. In the game, DreamGrid grows plants to defend his garden against BaoBao's zombies.\n\n ![](https://espresso.codeforces.com/67cb1bf92680e3419c15e3730a37bbb3c42768e5.png) *Plants vs. Zombies(?)* *(Image from pixiv. ID: 21790160; Artist: socha)*\n\nThere are $$$n$$$ plants in DreamGrid's garden arranged in a line. From west to east, the plants are numbered from 1 to $$$n$$$ and the $$$i$$$-th plant lies $$$i$$$ meters to the east of DreamGrid's house. The $$$i$$$-th plant has a defense value of $$$d_i$$$ and a growth speed of $$$a_i$$$. Initially, $$$d_i = 0$$$ for all $$$1 \\le i \\le n$$$.\n\n\n\nDreamGrid uses a robot to water the plants. The robot is in his house initially. In one step of watering, DreamGrid will choose a direction (east or west) and the robot moves exactly 1 meter along the direction. After moving, if the $$$i$$$-th plant is at the robot's position, the robot will water the plant and $$$a_i$$$ will be added to $$$d_i$$$. Because the water in the robot is limited, at most $$$m$$$ steps can be done.\n\n\n\nThe defense value of the garden is defined as $$$\\min\\{d_i | 1 \\le i \\le n\\}$$$. DreamGrid needs your help to maximize the garden's defense value and win the game.\n\n\n\nPlease note that:\n\n\n\n- Each time the robot MUST move before watering a plant;\n\n- It's OK for the robot to move more than $$$n$$$ meters to the east away from the house, or move back into the house, or even move to the west of the house.\n\n\n\n## Input\n\n\n\nThere are multiple test cases. The first line of the input contains an integer $$$T$$$, indicating the number of test cases. For each test case:\n\n\n\nThe first line contains two integers $$$n$$$ and $$$m$$$ ($$$2 \\le n \\le 10^5$$$, $$$0 \\le m \\le 10^{12}$$$), indicating the number of plants and the maximum number of steps the robot can take.\n\n\n\nThe second line contains $$$n$$$ integers $$$a_1, a_2, ... , a_n$$$ ($$$1 \\le a_i \\le 10^5$$$), where $$$a_i$$$ indicates the growth speed of the $$$i$$$-th plant.\n\n\n\nIt's guaranteed that the sum of $$$n$$$ in all test cases will not exceed $$$10^6$$$.\n\n\n\n## Output\n\n\n\nFor each test case output one line containing one integer, indicating the maximum defense value of the garden DreamGrid can get.\n\n\n\n## Note\n\n\n\nIn the explanation below, 'E' indicates that the robot moves exactly 1 meter to the east from his current position, and 'W' indicates that the robot moves exactly 1 meter to the west from his current position.\n\n\n\nFor the first test case, a candidate direction sequence is {E, E, W, E, E, W, E, E}, so that we have $$$d = \\{6,6,12,6\\}$$$ after the watering.\n\n\n\nFor the second test case, a candidate direction sequence is {E, E, E, E, W, E, W, E, W}, so that we have $$$d = \\{10, 10, 4\\}$$$ after the watering.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:104270::E",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "999d6940e642b32463a7b92461367739bb72104936f82d102f0c5f2ca9f9971e",
+          "url": "https://codeforces.com/gym/104270/problem/E"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://espresso.codeforces.com/67cb1bf92680e3419c15e3730a37bbb3c42768e5.png": {
+            "bytes": 93539,
+            "frameCount": 1,
+            "height": 352,
+            "mime": "image/png",
+            "sha256": "8769c334e9b2d27249bf2d3c8a3671f2ad28007bccd7f38e76bb34817701b117",
+            "sourceUrl": "https://espresso.codeforces.com/67cb1bf92680e3419c15e3730a37bbb3c42768e5.png",
+            "width": 644
+          }
+        },
+        "samples": [
+          {
+            "input": "2\n4 8\n3 2 6 6\n3 9\n10 10 1",
+            "name": "样例 1",
+            "output": "6\n4"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Plants vs. Zombies",
+        "url": "https://codeforces.com/gym/104270/problem/E",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "a45b731191df9931195d2cecbae2bc7e01003042cede83b6b15bfbd6a95f4775",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 植物大战僵尸\n\n\n\nBaoBao 和 DreamGrid 正在玩*植物大战僵尸*。游戏中，DreamGrid 种植植物，保护花园免受 BaoBao 的僵尸攻击。\n\n\n\n![](https://espresso.codeforces.com/67cb1bf92680e3419c15e3730a37bbb3c42768e5.png) *植物大战僵尸（？）* *（图片来自 pixiv，作品 ID：21790160；画师：socha）*\n\n\n\nDreamGrid 的花园里有 $$$n$$$ 棵植物，排成一行。从西向东，植物编号为 1 到 $$$n$$$，第 $$$i$$$ 棵植物位于 DreamGrid 房子以东 $$$i$$$ 米处。第 $$$i$$$ 棵植物的防御值为 $$$d_i$$$，生长速度为 $$$a_i$$$。初始时，对于所有 $$$1 \\le i \\le n$$$，都有 $$$d_i = 0$$$。\n\n\n\nDreamGrid 用机器人给植物浇水。机器人最初位于他的房子里。在每一步浇水操作中，DreamGrid 选择一个方向（东或西），机器人沿该方向恰好移动 1 米。移动后，如果机器人所在位置有第 $$$i$$$ 棵植物，它就给这棵植物浇水，使 $$$d_i$$$ 增加 $$$a_i$$$。由于机器人携带的水有限，最多只能执行 $$$m$$$ 步。\n\n\n\n花园的防御值定义为 $$$\\min\\{d_i | 1 \\le i \\le n\\}$$$。DreamGrid 需要你帮助他最大化花园的防御值，从而赢得游戏。\n\n\n\n请注意：\n\n\n\n- 机器人每次给植物浇水前都必须先移动；\n- 机器人可以向东走到距离房子超过 $$$n$$$ 米的位置，也可以返回房子，甚至可以走到房子以西。\n\n\n\n## 输入格式\n\n\n\n有多组测试数据。输入第一行包含一个整数 $$$T$$$，表示测试用例数。对于每个测试用例：\n\n\n\n第一行包含两个整数 $$$n$$$ 和 $$$m$$$（$$$2 \\le n \\le 10^5$$$，$$$0 \\le m \\le 10^{12}$$$），分别表示植物数量和机器人最多能走的步数。\n\n\n\n第二行包含 $$$n$$$ 个整数 $$$a_1, a_2, ... , a_n$$$（$$$1 \\le a_i \\le 10^5$$$），其中 $$$a_i$$$ 表示第 $$$i$$$ 棵植物的生长速度。\n\n\n\n保证所有测试用例的 $$$n$$$ 之和不超过 $$$10^6$$$。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，在一行中输出一个整数，表示 DreamGrid 能得到的最大花园防御值。\n\n\n\n## 样例说明\n\n\n\n以下说明中，'E' 表示机器人从当前位置向东恰好移动 1 米，'W' 表示从当前位置向西恰好移动 1 米。\n\n\n\n对于第一组样例，一种可行的方向序列为 {E, E, W, E, E, W, E, E}，浇水后有 $$$d = \\{6,6,12,6\\}$$$。\n\n\n\n对于第二组样例，一种可行的方向序列为 {E, E, E, E, W, E, W, E, W}，浇水后有 $$$d = \\{10, 10, 4\\}$$$。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:104270::E",
+          "slug": "104270-E",
+          "sourceUrl": "https://codeforces.com/gym/104270/problem/E",
+          "sourceSha256": "a45b731191df9931195d2cecbae2bc7e01003042cede83b6b15bfbd6a95f4775",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "2\n4 8\n3 2 6 6\n3 9\n10 10 1",
+              "name": "样例 1",
+              "output": "6\n4"
+            }
+          ],
+          "notes": [
+            "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+            "Original Markdown, sample records, image map and resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

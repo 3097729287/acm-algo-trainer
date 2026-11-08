@@ -407,6 +407,12 @@ def statement(client,identity,title,url):
     elif host=='codeforces.com':
         from statement_format import Tree,classes,plain,markdown
         page=client.text(url)
+        if page.startswith('%PDF-') and parsed.path.startswith('/gym/'):
+            # A native Gym problem can itself be a complete PDF. Its binary
+            # stream must never enter the bounded HTML parser first.
+            from codeforces_pdf import statement as pdf_statement
+            from statement_integrity import finalize_source
+            return finalize_source(pdf_statement(client,identity,title,url,page),client)
         # Only the native statement subtree belongs to the parser. Long Gym
         # sidebars and malformed unrelated saved-page markup are not task text.
         start=re.search(r'<div\b[^>]*class=["\'][^"\']*\bproblem-statement\b[^"\']*["\'][^>]*>',page,re.I)

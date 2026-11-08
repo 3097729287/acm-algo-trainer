@@ -1,0 +1,26 @@
+[
+  {
+    "sha256": "febc87ba0a14e506fb18f332e0e6055de61b49886b0335984132e96b55104043",
+    "mime": "application/zip",
+    "bytes": 1376,
+    "file": "statement-assets/febc87ba0a14e506fb18f332e0e6055de61b49886b0335984132e96b55104043.bin"
+  },
+  {
+    "sha256": "f8766796683c9100c867747fa0434616844d4296cf8ea0476008f4d8be7d7d0e",
+    "mime": "image/svg+xml",
+    "bytes": 938,
+    "file": "statement-assets/f8766796683c9100c867747fa0434616844d4296cf8ea0476008f4d8be7d7d0e.bin"
+  },
+  {
+    "sha256": "b358626eb2c246e9df5be2a1b87c9362c54b1f129adf306d8427b7f79dd7c259",
+    "mime": "image/svg+xml",
+    "bytes": 1451,
+    "file": "statement-assets/b358626eb2c246e9df5be2a1b87c9362c54b1f129adf306d8427b7f79dd7c259.bin"
+  },
+  {
+    "sha256": "36f8855455dcaec07b45b1675b46023bbab360daac53c8eedc4a14b12f1d8ef8",
+    "mime": "application/zip",
+    "bytes": 576,
+    "file": "statement-assets/36f8855455dcaec07b45b1675b46023bbab360daac53c8eedc4a14b12f1d8ef8.bin"
+  }
+]

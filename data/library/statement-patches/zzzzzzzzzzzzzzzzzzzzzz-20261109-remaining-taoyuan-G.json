@@ -1,0 +1,229 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105544::G",
+      "beforeSha256": "3b3e468d9f28601efeb0b8687001fc783754bd89b593ccb75ecb2159ea07f541",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "data": "tb-asset:7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "fileName": "gym-105544.pdf",
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "id": "remote:codeforces:105544::G",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:56:37.666066+00:00",
+          "corpusAuditVerifiedSha256": "6755ef130515638da824fda3a309cc80db8dfdfb04e7794e83d30c2749e534b6",
+          "pdfPageCountVerified": true,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1500
+        },
+        "localJudgeSupported": true,
+        "markdown": "# A Packing Problem\n\nProblem PG\r\nA Packing Problem\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nJade is having fun playing around with items and boxes. She is wondering whether or not the\r\nitems she has can be packed into the boxes. The scenario is described as follows.\r\nJade has 𝑚 boxes ℬ := { 𝐵1, 𝐵2, . . . , 𝐵𝑚 } that are nonidentical to each other. Despite the\r\nnonidentical appearances of the boxes, they have a uniform size 𝑇. On the other hand, she has\r\n𝑛 items ℐ := { 𝐼1, 𝐼2, . . . , 𝐼𝑛 }, where item 𝐼𝑗 has size 𝑎𝑗 that is either 𝑠1 or 𝑠2 for some 𝑠1, 𝑠2.\r\nIn other words, 𝑎𝑗 ∈ {𝑠1, 𝑠2} for all 1 ≤ 𝑗 ≤ 𝑛. Furthermore, it is known that 0 < 𝑠1, 𝑠2 ≤ 𝑇\r\nand 𝑠1, 𝑠2 ∈/ (𝑇/4, 3𝑇/4). That is, either 𝑠𝑖 ≤ 𝑇/4 or 𝑠𝑖 ≥ 3𝑇/4 for 𝑖 ∈ {1, 2}.\r\nIn Jade’s rule of thumb for packing the items, not every item can be placed in every box. In\r\nparticular, she has associated each item 𝐼𝑗 with a subset 𝑃𝑗 ⊆ ℬ which denotes the set of boxes\r\nin which item 𝐼𝑗\r\nis allowed to be placed. To be precise, item 𝐼𝑗 can be placed in box 𝐵𝑖\r\nif and\r\nonly if 𝐵𝑖 ∈ 𝑃𝑗\r\n. For convenience, for any 𝐵𝑖 ∈ ℬ, also define 𝑃\r\n−1\r\n𝑖\r\n:= { 𝐼𝑗 ∈ ℐ : 𝐵𝑖 ∈ 𝑃𝑗 } to be\r\nthe set of items that are allowed to be placed in box 𝐵𝑖\r\n.\r\nUnder this scenario, Jade is wondering, whether or not it is possible to pack all the items in\r\nthe boxes such that the total size of the items in each box is at most 𝑇. In other words, Jade\r\nis interested in knowing the existence of an assignment function 𝜎 : ℐ ↦→ ℬ such that\r\n For any 𝑗 with 1 ≤ 𝑗 ≤ 𝑛, 𝜎(𝐼𝑗 ) = 𝐵𝑖 only if 𝐵𝑖 ∈ 𝑃𝑗\r\n.\r\n For any 𝑖 with 1 ≤ 𝑖 ≤ 𝑚, ∑︁\r\n𝐼𝑗∈𝜎−1(𝐵𝑖)\r\n𝑎𝑗 ≤ 𝑇.\r\nIn particular, if there exists no such assignment, then we say that the box size 𝑇 is infeasible.\r\nAs a known fact, one way to certify the infeasibility of any 𝑇 ≥ 0 in the above scenario is to\r\ndemonstrate a set of variables 𝛼𝑗 and 𝛽𝑖\r\nfor all 𝐼𝑗 ∈ ℐ, 𝐵𝑖 ∈ ℬ such that the linear constraints\r\nlisted below in LP-(t) with 𝑡 := 𝑇 is satisfied.\r\nIn other words, there exists a set of valid estimations on the sizes of the items and boxes in the\r\nsense that, whenever the total size of an item combination 𝐶 is at most the size of a box 𝐵𝑖\r\n,\r\nso is their total estimated sizes. Furthermore, the total estimated item sizes are strictly larger\r\nthan the total estimated sizes of the boxes.\r\nWhile knowing the above fact and feeling that the box size 𝑇 may not be feasible for the items,\r\n1\n\n∑︁\r\n1≤𝑗≤𝑛\r\n𝛼𝑗 >\r\n∑︁\r\n1≤𝑖≤𝑚\r\n𝛽𝑖 LP-(t)\r\n∑︁\r\n𝐼𝑗∈𝐶\r\n𝛼𝑗 ≤ 𝛽𝑖\r\n, for any 1 ≤ 𝑖 ≤ 𝑚 and any 𝐶 ⊆ 𝑃\r\n−1\r\n𝑖\r\nsuch that ∑︁\r\n𝐼𝑗∈𝐶\r\n𝑎𝑖 ≤ 𝑡.\r\nJade has a hard time finding such a set of variables. One day, Jade’s best friend, Mike, dropped\r\nby and said\r\nThe instance you give is very hard to pack! Why don’t you try to prove that the\r\nbox size ( 1 + 3/4 ) · 𝑇 is feasible?\r\nWhile it is easier to use boxes with enlarged size ( 1 + 3/4 )·𝑇, Jade insists that each box must\r\nnot contain more than one item with size strictly larger than 𝑇/4!\r\nProvided the above information, your task in this problem is to help Jade compute either\r\n1. An assignment 𝜎 for the enlarged box size ( 1 + 3/4 )· 𝑇 such that no box contains more\r\nthan one item with size strictly larger than 𝑇/4, or\r\n2. A set of 𝛼𝑗 and 𝛽𝑖 that satisfies LP-(t) with 𝑡 := 𝑇 which shows that the box size 𝑇 is\r\ninfeasible for the items.\r\nInput Format\r\nThe first line contains two integers 𝑛 and 𝑚, which denote the number of items and the number\r\nof boxes. Then there are 𝑛 lines, each of which describes the parameters for the 𝑛 items. In\r\nparticular, the 𝑗\r\n𝑡ℎ line starts with two integers 𝑎𝑗 and 𝑝𝑗\r\n, the size of 𝐼𝑗 and the cardinality of\r\n𝑃𝑗\r\n. Then 𝑝𝑗\r\nintegers follow, which denote the indexes of the boxes in 𝑃𝑗\r\n. The last line contains\r\na single integer 𝑇.\r\nYou may assume that the indexes of the boxes are numbered from 1 to 𝑚.\r\nOutput Format\r\nDepending on the resulting outcome, the output format is different.\r\nIf an assignment for box size ( 1 + 3/4 ) · 𝑇 is found, then print in the first line the string\r\n”Assignment”. Print in the second line 𝑛 integers which denotes the indexes of the boxes in\r\nwhich the 𝑛 items are placed. If there are multiple answers, print any of them.\r\nOn the other hand, if a set of 𝛼𝑗 and 𝛽𝑖 that satisfy LP-(t) with 𝑡 := 𝑇 is found, then print\r\nin the first line the string ”Proof”. Print the values of 𝛼𝑗\r\nfor all 1 ≤ 𝑗 ≤ 𝑛 and 𝛽𝑖\r\nfor all\r\n1 ≤ 𝑖 ≤ 𝑚 in two lines separately. If there are multiple solutions, print any of them that\r\nsatisfies the following two conditions.\r\n2\n\n 𝛼𝑗 and 𝛽𝑖 are non-negative integers for all 1 ≤ 𝑗 ≤ 𝑛 and 1 ≤ 𝑖 ≤ 𝑚.\r\n max ( max1≤𝑗≤𝑛 𝛼𝑗\r\n, max1≤𝑖≤𝑚 𝛽𝑖 ) ≤ 3 × 105\r\n.\r\nTechnical Specification\r\n 1 ≤ 𝑛 ≤ 100, 1 ≤ 𝑚 ≤ 100.\r\n 𝑇 is a multiple of 4. Furthermore, 1 ≤ 𝑇 ≤ 105\r\n.\r\n For both 𝑖 ∈ {1, 2}, either 1 ≤ 𝑠𝑖 ≤ 𝑇/4 or 3𝑇/4 ≤ 𝑠𝑖 ≤ 𝑇 must hold.\r\n 𝑎𝑗 ∈ {𝑠1, 𝑠2} for all 1 ≤ 𝑗 ≤ 𝑛.\r\nFor the output, the following conditions must be satisfied.\r\n 𝛼𝑗 and 𝛽𝑖 are non-negative integers for all 1 ≤ 𝑗 ≤ 𝑛 and 1 ≤ 𝑖 ≤ 𝑚.\r\n max ( max1≤𝑗≤𝑛 𝛼𝑗\r\n, max1≤𝑖≤𝑚 𝛽𝑖 ) ≤ 3 × 105\r\n.\r\nSample Input 1\r\n3 3\r\n4 2 1 2\r\n4 2 2 3\r\n4 2 3 1\r\n4\r\nSample Output 1\r\nAssignment\r\n1 2 3\r\nSample Input 2\r\n4 3\r\n4 2 1 2\r\n4 2 2 3\r\n4 2 3 1\r\n4 3 1 2 3\r\n4\r\nSample Output 2\r\nProof\r\n1 1 1 1\r\n1 1 1\r\n3\n\n[PDF](https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "recovered",
+          "id": "remote:codeforces:105544::G",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 3,
+          "pdfSha256": "7083904afaac949d34f4cec3129bca0818e419683342a438441f2fa01d44cce9",
+          "problemType": "standard",
+          "samplePairs": 2,
+          "samplesSha256": "c8592bddc20d696990bd6f8426a112e69c8556e255b5947609d80c548d6e1bb6",
+          "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "url": "https://codeforces.com/gym/105544/problem/G"
+        },
+        "pageCount": 3,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "7083904afaac949d34f4cec3129bca0818e419683342a438441f2fa01d44cce9",
+          "page": 3,
+          "reason": "Native outlined examples checked against the actual page; printed page numbers are outside the sample boxes."
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 3\n4 2 1 2\n4 2 2 3\n4 2 3 1\n4",
+            "output": "Assignment\n1 2 3"
+          },
+          {
+            "name": "样例 2",
+            "input": "4 3\n4 2 1 2\n4 2 2 3\n4 2 3 1\n4 3 1 2 3\n4",
+            "output": "Proof\n1 1 1 1\n1 1 1"
+          }
+        ],
+        "sourceBinding": {
+          "kind": "exact-title",
+          "pdfProblemLabel": "PG",
+          "pdfTitle": "A Packing Problem",
+          "problem": "G",
+          "problemInventoryVerified": 13,
+          "rosterTitle": "A Packing Problem",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          13,
+          14,
+          15
+        ],
+        "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+        "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+        "sourceRosterSha256": "5ec88d8ed50da51a78d550da61b9a8e69dbbceb1b980a28aee4f3f3058f9163a",
+        "sourceRosterUrl": "https://codeforces.com/gym/105544",
+        "sourceText": "# A Packing Problem\n\nTime limit: 1 second. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nThere are $m$ distinguishable boxes $\\mathcal B=\\{B_1,\\ldots,B_m\\}$, each of capacity $T$, and $n$ items $\\mathcal I=\\{I_1,\\ldots,I_n\\}$. Item $I_j$ has size $a_j\\in\\{s_1,s_2\\}$. The two possible sizes satisfy $0<s_1,s_2\\le T$, and neither lies in the open interval $(T/4,3T/4)$.\n\nEach item $I_j$ may be put only into a box in a specified set $P_j\\subseteq\\mathcal B$. Let $P_i^{-1}=\\{I_j\\in\\mathcal I:B_i\\in P_j\\}$ be the set of items allowed in box $B_i$.\n\nA feasible packing is an assignment $\\sigma:\\mathcal I\\to\\mathcal B$ such that $\\sigma(I_j)\\in P_j$ for every item and $\\sum_{I_j\\in\\sigma^{-1}(B_i)}a_j\\le T$ for every box. If no such assignment exists, the instance is infeasible.\n\nOne way to prove infeasibility is to give nonnegative values $\\alpha_1,\\ldots,\\alpha_n$ for the items and $\\beta_1,\\ldots,\\beta_m$ for the boxes. For capacity $t$, consider these conditions, called LP-$(t)$:\n\n$$\\sum_{1\\le j\\le n}\\alpha_j>\\sum_{1\\le i\\le m}\\beta_i.$$\n\nFor every $1\\le i\\le m$ and every subset $C\\subseteq P_i^{-1}$ satisfying $\\sum_{I_j\\in C}a_j\\le t$, require\n\n$$\\sum_{I_j\\in C}\\alpha_j\\le\\beta_i.$$\n\nThe values can be viewed as estimates of item sizes and box capacities. Every set of items that fits in a box has total estimated size at most that box's estimated capacity, yet the estimated total size of all items exceeds the estimated total capacity of all boxes. Thus LP-$(T)$ proves that the original instance is infeasible.\n\nMike proposes allowing each box to have capacity $(1+3/4)T$. For every input instance, output either:\n\n- an assignment using these enlarged capacities, with at most one item of size strictly greater than $T/4$ in each box; or\n- values satisfying LP-$(T)$, proving infeasibility for the original capacity.\n\nThe assignment must still respect every allowed-box set. A proof concerns the original capacity, not the enlarged capacity.\n\n## Input Format\n\nThe first line contains $n$ and $m$. Each of the next $n$ lines describes item $I_j$: its size $a_j$, the number $p_j$ of allowed boxes, and then the $p_j$ box indices in $P_j$. Boxes are numbered from $1$ to $m$. The last line contains $T$.\n\n## Output Format\n\nIf giving an assignment, output `Assignment` on the first line and the $n$ assigned box indices in item order on the second line. Each item must be assigned to an allowed box. No box may receive total size greater than $(1+3/4)T$ or more than one item strictly larger than $T/4$.\n\nIf giving a proof, output `Proof` on the first line, the $n$ values $\\alpha_1,\\ldots,\\alpha_n$ on the second line, and the $m$ values $\\beta_1,\\ldots,\\beta_m$ on the third line. All these values must be integers in $[0,3\\times10^5]$ and satisfy LP-$(T)$.\n\nEither kind of valid output is accepted.\n\n## Technical Specification\n\n- $1\\le n,m\\le100$.\n- $1\\le T\\le10^5$, and $T$ is divisible by $4$.\n- $s_1,s_2\\in[1,T/4]\\cup[3T/4,T]$ and $a_j\\in\\{s_1,s_2\\}$.\n\n\n## Sample 1\n\n### Input\n\n```text\n3 3\n4 2 1 2\n4 2 2 3\n4 2 3 1\n4\n```\n\n### Output\n\n```text\nAssignment\n1 2 3\n```\n\n## Sample 2\n\n### Input\n\n```text\n4 3\n4 2 1 2\n4 2 2 3\n4 2 3 1\n4 3 1 2 3\n4\n```\n\n### Output\n\n```text\nProof\n1 1 1 1\n1 1 1\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:7083904afaac949d34f4cec3129bca0818e419683342a438441f2fa01d44cce9",
+          "fileName": "gym-105544-G.pdf",
+          "pageCount": 3,
+          "sha256": "7083904afaac949d34f4cec3129bca0818e419683342a438441f2fa01d44cce9",
+          "sourcePageNumbers": [
+            13,
+            14,
+            15
+          ],
+          "sourceSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "A Packing Problem",
+        "url": "https://codeforces.com/gym/105544/problem/G",
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "3 3\n4 2 1 2\n4 2 2 3\n4 2 3 1\n4",
+                "name": "样例 1",
+                "output": "Assignment\n1 2 3"
+              },
+              {
+                "input": "4 3\n4 2 1 2\n4 2 2 3\n4 2 3 1\n4 3 1 2 3\n4\n3",
+                "name": "样例 2",
+                "output": "Proof\n1 1 1 1\n1 1 1"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          },
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "3 3\n4 2 1 2\n4 2 2 3\n4 2 3 1\n4",
+                "output": "Assignment\n1 2 3"
+              },
+              {
+                "name": "样例 2",
+                "input": "4 3\n4 2 1 2\n4 2 2 3\n4 2 3 1\n4 3 1 2 3\n4",
+                "output": "Proof\n1 1 1 1\n1 1 1"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "7083904afaac949d34f4cec3129bca0818e419683342a438441f2fa01d44cce9",
+              "page": 3,
+              "reason": "Native outlined examples checked against the actual page; printed page numbers are outside the sample boxes."
+            }
+          }
+        ],
+        "sourceTextArchive": [
+          {
+            "text": "Problem PG\r\nA Packing Problem\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nJade is having fun playing around with items and boxes. She is wondering whether or not the\r\nitems she has can be packed into the boxes. The scenario is described as follows.\r\nJade has 𝑚 boxes ℬ := { 𝐵1, 𝐵2, . . . , 𝐵𝑚 } that are nonidentical to each other. Despite the\r\nnonidentical appearances of the boxes, they have a uniform size 𝑇. On the other hand, she has\r\n𝑛 items ℐ := { 𝐼1, 𝐼2, . . . , 𝐼𝑛 }, where item 𝐼𝑗 has size 𝑎𝑗 that is either 𝑠1 or 𝑠2 for some 𝑠1, 𝑠2.\r\nIn other words, 𝑎𝑗 ∈ {𝑠1, 𝑠2} for all 1 ≤ 𝑗 ≤ 𝑛. Furthermore, it is known that 0 < 𝑠1, 𝑠2 ≤ 𝑇\r\nand 𝑠1, 𝑠2 ∈/ (𝑇/4, 3𝑇/4). That is, either 𝑠𝑖 ≤ 𝑇/4 or 𝑠𝑖 ≥ 3𝑇/4 for 𝑖 ∈ {1, 2}.\r\nIn Jade’s rule of thumb for packing the items, not every item can be placed in every box. In\r\nparticular, she has associated each item 𝐼𝑗 with a subset 𝑃𝑗 ⊆ ℬ which denotes the set of boxes\r\nin which item 𝐼𝑗\r\nis allowed to be placed. To be precise, item 𝐼𝑗 can be placed in box 𝐵𝑖\r\nif and\r\nonly if 𝐵𝑖 ∈ 𝑃𝑗\r\n. For convenience, for any 𝐵𝑖 ∈ ℬ, also define 𝑃\r\n−1\r\n𝑖\r\n:= { 𝐼𝑗 ∈ ℐ : 𝐵𝑖 ∈ 𝑃𝑗 } to be\r\nthe set of items that are allowed to be placed in box 𝐵𝑖\r\n.\r\nUnder this scenario, Jade is wondering, whether or not it is possible to pack all the items in\r\nthe boxes such that the total size of the items in each box is at most 𝑇. In other words, Jade\r\nis interested in knowing the existence of an assignment function 𝜎 : ℐ ↦→ ℬ such that\r\n For any 𝑗 with 1 ≤ 𝑗 ≤ 𝑛, 𝜎(𝐼𝑗 ) = 𝐵𝑖 only if 𝐵𝑖 ∈ 𝑃𝑗\r\n.\r\n For any 𝑖 with 1 ≤ 𝑖 ≤ 𝑚, ∑︁\r\n𝐼𝑗∈𝜎−1(𝐵𝑖)\r\n𝑎𝑗 ≤ 𝑇.\r\nIn particular, if there exists no such assignment, then we say that the box size 𝑇 is infeasible.\r\nAs a known fact, one way to certify the infeasibility of any 𝑇 ≥ 0 in the above scenario is to\r\ndemonstrate a set of variables 𝛼𝑗 and 𝛽𝑖\r\nfor all 𝐼𝑗 ∈ ℐ, 𝐵𝑖 ∈ ℬ such that the linear constraints\r\nlisted below in LP-(t) with 𝑡 := 𝑇 is satisfied.\r\nIn other words, there exists a set of valid estimations on the sizes of the items and boxes in the\r\nsense that, whenever the total size of an item combination 𝐶 is at most the size of a box 𝐵𝑖\r\n,\r\nso is their total estimated sizes. Furthermore, the total estimated item sizes are strictly larger\r\nthan the total estimated sizes of the boxes.\r\nWhile knowing the above fact and feeling that the box size 𝑇 may not be feasible for the items,\r\n1\n\n∑︁\r\n1≤𝑗≤𝑛\r\n𝛼𝑗 >\r\n∑︁\r\n1≤𝑖≤𝑚\r\n𝛽𝑖 LP-(t)\r\n∑︁\r\n𝐼𝑗∈𝐶\r\n𝛼𝑗 ≤ 𝛽𝑖\r\n, for any 1 ≤ 𝑖 ≤ 𝑚 and any 𝐶 ⊆ 𝑃\r\n−1\r\n𝑖\r\nsuch that ∑︁\r\n𝐼𝑗∈𝐶\r\n𝑎𝑖 ≤ 𝑡.\r\nJade has a hard time finding such a set of variables. One day, Jade’s best friend, Mike, dropped\r\nby and said\r\nThe instance you give is very hard to pack! Why don’t you try to prove that the\r\nbox size ( 1 + 3/4 ) · 𝑇 is feasible?\r\nWhile it is easier to use boxes with enlarged size ( 1 + 3/4 )·𝑇, Jade insists that each box must\r\nnot contain more than one item with size strictly larger than 𝑇/4!\r\nProvided the above information, your task in this problem is to help Jade compute either\r\n1. An assignment 𝜎 for the enlarged box size ( 1 + 3/4 )· 𝑇 such that no box contains more\r\nthan one item with size strictly larger than 𝑇/4, or\r\n2. A set of 𝛼𝑗 and 𝛽𝑖 that satisfies LP-(t) with 𝑡 := 𝑇 which shows that the box size 𝑇 is\r\ninfeasible for the items.\r\nInput Format\r\nThe first line contains two integers 𝑛 and 𝑚, which denote the number of items and the number\r\nof boxes. Then there are 𝑛 lines, each of which describes the parameters for the 𝑛 items. In\r\nparticular, the 𝑗\r\n𝑡ℎ line starts with two integers 𝑎𝑗 and 𝑝𝑗\r\n, the size of 𝐼𝑗 and the cardinality of\r\n𝑃𝑗\r\n. Then 𝑝𝑗\r\nintegers follow, which denote the indexes of the boxes in 𝑃𝑗\r\n. The last line contains\r\na single integer 𝑇.\r\nYou may assume that the indexes of the boxes are numbered from 1 to 𝑚.\r\nOutput Format\r\nDepending on the resulting outcome, the output format is different.\r\nIf an assignment for box size ( 1 + 3/4 ) · 𝑇 is found, then print in the first line the string\r\n”Assignment”. Print in the second line 𝑛 integers which denotes the indexes of the boxes in\r\nwhich the 𝑛 items are placed. If there are multiple answers, print any of them.\r\nOn the other hand, if a set of 𝛼𝑗 and 𝛽𝑖 that satisfy LP-(t) with 𝑡 := 𝑇 is found, then print\r\nin the first line the string ”Proof”. Print the values of 𝛼𝑗\r\nfor all 1 ≤ 𝑗 ≤ 𝑛 and 𝛽𝑖\r\nfor all\r\n1 ≤ 𝑖 ≤ 𝑚 in two lines separately. If there are multiple solutions, print any of them that\r\nsatisfies the following two conditions.\r\n2\n\n 𝛼𝑗 and 𝛽𝑖 are non-negative integers for all 1 ≤ 𝑗 ≤ 𝑛 and 1 ≤ 𝑖 ≤ 𝑚.\r\n max ( max1≤𝑗≤𝑛 𝛼𝑗\r\n, max1≤𝑖≤𝑚 𝛽𝑖 ) ≤ 3 × 105\r\n.\r\nTechnical Specification\r\n 1 ≤ 𝑛 ≤ 100, 1 ≤ 𝑚 ≤ 100.\r\n 𝑇 is a multiple of 4. Furthermore, 1 ≤ 𝑇 ≤ 105\r\n.\r\n For both 𝑖 ∈ {1, 2}, either 1 ≤ 𝑠𝑖 ≤ 𝑇/4 or 3𝑇/4 ≤ 𝑠𝑖 ≤ 𝑇 must hold.\r\n 𝑎𝑗 ∈ {𝑠1, 𝑠2} for all 1 ≤ 𝑗 ≤ 𝑛.\r\nFor the output, the following conditions must be satisfied.\r\n 𝛼𝑗 and 𝛽𝑖 are non-negative integers for all 1 ≤ 𝑗 ≤ 𝑛 and 1 ≤ 𝑖 ≤ 𝑚.\r\n max ( max1≤𝑗≤𝑛 𝛼𝑗\r\n, max1≤𝑖≤𝑚 𝛽𝑖 ) ≤ 3 × 105\r\n.\r\nSample Input 1\r\n3 3\r\n4 2 1 2\r\n4 2 2 3\r\n4 2 3 1\r\n4\r\nSample Output 1\r\nAssignment\r\n1 2 3\r\nSample Input 2\r\n4 3\r\n4 2 1 2\r\n4 2 2 3\r\n4 2 3 1\r\n4 3 1 2 3\r\n4\r\nSample Output 2\r\nProof\r\n1 1 1 1\r\n1 1 1\r\n3",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "b9365cb3f043cbb8d5b63d633c5281c7c0e0e314fd040f97acb71b7c8543ca17"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "G",
+          "pdfSha256": "7083904afaac949d34f4cec3129bca0818e419683342a438441f2fa01d44cce9",
+          "pageCount": 3,
+          "pagesReviewed": [
+            1,
+            2,
+            3
+          ],
+          "sourcePageNumbers": [
+            13,
+            14,
+            15
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "figures": [],
+          "notes": [
+            "Every original PDF page visually checked, including constraints and sample table boundaries.",
+            "English text was manually normalized from the original PDF; Chinese checked against the same pages.",
+            "Original LP-(t) box prints sum over I_j of a_i. Normalized to a_j because the defined size of I_j is a_j; all other assignment and size definitions on original pages 1-3 agree. Original PDF is retained unchanged."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "f4f1f262367b52cc5b0a580497d7152c7d62c00d66b6ba7d0cd49bbf9d1dcc4b"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "6755ef130515638da824fda3a309cc80db8dfdfb04e7794e83d30c2749e534b6",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "f4f1f262367b52cc5b0a580497d7152c7d62c00d66b6ba7d0cd49bbf9d1dcc4b",
+          "sourcePdfSha256": "7083904afaac949d34f4cec3129bca0818e419683342a438441f2fa01d44cce9",
+          "markdown": "# 装箱问题\n\n时间限制：1 秒。内存限制：1024 MB。\n\n## 题目描述\n\n有 $m$ 个可区分的箱子 $\\mathcal B=\\{B_1,\\ldots,B_m\\}$，每个箱子的容量均为 $T$。还有 $n$ 件物品 $\\mathcal I=\\{I_1,\\ldots,I_n\\}$，其中物品 $I_j$ 的大小为 $a_j\\in\\{s_1,s_2\\}$。两种可能的大小满足 $0<s_1,s_2\\le T$，且均不在开区间 $(T/4,3T/4)$ 内。\n\n每件物品 $I_j$ 只能放入给定集合 $P_j\\subseteq\\mathcal B$ 中的箱子。令 $P_i^{-1}=\\{I_j\\in\\mathcal I:B_i\\in P_j\\}$，即允许放入箱子 $B_i$ 的所有物品组成的集合。\n\n一个可行的装箱方案是映射 $\\sigma:\\mathcal I\\to\\mathcal B$，满足每件物品都有 $\\sigma(I_j)\\in P_j$，且每个箱子都有 $\\sum_{I_j\\in\\sigma^{-1}(B_i)}a_j\\le T$。如果不存在这样的方案，则称该实例不可行。\n\n证明不可行的一种方法，是给每件物品指定非负数 $\\alpha_1,\\ldots,\\alpha_n$，并给每个箱子指定非负数 $\\beta_1,\\ldots,\\beta_m$。对于容量 $t$，考虑以下称为 LP-$(t)$ 的条件：\n\n$$\\sum_{1\\le j\\le n}\\alpha_j>\\sum_{1\\le i\\le m}\\beta_i.$$\n\n对于每个 $1\\le i\\le m$ 以及每个满足 $\\sum_{I_j\\in C}a_j\\le t$ 的子集 $C\\subseteq P_i^{-1}$，要求\n\n$$\\sum_{I_j\\in C}\\alpha_j\\le\\beta_i.$$\n\n可以将这些值看作物品大小和箱子容量的估计值：任何能装进某个箱子的物品集合，其大小估计值之和都不超过该箱子的容量估计值；但全部物品的大小估计值之和却大于所有箱子的容量估计值之和。因此，满足 LP-$(T)$ 就能证明原实例不可行。\n\nMike 提议将每个箱子的容量增大到 $(1+3/4)T$。对于每个输入实例，你需要输出以下两种结果中的任意一种：\n\n- 一个使用扩大后容量的装箱方案，并且每个箱子中至多有一件大小严格大于 $T/4$ 的物品；\n- 一组满足 LP-$(T)$ 的数值，证明使用原容量时不存在可行方案。\n\n装箱方案仍然必须遵守每件物品允许放入的箱子集合。不可行证明针对的是原容量，而非扩大后的容量。\n\n## 输入格式\n\n第一行包含 $n$ 和 $m$。接下来 $n$ 行，每行描述物品 $I_j$：先给出大小 $a_j$ 和允许放入的箱子数量 $p_j$，随后给出 $P_j$ 中的 $p_j$ 个箱子编号。箱子编号为 $1$ 到 $m$。最后一行包含 $T$。\n\n## 输出格式\n\n若输出装箱方案，第一行输出 `Assignment`，第二行按物品顺序输出 $n$ 个箱子编号。每件物品都必须放入允许的箱子。每个箱子中的物品大小之和不能超过 $(1+3/4)T$，且至多有一件物品的大小严格大于 $T/4$。\n\n若输出不可行证明，第一行输出 `Proof`，第二行输出 $n$ 个值 $\\alpha_1,\\ldots,\\alpha_n$，第三行输出 $m$ 个值 $\\beta_1,\\ldots,\\beta_m$。这些值都必须是 $[0,3\\times10^5]$ 内的整数，并满足 LP-$(T)$。\n\n两种形式的输出只要合法，都可以被接受。\n\n## 数据范围\n\n- $1\\le n,m\\le100$。\n- $1\\le T\\le10^5$，且 $T$ 能被 $4$ 整除。\n- $s_1,s_2\\in[1,T/4]\\cup[3T/4,T]$，且 $a_j\\in\\{s_1,s_2\\}$。\n\n\n## 样例 1\n\n### 输入\n\n```text\n3 3\n4 2 1 2\n4 2 2 3\n4 2 3 1\n4\n```\n\n### 输出\n\n```text\nAssignment\n1 2 3\n```\n\n## 样例 2\n\n### 输入\n\n```text\n4 3\n4 2 1 2\n4 2 2 3\n4 2 3 1\n4 3 1 2 3\n4\n```\n\n### 输出\n\n```text\nProof\n1 1 1 1\n1 1 1\n```\n"
+        },
+        "translationReview": {
+          "letter": "G",
+          "pdfSha256": "7083904afaac949d34f4cec3129bca0818e419683342a438441f2fa01d44cce9",
+          "pageCount": 3,
+          "pagesReviewed": [
+            1,
+            2,
+            3
+          ],
+          "sourcePageNumbers": [
+            13,
+            14,
+            15
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "figures": [],
+          "notes": [
+            "Every original PDF page visually checked, including constraints and sample table boundaries.",
+            "English text was manually normalized from the original PDF; Chinese checked against the same pages.",
+            "Original LP-(t) box prints sum over I_j of a_i. Normalized to a_j because the defined size of I_j is a_j; all other assignment and size definitions on original pages 1-3 agree. Original PDF is retained unchanged."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "f4f1f262367b52cc5b0a580497d7152c7d62c00d66b6ba7d0cd49bbf9d1dcc4b",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

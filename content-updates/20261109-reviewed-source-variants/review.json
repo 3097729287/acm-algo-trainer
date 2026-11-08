@@ -1,0 +1,281 @@
+{
+  "schema": 1,
+  "problems": [
+    {
+      "id": "luogu-training-P13110",
+      "url": "https://www.luogu.com.cn/problem/P13110",
+      "markdownSha256": "0409a163bc94ebbea6129ee80c1708b5b0c03e5ed7c6e083c423d17c15c0aa58",
+      "originalDescriptionReviewed": true,
+      "samples": 0,
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P13110",
+          "sha256": "eb343092132cf4577fc2a7a750a5c67b5be2ffd2b79a666eadfe02bdc04b2478",
+          "status": 200
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/problem_statement/problem.html",
+          "sha256": "551142ebfe9c16feda41024872fbc7278df9a3cee2d6712f134bac3cc0a774a3",
+          "bytes": 13941,
+          "status": 200,
+          "captureMethod": "direct"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/statement.pdf",
+          "sha256": "de9a8c25b642a7309da61993c7a575644f4cde987bb82caa347a7c5a9b128b77",
+          "bytes": 73991,
+          "status": 200,
+          "captureMethod": "direct"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2019/round_1b/draupnir/problem_statement/local_testing_tool.py",
+          "sha256": "87df70865a6a6485cb7333063d073fb19467a98f19415d076aa3fc2aba06a742",
+          "bytes": 3188,
+          "status": 200,
+          "captureMethod": "direct"
+        }
+      ],
+      "reviewedSourcePages": [
+        1,
+        2
+      ],
+      "binding": {
+        "nativeProblemId": "P13110",
+        "nativeSourceSha256": "eb343092132cf4577fc2a7a750a5c67b5be2ffd2b79a666eadfe02bdc04b2478",
+        "method": "complete-native-source-and-reviewed-official-originals-with-explicit-optional-resource-boundary",
+        "officialTask": "Draupnir",
+        "originalPdfSha256": "de9a8c25b642a7309da61993c7a575644f4cde987bb82caa347a7c5a9b128b77",
+        "originalTestingToolSha256": "87df70865a6a6485cb7333063d073fb19467a98f19415d076aa3fc2aba06a742",
+        "originalSampleInventory": "inline interaction; native empty placeholder archived"
+      },
+      "uncachedResourcesAreExactlyReviewedOptional": [
+        "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py"
+      ],
+      "notes": [
+        "Every official PDF page visually reviewed. Full source interaction retained, translated, and immutable formulas/code validated. Original runner URL remains a visible external link with explicit HTTP403/unrecovered notice; its role is optional convenience only. Dedicated testing tool and full original PDF are exact offline originals."
+      ]
+    },
+    {
+      "id": "luogu-training-P13143",
+      "url": "https://www.luogu.com.cn/problem/P13143",
+      "markdownSha256": "47ea33cf0f2625c915a90d214fb78145f450960599fa500d7ef7b4dd178d21ea",
+      "originalDescriptionReviewed": true,
+      "samples": 0,
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P13143",
+          "sha256": "f0220245363769fbd02a6ca3099cf1092ab1e1ffc8eaaacb6dd669f4133fea0b",
+          "status": 200
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/problem_statement/problem.html",
+          "sha256": "c62caf283711000ae71a874ef866ce5027bd811eb564c31e8dbb09895ce3125b",
+          "bytes": 17590,
+          "status": 200,
+          "captureMethod": "direct"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/statement.pdf?download=1",
+          "sha256": "6c1e4489ed51f323f443960181da38fd1a63a2bcf1b9a5616f9b3f218f0123a0",
+          "bytes": 69432,
+          "status": 200,
+          "captureMethod": "direct"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/coding-competitions-archive/main/codejam/2018/round_1c/lollipop_shop/problem_statement/local_testing_tool.py?download=1",
+          "sha256": "d48181d216648628fa0442a7ed6fc593d4e69219135df6cf37268c44c57187f3",
+          "bytes": 6882,
+          "status": 200,
+          "captureMethod": "direct"
+        }
+      ],
+      "reviewedSourcePages": [
+        1,
+        2,
+        3
+      ],
+      "binding": {
+        "nativeProblemId": "P13143",
+        "nativeSourceSha256": "f0220245363769fbd02a6ca3099cf1092ab1e1ffc8eaaacb6dd669f4133fea0b",
+        "method": "complete-native-source-and-reviewed-official-originals-with-explicit-optional-resource-boundary",
+        "officialTask": "Lollipop Shop",
+        "originalPdfSha256": "6c1e4489ed51f323f443960181da38fd1a63a2bcf1b9a5616f9b3f218f0123a0",
+        "originalTestingToolSha256": "d48181d216648628fa0442a7ed6fc593d4e69219135df6cf37268c44c57187f3",
+        "originalSampleInventory": "inline interaction; native empty placeholder archived"
+      },
+      "uncachedResourcesAreExactlyReviewedOptional": [
+        "https://storage.googleapis.com/coding-competitions.appspot.com/interactive_runner.py"
+      ],
+      "notes": [
+        "Every official PDF page visually reviewed. Full source interaction retained, translated, and immutable formulas/code validated. Original runner URL remains a visible external link with explicit HTTP403/unrecovered notice; its role is optional convenience only. Dedicated testing tool and full original PDF are exact offline originals."
+      ]
+    },
+    {
+      "id": "luogu-training-P7562",
+      "url": "https://www.luogu.com.cn/problem/P7562",
+      "markdownSha256": "61de51e7c301ee49c805fa0499323ab197137f22be7840c2145e1635d81f5958",
+      "originalDescriptionReviewed": true,
+      "samples": 4,
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P7562",
+          "sha256": "3911ff9bef9117988bef3d744175ae7a9982b9cd8fb8486a4eafd87b59652061",
+          "status": 200
+        },
+        {
+          "url": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2.pdf",
+          "sha256": "b141390dcce8bcf3d4e70aea9d6e324418ef7ddfc708502bfdc301e71ffccb8c",
+          "bytes": 78905,
+          "status": 200,
+          "captureMethod": "direct"
+        },
+        {
+          "url": "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/2021-sp-d4-notice.pdf",
+          "sha256": "0fca2dbba4395b95e912ca0929012599de54997543f11c94914202b574d77d3b",
+          "bytes": 86762,
+          "status": 200,
+          "captureMethod": "direct"
+        }
+      ],
+      "reviewedSourcePages": {
+        "task": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "notice": [
+          1
+        ]
+      },
+      "binding": {
+        "nativeProblemId": "P7562",
+        "nativeSourceSha256": "3911ff9bef9117988bef3d744175ae7a9982b9cd8fb8486a4eafd87b59652061",
+        "method": "complete-native-source-and-reviewed-official-originals-with-explicit-optional-resource-boundary",
+        "standardInputFullyDefined": true,
+        "optionalTestDataBytes": 99667903,
+        "officialPdfPages": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "officialNoticePages": [
+          1
+        ]
+      },
+      "uncachedResourcesAreExactlyReviewedOptional": [
+        "https://www.ioi-jp.org/camp/2021/2021-sp-tasks/day4/event2-data.zip"
+      ],
+      "notes": [
+        "Four original Japanese task pages and implementation notice visually reviewed. All FOUR native sample pairs exactly match original pages 2-4; the initial progress message incorrectly said three and is superseded by this recorded exact inventory. Corrected one fullwidth closing parenthesis inside the Chinese TeX interval. The 99,667,903-byte optional complete test suite is not cached; original clickable link remains."
+      ]
+    },
+    {
+      "id": "remote:codeforces:105977::J",
+      "url": "https://codeforces.com/gym/105977/problem/J",
+      "markdownSha256": "bfa117e7533481aca8404a3cedfc6303a7c7feef2eb0de41cf871cd93a41aa05",
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "sourceDocuments": [
+        {
+          "url": "https://codeforces.com/gym/105977/attachments/download/32243/statements.pdf",
+          "sha256": "2d3a6d5234b293ab393710eb9512eb5d5efaeba582bd6f956068ed84618a8071",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/105977",
+          "sha256": "b7ce7d1f13ab2d0840c07a661eaa580c50053cf2e35ec3dae934bd01f769d105",
+          "bytes": 108591,
+          "status": 200,
+          "captureMethod": "direct"
+        },
+        {
+          "url": "https://codeforces.com/gym/105977/problem/J",
+          "sha256": "5c046746e17ce577c7ba53e551c9668484cfa5a313ff13c02255a91fdc8e159d",
+          "bytes": 67838,
+          "status": 200,
+          "captureMethod": "direct"
+        },
+        {
+          "url": "https://codeforces.com/gym/105977/attachments/download/32216/Slide.pdf",
+          "sha256": "fba6c2e89e84f64fe599a565a949cb1a632a7ee62b5a4fd0ac35093dc6093e71",
+          "bytes": 531599,
+          "status": 200,
+          "captureMethod": "direct"
+        }
+      ],
+      "reviewedSourcePages": [
+        18,
+        19
+      ],
+      "binding": {
+        "kind": "individually-reviewed-official-contest-letter-title-variants",
+        "contestId": 105977,
+        "letter": "J",
+        "originalId": "remote:codeforces:105977::J",
+        "originalUrl": "https://codeforces.com/gym/105977/problem/J",
+        "titles": {
+          "officialDashboard": "构造大师周三金",
+          "officialStatementPdf": "构造大师贝贝",
+          "officialTutorial": "构造大师CFJ"
+        },
+        "officialRoster": {
+          "url": "https://codeforces.com/gym/105977",
+          "sha256": "b7ce7d1f13ab2d0840c07a661eaa580c50053cf2e35ec3dae934bd01f769d105",
+          "bytes": 108591,
+          "status": 200,
+          "captureMethod": "direct"
+        },
+        "officialAttachmentPage": {
+          "url": "https://codeforces.com/gym/105977/problem/J",
+          "sha256": "5c046746e17ce577c7ba53e551c9668484cfa5a313ff13c02255a91fdc8e159d",
+          "bytes": 67838,
+          "status": 200,
+          "captureMethod": "direct"
+        },
+        "officialStatement": {
+          "url": "https://codeforces.com/gym/105977/attachments/download/32243/statements.pdf",
+          "sha256": "2d3a6d5234b293ab393710eb9512eb5d5efaeba582bd6f956068ed84618a8071",
+          "pages": [
+            18,
+            19
+          ],
+          "fullBookPages": 22
+        },
+        "officialTutorial": {
+          "url": "https://codeforces.com/gym/105977/attachments/download/32216/Slide.pdf",
+          "sha256": "fba6c2e89e84f64fe599a565a949cb1a632a7ee62b5a4fd0ac35093dc6093e71",
+          "pages": [
+            12
+          ],
+          "binding": "Same contest J: repeatedly add lowbit(n), a current positive divisor; chosen addends increase and differ from every earlier addend; target is a perfect square."
+        },
+        "limits": {
+          "testCasesMax": 1000,
+          "initialNMax": 1000000000000,
+          "operationsMax": 100,
+          "intermediateNMax": 1000000000000000000
+        },
+        "sampleBinding": {
+          "input": "2\n2025\n182",
+          "output": "0\n\n3\n7 3 4",
+          "trace": [
+            "2025 = 45*45",
+            "182+7=189",
+            "189+3=192",
+            "192+4=196 = 14*14"
+          ]
+        },
+        "automaticTitleMatchingChanged": false,
+        "reviewedPdfPagesVisually": true
+      },
+      "uncachedResourcesAreExactlyReviewedOptional": [],
+      "notes": [
+        "Single manual binding from official contest+letter, exact official attachment, original two-page chapter, official tutorial page 12 and explicit constraints/sample arithmetic. No global automatic title exception. All three names and original ID/URL retained; official Chinese PDF is shown directly."
+      ]
+    }
+  ],
+  "status": "complete",
+  "validation": "validation.json"
+}

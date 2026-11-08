@@ -1,0 +1,34 @@
+[
+  {
+    "letter": "A",
+    "problemId": "remote:codeforces:103409::A",
+    "pdfSha256": "bb387de2e454e058599716e06eb7a30984bd56150f1ffd4f3bee161c46992c37",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      1,
+      2
+    ],
+    "sourceUrl": "https://codeforces.com/gym/103409/problem/A",
+    "figures": [
+      {
+        "file": "103409-A-figure1.png",
+        "page": 1,
+        "clipRect": [
+          118.571429,
+          415.714286,
+          470.714286,
+          640.714286
+        ],
+        "sha256": "a4b56ace9971361aa25c5026720dbf860c8ddb9d0a0db0b7a96dfe3182f7c038"
+      }
+    ],
+    "notes": [
+      "Both pages visually reviewed, including the embedded Magnus meme.",
+      "n is positive odd best-of series length; banning starts at x and persists for all subsequent games. Worst case is not an expected value."
+    ]
+  }
+]
