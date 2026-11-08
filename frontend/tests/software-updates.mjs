@@ -1,12 +1,18 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { createServer } from 'vite';
-const server = await createServer({ server: { host: '127.0.0.1', port: 0 } });
+const server = await createServer({cacheDir:'../.backups/completion-followup-20261108/update-vite',optimizeDeps:{entries:['tests/software-updates-fixture.html'],include:['react','react-dom/client','react/jsx-runtime','lucide-react']},resolve:{dedupe:['react','react-dom']},server:{host:'127.0.0.1',port:0,hmr:false}});
 await server.listen();
 const browser = await chromium.launch({ channel: process.env.CI ? undefined : 'msedge', headless: true });
 try {
   const page = await browser.newPage();
   const errors = []; page.on('pageerror', error => errors.push(error.message));
+  await page.goto(server.resolvedUrls.local[0]+'tests/software-updates-fixture.html?streaming');
+  await page.getByRole('region',{name:'软件版本更新'}).getByText('正在连接下载服务…',{exact:true}).waitFor();
+  await page.evaluate(()=>window.setUpdaterState({downloadedBytes:2048,downloadRateBytesPerSecond:1024}));
+  await page.getByRole('region',{name:'软件版本更新'}).getByText('0.2%',{exact:true}).waitFor();
+  assert.equal(await page.getByRole('region',{name:'软件版本更新'}).getByRole('progressbar').getAttribute('value'),'2048');
+  await page.getByRole('region',{name:'软件版本更新'}).getByText('2.0 KB / 976.6 KB · 1.0 KB/s',{exact:true}).waitFor();
   await page.goto(server.resolvedUrls.local[0] + 'tests/software-updates-fixture.html');
   const panel = page.getByRole('region', { name: '软件版本更新' });
   await page.getByRole('complementary', { name: '软件更新提示' }).waitFor();
