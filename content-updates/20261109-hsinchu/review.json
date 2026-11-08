@@ -1,0 +1,141 @@
+[
+  {
+    "letter": "C",
+    "pdfSha256": "1d7aae5495e139e360c4f406dbf321b5716e5e570c164b7182688108ad509ca6",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      5,
+      6
+    ],
+    "figures": [
+      {
+        "file": "102835-C-figure-1.png",
+        "page": 1,
+        "clipRect": [
+          121.761,
+          418.22256521739126,
+          476.45608695652174,
+          571.1590869565217
+        ],
+        "method": "original-pdf-rendered-region"
+      }
+    ]
+  },
+  {
+    "letter": "F",
+    "pdfSha256": "5067175af2a34ad4907efde6e3eacded10f3b406b75abfc1d269026441aae6c8",
+    "pageCount": 4,
+    "pagesReviewed": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "sourcePageNumbers": [
+      11,
+      12,
+      13,
+      14
+    ],
+    "figures": [
+      {
+        "file": "102835-F-figure-2.png",
+        "page": 1,
+        "clipRect": [
+          125.87852173913043,
+          350.5775652173913,
+          466.4563913043478,
+          495.8672608695652
+        ],
+        "method": "original-pdf-rendered-region"
+      },
+      {
+        "file": "102835-F-figure-3.png",
+        "page": 1,
+        "clipRect": [
+          124.11386956521739,
+          626.4515217391304,
+          468.8092608695652,
+          782.9173478260869
+        ],
+        "method": "original-pdf-rendered-region"
+      },
+      {
+        "file": "102835-F-figure-4.png",
+        "page": 2,
+        "clipRect": [
+          125.87852173913043,
+          155.87760869565216,
+          466.4563913043478,
+          306.4612608695652
+        ],
+        "method": "original-pdf-rendered-region"
+      }
+    ]
+  },
+  {
+    "letter": "G",
+    "pdfSha256": "85e7c693b7613b0d418c7c399bb5829dd7d8d129ef2bf9291785605fd0d1373c",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      15,
+      16
+    ],
+    "figures": [
+      {
+        "file": "102835-G-figure-1.png",
+        "page": 1,
+        "clipRect": [
+          65.88034782608696,
+          285.28543478260866,
+          527.631,
+          499.98478260869564
+        ],
+        "method": "original-pdf-rendered-region"
+      }
+    ],
+    "corrections": {
+      "testCases": "Visible PDF page 2 states 0 < t <= 3; unreviewed text extraction includes an invisible trailing zero.",
+      "timeLimit": "Current Codeforces metadata is 4 seconds; PDF numeric time-limit field is visually blank.",
+      "judgeSource": "https://codeforces.com/gym/102835/problem/G"
+    }
+  },
+  {
+    "letter": "H",
+    "pdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+    "pageCount": 4,
+    "pagesReviewed": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "sourcePageNumbers": [
+      17,
+      18,
+      19,
+      20
+    ],
+    "figures": [
+      {
+        "file": "102835-H-figure-1.png",
+        "page": 1,
+        "clipRect": [
+          49.410260869565214,
+          667.0385217391304,
+          206.46430434782607,
+          803.5049565217391
+        ],
+        "method": "original-pdf-rendered-region"
+      }
+    ]
+  }
+]

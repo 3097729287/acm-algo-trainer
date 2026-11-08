@@ -1,0 +1,63 @@
+{
+  "publicContentOnly": true,
+  "problems": [
+    {
+      "id": "remote:codeforces:102835::C",
+      "samples": 2,
+      "images": 1,
+      "originalPdfSha256": "1d7aae5495e139e360c4f406dbf321b5716e5e570c164b7182688108ad509ca6",
+      "bundledTranslationValid": true
+    },
+    {
+      "id": "remote:codeforces:102835::F",
+      "samples": 2,
+      "images": 3,
+      "originalPdfSha256": "5067175af2a34ad4907efde6e3eacded10f3b406b75abfc1d269026441aae6c8",
+      "bundledTranslationValid": true
+    },
+    {
+      "id": "remote:codeforces:102835::G",
+      "samples": 2,
+      "images": 1,
+      "originalPdfSha256": "85e7c693b7613b0d418c7c399bb5829dd7d8d129ef2bf9291785605fd0d1373c",
+      "bundledTranslationValid": true
+    },
+    {
+      "id": "remote:codeforces:102835::H",
+      "samples": 3,
+      "images": 1,
+      "originalPdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+      "bundledTranslationValid": true
+    }
+  ],
+  "ui": {
+    "checked": [
+      "remote:codeforces:102835::C",
+      "remote:codeforces:102835::F",
+      "remote:codeforces:102835::G",
+      "remote:codeforces:102835::H"
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "samplesPreserved": true,
+    "originalPdfRestored": true
+  },
+  "corpus": {
+    "problems": 13480,
+    "statements": 13457,
+    "completeOriginals": 13379,
+    "usableChineseTranslations": 6089,
+    "gaps": {
+      "originals": 101,
+      "translations": 71,
+      "translation-disabled": 13,
+      "translation-invalid": 0,
+      "knowledge": 3878,
+      "difficulty": 1124
+    }
+  },
+  "originalSamplesAndPdfsRetained": true,
+  "guardedPatchesIdempotent": true,
+  "bundledTranslationTests": 15,
+  "packagedInStable168": false
+}
