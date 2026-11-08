@@ -5,8 +5,8 @@ import {chromium} from 'playwright';
 
 const catalog=JSON.parse(await readFile('../data/editorial-motions.json','utf8'));
 const cases=await Promise.all(catalog.cases.map(async row=>({...row,source:'data:image/svg+xml;base64,'+Buffer.from(await readFile('../'+row.asset)).toString('base64')})));
-const model=JSON.parse(await readFile('../.backups/editorial-motion-20261108/models.json','utf8'));
-const output='../.backups/editorial-motion-20261108/ui';await mkdir(output,{recursive:true});
+const model=JSON.parse(await readFile('../.backups/editorial-playback-20261108/models.json','utf8'));
+const output='../.backups/editorial-playback-20261108/ui';await mkdir(output,{recursive:true});
 const server=await createServer({optimizeDeps:{entries:['tests/editorial-motion-fixture.html']},server:{host:'127.0.0.1',port:0}});await server.listen();
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const page=await browser.newPage({viewport:{width:1260,height:1000}}),errors=[],external=[];
@@ -15,7 +15,7 @@ await page.route('**/tests/editorial-motion-data.json',route=>route.fulfill({con
 const base=`http://127.0.0.1:${server.httpServer.address().port}`;
 const go=(index,options='&static')=>page.goto(`${base}/tests/editorial-motion-fixture.html?case=${index}${options}`);
 const root=()=>page.locator('.reading-motion');
-async function loaded(){await page.waitForFunction(()=>{const image=document.querySelector('.reading-motion>.reading-image img');return image?.complete&&image.naturalWidth>0;});}
+async function loaded(){await page.waitForFunction(()=>{const image=document.querySelector('.reading-motion>.reading-image img');return document.querySelector('.reading-motion>.reading-image svg.reading-motion-scene')||image?.complete&&image.naturalWidth>0;});}
 let visited=0;
 try{
  for(let index=0;index<cases.length;index++){
@@ -41,7 +41,7 @@ try{
   host.remove();return failures;
  },model);
  await writeFile(output+'/bounds.json',JSON.stringify(bounds,null,2));assert.deepEqual(bounds,[],JSON.stringify(bounds.slice(0,8)));
- for(const id of ['window-deques','fleet-root-and-head','bracket-prefix-affine','grid-delete-closure','mex-threshold-assign'])for(const width of [1260,430])for(const theme of ['dark','light']){
+ for(const id of ['window-deques','fleet-root-and-head','bracket-prefix-affine','grid-delete-closure','mex-threshold-assign','triangle-bonus-layers','fuel-expanded-state','invader-history-query'])for(const width of [1260,430])for(const theme of ['dark','light']){
   const index=cases.findIndex(row=>row.id===id);await page.setViewportSize({width,height:950});await go(index,`&static&theme=${theme}`);await loaded();
   await root().getByRole('slider',{name:'演示步骤'}).press('End');await loaded();
   assert((await page.evaluate(()=>document.documentElement.scrollWidth))<=width+1);
@@ -62,6 +62,27 @@ try{
  assert.equal(await root().getAttribute('data-step'),paused);assert(await root().getByRole('button',{name:'播放演示',exact:true}).isDisabled());
  await root().getByRole('button',{name:'下一步演示',exact:true}).click();assert.equal(await root().getAttribute('data-step'),String(Number(paused)+1));
  const short=cases.findIndex(row=>row.id==='stable-letter-swaps');
+ // A character must occupy actual intermediate positions, with the two swapped
+ // characters following different arcs. Pausing freezes that geometric pose.
+ await go(short,'');await loaded();
+ const speed=root().locator('>.reading-motion-controls').getByRole('combobox',{name:'播放速度'});
+ await speed.selectOption('0.5');await page.reload();await loaded();assert.equal(await speed.inputValue(),'0.5');
+ await speed.selectOption('2');await go(0,'&static');await loaded();assert.equal(await speed.inputValue(),'2','Speed is shared by other problems');
+ await go(short,'');await loaded();
+ await page.waitForFunction(()=>{const node=document.querySelector('.reading-motion');return node.dataset.step==='0'&&Number(node.dataset.progress)>.4&&Number(node.dataset.progress)<.8;});
+ await root().getByRole('button',{name:'暂停演示',exact:true}).click();
+ const pose=await root().locator('>.reading-image [data-motion-object="letter:C"] rect').evaluate(n=>({x:Number(n.getAttribute('x')),y:Number(n.getAttribute('y'))}));
+ const endpoints=model[short].scene.frames.slice(0,2).map(frame=>frame.find(o=>o.id==='letter:C'));
+ assert(pose.x>endpoints[1].x-endpoints[1].w/2&&pose.x<endpoints[0].x-endpoints[0].w/2,'Motion changes real object coordinates between endpoints');
+ assert(pose.y<endpoints[0].y-endpoints[0].h/2-10,'Adjacent swaps travel on separate arcs');
+ const frozen=await root().getAttribute('data-progress');await page.waitForTimeout(450);assert.equal(await root().getAttribute('data-progress'),frozen);
+ await page.screenshot({path:output+'/continuous-swap-paused.png'});
+ await root().getByRole('button',{name:/放大图片/}).click();assert.equal(await page.getByRole('dialog').getByRole('combobox',{name:'播放速度'}).inputValue(),'2');await page.keyboard.press('Escape');
+ // Verify the persisted setting changes actual elapsed playback time in the
+ // deliberate step presentation as well, then restore the default for checks.
+ const discrete=cases.findIndex(row=>row.id==='triangle-bonus-layers');let timings=[];
+ for(const value of ['0.5','2']){await go(discrete,'&static');await loaded();await speed.selectOption(value);await page.evaluate(()=>document.documentElement.dataset.motion='on');await page.waitForTimeout(40);if(await root().getAttribute('data-playing')==='true')await root().getByRole('button',{name:'暂停演示',exact:true}).click();await root().getByRole('button',{name:'演示回到开头'}).click();const start=Date.now();await root().getByRole('button',{name:'播放演示',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.reading-motion').dataset.step==='1');timings.push(Date.now()-start);}
+ assert(timings[0]/timings[1]>2.8,'Saved speed changes actual playback timing');await speed.selectOption('1');
  await page.emulateMedia({reducedMotion:'reduce'});await go(short,'');await loaded();await page.waitForTimeout(2300);assert.equal(await root().getAttribute('data-step'),'0');assert(await root().getByRole('button',{name:'播放演示',exact:true}).isDisabled());await root().getByRole('button',{name:'下一步演示',exact:true}).click();assert.equal(await root().getAttribute('data-step'),'1');
  await page.route('**/standalone-motion.svg',route=>route.fulfill({contentType:'image/svg+xml',body:Buffer.from(cases[short].source.split(',')[1],'base64')}));
  await page.goto(base+'/standalone-motion.svg');await page.evaluate(()=>document.fonts.ready);const still=await page.locator('svg').screenshot();await page.waitForTimeout(2500);assert.equal(Buffer.compare(still,await page.locator('svg').screenshot()),0,'Standalone SVG document respects OS reduced motion');
@@ -69,6 +90,6 @@ try{
  await root().getByRole('button',{name:'重播演示',exact:true}).click();assert.equal(await root().getAttribute('data-step'),'0');
  await go(short,'&raw');await page.locator('#standalone').waitFor();const before=await page.locator('#standalone').screenshot();await page.waitForTimeout(2500);const after=await page.locator('#standalone').screenshot();assert.notEqual(Buffer.compare(before,after),0,'Exported SVG must actually animate');
  assert.deepEqual(errors,[]);assert.deepEqual(external,[]);
- const report={ok:true,cases:cases.length,framesViewed:visited,frameBounds:true,visualScenarios:20,zoomControls:true,pause:true,stepAndReplay:true,offscreen:true,hidden:true,reducedMotion:true,osReducedMotion:true,standaloneAnimation:true,errors,external};
+ const report={ok:true,cases:cases.length,continuousCases:cases.filter(c=>c.mode==='continuous').length,framesViewed:visited,frameBounds:true,visualScenarios:32,zoomControls:true,pause:true,stepAndReplay:true,offscreen:true,hidden:true,reducedMotion:true,osReducedMotion:true,standaloneAnimation:true,continuousGeometry:true,separateSwapArcs:true,pausePreservesPose:true,persistentSharedSpeed:true,speedTimings:timings,errors,external};
  await writeFile(output+'/checks.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));
 }finally{await browser.close();await server.close();}

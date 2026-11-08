@@ -172,7 +172,7 @@ def sequence_clips():
   def draw(f):
    f.circle(420,110,'−2',BLUE,28);f.line(400,133,260,205);f.line(440,133,580,205)
    f.circle(240,225,'−3',BLUE,28);f.circle(600,225,'4',GREEN if step>=2 else BLUE,28)
-   f.text(420,165,'用 0 次：−2；用 1 次：−6',BLUE,size=19,anchor='middle')
+   f.text(420,75,'用 0 次：−2；用 1 次：−6',BLUE,size=19,anchor='middle')
    if new:
     f.text(240,300,'0 次：−5 / 1 次：−9',BLUE,size=19,anchor='middle');f.text(600,300,'0 次：2 / 1 次：10',GREEN,size=19,anchor='middle')
    f.note(410,'每条路径都必须含根。三倍可以不用，不能凭空以零分开始。')

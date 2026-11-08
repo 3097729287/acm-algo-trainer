@@ -26,10 +26,10 @@ export function resolveReadingImage(src, images = {}) {
 export default function ReadingImage({ src, alt = '', title, images = {} }) {
   const resolved = resolveReadingImage(src, images);
   const motion=useMemo(()=>readEditorialMotion(resolved),[resolved]);
-  return motion?<ReadingMotion key={resolved} model={motion} renderImage={({source,toolbar,onZoomChange})=><ReadingImageView resolved={source} alt={alt} title={title} toolbar={toolbar} onZoomChange={onZoomChange}/>}/>:<ReadingImageView resolved={resolved} alt={alt} title={title}/>;
+  return motion?<ReadingMotion key={resolved} model={motion} renderImage={({source,graphic,toolbar,onZoomChange})=><ReadingImageView resolved={source} graphic={graphic} alt={alt} title={title} toolbar={toolbar} onZoomChange={onZoomChange}/>}/>:<ReadingImageView resolved={resolved} alt={alt} title={title}/>;
 }
 
-function ReadingImageView({resolved,alt,title,toolbar,onZoomChange}){
+function ReadingImageView({resolved,graphic,alt,title,toolbar,onZoomChange}){
   const [failed, setFailed] = useState('');
   const dialog = useRef(null), trigger = useRef(null);
   if (!resolved || failed === resolved) {
@@ -38,13 +38,13 @@ function ReadingImageView({resolved,alt,title,toolbar,onZoomChange}){
   const close = () => { dialog.current?.close(); onZoomChange?.(false);trigger.current?.focus(); };
   return <span className="reading-image">
     <button ref={trigger} type="button" className="reading-image-open" aria-label={`放大图片：${alt || '题解配图'}`} onClick={() => {dialog.current?.showModal();onZoomChange?.(true);}}>
-      <img onLoad={event=>void adaptReadingImage(event.currentTarget)} src={resolved} alt={alt} title={title || '点击放大'} loading="lazy" onError={() => setFailed(resolved)} />
+      {graphic||<img onLoad={event=>void adaptReadingImage(event.currentTarget)} src={resolved} alt={alt} title={title || '点击放大'} loading="lazy" onError={() => setFailed(resolved)} />}
     </button>
     {createPortal(<dialog onPointerDown={dialogPointerDown} onClick={dialogBackdropClick} ref={dialog} className="reading-image-dialog" aria-label={alt || '题解配图'}
       onKeyDown={event => event.stopPropagation()} onCancel={event => { event.preventDefault(); close(); }}
       onClick={event => { if (event.target === event.currentTarget) close(); }}>
       <div className="reading-image-toolbar"><span>{alt || '题解配图'}</span><button type="button" onClick={close}>关闭</button></div>
-      <div className="reading-image-full"><img onLoad={event=>void adaptReadingImage(event.currentTarget)} src={resolved} alt={alt} /></div>
+      <div className="reading-image-full">{graphic||<img onLoad={event=>void adaptReadingImage(event.currentTarget)} src={resolved} alt={alt} />}</div>
       {toolbar}
     </dialog>, document.body)}
   </span>;
