@@ -649,7 +649,8 @@
       "order": 0,
       "tags": [
         "输入输出",
-        "顺序结构"
+        "顺序结构",
+        "顺序执行"
       ],
       "prerequisites": [],
       "lectures": [
@@ -671,7 +672,9 @@
       "order": 1,
       "tags": [
         "分支",
-        "循环"
+        "循环",
+        "条件分支",
+        "循环语句"
       ],
       "prerequisites": [
         "io-basics"
@@ -688,7 +691,8 @@
       "level": 1,
       "order": 2,
       "tags": [
-        "数组"
+        "数组",
+        "一维数组"
       ],
       "prerequisites": [
         "basic-control"
@@ -722,7 +726,8 @@
       "level": 1,
       "order": 4,
       "tags": [
-        "字符串"
+        "字符串",
+        "字符串基础"
       ],
       "prerequisites": [
         "arrays"

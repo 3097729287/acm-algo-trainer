@@ -3041,6 +3041,91 @@
         }
       ],
       "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "顺序执行",
+      "category": "基础技巧",
+      "aliases": [],
+      "definition": "按输入、计算、输出的顺序执行语句；与泛化的模拟算法标签区分。",
+      "sources": [
+        "data/library/lectures.json#lecture:foundation-io-basics"
+      ],
+      "learningEvidence": [
+        {
+          "lectureId": "lecture:foundation-io-basics",
+          "reference": "data/library/lectures.json#lecture:foundation-io-basics",
+          "markdownSha256": "d69306aeef215d692d15aa747ed6a05add3de7f0b9b54d0f2ce68d10513c2ee3"
+        }
+      ],
+      "scope": "Only exact statement-reviewed problem IDs are mapped; no global alias for broad native introductory labels."
+    },
+    {
+      "name": "条件分支",
+      "category": "基础技巧",
+      "aliases": [],
+      "definition": "用条件及分支决定应执行的操作，关注互斥分支和比较边界。",
+      "sources": [
+        "data/library/lectures.json#lecture:foundation-basic-control"
+      ],
+      "learningEvidence": [
+        {
+          "lectureId": "lecture:foundation-basic-control",
+          "reference": "data/library/lectures.json#lecture:foundation-basic-control",
+          "markdownSha256": "7d5ec721df383211d988e4d65a9e1e4f32bc16c3768ece88cf4887fa87cb72f6"
+        }
+      ],
+      "scope": "Only exact statement-reviewed problem IDs are mapped; no global alias for broad native introductory labels."
+    },
+    {
+      "name": "循环语句",
+      "category": "基础技巧",
+      "aliases": [],
+      "definition": "用循环重复处理输入或推进状态，明确循环范围、终止条件和多组重置。",
+      "sources": [
+        "data/library/lectures.json#lecture:foundation-basic-control"
+      ],
+      "learningEvidence": [
+        {
+          "lectureId": "lecture:foundation-basic-control",
+          "reference": "data/library/lectures.json#lecture:foundation-basic-control",
+          "markdownSha256": "7d5ec721df383211d988e4d65a9e1e4f32bc16c3768ece88cf4887fa87cb72f6"
+        }
+      ],
+      "scope": "Only exact statement-reviewed problem IDs are mapped; no global alias for broad native introductory labels."
+    },
+    {
+      "name": "一维数组",
+      "category": "基础技巧",
+      "aliases": [],
+      "definition": "用整数下标保存并定位一维状态，与一般数据结构大类及二维数组区分。",
+      "sources": [
+        "data/library/lectures.json#lecture:foundation-arrays"
+      ],
+      "learningEvidence": [
+        {
+          "lectureId": "lecture:foundation-arrays",
+          "reference": "data/library/lectures.json#lecture:foundation-arrays",
+          "markdownSha256": "f7793508ba409145e32973582d0641bc86f278280d7447b1313c13ef317efc72"
+        }
+      ],
+      "scope": "Only exact statement-reviewed problem IDs are mapped; no global alias for broad native introductory labels."
+    },
+    {
+      "name": "字符串基础",
+      "category": "基础技巧",
+      "aliases": [],
+      "definition": "按字符下标、子串、比较、拼接和大小写处理文本；不暗示KMP或后缀结构。",
+      "sources": [
+        "data/library/lectures.json#lecture:foundation-strings"
+      ],
+      "learningEvidence": [
+        {
+          "lectureId": "lecture:foundation-strings",
+          "reference": "data/library/lectures.json#lecture:foundation-strings",
+          "markdownSha256": "02031412a70893f40572e346982cb6b189a5fd08563e757ef05e0a880c9b513e"
+        }
+      ],
+      "scope": "Only exact statement-reviewed problem IDs are mapped; no global alias for broad native introductory labels."
     }
   ]
 }
