@@ -82,5 +82,9 @@
     }
   },
   "productionWorkbenchReceiptSha256": "6604b35a6d2d4548173ed7a0b3b071123a3e78585bec811ac56b27e47a26d656",
-  "verificationScriptSha256": "d51f563a414b638f145b28e323f47570102f471cce5b532993dc6772f8d7dc93"
+  "verificationScriptSha256": "2d11823a4b0d2d74916efe0e4d1b7810390280b15e8a965860afd6e77a8125bd",
+  "postVerificationCleanup": [
+    "Removed one unused deque import; no validation behavior changed.",
+    "Replaced the now-obsolete zero-new-XCPC progress statement with the verified Hubei counts; older receipt history remains in Git."
+  ]
 }

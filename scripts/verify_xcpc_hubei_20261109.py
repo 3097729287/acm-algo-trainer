@@ -5,7 +5,7 @@ The optional baseline check is for this import's original authoring boundary;
 subsequent independently reviewed changes can legitimately alter old rows.
 """
 import argparse
-from collections import Counter,deque
+from collections import Counter
 import copy
 import datetime
 from fractions import Fraction
