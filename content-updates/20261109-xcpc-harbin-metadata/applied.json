@@ -1,0 +1,154 @@
+{
+  "revision": "20261109-xcpc-harbin-source-reviewed-metadata",
+  "problems": [
+    {
+      "id": "remote:codeforces:105459::A",
+      "tags": [
+        "构造",
+        "字典树",
+        "位运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105459::B",
+      "tags": [
+        "凸包",
+        "双指针",
+        "点积与叉积",
+        "多边形面积"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105459::C",
+      "tags": [
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105459::D",
+      "tags": [
+        "后缀数组",
+        "最长公共前缀",
+        "稀疏表",
+        "周期性",
+        "枚举"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105459::E",
+      "tags": [
+        "期望与概率",
+        "背包 DP",
+        "扫描线",
+        "多项式运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105459::F",
+      "tags": [
+        "事件驱动模拟",
+        "堆",
+        "离线查询",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105459::G",
+      "tags": [
+        "生成树",
+        "连通性",
+        "构造"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105459::H",
+      "tags": [
+        "计数 DP",
+        "矩阵快速幂",
+        "线段树",
+        "乘法逆元",
+        "取模与同余"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105459::I",
+      "tags": [
+        "约数枚举",
+        "背包 DP",
+        "DFS"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105459::J",
+      "tags": [
+        "贪心",
+        "堆"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105459::K",
+      "tags": [
+        "贪心",
+        "排序",
+        "前缀和",
+        "二分查找"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105459::L",
+      "tags": [
+        "期望与概率",
+        "树形 DP",
+        "子树大小",
+        "DFS"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105459::M",
+      "tags": [
+        "约数枚举",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    }
+  ],
+  "privateStateReadOrWritten": false
+}

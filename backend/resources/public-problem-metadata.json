@@ -349077,5 +349077,239 @@
       "数位函数模拟加0/1二周期，观察收缩后跳过剩余迭代即可，输入x,k均不超过10^9。",
       "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
     ]
+  },
+  "https://codeforces.com/gym/105459/problem/A": {
+    "difficulty": 2300,
+    "difficultyBand": [
+      2100,
+      2500
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "要把数值区间转化为二进制语言并共享后缀，同时证明不重不漏、无前导零与100节点限制；构造与边界处理高于单纯按位枚举。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/B": {
+    "difficulty": 2100,
+    "difficultyBand": [
+      1900,
+      2300
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "需证明只插入一个内点，再组合两层凸包和单调指针；整点叉积、共线与内层退化均有实现门槛。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/C": {
+    "difficulty": 1000,
+    "difficultyBand": [
+      800,
+      1200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "主要是方位映射和格式化构造，官方列为 Easy；直接复用原路线避免另求最短路线的特殊情况。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/D": {
+    "difficulty": 3000,
+    "difficultyBand": [
+      2700,
+      3200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "要改造平方子串的调和级数枚举，再分类处理跨行拼接与正反 LCP/LCS，字符串知识和边界实现要求高。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/E": {
+    "difficulty": 2800,
+    "difficultyBand": [
+      2500,
+      3000
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "从期望转为有序过零事件并维护可撤销概率背包，需处理有理数排序、模域概率与同时刻事件；明显高于逐球普通背包。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/F": {
+    "difficulty": 3300,
+    "difficultyBand": [
+      3000,
+      3600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "带负权的离散演化不能逐秒模拟，需证明有限阶段、识别合并与两位置振荡，维护失效事件并回答原编号查询；实现和证明均复杂。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/G": {
+    "difficulty": 1500,
+    "difficultyBand": [
+      1300,
+      1700
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "从会议叙事识别受限叶子生成树，检查普通点连通并输出合法过程；无需高级图算法，但构造与全特殊点边界高于简单遍历。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/H": {
+    "difficulty": 3500,
+    "difficultyBand": [
+      3200,
+      3800
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "长度可达10^9，需把模置换的顺序还原为矩阵积，并进行保持非交换次序的类欧几里得缩减；组合了矩阵DP、分段维护和复杂递归，是全场最难档。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/I": {
+    "difficulty": 3000,
+    "difficultyBand": [
+      2700,
+      3200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "题名几何但本质是受乘积和双约束的因子多重集合编辑；同时需要因子域DP、大因子搜索与1的代价特殊处理，门槛高于普通数论背包。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/J": {
+    "difficulty": 2200,
+    "difficultyBand": [
+      2000,
+      2400
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "关键是证明按下次补给顺序耗电的贪心，再用堆把逐种电池扫描优化掉；只做普通全局电量和无法保证后续充电收益。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/K": {
+    "difficulty": 2100,
+    "difficultyBand": [
+      1900,
+      2300
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "需要从可行基准分配证明两种调整方向足够，再用带容量前缀和和二分批量替代枚举分配；官方归为Easy-Medium而非线段树模板。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/L": {
+    "difficulty": 2400,
+    "difficultyBand": [
+      2200,
+      2600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "平方期望不能直接套期望线性性，需转成一条边和两条边共同出现概率，再把边对计数降为线性子树合并；树上计数推导较强。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/M": {
+    "difficulty": 1700,
+    "difficultyBand": [
+      1500,
+      1900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "先识别怪异程序的真实含义，再按因子分段求和；数学观察强于普通整除枚举，但后续实现短、官方为Easy。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
   }
 }

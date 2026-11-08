@@ -1,0 +1,17 @@
+{
+  "topicsReviewed": 13,
+  "unofficialTrainingEstimates": 13,
+  "newCanonicalSourceAssets": 1,
+  "newSourceBytes": 698240,
+  "exactOriginalStatementAndSourceBindingsRetained": true,
+  "allArchivedSourceHashesVerified": true,
+  "canonicalAssetDescriptorsUnique": true,
+  "onlyTargetProblemRowsChanged": true,
+  "allExistingOfficialRatingsAndIdentityStatusDatePreserved": true,
+  "enrichmentStable": true,
+  "applicationIdempotent": true,
+  "fullSolutionCodeOrOriginalJudgeSubmissionsClaimed": false,
+  "privateRecordsReadOrWritten": false,
+  "release1610BoundaryUntouched": true,
+  "targetedSourceAndMetadataRegressionTestsPassed": 8
+}

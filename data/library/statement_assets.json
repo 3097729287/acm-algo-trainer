@@ -43678,5 +43678,11 @@
     "mime": "application/octet-stream",
     "bytes": 87647,
     "file": "statement-assets/2fb5f8bfeaefb9fdd84bbaa413843e73fdbf4dd9cdce2f5949b57b1d54ac36e3.bin"
+  },
+  {
+    "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+    "mime": "application/pdf",
+    "bytes": 698240,
+    "file": "statement-assets/3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5.bin"
   }
 ]
