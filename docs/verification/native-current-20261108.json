@@ -1,0 +1,60 @@
+{
+  "verifiedAt": "2026-11-08T10:10:21.034201+00:00",
+  "compiledNativeSourceCommit": "eb031009",
+  "integratedInstalledFrontendAncestor": "b7300f75237f6ed379a09ac32826c354542b0d99",
+  "publicSourceCommit": "8bb5578b",
+  "publicSeedSha256": "31a1c67ce4bfddd140d8b71176b99ebede4c94d08a1669cb2902808caf8abe0d",
+  "publicCounts": {
+    "problems": 13480,
+    "solutions": 2255,
+    "detailed_solutions": 2254,
+    "statements": 13452
+  },
+  "unitTestsPassed": 75,
+  "originalJudgeSubmissions": 0,
+  "realWindow": {
+    "totalProblems": 13480,
+    "localRuns": {
+      "realTauriIpc": true,
+      "realCppCompiler": true,
+      "realPythonInterpreter": true,
+      "problemId": "luogu-training-P1001",
+      "officialSamples": 1,
+      "cppVerdict": "SAMPLE_PASS",
+      "pythonVerdict": "RUN_OK",
+      "customOutput": "42",
+      "pendingReadMillis": 12.959499999999025,
+      "draftLanguageAndHistoryRestored": true,
+      "officialAcClaims": 0
+    },
+    "reactPlanning": {
+      "configured": true,
+      "readingStage": 1,
+      "conceptStage": 2,
+      "independentSolved": 0,
+      "cancellationPreserved": true,
+      "mainlineChanged": true,
+      "historyPreserved": true,
+      "recoveredAfterReload": true,
+      "weeklyBudgetShared": true
+    },
+    "reactWorkspace": {
+      "saved": true,
+      "recoveredAfterReload": true,
+      "training": 1,
+      "problemId": "ABC 469::A"
+    },
+    "binaryBytes": 17618254,
+    "pageErrors": []
+  },
+  "toolchains": "Explicit development C++17 compiler and Python interpreter; Rust backend has no Python business fallback.",
+  "formalArchitecture": "react-python",
+  "featureParityComplete": false,
+  "fullApplicationSizeComparisonComplete": false,
+  "missingFormalAreas": [
+    "account synchronization",
+    "official submissions",
+    "contests and review execution",
+    "updates and backups"
+  ]
+}
