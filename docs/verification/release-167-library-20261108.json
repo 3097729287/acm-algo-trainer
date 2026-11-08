@@ -1,0 +1,48 @@
+{
+  "ok": true,
+  "contentSourceCommit": "cbd99a58b6abd26c734a7bdf415b6064a9a539ea",
+  "publicOnly": true,
+  "exactSourceContents": {
+    "problems": 13480,
+    "statements": 13457,
+    "solutions": 2255,
+    "detailed_solutions": 2254,
+    "reviewedTopics": 35
+  },
+  "librarySha256": "c104be695c31c56e9b0c73fcd42c8dc3d7d13748d5d8146d5ef330d583c41ccf",
+  "libraryBytes": 437235712,
+  "oldImmutableResourcesVerified": 2218,
+  "newOriginalAssetsKeptOffline": true,
+  "personalStateReadOrWritten": false,
+  "audit": {
+    "at": "2026-11-08T10:55:09.940287+00:00",
+    "problems": 13480,
+    "statements": 13457,
+    "completeOriginals": 13379,
+    "usableChineseTranslations": 6085,
+    "xcpcProblems": 2004,
+    "gaps": {
+      "originals": 101,
+      "translations": 75,
+      "translation-disabled": 17,
+      "translation-invalid": 0,
+      "knowledge": 4666,
+      "difficulty": 2207
+    },
+    "display": {
+      "projectedRows": 13466,
+      "visibleRows": 13148,
+      "hiddenRows": 318,
+      "knowledgeStatuses": {
+        "classified": 9066,
+        "pending": 4082
+      },
+      "gaps": {
+        "display-knowledge": 4082,
+        "display-difficulty": 2116
+      },
+      "personalStateRead": false,
+      "publicLibraryReadOnly": true
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "at": "2026-11-08T11:33:06.793794+00:00",
+  "sourceCommit": "cbd99a58b6abd26c734a7bdf415b6064a9a539ea",
+  "service": "https://47.82.84.74",
+  "activation": {
+    "sameAccount": true,
+    "teamProtocolAvailable": true,
+    "contests": 559,
+    "partialContests": 15,
+    "boards": [
+      {
+        "period": "daily",
+        "rows": 4
+      },
+      {
+        "period": "weekly",
+        "rows": 6
+      },
+      {
+        "period": "total",
+        "rows": 12
+      }
+    ],
+    "readOnlyRequests": true,
+    "ok": true,
+    "phase": "activate",
+    "sourceCommit": "cbd99a58b6abd26c734a7bdf415b6064a9a539ea",
+    "addedTables": 9,
+    "identityAndRewardRecordsUnchangedDuringSwap": true,
+    "databaseRollbackDoesNotDropTeamData": true,
+    "legacySchemaUnchanged": true,
+    "mysqlRedisCaddyUnchanged": true,
+    "publicReleaseAndAssetMapsUnchanged": true,
+    "activationSeconds": 10.89
+  },
+  "publicHttpsChecks": {
+    "ok": true,
+    "readOnlyHttpsRequests": true,
+    "credentialsPrintedOrPersisted": false,
+    "checks": [
+      {
+        "path": "/v1/accounts/me",
+        "http": 200,
+        "seconds": 1.895,
+        "sameAccount": true
+      },
+      {
+        "path": "/v1/leaderboard?period=daily",
+        "http": 200,
+        "seconds": 4.873,
+        "rows": 4
+      },
+      {
+        "path": "/v1/leaderboard?period=weekly",
+        "http": 200,
+        "seconds": 0.419,
+        "rows": 6
+      },
+      {
+        "path": "/v1/leaderboard?period=total",
+        "http": 200,
+        "seconds": 2.841,
+        "rows": 12
+      },
+      {
+        "path": "/v1/team-training/state",
+        "http": 200,
+        "seconds": 0.413,
+        "sameAccount": true
+      },
+      {
+        "path": "/v1/team-training/catalogue",
+        "http": 200,
+        "seconds": 0.569,
+        "sameAccount": true,
+        "contests": 559,
+        "partialContests": 15,
+        "revision": "b67a066a7cac7851a98fd932224b0d8ae6e899d7c01899a8d9767eba20a3f755"
+      },
+      {
+        "path": "/v1/team-training/history",
+        "http": 200,
+        "seconds": 0.378,
+        "sameAccount": true
+      },
+      {
+        "path": "/v1/team-training/standings",
+        "http": 200,
+        "seconds": 0.422,
+        "sameAccount": true
+      }
+    ]
+  },
+  "realProblemSiteSubmissions": 0,
+  "productionUsersCreatedByTests": 0,
+  "databaseBackupScope": "19 identity, reward, and settlement-cursor tables; full schema retained on the server; unchanged large chunk and score tables excluded",
+  "fullDatabaseBackupClaimed": false,
+  "noExistingTablesAltered": true,
+  "realAiJudgeConfigured": false
+}

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "revision": "b2d1c44960a040f56a702ed0d353b18596aaac4261cbf0d904ec40be1e4aebca",
+  "revision": "b67a066a7cac7851a98fd932224b0d8ae6e899d7c01899a8d9767eba20a3f755",
   "contests": [
     {
       "id": "atcoder:abc469",
@@ -23711,7 +23711,7 @@
           "url": "https://codeforces.com/gym/102835/problem/C",
           "problemKey": "adfe5f7c8c17e15bc439ec28ebc6817f97b95b7c3b53c2eed24229e24e9f3534",
           "problemType": "standard",
-          "available": false
+          "available": true
         },
         {
           "id": "remote:codeforces:102835::D",
@@ -23738,7 +23738,7 @@
           "url": "https://codeforces.com/gym/102835/problem/F",
           "problemKey": "0a674905b1e3a8822748563120d8831f88de6fb39b940cb7d863c649bace4ead",
           "problemType": "standard",
-          "available": false
+          "available": true
         },
         {
           "id": "remote:codeforces:102835::G",
@@ -23747,7 +23747,7 @@
           "url": "https://codeforces.com/gym/102835/problem/G",
           "problemKey": "2b979d38ff0052de63ca11bc3f19861439ecc424166ca918901900d12c782dc8",
           "problemType": "standard",
-          "available": false
+          "available": true
         },
         {
           "id": "remote:codeforces:102835::H",
@@ -23756,7 +23756,7 @@
           "url": "https://codeforces.com/gym/102835/problem/H",
           "problemKey": "59185d33b74acf185d5221edc64d17c1e8d33532345eb545e079cd520b41e280",
           "problemType": "standard",
-          "available": false
+          "available": true
         },
         {
           "id": "remote:codeforces:102835::I",
@@ -23783,7 +23783,7 @@
           "url": "https://codeforces.com/gym/102835/problem/K",
           "problemKey": "3b981458d2ca236c81b2a6ed203ad41b928e6dc5977ef740180363aea21622f9",
           "problemType": "standard",
-          "available": false
+          "available": true
         },
         {
           "id": "remote:codeforces:102835::L",
@@ -23804,8 +23804,8 @@
           "available": true
         }
       ],
-      "availableProblems": 8,
-      "missingProblems": 5
+      "availableProblems": 13,
+      "missingProblems": 0
     },
     {
       "id": "codeforces:gym:102900",

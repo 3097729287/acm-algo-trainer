@@ -7,6 +7,7 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
+from scripts.editorial_evidence import reviewed_editorial_matches
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('extract_foundations', ROOT / 'scripts/extract_foundations.py')
@@ -33,8 +34,8 @@ class FoundationExtractionTests(unittest.TestCase):
             # rewrite; verify that snapshot independently of the newer prose.
             self.assertEqual(lesson['sourceHash'], snapshots[problem]['sourceSnapshotHash'])
             if lesson['sourceMarkdown'] not in editorial['markdown']:
-                self.assertEqual(hashlib.sha256(editorial['markdown'].encode()).hexdigest(),
-                                 revisions[problem]['variants']['detailed_solutions']['markdownSha256'])
+                self.assertTrue(reviewed_editorial_matches(editorial['markdown'],
+                                revisions[problem]['variants']['detailed_solutions']['markdownSha256']), problem)
             body = lesson['sourceMarkdown'].split('\n', 1)[1].strip()
             self.assertIn(body, lesson['markdown'])
             self.assertEqual(hashlib.sha256(lesson['sourceMarkdown'].encode()).hexdigest(), lesson['sourceHash'])

@@ -81168,13 +81168,31 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-AT_abc269_f",
-      "knowledge": "",
+      "knowledge": "等差数列",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "等差数列"
+        ],
+        "knowledge": "等差数列",
         "categories": [
+          "数学与计数",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "等差数列"
+            ],
+            "reference": "data/core7-completion/AT_abc269_f/default.md",
+            "sourceHash": "f5e3aebea5821e007937a64bdd66575f13a3f447ac1f3853c324ed2bf03fe265",
+            "reason": "保留的格子满足行列同奇偶。对奇行奇列、偶行偶列两类，分别用等差数列求行号减一之和、列号之和，再组合 (行号−1)·M+列号。",
+            "verified": false
+          },
           {
             "categories": [
               "数学"
@@ -81183,23 +81201,17 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "36a2821d4fdf04831df3ffa00ca274e6b110921947904dadd33a3f2f4d8d7cb7",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "739980ab8bbe0d2886a87255aa16d00480822441c42c959d98822f0af6b6399d",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "数学与计数",
         "数学"
       ],
-      "knowledgeReviewRequired": true,
+      "knowledgeReviewRequired": false,
       "originalTitle": "[ABC269F] Numbered Checker",
       "platform": "洛谷",
       "problem": "AT_abc269_f",
@@ -81210,9 +81222,31 @@
       "sourceTags": [],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "等差数列"
+      ],
       "title": "Numbered Checker",
-      "url": "https://www.luogu.com.cn/problem/AT_abc269_f"
+      "url": "https://www.luogu.com.cn/problem/AT_abc269_f",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "等差数列"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-AT_abc269_f",
+            "reference": "data/core7-completion/AT_abc269_f/default.md",
+            "sha256": "f5e3aebea5821e007937a64bdd66575f13a3f447ac1f3853c324ed2bf03fe265",
+            "programSha256": "e358b3932a05e5dad1e8794075b49197200ed252a624eb0b72e09d3b7504cbfd",
+            "reasons": [
+              "保留的格子满足行列同奇偶。对奇行奇列、偶行偶列两类，分别用等差数列求行号减一之和、列号之和，再组合 (行号−1)·M+列号。"
+            ],
+            "method": "按行列奇偶分解矩形和",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-AT_abc269_f",
     "raw": {
@@ -81223,7 +81257,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "等差数列",
       "难度": "1800",
       "题号": "AT_abc269_f",
       "题名": "Numbered Checker"
@@ -82338,24 +82372,45 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-AT_abc305_f",
-      "knowledge": "",
+      "knowledge": "DFS + 交互题",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "DFS",
+          "交互题"
+        ],
+        "knowledge": "DFS + 交互题",
+        "categories": [
+          "搜索",
+          "交互题"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "DFS",
+              "交互题"
+            ],
+            "reference": "data/core7-completion/AT_abc305_f/default.md",
+            "sourceHash": "ea54827e77aa4259cd2884c1d4f2a1603fd9aa10f4a6639fdc23e1d4dbf58131",
+            "reason": "到新顶点时记录父亲，优先去未访问邻点；没有新邻点就沿父边退回。每条搜索树边至多去回各一次，找到 N 前最多移动 2(N−1) 次。每次输出后刷新。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "7833bb703f91076d58dbb24465f4c9ce2fd47eb54f7795b725552980f6468857",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "搜索",
+        "交互题"
+      ],
+      "knowledgeReviewRequired": false,
       "originalTitle": "[ABC305F] Dungeon Explore",
       "platform": "洛谷",
       "problem": "AT_abc305_f",
@@ -82366,9 +82421,33 @@
       "sourceTags": [],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "DFS",
+        "交互题"
+      ],
       "title": "Dungeon Explore",
-      "url": "https://www.luogu.com.cn/problem/AT_abc305_f"
+      "url": "https://www.luogu.com.cn/problem/AT_abc305_f",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "DFS",
+          "交互题"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-AT_abc305_f",
+            "reference": "data/core7-completion/AT_abc305_f/default.md",
+            "sha256": "ea54827e77aa4259cd2884c1d4f2a1603fd9aa10f4a6639fdc23e1d4dbf58131",
+            "programSha256": "9d1a9097c69b8dff714892f274dc6e1b0108c462028b57cb98c83938c7c29734",
+            "reasons": [
+              "到新顶点时记录父亲，优先去未访问邻点；没有新邻点就沿父边退回。每条搜索树边至多去回各一次，找到 N 前最多移动 2(N−1) 次。每次输出后刷新。"
+            ],
+            "method": "真实交互中的 DFS 探索与退回",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-AT_abc305_f",
     "raw": {
@@ -82379,7 +82458,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "DFS + 交互题",
       "难度": "1800",
       "题号": "AT_abc305_f",
       "题名": "Dungeon Explore"
@@ -98743,36 +98822,52 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-AT_arc172_c",
-      "knowledge": "",
+      "knowledge": "枚举 + 模拟",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "枚举",
+          "模拟"
         ],
-        "confidence": "pending",
+        "knowledge": "枚举 + 模拟",
+        "categories": [
+          "数学",
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
+          },
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "枚举",
+              "模拟"
+            ],
+            "reference": "data/core7-completion/AT_arc172_c/default.md",
+            "sourceHash": "7edbe28b598b0393ae7427203a6c733471f45eb68f711278e9b6b4984451722c",
+            "reason": "把第一张选票依次向后移动，与相邻选票交换。两种开票顺序只会在交换中间的那一次公布结果上不同。累计真正改变结果的相邻交换次数，再加一。",
+            "verified": false
           }
         ],
-        "inputHash": "95a3dc56783549715f53ed4f922769c6fedb90b7a59d88d08be7e821b3875458",
-        "knowledge": "",
+        "unknown": [],
         "pendingCategories": [
           "数学"
         ],
-        "source": "statement-analysis",
+        "inputHash": "edaafa48afac69ac6fda6e531207fb0fffa57b910ab2fd9cbaea1418e88c0138",
         "sourceTags": [
           "数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "思维与策略"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[ARC172C] Election",
@@ -98787,9 +98882,33 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "枚举",
+        "模拟"
+      ],
       "title": "Election",
-      "url": "https://www.luogu.com.cn/problem/AT_arc172_c"
+      "url": "https://www.luogu.com.cn/problem/AT_arc172_c",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "枚举",
+          "模拟"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-AT_arc172_c",
+            "reference": "data/core7-completion/AT_arc172_c/default.md",
+            "sha256": "7edbe28b598b0393ae7427203a6c733471f45eb68f711278e9b6b4984451722c",
+            "programSha256": "e36956c50160007df5cfd2edc4a166b22cd8140ce70ba4496924baa8b6687aaf",
+            "reasons": [
+              "把第一张选票依次向后移动，与相邻选票交换。两种开票顺序只会在交换中间的那一次公布结果上不同。累计真正改变结果的相邻交换次数，再加一。"
+            ],
+            "method": "比较相邻插入位置的唯一变化",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-AT_arc172_c",
     "raw": {
@@ -98800,7 +98919,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "枚举 + 模拟",
       "难度": "1800",
       "题号": "AT_arc172_c",
       "题名": "Election"
@@ -102939,13 +103058,33 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-AT_indeednow_2015_quala_4",
-      "knowledge": "",
+      "knowledge": "DFS + 剪枝",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "DFS",
+          "剪枝"
+        ],
+        "knowledge": "DFS + 剪枝",
         "categories": [
+          "搜索",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "DFS",
+              "剪枝"
+            ],
+            "reference": "data/core7-completion/AT_indeednow_2015_quala_4/default.md",
+            "sourceHash": "d27fe68fee08b75d22e2be3052a61e1a87c31ce3ad90817e5a5778dbce6cad99",
+            "reason": "所有非空格到目标位置的曼哈顿距离之和是剩余步数下界。逐渐增加允许总步数，深搜中若已走步数加这个下界超限就剪枝，并跳过立即撤销上一步的移动。",
+            "verified": false
+          },
           {
             "categories": [
               "数学"
@@ -102954,23 +103093,17 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "325b0859a4e354b24d97079bc7b404ab932c2d7222a9686dc7b3d31ffe9b1ade",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "3a366e77a22eefcf4da901335d1f86e798560e1962ec6b027ccc98dafd776092",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "搜索",
         "数学"
       ],
-      "knowledgeReviewRequired": true,
+      "knowledgeReviewRequired": false,
       "platform": "洛谷",
       "problem": "AT_indeednow_2015_quala_4",
       "problemType": "standard",
@@ -102980,9 +103113,33 @@
       "sourceTags": [],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "DFS",
+        "剪枝"
+      ],
       "title": "パズル",
-      "url": "https://www.luogu.com.cn/problem/AT_indeednow_2015_quala_4"
+      "url": "https://www.luogu.com.cn/problem/AT_indeednow_2015_quala_4",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "DFS",
+          "剪枝"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-AT_indeednow_2015_quala_4",
+            "reference": "data/core7-completion/AT_indeednow_2015_quala_4/default.md",
+            "sha256": "d27fe68fee08b75d22e2be3052a61e1a87c31ce3ad90817e5a5778dbce6cad99",
+            "programSha256": "2e60477a2f6cfe0ef1adf42e38f6894d60e3f78d54719c2ace32ba890f9606fd",
+            "reasons": [
+              "所有非空格到目标位置的曼哈顿距离之和是剩余步数下界。逐渐增加允许总步数，深搜中若已走步数加这个下界超限就剪枝，并跳过立即撤销上一步的移动。"
+            ],
+            "method": "曼哈顿距离剪枝的迭代加深",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-AT_indeednow_2015_quala_4",
     "raw": {
@@ -102993,7 +103150,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "DFS + 剪枝",
       "难度": "1800",
       "题号": "AT_indeednow_2015_quala_4",
       "题名": "パズル"
@@ -208770,20 +208927,32 @@
       },
       "difficultySource": "Codeforces 官方 rating（洛谷 CF 原题编号）",
       "id": "luogu-training-CF14E",
-      "knowledge": "",
+      "knowledge": "线性 DP",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "线性 DP"
+        ],
+        "knowledge": "线性 DP",
         "categories": [
           "动态规划",
           "图论",
           "计算几何",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
           {
-            "source": "official-tags",
-            "tag": null,
-            "value": "动态规划（官方宽标签）"
+            "source": "reviewed-topic",
+            "tags": [
+              "线性 DP"
+            ],
+            "reference": "data/core7-completion/CF14E/default.md",
+            "sourceHash": "a41e2432cc81e0b2f2b2887ed0f0b7d66919a7a29d3a91184e224d16b75bd764",
+            "reason": "峰比谷恰好多一意味着第一段上升、最后一段下降。先枚举上升的前两个高度，随后 DP 记录末高度、趋势和已出现峰数，最后只取下降且有 t 个峰的状态。",
+            "verified": false
           },
           {
             "categories": [
@@ -208795,18 +208964,11 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "4a5c290ff0d3408d6b13be92a997a7350ba13bd1d7861713d1218ab90710af7b",
-        "knowledge": "",
-        "pendingCategories": [
-          "动态规划"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "9d26f547a6f3a6b0b21d3731972dae8687a6c42047b1b6952f0220a2341ddd2b",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "动态规划",
@@ -208814,7 +208976,7 @@
         "计算几何",
         "数学"
       ],
-      "knowledgeReviewRequired": true,
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.4.29",
       "officialSourceTags": [
         "dp"
@@ -208832,9 +208994,31 @@
       "sourceTags": [],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "线性 DP"
+      ],
       "title": "Camels",
-      "url": "https://www.luogu.com.cn/problem/CF14E"
+      "url": "https://www.luogu.com.cn/problem/CF14E",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "线性 DP"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-CF14E",
+            "reference": "data/core7-completion/CF14E/default.md",
+            "sha256": "a41e2432cc81e0b2f2b2887ed0f0b7d66919a7a29d3a91184e224d16b75bd764",
+            "programSha256": "c25789ae4966e4ab2badf4d9335bb60622b4ec8726664e78a2964593af7c3551",
+            "reasons": [
+              "峰比谷恰好多一意味着第一段上升、最后一段下降。先枚举上升的前两个高度，随后 DP 记录末高度、趋势和已出现峰数，最后只取下降且有 t 个峰的状态。"
+            ],
+            "method": "记录高度、上升下降趋势与峰数",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-CF14E",
     "raw": {
@@ -208845,7 +209029,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "线性 DP",
       "难度": "1900",
       "题号": "CF14E",
       "题名": "Camels"
@@ -216435,44 +216619,45 @@
       },
       "difficultySource": "Codeforces 官方 rating（洛谷 CF 原题编号）",
       "id": "luogu-training-CF1614D1",
-      "knowledge": "",
+      "knowledge": "线性 DP + 最大公约数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "线性 DP",
+          "最大公约数"
+        ],
+        "knowledge": "线性 DP + 最大公约数",
         "categories": [
           "动态规划",
           "数学 / 数论"
         ],
-        "confidence": "pending",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
           {
-            "source": "official-tags",
-            "tag": null,
-            "value": "动态规划（官方宽标签）"
-          },
-          {
-            "source": "official-tags",
-            "tag": null,
-            "value": "数论"
+            "source": "reviewed-topic",
+            "tags": [
+              "线性 DP",
+              "最大公约数"
+            ],
+            "reference": "data/core7-completion/CF1614D1/default.md",
+            "sourceHash": "55eaaaf11946df7b08789c58df45ff2da8661a29c3f370537350f31bef5978ca",
+            "reason": "统计每个 d 有多少输入是其倍数。令 dp[d] 为先处理所有 d 倍数的最优贡献；从更大的倍数 j 转移：dp[d]=max(dp[j]+d(cnt[d]−cnt[j]))。倒序枚举 d。",
+            "verified": false
           }
         ],
-        "inputHash": "ff81f9f15b4d29506944c8eebaf0f0035a6a706ab4dda6bc42add840350c8471",
-        "knowledge": "",
-        "pendingCategories": [
-          "动态规划",
-          "数学 / 数论"
-        ],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "a2ab6ece971dd1015e3fc8aa96b81710ee42f456452acd49e6540cbf6d736d95",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "动态规划",
         "数学 / 数论"
       ],
-      "knowledgeReviewRequired": true,
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.4.29",
       "officialSourceTags": [
         "dp",
@@ -216492,9 +216677,33 @@
       "sourceTags": [],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "线性 DP",
+        "最大公约数"
+      ],
       "title": "Divan and Kostomuksha (easy version)",
-      "url": "https://www.luogu.com.cn/problem/CF1614D1"
+      "url": "https://www.luogu.com.cn/problem/CF1614D1",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "线性 DP",
+          "最大公约数"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-CF1614D1",
+            "reference": "data/core7-completion/CF1614D1/default.md",
+            "sha256": "55eaaaf11946df7b08789c58df45ff2da8661a29c3f370537350f31bef5978ca",
+            "programSha256": "78aa2b972920adc0b50264e6a46adf8bc5ce3cfb0a3f34eb9931138f156c8642",
+            "reasons": [
+              "统计每个 d 有多少输入是其倍数。令 dp[d] 为先处理所有 d 倍数的最优贡献；从更大的倍数 j 转移：dp[d]=max(dp[j]+d(cnt[d]−cnt[j]))。倒序枚举 d。"
+            ],
+            "method": "在约数链上安排 gcd 降低的时机",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-CF1614D1",
     "raw": {
@@ -216505,7 +216714,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "线性 DP + 最大公约数",
       "难度": "2100",
       "题号": "CF1614D1",
       "题名": "Divan and Kostomuksha (easy version)"
@@ -286404,23 +286613,32 @@
       },
       "difficultySource": "Codeforces 官方 rating（洛谷 CF 原题编号）",
       "id": "luogu-training-CF687B",
-      "knowledge": "",
+      "knowledge": "最小公倍数 + 最大公约数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学",
-          "数学 / 数论"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "最小公倍数",
+          "最大公约数"
         ],
-        "confidence": "medium",
+        "knowledge": "最小公倍数 + 最大公约数",
+        "categories": [
+          "数学 / 数论",
+          "数学"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
           {
-            "source": "official-tags",
-            "tag": null,
-            "value": "数学"
-          },
-          {
-            "source": "official-tags",
-            "tag": null,
-            "value": "数论"
+            "source": "reviewed-topic",
+            "tags": [
+              "最小公倍数",
+              "最大公约数"
+            ],
+            "reference": "data/core7-completion/CF687B/default.md",
+            "sourceHash": "3a1d8b84e3dfa2b4bf73aded176fe677b7d6684a3d4d3cf89e2eb504599590d4",
+            "reason": "所有给定余数把原数确定到它们最小公倍数的同余类。能确定模 k 的余数，当且仅当 k 整除这个最小公倍数。只累积 gcd(a_i,k) 的 lcm，避免大整数。",
+            "verified": false
           },
           {
             "categories": [
@@ -286430,25 +286648,17 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "9f4a561acbf7ec654212249b15d1e959ed3a84113661fbd88611518c1694b105",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学",
-          "数学 / 数论"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "7309278285f07b6990e0c479a47416e848828054403420cd43b3936f36c91c80",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学",
-        "数学 / 数论"
+        "数学 / 数论",
+        "数学"
       ],
-      "knowledgeReviewRequired": true,
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.4.29",
       "officialSourceTags": [
         "chinese remainder theorem",
@@ -286469,9 +286679,33 @@
       "sourceTags": [],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "最小公倍数",
+        "最大公约数"
+      ],
       "title": "Remainders Game",
-      "url": "https://www.luogu.com.cn/problem/CF687B"
+      "url": "https://www.luogu.com.cn/problem/CF687B",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "最小公倍数",
+          "最大公约数"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-CF687B",
+            "reference": "data/core7-completion/CF687B/default.md",
+            "sha256": "3a1d8b84e3dfa2b4bf73aded176fe677b7d6684a3d4d3cf89e2eb504599590d4",
+            "programSha256": "228e4a55adcd80fdabe0a949a1ae2377bb0a2adeaa74ce438f00cd24a03d4dc0",
+            "reasons": [
+              "所有给定余数把原数确定到它们最小公倍数的同余类。能确定模 k 的余数，当且仅当 k 整除这个最小公倍数。只累积 gcd(a_i,k) 的 lcm，避免大整数。"
+            ],
+            "method": "检查所有模数能否确定 k 的余数",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-CF687B",
     "raw": {
@@ -286482,7 +286716,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "最小公倍数 + 最大公约数",
       "难度": "1800",
       "题号": "CF687B",
       "题名": "Remainders Game"
@@ -316795,13 +317029,31 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P10026",
-      "knowledge": "",
+      "knowledge": "位运算",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "位运算"
+        ],
+        "knowledge": "位运算",
         "categories": [
+          "基础技巧",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "位运算"
+            ],
+            "reference": "data/core7-completion/P10026/default.md",
+            "sourceHash": "bd7169f5e594a4be87e622d68fe337432934f78fff391e33894ab9708ae0409a",
+            "reason": "若做 d 次翻倍，最终 n=2^d−D，D 是 k−d 个二次幂之和。对 n>0，D 的最少项数为 d−popcount(n−1)，最多为 D；选满足最少项数限制的最大 d，再判断最多项数是否足够。",
+            "verified": false
+          },
           {
             "categories": [
               "数学"
@@ -316810,23 +317062,17 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "e37be485805e4d7c30d0570b76f631c078088e83a63fa9a4065663fb3047b8f7",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "ce05f0e88b8f3052717f6fa8747513ae92b65ea6ebd4a636e73be795264557b5",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "基础技巧",
         "数学"
       ],
-      "knowledgeReviewRequired": true,
+      "knowledgeReviewRequired": false,
       "originalTitle": "「HCOI-R1」哀之变化",
       "platform": "洛谷",
       "problem": "P10026",
@@ -316837,9 +317083,31 @@
       "sourceTags": [],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "位运算"
+      ],
       "title": "哀之变化",
-      "url": "https://www.luogu.com.cn/problem/P10026"
+      "url": "https://www.luogu.com.cn/problem/P10026",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "位运算"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P10026",
+            "reference": "data/core7-completion/P10026/default.md",
+            "sha256": "bd7169f5e594a4be87e622d68fe337432934f78fff391e33894ab9708ae0409a",
+            "programSha256": "d350a15be2682d1977f7dbdfcdfaf458374aa2a3d43cbc9e7fa6bdd5cd4288cd",
+            "reasons": [
+              "若做 d 次翻倍，最终 n=2^d−D，D 是 k−d 个二次幂之和。对 n>0，D 的最少项数为 d−popcount(n−1)，最多为 D；选满足最少项数限制的最大 d，再判断最多项数是否足够。"
+            ],
+            "method": "把所有减一的影响看作二的幂",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P10026",
     "raw": {
@@ -316850,7 +317118,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "位运算",
       "难度": "1800",
       "题号": "P10026",
       "题名": "哀之变化"
@@ -442997,33 +443265,43 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P1683",
-      "knowledge": "",
+      "knowledge": "BFS",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "BFS"
+        ],
+        "knowledge": "BFS",
         "categories": [
           "搜索"
         ],
-        "confidence": "pending",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "搜索"
+            "value": "搜索",
+            "tag": null
+          },
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "BFS"
+            ],
+            "reference": "data/core7-completion/P1683/default.md",
+            "sourceHash": "b9ed6b945e51ecc28f663675c309d45bde4cd54431a1f63a94070972f79b5508",
+            "reason": "从 @ 开始进行四方向广搜，只经过安全格。每个格只计数一次，得到的就是能走过的最多瓷砖数。",
+            "verified": false
           }
         ],
-        "inputHash": "8bf8957a8fa90abfcbec4d74a5e621111e24a12b580f3b6e4aafa192ecae0612",
-        "knowledge": "",
-        "pendingCategories": [
-          "搜索"
-        ],
-        "source": "statement-analysis",
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "79a9e404b346f78a64d4748fd673b9f991f494e9fb98b4e44fd131e28ba34625",
         "sourceTags": [
           "搜索"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "搜索"
@@ -443040,9 +443318,31 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "BFS"
+      ],
       "title": "入门",
-      "url": "https://www.luogu.com.cn/problem/P1683"
+      "url": "https://www.luogu.com.cn/problem/P1683",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "BFS"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P1683",
+            "reference": "data/core7-completion/P1683/default.md",
+            "sha256": "b9ed6b945e51ecc28f663675c309d45bde4cd54431a1f63a94070972f79b5508",
+            "programSha256": "0c65e8652619bcb94132e8f33244c264d36c0c19a70b3c2c353e6a89d12165ba",
+            "reasons": [
+              "从 @ 开始进行四方向广搜，只经过安全格。每个格只计数一次，得到的就是能走过的最多瓷砖数。"
+            ],
+            "method": "从入口搜索可达的安全格",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P1683",
     "raw": {
@@ -443053,7 +443353,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "BFS",
       "难度": "1200",
       "题号": "P1683",
       "题名": "入门"
@@ -443970,13 +444270,31 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P16943",
-      "knowledge": "",
+      "knowledge": "分类讨论",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "分类讨论"
+        ],
+        "knowledge": "分类讨论",
         "categories": [
+          "思维与策略",
           "图论"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "分类讨论"
+            ],
+            "reference": "data/core7-completion/P16943/default.md",
+            "sourceHash": "bf4321be6a6a7e8a3985a79ccf2e81f961f9d185c07ac36d47dc076c63ae47d6",
+            "reason": "删去 u、v 的连通块数是 deg[u]+deg[v]−1−[相邻]。最高两度数决定答案最多只差一；维护最高度点的次高度非邻居，普通加叶只更新这个证据，度数并列结束时才扫描度数桶重建。",
+            "verified": false
+          },
           {
             "categories": [
               "图论"
@@ -443985,23 +444303,17 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "ddcbb5da01549b82aef9fb7b17134545b34ea1823b721bccea34cf8ad17bce92",
-        "knowledge": "",
-        "pendingCategories": [
-          "图论"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "28eb9ee9282fe3a7f08af97f42f97573e2213b9a80ce0bc047bf06ff7b127f66",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "思维与策略",
         "图论"
       ],
-      "knowledgeReviewRequired": true,
+      "knowledgeReviewRequired": false,
       "originalTitle": "「LAOI-18」火**印奔行者",
       "platform": "洛谷",
       "problem": "P16943",
@@ -444012,9 +444324,31 @@
       "sourceTags": [],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "分类讨论"
+      ],
       "title": "火**印奔行者",
-      "url": "https://www.luogu.com.cn/problem/P16943"
+      "url": "https://www.luogu.com.cn/problem/P16943",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "分类讨论"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P16943",
+            "reference": "data/core7-completion/P16943/default.md",
+            "sha256": "bf4321be6a6a7e8a3985a79ccf2e81f961f9d185c07ac36d47dc076c63ae47d6",
+            "programSha256": "a98ea7f3b9f385da545004a949c3e451d56584ca101df2496d5f079cd9fdacc8",
+            "reasons": [
+              "删去 u、v 的连通块数是 deg[u]+deg[v]−1−[相邻]。最高两度数决定答案最多只差一；维护最高度点的次高度非邻居，普通加叶只更新这个证据，度数并列结束时才扫描度数桶重建。"
+            ],
+            "method": "维护最高两度数与最高度点的非邻居证据",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P16943",
     "raw": {
@@ -444025,7 +444359,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "分类讨论",
       "难度": "2100",
       "题号": "P16943",
       "题名": "火**印奔行者"
@@ -473001,45 +473335,63 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P2180",
-      "knowledge": "",
+      "knowledge": "枚举 + 组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "枚举",
+          "组合计数"
+        ],
+        "knowledge": "枚举 + 组合计数",
         "categories": [
           "动态规划",
-          "数学"
+          "数学",
+          "思维与策略",
+          "数学与计数 / 计数"
         ],
-        "confidence": "pending",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
+          },
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "枚举",
+              "组合计数"
+            ],
+            "reference": "data/core7-completion/P2180/default.md",
+            "sourceHash": "3e922e34e807d11f61b53d65885e2040d77000bec3fd8d76fcdb27f2870ebe91",
+            "reason": "行列压缩后，同一列的石子可以尽量对齐。最优形状可取一个满矩形，再在一行或一列上放剩余石子。枚举满列高度 h，令 q=K/h、r=K%h，贡献为 C(h,2)C(q,2)+qC(r,2)，再交换两维检查。",
+            "verified": false
           }
         ],
-        "inputHash": "ca2d65c21bf1cadd1a3687145675e3c61f81cd11ae18584b2165b318b361687e",
-        "knowledge": "",
+        "unknown": [],
         "pendingCategories": [
           "动态规划",
           "数学"
         ],
-        "source": "statement-analysis",
+        "inputHash": "c44ddb77f9481f9d05844d45cc69f0b144c4d7f3649280f8ff3b56b6f316eed5",
         "sourceTags": [
           "动态规划 DP",
           "数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "动态规划",
-        "数学"
+        "数学",
+        "思维与策略",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "platform": "洛谷",
@@ -473054,9 +473406,33 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "枚举",
+        "组合计数"
+      ],
       "title": "摆石子",
-      "url": "https://www.luogu.com.cn/problem/P2180"
+      "url": "https://www.luogu.com.cn/problem/P2180",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "枚举",
+          "组合计数"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P2180",
+            "reference": "data/core7-completion/P2180/default.md",
+            "sha256": "3e922e34e807d11f61b53d65885e2040d77000bec3fd8d76fcdb27f2870ebe91",
+            "programSha256": "6746d6d9c3a30dab4851f9bc1640b0b534deb1b7e85bd2eaf18332edae7bc6a2",
+            "reasons": [
+              "行列压缩后，同一列的石子可以尽量对齐。最优形状可取一个满矩形，再在一行或一列上放剩余石子。枚举满列高度 h，令 q=K/h、r=K%h，贡献为 C(h,2)C(q,2)+qC(r,2)，再交换两维检查。"
+            ],
+            "method": "压缩为满矩形加一条未满边",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P2180",
     "raw": {
@@ -473067,7 +473443,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "枚举 + 组合计数",
       "难度": "1500",
       "题号": "P2180",
       "题名": "摆石子"
@@ -473097,44 +473473,58 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P2181",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": "组合计数",
-            "value": "组合数学"
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "组合计数"
+            ],
+            "reference": "data/core7-completion/P2181/default.md",
+            "sourceHash": "06b4e1de6f8eab8721bad438f6880709c8b65156b3105799174e04976a647a5b",
+            "reason": "凸多边形中任取四个顶点，其两条对角线在内部相交；每个交点又由唯一一组四顶点确定，因此答案是 C(n,4)。",
+            "verified": false
           }
         ],
-        "inputHash": "80d067f49ca0c00445ad319eaeb7244d412e0fec0cfcccc50aa7de588af1a0d3",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "statement-analysis",
+        "inputHash": "cfc044b08f81b14136fc7fa626d72554edafe220e18fd0eee858ed2efa9f9ee8",
         "sourceTags": [
           "数学",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "platform": "洛谷",
@@ -473149,9 +473539,31 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "对角线",
-      "url": "https://www.luogu.com.cn/problem/P2181"
+      "url": "https://www.luogu.com.cn/problem/P2181",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "组合计数"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P2181",
+            "reference": "data/core7-completion/P2181/default.md",
+            "sha256": "06b4e1de6f8eab8721bad438f6880709c8b65156b3105799174e04976a647a5b",
+            "programSha256": "f961994446c968a33003e70a55768c2e4799358d67f6cf0eac29bb1e260453c7",
+            "reasons": [
+              "凸多边形中任取四个顶点，其两条对角线在内部相交；每个交点又由唯一一组四顶点确定，因此答案是 C(n,4)。"
+            ],
+            "method": "每四个顶点对应一对相交对角线",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P2181",
     "raw": {
@@ -473162,7 +473574,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "1500",
       "题号": "P2181",
       "题名": "对角线"
@@ -492017,60 +492429,75 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P2638",
-      "knowledge": "",
+      "knowledge": "隔板法 + 组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "隔板法",
+          "组合计数"
+        ],
+        "knowledge": "隔板法 + 组合计数",
         "categories": [
           "动态规划",
-          "数学"
+          "数学",
+          "数学与计数 / 计数"
         ],
-        "confidence": "pending",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": "组合计数",
-            "value": "组合数学"
+            "value": "组合数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "排列组合"
+            "value": "排列组合",
+            "tag": null
+          },
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "隔板法",
+              "组合计数"
+            ],
+            "reference": "data/core7-completion/P2638/default.md",
+            "sourceHash": "9cd79a48ecf0405e8e2d5b8d40a7e3fcbb10db62338e28ed736f380c08f4f80e",
+            "reason": "把没有使用的零也看成放在一个额外储存区，分配 a 个相同零到 n+1 区有 C(n+a,n) 种。一的分配独立，答案为 C(n+a,n)·C(n+b,n)。",
+            "verified": false
           }
         ],
-        "inputHash": "cb314d4f7abe31727d3e5228fc59efa9e720514a6702a0f14f4556528154442e",
-        "knowledge": "",
-        "pendingCategories": [
-          "动态规划",
-          "数学"
+        "unknown": [
+          "组合数学",
+          "排列组合"
         ],
-        "source": "statement-analysis",
+        "pendingCategories": [
+          "动态规划"
+        ],
+        "inputHash": "19c5b2cdf80316e1829ebda59e6385a530d6e1bcc878f3e4e0d9db60602659df",
         "sourceTags": [
           "动态规划 DP",
           "数学",
           "组合数学",
           "排列组合"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学",
-          "排列组合"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "动态规划",
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "platform": "洛谷",
@@ -492087,9 +492514,33 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "隔板法",
+        "组合计数"
+      ],
       "title": "安全系统",
-      "url": "https://www.luogu.com.cn/problem/P2638"
+      "url": "https://www.luogu.com.cn/problem/P2638",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "隔板法",
+          "组合计数"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P2638",
+            "reference": "data/core7-completion/P2638/default.md",
+            "sha256": "9cd79a48ecf0405e8e2d5b8d40a7e3fcbb10db62338e28ed736f380c08f4f80e",
+            "programSha256": "4524d82517d0023178a9073f50c2dca8760f9bac02e0ace4e147e51f29c65bbe",
+            "reasons": [
+              "把没有使用的零也看成放在一个额外储存区，分配 a 个相同零到 n+1 区有 C(n+a,n) 种。一的分配独立，答案为 C(n+a,n)·C(n+b,n)。"
+            ],
+            "method": "加入未使用区后的两次隔板法",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P2638",
     "raw": {
@@ -492100,7 +492551,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "隔板法 + 组合计数",
       "难度": "1800",
       "题号": "P2638",
       "题名": "安全系统"
@@ -566441,13 +566892,31 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P4132",
-      "knowledge": "",
+      "knowledge": "格点计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "格点计数"
+        ],
+        "knowledge": "格点计数",
         "categories": [
+          "计算几何",
           "数学 / 数论"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "格点计数"
+            ],
+            "reference": "data/core7-completion/P4132/default.md",
+            "sourceHash": "e2f8a036f8c40191392b87f3a43b46e471d52ce92b0baddbd00921967d3c988a",
+            "reason": "当 p、q 为不同奇质数时，两段求和分别数出矩形格点在直线两侧的数量，总和为 ((p−1)/2)((q−1)/2)。若两质数相等，直接求两份 1+…+(p−1)/2。",
+            "verified": false
+          },
           {
             "categories": [
               "数学 / 数论"
@@ -566456,23 +566925,17 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "e856dd84dbd522c9b7cced263685a1904c056c39a6ec1dd26ced145c58e4cefa",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学 / 数论"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "b2546d9ff9376b71ad3994aca74e249de52bbea3f1cb63f8380f69f565942926",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "计算几何",
         "数学 / 数论"
       ],
-      "knowledgeReviewRequired": true,
+      "knowledgeReviewRequired": false,
       "originalTitle": "[BJOI2012] 算不出的等式",
       "platform": "洛谷",
       "problem": "P4132",
@@ -566483,9 +566946,31 @@
       "sourceTags": [],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "格点计数"
+      ],
       "title": "算不出的等式",
-      "url": "https://www.luogu.com.cn/problem/P4132"
+      "url": "https://www.luogu.com.cn/problem/P4132",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "格点计数"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P4132",
+            "reference": "data/core7-completion/P4132/default.md",
+            "sha256": "e2f8a036f8c40191392b87f3a43b46e471d52ce92b0baddbd00921967d3c988a",
+            "programSha256": "a7280278de10d4cda4aa1d298edf3c9bfc1e9d78990bbb680c20d691b0c9aa8e",
+            "reasons": [
+              "当 p、q 为不同奇质数时，两段求和分别数出矩形格点在直线两侧的数量，总和为 ((p−1)/2)((q−1)/2)。若两质数相等，直接求两份 1+…+(p−1)/2。"
+            ],
+            "method": "矩形格点被斜线分成两侧",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P4132",
     "raw": {
@@ -566496,7 +566981,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "格点计数",
       "难度": "2100",
       "题号": "P4132",
       "题名": "算不出的等式"
@@ -625679,24 +626164,47 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P5451",
-      "knowledge": "",
+      "knowledge": "扩展欧几里得 + 乘法逆元 + 快速幂",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "扩展欧几里得",
+          "乘法逆元",
+          "快速幂"
+        ],
+        "knowledge": "扩展欧几里得 + 乘法逆元 + 快速幂",
+        "categories": [
+          "数学",
+          "数学 / 数论"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "扩展欧几里得",
+              "乘法逆元",
+              "快速幂"
+            ],
+            "reference": "data/core7-completion/P5451/default.md",
+            "sourceHash": "b2e8396547079895ec8bd03ba10490e82db5865ef65dfcc4f161d2d80b95d795",
+            "reason": "扩展欧几里得求 a·e1+b·e2=1，则 m≡c1^a·c2^b mod N。负指数改用密文的模逆元，所有模乘用 __int128。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "295092bbddf60cae49d2ec425dc36897c24a874a090178e2dda15665fa6afd82",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数学",
+        "数学 / 数论"
+      ],
+      "knowledgeReviewRequired": false,
       "originalTitle": "[THUPC 2018] 密码学第三次小作业",
       "platform": "洛谷",
       "problem": "P5451",
@@ -625707,9 +626215,35 @@
       "sourceTags": [],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "扩展欧几里得",
+        "乘法逆元",
+        "快速幂"
+      ],
       "title": "密码学第三次小作业",
-      "url": "https://www.luogu.com.cn/problem/P5451"
+      "url": "https://www.luogu.com.cn/problem/P5451",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "扩展欧几里得",
+          "乘法逆元",
+          "快速幂"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P5451",
+            "reference": "data/core7-completion/P5451/default.md",
+            "sha256": "b2e8396547079895ec8bd03ba10490e82db5865ef65dfcc4f161d2d80b95d795",
+            "programSha256": "f2944da995f50214dd348001ca4497ffecd8db676367eeb77583cd09afd7ab44",
+            "reasons": [
+              "扩展欧几里得求 a·e1+b·e2=1，则 m≡c1^a·c2^b mod N。负指数改用密文的模逆元，所有模乘用 __int128。"
+            ],
+            "method": "共模攻击：将两个指数线性组合成一",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P5451",
     "raw": {
@@ -625720,7 +626254,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "扩展欧几里得 + 乘法逆元 + 快速幂",
       "难度": "2100",
       "题号": "P5451",
       "题名": "密码学第三次小作业"
@@ -641505,24 +642039,41 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P5740",
-      "knowledge": "",
+      "knowledge": "枚举",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "枚举"
+        ],
+        "knowledge": "枚举",
+        "categories": [
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "枚举"
+            ],
+            "reference": "data/core7-completion/P5740/default.md",
+            "sourceHash": "892b48ec69e31a69d3c4f42f6b77a0df57852108c7e6be9ef87f12c155029eec",
+            "reason": "对每个学生求三科总分，仅在总分严格大于当前最高值时替换答案。这样并列时保留先输入的学生，最后输出姓名和三科原成绩。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "fad1a090a2261e227e7d0f1a1eee58c87733145608a039f823d01aa2022502d8",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "思维与策略"
+      ],
+      "knowledgeReviewRequired": false,
       "originalTitle": "【深基7.例9】最厉害的学生",
       "platform": "洛谷",
       "problem": "P5740",
@@ -641533,9 +642084,31 @@
       "sourceTags": [],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "枚举"
+      ],
       "title": "最厉害的学生",
-      "url": "https://www.luogu.com.cn/problem/P5740"
+      "url": "https://www.luogu.com.cn/problem/P5740",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "枚举"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P5740",
+            "reference": "data/core7-completion/P5740/default.md",
+            "sha256": "892b48ec69e31a69d3c4f42f6b77a0df57852108c7e6be9ef87f12c155029eec",
+            "programSha256": "00eb54e12431fe0a8f39aa3211388268be987b9a9e5b5da3aa37f578e89a99f8",
+            "reasons": [
+              "对每个学生求三科总分，仅在总分严格大于当前最高值时替换答案。这样并列时保留先输入的学生，最后输出姓名和三科原成绩。"
+            ],
+            "method": "维护最高总分的第一名",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P5740",
     "raw": {
@@ -641546,7 +642119,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "枚举",
       "难度": "1200",
       "题号": "P5740",
       "题名": "最厉害的学生"
@@ -641645,24 +642218,41 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P5742",
-      "knowledge": "",
+      "knowledge": "模拟",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "模拟"
+        ],
+        "knowledge": "模拟",
+        "categories": [
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "模拟"
+            ],
+            "reference": "data/core7-completion/P5742/default.md",
+            "sourceHash": "687521902e92925d0ff40fdd9f1f8df58fd03ac16783aede4bc5fb4cb3002928",
+            "reason": "优秀须同时满足两项分数和大于 140、综合分至少 80。综合分 0.7a+0.3b≥80 等价于 7a+3b≥800，用整数判断即可。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "b7319baa642533a2a414057739b9189a18e500ee325a120e228d0713a1761781",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "思维与策略"
+      ],
+      "knowledgeReviewRequired": false,
       "originalTitle": "【深基7.例11】评等级",
       "platform": "洛谷",
       "problem": "P5742",
@@ -641673,9 +642263,31 @@
       "sourceTags": [],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "模拟"
+      ],
       "title": "评等级",
-      "url": "https://www.luogu.com.cn/problem/P5742"
+      "url": "https://www.luogu.com.cn/problem/P5742",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "模拟"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P5742",
+            "reference": "data/core7-completion/P5742/default.md",
+            "sha256": "687521902e92925d0ff40fdd9f1f8df58fd03ac16783aede4bc5fb4cb3002928",
+            "programSha256": "1497728341e8899a7feac66557caf36f539aee583f8373015eaa5b88a0db6c39",
+            "reasons": [
+              "优秀须同时满足两项分数和大于 140、综合分至少 80。综合分 0.7a+0.3b≥80 等价于 7a+3b≥800，用整数判断即可。"
+            ],
+            "method": "把加权成绩化成整数比较",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P5742",
     "raw": {
@@ -641686,7 +642298,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "模拟",
       "难度": "1200",
       "题号": "P5742",
       "题名": "评等级"
@@ -641781,24 +642393,41 @@
       ],
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P5744",
-      "knowledge": "",
+      "knowledge": "模拟",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "模拟"
+        ],
+        "knowledge": "模拟",
+        "categories": [
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "模拟"
+            ],
+            "reference": "data/core7-completion/P5744/default.md",
+            "sourceHash": "30b251b4022e508930e90bb1ff55ef36d8e74e5f4269201b3a5e68cb2219eadd",
+            "reason": "每个学员的姓名保留，年龄加一，成绩增加百分之二十并限制在六百分。逐条读入、计算、输出即可。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "035fab33ebb5c04dbc29b4e812185ba26fa7352fcc8073588358058fdabc9e87",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "思维与策略"
+      ],
+      "knowledgeReviewRequired": false,
       "originalTitle": "【深基7.习9】培训",
       "platform": "洛谷",
       "problem": "P5744",
@@ -641809,9 +642438,31 @@
       "sourceTags": [],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "模拟"
+      ],
       "title": "培训",
-      "url": "https://www.luogu.com.cn/problem/P5744"
+      "url": "https://www.luogu.com.cn/problem/P5744",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "模拟"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P5744",
+            "reference": "data/core7-completion/P5744/default.md",
+            "sha256": "30b251b4022e508930e90bb1ff55ef36d8e74e5f4269201b3a5e68cb2219eadd",
+            "programSha256": "643dac4d12c98fb6e8fb689da5fc7359afa3fc177ccda4498ada0927c1be78db",
+            "reasons": [
+              "每个学员的姓名保留，年龄加一，成绩增加百分之二十并限制在六百分。逐条读入、计算、输出即可。"
+            ],
+            "method": "逐条更新学员字段",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P5744",
     "raw": {
@@ -641822,7 +642473,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "模拟",
       "难度": "900",
       "题号": "P5744",
       "题名": "培训"
@@ -652749,36 +653400,54 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P6075",
-      "knowledge": "",
+      "knowledge": "快速幂 + 组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "快速幂",
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "快速幂 + 组合计数",
+        "categories": [
+          "数学",
+          "数学 / 数论",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
+          },
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "快速幂",
+              "组合计数"
+            ],
+            "reference": "data/core7-completion/P6075/default.md",
+            "sourceHash": "8c37ee64d4f3c781dda05ab86c15c94e5d40e7d037a2549e03401de13ee56098",
+            "reason": "对一个固定元素，只看它在哪些子集中出现。包含关系把出现区域约束为阶梯形，其边界对应 k 次二元选择，共 2^k 种。n 个元素独立，答案为 2^(nk)。",
+            "verified": false
           }
         ],
-        "inputHash": "f52f3263991a582d75002c1c9260106251e6973daf97b683d622efc02b881472",
-        "knowledge": "",
+        "unknown": [],
         "pendingCategories": [
           "数学"
         ],
-        "source": "pending-evidence",
+        "inputHash": "5f6dc0ffd7c8272fff257df40e83dcf6650e9060619e57601406cfa038f4a02b",
         "sourceTags": [
           "数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学 / 数论",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[JSOI2015] 子集选取",
@@ -652793,9 +653462,33 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "快速幂",
+        "组合计数"
+      ],
       "title": "子集选取",
-      "url": "https://www.luogu.com.cn/problem/P6075"
+      "url": "https://www.luogu.com.cn/problem/P6075",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "快速幂",
+          "组合计数"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P6075",
+            "reference": "data/core7-completion/P6075/default.md",
+            "sha256": "8c37ee64d4f3c781dda05ab86c15c94e5d40e7d037a2549e03401de13ee56098",
+            "programSha256": "628b09fd83ff9e58a1bd5a1857f1d1ed8d84484d5056c11d6f7ba4cb0dc57261",
+            "reasons": [
+              "对一个固定元素，只看它在哪些子集中出现。包含关系把出现区域约束为阶梯形，其边界对应 k 次二元选择，共 2^k 种。n 个元素独立，答案为 2^(nk)。"
+            ],
+            "method": "单个元素的阶梯边界独立选择",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P6075",
     "raw": {
@@ -652806,7 +653499,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "快速幂 + 组合计数",
       "难度": "1800",
       "题号": "P6075",
       "题名": "子集选取"
@@ -665601,44 +666294,62 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P6561",
-      "knowledge": "",
+      "knowledge": "组合计数 + 乘法逆元",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数",
+          "乘法逆元"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数 + 乘法逆元",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数",
+          "数学 / 数论"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": "组合计数",
-            "value": "组合数学"
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "组合计数",
+              "乘法逆元"
+            ],
+            "reference": "data/core7-completion/P6561/default.md",
+            "sourceHash": "3bcdfddf2e0736894201bf0390b036d78ff5c0ec6c39e7f07797a5be99f33c49",
+            "reason": "不相邻选择中，a 个奇数与 b 个偶数的方案数为 C(m−b,a)·C(m−a,b)。预处理阶乘与逆阶乘后，每组常数时间计算。",
+            "verified": false
           }
         ],
-        "inputHash": "2b9df19c943cb9b613a72ad3ae9b630441386ef57cb027705e6260ff17f80aea",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "pending-evidence",
+        "inputHash": "72e6abbcc3e607d2f20813674dc37435975219a192f95629ab6892d7771b2ebd",
         "sourceTags": [
           "数学",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数",
+        "数学 / 数论"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[SBCOI2020] 人",
@@ -665654,9 +666365,33 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数",
+        "乘法逆元"
+      ],
       "title": "人",
-      "url": "https://www.luogu.com.cn/problem/P6561"
+      "url": "https://www.luogu.com.cn/problem/P6561",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "组合计数",
+          "乘法逆元"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P6561",
+            "reference": "data/core7-completion/P6561/default.md",
+            "sha256": "3bcdfddf2e0736894201bf0390b036d78ff5c0ec6c39e7f07797a5be99f33c49",
+            "programSha256": "c8d70042175c1bb0c71dcf704da23e3cd941c96d42ed797d0901d60ac43db632",
+            "reasons": [
+              "不相邻选择中，a 个奇数与 b 个偶数的方案数为 C(m−b,a)·C(m−a,b)。预处理阶乘与逆阶乘后，每组常数时间计算。"
+            ],
+            "method": "按奇偶选择数量使用双二项式",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P6561",
     "raw": {
@@ -665667,7 +666402,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数 + 乘法逆元",
       "难度": "2100",
       "题号": "P6561",
       "题名": "人"
@@ -677581,24 +678316,43 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P7023",
-      "knowledge": "",
+      "knowledge": "贪心 + 排序",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "贪心",
+          "排序"
+        ],
+        "knowledge": "贪心 + 排序",
+        "categories": [
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "贪心",
+              "排序"
+            ],
+            "reference": "data/core7-completion/P7023/default.md",
+            "sourceHash": "7621eb60a27d38f7e5448639a28f15dfe5cb53c4ace41be039f9b4283c8d658a",
+            "reason": "若不创造新值，只能消除存在其它原值倍数的种类，把这些种类按频数从小到大消除。若创造新值，为减少 r 种至少消除 r+1 个原种类，把全体最便宜的 r+1 种乘到共同倍数即可。比较两类代价。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "b9d38bc07c7a7ff080683dc824104bd16a824f37bd7607ab47bb508f8c22361f",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "思维与策略"
+      ],
+      "knowledgeReviewRequired": false,
       "originalTitle": "[NWRRC 2017] Equal Numbers",
       "platform": "洛谷",
       "problem": "P7023",
@@ -677609,9 +678363,33 @@
       "sourceTags": [],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "贪心",
+        "排序"
+      ],
       "title": "Equal Numbers",
-      "url": "https://www.luogu.com.cn/problem/P7023"
+      "url": "https://www.luogu.com.cn/problem/P7023",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "贪心",
+          "排序"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P7023",
+            "reference": "data/core7-completion/P7023/default.md",
+            "sha256": "7621eb60a27d38f7e5448639a28f15dfe5cb53c4ace41be039f9b4283c8d658a",
+            "programSha256": "53397bb03cd36cd2b43538472515c03e0af3d13ec48523ed4d1175eabc7d8c07",
+            "reasons": [
+              "若不创造新值，只能消除存在其它原值倍数的种类，把这些种类按频数从小到大消除。若创造新值，为减少 r 种至少消除 r+1 个原种类，把全体最便宜的 r+1 种乘到共同倍数即可。比较两类代价。"
+            ],
+            "method": "分别考虑是否创造全新数值",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P7023",
     "raw": {
@@ -677622,7 +678400,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "贪心 + 排序",
       "难度": "1800",
       "题号": "P7023",
       "题名": "Equal Numbers"
@@ -691713,24 +692491,45 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P7480",
-      "knowledge": "",
+      "knowledge": "单调栈 + 最短路",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "单调栈",
+          "最短路"
+        ],
+        "knowledge": "单调栈 + 最短路",
+        "categories": [
+          "数据结构",
+          "图论"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "单调栈",
+              "最短路"
+            ],
+            "reference": "data/core7-completion/P7480/default.md",
+            "sourceHash": "27cb22526dbcbf1740c9f44232f087ed359b2cf4db89ab17a91bd39095a77a9d",
+            "reason": "允许折返找便宜油，不能只按向右贪心。最优路线的下一次有效加油一定可选为某方向遇到的第一个更便宜站；单调栈求左右候选，建线性边数图跑 Dijkstra。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "b702de1e1db833f57c541ec30b045daa750eed567b73892ebfab370c5a3e2b92",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数据结构",
+        "图论"
+      ],
+      "knowledgeReviewRequired": false,
       "platform": "洛谷",
       "problem": "P7480",
       "problemType": "standard",
@@ -691740,9 +692539,33 @@
       "sourceTags": [],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "单调栈",
+        "最短路"
+      ],
       "title": "Reboot from Blue",
-      "url": "https://www.luogu.com.cn/problem/P7480"
+      "url": "https://www.luogu.com.cn/problem/P7480",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "单调栈",
+          "最短路"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P7480",
+            "reference": "data/core7-completion/P7480/default.md",
+            "sha256": "27cb22526dbcbf1740c9f44232f087ed359b2cf4db89ab17a91bd39095a77a9d",
+            "programSha256": "0c3a56ca309c154a169e4b7782a42adf084526097995b427a02eaaf4ede7df27",
+            "reasons": [
+              "允许折返找便宜油，不能只按向右贪心。最优路线的下一次有效加油一定可选为某方向遇到的第一个更便宜站；单调栈求左右候选，建线性边数图跑 Dijkstra。"
+            ],
+            "method": "只向左右最近的更便宜油站转移",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P7480",
     "raw": {
@@ -691753,7 +692576,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "单调栈 + 最短路",
       "难度": "2100",
       "题号": "P7480",
       "题名": "Reboot from Blue"
@@ -705625,24 +706448,41 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P7960",
-      "knowledge": "",
+      "knowledge": "筛法",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "筛法"
+        ],
+        "knowledge": "筛法",
+        "categories": [
+          "数学与计数"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "筛法"
+            ],
+            "reference": "data/core7-completion/P7960/default.md",
+            "sourceHash": "aadb824117df8a91f8d65b82cca21ba67cbb21f725f0750ed5fe82995b700cf0",
+            "reason": "从小到大扫描，若一个尚未禁用的数含数字七，就禁用它的所有倍数。筛完后倒序记录每个位置之后的首个合法数，回答询问。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "41e389ae849e01ae3c1b52a9755c86f31ab4123824705d0a5cd6354f2d06c892",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数学与计数"
+      ],
+      "knowledgeReviewRequired": false,
       "originalTitle": "[NOIP2021] 报数",
       "platform": "洛谷",
       "problem": "P7960",
@@ -705653,9 +706493,31 @@
       "sourceTags": [],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "筛法"
+      ],
       "title": "报数",
-      "url": "https://www.luogu.com.cn/problem/P7960"
+      "url": "https://www.luogu.com.cn/problem/P7960",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "筛法"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P7960",
+            "reference": "data/core7-completion/P7960/default.md",
+            "sha256": "aadb824117df8a91f8d65b82cca21ba67cbb21f725f0750ed5fe82995b700cf0",
+            "programSha256": "a7d92c0c2f54b1c7781c0c2179da2636795202e8fdc46a1389b80b367d7acfcf",
+            "reasons": [
+              "从小到大扫描，若一个尚未禁用的数含数字七，就禁用它的所有倍数。筛完后倒序记录每个位置之后的首个合法数，回答询问。"
+            ],
+            "method": "含七因子筛与合法数后继",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P7960",
     "raw": {
@@ -705666,7 +706528,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "筛法",
       "难度": "1500",
       "题号": "P7960",
       "题名": "报数"
@@ -733579,44 +734441,58 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P9035",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": "组合计数",
-            "value": "组合数学"
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "组合计数"
+            ],
+            "reference": "data/core7-completion/P9035/default.md",
+            "sourceHash": "075f3e09206a6660c8e8f15112b2c95adf020a8b0dc8a47d1c51ef2a491ef8d5",
+            "reason": "令 h=floor((k+1)/2)。全部元素≤h 时是多重组合 C(n+h−1,n)；若最大值>h，它只能出现一次，枚举它后用曲棍球杆恒等式合并为 C(n+k−h−1,n)。",
+            "verified": false
           }
         ],
-        "inputHash": "2b9df19c943cb9b613a72ad3ae9b630441386ef57cb027705e6260ff17f80aea",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "pending-evidence",
+        "inputHash": "af81dfcf1c56482861a7c664cb307be212a76a003a0f6feb763a5b05fe7dd6b4",
         "sourceTags": [
           "数学",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "「KDOI-04」Pont des souvenirs",
@@ -733632,9 +734508,31 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "Pont des souvenirs",
-      "url": "https://www.luogu.com.cn/problem/P9035"
+      "url": "https://www.luogu.com.cn/problem/P9035",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "组合计数"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-P9035",
+            "reference": "data/core7-completion/P9035/default.md",
+            "sha256": "075f3e09206a6660c8e8f15112b2c95adf020a8b0dc8a47d1c51ef2a491ef8d5",
+            "programSha256": "762daf2d97f3eb94a481f8b0d958d73ac8cba7d3b255ce29eb87bfab8fb9edda",
+            "reasons": [
+              "令 h=floor((k+1)/2)。全部元素≤h 时是多重组合 C(n+h−1,n)；若最大值>h，它只能出现一次，枚举它后用曲棍球杆恒等式合并为 C(n+k−h−1,n)。"
+            ],
+            "method": "按最大值是否超过一半分类的组合数",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-P9035",
     "raw": {
@@ -733645,7 +734543,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2100",
       "题号": "P9035",
       "题名": "Pont des souvenirs"
@@ -759045,34 +759943,56 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-SP14887",
-      "knowledge": "",
+      "knowledge": "强连通分量 + 拓扑排序 + 线性 DP",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
+        "version": "knowledge-v1.0",
+        "tags": [
+          "强连通分量",
+          "拓扑排序",
+          "线性 DP"
+        ],
+        "knowledge": "强连通分量 + 拓扑排序 + 线性 DP",
+        "categories": [
+          "图论",
+          "动态规划"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "Tarjan"
+            "value": "Tarjan",
+            "tag": null
+          },
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "强连通分量",
+              "拓扑排序",
+              "线性 DP"
+            ],
+            "reference": "data/core7-completion/SP14887/default.md",
+            "sourceHash": "e7dfee340640ca20d52e035fedcc447f3380eb68111e31c174f850a50e0ad26c",
+            "reason": "强连通分量内部可以绕行收集全部非负快乐值，再从任意出口离开。把分量点权求和后，在 DAG 上做从 S 到 E 的最长路动态规划。",
+            "verified": false
           }
         ],
-        "inputHash": "ce597e5e161a0a61df3da119511a7824e11fbb4212c24f8ffe6e1ec2100021cd",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [
-          "Tarjan"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "Tarjan"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "3ccff43d06e08d43c21c18e5eff37195f94c11873ba7e965a32272d9828a25d7",
+        "sourceTags": [
+          "Tarjan"
+        ],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "图论",
+        "动态规划"
+      ],
+      "knowledgeReviewRequired": false,
       "platform": "洛谷",
       "problem": "SP14887",
       "problemType": "standard",
@@ -759084,9 +760004,35 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "强连通分量",
+        "拓扑排序",
+        "线性 DP"
+      ],
       "title": "GOODA - Good Travels",
-      "url": "https://www.luogu.com.cn/problem/SP14887"
+      "url": "https://www.luogu.com.cn/problem/SP14887",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "强连通分量",
+          "拓扑排序",
+          "线性 DP"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-SP14887",
+            "reference": "data/core7-completion/SP14887/default.md",
+            "sha256": "e7dfee340640ca20d52e035fedcc447f3380eb68111e31c174f850a50e0ad26c",
+            "programSha256": "c471311f33a254eebb3d04e7708b4827ce3b7bae4030a138949838bf73e19a0d",
+            "reasons": [
+              "强连通分量内部可以绕行收集全部非负快乐值，再从任意出口离开。把分量点权求和后，在 DAG 上做从 S 到 E 的最长路动态规划。"
+            ],
+            "method": "缩点 DAG 上的最大点权路径",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-SP14887",
     "raw": {
@@ -759097,7 +760043,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "强连通分量 + 拓扑排序 + 线性 DP",
       "难度": "1800",
       "题号": "SP14887",
       "题名": "GOODA - Good Travels"
@@ -762953,24 +763899,41 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-SP30919",
-      "knowledge": "",
+      "knowledge": "素数",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "素数"
+        ],
+        "knowledge": "素数",
+        "categories": [
+          "数学 / 数论"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "素数"
+            ],
+            "reference": "data/core7-completion/SP30919/default.md",
+            "sourceHash": "a4f97babbec0093842dbf4614f60d660da997f209f8f9feeef534f253e5ac70b",
+            "reason": "若一个合数与所有输入互质，它的任一质因数也与所有输入互质且更小，所以最优一定是质数。筛最小质因数并标记输入中出现过的全部质因数，取最小未标记者。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "b304f6c63a9fa587f5807c9ec3c06af3ef98a67100e3a48689b09c9cc9243798",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数学 / 数论"
+      ],
+      "knowledgeReviewRequired": false,
       "platform": "洛谷",
       "problem": "SP30919",
       "problemType": "standard",
@@ -762980,9 +763943,31 @@
       "sourceTags": [],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "素数"
+      ],
       "title": "GCDS - Sabbir and gcd problem",
-      "url": "https://www.luogu.com.cn/problem/SP30919"
+      "url": "https://www.luogu.com.cn/problem/SP30919",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "素数"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-SP30919",
+            "reference": "data/core7-completion/SP30919/default.md",
+            "sha256": "a4f97babbec0093842dbf4614f60d660da997f209f8f9feeef534f253e5ac70b",
+            "programSha256": "c7646288fa2e974a91dba01c62df51e91500f053fcc7cb9a665d0d2d5b801b60",
+            "reasons": [
+              "若一个合数与所有输入互质，它的任一质因数也与所有输入互质且更小，所以最优一定是质数。筛最小质因数并标记输入中出现过的全部质因数，取最小未标记者。"
+            ],
+            "method": "最小可用整数一定是质数",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-SP30919",
     "raw": {
@@ -762993,7 +763978,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "素数",
       "难度": "1800",
       "题号": "SP30919",
       "题名": "GCDS - Sabbir and gcd problem"
@@ -781111,24 +782096,41 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-UVA11022",
-      "knowledge": "",
+      "knowledge": "区间 DP",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "区间 DP"
+        ],
+        "knowledge": "区间 DP",
+        "categories": [
+          "动态规划"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "区间 DP"
+            ],
+            "reference": "data/core7-completion/UVA11022/default.md",
+            "sourceHash": "35ac71ead3f77287858748ce1a6e9f4095c401dce3996470f13d48342970bd60",
+            "reason": "dp[l][r] 为子串的最小字符权重。枚举切成两段的拼接，也枚举能完整重复构成该子串的较短周期，把它压缩成一个周期的最优表示。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "996828999c6d28879841b31bc17c5776741c7c06cf1158d0acfec814ff1c8ec5",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "动态规划"
+      ],
+      "knowledgeReviewRequired": false,
       "platform": "洛谷",
       "problem": "UVA11022",
       "problemType": "standard",
@@ -781138,9 +782140,31 @@
       "sourceTags": [],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "区间 DP"
+      ],
       "title": "String Factoring",
-      "url": "https://www.luogu.com.cn/problem/UVA11022"
+      "url": "https://www.luogu.com.cn/problem/UVA11022",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "区间 DP"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-UVA11022",
+            "reference": "data/core7-completion/UVA11022/default.md",
+            "sha256": "35ac71ead3f77287858748ce1a6e9f4095c401dce3996470f13d48342970bd60",
+            "programSha256": "5e40daa1d8a886aef76c927cb57fbf8a92e487a5c161f5696d126198427f9271",
+            "reasons": [
+              "dp[l][r] 为子串的最小字符权重。枚举切成两段的拼接，也枚举能完整重复构成该子串的较短周期，把它压缩成一个周期的最优表示。"
+            ],
+            "method": "区间拼接或整段重复压缩",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-UVA11022",
     "raw": {
@@ -781151,7 +782175,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "区间 DP",
       "难度": "2100",
       "题号": "UVA11022",
       "题名": "String Factoring"
@@ -789846,24 +790870,41 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-UVA11626",
-      "knowledge": "",
+      "knowledge": "凸包",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "凸包"
+        ],
+        "knowledge": "凸包",
+        "categories": [
+          "计算几何 / 多边形"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "凸包"
+            ],
+            "reference": "data/core7-completion/UVA11626/default.md",
+            "sourceHash": "bedc202511409de3e180c9a349338c1fc758c3cb0ed85bebf407337a82ed2d59",
+            "reason": "筛出标记 Y 的点，构造保留共线边界点的凸包。叉积为负才弹出，等于零时保留，按最左且最低点开始逆时针输出。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "a80b1eef0e1dba3bbb4223238136071dfa13eaebc218f74f238440f416327b88",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "计算几何 / 多边形"
+      ],
+      "knowledgeReviewRequired": false,
       "platform": "洛谷",
       "problem": "UVA11626",
       "problemType": "standard",
@@ -789873,9 +790914,31 @@
       "sourceTags": [],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "凸包"
+      ],
       "title": "Convex Hull",
-      "url": "https://www.luogu.com.cn/problem/UVA11626"
+      "url": "https://www.luogu.com.cn/problem/UVA11626",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "凸包"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-UVA11626",
+            "reference": "data/core7-completion/UVA11626/default.md",
+            "sha256": "bedc202511409de3e180c9a349338c1fc758c3cb0ed85bebf407337a82ed2d59",
+            "programSha256": "6212fd20b5aed9028d9152084f48f0bd63a4a468546218cbdaf0113c464c4bce",
+            "reasons": [
+              "筛出标记 Y 的点，构造保留共线边界点的凸包。叉积为负才弹出，等于零时保留，按最左且最低点开始逆时针输出。"
+            ],
+            "method": "保留凸包边上的全部指定点",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-UVA11626",
     "raw": {
@@ -789886,7 +790949,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "凸包",
       "难度": "2100",
       "题号": "UVA11626",
       "题名": "Convex Hull"
@@ -809807,24 +810870,45 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-UVA1390",
-      "knowledge": "",
+      "knowledge": "期望与概率 + 记忆化搜索",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "期望与概率",
+          "记忆化搜索"
+        ],
+        "knowledge": "期望与概率 + 记忆化搜索",
+        "categories": [
+          "数学",
+          "动态规划"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "期望与概率",
+              "记忆化搜索"
+            ],
+            "reference": "data/core7-completion/UVA1390/default.md",
+            "sourceHash": "9262493924fba72e8aca9c63a9e6895a48352c58d32d22a934a98f2ad6cc0da9",
+            "reason": "道路的具体形状只影响当前连通块。把状态压成排序后的各块大小，随机选中不同块的概率为 size[i]·size[j]/C(n,2)，合并这两块；选中同一块的原地项移到等式左边。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "70f7a2aaf3cfd32a39790ca24f89ff5b7bccee818b77e7859c4700b0f51ca5c7",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数学",
+        "动态规划"
+      ],
+      "knowledgeReviewRequired": false,
       "platform": "洛谷",
       "problem": "UVA1390",
       "problemType": "standard",
@@ -809834,9 +810918,33 @@
       "sourceTags": [],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "期望与概率",
+        "记忆化搜索"
+      ],
       "title": "互联 Interconnect",
-      "url": "https://www.luogu.com.cn/problem/UVA1390"
+      "url": "https://www.luogu.com.cn/problem/UVA1390",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "期望与概率",
+          "记忆化搜索"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-UVA1390",
+            "reference": "data/core7-completion/UVA1390/default.md",
+            "sha256": "9262493924fba72e8aca9c63a9e6895a48352c58d32d22a934a98f2ad6cc0da9",
+            "programSha256": "0b9789394a3b24e2f26d544c3291de85ffabb4c44fc5400fdc98715d128c958b",
+            "reasons": [
+              "道路的具体形状只影响当前连通块。把状态压成排序后的各块大小，随机选中不同块的概率为 size[i]·size[j]/C(n,2)，合并这两块；选中同一块的原地项移到等式左边。"
+            ],
+            "method": "连通块大小分拆上的期望递推",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-UVA1390",
     "raw": {
@@ -809847,7 +810955,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "期望与概率 + 记忆化搜索",
       "难度": "2100",
       "题号": "UVA1390",
       "题名": "互联 Interconnect"
@@ -810654,24 +811762,45 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-UVA1401",
-      "knowledge": "",
+      "knowledge": "字典树 + 线性 DP",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "字典树",
+          "线性 DP"
+        ],
+        "knowledge": "字典树 + 线性 DP",
+        "categories": [
+          "字符串",
+          "动态规划"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "字典树",
+              "线性 DP"
+            ],
+            "reference": "data/core7-completion/UVA1401/default.md",
+            "sourceHash": "d0d6826d0060c70f2055c2b564dfdd84cd67bb87e56b9fe8aa66ee0fcd53e5e3",
+            "reason": "dp[i] 表示后缀 i..末尾的分词数。从每个 i 沿字典 Trie 向右匹配，遇到一个完整单词就把后面的 dp 加进来，模 20071027。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "d79db99ee7079a59026d870ebb9050ebace36e38021abe9424dc53d706755f8c",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "字符串",
+        "动态规划"
+      ],
+      "knowledgeReviewRequired": false,
       "platform": "洛谷",
       "problem": "UVA1401",
       "problemType": "standard",
@@ -810681,9 +811810,33 @@
       "sourceTags": [],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "字典树",
+        "线性 DP"
+      ],
       "title": "Remember the Word",
-      "url": "https://www.luogu.com.cn/problem/UVA1401"
+      "url": "https://www.luogu.com.cn/problem/UVA1401",
+      "knowledgeReview": {
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "official": false,
+        "tags": [
+          "字典树",
+          "线性 DP"
+        ],
+        "sources": [
+          {
+            "problemId": "luogu-training-UVA1401",
+            "reference": "data/core7-completion/UVA1401/default.md",
+            "sha256": "d0d6826d0060c70f2055c2b564dfdd84cd67bb87e56b9fe8aa66ee0fcd53e5e3",
+            "programSha256": "9f39f0476992ad34a914c1fb47da057b4f81227af0c0105dd4850f443ad19208",
+            "reasons": [
+              "dp[i] 表示后缀 i..末尾的分词数。从每个 i 沿字典 Trie 向右匹配，遇到一个完整单词就把后面的 dp 加进来，模 20071027。"
+            ],
+            "method": "字典前缀树上的分词 DP",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "luogu-training-UVA1401",
     "raw": {
@@ -810694,7 +811847,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "字典树 + 线性 DP",
       "难度": "2100",
       "题号": "UVA1401",
       "题名": "Remember the Word"
@@ -928559,24 +929712,41 @@
       "eventYear": 2020,
       "examYear": 2020,
       "id": "remote:codeforces:102835::C",
-      "knowledge": "",
+      "knowledge": "模拟",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "模拟"
+        ],
+        "knowledge": "模拟",
+        "categories": [
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "模拟"
+            ],
+            "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=5",
+            "sourceHash": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "reason": "每个节点开关在小球通过后翻转，题目直接定义了离散状态转移。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "28a818f1bde59213d0f7f65bce0396782c8c138d025e19751ee5ffdcbb511e8a",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "思维与策略"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Pyramid",
       "platform": "Codeforces",
@@ -928605,6 +929775,23 @@
         "reason": "每个节点开关在小球通过后翻转，题目直接定义了离散状态转移。",
         "reviewedTags": [
           "模拟"
+        ],
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "tags": [
+          "模拟"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:102835::C",
+            "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=5",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "selectedPdfSha256": "1d7aae5495e139e360c4f406dbf321b5716e5e570c164b7182688108ad509ca6",
+            "reasons": [
+              "每个节点开关在小球通过后翻转，题目直接定义了离散状态转移。"
+            ],
+            "method": "reviewed-statement-structure",
+            "official": false
+          }
         ]
       }
     },
@@ -928617,7 +929804,7 @@
       "场次": "ICPC 2020 台北新竹区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "模拟",
       "难度": "—",
       "题号": "C",
       "题名": "Pyramid"
@@ -928808,24 +929995,41 @@
       "eventYear": 2020,
       "examYear": 2020,
       "id": "remote:codeforces:102835::F",
-      "knowledge": "",
+      "knowledge": "树形 DP",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "树形 DP"
+        ],
+        "knowledge": "树形 DP",
+        "categories": [
+          "动态规划"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "树形 DP"
+            ],
+            "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=11",
+            "sourceHash": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "reason": "环上挂树，要求选择最少顶点覆盖每条边；树部分按根是否选择分状态，环单独合并。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "bb7e225485ca8e33601051561da3bf16824bb7a6b175c2e17e9e78e4ab8805ed",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "动态规划"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Cable Protection",
       "platform": "Codeforces",
@@ -928854,6 +930058,23 @@
         "reason": "环上挂树，要求选择最少顶点覆盖每条边；树部分按根是否选择分状态，环单独合并。",
         "reviewedTags": [
           "树形 DP"
+        ],
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "tags": [
+          "树形 DP"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:102835::F",
+            "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=11",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "selectedPdfSha256": "5067175af2a34ad4907efde6e3eacded10f3b406b75abfc1d269026441aae6c8",
+            "reasons": [
+              "环上挂树，要求选择最少顶点覆盖每条边；树部分按根是否选择分状态，环单独合并。"
+            ],
+            "method": "reviewed-statement-structure",
+            "official": false
+          }
         ]
       }
     },
@@ -928866,7 +930087,7 @@
       "场次": "ICPC 2020 台北新竹区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "树形 DP",
       "难度": "—",
       "题号": "F",
       "题名": "Cable Protection"
@@ -928899,24 +930120,41 @@
       "eventYear": 2020,
       "examYear": 2020,
       "id": "remote:codeforces:102835::G",
-      "knowledge": "",
+      "knowledge": "哈希",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "哈希"
+        ],
+        "knowledge": "哈希",
+        "categories": [
+          "数据结构"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "哈希"
+            ],
+            "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=15",
+            "sourceHash": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "reason": "连通且点边数相等的简单图同构：可对挂树赋规范标识，再比较环的旋转与反向规范序列。标识可用精确排序编号实现，非原站官方标签。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "09b1c2185a8758ffe1acb564e26fa458170a0687e27aaf084189e125578498f4",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数据结构"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Graph Cards",
       "platform": "Codeforces",
@@ -928945,6 +930183,23 @@
         "reason": "连通且点边数相等的简单图同构：可对挂树赋规范标识，再比较环的旋转与反向规范序列。标识可用精确排序编号实现，非原站官方标签。",
         "reviewedTags": [
           "哈希"
+        ],
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "tags": [
+          "哈希"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:102835::G",
+            "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=15",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "selectedPdfSha256": "85e7c693b7613b0d418c7c399bb5829dd7d8d129ef2bf9291785605fd0d1373c",
+            "reasons": [
+              "连通且点边数相等的简单图同构：可对挂树赋规范标识，再比较环的旋转与反向规范序列。标识可用精确排序编号实现，非原站官方标签。"
+            ],
+            "method": "reviewed-statement-structure",
+            "official": false
+          }
         ]
       }
     },
@@ -928957,7 +930212,7 @@
       "场次": "ICPC 2020 台北新竹区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "哈希",
       "难度": "—",
       "题号": "G",
       "题名": "Graph Cards"
@@ -928990,24 +930245,45 @@
       "eventYear": 2020,
       "examYear": 2020,
       "id": "remote:codeforces:102835::H",
-      "knowledge": "",
+      "knowledge": "最小生成树 + 并查集",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "最小生成树",
+          "并查集"
+        ],
+        "knowledge": "最小生成树 + 并查集",
+        "categories": [
+          "图论",
+          "数据结构"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "最小生成树",
+              "并查集"
+            ],
+            "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=17",
+            "sourceHash": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "reason": "先求最大瓶颈阈值，再在阈值允许的边上求最小生成树；树上路径最小边贡献可按边权降序合并连通块统计。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "e04213816a5f38808ec45aea662aadea5848101348828ae3c88054124f48eb25",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "图论",
+        "数据结构"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Optimization for UltraNet",
       "platform": "Codeforces",
@@ -929038,6 +930314,24 @@
         "reviewedTags": [
           "最小生成树",
           "并查集"
+        ],
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "tags": [
+          "最小生成树",
+          "并查集"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:102835::H",
+            "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=17",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "selectedPdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+            "reasons": [
+              "先求最大瓶颈阈值，再在阈值允许的边上求最小生成树；树上路径最小边贡献可按边权降序合并连通块统计。"
+            ],
+            "method": "reviewed-statement-structure",
+            "official": false
+          }
         ]
       }
     },
@@ -929050,7 +930344,7 @@
       "场次": "ICPC 2020 台北新竹区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "最小生成树 + 并查集",
       "难度": "—",
       "题号": "H",
       "题名": "Optimization for UltraNet"
@@ -929241,24 +930535,41 @@
       "eventYear": 2020,
       "examYear": 2020,
       "id": "remote:codeforces:102835::K",
-      "knowledge": "",
+      "knowledge": "数位 DP",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "数位 DP"
+        ],
+        "knowledge": "数位 DP",
+        "categories": [
+          "动态规划"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "数位 DP"
+            ],
+            "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=27",
+            "sourceHash": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "reason": "两类询问均涉及指定进制下不重复数位的计数与按序选择，可用已用数位集合进行数位计数。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "afde95f9610de3f00a6e98fb29771a1da78e9a709a3595e794393c1cf284b0db",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "动态规划"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Number with Bachelors",
       "platform": "Codeforces",
@@ -929287,6 +930598,23 @@
         "reason": "两类询问均涉及指定进制下不重复数位的计数与按序选择，可用已用数位集合进行数位计数。",
         "reviewedTags": [
           "数位 DP"
+        ],
+        "revision": "20261108-verified-editorials-and-hsinchu-topics",
+        "tags": [
+          "数位 DP"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:102835::K",
+            "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=27",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "selectedPdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+            "reasons": [
+              "两类询问均涉及指定进制下不重复数位的计数与按序选择，可用已用数位集合进行数位计数。"
+            ],
+            "method": "reviewed-statement-structure",
+            "official": false
+          }
         ]
       }
     },
@@ -929299,7 +930627,7 @@
       "场次": "ICPC 2020 台北新竹区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "数位 DP",
       "难度": "—",
       "题号": "K",
       "题名": "Number with Bachelors"
