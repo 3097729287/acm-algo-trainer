@@ -1,0 +1,83 @@
+{
+  "sourceMerged": "1723db9f2504107fac4e61a8ed9d5038049c2a44",
+  "legacyImplemented": 38,
+  "legacyTotal": 136,
+  "nativeChecksPassed": 94,
+  "fullscreen": {
+    "before": {
+      "available": true,
+      "fullscreen": false
+    },
+    "toggled": {
+      "available": true,
+      "fullscreen": true
+    },
+    "restored": {
+      "available": true,
+      "fullscreen": false
+    }
+  },
+  "window": {
+    "binary": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-desktop.exe",
+    "sha256": "e1b516f7747e2abc83e2d4f2b20d1cb1795d5be61ef59180a1f323424d4be15d",
+    "originalTitle": "Train Car",
+    "totalProblems": 13480,
+    "reactWorkspace": {
+      "saved": true,
+      "recoveredAfterReload": true,
+      "training": 1,
+      "problemId": "ABC 469::A"
+    },
+    "reactPlanning": {
+      "configured": true,
+      "readingStage": 1,
+      "conceptStage": 2,
+      "independentSolved": 0,
+      "cancellationPreserved": true,
+      "mainlineChanged": true,
+      "historyPreserved": true,
+      "recoveredAfterReload": true,
+      "weeklyBudgetShared": true
+    },
+    "pageErrors": [],
+    "report": ".backups/native-fullscreen-window-20261109/result.json"
+  },
+  "cleanup": {
+    "date": "2026-11-09",
+    "reason": "Superseded generated public seed duplicates; current seed and historical verified packages remain. No source/doc/test references to these filenames found.",
+    "retired": [
+      {
+        "path": "data/backups/library.sqlite3.auto-before-seed-rebuild-20261108-165303-353442.35bdcba2.sqlite3",
+        "bytes": 1052278784,
+        "sha256": "9bdc6fc69c7050594c3ff5ea589a9136f93ac017bd53d924b78b332fc8cd63f6",
+        "counts": {
+          "problems": 13480,
+          "statements": 13457,
+          "solutions": 3191,
+          "detailed_solutions": 2306
+        },
+        "publicOnly": true
+      },
+      {
+        "path": "data/backups/library.sqlite3.auto-before-seed-rebuild-20261108-181331-812621.0e201d91.sqlite3",
+        "bytes": 1052782592,
+        "sha256": "6f44d9a52baccd930719398312ef66a57991e27fe0769e3013f34798372cea61",
+        "counts": {
+          "problems": 13480,
+          "statements": 13457,
+          "solutions": 3191,
+          "detailed_solutions": 2306
+        },
+        "publicOnly": true
+      }
+    ],
+    "action": "system-recycle-bin",
+    "privateDataTouched": false,
+    "historicalVerificationNotesRetained": true
+  },
+  "publicDataScope": "Previous verified seed with 10 follow-up PDF translations; candidate source merge alone does not synchronize the 18-translation public seed. Final content synchronization is pending.",
+  "normalInstallationTouched": false,
+  "pythonRuntimeFallback": false,
+  "privateLiveStateOpened": false,
+  "productionReleaseReady": false
+}

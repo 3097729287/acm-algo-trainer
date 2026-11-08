@@ -73,6 +73,135 @@ fn post(service: &Service, path: &str, body: Value) -> tobe_core::ApiResponse {
 }
 
 #[test]
+fn desktop_fullscreen_uses_host_state_after_validating_authority() {
+    use std::sync::{
+        Arc,
+        atomic::{AtomicBool, AtomicUsize, Ordering},
+    };
+    let (_temp, config) = fixture();
+    let personal_path = config.personal.clone();
+    let fullscreen = Arc::new(AtomicBool::new(false));
+    let calls = Arc::new(AtomicUsize::new(0));
+    let host_state = Arc::clone(&fullscreen);
+    let host_calls = Arc::clone(&calls);
+    let service = Service::open(config)
+        .unwrap()
+        .with_desktop_fullscreen(move |requested| {
+            host_calls.fetch_add(1, Ordering::SeqCst);
+            if let Some(requested) = requested {
+                host_state.store(requested, Ordering::SeqCst);
+            }
+            Ok(host_state.load(Ordering::SeqCst))
+        });
+    assert_eq!(
+        service
+            .handle(ApiRequest::get("desktop/fullscreen"))
+            .data
+            .unwrap(),
+        json!({"available":true,"fullscreen":false})
+    );
+    assert_eq!(
+        post(&service, "desktop/fullscreen", json!({"fullscreen":true}))
+            .data
+            .unwrap()["fullscreen"],
+        true
+    );
+    // A host-side change must be observed, rather than an optimistic UI cache.
+    fullscreen.store(false, Ordering::SeqCst);
+    assert_eq!(
+        service
+            .handle(ApiRequest::get("desktop/fullscreen"))
+            .data
+            .unwrap()["fullscreen"],
+        false
+    );
+    let called = calls.load(Ordering::SeqCst);
+    for body in [
+        json!({}),
+        json!({"fullscreen":1}),
+        json!({"fullscreen":"true"}),
+        json!({"fullscreen":null}),
+        json!({"fullscreen":true,"extra":true}),
+    ] {
+        assert_eq!(
+            post(&service, "desktop/fullscreen", body)
+                .error
+                .unwrap()
+                .status,
+            400
+        );
+    }
+    let mut invalid = ApiRequest::get("desktop/fullscreen");
+    invalid.method = Method::Post;
+    invalid.body = Some(json!({"fullscreen":true}));
+    invalid.token = Some("forged".into());
+    assert_eq!(
+        service.handle(invalid).error.unwrap().code,
+        "SESSION_EXPIRED"
+    );
+    let mut switched = ApiRequest::get("desktop/fullscreen");
+    switched.owner = Some("another-owner".into());
+    assert_eq!(
+        service.handle(switched).error.unwrap().code,
+        "ACCOUNT_CHANGED"
+    );
+    assert_eq!(calls.load(Ordering::SeqCst), called);
+    assert!(!fullscreen.load(Ordering::SeqCst));
+    let db = Connection::open(personal_path).unwrap();
+    for table in [
+        "training",
+        "submissions",
+        "drafts",
+        "achievement_xp_claims",
+        "official_first_xp_awards",
+    ] {
+        assert_eq!(
+            db.query_row(&format!("SELECT count(*) FROM {table}"), [], |row| row
+                .get::<_, i64>(0))
+                .unwrap(),
+            0,
+            "{table}"
+        );
+    }
+}
+
+#[test]
+fn headless_fullscreen_exposes_unavailability_without_claiming_a_window() {
+    let (_temp, config) = fixture();
+    let service = Service::open(config).unwrap();
+    assert_eq!(
+        service
+            .handle(ApiRequest::get("desktop/fullscreen"))
+            .data
+            .unwrap(),
+        json!({"available":false,"fullscreen":false})
+    );
+    assert_eq!(
+        post(&service, "desktop/fullscreen", json!({"fullscreen":true}))
+            .error
+            .unwrap()
+            .code,
+        "DESKTOP_UNAVAILABLE"
+    );
+    let (_temp, config) = fixture();
+    let service = Service::open(config).unwrap().with_desktop_fullscreen(|_| {
+        Err(tobe_core::ApiError::new(
+            503,
+            "DESKTOP_UNAVAILABLE",
+            "窗口已关闭",
+        ))
+    });
+    assert_eq!(
+        service
+            .handle(ApiRequest::get("desktop/fullscreen"))
+            .error
+            .unwrap()
+            .code,
+        "DESKTOP_UNAVAILABLE"
+    );
+}
+
+#[test]
 fn rejects_wrong_protocol_and_invalid_paths() {
     let mut request = ApiRequest::get("preferences");
     request.version = PROTOCOL_VERSION + 1;

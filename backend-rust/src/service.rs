@@ -24,6 +24,8 @@ const CONTRACT: &str = include_str!("../../api/legacy-contract.json");
 pub const NATIVE_ROUTES: &[(&str, &str)] = &[
     ("GET", "api/capabilities"),
     ("GET", "account"),
+    ("GET", "desktop/fullscreen"),
+    ("POST", "desktop/fullscreen"),
     ("GET", "preferences"),
     ("GET", "initial-code"),
     ("POST", "initial-code/save"),
@@ -99,7 +101,9 @@ pub struct Service {
     quizzes: Value,
     test_clock: Option<chrono::DateTime<chrono::Utc>>,
     runner: RunQueue,
+    desktop_fullscreen: Option<Arc<DesktopFullscreen>>,
 }
+type DesktopFullscreen = dyn Fn(Option<bool>) -> Result<bool, ApiError> + Send + Sync;
 impl Service {
     pub fn open(config: ServiceConfig) -> Result<Self, ApiError> {
         let tools = Toolchains::from_resources(&config.resources);
@@ -148,7 +152,17 @@ impl Service {
             quizzes,
             test_clock: None,
             runner,
+            desktop_fullscreen: None,
         })
+    }
+    /// Bind the real host window without coupling the domain crate to a GUI.
+    /// Calls still pass through protocol, owner and write-token validation.
+    pub fn with_desktop_fullscreen<F>(mut self, controller: F) -> Self
+    where
+        F: Fn(Option<bool>) -> Result<bool, ApiError> + Send + Sync + 'static,
+    {
+        self.desktop_fullscreen = Some(Arc::new(controller));
+        self
     }
     pub fn with_test_clock(mut self, clock: chrono::DateTime<chrono::Utc>) -> Self {
         self.test_clock = Some(clock);
@@ -334,6 +348,30 @@ impl Service {
             } else {
                 ApiError::missing("没有找到这个接口")
             });
+        }
+        if r.path == "desktop/fullscreen" {
+            let requested = if r.method == Method::Post {
+                let body = r.body.as_ref().unwrap();
+                fields(body, &["fullscreen"])?;
+                Some(
+                    body["fullscreen"]
+                        .as_bool()
+                        .ok_or_else(|| ApiError::bad("全屏参数必须是布尔值"))?,
+                )
+            } else {
+                None
+            };
+            return match &self.desktop_fullscreen {
+                Some(controller) => {
+                    Ok(json!({"available":true,"fullscreen":controller(requested)?}))
+                }
+                None if requested.is_none() => Ok(json!({"available":false,"fullscreen":false})),
+                None => Err(ApiError::new(
+                    503,
+                    "DESKTOP_UNAVAILABLE",
+                    "当前浏览器测试没有原生窗口，无法切换全屏",
+                )),
+            };
         }
         if self.runner.has_pending_write() {
             let mut personal = self.personal.lock().map_err(|_| ApiError::pending())?;

@@ -41,7 +41,6 @@ fn main() {
                 .unwrap_or(source.join("state/native-migration-sandbox"));
             let config = ServiceConfig::sandbox(source, state.clone());
             let service = Service::open(config).map_err(|e| std::io::Error::other(e.message))?;
-            app.manage(AppState(Arc::new(service)));
             let window = tauri::WebviewWindowBuilder::new(
                 app,
                 "main",
@@ -59,6 +58,18 @@ fn main() {
                         && matches!(url.host_str(), Some("localhost" | "127.0.0.1"))
             })
             .build()?;
+            let fullscreen_window = window.clone();
+            let service = service.with_desktop_fullscreen(move |requested| {
+                let unavailable =
+                    |_| ApiError::new(503, "DESKTOP_UNAVAILABLE", "原生窗口暂时不可用，请稍后重试");
+                if let Some(fullscreen) = requested {
+                    fullscreen_window
+                        .set_fullscreen(fullscreen)
+                        .map_err(unavailable)?;
+                }
+                fullscreen_window.is_fullscreen().map_err(unavailable)
+            });
+            app.manage(AppState(Arc::new(service)));
             window.show()?;
             Ok(())
         })

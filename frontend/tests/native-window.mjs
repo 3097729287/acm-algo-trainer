@@ -69,6 +69,14 @@ try {
     };
     const capabilities = (await rpc('api/capabilities')).data;
     const account = (await rpc('account')).data;
+    const beforeFullscreen = (await rpc('desktop/fullscreen')).data;
+    if (!beforeFullscreen.available) throw new Error('Native fullscreen controller is missing');
+    const toggledFullscreen = (await rpc('desktop/fullscreen', {}, { fullscreen: !beforeFullscreen.fullscreen }, account.token)).data;
+    if (toggledFullscreen.fullscreen === beforeFullscreen.fullscreen) throw new Error('The actual native window did not toggle fullscreen');
+    const queriedFullscreen = (await rpc('desktop/fullscreen')).data;
+    if (queriedFullscreen.fullscreen !== toggledFullscreen.fullscreen) throw new Error('Native fullscreen state was not read from the window');
+    const restoredFullscreen = (await rpc('desktop/fullscreen', {}, { fullscreen: beforeFullscreen.fullscreen }, account.token)).data;
+    if (restoredFullscreen.fullscreen !== beforeFullscreen.fullscreen) throw new Error('Native fullscreen state was not restored');
     const catalog = (await rpc('library/page', { limit: ['30'] })).data;
     const original = (await rpc('library/statement', { id: [catalog.rows[0].id] })).data;
     const draft = await rpc('draft', {}, { id: catalog.rows[0].id, code: 'int main() { return 0; }', language: 'cpp17' }, account.token);
@@ -80,7 +88,7 @@ try {
       durations.push(performance.now() - before);
     }
     durations.sort((a,b) => a-b);
-    return { capabilities, totalProblems: catalog.total, originalTitle: original.title,
+    return { capabilities, fullscreen: { before: beforeFullscreen, toggled: toggledFullscreen, restored: restoredFullscreen }, totalProblems: catalog.total, originalTitle: original.title,
       draftCommitted: true, ipcInitialCodeP50Millis: durations[15], ipcInitialCodeP95Millis: durations[28],
       origin: location.origin, nativeGlobal: Boolean(window.__TAURI_INTERNALS__) };
   });
