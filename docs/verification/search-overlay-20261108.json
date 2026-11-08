@@ -1,0 +1,42 @@
+{
+  "at": "2026-11-08T07:08:13.977337+00:00",
+  "reproducedBeforeFix": true,
+  "beforeFailure": [
+    "knowledge header",
+    "knowledge tags",
+    "recent practice header",
+    "recent practice timestamps"
+  ],
+  "fix": "Hide every descendant of the underlying page while preserving its geometry and React state.",
+  "actualAppBrowserChecks": {
+    "passed": true,
+    "widths": [
+      2048,
+      1600,
+      640
+    ],
+    "themes": [
+      "dark",
+      "light"
+    ],
+    "panelOpacity": [
+      "0%",
+      "35%"
+    ],
+    "scrollAndSortRestored": true,
+    "closeMethods": [
+      "Escape",
+      "close result",
+      "clear query"
+    ],
+    "keyboardIsolation": true,
+    "pageErrors": []
+  },
+  "screenshots": {
+    "search-overlay-1600-light.png": "6999c3a8078c51ae1cc4bebb41dbebbabfd03ab77c673cbf318962e3b55585d9",
+    "search-overlay-2048-dark.png": "837681e59b303d2c7fccc54e213958698f44612a735ff4859270eba0aec4c767",
+    "search-overlay-640-dark.png": "63052cacc43259304dca05752082f8bcdc438597d34ef8c4cee417b2be815fb2"
+  },
+  "localInstall": false,
+  "domesticPublication": false
+}
