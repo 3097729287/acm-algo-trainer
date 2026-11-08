@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-09",
+  "status": "public-images-staged-for-candidate",
+  "stableFeedChanged": false,
+  "commit": "ece412864ba3188ee5ce1db70285c93e36670324",
+  "previousCommit": "ceb34c8d2cb560384ef76cc6443e39603b06f508",
+  "previousPublicAssetsPreserved": 2323,
+  "publicAssetCount": 2332,
+  "newAssets": [
+    {
+      "sha256": "09782e672c3a426be957a470582d4bb1793f190ad3dda09149932a61398cd472",
+      "mime": "image/jpeg",
+      "bytes": 49570
+    },
+    {
+      "sha256": "0dc14c4871931b38111ded703022dd7285e09dfb57b297d517ddfefd87f46d13",
+      "mime": "image/png",
+      "bytes": 200695
+    },
+    {
+      "sha256": "1a1765296ff77b5968d32203714c5f698480905599b8870f77db1ab18c6bb80d",
+      "mime": "image/jpeg",
+      "bytes": 69948
+    },
+    {
+      "sha256": "31d807e655526a1d919d422a06c9655c0e97483fcb9b8ba9b894552302f724a6",
+      "mime": "image/png",
+      "bytes": 73309
+    },
+    {
+      "sha256": "3daf53b11ee4a4fb384882671a88843f9be89996f3fdb89f187ad26c14081994",
+      "mime": "image/png",
+      "bytes": 207164
+    },
+    {
+      "sha256": "600ba7ec2e2b7d128de77ce78bdd3914b45e0621fbee0e73a48804c50315a2ba",
+      "mime": "image/jpeg",
+      "bytes": 82700
+    },
+    {
+      "sha256": "8f5e325a3e005ae864d2044df9a218840d995527d7245732cee3b9d7cf677475",
+      "mime": "image/png",
+      "bytes": 142646
+    },
+    {
+      "sha256": "97c6bed11a80d8a40f71490d7e9e9923c5f45b1b77abfcb51fb5d03e51621433",
+      "mime": "image/jpeg",
+      "bytes": 66993
+    },
+    {
+      "sha256": "c8952097f0774ed08cfed11c051f7607f440fb6d695628da3ea5fc906447023e",
+      "mime": "image/jpeg",
+      "bytes": 50730
+    }
+  ],
+  "candidateLibrarySha256": "9f78e290f5925a8f557dc3d2c626f290c8101b537e68e185df0ea551b24103b8",
+  "verifiedResourceDescriptors": 2316,
+  "priorImmutableProofsReused": 2307,
+  "accountTablesChanged": false,
+  "serviceRestarted": false
+}
