@@ -181,7 +181,7 @@ def apply(target,folder):
         'completedAt':dt.datetime.now(dt.timezone.utc).isoformat(),'localOnly':True}
     for path in [target/'BUILD-INFO.json',target/'resources/BUILD-INFO.json']:
         if not path.exists():continue
-        value=read(path);value.update(contentSourceCommit=commit,contentRevision=REVISION,
+        value=read(path);value.update(contentSourceCommit=commit,contentSourcePushed=False,contentRevision=REVISION,
             publicLibrarySha256=report['candidateSha256'],nowcoderEditorials=summary)
         atomic_json(path,value)
     atomic_json(target/'resources/nowcoder-editorials.json',summary)

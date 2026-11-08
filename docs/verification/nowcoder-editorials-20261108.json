@@ -118,5 +118,31 @@
   },
   "officialSubmissionsSent": 0,
   "publicRelease": false,
-  "installation": "staged; receipts retained under owned backups/delivery"
+  "installation": {
+    "localOnly": true,
+    "ordinaryAndAdminPassed": true,
+    "runningWindowsClosed": false,
+    "editions": {
+      "user": {
+        "candidateSha256": "c794e0bc3d0ae323eadbfefd2e507acbd5971d2e3ea59d15d239c9b523ea1fe7",
+        "appliedAt": "2026-11-08T11:48:35.056091+00:00",
+        "unrelatedPublicRowsPreserved": true,
+        "localAmendmentsPreserved": 5261,
+        "workspaceRehearsalPassed": true,
+        "nativeExecutablesUnchanged": true,
+        "privateAccountDraftSubmissionTrainingFilesOpened": false,
+        "liveOwnedArticlesVerified": 936
+      },
+      "admin": {
+        "candidateSha256": "07efbe204047cb3d1cd620fb5149f3c09ba5624fd93fb16cd2306d5977695ec2",
+        "appliedAt": "2026-11-08T11:50:45.169281+00:00",
+        "unrelatedPublicRowsPreserved": true,
+        "localAmendmentsPreserved": 0,
+        "workspaceRehearsalPassed": true,
+        "nativeExecutablesUnchanged": true,
+        "privateAccountDraftSubmissionTrainingFilesOpened": false,
+        "liveOwnedArticlesVerified": 936
+      }
+    }
+  }
 }
