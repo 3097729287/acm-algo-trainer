@@ -1,0 +1,151 @@
+{
+  "revision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+  "problems": [
+    {
+      "id": "remote:codeforces:106799::A",
+      "tags": [
+        "分治",
+        "哈希表",
+        "记忆化搜索"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:106799::B",
+      "tags": [
+        "枚举",
+        "线段相交",
+        "整数运算",
+        "分类讨论"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:106799::C",
+      "tags": [
+        "背包 DP",
+        "计数 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:106799::D",
+      "tags": [
+        "整数运算",
+        "分类讨论"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:106799::E",
+      "tags": [
+        "凸包",
+        "二分查找",
+        "点积与叉积",
+        "枚举"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:106799::F",
+      "tags": [
+        "后缀自动机",
+        "NTT",
+        "多项式对数",
+        "斯特林数",
+        "分治"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:106799::G",
+      "tags": [
+        "构造",
+        "枚举",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:106799::H",
+      "tags": [
+        "交互题",
+        "队列",
+        "构造"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:106799::I",
+      "tags": [
+        "DFS 序",
+        "栈",
+        "构造"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:106799::J",
+      "tags": [
+        "决策单调性",
+        "分治",
+        "前缀和",
+        "差分",
+        "双指针"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:106799::K",
+      "tags": [
+        "二分答案",
+        "分类讨论"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:106799::L",
+      "tags": [
+        "构造",
+        "拓扑排序",
+        "分类讨论",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:106799::M",
+      "tags": [
+        "贪心"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    }
+  ],
+  "privateStateReadOrWritten": false
+}

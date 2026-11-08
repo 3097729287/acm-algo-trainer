@@ -349527,5 +349527,239 @@
       "先识别奇偶导致的体积浪费，构造单调可行性而非只取总体积商；x,y,k到10^9但每问不需逐包模拟。",
       "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
     ]
+  },
+  "https://codeforces.com/gym/106799/problem/A": {
+    "difficulty": 2200,
+    "difficultyBand": [
+      1900,
+      2500
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "需要拆出分治的前缀/后缀查询递推，构造只依赖左右端点的匹配量，并利用长度同构降复杂度；有理数值应统一乘足够大的2次幂精确整数化。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/B": {
+    "difficulty": 2900,
+    "difficultyBand": [
+      2600,
+      3200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "主要是证明只需常数个反射源/斜边，再处理交点整数性、平行重合线段与边界去重；n,t到10^9，不能逐粒子或逐时间模拟。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/C": {
+    "difficulty": 1900,
+    "difficultyBand": [
+      1700,
+      2200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "把前缀和差转换为有限集合选数和，借n<=100集中预处理避免每组重复背包；需正确处理重复约束位置、首项0及末尾未受限部分。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/D": {
+    "difficulty": 1300,
+    "difficultyBand": [
+      1100,
+      1600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "识别两人伤害的共同比例和最后一轮过杀上界；数据到10^18，乘法需更宽整数或等价除法比较，注意同时死亡不算A胜。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/E": {
+    "difficulty": 2300,
+    "difficultyBand": [
+      2000,
+      2600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "不仅判点在凸包，还要证明最少顶点是3或4，处理严格内部、对角线上及四边形退化例外；多询问需要凸包二分定位。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/F": {
+    "difficulty": 3300,
+    "difficultyBand": [
+      3000,
+      3600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "同时需要字符串状态归并的计数公式、乘积多项式对数提取幂和，以及非平方复杂度的斯特林变换；n<=10^5，不能只做SAM后O(n^2)枚举k。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/G": {
+    "difficulty": 2400,
+    "difficultyBand": [
+      2100,
+      2700
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "需从缺少首行/列的删点矩阵恢复未知图，推导握手方程和整除约束，并证明完整图验证次数为常数；保证有解不等于任意舍入都合法。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/H": {
+    "difficulty": 2100,
+    "difficultyBand": [
+      1800,
+      2400
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "不能使用普通比较排序的n log n询问；要证明三值队列操作的两遍排序性质并卡住精确询问上限，实时刷新与处理自适应回答。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/I": {
+    "difficulty": 1700,
+    "difficultyBand": [
+      1500,
+      2000
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "利用森林DFS括号编码把所有边压入n个[1,2n]标签，理解重编号下的信息保留并恢复每个连通分量；通信题不误标成交互查询。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/J": {
+    "difficulty": 3300,
+    "difficultyBand": [
+      3000,
+      3600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "需证明团队不可拆分情形的Monge不等式，再把每层代价查询按坐标双单调合并并实现分段线性贡献；仅套决策单调性分治但逐次O(n)求代价仍超时。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/K": {
+    "difficulty": 1600,
+    "difficultyBand": [
+      1400,
+      1900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "可行坐标集合未必是单区间，关键是证明转移仅依赖两端极值并检查交为空；不能贪心只选一个当前坐标，n<=10^5。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/L": {
+    "difficulty": 3500,
+    "difficultyBand": [
+      3200,
+      3800
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "构造须覆盖所有可行方向串，控制首尾同轴路径与终点障碍的相互截断，并证明失败即无解；方向对称、零移动和最终模拟均是实质步骤。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/M": {
+    "difficulty": 1500,
+    "difficultyBand": [
+      1200,
+      1800
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "需要允许在当前段中追溯选择更靠前但右端点更大的区间，而非只在li>M时机械取当前位置ri；线性贪心的交换论证是核心。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
   }
 }
