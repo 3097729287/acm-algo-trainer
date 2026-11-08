@@ -1,0 +1,663 @@
+{
+  "date": "2026-11-09",
+  "verifiedRuntimeSourceCommit": "3776958399cb2286979bbab8264383b994a3dcc4",
+  "nativeBinary": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-core.exe",
+  "nativeSha256": "14821c5117c8d84420c1016e331b908337a2cd961ae46b1592baccada9609d06",
+  "auditSandbox": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-api-audit-9dfpkdkz",
+  "legacyTotal": 136,
+  "nativeRoutes": 45,
+  "notMigratedOrBootstrapOnly": 91,
+  "partialNativeEndpoints": [
+    {
+      "method": "GET",
+      "native": true,
+      "operation": "get.contest",
+      "path": "contest",
+      "status": "partial"
+    },
+    {
+      "method": "GET",
+      "native": true,
+      "operation": "get.contests.events",
+      "path": "contests/events",
+      "status": "partial"
+    },
+    {
+      "method": "GET",
+      "native": true,
+      "operation": "get.data",
+      "path": "data",
+      "status": "partial"
+    },
+    {
+      "method": "GET",
+      "native": true,
+      "operation": "get.data.export",
+      "path": "data/export",
+      "status": "partial"
+    },
+    {
+      "method": "GET",
+      "native": true,
+      "operation": "get.goals",
+      "path": "goals",
+      "status": "partial"
+    },
+    {
+      "method": "GET",
+      "native": true,
+      "operation": "get.learning-summary",
+      "path": "learning-summary",
+      "status": "partial"
+    },
+    {
+      "method": "GET",
+      "native": true,
+      "operation": "get.problem",
+      "path": "problem",
+      "status": "partial"
+    },
+    {
+      "method": "GET",
+      "native": true,
+      "operation": "get.submission",
+      "path": "submission",
+      "status": "partial"
+    },
+    {
+      "method": "GET",
+      "native": true,
+      "operation": "get.submissions",
+      "path": "submissions",
+      "status": "partial"
+    },
+    {
+      "method": "GET",
+      "native": true,
+      "operation": "get.workspace",
+      "path": "workspace",
+      "status": "partial"
+    },
+    {
+      "method": "POST",
+      "native": true,
+      "operation": "post.contests.cancel",
+      "path": "contests/cancel",
+      "status": "partial"
+    },
+    {
+      "method": "POST",
+      "native": true,
+      "operation": "post.contests.delete",
+      "path": "contests/delete",
+      "status": "partial"
+    },
+    {
+      "method": "POST",
+      "native": true,
+      "operation": "post.contests.finish",
+      "path": "contests/finish",
+      "status": "partial"
+    },
+    {
+      "method": "POST",
+      "native": true,
+      "operation": "post.goals.archive",
+      "path": "goals/archive",
+      "status": "partial"
+    },
+    {
+      "method": "POST",
+      "native": true,
+      "operation": "post.goals.save",
+      "path": "goals/save",
+      "status": "partial"
+    },
+    {
+      "method": "POST",
+      "native": true,
+      "operation": "post.learning-summary.refresh",
+      "path": "learning-summary/refresh",
+      "status": "partial"
+    },
+    {
+      "method": "POST",
+      "native": true,
+      "operation": "post.learning-summary.update",
+      "path": "learning-summary/update",
+      "status": "partial"
+    },
+    {
+      "method": "POST",
+      "native": true,
+      "operation": "post.submissions",
+      "path": "submissions",
+      "status": "partial"
+    },
+    {
+      "method": "POST",
+      "native": true,
+      "operation": "post.training.clear",
+      "path": "training/clear",
+      "status": "partial"
+    },
+    {
+      "method": "POST",
+      "native": true,
+      "operation": "post.training.remove",
+      "path": "training/remove",
+      "status": "partial"
+    },
+    {
+      "method": "POST",
+      "native": true,
+      "operation": "post.training.start",
+      "path": "training/start",
+      "status": "partial"
+    }
+  ],
+  "missingByGroup": {
+    "账号、资料与同步": [
+      {
+        "method": "GET",
+        "path": "account",
+        "status": "sandbox-bootstrap-only"
+      },
+      {
+        "method": "GET",
+        "path": "hub",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "identity",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "profile",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "account/logout",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "account/sync",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "hub/configure",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "hub/dismiss",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "hub/dismiss-all",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "hub/sync",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "identity",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "profile",
+        "status": "not-migrated"
+      }
+    ],
+    "管理端": [
+      {
+        "method": "GET",
+        "path": "admin",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "admin/accounts",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "admin/scenario",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "admin/session",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "admin",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "admin/accounts/delete",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "admin/accounts/reset-password",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "admin/logout",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "admin/scenario",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "admin/session",
+        "status": "not-migrated"
+      }
+    ],
+    "原站浏览器与正式回执": [
+      {
+        "method": "GET",
+        "path": "browser-preparation",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "official/status",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "browser-preparation",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "official/ack",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "official/close",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "official/open",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "official/submit",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "official/sync",
+        "status": "not-migrated"
+      }
+    ],
+    "内容与软件更新": [
+      {
+        "method": "GET",
+        "path": "content-update",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "software-update",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "statement-backfill",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "software-update/check",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "software-update/download",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "software-update/install",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "software-update/settings",
+        "status": "not-migrated"
+      }
+    ],
+    "比赛创建与日历": [
+      {
+        "method": "GET",
+        "path": "contest-calendar",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "contests/preview",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "contests/start",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "contests/start-calendar",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "training/contest",
+        "status": "not-migrated"
+      }
+    ],
+    "成长、奖励与库存": [
+      {
+        "method": "GET",
+        "path": "daily-tasks",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "experience-challenge",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "insights",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "navigation",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "stickers",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "achievements/claim",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "daily-tasks/claim",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "experience-challenge",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "stickers/open-background",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "stickers/open-box",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "stickers/open-packs",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "stickers/outfit",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "stickers/place",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "stickers/recycle",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "stickers/scene-apply",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "stickers/scene-delete",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "stickers/scene-save",
+        "status": "not-migrated"
+      }
+    ],
+    "对战、思维对决与排位": [
+      {
+        "method": "GET",
+        "path": "duel",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "duel/board",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "pk/v1/*",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "rankings",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "duel/cancel",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "duel/decline",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "duel/dismiss",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "duel/join",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "duel/poll",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "duel/ready",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "pk/v1/*",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "rankings/sync",
+        "status": "not-migrated"
+      }
+    ],
+    "排行榜与社交": [
+      {
+        "method": "GET",
+        "path": "leaderboard",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "leaderboard/avatar",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "social",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "training-list-likes",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "leaderboard/admin/delete",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "leaderboard/sync",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "presence",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "social/comments",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "social/likes",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "social/read",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "training-list-likes",
+        "status": "not-migrated"
+      }
+    ],
+    "实时翻译与设置": [
+      {
+        "method": "GET",
+        "path": "problem/translate",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "translation/settings",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "problem/translate",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "translation/settings",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "translation/test",
+        "status": "not-migrated"
+      }
+    ],
+    "三人团队训练": [
+      {
+        "method": "GET",
+        "path": "team-training/*",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "team-training/*",
+        "status": "not-migrated"
+      }
+    ],
+    "训练与学习完整流程": [
+      {
+        "method": "POST",
+        "path": "learning-summary/start",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "status",
+        "status": "not-migrated"
+      }
+    ]
+  },
+  "completedCodeIsNotFullFeatureParity": true,
+  "lastActualWindow": {
+    "runtimeSourceCommit": "1c314f67",
+    "nativeRoutes": 45,
+    "rustChecks": 149,
+    "receipt": "native-contest-lifecycle-20261109.json"
+  },
+  "currentCliRustChecks": 153,
+  "deliveredPackage": {
+    "nativeRoutes": 42,
+    "rustChecks": 135,
+    "rebuilt": false
+  },
+  "partialBusinessGaps": [
+    "Private catalogue overlays and real account-bound evidence remain protected.",
+    "Existing running local journals work; preview/start and calendar enrollment remain separate migrations.",
+    "Background reward ownership and shared-room captain authority are not created by local finalization.",
+    "Ordinary/review/contest drafts are isolated; new official submissions and full local judge suites are not implemented by the sample runner.",
+    "Complete formal learning evidence and active goals combined with a running contest still have protection.",
+    "The original-site browser, DPAPI account secrets, cloud chunk sync, growth authority, inventory and online protocols remain unfinished.",
+    "An AI judge is not configured or imitated; its authority/configuration has not been received."
+  ],
+  "privateDataOpened": false,
+  "realAccountGranted": false,
+  "formalReleaseModified": false
+}
