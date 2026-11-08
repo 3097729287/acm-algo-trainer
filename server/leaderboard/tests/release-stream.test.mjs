@@ -23,6 +23,20 @@ async function fixture(fetcher,overrides={},streamOptions={}){
  return {url:'http://127.0.0.1:'+server.address().port+'/assets/1.5.2/',async close(){server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}};
 }
 const response=data=>new Response(data,{headers:{'content-length':String(data.length)}});
+
+test('retained release history may exceed one hundred entries but the index remains bounded',async()=>{
+ for(const count of [128,256,257]){
+  const directory=resolve('../../.backups/cleanup-startup/release-stream-tests',randomUUID());await mkdir(directory,{recursive:true});
+  const entries=Array.from({length:count},(_,i)=>({version:`1.0.${i}`,name:`TB-Setup-1.0.${i}-win64.exe`,size:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')}));
+  const file=directory+'/index.json';await writeFile(file,JSON.stringify({schema:1,assets:entries}));
+  const stream=createReleaseStream(file,{fetcher:async()=>{throw Error('HEAD must not fetch upstream');}}),server=createServer((request,response)=>stream(request,response));await listenFixture(server);
+  try{
+   const item=entries.at(-1),url=`http://127.0.0.1:${server.address().port}/assets/${item.version}/${item.name}`;
+   const head=await fetch(url,{method:'HEAD'});assert.equal(head.status,count<=256?200:503);
+   if(count<=256)assert.equal(head.headers.get('x-content-sha256'),item.sha256);
+  }finally{server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}
+ }
+});
 test('approved public files stream intact; HEAD uses the index and request secrets are never forwarded',async()=>{
  const calls=[];const f=await fixture(async(url,options)=>{calls.push({url,options});return response(bytes);});
  try{

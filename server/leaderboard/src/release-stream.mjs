@@ -15,7 +15,7 @@ export function createReleaseStream(indexFile,{fetcher=fetch,maximumActive=2,tra
   const info=await stat(indexFile);if(info.size>1024*1024)throw Error('Asset index too large');
   if(!cached||info.mtimeMs!==modified){
    const value=JSON.parse(await readFile(indexFile,'utf8'));
-   if(value.schema!==1||!Array.isArray(value.assets)||value.assets.length>100)throw Error('Invalid public asset index');
+   if(value.schema!==1||!Array.isArray(value.assets)||value.assets.length>256)throw Error('Invalid public asset index');
    const next=new Map();
    for(const item of value.assets){
     if(!/^\d+\.\d+\.\d+$/.test(item.version)||!filePattern.test(item.name)||!filePattern.test(item.sourceName||item.name)||!Number.isSafeInteger(item.size)||item.size<=0||item.size>2*1024**3||!/^[a-f0-9]{64}$/.test(item.sha256))throw Error('Invalid public asset');
