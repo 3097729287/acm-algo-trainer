@@ -43540,5 +43540,35 @@
     "mime": "application/pdf",
     "bytes": 64153,
     "file": "statement-assets/3a52ca344aef33606e05733b5f3c326016044d671267b5375762be8b256d23eb.bin"
+  },
+  {
+    "sha256": "de9a8c25b642a7309da61993c7a575644f4cde987bb82caa347a7c5a9b128b77",
+    "mime": "application/pdf",
+    "bytes": 73991,
+    "file": "statement-assets/de9a8c25b642a7309da61993c7a575644f4cde987bb82caa347a7c5a9b128b77.bin"
+  },
+  {
+    "sha256": "87df70865a6a6485cb7333063d073fb19467a98f19415d076aa3fc2aba06a742",
+    "mime": "application/octet-stream",
+    "bytes": 3188,
+    "file": "statement-assets/87df70865a6a6485cb7333063d073fb19467a98f19415d076aa3fc2aba06a742.bin"
+  },
+  {
+    "sha256": "6c1e4489ed51f323f443960181da38fd1a63a2bcf1b9a5616f9b3f218f0123a0",
+    "mime": "application/pdf",
+    "bytes": 69432,
+    "file": "statement-assets/6c1e4489ed51f323f443960181da38fd1a63a2bcf1b9a5616f9b3f218f0123a0.bin"
+  },
+  {
+    "sha256": "d48181d216648628fa0442a7ed6fc593d4e69219135df6cf37268c44c57187f3",
+    "mime": "application/octet-stream",
+    "bytes": 6882,
+    "file": "statement-assets/d48181d216648628fa0442a7ed6fc593d4e69219135df6cf37268c44c57187f3.bin"
+  },
+  {
+    "sha256": "1bdd599f374fdf5211c746e04af14f2d070093a54f43de97cc787f5ceab47059",
+    "mime": "application/pdf",
+    "bytes": 565783,
+    "file": "statement-assets/1bdd599f374fdf5211c746e04af14f2d070093a54f43de97cc787f5ceab47059.bin"
   }
 ]

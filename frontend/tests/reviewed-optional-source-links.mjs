@@ -8,10 +8,11 @@ import {chromium} from 'playwright';
 
 const [input,output]=process.argv.slice(2);
 if(!input||!output)throw new Error('Supply isolated public fixtures and a result file');
+const outputRoot=path.dirname(path.resolve(output));await fs.mkdir(outputRoot,{recursive:true});
 const rows=JSON.parse(await fs.readFile(input,'utf8')).filter(row=>row.optionalExternalResources?.length);
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const port=Number(process.env.TB_REVIEW_PORT||18831),base=`http://127.0.0.1:${port}`;
-const server=await createServer({root,optimizeDeps:{entries:['tests/statement-pdf-fixture.html']},server:{host:'127.0.0.1',port,strictPort:true,hmr:false}});
+const server=await createServer({root,cacheDir:path.join(outputRoot,'vite-review'),optimizeDeps:{entries:['tests/statement-pdf-fixture.html']},server:{host:'127.0.0.1',port,strictPort:true,hmr:false}});
 await server.listen();let browser;const checked=[],errors=[],external=[];
 try{
  browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});

@@ -391346,9 +391346,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -391435,10 +391434,6 @@
         "位运算"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "位运算",
@@ -391926,9 +391921,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -392004,10 +391998,6 @@
         "概率论"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "期望与概率"
@@ -694907,9 +694897,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -694988,11 +694977,7 @@
         "倍增",
         "离散化"
       ],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "贪心",
@@ -1024652,9 +1024637,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105977",
       "contest": "CCPC 2025 福建邀请赛",
@@ -1024707,16 +1024691,13 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "构造大师周三金",
       "url": "https://codeforces.com/gym/105977/problem/J",
       "xcpcKind": "邀请赛",
-      "xcpcYear": 2025
+      "xcpcYear": 2025,
+      "statementAvailable": true
     },
     "id": "remote:codeforces:105977::J",
     "raw": {
