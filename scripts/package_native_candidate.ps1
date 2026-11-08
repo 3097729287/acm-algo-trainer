@@ -1,5 +1,7 @@
 param(
     [string]$Destination = 'E:\项目\ToBe\临时验证\Rust本地测试\2.0.0-alpha.3',
+    [string]$TargetDirectory,
+    [string]$BinarySourceCommit,
     [switch]$VerifyOnly
 )
 $ErrorActionPreference = 'Stop'
@@ -22,11 +24,12 @@ $localTestRoot = [IO.Path]::GetFullPath('E:\项目\ToBe\临时验证\Rust本地�
 if (-not $targetRoot.StartsWith($localTestRoot,[StringComparison]::OrdinalIgnoreCase)) { throw 'Rust packages are local tests only; destination must be inside the dedicated Rust local-test directory.' }
 $sourceChanges = git -C $sourceRoot status --porcelain
 if ($LASTEXITCODE -ne 0 -or $sourceChanges) { throw 'Commit the reviewed local-test source before packaging so BUILD-INFO identifies the actual source.' }
-$binary = Join-Path $sourceRoot 'target\release\tobe-desktop.exe'
+$compiledRoot = if ($TargetDirectory) { [IO.Path]::GetFullPath($TargetDirectory) } else { Join-Path $sourceRoot 'target' }
+$binary = Join-Path $compiledRoot 'release\tobe-desktop.exe'
 if (-not (Test-Path -LiteralPath $binary)) { throw 'Build the native desktop candidate first: scripts/native.ps1 -Action desktop' }
 $members = [ordered]@{
     'ToBe-Rust.exe' = $binary
-    'WebView2Loader.dll' = (Join-Path $sourceRoot 'target\release\WebView2Loader.dll')
+    'WebView2Loader.dll' = (Join-Path $compiledRoot 'release\WebView2Loader.dll')
     'data\library.sqlite3' = (Join-Path $sourceRoot 'data\library.sqlite3')
     'data\native-catalog.sqlite3' = (Join-Path $sourceRoot 'data\native-catalog.sqlite3')
     'backend\resources\oi-wiki.sqlite3' = (Join-Path $sourceRoot 'backend\resources\oi-wiki.sqlite3')
@@ -48,9 +51,15 @@ foreach ($entry in $members.GetEnumerator()) {
     $manifest += [ordered]@{ path=$entry.Key.Replace('\','/'); bytes=(Get-Item -LiteralPath $target).Length; sha256=$targetHash }
 }
 $commit = git -C $sourceRoot rev-parse HEAD
+if ($BinarySourceCommit) {
+    if ($BinarySourceCommit -notmatch '^[a-f0-9]{40}$') { throw 'Invalid native binary source commit.' }
+    $changedInputs = git -C $sourceRoot diff --name-only $BinarySourceCommit HEAD
+    if ($LASTEXITCODE -ne 0 -or @($changedInputs | Where-Object { $_ -notmatch '^(docs/|scripts/package_native_candidate\.ps1$)' }).Count) { throw 'Native binary source differs from runtime inputs; rebuild before packaging.' }
+} else { $BinarySourceCommit = $commit }
 $info = [ordered]@{
     version='2.0.0-alpha.3'; status='native-local-test'; releaseReady=$false
-    createdAt=[DateTime]::UtcNow.ToString('o'); sourceCommit=$commit; sourceRoot=$sourceRoot
+    createdAt=[DateTime]::UtcNow.ToString('o'); sourceCommit=$commit; nativeBuildSourceCommit=$BinarySourceCommit; sourceRoot=$sourceRoot
+    sourceBaseVersion=(Get-Content -LiteralPath (Join-Path $sourceRoot 'VERSION') -Raw).Trim()
     entry='ToBe-Rust.exe'; runtime='Tauri 2 + React + Rust + SQLite'; pythonRuntime=$false
     replacesCurrentInstallation=$false; publicRelease=$false; members=$manifest
     formalArchitecture='React + Python'; deployment='local-test-only'
