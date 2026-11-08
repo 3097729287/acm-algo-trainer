@@ -1,0 +1,413 @@
+{
+  "schema": 1,
+  "cleanupInspection": {
+    "checkedAt": "2026-11-08T19:24:16.732946+00:00",
+    "trackedWorktreeInitiallyClean": true,
+    "generatedDirectoriesPresentBeforeWork": [],
+    "cleanupItems": [],
+    "noEligibleCleanupReason": "New isolated worktree has no generated build, download, package or obsolete local artifacts. Tracked statement patches and resources are referenced source/history and retained. No private data, draft, submission or learning record was opened or removed."
+  },
+  "problems": [
+    {
+      "id": "luogu-training-P11277",
+      "url": "https://www.luogu.com.cn/problem/P11277",
+      "markdownSha256": "8d09c0c7e5b18d522bf8603bd86793c2ab43bb27385599774a09ed20076dfcf5",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P11277",
+          "sha256": "514ee6b400ba504039e9f58c66b1b6ed36f31ca503d30fe3f46f69a0ea80c6a0",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 2,
+      "resourceCount": 0,
+      "reason": "First-party content-only original, explicit matching problem ID; complete constraints and all samples reviewed.",
+      "renderer": {
+        "id": "luogu-training-P11277",
+        "pages": 0,
+        "images": 0,
+        "samples": 2,
+        "formulaErrors": 0,
+        "browserErrors": 0,
+        "externalRequests": 0
+      }
+    },
+    {
+      "id": "luogu-training-P11786",
+      "url": "https://www.luogu.com.cn/problem/P11786",
+      "markdownSha256": "d1af0d29dcc612d27e825809c1bfc22da603b6b83a1ee76052e18019df0d8c85",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P11786",
+          "sha256": "d69d612bce3e95d985043db5f86f39f5688388e69257396ffc93d1af33d43cfa",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "resourceCount": 0,
+      "reason": "First-party content-only original, explicit matching problem ID; complete constraints and all samples reviewed.",
+      "renderer": {
+        "id": "luogu-training-P11786",
+        "pages": 0,
+        "images": 0,
+        "samples": 1,
+        "formulaErrors": 0,
+        "browserErrors": 0,
+        "externalRequests": 0
+      }
+    },
+    {
+      "id": "luogu-training-P11886",
+      "url": "https://www.luogu.com.cn/problem/P11886",
+      "markdownSha256": "ac27d6b922f15b9379b383b6e7b8467c339da6f15397e2532ea395f40766af34",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P11886",
+          "sha256": "ecd9b96c20afe0dcc0bf92d5c860808fc479b17d6b42a129c54be254c198b24b",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "resourceCount": 0,
+      "reason": "First-party content-only original, explicit matching problem ID; complete constraints and all samples reviewed.",
+      "renderer": {
+        "id": "luogu-training-P11886",
+        "pages": 0,
+        "images": 0,
+        "samples": 1,
+        "formulaErrors": 0,
+        "browserErrors": 0,
+        "externalRequests": 0
+      }
+    },
+    {
+      "id": "luogu-training-P11887",
+      "url": "https://www.luogu.com.cn/problem/P11887",
+      "markdownSha256": "52d3497fe28d8f882c6f0e79a68bc969ea32adb9d3753a09076f5827ab50f5b8",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P11887",
+          "sha256": "cba1a2bf54f9dcc752bbefca67f0950fd1b1538e0a1964797f88b8b65f06fad7",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "resourceCount": 0,
+      "reason": "First-party content-only original, explicit matching problem ID; complete constraints and all samples reviewed.",
+      "renderer": {
+        "id": "luogu-training-P11887",
+        "pages": 0,
+        "images": 0,
+        "samples": 1,
+        "formulaErrors": 0,
+        "browserErrors": 0,
+        "externalRequests": 0
+      }
+    },
+    {
+      "id": "luogu-training-P11888",
+      "url": "https://www.luogu.com.cn/problem/P11888",
+      "markdownSha256": "a3e3ab9c80055cc2a00b9d403b904bf1f18244b400623f0a581b2b800e67bfbb",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P11888",
+          "sha256": "e38097c7de78e44d2e793571aecbdd7401ccc8d0abf7384f82c8e2e493eff48f",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "resourceCount": 0,
+      "reason": "First-party content-only original, explicit matching problem ID; complete constraints and all samples reviewed.",
+      "renderer": {
+        "id": "luogu-training-P11888",
+        "pages": 0,
+        "images": 0,
+        "samples": 1,
+        "formulaErrors": 0,
+        "browserErrors": 0,
+        "externalRequests": 0
+      }
+    },
+    {
+      "id": "luogu-training-P1792",
+      "url": "https://www.luogu.com.cn/problem/P1792",
+      "markdownSha256": "aa51e4407a1fad4e47b7a7d3adf88b19b0de4d35d914ca69edd22b48add31380",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P1792",
+          "sha256": "2c689bb135730f3faaddd27b42a2ef3d961996d87c7813142f5759e6cbdfde1c",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 2,
+      "resourceCount": 0,
+      "reason": "First-party content-only original, explicit matching problem ID; complete constraints and all samples reviewed.",
+      "renderer": {
+        "id": "luogu-training-P1792",
+        "pages": 0,
+        "images": 0,
+        "samples": 2,
+        "formulaErrors": 0,
+        "browserErrors": 0,
+        "externalRequests": 0
+      }
+    },
+    {
+      "id": "luogu-training-P2395",
+      "url": "https://www.luogu.com.cn/problem/P2395",
+      "markdownSha256": "0a43dd48440343642305e892ea3fcab8e10d238f71dd9200c70fc637b3251ec0",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P2395",
+          "sha256": "24fd54c1af8cb3a8d2a608b15b5d27f9625bb2fdbdc4b4465caf46a87f1f171a",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 7,
+      "resourceCount": 0,
+      "reason": "First-party content-only original, explicit matching problem ID; complete constraints and all samples reviewed.",
+      "renderer": {
+        "id": "luogu-training-P2395",
+        "pages": 0,
+        "images": 0,
+        "samples": 7,
+        "formulaErrors": 0,
+        "browserErrors": 0,
+        "externalRequests": 0
+      }
+    },
+    {
+      "id": "luogu-training-P8301",
+      "url": "https://www.luogu.com.cn/problem/P8301",
+      "markdownSha256": "dfa76ba41e8d05f9bc40b0a0afd94de4098a6418638cbf3089b40c8f993a33ce",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P8301",
+          "sha256": "4dfc636fbada67317d5e5553ca895e5bcd1fdd59cad15ba254753137214e3e63",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 2,
+      "resourceCount": 0,
+      "reason": "First-party content-only original, explicit matching problem ID; complete constraints and all samples reviewed.",
+      "renderer": {
+        "id": "luogu-training-P8301",
+        "pages": 0,
+        "images": 0,
+        "samples": 2,
+        "formulaErrors": 0,
+        "browserErrors": 0,
+        "externalRequests": 0
+      }
+    },
+    {
+      "id": "luogu-training-P8302",
+      "url": "https://www.luogu.com.cn/problem/P8302",
+      "markdownSha256": "01d7ac6053acce1a25872b373baf1d5ec3e50f4243ac84285c8f996886b9f189",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P8302",
+          "sha256": "df947e49fefaef6617f3dde57c0102147d486bfeca49c9e7c93373968dd4fca9",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "resourceCount": 0,
+      "reason": "First-party content-only original, explicit matching problem ID; complete constraints and all samples reviewed.",
+      "renderer": {
+        "id": "luogu-training-P8302",
+        "pages": 0,
+        "images": 0,
+        "samples": 1,
+        "formulaErrors": 0,
+        "browserErrors": 0,
+        "externalRequests": 0
+      }
+    },
+    {
+      "id": "luogu-training-UVA12326",
+      "url": "https://www.luogu.com.cn/problem/UVA12326",
+      "markdownSha256": "607d2eef3b37e6c9a56d05c0eabd7a54d8ca83c0c4e5180e5ded8480c2075a78",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/UVA12326",
+          "sha256": "9dc5611dc302493437fa3d6a5546991e34a91bc71501bc47f81ed424f26eb45b",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "resourceCount": 4,
+      "reason": "First-party content-only original, explicit matching problem ID; complete constraints and all samples reviewed.",
+      "renderer": {
+        "id": "luogu-training-UVA12326",
+        "pages": 0,
+        "images": 3,
+        "samples": 1,
+        "formulaErrors": 0,
+        "browserErrors": 0,
+        "externalRequests": 0
+      }
+    },
+    {
+      "id": "xcpc-qoj::22921",
+      "url": "https://qoj.ac/problem/22921",
+      "markdownSha256": "20932c347903089e316e3582798414e4f47c5f2fb9dfc857a06b05e4f27a8206",
+      "sourceDocuments": [
+        {
+          "url": "https://qoj.ac/download.php?id=22921&type=statement",
+          "sha256": "59b25a337ad3b218c68a28e4f83d4892a984c7d468b8d9a925d8abed7ee3f45d",
+          "status": 200
+        },
+        {
+          "url": "https://qoj.ac/problem/22921",
+          "sha256": "9aa007b00eb3924bae6dd6e28c2ad0160b9ff4cb05f0cbc2c72cdf957abe8b2d",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "pdfSha256": "59b25a337ad3b218c68a28e4f83d4892a984c7d468b8d9a925d8abed7ee3f45d",
+      "pages": 2,
+      "reason": "First-party Chinese PDF and page title explicitly match the stored QOJ ID; all pages, limits and code samples checked.",
+      "renderer": {
+        "id": "xcpc-qoj::22921",
+        "pages": 2,
+        "images": 0,
+        "samples": 1,
+        "formulaErrors": 0,
+        "browserErrors": 0,
+        "externalRequests": 0
+      }
+    },
+    {
+      "id": "xcpc-qoj::22922",
+      "url": "https://qoj.ac/problem/22922",
+      "markdownSha256": "475bb6117f69d5f960dfc1b1ef2503b7e444541caf9cdd5dd7b25fb20eb588db",
+      "sourceDocuments": [
+        {
+          "url": "https://qoj.ac/download.php?id=22922&type=statement",
+          "sha256": "1ef40214e36dfe9e50ad77d31652bad2b5cd1d9c0757e5e0d309f55f8c37226f",
+          "status": 200
+        },
+        {
+          "url": "https://qoj.ac/problem/22922",
+          "sha256": "4c309d397a9d420a2338d7ef045bd91a46079785a87032e11d1d4e988de2a57b",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "pdfSha256": "1ef40214e36dfe9e50ad77d31652bad2b5cd1d9c0757e5e0d309f55f8c37226f",
+      "pages": 2,
+      "reason": "First-party Chinese PDF and page title explicitly match the stored QOJ ID; all pages, limits and code samples checked.",
+      "renderer": {
+        "id": "xcpc-qoj::22922",
+        "pages": 2,
+        "images": 0,
+        "samples": 1,
+        "formulaErrors": 0,
+        "browserErrors": 0,
+        "externalRequests": 0
+      }
+    }
+  ],
+  "uiReview": {
+    "checked": [
+      {
+        "id": "luogu-training-P11277",
+        "pages": 0,
+        "images": 0,
+        "samples": 2
+      },
+      {
+        "id": "luogu-training-P11786",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P11886",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P11887",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P11888",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-P1792",
+        "pages": 0,
+        "images": 0,
+        "samples": 2
+      },
+      {
+        "id": "luogu-training-P2395",
+        "pages": 0,
+        "images": 0,
+        "samples": 7
+      },
+      {
+        "id": "luogu-training-P8301",
+        "pages": 0,
+        "images": 0,
+        "samples": 2
+      },
+      {
+        "id": "luogu-training-P8302",
+        "pages": 0,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "luogu-training-UVA12326",
+        "pages": 0,
+        "images": 3,
+        "samples": 1
+      },
+      {
+        "id": "xcpc-qoj::22921",
+        "pages": 2,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "xcpc-qoj::22922",
+        "pages": 2,
+        "images": 0,
+        "samples": 1
+      }
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true
+  },
+  "cleanup": {
+    "unusedPriorActiveResourceMapsArchived": true,
+    "deletedResourceFiles": 0,
+    "originalsRestored": 12,
+    "duplicateNewResources": 0,
+    "newAssetFiles": 0
+  }
+}

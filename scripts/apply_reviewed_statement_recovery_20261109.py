@@ -1,4 +1,5 @@
 """Restore reviewed first-party originals, preserving identities and old source."""
+import argparse
 from collections import Counter
 import copy
 import hashlib
@@ -22,20 +23,22 @@ def write(path,value,*,sort_keys=True):
     path.write_text(json.dumps(value,ensure_ascii=False,indent=2,sort_keys=sort_keys)+'\n',encoding='utf8')
 
 
-def main():
-    records=json.loads((REVIEW/'records.json').read_text('utf8'))
-    reviewed={r['id']:r for r in json.loads((REVIEW/'review.json').read_text('utf8'))['problems']}
+def main(review=REVIEW,patch=PATCH):
+    assert review.resolve().is_relative_to((ROOT/'content-updates').resolve())
+    assert patch.parent.resolve()==(SOURCE/'statement-patches').resolve() and patch.suffix=='.json'
+    records=json.loads((review/'records.json').read_text('utf8'))
+    reviewed={r['id']:r for r in json.loads((review/'review.json').read_text('utf8'))['problems']}
     current={r['problem_id']:r['content'] for r in load_statements(SOURCE)}
     rows=json.loads((SOURCE/'problems.json').read_text('utf8'));by_id={r['id']:r for r in rows}
     assets=json.loads((SOURCE/'statement_assets.json').read_text('utf8'));known={a['sha256'] for a in assets}
-    for entry in json.loads((REVIEW/'assets.json').read_text('utf8')):
+    for entry in json.loads((review/'assets.json').read_text('utf8')):
         path=(SOURCE/entry['file']).resolve(strict=True)
         assert path.is_relative_to((SOURCE/'statement-assets').resolve()) and not path.is_symlink()
         data=path.read_bytes()
         assert len(data)==entry['bytes'] and hashlib.sha256(data).hexdigest()==entry['sha256']
         if entry['sha256'] not in known:assets.append(entry);known.add(entry['sha256'])
-    if PATCH.exists():
-        packet=json.loads(PATCH.read_text('utf8'));assert {p['problem_id'] for p in packet['statements']}==set(reviewed)
+    if patch.exists():
+        packet=json.loads(patch.read_text('utf8'));assert {p['problem_id'] for p in packet['statements']}==set(reviewed)
         for record in records:
             saved=current[record['problem_id']]
             assert saved['integrity']['reviewedRecoveryRecordSha256']==checksum(record['content'])
@@ -67,8 +70,13 @@ def main():
     assert set(reviewed)=={p['problem_id'] for p in patches}
     # Existing order keeps public SQLite page layout stable for small updates.
     write(SOURCE/'statement_assets.json',assets,sort_keys=False)
-    write(SOURCE/'problems.json',rows);write(PATCH,{'schema':1,'statements':patches})
+    write(SOURCE/'problems.json',rows);write(patch,{'schema':1,'statements':patches})
     print(json.dumps({'restoredOriginals':len(patches),'offlineAssets':len(assets),'originalIdsPreserved':True,'personalStateRead':False}))
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--review',type=Path,default=REVIEW)
+    parser.add_argument('--patch-name',default=PATCH.name)
+    args=parser.parse_args()
+    main(args.review,SOURCE/'statement-patches'/args.patch_name)

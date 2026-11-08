@@ -357909,9 +357909,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -357981,10 +357980,6 @@
         "Ad-hoc"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "构造"
@@ -368443,9 +368438,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -368520,10 +368514,6 @@
         "双指针 two-pointer"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "说好的幸福呢",
@@ -369393,9 +369383,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -369467,10 +369456,6 @@
         "堆"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "贪心",
@@ -369498,9 +369483,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -369577,10 +369561,6 @@
         "树形 DP"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "树形 DP",
@@ -369608,9 +369588,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -369722,10 +369701,6 @@
         "线性筛法"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "莫比乌斯反演",
@@ -455390,9 +455365,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -455508,10 +455482,6 @@
         "反悔贪心"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "贪心",
@@ -480699,9 +480669,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -480783,10 +480752,6 @@
         "栈"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "模拟",
@@ -716083,9 +716048,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -716152,11 +716116,7 @@
         "模拟",
         "枚举"
       ],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "模拟",
@@ -716183,9 +716143,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -716275,11 +716234,7 @@
         "数论",
         "枚举"
       ],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "模拟",
@@ -800574,9 +800529,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -800620,11 +800574,7 @@
       "solutionAvailable": false,
       "source": "luogu-training",
       "sourceTags": [],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [],
       "title": "Yummy Triangular Pizza",
@@ -1436792,9 +1436742,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "官方归档13题 + 官方标签完整名单 + 每题比赛关联 + PDF原字母核对。",
       "collectionSource": "https://qoj.ac/problems?tag=CCPC+Changchun+2026",
       "communication": false,
@@ -1436831,10 +1436780,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "故事",
@@ -1436862,9 +1436807,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "官方归档13题 + 官方标签完整名单 + 每题比赛关联 + PDF原字母核对。",
       "collectionSource": "https://qoj.ac/problems?tag=CCPC+Changchun+2026",
       "communication": false,
@@ -1436901,10 +1436845,6 @@
       "solutionState": "missing",
       "source": "xcpc-qoj",
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "余镜",
