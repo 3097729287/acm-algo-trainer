@@ -18,6 +18,25 @@ from test_library import record
 
 
 class StatementIntegrityTests(unittest.TestCase):
+    def test_literal_markdown_examples_and_empty_images_are_not_resources(self):
+        value = {'url':'https://www.luogu.com.cn/problem/P2395', 'markdown':
+            '市![]()政![]()府。`![图片说明](图片地址)`\n'
+            '``![literal](inline.png)``\n'
+            '```markdown\n![sample](fenced.png)\n[download](example.pdf)\n```\n'
+            '~~~text\n![sample][figure]\n[figure]: fenced-reference.png\n~~~\n'
+            '![real](figure.png)\n[original](source.pdf)\n'}
+        self.assertEqual(resource_references(value), [
+            {'key':'figure.png','url':'https://www.luogu.com.cn/problem/figure.png','kind':'image'},
+            {'key':'source.pdf','url':'https://www.luogu.com.cn/problem/source.pdf','kind':'attachment'}])
+        self.assertIn('`![图片说明](图片地址)`',value['markdown'])
+
+    def test_code_filter_keeps_actual_reference_images_and_pdf_evidence(self):
+        value = {'url':'https://example.test/problem/1',
+            'markdown':'![real][figure]\n\n[figure]: https://example.test/diagram.gif\n',
+            'sourcePdfUrl':'https://example.test/original.pdf'}
+        self.assertEqual([r['key'] for r in resource_references(value)],
+            ['https://example.test/diagram.gif','https://example.test/original.pdf'])
+
     def test_school_replay_rechecks_cached_content_after_stale_import_failure(self):
         assets=AssetLibrary.__new__(AssetLibrary)
         complete={'markdown':'Original complete mathematical problem statement.', 'samples':[{'input':'1','output':'2'}]}

@@ -1,0 +1,204 @@
+{
+  "schema": 1,
+  "checkedAt": "2026-11-08T19:34:15.479923+00:00",
+  "source": {
+    "url": "https://codeforces.com/gym/105544",
+    "sha256": "9a9e42c5adf5afb9aaac1f4d6dc8735bbf4f7b00fb8244624401b952315f965d",
+    "status": 200,
+    "bytes": 98529
+  },
+  "officialProblems": {
+    "A": {
+      "title": "Counterfeit Money",
+      "limits": {
+        "timeMs": 4500,
+        "memoryMb": 1024
+      }
+    },
+    "B": {
+      "title": "Recurring Decimal to Fractions",
+      "limits": {
+        "timeMs": 4500,
+        "memoryMb": 1024
+      }
+    },
+    "C": {
+      "title": "Where the Lantern Lights are Dimming",
+      "limits": {
+        "timeMs": 3000,
+        "memoryMb": 1024
+      }
+    },
+    "D": {
+      "title": "Quarantine Policy",
+      "limits": {
+        "timeMs": 4500,
+        "memoryMb": 1024
+      }
+    },
+    "E": {
+      "title": "Slabstones Rearrangement",
+      "limits": {
+        "timeMs": 4500,
+        "memoryMb": 1024
+      }
+    },
+    "F": {
+      "title": "Baker's Dilemma",
+      "limits": {
+        "timeMs": 4500,
+        "memoryMb": 1024
+      }
+    },
+    "G": {
+      "title": "A Packing Problem",
+      "limits": {
+        "timeMs": 1500,
+        "memoryMb": 1024
+      }
+    },
+    "H": {
+      "title": "Bank Deposit Challenge",
+      "limits": {
+        "timeMs": 1500,
+        "memoryMb": 1024
+      }
+    },
+    "I": {
+      "title": "The Pentagon Conjecture",
+      "limits": {
+        "timeMs": 1500,
+        "memoryMb": 1024
+      }
+    },
+    "J": {
+      "title": "Lead Time Estimation",
+      "limits": {
+        "timeMs": 1500,
+        "memoryMb": 1024
+      }
+    },
+    "K": {
+      "title": "Chemical Storage",
+      "limits": {
+        "timeMs": 1500,
+        "memoryMb": 1024
+      }
+    },
+    "L": {
+      "title": "Nine Never",
+      "limits": {
+        "timeMs": 4500,
+        "memoryMb": 1024
+      }
+    },
+    "M": {
+      "title": "Task scheduler",
+      "limits": {
+        "timeMs": 1500,
+        "memoryMb": 1024
+      }
+    }
+  },
+  "removedRosterSlot": "remote:codeforces:105544::V",
+  "originalProblemRowRetained": true,
+  "priorPhantomRow": {
+    "encoded": {
+      "catalogHidden": true,
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
+      "collectionSource": "https://codeforces.com/gym/105544",
+      "contest": "ICPC 2023 桃园区域赛",
+      "contestDate": null,
+      "contestDatePrecision": "year",
+      "contestDateSource": "赛事原名年份；具体日期未核实",
+      "contestDifficulty": 3,
+      "contestDifficultySource": "Codeforces Gym 公开整场难度（1–5 级），不是单题 rating",
+      "contestFamily": "XCPC",
+      "contestFullName": "The 2023 ICPC Asia Taoyuan Regional Programming Contest",
+      "contestId": "105544",
+      "contestProblemCount": 14,
+      "contestRoster": true,
+      "date": "",
+      "difficulty": null,
+      "difficultyConfidence": "UNKNOWN",
+      "difficultyEstimated": true,
+      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "endedAt": null,
+      "eventYear": 2023,
+      "examYear": 2023,
+      "id": "remote:codeforces:105544::V",
+      "knowledge": "",
+      "knowledgeAnalysis": {
+        "categories": [],
+        "confidence": "pending",
+        "evidence": [],
+        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
+        "knowledge": "",
+        "pendingCategories": [],
+        "source": "pending-evidence",
+        "sourceTags": [],
+        "status": "pending",
+        "supersededTags": [],
+        "tags": [],
+        "unknown": [],
+        "version": "knowledge-v1.0"
+      },
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
+      "metadataVersion": "1.0.18",
+      "originalTitle": "L173:     ..",
+      "platform": "Codeforces",
+      "problem": "V",
+      "problemType": "standard",
+      "queue": null,
+      "series": "XCPC",
+      "solutionAvailable": false,
+      "solutionState": "missing",
+      "source": "xcpc-codeforces",
+      "sourceTags": [],
+      "startedAt": null,
+      "statementPriorVisibility": {},
+      "statementRetired": true,
+      "statementRetirementPolicy": "public-statement-audit-v1",
+      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "status": "未做",
+      "tags": [],
+      "title": "L173:     ..",
+      "url": "https://codeforces.com/gym/105544/problem/V",
+      "xcpcKind": "区域赛",
+      "xcpcYear": 2023
+    },
+    "id": "remote:codeforces:105544::V",
+    "raw": {
+      "_id": "remote:codeforces:105544::V",
+      "_platform": "Codeforces",
+      "_series": "XCPC",
+      "_url": "https://codeforces.com/gym/105544/problem/V",
+      "场次": "ICPC 2023 桃园区域赛",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "—",
+      "题号": "V",
+      "题名": "L173:     .."
+    },
+    "url": "https://codeforces.com/gym/105544/problem/V"
+  },
+  "correction": "Only remove an import artifact from the playable roster; retain its stored ID and all historic/private references.",
+  "verified": {
+    "sourceProblems": 13,
+    "sourceLetters": "ABCDEFGHIJKLM",
+    "replaySlots": 13,
+    "expectedCount": 13,
+    "contestComplete": true,
+    "privateRecordsRead": false
+  },
+  "cleanup": {
+    "checkedBeforeUpdate": true,
+    "removedUnusedRosterArtifact": 1,
+    "deletedProblemIds": 0,
+    "deletedAssets": 0
+  }
+}
