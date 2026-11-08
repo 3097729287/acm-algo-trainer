@@ -1,0 +1,172 @@
+{
+  "schema": 1,
+  "checkedAt": "2026-11-09",
+  "scope": "Isolate the manually driven offline reconnect fixture; retain strict production journal/CAS checks",
+  "cleanupInspection": {
+    "checkedBeforeChange": true,
+    "checked": [
+      "Existing account/offline/chunk test helpers and startup worker ownership",
+      "Production capture/apply/expected_journal references",
+      "No obsolete or duplicate source content in this change; all prior account scenarios and assertions remain used"
+    ],
+    "removed": [],
+    "personalStateRead": false
+  },
+  "naturalRaceProbe": {
+    "artificialAccountFixturesOnly": true,
+    "runs": 16,
+    "journalConflicts": 4,
+    "baselineSnapshotsMatched": true,
+    "observedDifferences": [
+      {
+        "table": "ranking_reward_totals",
+        "changedColumns": [
+          "updated_at"
+        ],
+        "before": {
+          "total_xp": 0,
+          "awards": "[]",
+          "updated_at": "2026-11-08T21:27:38.027398Z"
+        },
+        "after": {
+          "total_xp": 0,
+          "awards": "[]",
+          "updated_at": "2026-11-08T21:27:38.858704Z"
+        },
+        "writerThread": "tb-ranking",
+        "capturedJournalMatchedExpected": true,
+        "callStack": [
+          "threading.py:_bootstrap:1015",
+          "threading.py:_bootstrap_inner:1044",
+          "threading.py:run:995",
+          "leaderboard.py:_sync:338",
+          "leaderboard.py:_local:277",
+          "probe.py:rewards:47"
+        ]
+      },
+      {
+        "table": "ranking_reward_totals",
+        "changedColumns": [
+          "updated_at"
+        ],
+        "before": {
+          "total_xp": 0,
+          "awards": "[]",
+          "updated_at": "2026-11-08T21:27:40.327038Z"
+        },
+        "after": {
+          "total_xp": 0,
+          "awards": "[]",
+          "updated_at": "2026-11-08T21:27:41.147288Z"
+        },
+        "writerThread": "tb-ranking",
+        "capturedJournalMatchedExpected": true,
+        "callStack": [
+          "threading.py:_bootstrap:1015",
+          "threading.py:_bootstrap_inner:1044",
+          "threading.py:run:995",
+          "leaderboard.py:_sync:338",
+          "leaderboard.py:_local:277",
+          "probe.py:rewards:47"
+        ]
+      },
+      {
+        "table": "ranking_reward_totals",
+        "changedColumns": [
+          "updated_at"
+        ],
+        "before": {
+          "total_xp": 0,
+          "awards": "[]",
+          "updated_at": "2026-11-08T21:27:46.926828Z"
+        },
+        "after": {
+          "total_xp": 0,
+          "awards": "[]",
+          "updated_at": "2026-11-08T21:27:48.193235Z"
+        },
+        "writerThread": "tb-ranking",
+        "capturedJournalMatchedExpected": true,
+        "callStack": [
+          "threading.py:_bootstrap:1015",
+          "threading.py:_bootstrap_inner:1044",
+          "threading.py:run:995",
+          "leaderboard.py:_sync:338",
+          "leaderboard.py:_local:277",
+          "probe.py:rewards:47"
+        ]
+      },
+      {
+        "table": "ranking_reward_totals",
+        "changedColumns": [
+          "updated_at"
+        ],
+        "before": {
+          "total_xp": 0,
+          "awards": "[]",
+          "updated_at": "2026-11-08T21:28:08.926864Z"
+        },
+        "after": {
+          "total_xp": 0,
+          "awards": "[]",
+          "updated_at": "2026-11-08T21:28:09.760218Z"
+        },
+        "writerThread": "tb-ranking",
+        "capturedJournalMatchedExpected": true,
+        "callStack": [
+          "threading.py:_bootstrap:1015",
+          "threading.py:_bootstrap_inner:1044",
+          "threading.py:run:995",
+          "leaderboard.py:_sync:338",
+          "leaderboard.py:_local:277",
+          "probe.py:rewards:47"
+        ]
+      }
+    ],
+    "rawEvidence": ".backups/offline-sync-race-20261109/natural-race-evidence.json"
+  },
+  "finding": "Login independently queues a real ranking/reward worker. Its receipt can change the fixture journal timestamp while an explicit reconnect GET/merge/PUT is in flight; ServiceError409 correctly refuses to overwrite that newer journal. The test had not fixed that independent writer before asserting a single manual flush succeeds.",
+  "change": {
+    "productionRuntimeModified": false,
+    "testsModified": [
+      "backend/test_offline_resume.py"
+    ],
+    "fixtureIsolation": "Only the manual reconnect helper closes its own LeaderboardClient under TrainingService.lock, draining the local write boundary and preventing later ranking writes. Other offline tests retain normal worker behavior.",
+    "networkAndMerge": "Real disposable HTTP account service, GET-before-PUT checks, remote preference merge and saved offline code assertions all retained.",
+    "negativeRegression": "After a real remote GET, save_draft commits a newer local draft. The unmodified flush must raise409 with retry_state, leave reconnect/pending true, preserve the newer code and refuse to apply the stale remote preference.",
+    "exceptionSwallowingAdded": false,
+    "productionRetriesAdded": false,
+    "expectedJournalRelaxed": false,
+    "timeoutsIncreased": false
+  },
+  "verification": {
+    "offlineResumeModule": {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 15.512
+    },
+    "repeatedCases": {
+      "artificialAccountFixturesOnly": true,
+      "manualReconnectRepeated": 16,
+      "deterministicConcurrentDraftRepeated": 4,
+      "testsRun": 20,
+      "seconds": 46.458,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "successful": true,
+      "productionExpectedJournalModified": false
+    },
+    "runtimeFilesIdenticalToIntegration": {
+      "backend/account_sync.py": "0fc4d68c7ca0e973d2568d6601a9ccbc6f83db139aebb1be8fd5957350594363",
+      "backend/account_chunks.py": "ab08b885ddabf63baac03404352c75649a8190d07f00d1ef4fc1b976ad2b73af",
+      "backend/accounts.py": "a34b9c2b2a6a227f071dd4dba576b9cf9cd352d1f808d7cb993e0d8b051c12c0",
+      "backend/training.py": "13d8354e98a624d9d44d7c0a3d13ff561297c9e341f668c93d1726eb9e8832c6",
+      "backend/leaderboard.py": "9d52cd5260280e4eb88d76124e94184840f0c3101cdabd6e62637c718d3d0425",
+      "backend/backend.py": "0e169b1ef5abaf2ac78374e7a847fc12fe8b253f795dd5d571ddf7f79d9b7dfa"
+    },
+    "frozenNativeRebuildRequired": false
+  },
+  "sourceCommitBeforeFix": "1d7c5589"
+}
