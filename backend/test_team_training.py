@@ -29,6 +29,9 @@ class TeamTransportTests(unittest.TestCase):
             with patch('team_training.service_opener') as network, self.assertRaises(TeamServiceError):
                 relay(self.training, path, body)
             network.assert_not_called()
+        with patch('team_training.service_opener') as network,self.assertRaises(TeamServiceError):
+            relay(self.training,'native-receipt',{'requestId':'fake','intentId':'fake','submissionId':'999','handle':'someone'})
+        network.assert_not_called()
 
     def test_owner_token_or_endpoint_change_discards_a_late_response(self):
         for changed in ({**self.profile, 'user_id': 'other-owner'}, {**self.profile, 'auth_token': 'renewed'},

@@ -57,6 +57,72 @@ async function readyRoom(f) {
   return f.write(a, 'start', {teamRevision: state.team.revision});
 }
 
+test('concurrent preparation shares one configuration token; native authorization binds the saved code and lease', async()=>{
+  const f=await setup();
+  try{
+    const [a,b,c]=f.accounts;
+    let value=await f.write(a,'create',{name:'并发准备'});
+    await f.write(b,'join',{inviteCode:value.team.inviteCode});await f.write(c,'join',{inviteCode:value.team.inviteCode});
+    value=await f.team.read(a.owner,now);
+    value=await f.write(a,'configure',{teamRevision:value.team.revision,contestId:catalogue.contests[0].id,durationMinutes:5});
+    const configurationRevision=value.team.configurationRevision;
+    await Promise.all([a,b,c].map(account=>f.write(account,'ready',{ready:true,configurationRevision})));
+    value=await f.team.read(a.owner,now);assert(value.team.members.every(m=>m.ready));
+    value=await f.write(a,'configure',{teamRevision:value.team.revision,contestId:catalogue.contests[0].id,durationMinutes:6});
+    await assert.rejects(f.write(b,'ready',{ready:true,configurationRevision}),{code:'TEAM_REVISION_CONFLICT'});
+    for(const account of [a,b,c])value=await f.write(account,'ready',{ready:true,configurationRevision:value.team.configurationRevision});
+    value=await f.write(a,'start',{teamRevision:value.team.revision});const roomId=value.room.id;
+    value=await f.write(a,'claim',{roomId},now+4000);const leaseToken=value.room.lease.token;
+    const code='// 中文🦆\nint main() {}';
+    value=await f.write(a,'draft',{roomId,leaseToken,problemId:'fixture::A',revision:0,language:'cpp17',code},now+4000);
+    const request={roomId,leaseToken,problemId:'fixture::A',revision:1,language:'cpp17',inputSha256:hash(code),purpose:'submit'};
+    const granted=await f.write(a,'authorize',request,now+4000);
+    assert.equal(granted.ack.authorization.inputSha256,hash(code));assert.equal(granted.ack.authorization.expiresAt,now+19000);
+    assert.equal(granted.ack.authorization.url,catalogue.contests[0].problems[0].url);
+    await assert.rejects(f.write(b,'authorize',request,now+4000),{code:'TEAM_EDITOR_CHANGED'});
+    await assert.rejects(f.write(a,'authorize',{...request,inputSha256:hash('other code')},now+4000),{code:'TEAM_DOCUMENT_CHANGED'});
+    await assert.rejects(f.write(a,'authorize',{...request,revision:0},now+4000),{code:'TEAM_DOCUMENT_CHANGED'});
+    await assert.rejects(f.write(a,'authorize',request,now+20000),{code:'TEAM_EDITOR_CHANGED'});
+    const foreign=await f.team.history(c.owner,now+5000,roomId,'fixture::C');assert.equal(foreign.room.problemId,'fixture::C');assert.equal(foreign.room.document.code,'');
+    assert.equal((await f.team.read(a.owner,now+5000)).room.problemId,'fixture::A','history reads must not change the live selection');
+    await assert.rejects(f.team.history(f.accounts[3].owner,now+5000,roomId,'fixture::A'),{status:403});
+  }finally{await f.fixture.close();}
+});
+
+test('verified repeat AC counts once per room task; pending, old, forged and cross-owner receipts never score',async()=>{
+  const f=await setup();
+  try{
+    const [a,b]=f.accounts;let state=await readyRoom(f),roomId=state.room.id;
+    f.database.prepare('INSERT INTO official_ac_events(user_id,problem_key,event_id,accepted_at,accepted_day,difficulty,received_at) VALUES(?,?,?,?,?,?,?)')
+      .run(a.owner,catalogue.contests[0].problems[0].problemKey,hash('old-real-first'),new Date(now-86400000).toISOString(),'2026-11-07',1200,new Date(now).toISOString());
+    state=await f.write(a,'claim',{roomId},now+4000);const leaseToken=state.room.lease.token;
+    await f.write(a,'draft',{roomId,leaseToken,problemId:'fixture::A',revision:0,language:'cpp17',code:'int main() {}'},now+4000);
+    const grant=await f.write(a,'authorize',{roomId,leaseToken,problemId:'fixture::A',revision:1,language:'cpp17',purpose:'submit',inputSha256:hash('int main() {}')},now+4000);
+    const intentId=grant.ack.authorization.id,body={requestId:randomUUID(),intentId,submissionId:'123456',handle:'fixtureCF'};
+    let calls=0;
+    f.team.verifyReceipt=async request=>{calls++;if(calls===1)throw Error('isolated public source outage');return {
+      ...request,verdict:'AC',submittedAt:now+4000,source:'isolated-public-provider',proofSha256:hash('isolated-native-proof')};};
+    assert.equal((await f.team.nativeReceipt(a.owner,a.auth,body,now+5000)).receipt.status,'pending');
+    assert.equal((await f.team.read(a.owner,now+5000)).room.score.totalScore,0);
+    await assert.rejects(f.team.nativeReceipt(a.owner,a.auth,{...body,verdict:'AC'},now+5000),{code:'TEAM_RECEIPT_INVALID'});
+    await assert.rejects(f.team.nativeReceipt(b.owner,b.auth,body,now+5000),{code:'TEAM_INTENT_INVALID'});
+    const confirmed=await f.team.nativeReceipt(a.owner,a.auth,body,now+5000);assert.equal(confirmed.receipt.verdict,'AC');
+    assert.equal((await f.team.read(a.owner,now+5000)).room.score.totalScore,1);
+    await f.team.nativeReceipt(a.owner,a.auth,body,now+6000);assert.equal(calls,2,'acknowledged retries do not query the provider again');
+    assert.equal(f.database.prepare('SELECT COUNT(*) AS n FROM team_native_receipts').get().n,1);
+    assert.equal(f.database.prepare('SELECT COUNT(*) AS n FROM official_ac_events').get().n,1,'repeat room facts must not duplicate first-AC rewards');
+    assert.equal((await f.team.standings(now+6000)).entries[0].totalScore,1);
+    await assert.rejects(f.team.nativeReceipt(a.owner,a.auth,{...body,submissionId:'123457'},now+6000),{code:'TEAM_RECEIPT_ALREADY_BOUND'});
+    const otherGrant=await f.write(a,'authorize',{roomId,leaseToken,problemId:'fixture::A',revision:1,language:'cpp17',purpose:'submit',inputSha256:hash('int main() {}')},now+6000);
+    const second={...body,requestId:randomUUID(),intentId:otherGrant.ack.authorization.id,submissionId:'123457'};
+    f.team.verifyReceipt=async request=>({...request,verdict:'AC',submittedAt:now-1000,source:'isolated-public-provider'});
+    await assert.rejects(f.team.nativeReceipt(a.owner,a.auth,second,now+7000),{code:'TEAM_RECEIPT_MISMATCH'});
+    f.team.verifyReceipt=async request=>({...request,verdict:'WA',submittedAt:now+6000,source:'isolated-public-provider'});
+    await f.team.nativeReceipt(a.owner,a.auth,second,now+7000);
+    assert.equal((await f.team.read(a.owner,now+7000)).room.score.totalScore,1);
+  }finally{await f.fixture.close();}
+});
+
 test('authenticated accounts join exactly one team; concurrent joins cannot exceed three', async () => {
   const f = await setup();
   try {

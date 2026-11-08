@@ -1123,6 +1123,10 @@ class TrainingService:
 
     def _finish_record(self, connection, contest, finished_at):
         connection.execute("UPDATE contests SET status='finished',finished_at=? WHERE id=? AND status='running'", (finished_at, contest["id"]))
+        if json.loads(contest['config'] or '{}').get('strategy') == 'team':
+            # Shared room scores are separate from this account's learning
+            # evidence. Peer AC and local runs never award personal mastery.
+            return
         replay = json.loads(contest['config'] or '{}').get('strategy') == 'replay'
         aliases = self._identity_map() if replay else {}
         solved = {aliases.get(row[0], row[0]) for row in connection.execute("SELECT problem_id FROM submissions WHERE contest_id=? AND mode='submit' AND ((?=0 AND scope='local' AND verdict IN ('AC','SAMPLE_PASS')) OR (scope='official' AND verdict='AC')) AND finished_at IS NOT NULL", (contest['id'], int(replay)))}
@@ -1249,6 +1253,9 @@ class TrainingService:
                     raise ServiceError(422,'题面缺失，暂不可打开')
             if writing and contest["status"] != "running":
                 raise ServiceError(409, "模拟赛已经结束，不能继续提交或改写考场草稿")
+            if writing and json.loads(contest['config'] or '{}').get('strategy') == 'team':
+                from team_workbench import assert_authorized
+                assert_authorized(self, contest_id)
             return contest
         if writing:
             self.assert_solution_unlocked(identity)
@@ -1399,7 +1406,7 @@ class TrainingService:
             self._row(identity)
             contest = self._context(identity, contest_id, writing=True)
             review = self.review_task(identity, review_id, contest_id, open_task=True)
-            if mode == 'submit' and contest and json.loads(contest['config'] or '{}').get('strategy') == 'replay':
+            if mode == 'submit' and contest and json.loads(contest['config'] or '{}').get('strategy') in ('replay', 'team'):
                 raise ServiceError(409, '重现赛请使用原站提交')
             if self.closed:
                 raise ServiceError(503, "判题服务正在关闭，请稍后重试")
@@ -2146,7 +2153,7 @@ class TrainingService:
             # reviewed local cases. Public samples never count as a solved slot.
             accepted = next((submission for submission in attempts if submission["finished_at"] and
                 (submission['scope'] == 'official' and submission['verdict'] == 'AC' or
-                 config.get('strategy') != 'replay' and submission['scope'] == 'local' and submission['verdict'] in ('AC', 'SAMPLE_PASS'))), None)
+                 config.get('strategy') not in ('replay', 'team') and submission['scope'] == 'local' and submission['verdict'] in ('AC', 'SAMPLE_PASS'))), None)
             latest = attempts[-1] if attempts else None
             sample_ok = accepted is not None or any(submission["finished_at"] and submission["verdict"] == "SAMPLE_PASS" for submission in attempts)
             slot = {"letter": frozen["letter"], "id": frozen["id"], "title": frozen["title"], "accepted": accepted is not None, "samplePassed": sample_ok, "verdict": latest["verdict"] if latest else None, "attempts": len(attempts), "solvedAt": accepted["submitted_at"] if accepted else None}
@@ -2194,6 +2201,8 @@ class TrainingService:
         with self.lock:
             self._expire()
             record = self._contest_record(identity)
+            if json.loads(record['config'] or '{}').get('strategy') == 'team':
+                raise ServiceError(409, '请由队长在团队训练中结束比赛')
             if record["status"] == "running":
                 with self._write() as connection:
                     self._finish_record(connection, record, iso(self._now()))
@@ -2247,6 +2256,8 @@ class TrainingService:
             record = self.connection.execute('SELECT * FROM contests WHERE id=?', (identity,)).fetchone()
             if record is None:
                 raise ServiceError(404, '没有找到这场模拟赛')
+            if json.loads(record['config'] or '{}').get('strategy') == 'team':
+                raise ServiceError(409, '请在团队训练中管理这场比赛')
             if record['status'] == 'cancelled':
                 return {'cancelled': True, 'workspace': self.workspace()}
             if record['status'] != 'running':
