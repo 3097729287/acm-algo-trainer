@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-09",
+  "baseCommit": "806d6134",
+  "requiresSharedContextFixes": [
+    "c852e411",
+    "e1704a89"
+  ],
+  "scope": "Shared React used by both the normal Python application and the native Tauri application; no Rust protocol dependency.",
+  "problem": "Reopening the same ordinary problem from a closed learning browser displayed its editor before the deferred preference write committed open=true. An immediate refresh returned to a closed browser, while the saved draft itself remained intact.",
+  "change": [
+    "Reuse the existing owner-checked draft flush and explicit preferences commit for a closed-to-open problem transition.",
+    "Do not show the new editor until that commit succeeds; keep the browser closed on failure or an account change.",
+    "Retain the existing review-scope commit, draft contexts, ordinary drafts, and the scheduling of navigation inside an already open ordinary browser."
+  ],
+  "verification": {
+    "ordinaryReopening": {
+      "ok": true,
+      "checks": [
+        "first ordinary editor is shown only after its navigation commit",
+        "reopening the same ordinary problem survives an immediate refresh with unchanged code",
+        "failed reopening keeps the browser closed and preserves its manifest and draft",
+        "changing accounts while reopening commits neither the old tab nor its code into the new account",
+        "returning to the original account reopens its ordinary context and exact draft"
+      ],
+      "pageErrors": [],
+      "scope": "Shared React with generated account-owned fixtures; no real user state or account grants"
+    },
+    "reviewContexts": {
+      "ok": true,
+      "checks": [
+        "same problem switches to a separately saved review draft",
+        "refresh restores review identity and keeps ordinary code",
+        "close and reopen retains the review draft",
+        "archived tab reopening retains its review context",
+        "another account has its own ordinary and review drafts",
+        "switching back restores the original account review",
+        "switching ordinary and review contexts preserves both stored versions",
+        "failed navigation commit retains the current review and both drafts",
+        "immediate refresh after leaving a review restores the committed ordinary scope",
+        "an account switch cancels the pending scope commit without changing either account manifest"
+      ],
+      "pageErrors": [],
+      "backendScope": "Shared React navigation with isolated account-owned draft fixtures; actual native backend is checked separately"
+    },
+    "learningBrowserModel": true,
+    "productionFrontendBuild": true,
+    "actualNativeLifecycleWindow": "Pending in the separate Rust lifecycle batch; this receipt does not claim it passed."
+  },
+  "cleanup": {
+    "checked": [
+      "Existing review-scope commit and its references",
+      "Shared fixtures and browser persistence paths"
+    ],
+    "removed": [],
+    "result": "No unused resource or independent duplicate implementation was found. The existing guarded commit is extended and reused, rather than adding another persistence path."
+  },
+  "realPersonalDataOpened": false,
+  "normalToBeLaunchedOrChanged": false,
+  "formalReleaseModified": false
+}
