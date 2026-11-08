@@ -1,9 +1,9 @@
 {
   "date": "2026-11-09",
-  "verifiedRuntimeSourceCommit": "0dfd64708bcd528cebb59336275eefc7cedf30f1",
+  "verifiedRuntimeSourceCommit": "b50bd8e0f4b82285584f53b5e0a18b8a62c31991",
   "nativeBinary": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-core.exe",
-  "nativeSha256": "82e85a4808c499ad8aa98731973780823bb9895470f416a43582353f33e246b1",
-  "auditSandbox": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-api-setup-audit-_oglx1na",
+  "nativeSha256": "23989696b3537ee3c5f078bf00ee6c12c369c335555db63f13bd0d299b6de0cc",
+  "auditSandbox": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-replay-setup-window-fixed-20261109\\sandbox-GUhJDD",
   "legacyTotal": 136,
   "nativeRoutes": 47,
   "notMigratedOrBootstrapOnly": 89,
@@ -641,12 +641,13 @@
   },
   "completedCodeIsNotFullFeatureParity": true,
   "lastActualWindow": {
-    "runtimeSourceCommit": "0dfd64708bcd528cebb59336275eefc7cedf30f1",
+    "runtimeSourceCommit": "b50bd8e0f4b82285584f53b5e0a18b8a62c31991",
     "nativeRoutes": 47,
-    "rustChecks": 166,
-    "receipt": "native-contest-setup-20261109.json"
+    "rustChecks": 173,
+    "receipt": "native-replay-setup-20261109.json",
+    "scope": "Current paper creation/replay operations, base planning/draft/fullscreen. Previous complete goal/review/resource window is retained separately."
   },
-  "currentCliRustChecks": 166,
+  "currentCliRustChecks": 173,
   "deliveredPackage": {
     "nativeRoutes": 42,
     "rustChecks": 135,
@@ -654,7 +655,7 @@
   },
   "partialBusinessGaps": [
     "Private catalogue overlays and real account-bound evidence remain protected.",
-    "Blind comprehensive/topic/single paper preview and start now work. Replay/VP, calendar enrollment and background ownership remain separate migrations.",
+    "Comprehensive/topic/single and public no-authority replay creation now work, including partial rosters. Mandatory original-site VP, complete-event reward ownership and calendar enrollment stay protected.",
     "Background reward ownership and shared-room captain authority are not created by local finalization.",
     "Ordinary/review/contest drafts are isolated; new official submissions and full local judge suites are not implemented by the sample runner.",
     "Complete formal learning evidence and active goals combined with a running contest still have protection.",
@@ -663,5 +664,6 @@
   ],
   "privateDataOpened": false,
   "realAccountGranted": false,
-  "formalReleaseModified": false
+  "formalReleaseModified": false,
+  "runtimeAuditSource": "Current actual Tauri capability inventory and current explicit release CLI legacy parity both report 47/136. No new endpoints were added in the replay scope expansion."
 }

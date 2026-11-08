@@ -1,0 +1,72 @@
+{
+  "date": "2026-11-09",
+  "sharedFrontendCommit": "63e5633e",
+  "runtimeSourceCommit": "b50bd8e0f4b82285584f53b5e0a18b8a62c31991",
+  "actualWindowReceipt": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-replay-setup-window-fixed-20261109\\result.json",
+  "screenshots": [
+    {
+      "path": "docs/verification/20261109-native-partial-replay-selectable.png",
+      "sha256": "5862f386d58fd736439c773cf306e68fbdd0aa0dcae45e7101b6ea64a73d7a7a"
+    },
+    {
+      "path": "docs/verification/20261109-native-partial-replay-missing-picker.png",
+      "sha256": "8962c0e7faa7add3b53d4ede7b125001ea18da0931bc202438afe1ca86cf5ab6"
+    },
+    {
+      "path": "docs/verification/20261109-native-partial-replay-skips-to-j.png",
+      "sha256": "eef81e7f90ff44e035f76b8e98ba115f31a6ed385779585bf212777ba2afa3e6"
+    },
+    {
+      "path": "docs/verification/20261109-native-partial-replay-finished.png",
+      "sha256": "cec833a312193da576f539ccf4ed0010e261c17725ca892a3e82b46009a3a169"
+    }
+  ],
+  "actualWindow": {
+    "realTauriIpc": true,
+    "contestsInsertedByFixtureForThisFlow": 0,
+    "originalPublicContest": "CCPC 2026 长春区域赛",
+    "originalSlots": 13,
+    "availableSlots": 12,
+    "missingLetter": "I",
+    "actualPartialMenuSelection": true,
+    "actualReactPreviewAndStart": true,
+    "originalLetterOrderPreserved": true,
+    "missingMenuItemDisabled": true,
+    "nextSkipsHToJ": true,
+    "actualDraftSavedAndScoped": true,
+    "untouchedSlotsNotEnrolled": true,
+    "ordinaryDraftRowsUnchanged": true,
+    "actualFinishAndReview": true,
+    "officialAcClaims": 0,
+    "backgroundRewardPolicyCreated": false,
+    "externalSubmissionsSent": 0
+  },
+  "realPersonalDataOpened": false,
+  "normalInstallationStartedStoppedOrChanged": false,
+  "officialSubmissionsSent": 0,
+  "pythonRuntimeFallback": false,
+  "publicSeedSha256": "567286a56e7e84f7a26344056496e980a82206db9fd7e6654e78f3a8d1df9290",
+  "scope": "Shared React menu fix applies to both architectures. The actual production React window below used the isolated Tauri/Rust backend; no Python desktop window is claimed. Python domain checks separately confirm existing partial/zero-readable contracts.",
+  "change": "Incomplete original contests retain their warning and stable event identity but can request the real server preview. Zero readable tasks still reject; only missing slots are disabled.",
+  "frontendModelCheck": "node frontend/tests/partial-replay-model.mjs passed",
+  "productionFrontendBuild": true,
+  "legacyPythonChecks": {
+    "command": "python -m unittest test_partial_replay -v",
+    "passed": 3,
+    "cases": [
+      "incomplete roster starts with source letters and blocks only missing task",
+      "ready set rechecked at start without requiring full roster",
+      "zero readable tasks return a specific rejection"
+    ],
+    "scope": "Generated disposable journals and fixture source rows, no external account."
+  },
+  "cleanup": {
+    "checkedBeforeUpdate": [
+      "Shared contestOptions/FolderSelect disabled-state references",
+      "Existing partial replay backend tests and generated window helpers"
+    ],
+    "retiredBehavior": "Disabling an entire replay solely because complete is false.",
+    "filesDeleted": 0
+  },
+  "formalReleaseModified": false
+}
