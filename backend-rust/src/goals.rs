@@ -60,7 +60,7 @@ fn invalid() -> ApiError {
 fn input_error(message: &str) -> ApiError {
     ApiError::new(422, "INVALID_GOAL", message)
 }
-fn integer(v: &Value) -> Option<i64> {
+pub(crate) fn integer(v: &Value) -> Option<i64> {
     match v {
         Value::Bool(v) => Some(i64::from(*v)),
         Value::Number(v) => v.as_i64().or_else(|| {
@@ -327,7 +327,9 @@ pub fn archive(t: &Training<'_>, identity: &str) -> Result<Value, ApiError> {
     })
 }
 
-fn public_rows(t: &Training<'_>) -> Result<(Vec<Value>, HashMap<String, Value>), ApiError> {
+pub(crate) fn public_rows(
+    t: &Training<'_>,
+) -> Result<(Vec<Value>, HashMap<String, Value>), ApiError> {
     let mut query = t
         .catalogue
         .db

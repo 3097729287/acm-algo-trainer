@@ -69,4 +69,6 @@ if __name__ == '__main__':
         else:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(content, encoding='utf-8', newline='\n')
-    print(f'{len(inventory())} legacy method/path pairs; contract and schema {"checked" if check else "generated"}')
+    from native_reviewed_profiles import compile_profiles
+    compile_profiles(ROOT, check=check)
+    print(f'{len(inventory())} legacy method/path pairs; contract, schema and reviewed profiles {"checked" if check else "generated"}')

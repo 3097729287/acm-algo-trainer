@@ -214,6 +214,8 @@ def build(destination=None):
     quizzes = next(ast.literal_eval(node.value) for node in quizzes_tree.body if isinstance(node, ast.Assign)
                    and any(isinstance(target, ast.Name) and target.id == 'QUIZZES' for target in node.targets))
     (ROOT / 'backend/resources/native-quizzes.json').write_text(dump(quizzes) + '\n', encoding='utf-8')
+    from native_reviewed_profiles import compile_profiles
+    compile_profiles(ROOT)
     print(f'Native public view: {len(rows)} catalogue rows, {len(aliases)} aliases, {len(lectures)} lectures; {destination.stat().st_size} bytes')
 
 

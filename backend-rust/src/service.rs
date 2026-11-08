@@ -1,6 +1,7 @@
 use crate::{
     api::{self, ApiError, ApiRequest, ApiResponse, Method, fields},
     catalogue::Catalogue,
+    contest_setup::PreviewBook,
     learning,
     library::{self, Library},
     native_judge::{RunPlan, Toolchains},
@@ -50,6 +51,8 @@ pub const NATIVE_ROUTES: &[(&str, &str)] = &[
     ("POST", "contests/finish"),
     ("POST", "contests/cancel"),
     ("POST", "contests/delete"),
+    ("POST", "contests/preview"),
+    ("POST", "contests/start"),
     ("GET", "goals"),
     ("POST", "goals/save"),
     ("POST", "goals/archive"),
@@ -111,6 +114,7 @@ pub struct Service {
     runner: RunQueue,
     desktop_fullscreen: Option<Arc<DesktopFullscreen>>,
     public_assets: Option<AssetCache>,
+    previews: Mutex<PreviewBook>,
 }
 type DesktopFullscreen = dyn Fn(Option<bool>) -> Result<bool, ApiError> + Send + Sync;
 impl Service {
@@ -180,6 +184,7 @@ impl Service {
             runner,
             desktop_fullscreen: None,
             public_assets,
+            previews: Mutex::new(PreviewBook::default()),
         })
     }
     /// Native host/test configuration only. IPC requests cannot change trust or
@@ -601,6 +606,8 @@ impl Service {
                 | "contests/finish"
                 | "contests/cancel"
                 | "contests/delete"
+                | "contests/preview"
+                | "contests/start"
                 | "goals"
                 | "goals/save"
                 | "goals/archive"
@@ -671,6 +678,16 @@ impl Service {
                 ("POST", "contests/delete") => {
                     crate::contest_lifecycle::delete(&training, r.body.as_ref().unwrap())
                 }
+                ("POST", "contests/preview") => self
+                    .previews
+                    .lock()
+                    .map_err(|_| ApiError::pending())?
+                    .preview(&training, r.body.as_ref().unwrap()),
+                ("POST", "contests/start") => self
+                    .previews
+                    .lock()
+                    .map_err(|_| ApiError::pending())?
+                    .start(&training, r.body.as_ref().unwrap()),
                 ("GET", "goals") => crate::goals::list(&training, false),
                 ("POST", "goals/save") => crate::goals::save(&training, r.body.as_ref().unwrap()),
                 ("POST", "goals/archive") => crate::goals::archive(
@@ -928,6 +945,8 @@ impl Service {
                         "contests/finish",
                         "contests/cancel",
                         "contests/delete",
+                        "contests/preview",
+                        "contests/start",
                         "goals",
                         "goals/save",
                         "goals/archive",

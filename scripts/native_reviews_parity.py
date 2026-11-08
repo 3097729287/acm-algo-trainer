@@ -17,6 +17,7 @@ import sys
 import tempfile
 import threading
 import re
+import random
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'backend'),str(ROOT/'backend/common'),str(ROOT/'scripts')]
@@ -33,7 +34,7 @@ def run(binary,output):
     now=[dt.datetime(2026,11,6,4,tzinfo=dt.timezone.utc)]
     binary=binary.resolve(strict=True)
     process=None;counter=0;token=None
-    checks=[];guards=[]
+    checks=[];guards=[];normalized_identity_checks=[]
     def rpc(path,body=None,query=None,fail=False):
         nonlocal counter
         counter+=1
@@ -65,6 +66,7 @@ def run(binary,output):
     store=public_store(ROOT/'data/library.sqlite3');rows=store._catalog_rows()
     store.training_data=lambda:{'rows':[project_row(row) for row in rows]};store.data=lambda:{'rows':rows};store.token=token
     old=TrainingService.__new__(TrainingService);old.connection=legacy;old.lock=threading.RLock();old.store=store;old.db_path=work/'legacy.sqlite3';old.clock=lambda:now[0];old.closed=False;old.admin_mode=False;old._insights_signature=lambda _:None
+    old.previews={};old.previous_previews={};old.rng=random.Random(729)
     @contextmanager
     def write():
         legacy.execute('BEGIN IMMEDIATE')
@@ -276,6 +278,67 @@ def run(binary,output):
         reject('finish-does-not-impersonate-team-captain','contests/finish',{'contestId':'native-protected-team'},lambda:old.finish_contest('native-protected-team'),409)
         reject('cancel-does-not-impersonate-team-coordinator','contests/cancel',{'contestId':'native-protected-team'},lambda:old.cancel_contest('native-protected-team'),409)
         seed("DELETE FROM contests WHERE id='native-protected-team'")
+        # Both real public reviewed AtCoder rows are required, so selection is
+        # deterministic without changing either production RNG. The separate
+        # Rust unit oracle also compares seven full selector request sequences
+        # with the same recorded draws, including rerolls and URL mirrors.
+        setup_options={'mode':'comprehensive','count':2,'duration':60,'min':1100,'max':1600,'platform':'AtCoder','reviewedOnly':True,'excludeSolved':False,'wrongPenalty':30}
+        identity_map={}
+        def align_ids(value):
+            if isinstance(value,dict):return {key:align_ids(item) for key,item in value.items()}
+            if isinstance(value,list):return [align_ids(item) for item in value]
+            if isinstance(value,str):
+                for native_id,legacy_id in identity_map.items():value=value.replace(native_id,legacy_id)
+            return value
+        def same_setup(name,actual,expected):
+            value=compare(name,align_ids(actual),expected)
+            normalized_identity_checks.append(name)
+            return value
+        def setup_plan(label):
+            before=journal_snapshot(native)
+            actual=rpc('contests/preview',setup_options);expected=old.preview_contest(setup_options)
+            assert actual['available']==expected['available']==2
+            assert [slot['id'] for slot in actual['plan']['slots']]==['ABC 478::D','ABC 478::E']
+            assert all(set(slot)=={'id','title','letter','judgeScope'} for slot in actual['plan']['slots'])
+            actual_id=actual['plan']['previewId'];expected_id=expected['plan']['previewId']
+            assert actual_id and expected_id and actual_id!=expected_id
+            identity_map[actual_id]=expected_id
+            same_setup(label,actual,expected)
+            assert journal_snapshot(native)==before,'Preview must not mutate the journal'
+            same_setup(label+'-journal',journal_snapshot(native),journal_snapshot(legacy))
+            return actual['plan'],expected['plan']
+        def setup_reject(label,native_body,legacy_body,status=409):
+            before_native=journal_snapshot(native);before_legacy=journal_snapshot(legacy)
+            reject(label,'contests/start',native_body,lambda:old.start_contest(legacy_body),status)
+            assert journal_snapshot(native)==before_native and journal_snapshot(legacy)==before_legacy,label
+        plan,old_plan=setup_plan('actual-public-blind-preview')
+        native_start={'ids':[slot['id'] for slot in plan['slots']],'previewId':plan['previewId'],'duration':60,'name':'真实接口生成 · 😀'}
+        legacy_start={**native_start,'previewId':old_plan['previewId']}
+        for label,patch in [('preview-identity',{'previewId':'not-the-current-preview'}),('duration',{'duration':61}),('count',{'count':3}),('difficulty',{'min':1101}),('penalty',{'wrongPenalty':20}),('reordered-slots',{'ids':list(reversed(native_start['ids']))})]:
+            setup_reject('creation-tamper-'+label,{**native_start,**patch},{**legacy_start,**patch})
+        created=rpc('contests/start',native_start);old_created=old.start_contest(legacy_start)
+        native_id=created['contest']['id'];legacy_id=old_created['contest']['id'];identity_map[native_id]=legacy_id
+        same_setup('actual-preview-start-return',created,old_created)
+        same_setup('actual-preview-start-journal',journal_snapshot(native),journal_snapshot(legacy))
+        assert native.execute('SELECT COUNT(*) FROM training WHERE id IN (?,?)',native_start['ids']).fetchone()[0]==0
+        # A held second preview cannot replace the active exam. A rejected start
+        # keeps both the frozen first paper and the second usable preview.
+        second,old_second=setup_plan('public-preview-while-paper-running')
+        second_start={**native_start,'previewId':second['previewId'],'name':'取消后重新生成'}
+        old_second_start={**legacy_start,'previewId':old_second['previewId'],'name':'取消后重新生成'}
+        setup_reject('creation-does-not-replace-active-exam',second_start,old_second_start)
+        same_setup('actual-created-paper-cancel',rpc('contests/cancel',{'contestId':native_id}),old.cancel_contest(legacy_id))
+        same_setup('actual-created-paper-cancel-journal',journal_snapshot(native),journal_snapshot(legacy))
+        created=rpc('contests/start',second_start);old_created=old.start_contest(old_second_start)
+        native_id=created['contest']['id'];legacy_id=old_created['contest']['id'];identity_map[native_id]=legacy_id
+        same_setup('held-preview-survives-rejected-start-and-cancel',created,old_created)
+        row_id=native_start['ids'][0]
+        compare('actual-created-exam-saves-source-in-exam-scope',rpc('draft',{'id':row_id,'contestId':native_id,'code':'int main(){return 0;}','language':'cpp17'}),old.save_draft(row_id,'int main(){return 0;}',contest_id=legacy_id,language='cpp17'))
+        same_setup('actual-created-exam-edit-claims-only-edited-row',journal_snapshot(native),journal_snapshot(legacy))
+        same_setup('actual-created-exam-finish',rpc('contests/finish',{'contestId':native_id}),old.finish_contest(legacy_id))
+        same_setup('actual-created-exam-finish-journal',journal_snapshot(native),journal_snapshot(legacy))
+        same_setup('actual-created-paper-tombstone',rpc('contests/delete',{'id':native_id}),old.delete_contests(legacy_id))
+        same_setup('actual-created-paper-tombstone-journal',journal_snapshot(native),journal_snapshot(legacy))
         contest('unknown-retained-name',config={'contest':'Unknown private provenance fixture'})
         unchanged=native.execute('SELECT * FROM training ORDER BY id').fetchall()
         assert rpc('workspace',fail=True)['code']=='MIGRATION_PENDING';assert native.execute('SELECT * FROM training ORDER BY id').fetchall()==unchanged;guards.append('unported-event-name-does-not-drop-history-or-mutate-training')
@@ -288,7 +351,7 @@ def run(binary,output):
         assert rpc('learning-summary/refresh',{},fail=True)['code']=='MIGRATION_PENDING';guards.append('full-learning-evidence-not-projected-as-empty')
         assert native.execute('SELECT * FROM training ORDER BY id').fetchall()==previous
         with (ROOT/'data/library.sqlite3').open('rb') as stream:seed_hash=hashlib.file_digest(stream,'sha256').hexdigest()
-        result={'passed':len(checks),'checks':checks,'exactLegacyComparisons':len(checks)-int(alias!=pid),'additionalConfirmedAliasCheck':alias!=pid,'guardsPassed':len(guards),'guards':guards,'work':str(work),'nativeSha256':hashlib.sha256(binary.read_bytes()).hexdigest(),'nativeBinary':str(binary),'privateLiveStateOpened':False,'officialSubmissionsSent':0,'pythonRuntimeFallback':False,'publicSeed':signature(ROOT/'data/library.sqlite3'),'publicSeedSha256':seed_hash,'publicSeedScope':'The exact current read-only public seed above; no personal catalogue or live account input.'}
+        result={'passed':len(checks),'checks':checks,'exactLegacyComparisons':len(checks)-int(alias!=pid)-len(normalized_identity_checks),'randomIdentityNormalizedComparisons':normalized_identity_checks,'identityNormalizationScope':'Only newly generated preview and contest UUIDs, including their references in frozen journal JSON. No selected problem, time, state, score, ownership, or code is normalized.','additionalConfirmedAliasCheck':alias!=pid,'guardsPassed':len(guards),'guards':guards,'work':str(work),'nativeSha256':hashlib.sha256(binary.read_bytes()).hexdigest(),'nativeBinary':str(binary),'privateLiveStateOpened':False,'officialSubmissionsSent':0,'pythonRuntimeFallback':False,'publicSeed':signature(ROOT/'data/library.sqlite3'),'publicSeedSha256':seed_hash,'publicSeedScope':'The exact current read-only public seed above; no personal catalogue or live account input.'}
         output.parent.mkdir(parents=True,exist_ok=True);output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n','utf8');print(json.dumps(result,ensure_ascii=False),flush=True)
     finally:
         assets.close();legacy.close();native.close();stop()
