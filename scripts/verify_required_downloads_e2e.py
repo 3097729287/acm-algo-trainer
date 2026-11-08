@@ -5,6 +5,7 @@ normal installation is modified. The staged source endpoint is interrupted
 once, then physically stopped before the second browser/cache verification.
 """
 import argparse
+import copy
 import hashlib
 import http.client
 import json
@@ -36,7 +37,46 @@ def stop_node(process):
     process.stdout.close();process.stderr.close()
 
 
-def main(workspace,deployment=None):
+def registered_fixture(item,repository_root=ROOT):
+    """Read the activated public authoring source, never a personal/live DB."""
+    from statement_seed import load_statements,checksum
+    from statement_integrity import content_complete,statement_type
+    from statement_asset_store import references
+    source=Path(repository_root)/'data/library';catalogue=source/'problems.json'
+    raw=catalogue.read_bytes();rows=json.loads(raw);identity=item['problemId']
+    matches=[row for row in rows if row.get('id')==identity]
+    if len(matches)!=1:raise ValueError('Expected one registered public original ID')
+    row=matches[0];encoded=row.get('encoded')or{}
+    if (encoded.get('id')!=identity or encoded.get('statementRetired',False)is not False
+        or encoded.get('catalogHidden',False)is not False or encoded.get('catalogStatementReady')is not True
+        or encoded.get('catalogReplayReady')is not False or encoded.get('problemType')!='output-only'
+        or encoded.get('url')!=item['sourceUrl']):
+        raise ValueError('Registered source must be visible, unretired, statement-ready output-only and not replay-ready')
+    selected=[entry['content']for entry in load_statements(source)if entry['problem_id']==identity]
+    if len(selected)!=1:raise ValueError('Expected one guarded registered original statement')
+    content=selected[0];integrity=content.get('integrity')or{}
+    if (content.get('id')!=identity or content.get('url')!=item['sourceUrl']
+        or statement_type(content)!='output-only' or content.get('localJudgeSupported')is not False
+        or content.get('statementAvailable')is not True or integrity.get('status')!='complete'
+        or integrity.get('sourceVerified')is not True or not content_complete(content)):
+        raise ValueError('Registered statement must have complete verified output-only integrity')
+    markdown_sha=hashlib.sha256(content['markdown'].encode()).hexdigest()
+    if markdown_sha not in item['statementSha256']or item['originalDownloadUrl']not in content['markdown']:
+        raise ValueError('Registered statement does not match the immutable required-input source binding')
+    # This native text has no ordinary inline assets. Refuse to silently omit
+    # any future added assets from this intentionally single-task fixture.
+    if references(content):raise ValueError('Registered fixture has ordinary asset references that must not be silently dropped')
+    return (copy.deepcopy(row['raw']),copy.deepcopy(encoded),None,copy.deepcopy(content)),{
+        'mode':'registered-catalogue-source','realRegisteredSourceRead':True,
+        'catalogue':'data/library/problems.json','catalogueSha256':hashlib.sha256(raw).hexdigest(),
+        'originalId':identity,'registeredRowSha256':checksum(row),'registeredStatementSha256':checksum(content),
+        'markdownSha256':markdown_sha,'limits':content.get('limits'),
+        'samplePairs':len(content['samples']),'sampleSha256':checksum(content['samples']),
+        'guardedLoadStatementsUsed':True,'originalRowAndBodyCopiedWithoutSynthesis':True,
+        'catalogueRetirementChanged':False}
+
+
+def main(workspace,deployment=None,catalogue_source=False):
     workspace=Path(workspace).resolve()
     if workspace.exists():raise ValueError('Choose a new isolated E2E workspace')
     workspace.mkdir(parents=True)
@@ -48,21 +88,30 @@ def main(workspace,deployment=None):
     from test_training import Judge
     import backend
 
-    staged=Path(deployment).resolve(strict=True)if deployment else workspace/'deployment'
-    if not deployment:prepare(staged)
     manifest=load_manifest();item=next(iter(manifest.values()));identity=item['problemId'];sha=item['sha256']
     source_record=json.loads((ROOT/item['reviewRecord']).read_text('utf8'))
-    public=LibraryDatabase(workspace/'fixture-public-library.sqlite3')
-    content={'id':identity,'title':'「MCOI-04」Dream SMP','url':item['sourceUrl'],
+    if catalogue_source:
+        row,source_evidence=registered_fixture(item)
+        content=row[3]
+    else:
+        content={'id':identity,'title':'「MCOI-04」Dream SMP','url':item['sourceUrl'],
         'markdown':(ROOT/'content-updates/20261109-P7351-required-inputs/P7351.pending.md').read_text('utf8'),
         'samples':[{'name':'样例 '+str(i),'input':s[0],'output':s[1]}for i,s in enumerate(source_record['nativeSource']['samples'],1)],
-        'limits':{'timeMs':5000,'memoryMb':500},
+        'limits':{'timeMs':5000,'memoryMb':512},
         'problemType':'output-only','localJudgeSupported':False,'statementAvailable':True,'attachments':{},'images':{},
         'integrity':{'status':'incomplete','sourceVerified':True,'issues':['required-download-distribution-pending']}}
+        row=list(record(identity,title=content['title']));row[0].update(_url=item['sourceUrl'],_platform='洛谷',_remote=True)
+        row[1].update(url=item['sourceUrl'],platform='洛谷',problemType='output-only',catalogReplayReady=False)
+        row[3]=content
+        source_evidence={'mode':'manual-pending-source','realRegisteredSourceRead':False,'catalogueRetirementChanged':False}
     assert hashlib.sha256(content['markdown'].encode()).hexdigest()in item['statementSha256']
-    row=list(record(identity,title=content['title']));row[0].update(_url=item['sourceUrl'],_platform='洛谷',_remote=True)
-    row[1].update(url=item['sourceUrl'],platform='洛谷',problemType='output-only',catalogReplayReady=False)
-    row[3]=content;public.import_records([tuple(row)],{}, {})
+    staged=Path(deployment).resolve(strict=True)if deployment else workspace/'deployment'
+    if not deployment:prepare(staged)
+    public=LibraryDatabase(workspace/'fixture-public-library.sqlite3')
+    public.import_records([tuple(row)],{}, {})
+    actual=public.statement(identity)
+    assert actual['markdown']==content['markdown']and actual['samples']==content['samples']and actual['limits']==content['limits']
+    assert actual['attachments'][item['originalDownloadUrl']]['data']=='/api/required-downloads/'+sha
     account=source=None;server=None;thread=None;judge=Judge();reports=[]
     try:
         account,account_origin=start_node(Path('server/leaderboard/tests/local-server.mjs'))
@@ -118,6 +167,7 @@ def main(workspace,deployment=None):
         assert api('required-downloads/'+sha+'?url=https://untrusted.example')[0]==404
         assert peak<16*1024*1024,('Archive-size buffer allocation detected',peak)
         report={'schema':1,'artificialAccountsAndHistoryOnly':True,'ordinary32MiBLimitUnchanged':True,
+            'sourceFixture':source_evidence,
             'requiredInputMarkedOptional':False,'originalId':identity,'zipBytes':item['bytes'],'sha256':sha,
             'realSourceRouteInterruptedThenResumed':True,'distributionPhysicallyStoppedBeforeOfflineBrowser':True,
             'sourceRequests':requests,'workbenchPhases':reports,'pythonTracedTransferPeakBytes':peak,
@@ -125,7 +175,7 @@ def main(workspace,deployment=None):
             'unknownShaAndArbitrarySourceRejected':True,'productionCatalogueRetirementChanged':False,
             'frozen1610Changed':False,'domesticDistributionDeployed':False}
         (workspace/'result.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf8',newline='\n')
-        print(json.dumps({'phases':len(reports),'zipBytes':item['bytes'],'resumedSourceRequests':len(transfers),'pythonTracedTransferPeakBytes':peak,'productionCatalogueRetirementChanged':False}))
+        print(json.dumps({'phases':len(reports),'sourceMode':source_evidence['mode'],'zipBytes':item['bytes'],'resumedSourceRequests':len(transfers),'pythonTracedTransferPeakBytes':peak,'productionCatalogueRetirementChanged':False}))
         return report
     finally:
         os.environ.pop('TB_OFFLINE',None)
@@ -138,4 +188,5 @@ def main(workspace,deployment=None):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--workspace',type=Path,required=True);parser.add_argument('--deployment',type=Path)
-    args=parser.parse_args();main(args.workspace,args.deployment)
+    parser.add_argument('--catalogue-source',action='store_true',help='Read the activated original row and guarded statement from this ROOT public authoring catalogue; refuse hidden/retired/incomplete sources')
+    args=parser.parse_args();main(args.workspace,args.deployment,args.catalogue_source)
