@@ -567,5 +567,38 @@
     "allPdfPagesRendered": true,
     "originalPdfByteIdentity": true,
     "originalAttachmentByteIdentity": true
+  },
+  "translationValidation": {
+    "checked": [
+      "luogu-training-SP22393",
+      "luogu-training-P3493"
+    ],
+    "originalImagesLoaded": 21,
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "samplesPreserved": true,
+    "originalPdfRestored": true,
+    "externalRequests": 0
+  },
+  "integrationValidation": {
+    "guardedReplayPassed": 9,
+    "previousOriginalAndIdsPreserved": true,
+    "previousSourcePresent": 8,
+    "previousSourceNeverExisted": [
+      "luogu-training-SP22393"
+    ],
+    "assetReferencesResolvableWithDeclaredManifest": true,
+    "catalogAndGlobalAssetManifestWritten": false,
+    "pendingCatalogueIds": [
+      "luogu-training-P4331",
+      "luogu-training-P6078",
+      "luogu-training-P6644",
+      "luogu-training-P6648",
+      "luogu-training-P6754",
+      "luogu-training-P6843",
+      "luogu-training-P7167",
+      "luogu-training-SP22393",
+      "luogu-training-P3493"
+    ]
   }
 }
