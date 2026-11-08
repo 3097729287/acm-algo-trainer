@@ -11,6 +11,7 @@ import re
 
 CHUNK_BYTES=1024*1024
 MAX_INDEX_BYTES=1024*1024
+MAX_INDEX_ASSETS=256
 PUBLIC_NAME=re.compile(r'(?:ToBe|TB)-(?:(?:Full-)?Setup-\d+\.\d+\.\d+-win64\.exe|(?:Compact-)?Update-\d+\.\d+\.\d+-to-\d+\.\d+\.\d+-win64\.zip)')
 SHA=re.compile('[a-f0-9]{64}')
 
@@ -63,7 +64,7 @@ def merge_stream_index(existing,additions):
                 raise ValueError('An immutable public release identity cannot change its source bytes')
             if 'chunkSha256'in before and 'chunkSha256'not in item:continue
         result[key]=dict(item)
-    if len(result)>100:raise ValueError('Public release index exceeds approved item count')
+    if len(result)>MAX_INDEX_ASSETS:raise ValueError('Public release index exceeds approved item count')
     value={'schema':1,'assets':list(result.values())}
     if len((json.dumps(value,indent=2)+'\n').encode())>MAX_INDEX_BYTES:raise ValueError('Public release index exceeds approved byte limit')
     return value

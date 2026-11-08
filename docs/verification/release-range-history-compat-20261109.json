@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "checkedAt": "2026-11-09",
+  "reason": "Production preflight found104 approved assets and an existing256-entry relay limit. Preserve that deployed256 limit while retaining the1MiB index byte bound.",
+  "productionIndexBeforeSha256": "c6a9e3b96357e794c1a5d0ef71b80edfe5ecfc98516ece97f7aaa3b264dd5310",
+  "existingRows": 104,
+  "maximumRows": 256,
+  "indexMaximumBytes": 1048576,
+  "ordinaryAssetMaximumBytes": 33554432,
+  "tests": {
+    "nodeRangeLoopback": 12,
+    "pythonAuthorAndPublicBoundary": 14,
+    "assertions": [
+      "104 exact old descriptors survive merge",
+      "A256-entry history cannot gain a257th item",
+      "A257-entry runtime index is refused",
+      "Same identity cannot change original SHA or filename"
+    ]
+  },
+  "scope": "Post-3882c937 compatibility fix; source only until recorded production deployment",
+  "privateStateReadOrWritten": false
+}

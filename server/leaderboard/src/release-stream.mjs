@@ -9,12 +9,12 @@ const ROOT='https://github.com/3097729287/acm-algo-trainer/releases/download/';
 const REDIRECT_HOSTS=new Set(['github.com','release-assets.githubusercontent.com','objects.githubusercontent.com','objects.github.com']);
 const filePattern=/^(?:ToBe|TB)-(?:(?:Full-)?Setup-\d+\.\d+\.\d+-win64\.exe|(?:Compact-)?Update-\d+\.\d+\.\d+-to-\d+\.\d+\.\d+-win64\.zip)$/;
 export const RELEASE_CHUNK_BYTES=1024*1024;
-const TAIL=65536,MAX_INDEX=1024*1024;
+const TAIL=65536,MAX_INDEX=1024*1024,MAX_ASSETS=256;
 const hex=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);
 class InvalidRelease extends Error{}
 
 export function validateReleaseIndex(value){
- if(value?.schema!==1||!Array.isArray(value.assets)||value.assets.length>100)throw new InvalidRelease('Invalid public asset index');
+ if(value?.schema!==1||!Array.isArray(value.assets)||value.assets.length>MAX_ASSETS)throw new InvalidRelease('Invalid public asset index');
  const next=new Map();
  for(const item of value.assets){
   if(!/^\d+\.\d+\.\d+$/.test(item.version)||!filePattern.test(item.name)||!filePattern.test(item.sourceName||item.name)||!Number.isSafeInteger(item.size)||item.size<=0||item.size>2*1024**3||!hex(item.sha256))throw new InvalidRelease('Invalid public asset');

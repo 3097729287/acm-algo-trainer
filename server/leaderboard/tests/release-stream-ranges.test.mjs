@@ -167,6 +167,9 @@ test('chunk authority and concurrency limits must be explicit and bounded',async
  const f=await fixture();
  try{
   for(const changed of [{githubDigest:'sha256:'+'0'.repeat(64)},{chunkBytes:65536},{chunkSha256:[]},{chunkSha256:['not-a-sha']},{sourceName:'../private.exe'}])assert.throws(()=>validateReleaseIndex({schema:1,assets:[{...f.item,...changed}]}));
+  const history=Array.from({length:257},(_,i)=>({version:`1.0.${i}`,name:`ToBe-Setup-1.0.${i}-win64.exe`,size:10,sha256:'0'.repeat(64)}));
+  assert.equal(validateReleaseIndex({schema:1,assets:[...history.slice(0,104),f.item]}).size,105);
+  assert.throws(()=>validateReleaseIndex({schema:1,assets:history}));
   for(const options of [{prefetch:0},{prefetch:5},{maximumActive:0},{maximumActive:5},{chunkRetries:3},{chunkTimeoutMs:0}])assert.throws(()=>createReleaseStream(f.index,options));
  }finally{await f.close();}
 });

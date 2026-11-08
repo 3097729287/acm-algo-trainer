@@ -64,9 +64,11 @@ class ReleaseStreamIndexTests(unittest.TestCase):
         item=self.item()
         for change in [{'githubDigest':'sha256:'+'b'*64},{'chunkBytes':65536},{'chunkSha256':[]},{'chunkSha256':['invalid']}]:
             with self.assertRaises(ValueError):validate_asset(dict(item,**change))
-        history=[{'version':f'1.0.{i}','name':f'ToBe-Setup-1.0.{i}-win64.exe','size':10,'sha256':'0'*64}for i in range(100)]
+        history=[{'version':f'1.0.{i}','name':f'ToBe-Setup-1.0.{i}-win64.exe','size':10,'sha256':'0'*64}for i in range(256)]
+        preserved=merge_stream_index({'schema':1,'assets':history[:104]},[item])
+        self.assertEqual(preserved['assets'][:104],history[:104]);self.assertEqual(len(preserved['assets']),105)
         with self.assertRaises(ValueError):merge_stream_index({'schema':1,'assets':history},[item])
-        self.assertEqual(len(history),100)
+        self.assertEqual(len(history),256)
 
     def test_actual_authoring_cli_creates_only_a_verified_new_index_and_refuses_drafts(self):
         metadata=self.root/'public-gh-fixture.json';output=self.root/'approved-index.json'
