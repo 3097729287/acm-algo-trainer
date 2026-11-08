@@ -1,0 +1,45 @@
+[
+  {
+    "letter": "H",
+    "problemId": "remote:codeforces:104270::H",
+    "pdfSha256": "d9e8a04540ae0be4f7033820e01198652d7bd1b291c06c42135cad28a3fa4e13",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      1,
+      2
+    ],
+    "sourceUrl": "https://codeforces.com/gym/104270/problem/H",
+    "figures": [
+      {
+        "file": "104270-H-geometry.png",
+        "page": 2,
+        "clipRect": [
+          45,
+          430,
+          540,
+          610
+        ],
+        "sha256": "968ecb53f8ca1110293b58b94c461bc146b68cd50f3f873ece7b1792af89fe69"
+      },
+      {
+        "file": "104270-H-illustration.png",
+        "page": 2,
+        "clipRect": [
+          372,
+          635,
+          542,
+          827
+        ],
+        "sha256": "a110e7aa0d7f84eb6081aec87e5d494f7120f81d12911a18813979ec59cd9b83"
+      }
+    ],
+    "notes": [
+      "All two original pages visually reviewed. In particular, single-sided orientation, all visibility/movement boundary rules and error tolerance retained.",
+      "Sample boxes read as separate columns; output -1 belongs to the second example."
+    ]
+  }
+]

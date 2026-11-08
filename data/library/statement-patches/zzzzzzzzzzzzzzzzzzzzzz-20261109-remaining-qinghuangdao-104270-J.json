@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:104270::J",
+      "beforeSha256": "6912505c460b10105fedd71e7725e1d04ecff44f9699823b43e1f98fa33a75c5",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:104270::J",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:50:38.116310+00:00",
+          "corpusAuditVerifiedSha256": "8936f4ccbea01e98cff1535a9ba7844d65b3869d760436c1989c1d7f3739e9a7",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Books\n\nDreamGrid went to the bookshop yesterday. There are $$$n$$$ books in the bookshop in total. Because DreamGrid is very rich, he bought the books according to the strategy below:\n\n\n\n- Check the $$$n$$$ books from the 1st one to the $$$n$$$-th one **in order**.\n\n- For each book being checked now, if DreamGrid has enough money (not less than the book price), he'll buy the book and his money will be reduced by the price of the book.\n\n- In case that his money is less than the price of the book being checked now, he will skip that book.\n\n\n\nBaoBao is curious about how rich DreamGrid is. You are asked to tell him the maximum possible amount of money DreamGrid took before buying the books, which is a non-negative integer. All he knows are the prices of the $$$n$$$ books and the number of books DreamGrid bought in total, indicated by $$$m$$$.\n\n\n\n## Input\n\n\n\nThere are multiple test cases. The first line of the input contains an integer $$$T$$$, indicating the number of test cases. For each test case:\n\n\n\nThe first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 10^5$$$, $$$0 \\le m \\le n$$$), indicating the number of books in the bookshop and the number of books DreamGrid bought in total.\n\n\n\nThe second line contains $$$n$$$ non-negative integers $$$a_1, a_2, ... , a_n$$$ ($$$0 \\le a_i \\le 10^9$$$), where $$$a_i$$$ indicates the price of the $$$i$$$-th book checked by DreamGrid.\n\n\n\nIt's guaranteed that the sum of $$$n$$$ in all test cases will not exceed $$$10^6$$$.\n\n\n\n## Output\n\n\n\nFor each test case output one line.\n\n\n\nIf it's impossible to buy $$$m$$$ books for any initial number of money, output \"Impossible\" (without quotes).\n\n\n\nIf DreamGrid may take an infinite amount of money, output \"Richman\" (without quotes).\n\n\n\nIn other cases, output a non-negative integer, indicating the maximum number of money he may take.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:104270::J",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "1af47df2bc16d3c955b5d7d7e92d8d8478e76b4386d75184dbcd40078a8bd785",
+          "url": "https://codeforces.com/gym/104270/problem/J"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "4\n4 2\n1 2 4 8\n4 0\n100 99 98 97\n2 2\n10000 10000\n5 3\n0 0 0 0 1",
+            "name": "样例 1",
+            "output": "6\n96\nRichman\nImpossible"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Books",
+        "url": "https://codeforces.com/gym/104270/problem/J",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "8936f4ccbea01e98cff1535a9ba7844d65b3869d760436c1989c1d7f3739e9a7",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 买书\n\n\n\nDreamGrid 昨天去了书店。书店里共有 $$$n$$$ 本书。由于 DreamGrid 很有钱，他按以下策略买书：\n\n\n\n- 从第 1 本到第 $$$n$$$ 本，**依次**查看这 $$$n$$$ 本书。\n- 对于当前查看的书，如果 DreamGrid 的钱足够，即不少于书价，他就买下这本书，所剩钱数减少这本书的价格。\n- 如果他的钱少于当前查看的书的价格，就跳过这本书。\n\n\n\nBaoBao 很好奇 DreamGrid 究竟有多富。他只知道这 $$$n$$$ 本书的价格，以及 DreamGrid 最终购买的书籍数量 $$$m$$$。请告诉他，DreamGrid 在买书之前最多可能带了多少钱。初始钱数必须是非负整数。\n\n\n\n## 输入格式\n\n\n\n有多组测试数据。输入第一行包含一个整数 $$$T$$$，表示测试用例数。对于每个测试用例：\n\n\n\n第一行包含两个整数 $$$n$$$ 和 $$$m$$$（$$$1 \\le n \\le 10^5$$$，$$$0 \\le m \\le n$$$），分别表示书店里的书籍数量和 DreamGrid 总共购买的书籍数量。\n\n\n\n第二行包含 $$$n$$$ 个非负整数 $$$a_1, a_2, ... , a_n$$$（$$$0 \\le a_i \\le 10^9$$$），其中 $$$a_i$$$ 表示 DreamGrid 查看第 $$$i$$$ 本书时的书价。\n\n\n\n保证所有测试用例的 $$$n$$$ 之和不超过 $$$10^6$$$。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，输出一行。\n\n\n\n如果无论初始钱数是多少，都不可能买到恰好 $$$m$$$ 本书，输出 \"Impossible\"（不含引号）。\n\n\n\n如果 DreamGrid 可能携带的钱数没有上限，输出 \"Richman\"（不含引号）。\n\n\n\n否则，输出一个非负整数，表示他最多可能携带的钱数。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:104270::J",
+          "slug": "104270-J",
+          "sourceUrl": "https://codeforces.com/gym/104270/problem/J",
+          "sourceSha256": "8936f4ccbea01e98cff1535a9ba7844d65b3869d760436c1989c1d7f3739e9a7",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "4\n4 2\n1 2 4 8\n4 0\n100 99 98 97\n2 2\n10000 10000\n5 3\n0 0 0 0 1",
+              "name": "样例 1",
+              "output": "6\n96\nRichman\nImpossible"
+            }
+          ],
+          "notes": [
+            "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+            "Original Markdown, sample records, image map and resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

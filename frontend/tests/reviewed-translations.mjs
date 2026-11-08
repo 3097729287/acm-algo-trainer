@@ -19,7 +19,9 @@ try{
   page.on('request',request=>{if(/^https?:/.test(request.url())&&!request.url().startsWith(baseUrl+'/'))external.push(request.url());});
   page.on('pageerror',error=>errors.push(error.message));await page.addInitScript(value=>window.pdfFixtureData=value,row);
   await page.goto(baseUrl+'/tests/statement-pdf-fixture.html');
-  await page.locator('.wb-pdf-page[data-page="1"][data-ready="true"]').waitFor();
+  const nativePdf=Boolean(row.statementPdf);
+  if(nativePdf)await page.locator('.wb-pdf-page[data-page="1"][data-ready="true"]').waitFor();
+  else await page.locator('.wb-statement').waitFor();
   await page.getByRole('button',{name:'原文',exact:true}).click();
   await page.getByRole('button',{name:'中文',exact:true}).waitFor();
   const statement=page.locator('.wb-statement');await statement.waitFor();
@@ -42,7 +44,11 @@ try{
    assert(code.some(value=>value.trimEnd()===sample.output.trimEnd()),row.originalId+' output');
   }
   await page.getByRole('button',{name:'中文',exact:true}).click();
-  await page.locator('.wb-pdf-page[data-page="1"][data-ready="true"]').waitFor();
+  if(nativePdf)await page.locator('.wb-pdf-page[data-page="1"][data-ready="true"]').waitFor();
+  else {
+   await page.getByRole('button',{name:'原文',exact:true}).waitFor();
+   assert.equal(await page.locator('.wb-statement .katex-error').count(),0,row.originalId+' original formulas');
+  }
   checked.push(row.originalId);await page.close();
  }
  assert.deepEqual(errors,[]);assert.deepEqual(external,[]);

@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:104270::D",
+      "beforeSha256": "d5785f2c8a073b90e3dbf1a74ac97ca82143b67f7c998afd74f6e1e751257452",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:104270::D",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:50:23.411166+00:00",
+          "corpusAuditVerifiedSha256": "a7b764021cc596737897120b33904b0a5fd35a3e22e2d616824c27fb3e065893",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Magic Multiplication\n\nBaoBao is now learning a new binary operation between two positive integers, represented by $$$\\otimes$$$, in his magic book. The book tells him that the result of such operation is calculated by concatenating all multiple results of each digit in the two integers.\n\n\n\nFormally speaking, let the first integer be $$$A = a_1a_2 \\dots a_n$$$, where $$$a_i$$$ indicates the $$$i$$$-th digit in $$$A$$$, and the second integer be $$$B = b_1b_2 \\dots b_m$$$, where $$$b_i$$$ indicates the $$$i$$$-th digit in $$$B$$$. We have $$$$$$A \\otimes B = \\sum\\limits_{i=1}^n\\sum\\limits_{j=1}^m a_ib_j = a_1b_1 + a_1b_2 + \\dots + a_1b_m + a_2b_1 + \\dots + a_nb_m$$$$$$ Note that the result of $$$a_ib_j$$$ is considered to be a **string** (without leading zeros if $$$a_ib_j \\gt 0$$$, or contains exactly one '0' if $$$a_ib_j = 0$$$), NOT a normal integer. Also, the sum here means **string concatenation**, NOT the normal addition operation.\n\n\n\nFor example, 23 $$$\\otimes$$$ 45 = 8101215. Because $$$8=2 \\times 4$$$, $$$10=2 \\times 5$$$, $$$12=3 \\times 4$$$ and $$$15=3 \\times 5$$$.\n\n\n\nBaoBao is very smart and soon knows how to do the inverse operation of $$$\\otimes$$$. Now he gives you the result of a $$$\\otimes$$$ operation and the numbers of digits in the two original integers. Please help him to restore the two original integers $$$A$$$ and $$$B$$$.\n\n\n\n## Input\n\n\n\nThere are multiple test cases. The first line of the input contains an integer $$$T$$$, indicating the number of test cases. For each test case:\n\n\n\nThe first line contains two positive integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 2 \\times 10^5$$$), where $$$n$$$ indicates the length of $$$A$$$ and $$$m$$$ indicates the length of $$$B$$$. Here length of an integer means the length of the string when writing the number in decimal notation without leading zeros.\n\n\n\nThe second line contains only one positive integer $$$C$$$ without leading zeros, indicating the result of $$$A \\otimes B$$$. The length of $$$C$$$ is no more than $$$2 \\times 10^5$$$.\n\n\n\nIt's guaranteed that the sum of lengths of $$$C$$$ over all test cases will not exceed $$$2 \\times 10^6$$$.\n\n\n\n## Output\n\n\n\nFor each test case output one line.\n\n\n\nIf there exist such $$$A$$$ and $$$B$$$ that $$$A \\otimes B = C$$$, output one line containing two integers $$$A$$$ and $$$B$$$ separated by one space. Note that $$$A$$$ and $$$B$$$ should be positive integers without leading zeros, the length of $$$A$$$ should be exactly $$$n$$$, and the length of $$$B$$$ should be exactly $$$m$$$.\n\n\n\nIf there are multiple valid answers, output the answer with the smallest $$$A$$$; If there are still more than one answer, output one of them with the smallest $$$B$$$.\n\n\n\nIf such $$$A$$$ and $$$B$$$ do not exist, print \"Impossible\" (without quotes) on a single line.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:104270::D",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "4e460f6fb5d52641d294d8340b86c7c7246fe793a22a8c1c329c7aa2715b9181",
+          "url": "https://codeforces.com/gym/104270/problem/D"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "4\n2 2\n8101215\n3 4\n100000001000\n2 2\n80101215\n3 4\n1000000010000",
+            "name": "样例 1",
+            "output": "23 45\n101 1000\nImpossible\nImpossible"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Magic Multiplication",
+        "url": "https://codeforces.com/gym/104270/problem/D",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "a7b764021cc596737897120b33904b0a5fd35a3e22e2d616824c27fb3e065893",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 魔法乘法\n\n\n\nBaoBao 正在魔法书中学习一种作用于两个正整数的新二元运算，用 $$$\\otimes$$$ 表示。书上说，运算结果是将两个整数的每一对数位相乘所得的结果依次拼接起来。\n\n\n\n形式化地，设第一个整数为 $$$A = a_1a_2 \\dots a_n$$$，其中 $$$a_i$$$ 表示 $$$A$$$ 的第 $$$i$$$ 个数位；第二个整数为 $$$B = b_1b_2 \\dots b_m$$$，其中 $$$b_i$$$ 表示 $$$B$$$ 的第 $$$i$$$ 个数位。定义 $$$$$$A \\otimes B = \\sum\\limits_{i=1}^n\\sum\\limits_{j=1}^m a_ib_j = a_1b_1 + a_1b_2 + \\dots + a_1b_m + a_2b_1 + \\dots + a_nb_m$$$$$$ 请注意，$$$a_ib_j$$$ 的结果被视为**字符串**：如果 $$$a_ib_j \\gt 0$$$，没有前导零；如果 $$$a_ib_j = 0$$$，则恰好包含一个字符 '0'。它不是通常意义上的整数。这里的求和表示**字符串拼接**，也不是通常的加法。\n\n\n\n例如，23 $$$\\otimes$$$ 45 = 8101215，因为 $$$8=2 \\times 4$$$、$$$10=2 \\times 5$$$、$$$12=3 \\times 4$$$，且 $$$15=3 \\times 5$$$。\n\n\n\n聪明的 BaoBao 很快掌握了 $$$\\otimes$$$ 的逆运算。现在，他给出一次 $$$\\otimes$$$ 运算的结果以及两个原整数各自的位数。请帮助他还原两个原整数 $$$A$$$ 和 $$$B$$$。\n\n\n\n## 输入格式\n\n\n\n有多组测试数据。输入第一行包含一个整数 $$$T$$$，表示测试用例数。对于每个测试用例：\n\n\n\n第一行包含两个正整数 $$$n$$$ 和 $$$m$$$（$$$1 \\le n, m \\le 2 \\times 10^5$$$），其中 $$$n$$$ 表示 $$$A$$$ 的长度，$$$m$$$ 表示 $$$B$$$ 的长度。整数的长度是将它写成无前导零的十进制字符串后的长度。\n\n\n\n第二行只包含一个无前导零的正整数 $$$C$$$，表示 $$$A \\otimes B$$$ 的结果。$$$C$$$ 的长度不超过 $$$2 \\times 10^5$$$。\n\n\n\n保证所有测试用例中 $$$C$$$ 的长度之和不超过 $$$2 \\times 10^6$$$。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，输出一行。\n\n\n\n如果存在满足 $$$A \\otimes B = C$$$ 的 $$$A$$$ 和 $$$B$$$，在一行中输出这两个整数 $$$A$$$ 和 $$$B$$$，用一个空格分隔。注意，$$$A$$$ 和 $$$B$$$ 必须是无前导零的正整数，$$$A$$$ 的长度必须恰好为 $$$n$$$，$$$B$$$ 的长度必须恰好为 $$$m$$$。\n\n\n\n如果有多个合法答案，选择 $$$A$$$ 最小的答案；如果仍有多个答案，选择其中 $$$B$$$ 最小的答案。\n\n\n\n如果不存在这样的 $$$A$$$ 和 $$$B$$$，单独输出一行 \"Impossible\"（不含引号）。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:104270::D",
+          "slug": "104270-D",
+          "sourceUrl": "https://codeforces.com/gym/104270/problem/D",
+          "sourceSha256": "a7b764021cc596737897120b33904b0a5fd35a3e22e2d616824c27fb3e065893",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "4\n2 2\n8101215\n3 4\n100000001000\n2 2\n80101215\n3 4\n1000000010000",
+              "name": "样例 1",
+              "output": "23 45\n101 1000\nImpossible\nImpossible"
+            }
+          ],
+          "notes": [
+            "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+            "Original Markdown, sample records, image map and resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:104270::F",
+      "beforeSha256": "cab627ad92b6a7b41430b3e76c68c497800dcfba62dde5b91f2c4a2a1643c9e7",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:104270::F",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:50:27.578162+00:00",
+          "corpusAuditVerifiedSha256": "6b4e6f2006458afcee8b1e87f8893ded11f629a274f7eaba407e0dd92dc17712",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Tournament\n\nDreamGrid, the king of Gridland, is making a knight tournament. There are $$$n$$$ knights, numbered from 1 to $$$n$$$, participating in the tournament. The rules of the tournament are listed as follows:\n\n\n\n- The tournament consists of $$$k$$$ rounds. Each round consists of several duels. Each duel happens between exactly two knights.\n\n- Each knight must participate in exactly one duel during each round.\n\n- For each pair of knights, there can be at most one duel between them during all the $$$k$$$ rounds.\n\n- Let $$$1 \\le i, j \\le k$$$, $$$i \\ne j$$$, and $$$1 \\le a, b, c, d \\le n$$$, $$$a, b, c, d$$$ be four distinct integers. If \n  - Knight $$$a$$$ fights against knight $$$b$$$ during round $$$i$$$, and\n  - Knight $$$c$$$ fights against knight $$$d$$$ during round $$$i$$$, and\n  - Knight $$$a$$$ fights against knight $$$c$$$ during round $$$j$$$,\n   then knight $$$b$$$ must fight against knight $$$d$$$ during round $$$j$$$.\n\n\n\nAs DreamGrid's general, you are asked to write a program to arrange all the duels in all the $$$k$$$ rounds, so that the resulting arrangement satisfies the rules above.\n\n\n\n## Input\n\n\n\nThere are multiple test cases. The first line of the input is an integer $$$T$$$, indicating the number of test cases. For each test case:\n\n\n\nThe first and only line contains two integers $$$n$$$ and $$$k$$$ ($$$1 \\le n, k \\le 1000$$$), indicating the number of knights participating in the tournament and the number of rounds.\n\n\n\nIt's guaranteed that neither the sum of $$$n$$$ nor the sum of $$$k$$$ in all test cases will exceed 5000.\n\n\n\n## Output\n\n\n\nFor each test case:\n\n\n\n- If it's possible to make a valid arrangement, output $$$k$$$ lines. On the $$$i$$$-th line, output $$$n$$$ integers $$$c_{i, 1}, c_{i, 2}, \\dots, c_{i, n}$$$ separated by one space, indicating that in the $$$i$$$-th round, knight $$$j$$$ will fight against knight $$$c_{i, j}$$$ for all $$$1 \\le j \\le n$$$.\n  If there are multiple valid answers, output the lexicographically smallest answer.\n  \n  Consider two answers $$$A$$$ and $$$B$$$, let's denote $$$a_{i, j}$$$ as the $$$j$$$-th integer on the $$$i$$$-th line in answer $$$A$$$, and $$$b_{i, j}$$$ as the $$$j$$$-th integer on the $$$i$$$-th line in answer $$$B$$$. Answer $$$A$$$ is lexicographically smaller than answer $$$B$$$, if there exists two integers $$$p$$$ ($$$1 \\le p \\le k$$$) and $$$q$$$ ($$$1 \\le q \\le n$$$), such that\n  \n  - for all $$$1 \\le i \\lt p$$$ and $$$1 \\le j \\le n$$$, $$$a_{i, j} = b_{i, j}$$$, and\n  - for all $$$1 \\le j \\lt q$$$, $$$a_{p, j} = b_{p, j}$$$, and finally $$$a_{p, q} \\lt b_{p, q}$$$.\n\n- If it's impossible to make a valid arrangement, output \"Impossible\" (without quotes) in one line.\n\n\n\nPlease, DO NOT output extra spaces at the end of each line, or your answer may be considered incorrect!",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:104270::F",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "ed0e9f62d17eebbca2f256aef80a7d5442952ac19b316cd60656fcaa94105540",
+          "url": "https://codeforces.com/gym/104270/problem/F"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "2\n3 1\n4 3",
+            "name": "样例 1",
+            "output": "Impossible\n2 1 4 3\n3 4 1 2\n4 3 2 1"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Tournament",
+        "url": "https://codeforces.com/gym/104270/problem/F",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "6b4e6f2006458afcee8b1e87f8893ded11f629a274f7eaba407e0dd92dc17712",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 骑士锦标赛\n\n\n\nGridland 的国王 DreamGrid 正在举办骑士锦标赛。共有 $$$n$$$ 名骑士参加，编号为 1 到 $$$n$$$。比赛规则如下：\n\n\n\n- 锦标赛包含 $$$k$$$ 轮。每轮包含若干场决斗，每场决斗恰好由两名骑士参加。\n- 每名骑士在每轮都必须恰好参加一场决斗。\n- 在全部 $$$k$$$ 轮中，任意一对骑士至多交手一次。\n- 设 $$$1 \\le i, j \\le k$$$、$$$i \\ne j$$$，且 $$$1 \\le a, b, c, d \\le n$$$，其中 $$$a, b, c, d$$$ 两两不同。如果\n  - 骑士 $$$a$$$ 和骑士 $$$b$$$ 在第 $$$i$$$ 轮交手，并且\n  - 骑士 $$$c$$$ 和骑士 $$$d$$$ 在第 $$$i$$$ 轮交手，并且\n  - 骑士 $$$a$$$ 和骑士 $$$c$$$ 在第 $$$j$$$ 轮交手，\n  那么骑士 $$$b$$$ 必须和骑士 $$$d$$$ 在第 $$$j$$$ 轮交手。\n\n\n\n作为 DreamGrid 的将军，你需要编写程序，安排全部 $$$k$$$ 轮中的所有决斗，使安排满足上述规则。\n\n\n\n## 输入格式\n\n\n\n有多组测试数据。输入第一行包含一个整数 $$$T$$$，表示测试用例数。对于每个测试用例：\n\n\n\n唯一一行包含两个整数 $$$n$$$ 和 $$$k$$$（$$$1 \\le n, k \\le 1000$$$），分别表示参赛骑士数量和比赛轮数。\n\n\n\n保证所有测试用例的 $$$n$$$ 之和与 $$$k$$$ 之和均不超过 5000。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例：\n\n\n\n- 如果存在合法安排，输出 $$$k$$$ 行。在第 $$$i$$$ 行输出 $$$n$$$ 个用单个空格分隔的整数 $$$c_{i, 1}, c_{i, 2}, \\dots, c_{i, n}$$$，表示在第 $$$i$$$ 轮，对于所有 $$$1 \\le j \\le n$$$，骑士 $$$j$$$ 与骑士 $$$c_{i, j}$$$ 交手。\n  如果有多个合法答案，请输出字典序最小的答案。\n\n\n\n  对于两个答案 $$$A$$$ 和 $$$B$$$，令 $$$a_{i, j}$$$ 表示答案 $$$A$$$ 中第 $$$i$$$ 行的第 $$$j$$$ 个整数，$$$b_{i, j}$$$ 表示答案 $$$B$$$ 中第 $$$i$$$ 行的第 $$$j$$$ 个整数。如果存在整数 $$$p$$$（$$$1 \\le p \\le k$$$）和 $$$q$$$（$$$1 \\le q \\le n$$$），满足以下条件，则称答案 $$$A$$$ 的字典序小于答案 $$$B$$$：\n\n\n\n  - 对于所有 $$$1 \\le i \\lt p$$$ 和 $$$1 \\le j \\le n$$$，都有 $$$a_{i, j} = b_{i, j}$$$；并且\n  - 对于所有 $$$1 \\le j \\lt q$$$，都有 $$$a_{p, j} = b_{p, j}$$$，且 $$$a_{p, q} \\lt b_{p, q}$$$。\n- 如果不存在合法安排，单独输出一行 \"Impossible\"（不含引号）。\n\n\n\n请不要在每行末尾输出多余的空格，否则可能被判为错误！\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:104270::F",
+          "slug": "104270-F",
+          "sourceUrl": "https://codeforces.com/gym/104270/problem/F",
+          "sourceSha256": "6b4e6f2006458afcee8b1e87f8893ded11f629a274f7eaba407e0dd92dc17712",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "2\n3 1\n4 3",
+              "name": "样例 1",
+              "output": "Impossible\n2 1 4 3\n3 4 1 2\n4 3 2 1"
+            }
+          ],
+          "notes": [
+            "Complete source prose, all original formulas, constraint bounds, examples, and mapped image resources reviewed.",
+            "Original Markdown, sample records, image map and resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}
