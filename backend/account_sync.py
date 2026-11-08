@@ -185,9 +185,9 @@ def merge_states(remote, local, baseline=None):
                     for field in ('checks', 'completed'):
                         merged = {}
                         for item in values:
-                            for key, entry in item.get(field, {}).items():
-                                if field == 'checks': merged[key] = {**merged.get(key, {}), **entry}
-                                else: merged[key] = entry
+                            for summary_key, entry in item.get(field, {}).items():
+                                if field == 'checks': merged[summary_key] = {**merged.get(summary_key, {}), **entry}
+                                else: merged[summary_key] = entry
                         value[field] = merged
                     hashes = {p['id']: p['hash'] for p in value.get('article', [])}
                     value['seen'] = {key: item for source in values for key, item in source.get('seen', {}).items() if hashes.get(key) == item}
@@ -253,6 +253,30 @@ def merge_states(remote, local, baseline=None):
     for table, keys in TABLES.items():
         result['tables'][table].sort(key=lambda row: tuple(str(row.get(key) or '') for key in keys))
     return result
+
+
+def recover_legacy_summary(state):
+    """Repair the old summary merge's duplicate key, retaining both originals.
+
+    Callers have already authenticated and checked every immutable chunk. This
+    narrow compatibility repair never accepts ambiguous keys in other tables.
+    """
+    rows=state['tables']['account_preferences']
+    summaries=[row for row in rows if row.get('key')=='learning-summary-v1']
+    if len(summaries)<2:return state,False
+    result=copy.deepcopy(state)
+    conflicts={row['id']:row for row in result['tables']['account_sync_conflicts']}
+    def one(row):
+        return {'format':'tb-account-state-v1','tables':{name:([row] if name=='account_preferences' else []) for name in TABLES},'publicAccounts':{}}
+    merged=one(summaries[0])
+    for row in summaries:
+        value={'table':'account_preferences','row':row}
+        conflicts[digest(value)]={'id':digest(value),'data':encoded(value)}
+    for row in summaries[1:]:merged=merge_states(merged,one(row))
+    result['tables']['account_preferences']=[row for row in result['tables']['account_preferences'] if row.get('key')!='learning-summary-v1']+merged['tables']['account_preferences']
+    result['tables']['account_preferences'].sort(key=lambda row:row['key'])
+    result['tables']['account_sync_conflicts']=sorted(conflicts.values(),key=lambda row:row['id'])
+    return result,True
 
 
 class AccountStateSync:
@@ -671,7 +695,7 @@ class AccountStateSync:
                 state = merge_states(answer['state'], local, self.meta.get('baseline'))
             # Complete the first upload before exposing authentication. A failure
             # leaves the local workspace and session gate untouched.
-            uploaded = upload_pending or answer['state'] != state or self.chunks.migrate
+            uploaded = upload_pending or answer['state'] != state or self.chunks.migrate or self.chunks.repair_needed
             if uploaded:
                 try:
                     saved = self._call('PUT', '/v1/accounts/state', {'revision': self.revision, 'state': state})

@@ -41,7 +41,7 @@ def code_reference(value):
 
 class ChunkTransport:
     def __init__(self,sync):
-        self.sync=sync;self.enabled=False;self.answer=None;self.migrate=False
+        self.sync=sync;self.enabled=False;self.answer=None;self.migrate=False;self.repair_needed=False
         with sync.service.lock:
             sync.service.connection.executescript('''
               CREATE TABLE IF NOT EXISTS account_sync_objects(
@@ -211,8 +211,12 @@ class ChunkTransport:
         from account_sync import TABLES
         manifest={'format':'tb-private-chunk-state-v2','tables':{},'publicAccounts':None};roots=[]
         for table,keys in TABLES.items():
-            buckets={}
+            buckets={};seen=set()
             for row in state['tables'].get(table,[]):
+                identity=tuple(row.get(k) for k in keys)
+                if any(part is None for part in identity) or identity in seen:
+                    raise ServiceError(503,'待同步记录编号重复或缺失，本机数据已保留')
+                seen.add(identity)
                 width=2 if table in ('account_problem_facts','account_sync_conflicts') else 1
                 key=hashlib.sha256(encode([row.get(k) for k in keys])).hexdigest()[:width]
                 if table=='submissions':key=str(row.get('submitted_at') or '')[:7]+':'+key
@@ -296,9 +300,13 @@ class ChunkTransport:
                     for row in group:
                         if not isinstance(row,dict):raise ValueError('Invalid row')
                         key=tuple(row.get(k) for k in TABLES[table])
-                        if key in keys:raise ValueError('Duplicate row')
+                        if key in keys and not (table=='account_preferences' and key==('learning-summary-v1',)):
+                            raise ValueError('Duplicate row')
                         keys.add(key);rows.append(row)
                 rows.sort(key=lambda row:tuple(str(row.get(k) or '') for k in TABLES[table]));state['tables'][table]=rows
+            from account_sync import recover_legacy_summary
+            state,repaired=recover_legacy_summary(state)
+            self.repair_needed=self.repair_needed or repaired
             answer['state']=self.canonicalize(state)
             return answer
         except (ValueError,OSError,EOFError,KeyError,TypeError):
@@ -309,7 +317,7 @@ class ChunkTransport:
         result=self.request('PUT','/v2/accounts/state',{'revision':body['revision'],'root':root})
         if result.get('revision')!=body['revision']+1 or result.get('root')!=root:
             raise ServiceError(503,'云端同步确认不一致，本机数据已保留')
-        self.migrate=False
+        self.migrate=False;self.repair_needed=False
         return result
 
     def apply_code(self,row,previous):
