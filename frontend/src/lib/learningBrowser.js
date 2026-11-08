@@ -6,7 +6,18 @@ export const MAX_STUDY_TABS=64;
 export const STUDY_LABELS = {mine:'我的训练',problem:'题目',solution:'题解',wiki:'维基百科',template:'模板',lab:'实验室',lecture:'从零讲'};
 export const studyKey = tab => `${tab.kind}:${tab.id}`;
 export const emptyStudyBrowser = () => ({version:1,tabs:[],documents:{},groups:[],chrome:false,active:null,left:null,right:null,focused:null,focusedGroup:null,ratio:50,open:false});
-export const studySnapshot=value=>({...value,tabs:value.tabs.map(({kind,id,title,methodId,visit,state,scroll})=>({kind,id,title,...(methodId?{methodId}:{}),visit,state,scroll}))});
+function problemContext(source,visit=source.visit){
+ if(source.kind!=='problem')return {visit:visit||{}};
+ const explicit=Object.prototype.hasOwnProperty.call(source,'reviewTask'),live=explicit?source.reviewTask:undefined;
+ const identity=explicit?live?.id:source.visit?.reviewId;
+ const reviewId=typeof identity==='string'&&/^[a-f0-9]{32}$/.test(identity)?identity:null;
+ const nextVisit={...visit};
+ if(reviewId)nextVisit.reviewId=reviewId;else delete nextVisit.reviewId;
+ // The manifest stores identity, never completion/reward authority or code.
+ // Restoring still sends this identity to the account-owned problem API.
+ return {visit:nextVisit,reviewTask:live||(reviewId?{id:reviewId}:null)};
+}
+export const studySnapshot=value=>({...value,tabs:value.tabs.map(tab=>{const {kind,id,title,methodId,state,scroll}=tab;return {kind,id,title,...(methodId?{methodId}:{}),visit:problemContext(tab).visit,state,scroll};})});
 
 function groupId(groups){let id=1;while(groups.some(group=>group.id==='group-'+id))id++;return 'group-'+id;}
 function finishGroups(state,groups,focused=state.focused) {
@@ -57,7 +68,7 @@ export function restoreStudyBrowser(value) {
   const key=studyKey(source);if(seen.has(key))continue;seen.add(key);
   result.tabs.push({kind:source.kind,id:source.id,key,title:String(source.title||STUDY_LABELS[source.kind]).slice(0,200),
    ...(source.methodId?{methodId:String(source.methodId).slice(0,200)}:{}),
-   visit:source.visit&&typeof source.visit==='object'?source.visit:{},state:source.state&&typeof source.state==='object'?source.state:{},
+   ...problemContext(source,source.visit&&typeof source.visit==='object'?source.visit:{}),state:source.state&&typeof source.state==='object'?source.state:{},
    scroll:Array.isArray(source.scroll)?source.scroll.slice(0,16).filter(item=>Array.isArray(item)&&typeof item[0]==='string'&&Number.isFinite(item[1])&&Number.isFinite(item[2])):[]});
  }
  const valid=key=>seen.has(key)?key:null;
@@ -77,7 +88,7 @@ export function openStudyTab(state,source) {
  if(!STUDY_KINDS.includes(source?.kind)||!source.id)return state;
  const key=studyKey(source),existing=state.tabs.find(tab=>tab.key===key);
  if(!existing&&state.tabs.length>=MAX_STUDY_TABS)return state;
- const tab=existing?{...existing,...(source.methodId?{methodId:source.methodId}:{}),...(source.title?{title:source.title}:{})}:{...source,key,title:source.title||STUDY_LABELS[source.kind],visit:source.visit||{},state:source.state||{},scroll:source.scroll||[]};
+ const tab=existing?{...existing,...(source.kind==='problem'?problemContext(source,{...existing.visit,...source.visit}):{}),...(source.methodId?{methodId:source.methodId}:{}),...(source.title?{title:source.title}:{})}:{...source,key,title:source.title||STUDY_LABELS[source.kind],...problemContext(source),state:source.state||{},scroll:source.scroll||[]};
  const tabs=existing?state.tabs.map(item=>item.key===key?tab:item):[...state.tabs,tab];
  let groups=studyGroups(state).map(group=>({...group,tabs:[...group.tabs]}));
  if(!groups.length)groups=[{id:'group-1',tabs:[],active:null,weight:100}];
@@ -103,6 +114,7 @@ export function replaceStudyProblem(state,key,source){
 
 export function replaceStudyContent(state,key,source){
  const old=state.tabs.find(tab=>tab.key===key);if(!old||!source?.id||!STUDY_KINDS.includes(source.kind))return state;
+ source={...source,...problemContext(source)};
  const nextKey=studyKey(source);if(nextKey===key)return {...state,open:true,tabs:state.tabs.map(tab=>tab.key===key?{...tab,...source,visit:{...tab.visit,...source.visit},state:tab.state,scroll:tab.scroll}:tab)};
  if(state.tabs.some(tab=>tab.key===nextKey))return activateStudyTab({...state,tabs:state.tabs.map(tab=>tab.key===nextKey?{...tab,...source,visit:{...tab.visit,...source.visit},state:tab.state,scroll:tab.scroll}:tab)},nextKey);
  const rename=value=>value===key?nextKey:value;
