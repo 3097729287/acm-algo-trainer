@@ -1,5 +1,9 @@
 # ToBe · Current build
 
+**1.6.8 in development · 2026-11-08**: idle presence, resumable downloads and compact updates are undergoing installer validation. Previously delivered content is retained: 3,191 default and 2,306 detailed editorials. This candidate is not released; the domestic stable channel remains [1.6.7](docs/domestic-release-1.6.7-verification.md). See the [candidate notes](docs/releases/1.6.8.md) and [update validation scope](docs/compact-updates.md).
+
+**1.6.7 domestic release · 2026-11-08**: the three-person team service and client are available, with 63 added XCPC problems, 51 restored originals and 20 reviewed PDF translations. Search, editorial and ranking recovery changes are retained. [Full installer](https://47.82.84.74/updates/assets/1.6.7/ToBe-Setup-1.6.7-win64.exe) · [Release verification](docs/domestic-release-1.6.7-verification.md).
+
 **Local 1.6.5 interface revision · 2026-11-07** enlarges the editor coordinates and aligns them to the toolbar's bottom edge. The separate green completion/next-item panel is removed, restoring the table width; header recommendations and manual reading completion remain available. See the [revision and validation](docs/local-editor-panel-20261107.md). Published 1.6.5 assets below retain their original release build.
 
 **1.6.5 domestic stable update · 2026-11-07** is live. Official 1.6.4 installations prefer the [227.7 MB delta](https://47.82.84.74/updates/assets/1.6.5/ToBe-Update-1.6.4-to-1.6.5-win64.zip); other versions and modified installations can use the [484.6 MB user installer](https://47.82.84.74/updates/assets/1.6.5/ToBe-Setup-1.6.5-win64.exe). This release restores 219 statements, keeps contests with missing problems playable, corrects Chinese translations, adds Alt+T / Alt+Shift+T toolbar controls, and shows the Ctrl+wheel zoom percentage. See the [release notes](docs/releases/1.6.5.md) and [verification](docs/domestic-release-1.6.5-verification.md).

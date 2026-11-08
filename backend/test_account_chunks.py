@@ -121,6 +121,32 @@ class ChunkSyncTests(unittest.TestCase):
         sync.service.connection.execute('UPDATE account_sync_objects SET payload=? WHERE hash=?',(b'corrupt',packed))
         with self.assertRaises(ValueError):sync.chunks.read_blob(packed)
 
+    def test_verified_legacy_summary_duplicate_is_repaired_and_other_duplicates_rejected(self):
+        self.signup();self.assertEqual(self.login()[0],200)
+        sync=self.pause();state,_=sync._capture()
+        from account_chunks import encode
+        left={'key':'learning-summary-v1','updated_at':'2026-11-01','value':json.dumps({'checks':{'one':{'a':True}},'completed':{},'article':[]})}
+        right={**left,'updated_at':'2026-11-02','value':json.dumps({'checks':{'two':{'b':True}},'completed':{},'article':[]})}
+        def legacy_root(rows):
+            root=sync.chunks.pack(state);manifest=json.loads(sync.chunks.read_blob(root))
+            manifest['tables']['account_preferences']=[{'bucket':'legacy','root':sync.chunks.write_blob(encode(rows))}]
+            links=[entry['root'] for entries in manifest['tables'].values() for entry in entries]+[manifest['publicAccounts']]
+            return sync.chunks.write_blob(encode(manifest),links)
+        sync.chunks.answer={'protocol':2,'revision':sync.revision,'root':legacy_root([left,right])}
+        answer=sync.chunks.get();self.assertTrue(sync.chunks.repair_needed)
+        restored=answer['state']['tables']['account_preferences'];self.assertEqual(len(restored),1)
+        self.assertEqual(set(json.loads(restored[0]['value'])['checks']),{'one','two'})
+        recovered=[json.loads(row['data']) for row in answer['state']['tables']['account_sync_conflicts']]
+        self.assertIn({'table':'account_preferences','row':left},recovered)
+        self.assertIn({'table':'account_preferences','row':right},recovered)
+        sync.chunks.put({'revision':sync.revision,'state':answer['state']})
+        self.assertFalse(sync.chunks.repair_needed)
+        unknown={**left,'key':'unrecognized-setting'}
+        sync.chunks.answer={'protocol':2,'revision':sync.revision,'root':legacy_root([unknown,unknown])}
+        with self.assertRaises(ServiceError):sync.chunks.get()
+        invalid=copy.deepcopy(state);invalid['tables']['account_preferences']=[left,right]
+        with self.assertRaises(ServiceError):sync.chunks.pack(invalid)
+
     def test_migrated_account_never_silently_restores_an_older_v1_snapshot(self):
         self.signup();self.assertEqual(self.login()[0],200)
         sync=self.pause();self.assertEqual(sync.meta['transport'],2)

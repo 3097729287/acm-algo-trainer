@@ -71,6 +71,15 @@ class ReleaseAssetTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Administrator build metadata'):
             public_release_files(self.public)
 
+    def test_update_component_provenance_keeps_the_public_boundary(self):
+        (self.public / 'UPDATE-SOURCE-MANIFEST.json').write_text('{}', encoding='utf8')
+        metadata = self.public / 'UPDATE-BUILD-INFO.json'
+        metadata.write_text('{"edition":"user"}', encoding='utf8')
+        self.assertEqual(len(public_release_files(self.public)), 2)
+        metadata.write_text('{"adminMode":true}', encoding='utf8')
+        with self.assertRaisesRegex(ValueError, 'Administrator build metadata'):
+            public_release_files(self.public)
+
     def test_admin_matching_covers_manifests_paths_and_localized_names(self):
         for name in ['ADMIN-RELEASE-MANIFEST.json', 'TB-Admin-Setup-1.3.4-win64.exe', 'folder/TB-Admin-1.3.4-win64.zip', 'ToBe管理员版.exe']:
             self.assertTrue(is_admin_asset(name), name)

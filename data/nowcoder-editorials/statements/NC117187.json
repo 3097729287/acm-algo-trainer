@@ -1,0 +1,42 @@
+{
+  "id": "nowcoder-global::117187",
+  "title": "Ocean Currents",
+  "url": "https://ac.nowcoder.com/acm/problem/117187",
+  "markdown": "# Ocean Currents\n\n## 题目描述\n\n湖泊是r行c列网格，每格给一个0到7的洋流方向，依次为北、东北、东、东南、南、西南、西、西北。船可向八邻格移动，顺出发格洋流耗能0，选其他方向耗能1，不能越界。对每次起终点询问求最小总能量。\n\n## 输入描述\n\n先给r、c，均不超过1000，再给r行方向数字。之后给至多50次询问，每次给起点行列和终点行列，编号从1开始。\n\n## 输出描述\n\n每次询问一行最小能量。\n\n[原始PDF题面](https://uploadfiles.nowcoder.com/voj/media/8b65c5a3d15e94e96bd49c08ab38c958.pdf)",
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "5 5\n04125\n03355\n64734\n72377\n02062\n3\n4 2 4 2\n4 5 1 4\n5 3 3 4",
+      "output": "0\n2\n1"
+    }
+  ],
+  "limits": {
+    "timeMs": 3000,
+    "memoryMb": 0
+  },
+  "statementAvailable": true,
+  "statementVersion": 8,
+  "problemType": "standard",
+  "localJudgeSupported": true,
+  "images": {},
+  "attachments": {},
+  "resourceManifest": {},
+  "resourceIssues": [],
+  "integrity": {
+    "schema": 1,
+    "sourceVerified": true,
+    "status": "complete",
+    "sampleCount": 1,
+    "pdfPageCountVerified": true,
+    "pdfPageCount": 1,
+    "checkedAt": "2026-11-08"
+  },
+  "sourceHtmlSha256": "f425fa4d9b73ce00bd1a1df071f1630f7b91ca832d3df6ccafba105be280e5c6",
+  "sourcePdfUrl": "https://uploadfiles.nowcoder.com/voj/media/8b65c5a3d15e94e96bd49c08ab38c958.pdf",
+  "sourcePdfSha256": "f6bd2019da809ac9e1448de2fa3132ea37cd438d23e65cd700fa3793e943b1b4",
+  "sourceRepair": {
+    "reason": "Original iframe PDF was missed and a loading-menu placeholder was imported.",
+    "beforeMarkdownSha256": "25fe830ecaa53769bad0871513a8740d0200f5e50d78250bc2f924c8a0b37b95",
+    "restatementLanguage": "zh-CN"
+  }
+}

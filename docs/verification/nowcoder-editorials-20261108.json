@@ -1,0 +1,234 @@
+{
+  "scope": {
+    "scope": "All unique original problems in the Nowcoder training lists; <=2300 inclusive",
+    "updatedAt": "2026-11-08T11:41:41.034129+00:00",
+    "uniqueOriginalProblems": 1083,
+    "validatedProblems": 936,
+    "difficultyReviewPending": 0,
+    "editorialsPending": 0,
+    "excludedAbove2300": 147,
+    "supplementalAbove2300": 10,
+    "eligibleProblems": 926,
+    "allComplete": true,
+    "officialSubmissionsSent": 0
+  },
+  "referencePrograms": 936,
+  "passedPrograms": 936,
+  "sampleAndBoundaryCases": 1449,
+  "defaultArticles": 936,
+  "detailedArticles": 52,
+  "formattedLanguages": {
+    "cpp17": 927,
+    "python3": 9
+  },
+  "officialRatingsVerified": 1021,
+  "originalUnratedReviewed": 62,
+  "eligibleUnratedWithMarkedEstimates": 56,
+  "animations": 16,
+  "animationFrames": 162,
+  "reader": {
+    "readerProblems": 936,
+    "embeddedAssets": 20,
+    "repairedPdfStatements": 5,
+    "storeReaderPassed": true,
+    "seedUpgradePassed": true,
+    "privateAnnotationAndRecordsPreserved": true,
+    "livePersonalDatabasesOpened": false
+  },
+  "browser": {
+    "animatedProblems": 20,
+    "errors": []
+  },
+  "independentChecks": {
+    "binary-independent-validation.json": {
+      "sha256": "4551876f47eb7d039c842b420a7ffe3ba38a9bb1fa344e79a889cf33cf793d91",
+      "checks": 175
+    },
+    "divide-independent-validation.json": {
+      "sha256": "8ab1fb9aeeafaccf1d94a6790d56caa1b174c2340db78587bb18188aeaea3a5d",
+      "checks": 591
+    },
+    "final-independent-validation.json": {
+      "sha256": "fa305700efcbc2326a491c0299259959667f0ae841a6536874b8b97145d1e0e9",
+      "checks": 728
+    },
+    "geometry-independent-validation.json": {
+      "sha256": "ccbcf6c35ada8cc003e3c3cb5bf6c0e91c460d226e808906cb634ee72f431f79",
+      "checks": 868
+    },
+    "independent-validation.json": {
+      "sha256": "3a7fa8db6ff99ed1e37ff829a6c107f0d1bed84f0335673e63ae367ee89326f8",
+      "checks": 1277
+    },
+    "last-independent-validation.json": {
+      "sha256": "49a164d8f03b1827e7ad3f951636dc672d676c6e82a730337471def1874e2525",
+      "checks": 739
+    },
+    "new-dp-independent-validation.json": {
+      "sha256": "0c30b7ff7e5b16aaccecc19e687e03499c83b69aadf215a0ab23b47f5119bf28",
+      "checks": 469
+    },
+    "number-games-independent-validation.json": {
+      "sha256": "c258ac7821ac7b2e84c430ffcbf7843d9c590048946cd837a17ff01d6627df2b",
+      "checks": 328
+    },
+    "online-ancestor-independent-validation.json": {
+      "sha256": "4cab4b52b288c45f1383c797ee7347445f65c01a50bf6a160a6f1bc6ced29617",
+      "checks": 40
+    },
+    "optimization-independent-validation.json": {
+      "sha256": "2b9694030ef90a7a6a02ab1ea621b325b852b1bf3ec4b4a83c7f5cc7933fbe8a",
+      "checks": 115
+    },
+    "optimized-independent-validation.json": {
+      "sha256": "0344e726c127ea424234f6d2ebc19fe4f4ccc2db9113a03eee1c8429033f01f3",
+      "checks": 428
+    },
+    "pair-cut-independent-validation.json": {
+      "sha256": "6cbbbbb124b7f16b174b11e0940070802f956d15ad17f13a92f4f5015d45c28b",
+      "checks": 500
+    },
+    "queues-suffix-independent-validation.json": {
+      "sha256": "7b60948de09fdb47a18d8ced34a8e2436c29fde2b9ab6bbc4cdf8eb726941a2c",
+      "checks": 250
+    },
+    "range-independent-validation.json": {
+      "sha256": "32a911c9ee2f0768000c19ddad0496bfd7cab40e0c53b31f014966d65474f96f",
+      "checks": 120
+    },
+    "recent-independent-validation.json": {
+      "sha256": "8e3ff916d70b86f066b938b84c7e9e96030c4046b0cdc31d784d03a992b4a299",
+      "checks": 993
+    },
+    "strings-independent-validation.json": {
+      "sha256": "e8aa72313ffc25379990da8b7c382f1cfb3299565f473f5659f5ad1415772251",
+      "checks": 390
+    }
+  },
+  "cleanup": {
+    "checked": "Owned generated diagnostics and animated-asset references",
+    "removed": [
+      {
+        "path": "E:\\项目\\ToBe\\开发\\tb-nowcoder-editorials-20261108\\.backups\\nowcoder-editorials\\more-animations-contact.png",
+        "bytes": 155194,
+        "sha256": "9a400da6d23f21f742d46bc18c2c663a7aa7533c17f0a05b7be8c824b274fa6b"
+      }
+    ],
+    "retained": "Article sources, reproducible checkers, final GIFs and necessary recovery evidence"
+  },
+  "officialSubmissionsSent": 0,
+  "publicRelease": false,
+  "installation": {
+    "localOnly": true,
+    "ordinaryAndAdminPassed": true,
+    "runningWindowsClosed": false,
+    "editions": {
+      "user": {
+        "candidateSha256": "c794e0bc3d0ae323eadbfefd2e507acbd5971d2e3ea59d15d239c9b523ea1fe7",
+        "appliedAt": "2026-11-08T11:48:35.056091+00:00",
+        "unrelatedPublicRowsPreserved": true,
+        "localAmendmentsPreserved": 5261,
+        "workspaceRehearsalPassed": true,
+        "nativeExecutablesUnchanged": true,
+        "privateAccountDraftSubmissionTrainingFilesOpened": false,
+        "liveOwnedArticlesVerified": 936
+      },
+      "admin": {
+        "candidateSha256": "07efbe204047cb3d1cd620fb5149f3c09ba5624fd93fb16cd2306d5977695ec2",
+        "appliedAt": "2026-11-08T11:50:45.169281+00:00",
+        "unrelatedPublicRowsPreserved": true,
+        "localAmendmentsPreserved": 0,
+        "workspaceRehearsalPassed": true,
+        "nativeExecutablesUnchanged": true,
+        "privateAccountDraftSubmissionTrainingFilesOpened": false,
+        "liveOwnedArticlesVerified": 936
+      }
+    },
+    "unrelatedLiveRows": {
+      "user": {
+        "problems": {
+          "changed": 0,
+          "examples": []
+        },
+        "solutions": {
+          "changed": 0,
+          "examples": []
+        },
+        "detailed_solutions": {
+          "changed": 0,
+          "examples": []
+        },
+        "lectures": {
+          "changed": 0,
+          "examples": []
+        },
+        "training_lists": {
+          "changed": 0,
+          "examples": []
+        },
+        "solution_methods": {
+          "changed": 0,
+          "examples": []
+        }
+      },
+      "admin": {
+        "problems": {
+          "changed": 0,
+          "examples": []
+        },
+        "solutions": {
+          "changed": 0,
+          "examples": []
+        },
+        "detailed_solutions": {
+          "changed": 0,
+          "examples": []
+        },
+        "lectures": {
+          "changed": 0,
+          "examples": []
+        },
+        "training_lists": {
+          "changed": 0,
+          "examples": []
+        },
+        "solution_methods": {
+          "changed": 0,
+          "examples": []
+        }
+      }
+    },
+    "activeSourceIntegration": {
+      "activeSourceRoot": "E:\\项目\\ToBe\\开发\\tb-background-redesign-20261106",
+      "sourceCommit": "3980a8b55e0db3646cb1a421b0b03ff499f9b8b6",
+      "sourcePublicSeedSha256": "8b95ef902ebf2d67fdd398b42ee2f78de54a0227197c14fd29f7f12919193496",
+      "priorSourcePublicSeedSha256": "50ea39706fcde2d1095807c3a202f72a32ab62358f8a178ce16ed0c568532591",
+      "ownedArticlesVerified": 936,
+      "foreignSourceChangesRetained": true
+    }
+  },
+  "largeInputChecks": {
+    "segmentAndWallSweeps": [
+      {
+        "problem": 230839,
+        "seconds": 4.996016099990811,
+        "expected": 1,
+        "passed": true
+      },
+      {
+        "problem": 232803,
+        "seconds": 0.3137725999986287,
+        "expected": 1503,
+        "passed": true
+      }
+    ],
+    "xorStack": {
+      "problem": 236249,
+      "operations": 40000,
+      "adds": 20000,
+      "case": "distinct xor vectors, equal unit costs, then pop all",
+      "seconds": 1.5708536000020104,
+      "passed": true
+    }
+  }
+}

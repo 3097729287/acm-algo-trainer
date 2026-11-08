@@ -143,6 +143,10 @@ class LibraryDatabase:
     def backup(self, label='before-upgrade', *, manual=False, required=True):
         from recovery_backups import snapshot
         with self.connection() as source:
+            if not manual:
+                from update_backups import reusable_state_snapshot
+                reused=reusable_state_snapshot(self.path,connection=source)
+                if reused is not None:return reused
             result=snapshot(source, self.path, self.path.parent / 'backups', label=label, manual=manual, required=required, suffix='.sqlite3')
             if result is None:
                 from update_errors import UpdateStorageError
@@ -193,8 +197,13 @@ class LibraryDatabase:
         with self.connection() as db:
             db.execute('BEGIN IMMEDIATE')
             from contextlib import closing
+            present_assets={row[0] for row in db.execute('SELECT sha256 FROM statement_assets')}
             with closing(sqlite3.connect(path.as_uri()+'?mode=ro',uri=True)) as asset_source:
                 for sha,mime in asset_rows:
+                    # Content-addressed immutable bytes already present are
+                    # checked again when read. INSERT OR IGNORE never repaired
+                    # them; avoid loading and hashing the whole old corpus.
+                    if sha in present_assets:continue
                     data=asset_source.execute('SELECT data FROM statement_assets WHERE sha256=?',(sha,)).fetchone()[0]
                     if hashlib.sha256(data).hexdigest()!=sha:
                         raise ValueError('Bundled statement asset hash mismatch')
@@ -203,17 +212,27 @@ class LibraryDatabase:
             for sha,mime,size,url in remote_assets:
                 validate_reference(sha,mime,size,url)
                 db.execute('INSERT OR IGNORE INTO remote_statement_assets VALUES(?,?,?,?)',(sha,mime,size,url))
+            bundled={}
+            for table,(key,columns) in tables.items():
+                identities=json.dumps([row[key] for row in rows[table]])
+                bundled[table]={row[0]:row[1] for row in db.execute('SELECT item_id,digest FROM bundled_items WHERE table_name=? AND item_id IN (SELECT value FROM json_each(?))',(table,identities))}
+            bundled['problem_lectures']={row[0]:row[1] for row in db.execute("SELECT item_id,digest FROM bundled_items WHERE table_name='problem_lectures' AND item_id IN (SELECT value FROM json_each(?))",(json.dumps(list(links)),))}
             def previous(table, identity):
-                row = db.execute('SELECT digest FROM bundled_items WHERE table_name=? AND item_id=?', (table, identity)).fetchone()
-                return row[0] if row else None
+                return bundled[table].get(identity)
             def remember(table, identity, checksum):
                 db.execute('INSERT INTO bundled_items VALUES (?,?,?) ON CONFLICT(table_name,item_id) DO UPDATE SET digest=excluded.digest', (table, identity, checksum))
+                bundled[table][identity]=checksum
             for table, (key, columns) in tables.items():
+                identities=json.dumps([row[key] for row in rows[table]])
+                saved={row[key]:row for row in db.execute('SELECT '+','.join(columns)+' FROM '+table+' WHERE '+key+' IN (SELECT value FROM json_each(?))',(identities,))}
                 for row in rows[table]:
                     identity = row[key]
                     content = {column: row[column] for column in columns}
                     checksum = digest(content)
-                    current = db.execute('SELECT * FROM ' + table + ' WHERE ' + key + '=?', (identity,)).fetchone()
+                    current = saved.get(identity)
+                    if current is not None and all(current[column]==content[column] for column in columns):
+                        if previous(table,identity)!=checksum:remember(table,identity,checksum)
+                        continue
                     existing = digest({column: current[column] for column in columns}) if current else None
                     if current is None or existing == previous(table, identity):
                         placeholders = ','.join('?' for _ in columns)
@@ -246,9 +265,15 @@ class LibraryDatabase:
                                 and (not translated or isinstance(translated,dict) and translated.get('kind')=='bundled')):
                             saved['translation']=incoming
                             db.execute('UPDATE statements SET content=? WHERE problem_id=?', (json.dumps(saved,ensure_ascii=False),identity))
+            current_links={}
+            for row in db.execute('SELECT * FROM problem_lectures WHERE problem_id IN (SELECT value FROM json_each(?)) ORDER BY problem_id,position',(json.dumps(list(links)),)):
+                current_links.setdefault(row['problem_id'],[]).append(tuple(row))
             for identity, content in links.items():
                 checksum = digest(content)
-                current = [tuple(row) for row in db.execute('SELECT * FROM problem_lectures WHERE problem_id=? ORDER BY position', (identity,))]
+                current = current_links.get(identity,[])
+                if current==content:
+                    if previous('problem_lectures',identity)!=checksum:remember('problem_lectures',identity,checksum)
+                    continue
                 existing = digest(current)
                 if existing == previous('problem_lectures', identity) or not current and previous('problem_lectures', identity) is None:
                     db.execute('DELETE FROM problem_lectures WHERE problem_id=?', (identity,))

@@ -1,0 +1,618 @@
+[
+  {
+    "name": "monotonic-stack",
+    "problemIds": [
+      "nowcoder-global::18356"
+    ],
+    "file": "data/nowcoder-editorials/assets/monotonic-stack.gif",
+    "frames": 23,
+    "durationMs": 22900,
+    "sha256": "d8ffb68551a31650ca77c4b5815297306c6731f030313ec5ad949ebb72d61a10",
+    "description": "相同数值也要弹出；栈里保存下标，而不是只保存数值。",
+    "scenario": {
+      "array": [
+        3,
+        2,
+        6,
+        1,
+        1,
+        2
+      ],
+      "answers": [
+        3,
+        3,
+        0,
+        6,
+        6,
+        0
+      ]
+    }
+  },
+  {
+    "name": "sliding-window",
+    "problemIds": [
+      "nowcoder-global::50528",
+      "nowcoder-global::51001"
+    ],
+    "file": "data/nowcoder-editorials/assets/sliding-window.gif",
+    "frames": 8,
+    "durationMs": 9400,
+    "sha256": "b9fd29d650142e6d53c88a273944a93e80a279cb13b707458627656b3772e10c",
+    "description": "方块中的“下标:数值”对应正文中的单调队列；绿色队首是当前答案。",
+    "scenario": {
+      "array": [
+        1,
+        3,
+        -1,
+        -3,
+        5,
+        3,
+        6,
+        7
+      ],
+      "window": 3,
+      "minimum": [
+        -1,
+        -3,
+        -3,
+        -3,
+        3,
+        3
+      ],
+      "maximum": [
+        3,
+        3,
+        5,
+        5,
+        6,
+        7
+      ]
+    }
+  },
+  {
+    "name": "matrix-timestamps",
+    "problemIds": [
+      "nowcoder-global::13883"
+    ],
+    "file": "data/nowcoder-editorials/assets/matrix-timestamps.gif",
+    "frames": 6,
+    "durationMs": 7600,
+    "sha256": "68945e2114a4f6c393652c63a33652e48abdb2533886ac53313177241b14db8a",
+    "description": "绿色标出当前覆盖的行、列或正在比较的格子，旁边是实际时间戳。",
+    "scenario": {
+      "operations": [
+        [
+          1,
+          1,
+          3
+        ],
+        [
+          2,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          3
+        ]
+      ],
+      "finalMatrix": [
+        [
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          1,
+          3
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ]
+    }
+  },
+  {
+    "name": "necklace-merge",
+    "problemIds": [
+      "nowcoder-global::16670"
+    ],
+    "file": "data/nowcoder-editorials/assets/necklace-merge.gif",
+    "frames": 4,
+    "durationMs": 5800,
+    "sha256": "563c7a9fc232c9b7bc7dc4e81f0afcf68452f90c4cc2f6f3b8ddcf34ca9ccbf4",
+    "description": "圆是边界标记，线段才是一颗珠；合并不把两个外侧标记删掉。",
+    "scenario": {
+      "boundaryLabels": [
+        10,
+        2,
+        3,
+        5,
+        10
+      ],
+      "energy": 710
+    }
+  },
+  {
+    "name": "interval-end-picking",
+    "problemIds": [
+      "nowcoder-global::16645"
+    ],
+    "file": "data/nowcoder-editorials/assets/interval-end-picking.gif",
+    "frames": 4,
+    "durationMs": 5800,
+    "sha256": "2e3bf21ce995b3bc0ebf6e5220f151376008dd36c4cc9f89ff7e7d3cc7d209f0",
+    "description": "只展示一行即可看清两端选择如何改变后续区间；各行仍独立求最优后相加。",
+    "scenario": {
+      "row": [
+        1,
+        2,
+        3
+      ],
+      "optimalOrder": [
+        1,
+        2,
+        3
+      ],
+      "score": 34
+    }
+  },
+  {
+    "name": "josephus-counting",
+    "problemIds": [
+      "nowcoder-global::22227"
+    ],
+    "file": "data/nowcoder-editorials/assets/josephus-counting.gif",
+    "frames": 13,
+    "durationMs": 13900,
+    "sha256": "fa0ede563117863e8b3129ccb12eb4b2bff604565f8eb44361a517197644ca4a",
+    "description": "原编号一直保留，报数时只沿仍在队伍中的人继续，最后剩编号三。",
+    "scenario": {
+      "n": 5,
+      "start": 1,
+      "count": 2,
+      "survivor": 3
+    }
+  },
+  {
+    "name": "reverse-buttons",
+    "problemIds": [
+      "nowcoder-global::14710"
+    ],
+    "file": "data/nowcoder-editorials/assets/reverse-buttons.gif",
+    "frames": 10,
+    "durationMs": 11200,
+    "sha256": "20108451b11e33a4431e39f1ac7d62fafada32a19a4fc14bc2082db05cd0bdd7",
+    "description": "逆推找到的 GNGN 需要反转；图中把逆向数值和正向核对分成两行。",
+    "scenario": {
+      "target": 20,
+      "backward": [
+        20,
+        9,
+        4,
+        1,
+        0
+      ],
+      "forward": [
+        0,
+        1,
+        4,
+        9,
+        20
+      ],
+      "buttons": "NGNG"
+    }
+  },
+  {
+    "name": "tree-recursion",
+    "problemIds": [
+      "nowcoder-global::16692"
+    ],
+    "file": "data/nowcoder-editorials/assets/tree-recursion.gif",
+    "frames": 14,
+    "durationMs": 14800,
+    "sha256": "2d72ddf87077e219df0bad28fb365a8b7920a2691d8c61aa69c0f7cde2b6810e",
+    "description": "动态展示分割、进入左子树、返回和继续右子树，输出顺序与程序的先序访问一致。",
+    "scenario": {
+      "inorder": "BADC",
+      "postorder": "BDCA",
+      "preorder": "ABCD"
+    }
+  },
+  {
+    "name": "flip-forced-columns",
+    "problemIds": [
+      "nowcoder-global::285342",
+      "nowcoder-global::285340"
+    ],
+    "file": "data/nowcoder-editorials/assets/flip-forced-columns.gif",
+    "frames": 10,
+    "durationMs": 11200,
+    "sha256": "d28ce61c949c0b5171da622054ac8743f8357fdbdc74c628fb926473bf1d4fdf",
+    "description": "一表示灯亮，零表示灯灭；对首列的一个猜测逐列验证，上一列亮位唯一决定本列按键。",
+    "scenario": {
+      "initialRows": [
+        [
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1,
+          1
+        ]
+      ],
+      "pressMasksTopBitZero": [
+        0,
+        12,
+        0,
+        7
+      ],
+      "finalRows": [
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  },
+  {
+    "name": "inversion-merge",
+    "problemIds": [
+      "nowcoder-global::15163"
+    ],
+    "file": "data/nowcoder-editorials/assets/inversion-merge.gif",
+    "frames": 6,
+    "durationMs": 7600,
+    "sha256": "2b632109b9e713ec04178217ecbdc5ba44cb4455dfdb279462c4db5592dd1a6a",
+    "description": "原例为 4、5、1、3、2；先算子段内部的一对，再在跨段合并中新增六对，总计七对。",
+    "scenario": {
+      "original": [
+        4,
+        5,
+        1,
+        3,
+        2
+      ],
+      "sortedLeft": [
+        4,
+        5
+      ],
+      "sortedRight": [
+        1,
+        2,
+        3
+      ],
+      "inversions": 7
+    }
+  },
+  {
+    "name": "median-window-shrink",
+    "problemIds": [
+      "nowcoder-global::224938"
+    ],
+    "file": "data/nowcoder-editorials/assets/median-window-shrink.gif",
+    "frames": 9,
+    "durationMs": 10300,
+    "sha256": "12d997ef7ceec6aab457307be1bfd6e7319a19644584038b389c279c48d88a70",
+    "description": "用已排序的 1、3、6、8、20 和预算三展示扩张、计算中位数费用、移出左端再检查的完整过程。",
+    "scenario": {
+      "sorted": [
+        1,
+        3,
+        6,
+        8,
+        20
+      ],
+      "budget": 3,
+      "maximumCount": 2
+    }
+  },
+  {
+    "name": "mo-socks-pairs",
+    "problemIds": [
+      "nowcoder-global::51115"
+    ],
+    "file": "data/nowcoder-editorials/assets/mo-socks-pairs.gif",
+    "frames": 14,
+    "durationMs": 14800,
+    "sha256": "f7f713d9570856695d7de709f450e85f8f6a48fded780088df1e1214f8c4b797",
+    "description": "使用原样例展示按莫队顺序移动左右端点；绿色为窗口，加入先算新增对，删除先减频次。",
+    "scenario": {
+      "colors": [
+        1,
+        2,
+        3,
+        3,
+        3,
+        2
+      ],
+      "originalQueries": [
+        [
+          2,
+          6
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          1,
+          6
+        ]
+      ],
+      "processingOrder": [
+        2,
+        4,
+        1,
+        3
+      ],
+      "answers": [
+        "2/5",
+        "0/1",
+        "1/1",
+        "4/15"
+      ]
+    }
+  },
+  {
+    "name": "failure-tree-activation",
+    "problemIds": [
+      "nowcoder-global::233500"
+    ],
+    "file": "data/nowcoder-editorials/assets/failure-tree-activation.gif",
+    "frames": 8,
+    "durationMs": 9400,
+    "sha256": "c22e659e121923213f2aa59b8b402ec4658e172915ab5be4c446a4e4e9884881",
+    "description": "以 abab 追加 a 为例，展示结束位置激活、失败树子树计数，以及 k=2、k=3 时沿祖先链找答案。",
+    "scenario": {
+      "finalString": "ababa",
+      "initialLength": 4,
+      "append": "a",
+      "failureParents": [
+        0,
+        0,
+        0,
+        1,
+        2,
+        3
+      ],
+      "beforeCounts": [
+        0,
+        2,
+        2,
+        1,
+        1,
+        0
+      ],
+      "afterCounts": [
+        0,
+        3,
+        2,
+        2,
+        1,
+        1
+      ],
+      "queries": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          1
+        ]
+      ]
+    }
+  },
+  {
+    "name": "augmenting-path",
+    "problemIds": [
+      "nowcoder-global::20472",
+      "nowcoder-global::20483"
+    ],
+    "file": "data/nowcoder-editorials/assets/augmenting-path.gif",
+    "frames": 5,
+    "durationMs": 6700,
+    "sha256": "05f700e5448cfcf13d492b465a9528c288a4144bcdcd30be9f9c4d8bd28650c6",
+    "description": "两行两列的具体例子：第2行经已占用的A列找到第1行，再改配B列；翻转三条边后匹配数增加1。",
+    "scenario": {
+      "matrix": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "before": [
+        [
+          0,
+          0
+        ]
+      ],
+      "alternatingPath": [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "after": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    }
+  },
+  {
+    "name": "circle-envelope-insertion",
+    "problemIds": [
+      "nowcoder-global::230850"
+    ],
+    "file": "data/nowcoder-editorials/assets/circle-envelope-insertion.gif",
+    "frames": 5,
+    "durationMs": 6700,
+    "sha256": "a07316242156c1d5967a96db8077d1147b3c0f59136a1c56676741e21688e560",
+    "description": "沿用原题四个半径1圆：按圆心0、2、3、1依次插入，彩色边界表示此刻获胜圆弧，面积与参考程序逐步一致。",
+    "scenario": {
+      "discs": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "areas": [
+        3.14159265359,
+        6.28318530718,
+        8.196408262161,
+        8.881261518533
+      ],
+      "referenceProgramSha256": "b14796ff9c21167aa1675e42396a134c7466a413504cc8af24b06bd10befcc2b"
+    }
+  },
+  {
+    "name": "rolling-contact-events",
+    "problemIds": [
+      "nowcoder-global::236487"
+    ],
+    "file": "data/nowcoder-editorials/assets/rolling-contact-events.gif",
+    "frames": 23,
+    "durationMs": 22900,
+    "sha256": "5d23e90235845a85f935af458b1fd496bb25dc82a8f863b57af4bbb4c3ca1b99",
+    "description": "按原题样例2与同一份参考程序的接触事件绘制：观察尾、头及支点的切换，并按各阶段头臂长度累加圆弧路程。",
+    "scenario": {
+      "mountain": [
+        [
+          0.2,
+          0.8
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "events": [
+        [
+          1.0,
+          1.0,
+          1.0,
+          2.0,
+          1.0,
+          1.0,
+          1.8157749899217608,
+          0.2,
+          0.8,
+          0.0
+        ],
+        [
+          0.2,
+          0.8,
+          0.029857499854668106,
+          0.757464374963667,
+          1.0,
+          1.0,
+          1.0808390005411683,
+          0.15746437496366703,
+          0.6298574998546681,
+          0.0
+        ],
+        [
+          0.15746437496366703,
+          0.6298574998546681,
+          0.15746437496366703,
+          0.6298574998546681,
+          0.4,
+          1.6,
+          2.4971447216579636,
+          -0.6192463368673513,
+          0.0,
+          0.0
+        ],
+        [
+          -0.6192463368673513,
+          0.0,
+          0.15746437496366703,
+          0.6298574998546681,
+          -0.6192463368688191,
+          -1.1902918429541887e-12,
+          2.4602229218535903,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "totalHeadDistance": 4.465554239608219,
+      "referenceProgramSha256": "7f48169eabab100458be9181e58b8e26688ac04618c61e12104ec0e5e3c07a15"
+    }
+  }
+]

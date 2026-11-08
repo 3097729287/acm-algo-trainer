@@ -8,3 +8,4 @@
 .software-update-notice { position: fixed; z-index: 1200; right: 24px; bottom: 28px; max-width: min(620px, calc(100vw - 48px)); padding: 16px 20px; border: 1px solid #617bcc; border-radius: 12px; background: var(--bg-card, #222632); color: var(--text-primary, #f2f3f8); box-shadow: 0 8px 32px #0005; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
 .software-update-notice button { padding: 7px 10px; }
 .software-update-notice [role="alert"] { flex-basis: 100%; color: #ef9595; }
+.software-download-progress{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}.software-download-progress small{color:var(--muted);font-variant-numeric:tabular-nums}.software-download-progress progress{max-width:100%}

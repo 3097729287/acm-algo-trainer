@@ -1,11 +1,11 @@
 import {AccountError} from './accounts.mjs';
 import {duelPoints} from './duel-points.mjs';
 
-export const ACTIVITIES=['online','matching','problem','replay','contest','lecture','lab','wiki','template','ranked','thought','library','lists','growth','records','settings','rankings'];
+export const ACTIVITIES=['online','matching','problem','replay','contest','lecture','lab','wiki','template','ranked','thought','library','lists','growth','records','settings','rankings','idle'];
 const absent=error=>error.code==='ER_NO_SUCH_TABLE'||/no such table/i.test(error.message);
 export async function presenceSnapshot(game,now){
  try{
-  const [rows]=await game.db.execute('SELECT p.user_id,p.activity FROM account_presence p JOIN account_sessions s ON s.user_id=p.user_id AND s.token_hash=p.token_hash JOIN accounts a ON a.user_id=p.user_id WHERE p.last_seen>? AND s.expires_at>? AND s.password_version=a.password_version AND a.login_id<>?', [now-90000,Math.floor(now/1000),'admin']);
+  const [rows]=await game.db.execute("SELECT p.user_id,p.activity FROM account_presence p JOIN account_sessions s ON s.user_id=p.user_id AND s.token_hash=p.token_hash JOIN accounts a ON a.user_id=p.user_id WHERE p.last_seen>? AND p.activity<>'idle' AND s.expires_at>? AND s.password_version=a.password_version AND a.login_id<>?", [now-90000,Math.floor(now/1000),'admin']);
   return {available:true,serverNow:now,count:rows.length,users:rows.map(row=>({userId:row.user_id,activity:row.activity}))};
  }catch(error){if(absent(error))return {available:false,serverNow:now,count:null,users:[]};throw error;}
 }

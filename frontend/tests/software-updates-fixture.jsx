@@ -6,6 +6,8 @@ import AccountGate from '../src/accounts/AccountGate.jsx';
 let state = { currentVersion: '0.9.3', latestVersion: '0.10.0', status: 'available', canInstall: true, autoCheck: true, notes: '官方 AC 与软件更新\n<script>unsafe()</script>', releaseUrl: 'https://github.com/3097729287/acm-algo-trainer/releases/tag/v0.10.0' };
 const automatic = location.search.includes('automatic');
 if (automatic) state = { ...state, automatic: true, startupCheckRequired: true, status: 'ready' };
+if(location.search.includes('streaming'))state={...state,status:'downloading',downloadedBytes:0,totalBytes:1000000};
+window.setUpdaterState=value=>{state={...state,...value};};
 window.updaterCalls = [];
 window.saveAllowed = false;
 window.guardBlocked = automatic;

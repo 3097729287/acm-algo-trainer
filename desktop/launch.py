@@ -328,12 +328,24 @@ def run_desktop() -> int:
                         if path.suffix.lower()=='.zip':
                             import zipfile
                             from update_patch import inspect_patch
-                            with zipfile.ZipFile(path) as archive:inspect_patch(archive,APP_DIR,version)
+                            with zipfile.ZipFile(path) as archive:
+                                if 'compact.json' in archive.namelist():
+                                    from compact_update import load,select,BaseMismatch
+                                    from update_errors import UpdateBaseMismatch
+                                    try:select(APP_DIR,load(archive,version))
+                                    except BaseMismatch as error:raise UpdateBaseMismatch(str(error)) from error
+                                else:inspect_patch(archive,APP_DIR,version)
                     server.software_updates.preparer=prepare_update
                     def install_update(path, digest, version):
                         if path.suffix.lower() == ".zip":
-                            from update_patch import launch_patch
-                            launch_patch(path, digest, version, APP_DIR)
+                            import zipfile
+                            with zipfile.ZipFile(path) as archive:compact='compact.json' in archive.namelist()
+                            if compact:
+                                from compact_update import launch_bundle
+                                launch_bundle(path,digest,version,APP_DIR)
+                            else:
+                                from update_patch import launch_patch
+                                launch_patch(path, digest, version, APP_DIR)
                         else:
                             launch_installer(path, digest, version, APP_DIR)
                         threading.Timer(1, window.destroy).start()
@@ -403,6 +415,9 @@ def main(argv=None) -> int:
 
 
 if __name__ == "__main__":
+    if len(sys.argv)==7 and sys.argv[1]=='--apply-compact-update':
+        from compact_update import helper_main
+        raise SystemExit(helper_main(sys.argv[2:]))
     if len(sys.argv) == 7 and sys.argv[1] == "--apply-update-patch":
         from update_patch import helper_main
         raise SystemExit(helper_main(sys.argv[2:]))

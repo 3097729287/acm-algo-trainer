@@ -71,7 +71,11 @@ function UpdateAction({ update }) {
   const { state, action, busy,error,deferred } = update;
   if (state.status === 'current') return null;
   if (state.status === 'installing') return <span role="status">正在关闭 ToBe 并安装，完成后将自动重新打开…</span>;
-  if (state.status === 'downloading') return <div role="status"><progress max={state.totalBytes || 1} value={state.downloadedBytes || 0} aria-label="更新包下载进度" /> {Math.floor(100 * (state.downloadedBytes || 0) / (state.totalBytes || 1))}%</div>;
+  if (state.status === 'downloading') {
+    const done=state.downloadedBytes||0,total=state.totalBytes||0,rate=state.downloadRateBytesPerSecond||0;
+    const bytes=value=>value>=1024*1024?`${(value/1024/1024).toFixed(1)} MB`:value>=1024?`${(value/1024).toFixed(1)} KB`:`${value} B`;
+    return <div className="software-download-progress" role="status"><progress max={total||1} value={done} aria-label="更新包下载进度"/><span>{done?`${Number((100*done/(total||1)).toFixed(done<total/100?2:1))}%`:'正在连接下载服务…'}</span>{done>0&&<small>{bytes(done)} / {bytes(total)}{rate>0?` · ${bytes(rate)}/s`:''}</small>}</div>;
+  }
   if(state.status==='repair-required')return <a href={state.releaseUrl} target="_blank" rel="noreferrer">下载 Windows 安装版</a>;
   if(state.errorCode==='storage')return null;
   if(state.status==='install-error'||state.status==='ready'&&error&&!deferred&&!state.installDeferred)return <button className="primary" disabled={busy} onClick={()=>action('install',{retry:true})}>重试安装</button>;

@@ -266,8 +266,10 @@ class Accounts:
         # An immutable snapshot avoids taking the account lock under a training
         # lock. Background ranking work can never acquire another user's token.
         current = self.session
-        if (current and current['userId'] == owner and current['expiresAt'] > time.time()
-                and not (self.state_sync and self.state_sync.needs_reconnect)):
+        # A verified saved session can still read public rankings while a
+        # private snapshot is being reconciled. The service verifies its token
+        # independently; cloud merge errors must not disable the whole board.
+        if current and current['userId'] == owner and current['expiresAt'] > time.time():
             return {'user_id': owner, 'auth_token': current['token'], 'endpoint': current['endpoint']}
         return None
 

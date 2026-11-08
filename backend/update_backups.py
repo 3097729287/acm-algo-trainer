@@ -88,6 +88,58 @@ def recycle_directory(path):
     from system_recycle import recycle
     return recycle(path)
 
+
+def _stable_database_identity(path):
+    """Compare every page, normalizing only SQLite's writer/header counters.
+
+    See sqlite.org/fileformat2.html: offsets 18/19, 24, 40 and 92/96. Schema,
+    encoding, application IDs, unknown tables and all payload bytes remain.
+    Hot journals/WAL are handled by the normal online-backup path instead.
+    """
+    path=Path(path)
+    if not ordinary(path):raise ValueError('Redirected database')
+    for suffix,minimum in [('-wal',32),('-journal',0)]:
+        side=path.with_name(path.name+suffix)
+        if side.exists() and (not ordinary(side) or side.stat().st_size>minimum):raise ValueError('Pending SQLite journal')
+    initial=path.stat();full=hashlib.sha256();stable=hashlib.sha256()
+    with path.open('rb') as stream:
+        header=stream.read(100)
+        if len(header)!=100 or header[:16]!=b'SQLite format 3\0' or header[18] not in (1,2) or header[19] not in (1,2) or header[24:28]!=header[92:96]:raise ValueError('Unknown SQLite header state')
+        full.update(header);normalized=bytearray(header)
+        normalized[18:20]=b'\0'*2;normalized[24:28]=b'\0'*4;normalized[40:44]=b'\0'*4;normalized[92:100]=b'\0'*8;stable.update(normalized)
+        while block:=stream.read(1024*1024):full.update(block);stable.update(block)
+    final=path.stat()
+    signature=lambda s:(s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns,s.st_ctime_ns)
+    if signature(initial)!=signature(final):raise ValueError('SQLite changed during comparison')
+    return full.hexdigest(),stable.hexdigest(),signature(final)
+
+
+def reusable_state_snapshot(database,*,connection=None):
+    """Reuse an identical verified updater snapshot instead of copying it twice."""
+    database=Path(database).resolve();candidates=[]
+    for folder,proof in reversed(_owned(database.parent/'backups')):
+        expected=proof.get('files',{}).get(database.name)
+        saved=folder/database.name
+        if proof.get('complete') is True and isinstance(expected,str) and saved.is_file() and ordinary(saved) and saved.stat().st_size==database.stat().st_size:
+            candidates.append((saved,expected))
+    if not candidates:return None
+    try:
+        if connection is not None and not connection.in_transaction:
+            connection.execute('BEGIN');connection.execute('SELECT COUNT(*) FROM sqlite_schema').fetchone()
+        original=_stable_database_identity(database)
+        for saved,expected in candidates:
+            try:copy=_stable_database_identity(saved)
+            except (OSError,ValueError):continue
+            if copy[0]==expected and copy[1]==original[1]:
+                current=database.stat()
+                if (current.st_dev,current.st_ino,current.st_size,current.st_mtime_ns,current.st_ctime_ns)!=original[2]:return None
+                for suffix,minimum in [('-wal',32),('-journal',0)]:
+                    path=database.with_name(database.name+suffix)
+                    if path.exists() and path.stat().st_size>minimum:return None
+                return saved
+    except (OSError,ValueError):pass
+    return None
+
 def retire_directory(path):
     """Only called for old, verified updater-owned copies; keep two recoveries."""
     return recycle_directory(path)

@@ -1,0 +1,42 @@
+"""Self-contained integer-alphabet suffix array, inlined in each reference."""
+SUFFIX_ARRAY = r'''
+struct SuffixArray {
+    vector<int> sa, height;
+    explicit SuffixArray(const vector<int> &data) {
+        int size = data.size(), n = size + 1;
+        vector<int> symbols = data; symbols.push_back(0);
+        int alphabet = *max_element(symbols.begin(), symbols.end()) + 1;
+        vector<int> order(n), rank(n), shifted(n), nextRank(n), count(max(n, alphabet), 0);
+        for (int x : symbols) count[x]++;
+        for (int x = 1; x < alphabet; x++) count[x] += count[x - 1];
+        for (int i = n - 1; i >= 0; i--) order[--count[symbols[i]]] = i;
+        int classes = 1; rank[order[0]] = 0;
+        for (int i = 1; i < n; i++) { if (symbols[order[i]] != symbols[order[i - 1]]) classes++; rank[order[i]] = classes - 1; }
+        for (int length = 1; length < n && classes < n; length *= 2) {
+            for (int i = 0; i < n; i++) { shifted[i] = order[i] - length; if (shifted[i] < 0) shifted[i] += n; }
+            fill(count.begin(), count.begin() + classes, 0);
+            for (int x : shifted) count[rank[x]]++;
+            for (int i = 1; i < classes; i++) count[i] += count[i - 1];
+            for (int i = n - 1; i >= 0; i--) order[--count[rank[shifted[i]]]] = shifted[i];
+            int nextClasses = 1; nextRank[order[0]] = 0;
+            for (int i = 1; i < n; i++) {
+                int a = order[i - 1], b = order[i];
+                if (rank[a] != rank[b] || rank[(a + length) % n] != rank[(b + length) % n]) nextClasses++;
+                nextRank[b] = nextClasses - 1;
+            }
+            rank.swap(nextRank); classes = nextClasses;
+        }
+        sa.assign(order.begin() + 1, order.end());
+        for (int i = 0; i < size; i++) rank[sa[i]] = i;
+        height.assign(size, 0); int common = 0;
+        for (int i = 0; i < size; i++) {
+            int position = rank[i]; if (position == 0) { common = 0; continue; }
+            int j = sa[position - 1];
+            while (i + common < size && j + common < size && data[i + common] == data[j + common]) common++;
+            height[position] = common; if (common) common--;
+        }
+    }
+};
+'''
+
+EXPLANATION = '后缀数组将全部后缀按字典序排序，height[i] 为相邻后缀 sa[i-1]、sa[i] 的最长公共前缀长度。参考代码采用倍增：已有长度 L 的排名后，用两个半段排名确定长度 2L 的排名，计数排序每轮线性；末尾补唯一最小符号零，把普通后缀排序转成循环移位排序。最后用 Kasai 方法在线性时间构造 height，每次从上一次公共长度减一处继续比较。所有实际字符和分隔符编码都大于零。'
