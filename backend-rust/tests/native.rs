@@ -486,8 +486,8 @@ fn capabilities_inventory_has_every_legacy_operation() {
     let (_temp, config) = fixture();
     let service = Service::open(config).unwrap();
     let value = service.capabilities();
-    assert_eq!(value["legacyTotal"], 134);
-    assert!(value["legacyImplemented"].as_u64().unwrap() < 134);
+    assert_eq!(value["legacyTotal"], 136);
+    assert!(value["legacyImplemented"].as_u64().unwrap() < 136);
     assert_eq!(
         value["endpoints"]
             .as_array()
@@ -496,6 +496,31 @@ fn capabilities_inventory_has_every_legacy_operation() {
             .filter(|e| e["path"] == "pk/v1/*")
             .count(),
         2
+    );
+    assert_eq!(
+        value["endpoints"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|e| e["path"] == "team-training/*" && e["native"] == false)
+            .count(),
+        2
+    );
+    for request in [
+        ApiRequest::get("team-training/history/9ff50828-f862-4544-9535-d5ba858db3e5"),
+        ApiRequest::get("team-training/workbench/problem"),
+    ] {
+        assert_eq!(
+            service.handle(request).error.unwrap().code,
+            "MIGRATION_PENDING"
+        );
+    }
+    assert_eq!(
+        post(&service, "team-training/create", json!({"name":"三人训练"}))
+            .error
+            .unwrap()
+            .code,
+        "MIGRATION_PENDING"
     );
 }
 #[test]

@@ -176,7 +176,9 @@ impl Service {
                 .any(|v| {
                     v["method"] == method
                         && (v["path"] == r.path
-                            || v["path"] == "pk/v1/*" && r.path.starts_with("pk/v1/"))
+                            || ["pk/v1/", "team-training/"].iter().any(|prefix| {
+                                v["path"] == format!("{prefix}*") && r.path.starts_with(prefix)
+                            }))
                 });
             return Err(if known {
                 ApiError::pending()

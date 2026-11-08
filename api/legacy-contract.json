@@ -225,6 +225,11 @@
     },
     {
       "method": "GET",
+      "path": "team-training/*",
+      "operation": "get.team-training.*"
+    },
+    {
+      "method": "GET",
       "path": "templates",
       "operation": "get.templates"
     },
@@ -612,6 +617,11 @@
       "method": "POST",
       "path": "submissions",
       "operation": "post.submissions"
+    },
+    {
+      "method": "POST",
+      "path": "team-training/*",
+      "operation": "post.team-training.*"
     },
     {
       "method": "POST",

@@ -24,7 +24,7 @@ def inventory():
             for value in values:
                 if isinstance(value, ast.Constant) and isinstance(value.value, str) and value.value.startswith('/api/'):
                     endpoints.add(('POST' if start <= node.lineno <= end else 'GET', value.value.removeprefix('/api/')))
-    endpoints.update([('GET', 'pk/v1/*'), ('POST', 'pk/v1/*')])
+    endpoints.update((method, prefix+'/*') for method in ('GET', 'POST') for prefix in ('pk/v1', 'team-training'))
     return sorted(endpoints)
 
 
