@@ -1,0 +1,385 @@
+{
+  "implementationCommit": "e7b5dbcb",
+  "moduleCherryPicks": [
+    "7656f9b0",
+    "172e0329"
+  ],
+  "legacyImplemented": 39,
+  "legacyTotal": 136,
+  "newLegacyApisClaimed": 0,
+  "nativeChecksPassed": 126,
+  "nativeChecksIgnoredByDefault": 1,
+  "serviceIntegrationPending": false,
+  "cli": {
+    "path": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-core.exe",
+    "sha256": "36412837e670c2a524a7617738a4f1e1968bf8b930a12a590593626477eed733",
+    "bytes": 8219469
+  },
+  "desktop": {
+    "path": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-desktop.exe",
+    "sha256": "8d37f33edb8ab400233d7d388406e09f61045c55358523cbd25a6a29ab81621e",
+    "bytes": 21561902
+  },
+  "parity": {
+    "reviews": {
+      "passed": 39,
+      "checks": [
+        "empty-history",
+        "qualified-independent-official-history",
+        "duplicate-ac-keeps-first-pass-streak",
+        "join-real-wa",
+        "beijing-next-day-rewrite",
+        "identical-rewrite-journal",
+        "deferred-rewrite-entry",
+        "ordinary-draft",
+        "review-open-keeps-ordinary-draft",
+        "review-draft-separated",
+        "review-draft-read",
+        "compiled-alias-preserves-canonical-review-and-draft",
+        "ordinary-draft-still-present",
+        "remove-cancels-review-keeps-code",
+        "restore-review",
+        "cancel-restore-identical-journal",
+        "actual-receipt-settles-rewrite",
+        "actual-next-day-reward-once",
+        "same-receipt-poll-does-not-duplicate-reward",
+        "review-bound-history",
+        "reward-attached-only-to-bound-receipt",
+        "backlog-budget-and-paused-new-work",
+        "backlog-allocation-persisted",
+        "clear-today-postpones-real-reviews",
+        "no-same-day-review-refill",
+        "restart-next-day-restores-spaced-queue",
+        "restart-preserves-all-receipts",
+        "frozen-replay-read",
+        "finished-replay-history-no-longer-blocks-workspace",
+        "replay-official-score-alias-and-penalty",
+        "finished-exam-draft-context",
+        "team-history-local-samples-are-not-official-score",
+        "reviewed-local-history-keeps-legacy-score",
+        "calendar-history-keeps-live-label-and-statement-readiness",
+        "tombstoned-replay-still-keeps-reveal-evidence",
+        "tombstoned-contest-stays-readable-by-id",
+        "cancelled-draft-recovered-without-overwriting-normal-context",
+        "prune-only-proven-unedited-legacy-auto-joins",
+        "legacy-prune-receipt"
+      ],
+      "exactLegacyComparisons": 38,
+      "additionalConfirmedAliasCheck": true,
+      "guardsPassed": 5,
+      "guards": [
+        "wrong-task-identity",
+        "finished-exam-cannot-rewrite-draft",
+        "unported-event-name-does-not-drop-history-or-mutate-training",
+        "active-goal-is-not-hidden",
+        "full-learning-evidence-not-projected-as-empty"
+      ],
+      "work": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-reviews-nlfj122h",
+      "nativeSha256": "36412837e670c2a524a7617738a4f1e1968bf8b930a12a590593626477eed733",
+      "nativeBinary": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-core.exe",
+      "privateLiveStateOpened": false,
+      "officialSubmissionsSent": 0,
+      "pythonRuntimeFallback": false,
+      "publicSeedScope": "Previous verified 10 follow-up PDF translation seed; candidate source alone does not synchronize the 18-translation seed."
+    },
+    "phase2": {
+      "passed": 52,
+      "checks": [
+        "catalogue-compact",
+        "catalogue-full",
+        "workspace-empty",
+        "learning-empty",
+        "lectures-empty-queue",
+        "public-training-lists",
+        "custom-training-lists-empty",
+        "problem-public-inline-assets-0",
+        "problem-public-inline-assets-1",
+        "problem-public-inline-assets-2",
+        "training-start",
+        "training-deferred",
+        "draft-python",
+        "workspace-with-draft",
+        "problem-with-draft",
+        "lectures-encountered",
+        "preferences-save",
+        "preferences-merge",
+        "usage-empty",
+        "usage-write-19",
+        "usage-write-20",
+        "usage-write-21",
+        "usage-union",
+        "effective-learning-union",
+        "effective-learning-repeat",
+        "learning-empty-history",
+        "learning-with-history",
+        "quiz-io-basics",
+        "quiz-binary-search",
+        "quiz-dinic",
+        "learning-view-update",
+        "learning-history-tombstone",
+        "training-remove-keeps-draft",
+        "training-restart",
+        "training-clear",
+        "submission-list-0",
+        "submission-list-1",
+        "submission-list-2",
+        "submission-list-3",
+        "submission-list-4",
+        "submission-list-5",
+        "submission-list-6",
+        "submission-list-7",
+        "submission-list-8",
+        "submission-list-9",
+        "submission-list-10",
+        "submission-list-11",
+        "history-code-one",
+        "history-code-two",
+        "history-code-three",
+        "history-code-four",
+        "official-history-and-real-review-view"
+      ],
+      "guardsPassed": 3,
+      "guards": [
+        "running-replay-finalization-not-hidden",
+        "unsupported-start-does-not-mutate-training",
+        "private-catalogue-overlay-not-hidden"
+      ],
+      "work": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-phase2-yjuh9fb2",
+      "personalDataUsed": false,
+      "fixedClock": "2026-11-05T04:00:00+00:00",
+      "catalogueRows": 13466,
+      "nativeSha256": "36412837e670c2a524a7617738a4f1e1968bf8b930a12a590593626477eed733"
+    },
+    "learning": {
+      "passed": 52,
+      "checks": [
+        "first-refresh-no-guessed-time",
+        "idempotent-refresh",
+        "configure-invalid-minutes",
+        "configure-invalid-rest-days",
+        "configure-invalid-tracks",
+        "configure-shared-budget",
+        "wrong-proposal-id",
+        "explicit-adoption",
+        "assisted-study-keeps-source-context",
+        "reading-is-not-independent-evidence",
+        "quiz-wrong-answer",
+        "quiz-rejects-bool",
+        "quiz-only-proves-concept",
+        "cannot-check-off-a-problem",
+        "replace-with-unscheduled-original",
+        "postpone-reallocates-shared-budget",
+        "time-adjustment-keeps-completed-and-history",
+        "all-topics-shared-plan-0",
+        "all-topics-dismiss-0",
+        "all-topics-shared-plan-1",
+        "all-topics-dismiss-1",
+        "all-topics-shared-plan-2",
+        "all-topics-dismiss-2",
+        "all-topics-shared-plan-3",
+        "all-topics-dismiss-3",
+        "all-topics-shared-plan-4",
+        "all-topics-dismiss-4",
+        "switch-proposal-does-not-replace-plan",
+        "switch-mainline-preserves-old-history",
+        "difficulty-advice-meaning",
+        "difficulty-advice-idea",
+        "difficulty-advice-implementation",
+        "difficulty-advice-bug",
+        "difficulty-advice-schedule",
+        "difficulty-advice-verify",
+        "difficulty-advice-transfer",
+        "pace-proposal-hard",
+        "dismiss-proposal-hard",
+        "pace-proposal-easy",
+        "dismiss-proposal-easy",
+        "pace-proposal-forgot",
+        "dismiss-proposal-forgot",
+        "goal-priority-cf",
+        "goal-priority-lanqiao",
+        "goal-priority-topic",
+        "all-rest-days-preserve-waiting-tasks",
+        "restore-study-days",
+        "guided-template-is-not-independent-implementation",
+        "template-evidence-preserves-implementation-stage",
+        "team-role-budget",
+        "team-reflection-does-not-prove-independent-solve",
+        "week-roll-preserves-old-snapshot"
+      ],
+      "guardsPassed": 3,
+      "guards": [
+        "save-failure-rolls-back-archive-and-plan",
+        "save-failure-rolls-back-assisted-training-context",
+        "official-evidence-is-not-guessed-or-erased"
+      ],
+      "work": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-learning-4a5svsic",
+      "personalDataUsed": false,
+      "scope": "Local planning without unported official/review/contest facts; formal architecture remains React + Python",
+      "nativeSha256": "36412837e670c2a524a7617738a4f1e1968bf8b930a12a590593626477eed733"
+    }
+  },
+  "window": {
+    "fullscreen": {
+      "before": {
+        "available": true,
+        "fullscreen": false
+      },
+      "toggled": {
+        "available": true,
+        "fullscreen": true
+      },
+      "restored": {
+        "available": true,
+        "fullscreen": false
+      }
+    },
+    "reactPlanning": {
+      "configured": true,
+      "readingStage": 1,
+      "conceptStage": 2,
+      "independentSolved": 0,
+      "cancellationPreserved": true,
+      "mainlineChanged": true,
+      "historyPreserved": true,
+      "recoveredAfterReload": true,
+      "weeklyBudgetShared": true
+    },
+    "reactWorkspace": {
+      "saved": true,
+      "recoveredAfterReload": true,
+      "training": 1,
+      "problemId": "ABC 469::A"
+    },
+    "localRuns": {
+      "realTauriIpc": true,
+      "realCppCompiler": true,
+      "realPythonInterpreter": true,
+      "problemId": "luogu-training-P1001",
+      "officialSamples": 1,
+      "cppVerdict": "SAMPLE_PASS",
+      "pythonVerdict": "RUN_OK",
+      "customOutput": "42",
+      "pendingReadMillis": 13.384299999999712,
+      "draftLanguageAndHistoryRestored": true,
+      "officialAcClaims": 0
+    },
+    "reviews": {
+      "realTauriIpc": true,
+      "generatedIsolatedJournal": true,
+      "externalSubmissionsSent": 0,
+      "problemId": "luogu-training-P1001",
+      "reviewTaskId": "b4202b7046415ca159d78a90efe10706",
+      "reviewDraftIndependent": true,
+      "normalDraftPreserved": true,
+      "reviewDraftRestoredAfterReload": true,
+      "realCppReviewSampleVerdict": "SAMPLE_PASS",
+      "sampleRunCreatesOfficialResult": false,
+      "cancelRestorePreserved": true,
+      "rewardDerivedFromExistingFixtureReceipt": 20
+    },
+    "contestHistory": {
+      "realTauriIpc": true,
+      "generatedIsolatedJournal": true,
+      "externalSubmissionsSent": 0,
+      "frozenHistoryDisplayed": true,
+      "filteredUnsolved": true,
+      "officialScore": {
+        "accepted": 1,
+        "total": 2,
+        "penalty": 28
+      },
+      "absentStatementSlotPreserved": true,
+      "normalAndFrozenDraftsIndependent": true,
+      "cancelledDraftRecovered": true,
+      "ordinaryReopenAndReloadPreserved": true,
+      "realAccountLevelChanged": false
+    },
+    "assets": {
+      "id": "remote:nowcoder:142559::B",
+      "title": "小月的屏幕",
+      "sha256": "5c8f0062d705aeb5cf21dce1ccbc2f6474dc86110a0c2165eba557626888193e",
+      "mime": "image/png",
+      "bytes": 63479,
+      "realTauriIpc": true,
+      "reviewedPublicSeedImage": true,
+      "originalImageActuallyRendered": true,
+      "assetRouteMatchesOriginalBytes": true,
+      "remoteTransportScope": "This full-seed window reads an embedded original. Remote first-fetch, offline restart, locked-read behavior and failure/no-write boundaries are verified by separate service and transport tests."
+    },
+    "pageErrors": []
+  },
+  "originalImageScreenshot": {
+    "path": "docs\\verification\\20261109-native-original-image.png",
+    "sha256": "9d03fe8a79d439e7e0b6769b9c6ec8a00a09aea0669b2a02d01488adda481e6d"
+  },
+  "serviceTests": [
+    "Only rendered resource fields become candidates, never source/Markdown text.",
+    "Original PNG/PDF, attachments, archived images, translations, detailed solutions, methods and lectures hydrate through the existing service; repeated and offline reads do not download again.",
+    "Missing/offline/failed resources preserve the entire generated personal journal, including drafts and review opening.",
+    "A blocked transport leaves ordinary reads able to finish; no library/catalogue/personal lock is held over network I/O.",
+    "Owner and token checks precede any public transfer.",
+    "Corrupt cached and embedded bytes are rejected by the asset route without overwriting them.",
+    "Running contest scope guards precede the resource transfer.",
+    "Aggregate per-read resource limits reject before transfers or personal writes."
+  ],
+  "liveHttpsScope": "The independent module receipt native-public-assets-module-20261109.json records three actual public HTTPS samples (PNG, JPEG, PDF) downloaded then read offline. Its transport implementation is unchanged. New service tests use generated PNG/PDF and deterministic transports; the full Tauri window displays an embedded original from the current full public seed. These scopes are not combined into a claim of a live remote-first-fetch window.",
+  "cache": {
+    "location": "Fresh sandbox personal parent/cache/public-assets.sqlite3; protected configuration only",
+    "publicSeedReadOnly": true,
+    "existingPythonCacheSchemaCompatible": true,
+    "perResourceMaxBytes": 33554432,
+    "perReadRemoteMaxBytes": 134217728,
+    "perReadRemoteMaxCount": 256,
+    "processConcurrentDownloadsMax": 4,
+    "requestReplayAfterWrite": false,
+    "localSampleRunsNeedBinaryResources": false
+  },
+  "protectedBoundaries": [
+    "Running contest creation, expiry and finalization remain unported.",
+    "Active goals, private catalogue overlays, full planner official evidence, registered-account synchronization and new original-site receipts remain guarded.",
+    "Default cache trust comes only from protected leaderboard.defaults.json. No IPC body selects a host or cache path.",
+    "Missing resources are explicit errors, never fabricated content or an old Python/HTTP backend fallback."
+  ],
+  "cleanup": {
+    "referencesReviewedBeforeUpdate": true,
+    "removedObsoleteImplementation": [
+      "Duplicate early statement hydration before final projection; source bytes now validate before review opening or solution-seen writes.",
+      "Outdated error saying public downloads are not migrated."
+    ],
+    "documentation": "Replaced conflicting current counts and repeated old current-tense sections with a current source/data/package table and a clearly historical verification table; original receipts and historical packages retained.",
+    "supersededTestDiagnosticsRemoved": [
+      {
+        "path": ".backups\\native-public-assets-window-20261109\\failure-runtime.json",
+        "bytes": 239,
+        "sha256": "5b445fb8d3f2179e364d6103dad9eafa157f89ae980baf01ff6074ee7abab091"
+      },
+      {
+        "path": ".backups\\native-public-assets-window-20261109\\failure.json",
+        "bytes": 163,
+        "sha256": "a1b427503ae89b0cdc6c57630848241c9a00a5928b523ea187bb43e43f14bf1c"
+      },
+      {
+        "path": ".backups\\native-public-assets-window-20261109\\failure.png",
+        "bytes": 46655,
+        "sha256": "04cfc0a2de25f61b31ef99a4b84dc246ff61d4f84f539ffc447d40621a41c9b9"
+      },
+      {
+        "path": ".backups\\native-public-assets-window-20261109\\failure.txt",
+        "bytes": 373,
+        "sha256": "6df692c4ddd92df8f2fb87ab2756dbdeb4432de7c69c590e4c227b03a7dce9b4"
+      }
+    ],
+    "otherUnreferencedProductionFilesFound": false
+  },
+  "publicSeedScope": "Previous verified 10 follow-up translations, unchanged; mainline newer public content has not been synchronized.",
+  "latestStandalonePackage": {
+    "sourceCommit": "14889fad5587a2602da5813c40759ba2f17fd9c0",
+    "legacyImplemented": 36,
+    "nativeChecksPassed": 92,
+    "newPackageBuilt": false
+  },
+  "normalInstallationOpened": false,
+  "privateLiveJournalOpened": false,
+  "officialSubmissionsSent": 0,
+  "pythonRuntimeFallback": false
+}
