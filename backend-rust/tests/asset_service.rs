@@ -98,6 +98,17 @@ impl Fixture {
                 params![compressed(json!([])), compressed(json!({}))],
             )
             .unwrap();
+        catalogue
+            .execute_batch(
+                "CREATE TABLE review_knowledge(id TEXT PRIMARY KEY,content BLOB,error TEXT);INSERT INTO metadata VALUES('reviewKnowledgeVersion','1')",
+            )
+            .unwrap();
+        catalogue
+            .execute(
+                "INSERT INTO review_knowledge VALUES('fixture::A',?,NULL)",
+                [compressed(json!({}))],
+            )
+            .unwrap();
         drop(catalogue);
         let resources = folder.path().join("resources");
         std::fs::create_dir(&resources).unwrap();
@@ -150,6 +161,10 @@ impl Fixture {
             entered: Mutex::new(None),
             release: Mutex::new(None),
         })
+    }
+    fn overdue(&self, config: Value) {
+        let personal = Connection::open(&self.config.personal).unwrap();
+        personal.execute("INSERT INTO contests(id,name,status,started_at,deadline,duration,slots,config) VALUES('expired','过期原生考场','running','2026-11-06T03:00:00.000000Z','2026-11-06T04:00:00.000000Z',60,?,?)",params![json!([{"id":"fixture::A","letter":"A","title":"原始图片与 PDF","difficulty":1000,"tags":[],"judgeScope":"official","statementAvailable":true}]).to_string(),config.to_string()]).unwrap();
     }
 }
 struct Transport {
@@ -421,6 +436,136 @@ fn running_contest_scopes_are_checked_before_any_resource_transfer() {
     }
     assert_eq!(transport.calls.load(Ordering::SeqCst), 0);
     assert_eq!(f.fingerprint(), before);
+}
+
+#[test]
+fn an_ordinary_overdue_alias_read_validates_assets_then_closes_at_the_original_deadline() {
+    let f = Fixture::new();
+    let transport = f.transport();
+    let service = Service::open(f.config.clone())
+        .unwrap()
+        .with_test_clock("2026-11-06T05:00:00Z".parse().unwrap())
+        .with_public_assets(f.cache(false, transport.clone()));
+    f.overdue(json!({"strategy":"replay","contest":"Div.3 999"}));
+    let response = get(&service, "problem", "id", "alias::A");
+    assert!(response.ok, "{:?}", response.error);
+    let problem = response.data.unwrap();
+    assert_eq!(problem["locked"], false);
+    assert_eq!(problem["draft"], "原普通草稿 😀");
+    assert_eq!(transport.calls.load(Ordering::SeqCst), 2);
+    let personal = Connection::open(&f.config.personal).unwrap();
+    let record: (String, String) = personal
+        .query_row(
+            "SELECT status,finished_at FROM contests WHERE id='expired'",
+            [],
+            |row| Ok((row.get(0)?, row.get(1)?)),
+        )
+        .unwrap();
+    assert_eq!(
+        record,
+        ("finished".into(), "2026-11-06T04:00:00.000000Z".into())
+    );
+    let after = f.fingerprint();
+    assert!(get(&service, "problem", "id", "alias::A").ok);
+    assert_eq!(f.fingerprint(), after);
+    assert_eq!(transport.calls.load(Ordering::SeqCst), 2);
+}
+
+#[test]
+fn an_overdue_read_with_unavailable_assets_preserves_the_running_journal_and_normal_code() {
+    let f = Fixture::new();
+    let mut transport = f.transport();
+    Arc::get_mut(&mut transport).unwrap().fail = true;
+    let service = Service::open(f.config.clone())
+        .unwrap()
+        .with_test_clock("2026-11-06T05:00:00Z".parse().unwrap())
+        .with_public_assets(f.cache(false, transport.clone()));
+    f.overdue(json!({"strategy":"replay","contest":"Div.3 999"}));
+    let before = f.fingerprint();
+    let response = get(&service, "problem", "id", "alias::A");
+    assert!(!response.ok);
+    assert_eq!(response.error.unwrap().status, 503);
+    assert!(transport.calls.load(Ordering::SeqCst) > 0);
+    assert_eq!(f.fingerprint(), before);
+}
+
+#[test]
+fn unsupported_or_malformed_overdue_records_fail_before_any_public_transfer_or_journal_change() {
+    for kind in ["reward", "team", "projection", "private"] {
+        let f = Fixture::new();
+        let transport = f.transport();
+        let service = Service::open(f.config.clone())
+            .unwrap()
+            .with_test_clock("2026-11-06T05:00:00Z".parse().unwrap())
+            .with_public_assets(f.cache(false, transport.clone()));
+        let config = match kind {
+            "reward" => {
+                json!({"strategy":"replay","contest":"Div.3 999","backgroundReward":{"owner":"retained-real-owner","version":1}})
+            }
+            "team" => json!({"strategy":"team"}),
+            _ => json!({"strategy":"replay","contest":"Div.3 999"}),
+        };
+        f.overdue(config);
+        let personal = Connection::open(&f.config.personal).unwrap();
+        if kind == "projection" {
+            personal
+                .execute(
+                    "UPDATE contests SET slots='[{\"id\":\"fixture::A\"}]' WHERE id='expired'",
+                    [],
+                )
+                .unwrap();
+        }
+        if kind == "private" {
+            personal.execute("INSERT INTO account_problem_facts VALUES('unported-private-alias','{}','2026-11-01T00:00:00Z')",[]).unwrap();
+        }
+        let before = f.fingerprint();
+        let response = get(&service, "problem", "id", "alias::A");
+        assert!(!response.ok, "{kind}");
+        assert_eq!(
+            response.error.unwrap().code,
+            if kind == "projection" {
+                "INVALID_STORED_DATA"
+            } else {
+                "MIGRATION_PENDING"
+            },
+            "{kind}"
+        );
+        assert_eq!(transport.calls.load(Ordering::SeqCst), 0, "{kind}");
+        assert_eq!(f.fingerprint(), before, "{kind}");
+    }
+}
+
+#[test]
+fn a_post_hydration_read_failure_rolls_back_expiry_without_discarding_the_verified_public_cache() {
+    let f = Fixture::new();
+    let transport = f.transport();
+    let service = Service::open(f.config.clone())
+        .unwrap()
+        .with_test_clock("2026-11-06T05:00:00Z".parse().unwrap())
+        .with_public_assets(f.cache(false, transport.clone()));
+    f.overdue(json!({"strategy":"replay","contest":"Div.3 999"}));
+    Connection::open(&f.config.library)
+        .unwrap()
+        .execute("DROP TABLE solutions", [])
+        .unwrap();
+    let before = f.fingerprint();
+    let response = get(&service, "problem", "id", "alias::A");
+    assert!(!response.ok);
+    assert_eq!(transport.calls.load(Ordering::SeqCst), 2);
+    assert_eq!(f.fingerprint(), before);
+    assert!(
+        f.cache(true, f.transport())
+            .is_cached(
+                &f.cache(true, f.transport())
+                    .descriptor(
+                        &Connection::open(&f.config.library).unwrap(),
+                        &sha(&f.image)
+                    )
+                    .unwrap()
+                    .unwrap()
+            )
+            .unwrap()
+    );
 }
 
 #[test]

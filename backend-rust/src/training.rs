@@ -81,6 +81,15 @@ impl Training<'_> {
     pub fn history_visible(&self, id: &str, context: Option<&str>) -> Result<(), ApiError> {
         if let Some(contest) = self.running()? {
             if context != Some(text(&contest, "id")) && self.locked(id)? {
+                if parse(text(&contest, "deadline"))? <= self.now
+                    && crate::contest_lifecycle::expiry_records(self)?
+                        .iter()
+                        .any(|record| record["id"] == contest["id"])
+                {
+                    // Permit only a proven overdue read through preflight.
+                    // The actual transition waits until all resources validate.
+                    return Ok(());
+                }
                 return Err(ApiError::new(
                     403,
                     "CONTEST_LOCKED",
@@ -1078,94 +1087,99 @@ impl Training<'_> {
         let mut knowledge = self
             .catalogue
             .problem_projection(&canonical, &mut problem)?;
-        if r.param("reviewId").is_some_and(|id| !id.is_empty()) || contest_context.is_some() {
+        if r.param("reviewId").is_some_and(|id| !id.is_empty())
+            || contest_context.is_some()
+            || self.running()?.is_some()
+        {
             knowledge = self.catalogue.review_knowledge(&canonical)?;
         }
         self.library
             .hydrate_with_cache(&mut problem, Some(&self.catalogue.db), assets)?;
-        crate::contest_lifecycle::expire(self)?;
-        if let Some(context) = contest_context {
-            crate::contest_history::assert_problem_context(self, id, context, false)?;
-        }
-        self.history_visible(id, contest_context)?;
-        // Validate all source bytes before opening a review can change its journal.
-        let review = crate::reviews::task(self, id, r.param("reviewId"), true)?;
-        let context = review
-            .as_ref()
-            .map(|task| format!("review:{}", text(task, "id")))
-            .unwrap_or_else(|| contest_context.unwrap_or("").to_owned());
-        let allowed = [
-            "id",
-            "title",
-            "markdown",
-            "url",
-            "samples",
-            "limits",
-            "judge",
-            "statementAvailable",
-            "statementError",
-            "statementLoading",
-            "statementVersion",
-            "statementPdf",
-            "currentSourceMarkdown",
-            "statementSupplement",
-            "images",
-            "attachments",
-            "problemType",
-            "localJudgeSupported",
-            "translation",
-            "translationAvailable",
-            "autoTranslate",
-            "templatePractice",
-        ];
-        problem
-            .as_object_mut()
-            .unwrap()
-            .retain(|k, _| allowed.contains(&k.as_str()));
-        problem["id"] = json!(id);
-        problem
-            .as_object_mut()
-            .unwrap()
-            .entry("title")
-            .or_insert_with(|| row["title"].clone());
-        problem["locked"] = json!(self.locked(id)?);
-        problem["solutionMethods"] = if self.locked(id)? {
-            json!([])
-        } else {
-            self.library.solution_summary(&canonical)?
-        };
-        let ids = self.ids(id)?;
-        let mut draft=self.personal.rows("SELECT problem_id,context,code,saved_at FROM drafts WHERE problem_id IN(SELECT value FROM json_each(?)) AND context=? ORDER BY saved_at DESC LIMIT 1",params![json!(ids).to_string(),context])?;
-        if draft.as_array().unwrap().is_empty() && context.is_empty() {
-            draft=self.personal.rows("SELECT problem_id,context,code,saved_at FROM drafts WHERE problem_id IN(SELECT value FROM json_each(?)) AND context IN(SELECT id FROM contests WHERE status='cancelled') ORDER BY saved_at DESC LIMIT 1",[json!(ids).to_string()])?;
-        }
-        let draft = if let Some(record) = draft.as_array().unwrap().first() {
-            self.personal
-                .draft(text(record, "problem_id"), text(record, "context"))?
-        } else {
-            let mut draft = self.personal.draft(id, &context)?;
-            if review.is_some() {
-                draft["draftLanguage"] = self.personal.draft(id, "")?["draftLanguage"].clone();
+        crate::storage::atomic(&self.personal.db, |_| {
+            crate::contest_lifecycle::expire(self)?;
+            if let Some(context) = contest_context {
+                crate::contest_history::assert_problem_context(self, id, context, false)?;
             }
-            draft
-        };
-        for (key, value) in draft.as_object().unwrap() {
-            problem[key] = value.clone();
-        }
-        problem["initialCode"] = templates::initial_selected(self.personal)?;
-        let mut history = r.clone();
-        history.path = "submissions".into();
-        problem["submissions"] = self.submissions(&history, true)?["submissions"].clone();
-        if let Some(task) = review {
-            problem["reviewTask"] = task;
-        }
-        for key in ["tags", "knowledge", "knowledgeAnalysis"] {
-            if let Some(value) = knowledge.get(key).filter(|_| problem["locked"] != true) {
+            self.history_visible(id, contest_context)?;
+            // Validate all source bytes before opening a review can change its journal.
+            let review = crate::reviews::task(self, id, r.param("reviewId"), true)?;
+            let context = review
+                .as_ref()
+                .map(|task| format!("review:{}", text(task, "id")))
+                .unwrap_or_else(|| contest_context.unwrap_or("").to_owned());
+            let allowed = [
+                "id",
+                "title",
+                "markdown",
+                "url",
+                "samples",
+                "limits",
+                "judge",
+                "statementAvailable",
+                "statementError",
+                "statementLoading",
+                "statementVersion",
+                "statementPdf",
+                "currentSourceMarkdown",
+                "statementSupplement",
+                "images",
+                "attachments",
+                "problemType",
+                "localJudgeSupported",
+                "translation",
+                "translationAvailable",
+                "autoTranslate",
+                "templatePractice",
+            ];
+            problem
+                .as_object_mut()
+                .unwrap()
+                .retain(|k, _| allowed.contains(&k.as_str()));
+            problem["id"] = json!(id);
+            problem
+                .as_object_mut()
+                .unwrap()
+                .entry("title")
+                .or_insert_with(|| row["title"].clone());
+            problem["locked"] = json!(self.locked(id)?);
+            problem["solutionMethods"] = if self.locked(id)? {
+                json!([])
+            } else {
+                self.library.solution_summary(&canonical)?
+            };
+            let ids = self.ids(id)?;
+            let mut draft=self.personal.rows("SELECT problem_id,context,code,saved_at FROM drafts WHERE problem_id IN(SELECT value FROM json_each(?)) AND context=? ORDER BY saved_at DESC LIMIT 1",params![json!(ids).to_string(),context])?;
+            if draft.as_array().unwrap().is_empty() && context.is_empty() {
+                draft=self.personal.rows("SELECT problem_id,context,code,saved_at FROM drafts WHERE problem_id IN(SELECT value FROM json_each(?)) AND context IN(SELECT id FROM contests WHERE status='cancelled') ORDER BY saved_at DESC LIMIT 1",[json!(ids).to_string()])?;
+            }
+            let draft = if let Some(record) = draft.as_array().unwrap().first() {
+                self.personal
+                    .draft(text(record, "problem_id"), text(record, "context"))?
+            } else {
+                let mut draft = self.personal.draft(id, &context)?;
+                if review.is_some() {
+                    draft["draftLanguage"] = self.personal.draft(id, "")?["draftLanguage"].clone();
+                }
+                draft
+            };
+            for (key, value) in draft.as_object().unwrap() {
                 problem[key] = value.clone();
             }
-        }
-        problem["formattingAvailable"] = false.into();
-        Ok(problem)
+            problem["initialCode"] = templates::initial_selected(self.personal)?;
+            let mut history = r.clone();
+            history.path = "submissions".into();
+            problem["submissions"] = self.submissions(&history, true)?["submissions"].clone();
+            if let Some(task) = review {
+                problem["reviewTask"] = task;
+            }
+            for key in ["tags", "knowledge", "knowledgeAnalysis"] {
+                if let Some(value) = knowledge.get(key).filter(|_| problem["locked"] != true) {
+                    problem[key] = value.clone();
+                }
+            }
+            problem["formattingAvailable"] = false.into();
+            Ok(problem)
+        })
     }
 }
 pub fn normalize_platform(value: &str) -> &str {

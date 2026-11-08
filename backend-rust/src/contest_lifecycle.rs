@@ -99,21 +99,37 @@ fn finish_record(t: &Training<'_>, record: &Value, ended: &str) -> Result<(), Ap
     Ok(())
 }
 
-pub fn expire(t: &Training<'_>) -> Result<(), ApiError> {
+pub(crate) fn expiry_records(t: &Training<'_>) -> Result<Vec<Value>, ApiError> {
     let records = t.personal.rows(
         "SELECT * FROM contests WHERE status='running' AND deadline<=?",
         [stamp(t.now)],
     )?;
     let records = records.as_array().unwrap();
-    for record in records {
-        finalization_supported(record)?;
+    if !records.is_empty() {
+        local_facts_supported(t)?;
     }
+    for record in records {
+        let config = finalization_supported(record)?;
+        // Read validation is also used before a public resource transfer.
+        // Validate the closed projection without changing the stored journal.
+        let mut closed = record.clone();
+        closed["status"] = json!("finished");
+        closed["finished_at"] = record["deadline"].clone();
+        t.contest_projection(&closed)?;
+        if config["strategy"] == "replay" && !text(&config, "contest").is_empty() {
+            crate::contest_history::display_name(t, text(&config, "contest"))?;
+        }
+    }
+    Ok(records.clone())
+}
+
+pub fn expire(t: &Training<'_>) -> Result<(), ApiError> {
+    let records = expiry_records(t)?;
     if records.is_empty() {
         return Ok(());
     }
-    local_facts_supported(t)?;
     storage::atomic(&t.personal.db, |_| {
-        for record in records {
+        for record in &records {
             finish_record(t, record, text(record, "deadline"))?;
         }
         Ok(())

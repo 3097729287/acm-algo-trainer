@@ -236,6 +236,7 @@ def run(binary,output):
         assert native.execute('SELECT COUNT(*) FROM training WHERE id=?',(lifecycle_rows[3]['id'],)).fetchone()[0]==0
         compare('running-paper-direct-read-keeps-full-frozen-roster',rpc('contest',query={'id':'native-manual-finish'}),old.contest('native-manual-finish'))
         compare('running-problem-hides-solutions-and-knowledge',rpc('problem',query={'id':lifecycle_rows[0]['id'],'contestId':'native-manual-finish'}),old.problem(lifecycle_rows[0]['id'],contest_id='native-manual-finish'))
+        compare('unlocked-ordinary-problem-during-another-paper-keeps-full-knowledge-context',rpc('problem',query={'id':lifecycle_rows[6]['id']}),old.problem(lifecycle_rows[6]['id']))
         compare('recovered-statement-can-open-a-previously-missing-running-slot',rpc('problem',query={'id':lifecycle_rows[1]['id'],'contestId':'native-manual-finish'}),old.problem(lifecycle_rows[1]['id'],contest_id='native-manual-finish'))
         reject('locked-exam-cannot-overwrite-ordinary-draft','draft',{'id':lifecycle_rows[0]['id'],'code':'wrong ordinary context'},lambda:old.save_draft(lifecycle_rows[0]['id'],'wrong ordinary context'),403)
         compare('actual-exam-draft-keeps-context-and-language',rpc('draft',{'id':lifecycle_rows[0]['id'],'contestId':'native-manual-finish','code':'actual exam source 😀','language':'python3'}),old.save_draft(lifecycle_rows[0]['id'],'actual exam source 😀',contest_id='native-manual-finish',language='python3'))
@@ -250,6 +251,10 @@ def run(binary,output):
         value=compare('overdue-finish-freezes-original-deadline',rpc('contests/finish',{'contestId':'native-deadline-finish'}),old.finish_contest('native-deadline-finish'))
         assert value['contest']['finishedAt']==deadline.isoformat()
         compare('deadline-finish-journal-identical',journal_snapshot(native),journal_snapshot(legacy))
+        lifecycle_paper('native-direct-read-expiry',past=True)
+        value=compare('direct-overdue-ordinary-read-closes-before-returning-the-separate-draft',rpc('problem',query={'id':lifecycle_rows[0]['id']}),old.problem(lifecycle_rows[0]['id']))
+        assert value['locked'] is False and value['draft']=='independent normal source before exam'
+        compare('direct-overdue-read-journal-keeps-original-deadline-and-all-source',journal_snapshot(native),journal_snapshot(legacy))
         compare('independent-post-exam-draft-claims-its-own-training-link',rpc('draft',{'id':lifecycle_rows[0]['id'],'code':'new independent source','language':'python3'}),old.save_draft(lifecycle_rows[0]['id'],'new independent source',language='python3'))
         frozen=[]
         for index,row in enumerate(lifecycle_rows[3:6]):
