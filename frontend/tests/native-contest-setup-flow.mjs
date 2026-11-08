@@ -95,5 +95,6 @@ export async function exerciseNativeContestSetup(page,output) {
  await workbench.waitFor({state:'hidden'});
  assert.equal((await rpc(page,'contest',{id:[second.id]})).contest.status,'cancelled');
  assert.equal((await rpc(page,'workspace')).activeContest,null);assert.deepEqual(await normalDrafts(page),ordinaryBefore);
- return {realTauriIpc:true,contestsInsertedByFixtureForThisFlow:0,previewAndStartThroughExistingReact:true,papersActuallyCreated:2,originalPublicProblems:true,blindPreview:true,serverDeadline:true,unchangedNormalDraftRows:true,noUntouchedSlotEnrollment:true,actualExamDraft:true,actualCppCustomExecution:'RUN_OK',customExecutionOfficialAc:0,actualFinishAndReview:true,actualCancel:true,rerollPrefersDifferentOriginals:true,officialSubmissionsSent:0,realAccountLevelChanged:false,replayAndVirtualAuthorityStillProtected:true};
+ return {realTauriIpc:true,contestsInsertedByFixtureForThisFlow:0,previewAndStartThroughExistingReact:true,papersActuallyCreated:2,originalPublicProblems:true,blindPreview:true,serverDeadline:true,unchangedNormalDraftRows:true,noUntouchedSlotEnrollment:true,actualExamDraft:true,actualCppCustomExecution:'RUN_OK',customExecutionOfficialAc:0,actualFinishAndReview:true,actualCancel:true,rerollPrefersDifferentOriginals:true,officialSubmissionsSent:0,realAccountLevelChanged:false,originVpAndRewardAuthorityStillProtected:true};
 }
+export {rpc as nativeRead,normalDrafts};

@@ -103,6 +103,15 @@ impl Catalogue {
             raw.map(|v| decode(&v)).transpose()
         }
     }
+    pub fn contest_rows(&self, name: &str) -> Result<Vec<Value>, ApiError> {
+        let mut query = self.db.prepare_cached(
+            "SELECT full FROM catalogue WHERE json_extract(compact,'$.contest')=? ORDER BY position",
+        )?;
+        query
+            .query_map([name], |row| row.get::<_, Vec<u8>>(0))?
+            .map(|row| decode(&row?))
+            .collect()
+    }
     pub fn problem_projection(&self, id: &str, base: &mut Value) -> Result<Value, ApiError> {
         let (patch, knowledge, error): (Vec<u8>, Vec<u8>, Option<String>) = self.db.query_row(
             "SELECT patch,knowledge,error FROM problem_projections WHERE id=?",

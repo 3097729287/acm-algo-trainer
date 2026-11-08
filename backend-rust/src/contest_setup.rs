@@ -331,7 +331,10 @@ impl PreviewBook {
     ) -> Result<Value, ApiError> {
         local_catalogue(t)?;
         if body["mode"] == "replay" {
-            return Err(ApiError::pending());
+            let paper = crate::replay_setup::preview(t, body)?;
+            let available = paper.slots.len();
+            self.remember(t.now, paper.plan.clone(), paper.slots);
+            return Ok(json!({"plan":paper.plan,"available":available}));
         }
         let local_profiles = profiles()?;
         let config = options(body)?;
@@ -626,11 +629,15 @@ impl PreviewBook {
         let repeated = chosen.iter().filter(|row| exposure(row).0).count();
         let plan = json!({"previewId":Uuid::new_v4().simple().to_string(),"name":format!("模拟赛 · {} 题 / {duration} 分钟",slots.len()),"slots":slots.iter().map(|slot|json!({"letter":slot["letter"],"id":slot["id"],"title":slot["title"],"judgeScope":slot["judgeScope"]})).collect::<Vec<_>>(),"duration":duration,"min":lower,"max":upper,"strategy":config["strategy"],"constraints":config,"selectionNotice":if repeated>0{format!("当前范围的新题不足，本卷含 {repeated} 道曾抽取或练习的题目。")}else{String::new()}});
         self.previous.insert(preview_key, ids.clone());
-        let preview = Preview {
-            at: t.now,
-            plan: plan.clone(),
-            slots,
-        };
+        self.remember(t.now, plan.clone(), slots);
+        Ok(json!({"plan":plan,"available":available}))
+    }
+    fn remember(&mut self, at: DateTime<Utc>, plan: Value, slots: Vec<Value>) {
+        let ids = slots
+            .iter()
+            .map(|slot| text(slot, "id").to_owned())
+            .collect::<Vec<_>>();
+        let preview = Preview { at, plan, slots };
         if let Some(old) = self.previews.iter_mut().find(|p| {
             p.slots
                 .iter()
@@ -644,7 +651,6 @@ impl PreviewBook {
         while self.previews.len() > 20 {
             self.previews.remove(0);
         }
-        Ok(json!({"plan":plan,"available":available}))
     }
     pub fn start(&mut self, t: &Training<'_>, body: &Value) -> Result<Value, ApiError> {
         local_catalogue(t)?;
@@ -685,13 +691,37 @@ impl PreviewBook {
             return Err(ApiError::conflict("选题预览已更新，请使用当前预览"));
         }
         let mut config = preview.plan["constraints"].clone();
-        if config["strategy"] == "replay"
-            || config.get("calendarEvent").is_some()
-            || config.get("backgroundReward").is_some()
-        {
+        if config.get("calendarEvent").is_some() || config.get("backgroundReward").is_some() {
             return Err(ApiError::pending());
         }
-        if [
+        let replay = config["strategy"] == "replay";
+        if replay
+            && [
+                "strategy",
+                "mode",
+                "contest",
+                "rules",
+                "wrongPenalty",
+                "compilePenalty",
+            ]
+            .iter()
+            .any(|key| body.get(*key).is_some())
+        {
+            for key in [
+                "strategy",
+                "mode",
+                "contest",
+                "rules",
+                "wrongPenalty",
+                "compilePenalty",
+            ] {
+                if let Some(value) = body.get(key) {
+                    if *value != config[if key == "mode" { "strategy" } else { key }] {
+                        return Err(ApiError::conflict("重现赛条件已变化，请重新预览"));
+                    }
+                }
+            }
+        } else if [
             "strategy",
             "mode",
             "tags",
@@ -744,7 +774,24 @@ impl PreviewBook {
             HashSet::new()
         };
         let local_profiles = profiles()?;
+        let mut replay_rows = vec![];
+        let mut frozen_slots = preview.slots.clone();
         for identity in &ids {
+            if replay {
+                let row = t
+                    .catalogue
+                    .row(identity, false)?
+                    .ok_or_else(|| ApiError::conflict("原题面或评测资料已变化，请重新生成题目"))?;
+                let available = crate::replay_setup::ready(&row)?;
+                let slot = frozen_slots
+                    .iter_mut()
+                    .find(|slot| slot["id"] == *identity)
+                    .ok_or_else(invalid)?;
+                slot["statementAvailable"] = available.into();
+                slot["judgeScope"] = json!(if available { "official" } else { "unsupported" });
+                replay_rows.push(row);
+                continue;
+            }
             let row = metadata
                 .get(identity)
                 .ok_or_else(|| ApiError::conflict("原题面或评测资料已变化，请重新生成题目"))?;
@@ -761,6 +808,16 @@ impl PreviewBook {
                     "题目资料或通过状态已变化，请重新生成题目",
                 ));
             }
+        }
+        if replay
+            && !frozen_slots
+                .iter()
+                .any(|slot| slot["statementAvailable"] == true)
+        {
+            return Err(ApiError::conflict("这场比赛暂无可打开的题目，请先补全题面"));
+        }
+        if replay && crate::replay_setup::requires_origin_vp(&replay_rows) {
+            return Err(ApiError::pending());
         }
         let name = body
             .get("name")
@@ -800,7 +857,7 @@ impl PreviewBook {
                     }
                 }
             }
-            let mut slots = preview.slots.clone();
+            let mut slots = frozen_slots.clone();
             for slot in &mut slots {
                 let id = text(slot, "id").to_owned();
                 let equivalent = t.ids(&id)?;
@@ -818,11 +875,13 @@ impl PreviewBook {
                     .first()
                     .cloned()
                     .unwrap_or(Value::Null);
-                slot["judgeScope"] = json!(if local_profiles.contains(&id) {
-                    "local"
-                } else {
-                    "samples"
-                });
+                if !replay {
+                    slot["judgeScope"] = json!(if local_profiles.contains(&id) {
+                        "local"
+                    } else {
+                        "samples"
+                    });
+                }
             }
             config["editedTrainingOnly"] = true.into();
             let started = stamp(t.now);

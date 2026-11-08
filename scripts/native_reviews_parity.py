@@ -216,7 +216,7 @@ def run(binary,output):
             return began,ended
         def journal_snapshot(db):
             result={}
-            for table in ['contests','training','drafts','submissions','practice_sets','account_preferences']:
+            for table in ['contests','training','drafts','submissions','practice_sets','account_preferences','ranking_profile']:
                 cursor=db.execute('SELECT * FROM '+table);names=[field[0] for field in cursor.description];values=[]
                 for record in cursor:
                     record=list(record)
@@ -291,7 +291,12 @@ def run(binary,output):
                 for native_id,legacy_id in identity_map.items():value=value.replace(native_id,legacy_id)
             return value
         def same_setup(name,actual,expected):
-            value=compare(name,align_ids(actual),expected)
+            aligned=align_ids(actual)
+            if isinstance(aligned,dict) and {'contests','drafts','ranking_profile'}<=aligned.keys():
+                # The journal is an unordered collection of physical rows.
+                # Sort after UUID alignment, not by two unrelated random UUIDs.
+                aligned={key:sorted(values,key=lambda row:json.dumps(row,ensure_ascii=False,sort_keys=True)) for key,values in aligned.items()}
+            value=compare(name,aligned,expected)
             normalized_identity_checks.append(name)
             return value
         def setup_plan(label):
@@ -339,6 +344,36 @@ def run(binary,output):
         same_setup('actual-created-exam-finish-journal',journal_snapshot(native),journal_snapshot(legacy))
         same_setup('actual-created-paper-tombstone',rpc('contests/delete',{'id':native_id}),old.delete_contests(legacy_id))
         same_setup('actual-created-paper-tombstone-journal',journal_snapshot(native),journal_snapshot(legacy))
+        # The existing profile reader uses only this newly generated empty-token
+        # local journal row. No real account, credential, reward or VP is used.
+        seed('INSERT INTO ranking_profile(singleton,user_id,nickname,auth_token,endpoint,created_at) VALUES(1,?,?,?,?,?)',('generated-native-oracle','隔离测试','','',now[0].isoformat()))
+        old.account_provider=None
+        replay_options={'mode':'replay','contest':'CCPC 2026 长春区域赛'}
+        before=journal_snapshot(native)
+        replay=rpc('contests/preview',replay_options);old_replay=old.preview_contest(replay_options)
+        identity_map[replay['plan']['previewId']]=old_replay['plan']['previewId']
+        same_setup('actual-public-partial-replay-keeps-original-missing-slot',replay,old_replay)
+        assert len(replay['plan']['slots'])==13 and replay['plan']['event']['missingProblems']==['I']
+        assert replay['plan']['event']['complete'] is False and replay['plan']['event']['availableCount']==12
+        assert 'backgroundReward' not in replay['plan']['constraints']
+        assert journal_snapshot(native)==before
+        body={**replay_options,'ids':[slot['id'] for slot in replay['plan']['slots']],'previewId':replay['plan']['previewId'],'duration':replay['plan']['duration']}
+        old_body={**body,'previewId':old_replay['plan']['previewId']}
+        setup_reject('replay-does-not-accept-another-contest',{**body,'contest':'another original'},{**old_body,'contest':'another original'})
+        setup_reject('replay-does-not-accept-different-rules',{**body,'rules':'acm'},{**old_body,'rules':'acm'})
+        created=rpc('contests/start',body);old_created=old.start_contest(old_body)
+        native_id=created['contest']['id'];legacy_id=old_created['contest']['id'];identity_map[native_id]=legacy_id
+        same_setup('actual-public-partial-replay-starts-with-twelve-openable-slots',created,old_created)
+        same_setup('actual-public-partial-replay-start-journal',journal_snapshot(native),journal_snapshot(legacy))
+        assert created['contest']['slots'][8]['statementAvailable'] is False
+        ready_id=replay['plan']['slots'][0]['id']
+        compare('actual-public-replay-exam-edit-is-scoped',rpc('draft',{'id':ready_id,'contestId':native_id,'code':'// isolated replay source 😀','language':'cpp17'}),old.save_draft(ready_id,'// isolated replay source 😀',contest_id=legacy_id,language='cpp17'))
+        same_setup('actual-public-replay-exam-edit-journal',journal_snapshot(native),journal_snapshot(legacy))
+        same_setup('actual-public-replay-finish-does-not-make-a-missing-contest-complete',rpc('contests/finish',{'contestId':native_id}),old.finish_contest(legacy_id))
+        same_setup('actual-public-replay-finish-keeps-every-original-slot-and-source',journal_snapshot(native),journal_snapshot(legacy))
+        same_setup('actual-public-replay-tombstone-does-not-delete-real-code',rpc('contests/delete',{'id':native_id}),old.delete_contests(legacy_id))
+        same_setup('actual-public-replay-tombstone-journal',journal_snapshot(native),journal_snapshot(legacy))
+        assert not native.execute("SELECT 1 FROM account_preferences WHERE key LIKE 'background-%'").fetchone()
         contest('unknown-retained-name',config={'contest':'Unknown private provenance fixture'})
         unchanged=native.execute('SELECT * FROM training ORDER BY id').fetchall()
         assert rpc('workspace',fail=True)['code']=='MIGRATION_PENDING';assert native.execute('SELECT * FROM training ORDER BY id').fetchall()==unchanged;guards.append('unported-event-name-does-not-drop-history-or-mutate-training')

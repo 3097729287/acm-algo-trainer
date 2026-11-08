@@ -369,8 +369,8 @@ fn private_facts_replay_authority_and_an_existing_active_paper_cannot_be_silentl
             &json!({"mode":"replay","contest":"original"})
         )
         .unwrap_err()
-        .code,
-        "MIGRATION_PENDING"
+        .status,
+        404
     );
     assert_eq!(f.fingerprint(), before);
     book.start(&f.training(), &start_body(&plan)).unwrap();
@@ -491,4 +491,343 @@ json.dump(result,sys.stdout,ensure_ascii=False)
     );
     let legacy: Value = serde_json::from_slice(&output.stdout).unwrap();
     assert_eq!(json!(answers), legacy);
+}
+
+fn replay_fixture() -> Fixture {
+    let mut f = Fixture::new();
+    for (index, label) in ["A", "C10", "C2", "C1"].iter().enumerate() {
+        for (field, value) in [
+            ("contest", json!("Native Replay")),
+            ("series", json!("Native")),
+            ("platform", json!("AtCoder")),
+            ("problem", json!(label)),
+            (
+                "url",
+                json!(format!(
+                    "https://atcoder.jp/contests/native/tasks/native_{index}"
+                )),
+            ),
+            ("contestProblemCount", json!(4)),
+            ("source", json!("archive")),
+            ("startedAt", json!("2026-11-01T04:00:00Z")),
+            ("endedAt", json!("2026-11-01T05:40:00Z")),
+            ("catalogContentReady", json!(index != 2)),
+            ("catalogReplayReady", json!(index != 2)),
+        ] {
+            f.patch(index, field, value);
+        }
+    }
+    f.patch(2, "catalogHidden", true.into());
+    f.patch(
+        2,
+        "statementRetirementPolicy",
+        json!("public-statement-audit-v1"),
+    );
+    f.patch(
+        2,
+        "statementPriorVisibility",
+        json!({"catalogHidden":false}),
+    );
+    replay_info(&f, 4, false);
+    f
+}
+fn replay_info(f: &Fixture, count: usize, complete: bool) {
+    let info = json!({"events":[{"name":"Native Replay","count":count,"expectedCount":4,"complete":complete,"duration":100,"durationSource":"原站公开比赛时间","rules":"acm"}]});
+    f.catalogue
+        .db
+        .execute(
+            "UPDATE metadata SET value=? WHERE key='replayEvents'",
+            [info.to_string()],
+        )
+        .unwrap();
+}
+fn replay_request() -> Value {
+    json!({"mode":"replay","contest":"Native Replay"})
+}
+
+#[test]
+fn replay_preserves_audited_missing_slots_and_numeric_letters_without_writing_progress() {
+    let mut f = replay_fixture();
+    let mut book = PreviewBook::default();
+    let before = f.fingerprint();
+    let result = f.preview(&mut book, &replay_request());
+    let plan = &result["plan"];
+    assert_eq!(result["available"], 4);
+    assert_eq!(plan["duration"], 100);
+    assert_eq!(plan["event"]["availableCount"], 3);
+    assert_eq!(plan["event"]["missingProblems"], json!(["C2"]));
+    assert_eq!(plan["event"]["complete"], false);
+    assert_eq!(
+        plan["slots"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|s| s["letter"].clone())
+            .collect::<Vec<_>>(),
+        vec![json!("A"), json!("C1"), json!("C2"), json!("C10")]
+    );
+    assert_eq!(plan["slots"][2]["statementAvailable"], false);
+    assert_eq!(plan["slots"][2]["judgeScope"], "unsupported");
+    assert_eq!(plan["slots"][0]["judgeScope"], "official");
+    assert!(plan["constraints"].get("backgroundReward").is_none());
+    assert!(plan["slots"][0].get("tags").is_none());
+    assert!(plan["slots"][0].get("difficulty").is_none());
+    assert_eq!(f.fingerprint(), before);
+}
+
+#[test]
+fn a_partial_replay_can_start_finish_and_cancel_without_enrolling_untouched_problems() {
+    let mut f = replay_fixture();
+    let mut book = PreviewBook::default();
+    let plan = f.preview(&mut book, &replay_request())["plan"].clone();
+    let started = book.start(&f.training(), &start_body(&plan)).unwrap();
+    let cid = text(&started["contest"], "id").to_owned();
+    assert_eq!(started["contest"]["slots"].as_array().unwrap().len(), 4);
+    assert_eq!(started["contest"]["slots"][2]["statementAvailable"], false);
+    assert_eq!(
+        f.personal
+            .db
+            .query_row("SELECT COUNT(*) FROM training", [], |r| r.get::<_, i64>(0))
+            .unwrap(),
+        0
+    );
+    let finished = crate::contest_lifecycle::finish(&f.training(), &cid).unwrap();
+    assert_eq!(finished["contest"]["status"], "finished");
+    assert_eq!(finished["contest"]["accepted"], 0);
+    let plan = f.preview(&mut book, &replay_request())["plan"].clone();
+    let started = book.start(&f.training(), &start_body(&plan)).unwrap();
+    let cid = text(&started["contest"], "id").to_owned();
+    crate::contest_lifecycle::cancel(&f.training(), &cid).unwrap();
+    assert_eq!(
+        f.personal
+            .db
+            .query_row("SELECT COUNT(*) FROM training", [], |r| r.get::<_, i64>(0))
+            .unwrap(),
+        0
+    );
+    assert_eq!(
+        f.personal
+            .db
+            .query_row(
+                "SELECT COUNT(*) FROM account_preferences WHERE key LIKE 'background-%'",
+                [],
+                |r| r.get::<_, i64>(0)
+            )
+            .unwrap(),
+        0
+    );
+}
+
+#[test]
+fn replay_source_vp_and_original_duration_reward_authority_cannot_be_skipped() {
+    let mut f = replay_fixture();
+    let mut book = PreviewBook::default();
+    for i in 0..4 {
+        f.patch(i, "catalogHidden", false.into());
+        f.patch(i, "catalogReplayReady", true.into());
+        f.patch(i, "catalogContentReady", true.into());
+    }
+    replay_info(&f, 4, true);
+    let before = f.fingerprint();
+    assert_eq!(
+        book.preview(&f.training(), &replay_request())
+            .unwrap_err()
+            .code,
+        "MIGRATION_PENDING"
+    );
+    assert_eq!(f.fingerprint(), before);
+    assert!(book.previews.is_empty());
+    // An explicit training duration has no complete-event reward policy. It
+    // still cannot impersonate a Codeforces browser VP receipt.
+    let request = json!({"mode":"replay","contest":"Native Replay","duration":99});
+    let plan = f.preview(&mut book, &request)["plan"].clone();
+    assert!(plan["constraints"].get("backgroundReward").is_none());
+    for i in 0..4 {
+        f.patch(
+            i,
+            "url",
+            json!(format!(
+                "https://codeforces.com/gym/999999/problem/{}",
+                char::from(b'A' + i as u8)
+            )),
+        );
+    }
+    let plan = f.preview(&mut book, &request)["plan"].clone();
+    let before = f.fingerprint();
+    assert_eq!(
+        book.start(&f.training(), &start_body(&plan))
+            .unwrap_err()
+            .code,
+        "MIGRATION_PENDING"
+    );
+    assert_eq!(f.fingerprint(), before);
+    assert_eq!(book.previews.len(), 1);
+}
+
+#[test]
+fn replay_revalidates_missing_statements_and_conditions_without_consuming_a_valid_preview() {
+    let mut f = replay_fixture();
+    let mut book = PreviewBook::default();
+    let plan = f.preview(&mut book, &replay_request())["plan"].clone();
+    let before = f.fingerprint();
+    let mut request = start_body(&plan);
+    request["contest"] = "another source".into();
+    assert_eq!(book.start(&f.training(), &request).unwrap_err().status, 409);
+    assert_eq!(f.fingerprint(), before);
+    assert_eq!(book.previews.len(), 1);
+    for i in [0, 1, 3] {
+        f.patch(i, "catalogReplayReady", false.into());
+    }
+    assert_eq!(
+        book.start(&f.training(), &start_body(&plan))
+            .unwrap_err()
+            .status,
+        409
+    );
+    assert_eq!(f.fingerprint(), before);
+    assert_eq!(book.previews.len(), 1);
+    f.patch(2, "catalogHidden", false.into());
+    f.patch(2, "catalogReplayReady", true.into());
+    f.patch(2, "catalogContentReady", true.into());
+    let result = book.start(&f.training(), &start_body(&plan)).unwrap();
+    assert_eq!(result["contest"]["slots"][2]["statementAvailable"], true);
+    let persisted: String = f
+        .personal
+        .db
+        .query_row(
+            "SELECT slots FROM contests WHERE id=?",
+            [text(&result["contest"], "id")],
+            |row| row.get(0),
+        )
+        .unwrap();
+    assert_eq!(
+        serde_json::from_str::<Value>(&persisted).unwrap()[2]["judgeScope"],
+        "official"
+    );
+    assert_eq!(result["contest"]["slots"][0]["statementAvailable"], false);
+}
+
+#[test]
+fn replay_mirror_preference_unions_tags_and_does_not_revive_other_hidden_rows() {
+    let mut f = replay_fixture();
+    f.patch(
+        0,
+        "url",
+        json!("https://codeforces.com/gym/101955/problem/A"),
+    );
+    f.patch(0, "platform", json!("Codeforces"));
+    f.patch(1, "url", json!("https://www.luogu.com.cn/problem/P17392"));
+    f.patch(1, "problem", json!("A"));
+    f.patch(1, "catalogContentReady", false.into());
+    f.patch(1, "tags", json!(["BFS", "extra"]));
+    replay_info(&f, 3, false);
+    let mut book = PreviewBook::default();
+    let result = f.preview(&mut book, &replay_request());
+    assert_eq!(result["available"], 3);
+    let slot = &book.previews[0].slots[0];
+    assert_eq!(slot["id"], f.rows[0]["id"]);
+    assert_eq!(slot["tags"], json!(["线性 DP", "BFS", "extra"]));
+    f.patch(3, "catalogHidden", true.into());
+    replay_info(&f, 2, false);
+    let result = f.preview(&mut book, &replay_request());
+    assert_eq!(result["available"], 2);
+    assert!(
+        result["plan"]["slots"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|slot| slot["id"] != f.rows[3]["id"])
+    );
+}
+
+#[test]
+fn replay_readiness_keeps_real_native_source_capability_and_stale_school_proofs_separate() {
+    let mut f = replay_fixture();
+    let mut row = f.rows[0].clone();
+    for url in [
+        "http://atcoder.jp/contests/native/tasks/native_a",
+        "https://user@atcoder.jp/contests/native/tasks/native_a",
+        "https://atcoder.jp:444/contests/native/tasks/native_a",
+        "https://atcoder.jp/contests/native/tasks/native_a?session=x",
+        "https://untrusted.example/problem/A",
+    ] {
+        row["url"] = json!(url);
+        assert!(!crate::replay_setup::ready(&row).unwrap(), "{url}");
+    }
+    row["url"] = json!("https://atcoder.jp:443/contests/native/tasks/native_a#section");
+    assert!(crate::replay_setup::ready(&row).unwrap());
+    row["problemType"] = json!("interactive");
+    assert!(crate::replay_setup::ready(&row).unwrap());
+    row["problemType"] = json!("communication");
+    assert!(!crate::replay_setup::ready(&row).unwrap());
+    row["problemType"] = json!("standard");
+    row["schoolTraining"] = true.into();
+    row["catalogReplayReady"] = false.into();
+    assert_eq!(
+        crate::replay_setup::ready(&row).unwrap_err().code,
+        "MIGRATION_PENDING"
+    );
+    for i in 0..4 {
+        f.patch(i, "catalogReplayReady", false.into());
+    }
+    let before = f.fingerprint();
+    let mut book = PreviewBook::default();
+    assert_eq!(
+        book.preview(&f.training(), &replay_request())
+            .unwrap_err()
+            .status,
+        422
+    );
+    assert_eq!(f.fingerprint(), before);
+    assert!(book.previews.is_empty());
+}
+
+#[test]
+fn real_legacy_replay_preview_matches_the_native_missing_statement_roster_and_rules() {
+    let python = std::env::var("TB_NATIVE_TEST_PYTHON").unwrap();
+    let mut f = replay_fixture();
+    let mut book = PreviewBook::default();
+    let request = json!({"mode":"replay","contest":"Native Replay","duration":"100","rules":"xcpc","wrongPenalty":"30","compilePenalty":true,"topic":17,"tags":17,"platform":17,"excludeSolved":17});
+    let mut actual = book.preview(&f.training(), &request).unwrap();
+    actual["plan"].as_object_mut().unwrap().remove("previewId");
+    let script = r#"import datetime as dt,json,sys,threading
+from pathlib import Path
+root=Path(sys.argv[1]);sys.path[:0]=[str(root/'backend'),str(root/'backend/common')]
+from training import TrainingService
+from assets import AssetLibrary
+payload=json.load(sys.stdin);service=TrainingService.__new__(TrainingService);service.lock=threading.RLock()
+service._library=lambda:payload['rows'];service._asset_library=lambda:AssetLibrary.__new__(AssetLibrary)
+service._ranking_profile=lambda:{'user_id':'generated-test-only'};service.previews={};service.clock=lambda:dt.datetime(2026,11,9,4,tzinfo=dt.timezone.utc)
+value=service.preview_contest(payload['request']);value['plan'].pop('previewId');json.dump(value,sys.stdout,ensure_ascii=False)
+"#;
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .unwrap();
+    let mut child = Command::new(python)
+        .args(["-c", script])
+        .arg(root)
+        .env("PYTHONUTF8", "1")
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    child
+        .stdin
+        .take()
+        .unwrap()
+        .write_all(
+            json!({"rows":f.rows,"request":request})
+                .to_string()
+                .as_bytes(),
+        )
+        .unwrap();
+    let output = child.wait_with_output().unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let expected: Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(actual, expected);
 }

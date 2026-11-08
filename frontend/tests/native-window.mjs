@@ -16,6 +16,7 @@ import { exerciseNativeGoals } from './native-goals-flow.mjs';
 import { exerciseNativeReviewedContent } from './native-reviewed-content-flow.mjs';
 import { exerciseNativeContestLifecycle } from './native-contest-lifecycle-flow.mjs';
 import { exerciseNativeContestSetup } from './native-contest-setup-flow.mjs';
+import { exerciseNativeReplaySetup } from './native-replay-setup-flow.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const packaged = process.argv.includes('--packaged');
@@ -147,6 +148,7 @@ try {
   if(process.env.TB_NATIVE_TEST_CONTEST_HISTORY==='1')results.contestHistory=await exerciseNativeContestHistory(page,output,sandbox,process.env.TB_NATIVE_TEST_PYTHON);
   if(process.env.TB_NATIVE_TEST_CONTEST_LIFECYCLE==='1')results.contestLifecycle=await exerciseNativeContestLifecycle(page,output,sandbox,process.env.TB_NATIVE_TEST_PYTHON);
   if(process.env.TB_NATIVE_TEST_CONTEST_SETUP==='1')results.contestSetup=await exerciseNativeContestSetup(page,output);
+  if(process.env.TB_NATIVE_TEST_REPLAY_SETUP==='1')results.replaySetup=await exerciseNativeReplaySetup(page,output);
   if(process.env.TB_NATIVE_TEST_ASSETS==='1')results.assets=await exerciseNativeAssets(page,output);
   if(process.env.TB_NATIVE_TEST_CONTENT1610==='1')results.reviewedContent=await exerciseNativeReviewedContent(page,output);
   assert.equal(results.capabilities.deployment, 'local-test-only');
