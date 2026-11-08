@@ -1,5 +1,6 @@
 import {Gameplay} from '../src/gameplay.mjs';
 import {ThoughtDuels} from '../src/thought-duels.mjs';
+import {TeamTraining} from '../src/team-training.mjs';
 // Test-only SQLite store for exercising the production API protocol offline.
 import {SharedTranslations} from '../src/shared-translations.mjs';
 import {RankingDominance} from '../src/ranking-dominance.mjs';
@@ -21,6 +22,9 @@ export class SQLiteStore {
     if (!this.database.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='users'").get()) {
       this.database.exec(readFileSync(new URL('./schema.sql', import.meta.url), 'utf8'));
     }
+    if (!this.database.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='team_lobby'").get()) {
+      this.database.exec(readFileSync(new URL('./team-schema.sql', import.meta.url), 'utf8'));
+    }
     const execute = async (sql, params=[]) => {
       const statement=this.database.prepare(sql);
       if (/^\s*SELECT/i.test(sql)) return [statement.all(...params)];
@@ -31,6 +35,7 @@ export class SQLiteStore {
     this.serial=action=>{const next=writes.then(action);writes=next.catch(()=>{});return next;};
     this.gameplay=new Gameplay({execute,transaction:chunkTransaction},'sqlite');
     this.pk=new ThoughtDuels({execute,transaction:chunkTransaction},'sqlite');
+    this.teams=new TeamTraining({execute,transaction:chunkTransaction},'sqlite');
     this.translations=new SharedTranslations({execute},'sqlite');
     this.dominance=new RankingDominance({execute,transaction:chunkTransaction},'sqlite');
     this.accountAdmin=new AccountAdministration({execute,transaction:chunkTransaction},'sqlite');

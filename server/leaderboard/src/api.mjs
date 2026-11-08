@@ -12,6 +12,7 @@ import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 import {trainingListLikes} from './training-list-likes.mjs';
 import {adminAccounts} from './admin-accounts.mjs';
 import {PkError} from './thought-duels.mjs';
+import {TeamError} from './team-training.mjs';
 
 const VERSION = '1.4.8';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
@@ -137,7 +138,7 @@ export async function handle(request, env) {
     const timestamp = new Date(now).toISOString();
     if (path === '/v1/health' && request.method === 'GET') {
       await env.STORE.health();
-      return json({ ok: true, version: VERSION, thoughtModeProtocol:env.STORE.pk&&await env.STORE.pk.available()?1:0, thoughtModeEnabled:Boolean(env.STORE.pk?.ready), eventScope: 'official', gameplayProtocol:env.STORE.gameplay&&await env.STORE.gameplay.available()?1:0, rankingDominanceProtocol:env.STORE.dominance&&await env.STORE.dominance.available()?1:0, sharedTranslationProtocol:env.STORE.translations&&await env.STORE.translations.available()?1:0, accountStateProtocol: 1, accountChunkProtocol:env.STORE.chunks&&await env.STORE.chunks.available()?2:0, adminAccountProtocol:env.STORE.accountAdmin&&await env.STORE.accountAdmin.available()?1:0, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, originalAvatarProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
+      return json({ ok: true, version: VERSION, teamTrainingProtocol:env.STORE.teams&&await env.STORE.teams.available()?1:0, thoughtModeProtocol:env.STORE.pk&&await env.STORE.pk.available()?1:0, thoughtModeEnabled:Boolean(env.STORE.pk?.ready), eventScope: 'official', gameplayProtocol:env.STORE.gameplay&&await env.STORE.gameplay.available()?1:0, rankingDominanceProtocol:env.STORE.dominance&&await env.STORE.dominance.available()?1:0, sharedTranslationProtocol:env.STORE.translations&&await env.STORE.translations.available()?1:0, accountStateProtocol: 1, accountChunkProtocol:env.STORE.chunks&&await env.STORE.chunks.available()?2:0, adminAccountProtocol:env.STORE.accountAdmin&&await env.STORE.accountAdmin.available()?1:0, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, originalAvatarProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
     }
     if (path === '/v1/profile/register') throw new ApiError(410, '请升级 TB 并注册账号后登录');
     if (['/v1/accounts/register', '/v1/accounts/login'].includes(path) && request.method === 'POST') {
@@ -192,6 +193,30 @@ export async function handle(request, env) {
     if (path === '/v1/accounts/me' && request.method === 'GET') {
       if (env.READ_ONLY !== '1') await env.STORE.recordLogin(user.user_id, bounds('daily', now).day, timestamp);
       return json({ account: publicAccount(user), stateRevision: await env.STORE.stateRevision(user.user_id), singleSession: true });
+    }
+    if(path.startsWith('/v1/team-training/')){
+      const teams=env.STORE.teams,owner=user.user_id;
+      if(!teams)throw new TeamError(503,'UNAVAILABLE','团队训练服务尚未就绪');
+      await limit(env,'team-training:'+owner,240,60,Math.floor(now/1000));
+      if(request.method==='GET'&&path==='/v1/team-training/state')return json(await teams.read(owner,now));
+      if(!await teams.available())throw new TeamError(503,'UNAVAILABLE','团队训练服务尚未就绪');
+      if(request.method==='GET'){
+        if(path==='/v1/team-training/catalogue'){
+          const id=url.searchParams.get('id');
+          if(id){const contest=teams.contests.get(id);if(!contest)throw new TeamError(404,'CONTEST_INVALID','没有找到这场比赛');return json({owner,revision:teams.catalogue.revision,contest});}
+          return json({owner,revision:teams.catalogue.revision,contests:teams.catalogue.contests.map(({id,title,platform,availableProblems,missingProblems})=>({id,title,platform,availableProblems,missingProblems}))});
+        }
+        if(path==='/v1/team-training/standings')return json({owner,...await teams.standings(now)});
+        if(path==='/v1/team-training/history')return json(await teams.history(owner,now));
+        const record=/^\/v1\/team-training\/history\/([a-f0-9-]{36})$/.exec(path);
+        if(record)return json(await teams.history(owner,now,record[1]));
+      }
+      const action=/^\/v1\/team-training\/(create|join|leave|configure|ready|start|poll|claim|release|select|draft|finish)$/.exec(path)?.[1];
+      if(request.method==='POST'&&action){
+        const value=await body(request,['requestId','teamRevision','inviteCode','name','contestId','durationMinutes','ready','roomId','leaseToken','problemId','revision','language','code'],262144);
+        return json(await teams.write(owner,tokenHash(credentials(request).token),action,value,now));
+      }
+      throw new TeamError(404,'ROUTE_NOT_FOUND','没有找到这个团队训练接口');
     }
     if(path.startsWith('/api/pk/v1/')){
       const pk=env.STORE.pk,owner=user.user_id;
@@ -362,6 +387,11 @@ export async function handle(request, env) {
     if (path === '/v1/leaderboard' && request.method === 'GET') return json(await leaderboard(user, env, url.searchParams.get('period') || 'daily', now));
     throw new ApiError(404, '没有找到这个接口');
   } catch (error) {
+    const teamRequest=new URL(request.url).pathname.startsWith('/v1/team-training/');
+    if(teamRequest){
+      if(error instanceof ApiError||error instanceof AccountError)return json({error:error.message,code:error.code?.startsWith('TEAM_')?error.code:error.status===401?'TEAM_SESSION_EXPIRED':error.status===429?'TEAM_RATE_LIMIT':'TEAM_REQUEST_INVALID'},error.status,error.status===429?{'Retry-After':'60'}:{});
+      return json({error:'团队训练服务暂时无法完成请求',code:'TEAM_INTERNAL'},503);
+    }
     const pkRequest=new URL(request.url).pathname.startsWith('/api/pk/v1/');
     if (error instanceof EventConflict) return json({ error: '通过记录编号与原题不匹配' }, 409);
     if (error instanceof ApiError || error instanceof AccountError) return json({ error: error.message,...(pkRequest?{code:error.code?.startsWith('PK_')?error.code:error.status===401?'PK_SESSION_EXPIRED':error.status===429?'PK_RATE_LIMIT':'PK_REQUEST_INVALID'}:{}) }, error.status, error.status === 429 ? { 'Retry-After': '60' } : {});
