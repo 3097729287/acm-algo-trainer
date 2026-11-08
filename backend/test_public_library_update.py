@@ -62,6 +62,16 @@ class PublicLibraryUpdateTests(unittest.TestCase):
     def test_fresh_full_seed_uses_the_normal_merge_without_an_overlay(self):
         self.assertTrue(merge_public_seed(self.live,self.target.path,descriptor=self.descriptor,cache=self.root/'cache'))
         self.assertFalse((self.root/'cache').exists())
+    def test_full_installer_marker_supersedes_old_overlay_and_rejects_wrong_seed(self):
+        self.descriptor.write_text(json.dumps({'schema':1,'mode':'complete-seed','targetSeedSha256':self.result['targetSeedSha256']}))
+        # A full install deliberately ignores an obsolete transport left from
+        # a prior compact installation, even if that old file is corrupt.
+        (self.descriptor.parent/self.result['descriptor']['payload']).write_bytes(b'obsolete row payload')
+        before=self.live.path.read_bytes()
+        with self.assertRaisesRegex(ValueError,'complete public seed'):merge_public_seed(self.live,self.base.path,descriptor=self.descriptor)
+        self.assertEqual(self.live.path.read_bytes(),before)
+        self.assertTrue(merge_public_seed(self.live,self.target.path,descriptor=self.descriptor,cache=self.root/'cache'))
+        self.assertFalse((self.root/'cache').exists())
     def test_cache_filename_collision_preserves_the_existing_private_file(self):
         cache=self.root/'collision';cache.mkdir();private=cache/(self.result['descriptor']['databaseSha256']+'.sqlite3')
         collision=self.make_live(private)

@@ -18,6 +18,9 @@ def load_descriptor(path):
     path=Path(path).resolve(strict=True)
     if path.stat().st_size>256*1024:raise ValueError('Public update descriptor is too large')
     value=json.loads(path.read_text('utf8'))
+    if (isinstance(value,dict) and set(value)=={'schema','mode','targetSeedSha256'}
+            and value['schema']==1 and value['mode']=='complete-seed' and valid_sha(value['targetSeedSha256'])):
+        return value,None,None
     required={'schema','baseSeeds','targetSeedSha256','payload','payloadSha256','payloadBytes','databaseSha256','databaseBytes','membership','rowCounts','baseInlineAssets'}
     if not isinstance(value,dict) or set(value)!=required or value['schema']!=1:raise ValueError('Invalid public update descriptor')
     if (not isinstance(value['baseSeeds'],list) or not 1<=len(value['baseSeeds'])<=16
@@ -116,6 +119,9 @@ def merge_public_seed(library,seed,fingerprint=None,*,descriptor=None,cache=None
     if not descriptor.exists():return library.merge_seed(seed,fingerprint=fingerprint)
     value,payload,composition=load_descriptor(descriptor)
     seed_sha=identity(seed)
+    if value.get('mode')=='complete-seed':
+        if seed_sha!=value['targetSeedSha256']:raise ValueError('The complete public seed does not match its release identity')
+        return library.merge_seed(seed,fingerprint=fingerprint)
     if seed_sha==value['targetSeedSha256']:return library.merge_seed(seed,fingerprint=fingerprint)
     if seed_sha not in value['baseSeeds']:raise ValueError('The installed public base does not match this content update')
     previous=library.metadata().get('bundled_sha256')

@@ -49,6 +49,11 @@ def build(canonical,library,output):
     with library.open('rb') as stream:header=stream.read(100)
     identity={'schema':1,'bytes':library.stat().st_size,'sha256':library_sha,'headerSha256':hashlib.sha256(header).hexdigest()}
     replace('resources/library-seed-identity.json',(json.dumps(identity,sort_keys=True)+'\n').encode())
+    marker=canonical/'resources/public-library-update.json'
+    if marker.is_file():
+        value=json.loads(marker.read_text('utf8'))
+        if value.get('mode')!='complete-seed':raise ValueError('An ordinary full seed profile cannot carry a compact overlay')
+        replace('resources/public-library-update.json',(json.dumps({'schema':1,'mode':'complete-seed','targetSeedSha256':library_sha},sort_keys=True)+'\n').encode())
     for name in ('BUILD-INFO.json','resources/BUILD-INFO.json'):
         value=json.loads((canonical/name).read_text('utf8'));value.update(publicLibrarySha256=library_sha,publicLibraryVariantOf=canonical_sha,publicLibraryContentEquivalent=True)
         replace(name,(json.dumps(value,ensure_ascii=False,indent=2)+'\n').encode())

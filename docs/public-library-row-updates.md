@@ -26,7 +26,7 @@ second startup idempotent. Unknown bases, corrupt transports and missing reused
 resources stop before a private library merge. Unrecognized existing cache files
 are preserved; a distinct verified cache file is used instead.
 
-Validation on 2026-11-09: 47 targeted checks pass, including original compact
+Validation on 2026-11-09: 49 targeted checks pass, including original compact
 installer recovery, base tampering, complete versus partial merges, multiple
 released base contents, local explanations, course deletion, inline image reuse
 and cache filename collisions. A pre-existing merge bug was also fixed: parsing
@@ -39,3 +39,18 @@ The 1.6.9 to frozen 1.6.10 content prototype is
 about 1.05 MB. This is a content transport measurement, not a claim that the
 whole user-visible update meets the one-minute goal. The new path is not yet on
 the stable channel.
+
+A full installer always writes a `complete-seed` marker for its actual seed
+digest. This supersedes a previous compact descriptor in the same installation.
+The runtime verifies this digest and uses the ordinary complete merge. Compact
+profiles replace that marker with their baseline-specific public delta; the
+native program and frontend stay identical to the full build. Profile metadata
+reports a logical target and approved bases rather than claiming the preserved
+physical file has the new seed's bytes.
+
+An additional replay used the 1,501,777,920-byte, 18,001-problem imported library
+from a previously closed isolated application copy. Ten content/link tables and
+all resource identities matched the complete merge, and the source file remained
+unchanged. Partial merge plus its required recovery snapshot took 10.552 seconds;
+complete merge took 12.029 seconds. These are library-only timings on isolated
+copies, excluding download, installation, other databases and the visible UI.
