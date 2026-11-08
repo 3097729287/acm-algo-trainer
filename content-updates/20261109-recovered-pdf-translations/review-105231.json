@@ -1,0 +1,69 @@
+[
+  {
+    "letter": "J",
+    "problemId": "remote:codeforces:105231::J",
+    "pdfSha256": "96e37273ee41a8278f65eb2dca28ebbf2e6b44c3046f68327da958c857bd26e4",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      1,
+      2
+    ],
+    "sourceUrl": "https://codeforces.com/gym/105231/problem/J",
+    "figures": [
+      {
+        "file": "105231-J-figure1.png",
+        "page": 1,
+        "clipRect": [
+          121.428571,
+          216.428571,
+          469.285714,
+          348.571429
+        ],
+        "sha256": "e52aa9f0c91f412d508d9d6c3fe08156a8f4ceb5e7d3b80a19af67d5fd03cb1d"
+      },
+      {
+        "file": "105231-J-figure2.png",
+        "page": 1,
+        "clipRect": [
+          145.0,
+          383.571429,
+          443.571429,
+          465.714286
+        ],
+        "sha256": "a1fbfc4367bbc7b9d7a275982cacc1826023ac6e91c41e10874d3328028f4518"
+      },
+      {
+        "file": "105231-J-figure3.png",
+        "page": 1,
+        "clipRect": [
+          142.857143,
+          637.857143,
+          472.857143,
+          672.857143
+        ],
+        "sha256": "5c92231dd43d9c01d6f7ed47b2de69c907475240010fe532dbd85f6ab9ff5ec7"
+      },
+      {
+        "file": "105231-J-figure4.png",
+        "page": 2,
+        "clipRect": [
+          52.857143,
+          414.285714,
+          540.0,
+          631.428571
+        ],
+        "sha256": "77ff7053c4caefe14fd4acfd401369ad4fbe2a828044780dd47a68aa3397358d"
+      }
+    ],
+    "notes": [
+      "Both original pages visually reviewed. Four original clips retain suit table, honor table, thirteen-orphans example and all six sample hands.",
+      "Original says \"two suits\" but immediately enumerates three, with 3*9*4=108 and three rows in its table. Reviewed transcription and translation normalize this obvious count typo to three; original PDF remains unchanged.",
+      "Honor encoding is east/south/west/north/white/green/red, distinct from the earlier prose dragon enumeration. 7 Pairs requires seven different types, so four identical tiles do not count as two different pairs.",
+      "All six 28-character sample hands and their exact output strings checked."
+    ]
+  }
+]

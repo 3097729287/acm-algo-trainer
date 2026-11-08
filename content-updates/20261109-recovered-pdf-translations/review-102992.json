@@ -1,0 +1,37 @@
+[
+  {
+    "letter": "A",
+    "problemId": "remote:codeforces:102992::A",
+    "pdfSha256": "a772778e0a0f8bcfffc285b260093bea4dce975eb25a789b097d23212256e6c5",
+    "pageCount": 3,
+    "pagesReviewed": [
+      1,
+      2,
+      3
+    ],
+    "sourcePageNumbers": [
+      1,
+      2,
+      3
+    ],
+    "sourceUrl": "https://codeforces.com/gym/102992/problem/A",
+    "figures": [
+      {
+        "file": "102992-A-figure1.png",
+        "page": 1,
+        "clipRect": [
+          118.571429,
+          253.571429,
+          471.428571,
+          490.0
+        ],
+        "sha256": "bd70a2596295e97e938e9f43131264cb89ca8fe2482aa27770bfa27c2ba7b7fd"
+      }
+    ],
+    "notes": [
+      "All three pages visually reviewed; the 2018 photograph is retained as an original PDF clip.",
+      "The acyclic connected-map restriction belongs to this 2020 task. The separate 2021 variant does not acquire it.",
+      "Empty sample input, 500 trials, at least 125 failures, 1=empty and 0=wall checked independently."
+    ]
+  }
+]

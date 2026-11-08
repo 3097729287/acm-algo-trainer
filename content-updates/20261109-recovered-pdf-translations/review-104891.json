@@ -1,0 +1,70 @@
+[
+  {
+    "letter": "G",
+    "problemId": "remote:codeforces:104891::G",
+    "pdfSha256": "ed356eb332ed626871b03be20a397f0e8d8ae63be4388d29039218e7a20d5383",
+    "pageCount": 3,
+    "pagesReviewed": [
+      1,
+      2,
+      3
+    ],
+    "sourcePageNumbers": [
+      1,
+      2,
+      3
+    ],
+    "sourceUrl": "https://codeforces.com/gym/104891/problem/G",
+    "figures": [
+      {
+        "file": "104891-G-figure1.png",
+        "page": 2,
+        "clipRect": [
+          157.142857,
+          471.428571,
+          446.428571,
+          582.142857
+        ],
+        "sha256": "7647244e56e657f541ddd1d9d648a69eb92792263db7296f338de08a2320a0f2"
+      },
+      {
+        "file": "104891-G-figure2.png",
+        "page": 2,
+        "clipRect": [
+          153.571429,
+          621.428571,
+          453.571429,
+          785.714286
+        ],
+        "sha256": "faf2ba27f77016d18b1b978d4f7be7e570999c0fe7500628d3636f0b2dead9dd"
+      },
+      {
+        "file": "104891-G-figure3.png",
+        "page": 3,
+        "clipRect": [
+          157.142857,
+          85.714286,
+          446.428571,
+          235.714286
+        ],
+        "sha256": "22ff9961a67c90faf127aff588be3bc342f132ba4b1ab9ac90e996d88be91ee9"
+      },
+      {
+        "file": "104891-G-figure4.png",
+        "page": 3,
+        "clipRect": [
+          157.142857,
+          296.428571,
+          446.428571,
+          503.571429
+        ],
+        "sha256": "a1f7037029a1074ccd0795b1badb512009e06e0f3ccd558224add1178cff80a7"
+      }
+    ],
+    "notes": [
+      "All three pages visually reviewed, with four original interaction illustration clips preserved.",
+      "Source uses normal integer arithmetic, not modulo-2 replacement; only victory depends on parity. t=0 and t=1 roles checked independently.",
+      "Opponent p=0 is error sentinel, never a legal merge. Newline/flush, immediate termination, role selection and chronological interactive sample notes retained."
+    ]
+  }
+]
