@@ -53,6 +53,7 @@ def main(stage):
             assert item['beforeSha256']==checksum(None)
             assert checksum(statements[item['problem_id']])==checksum(item['content'])
             assert byid[item['problem_id']]['encoded']['catalogStatementReady'] is True
+            assert item['content']['integrity']['status']=='complete'
         print('Existing complete-contest packet verified; no source or metadata was changed.')
         return
     assert not (set(ids)&set(byid)) and not (set(ids)&set(statements))
@@ -130,6 +131,12 @@ def main(stage):
             'allPagesRenderedInWorkbench':True,'originalDownloadByteIdentity':True,'realJudgeSubmissions':0,
             'submissionEvidence':'The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used.'}
         if letter=='H':value['nativeSourceReview']['existingEquivalentIdentity']=mirror_id
+        value['integrity']={'schema':1,'sourceVerified':True,'status':'complete',
+            'sampleCount':len(value['samples']),'pdfPageCountVerified':True,
+            'markdownSha256':sha(value['markdown'].encode()),
+            'sourceDocuments':[{'url':PDF_URL,'sha256':PDF_SHA}],
+            'reviewedSourceBindingSha256':checksum(value['nativeSourceReview']),
+            'issues':[]}
         encoded={'id':identity,'url':url,'platform':'Codeforces','series':'XCPC','source':'xcpc-codeforces',
             'contest':'ICPC 2024 湖北省赛','contestFullName':'The 2024 International Collegiate Programming Contest in Hubei Province, China',
             'contestId':'105139','contestFamily':'XCPC','contestRoster':True,'contestProblemCount':12,'contestPhase':'FINISHED',

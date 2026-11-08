@@ -63,6 +63,13 @@ def source_checks(check_base):
         letter=encoded['problem'];assert identity=='remote:codeforces:105139::'+letter
         assert value['url']==row['url']=='https://codeforces.com/gym/105139/problem/'+letter
         assert value['problemType']=='standard' and content_complete(value) and bundled_translation(value)
+        evidence=value['integrity']
+        assert evidence['status']=='complete' and evidence['sourceVerified'] is True
+        assert evidence['sampleCount']==len(value['samples']) and evidence['pdfPageCountVerified'] is True
+        assert evidence['markdownSha256']==sha(value['markdown'].encode())
+        assert evidence['reviewedSourceBindingSha256']==checksum(value['nativeSourceReview'])
+        assert evidence['sourceDocuments']==[{'url':original['url'],'sha256':original['sha256']}]
+        assert evidence['issues']==[]
         assert encoded['catalogStatementReady'] and encoded['catalogReplayReady']
         assert not encoded.get('catalogHidden') and not encoded.get('statementRetired')
         assert encoded['difficultyEstimated'] is True and encoded['difficultyConfidence'] in {'LOW','MEDIUM'}
