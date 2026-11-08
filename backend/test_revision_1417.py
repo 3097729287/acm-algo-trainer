@@ -45,6 +45,24 @@ class ReadableStatementTests(unittest.TestCase):
         text='Print the following code exactly.\n```\n#include <iostream>\n```'
         self.assertEqual(clean_statement({'markdown':text,'samples':[]})['markdown'],text)
 
+    def test_chinese_task_with_japanese_background_remains_readable_without_losing_source(self):
+        body='# 题目\n\n## 题目背景\n\n> あなたはこの問題を解いてください。整数を出力してください。\n\n## 题目描述\n\n给定一个整数，求它的相反数。\n\n## 输入格式\n\n一个整数。\n\n## 输出格式\n\n输出答案。'
+        source={'markdown':body,'samples':[{'input':'3','output':'-3'}]}
+        result=clean_statement(source)
+        self.assertTrue(result['statementAvailable'])
+        self.assertEqual(result['markdown'],body)
+        self.assertEqual(result['samples'],source['samples'])
+        self.assertEqual(clean_statement(result),result)
+
+    def test_localized_section_labels_do_not_hide_actual_japanese_task_prose(self):
+        japanese='あなたはこの問題を解いてください。整数を出力してください。'
+        for body in ['## 题目描述\n\n'+japanese+'\n\n## 输入格式\n\n输入一个整数。',
+                     japanese+'\n\n## Input\n\nRead an integer.', '> '+japanese]:
+            with self.subTest(body=body):
+                result=clean_statement({'markdown':body,'samples':[]})
+                self.assertFalse(result['statementAvailable'])
+                self.assertEqual(result['statementLanguage'],'ja')
+
 
 class Catalogue1417Tests(unittest.TestCase):
     def test_compressed_cache_token_and_external_import_invalidation(self):

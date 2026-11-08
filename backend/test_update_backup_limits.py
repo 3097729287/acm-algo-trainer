@@ -46,6 +46,54 @@ class UpdateBackupLimitTests(unittest.TestCase):
         first=backup(self.state,self.destination(1),context='same-update');self.db.execute("UPDATE drafts SET code='new draft'")
         second=backup(self.state,self.destination(2),context='same-update');self.assertNotEqual(first,second)
         with closing(sqlite3.connect(second/'personal.sqlite3')) as db:self.assertEqual(db.execute('SELECT code FROM drafts').fetchone()[0],'new draft')
+    def test_large_incoming_backup_retires_only_the_older_verified_recovery(self):
+        from update_backups import update_backup_bytes
+        first=backup(self.state,self.destination(1),context='first')
+        self.db.execute("UPDATE drafts SET code='second'");second=backup(self.state,self.destination(2),context='second')
+        self.db.execute("UPDATE drafts SET code='third'")
+        needed=self.database.stat().st_size+Path(str(self.database)+'-wal').stat().st_size+1024**2
+        with patch('update_backups.MAX_BYTES',update_backup_bytes(self.state/'backups')+needed-1):
+            third=backup(self.state,self.destination(3),context='third')
+        self.assertFalse(first.exists());self.assertTrue(second.exists());self.assertTrue(third.exists());self.assertEqual(len(_owned(self.state/'backups')),2)
+        with closing(sqlite3.connect(third/'personal.sqlite3')) as db:self.assertEqual(db.execute('SELECT code FROM drafts').fetchone()[0],'third')
+    def test_budget_failure_never_discards_the_only_verified_recovery(self):
+        from update_backups import update_backup_bytes
+        first=backup(self.state,self.destination(1),context='first');self.db.execute("UPDATE drafts SET code='next'")
+        needed=self.database.stat().st_size+Path(str(self.database)+'-wal').stat().st_size+1024**2
+        with patch('update_backups.MAX_BYTES',update_backup_bytes(self.state/'backups')+needed-1):
+            with self.assertRaises(UpdateStorageError):backup(self.state,self.destination(2),context='next')
+        self.assertTrue(first.exists());self.assertFalse(self.destination(2).exists());self.recycled.assert_not_called()
+    def test_distinct_databases_copy_concurrently_and_include_committed_wal(self):
+        import threading,update_backups
+        other=self.state/'other.sqlite3'
+        with closing(sqlite3.connect(other)) as db:db.execute('CREATE TABLE notes(value TEXT)');db.execute("INSERT INTO notes VALUES('separate durable record')");db.commit()
+        barrier=threading.Barrier(2);original=update_backups._copy_database;threads=set()
+        def simultaneous(source,target,progress):
+            threads.add(threading.get_ident());barrier.wait(timeout=5)
+            return original(source,target,progress)
+        with patch('update_backups._copy_database',side_effect=simultaneous):copied=backup(self.state,self.destination('parallel'))
+        self.assertEqual(len(threads),2)
+        with closing(sqlite3.connect(copied/'personal.sqlite3')) as db:self.assertEqual(db.execute('SELECT code FROM drafts').fetchone()[0],'private code in WAL')
+        with closing(sqlite3.connect(copied/'other.sqlite3')) as db:self.assertEqual(db.execute('SELECT value FROM notes').fetchone()[0],'separate durable record')
+        self.assertTrue(_owned(self.state/'backups')[0][1]['complete'])
+    def test_kept_recoveries_are_not_rehashed_without_reuse_or_retirement(self):
+        first=backup(self.state,self.destination(1),context='first')
+        self.db.execute("UPDATE drafts SET code='next'")
+        with patch('update_backups._valid',side_effect=AssertionError('Unnecessary retained-copy scan')):
+            second=backup(self.state,self.destination(2),context='second')
+        self.assertTrue(first.exists());self.assertTrue(second.exists());self.recycled.assert_not_called()
+    def test_worker_failure_keeps_sources_and_cannot_mark_a_partial_copy_complete(self):
+        import update_backups
+        other=self.state/'other.sqlite3'
+        with closing(sqlite3.connect(other)) as db:db.execute('CREATE TABLE notes(value TEXT)');db.commit()
+        original=update_backups._copy_database
+        def fail_one(source,target,progress):
+            if source==other:raise sqlite3.DatabaseError('isolated copy failure')
+            return original(source,target,progress)
+        with patch('update_backups._copy_database',side_effect=fail_one):
+            with self.assertRaises(sqlite3.DatabaseError):backup(self.state,self.destination('partial'))
+        self.assertEqual(self.db.execute('SELECT code FROM drafts').fetchone()[0],'private code in WAL')
+        self.assertFalse(_owned(self.state/'backups')[0][1]['complete']);self.assertTrue(other.exists());self.recycled.assert_not_called()
     def test_concurrent_requests_reuse_one_complete_generation(self):
         from concurrent.futures import ThreadPoolExecutor
         with ThreadPoolExecutor(max_workers=6) as workers:

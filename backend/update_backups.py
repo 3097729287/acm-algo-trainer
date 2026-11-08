@@ -1,5 +1,6 @@
 """Bound update recovery writes; reuse exact snapshots and never delete legacy copies."""
 from contextlib import closing
+from concurrent.futures import ThreadPoolExecutor,as_completed
 import datetime as dt
 import hashlib
 import json
@@ -17,6 +18,7 @@ LOCK=threading.RLock()
 MAX_BYTES=8*1024**3
 RESERVE=256*1024**2
 META='.update-proof/manifest.json'
+WORKERS=3
 
 def ordinary(path):
     return not path.is_symlink() and not (getattr(path.lstat(),'st_file_attributes',0)&0x400)
@@ -41,12 +43,15 @@ def sources(state):
     return sorted(result)
 
 def fingerprints(paths,state):
-    result={}
+    selected=[]
     for path in paths:
-        result[path.relative_to(state).as_posix()]=digest(path)
+        selected.append(path)
         wal=path.with_name(path.name+'-wal')
-        if wal.is_file():result[wal.relative_to(state).as_posix()]=digest(wal)
-    return result
+        if wal.is_file():selected.append(wal)
+    if not selected:return {}
+    def check(path):return path.relative_to(state).as_posix(),digest(path)
+    with ThreadPoolExecutor(max_workers=min(WORKERS,len(selected))) as workers:
+        return dict(workers.map(check,selected))
 
 def require_space(path,needed):
     path=Path(path)
@@ -141,17 +146,37 @@ def reusable_state_snapshot(database,*,connection=None):
     return None
 
 def retire_directory(path):
-    """Only called for old, verified updater-owned copies; keep two recoveries."""
+    """Retire only verified updater copies, preserving the latest recovery."""
     return recycle_directory(path)
 
-def _trim(root):
+def _trim(root,*,incoming=0):
     owned=_owned(root)
+    # Verification is mandatory before reusing or retiring a recovery. When
+    # nothing can or needs to be retired, do not hash gigabytes of retained
+    # copies merely to leave every one of them in place.
+    if len(owned)<=2 and (not incoming or update_backup_bytes(root)+incoming<=MAX_BYTES):return
     valid=[(path,value) for path,value in owned if _valid(path,value)]
     # Keep two fully verified recovery generations. Unknown/legacy/partial
     # folders stay intact; inability to remove stops further accumulation.
     for path,value in valid[:-2]:
         if not path.resolve().is_relative_to(root.resolve()):continue
         retire_directory(path)
+    # A new large snapshot must fit alongside the most recent verified one.
+    # Otherwise two individually valid recoveries can permanently exhaust the
+    # budget before their replacement has even started. Unknown copies stay.
+    if incoming:
+        for path,value in valid[:-1]:
+            if update_backup_bytes(root)+incoming<=MAX_BYTES:break
+            if path.exists() and path.resolve().is_relative_to(root.resolve()):retire_directory(path)
+
+
+def _copy_database(source,target,progress):
+    target.parent.mkdir(parents=True,exist_ok=True)
+    with closing(sqlite3.connect(source.as_uri()+'?mode=ro',uri=True)) as src,closing(sqlite3.connect(target)) as dst:
+        page_size=src.execute('PRAGMA page_size').fetchone()[0]
+        src.backup(dst,pages=128,progress=lambda status,remaining,total:progress(total*page_size))
+        if dst.execute('PRAGMA integrity_check').fetchone()[0]!='ok':raise ValueError('个人数据库备份未通过校验，已停止更新')
+    return digest(target)
 
 def backup(state,destination,*,context=None):
     state=Path(state).resolve();destination=Path(destination).absolute();root=destination.parent
@@ -163,27 +188,38 @@ def backup(state,destination,*,context=None):
             if value.get('context')==context and value.get('sources')==signature and _valid(path,value):
                 require_space(state,0)
                 return path
-        _trim(root)
-        if len(_owned(root))>=3:raise UpdateStorageError('更新备份已达保留上限，原备份已保留，更新已暂停')
         estimated=sum(p.stat().st_size for p in paths)+sum(p.with_name(p.name+'-wal').stat().st_size for p in paths if p.with_name(p.name+'-wal').is_file())+1024**2
+        if estimated>MAX_BYTES:raise UpdateStorageError('更新备份总量已达上限，原备份已保留，未继续复制')
+        _trim(root,incoming=estimated)
+        if len(_owned(root))>=3:raise UpdateStorageError('更新备份已达保留上限，原备份已保留，更新已暂停')
         occupied=update_backup_bytes(root)
         if estimated>MAX_BYTES or occupied+estimated>MAX_BYTES:raise UpdateStorageError('更新备份总量已达上限，原备份已保留，未继续复制')
         require_space(state,estimated)
         destination.mkdir(parents=True,exist_ok=False)
         value={'schema':1,'kind':'software-update','context':context,'sources':signature,'files':{},'complete':False,'createdAt':dt.datetime.now(dt.timezone.utc).isoformat()}
         save_document(destination/META,value)
-        for source in paths:
-            relative=source.relative_to(state);target=destination/relative;target.parent.mkdir(parents=True,exist_ok=True)
-            with closing(sqlite3.connect(source.as_uri()+'?mode=ro',uri=True)) as src,closing(sqlite3.connect(target)) as dst:
-                page_size=src.execute('PRAGMA page_size').fetchone()[0]
-                completed=sum((destination/name).stat().st_size for name in value['files'])
-                def progress(_status,_remaining,total):
-                    if occupied+completed+total*page_size+1024**2>MAX_BYTES:raise UpdateStorageError('备份大小超过限制，已停止复制，原数据库保留')
+        totals={p.relative_to(state).as_posix():p.stat().st_size+(p.with_name(p.name+'-wal').stat().st_size if p.with_name(p.name+'-wal').is_file() else 0) for p in paths}
+        budget=threading.Lock()
+        def copy(source):
+            relative=source.relative_to(state);name=relative.as_posix()
+            def progress(total):
+                with budget:
+                    totals[name]=total
+                    if occupied+sum(totals.values())+1024**2>MAX_BYTES:raise UpdateStorageError('备份大小超过限制，已停止复制，原数据库保留')
                     require_space(destination,0)
-                src.backup(dst,pages=128,progress=progress)
-                if dst.execute('PRAGMA integrity_check').fetchone()[0]!='ok':raise ValueError('个人数据库备份未通过校验，已停止更新')
-            value['files'][relative.as_posix()]=digest(target)
-            save_document(destination/META,value)
+            return name,_copy_database(source,destination/relative,progress)
+        if paths:
+            error=None
+            with ThreadPoolExecutor(max_workers=min(WORKERS,len(paths))) as workers:
+                pending=[workers.submit(copy,source) for source in sorted(paths,key=lambda p:p.stat().st_size,reverse=True)]
+                for future in as_completed(pending):
+                    try:
+                        name,checksum=future.result();value['files'][name]=checksum
+                        save_document(destination/META,value)
+                    except Exception as failure:
+                        if error is None:error=failure
+                        for queued in pending:queued.cancel()
+            if error is not None:raise error
         # A concurrent account write keeps this valid recovery point but stops
         # it being reused as if it contained later edits.
         value['complete']=True;value['reusable']=signature==fingerprints(paths,state)

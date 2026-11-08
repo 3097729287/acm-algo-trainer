@@ -1,0 +1,194 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:103443::L",
+      "beforeSha256": "31b57e2ce02eb363ec708d352e3f9ca211e6f33c18d4338f9fd71322b0628c4e",
+      "content": {
+        "markdown": "# Leadfoot\n\n2021 ICPC Asia Taipei Regional\r\nProblem L\r\nLeadfoot\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nCar parking can be one of the toughest challenges when acquiring a driver’s license for many\r\npeople. The International Car Parking Competition (ICPC) is held every year for car parking\r\nspecialists around the world to join. The rules of ICPC are as follows:\r\n∙ People who participate in ICPC are called Drivers.\r\n∙ All Drivers keep track of their own number of Wins and Losses.\r\n∙ All Drivers start with 0 Wins and 0 Losses initially.\r\n∙ Two Drivers with the same number of Wins and Losses compete in a match.\r\n∙ After a match, one Driver has the number of Wins increased by one while the other has\r\nthe number of Losses increased by one.\r\n∙ A Driver stops competing others when reaching 𝑛 Wins or 𝑚 Losses.\r\n∙ Drivers finish with 0 Wins and 𝑚 Losses are rewarded Leadfoot badges.\r\nAs the ICPC organizer, it is important for you to make sure all Drivers finish their tournament.\r\nThat is, you have to invite a specific number of Drivers so that everyone either ends with 𝑛 Wins\r\nor 𝑚 Losses after multiple matches. To minimize the cost, you want to invite as few Drivers as\r\npossible. Given 𝑛 and 𝑚, determine how many Leadfoot badges you have to prepare.\r\nInput Format\r\nThe first line contains a single integer 𝑘 indicating the number of competitions you are holding.\r\nEach of the following lines contains two space separated integers 𝑛𝑖 and 𝑚𝑖\r\nindicating the\r\ntermination conditions for each competition.\r\nOutput Format\r\nFor each competition output a single integer, the number of Leadfoot badges you have to\r\nprepare modulo 1000000007.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑘 ≤ 105\r\n∙ 1 ≤ 𝑛𝑖\r\n, 𝑚𝑖 ≤ 105\r\n31\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n5\r\n1 1\r\n2 2\r\n4 6\r\n6 4\r\n12 3\r\nSample Output 1\r\n1\r\n1\r\n4\r\n16\r\n1024\r\n32\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "5\n1 1\n2 2\n4 6\n6 4\n12 3",
+            "output": "1\n1\n4\n16\n1024"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# Leadfoot\n\nTime limit: 1 second. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nParking can be one of the toughest challenges in obtaining a driver's license. The International Car Parking Competition (ICPC) is held every year for parking specialists from around the world. Its rules are:\n\n- Participants are called Drivers.\n- Each Driver keeps track of their own numbers of Wins and Losses.\n- Every Driver starts with 0 Wins and 0 Losses.\n- Two Drivers compete only when both their numbers of Wins and their numbers of Losses are equal.\n- After each match, one Driver gains one Win and the other gains one Loss.\n- A Driver stops competing upon reaching $n$ Wins or $m$ Losses.\n- A Driver who finishes with 0 Wins and $m$ Losses receives a Leadfoot badge.\n\nAs the organizer, you must ensure that every Driver finishes the tournament. Invite a number of Drivers that allows everyone eventually to finish with either $n$ Wins or $m$ Losses. To minimize costs, invite as few Drivers as possible. Given $n$ and $m$, determine how many Leadfoot badges you must prepare.\n\n## Input Format\n\nThe first line contains an integer $k$, the number of competitions. Each of the following lines contains two space-separated integers $n_i$ and $m_i$, the stopping conditions of one competition.\n\n## Output Format\n\nFor each competition, output one integer: the required number of Leadfoot badges modulo 1000000007.\n\n## Technical Specification\n\n- $1\\le k\\le10^5$.\n- $1\\le n_i,m_i\\le10^5$.\n\n## Sample 1\n\n### Input\n\n```text\n5\n1 1\n2 2\n4 6\n6 4\n12 3\n```\n\n### Output\n\n```text\n1\n1\n4\n16\n1024\n```\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "sourcePdfSha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+          "pages": [
+            31,
+            32
+          ]
+        },
+        "id": "remote:codeforces:103443::L",
+        "title": "Leadfoot",
+        "url": "https://codeforces.com/gym/103443/problem/L",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+          "bytes": 143234,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+          "fileName": "gym-103443-L.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            31,
+            32
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          31,
+          32
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "L",
+          "pdfTitle": "Leadfoot",
+          "rosterTitle": "Leadfoot",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.990381+00:00",
+          "corpusAuditVerifiedSha256": "fa0e013ea20228a058cfa63c7d6aafb7dda96017ac747fc6ecb7922974f6e92b"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": true,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::L",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+          "sourcePages": [
+            31,
+            32
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "fe4f8c6a478978ed6f9f74ca521ae5a4f9d167f3ca9b4cad70a7b916b2edd5bd",
+          "samplePagesReviewed": [
+            2
+          ],
+          "allPagesRendered": true
+        },
+        "sourceTextArchive": [
+          {
+            "text": "2021 ICPC Asia Taipei Regional\r\nProblem L\r\nLeadfoot\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nCar parking can be one of the toughest challenges when acquiring a driver’s license for many\r\npeople. The International Car Parking Competition (ICPC) is held every year for car parking\r\nspecialists around the world to join. The rules of ICPC are as follows:\r\n∙ People who participate in ICPC are called Drivers.\r\n∙ All Drivers keep track of their own number of Wins and Losses.\r\n∙ All Drivers start with 0 Wins and 0 Losses initially.\r\n∙ Two Drivers with the same number of Wins and Losses compete in a match.\r\n∙ After a match, one Driver has the number of Wins increased by one while the other has\r\nthe number of Losses increased by one.\r\n∙ A Driver stops competing others when reaching 𝑛 Wins or 𝑚 Losses.\r\n∙ Drivers finish with 0 Wins and 𝑚 Losses are rewarded Leadfoot badges.\r\nAs the ICPC organizer, it is important for you to make sure all Drivers finish their tournament.\r\nThat is, you have to invite a specific number of Drivers so that everyone either ends with 𝑛 Wins\r\nor 𝑚 Losses after multiple matches. To minimize the cost, you want to invite as few Drivers as\r\npossible. Given 𝑛 and 𝑚, determine how many Leadfoot badges you have to prepare.\r\nInput Format\r\nThe first line contains a single integer 𝑘 indicating the number of competitions you are holding.\r\nEach of the following lines contains two space separated integers 𝑛𝑖 and 𝑚𝑖\r\nindicating the\r\ntermination conditions for each competition.\r\nOutput Format\r\nFor each competition output a single integer, the number of Leadfoot badges you have to\r\nprepare modulo 1000000007.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑘 ≤ 105\r\n∙ 1 ≤ 𝑛𝑖\r\n, 𝑚𝑖 ≤ 105\r\n31\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n5\r\n1 1\r\n2 2\r\n4 6\r\n6 4\r\n12 3\r\nSample Output 1\r\n1\r\n1\r\n4\r\n16\r\n1024\r\n32",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "4cca73492ac730b6c77e0c121cd936458f2f66e81031f5b9b3ccc730e79469e5"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "5\n1 1\n2 2\n4 6\n6 4\n12 3",
+                "output": "1\n1\n4\n16\n1024"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+              "pagesReviewed": [
+                2
+              ],
+              "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+              "samples": [
+                {
+                  "name": "样例 1",
+                  "input": "5\n1 1\n2 2\n4 6\n6 4\n12 3",
+                  "output": "1\n1\n4\n16\n1024"
+                }
+              ]
+            }
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "L",
+          "pdfSha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            31,
+            32
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "7a55092ba061bd4c858318ec91af381218ba643b2894a9c1974685ca7e35a7cd"
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "fa0e013ea20228a058cfa63c7d6aafb7dda96017ac747fc6ecb7922974f6e92b",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "7a55092ba061bd4c858318ec91af381218ba643b2894a9c1974685ca7e35a7cd",
+          "sourcePdfSha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+          "markdown": "# Leadfoot 徽章\n\n时间限制：1 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\n对许多人来说，停车是考取驾驶证时最困难的挑战之一。国际停车大赛（ICPC）每年举办一次，供世界各地的停车高手参加。比赛规则如下：\n\n- 参赛者称为“驾驶员”。\n- 每名驾驶员分别记录自己的胜场数和败场数。\n- 所有驾驶员初始时均为 0 胜、0 负。\n- 只有胜场数相同且败场数也相同的两名驾驶员，才能进行一场对局。\n- 每场对局结束后，一名驾驶员的胜场数加一，另一名驾驶员的败场数加一。\n- 达到 $n$ 胜或 $m$ 负后，驾驶员停止参赛。\n- 以 0 胜、$m$ 负结束比赛的驾驶员，将获颁一枚 Leadfoot 徽章。\n\n作为组织者，你必须确保所有驾驶员都能结束比赛。也就是说，需要邀请适当数量的驾驶员，使每个人最终都能达到 $n$ 胜或 $m$ 负。为了节约成本，你希望邀请的人数尽可能少。给定 $n$ 和 $m$，请计算需要准备多少枚 Leadfoot 徽章。\n\n## 输入格式\n\n第一行包含一个整数 $k$，表示要举办的比赛数量。接下来每行包含两个以空格分隔的整数 $n_i$ 和 $m_i$，表示一场比赛的终止条件。\n\n## 输出格式\n\n对于每场比赛，输出一个整数，表示所需的 Leadfoot 徽章数量对 1000000007 取模后的结果。\n\n## 数据范围\n\n- $1\\le k\\le10^5$。\n- $1\\le n_i,m_i\\le10^5$。\n\n## 样例 1\n\n### 输入\n\n```text\n5\n1 1\n2 2\n4 6\n6 4\n12 3\n```\n\n### 输出\n\n```text\n1\n1\n4\n16\n1024\n```\n"
+        },
+        "translationReview": {
+          "letter": "L",
+          "pdfSha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            31,
+            32
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "7a55092ba061bd4c858318ec91af381218ba643b2894a9c1974685ca7e35a7cd",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

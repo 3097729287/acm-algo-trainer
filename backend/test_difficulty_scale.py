@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 import unittest
-from difficulty import normalize_practice_difficulty, OYSTER_URL
+from difficulty import normalize_practice_difficulty, round_difficulty, OYSTER_URL
 
 class DifficultyScaleTests(unittest.TestCase):
     def test_all_public_ratings_use_hundreds(self):
@@ -20,6 +20,15 @@ class DifficultyScaleTests(unittest.TestCase):
         self.assertEqual(row['difficulty'],1350)
         self.assertIsNone(normalize_practice_difficulty({'difficulty':None})['difficulty'])
         self.assertEqual(normalize_practice_difficulty(result),result)
+
+    def test_official_nowcoder_values_remain_auditable_after_display_rounding(self):
+        row={'difficulty':1105,'difficultySource':'牛客公开题库数值评级','difficultyEstimated':False,'difficultyEvidence':['https://ac.nowcoder.com/acm/problem/18929','原站难度 1105，非通过人数']}
+        value=round_difficulty(row)
+        self.assertEqual(value['difficulty'],1100)
+        self.assertEqual(value['difficultyBeforeRounding'],1105)
+        self.assertEqual(value['difficultySource'],row['difficultySource'])
+        self.assertEqual(value['difficultyEvidence'],row['difficultyEvidence'])
+        self.assertFalse(value['difficultyEstimated']);self.assertEqual(row['difficulty'],1105)
 
     def test_review_overrides_stale_team_estimate_but_not_official_rating(self):
         row={'url':OYSTER_URL,'difficulty':1400,'difficultyEstimated':True}

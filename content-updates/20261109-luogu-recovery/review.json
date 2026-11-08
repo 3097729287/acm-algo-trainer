@@ -1,0 +1,198 @@
+{
+  "method": "first-party-content-only-json-and-description-review",
+  "originalBackgroundAndImagesRetained": true,
+  "originalIdsPreserved": true,
+  "problems": [
+    {
+      "id": "luogu-training-P11035",
+      "url": "https://www.luogu.com.cn/problem/P11035",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P11035",
+          "sha256": "deb322c162f24341bc6c92db7e32fdfbf40b7f1c9187420175a9eef97021677b"
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 2,
+      "images": 0,
+      "markdownSha256": "263977948bc641e2fc1010a6b45e779433fa1e2b790d7667b4ec6cf078bd42c3"
+    },
+    {
+      "id": "luogu-training-P13308",
+      "url": "https://www.luogu.com.cn/problem/P13308",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P13308",
+          "sha256": "7f4be42d1b4111dc7176dc9550481638f7e511fb581055226042e11230a3d695"
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 2,
+      "images": 0,
+      "markdownSha256": "b78b1a89e383bf91d93efd290a637887bcf139381d4de6ff33705332f66514c5"
+    },
+    {
+      "id": "luogu-training-P13309",
+      "url": "https://www.luogu.com.cn/problem/P13309",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P13309",
+          "sha256": "102a50a55c9fd6fbf1d89b9ed55ee78e5d6dde7da266bd37bc191b1e5967bfa5"
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "images": 0,
+      "markdownSha256": "ff8e75e932505cb9da9739f19be5c971296ac7e2badfe1b46789bc2039c19de7"
+    },
+    {
+      "id": "luogu-training-P13550",
+      "url": "https://www.luogu.com.cn/problem/P13550",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P13550",
+          "sha256": "a96401a0368a8a33fbad139f2c6b923be2d66875e19600fca0be8c96f11acf20"
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 2,
+      "images": 0,
+      "markdownSha256": "99a7529ffb312ce223eb310078b77aca2799b5030a0f364db333bf98137b3420"
+    },
+    {
+      "id": "luogu-training-P3651",
+      "url": "https://www.luogu.com.cn/problem/P3651",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P3651",
+          "sha256": "5565bbc576131aecb6be43adad0763dd186073ef3459610826365d66a457f402",
+          "status": 200
+        },
+        {
+          "url": "https://cdn.luogu.com.cn/upload/pic/4529.png",
+          "sha256": "3daf53b11ee4a4fb384882671a88843f9be89996f3fdb89f187ad26c14081994",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "images": 1,
+      "markdownSha256": "b5190bae06d84280a1c3a3d65019cb40e28f731282030e5feb2cbdf80cfb464d"
+    },
+    {
+      "id": "luogu-training-P3654",
+      "url": "https://www.luogu.com.cn/problem/P3654",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P3654",
+          "sha256": "2cb844bcdc4e2033e62c78733f168030b9e66e25e85ded9e03a1d3dbe8dce798",
+          "status": 200
+        },
+        {
+          "url": "https://cdn.luogu.com.cn/upload/pic/4471.png",
+          "sha256": "0dc14c4871931b38111ded703022dd7285e09dfb57b297d517ddfefd87f46d13",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "images": 1,
+      "markdownSha256": "5eb5345ac8906083683395df429cc3ed386b781ebef5a4675c5c81b0292df941"
+    },
+    {
+      "id": "luogu-training-P3655",
+      "url": "https://www.luogu.com.cn/problem/P3655",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P3655",
+          "sha256": "f49d7601ebb04973276ce00c961a6abe6578cae7894ab12516e318a65832a1d8",
+          "status": 200
+        },
+        {
+          "url": "https://cdn.luogu.com.cn/upload/pic/4493.png",
+          "sha256": "8f5e325a3e005ae864d2044df9a218840d995527d7245732cee3b9d7cf677475",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "images": 1,
+      "markdownSha256": "d1dfe6602b1953aae6d7813c766d01552b20a479802e9bdafa5533c8043048c4"
+    },
+    {
+      "id": "luogu-training-P3933",
+      "url": "https://www.luogu.com.cn/problem/P3933",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P3933",
+          "sha256": "d601ac7b0093bf78dd908df54fd92d07a8c68400d6feedf25685268cfaef370b",
+          "status": 200
+        },
+        {
+          "url": "https://cdn.luogu.com.cn/upload/pic/9193.png",
+          "sha256": "600ba7ec2e2b7d128de77ce78bdd3914b45e0621fbee0e73a48804c50315a2ba",
+          "status": 200
+        },
+        {
+          "url": "https://cdn.luogu.com.cn/upload/pic/9228.png",
+          "sha256": "97c6bed11a80d8a40f71490d7e9e9923c5f45b1b77abfcb51fb5d03e51621433",
+          "status": 200
+        },
+        {
+          "url": "https://cdn.luogu.com.cn/upload/pic/9229.png",
+          "sha256": "1a1765296ff77b5968d32203714c5f698480905599b8870f77db1ab18c6bb80d",
+          "status": 200
+        },
+        {
+          "url": "https://cdn.luogu.com.cn/upload/pic/9230.png",
+          "sha256": "c8952097f0774ed08cfed11c051f7607f440fb6d695628da3ea5fc906447023e",
+          "status": 200
+        },
+        {
+          "url": "https://cdn.luogu.com.cn/upload/pic/9235.png",
+          "sha256": "09782e672c3a426be957a470582d4bb1793f190ad3dda09149932a61398cd472",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "images": 5,
+      "markdownSha256": "34e737c840026593add6d59d43756fcd551b41b5bb0fd9c77208bf21cac0d01f"
+    },
+    {
+      "id": "luogu-training-P4914",
+      "url": "https://www.luogu.com.cn/problem/P4914",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P4914",
+          "sha256": "ed2b9dde1963b69cdef5b47cd45f902866d0098c5adb3fad8ed6cfae0e37ae0d",
+          "status": 200
+        },
+        {
+          "url": "https://cdn.luogu.com.cn/upload/pic/27885.png",
+          "sha256": "31d807e655526a1d919d422a06c9655c0e97483fcb9b8ba9b894552302f724a6",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "images": 1,
+      "markdownSha256": "8bbd049850dc4ce446acf48695af87a7d28aa7cfb71369e3d2a68714326a374c"
+    },
+    {
+      "id": "luogu-training-P9151",
+      "url": "https://www.luogu.com.cn/problem/P9151",
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P9151",
+          "sha256": "74a0ce326a55f8a4b4f2fde780978fc2199a142cfc2224ce5b71f225d98d68f6",
+          "status": 200
+        }
+      ],
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "images": 0,
+      "markdownSha256": "dbeecde0e6a2d3f396b8ff9a04ca172ea9adb072a8596f6f085ceaf2321ccab6"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+[
+  {
+    "letter": "A",
+    "pdfSha256": "0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      1,
+      2
+    ],
+    "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+    "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+    "figures": [],
+    "notes": [
+      "第二页为原稿的 Almost blank page，无题意、附图或样例遗漏。",
+      "促销按实际付费购买的份数计算；要求获得至少 N 份，并非恰好 N 份。"
+    ]
+  },
+  {
+    "letter": "B",
+    "pdfSha256": "469fc433a10a0e7e8e0093c3dbaf2e48a8009284eae8ff70c3411e5441e45a31",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      3,
+      4
+    ],
+    "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+    "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+    "figures": []
+  },
+  {
+    "letter": "D",
+    "pdfSha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      9,
+      10
+    ],
+    "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+    "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+    "figures": []
+  },
+  {
+    "letter": "H",
+    "pdfSha256": "0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      21,
+      22
+    ],
+    "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+    "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+    "figures": []
+  },
+  {
+    "letter": "K",
+    "pdfSha256": "fe86f910d52db7184a378f2763271625b83b617c9c39c52e09afe729e82c0a0d",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      29,
+      30
+    ],
+    "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+    "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+    "figures": [],
+    "notes": [
+      "输出权重为 1234567 的 i 次方；相同插入字符串按插入下标降序排列。"
+    ]
+  },
+  {
+    "letter": "L",
+    "pdfSha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      31,
+      32
+    ],
+    "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+    "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+    "figures": []
+  }
+]
