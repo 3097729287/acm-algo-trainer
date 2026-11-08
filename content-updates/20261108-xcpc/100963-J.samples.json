@@ -1,0 +1,14 @@
+{
+  "id": "wiki-example-f3111abcb4011fc83c9c",
+  "method": "visual-original-pdf-sample-review",
+  "sourcePdfSha256": "72e7c4959ebc76c39fbcfa6db652ff7db98a6037cdfe52a281886833939f5628",
+  "sourcePdfUrl": "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf",
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "3 5 2 2\n0 0 0 0",
+      "output": "8"
+    }
+  ],
+  "reason": "Vertical sample blocks were not recognized by the existing table extractor; every number and line break checked against the native page."
+}

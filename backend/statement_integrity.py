@@ -37,6 +37,10 @@ def statement_type(value):
     body = value.get('sourceText') or value.get('markdown') or ''
     # Only affirmative task declarations, never a title or an incidental word.
     text = re.sub(r'[*_]', '', body)
+    # Some native Chinese PDFs emit dotted emphasis as "交. 互. 题.".
+    # Normalize that glyph spacing only for capability detection; retain the
+    # exact original text and PDF in the statement itself.
+    text = re.sub(r'(?<=[\u3400-\u9fff])[.·．]\s*(?=[\u3400-\u9fff])', '', text)
     if re.search(r'(?m)^#{2,6}\s*(?:Communication|通信)\s*$',text):
         return 'communication'
     if re.search(r'(?m)^#{2,6}\s*(?:Interaction|交互(?:方式|协议|过程)?)\s*$',text):

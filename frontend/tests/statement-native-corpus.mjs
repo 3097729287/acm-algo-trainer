@@ -7,7 +7,7 @@ import {chromium} from 'playwright';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 if(!process.argv[2]||!process.argv[3])throw new Error('Supply isolated PDF corpus JSON and result path');
 const rows=JSON.parse(await fs.readFile(process.argv[2],'utf8'));
-const server=await createServer({root,server:{host:'127.0.0.1',port:18794,strictPort:true,hmr:false}});await server.listen();
+const server=await createServer({root,optimizeDeps:{entries:['tests/statement-pdf-fixture.html']},server:{host:'127.0.0.1',port:18794,strictPort:true,hmr:false}});await server.listen();
 let browser;const verified=[],external=[];
 try{
   browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
@@ -20,15 +20,22 @@ try{
   for(const row of rows){
     const page=await context.newPage();await page.addInitScript(value=>window.pdfFixtureData=value,row);
     await page.goto('http://127.0.0.1:18794/tests/statement-pdf-fixture.html');
-    const frame=page.locator('.wb-statement-pane iframe.wb-statement-pdf');await frame.waitFor();
+    const frame=page.locator('.wb-statement-pane .wb-statement-pdf');await frame.waitFor();
+    await frame.locator('.wb-pdf-page[data-page="1"][data-ready="true"]').waitFor();
     const box=await frame.boundingBox(),editor=await page.locator('.wb-code-pane').boundingBox();
     assert.ok(box.height>550&&box.x+box.width<=editor.x+1,row.originalId);
     const actual=await frame.evaluate(async node=>{
-      const response=await fetch(node.src.split('#')[0]);const bytes=await response.arrayBuffer();
+      const response=await fetch(node.querySelector('a[download]').href);const bytes=await response.arrayBuffer();
       return {mime:response.headers.get('content-type'),sha256:[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('')};
     });
     assert.equal(actual.mime,'application/pdf');assert.equal(actual.sha256,row.statementPdf.sha256,row.originalId);
-    verified.push({id:row.originalId,sha256:actual.sha256,pages:row.statementPdf.pageCount});await page.close();
+    const pages=frame.locator('.wb-pdf-page');assert.equal(await pages.count(),row.statementPdf.pageCount,row.originalId);
+    for(let number=1;number<=row.statementPdf.pageCount;number++){
+      const target=frame.locator(`.wb-pdf-page[data-page="${number}"]`);await target.scrollIntoViewIfNeeded();
+      await target.locator('canvas').waitFor();await page.waitForFunction(n=>document.querySelector(`.wb-pdf-page[data-page="${n}"]`)?.dataset.ready==='true',number);
+      assert.ok(await target.locator('canvas').evaluate(node=>node.width>0&&node.height>0),`${row.originalId} page ${number}`);
+    }
+    verified.push({id:row.originalId,sha256:actual.sha256,pages:row.statementPdf.pageCount});console.log('PASS',row.originalId,row.statementPdf.pageCount);await page.close();
   }
   assert.deepEqual(external,[]);await fs.writeFile(process.argv[3],JSON.stringify({verified,externalRequests:external.length},null,2));
   console.log(JSON.stringify({verified:verified.length,externalRequests:0}));

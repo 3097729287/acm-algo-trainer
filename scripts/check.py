@@ -75,6 +75,7 @@ def main():
     if args.library_only:
         return
     env = dict(os.environ, TB_OFFLINE='1')
+    env['TB_CHECK_LIBRARY'] = str((args.library or ROOT / 'data/library.sqlite3').resolve())
     env['PYTHONPATH'] = os.pathsep.join(str(ROOT / p) for p in ('backend', 'backend/common', 'desktop'))
     subprocess.run([sys.executable, '-m', 'unittest', 'discover', '-s', 'backend', '-p', 'test_*.py'],
                    cwd=ROOT, env=env, check=True)

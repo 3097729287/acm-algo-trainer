@@ -1,5 +1,6 @@
 """Every bundled default editorial has a portable, independent detailed version."""
 import base64
+import os
 import re
 import unittest
 
@@ -9,7 +10,7 @@ from paths import LIBRARY_SEED
 
 class CompleteEditorialTests(unittest.TestCase):
     def test_all_default_editorials_have_detailed_content(self):
-        library = LibraryDatabase(LIBRARY_SEED, readonly=True)
+        library = LibraryDatabase(os.environ.get('TB_CHECK_LIBRARY', LIBRARY_SEED), readonly=True)
         with library.connection() as db:
             identities = [row[0] for row in db.execute('SELECT problem_id FROM solutions')]
         self.assertGreaterEqual(len(identities), 809)

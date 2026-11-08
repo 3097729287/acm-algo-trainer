@@ -106,6 +106,8 @@ class StatementIntegrityTests(unittest.TestCase):
         self.assertFalse(ordinary_samples(value), 'a transcript is not a normal executable sample')
         self.assertEqual(statement_type({'markdown': 'This is not an interactive problem.'}), 'standard')
         self.assertEqual(statement_type({'markdown': '本题为提交答案题。'}), 'output-only')
+        self.assertEqual(statement_type({'sourceText': '本题为交. 互. 题. 。', 'markdown': '# PDF'}), 'interactive')
+        self.assertEqual(statement_type({'sourceText': '本题为通. 信. 题. 。', 'markdown': '# PDF'}), 'communication')
         self.assertEqual(statement_type({'communication': True}), 'communication')
         self.assertFalse(content_ready({'markdown': '# Input\n\n# Output', 'samples': [{'input':'','output':''}]}))
 

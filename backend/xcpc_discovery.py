@@ -42,6 +42,7 @@ def discover_gyms(client,now,policy,limit=8):
                 value.update(source='xcpc-codeforces',contestFullName=contest['name'],contestPhase='FINISHED',
                              contestRoster=True,contestProblemCount=len(parser.tasks),xcpcYear=year,examYear=year,eventYear=year,
                              contestDifficulty=contest.get('difficulty'),contestDifficultySource='Codeforces Gym 公开整场难度（1–5 级），不是单题 rating',
+                             difficultyEstimated=False,difficultyConfidence='UNKNOWN',knowledgeReviewRequired=True,
                              collectionSource=f'https://codeforces.com/gym/{cid}',mirrorStartedAt=P.utc(contest.get('startTimeSeconds')),
                              metadataVersion='1.0.18',contestDatePrecision='year',contestDateSource='赛事原名年份；具体日期待核实')
                 rows.append(value)
