@@ -17,6 +17,13 @@ def inventory():
     start, end = writing.body[0].lineno, writing.body[-1].end_lineno
     endpoints = set()
     for node in ast.walk(dispatch):
+        # Login/register/password are dispatched through an action dictionary,
+        # rather than a literal `path == ...` branch. Keep those real POST
+        # operations in the inventory without importing or executing handlers.
+        if isinstance(node, ast.Dict):
+            for key in node.keys:
+                if isinstance(key, ast.Constant) and isinstance(key.value, str) and key.value.startswith('/api/'):
+                    endpoints.add(('POST' if start <= node.lineno <= end else 'GET', key.value.removeprefix('/api/')))
         if not isinstance(node, ast.Compare) or not isinstance(node.left, ast.Name) or node.left.id != 'path':
             continue
         for right in node.comparators:

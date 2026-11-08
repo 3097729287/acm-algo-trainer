@@ -615,8 +615,17 @@ fn capabilities_inventory_has_every_legacy_operation() {
     let (_temp, config) = fixture();
     let service = Service::open(config).unwrap();
     let value = service.capabilities();
-    assert_eq!(value["legacyTotal"], 136);
-    assert!(value["legacyImplemented"].as_u64().unwrap() < 136);
+    assert_eq!(value["legacyTotal"], 139);
+    assert!(value["legacyImplemented"].as_u64().unwrap() < 139);
+    for path in ["account/register", "account/login", "account/password"] {
+        assert!(
+            value["endpoints"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|e| e["method"] == "POST" && e["path"] == path)
+        );
+    }
     assert_eq!(
         value["endpoints"]
             .as_array()

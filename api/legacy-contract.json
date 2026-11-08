@@ -265,8 +265,23 @@
     },
     {
       "method": "POST",
+      "path": "account/login",
+      "operation": "post.account.login"
+    },
+    {
+      "method": "POST",
       "path": "account/logout",
       "operation": "post.account.logout"
+    },
+    {
+      "method": "POST",
+      "path": "account/password",
+      "operation": "post.account.password"
+    },
+    {
+      "method": "POST",
+      "path": "account/register",
+      "operation": "post.account.register"
     },
     {
       "method": "POST",
