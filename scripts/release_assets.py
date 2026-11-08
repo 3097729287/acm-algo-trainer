@@ -13,7 +13,7 @@ def public_asset_name(name):
     if is_admin_asset(name):
         return False
     version = r'\d+\.\d+\.\d+'
-    return name in {'BUILD-INFO.json', 'SOURCE-MANIFEST.json', 'RELEASE-MANIFEST.json', 'SHA256SUMS.txt'} or bool(re.fullmatch(
+    return name in {'BUILD-INFO.json', 'SOURCE-MANIFEST.json', 'UPDATE-BUILD-INFO.json', 'UPDATE-SOURCE-MANIFEST.json', 'RELEASE-MANIFEST.json', 'SHA256SUMS.txt'} or bool(re.fullmatch(
         rf'(?:ToBe|TB)-(?:(?:Full-)?Setup-{version}-win64\.exe|{version}-win64\.zip|(?:Compact-)?Update-{version}-to-{version}-win64\.zip|Algorithm-Lab-{version}\.zip|Toolchain-Sources-{version}\.zip)', name))
 
 
@@ -41,7 +41,7 @@ def public_release_files(directory):
                 name = pieces[1].lstrip('*')
                 if not public_asset_name(name) or name not in names:
                     raise ValueError(f'Non-public checksum entry: {name}')
-        elif path.name == 'BUILD-INFO.json':
+        elif path.name in {'BUILD-INFO.json','UPDATE-BUILD-INFO.json'}:
             info = json.loads(path.read_text(encoding='utf-8-sig'))
             if info.get('edition') == 'admin' or info.get('adminMode') is True:
                 raise ValueError('Administrator build metadata cannot be published')
