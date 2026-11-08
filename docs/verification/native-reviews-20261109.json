@@ -1,0 +1,309 @@
+{
+  "implementationCommit": "e2a94c2c3f15bd3a6c27b4ff5ab0ad3267ec7d8b",
+  "sharedFrontendFix": "c852e411",
+  "legacyImplemented": 38,
+  "legacyTotal": 136,
+  "nativeChecksPassed": 104,
+  "cli": {
+    "path": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-core.exe",
+    "sha256": "363d2a6ed1ac40156489e4be2b7836a6101dc20e68d67682a7ec965b500356aa"
+  },
+  "desktop": {
+    "path": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-desktop.exe",
+    "sha256": "c469ee77f335a0c62b52f6604b7f4cb9a96b0febd880e058c5f0a2a03bbda67c"
+  },
+  "parity": {
+    "reviews": {
+      "passed": 27,
+      "checks": [
+        "empty-history",
+        "qualified-independent-official-history",
+        "duplicate-ac-keeps-first-pass-streak",
+        "join-real-wa",
+        "beijing-next-day-rewrite",
+        "identical-rewrite-journal",
+        "deferred-rewrite-entry",
+        "ordinary-draft",
+        "review-open-keeps-ordinary-draft",
+        "review-draft-separated",
+        "review-draft-read",
+        "compiled-alias-preserves-canonical-review-and-draft",
+        "ordinary-draft-still-present",
+        "remove-cancels-review-keeps-code",
+        "restore-review",
+        "cancel-restore-identical-journal",
+        "actual-receipt-settles-rewrite",
+        "actual-next-day-reward-once",
+        "same-receipt-poll-does-not-duplicate-reward",
+        "review-bound-history",
+        "reward-attached-only-to-bound-receipt",
+        "backlog-budget-and-paused-new-work",
+        "backlog-allocation-persisted",
+        "clear-today-postpones-real-reviews",
+        "no-same-day-review-refill",
+        "restart-next-day-restores-spaced-queue",
+        "restart-preserves-all-receipts"
+      ],
+      "exactLegacyComparisons": 26,
+      "additionalConfirmedAliasCheck": true,
+      "guardsPassed": 3,
+      "guards": [
+        "wrong-task-identity",
+        "active-goal-is-not-hidden",
+        "full-learning-evidence-not-projected-as-empty"
+      ],
+      "work": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-reviews-53e_0ysu",
+      "nativeSha256": "363d2a6ed1ac40156489e4be2b7836a6101dc20e68d67682a7ec965b500356aa",
+      "nativeBinary": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-core.exe",
+      "privateLiveStateOpened": false,
+      "officialSubmissionsSent": 0,
+      "pythonRuntimeFallback": false,
+      "publicSeedScope": "Previous verified 10 follow-up PDF translation seed; candidate source alone does not synchronize the 18-translation seed."
+    },
+    "phase2": {
+      "passed": 52,
+      "checks": [
+        "catalogue-compact",
+        "catalogue-full",
+        "workspace-empty",
+        "learning-empty",
+        "lectures-empty-queue",
+        "public-training-lists",
+        "custom-training-lists-empty",
+        "problem-public-inline-assets-0",
+        "problem-public-inline-assets-1",
+        "problem-public-inline-assets-2",
+        "training-start",
+        "training-deferred",
+        "draft-python",
+        "workspace-with-draft",
+        "problem-with-draft",
+        "lectures-encountered",
+        "preferences-save",
+        "preferences-merge",
+        "usage-empty",
+        "usage-write-19",
+        "usage-write-20",
+        "usage-write-21",
+        "usage-union",
+        "effective-learning-union",
+        "effective-learning-repeat",
+        "learning-empty-history",
+        "learning-with-history",
+        "quiz-io-basics",
+        "quiz-binary-search",
+        "quiz-dinic",
+        "learning-view-update",
+        "learning-history-tombstone",
+        "training-remove-keeps-draft",
+        "training-restart",
+        "training-clear",
+        "submission-list-0",
+        "submission-list-1",
+        "submission-list-2",
+        "submission-list-3",
+        "submission-list-4",
+        "submission-list-5",
+        "submission-list-6",
+        "submission-list-7",
+        "submission-list-8",
+        "submission-list-9",
+        "submission-list-10",
+        "submission-list-11",
+        "history-code-one",
+        "history-code-two",
+        "history-code-three",
+        "history-code-four",
+        "official-history-and-real-review-view"
+      ],
+      "guardsPassed": 3,
+      "guards": [
+        "finished-replay-history-not-hidden",
+        "unsupported-start-does-not-mutate-training",
+        "private-catalogue-overlay-not-hidden"
+      ],
+      "work": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-phase2-srz6js3v",
+      "personalDataUsed": false,
+      "fixedClock": "2026-11-05T04:00:00+00:00",
+      "catalogueRows": 13466,
+      "nativeSha256": "363d2a6ed1ac40156489e4be2b7836a6101dc20e68d67682a7ec965b500356aa"
+    },
+    "learning": {
+      "passed": 52,
+      "checks": [
+        "first-refresh-no-guessed-time",
+        "idempotent-refresh",
+        "configure-invalid-minutes",
+        "configure-invalid-rest-days",
+        "configure-invalid-tracks",
+        "configure-shared-budget",
+        "wrong-proposal-id",
+        "explicit-adoption",
+        "assisted-study-keeps-source-context",
+        "reading-is-not-independent-evidence",
+        "quiz-wrong-answer",
+        "quiz-rejects-bool",
+        "quiz-only-proves-concept",
+        "cannot-check-off-a-problem",
+        "replace-with-unscheduled-original",
+        "postpone-reallocates-shared-budget",
+        "time-adjustment-keeps-completed-and-history",
+        "all-topics-shared-plan-0",
+        "all-topics-dismiss-0",
+        "all-topics-shared-plan-1",
+        "all-topics-dismiss-1",
+        "all-topics-shared-plan-2",
+        "all-topics-dismiss-2",
+        "all-topics-shared-plan-3",
+        "all-topics-dismiss-3",
+        "all-topics-shared-plan-4",
+        "all-topics-dismiss-4",
+        "switch-proposal-does-not-replace-plan",
+        "switch-mainline-preserves-old-history",
+        "difficulty-advice-meaning",
+        "difficulty-advice-idea",
+        "difficulty-advice-implementation",
+        "difficulty-advice-bug",
+        "difficulty-advice-schedule",
+        "difficulty-advice-verify",
+        "difficulty-advice-transfer",
+        "pace-proposal-hard",
+        "dismiss-proposal-hard",
+        "pace-proposal-easy",
+        "dismiss-proposal-easy",
+        "pace-proposal-forgot",
+        "dismiss-proposal-forgot",
+        "goal-priority-cf",
+        "goal-priority-lanqiao",
+        "goal-priority-topic",
+        "all-rest-days-preserve-waiting-tasks",
+        "restore-study-days",
+        "guided-template-is-not-independent-implementation",
+        "template-evidence-preserves-implementation-stage",
+        "team-role-budget",
+        "team-reflection-does-not-prove-independent-solve",
+        "week-roll-preserves-old-snapshot"
+      ],
+      "guardsPassed": 3,
+      "guards": [
+        "save-failure-rolls-back-archive-and-plan",
+        "save-failure-rolls-back-assisted-training-context",
+        "official-evidence-is-not-guessed-or-erased"
+      ],
+      "work": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-learning-2zetg4tu",
+      "personalDataUsed": false,
+      "scope": "Local planning without unported official/review/contest facts; formal architecture remains React + Python",
+      "nativeSha256": "363d2a6ed1ac40156489e4be2b7836a6101dc20e68d67682a7ec965b500356aa"
+    }
+  },
+  "nativeWindow": {
+    "fullscreen": {
+      "before": {
+        "available": true,
+        "fullscreen": false
+      },
+      "toggled": {
+        "available": true,
+        "fullscreen": true
+      },
+      "restored": {
+        "available": true,
+        "fullscreen": false
+      }
+    },
+    "reactWorkspace": {
+      "saved": true,
+      "recoveredAfterReload": true,
+      "training": 1,
+      "problemId": "ABC 469::A"
+    },
+    "reactPlanning": {
+      "configured": true,
+      "readingStage": 1,
+      "conceptStage": 2,
+      "independentSolved": 0,
+      "cancellationPreserved": true,
+      "mainlineChanged": true,
+      "historyPreserved": true,
+      "recoveredAfterReload": true,
+      "weeklyBudgetShared": true
+    },
+    "localRuns": {
+      "realTauriIpc": true,
+      "realCppCompiler": true,
+      "realPythonInterpreter": true,
+      "problemId": "luogu-training-P1001",
+      "officialSamples": 1,
+      "cppVerdict": "SAMPLE_PASS",
+      "pythonVerdict": "RUN_OK",
+      "customOutput": "42",
+      "pendingReadMillis": 13.177100000000792,
+      "draftLanguageAndHistoryRestored": true,
+      "officialAcClaims": 0
+    },
+    "reviews": {
+      "realTauriIpc": true,
+      "generatedIsolatedJournal": true,
+      "externalSubmissionsSent": 0,
+      "problemId": "luogu-training-P1001",
+      "reviewTaskId": "b4202b7046415ca159d78a90efe10706",
+      "reviewDraftIndependent": true,
+      "normalDraftPreserved": true,
+      "reviewDraftRestoredAfterReload": true,
+      "realCppReviewSampleVerdict": "SAMPLE_PASS",
+      "sampleRunCreatesOfficialResult": false,
+      "cancelRestorePreserved": true,
+      "rewardDerivedFromExistingFixtureReceipt": 20
+    },
+    "pageErrors": []
+  },
+  "windowReport": ".backups/native-reviews-window-20261109/result.json",
+  "sharedFrontendAccountSwitchReport": ".backups/review-bookmark-context-20261109/result.json",
+  "publicSeed": {
+    "path": "data\\library.sqlite3",
+    "bytes": 1053859840,
+    "sha256": "437bc55d33a53f4770ab0c41b8f6977156f7ba9a8259379f96c59b19318af631",
+    "scope": "Previous 10 follow-up PDF translation seed; not the 18/57-translation candidate data. Source merge alone does not synchronize public data."
+  },
+  "compiledPublicIndex": {
+    "path": "data\\native-catalog.sqlite3",
+    "bytes": 87826432,
+    "sha256": "89f6ab0e6e2c23de218e768e26c1b06275efaa00412c667bee79e5f6e6284410",
+    "reviewContexts": 13466,
+    "publicSeedReadOnly": true
+  },
+  "cleanup": {
+    "inspectedBeforeUpdate": [
+      "reference/use of legacy review guards",
+      "hardcoded empty review view",
+      "compiled public index and seed",
+      "existing verification artifacts"
+    ],
+    "replaced": [
+      "hardcoded empty review view",
+      "blanket rejection of official-history workspaces"
+    ],
+    "deleted": [
+      {
+        "path": ".backups/native-reviews-tests-20261109.log",
+        "bytes": 0,
+        "reason": "Unreferenced empty output from an interrupted redirection command; actual checks preserved in tool output and this receipt"
+      }
+    ],
+    "otherUnusedSourceOrRequiredHistoryFound": false
+  },
+  "privateLiveStateOpened": false,
+  "normalInstallationTouched": false,
+  "newExternalOfficialSubmissionsSent": 0,
+  "pythonRuntimeFallback": false,
+  "newStandalonePackageBuilt": false,
+  "unportedGuards": [
+    "active goals",
+    "any contest history/workspace finalization",
+    "private catalogue overlays",
+    "full planner official evidence",
+    "new original-site submission/browser flow",
+    "accounts and sync"
+  ],
+  "productionReleaseReady": false
+}
