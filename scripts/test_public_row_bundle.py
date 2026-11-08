@@ -9,6 +9,7 @@ from test_library import record
 from seed_identity import describe
 from build_public_library_update import build as build_rows
 from build_compact_bundle import build
+from build_public_row_profile import build as build_profile
 from compact_update import apply,load,BaseMismatch
 from public_library_update import merge_public_seed
 
@@ -49,4 +50,19 @@ class PublicRowBundleTests(unittest.TestCase):
         with self.assertRaises(OSError):apply(self.bundle,self.base,'1.6.11',fail_after=0)
         self.assertEqual((self.base/'VERSION').read_text(),'1.6.9');self.assertEqual(seed.read_bytes(),before)
         self.assertTrue(apply(self.bundle,self.base,'1.6.11')['ok'])
+    def test_baseline_specific_profile_keeps_full_build_immutable_and_reports_actual_seed_mode(self):
+        full=self.root/'full-installer';shutil.copytree(self.target,full)
+        info={'version':'1.6.11','sourceCommit':'reviewed-fixture','publicLibrarySha256':describe(full/'data/library.sqlite3')['sha256']}
+        for name in ('BUILD-INFO.json','resources/BUILD-INFO.json'):(full/name).write_text(json.dumps(info))
+        (full/'resources/public-library-update.json').write_text(json.dumps({'schema':1,'mode':'complete-seed','targetSeedSha256':info['publicLibrarySha256']}))
+        old_payload=next((full/'resources').glob('public-library-update-*.sqlite3.gz'));old_payload.unlink()
+        before=(full/'BUILD-INFO.json').read_bytes();profile=self.root/'baseline-profile'
+        result=build_profile(full,self.root/'rows',profile)
+        self.assertEqual((full/'BUILD-INFO.json').read_bytes(),before)
+        generated=json.loads((profile/'BUILD-INFO.json').read_text())
+        self.assertNotIn('publicLibrarySha256',generated);self.assertEqual(generated['publicLibraryTargetSha256'],info['publicLibrarySha256'])
+        self.assertEqual(generated['publicLibraryMode'],'preserved-base-with-public-row-update')
+        self.assertTrue(result['privateStateReadOrWritten'] is False)
+        bundle=self.root/'profile-compact.zip';build(profile,[self.base],bundle,self.root/'unused-tool',preserve_public_seed=True)
+        self.assertTrue(apply(bundle,self.base,'1.6.11')['ok'])
 if __name__=='__main__':unittest.main()

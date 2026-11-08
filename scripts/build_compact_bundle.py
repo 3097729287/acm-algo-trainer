@@ -59,6 +59,7 @@ def build(package,baselines,output,tool,prebuilt=(),field_delta=None,*,preserve_
         from seed_identity import describe
         descriptor_path=package/'resources/public-library-update.json'
         descriptor,_,_=load_descriptor(descriptor_path)
+        if descriptor.get('mode')=='complete-seed':raise ValueError('A preserved public base needs a row-update profile, not the full installer marker')
         if target.get('data/library.sqlite3',{}).get('sha256')!=descriptor['targetSeedSha256']:
             raise ValueError('The full package and public content update have different targets')
         for index,base in enumerate(old):
