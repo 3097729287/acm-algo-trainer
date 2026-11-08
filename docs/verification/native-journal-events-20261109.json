@@ -1,0 +1,129 @@
+{
+  "date": "2026-11-09",
+  "status": "native-local-test",
+  "releaseReady": false,
+  "sourceCommit": "14889fad5587a2602da5813c40759ba2f17fd9c0",
+  "nativeBuildSourceCommit": "14889fad5587a2602da5813c40759ba2f17fd9c0",
+  "sourceBaseVersion": "1.6.8",
+  "nativeEndpoints": 36,
+  "legacyEndpoints": 136,
+  "rustChecksPassed": 92,
+  "runtimeFiles": [
+    {
+      "path": "ToBe-Rust.exe",
+      "bytes": 19070702,
+      "sha256": "2628b7e37704b8068f417ebfb1b4e64c5597053d0a2021b18b857dc601c7393a"
+    },
+    {
+      "path": "WebView2Loader.dll",
+      "bytes": 160880,
+      "sha256": "86545b66cdb0603bc26b626fb9ad610cb6e71f28d468f5ea66df23b03dda96d5"
+    },
+    {
+      "path": "data/library.sqlite3",
+      "bytes": 1053859840,
+      "sha256": "437bc55d33a53f4770ab0c41b8f6977156f7ba9a8259379f96c59b19318af631"
+    },
+    {
+      "path": "data/native-catalog.sqlite3",
+      "bytes": 81735680,
+      "sha256": "9beb2ad1c8066bd81d33c13801d8727a011d72d71d3e26418150b0432e1b07dd"
+    },
+    {
+      "path": "backend/resources/oi-wiki.sqlite3",
+      "bytes": 27525120,
+      "sha256": "b20821999da1393f2202a396b64cf7a5490293e88f0bbf7c27929cc22139be38"
+    },
+    {
+      "path": "backend/resources/code-templates.json",
+      "bytes": 149758,
+      "sha256": "8bc62e13388b24d21c2bcc8bbc70766e40681cf4fbfcc7ff7e48ad1f7cb81981"
+    },
+    {
+      "path": "backend/resources/template-teaching.json",
+      "bytes": 41826,
+      "sha256": "8ecf69ca4122277dfd68b6b5271e036186194e0781c764fe5a6f4f32244f87aa"
+    },
+    {
+      "path": "backend/resources/learning-curriculum.json",
+      "bytes": 33342,
+      "sha256": "44d19611054093214eade6f373048d5864e38422dd5e61696f6c17258869659f"
+    },
+    {
+      "path": "backend/resources/native-quizzes.json",
+      "bytes": 3448,
+      "sha256": "ec8a200955c570d3f5e1722a6998b67073f6d677ef116bc03384f0d3afb94d29"
+    }
+  ],
+  "runtimeBytes": 1182580596,
+  "cliSha256": "d3b5590961e545c40de5aa8737cec64c674210371c6ab23419e5cc572a4825a9",
+  "publicContent": {
+    "problems": 13480,
+    "statements": 13459,
+    "normalEditorials": 3191,
+    "detailedEditorials": 2306,
+    "indexedRows": 13466,
+    "aliases": 14182,
+    "lectures": 480,
+    "publicEvents": 644,
+    "incompletePublicEvents": 127
+  },
+  "legacyComparisons": {
+    "basic": 19,
+    "phase2": 52,
+    "phase2Boundaries": 3,
+    "learning": 52,
+    "learningBoundaries": 3,
+    "customLists": 8,
+    "editableDefaults": 9,
+    "localExport": 10,
+    "allPublicEventFieldsEqual": true
+  },
+  "packagedWindow": {
+    "totalProblems": 13480,
+    "draftCommitted": true,
+    "ipcInitialCodeP50Millis": 1.4000000059604645,
+    "ipcInitialCodeP95Millis": 2.2000000029802322,
+    "reactPlanning": {
+      "configured": true,
+      "readingStage": 1,
+      "conceptStage": 2,
+      "independentSolved": 0,
+      "cancellationPreserved": true,
+      "mainlineChanged": true,
+      "historyPreserved": true,
+      "recoveredAfterReload": true,
+      "weeklyBudgetShared": true
+    },
+    "reactWorkspace": {
+      "saved": true,
+      "recoveredAfterReload": true,
+      "training": 1,
+      "problemId": "ABC 469::A"
+    },
+    "localRuns": {
+      "realTauriIpc": true,
+      "realCppCompiler": true,
+      "realPythonInterpreter": true,
+      "problemId": "luogu-training-P1001",
+      "officialSamples": 1,
+      "cppVerdict": "SAMPLE_PASS",
+      "pythonVerdict": "RUN_OK",
+      "customOutput": "42",
+      "pendingReadMillis": 13.390400000000227,
+      "draftLanguageAndHistoryRestored": true,
+      "officialAcClaims": 0
+    },
+    "readyMillis": 799.7089,
+    "binaryBytes": 19070702,
+    "packaged": true,
+    "pageErrors": []
+  },
+  "localTestOnly": true,
+  "pythonBackendRuntime": false,
+  "livePrivateStateOpened": false,
+  "normalInstallationReplaced": false,
+  "officialAcClaims": 0,
+  "userCodeToolchains": "Existing external C++ compiler and Python interpreter; not bundled in this local test package.",
+  "remaining": "Account synchronization, official judging, contest/review flows, social services, updates and full production feature/resource parity remain pending."
+}
