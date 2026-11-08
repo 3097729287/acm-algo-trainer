@@ -143,6 +143,92 @@
         "privateAccountDraftSubmissionTrainingFilesOpened": false,
         "liveOwnedArticlesVerified": 936
       }
+    },
+    "unrelatedLiveRows": {
+      "user": {
+        "problems": {
+          "changed": 0,
+          "examples": []
+        },
+        "solutions": {
+          "changed": 0,
+          "examples": []
+        },
+        "detailed_solutions": {
+          "changed": 0,
+          "examples": []
+        },
+        "lectures": {
+          "changed": 0,
+          "examples": []
+        },
+        "training_lists": {
+          "changed": 0,
+          "examples": []
+        },
+        "solution_methods": {
+          "changed": 0,
+          "examples": []
+        }
+      },
+      "admin": {
+        "problems": {
+          "changed": 0,
+          "examples": []
+        },
+        "solutions": {
+          "changed": 0,
+          "examples": []
+        },
+        "detailed_solutions": {
+          "changed": 0,
+          "examples": []
+        },
+        "lectures": {
+          "changed": 0,
+          "examples": []
+        },
+        "training_lists": {
+          "changed": 0,
+          "examples": []
+        },
+        "solution_methods": {
+          "changed": 0,
+          "examples": []
+        }
+      }
+    },
+    "activeSourceIntegration": {
+      "activeSourceRoot": "E:\\项目\\ToBe\\开发\\tb-background-redesign-20261106",
+      "sourceCommit": "3980a8b55e0db3646cb1a421b0b03ff499f9b8b6",
+      "sourcePublicSeedSha256": "8b95ef902ebf2d67fdd398b42ee2f78de54a0227197c14fd29f7f12919193496",
+      "priorSourcePublicSeedSha256": "50ea39706fcde2d1095807c3a202f72a32ab62358f8a178ce16ed0c568532591",
+      "ownedArticlesVerified": 936,
+      "foreignSourceChangesRetained": true
+    }
+  },
+  "largeInputChecks": {
+    "segmentAndWallSweeps": [
+      {
+        "problem": 230839,
+        "seconds": 4.996016099990811,
+        "expected": 1,
+        "passed": true
+      },
+      {
+        "problem": 232803,
+        "seconds": 0.3137725999986287,
+        "expected": 1503,
+        "passed": true
+      }
+    ],
+    "xorStack": {
+      "problem": 236249,
+      "operations": 40000,
+      "adds": 20000,
+      "case": "distinct xor vectors, equal unit costs, then pop all",
+      "seconds": 1.5708536000020104,
+      "passed": true
     }
   }
 }
