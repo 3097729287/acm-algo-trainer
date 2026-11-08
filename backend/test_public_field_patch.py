@@ -1,5 +1,6 @@
 from contextlib import closing
 import base64,bz2,copy,gzip,hashlib,io,json,sqlite3,struct,tempfile,unittest
+import threading,time
 from pathlib import Path
 from unittest.mock import patch
 from public_field_patch import patch_file,validate,remote_value,digest,RESOURCE_ROOT
@@ -57,5 +58,36 @@ class PublicFieldPatchTests(unittest.TestCase):
         with patch('public_field_patch.build_opener',return_value=opener):self.assertEqual(remote_value(item),self.public)
         opener.open.return_value=response(raw[:-1]+b'x')
         with patch('public_field_patch.build_opener',return_value=opener),self.assertRaises(ValueError):remote_value(item)
+
+    def multiple_fields(self):
+        self.template=bytes(2048);self.final=bytearray(self.template);self.fields=[];values={}
+        for index in range(3):
+            raw=json.dumps({'figure':f'公开原图 {index}'},ensure_ascii=False).encode();packed=gzip.compress(raw,mtime=0);sha=digest(raw)
+            self.fields.append({'sha256':sha,'bytes':len(raw),'compressedSha256':digest(packed),'compressedBytes':len(packed),
+                'url':RESOURCE_ROOT+digest(packed)+'.bin','candidates':[{'table':'solutions','id':f'figure::{index}'}],'spans':[[100+index*200,0,len(raw)]]})
+            self.final[100+index*200:100+index*200+len(raw)]=raw;values[sha]=raw
+        self.final=bytes(self.final);self.write_patch(self.template)
+        return values
+
+    def test_missing_public_fields_download_concurrently_without_reordering_spans(self):
+        values=self.multiple_fields();barrier=threading.Barrier(3);threads=set();lock=threading.Lock()
+        def fetched(item):
+            with lock:threads.add(threading.get_ident())
+            barrier.wait(timeout=3)
+            # Finish in the reverse order to catch span/value misassociation.
+            time.sleep((3-int(item['candidates'][0]['id'].split('::')[1]))*.005)
+            return values[item['sha256']]
+        with patch('public_field_patch.remote_value',side_effect=fetched):result=self.apply()
+        self.assertEqual(len(threads),3);self.assertEqual(result['downloadedPublicFields'],3)
+        self.assertEqual(self.target.read_bytes(),self.final);self.assertEqual(self.database.read_bytes(),self.before)
+
+    def test_one_failed_public_download_stops_before_creating_the_output(self):
+        values=self.multiple_fields()
+        def fetched(item):
+            if item is self.fields[1]:raise ValueError('Corrupt public response')
+            return values[item['sha256']]
+        with patch('public_field_patch.remote_value',side_effect=fetched),self.assertRaises(ValueError):self.apply()
+        self.assertFalse(self.target.exists());self.assertEqual(self.database.read_bytes(),self.before)
+        self.assertEqual(self.source.read_bytes(),self.old)
 
 if __name__=='__main__':unittest.main()

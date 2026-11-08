@@ -1,5 +1,6 @@
 """Reuse only hash-pinned public illustration fields; private SQLite is read-only."""
 from contextlib import closing
+from concurrent.futures import ThreadPoolExecutor
 import gzip,hashlib,io,os,re,sqlite3
 from pathlib import Path
 from urllib.request import Request,build_opener,ProxyHandler,HTTPRedirectHandler
@@ -70,12 +71,14 @@ def remote_value(item):
 def patch_file(source,patch,target,*,app,expected_target,template_sha,fields,target_bytes):
     if not valid_sha(expected_target) or not valid_sha(template_sha):raise ValueError('公共题库目标摘要无效')
     validate(fields,target_bytes)
-    values=[];reused=0
-    for item in fields:
+    def resolve(item):
         raw=local_value(app,item)
-        if raw is None:raw=remote_value(item)
-        else:reused+=1
-        values.append(raw)
+        return (remote_value(item),False) if raw is None else (raw,True)
+    # Resolve independently hash-pinned public fields concurrently, retaining
+    # manifest order. No output is created until every value is verified.
+    with ThreadPoolExecutor(max_workers=min(4,len(fields))) as workers:
+        resolved=list(workers.map(resolve,fields))
+    values=[raw for raw,_ in resolved];reused=sum(kept for _,kept in resolved)
     file_delta(source,patch,target,expected_target=template_sha)
     if Path(target).stat().st_size!=target_bytes:raise ValueError('公共题库模板大小无效')
     with Path(target).open('r+b') as output:

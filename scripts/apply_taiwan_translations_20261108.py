@@ -1,4 +1,4 @@
-"""Apply six page-reviewed translations and exact native sample corrections."""
+"""Apply page-reviewed PDF translations with exact samples and original diagrams."""
 import copy
 import argparse
 import base64
@@ -45,7 +45,10 @@ def main(folder=None,contest='105544',review_file='review.json',packet_prefix='z
     result=[]
     for proof in reviewed:
         letter=proof['letter'];assert re.fullmatch(r'[A-Z][0-9]?',letter)
-        identity='remote:codeforces:'+contest+'::'+letter
+        identity=proof.get('problemId') or 'remote:codeforces:'+contest+'::'+letter
+        assert identity in current
+        if proof.get('problemId'):
+            assert current[identity]['url']=='https://codeforces.com/gym/'+contest+'/problem/'+letter
         slug=contest+'-'+letter
         english=(folder/(slug+'.en.md')).read_text('utf8')
         chinese=(folder/(slug+'.zh.md')).read_text('utf8')
@@ -73,6 +76,8 @@ def main(folder=None,contest='105544',review_file='review.json',packet_prefix='z
         before=current[identity];value=copy.deepcopy(before)
         assert before['statementPdf']['sha256']==proof['pdfSha256']
         assert before['statementPdf']['pageCount']==proof['pageCount']
+        if 'sourcePageNumbers' in proof:
+            assert before['statementPdf']['sourcePageNumbers']==proof['sourcePageNumbers']
         assert not before.get('translation')
         value.setdefault('sourceTextArchive',[]).append({'text':before.get('sourceText',''),'kind':'unreviewed-pdf-extraction','sha256':hashlib.sha256(before.get('sourceText','').encode()).hexdigest()})
         value.setdefault('sampleExtractionHistory',[]).append({'samples':before['samples'],'extraction':before.get('sampleExtraction')})

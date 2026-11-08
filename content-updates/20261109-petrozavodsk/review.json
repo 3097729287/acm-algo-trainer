@@ -1,0 +1,19 @@
+[
+  {
+    "letter": "J",
+    "problemId": "wiki-example-f3111abcb4011fc83c9c",
+    "pdfSha256": "72e7c4959ebc76c39fbcfa6db652ff7db98a6037cdfe52a281886833939f5628",
+    "pageCount": 1,
+    "pagesReviewed": [1],
+    "sourcePageNumbers": [16],
+    "sourceUrl": "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf",
+    "sourceSha256": "1b03691a932031300c2482ec5b48e45fb35d3eb2ce5c67449d184c663433067c",
+    "figures": [],
+    "notes": [
+      "核对单题一页及原稿第 16 页，输入上界是 2 的 31 次方，不是 231。",
+      "保留原题文件名 once.in、once.out，老爷爷第一次伸手为 k+a。",
+      "输入明确允许四个非负整数；不擅自把周期约束改成正数。",
+      "原表格按时间 1 到 8 完整重排；英文与中文样例一致。"
+    ]
+  }
+]

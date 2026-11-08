@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-09",
+  "status": "components-verified-full-upgrade-pending",
+  "wholeUpgradeUnderOneMinuteVerified": false,
+  "publicCompactApply": {
+    "scope": "Same published 1.6.7 to 1.6.8 compact bundle on isolated public-only program copies without reusable public fields.",
+    "bundleSha256": "48374adbfc224997d3fa0e1ff4f625d0fc4bee046a993f73fa6e609faf436edd",
+    "baselineProfiledSeconds": 63.699,
+    "revisedProfiledSeconds": 20.913,
+    "changedFiles": 53,
+    "publicFieldsMissingLocally": 16,
+    "originalSourceCommit": "072c8fb3",
+    "revisedImplementationSha256": {
+      "compact_update.py": "64c7b8add8281dba6f0e06c75df3a455156ac3be5fe4c905c356bc2300866c43",
+      "binary_delta.py": "678f079b693a7270f0a2ba1a248f945a1d78bc132d9e2e1dbe07511e08f5951c",
+      "public_field_patch.py": "ec0a3106870daffb475cd6a72ead4d2cba29d7c54ad7f7122b4a421dff882561"
+    },
+    "allOutputSha256Verified": true,
+    "usesRealDomesticHttps": true,
+    "networkVariationAndProfilerOverheadApply": true
+  },
+  "fullSnapshotVerification": {
+    "databaseBytes": 1500909568,
+    "runs": [
+      {
+        "implementation": "serial",
+        "seconds": 3.83
+      },
+      {
+        "implementation": "parallel",
+        "seconds": 2.317
+      },
+      {
+        "implementation": "parallel",
+        "seconds": 2.331
+      },
+      {
+        "implementation": "serial",
+        "seconds": 4.567
+      }
+    ],
+    "serialSourceSha256": "c689a06c23d65073e04b8e6006be0843bfb0b027cdd5f2210e1156cd653fef33",
+    "parallelSourceSha256": "3914bb68950bc5e1069bf3e8d9d4406b4945e786b0da784b506745c524e89acc",
+    "allPagesAndRecoverySha256Verified": true
+  },
+  "liveStateWritten": false,
+  "normalApplicationStarted": false,
+  "accountCloudWritten": false,
+  "targetedUpdateRegressionTests": 63
+}

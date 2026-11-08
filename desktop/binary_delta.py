@@ -49,9 +49,13 @@ def patch_block(source,patch):
         low=max(0,old);high=min(len(source),old+count)
         if high>low:output[position+low-old:position+high-old]=source[low:high]
         delta=differences[diff_at:diff_at+count]
-        for match in NONZERO.finditer(delta):
-            start,end=match.span();offset=position+start
-            output[offset:position+end]=bytes((a+b)&255 for a,b in zip(output[offset:position+end],delta[start:end]))
+        # Most immutable SQLite pages have an entirely zero difference. Count
+        # these bytes in C before running the regex across a multi-megabyte
+        # unchanged page; source/output bounds and full hashes still apply.
+        if delta.count(0)!=len(delta):
+            for match in NONZERO.finditer(delta):
+                start,end=match.span();offset=position+start
+                output[offset:position+end]=bytes((a+b)&255 for a,b in zip(output[offset:position+end],delta[start:end]))
         position+=count;old+=count;diff_at+=count
         output[position:position+extra]=extras[extra_at:extra_at+extra]
         position+=extra;extra_at+=extra;old+=seek
