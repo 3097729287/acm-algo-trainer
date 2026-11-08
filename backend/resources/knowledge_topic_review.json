@@ -1,7 +1,7 @@
 {
   "version": "topic-review-20261029-r30",
   "scope": "仅修正知识标签，不改题解正文、程序、难度或个人记录",
-  "reviewedProblems": 1755,
+  "reviewedProblems": 1767,
   "problems": {
     "codeforces.com/contest/2258/problem/E": {
       "problemIds": [
@@ -47337,6 +47337,471 @@
       ],
       "reviewMethod": "source-reviewed-classification",
       "official": false
+    },
+    "codeforces.com/gym/105139/problem/A": {
+      "problemIds": [
+        "remote:codeforces:105139::A"
+      ],
+      "url": "https://codeforces.com/gym/105139/problem/A",
+      "tags": [
+        "最大公约数",
+        "最小公倍数",
+        "整数运算"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105139::A",
+          "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+          "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+          "sourcePageNumbers": [
+            5,
+            6
+          ],
+          "sourceProblemHeading": "A. Long Live",
+          "sourceProblemTitle": "Long Live",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/A",
+          "sourceStatementMarkdownSha256": "436bb02cbe572afab01568ade3e4e88a0f5e8e2e98af51bcff171e64b032a3f2",
+          "reasons": [
+            "设N=lcm(x,y)/gcd(x,y)，由a²b=N得到ab=N/a，取a=1最优。欧几里得求g后用(x/g)*(y/g)得到b，O(log min(x,y))；x,y<=10^9时乘积可到10^18，需64位整数。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105139/problem/B": {
+      "problemIds": [
+        "remote:codeforces:105139::B"
+      ],
+      "url": "https://codeforces.com/gym/105139/problem/B",
+      "tags": [
+        "枚举",
+        "点积与叉积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105139::B",
+          "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+          "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+          "sourcePageNumbers": [
+            9,
+            10
+          ],
+          "sourceProblemHeading": "B. Nana Likes Polygons",
+          "sourceProblemTitle": "Nana Likes Polygons",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/B",
+          "sourceStatementMarkdownSha256": "440c8515fff5c3e136762c70f60e5cfc7b77a9701b081ed71c32611121efeeab",
+          "reasons": [
+            "任意非退化凸多边形可选出面积不更大的顶点三角形，因此枚举三点的非零叉积绝对值，取最小值再除二。每组O(n^3)，三点共线不算合法，所有三点退化则输出-1。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105139/problem/C": {
+      "problemIds": [
+        "remote:codeforces:105139::C"
+      ],
+      "url": "https://codeforces.com/gym/105139/problem/C",
+      "tags": [
+        "离散化",
+        "线段相交",
+        "二分图匹配",
+        "最大独立集",
+        "Dinic"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105139::C",
+          "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+          "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+          "sourcePageNumbers": [
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38
+          ],
+          "sourceProblemHeading": "C. Lili Likes Polygons",
+          "sourceProblemTitle": "Lili Likes Polygons",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/C",
+          "sourceStatementMarkdownSha256": "081ee0965798695a12de96b05d790901ddf39254f64fb6a3c2101c5c951e5a6e",
+          "reasons": [
+            "在离散网格上恢复矩形并的所有边界凸角/凹角和含孔分量，候选好对角线连接凹点。水平与竖直对角线相交建二分图，互不相交好对角线的最大集合通过König定理化为总点数减最大匹配；用角度计数公式得到最少矩形数。官方给O(n²+V^2.5)，边界顶点总数V<=2000。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [
+            "官方讲解使用连续正交多边形记法；原输入是含端点的离散方格矩形，建网格时右/上边界需按方格语义处理。原样例说明的区间排版错误保留在原PDF并在译文说明，未改原输入或答案。",
+            "好对角线的冲突包括共用同一个凹端点，不能让两条选线重复使用同一凹角。只在一点接触的裸地区域应分别计算各个90度角；角度公式为(凸角数+3×凹角数)/4减去最大不相交好对角线数，不能把角的重数抹成唯一坐标数。"
+          ],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0,
+          "secondReaderSourceReview": {
+            "scope": "official PDF physical pages 22–23 and 30–38, algorithm interpretation only",
+            "fullImplementationRetested": false,
+            "originalJudgeSubmissions": 0
+          }
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105139/problem/D": {
+      "problemIds": [
+        "remote:codeforces:105139::D"
+      ],
+      "url": "https://codeforces.com/gym/105139/problem/D",
+      "tags": [
+        "线性 DP",
+        "决策单调性",
+        "分治",
+        "前缀和",
+        "位运算"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105139::D",
+          "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+          "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+          "sourcePageNumbers": [
+            24,
+            25,
+            26,
+            27,
+            28,
+            29
+          ],
+          "sourceProblemHeading": "D. MACARON Likes Happy Endings",
+          "sourceProblemTitle": "MACARON Likes Happy Endings",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/D",
+          "sourceStatementMarkdownSha256": "ab5332690bb2e58b0e6cb86cde4a7ce3e489a3ccfa5d929c66510dbddebfd570",
+          "reasons": [
+            "以前缀异或桶维护w(l,r)=区间内异或和为d的子段数，DP[j][i]=min_p(DP[j-1][p-1]+w(p,i))。区间计数满足四边形不等式，最优分割点单调；逐层分治计算DP，配合可移动端点维护代价，O(kn log n)。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [
+            "题解把sum称为前缀和，但这里必须是前缀异或；当前规范字典将前缀异或归入前缀和，具体运算在说明中保留。",
+            "题解末页提到CDQ思想，这里采用逐行分治优化，不据此标为CDQ偏序算法。允许休息；非负区间计数拆段不增加代价，至多k段与可取k段的最小值相同。"
+          ],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105139/problem/E": {
+      "problemIds": [
+        "remote:codeforces:105139::E"
+      ],
+      "url": "https://codeforces.com/gym/105139/problem/E",
+      "tags": [
+        "整数运算",
+        "顺序执行"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105139::E",
+          "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+          "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+          "sourcePageNumbers": [
+            3,
+            4
+          ],
+          "sourceProblemHeading": "E. Spicy or Grilled?",
+          "sourceProblemTitle": "Spicy or Grilled?",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/E",
+          "sourceStatementMarkdownSha256": "1ace611d29b191a59b47fba7843ee025088ddc50da537053d5257fe215222a97",
+          "reasons": [
+            "直接计算(n-x)*a+x*b，每组O(1)。输入已给两类套餐人数与单价，不需要搜索、动态规划或按图片中的实际售价计算。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105139/problem/F": {
+      "problemIds": [
+        "remote:codeforces:105139::F"
+      ],
+      "url": "https://codeforces.com/gym/105139/problem/F",
+      "tags": [
+        "可持久化线段树",
+        "位运算",
+        "离线算法",
+        "树状数组"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105139::F",
+          "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+          "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+          "sourcePageNumbers": [
+            19,
+            20,
+            21
+          ],
+          "sourceProblemHeading": "F. Enchanted",
+          "sourceProblemTitle": "Enchanted",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/F",
+          "sourceStatementMarkdownSha256": "ee9cb9d822ebcc2a24a0510014c1e77e7962667fbdfe116e92276f0a74e7e608",
+          "reasons": [
+            "把等级a的书看成权重2^a，合并就是二进制进位。区间权重和决定最高可得等级，加入2^k后连续进位决定第三步费用。官方以可持久化结构保存单点修改和历史版本，或离线建立版本树后用DFS/树状数组回滚维护；查询和修改O(log n)加不超过60位的处理。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [
+            "官方复杂度只写操作数m；实际初始化也要处理n本书，此处保留初始化工作量，不称总复杂度与n无关。",
+            "原样例第一行只有五个输入整数；右栏输出紧贴同一行，已以表格几何及原页图核对，未把输出1或0拼入输入。"
+          ],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105139/problem/G": {
+      "problemIds": [
+        "remote:codeforces:105139::G"
+      ],
+      "url": "https://codeforces.com/gym/105139/problem/G",
+      "tags": [
+        "模拟",
+        "BFS",
+        "并查集"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105139::G",
+          "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+          "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+          "sourcePageNumbers": [
+            15,
+            16
+          ],
+          "sourceProblemHeading": "G. Genshin Impact Startup Forbidden II",
+          "sourceProblemTitle": "Genshin Impact Startup Forbidden II",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/G",
+          "sourceStatementMarkdownSha256": "b2dc81ec04cdc44bcf8699cd7d5fb3bbadcc5091fc8f37d17fa244bec26671e7",
+          "reasons": [
+            "按原题先提对手死棋、再重算己方气的顺序模拟。官方主解BFS统计连通棋块的气并删去死块，棋盘边长s=19时O(ms²)；扩展以并查集维护棋块、气与整块删除，使每枚新落棋子只移除一次，目标O(m α(m))。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105139/problem/H": {
+      "problemIds": [
+        "remote:codeforces:105139::H"
+      ],
+      "url": "https://codeforces.com/gym/105139/problem/H",
+      "tags": [
+        "状压 DP",
+        "枚举"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105139::H",
+          "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+          "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+          "sourcePageNumbers": [
+            13,
+            14
+          ],
+          "sourceProblemHeading": "H. Genshin Impact Startup Forbidden III",
+          "sourceProblemTitle": "Genshin Impact Startup Forbidden III",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/H",
+          "sourceStatementMarkdownSha256": "36008551259b16e5ee0ea9e2f960c238f7a83daf9e33ea9bd52b3a369a8aeb3f",
+          "reasons": [
+            "每个有鱼方格仅需考虑自身及四邻作为炸弹候选中心，至多5k个不同位置。以四进制编码k<=10处剩余鱼数，每次爆炸对命中的非零位减一，转移最少炸弹数；先预处理候选覆盖集合，最多4^k个状态。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105139/problem/I": {
+      "problemIds": [
+        "remote:codeforces:105139::I"
+      ],
+      "url": "https://codeforces.com/gym/105139/problem/I",
+      "tags": [
+        "树的直径",
+        "并查集",
+        "离线算法",
+        "LCA"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105139::I",
+          "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+          "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+          "sourcePageNumbers": [
+            22,
+            23
+          ],
+          "sourceProblemHeading": "I. Colorful Tree",
+          "sourceProblemTitle": "Colorful Tree",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/I",
+          "sourceStatementMarkdownSha256": "b139df878bea9b3447e3383512fbdbc6fc74cbf7cbe9e381d7f43d06de63d30c",
+          "reasons": [
+            "永久染黑使每个点只发生一次颜色变化；先求各点首次变黑的操作时刻，再顺序加黑点、逆序加白点。分别用并查集维护同色连通分量的直径端点，LCA树距用于合并后的直径比较，并维护全局最大值；含q条路径的读取和首次覆盖处理，总O((n+q)log n)可实现。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [
+            "官方简记O(n log n)，原题n与q各可2×10^5，这里显式计入q；每个答案长度按顶点数，而不是边数。"
+          ],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105139/problem/J": {
+      "problemIds": [
+        "remote:codeforces:105139::J"
+      ],
+      "url": "https://codeforces.com/gym/105139/problem/J",
+      "tags": [
+        "期望与概率",
+        "乘法逆元"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105139::J",
+          "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+          "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+          "sourcePageNumbers": [
+            7,
+            8
+          ],
+          "sourceProblemHeading": "J. Points on the Number Axis A",
+          "sourceProblemTitle": "Points on the Number Axis A",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/J",
+          "sourceStatementMarkdownSha256": "60f5cc5cc6e28f0903d296cf73dbed898bc38a2ecc08cddd0fdce7929d217f2c",
+          "reasons": [
+            "所有点被等概率选中，合并后的均值期望保持不变；或按剩余点数归纳，最后位置期望是sum(x_i)/n。线性求和并乘n的模逆元，O(n+log MOD)。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105139/problem/K": {
+      "problemIds": [
+        "remote:codeforces:105139::K"
+      ],
+      "url": "https://codeforces.com/gym/105139/problem/K",
+      "tags": [
+        "期望与概率",
+        "组合计数",
+        "乘法逆元"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105139::K",
+          "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+          "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+          "sourcePageNumbers": [
+            17,
+            18
+          ],
+          "sourceProblemHeading": "K. Points on the Number Axis B",
+          "sourceProblemTitle": "Points on the Number Axis B",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/K",
+          "sourceStatementMarkdownSha256": "bdc2b1aa8538423704a0dc5a00ac76b3cab7537dd8b96ff0557edca56c29cb00",
+          "reasons": [
+            "按每个初始点的线性贡献求答案，f(i,j)=((i-1/2)f(i-1,j)+(j-1/2)f(i,j-1))/(i+j)。令g(i,j)=(i+j)!f(i,j)化为加权网格路径，得到f(i,j)=C(2i,i)C(2j,j)/4^(i+j)；线性预处理乘积/逆元并累加全部n个贡献，O(n)。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105139/problem/L": {
+      "problemIds": [
+        "remote:codeforces:105139::L"
+      ],
+      "url": "https://codeforces.com/gym/105139/problem/L",
+      "tags": [
+        "最大公约数",
+        "最小公倍数",
+        "素数",
+        "最短路"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105139::L",
+          "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+          "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+          "sourcePageNumbers": [
+            11,
+            12
+          ],
+          "sourceProblemHeading": "L. LCMs",
+          "sourceProblemTitle": "LCMs",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/L",
+          "sourceStatementMarkdownSha256": "109b0483c19c3911386b1251e73af1d9c8cdb5cc64b090c839e1811a17b8db49",
+          "reasons": [
+            "原数轴边权为lcm且禁止点1。先判a=b费用0、b是a的倍数时费用b、其余gcd(a,b)>1时经gcd中转费用a+b。仅在互质情形，候选中转点缩至a、b、各自最小质因子及2，共至多5点并跑最短路。试除求最小质因子每组O(sqrt b)，T<=1000、b<=10^7可行。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [
+            "五点候选图仅用于已排除非互质的分支；例如a=10,b=15时，若无条件只用10、15、2、3会得到40，实际经gcd=5只需25。该前置分类已按官方第12物理页及完整小范围最短路核验。"
+          ],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
     }
   },
   "excludedKeywordMatches": [
@@ -47368,6 +47833,7 @@
     "20261109-native-known-topic-mapping",
     "20261109-native-advanced-ontology",
     "20261109-native-foundation-topics",
-    "20261109-native-foundation-followup"
+    "20261109-native-foundation-followup",
+    "20261109-hubei-105139-official-topic-and-unofficial-difficulty"
   ]
 }

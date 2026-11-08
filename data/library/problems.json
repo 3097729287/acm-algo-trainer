@@ -1629868,5 +1629868,1857 @@
       "题名": "Minimum Records"
     },
     "url": "https://codeforces.com/gym/106799/problem/M"
+  },
+  {
+    "id": "remote:codeforces:105139::A",
+    "url": "https://codeforces.com/gym/105139/problem/A",
+    "raw": {
+      "_id": "remote:codeforces:105139::A",
+      "_url": "https://codeforces.com/gym/105139/problem/A",
+      "_platform": "Codeforces",
+      "_series": "XCPC",
+      "场次": "ICPC 2024 湖北省赛",
+      "题号": "A",
+      "题名": "Long Live",
+      "知识点": "最大公约数 + 最小公倍数 + 整数运算",
+      "难度": "900",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "remote:codeforces:105139::A",
+      "url": "https://codeforces.com/gym/105139/problem/A",
+      "platform": "Codeforces",
+      "series": "XCPC",
+      "source": "xcpc-codeforces",
+      "contest": "ICPC 2024 湖北省赛",
+      "contestFullName": "The 2024 International Collegiate Programming Contest in Hubei Province, China",
+      "contestId": "105139",
+      "contestFamily": "XCPC",
+      "contestRoster": true,
+      "contestProblemCount": 12,
+      "contestPhase": "FINISHED",
+      "collectionSource": "https://codeforces.com/gym/105139",
+      "eventYear": 2024,
+      "examYear": 2024,
+      "xcpcYear": 2024,
+      "xcpcKind": "省赛",
+      "contestDate": null,
+      "contestDatePrecision": "year",
+      "contestDateSource": "赛事原名年份；原稿/题解文档印有2024-04-27，尚未以独立赛程确认实际开赛时刻",
+      "contestDocumentDate": "2024-04-27",
+      "startedAt": null,
+      "endedAt": null,
+      "problem": "A",
+      "title": "Long Live",
+      "originalTitle": "Long Live",
+      "problemType": "standard",
+      "catalogStatementReady": true,
+      "catalogReplayReady": true,
+      "statementAvailable": true,
+      "translationAvailable": true,
+      "solutionAvailable": false,
+      "solutionState": "missing",
+      "status": "未做",
+      "date": "",
+      "queue": null,
+      "difficulty": 900,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "MEDIUM",
+      "tags": [
+        "最大公约数",
+        "最小公倍数",
+        "整数运算"
+      ],
+      "sourceTags": [],
+      "knowledge": "最大公约数 + 最小公倍数 + 整数运算",
+      "knowledgeReviewRequired": false,
+      "nativeSourceReceipt": "content-updates/20261109-new-xcpc-hubei/source-review.json#remote:codeforces:105139::A",
+      "knowledgeCategories": [
+        "数学 / 数论",
+        "基础技巧"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "最大公约数",
+          "最小公倍数",
+          "整数运算"
+        ],
+        "knowledge": "最大公约数 + 最小公倍数 + 整数运算",
+        "categories": [
+          "数学 / 数论",
+          "基础技巧"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "最大公约数",
+              "最小公倍数",
+              "整数运算"
+            ],
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sourceHash": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "reason": "设N=lcm(x,y)/gcd(x,y)，由a²b=N得到ab=N/a，取a=1最优。欧几里得求g后用(x/g)*(y/g)得到b，O(log min(x,y))；x,y<=10^9时乘积可到10^18，需64位整数。",
+            "verified": false
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "f975dab4794a46ac231875ceacacb970d44c38003a413db3a75c7b507cc8caae",
+        "sourceTags": [],
+        "supersededTags": []
+      },
+      "knowledgeReview": {
+        "revision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+        "official": false,
+        "tags": [
+          "最大公约数",
+          "最小公倍数",
+          "整数运算"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105139::A",
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "sourcePageNumbers": [
+              5,
+              6
+            ],
+            "sourceProblemHeading": "A. Long Live",
+            "sourceProblemTitle": "Long Live",
+            "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/A",
+            "sourceStatementMarkdownSha256": "436bb02cbe572afab01568ade3e4e88a0f5e8e2e98af51bcff171e64b032a3f2",
+            "reasons": [
+              "设N=lcm(x,y)/gcd(x,y)，由a²b=N得到ab=N/a，取a=1最优。欧几里得求g后用(x/g)*(y/g)得到b，O(log min(x,y))；x,y<=10^9时乘积可到10^18，需64位整数。"
+            ],
+            "method": "official-contest-editorial-reviewed-algorithm",
+            "sourceCaveats": [],
+            "fullImplementationRetested": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        800,
+        1200
+      ],
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+      "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+      "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+        "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+        "关键是目标最大化ab，并非化简根式时令a尽量大；一次gcd和安全顺序的整数乘除即可。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
+    }
+  },
+  {
+    "id": "remote:codeforces:105139::B",
+    "url": "https://codeforces.com/gym/105139/problem/B",
+    "raw": {
+      "_id": "remote:codeforces:105139::B",
+      "_url": "https://codeforces.com/gym/105139/problem/B",
+      "_platform": "Codeforces",
+      "_series": "XCPC",
+      "场次": "ICPC 2024 湖北省赛",
+      "题号": "B",
+      "题名": "Nana Likes Polygons",
+      "知识点": "枚举 + 点积与叉积",
+      "难度": "1300",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "remote:codeforces:105139::B",
+      "url": "https://codeforces.com/gym/105139/problem/B",
+      "platform": "Codeforces",
+      "series": "XCPC",
+      "source": "xcpc-codeforces",
+      "contest": "ICPC 2024 湖北省赛",
+      "contestFullName": "The 2024 International Collegiate Programming Contest in Hubei Province, China",
+      "contestId": "105139",
+      "contestFamily": "XCPC",
+      "contestRoster": true,
+      "contestProblemCount": 12,
+      "contestPhase": "FINISHED",
+      "collectionSource": "https://codeforces.com/gym/105139",
+      "eventYear": 2024,
+      "examYear": 2024,
+      "xcpcYear": 2024,
+      "xcpcKind": "省赛",
+      "contestDate": null,
+      "contestDatePrecision": "year",
+      "contestDateSource": "赛事原名年份；原稿/题解文档印有2024-04-27，尚未以独立赛程确认实际开赛时刻",
+      "contestDocumentDate": "2024-04-27",
+      "startedAt": null,
+      "endedAt": null,
+      "problem": "B",
+      "title": "Nana Likes Polygons",
+      "originalTitle": "Nana Likes Polygons",
+      "problemType": "standard",
+      "catalogStatementReady": true,
+      "catalogReplayReady": true,
+      "statementAvailable": true,
+      "translationAvailable": true,
+      "solutionAvailable": false,
+      "solutionState": "missing",
+      "status": "未做",
+      "date": "",
+      "queue": null,
+      "difficulty": 1300,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "MEDIUM",
+      "tags": [
+        "枚举",
+        "点积与叉积"
+      ],
+      "sourceTags": [],
+      "knowledge": "枚举 + 点积与叉积",
+      "knowledgeReviewRequired": false,
+      "nativeSourceReceipt": "content-updates/20261109-new-xcpc-hubei/source-review.json#remote:codeforces:105139::B",
+      "knowledgeCategories": [
+        "思维与策略",
+        "计算几何 / 向量与度量"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "枚举",
+          "点积与叉积"
+        ],
+        "knowledge": "枚举 + 点积与叉积",
+        "categories": [
+          "思维与策略",
+          "计算几何 / 向量与度量"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "枚举",
+              "点积与叉积"
+            ],
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sourceHash": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "reason": "任意非退化凸多边形可选出面积不更大的顶点三角形，因此枚举三点的非零叉积绝对值，取最小值再除二。每组O(n^3)，三点共线不算合法，所有三点退化则输出-1。",
+            "verified": false
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "b29cc571323893b8382c710fa3964ce33bcb7ff957961a73a425f6fa922caecb",
+        "sourceTags": [],
+        "supersededTags": []
+      },
+      "knowledgeReview": {
+        "revision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+        "official": false,
+        "tags": [
+          "枚举",
+          "点积与叉积"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105139::B",
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "sourcePageNumbers": [
+              9,
+              10
+            ],
+            "sourceProblemHeading": "B. Nana Likes Polygons",
+            "sourceProblemTitle": "Nana Likes Polygons",
+            "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/B",
+            "sourceStatementMarkdownSha256": "440c8515fff5c3e136762c70f60e5cfc7b77a9701b081ed71c32611121efeeab",
+            "reasons": [
+              "任意非退化凸多边形可选出面积不更大的顶点三角形，因此枚举三点的非零叉积绝对值，取最小值再除二。每组O(n^3)，三点共线不算合法，所有三点退化则输出-1。"
+            ],
+            "method": "official-contest-editorial-reviewed-algorithm",
+            "sourceCaveats": [],
+            "fullImplementationRetested": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1000,
+        1600
+      ],
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+      "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+      "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+        "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+        "要证明只枚举三角形足够，并用精确整数叉积避免共线判断误差；n<=100允许三重枚举，无需凸包。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
+    }
+  },
+  {
+    "id": "remote:codeforces:105139::C",
+    "url": "https://codeforces.com/gym/105139/problem/C",
+    "raw": {
+      "_id": "remote:codeforces:105139::C",
+      "_url": "https://codeforces.com/gym/105139/problem/C",
+      "_platform": "Codeforces",
+      "_series": "XCPC",
+      "场次": "ICPC 2024 湖北省赛",
+      "题号": "C",
+      "题名": "Lili Likes Polygons",
+      "知识点": "离散化 + 线段相交 + 二分图匹配 + 最大独立集 + Dinic",
+      "难度": "3500",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "remote:codeforces:105139::C",
+      "url": "https://codeforces.com/gym/105139/problem/C",
+      "platform": "Codeforces",
+      "series": "XCPC",
+      "source": "xcpc-codeforces",
+      "contest": "ICPC 2024 湖北省赛",
+      "contestFullName": "The 2024 International Collegiate Programming Contest in Hubei Province, China",
+      "contestId": "105139",
+      "contestFamily": "XCPC",
+      "contestRoster": true,
+      "contestProblemCount": 12,
+      "contestPhase": "FINISHED",
+      "collectionSource": "https://codeforces.com/gym/105139",
+      "eventYear": 2024,
+      "examYear": 2024,
+      "xcpcYear": 2024,
+      "xcpcKind": "省赛",
+      "contestDate": null,
+      "contestDatePrecision": "year",
+      "contestDateSource": "赛事原名年份；原稿/题解文档印有2024-04-27，尚未以独立赛程确认实际开赛时刻",
+      "contestDocumentDate": "2024-04-27",
+      "startedAt": null,
+      "endedAt": null,
+      "problem": "C",
+      "title": "Lili Likes Polygons",
+      "originalTitle": "Lili Likes Polygons",
+      "problemType": "standard",
+      "catalogStatementReady": true,
+      "catalogReplayReady": true,
+      "statementAvailable": true,
+      "translationAvailable": true,
+      "solutionAvailable": false,
+      "solutionState": "missing",
+      "status": "未做",
+      "date": "",
+      "queue": null,
+      "difficulty": 3500,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "LOW",
+      "tags": [
+        "离散化",
+        "线段相交",
+        "二分图匹配",
+        "最大独立集",
+        "Dinic"
+      ],
+      "sourceTags": [],
+      "knowledge": "离散化 + 线段相交 + 二分图匹配 + 最大独立集 + Dinic",
+      "knowledgeReviewRequired": false,
+      "nativeSourceReceipt": "content-updates/20261109-new-xcpc-hubei/source-review.json#remote:codeforces:105139::C",
+      "knowledgeCategories": [
+        "基础技巧",
+        "计算几何 / 点线与圆",
+        "图论"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "离散化",
+          "线段相交",
+          "二分图匹配",
+          "最大独立集",
+          "Dinic"
+        ],
+        "knowledge": "离散化 + 线段相交 + 二分图匹配 + 最大独立集 + Dinic",
+        "categories": [
+          "基础技巧",
+          "计算几何 / 点线与圆",
+          "图论"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "离散化",
+              "线段相交",
+              "二分图匹配",
+              "最大独立集",
+              "Dinic"
+            ],
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sourceHash": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "reason": "在离散网格上恢复矩形并的所有边界凸角/凹角和含孔分量，候选好对角线连接凹点。水平与竖直对角线相交建二分图，互不相交好对角线的最大集合通过König定理化为总点数减最大匹配；用角度计数公式得到最少矩形数。官方给O(n²+V^2.5)，边界顶点总数V<=2000。",
+            "verified": false
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "6f46a3b9af1b01d37a69e9f68f3868d236a2ed8cdee7882511f043569ef34cf9",
+        "sourceTags": [],
+        "supersededTags": []
+      },
+      "knowledgeReview": {
+        "revision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+        "official": false,
+        "tags": [
+          "离散化",
+          "线段相交",
+          "二分图匹配",
+          "最大独立集",
+          "Dinic"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105139::C",
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "sourcePageNumbers": [
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38
+            ],
+            "sourceProblemHeading": "C. Lili Likes Polygons",
+            "sourceProblemTitle": "Lili Likes Polygons",
+            "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/C",
+            "sourceStatementMarkdownSha256": "081ee0965798695a12de96b05d790901ddf39254f64fb6a3c2101c5c951e5a6e",
+            "reasons": [
+              "在离散网格上恢复矩形并的所有边界凸角/凹角和含孔分量，候选好对角线连接凹点。水平与竖直对角线相交建二分图，互不相交好对角线的最大集合通过König定理化为总点数减最大匹配；用角度计数公式得到最少矩形数。官方给O(n²+V^2.5)，边界顶点总数V<=2000。"
+            ],
+            "method": "official-contest-editorial-reviewed-algorithm",
+            "sourceCaveats": [
+              "官方讲解使用连续正交多边形记法；原输入是含端点的离散方格矩形，建网格时右/上边界需按方格语义处理。原样例说明的区间排版错误保留在原PDF并在译文说明，未改原输入或答案。",
+              "好对角线的冲突包括共用同一个凹端点，不能让两条选线重复使用同一凹角。只在一点接触的裸地区域应分别计算各个90度角；角度公式为(凸角数+3×凹角数)/4减去最大不相交好对角线数，不能把角的重数抹成唯一坐标数。"
+            ],
+            "fullImplementationRetested": false,
+            "originalJudgeSubmissions": 0,
+            "secondReaderSourceReview": {
+              "scope": "official PDF physical pages 22–23 and 30–38, algorithm interpretation only",
+              "fullImplementationRetested": false,
+              "originalJudgeSubmissions": 0
+            }
+          }
+        ]
+      },
+      "difficultyBand": [
+        3100,
+        3800
+      ],
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+      "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+      "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+        "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+        "需要带孔/多分量正交区域剖分定理、离散坐标与凹角判定，再构造交叉冲突二分图并做高效最大匹配；不是普通矩形面积并或单纯扫描线。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
+    }
+  },
+  {
+    "id": "remote:codeforces:105139::D",
+    "url": "https://codeforces.com/gym/105139/problem/D",
+    "raw": {
+      "_id": "remote:codeforces:105139::D",
+      "_url": "https://codeforces.com/gym/105139/problem/D",
+      "_platform": "Codeforces",
+      "_series": "XCPC",
+      "场次": "ICPC 2024 湖北省赛",
+      "题号": "D",
+      "题名": "MACARON Likes Happy Endings",
+      "知识点": "线性 DP + 决策单调性 + 分治 + 前缀和 + 位运算",
+      "难度": "2700",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "remote:codeforces:105139::D",
+      "url": "https://codeforces.com/gym/105139/problem/D",
+      "platform": "Codeforces",
+      "series": "XCPC",
+      "source": "xcpc-codeforces",
+      "contest": "ICPC 2024 湖北省赛",
+      "contestFullName": "The 2024 International Collegiate Programming Contest in Hubei Province, China",
+      "contestId": "105139",
+      "contestFamily": "XCPC",
+      "contestRoster": true,
+      "contestProblemCount": 12,
+      "contestPhase": "FINISHED",
+      "collectionSource": "https://codeforces.com/gym/105139",
+      "eventYear": 2024,
+      "examYear": 2024,
+      "xcpcYear": 2024,
+      "xcpcKind": "省赛",
+      "contestDate": null,
+      "contestDatePrecision": "year",
+      "contestDateSource": "赛事原名年份；原稿/题解文档印有2024-04-27，尚未以独立赛程确认实际开赛时刻",
+      "contestDocumentDate": "2024-04-27",
+      "startedAt": null,
+      "endedAt": null,
+      "problem": "D",
+      "title": "MACARON Likes Happy Endings",
+      "originalTitle": "MACARON Likes Happy Endings",
+      "problemType": "standard",
+      "catalogStatementReady": true,
+      "catalogReplayReady": true,
+      "statementAvailable": true,
+      "translationAvailable": true,
+      "solutionAvailable": false,
+      "solutionState": "missing",
+      "status": "未做",
+      "date": "",
+      "queue": null,
+      "difficulty": 2700,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "MEDIUM",
+      "tags": [
+        "线性 DP",
+        "决策单调性",
+        "分治",
+        "前缀和",
+        "位运算"
+      ],
+      "sourceTags": [],
+      "knowledge": "线性 DP + 决策单调性 + 分治 + 前缀和 + 位运算",
+      "knowledgeReviewRequired": false,
+      "nativeSourceReceipt": "content-updates/20261109-new-xcpc-hubei/source-review.json#remote:codeforces:105139::D",
+      "knowledgeCategories": [
+        "动态规划",
+        "基础技巧",
+        "基础技巧 / 前缀和与差分"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "线性 DP",
+          "决策单调性",
+          "分治",
+          "前缀和",
+          "位运算"
+        ],
+        "knowledge": "线性 DP + 决策单调性 + 分治 + 前缀和 + 位运算",
+        "categories": [
+          "动态规划",
+          "基础技巧",
+          "基础技巧 / 前缀和与差分"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "线性 DP",
+              "决策单调性",
+              "分治",
+              "前缀和",
+              "位运算"
+            ],
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sourceHash": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "reason": "以前缀异或桶维护w(l,r)=区间内异或和为d的子段数，DP[j][i]=min_p(DP[j-1][p-1]+w(p,i))。区间计数满足四边形不等式，最优分割点单调；逐层分治计算DP，配合可移动端点维护代价，O(kn log n)。",
+            "verified": false
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "71c6000be25dd1bc5eeb0d19d355aaa633180910e7af3d7b8cde4c5b6ca9390d",
+        "sourceTags": [],
+        "supersededTags": []
+      },
+      "knowledgeReview": {
+        "revision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+        "official": false,
+        "tags": [
+          "线性 DP",
+          "决策单调性",
+          "分治",
+          "前缀和",
+          "位运算"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105139::D",
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "sourcePageNumbers": [
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "sourceProblemHeading": "D. MACARON Likes Happy Endings",
+            "sourceProblemTitle": "MACARON Likes Happy Endings",
+            "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/D",
+            "sourceStatementMarkdownSha256": "ab5332690bb2e58b0e6cb86cde4a7ce3e489a3ccfa5d929c66510dbddebfd570",
+            "reasons": [
+              "以前缀异或桶维护w(l,r)=区间内异或和为d的子段数，DP[j][i]=min_p(DP[j-1][p-1]+w(p,i))。区间计数满足四边形不等式，最优分割点单调；逐层分治计算DP，配合可移动端点维护代价，O(kn log n)。"
+            ],
+            "method": "official-contest-editorial-reviewed-algorithm",
+            "sourceCaveats": [
+              "题解把sum称为前缀和，但这里必须是前缀异或；当前规范字典将前缀异或归入前缀和，具体运算在说明中保留。",
+              "题解末页提到CDQ思想，这里采用逐行分治优化，不据此标为CDQ偏序算法。允许休息；非负区间计数拆段不增加代价，至多k段与可取k段的最小值相同。"
+            ],
+            "fullImplementationRetested": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        2400,
+        3000
+      ],
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+      "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+      "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+        "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+        "要把伤心值转成前缀异或配对计数，证明决策单调性，并维护分治查询过程中变化的窗口；n<=10^5、k<=20，O(kn²)不够。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
+    }
+  },
+  {
+    "id": "remote:codeforces:105139::E",
+    "url": "https://codeforces.com/gym/105139/problem/E",
+    "raw": {
+      "_id": "remote:codeforces:105139::E",
+      "_url": "https://codeforces.com/gym/105139/problem/E",
+      "_platform": "Codeforces",
+      "_series": "XCPC",
+      "场次": "ICPC 2024 湖北省赛",
+      "题号": "E",
+      "题名": "Spicy or Grilled?",
+      "知识点": "整数运算 + 顺序执行",
+      "难度": "800",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "remote:codeforces:105139::E",
+      "url": "https://codeforces.com/gym/105139/problem/E",
+      "platform": "Codeforces",
+      "series": "XCPC",
+      "source": "xcpc-codeforces",
+      "contest": "ICPC 2024 湖北省赛",
+      "contestFullName": "The 2024 International Collegiate Programming Contest in Hubei Province, China",
+      "contestId": "105139",
+      "contestFamily": "XCPC",
+      "contestRoster": true,
+      "contestProblemCount": 12,
+      "contestPhase": "FINISHED",
+      "collectionSource": "https://codeforces.com/gym/105139",
+      "eventYear": 2024,
+      "examYear": 2024,
+      "xcpcYear": 2024,
+      "xcpcKind": "省赛",
+      "contestDate": null,
+      "contestDatePrecision": "year",
+      "contestDateSource": "赛事原名年份；原稿/题解文档印有2024-04-27，尚未以独立赛程确认实际开赛时刻",
+      "contestDocumentDate": "2024-04-27",
+      "startedAt": null,
+      "endedAt": null,
+      "problem": "E",
+      "title": "Spicy or Grilled?",
+      "originalTitle": "Spicy or Grilled?",
+      "problemType": "standard",
+      "catalogStatementReady": true,
+      "catalogReplayReady": true,
+      "statementAvailable": true,
+      "translationAvailable": true,
+      "solutionAvailable": false,
+      "solutionState": "missing",
+      "status": "未做",
+      "date": "",
+      "queue": null,
+      "difficulty": 800,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "MEDIUM",
+      "tags": [
+        "整数运算",
+        "顺序执行"
+      ],
+      "sourceTags": [],
+      "knowledge": "整数运算 + 顺序执行",
+      "knowledgeReviewRequired": false,
+      "nativeSourceReceipt": "content-updates/20261109-new-xcpc-hubei/source-review.json#remote:codeforces:105139::E",
+      "knowledgeCategories": [
+        "基础技巧"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "整数运算",
+          "顺序执行"
+        ],
+        "knowledge": "整数运算 + 顺序执行",
+        "categories": [
+          "基础技巧"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "整数运算",
+              "顺序执行"
+            ],
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sourceHash": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "reason": "直接计算(n-x)*a+x*b，每组O(1)。输入已给两类套餐人数与单价，不需要搜索、动态规划或按图片中的实际售价计算。",
+            "verified": false
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "597b3261137eefa7ea8b02f6153d0ba33613aea232df1bbcdf6d096adeff7859",
+        "sourceTags": [],
+        "supersededTags": []
+      },
+      "knowledgeReview": {
+        "revision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+        "official": false,
+        "tags": [
+          "整数运算",
+          "顺序执行"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105139::E",
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "sourcePageNumbers": [
+              3,
+              4
+            ],
+            "sourceProblemHeading": "E. Spicy or Grilled?",
+            "sourceProblemTitle": "Spicy or Grilled?",
+            "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/E",
+            "sourceStatementMarkdownSha256": "1ace611d29b191a59b47fba7843ee025088ddc50da537053d5257fe215222a97",
+            "reasons": [
+              "直接计算(n-x)*a+x*b，每组O(1)。输入已给两类套餐人数与单价，不需要搜索、动态规划或按图片中的实际售价计算。"
+            ],
+            "method": "official-contest-editorial-reviewed-algorithm",
+            "sourceCaveats": [],
+            "fullImplementationRetested": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        800,
+        900
+      ],
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+      "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+      "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+        "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+        "只有读入四个整数后依次做乘加并输出；T<=10^4，多组循环属于输入框架，核心是顺序执行的整数表达式。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
+    }
+  },
+  {
+    "id": "remote:codeforces:105139::F",
+    "url": "https://codeforces.com/gym/105139/problem/F",
+    "raw": {
+      "_id": "remote:codeforces:105139::F",
+      "_url": "https://codeforces.com/gym/105139/problem/F",
+      "_platform": "Codeforces",
+      "_series": "XCPC",
+      "场次": "ICPC 2024 湖北省赛",
+      "题号": "F",
+      "题名": "Enchanted",
+      "知识点": "可持久化线段树 + 位运算 + 离线算法 + 树状数组",
+      "难度": "2700",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "remote:codeforces:105139::F",
+      "url": "https://codeforces.com/gym/105139/problem/F",
+      "platform": "Codeforces",
+      "series": "XCPC",
+      "source": "xcpc-codeforces",
+      "contest": "ICPC 2024 湖北省赛",
+      "contestFullName": "The 2024 International Collegiate Programming Contest in Hubei Province, China",
+      "contestId": "105139",
+      "contestFamily": "XCPC",
+      "contestRoster": true,
+      "contestProblemCount": 12,
+      "contestPhase": "FINISHED",
+      "collectionSource": "https://codeforces.com/gym/105139",
+      "eventYear": 2024,
+      "examYear": 2024,
+      "xcpcYear": 2024,
+      "xcpcKind": "省赛",
+      "contestDate": null,
+      "contestDatePrecision": "year",
+      "contestDateSource": "赛事原名年份；原稿/题解文档印有2024-04-27，尚未以独立赛程确认实际开赛时刻",
+      "contestDocumentDate": "2024-04-27",
+      "startedAt": null,
+      "endedAt": null,
+      "problem": "F",
+      "title": "Enchanted",
+      "originalTitle": "Enchanted",
+      "problemType": "standard",
+      "catalogStatementReady": true,
+      "catalogReplayReady": true,
+      "statementAvailable": true,
+      "translationAvailable": true,
+      "solutionAvailable": false,
+      "solutionState": "missing",
+      "status": "未做",
+      "date": "",
+      "queue": null,
+      "difficulty": 2700,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "MEDIUM",
+      "tags": [
+        "可持久化线段树",
+        "位运算",
+        "离线算法",
+        "树状数组"
+      ],
+      "sourceTags": [],
+      "knowledge": "可持久化线段树 + 位运算 + 离线算法 + 树状数组",
+      "knowledgeReviewRequired": false,
+      "nativeSourceReceipt": "content-updates/20261109-new-xcpc-hubei/source-review.json#remote:codeforces:105139::F",
+      "knowledgeCategories": [
+        "数据结构",
+        "基础技巧",
+        "思维与策略"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "可持久化线段树",
+          "位运算",
+          "离线算法",
+          "树状数组"
+        ],
+        "knowledge": "可持久化线段树 + 位运算 + 离线算法 + 树状数组",
+        "categories": [
+          "数据结构",
+          "基础技巧",
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "可持久化线段树",
+              "位运算",
+              "离线算法",
+              "树状数组"
+            ],
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sourceHash": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "reason": "把等级a的书看成权重2^a，合并就是二进制进位。区间权重和决定最高可得等级，加入2^k后连续进位决定第三步费用。官方以可持久化结构保存单点修改和历史版本，或离线建立版本树后用DFS/树状数组回滚维护；查询和修改O(log n)加不超过60位的处理。",
+            "verified": false
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "399d09cc9f2cacea70931e2de5656247a9711071d2388e0a8e179d64f26a044a",
+        "sourceTags": [],
+        "supersededTags": []
+      },
+      "knowledgeReview": {
+        "revision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+        "official": false,
+        "tags": [
+          "可持久化线段树",
+          "位运算",
+          "离线算法",
+          "树状数组"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105139::F",
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "sourcePageNumbers": [
+              19,
+              20,
+              21
+            ],
+            "sourceProblemHeading": "F. Enchanted",
+            "sourceProblemTitle": "Enchanted",
+            "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/F",
+            "sourceStatementMarkdownSha256": "ee9cb9d822ebcc2a24a0510014c1e77e7962667fbdfe116e92276f0a74e7e608",
+            "reasons": [
+              "把等级a的书看成权重2^a，合并就是二进制进位。区间权重和决定最高可得等级，加入2^k后连续进位决定第三步费用。官方以可持久化结构保存单点修改和历史版本，或离线建立版本树后用DFS/树状数组回滚维护；查询和修改O(log n)加不超过60位的处理。"
+            ],
+            "method": "official-contest-editorial-reviewed-algorithm",
+            "sourceCaveats": [
+              "官方复杂度只写操作数m；实际初始化也要处理n本书，此处保留初始化工作量，不称总复杂度与n无关。",
+              "原样例第一行只有五个输入整数；右栏输出紧贴同一行，已以表格几何及原页图核对，未把输出1或0拼入输入。"
+            ],
+            "fullImplementationRetested": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        2400,
+        3000
+      ],
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+      "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+      "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+        "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+        "需先看出二进制权重守恒，再正确处理只查询的合并、伪随机数生成顺序及恢复任意历史版本；n,m均可10^6，不能逐书模拟或复制所有版本。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
+    }
+  },
+  {
+    "id": "remote:codeforces:105139::G",
+    "url": "https://codeforces.com/gym/105139/problem/G",
+    "raw": {
+      "_id": "remote:codeforces:105139::G",
+      "_url": "https://codeforces.com/gym/105139/problem/G",
+      "_platform": "Codeforces",
+      "_series": "XCPC",
+      "场次": "ICPC 2024 湖北省赛",
+      "题号": "G",
+      "题名": "Genshin Impact Startup Forbidden II",
+      "知识点": "模拟 + BFS + 并查集",
+      "难度": "2200",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "remote:codeforces:105139::G",
+      "url": "https://codeforces.com/gym/105139/problem/G",
+      "platform": "Codeforces",
+      "series": "XCPC",
+      "source": "xcpc-codeforces",
+      "contest": "ICPC 2024 湖北省赛",
+      "contestFullName": "The 2024 International Collegiate Programming Contest in Hubei Province, China",
+      "contestId": "105139",
+      "contestFamily": "XCPC",
+      "contestRoster": true,
+      "contestProblemCount": 12,
+      "contestPhase": "FINISHED",
+      "collectionSource": "https://codeforces.com/gym/105139",
+      "eventYear": 2024,
+      "examYear": 2024,
+      "xcpcYear": 2024,
+      "xcpcKind": "省赛",
+      "contestDate": null,
+      "contestDatePrecision": "year",
+      "contestDateSource": "赛事原名年份；原稿/题解文档印有2024-04-27，尚未以独立赛程确认实际开赛时刻",
+      "contestDocumentDate": "2024-04-27",
+      "startedAt": null,
+      "endedAt": null,
+      "problem": "G",
+      "title": "Genshin Impact Startup Forbidden II",
+      "originalTitle": "Genshin Impact Startup Forbidden II",
+      "problemType": "standard",
+      "catalogStatementReady": true,
+      "catalogReplayReady": true,
+      "statementAvailable": true,
+      "translationAvailable": true,
+      "solutionAvailable": false,
+      "solutionState": "missing",
+      "status": "未做",
+      "date": "",
+      "queue": null,
+      "difficulty": 2200,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "MEDIUM",
+      "tags": [
+        "模拟",
+        "BFS",
+        "并查集"
+      ],
+      "sourceTags": [],
+      "knowledge": "模拟 + BFS + 并查集",
+      "knowledgeReviewRequired": false,
+      "nativeSourceReceipt": "content-updates/20261109-new-xcpc-hubei/source-review.json#remote:codeforces:105139::G",
+      "knowledgeCategories": [
+        "思维与策略",
+        "搜索",
+        "数据结构"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "模拟",
+          "BFS",
+          "并查集"
+        ],
+        "knowledge": "模拟 + BFS + 并查集",
+        "categories": [
+          "思维与策略",
+          "搜索",
+          "数据结构"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "模拟",
+              "BFS",
+              "并查集"
+            ],
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sourceHash": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "reason": "按原题先提对手死棋、再重算己方气的顺序模拟。官方主解BFS统计连通棋块的气并删去死块，棋盘边长s=19时O(ms²)；扩展以并查集维护棋块、气与整块删除，使每枚新落棋子只移除一次，目标O(m α(m))。",
+            "verified": false
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "f63810794acbdfdeb132259598e4b0ca13cfd08219601893fb0f93f5ebb817aa",
+        "sourceTags": [],
+        "supersededTags": []
+      },
+      "knowledgeReview": {
+        "revision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+        "official": false,
+        "tags": [
+          "模拟",
+          "BFS",
+          "并查集"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105139::G",
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "sourcePageNumbers": [
+              15,
+              16
+            ],
+            "sourceProblemHeading": "G. Genshin Impact Startup Forbidden II",
+            "sourceProblemTitle": "Genshin Impact Startup Forbidden II",
+            "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/G",
+            "sourceStatementMarkdownSha256": "b2dc81ec04cdc44bcf8699cd7d5fb3bbadcc5091fc8f37d17fa244bec26671e7",
+            "reasons": [
+              "按原题先提对手死棋、再重算己方气的顺序模拟。官方主解BFS统计连通棋块的气并删去死块，棋盘边长s=19时O(ms²)；扩展以并查集维护棋块、气与整块删除，使每枚新落棋子只移除一次，目标O(m α(m))。"
+            ],
+            "method": "official-contest-editorial-reviewed-algorithm",
+            "sourceCaveats": [],
+            "fullImplementationRetested": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1900,
+        2500
+      ],
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+      "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+      "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+        "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+        "不仅需要连通块搜索，还要处理同一空点反复落子、对手提子优先与允许自杀规则；气按相邻空点逐棋子求和，不能用现实围棋规则替换原题。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
+    }
+  },
+  {
+    "id": "remote:codeforces:105139::H",
+    "url": "https://codeforces.com/gym/105139/problem/H",
+    "raw": {
+      "_id": "remote:codeforces:105139::H",
+      "_url": "https://codeforces.com/gym/105139/problem/H",
+      "_platform": "Codeforces",
+      "_series": "XCPC",
+      "场次": "ICPC 2024 湖北省赛",
+      "题号": "H",
+      "题名": "Genshin Impact Startup Forbidden III",
+      "知识点": "状压 DP + 枚举",
+      "难度": "1800",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "remote:codeforces:105139::H",
+      "url": "https://codeforces.com/gym/105139/problem/H",
+      "platform": "Codeforces",
+      "series": "XCPC",
+      "source": "xcpc-codeforces",
+      "contest": "ICPC 2024 湖北省赛",
+      "contestFullName": "The 2024 International Collegiate Programming Contest in Hubei Province, China",
+      "contestId": "105139",
+      "contestFamily": "XCPC",
+      "contestRoster": true,
+      "contestProblemCount": 12,
+      "contestPhase": "FINISHED",
+      "collectionSource": "https://codeforces.com/gym/105139",
+      "eventYear": 2024,
+      "examYear": 2024,
+      "xcpcYear": 2024,
+      "xcpcKind": "省赛",
+      "contestDate": null,
+      "contestDatePrecision": "year",
+      "contestDateSource": "赛事原名年份；原稿/题解文档印有2024-04-27，尚未以独立赛程确认实际开赛时刻",
+      "contestDocumentDate": "2024-04-27",
+      "startedAt": null,
+      "endedAt": null,
+      "problem": "H",
+      "title": "Genshin Impact Startup Forbidden III",
+      "originalTitle": "Genshin Impact Startup Forbidden III",
+      "problemType": "standard",
+      "catalogStatementReady": true,
+      "catalogReplayReady": true,
+      "statementAvailable": true,
+      "translationAvailable": true,
+      "solutionAvailable": false,
+      "solutionState": "missing",
+      "status": "未做",
+      "date": "",
+      "queue": null,
+      "difficulty": 1800,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "LOW",
+      "tags": [
+        "状压 DP",
+        "枚举"
+      ],
+      "sourceTags": [],
+      "knowledge": "状压 DP + 枚举",
+      "knowledgeReviewRequired": false,
+      "nativeSourceReceipt": "content-updates/20261109-new-xcpc-hubei/source-review.json#remote:codeforces:105139::H",
+      "knowledgeCategories": [
+        "动态规划",
+        "思维与策略"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "状压 DP",
+          "枚举"
+        ],
+        "knowledge": "状压 DP + 枚举",
+        "categories": [
+          "动态规划",
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "状压 DP",
+              "枚举"
+            ],
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sourceHash": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "reason": "每个有鱼方格仅需考虑自身及四邻作为炸弹候选中心，至多5k个不同位置。以四进制编码k<=10处剩余鱼数，每次爆炸对命中的非零位减一，转移最少炸弹数；先预处理候选覆盖集合，最多4^k个状态。",
+            "verified": false
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "f90252e655324794096d73ed8c41b010da4ba00fb9cc8287d53c9f7ffd1de93a",
+        "sourceTags": [],
+        "supersededTags": []
+      },
+      "knowledgeReview": {
+        "revision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+        "official": false,
+        "tags": [
+          "状压 DP",
+          "枚举"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105139::H",
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "sourcePageNumbers": [
+              13,
+              14
+            ],
+            "sourceProblemHeading": "H. Genshin Impact Startup Forbidden III",
+            "sourceProblemTitle": "Genshin Impact Startup Forbidden III",
+            "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/H",
+            "sourceStatementMarkdownSha256": "36008551259b16e5ee0ea9e2f960c238f7a83daf9e33ea9bd52b3a369a8aeb3f",
+            "reasons": [
+              "每个有鱼方格仅需考虑自身及四邻作为炸弹候选中心，至多5k个不同位置。以四进制编码k<=10处剩余鱼数，每次爆炸对命中的非零位减一，转移最少炸弹数；先预处理候选覆盖集合，最多4^k个状态。"
+            ],
+            "method": "official-contest-editorial-reviewed-algorithm",
+            "sourceCaveats": [],
+            "fullImplementationRetested": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1600,
+        1900
+      ],
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+      "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+      "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+        "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+        "已严格核对为既有洛谷P10865的同题，采用与其训练参考1800及区间[1600,1900]一致的非官方数值；核心是四进制库存状态与至多50个候选中心，而非遍历整个池塘。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
+    }
+  },
+  {
+    "id": "remote:codeforces:105139::I",
+    "url": "https://codeforces.com/gym/105139/problem/I",
+    "raw": {
+      "_id": "remote:codeforces:105139::I",
+      "_url": "https://codeforces.com/gym/105139/problem/I",
+      "_platform": "Codeforces",
+      "_series": "XCPC",
+      "场次": "ICPC 2024 湖北省赛",
+      "题号": "I",
+      "题名": "Colorful Tree",
+      "知识点": "树的直径 + 并查集 + 离线算法 + LCA",
+      "难度": "2600",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "remote:codeforces:105139::I",
+      "url": "https://codeforces.com/gym/105139/problem/I",
+      "platform": "Codeforces",
+      "series": "XCPC",
+      "source": "xcpc-codeforces",
+      "contest": "ICPC 2024 湖北省赛",
+      "contestFullName": "The 2024 International Collegiate Programming Contest in Hubei Province, China",
+      "contestId": "105139",
+      "contestFamily": "XCPC",
+      "contestRoster": true,
+      "contestProblemCount": 12,
+      "contestPhase": "FINISHED",
+      "collectionSource": "https://codeforces.com/gym/105139",
+      "eventYear": 2024,
+      "examYear": 2024,
+      "xcpcYear": 2024,
+      "xcpcKind": "省赛",
+      "contestDate": null,
+      "contestDatePrecision": "year",
+      "contestDateSource": "赛事原名年份；原稿/题解文档印有2024-04-27，尚未以独立赛程确认实际开赛时刻",
+      "contestDocumentDate": "2024-04-27",
+      "startedAt": null,
+      "endedAt": null,
+      "problem": "I",
+      "title": "Colorful Tree",
+      "originalTitle": "Colorful Tree",
+      "problemType": "standard",
+      "catalogStatementReady": true,
+      "catalogReplayReady": true,
+      "statementAvailable": true,
+      "translationAvailable": true,
+      "solutionAvailable": false,
+      "solutionState": "missing",
+      "status": "未做",
+      "date": "",
+      "queue": null,
+      "difficulty": 2600,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "MEDIUM",
+      "tags": [
+        "树的直径",
+        "并查集",
+        "离线算法",
+        "LCA"
+      ],
+      "sourceTags": [],
+      "knowledge": "树的直径 + 并查集 + 离线算法 + LCA",
+      "knowledgeReviewRequired": false,
+      "nativeSourceReceipt": "content-updates/20261109-new-xcpc-hubei/source-review.json#remote:codeforces:105139::I",
+      "knowledgeCategories": [
+        "图论 / 树",
+        "数据结构",
+        "思维与策略"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "树的直径",
+          "并查集",
+          "离线算法",
+          "LCA"
+        ],
+        "knowledge": "树的直径 + 并查集 + 离线算法 + LCA",
+        "categories": [
+          "图论 / 树",
+          "数据结构",
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "树的直径",
+              "并查集",
+              "离线算法",
+              "LCA"
+            ],
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sourceHash": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "reason": "永久染黑使每个点只发生一次颜色变化；先求各点首次变黑的操作时刻，再顺序加黑点、逆序加白点。分别用并查集维护同色连通分量的直径端点，LCA树距用于合并后的直径比较，并维护全局最大值；含q条路径的读取和首次覆盖处理，总O((n+q)log n)可实现。",
+            "verified": false
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "8ac108c1d1742d9bb3c71f9f29a9a38d787ed096fce9adaa025b885e7dfa3e7d",
+        "sourceTags": [],
+        "supersededTags": []
+      },
+      "knowledgeReview": {
+        "revision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+        "official": false,
+        "tags": [
+          "树的直径",
+          "并查集",
+          "离线算法",
+          "LCA"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105139::I",
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "sourcePageNumbers": [
+              22,
+              23
+            ],
+            "sourceProblemHeading": "I. Colorful Tree",
+            "sourceProblemTitle": "Colorful Tree",
+            "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/I",
+            "sourceStatementMarkdownSha256": "b139df878bea9b3447e3383512fbdbc6fc74cbf7cbe9e381d7f43d06de63d30c",
+            "reasons": [
+              "永久染黑使每个点只发生一次颜色变化；先求各点首次变黑的操作时刻，再顺序加黑点、逆序加白点。分别用并查集维护同色连通分量的直径端点，LCA树距用于合并后的直径比较，并维护全局最大值；含q条路径的读取和首次覆盖处理，总O((n+q)log n)可实现。"
+            ],
+            "method": "official-contest-editorial-reviewed-algorithm",
+            "sourceCaveats": [
+              "官方简记O(n log n)，原题n与q各可2×10^5，这里显式计入q；每个答案长度按顶点数，而不是边数。"
+            ],
+            "fullImplementationRetested": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        2300,
+        2900
+      ],
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+      "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+      "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+        "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+        "要把黑点增加和白点删除拆成两个加点过程，维护多个森林连通块的直径，而不是只维护全树最远黑点对；路径上的重复染色必须跳过已处理顶点。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
+    }
+  },
+  {
+    "id": "remote:codeforces:105139::J",
+    "url": "https://codeforces.com/gym/105139/problem/J",
+    "raw": {
+      "_id": "remote:codeforces:105139::J",
+      "_url": "https://codeforces.com/gym/105139/problem/J",
+      "_platform": "Codeforces",
+      "_series": "XCPC",
+      "场次": "ICPC 2024 湖北省赛",
+      "题号": "J",
+      "题名": "Points on the Number Axis A",
+      "知识点": "期望与概率 + 乘法逆元",
+      "难度": "1200",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "remote:codeforces:105139::J",
+      "url": "https://codeforces.com/gym/105139/problem/J",
+      "platform": "Codeforces",
+      "series": "XCPC",
+      "source": "xcpc-codeforces",
+      "contest": "ICPC 2024 湖北省赛",
+      "contestFullName": "The 2024 International Collegiate Programming Contest in Hubei Province, China",
+      "contestId": "105139",
+      "contestFamily": "XCPC",
+      "contestRoster": true,
+      "contestProblemCount": 12,
+      "contestPhase": "FINISHED",
+      "collectionSource": "https://codeforces.com/gym/105139",
+      "eventYear": 2024,
+      "examYear": 2024,
+      "xcpcYear": 2024,
+      "xcpcKind": "省赛",
+      "contestDate": null,
+      "contestDatePrecision": "year",
+      "contestDateSource": "赛事原名年份；原稿/题解文档印有2024-04-27，尚未以独立赛程确认实际开赛时刻",
+      "contestDocumentDate": "2024-04-27",
+      "startedAt": null,
+      "endedAt": null,
+      "problem": "J",
+      "title": "Points on the Number Axis A",
+      "originalTitle": "Points on the Number Axis A",
+      "problemType": "standard",
+      "catalogStatementReady": true,
+      "catalogReplayReady": true,
+      "statementAvailable": true,
+      "translationAvailable": true,
+      "solutionAvailable": false,
+      "solutionState": "missing",
+      "status": "未做",
+      "date": "",
+      "queue": null,
+      "difficulty": 1200,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "MEDIUM",
+      "tags": [
+        "期望与概率",
+        "乘法逆元"
+      ],
+      "sourceTags": [],
+      "knowledge": "期望与概率 + 乘法逆元",
+      "knowledgeReviewRequired": false,
+      "nativeSourceReceipt": "content-updates/20261109-new-xcpc-hubei/source-review.json#remote:codeforces:105139::J",
+      "knowledgeCategories": [
+        "数学",
+        "数学 / 数论"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "期望与概率",
+          "乘法逆元"
+        ],
+        "knowledge": "期望与概率 + 乘法逆元",
+        "categories": [
+          "数学",
+          "数学 / 数论"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "期望与概率",
+              "乘法逆元"
+            ],
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sourceHash": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "reason": "所有点被等概率选中，合并后的均值期望保持不变；或按剩余点数归纳，最后位置期望是sum(x_i)/n。线性求和并乘n的模逆元，O(n+log MOD)。",
+            "verified": false
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "6ffd438c8532b14e34c2577d433c5b43e076375dce85edd68b00663c20753d7c",
+        "sourceTags": [],
+        "supersededTags": []
+      },
+      "knowledgeReview": {
+        "revision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+        "official": false,
+        "tags": [
+          "期望与概率",
+          "乘法逆元"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105139::J",
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "sourcePageNumbers": [
+              7,
+              8
+            ],
+            "sourceProblemHeading": "J. Points on the Number Axis A",
+            "sourceProblemTitle": "Points on the Number Axis A",
+            "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/J",
+            "sourceStatementMarkdownSha256": "60f5cc5cc6e28f0903d296cf73dbed898bc38a2ecc08cddd0fdce7929d217f2c",
+            "reasons": [
+              "所有点被等概率选中，合并后的均值期望保持不变；或按剩余点数归纳，最后位置期望是sum(x_i)/n。线性求和并乘n的模逆元，O(n+log MOD)。"
+            ],
+            "method": "official-contest-editorial-reviewed-algorithm",
+            "sourceCaveats": [],
+            "fullImplementationRetested": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1000,
+        1500
+      ],
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+      "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+      "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+        "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+        "需要用期望的对称性/归纳证明平均值不变，再正确把有理数答案表示为模998244353的逆元；不实际随机模拟。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
+    }
+  },
+  {
+    "id": "remote:codeforces:105139::K",
+    "url": "https://codeforces.com/gym/105139/problem/K",
+    "raw": {
+      "_id": "remote:codeforces:105139::K",
+      "_url": "https://codeforces.com/gym/105139/problem/K",
+      "_platform": "Codeforces",
+      "_series": "XCPC",
+      "场次": "ICPC 2024 湖北省赛",
+      "题号": "K",
+      "题名": "Points on the Number Axis B",
+      "知识点": "期望与概率 + 组合计数 + 乘法逆元",
+      "难度": "2100",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "remote:codeforces:105139::K",
+      "url": "https://codeforces.com/gym/105139/problem/K",
+      "platform": "Codeforces",
+      "series": "XCPC",
+      "source": "xcpc-codeforces",
+      "contest": "ICPC 2024 湖北省赛",
+      "contestFullName": "The 2024 International Collegiate Programming Contest in Hubei Province, China",
+      "contestId": "105139",
+      "contestFamily": "XCPC",
+      "contestRoster": true,
+      "contestProblemCount": 12,
+      "contestPhase": "FINISHED",
+      "collectionSource": "https://codeforces.com/gym/105139",
+      "eventYear": 2024,
+      "examYear": 2024,
+      "xcpcYear": 2024,
+      "xcpcKind": "省赛",
+      "contestDate": null,
+      "contestDatePrecision": "year",
+      "contestDateSource": "赛事原名年份；原稿/题解文档印有2024-04-27，尚未以独立赛程确认实际开赛时刻",
+      "contestDocumentDate": "2024-04-27",
+      "startedAt": null,
+      "endedAt": null,
+      "problem": "K",
+      "title": "Points on the Number Axis B",
+      "originalTitle": "Points on the Number Axis B",
+      "problemType": "standard",
+      "catalogStatementReady": true,
+      "catalogReplayReady": true,
+      "statementAvailable": true,
+      "translationAvailable": true,
+      "solutionAvailable": false,
+      "solutionState": "missing",
+      "status": "未做",
+      "date": "",
+      "queue": null,
+      "difficulty": 2100,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "MEDIUM",
+      "tags": [
+        "期望与概率",
+        "组合计数",
+        "乘法逆元"
+      ],
+      "sourceTags": [],
+      "knowledge": "期望与概率 + 组合计数 + 乘法逆元",
+      "knowledgeReviewRequired": false,
+      "nativeSourceReceipt": "content-updates/20261109-new-xcpc-hubei/source-review.json#remote:codeforces:105139::K",
+      "knowledgeCategories": [
+        "数学",
+        "数学与计数 / 计数",
+        "数学 / 数论"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "期望与概率",
+          "组合计数",
+          "乘法逆元"
+        ],
+        "knowledge": "期望与概率 + 组合计数 + 乘法逆元",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数",
+          "数学 / 数论"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "期望与概率",
+              "组合计数",
+              "乘法逆元"
+            ],
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sourceHash": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "reason": "按每个初始点的线性贡献求答案，f(i,j)=((i-1/2)f(i-1,j)+(j-1/2)f(i,j-1))/(i+j)。令g(i,j)=(i+j)!f(i,j)化为加权网格路径，得到f(i,j)=C(2i,i)C(2j,j)/4^(i+j)；线性预处理乘积/逆元并累加全部n个贡献，O(n)。",
+            "verified": false
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "a544af687c7fdc555bcf3f982749d4ff4dfd34fbab6ecdc219b8e8a151acb973",
+        "sourceTags": [],
+        "supersededTags": []
+      },
+      "knowledgeReview": {
+        "revision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+        "official": false,
+        "tags": [
+          "期望与概率",
+          "组合计数",
+          "乘法逆元"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105139::K",
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "sourcePageNumbers": [
+              17,
+              18
+            ],
+            "sourceProblemHeading": "K. Points on the Number Axis B",
+            "sourceProblemTitle": "Points on the Number Axis B",
+            "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/K",
+            "sourceStatementMarkdownSha256": "bdc2b1aa8538423704a0dc5a00ac76b3cab7537dd8b96ff0557edca56c29cb00",
+            "reasons": [
+              "按每个初始点的线性贡献求答案，f(i,j)=((i-1/2)f(i-1,j)+(j-1/2)f(i,j-1))/(i+j)。令g(i,j)=(i+j)!f(i,j)化为加权网格路径，得到f(i,j)=C(2i,i)C(2j,j)/4^(i+j)；线性预处理乘积/逆元并累加全部n个贡献，O(n)。"
+            ],
+            "method": "official-contest-editorial-reviewed-algorithm",
+            "sourceCaveats": [],
+            "fullImplementationRetested": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1800,
+        2400
+      ],
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+      "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+      "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+        "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+        "相邻选择破坏各位置对称性，不能沿用J的平均数。需建立左右剩余数量的贡献递推并以组合计数消除二维状态，n<=10^6要求线性预处理。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
+    }
+  },
+  {
+    "id": "remote:codeforces:105139::L",
+    "url": "https://codeforces.com/gym/105139/problem/L",
+    "raw": {
+      "_id": "remote:codeforces:105139::L",
+      "_url": "https://codeforces.com/gym/105139/problem/L",
+      "_platform": "Codeforces",
+      "_series": "XCPC",
+      "场次": "ICPC 2024 湖北省赛",
+      "题号": "L",
+      "题名": "LCMs",
+      "知识点": "最大公约数 + 最小公倍数 + 素数 + 最短路",
+      "难度": "1700",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "remote:codeforces:105139::L",
+      "url": "https://codeforces.com/gym/105139/problem/L",
+      "platform": "Codeforces",
+      "series": "XCPC",
+      "source": "xcpc-codeforces",
+      "contest": "ICPC 2024 湖北省赛",
+      "contestFullName": "The 2024 International Collegiate Programming Contest in Hubei Province, China",
+      "contestId": "105139",
+      "contestFamily": "XCPC",
+      "contestRoster": true,
+      "contestProblemCount": 12,
+      "contestPhase": "FINISHED",
+      "collectionSource": "https://codeforces.com/gym/105139",
+      "eventYear": 2024,
+      "examYear": 2024,
+      "xcpcYear": 2024,
+      "xcpcKind": "省赛",
+      "contestDate": null,
+      "contestDatePrecision": "year",
+      "contestDateSource": "赛事原名年份；原稿/题解文档印有2024-04-27，尚未以独立赛程确认实际开赛时刻",
+      "contestDocumentDate": "2024-04-27",
+      "startedAt": null,
+      "endedAt": null,
+      "problem": "L",
+      "title": "LCMs",
+      "originalTitle": "LCMs",
+      "problemType": "standard",
+      "catalogStatementReady": true,
+      "catalogReplayReady": true,
+      "statementAvailable": true,
+      "translationAvailable": true,
+      "solutionAvailable": false,
+      "solutionState": "missing",
+      "status": "未做",
+      "date": "",
+      "queue": null,
+      "difficulty": 1700,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "MEDIUM",
+      "tags": [
+        "最大公约数",
+        "最小公倍数",
+        "素数",
+        "最短路"
+      ],
+      "sourceTags": [],
+      "knowledge": "最大公约数 + 最小公倍数 + 素数 + 最短路",
+      "knowledgeReviewRequired": false,
+      "nativeSourceReceipt": "content-updates/20261109-new-xcpc-hubei/source-review.json#remote:codeforces:105139::L",
+      "knowledgeCategories": [
+        "数学 / 数论",
+        "图论"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "最大公约数",
+          "最小公倍数",
+          "素数",
+          "最短路"
+        ],
+        "knowledge": "最大公约数 + 最小公倍数 + 素数 + 最短路",
+        "categories": [
+          "数学 / 数论",
+          "图论"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "最大公约数",
+              "最小公倍数",
+              "素数",
+              "最短路"
+            ],
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sourceHash": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "reason": "原数轴边权为lcm且禁止点1。先判a=b费用0、b是a的倍数时费用b、其余gcd(a,b)>1时经gcd中转费用a+b。仅在互质情形，候选中转点缩至a、b、各自最小质因子及2，共至多5点并跑最短路。试除求最小质因子每组O(sqrt b)，T<=1000、b<=10^7可行。",
+            "verified": false
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "90140075a373e3ce79a18c5cbd291382c7c659f67f0c4ddd10373edf9b94e73a",
+        "sourceTags": [],
+        "supersededTags": []
+      },
+      "knowledgeReview": {
+        "revision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+        "official": false,
+        "tags": [
+          "最大公约数",
+          "最小公倍数",
+          "素数",
+          "最短路"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105139::L",
+            "reference": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+            "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+            "sourcePageNumbers": [
+              11,
+              12
+            ],
+            "sourceProblemHeading": "L. LCMs",
+            "sourceProblemTitle": "LCMs",
+            "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/L",
+            "sourceStatementMarkdownSha256": "109b0483c19c3911386b1251e73af1d9c8cdb5cc64b090c839e1811a17b8db49",
+            "reasons": [
+              "原数轴边权为lcm且禁止点1。先判a=b费用0、b是a的倍数时费用b、其余gcd(a,b)>1时经gcd中转费用a+b。仅在互质情形，候选中转点缩至a、b、各自最小质因子及2，共至多5点并跑最短路。试除求最小质因子每组O(sqrt b)，T<=1000、b<=10^7可行。"
+            ],
+            "method": "official-contest-editorial-reviewed-algorithm",
+            "sourceCaveats": [
+              "五点候选图仅用于已排除非互质的分支；例如a=10,b=15时，若无条件只用10、15、2、3会得到40，实际经gcd=5只需25。该前置分类已按官方第12物理页及完整小范围最短路核验。"
+            ],
+            "fullImplementationRetested": false,
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1400,
+        2000
+      ],
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+      "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+      "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+        "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+        "需先判相等、整除及非互质情形，再对互质情形证明小质因子和2的五点候选充分；禁止点1会改变最优路径，不能对所有输入无条件套五点图。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
+    }
   }
 ]

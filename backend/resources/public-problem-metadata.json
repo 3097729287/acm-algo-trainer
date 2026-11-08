@@ -349761,5 +349761,221 @@
       "需要允许在当前段中追溯选择更靠前但右端点更大的区间，而非只在li>M时机械取当前位置ri；线性贪心的交换论证是核心。",
       "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
     ]
+  },
+  "https://codeforces.com/gym/105139/problem/A": {
+    "difficulty": 900,
+    "difficultyBand": [
+      800,
+      1200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "关键是目标最大化ab，并非化简根式时令a尽量大；一次gcd和安全顺序的整数乘除即可。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/B": {
+    "difficulty": 1300,
+    "difficultyBand": [
+      1000,
+      1600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "要证明只枚举三角形足够，并用精确整数叉积避免共线判断误差；n<=100允许三重枚举，无需凸包。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/C": {
+    "difficulty": 3500,
+    "difficultyBand": [
+      3100,
+      3800
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "需要带孔/多分量正交区域剖分定理、离散坐标与凹角判定，再构造交叉冲突二分图并做高效最大匹配；不是普通矩形面积并或单纯扫描线。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/D": {
+    "difficulty": 2700,
+    "difficultyBand": [
+      2400,
+      3000
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "要把伤心值转成前缀异或配对计数，证明决策单调性，并维护分治查询过程中变化的窗口；n<=10^5、k<=20，O(kn²)不够。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/E": {
+    "difficulty": 800,
+    "difficultyBand": [
+      800,
+      900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "只有读入四个整数后依次做乘加并输出；T<=10^4，多组循环属于输入框架，核心是顺序执行的整数表达式。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/F": {
+    "difficulty": 2700,
+    "difficultyBand": [
+      2400,
+      3000
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "需先看出二进制权重守恒，再正确处理只查询的合并、伪随机数生成顺序及恢复任意历史版本；n,m均可10^6，不能逐书模拟或复制所有版本。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/G": {
+    "difficulty": 2200,
+    "difficultyBand": [
+      1900,
+      2500
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "不仅需要连通块搜索，还要处理同一空点反复落子、对手提子优先与允许自杀规则；气按相邻空点逐棋子求和，不能用现实围棋规则替换原题。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/H": {
+    "difficulty": 1800,
+    "difficultyBand": [
+      1600,
+      1900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "已严格核对为既有洛谷P10865的同题，采用与其训练参考1800及区间[1600,1900]一致的非官方数值；核心是四进制库存状态与至多50个候选中心，而非遍历整个池塘。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/I": {
+    "difficulty": 2600,
+    "difficultyBand": [
+      2300,
+      2900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "要把黑点增加和白点删除拆成两个加点过程，维护多个森林连通块的直径，而不是只维护全树最远黑点对；路径上的重复染色必须跳过已处理顶点。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/J": {
+    "difficulty": 1200,
+    "difficultyBand": [
+      1000,
+      1500
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "需要用期望的对称性/归纳证明平均值不变，再正确把有理数答案表示为模998244353的逆元；不实际随机模拟。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/K": {
+    "difficulty": 2100,
+    "difficultyBand": [
+      1800,
+      2400
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "相邻选择破坏各位置对称性，不能沿用J的平均数。需建立左右剩余数量的贡献递推并以组合计数消除二维状态，n<=10^6要求线性预处理。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/L": {
+    "difficulty": 1700,
+    "difficultyBand": [
+      1400,
+      2000
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "需先判相等、整除及非互质情形，再对互质情形证明小质因子和2的五点候选充分；禁止点1会改变最优路径，不能对所有输入无条件套五点图。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
   }
 }
