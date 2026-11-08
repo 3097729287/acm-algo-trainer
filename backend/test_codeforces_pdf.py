@@ -4,7 +4,7 @@ import io
 import json
 from pathlib import Path
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 from assets import AssetLibrary
 from codeforces_pdf import candidates, localized, needs_localized_pdf, selected_pages
@@ -43,6 +43,33 @@ def cached():
 
 
 class CodeforcesPdfTests(unittest.TestCase):
+    def test_cover_xor_word_and_printed_operator_bind_without_erasing_the_operator(self):
+        from codeforces_pdf import normalized
+        self.assertEqual(normalized('P xor Q = R'),normalized('P ⊕ Q = R'))
+        self.assertNotEqual(normalized('P + Q = R'),normalized('P ⊕ Q = R'))
+        reader=Mock();reader.pages=[None]*3
+        tasks={'A':{'title':'Addition'},'L':{'title':'P xor Q = R'}}
+        texts=['A 加法\nL P xor Q = R','Problem A. 加法\n正文','Problem L. P ⊕ Q = R\n正文']
+        self.assertEqual(selected_pages(reader,'A','Addition',texts=texts,tasks=tasks,bilingual=True)[0],[1])
+
+    def test_lowercase_prose_abbreviation_is_not_a_pdf_problem_heading(self):
+        from codeforces_pdf import _starts
+        pages=['Problem H. Life is Hard\nThe original problem starts here.',
+               'i.e., does the game eventually end?\nOriginal continuation.',
+               'Problem I. Next Task\nThe next problem starts here.']
+        self.assertEqual(_starts(pages),[(0,'H','Life is Hard'),(2,'I','Next Task')])
+        reader=Mock();reader.pages=[None]*3
+        self.assertEqual(selected_pages(reader,'H','Life is Hard',texts=pages)[0],[0,1])
+
+    def test_native_pdf_response_never_enters_the_html_tree(self):
+        c=Mock();c.text.return_value='%PDF-1.5\n'+('<q>'*5000)
+        result=cached()
+        with patch('statement_format.Tree',side_effect=AssertionError('PDF parsed as HTML')), \
+                patch('codeforces_pdf.statement',return_value=result) as native, \
+                patch('statement_integrity.finalize_source',return_value=result):
+            self.assertEqual(public_statement(c,'fixture::A','Addition',URL),result)
+        native.assert_called_once_with(c,'fixture::A','Addition',URL,c.text.return_value)
+
     def test_wrapped_native_heading_only_folds_to_the_exact_same_roster_title(self):
         tasks={'E':{'title':'Composition with Large Red Plane, Yellow, Black, Gray, and Blue'}}
         text='2021 ICPC Asia Taipei Regional\nProblem E\nComposition with Large Red Plane, Yellow, Black, Gray,\nand Blue\nTime limit: 1 second\nInput'
@@ -198,6 +225,8 @@ class CodeforcesPdfTests(unittest.TestCase):
         self.assertIn('Given two integers',value['sourceText'])
         self.assertEqual(value['sourceBinding']['kind'],'native-problem-pdf-title')
         self.assertEqual(base64.b64decode(value['attachments'][URL]['data'].split(',')[1]),data)
+        self.assertEqual(base64.b64decode(value['statementPdf']['data'].split(',')[1]),data)
+        self.assertEqual(value['statementPdf']['sha256'],value['attachments'][URL]['sha256'])
         self.assertEqual(value['translation']['sourcePageNumbers'],[3,4])
 
     def test_prepared_chinese_is_never_replaced_and_old_cache_is_enriched_once(self):

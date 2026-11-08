@@ -27,6 +27,13 @@ try{
   await page.addInitScript(value=>window.pdfFixtureData=value,row);
   await page.goto(`http://127.0.0.1:${port}/tests/statement-pdf-fixture.html`);
   await page.locator('.wb-code-pane').waitFor();
+  const examples=page.locator('.wb-sample-list > details');
+  await page.waitForFunction(expected=>document.querySelectorAll('.wb-sample-list > details').length===expected,row.samples.length);
+  for(let i=0;i<row.samples.length;i++){
+   const blocks=await examples.nth(i).locator('pre').allTextContents();
+   assert.equal(blocks[0].trimEnd(),(row.samples[i].input||'（空输入）').trimEnd(),row.originalId+' console input');
+   assert.equal(blocks[1].trimEnd(),(row.samples[i].output||'（空输出）').trimEnd(),row.originalId+' console output');
+  }
   let pages=0,images=0;
   if(row.statementPdf){
    const pdf=page.locator('.wb-statement-pdf');await pdf.waitFor();

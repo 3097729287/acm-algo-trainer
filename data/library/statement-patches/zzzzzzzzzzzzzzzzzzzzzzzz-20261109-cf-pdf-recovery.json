@@ -1,0 +1,1341 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/102992/problem/A": {
+            "bytes": 1071891,
+            "data": "tb-asset:a772778e0a0f8bcfffc285b260093bea4dce975eb25a789b097d23212256e6c5",
+            "fileName": "gym-102992.pdf",
+            "mime": "application/pdf",
+            "pageCount": 3,
+            "sha256": "a772778e0a0f8bcfffc285b260093bea4dce975eb25a789b097d23212256e6c5",
+            "sourceUrl": "https://codeforces.com/gym/102992/problem/A"
+          }
+        },
+        "id": "remote:codeforces:102992::A",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T19:44:26.056090+00:00",
+          "corpusAuditVerifiedSha256": "347c360979afee40319d63c8dd9a9464bdd0469950e7064b22b5bfbe49fcb7d2",
+          "markdownSha256": "347c360979afee40319d63c8dd9a9464bdd0469950e7064b22b5bfbe49fcb7d2",
+          "pdfPageCountVerified": true,
+          "reviewedRecoveryRecordSha256": "cacc759f5c1b0eb4d5fa3928106028608993cb5500b8ee97c1f5d2a872c8293a",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "18d73fa335bab749072c25c778abbea049a4456961e3064d7c05d41305d0fe51",
+              "status": 200,
+              "url": "https://codeforces.com/gym/102992"
+            },
+            {
+              "sha256": "a772778e0a0f8bcfffc285b260093bea4dce975eb25a789b097d23212256e6c5",
+              "status": 200,
+              "url": "https://codeforces.com/gym/102992/problem/A"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Ah, It’s Yesterday Once More\n\n,\r\nAh, It’s Yesterday Once More\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nIn 2018, hosted by Nanjing University of Aeronautics and Astronautics (NUAA), the International\r\nCollegiate Programming Contest (ICPC) regional was held in Nanjing again after a few years’ gap. There\r\nwere over 400 teams in the contest and team Power of Two from Tsinghua University won the champion.\r\nTwo years have passed and after the great success in 2018 and 2019, NUAA continues to hold the ICPC\r\nNanjing Regional in 2020. Although we can’t gather in Nanjing this time due to the pandemic, we should\r\nstill be grateful for the hard work done by all staff and volunteers for this contest. Thank you all for your\r\ngreat contribution to this contest!\r\nThe 2018 ICPC Asia Nanjing Regional Contest\r\nIn the 2018 contest, problem K, Kangaroo Puzzle, requires the contestants to construct an operation\r\nsequence for the game. Let’s first recall the content of that problem:\r\nThe puzzle is a grid with n rows and m columns (1 ≤ n, m ≤ 20) and there are some (at least 2)\r\nkangaroos standing in the puzzle. The player’s goal is to control them to get together. There are some\r\nwalls in some cells and the kangaroos cannot enter the cells with walls. The other cells are empty. The\r\nkangaroos can move from an empty cell to an adjacent empty cell in four directions: up, down, left, and\r\nright. It’s guaranteed that kangaroos can reach from any empty cell to any other empty cells by going\r\nthrough adjacent empty cells. It is also guaranteed that there is no cycle in the puzzle – that is, it’s\r\nimpossible that one kangaroo can move from an empty cell, pass by several distinct empty cells, and\r\nthen back to the original cell.\r\nThere is exactly one kangaroo in every empty cell in the beginning and the player can control the\r\nkangaroos by pressing the button U, D, L, R on the keyboard. The kangaroos will move simultaneously\r\naccording to the button you press. For instance, if you press the button R, a kangaroo would move one\r\ncell to the right if it exists and is empty, and will stay still if it does not exist or is not empty.\r\nIn this problem, the contestant needs to construct an operating sequence of at most 5 × 104\r\nsteps\r\nconsisting of U, D, L, R only. If after operating these steps in order there are still two kangaroos\r\nstanding in different cells, the contestant will be given a “Wrong Answer” verdict.\r\nPage 1 of 3\n\n,\r\nOur dear friend, Kotori, also took part in the contest and submitted a code of randomized algorithm. To\r\nher surprise, this simple solution is judged as a correct answer. We now present her solution as follows:\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\nFor contestants who are not familiar with C and C++: the above code will output a random string of\r\nlength 5×104\r\nconsisting only of characters ‘U’, ‘D’, ‘L’ and ‘R’, where each character has equal probability\r\nto appear in each position in the string.\r\nKotori suspects that things might not be that simple for this problem, so right now, in this 2020 ICPC\r\nNanjing Regional contest, you need to construct an input data to hack her solution. Due to the randomness,\r\nyour input data only needs to satisfy a successful hacking rate of at least 25%.\r\nFormally speaking, we’ve prepared 500 randomly generated strings that each character has equal\r\nprobability to appear in each position and will use them as the controlling sequence against your answer.\r\nFor your answer to be accepted, there should be at least 125 times that after using your answer as the\r\nmap of cells and the whole controlling sequence is executed, there are still kangaroos in different cells.\r\nNote that your input data should be completely legal. That is to say,\r\n• The map in your answer should not be larger than 20 × 20;\r\n• Your answer should contain at least two empty cells;\r\n• All empty cells in your answer should be reachable starting from any empty cell;\r\n• No cycles consisting of empty cells are allowed.\r\nInput\r\nThere is no input for this problem. You’re on your own!\r\nOutput\r\nYou should first output one line containing two integers n and m (1 ≤ n, m ≤ 20) separated by a space,\r\nindicating the number of rows and columns of the map in your answer.\r\nYou should then output n lines where the i-th line contains a binary string si,1si,2 · · · si,m (si,j ∈ {‘0’, ‘1’})\r\nof length m. If si,j = ‘1’ then the cell in the i-th row and the j-th column is empty; Otherwise that\r\ncorresponding cell contains a wall and cannot be entered.\r\nNote again that your answer only need to achieve a successful hacking rate of at least 25%. Not that hard\r\nisn’t it?\r\nExample\r\nstandard input standard output\r\n(No input) 3 4\r\n1111\r\n1010\r\n1100\r\nPage 2 of 3\n\n,\r\nNote\r\nThe sample output we provide you is (obviously) incorrect. It only serves the purpose of showing you the\r\noutput format. This is a 3 × 4 map with 4 walls, so there will be 8 kangaroos in the empty cells at the\r\nbeginning.\r\nPage 3 of 3\n\n[PDF](https://codeforces.com/gym/102992/problem/A)",
+        "pageCount": 3,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/102992/problem/A": {
+            "bytes": 1071891,
+            "mime": "application/pdf",
+            "pageCount": 3,
+            "sha256": "a772778e0a0f8bcfffc285b260093bea4dce975eb25a789b097d23212256e6c5",
+            "sourceUrl": "https://codeforces.com/gym/102992/problem/A"
+          }
+        },
+        "reviewedSampleCorrections": [
+          {
+            "corrected": "",
+            "evidence": "The Input section explicitly states There is no input; the table text is a description, not stdin.",
+            "field": "input",
+            "original": "(No input)",
+            "sample": 1
+          }
+        ],
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "",
+            "name": "样例 1",
+            "output": "3 4\n1111\n1010\n1100"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "Ah, It’s Yesterday Once More",
+          "problem": "A",
+          "rosterTitle": "Ah, It's Yesterday Once More",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2,
+          3
+        ],
+        "sourcePdfSha256": "a772778e0a0f8bcfffc285b260093bea4dce975eb25a789b097d23212256e6c5",
+        "sourcePdfUrl": "https://codeforces.com/gym/102992/problem/A",
+        "sourceRosterSha256": "18d73fa335bab749072c25c778abbea049a4456961e3064d7c05d41305d0fe51",
+        "sourceRosterUrl": "https://codeforces.com/gym/102992",
+        "sourceText": ",\r\nAh, It’s Yesterday Once More\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nIn 2018, hosted by Nanjing University of Aeronautics and Astronautics (NUAA), the International\r\nCollegiate Programming Contest (ICPC) regional was held in Nanjing again after a few years’ gap. There\r\nwere over 400 teams in the contest and team Power of Two from Tsinghua University won the champion.\r\nTwo years have passed and after the great success in 2018 and 2019, NUAA continues to hold the ICPC\r\nNanjing Regional in 2020. Although we can’t gather in Nanjing this time due to the pandemic, we should\r\nstill be grateful for the hard work done by all staff and volunteers for this contest. Thank you all for your\r\ngreat contribution to this contest!\r\nThe 2018 ICPC Asia Nanjing Regional Contest\r\nIn the 2018 contest, problem K, Kangaroo Puzzle, requires the contestants to construct an operation\r\nsequence for the game. Let’s first recall the content of that problem:\r\nThe puzzle is a grid with n rows and m columns (1 ≤ n, m ≤ 20) and there are some (at least 2)\r\nkangaroos standing in the puzzle. The player’s goal is to control them to get together. There are some\r\nwalls in some cells and the kangaroos cannot enter the cells with walls. The other cells are empty. The\r\nkangaroos can move from an empty cell to an adjacent empty cell in four directions: up, down, left, and\r\nright. It’s guaranteed that kangaroos can reach from any empty cell to any other empty cells by going\r\nthrough adjacent empty cells. It is also guaranteed that there is no cycle in the puzzle – that is, it’s\r\nimpossible that one kangaroo can move from an empty cell, pass by several distinct empty cells, and\r\nthen back to the original cell.\r\nThere is exactly one kangaroo in every empty cell in the beginning and the player can control the\r\nkangaroos by pressing the button U, D, L, R on the keyboard. The kangaroos will move simultaneously\r\naccording to the button you press. For instance, if you press the button R, a kangaroo would move one\r\ncell to the right if it exists and is empty, and will stay still if it does not exist or is not empty.\r\nIn this problem, the contestant needs to construct an operating sequence of at most 5 × 104\r\nsteps\r\nconsisting of U, D, L, R only. If after operating these steps in order there are still two kangaroos\r\nstanding in different cells, the contestant will be given a “Wrong Answer” verdict.\r\nPage 1 of 3\n\n,\r\nOur dear friend, Kotori, also took part in the contest and submitted a code of randomized algorithm. To\r\nher surprise, this simple solution is judged as a correct answer. We now present her solution as follows:\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\nFor contestants who are not familiar with C and C++: the above code will output a random string of\r\nlength 5×104\r\nconsisting only of characters ‘U’, ‘D’, ‘L’ and ‘R’, where each character has equal probability\r\nto appear in each position in the string.\r\nKotori suspects that things might not be that simple for this problem, so right now, in this 2020 ICPC\r\nNanjing Regional contest, you need to construct an input data to hack her solution. Due to the randomness,\r\nyour input data only needs to satisfy a successful hacking rate of at least 25%.\r\nFormally speaking, we’ve prepared 500 randomly generated strings that each character has equal\r\nprobability to appear in each position and will use them as the controlling sequence against your answer.\r\nFor your answer to be accepted, there should be at least 125 times that after using your answer as the\r\nmap of cells and the whole controlling sequence is executed, there are still kangaroos in different cells.\r\nNote that your input data should be completely legal. That is to say,\r\n• The map in your answer should not be larger than 20 × 20;\r\n• Your answer should contain at least two empty cells;\r\n• All empty cells in your answer should be reachable starting from any empty cell;\r\n• No cycles consisting of empty cells are allowed.\r\nInput\r\nThere is no input for this problem. You’re on your own!\r\nOutput\r\nYou should first output one line containing two integers n and m (1 ≤ n, m ≤ 20) separated by a space,\r\nindicating the number of rows and columns of the map in your answer.\r\nYou should then output n lines where the i-th line contains a binary string si,1si,2 · · · si,m (si,j ∈ {‘0’, ‘1’})\r\nof length m. If si,j = ‘1’ then the cell in the i-th row and the j-th column is empty; Otherwise that\r\ncorresponding cell contains a wall and cannot be entered.\r\nNote again that your answer only need to achieve a successful hacking rate of at least 25%. Not that hard\r\nisn’t it?\r\nExample\r\nstandard input standard output\r\n(No input) 3 4\r\n1111\r\n1010\r\n1100\r\nPage 2 of 3\n\n,\r\nNote\r\nThe sample output we provide you is (obviously) incorrect. It only serves the purpose of showing you the\r\noutput format. This is a 3 × 4 map with 4 walls, so there will be 8 kangaroos in the empty cells at the\r\nbeginning.\r\nPage 3 of 3",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:a772778e0a0f8bcfffc285b260093bea4dce975eb25a789b097d23212256e6c5",
+          "fileName": "gym-102992-A.pdf",
+          "pageCount": 3,
+          "sha256": "a772778e0a0f8bcfffc285b260093bea4dce975eb25a789b097d23212256e6c5",
+          "sourcePageNumbers": [
+            1,
+            2,
+            3
+          ],
+          "sourceSha256": "a772778e0a0f8bcfffc285b260093bea4dce975eb25a789b097d23212256e6c5",
+          "sourceUrl": "https://codeforces.com/gym/102992/problem/A",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 9,
+        "title": "Ah, It's Yesterday Once More",
+        "url": "https://codeforces.com/gym/102992/problem/A"
+      },
+      "problem_id": "remote:codeforces:102992::A"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/103409/problem/A": {
+            "bytes": 388264,
+            "data": "tb-asset:bb387de2e454e058599716e06eb7a30984bd56150f1ffd4f3bee161c46992c37",
+            "fileName": "gym-103409.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "bb387de2e454e058599716e06eb7a30984bd56150f1ffd4f3bee161c46992c37",
+            "sourceUrl": "https://codeforces.com/gym/103409/problem/A"
+          }
+        },
+        "id": "remote:codeforces:103409::A",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T19:44:26.136770+00:00",
+          "corpusAuditVerifiedSha256": "821da44d6ebcfa175949b8d29de4f82575585e9c1bca481991fad6207a6c7385",
+          "markdownSha256": "821da44d6ebcfa175949b8d29de4f82575585e9c1bca481991fad6207a6c7385",
+          "pdfPageCountVerified": true,
+          "reviewedRecoveryRecordSha256": "16857879a4e254830d1af979f0523475a0a700e11e71e67e28d656abf1475112",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "94dc90de288163322b02e647eb7bc234d91f4a67d16661f882961acf86f79363",
+              "status": 200,
+              "url": "https://codeforces.com/gym/103409"
+            },
+            {
+              "sha256": "bb387de2e454e058599716e06eb7a30984bd56150f1ffd4f3bee161c46992c37",
+              "status": 200,
+              "url": "https://codeforces.com/gym/103409/problem/A"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# A Hero Named Magnus\n\nA Hero Named Magnus\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nDota 2 is a multiplayer online battle arena (MOBA) video game developed and published by Valve. Dota 2\r\nis played in matches between two teams of five players, with each team occupying and defending their own\r\nseparate base on the map. Each of the ten players independently controls a powerful character, known as a\r\n‘hero’, who all have unique abilities and differing styles of play. During a match players collect experience\r\npoints and items for their heroes to successfully defeat the opposing team’s heroes in player versus player\r\ncombat. A team wins by being the first to destroy the other team’s ‘Ancient’, a large structure located\r\nwithin their base.\r\nThe International is an annual esports world championship tournament for the video game Dota 2, hosted\r\nand produced by the game’s developer, Valve. The tournament consists of 18 teams; 12 based on final\r\nresults from the Dota Pro Circuit and six more from winning regional playoffs from North America, South\r\nAmerica, Southeast Asia, China, Eastern Europe, and Western Europe regions.\r\nIn Year 3021, The International is held in Guilin, China. Once again, just like 1000 years ago, Team LGD\r\nfrom China will compete against Team Spirit from Russia. But as the championship developing, the rule\r\nis that whoever wins the best of n (n is an odd positive integer) games will win the champion, so a team\r\nshould win at least n+1\r\n2\r\ngames. (In 2021, n equals to only 5 and Team Spirit won by 3 : 2).\r\nBefore the game starts, teams can choose to ban specific heroes from being used by the opponent team.\r\nAmong these 1000 years, everyone knows that Team Spirit is very good at using a hero called Magnus,\r\nwhich once helped them defeat Team LGD in 2021.\r\nAlthough everyone thinks Team LGD will choose to ban Magnus from the beginning, team LGD thinks\r\ndifferently. Somehow they think that they are strong enough to beat the opponent’s Magnus and they\r\nwill only start to ban Magnus in the x-th game if there is one.\r\nTo simplify the problem, if team LGD choose to ban Magnus, they will certainly win the game. Otherwise,\r\nthey may have a 50% possibility to win the game.\r\nAs one of Team LGD’s fans, JB wants to know what’s the minimum number of n that team LGD can\r\nwin the champion in the worst case.\r\nPage 1 of 2\n\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 105\r\n), indicating the number of test cases.\r\nIn the next following T lines, each line contains an integer x (1 ≤ x ≤ 2 × 109\r\n), indicating that Team\r\nLGD will start to ban Magnus in the x-th game.\r\nOutput\r\nFor each test case, please output an integer in one line, indicating the minimum total number of games\r\nto let Team LGD win.\r\nExample\r\nstandard input standard output\r\n2\r\n1\r\n3\r\n1\r\n5\r\nNote\r\nIgnoring everyone’s strongest wish, there exists x > 1 in the test data, which means Team LGD won’t\r\nalways choose to ban Magnus from the beginning.\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/103409/problem/A)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/103409/problem/A": {
+            "bytes": 388264,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "bb387de2e454e058599716e06eb7a30984bd56150f1ffd4f3bee161c46992c37",
+            "sourceUrl": "https://codeforces.com/gym/103409/problem/A"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "2\n1\n3",
+            "name": "样例 1",
+            "output": "1\n5"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "A Hero Named Magnus",
+          "problem": "A",
+          "rosterTitle": "A Hero Named Magnus",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourcePdfSha256": "bb387de2e454e058599716e06eb7a30984bd56150f1ffd4f3bee161c46992c37",
+        "sourcePdfUrl": "https://codeforces.com/gym/103409/problem/A",
+        "sourceRosterSha256": "94dc90de288163322b02e647eb7bc234d91f4a67d16661f882961acf86f79363",
+        "sourceRosterUrl": "https://codeforces.com/gym/103409",
+        "sourceText": "A Hero Named Magnus\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nDota 2 is a multiplayer online battle arena (MOBA) video game developed and published by Valve. Dota 2\r\nis played in matches between two teams of five players, with each team occupying and defending their own\r\nseparate base on the map. Each of the ten players independently controls a powerful character, known as a\r\n‘hero’, who all have unique abilities and differing styles of play. During a match players collect experience\r\npoints and items for their heroes to successfully defeat the opposing team’s heroes in player versus player\r\ncombat. A team wins by being the first to destroy the other team’s ‘Ancient’, a large structure located\r\nwithin their base.\r\nThe International is an annual esports world championship tournament for the video game Dota 2, hosted\r\nand produced by the game’s developer, Valve. The tournament consists of 18 teams; 12 based on final\r\nresults from the Dota Pro Circuit and six more from winning regional playoffs from North America, South\r\nAmerica, Southeast Asia, China, Eastern Europe, and Western Europe regions.\r\nIn Year 3021, The International is held in Guilin, China. Once again, just like 1000 years ago, Team LGD\r\nfrom China will compete against Team Spirit from Russia. But as the championship developing, the rule\r\nis that whoever wins the best of n (n is an odd positive integer) games will win the champion, so a team\r\nshould win at least n+1\r\n2\r\ngames. (In 2021, n equals to only 5 and Team Spirit won by 3 : 2).\r\nBefore the game starts, teams can choose to ban specific heroes from being used by the opponent team.\r\nAmong these 1000 years, everyone knows that Team Spirit is very good at using a hero called Magnus,\r\nwhich once helped them defeat Team LGD in 2021.\r\nAlthough everyone thinks Team LGD will choose to ban Magnus from the beginning, team LGD thinks\r\ndifferently. Somehow they think that they are strong enough to beat the opponent’s Magnus and they\r\nwill only start to ban Magnus in the x-th game if there is one.\r\nTo simplify the problem, if team LGD choose to ban Magnus, they will certainly win the game. Otherwise,\r\nthey may have a 50% possibility to win the game.\r\nAs one of Team LGD’s fans, JB wants to know what’s the minimum number of n that team LGD can\r\nwin the champion in the worst case.\r\nPage 1 of 2\n\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 105\r\n), indicating the number of test cases.\r\nIn the next following T lines, each line contains an integer x (1 ≤ x ≤ 2 × 109\r\n), indicating that Team\r\nLGD will start to ban Magnus in the x-th game.\r\nOutput\r\nFor each test case, please output an integer in one line, indicating the minimum total number of games\r\nto let Team LGD win.\r\nExample\r\nstandard input standard output\r\n2\r\n1\r\n3\r\n1\r\n5\r\nNote\r\nIgnoring everyone’s strongest wish, there exists x > 1 in the test data, which means Team LGD won’t\r\nalways choose to ban Magnus from the beginning.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:bb387de2e454e058599716e06eb7a30984bd56150f1ffd4f3bee161c46992c37",
+          "fileName": "gym-103409-A.pdf",
+          "pageCount": 2,
+          "sha256": "bb387de2e454e058599716e06eb7a30984bd56150f1ffd4f3bee161c46992c37",
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceSha256": "bb387de2e454e058599716e06eb7a30984bd56150f1ffd4f3bee161c46992c37",
+          "sourceUrl": "https://codeforces.com/gym/103409/problem/A",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 9,
+        "title": "A Hero Named Magnus",
+        "url": "https://codeforces.com/gym/103409/problem/A"
+      },
+      "problem_id": "remote:codeforces:103409::A"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/103470/problem/A": {
+            "bytes": 1096070,
+            "data": "tb-asset:f8a805d1123b6b56d2695b6617deb6891e375443159ffb556b4850b7bdf8d38b",
+            "fileName": "gym-103470.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "f8a805d1123b6b56d2695b6617deb6891e375443159ffb556b4850b7bdf8d38b",
+            "sourceUrl": "https://codeforces.com/gym/103470/problem/A"
+          }
+        },
+        "id": "remote:codeforces:103470::A",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T19:44:26.226925+00:00",
+          "corpusAuditVerifiedSha256": "04bed4a6a3447d8a8ea43a5aba02432f8fced1b30b1d596b7d575e5a970623be",
+          "markdownSha256": "04bed4a6a3447d8a8ea43a5aba02432f8fced1b30b1d596b7d575e5a970623be",
+          "pdfPageCountVerified": true,
+          "reviewedRecoveryRecordSha256": "082c5ebcce940326ef52a2a3ee5a7ce4631f18d18dffbd1a4bacc27b489bdc36",
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "5b89bf381b422b4eda0fb8ce75a341c02630e861426db3c3f81ea31338dcbf86",
+              "status": 200,
+              "url": "https://codeforces.com/gym/103470"
+            },
+            {
+              "sha256": "f8a805d1123b6b56d2695b6617deb6891e375443159ffb556b4850b7bdf8d38b",
+              "status": 200,
+              "url": "https://codeforces.com/gym/103470/problem/A"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Oops, It’s Yesterday Twice More\n\nOops, It’s Yesterday Twice More\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nAfter the great success in 2018, 2019, and 2020, Nanjing University of Aeronautics and Astronautics\r\n(NUAA) will host the International Collegiate Programming Contest (ICPC) Nanjing regional for the\r\nfourth time.\r\nTeam Power of Two and team Three Hold Two won the champion for Tsinghua University in 2018\r\nand 2019. In 2020, team Inverted Cross from Peking University won the champion. In 2021, there are\r\naround 700 teams including the defending champion participating in the contest. We are so excited\r\nto see who will win this year!\r\nAlthough we can’t gather in Nanjing this time due to the pandemic, we should still be grateful for the\r\nhard work done by all staff and volunteers for this contest. Thank you all for your great contribution to\r\nthis contest!\r\nThe 2018 ICPC Asia Nanjing Regional Contest\r\nIn the 2018 contest, problem K, Kangaroo Puzzle, requires the contestants to construct an operation\r\nsequence for the game:\r\nThe puzzle is a grid with n rows and m columns (1 ≤ n, m ≤ 20) and there are some (at least 2)\r\nkangaroos standing in the puzzle. The player’s goal is to control them to get together. There are some\r\nwalls in some cells and the kangaroos cannot enter the cells with walls. The other cells are empty. The\r\nkangaroos can move from an empty cell to an adjacent empty cell in four directions: up, down, left, and\r\nright.\r\nThere is exactly one kangaroo in every empty cell in the beginning and the player can control the\r\nkangaroos by pressing the button U, D, L, R on the keyboard. The kangaroos will move simultaneously\r\naccording to the button you press.\r\nThe contestant needs to construct an operating sequence of at most 5 × 104\r\nsteps consisting of U, D, L,\r\nR only to achieve the goal.\r\nPage 1 of 2\n\nIn the 2020 contest, problem A, Ah, It’s Yesterday Once More, requires the contestants to construct\r\nan input map to hack the following code of the problem described before:\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\nNow in the 2021 contest, Paimon prepares another version of the problem for you. You are given a grid\r\nwith n rows and n columns (2 ≤ n ≤ 500). All cells are empty and there is one kangaroo standing in each\r\ncell.\r\nSimilarly, you can control the kangaroos by pressing the button U, D, L, R on the keyboard. The kangaroos\r\nwill move simultaneously according to the button you press. Specifically, for any kangaroo located in the\r\ncell on the i-th row and the j-th column, indicated by (i, j):\r\n1. Button U: it will move to (i − 1, j) if i > 1. Otherwise, it will stay in the same grid.\r\n2. Button D: it will move to (i + 1, j) if i < n. Otherwise, it will stay in the same grid.\r\n3. Button L: it will move to (i, j − 1) if j > 1. Otherwise, it will stay in the same grid.\r\n4. Button R: it will move to (i, j + 1) if j < n. Otherwise, it will stay in the same grid.\r\nYou need to construct an operating sequence consisting only of characters ‘U’, ‘D’, ‘L’, and ‘R’. After\r\napplying it, you must make sure every kangaroo will gather at the specific cell (a, b). The length of the\r\noperating sequence cannot exceed 3(n − 1).\r\nInput\r\nThere is only one test case in each test file.\r\nThe first and only line of the input contains three integers n, a, b (2 ≤ n ≤ 500, 1 ≤ a, b ≤ n) indicating\r\nthe size of the grid and the target cell.\r\nOutput\r\nOutput a string consisting only of characters ‘U’, ‘D’, ‘L’ and ‘R’ in one line. And its length mustn’t\r\nexceed 3(n − 1). It can be proved that the answer always exists.\r\nExamples\r\nstandard input standard output\r\n3 3 3 RRDD\r\n4 3 2 DLDLDLUR\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/103470/problem/A)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/103470/problem/A": {
+            "bytes": 1096070,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "f8a805d1123b6b56d2695b6617deb6891e375443159ffb556b4850b7bdf8d38b",
+            "sourceUrl": "https://codeforces.com/gym/103470/problem/A"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "3 3 3",
+            "name": "样例 1",
+            "output": "RRDD"
+          },
+          {
+            "input": "4 3 2",
+            "name": "样例 2",
+            "output": "DLDLDLUR"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "Oops, It’s Yesterday Twice More",
+          "problem": "A",
+          "rosterTitle": "Oops, It's Yesterday Twice More",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourcePdfSha256": "f8a805d1123b6b56d2695b6617deb6891e375443159ffb556b4850b7bdf8d38b",
+        "sourcePdfUrl": "https://codeforces.com/gym/103470/problem/A",
+        "sourceRosterSha256": "5b89bf381b422b4eda0fb8ce75a341c02630e861426db3c3f81ea31338dcbf86",
+        "sourceRosterUrl": "https://codeforces.com/gym/103470",
+        "sourceText": "Oops, It’s Yesterday Twice More\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nAfter the great success in 2018, 2019, and 2020, Nanjing University of Aeronautics and Astronautics\r\n(NUAA) will host the International Collegiate Programming Contest (ICPC) Nanjing regional for the\r\nfourth time.\r\nTeam Power of Two and team Three Hold Two won the champion for Tsinghua University in 2018\r\nand 2019. In 2020, team Inverted Cross from Peking University won the champion. In 2021, there are\r\naround 700 teams including the defending champion participating in the contest. We are so excited\r\nto see who will win this year!\r\nAlthough we can’t gather in Nanjing this time due to the pandemic, we should still be grateful for the\r\nhard work done by all staff and volunteers for this contest. Thank you all for your great contribution to\r\nthis contest!\r\nThe 2018 ICPC Asia Nanjing Regional Contest\r\nIn the 2018 contest, problem K, Kangaroo Puzzle, requires the contestants to construct an operation\r\nsequence for the game:\r\nThe puzzle is a grid with n rows and m columns (1 ≤ n, m ≤ 20) and there are some (at least 2)\r\nkangaroos standing in the puzzle. The player’s goal is to control them to get together. There are some\r\nwalls in some cells and the kangaroos cannot enter the cells with walls. The other cells are empty. The\r\nkangaroos can move from an empty cell to an adjacent empty cell in four directions: up, down, left, and\r\nright.\r\nThere is exactly one kangaroo in every empty cell in the beginning and the player can control the\r\nkangaroos by pressing the button U, D, L, R on the keyboard. The kangaroos will move simultaneously\r\naccording to the button you press.\r\nThe contestant needs to construct an operating sequence of at most 5 × 104\r\nsteps consisting of U, D, L,\r\nR only to achieve the goal.\r\nPage 1 of 2\n\nIn the 2020 contest, problem A, Ah, It’s Yesterday Once More, requires the contestants to construct\r\nan input map to hack the following code of the problem described before:\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\nNow in the 2021 contest, Paimon prepares another version of the problem for you. You are given a grid\r\nwith n rows and n columns (2 ≤ n ≤ 500). All cells are empty and there is one kangaroo standing in each\r\ncell.\r\nSimilarly, you can control the kangaroos by pressing the button U, D, L, R on the keyboard. The kangaroos\r\nwill move simultaneously according to the button you press. Specifically, for any kangaroo located in the\r\ncell on the i-th row and the j-th column, indicated by (i, j):\r\n1. Button U: it will move to (i − 1, j) if i > 1. Otherwise, it will stay in the same grid.\r\n2. Button D: it will move to (i + 1, j) if i < n. Otherwise, it will stay in the same grid.\r\n3. Button L: it will move to (i, j − 1) if j > 1. Otherwise, it will stay in the same grid.\r\n4. Button R: it will move to (i, j + 1) if j < n. Otherwise, it will stay in the same grid.\r\nYou need to construct an operating sequence consisting only of characters ‘U’, ‘D’, ‘L’, and ‘R’. After\r\napplying it, you must make sure every kangaroo will gather at the specific cell (a, b). The length of the\r\noperating sequence cannot exceed 3(n − 1).\r\nInput\r\nThere is only one test case in each test file.\r\nThe first and only line of the input contains three integers n, a, b (2 ≤ n ≤ 500, 1 ≤ a, b ≤ n) indicating\r\nthe size of the grid and the target cell.\r\nOutput\r\nOutput a string consisting only of characters ‘U’, ‘D’, ‘L’ and ‘R’ in one line. And its length mustn’t\r\nexceed 3(n − 1). It can be proved that the answer always exists.\r\nExamples\r\nstandard input standard output\r\n3 3 3 RRDD\r\n4 3 2 DLDLDLUR\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:f8a805d1123b6b56d2695b6617deb6891e375443159ffb556b4850b7bdf8d38b",
+          "fileName": "gym-103470-A.pdf",
+          "pageCount": 2,
+          "sha256": "f8a805d1123b6b56d2695b6617deb6891e375443159ffb556b4850b7bdf8d38b",
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceSha256": "f8a805d1123b6b56d2695b6617deb6891e375443159ffb556b4850b7bdf8d38b",
+          "sourceUrl": "https://codeforces.com/gym/103470/problem/A",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 9,
+        "title": "Oops, It's Yesterday Twice More",
+        "url": "https://codeforces.com/gym/103470/problem/A"
+      },
+      "problem_id": "remote:codeforces:103470::A"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/104065/problem/H": {
+            "bytes": 323558,
+            "data": "tb-asset:a9d58a83a76db719b209a1239e1314a9ab1f170acf7b5f624f4af098329d6bcc",
+            "fileName": "gym-104065.pdf",
+            "mime": "application/pdf",
+            "pageCount": 3,
+            "sha256": "a9d58a83a76db719b209a1239e1314a9ab1f170acf7b5f624f4af098329d6bcc",
+            "sourceUrl": "https://codeforces.com/gym/104065/problem/H"
+          }
+        },
+        "id": "remote:codeforces:104065::H",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T19:44:26.329245+00:00",
+          "corpusAuditVerifiedSha256": "01610224ec62ed3e3e7a3dc711db2e0499b2c9c103b54e9079d8c8d326e91508",
+          "markdownSha256": "01610224ec62ed3e3e7a3dc711db2e0499b2c9c103b54e9079d8c8d326e91508",
+          "pdfPageCountVerified": true,
+          "reviewedRecoveryRecordSha256": "675735dd939b1fdb2d1279807b01afeadf11eb64f6a2b0fd261b4d6ad66ce439",
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "166167f9d56c2d0f38b0d4904dd44e1d856bf7b1feb126dcb4880777cc6cad74",
+              "status": 200,
+              "url": "https://codeforces.com/gym/104065"
+            },
+            {
+              "sha256": "a9d58a83a76db719b209a1239e1314a9ab1f170acf7b5f624f4af098329d6bcc",
+              "status": 200,
+              "url": "https://codeforces.com/gym/104065/problem/H"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Life is Hard and Undecidable, but...\n\nLife is Hard and Undecidable, but...\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nTo John Horton Conway, his Game of Life, and also the life we are living...\r\nDisclaimer: For those who have no patience for the whole context or are already familiar\r\nwith Game of Life, the problem is in the last paragraph on the third page.\r\nLife is hard. There are beautiful dreams, yet you can never realize them. There are regrets and lost loved\r\nones, yet you can never turn back time. There is death lying ahead with the anxiety it persistently gives\r\nyou, yet you have no way to escape from it. There are problems right here for you to solve, yet you simply\r\ndon’t know how.\r\nLife is hard.\r\nLife is undecidable. You just don’t know what you are going to get from this box of chocolates. Experienced\r\nthrough all the Black Swan and Grey Rhino events happening those years, we all wonder, what’s going\r\nto happen next? What will the future be like? “C’est la vie”, say the old folks. It goes to show you never\r\ncan tell.\r\nBut, life just goes on. We have wines to drink, songs to sing, problems to solve, and games to play. The\r\ngame we will play now is, Game of Life, or simply, Life, devised by the famous British mathematician\r\nJohn Horton Conway in 1970.\r\nLife is a zero-player “game” played on an infinite squared board. At any time, some of the cells will be\r\nlive and others dead. Which cells are live at generation 0 is up to you! But then you’ve got nothing else\r\nto do because the state at any later time is determined by the previous one by the following rules:\r\n• BIRTH. A cell that’s dead at generation t becomes live at generation t + 1 if and only if exactly\r\nthree of its eight neighbors were live at generation t.\r\n• DEATH by overcrowding. A cell that’s live at generation t becomes dead at generation t + 1 if\r\nat least four of its eight neighbors were live at generation t.\r\n• DEATH by exposure. A cell that’s live at generation t becomes dead at generation t + 1 if at\r\nmost one of its eight neighbors were live at generation t.\r\n• Survival. A cell that’s live at generation t is still live at generation t + 1 if two or three of its eight\r\nneighbors were live at generation t.\r\nThe rule above can be summarized and memorized as “Just 3 for birth, 2 or 3 for survival.”\r\nThe following picture is an example of starting from a configuration where only five cells in a line are live.\r\nThis will end up forming a “traffic light” pattern that repeats infinitely with a period of 2. In the picture,\r\nfilled circles represent live cells that will still be live at the next generation. Unfilled circles represent\r\nlive cells that will be dead at the next generation. Dots represent dead cells that will be live at the next\r\ngeneration. (Credit: All pictures below are from Winning Ways For Your Mathematical Plays, Volume 4\r\nby Elwyn R. Berlekamp and John H. Conway).\r\nPage 1 of 3\n\nA Line of five becomes traffic lights.\r\nThere are some other examples of starting configurations with different “destinies\":\r\nDifferent start, different destiny.\r\nThere are examples where one ends up in a life cycle,\r\nThree life cycles with period 2.\r\nand an example of a moving “glider\".\r\nA glider moving diagonally.\r\nPage 2 of 3\n\nMathematicians and theoretical computer scientists are fascinated by the mystery of Life. They ask the\r\nfollowing question: “Given a starting configuration of Life, can we decide if it will eventually die out?\r\ni.e., is there some finite number t such that there is no live cells at generation t?” However, it turns out\r\nthis problem is not only NP-hard, but even undecidable. It is possible to build a pattern in Life that\r\nacts like a finite-state machine connected to two counters. This has the same computational power as a\r\nuniversal Turing machine, so Life is theoretically as powerful as any computer with unlimited memory and\r\nno time constraints; it is Turing complete. In fact, several different programmable computer architectures\r\nhave been implemented in Life, including a pattern that simulates Tetris.\r\nAlthough as the above suggests, we can never unravel the mystery of Life, there are still certain things\r\nwe can do. Construction is just one of those things, and is also exactly what this problem asks for:\r\nGiven a positive integer k (1 ≤ k ≤ 100), construct a starting configuration of Game of Life,\r\nwith all live cells having positive coordinates not exceeding 300, so that the configuration\r\nlasts exactly k generations, that is, there exist live cells at generation k − 1, but no live cells\r\nat generation k. It is guaranteed that at least one such starting configuration exists.\r\nInput\r\nThe input consists of only one integer k (1 ≤ k ≤ 100), denoting the number of generations the\r\nconfiguration need to last.\r\nOutput\r\nThe first line contains an integer n, (1 ≤ n ≤ 90000), denoting the number of live cells in your starting\r\nconfiguration.\r\nThen n lines follow, each line containing two integers x, y (1 ≤ x, y ≤ 300), denoting the coordinates of a\r\nlive cell in your starting configuration. The coordinates of each live cell should be output exactly once.\r\nIf there are many possible starting configurations, outputting any of them will be considered correct.\r\nExamples\r\nstandard input standard output\r\n1 1\r\n1 1\r\n2 3\r\n100 100\r\n101 100\r\n102 99\r\nPage 3 of 3\n\n[PDF](https://codeforces.com/gym/104065/problem/H)",
+        "pageCount": 3,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/104065/problem/H": {
+            "bytes": 323558,
+            "mime": "application/pdf",
+            "pageCount": 3,
+            "sha256": "a9d58a83a76db719b209a1239e1314a9ab1f170acf7b5f624f4af098329d6bcc",
+            "sourceUrl": "https://codeforces.com/gym/104065/problem/H"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "1",
+            "name": "样例 1",
+            "output": "1\n1 1"
+          },
+          {
+            "input": "2",
+            "name": "样例 2",
+            "output": "3\n100 100\n101 100\n102 99"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "Life is Hard and Undecidable, but...",
+          "problem": "H",
+          "rosterTitle": "Life is Hard and Undecidable, but...",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2,
+          3
+        ],
+        "sourcePdfSha256": "a9d58a83a76db719b209a1239e1314a9ab1f170acf7b5f624f4af098329d6bcc",
+        "sourcePdfUrl": "https://codeforces.com/gym/104065/problem/H",
+        "sourceRosterSha256": "166167f9d56c2d0f38b0d4904dd44e1d856bf7b1feb126dcb4880777cc6cad74",
+        "sourceRosterUrl": "https://codeforces.com/gym/104065",
+        "sourceText": "Life is Hard and Undecidable, but...\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nTo John Horton Conway, his Game of Life, and also the life we are living...\r\nDisclaimer: For those who have no patience for the whole context or are already familiar\r\nwith Game of Life, the problem is in the last paragraph on the third page.\r\nLife is hard. There are beautiful dreams, yet you can never realize them. There are regrets and lost loved\r\nones, yet you can never turn back time. There is death lying ahead with the anxiety it persistently gives\r\nyou, yet you have no way to escape from it. There are problems right here for you to solve, yet you simply\r\ndon’t know how.\r\nLife is hard.\r\nLife is undecidable. You just don’t know what you are going to get from this box of chocolates. Experienced\r\nthrough all the Black Swan and Grey Rhino events happening those years, we all wonder, what’s going\r\nto happen next? What will the future be like? “C’est la vie”, say the old folks. It goes to show you never\r\ncan tell.\r\nBut, life just goes on. We have wines to drink, songs to sing, problems to solve, and games to play. The\r\ngame we will play now is, Game of Life, or simply, Life, devised by the famous British mathematician\r\nJohn Horton Conway in 1970.\r\nLife is a zero-player “game” played on an infinite squared board. At any time, some of the cells will be\r\nlive and others dead. Which cells are live at generation 0 is up to you! But then you’ve got nothing else\r\nto do because the state at any later time is determined by the previous one by the following rules:\r\n• BIRTH. A cell that’s dead at generation t becomes live at generation t + 1 if and only if exactly\r\nthree of its eight neighbors were live at generation t.\r\n• DEATH by overcrowding. A cell that’s live at generation t becomes dead at generation t + 1 if\r\nat least four of its eight neighbors were live at generation t.\r\n• DEATH by exposure. A cell that’s live at generation t becomes dead at generation t + 1 if at\r\nmost one of its eight neighbors were live at generation t.\r\n• Survival. A cell that’s live at generation t is still live at generation t + 1 if two or three of its eight\r\nneighbors were live at generation t.\r\nThe rule above can be summarized and memorized as “Just 3 for birth, 2 or 3 for survival.”\r\nThe following picture is an example of starting from a configuration where only five cells in a line are live.\r\nThis will end up forming a “traffic light” pattern that repeats infinitely with a period of 2. In the picture,\r\nfilled circles represent live cells that will still be live at the next generation. Unfilled circles represent\r\nlive cells that will be dead at the next generation. Dots represent dead cells that will be live at the next\r\ngeneration. (Credit: All pictures below are from Winning Ways For Your Mathematical Plays, Volume 4\r\nby Elwyn R. Berlekamp and John H. Conway).\r\nPage 1 of 3\n\nA Line of five becomes traffic lights.\r\nThere are some other examples of starting configurations with different “destinies\":\r\nDifferent start, different destiny.\r\nThere are examples where one ends up in a life cycle,\r\nThree life cycles with period 2.\r\nand an example of a moving “glider\".\r\nA glider moving diagonally.\r\nPage 2 of 3\n\nMathematicians and theoretical computer scientists are fascinated by the mystery of Life. They ask the\r\nfollowing question: “Given a starting configuration of Life, can we decide if it will eventually die out?\r\ni.e., is there some finite number t such that there is no live cells at generation t?” However, it turns out\r\nthis problem is not only NP-hard, but even undecidable. It is possible to build a pattern in Life that\r\nacts like a finite-state machine connected to two counters. This has the same computational power as a\r\nuniversal Turing machine, so Life is theoretically as powerful as any computer with unlimited memory and\r\nno time constraints; it is Turing complete. In fact, several different programmable computer architectures\r\nhave been implemented in Life, including a pattern that simulates Tetris.\r\nAlthough as the above suggests, we can never unravel the mystery of Life, there are still certain things\r\nwe can do. Construction is just one of those things, and is also exactly what this problem asks for:\r\nGiven a positive integer k (1 ≤ k ≤ 100), construct a starting configuration of Game of Life,\r\nwith all live cells having positive coordinates not exceeding 300, so that the configuration\r\nlasts exactly k generations, that is, there exist live cells at generation k − 1, but no live cells\r\nat generation k. It is guaranteed that at least one such starting configuration exists.\r\nInput\r\nThe input consists of only one integer k (1 ≤ k ≤ 100), denoting the number of generations the\r\nconfiguration need to last.\r\nOutput\r\nThe first line contains an integer n, (1 ≤ n ≤ 90000), denoting the number of live cells in your starting\r\nconfiguration.\r\nThen n lines follow, each line containing two integers x, y (1 ≤ x, y ≤ 300), denoting the coordinates of a\r\nlive cell in your starting configuration. The coordinates of each live cell should be output exactly once.\r\nIf there are many possible starting configurations, outputting any of them will be considered correct.\r\nExamples\r\nstandard input standard output\r\n1 1\r\n1 1\r\n2 3\r\n100 100\r\n101 100\r\n102 99\r\nPage 3 of 3",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:a9d58a83a76db719b209a1239e1314a9ab1f170acf7b5f624f4af098329d6bcc",
+          "fileName": "gym-104065-H.pdf",
+          "pageCount": 3,
+          "sha256": "a9d58a83a76db719b209a1239e1314a9ab1f170acf7b5f624f4af098329d6bcc",
+          "sourcePageNumbers": [
+            1,
+            2,
+            3
+          ],
+          "sourceSha256": "a9d58a83a76db719b209a1239e1314a9ab1f170acf7b5f624f4af098329d6bcc",
+          "sourceUrl": "https://codeforces.com/gym/104065/problem/H",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 9,
+        "title": "Life is Hard and Undecidable, but...",
+        "url": "https://codeforces.com/gym/104065/problem/H"
+      },
+      "problem_id": "remote:codeforces:104065::H"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/104128/attachments/download/18620/contest-zh.pdf": {
+            "bytes": 8823218,
+            "data": "tb-asset:0832a4c0975fa547a5e96ff28d6a434547f6b594db3f54d0f79c009c421eaed1",
+            "fileName": "gym-104128.pdf",
+            "mime": "application/pdf",
+            "pageCount": 28,
+            "sha256": "0832a4c0975fa547a5e96ff28d6a434547f6b594db3f54d0f79c009c421eaed1",
+            "sourceUrl": "https://codeforces.com/gym/104128/attachments/download/18620/contest-zh.pdf"
+          },
+          "https://codeforces.com/gym/104128/problem/A": {
+            "bytes": 1167259,
+            "data": "tb-asset:c5cf478d27b244d9b54fc391f8c6cab5f88945d16a46eb15391a254044908d76",
+            "fileName": "gym-104128.pdf",
+            "mime": "application/pdf",
+            "pageCount": 4,
+            "sha256": "c5cf478d27b244d9b54fc391f8c6cab5f88945d16a46eb15391a254044908d76",
+            "sourceUrl": "https://codeforces.com/gym/104128/problem/A"
+          }
+        },
+        "id": "remote:codeforces:104128::A",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T19:44:26.912985+00:00",
+          "corpusAuditVerifiedSha256": "3ac8e51967c5344061971121758de7c89a7820a76f5413cd83d188cfa687bc1d",
+          "markdownSha256": "3ac8e51967c5344061971121758de7c89a7820a76f5413cd83d188cfa687bc1d",
+          "pdfPageCountVerified": true,
+          "reviewedRecoveryRecordSha256": "ad0a868c49d2e71206e855e8edfd6174c6143758c12d9d3bc4eb0c51496339d9",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "4366d51db3110027fa8678d1d7c7286b46b2f7b1633164c9742145268911baf7",
+              "status": 200,
+              "url": "https://codeforces.com/gym/104128"
+            },
+            {
+              "sha256": "0832a4c0975fa547a5e96ff28d6a434547f6b594db3f54d0f79c009c421eaed1",
+              "status": 200,
+              "url": "https://codeforces.com/gym/104128/attachments/download/18620/contest-zh.pdf"
+            },
+            {
+              "sha256": "c5cf478d27b244d9b54fc391f8c6cab5f88945d16a46eb15391a254044908d76",
+              "status": 200,
+              "url": "https://codeforces.com/gym/104128/problem/A"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Stop, Yesterday Please No More\n\nStop, Yesterday Please No More\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nAfter the great success in 2018, 2019, 2020 and 2021, Nanjing University of Aeronautics and Astronautics\r\n(NUAA) will host the International Collegiate Programming Contest (ICPC) Nanjing regional for the\r\nfifth time in a row.\r\nTeam Power of Two and team Three Hold Two won the champion title for Tsinghua University in\r\n2018 and 2019. In 2020 and 2021, team Inverted Cross from Peking University won the back-to-back\r\nchampion titles. They also won the second place in the 45th ICPC World Finals held in Dhaka, which is\r\nthe best performance of East Continental teams in the past 6 years. We congratulate them and are very\r\nexcited to see them coming back and compete in Nanjing 2022!\r\nThis year, there are around 500 teams participating in the contest. There are at most 35 gold medals, 70\r\nsilver medals and 105 bronze medals that will be awarded. We are looking forward to seeing participants’\r\noutstanding performance!\r\nAlthough we can’t gather in Nanjing this time (yet again) due to the pandemic, we should still be grateful\r\nfor the hard work done by all staff and volunteers for this contest. Thank you all for your great contribution\r\nto this contest!\r\nThe 2018 ICPC Asia Nanjing Regional Contest\r\nIn the 2018 contest, problem K, Kangaroo Puzzle, requires the contestants to construct an operation\r\nsequence for the game:\r\nPage 1 of 4\n\nThe puzzle is a grid with n rows and m columns (1 ≤ n, m ≤ 20) and there are some (at least 2)\r\nkangaroos standing in the puzzle. The player’s goal is to control them to get together. There are some\r\nwalls in some cells and the kangaroos cannot enter the cells with walls. The other cells are empty. The\r\nkangaroos can move from an empty cell to an adjacent empty cell in four directions: up, down, left, and\r\nright.\r\nThere is exactly one kangaroo in every empty cell in the beginning and the player can control the\r\nkangaroos by pressing the button U, D, L, R on the keyboard. The kangaroos will move simultaneously\r\naccording to the button you press.\r\nThe contestant needs to construct an operating sequence of at most 5 × 104\r\nsteps consisting of U, D, L,\r\nR only to achieve the goal.\r\nIn the 2020 contest, problem A, Ah, It’s Yesterday Once More, requires the contestants to construct\r\nan input map to hack the following code of the problem described before:\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\nIn the 2021 contest, problem A, Oops, It’s Yesterday Twice More, also requires the contestants to\r\nconstruct an operation sequence for the game:\r\nThis time, every cell in the grid stands exactly one kangaroo. You need to construct an operating\r\nsequence consisting only of characters ‘U’, ‘D’, ‘L’, and ‘R’. After applying it, you must make sure\r\nevery kangaroo will gather at the specific cell (a, b). The length of the operating sequence cannot exceed\r\n3(n − 1). As always, the kangaroos will move simultaneously according to the operation you command.\r\nNow, in the 2022 contest, the kangaroo problem is back again! We don’t know why problem setters are\r\nso obsessed with kangaroos but the problem is as follows:\r\nYou are given a grid with n rows and m columns. There is a hole in the cell on the ih-th row and the\r\njh-th column. All other cells are empty and there is one kangaroo standing in each cell.\r\nSimilarly, the kangaroos are controlled by pressing the button U, D, L, R on the keyboard. All kangaroos\r\nwill move simultaneously according to the button pressed. Specifically, for any kangaroo located in the\r\ncell on the i-th row and the j-th column, indicated by (i, j):\r\n1. Button U: it will move to (i − 1, j).\r\n2. Button D: it will move to (i + 1, j).\r\n3. Button L: it will move to (i, j − 1).\r\n4. Button R: it will move to (i, j + 1).\r\nIf a kangaroo steps onto the hole (that is, i = ih and j = jh) or steps out of the grid, it will be removed\r\nfrom the grid.\r\nThe problem is that, the exact value of ih and jh is not known. You’re only given an operating sequence\r\nconsisting only of characters ‘U’, ‘D’, ‘L’, and ‘R’, and an integer k indicating that after applying the\r\noperating sequence, there are k kangaroos remaining on the grid.\r\nPage 2 of 4\n\nCalculate the number of possible positions of the hole. That is, calculate the number of integer pairs\r\n(ih, jh) such that:\r\n• 1 ≤ ih ≤ n, 1 ≤ jh ≤ m.\r\n• The hole is located at (ih, jh).\r\n• After applying the given operating sequence, the number of kangaroos remaining on the grid is\r\nexactly k.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T indicating the number of\r\ntest cases. For each test case:\r\nThe first line contains three integers n, m and k (1 ≤ n, m ≤ 103\r\n, 0 ≤ k < n × m) indicating the size of\r\nthe grid and the number of kangaroos remaining on the grid after applying the operating sequence.\r\nThe second line contains a string s1s2 · · · sl (si ∈ {‘U’, ‘D’, ‘L’, ‘R’}, 1 ≤ l ≤ 106\r\n) indicating the operating\r\nsequence.\r\nIt’s guaranteed that neither the sum of n × m nor the total length of the operating sequences of each test\r\ncase will exceed 106\r\n.\r\nOutput\r\nFor each test case output one integer indicating the number of possible positions of the hole.\r\nExample\r\nstandard input standard output\r\n3\r\n4 5 3\r\nULDDRR\r\n4 5 0\r\nUUUUUUU\r\n4 5 10\r\nUUUUUUU\r\n2\r\n20\r\n0\r\nNote\r\nFor the first sample test case there are 2 possible positions for the hole.\r\nThe first possible position is (3, 4).\r\nThe second possible position is (4, 3).\r\nPage 3 of 4\n\nPage 4 of 4\n\n[PDF](https://codeforces.com/gym/104128/problem/A)",
+        "pageCount": 4,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/104128/attachments/download/18620/contest-zh.pdf": {
+            "bytes": 8823218,
+            "mime": "application/pdf",
+            "pageCount": 28,
+            "sha256": "0832a4c0975fa547a5e96ff28d6a434547f6b594db3f54d0f79c009c421eaed1",
+            "sourceUrl": "https://codeforces.com/gym/104128/attachments/download/18620/contest-zh.pdf"
+          },
+          "https://codeforces.com/gym/104128/problem/A": {
+            "bytes": 1167259,
+            "mime": "application/pdf",
+            "pageCount": 4,
+            "sha256": "c5cf478d27b244d9b54fc391f8c6cab5f88945d16a46eb15391a254044908d76",
+            "sourceUrl": "https://codeforces.com/gym/104128/problem/A"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "3\n4 5 3\nULDDRR\n4 5 0\nUUUUUUU\n4 5 10\nUUUUUUU",
+            "name": "样例 1",
+            "output": "2\n20\n0"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "verified",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "Stop, Yesterday Please No More",
+          "problem": "A",
+          "rosterTitle": "Stop, Yesterday Please No More",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "sourcePdfSha256": "c5cf478d27b244d9b54fc391f8c6cab5f88945d16a46eb15391a254044908d76",
+        "sourcePdfUrl": "https://codeforces.com/gym/104128/problem/A",
+        "sourceRosterSha256": "4366d51db3110027fa8678d1d7c7286b46b2f7b1633164c9742145268911baf7",
+        "sourceRosterUrl": "https://codeforces.com/gym/104128",
+        "sourceText": "Stop, Yesterday Please No More\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nAfter the great success in 2018, 2019, 2020 and 2021, Nanjing University of Aeronautics and Astronautics\r\n(NUAA) will host the International Collegiate Programming Contest (ICPC) Nanjing regional for the\r\nfifth time in a row.\r\nTeam Power of Two and team Three Hold Two won the champion title for Tsinghua University in\r\n2018 and 2019. In 2020 and 2021, team Inverted Cross from Peking University won the back-to-back\r\nchampion titles. They also won the second place in the 45th ICPC World Finals held in Dhaka, which is\r\nthe best performance of East Continental teams in the past 6 years. We congratulate them and are very\r\nexcited to see them coming back and compete in Nanjing 2022!\r\nThis year, there are around 500 teams participating in the contest. There are at most 35 gold medals, 70\r\nsilver medals and 105 bronze medals that will be awarded. We are looking forward to seeing participants’\r\noutstanding performance!\r\nAlthough we can’t gather in Nanjing this time (yet again) due to the pandemic, we should still be grateful\r\nfor the hard work done by all staff and volunteers for this contest. Thank you all for your great contribution\r\nto this contest!\r\nThe 2018 ICPC Asia Nanjing Regional Contest\r\nIn the 2018 contest, problem K, Kangaroo Puzzle, requires the contestants to construct an operation\r\nsequence for the game:\r\nPage 1 of 4\n\nThe puzzle is a grid with n rows and m columns (1 ≤ n, m ≤ 20) and there are some (at least 2)\r\nkangaroos standing in the puzzle. The player’s goal is to control them to get together. There are some\r\nwalls in some cells and the kangaroos cannot enter the cells with walls. The other cells are empty. The\r\nkangaroos can move from an empty cell to an adjacent empty cell in four directions: up, down, left, and\r\nright.\r\nThere is exactly one kangaroo in every empty cell in the beginning and the player can control the\r\nkangaroos by pressing the button U, D, L, R on the keyboard. The kangaroos will move simultaneously\r\naccording to the button you press.\r\nThe contestant needs to construct an operating sequence of at most 5 × 104\r\nsteps consisting of U, D, L,\r\nR only to achieve the goal.\r\nIn the 2020 contest, problem A, Ah, It’s Yesterday Once More, requires the contestants to construct\r\nan input map to hack the following code of the problem described before:\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\nIn the 2021 contest, problem A, Oops, It’s Yesterday Twice More, also requires the contestants to\r\nconstruct an operation sequence for the game:\r\nThis time, every cell in the grid stands exactly one kangaroo. You need to construct an operating\r\nsequence consisting only of characters ‘U’, ‘D’, ‘L’, and ‘R’. After applying it, you must make sure\r\nevery kangaroo will gather at the specific cell (a, b). The length of the operating sequence cannot exceed\r\n3(n − 1). As always, the kangaroos will move simultaneously according to the operation you command.\r\nNow, in the 2022 contest, the kangaroo problem is back again! We don’t know why problem setters are\r\nso obsessed with kangaroos but the problem is as follows:\r\nYou are given a grid with n rows and m columns. There is a hole in the cell on the ih-th row and the\r\njh-th column. All other cells are empty and there is one kangaroo standing in each cell.\r\nSimilarly, the kangaroos are controlled by pressing the button U, D, L, R on the keyboard. All kangaroos\r\nwill move simultaneously according to the button pressed. Specifically, for any kangaroo located in the\r\ncell on the i-th row and the j-th column, indicated by (i, j):\r\n1. Button U: it will move to (i − 1, j).\r\n2. Button D: it will move to (i + 1, j).\r\n3. Button L: it will move to (i, j − 1).\r\n4. Button R: it will move to (i, j + 1).\r\nIf a kangaroo steps onto the hole (that is, i = ih and j = jh) or steps out of the grid, it will be removed\r\nfrom the grid.\r\nThe problem is that, the exact value of ih and jh is not known. You’re only given an operating sequence\r\nconsisting only of characters ‘U’, ‘D’, ‘L’, and ‘R’, and an integer k indicating that after applying the\r\noperating sequence, there are k kangaroos remaining on the grid.\r\nPage 2 of 4\n\nCalculate the number of possible positions of the hole. That is, calculate the number of integer pairs\r\n(ih, jh) such that:\r\n• 1 ≤ ih ≤ n, 1 ≤ jh ≤ m.\r\n• The hole is located at (ih, jh).\r\n• After applying the given operating sequence, the number of kangaroos remaining on the grid is\r\nexactly k.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T indicating the number of\r\ntest cases. For each test case:\r\nThe first line contains three integers n, m and k (1 ≤ n, m ≤ 103\r\n, 0 ≤ k < n × m) indicating the size of\r\nthe grid and the number of kangaroos remaining on the grid after applying the operating sequence.\r\nThe second line contains a string s1s2 · · · sl (si ∈ {‘U’, ‘D’, ‘L’, ‘R’}, 1 ≤ l ≤ 106\r\n) indicating the operating\r\nsequence.\r\nIt’s guaranteed that neither the sum of n × m nor the total length of the operating sequences of each test\r\ncase will exceed 106\r\n.\r\nOutput\r\nFor each test case output one integer indicating the number of possible positions of the hole.\r\nExample\r\nstandard input standard output\r\n3\r\n4 5 3\r\nULDDRR\r\n4 5 0\r\nUUUUUUU\r\n4 5 10\r\nUUUUUUU\r\n2\r\n20\r\n0\r\nNote\r\nFor the first sample test case there are 2 possible positions for the hole.\r\nThe first possible position is (3, 4).\r\nThe second possible position is (4, 3).\r\nPage 3 of 4\n\nPage 4 of 4",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:c5cf478d27b244d9b54fc391f8c6cab5f88945d16a46eb15391a254044908d76",
+          "fileName": "gym-104128-A.pdf",
+          "pageCount": 4,
+          "sha256": "c5cf478d27b244d9b54fc391f8c6cab5f88945d16a46eb15391a254044908d76",
+          "sourcePageNumbers": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourceSha256": "c5cf478d27b244d9b54fc391f8c6cab5f88945d16a46eb15391a254044908d76",
+          "sourceUrl": "https://codeforces.com/gym/104128/problem/A",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 9,
+        "title": "Stop, Yesterday Please No More",
+        "translation": {
+          "kind": "site",
+          "markdown": "# 停停，昨日请不要再重现\n\n匲匰匲匲 卉千卐千 国际大学生程序设计竞赛亚洲区域赛（南京站） 匲匰匲匲匯匱匲匯匱匸\r\nProblem A. 停停，昨日请不要再重现\r\n继 匲匰匱匸，匲匰匱匹，匲匰匲匰 和 匲匰匲匱 年成功承办赛事之后，南京航空航天大学（华单十十）将连续第五年承办国\r\n际大学生程序设计竞赛（卉千卐千）。\r\n在 匲匰匱匸 与 匲匰匱匹 年，匐中二之力匑队与匐三个顶俩匑队为清华大学赢得了冠军。在 匲匰匲匰 与 匲匰匲匱 年，北京大\r\n学的匐逆十字匑队连续赢得冠军。该队也在达卡举办的第 匴匵 届国际大学生程序设计竞赛全球总决赛中获得\r\n了亚军，创造了东大陆区域过去六年来的最佳成绩。让我们恭喜他们，同时也非常期待他们在 匲匰匲匲 年\r\n南京站的表现！\r\n今年，将会有约 500 支队伍参与南京站的竞赛。本次竞赛将会颁发至多 35 项金奖，70 项银奖与 105 项\r\n铜奖。让我们期待选手们出色的表现！\r\n虽然由于疫情，我们（又一次）无法在南京相聚，我们仍然需要感谢竞赛组委会与志愿者们的努力付\r\n出。感谢你们为本次竞赛做出的贡献！\r\n2018 国际大学生程序设计竞赛亚洲区域赛（南京站）\r\n在 匲匰匱匸 年的竞赛中，卋 题《袋鼠谜题》要求选手为以下游戏构造一个操作序列：\r\n谜题由一个 n 行 m 列的网格（1 ≤ n, m ≤ 20）组成，且有一些（至少 2 只）袋鼠位于网格中。玩家\r\n的目标是控制袋鼠并把它们聚集在同一个格子中。一些格子里有墙，袋鼠无法进入这些有墙的格子，\r\n而其它格子是空的。袋鼠可以从一个空格子移动到上，下，左，右相邻的另一个空格子中。\r\n游戏开始时，每个空格子里都有一只袋鼠。玩家可以通过键盘上 单，卄，卌，卒 四个按键控制袋鼠的移\r\n动。所有袋鼠会同时根据您按下的按键移动。\r\n选手需要构造一个长度至多为 5 × 104 且由 单，卄，卌，卒 组成的操作序列以达成目标。\r\n在 匲匰匲匰 年的竞赛中，十 题《啊，昨日重现》要求选手构造一张输入地图，以证明以下代码并不是上述\r\n问题的解：\r\n卐卡卧卥 匱 卯卦 匲匶\n\n匲匰匲匲 卉千卐千 国际大学生程序设计竞赛亚洲区域赛（南京站） 匲匰匲匲匯匱匲匯匱匸\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\n在 匲匰匲匱 年的竞赛中，十 题《呀，昨日再次重现》同样要求选手为以下游戏构造操作序列：\r\n本题中，网格中的每个格子都有恰好一只袋鼠。您需要构造一个仅由字符 占单匧，占卄匧，占卌匧 和 占卒匧 组成的\r\n操作序列。在应用该操作序列后，所有袋鼠必须聚集在指定格子 (a, b) 中。操作序列的长度不能超过\r\n3(n − 1)。同往常一样，所有袋鼠会根据您的命令同时移动。\r\n在 匲匰匲匲 年的竞赛中，袋鼠题又回来啦！我们不知道为什么命题组的成员们那么喜欢袋鼠，但题目如\r\n下：\r\n给定一张 n 行 m 列的网格，在位于第 ih 行第 jh 列的格子上有一个洞，其它每个格子都是空地并且都\r\n有一只袋鼠。\r\n相似地，袋鼠可以被键盘上的 单，卄，卌，卒 键控制。所有袋鼠会同时根据按下的按键移动。具体来说，\r\n对于一只位于第 i 行第 j 列的格子（用 (i, j) 表示）上的袋鼠：\r\n匱匮 按键 单：它会移动到 (i − 1, j)。\r\n匲匮 按键 卄：它会移动到 (i + 1, j)。\r\n匳匮 按键 卌：它会移动到 (i, j − 1)。\r\n匴匮 按键 卒：它会移动到 (i, j + 1)。\r\n如果一只袋鼠踩到了洞（也就是说，i = ih 且 j = jh）或者移动到了网格外面，它将被从网格上移除。\r\n问题在于，ih 与 jh 的值是未知的。您只知道一个仅由字符 占单匧，占卄匧，占卌匧，占卒匧 组成的操作序列，以及一\r\n个整数 k 表示应用这个操作序列之后，网格上恰有 k 只袋鼠存留。\r\n请计算有多少位置可能存在洞。也就是说，计算满足以下条件的整数对 (ih, jh) 的数量：\r\n• 1 ≤ ih ≤ n，1 ≤ jh ≤ m。\r\n• 洞位于 (ih, jh)。\r\n• 应用给定的操作序列后，网格上恰有 k 只袋鼠存留。\r\nInput\r\n有多组测试数据。第一行输入一个整数 T 表示测试数据组数，对于每组测试数据：\r\n第一行输入三个整数 n，m 与 k（1 ≤ n, m ≤ 103，0 ≤ k < n × m）表示网格的大小以及应用操作序列\r\n后网格上存留的袋鼠数量。\r\n卐卡卧卥 匲 卯卦 匲匶\n\n匲匰匲匲 卉千卐千 国际大学生程序设计竞赛亚洲区域赛（南京站） 匲匰匲匲匯匱匲匯匱匸\r\n第二行输入一个字符串 s1s2 · · · sl（si ∈ {占单匧, 占卄匧, 占卌匧, 占卒匧}，1 ≤ l ≤ 106）表示操作序列。\r\n保证所有数据 n × m 之和以及操作序列长度之和均不超过 106。\r\nOutput\r\n每组数据输出一行一个整数表示有多少位置可能存在洞。\r\nExample\r\nstandard input standard output\r\n3\r\n4 5 3\r\nULDDRR\r\n4 5 0\r\nUUUUUUU\r\n4 5 10\r\nUUUUUUU\r\n2\r\n20\r\n0\r\nNote\r\n对于第一组样例数据，有 2 个位置可能存在洞。\r\n第一个可能的位置是 (3, 4)。\r\n第二个可能的位置是 (4, 3)。\r\n卐卡卧卥 匳 卯卦 匲匶\n\n[PDF](https://codeforces.com/gym/104128/attachments/download/18620/contest-zh.pdf)",
+          "provider": "Codeforces 原站中文 PDF",
+          "sourceBinding": {
+            "kind": "official-bilingual-roster",
+            "pdfTitle": "停停，昨日请不要再重现",
+            "problem": "A",
+            "rosterTitle": "Stop, Yesterday Please No More",
+            "samplePairsVerified": 1
+          },
+          "sourceLanguage": "en",
+          "sourcePageNumbers": [
+            3,
+            4,
+            5
+          ],
+          "sourcePdfSha256": "0832a4c0975fa547a5e96ff28d6a434547f6b594db3f54d0f79c009c421eaed1",
+          "sourcePdfUrl": "https://codeforces.com/gym/104128/attachments/download/18620/contest-zh.pdf",
+          "sourceRosterSha256": "4366d51db3110027fa8678d1d7c7286b46b2f7b1633164c9742145268911baf7",
+          "sourceRosterUrl": "https://codeforces.com/gym/104128",
+          "sourceText": "匲匰匲匲 卉千卐千 国际大学生程序设计竞赛亚洲区域赛（南京站） 匲匰匲匲匯匱匲匯匱匸\r\nProblem A. 停停，昨日请不要再重现\r\n继 匲匰匱匸，匲匰匱匹，匲匰匲匰 和 匲匰匲匱 年成功承办赛事之后，南京航空航天大学（华单十十）将连续第五年承办国\r\n际大学生程序设计竞赛（卉千卐千）。\r\n在 匲匰匱匸 与 匲匰匱匹 年，匐中二之力匑队与匐三个顶俩匑队为清华大学赢得了冠军。在 匲匰匲匰 与 匲匰匲匱 年，北京大\r\n学的匐逆十字匑队连续赢得冠军。该队也在达卡举办的第 匴匵 届国际大学生程序设计竞赛全球总决赛中获得\r\n了亚军，创造了东大陆区域过去六年来的最佳成绩。让我们恭喜他们，同时也非常期待他们在 匲匰匲匲 年\r\n南京站的表现！\r\n今年，将会有约 500 支队伍参与南京站的竞赛。本次竞赛将会颁发至多 35 项金奖，70 项银奖与 105 项\r\n铜奖。让我们期待选手们出色的表现！\r\n虽然由于疫情，我们（又一次）无法在南京相聚，我们仍然需要感谢竞赛组委会与志愿者们的努力付\r\n出。感谢你们为本次竞赛做出的贡献！\r\n2018 国际大学生程序设计竞赛亚洲区域赛（南京站）\r\n在 匲匰匱匸 年的竞赛中，卋 题《袋鼠谜题》要求选手为以下游戏构造一个操作序列：\r\n谜题由一个 n 行 m 列的网格（1 ≤ n, m ≤ 20）组成，且有一些（至少 2 只）袋鼠位于网格中。玩家\r\n的目标是控制袋鼠并把它们聚集在同一个格子中。一些格子里有墙，袋鼠无法进入这些有墙的格子，\r\n而其它格子是空的。袋鼠可以从一个空格子移动到上，下，左，右相邻的另一个空格子中。\r\n游戏开始时，每个空格子里都有一只袋鼠。玩家可以通过键盘上 单，卄，卌，卒 四个按键控制袋鼠的移\r\n动。所有袋鼠会同时根据您按下的按键移动。\r\n选手需要构造一个长度至多为 5 × 104 且由 单，卄，卌，卒 组成的操作序列以达成目标。\r\n在 匲匰匲匰 年的竞赛中，十 题《啊，昨日重现》要求选手构造一张输入地图，以证明以下代码并不是上述\r\n问题的解：\r\n卐卡卧卥 匱 卯卦 匲匶\n\n匲匰匲匲 卉千卐千 国际大学生程序设计竞赛亚洲区域赛（南京站） 匲匰匲匲匯匱匲匯匱匸\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\n在 匲匰匲匱 年的竞赛中，十 题《呀，昨日再次重现》同样要求选手为以下游戏构造操作序列：\r\n本题中，网格中的每个格子都有恰好一只袋鼠。您需要构造一个仅由字符 占单匧，占卄匧，占卌匧 和 占卒匧 组成的\r\n操作序列。在应用该操作序列后，所有袋鼠必须聚集在指定格子 (a, b) 中。操作序列的长度不能超过\r\n3(n − 1)。同往常一样，所有袋鼠会根据您的命令同时移动。\r\n在 匲匰匲匲 年的竞赛中，袋鼠题又回来啦！我们不知道为什么命题组的成员们那么喜欢袋鼠，但题目如\r\n下：\r\n给定一张 n 行 m 列的网格，在位于第 ih 行第 jh 列的格子上有一个洞，其它每个格子都是空地并且都\r\n有一只袋鼠。\r\n相似地，袋鼠可以被键盘上的 单，卄，卌，卒 键控制。所有袋鼠会同时根据按下的按键移动。具体来说，\r\n对于一只位于第 i 行第 j 列的格子（用 (i, j) 表示）上的袋鼠：\r\n匱匮 按键 单：它会移动到 (i − 1, j)。\r\n匲匮 按键 卄：它会移动到 (i + 1, j)。\r\n匳匮 按键 卌：它会移动到 (i, j − 1)。\r\n匴匮 按键 卒：它会移动到 (i, j + 1)。\r\n如果一只袋鼠踩到了洞（也就是说，i = ih 且 j = jh）或者移动到了网格外面，它将被从网格上移除。\r\n问题在于，ih 与 jh 的值是未知的。您只知道一个仅由字符 占单匧，占卄匧，占卌匧，占卒匧 组成的操作序列，以及一\r\n个整数 k 表示应用这个操作序列之后，网格上恰有 k 只袋鼠存留。\r\n请计算有多少位置可能存在洞。也就是说，计算满足以下条件的整数对 (ih, jh) 的数量：\r\n• 1 ≤ ih ≤ n，1 ≤ jh ≤ m。\r\n• 洞位于 (ih, jh)。\r\n• 应用给定的操作序列后，网格上恰有 k 只袋鼠存留。\r\nInput\r\n有多组测试数据。第一行输入一个整数 T 表示测试数据组数，对于每组测试数据：\r\n第一行输入三个整数 n，m 与 k（1 ≤ n, m ≤ 103，0 ≤ k < n × m）表示网格的大小以及应用操作序列\r\n后网格上存留的袋鼠数量。\r\n卐卡卧卥 匲 卯卦 匲匶\n\n匲匰匲匲 卉千卐千 国际大学生程序设计竞赛亚洲区域赛（南京站） 匲匰匲匲匯匱匲匯匱匸\r\n第二行输入一个字符串 s1s2 · · · sl（si ∈ {占单匧, 占卄匧, 占卌匧, 占卒匧}，1 ≤ l ≤ 106）表示操作序列。\r\n保证所有数据 n × m 之和以及操作序列长度之和均不超过 106。\r\nOutput\r\n每组数据输出一行一个整数表示有多少位置可能存在洞。\r\nExample\r\nstandard input standard output\r\n3\r\n4 5 3\r\nULDDRR\r\n4 5 0\r\nUUUUUUU\r\n4 5 10\r\nUUUUUUU\r\n2\r\n20\r\n0\r\nNote\r\n对于第一组样例数据，有 2 个位置可能存在洞。\r\n第一个可能的位置是 (3, 4)。\r\n第二个可能的位置是 (4, 3)。\r\n卐卡卧卥 匳 卯卦 匲匶",
+          "sourceUrl": "https://codeforces.com/gym/104128/attachments/download/18620/contest-zh.pdf",
+          "statementPdf": {
+            "data": "tb-asset:07d667e845f79aef5221765c47513a77b06c3b578187a12bff1b51204a6ba120",
+            "fileName": "gym-104128-A.pdf",
+            "pageCount": 3,
+            "sha256": "07d667e845f79aef5221765c47513a77b06c3b578187a12bff1b51204a6ba120",
+            "sourcePageNumbers": [
+              3,
+              4,
+              5
+            ],
+            "sourceSha256": "0832a4c0975fa547a5e96ff28d6a434547f6b594db3f54d0f79c009c421eaed1",
+            "sourceUrl": "https://codeforces.com/gym/104128/attachments/download/18620/contest-zh.pdf",
+            "widthPoints": 595.2760009765625
+          },
+          "targetLanguage": "zh-CN"
+        },
+        "url": "https://codeforces.com/gym/104128/problem/A"
+      },
+      "problem_id": "remote:codeforces:104128::A"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/104385/problem/E": {
+            "bytes": 400985,
+            "data": "tb-asset:8dbd7547a5345346f8ec3c8fc73066a6287c6d5dac4e47d46e78be9f46fb4af8",
+            "fileName": "gym-104385.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "8dbd7547a5345346f8ec3c8fc73066a6287c6d5dac4e47d46e78be9f46fb4af8",
+            "sourceUrl": "https://codeforces.com/gym/104385/problem/E"
+          }
+        },
+        "id": "remote:codeforces:104385::E",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T19:44:27.136463+00:00",
+          "corpusAuditVerifiedSha256": "e7d2011b50e5e9e033559fbe5d8c75536363cd7f4242b4145f0b25558206ac72",
+          "markdownSha256": "e7d2011b50e5e9e033559fbe5d8c75536363cd7f4242b4145f0b25558206ac72",
+          "pdfPageCountVerified": true,
+          "reviewedRecoveryRecordSha256": "6b95c975da3d43b253607d4be67a3fdf0fdf6705aa08fd4a26d872c1ddc62341",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "1da0762ce636f34066d74a0919049da03fa090db5eca127b138203d829e4093f",
+              "status": 200,
+              "url": "https://codeforces.com/gym/104385"
+            },
+            {
+              "sha256": "8dbd7547a5345346f8ec3c8fc73066a6287c6d5dac4e47d46e78be9f46fb4af8",
+              "status": 200,
+              "url": "https://codeforces.com/gym/104385/problem/E"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 6000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Segment-tree\n\nSegment-tree\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 6 seconds\r\nMemory limit: 512 megabytes\r\nLyra and Bon Bon are playing a segment-tree game.\r\nLyra generates a query-tree G on a segment tree by calling algorithm 1 QUERY(1, 0, 2\r\nn − 1, L, R, ∅) using\r\nparameters n, L and R.\r\nThe query-tree G is described as a set of edges, and each edge is described as a tuple (u, v, w) that node\r\nu and node v is connected by an edge of value w.\r\nThe game progresses turn by turn, and Lyra moves first.\r\nIn one move a player must choose at least two points [x1, x2, . . . , xm], and then remove them and all\r\nedge(s) connected to them.\r\nIt has some restrictions for sure:\r\n1. Assume that x1 < x2 < · · · < xm. For Lyra, the edges (x1, x2, 0),(x2, x3, 0), . . . ,(xm−1, xm, 0) must\r\nexist in G. Similarly for Bon Bon, the edges (xi\r\n, xi+1, 1) must exist.\r\n2. After either Bon Bon or Lyra’s removal, the query-tree must not be split into two separate blocks.\r\n3. The node 1 could not be chosen unless G will become empty after the operation.\r\nThe pony who cannot make a move loses. If both ponies play optimally, could Lyra ultimately win the\r\ngame?\r\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 106\r\n), representing the number of test cases.\r\nEach test case contains one line, three integers n, L, R (1 ≤ n ≤ 61, 0 ≤ L ≤ R < 2\r\nn\r\n), separated by\r\nspaces.\r\nPage 1 of 2\n\nOutput\r\nFor each test case, output one line. If Lyra wins, output “Yes”, otherwise output “No” (without quotes).\r\nExample\r\nstandard input standard output\r\n2\r\n3 4 6\r\n3 5 5\r\nYes\r\nNo\r\nNote\r\nThe G of two test cases is in the following:\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/104385/problem/E)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/104385/problem/E": {
+            "bytes": 400985,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "8dbd7547a5345346f8ec3c8fc73066a6287c6d5dac4e47d46e78be9f46fb4af8",
+            "sourceUrl": "https://codeforces.com/gym/104385/problem/E"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "2\n3 4 6\n3 5 5",
+            "name": "样例 1",
+            "output": "Yes\nNo"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "Segment-tree",
+          "problem": "E",
+          "rosterTitle": "Segment-tree",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourcePdfSha256": "8dbd7547a5345346f8ec3c8fc73066a6287c6d5dac4e47d46e78be9f46fb4af8",
+        "sourcePdfUrl": "https://codeforces.com/gym/104385/problem/E",
+        "sourceRosterSha256": "1da0762ce636f34066d74a0919049da03fa090db5eca127b138203d829e4093f",
+        "sourceRosterUrl": "https://codeforces.com/gym/104385",
+        "sourceText": "Segment-tree\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 6 seconds\r\nMemory limit: 512 megabytes\r\nLyra and Bon Bon are playing a segment-tree game.\r\nLyra generates a query-tree G on a segment tree by calling algorithm 1 QUERY(1, 0, 2\r\nn − 1, L, R, ∅) using\r\nparameters n, L and R.\r\nThe query-tree G is described as a set of edges, and each edge is described as a tuple (u, v, w) that node\r\nu and node v is connected by an edge of value w.\r\nThe game progresses turn by turn, and Lyra moves first.\r\nIn one move a player must choose at least two points [x1, x2, . . . , xm], and then remove them and all\r\nedge(s) connected to them.\r\nIt has some restrictions for sure:\r\n1. Assume that x1 < x2 < · · · < xm. For Lyra, the edges (x1, x2, 0),(x2, x3, 0), . . . ,(xm−1, xm, 0) must\r\nexist in G. Similarly for Bon Bon, the edges (xi\r\n, xi+1, 1) must exist.\r\n2. After either Bon Bon or Lyra’s removal, the query-tree must not be split into two separate blocks.\r\n3. The node 1 could not be chosen unless G will become empty after the operation.\r\nThe pony who cannot make a move loses. If both ponies play optimally, could Lyra ultimately win the\r\ngame?\r\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 106\r\n), representing the number of test cases.\r\nEach test case contains one line, three integers n, L, R (1 ≤ n ≤ 61, 0 ≤ L ≤ R < 2\r\nn\r\n), separated by\r\nspaces.\r\nPage 1 of 2\n\nOutput\r\nFor each test case, output one line. If Lyra wins, output “Yes”, otherwise output “No” (without quotes).\r\nExample\r\nstandard input standard output\r\n2\r\n3 4 6\r\n3 5 5\r\nYes\r\nNo\r\nNote\r\nThe G of two test cases is in the following:\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:8dbd7547a5345346f8ec3c8fc73066a6287c6d5dac4e47d46e78be9f46fb4af8",
+          "fileName": "gym-104385-E.pdf",
+          "pageCount": 2,
+          "sha256": "8dbd7547a5345346f8ec3c8fc73066a6287c6d5dac4e47d46e78be9f46fb4af8",
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceSha256": "8dbd7547a5345346f8ec3c8fc73066a6287c6d5dac4e47d46e78be9f46fb4af8",
+          "sourceUrl": "https://codeforces.com/gym/104385/problem/E",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 9,
+        "title": "Segment-tree",
+        "url": "https://codeforces.com/gym/104385/problem/E"
+      },
+      "problem_id": "remote:codeforces:104385::E"
+    },
+    {
+      "beforeSha256": "63f7b208ec93908397c7862ee2bc8c1f67c5f44dc0554e7315e8ead538f54996",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/104821/attachments/download/23215/2023nj-cn.pdf": {
+            "bytes": 6342202,
+            "data": "tb-asset:531f01de1f12e9e8eb32e7dabcd8779e99afb8b374a94b187d7ec1e81c88a85b",
+            "fileName": "gym-104821.pdf",
+            "mime": "application/pdf",
+            "pageCount": 22,
+            "sha256": "531f01de1f12e9e8eb32e7dabcd8779e99afb8b374a94b187d7ec1e81c88a85b",
+            "sourceUrl": "https://codeforces.com/gym/104821/attachments/download/23215/2023nj-cn.pdf"
+          },
+          "https://codeforces.com/gym/104821/problem/A": {
+            "bytes": 1114011,
+            "data": "tb-asset:d911d4ae04cfeadba806111a69962c5bc3ab89a68611510404826507dd22d1e9",
+            "fileName": "gym-104821.pdf",
+            "mime": "application/pdf",
+            "pageCount": 3,
+            "sha256": "d911d4ae04cfeadba806111a69962c5bc3ab89a68611510404826507dd22d1e9",
+            "sourceUrl": "https://codeforces.com/gym/104821/problem/A"
+          }
+        },
+        "id": "remote:codeforces:104821::A",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T19:44:27.807286+00:00",
+          "corpusAuditVerifiedSha256": "b2216282373d0f4c14d111fb011f4de1be3841ebc7815f2a6e46612c38561b50",
+          "markdownSha256": "b2216282373d0f4c14d111fb011f4de1be3841ebc7815f2a6e46612c38561b50",
+          "pdfPageCountVerified": true,
+          "reviewedRecoveryRecordSha256": "01f349510319bc85d9f590dd2fabbf6b1dec610196c3785fdf45fd3aa5c149ad",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "35dbeb78e51662f4949f5770911072f7a62b3edfefd02c137ea67e7a481dcc69",
+              "status": 200,
+              "url": "https://codeforces.com/gym/104821"
+            },
+            {
+              "sha256": "531f01de1f12e9e8eb32e7dabcd8779e99afb8b374a94b187d7ec1e81c88a85b",
+              "status": 200,
+              "url": "https://codeforces.com/gym/104821/attachments/download/23215/2023nj-cn.pdf"
+            },
+            {
+              "sha256": "d911d4ae04cfeadba806111a69962c5bc3ab89a68611510404826507dd22d1e9",
+              "status": 200,
+              "url": "https://codeforces.com/gym/104821/problem/A"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Cool, It’s Yesterday Four Times More\n\nCool, It’s Yesterday Four Times More\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nAfter the great success in 2018, 2019, 2020, 2021 and 2022, Nanjing University of Aeronautics and\r\nAstronautics (NUAA) will host the International Collegiate Programming Contest (ICPC) Nanjing\r\nregional for the sixth time in a row.\r\nTeam Power of Two and team Three Hold Two won the champion title for Tsinghua University in\r\n2018 and 2019. In 2020, 2021 and 2022, team Inverted Cross from Peking University won the three-peat\r\nchampion titles. This year, there are around 330 teams participating in the contest. There are at most 33\r\ngold medals, 66 silver medals and 99 bronze medals that will be awarded (note that these numbers are\r\nfor reference only). We are looking forward to seeing participants’ outstanding performance!\r\nWhat’s even better is that, as the pandemic has come to an end, we can finally gather in Nanjing to\r\nparticipate in this wonderful contest. We’d like to be grateful for the hard work done by all staff and\r\nvolunteers for this contest. Thank you all for your great contribution to this contest!\r\nThe 2018 ICPC Asia Nanjing Regional Contest\r\nIn the 2018 contest, problem K, Kangaroo Puzzle, requires the contestants to construct an operation\r\nsequence for the game:\r\nThe puzzle is a grid with n rows and m columns (1 ≤ n, m ≤ 20) and there are some (at least 2)\r\nkangaroos standing in the puzzle. The player’s goal is to control them to get together. There are some\r\nwalls in some cells and the kangaroos cannot enter the cells with walls. The other cells are empty.\r\nThe kangaroos can move from an empty cell to an adjacent empty cell in four directions: up, down,\r\nleft, and right.\r\nThere is exactly one kangaroo in every empty cell in the beginning and the player can control the\r\nkangaroos by pressing the button U, D, L, R on the keyboard. The kangaroos will move simultaneously\r\naccording to the button you press.\r\nThe contestant needs to construct an operating sequence of at most 5 × 104\r\nsteps consisting of U, D,\r\nL, R only to achieve the goal.\r\nPage 1 of 3\n\nIn the 2020 contest, problem A, Ah, It’s Yesterday Once More, requires the contestants to construct\r\nan input map to hack the following code of the problem described before:\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\nIn the 2021 contest, problem A, Oops, It’s Yesterday Twice More, also requires the contestants to\r\nconstruct an operation sequence for the game:\r\nThis time, every cell in the grid stands exactly one kangaroo. You need to construct an operating\r\nsequence consisting only of characters ‘U’, ‘D’, ‘L’, and ‘R’. After applying it, you must make sure\r\nevery kangaroo will gather at the specific cell (a, b). The length of the operating sequence cannot\r\nexceed 3(n − 1). As always, the kangaroos will move simultaneously according to the operation you\r\ncommand.\r\nIn the 2022 contest, problem A, Stop, Yesterday Please No More, asks the contestants to solve the\r\nfollowing counting problem:\r\nThis time, every cell (except one which is a hole) in the grid stands exactly one kangaroo. The operating\r\nsequence is given and all kangaroos stepping out of the grid or onto the hole will be removed. Given\r\nthe number of kangaroos remaining after all operations, count the number of positions which might\r\nbe the hole.\r\nNow, in the 2023 contest, the kangaroo problem is back again! We don’t know why problem setters are\r\nso obsessed with kangaroos but the problem is as follows:\r\nYou are given a grid with n rows and m columns. Each cell is either a hole or empty. In each empty cell\r\nstands exactly one kangaroo.\r\nSimilarly, the kangaroos are controlled by pressing the button U, D, L, R on the keyboard. All kangaroos\r\nwill move simultaneously according to the button pressed. Specifically, for any kangaroo located in the\r\ncell on the i-th row and the j-th column, indicated by (i, j):\r\n1. Button U: it will move to (i − 1, j).\r\n2. Button D: it will move to (i + 1, j).\r\n3. Button L: it will move to (i, j − 1).\r\n4. Button R: it will move to (i, j + 1).\r\nIf a kangaroo steps onto a hole or steps out of the grid, it will be removed from the grid. If after applying\r\na sequence of operations (possibly an empty sequence) there is exactly one kangaroo remaining on the\r\ngrid, that kangaroo becomes the winner.\r\nThe problem is: for each kangaroo, determine if there exists a sequence of operations to make it the\r\nwinner. Output the total number of kangaroos which are possible to become the winner.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T indicating the number of\r\ntest cases. For each test case:\r\nPage 2 of 3\n\nThe first line contains two integers n and m (1 ≤ n, m ≤ 103\r\n, 1 ≤ n × m ≤ 103\r\n) indicating the number of\r\nrows and columns of the grid.\r\nFor the following n lines, the i-th line contains a string si,1si,2 · · · si,m of length m where each character\r\nis either ‘.’ (dot, ascii: 46) or ‘O’ (capitalized letter, ascii: 79). If si,j is a ‘.’ then grid (i, j) is empty; If\r\nsi,j is a ‘O’ then grid (i, j) is a hole.\r\nIt’s guaranteed that the sum of n × m of all test cases will not exceed 5 × 103\r\n.\r\nOutput\r\nFor each test case output one line containing one integer indicating the number of kangaroos for which\r\nthere exists a sequence of operations to make it the winner.\r\nExample\r\nstandard input standard output\r\n4\r\n2 5\r\n.OO..\r\nO..O.\r\n1 3\r\nO.O\r\n1 3\r\n.O.\r\n2 3\r\nOOO\r\nOOO\r\n3\r\n1\r\n0\r\n0\r\nNote\r\nThe sample test cases are explained below. We use ‘W’ to indicate the kangaroo which later becomes\r\nwinner and ‘K’ to indicate the other kangaroos.\r\nFor the first sample test case, kangaroos initially located at (1, 4), (1, 5) and (2, 5) may become winners.\r\nPossible sequences of operations are shown as follows:\r\nK O O W K\r\nO K K O K\r\nR\r\n−→\r\n. O O . W\r\nO . K O .\r\nD\r\n−→\r\n. O O . .\r\nO . . O W\r\nK O O K W\r\nO K K O K\r\nD\r\n−→\r\n. O O . .\r\nO . . O W\r\nK O O K K\r\nO K K O W\r\nU\r\n−→\r\n. O O . W\r\nO . . O .\r\nFor the second sample test case, as there is only one kangaroo, no operation is needed for it to become\r\nthe winner.\r\nFor the third sample test case, as any operation will remove the two kangaroos at the same time, there is\r\nno possible winner.\r\nFor the fourth sample test case, as there is no kangaroo, there is no possible winner.\r\nPage 3 of 3\n\n[PDF](https://codeforces.com/gym/104821/problem/A)",
+        "pageCount": 3,
+        "previousSourceStatement": {
+          "attachments": {
+            "https://sua.ac/wiki/2023-icpc-nanjing/contest-en.pdf": {
+              "bytes": 4879976,
+              "data": "tb-asset:d6af94955ad67af2b3eece55eb4abd6fb547fafa25cb7a6291b62a0177fa0f12",
+              "fileName": "contest-en.pdf",
+              "mime": "application/pdf",
+              "pageCount": 22,
+              "sha256": "d6af94955ad67af2b3eece55eb4abd6fb547fafa25cb7a6291b62a0177fa0f12",
+              "sourceUrl": "https://sua.ac/wiki/2023-icpc-nanjing/contest-en.pdf"
+            }
+          },
+          "id": "remote:codeforces:104821::A",
+          "images": {},
+          "integrity": {
+            "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+            "issues": [
+              "current-source-unverified"
+            ],
+            "markdownSha256": "bd7486d00063484613710373fda9b61b693f0bd0aa9998da8415787afe94e400",
+            "pdfPageCountVerified": false,
+            "sampleCount": 1,
+            "schema": 1,
+            "sourceDocuments": [],
+            "sourceVerified": false,
+            "status": "incomplete"
+          },
+          "limits": {
+            "memoryMb": 1024,
+            "timeMs": 1000
+          },
+          "localJudgeSupported": true,
+          "markdown": "# Cool, It's Yesterday Four Times More\n\n来源：[原赛题目](https://codeforces.com/gym/104821/problem/A)、[完整原赛题册](https://sua.ac/wiki/2023-icpc-nanjing/contest-en.pdf)。以下用中文整理原题的完整规则、输入输出与全部数据范围；原题册保留原文及原图。\n\n## 题目描述\n\n网格每格为空地或洞，最初每个空地各有一只袋鼠。每次选择上、下、左、右四个方向之一，让全部尚存袋鼠同时向该方向移动一格。\n\n袋鼠移出网格或进入洞时立即消失，不能停在原地躲避。若某段操作之后恰好只剩一只，它就是赢家，操作序列也允许为空。\n\n对每只初始袋鼠，分别判断是否存在一段操作使它成为唯一赢家，输出可能成为赢家的袋鼠数量。各只袋鼠可以对应不同的操作序列；没有袋鼠时答案为零。\n\n## 输入格式\n\n第一行输入测试组数 $T$。每组先输入 $n,m$，$1\\le n,m\\le10^3$、$1\\le nm\\le10^3$。随后 $n$ 行各输入长为 $m$ 的字符串：点号表示空地，大写 O 表示洞。\n\n全部组的 $nm$ 之和不超过 $5\\times10^3$。\n\n## 输出格式\n\n每组输出一行整数，为存在某种操作序列能使其成为唯一幸存者的初始袋鼠数量，不需要给出操作序列。\n",
+          "originalSource": {
+            "checkedAt": "2026-10-18",
+            "language": "en",
+            "localText": "faithful Chinese restatement of the complete contest contract",
+            "pdfSha256": "d6af94955ad67af2b3eece55eb4abd6fb547fafa25cb7a6291b62a0177fa0f12",
+            "pdfUrl": "https://sua.ac/wiki/2023-icpc-nanjing/contest-en.pdf",
+            "problemUrl": "https://codeforces.com/gym/104821/problem/A"
+          },
+          "problemType": "standard",
+          "resourceIssues": [],
+          "resourceManifest": {
+            "https://sua.ac/wiki/2023-icpc-nanjing/contest-en.pdf": {
+              "bytes": 4879976,
+              "mime": "application/pdf",
+              "pageCount": 22,
+              "sha256": "d6af94955ad67af2b3eece55eb4abd6fb547fafa25cb7a6291b62a0177fa0f12",
+              "sourceUrl": "https://sua.ac/wiki/2023-icpc-nanjing/contest-en.pdf"
+            }
+          },
+          "samples": [
+            {
+              "input": "4\n2 5\n.OO..\nO..O.\n1 3\nO.O\n1 3\n.O.\n2 3\nOOO\nOOO\n",
+              "name": "样例 1",
+              "output": "3\n1\n0\n0\n"
+            }
+          ],
+          "statementAvailable": true,
+          "title": "Cool, It's Yesterday Four Times More",
+          "url": "https://codeforces.com/gym/104821/problem/A"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/104821/attachments/download/23215/2023nj-cn.pdf": {
+            "bytes": 6342202,
+            "mime": "application/pdf",
+            "pageCount": 22,
+            "sha256": "531f01de1f12e9e8eb32e7dabcd8779e99afb8b374a94b187d7ec1e81c88a85b",
+            "sourceUrl": "https://codeforces.com/gym/104821/attachments/download/23215/2023nj-cn.pdf"
+          },
+          "https://codeforces.com/gym/104821/problem/A": {
+            "bytes": 1114011,
+            "mime": "application/pdf",
+            "pageCount": 3,
+            "sha256": "d911d4ae04cfeadba806111a69962c5bc3ab89a68611510404826507dd22d1e9",
+            "sourceUrl": "https://codeforces.com/gym/104821/problem/A"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "4\n2 5\n.OO..\nO..O.\n1 3\nO.O\n1 3\n.O.\n2 3\nOOO\nOOO",
+            "name": "样例 1",
+            "output": "3\n1\n0\n0"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "verified",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "Cool, It’s Yesterday Four Times More",
+          "problem": "A",
+          "rosterTitle": "Cool, It's Yesterday Four Times More",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2,
+          3
+        ],
+        "sourcePdfSha256": "d911d4ae04cfeadba806111a69962c5bc3ab89a68611510404826507dd22d1e9",
+        "sourcePdfUrl": "https://codeforces.com/gym/104821/problem/A",
+        "sourceRosterSha256": "35dbeb78e51662f4949f5770911072f7a62b3edfefd02c137ea67e7a481dcc69",
+        "sourceRosterUrl": "https://codeforces.com/gym/104821",
+        "sourceText": "Cool, It’s Yesterday Four Times More\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nAfter the great success in 2018, 2019, 2020, 2021 and 2022, Nanjing University of Aeronautics and\r\nAstronautics (NUAA) will host the International Collegiate Programming Contest (ICPC) Nanjing\r\nregional for the sixth time in a row.\r\nTeam Power of Two and team Three Hold Two won the champion title for Tsinghua University in\r\n2018 and 2019. In 2020, 2021 and 2022, team Inverted Cross from Peking University won the three-peat\r\nchampion titles. This year, there are around 330 teams participating in the contest. There are at most 33\r\ngold medals, 66 silver medals and 99 bronze medals that will be awarded (note that these numbers are\r\nfor reference only). We are looking forward to seeing participants’ outstanding performance!\r\nWhat’s even better is that, as the pandemic has come to an end, we can finally gather in Nanjing to\r\nparticipate in this wonderful contest. We’d like to be grateful for the hard work done by all staff and\r\nvolunteers for this contest. Thank you all for your great contribution to this contest!\r\nThe 2018 ICPC Asia Nanjing Regional Contest\r\nIn the 2018 contest, problem K, Kangaroo Puzzle, requires the contestants to construct an operation\r\nsequence for the game:\r\nThe puzzle is a grid with n rows and m columns (1 ≤ n, m ≤ 20) and there are some (at least 2)\r\nkangaroos standing in the puzzle. The player’s goal is to control them to get together. There are some\r\nwalls in some cells and the kangaroos cannot enter the cells with walls. The other cells are empty.\r\nThe kangaroos can move from an empty cell to an adjacent empty cell in four directions: up, down,\r\nleft, and right.\r\nThere is exactly one kangaroo in every empty cell in the beginning and the player can control the\r\nkangaroos by pressing the button U, D, L, R on the keyboard. The kangaroos will move simultaneously\r\naccording to the button you press.\r\nThe contestant needs to construct an operating sequence of at most 5 × 104\r\nsteps consisting of U, D,\r\nL, R only to achieve the goal.\r\nPage 1 of 3\n\nIn the 2020 contest, problem A, Ah, It’s Yesterday Once More, requires the contestants to construct\r\nan input map to hack the following code of the problem described before:\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\nIn the 2021 contest, problem A, Oops, It’s Yesterday Twice More, also requires the contestants to\r\nconstruct an operation sequence for the game:\r\nThis time, every cell in the grid stands exactly one kangaroo. You need to construct an operating\r\nsequence consisting only of characters ‘U’, ‘D’, ‘L’, and ‘R’. After applying it, you must make sure\r\nevery kangaroo will gather at the specific cell (a, b). The length of the operating sequence cannot\r\nexceed 3(n − 1). As always, the kangaroos will move simultaneously according to the operation you\r\ncommand.\r\nIn the 2022 contest, problem A, Stop, Yesterday Please No More, asks the contestants to solve the\r\nfollowing counting problem:\r\nThis time, every cell (except one which is a hole) in the grid stands exactly one kangaroo. The operating\r\nsequence is given and all kangaroos stepping out of the grid or onto the hole will be removed. Given\r\nthe number of kangaroos remaining after all operations, count the number of positions which might\r\nbe the hole.\r\nNow, in the 2023 contest, the kangaroo problem is back again! We don’t know why problem setters are\r\nso obsessed with kangaroos but the problem is as follows:\r\nYou are given a grid with n rows and m columns. Each cell is either a hole or empty. In each empty cell\r\nstands exactly one kangaroo.\r\nSimilarly, the kangaroos are controlled by pressing the button U, D, L, R on the keyboard. All kangaroos\r\nwill move simultaneously according to the button pressed. Specifically, for any kangaroo located in the\r\ncell on the i-th row and the j-th column, indicated by (i, j):\r\n1. Button U: it will move to (i − 1, j).\r\n2. Button D: it will move to (i + 1, j).\r\n3. Button L: it will move to (i, j − 1).\r\n4. Button R: it will move to (i, j + 1).\r\nIf a kangaroo steps onto a hole or steps out of the grid, it will be removed from the grid. If after applying\r\na sequence of operations (possibly an empty sequence) there is exactly one kangaroo remaining on the\r\ngrid, that kangaroo becomes the winner.\r\nThe problem is: for each kangaroo, determine if there exists a sequence of operations to make it the\r\nwinner. Output the total number of kangaroos which are possible to become the winner.\r\nInput\r\nThere are multiple test cases. The first line of the input contains an integer T indicating the number of\r\ntest cases. For each test case:\r\nPage 2 of 3\n\nThe first line contains two integers n and m (1 ≤ n, m ≤ 103\r\n, 1 ≤ n × m ≤ 103\r\n) indicating the number of\r\nrows and columns of the grid.\r\nFor the following n lines, the i-th line contains a string si,1si,2 · · · si,m of length m where each character\r\nis either ‘.’ (dot, ascii: 46) or ‘O’ (capitalized letter, ascii: 79). If si,j is a ‘.’ then grid (i, j) is empty; If\r\nsi,j is a ‘O’ then grid (i, j) is a hole.\r\nIt’s guaranteed that the sum of n × m of all test cases will not exceed 5 × 103\r\n.\r\nOutput\r\nFor each test case output one line containing one integer indicating the number of kangaroos for which\r\nthere exists a sequence of operations to make it the winner.\r\nExample\r\nstandard input standard output\r\n4\r\n2 5\r\n.OO..\r\nO..O.\r\n1 3\r\nO.O\r\n1 3\r\n.O.\r\n2 3\r\nOOO\r\nOOO\r\n3\r\n1\r\n0\r\n0\r\nNote\r\nThe sample test cases are explained below. We use ‘W’ to indicate the kangaroo which later becomes\r\nwinner and ‘K’ to indicate the other kangaroos.\r\nFor the first sample test case, kangaroos initially located at (1, 4), (1, 5) and (2, 5) may become winners.\r\nPossible sequences of operations are shown as follows:\r\nK O O W K\r\nO K K O K\r\nR\r\n−→\r\n. O O . W\r\nO . K O .\r\nD\r\n−→\r\n. O O . .\r\nO . . O W\r\nK O O K W\r\nO K K O K\r\nD\r\n−→\r\n. O O . .\r\nO . . O W\r\nK O O K K\r\nO K K O W\r\nU\r\n−→\r\n. O O . W\r\nO . . O .\r\nFor the second sample test case, as there is only one kangaroo, no operation is needed for it to become\r\nthe winner.\r\nFor the third sample test case, as any operation will remove the two kangaroos at the same time, there is\r\nno possible winner.\r\nFor the fourth sample test case, as there is no kangaroo, there is no possible winner.\r\nPage 3 of 3",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:d911d4ae04cfeadba806111a69962c5bc3ab89a68611510404826507dd22d1e9",
+          "fileName": "gym-104821-A.pdf",
+          "pageCount": 3,
+          "sha256": "d911d4ae04cfeadba806111a69962c5bc3ab89a68611510404826507dd22d1e9",
+          "sourcePageNumbers": [
+            1,
+            2,
+            3
+          ],
+          "sourceSha256": "d911d4ae04cfeadba806111a69962c5bc3ab89a68611510404826507dd22d1e9",
+          "sourceUrl": "https://codeforces.com/gym/104821/problem/A",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 9,
+        "title": "Cool, It's Yesterday Four Times More",
+        "translation": {
+          "kind": "site",
+          "markdown": "# 酷，昨日四次重现\n\n2023 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站） 2023/11/05\r\nProblem A. 酷，昨日四次重现\r\n继 2018，2019，2020，2021 和 2022 年成功承办赛事之后，南京航空航天大学（NUAA）将连续第六年\r\n承办国际大学生程序设计竞赛（ICPC）。\r\n在 2018 与 2019 年，“中二之力”队与“三个顶俩”队为清华大学赢得了冠军。在 2020，2021 与 2022 年，\r\n北京大学的“逆十字”队赢得三连冠。今年，将会有约 330 支队伍参与南京站的竞赛。本次竞赛将会颁发\r\n至多 33 项金奖，66 项银奖与 99 项铜奖（数字仅供参考）。让我们期待选手们出色的表现！\r\n更棒的是，因为疫情已经结束，我们终于可以相聚南京参与这场精彩的比赛。我们想要感谢竞赛组委会\r\n与志愿者们的努力付出。感谢你们为本次竞赛做出的贡献！\r\n2018 国际大学生程序设计竞赛亚洲区域赛（南京站）\r\n在 2018 年的竞赛中，K 题《袋鼠谜题》要求选手为以下游戏构造一个操作序列：\r\n谜题由一个 n 行 m 列的网格（1 ≤ n, m ≤ 20）组成，且有一些（至少 2 只）袋鼠位于网格中。玩\r\n家的目标是控制袋鼠并把它们聚集在同一个格子中。一些格子里有墙，袋鼠无法进入这些有墙的格\r\n子，而其它格子是空的。袋鼠可以从一个空格子移动到上，下，左，右相邻的另一个空格子中。\r\n游戏开始时，每个空格子里都有一只袋鼠。玩家可以通过键盘上 U，D，L，R 四个按键控制袋鼠的\r\n移动。所有袋鼠会同时根据您按下的按键移动。\r\n选手需要构造一个长度至多为 5 × 104 且由 U，D，L，R 组成的操作序列以达成目标。\r\n在 2020 年的竞赛中，A 题《啊，昨日重现》要求选手构造一张输入地图，以证明以下代码并不是上述\r\n问题的解：\r\nPage 1 of 20\n\n2023 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站） 2023/11/05\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\n在 2021 年的竞赛中，A 题《呀，昨日再次重现》同样要求选手为以下游戏构造操作序列：\r\n本题中，网格中的每个格子都有恰好一只袋鼠。您需要构造一个仅由字符 ‘U’，‘D’，‘L’ 和 ‘R’ 组成\r\n的操作序列。在应用该操作序列后，所有袋鼠必须聚集在指定格子 (a, b) 中。操作序列的长度不能\r\n超过 3(n − 1)。同往常一样，所有袋鼠会根据您的命令同时移动。\r\n在 2022 年的竞赛中，A 题《停停，昨日请不要再重现》要求选手解决以下计数问题：\r\n本题中，网格中的每个格子（除了一个格子是洞）都恰好有一只袋鼠。给定操作序列，所有走出网\r\n格外或踩到洞上的袋鼠都会被移除。给定所有操作后剩余的袋鼠数量，求有几个位置可能是洞。\r\n在 2023 年的竞赛中，袋鼠题又回来啦！我们不知道为什么命题组的成员们那么喜欢袋鼠，但题目如\r\n下：\r\n给定一张 n 行 m 列的网格，每个格子要么是洞，要么是空地。每个空地都恰好有一只袋鼠。\r\n相似地，袋鼠可以被键盘上的 U，D，L，R 键控制。所有袋鼠会同时根据按下的按键移动。具体来说，\r\n对于一只位于第 i 行第 j 列的格子（用 (i, j) 表示）上的袋鼠：\r\n1. 按键 U：它会移动到 (i − 1, j)。\r\n2. 按键 D：它会移动到 (i + 1, j)。\r\n3. 按键 L：它会移动到 (i, j − 1)。\r\n4. 按键 R：它会移动到 (i, j + 1)。\r\n如果一只袋鼠踩到了洞或者移动到了网格外面，它将被从网格上移除。如果完成一系列操作后（操作序\r\n列可以为空）恰有一只袋鼠留在网格上，那么这只袋鼠就是赢家。\r\n您需要解决的问题是：对于每只袋鼠，判断是否存在一个操作序列使得它成为赢家。输出可能成为赢家\r\n的袋鼠总数。\r\nInput\r\n有多组测试数据。第一行输入一个整数 T 表示测试数据组数，对于每组测试数据：\r\n第一行输入两个整数 n 与 m（1 ≤ n, m ≤ 103，1 ≤ n × m ≤ 103）表示网格的行数和列数。\r\n对于接下来 n 行，第 i 行输入一个长度为 m 的字符串 si,1si,2 · · · si,m，每个字符要么是 ‘.’（点号，ascii:\r\n46）要么是 ‘O’（大写字母，ascii: 79）。如果 si,j 是 ‘.’ 则格子 (i, j) 是空地；如果 si,j 是 ‘O’ 则格子\r\n(i, j) 是洞。\r\n保证所有数据 n × m 之和不超过 5 × 103。\r\nOutput\r\n每组数据输出一行一个整数，表示共有几只袋鼠满足存在一个操作序列使得它成为赢家。\r\nPage 2 of 20\n\n2023 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站） 2023/11/05\r\nExample\r\nstandard input standard output\r\n4\r\n2 5\r\n.OO..\r\nO..O.\r\n1 3\r\nO.O\r\n1 3\r\n.O.\r\n2 3\r\nOOO\r\nOOO\r\n3\r\n1\r\n0\r\n0\r\nNote\r\n样例数据解释如下。我们用 ‘W’ 表示接下来成为赢家的袋鼠，用 ‘K’ 表示其它袋鼠。\r\n对于第一组样例数据，初始位于 (1, 4)，(1, 5) 和 (2, 5) 的袋鼠可能成为赢家。以下展示可能的操作序\r\n列：\r\nK O O W K\r\nO K K O K\r\nR\r\n−→\r\n. O O . W\r\nO . K O .\r\nD\r\n−→\r\n. O O . .\r\nO . . O W\r\nK O O K W\r\nO K K O K\r\nD\r\n−→\r\n. O O . .\r\nO . . O W\r\nK O O K K\r\nO K K O W\r\nU\r\n−→\r\n. O O . W\r\nO . . O .\r\n对于第二组样例数据，因为只有一只袋鼠，无需任何操作即可让它成为赢家。\r\n对于第三组样例数据，因为任何操作都会让两只袋鼠同时被移除，所以没有任何可能的赢家。\r\n对于第四组样例数据，因为没有袋鼠，所以没有任何可能的赢家。\r\nPage 3 of 20\n\n[PDF](https://codeforces.com/gym/104821/attachments/download/23215/2023nj-cn.pdf)",
+          "provider": "Codeforces 原站中文 PDF",
+          "sourceBinding": {
+            "kind": "official-bilingual-roster",
+            "pdfTitle": "酷，昨日四次重现",
+            "problem": "A",
+            "rosterTitle": "Cool, It's Yesterday Four Times More",
+            "samplePairsVerified": 1
+          },
+          "sourceLanguage": "en",
+          "sourcePageNumbers": [
+            3,
+            4,
+            5
+          ],
+          "sourcePdfSha256": "531f01de1f12e9e8eb32e7dabcd8779e99afb8b374a94b187d7ec1e81c88a85b",
+          "sourcePdfUrl": "https://codeforces.com/gym/104821/attachments/download/23215/2023nj-cn.pdf",
+          "sourceRosterSha256": "35dbeb78e51662f4949f5770911072f7a62b3edfefd02c137ea67e7a481dcc69",
+          "sourceRosterUrl": "https://codeforces.com/gym/104821",
+          "sourceText": "2023 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站） 2023/11/05\r\nProblem A. 酷，昨日四次重现\r\n继 2018，2019，2020，2021 和 2022 年成功承办赛事之后，南京航空航天大学（NUAA）将连续第六年\r\n承办国际大学生程序设计竞赛（ICPC）。\r\n在 2018 与 2019 年，“中二之力”队与“三个顶俩”队为清华大学赢得了冠军。在 2020，2021 与 2022 年，\r\n北京大学的“逆十字”队赢得三连冠。今年，将会有约 330 支队伍参与南京站的竞赛。本次竞赛将会颁发\r\n至多 33 项金奖，66 项银奖与 99 项铜奖（数字仅供参考）。让我们期待选手们出色的表现！\r\n更棒的是，因为疫情已经结束，我们终于可以相聚南京参与这场精彩的比赛。我们想要感谢竞赛组委会\r\n与志愿者们的努力付出。感谢你们为本次竞赛做出的贡献！\r\n2018 国际大学生程序设计竞赛亚洲区域赛（南京站）\r\n在 2018 年的竞赛中，K 题《袋鼠谜题》要求选手为以下游戏构造一个操作序列：\r\n谜题由一个 n 行 m 列的网格（1 ≤ n, m ≤ 20）组成，且有一些（至少 2 只）袋鼠位于网格中。玩\r\n家的目标是控制袋鼠并把它们聚集在同一个格子中。一些格子里有墙，袋鼠无法进入这些有墙的格\r\n子，而其它格子是空的。袋鼠可以从一个空格子移动到上，下，左，右相邻的另一个空格子中。\r\n游戏开始时，每个空格子里都有一只袋鼠。玩家可以通过键盘上 U，D，L，R 四个按键控制袋鼠的\r\n移动。所有袋鼠会同时根据您按下的按键移动。\r\n选手需要构造一个长度至多为 5 × 104 且由 U，D，L，R 组成的操作序列以达成目标。\r\n在 2020 年的竞赛中，A 题《啊，昨日重现》要求选手构造一张输入地图，以证明以下代码并不是上述\r\n问题的解：\r\nPage 1 of 20\n\n2023 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站） 2023/11/05\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\n在 2021 年的竞赛中，A 题《呀，昨日再次重现》同样要求选手为以下游戏构造操作序列：\r\n本题中，网格中的每个格子都有恰好一只袋鼠。您需要构造一个仅由字符 ‘U’，‘D’，‘L’ 和 ‘R’ 组成\r\n的操作序列。在应用该操作序列后，所有袋鼠必须聚集在指定格子 (a, b) 中。操作序列的长度不能\r\n超过 3(n − 1)。同往常一样，所有袋鼠会根据您的命令同时移动。\r\n在 2022 年的竞赛中，A 题《停停，昨日请不要再重现》要求选手解决以下计数问题：\r\n本题中，网格中的每个格子（除了一个格子是洞）都恰好有一只袋鼠。给定操作序列，所有走出网\r\n格外或踩到洞上的袋鼠都会被移除。给定所有操作后剩余的袋鼠数量，求有几个位置可能是洞。\r\n在 2023 年的竞赛中，袋鼠题又回来啦！我们不知道为什么命题组的成员们那么喜欢袋鼠，但题目如\r\n下：\r\n给定一张 n 行 m 列的网格，每个格子要么是洞，要么是空地。每个空地都恰好有一只袋鼠。\r\n相似地，袋鼠可以被键盘上的 U，D，L，R 键控制。所有袋鼠会同时根据按下的按键移动。具体来说，\r\n对于一只位于第 i 行第 j 列的格子（用 (i, j) 表示）上的袋鼠：\r\n1. 按键 U：它会移动到 (i − 1, j)。\r\n2. 按键 D：它会移动到 (i + 1, j)。\r\n3. 按键 L：它会移动到 (i, j − 1)。\r\n4. 按键 R：它会移动到 (i, j + 1)。\r\n如果一只袋鼠踩到了洞或者移动到了网格外面，它将被从网格上移除。如果完成一系列操作后（操作序\r\n列可以为空）恰有一只袋鼠留在网格上，那么这只袋鼠就是赢家。\r\n您需要解决的问题是：对于每只袋鼠，判断是否存在一个操作序列使得它成为赢家。输出可能成为赢家\r\n的袋鼠总数。\r\nInput\r\n有多组测试数据。第一行输入一个整数 T 表示测试数据组数，对于每组测试数据：\r\n第一行输入两个整数 n 与 m（1 ≤ n, m ≤ 103，1 ≤ n × m ≤ 103）表示网格的行数和列数。\r\n对于接下来 n 行，第 i 行输入一个长度为 m 的字符串 si,1si,2 · · · si,m，每个字符要么是 ‘.’（点号，ascii:\r\n46）要么是 ‘O’（大写字母，ascii: 79）。如果 si,j 是 ‘.’ 则格子 (i, j) 是空地；如果 si,j 是 ‘O’ 则格子\r\n(i, j) 是洞。\r\n保证所有数据 n × m 之和不超过 5 × 103。\r\nOutput\r\n每组数据输出一行一个整数，表示共有几只袋鼠满足存在一个操作序列使得它成为赢家。\r\nPage 2 of 20\n\n2023 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站） 2023/11/05\r\nExample\r\nstandard input standard output\r\n4\r\n2 5\r\n.OO..\r\nO..O.\r\n1 3\r\nO.O\r\n1 3\r\n.O.\r\n2 3\r\nOOO\r\nOOO\r\n3\r\n1\r\n0\r\n0\r\nNote\r\n样例数据解释如下。我们用 ‘W’ 表示接下来成为赢家的袋鼠，用 ‘K’ 表示其它袋鼠。\r\n对于第一组样例数据，初始位于 (1, 4)，(1, 5) 和 (2, 5) 的袋鼠可能成为赢家。以下展示可能的操作序\r\n列：\r\nK O O W K\r\nO K K O K\r\nR\r\n−→\r\n. O O . W\r\nO . K O .\r\nD\r\n−→\r\n. O O . .\r\nO . . O W\r\nK O O K W\r\nO K K O K\r\nD\r\n−→\r\n. O O . .\r\nO . . O W\r\nK O O K K\r\nO K K O W\r\nU\r\n−→\r\n. O O . W\r\nO . . O .\r\n对于第二组样例数据，因为只有一只袋鼠，无需任何操作即可让它成为赢家。\r\n对于第三组样例数据，因为任何操作都会让两只袋鼠同时被移除，所以没有任何可能的赢家。\r\n对于第四组样例数据，因为没有袋鼠，所以没有任何可能的赢家。\r\nPage 3 of 20",
+          "sourceUrl": "https://codeforces.com/gym/104821/attachments/download/23215/2023nj-cn.pdf",
+          "statementPdf": {
+            "data": "tb-asset:119931dc96c11b3c075b6e829cbdb54fa32394d5eaea6580882c7f982d297144",
+            "fileName": "gym-104821-A.pdf",
+            "pageCount": 3,
+            "sha256": "119931dc96c11b3c075b6e829cbdb54fa32394d5eaea6580882c7f982d297144",
+            "sourcePageNumbers": [
+              3,
+              4,
+              5
+            ],
+            "sourceSha256": "531f01de1f12e9e8eb32e7dabcd8779e99afb8b374a94b187d7ec1e81c88a85b",
+            "sourceUrl": "https://codeforces.com/gym/104821/attachments/download/23215/2023nj-cn.pdf",
+            "widthPoints": 595.2760009765625
+          },
+          "targetLanguage": "zh-CN"
+        },
+        "url": "https://codeforces.com/gym/104821/problem/A"
+      },
+      "problem_id": "remote:codeforces:104821::A"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/104891/problem/G": {
+            "bytes": 1989999,
+            "data": "tb-asset:ed356eb332ed626871b03be20a397f0e8d8ae63be4388d29039218e7a20d5383",
+            "fileName": "gym-104891.pdf",
+            "mime": "application/pdf",
+            "pageCount": 3,
+            "sha256": "ed356eb332ed626871b03be20a397f0e8d8ae63be4388d29039218e7a20d5383",
+            "sourceUrl": "https://codeforces.com/gym/104891/problem/G"
+          }
+        },
+        "id": "remote:codeforces:104891::G",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T19:44:28.037562+00:00",
+          "corpusAuditVerifiedSha256": "8c2b2a640fa1ff0d8535edfa241fb92d082f095ed4340e4f42b752c806abb62d",
+          "markdownSha256": "8c2b2a640fa1ff0d8535edfa241fb92d082f095ed4340e4f42b752c806abb62d",
+          "pdfPageCountVerified": true,
+          "reviewedRecoveryRecordSha256": "61a2f21853a01cc3d5b0fc11a14abdddae1b0c890f67e288244b38f52a3710e7",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "a07a5837312629d878634b908b4bb1cb77cb55d8e01153babe1f972e372639fa",
+              "status": 200,
+              "url": "https://codeforces.com/gym/104891"
+            },
+            {
+              "sha256": "ed356eb332ed626871b03be20a397f0e8d8ae63be4388d29039218e7a20d5383",
+              "status": 200,
+              "url": "https://codeforces.com/gym/104891/problem/G"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": false,
+        "markdown": "# Parity Game\n\nParity Game\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nThis is an interactive problem.\r\nAlice and Bob are playing the following game. The game is specified by a parameter t ∈ {0, 1} and is\r\ndescribed as follows:\r\nThere are n integers a1, a2, . . . , an ∈ {0, 1}, arranged in a line. The two players take turns to\r\nperform the following operation when at least two integers are remaining, starting from Alice:\r\n• Choose two integers x and y that are adjacent, replace them with either x + y or x × y\r\n(arithmetic addition or arithmetic multiplication).\r\nThe game ends when there is only one integer remaining, and the result of the game is judged\r\nby the parity of the remaining integer and the parameter t as follows:\r\n• t = 0: Alice wins if the remaining integer is even and Bob wins otherwise.\r\n• t = 1: Alice wins if the remaining integer is odd and Bob wins otherwise.\r\nYou are given the initial n integers a1, a2, . . . , an and the parameter t. You must choose to play as Alice\r\nor Bob, then play this game against the interactor who takes the opponent’s role. Your goal is to win the\r\ngame.\r\nInput\r\nThe first line of input contains two integers n and t (2 ≤ n ≤ 500, t ∈ {0, 1}), denoting the size of the\r\narray and the parameter of the game.\r\nThe second line of input contains n integers a1, a2, . . . , an (0 ≤ ai ≤ 1), denoting the array.\r\nInteraction Protocol\r\nThe interaction begins after reading the two integers n, t and the array {ai}1≤i≤n.\r\nYou should start interaction by printing a single line containing either “Alice” or “Bob”, representing the\r\nplayer you choose to play as. If you choose to play Alice, you are the first to operate. Otherwise, you are\r\nthe second to operate.\r\nThe game proceeds as follows:\r\n• If it’s your turn to operate. Suppose the current array is b1, b2, . . . , bm with length m (2 ≤ m ≤ n),\r\nyou should output an integer p (1 ≤ p ≤ m−1) and a character c (c ∈ {‘+,’‘∗’}) in a line, separated\r\nby a space, denoting you choose to merge the two integers bp and bp+1 with the operation denoted\r\nby c. After your operation, the array becomes b1, b2, . . . , bp−1,(bp c bp+1), bp+2, . . . , bm with length\r\nm − 1.\r\n• If it’s the opponent’s turn to operate. Suppose the current array is b1, b2, . . . , bm with length m\r\n(2 ≤ m ≤ n), you should read an integer p (0 ≤ p ≤ m−1) and a character c (c ∈ {‘+,’‘∗’}) in a line,\r\ndenoting the opponent chooses to merge the two integers bp and bp+1 with the operation denoted by\r\nc. After the opponent’s operation, the array becomes b1, b2, . . . , bp−1,(bp c bp+1), bp+2, . . . , bm with\r\nlength m − 1. Here, if the integer p is 0, then it means the last operation you perform is incorrect.\r\nIn that case, your program should terminate immediately to receive a “Wrong Answer” verdict, or\r\nyou could get any possible verdict.\r\nPage 1 of 3\n\nWhen there is only one integer in the array, the game finishes and is judged according to the rule in the\r\nstatement. If you win the game, your program will be considered correct for this test case. If you lose\r\nthe game, or it is you to perform the last operation and your last operation is invalid, you will receive a\r\n“Wrong Answer” verdict. You should terminate the program immediately when the game finishes.\r\nAfter printing the player you choose to play as and the operation you perform, do not forget to output\r\nthe end of the line and flush the output. Otherwise, you may not get the correct verdict. To flush the\r\noutput, use:\r\n• fflush(stdout) or cout.flush() in C++;\r\n• System.out.flush() in Java;\r\n• stdout.flush() in Python;\r\nExample\r\nstandard input standard output\r\n4 1\r\n0 1 0 1\r\n2 *\r\nAlice\r\n1 +\r\n1 +\r\nNote\r\nNote that additional empty lines in the sample test are for better understanding, and you should not\r\noutput any additional empty lines in your program.\r\nHere, we provide graphical illustrations of the interaction in the sample test. For the given {ai}1≤i≤n and\r\nt, it is optimal for the player to choose to play Alice and go first.\r\nIn the sample interaction, the player chooses to merge the first two numbers with the addition operator,\r\nPage 2 of 3\n\nand the opponent chooses to merge the last two numbers with the multiplication operator.\r\nThen, the player chooses to merge the remaining two numbers with the addition operator and wins the\r\ngame.\r\nPage 3 of 3\n\n[PDF](https://codeforces.com/gym/104891/problem/G)",
+        "pageCount": 3,
+        "problemType": "interactive",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/104891/problem/G": {
+            "bytes": 1989999,
+            "mime": "application/pdf",
+            "pageCount": 3,
+            "sha256": "ed356eb332ed626871b03be20a397f0e8d8ae63be4388d29039218e7a20d5383",
+            "sourceUrl": "https://codeforces.com/gym/104891/problem/G"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "4 1\n0 1 0 1\n2 *",
+            "name": "样例 1",
+            "output": "Alice\n1 +\n1 +"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "Parity Game",
+          "problem": "G",
+          "rosterTitle": "Parity Game",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2,
+          3
+        ],
+        "sourcePdfSha256": "ed356eb332ed626871b03be20a397f0e8d8ae63be4388d29039218e7a20d5383",
+        "sourcePdfUrl": "https://codeforces.com/gym/104891/problem/G",
+        "sourceRosterSha256": "a07a5837312629d878634b908b4bb1cb77cb55d8e01153babe1f972e372639fa",
+        "sourceRosterUrl": "https://codeforces.com/gym/104891",
+        "sourceText": "Parity Game\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nThis is an interactive problem.\r\nAlice and Bob are playing the following game. The game is specified by a parameter t ∈ {0, 1} and is\r\ndescribed as follows:\r\nThere are n integers a1, a2, . . . , an ∈ {0, 1}, arranged in a line. The two players take turns to\r\nperform the following operation when at least two integers are remaining, starting from Alice:\r\n• Choose two integers x and y that are adjacent, replace them with either x + y or x × y\r\n(arithmetic addition or arithmetic multiplication).\r\nThe game ends when there is only one integer remaining, and the result of the game is judged\r\nby the parity of the remaining integer and the parameter t as follows:\r\n• t = 0: Alice wins if the remaining integer is even and Bob wins otherwise.\r\n• t = 1: Alice wins if the remaining integer is odd and Bob wins otherwise.\r\nYou are given the initial n integers a1, a2, . . . , an and the parameter t. You must choose to play as Alice\r\nor Bob, then play this game against the interactor who takes the opponent’s role. Your goal is to win the\r\ngame.\r\nInput\r\nThe first line of input contains two integers n and t (2 ≤ n ≤ 500, t ∈ {0, 1}), denoting the size of the\r\narray and the parameter of the game.\r\nThe second line of input contains n integers a1, a2, . . . , an (0 ≤ ai ≤ 1), denoting the array.\r\nInteraction Protocol\r\nThe interaction begins after reading the two integers n, t and the array {ai}1≤i≤n.\r\nYou should start interaction by printing a single line containing either “Alice” or “Bob”, representing the\r\nplayer you choose to play as. If you choose to play Alice, you are the first to operate. Otherwise, you are\r\nthe second to operate.\r\nThe game proceeds as follows:\r\n• If it’s your turn to operate. Suppose the current array is b1, b2, . . . , bm with length m (2 ≤ m ≤ n),\r\nyou should output an integer p (1 ≤ p ≤ m−1) and a character c (c ∈ {‘+,’‘∗’}) in a line, separated\r\nby a space, denoting you choose to merge the two integers bp and bp+1 with the operation denoted\r\nby c. After your operation, the array becomes b1, b2, . . . , bp−1,(bp c bp+1), bp+2, . . . , bm with length\r\nm − 1.\r\n• If it’s the opponent’s turn to operate. Suppose the current array is b1, b2, . . . , bm with length m\r\n(2 ≤ m ≤ n), you should read an integer p (0 ≤ p ≤ m−1) and a character c (c ∈ {‘+,’‘∗’}) in a line,\r\ndenoting the opponent chooses to merge the two integers bp and bp+1 with the operation denoted by\r\nc. After the opponent’s operation, the array becomes b1, b2, . . . , bp−1,(bp c bp+1), bp+2, . . . , bm with\r\nlength m − 1. Here, if the integer p is 0, then it means the last operation you perform is incorrect.\r\nIn that case, your program should terminate immediately to receive a “Wrong Answer” verdict, or\r\nyou could get any possible verdict.\r\nPage 1 of 3\n\nWhen there is only one integer in the array, the game finishes and is judged according to the rule in the\r\nstatement. If you win the game, your program will be considered correct for this test case. If you lose\r\nthe game, or it is you to perform the last operation and your last operation is invalid, you will receive a\r\n“Wrong Answer” verdict. You should terminate the program immediately when the game finishes.\r\nAfter printing the player you choose to play as and the operation you perform, do not forget to output\r\nthe end of the line and flush the output. Otherwise, you may not get the correct verdict. To flush the\r\noutput, use:\r\n• fflush(stdout) or cout.flush() in C++;\r\n• System.out.flush() in Java;\r\n• stdout.flush() in Python;\r\nExample\r\nstandard input standard output\r\n4 1\r\n0 1 0 1\r\n2 *\r\nAlice\r\n1 +\r\n1 +\r\nNote\r\nNote that additional empty lines in the sample test are for better understanding, and you should not\r\noutput any additional empty lines in your program.\r\nHere, we provide graphical illustrations of the interaction in the sample test. For the given {ai}1≤i≤n and\r\nt, it is optimal for the player to choose to play Alice and go first.\r\nIn the sample interaction, the player chooses to merge the first two numbers with the addition operator,\r\nPage 2 of 3\n\nand the opponent chooses to merge the last two numbers with the multiplication operator.\r\nThen, the player chooses to merge the remaining two numbers with the addition operator and wins the\r\ngame.\r\nPage 3 of 3",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:ed356eb332ed626871b03be20a397f0e8d8ae63be4388d29039218e7a20d5383",
+          "fileName": "gym-104891-G.pdf",
+          "pageCount": 3,
+          "sha256": "ed356eb332ed626871b03be20a397f0e8d8ae63be4388d29039218e7a20d5383",
+          "sourcePageNumbers": [
+            1,
+            2,
+            3
+          ],
+          "sourceSha256": "ed356eb332ed626871b03be20a397f0e8d8ae63be4388d29039218e7a20d5383",
+          "sourceUrl": "https://codeforces.com/gym/104891/problem/G",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 9,
+        "title": "Parity Game",
+        "url": "https://codeforces.com/gym/104891/problem/G"
+      },
+      "problem_id": "remote:codeforces:104891::G"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105231/problem/J": {
+            "bytes": 547866,
+            "data": "tb-asset:96e37273ee41a8278f65eb2dca28ebbf2e6b44c3046f68327da958c857bd26e4",
+            "fileName": "gym-105231.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "96e37273ee41a8278f65eb2dca28ebbf2e6b44c3046f68327da958c857bd26e4",
+            "sourceUrl": "https://codeforces.com/gym/105231/problem/J"
+          }
+        },
+        "id": "remote:codeforces:105231::J",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T19:44:28.147644+00:00",
+          "corpusAuditVerifiedSha256": "5468aeac2d7bedc715f0b4e93f9db8adfa986550b54292d75368f2920a6f41f4",
+          "markdownSha256": "5468aeac2d7bedc715f0b4e93f9db8adfa986550b54292d75368f2920a6f41f4",
+          "pdfPageCountVerified": true,
+          "reviewedRecoveryRecordSha256": "7f5a9269e1165d428663ec3fc25e3b95e4aa78222621ccf5072b0b0d4cc06398",
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "97711ff513f9f5dd8033d88edcaf72afb7698ba829928bf07045b06a057d38d3",
+              "status": 200,
+              "url": "https://codeforces.com/gym/105231"
+            },
+            {
+              "sha256": "96e37273ee41a8278f65eb2dca28ebbf2e6b44c3046f68327da958c857bd26e4",
+              "status": 200,
+              "url": "https://codeforces.com/gym/105231/problem/J"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Magic Mahjong\n\nMagic Mahjong\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nStarlight Glimmer is working on Magic Mahjong with her friends.\r\nThere are two types of Mahjong tiles, Suited and Honors, of which:\r\nSuited tiles are divided into two suits and each are numbered from 1 to 9. The suits are bamboos, dots,\r\nand characters. There are four identical copies of each suited tile totaling 108 tiles.\r\nFor Honors, there are two different sets of honors tiles: winds and dragons. The winds are east, south,\r\nwest, and north, beginning with east. The dragons are red, green, and white.\r\nNow, we denote dots by numbers as P = {1p, 2p, 3p, 4p, 5p, 6p, 7p, 8p, 9p}, and similarly, bamboos as\r\nS = {1s, 2s, 3s, 4s, 5s, 6s, 7s, 8s, 9s}, and characters as M = {1m, 2m, 3m, 4m, 5m, 6m, 7m, 8m, 9m}. For\r\nHonors, it is noted as Z = {1z, 2z, 3z, 4z, 5z, 6z, 7z} in the order of East, South, West, North, White,\r\nGreen, Red.\r\nIn particular, we call T = {1p, 9p, 1s, 9s, 1m, 9m} the terminal tile.\r\nThere are three types of Wins in Magic Mahjong, and Starlight Glimmer wants to explore just two of\r\nthem today, both of which require 14 tiles to reach the Win condition:\r\n• Thirteen Orphans, which is a limit hand that consists of all terminal and honor tile. In other\r\nwords, the Win condition must have each 13 terminal and honor tile and attach any card belonging\r\nto the first 13 tile. Formally, it must be a muiltset T ∪ Z ∪ {x|x ∈ T ∪ Z}.\r\nAn example of Thirteen Orphans which has two 1p.\r\nNote that the set is unordered.\r\n• 7 Pairs, which consists of only 7 different tiles and each tile must appear twice. Formally, consider\r\na set L of size 7 whose element is in Mahjong tiles, the muiltset L ∪ L is a legal 7 Pairs.\r\nNow Starlight Glimmer is given a number of her starting 14 cards, and she wonders if a Win condition\r\nhas been reached as above.\r\nPage 1 of 2\n\nInput\r\nThere are multiple test cases. The first line contains an integer T (1 ≤ T ≤ 1000) indicating the number\r\nof test cases, for each test case:\r\nA string of length 28 spliced directly from Starlight Glimmer’s starting 14 cards (NOT separated by\r\nspaces).\r\nOutput\r\nFor each test case, print a single string, for Thirteen Orphans Win condition, print “Thirteen Orphans”,\r\nfor 7 Pairs Win condition, print “7 Pairs”, otherwise, print “Otherwise”.\r\nExample\r\nstandard input standard output\r\n6\r\n1s9s1p9p1m9m1z2z3z4z5z6z7z9s\r\n1s9s1p9p1s9s1p9p2s2p2s2p3s3s\r\n1s1s1s2s3s4s5s6s7s8s9s9s9s5s\r\n9s1p1s1m1z7z6z5z4z9p9m2z3z2z\r\n1p2p3p1p2p3p7s8s9s7s8s9s1z1z\r\n1p1p1p1p2p2p2p2p3p3p3p3p4p4p\r\nThirteen Orphans\r\n7 Pairs\r\nOtherwise\r\nThirteen Orphans\r\n7 Pairs\r\nOtherwise\r\nNote\r\nHere are the cards in the sample:\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/105231/problem/J)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105231/problem/J": {
+            "bytes": 547866,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "96e37273ee41a8278f65eb2dca28ebbf2e6b44c3046f68327da958c857bd26e4",
+            "sourceUrl": "https://codeforces.com/gym/105231/problem/J"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "6\n1s9s1p9p1m9m1z2z3z4z5z6z7z9s\n1s9s1p9p1s9s1p9p2s2p2s2p3s3s\n1s1s1s2s3s4s5s6s7s8s9s9s9s5s\n9s1p1s1m1z7z6z5z4z9p9m2z3z2z\n1p2p3p1p2p3p7s8s9s7s8s9s1z1z\n1p1p1p1p2p2p2p2p3p3p3p3p4p4p",
+            "name": "样例 1",
+            "output": "Thirteen Orphans\n7 Pairs\nOtherwise\nThirteen Orphans\n7 Pairs\nOtherwise"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "Magic Mahjong",
+          "problem": "J",
+          "rosterTitle": "Magic Mahjong",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourcePdfSha256": "96e37273ee41a8278f65eb2dca28ebbf2e6b44c3046f68327da958c857bd26e4",
+        "sourcePdfUrl": "https://codeforces.com/gym/105231/problem/J",
+        "sourceRosterSha256": "97711ff513f9f5dd8033d88edcaf72afb7698ba829928bf07045b06a057d38d3",
+        "sourceRosterUrl": "https://codeforces.com/gym/105231",
+        "sourceText": "Magic Mahjong\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nStarlight Glimmer is working on Magic Mahjong with her friends.\r\nThere are two types of Mahjong tiles, Suited and Honors, of which:\r\nSuited tiles are divided into two suits and each are numbered from 1 to 9. The suits are bamboos, dots,\r\nand characters. There are four identical copies of each suited tile totaling 108 tiles.\r\nFor Honors, there are two different sets of honors tiles: winds and dragons. The winds are east, south,\r\nwest, and north, beginning with east. The dragons are red, green, and white.\r\nNow, we denote dots by numbers as P = {1p, 2p, 3p, 4p, 5p, 6p, 7p, 8p, 9p}, and similarly, bamboos as\r\nS = {1s, 2s, 3s, 4s, 5s, 6s, 7s, 8s, 9s}, and characters as M = {1m, 2m, 3m, 4m, 5m, 6m, 7m, 8m, 9m}. For\r\nHonors, it is noted as Z = {1z, 2z, 3z, 4z, 5z, 6z, 7z} in the order of East, South, West, North, White,\r\nGreen, Red.\r\nIn particular, we call T = {1p, 9p, 1s, 9s, 1m, 9m} the terminal tile.\r\nThere are three types of Wins in Magic Mahjong, and Starlight Glimmer wants to explore just two of\r\nthem today, both of which require 14 tiles to reach the Win condition:\r\n• Thirteen Orphans, which is a limit hand that consists of all terminal and honor tile. In other\r\nwords, the Win condition must have each 13 terminal and honor tile and attach any card belonging\r\nto the first 13 tile. Formally, it must be a muiltset T ∪ Z ∪ {x|x ∈ T ∪ Z}.\r\nAn example of Thirteen Orphans which has two 1p.\r\nNote that the set is unordered.\r\n• 7 Pairs, which consists of only 7 different tiles and each tile must appear twice. Formally, consider\r\na set L of size 7 whose element is in Mahjong tiles, the muiltset L ∪ L is a legal 7 Pairs.\r\nNow Starlight Glimmer is given a number of her starting 14 cards, and she wonders if a Win condition\r\nhas been reached as above.\r\nPage 1 of 2\n\nInput\r\nThere are multiple test cases. The first line contains an integer T (1 ≤ T ≤ 1000) indicating the number\r\nof test cases, for each test case:\r\nA string of length 28 spliced directly from Starlight Glimmer’s starting 14 cards (NOT separated by\r\nspaces).\r\nOutput\r\nFor each test case, print a single string, for Thirteen Orphans Win condition, print “Thirteen Orphans”,\r\nfor 7 Pairs Win condition, print “7 Pairs”, otherwise, print “Otherwise”.\r\nExample\r\nstandard input standard output\r\n6\r\n1s9s1p9p1m9m1z2z3z4z5z6z7z9s\r\n1s9s1p9p1s9s1p9p2s2p2s2p3s3s\r\n1s1s1s2s3s4s5s6s7s8s9s9s9s5s\r\n9s1p1s1m1z7z6z5z4z9p9m2z3z2z\r\n1p2p3p1p2p3p7s8s9s7s8s9s1z1z\r\n1p1p1p1p2p2p2p2p3p3p3p3p4p4p\r\nThirteen Orphans\r\n7 Pairs\r\nOtherwise\r\nThirteen Orphans\r\n7 Pairs\r\nOtherwise\r\nNote\r\nHere are the cards in the sample:\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:96e37273ee41a8278f65eb2dca28ebbf2e6b44c3046f68327da958c857bd26e4",
+          "fileName": "gym-105231-J.pdf",
+          "pageCount": 2,
+          "sha256": "96e37273ee41a8278f65eb2dca28ebbf2e6b44c3046f68327da958c857bd26e4",
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceSha256": "96e37273ee41a8278f65eb2dca28ebbf2e6b44c3046f68327da958c857bd26e4",
+          "sourceUrl": "https://codeforces.com/gym/105231/problem/J",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 9,
+        "title": "Magic Mahjong",
+        "url": "https://codeforces.com/gym/105231/problem/J"
+      },
+      "problem_id": "remote:codeforces:105231::J"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105484/attachments/download/28235/contest-zh.pdf": {
+            "bytes": 4848452,
+            "data": "tb-asset:de8ae2b732b4837ce9f54c432381b8c0a22e9464122be159c5ec78513622c21a",
+            "fileName": "gym-105484.pdf",
+            "mime": "application/pdf",
+            "pageCount": 21,
+            "sha256": "de8ae2b732b4837ce9f54c432381b8c0a22e9464122be159c5ec78513622c21a",
+            "sourceUrl": "https://codeforces.com/gym/105484/attachments/download/28235/contest-zh.pdf"
+          },
+          "https://codeforces.com/gym/105484/problem/A": {
+            "bytes": 1310732,
+            "data": "tb-asset:c37949ab335e943fb124ce067dc3d4bff5cd312950fdb51fc5c271fcfbee712a",
+            "fileName": "gym-105484.pdf",
+            "mime": "application/pdf",
+            "pageCount": 3,
+            "sha256": "c37949ab335e943fb124ce067dc3d4bff5cd312950fdb51fc5c271fcfbee712a",
+            "sourceUrl": "https://codeforces.com/gym/105484/problem/A"
+          }
+        },
+        "id": "remote:codeforces:105484::A",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T19:44:28.691782+00:00",
+          "corpusAuditVerifiedSha256": "f02df770720dffae6c272211ac855575bd81a532ba477a04d36643b012274f6e",
+          "markdownSha256": "f02df770720dffae6c272211ac855575bd81a532ba477a04d36643b012274f6e",
+          "pdfPageCountVerified": true,
+          "reviewedRecoveryRecordSha256": "fb371fa5df4fbe2641b100d007d263e3c2a0234cfa91000ca5aba9aa0655df91",
+          "sampleCount": 3,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "27568a910909d5712a26b9a7aeb98fe652f6d2ee046df1fbc4fbd3822ae88b31",
+              "status": 200,
+              "url": "https://codeforces.com/gym/105484"
+            },
+            {
+              "sha256": "de8ae2b732b4837ce9f54c432381b8c0a22e9464122be159c5ec78513622c21a",
+              "status": 200,
+              "url": "https://codeforces.com/gym/105484/attachments/download/28235/contest-zh.pdf"
+            },
+            {
+              "sha256": "c37949ab335e943fb124ce067dc3d4bff5cd312950fdb51fc5c271fcfbee712a",
+              "status": 200,
+              "url": "https://codeforces.com/gym/105484/problem/A"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 128,
+          "timeMs": 5000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Hey, Have You Seen My Kangaroo?\n\nHey, Have You Seen My Kangaroo?\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 5 seconds\r\nMemory limit: 128 megabytes\r\nPlease note the UNUSUAL MEMORY LIMIT of this problem.\r\nAfter the great success in 2018, 2019, 2020, 2021, 2022, and 2023, the Nanjing University of Aeronautics\r\nand Astronautics (NUAA) will host the International Collegiate Programming Contest (ICPC) Nanjing\r\nregional for the seventh time in a row.\r\nTeam Power of Two and team Three Hold Two won the champion title for Tsinghua University in\r\n2018 and 2019. In 2020, 2021, and 2022, team Inverted Cross from Peking University won the three-peat\r\nchampion titles. In 2023, another team Reborn as a Vegetable Dog from Peking University won the\r\ntitle. They also won the 46th ICPC World Champion, reclaiming the trophy for the EC region after 13\r\nyears!\r\nThis year, around 335 teams are participating in the contest. At most 33 gold medals, 66 silver medals,\r\nand 99 bronze medals will be awarded (note that these numbers are for reference only). We are looking\r\nforward to seeing the participants’ outstanding performance! We also want to express our gratitude for\r\nthe hard work done by all staff and volunteers for this contest. Thank you all for your great contribution\r\nto this contest!\r\nPhoto taken in the 2023 ICPC Asia Nanjing Regional Contest\r\nIn the 2018 contest, problem K, Kangaroo Puzzle, requires the contestants to construct an operation\r\nsequence for the game:\r\nThe puzzle is a grid with n rows and m columns (1 ≤ n, m ≤ 20), and there are some (at least 2)\r\nkangaroos standing in the puzzle. The player’s goal is to control them to get together. There are some\r\nwalls in some cells, and the kangaroos cannot enter the cells with walls. The other cells are empty.\r\nThe kangaroos can move from an empty cell to an adjacent empty cell in four directions: up, down,\r\nleft, and right.\r\nThere is exactly one kangaroo in every empty cell in the beginning, and the player can control the\r\nkangaroos by pressing the buttons U, D, L, R on the keyboard. The kangaroos will move simultaneously\r\naccording to the button you press.\r\nThe contestant needs to construct an operating sequence of at most 5 × 104\r\nsteps consisting of U, D,\r\nL, R only to achieve the goal.\r\nPage 1 of 3\n\nIn the 2020 contest, problem A, Ah, It’s Yesterday Once More, requires the contestants to construct\r\nan input map to hack the following code of the problem described before:\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\nFurthermore, in the 2021 contest (Problem A, Oops, It’s Yesterday Twice More), the 2022 contest\r\n(Problem A, Stop, Yesterday Please No More), and the 2023 contest (Problem A, Cool, It’s\r\nYesterday Four Times More), every year we have a problem related to the kangaroos! We would\r\nlike to introduce all these problems to you, but if we do so every year, we may have a 500-page statement\r\nfor one single problem in the 3024 contest. Therefore, we omit them this time. Besides, you may already\r\nhave seen them in the practice contest.\r\nNow, in the 2024 contest, as everyone expects, the kangaroo problem is back again! We don’t know why\r\nproblem setters are so obsessed with kangaroos, but the problem is as follows:\r\nYou are given a grid with n rows and m columns. There are some walls in some cells, and the kangaroos\r\ncannot enter the cells with walls. The other cells are empty and each contains a kangaroo. The kangaroos\r\ncan move from an empty cell to an adjacent empty cell in four directions: up, down, left, and right.\r\nYou can control the kangaroos by pressing the buttons U, D, L, R on the keyboard. The kangaroos will\r\nmove simultaneously according to the button you press. Specifically, for any kangaroo located in the cell\r\non the i-th row and the j-th column, indicated by (i, j):\r\n1. Button U: it will move to (i − 1, j) if i > 1 and (i − 1, j) is not a wall. Otherwise, it will stay in the\r\nsame cell.\r\n2. Button D: it will move to (i + 1, j) if i < n and (i + 1, j) is not a wall. Otherwise, it will stay in the\r\nsame cell.\r\n3. Button L: it will move to (i, j − 1) if j > 1 and (i, j − 1) is not a wall. Otherwise, it will stay in the\r\nsame cell.\r\n4. Button R: it will move to (i, j + 1) if j < m and (i, j + 1) is not a wall. Otherwise, it will stay in\r\nthe same cell.\r\nYou are given an operating sequence s1s2 . . . sk consisting only of characters ‘U’, ‘D’, ‘L’, and ‘R’. The\r\noperations are performed infinitely according to the sequence. Specifically, if 1 ≤ t ≤ k, the t-th operation\r\nis st\r\n; Otherwise if t > k, the t-th operation is the same as the (t−k)-th operation. For each 1 ≤ i ≤ n×m,\r\nfind the smallest integer vi such that after performing vi operations, at most i cells will contain kangaroos.\r\nInput\r\nThere is only one test case in each test file.\r\nThe first line contains three integers n, m, and k (1 ≤ n, m ≤ 2×105\r\n, 1 ≤ n× m ≤ 2×105\r\n, 1 ≤ k ≤ 200),\r\nindicating the number of rows and columns of the grid, and the length of the operating sequence.\r\nThe second line contains a string s1s2 · · · sk (si ∈ {‘U’, ‘D’, ‘L’, ‘R’}), indicating the operating sequence.\r\nFor the following n lines, the i-th line contains a binary string ai,1ai,2 · · · ai,m (ai,j ∈ {‘0’, ‘1’}). If ai,j = ‘1’\r\nthen cell (i, j) is empty; Otherwise if ai,j = ‘0’ then cell (i, j) is blocked and cannot be entered. It is\r\nguaranteed that there is at least one empty cell in the grid.\r\nPage 2 of 3\n\nOutput\r\nOutput n×m lines, where the i-th line contains an integer vi\r\n, indicating the minimum number of operations\r\nneeded so that at most i cells will contain kangaroos. If this is impossible, just output -1 on this line.\r\nExamples\r\nstandard input standard output\r\n3 3 6\r\nULDDRR\r\n010\r\n111\r\n010\r\n-1\r\n4\r\n2\r\n1\r\n0\r\n0\r\n0\r\n0\r\n0\r\n3 3 6\r\nULDDRR\r\n010\r\n111\r\n011\r\n7\r\n4\r\n2\r\n1\r\n1\r\n0\r\n0\r\n0\r\n0\r\n1 5 1\r\nR\r\n11111\r\n4\r\n3\r\n2\r\n1\r\n0\r\nPage 3 of 3\n\n[PDF](https://codeforces.com/gym/105484/problem/A)",
+        "pageCount": 3,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105484/attachments/download/28235/contest-zh.pdf": {
+            "bytes": 4848452,
+            "mime": "application/pdf",
+            "pageCount": 21,
+            "sha256": "de8ae2b732b4837ce9f54c432381b8c0a22e9464122be159c5ec78513622c21a",
+            "sourceUrl": "https://codeforces.com/gym/105484/attachments/download/28235/contest-zh.pdf"
+          },
+          "https://codeforces.com/gym/105484/problem/A": {
+            "bytes": 1310732,
+            "mime": "application/pdf",
+            "pageCount": 3,
+            "sha256": "c37949ab335e943fb124ce067dc3d4bff5cd312950fdb51fc5c271fcfbee712a",
+            "sourceUrl": "https://codeforces.com/gym/105484/problem/A"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "3 3 6\nULDDRR\n010\n111\n010",
+            "name": "样例 1",
+            "output": "-1\n4\n2\n1\n0\n0\n0\n0\n0"
+          },
+          {
+            "input": "3 3 6\nULDDRR\n010\n111\n011",
+            "name": "样例 2",
+            "output": "7\n4\n2\n1\n1\n0\n0\n0\n0"
+          },
+          {
+            "input": "1 5 1\nR\n11111",
+            "name": "样例 3",
+            "output": "4\n3\n2\n1\n0"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "verified",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "Hey, Have You Seen My Kangaroo?",
+          "problem": "A",
+          "rosterTitle": "Hey, Have You Seen My Kangaroo?",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2,
+          3
+        ],
+        "sourcePdfSha256": "c37949ab335e943fb124ce067dc3d4bff5cd312950fdb51fc5c271fcfbee712a",
+        "sourcePdfUrl": "https://codeforces.com/gym/105484/problem/A",
+        "sourceRosterSha256": "27568a910909d5712a26b9a7aeb98fe652f6d2ee046df1fbc4fbd3822ae88b31",
+        "sourceRosterUrl": "https://codeforces.com/gym/105484",
+        "sourceText": "Hey, Have You Seen My Kangaroo?\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 5 seconds\r\nMemory limit: 128 megabytes\r\nPlease note the UNUSUAL MEMORY LIMIT of this problem.\r\nAfter the great success in 2018, 2019, 2020, 2021, 2022, and 2023, the Nanjing University of Aeronautics\r\nand Astronautics (NUAA) will host the International Collegiate Programming Contest (ICPC) Nanjing\r\nregional for the seventh time in a row.\r\nTeam Power of Two and team Three Hold Two won the champion title for Tsinghua University in\r\n2018 and 2019. In 2020, 2021, and 2022, team Inverted Cross from Peking University won the three-peat\r\nchampion titles. In 2023, another team Reborn as a Vegetable Dog from Peking University won the\r\ntitle. They also won the 46th ICPC World Champion, reclaiming the trophy for the EC region after 13\r\nyears!\r\nThis year, around 335 teams are participating in the contest. At most 33 gold medals, 66 silver medals,\r\nand 99 bronze medals will be awarded (note that these numbers are for reference only). We are looking\r\nforward to seeing the participants’ outstanding performance! We also want to express our gratitude for\r\nthe hard work done by all staff and volunteers for this contest. Thank you all for your great contribution\r\nto this contest!\r\nPhoto taken in the 2023 ICPC Asia Nanjing Regional Contest\r\nIn the 2018 contest, problem K, Kangaroo Puzzle, requires the contestants to construct an operation\r\nsequence for the game:\r\nThe puzzle is a grid with n rows and m columns (1 ≤ n, m ≤ 20), and there are some (at least 2)\r\nkangaroos standing in the puzzle. The player’s goal is to control them to get together. There are some\r\nwalls in some cells, and the kangaroos cannot enter the cells with walls. The other cells are empty.\r\nThe kangaroos can move from an empty cell to an adjacent empty cell in four directions: up, down,\r\nleft, and right.\r\nThere is exactly one kangaroo in every empty cell in the beginning, and the player can control the\r\nkangaroos by pressing the buttons U, D, L, R on the keyboard. The kangaroos will move simultaneously\r\naccording to the button you press.\r\nThe contestant needs to construct an operating sequence of at most 5 × 104\r\nsteps consisting of U, D,\r\nL, R only to achieve the goal.\r\nPage 1 of 3\n\nIn the 2020 contest, problem A, Ah, It’s Yesterday Once More, requires the contestants to construct\r\nan input map to hack the following code of the problem described before:\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\nFurthermore, in the 2021 contest (Problem A, Oops, It’s Yesterday Twice More), the 2022 contest\r\n(Problem A, Stop, Yesterday Please No More), and the 2023 contest (Problem A, Cool, It’s\r\nYesterday Four Times More), every year we have a problem related to the kangaroos! We would\r\nlike to introduce all these problems to you, but if we do so every year, we may have a 500-page statement\r\nfor one single problem in the 3024 contest. Therefore, we omit them this time. Besides, you may already\r\nhave seen them in the practice contest.\r\nNow, in the 2024 contest, as everyone expects, the kangaroo problem is back again! We don’t know why\r\nproblem setters are so obsessed with kangaroos, but the problem is as follows:\r\nYou are given a grid with n rows and m columns. There are some walls in some cells, and the kangaroos\r\ncannot enter the cells with walls. The other cells are empty and each contains a kangaroo. The kangaroos\r\ncan move from an empty cell to an adjacent empty cell in four directions: up, down, left, and right.\r\nYou can control the kangaroos by pressing the buttons U, D, L, R on the keyboard. The kangaroos will\r\nmove simultaneously according to the button you press. Specifically, for any kangaroo located in the cell\r\non the i-th row and the j-th column, indicated by (i, j):\r\n1. Button U: it will move to (i − 1, j) if i > 1 and (i − 1, j) is not a wall. Otherwise, it will stay in the\r\nsame cell.\r\n2. Button D: it will move to (i + 1, j) if i < n and (i + 1, j) is not a wall. Otherwise, it will stay in the\r\nsame cell.\r\n3. Button L: it will move to (i, j − 1) if j > 1 and (i, j − 1) is not a wall. Otherwise, it will stay in the\r\nsame cell.\r\n4. Button R: it will move to (i, j + 1) if j < m and (i, j + 1) is not a wall. Otherwise, it will stay in\r\nthe same cell.\r\nYou are given an operating sequence s1s2 . . . sk consisting only of characters ‘U’, ‘D’, ‘L’, and ‘R’. The\r\noperations are performed infinitely according to the sequence. Specifically, if 1 ≤ t ≤ k, the t-th operation\r\nis st\r\n; Otherwise if t > k, the t-th operation is the same as the (t−k)-th operation. For each 1 ≤ i ≤ n×m,\r\nfind the smallest integer vi such that after performing vi operations, at most i cells will contain kangaroos.\r\nInput\r\nThere is only one test case in each test file.\r\nThe first line contains three integers n, m, and k (1 ≤ n, m ≤ 2×105\r\n, 1 ≤ n× m ≤ 2×105\r\n, 1 ≤ k ≤ 200),\r\nindicating the number of rows and columns of the grid, and the length of the operating sequence.\r\nThe second line contains a string s1s2 · · · sk (si ∈ {‘U’, ‘D’, ‘L’, ‘R’}), indicating the operating sequence.\r\nFor the following n lines, the i-th line contains a binary string ai,1ai,2 · · · ai,m (ai,j ∈ {‘0’, ‘1’}). If ai,j = ‘1’\r\nthen cell (i, j) is empty; Otherwise if ai,j = ‘0’ then cell (i, j) is blocked and cannot be entered. It is\r\nguaranteed that there is at least one empty cell in the grid.\r\nPage 2 of 3\n\nOutput\r\nOutput n×m lines, where the i-th line contains an integer vi\r\n, indicating the minimum number of operations\r\nneeded so that at most i cells will contain kangaroos. If this is impossible, just output -1 on this line.\r\nExamples\r\nstandard input standard output\r\n3 3 6\r\nULDDRR\r\n010\r\n111\r\n010\r\n-1\r\n4\r\n2\r\n1\r\n0\r\n0\r\n0\r\n0\r\n0\r\n3 3 6\r\nULDDRR\r\n010\r\n111\r\n011\r\n7\r\n4\r\n2\r\n1\r\n1\r\n0\r\n0\r\n0\r\n0\r\n1 5 1\r\nR\r\n11111\r\n4\r\n3\r\n2\r\n1\r\n0\r\nPage 3 of 3",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:c37949ab335e943fb124ce067dc3d4bff5cd312950fdb51fc5c271fcfbee712a",
+          "fileName": "gym-105484-A.pdf",
+          "pageCount": 3,
+          "sha256": "c37949ab335e943fb124ce067dc3d4bff5cd312950fdb51fc5c271fcfbee712a",
+          "sourcePageNumbers": [
+            1,
+            2,
+            3
+          ],
+          "sourceSha256": "c37949ab335e943fb124ce067dc3d4bff5cd312950fdb51fc5c271fcfbee712a",
+          "sourceUrl": "https://codeforces.com/gym/105484/problem/A",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 9,
+        "title": "Hey, Have You Seen My Kangaroo?",
+        "translation": {
+          "kind": "site",
+          "markdown": "# 嘿，有看到我的袋鼠吗？\n\n2024 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站） 2024/11/03\r\nProblem A. 嘿，有看到我的袋鼠吗？\r\n请注意本题不同寻常的空间限制。\r\n继 2018，2019，2020，2021，2022 和 2023 年成功承办赛事之后，南京航空航天大学（NUAA）将连续\r\n第七年承办国际大学生程序设计竞赛（ICPC）。\r\n在 2018 与 2019 年，“中二之力”队与“三个顶俩”队为清华大学赢得了冠军。在 2020，2021 与 2022 年，\r\n北京大学的“逆十字”队赢得三连冠。在 2023 年，来自北京大学的另一支队伍“重生之我是菜狗”赢得了冠\r\n军。他们还赢得了第 46 届 ICPC 世界总决赛的冠军，在 13 年后为 EC 赛区重新赢回了奖杯。\r\n今年，将会有约 335 支队伍参与南京站的竞赛。本次竞赛将会颁发至多 33 项金奖，66 项银奖与 99 项\r\n铜奖（数字仅供参考）。让我们期待选手们出色的表现！我们还想要感谢竞赛组委会与志愿者们的努力\r\n付出。感谢你们为本次竞赛做出的贡献！\r\n在 2023 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站）中拍摄的照片\r\n在 2018 年的竞赛中，K 题《袋鼠谜题》要求选手为以下游戏构造一个操作序列：\r\n谜题由一个 n 行 m 列的网格（1 ≤ n, m ≤ 20）组成，且有一些（至少 2 只）袋鼠位于网格中。玩\r\n家的目标是控制袋鼠并把它们聚集在同一个格子中。一些格子里有墙，袋鼠无法进入这些有墙的格\r\n子，而其它格子是空的。袋鼠可以从一个空格子移动到上，下，左，右相邻的另一个空格子中。\r\n游戏开始时，每个空格子里都有一只袋鼠。玩家可以通过键盘上 U，D，L，R 四个按键控制袋鼠的\r\n移动。所有袋鼠会同时根据您按下的按键移动。\r\n选手需要构造一个长度至多为 5 × 104 且由 U，D，L，R 组成的操作序列以达成目标。\r\n在 2020 年的竞赛中，A 题《啊，昨日重现》要求选手构造一张输入地图，以证明以下代码并不是上述\r\n问题的解：\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\nPage 1 of 19\n\n2024 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站） 2024/11/03\r\n此外，在 2021 年的竞赛（A 题，《呀，昨日再次重现》），2022 年的竞赛（A 题，《停停，昨日请\r\n不要再重现》）和 2023 年的竞赛（A 题，《酷，昨日四次重现》）中，每年都有一道与袋鼠相关的问\r\n题！我们很想向您介绍所有这些问题，但如果我们每年都这样做，在 3024 年的竞赛中将会有一道题拥\r\n有长达 500 页的题面。因此，这次我们省略它们。另外，您可能已经在热身赛中见过它们了。\r\n在 2024 年的竞赛中，如大家期待的那样，袋鼠题又回来啦！我们不知道为什么命题组的成员们那么喜\r\n欢袋鼠，但题目如下：\r\n给定一张 n 行 m 列的网格。一些格子里有墙，袋鼠无法进入这些有墙的格子，而其它格子是空的，每\r\n个空格子中都有一只袋鼠。袋鼠可以从一个空格子移动到上，下，左，右相邻的另一个空格子中。\r\n袋鼠可以被键盘上的 U，D，L，R 键控制。所有袋鼠会同时根据按下的按键移动。具体来说，对于一只\r\n位于第 i 行第 j 列的格子（用 (i, j) 表示）上的袋鼠：\r\n1. 按键 U：若 i > 1 且 (i − 1, j) 不是墙，它会移动到 (i − 1, j)，否则它会待在原地。\r\n2. 按键 D：若 i < n 且 (i + 1, j) 不是墙，它会移动到 (i + 1, j)，否则它会待在原地。\r\n3. 按键 L：若 j > 1 且 (i, j − 1) 不是墙，它会移动到 (i, j − 1)，否则它会待在原地。\r\n4. 按键 R：若 j < m 且 (i, j + 1) 不是墙，它会移动到 (i, j + 1)，否则它会待在原地。\r\n给定一个仅由字符 ‘U’，‘D’，‘L’，‘R’ 组成的操作序列 s1s2 . . . sk，我们将根据序列进行无限次操作。具\r\n体来说，若 1 ≤ t ≤ k，则第 t 次操作就是 st；否则若 t > k，则第 t 次操作和第 (t − k) 次操作相同。\r\n对于每个 1 ≤ i ≤ n × m，求最小的整数 vi，使得执行 vi 次操作后，最多有 i 个格子里含有袋鼠。\r\nInput\r\n每个测试文件仅有一组测试数据。\r\n第一行输入三个整数 n，m 和 k（1 ≤ n, m ≤ 2 × 105，1 ≤ n × m ≤ 2 × 105，1 ≤ k ≤ 200），表示网格\r\n的行数和列数，以及操作序列的长度。\r\n第二行输入一个字符串 s1s2 · · · sk（si ∈ {‘U’, ‘D’, ‘L’, ‘R’}），表示操作序列。\r\n对于接下来 n 行，第 i 行输入一个二进制字符串 ai,1ai,2 · · · ai,m（ai,j ∈ {‘0’, ‘1’}）。若 ai,j = ‘1’ 则格子\r\n(i, j) 是空的；否则若 ai,j = ‘0’ 则格子 (i, j) 被阻塞，无法进入。保证网格中至少有一个空格子。\r\nOutput\r\n输出 n × m 行，其中第 i 行输出一个整数 vi，表示最少需要几次操作，才能使最多有 i 个格子里含有袋\r\n鼠。如果不可能做到，则在这一行输出 -1。\r\nPage 2 of 19\n\n2024 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站） 2024/11/03\r\nExamples\r\nstandard input standard output\r\n3 3 6\r\nULDDRR\r\n010\r\n111\r\n010\r\n-1\r\n4\r\n2\r\n1\r\n0\r\n0\r\n0\r\n0\r\n0\r\n3 3 6\r\nULDDRR\r\n010\r\n111\r\n011\r\n7\r\n4\r\n2\r\n1\r\n1\r\n0\r\n0\r\n0\r\n0\r\n1 5 1\r\nR\r\n11111\r\n4\r\n3\r\n2\r\n1\r\n0\r\nPage 3 of 19\n\n[PDF](https://codeforces.com/gym/105484/attachments/download/28235/contest-zh.pdf)",
+          "provider": "Codeforces 原站中文 PDF",
+          "sourceBinding": {
+            "kind": "official-bilingual-roster",
+            "pdfTitle": "嘿，有看到我的袋鼠吗？",
+            "problem": "A",
+            "rosterTitle": "Hey, Have You Seen My Kangaroo?",
+            "samplePairsVerified": 3
+          },
+          "sourceLanguage": "en",
+          "sourcePageNumbers": [
+            3,
+            4,
+            5
+          ],
+          "sourcePdfSha256": "de8ae2b732b4837ce9f54c432381b8c0a22e9464122be159c5ec78513622c21a",
+          "sourcePdfUrl": "https://codeforces.com/gym/105484/attachments/download/28235/contest-zh.pdf",
+          "sourceRosterSha256": "27568a910909d5712a26b9a7aeb98fe652f6d2ee046df1fbc4fbd3822ae88b31",
+          "sourceRosterUrl": "https://codeforces.com/gym/105484",
+          "sourceText": "2024 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站） 2024/11/03\r\nProblem A. 嘿，有看到我的袋鼠吗？\r\n请注意本题不同寻常的空间限制。\r\n继 2018，2019，2020，2021，2022 和 2023 年成功承办赛事之后，南京航空航天大学（NUAA）将连续\r\n第七年承办国际大学生程序设计竞赛（ICPC）。\r\n在 2018 与 2019 年，“中二之力”队与“三个顶俩”队为清华大学赢得了冠军。在 2020，2021 与 2022 年，\r\n北京大学的“逆十字”队赢得三连冠。在 2023 年，来自北京大学的另一支队伍“重生之我是菜狗”赢得了冠\r\n军。他们还赢得了第 46 届 ICPC 世界总决赛的冠军，在 13 年后为 EC 赛区重新赢回了奖杯。\r\n今年，将会有约 335 支队伍参与南京站的竞赛。本次竞赛将会颁发至多 33 项金奖，66 项银奖与 99 项\r\n铜奖（数字仅供参考）。让我们期待选手们出色的表现！我们还想要感谢竞赛组委会与志愿者们的努力\r\n付出。感谢你们为本次竞赛做出的贡献！\r\n在 2023 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站）中拍摄的照片\r\n在 2018 年的竞赛中，K 题《袋鼠谜题》要求选手为以下游戏构造一个操作序列：\r\n谜题由一个 n 行 m 列的网格（1 ≤ n, m ≤ 20）组成，且有一些（至少 2 只）袋鼠位于网格中。玩\r\n家的目标是控制袋鼠并把它们聚集在同一个格子中。一些格子里有墙，袋鼠无法进入这些有墙的格\r\n子，而其它格子是空的。袋鼠可以从一个空格子移动到上，下，左，右相邻的另一个空格子中。\r\n游戏开始时，每个空格子里都有一只袋鼠。玩家可以通过键盘上 U，D，L，R 四个按键控制袋鼠的\r\n移动。所有袋鼠会同时根据您按下的按键移动。\r\n选手需要构造一个长度至多为 5 × 104 且由 U，D，L，R 组成的操作序列以达成目标。\r\n在 2020 年的竞赛中，A 题《啊，昨日重现》要求选手构造一张输入地图，以证明以下代码并不是上述\r\n问题的解：\r\n#include <b i t s / s t d c++.h>\r\nusing namespace s t d ;\r\ns t r i n g s = \"UDLR\" ;\r\nint main ( )\r\n{\r\ns rand ( time (NULL ) ) ;\r\nfor ( int i = 1 ; i <= 50000; i++) pu tcha r ( s [ rand ( ) % 4 ] ) ;\r\nreturn 0 ;\r\n}\r\nPage 1 of 19\n\n2024 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站） 2024/11/03\r\n此外，在 2021 年的竞赛（A 题，《呀，昨日再次重现》），2022 年的竞赛（A 题，《停停，昨日请\r\n不要再重现》）和 2023 年的竞赛（A 题，《酷，昨日四次重现》）中，每年都有一道与袋鼠相关的问\r\n题！我们很想向您介绍所有这些问题，但如果我们每年都这样做，在 3024 年的竞赛中将会有一道题拥\r\n有长达 500 页的题面。因此，这次我们省略它们。另外，您可能已经在热身赛中见过它们了。\r\n在 2024 年的竞赛中，如大家期待的那样，袋鼠题又回来啦！我们不知道为什么命题组的成员们那么喜\r\n欢袋鼠，但题目如下：\r\n给定一张 n 行 m 列的网格。一些格子里有墙，袋鼠无法进入这些有墙的格子，而其它格子是空的，每\r\n个空格子中都有一只袋鼠。袋鼠可以从一个空格子移动到上，下，左，右相邻的另一个空格子中。\r\n袋鼠可以被键盘上的 U，D，L，R 键控制。所有袋鼠会同时根据按下的按键移动。具体来说，对于一只\r\n位于第 i 行第 j 列的格子（用 (i, j) 表示）上的袋鼠：\r\n1. 按键 U：若 i > 1 且 (i − 1, j) 不是墙，它会移动到 (i − 1, j)，否则它会待在原地。\r\n2. 按键 D：若 i < n 且 (i + 1, j) 不是墙，它会移动到 (i + 1, j)，否则它会待在原地。\r\n3. 按键 L：若 j > 1 且 (i, j − 1) 不是墙，它会移动到 (i, j − 1)，否则它会待在原地。\r\n4. 按键 R：若 j < m 且 (i, j + 1) 不是墙，它会移动到 (i, j + 1)，否则它会待在原地。\r\n给定一个仅由字符 ‘U’，‘D’，‘L’，‘R’ 组成的操作序列 s1s2 . . . sk，我们将根据序列进行无限次操作。具\r\n体来说，若 1 ≤ t ≤ k，则第 t 次操作就是 st；否则若 t > k，则第 t 次操作和第 (t − k) 次操作相同。\r\n对于每个 1 ≤ i ≤ n × m，求最小的整数 vi，使得执行 vi 次操作后，最多有 i 个格子里含有袋鼠。\r\nInput\r\n每个测试文件仅有一组测试数据。\r\n第一行输入三个整数 n，m 和 k（1 ≤ n, m ≤ 2 × 105，1 ≤ n × m ≤ 2 × 105，1 ≤ k ≤ 200），表示网格\r\n的行数和列数，以及操作序列的长度。\r\n第二行输入一个字符串 s1s2 · · · sk（si ∈ {‘U’, ‘D’, ‘L’, ‘R’}），表示操作序列。\r\n对于接下来 n 行，第 i 行输入一个二进制字符串 ai,1ai,2 · · · ai,m（ai,j ∈ {‘0’, ‘1’}）。若 ai,j = ‘1’ 则格子\r\n(i, j) 是空的；否则若 ai,j = ‘0’ 则格子 (i, j) 被阻塞，无法进入。保证网格中至少有一个空格子。\r\nOutput\r\n输出 n × m 行，其中第 i 行输出一个整数 vi，表示最少需要几次操作，才能使最多有 i 个格子里含有袋\r\n鼠。如果不可能做到，则在这一行输出 -1。\r\nPage 2 of 19\n\n2024 ICPC 国际大学生程序设计竞赛亚洲区域赛（南京站） 2024/11/03\r\nExamples\r\nstandard input standard output\r\n3 3 6\r\nULDDRR\r\n010\r\n111\r\n010\r\n-1\r\n4\r\n2\r\n1\r\n0\r\n0\r\n0\r\n0\r\n0\r\n3 3 6\r\nULDDRR\r\n010\r\n111\r\n011\r\n7\r\n4\r\n2\r\n1\r\n1\r\n0\r\n0\r\n0\r\n0\r\n1 5 1\r\nR\r\n11111\r\n4\r\n3\r\n2\r\n1\r\n0\r\nPage 3 of 19",
+          "sourceUrl": "https://codeforces.com/gym/105484/attachments/download/28235/contest-zh.pdf",
+          "statementPdf": {
+            "data": "tb-asset:f3e959f58fc1b4b0e6970093711ea2a9fee77d7d7d079a734cfcef3248218199",
+            "fileName": "gym-105484-A.pdf",
+            "pageCount": 3,
+            "sha256": "f3e959f58fc1b4b0e6970093711ea2a9fee77d7d7d079a734cfcef3248218199",
+            "sourcePageNumbers": [
+              3,
+              4,
+              5
+            ],
+            "sourceSha256": "de8ae2b732b4837ce9f54c432381b8c0a22e9464122be159c5ec78513622c21a",
+            "sourceUrl": "https://codeforces.com/gym/105484/attachments/download/28235/contest-zh.pdf",
+            "widthPoints": 595.2760009765625
+          },
+          "targetLanguage": "zh-CN"
+        },
+        "url": "https://codeforces.com/gym/105484/problem/A"
+      },
+      "problem_id": "remote:codeforces:105484::A"
+    }
+  ]
+}

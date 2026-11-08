@@ -932805,9 +932805,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/102992",
       "contest": "ICPC 2020 南京区域赛",
@@ -932875,10 +932874,7 @@
         "期望与概率"
       ],
       "startedAt": "2020-12-20T03:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "期望与概率"
@@ -937550,9 +937546,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/103409",
       "contest": "CCPC 2021 桂林区域赛",
@@ -937649,10 +937644,7 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "模拟"
@@ -950675,9 +950667,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/103470",
       "contest": "ICPC 2021 南京区域赛",
@@ -950740,10 +950731,7 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2021-12-04T03:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [],
       "title": "Oops, It's Yesterday Twice More",
@@ -964072,9 +964060,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104065",
       "contest": "CCPC 2022 绵阳区域赛",
@@ -964180,10 +964167,7 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "构造",
@@ -968136,9 +968120,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104128",
       "contest": "ICPC 2022 南京区域赛",
@@ -968271,10 +968254,7 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "前缀和",
@@ -976877,9 +976857,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104385",
       "contest": "ICPC 2023 江西省赛",
@@ -976932,10 +976911,7 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [],
       "title": "Segment-tree",
@@ -984209,9 +984185,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104821",
       "contest": "ICPC 2023 南京区域赛",
@@ -984301,10 +984276,7 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2023-11-05T01:30:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "BFS",
@@ -988886,9 +988858,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/104891",
       "contest": "ICPC 2023 澳门区域赛",
@@ -988933,7 +988904,7 @@
       "originalTitle": "Parity Game",
       "platform": "Codeforces",
       "problem": "G",
-      "problemType": "standard",
+      "problemType": "interactive",
       "queue": null,
       "series": "XCPC",
       "solutionAvailable": false,
@@ -988941,10 +988912,7 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2023-11-19T03:05:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [],
       "title": "Parity Game",
@@ -998884,9 +998852,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105231",
       "contest": "ICPC 2024 江西省赛",
@@ -998939,10 +998906,7 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [],
       "title": "Magic Mahjong",
@@ -1005618,9 +1005582,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/105484",
       "contest": "ICPC 2024 南京区域赛",
@@ -1005673,10 +1005636,7 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": "2024-11-03T01:30:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [],
       "title": "Hey, Have You Seen My Kangaroo?",

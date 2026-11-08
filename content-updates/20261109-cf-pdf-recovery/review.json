@@ -1,0 +1,576 @@
+{
+  "schema": 1,
+  "problems": [
+    {
+      "id": "remote:codeforces:102992::A",
+      "url": "https://codeforces.com/gym/102992/problem/A",
+      "markdownSha256": "347c360979afee40319d63c8dd9a9464bdd0469950e7064b22b5bfbe49fcb7d2",
+      "sourceDocuments": [
+        {
+          "url": "https://codeforces.com/gym/102992",
+          "sha256": "18d73fa335bab749072c25c778abbea049a4456961e3064d7c05d41305d0fe51",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/102992/problem/A",
+          "sha256": "a772778e0a0f8bcfffc285b260093bea4dce975eb25a789b097d23212256e6c5",
+          "status": 200
+        }
+      ],
+      "samples": 1,
+      "pages": 3,
+      "chinesePages": null,
+      "sourceBinding": {
+        "kind": "native-problem-pdf-title",
+        "problem": "A",
+        "pdfTitle": "Ah, It’s Yesterday Once More",
+        "rosterTitle": "Ah, It's Yesterday Once More",
+        "samplePairsVerified": 0
+      },
+      "sampleCorrections": [
+        {
+          "sample": 1,
+          "field": "input",
+          "original": "(No input)",
+          "corrected": "",
+          "evidence": "The Input section explicitly states There is no input; the table text is a description, not stdin."
+        }
+      ],
+      "limitsSource": "Current official native Gym dashboard; original PDF limits are retained in the source bytes.",
+      "originalDescriptionReviewed": true,
+      "renderer": {
+        "id": "remote:codeforces:102992::A",
+        "pages": 3,
+        "images": 0,
+        "samples": 1
+      },
+      "allPagesAndSourceSamplesReviewed": true,
+      "emptyInputConsoleReviewed": true
+    },
+    {
+      "id": "remote:codeforces:103409::A",
+      "url": "https://codeforces.com/gym/103409/problem/A",
+      "markdownSha256": "821da44d6ebcfa175949b8d29de4f82575585e9c1bca481991fad6207a6c7385",
+      "sourceDocuments": [
+        {
+          "url": "https://codeforces.com/gym/103409",
+          "sha256": "94dc90de288163322b02e647eb7bc234d91f4a67d16661f882961acf86f79363",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/103409/problem/A",
+          "sha256": "bb387de2e454e058599716e06eb7a30984bd56150f1ffd4f3bee161c46992c37",
+          "status": 200
+        }
+      ],
+      "samples": 1,
+      "pages": 2,
+      "chinesePages": null,
+      "sourceBinding": {
+        "kind": "native-problem-pdf-title",
+        "problem": "A",
+        "pdfTitle": "A Hero Named Magnus",
+        "rosterTitle": "A Hero Named Magnus",
+        "samplePairsVerified": 0
+      },
+      "sampleCorrections": [],
+      "limitsSource": "Current official native Gym dashboard; original PDF limits are retained in the source bytes.",
+      "originalDescriptionReviewed": true,
+      "renderer": {
+        "id": "remote:codeforces:103409::A",
+        "pages": 2,
+        "images": 0,
+        "samples": 1
+      },
+      "allPagesAndSourceSamplesReviewed": true
+    },
+    {
+      "id": "remote:codeforces:103470::A",
+      "url": "https://codeforces.com/gym/103470/problem/A",
+      "markdownSha256": "04bed4a6a3447d8a8ea43a5aba02432f8fced1b30b1d596b7d575e5a970623be",
+      "sourceDocuments": [
+        {
+          "url": "https://codeforces.com/gym/103470",
+          "sha256": "5b89bf381b422b4eda0fb8ce75a341c02630e861426db3c3f81ea31338dcbf86",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/103470/problem/A",
+          "sha256": "f8a805d1123b6b56d2695b6617deb6891e375443159ffb556b4850b7bdf8d38b",
+          "status": 200
+        }
+      ],
+      "samples": 2,
+      "pages": 2,
+      "chinesePages": null,
+      "sourceBinding": {
+        "kind": "native-problem-pdf-title",
+        "problem": "A",
+        "pdfTitle": "Oops, It’s Yesterday Twice More",
+        "rosterTitle": "Oops, It's Yesterday Twice More",
+        "samplePairsVerified": 0
+      },
+      "sampleCorrections": [],
+      "limitsSource": "Current official native Gym dashboard; original PDF limits are retained in the source bytes.",
+      "originalDescriptionReviewed": true,
+      "renderer": {
+        "id": "remote:codeforces:103470::A",
+        "pages": 2,
+        "images": 0,
+        "samples": 2
+      },
+      "allPagesAndSourceSamplesReviewed": true
+    },
+    {
+      "id": "remote:codeforces:104065::H",
+      "url": "https://codeforces.com/gym/104065/problem/H",
+      "markdownSha256": "01610224ec62ed3e3e7a3dc711db2e0499b2c9c103b54e9079d8c8d326e91508",
+      "sourceDocuments": [
+        {
+          "url": "https://codeforces.com/gym/104065",
+          "sha256": "166167f9d56c2d0f38b0d4904dd44e1d856bf7b1feb126dcb4880777cc6cad74",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/104065/problem/H",
+          "sha256": "a9d58a83a76db719b209a1239e1314a9ab1f170acf7b5f624f4af098329d6bcc",
+          "status": 200
+        }
+      ],
+      "samples": 2,
+      "pages": 3,
+      "chinesePages": null,
+      "sourceBinding": {
+        "kind": "native-problem-pdf-title",
+        "problem": "H",
+        "pdfTitle": "Life is Hard and Undecidable, but...",
+        "rosterTitle": "Life is Hard and Undecidable, but...",
+        "samplePairsVerified": 0
+      },
+      "sampleCorrections": [],
+      "limitsSource": "Current official native Gym dashboard; original PDF limits are retained in the source bytes.",
+      "originalDescriptionReviewed": true,
+      "renderer": {
+        "id": "remote:codeforces:104065::H",
+        "pages": 3,
+        "images": 0,
+        "samples": 2
+      },
+      "allPagesAndSourceSamplesReviewed": true
+    },
+    {
+      "id": "remote:codeforces:104128::A",
+      "url": "https://codeforces.com/gym/104128/problem/A",
+      "markdownSha256": "3ac8e51967c5344061971121758de7c89a7820a76f5413cd83d188cfa687bc1d",
+      "sourceDocuments": [
+        {
+          "url": "https://codeforces.com/gym/104128",
+          "sha256": "4366d51db3110027fa8678d1d7c7286b46b2f7b1633164c9742145268911baf7",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/104128/attachments/download/18620/contest-zh.pdf",
+          "sha256": "0832a4c0975fa547a5e96ff28d6a434547f6b594db3f54d0f79c009c421eaed1",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/104128/problem/A",
+          "sha256": "c5cf478d27b244d9b54fc391f8c6cab5f88945d16a46eb15391a254044908d76",
+          "status": 200
+        }
+      ],
+      "samples": 1,
+      "pages": 4,
+      "chinesePages": 3,
+      "sourceBinding": {
+        "kind": "native-problem-pdf-title",
+        "problem": "A",
+        "pdfTitle": "Stop, Yesterday Please No More",
+        "rosterTitle": "Stop, Yesterday Please No More",
+        "samplePairsVerified": 0
+      },
+      "sampleCorrections": [],
+      "limitsSource": "Current official native Gym dashboard; original PDF limits are retained in the source bytes.",
+      "originalDescriptionReviewed": true,
+      "renderer": {
+        "id": "remote:codeforces:104128::A",
+        "pages": 4,
+        "images": 0,
+        "samples": 1
+      },
+      "chineseRenderer": {
+        "id": "remote:codeforces:104128::A-zh",
+        "pages": 3,
+        "images": 0,
+        "samples": 1
+      },
+      "allPagesAndSourceSamplesReviewed": true
+    },
+    {
+      "id": "remote:codeforces:104385::E",
+      "url": "https://codeforces.com/gym/104385/problem/E",
+      "markdownSha256": "e7d2011b50e5e9e033559fbe5d8c75536363cd7f4242b4145f0b25558206ac72",
+      "sourceDocuments": [
+        {
+          "url": "https://codeforces.com/gym/104385",
+          "sha256": "1da0762ce636f34066d74a0919049da03fa090db5eca127b138203d829e4093f",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/104385/problem/E",
+          "sha256": "8dbd7547a5345346f8ec3c8fc73066a6287c6d5dac4e47d46e78be9f46fb4af8",
+          "status": 200
+        }
+      ],
+      "samples": 1,
+      "pages": 2,
+      "chinesePages": null,
+      "sourceBinding": {
+        "kind": "native-problem-pdf-title",
+        "problem": "E",
+        "pdfTitle": "Segment-tree",
+        "rosterTitle": "Segment-tree",
+        "samplePairsVerified": 0
+      },
+      "sampleCorrections": [],
+      "limitsSource": "Current official native Gym dashboard; original PDF limits are retained in the source bytes.",
+      "originalDescriptionReviewed": true,
+      "renderer": {
+        "id": "remote:codeforces:104385::E",
+        "pages": 2,
+        "images": 0,
+        "samples": 1
+      },
+      "allPagesAndSourceSamplesReviewed": true
+    },
+    {
+      "id": "remote:codeforces:104821::A",
+      "url": "https://codeforces.com/gym/104821/problem/A",
+      "markdownSha256": "b2216282373d0f4c14d111fb011f4de1be3841ebc7815f2a6e46612c38561b50",
+      "sourceDocuments": [
+        {
+          "url": "https://codeforces.com/gym/104821",
+          "sha256": "35dbeb78e51662f4949f5770911072f7a62b3edfefd02c137ea67e7a481dcc69",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/104821/attachments/download/23215/2023nj-cn.pdf",
+          "sha256": "531f01de1f12e9e8eb32e7dabcd8779e99afb8b374a94b187d7ec1e81c88a85b",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/104821/problem/A",
+          "sha256": "d911d4ae04cfeadba806111a69962c5bc3ab89a68611510404826507dd22d1e9",
+          "status": 200
+        }
+      ],
+      "samples": 1,
+      "pages": 3,
+      "chinesePages": 3,
+      "sourceBinding": {
+        "kind": "native-problem-pdf-title",
+        "problem": "A",
+        "pdfTitle": "Cool, It’s Yesterday Four Times More",
+        "rosterTitle": "Cool, It's Yesterday Four Times More",
+        "samplePairsVerified": 0
+      },
+      "sampleCorrections": [],
+      "limitsSource": "Current official native Gym dashboard; original PDF limits are retained in the source bytes.",
+      "originalDescriptionReviewed": true,
+      "renderer": {
+        "id": "remote:codeforces:104821::A",
+        "pages": 3,
+        "images": 0,
+        "samples": 1
+      },
+      "chineseRenderer": {
+        "id": "remote:codeforces:104821::A-zh",
+        "pages": 3,
+        "images": 0,
+        "samples": 1
+      },
+      "allPagesAndSourceSamplesReviewed": true
+    },
+    {
+      "id": "remote:codeforces:104891::G",
+      "url": "https://codeforces.com/gym/104891/problem/G",
+      "markdownSha256": "8c2b2a640fa1ff0d8535edfa241fb92d082f095ed4340e4f42b752c806abb62d",
+      "sourceDocuments": [
+        {
+          "url": "https://codeforces.com/gym/104891",
+          "sha256": "a07a5837312629d878634b908b4bb1cb77cb55d8e01153babe1f972e372639fa",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/104891/problem/G",
+          "sha256": "ed356eb332ed626871b03be20a397f0e8d8ae63be4388d29039218e7a20d5383",
+          "status": 200
+        }
+      ],
+      "samples": 1,
+      "pages": 3,
+      "chinesePages": null,
+      "sourceBinding": {
+        "kind": "native-problem-pdf-title",
+        "problem": "G",
+        "pdfTitle": "Parity Game",
+        "rosterTitle": "Parity Game",
+        "samplePairsVerified": 0
+      },
+      "sampleCorrections": [],
+      "limitsSource": "Current official native Gym dashboard; original PDF limits are retained in the source bytes.",
+      "originalDescriptionReviewed": true,
+      "renderer": {
+        "id": "remote:codeforces:104891::G",
+        "pages": 3,
+        "images": 0,
+        "samples": 1
+      },
+      "allPagesAndSourceSamplesReviewed": true
+    },
+    {
+      "id": "remote:codeforces:105231::J",
+      "url": "https://codeforces.com/gym/105231/problem/J",
+      "markdownSha256": "5468aeac2d7bedc715f0b4e93f9db8adfa986550b54292d75368f2920a6f41f4",
+      "sourceDocuments": [
+        {
+          "url": "https://codeforces.com/gym/105231",
+          "sha256": "97711ff513f9f5dd8033d88edcaf72afb7698ba829928bf07045b06a057d38d3",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/105231/problem/J",
+          "sha256": "96e37273ee41a8278f65eb2dca28ebbf2e6b44c3046f68327da958c857bd26e4",
+          "status": 200
+        }
+      ],
+      "samples": 1,
+      "pages": 2,
+      "chinesePages": null,
+      "sourceBinding": {
+        "kind": "native-problem-pdf-title",
+        "problem": "J",
+        "pdfTitle": "Magic Mahjong",
+        "rosterTitle": "Magic Mahjong",
+        "samplePairsVerified": 0
+      },
+      "sampleCorrections": [],
+      "limitsSource": "Current official native Gym dashboard; original PDF limits are retained in the source bytes.",
+      "originalDescriptionReviewed": true,
+      "renderer": {
+        "id": "remote:codeforces:105231::J",
+        "pages": 2,
+        "images": 0,
+        "samples": 1
+      },
+      "allPagesAndSourceSamplesReviewed": true
+    },
+    {
+      "id": "remote:codeforces:105484::A",
+      "url": "https://codeforces.com/gym/105484/problem/A",
+      "markdownSha256": "f02df770720dffae6c272211ac855575bd81a532ba477a04d36643b012274f6e",
+      "sourceDocuments": [
+        {
+          "url": "https://codeforces.com/gym/105484",
+          "sha256": "27568a910909d5712a26b9a7aeb98fe652f6d2ee046df1fbc4fbd3822ae88b31",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/105484/attachments/download/28235/contest-zh.pdf",
+          "sha256": "de8ae2b732b4837ce9f54c432381b8c0a22e9464122be159c5ec78513622c21a",
+          "status": 200
+        },
+        {
+          "url": "https://codeforces.com/gym/105484/problem/A",
+          "sha256": "c37949ab335e943fb124ce067dc3d4bff5cd312950fdb51fc5c271fcfbee712a",
+          "status": 200
+        }
+      ],
+      "samples": 3,
+      "pages": 3,
+      "chinesePages": 3,
+      "sourceBinding": {
+        "kind": "native-problem-pdf-title",
+        "problem": "A",
+        "pdfTitle": "Hey, Have You Seen My Kangaroo?",
+        "rosterTitle": "Hey, Have You Seen My Kangaroo?",
+        "samplePairsVerified": 0
+      },
+      "sampleCorrections": [],
+      "limitsSource": "Current official native Gym dashboard; original PDF limits are retained in the source bytes.",
+      "originalDescriptionReviewed": true,
+      "renderer": {
+        "id": "remote:codeforces:105484::A",
+        "pages": 3,
+        "images": 0,
+        "samples": 3
+      },
+      "chineseRenderer": {
+        "id": "remote:codeforces:105484::A-zh",
+        "pages": 3,
+        "images": 0,
+        "samples": 3
+      },
+      "allPagesAndSourceSamplesReviewed": true,
+      "publishedLimitDifference": {
+        "nativeGymTimeMs": 5000,
+        "originalPdfTimeMs": 3000,
+        "memoryMbBoth": 128,
+        "policy": "Current official native judge limit governs training display; immutable original PDF retains printed limit."
+      }
+    }
+  ],
+  "errors": [
+    {
+      "id": "remote:codeforces:105977::J",
+      "error": "原版 PDF 题名与原站题单未能双侧核对"
+    }
+  ],
+  "cleanupInspection": {
+    "checkedUnusedPriorContent": true,
+    "replacedMissingOrUnverifiedActiveStatements": 10,
+    "originalIdsPreserved": true,
+    "newAssetBytes": 28133289,
+    "duplicateAssetCopies": 0,
+    "privateRecordsRead": false,
+    "discardedIntermediateAssets": {
+      "removedUnpublishedIntermediateAssets": [
+        "a772778e0a0f8bcfffc285b260093bea4dce975eb25a789b097d23212256e6c5",
+        "90046262111fdb382e5e26af6b78f26d533a4cadf6cbc3aa4aacea352419b43e",
+        "bb387de2e454e058599716e06eb7a30984bd56150f1ffd4f3bee161c46992c37",
+        "8303470d2e58ff02186c64af5be00e7ce7c2f5b2971af10f850a745172045993",
+        "f8a805d1123b6b56d2695b6617deb6891e375443159ffb556b4850b7bdf8d38b",
+        "dfd91b16e9662e5eec5dd0edba8efc605787bf0861a3737731b2a0af5f13f54c",
+        "a9d58a83a76db719b209a1239e1314a9ab1f170acf7b5f624f4af098329d6bcc",
+        "26a17f868bdf47be555e71cf68a992dac0c8aa88ac88617c2bb7d26e33623c91",
+        "c5cf478d27b244d9b54fc391f8c6cab5f88945d16a46eb15391a254044908d76",
+        "f7fae81142cc8c22192149dab10cd4b53e8690602b6a5e3a015fcc1c75a99abe",
+        "07d667e845f79aef5221765c47513a77b06c3b578187a12bff1b51204a6ba120",
+        "8dbd7547a5345346f8ec3c8fc73066a6287c6d5dac4e47d46e78be9f46fb4af8",
+        "feda173da27b8ed0f3d802181c4719662e079a48d0b6e5e8f6ea1c55c0c44363",
+        "d911d4ae04cfeadba806111a69962c5bc3ab89a68611510404826507dd22d1e9",
+        "531f01de1f12e9e8eb32e7dabcd8779e99afb8b374a94b187d7ec1e81c88a85b",
+        "13fe7eacf69f92b01915ea1d66e72d656749fe5f733acd01cd83e1f869af141a",
+        "119931dc96c11b3c075b6e829cbdb54fa32394d5eaea6580882c7f982d297144",
+        "ed356eb332ed626871b03be20a397f0e8d8ae63be4388d29039218e7a20d5383",
+        "557fbee9c448ba38effa6660b0c9d5cf95a714e62d8f4851faa912fbe8425c78",
+        "96e37273ee41a8278f65eb2dca28ebbf2e6b44c3046f68327da958c857bd26e4",
+        "68717642be0d143f5985fd9f60d2a50bf85a042bf8e57b779009daa9c67b67e9",
+        "c37949ab335e943fb124ce067dc3d4bff5cd312950fdb51fc5c271fcfbee712a",
+        "a828665d8824b435e88f044705b5fce9505ac644332be2e86300abf013a6cbe1"
+      ],
+      "reason": "Discard complete-PDF rewrite copies before regenerating with exact original bytes; none was published or referenced by a source packet."
+    }
+  },
+  "uiReview": {
+    "checked": [
+      {
+        "id": "remote:codeforces:102992::A",
+        "pages": 3,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "remote:codeforces:103409::A",
+        "pages": 2,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "remote:codeforces:103470::A",
+        "pages": 2,
+        "images": 0,
+        "samples": 2
+      },
+      {
+        "id": "remote:codeforces:104065::H",
+        "pages": 3,
+        "images": 0,
+        "samples": 2
+      },
+      {
+        "id": "remote:codeforces:104128::A",
+        "pages": 4,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "remote:codeforces:104128::A-zh",
+        "pages": 3,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "remote:codeforces:104385::E",
+        "pages": 2,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "remote:codeforces:104821::A",
+        "pages": 3,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "remote:codeforces:104821::A-zh",
+        "pages": 3,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "remote:codeforces:104891::G",
+        "pages": 3,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "remote:codeforces:105231::J",
+        "pages": 2,
+        "images": 0,
+        "samples": 1
+      },
+      {
+        "id": "remote:codeforces:105484::A",
+        "pages": 3,
+        "images": 0,
+        "samples": 3
+      },
+      {
+        "id": "remote:codeforces:105484::A-zh",
+        "pages": 3,
+        "images": 0,
+        "samples": 3
+      }
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true
+  },
+  "emptyInputUiReview": {
+    "checked": [
+      {
+        "id": "remote:codeforces:102992::A",
+        "pages": 3,
+        "images": 0,
+        "samples": 1
+      }
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true
+  },
+  "counts": {
+    "restoredOriginals": 10,
+    "officialChinesePdfs": 3,
+    "originalPdfPages": 27,
+    "chinesePdfPages": 9,
+    "originalSamplePairs": 14
+  }
+}

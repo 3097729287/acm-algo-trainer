@@ -62,7 +62,8 @@ def candidates(page, url, *, chinese_only=False):
 
 
 def normalized(text):
-    return re.sub(r'[\W_]+', '', unicodedata.normalize('NFKC', text)).casefold()
+    text=unicodedata.normalize('NFKC',text).replace('⊕',' xor ')
+    return re.sub(r'[\W_]+', '', text).casefold()
 
 
 def roster(page, contest_id):
@@ -117,7 +118,8 @@ def _starts(texts, tasks=None):
     starts = []
     for index, text in enumerate(texts):
         matches = [m for pattern in (HEADING, SPLIT_HEADING) for m in pattern.finditer(text[:1800])
-                   if (m[1] or text[:m.start()].count('\n') < 6)
+                   if m[2].isupper()
+                   and (m[1] or text[:m.start()].count('\n') < 6)
                    and not re.search(r'\bPage\s+\d+\s+of\s+\d+\s*$', m[3], re.I)]
         # A contents page listing multiple tasks is not the first problem page.
         if len(matches) != 1:
@@ -220,12 +222,15 @@ def _read(client, identity, url, source, tasks, roster_page, *, chinese=False, e
     else:
         indices, _ = selected_pages(reader, letter, selection_tasks[letter]['title'], texts=texts, tasks=selection_tasks, bilingual=chinese)
         header = next(name for start, label, name in starts if label == letter)
-    writer = PdfWriter()
-    for index in indices:
-        writer.add_page(reader.pages[index])
-    output = io.BytesIO()
-    writer.write(output)
-    display = output.getvalue()
+    if indices == list(range(len(reader.pages))):
+        display = data  # No selection is needed; preserve and reuse exact bytes.
+    else:
+        writer = PdfWriter()
+        for index in indices:
+            writer.add_page(reader.pages[index])
+        output = io.BytesIO()
+        writer.write(output)
+        display = output.getvalue()
     value = pdf_statement(display, cid + '-' + letter, render_pages=False)
     def sample_pairs(samples):
         def normalize(text):
