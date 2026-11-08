@@ -161,7 +161,9 @@ class AccountTests(unittest.TestCase):
         self.call('/api/account/logout', {})
         self.assertEqual(self.login()[0], 401)
         self.assertEqual(self.login(password='new-fixture-password')[0], 200)
-        self.assertEqual(self.call('/api/profile', {'nickname': '新昵称'})[1]['profile']['displayName'], '新昵称')
+        status, renamed = self.call('/api/profile', {'nickname': '新昵称'})
+        self.assertEqual(status, 200, renamed.get('error'))
+        self.assertEqual(renamed['profile']['displayName'], '新昵称')
 
     def test_public_account_metadata_never_exposes_shared_session_token(self):
         self.signup(); self.login()

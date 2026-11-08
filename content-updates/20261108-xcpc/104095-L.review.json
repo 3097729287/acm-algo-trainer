@@ -1,0 +1,33 @@
+{
+  "method": "visual-native-pdf-pages-and-full-transcription",
+  "sourcePdfSha256": "8f3f4d0a6afd4638e867b00175334f13a0729cf46f047ec8e0aff785ce7fc50a",
+  "sourcePageNumbers": [
+    20,
+    21
+  ],
+  "nativePdfTitle": "Problem L. 送外卖",
+  "rosterTitle": "送外卖",
+  "sourceTextSha256": "01f5d6ac1aac35f7596f008c11c5cc7dd3f468ba1ae8c65619b4e54092a0e45e",
+  "reason": "Native PDF renders correctly; its embedded character map decodes Chinese to unrelated characters.",
+  "verifiedConstraints": [
+    "1<=n<=14",
+    "n-1<=m<=n(n-1)/2",
+    "1<=w_i<=300",
+    "0<=q_i<=200",
+    "1<=d<=200",
+    "1<=t_i<=200",
+    "0<=p_i<=10^8",
+    "q_j<t_1<...<t_d",
+    "speed<=1m/s"
+  ],
+  "verifiedSemantics": [
+    "bidirectional connected simple graph",
+    "start at apartment 1 at time 0",
+    "waiting permitted",
+    "delivery instantaneous",
+    "no delivery before order",
+    "revenue may increase or decrease",
+    "all orders delivered"
+  ],
+  "samplePairsVerified": 1
+}

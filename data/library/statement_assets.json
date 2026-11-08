@@ -42407,5 +42407,488 @@
     "mime": "image/png",
     "offset": 7728989,
     "sha256": "fffeb21725ecc29f18af7593d14c4f14de3fae3e5880b35e6e9c99ef18946912"
+  },
+  {
+    "bytes": 173662,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 0,
+    "sha256": "00002645fb79eb0fe39940119c665508cd5e7037a2efa3727b0abfafffead44f"
+  },
+  {
+    "bytes": 55952,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 173662,
+    "sha256": "008f30483e40964e5d1edc890c83cdd692dc6b24a02781acd6533439e3ac8647"
+  },
+  {
+    "bytes": 156519,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 229614,
+    "sha256": "0458f3dd7f14ccb4b82567233828587c6822ea697c71269f571699b2b24e4f6b"
+  },
+  {
+    "bytes": 2190,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 386133,
+    "sha256": "048be2549c60a9f2a4bf9b64a70b4c259a3a0a493ed3aa83126ee7eb41eaaab3"
+  },
+  {
+    "bytes": 245539,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 388323,
+    "sha256": "06a444b61b94233aa354145b34212304e1b18d69b2954b8ed571cda34b9cfb5d"
+  },
+  {
+    "bytes": 185732,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 633862,
+    "sha256": "06c36a625c5b3e3cd490ffb755a2b2c1fd4cd149349f0819d897c3b697389ec7"
+  },
+  {
+    "bytes": 181780,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 819594,
+    "sha256": "0aa9d4f205617b39b7b9827f77b713e1364bb21b2edd70d847d7e521ed8678a7"
+  },
+  {
+    "bytes": 54840,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 1001374,
+    "sha256": "0e3787b1eb013fddc85728cb40ff3631b8d49d7da3c708b9e13b6914ff045caa"
+  },
+  {
+    "bytes": 237869,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 1056214,
+    "sha256": "1629746d8b90655f300ffefb4b964736117d6cb98d4d2ff98ab1b073d6f02884"
+  },
+  {
+    "bytes": 169887,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 1294083,
+    "sha256": "16f95dfcc6029c1e3e04296e260941ca950fae787b3c5165b1a8ce43226eeae8"
+  },
+  {
+    "bytes": 188969,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 1463970,
+    "sha256": "192115ac637d12eb402a401e1ff277a72f956e840e959ea1cbffe733c107da3a"
+  },
+  {
+    "bytes": 52125,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 1652939,
+    "sha256": "1b03691a932031300c2482ec5b48e45fb35d3eb2ce5c67449d184c663433067c"
+  },
+  {
+    "bytes": 495,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 1705064,
+    "sha256": "1cb4473893955e0f441c1236ecf281dc6664bf51cc1d01b458e8f89c7851dc6a"
+  },
+  {
+    "bytes": 7616,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 1705559,
+    "sha256": "1cf582fe416cfe97c66a082f29971cdf56b07c211f5aa20e593bb28c1459781f"
+  },
+  {
+    "bytes": 545,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 1713175,
+    "sha256": "2402b81c62da5f3d21ec5c5ba46776eb35735c60dc87b99c302849e8c89bee74"
+  },
+  {
+    "bytes": 617,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 1713720,
+    "sha256": "2c6acb84deba41fe68f6dc92d70b09b54620c95e3973c14103e5ca69f8ecd1f3"
+  },
+  {
+    "bytes": 6339,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 1714337,
+    "sha256": "2f45bb826399b9e9e2958ebc080d44a7bd3747eea6676481c8f2adc231472ced"
+  },
+  {
+    "bytes": 181502,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 1720676,
+    "sha256": "337c06c6307469f4d583e2625ab26eff4f5c26aab77f0c724648b543eba668e4"
+  },
+  {
+    "bytes": 342,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 1902178,
+    "sha256": "38465bfdafb4d03830bd2eabf7a9ed9f852fbcd64de41c2fc72d9e1da135403a"
+  },
+  {
+    "bytes": 552,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 1902520,
+    "sha256": "44714b014585a6a0cf3a89e2b5846add802079f3898dc0a4c6e89a9bb72f6897"
+  },
+  {
+    "bytes": 285350,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 1903072,
+    "sha256": "4aa3bcb5f9b9f343da276a53e9261f85a631be6616f09b47b47bc360906fa50a"
+  },
+  {
+    "bytes": 191035,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 2188422,
+    "sha256": "501577324b3271df8d3502308f44af222dfbc7cde9f667d7d72d0b7afba0b8f1"
+  },
+  {
+    "bytes": 1142,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 2379457,
+    "sha256": "569c62451809c4d9dd160b841454ae9acd22e4c3fbf9dbdcec148b366bc1513e"
+  },
+  {
+    "bytes": 198687,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 2380599,
+    "sha256": "5a49f206683efa2e39e70f1458951ebc1d00c3ea9d2809bd0ebbeaec70bd7b49"
+  },
+  {
+    "bytes": 440826,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 2579286,
+    "sha256": "5dcf79251839b43bbb92109ac7da1cd57d48b0deb011bd034fa040f7dd79a741"
+  },
+  {
+    "bytes": 30850,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 3020112,
+    "sha256": "60df14deb89b60b7eb816603dc4a07e6bfa820a361b6297a93a28093b27c3c53"
+  },
+  {
+    "bytes": 870,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 3050962,
+    "sha256": "685e9536122cceff8bfed36675d9b381720d6ef26b03182f358b01d197eb4255"
+  },
+  {
+    "bytes": 174948,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 3051832,
+    "sha256": "6ca5f48e5dc80e4526a3aad26b14e5e24eca51721fc51c4114c914b22af88856"
+  },
+  {
+    "bytes": 303978,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 3226780,
+    "sha256": "7083904afaac949d34f4cec3129bca0818e419683342a438441f2fa01d44cce9"
+  },
+  {
+    "bytes": 14183,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 3530758,
+    "sha256": "72e7c4959ebc76c39fbcfa6db652ff7db98a6037cdfe52a281886833939f5628"
+  },
+  {
+    "bytes": 3955,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 3544941,
+    "sha256": "753e8b13714c5eda9d116c9f043163b7a83563e9609864185eb5b83be1f6df0e"
+  },
+  {
+    "bytes": 79246,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 3548896,
+    "sha256": "7885c479100a73b7aa0bdf11e0d7d134fdf0cdbe5b73e8f471496d4201f5e005"
+  },
+  {
+    "bytes": 194219,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 3628142,
+    "sha256": "78fde50ab49d794a7e31041452caba3d191fdd4f5aaf79b8df1a8f82f7d80f79"
+  },
+  {
+    "bytes": 2619057,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 3822361,
+    "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b"
+  },
+  {
+    "bytes": 2245,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 6441418,
+    "sha256": "7f79125fe21ff9b9c0bb66c973b9a87fd338ae240c00feab2f8e2ce475f7aa7e"
+  },
+  {
+    "bytes": 153769,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 6443663,
+    "sha256": "802862ca6c8c280e0f1e00b768699de8e3d007a2d8d384319c85ee59449063fc"
+  },
+  {
+    "bytes": 833,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 6597432,
+    "sha256": "83dbe5fe47e7929e55dd6c72350cdb921585a71b7d344eb0934b90e3e580bd2a"
+  },
+  {
+    "bytes": 93539,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 6598265,
+    "sha256": "8769c334e9b2d27249bf2d3c8a3671f2ad28007bccd7f38e76bb34817701b117"
+  },
+  {
+    "bytes": 168684,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 6691804,
+    "sha256": "8798e8cac856ecd18498b0ec15ced3ef885cdf731e708140fd14099a4fa4bd59"
+  },
+  {
+    "bytes": 499243,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 6860488,
+    "sha256": "8f3f4d0a6afd4638e867b00175334f13a0729cf46f047ec8e0aff785ce7fc50a"
+  },
+  {
+    "bytes": 368674,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 7359731,
+    "sha256": "9584724ad0c4434bf010129aabec26152446baf36b651535ba75dffad5242a61"
+  },
+  {
+    "bytes": 252,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 7728405,
+    "sha256": "95b61973f667ea3987a0428efd3344e25a3e11e386b1ffa807403507284b58b1"
+  },
+  {
+    "bytes": 178712,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 7728657,
+    "sha256": "9971a58149df9a46604cc992f42cea2e6123030d9540396486919c6e68c41f5d"
+  },
+  {
+    "bytes": 711,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 7907369,
+    "sha256": "9c4ba5cc2ea6d9122aa748ea93676fd1c4a13edbd6b7024f1db4167f38db34ca"
+  },
+  {
+    "bytes": 711,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 7908080,
+    "sha256": "9e76404dd43842e113f4960bf35243611a02371143101cbd87bda4f5e097cddd"
+  },
+  {
+    "bytes": 27754,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 7908791,
+    "sha256": "9f26be4421ace08a79ee58c6efd9ac156f9c62d9ea1d166c8ddc20ad1c57afb7"
+  },
+  {
+    "bytes": 179087,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 7936545,
+    "sha256": "9ff909c0508fbd82c8096ef8a8dd5d3450007ee6717161a2e78f314891ed5f77"
+  },
+  {
+    "bytes": 176803,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 8115632,
+    "sha256": "a2ccc5353896b5402c203c0affa47bbb0c5b18259b59183d35da1eab665af900"
+  },
+  {
+    "bytes": 579,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 8292435,
+    "sha256": "a963ab8ec96dc65fdbdcdaebb8a92b06e66927c8f76ce9092d12fee5657f155e"
+  },
+  {
+    "bytes": 262549,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 8293014,
+    "sha256": "ac8c5907fbe673456ef02ea15027a2aa0572aa83969749383697d4057d9612e3"
+  },
+  {
+    "bytes": 163268,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 8555563,
+    "sha256": "afe961e45a20cfa2d126b1dc785527100d971581ada70df00bc17f4b6a601021"
+  },
+  {
+    "bytes": 654,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 8718831,
+    "sha256": "b0e734991b5821beb83353268bb1dc6bd4939760c5ce20f994a6100b808c7b9b"
+  },
+  {
+    "bytes": 393,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 8719485,
+    "sha256": "b1d4fd9e5cbadf34bcce14b14332b763324f2a5ae2ceff27ae38b7b084020570"
+  },
+  {
+    "bytes": 183655,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 8719878,
+    "sha256": "c3e516df4251e8582e3b3b7c591fb231ae3486363c880d01891a837f7a79a0c3"
+  },
+  {
+    "bytes": 10785,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 8903533,
+    "sha256": "c4af34afdbe7f599f62134a50f70518843aa63143bc2edb6cdbebf67fca3752a"
+  },
+  {
+    "bytes": 433,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 8914318,
+    "sha256": "c5b04881a51a32412336faa890f586605e48fea9a8cae879e5c32be64e89d7eb"
+  },
+  {
+    "bytes": 639,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 8914751,
+    "sha256": "c8d20cdd0e14fd156bf0ad70ab66e1cb9a9682890fa07c562c1efca7502a1fb6"
+  },
+  {
+    "bytes": 1704,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 8915390,
+    "sha256": "cd8fcf7eeff0db8e770314ad861221b0eeaceea0ee6eda5251dca4c575391c8a"
+  },
+  {
+    "bytes": 234221,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 8917094,
+    "sha256": "ce1a1b24179639ff2f5d43a0e7d8497ea531427dac9ddb40b765a0b3f97c4cf7"
+  },
+  {
+    "bytes": 37957,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 9151315,
+    "sha256": "d4388f480b25d7aae0900f189ce62c4b63ea64e26c75defa9b232796cd48a94b"
+  },
+  {
+    "bytes": 222420,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 9189272,
+    "sha256": "d5a5483778a089badf1140edd73ca070d23dd4d8c01202e1c9913b9d99c9df76"
+  },
+  {
+    "bytes": 180291,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 9411692,
+    "sha256": "d6676368dc11955f6fe7383cf1d7c4273a6198c18f5a7c1f2fcc6a1a2e6d9317"
+  },
+  {
+    "bytes": 294295,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 9591983,
+    "sha256": "d9e8a04540ae0be4f7033820e01198652d7bd1b291c06c42135cad28a3fa4e13"
+  },
+  {
+    "bytes": 588,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 9886278,
+    "sha256": "da3970a23574ec870be6db8f091eddf8ab71273c95d7b13269c70031465ee085"
+  },
+  {
+    "bytes": 185769,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "application/pdf",
+    "offset": 9886866,
+    "sha256": "e1e72146acc5cd0636883673cb38ed7b7de39823c0c28eae89f7b164759fa784"
+  },
+  {
+    "bytes": 741,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 10072635,
+    "sha256": "e84a7f94daedc8f9592b59bdf392f9ecf19ce948cc0d753c13b76b656891f8cd"
+  },
+  {
+    "bytes": 16793,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 10073376,
+    "sha256": "efa3b10000b42e42fb6c950158e5f48e435898d0be6b384273cb14881a3894ed"
+  },
+  {
+    "bytes": 405,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 10090169,
+    "sha256": "f790b8efc365ad59f3f26e14848d233f11bf85b2c14999bbb1a6b2d654d7f285"
+  },
+  {
+    "bytes": 448,
+    "file": "statement-assets/part-0045.bin",
+    "mime": "image/png",
+    "offset": 10090574,
+    "sha256": "fb8d6829c10446eb4fbfb13b26822546e19c47cdc5cd499a1d272ba3e4a1f80e"
   }
 ]
