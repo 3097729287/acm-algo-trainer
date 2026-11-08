@@ -1,0 +1,278 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:103443::F",
+      "beforeSha256": "e9d1758b7ec55877f6f84e9d63c2e62d4e109c5acfd5bdf99a8a810f27ab5dd6",
+      "content": {
+        "markdown": "# What a Colorful Wall\n\n2021 ICPC Asia Taipei Regional\r\nProblem F\r\nWhat a Colorful Wall\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nIn a lovely park, where you can see trees of green and red roses under skies of blue and clouds of\r\nwhite, there is a wall public for everybody to put up posters. The color of a poster is indicated\r\nby a number. If a new poster to put up overlaps with older ones, the overlapping area will be\r\ncovered by the new one. Given 𝑛 posters with their coordinates and color, please help to put\r\nup them on the wall in the given order and figure out the number of distinct colors that can be\r\nseen on the resultant wall. At the beginning, the wall is blank. All the posters are rectangles\r\nand cannot be rotated.\r\nFor example, the figure shows three posters being put up on the wall in the following order.\r\n1. A light gray poster with a left-top and a right-bottom coordinates of (1, 6) and (3, 3),\r\nrespectively. The color is numbered 1.\r\n2. A dark gray poster with a left-top and a right-bottom coordinates of (3, 4) and (6, 1),\r\nrespectively. The color is numbered 2.\r\n3. A light gray poster with a left-top and a right-bottom coordinates of (2, 5) and (5, 2),\r\nrespectively. The color is numbered 1.\r\n0 1 2 3 4 5 6 7 8 9 10\r\n0\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\nOn the resultant wall, two colors, i.e. light gray and dark gray, are visible.\r\nInput Format\r\nEach test case begins with a line showing an integer 𝑛 denoting the number of posters. Each\r\nof the following 𝑛 lines specifies a poster by five integers, 𝑥1, 𝑦1, 𝑥2, 𝑦2, and 𝑐, where (𝑥1, 𝑦1)\r\n15\n\n2021 ICPC Asia Taipei Regional\r\ndenotes the coordinate of the left-top corner of the poster, (𝑥2, 𝑦2) denotes the coordinate of\r\nthe right-bottom corner of the poster, and 𝑐 is the color of the poster. Please help to put up\r\nthese 𝑛 posters on the wall in their given order.\r\nOutput Format\r\nFor each case, print a single integer that is the number of distinct colors visible on the resultant\r\nwall.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑛 ≤ 4000\r\n∙ 0 ≤ 𝑥1 < 𝑥2 < 2\r\n28, 0 ≤ 𝑦2 < 𝑦1 < 2\r\n28, 1 ≤ 𝑐 ≤ 𝑛, for every poster\r\nSample Input 1\r\n3\r\n1 6 3 3 1\r\n3 4 6 1 2\r\n2 5 5 2 1\r\nSample Output 1\r\n2\r\nSample Input 2\r\n3\r\n2 3 3 2 3\r\n1 4 4 1 1\r\n5 4 6 3 2\r\nSample Output 2\r\n2\r\nSample Input 3\r\n3\r\n0 1 2 0 1\r\n0 1 1 0 2\r\n2 1 3 0 2\r\nSample Output 3\r\n2\r\n16\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {
+          "taipei-F-figure-1.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxkAAAJECAIAAAD15n41AAAACXBIWXMAAA7EAAAOxAGVKw4bAABDRUlEQVR4nO3daZhU5bmvceZRwiSDtgrBDUFmk2xBo5FBnHYCuEERERVRQRtlQyQqRs82AmIAFRQwYRI1BkQRUMCBQUWICaDECRFEQJQgIigy03jeyzrh4nQ1D91Vr/30v3L/PtnrzdU8K1W11r2qqquKfQcAAIBUFfMeAAAAQBgtBQAAkDpaCgAAIHW0FAAAQOpoKQAAgNTRUgAAAKmjpQAAAFJHSwEAAKSOlgIAAEgdLQUAAJC6VFpq7dq10ecAAABQVOCW2rFjR8WKFQcPHjx79uxXX331jbysWrXqh5gVAACgqClwS/31r38tdiw33njjDzErAABAUVPglpo8eXKopWrVqp100kmnJKlRo0ZWVtb27dt/iFkBAACKmgK31MCBA2fPnn201U6dOi1YsCC9kQAAAGQUuKW6dOmyf//+PJcmTZrUr1+/tEcCAACQUeCWGjRoUJ7b161b17Jly71796Y9EgAAgIw4ny+Vk5PTunXrlStXRvltAAAAKuK01LBhw4YOHRrlVwEAAAiJ0FLr16+vX7/+vn370v9VAAAAWiK0VLdu3UaPHp3+78m/PXv2bAcAAEhDTk5OlCxJt6XWrFlTvHjxjRs3Rpkmn5o3b14ls/zoRz8K/zd6TxFZxYoVS5Uq5T1FZOXLly9Tpoz3FJGVLVu2XLly3lNEVrp06QoVKnhPEVmJEiUqVarkPUVkxYoVq1y5svcUMYXdCTvlPUVk4Y5XsmRJ7ykiC4eI4cOHR8mSdFsqOzu7UaNGUUbJv3A3LeR/8YcWYvTkk0/2niKyOXPmXHzxxd5TRDZu3Lg+ffp4TxHZbbfdNmzYMO8pIuvWrdtTTz3lPUVkTZo0effdd72niCxcSX799dfeU8QUdifslPcUkYU73i9+8QvvKSILh4hwoIjyq9KKkkOHDtWoUePyyy+PMkr+0VISaCkVtJQKWkoCLaWiqLTUa6+9FrLm7rvvjjJK/tFSEmgpFbSUClpKAi2loqi0VN++fUPWTJkyJcoo+UdLSaClVNBSKmgpCbSUiqLSUi1atAhZM2PGjCij5B8tJYGWUkFLqaClJNBSKopKS1WtWjVkzUsvvRRllPyjpSTQUipoKRW0lARaSkWRaKldu3YV+97ixYujjJJ/tJQEWkoFLaWClpJAS6koEi31wQcfJFrqjTfeiDJK/tFSEmgpFbSUClpKAi2lomi11KpVq6KMkn+0lARaSgUtpYKWkkBLqSgSLRWMGDFi5MiRUeYoEFpKAi2lgpZSQUtJoKVUFJWW8kJLSaClVNBSKmgpCbSUClpKcmwDLaWCllJBS6mgpSTQUjbJKKGlJNBSKmgpFbSUBFpKBS0lObaBllJBS6mgpVTQUhJoKZtklNBSEmgpFbSUClpKAi2lgpaSHNtAS6mgpVTQUipoKQm0lE0ySmgpCbSUClpKBS0lgZZSQUtJjm2gpVTQUipoKRW0lARayiYZJbSUBFpKBS2lgpaSQEupoKUkxzbQUipoKRW0lApaSgItZZOMElpKAi2lgpZSQUtJoKVU0FKSYxtoKRW0lApaSgUtJYGWsklGCS0lgZZSQUupoKUk0FIqaCnJsQ20lApaSgUtpYKWkkBL2SSjhJaSQEupoKVU0FISaCkVtJTk2AZaSgUtpYKWUkFLSaClbJJRQktJoKVU0FIqaCkJtJQKWkpybAMtpYKWUkFLqaClJNBSNskooaUk0FIqaCkVtJQEWkoFLSU5toGWUkFLqaClVNBSEmgpm2SU0FISaCkVtJQKWkoCLaWClpIc20BLqaClVNBSKmgpCbSUTTJKaCkJtJQKWkoFLSWBllJBS0mObaClVNBSKmgpFbSUBFrKJhkltJQEWkoFLaWClpJAS6mgpSTHNtBSKmgpFbSUClpKAi1lk4wSWkoCLaWCllJBS0mgpVTQUpJjG2gpFbSUClpKBS0lgZaySUYJLSWBllJBS6mgpSTQUipoKcmxDbSUClpKBS2lgpaSQEvZJKOElpJAS6mgpVTQUhJoKRW0lOTYBlpKBS2lgpZSQUtJoKVsklFCS0mgpVTQUipoKQm0lApaSnJsAy2lgpZSQUupoKUk0FI2ySihpSTQUipoKRW0lARaSgUtJTm2gZZSQUupoKVU0FISaCmbZJTQUhJoKRW0lApaSgItpYKWkhzbQEupoKVU0FIqaCkJtJRNMkpoKQm0lApaSgUtJYGWUkFLSY5toKVU0FIqaCkVtJQEWsomGSW0lARaSgUtpYKWkkBLqaClJMc20FIqaCkVtJQKWkoCLWWTjBJaSgItpYKWUkFLSaClVNBSkmMbaCkVtJQKWkoFLSWBlrJJRgktJYGWUkFLqaClJNBSKmgpybENtJQKWkoFLaWClpJAS9kko4SWkkBLqaClVNBSEmgpFbSU5NgGWkoFLaWCllJBS0mgpWySUUJLSaClVNBSKmgpCbSUClpKcmwDLaWCllJBS6mgpSTQUra0omTz5s2DBw9u27bthRde2LFjx8cffzzKTMdES0mgpVTQUipoKQm0lIoi0VITJ0488cQTJ0yY8O2334Yfd+/efccdd/Tv3z/KWDZaSgItpYKWUkFLSaClVPi31PDhw8uVK/fWW28d3rJ169ZWrVqVLl16165dUSYz0FISaCkVtJQKWkoCLaXCuaUWLlwYaibk1JEbly1bFjaWLFnyq6++ijKZgZaSQEupoKVU0FISaCkVni2Vk5NTr1694447bufOnbmWnnzyyblz50YZy0ZLSaClVNBSKmgpCbSUCs+WevbZZ0PKdO7cOco/nxpaSgItpYKWUkFLSaClVHi2VIcOHULKjBw5Mso/nxpaSgItpYKWUkFLSaClVHi2VNWqVUPKPP/88+G/p0+f3rdv3+uuu2706NHr16+PMlB+0FISaCkVtJQKWkoCLaXCraU2bNhQ7Huvv/56OKM8/fTTib/aC2lVs2bNJ598MspMx0RLSaClVNBSKmgpCbSUCreWWr58eaKlsrOzX3755SOXxo8fH7Y/8cQTUcayhX9ofmaZMmVKlSpVhmeWnj17NmzY0HuKyDp16tS6dWvv+0tkXbt2vfbaa72niKxNmza333679xSR1a1bNxxpvaeIrEKFCrNmzfKeIqawO2GnvKeILNzxGjdu7D1FZOEQ4dNSCxYsSLRU27Ztk1erVq16/PHHb9++PcpkhjBAu8zy85//vESJEo0ySwipBg0aeE8RWc2aNUP1et9fIqtTp86pp57qPUVktWrVCod+7ykiq1ixYsuWLb2niKxkyZLnnnuu9xQxhd0JO+U9RWThjle5cmXvKSILhwifllqyZEmipR588MHk1Ysuuqhw3paeea/xvfnmm+FuughF3v/8z/80b97c+/4SGa/xqeA1Pgm8xqfC7TW+8P9moqVmzZqVvNqrV6+w1L179yiTGWgpeKGlVNBSKmgpCbSUrWBR8sUXXyRaauHChcmr2dnZYalZs2ZRJjPQUvBCS6mgpVTQUhJoKVuBo6RWrVohZWbMmJG81KdPn7B0xhlnxBjMQkvBCy2lgpZSQUtJoKVsKX5W54QJE5KXrrnmmrB0/fXXxxjMQkvBCy2lgpZSQUtJoKVsBY6SqVOnhpQZOHBg8tJZZ50VliZPnhxhLhMtBS+0lApaSgUtJYGWshU4Svbt23fKKac0bdo01/Zw7ylZsmTjxo0PHjwYZTIDLQUvtJQKWkoFLSWBlrKlEiUvv/xyiRIlxo0bd+TG7OzssmXLLl26NMpYNloKXmgpFbSUClpKAi1lSzFKnnnmmapVq958883h7DJ16tQuXbo0bNjwnXfeiTLTMdFS8EJLqaClVNBSEmgpW+pRsm3btlBRAwYM6N+//9NPP713794oA+UHLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaySUYJLQUvtJQKWkoFLSWBlrJJRgktBS+0lApaSgUtJYGWsklGCS0FL7SUClpKBS0lgZaypRIlU6ZMuemmm+bPn79p06bElp07d86cObNXr17z5s2LMpaNloIXWkoFLaWClpJAS9lSiZLBgwcX+5eyZctWrFgx8d+hpXJycqKMZaOl4IWWUkFLqaClJNBSthRbKiRUsSOcfvrpL7zwQpSB8oOWghdaSgUtpYKWkkBL2VJsqWeeeWbt2rVz5sxZvHjx9u3bo4ySf7QUvNBSKmgpFbSUBFrKlnpLRfnnU0NLwQstpYKWUkFLSaClbLRUkUBLqaClVNBSKmgpCbSUjZYqEmgpFbSUClpKBS0lgZaypdVS77333sSJE8NReN68eQcPHowyUH7QUvBCS6mgpVTQUhJoKVuKLTVy5MiuXbtOmDBhzZo177//fu/evVu0aLFx48YoMx0TLQUvtJQKWkoFLSWBlrKlEiVDhgxp3Ljxp59+euTGTp06Va9e/ZNPPokyli201J8yy+233x4ee96dENnUqVMHZJx27dpVq1btyswSHs7hWsh7isjq1q176aWXej+yIzvxxBPvuusu7ykiK1eu3KhRo7yniCnsTtgp7ykiC3e8U0891XuKyK699lrPllq9evW2bdtybVy+fHlInC5dusSY6hjCP3R9ZunYsWPmtdR9991Xs2bNX2WWCy64IOTU+Zkl7NF5553nPUVkxx9/fKNGjbwf2ZFVrVq1c+fO3lNEVrp06auvvtp7ipjC7oSd8p4isnDHq1WrlvcUkbVp06bIfR9fTk5O4gPQC+EpaF7jkxBaqmXLlt5T4N/U2WefnZ2d7f3IjozX+CTwGp+KIvrdxg0bNgyVM2nSpIi/M0+0lARaCo5oKRW0lARaylbgKNmzZ8/atWvzXPrZz34WKqd///5pT3UMtJQEWgqOaCkVtJQEWspW4Chp0KBBSJknn3wyealp06ZhqXfv3jEGs9BSEmgpOKKlVNBSEmgpW4GjpHz58ok/o0teqlOnTlgaOXJkjMEstJQEWgqOaCkVtJQEWspW4Chp06bNrFmzkj+Z89tvvy1RokTx4sU/+uijKJMZaCkJtBQc0VIqaCkJtJStwFHyyCOPTJs2LXn7xIkTC+fNUt/RUiJoKTiipVTQUhJoKVuBoyQnJ6dNmzbLly8/cuPKlSurVavWqFGjPXv2RBnLRktJoKXgiJZSQUtJoKVsqUTJjh07Onfu3Lt379mzZ4cIePDBB0NI9enTZ/fu3VFmOiZaSgItBUe0lApaSgItZUs9ShIVFRIqnDLfeeedKNPkEy0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJJRgktJYGWgiNaSgUtJYGWsklGCS0lgZaCI1pKBS0lgZaySUYJLSWBloIjWkoFLSWBlrJFi5Lt27cfPHgw1m+z0VISaCk4oqVU0FISaClbnCjZvXt3vXr15s+fH+W3HRMtJYGWgiNaSgUtJYGWssWJkgEDBoS+efHFF6P8tmOipSTQUnBES6mgpSTQUrYIUbJ8+fKSJUvSUumgpYC4aCkVtJQEWsqWbpQcOHCgY8eO5513Hi2VDloKiIuWUkFLSaClbOlGydChQxcsWNChQwdaKh20FBAXLaWClpJAS9nSipLVq1f36dMn/ActlSZaCoiLllJBS0mgpWxpRUmXLl22b9/+HS2VNloKiIuWUkFLSaClbKlHybhx45599tnEf9NSaaKlgLhoKRW0lARaypZilGzatOmqq646/CMtlSZaCoiLllJBS0mgpWwpRkn37t03b958+MfCb6nfZpYrr7wyPPa8zz6R0VJw1KpVq1q1arXMLOXLl7/88su9D1eRlSlTpl+/ft5TxBR2J+yU9xSR9ezZMysry3uKyH71q195ttTUqVMnTJhw5JbCb6n7M8uNN95ISwERhWvoxo0bt8ss5cqVC9dd3oeryMqWLXvPPfd4TxFT2J2wU95TRBYCsU6dOt5TRNa1a1e3ltq2bdtll12WayOv8aWJ1/iAuH75y1/+93//9//JLFWrVp0xY4b34SoyXuOTwGt8tgJHyQ033PDxxx/n2khLpYmWAuKipVTQUhJoKVvBouSll14aPnx48nZaKk20FBAXLaWClpJAS9kKFiWdOnWqU6dOvSQVKlQIfVO7du3Ej+FAFmW4o6GlJNBScERLqaClJNBStoJFyaFDhw7mpUGDBqFv5s6dm/gxymQGWkoCLQVHtJQKWkoCLWWLEyWJluI1vpTRUkBctJQKWkoCLWWjpYoEWgqIi5ZSQUtJoKVsEaLkq6++Ch0Q+mbEiBHp/7b8oKUk0FJwREupoKUk0FK2tKLklltuadCgQfXq1X/0L3Xq1GnYsOFnn30WZbijoaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FI2ySihpSTQUnBES6mgpSTQUjbJKKGlJNBScERLqaClJNBSNskooaUk0FJwREupoKUk0FK2FKNkz549Dz300BVXXHHJJZdcfPHFffr0WbFiRZSB8oOWkkBLwREtpYKWkkBL2VKJkrfffvv888+fPXv2gQMHwo+7d+/u169f6Jurr7760KFDUcay0VISaCk4oqVU0FISaClbgaPkm2+++c///M+tW7fm2n766aeHxBk0aFCUsWy0lARaCo5oKRW0lARaylbgKJk1a1ZImVNOOWXfvn1Hbu/bt2/YnpWVFWUsGy0lgZaCI1pKBS0lgZayFThKJk2aFFKmePHiGzduPHL78OHDE9tzNdYPgZaSQEvBES2lgpaSQEvZChwl+/fvf/DBB5999tlc2xNvmWrQoEGUsWy0lARaCo5oKRW0lARayhYtSpo1axYS54EHHoj1Cw20lARaCo5oKRW0lARayhYnSl5++eXQN+HEuX///ii/0EZLSaCl4IiWUkFLSaClbBGiZMmSJTVq1Lj00kt37dqV/m/LD1pKAi0FR7SUClpKAi1lSz1KZs6ceckll9SrV69EiRIjRoxIfNZU4Qgt1SWztG3btlSpUmdmloYNGzZr1sz7lIp/UxnZUuGKKzyyvA9XkYVDX8eOHb2niCnsTtgp7ykia9++ffXq1b2niOyMM87wb6nD1qxZ07Vr12rVqj399NPp/7b8CC01PbOMHj26UqVKAzJLOOg3adLE+5SKf1MZ2VJVqlS59dZbvQ9XkZUvX37KlCneU8QUdifslPcUkY0cOfInP/mJ9xSR3XzzzUWopRLOP//8kDiDBw+O9QsNmfca38aNG08++WTvKSL73//93+bNm3ufUvFvKiNbitf4JPAan4oi8RpfLom3n5coUWLZsmWxfufR0FISaCk4oqVU0FISaClbtCjZvXt3se/16tUr1u88GlpKAi0FR7SUClpKAi1lK3CUDB06tHv37uvWrUteqlKlSqicFi1axBjMQktJoKXgiJZSQUtJoKVsBYuS1atXJ558uummm5JXw70nLJ1zzjlRJjPQUhJoKTiipVTQUhJoKVvBouTzzz8PHVOyZMnx48fnWtqxY0cis2699dYokxloKQm0FBzRUipoKQm0lK3AUdKiRYuVK1cmb3/88cdD4pQvX/6jjz6KMZiFlpJAS8ERLaWClpJAS9kKHCXvv//+WWedtXbt2iM3fvvttyEFQuIkP1/1Q6ClJNBScERLqaClJNBStlSiZMWKFeedd16vXr1mzpy5bNmyP//5z/Xq1QspMHfu3CgzHRMtJYGWgiNaSgUtJYGWsqUeJW+88cbDDz+cnZ09bNiwl156qdC+jO87WkoELQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoCLWWTjBJaSgItBUe0lApaSgItZZOMElpKAi0FR7SUClpKAi1lk4wSWkoCLQVHtJQKWkoC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"
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n1 6 3 3 1\n3 4 6 1 2\n2 5 5 2 1",
+            "output": "2"
+          },
+          {
+            "name": "样例 2",
+            "input": "3\n2 3 3 2 3\n1 4 4 1 1\n5 4 6 3 2",
+            "output": "2"
+          },
+          {
+            "name": "样例 3",
+            "input": "3\n0 1 2 0 1\n0 1 1 0 2\n2 1 3 0 2",
+            "output": "2"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# What a Colorful Wall\n\nTime limit: 3 seconds. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nIn a lovely park with green trees, red roses, blue skies and white clouds, there is a public wall where everyone can put up posters. Each poster's color is represented by a number. A newly posted poster covers the overlapping parts of older posters.\n\nGiven the coordinates and colors of $n$ posters, put them up in the given order and determine how many distinct colors remain visible on the resulting wall. The wall is initially blank. All posters are rectangles and cannot be rotated.\n\nThe following example puts up three posters in order.\n\n1. A light-gray poster of color $1$, with top-left corner $(1,6)$ and bottom-right corner $(3,3)$.\n2. A dark-gray poster of color $2$, with top-left corner $(3,4)$ and bottom-right corner $(6,1)$.\n3. A light-gray poster of color $1$, with top-left corner $(2,5)$ and bottom-right corner $(5,2)$.\n\n![Overlapping posters](taipei-F-figure-1.png)\n\nBoth light gray and dark gray remain visible, so there are two visible colors.\n\n## Input Format\n\nEach test case begins with an integer $n$, the number of posters. Each of the following $n$ lines contains five integers $x_1,y_1,x_2,y_2,c$. The poster has top-left corner $(x_1,y_1)$, bottom-right corner $(x_2,y_2)$, and color $c$. Put up these $n$ posters in their input order.\n\n## Output Format\n\nFor each test case, output one integer: the number of distinct colors visible on the resulting wall.\n\n## Technical Specification\n\n- $1\\le n\\le4000$.\n- For every poster, $0\\le x_1<x_2<2^{28}$, $0\\le y_2<y_1<2^{28}$ and $1\\le c\\le n$.\n\n## Sample 1\n\n### Input\n\n```text\n3\n1 6 3 3 1\n3 4 6 1 2\n2 5 5 2 1\n```\n\n### Output\n\n```text\n2\n```\n\n## Sample 2\n\n### Input\n\n```text\n3\n2 3 3 2 3\n1 4 4 1 1\n5 4 6 3 2\n```\n\n### Output\n\n```text\n2\n```\n\n## Sample 3\n\n### Input\n\n```text\n3\n0 1 2 0 1\n0 1 1 0 2\n2 1 3 0 2\n```\n\n### Output\n\n```text\n2\n```\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "sourcePdfSha256": "6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+          "pages": [
+            15,
+            16
+          ]
+        },
+        "id": "remote:codeforces:103443::F",
+        "title": "What a Colorful Wall",
+        "url": "https://codeforces.com/gym/103443/problem/F",
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+          "bytes": 134098,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+          "fileName": "gym-103443-F.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            15,
+            16
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          15,
+          16
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "F",
+          "pdfTitle": "What a Colorful Wall",
+          "rosterTitle": "What a Colorful Wall",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 3,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.677125+00:00",
+          "corpusAuditVerifiedSha256": "3444b9d680c79564ae1697a2c35eb57752dfc156bfc95ad9979868c9e18bf56b"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": true,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::F",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+          "sourcePages": [
+            15,
+            16
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 3,
+          "samplesSha256": "2a12aa341f71094ccc102572cd78f09821f753dfec3f5887bd0b11ea7a4dfd3a",
+          "samplePagesReviewed": [
+            2
+          ],
+          "allPagesRendered": true
+        },
+        "sourceTextArchive": [
+          {
+            "text": "2021 ICPC Asia Taipei Regional\r\nProblem F\r\nWhat a Colorful Wall\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nIn a lovely park, where you can see trees of green and red roses under skies of blue and clouds of\r\nwhite, there is a wall public for everybody to put up posters. The color of a poster is indicated\r\nby a number. If a new poster to put up overlaps with older ones, the overlapping area will be\r\ncovered by the new one. Given 𝑛 posters with their coordinates and color, please help to put\r\nup them on the wall in the given order and figure out the number of distinct colors that can be\r\nseen on the resultant wall. At the beginning, the wall is blank. All the posters are rectangles\r\nand cannot be rotated.\r\nFor example, the figure shows three posters being put up on the wall in the following order.\r\n1. A light gray poster with a left-top and a right-bottom coordinates of (1, 6) and (3, 3),\r\nrespectively. The color is numbered 1.\r\n2. A dark gray poster with a left-top and a right-bottom coordinates of (3, 4) and (6, 1),\r\nrespectively. The color is numbered 2.\r\n3. A light gray poster with a left-top and a right-bottom coordinates of (2, 5) and (5, 2),\r\nrespectively. The color is numbered 1.\r\n0 1 2 3 4 5 6 7 8 9 10\r\n0\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\nOn the resultant wall, two colors, i.e. light gray and dark gray, are visible.\r\nInput Format\r\nEach test case begins with a line showing an integer 𝑛 denoting the number of posters. Each\r\nof the following 𝑛 lines specifies a poster by five integers, 𝑥1, 𝑦1, 𝑥2, 𝑦2, and 𝑐, where (𝑥1, 𝑦1)\r\n15\n\n2021 ICPC Asia Taipei Regional\r\ndenotes the coordinate of the left-top corner of the poster, (𝑥2, 𝑦2) denotes the coordinate of\r\nthe right-bottom corner of the poster, and 𝑐 is the color of the poster. Please help to put up\r\nthese 𝑛 posters on the wall in their given order.\r\nOutput Format\r\nFor each case, print a single integer that is the number of distinct colors visible on the resultant\r\nwall.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑛 ≤ 4000\r\n∙ 0 ≤ 𝑥1 < 𝑥2 < 2\r\n28, 0 ≤ 𝑦2 < 𝑦1 < 2\r\n28, 1 ≤ 𝑐 ≤ 𝑛, for every poster\r\nSample Input 1\r\n3\r\n1 6 3 3 1\r\n3 4 6 1 2\r\n2 5 5 2 1\r\nSample Output 1\r\n2\r\nSample Input 2\r\n3\r\n2 3 3 2 3\r\n1 4 4 1 1\r\n5 4 6 3 2\r\nSample Output 2\r\n2\r\nSample Input 3\r\n3\r\n0 1 2 0 1\r\n0 1 1 0 2\r\n2 1 3 0 2\r\nSample Output 3\r\n2\r\n16",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "f57255d9a777d02f9071632dd1750bc05a1bdcec3d0d17323952cecd38aa4606"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "3\n1 6 3 3 1\n3 4 6 1 2\n2 5 5 2 1",
+                "output": "2"
+              },
+              {
+                "name": "样例 2",
+                "input": "3\n2 3 3 2 3\n1 4 4 1 1\n5 4 6 3 2",
+                "output": "2"
+              },
+              {
+                "name": "样例 3",
+                "input": "3\n0 1 2 0 1\n0 1 1 0 2\n2 1 3 0 2",
+                "output": "2"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+              "pagesReviewed": [
+                2
+              ],
+              "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+              "samples": [
+                {
+                  "name": "样例 1",
+                  "input": "3\n1 6 3 3 1\n3 4 6 1 2\n2 5 5 2 1",
+                  "output": "2"
+                },
+                {
+                  "name": "样例 2",
+                  "input": "3\n2 3 3 2 3\n1 4 4 1 1\n5 4 6 3 2",
+                  "output": "2"
+                },
+                {
+                  "name": "样例 3",
+                  "input": "3\n0 1 2 0 1\n0 1 1 0 2\n2 1 3 0 2",
+                  "output": "2"
+                }
+              ]
+            }
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "F",
+          "pdfSha256": "6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            15,
+            16
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [
+            {
+              "file": "taipei-F-figure-1.png",
+              "page": 1,
+              "clipRect": [
+                138,
+                482,
+                455,
+                714
+              ],
+              "sha256": "2cf1ee8e0c9a7e81acd2b291efeb354ad19202426355af12a7f2988a534d0a09"
+            }
+          ],
+          "notes": [
+            "上界为 2 的 28 次方，并非文本提取结果中的 228。",
+            "原稿没有测试用例数或终止标记，不擅自添加。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "1faf34f9ae916867a71afe83247baa06c17e4b4619ceadcc1d2cd696a9a9c2fe"
+        },
+        "resourceManifest": {
+          "taipei-F-figure-1.png": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2cf1ee8e0c9a7e81acd2b291efeb354ad19202426355af12a7f2988a534d0a09",
+            "bytes": 17299,
+            "mime": "image/png",
+            "frameCount": 1,
+            "width": 793,
+            "height": 580,
+            "derivedFromPdfSha256": "6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+            "kind": "reviewed-original-diagram",
+            "sourcePage": 1,
+            "clipRect": [
+              138,
+              482,
+              455,
+              714
+            ]
+          }
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "3444b9d680c79564ae1697a2c35eb57752dfc156bfc95ad9979868c9e18bf56b",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "1faf34f9ae916867a71afe83247baa06c17e4b4619ceadcc1d2cd696a9a9c2fe",
+          "sourcePdfSha256": "6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+          "markdown": "# 五彩缤纷的墙\n\n时间限制：3 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\n一座美丽的公园里有绿树、红玫瑰、蓝天和白云，还有一面供大家张贴海报的公共墙。每张海报的颜色用一个编号表示。新贴上的海报会覆盖旧海报与它重叠的部分。\n\n给定 $n$ 张海报的位置和颜色，请按给定顺序张贴海报，并计算最终墙上能看到多少种不同颜色。最初墙面是空白的。所有海报都是矩形，且不能旋转。\n\n下面的例子按顺序张贴三张海报。\n\n1. 一张颜色编号为 $1$ 的浅灰色海报，左上角为 $(1,6)$，右下角为 $(3,3)$。\n2. 一张颜色编号为 $2$ 的深灰色海报，左上角为 $(3,4)$，右下角为 $(6,1)$。\n3. 一张颜色编号为 $1$ 的浅灰色海报，左上角为 $(2,5)$，右下角为 $(5,2)$。\n\n![海报覆盖示意图](taipei-F-figure-1.png)\n\n最终浅灰色和深灰色都仍然可见，因此能看到两种颜色。\n\n## 输入格式\n\n每组测试数据首先包含一个整数 $n$，表示海报数。接下来 $n$ 行，每行包含五个整数 $x_1,y_1,x_2,y_2,c$。海报的左上角为 $(x_1,y_1)$，右下角为 $(x_2,y_2)$，颜色为 $c$。请按输入顺序张贴这 $n$ 张海报。\n\n## 输出格式\n\n对于每组测试数据，输出一个整数，表示最终墙上可见的不同颜色数。\n\n## 数据范围\n\n- $1\\le n\\le4000$。\n- 每张海报都满足 $0\\le x_1<x_2<2^{28}$、$0\\le y_2<y_1<2^{28}$、$1\\le c\\le n$。\n\n## 样例 1\n\n### 输入\n\n```text\n3\n1 6 3 3 1\n3 4 6 1 2\n2 5 5 2 1\n```\n\n### 输出\n\n```text\n2\n```\n\n## 样例 2\n\n### 输入\n\n```text\n3\n2 3 3 2 3\n1 4 4 1 1\n5 4 6 3 2\n```\n\n### 输出\n\n```text\n2\n```\n\n## 样例 3\n\n### 输入\n\n```text\n3\n0 1 2 0 1\n0 1 1 0 2\n2 1 3 0 2\n```\n\n### 输出\n\n```text\n2\n```\n"
+        },
+        "translationReview": {
+          "letter": "F",
+          "pdfSha256": "6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            15,
+            16
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [
+            {
+              "file": "taipei-F-figure-1.png",
+              "page": 1,
+              "clipRect": [
+                138,
+                482,
+                455,
+                714
+              ],
+              "sha256": "2cf1ee8e0c9a7e81acd2b291efeb354ad19202426355af12a7f2988a534d0a09"
+            }
+          ],
+          "notes": [
+            "上界为 2 的 28 次方，并非文本提取结果中的 228。",
+            "原稿没有测试用例数或终止标记，不擅自添加。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "1faf34f9ae916867a71afe83247baa06c17e4b4619ceadcc1d2cd696a9a9c2fe",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

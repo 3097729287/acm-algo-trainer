@@ -1,5 +1,5 @@
 from contextlib import closing
-import json,sqlite3,tempfile,unittest
+import json,sqlite3,tempfile,threading,unittest
 from pathlib import Path
 from update_backups import backup,reusable_state_snapshot
 from library import LibraryDatabase
@@ -23,6 +23,17 @@ class SnapshotReuseTests(unittest.TestCase):
         with patch('recovery_backups.snapshot',side_effect=AssertionError('duplicate whole database copy')):
             self.assertEqual(self.library.backup(),self.saved/self.library.path.name)
         self.assertEqual(len(list((self.state/'backups').iterdir())),1)
+
+    def test_original_and_recovery_are_fully_verified_concurrently(self):
+        from update_backups import _stable_database_identity
+        barrier=threading.Barrier(2);checked=set();lock=threading.Lock()
+        def verified(path):
+            with lock:checked.add(Path(path).resolve())
+            barrier.wait(timeout=3)
+            return _stable_database_identity(path)
+        with patch('update_backups._stable_database_identity',side_effect=verified):
+            self.assertEqual(reusable_state_snapshot(self.library.path),self.saved/self.library.path.name)
+        self.assertEqual(checked,{self.library.path.resolve(),(self.saved/self.library.path.name).resolve()})
 
     def test_unknown_local_row_change_never_reuses_an_older_copy(self):
         with closing(sqlite3.connect(self.library.path)) as db,db:db.execute("UPDATE unknown_personal_table SET value='new private content'")

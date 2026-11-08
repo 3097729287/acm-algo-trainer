@@ -1,0 +1,264 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:103443::G",
+      "beforeSha256": "4148232ea8466458290a011f7bc750a202b67cc13def5724bb3424fb7b5e417e",
+      "content": {
+        "markdown": "# The Treasure of the Sierra Jade\n\n2021 ICPC Asia Taipei Regional\r\nProblem G\r\nThe Treasure of the Sierra Jade\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nCongratulations! You are so lucky to find the treasure of the Sierra Jade. Now, your last\r\nmission is to transport the treasure down the mountain to the river, where a boat will pick you\r\nup. The heavy treasure is shipped on a cart, and you cannot push the cart uphill. Your danger\r\ncomes from the patrol of the Sierra Jade. The patrol consists of a group of guards, and each\r\nof them has a patrol route to traverse the mountain every turn. Your mission fails if you meet\r\nany guard at the same location. Given the map of the Sierra Jade and the patrol routes, please\r\nfigure out the minimum number of turns to transport the treasures to any part of the river.\r\nInput Format\r\nThe first line of the input is an integer 𝑁 denoting the number of test cases. Each case begins\r\nwith a line of two integers 𝑛 and 𝑚 specifying the width and the height of the map of the\r\nSierra Jade. The altitude of each grid in the map is given in the following 𝑚 lines for a total of\r\n𝑛 × 𝑚 integers. That is, the 𝑥th number in the 𝑦th line denotes the altitude of the grid (𝑥 − 1,\r\n𝑦 − 1). A grid with the altitude of 0 is a part of the river. The river may not be connected,\r\nand reaching any grid with the altitude of 0 is considered success. Then, your initial location,\r\nthe grid where the treasure is found, is given in two integers 𝑥𝑠 and 𝑦𝑠. Of course, the grid\r\n(𝑥𝑠, 𝑦𝑠) is not a part of the river. The last part of the input is for the guards. An integer 𝑔\r\ndenotes the number of guards. Each 𝑖th line in the 𝑔 lines specifies the patrol route of the 𝑖th\r\nguard. The first number 𝑘𝑖\r\nindicates the number of locations in the route, and the following 𝑘𝑖\r\ngrids are given in 2𝑘𝑖\r\nintegers as 𝑥𝑖,1, 𝑦𝑖,1, 𝑥𝑖,2, 𝑦𝑖,2, ..., 𝑥𝑖,𝑘𝑖\r\n, 𝑦𝑖,𝑘𝑖\r\n. The guard traverses these grids\r\nevery turn in order, and then returns to the first grid to start again. As the guards known for\r\ntheir agility, the patrol route may consist of non-adjacent grids. Fortunately, the guards do not\r\npatrol the river and will never be located on the grid (𝑥𝑠, 𝑦𝑠) because of their respect for the\r\ntreasure.\r\nAt the beginning, all guards are at their own first location, and you are at your initial location\r\nas well. You and the patrol take turns when moving. In each turn, you move first. You can\r\nstay at the same grid or push the cart to one of the four adjacent grids if the grid with an\r\naltitude less than or equal to your current grid. The rest of the turn is for the guards to move\r\nto the next location in their patrol route. Your mission fails if you are caught by the guard in\r\ntwo situations:\r\n1. You move to a grid where at least one guard is located.\r\n2. You move to or stay at a grid that at least one guard will immediately move to in the\r\nsame turn.\r\n17\n\n2021 ICPC Asia Taipei Regional\r\nThe following figure illustrates the first case in the sample input as an example. Your location\r\nis marked by the letter Y, and the guard is marked by the letter G. In the first turn, your only\r\nchoice is to stay at (0, 0) since both adjacent grids are infeasible to move to. That is, the\r\naltitude of (1, 0) is greater than that of (0, 0), and (0, 1) is occupied by the only guard. In\r\nthe second turn, you move to (0, 1). In the third turn, you reach (0, 2), where is a part of the\r\nriver, with the success of the mission.\r\nY 2\r\nG 2\r\n0 0\r\n𝑡 = 0\r\nY 2\r\n1 G\r\n0 0\r\n𝑡 = 1\r\n1 2\r\nY G\r\n0 0\r\n𝑡 = 2\r\n1 2\r\nG 2\r\nY 0\r\n𝑡 = 3\r\nOutput Format\r\nThe output contains 𝑁 lines for the 𝑁 test cases. For each case, output a single line containing\r\nan integer that is the minimum number of turns for you to transport the treasure downhill to\r\nany location of the river. Output -1 if it is impossible to ship the treasure to the river.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑁 ≤ 10\r\n∙ 0 < 𝑛, 𝑚 ≤ 40\r\n∙ 0 ≤ 𝑔 ≤ 10\r\n∙ 0 < 𝑘𝑖 ≤ 8\r\n∙ All x-coordinates are integers in the range of 0 and 𝑛 − 1, all y-coordinates are integers\r\nin the range of 0 and 𝑚 − 1, and all altitudes are integers in the range of 0 and 220\r\n.\r\n18\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n5\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n0 0\r\n1\r\n3 0 1 1 1 1 1\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n0 0\r\n1\r\n2 0 1 1 1\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n1 0\r\n0\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n1 0\r\n2\r\n1 0 1\r\n1 1 1\r\n3 3\r\n1 2 1\r\n1 1 1\r\n0 2 0\r\n1 0\r\n1\r\n3 0 1 1 1 2 1\r\nSample Output 1\r\n3\r\n-1\r\n2\r\n-1\r\n3\r\n19\n\n2021 ICPC Asia Taipei Regional\r\nAlmost blank page\r\n20\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {
+          "taipei-G-figure-1.png": "data:image/png;base64,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"
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "5\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n3 0 1 1 1 1 1\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n2 0 1 1 1\n2 3\n1 2\n1 2\n0 0\n1 0\n0\n2 3\n1 2\n1 2\n0 0\n1 0\n2\n1 0 1\n1 1 1\n3 3\n1 2 1\n1 1 1\n0 2 0\n1 0\n1\n3 0 1 1 1 2 1",
+            "output": "3\n-1\n2\n-1\n3"
+          }
+        ],
+        "pageCount": 4,
+        "sourceText": "# The Treasure of the Sierra Jade\n\nTime limit: 1 second. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nCongratulations on finding the treasure of the Sierra Jade! Your last mission is to transport it down the mountain to a river, where a boat will pick you up. The heavy treasure is carried on a cart that you cannot push uphill. The mountain is patrolled by guards, each following a cyclic route. Your mission fails if you meet a guard at the same location. Given the map and patrol routes, find the minimum number of turns needed to reach any part of the river.\n\n## Input Format\n\nThe first line contains an integer $N$, the number of test cases. Each case begins with two integers $n$ and $m$, the map's width and height. The following $m$ lines each contain $n$ integers describing the altitudes of the $n\\times m$ cells. The $x$-th number on the $y$-th line gives the altitude of cell $(x-1,y-1)$.\n\nA cell of altitude $0$ is part of the river. The river need not be connected; reaching any altitude-$0$ cell succeeds. Next are two integers $x_s$ and $y_s$, your initial location where the treasure was found. Cell $(x_s,y_s)$ is not in the river.\n\nNext is an integer $g$, the number of guards. Each of the next $g$ lines describes one guard. The first integer $k_i$ is the number of cells on that guard's route, followed by $2k_i$ integers giving the cells $x_{i,1},y_{i,1},x_{i,2},y_{i,2},\\ldots,x_{i,k_i},y_{i,k_i}$. The guard visits these cells in order, moving once each turn, and repeats from the first cell after reaching the last. Consecutive route cells need not be adjacent. Guards never visit river cells or the initial cell $(x_s,y_s)$, out of respect for the treasure.\n\nInitially each guard is at the first cell of its route, and you are at your initial cell. In each turn you move first, then every guard moves to the next cell on its route. You may stay where you are or move the cart to one of the four adjacent cells whose altitude is no greater than your current cell's altitude. You are caught in either of these situations:\n\n1. You move to a cell currently occupied by at least one guard.\n2. You move to or stay at a cell that at least one guard will move to later in the same turn.\n\nThe following figure illustrates the first sample case. `Y` marks you and `G` marks the guard. In the first turn you must stay at $(0,0)$: cell $(1,0)$ is higher, while cell $(0,1)$ contains the guard. In the second turn you move to $(0,1)$. In the third turn you reach the river at $(0,2)$ and succeed.\n\n![Sample patrol and movement](taipei-G-figure-1.png)\n\n## Output Format\n\nOutput $N$ lines, one per test case. Each line contains the minimum number of turns needed to transport the treasure to any river cell, or $-1$ if this is impossible.\n\n## Technical Specification\n\n- $1\\le N\\le10$.\n- $0<n,m\\le40$.\n- $0\\le g\\le10$.\n- $0<k_i\\le8$.\n- All coordinates are integers. The horizontal coordinate is between $0$ and $n-1$, the vertical coordinate is between $0$ and $m-1$, and every altitude is an integer between $0$ and $2^{20}$, inclusive.\n\n## Sample 1\n\n### Input\n\n```text\n5\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n3 0 1 1 1 1 1\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n2 0 1 1 1\n2 3\n1 2\n1 2\n0 0\n1 0\n0\n2 3\n1 2\n1 2\n0 0\n1 0\n2\n1 0 1\n1 1 1\n3 3\n1 2 1\n1 1 1\n0 2 0\n1 0\n1\n3 0 1 1 1 2 1\n```\n\n### Output\n\n```text\n3\n-1\n2\n-1\n3\n```\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "sourcePdfSha256": "aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+          "pages": [
+            17,
+            18,
+            19,
+            20
+          ]
+        },
+        "id": "remote:codeforces:103443::G",
+        "title": "The Treasure of the Sierra Jade",
+        "url": "https://codeforces.com/gym/103443/problem/G",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+          "bytes": 156071,
+          "mime": "application/pdf",
+          "pageCount": 4,
+          "data": "tb-asset:aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+          "fileName": "gym-103443-G.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            17,
+            18,
+            19,
+            20
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          17,
+          18,
+          19,
+          20
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "G",
+          "pdfTitle": "The Treasure of the Sierra Jade",
+          "rosterTitle": "The Treasure of the Sierra Jade",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.738738+00:00",
+          "corpusAuditVerifiedSha256": "bef4dea09e171a5ddfbbf689e7566d0eb26c5f7ab29c1d68095ddff5b2dfeaf1"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": true,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::G",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+          "sourcePages": [
+            17,
+            18,
+            19,
+            20
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "c7fc68649973be9275946f8ce6d8025c9c428d6e0b72e2e8e224f2209d78ee13",
+          "samplePagesReviewed": [
+            3
+          ],
+          "allPagesRendered": true
+        },
+        "sourceTextArchive": [
+          {
+            "text": "2021 ICPC Asia Taipei Regional\r\nProblem G\r\nThe Treasure of the Sierra Jade\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nCongratulations! You are so lucky to find the treasure of the Sierra Jade. Now, your last\r\nmission is to transport the treasure down the mountain to the river, where a boat will pick you\r\nup. The heavy treasure is shipped on a cart, and you cannot push the cart uphill. Your danger\r\ncomes from the patrol of the Sierra Jade. The patrol consists of a group of guards, and each\r\nof them has a patrol route to traverse the mountain every turn. Your mission fails if you meet\r\nany guard at the same location. Given the map of the Sierra Jade and the patrol routes, please\r\nfigure out the minimum number of turns to transport the treasures to any part of the river.\r\nInput Format\r\nThe first line of the input is an integer 𝑁 denoting the number of test cases. Each case begins\r\nwith a line of two integers 𝑛 and 𝑚 specifying the width and the height of the map of the\r\nSierra Jade. The altitude of each grid in the map is given in the following 𝑚 lines for a total of\r\n𝑛 × 𝑚 integers. That is, the 𝑥th number in the 𝑦th line denotes the altitude of the grid (𝑥 − 1,\r\n𝑦 − 1). A grid with the altitude of 0 is a part of the river. The river may not be connected,\r\nand reaching any grid with the altitude of 0 is considered success. Then, your initial location,\r\nthe grid where the treasure is found, is given in two integers 𝑥𝑠 and 𝑦𝑠. Of course, the grid\r\n(𝑥𝑠, 𝑦𝑠) is not a part of the river. The last part of the input is for the guards. An integer 𝑔\r\ndenotes the number of guards. Each 𝑖th line in the 𝑔 lines specifies the patrol route of the 𝑖th\r\nguard. The first number 𝑘𝑖\r\nindicates the number of locations in the route, and the following 𝑘𝑖\r\ngrids are given in 2𝑘𝑖\r\nintegers as 𝑥𝑖,1, 𝑦𝑖,1, 𝑥𝑖,2, 𝑦𝑖,2, ..., 𝑥𝑖,𝑘𝑖\r\n, 𝑦𝑖,𝑘𝑖\r\n. The guard traverses these grids\r\nevery turn in order, and then returns to the first grid to start again. As the guards known for\r\ntheir agility, the patrol route may consist of non-adjacent grids. Fortunately, the guards do not\r\npatrol the river and will never be located on the grid (𝑥𝑠, 𝑦𝑠) because of their respect for the\r\ntreasure.\r\nAt the beginning, all guards are at their own first location, and you are at your initial location\r\nas well. You and the patrol take turns when moving. In each turn, you move first. You can\r\nstay at the same grid or push the cart to one of the four adjacent grids if the grid with an\r\naltitude less than or equal to your current grid. The rest of the turn is for the guards to move\r\nto the next location in their patrol route. Your mission fails if you are caught by the guard in\r\ntwo situations:\r\n1. You move to a grid where at least one guard is located.\r\n2. You move to or stay at a grid that at least one guard will immediately move to in the\r\nsame turn.\r\n17\n\n2021 ICPC Asia Taipei Regional\r\nThe following figure illustrates the first case in the sample input as an example. Your location\r\nis marked by the letter Y, and the guard is marked by the letter G. In the first turn, your only\r\nchoice is to stay at (0, 0) since both adjacent grids are infeasible to move to. That is, the\r\naltitude of (1, 0) is greater than that of (0, 0), and (0, 1) is occupied by the only guard. In\r\nthe second turn, you move to (0, 1). In the third turn, you reach (0, 2), where is a part of the\r\nriver, with the success of the mission.\r\nY 2\r\nG 2\r\n0 0\r\n𝑡 = 0\r\nY 2\r\n1 G\r\n0 0\r\n𝑡 = 1\r\n1 2\r\nY G\r\n0 0\r\n𝑡 = 2\r\n1 2\r\nG 2\r\nY 0\r\n𝑡 = 3\r\nOutput Format\r\nThe output contains 𝑁 lines for the 𝑁 test cases. For each case, output a single line containing\r\nan integer that is the minimum number of turns for you to transport the treasure downhill to\r\nany location of the river. Output -1 if it is impossible to ship the treasure to the river.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑁 ≤ 10\r\n∙ 0 < 𝑛, 𝑚 ≤ 40\r\n∙ 0 ≤ 𝑔 ≤ 10\r\n∙ 0 < 𝑘𝑖 ≤ 8\r\n∙ All x-coordinates are integers in the range of 0 and 𝑛 − 1, all y-coordinates are integers\r\nin the range of 0 and 𝑚 − 1, and all altitudes are integers in the range of 0 and 220\r\n.\r\n18\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n5\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n0 0\r\n1\r\n3 0 1 1 1 1 1\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n0 0\r\n1\r\n2 0 1 1 1\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n1 0\r\n0\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n1 0\r\n2\r\n1 0 1\r\n1 1 1\r\n3 3\r\n1 2 1\r\n1 1 1\r\n0 2 0\r\n1 0\r\n1\r\n3 0 1 1 1 2 1\r\nSample Output 1\r\n3\r\n-1\r\n2\r\n-1\r\n3\r\n19\n\n2021 ICPC Asia Taipei Regional\r\nAlmost blank page\r\n20",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "80d5942e453375410026e9d64d6a017a16ccf191a217bc725df9b4ca70641718"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "5\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n3 0 1 1 1 1 1\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n2 0 1 1 1\n2 3\n1 2\n1 2\n0 0\n1 0\n0\n2 3\n1 2\n1 2\n0 0\n1 0\n2\n1 0 1\n1 1 1\n3 3\n1 2 1\n1 1 1\n0 2 0\n1 0\n1\n3 0 1 1 1 2 1",
+                "output": "3\n-1\n2\n-1\n3"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+              "pagesReviewed": [
+                3
+              ],
+              "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+              "samples": [
+                {
+                  "name": "样例 1",
+                  "input": "5\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n3 0 1 1 1 1 1\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n2 0 1 1 1\n2 3\n1 2\n1 2\n0 0\n1 0\n0\n2 3\n1 2\n1 2\n0 0\n1 0\n2\n1 0 1\n1 1 1\n3 3\n1 2 1\n1 1 1\n0 2 0\n1 0\n1\n3 0 1 1 1 2 1",
+                  "output": "3\n-1\n2\n-1\n3"
+                }
+              ]
+            }
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "G",
+          "pdfSha256": "aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+          "pageCount": 4,
+          "pagesReviewed": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourcePageNumbers": [
+            17,
+            18,
+            19,
+            20
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [
+            {
+              "file": "taipei-G-figure-1.png",
+              "page": 2,
+              "clipRect": [
+                52,
+                200,
+                267,
+                269
+              ],
+              "sha256": "118fe6d6bdd6402cb946c5b5f8a093df041f7f79f95f29d2eef1847d0432fcbd"
+            }
+          ],
+          "notes": [
+            "第四页为空白页；守卫移动前后的占用均需检查，允许原地等待和非相邻巡逻位置。",
+            "海拔上界为 2 的 20 次方，包含端点。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "8278108b1070292fc16336b90435e08b3e9d7c5662bb51145df949cdf77212aa"
+        },
+        "resourceManifest": {
+          "taipei-G-figure-1.png": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "118fe6d6bdd6402cb946c5b5f8a093df041f7f79f95f29d2eef1847d0432fcbd",
+            "bytes": 10419,
+            "mime": "image/png",
+            "frameCount": 1,
+            "width": 538,
+            "height": 173,
+            "derivedFromPdfSha256": "aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+            "kind": "reviewed-original-diagram",
+            "sourcePage": 2,
+            "clipRect": [
+              52,
+              200,
+              267,
+              269
+            ]
+          }
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "bef4dea09e171a5ddfbbf689e7566d0eb26c5f7ab29c1d68095ddff5b2dfeaf1",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "8278108b1070292fc16336b90435e08b3e9d7c5662bb51145df949cdf77212aa",
+          "sourcePdfSha256": "aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+          "markdown": "# 翡翠山的宝藏\n\n时间限制：1 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\n恭喜你找到了翡翠山的宝藏！最后的任务是把宝藏运下山，到达河流，那里有船来接你。沉重的宝藏装在一辆小车上，你无法推着它上坡。山上有一些守卫，每个守卫都沿着一条循环路线巡逻。如果你与守卫处在同一个位置，任务就会失败。给定地图和巡逻路线，求到达河流任意位置所需的最少回合数。\n\n## 输入格式\n\n第一行包含一个整数 $N$，表示测试用例数。每个测试用例首先包含两个整数 $n$ 和 $m$，分别表示地图的宽度和高度。接下来 $m$ 行，每行 $n$ 个整数，描述 $n\\times m$ 个格子的海拔。第 $y$ 行的第 $x$ 个数表示格子 $(x-1,y-1)$ 的海拔。\n\n海拔为 $0$ 的格子属于河流。河流不一定连通，只要到达任意一个海拔为 $0$ 的格子就算成功。接下来给出两个整数 $x_s$ 和 $y_s$，表示发现宝藏时你的初始位置。格子 $(x_s,y_s)$ 不属于河流。\n\n接下来是一个整数 $g$，表示守卫数。之后 $g$ 行分别描述每个守卫。每行第一个整数 $k_i$ 表示该守卫路线中的格子数，随后 $2k_i$ 个整数依次给出这些格子：$x_{i,1},y_{i,1},x_{i,2},y_{i,2},\\ldots,x_{i,k_i},y_{i,k_i}$。守卫每回合按顺序移动到下一个格子，到达最后一个格子后再回到第一个格子并继续循环。路线中相邻的两个位置不一定是地图上相邻的格子。出于对宝藏的敬畏，守卫不会巡逻河流格子，也永远不会进入初始格子 $(x_s,y_s)$。\n\n开始时，每个守卫都位于自己路线中的第一个格子，你位于初始格子。每个回合先由你移动，再由所有守卫移动到各自路线中的下一个格子。你可以原地等待，也可以把小车推到上下左右四个相邻格子之一，但目标格子的海拔必须不高于当前格子。以下任意一种情况都会使你被抓住：\n\n1. 你移动到的格子当前至少有一个守卫。\n2. 你移动到或停留的格子，在同一回合稍后至少会有一个守卫移入。\n\n下面的原稿配图展示第一个样例中的第一个测试用例。`Y` 表示你，`G` 表示守卫。第一回合必须停在 $(0,0)$：格子 $(1,0)$ 更高，而格子 $(0,1)$ 被守卫占据。第二回合移动到 $(0,1)$。第三回合到达河流格子 $(0,2)$，任务成功。\n\n![样例巡逻与移动过程](taipei-G-figure-1.png)\n\n## 输出格式\n\n输出 $N$ 行，每个测试用例一行。每行包含把宝藏运到任意河流格子所需的最少回合数；若无法完成，输出 $-1$。\n\n## 数据范围\n\n- $1\\le N\\le10$。\n- $0<n,m\\le40$。\n- $0\\le g\\le10$。\n- $0<k_i\\le8$。\n- 所有坐标均为整数。横坐标在 $0$ 到 $n-1$ 之间，纵坐标在 $0$ 到 $m-1$ 之间，海拔是 $0$ 到 $2^{20}$ 之间的整数，均包含两端。\n\n## 样例 1\n\n### 输入\n\n```text\n5\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n3 0 1 1 1 1 1\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n2 0 1 1 1\n2 3\n1 2\n1 2\n0 0\n1 0\n0\n2 3\n1 2\n1 2\n0 0\n1 0\n2\n1 0 1\n1 1 1\n3 3\n1 2 1\n1 1 1\n0 2 0\n1 0\n1\n3 0 1 1 1 2 1\n```\n\n### 输出\n\n```text\n3\n-1\n2\n-1\n3\n```\n"
+        },
+        "translationReview": {
+          "letter": "G",
+          "pdfSha256": "aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+          "pageCount": 4,
+          "pagesReviewed": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourcePageNumbers": [
+            17,
+            18,
+            19,
+            20
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [
+            {
+              "file": "taipei-G-figure-1.png",
+              "page": 2,
+              "clipRect": [
+                52,
+                200,
+                267,
+                269
+              ],
+              "sha256": "118fe6d6bdd6402cb946c5b5f8a093df041f7f79f95f29d2eef1847d0432fcbd"
+            }
+          ],
+          "notes": [
+            "第四页为空白页；守卫移动前后的占用均需检查，允许原地等待和非相邻巡逻位置。",
+            "海拔上界为 2 的 20 次方，包含端点。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "8278108b1070292fc16336b90435e08b3e9d7c5662bb51145df949cdf77212aa",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

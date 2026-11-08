@@ -117,13 +117,16 @@ public static class ToBeDownload {
         return $file
     }
     $full=$true
+    $result.bridgeSetupSeconds=$clock.Elapsed.TotalSeconds
     if($profile){
         $download=[Diagnostics.Stopwatch]::StartNew();$bundle=Fetch $profile;$download.Stop()
         $result.downloadSeconds=$download.Elapsed.TotalSeconds;$result.downloadBytes=$profile.size
         $python=Join-Path $AppDir '_internal\python3\python.exe';$helper=Join-Path $WorkDir 'compact-helper.pyz'
         $parameters='-I -S "'+$helper+'" --bundle "'+$bundle+'" --app "'+$AppDir+'" --version '+$release.version
         Progress 2
+        $applyClock=[Diagnostics.Stopwatch]::StartNew()
         $applied=Run $python $parameters 'apply'
+        $result.applySeconds=$applyClock.Elapsed.TotalSeconds
         if($applied -eq 0){
             $full=$false
         }elseif($applied -ne 3){throw 'Update payload validation failed; recovery files retained'}
@@ -134,7 +137,9 @@ public static class ToBeDownload {
         if((Run $installer $parameters 'complete-install') -ne 0){throw 'Complete installation did not finish'}
     }else{
         Progress 3
+        $prepareClock=[Diagnostics.Stopwatch]::StartNew()
         if((Run (Join-Path $AppDir 'ToBe.exe') '--prepare-startup' 'prepare-startup') -ne 0){throw 'Startup preparation did not finish; personal data retained'}
+        $result.prepareStartupSeconds=$prepareClock.Elapsed.TotalSeconds
     }
     if([IO.File]::ReadAllText((Join-Path $AppDir 'VERSION')).Trim() -ne $release.version){throw 'Installed version mismatch'}
     $result.ok=$true;$result.fullFallback=$full;$result.version=$release.version

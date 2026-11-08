@@ -31,6 +31,16 @@ class BinaryDeltaTests(unittest.TestCase):
         for index,row in enumerate(self.vectors):
             with self.subTest(vector=index):self.assertEqual(patch_block(row['source'],row['patch']),row['target'])
 
+    def test_zero_difference_keeps_source_bytes_padding_and_separate_extras(self):
+        source=bytes(range(256))*4096;extra=b'new suffix\x00\xff'
+        for padding in [0,2]:
+            size=len(source)+padding
+            control=bz2.compress(struct.pack('<qqq',size,len(extra),0))
+            differences=bz2.compress(bytes(size));extras=bz2.compress(extra)
+            patch=b'BSDIFF40'+struct.pack('<qqq',len(control),len(differences),size+len(extra))+control+differences+extras
+            with self.subTest(padding=padding):
+                self.assertEqual(patch_block(source,patch),source+bytes(padding)+extra)
+
     def test_every_truncation_of_header_and_control_stream_is_rejected(self):
         row=self.vectors[1]
         for stop in [0,7,8,16,24,31,32,len(row['patch'])-1]:

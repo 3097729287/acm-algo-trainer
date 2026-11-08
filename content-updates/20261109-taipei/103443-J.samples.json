@@ -1,0 +1,16 @@
+{
+  "sourcePdfSha256": "0026febe7aca559ffa5e862ee5fb17630f6c040de32aa3b9acaa3bd0c0f8757d",
+  "pages": [
+    25,
+    26,
+    27,
+    28
+  ],
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "2\n4 1 1\n1\n6 2 3\n1 4",
+      "output": "18\n68"
+    }
+  ]
+}

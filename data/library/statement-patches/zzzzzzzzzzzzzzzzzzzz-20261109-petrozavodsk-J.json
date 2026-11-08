@@ -1,0 +1,208 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "wiki-example-f3111abcb4011fc83c9c",
+      "beforeSha256": "829a407046e235fcd33b4776ee9131c451b27afbe53f2b1918d024008e7888f4",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf": {
+            "bytes": 52125,
+            "data": "tb-asset:1b03691a932031300c2482ec5b48e45fb35d3eb2ce5c67449d184c663433067c",
+            "fileName": "gym-100963.pdf",
+            "mime": "application/pdf",
+            "pageCount": 16,
+            "sha256": "1b03691a932031300c2482ec5b48e45fb35d3eb2ce5c67449d184c663433067c",
+            "sourceUrl": "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf"
+          }
+        },
+        "id": "wiki-example-f3111abcb4011fc83c9c",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:57:54.866839+00:00",
+          "corpusAuditVerifiedSha256": "e2ba13b2f2928040fe426d63a07335dfba58987a9d63237c000d61fb80c1ea4a",
+          "pdfPageCountVerified": true,
+          "sampleCount": 0,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": false,
+        "markdown": "# Once Upon A Time\n\nProblem J\r\nOnce Upon A Time\r\nSummer Camp, Petrozavodsk\r\nInput: once.in, Output: once.out, Timelimit: 5sec. 29 Aug 2007\r\nOnce upon a time, an elderly man and an elderly woman lived. One day, the elderly man went to a\r\nmountain for hang gliding, and the elderly woman went to a river for shooting rapids in a canoe.\r\nThe elderly man looked around from the sky, he found the elderly woman enjoying shooting rapids. So\r\nhe called her in a loud voice, she noticed him. They like acrobatic feats. So they decided to touch each\r\nother’s hand by hand.\r\nHe can stretch his hand to her periodically. Moreover, she also can stretch her hand to him periodically.\r\nBecause they are busy on their work.\r\nStrictly speaking, she stretches her hand on time n and after that she stretches every m unit times. On the\r\nother hand, he stretches his hand every a unit times after he approaches to her. And it takes k unit times\r\nto approach her. Therefore, he stretches his hand at first on time k + a.\r\nYour job is to write a program to calculate the time when they mutually touch a hand by hand first.\r\nFor example, the following table shows the first input of sample inputs. They mutually touch a hand by\r\nhand on 8.\r\nTime 1 2 3 4 5 6 7 8\r\nThe elderly woman - - Stretch - - - - Stretch\r\nThe elderly man - Approach - Stretch - Stretch - Stretch\r\nInput\r\nInput consists of multiple test cases. Each test case consists of a line which contains four non-negative\r\nintegers n, m, a, and k separated by a space character. Input is terminated by a case of n = m = a = k = 0,\r\nand it should not to be processed.\r\nYou can assume that input integers are less than 231\r\n.\r\nOutput\r\nFor each test case, you should output the time when they mutually touch a hand by hand if possible.\r\nOtherwise, you should output “Impossible”.\r\nSample Input\r\n3 5 2 2\r\n0 0 0 0\r\nOutput for the Sample Input\r\n8\r\nProblem J: Once Upon A Time Page 16 of 16\n\n[PDF](https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "recovered",
+          "id": "wiki-example-f3111abcb4011fc83c9c",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 1,
+          "pdfSha256": "72e7c4959ebc76c39fbcfa6db652ff7db98a6037cdfe52a281886833939f5628",
+          "problemType": "standard",
+          "sampleCorrection": {
+            "id": "wiki-example-f3111abcb4011fc83c9c",
+            "method": "visual-original-pdf-sample-review",
+            "reason": "Vertical sample blocks were not recognized by the existing table extractor; every number and line break checked against the native page.",
+            "sourcePdfSha256": "72e7c4959ebc76c39fbcfa6db652ff7db98a6037cdfe52a281886833939f5628",
+            "sourcePdfUrl": "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf"
+          },
+          "samplePairs": 1,
+          "samplesSha256": "beabf38e5aea30415b076411a885517d33756abc8eddfc7307e94b44f71eb1a7",
+          "sourcePdfSha256": "1b03691a932031300c2482ec5b48e45fb35d3eb2ce5c67449d184c663433067c",
+          "sourcePdfUrl": "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf",
+          "url": "https://codeforces.com/gym/100963/problem/J"
+        },
+        "pageCount": 1,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf": {
+            "bytes": 52125,
+            "mime": "application/pdf",
+            "pageCount": 16,
+            "sha256": "1b03691a932031300c2482ec5b48e45fb35d3eb2ce5c67449d184c663433067c",
+            "sourceUrl": "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf"
+          }
+        },
+        "sampleExtraction": {
+          "sourcePdfSha256": "72e7c4959ebc76c39fbcfa6db652ff7db98a6037cdfe52a281886833939f5628",
+          "pages": [
+            16
+          ]
+        },
+        "sampleExtractionHistory": [
+          {
+            "extraction": "unavailable",
+            "samples": []
+          },
+          {
+            "samples": [
+              {
+                "input": "3 5 2 2\n0 0 0 0",
+                "name": "样例 1",
+                "output": "8"
+              }
+            ],
+            "extraction": {
+              "id": "wiki-example-f3111abcb4011fc83c9c",
+              "method": "visual-original-pdf-sample-review",
+              "reason": "Vertical sample blocks were not recognized by the existing table extractor; every number and line break checked against the native page.",
+              "sourcePdfSha256": "72e7c4959ebc76c39fbcfa6db652ff7db98a6037cdfe52a281886833939f5628",
+              "sourcePdfUrl": "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf"
+            }
+          }
+        ],
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 5 2 2\n0 0 0 0",
+            "output": "8"
+          }
+        ],
+        "sourceBinding": {
+          "kind": "exact-title",
+          "pdfTitle": "Once Upon A Time",
+          "problem": "J",
+          "rosterTitle": "Once Upon A Time",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          16
+        ],
+        "sourcePdfSha256": "1b03691a932031300c2482ec5b48e45fb35d3eb2ce5c67449d184c663433067c",
+        "sourcePdfUrl": "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf",
+        "sourceRosterSha256": "126e469db297c315bb9c3c8163ee989fa2b929054b4a9085c6a57dee64f3c6f0",
+        "sourceRosterUrl": "https://codeforces.com/gym/100963",
+        "sourceText": "# Once Upon A Time\n\nProblem J, Summer Camp, Petrozavodsk, 29 Aug 2007.\n\nOriginal input file: `once.in`. Original output file: `once.out`. Time limit: 5 seconds.\n\n## Problem Description\n\nOnce upon a time, an elderly man and an elderly woman lived together. One day, the man went to a mountain to hang glide, while the woman went to a river to shoot rapids in a canoe.\n\nLooking down from the sky, the man saw the woman enjoying the rapids. He called out loudly, and she noticed him. Both enjoy acrobatic feats, so they decided to touch hands.\n\nBecause they are busy with their activities, each can stretch out a hand only periodically. The woman first stretches out her hand at time $n$, and then every $m$ time units. The man takes $k$ time units to approach her, and then stretches out his hand every $a$ time units. His first stretch is at time $k+a$.\n\nFind the first time when they can touch hands.\n\nFor the sample, the following table shows their actions. They first touch hands at time $8$.\n\n| Time | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Woman | - | - | Stretch | - | - | - | - | Stretch |\n| Man | - | Approach | - | Stretch | - | Stretch | - | Stretch |\n\n## Input Format\n\nThe input contains multiple test cases. Each consists of one line containing four nonnegative integers $n$, $m$, $a$ and $k$, separated by spaces. A line with $n=m=a=k=0$ terminates the input and must not be processed. All input integers are less than $2^{31}$.\n\n## Output Format\n\nFor each test case, output the first time when they can touch hands, if possible. Otherwise output `Impossible`.\n\n## Sample 1\n\n### Input\n\n```text\n3 5 2 2\n0 0 0 0\n```\n\n### Output\n\n```text\n8\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:72e7c4959ebc76c39fbcfa6db652ff7db98a6037cdfe52a281886833939f5628",
+          "fileName": "gym-100963-J.pdf",
+          "pageCount": 1,
+          "sha256": "72e7c4959ebc76c39fbcfa6db652ff7db98a6037cdfe52a281886833939f5628",
+          "sourcePageNumbers": [
+            16
+          ],
+          "sourceSha256": "1b03691a932031300c2482ec5b48e45fb35d3eb2ce5c67449d184c663433067c",
+          "sourceUrl": "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf",
+          "widthPoints": 595.0
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Once Upon A Time",
+        "url": "https://codeforces.com/gym/100963/problem/J",
+        "sourceTextArchive": [
+          {
+            "text": "Problem J\r\nOnce Upon A Time\r\nSummer Camp, Petrozavodsk\r\nInput: once.in, Output: once.out, Timelimit: 5sec. 29 Aug 2007\r\nOnce upon a time, an elderly man and an elderly woman lived. One day, the elderly man went to a\r\nmountain for hang gliding, and the elderly woman went to a river for shooting rapids in a canoe.\r\nThe elderly man looked around from the sky, he found the elderly woman enjoying shooting rapids. So\r\nhe called her in a loud voice, she noticed him. They like acrobatic feats. So they decided to touch each\r\nother’s hand by hand.\r\nHe can stretch his hand to her periodically. Moreover, she also can stretch her hand to him periodically.\r\nBecause they are busy on their work.\r\nStrictly speaking, she stretches her hand on time n and after that she stretches every m unit times. On the\r\nother hand, he stretches his hand every a unit times after he approaches to her. And it takes k unit times\r\nto approach her. Therefore, he stretches his hand at first on time k + a.\r\nYour job is to write a program to calculate the time when they mutually touch a hand by hand first.\r\nFor example, the following table shows the first input of sample inputs. They mutually touch a hand by\r\nhand on 8.\r\nTime 1 2 3 4 5 6 7 8\r\nThe elderly woman - - Stretch - - - - Stretch\r\nThe elderly man - Approach - Stretch - Stretch - Stretch\r\nInput\r\nInput consists of multiple test cases. Each test case consists of a line which contains four non-negative\r\nintegers n, m, a, and k separated by a space character. Input is terminated by a case of n = m = a = k = 0,\r\nand it should not to be processed.\r\nYou can assume that input integers are less than 231\r\n.\r\nOutput\r\nFor each test case, you should output the time when they mutually touch a hand by hand if possible.\r\nOtherwise, you should output “Impossible”.\r\nSample Input\r\n3 5 2 2\r\n0 0 0 0\r\nOutput for the Sample Input\r\n8\r\nProblem J: Once Upon A Time Page 16 of 16",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "e6fd564f6472966a9629c746ad31c5342e25022364258dd2ef73cb0da34f519e"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "J",
+          "problemId": "wiki-example-f3111abcb4011fc83c9c",
+          "pdfSha256": "72e7c4959ebc76c39fbcfa6db652ff7db98a6037cdfe52a281886833939f5628",
+          "pageCount": 1,
+          "pagesReviewed": [
+            1
+          ],
+          "sourcePageNumbers": [
+            16
+          ],
+          "sourceUrl": "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf",
+          "sourceSha256": "1b03691a932031300c2482ec5b48e45fb35d3eb2ce5c67449d184c663433067c",
+          "figures": [],
+          "notes": [
+            "核对单题一页及原稿第 16 页，输入上界是 2 的 31 次方，不是 231。",
+            "保留原题文件名 once.in、once.out，老爷爷第一次伸手为 k+a。",
+            "输入明确允许四个非负整数；不擅自把周期约束改成正数。",
+            "原表格按时间 1 到 8 完整重排；英文与中文样例一致。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "27415891880d84432decff9ae43709b1cd74923482b04788e7a3cf994103fcb0"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "e2ba13b2f2928040fe426d63a07335dfba58987a9d63237c000d61fb80c1ea4a",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "27415891880d84432decff9ae43709b1cd74923482b04788e7a3cf994103fcb0",
+          "sourcePdfSha256": "72e7c4959ebc76c39fbcfa6db652ff7db98a6037cdfe52a281886833939f5628",
+          "markdown": "# 很久以前\n\nJ 题，彼得罗扎沃茨克夏令营，2007 年 8 月 29 日。\n\n原题输入文件：`once.in`。原题输出文件：`once.out`。时间限制：5 秒。\n\n## 题目描述\n\n很久以前，有一位老爷爷和一位老奶奶生活在一起。一天，老爷爷到山上玩悬挂式滑翔，老奶奶则到河里划独木舟冲激流。\n\n老爷爷从空中向下看，发现老奶奶正在享受冲激流的乐趣。他大声呼喊，老奶奶注意到了他。两个人都喜欢杂技动作，于是决定伸手相碰。\n\n由于各自忙着自己的活动，他们只能周期性地伸手。老奶奶第一次在时刻 $n$ 伸手，之后每隔 $m$ 个时间单位伸手一次。老爷爷需要 $k$ 个时间单位靠近她，靠近后每隔 $a$ 个时间单位伸手一次，因此他第一次伸手的时刻是 $k+a$。\n\n请计算他们第一次能够手碰手的时刻。\n\n下表展示样例中的动作。他们第一次碰到彼此的手是在时刻 $8$。\n\n| 时刻 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 老奶奶 | - | - | 伸手 | - | - | - | - | 伸手 |\n| 老爷爷 | - | 靠近 | - | 伸手 | - | 伸手 | - | 伸手 |\n\n## 输入格式\n\n输入包含多组测试数据。每组数据占一行，包含四个以空格分隔的非负整数 $n$、$m$、$a$ 和 $k$。当读到 $n=m=a=k=0$ 时，输入结束，不处理这一行。所有输入整数都小于 $2^{31}$。\n\n## 输出格式\n\n对于每组测试数据，如果两人能够碰到彼此的手，输出第一次相碰的时刻；否则输出 `Impossible`。\n\n## 样例 1\n\n### 输入\n\n```text\n3 5 2 2\n0 0 0 0\n```\n\n### 输出\n\n```text\n8\n```\n"
+        },
+        "translationReview": {
+          "letter": "J",
+          "problemId": "wiki-example-f3111abcb4011fc83c9c",
+          "pdfSha256": "72e7c4959ebc76c39fbcfa6db652ff7db98a6037cdfe52a281886833939f5628",
+          "pageCount": 1,
+          "pagesReviewed": [
+            1
+          ],
+          "sourcePageNumbers": [
+            16
+          ],
+          "sourceUrl": "https://codeforces.com/gym/100963/attachments/download/4256/20072008-summer-petrozavodsk-camp-japanese-contest-20070829-en.pdf",
+          "sourceSha256": "1b03691a932031300c2482ec5b48e45fb35d3eb2ce5c67449d184c663433067c",
+          "figures": [],
+          "notes": [
+            "核对单题一页及原稿第 16 页，输入上界是 2 的 31 次方，不是 231。",
+            "保留原题文件名 once.in、once.out，老爷爷第一次伸手为 k+a。",
+            "输入明确允许四个非负整数；不擅自把周期约束改成正数。",
+            "原表格按时间 1 到 8 完整重排；英文与中文样例一致。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "27415891880d84432decff9ae43709b1cd74923482b04788e7a3cf994103fcb0",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

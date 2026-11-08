@@ -131,17 +131,21 @@ def reusable_state_snapshot(database,*,connection=None):
     try:
         if connection is not None and not connection.in_transaction:
             connection.execute('BEGIN');connection.execute('SELECT COUNT(*) FROM sqlite_schema').fetchone()
-        original=_stable_database_identity(database)
-        for saved,expected in candidates:
-            try:copy=_stable_database_identity(saved)
-            except (OSError,ValueError):continue
-            if copy[0]==expected and copy[1]==original[1]:
-                current=database.stat()
-                if (current.st_dev,current.st_ino,current.st_size,current.st_mtime_ns,current.st_ctime_ns)!=original[2]:return None
-                for suffix,minimum in [('-wal',32),('-journal',0)]:
-                    path=database.with_name(database.name+suffix)
-                    if path.exists() and path.stat().st_size>minimum:return None
-                return saved
+        with ThreadPoolExecutor(max_workers=min(WORKERS,2)) as workers:
+            current_check=workers.submit(_stable_database_identity,database)
+            first_copy=workers.submit(_stable_database_identity,candidates[0][0])
+            original=current_check.result()
+            for index,(saved,expected) in enumerate(candidates):
+                future=first_copy if index==0 else workers.submit(_stable_database_identity,saved)
+                try:copy=future.result()
+                except (OSError,ValueError):continue
+                if copy[0]==expected and copy[1]==original[1]:
+                    current=database.stat()
+                    if (current.st_dev,current.st_ino,current.st_size,current.st_mtime_ns,current.st_ctime_ns)!=original[2]:return None
+                    for suffix,minimum in [('-wal',32),('-journal',0)]:
+                        path=database.with_name(database.name+suffix)
+                        if path.exists() and path.stat().st_size>minimum:return None
+                    return saved
     except (OSError,ValueError):pass
     return None
 
