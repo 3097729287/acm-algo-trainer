@@ -10,6 +10,12 @@ import {createLibraryAssetStream} from '../src/library-assets.mjs';
 import {listenFixture} from './listen.mjs';
 
 const hash=data=>createHash('sha256').update(data).digest('hex');
+test('domestic required-input links reach the reviewed service through the stripped updates path',async()=>{
+ const config=await readFile(new URL('../Caddyfile',import.meta.url),'utf8');
+ assert.match(config,/handle_path \/updates\/\* \{/);
+ assert.match(config,/@required_inputs path \/required-downloads\/\*\s+reverse_proxy @required_inputs api:8080/);
+ assert.equal(config.split('reverse_proxy @required_inputs api:8080').length,2);
+});
 async function fixture(){
  const folder=await mkdtemp(path.join(os.tmpdir(),'tb-required-downloads-'));
  const directory=path.join(folder,'required-downloads');await mkdir(directory);

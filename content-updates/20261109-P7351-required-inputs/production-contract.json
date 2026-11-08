@@ -20,11 +20,29 @@
   },
   "desktopInterface": {
     "binaryRoute": "/api/required-downloads/{approved-sha256}",
-    "methods": ["GET", "HEAD"],
+    "methods": [
+      "GET",
+      "HEAD"
+    ],
     "range": "One explicit bytes=start-end or bytes=start- range; invalid/multiple ranges return 416",
-    "metadata": ["Content-Type: application/zip", "Content-Length", "Content-Disposition: attachment; filename=down.zip", "Accept-Ranges: bytes", "ETag: sha256 identity", "X-Content-SHA256"],
+    "metadata": [
+      "Content-Type: application/zip",
+      "Content-Length",
+      "Content-Disposition: attachment; filename=down.zip",
+      "Accept-Ranges: bytes",
+      "ETag: sha256 identity",
+      "X-Content-SHA256"
+    ],
     "statusRoute": "/api/required-downloads/{approved-sha256}/status",
-    "statusFields": ["sha256", "fileName", "bytes", "verifiedBytes", "cached", "downloading", "error"],
+    "statusFields": [
+      "sha256",
+      "fileName",
+      "bytes",
+      "verifiedBytes",
+      "cached",
+      "downloading",
+      "error"
+    ],
     "requestGates": "Existing local Host and account gates; public immutable transfer does not hold personal account-switch barrier",
     "archiveInJsonOrIpc": false,
     "readingLink": "Original source anchor resolves to a native same-origin download through the real Workbench"
@@ -42,23 +60,50 @@
   "domesticDistribution": {
     "deployed": false,
     "url": "https://47.82.84.74/updates/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
-    "acceptedPaths": ["/updates/required-downloads/{sha256}.zip", "/required-downloads/{sha256}.zip"],
+    "acceptedPaths": [
+      "/updates/required-downloads/{sha256}.zip",
+      "/required-downloads/{sha256}.zip"
+    ],
     "source": "A staged exact local file; no arbitrary upstream proxy",
-    "configuration": {"REQUIRED_DOWNLOADS_FILE": "absolute path to public-required-downloads.json", "REQUIRED_DOWNLOADS_DIR": "absolute path to required-downloads directory"},
+    "configuration": {
+      "REQUIRED_DOWNLOADS_FILE": "absolute path to public-required-downloads.json",
+      "REQUIRED_DOWNLOADS_DIR": "absolute path to required-downloads directory"
+    },
     "capacity": "Four simultaneous transfers, 64 KiB bounded blocks, ten minute transfer timeout",
     "checks": "Per-block checks before each response; full response checks whole SHA256; unknown hashes, queries, symlinks, missing/truncated bytes refused",
     "prepareCommand": "python scripts/prepare_required_downloads.py --output NEW_DEPLOYMENT_FOLDER",
-    "payload": ["public-required-downloads.json", "required-downloads/{sha256}.zip", "proofs/{sha256}.json", "deployment.json"],
-    "serviceCode": ["server/leaderboard/src/required-downloads.mjs", "server/leaderboard/src/server.mjs"],
+    "payload": [
+      "public-required-downloads.json",
+      "required-downloads/{sha256}.zip",
+      "proofs/{sha256}.json",
+      "deployment.json"
+    ],
+    "serviceCode": [
+      "server/leaderboard/src/required-downloads.mjs",
+      "server/leaderboard/src/server.mjs",
+      "server/leaderboard/Caddyfile"
+    ],
     "postDeploymentCommand": "python scripts/verify_required_download_distribution.py --origin https://47.82.84.74 --cache-root NEW_ISOLATED_CACHE --output NEW_RECEIPT.json",
-    "receiptRequirement": "Must contact the approved distribution origin, verify exact full bytes and durable cache, then replay with network disabled; an already-complete cache is refused as an origin test"
+    "receiptRequirement": "Must contact the approved distribution origin, verify exact full bytes and durable cache, then replay with network disabled; an already-complete cache is refused as an origin test",
+    "proxy": "The updates prefix is stripped, then /required-downloads/* is always forwarded to the reviewed Node index and checked stream, before file_server. Existing cached asset and account routes stay unchanged."
   },
   "activationBoundary": {
     "retirementFlagUnchanged": true,
     "pendingFullNativeStatement": "P7351.pending.md",
     "nativeClarification": "The original calls four values positive integers but defines zero-based region and country numbers and supplies zero values; the pending text correctly says four integers and preserves all original constraints and samples.",
-    "beforeActivation": ["Deploy the exact immutable original and the reviewed registry to the domestic route", "Obtain a successful distribution/cache verification receipt", "Recheck actual Workbench original-link download with the registered source text", "Have the catalogue owner apply the guarded pending source and register the required-download contract, preserving the original ID and history"],
-    "doNotUse": ["optionalExternalResources exception", "ordinary 32 MiB asset-limit relaxation", "archive base64 in HTTP or IPC", "a guessed or reconstructed input file", "a successful loopback test as proof of domestic deployment"]
+    "beforeActivation": [
+      "Deploy the exact immutable original and the reviewed registry to the domestic route",
+      "Obtain a successful distribution/cache verification receipt",
+      "Recheck actual Workbench original-link download with the registered source text",
+      "Have the catalogue owner apply the guarded pending source and register the required-download contract, preserving the original ID and history"
+    ],
+    "doNotUse": [
+      "optionalExternalResources exception",
+      "ordinary 32 MiB asset-limit relaxation",
+      "archive base64 in HTTP or IPC",
+      "a guessed or reconstructed input file",
+      "a successful loopback test as proof of domestic deployment"
+    ]
   },
   "releaseScope": {
     "frozen1610Changed": false,

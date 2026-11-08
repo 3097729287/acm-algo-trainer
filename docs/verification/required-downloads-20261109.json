@@ -21,9 +21,10 @@
       ]
     },
     "node": {
-      "passed": 15,
-      "command": "node --test tests/required-downloads.test.mjs tests/library-assets.test.mjs tests/server.test.mjs",
-      "cwd": "server/leaderboard"
+      "passed": 21,
+      "command": "node --test tests/required-downloads.test.mjs tests/library-assets.test.mjs tests/server.test.mjs tests/release-stream.test.mjs",
+      "cwd": "server/leaderboard",
+      "proxyBoundary": "Caddy required-input dispatch is explicitly registered. Static route/legacy release proxy regressions pass; live domestic proxy deployment/validation remains pending."
     },
     "syntaxAndWhitespace": "Python compilation, Node syntax checks and git diff --check passed"
   },
@@ -139,9 +140,10 @@
     "frontend/src/components/ReadingLink.jsx": "7a3ce148cc3d7b658b382725fce6d53cf363f3c2697afbb11c0952fb37fb4f52",
     "server/leaderboard/src/required-downloads.mjs": "0ca244555cd0f243caeab997adea9bb16693c22ba383fcf92fe8fc7542abceeb",
     "server/leaderboard/src/server.mjs": "72f1717f6e5107e8366235e6ce3b8a32d488809ea035bd01b6303e231d0e8572",
-    "scripts/prepare_required_downloads.py": "67482c1a48147fc53791a2b19d96ddab4d4676b9034be68384f8d76d31f3bf85",
+    "scripts/prepare_required_downloads.py": "6ff90faf598582c3a4f5d9b921e264166f1c5356097aaf13c54b4dc768cb9cf7",
     "scripts/verify_required_download_distribution.py": "2af3008de18e3ce632cf2ff4ecafd44aef8985f1303022ad3dbe72dacc688001",
-    "scripts/verify_required_downloads_e2e.py": "1170f8d7d9d0b97d28feae234aa3b7b977fdcb1b426d2de87060e4da5515946c"
+    "scripts/verify_required_downloads_e2e.py": "1170f8d7d9d0b97d28feae234aa3b7b977fdcb1b426d2de87060e4da5515946c",
+    "server/leaderboard/Caddyfile": "bf4b7928cc5f8ea2a5be752d5ec5222a00aad8fb094da07fc31bae399d86558f"
   },
   "unchangedBoundaries": [
     "Ordinary inline/public asset size policy",

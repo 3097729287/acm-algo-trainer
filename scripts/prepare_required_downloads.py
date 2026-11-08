@@ -87,6 +87,7 @@ def prepare(destination,*,manifest_path=None,source_root=None,repository_root=RO
     result={'schema':1,'deployed':False,'ordinaryAssetLimitBytes':32*1024*1024,
         'inputArchives':report,'manifest':'public-required-downloads.json',
         'serverCode':'server/leaderboard/src/required-downloads.mjs plus server.mjs route registration',
+        'proxyCode':'server/leaderboard/Caddyfile: required_inputs forwards the stripped /required-downloads/* path to the reviewed Node route',
         'serverConfiguration':{'REQUIRED_DOWNLOADS_FILE':'public-required-downloads.json','REQUIRED_DOWNLOADS_DIR':'required-downloads'},
         'catalogueRetirementChanged':False,'privateStateReadOrWritten':False}
     (destination/'deployment.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf8',newline='\n')

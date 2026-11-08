@@ -24,6 +24,9 @@
       not file {path}
     }
     reverse_proxy @missing_asset api:8080
+    # Required output-only inputs always pass the reviewed, checksummed route.
+    @required_inputs path /required-downloads/*
+    reverse_proxy @required_inputs api:8080
     @library_assets {
       path /library-assets/*
       not file {path}
