@@ -38,7 +38,7 @@ def asset_key(name):
     return (match[1],p.suffix) if match else None
 
 
-def build(package,baselines,output,tool,prebuilt=(),field_delta=None):
+def build(package,baselines,output,tool,prebuilt=(),field_delta=None,*,preserve_public_seed=False):
     package=package.resolve(strict=True);baselines=[b.resolve(strict=True) for b in baselines]
     if output.exists():raise ValueError('Use a new compact payload destination')
     target=inventory(package);versions={(b/'VERSION').read_text(encoding='utf-8').strip() for b in baselines}
@@ -52,6 +52,30 @@ def build(package,baselines,output,tool,prebuilt=(),field_delta=None):
     for name in sorted(common):
         if name in {'ToBe.exe','VERSION'} or name.startswith('_internal/'):
             anchors[name]=sorted({b[name]['sha256'] for b in old}|({target[name]['sha256']} if name in target else set()))
+    content_update=None
+    if preserve_public_seed:
+        sys.path[:0]=[str(ROOT/'backend'),str(ROOT/'backend/common')]
+        from public_library_update import load_descriptor
+        from seed_identity import describe
+        descriptor_path=package/'resources/public-library-update.json'
+        descriptor,_,_=load_descriptor(descriptor_path)
+        if target.get('data/library.sqlite3',{}).get('sha256')!=descriptor['targetSeedSha256']:
+            raise ValueError('The full package and public content update have different targets')
+        for index,base in enumerate(old):
+            seed=base.get('data/library.sqlite3')
+            if not seed or seed['sha256'] not in descriptor['baseSeeds']:
+                raise ValueError('An installed public seed is not approved by this content update')
+            marker=base.get('resources/library-seed-identity.json')
+            if marker and json.loads(marker['path'].read_text('utf8'))!=describe(seed['path']):
+                raise ValueError('An installed public seed identity does not match its actual bytes')
+        for name in ('data/library.sqlite3','resources/library-seed-identity.json'):
+            if any(name in base for base in old) and not all(name in base for base in old):
+                raise ValueError('Separate compact payloads are required for missing public seed identity files')
+            if all(name in base for base in old):anchors[name]=sorted({base[name]['sha256'] for base in old})
+            target.pop(name,None)
+        content_update={'mode':'public-row-overlay','baseSeeds':descriptor['baseSeeds'],
+                        'targetSeedSha256':descriptor['targetSeedSha256'],'descriptorSha256':sha(descriptor_path),
+                        'preservedFiles':['data/library.sqlite3','resources/library-seed-identity.json']}
     payloads={};files={};blobs={};cache={}
     scratch=Path(tempfile.mkdtemp(prefix='ToBe-compact-payload-'))
     supplied={}
@@ -110,6 +134,7 @@ def build(package,baselines,output,tool,prebuilt=(),field_delta=None):
     # Discard losing candidates from the transport, retaining their local proofs.
     used={v['payload'] for entry in files.values() for v in entry['variants']};payloads={k:v for k,v in payloads.items() if k in used}
     value={'schema':1,'version':version,'fromVersion':next(iter(versions)),'anchors':anchors,'files':files,'payloads':payloads,'privateData':'excluded','compiler':'unchanged'}
+    if content_update:value['publicLibrary']=content_update
     with zipfile.ZipFile(output,'x',zipfile.ZIP_DEFLATED,compresslevel=9) as archive:
         archive.writestr('compact.json',json.dumps(value,ensure_ascii=False,sort_keys=True,separators=(',',':')))
         for name in sorted(payloads):archive.write(blobs[name],name)
@@ -117,5 +142,5 @@ def build(package,baselines,output,tool,prebuilt=(),field_delta=None):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--package',type=Path,required=True);p.add_argument('--base',type=Path,action='append',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--bsdiff-tool',type=Path,required=True);p.add_argument('--prebuilt',type=Path,action='append',default=[]);p.add_argument('--field-delta-receipt',type=Path);p.add_argument('--receipt',type=Path,required=True);a=p.parse_args()
-    value=build(a.package,a.base,a.output,a.bsdiff_tool,a.prebuilt,a.field_delta_receipt);a.receipt.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8');print(json.dumps(value),flush=True)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--package',type=Path,required=True);p.add_argument('--base',type=Path,action='append',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--bsdiff-tool',type=Path,required=True);p.add_argument('--prebuilt',type=Path,action='append',default=[]);p.add_argument('--field-delta-receipt',type=Path);p.add_argument('--preserve-public-seed',action='store_true');p.add_argument('--receipt',type=Path,required=True);a=p.parse_args()
+    value=build(a.package,a.base,a.output,a.bsdiff_tool,a.prebuilt,a.field_delta_receipt,preserve_public_seed=a.preserve_public_seed);a.receipt.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8');print(json.dumps(value),flush=True)

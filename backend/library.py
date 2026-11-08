@@ -153,9 +153,15 @@ class LibraryDatabase:
                 raise UpdateStorageError('题库迁移恢复点未完成，原数据已保留')
             return result
 
-    def merge_seed(self, path, fingerprint=None):
+    def merge_seed(self, path, fingerprint=None, *, _partial=None, _assets=None):
         """Upgrade bundled content, preserving locally imported/edited rows and fetched statements."""
         path = Path(path).resolve()
+        if _partial is not None:
+            if (not isinstance(_partial,dict) or set(_partial)!={'lectureIds','problemLectureSubjects'}
+                    or any(not isinstance(_partial[key],list) or len(_partial[key])>100000
+                           or any(not isinstance(item,str) or not item or len(item)>2048 for item in _partial[key])
+                           or len(set(_partial[key]))!=len(_partial[key]) for key in _partial)):
+                raise ValueError('Invalid partial public library membership')
         if fingerprint is None:
             # The public seed contains images/PDFs; hashing must not allocate
             # another entire library on first startup or during upgrades.
@@ -187,8 +193,10 @@ class LibraryDatabase:
             links = {}
             for row in seed.execute('SELECT * FROM problem_lectures ORDER BY problem_id,position'):
                 links.setdefault(row['problem_id'], []).append(tuple(row))
-            for row in rows['problems']:
-                links.setdefault(row['id'], [])
+            subjects=_partial['problemLectureSubjects'] if _partial is not None else [row['id'] for row in rows['problems']]
+            if _partial is not None and not set(links)<=set(subjects):
+                raise ValueError('Partial public links are outside their declared membership')
+            for identity in subjects:links.setdefault(identity, [])
         finally:
             seed.close()
         if self.has_problems():
@@ -198,6 +206,12 @@ class LibraryDatabase:
             db.execute('BEGIN IMMEDIATE')
             from contextlib import closing
             present_assets={row[0] for row in db.execute('SELECT sha256 FROM statement_assets')}
+            for sha, (mime, data) in (_assets or {}).items():
+                if hashlib.sha256(data).hexdigest()!=sha:
+                    raise ValueError('Reused public resource hash mismatch')
+                if sha not in present_assets:
+                    db.execute('INSERT INTO statement_assets VALUES(?,?,?)',(sha,mime,data))
+                    present_assets.add(sha)
             with closing(sqlite3.connect(path.as_uri()+'?mode=ro',uri=True)) as asset_source:
                 for sha,mime in asset_rows:
                     # Content-addressed immutable bytes already present are
@@ -281,7 +295,7 @@ class LibraryDatabase:
                     remember('problem_lectures', identity, checksum)
                 elif existing == checksum:
                     remember('problem_lectures', identity, checksum)
-            seed_lecture_ids = {row['id'] for row in rows['lectures']}
+            seed_lecture_ids = set(_partial['lectureIds']) if _partial is not None else {row['id'] for row in rows['lectures']}
             obsolete = db.execute("SELECT item_id,digest FROM bundled_items WHERE table_name='lectures'").fetchall()
             for old in obsolete:
                 identity = old['item_id']
