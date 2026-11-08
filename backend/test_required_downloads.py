@@ -30,6 +30,11 @@ class Response(io.BytesIO):
 
 class RequiredDownloadTests(unittest.TestCase):
     def setUp(self):
+        # Positive transfers use the in-memory synthetic opener even when the
+        # full offline test runner exports TB_OFFLINE=1. Offline behavior is
+        # exercised explicitly, without weakening the production guard.
+        online_fixture=patch.dict('os.environ',{'TB_OFFLINE':'0'})
+        online_fixture.start();self.addCleanup(online_fixture.stop)
         self.temp=tempfile.TemporaryDirectory(prefix='tb-required-inputs-');self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name)
         self.member=(b'exact synthetic input\n'*11000)
@@ -71,6 +76,11 @@ class RequiredDownloadTests(unittest.TestCase):
         with patch.dict('os.environ',{'TB_OFFLINE':'1'}):self.assertEqual(self.download(),self.raw)
         self.assertEqual(len(self.requests),1)
         self.assertTrue(self.manager.status(self.sha)['cached'])
+    def test_uncached_offline_request_never_opens_the_distribution_origin(self):
+        with patch.dict('os.environ',{'TB_OFFLINE':'1'}):
+            with self.assertRaisesRegex(OSError,'offline'):self.download()
+        self.assertEqual(self.requests,[])
+        self.assertFalse(self.manager.status(self.sha)['cached'])
 
     def test_disconnect_retries_from_verified_prefix_without_restarting_download(self):
         self.fault_once=True
