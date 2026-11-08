@@ -58,6 +58,12 @@ try{
     await picture.scrollIntoViewIfNeeded();await picture.evaluate(image=>image.decode());
     assert(await picture.evaluate(image=>image.complete&&image.naturalWidth>0),row.originalId+' original image');images++;
    }
+   if(row.reviewAttachment){
+    const [download]=await Promise.all([page.waitForEvent('download'),statement.getByRole('link',{name:row.reviewAttachment.label,exact:true}).click()]);
+    assert.equal(download.suggestedFilename(),row.reviewAttachment.fileName);
+    const bytes=await fs.readFile(await download.path());
+    assert.equal(createHash('sha256').update(bytes).digest('hex'),row.reviewAttachment.sha256,row.originalId+' source attachment byte identity');
+   }
   }
   await page.screenshot({path:path.join(path.dirname(output),row.originalId.replaceAll(':','_')+'.png')});
   checked.push({id:row.originalId,pages,images,samples:row.samples.length});await page.close();

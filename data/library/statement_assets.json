@@ -43306,5 +43306,11 @@
     "mime": "image/png",
     "bytes": 271,
     "file": "statement-assets/a335c5ddffa8ebbced1373929d8c0394f27316e61b84d62f9f3bacd20cfea33d.bin"
+  },
+  {
+    "sha256": "029163ce6ec861a5d3fca5a7813443e0329a40ca6dd697ebf4b74a78b2b03eb9",
+    "mime": "application/octet-stream",
+    "bytes": 674,
+    "file": "statement-assets/029163ce6ec861a5d3fca5a7813443e0329a40ca6dd697ebf4b74a78b2b03eb9.bin"
   }
 ]
