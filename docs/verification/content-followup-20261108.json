@@ -1,0 +1,188 @@
+{
+  "at": "2026-11-08T07:13:18.255976+00:00",
+  "installed": false,
+  "productionDeployed": false,
+  "actualProblemSiteSubmissions": 0,
+  "restoredOriginals": 13,
+  "reviewedChineseTranslations": 6,
+  "reviewedTranslationPdfPages": 13,
+  "sampleOnlyCorrections": 6,
+  "publicAudit": {
+    "at": "2026-11-08T06:31:17.499600+00:00",
+    "sourceRoot": "E:\\项目\\ToBe\\开发\\tb-team-runtime-20261108",
+    "publicLibrary": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-public-verification-16c37c3583d34f889e70851b8af8cab9\\library.sqlite3",
+    "problems": 13480,
+    "statements": 13452,
+    "completeOriginals": 13374,
+    "usableChineseTranslations": 6084,
+    "xcpcProblems": 2004,
+    "gaps": {
+      "originals": 106,
+      "translations": 71,
+      "translation-disabled": 13,
+      "translation-invalid": 0,
+      "knowledge": 4701,
+      "difficulty": 2207
+    },
+    "display": {
+      "projectedRows": 13466,
+      "visibleRows": 13143,
+      "hiddenRows": 323,
+      "knowledgeStatuses": {
+        "classified": 9031,
+        "pending": 4112
+      },
+      "gaps": {
+        "display-knowledge": 4112,
+        "display-difficulty": 2111
+      },
+      "personalStateRead": false,
+      "publicLibraryReadOnly": true
+    }
+  },
+  "publicSeed": {
+    "publicOnly": true,
+    "root": "E:\\项目\\ToBe\\开发\\tb-team-runtime-20261108",
+    "bytes": 1029509120,
+    "sha256": "6f333dd71f374c650657fac64ed3f4b8eb2216e146d5acf6d1c3712cc5eef5e1",
+    "previousPublicArtifactRetained": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\data\\library.sqlite3",
+    "privateDatabasesRead": false
+  },
+  "fullBackend": {
+    "checks": 1266,
+    "skipped": 2,
+    "passed": true,
+    "elapsedSeconds": 611.023,
+    "logSha256": "85d275c177e5d80ee9fb893a36d5ecf425971621fe97afc05df64bfa19da8743",
+    "command": "python scripts/check_backend.py"
+  },
+  "translationRender": {
+    "total": 12,
+    "rendered": 12,
+    "nativePdf": 0,
+    "issues": []
+  },
+  "actualWorkbenchTranslationChecks": {
+    "checked": [
+      "remote:codeforces:105544::A",
+      "remote:codeforces:105544::D",
+      "remote:codeforces:105544::H",
+      "remote:codeforces:105544::J",
+      "remote:codeforces:105544::L",
+      "remote:codeforces:105544::M"
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "samplesPreserved": true,
+    "originalPdfRestored": true
+  },
+  "translationSources": [
+    {
+      "letter": "A",
+      "pdfSha256": "6ca5f48e5dc80e4526a3aad26b14e5e24eca51721fc51c4114c914b22af88856",
+      "pageCount": 2,
+      "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+      "sourcePageNumbers": [
+        1,
+        2
+      ],
+      "pagesReviewed": [
+        1,
+        2
+      ],
+      "reviewedAt": "2026-11-08T06:06:29.530135+00:00"
+    },
+    {
+      "letter": "D",
+      "pdfSha256": "e1e72146acc5cd0636883673cb38ed7b7de39823c0c28eae89f7b164759fa784",
+      "pageCount": 2,
+      "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+      "sourcePageNumbers": [
+        7,
+        8
+      ],
+      "pagesReviewed": [
+        1,
+        2
+      ],
+      "reviewedAt": "2026-11-08T06:06:29.535701+00:00"
+    },
+    {
+      "letter": "H",
+      "pdfSha256": "337c06c6307469f4d583e2625ab26eff4f5c26aab77f0c724648b543eba668e4",
+      "pageCount": 2,
+      "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+      "sourcePageNumbers": [
+        16,
+        17
+      ],
+      "pagesReviewed": [
+        1,
+        2
+      ],
+      "reviewedAt": "2026-11-08T06:06:29.540279+00:00"
+    },
+    {
+      "letter": "J",
+      "pdfSha256": "ac8c5907fbe673456ef02ea15027a2aa0572aa83969749383697d4057d9612e3",
+      "pageCount": 3,
+      "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+      "sourcePageNumbers": [
+        21,
+        22,
+        23
+      ],
+      "pagesReviewed": [
+        1,
+        2,
+        3
+      ],
+      "reviewedAt": "2026-11-08T06:06:29.545166+00:00"
+    },
+    {
+      "letter": "L",
+      "pdfSha256": "c3e516df4251e8582e3b3b7c591fb231ae3486363c880d01891a837f7a79a0c3",
+      "pageCount": 2,
+      "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+      "sourcePageNumbers": [
+        28,
+        29
+      ],
+      "pagesReviewed": [
+        1,
+        2
+      ],
+      "reviewedAt": "2026-11-08T06:06:29.549743+00:00"
+    },
+    {
+      "letter": "M",
+      "pdfSha256": "00002645fb79eb0fe39940119c665508cd5e7037a2efa3727b0abfafffead44f",
+      "pageCount": 2,
+      "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+      "sourcePageNumbers": [
+        30,
+        31
+      ],
+      "pagesReviewed": [
+        1,
+        2
+      ],
+      "reviewedAt": "2026-11-08T06:06:29.555475+00:00"
+    }
+  ],
+  "files": {
+    "content-updates/20261108-taiwan/105544-A.en.md": "8c8d223dc2db87ad3a387ecca358456512f6b4a9adcb82e71ea91a66a2d99ff8",
+    "content-updates/20261108-taiwan/105544-A.zh.md": "d32434ff4be1380336ef081592bcbd237fb5f139713ff16ad810fe6eb3a63a12",
+    "content-updates/20261108-taiwan/105544-D.en.md": "73aa5425479af6cbdecc875173b8283c09855e087fe2583b9feab3b0474b732b",
+    "content-updates/20261108-taiwan/105544-D.zh.md": "8cce94a36a96492f2cb47dc7914bd5645d751ebc1716e4fc480140ea819bc0d5",
+    "content-updates/20261108-taiwan/105544-H.en.md": "20f460617839a2c9ca2c357d5a1232e6e62543bfbf05be36bf361cd35e79f33f",
+    "content-updates/20261108-taiwan/105544-H.zh.md": "ef967bf941e2d2c09ac037a9eecd38e00a526548f9da7508e655d91676b7987c",
+    "content-updates/20261108-taiwan/105544-J.en.md": "0faa11ee9526b75cc19805edf2bbd835be6929fd127c3247ab1bc53c9ba8e34d",
+    "content-updates/20261108-taiwan/105544-J.zh.md": "df6ab876f4c0e421e01a091618af19c5612195e69a2e8721bae27e162a3c90c3",
+    "content-updates/20261108-taiwan/105544-L.en.md": "fc9faf8fd71041c10704f66c833e0eff66421db11e00fe3deac1606677198e58",
+    "content-updates/20261108-taiwan/105544-L.zh.md": "a6920fff51d6fecb623acd924580d9af9632835058dc9d6fe2eb912e9bd1f91e",
+    "content-updates/20261108-taiwan/105544-M.en.md": "3714b69572d7e418820ea5735865feb437120d909d48301d398afae876b8e1fd",
+    "content-updates/20261108-taiwan/105544-M.zh.md": "2b5194ccdc4b72c8637a9d693d1f9a1313aa7da6c4e51586540ce363a9d61445",
+    "content-updates/20261108-taiwan/README.md": "6746ded0cef8c3fdad6687b081f39dfc0a558bc7dba9f3321c6fcc42cdc559ac"
+  }
+}

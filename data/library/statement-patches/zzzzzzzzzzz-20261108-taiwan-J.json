@@ -1,0 +1,199 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105544::J",
+      "beforeSha256": "77f57994f77e405cff9c01f7262e037b362fdf4bd2c40e3824b718f21bdd89be",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "data": "tb-asset:7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "fileName": "gym-105544.pdf",
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "id": "remote:codeforces:105544::J",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:56:41.790013+00:00",
+          "corpusAuditVerifiedSha256": "b040eaeb8501a3a7acf59fdfa868f6c9aaf829419908f10ef5ef4fba99ffd9eb",
+          "pdfPageCountVerified": true,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1500
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Lead Time Estimation\n\nProblem PJ\r\nLead Time Estimation\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe lead time is critical for earning orders, and several issues would result in various lead times\r\nwhen preparing the products. For example, the processes switched between different working\r\nareas and the workload of each process. The production manager should accurately estimate\r\nthe lead time for the target products when the order inquiry is received. Please develop a\r\nprogram to help the product manager estimate the lead time.\r\nThe lead time of an inquiry stands for the production time, including several jobs such as\r\nmaterial preparation, manufacturing, quality checking, shipping, etc. The processing time of\r\neach position could be determined by an execution time while transferring the process from\r\none job to the next requires a transmission time. For an inquiry, the production manager has\r\nthree pieces of information about the target products.\r\n The number of jobs and transmissions, e.g. |𝑇\r\n𝑗\r\n| and |𝑇\r\n𝑡\r\n|,\r\n the processing time of each job, where 𝑇\r\n𝑗 = {𝑡\r\n𝑗\r\n0\r\n, 𝑡𝑗\r\n1\r\n, 𝑡𝑗\r\n2\r\n, . . . , 𝑡𝑗\r\n|𝑇𝑗 |−1\r\n}, and\r\n the transmission time between jobs, where 𝑇\r\n𝑡 = {𝑡\r\n𝑡\r\n0\r\n, 𝑡𝑡\r\n1\r\n, 𝑡𝑡\r\n2\r\n, . . . , 𝑡𝑡\r\n|𝑇𝑡\r\n|−1\r\n}.\r\nThe process may begin or end with several starting jobs. This situation could easily insert\r\nvirtual starting and finishing jobs to simplify the problem. We can assume that the inquiry\r\nprocesses include one starting job and one finishing job.\r\nInput Format\r\nThe input includes three parts: (1) the number of jobs and transmissions in the first row, (2)\r\nthe job processing time in the second row, and (3) the transmission time in the remaining\r\nrows. The first input row consists of |𝑇\r\n𝑗\r\n| and |𝑇\r\n𝑡\r\n| with a space for the separation. The second\r\ninput row should be 𝑇\r\n𝑗\r\n, and the comma separates each element in 𝑇\r\n𝑗\r\n. The transmission time\r\ninformation is revealed from row number three to (2 + |𝑇\r\n𝑡\r\n|). Each row of transmission time\r\ninformation involves three data: the source job, the destination job, and the transmission time.\r\nMoreover, the test cases have some restrictions.\r\n There may be one transmission time for any pair of jobs at most.\r\n There may be multiple cases in a file.\r\n1\n\nOutput Format\r\nThe total time of delivering the products that is denoted by 𝑧 should be provided, and that\r\nmeans all jobs should be done in 𝑧. Also, the production manager is interested in the manu￾facturing process. If there is exactly one processing path that dominates the lead time, please\r\noutput the job sequence of the processing path and the letter “M” in upper case otherwise. A\r\ncomma separates each element in the output sequence. In other words, the output sequence\r\nshould be like either “𝑧,𝑣1,𝑣2,. . . ” or “𝑧,M”, where 𝑣1 and 𝑣2 represent the jobs.\r\nTechnical Specification\r\nEach inquiry includes precisely one entry and one exit. In each inquiry, at least one path will\r\ndominate the lead time, indicating no cyclical manufacturing processes. The boundaries of each\r\nvariable are listed as follows.\r\n 2 ≤ |𝑇\r\n𝑗\r\n| ≤ 50.\r\n 1 ≤ |𝑇\r\n𝑡\r\n| ≤ 100.\r\n 1 ≤ 𝑡\r\n𝑗\r\n𝑥\r\n, 𝑡𝑡\r\n𝑦 ≤ 50.\r\n2\n\nSample Input 1\r\n8 11\r\n2 ,7 ,2 ,6 ,5 ,1 ,2 ,7\r\n6 7 2\r\n0 1 4\r\n0 2 2\r\n1 3 6\r\n1 4 5\r\n1 5 3\r\n2 4 1\r\n3 6 2\r\n3 7 9\r\n4 5 2\r\n5 7 2\r\nSample Output 1\r\n41 ,0 ,1 ,3 ,7\r\nSample Input 2\r\n6 7\r\n10 ,8 ,9 ,10 ,11 ,12\r\n0 1 1\r\n1 2 2\r\n1 3 3\r\n1 4 4\r\n2 5 5\r\n3 5 6\r\n4 5 7\r\n6 7\r\n10 ,8 ,9 ,11 ,11 ,12\r\n0 1 1\r\n1 2 2\r\n1 3 4\r\n1 4 4\r\n2 5 5\r\n3 5 7\r\n4 5 7\r\nSample Output 2\r\n53 ,0 ,1 ,4 ,5\r\n53 , M\r\n3\n\n[PDF](https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "recovered",
+          "id": "remote:codeforces:105544::J",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 3,
+          "pdfSha256": "ac8c5907fbe673456ef02ea15027a2aa0572aa83969749383697d4057d9612e3",
+          "problemType": "standard",
+          "samplePairs": 2,
+          "samplesSha256": "b15f033a1682a676dbe9f616206e2aa40e789b0942d35e7de7cf95d20539de6d",
+          "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "url": "https://codeforces.com/gym/105544/problem/J"
+        },
+        "pageCount": 3,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "ac8c5907fbe673456ef02ea15027a2aa0572aa83969749383697d4057d9612e3",
+          "page": 3,
+          "reason": "Read only the outlined sample boxes; exclude printed page numbers. Restore the actual contiguous grid and comma-delimited tokens instead of PDF-extractor spacing."
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "8 11\n2,7,2,6,5,1,2,7\n6 7 2\n0 1 4\n0 2 2\n1 3 6\n1 4 5\n1 5 3\n2 4 1\n3 6 2\n3 7 9\n4 5 2\n5 7 2",
+            "output": "41,0,1,3,7"
+          },
+          {
+            "name": "样例 2",
+            "input": "6 7\n10,8,9,10,11,12\n0 1 1\n1 2 2\n1 3 3\n1 4 4\n2 5 5\n3 5 6\n4 5 7\n6 7\n10,8,9,11,11,12\n0 1 1\n1 2 2\n1 3 4\n1 4 4\n2 5 5\n3 5 7\n4 5 7",
+            "output": "53,0,1,4,5\n53,M"
+          }
+        ],
+        "sourceBinding": {
+          "kind": "exact-title",
+          "pdfProblemLabel": "PJ",
+          "pdfTitle": "Lead Time Estimation",
+          "problem": "J",
+          "problemInventoryVerified": 13,
+          "rosterTitle": "Lead Time Estimation",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          21,
+          22,
+          23
+        ],
+        "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+        "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+        "sourceRosterSha256": "5ec88d8ed50da51a78d550da61b9a8e69dbbceb1b980a28aee4f3f3058f9163a",
+        "sourceRosterUrl": "https://codeforces.com/gym/105544",
+        "sourceText": "# Lead Time Estimation\n\nTime limit: 1 second. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nThe lead time is critical for earning orders, and several issues would result in various lead times when preparing the products. For example, the processes switched between different working areas and the workload of each process. The production manager should accurately estimate the lead time for the target products when the order inquiry is received. Please develop a program to help the product manager estimate the lead time.\n\nThe lead time of an inquiry stands for the production time, including several jobs such as material preparation, manufacturing, quality checking, shipping, etc. The processing time of each position could be determined by an execution time while transferring the process from one job to the next requires a transmission time. For an inquiry, the production manager has three pieces of information about the target products.\n\n- The number of jobs and transmissions, e.g. $|T^j|$ and $|T^t|$,\n- the processing time of each job, where $T^j=\\{t^j_0,t^j_1,t^j_2,\\ldots,t^j_{|T^j|-1}\\}$, and\n- the transmission time between jobs, where $T^t=\\{t^t_0,t^t_1,t^t_2,\\ldots,t^t_{|T^t|-1}\\}$.\n\nThe process may begin or end with several starting jobs. This situation could easily insert virtual starting and finishing jobs to simplify the problem. We can assume that the inquiry processes include one starting job and one finishing job.\n\n## Input Format\n\nThe input includes three parts: (1) the number of jobs and transmissions in the first row, (2) the job processing time in the second row, and (3) the transmission time in the remaining rows. The first input row consists of $|T^j|$ and $|T^t|$ with a space for the separation. The second input row should be $T^j$, and the comma separates each element in $T^j$. The transmission time information is revealed from row number three to $(2+|T^t|)$. Each row of transmission time information involves three data: the source job, the destination job, and the transmission time. Moreover, the test cases have some restrictions.\n\n- There may be one transmission time for any pair of jobs at most.\n- There may be multiple cases in a file.\n\n## Output Format\n\nThe total time of delivering the products that is denoted by $z$ should be provided, and that means all jobs should be done in $z$. Also, the production manager is interested in the manufacturing process. If there is exactly one processing path that dominates the lead time, please output the job sequence of the processing path and the letter `M` in upper case otherwise. A comma separates each element in the output sequence. In other words, the output sequence should be like either `z,v1,v2,...` or `z,M`, where $v_1$ and $v_2$ represent the jobs.\n\n## Technical Specification\n\nEach inquiry includes precisely one entry and one exit. In each inquiry, at least one path will dominate the lead time, indicating no cyclical manufacturing processes. The boundaries of each variable are listed as follows.\n\n- $2\\le|T^j|\\le50$.\n- $1\\le|T^t|\\le100$.\n- $1\\le t^j_x,t^t_y\\le50$.\n\n## Sample Input 1\n\n```text\n8 11\n2,7,2,6,5,1,2,7\n6 7 2\n0 1 4\n0 2 2\n1 3 6\n1 4 5\n1 5 3\n2 4 1\n3 6 2\n3 7 9\n4 5 2\n5 7 2\n```\n\n## Sample Output 1\n\n```text\n41,0,1,3,7\n```\n\n## Sample Input 2\n\n```text\n6 7\n10,8,9,10,11,12\n0 1 1\n1 2 2\n1 3 3\n1 4 4\n2 5 5\n3 5 6\n4 5 7\n6 7\n10,8,9,11,11,12\n0 1 1\n1 2 2\n1 3 4\n1 4 4\n2 5 5\n3 5 7\n4 5 7\n```\n\n## Sample Output 2\n\n```text\n53,0,1,4,5\n53,M\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:ac8c5907fbe673456ef02ea15027a2aa0572aa83969749383697d4057d9612e3",
+          "fileName": "gym-105544-J.pdf",
+          "pageCount": 3,
+          "sha256": "ac8c5907fbe673456ef02ea15027a2aa0572aa83969749383697d4057d9612e3",
+          "sourcePageNumbers": [
+            21,
+            22,
+            23
+          ],
+          "sourceSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Lead Time Estimation",
+        "url": "https://codeforces.com/gym/105544/problem/J",
+        "sourceTextArchive": [
+          {
+            "text": "Problem PJ\r\nLead Time Estimation\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe lead time is critical for earning orders, and several issues would result in various lead times\r\nwhen preparing the products. For example, the processes switched between different working\r\nareas and the workload of each process. The production manager should accurately estimate\r\nthe lead time for the target products when the order inquiry is received. Please develop a\r\nprogram to help the product manager estimate the lead time.\r\nThe lead time of an inquiry stands for the production time, including several jobs such as\r\nmaterial preparation, manufacturing, quality checking, shipping, etc. The processing time of\r\neach position could be determined by an execution time while transferring the process from\r\none job to the next requires a transmission time. For an inquiry, the production manager has\r\nthree pieces of information about the target products.\r\n The number of jobs and transmissions, e.g. |𝑇\r\n𝑗\r\n| and |𝑇\r\n𝑡\r\n|,\r\n the processing time of each job, where 𝑇\r\n𝑗 = {𝑡\r\n𝑗\r\n0\r\n, 𝑡𝑗\r\n1\r\n, 𝑡𝑗\r\n2\r\n, . . . , 𝑡𝑗\r\n|𝑇𝑗 |−1\r\n}, and\r\n the transmission time between jobs, where 𝑇\r\n𝑡 = {𝑡\r\n𝑡\r\n0\r\n, 𝑡𝑡\r\n1\r\n, 𝑡𝑡\r\n2\r\n, . . . , 𝑡𝑡\r\n|𝑇𝑡\r\n|−1\r\n}.\r\nThe process may begin or end with several starting jobs. This situation could easily insert\r\nvirtual starting and finishing jobs to simplify the problem. We can assume that the inquiry\r\nprocesses include one starting job and one finishing job.\r\nInput Format\r\nThe input includes three parts: (1) the number of jobs and transmissions in the first row, (2)\r\nthe job processing time in the second row, and (3) the transmission time in the remaining\r\nrows. The first input row consists of |𝑇\r\n𝑗\r\n| and |𝑇\r\n𝑡\r\n| with a space for the separation. The second\r\ninput row should be 𝑇\r\n𝑗\r\n, and the comma separates each element in 𝑇\r\n𝑗\r\n. The transmission time\r\ninformation is revealed from row number three to (2 + |𝑇\r\n𝑡\r\n|). Each row of transmission time\r\ninformation involves three data: the source job, the destination job, and the transmission time.\r\nMoreover, the test cases have some restrictions.\r\n There may be one transmission time for any pair of jobs at most.\r\n There may be multiple cases in a file.\r\n1\n\nOutput Format\r\nThe total time of delivering the products that is denoted by 𝑧 should be provided, and that\r\nmeans all jobs should be done in 𝑧. Also, the production manager is interested in the manu￾facturing process. If there is exactly one processing path that dominates the lead time, please\r\noutput the job sequence of the processing path and the letter “M” in upper case otherwise. A\r\ncomma separates each element in the output sequence. In other words, the output sequence\r\nshould be like either “𝑧,𝑣1,𝑣2,. . . ” or “𝑧,M”, where 𝑣1 and 𝑣2 represent the jobs.\r\nTechnical Specification\r\nEach inquiry includes precisely one entry and one exit. In each inquiry, at least one path will\r\ndominate the lead time, indicating no cyclical manufacturing processes. The boundaries of each\r\nvariable are listed as follows.\r\n 2 ≤ |𝑇\r\n𝑗\r\n| ≤ 50.\r\n 1 ≤ |𝑇\r\n𝑡\r\n| ≤ 100.\r\n 1 ≤ 𝑡\r\n𝑗\r\n𝑥\r\n, 𝑡𝑡\r\n𝑦 ≤ 50.\r\n2\n\nSample Input 1\r\n8 11\r\n2 ,7 ,2 ,6 ,5 ,1 ,2 ,7\r\n6 7 2\r\n0 1 4\r\n0 2 2\r\n1 3 6\r\n1 4 5\r\n1 5 3\r\n2 4 1\r\n3 6 2\r\n3 7 9\r\n4 5 2\r\n5 7 2\r\nSample Output 1\r\n41 ,0 ,1 ,3 ,7\r\nSample Input 2\r\n6 7\r\n10 ,8 ,9 ,10 ,11 ,12\r\n0 1 1\r\n1 2 2\r\n1 3 3\r\n1 4 4\r\n2 5 5\r\n3 5 6\r\n4 5 7\r\n6 7\r\n10 ,8 ,9 ,11 ,11 ,12\r\n0 1 1\r\n1 2 2\r\n1 3 4\r\n1 4 4\r\n2 5 5\r\n3 5 7\r\n4 5 7\r\nSample Output 2\r\n53 ,0 ,1 ,4 ,5\r\n53 , M\r\n3",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "0ac7a0c53587468937b918f336bf8ea2f67508cc458cd13f5955c5442d5afc1d"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "8 11\n2 ,7 ,2 ,6 ,5 ,1 ,2 ,7\n6 7 2\n0 1 4\n0 2 2\n1 3 6\n1 4 5\n1 5 3\n2 4 1\n3 6 2\n3 7 9\n4 5 2\n5 7 2",
+                "name": "样例 1",
+                "output": "41 ,0 ,1 ,3 ,7"
+              },
+              {
+                "input": "6 7\n10 ,8 ,9 ,10 ,11 ,12\n0 1 1\n1 2 2\n1 3 3\n1 4 4\n2 5 5\n3 5 6\n4 5 7\n6 7\n10 ,8 ,9 ,11 ,11 ,12\n0 1 1\n1 2 2\n1 3 4\n1 4 4\n2 5 5\n3 5 7\n4 5 7\n3",
+                "name": "样例 2",
+                "output": "53 ,0 ,1 ,4 ,5\n53 , M"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "J",
+          "pdfSha256": "ac8c5907fbe673456ef02ea15027a2aa0572aa83969749383697d4057d9612e3",
+          "pageCount": 3,
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "sourcePageNumbers": [
+            21,
+            22,
+            23
+          ],
+          "pagesReviewed": [
+            1,
+            2,
+            3
+          ],
+          "reviewedAt": "2026-11-08T06:06:29.545166+00:00",
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "076310f84014081d06286e59922afaf5e620202248adcf614d97982bc2ebe427"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "b040eaeb8501a3a7acf59fdfa868f6c9aaf829419908f10ef5ef4fba99ffd9eb",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "076310f84014081d06286e59922afaf5e620202248adcf614d97982bc2ebe427",
+          "sourcePdfSha256": "ac8c5907fbe673456ef02ea15027a2aa0572aa83969749383697d4057d9612e3",
+          "markdown": "# 交付时间估算\n\n时间限制：1 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\n交付时间对于赢得订单至关重要，产品准备过程中的许多因素都会影响交付时间，例如在不同工作区域之间切换工序，以及每道工序的工作量。生产经理收到订单询价时，需要准确估算目标产品的交付时间。请编写程序帮助生产经理完成估算。\n\n一份询价对应的交付时间，是生产这些产品所需的时间，其中包括材料准备、制造、质量检查、运输等多项工作。每个工作岗位有自己的执行时间，而从一道工作转移到下一道工作还需要传输时间。对于每份询价，生产经理掌握以下三类目标产品信息：\n\n- 工作数量和传输数量，分别为 $|T^j|$ 和 $|T^t|$；\n- 各项工作的处理时间，其中 $T^j=\\{t^j_0,t^j_1,t^j_2,\\ldots,t^j_{|T^j|-1}\\}$；\n- 工作之间的传输时间，其中 $T^t=\\{t^t_0,t^t_1,t^t_2,\\ldots,t^t_{|T^t|-1}\\}$。\n\n流程可能有多个起始工作或结束工作。遇到这种情况，可以插入虚拟的起始工作和结束工作来简化问题。因此，可以假定每份询价的流程都只有一个起始工作和一个结束工作。\n\n## 输入格式\n\n输入分为三部分：(1) 第一行给出工作数量和传输数量，(2) 第二行给出各项工作的处理时间，(3) 其余各行给出传输时间。第一行包含 $|T^j|$ 和 $|T^t|$，用一个空格分隔。第二行给出 $T^j$，其中 $T^j$ 的各个元素之间用逗号分隔。从第三行到第 $(2+|T^t|)$ 行给出传输时间信息。每行包含三项数据：来源工作、目标工作和传输时间。此外，测试数据满足以下限制：\n\n- 任意一对工作之间至多有一项传输时间信息。\n- 一个输入文件可能包含多组测试数据。\n\n## 输出格式\n\n输出交付产品所需的总时间，记为 $z$，即所有工作都应在 $z$ 内完成。生产经理还关心具体的制造流程。如果恰好只有一条处理路径决定交付时间，输出该路径上的工作序列；否则输出大写字母 `M`。输出序列中各个元素之间用逗号分隔。换言之，输出形式为 `z,v1,v2,...` 或 `z,M`，其中 $v_1$ 和 $v_2$ 表示工作。\n\n## 数据范围\n\n每份询价的流程恰好有一个入口和一个出口，且至少有一条路径决定交付时间，制造流程中不存在环。各变量的范围如下：\n\n- $2\\le|T^j|\\le50$。\n- $1\\le|T^t|\\le100$。\n- $1\\le t^j_x,t^t_y\\le50$。\n\n## 样例输入 1\n\n```text\n8 11\n2,7,2,6,5,1,2,7\n6 7 2\n0 1 4\n0 2 2\n1 3 6\n1 4 5\n1 5 3\n2 4 1\n3 6 2\n3 7 9\n4 5 2\n5 7 2\n```\n\n## 样例输出 1\n\n```text\n41,0,1,3,7\n```\n\n## 样例输入 2\n\n```text\n6 7\n10,8,9,10,11,12\n0 1 1\n1 2 2\n1 3 3\n1 4 4\n2 5 5\n3 5 6\n4 5 7\n6 7\n10,8,9,11,11,12\n0 1 1\n1 2 2\n1 3 4\n1 4 4\n2 5 5\n3 5 7\n4 5 7\n```\n\n## 样例输出 2\n\n```text\n53,0,1,4,5\n53,M\n```\n"
+        },
+        "translationReview": {
+          "letter": "J",
+          "pdfSha256": "ac8c5907fbe673456ef02ea15027a2aa0572aa83969749383697d4057d9612e3",
+          "pageCount": 3,
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "sourcePageNumbers": [
+            21,
+            22,
+            23
+          ],
+          "pagesReviewed": [
+            1,
+            2,
+            3
+          ],
+          "reviewedAt": "2026-11-08T06:06:29.545166+00:00",
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "076310f84014081d06286e59922afaf5e620202248adcf614d97982bc2ebe427",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

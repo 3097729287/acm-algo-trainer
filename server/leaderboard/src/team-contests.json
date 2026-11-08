@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "revision": "280a35ea03353033d7af7b5cde3f744013d64d0b15963c836ae1ca84bd10de2a",
+  "revision": "b2d1c44960a040f56a702ed0d353b18596aaac4261cbf0d904ec40be1e4aebca",
   "contests": [
     {
       "id": "atcoder:abc469",
@@ -24781,6 +24781,132 @@
           "title": "810975",
           "url": "https://codeforces.com/gym/103428/problem/M",
           "problemKey": "8253969445987d18d4ac7df7b4ca1df886bd8cbe93a9a1f9160eea5cd959a1ef",
+          "problemType": "standard",
+          "available": true
+        }
+      ],
+      "availableProblems": 13,
+      "missingProblems": 0
+    },
+    {
+      "id": "codeforces:gym:103443",
+      "title": "ICPC 2021 台北区域赛",
+      "platform": "Codeforces",
+      "problems": [
+        {
+          "id": "remote:codeforces:103443::A",
+          "letter": "A",
+          "title": "Ice Cream",
+          "url": "https://codeforces.com/gym/103443/problem/A",
+          "problemKey": "8612ebc4f980a7b5cef9c4b047ad88fd33fe29f050d0048011b099873d6f3186",
+          "problemType": "standard",
+          "available": true
+        },
+        {
+          "id": "remote:codeforces:103443::B",
+          "letter": "B",
+          "title": "Maximum Sub-Reverse Matching",
+          "url": "https://codeforces.com/gym/103443/problem/B",
+          "problemKey": "f6894500c76521cf24667de4a40c5423393a7b0873622832b250b9274a92a1ae",
+          "problemType": "standard",
+          "available": true
+        },
+        {
+          "id": "remote:codeforces:103443::C",
+          "letter": "C",
+          "title": "Community Service",
+          "url": "https://codeforces.com/gym/103443/problem/C",
+          "problemKey": "62f0829f9dacadaecec8a83a2b6d4365c2fec1535fad6d0ceccde8e7f84bdbc7",
+          "problemType": "standard",
+          "available": true
+        },
+        {
+          "id": "remote:codeforces:103443::D",
+          "letter": "D",
+          "title": "Largest Remainder",
+          "url": "https://codeforces.com/gym/103443/problem/D",
+          "problemKey": "f1156a72ef5a890da9a9b8a500a5eea7825e1880a3df6948c776b3ec46e3a1b7",
+          "problemType": "standard",
+          "available": true
+        },
+        {
+          "id": "remote:codeforces:103443::E",
+          "letter": "E",
+          "title": "Composition with Large Red Plane, Yellow, Black, Gray, and Blue",
+          "url": "https://codeforces.com/gym/103443/problem/E",
+          "problemKey": "5f6cfb7292061c2bc26666b3eca5009e465d5cd4858bf276633f587bb8189d25",
+          "problemType": "standard",
+          "available": true
+        },
+        {
+          "id": "remote:codeforces:103443::F",
+          "letter": "F",
+          "title": "What a Colorful Wall",
+          "url": "https://codeforces.com/gym/103443/problem/F",
+          "problemKey": "a0c50470e845315a463d9eae3c7754d6a7f97aae55eac7a6e5038c61d1a71665",
+          "problemType": "standard",
+          "available": true
+        },
+        {
+          "id": "remote:codeforces:103443::G",
+          "letter": "G",
+          "title": "The Treasure of the Sierra Jade",
+          "url": "https://codeforces.com/gym/103443/problem/G",
+          "problemKey": "289263c6990a9fb9769ab7bff6be5901b9f34dd507cfaa37dd80b010a4fb78c6",
+          "problemType": "standard",
+          "available": true
+        },
+        {
+          "id": "remote:codeforces:103443::H",
+          "letter": "H",
+          "title": "A Big Project",
+          "url": "https://codeforces.com/gym/103443/problem/H",
+          "problemKey": "4d65615674ce1836181ced8bbe948ac56fdc3060b4896a58365f3f8dcdfd8c78",
+          "problemType": "standard",
+          "available": true
+        },
+        {
+          "id": "remote:codeforces:103443::I",
+          "letter": "I",
+          "title": "Seesaw",
+          "url": "https://codeforces.com/gym/103443/problem/I",
+          "problemKey": "ddc1b93f552c9adf00e3bdd3e9ea45127af6389d07313bf88fe2413bc5fa950e",
+          "problemType": "standard",
+          "available": true
+        },
+        {
+          "id": "remote:codeforces:103443::J",
+          "letter": "J",
+          "title": "Transportation Network",
+          "url": "https://codeforces.com/gym/103443/problem/J",
+          "problemKey": "d1ebe3fec81db21c1fcc76181acb8835260339b80628c4e7aaeb86d16d778c1e",
+          "problemType": "standard",
+          "available": true
+        },
+        {
+          "id": "remote:codeforces:103443::K",
+          "letter": "K",
+          "title": "Insertion Array",
+          "url": "https://codeforces.com/gym/103443/problem/K",
+          "problemKey": "f1587b66bf89e1faa377caf72bbc162bc794075d2e7c6d59d7302080ec35471d",
+          "problemType": "standard",
+          "available": true
+        },
+        {
+          "id": "remote:codeforces:103443::L",
+          "letter": "L",
+          "title": "Leadfoot",
+          "url": "https://codeforces.com/gym/103443/problem/L",
+          "problemKey": "a4edc27301bfa20eed457c002160cd12126665471a1299626b09f4b82f715661",
+          "problemType": "standard",
+          "available": true
+        },
+        {
+          "id": "remote:codeforces:103443::M",
+          "letter": "M",
+          "title": "Escaping the Foggy Forest",
+          "url": "https://codeforces.com/gym/103443/problem/M",
+          "problemKey": "4293b3256dba3425e5622843e792b6dd7a9f0ddd9f74c0590838bc62d79342a8",
           "problemType": "standard",
           "available": true
         }

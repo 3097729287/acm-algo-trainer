@@ -1,0 +1,203 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105544::H",
+      "beforeSha256": "60b7461b07334f1299383b33630e0b7e05b387ff3a266cb51b870fef5602b6e4",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "data": "tb-asset:7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "fileName": "gym-105544.pdf",
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "id": "remote:codeforces:105544::H",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:56:39.606804+00:00",
+          "corpusAuditVerifiedSha256": "17e4d9631556489b9036911c7eaf947229132194dddcaa3b89be5df292a51534",
+          "pdfPageCountVerified": true,
+          "sampleCount": 3,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1500
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Bank Deposit Challenge\n\nProblem PH\r\nBank Deposit Challenge\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\n𝑁 banks offer their own one-year deposit activities. For bank 𝑖, (𝑣𝑖\r\n, 𝑤𝑖) denotes the yearly\r\ndeposit interest and deposit limit of its activity, respectively. When a depositor selects the\r\nactivity of bank 𝑖, he/she must deposit an amount of money equal to 𝑤𝑖 to cover a whole\r\nyear. Note that a depositor can choose an activity only once. If a depositor has only cash\r\n𝐶 to participate in the deposit activities, what is the maximum deposit interest he/she can\r\nearn?\r\nInput Format\r\nThe first line is an integer representing the cash 𝐶. The second line contains 𝑁 integers, where\r\nthe 𝑖-th integer indicates 𝑣𝑖\r\n. The third line also contains 𝑁 integers, where the 𝑖-th integer\r\nindicates 𝑤𝑖\r\n. Note that there is a space between adjacent integers.\r\nOutput Format\r\nAn integer specifying the maximum deposit interest the depositor can earn. If no deposit\r\ninterest can be earned, please output 0.\r\nTechnical Specification\r\n 1 ≤ 𝑁 ≤ 100.\r\n 1 ≤ 𝐶 ≤ 1, 000. (unit: ten thousand dollars)\r\n 1 ≤ 𝑣𝑖 ≤ 540. (unit: one thousand dollars)\r\n 1 ≤ 𝑤𝑖 ≤ 300. (unit: ten thousand dollars)\r\n1\n\nSample Input 1\r\n100\r\n10 5 15 7\r\n20 30 50 70\r\nSample Output 1\r\n30\r\nSample Input 2\r\n500\r\n72 2 2 10 12 10 10 17 13 15\r\n120 10 5 20 25 100 80 300 50 100\r\nSample Output 2\r\n144\r\nSample Input 3\r\n5\r\n1 2\r\n10 20\r\nSample Output 3\r\n0\r\n2\n\n[PDF](https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "recovered",
+          "id": "remote:codeforces:105544::H",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 2,
+          "pdfSha256": "337c06c6307469f4d583e2625ab26eff4f5c26aab77f0c724648b543eba668e4",
+          "problemType": "standard",
+          "samplePairs": 3,
+          "samplesSha256": "b4fd6221b66fa210e141c4e1d04e71ca43af465e54a930c7fb535cfdd3e858b5",
+          "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "url": "https://codeforces.com/gym/105544/problem/H"
+        },
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "337c06c6307469f4d583e2625ab26eff4f5c26aab77f0c724648b543eba668e4",
+          "page": 2,
+          "reason": "Read only the outlined sample boxes; exclude printed page numbers. Restore the actual contiguous grid and comma-delimited tokens instead of PDF-extractor spacing."
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "100\n10 5 15 7\n20 30 50 70",
+            "output": "30"
+          },
+          {
+            "name": "样例 2",
+            "input": "500\n72 2 2 10 12 10 10 17 13 15\n120 10 5 20 25 100 80 300 50 100",
+            "output": "144"
+          },
+          {
+            "name": "样例 3",
+            "input": "5\n1 2\n10 20",
+            "output": "0"
+          }
+        ],
+        "sourceBinding": {
+          "kind": "exact-title",
+          "pdfProblemLabel": "PH",
+          "pdfTitle": "Bank Deposit Challenge",
+          "problem": "H",
+          "problemInventoryVerified": 13,
+          "rosterTitle": "Bank Deposit Challenge",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          16,
+          17
+        ],
+        "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+        "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+        "sourceRosterSha256": "5ec88d8ed50da51a78d550da61b9a8e69dbbceb1b980a28aee4f3f3058f9163a",
+        "sourceRosterUrl": "https://codeforces.com/gym/105544",
+        "sourceText": "# Bank Deposit Challenge\n\nTime limit: 1 second. Memory limit: 1024 megabytes.\n\n## Problem Description\n\n$N$ banks offer their own one-year deposit activities. For bank $i$, $(v_i,w_i)$ denotes the yearly deposit interest and deposit limit of its activity, respectively. When a depositor selects the activity of bank $i$, he/she must deposit an amount of money equal to $w_i$ to cover a whole year. Note that a depositor can choose an activity only once. If a depositor has only cash $C$ to participate in the deposit activities, what is the maximum deposit interest he/she can earn?\n\n## Input Format\n\nThe first line is an integer representing the cash $C$. The second line contains $N$ integers, where the $i$-th integer indicates $v_i$. The third line also contains $N$ integers, where the $i$-th integer indicates $w_i$. Note that there is a space between adjacent integers.\n\n## Output Format\n\nAn integer specifying the maximum deposit interest the depositor can earn. If no deposit interest can be earned, please output 0.\n\n## Technical Specification\n\n- $1\\le N\\le100$.\n- $1\\le C\\le1000$ (unit: ten thousand dollars).\n- $1\\le v_i\\le540$ (unit: one thousand dollars).\n- $1\\le w_i\\le300$ (unit: ten thousand dollars).\n\n## Sample Input 1\n\n```text\n100\n10 5 15 7\n20 30 50 70\n```\n\n## Sample Output 1\n\n```text\n30\n```\n\n## Sample Input 2\n\n```text\n500\n72 2 2 10 12 10 10 17 13 15\n120 10 5 20 25 100 80 300 50 100\n```\n\n## Sample Output 2\n\n```text\n144\n```\n\n## Sample Input 3\n\n```text\n5\n1 2\n10 20\n```\n\n## Sample Output 3\n\n```text\n0\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:337c06c6307469f4d583e2625ab26eff4f5c26aab77f0c724648b543eba668e4",
+          "fileName": "gym-105544-H.pdf",
+          "pageCount": 2,
+          "sha256": "337c06c6307469f4d583e2625ab26eff4f5c26aab77f0c724648b543eba668e4",
+          "sourcePageNumbers": [
+            16,
+            17
+          ],
+          "sourceSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Bank Deposit Challenge",
+        "url": "https://codeforces.com/gym/105544/problem/H",
+        "sourceTextArchive": [
+          {
+            "text": "Problem PH\r\nBank Deposit Challenge\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\n𝑁 banks offer their own one-year deposit activities. For bank 𝑖, (𝑣𝑖\r\n, 𝑤𝑖) denotes the yearly\r\ndeposit interest and deposit limit of its activity, respectively. When a depositor selects the\r\nactivity of bank 𝑖, he/she must deposit an amount of money equal to 𝑤𝑖 to cover a whole\r\nyear. Note that a depositor can choose an activity only once. If a depositor has only cash\r\n𝐶 to participate in the deposit activities, what is the maximum deposit interest he/she can\r\nearn?\r\nInput Format\r\nThe first line is an integer representing the cash 𝐶. The second line contains 𝑁 integers, where\r\nthe 𝑖-th integer indicates 𝑣𝑖\r\n. The third line also contains 𝑁 integers, where the 𝑖-th integer\r\nindicates 𝑤𝑖\r\n. Note that there is a space between adjacent integers.\r\nOutput Format\r\nAn integer specifying the maximum deposit interest the depositor can earn. If no deposit\r\ninterest can be earned, please output 0.\r\nTechnical Specification\r\n 1 ≤ 𝑁 ≤ 100.\r\n 1 ≤ 𝐶 ≤ 1, 000. (unit: ten thousand dollars)\r\n 1 ≤ 𝑣𝑖 ≤ 540. (unit: one thousand dollars)\r\n 1 ≤ 𝑤𝑖 ≤ 300. (unit: ten thousand dollars)\r\n1\n\nSample Input 1\r\n100\r\n10 5 15 7\r\n20 30 50 70\r\nSample Output 1\r\n30\r\nSample Input 2\r\n500\r\n72 2 2 10 12 10 10 17 13 15\r\n120 10 5 20 25 100 80 300 50 100\r\nSample Output 2\r\n144\r\nSample Input 3\r\n5\r\n1 2\r\n10 20\r\nSample Output 3\r\n0\r\n2",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "1391b63c2207948025c3edd8aac09629911ba29210a2d419164fa5a50eb2849c"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "100\n10 5 15 7\n20 30 50 70",
+                "name": "样例 1",
+                "output": "30"
+              },
+              {
+                "input": "500\n72 2 2 10 12 10 10 17 13 15\n120 10 5 20 25 100 80 300 50 100",
+                "name": "样例 2",
+                "output": "144"
+              },
+              {
+                "input": "5\n1 2\n10 20\n2",
+                "name": "样例 3",
+                "output": "0"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "H",
+          "pdfSha256": "337c06c6307469f4d583e2625ab26eff4f5c26aab77f0c724648b543eba668e4",
+          "pageCount": 2,
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "sourcePageNumbers": [
+            16,
+            17
+          ],
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "reviewedAt": "2026-11-08T06:06:29.540279+00:00",
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "eff9102e4243d8d284af0b10a0fa92cf66328c8109cdba730c2cab653b952baa"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "17e4d9631556489b9036911c7eaf947229132194dddcaa3b89be5df292a51534",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "eff9102e4243d8d284af0b10a0fa92cf66328c8109cdba730c2cab653b952baa",
+          "sourcePdfSha256": "337c06c6307469f4d583e2625ab26eff4f5c26aab77f0c724648b543eba668e4",
+          "markdown": "# 银行存款挑战\n\n时间限制：1 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\n$N$ 家银行分别推出为期一年的存款活动。对于银行 $i$，$(v_i,w_i)$ 分别表示该活动一年的存款利息和规定的存款金额。储户如果选择银行 $i$ 的活动，就必须存入恰好 $w_i$ 的金额，并存满一年。注意，每项活动只能选择一次。如果储户只有现金 $C$ 可以参加这些存款活动，他能获得的最大存款利息是多少？\n\n## 输入格式\n\n第一行是一个整数，表示现金 $C$。第二行包含 $N$ 个整数，其中第 $i$ 个整数表示 $v_i$。第三行也包含 $N$ 个整数，其中第 $i$ 个整数表示 $w_i$。相邻整数之间用一个空格分隔。\n\n## 输出格式\n\n输出一个整数，表示储户能够获得的最大存款利息。如果无法获得任何存款利息，输出 0。\n\n## 数据范围\n\n- $1\\le N\\le100$。\n- $1\\le C\\le1000$，单位：万元。\n- $1\\le v_i\\le540$，单位：千元。\n- $1\\le w_i\\le300$，单位：万元。\n\n## 样例输入 1\n\n```text\n100\n10 5 15 7\n20 30 50 70\n```\n\n## 样例输出 1\n\n```text\n30\n```\n\n## 样例输入 2\n\n```text\n500\n72 2 2 10 12 10 10 17 13 15\n120 10 5 20 25 100 80 300 50 100\n```\n\n## 样例输出 2\n\n```text\n144\n```\n\n## 样例输入 3\n\n```text\n5\n1 2\n10 20\n```\n\n## 样例输出 3\n\n```text\n0\n```\n"
+        },
+        "translationReview": {
+          "letter": "H",
+          "pdfSha256": "337c06c6307469f4d583e2625ab26eff4f5c26aab77f0c724648b543eba668e4",
+          "pageCount": 2,
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "sourcePageNumbers": [
+            16,
+            17
+          ],
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "reviewedAt": "2026-11-08T06:06:29.540279+00:00",
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "eff9102e4243d8d284af0b10a0fa92cf66328c8109cdba730c2cab653b952baa",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105544::D",
+      "beforeSha256": "dddccf4ebfecb5834039554dd8c11b9ee984a16e84be55012be4aef31c4083b0",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "data": "tb-asset:7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "fileName": "gym-105544.pdf",
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "id": "remote:codeforces:105544::D",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:56:31.270413+00:00",
+          "corpusAuditVerifiedSha256": "1073260a2699a2872d2346ab68a4c047281fc6fdbe1627a57fc8e162f139bb3e",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 4500
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Quarantine Policy\n\nProblem PD\r\nQuarantine Policy\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe 2019 novel coronavirus, COVID-19, can be transmitted between humans through water\r\ndroplets and close contact. The transmission is especially easy and fast in relatively crowded\r\nor confined spaces, such as airplanes or trains. If someone is infected with COVID-19, then\r\npassengers occupying the adjacent seats will be infected easily.\r\nTo prevent the spread of the virus, we can take precautions, such as washing hands regularly\r\nand avoiding touching our eyes, nose, or mouth, to avoid infection. In addition, governments\r\nhave also implemented special measures such as isolation and quarantine for this purpose. For\r\ninstance, when someone on an airplane caught the coronavirus, the person will need to be\r\nisolated. Moreover, persons occupying the seats adjacent to the infected person will need to\r\nbe quarantined. Precisely, there are two types of adjacent seats. One is directly adjacent, that\r\nis the seat is in the front, rear, left, or right of the virus seat. The other one is diagonally\r\nadjacent, that is the seat is in the front-left, front-right, rear-left, or rear-right of the virus seat.\r\nIn the quarantine policy, someone whose seat is directly adjacent will be quarantined for 𝑑1\r\ndays, and someone whose seat is diagonally adjacent will be quarantined for 𝑑2 days. If there\r\nis more than one infected person adjacent to some seat, the number of days of quarantine will\r\nnot be accumulated.\r\nPlease write a program to output which seats whose occupying persons need to be quarantined,\r\nand the number of days of quarantine. If a seat whose occupying person needs to be quarantined\r\nfor different days, output the maximum of such days.\r\nInput Format\r\nThe input contains several test cases. The first line stands for the number of test cases 𝑡. For\r\neach test case, the first line contains four integers 𝑛, 𝑚, 𝑑1, 𝑑2 (0 < 𝑛, 𝑚 ≤ 100, 1 ≤ 𝑑2 ≤ 𝑑1 <\r\n10), which stands for that there are 𝑛 lines and 𝑚 columns of the airplane, and a seat will be\r\nquarantined 𝑑1 days if the seat is adjacent to the virus seat directly (i.e., front, rear, left, right),\r\nand a seat will be quarantined 𝑑2 days if it is adjacent to the virus seat in the diagonal directions\r\n(front-left, front-right, rear-left, rear-right). The next 𝑛 lines contain exactly 𝑚 characters and\r\nrepresent the seats on the airplane.\r\nEach healthy seat is represented by a ‘.’ character and each virus seat is represented by a ‘V’\r\ncharacter.\r\n1\n\nOutput Format\r\nFor each airplane, first print the following message in a line alone:\r\nAirplane #𝑧:\r\nwhere 𝑧 stands for the label of the airplane (starting with 1). The next 𝑛 lines replace each\r\n‘.’ character in the input seats by the corresponding number of days to quarantine for that\r\nseat.\r\nTechnical Specification\r\n 1 ≤ 𝑡 ≤ 1000.\r\n 0 < 𝑛, 𝑚 ≤ 100.\r\n 1 ≤ 𝑑2 ≤ 𝑑1 < 10.\r\nSample Input 1\r\n2\r\n4 4 7 3\r\n. V ..\r\n....\r\n.. V .\r\n....\r\n2 2 1 1\r\nV .\r\n..\r\nSample Output 1\r\nAirplane #1:\r\n7 V70\r\n3773\r\n07 V7\r\n0373\r\nAirplane #2:\r\nV1\r\n11\r\n2\n\n[PDF](https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "recovered",
+          "id": "remote:codeforces:105544::D",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 2,
+          "pdfSha256": "e1e72146acc5cd0636883673cb38ed7b7de39823c0c28eae89f7b164759fa784",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "c963048e422e5c48995fbfa6b0f1a4b5463b548ab413e37d64e94b0d592bc46e",
+          "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "url": "https://codeforces.com/gym/105544/problem/D"
+        },
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "e1e72146acc5cd0636883673cb38ed7b7de39823c0c28eae89f7b164759fa784",
+          "page": 2,
+          "reason": "Read only the outlined sample boxes; exclude printed page numbers. Restore the actual contiguous grid and comma-delimited tokens instead of PDF-extractor spacing."
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2\n4 4 7 3\n.V..\n....\n..V.\n....\n2 2 1 1\nV.\n..",
+            "output": "Airplane #1:\n7V70\n3773\n07V7\n0373\nAirplane #2:\nV1\n11"
+          }
+        ],
+        "sourceBinding": {
+          "kind": "exact-title",
+          "pdfProblemLabel": "PD",
+          "pdfTitle": "Quarantine Policy",
+          "problem": "D",
+          "problemInventoryVerified": 13,
+          "rosterTitle": "Quarantine Policy",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          7,
+          8
+        ],
+        "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+        "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+        "sourceRosterSha256": "5ec88d8ed50da51a78d550da61b9a8e69dbbceb1b980a28aee4f3f3058f9163a",
+        "sourceRosterUrl": "https://codeforces.com/gym/105544",
+        "sourceText": "# Quarantine Policy\n\nTime limit: 3 seconds. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nThe 2019 novel coronavirus, COVID-19, can be transmitted between humans through water droplets and close contact. The transmission is especially easy and fast in relatively crowded or confined spaces, such as airplanes or trains. If someone is infected with COVID-19, then passengers occupying the adjacent seats will be infected easily.\n\nTo prevent the spread of the virus, we can take precautions, such as washing hands regularly and avoiding touching our eyes, nose, or mouth, to avoid infection. In addition, governments have also implemented special measures such as isolation and quarantine for this purpose. For instance, when someone on an airplane caught the coronavirus, the person will need to be isolated. Moreover, persons occupying the seats adjacent to the infected person will need to be quarantined. Precisely, there are two types of adjacent seats. One is directly adjacent, that is the seat is in the front, rear, left, or right of the virus seat. The other one is diagonally adjacent, that is the seat is in the front-left, front-right, rear-left, or rear-right of the virus seat.\n\nIn the quarantine policy, someone whose seat is directly adjacent will be quarantined for $d_1$ days, and someone whose seat is diagonally adjacent will be quarantined for $d_2$ days. If there is more than one infected person adjacent to some seat, the number of days of quarantine will not be accumulated.\n\nPlease write a program to output which seats whose occupying persons need to be quarantined, and the number of days of quarantine. If a seat whose occupying person needs to be quarantined for different days, output the maximum of such days.\n\n## Input Format\n\nThe input contains several test cases. The first line stands for the number of test cases $t$. For each test case, the first line contains four integers $n,m,d_1,d_2$ ($0<n,m\\le100$, $1\\le d_2\\le d_1<10$), which stands for that there are $n$ lines and $m$ columns of the airplane, and a seat will be quarantined $d_1$ days if the seat is adjacent to the virus seat directly (i.e., front, rear, left, right), and a seat will be quarantined $d_2$ days if it is adjacent to the virus seat in the diagonal directions (front-left, front-right, rear-left, rear-right). The next $n$ lines contain exactly $m$ characters and represent the seats on the airplane.\n\nEach healthy seat is represented by a `.` character and each virus seat is represented by a `V` character.\n\n## Output Format\n\nFor each airplane, first print the following message in a line alone:\n\n`Airplane #z:`\n\nwhere $z$ stands for the label of the airplane (starting with 1). The next $n$ lines replace each `.` character in the input seats by the corresponding number of days to quarantine for that seat.\n\n## Technical Specification\n\n- $1\\le t\\le1000$.\n- $0<n,m\\le100$.\n- $1\\le d_2\\le d_1<10$.\n\n## Sample Input 1\n\n```text\n2\n4 4 7 3\n.V..\n....\n..V.\n....\n2 2 1 1\nV.\n..\n```\n\n## Sample Output 1\n\n```text\nAirplane #1:\n7V70\n3773\n07V7\n0373\nAirplane #2:\nV1\n11\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:e1e72146acc5cd0636883673cb38ed7b7de39823c0c28eae89f7b164759fa784",
+          "fileName": "gym-105544-D.pdf",
+          "pageCount": 2,
+          "sha256": "e1e72146acc5cd0636883673cb38ed7b7de39823c0c28eae89f7b164759fa784",
+          "sourcePageNumbers": [
+            7,
+            8
+          ],
+          "sourceSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Quarantine Policy",
+        "url": "https://codeforces.com/gym/105544/problem/D",
+        "sourceTextArchive": [
+          {
+            "text": "Problem PD\r\nQuarantine Policy\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe 2019 novel coronavirus, COVID-19, can be transmitted between humans through water\r\ndroplets and close contact. The transmission is especially easy and fast in relatively crowded\r\nor confined spaces, such as airplanes or trains. If someone is infected with COVID-19, then\r\npassengers occupying the adjacent seats will be infected easily.\r\nTo prevent the spread of the virus, we can take precautions, such as washing hands regularly\r\nand avoiding touching our eyes, nose, or mouth, to avoid infection. In addition, governments\r\nhave also implemented special measures such as isolation and quarantine for this purpose. For\r\ninstance, when someone on an airplane caught the coronavirus, the person will need to be\r\nisolated. Moreover, persons occupying the seats adjacent to the infected person will need to\r\nbe quarantined. Precisely, there are two types of adjacent seats. One is directly adjacent, that\r\nis the seat is in the front, rear, left, or right of the virus seat. The other one is diagonally\r\nadjacent, that is the seat is in the front-left, front-right, rear-left, or rear-right of the virus seat.\r\nIn the quarantine policy, someone whose seat is directly adjacent will be quarantined for 𝑑1\r\ndays, and someone whose seat is diagonally adjacent will be quarantined for 𝑑2 days. If there\r\nis more than one infected person adjacent to some seat, the number of days of quarantine will\r\nnot be accumulated.\r\nPlease write a program to output which seats whose occupying persons need to be quarantined,\r\nand the number of days of quarantine. If a seat whose occupying person needs to be quarantined\r\nfor different days, output the maximum of such days.\r\nInput Format\r\nThe input contains several test cases. The first line stands for the number of test cases 𝑡. For\r\neach test case, the first line contains four integers 𝑛, 𝑚, 𝑑1, 𝑑2 (0 < 𝑛, 𝑚 ≤ 100, 1 ≤ 𝑑2 ≤ 𝑑1 <\r\n10), which stands for that there are 𝑛 lines and 𝑚 columns of the airplane, and a seat will be\r\nquarantined 𝑑1 days if the seat is adjacent to the virus seat directly (i.e., front, rear, left, right),\r\nand a seat will be quarantined 𝑑2 days if it is adjacent to the virus seat in the diagonal directions\r\n(front-left, front-right, rear-left, rear-right). The next 𝑛 lines contain exactly 𝑚 characters and\r\nrepresent the seats on the airplane.\r\nEach healthy seat is represented by a ‘.’ character and each virus seat is represented by a ‘V’\r\ncharacter.\r\n1\n\nOutput Format\r\nFor each airplane, first print the following message in a line alone:\r\nAirplane #𝑧:\r\nwhere 𝑧 stands for the label of the airplane (starting with 1). The next 𝑛 lines replace each\r\n‘.’ character in the input seats by the corresponding number of days to quarantine for that\r\nseat.\r\nTechnical Specification\r\n 1 ≤ 𝑡 ≤ 1000.\r\n 0 < 𝑛, 𝑚 ≤ 100.\r\n 1 ≤ 𝑑2 ≤ 𝑑1 < 10.\r\nSample Input 1\r\n2\r\n4 4 7 3\r\n. V ..\r\n....\r\n.. V .\r\n....\r\n2 2 1 1\r\nV .\r\n..\r\nSample Output 1\r\nAirplane #1:\r\n7 V70\r\n3773\r\n07 V7\r\n0373\r\nAirplane #2:\r\nV1\r\n11\r\n2",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "66f7f00463b083d43aca523ba99d470ef91218f94b21ceec2298ed815ceefdb0"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "2\n4 4 7 3\n. V ..\n....\n.. V .\n....\n2 2 1 1\nV .\n..\n2",
+                "name": "样例 1",
+                "output": "Airplane #1:\n7 V70\n3773\n07 V7\n0373\nAirplane #2:\nV1\n11"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "D",
+          "pdfSha256": "e1e72146acc5cd0636883673cb38ed7b7de39823c0c28eae89f7b164759fa784",
+          "pageCount": 2,
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "sourcePageNumbers": [
+            7,
+            8
+          ],
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "reviewedAt": "2026-11-08T06:06:29.535701+00:00",
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "2eb93d76ffa8ed38826c8f51b73612331a47493b3dbb9ba195463a4ffed6d47e"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "1073260a2699a2872d2346ab68a4c047281fc6fdbe1627a57fc8e162f139bb3e",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "2eb93d76ffa8ed38826c8f51b73612331a47493b3dbb9ba195463a4ffed6d47e",
+          "sourcePdfSha256": "e1e72146acc5cd0636883673cb38ed7b7de39823c0c28eae89f7b164759fa784",
+          "markdown": "# 隔离政策\n\n时间限制：3 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\n2019 新型冠状病毒 COVID-19 可以通过飞沫和近距离接触在人与人之间传播。在飞机、火车等相对拥挤或封闭的空间内，传播尤其容易且迅速。如果有人感染了 COVID-19，坐在相邻座位的乘客也容易被感染。\n\n为了防止病毒传播，人们可以通过经常洗手、避免触碰眼睛、鼻子或嘴巴等预防措施来避免感染。此外，政府也采取了隔离等特别措施。例如，飞机上有人感染冠状病毒后，该患者需要被隔离，坐在患者相邻座位的人也需要被隔离。具体来说，相邻座位分为两类：一类是直接相邻，即位于患者座位的前、后、左、右；另一类是对角相邻，即位于患者座位的左前、右前、左后、右后。\n\n根据隔离政策，座位直接相邻的人需要隔离 $d_1$ 天，座位对角相邻的人需要隔离 $d_2$ 天。如果一个座位与多名患者相邻，隔离天数不会累加。\n\n请编写程序，输出哪些座位上的乘客需要隔离，以及各自的隔离天数。如果一个座位上的乘客同时适用多种隔离天数，输出其中的最大值。\n\n## 输入格式\n\n输入包含多组测试数据。第一行表示测试数据的组数 $t$。对于每组测试数据，第一行包含四个整数 $n,m,d_1,d_2$（$0<n,m\\le100$，$1\\le d_2\\le d_1<10$），表示飞机上有 $n$ 行、$m$ 列座位。如果一个座位与患者座位直接相邻（前、后、左、右），该座位上的人需要隔离 $d_1$ 天；如果与患者座位对角相邻（左前、右前、左后、右后），则需要隔离 $d_2$ 天。接下来 $n$ 行，每行恰好包含 $m$ 个字符，表示飞机上的座位。\n\n每个健康乘客的座位用字符 `.` 表示，每个患者的座位用字符 `V` 表示。\n\n## 输出格式\n\n对于每架飞机，首先单独输出一行如下信息：\n\n`Airplane #z:`\n\n其中 $z$ 表示飞机的编号，从 1 开始。接下来 $n$ 行，将输入座位中的每个字符 `.` 替换为该座位上的乘客需要隔离的天数。\n\n## 数据范围\n\n- $1\\le t\\le1000$。\n- $0<n,m\\le100$。\n- $1\\le d_2\\le d_1<10$。\n\n## 样例输入 1\n\n```text\n2\n4 4 7 3\n.V..\n....\n..V.\n....\n2 2 1 1\nV.\n..\n```\n\n## 样例输出 1\n\n```text\nAirplane #1:\n7V70\n3773\n07V7\n0373\nAirplane #2:\nV1\n11\n```\n"
+        },
+        "translationReview": {
+          "letter": "D",
+          "pdfSha256": "e1e72146acc5cd0636883673cb38ed7b7de39823c0c28eae89f7b164759fa784",
+          "pageCount": 2,
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "sourcePageNumbers": [
+            7,
+            8
+          ],
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "reviewedAt": "2026-11-08T06:06:29.535701+00:00",
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "2eb93d76ffa8ed38826c8f51b73612331a47493b3dbb9ba195463a4ffed6d47e",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

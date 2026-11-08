@@ -1,0 +1,13 @@
+{
+  "method": "page-reviewed-original-pdf-samples",
+  "sourcePdfSha256": "e1e72146acc5cd0636883673cb38ed7b7de39823c0c28eae89f7b164759fa784",
+  "page": 2,
+  "reason": "Read only the outlined sample boxes; exclude printed page numbers. Restore the actual contiguous grid and comma-delimited tokens instead of PDF-extractor spacing.",
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "2\n4 4 7 3\n.V..\n....\n..V.\n....\n2 2 1 1\nV.\n..",
+      "output": "Airplane #1:\n7V70\n3773\n07V7\n0373\nAirplane #2:\nV1\n11"
+    }
+  ]
+}

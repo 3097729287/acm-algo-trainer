@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105544::A",
+      "beforeSha256": "a113f883a3d298c72e48b52ef47e8cf8d1090c2c20daed718e3cb915e41ff320",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "data": "tb-asset:7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "fileName": "gym-105544.pdf",
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "id": "remote:codeforces:105544::A",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:56:27.490360+00:00",
+          "corpusAuditVerifiedSha256": "63ad63b9ab123c546552a05f93f28e2b835de3623f786228194956238fdaa480",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 4500
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Counterfeit Money\n\nProblem PA\r\nCounterfeit Money\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe banknotes of the ICPC Kingdom have anti-counterfeiting measures. Each banknote has an\r\nexclusive serial number, and this serial number is divisible by 13. In other words, if the serial\r\nnumber is not divisible by 13, then the banknote is counterfeit. To verify whether a number is\r\ndivisible by 13, we can directly divide the number by 13. Yet, there is another method:\r\nPartition the digits of the given decimal number into groups starting from the right, where\r\neach group has three digits. Now, treat each group as a three-digit number. Then, from\r\nthe rightmost group, apply subtraction and addition operations alternately to the three-digit\r\nnumber and obtain the result. If the result is divisible by 13, then the original number is\r\ndivisible by 13. Otherwise, it is not.\r\nFor example, for the number 123,456,789, if we apply subtraction and addition operations\r\nalternately from the rightmost group of 3 digits, we get 789 − 456 + 123 = 456. As 456 is not\r\ndivisible by 13, the original number 123,456,789 is not divisible by 13.\r\nFor another example, for the number 593,825,856, if we apply subtraction and addition opera￾tions alternately from the rightmost group of 3 digits, we get 856 − 825 + 593 = 624. As 624\r\nis divisible by 13 (624 = 13 × 48), the original number 593,825,856 is divisible by 13.\r\nBased on the above method, write a program to verify whether a banknote is counterfeit or\r\nnot.\r\nInput Format\r\nThe input contains several test cases. The first line stands for the number of test cases 𝑡. The\r\nnext 𝑡 lines will each contain a positive number. The given number may contain up to 1000\r\ndigits.\r\nOutput Format\r\nFor each input number, output the absolute value of the result when we apply the above\r\nalternate-add-subtract method. Then, on the same line, output “YES” if the input number is\r\ndivisible by 13, and “NO” otherwise. There is a space between the output value and YES/NO.\r\n1\n\nTechnical Specification\r\n 1 ≤ 𝑡 ≤ 1000.\r\n Each input number may contain up to 1000 digits.\r\nSample Input 1\r\n2\r\n123456789\r\n593825856\r\nSample Output 1\r\n456 NO\r\n624 YES\r\n2\n\n[PDF](https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "recovered",
+          "id": "remote:codeforces:105544::A",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 2,
+          "pdfSha256": "6ca5f48e5dc80e4526a3aad26b14e5e24eca51721fc51c4114c914b22af88856",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "518f0c524292c467fa9cc95d3801b04030e1f11f7eff57376465e51dc4c907f2",
+          "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "url": "https://codeforces.com/gym/105544/problem/A"
+        },
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "6ca5f48e5dc80e4526a3aad26b14e5e24eca51721fc51c4114c914b22af88856",
+          "page": 2,
+          "reason": "Read only the outlined sample boxes; exclude printed page numbers. Restore the actual contiguous grid and comma-delimited tokens instead of PDF-extractor spacing."
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2\n123456789\n593825856",
+            "output": "456 NO\n624 YES"
+          }
+        ],
+        "sourceBinding": {
+          "kind": "exact-title",
+          "pdfProblemLabel": "PA",
+          "pdfTitle": "Counterfeit Money",
+          "problem": "A",
+          "problemInventoryVerified": 13,
+          "rosterTitle": "Counterfeit Money",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+        "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+        "sourceRosterSha256": "5ec88d8ed50da51a78d550da61b9a8e69dbbceb1b980a28aee4f3f3058f9163a",
+        "sourceRosterUrl": "https://codeforces.com/gym/105544",
+        "sourceText": "# Counterfeit Money\n\nTime limit: 3 seconds. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nThe banknotes of the ICPC Kingdom have anti-counterfeiting measures. Each banknote has an exclusive serial number, and this serial number is divisible by 13. In other words, if the serial number is not divisible by 13, then the banknote is counterfeit. To verify whether a number is divisible by 13, we can directly divide the number by 13. Yet, there is another method:\n\nPartition the digits of the given decimal number into groups starting from the right, where each group has three digits. Now, treat each group as a three-digit number. Then, from the rightmost group, apply subtraction and addition operations alternately to the three-digit number and obtain the result. If the result is divisible by 13, then the original number is divisible by 13. Otherwise, it is not.\n\nFor example, for the number 123,456,789, if we apply subtraction and addition operations alternately from the rightmost group of 3 digits, we get $789-456+123=456$. As 456 is not divisible by 13, the original number 123,456,789 is not divisible by 13.\n\nFor another example, for the number 593,825,856, if we apply subtraction and addition operations alternately from the rightmost group of 3 digits, we get $856-825+593=624$. As 624 is divisible by 13 ($624=13\\times48$), the original number 593,825,856 is divisible by 13.\n\nBased on the above method, write a program to verify whether a banknote is counterfeit or not.\n\n## Input Format\n\nThe input contains several test cases. The first line stands for the number of test cases $t$. The next $t$ lines will each contain a positive number. The given number may contain up to 1000 digits.\n\n## Output Format\n\nFor each input number, output the absolute value of the result when we apply the above alternate-add-subtract method. Then, on the same line, output `YES` if the input number is divisible by 13, and `NO` otherwise. There is a space between the output value and `YES`/`NO`.\n\n## Technical Specification\n\n- $1\\le t\\le1000$.\n- Each input number may contain up to 1000 digits.\n\n## Sample Input 1\n\n```text\n2\n123456789\n593825856\n```\n\n## Sample Output 1\n\n```text\n456 NO\n624 YES\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:6ca5f48e5dc80e4526a3aad26b14e5e24eca51721fc51c4114c914b22af88856",
+          "fileName": "gym-105544-A.pdf",
+          "pageCount": 2,
+          "sha256": "6ca5f48e5dc80e4526a3aad26b14e5e24eca51721fc51c4114c914b22af88856",
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Counterfeit Money",
+        "url": "https://codeforces.com/gym/105544/problem/A",
+        "sourceTextArchive": [
+          {
+            "text": "Problem PA\r\nCounterfeit Money\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe banknotes of the ICPC Kingdom have anti-counterfeiting measures. Each banknote has an\r\nexclusive serial number, and this serial number is divisible by 13. In other words, if the serial\r\nnumber is not divisible by 13, then the banknote is counterfeit. To verify whether a number is\r\ndivisible by 13, we can directly divide the number by 13. Yet, there is another method:\r\nPartition the digits of the given decimal number into groups starting from the right, where\r\neach group has three digits. Now, treat each group as a three-digit number. Then, from\r\nthe rightmost group, apply subtraction and addition operations alternately to the three-digit\r\nnumber and obtain the result. If the result is divisible by 13, then the original number is\r\ndivisible by 13. Otherwise, it is not.\r\nFor example, for the number 123,456,789, if we apply subtraction and addition operations\r\nalternately from the rightmost group of 3 digits, we get 789 − 456 + 123 = 456. As 456 is not\r\ndivisible by 13, the original number 123,456,789 is not divisible by 13.\r\nFor another example, for the number 593,825,856, if we apply subtraction and addition opera￾tions alternately from the rightmost group of 3 digits, we get 856 − 825 + 593 = 624. As 624\r\nis divisible by 13 (624 = 13 × 48), the original number 593,825,856 is divisible by 13.\r\nBased on the above method, write a program to verify whether a banknote is counterfeit or\r\nnot.\r\nInput Format\r\nThe input contains several test cases. The first line stands for the number of test cases 𝑡. The\r\nnext 𝑡 lines will each contain a positive number. The given number may contain up to 1000\r\ndigits.\r\nOutput Format\r\nFor each input number, output the absolute value of the result when we apply the above\r\nalternate-add-subtract method. Then, on the same line, output “YES” if the input number is\r\ndivisible by 13, and “NO” otherwise. There is a space between the output value and YES/NO.\r\n1\n\nTechnical Specification\r\n 1 ≤ 𝑡 ≤ 1000.\r\n Each input number may contain up to 1000 digits.\r\nSample Input 1\r\n2\r\n123456789\r\n593825856\r\nSample Output 1\r\n456 NO\r\n624 YES\r\n2",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "99e66ff17ba9d333e936dadaf417d3cb36a51ad860a4695a04d35db80f2619ab"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "2\n123456789\n593825856\n2",
+                "name": "样例 1",
+                "output": "456 NO\n624 YES"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "A",
+          "pdfSha256": "6ca5f48e5dc80e4526a3aad26b14e5e24eca51721fc51c4114c914b22af88856",
+          "pageCount": 2,
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "reviewedAt": "2026-11-08T06:06:29.530135+00:00",
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "266ac878d0d243078e3b281e54d4997d3ded1bc548c76bf8e241b9192901c869"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "63ad63b9ab123c546552a05f93f28e2b835de3623f786228194956238fdaa480",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "266ac878d0d243078e3b281e54d4997d3ded1bc548c76bf8e241b9192901c869",
+          "sourcePdfSha256": "6ca5f48e5dc80e4526a3aad26b14e5e24eca51721fc51c4114c914b22af88856",
+          "markdown": "# 伪钞\n\n时间限制：3 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\nICPC 王国的纸币具有防伪措施。每张纸币都有一个独有的序列号，且该序列号能被 13 整除。换言之，如果序列号不能被 13 整除，这张纸币就是伪钞。判断一个数能否被 13 整除，可以直接用它除以 13。不过，还有另一种方法：\n\n从右向左将给定十进制数的数字分组，每组三位。将每一组视为一个三位数，从最右边的一组开始，交替做减法和加法，得到一个结果。如果结果能被 13 整除，原数就能被 13 整除；否则，原数不能被 13 整除。\n\n例如，对于数字 123,456,789，从最右边的 3 位数字组开始交替做减法和加法，得到 $789-456+123=456$。因为 456 不能被 13 整除，所以原数 123,456,789 不能被 13 整除。\n\n再例如，对于数字 593,825,856，从最右边的 3 位数字组开始交替做减法和加法，得到 $856-825+593=624$。因为 624 能被 13 整除（$624=13\\times48$），所以原数 593,825,856 能被 13 整除。\n\n请根据上述方法编写程序，判断一张纸币是否为伪钞。\n\n## 输入格式\n\n输入包含多组测试数据。第一行表示测试数据的组数 $t$。接下来 $t$ 行，每行包含一个正整数。给定的数最多有 1000 位数字。\n\n## 输出格式\n\n对于每个输入的数，输出按上述交替加减方法所得结果的绝对值。然后在同一行中，如果输入的数能被 13 整除，输出 `YES`，否则输出 `NO`。输出的数值与 `YES`/`NO` 之间用一个空格分隔。\n\n## 数据范围\n\n- $1\\le t\\le1000$。\n- 每个输入的数最多有 1000 位数字。\n\n## 样例输入 1\n\n```text\n2\n123456789\n593825856\n```\n\n## 样例输出 1\n\n```text\n456 NO\n624 YES\n```\n"
+        },
+        "translationReview": {
+          "letter": "A",
+          "pdfSha256": "6ca5f48e5dc80e4526a3aad26b14e5e24eca51721fc51c4114c914b22af88856",
+          "pageCount": 2,
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "reviewedAt": "2026-11-08T06:06:29.530135+00:00",
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "266ac878d0d243078e3b281e54d4997d3ded1bc548c76bf8e241b9192901c869",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

@@ -112,7 +112,7 @@ def _pdf_samples(textpage,horizontal,vertical):
             samples.append({'name':'样例 '+str(len(samples)+1),'input':inp,'output':out})
     return samples
 
-def _pdf_unbordered_samples(textpage,width):
+def _pdf_unbordered_samples(textpage,width,horizontal=(),vertical=()):
     """Explicit numbered sample headings, including vertically stacked examples."""
     def boxes(word):
         result=[]
@@ -127,8 +127,27 @@ def _pdf_unbordered_samples(textpage,width):
     result=[]
     def text(left,bottom,right,top):
         return '\n'.join(line.rstrip(' \t') for line in textpage.get_text_bounded(left,bottom,right,top).replace('\r\n','\n').strip('\n').split('\n'))
+    def outlined(header):
+        # Some booklets put the heading ABOVE an independent input/output box.
+        # Its true lower border excludes the footer and unrelated prose, even
+        # when the input box is much taller than its neighbouring output box.
+        found=[]
+        for left,right,top in horizontal:
+            if not header[0]-20<=left<=header[0]+2 or right<header[2] or not 0<header[1]-top<20:continue
+            a=[v for v in vertical if abs(v[0]-left)<.8 and abs(v[2]-top)<.8]
+            b=[v for v in vertical if abs(v[0]-right)<.8 and abs(v[2]-top)<.8]
+            for x in a:
+                for y in b:
+                    base=max(x[1],y[1])
+                    if abs(x[1]-y[1])<.8 and any(abs(h[0]-left)<.8 and abs(h[1]-right)<.8 and abs(h[2]-base)<.8 for h in horizontal):
+                        found.append((left+.6,base+.6,right-.6,top-.6))
+        return found[0] if len(found)==1 else None
     for inp,out in zip(inputs,outputs):
-        if abs(inp[1]-out[1])<4 and out[0]>inp[2]:
+        inp_box,out_box=outlined(inp),outlined(out)
+        if inp_box or out_box:
+            if not inp_box or not out_box:return []
+            a=text(*inp_box);b=text(*out_box)
+        elif abs(inp[1]-out[1])<4 and out[0]>inp[2]:
             bottom=max([35]+[b[3]+1 for b in headings+notes if b[3]<min(inp[1],out[1])-2])
             a=text(0,bottom,out[0]-3,inp[1]-1);b=text(out[0]-2,bottom,width,out[1]-1)
         elif out[3]<inp[1] and abs(out[0]-inp[0])<20:
@@ -215,7 +234,7 @@ def pdf_statement(data,pid,*,render_pages=True):
                 texts.append(textpage.get_text_range())
                 horizontal,vertical=_pdf_lines(reader.pages[index])
                 extracted=_pdf_samples(textpage,horizontal,vertical)
-                samples.extend(extracted or _pdf_unbordered_samples(textpage,width))
+                samples.extend(extracted or _pdf_unbordered_samples(textpage,width,horizontal,vertical))
             if render_pages:
                 with closing(page.render(scale=2)) as bitmap:
                     buffer=io.BytesIO();bitmap.to_pil().save(buffer,format='PNG');png=buffer.getvalue();size+=len(png)
@@ -227,9 +246,18 @@ def pdf_statement(data,pid,*,render_pages=True):
         else:
             samples=_pdf_chinese_code_samples(reader,document)
             if samples:extraction='pdf-code-geometry-v1'
-    return {'markdown':'\n\n'.join(body),'images':images,'samples':samples,'pageCount':len(reader.pages),'sourceText':'\n\n'.join(texts),
+    source_text='\n\n'.join(texts)
+    numbered=lambda field:set(re.findall(r'(?im)^[ \t]*Sample '+field+r'\s+([0-9]+)\s*$',source_text))
+    expected_inputs,expected_outputs=numbered('Input'),numbered('Output')
+    inventory_complete=not (expected_inputs or expected_outputs) or expected_inputs==expected_outputs and len(samples)==len(expected_inputs)
+    if not inventory_complete:
+        # Keep the complete original PDF readable, but never offer an extracted
+        # subset as all official examples. Cross-page code needs explicit repair.
+        samples=[];extraction='incomplete-numbered-inventory'
+    for i,sample in enumerate(samples,1):sample['name']='样例 '+str(i)
+    return {'markdown':'\n\n'.join(body),'images':images,'samples':samples,'pageCount':len(reader.pages),'sourceText':source_text,
             'statementFormat':'pdf-pages-v1' if render_pages else 'pdf-native-v1','sourcePdfSha256':hashlib.sha256(data).hexdigest(),
-            'sampleExtraction':extraction}
+            'sampleExtraction':extraction,**({'localJudgeSupported':False} if not inventory_complete else {})}
 
 def statement(client,identity,title,url):
     pid=problem_id(url);page=client.text(url);root=Tree(page).root

@@ -1,0 +1,94 @@
+[
+  {
+    "letter": "A",
+    "pdfSha256": "6ca5f48e5dc80e4526a3aad26b14e5e24eca51721fc51c4114c914b22af88856",
+    "pageCount": 2,
+    "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+    "sourcePageNumbers": [
+      1,
+      2
+    ],
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "reviewedAt": "2026-11-08T06:06:29.530135+00:00"
+  },
+  {
+    "letter": "D",
+    "pdfSha256": "e1e72146acc5cd0636883673cb38ed7b7de39823c0c28eae89f7b164759fa784",
+    "pageCount": 2,
+    "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+    "sourcePageNumbers": [
+      7,
+      8
+    ],
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "reviewedAt": "2026-11-08T06:06:29.535701+00:00"
+  },
+  {
+    "letter": "H",
+    "pdfSha256": "337c06c6307469f4d583e2625ab26eff4f5c26aab77f0c724648b543eba668e4",
+    "pageCount": 2,
+    "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+    "sourcePageNumbers": [
+      16,
+      17
+    ],
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "reviewedAt": "2026-11-08T06:06:29.540279+00:00"
+  },
+  {
+    "letter": "J",
+    "pdfSha256": "ac8c5907fbe673456ef02ea15027a2aa0572aa83969749383697d4057d9612e3",
+    "pageCount": 3,
+    "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+    "sourcePageNumbers": [
+      21,
+      22,
+      23
+    ],
+    "pagesReviewed": [
+      1,
+      2,
+      3
+    ],
+    "reviewedAt": "2026-11-08T06:06:29.545166+00:00"
+  },
+  {
+    "letter": "L",
+    "pdfSha256": "c3e516df4251e8582e3b3b7c591fb231ae3486363c880d01891a837f7a79a0c3",
+    "pageCount": 2,
+    "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+    "sourcePageNumbers": [
+      28,
+      29
+    ],
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "reviewedAt": "2026-11-08T06:06:29.549743+00:00"
+  },
+  {
+    "letter": "M",
+    "pdfSha256": "00002645fb79eb0fe39940119c665508cd5e7037a2efa3727b0abfafffead44f",
+    "pageCount": 2,
+    "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+    "sourcePageNumbers": [
+      30,
+      31
+    ],
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "reviewedAt": "2026-11-08T06:06:29.555475+00:00"
+  }
+]

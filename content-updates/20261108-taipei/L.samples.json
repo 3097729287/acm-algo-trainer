@@ -1,0 +1,15 @@
+{
+  "method": "page-reviewed-original-pdf-samples",
+  "sourcePdfSha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+  "pagesReviewed": [
+    2
+  ],
+  "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "5\n1 1\n2 2\n4 6\n6 4\n12 3",
+      "output": "1\n1\n4\n16\n1024"
+    }
+  ]
+}
