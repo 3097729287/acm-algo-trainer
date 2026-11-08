@@ -43,7 +43,7 @@ impl Training<'_> {
     pub fn ids(&self, id: &str) -> Result<Vec<String>, ApiError> {
         self.catalogue.equivalent(id)
     }
-    fn running(&self) -> Result<Option<Value>, ApiError> {
+    pub(crate) fn running(&self) -> Result<Option<Value>, ApiError> {
         Ok(self
             .personal
             .rows("SELECT * FROM contests WHERE status='running'", [])?

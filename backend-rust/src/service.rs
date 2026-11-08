@@ -31,6 +31,7 @@ pub const NATIVE_ROUTES: &[(&str, &str)] = &[
     ("GET", "library/lectures"),
     ("GET", "library/training-lists"),
     ("POST", "draft"),
+    ("POST", "code/format"),
     ("POST", "workspace/ready"),
     ("GET", "data"),
     ("GET", "workspace"),
@@ -208,6 +209,7 @@ impl Service {
                 | "training/clear"
         ) || method == "POST"
             && (r.path == "preferences"
+                || r.path == "code/format"
                 || r.path == "draft" && self.catalogue.is_some()
                 || r.path == "learning-summary/refresh"
                 || r.path == "learning-summary/update"
@@ -261,7 +263,15 @@ impl Service {
                         planner.update(r.body.as_ref().unwrap())
                     }
                 }
-                ("GET", "problem") => training.problem(r),
+                ("GET", "problem") => {
+                    let mut value = training.problem(r)?;
+                    value["formattingAvailable"] = crate::code_format::available(
+                        &self.config.resources,
+                        &crate::code_format::tools_root(&self.config.resources),
+                    )
+                    .into();
+                    Ok(value)
+                }
                 ("GET", "submissions") => training.submissions(r, false),
                 ("GET", "submission") => {
                     training.submission(r.param("id").ok_or_else(|| ApiError::bad("缺少提交编号"))?)
@@ -295,6 +305,28 @@ impl Service {
                 ("POST", "training/start") => training.start(r.body.as_ref().unwrap()),
                 ("POST", "training/remove") => training.remove(r.body.as_ref().unwrap()),
                 ("POST", "training/clear") => training.clear(r.body.as_ref().unwrap()),
+                ("POST", "code/format") => {
+                    let body = r.body.as_ref().unwrap();
+                    let id = crate::api::required_text(body, "id", 512)?;
+                    crate::catalogue::row_or_portable(&catalogue, training.personal, id)?;
+                    if training.running()?.is_some()
+                        || body
+                            .get("contestId")
+                            .is_some_and(|v| !v.is_null() && v != "")
+                    {
+                        return Err(ApiError::new(
+                            409,
+                            "CONTEST_ACTIVE",
+                            "比赛期间不能格式化代码。",
+                        ));
+                    }
+                    training.assert_unlocked(id)?;
+                    crate::code_format::format_code(
+                        body,
+                        &self.config.resources,
+                        &crate::code_format::tools_root(&self.config.resources),
+                    )
+                }
                 ("POST", "preferences") => preferences::save(
                     &mut personal,
                     Some(&catalogue),
