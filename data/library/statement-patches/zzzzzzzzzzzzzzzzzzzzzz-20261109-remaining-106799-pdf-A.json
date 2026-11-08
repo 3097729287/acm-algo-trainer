@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:106799::A",
+      "beforeSha256": "b4ac34ab80e3f4b7d6d431d27a038c25609d457ecf2f9245e3230bcc76a2e5b2",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/106799/problem/A": {
+            "bytes": 234221,
+            "data": "tb-asset:ce1a1b24179639ff2f5d43a0e7d8497ea531427dac9ddb40b765a0b3f97c4cf7",
+            "fileName": "gym-106799.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "ce1a1b24179639ff2f5d43a0e7d8497ea531427dac9ddb40b765a0b3f97c4cf7",
+            "sourceUrl": "https://codeforces.com/gym/106799/problem/A"
+          }
+        },
+        "id": "remote:codeforces:106799::A",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-07T19:10:44.677902+00:00",
+          "corpusAuditVerifiedSha256": "c591ab334832ac90e57df4a1984067d8b6a3c1b0a3c375023abc114292209e4f",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Average of Averages\n\nAverage of Averages\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nThe average of averages is not always the average.\r\nVegiCat has just learned about segment trees and wants to practice using them.\r\nFor a positive integer n, he considers the sequence ai = i (1 ≤ i ≤ n). He decides to build a segment tree\r\nto answer range average queries on this sequence.\r\nIn VegiCat’s segment tree, each node corresponds to an interval [l, r] and stores a value vl,r, which VegiCat\r\nintends to represent the average over that interval. The root corresponds to the entire interval [1, n].\r\nHowever, VegiCat mistakenly assumes that a parent interval’s average always equals the average of the\r\nvalues stored in its two child nodes. Therefore, he adds the values stored in the two child nodes and divides\r\nthe sum by 2.\r\nVegiCat first constructs the segment tree by calling Build(1, n). After the segment tree has been built, he\r\nanswers a query for an interval [L, R] by calling Query(1, n, L, R). The two recursive procedures are given\r\nin Algorithm 1.\r\nAlgorithm 1 Build and Query\r\n1: procedure Build(l, r)\r\n2: if l = r then\r\n3: vl,l ← al\r\n4: return\r\n5: end if\r\n6: m ←\r\n\u0016\r\nl + r\r\n2\r\n\u0017\r\n7: Build(l, m)\r\n8: Build(m + 1, r)\r\n9: vl,r ←\r\nvl,m + vm+1,r\r\n2\r\n10: end procedure\r\n11: procedure Query(l, r, L, R)\r\n12: if L ≤ l and r ≤ R then\r\n13: return vl,r\r\n14: end if\r\n15: m ←\r\n\u0016\r\nl + r\r\n2\r\n\u0017\r\n16: if R ≤ m then\r\n17: return Query(l, m, L, R)\r\n18: else if L > m then\r\n19: return Query(m + 1, r, L, R)\r\n20: end if\r\n21: x ← Query(l, m, L, R)\r\n22: y ← Query(m + 1, r, L, R)\r\n23: return\r\nx + y\r\n2\r\n24: end procedure\r\nAlthough VegiCat’s algorithm is incorrect in general, it returns the correct average for some intervals.\r\nCount the number of such intervals.\r\nPage 1 of 2\n\nFor an interval [L, R], its true average is\r\nPR\r\ni=L\r\nai\r\nR − L + 1\r\n.\r\nMore precisely, count the number of pairs (L, R) satisfying 1 ≤ L ≤ R ≤ n such that\r\nQuery(1, n, L, R) =\r\nPR\r\ni=L\r\nai\r\nR − L + 1\r\n.\r\nAll averages are computed as exact rational numbers, without rounding or truncation.\r\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 104\r\n), the number of test cases. The description of the test\r\ncases follows.\r\nEach of the next T lines contains one integer n (1 ≤ n ≤ 106\r\n), the length of the sequence.\r\nIt is guaranteed that the sum of n over all test cases does not exceed 2 · 106\r\n.\r\nOutput\r\nFor each test case, output an integer — the number of intervals [L, R] for which VegiCat’s query procedure\r\nreturns exactly the true average.\r\nExample\r\nstandard input standard output\r\n3\r\n1\r\n5\r\n14\r\n1\r\n10\r\n35\r\nNote\r\nFor the second test case, n = 5, there are 10 valid intervals:\r\n[1, 1], [1, 2], [2, 2], [2, 3], [2, 5],\r\n[3, 3], [3, 4], [4, 4], [4, 5], [5, 5].\r\nFor example, querying [2, 5] returns\r\n2+3\r\n2 +\r\n4+5\r\n2\r\n2\r\n=\r\n7\r\n2\r\n,\r\nwhich equals the true average of 2, 3, 4, 5. Thus, [2, 5] is counted.\r\nIn contrast, querying [1, 5] returns\r\n1+2\r\n2 +3\r\n2 +\r\n4+5\r\n2\r\n2\r\n=\r\n27\r\n8\r\n,\r\nwhile its true average is 3. Thus, [1, 5] is not counted.\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/106799/problem/A)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "new",
+          "id": "remote:codeforces:106799::A",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 2,
+          "pdfSha256": "06a444b61b94233aa354145b34212304e1b18d69b2954b8ed571cda34b9cfb5d",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "fcdf65b7de47d569f9543b617504d08881bbce894630f005cc35f4f6ea2dea51",
+          "sourcePdfSha256": "ce1a1b24179639ff2f5d43a0e7d8497ea531427dac9ddb40b765a0b3f97c4cf7",
+          "sourcePdfUrl": "https://codeforces.com/gym/106799/problem/A",
+          "url": "https://codeforces.com/gym/106799/problem/A"
+        },
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/106799/problem/A": {
+            "bytes": 234221,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "ce1a1b24179639ff2f5d43a0e7d8497ea531427dac9ddb40b765a0b3f97c4cf7",
+            "sourceUrl": "https://codeforces.com/gym/106799/problem/A"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "06a444b61b94233aa354145b34212304e1b18d69b2954b8ed571cda34b9cfb5d",
+          "page": 2
+        },
+        "samples": [
+          {
+            "input": "3\n1\n5\n14",
+            "name": "样例 1",
+            "output": "1\n10\n35"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "Average of Averages",
+          "problem": "A",
+          "rosterTitle": "Average of Averages",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourcePdfSha256": "ce1a1b24179639ff2f5d43a0e7d8497ea531427dac9ddb40b765a0b3f97c4cf7",
+        "sourcePdfUrl": "https://codeforces.com/gym/106799/problem/A",
+        "sourceRosterSha256": "085085259ab6b1276e47c3d147e2b9f45c60dc7b18e52718ea6810e14f7a2cad",
+        "sourceRosterUrl": "https://codeforces.com/gym/106799",
+        "sourceText": "# Average of Averages\n\nTime limit: 2 seconds. Memory limit: 1024 megabytes. Standard input and output.\n\n*The average of averages is not always the average.*\n\nVegiCat has just learned segment trees and wants to practice. For a positive integer $n$, consider the sequence $a_i=i$ ($1\\le i\\le n$). He builds a segment tree to answer range-average queries.\n\nEach node represents an interval $[l,r]$ and stores $v_{l,r}$, intended to be the average on that interval. The root represents $[1,n]$. However, VegiCat mistakenly assumes that a parent interval's average equals the unweighted average of the values in its two children: he adds them and divides by $2$.\n\nHe calls `Build(1,n)` to construct the tree and `Query(1,n,L,R)` to answer a query on $[L,R]$. The two recursive procedures are:\n\n```text\nprocedure Build(l, r):\n    if l = r:\n        v[l,l] <- a[l]\n        return\n    end if\n    m <- floor((l+r)/2)\n    Build(l,m)\n    Build(m+1,r)\n    v[l,r] <- (v[l,m]+v[m+1,r])/2\nend procedure\n\nprocedure Query(l, r, L, R):\n    if L <= l and r <= R:\n        return v[l,r]\n    end if\n    m <- floor((l+r)/2)\n    if R <= m:\n        return Query(l,m,L,R)\n    else if L > m:\n        return Query(m+1,r,L,R)\n    end if\n    x <- Query(l,m,L,R)\n    y <- Query(m+1,r,L,R)\n    return (x+y)/2\nend procedure\n```\n\nAlthough the algorithm is generally incorrect, it returns the true average for some intervals. Count these intervals. The true average on $[L,R]$ is $\\frac{\\sum_{i=L}^{R}a_i}{R-L+1}$. More precisely, count pairs $(L,R)$ with $1\\le L\\le R\\le n$ such that\n\n$$\\operatorname{Query}(1,n,L,R)=\\frac{\\sum_{i=L}^{R}a_i}{R-L+1}.$$\n\nAll averages are exact rational numbers, with no rounding or truncation.\n\n## Input Format\n\nThe first line contains $T$ ($1\\le T\\le10^4$), the number of test cases. Each of the next $T$ lines contains $n$ ($1\\le n\\le10^6$), the sequence length. The sum of $n$ over all test cases does not exceed $2\\cdot10^6$.\n\n## Output Format\n\nFor each test case, output one integer: the number of intervals $[L,R]$ on which the query procedure returns exactly the true average.\n\n## Sample Explanation\n\nIn the second test case, $n=5$, there are $10$ valid intervals:\n\n$$[1,1],[1,2],[2,2],[2,3],[2,5],[3,3],[3,4],[4,4],[4,5],[5,5].$$\n\nFor example, the query on $[2,5]$ returns $\\frac{\\frac{2+3}{2}+\\frac{4+5}{2}}{2}=\\frac72$, the true average of $2,3,4,5$, so $[2,5]$ is counted.\n\nIn contrast, the query on $[1,5]$ returns $\\frac{\\frac{\\frac{1+2}{2}+3}{2}+\\frac{4+5}{2}}{2}=\\frac{27}{8}$, while its true average is $3$, so $[1,5]$ is not counted.\n\n\n## Sample 1\n\n### Input\n\n```text\n3\n1\n5\n14\n```\n\n### Output\n\n```text\n1\n10\n35\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:06a444b61b94233aa354145b34212304e1b18d69b2954b8ed571cda34b9cfb5d",
+          "fileName": "gym-106799-A.pdf",
+          "pageCount": 2,
+          "sha256": "06a444b61b94233aa354145b34212304e1b18d69b2954b8ed571cda34b9cfb5d",
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceSha256": "ce1a1b24179639ff2f5d43a0e7d8497ea531427dac9ddb40b765a0b3f97c4cf7",
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/A",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Average of Averages",
+        "url": "https://codeforces.com/gym/106799/problem/A",
+        "sourceTextArchive": [
+          {
+            "text": "Average of Averages\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 2 seconds\r\nMemory limit: 1024 megabytes\r\nThe average of averages is not always the average.\r\nVegiCat has just learned about segment trees and wants to practice using them.\r\nFor a positive integer n, he considers the sequence ai = i (1 ≤ i ≤ n). He decides to build a segment tree\r\nto answer range average queries on this sequence.\r\nIn VegiCat’s segment tree, each node corresponds to an interval [l, r] and stores a value vl,r, which VegiCat\r\nintends to represent the average over that interval. The root corresponds to the entire interval [1, n].\r\nHowever, VegiCat mistakenly assumes that a parent interval’s average always equals the average of the\r\nvalues stored in its two child nodes. Therefore, he adds the values stored in the two child nodes and divides\r\nthe sum by 2.\r\nVegiCat first constructs the segment tree by calling Build(1, n). After the segment tree has been built, he\r\nanswers a query for an interval [L, R] by calling Query(1, n, L, R). The two recursive procedures are given\r\nin Algorithm 1.\r\nAlgorithm 1 Build and Query\r\n1: procedure Build(l, r)\r\n2: if l = r then\r\n3: vl,l ← al\r\n4: return\r\n5: end if\r\n6: m ←\r\n\u0016\r\nl + r\r\n2\r\n\u0017\r\n7: Build(l, m)\r\n8: Build(m + 1, r)\r\n9: vl,r ←\r\nvl,m + vm+1,r\r\n2\r\n10: end procedure\r\n11: procedure Query(l, r, L, R)\r\n12: if L ≤ l and r ≤ R then\r\n13: return vl,r\r\n14: end if\r\n15: m ←\r\n\u0016\r\nl + r\r\n2\r\n\u0017\r\n16: if R ≤ m then\r\n17: return Query(l, m, L, R)\r\n18: else if L > m then\r\n19: return Query(m + 1, r, L, R)\r\n20: end if\r\n21: x ← Query(l, m, L, R)\r\n22: y ← Query(m + 1, r, L, R)\r\n23: return\r\nx + y\r\n2\r\n24: end procedure\r\nAlthough VegiCat’s algorithm is incorrect in general, it returns the correct average for some intervals.\r\nCount the number of such intervals.\r\nPage 1 of 2\n\nFor an interval [L, R], its true average is\r\nPR\r\ni=L\r\nai\r\nR − L + 1\r\n.\r\nMore precisely, count the number of pairs (L, R) satisfying 1 ≤ L ≤ R ≤ n such that\r\nQuery(1, n, L, R) =\r\nPR\r\ni=L\r\nai\r\nR − L + 1\r\n.\r\nAll averages are computed as exact rational numbers, without rounding or truncation.\r\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 104\r\n), the number of test cases. The description of the test\r\ncases follows.\r\nEach of the next T lines contains one integer n (1 ≤ n ≤ 106\r\n), the length of the sequence.\r\nIt is guaranteed that the sum of n over all test cases does not exceed 2 · 106\r\n.\r\nOutput\r\nFor each test case, output an integer — the number of intervals [L, R] for which VegiCat’s query procedure\r\nreturns exactly the true average.\r\nExample\r\nstandard input standard output\r\n3\r\n1\r\n5\r\n14\r\n1\r\n10\r\n35\r\nNote\r\nFor the second test case, n = 5, there are 10 valid intervals:\r\n[1, 1], [1, 2], [2, 2], [2, 3], [2, 5],\r\n[3, 3], [3, 4], [4, 4], [4, 5], [5, 5].\r\nFor example, querying [2, 5] returns\r\n2+3\r\n2 +\r\n4+5\r\n2\r\n2\r\n=\r\n7\r\n2\r\n,\r\nwhich equals the true average of 2, 3, 4, 5. Thus, [2, 5] is counted.\r\nIn contrast, querying [1, 5] returns\r\n1+2\r\n2 +3\r\n2 +\r\n4+5\r\n2\r\n2\r\n=\r\n27\r\n8\r\n,\r\nwhile its true average is 3. Thus, [1, 5] is not counted.\r\nPage 2 of 2",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "f18544a5480f6fb0a2499731751a5e475ba2ced2bb7074febed0d313740e2ab9"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "3\n1\n5\n14",
+                "name": "样例 1",
+                "output": "1\n10\n35"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "A",
+          "problemId": "remote:codeforces:106799::A",
+          "pdfSha256": "06a444b61b94233aa354145b34212304e1b18d69b2954b8ed571cda34b9cfb5d",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/A",
+          "figures": [],
+          "notes": [
+            "Both original PDF pages visually reviewed, including all formulas, algorithm/table content and sample columns.",
+            "Both Build and Query algorithms transcribed in full. Nested fractions in examples manually read, not flattened; all arithmetic is exact rational."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "ee8cf2a0bfb68c66ccde18e30215e96d417905707421fd9809a6dd6039cdc4eb"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "c591ab334832ac90e57df4a1984067d8b6a3c1b0a3c375023abc114292209e4f",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "ee8cf2a0bfb68c66ccde18e30215e96d417905707421fd9809a6dd6039cdc4eb",
+          "sourcePdfSha256": "06a444b61b94233aa354145b34212304e1b18d69b2954b8ed571cda34b9cfb5d",
+          "markdown": "# 平均值的平均值\n\n时间限制：2 秒。内存限制：1024 MB。使用标准输入和标准输出。\n\n*平均值的平均值，并不总是整体的平均值。*\n\nVegiCat 刚学会线段树，想练习一下。对于正整数 $n$，考虑序列 $a_i=i$（$1\\le i\\le n$）。他决定建一棵线段树，回答区间平均值询问。\n\n每个结点对应区间 $[l,r]$，存储数值 $v_{l,r}$，VegiCat 希望它表示该区间的平均值。根对应整个区间 $[1,n]$。但他错误地认为，父区间的平均值总等于两个子结点所存数值的非加权平均值，因此将两个值相加后除以 $2$。\n\n他调用 `Build(1,n)` 建树，调用 `Query(1,n,L,R)` 回答区间 $[L,R]$ 的询问。两个递归过程如下：\n\n```text\nprocedure Build(l, r):\n    if l = r:\n        v[l,l] <- a[l]\n        return\n    end if\n    m <- floor((l+r)/2)\n    Build(l,m)\n    Build(m+1,r)\n    v[l,r] <- (v[l,m]+v[m+1,r])/2\nend procedure\n\nprocedure Query(l, r, L, R):\n    if L <= l and r <= R:\n        return v[l,r]\n    end if\n    m <- floor((l+r)/2)\n    if R <= m:\n        return Query(l,m,L,R)\n    else if L > m:\n        return Query(m+1,r,L,R)\n    end if\n    x <- Query(l,m,L,R)\n    y <- Query(m+1,r,L,R)\n    return (x+y)/2\nend procedure\n```\n\n虽然算法通常不正确，但对某些区间仍会返回真实平均值。请求出这样的区间数量。区间 $[L,R]$ 的真实平均值为 $\\frac{\\sum_{i=L}^{R}a_i}{R-L+1}$。更准确地说，统计满足 $1\\le L\\le R\\le n$ 且满足下式的数对 $(L,R)$ 的数量：\n\n$$\\operatorname{Query}(1,n,L,R)=\\frac{\\sum_{i=L}^{R}a_i}{R-L+1}.$$\n\n所有平均值都作为精确有理数计算，不进行四舍五入或截断。\n\n## 输入格式\n\n第一行包含测试用例数 $T$（$1\\le T\\le10^4$）。接下来 $T$ 行，每行包含序列长度 $n$（$1\\le n\\le10^6$）。所有测试用例的 $n$ 之和不超过 $2\\cdot10^6$。\n\n## 输出格式\n\n对于每个测试用例，输出一个整数，表示查询过程恰好返回真实平均值的区间 $[L,R]$ 的数量。\n\n## 样例说明\n\n第二组样例中，$n=5$，共有 $10$ 个合法区间：\n\n$$[1,1],[1,2],[2,2],[2,3],[2,5],[3,3],[3,4],[4,4],[4,5],[5,5].$$\n\n例如，查询 $[2,5]$ 返回 $\\frac{\\frac{2+3}{2}+\\frac{4+5}{2}}{2}=\\frac72$，恰好等于 $2,3,4,5$ 的真实平均值，因此计入 $[2,5]$。\n\n相反，查询 $[1,5]$ 返回 $\\frac{\\frac{\\frac{1+2}{2}+3}{2}+\\frac{4+5}{2}}{2}=\\frac{27}{8}$，而真实平均值为 $3$，因此不计入 $[1,5]$。\n\n\n## 样例 1\n\n### 输入\n\n```text\n3\n1\n5\n14\n```\n\n### 输出\n\n```text\n1\n10\n35\n```\n"
+        },
+        "translationReview": {
+          "letter": "A",
+          "problemId": "remote:codeforces:106799::A",
+          "pdfSha256": "06a444b61b94233aa354145b34212304e1b18d69b2954b8ed571cda34b9cfb5d",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/A",
+          "figures": [],
+          "notes": [
+            "Both original PDF pages visually reviewed, including all formulas, algorithm/table content and sample columns.",
+            "Both Build and Query algorithms transcribed in full. Nested fractions in examples manually read, not flattened; all arithmetic is exact rational."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "ee8cf2a0bfb68c66ccde18e30215e96d417905707421fd9809a6dd6039cdc4eb",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

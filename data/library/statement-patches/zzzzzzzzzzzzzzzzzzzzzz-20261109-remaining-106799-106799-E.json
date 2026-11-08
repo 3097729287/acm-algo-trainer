@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:106799::E",
+      "beforeSha256": "13316039bdff9551d788d4e9cb0cde30727939e5db3d0dd700d84cd6b3be9493",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:106799::E",
+        "images": {
+          "https://espresso.codeforces.com/2364c910aad508a7ff1ae1de18cb4f60dad739ca.png": "tb-asset:d4388f480b25d7aae0900f189ce62c4b63ea64e26c75defa9b232796cd48a94b",
+          "https://espresso.codeforces.com/4ad3eb0e4bed60c8cd12e4be5cd664609665d4a1.png": "tb-asset:60df14deb89b60b7eb816603dc4a07e6bfa820a361b6297a93a28093b27c3c53"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-07T19:10:57.438515+00:00",
+          "corpusAuditVerifiedSha256": "e470789f40a5286fd4fc7b43ae4c1e81a77d66ee4e62acfe80097c42f70e35e7",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Enclose the Point\n\nThere are $$$n$$$ points $$$P_1,P_2,\\ldots,P_n$$$ in the plane. VegiCat has $$$q$$$ queries for you. Each query gives a point $$$P$$$.\n\n\n\nFor each query, construct a simple polygon using some of the given points as its vertices. The polygon must contain $$$P$$$ **strictly** inside it and have the **minimum number of vertices**. If no such polygon exists, output $$$-1$$$.\n\n\n\nA simple polygon is a closed polygonal chain with at least three distinct vertices. Adjacent edges intersect only at their common endpoint, and nonadjacent edges do not intersect.\n\n ![](https://espresso.codeforces.com/2364c910aad508a7ff1ae1de18cb4f60dad739ca.png) Examples of simple and non-simple polygons\n\n\n\n## Input\n\n\n\nThe first line contains an integer $$$T$$$ ($$$1\\le T\\le 2\\cdot 10^4$$$), the number of test cases. The description of the test cases follows.\n\n\n\nThe first line of each test case contains two positive integers $$$n$$$ and $$$q$$$ ($$$3\\le n\\le 10^5$$$, $$$1\\le q\\le 10^5$$$), representing the number of given points and the number of queries.\n\n\n\nThe $$$i$$$-th of the next $$$n$$$ lines contains two integers $$$x_i$$$ and $$$y_i$$$ ($$$-10^9\\le x_i,y_i\\le 10^9$$$), the coordinates of $$$P_i$$$. It is guaranteed that these $$$n$$$ points are pairwise distinct.\n\n\n\nEach of the next $$$q$$$ lines contains two integers $$$x$$$ and $$$y$$$ ($$$-10^9\\le x,y\\le 10^9$$$), the coordinates of the queried point.\n\n\n\nIt is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^5$$$.\n\n\n\nIt is guaranteed that the sum of $$$q$$$ over all test cases does not exceed $$$10^5$$$.\n\n\n\n## Output\n\n\n\nFor each query, if no polygon satisfying the requirements exists, output one integer $$$-1$$$ on a line.\n\n\n\nOtherwise, output a polygon with the minimum number of vertices. On the first line, output one integer $$$m$$$, the number of vertices.\n\n\n\nOn the second line, output $$$m$$$ integers $$$a_1,a_2,\\ldots,a_m$$$ ($$$1\\le a_i\\le n$$$), the indices of the vertices in order. The polygon is $$$P_{a_1}P_{a_2}\\ldots P_{a_m}$$$. The vertices may be output in either clockwise or counterclockwise order.\n\n\n\nThe indices must be pairwise distinct, and the output polygon must be simple and contain the queried point strictly inside it. If there are multiple solutions, output any of them.\n\n\n\n## Note\n\n\n\nIn the first test case, the triangle $$$P_4P_1P_2$$$ contains the queried point $$$P=(0,0)$$$ strictly inside it. Since a polygon has at least three vertices, this triangle has the minimum number of vertices.\n\n\n\nIn the second test case, the only possible polygon is the triangle $$$P_1P_2P_3$$$. The queried point $$$P=(0,0)$$$ lies on the edge $$$P_2P_3$$$, so the answer is $$$-1$$$.\n\n ![](https://espresso.codeforces.com/4ad3eb0e4bed60c8cd12e4be5cd664609665d4a1.png) Illustrations of the sample test cases",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:106799::E",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "2c7e18cd49dbfdbaa9933e0083bc677b2efbad573e143a1e0a0d5f6dc32e801e",
+          "url": "https://codeforces.com/gym/106799/problem/E"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://espresso.codeforces.com/2364c910aad508a7ff1ae1de18cb4f60dad739ca.png": {
+            "bytes": 37957,
+            "frameCount": 1,
+            "height": 1400,
+            "mime": "image/png",
+            "sha256": "d4388f480b25d7aae0900f189ce62c4b63ea64e26c75defa9b232796cd48a94b",
+            "sourceUrl": "https://espresso.codeforces.com/2364c910aad508a7ff1ae1de18cb4f60dad739ca.png",
+            "width": 2880
+          },
+          "https://espresso.codeforces.com/4ad3eb0e4bed60c8cd12e4be5cd664609665d4a1.png": {
+            "bytes": 30850,
+            "frameCount": 1,
+            "height": 1320,
+            "mime": "image/png",
+            "sha256": "60df14deb89b60b7eb816603dc4a07e6bfa820a361b6297a93a28093b27c3c53",
+            "sourceUrl": "https://espresso.codeforces.com/4ad3eb0e4bed60c8cd12e4be5cd664609665d4a1.png",
+            "width": 2880
+          }
+        },
+        "samples": [
+          {
+            "input": "2\n5 1\n0 4\n-3 0\n-3 -3\n3 -3\n3 0\n0 0\n3 1\n0 4\n-3 0\n3 0\n0 0",
+            "name": "样例 1",
+            "output": "3\n4 1 2\n-1"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Enclose the Point",
+        "url": "https://codeforces.com/gym/106799/problem/E",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "e470789f40a5286fd4fc7b43ae4c1e81a77d66ee4e62acfe80097c42f70e35e7",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 围住这个点\n\n\n\n平面上有 $$$n$$$ 个点 $$$P_1,P_2,\\ldots,P_n$$$。VegiCat 有 $$$q$$$ 次询问，每次给出一个点 $$$P$$$。\n\n\n\n对于每次询问，请使用给定点中的一些作为顶点，构造一个简单多边形，使 $$$P$$$ **严格位于其内部**，并且**顶点数量最少**。如果不存在这样的多边形，输出 $$$-1$$$。\n\n\n\n简单多边形是由至少三个不同顶点构成的闭合折线。相邻边只在公共端点处相交，不相邻的边不相交。\n\n\n\n![](https://espresso.codeforces.com/2364c910aad508a7ff1ae1de18cb4f60dad739ca.png) 简单多边形与非简单多边形的示例\n\n\n\n## 输入格式\n\n\n\n第一行包含整数 $$$T$$$（$$$1\\le T\\le 2\\cdot 10^4$$$），表示测试用例数。接下来描述各测试用例。\n\n\n\n每个测试用例的第一行包含两个正整数 $$$n$$$ 和 $$$q$$$（$$$3\\le n\\le 10^5$$$，$$$1\\le q\\le 10^5$$$），分别表示给定点数和询问数。\n\n\n\n接下来 $$$n$$$ 行，第 $$$i$$$ 行包含两个整数 $$$x_i$$$ 和 $$$y_i$$$（$$$-10^9\\le x_i,y_i\\le 10^9$$$），表示 $$$P_i$$$ 的坐标。保证这 $$$n$$$ 个点两两不同。\n\n\n\n接下来 $$$q$$$ 行，每行包含两个整数 $$$x$$$ 和 $$$y$$$（$$$-10^9\\le x,y\\le 10^9$$$），表示询问点的坐标。\n\n\n\n保证所有测试用例的 $$$n$$$ 之和不超过 $$$10^5$$$。\n\n\n\n保证所有测试用例的 $$$q$$$ 之和不超过 $$$10^5$$$。\n\n\n\n## 输出格式\n\n\n\n对于每次询问，如果不存在满足要求的多边形，在一行中输出一个整数 $$$-1$$$。\n\n\n\n否则，输出一个顶点数量最少的多边形。第一行输出一个整数 $$$m$$$，表示顶点数。\n\n\n\n第二行按顺序输出 $$$m$$$ 个整数 $$$a_1,a_2,\\ldots,a_m$$$（$$$1\\le a_i\\le n$$$），表示顶点编号。多边形为 $$$P_{a_1}P_{a_2}\\ldots P_{a_m}$$$，可以按顺时针或逆时针顺序输出。\n\n\n\n顶点编号必须两两不同，输出的多边形必须是简单多边形，并且询问点严格位于其内部。如果有多个方案，输出任意一个。\n\n\n\n## 样例说明\n\n\n\n第一组样例中，三角形 $$$P_4P_1P_2$$$ 严格包含询问点 $$$P=(0,0)$$$。多边形至少有三个顶点，因此这个三角形的顶点数最少。\n\n\n\n第二组样例中，唯一可能的多边形是三角形 $$$P_1P_2P_3$$$。询问点 $$$P=(0,0)$$$ 位于边 $$$P_2P_3$$$ 上，因此答案为 $$$-1$$$。\n\n\n\n![](https://espresso.codeforces.com/4ad3eb0e4bed60c8cd12e4be5cd664609665d4a1.png) 样例示意图\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:106799::E",
+          "slug": "106799-E",
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/E",
+          "sourceSha256": "e470789f40a5286fd4fc7b43ae4c1e81a77d66ee4e62acfe80097c42f70e35e7",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "2\n5 1\n0 4\n-3 0\n-3 -3\n3 -3\n3 0\n0 0\n3 1\n0 4\n-3 0\n3 0\n0 0",
+              "name": "样例 1",
+              "output": "3\n4 1 2\n-1"
+            }
+          ],
+          "notes": [
+            "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+            "Original Markdown, samples and resource bindings retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:106799::M",
+      "beforeSha256": "168db3b34dd75cb0063e1b90155be9ff7330f45646ceb09a03c6487ce7f7f260",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:106799::M",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-07T19:11:13.579767+00:00",
+          "corpusAuditVerifiedSha256": "c0db71b622450c96acd5902a84e4c0c64a648bec829d6212340cc7555712fcfc",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Minimum Records\n\nVegiCat has $$$n$$$ closed integer intervals $$$[l_1,r_1],[l_2,r_2],\\ldots,[l_n,r_n]$$$.\n\n\n\nHe wants to construct a sequence $$$a_1,a_2,\\ldots,a_n$$$ by choosing an integer $$$a_i$$$ from each interval $$$[l_i,r_i]$$$. That is, $$$l_i\\le a_i\\le r_i$$$ for every $$$1\\le i\\le n$$$.\n\n\n\nA position $$$i$$$ is called a **record position** if $$$a_i \\gt a_j$$$ for every $$$1\\le j \\lt i$$$. In particular, position $$$1$$$ is always a record position.\n\n\n\nHelp VegiCat minimize the number of record positions. Output this minimum number.\n\n\n\n## Input\n\n\n\nThe first line contains an integer $$$T$$$ ($$$1\\le T\\le 10^4$$$), the number of test cases. The description of the test cases follows.\n\n\n\nThe first line of each test case contains an integer $$$n$$$ ($$$1\\le n\\le 10^6$$$), the number of intervals.\n\n\n\nThe $$$i$$$-th of the next $$$n$$$ lines contains two integers $$$l_i,r_i$$$ ($$$-10^9\\le l_i\\le r_i\\le 10^9$$$), describing the interval available at position $$$i$$$.\n\n\n\nIt is guaranteed that the sum of $$$n$$$ over all test cases does not exceed $$$10^6$$$.\n\n\n\n## Output\n\n\n\nFor each test case, output an integer — the minimum possible number of record positions.\n\n\n\n## Note\n\n\n\nIn the first test case, one optimal sequence is $$$a=[1,100,20,30]$$$. Its record positions are $$$1$$$ and $$$2$$$.\n\n\n\nIn the second test case, one optimal sequence is $$$a=[-1,4,1,2,8,6,12,12]$$$. Its record positions are $$$1$$$, $$$2$$$, $$$5$$$, and $$$7$$$. Position $$$8$$$ is not a record because its value equals the maximum seen so far.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:106799::M",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "732346204e083139ced8c442aa34ed503d023303beacc0a31f82171f7bceb7e7",
+          "url": "https://codeforces.com/gym/106799/problem/M"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "2\n4\n1 1\n1 100\n20 20\n30 30\n8\n-3 -1\n-5 4\n0 1\n2 2\n1 8\n5 6\n10 12\n12 12",
+            "name": "样例 1",
+            "output": "2\n4"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Minimum Records",
+        "url": "https://codeforces.com/gym/106799/problem/M",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "c0db71b622450c96acd5902a84e4c0c64a648bec829d6212340cc7555712fcfc",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 最少纪录\n\n\n\nVegiCat 有 $$$n$$$ 个整数闭区间 $$$[l_1,r_1],[l_2,r_2],\\ldots,[l_n,r_n]$$$。\n\n\n\n他希望从每个区间 $$$[l_i,r_i]$$$ 中选择一个整数 $$$a_i$$$，构造序列 $$$a_1,a_2,\\ldots,a_n$$$。也就是说，对于每个 $$$1\\le i\\le n$$$，都有 $$$l_i\\le a_i\\le r_i$$$。\n\n\n\n如果对于所有 $$$1\\le j \\lt i$$$ 都有 $$$a_i \\gt a_j$$$，则称位置 $$$i$$$ 为一个**纪录位置**。特别地，位置 $$$1$$$ 总是纪录位置。\n\n\n\n请帮助 VegiCat 最小化纪录位置的数量，并输出这个最小值。\n\n\n\n## 输入格式\n\n\n\n第一行包含整数 $$$T$$$（$$$1\\le T\\le 10^4$$$），表示测试用例数。接下来描述各测试用例。\n\n\n\n每个测试用例的第一行包含整数 $$$n$$$（$$$1\\le n\\le 10^6$$$），表示区间数量。\n\n\n\n接下来 $$$n$$$ 行，第 $$$i$$$ 行包含两个整数 $$$l_i,r_i$$$（$$$-10^9\\le l_i\\le r_i\\le 10^9$$$），描述位置 $$$i$$$ 可以选择的区间。\n\n\n\n保证所有测试用例的 $$$n$$$ 之和不超过 $$$10^6$$$。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，输出一个整数，表示纪录位置数量的最小可能值。\n\n\n\n## 样例说明\n\n\n\n第一组样例中，一种最优序列为 $$$a=[1,100,20,30]$$$，纪录位置为 $$$1$$$ 和 $$$2$$$。\n\n\n\n第二组样例中，一种最优序列为 $$$a=[-1,4,1,2,8,6,12,12]$$$，纪录位置为 $$$1$$$、$$$2$$$、$$$5$$$ 和 $$$7$$$。位置 $$$8$$$ 不是纪录位置，因为它的值等于此前出现过的最大值。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:106799::M",
+          "slug": "106799-M",
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/M",
+          "sourceSha256": "c0db71b622450c96acd5902a84e4c0c64a648bec829d6212340cc7555712fcfc",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "2\n4\n1 1\n1 100\n20 20\n30 30\n8\n-3 -1\n-5 4\n0 1\n2 2\n1 8\n5 6\n10 12\n12 12",
+              "name": "样例 1",
+              "output": "2\n4"
+            }
+          ],
+          "notes": [
+            "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+            "Original Markdown, samples and resource bindings retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

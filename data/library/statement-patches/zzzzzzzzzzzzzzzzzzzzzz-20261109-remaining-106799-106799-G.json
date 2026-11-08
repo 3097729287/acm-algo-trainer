@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:106799::G",
+      "beforeSha256": "902c5471016073955691820293f448f7c972b464afdbc81c89f7f088227276f5",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:106799::G",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-07T19:11:00.930001+00:00",
+          "corpusAuditVerifiedSha256": "1e422fa541d8f2d457bb2c9b5641bd240d834cc29758946f750e78e6fd10c38a",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Graph Reconstruction\n\nVegiCat has an $$$n\\times n$$$ integer matrix $$$A=(a_{ij})$$$. For each $$$1\\le i,j\\le n$$$:\n\n\n\n- If $$$i=j$$$, $$$i=1$$$, or $$$j=1$$$, then $$$a_{ij}=-1$$$.\n\n- Otherwise, $$$a_{ij}$$$ is a nonnegative integer.\n\n\n\nHelp VegiCat construct an undirected simple graph $$$G$$$ with $$$n$$$ vertices, numbered from $$$1$$$ to $$$n$$$.\n\n\n\nFor every pair of distinct vertices $$$i,j$$$ with $$$i \\gt 1$$$ and $$$j \\gt 1$$$, the graph must satisfy the following condition: after deleting vertices $$$i$$$ and $$$j$$$, together with all edges that have an endpoint at either vertex, exactly $$$a_{ij}$$$ edges must remain.\n\n\n\nEach pair of vertices $$$i,j$$$ is considered separately. That is, for each pair, start with $$$G$$$ before any vertices or edges have been deleted.\n\n\n\nIt is guaranteed that at least one such graph exists. If there are multiple solutions, output any of them.\n\n\n\n## Input\n\n\n\nThe first line contains an integer $$$T$$$ ($$$1\\le T\\le 6\\cdot 10^4$$$), the number of test cases. The description of the test cases follows.\n\n\n\nFor each test case, the first line contains an integer $$$n$$$ ($$$4\\le n\\le 10^3$$$), denoting the number of vertices in the graph.\n\n\n\nThen each of the next $$$n$$$ lines contains $$$n$$$ space-separated integers $$$a_{ij}$$$ ($$$-1\\le a_{ij}\\le \\frac{(n-3)(n-2)}{2}$$$), representing the matrix $$$A$$$ described in the statement.\n\n\n\nIt is guaranteed that the total sum of $$$n^2$$$ over all test cases does not exceed $$$1.2\\cdot 10^6$$$, and that at least one graph corresponding to matrix $$$A$$$ exists.\n\n\n\n## Output\n\n\n\nFor each test case, output the adjacency matrix of the graph you construct. Output $$$n$$$ lines, each containing $$$n$$$ space-separated integers. Each integer must be either $$$0$$$ or $$$1$$$. The entry in the $$$i$$$-th row and $$$j$$$-th column is $$$1$$$ if there is an edge between vertices $$$i$$$ and $$$j$$$, and $$$0$$$ otherwise. If there are multiple solutions, output any of them.\n\n\n\n## Note\n\n\n\nThe actual input matrix will only have a single space between two integers. The extra spaces in the sample are designed to enhance the readability of the layout.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:106799::G",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "a848166f41c92071b166a5157764ebbdc7ba125827d2bb2fb621d600525248e5",
+          "url": "https://codeforces.com/gym/106799/problem/G"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "2\n5\n-1 -1 -1 -1 -1\n-1 -1  3  1  2\n-1  3 -1  2  2\n-1  1  2 -1  1\n-1  2  2  1 -1\n7\n-1 -1 -1 -1 -1 -1 -1\n-1 -1  4  5  3  6  5\n-1  4 -1  5  4  5  5\n-1  5  5 -1  5  7  5\n-1  3  4  5 -1  4  4\n-1  6  5  7  4 -1  5\n-1  5  5  5  4  5 -1",
+            "name": "样例 1",
+            "output": "0 1 0 1 1\n1 0 0 0 0\n0 0 0 1 0\n1 0 1 0 1\n1 0 0 1 0\n0 1 1 0 1 0 0\n1 0 0 0 0 1 1\n1 0 0 0 1 0 1\n0 0 0 0 1 1 0\n1 0 1 1 0 0 1\n0 1 0 1 0 0 0\n0 1 1 0 1 0 0"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Graph Reconstruction",
+        "url": "https://codeforces.com/gym/106799/problem/G",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "1e422fa541d8f2d457bb2c9b5641bd240d834cc29758946f750e78e6fd10c38a",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 重建图\n\n\n\nVegiCat 有一个 $$$n\\times n$$$ 的整数矩阵 $$$A=(a_{ij})$$$。对于每个 $$$1\\le i,j\\le n$$$：\n\n\n\n- 如果 $$$i=j$$$、$$$i=1$$$ 或 $$$j=1$$$，则 $$$a_{ij}=-1$$$；\n\n- 否则，$$$a_{ij}$$$ 是非负整数。\n\n\n\n请帮助 VegiCat 构造一个有 $$$n$$$ 个顶点的无向简单图 $$$G$$$，顶点编号为 $$$1$$$ 到 $$$n$$$。\n\n\n\n对于每一对满足 $$$i \\gt 1$$$、$$$j \\gt 1$$$ 的不同顶点 $$$i,j$$$，图都必须满足：删除顶点 $$$i$$$ 和 $$$j$$$，以及所有以这两个顶点之一为端点的边后，恰好剩下 $$$a_{ij}$$$ 条边。\n\n\n\n每一对顶点 $$$i,j$$$ 都独立考虑。也就是说，对于每一对，都从尚未删除任何顶点或边的原图 $$$G$$$ 开始。\n\n\n\n保证至少存在一个满足要求的图。如果有多个方案，输出任意一个。\n\n\n\n## 输入格式\n\n\n\n第一行包含整数 $$$T$$$（$$$1\\le T\\le 6\\cdot 10^4$$$），表示测试用例数。接下来描述各测试用例。\n\n\n\n对于每个测试用例，第一行包含整数 $$$n$$$（$$$4\\le n\\le 10^3$$$），表示图的顶点数。\n\n\n\n接下来 $$$n$$$ 行，每行包含 $$$n$$$ 个用空格分隔的整数 $$$a_{ij}$$$（$$$-1\\le a_{ij}\\le \\frac{(n-3)(n-2)}{2}$$$），描述题目中的矩阵 $$$A$$$。\n\n\n\n保证所有测试用例的 $$$n^2$$$ 之和不超过 $$$1.2\\cdot 10^6$$$，且矩阵 $$$A$$$ 至少对应一个合法图。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，输出所构造图的邻接矩阵。输出 $$$n$$$ 行，每行包含 $$$n$$$ 个用空格分隔的整数，每个整数只能为 $$$0$$$ 或 $$$1$$$。若顶点 $$$i$$$ 与 $$$j$$$ 之间有边，第 $$$i$$$ 行、第 $$$j$$$ 列为 $$$1$$$，否则为 $$$0$$$。如果有多个方案，输出任意一个。\n\n\n\n## 说明\n\n\n\n实际输入矩阵中，两个整数之间只有一个空格。样例中的额外空格仅用于提高排版可读性。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:106799::G",
+          "slug": "106799-G",
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/G",
+          "sourceSha256": "1e422fa541d8f2d457bb2c9b5641bd240d834cc29758946f750e78e6fd10c38a",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "2\n5\n-1 -1 -1 -1 -1\n-1 -1  3  1  2\n-1  3 -1  2  2\n-1  1  2 -1  1\n-1  2  2  1 -1\n7\n-1 -1 -1 -1 -1 -1 -1\n-1 -1  4  5  3  6  5\n-1  4 -1  5  4  5  5\n-1  5  5 -1  5  7  5\n-1  3  4  5 -1  4  4\n-1  6  5  7  4 -1  5\n-1  5  5  5  4  5 -1",
+              "name": "样例 1",
+              "output": "0 1 0 1 1\n1 0 0 0 0\n0 0 0 1 0\n1 0 1 0 1\n1 0 0 1 0\n0 1 1 0 1 0 0\n1 0 0 0 0 1 1\n1 0 0 0 1 0 1\n0 0 0 0 1 1 0\n1 0 1 1 0 0 1\n0 1 0 1 0 0 0\n0 1 1 0 1 0 0"
+            }
+          ],
+          "notes": [
+            "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+            "Original Markdown, samples and resource bindings retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

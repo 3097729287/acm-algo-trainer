@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:106799::F",
+      "beforeSha256": "c95b8523d6b3b12ee3fbe77b95a60530cde64ba933c9b79dc7e24ead8098129c",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/106799/problem/F": {
+            "bytes": 185732,
+            "data": "tb-asset:06c36a625c5b3e3cd490ffb755a2b2c1fd4cd149349f0819d897c3b697389ec7",
+            "fileName": "gym-106799.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "06c36a625c5b3e3cd490ffb755a2b2c1fd4cd149349f0819d897c3b697389ec7",
+            "sourceUrl": "https://codeforces.com/gym/106799/problem/F"
+          }
+        },
+        "id": "remote:codeforces:106799::F",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-07T19:10:59.335815+00:00",
+          "corpusAuditVerifiedSha256": "6609312f3238ee70a2d4b0e14a2fda5dac08e03de2eda896a30cb2f57b844e44",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 5000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# First Word\n\nFirst Word\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 5 seconds\r\nMemory limit: 1024 megabytes\r\nVegiCat has a string S of n lowercase English letters. He wants to build a dictionary that contains k\r\ndistinct nonempty substrings of S as its words. A substring is a contiguous part of a string. Substrings\r\nwith the same content are treated as the same word, even if they occur at different positions in S.\r\nLet π be a mapping from the letters a, b, . . . , z to the corresponding letters in a permutation of the\r\n26 lowercase English letters. For example, the permutation qwertyuiopasdfghjklzxcvbnm defines the\r\nfollowing mapping:\r\nc a b c d e f g h i j k l m n o p q r s t u v w x y z\r\nπ(c) q w e r t y u i o p a s d f g h j k l z x c v b n m\r\nFor a string u = u1u2 · · · um, define\r\nπ(u) = π(u1)π(u2)· · · π(um).\r\nFor example, with the mapping above, π(apple) = qhhst.\r\nVegiCat wants the dictionary to contain a word w such that, after applying any such mapping π to every\r\nword in the dictionary, π(w) is always the lexicographically smallest word in the resulting dictionary.\r\nFor each k = 1, 2, . . . , n, find the number of dictionaries that contain k distinct words and satisfy the\r\nrequirement, modulo 998244353.\r\nTwo dictionaries are considered different if and only if they contain different sets of words before any\r\nmapping is applied.\r\nRecall that string a is lexicographically smaller than string b if a is a prefix of b (and a ̸= b), or there\r\nexists an index i (1 ≤ i ≤ min(|a|, |b|)) such that ai < bi\r\n, and for any index j (1 ≤ j < i) aj = bj .\r\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 104\r\n), the number of test cases. The description of the test\r\ncases follows.\r\nThe first line of each test case contains an integer n (1 ≤ n ≤ 105\r\n).\r\nThe second line contains a string S of length n, consisting only of lowercase English letters.\r\nIt is guaranteed that the sum of n over all test cases does not exceed 105\r\n.\r\nOutput\r\nFor each test case, output n integers on one line. The k-th integer represents the number of dictionaries\r\nthat contain k distinct words and satisfy the requirement, modulo 998244353.\r\nExample\r\nstandard input standard output\r\n3\r\n3\r\naab\r\n4\r\nppqq\r\n7\r\nabcaabc\r\n5 4 3\r\n8 10 11 10\r\n21 52 87 119 139 128 84\r\nPage 1 of 2\n\nNote\r\nEach dictionary below is written as a set of words.\r\nFor the first test case, S = aab, the dictionaries that satisfy the requirement for k = 1, 2, 3 are:\r\nk Word sets that satisfy the requirement Number of dictionaries\r\n1 {a}, {b}, {aa}, {ab}, {aab} 5\r\n2 {a, aa}, {a, ab}, {a, aab}, {aa, aab} 4\r\n3 {a, aa, ab}, {a, aa, aab}, {a, ab, aab} 3\r\nPage 2 of 2\n\n[PDF](https://codeforces.com/gym/106799/problem/F)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "new",
+          "id": "remote:codeforces:106799::F",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 2,
+          "pdfSha256": "78fde50ab49d794a7e31041452caba3d191fdd4f5aaf79b8df1a8f82f7d80f79",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "7d52c96ba107a6b33471680462f45d4ec2a28ddbc765ba30ebfe34af59559545",
+          "sourcePdfSha256": "06c36a625c5b3e3cd490ffb755a2b2c1fd4cd149349f0819d897c3b697389ec7",
+          "sourcePdfUrl": "https://codeforces.com/gym/106799/problem/F",
+          "url": "https://codeforces.com/gym/106799/problem/F"
+        },
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/106799/problem/F": {
+            "bytes": 185732,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "06c36a625c5b3e3cd490ffb755a2b2c1fd4cd149349f0819d897c3b697389ec7",
+            "sourceUrl": "https://codeforces.com/gym/106799/problem/F"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "78fde50ab49d794a7e31041452caba3d191fdd4f5aaf79b8df1a8f82f7d80f79",
+          "page": 1
+        },
+        "samples": [
+          {
+            "input": "3\n3\naab\n4\nppqq\n7\nabcaabc",
+            "name": "样例 1",
+            "output": "5 4 3\n8 10 11 10\n21 52 87 119 139 128 84"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "First Word",
+          "problem": "F",
+          "rosterTitle": "First Word",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourcePdfSha256": "06c36a625c5b3e3cd490ffb755a2b2c1fd4cd149349f0819d897c3b697389ec7",
+        "sourcePdfUrl": "https://codeforces.com/gym/106799/problem/F",
+        "sourceRosterSha256": "085085259ab6b1276e47c3d147e2b9f45c60dc7b18e52718ea6810e14f7a2cad",
+        "sourceRosterUrl": "https://codeforces.com/gym/106799",
+        "sourceText": "# First Word\n\nTime limit: 5 seconds. Memory limit: 1024 megabytes. Standard input and output.\n\nVegiCat has a string $S$ of $n$ lowercase English letters. He wants a dictionary containing $k$ distinct nonempty substrings of $S$ as words. A substring is a contiguous part of a string. Substrings with identical content are the same word even if they occur at different positions in $S$.\n\nLet $\\pi$ map the letters `a,b,...,z` to the corresponding letters of a permutation of the $26$ lowercase English letters. For example, `qwertyuiopasdfghjklzxcvbnm` defines this mapping:\n\n```text\nc      a b c d e f g h i j k l m n o p q r s t u v w x y z\npi(c)  q w e r t y u i o p a s d f g h j k l z x c v b n m\n```\n\nFor a string $u=u_1u_2\\cdots u_m$, define $\\pi(u)=\\pi(u_1)\\pi(u_2)\\cdots\\pi(u_m)$. For the mapping above, $\\pi(\\mathtt{apple})=\\mathtt{qhhst}$.\n\nThe dictionary must contain a word $w$ such that, for every such mapping $\\pi$ applied to all dictionary words, $\\pi(w)$ is the lexicographically smallest resulting word. The same word must satisfy this requirement for all mappings.\n\nFor each $k=1,2,\\ldots,n$, count dictionaries containing $k$ distinct words and satisfying the requirement, modulo $998244353$. Two dictionaries differ exactly when their word sets before any mapping differ.\n\nRecall that string $a$ is lexicographically smaller than string $b$ if $a$ is a proper prefix of $b$ ($a\\ne b$), or there is an index $i$ ($1\\le i\\le\\min(|a|,|b|)$) such that $a_i<b_i$ and $a_j=b_j$ for every $j$ ($1\\le j<i$).\n\n## Input Format\n\nThe first line contains $T$ ($1\\le T\\le10^4$), the number of test cases. Each test case has $n$ ($1\\le n\\le10^5$) on the first line and a string $S$ of length $n$, consisting only of lowercase English letters, on the second line. The sum of $n$ over all test cases does not exceed $10^5$.\n\n## Output Format\n\nFor each test case, output $n$ integers on one line. The $k$-th integer is the number of valid dictionaries with $k$ distinct words, modulo $998244353$.\n\n## Sample Explanation\n\nWrite each dictionary as a set of words. In the first test case, $S=\\mathtt{aab}$. The dictionaries for $k=1,2,3$ are:\n\n| $k$ | Valid word sets | Number |\n| --- | --- | --- |\n| 1 | `{a}`, `{b}`, `{aa}`, `{ab}`, `{aab}` | 5 |\n| 2 | `{a, aa}`, `{a, ab}`, `{a, aab}`, `{aa, aab}` | 4 |\n| 3 | `{a, aa, ab}`, `{a, aa, aab}`, `{a, ab, aab}` | 3 |\n\n\n## Sample 1\n\n### Input\n\n```text\n3\n3\naab\n4\nppqq\n7\nabcaabc\n```\n\n### Output\n\n```text\n5 4 3\n8 10 11 10\n21 52 87 119 139 128 84\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:78fde50ab49d794a7e31041452caba3d191fdd4f5aaf79b8df1a8f82f7d80f79",
+          "fileName": "gym-106799-F.pdf",
+          "pageCount": 2,
+          "sha256": "78fde50ab49d794a7e31041452caba3d191fdd4f5aaf79b8df1a8f82f7d80f79",
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceSha256": "06c36a625c5b3e3cd490ffb755a2b2c1fd4cd149349f0819d897c3b697389ec7",
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/F",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "First Word",
+        "url": "https://codeforces.com/gym/106799/problem/F",
+        "sourceTextArchive": [
+          {
+            "text": "First Word\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 5 seconds\r\nMemory limit: 1024 megabytes\r\nVegiCat has a string S of n lowercase English letters. He wants to build a dictionary that contains k\r\ndistinct nonempty substrings of S as its words. A substring is a contiguous part of a string. Substrings\r\nwith the same content are treated as the same word, even if they occur at different positions in S.\r\nLet π be a mapping from the letters a, b, . . . , z to the corresponding letters in a permutation of the\r\n26 lowercase English letters. For example, the permutation qwertyuiopasdfghjklzxcvbnm defines the\r\nfollowing mapping:\r\nc a b c d e f g h i j k l m n o p q r s t u v w x y z\r\nπ(c) q w e r t y u i o p a s d f g h j k l z x c v b n m\r\nFor a string u = u1u2 · · · um, define\r\nπ(u) = π(u1)π(u2)· · · π(um).\r\nFor example, with the mapping above, π(apple) = qhhst.\r\nVegiCat wants the dictionary to contain a word w such that, after applying any such mapping π to every\r\nword in the dictionary, π(w) is always the lexicographically smallest word in the resulting dictionary.\r\nFor each k = 1, 2, . . . , n, find the number of dictionaries that contain k distinct words and satisfy the\r\nrequirement, modulo 998244353.\r\nTwo dictionaries are considered different if and only if they contain different sets of words before any\r\nmapping is applied.\r\nRecall that string a is lexicographically smaller than string b if a is a prefix of b (and a ̸= b), or there\r\nexists an index i (1 ≤ i ≤ min(|a|, |b|)) such that ai < bi\r\n, and for any index j (1 ≤ j < i) aj = bj .\r\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 104\r\n), the number of test cases. The description of the test\r\ncases follows.\r\nThe first line of each test case contains an integer n (1 ≤ n ≤ 105\r\n).\r\nThe second line contains a string S of length n, consisting only of lowercase English letters.\r\nIt is guaranteed that the sum of n over all test cases does not exceed 105\r\n.\r\nOutput\r\nFor each test case, output n integers on one line. The k-th integer represents the number of dictionaries\r\nthat contain k distinct words and satisfy the requirement, modulo 998244353.\r\nExample\r\nstandard input standard output\r\n3\r\n3\r\naab\r\n4\r\nppqq\r\n7\r\nabcaabc\r\n5 4 3\r\n8 10 11 10\r\n21 52 87 119 139 128 84\r\nPage 1 of 2\n\nNote\r\nEach dictionary below is written as a set of words.\r\nFor the first test case, S = aab, the dictionaries that satisfy the requirement for k = 1, 2, 3 are:\r\nk Word sets that satisfy the requirement Number of dictionaries\r\n1 {a}, {b}, {aa}, {ab}, {aab} 5\r\n2 {a, aa}, {a, ab}, {a, aab}, {aa, aab} 4\r\n3 {a, aa, ab}, {a, aa, aab}, {a, ab, aab} 3\r\nPage 2 of 2",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "8cbec9f8690ce2a231dd4c3acffc30507ca116e66b2a451d366449c82c071d8a"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "3\n3\naab\n4\nppqq\n7\nabcaabc",
+                "name": "样例 1",
+                "output": "5 4 3\n8 10 11 10\n21 52 87 119 139 128 84"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "F",
+          "problemId": "remote:codeforces:106799::F",
+          "pdfSha256": "78fde50ab49d794a7e31041452caba3d191fdd4f5aaf79b8df1a8f82f7d80f79",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/F",
+          "figures": [],
+          "notes": [
+            "Both original PDF pages visually reviewed, including all formulas, algorithm/table content and sample columns.",
+            "Original 26-letter mapping table and all first-example dictionary sets transcribed. Quantifiers retained as one fixed word that wins for every permutation."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "4640713bb5c2a3018da4b611df729a14a068e18fa7f71ecca2754a21c061825f"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "6609312f3238ee70a2d4b0e14a2fda5dac08e03de2eda896a30cb2f57b844e44",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "4640713bb5c2a3018da4b611df729a14a068e18fa7f71ecca2754a21c061825f",
+          "sourcePdfSha256": "78fde50ab49d794a7e31041452caba3d191fdd4f5aaf79b8df1a8f82f7d80f79",
+          "markdown": "# 第一个单词\n\n时间限制：5 秒。内存限制：1024 MB。使用标准输入和标准输出。\n\nVegiCat 有一个由 $n$ 个小写英文字母组成的字符串 $S$。他想建立一本字典，其中的 $k$ 个单词是 $S$ 的互不相同的非空子串。子串是字符串中连续的一部分。即使出现在 $S$ 的不同位置，只要内容相同，就视为同一个单词。\n\n令 $\\pi$ 将字母 `a,b,...,z` 映射到 $26$ 个小写英文字母的某个排列中对应位置的字母。例如，排列 `qwertyuiopasdfghjklzxcvbnm` 定义以下映射：\n\n```text\nc      a b c d e f g h i j k l m n o p q r s t u v w x y z\npi(c)  q w e r t y u i o p a s d f g h j k l z x c v b n m\n```\n\n对于字符串 $u=u_1u_2\\cdots u_m$，定义 $\\pi(u)=\\pi(u_1)\\pi(u_2)\\cdots\\pi(u_m)$。在上述映射下，$\\pi(\\mathtt{apple})=\\mathtt{qhhst}$。\n\n字典中必须存在一个单词 $w$，使得对于任意这样的映射 $\\pi$，将其应用于字典中的所有单词后，$\\pi(w)$ 始终是所得字典中字典序最小的单词。必须由同一个单词对所有映射都满足这一要求。\n\n对于每个 $k=1,2,\\ldots,n$，计算包含 $k$ 个不同单词且满足要求的字典数量，对 $998244353$ 取模。两本字典不同，当且仅当它们在应用映射前包含的单词集合不同。\n\n字符串 $a$ 的字典序小于字符串 $b$，当且仅当：$a$ 是 $b$ 的真前缀（$a\\ne b$）；或者存在下标 $i$（$1\\le i\\le\\min(|a|,|b|)$），满足 $a_i<b_i$，并且对于每个 $j$（$1\\le j<i$）都有 $a_j=b_j$。\n\n## 输入格式\n\n第一行包含测试用例数 $T$（$1\\le T\\le10^4$）。每个测试用例的第一行包含 $n$（$1\\le n\\le10^5$），第二行包含长度为 $n$、仅由小写英文字母组成的字符串 $S$。所有测试用例的 $n$ 之和不超过 $10^5$。\n\n## 输出格式\n\n对于每个测试用例，在一行中输出 $n$ 个整数。第 $k$ 个整数表示包含 $k$ 个不同单词的合法字典数量，对 $998244353$ 取模。\n\n## 样例说明\n\n下面将每本字典写作单词集合。第一组样例中，$S=\\mathtt{aab}$。对于 $k=1,2,3$，合法字典如下：\n\n| $k$ | 合法单词集合 | 数量 |\n| --- | --- | --- |\n| 1 | `{a}`, `{b}`, `{aa}`, `{ab}`, `{aab}` | 5 |\n| 2 | `{a, aa}`, `{a, ab}`, `{a, aab}`, `{aa, aab}` | 4 |\n| 3 | `{a, aa, ab}`, `{a, aa, aab}`, `{a, ab, aab}` | 3 |\n\n\n## 样例 1\n\n### 输入\n\n```text\n3\n3\naab\n4\nppqq\n7\nabcaabc\n```\n\n### 输出\n\n```text\n5 4 3\n8 10 11 10\n21 52 87 119 139 128 84\n```\n"
+        },
+        "translationReview": {
+          "letter": "F",
+          "problemId": "remote:codeforces:106799::F",
+          "pdfSha256": "78fde50ab49d794a7e31041452caba3d191fdd4f5aaf79b8df1a8f82f7d80f79",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/F",
+          "figures": [],
+          "notes": [
+            "Both original PDF pages visually reviewed, including all formulas, algorithm/table content and sample columns.",
+            "Original 26-letter mapping table and all first-example dictionary sets transcribed. Quantifiers retained as one fixed word that wins for every permutation."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "4640713bb5c2a3018da4b611df729a14a068e18fa7f71ecca2754a21c061825f",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

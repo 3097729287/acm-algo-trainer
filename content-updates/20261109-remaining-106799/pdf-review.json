@@ -1,0 +1,74 @@
+[
+  {
+    "letter": "A",
+    "problemId": "remote:codeforces:106799::A",
+    "pdfSha256": "06a444b61b94233aa354145b34212304e1b18d69b2954b8ed571cda34b9cfb5d",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      1,
+      2
+    ],
+    "sourceUrl": "https://codeforces.com/gym/106799/problem/A",
+    "figures": [],
+    "notes": [
+      "Both original PDF pages visually reviewed, including all formulas, algorithm/table content and sample columns.",
+      "Both Build and Query algorithms transcribed in full. Nested fractions in examples manually read, not flattened; all arithmetic is exact rational."
+    ]
+  },
+  {
+    "letter": "B",
+    "problemId": "remote:codeforces:106799::B",
+    "pdfSha256": "5a49f206683efa2e39e70f1458951ebc1d00c3ea9d2809bd0ebbeaec70bd7b49",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      1,
+      2
+    ],
+    "sourceUrl": "https://codeforces.com/gym/106799/problem/B",
+    "figures": [
+      {
+        "file": "106799-B-evolution.png",
+        "page": 2,
+        "clipRect": [
+          145,
+          280,
+          450,
+          578
+        ],
+        "sha256": "36d81b4ae3dd951870fabec0ebe051e1105817b4d6ec036bdf9b060db984e4c4"
+      }
+    ],
+    "notes": [
+      "Both original PDF pages visually reviewed, including all formulas, algorithm/table content and sample columns.",
+      "Reflect both directions before splitting; child directions inherit both adjusted components. Count occupied cells, not particles."
+    ]
+  },
+  {
+    "letter": "F",
+    "problemId": "remote:codeforces:106799::F",
+    "pdfSha256": "78fde50ab49d794a7e31041452caba3d191fdd4f5aaf79b8df1a8f82f7d80f79",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      1,
+      2
+    ],
+    "sourceUrl": "https://codeforces.com/gym/106799/problem/F",
+    "figures": [],
+    "notes": [
+      "Both original PDF pages visually reviewed, including all formulas, algorithm/table content and sample columns.",
+      "Original 26-letter mapping table and all first-example dictionary sets transcribed. Quantifiers retained as one fixed word that wins for every permutation."
+    ]
+  }
+]

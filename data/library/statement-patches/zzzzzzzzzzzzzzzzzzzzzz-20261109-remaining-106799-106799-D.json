@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:106799::D",
+      "beforeSha256": "001a9ce8798520f38a75555c3798972afca678458f2f97a55da999e33bc167f1",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:106799::D",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-07T19:10:52.542869+00:00",
+          "corpusAuditVerifiedSha256": "6ccec4b672e6da745052ecd0ff33bf8d2c4087ac3b81b819a564cdb9c7870bae",
+          "pdfPageCountVerified": false,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Duel of Wrath\n\nVegiCat and VegiDog are playing a special duel in Slay the Spire. VegiCat plays as Watcher A, and VegiDog plays as Watcher B. A and B have base attack powers $$$a$$$ and $$$b$$$ and initial health values $$$h_A$$$ and $$$h_B$$$, respectively.\n\n\n\nAt the start of each round, the game determines each Watcher's stance for that round. Each Watcher can be in one of the following two stances:\n\n\n\n- Normal: damage dealt and damage received are unchanged.\n\n- Wrath: damage dealt and damage received are both doubled.\n\n\n\nFor each attack, the damage initially equals the attacker's base attack power. It is doubled if the attacker is in Wrath and doubled again if the defender is in Wrath. Thus, the damage in each round is as follows:\n\n\n\n- If both characters are in Normal, A deals $$$a$$$ damage to B, and B deals $$$b$$$ damage to A.\n\n- If exactly one character is in Wrath, A deals $$$2a$$$ damage to B, and B deals $$$2b$$$ damage to A.\n\n- If both characters are in Wrath, A deals $$$4a$$$ damage to B, and B deals $$$4b$$$ damage to A.\n\n\n\nEach round, both characters attack once simultaneously, and both health values decrease simultaneously. Both attacks take effect even if either character's health becomes $$$0$$$ or less during the round. At the end of the round, a character with health less than or equal to $$$0$$$ dies. If either character dies, the battle ends immediately; otherwise, the next round begins. Base attack powers never change, and health is never restored.\n\n\n\nThe stances for each round are determined by the game, not by the players. Any combination of the two characters' stances is possible in each round.\n\n\n\nVegiCat wins only if B dies while A remains alive. If both characters die in the same round, VegiCat does not win. Determine whether VegiCat will win **regardless of how both characters' stances change**.\n\n\n\n## Input\n\n\n\nThe first line contains an integer $$$T$$$ ($$$1 \\le T \\le 10^5$$$), the number of test cases. The description of the test cases follows.\n\n\n\nEach test case contains one line with four integers $$$a$$$, $$$b$$$, $$$h_A$$$, and $$$h_B$$$ ($$$1 \\le a,b,h_A,h_B \\le 10^{18}$$$), giving the characters' base attack powers and initial health values, respectively.\n\n\n\n## Output\n\n\n\nFor each test case, output `YES` if VegiCat will win regardless of how both characters' stances change, and `NO` otherwise. Output each answer on a separate line.\n\n\n\nYou can output the answer in any case. For example, `yEs`, `yes`, `Yes`, and `YES` are all accepted as positive responses.\n\n\n\n## Note\n\n\n\nIn the first test case of the first sample, B always dies in the first round. A receives at most $$$4$$$ damage in that round and remains alive.\n\n\n\nIn the second test case of the first sample, A wins if both characters are normal in the first round. If both characters are in Wrath in the first round, both die. Therefore, the answer is `NO`.\n\n\n\nIn the second test case of the second sample, if both characters are normal for the first $$$4$$$ rounds, their remaining health values are $$$8$$$ and $$$1$$$. If both enter Wrath in round $$$5$$$, both die, so victory is not guaranteed.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:106799::D",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 2,
+          "samplesSha256": "7efc01212459f47a5d56c83cdc1243e781256e07224e5ecbbf4ed17b718a5c51",
+          "url": "https://codeforces.com/gym/106799/problem/D"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "5\n1 1 5 1\n1 1 4 1\n1 1 1 1\n1 1 1 5\n2 3 13 2",
+            "name": "样例 1",
+            "output": "YES\nNO\nNO\nNO\nYES"
+          },
+          {
+            "input": "4\n3 2 18 13\n3 2 16 13\n3 2 9 13\n3 2 17 13",
+            "name": "样例 2",
+            "output": "YES\nNO\nNO\nYES"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Duel of Wrath",
+        "url": "https://codeforces.com/gym/106799/problem/D",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "6ccec4b672e6da745052ecd0ff33bf8d2c4087ac3b81b819a564cdb9c7870bae",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 愤怒决斗\n\n\n\nVegiCat 和 VegiDog 正在《杀戮尖塔》中进行一场特殊决斗。VegiCat 操纵观者 A，VegiDog 操纵观者 B。A 和 B 的基础攻击力分别为 $$$a$$$ 和 $$$b$$$，初始生命值分别为 $$$h_A$$$ 和 $$$h_B$$$。\n\n\n\n每轮开始时，游戏会决定两名观者本轮的姿态。每人可以处于以下两种姿态之一：\n\n\n\n- 普通：造成和承受的伤害均不变。\n\n- 愤怒：造成和承受的伤害均翻倍。\n\n\n\n每次攻击的初始伤害等于攻击者的基础攻击力。若攻击者处于愤怒姿态，伤害翻倍；若防御者也处于愤怒姿态，伤害再翻倍。因此，每轮伤害如下：\n\n\n\n- 若双方均为普通姿态，A 对 B 造成 $$$a$$$ 点伤害，B 对 A 造成 $$$b$$$ 点伤害。\n\n- 若恰好一人处于愤怒姿态，A 对 B 造成 $$$2a$$$ 点伤害，B 对 A 造成 $$$2b$$$ 点伤害。\n\n- 若双方均处于愤怒姿态，A 对 B 造成 $$$4a$$$ 点伤害，B 对 A 造成 $$$4b$$$ 点伤害。\n\n\n\n每轮双方同时攻击一次，生命值同时减少。即使本轮中有角色的生命值降到 $$$0$$$ 或以下，双方的攻击也都生效。每轮结束时，生命值小于等于 $$$0$$$ 的角色死亡。只要有角色死亡，战斗就立即结束；否则开始下一轮。基础攻击力始终不变，生命值不会恢复。\n\n\n\n每轮姿态由游戏决定，而非由玩家选择。两名角色的姿态在每轮可以是任意组合。\n\n\n\n只有 B 死亡而 A 仍然存活时，VegiCat 才获胜。如果双方在同一轮死亡，VegiCat 不算获胜。请判断：**无论双方姿态如何变化**，VegiCat 是否都能获胜。\n\n\n\n## 输入格式\n\n\n\n第一行包含整数 $$$T$$$（$$$1 \\le T \\le 10^5$$$），表示测试用例数。接下来描述各测试用例。\n\n\n\n每个测试用例占一行，包含四个整数 $$$a$$$、$$$b$$$、$$$h_A$$$ 和 $$$h_B$$$（$$$1 \\le a,b,h_A,h_B \\le 10^{18}$$$），分别给出双方的基础攻击力和初始生命值。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，如果无论双方姿态如何变化 VegiCat 都能获胜，输出 `YES`；否则输出 `NO`。每个答案单独占一行。\n\n\n\n答案不区分大小写。例如 `yEs`、`yes`、`Yes` 和 `YES` 都会被视为肯定回答。\n\n\n\n## 样例说明\n\n\n\n第一份样例的第一组测试中，B 总会在第一轮死亡。A 在该轮最多承受 $$$4$$$ 点伤害，仍然存活。\n\n\n\n第一份样例的第二组测试中，如果第一轮双方均为普通姿态，A 会获胜；如果第一轮双方均为愤怒姿态，两人都会死亡。因此答案为 `NO`。\n\n\n\n第二份样例的第二组测试中，如果前 $$$4$$$ 轮双方均为普通姿态，剩余生命值分别为 $$$8$$$ 和 $$$1$$$。如果第 $$$5$$$ 轮双方均进入愤怒姿态，两人都会死亡，所以不能保证获胜。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:106799::D",
+          "slug": "106799-D",
+          "sourceUrl": "https://codeforces.com/gym/106799/problem/D",
+          "sourceSha256": "6ccec4b672e6da745052ecd0ff33bf8d2c4087ac3b81b819a564cdb9c7870bae",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "5\n1 1 5 1\n1 1 4 1\n1 1 1 1\n1 1 1 5\n2 3 13 2",
+              "name": "样例 1",
+              "output": "YES\nNO\nNO\nNO\nYES"
+            },
+            {
+              "input": "4\n3 2 18 13\n3 2 16 13\n3 2 9 13\n3 2 17 13",
+              "name": "样例 2",
+              "output": "YES\nNO\nNO\nYES"
+            }
+          ],
+          "notes": [
+            "Complete original prose, exact mathematical spans, input bounds and sample explanations reviewed.",
+            "Original Markdown, samples and resource bindings retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}
