@@ -43684,5 +43684,11 @@
     "mime": "application/pdf",
     "bytes": 698240,
     "file": "statement-assets/3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5.bin"
+  },
+  {
+    "sha256": "a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+    "mime": "application/pdf",
+    "bytes": 520925,
+    "file": "statement-assets/a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942.bin"
   }
 ]

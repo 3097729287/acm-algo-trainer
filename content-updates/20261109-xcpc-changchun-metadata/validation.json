@@ -1,0 +1,43 @@
+{
+  "topicsReviewed": 12,
+  "unofficialTrainingEstimates": 12,
+  "newCanonicalSourceAssets": 1,
+  "newSourceBytes": 520925,
+  "exactOriginalStatementAndSourceBindingsRetained": true,
+  "allArchivedSourceHashesVerified": true,
+  "canonicalAssetDescriptorsUnique": true,
+  "onlyTargetProblemRowsChanged": true,
+  "allExistingOfficialRatingsAndIdentityStatusDatePreserved": true,
+  "enrichmentStable": true,
+  "applicationIdempotent": true,
+  "fullSolutionCodeOrOriginalJudgeSubmissionsClaimed": false,
+  "privateRecordsReadOrWritten": false,
+  "release1610BoundaryUntouched": true,
+  "independentAlgorithmChecks": {
+    "L_smallInventoryExactAllocation": {
+      "kRange": [
+        1,
+        9
+      ],
+      "xRange": [
+        0,
+        8
+      ],
+      "yRange": [
+        0,
+        8
+      ],
+      "cases": 729
+    },
+    "E_monotoneStackVsExplicitComparabilityDsu": {
+      "deterministicCases": 4800,
+      "nRange": [
+        1,
+        8
+      ],
+      "duplicateCoordinateCasesIncluded": true
+    },
+    "I_fixedSentenceLowercaseCount": 21
+  },
+  "targetedSourceAndMetadataRegressionTestsPassed": 8
+}

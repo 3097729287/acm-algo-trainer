@@ -1,7 +1,7 @@
 {
   "version": "topic-review-20261029-r30",
   "scope": "仅修正知识标签，不改题解正文、程序、难度或个人记录",
-  "reviewedProblems": 1607,
+  "reviewedProblems": 1619,
   "problems": {
     "codeforces.com/contest/2258/problem/E": {
       "problemIds": [
@@ -38705,6 +38705,505 @@
       ],
       "reviewMethod": "source-reviewed-classification",
       "official": false
+    },
+    "codeforces.com/gym/105170/problem/A": {
+      "problemIds": [
+        "remote:codeforces:105170::A"
+      ],
+      "url": "https://codeforces.com/gym/105170/problem/A",
+      "tags": [
+        "计数 DP",
+        "位运算",
+        "前缀和",
+        "快速幂"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105170::A",
+          "reference": "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+          "sha256": "a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+          "sourcePageNumbers": [
+            55,
+            59,
+            62
+          ],
+          "sourceLogicalSlideNumbers": [
+            21,
+            22,
+            23
+          ],
+          "pageNumbering": "75 physical PDF pages; the last complete overlay for each logical slide is cited.",
+          "sourceProblemHeading": "A. Eminor Array",
+          "sourceProblemTitle": "Eminor Array",
+          "nativeProblemUrl": "https://codeforces.com/gym/105170/problem/A",
+          "sourceStatementMarkdownSha256": "31837e380f683efc5a6b19e1d6bc0908a18a3ac2cf6a7fd1599607173ded8ca8",
+          "reasons": [
+            "按所选最后一个数的最高位i分层计数；只有最高位不同的相邻三元组可能异或为0。先加上一层全部选择，再扣除跨最高位的不合法项，将转移展开后以前缀和优化，O(n log MOD)。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105170/problem/B": {
+      "problemIds": [
+        "remote:codeforces:105170::B"
+      ],
+      "url": "https://codeforces.com/gym/105170/problem/B",
+      "tags": [
+        "树形 DP",
+        "贪心",
+        "排序"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105170::B",
+          "reference": "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+          "sha256": "a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+          "sourcePageNumbers": [
+            29,
+            34
+          ],
+          "sourceLogicalSlideNumbers": [
+            13,
+            14
+          ],
+          "pageNumbering": "75 physical PDF pages; the last complete overlay for each logical slide is cited.",
+          "sourceProblemHeading": "B. Dfs Order 0.5",
+          "sourceProblemTitle": "Dfs Order 0.5",
+          "nativeProblemUrl": "https://codeforces.com/gym/105170/problem/B",
+          "sourceStatementMarkdownSha256": "0a7bbca720b8e3bc807aaadfb9ce72196b2e38d75c3ba084d30efe4aa04536eb",
+          "reasons": [
+            "树形DP维护子树DFS首位奇偶两种收益。偶大小子树不改变后继奇偶；存在奇大小子树时，偶子树可独立择优，奇子树需一半用一种起始奇偶，按两状态收益差排序分配，O(n log n)。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105170/problem/C": {
+      "problemIds": [
+        "remote:codeforces:105170::C"
+      ],
+      "url": "https://codeforces.com/gym/105170/problem/C",
+      "tags": [
+        "数位 DP",
+        "矩阵运算"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105170::C",
+          "reference": "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+          "sha256": "a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+          "sourcePageNumbers": [
+            35,
+            38,
+            41
+          ],
+          "sourceLogicalSlideNumbers": [
+            15,
+            16,
+            17
+          ],
+          "pageNumbering": "75 physical PDF pages; the last complete overlay for each logical slide is cited.",
+          "sourceProblemHeading": "C. Fibonacci Sum",
+          "sourceProblemTitle": "Fibonacci Sum",
+          "nativeProblemUrl": "https://codeforces.com/gym/105170/problem/C",
+          "sourceStatementMarkdownSha256": "830e7410bb4e725ba19294565e8c2be348b5754380cee093dd6e9ce2ae0237b7",
+          "reasons": [
+            "将数位0/1对Fibonacci(popcount)的作用写成2×2矩阵T0、T1，自由后缀用(T0+T1)^长度求和；按二进制前缀分解[0,n]并合并，O(2^3 log n)，这里log n是输入位数。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105170/problem/D": {
+      "problemIds": [
+        "remote:codeforces:105170::D"
+      ],
+      "url": "https://codeforces.com/gym/105170/problem/D",
+      "tags": [
+        "随机算法",
+        "排序",
+        "构造"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105170::D",
+          "reference": "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+          "sha256": "a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+          "sourcePageNumbers": [
+            12,
+            13
+          ],
+          "sourceLogicalSlideNumbers": [
+            6,
+            7
+          ],
+          "pageNumbering": "75 physical PDF pages; the last complete overlay for each logical slide is cited.",
+          "sourceProblemHeading": "D. Parallel Lines",
+          "sourceProblemTitle": "Parallel Lines",
+          "nativeProblemUrl": "https://codeforces.com/gym/105170/problem/D",
+          "sourceStatementMarkdownSha256": "9fe03d3fc69a2d9e47f4a59054c249394b2c782518b93481b20a7c6e6b73bb69",
+          "reasons": [
+            "随机取两点提出平行方向，用垂直投影排序在O(n log n)内检查恰k条线且各线至少2点并构造分组；均匀分布时同线两点概率仍为Omega(1/k)，期望O(nk log n)。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [
+            "概率只记Omega(1/k)：真实最小情况下为(n/k-1)/(n-1)量级，不把讲解的简写1/k误作精确下界。"
+          ],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105170/problem/E": {
+      "problemIds": [
+        "remote:codeforces:105170::E"
+      ],
+      "url": "https://codeforces.com/gym/105170/problem/E",
+      "tags": [
+        "单调栈",
+        "排序"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105170::E",
+          "reference": "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+          "sha256": "a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+          "sourcePageNumbers": [
+            16,
+            19
+          ],
+          "sourceLogicalSlideNumbers": [
+            8,
+            9
+          ],
+          "pageNumbering": "75 physical PDF pages; the last complete overlay for each logical slide is cited.",
+          "sourceProblemHeading": "E. Connected Components",
+          "sourceProblemTitle": "Connected Components",
+          "nativeProblemUrl": "https://codeforces.com/gym/105170/problem/E",
+          "sourceStatementMarkdownSha256": "15d3502338b568c4e3698a1cdfaad7e78f6aff48822a0fc31095e239c8bf4937",
+          "reasons": [
+            "把点变为x_i=a_i-i、y_i=i-b_i，按x排序后用y决定与此前连通块的合并；每块只保留最小y，以单调栈合并所有可连接块，栈长为连通块数，O(n log n)。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [
+            "物理第16页/逻辑第8页把同一支条件的两坐标不等式写成逻辑或；按原题变形应同时成立，并允许两坐标反向同时成立。这里不复制该排版符号。"
+          ],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105170/problem/F": {
+      "problemIds": [
+        "remote:codeforces:105170::F"
+      ],
+      "url": "https://codeforces.com/gym/105170/problem/F",
+      "tags": [
+        "贪心",
+        "堆"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105170::F",
+          "reference": "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+          "sha256": "a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+          "sourcePageNumbers": [
+            25,
+            27
+          ],
+          "sourceLogicalSlideNumbers": [
+            11,
+            12
+          ],
+          "pageNumbering": "75 physical PDF pages; the last complete overlay for each logical slide is cited.",
+          "sourceProblemHeading": "F. Best Player",
+          "sourceProblemTitle": "Best Player",
+          "nativeProblemUrl": "https://codeforces.com/gym/105170/problem/F",
+          "sourceStatementMarkdownSha256": "3a7c4a6a19c4e8d303dc24219cfa729b3ecde1f7a2b28f97653c1923a2e78b7d",
+          "reasons": [
+            "检查玩家i时，其参与对决的自由分全部给i，其他对决均衡两人。只临时修改i参与的比赛，用可删堆维护其余对决产生的最大对手得分，所有关联边总量O(m)，总O(n+m log m)。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105170/problem/G": {
+      "problemIds": [
+        "remote:codeforces:105170::G"
+      ],
+      "url": "https://codeforces.com/gym/105170/problem/G",
+      "tags": [
+        "排序",
+        "模拟"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105170::G",
+          "reference": "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+          "sha256": "a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+          "sourcePageNumbers": [
+            23
+          ],
+          "sourceLogicalSlideNumbers": [
+            10
+          ],
+          "pageNumbering": "75 physical PDF pages; the last complete overlay for each logical slide is cited.",
+          "sourceProblemHeading": "G. Platform Game",
+          "sourceProblemTitle": "Platform Game",
+          "nativeProblemUrl": "https://codeforces.com/gym/105170/problem/G",
+          "sourceStatementMarkdownSha256": "f1ec3e7bfc2cce092298f03eb533ebd5db29f55b0881f05953ae2ac825e89bfb",
+          "reasons": [
+            "机器人经过的平台高度严格下降，按y递减排序；若当前横坐标能落到该平台且平台不高于当前位置，则移到平台右端，再继续扫描，O(n log n)。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105170/problem/H": {
+      "problemIds": [
+        "remote:codeforces:105170::H"
+      ],
+      "url": "https://codeforces.com/gym/105170/problem/H",
+      "tags": [
+        "拓扑排序",
+        "枚举",
+        "组合计数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105170::H",
+          "reference": "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+          "sha256": "a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+          "sourcePageNumbers": [
+            47,
+            50,
+            53
+          ],
+          "sourceLogicalSlideNumbers": [
+            18,
+            19,
+            20
+          ],
+          "pageNumbering": "75 physical PDF pages; the last complete overlay for each logical slide is cited.",
+          "sourceProblemHeading": "H. Games on the Ads 2: Painting",
+          "sourceProblemTitle": "Games on the Ads 2: Painting",
+          "nativeProblemUrl": "https://codeforces.com/gym/105170/problem/H",
+          "sourceStatementMarkdownSha256": "2bc0b9afb252aab2a8b0b6af215ba758b309f46274b033b5ca1b961adfc3cb31",
+          "reasons": [
+            "每个格子的目标色约束行列刷子的先后；相同颜色的n对行列无约束，枚举其2^n种相对方向补成完全二部有向图。合法拓扑序按单侧零入度批次分层，答案为各批大小阶乘之积，O(2^n n^2)。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105170/problem/I": {
+      "problemIds": [
+        "remote:codeforces:105170::I"
+      ],
+      "url": "https://codeforces.com/gym/105170/problem/I",
+      "tags": [
+        "模拟"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105170::I",
+          "reference": "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+          "sha256": "a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+          "sourcePageNumbers": [
+            4
+          ],
+          "sourceLogicalSlideNumbers": [
+            3
+          ],
+          "pageNumbering": "75 physical PDF pages; the last complete overlay for each logical slide is cited.",
+          "sourceProblemHeading": "I. The Easiest Problem",
+          "sourceProblemTitle": "The Easiest Problem",
+          "nativeProblemUrl": "https://codeforces.com/gym/105170/problem/I",
+          "sourceStatementMarkdownSha256": "004e7a0572dc97338ffe01d71054f9ba82e93e9c6932dcf32592a8049e62b01e",
+          "reasons": [
+            "原题输入固定一句话，仅统计其中小写英文字母，出题组确认结果为21；可按字符判断或直接输出常数，无未知规模算法推断。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105170/problem/J": {
+      "problemIds": [
+        "remote:codeforces:105170::J"
+      ],
+      "url": "https://codeforces.com/gym/105170/problem/J",
+      "tags": [
+        "树形 DP",
+        "DFS 序",
+        "分块",
+        "凸包"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105170::J",
+          "reference": "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+          "sha256": "a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+          "sourcePageNumbers": [
+            71,
+            75
+          ],
+          "sourceLogicalSlideNumbers": [
+            26,
+            27
+          ],
+          "pageNumbering": "75 physical PDF pages; the last complete overlay for each logical slide is cited.",
+          "sourceProblemHeading": "J. Lone Trail",
+          "sourceProblemTitle": "Lone Trail",
+          "nativeProblemUrl": "https://codeforces.com/gym/105170/problem/J",
+          "sourceStatementMarkdownSha256": "3c9aa68ab51bd3d80ba701c536aa799b2bc702b5cc4702be2be3f87e50464fa9",
+          "reasons": [
+            "先换根DP把每个候选点的总带权距离写成关于日期的一次函数；相邻点转移增速只引起一个子树及其补集的系数平移。DFS序分块维护凸包，整块懒修改、散块重构；时间单调可用指针和归并把O(N sqrt N log N)降到O(N sqrt N)。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [
+            "末页标题误写Long Trail，原题及前页为Lone Trail，保留原ID与原题标题。复杂度N合指同阶的点数/操作数，不隐去读入成本。"
+          ],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105170/problem/K": {
+      "problemIds": [
+        "remote:codeforces:105170::K"
+      ],
+      "url": "https://codeforces.com/gym/105170/problem/K",
+      "tags": [
+        "后缀数组",
+        "最长公共前缀",
+        "周期性",
+        "枚举"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105170::K",
+          "reference": "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+          "sha256": "a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+          "sourcePageNumbers": [
+            66,
+            69
+          ],
+          "sourceLogicalSlideNumbers": [
+            24,
+            25
+          ],
+          "pageNumbering": "75 physical PDF pages; the last complete overlay for each logical slide is cited.",
+          "sourceProblemHeading": "K. String Divide II",
+          "sourceProblemTitle": "String Divide II",
+          "nativeProblemUrl": "https://codeforces.com/gym/105170/problem/K",
+          "sourceStatementMarkdownSha256": "f05fee3db2ecd2053bc2a973c72cdce8036901e6630eef9423921fa7e3cb71c9",
+          "reasons": [
+            "从大到小枚举周期len，按len对齐分块，连续k段相同直接可行，连续k-1段则用正反串LCP/LCS向左右扩展补足一个周期；各len合计O(n log n)锚点，后缀数组加RMQ支持扩展查询。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [
+            "物理第69页/逻辑第25页的l1+l2>=k阈值与长度单位不符；从(k-1)*len扩展至k*len需补足len，不照抄该阈值。SA+RMQ主解可O(n log n)，查询O(log n)替代版本为O(n log^2 n)。"
+          ],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105170/problem/L": {
+      "problemIds": [
+        "remote:codeforces:105170::L"
+      ],
+      "url": "https://codeforces.com/gym/105170/problem/L",
+      "tags": [
+        "贪心",
+        "二分答案",
+        "分类讨论"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105170::L",
+          "reference": "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+          "sha256": "a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+          "sourcePageNumbers": [
+            7,
+            9
+          ],
+          "sourceLogicalSlideNumbers": [
+            4,
+            5
+          ],
+          "pageNumbering": "75 physical PDF pages; the last complete overlay for each logical slide is cited.",
+          "sourceProblemHeading": "L. Recharge",
+          "sourceProblemTitle": "Recharge",
+          "nativeProblemUrl": "https://codeforces.com/gym/105170/problem/L",
+          "sourceStatementMarkdownSha256": "531a303add83e5eaaced33ae16f98abc08ddc94230bc43c1ac0616d62ea146b1",
+          "reasons": [
+            "k偶数时先放体积2物品再放1，可达总体积/k下取整；k奇数时二分背包数，在每个包尽量用体积2再补1，并核算不足一个1时的浪费，单询问O(log(x+y))。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "sourceCaveats": [],
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
     }
   },
   "excludedKeywordMatches": [
@@ -38730,6 +39229,7 @@
     "20261109-source-reviewed-metadata-followup",
     "20261109-xcpc-taoyuan-source-reviewed-metadata",
     "20261109-xcpc-qingdao-source-reviewed-metadata",
-    "20261109-xcpc-harbin-source-reviewed-metadata"
+    "20261109-xcpc-harbin-source-reviewed-metadata",
+    "20261109-xcpc-changchun-source-reviewed-metadata"
   ]
 }
