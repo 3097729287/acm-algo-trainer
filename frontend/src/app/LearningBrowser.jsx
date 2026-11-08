@@ -169,9 +169,9 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
   if(tab.kind==='problem'&&onFlush){
    const before=studySnapshot(current.current),after=studySnapshot(transition(current.current));
    const previous=before.tabs.find(item=>studyKey(item)===key)||before.documents?.[key],next=after.tabs.find(item=>studyKey(item)===key);
-   if((previous?.visit?.reviewId||null)!==(next?.visit?.reviewId||null)){
-    // A restored tab chooses a separate draft. Commit this scope before its
-    // editor appears, so an immediate refresh cannot reopen the prior draft.
+   if((!before.open&&after.open)||(previous?.visit?.reviewId||null)!==(next?.visit?.reviewId||null)){
+    // Commit reopening and draft-scope changes before displaying the editor.
+    // An immediate refresh must restore the same committed tab and context.
     const writes=[];window.dispatchEvent(new CustomEvent('tb:flush-study-problem',{detail:{ids:[tab.id],waitUntil:value=>writes.push(Promise.resolve(value))}}));
     const saved=await Promise.all(writes.map(value=>value.catch(()=>false)));
     if(ticket!==opening.current||owner!==loadedOwner.current)return;
