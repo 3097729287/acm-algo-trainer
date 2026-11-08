@@ -13,6 +13,7 @@ import sys
 import threading
 import zlib
 from contextlib import closing
+from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[1]
 os.environ['TB_OFFLINE'] = '1'
@@ -56,6 +57,14 @@ def patch_values(before, after, path=()):
                 yield from patch_values(before[key], value, (*path, key))
     elif before != after:
         yield {'path': list(path), 'value': after}
+
+
+def public_replay_events(store,assets,rows):
+    """Compile the current public roster logic without an account journal."""
+    from training import TrainingService
+    projection=SimpleNamespace(lock=store.lock,_library=lambda:rows,
+        _contest_candidates=lambda group,official=False:assets.candidates(group,official=official))
+    return TrainingService.replay_events(projection)
 
 
 def build(destination=None):
@@ -137,10 +146,11 @@ def build(destination=None):
                 except (ValueError,RuntimeError,OSError) as error:
                     db.execute('INSERT INTO problem_projections VALUES(?,?,?,?)',(identity,zlib.compress(b'[]'),zlib.compress(b'{}'),str(error)[:300]))
                 if index and index%3000==0:print(f'Compiled {index}/{len(rows)} problem projections',flush=True)
+            events=public_replay_events(store,assets,rows)
         finally:assets.close()
         metadata = {'format': 4, 'source': before, 'revision': revision, 'statuses': list(status_report.STATES),
                     'categories': store.categories(), 'lectureRevision': store.library.metadata().get('revision', '0'),
-                    'curationVersion': lecture_library.C.VERSION}
+                    'curationVersion': lecture_library.C.VERSION,'replayEvents':events}
         db.executemany('INSERT INTO metadata VALUES(?,?)', [(key, dump(value)) for key, value in metadata.items()])
         if db.execute('PRAGMA integrity_check').fetchone()[0] != 'ok':
             raise RuntimeError('Native catalogue integrity failed')

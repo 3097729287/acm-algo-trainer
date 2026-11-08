@@ -41,6 +41,8 @@ pub const NATIVE_ROUTES: &[(&str, &str)] = &[
     ("POST", "code/format"),
     ("POST", "workspace/ready"),
     ("GET", "data"),
+    ("GET", "data/export"),
+    ("GET", "contests/events"),
     ("GET", "workspace"),
     ("GET", "problem"),
     ("GET", "submissions"),
@@ -352,6 +354,7 @@ impl Service {
         if matches!(
             r.path.as_str(),
             "data"
+                | "contests/events"
                 | "workspace"
                 | "problem"
                 | "submissions"
@@ -408,6 +411,7 @@ impl Service {
                     }
                 }
                 ("GET", "workspace") => training.workspace(),
+                ("GET", "contests/events") => catalogue.replay_events(training.personal),
                 ("POST", "learning-summary/refresh" | "learning-summary/update") => {
                     let mut planner = Planner {
                         training,
@@ -563,6 +567,7 @@ impl Service {
                     learning::quiz(&self.quizzes, r.param("id").unwrap_or(""))
                 }
                 "usage" => usage::snapshot(&personal),
+                "data/export" => crate::journal_export::export(&personal, self.now()),
                 _ => Err(ApiError::missing("没有找到这个接口")),
             };
         }
@@ -616,6 +621,8 @@ impl Service {
                 } else if v["native"] == true {
                     v["status"] = json!(if [
                         "data",
+                        "data/export",
+                        "contests/events",
                         "workspace",
                         "problem",
                         "submission",

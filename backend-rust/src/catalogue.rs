@@ -242,6 +242,34 @@ impl Catalogue {
         lists.extend(crate::custom_lists::read(personal)?);
         Ok(json!({"lists":lists}))
     }
+
+    pub fn replay_events(&self, personal: &PersonalStore) -> Result<Value, ApiError> {
+        let private: bool = personal.db.query_row(
+            "SELECT EXISTS(SELECT 1 FROM account_problem_facts)",
+            [],
+            |row| row.get(0),
+        )?;
+        if private {
+            return Err(ApiError::pending());
+        }
+        let raw: Option<String> = self
+            .db
+            .query_row(
+                "SELECT value FROM metadata WHERE key='replayEvents'",
+                [],
+                |row| row.get(0),
+            )
+            .optional()?;
+        let value: Value = serde_json::from_str(&raw.ok_or_else(ApiError::pending)?)?;
+        if !value["events"].is_array() {
+            return Err(ApiError::new(
+                422,
+                "CATALOGUE_FORMAT",
+                "比赛目录数据格式异常",
+            ));
+        }
+        Ok(value)
+    }
 }
 fn decode(raw: &[u8]) -> Result<Value, ApiError> {
     let mut data = Vec::new();
