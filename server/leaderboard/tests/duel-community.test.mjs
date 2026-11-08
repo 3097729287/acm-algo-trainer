@@ -16,6 +16,9 @@ test('presence is authenticated, enum bounded, expires, and exposes only public 
   let result=await a.send('/v1/presence',{activity:'problem'});assert.equal(result.status,200);assert.equal(result.value.count,1);
   result=await b.send('/v1/presence',{activity:'replay'});assert.equal(result.value.count,2);assert.deepEqual(result.value.users.find(u=>u.userId===a.id),{userId:a.id,activity:'problem'});
   let board=(await b.send('/v1/leaderboard?period=total')).value;assert.equal(board.entries.find(u=>u.userId===a.id)?.activity,'problem');assert(!JSON.stringify(result.value).includes('token'));
+  result=await a.send('/v1/presence',{activity:'idle'});assert.equal(result.value.count,1);assert(!result.value.users.some(u=>u.userId===a.id));
+  board=(await b.send('/v1/leaderboard?period=total')).value;assert.equal(board.entries.find(u=>u.userId===a.id)?.online,false);assert.equal(board.entries.find(u=>u.userId===b.id)?.online,true);
+  result=await a.send('/v1/presence',{activity:'problem'});assert.equal(result.value.count,2);assert.equal(result.value.users.find(u=>u.userId===a.id)?.activity,'problem');
   f.env.TEST_NOW=start+90001;result=await b.send('/v1/presence',{activity:'lecture'});assert.equal(result.value.count,1);assert.equal(result.value.users[0].activity,'lecture');
   await a.send('/v1/presence',{activity:'lab'});await a.send('/v1/accounts/logout',{});result=await b.send('/v1/presence',{activity:'lab'});assert.equal(result.value.count,1,'A revoked session is offline immediately');
  }finally{await f.close();}

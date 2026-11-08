@@ -10,6 +10,7 @@ from pathlib import Path
 import re
 import sqlite3
 import threading
+import time
 import uuid
 from urllib.parse import urlsplit
 from urllib.error import HTTPError
@@ -189,11 +190,15 @@ class SoftwareUpdates:
         self.repairing = False
         self.status, self.error, self.checked_at = "idle", "", None
         self.downloaded = 0
+        self.download_started = None
+        self.download_initial = 0
         self.started = False
         self.automatic = False
 
     def snapshot(self):
         with self.lock:
+            elapsed=max(0,time.monotonic()-self.download_started) if self.download_started is not None else 0
+            rate=int(max(0,self.downloaded-self.download_initial)/elapsed) if elapsed and self.status=='downloading' else 0
             return {"currentVersion": self.current, "status": self.status, "autoCheck": self.auto_check,
                     "startupCheckRequired": True, "automatic": self.automatic,
                     "channel": "domestic" if self.feed == DOMESTIC_FEED else "github",
@@ -203,7 +208,8 @@ class SoftwareUpdates:
                     "updateKind": self.release.get("kind") if self.release else "delta",
                     "releaseUrl": self.release["releaseUrl"] if self.release else DOMESTIC_ROOT + '/stable/index.html' if self.feed == DOMESTIC_FEED else RELEASES,
                     "notes": self.release["notes"] if self.release else "",
-                    "downloadedBytes": self.downloaded, "totalBytes": self.release["size"] if self.release else 0}
+                    "downloadedBytes": self.downloaded, "totalBytes": self.release["size"] if self.release else 0,
+                    "downloadRateBytesPerSecond":rate,"downloadElapsedSeconds":int(elapsed) if self.status=='downloading' else 0}
 
     def configure(self, body):
         from training import ServiceError
@@ -242,11 +248,12 @@ class SoftwareUpdates:
                     last_check = now
         self._spawn(automatic)
 
-    def _open(self, url):
+    def _open(self, url, *, headers=None):
         if not trusted_url(url):
             raise ValueError("更新地址无效")
         request = Request(url, headers={"User-Agent": "TB/" + self.current + " updater",
-                                        "Accept": "application/vnd.github+json" if url == FEED else "application/octet-stream"})
+                                        "Accept": "application/vnd.github+json" if url == FEED else "application/octet-stream",
+                                        "Accept-Encoding":"identity",**(headers or {})})
         try:
             return self.opener.open(request, timeout=12 if url == DOMESTIC_FEED else 30)
         except HTTPError as error:
@@ -327,6 +334,7 @@ class SoftwareUpdates:
             if not self.release:
                 raise ServiceError(409, "请先检查可用更新")
             self.status, self.error, self.downloaded = "downloading", "", 0
+            self.download_started,self.download_initial=time.monotonic(),0
             self.error_code,self.deferred_reason='',''
             self.installer = None
             self._spawn(self._download)
@@ -350,36 +358,66 @@ class SoftwareUpdates:
             from update_backups import require_space
             from update_backups import ordinary
             occupied=sum(p.stat().st_size for p in directory.iterdir() if p.is_file() and ordinary(p))
-            if occupied+release['size']>MAX_DOWNLOAD_CACHE:
+            metadata=pending.with_name(pending.name+'.json')
+            expected={key:release[key] for key in ('url','size','sha256')}
+            resumable=False
+            if pending.exists():
+                if not ordinary(pending) or not pending.is_file():raise ValueError('更新缓存路径无效')
+                try:resumable=json.loads(metadata.read_text('utf-8'))==expected and pending.stat().st_size<=release['size']
+                except (OSError,ValueError):pass
+                if not resumable:
+                    pending.replace(pending.with_name(pending.name+'.failed-'+uuid.uuid4().hex))
+            size=pending.stat().st_size if resumable else 0
+            if occupied+release['size']-size>MAX_DOWNLOAD_CACHE:
                 raise UpdateStorageError('更新下载缓存已达上限，已暂停下载')
             if len(list(directory.glob(pending.name+'.failed-*')))>=2:
                 raise UpdateStorageError('下载失败文件已达保留上限，原文件保留，更新已暂停')
-            require_space(directory,release['size'])
+            require_space(directory,release['size']-size)
             partial=pending
-            digest = hashlib.sha256()
-            size = 0
-            with self._open(release["url"]) as response, partial.open("wb") as output:
-                while True:
-                    if self.stop.is_set():
-                        raise RuntimeError("closed")
-                    block = response.read(1024 * 1024)
-                    if not block:
-                        break
-                    size += len(block)
-                    if size > release["size"]:
-                        raise ValueError("更新包大小不匹配，已停止下载")
-                    require_space(directory,0)
-                    digest.update(block)
-                    output.write(block)
-                    with self.lock:
-                        self.downloaded = size
+            if metadata.exists() and not ordinary(metadata):raise ValueError('更新缓存校验路径无效')
+            metadata.write_text(json.dumps(expected,sort_keys=True)+'\n',encoding='utf-8')
+            with self.lock:self.downloaded=self.download_initial=size
+            for attempt in range(3):
+                digest=hashlib.sha256()
+                if size:
+                    with partial.open('rb') as previous:
+                        while block:=previous.read(1024*1024):digest.update(block)
+                if size==release['size']:break
+                try:
+                    with self._open(release['url'],headers={'Range':f'bytes={size}-'} if size else None) as response:
+                        status=getattr(response,'status',200)
+                        if status==206:
+                            if (getattr(response,'headers',{}) or {}).get('Content-Range')!=f'bytes {size}-{release["size"]-1}/{release["size"]}':
+                                raise ValueError('增量下载范围不匹配，已停止下载')
+                        elif status==200:
+                            size=0;digest=hashlib.sha256()
+                            with self.lock:self.downloaded=self.download_initial=0
+                        else:raise ValueError('更新下载响应无效')
+                        with partial.open('ab' if size else 'wb') as output:
+                            read=getattr(response,'read1',response.read)
+                            while True:
+                                if self.stop.is_set():raise RuntimeError('closed')
+                                block=read(64*1024)
+                                if not block:break
+                                size+=len(block)
+                                if size>release['size']:raise ValueError('更新包大小不匹配，已停止下载')
+                                require_space(directory,0);digest.update(block);output.write(block)
+                                with self.lock:self.downloaded=size
+                    if size!=release['size']:
+                        if (getattr(response,'headers',{}) or {}).get('Content-Length'):raise OSError('下载连接提前关闭')
+                        raise ValueError('更新包校验失败，请重新下载')
+                    break
+                except (OSError,HTTPError):
+                    size=partial.stat().st_size if partial.exists() else 0
+                    with self.lock:self.downloaded=size
+                    if attempt==2 or self.stop.is_set():raise
             if size != release["size"] or digest.hexdigest() != release["sha256"]:
                 raise ValueError("更新包校验失败，请重新下载")
             partial.replace(destination)
             with self.lock:
                 self.installer, self.status = destination, "ready"
         except Exception as error:
-            if partial and partial.exists():
+            if isinstance(error,ValueError) and not isinstance(error,UpdateStorageError) and partial and partial.exists():
                 # Retain rejected bytes for diagnosis; ordinary retirement uses
                 # the Windows Recycle Bin instead of permanent deletion.
                 try:partial.replace(partial.with_name(partial.name+'.failed-'+uuid.uuid4().hex))

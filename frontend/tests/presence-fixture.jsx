@@ -16,7 +16,8 @@ async function api(path,body){
  if(path==='presence'){
   if(controls.fail)throw new Error('Fixture offline');
   if(controls.hold===owner)return new Promise(resolve=>controls.pending.push(resolve));
-  return {owner,available:true,serverNow:Date.now(),count:owner===ids[1]?2:5,users};
+  const active=body.activity==='idle'?users.filter(user=>user.userId!==owner):users;
+  return {owner,available:true,serverNow:Date.now(),count:owner===ids[1]?2:active.length,users:active};
  }
  if(path.startsWith('leaderboard?'))return {configured:true,status:'ready',hasSnapshot:true,period:new URL('http://fixture/'+path).searchParams.get('period'),date:new Date(Date.now()+8*3600000).toISOString().slice(0,10),entries,self:entries.find(row=>row.userId===owner)};
  if(path.startsWith('duel/board?'))return {owner,mode:new URL('http://fixture/'+path).searchParams.get('mode'),date:'2026-11-04',entries,records:[{id:'record-1',finishedAt:Date.now(),winner:ids[0],players:[{userId:ids[0],nickname:'甲',rating:1000,change:20},{userId:ids[1],nickname:'乙',rating:1000,change:-20}]}],next:null};
