@@ -58,6 +58,7 @@ try{
    for(const picture of await statement.locator('img[src]:not([src=""])').all()){
     await picture.scrollIntoViewIfNeeded();await picture.evaluate(image=>image.decode());
     assert(await picture.evaluate(image=>image.complete&&image.naturalWidth>0),row.originalId+' original image');images++;
+    await picture.screenshot({path:path.join(path.dirname(output),row.originalId.replaceAll(':','_')+'-image-'+images+'.png')});
    }
    for(const anchor of await statement.locator('a[download]').all()){
     const href=await anchor.getAttribute('href'),variants=[href];

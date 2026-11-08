@@ -3,9 +3,11 @@ import argparse
 from collections import Counter
 import copy
 import hashlib
+import io
 import json
 from pathlib import Path
 import sys
+import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'backend'),str(ROOT/'backend/common')]
@@ -37,6 +39,32 @@ def revive(meta,incoming):
     meta.update(statementAvailable=True,problemType=kind,catalogStatementReady=True,
                 catalogReplayReady=native_submission_supported(incoming['url']) and kind not in {'communication','output-only','attachment'})
     return True
+
+
+def assert_samples_preserved(old,incoming,proof,source=SOURCE):
+    """Only an exact, archived ZIP may replace a literal attachment placeholder."""
+    pairs=lambda s:Counter((' '.join(x['input'].split()),' '.join(x['output'].split())) for x in (s or {}).get('samples',[]))
+    missing=pairs(old)-pairs(incoming)
+    for replacement in proof.get('attachmentSampleReplacements',[]):
+        marker=replacement['oldSample']
+        assert marker=={'input':'见附件','output':'见附件'},'Only the source attachment placeholder may be replaced'
+        pair=('见附件','见附件')
+        assert missing[pair]>0,'Replacement must match an existing omitted placeholder'
+        digest=replacement['attachmentSha256']
+        assert len(digest)==64 and all(c in '0123456789abcdef' for c in digest)
+        attachment=next(a for a in incoming.get('attachments',{}).values() if a.get('sha256')==digest)
+        assert attachment['mime']=='application/zip'
+        raw=(source/'statement-assets'/(digest+'.bin')).read_bytes()
+        assert hashlib.sha256(raw).hexdigest()==digest
+        with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+            files=[replacement['inputFile'],replacement['outputFile']]
+            assert all(archive.namelist().count(name)==1 and archive.getinfo(name).file_size<=32*1024*1024 for name in files)
+            values=[archive.read(name) for name in files]
+        for kind,value in zip(('input','output'),values):
+            assert hashlib.sha256(value).hexdigest()==replacement[kind+'Sha256']
+        assert any(sample['input']==values[0].decode('utf8') and sample['output']==values[1].decode('utf8') for sample in incoming['samples'])
+        missing[pair]-=1
+    assert not +missing,'An existing sample would be lost without a verified attachment replacement'
 
 
 def main(review=REVIEW,patch=PATCH,statements_only=False,register_existing=False):
@@ -82,8 +110,7 @@ def main(review=REVIEW,patch=PATCH,statements_only=False,register_existing=False
         assert proof['originalDescriptionReviewed'] and content_complete(incoming) and not japanese_only(incoming['markdown'])
         assert references(incoming)<=known and len(incoming['samples'])==proof['samples']
         old=current.get(identity)
-        pairs=lambda s:Counter((' '.join(x['input'].split()),' '.join(x['output'].split())) for x in (s or {}).get('samples',[]))
-        assert not pairs(old)-pairs(incoming),identity+' would lose an existing sample'
+        assert_samples_preserved(old,incoming,proof)
         incoming['integrity']['reviewedRecoveryRecordSha256']=checksum(record['content'])
         if old:incoming['previousSourceStatement']=copy.deepcopy(old)
         patches.append({'problem_id':identity,'beforeSha256':checksum(old),'content':incoming})

@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import Workbench from '../src/app/Workbench.jsx';
 import {StudyPaneContext} from '../src/lib/StudyPane.jsx';
+import 'katex/dist/katex.min.css';
 const style=document.createElement('style');
 style.textContent=':root{--panel:white;--panel-2:#f5f5f5;--text:#222;--line:#ddd;--muted:#666;--accent:#198}*{box-sizing:border-box}body{margin:0}#root{height:100dvh}';
 document.head.append(style);
