@@ -1,0 +1,436 @@
+{
+  "revision": "20261109-native-foundation-followup",
+  "problems": [
+    {
+      "id": "luogu-training-B3678",
+      "tags": [
+        "一维数组",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3679",
+      "tags": [
+        "结构体",
+        "枚举"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3685",
+      "tags": [
+        "顺序执行",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3686",
+      "tags": [
+        "条件分支",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3687",
+      "tags": [
+        "循环语句"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3688",
+      "tags": [
+        "一维数组",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3689",
+      "tags": [
+        "枚举",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3690",
+      "tags": [
+        "字符串基础",
+        "构造"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3696",
+      "tags": [
+        "顺序执行",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3697",
+      "tags": [
+        "条件分支",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3698",
+      "tags": [
+        "循环语句",
+        "条件分支"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3699",
+      "tags": [
+        "字符串基础",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3700",
+      "tags": [
+        "循环语句"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3701",
+      "tags": [
+        "一维数组"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3702",
+      "tags": [
+        "结构体",
+        "二维数组",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3703",
+      "tags": [
+        "字符串基础"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3706",
+      "tags": [
+        "顺序执行"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3707",
+      "tags": [
+        "条件分支"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3708",
+      "tags": [
+        "整数运算",
+        "分类讨论"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3709",
+      "tags": [
+        "构造",
+        "循环语句"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3711",
+      "tags": [
+        "枚举",
+        "字符串基础"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3712",
+      "tags": [
+        "枚举",
+        "哈希表"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3713",
+      "tags": [
+        "字符串基础",
+        "条件分支"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3719",
+      "tags": [
+        "条件分支",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3720",
+      "tags": [
+        "条件分支",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3721",
+      "tags": [
+        "模拟",
+        "循环语句"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3722",
+      "tags": [
+        "一维数组",
+        "前缀和"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3723",
+      "tags": [
+        "一维数组",
+        "枚举",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3724",
+      "tags": [
+        "二维数组",
+        "枚举",
+        "前缀和"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3725",
+      "tags": [
+        "一维数组",
+        "分治",
+        "递归"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3726",
+      "tags": [
+        "字符串基础",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3741",
+      "tags": [
+        "条件分支",
+        "字符串基础"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3742",
+      "tags": [
+        "模拟",
+        "一维数组"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3743",
+      "tags": [
+        "循环语句",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3744",
+      "tags": [
+        "循环语句",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3745",
+      "tags": [
+        "一维数组",
+        "枚举",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3746",
+      "tags": [
+        "一维数组",
+        "枚举",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3748",
+      "tags": [
+        "二维数组",
+        "字符串基础"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3762",
+      "tags": [
+        "顺序执行",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3763",
+      "tags": [
+        "条件分支",
+        "循环语句"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3764",
+      "tags": [
+        "循环语句",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3765",
+      "tags": [
+        "BFS",
+        "一维数组"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3766",
+      "tags": [
+        "一维数组",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    }
+  ],
+  "privateStateReadOrWritten": false
+}

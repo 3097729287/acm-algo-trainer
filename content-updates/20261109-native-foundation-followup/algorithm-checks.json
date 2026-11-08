@@ -1,0 +1,21 @@
+{
+  "B3712_friendEnemyWedgesVsDirectTripleCondition": {
+    "deterministicGraphs": 1920,
+    "nRange": [
+      2,
+      9
+    ]
+  },
+  "B3748_exactCharacterCountsVsActualStrings": {
+    "validMergeOrCompareSteps": 22500,
+    "initialCases": 750
+  },
+  "B3764_cancelledProductVsFactorialDivision": {
+    "allNChecked": [
+      0,
+      34
+    ],
+    "unsigned64BoundaryConfirmed": true,
+    "maximum": 12665319741525701250
+  }
+}

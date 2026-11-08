@@ -3126,6 +3126,23 @@
         }
       ],
       "scope": "Only exact statement-reviewed problem IDs are mapped; no global alias for broad native introductory labels."
+    },
+    {
+      "name": "结构体",
+      "category": "基础技巧",
+      "aliases": [],
+      "definition": "把同一对象的坐标、属性或下一位置等成员保存在记录中；与数据结构大类不同。",
+      "sources": [
+        "data/library/lectures.json#lecture:foundation-structures"
+      ],
+      "learningEvidence": [
+        {
+          "lectureId": "lecture:foundation-structures",
+          "reference": "data/library/lectures.json#lecture:foundation-structures",
+          "markdownSha256": "17d0be01831a51d62783136d942d4e745b516083bf4a767395d62ed4942cd5e9"
+        }
+      ],
+      "scope": "Only exact statement-reviewed problem IDs are mapped; no global alias for broad native introductory labels."
     }
   ]
 }

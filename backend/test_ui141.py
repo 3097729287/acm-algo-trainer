@@ -167,9 +167,11 @@ class ReviewedKnowledgeTests(unittest.TestCase):
                                     self.assertIn(mapping['canonicalTag'],expected)
                             else:
                                 body=problem.get('contenu') or problem['content']
-                                self.assertEqual(set(source['reviewedNativeTextSha256']),{'description','formatI','formatO','hint'})
+                                fields={'description','formatI','formatO','hint'}
+                                if source.get('nativeBackgroundRequired'):fields.add('background')
+                                self.assertEqual(set(source['reviewedNativeTextSha256']),fields)
                                 for field,digest in source['reviewedNativeTextSha256'].items():
-                                    self.assertEqual(hashlib.sha256(body.get(field,'').encode()).hexdigest(),digest)
+                                    self.assertEqual(hashlib.sha256((body.get(field) or '').encode()).hexdigest(),digest)
                                 self.assertEqual(matches[0]['tags'],source['statementReviewedTags'])
                                 self.assertTrue(source['fullStatementAndConstraintsReviewed'])
                                 self.assertFalse(source['fullImplementationRetested'])
@@ -178,7 +180,9 @@ class ReviewedKnowledgeTests(unittest.TestCase):
                                     self.assertEqual(lesson['reference'],'data/library/lectures.json#'+lesson['lectureId'])
                                     self.assertEqual(lessons[lesson['lectureId']],(True,lesson['markdownSha256']))
                                 for picture in source.get('reviewedNativeImages',[]):
-                                    self.assertIn(picture['sourceUrl'],body['description'])
+                                    field=picture.get('sourceField','description')
+                                    self.assertIn(field,{'description','hint','background'})
+                                    self.assertIn(picture['sourceUrl'],body[field])
                                     self.assertTrue(picture['visuallyReviewed'])
                                     image_asset=assets[picture['sha256']]
                                     self.assertEqual(image_asset['mime'],picture['mime'])
