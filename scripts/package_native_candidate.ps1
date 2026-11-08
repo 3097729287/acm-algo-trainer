@@ -46,6 +46,12 @@ if (@($endpointConfig.PSObject.Properties.Name).Count -ne 1 -or @($endpointConfi
 $endpointUri = [Uri]$endpointConfig.endpoint
 if (-not $endpointUri.IsAbsoluteUri -or $endpointUri.Scheme -notin @('http','https') -or $endpointUri.UserInfo -or $endpointUri.Query -or $endpointUri.Fragment) { throw 'Native public asset endpoint must be an absolute public HTTP(S) URL without credentials, query or fragment.' }
 foreach ($item in $members.Values) { if (-not (Test-Path -LiteralPath $item -PathType Leaf)) { throw "Missing candidate member: $item" } }
+$commit = git -C $sourceRoot rev-parse HEAD
+if ($BinarySourceCommit) {
+    if ($BinarySourceCommit -notmatch '^[a-f0-9]{40}$') { throw 'Invalid native binary source commit.' }
+    $changedInputs = git -C $sourceRoot diff --name-only $BinarySourceCommit HEAD
+    if ($LASTEXITCODE -ne 0 -or @($changedInputs | Where-Object { $_ -notmatch '^(docs/|scripts/package_native_candidate\.ps1$)' }).Count) { throw 'Native binary source differs from runtime inputs; rebuild before packaging.' }
+} else { $BinarySourceCommit = $commit }
 New-Item -ItemType Directory -Path $targetRoot | Out-Null
 $manifest = @()
 foreach ($entry in $members.GetEnumerator()) {
@@ -57,12 +63,6 @@ foreach ($entry in $members.GetEnumerator()) {
     if ($sourceHash -ne $targetHash) { throw "Candidate copy verification failed: $($entry.Key)" }
     $manifest += [ordered]@{ path=$entry.Key.Replace('\','/'); bytes=(Get-Item -LiteralPath $target).Length; sha256=$targetHash }
 }
-$commit = git -C $sourceRoot rev-parse HEAD
-if ($BinarySourceCommit) {
-    if ($BinarySourceCommit -notmatch '^[a-f0-9]{40}$') { throw 'Invalid native binary source commit.' }
-    $changedInputs = git -C $sourceRoot diff --name-only $BinarySourceCommit HEAD
-    if ($LASTEXITCODE -ne 0 -or @($changedInputs | Where-Object { $_ -notmatch '^(docs/|scripts/package_native_candidate\.ps1$)' }).Count) { throw 'Native binary source differs from runtime inputs; rebuild before packaging.' }
-} else { $BinarySourceCommit = $commit }
 $info = [ordered]@{
     version='2.0.0-alpha.3'; status='native-local-test'; releaseReady=$false
     createdAt=[DateTime]::UtcNow.ToString('o'); sourceCommit=$commit; nativeBuildSourceCommit=$BinarySourceCommit; sourceRoot=$sourceRoot
