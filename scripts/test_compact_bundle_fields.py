@@ -1,5 +1,5 @@
 """A public-field builder may produce an ordinary binary patch with zero fields."""
-import hashlib,json,sqlite3,sys,tempfile,unittest,zipfile
+import hashlib,json,sys,tempfile,unittest,zipfile
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'scripts'),str(ROOT/'desktop'),str(ROOT/'backend')]

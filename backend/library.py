@@ -662,8 +662,13 @@ class LibraryDatabase:
             db.executemany('INSERT OR REPLACE INTO detailed_solutions (problem_id,markdown,source_path,images,digest) VALUES (?,?,?,?,?)',
                            [(s['problem_id'], s['markdown'], s['source_path'], json.dumps(s['images'], ensure_ascii=False),
                              hashlib.sha256(s['markdown'].encode()).hexdigest()) for s in detailed_solutions])
-            db.executemany('INSERT OR REPLACE INTO statements (problem_id,content) VALUES (?,?)',
-                           [(st['problem_id'], json.dumps(st['content'], ensure_ascii=False)) for st in statements])
+            from statement_asset_store import dehydrate
+            def statement_rows():
+                for item in statements:
+                    portable=dehydrate(item['content'],lambda sha,mime,data:db.execute(
+                        'INSERT OR IGNORE INTO statement_assets VALUES (?,?,?)',(sha,mime,data)))
+                    yield item['problem_id'],json.dumps(portable,ensure_ascii=False)
+            db.executemany('INSERT OR REPLACE INTO statements (problem_id,content) VALUES (?,?)',statement_rows())
             db.executemany('INSERT OR REPLACE INTO lectures (id,content,digest) VALUES (?,?,?)',
                            [(lecture['id'], json.dumps(lecture['content'], ensure_ascii=False),
                              hashlib.sha256(lecture['content']['markdown'].encode()).hexdigest()) for lecture in lectures])
