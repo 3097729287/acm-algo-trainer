@@ -1,0 +1,42 @@
+{
+  "id": "nowcoder-global::124167",
+  "title": "Meeting",
+  "url": "https://ac.nowcoder.com/acm/problem/124167",
+  "markdown": "# Meeting\n\n## 题目描述\n\n有n个地点，若两点同属第i个集合，就能以t_i分钟从其中任一点到另一个点。两位朋友分别从1号、n号地点同时出发，可等待，求最早会合时间以及全部最优会合地点。会合只能发生在原地点。\n\n## 输入描述\n\n首行T（1≤T≤6）。每组给n、m，2≤n≤10^5；接着m行先给t_i、集合大小S_i，再列出成员地点。1≤t_i≤10^9，所有S_i之和不超过10^6。\n\n## 输出描述\n\n按样例输出Case #x: time，下一行升序列出全部最优地点；无法会合时输出Case #x: Evil John。\n\n[原始PDF题面](https://uploadfiles.nowcoder.com/voj/media/23d24fbf023bc7d0ec783d4e07eff031.pdf)",
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "2\n5 4\n1 3 1 2 3\n2 2 3 4\n10 2 1 5\n3 3 3 4 5\n3 1\n1 2 1 2",
+      "output": "Case #1: 3\n3 4\nCase #2: Evil John"
+    }
+  ],
+  "limits": {
+    "timeMs": 3000,
+    "memoryMb": 0
+  },
+  "statementAvailable": true,
+  "statementVersion": 8,
+  "problemType": "standard",
+  "localJudgeSupported": true,
+  "images": {},
+  "attachments": {},
+  "resourceManifest": {},
+  "resourceIssues": [],
+  "integrity": {
+    "schema": 1,
+    "sourceVerified": true,
+    "status": "complete",
+    "sampleCount": 1,
+    "pdfPageCountVerified": true,
+    "pdfPageCount": 1,
+    "checkedAt": "2026-11-08"
+  },
+  "sourceHtmlSha256": "e727f6685b4b2442cdc85edfb510f1d6f4b83fa65dcabb95d48bbf51315be69a",
+  "sourcePdfUrl": "https://uploadfiles.nowcoder.com/voj/media/23d24fbf023bc7d0ec783d4e07eff031.pdf",
+  "sourcePdfSha256": "c981eb2d1d22d6735e55fa31df86f59621382818d7714d455ff8450492be4ac0",
+  "sourceRepair": {
+    "reason": "Original iframe PDF was missed and a loading-menu placeholder was imported.",
+    "beforeMarkdownSha256": "9e106e2658e23496664b5770bcd97ca51228b0150c0a0249f43e50c74c2d132b",
+    "restatementLanguage": "zh-CN"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "nowcoder-global::124063",
+  "title": "Defeat the Enemy",
+  "url": "https://ac.nowcoder.com/acm/problem/124063",
+  "markdown": "# Defeat the Enemy\n\n## 题目描述\n\n我方n支部队和敌方m个村落各有攻击力、防御力。每支我军至多出战一次，每个敌村至多受一支我军攻击。双方同时攻击，防御力不大于对方攻击力的一方阵亡。必须消灭全部敌军，最大化我方战后存活总数，包括未出战部队。\n\n## 输入描述\n\n首行T（1≤T≤100）。每组先给n、m，各不超过10^5，接着n行我军、m行敌军，每行先攻击、后防御，数值为1到10^9。\n\n## 输出描述\n\n每组输出Case #x: y，y为最多存活数；不能消灭全部敌军时为-1。\n\n[原始PDF题面](https://uploadfiles.nowcoder.com/voj/media/3a1c9996d95baf77f8a0e102146ae747.pdf)",
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "2\n3 2\n5 7\n7 3\n1 2\n4 4\n2 2\n2 1\n3 4\n1 10\n5 6",
+      "output": "Case #1: 3\nCase #2: -1"
+    }
+  ],
+  "limits": {
+    "timeMs": 3000,
+    "memoryMb": 0
+  },
+  "statementAvailable": true,
+  "statementVersion": 8,
+  "problemType": "standard",
+  "localJudgeSupported": true,
+  "images": {},
+  "attachments": {},
+  "resourceManifest": {},
+  "resourceIssues": [],
+  "integrity": {
+    "schema": 1,
+    "sourceVerified": true,
+    "status": "complete",
+    "sampleCount": 1,
+    "pdfPageCountVerified": true,
+    "pdfPageCount": 1,
+    "checkedAt": "2026-11-08"
+  },
+  "sourceHtmlSha256": "e53118647789721b1d64c558a166464dfe57d99c0ba02ec4d275b205ac17b5fb",
+  "sourcePdfUrl": "https://uploadfiles.nowcoder.com/voj/media/3a1c9996d95baf77f8a0e102146ae747.pdf",
+  "sourcePdfSha256": "424026dafd65a8aebbbf57e7e836f0659330ba3a4dfc30c2dd9827a1d3be9f45",
+  "sourceRepair": {
+    "reason": "Original iframe PDF was missed and a loading-menu placeholder was imported.",
+    "beforeMarkdownSha256": "a94bd88a434511e70efb68667a98ae8cf2c28d8f27de2b6c1f243983fb7567e7",
+    "restatementLanguage": "zh-CN"
+  }
+}

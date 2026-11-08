@@ -1,0 +1,47 @@
+"""Exact polar sweeps and angular intervals with explicit endpoint conventions."""
+from nowcoder_editorials import CONTENT,add,read
+from nowcoder_geometry_support import INTEGER,GEOMETRY
+
+
+def run():
+    existing=read(CONTENT/'reviewed.json')
+    def put(n,*args,**kwargs):
+        if f'nowcoder-global::{n}' not in existing:add(n,*args,**kwargs)
+    put(232533,2300,['角度扫描','加权区间覆盖'],'一条钻井直线穿过水平油层，最大总宽度。',
+        '最优非水平直线可平移到某层端点而不损失已穿过的层，枚举2n个端点P。用“水平位移/竖直位移”作为无向直线斜率参数，每个不同高度油层对应一个闭参数区间，两端为(x0−Px)/(y−Py)、(x1−Px)/(y−Py)，权重是油层宽。求所有闭区间的最大覆盖权值，再加P所在层宽。\n\n同高的其他油层与非水平井不可能同时经过，直接忽略。事件比较用有理数交叉乘，分母统一为正；相同参数先加后减，保证端点接触也计入。',
+        r'''int n;cin >> n;struct Layer{long long l,r,y;};vector<Layer> layer(n);for(auto &a:layer){cin >> a.l >> a.r >> a.y;if(a.l>a.r)swap(a.l,a.r);}struct Event{long long numerator,denominator,delta;};long long answer=0;for(int pivot=0;pivot<n;pivot++)for(long long px:{layer[pivot].l,layer[pivot].r}){long long py=layer[pivot].y;vector<Event> event;for(int i=0;i<n;i++)if(layer[i].y!=py){long long denominator=layer[i].y-py,a=layer[i].l-px,b=layer[i].r-px;if(denominator<0){denominator=-denominator;a=-a;b=-b;}if(a>b)swap(a,b);long long weight=layer[i].r-layer[i].l;event.push_back({a,denominator,weight});event.push_back({b,denominator,-weight});}sort(event.begin(),event.end(),[](auto a,auto b){__int128 x=(__int128)a.numerator*b.denominator,y=(__int128)b.numerator*a.denominator;return x!=y?x<y:a.delta>b.delta;});long long current=layer[pivot].r-layer[pivot].l;answer=max(answer,current);for(auto e:event){current+=e.delta;answer=max(answer,current);}}cout << answer;''',
+        '水平井不能从地表下钻到地下同高油层，样例2不能把两条同高不相交层相加。零宽点层权为0。',
+        complexity=r'时间 $O(n²\log n)$，空间 $O(n)$。')
+    put(232543,2300,['极角排序','叉积前缀和'],'求所有三点三角形面积总和。',
+        '固定顶点P，将其余向量极角排序。对每个向量v，用双指针找到逆时针半周内的全部向量w，使cross(v,w)≥0（同方向零叉积无影响，反方向端点不计）。这些叉积之和等于cross(v,Σw)，用向量前缀和常数计算。\n\n每个非共线无序向量对恰按正叉积方向计一次。每个三角形又会在三个顶点各贡献一次“二倍面积”，所以全部累计除3得到二倍面积总和，再按整数或半整数输出一位小数。128位累加防止三角形数量放大总量。',
+        r'''int n;cin >> n;vector<IPoint> p(n);for(auto &a:p)cin >> a.x >> a.y;Wide total=0;for(int origin=0;origin<n;origin++){vector<IPoint> v;for(int i=0;i<n;i++)if(i!=origin && (p[i].x!=p[origin].x || p[i].y!=p[origin].y))v.push_back(p[i]-p[origin]);sort(v.begin(),v.end(),angleLess);int m=v.size();for(int i=0;i<m;i++)v.push_back(v[i]);vector<IPoint> prefix(v.size()+1);for(int i=0;i<(int)v.size();i++)prefix[i+1]=prefix[i]+v[i];int right=1;for(int i=0;i<m;i++){right=max(right,i+1);while(right<i+m && (cross(v[i],v[right])>0 || (right<m && cross(v[i],v[right])==0 && dot(v[i],v[right])>0)))right++;total+=cross(v[i],prefix[right]-prefix[i+1]);}}Wide twice=total/3;printWide(twice/2);cout << (twice%2?".5":".0");''',
+        '不能直接把正有向面积当全体面积，必须覆盖每个顶点的全极角并去三重计数。共线三点贡献0。',
+        declarations=INTEGER,complexity=r'时间 $O(n²\log n)$，空间 $O(n)$。')
+    put(53264,2300,['极角排序','公切线计数'],'每个三角形含三色，统计彼此完全不相交的无序三角形对。',
+        '两个不相交凸三角形恰有两条内公切线，每条线各经过两个三角形的一个顶点，且两个三角形位于其两侧。固定有向线P→Q，先令P所属三角形其余两顶点在左侧、Q所属三角形其余两顶点在右侧；按颜色计数，方案数是左侧除P颜色外两种数量之积，乘右侧除Q颜色外两种数量之积。再加上左右互换的另一种情况。\n\n对每个P极角排序Q，用半周双指针维护严格左侧三色数量，右侧由总数减去左侧和P、Q得到。累计有向线两侧方案后除4：每对三角形有两条内公切线，每条又被两个方向各统计一次。无三点共线保证切线不重合、其余点不会落在线上。',
+        r'''int n;cin >> n;vector<IPoint> p(n);vector<int> color(n);array<long long,3> total={};for(int i=0;i<n;i++){cin >> p[i].x >> p[i].y >> color[i];total[color[i]]++;}Wide answer=0;for(int origin=0;origin<n;origin++){struct V{IPoint direction;int color;};vector<V> v;for(int i=0;i<n;i++)if(i!=origin)v.push_back({p[i]-p[origin],color[i]});sort(v.begin(),v.end(),[](auto a,auto b){return angleLess(a.direction,b.direction);});int m=v.size();for(int i=0;i<m;i++)v.push_back(v[i]);array<long long,3> left={};int right=1;for(int i=0;i<m;i++){right=max(right,i+1);while(right<i+m && cross(v[i].direction,v[right].direction)>0){left[v[right].color]++;right++;}auto other=total;other[color[origin]]--;other[v[i].color]--;for(int c=0;c<3;c++)other[c]-=left[c];Wide ways=1,reverseWays=1;for(int c=0;c<3;c++){if(c!=color[origin]){ways*=left[c];reverseWays*=other[c];}if(c!=v[i].color){ways*=other[c];reverseWays*=left[c];}}answer+=ways+reverseWays;if(i+1<right)left[v[i+1].color]--;}}printWide(answer/4);''',
+        '两个三角形的6个点必须互不相同，P、Q都从左右计数中扣除。这里统计分离公切线，交叉或包含的三角形不会贡献。',
+        declarations=INTEGER,complexity=r'时间 $O(n²\log n)$，空间 $O(n)$。')
+    put(232804,2300,['极角排序','双指针','锐角三角形'],'多组统计锐角三角形，允许三点共线。',
+        '所有三点组C(n,3)，减去直角、钝角及退化三角形。非退化三角形最多一个≥90°角，所以按顶点统计角度在[90°,180°)的向量对，每个坏三角形恰减一次。共线三点则只在中间点有180°角，额外统计相反方向向量对一次。\n\n极角排序并复制一圈，用三个单调指针分出<90°、<180°、=180°区间。叉积确定是否在正半周，点积≤0确定≥90°，相反向量叉积0且点积负。180°会按两个方向计算，累计除2。',
+        r'''int n;while(cin >> n){vector<IPoint> p(n);for(auto &a:p)cin >> a.x >> a.y;long long bad=0,opposite=0;for(int origin=0;origin<n;origin++){vector<IPoint> v;for(int i=0;i<n;i++)if(i!=origin)v.push_back(p[i]-p[origin]);sort(v.begin(),v.end(),angleLess);int m=v.size();for(int i=0;i<m;i++)v.push_back(v[i]);int ninety=1,straight=1,after=1;for(int i=0;i<m;i++){straight=max(straight,i+1);while(straight<i+m && (cross(v[i],v[straight])>0 || (straight<m && cross(v[i],v[straight])==0 && dot(v[i],v[straight])>0)))straight++;ninety=max(ninety,i+1);while(ninety<straight && dot(v[i],v[ninety])>0)ninety++;bad+=straight-ninety;after=max(after,straight);while(after<i+m && cross(v[i],v[after])==0 && dot(v[i],v[after])<0)after++;opposite+=after-straight;}}cout << 1LL*n*(n-1)*(n-2)/6-bad-opposite/2 << '\n';}''',
+        '直角也不算锐角，点积为0要减去。共线退化三角形不能漏减或按两个方向减两次。',
+        declarations=INTEGER,complexity=r'每组时间 $O(n²\log n)$，空间 $O(n)$。')
+    put(232843,2200,['半平面覆盖','极角排序'],'用直线分两种分子到不同侧，线上的两种都可溶解，最大正确分类数。',
+        '最优分界线可平移至经过一个粒子而不损失已溶解粒子，枚举该枢轴。把另一种颜色的相对向量反向，则“颜色0在一侧、颜色1在另一侧”统一成所有向量落在同一闭半平面。极角排序，双指针找角跨度≤π的最多向量，再加枢轴同坐标粒子数。\n\n闭半平面允许两条反向边界射线，正好体现分界线上的所有粒子都溶解。',
+        r'''int n;const long double pi=acosl(-1.0L);while(cin >> n && n){vector<Point> p(n);vector<int> color(n);for(int i=0;i<n;i++)cin >> p[i].x >> p[i].y >> color[i];int answer=0;for(int origin=0;origin<n;origin++){vector<long double> angle;int same=0;for(int i=0;i<n;i++){Point v=p[i]-p[origin];if(v.x==0 && v.y==0){same++;continue;}if(color[i])v=v*(-1);angle.push_back(atan2l(v.y,v.x));}sort(angle.begin(),angle.end());int m=angle.size();for(int i=0;i<m;i++)angle.push_back(angle[i]+2*pi);answer=max(answer,same);int right=0;for(int left=0;left<m;left++){right=max(right,left);while(right<left+m && angle[right]-angle[left]<=pi+1e-15L)right++;answer=max(answer,same+right-left);}}cout << answer << '\n';}''',
+        '同一坐标粒子在枢轴上都计入，包括不同颜色。向量反向依据粒子自身颜色，不依赖枢轴颜色。',
+        declarations=GEOMETRY,complexity=r'每组时间 $O(n²\log n)$，空间 $O(n)$。')
+    put(232544,2300,['角度区间扫描','带宽直线'],'固定宽度无限条带最多覆盖点数，n至3000。',
+        '最优条带可平移到一侧边界经过某点P。用朝条带内部的单位法向量方向θ描述，其他点相对向量长度r、极角φ，入带条件为0≤r*cos(θ−φ)≤t。\n\nr≤t时允许θ区间为[φ−π/2,φ+π/2]；r>t时分成[φ−π/2,φ−acos(t/r)]与[φ+acos(t/r),φ+π/2]。将跨2π区间拆开，扫描所有进入、离开事件取最大覆盖数，再加P。端点闭合，进入先于离开。t=0且无三点共线时直接答案2。',
+        r'''int n;long double width;cin >> n >> width;vector<Point> p(n);for(auto &a:p)cin >> a.x >> a.y;if(width==0){cout << 2;return 0;}const long double pi=acosl(-1.0L),period=2*pi;int answer=2;for(int origin=0;origin<n;origin++){vector<pair<long double,int>> event;auto add=[&](long double l,long double r){while(l<0){l+=period;r+=period;}while(l>=period){l-=period;r-=period;}if(r<=period){event.push_back({l,1});event.push_back({r,-1});}else{event.push_back({l,1});event.push_back({period,-1});event.push_back({0,1});event.push_back({r-period,-1});}};for(int i=0;i<n;i++)if(i!=origin){Point v=p[i]-p[origin];long double r=norm(v),a=atan2l(v.y,v.x);if(r<=width)add(a-pi/2,a+pi/2);else{long double offset=acosl(min(1.0L,width/r));add(a-pi/2,a-offset);add(a+offset,a+pi/2);}}sort(event.begin(),event.end(),[](auto a,auto b){return a.first!=b.first?a.first<b.first:a.second>b.second;});int current=1;for(auto [angle,delta]:event){current+=delta;answer=max(answer,current);}}cout << answer;''',
+        't是整个条带宽，不是半径，不能误用2t。题目保证宽度增减0.01不改变答案，可使用long double区间端点。',
+        declarations=GEOMETRY,complexity=r'时间 $O(n²\log n)$，空间 $O(n)$。')
+    put(232892,2300,['角度划分','概率','投影排序'],'随机旋转后按x差找最近点，求各返回点概率。',
+        '固定查询点i，对候选j的投影距离为|(Pj−Pi)·u(θ)|，θ均匀。两个候选j、k优劣改变，只可能发生在绝对投影相等，即(Pj−Pk)·u=0或(Pj+Pk−2Pi)·u=0。把这些事件角及0、π排序，因绝对投影以π为周期，只分析[0,π]。\n\n每相邻事件之间候选顺序不变，取中点扫描全部候选，找投影差最小者，把该角区间长度/π加到对应概率。若候选关于i中心对称，它们恒相等，按编号较小者选择；零向量方程不产生事件。',
+        r'''int n;cin >> n;vector<Point> p(n);for(auto &a:p)cin >> a.x >> a.y;const long double pi=acosl(-1.0L);vector<vector<long double>> probability(n,vector<long double>(n));for(int i=0;i<n;i++){vector<long double> event={0,pi};auto add=[&](Point v){if(v.x==0 && v.y==0)return;long double a=atan2l(v.y,v.x)+pi/2;a=fmodl(a,pi);if(a<0)a+=pi;event.push_back(a);};for(int j=0;j<n;j++)if(j!=i)for(int k=j+1;k<n;k++)if(k!=i){add(p[j]-p[k]);add(p[j]+p[k]-p[i]*2);}sort(event.begin(),event.end());for(int t=1;t<(int)event.size();t++){long double width=event[t]-event[t-1];if(width<=1e-18L)continue;long double angle=(event[t]+event[t-1])/2;Point direction={cosl(angle),sinl(angle)};long double best=1e100L;int winner=-1;for(int j=0;j<n;j++)if(j!=i){long double value=fabsl(dot(p[j]-p[i],direction));if(value<best-1e-12L){best=value;winner=j;}}probability[i][winner]+=width/pi;}}cout << fixed << setprecision(12);for(auto &row:probability)for(int j=0;j<n;j++)cout << row[j] << (j+1==n?'\n':' ');''',
+        '比较的是投影差，不是欧氏距离。事件本身只有零测度，但恒相等的候选必须按最小编号处理。',
+        declarations=GEOMETRY,floating_output=True,complexity=r'时间 $O(n⁴+n³\log n)$，空间 $O(n²)$，n≤50。')
+
+
+if __name__=='__main__':run()
