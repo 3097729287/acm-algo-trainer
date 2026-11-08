@@ -164,17 +164,17 @@ def contest_clips():
  c.frame('占用三后，3 又指向 4；旧的 1→3 链仍可继续追到下一空格。',locker_board,{'parent':parent,'occupied':sorted(occupied),'pos':pos,'answer':answer})
  assert answer==120 and pos==3;clips.append(c.check('6 4\n10 20 30 40 50 60\n6 1 4 6\n','120 3\n'))
 
- c=Clip('invader-history-query','ARC 231::A','三事件例子：先查询历史，再插入本轮剑状态','历史位置和记账值同时影响下一次选择；不能只保留上一次事件。','官方第一例的事件',500)
+ c=Clip('invader-history-query','ARC 231::A','三事件例子：先查询历史，再插入本轮剑状态','历史位置和记账值同时影响下一次选择；不能只保留上一次事件。','官方第一例的事件',540)
  events=[(0,4,28),(2,9,11),(4,5,26)];history=[(0,0,0,0)];prefix=0;best=0
  for index,(x,y,z) in enumerate(events,1):
   candidates=[(g+(x-a)**2+(y-b)**2,j) for a,b,g,j in history];value,previous=min(candidates);g=value-z;prefix+=z;best=min(best,g)
   def draw(f):
-   points={0:(115,355),1:(115,235),2:(375,85),3:(635,205)};edges=[(previous,index,'平方距离 '+str((x-events[previous-1][0])**2+(y-events[previous-1][1])**2) if previous else '平方距离 '+str(x*x+y*y))]
+   points={0:(115,325),1:(115,225),2:(375,85),3:(635,205)};edges=[(previous,index,'平方距离 '+str((x-events[previous-1][0])**2+(y-events[previous-1][1])**2) if previous else '平方距离 '+str(x*x+y*y))]
    f.graph(points,edges,active=[index,previous],directed=True)
    for node,(px,py) in points.items():
-    coords=[(0,0),(0,4),(2,9),(4,5)][node];f.text(px+31,py+7,f'({coords[0]},{coords[1]})',GRAY,size=18)
-   f.row([item[2] for item in history]+[g],385,'g 历史/新',{len(history):GREEN},True,0)
-   f.note(475,f'本轮 g={g}；真实本轮剑费用 P+g={prefix}+({g})={prefix+g}。',GREEN,size=19)
+    coords=[(0,0),(0,4),(2,9),(4,5)][node];f.text(px-36 if node in [0,1] else px+31,py+7,f'({coords[0]},{coords[1]})',GRAY,size=18,anchor='end' if node in [0,1] else 'start')
+   f.row([item[2] for item in history]+[g],405,'g 历史/新',{len(history):GREEN},True,0)
+   f.note(505,f'本轮 g={g}；真实本轮剑费用 P+g={prefix}+({g})={prefix+g}。',GREEN,size=19)
   c.frame(f'事件 {index} 先查询旧历史，最优前驱是 {previous}，算出 g={g}；之后才允许插入这个新状态。',draw,{'index':index,'history':[list(v) for v in history],'newG':g,'previous':previous,'prefix':prefix,'realSwordCost':prefix+g})
   history.append((x,y,g,index))
  assert prefix+best==44;clips.append(c.check('1\n3\n0 4 28\n2 9 11\n4 5 26\n','44\n'))

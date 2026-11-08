@@ -613,6 +613,7 @@ function KnowledgeTree({
 const foundationListState=()=>({curriculumVersion:1,mode:'algorithm',folder:['01 编程基础'],trail:[],sections:[],flat:false,query:'',page:1});
 
 export default function App() {
+  const globalSearchInput=useRef(null),globalSearchResults=useRef(null),searchReturn=useRef(null);
   const [finishAnchor,setFinishAnchor] = useState(null);
   const [clearTrainingAnchor,setClearTrainingAnchor] = useState(null);
   const [prefs, setPrefs] = useState(readPreferences),
@@ -650,7 +651,14 @@ export default function App() {
   const [learningBrowserActive,setLearningBrowserActive]=useState(false),[learningTabCount,setLearningTabCount]=useState(0);
   const [studyProblemId,setStudyProblemId]=useState(null);
   const [studyContent,setStudyContent]=useState(null);
-  const learningBrowserChanged=useCallback((open,count,kind,id)=>{setLearningBrowserActive(open);setLearningTabCount(count);setStudyActivity(kind||null);setStudyProblemId(open&&kind==='problem'?id:null);setStudyContent(open?{kind,id}:null);},[]);
+  const learningBrowserChanged=useCallback((open,count,kind,id)=>{
+    setLearningBrowserActive(open);setLearningTabCount(count);setStudyActivity(kind||null);setStudyProblemId(open&&kind==='problem'?id:null);setStudyContent(open?{kind,id}:null);
+    if(open&&searchReturn.current)searchReturn.current.opened=true;
+    if(!open&&searchReturn.current?.opened){
+      const returning=searchReturn.current;searchReturn.current=null;
+      requestAnimationFrame(()=>{const input=globalSearchInput.current;if(input?.value===returning.query){input.focus({preventScroll:true});input.setSelectionRange(input.value.length,input.value.length);}});
+    }
+  },[]);
   const openLearning=useCallback(tab=>learningBrowserRef.current?.open(tab),[]);
   const labVisit = useRef({leftAt:null,scrollTop:0});
   const templatesVisit=useRef({});
@@ -721,7 +729,7 @@ export default function App() {
   const presence=usePresence(api,data&&account?.userId,currentActivity({page,practice:practiceId,studyKind:learningBrowserActive?studyActivity:null,contest:workspace?.activeContest,duel:duel?.state,thought:thought?.state}));
   const learningSummary=useLearningSummary(api,account?.userId||'local',Boolean(data&&!loading),Boolean(learningBrowserActive||practiceId||readerId||['lectures','paths','templates','wiki'].includes(page)||workspace.activeContest));
   const [taskView,setTaskView]=useState(undefined),[globalQuery,setGlobalQuery]=useState('');
-  useEffect(()=>{setGlobalQuery('');},[account?.userId]);
+  useEffect(()=>{setGlobalQuery('');searchReturn.current=null;},[account?.userId]);
   useEffect(()=>{const group=PAGE_GROUPS[page];if(!group||!preferencesLoaded.current)return;setPrefs(previous=>previous.learningPaths?.pageBookmarkActive?.[group]===page?previous:{...previous,learningPaths:{...previous.learningPaths,pageBookmarkActive:{...previous.learningPaths?.pageBookmarkActive,[group]:page}}});},[page,account?.userId]);
   const [backgroundPickerOpen,setBackgroundPickerOpen]=useState(false),[cardPacksOpen,setCardPacksOpen]=useState(false);
   const backgroundInventory=useBackgroundInventory(api,account?.userId||'local',!loading);
@@ -2219,7 +2227,7 @@ export default function App() {
       <main className="main-area">
         <header ref={topbarRef} className={"topbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>
           <div className="topbar-leading"><div id="tb-page-bookmarks" className="topbar-bookmark-slot"/><div id="tb-page-location" className="page-location-slot"/>
-          <div id="tb-page-search" className="topbar-search-slot" data-unified="true"><WorkspaceSearchInput value={globalQuery} onChange={setGlobalQuery}/></div></div>
+          <div id="tb-page-search" className="topbar-search-slot" data-unified="true"><WorkspaceSearchInput value={globalQuery} onChange={setGlobalQuery} inputRef={globalSearchInput} onSubmit={()=>globalSearchResults.current?.openFirst()}/></div></div>
           <div className="topbar-trailing">{!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} contentReady={Boolean(data&&!loading)} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} onActionsChange={updateRecommendationItems} adoptedSummary={navigationSummary} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
           <div className="topbar-actions">{learningTabCount>0&&<button type="button" className="icon-button" aria-label="返回学习标签页" title="返回学习标签页" onClick={()=>learningBrowserRef.current?.resume()}><BookOpen size={18}/></button>}
             <PracticeStreak days={insights?.summary?.streak??summary.streak??0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
@@ -2257,7 +2265,7 @@ export default function App() {
         {!practiceId && !LEARNING_PAGES.includes(page) && !TRAINING_PAGES.includes(page) && mergedPages.length > 1 && <PageBookmarks><TopPageTabs items={mergedPages} group={currentPage?.group} activeId={page} onActivate={go} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/></PageBookmarks>}
         <div data-page={practiceId ? "practice" : page} data-global-search={Boolean(globalQuery.trim())} className={"workspace-area " + (practiceId ? "practicing" : "")} style={{ '--page-opacity': `var(--opacity-${practiceId ? 'mock' : page}, var(--panel-opacity))` }}>
           <TaskContinuation owner={account?.userId||'local'} snapshot={learningSummary.snapshot} training={workspace.training} actions={recommendationSnapshot.owner===account?.userId?recommendationSnapshot.items:[]} content={studyContent||((practiceId||studyProblemId)?{kind:'problem',id:practiceId||studyProblemId}:null)} update={learningSummary.update} onOpen={openRecommendation} suspended={Boolean(active||loading)} insideStudy={learningBrowserActive}/>
-          {globalQuery.trim()&&!loading&&<WorkspaceSearchResults key={account?.userId||'local'} query={globalQuery} api={api} owner={account?.userId||'local'} rows={rows} onClose={()=>setGlobalQuery('')} onOpen={item=>{setGlobalQuery('');if(item.kind==='problem')void openPractice(item.id);else openLearning(item);}}/>}
+          {globalQuery.trim()&&!loading&&<WorkspaceSearchResults ref={globalSearchResults} key={account?.userId||'local'} query={globalQuery} api={api} owner={account?.userId||'local'} rows={rows} onClose={()=>setGlobalQuery('')} onOpen={item=>{if(busy)return;searchReturn.current={query:globalQuery,opened:false};if(item.kind==='problem')void openPractice(item.id);else openLearning(item);}}/>}
           <Suspense fallback={<div className="loading-screen" role="status"><LoaderCircle size={27} className="spin" /><p>正在载入</p></div>}>
           {loading ? (
             <div className="loading-screen">

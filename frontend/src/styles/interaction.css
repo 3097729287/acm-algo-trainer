@@ -30,9 +30,8 @@ html .tb-workbench .wb-save-toast {top:54px;right:18px;bottom:auto;left:auto;tra
 html .modal :is(.progress-achievements,.daily-task-list) {background:transparent;}
 html .modal :is(.progress-achievement,.daily-task) {background:var(--panel);}
 html .tb-workbench .wb-templates-modal {--panel:color-mix(in srgb,var(--panel-base) var(--opacity-template-picker,var(--opacity-popups,var(--panel-opacity,76%))),transparent);--panel-2:var(--panel);background:var(--panel);}
-html .initial-code-picker {--panel:color-mix(in srgb,var(--panel-base) var(--opacity-template-picker,var(--opacity-popups,var(--panel-opacity,76%))),transparent);--panel-2:var(--panel);background:var(--panel);}
 html .initial-code-settings {--panel:color-mix(in srgb,var(--panel-base) var(--opacity-initial-code,var(--panel-opacity,76%)),transparent);--panel-2:var(--panel);background:var(--panel);}
-html .initial-code-picker :is(.cm-editor,.cm-gutters),html .initial-code-settings :is(.cm-editor,.cm-gutters) {background:transparent;}
+html .initial-code-settings :is(.cm-editor,.cm-gutters) {background:transparent;}
 html .verdict {box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;min-width:3.2em;white-space:nowrap;font-family:Consolas,'Cascadia Code',monospace;letter-spacing:.06em;}
 html[data-editor-theme]:not([data-editor-theme=auto]) .code-editor:not([data-editor-theme]) {--editor-background:var(--theme-background);--editor-foreground:var(--theme-foreground);--editor-gutter:var(--theme-gutter);--editor-selection:var(--theme-selection);--editor-accent:var(--theme-accent);--editor-active-line:var(--theme-active-line);--editor-line:var(--theme-line);--editor-popup:var(--theme-popup);--editor-shift:var(--theme-shift);--editor-cursor-spectrum:var(--theme-cursor-spectrum);--code-keyword:var(--theme-keyword);--code-type:var(--theme-type);--code-string:var(--theme-string);--code-number:var(--theme-number);--code-comment:var(--theme-comment);--code-function:var(--theme-function);--code-meta:var(--theme-meta);--code-operator:var(--theme-operator);}
 html .code-editor {--editor-surface:color-mix(in srgb,var(--editor-background,var(--panel-base)) var(--editor-alpha,var(--opacity-editor,var(--panel-opacity,76%))),transparent);}
@@ -70,5 +69,5 @@ html .tb-workbench .wb-top-both>.wb-merged-header {padding-right:4px;}
 html .tb-workbench .wb-top-both>.wb-editor-header {padding-left:4px;}
 html .tb-workbench .wb-top-toolbar {--wb-control-height:32px;}
 html .tb-workbench .wb-top-toolbar .wb-statement-actions {gap:3px;}
-html .tb-workbench .wb-top-toolbar :is(.tb-select,.wb-language-toggle button,.initial-code-trigger) {line-height:1.4;white-space:nowrap;flex-shrink:0;}
+html .tb-workbench .wb-top-toolbar :is(.tb-select,.wb-language-toggle button) {line-height:1.4;white-space:nowrap;flex-shrink:0;}
 html .tb-workbench .wb-font-controls .bounded-number {align-items:baseline;}

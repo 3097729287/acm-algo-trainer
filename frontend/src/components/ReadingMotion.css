@@ -7,6 +7,11 @@
 .reading-motion-controls button:focus-visible,.reading-motion-controls input:focus-visible{outline:2px solid var(--accent,#2874b5);outline-offset:2px}
 .reading-motion-controls input{flex:1 1 130px;width:130px;min-width:30px;max-width:240px;margin:0 5px;accent-color:var(--accent,#2874b5);cursor:pointer}
 .reading-motion-count{flex:0 0 auto;min-width:46px;text-align:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+.reading-motion-controls .reading-motion-speed{flex:0 0 auto;width:auto;min-width:48px;max-width:66px;padding:3px 0;border:0!important;background:var(--panel,#1a2029);color:var(--accent,#2874b5);font:inherit;cursor:pointer;border-radius:4px}
+.reading-motion-speed:focus-visible{outline:2px solid var(--accent,#2874b5);outline-offset:2px}
+.reading-motion-scene{display:block;width:auto;height:auto;max-width:100%;max-height:min(42dvh,400px);margin:auto;background:white;pointer-events:none}
+.reading-image-full .reading-motion-scene{width:min(840px,90vw);height:auto;max-height:none}
+@media(max-width:480px){.reading-motion-controls{gap:2px}.reading-motion-controls button{padding:4px}.reading-motion-controls input{margin-inline:2px}.reading-motion-count{min-width:40px}.reading-motion-controls .reading-motion-speed{min-width:44px}}
 .reading-motion-caption{display:block;max-width:850px;margin:5px auto 0;text-align:left;color:var(--text,#243449);font-size:.92em;line-height:1.6;overflow-wrap:anywhere}
 .reading-motion-expanded-controls{display:block;min-width:0;max-width:850px;margin:8px 16px 12px}
 .reading-motion-expanded-controls .reading-motion-caption{font-size:14px}

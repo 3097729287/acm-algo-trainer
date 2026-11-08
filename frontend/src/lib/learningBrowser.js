@@ -1,5 +1,6 @@
 // Navigation lives in the existing account-owned SQLite preferences document.
 // Code continues to use the workbench's draft store, never this tab manifest.
+import {problemSearchCodes} from './problemSearchCodes.js';
 export const STUDY_KINDS = ['problem','solution','wiki','template','lab','lecture','panel'];
 export const MAX_STUDY_TABS=64;
 export const STUDY_LABELS = {mine:'我的训练',problem:'题目',solution:'题解',wiki:'维基百科',template:'模板',lab:'实验室',lecture:'从零讲'};
@@ -199,8 +200,9 @@ export function buildLearningIndex({rows=[],trainingRows=[],templates=[],lecture
  for(const item of lectures)add('lecture',item,(item.displayTitle||item.concept||item.title||'').replace(/^从零讲[：:]\s*/,''),`${item.title||''} ${(item.tags||[]).join(' ')} ${item.category||''}`);
  const training=new Map(trainingRows.map(item=>[item.id,item])),known=new Set(rows.map(item=>item.id));
  for(const item of [...rows,...trainingRows.filter(item=>!known.has(item.id))]){
-  const tags=(item.tags||item.knowledge||[]),extra=`${item.platform||''} ${item.contest||item.contestName||''} ${item.code||''} ${Array.isArray(tags)?tags.map(tag=>typeof tag==='string'?tag:tag.name).join(' '):''} ${(item.categories||[]).map(tag=>typeof tag==='string'?tag:tag.name).join(' ')}`;
+  const codes=problemSearchCodes(item),tags=(item.tags||item.knowledge||[]),extra=`${item.platform||''} ${item.contest||item.contestName||''} ${codes.join(' ')} ${Array.isArray(tags)?tags.map(tag=>typeof tag==='string'?tag:tag.name).join(' '):''} ${(item.categories||[]).map(tag=>typeof tag==='string'?tag:tag.name).join(' ')}`;
   const entry=add('problem',item,item.title,extra);
+  if(entry)entry.problemCodes=codes;
   if(entry&&training.has(item.id)){const {trainingGroup,trainingLabel,trainingOrder}=training.get(item.id);Object.assign(entry,{trainingGroup,trainingLabel,trainingOrder});}
  }
  return result;

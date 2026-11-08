@@ -26,6 +26,10 @@ class Board(Figure):
    if units+cost>limit and line:self.text(x,y,line,color,size);line='';units=0;y+=29
    line+=char;units+=cost
   if line:self.text(x,y,line,color,size)
+ def label(self,x,y,text,color=INK,size=18):
+  width=sum(1 if ord(char)>255 else .61 for char in str(text))*size+16
+  self.parts.append(f'<rect x="{x-width/2:.1f}" y="{y-size-3:.1f}" width="{width:.1f}" height="{size+10}" rx="4" fill="#fff"/>')
+  self.text(x,y,text,color,size,anchor='middle')
  def graph(self,points,edges,active=(),special=None,labels=None,directed=False):
   special=special or {};labels=labels or {}
   for edge in edges:
@@ -37,21 +41,21 @@ class Board(Figure):
     angle=math.atan2(v-y,u-x);tip=[(u,v)]+[(u-11*math.cos(angle+t),v-11*math.sin(angle+t)) for t in [-.5,.5]]
     self.parts.append('<polygon points="'+' '.join(f'{p:.1f},{q:.1f}' for p,q in tip)+'" fill="'+color+'"/>')
    label=edge[2] if len(edge)>2 else ''
-   if label!='':self.text((x+u)/2-dy/length*15,(y+v)/2+dx/length*15,label,color,size=18,anchor='middle')
+   if label!='':self.label((x+u)/2-dy/length*24,(y+v)/2+dx/length*24,label,color,size=18)
   for node,(x,y) in points.items():self.circle(x,y,labels.get(node,node),GREEN if node in active else BLUE,radius=22)
  def svg(self):return '\n'.join(self.parts+['</g></svg>'])+'\n'
 
 class Clip:
  def __init__(self,key,pid,title,reason,after='',height=440):
   self.key,self.pid,self.title,self.reason,self.after,self.height=key,pid,title,reason,after,height
-  self.steps=[];self.input=None;self.expected=None
+  self.steps=[];self.input=None;self.expected=None;self.scene=None
  def frame(self,caption,draw,facts=None,duration=2100):
   board=Board(self.title,self.height);draw(board)
   svg=board.svg()
   self.steps.append({'caption':caption,'image':PREFIX+base64.b64encode(svg.encode()).decode(),'duration':duration,'facts':deepcopy(facts or {})})
   return self
  def check(self,input,expected):self.input,self.expected=input,expected;return self
- def model(self):return {'version':1,'title':self.title,'steps':self.steps}
+ def model(self):return {'version':1,'title':self.title,'steps':self.steps,**({'scene':self.scene} if self.scene else {})}
  def export(self,directory):
   assert 2<=len(self.steps)<=48,self.key
   total=sum(s['duration'] for s in self.steps);elapsed=0;times=[]
@@ -64,6 +68,10 @@ class Clip:
    body.append(f'<g class="motion-state state-{i}" opacity="{1 if i==0 else 0}"><animate attributeName="opacity" values="'+ ';'.join(values)+'" keyTimes="'+';'.join(f'{t:.7f}' for t in times)+f'" dur="{total/1000:g}s" calcMode="discrete" repeatCount="indefinite"/>'+inside+'</g>')
   document=f'<svg xmlns="http://www.w3.org/2000/svg" width="840" height="{self.height}" viewBox="0 0 840 {self.height}" role="img"><title>{escape(self.title)}</title>'
   document+='<metadata id="tb-editorial-motion">'+escape(json.dumps(self.model(),ensure_ascii=False,separators=(',',':')))+'</metadata>'
-  document+='<style>@media(prefers-reduced-motion:reduce){.motion-state{opacity:0!important}.state-0{opacity:1!important}}</style>'+''.join(body)+'</svg>\n'
+  if self.scene:
+   from editorial_motion_svg import animated_scene
+   document+=animated_scene(self.scene,self.steps)
+  else:document+='<style>@media(prefers-reduced-motion:reduce){.motion-state{opacity:0!important}.state-0{opacity:1!important}}</style>'+''.join(body)
+  document+='</svg>\n'
   path=directory/(self.key+'.svg');path.parent.mkdir(parents=True,exist_ok=True);path.write_text(document,encoding='utf8',newline='\n')
   return path

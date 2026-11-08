@@ -1,0 +1,85 @@
+{
+  "ok": true,
+  "ui": {
+    "ok": true,
+    "checks": [
+      "Double-click replaces and saves; single-click leaves the solution intact",
+      "The existing restore action recovers the original solution",
+      "An intentionally empty buffer can be restored",
+      "Enter provides the same explicit activation",
+      "Only the current language is counted and its saved starter is loaded",
+      "A starter edited elsewhere is loaded from the latest server response",
+      "Multiple starters retain normal dropdown selection",
+      "Repeated activation is bounded; errors keep code intact and can be retried",
+      "A late selection response cannot replace the next problem buffer",
+      "Locked problems do not apply a starter",
+      "Settings preserves its unsaved starter edits"
+    ],
+    "errors": []
+  },
+  "cleanup": {
+    "ok": true,
+    "scope": "Initial-code template entry",
+    "removedUnusedExports": [
+      "InitialCodeButton",
+      "InitialCodePicker (old modal)"
+    ],
+    "removedUnusedImports": [
+      "createPortal",
+      "old modal icons",
+      "CodeEditor from picker module"
+    ],
+    "obsoleteStylesRemoved": true,
+    "activeConsumersPreserved": [
+      "Workbench InitialCodeSelect",
+      "InitialCodeSettings InitialCodeSelect"
+    ],
+    "remainingObsoleteReferences": 0,
+    "personalDataTouched": false,
+    "historyRetainedInGit": true
+  },
+  "build": "npm run build passed",
+  "legacyToolbarRegression": {
+    "status": "blocked by guide-icon expectation before template checks",
+    "expectedIcons": 9,
+    "actualIcons": 19,
+    "templateChecksCoveredByDedicatedSuite": true
+  },
+  "integration": [
+    {
+      "workspace": "tb-complete-20261108",
+      "files": [
+        "frontend/src/components/InitialCodePicker.jsx",
+        "frontend/src/components/InitialCode.css",
+        "frontend/src/app/Workbench.css",
+        "frontend/src/styles/interaction.css"
+      ],
+      "otherSourcePreserved": true,
+      "latestTemplateResponseApplied": true
+    },
+    {
+      "workspace": "tb-core7-complete-20261108",
+      "files": [
+        "frontend/src/components/InitialCodePicker.jsx",
+        "frontend/src/components/InitialCode.css",
+        "frontend/src/app/Workbench.css",
+        "frontend/src/styles/interaction.css"
+      ],
+      "otherSourcePreserved": true,
+      "latestTemplateResponseApplied": true
+    },
+    {
+      "workspace": "tb-tauri-rust",
+      "files": [
+        "frontend/src/components/InitialCodePicker.jsx",
+        "frontend/src/components/InitialCode.css",
+        "frontend/src/app/Workbench.css",
+        "frontend/src/styles/interaction.css"
+      ],
+      "otherSourcePreserved": true,
+      "latestTemplateResponseApplied": true
+    }
+  ],
+  "backendAndLibraryUnchanged": true,
+  "publicRelease": false
+}
