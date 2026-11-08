@@ -1,0 +1,221 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105544::C",
+      "beforeSha256": "014396f868494e1a1b1bdbdc3a46d7ff3d6e82155679f7b6d11a39766af9954b",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "data": "tb-asset:7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "fileName": "gym-105544.pdf",
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "id": "remote:codeforces:105544::C",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:56:29.256824+00:00",
+          "corpusAuditVerifiedSha256": "701b15f1262e5371d02515b0e103fab5e73b49d1c4d90c31ec26eff5708d4c04",
+          "pdfPageCountVerified": true,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Where the Lantern Lights are Dimming\n\nProblem PC\r\nWhere the Lantern Lights are Dimming\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe Lantern Festival features many lanterns on display. In the darkness of the night, they cast\r\nbeautiful shadows and reflections, attracting numerous visitors to come and go. With so many\r\nlanterns on display simultaneously, it’s impossible to showcase the unique features of each. As\r\nsuch, the organizers switch on the lights of some lanterns while turning off others in rotation.\r\nAt any given time, some lanterns are illuminated while others rest. Additionally, some lanterns\r\nremain perpetually off due to malfunctions, missing their chance to dazzle.\r\nTo engage the visitors in the Lantern Festival, the organizers also hold a scoring event. If a\r\nvisitor is very satisfied with the festival, they will receive a pack of stickers worth 3 points\r\neach, and they will affix one 3-point sticker to each lantern on display. If they feel satisfied,\r\nthey will receive a pack of 1-point stickers and place one on each displaying lantern. If they are\r\ndisappointed with the festival, they will get a pack of -2 point stickers and apply one to each\r\ndisplaying lantern. In other words, those lanterns that are resting and not illuminated won’t\r\nhave an opportunity to receive any stickers from this visitor. After the festival ends, please\r\nhelp write a program to calculate the total points from all the stickers on the lanterns.\r\nInput Format\r\nThe input begins with a line containing two integers, 𝑛 and 𝑚. The next 𝑛 lines describe the\r\ninitial state of 𝑛 lanterns, numbered from 0 to 𝑛 − 1. Each of these lines contains two integers:\r\n𝑠𝑖 and 𝑝𝑖\r\n. 𝑠𝑖 represents the state of the lantern:\r\n 1 if the 𝑖-th lantern is initially on,\r\n 0 if it is off,\r\n -1 if it is out of order (meaning it is perpetually off and cannot be turned on)\r\n𝑝𝑖\r\nindicates the total points from stickers that are already on the 𝑖-th lantern.\r\nThe following 𝑚 lines represent 𝑚 events given in chronological order, each corresponding to\r\none of two even types: switching or scoring.\r\n Lines beginning with the letter W signify a switching event. They have two subsequent\r\nintegers, 𝑙𝑗 and 𝑟𝑗\r\n, which imply that the state of lanterns numbered in the range [𝑙𝑗\r\n, 𝑟𝑗\r\n]\r\n(inclusive) will be toggled.\r\n1\n\n Lines beginning with the letter C denote a scoring event by a visitor. These lines have\r\na single subsequent integer, 𝑞𝑗 ∈ {−2, 1, 3}, indicating the sticker score assigned by the\r\nvisitor. Every lantern currently on display receives a sticker with 𝑞𝑗 points from the\r\nvisitor.\r\nOutput Format\r\nOutput a single integer that is the total points from all the lanterns after the festival.\r\nTechnical Specification\r\n 1 ≤ 𝑛 ≤ 1, 000, 000\r\n 1 ≤ 𝑚 ≤ 1, 000, 000\r\n 𝑠𝑖 ∈ {−1, 0, 1}\r\n −10, 000 ≤ 𝑝𝑖 ≤ 10, 000\r\n 0 ≤ 𝑙𝑗 ≤ 𝑟𝑗 < 𝑛\r\n 𝑞𝑗 ∈ {−2, 1, 3}\r\nSample Input 1\r\n3 3\r\n0 0\r\n0 0\r\n0 0\r\nW 0 2\r\nW 1 1\r\nC 3\r\nSample Output 1\r\n6\r\nSample Input 2\r\n5 5\r\n1 5\r\n0 0\r\n-1 2\r\n1 0\r\n0 -2\r\nC 1\r\nW 0 4\r\nC -2\r\nW 1 3\r\nC 3\r\nSample Output 2\r\n9\r\n2\n\n[PDF](https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "recovered",
+          "id": "remote:codeforces:105544::C",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 2,
+          "pdfSha256": "192115ac637d12eb402a401e1ff277a72f956e840e959ea1cbffe733c107da3a",
+          "problemType": "standard",
+          "samplePairs": 2,
+          "samplesSha256": "077a82e18da53adacc5ce21ee48c7a5599ada2cf329e3f2487ce13f3e09f62ca",
+          "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "url": "https://codeforces.com/gym/105544/problem/C"
+        },
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "192115ac637d12eb402a401e1ff277a72f956e840e959ea1cbffe733c107da3a",
+          "page": 2,
+          "reason": "Native outlined examples checked against the actual page; printed page numbers are outside the sample boxes."
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 3\n0 0\n0 0\n0 0\nW 0 2\nW 1 1\nC 3",
+            "output": "6"
+          },
+          {
+            "name": "样例 2",
+            "input": "5 5\n1 5\n0 0\n-1 2\n1 0\n0 -2\nC 1\nW 0 4\nC -2\nW 1 3\nC 3",
+            "output": "9"
+          }
+        ],
+        "sourceBinding": {
+          "kind": "exact-title",
+          "pdfProblemLabel": "PC",
+          "pdfTitle": "Where the Lantern Lights are Dimming",
+          "problem": "C",
+          "problemInventoryVerified": 13,
+          "rosterTitle": "Where the Lantern Lights are Dimming",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          5,
+          6
+        ],
+        "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+        "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+        "sourceRosterSha256": "5ec88d8ed50da51a78d550da61b9a8e69dbbceb1b980a28aee4f3f3058f9163a",
+        "sourceRosterUrl": "https://codeforces.com/gym/105544",
+        "sourceText": "# Where the Lantern Lights are Dimming\n\nTime limit: 3 seconds. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nDuring the Lantern Festival, lanterns are switched on and off to give visitors different impressions. A visitor gives each currently lit lantern three points if very satisfied, one point if satisfied, and minus two points if disappointed. An unlit lantern receives no points. Some lanterns are broken: they remain unlit and cannot be switched on.\n\nThere are $n$ lanterns, indexed from $0$ to $n-1$. Each lantern has an initial state and an initial score. Process the following $m$ events in chronological order:\n\n- `W` $l_j$ $r_j$: toggle every working lantern whose index is in the inclusive interval $[l_j,r_j]$. Lit lanterns become unlit and unlit lanterns become lit; broken lanterns remain broken.\n- `C` $q_j$: a visitor gives $q_j$ points to each lantern that is currently lit.\n\nFind the sum of the final scores of all lanterns.\n\n## Input Format\n\nThe first line contains two integers $n$ and $m$.\n\nThe next $n$ lines describe the lanterns in index order. Each line contains the initial state $s_i$ and initial score $p_i$ of a lantern: $s_i=1$ means lit, $s_i=0$ means unlit, and $s_i=-1$ means broken.\n\nThe following $m$ lines describe the events. A switching event contains `W` followed by $l_j$ and $r_j$. A visitor event contains `C` followed by $q_j$.\n\n## Output Format\n\nOutput one integer: the sum of all lanterns' scores after all events. Their initial scores are part of this sum, including the initial scores of broken lanterns.\n\n## Technical Specification\n\n- $1\\le n,m\\le10^6$.\n- $s_i\\in\\{-1,0,1\\}$ and $-10000\\le p_i\\le10000$.\n- $0\\le l_j\\le r_j<n$.\n- $q_j\\in\\{-2,1,3\\}$.\n\n\n## Sample 1\n\n### Input\n\n```text\n3 3\n0 0\n0 0\n0 0\nW 0 2\nW 1 1\nC 3\n```\n\n### Output\n\n```text\n6\n```\n\n## Sample 2\n\n### Input\n\n```text\n5 5\n1 5\n0 0\n-1 2\n1 0\n0 -2\nC 1\nW 0 4\nC -2\nW 1 3\nC 3\n```\n\n### Output\n\n```text\n9\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:192115ac637d12eb402a401e1ff277a72f956e840e959ea1cbffe733c107da3a",
+          "fileName": "gym-105544-C.pdf",
+          "pageCount": 2,
+          "sha256": "192115ac637d12eb402a401e1ff277a72f956e840e959ea1cbffe733c107da3a",
+          "sourcePageNumbers": [
+            5,
+            6
+          ],
+          "sourceSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Where the Lantern Lights are Dimming",
+        "url": "https://codeforces.com/gym/105544/problem/C",
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "3 3\n0 0\n0 0\n0 0\nW 0 2\nW 1 1\nC 3",
+                "name": "样例 1",
+                "output": "6"
+              },
+              {
+                "input": "5 5\n1 5\n0 0\n-1 2\n1 0\n0 -2\nC 1\nW 0 4\nC -2\nW 1 3\nC 3\n2",
+                "name": "样例 2",
+                "output": "9"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          },
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "3 3\n0 0\n0 0\n0 0\nW 0 2\nW 1 1\nC 3",
+                "output": "6"
+              },
+              {
+                "name": "样例 2",
+                "input": "5 5\n1 5\n0 0\n-1 2\n1 0\n0 -2\nC 1\nW 0 4\nC -2\nW 1 3\nC 3",
+                "output": "9"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "192115ac637d12eb402a401e1ff277a72f956e840e959ea1cbffe733c107da3a",
+              "page": 2,
+              "reason": "Native outlined examples checked against the actual page; printed page numbers are outside the sample boxes."
+            }
+          }
+        ],
+        "sourceTextArchive": [
+          {
+            "text": "Problem PC\r\nWhere the Lantern Lights are Dimming\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe Lantern Festival features many lanterns on display. In the darkness of the night, they cast\r\nbeautiful shadows and reflections, attracting numerous visitors to come and go. With so many\r\nlanterns on display simultaneously, it’s impossible to showcase the unique features of each. As\r\nsuch, the organizers switch on the lights of some lanterns while turning off others in rotation.\r\nAt any given time, some lanterns are illuminated while others rest. Additionally, some lanterns\r\nremain perpetually off due to malfunctions, missing their chance to dazzle.\r\nTo engage the visitors in the Lantern Festival, the organizers also hold a scoring event. If a\r\nvisitor is very satisfied with the festival, they will receive a pack of stickers worth 3 points\r\neach, and they will affix one 3-point sticker to each lantern on display. If they feel satisfied,\r\nthey will receive a pack of 1-point stickers and place one on each displaying lantern. If they are\r\ndisappointed with the festival, they will get a pack of -2 point stickers and apply one to each\r\ndisplaying lantern. In other words, those lanterns that are resting and not illuminated won’t\r\nhave an opportunity to receive any stickers from this visitor. After the festival ends, please\r\nhelp write a program to calculate the total points from all the stickers on the lanterns.\r\nInput Format\r\nThe input begins with a line containing two integers, 𝑛 and 𝑚. The next 𝑛 lines describe the\r\ninitial state of 𝑛 lanterns, numbered from 0 to 𝑛 − 1. Each of these lines contains two integers:\r\n𝑠𝑖 and 𝑝𝑖\r\n. 𝑠𝑖 represents the state of the lantern:\r\n 1 if the 𝑖-th lantern is initially on,\r\n 0 if it is off,\r\n -1 if it is out of order (meaning it is perpetually off and cannot be turned on)\r\n𝑝𝑖\r\nindicates the total points from stickers that are already on the 𝑖-th lantern.\r\nThe following 𝑚 lines represent 𝑚 events given in chronological order, each corresponding to\r\none of two even types: switching or scoring.\r\n Lines beginning with the letter W signify a switching event. They have two subsequent\r\nintegers, 𝑙𝑗 and 𝑟𝑗\r\n, which imply that the state of lanterns numbered in the range [𝑙𝑗\r\n, 𝑟𝑗\r\n]\r\n(inclusive) will be toggled.\r\n1\n\n Lines beginning with the letter C denote a scoring event by a visitor. These lines have\r\na single subsequent integer, 𝑞𝑗 ∈ {−2, 1, 3}, indicating the sticker score assigned by the\r\nvisitor. Every lantern currently on display receives a sticker with 𝑞𝑗 points from the\r\nvisitor.\r\nOutput Format\r\nOutput a single integer that is the total points from all the lanterns after the festival.\r\nTechnical Specification\r\n 1 ≤ 𝑛 ≤ 1, 000, 000\r\n 1 ≤ 𝑚 ≤ 1, 000, 000\r\n 𝑠𝑖 ∈ {−1, 0, 1}\r\n −10, 000 ≤ 𝑝𝑖 ≤ 10, 000\r\n 0 ≤ 𝑙𝑗 ≤ 𝑟𝑗 < 𝑛\r\n 𝑞𝑗 ∈ {−2, 1, 3}\r\nSample Input 1\r\n3 3\r\n0 0\r\n0 0\r\n0 0\r\nW 0 2\r\nW 1 1\r\nC 3\r\nSample Output 1\r\n6\r\nSample Input 2\r\n5 5\r\n1 5\r\n0 0\r\n-1 2\r\n1 0\r\n0 -2\r\nC 1\r\nW 0 4\r\nC -2\r\nW 1 3\r\nC 3\r\nSample Output 2\r\n9\r\n2",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "d320c26e3a3eae439dbf1ba3a3d9fcb94ed8e62861ea2a78f24d85e7f5ba5525"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "C",
+          "pdfSha256": "192115ac637d12eb402a401e1ff277a72f956e840e959ea1cbffe733c107da3a",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            5,
+            6
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "figures": [],
+          "notes": [
+            "Every original PDF page visually checked, including constraints and sample table boundaries.",
+            "English text was manually normalized from the original PDF; Chinese checked against the same pages."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "f2afa811860ca4625692c6d49b90ece7836d0425aeeff32a922738a3a2d124c8"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "701b15f1262e5371d02515b0e103fab5e73b49d1c4d90c31ec26eff5708d4c04",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "f2afa811860ca4625692c6d49b90ece7836d0425aeeff32a922738a3a2d124c8",
+          "sourcePdfSha256": "192115ac637d12eb402a401e1ff277a72f956e840e959ea1cbffe733c107da3a",
+          "markdown": "# 灯火阑珊处\n\n时间限制：3 秒。内存限制：1024 MB。\n\n## 题目描述\n\n元宵节期间，主办方会开关花灯，让游客欣赏不同的灯光效果。每位游客会给当时亮着的每一盏花灯评分：非常满意记三分，满意记一分，失望记负二分。未点亮的花灯不获得分数。有些花灯已经损坏，它们始终不亮，也无法被打开。\n\n共有 $n$ 盏花灯，编号为 $0$ 到 $n-1$。每盏花灯都有初始状态和初始分数。按发生顺序处理以下 $m$ 个事件：\n\n- `W` $l_j$ $r_j$：切换闭区间 $[l_j,r_j]$ 中所有未损坏花灯的开关状态。亮着的变为不亮，不亮的变为亮着；损坏花灯的状态不变。\n- `C` $q_j$：一位游客给当前亮着的每盏花灯增加 $q_j$ 分。\n\n求全部事件结束后所有花灯的分数总和。\n\n## 输入格式\n\n第一行包含两个整数 $n$ 和 $m$。\n\n接下来 $n$ 行按编号顺序描述花灯。每行包含一盏花灯的初始状态 $s_i$ 和初始分数 $p_i$：$s_i=1$ 表示亮着，$s_i=0$ 表示不亮，$s_i=-1$ 表示已经损坏。\n\n随后 $m$ 行描述事件。开关事件由 `W` 以及 $l_j$、$r_j$ 组成。游客评分事件由 `C` 以及 $q_j$ 组成。\n\n## 输出格式\n\n输出一个整数，表示全部事件结束后所有花灯的分数总和。初始分数计入答案，损坏花灯的初始分数也计入答案。\n\n## 数据范围\n\n- $1\\le n,m\\le10^6$。\n- $s_i\\in\\{-1,0,1\\}$，且 $-10000\\le p_i\\le10000$。\n- $0\\le l_j\\le r_j<n$。\n- $q_j\\in\\{-2,1,3\\}$。\n\n\n## 样例 1\n\n### 输入\n\n```text\n3 3\n0 0\n0 0\n0 0\nW 0 2\nW 1 1\nC 3\n```\n\n### 输出\n\n```text\n6\n```\n\n## 样例 2\n\n### 输入\n\n```text\n5 5\n1 5\n0 0\n-1 2\n1 0\n0 -2\nC 1\nW 0 4\nC -2\nW 1 3\nC 3\n```\n\n### 输出\n\n```text\n9\n```\n"
+        },
+        "translationReview": {
+          "letter": "C",
+          "pdfSha256": "192115ac637d12eb402a401e1ff277a72f956e840e959ea1cbffe733c107da3a",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            5,
+            6
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "figures": [],
+          "notes": [
+            "Every original PDF page visually checked, including constraints and sample table boundaries.",
+            "English text was manually normalized from the original PDF; Chinese checked against the same pages."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "f2afa811860ca4625692c6d49b90ece7836d0425aeeff32a922738a3a2d124c8",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

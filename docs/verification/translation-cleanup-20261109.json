@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-09",
+  "scope": "Isolated translation worktree and the 57 requested public problem authoring inputs",
+  "baseline": "1723db9f2504107fac4e61a8ed9d5038049c2a44",
+  "checkedBeforeNewContent": true,
+  "untrackedBuildArtifactsBeforeWork": 0,
+  "personalDataPresent": false,
+  "unusedItemsRemoved": [],
+  "findings": [
+    "New clean worktree has no superseded builds or local state to retire.",
+    "Existing 105544 sample records and previously reviewed patches remain referenced authoring/history inputs and are retained.",
+    "Reuse existing subset PDFs; do not duplicate native PDF assets in content authoring directories."
+  ],
+  "noUnusedItemsConfirmed": true
+}

@@ -1,0 +1,169 @@
+[
+  {
+    "letter": "B",
+    "pdfSha256": "d6676368dc11955f6fe7383cf1d7c4273a6198c18f5a7c1f2fcc6a1a2e6d9317",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      3,
+      4
+    ],
+    "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+    "figures": [],
+    "notes": [
+      "Every original PDF page visually checked, including constraints and sample table boundaries.",
+      "English text was manually normalized from the original PDF; Chinese checked against the same pages."
+    ]
+  },
+  {
+    "letter": "C",
+    "pdfSha256": "192115ac637d12eb402a401e1ff277a72f956e840e959ea1cbffe733c107da3a",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      5,
+      6
+    ],
+    "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+    "figures": [],
+    "notes": [
+      "Every original PDF page visually checked, including constraints and sample table boundaries.",
+      "English text was manually normalized from the original PDF; Chinese checked against the same pages."
+    ]
+  },
+  {
+    "letter": "E",
+    "pdfSha256": "802862ca6c8c280e0f1e00b768699de8e3d007a2d8d384319c85ee59449063fc",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      9,
+      10
+    ],
+    "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+    "figures": [],
+    "notes": [
+      "Every original PDF page visually checked, including constraints and sample table boundaries.",
+      "English text was manually normalized from the original PDF; Chinese checked against the same pages."
+    ]
+  },
+  {
+    "letter": "F",
+    "pdfSha256": "0aa9d4f205617b39b7b9827f77b713e1364bb21b2edd70d847d7e521ed8678a7",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      11,
+      12
+    ],
+    "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+    "figures": [],
+    "notes": [
+      "Every original PDF page visually checked, including constraints and sample table boundaries.",
+      "English text was manually normalized from the original PDF; Chinese checked against the same pages.",
+      "Original page 1 accidentally repeats part of the second penalty expression. Retained the complete intended expression yielding 42, without the duplicated fragment. Original PDF is retained unchanged."
+    ]
+  },
+  {
+    "letter": "G",
+    "pdfSha256": "7083904afaac949d34f4cec3129bca0818e419683342a438441f2fa01d44cce9",
+    "pageCount": 3,
+    "pagesReviewed": [
+      1,
+      2,
+      3
+    ],
+    "sourcePageNumbers": [
+      13,
+      14,
+      15
+    ],
+    "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+    "figures": [],
+    "notes": [
+      "Every original PDF page visually checked, including constraints and sample table boundaries.",
+      "English text was manually normalized from the original PDF; Chinese checked against the same pages.",
+      "Original LP-(t) box prints sum over I_j of a_i. Normalized to a_j because the defined size of I_j is a_j; all other assignment and size definitions on original pages 1-3 agree. Original PDF is retained unchanged."
+    ]
+  },
+  {
+    "letter": "K",
+    "pdfSha256": "9584724ad0c4434bf010129aabec26152446baf36b651535ba75dffad5242a61",
+    "pageCount": 4,
+    "pagesReviewed": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "sourcePageNumbers": [
+      24,
+      25,
+      26,
+      27
+    ],
+    "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+    "figures": [
+      {
+        "file": "105544-K-figure1.png",
+        "page": 1,
+        "clipRect": [
+          130,
+          340,
+          440,
+          515
+        ],
+        "sha256": "04343d7dd2303afd7e09c82183c9eb04db6bee37a865944c9f60320467f1a562"
+      },
+      {
+        "file": "105544-K-figure2.png",
+        "page": 1,
+        "clipRect": [
+          140,
+          640,
+          440,
+          750
+        ],
+        "sha256": "f164c219136c358f4fb4cf308bde457118b29b88ead59cb2c59dc8b63ce3cbd7"
+      },
+      {
+        "file": "105544-K-figure3.png",
+        "page": 2,
+        "clipRect": [
+          95,
+          215,
+          490,
+          490
+        ],
+        "sha256": "c2030ba0983b0ee96befe36a97cf3e53ef954eb5742786dda006a6c068461cdd"
+      },
+      {
+        "file": "105544-K-figure4.png",
+        "page": 2,
+        "clipRect": [
+          140,
+          570,
+          445,
+          675
+        ],
+        "sha256": "12b2535d5ab423507b359b37a0080ad67192321201e2e9e310ba84286cc41f49"
+      }
+    ],
+    "notes": [
+      "Every original PDF page visually checked, including constraints and sample table boundaries.",
+      "English text was manually normalized from the original PDF; Chinese checked against the same pages."
+    ]
+  }
+]

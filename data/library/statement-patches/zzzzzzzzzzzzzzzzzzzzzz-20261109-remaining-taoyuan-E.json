@@ -1,0 +1,206 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105544::E",
+      "beforeSha256": "9dd0f0074e5d9be1a99d9016e296faa3de55c4250b2a51a52b141a6d4494744f",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "data": "tb-asset:7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "fileName": "gym-105544.pdf",
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "id": "remote:codeforces:105544::E",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:56:33.348070+00:00",
+          "corpusAuditVerifiedSha256": "13b645e845bcec23d3491cd41caf784e1f380e308df33f49584952a72bf1b3c8",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 4500
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Slabstones Rearrangement\n\nProblem PE\r\nSlabstones Rearrangement\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nBabara has a garden. She has bought some rectangular slabstones and worked out an initial\r\nplacement of all slabstones in the garden. The shape of the garden is rectangular. An edge\r\nof a slabstone should be either parallel or orthogonal to an edge of the garden. There exists a\r\nslabstone touching the left, right, bottom, and top edges of the garden, respectively. All the\r\nslabstones are contained in the garden. Meanwhile, none of the slabstones overlap in the initial\r\nplacement. Babara enjoys stepping slabstones from one to another every day. However, Babara\r\nwould like to redesign her garden to make room for some other purposes. She is wondering how\r\ntight the slabstones can be packed together if they can only be shifted horizontally (i.e., left\r\nor right) without changing their vertical coordinates. Furthermore, if the vertical dimensions\r\nof any two slabstones overlap (not including touching of their ends), their relative locations in\r\nthe horizontal direction should be maintained. That is, if the vertical dimensions of slabstones\r\nR and Q overlap and, before shifting, slabstone Q is on the right of slabstone R, Q should be\r\nstill on the right of R after shifting or vice versa. Besides, there is a minimal horizontal spacing\r\nbetween two slabstones during slabstone rearrangement if their vertical dimensions overlap.\r\nThe slabstones should remain non-overlapping after shifting. Nevertheless, their horizontal\r\nedges may touch. Now you are asked to help Babara calculate the largest area that can be\r\nspared for other purposes.\r\nInput Format\r\nThe first line holds an integer specifying the number of test cases. It is then followed by the\r\ninput data of the test cases. The first line of the input for each test case gives two integers.\r\nThe first one specifies the number of rectangular slabstones whereas the second one gives the\r\nminimal horizontal spacing between two slabstones. Then, each of the following lines contains\r\nfour integers. The first two integers specify the initial x and y coordinates of the bottom-left\r\ncorner of a slabstone in the garden. The remaining two integers specify the initial x and y\r\ncoordinates of the top-right corner of a slabstone. Two adjacent numbers are separated by a\r\nwhitespace.\r\nOutput Format\r\nThe output of a test case takes a line. It contains the largest area saved by shifting the\r\nslabstones. If no area can be saved, just output zero.\r\n1\n\nTechnical Specification\r\n The number of test cases is not more than 32.\r\n All the coordinates are 32-bit unsigned integers.\r\n A garden’s area is not larger than the maximal 32-bit unsigned integer.\r\n The width and length of a slabstone are 32-bit unsigned integers. They should be larger\r\nthan zero.\r\n The minimal horizontal spacing between any two slabstones is a 32-bit unsigned integer\r\nand should be greater than zero.\r\n The number of slabstones is from 4 to 100.\r\nSample Input 1\r\n2\r\n4 2\r\n2 6 4 12\r\n8 4 16 8\r\n7 10 11 16\r\n18 4 20 18\r\n6 4\r\n2 5 4 11\r\n2 14 6 17\r\n7 10 10 16\r\n9 4 16 7\r\n11 11 16 14\r\n18 4 20 18\r\nSample Output 1\r\n28\r\n0\r\n2\n\n[PDF](https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "recovered",
+          "id": "remote:codeforces:105544::E",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 2,
+          "pdfSha256": "802862ca6c8c280e0f1e00b768699de8e3d007a2d8d384319c85ee59449063fc",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "82fdafaeeaea77944da8b25a1671bf5b32b6d7a0eb3bf6d09d81d2ad674dc6ae",
+          "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "url": "https://codeforces.com/gym/105544/problem/E"
+        },
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "802862ca6c8c280e0f1e00b768699de8e3d007a2d8d384319c85ee59449063fc",
+          "page": 2,
+          "reason": "Native outlined examples checked against the actual page; printed page numbers are outside the sample boxes."
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2\n4 2\n2 6 4 12\n8 4 16 8\n7 10 11 16\n18 4 20 18\n6 4\n2 5 4 11\n2 14 6 17\n7 10 10 16\n9 4 16 7\n11 11 16 14\n18 4 20 18",
+            "output": "28\n0"
+          }
+        ],
+        "sourceBinding": {
+          "kind": "exact-title",
+          "pdfProblemLabel": "PE",
+          "pdfTitle": "Slabstones Rearrangement",
+          "problem": "E",
+          "problemInventoryVerified": 13,
+          "rosterTitle": "Slabstones Rearrangement",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          9,
+          10
+        ],
+        "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+        "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+        "sourceRosterSha256": "5ec88d8ed50da51a78d550da61b9a8e69dbbceb1b980a28aee4f3f3058f9163a",
+        "sourceRosterUrl": "https://codeforces.com/gym/105544",
+        "sourceText": "# Slabstones Rearrangement\n\nTime limit: 3 seconds. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nBabara has a rectangular garden containing rectangular slabstones. Every slabstone lies inside the garden, and its sides are parallel to the garden's sides. The slabstones do not overlap. Each of the four sides of the garden is touched by at least one slabstone.\n\nBabara wants to rearrange the slabstones to reduce the area of the garden. A slabstone can only move horizontally: its vertical position cannot change. The slabstones must remain non-overlapping. For any two slabstones whose vertical projections overlap with positive length, their left-to-right order must remain unchanged and their horizontal separation must be at least the given positive minimum spacing. The horizontal edges of slabstones may touch.\n\nFind the maximum area that can be freed by this rearrangement. If no area can be freed, output zero.\n\n## Input Format\n\nThe first line contains the number of test cases $T$.\n\nFor each test case, the first line contains the number of slabstones $n$ and the required minimum spacing. Each of the next $n$ lines contains four integers $x_1,y_1,x_2,y_2$, the coordinates of the lower-left and upper-right corners of a slabstone, respectively.\n\n## Output Format\n\nFor each test case, output the maximum area that can be freed, or zero if the garden's area cannot be reduced.\n\n## Technical Specification\n\n- $1\\le T\\le32$ and $4\\le n\\le100$.\n- All coordinates are unsigned 32-bit integers.\n- The original garden's area does not exceed the maximum unsigned 32-bit integer.\n- The width and height of each slabstone and the minimum spacing are positive unsigned 32-bit integers.\n\n\n## Sample 1\n\n### Input\n\n```text\n2\n4 2\n2 6 4 12\n8 4 16 8\n7 10 11 16\n18 4 20 18\n6 4\n2 5 4 11\n2 14 6 17\n7 10 10 16\n9 4 16 7\n11 11 16 14\n18 4 20 18\n```\n\n### Output\n\n```text\n28\n0\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:802862ca6c8c280e0f1e00b768699de8e3d007a2d8d384319c85ee59449063fc",
+          "fileName": "gym-105544-E.pdf",
+          "pageCount": 2,
+          "sha256": "802862ca6c8c280e0f1e00b768699de8e3d007a2d8d384319c85ee59449063fc",
+          "sourcePageNumbers": [
+            9,
+            10
+          ],
+          "sourceSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Slabstones Rearrangement",
+        "url": "https://codeforces.com/gym/105544/problem/E",
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "2\n4 2\n2 6 4 12\n8 4 16 8\n7 10 11 16\n18 4 20 18\n6 4\n2 5 4 11\n2 14 6 17\n7 10 10 16\n9 4 16 7\n11 11 16 14\n18 4 20 18\n2",
+                "name": "样例 1",
+                "output": "28\n0"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          },
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "2\n4 2\n2 6 4 12\n8 4 16 8\n7 10 11 16\n18 4 20 18\n6 4\n2 5 4 11\n2 14 6 17\n7 10 10 16\n9 4 16 7\n11 11 16 14\n18 4 20 18",
+                "output": "28\n0"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "802862ca6c8c280e0f1e00b768699de8e3d007a2d8d384319c85ee59449063fc",
+              "page": 2,
+              "reason": "Native outlined examples checked against the actual page; printed page numbers are outside the sample boxes."
+            }
+          }
+        ],
+        "sourceTextArchive": [
+          {
+            "text": "Problem PE\r\nSlabstones Rearrangement\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nBabara has a garden. She has bought some rectangular slabstones and worked out an initial\r\nplacement of all slabstones in the garden. The shape of the garden is rectangular. An edge\r\nof a slabstone should be either parallel or orthogonal to an edge of the garden. There exists a\r\nslabstone touching the left, right, bottom, and top edges of the garden, respectively. All the\r\nslabstones are contained in the garden. Meanwhile, none of the slabstones overlap in the initial\r\nplacement. Babara enjoys stepping slabstones from one to another every day. However, Babara\r\nwould like to redesign her garden to make room for some other purposes. She is wondering how\r\ntight the slabstones can be packed together if they can only be shifted horizontally (i.e., left\r\nor right) without changing their vertical coordinates. Furthermore, if the vertical dimensions\r\nof any two slabstones overlap (not including touching of their ends), their relative locations in\r\nthe horizontal direction should be maintained. That is, if the vertical dimensions of slabstones\r\nR and Q overlap and, before shifting, slabstone Q is on the right of slabstone R, Q should be\r\nstill on the right of R after shifting or vice versa. Besides, there is a minimal horizontal spacing\r\nbetween two slabstones during slabstone rearrangement if their vertical dimensions overlap.\r\nThe slabstones should remain non-overlapping after shifting. Nevertheless, their horizontal\r\nedges may touch. Now you are asked to help Babara calculate the largest area that can be\r\nspared for other purposes.\r\nInput Format\r\nThe first line holds an integer specifying the number of test cases. It is then followed by the\r\ninput data of the test cases. The first line of the input for each test case gives two integers.\r\nThe first one specifies the number of rectangular slabstones whereas the second one gives the\r\nminimal horizontal spacing between two slabstones. Then, each of the following lines contains\r\nfour integers. The first two integers specify the initial x and y coordinates of the bottom-left\r\ncorner of a slabstone in the garden. The remaining two integers specify the initial x and y\r\ncoordinates of the top-right corner of a slabstone. Two adjacent numbers are separated by a\r\nwhitespace.\r\nOutput Format\r\nThe output of a test case takes a line. It contains the largest area saved by shifting the\r\nslabstones. If no area can be saved, just output zero.\r\n1\n\nTechnical Specification\r\n The number of test cases is not more than 32.\r\n All the coordinates are 32-bit unsigned integers.\r\n A garden’s area is not larger than the maximal 32-bit unsigned integer.\r\n The width and length of a slabstone are 32-bit unsigned integers. They should be larger\r\nthan zero.\r\n The minimal horizontal spacing between any two slabstones is a 32-bit unsigned integer\r\nand should be greater than zero.\r\n The number of slabstones is from 4 to 100.\r\nSample Input 1\r\n2\r\n4 2\r\n2 6 4 12\r\n8 4 16 8\r\n7 10 11 16\r\n18 4 20 18\r\n6 4\r\n2 5 4 11\r\n2 14 6 17\r\n7 10 10 16\r\n9 4 16 7\r\n11 11 16 14\r\n18 4 20 18\r\nSample Output 1\r\n28\r\n0\r\n2",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "aaf32babde5de90207f7753b7b52877e46965f2c7bee7b055f6d923da89d1c1b"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "E",
+          "pdfSha256": "802862ca6c8c280e0f1e00b768699de8e3d007a2d8d384319c85ee59449063fc",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            9,
+            10
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "figures": [],
+          "notes": [
+            "Every original PDF page visually checked, including constraints and sample table boundaries.",
+            "English text was manually normalized from the original PDF; Chinese checked against the same pages."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "0b39821e952964f5597628dd37565b0f93472f8b663351dbab0366cc5cc57a44"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "13b645e845bcec23d3491cd41caf784e1f380e308df33f49584952a72bf1b3c8",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "0b39821e952964f5597628dd37565b0f93472f8b663351dbab0366cc5cc57a44",
+          "sourcePdfSha256": "802862ca6c8c280e0f1e00b768699de8e3d007a2d8d384319c85ee59449063fc",
+          "markdown": "# 石板重排\n\n时间限制：3 秒。内存限制：1024 MB。\n\n## 题目描述\n\nBabara 有一座放着若干矩形石板的矩形花园。所有石板都位于花园内，边与花园的边平行，且彼此不重叠。花园的四条边各自都至少与一块石板接触。\n\nBabara 想通过重新排列石板缩小花园的面积。石板只能水平移动，竖直位置不能改变。移动后，石板仍不能重叠。对于竖直投影有正长度重叠的任意两块石板，它们的左右顺序不能改变，且水平方向的间距必须至少达到给定的正数最小间距。石板的水平边可以相接触。\n\n求重新排列后最多可以腾出多少面积。如果不能腾出任何面积，输出零。\n\n## 输入格式\n\n第一行包含测试用例数 $T$。\n\n对于每个测试用例，第一行包含石板数 $n$ 和要求的最小间距。接下来 $n$ 行，每行包含四个整数 $x_1,y_1,x_2,y_2$，依次表示一块石板左下角和右上角的坐标。\n\n## 输出格式\n\n对于每个测试用例，输出最多可以腾出的面积。如果花园面积不能减小，则输出零。\n\n## 数据范围\n\n- $1\\le T\\le32$，且 $4\\le n\\le100$。\n- 所有坐标均为 32 位无符号整数。\n- 原花园面积不超过 32 位无符号整数的最大值。\n- 每块石板的宽、高以及要求的最小间距均为正的 32 位无符号整数。\n\n\n## 样例 1\n\n### 输入\n\n```text\n2\n4 2\n2 6 4 12\n8 4 16 8\n7 10 11 16\n18 4 20 18\n6 4\n2 5 4 11\n2 14 6 17\n7 10 10 16\n9 4 16 7\n11 11 16 14\n18 4 20 18\n```\n\n### 输出\n\n```text\n28\n0\n```\n"
+        },
+        "translationReview": {
+          "letter": "E",
+          "pdfSha256": "802862ca6c8c280e0f1e00b768699de8e3d007a2d8d384319c85ee59449063fc",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            9,
+            10
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "figures": [],
+          "notes": [
+            "Every original PDF page visually checked, including constraints and sample table boundaries.",
+            "English text was manually normalized from the original PDF; Chinese checked against the same pages."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "0b39821e952964f5597628dd37565b0f93472f8b663351dbab0366cc5cc57a44",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}
