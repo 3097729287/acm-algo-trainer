@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { resolve } from 'node:path';
+import { trainingDay } from '../src/lib/trainingDate.js';
 
 export async function exerciseNativePlanning(page, output) {
   const snapshot = () => page.evaluate(async () => {
@@ -24,20 +25,30 @@ export async function exerciseNativePlanning(page, output) {
   assert.deepEqual(state.plan.tracks, ['io-basics']);
   assert.equal(state.config.weekdayMinutes, 90);
   assert.ok(state.plan.days.every(day => day.used <= day.minutes));
-  // The overview prioritizes Sunday's comprehensive task. Open the explicit
-  // reading task so this check does not depend on the current weekday.
+  // The current task is displayed as a card; the remaining tasks are rows.
+  // Choose the same explicit task through either real entry on every weekday.
+  const openTask=async task=>{
+    const row=board.locator('.task-board-row').filter({hasText:task.title});
+    const current=board.locator('.task-now').filter({has:page.getByRole('heading',{name:task.title,exact:true})}).locator('.task-primary');
+    await row.or(current).first().click();
+  };
   const readingTask=state.plan.tasks.find(task=>task.kind==='lecture'&&task.topicId==='io-basics');
   assert(readingTask);
-  await board.locator('.task-board-row').filter({hasText:readingTask.title}).first().click();
+  await openTask(readingTask);
   await page.getByRole('button', { name: '完成并继续', exact: true }).click();
   await page.waitForFunction(async()=>{const result=await window.__TAURI__.core.invoke('api_request',{request:{version:1,id:crypto.randomUUID(),method:'GET',path:'learning-summary',query:{}}});return result.ok&&result.data.topics.find(topic=>topic.id==='io-basics')?.level===1;});
-  const readingBack=page.getByRole('button',{name:'返回主界面',exact:true}).first();
-  if(await readingBack.isVisible())await readingBack.click();
-  await nav.click();state=await snapshot();
+  state=await snapshot();
   const quizTask=state.plan.tasks.find(task=>task.kind==='quiz'&&task.topicId==='io-basics');
   assert(quizTask);
-  await board.locator('.task-board-row').filter({hasText:quizTask.title}).first().click();
   const quiz = page.getByRole('dialog', { name: '原理检查', exact: true });
+  const due=state.plan.tasks.find(task=>task.status!=='done'&&task.date<=trainingDay());
+  if(due?.key===quizTask.key){
+    await quiz.waitFor();
+  }else{
+    const readingBack=page.getByRole('button',{name:'返回主界面',exact:true}).first();
+    if(await readingBack.isVisible())await readingBack.click();
+    await nav.click();await openTask(quizTask);
+  }
   await quiz.getByRole('button', { name: '字符 a+b', exact: true }).click();
   await quiz.getByRole('alert').waitFor();
   state = await snapshot();

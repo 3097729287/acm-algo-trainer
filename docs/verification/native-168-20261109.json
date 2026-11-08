@@ -1,0 +1,82 @@
+{
+  "sourceCommit": "a7c4de8af64886c476a24fa543a42ac19f2b8682",
+  "sourceBaseVersion": "1.6.8",
+  "releaseReady": false,
+  "publicData": {
+    "problems": 13480,
+    "statements": 13457,
+    "solutions": 3191,
+    "detailed_solutions": 2306,
+    "statement_assets": 6166,
+    "remote_statement_assets": 0
+  },
+  "reviewedInlineDiagramsVerified": 6,
+  "rustTests": 85,
+  "nativeEndpoints": 34,
+  "legacyEndpoints": 136,
+  "package": {
+    "bytes": 1181193448,
+    "membersVerified": 9,
+    "nativeBinaryBytes": 19031138,
+    "allAssetsLocal": true,
+    "requiresExternalCppAndPythonToolsForUserRuns": true
+  },
+  "customLists": {
+    "ok": true,
+    "checks": [
+      "training-lists/save",
+      "training-lists/save",
+      "training-lists/add",
+      "training-lists/add",
+      "training-lists/save",
+      "training-lists/save",
+      "same-durable-documents-and-real-actions",
+      "actual-native-process-restart"
+    ],
+    "sourceBaseVersion": "1.6.8",
+    "publicCatalogueRows": 13466,
+    "nativeEndpoints": 34,
+    "legacyEndpoints": 136,
+    "releaseReady": false,
+    "realRustRpc": true,
+    "legacyBackendUsedInsideRust": false,
+    "officialAcClaims": 0,
+    "personalDataUsed": false,
+    "nativeBinarySha256": "4cb9076ae90fe16cfddf16b555391a86bab1f229425f84ed472bd42d25c98dc2"
+  },
+  "actualWindow": {
+    "packaged": true,
+    "pageErrors": [],
+    "reactWorkspace": {
+      "saved": true,
+      "recoveredAfterReload": true,
+      "training": 1,
+      "problemId": "ABC 469::A"
+    },
+    "reactPlanning": {
+      "configured": true,
+      "readingStage": 1,
+      "conceptStage": 2,
+      "independentSolved": 0,
+      "cancellationPreserved": true,
+      "mainlineChanged": true,
+      "historyPreserved": true,
+      "recoveredAfterReload": true,
+      "weeklyBudgetShared": true
+    },
+    "localRuns": {
+      "realTauriIpc": true,
+      "realCppCompiler": true,
+      "realPythonInterpreter": true,
+      "problemId": "luogu-training-P1001",
+      "officialSamples": 1,
+      "cppVerdict": "SAMPLE_PASS",
+      "pythonVerdict": "RUN_OK",
+      "customOutput": "42",
+      "pendingReadMillis": 15.55080000000089,
+      "draftLanguageAndHistoryRestored": true,
+      "officialAcClaims": 0
+    }
+  },
+  "normalInstallationModified": false
+}
