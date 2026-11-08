@@ -46,7 +46,8 @@
       "category": "字符串",
       "aliases": [
         "suffix automaton",
-        "SAM"
+        "SAM",
+        "后缀自动机 SAM"
       ],
       "sources": [
         "练习赛 152::G"
@@ -56,7 +57,8 @@
       "name": "Manacher",
       "category": "字符串",
       "aliases": [
-        "马拉车"
+        "马拉车",
+        "Manacher 算法"
       ],
       "sources": [
         "Div.3 1096::D"
@@ -73,7 +75,9 @@
     {
       "name": "矩阵运算",
       "category": "数学",
-      "aliases": [],
+      "aliases": [
+        "矩阵乘法"
+      ],
       "sources": [
         "挑战赛 88::D",
         "练习赛 149::G"
@@ -102,7 +106,8 @@
       "name": "鸽巢原理",
       "category": "数学",
       "aliases": [
-        "抽屉原理"
+        "抽屉原理",
+        "鸽笼原理"
       ],
       "sources": [
         "挑战赛 90::A"
@@ -179,7 +184,8 @@
       "name": "FFT",
       "category": "数学",
       "aliases": [
-        "快速傅里叶变换"
+        "快速傅里叶变换",
+        "快速傅里叶变换 FFT"
       ],
       "sources": [
         "原站官方 fft 标签"
@@ -482,7 +488,9 @@
     {
       "name": "离线算法",
       "category": "思维与策略",
-      "aliases": [],
+      "aliases": [
+        "离线处理"
+      ],
       "sources": [
         "练习赛 153::F"
       ]
@@ -516,7 +524,9 @@
     {
       "name": "Floyd",
       "category": "图论",
-      "aliases": [],
+      "aliases": [
+        "Floyd 算法"
+      ],
       "sources": [
         "https://atcoder.jp/contests/agc072/editorial/12733"
       ]
@@ -535,7 +545,8 @@
       "name": "中国剩余定理",
       "category": "数学",
       "aliases": [
-        "CRT"
+        "CRT",
+        "中国剩余定理 CRT"
       ],
       "sources": [
         "https://atcoder.jp/contests/agc050/editorial/462"
@@ -562,7 +573,9 @@
     {
       "name": "卡特兰数",
       "category": "数学",
-      "aliases": [],
+      "aliases": [
+        "Catalan 数"
+      ],
       "sources": [
         "https://img.atcoder.jp/agc040/editorial.pdf",
         "https://atcoder.jp/contests/agc053/editorial/1058"
@@ -587,7 +600,9 @@
     {
       "name": "多项式插值",
       "category": "数学",
-      "aliases": [],
+      "aliases": [
+        "拉格朗日插值法"
+      ],
       "sources": [
         "https://atcoder.jp/contests/agc075/editorial/14890"
       ]
@@ -686,7 +701,9 @@
     {
       "name": "启发式合并",
       "category": "数据结构",
-      "aliases": [],
+      "aliases": [
+        "树上启发式合并"
+      ],
       "sources": [
         "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2018/finals2018solutions.pdf"
       ]
@@ -718,7 +735,9 @@
     {
       "name": "语法分析",
       "category": "字符串",
-      "aliases": [],
+      "aliases": [
+        "expression parsing"
+      ],
       "sources": [
         "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/finals2019solutions.pdf"
       ]
@@ -742,7 +761,9 @@
     {
       "name": "后缀数组",
       "category": "字符串",
-      "aliases": [],
+      "aliases": [
+        "后缀数组 SA"
+      ],
       "sources": [
         "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E6%A1%82%E6%9E%97%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
       ]
@@ -878,7 +899,9 @@
     {
       "name": "KD树",
       "category": "数据结构",
-      "aliases": [],
+      "aliases": [
+        "K-D Tree"
+      ],
       "sources": [
         "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E6%B2%88%E9%98%B3%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
       ]
@@ -950,7 +973,9 @@
     {
       "name": "扩展欧几里得",
       "category": "数学",
-      "aliases": [],
+      "aliases": [
+        "扩展欧几里德算法"
+      ],
       "sources": [
         "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/49th/2024_wuhan_tutorial_final.pdf"
       ]
@@ -974,7 +999,9 @@
     {
       "name": "Link-Cut Tree",
       "category": "数据结构",
-      "aliases": [],
+      "aliases": [
+        "动态树 LCT"
+      ],
       "sources": [
         "https://codeforces.com/gym/103430/attachments/download/34711/2021-2022-ICPC-Northern-Eurasia-Southern-Editorial.pdf"
       ]
@@ -982,7 +1009,9 @@
     {
       "name": "三分查找",
       "category": "基础技巧",
-      "aliases": [],
+      "aliases": [
+        "三分"
+      ],
       "sources": [
         "https://codeforces.com/gym/104011/attachments/download/17675/tutorial.pdf"
       ]
@@ -998,7 +1027,9 @@
     {
       "name": "随机算法",
       "category": "思维与策略",
-      "aliases": [],
+      "aliases": [
+        "随机化"
+      ],
       "sources": [
         "https://codeforces.com/gym/104011/attachments/download/17675/tutorial.pdf"
       ]
@@ -1134,7 +1165,9 @@
     {
       "name": "回文树",
       "category": "字符串",
-      "aliases": [],
+      "aliases": [
+        "回文自动机 PAM"
+      ],
       "sources": [
         "https://codeforces.com/gym/104666/attachments/download/22393/presentation.pdf"
       ]
@@ -1182,7 +1215,9 @@
     {
       "name": "BSGS",
       "category": "数学与计数",
-      "aliases": [],
+      "aliases": [
+        "大步小步算法 BSGS"
+      ],
       "sources": [
         "https://codeforces.com/gym/104090/attachments/download/18136/2022ICPCHangzhouTutorial.pdf"
       ]
@@ -1334,7 +1369,9 @@
     {
       "name": "FWT",
       "category": "数学与计数",
-      "aliases": [],
+      "aliases": [
+        "快速沃尔什变换 FWT"
+      ],
       "sources": [
         "https://codeforces.com/gym/104160/attachments/download/18879/shenyang_2022_editorial.pdf"
       ]
@@ -1614,7 +1651,9 @@
     {
       "name": "筛法",
       "category": "数学与计数",
-      "aliases": [],
+      "aliases": [
+        "线性筛法"
+      ],
       "sources": [
         "https://raw.githubusercontent.com/Diego1149/ICPC-Latam-2020/80c06207d5df7bcf55f53284201796307565983b/B/Source.cpp"
       ]
@@ -2169,6 +2208,126 @@
       "aliases": [],
       "sources": [
         "https://acmicpc-pacnw.org/ProblemSet/2019/editorial.zip#editorial/editorials.pdf"
+      ]
+    },
+    {
+      "name": "BFS",
+      "category": "搜索",
+      "aliases": [
+        "广度优先搜索 BFS"
+      ],
+      "sources": [
+        "knowledge_catalog.json：已有同一技术名称；2026-11-08 归档原站标签别名复核"
+      ]
+    },
+    {
+      "name": "DFS",
+      "category": "搜索",
+      "aliases": [
+        "深度优先搜索 DFS"
+      ],
+      "sources": [
+        "knowledge_catalog.json：已有同一技术名称；2026-11-08 归档原站标签别名复核"
+      ]
+    },
+    {
+      "name": "NTT",
+      "category": "数学",
+      "aliases": [
+        "快速数论变换 NTT"
+      ],
+      "sources": [
+        "knowledge_catalog.json：已有同一技术名称；2026-11-08 归档原站标签别名复核"
+      ]
+    },
+    {
+      "name": "哈希",
+      "category": "数据结构",
+      "aliases": [
+        "哈希 hashing"
+      ],
+      "sources": [
+        "knowledge_catalog.json：已有同一技术名称；2026-11-08 归档原站标签别名复核"
+      ]
+    },
+    {
+      "name": "字典树",
+      "category": "字符串",
+      "aliases": [
+        "字典树 Trie"
+      ],
+      "sources": [
+        "knowledge_catalog.json：已有同一技术名称；2026-11-08 归档原站标签别名复核"
+      ]
+    },
+    {
+      "name": "乘法逆元",
+      "category": "数论",
+      "aliases": [
+        "逆元"
+      ],
+      "sources": [
+        "knowledge_catalog.json：已有同一技术名称；2026-11-08 归档原站标签别名复核"
+      ]
+    },
+    {
+      "name": "折半枚举",
+      "category": "思维与策略",
+      "aliases": [
+        "折半搜索 meet in the middle"
+      ],
+      "sources": [
+        "knowledge_catalog.json：已有同一技术名称；2026-11-08 归档原站标签别名复核"
+      ]
+    },
+    {
+      "name": "KMP",
+      "category": "字符串",
+      "aliases": [
+        "KMP 算法"
+      ],
+      "sources": [
+        "knowledge_catalog.json：已有同一技术名称；2026-11-08 归档原站标签别名复核"
+      ]
+    },
+    {
+      "name": "双指针",
+      "category": "基础技巧",
+      "aliases": [
+        "双指针 two-pointer"
+      ],
+      "sources": [
+        "knowledge_catalog.json：已有同一技术名称；2026-11-08 归档原站标签别名复核"
+      ]
+    },
+    {
+      "name": "斯特林数",
+      "category": "计数",
+      "aliases": [
+        "Stirling 数"
+      ],
+      "sources": [
+        "knowledge_catalog.json：已有同一技术名称；2026-11-08 归档原站标签别名复核"
+      ]
+    },
+    {
+      "name": "LCA",
+      "category": "树",
+      "aliases": [
+        "最近公共祖先 LCA"
+      ],
+      "sources": [
+        "knowledge_catalog.json：已有同一技术名称；2026-11-08 归档原站标签别名复核"
+      ]
+    },
+    {
+      "name": "素数",
+      "category": "数论",
+      "aliases": [
+        "素数判断"
+      ],
+      "sources": [
+        "knowledge_catalog.json：素数；2026-11-08 原站标签名称复核"
       ]
     }
   ]

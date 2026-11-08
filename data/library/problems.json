@@ -1498478,9 +1498478,9 @@
       "catalogStatementReady": true,
       "contest": "AtCoder",
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
-      "difficultySource": "未知 · 尚未核实原站评级",
+      "difficulty": 2100,
+      "difficultyConfidence": "MEDIUM",
+      "difficultySource": "CF-EQ · AtCoder Problems 模型估算",
       "id": "wiki-example-fe6b65beec5a6eafdcfd",
       "knowledge": "",
       "knowledgeCategories": [],
@@ -1498503,7 +1498503,23 @@
       "title": "ARC 100C Or Plus Max",
       "url": "https://atcoder.jp/contests/arc100/tasks/arc100_c",
       "wikiExample": true,
-      "problemType": "standard"
+      "problemType": "standard",
+      "difficultyEstimated": true,
+      "difficultyBand": [
+        2000,
+        2200
+      ],
+      "nativeDifficulty": 2111,
+      "difficultyCheckedAt": "2026-11-08T04:04:08.717345+00:00",
+      "metadataVersion": "1.6.6",
+      "difficultyEvidence": [
+        "https://kenkoooo.com/atcoder/resources/problem-models.json",
+        "https://github.com/kenkoooo/AtCoderProblems/blob/master/doc/api.md",
+        "https://atcoder.jp/contests/arc100/tasks/arc100_c",
+        "AtCoder Problems 非官方统计模型；不是 AtCoder 官方评级。",
+        "原始数据 SHA-256: 4798a4c215a77e4d16e68e9b89f2886a4ec42356934fbb1990c28ab9ff9e694e",
+        "CF-EQ-v1.0 经验训练映射 raw=0.67*2111+650=2064.37 → 2100（非官方统计等价；带 = 代表值±100）"
+      ]
     },
     "id": "wiki-example-fe6b65beec5a6eafdcfd",
     "raw": {
@@ -1498658,9 +1498674,9 @@
       "catalogStatementReady": true,
       "contest": "AtCoder",
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
-      "difficultySource": "未知 · 尚未核实原站评级",
+      "difficulty": 1600,
+      "difficultyConfidence": "MEDIUM",
+      "difficultySource": "CF-EQ · AtCoder Problems 模型估算",
       "id": "wiki-example-6972aa83009910235305",
       "knowledge": "",
       "knowledgeCategories": [],
@@ -1498683,7 +1498699,23 @@
       "title": "ABC396E Min of Restricted Sum",
       "url": "https://atcoder.jp/contests/abc396/tasks/abc396_e",
       "wikiExample": true,
-      "problemType": "standard"
+      "problemType": "standard",
+      "difficultyEstimated": true,
+      "difficultyBand": [
+        1500,
+        1700
+      ],
+      "nativeDifficulty": 1379,
+      "difficultyCheckedAt": "2026-11-08T04:04:08.717345+00:00",
+      "metadataVersion": "1.6.6",
+      "difficultyEvidence": [
+        "https://kenkoooo.com/atcoder/resources/problem-models.json",
+        "https://github.com/kenkoooo/AtCoderProblems/blob/master/doc/api.md",
+        "https://atcoder.jp/contests/abc396/tasks/abc396_e",
+        "AtCoder Problems 非官方统计模型；不是 AtCoder 官方评级。",
+        "原始数据 SHA-256: 4798a4c215a77e4d16e68e9b89f2886a4ec42356934fbb1990c28ab9ff9e694e",
+        "CF-EQ-v1.0 经验训练映射 raw=0.67*1379+650=1573.93 → 1600（非官方统计等价；带 = 代表值±100）"
+      ]
     },
     "id": "wiki-example-6972aa83009910235305",
     "raw": {
@@ -1498838,9 +1498870,9 @@
       "catalogStatementReady": true,
       "contest": "AtCoder",
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
-      "difficultySource": "未知 · 尚未核实原站评级",
+      "difficulty": 2200,
+      "difficultyConfidence": "MEDIUM",
+      "difficultySource": "CF-EQ · AtCoder Problems 模型估算",
       "id": "wiki-example-edaf83280a0cb175edbb",
       "knowledge": "",
       "knowledgeCategories": [],
@@ -1498863,7 +1498895,23 @@
       "title": "AtCoder Beginner Contest 292 Ex - Rating Estimator",
       "url": "https://atcoder.jp/contests/abc292/tasks/abc292_h",
       "wikiExample": true,
-      "problemType": "standard"
+      "problemType": "standard",
+      "difficultyEstimated": true,
+      "difficultyBand": [
+        2100,
+        2300
+      ],
+      "nativeDifficulty": 2248,
+      "difficultyCheckedAt": "2026-11-08T04:04:08.717345+00:00",
+      "metadataVersion": "1.6.6",
+      "difficultyEvidence": [
+        "https://kenkoooo.com/atcoder/resources/problem-models.json",
+        "https://github.com/kenkoooo/AtCoderProblems/blob/master/doc/api.md",
+        "https://atcoder.jp/contests/abc292/tasks/abc292_h",
+        "AtCoder Problems 非官方统计模型；不是 AtCoder 官方评级。",
+        "原始数据 SHA-256: 4798a4c215a77e4d16e68e9b89f2886a4ec42356934fbb1990c28ab9ff9e694e",
+        "CF-EQ-v1.0 经验训练映射 raw=0.67*2248+650=2156.16 → 2200（非官方统计等价；带 = 代表值±100）"
+      ]
     },
     "id": "wiki-example-edaf83280a0cb175edbb",
     "raw": {

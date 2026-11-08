@@ -76,6 +76,39 @@ class AnalysisTests(unittest.TestCase):
         self.assertIn('动态规划',K.category_path('分治优化 DP'))
         self.assertEqual(K.category_path('Z 函数'),'字符串')
 
+    def test_archive_named_aliases_retain_source_and_exact_techniques(self):
+        labels=['广度优先搜索 BFS','快速数论变换 NTT','后缀自动机 SAM','矩阵乘法']
+        value=K.enrich_row({'id':'archive-fixture','sourceTags':labels})
+        self.assertEqual(set(value['tags']),{'BFS','NTT','后缀自动机','矩阵运算'})
+        self.assertEqual(value['sourceTags'],labels)
+        self.assertEqual(value['knowledgeAnalysis']['unknown'],[])
+        evidence=value['knowledgeAnalysis']['evidence']
+        self.assertEqual({e['value']:e['tag'] for e in evidence},dict(zip(labels,['BFS','NTT','后缀自动机','矩阵运算'])))
+        self.assertTrue(all(e['source']=='archive-catalog' for e in evidence))
+        self.assertEqual(K.category_path('矩阵运算'),'数学')
+
+    def test_official_normalization_keeps_distinct_and_combined_concepts(self):
+        labels=['分类讨论','状态压缩','线性递推','前缀和与差分','进制','连通块','dp']
+        value=K.analyze_problem({'id':'remote:fixture::A','source':'remote','tags':labels})
+        self.assertEqual(set(value['tags']),{'分类讨论','状态压缩','线性递推','前缀和','差分'})
+        self.assertIn('动态规划',value['categories'])
+        self.assertNotIn('状压 DP',value['tags'])
+        self.assertNotIn('枚举',value['tags'])
+        self.assertNotIn('取模与同余',value['tags'])
+        self.assertEqual(value['unknown'],[])
+        self.assertTrue({'数学','图论'}.issubset(value['categories']))
+        evidence=value['evidence']
+        self.assertEqual({e['tag'] for e in evidence if e['value']=='前缀和与差分'},{'前缀和','差分'})
+        self.assertTrue(all(e['tag'] is None for e in evidence if e['value'] in ['进制','连通块','dp']))
+
+    def test_unresolved_archive_label_cannot_acquire_official_evidence(self):
+        value=K.analyze_problem({'id':'archive-fixture','sourceTags':['binary search']})
+        # Some dictionary snapshots already register the exact English alias;
+        # regardless, provenance must describe the actual normalized output.
+        self.assertEqual({e['tag'] for e in value['evidence'] if e['tag']},set(value['tags']))
+        unknown=K.analyze_problem({'sourceTags':['循环结构','数组','动态规划优化']})
+        self.assertEqual(unknown['tags'],[])
+
     def test_frozen_asset_path_uses_application_directory(self):
         with patch('paths.RESOURCES',Path('C:/portable/resources')):
             self.assertEqual(K.asset_path('curated_lectures.json'),Path('C:/portable/resources/curated_lectures.json'))

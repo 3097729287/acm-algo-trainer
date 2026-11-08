@@ -53,6 +53,7 @@ BROAD = {
     '数论':'数学 / 数论', 'strings':'字符串', '字符串':'字符串', 'trees':'图论 / 树',
     '树':'图论 / 树', 'data structures':'数据结构', '数据结构':'数据结构',
     '动态规划 DP':'动态规划', '搜索':'搜索', '群论':'数学 / 群论', '微积分':'数学 / 微积分', '导数':'数学 / 微积分',
+    '进制':'数学', '连通块':'图论',
 }
 OFFICIAL = {
     'games':'博弈论', 'probabilities':'期望与概率', 'divide and conquer':'分治',
@@ -62,13 +63,13 @@ OFFICIAL = {
     'greedy':'贪心', 'hashing':'哈希', 'implementation':'模拟', 'shortest paths':'最短路',
     'sortings':'排序', 'two pointers':'双指针', 'bitmasks':'位运算', 'flows':'网络流', 'fft':'FFT',
     '深度优先搜索 dfs':'DFS', '广度优先搜索 bfs':'BFS', '最近公共祖先 lca':'LCA',
-    '二分':'二分查找', '概率论':'期望与概率', '期望':'期望与概率', '前缀和与差分':'前缀和',
-    '字符串哈希':'哈希', '状态压缩':'状压 DP', '树状数组 bit':'树状数组',
+    '二分':'二分查找', '概率论':'期望与概率', '期望':'期望与概率',
+    '字符串哈希':'哈希', '树状数组 bit':'树状数组',
     '最大公约数 gcd':'最大公约数', '最小公倍数 lcm':'最小公倍数',
     'interactive':'交互题', 'coordinate compression':'离散化', 'linked list':'链表',
     '组合数学':'组合计数', '双指针 two-pointer':'双指针', '哈希 hashing':'哈希', 'kmp 算法':'KMP',
-    '分类讨论':'枚举', '素数判断':'素数', '线性筛法':'素数', '字典树 trie':'字典树',
-    '连通块':'连通块计数', '线性递推':'递推', '进制':'取模与同余', '随机游走 markov chain':'期望与概率',
+    '素数判断':'素数', '字典树 trie':'字典树',
+    '随机游走 markov chain':'期望与概率',
 }
 
 
@@ -165,12 +166,20 @@ def normalize_tags(values, *, official=False):
         if not isinstance(value, str):continue
         label=value.strip()
         if not label:continue
+        # A combined upstream label states both techniques. Retain both rather
+        # than silently assigning it to only the first half.
+        if label == '前缀和与差分':
+            for name in ('前缀和', '差分'):
+                tags.append(name);categories.append(category_path(name))
+            continue
         broad=BROAD.get(label) or BROAD.get(label.lower())
         if official and label.lower() == 'dp':broad='动态规划'
         if broad:
             categories.append(broad);continue
-        canonical=OFFICIAL.get(label.lower()) if official else None
-        canonical=canonical or canonical_tag(label)
+        # Exact canonical names and reviewed aliases precede broad platform
+        # translations: 状态压缩 is not necessarily DP, nor 分类讨论 enumeration.
+        canonical=canonical_tag(label)
+        canonical=canonical or (OFFICIAL.get(label.lower()) if official else None)
         if canonical:tags.append(canonical);categories.append(category_path(canonical))
         else:unknown.append(label)
     return {'tags':list(dict.fromkeys(tags)), 'categories':list(dict.fromkeys(categories)),
@@ -272,8 +281,12 @@ def analyze_problem(row=None, statement=None, official_tags=None, algorithm_evid
     inputs=official_tags if official_tags is not None else original
     if isinstance(inputs,str):inputs=KD.split_names(inputs)
     parsed=normalize_tags(inputs,official=bool(remote or official_tags is not None))
-    evidence=[{'source':'official-tags' if remote or official_tags is not None else 'archive-catalog',
-               'value':str(value),'tag':OFFICIAL.get(str(value).lower()) or canonical_tag(value)} for value in inputs or []]
+    evidence=[]
+    for value in inputs or []:
+        normalized=normalize_tags([value],official=bool(remote or official_tags is not None))
+        for tag in normalized['tags'] or [None]:
+            evidence.append({'source':'official-tags' if remote or official_tags is not None else 'archive-catalog',
+                             'value':str(value),'tag':tag})
     tags=list(parsed['tags']);categories=list(parsed['categories']);unknown=list(parsed['unknown'])
     original_url=str(row.get('url') or row.get('_url') or '')
     original_parts=urlsplit(original_url)
@@ -290,9 +303,11 @@ def analyze_problem(row=None, statement=None, official_tags=None, algorithm_evid
         removed=normalize_tags(curated.get('removeTags',[]))['tags']
         additional=normalize_tags(curated.get('addTags',[]))['tags']
         tags=list(dict.fromkeys(additional+[t for t in tags if t not in removed]))
-        retained=[i for i in inputs or [] if (OFFICIAL.get(str(i).lower()) or canonical_tag(i)) not in removed]
-        categories=normalize_tags(retained,official=bool(remote or official_tags is not None))['categories']
-        categories=list(dict.fromkeys(categories+[category_path(t) for t in additional]))
+        categories=[category_path(t) for t in tags]
+        for value in inputs or []:
+            normalized=normalize_tags([value],official=bool(remote or official_tags is not None))
+            if not normalized['tags']:categories+=normalized['categories']
+        categories=list(dict.fromkeys(categories))
         for e in evidence:
             if e.get('tag') in removed:e['status']='superseded-by-source-lesson'
         for tag in additional:
