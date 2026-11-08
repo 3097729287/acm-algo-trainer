@@ -533152,9 +533152,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -533226,10 +533225,6 @@
         "半平面交"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "计算几何",
@@ -580440,9 +580435,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -580542,10 +580536,6 @@
         "斜率维护技巧 slope trick"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "贪心",
@@ -654084,9 +654074,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -654156,11 +654145,7 @@
         "组合数学",
         "生成函数"
       ],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "生成函数"
@@ -669934,9 +669919,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -669981,11 +669965,7 @@
       "solutionAvailable": false,
       "source": "luogu-training",
       "sourceTags": [],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [],
       "title": "Travelling Salesperson",
@@ -670009,9 +669989,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -670100,11 +670079,7 @@
         "倍增",
         "ST 表"
       ],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "递推",
@@ -672436,9 +672411,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -672499,11 +672473,7 @@
       "sourceTags": [
         "数位 DP"
       ],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "数位 DP"
@@ -676646,9 +676616,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -676718,11 +676687,7 @@
         "图论",
         "深度优先搜索 DFS"
       ],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "图论"
@@ -685156,9 +685121,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -685238,11 +685202,7 @@
         "ST 表",
         "单调栈"
       ],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "倍增",
@@ -762780,9 +762740,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -762861,11 +762820,7 @@
         "最短路",
         "队列"
       ],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "最短路",
