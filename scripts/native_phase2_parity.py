@@ -158,7 +158,7 @@ def run(binary=None,report=None):
             compare('submission-list-'+str(index),lambda query=query:rpc('submissions',query=query),lambda kwargs=kwargs:legacy.submissions(**kwargs))
         for sid,_,_,_,_,_,_ in records:
             compare('history-code-'+sid,lambda sid=sid:rpc('submission',query={'id':[sid]})['submission'],lambda sid=sid:legacy._submission(legacy_db.execute('SELECT * FROM submissions WHERE id=?',(sid,)).fetchone()))
-        assert rpc('workspace',fail=True)['code']=='MIGRATION_PENDING';checks.append('unmigrated-review-view-is-explicit')
+        compare('official-history-and-real-review-view',lambda:rpc('workspace'),legacy.workspace)
         result={'passed':len(checks),'checks':checks,'guardsPassed':len(guards),'guards':guards,'work':str(work),'personalDataUsed':False,'fixedClock':NOW.isoformat(),'catalogueRows':len(rows)}
         result['nativeSha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
         (report or ROOT/'.backups/native-phase2-parity.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n','utf8')

@@ -5,6 +5,7 @@ public SQLite seed stays read-only; no private workspace or credentials are used
 """
 from pathlib import Path
 import ast
+import argparse
 import hashlib
 import json
 import os
@@ -67,6 +68,52 @@ def public_replay_events(store,assets,rows):
     return TrainingService.replay_events(projection)
 
 
+def review_knowledge(row,public):
+    """Review reads use the already classified compact training catalogue."""
+    from catalog_payload import project_row
+    from knowledge import enrich_row
+    enriched=enrich_row(project_row(row),statement=public.get('markdown'),official_tags=public.get('officialTags'))
+    return {key:enriched[key] for key in ('tags','knowledge','knowledgeAnalysis') if key in enriched}
+
+
+def build_review_contexts(destination=None):
+    """Extend a derived public index without rebuilding or writing the seed.
+
+    Reuse the exact cleaned public statement patches in this index. A staging
+    copy and one replacement keep running readers away from a partial table.
+    """
+    seed=ROOT/'data/library.sqlite3';destination=destination or ROOT/'data/native-catalog.sqlite3'
+    staging=destination.with_suffix('.review-building.sqlite3')
+    if staging.exists():raise RuntimeError(f'Previous incomplete index is preserved: {staging}')
+    before=signature(seed)
+    with closing(sqlite3.connect(destination.resolve().as_uri()+'?mode=ro',uri=True)) as source:
+        if json.loads(source.execute("SELECT value FROM metadata WHERE key='source'").fetchone()[0])!=before:raise RuntimeError('Source/index mismatch')
+        with closing(sqlite3.connect(staging)) as target:source.backup(target)
+    with closing(sqlite3.connect(seed.resolve().as_uri()+'?mode=ro',uri=True)) as public,closing(sqlite3.connect(staging)) as db:
+        with db:
+            db.execute('CREATE TABLE IF NOT EXISTS review_knowledge(id TEXT PRIMARY KEY,content BLOB NOT NULL,error TEXT)')
+            db.execute('DELETE FROM review_knowledge')
+            records=db.execute('SELECT c.id,c.compact,p.patch,p.error FROM catalogue c JOIN problem_projections p ON p.id=c.id ORDER BY c.position').fetchall()
+            for identity,row,packed,error in records:
+                if error:
+                    db.execute('INSERT INTO review_knowledge VALUES(?,?,?)',(identity,zlib.compress(b'{}'),error));continue
+                original=public.execute('SELECT content FROM statements WHERE problem_id=?',(identity,)).fetchone()
+                value=json.loads(original[0]) if original else {}
+                for patch in json.loads(zlib.decompress(packed)):
+                    parent=value
+                    for field in patch['path'][:-1]:parent=parent[field]
+                    field=patch['path'][-1]
+                    if patch.get('remove'):parent.pop(field,None)
+                    else:parent[field]=patch['value']
+                knowledge=review_knowledge(json.loads(row),value)
+                db.execute('INSERT INTO review_knowledge VALUES(?,?,NULL)',(identity,zlib.compress(json.dumps(knowledge,ensure_ascii=False,separators=(',',':'),allow_nan=False).encode(),6)))
+            db.execute("INSERT INTO metadata VALUES('reviewKnowledgeVersion','1') ON CONFLICT(key) DO UPDATE SET value=excluded.value")
+        if db.execute('PRAGMA integrity_check').fetchone()[0]!='ok':raise RuntimeError('Derived review context integrity failed')
+    if signature(seed)!=before:raise RuntimeError('Public seed changed during review compilation; staging preserved')
+    os.replace(staging,destination)
+    print(f'Compiled {len(records)} review knowledge contexts; public seed remained read-only; {destination.stat().st_size} bytes',flush=True)
+
+
 def build(destination=None):
     from catalog_payload import project_row
     from catalog_identity import remote_aliases
@@ -106,6 +153,7 @@ def build(destination=None):
           CREATE INDEX aliases_canonical ON aliases(canonical);
           CREATE TABLE lecture_summaries(id TEXT PRIMARY KEY,position INTEGER,content TEXT NOT NULL);
           CREATE TABLE problem_projections(id TEXT PRIMARY KEY,patch BLOB NOT NULL,knowledge BLOB NOT NULL,error TEXT);
+          CREATE TABLE review_knowledge(id TEXT PRIMARY KEY,content BLOB NOT NULL,error TEXT);
           CREATE TABLE training_lists(id TEXT PRIMARY KEY,position INTEGER NOT NULL,content TEXT NOT NULL);
           CREATE TABLE derived_assets(sha256 TEXT PRIMARY KEY,mime TEXT NOT NULL,data BLOB NOT NULL);
         ''')
@@ -142,15 +190,18 @@ def build(destination=None):
                     enriched=enrich_row(selected,statement=public.get('markdown'),official_tags=public.get('officialTags'))
                     knowledge={k:enriched[k] for k in ['tags','knowledge','knowledgeAnalysis'] if k in enriched}
                     patch=list(patch_values({k:v for k,v in original.items() if k in allowed},header))
+                    context=review_knowledge(row,public)
                     db.execute('INSERT INTO problem_projections VALUES(?,?,?,NULL)',(identity,zlib.compress(dump(patch).encode(),6),zlib.compress(dump(knowledge).encode(),6)))
+                    db.execute('INSERT INTO review_knowledge VALUES(?,?,NULL)',(identity,zlib.compress(dump(context).encode(),6)))
                 except (ValueError,RuntimeError,OSError) as error:
                     db.execute('INSERT INTO problem_projections VALUES(?,?,?,?)',(identity,zlib.compress(b'[]'),zlib.compress(b'{}'),str(error)[:300]))
+                    db.execute('INSERT INTO review_knowledge VALUES(?,?,?)',(identity,zlib.compress(b'{}'),str(error)[:300]))
                 if index and index%3000==0:print(f'Compiled {index}/{len(rows)} problem projections',flush=True)
             events=public_replay_events(store,assets,rows)
         finally:assets.close()
         metadata = {'format': 4, 'source': before, 'revision': revision, 'statuses': list(status_report.STATES),
                     'categories': store.categories(), 'lectureRevision': store.library.metadata().get('revision', '0'),
-                    'curationVersion': lecture_library.C.VERSION,'replayEvents':events}
+                    'curationVersion': lecture_library.C.VERSION,'replayEvents':events,'reviewKnowledgeVersion':1}
         db.executemany('INSERT INTO metadata VALUES(?,?)', [(key, dump(value)) for key, value in metadata.items()])
         if db.execute('PRAGMA integrity_check').fetchone()[0] != 'ok':
             raise RuntimeError('Native catalogue integrity failed')
@@ -167,4 +218,8 @@ def build(destination=None):
 
 
 if __name__ == '__main__':
-    build()
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--review-contexts-only',action='store_true')
+    args=parser.parse_args()
+    if args.review_contexts_only:build_review_contexts()
+    else:build()

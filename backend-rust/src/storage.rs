@@ -167,6 +167,22 @@ impl PersonalStore {
         self.save_draft_at(body, &now())
     }
     pub fn save_draft_at(&mut self, body: &Value, stamp: &str) -> Result<Value, ApiError> {
+        // Callers without a migrated Training context cannot choose a context.
+        if body.get("reviewId").is_some_and(|v| !v.is_null())
+            || body
+                .get("contestId")
+                .is_some_and(|v| !v.is_null() && v != "")
+        {
+            return Err(ApiError::pending());
+        }
+        self.save_draft_context_at(body, stamp, "")
+    }
+    pub(crate) fn save_draft_context_at(
+        &mut self,
+        body: &Value,
+        stamp: &str,
+        context: &str,
+    ) -> Result<Value, ApiError> {
         fields(body, &["id", "code", "contestId", "language", "reviewId"])?;
         let id = required_text(body, "id", 512)?;
         let code = body
@@ -181,17 +197,8 @@ impl PersonalStore {
         if !["cpp17", "python3"].contains(&language) {
             return Err(ApiError::bad("请选择 C++17 或 Python 3"));
         }
-        // Review/contest contexts require the corresponding migrated domain.
-        // Refuse them instead of accidentally overwriting the ordinary draft.
-        if body.get("reviewId").is_some_and(|v| !v.is_null())
-            || body
-                .get("contestId")
-                .is_some_and(|v| !v.is_null() && v != "")
-        {
-            return Err(ApiError::pending());
-        }
-        let key = Self::draft_key(id, "");
-        let previous = self.draft(id, "")?;
+        let key = Self::draft_key(id, context);
+        let previous = self.draft(id, context)?;
         if previous["draft"] == code
             && previous["draftLanguage"] == language
             && !previous["draftSavedAt"].is_null()
@@ -211,10 +218,10 @@ impl PersonalStore {
         {
             Self::put(&tx, &key, language, &stamp)?;
         }
-        if !code.trim().is_empty() {
+        if context.is_empty() && !code.trim().is_empty() {
             tx.execute("INSERT INTO training(id,active_at) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET active=1,removed_at=NULL,active_at=MAX(training.active_at,excluded.active_at)",params![id,stamp])?;
         }
-        tx.execute("INSERT INTO drafts(problem_id,context,code,saved_at) VALUES(?,'',?,?) ON CONFLICT(problem_id,context) DO UPDATE SET code=excluded.code,saved_at=excluded.saved_at",params![id,code,stamp])?;
+        tx.execute("INSERT INTO drafts(problem_id,context,code,saved_at) VALUES(?,?,?,?) ON CONFLICT(problem_id,context) DO UPDATE SET code=excluded.code,saved_at=excluded.saved_at",params![id,context,code,stamp])?;
         tx.commit()?;
         Ok(json!({"savedAt":stamp}))
     }

@@ -91,9 +91,13 @@ impl Training<'_> {
         Ok(())
     }
     fn simple_workspace_supported(&self) -> Result<(), ApiError> {
-        // Reviewed scheduling and legacy goals are a separate migration stage.
-        // Refuse before any mutation when their facts would affect this view.
-        let special:bool=self.personal.db.query_row("SELECT EXISTS(SELECT 1 FROM goals WHERE archived=0) OR EXISTS(SELECT 1 FROM submissions WHERE mode='submit' AND scope='official' AND finished_at IS NOT NULL) OR EXISTS(SELECT 1 FROM account_preferences WHERE key LIKE 'review-state:%' OR key LIKE 'review-task:%') OR EXISTS(SELECT 1 FROM contests)",[],|r|r.get(0))?;
+        // Contest finalization and legacy goal allocation remain separate.
+        // Refuse before mutation rather than project their facts as empty.
+        let special: bool = self.personal.db.query_row(
+            "SELECT EXISTS(SELECT 1 FROM goals WHERE archived=0) OR EXISTS(SELECT 1 FROM contests)",
+            [],
+            |r| r.get(0),
+        )?;
         if special {
             return Err(ApiError::pending());
         }
@@ -101,6 +105,13 @@ impl Training<'_> {
     }
     pub fn workspace(&self) -> Result<Value, ApiError> {
         self.simple_workspace_supported()?;
+        let reviews = crate::reviews::plan(self)?;
+        let review_tasks = reviews["tasks"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|task| (text(task, "problemId").to_owned(), task.clone()))
+            .collect::<HashMap<_, _>>();
         let records=self.personal.rows("SELECT id,problem_id,contest_id,mode,submitted_at,finished_at,verdict,scope,solution_seen FROM submissions WHERE mode='submit' ORDER BY submitted_at,rowid",[])?;
         let mut grouped: HashMap<String, Vec<&Value>> = HashMap::new();
         for r in records.as_array().unwrap() {
@@ -118,10 +129,13 @@ impl Training<'_> {
                 *entry = text(r, "at").into();
             }
         }
-        let rows = self.personal.rows(
-            "SELECT * FROM training WHERE active=1 ORDER BY active_at,id",
-            [],
-        )?;
+        let mut due_ids = Vec::new();
+        for id in review_tasks.keys() {
+            due_ids.extend(self.ids(id)?);
+        }
+        due_ids.sort();
+        due_ids.dedup();
+        let rows = self.personal.rows("SELECT * FROM training WHERE active=1 OR id IN(SELECT value FROM json_each(?)) ORDER BY active_at,id",[json!(due_ids).to_string()])?;
         let mut training: Vec<Value> = Vec::new();
         let mut positions = HashMap::<String, usize>::new();
         for record in rows.as_array().unwrap() {
@@ -152,6 +166,13 @@ impl Training<'_> {
                 queue = json!("fill");
             } else if latest.is_some_and(|r| r["verdict"] == "SAMPLE_PASS") && !accepted {
                 queue = json!("verify");
+            }
+            if let Some(task) = review_tasks.get(&id) {
+                queue = json!(if task["stage"].as_i64().unwrap_or(0) >= 2 {
+                    "check"
+                } else {
+                    "review"
+                });
             }
             let mut item = match row_or_portable(self.catalogue, self.personal, &id) {
                 Ok(row) => row,
@@ -185,6 +206,18 @@ impl Training<'_> {
             .to_owned();
             let today = truth(&queue) || day(parse(&last_at)?) == day(self.now);
             for (key,value) in json!({"id":id,"accepted":accepted,"verdict":last.map(|r|r["verdict"].clone()),"scope":scope,"attempts":attempts.len(),"acceptedAt":accepted_at,"lastSubmittedAt":last.map(|r|r["submitted_at"].clone()),"queue":queue,"reviewCount":record["review_count"],"solutionSeen":truth(&record["solution_pending"])||truth(&record["rewrite_due"]),"activeAt":record["active_at"],"lastActivityAt":last_at,"today":today}).as_object().unwrap() {item[key]=value.clone();}
+            if let Some(task) = review_tasks.get(&id) {
+                item["reviewTask"] = task.clone();
+            } else if reviews["reviewOnly"] == true {
+                let today = latest.is_some_and(|r| {
+                    crate::ability::time(text(r, "submitted_at"))
+                        .is_some_and(|at| day(at) == day(self.now))
+                });
+                item["today"] = json!(today);
+                if !today {
+                    item["queue"] = Value::Null;
+                }
+            }
             if let Some(&index) = positions.get(&id) {
                 let previous = &mut training[index];
                 if !truth(&previous["queue"]) {
@@ -231,7 +264,40 @@ impl Training<'_> {
                 goals["summaryGoal"] = state["config"]["goal"].clone();
             }
         }
-        let reviews = json!({"date":date,"tasks":[],"dueCount":0,"deferredCount":0,"minutes":0,"dailyMinutes":90,"newMinutes":90,"reviewOnly":false,"abilityScore":null,"policyVersion":3});
+        let mut historical = HashSet::new();
+        let mut today_accepted = HashSet::new();
+        let mut before_today = HashSet::new();
+        let mut first_passes = HashMap::<String, String>::new();
+        for record in records.as_array().unwrap().iter().filter(|r| {
+            r["scope"] == "official" && r["verdict"] == "AC" && truth(&r["finished_at"])
+        }) {
+            let id = self.canonical(text(record, "problem_id"))?;
+            let accepted_day = day(parse(text(record, "submitted_at"))?);
+            historical.insert(id.clone());
+            if accepted_day == date {
+                today_accepted.insert(id.clone());
+            } else if accepted_day < date {
+                before_today.insert(id.clone());
+            }
+            first_passes
+                .entry(id)
+                .and_modify(|day| {
+                    if accepted_day < *day {
+                        *day = accepted_day.clone();
+                    }
+                })
+                .or_insert(accepted_day);
+        }
+        let days = first_passes.into_values().collect::<HashSet<_>>();
+        let mut cursor = chrono::NaiveDate::parse_from_str(&date, "%Y-%m-%d").unwrap();
+        if !days.contains(&cursor.to_string()) {
+            cursor -= chrono::Duration::days(1);
+        }
+        let mut streak = 0;
+        while days.contains(&cursor.to_string()) {
+            streak += 1;
+            cursor -= chrono::Duration::days(1);
+        }
         let pending: i64 = self.personal.db.query_row(
             "SELECT count(*) FROM submissions WHERE finished_at IS NULL",
             [],
@@ -239,25 +305,30 @@ impl Training<'_> {
         )?;
         Ok(
             json!({"training":training,"sets":sets,"contests":contests,"completedReplayContests":[],"reviews":reviews,"goals":goals,"goalTasks":[],"activeContest":null,
-            "summary":{"todayAccepted":0,"historicalAccepted":0,"beforeTodayAccepted":0,"total":training.len(),"accepted":accepted_ids.len(),"samplePassed":training.iter().filter(|r|r["verdict"]=="SAMPLE_PASS"&&r["accepted"]!=true).count(),"attempts":records.as_array().unwrap().len(),"due":training.iter().filter(|v|truth(&v["queue"])).count(),"streak":0,"pending":pending},"now":stamp(self.now)}),
+            "summary":{"todayAccepted":today_accepted.len(),"historicalAccepted":historical.len(),"beforeTodayAccepted":before_today.len(),"total":training.len(),"accepted":accepted_ids.len(),"samplePassed":training.iter().filter(|r|r["verdict"]=="SAMPLE_PASS"&&r["accepted"]!=true).count(),"attempts":records.as_array().unwrap().len(),"due":training.iter().filter(|v|truth(&v["queue"])).count(),"streak":streak,"pending":pending},"now":stamp(self.now)}),
         )
     }
     pub fn start(&mut self, body: &Value) -> Result<Value, ApiError> {
         let id = required_text(body, "id", 512)?;
         row_or_portable(self.catalogue, self.personal, id)?;
-        if truth(&body["restoreReviewId"]) {
-            return Err(ApiError::pending());
-        }
         let deferred = body["deferWorkspace"] == true;
         let assisted = body["assisted"] == true;
         self.simple_workspace_supported()?;
+        if let Some(review_id) = body["restoreReviewId"].as_str().filter(|id| !id.is_empty()) {
+            self.assert_unlocked(id)?;
+            // Validate the scheduled time before changing its cancellation.
+            crate::reviews::task(self, id, Some(review_id), true)?;
+            crate::reviews::set_cancelled(self, id, review_id, false)?;
+            if deferred {
+                return Ok(
+                    json!({"reviewTask":crate::reviews::task(self,id,Some(review_id),false)?}),
+                );
+            }
+        } else if truth(&body["restoreReviewId"]) {
+            return Err(ApiError::bad("复习上下文无效"));
+        }
         if assisted {
             self.assert_unlocked(id)?;
-        }
-        let ids = self.ids(id)?;
-        let wrong:bool=self.personal.db.query_row("SELECT EXISTS(SELECT 1 FROM submissions WHERE problem_id IN(SELECT value FROM json_each(?)) AND mode='submit' AND scope='official' AND verdict='WA' AND finished_at IS NOT NULL)",[json!(ids).to_string()],|r|r.get(0))?;
-        if wrong {
-            return Err(ApiError::pending());
         }
         if body["deferActivation"] != true {
             self.activate(id)?;
@@ -266,9 +337,23 @@ impl Training<'_> {
             self.mark_seen(id)?;
         }
         if deferred && !assisted {
-            return Ok(json!({"reviewTask":null}));
+            let canonical = self.canonical(id)?;
+            let plan = crate::reviews::plan(self)?;
+            return Ok(
+                json!({"reviewTask":plan["tasks"].as_array().unwrap().iter().find(|task|task["problemId"]==canonical)}),
+            );
         }
-        Ok(json!({"workspace":self.workspace()?,"reviewTask":null}))
+        let workspace = self.workspace()?;
+        let canonical = self.canonical(id)?;
+        let task = workspace["training"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|row| row["id"] == canonical)
+            .and_then(|row| row.get("reviewTask"))
+            .cloned()
+            .unwrap_or(Value::Null);
+        Ok(json!({"workspace":workspace,"reviewTask":task}))
     }
     pub fn activate(&mut self, id: &str) -> Result<(), ApiError> {
         let now = stamp(self.now);
@@ -360,8 +445,19 @@ impl Training<'_> {
                 "这道题还有评测任务，请等待结果后取消训练",
             ));
         }
+        let plan = crate::reviews::plan(self)?;
+        let canonical = self.canonical(id)?;
+        let cancelled = plan["tasks"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|task| task["problemId"] == canonical)
+            .map(|task| text(task, "id").to_owned());
+        if let Some(review) = &cancelled {
+            crate::reviews::set_cancelled(self, id, review, true)?;
+        }
         self.personal.db.execute("UPDATE training SET active=0,removed_at=? WHERE id IN(SELECT value FROM json_each(?)) AND active=1",params![stamp(self.now),ids])?;
-        Ok(json!({"workspace":self.workspace()?,"cancelledReviewId":null}))
+        Ok(json!({"workspace":self.workspace()?,"cancelledReviewId":cancelled}))
     }
     pub fn clear(&mut self, body: &Value) -> Result<Value, ApiError> {
         fields(body, &["ids"])?;
@@ -435,6 +531,38 @@ impl Training<'_> {
             self.personal.db.execute("INSERT INTO training(id,active_at,active,solution_pending,solution_seen_at) VALUES(?,?,0,1,?)",params![id,stamp(self.now),stamp(self.now)])?;
         }
         Ok(())
+    }
+    pub fn save_draft(&mut self, body: &Value) -> Result<Value, ApiError> {
+        fields(body, &["id", "code", "contestId", "language", "reviewId"])?;
+        let id = required_text(body, "id", 512)?;
+        if !body["code"]
+            .as_str()
+            .is_some_and(|code| code.len() <= 65536)
+        {
+            return Err(ApiError::bad("代码必须是文本，且大小不超过 64 KB"));
+        }
+        if body
+            .get("language")
+            .is_some_and(|v| !v.is_null() && ![json!("cpp17"), json!("python3")].contains(v))
+        {
+            return Err(ApiError::bad("请选择 C++17 或 Python 3"));
+        }
+        row_or_portable(self.catalogue, self.personal, id)?;
+        self.assert_unlocked(id)?;
+        if truth(&body["contestId"]) {
+            return Err(ApiError::pending());
+        }
+        let review = match body.get("reviewId") {
+            None | Some(Value::Null) => None,
+            Some(Value::String(id)) => Some(id.as_str()),
+            _ => return Err(ApiError::bad("复习上下文无效")),
+        };
+        let task = crate::reviews::task(self, id, review, true)?;
+        let context = task
+            .map(|task| format!("review:{}", text(&task, "id")))
+            .unwrap_or_default();
+        self.personal
+            .save_draft_context_at(body, &stamp(self.now), &context)
     }
     pub fn contest_projection(&self, record: &Value) -> Result<Value, ApiError> {
         let config: Value = serde_json::from_str(text(record, "config"))?;
@@ -661,8 +789,16 @@ impl Training<'_> {
         if request.param("resultsOnly") == Some("1") {
             clauses.push("mode='submit' AND sample_run=0 AND verdict!='SAMPLE_PASS' AND scope IN('official','local')".into());
         }
-        if request.param("reviewId").is_some() {
-            return Err(ApiError::pending());
+        if let Some(review) = request.param("reviewId").filter(|id| !id.is_empty()) {
+            if request.param("contestId").is_some() {
+                return Err(ApiError::bad("复习上下文无效"));
+            }
+            let identity = request
+                .param("id")
+                .ok_or_else(|| ApiError::bad("缺少题目编号"))?;
+            crate::reviews::task(self, identity, Some(review), false)?;
+            clauses.push("EXISTS(SELECT 1 FROM account_preferences WHERE key='review-receipt:'||submissions.id AND json_valid(value) AND json_extract(value,'$')=?)".into());
+            values.push(review.to_owned().into());
         }
         // Search/filter the public metadata once, before pagination and COUNT.
         if !platform.is_empty() || !query.trim().is_empty() {
@@ -774,15 +910,26 @@ impl Training<'_> {
     pub fn problem(&self, r: &ApiRequest) -> Result<Value, ApiError> {
         let id = r.param("id").ok_or_else(|| ApiError::bad("题目编号无效"))?;
         let row = row_or_portable(self.catalogue, self.personal, id)?;
-        if r.param("contestId").is_some() || r.param("reviewId").is_some() {
+        if r.param("contestId").filter(|id| !id.is_empty()).is_some() {
+            if r.param("reviewId").filter(|id| !id.is_empty()).is_some() {
+                return Err(ApiError::bad("复习上下文无效"));
+            }
             return Err(ApiError::pending());
         }
         self.history_visible(id, None)?;
+        let review = crate::reviews::task(self, id, r.param("reviewId"), true)?;
+        let context = review
+            .as_ref()
+            .map(|task| format!("review:{}", text(task, "id")))
+            .unwrap_or_default();
         let canonical = self.canonical(id)?;
         let mut problem = self.library.statement(&canonical)?;
-        let knowledge = self
+        let mut knowledge = self
             .catalogue
             .problem_projection(&canonical, &mut problem)?;
+        if review.is_some() {
+            knowledge = self.catalogue.review_knowledge(&canonical)?;
+        }
         self.library
             .hydrate_with(&mut problem, Some(&self.catalogue.db))?;
         let allowed = [
@@ -822,12 +969,16 @@ impl Training<'_> {
         problem["locked"] = json!(self.locked(id)?);
         problem["solutionMethods"] = self.library.solution_summary(&canonical)?;
         let ids = self.ids(id)?;
-        let draft=self.personal.rows("SELECT problem_id,context,code,saved_at FROM drafts WHERE problem_id IN(SELECT value FROM json_each(?)) AND context='' ORDER BY saved_at DESC LIMIT 1",[json!(ids).to_string()])?;
+        let draft=self.personal.rows("SELECT problem_id,context,code,saved_at FROM drafts WHERE problem_id IN(SELECT value FROM json_each(?)) AND context=? ORDER BY saved_at DESC LIMIT 1",params![json!(ids).to_string(),context])?;
         let draft = if let Some(record) = draft.as_array().unwrap().first() {
             self.personal
                 .draft(text(record, "problem_id"), text(record, "context"))?
         } else {
-            self.personal.draft(id, "")?
+            let mut draft = self.personal.draft(id, &context)?;
+            if review.is_some() {
+                draft["draftLanguage"] = self.personal.draft(id, "")?["draftLanguage"].clone();
+            }
+            draft
         };
         for (key, value) in draft.as_object().unwrap() {
             problem[key] = value.clone();
@@ -836,6 +987,9 @@ impl Training<'_> {
         let mut history = r.clone();
         history.path = "submissions".into();
         problem["submissions"] = self.submissions(&history, true)?["submissions"].clone();
+        if let Some(task) = review {
+            problem["reviewTask"] = task;
+        }
         for key in ["tags", "knowledge", "knowledgeAnalysis"] {
             if let Some(value) = knowledge.get(key) {
                 problem[key] = value.clone();

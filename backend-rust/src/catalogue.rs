@@ -167,6 +167,28 @@ impl Catalogue {
             json!({"rows":rows,"statuses":self.meta("statuses")?,"categories":self.meta("categories")?,"revision":self.meta("revision")?,"today":today(),"token":token}),
         )
     }
+    pub fn review_knowledge(&self, id: &str) -> Result<Value, ApiError> {
+        let available:bool=self.db.query_row("SELECT EXISTS(SELECT 1 FROM sqlite_master WHERE type='table' AND name='review_knowledge')",[],|row|row.get(0))?;
+        if !available {
+            return Err(ApiError::pending());
+        }
+        if self.meta("reviewKnowledgeVersion")? != json!(1) {
+            return Err(ApiError::pending());
+        }
+        let (content, error): (Vec<u8>, Option<String>) = self.db.query_row(
+            "SELECT content,error FROM review_knowledge WHERE id=?",
+            [id],
+            |row| Ok((row.get(0)?, row.get(1)?)),
+        )?;
+        if error.is_some() {
+            return Err(ApiError::new(
+                503,
+                "STATEMENT_NOT_READY",
+                "这道题的原始资源尚未完整缓存，请先使用当前正式版",
+            ));
+        }
+        decode(&content)
+    }
     pub fn lectures(
         &self,
         personal: &PersonalStore,

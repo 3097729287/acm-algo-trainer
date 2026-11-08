@@ -9,6 +9,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright';
 import { exerciseNativePlanning } from './native-learning-flow.mjs';
 import { exerciseNativeRuns } from './native-run-flow.mjs';
+import { exerciseNativeReviews } from './native-review-flow.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const packaged = process.argv.includes('--packaged');
@@ -135,6 +136,7 @@ try {
   await page.screenshot({ path: resolve(output, 'react-workspace-narrow.png') });
   results.reactWorkspace = { saved: true, recoveredAfterReload: true, training: saved.training, problemId: saved.id };
   if(process.env.TB_NATIVE_TEST_RUNNER==='1')results.localRuns=await exerciseNativeRuns(page,output);
+  if(process.env.TB_NATIVE_TEST_REVIEWS==='1')results.reviews=await exerciseNativeReviews(page,output,sandbox,process.env.TB_NATIVE_TEST_PYTHON);
   assert.equal(results.capabilities.deployment, 'local-test-only');
   assert.equal(results.capabilities.formalArchitecture, 'react-python');
   assert.deepEqual(failures, []);

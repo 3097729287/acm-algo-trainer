@@ -188,12 +188,17 @@ impl Service {
         )?;
         let id = api::required_text(body, "id", 512)?;
         if body["mode"] != "run"
-            || ["contestId", "reviewId"]
+            || ["contestId"]
                 .iter()
                 .any(|key| body.get(*key).is_some_and(|v| !v.is_null() && v != ""))
         {
             return Err(ApiError::pending());
         }
+        let review_id = match body.get("reviewId") {
+            None | Some(Value::Null) => None,
+            Some(Value::String(id)) => Some(id.as_str()),
+            _ => return Err(ApiError::bad("复习上下文无效")),
+        };
         let hash = format!("{:x}", Sha256::digest(body.to_string().as_bytes()));
         let key = format!("native-run-request:{}", r.id);
         let previous = {
@@ -268,7 +273,17 @@ impl Service {
                 .now()
                 .to_rfc3339_opts(chrono::SecondsFormat::Micros, true);
             let ids = training.ids(id)?;
-            let seen:bool=training.personal.db.query_row("SELECT COALESCE(MAX(solution_pending),0)!=0 FROM training WHERE id IN (SELECT value FROM json_each(?))",[json!(ids).to_string()],|row|row.get(0))?;
+            let review = crate::reviews::task(&training, id, review_id, true)?;
+            let seen: bool = if let Some(task) = &review {
+                let seen:Option<String>=training.personal.db.query_row("SELECT MAX(solution_seen_at) FROM training WHERE id IN (SELECT value FROM json_each(?))",[json!(ids).to_string()],|row|row.get(0))?;
+                seen.is_some_and(|at| {
+                    task["openedAt"].as_str().is_some_and(|opened| {
+                        opened <= at.as_str() && at.as_str() <= stamp.as_str()
+                    })
+                })
+            } else {
+                training.personal.db.query_row("SELECT COALESCE(MAX(solution_pending),0)!=0 FROM training WHERE id IN (SELECT value FROM json_each(?))",[json!(ids).to_string()],|row|row.get(0))?
+            };
             let tx = training.personal.db.transaction()?;
             tx.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,verdict,scope,custom_input,solution_seen,sample_run) VALUES(?,?,NULL,'run',?,?,'QUEUED','samples',?,?,?)",rusqlite::params![submission,id,plan.code,stamp,plan.input,seen as i32,plan.sample_run as i32])?;
             PersonalStore::put(
@@ -277,6 +292,14 @@ impl Service {
                 &plan.language,
                 &stamp,
             )?;
+            if let Some(review) = &review {
+                PersonalStore::put(
+                    &tx,
+                    &format!("review-receipt:{submission}"),
+                    &review["id"].to_string(),
+                    &stamp,
+                )?;
+            }
             PersonalStore::put(
                 &tx,
                 &format!("native-run:{submission}"),
@@ -545,15 +568,7 @@ impl Service {
                     r.body.as_ref().unwrap(),
                     self.now(),
                 ),
-                ("POST", "draft") => {
-                    let body = r.body.as_ref().unwrap();
-                    let id = crate::api::required_text(body, "id", 512)?;
-                    crate::catalogue::row_or_portable(&catalogue, training.personal, id)?;
-                    training.assert_unlocked(id)?;
-                    training
-                        .personal
-                        .save_draft_at(body, &learning::stamp(self.now()))
-                }
+                ("POST", "draft") => training.save_draft(r.body.as_ref().unwrap()),
                 _ => Err(ApiError::missing("没有找到这个接口")),
             };
         }

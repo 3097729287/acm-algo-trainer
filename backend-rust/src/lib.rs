@@ -1,4 +1,5 @@
 //! ToBe domain services. This crate has no WebView, HTTP server or Python runtime.
+pub mod ability;
 pub mod api;
 pub mod catalogue;
 pub mod code_format;
@@ -12,6 +13,7 @@ pub mod native_judge;
 pub mod planner;
 pub mod preferences;
 pub mod process_job;
+pub mod reviews;
 pub mod run_queue;
 pub mod service;
 pub mod storage;

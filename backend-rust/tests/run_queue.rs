@@ -298,6 +298,44 @@ fn authorization_and_unmigrated_contexts_fail_before_creating_history() {
     private_untouched(&config);
 }
 #[test]
+fn review_local_run_keeps_its_binding_without_an_official_pass_or_reward() {
+    let (_dir, config) = fixture();
+    let review = "1234567890abcdef1234567890abcdef";
+    let task = json!({"id":review,"problemId":"fixture::A","problemKey":"example.com/A","due":"2026-11-01","openedAt":null,"completedAt":null,"failures":[],"processed":[]});
+    let store = PersonalStore::open(&config.personal).unwrap();
+    store
+        .put_document(&format!("review-task:{review}"), &task)
+        .unwrap();
+    drop(store);
+    let service = open(&config);
+    let mut request_body = body("n=int(input());print(n+1)");
+    request_body["reviewId"] = json!(review);
+    let answer = service.handle(request(&service, request_body));
+    assert!(answer.ok, "{:?}", answer.error);
+    let id = answer.data.unwrap()["submission"]["id"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    let result = wait(&service, &id);
+    assert_eq!(result["verdict"], "SAMPLE_PASS");
+    assert_eq!(result["scope"], "samples");
+    assert_eq!(result["reviewRewardXp"], 0);
+    let store = PersonalStore::open(&config.personal).unwrap();
+    assert_eq!(
+        store.document(&format!("review-receipt:{id}")).unwrap(),
+        Some(json!(review))
+    );
+    assert!(
+        store
+            .document(&format!("review-task:{review}"))
+            .unwrap()
+            .unwrap()["completedAt"]
+            .is_null()
+    );
+    assert!(store.documents("review-reward:").unwrap().is_empty());
+    private_untouched(&config);
+}
+#[test]
 fn graceful_shutdown_cancels_and_finishes_owned_jobs_and_releases_the_workspace() {
     let (_dir, config) = fixture();
     let service = open(&config);
