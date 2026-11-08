@@ -1,0 +1,66 @@
+{
+  "ok": true,
+  "implementationCommit": "aaea6dbfee26bf55a19a2d7f2606c7716b783d7d",
+  "moduleOnly": true,
+  "serviceIntegrationPending": true,
+  "newLegacyApisClaimed": 0,
+  "automatedTestsPassed": 8,
+  "livePublicSamples": [
+    {
+      "sha256": "569c62451809c4d9dd160b841454ae9acd22e4c3fbf9dbdcec148b366bc1513e",
+      "mime": "image/png",
+      "bytes": 1142,
+      "url": "https://47.82.84.74/updates/library-assets/569c62451809c4d9dd160b841454ae9acd22e4c3fbf9dbdcec148b366bc1513e.bin",
+      "downloadThenOfflineReadPassed": true
+    },
+    {
+      "sha256": "09782e672c3a426be957a470582d4bb1793f190ad3dda09149932a61398cd472",
+      "mime": "image/jpeg",
+      "bytes": 49570,
+      "url": "https://47.82.84.74/updates/library-assets/09782e672c3a426be957a470582d4bb1793f190ad3dda09149932a61398cd472.bin",
+      "downloadThenOfflineReadPassed": true
+    },
+    {
+      "sha256": "7d5514157f6622dd85b3d71486f7c6de987a0611ec04487c94b054eaa0fc3b41",
+      "mime": "application/pdf",
+      "bytes": 8135,
+      "url": "https://raw.githubusercontent.com/3097729287/acm-algo-trainer/a4de0d4b160e1d2270422b8c84995feffc4e3269/7d5514157f6622dd85b3d71486f7c6de987a0611ec04487c94b054eaa0fc3b41.bin",
+      "downloadThenOfflineReadPassed": true
+    }
+  ],
+  "testBinarySha256": "bf594540888a454161a3c0b5a611cc13658c2f8e7f66bd69920b59e8db0799e7",
+  "cacheSchemaCompatibleWithPython": true,
+  "verifiedCacheSurvivesOfflineRestart": true,
+  "maxActiveDownloads": 4,
+  "maxAssetBytes": 33554432,
+  "downloadWritesStreamedToOwnedTemporaryFile": true,
+  "cacheWritesStreamedToSQLiteBlob": true,
+  "integrityCheckedBeforeCommit": true,
+  "failedTemporaryFilesRemoved": true,
+  "wrongOrOversizedBodyNeverCached": true,
+  "sourceFailureUsesPinnedDomesticFallback": true,
+  "redirectsRejected": true,
+  "tlsVerificationDisabled": false,
+  "httpAccountHeadersSent": false,
+  "personalDatabaseFixtureUnchanged": true,
+  "actualPersonalStateOpened": false,
+  "publicSeedOrCatalogueChanged": false,
+  "normalApplicationLaunchedOrReplaced": false,
+  "nativeDownloadLibrary": {
+    "name": "reqwest",
+    "version": "0.13.5",
+    "tls": "native-tls / Windows Schannel",
+    "source": "https://github.com/seanmonstar/reqwest/blob/v0.13.5/Cargo.toml"
+  },
+  "cleanupInspection": {
+    "newSparseWorktree": true,
+    "obsoleteGeneratedSourceArtifactsPresentBeforeWork": false,
+    "personalFilesOrHistoricalPackagesTouched": false,
+    "sharedRustBuildCacheRemoved": false
+  },
+  "verificationCommands": [
+    "cargo test -p tobe-core --test public_assets",
+    "TB_PUBLIC_ASSET_SMOKE_DESCRIPTOR=<public JSON> cargo test -p tobe-core --test public_assets actual_public_https_download_then_offline_cache_read -- --ignored"
+  ],
+  "integrationRequirement": "Resolve descriptors briefly under the public-library lock, call ensure after dropping personal/library/catalogue locks, then hydrate cached bytes. Do not replay any operation that has already written user data."
+}
