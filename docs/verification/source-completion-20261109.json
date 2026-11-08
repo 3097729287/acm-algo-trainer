@@ -1,0 +1,95 @@
+{
+  "sourceCommit": "e56b94ac18b781b55c241c78e8b1bd7d26e29a15",
+  "sourceBaseVersion": "1.6.8",
+  "published": false,
+  "backendChecks": {
+    "tests": 1313,
+    "skipped": 2,
+    "seconds": 685.87,
+    "status": "passed"
+  },
+  "publicCorpus": {
+    "problems": 13480,
+    "statements": 13459,
+    "solutions": 3191,
+    "detailed_solutions": 2306,
+    "statement_assets": 6175,
+    "librarySha256": "a616acd4f7afc4c3ca2f842535e506fb6dd678fc2b8656bd515464cdb8f219c3",
+    "inlineOriginalDiagrams": 6
+  },
+  "usableChineseTranslations": 6095,
+  "gaps": {
+    "originals": 91,
+    "translations": 65,
+    "translationDisabled": 7,
+    "invalidTranslations": 0,
+    "visibleKnowledge": 3194,
+    "visibleDifficulty": 1033
+  },
+  "metadata": {
+    "displayRatingsNormalized": 686,
+    "officialRawRatingsRetained": 669,
+    "classifiedFromReviewedAlgorithms": 102,
+    "oldIdsAndProgressDefaultsPreserved": true
+  },
+  "ui": {
+    "markdown": {
+      "total": 22,
+      "rendered": 22,
+      "nativePdf": 0,
+      "issues": []
+    },
+    "originals": {
+      "checked": [
+        "luogu-training-P11035",
+        "luogu-training-P13308",
+        "luogu-training-P13309",
+        "luogu-training-P13550",
+        "luogu-training-P3651",
+        "luogu-training-P3654",
+        "luogu-training-P3655",
+        "luogu-training-P3933",
+        "luogu-training-P4914",
+        "luogu-training-P9151"
+      ],
+      "originalImagesLoaded": 9,
+      "browserErrors": 0,
+      "formulaErrors": 0,
+      "samplesPreserved": true,
+      "externalRequests": 0
+    },
+    "translations": {
+      "checked": [
+        "remote:codeforces:103443::A",
+        "remote:codeforces:103443::B",
+        "remote:codeforces:103443::D",
+        "remote:codeforces:103443::H",
+        "remote:codeforces:103443::K",
+        "remote:codeforces:103443::L"
+      ],
+      "browserErrors": 0,
+      "formulaErrors": 0,
+      "samplesPreserved": true,
+      "originalPdfRestored": true
+    }
+  },
+  "backup": {
+    "ok": true,
+    "backupSeconds": 15.928,
+    "copiedDatabases": 14,
+    "databaseBytes": 3678785536,
+    "allPersonalTablesMatched": 22,
+    "allSourceFilesUnchanged": true,
+    "usesActualPriorIsolatedStateCopy": true,
+    "normalAppStartedOrClosed": false,
+    "liveStateWritten": false,
+    "privateContentsPrinted": false,
+    "privateBackupRemainsLocal": true,
+    "wholeUpgradeTiming": false,
+    "backupImplementationSha256": "a260f2248619d78ad1924619308e877bb805e53c55e706630a348e6fdf03e613"
+  },
+  "backupCurrentSourceSha256": "c689a06c23d65073e04b8e6006be0843bfb0b027cdd5f2210e1156cd653fef33",
+  "backupOnlySubsequentChangeIsDocstring": true,
+  "oneMinuteWholeUpgradeTargetMet": false,
+  "normalInstallationChanged": false
+}
