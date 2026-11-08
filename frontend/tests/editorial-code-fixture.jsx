@@ -16,4 +16,4 @@ async function api(path,body){
  await new Promise(resolve=>setTimeout(resolve,30));
  return {code:expected,inputSha256:[...new Uint8Array(digest)].map(n=>n.toString(16).padStart(2,'0')).join('')};
 }
-createRoot(document.getElementById('root')).render(<div className="reader-content" style={{maxWidth:680,margin:30}}><SolutionMarkdown text={'```cpp\n'+original+'```'} api={api} problemId="fixture:reference" onCopy={value=>{window.referenceFixture.copied=value;}}/></div>);
+createRoot(document.getElementById('root')).render(<div className="reader-content" style={{maxWidth:680,margin:30}}><SolutionMarkdown text={(location.search.includes('legacy')?'```cxx\n':'```cpp\n')+original+'```'} api={api} problemId="fixture:reference" onCopy={value=>{window.referenceFixture.copied=value;}}/></div>);
