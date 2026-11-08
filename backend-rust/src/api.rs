@@ -88,6 +88,7 @@ impl ApiRequest {
         }
         let maximum = match self.path.as_str() {
             "preferences" => 48 * 1024 * 1024,
+            "submissions" => 1024 * 1024,
             "training-lists/add" | "training-lists/save" => 32 * 1024 * 1024,
             _ => 262144,
         };

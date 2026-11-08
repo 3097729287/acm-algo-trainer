@@ -34,6 +34,7 @@ if ($Action -eq 'test') {
     }
     if (!(Test-Path -LiteralPath $TestPython -PathType Leaf)) { throw 'Provide -TestPython with the Windows test interpreter; the backend does not use Python.' }
     $env:TB_NATIVE_TEST_PYTHON = [IO.Path]::GetFullPath($TestPython)
+    $env:TB_NATIVE_TEST_CPP17 = Join-Path $ToolchainBin 'g++.exe'
 }
 Push-Location $sourceRoot
 try {

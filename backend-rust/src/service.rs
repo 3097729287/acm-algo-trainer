@@ -3,15 +3,22 @@ use crate::{
     catalogue::Catalogue,
     learning,
     library::{self, Library},
+    native_judge::{RunPlan, Toolchains},
     planner::Planner,
     preferences,
+    run_queue::RunQueue,
     storage::PersonalStore,
     templates,
     training::Training,
     usage,
 };
 use serde_json::{Value, json};
-use std::{path::PathBuf, sync::Mutex, time::Instant};
+use sha2::{Digest, Sha256};
+use std::{
+    path::PathBuf,
+    sync::{Arc, Mutex},
+    time::Instant,
+};
 
 const CONTRACT: &str = include_str!("../../api/legacy-contract.json");
 pub const NATIVE_ROUTES: &[(&str, &str)] = &[
@@ -37,6 +44,7 @@ pub const NATIVE_ROUTES: &[(&str, &str)] = &[
     ("GET", "workspace"),
     ("GET", "problem"),
     ("GET", "submissions"),
+    ("POST", "submissions"),
     ("GET", "solution"),
     ("GET", "lectures"),
     ("GET", "lecture"),
@@ -78,7 +86,7 @@ impl ServiceConfig {
 pub struct Service {
     config: ServiceConfig,
     library: Mutex<Library>,
-    personal: Mutex<PersonalStore>,
+    personal: Arc<Mutex<PersonalStore>>,
     builtins: Vec<Value>,
     token: String,
     contract: Value,
@@ -86,9 +94,17 @@ pub struct Service {
     curriculum: Value,
     quizzes: Value,
     test_clock: Option<chrono::DateTime<chrono::Utc>>,
+    runner: RunQueue,
 }
 impl Service {
     pub fn open(config: ServiceConfig) -> Result<Self, ApiError> {
+        let tools = Toolchains::from_resources(&config.resources);
+        Self::open_with_runner_tools(config, tools)
+    }
+    pub fn open_with_runner_tools(
+        config: ServiceConfig,
+        tools: Toolchains,
+    ) -> Result<Self, ApiError> {
         if !config.sandbox {
             return Err(ApiError::new(
                 409,
@@ -97,7 +113,8 @@ impl Service {
             ));
         }
         let library = Library::open(&config.library)?;
-        let personal = PersonalStore::open(&config.personal)?;
+        let mut personal = PersonalStore::open(&config.personal)?;
+        let runner = RunQueue::open(&config.personal, tools, &config.owner, &mut personal)?;
         let builtins = templates::builtin_templates(&config.resources)?;
         let catalog_path = config.library.with_file_name("native-catalog.sqlite3");
         let catalogue = if catalog_path.is_file() {
@@ -118,7 +135,7 @@ impl Service {
         Ok(Self {
             config,
             library: Mutex::new(library),
-            personal: Mutex::new(personal),
+            personal: Arc::new(Mutex::new(personal)),
             builtins,
             token: uuid::Uuid::new_v4().to_string(),
             contract: serde_json::from_str(CONTRACT)?,
@@ -126,6 +143,7 @@ impl Service {
             curriculum,
             quizzes,
             test_clock: None,
+            runner,
         })
     }
     pub fn with_test_clock(mut self, clock: chrono::DateTime<chrono::Utc>) -> Self {
@@ -134,6 +152,133 @@ impl Service {
     }
     fn now(&self) -> chrono::DateTime<chrono::Utc> {
         self.test_clock.unwrap_or_else(chrono::Utc::now)
+    }
+    fn start_local_run(&self, r: &ApiRequest) -> Result<Value, ApiError> {
+        let body = r.body.as_ref().unwrap();
+        fields(
+            body,
+            &[
+                "id",
+                "code",
+                "mode",
+                "input",
+                "sampleRun",
+                "language",
+                "contestId",
+                "reviewId",
+            ],
+        )?;
+        let id = api::required_text(body, "id", 512)?;
+        if body["mode"] != "run"
+            || ["contestId", "reviewId"]
+                .iter()
+                .any(|key| body.get(*key).is_some_and(|v| !v.is_null() && v != ""))
+        {
+            return Err(ApiError::pending());
+        }
+        let hash = format!("{:x}", Sha256::digest(body.to_string().as_bytes()));
+        let key = format!("native-run-request:{}", r.id);
+        let previous = {
+            let personal = self.personal.lock().map_err(|_| ApiError::pending())?;
+            personal.document(&key)?
+        };
+        let reservation = if previous.is_none() {
+            Some(self.runner.reserve()?)
+        } else {
+            None
+        };
+        let (plan, answer) = {
+            let catalogue = self
+                .catalogue
+                .as_ref()
+                .ok_or_else(|| ApiError::new(503, "CATALOGUE_MISSING", "原生题库索引尚未构建"))?
+                .lock()
+                .map_err(|_| ApiError::pending())?;
+            let library = self.library.lock().map_err(|_| ApiError::pending())?;
+            let mut personal = self.personal.lock().map_err(|_| ApiError::pending())?;
+            let mut training = Training {
+                catalogue: &catalogue,
+                library: &library,
+                personal: &mut personal,
+                now: self.now(),
+            };
+            training.history_visible(id, None)?;
+            if let Some(previous) = training.personal.document(&key)? {
+                if previous["schema"] != 1
+                    || previous["owner"] != self.config.owner
+                    || previous["requestHash"] != hash
+                {
+                    return Err(ApiError::new(
+                        409,
+                        "RUN_REQUEST_CONFLICT",
+                        "此运行请求编号已用于另一份代码或输入",
+                    ));
+                }
+                return training.submission(
+                    previous["submissionId"]
+                        .as_str()
+                        .ok_or_else(ApiError::pending)?,
+                );
+            }
+            if training.running()?.is_some() {
+                return Err(ApiError::pending());
+            }
+            crate::catalogue::row_or_portable(&catalogue, training.personal, id)?;
+            training.assert_unlocked(id)?;
+            let canonical = training.canonical(id)?;
+            let mut problem = library.statement(&canonical)?;
+            catalogue.problem_projection(&canonical, &mut problem)?;
+            let plan = RunPlan::prepare(&problem, body)?;
+            self.runner.validate_tools(&plan.language)?;
+            let unfinished = training
+                .personal
+                .rows("SELECT id FROM submissions WHERE finished_at IS NULL", [])?;
+            for row in unfinished.as_array().unwrap() {
+                let marker = training
+                    .personal
+                    .document(&format!("native-run:{}", row["id"].as_str().unwrap_or("")))?;
+                if !marker.is_some_and(|m| m["schema"] == 1 && m["owner"] == self.config.owner) {
+                    return Err(ApiError::pending());
+                }
+            }
+            let submission = reservation
+                .as_ref()
+                .ok_or_else(ApiError::pending)?
+                .id
+                .clone();
+            let stamp = self
+                .now()
+                .to_rfc3339_opts(chrono::SecondsFormat::Micros, true);
+            let ids = training.ids(id)?;
+            let seen:bool=training.personal.db.query_row("SELECT COALESCE(MAX(solution_pending),0)!=0 FROM training WHERE id IN (SELECT value FROM json_each(?))",[json!(ids).to_string()],|row|row.get(0))?;
+            let tx = training.personal.db.transaction()?;
+            tx.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,verdict,scope,custom_input,solution_seen,sample_run) VALUES(?,?,NULL,'run',?,?,'QUEUED','samples',?,?,?)",rusqlite::params![submission,id,plan.code,stamp,plan.input,seen as i32,plan.sample_run as i32])?;
+            PersonalStore::put(
+                &tx,
+                &format!("submission-language:{submission}"),
+                &plan.language,
+                &stamp,
+            )?;
+            PersonalStore::put(
+                &tx,
+                &format!("native-run:{submission}"),
+                &json!({"schema":1,"owner":self.config.owner,"status":"queued","requestId":r.id})
+                    .to_string(),
+                &stamp,
+            )?;
+            PersonalStore::put(&tx,&key,&json!({"schema":1,"owner":self.config.owner,"requestHash":hash,"submissionId":submission}).to_string(),&stamp)?;
+            tx.commit()?;
+            let answer = training.submission(&submission)?;
+            (plan, answer)
+        };
+        self.runner.launch(
+            reservation.ok_or_else(ApiError::pending)?,
+            plan,
+            Arc::clone(&self.personal),
+            self.config.owner.clone(),
+            self.test_clock,
+        )?;
+        Ok(answer)
     }
     pub fn handle(&self, request: ApiRequest) -> ApiResponse {
         let start = Instant::now();
@@ -185,6 +330,13 @@ impl Service {
             } else {
                 ApiError::missing("没有找到这个接口")
             });
+        }
+        if self.runner.has_pending_write() {
+            let mut personal = self.personal.lock().map_err(|_| ApiError::pending())?;
+            self.runner.flush_pending(&mut personal)?;
+        }
+        if r.method == Method::Post && r.path == "submissions" {
+            return self.start_local_run(r);
         }
         // Lock in one fixed order whenever both stores are needed.
         // Independent read-only Wiki queries do not hold the personal lock.
@@ -454,6 +606,7 @@ impl Service {
                         "training/start",
                         "training/remove",
                         "training/clear",
+                        "submissions",
                         "learning-summary",
                         "learning-summary/update",
                         "learning-summary/refresh"

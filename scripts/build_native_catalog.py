@@ -107,7 +107,7 @@ def build(destination=None):
         store.training_data=lambda:{'rows':rows}
         public_lists=store.public_training_lists()
         db.executemany('INSERT INTO training_lists VALUES(?,?,?)',[(row['id'],index,dump(row)) for index,row in enumerate(public_lists)])
-        allowed=set('id title markdown url samples limits judge statementAvailable statementError statementLoading statementVersion statementPdf currentSourceMarkdown statementSupplement images attachments problemType localJudgeSupported translation translationAvailable autoTranslate templatePractice'.split())
+        allowed=set('id title markdown url samples limits judge statementAvailable statementError statementLoading statementVersion statementPdf currentSourceMarkdown statementSupplement images attachments problemType localJudgeSupported translation translationAvailable autoTranslate templatePractice nativeSamplePolicy'.split())
         assets=AssetLibrary(store,cache_dir=ROOT/'.backups/native-public-input')
         def existing_asset(sha,mime,data):
             # Reuse original bytes in the existing read-only public database.
@@ -124,6 +124,10 @@ def build(destination=None):
                         original=source.execute('SELECT content FROM statements WHERE problem_id=?',(identity,)).fetchone()
                     original=json.loads(original[0]) if original else {}
                     public=assets.problem(identity,fetch=False)
+                    bundle=assets.bundle(identity)
+                    public['nativeSamplePolicy']={'schema':1,'supported':bundle['scope']!='unsupported',
+                        'nonunique':bool(bundle.get('nonunique')),'caseInsensitive':bool(bundle.get('caseInsensitive')),
+                        'checkerUnavailable':bool(bundle.get('checker')),'sourceScope':bundle['scope']}
                     header=dehydrate({k:v for k,v in public.items() if k in allowed},existing_asset)
                     selected=store.encode_row(store.row(identity))
                     enriched=enrich_row(selected,statement=public.get('markdown'),official_tags=public.get('officialTags'))

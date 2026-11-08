@@ -1,0 +1,82 @@
+{
+  "at": "2026-11-08T07:49:47.835468+00:00",
+  "formalReleaseReady": false,
+  "localRunBusinessConnected": true,
+  "nativePostSubmissions": "partial; ordinary run only",
+  "legacyRoutesConnected": 32,
+  "legacyRoutes": 136,
+  "nativeChecks": 75,
+  "realProcessChecks": 8,
+  "realJudgePipelineChecks": 8,
+  "asyncServiceChecks": 8,
+  "logSha256": "9b96e76c6c3d7a6e7c231e9fc04dd26734a04d7b6db2da8b325d2ed68561f511",
+  "publicDataComparison": {
+    "ok": true,
+    "at": "2026-11-08T07:45:44.777620+00:00",
+    "identity": "luogu-training-P1001",
+    "checked": [
+      {
+        "language": "cpp17",
+        "sampleRun": true,
+        "verdict": "SAMPLE_PASS",
+        "cases": 1,
+        "queueMillis": 11.689,
+        "sourceSha256": "704fa61aae911881a42e2ffb330f44a6e388efb52ed2ba42c07df1f538c8faf5",
+        "idempotentRetry": true
+      },
+      {
+        "language": "python3",
+        "sampleRun": false,
+        "verdict": "RUN_OK",
+        "cases": 1,
+        "queueMillis": 6.989,
+        "sourceSha256": "d74e64892fad8e357b2b9384c07db46e0d2a3bc4b6e5b05f5b7a7509eb68eae5",
+        "idempotentRetry": true
+      },
+      {
+        "language": "python3",
+        "sampleRun": true,
+        "verdict": "WA",
+        "cases": 1,
+        "queueMillis": 7.618,
+        "sourceSha256": "e48823395587efe52c6bf078ceb53f67d8de0f80ecd3b36aec4a2ecd9449b724",
+        "idempotentRetry": true
+      },
+      {
+        "language": "cpp17",
+        "sampleRun": true,
+        "verdict": "CE",
+        "cases": 0,
+        "queueMillis": 6.705,
+        "sourceSha256": "ea8c484464808b6651801d45b30097cd9d2eee5e39cec24995a4b752fd82ed81",
+        "idempotentRetry": true
+      }
+    ],
+    "actualCompilers": true,
+    "actualProblemSiteSubmissions": 0,
+    "nativeBinarySha256": "e0c0d33ca17850b3d90c58a516e8482c2ac125a814e1627fc47e6a37346da49e",
+    "privateCodeDraftIdentityTrainingPreserved": true,
+    "publicSeedUnmodified": true,
+    "legacyBackendFallback": false,
+    "officialAcClaims": 0
+  },
+  "actualWorkbenchWindowChecked": false,
+  "productionWorkspaceRead": false,
+  "productionFilesModified": false,
+  "legacyBackendFallback": false,
+  "limits": {
+    "maxConcurrent": 2,
+    "codeUtf8Bytes": 65536,
+    "customInputUtf8Bytes": 65536,
+    "maxPublicSamples": 200,
+    "compileMillis": 30000,
+    "allSamplesMillis": 120000
+  },
+  "remaining": [
+    "Native official browser and receipts",
+    "Contest and review runners",
+    "Special/custom checker parity",
+    "Template certification and full progress evidence",
+    "Full real Tauri workbench verification"
+  ]
+}
