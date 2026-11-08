@@ -703244,9 +703244,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -703317,11 +703316,7 @@
         "贪心",
         "差分"
       ],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "贪心",
@@ -709534,9 +709529,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -709604,11 +709598,7 @@
         "动态规划 DP",
         "树形 DP"
       ],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "树形 DP"
@@ -771592,7 +771582,7 @@
       "knowledgeReviewRequired": true,
       "platform": "洛谷",
       "problem": "U711466",
-      "problemType": "standard",
+      "problemType": "attachment",
       "series": "洛谷题单",
       "solutionAvailable": false,
       "source": "luogu-training",
@@ -771600,12 +771590,51 @@
       "statementAvailable": false,
       "statementPriorVisibility": {},
       "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementRetirementPolicy": "verified-nonproblem-attachment-v1",
+      "statementRetirementReason": "已核对原站：本条仅用于存放 WQS 二分资料附件，没有题目正文、输入输出、有效样例与评测限制，不是缺失比赛题；原 ID 与个人历史保留。",
       "status": "未做",
       "tags": [],
       "title": "wqs 二分附件",
-      "url": "https://www.luogu.com.cn/problem/U711466"
+      "url": "https://www.luogu.com.cn/problem/U711466",
+      "catalogEntryKind": "reference-attachments",
+      "localJudgeSupported": false,
+      "contestRoster": false,
+      "catalogVisibilityPolicy": "verified-nonproblem-attachment-v1",
+      "catalogNotice": "原站为 WQS 二分资料附件页，已从公共选题中移除；个人历史保留。",
+      "statementNonproblemVerification": {
+        "schema": 1,
+        "source": {
+          "url": "https://www.luogu.com.cn/problem/U711466",
+          "sha256": "4ee73c4d2020788c8fd318f94a6b450b6954c3518db843478271989cad31d3bb",
+          "status": 200
+        },
+        "sourceTitle": "wqs 二分附件",
+        "documents": [
+          {
+            "url": "https://www.luogu.com.cn/problem/U711466/attachment/dcxhljq1",
+            "fileName": "Train2012-test-clj-tree.pdf",
+            "sha256": "864e29a1f7af6f357dd32adb24ce8d69679e421fc28ae579666d3682146f1f7f",
+            "bytes": 277661,
+            "pageCount": 4,
+            "actualDocumentTitleVisuallyVerified": "Tree 解题报告",
+            "authorVisuallyVerified": "杭州外国语学校 陈立杰",
+            "kind": "algorithm-explanation",
+            "notACompleteJudgedProblemStatement": true
+          },
+          {
+            "url": "https://www.luogu.com.cn/problem/U711466/attachment/py51yiks",
+            "fileName": "Train2012-sol-wqs.pdf",
+            "sha256": "a164ae5294fd2603352c3b867e97e4f8996066806f50c1c03236f94ee3bbf72c",
+            "bytes": 450341,
+            "pageCount": 6,
+            "actualDocumentTitleVisuallyVerified": "浅析一类二分方法",
+            "authorVisuallyVerified": "哈尔滨市第三中学 王钦石",
+            "kind": "algorithm-explanation",
+            "notACompleteJudgedProblemStatement": true
+          }
+        ],
+        "reviewDocument": "content-updates/20261109-native-sample-attachments/nonproblem-review.json"
+      }
     },
     "id": "luogu-training-U711466",
     "raw": {

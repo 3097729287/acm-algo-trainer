@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "id": "luogu-training-U711466",
+  "sourceDocuments": [
+    {
+      "url": "https://www.luogu.com.cn/problem/U711466",
+      "sha256": "4ee73c4d2020788c8fd318f94a6b450b6954c3518db843478271989cad31d3bb",
+      "status": 200
+    },
+    {
+      "url": "https://www.luogu.com.cn/problem/U711466/attachment/dcxhljq1",
+      "fileName": "Train2012-test-clj-tree.pdf",
+      "sha256": "864e29a1f7af6f357dd32adb24ce8d69679e421fc28ae579666d3682146f1f7f",
+      "bytes": 277661,
+      "pageCount": 4,
+      "actualDocumentTitleVisuallyVerified": "Tree 解题报告",
+      "authorVisuallyVerified": "杭州外国语学校 陈立杰",
+      "kind": "algorithm-explanation",
+      "notACompleteJudgedProblemStatement": true
+    },
+    {
+      "url": "https://www.luogu.com.cn/problem/U711466/attachment/py51yiks",
+      "fileName": "Train2012-sol-wqs.pdf",
+      "sha256": "a164ae5294fd2603352c3b867e97e4f8996066806f50c1c03236f94ee3bbf72c",
+      "bytes": 450341,
+      "pageCount": 6,
+      "actualDocumentTitleVisuallyVerified": "浅析一类二分方法",
+      "authorVisuallyVerified": "哈尔滨市第三中学 王钦石",
+      "kind": "algorithm-explanation",
+      "notACompleteJudgedProblemStatement": true
+    }
+  ],
+  "sourcePublicTitle": "wqs 二分附件",
+  "sourceContent": {
+    "name": "wqs 二分附件",
+    "background": "",
+    "description": "",
+    "formatI": "",
+    "formatO": "",
+    "hint": "",
+    "locale": "zh-CN"
+  },
+  "sourceSamples": [
+    [
+      "",
+      ""
+    ]
+  ],
+  "sourceLimits": {
+    "time": [],
+    "memory": []
+  },
+  "nativeAttachmentMetadata": [
+    {
+      "id": "dcxhljq1",
+      "filename": "Train2012-test-clj-tree.pdf",
+      "size": 277661,
+      "uploadTime": 1785570013
+    },
+    {
+      "id": "py51yiks",
+      "filename": "Train2012-sol-wqs.pdf",
+      "size": 450341,
+      "uploadTime": 1785570006
+    }
+  ],
+  "classification": "reference-attachments",
+  "countedAsRecoveredOriginal": false,
+  "fullSourcePdfPagesVisuallyChecked": [
+    {
+      "document": "Train2012-test-clj-tree.pdf",
+      "pages": [
+        1,
+        2
+      ]
+    },
+    {
+      "document": "Train2012-sol-wqs.pdf",
+      "pages": [
+        1
+      ]
+    }
+  ],
+  "beforeCatalogueEntry": {
+    "encoded": {
+      "catalogHidden": true,
+      "catalogReplayReady": false,
+      "catalogStatementReady": false,
+      "collectionSource": "https://www.luogu.com.cn/training/list",
+      "contest": "洛谷专题练习",
+      "date": "",
+      "difficulty": null,
+      "difficultyBand": null,
+      "difficultyConfidence": "UNKNOWN",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://www.luogu.com.cn/problem/U711466",
+        "洛谷档位缺失/认不出（0=暂无评定）→ 缺难度证据"
+      ],
+      "difficultySource": "洛谷暂无评定（未知难度）",
+      "id": "luogu-training-U711466",
+      "knowledge": "",
+      "knowledgeAnalysis": {
+        "categories": [],
+        "confidence": "pending",
+        "evidence": [],
+        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
+        "knowledge": "",
+        "pendingCategories": [],
+        "source": "pending-evidence",
+        "sourceTags": [],
+        "status": "pending",
+        "supersededTags": [],
+        "tags": [],
+        "unknown": [],
+        "version": "knowledge-v1.0"
+      },
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
+      "platform": "洛谷",
+      "problem": "U711466",
+      "problemType": "standard",
+      "series": "洛谷题单",
+      "solutionAvailable": false,
+      "source": "luogu-training",
+      "sourceTags": [],
+      "statementAvailable": false,
+      "statementPriorVisibility": {},
+      "statementRetired": true,
+      "statementRetirementPolicy": "public-statement-audit-v1",
+      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "status": "未做",
+      "tags": [],
+      "title": "wqs 二分附件",
+      "url": "https://www.luogu.com.cn/problem/U711466"
+    },
+    "id": "luogu-training-U711466",
+    "raw": {
+      "_id": "luogu-training-U711466",
+      "_platform": "洛谷",
+      "_series": "洛谷题单",
+      "_url": "https://www.luogu.com.cn/problem/U711466",
+      "场次": "洛谷专题练习",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "",
+      "难度": "—",
+      "题号": "U711466",
+      "题名": "wqs 二分附件"
+    },
+    "url": "https://www.luogu.com.cn/problem/U711466"
+  },
+  "identityAndRawPreserved": true,
+  "noNewStatementOrLearningEntry": true,
+  "privateRecordsReadOrWritten": false
+}
