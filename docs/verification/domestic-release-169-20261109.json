@@ -147,8 +147,12 @@
     "externalFeedVerified": true
   },
   "githubMirror": {
-    "draftCreated": true,
-    "fullInstallerUploadPending": true,
-    "publicationClaimed": false
+    "ok": true,
+    "sourceCommit": "b5fee8bc2016f580c09c0aec9dd63f95ba1e542f",
+    "tag": "v1.6.9",
+    "url": "https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.9",
+    "latestUnchanged": "v1.6.4",
+    "assetsVerified": 11,
+    "assetSizeAndDigestMatch": true
   }
 }

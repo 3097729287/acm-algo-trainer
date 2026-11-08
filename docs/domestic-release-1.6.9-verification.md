@@ -1,6 +1,6 @@
 # ToBe 1.6.9 国内发行验证
 
-国内 stable 已发布 1.6.9，桌面完整安装包 SHA-256 为 `7be4f7589ab7d029476503d8cfbaea8f2f977a443c0ff7e27824d62955918ed6`。GitHub 镜像草稿的完整包仍在上传，不计为已公开成功。
+国内 stable 已发布 1.6.9，桌面完整安装包 SHA-256 为 `7be4f7589ab7d029476503d8cfbaea8f2f977a443c0ff7e27824d62955918ed6`。[GitHub v1.6.9 镜像](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.9) 也已公开，11 个文件的大小和 SHA-256 digest 全部一致，既有 latest 标记保持不变。
 
 程序发布清单来源为 `b5fee8bc2016f580c09c0aec9dd63f95ba1e542f`，实际原生与前端构建来源为 `1723db9f2504107fac4e61a8ed9d5038049c2a44`，更新桥来源为 `b5fee8bc2016f580c09c0aec9dd63f95ba1e542f`。两提交间仅文档与公共资源索引改变，427 个原生构建输入逐项一致。清单分别记录实际构建来源。
 
