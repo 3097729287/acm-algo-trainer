@@ -16,8 +16,32 @@ pub fn default_code(language: &str) -> Result<&'static str, ApiError> {
         _ => Err(ApiError::bad("编程语言无效")),
     }
 }
-fn default_template(language: &str) -> Value {
-    json!({"id":"default","title":"默认","language":language,"code":default_code(language).unwrap(),"builtin":true})
+fn default_template(store: &PersonalStore, language: &str) -> Result<Value, ApiError> {
+    let mut base = json!({"id":"default","title":"默认","language":language,"code":default_code(language)?,"builtin":true,"revision":""});
+    if let Some(value) = store.document(&format!("initial-code-default:{language}"))? {
+        let fields = value.as_object().ok_or_else(|| {
+            ApiError::new(500, "INVALID_STORED_DATA", "模板记录格式异常，原数据已保留")
+        })?;
+        if value["deleted"] != true {
+            if fields.get("id").is_some_and(|v| v != "default")
+                || fields.get("language").is_some_and(|v| v != language)
+                || fields.get("code").is_some_and(|v| {
+                    !v.as_str()
+                        .is_some_and(|s| s.len() <= 65536 && !s.contains('\0'))
+                })
+                || fields.get("revision").is_some_and(|v| !v.is_string())
+            {
+                return Err(ApiError::new(
+                    500,
+                    "INVALID_STORED_DATA",
+                    "模板记录格式异常，原数据已保留",
+                ));
+            }
+            base.as_object_mut().unwrap().extend(fields.clone());
+            base["customized"] = json!(true);
+        }
+    }
+    Ok(base)
 }
 fn valid_id(value: &str, prefix: &str) -> bool {
     value.strip_prefix(prefix).is_some_and(|s| {
@@ -61,9 +85,10 @@ pub fn initial_selected(store: &PersonalStore) -> Result<Value, ApiError> {
         } else {
             None
         };
-        let value = value
-            .filter(|v| v["language"] == language && v["deleted"] != true)
-            .unwrap_or_else(|| default_template(language));
+        let value = match value.filter(|v| v["language"] == language && v["deleted"] != true) {
+            Some(value) => value,
+            None => default_template(store, language)?,
+        };
         selection[language] = value["id"].clone();
         revisions[language] = choice.get("revision").cloned().unwrap_or(json!(""));
         templates.push(value);
@@ -72,7 +97,10 @@ pub fn initial_selected(store: &PersonalStore) -> Result<Value, ApiError> {
 }
 pub fn initial_catalog(store: &PersonalStore) -> Result<Value, ApiError> {
     let mut value = initial_selected(store)?;
-    let mut templates = vec![default_template("cpp17"), default_template("python3")];
+    let mut templates = vec![
+        default_template(store, "cpp17")?,
+        default_template(store, "python3")?,
+    ];
     templates.extend(owned(store, "initial-code:")?);
     value["templates"] = json!(templates);
     Ok(value)
@@ -125,12 +153,45 @@ pub fn initial_save(store: &mut PersonalStore, body: &Value) -> Result<Value, Ap
     if body
         .get("id")
         .is_some_and(|v| !v.is_null() && !v.is_string())
-        || id.is_some_and(|id| !valid_id(id, "initial-code:"))
+        || id.is_some_and(|id| id != "default" && !valid_id(id, "initial-code:"))
     {
         return Err(ApiError::bad("默认模板请另存为自己的模板"));
     }
     if body.get("delete").is_some_and(|v| !v.is_boolean()) {
         return Err(ApiError::bad("初始代码模板操作无效"));
+    }
+    if id == Some("default") {
+        let language = required_text(body, "language", 16)?;
+        default_code(language)?;
+        if body["delete"] == true || body["title"] != "默认" {
+            return Err(ApiError::bad("默认模板不能删除或重命名"));
+        }
+        let mut value = default_template(store, language)?;
+        if body.get("revision").cloned().unwrap_or(json!("")) != value["revision"] {
+            return Err(ApiError::conflict(
+                "初始代码模板已在其它位置修改，请重新读取后保存",
+            ));
+        }
+        let code = body["code"]
+            .as_str()
+            .filter(|s| s.len() <= 65536 && !s.contains('\0'))
+            .ok_or_else(|| ApiError::bad("代码不得超过 64 KiB"))?;
+        let stamp = now();
+        value["code"] = json!(code);
+        value["customized"] = json!(true);
+        value["revision"] = json!(uuid::Uuid::new_v4().simple().to_string());
+        value["updatedAt"] = json!(stamp);
+        let tx = store.db.transaction()?;
+        PersonalStore::put(
+            &tx,
+            &format!("initial-code-default:{language}"),
+            &value.to_string(),
+            &stamp,
+        )?;
+        tx.commit()?;
+        let mut result = initial_catalog(store)?;
+        result["template"] = value;
+        return Ok(result);
     }
     let previous = id.map(|id| store.document(id)).transpose()?.flatten();
     if previous.as_ref().is_some_and(|v| !v.is_object()) {

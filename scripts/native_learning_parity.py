@@ -10,23 +10,26 @@ import subprocess
 import sys
 import tempfile
 import threading
+import argparse
+import hashlib
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'backend'),str(ROOT/'backend/common'),str(ROOT/'scripts')]
 os.environ['TB_OFFLINE']='1'
 
-def run():
+def run(binary=None,report=None):
     from build_native_catalog import public_store
     from catalog_payload import project_row
     from training import TrainingService,ServiceError
     from learning_summary import LearningSummary,KEY
     work=Path(tempfile.mkdtemp(prefix='native-learning-',dir=ROOT/'.backups'))
     now=[dt.datetime(2026,11,5,4,tzinfo=dt.timezone.utc)]
+    binary=(binary or ROOT/'target/debug/tobe-core.exe').resolve(strict=True)
     native_dir=work/'native';native_dir.mkdir()
     process=None;token=None;counter=0;checks=[];guards=[]
     def launch():
         nonlocal process,token
-        process=subprocess.Popen([str(ROOT/'target/debug/tobe-core.exe'),'sandbox',str(ROOT),str(native_dir)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf8',env={**os.environ,'TB_NATIVE_TEST_NOW':now[0].isoformat()},creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
+        process=subprocess.Popen([str(binary),'sandbox',str(ROOT),str(native_dir)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf8',env={**os.environ,'TB_NATIVE_TEST_NOW':now[0].isoformat()},creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
         token=rpc('account')['token']
     def stop():
         if process:
@@ -162,8 +165,11 @@ def run():
         native.execute("INSERT INTO submissions(id,problem_id,mode,code,scope,submitted_at,finished_at,verdict) VALUES('official-fact',?,'submit','saved source','official',?,?,'AC')",(rows[0]['id'],now[0].isoformat(),now[0].isoformat()))
         saved=snapshot_db(native);assert rpc('learning-summary/refresh',{},fail=True)['code']=='MIGRATION_PENDING';assert snapshot_db(native)==saved;guards.append('official-evidence-is-not-guessed-or-erased')
         result={'passed':len(checks),'checks':checks,'guardsPassed':len(guards),'guards':guards,'work':str(work),'personalDataUsed':False,'scope':'Local planning without unported official/review/contest facts; formal architecture remains React + Python'}
-        (ROOT/'.backups/native-learning-parity.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n','utf8')
+        result['nativeSha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
+        (report or ROOT/'.backups/native-learning-parity.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n','utf8')
         print(json.dumps(result,ensure_ascii=False))
     finally:stop();legacy.close();native.close()
 
-if __name__=='__main__':run()
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--native',type=Path);parser.add_argument('--output',type=Path)
+    args=parser.parse_args();run(args.native,args.output)

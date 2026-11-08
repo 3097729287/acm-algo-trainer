@@ -46,7 +46,7 @@ def main():
             native = Native(args.native, folder / 'native', Path('D:/Work/Msys64/ucrt64/bin/g++.exe'), Path(sys.executable), test_clock=NOW.isoformat())
             try:
                 capabilities = native.call('api/capabilities')
-                assert capabilities['legacyImplemented'] == 34 and capabilities['legacyTotal'] == 136
+                assert capabilities['legacyImplemented'] == 36 and capabilities['legacyTotal'] == 136
                 def compare(path, body):
                     actual = native.call(path, body)
                     if path.endswith('/save') and not body.get('id'):

@@ -12,6 +12,8 @@ import tempfile
 import threading
 import time
 import zlib
+import argparse
+import hashlib
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'backend'),str(ROOT/'backend/common'),str(ROOT/'scripts')]
@@ -19,7 +21,7 @@ os.environ['TB_OFFLINE']='1'
 NOW=dt.datetime(2026,11,5,4,0,tzinfo=dt.timezone.utc)
 
 
-def run():
+def run(binary=None,report=None):
     from build_native_catalog import public_store
     from training import TrainingService
     from assets import AssetLibrary
@@ -29,7 +31,8 @@ def run():
     from catalog_payload import project_row
     work=Path(tempfile.mkdtemp(prefix='native-phase2-',dir=ROOT/'.backups'))
     native_dir=work/'native';native_dir.mkdir()
-    process=subprocess.Popen([str(ROOT/'target/debug/tobe-core.exe'),'sandbox',str(ROOT),str(native_dir)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf8',env={**os.environ,'TB_NATIVE_TEST_NOW':NOW.isoformat()},creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
+    binary=(binary or ROOT/'target/debug/tobe-core.exe').resolve(strict=True)
+    process=subprocess.Popen([str(binary),'sandbox',str(ROOT),str(native_dir)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf8',env={**os.environ,'TB_NATIVE_TEST_NOW':NOW.isoformat()},creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
     counter=0
     def rpc(path,body=None,query=None,fail=False):
         nonlocal counter
@@ -157,11 +160,14 @@ def run():
             compare('history-code-'+sid,lambda sid=sid:rpc('submission',query={'id':[sid]})['submission'],lambda sid=sid:legacy._submission(legacy_db.execute('SELECT * FROM submissions WHERE id=?',(sid,)).fetchone()))
         assert rpc('workspace',fail=True)['code']=='MIGRATION_PENDING';checks.append('unmigrated-review-view-is-explicit')
         result={'passed':len(checks),'checks':checks,'guardsPassed':len(guards),'guards':guards,'work':str(work),'personalDataUsed':False,'fixedClock':NOW.isoformat(),'catalogueRows':len(rows)}
-        (ROOT/'.backups/native-phase2-parity.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n','utf8')
+        result['nativeSha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
+        (report or ROOT/'.backups/native-phase2-parity.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n','utf8')
         print(json.dumps(result,ensure_ascii=False))
     finally:
         assets.close();legacy_db.close();native_db.close();process.stdin.close()
         try:process.wait(timeout=5)
         except subprocess.TimeoutExpired:process.kill();process.wait()
 
-if __name__=='__main__':run()
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--native',type=Path);parser.add_argument('--output',type=Path)
+    args=parser.parse_args();run(args.native,args.output)
