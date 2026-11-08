@@ -1,0 +1,11 @@
+{
+  "checkedBeforeRegistration": true,
+  "newCanonicalAssetsCheckedAgainstGlobalManifest": 3,
+  "duplicateResourcesCreated": 0,
+  "removed": [
+    "catalog-registration-pending.json: superseded after successful catalogue registration by catalog-registration.json"
+  ],
+  "previousOriginalArchivesAndHistoryRetained": true,
+  "privateRecordsReadOrWritten": false,
+  "ignoredRejectedCacheCleanupNotRetried": true
+}

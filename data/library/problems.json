@@ -1389653,9 +1389653,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按原站公开完整题单核对题号、题数。",
       "collectionSource": "https://ac.nowcoder.com/acm/contest/8827",
       "contest": "ICPC 2020 江西区域赛",
@@ -1389727,16 +1389726,13 @@
       "source": "xcpc-roster",
       "sourceTags": [],
       "startedAt": "2020-11-15T07:00:00+00:00",
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "A Simple Math Problem",
       "url": "https://ac.nowcoder.com/acm/contest/8827/A",
       "xcpcKind": "省赛",
-      "xcpcYear": 2020
+      "xcpcYear": 2020,
+      "statementAvailable": true
     },
     "id": "remote:nowcoder:8827::A",
     "raw": {
