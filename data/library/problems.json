@@ -67302,35 +67302,44 @@
       "examStage": "初赛",
       "examYear": 2021,
       "id": "lanqiao:2021:省:::P8742",
-      "knowledge": "",
+      "knowledge": "背包 DP",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "背包 DP"
+        ],
+        "knowledge": "背包 DP",
         "categories": [
+          "动态规划",
           "数学"
         ],
+        "status": "classified",
+        "source": "public-reviewed",
         "confidence": "medium",
         "evidence": [
           {
-            "category": "数学",
-            "reason": "公开题面模型分类；具体算法未复验",
-            "reference": "https://www.luogu.com.cn/problem/P8742",
             "source": "public-reviewed",
+            "tag": "背包 DP",
+            "reference": "https://www.luogu.com.cn/problem/P8742",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/P8742",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
             "verified": false
           }
         ],
-        "inputHash": "5ed345f37b9a0ca9ae39f586b150e37422d919cb171b9e07eab5328262f20ced",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
-        ],
-        "source": "public-reviewed",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "动态规划",
         "数学"
       ],
       "metadataVersion": "1.0.18",
@@ -67346,9 +67355,26 @@
       "source": "lanqiao-history",
       "sourceTags": [],
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "背包 DP"
+      ],
       "title": "砝码称重",
-      "url": "https://www.luogu.com.cn/problem/P8742"
+      "url": "https://www.luogu.com.cn/problem/P8742",
+      "knowledgeReviewRequired": false,
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P8742",
+        "sourceSha256": "ae079dd124307f8b4065c15099b535568e91267148dfc71e3ac946f911036ffb",
+        "nativeTagIds": [
+          3,
+          58,
+          139,
+          363
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "lanqiao:2021:省:::P8742",
     "raw": {
@@ -67359,7 +67385,7 @@
       "场次": "蓝桥杯 2021 C/C++大学B组 初赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "背包 DP",
       "难度": "1200",
       "题号": "P8742",
       "题名": "砝码称重"
@@ -320130,51 +320156,76 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P10112",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "排列组合",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P10112",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "排列组合"
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P10112",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P10112",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "17ba148e5bee1c9c2b40c8d8bbd132518c88a16ba7678c795df0dea591e69975",
-        "knowledge": "",
+        "unknown": [
+          "组合数学",
+          "排列组合"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "statement-analysis",
+        "inputHash": "829688f1bce6276da8414d543a81f200a606dce1360433924345f3ee6f3a7206",
         "sourceTags": [
           "数学",
           "组合数学",
           "排列组合"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学",
-          "排列组合"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[GESP202312 八级] 奖品分配",
@@ -320191,9 +320242,26 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "奖品分配",
-      "url": "https://www.luogu.com.cn/problem/P10112"
+      "url": "https://www.luogu.com.cn/problem/P10112",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P10112",
+        "sourceSha256": "093243b72ed74e7dfa3178b2186a35d6eee56b759989d2e642813abeba6400e4",
+        "nativeTagIds": [
+          5,
+          60,
+          252,
+          253,
+          409
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P10112",
     "raw": {
@@ -320204,7 +320272,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "1500",
       "题号": "P10112",
       "题名": "奖品分配"
@@ -329083,44 +329151,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P10310",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P10310",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P10310",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P10310",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "0800c315946637984a8f691cafba448c242e3b241722ddddf3d4a6d1dc72a2db",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "statement-analysis",
+        "inputHash": "2b9df19c943cb9b613a72ad3ae9b630441386ef57cb027705e6260ff17f80aea",
         "sourceTags": [
           "数学",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "「Cfz Round 2」01 String",
@@ -329136,9 +329229,26 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "01 String",
-      "url": "https://www.luogu.com.cn/problem/P10310"
+      "url": "https://www.luogu.com.cn/problem/P10310",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P10310",
+        "sourceSha256": "a59cdc952138ae68a49224e8ef6ca44a181b4d240019b2f9eb9dc0d95e3c68e7",
+        "nativeTagIds": [
+          5,
+          81,
+          108,
+          252,
+          337
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P10310",
     "raw": {
@@ -329149,7 +329259,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2100",
       "题号": "P10310",
       "题名": "01 String"
@@ -357201,51 +357311,76 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P11250",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "排列组合",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P11250",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "排列组合"
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P11250",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P11250",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "9e5badd37843fadd02a940765d0d4e851f71fc7dcb125fefbd656c5187eca573",
-        "knowledge": "",
+        "unknown": [
+          "组合数学",
+          "排列组合"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "statement-analysis",
+        "inputHash": "829688f1bce6276da8414d543a81f200a606dce1360433924345f3ee6f3a7206",
         "sourceTags": [
           "数学",
           "组合数学",
           "排列组合"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学",
-          "排列组合"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[GESP202409 八级] 手套配对",
@@ -357262,9 +357397,26 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "手套配对",
-      "url": "https://www.luogu.com.cn/problem/P11250"
+      "url": "https://www.luogu.com.cn/problem/P11250",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P11250",
+        "sourceSha256": "5b93909ab9d93c6dab4adf8a7fca0238d53ab8657db48adfcf726a1e5d09de36",
+        "nativeTagIds": [
+          5,
+          61,
+          252,
+          253,
+          409
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P11250",
     "raw": {
@@ -357275,7 +357427,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "1500",
       "题号": "P11250",
       "题名": "手套配对"
@@ -360090,17 +360242,39 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P11362",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
         "categories": [
+          "数学与计数 / 计数",
           "数学"
         ],
+        "status": "classified",
+        "source": "public-reviewed",
         "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P11362",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P11362",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
             "categories": [
@@ -360110,24 +360284,18 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "6249d26043252c5a4935c6d7596d0f4731e33d7a1b7c7d5f4b9fff8e60fbe4cf",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [
-          "组合数学"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "组合数学"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "96ada04a2a1bfe72700513a1b95e7dc8d3ec9a74755c38899f68cbdd5d1e303d",
+        "sourceTags": [
+          "组合数学"
+        ],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "数学与计数 / 计数",
         "数学"
       ],
       "knowledgeReviewRequired": false,
@@ -360143,9 +360311,25 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "遗失的赋值",
-      "url": "https://www.luogu.com.cn/problem/P11362"
+      "url": "https://www.luogu.com.cn/problem/P11362",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P11362",
+        "sourceSha256": "f18852613aa3e9e0a7e2c5a1a4ebcfd75ab04b98ce62126ea8b0ac1e55775849",
+        "nativeTagIds": [
+          61,
+          83,
+          108,
+          252
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P11362",
     "raw": {
@@ -360156,7 +360340,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "1800",
       "题号": "P11362",
       "题名": "遗失的赋值"
@@ -363334,19 +363518,41 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P11487",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
         "categories": [
+          "数学与计数 / 计数",
           "字符串",
           "数学 / 数论",
           "数学"
         ],
+        "status": "classified",
+        "source": "public-reviewed",
         "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P11487",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P11487",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
             "categories": [
@@ -363358,26 +363564,18 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "748dbb64d62e9dc40ac88685fe6d15d666dd316e34ea8cc7f81982d0483b4e3b",
-        "knowledge": "",
-        "pendingCategories": [
-          "字符串",
-          "数学 / 数论",
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [
-          "组合数学"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "组合数学"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "96ada04a2a1bfe72700513a1b95e7dc8d3ec9a74755c38899f68cbdd5d1e303d",
+        "sourceTags": [
+          "组合数学"
+        ],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "数学与计数 / 计数",
         "字符串",
         "数学 / 数论",
         "数学"
@@ -363395,9 +363593,25 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "Gnirts 10",
-      "url": "https://www.luogu.com.cn/problem/P11487"
+      "url": "https://www.luogu.com.cn/problem/P11487",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P11487",
+        "sourceSha256": "149b38c7973c4c71ea3837eb4daa3fd60a5924b77d431d54de1dc6a2acc17a19",
+        "nativeTagIds": [
+          81,
+          108,
+          252,
+          337
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P11487",
     "raw": {
@@ -363408,7 +363622,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2100",
       "题号": "P11487",
       "题名": "Gnirts 10"
@@ -368458,18 +368672,40 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P11786",
-      "knowledge": "",
+      "knowledge": "双指针",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "双指针"
+        ],
+        "knowledge": "双指针",
         "categories": [
+          "基础技巧",
           "字符串",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "archive-catalog",
+        "confidence": "high",
         "evidence": [
           {
             "source": "archive-catalog",
+            "value": "双指针 two-pointer",
+            "tag": "双指针"
+          },
+          {
+            "source": "public-reviewed",
             "tag": "双指针",
-            "value": "双指针 two-pointer"
+            "reference": "https://www.luogu.com.cn/problem/P11786",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "基础技巧",
+            "reference": "https://www.luogu.com.cn/problem/P11786",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
             "categories": [
@@ -368480,25 +368716,16 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "1db7ec3eaa448ef4df866c74430907e347c82aafb3e8e946c9ae9acd2dbfa569",
-        "knowledge": "",
-        "pendingCategories": [
-          "字符串",
-          "数学"
-        ],
-        "source": "statement-model",
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "ac6a5b76ec22a47fc7a5e483f309adad8221f69efc9ce7592e5fa558145e7b28",
         "sourceTags": [
           "双指针 two-pointer"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "双指针 two-pointer"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "基础技巧",
         "字符串",
         "数学"
       ],
@@ -368515,9 +368742,25 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "双指针"
+      ],
       "title": "说好的幸福呢",
-      "url": "https://www.luogu.com.cn/problem/P11786"
+      "url": "https://www.luogu.com.cn/problem/P11786",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P11786",
+        "sourceSha256": "d69d612bce3e95d985043db5f86f39f5688388e69257396ffc93d1af33d43cfa",
+        "nativeTagIds": [
+          81,
+          108,
+          337,
+          345
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P11786",
     "raw": {
@@ -368528,7 +368771,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "双指针",
       "难度": "1800",
       "题号": "P11786",
       "题名": "说好的幸福呢"
@@ -380817,58 +381060,83 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P12405",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "排列组合",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "Ad-hoc",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P12405",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "排列组合"
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P12405",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "Ad-hoc"
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P12405",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "43f3c4b3abead6d5de2ad4556e28824ae40b5f9f3b28819ee45e4410f459a666",
-        "knowledge": "",
+        "unknown": [
+          "组合数学",
+          "排列组合",
+          "Ad-hoc"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "statement-analysis",
+        "inputHash": "059ee9ad690fb9b92304cc0f9ffc879bdb6b341980c34815316db286e266dd5c",
         "sourceTags": [
           "数学",
           "组合数学",
           "排列组合",
           "Ad-hoc"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学",
-          "排列组合",
-          "Ad-hoc"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "「CZOI-R3」星光闪耀",
@@ -380886,9 +381154,28 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "星光闪耀",
-      "url": "https://www.luogu.com.cn/problem/P12405"
+      "url": "https://www.luogu.com.cn/problem/P12405",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P12405",
+        "sourceSha256": "33419aaa49959473689192466c7912d115a2d21ddb67c12465ede4f0aaacd79e",
+        "nativeTagIds": [
+          5,
+          81,
+          108,
+          252,
+          253,
+          365,
+          429
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P12405",
     "raw": {
@@ -380899,7 +381186,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2400",
       "题号": "P12405",
       "题名": "星光闪耀"
@@ -381555,44 +381842,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P12415",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "动态规划"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "动态规划",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P12415",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/P12415",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P12415",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "fd76fb731a5a5b5d9a52f99521c5bc770db647deb8cd34fefa8011e97ba6d9af",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "动态规划"
         ],
-        "source": "statement-analysis",
+        "inputHash": "15b713af957155b9b65e4a113ff3d6e1c9e334b60f960e8673ff87e7c8ea43fe",
         "sourceTags": [
           "动态规划 DP",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "动态规划"
+        "动态规划",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "「YLLOI-R1-T4」枫",
@@ -381608,9 +381920,26 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "枫",
-      "url": "https://www.luogu.com.cn/problem/P12415"
+      "url": "https://www.luogu.com.cn/problem/P12415",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P12415",
+        "sourceSha256": "a9c670db77dc2afb10c21772e39d16691c2ef5c5d340492fcca20c8c89fe0a6b",
+        "nativeTagIds": [
+          3,
+          81,
+          108,
+          252,
+          337
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P12415",
     "raw": {
@@ -381621,7 +381950,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "1800",
       "题号": "P12415",
       "题名": "枫"
@@ -391264,58 +391593,83 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P1313",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "排列组合",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "二项式定理",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P1313",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "排列组合"
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P1313",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "二项式定理"
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P1313",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "f3b69c6bd32557317432a7a457ee561ea386709f48546727717d3adee911f535",
-        "knowledge": "",
+        "unknown": [
+          "组合数学",
+          "排列组合",
+          "二项式定理"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "statement-analysis",
+        "inputHash": "39325cdd66daea95748172ef7bc7280465c625616da73bfb20953f4efbe25b96",
         "sourceTags": [
           "数学",
           "组合数学",
           "排列组合",
           "二项式定理"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学",
-          "排列组合",
-          "二项式定理"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[NOIP 2011 提高组] 计算系数",
@@ -391333,9 +391687,27 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "计算系数",
-      "url": "https://www.luogu.com.cn/problem/P1313"
+      "url": "https://www.luogu.com.cn/problem/P1313",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P1313",
+        "sourceSha256": "7d9a5ab1fa541d5485390074fe6d079f7ca2c48795ffc5277265063230a851dc",
+        "nativeTagIds": [
+          5,
+          28,
+          83,
+          252,
+          253,
+          255
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P1313",
     "raw": {
@@ -391346,7 +391718,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "1500",
       "题号": "P1313",
       "题名": "计算系数"
@@ -392775,44 +393147,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P13280",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P13280",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P13280",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P13280",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "629475ae6f8f2aa5bc41d91d3c451abcccdeff6da49d3011329493be321c5bdc",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "statement-analysis",
+        "inputHash": "2b9df19c943cb9b613a72ad3ae9b630441386ef57cb027705e6260ff17f80aea",
         "sourceTags": [
           "数学",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "「CZOI-R4」午夜巡游",
@@ -392828,9 +393225,27 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "午夜巡游",
-      "url": "https://www.luogu.com.cn/problem/P13280"
+      "url": "https://www.luogu.com.cn/problem/P13280",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P13280",
+        "sourceSha256": "67b954c13e7beeddd7a2ca5806f53cc74dff7e7639e58d8bb8a38bcf5ded34a9",
+        "nativeTagIds": [
+          5,
+          81,
+          108,
+          247,
+          252,
+          337
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P13280",
     "raw": {
@@ -392841,7 +393256,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "1800",
       "题号": "P13280",
       "题名": "午夜巡游"
@@ -397489,17 +397904,39 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P13550",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
         "categories": [
+          "数学与计数 / 计数",
           "数学"
         ],
+        "status": "classified",
+        "source": "public-reviewed",
         "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P13550",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P13550",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
             "categories": [
@@ -397509,24 +397946,18 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "44c50b601a11e1957dda7aedb446b5903229e731955678c4264a9246794a174b",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [
-          "组合数学"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "组合数学"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "96ada04a2a1bfe72700513a1b95e7dc8d3ec9a74755c38899f68cbdd5d1e303d",
+        "sourceTags": [
+          "组合数学"
+        ],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "数学与计数 / 计数",
         "数学"
       ],
       "knowledgeReviewRequired": false,
@@ -397541,9 +397972,25 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "宇宙分解",
-      "url": "https://www.luogu.com.cn/problem/P13550"
+      "url": "https://www.luogu.com.cn/problem/P13550",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P13550",
+        "sourceSha256": "584777a83817ed18e89b184f37cc5462752f25e45d6743fb61f7b6bf03dcfa09",
+        "nativeTagIds": [
+          81,
+          108,
+          252,
+          337
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P13550",
     "raw": {
@@ -397554,7 +398001,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "1800",
       "题号": "P13550",
       "题名": "宇宙分解"
@@ -405091,44 +405538,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P14006",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "动态规划"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "动态规划",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P14006",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/P14006",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P14006",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "cd174df5ab27b484188748dc0c7c01d9b3ff544ed209af08f6c933f95e971b2e",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "动态规划"
         ],
-        "source": "statement-analysis",
+        "inputHash": "15b713af957155b9b65e4a113ff3d6e1c9e334b60f960e8673ff87e7c8ea43fe",
         "sourceTags": [
           "动态规划 DP",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "动态规划"
+        "动态规划",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "「florr IO Round 1」命运游戏",
@@ -405144,9 +405616,25 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "命运游戏",
-      "url": "https://www.luogu.com.cn/problem/P14006"
+      "url": "https://www.luogu.com.cn/problem/P14006",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P14006",
+        "sourceSha256": "2a1299cf63db742b2f9e87721127ac4a2033e0268aba3049c42c5dab65fe2068",
+        "nativeTagIds": [
+          3,
+          81,
+          252,
+          337
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P14006",
     "raw": {
@@ -405157,7 +405645,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "1800",
       "题号": "P14006",
       "题名": "命运游戏"
@@ -411941,24 +412429,46 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P14254",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
         "categories": [
+          "数学与计数 / 计数",
           "图论",
           "数学",
           "数据结构"
         ],
+        "status": "classified",
+        "source": "public-reviewed",
         "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": "组合计数",
-            "value": "组合数学"
+            "value": "组合数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "排列组合"
+            "value": "排列组合",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
+            "tag": "组合计数",
+            "reference": "https://www.luogu.com.cn/problem/P14254",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P14254",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
             "categories": [
@@ -411970,28 +412480,20 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "5ac517777a5c3919fef6b4d0d35be1c9dd127cdd179e741a3fdbfdc8195120b8",
-        "knowledge": "",
-        "pendingCategories": [
-          "图论",
-          "数学",
-          "数据结构"
-        ],
-        "source": "statement-model",
-        "sourceTags": [
-          "组合数学",
-          "排列组合"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "组合数学",
           "排列组合"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "2fe16d5593824f3a08ee62d3387c5936ae90fad5cea35b5de12b6d7ea164b57e",
+        "sourceTags": [
+          "组合数学",
+          "排列组合"
+        ],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "数学与计数 / 计数",
         "图论",
         "数学",
         "数据结构"
@@ -412009,9 +412511,27 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "分割（divide）",
-      "url": "https://www.luogu.com.cn/problem/P14254"
+      "url": "https://www.luogu.com.cn/problem/P14254",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P14254",
+        "sourceSha256": "a3f20aa99d15399ec3ec87fa9696b10a7edbb6b802204e711d79dd7e76b61005",
+        "nativeTagIds": [
+          62,
+          81,
+          108,
+          252,
+          253,
+          337
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P14254",
     "raw": {
@@ -412022,7 +412542,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2400",
       "题号": "P14254",
       "题名": "分割（divide）"
@@ -428627,18 +429147,40 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P15015",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
         "categories": [
+          "数学与计数 / 计数",
           "字符串",
           "数学"
         ],
+        "status": "classified",
+        "source": "public-reviewed",
         "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P15015",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P15015",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
             "categories": [
@@ -428649,25 +429191,18 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "28ecb8fa1577536ff076bf90bf97ea5e540e1cc2158d0feaa14558c62f4d48a6",
-        "knowledge": "",
-        "pendingCategories": [
-          "字符串",
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [
-          "组合数学"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "组合数学"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "96ada04a2a1bfe72700513a1b95e7dc8d3ec9a74755c38899f68cbdd5d1e303d",
+        "sourceTags": [
+          "组合数学"
+        ],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "数学与计数 / 计数",
         "字符串",
         "数学"
       ],
@@ -428683,9 +429218,25 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "If",
-      "url": "https://www.luogu.com.cn/problem/P15015"
+      "url": "https://www.luogu.com.cn/problem/P15015",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P15015",
+        "sourceSha256": "15213bd7a9c4a7ef2bfcf3adfb348e4d03c1474522c1f62b48403d0abedc2ec5",
+        "nativeTagIds": [
+          81,
+          108,
+          252,
+          337
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P15015",
     "raw": {
@@ -428696,7 +429247,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2100",
       "题号": "P15015",
       "题名": "If"
@@ -439809,17 +440360,39 @@
       ],
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P16246",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
         "categories": [
+          "数学与计数 / 计数",
           "数学"
         ],
+        "status": "classified",
+        "source": "public-reviewed",
         "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P16246",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P16246",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
             "categories": [
@@ -439829,24 +440402,18 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "b58a13d6128290cb3f496bbc6e269d9364987e40e6312b73c656e83e4bf6703d",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [
-          "组合数学"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "组合数学"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "96ada04a2a1bfe72700513a1b95e7dc8d3ec9a74755c38899f68cbdd5d1e303d",
+        "sourceTags": [
+          "组合数学"
+        ],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "数学与计数 / 计数",
         "数学"
       ],
       "knowledgeReviewRequired": false,
@@ -439862,9 +440429,24 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "但是什么也不会改变 2",
-      "url": "https://www.luogu.com.cn/problem/P16246"
+      "url": "https://www.luogu.com.cn/problem/P16246",
+      "knowledgeSourceReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "source": "https://www.luogu.com.cn/problem/P16246",
+        "sourceSha256": "b3f5b577b71f69bfbc5a969705328fc9dc02c44d3c8823ba00e760c121d37de3",
+        "nativeTagIds": [
+          107,
+          252,
+          486
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P16246",
     "raw": {
@@ -439875,7 +440457,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2900",
       "题号": "P16246",
       "题名": "但是什么也不会改变 2"
@@ -984331,14 +984913,35 @@
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:104821::B",
-      "knowledge": "",
+      "knowledge": "多边形面积 + 三分查找",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "多边形面积",
+          "三分查找"
+        ],
+        "knowledge": "多边形面积 + 三分查找",
         "categories": [
+          "计算几何 / 多边形",
+          "基础技巧",
           "计算几何",
           "数据结构"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "多边形面积",
+              "三分查找"
+            ],
+            "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+            "sourceHash": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+            "reason": "原站题解先证两矩形中心重合最优，再证交并比对宽、高为单峰函数，明确给出三分求极值；保留矩形面积模型。",
+            "verified": false
+          },
           {
             "categories": [
               "计算几何",
@@ -984348,21 +984951,15 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "bda86ed85fbe1dcdf3d384c3e1c43160d2928e593e0bce7fc03c854f91c42b9b",
-        "knowledge": "",
-        "pendingCategories": [
-          "计算几何",
-          "数据结构"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "8e27c3ce2f732710a18d4cd5fa26aec47052daf7a517518178671501b7eb65c5",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "计算几何 / 多边形",
+        "基础技巧",
         "计算几何",
         "数据结构"
       ],
@@ -984380,11 +984977,41 @@
       "startedAt": "2023-11-05T01:30:00+00:00",
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "多边形面积",
+        "三分查找"
+      ],
       "title": "Intersection over Union",
       "url": "https://codeforces.com/gym/104821/problem/B",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "多边形面积",
+          "三分查找"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:104821::B",
+            "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+            "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+            "sourcePageNumbers": [
+              43,
+              45,
+              46,
+              47
+            ],
+            "reasons": [
+              "原站题解先证两矩形中心重合最优，再证交并比对宽、高为单峰函数，明确给出三分求极值；保留矩形面积模型。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "remote:codeforces:104821::B",
     "raw": {
@@ -984395,7 +985022,7 @@
       "场次": "ICPC 2023 南京区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "多边形面积 + 三分查找",
       "难度": "—",
       "题号": "B",
       "题名": "Intersection over Union"
@@ -984648,15 +985275,36 @@
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:104821::E",
-      "knowledge": "",
+      "knowledge": "最小割 + 费用流 + Dinic",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "最小割",
+          "费用流",
+          "Dinic"
+        ],
+        "knowledge": "最小割 + 费用流 + Dinic",
         "categories": [
           "图论",
           "计算几何",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "最小割",
+              "费用流",
+              "Dinic"
+            ],
+            "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+            "sourceHash": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+            "reason": "平面网格对偶后最短路对应最小割；先以 Dinic 推完零费用流，再通过单位费用边补足 K 流量。",
+            "verified": false
+          },
           {
             "categories": [
               "图论",
@@ -984667,20 +985315,11 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "57c61dd1a3961fae41c407efc15963c4507d2b130d845a75f4991fbaddd3749b",
-        "knowledge": "",
-        "pendingCategories": [
-          "图论",
-          "计算几何",
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "d2ac3c30642d5e19b6beff5f3977b43c800dc3dfeda5ff2a3bc780d0ffaf9127",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "图论",
@@ -984701,11 +985340,42 @@
       "startedAt": "2023-11-05T01:30:00+00:00",
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "最小割",
+        "费用流",
+        "Dinic"
+      ],
       "title": "Extending Distance",
       "url": "https://codeforces.com/gym/104821/problem/E",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "最小割",
+          "费用流",
+          "Dinic"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:104821::E",
+            "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+            "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+            "sourcePageNumbers": [
+              28,
+              29,
+              30
+            ],
+            "reasons": [
+              "平面网格对偶后最短路对应最小割；先以 Dinic 推完零费用流，再通过单位费用边补足 K 流量。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "remote:codeforces:104821::E",
     "raw": {
@@ -984716,7 +985386,7 @@
       "场次": "ICPC 2023 南京区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "最小割 + 费用流 + Dinic",
       "难度": "—",
       "题号": "E",
       "题名": "Extending Distance"
@@ -984991,14 +985661,35 @@
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:104821::H",
-      "knowledge": "",
+      "knowledge": "构造 + 递归",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "构造",
+          "递归"
+        ],
+        "knowledge": "构造 + 递归",
         "categories": [
+          "思维与策略",
+          "基础技巧",
           "图论",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "构造",
+              "递归"
+            ],
+            "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+            "sourceHash": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+            "reason": "按 n 的奇偶和模4情况铺基本块；奇数大棋盘用两种递归扩展归约到 n=9，非题名推断。",
+            "verified": false
+          },
           {
             "categories": [
               "图论",
@@ -985008,21 +985699,15 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "4bdacd3afa89a1d2912d3249be61cefd87adea46ae96157741937fbbcaa40c0d",
-        "knowledge": "",
-        "pendingCategories": [
-          "图论",
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "a8bede3d03a928bd557489fa7990a84c53a81a8105afce9304b7d77b5c0912af",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "思维与策略",
+        "基础技巧",
         "图论",
         "数学"
       ],
@@ -985040,11 +985725,44 @@
       "startedAt": "2023-11-05T01:30:00+00:00",
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "构造",
+        "递归"
+      ],
       "title": "Puzzle: Question Mark",
       "url": "https://codeforces.com/gym/104821/problem/H",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "构造",
+          "递归"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:104821::H",
+            "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+            "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+            "sourcePageNumbers": [
+              31,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38
+            ],
+            "reasons": [
+              "按 n 的奇偶和模4情况铺基本块；奇数大棋盘用两种递归扩展归约到 n=9，非题名推断。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "remote:codeforces:104821::H",
     "raw": {
@@ -985055,7 +985773,7 @@
       "场次": "ICPC 2023 南京区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "构造 + 递归",
       "难度": "—",
       "题号": "H",
       "题名": "Puzzle: Question Mark"
@@ -985202,15 +985920,37 @@
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:104821::J",
-      "knowledge": "",
+      "knowledge": "AC自动机 + Z 函数 + 可持久化线段树",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "AC自动机",
+          "Z 函数",
+          "可持久化线段树"
+        ],
+        "knowledge": "AC自动机 + Z 函数 + 可持久化线段树",
         "categories": [
           "字符串",
+          "数据结构",
           "图论",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "AC自动机",
+              "Z 函数",
+              "可持久化线段树"
+            ],
+            "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+            "sourceHash": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+            "reason": "原题解明确在 trie 上建立 AC 自动机，使用可持久化线段树处理大字符集；用 Z-algorithm 维护匹配长度，再在 fail 树上维护贡献。",
+            "verified": false
+          },
           {
             "categories": [
               "字符串",
@@ -985221,23 +985961,15 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "371c1b65906eb6bb134a26347f472df2b5233d09e0c9b857f453c9cac41fd680",
-        "knowledge": "",
-        "pendingCategories": [
-          "字符串",
-          "图论",
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "bcbb100ea3cbc1196fadb2ee24b8b3c2fb0194a06670a0abece3acaf31c1cc02",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "字符串",
+        "数据结构",
         "图论",
         "数学"
       ],
@@ -985255,11 +985987,43 @@
       "startedAt": "2023-11-05T01:30:00+00:00",
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "AC自动机",
+        "Z 函数",
+        "可持久化线段树"
+      ],
       "title": "Suffix Structure",
       "url": "https://codeforces.com/gym/104821/problem/J",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "AC自动机",
+          "Z 函数",
+          "可持久化线段树"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:104821::J",
+            "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+            "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+            "sourcePageNumbers": [
+              39,
+              40,
+              41,
+              42
+            ],
+            "reasons": [
+              "原题解明确在 trie 上建立 AC 自动机，使用可持久化线段树处理大字符集；用 Z-algorithm 维护匹配长度，再在 fail 树上维护贡献。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "remote:codeforces:104821::J",
     "raw": {
@@ -985270,7 +986034,7 @@
       "场次": "ICPC 2023 南京区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "AC自动机 + Z 函数 + 可持久化线段树",
       "难度": "—",
       "题号": "J",
       "题名": "Suffix Structure"
@@ -985304,15 +986068,36 @@
       "eventYear": 2023,
       "examYear": 2023,
       "id": "remote:codeforces:104821::K",
-      "knowledge": "",
+      "knowledge": "线性 DP + 枚举",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "线性 DP",
+          "枚举"
+        ],
+        "knowledge": "线性 DP + 枚举",
         "categories": [
+          "动态规划",
+          "思维与策略",
           "字符串",
           "数学",
           "数据结构"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "线性 DP",
+              "枚举"
+            ],
+            "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+            "sourceHash": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+            "reason": "按牌堆顺序 i 和二号牌张数 j 定义 f(i,j) 与 g(i,j)；每步枚举下一张1号/2号牌，枚举首次满手牌的时刻验证容量。",
+            "verified": false
+          },
           {
             "categories": [
               "字符串",
@@ -985323,22 +986108,15 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "0a97b08a66aa0127e365b9aa4bd9d0c9c917e9ef3c299eed8479776b549a4a12",
-        "knowledge": "",
-        "pendingCategories": [
-          "字符串",
-          "数学",
-          "数据结构"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "b0855b45cd69671ea31b2614dfc44622c01fadce486a5172a143ef072db62bb8",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "动态规划",
+        "思维与策略",
         "字符串",
         "数学",
         "数据结构"
@@ -985357,11 +986135,43 @@
       "startedAt": "2023-11-05T01:30:00+00:00",
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "线性 DP",
+        "枚举"
+      ],
       "title": "Grand Finale",
       "url": "https://codeforces.com/gym/104821/problem/K",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2023
+      "xcpcYear": 2023,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "线性 DP",
+          "枚举"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:104821::K",
+            "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+            "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+            "sourcePageNumbers": [
+              22,
+              23,
+              24,
+              25,
+              26,
+              27
+            ],
+            "reasons": [
+              "按牌堆顺序 i 和二号牌张数 j 定义 f(i,j) 与 g(i,j)；每步枚举下一张1号/2号牌，枚举首次满手牌的时刻验证容量。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "remote:codeforces:104821::K",
     "raw": {
@@ -985372,7 +986182,7 @@
       "场次": "ICPC 2023 南京区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "线性 DP + 枚举",
       "难度": "—",
       "题号": "K",
       "题名": "Grand Finale"
@@ -998132,14 +998942,38 @@
       "eventYear": 2024,
       "examYear": 2024,
       "id": "remote:codeforces:105231::B",
-      "knowledge": "",
+      "knowledge": "枚举 + 前缀和 + 等差数列",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "枚举",
+          "前缀和",
+          "等差数列"
+        ],
+        "knowledge": "枚举 + 前缀和 + 等差数列",
         "categories": [
+          "思维与策略",
+          "基础技巧 / 前缀和与差分",
+          "数学与计数",
           "数学",
           "数据结构"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "枚举",
+              "前缀和",
+              "等差数列"
+            ],
+            "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+            "sourceHash": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+            "reason": "区分初始韭菜和新生韭菜；时间较短时证明最多转向一次，枚举转向位置并用等差数列求和、前缀和计算收益。",
+            "verified": false
+          },
           {
             "categories": [
               "数学",
@@ -998149,21 +998983,16 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "956231866a1848d4b49e09c7756c4ac2332992143b11fc5ed79ff7e9262063dd",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学",
-          "数据结构"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "e946a68af829a9d3ae00977c4dd46e23b03f3b854cdcfbdca30370c26d852dd0",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "思维与策略",
+        "基础技巧 / 前缀和与差分",
+        "数学与计数",
         "数学",
         "数据结构"
       ],
@@ -998181,11 +999010,41 @@
       "startedAt": null,
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "枚举",
+        "前缀和",
+        "等差数列"
+      ],
       "title": "Magic Leeks",
       "url": "https://codeforces.com/gym/105231/problem/B",
       "xcpcKind": "省赛",
-      "xcpcYear": 2024
+      "xcpcYear": 2024,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "枚举",
+          "前缀和",
+          "等差数列"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105231::B",
+            "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+            "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+            "sourcePageNumbers": [
+              7,
+              8
+            ],
+            "reasons": [
+              "区分初始韭菜和新生韭菜；时间较短时证明最多转向一次，枚举转向位置并用等差数列求和、前缀和计算收益。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "remote:codeforces:105231::B",
     "raw": {
@@ -998196,7 +999055,7 @@
       "场次": "ICPC 2024 江西省赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "枚举 + 前缀和 + 等差数列",
       "难度": "—",
       "题号": "B",
       "题名": "Magic Leeks"
@@ -998222,21 +999081,39 @@
       "contestProblemCount": 12,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 800,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2024,
       "examYear": 2024,
       "id": "remote:codeforces:105231::C",
-      "knowledge": "",
+      "knowledge": "分类讨论",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "分类讨论"
+        ],
+        "knowledge": "分类讨论",
         "categories": [
+          "思维与策略",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "分类讨论"
+            ],
+            "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+            "sourceHash": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+            "reason": "题解证明宣称数之和为 s 时全部 n 人可诚实，否则能固定前 n-1 人诚实并仅改最后一人的真实数，答案 n-1。",
+            "verified": false
+          },
           {
             "categories": [
               "数学"
@@ -998245,20 +999122,14 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "469f18fa222baf18cb9bf143a57c5930caac03465188a70e74b8a8a756630547",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "64ae1c0ea0f4d6f2b004b3ea4ec5bdfe9f32b8b91fc265ac837be76c19ac0cb3",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "思维与策略",
         "数学"
       ],
       "metadataVersion": "1.0.18",
@@ -998275,11 +999146,49 @@
       "startedAt": null,
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "分类讨论"
+      ],
       "title": "Liar",
       "url": "https://codeforces.com/gym/105231/problem/C",
       "xcpcKind": "省赛",
-      "xcpcYear": 2024
+      "xcpcYear": 2024,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "分类讨论"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105231::C",
+            "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+            "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+            "sourcePageNumbers": [
+              5,
+              6
+            ],
+            "reasons": [
+              "题解证明宣称数之和为 s 时全部 n 人可诚实，否则能固定前 n-1 人诚实并仅改最后一人的真实数，答案 n-1。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        800,
+        1000
+      ],
+      "difficultyCheckedAt": "2026-11-08T19:54:00.573652+00:00",
+      "difficultyReviewRevision": "20261109-source-reviewed-metadata-followup",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+        "原站题解PDF SHA-256: a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+        "线性求和后仅区分是否等于 s；相等输出 n，否则按只允许最后一人撒谎的构造输出 n-1。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105231::C",
     "raw": {
@@ -998290,8 +999199,8 @@
       "场次": "ICPC 2024 江西省赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "分类讨论",
+      "难度": "800",
       "题号": "C",
       "题名": "Liar"
     },
@@ -998598,22 +999507,40 @@
       "contestProblemCount": 12,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 900,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2024,
       "examYear": 2024,
       "id": "remote:codeforces:105231::G",
-      "knowledge": "",
+      "knowledge": "模拟",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "模拟"
+        ],
+        "knowledge": "模拟",
         "categories": [
+          "思维与策略",
           "字符串",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "模拟"
+            ],
+            "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+            "sourceHash": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+            "reason": "利用 11 的幂模5恒为1，将重复段(x,y)逐段累计 x*y 模5，未按题名猜测快速幂。",
+            "verified": false
+          },
           {
             "categories": [
               "字符串",
@@ -998623,21 +999550,14 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "b9fbf264a8f768b469600177828175b34e160e8aea0b00e15bad02ac195f8291",
-        "knowledge": "",
-        "pendingCategories": [
-          "字符串",
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "30e63d3129d3f1e3776e405f425249c4846bf786da02065a49e8b96e836cb0bd",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "思维与策略",
         "字符串",
         "数学"
       ],
@@ -998655,11 +999575,49 @@
       "startedAt": null,
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "模拟"
+      ],
       "title": "Multiples of 5",
       "url": "https://codeforces.com/gym/105231/problem/G",
       "xcpcKind": "省赛",
-      "xcpcYear": 2024
+      "xcpcYear": 2024,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "模拟"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105231::G",
+            "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+            "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+            "sourcePageNumbers": [
+              15,
+              16
+            ],
+            "reasons": [
+              "利用 11 的幂模5恒为1，将重复段(x,y)逐段累计 x*y 模5，未按题名猜测快速幂。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        800,
+        1100
+      ],
+      "difficultyCheckedAt": "2026-11-08T19:54:00.573652+00:00",
+      "difficultyReviewRevision": "20261109-source-reviewed-metadata-followup",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+        "原站题解PDF SHA-256: a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+        "11 的所有位权模5都为1；重复段逐项求 x*y 模5，线性读入即可，注意先取模避免中间乘法溢出。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105231::G",
     "raw": {
@@ -998670,8 +999628,8 @@
       "场次": "ICPC 2024 江西省赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "模拟",
+      "难度": "900",
       "题号": "G",
       "题名": "Multiples of 5"
     },
@@ -998695,32 +999653,53 @@
       "contestProblemCount": 12,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 1500,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2024,
       "examYear": 2024,
       "id": "remote:codeforces:105231::H",
-      "knowledge": "",
+      "knowledge": "前缀和 + 贪心",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "前缀和",
+          "贪心"
+        ],
+        "knowledge": "前缀和 + 贪心",
+        "categories": [
+          "基础技巧 / 前缀和与差分",
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "前缀和",
+              "贪心"
+            ],
+            "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+            "sourceHash": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+            "reason": "逐个核元素拆贡献；对应输入子矩阵和为正取1、为负取-1，用二维前缀和查询各子矩阵。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "90d8edfec4a5380de1e242804767071e5ace53daa8401f65a26fd6c08b2b751e",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "基础技巧 / 前缀和与差分",
+        "思维与策略"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Convolution",
       "platform": "Codeforces",
@@ -998734,11 +999713,50 @@
       "sourceTags": [],
       "startedAt": null,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "前缀和",
+        "贪心"
+      ],
       "title": "Convolution",
       "url": "https://codeforces.com/gym/105231/problem/H",
       "xcpcKind": "省赛",
-      "xcpcYear": 2024
+      "xcpcYear": 2024,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "前缀和",
+          "贪心"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105231::H",
+            "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+            "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+            "sourcePageNumbers": [
+              17,
+              18
+            ],
+            "reasons": [
+              "逐个核元素拆贡献；对应输入子矩阵和为正取1、为负取-1，用二维前缀和查询各子矩阵。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1300,
+        1800
+      ],
+      "difficultyCheckedAt": "2026-11-08T19:54:00.573652+00:00",
+      "difficultyReviewRevision": "20261109-source-reviewed-metadata-followup",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+        "原站题解PDF SHA-256: a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+        "用贡献拆解独立选择每个核系数的符号，再以二维前缀和查询子矩阵；无需实际做每种卷积。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105231::H",
     "raw": {
@@ -998749,8 +999767,8 @@
       "场次": "ICPC 2024 江西省赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "前缀和 + 贪心",
+      "难度": "1500",
       "题号": "H",
       "题名": "Convolution"
     },
@@ -998775,21 +999793,41 @@
       "contestProblemCount": 12,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 1900,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2024,
       "examYear": 2024,
       "id": "remote:codeforces:105231::I",
-      "knowledge": "",
+      "knowledge": "枚举 + 最小包围圆",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "枚举",
+          "最小包围圆"
+        ],
+        "knowledge": "枚举 + 最小包围圆",
         "categories": [
+          "思维与策略",
           "计算几何"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "枚举",
+              "最小包围圆"
+            ],
+            "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+            "sourceHash": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+            "reason": "题解明确最小圆由两点直径或三点确定，枚举全部二/三点支持圆并统计覆盖点数，O(n^4)，不是随机增量算法的推断。",
+            "verified": false
+          },
           {
             "categories": [
               "计算几何"
@@ -998798,20 +999836,14 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "7c89b9387ffdde802e03046da0d37cd3d41a2223a09504eca612480c12977023",
-        "knowledge": "",
-        "pendingCategories": [
-          "计算几何"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "4aa05c8cd9fca62b5f3244c97d7cc54dbcca1d5e7dd2944ee3313ece466973da",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "思维与策略",
         "计算几何"
       ],
       "metadataVersion": "1.0.18",
@@ -998828,11 +999860,51 @@
       "startedAt": null,
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "枚举",
+        "最小包围圆"
+      ],
       "title": "Neuvillette Circling",
       "url": "https://codeforces.com/gym/105231/problem/I",
       "xcpcKind": "省赛",
-      "xcpcYear": 2024
+      "xcpcYear": 2024,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "枚举",
+          "最小包围圆"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105231::I",
+            "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+            "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+            "sourcePageNumbers": [
+              19,
+              20
+            ],
+            "reasons": [
+              "题解明确最小圆由两点直径或三点确定，枚举全部二/三点支持圆并统计覆盖点数，O(n^4)，不是随机增量算法的推断。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      },
+      "difficultyBand": [
+        1700,
+        2200
+      ],
+      "difficultyCheckedAt": "2026-11-08T19:54:00.573652+00:00",
+      "difficultyReviewRevision": "20261109-source-reviewed-metadata-followup",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+        "原站题解PDF SHA-256: a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+        "用两/三点支持集枚举最小圆，统计覆盖点并维护每个 k 的最小半径；需处理共线与浮点容差，O(n^4)。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105231::I",
     "raw": {
@@ -998843,8 +999915,8 @@
       "场次": "ICPC 2024 江西省赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "枚举 + 最小包围圆",
+      "难度": "1900",
       "题号": "I",
       "题名": "Neuvillette Circling"
     },
@@ -998868,32 +999940,49 @@
       "contestProblemCount": 12,
       "contestRoster": true,
       "date": "",
-      "difficulty": null,
-      "difficultyConfidence": "UNKNOWN",
+      "difficulty": 1100,
+      "difficultyConfidence": "MEDIUM",
       "difficultyEstimated": true,
-      "difficultySource": "Codeforces Gym 未提供官方 rating",
+      "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
       "endedAt": null,
       "eventYear": 2024,
       "examYear": 2024,
       "id": "remote:codeforces:105231::J",
-      "knowledge": "",
+      "knowledge": "模拟",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "模拟"
+        ],
+        "knowledge": "模拟",
+        "categories": [
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "模拟"
+            ],
+            "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+            "sourceHash": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+            "reason": "官方题解J节描述14张麻将、国士无双和不重复七对子，逐项核对当前原稿的相同牌型规则；按牌种统计次数进行字符串模拟。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "f01ada8371c63ae030c625147c80c8e2ba7f78ded3b8a42dfcb3820f493333fd",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "思维与策略"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Magic Mahjong",
       "platform": "Codeforces",
@@ -998908,11 +999997,51 @@
       "startedAt": null,
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "模拟"
+      ],
       "title": "Magic Mahjong",
       "url": "https://codeforces.com/gym/105231/problem/J",
       "xcpcKind": "省赛",
-      "xcpcYear": 2024
+      "xcpcYear": 2024,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "模拟"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105231::J",
+            "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+            "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+            "sourcePageNumbers": [
+              21,
+              22
+            ],
+            "reasons": [
+              "官方题解J节描述14张麻将、国士无双和不重复七对子，逐项核对当前原稿的相同牌型规则；按牌种统计次数进行字符串模拟。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0,
+            "sourceHeading": "J. Gensokyo Autobahn",
+            "nativeHeading": "Magic Mahjong",
+            "titleDifferenceReviewed": "题解标题与当前题单不同；同一原站赛事J节的14张手牌、13种幺九与七对子不重复三条定义已与当前原稿逐项核对，未据此更名或替换原稿。"
+          }
+        ]
+      },
+      "difficultyBand": [
+        900,
+        1400
+      ],
+      "difficultyCheckedAt": "2026-11-08T19:54:00.573652+00:00",
+      "difficultyReviewRevision": "20261109-source-reviewed-metadata-followup",
+      "difficultyEvidence": [
+        "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+        "原站题解PDF SHA-256: a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+        "14张固定长度手牌按牌种计数；核对13种幺九牌各至少1张，或恰好7种计数为2的对子，避免把四张同种牌算作两个对子。",
+        "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+      ]
     },
     "id": "remote:codeforces:105231::J",
     "raw": {
@@ -998923,8 +1000052,8 @@
       "场次": "ICPC 2024 江西省赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
-      "难度": "—",
+      "知识点": "模拟",
+      "难度": "1100",
       "题号": "J",
       "题名": "Magic Mahjong"
     },
@@ -1005606,24 +1006735,49 @@
       "eventYear": 2024,
       "examYear": 2024,
       "id": "remote:codeforces:105484::A",
-      "knowledge": "",
+      "knowledge": "基环树 + 模拟 + 前缀和",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
-        "evidence": [],
-        "inputHash": "c36377eb27bec12a27ce68e0b40a06e833f9978715949545ede54573f5d7882e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
+        "version": "knowledge-v1.0",
+        "tags": [
+          "基环树",
+          "模拟",
+          "前缀和"
+        ],
+        "knowledge": "基环树 + 模拟 + 前缀和",
+        "categories": [
+          "图论",
+          "思维与策略",
+          "基础技巧 / 前缀和与差分"
+        ],
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "基环树",
+              "模拟",
+              "前缀和"
+            ],
+            "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+            "sourceHash": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+            "reason": "整周期转移形成出度为1的基环树森林，用子树高度表示存活周期；模拟周期内合并，并前缀和求各时刻剩余格数。",
+            "verified": false
+          }
+        ],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "27bdca017ef4c27e0f6562313dd2f7dc16cbb6c1baf76b41d1e978fcb3c0575a",
+        "sourceTags": [],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "图论",
+        "思维与策略",
+        "基础技巧 / 前缀和与差分"
+      ],
+      "knowledgeReviewRequired": false,
       "metadataVersion": "1.0.18",
       "originalTitle": "Hey, Have You Seen My Kangaroo?",
       "platform": "Codeforces",
@@ -1005638,11 +1006792,42 @@
       "startedAt": "2024-11-03T01:30:00+00:00",
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "基环树",
+        "模拟",
+        "前缀和"
+      ],
       "title": "Hey, Have You Seen My Kangaroo?",
       "url": "https://codeforces.com/gym/105484/problem/A",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2024
+      "xcpcYear": 2024,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "基环树",
+          "模拟",
+          "前缀和"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105484::A",
+            "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+            "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+            "sourcePageNumbers": [
+              22,
+              23,
+              24,
+              25
+            ],
+            "reasons": [
+              "整周期转移形成出度为1的基环树森林，用子树高度表示存活周期；模拟周期内合并，并前缀和求各时刻剩余格数。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "remote:codeforces:105484::A",
     "raw": {
@@ -1005653,7 +1006838,7 @@
       "场次": "ICPC 2024 南京区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "基环树 + 模拟 + 前缀和",
       "难度": "—",
       "题号": "A",
       "题名": "Hey, Have You Seen My Kangaroo?"
@@ -1005906,13 +1007091,34 @@
       "eventYear": 2024,
       "examYear": 2024,
       "id": "remote:codeforces:105484::D",
-      "knowledge": "",
+      "knowledge": "记忆化搜索 + 博弈论",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "记忆化搜索",
+          "博弈论"
+        ],
+        "knowledge": "记忆化搜索 + 博弈论",
         "categories": [
+          "动态规划",
+          "博弈论",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "记忆化搜索",
+              "博弈论"
+            ],
+            "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+            "sourceHash": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+            "reason": "题解对单个井字棋盘进行记忆化搜索，将局面表示为数与nim部分的组合，所有棋盘的数值求和、nim部分异或判断胜负。",
+            "verified": false
+          },
           {
             "categories": [
               "数学"
@@ -1005921,20 +1007127,15 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "333a4efa9dc7c18cacf1fcbdd27a64615ba22a9eca86e13a6c6d6cf24468eeb7",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "ff65a3e1c8b0f0e0de39622e9741670d708fa28daac82d6778bf4392ae33a615",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "动态规划",
+        "博弈论",
         "数学"
       ],
       "metadataVersion": "1.0.18",
@@ -1005951,11 +1007152,43 @@
       "startedAt": "2024-11-03T01:30:00+00:00",
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "记忆化搜索",
+        "博弈论"
+      ],
       "title": "Toe-Tac-Tics",
       "url": "https://codeforces.com/gym/105484/problem/D",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2024
+      "xcpcYear": 2024,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "记忆化搜索",
+          "博弈论"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105484::D",
+            "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+            "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+            "sourcePageNumbers": [
+              32,
+              33,
+              34,
+              35,
+              36,
+              37
+            ],
+            "reasons": [
+              "题解对单个井字棋盘进行记忆化搜索，将局面表示为数与nim部分的组合，所有棋盘的数值求和、nim部分异或判断胜负。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "remote:codeforces:105484::D",
     "raw": {
@@ -1005966,7 +1007199,7 @@
       "场次": "ICPC 2024 南京区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "记忆化搜索 + 博弈论",
       "难度": "—",
       "题号": "D",
       "题名": "Toe-Tac-Tics"
@@ -1006110,13 +1007343,34 @@
       "eventYear": 2024,
       "examYear": 2024,
       "id": "remote:codeforces:105484::F",
-      "knowledge": "",
+      "knowledge": "最短路 + 李超线段树",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "最短路",
+          "李超线段树"
+        ],
+        "knowledge": "最短路 + 李超线段树",
         "categories": [
+          "图论",
+          "数据结构",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "最短路",
+              "李超线段树"
+            ],
+            "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+            "sourceHash": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+            "reason": "以站点和线路为状态建最短路；原题解明确换乘可视为直线取最小值，使用李超树或者动态凸包维护。",
+            "verified": false
+          },
           {
             "categories": [
               "数学"
@@ -1006125,20 +1007379,15 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "762e50301dc865c1db7442b50d5dfe0222686de333a5aee1658dee51087608f9",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "a1e6f335c77d3167d70fb3d013e11c964e9abbc299444fbee43f77e539943caf",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "图论",
+        "数据结构",
         "数学"
       ],
       "metadataVersion": "1.0.18",
@@ -1006155,11 +1007404,39 @@
       "startedAt": "2024-11-03T01:30:00+00:00",
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "最短路",
+        "李超线段树"
+      ],
       "title": "Subway",
       "url": "https://codeforces.com/gym/105484/problem/F",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2024
+      "xcpcYear": 2024,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "最短路",
+          "李超线段树"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105484::F",
+            "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+            "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+            "sourcePageNumbers": [
+              20,
+              21
+            ],
+            "reasons": [
+              "以站点和线路为状态建最短路；原题解明确换乘可视为直线取最小值，使用李超树或者动态凸包维护。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "remote:codeforces:105484::F",
     "raw": {
@@ -1006170,7 +1007447,7 @@
       "场次": "ICPC 2024 南京区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "最短路 + 李超线段树",
       "难度": "—",
       "题号": "F",
       "题名": "Subway"
@@ -1006316,14 +1007593,34 @@
       "eventYear": 2024,
       "examYear": 2024,
       "id": "remote:codeforces:105484::H",
-      "knowledge": "",
+      "knowledge": "后缀自动机 + 线段树",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "后缀自动机",
+          "线段树"
+        ],
+        "knowledge": "后缀自动机 + 线段树",
         "categories": [
           "字符串",
+          "数据结构",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "后缀自动机",
+              "线段树"
+            ],
+            "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+            "sourceHash": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+            "reason": "证明最优序列可先非回文再回文，枚举左端点并逐次找反串后继；官方指定线段树或主席树配合后缀自动机维护出现位置。",
+            "verified": false
+          },
           {
             "categories": [
               "字符串",
@@ -1006333,22 +1007630,15 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "ae2a869c2c5c68fd95e409ed2cf18a491bb2fdc752295eedccc49c3927d66ef3",
-        "knowledge": "",
-        "pendingCategories": [
-          "字符串",
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "d4a5ffd825350a110d4c431be6ba3208cc207c696fd8796a49b75761f0512cea",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "字符串",
+        "数据结构",
         "数学"
       ],
       "metadataVersion": "1.0.18",
@@ -1006365,11 +1007655,43 @@
       "startedAt": "2024-11-03T01:30:00+00:00",
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "后缀自动机",
+        "线段树"
+      ],
       "title": "Border Jump 2",
       "url": "https://codeforces.com/gym/105484/problem/H",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2024
+      "xcpcYear": 2024,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "后缀自动机",
+          "线段树"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105484::H",
+            "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+            "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+            "sourcePageNumbers": [
+              26,
+              27,
+              28,
+              29,
+              30,
+              31
+            ],
+            "reasons": [
+              "证明最优序列可先非回文再回文，枚举左端点并逐次找反串后继；官方指定线段树或主席树配合后缀自动机维护出现位置。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "remote:codeforces:105484::H",
     "raw": {
@@ -1006380,7 +1007702,7 @@
       "场次": "ICPC 2024 南京区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "后缀自动机 + 线段树",
       "难度": "—",
       "题号": "H",
       "题名": "Border Jump 2"
@@ -1006749,14 +1008071,37 @@
       "eventYear": 2024,
       "examYear": 2024,
       "id": "remote:codeforces:105484::L",
-      "knowledge": "",
+      "knowledge": "构造 + 递归 + 位运算",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "构造",
+          "递归",
+          "位运算"
+        ],
+        "knowledge": "构造 + 递归 + 位运算",
         "categories": [
+          "思维与策略",
+          "基础技巧",
           "位运算",
           "数学"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "构造",
+              "递归",
+              "位运算"
+            ],
+            "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+            "sourceHash": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+            "reason": "通过整体异或限制 n mod4，再从排列问题规约到双排列、带挡板子问题；从高位向低位按位递归构造。",
+            "verified": false
+          },
           {
             "categories": [
               "位运算",
@@ -1006766,21 +1008111,15 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "b571d6dd51424225f7ea2d6a6a3acb12c4c4269b8ec2f25d112f8c953bbb32bf",
-        "knowledge": "",
-        "pendingCategories": [
-          "位运算",
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "25091079c474a74227c2904e73487e09c206f5361e1015b338b933ca8f2bba9d",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "思维与策略",
+        "基础技巧",
         "位运算",
         "数学"
       ],
@@ -1006798,11 +1008137,51 @@
       "startedAt": "2024-11-03T01:30:00+00:00",
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "构造",
+        "递归",
+        "位运算"
+      ],
       "title": "$P \\oplus Q = R$",
       "url": "https://codeforces.com/gym/105484/problem/L",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2024
+      "xcpcYear": 2024,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "构造",
+          "递归",
+          "位运算"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105484::L",
+            "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+            "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+            "sourcePageNumbers": [
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49
+            ],
+            "reasons": [
+              "通过整体异或限制 n mod4，再从排列问题规约到双排列、带挡板子问题；从高位向低位按位递归构造。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "remote:codeforces:105484::L",
     "raw": {
@@ -1006813,7 +1008192,7 @@
       "场次": "ICPC 2024 南京区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "构造 + 递归 + 位运算",
       "难度": "—",
       "题号": "L",
       "题名": "$P \\oplus Q = R$"
@@ -1006847,15 +1008226,36 @@
       "eventYear": 2024,
       "examYear": 2024,
       "id": "remote:codeforces:105484::M",
-      "knowledge": "",
+      "knowledge": "圆与切线 + 三角函数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "圆与切线",
+          "三角函数"
+        ],
+        "knowledge": "圆与切线 + 三角函数",
         "categories": [
+          "计算几何 / 点线与圆",
+          "数学与计数",
           "字符串",
           "计算几何",
           "数据结构"
         ],
-        "confidence": "medium",
+        "status": "classified",
+        "source": "reviewed-topic",
+        "confidence": "high",
         "evidence": [
+          {
+            "source": "reviewed-topic",
+            "tags": [
+              "圆与切线",
+              "三角函数"
+            ],
+            "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+            "sourceHash": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+            "reason": "将凸多边形扩张为顶点圆，求原点到各圆的切线极角；取可行角区间并将时间按2π整周期与余段求交。",
+            "verified": false
+          },
           {
             "categories": [
               "字符串",
@@ -1006866,22 +1008266,15 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "0f8f9469b30ca46c7fbf00a29d80f055a03ba93a57499fa9f2df9fb8d121de82",
-        "knowledge": "",
-        "pendingCategories": [
-          "字符串",
-          "计算几何",
-          "数据结构"
-        ],
-        "source": "statement-model",
-        "sourceTags": [],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "0b9dcc222e7283b74dc7003220de2edf9c22798942a05606cbd838f048d5a10b",
+        "sourceTags": [],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "计算几何 / 点线与圆",
+        "数学与计数",
         "字符串",
         "计算几何",
         "数据结构"
@@ -1006900,11 +1008293,39 @@
       "startedAt": "2024-11-03T01:30:00+00:00",
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "圆与切线",
+        "三角函数"
+      ],
       "title": "Ordainer of Inexorable Judgment",
       "url": "https://codeforces.com/gym/105484/problem/M",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2024
+      "xcpcYear": 2024,
+      "knowledgeReviewRequired": false,
+      "knowledgeReview": {
+        "revision": "20261109-source-reviewed-metadata-followup",
+        "official": false,
+        "tags": [
+          "圆与切线",
+          "三角函数"
+        ],
+        "sources": [
+          {
+            "problemId": "remote:codeforces:105484::M",
+            "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+            "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+            "sourcePageNumbers": [
+              18,
+              19
+            ],
+            "reasons": [
+              "将凸多边形扩张为顶点圆，求原点到各圆的切线极角；取可行角区间并将时间按2π整周期与余段求交。"
+            ],
+            "method": "original-contest-editorial-reviewed-algorithm",
+            "originalJudgeSubmissions": 0
+          }
+        ]
+      }
     },
     "id": "remote:codeforces:105484::M",
     "raw": {
@@ -1006915,7 +1008336,7 @@
       "场次": "ICPC 2024 南京区域赛",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "圆与切线 + 三角函数",
       "难度": "—",
       "题号": "M",
       "题名": "Ordainer of Inexorable Judgment"

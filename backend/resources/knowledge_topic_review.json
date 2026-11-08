@@ -1,7 +1,7 @@
 {
   "version": "topic-review-20261029-r30",
   "scope": "仅修正知识标签，不改题解正文、程序、难度或个人记录",
-  "reviewedProblems": 1551,
+  "reviewedProblems": 1568,
   "problems": {
     "codeforces.com/contest/2258/problem/E": {
       "problemIds": [
@@ -36595,6 +36595,538 @@
       ],
       "reviewMethod": "source-reviewed-classification",
       "official": false
+    },
+    "codeforces.com/gym/104821/problem/B": {
+      "problemIds": [
+        "remote:codeforces:104821::B"
+      ],
+      "url": "https://codeforces.com/gym/104821/problem/B",
+      "tags": [
+        "多边形面积",
+        "三分查找"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104821::B",
+          "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+          "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+          "sourcePageNumbers": [
+            43,
+            45,
+            46,
+            47
+          ],
+          "reasons": [
+            "原站题解先证两矩形中心重合最优，再证交并比对宽、高为单峰函数，明确给出三分求极值；保留矩形面积模型。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104821/problem/E": {
+      "problemIds": [
+        "remote:codeforces:104821::E"
+      ],
+      "url": "https://codeforces.com/gym/104821/problem/E",
+      "tags": [
+        "最小割",
+        "费用流",
+        "Dinic"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104821::E",
+          "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+          "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+          "sourcePageNumbers": [
+            28,
+            29,
+            30
+          ],
+          "reasons": [
+            "平面网格对偶后最短路对应最小割；先以 Dinic 推完零费用流，再通过单位费用边补足 K 流量。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104821/problem/H": {
+      "problemIds": [
+        "remote:codeforces:104821::H"
+      ],
+      "url": "https://codeforces.com/gym/104821/problem/H",
+      "tags": [
+        "构造",
+        "递归"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104821::H",
+          "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+          "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+          "sourcePageNumbers": [
+            31,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38
+          ],
+          "reasons": [
+            "按 n 的奇偶和模4情况铺基本块；奇数大棋盘用两种递归扩展归约到 n=9，非题名推断。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104821/problem/J": {
+      "problemIds": [
+        "remote:codeforces:104821::J"
+      ],
+      "url": "https://codeforces.com/gym/104821/problem/J",
+      "tags": [
+        "AC自动机",
+        "Z 函数",
+        "可持久化线段树"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104821::J",
+          "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+          "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+          "sourcePageNumbers": [
+            39,
+            40,
+            41,
+            42
+          ],
+          "reasons": [
+            "原题解明确在 trie 上建立 AC 自动机，使用可持久化线段树处理大字符集；用 Z-algorithm 维护匹配长度，再在 fail 树上维护贡献。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104821/problem/K": {
+      "problemIds": [
+        "remote:codeforces:104821::K"
+      ],
+      "url": "https://codeforces.com/gym/104821/problem/K",
+      "tags": [
+        "线性 DP",
+        "枚举"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104821::K",
+          "reference": "https://codeforces.com/gym/104821/attachments/download/23217/nanjing_2023_editorial.pdf",
+          "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+          "sourcePageNumbers": [
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ],
+          "reasons": [
+            "按牌堆顺序 i 和二号牌张数 j 定义 f(i,j) 与 g(i,j)；每步枚举下一张1号/2号牌，枚举首次满手牌的时刻验证容量。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105231/problem/B": {
+      "problemIds": [
+        "remote:codeforces:105231::B"
+      ],
+      "url": "https://codeforces.com/gym/105231/problem/B",
+      "tags": [
+        "枚举",
+        "前缀和",
+        "等差数列"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105231::B",
+          "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+          "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+          "sourcePageNumbers": [
+            7,
+            8
+          ],
+          "reasons": [
+            "区分初始韭菜和新生韭菜；时间较短时证明最多转向一次，枚举转向位置并用等差数列求和、前缀和计算收益。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105231/problem/C": {
+      "problemIds": [
+        "remote:codeforces:105231::C"
+      ],
+      "url": "https://codeforces.com/gym/105231/problem/C",
+      "tags": [
+        "分类讨论"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105231::C",
+          "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+          "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+          "sourcePageNumbers": [
+            5,
+            6
+          ],
+          "reasons": [
+            "题解证明宣称数之和为 s 时全部 n 人可诚实，否则能固定前 n-1 人诚实并仅改最后一人的真实数，答案 n-1。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105231/problem/G": {
+      "problemIds": [
+        "remote:codeforces:105231::G"
+      ],
+      "url": "https://codeforces.com/gym/105231/problem/G",
+      "tags": [
+        "模拟"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105231::G",
+          "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+          "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+          "sourcePageNumbers": [
+            15,
+            16
+          ],
+          "reasons": [
+            "利用 11 的幂模5恒为1，将重复段(x,y)逐段累计 x*y 模5，未按题名猜测快速幂。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105231/problem/H": {
+      "problemIds": [
+        "remote:codeforces:105231::H"
+      ],
+      "url": "https://codeforces.com/gym/105231/problem/H",
+      "tags": [
+        "前缀和",
+        "贪心"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105231::H",
+          "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+          "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+          "sourcePageNumbers": [
+            17,
+            18
+          ],
+          "reasons": [
+            "逐个核元素拆贡献；对应输入子矩阵和为正取1、为负取-1，用二维前缀和查询各子矩阵。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105231/problem/I": {
+      "problemIds": [
+        "remote:codeforces:105231::I"
+      ],
+      "url": "https://codeforces.com/gym/105231/problem/I",
+      "tags": [
+        "枚举",
+        "最小包围圆"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105231::I",
+          "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+          "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+          "sourcePageNumbers": [
+            19,
+            20
+          ],
+          "reasons": [
+            "题解明确最小圆由两点直径或三点确定，枚举全部二/三点支持圆并统计覆盖点数，O(n^4)，不是随机增量算法的推断。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105231/problem/J": {
+      "problemIds": [
+        "remote:codeforces:105231::J"
+      ],
+      "url": "https://codeforces.com/gym/105231/problem/J",
+      "tags": [
+        "模拟"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105231::J",
+          "reference": "https://codeforces.com/gym/105231/attachments/download/25949/jx_sol_whu.pdf",
+          "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+          "sourcePageNumbers": [
+            21,
+            22
+          ],
+          "reasons": [
+            "官方题解J节描述14张麻将、国士无双和不重复七对子，逐项核对当前原稿的相同牌型规则；按牌种统计次数进行字符串模拟。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "sourceHeading": "J. Gensokyo Autobahn",
+          "nativeHeading": "Magic Mahjong",
+          "titleDifferenceReviewed": "题解标题与当前题单不同；同一原站赛事J节的14张手牌、13种幺九与七对子不重复三条定义已与当前原稿逐项核对，未据此更名或替换原稿。"
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105484/problem/A": {
+      "problemIds": [
+        "remote:codeforces:105484::A"
+      ],
+      "url": "https://codeforces.com/gym/105484/problem/A",
+      "tags": [
+        "基环树",
+        "模拟",
+        "前缀和"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105484::A",
+          "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+          "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+          "sourcePageNumbers": [
+            22,
+            23,
+            24,
+            25
+          ],
+          "reasons": [
+            "整周期转移形成出度为1的基环树森林，用子树高度表示存活周期；模拟周期内合并，并前缀和求各时刻剩余格数。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105484/problem/D": {
+      "problemIds": [
+        "remote:codeforces:105484::D"
+      ],
+      "url": "https://codeforces.com/gym/105484/problem/D",
+      "tags": [
+        "记忆化搜索",
+        "博弈论"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105484::D",
+          "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+          "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+          "sourcePageNumbers": [
+            32,
+            33,
+            34,
+            35,
+            36,
+            37
+          ],
+          "reasons": [
+            "题解对单个井字棋盘进行记忆化搜索，将局面表示为数与nim部分的组合，所有棋盘的数值求和、nim部分异或判断胜负。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105484/problem/F": {
+      "problemIds": [
+        "remote:codeforces:105484::F"
+      ],
+      "url": "https://codeforces.com/gym/105484/problem/F",
+      "tags": [
+        "最短路",
+        "李超线段树"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105484::F",
+          "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+          "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+          "sourcePageNumbers": [
+            20,
+            21
+          ],
+          "reasons": [
+            "以站点和线路为状态建最短路；原题解明确换乘可视为直线取最小值，使用李超树或者动态凸包维护。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105484/problem/H": {
+      "problemIds": [
+        "remote:codeforces:105484::H"
+      ],
+      "url": "https://codeforces.com/gym/105484/problem/H",
+      "tags": [
+        "后缀自动机",
+        "线段树"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105484::H",
+          "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+          "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+          "sourcePageNumbers": [
+            26,
+            27,
+            28,
+            29,
+            30,
+            31
+          ],
+          "reasons": [
+            "证明最优序列可先非回文再回文，枚举左端点并逐次找反串后继；官方指定线段树或主席树配合后缀自动机维护出现位置。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105484/problem/L": {
+      "problemIds": [
+        "remote:codeforces:105484::L"
+      ],
+      "url": "https://codeforces.com/gym/105484/problem/L",
+      "tags": [
+        "构造",
+        "递归",
+        "位运算"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105484::L",
+          "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+          "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+          "sourcePageNumbers": [
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49
+          ],
+          "reasons": [
+            "通过整体异或限制 n mod4，再从排列问题规约到双排列、带挡板子问题；从高位向低位按位递归构造。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/105484/problem/M": {
+      "problemIds": [
+        "remote:codeforces:105484::M"
+      ],
+      "url": "https://codeforces.com/gym/105484/problem/M",
+      "tags": [
+        "圆与切线",
+        "三角函数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105484::M",
+          "reference": "https://codeforces.com/gym/105484/attachments/download/28236/tutorial-sketch-zh.pdf",
+          "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+          "sourcePageNumbers": [
+            18,
+            19
+          ],
+          "reasons": [
+            "将凸多边形扩张为顶点圆，求原点到各圆的切线极角；取可行角区间并将时间按2π整周期与余段求交。"
+          ],
+          "method": "original-contest-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
     }
   },
   "excludedKeywordMatches": [
@@ -36616,6 +37148,7 @@
     }
   ],
   "appliedPackets": [
-    "20261108-verified-editorials-and-hsinchu-topics"
+    "20261108-verified-editorials-and-hsinchu-topics",
+    "20261109-source-reviewed-metadata-followup"
   ]
 }

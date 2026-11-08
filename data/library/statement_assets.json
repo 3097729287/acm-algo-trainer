@@ -43174,5 +43174,23 @@
     "mime": "application/pdf",
     "bytes": 2566721,
     "file": "statement-assets/f3e959f58fc1b4b0e6970093711ea2a9fee77d7d7d079a734cfcef3248218199.bin"
+  },
+  {
+    "sha256": "f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77",
+    "mime": "application/pdf",
+    "bytes": 644029,
+    "file": "statement-assets/f6e65424501ec203be5c0b24b36d2981f64224516bef495799b427ca18dc5d77.bin"
+  },
+  {
+    "sha256": "a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e",
+    "mime": "application/pdf",
+    "bytes": 312300,
+    "file": "statement-assets/a3e18567b48d20497a7cf7bd7a2296896030136a1eb724120107a3cad4404f0e.bin"
+  },
+  {
+    "sha256": "63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19",
+    "mime": "application/pdf",
+    "bytes": 574289,
+    "file": "statement-assets/63ad2bfe92d134c0d33f432d8c8d026d0843019eaaa99634eee297db5d50ab19.bin"
   }
 ]

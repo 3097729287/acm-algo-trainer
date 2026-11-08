@@ -1,0 +1,178 @@
+{
+  "revision": "20261109-source-reviewed-metadata-followup",
+  "problems": [
+    {
+      "id": "remote:codeforces:104821::B",
+      "tags": [
+        "多边形面积",
+        "三分查找"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104821::E",
+      "tags": [
+        "最小割",
+        "费用流",
+        "Dinic"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104821::H",
+      "tags": [
+        "构造",
+        "递归"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104821::J",
+      "tags": [
+        "AC自动机",
+        "Z 函数",
+        "可持久化线段树"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104821::K",
+      "tags": [
+        "线性 DP",
+        "枚举"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105231::B",
+      "tags": [
+        "枚举",
+        "前缀和",
+        "等差数列"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105231::C",
+      "tags": [
+        "分类讨论"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105231::G",
+      "tags": [
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105231::H",
+      "tags": [
+        "前缀和",
+        "贪心"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105231::I",
+      "tags": [
+        "枚举",
+        "最小包围圆"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105231::J",
+      "tags": [
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105484::A",
+      "tags": [
+        "基环树",
+        "模拟",
+        "前缀和"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105484::D",
+      "tags": [
+        "记忆化搜索",
+        "博弈论"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105484::F",
+      "tags": [
+        "最短路",
+        "李超线段树"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105484::H",
+      "tags": [
+        "后缀自动机",
+        "线段树"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105484::L",
+      "tags": [
+        "构造",
+        "递归",
+        "位运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105484::M",
+      "tags": [
+        "圆与切线",
+        "三角函数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    }
+  ],
+  "privateStateReadOrWritten": false
+}
