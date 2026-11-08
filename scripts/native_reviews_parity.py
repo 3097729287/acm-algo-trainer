@@ -23,7 +23,7 @@ os.environ['TB_OFFLINE']='1'
 
 
 def run(binary,output):
-    from build_native_catalog import public_store
+    from build_native_catalog import public_store, signature
     from training import TrainingService,ServiceError
     from assets import AssetLibrary
     from catalog_payload import project_row
@@ -201,7 +201,8 @@ def run(binary,output):
         previous=native.execute('SELECT * FROM training ORDER BY id').fetchall()
         assert rpc('learning-summary/refresh',{},fail=True)['code']=='MIGRATION_PENDING';guards.append('full-learning-evidence-not-projected-as-empty')
         assert native.execute('SELECT * FROM training ORDER BY id').fetchall()==previous
-        result={'passed':len(checks),'checks':checks,'exactLegacyComparisons':len(checks)-int(alias!=pid),'additionalConfirmedAliasCheck':alias!=pid,'guardsPassed':len(guards),'guards':guards,'work':str(work),'nativeSha256':hashlib.sha256(binary.read_bytes()).hexdigest(),'nativeBinary':str(binary),'privateLiveStateOpened':False,'officialSubmissionsSent':0,'pythonRuntimeFallback':False,'publicSeedScope':'Previous verified 10 follow-up PDF translation seed; candidate source alone does not synchronize the 18-translation seed.'}
+        with (ROOT/'data/library.sqlite3').open('rb') as stream:seed_hash=hashlib.file_digest(stream,'sha256').hexdigest()
+        result={'passed':len(checks),'checks':checks,'exactLegacyComparisons':len(checks)-int(alias!=pid),'additionalConfirmedAliasCheck':alias!=pid,'guardsPassed':len(guards),'guards':guards,'work':str(work),'nativeSha256':hashlib.sha256(binary.read_bytes()).hexdigest(),'nativeBinary':str(binary),'privateLiveStateOpened':False,'officialSubmissionsSent':0,'pythonRuntimeFallback':False,'publicSeed':signature(ROOT/'data/library.sqlite3'),'publicSeedSha256':seed_hash,'publicSeedScope':'The exact current read-only public seed above; no personal catalogue or live account input.'}
         output.parent.mkdir(parents=True,exist_ok=True);output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n','utf8');print(json.dumps(result,ensure_ascii=False),flush=True)
     finally:
         assets.close();legacy.close();native.close();stop()

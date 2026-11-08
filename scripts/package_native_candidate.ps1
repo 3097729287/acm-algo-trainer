@@ -37,7 +37,14 @@ $members = [ordered]@{
     'backend\resources\template-teaching.json' = (Join-Path $sourceRoot 'backend\resources\template-teaching.json')
     'backend\resources\learning-curriculum.json' = (Join-Path $sourceRoot 'backend\resources\learning-curriculum.json')
     'backend\resources\native-quizzes.json' = (Join-Path $sourceRoot 'backend\resources\native-quizzes.json')
+    'backend\resources\leaderboard.defaults.json' = (Join-Path $sourceRoot 'backend\resources\leaderboard.defaults.json')
 }
+# This shipped resource is public configuration, never an account connection.
+# Refuse unexpected fields so later configuration changes cannot bundle secrets.
+$endpointConfig = Get-Content -LiteralPath $members['backend\resources\leaderboard.defaults.json'] -Raw -Encoding UTF8 | ConvertFrom-Json
+if (@($endpointConfig.PSObject.Properties.Name).Count -ne 1 -or @($endpointConfig.PSObject.Properties.Name)[0] -ne 'endpoint' -or $endpointConfig.endpoint -isnot [string]) { throw 'Native public asset configuration must contain only the public endpoint.' }
+$endpointUri = [Uri]$endpointConfig.endpoint
+if (-not $endpointUri.IsAbsoluteUri -or $endpointUri.Scheme -notin @('http','https') -or $endpointUri.UserInfo -or $endpointUri.Query -or $endpointUri.Fragment) { throw 'Native public asset endpoint must be an absolute public HTTP(S) URL without credentials, query or fragment.' }
 foreach ($item in $members.Values) { if (-not (Test-Path -LiteralPath $item -PathType Leaf)) { throw "Missing candidate member: $item" } }
 New-Item -ItemType Directory -Path $targetRoot | Out-Null
 $manifest = @()

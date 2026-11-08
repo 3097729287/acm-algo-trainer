@@ -25,7 +25,7 @@ os.environ['TB_OFFLINE'] = '1'
 
 
 def run(binary, output):
-    from build_native_catalog import public_store
+    from build_native_catalog import public_store, signature
     from catalog_payload import project_row
     from training import TrainingService, ServiceError
     from goals import Goals
@@ -304,12 +304,16 @@ def run(binary, output):
         legacy.execute("DELETE FROM account_problem_facts WHERE problem_id='unported-private-fact'")
         assert snapshot(native) == original
         guards.append('unported-account-facts-do-not-disappear-or-write-a-goal')
+        with (ROOT / 'data/library.sqlite3').open('rb') as stream:
+            seed_hash = hashlib.file_digest(stream, 'sha256').hexdigest()
         result = {'passed': len(checks), 'checks': checks, 'exactLegacyComparisons': len(checks),
                   'guardsPassed': len(guards), 'guards': guards, 'work': str(work),
                   'nativeSha256': hashlib.sha256(binary.read_bytes()).hexdigest(), 'nativeBinary': str(binary),
                   'privateLiveStateOpened': False, 'officialSubmissionsSent': 0, 'pythonRuntimeFallback': False,
                   'randomIdentityAlignmentOnly': True,
-                  'publicSeedScope': 'Previous verified 10 follow-up PDF translation seed; later source/content is not yet synchronized.'}
+                  'publicSeed': signature(ROOT / 'data/library.sqlite3'),
+                  'publicSeedSha256': seed_hash,
+                  'publicSeedScope': 'The exact current read-only public seed above; no personal catalogue or live account input.'}
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', 'utf8')
         print(json.dumps(result, ensure_ascii=False), flush=True)

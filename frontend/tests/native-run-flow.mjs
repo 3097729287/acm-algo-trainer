@@ -22,10 +22,14 @@ export async function exerciseNativeRuns(page,output){
  await rpc(page,'draft',{id,code:cpp,language:'cpp17'});
  await rpc(page,'training/start',{id});
  await page.setViewportSize({width:1500,height:950});
- const back=page.getByRole('button',{name:'返回主界面',exact:true}).first();if(await back.isVisible())await back.click();
- await page.reload();
+ const back=page.getByRole('button',{name:'返回主界面',exact:true}).first();
+ await back.waitFor();await back.click();
+ // The real return action refreshes the workspace after the native fixture
+ // write. Reopening here tests that rendered table; reload recovery is checked
+ // below after the real C++ and Python runs have completed.
+ await page.locator('.tb-workbench:visible').waitFor({state:'hidden'});
  await page.locator('.sidebar').getByRole('button',{name:'我的训练',exact:true}).click();
- await page.locator('.problem-title').filter({hasText:original.title}).first().click();
+ await page.locator('.problem-title:visible').filter({hasText:original.title}).first().click();
  const editor=page.locator('.tb-workbench .cm-content[contenteditable=true]:visible').first();
  if(!await editor.isVisible())await page.keyboard.press('Alt+2');
  await editor.waitFor();assert.equal((await editor.innerText()).trimEnd(),cpp.trimEnd());
