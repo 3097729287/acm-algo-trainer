@@ -1,0 +1,16 @@
+{
+  "exactNativeProblemIdsReviewed": 29,
+  "specificOriginalJudgeLabelsMapped": 30,
+  "remainingCandidatesHeld": 121,
+  "rawNativeProblemAndTagDictionaryShaVerified": true,
+  "sourceArchives": 30,
+  "sourceArchiveBytes": 396123,
+  "onlyTargetProblemRowsChanged": true,
+  "allDifficultyFieldsAndOriginalIdentityPreserved": true,
+  "nativeTagMappingReproducible": true,
+  "applicationIdempotent": true,
+  "noMasteryPassDraftOrSubmissionStateReadOrWritten": true,
+  "newOntologyLeavesInThisPacket": 0,
+  "regressionTestsPassed": 27,
+  "release1610BoundaryUntouched": true
+}

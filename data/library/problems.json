@@ -82107,17 +82107,39 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-AT_abc290_f",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
         "categories": [
+          "数学与计数 / 计数",
           "数学"
         ],
+        "status": "classified",
+        "source": "public-reviewed",
         "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/AT_abc290_f",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/AT_abc290_f",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
             "categories": [
@@ -82127,24 +82149,18 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "e0487d1d3c4783b679eae60c7799228e3d1d3eb060fa33ea3c160aa91bb505f5",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [
-          "组合数学"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "组合数学"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "96ada04a2a1bfe72700513a1b95e7dc8d3ec9a74755c38899f68cbdd5d1e303d",
+        "sourceTags": [
+          "组合数学"
+        ],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "数学与计数 / 计数",
         "数学"
       ],
       "knowledgeReviewRequired": false,
@@ -82160,9 +82176,22 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "Maximum Diameter",
-      "url": "https://www.luogu.com.cn/problem/AT_abc290_f"
+      "url": "https://www.luogu.com.cn/problem/AT_abc290_f",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/AT_abc290_f",
+        "sourceSha256": "251d8faabde0944f0f7e59a833008edb38ce1e033fa2b590d121c43cd829970f",
+        "nativeTagIds": [
+          252
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-AT_abc290_f",
     "raw": {
@@ -82173,7 +82202,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2400",
       "题号": "AT_abc290_f",
       "题名": "Maximum Diameter"
@@ -86844,17 +86873,39 @@
       ],
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-AT_agc021_e",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
         "categories": [
+          "数学与计数 / 计数",
           "数学"
         ],
+        "status": "classified",
+        "source": "public-reviewed",
         "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/AT_agc021_e",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/AT_agc021_e",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
             "categories": [
@@ -86864,24 +86915,18 @@
             "source": "statement-model"
           }
         ],
-        "inputHash": "10e43739e9dbfc83f70de7ff6cd45b8b77dc5ca4d2721ed63cffe4d35695b0f2",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
-        ],
-        "source": "statement-model",
-        "sourceTags": [
-          "组合数学"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "组合数学"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "96ada04a2a1bfe72700513a1b95e7dc8d3ec9a74755c38899f68cbdd5d1e303d",
+        "sourceTags": [
+          "组合数学"
+        ],
+        "supersededTags": []
       },
       "knowledgeCategories": [
+        "数学与计数 / 计数",
         "数学"
       ],
       "knowledgeReviewRequired": false,
@@ -86897,9 +86942,22 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "Ball Eat Chameleons",
-      "url": "https://www.luogu.com.cn/problem/AT_agc021_e"
+      "url": "https://www.luogu.com.cn/problem/AT_agc021_e",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/AT_agc021_e",
+        "sourceSha256": "58b2ac1dea615ad4ac76cbeb9eff9c392909bf598aa2e45f2f057976e0dabf45",
+        "nativeTagIds": [
+          252
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-AT_agc021_e",
     "raw": {
@@ -86910,7 +86968,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2900",
       "题号": "AT_agc021_e",
       "题名": "Ball Eat Chameleons"
@@ -89564,44 +89622,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-AT_agc030_f",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "动态规划"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "动态规划",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/AT_agc030_f",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/AT_agc030_f",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/AT_agc030_f",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "b6168e03299cb1ed2723a76f1c29ce625573ae78ad2946186eed0a94d6415fdb",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "动态规划"
         ],
-        "source": "statement-analysis",
+        "inputHash": "15b713af957155b9b65e4a113ff3d6e1c9e334b60f960e8673ff87e7c8ea43fe",
         "sourceTags": [
           "动态规划 DP",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "动态规划"
+        "动态规划",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[AGC030F] Permutation and Minimum",
@@ -89617,9 +89700,23 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "Permutation and Minimum",
-      "url": "https://www.luogu.com.cn/problem/AT_agc030_f"
+      "url": "https://www.luogu.com.cn/problem/AT_agc030_f",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/AT_agc030_f",
+        "sourceSha256": "7c5c8e4136ac7fdecf5b2e4ceae52ecddc89b624f62a9abfa0b9e09e86090e7c",
+        "nativeTagIds": [
+          3,
+          252
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-AT_agc030_f",
     "raw": {
@@ -89630,7 +89727,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2700",
       "题号": "AT_agc030_f",
       "题名": "Permutation and Minimum"
@@ -93496,58 +93593,100 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-AT_agc060_c",
-      "knowledge": "",
+      "knowledge": "组合计数 + 期望与概率",
       "knowledgeAnalysis": {
-        "categories": [
-          "动态规划"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数",
+          "期望与概率"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数 + 期望与概率",
+        "categories": [
+          "动态规划",
+          "数学与计数 / 计数",
+          "数学"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "排列组合",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "概率论",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/AT_agc060_c",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "排列组合"
-          },
-          {
-            "source": "archive-catalog",
+            "source": "public-reviewed",
             "tag": "期望与概率",
-            "value": "概率论"
+            "reference": "https://www.luogu.com.cn/problem/AT_agc060_c",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/AT_agc060_c",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/AT_agc060_c",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/AT_agc060_c",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "3a98668c5102357bf14df66c6d8f93b6ad798fe4f5f6e20a4761187e0ced34da",
-        "knowledge": "",
+        "unknown": [
+          "组合数学",
+          "排列组合",
+          "概率论"
+        ],
         "pendingCategories": [
           "动态规划"
         ],
-        "source": "statement-analysis",
+        "inputHash": "d5a8192f81f8332b90a674798906d6627d178828c3c43df004c406072b338462",
         "sourceTags": [
           "动态规划 DP",
           "组合数学",
           "排列组合",
           "概率论"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学",
-          "排列组合",
-          "概率论"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "动态规划"
+        "动态规划",
+        "数学与计数 / 计数",
+        "数学"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[AGC060C] Large Heap",
@@ -93565,9 +93704,26 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数",
+        "期望与概率"
+      ],
       "title": "Large Heap",
-      "url": "https://www.luogu.com.cn/problem/AT_agc060_c"
+      "url": "https://www.luogu.com.cn/problem/AT_agc060_c",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/AT_agc060_c",
+        "sourceSha256": "ad7535378251c7096fc9c40bbc2a2946ce666ac7b9f2018b00fe0889cc038637",
+        "nativeTagIds": [
+          3,
+          252,
+          253,
+          266
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-AT_agc060_c",
     "raw": {
@@ -93578,7 +93734,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数 + 期望与概率",
       "难度": "2700",
       "题号": "AT_agc060_c",
       "题名": "Large Heap"
@@ -94306,44 +94462,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-AT_arc068_d",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "动态规划"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "动态规划",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/AT_arc068_d",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/AT_arc068_d",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/AT_arc068_d",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "7c4508b803eead60e4753593989b348044f8a0916c1bc8921c51dae3908e53ec",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "动态规划"
         ],
-        "source": "statement-analysis",
+        "inputHash": "15b713af957155b9b65e4a113ff3d6e1c9e334b60f960e8673ff87e7c8ea43fe",
         "sourceTags": [
           "动态规划 DP",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "动态规划"
+        "动态规划",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[ARC068F] Solitaire",
@@ -94359,9 +94540,23 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "Solitaire",
-      "url": "https://www.luogu.com.cn/problem/AT_arc068_d"
+      "url": "https://www.luogu.com.cn/problem/AT_arc068_d",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/AT_arc068_d",
+        "sourceSha256": "02ed5d83ec09229f5efd0cc1ff410cd2b03b43b4640ef702378ae5bb2bcc7c1f",
+        "nativeTagIds": [
+          3,
+          252
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-AT_arc068_d",
     "raw": {
@@ -94372,7 +94567,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2700",
       "题号": "AT_arc068_d",
       "题名": "Solitaire"
@@ -100888,44 +101083,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-AT_dp_i",
-      "knowledge": "",
+      "knowledge": "期望与概率",
       "knowledgeAnalysis": {
-        "categories": [
-          "动态规划"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "期望与概率"
         ],
-        "confidence": "pending",
+        "knowledge": "期望与概率",
+        "categories": [
+          "动态规划",
+          "数学"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "概率论",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "期望与概率",
-            "value": "概率论"
+            "reference": "https://www.luogu.com.cn/problem/AT_dp_i",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/AT_dp_i",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/AT_dp_i",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "b1ac209f40915d940e571ff8bd66504377d4634d98fd661bff02311bed32979b",
-        "knowledge": "",
+        "unknown": [
+          "概率论"
+        ],
         "pendingCategories": [
           "动态规划"
         ],
-        "source": "statement-analysis",
+        "inputHash": "3e0574d4fd5069cefb677c9699e5c73ef83000877cf617866172f6e0d8a9bf46",
         "sourceTags": [
           "动态规划 DP",
           "概率论"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "概率论"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "动态规划"
+        "动态规划",
+        "数学"
       ],
       "knowledgeReviewRequired": false,
       "platform": "洛谷",
@@ -100940,9 +101160,23 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "期望与概率"
+      ],
       "title": "Coins",
-      "url": "https://www.luogu.com.cn/problem/AT_dp_i"
+      "url": "https://www.luogu.com.cn/problem/AT_dp_i",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/AT_dp_i",
+        "sourceSha256": "676f13f4dbe64c12a9917d76658b703193537ebb118a9296b9cd50ac1e74fcbc",
+        "nativeTagIds": [
+          3,
+          266
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-AT_dp_i",
     "raw": {
@@ -100953,7 +101187,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "期望与概率",
       "难度": "1500",
       "题号": "AT_dp_i",
       "题名": "Coins"
@@ -530980,44 +531214,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P3414",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P3414",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P3414",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P3414",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "c7703a748025e92276e1bf7892ccdf71b8404a28ab0875dcc94864f665031e89",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "statement-analysis",
+        "inputHash": "2b9df19c943cb9b613a72ad3ae9b630441386ef57cb027705e6260ff17f80aea",
         "sourceTags": [
           "数学",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "platform": "洛谷",
@@ -531032,9 +531291,26 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "SAC#1 - 组合数",
-      "url": "https://www.luogu.com.cn/problem/P3414"
+      "url": "https://www.luogu.com.cn/problem/P3414",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P3414",
+        "sourceSha256": "fc8e8747edc43728e48deb56a4b4e30154846b84c0d7a7771b99f2ca5ee7dfbd",
+        "nativeTagIds": [
+          5,
+          33,
+          81,
+          252,
+          337
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P3414",
     "raw": {
@@ -531045,7 +531321,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "1200",
       "题号": "P3414",
       "题名": "SAC#1 - 组合数"
@@ -572890,44 +573166,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P4222",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "动态规划"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "动态规划",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P4222",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/P4222",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P4222",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "e879295ef09d0486a43baf69de899d1203b041b11236b0960130345f22c129c2",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "动态规划"
         ],
-        "source": "statement-analysis",
+        "inputHash": "15b713af957155b9b65e4a113ff3d6e1c9e334b60f960e8673ff87e7c8ea43fe",
         "sourceTags": [
           "动态规划 DP",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "动态规划"
+        "动态规划",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[CQOI2012] 编号",
@@ -572943,9 +573244,27 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "编号",
-      "url": "https://www.luogu.com.cn/problem/P4222"
+      "url": "https://www.luogu.com.cn/problem/P4222",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P4222",
+        "sourceSha256": "dbbff439aa6e40e2f6218407ed247c5a954236210b387d1ffff975fac3e8ec7e",
+        "nativeTagIds": [
+          3,
+          29,
+          38,
+          48,
+          108,
+          252
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P4222",
     "raw": {
@@ -572956,7 +573275,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2100",
       "题号": "P4222",
       "题名": "编号"
@@ -581404,44 +581723,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P4351",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P4351",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P4351",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P4351",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "0583f0a13eee254d41deadee3fea9a42b631d426403753dbbe3ecfdf6f368528",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "statement-analysis",
+        "inputHash": "2b9df19c943cb9b613a72ad3ae9b630441386ef57cb027705e6260ff17f80aea",
         "sourceTags": [
           "数学",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[CERC2015] Frightful Formula",
@@ -581457,9 +581801,26 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "Frightful Formula",
-      "url": "https://www.luogu.com.cn/problem/P4351"
+      "url": "https://www.luogu.com.cn/problem/P4351",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P4351",
+        "sourceSha256": "2ddea3e3a6710c0d1cd35f0ad21ffbc98f705edd04bc9bd626248dc34f05a4da",
+        "nativeTagIds": [
+          5,
+          32,
+          252,
+          335,
+          502
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P4351",
     "raw": {
@@ -581470,7 +581831,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2700",
       "题号": "P4351",
       "题名": "Frightful Formula"
@@ -598601,44 +598962,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P4778",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P4778",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P4778",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P4778",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "2b9df19c943cb9b613a72ad3ae9b630441386ef57cb027705e6260ff17f80aea",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "pending-evidence",
+        "inputHash": "2b9df19c943cb9b613a72ad3ae9b630441386ef57cb027705e6260ff17f80aea",
         "sourceTags": [
           "数学",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "platform": "洛谷",
@@ -598653,9 +599039,23 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "Counting swaps",
-      "url": "https://www.luogu.com.cn/problem/P4778"
+      "url": "https://www.luogu.com.cn/problem/P4778",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P4778",
+        "sourceSha256": "406f27e502f3a373da8219225de5ae6b88775b11078b399bc7fbe1c1ae36fbd5",
+        "nativeTagIds": [
+          5,
+          252
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P4778",
     "raw": {
@@ -598666,7 +599066,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2700",
       "题号": "P4778",
       "题名": "Counting swaps"
@@ -600883,47 +601283,86 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P4859",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
         "categories": [
           "动态规划",
-          "数学"
+          "数学",
+          "数学与计数 / 计数"
         ],
-        "confidence": "pending",
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "排列组合",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "二项式定理",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P4859",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "排列组合"
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/P4859",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "二项式定理"
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P4859",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P4859",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "d5775b5e8972c4368d0231587d0fabcb036cbea92c9c5426b78f29ee680e9fd6",
-        "knowledge": "",
+        "unknown": [
+          "组合数学",
+          "排列组合",
+          "二项式定理"
+        ],
         "pendingCategories": [
           "动态规划",
           "数学"
         ],
-        "source": "pending-evidence",
+        "inputHash": "d5775b5e8972c4368d0231587d0fabcb036cbea92c9c5426b78f29ee680e9fd6",
         "sourceTags": [
           "动态规划 DP",
           "数学",
@@ -600931,19 +601370,12 @@
           "排列组合",
           "二项式定理"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学",
-          "排列组合",
-          "二项式定理"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "动态规划",
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "platform": "洛谷",
@@ -600961,9 +601393,26 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "已经没有什么好害怕的了",
-      "url": "https://www.luogu.com.cn/problem/P4859"
+      "url": "https://www.luogu.com.cn/problem/P4859",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P4859",
+        "sourceSha256": "af8a08382d016c5bc9edc6b2f3c7c73d23a0b9e3d7f0641400ea8a1ad19d175d",
+        "nativeTagIds": [
+          3,
+          5,
+          252,
+          253,
+          255
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P4859",
     "raw": {
@@ -600974,7 +601423,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2700",
       "题号": "P4859",
       "题名": "已经没有什么好害怕的了"
@@ -603453,44 +603902,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P4921",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P4921",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P4921",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P4921",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "2b9df19c943cb9b613a72ad3ae9b630441386ef57cb027705e6260ff17f80aea",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "pending-evidence",
+        "inputHash": "2b9df19c943cb9b613a72ad3ae9b630441386ef57cb027705e6260ff17f80aea",
         "sourceTags": [
           "数学",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[MtOI2018] 情侣？给我烧了！",
@@ -603506,9 +603980,26 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "情侣？给我烧了！",
-      "url": "https://www.luogu.com.cn/problem/P4921"
+      "url": "https://www.luogu.com.cn/problem/P4921",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P4921",
+        "sourceSha256": "1886297a1884ca57a46c7eacf05c4744d5b40db4e95f33bc6895f09db170afb2",
+        "nativeTagIds": [
+          5,
+          35,
+          81,
+          108,
+          252
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P4921",
     "raw": {
@@ -603519,7 +604010,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2100",
       "题号": "P4921",
       "题名": "情侣？给我烧了！"
@@ -622828,41 +623319,55 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P5389",
-      "knowledge": "",
+      "knowledge": "期望与概率",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "期望与概率"
+        ],
+        "knowledge": "期望与概率",
         "categories": [
           "数学"
         ],
-        "confidence": "pending",
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "概率论",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "期望与概率",
-            "value": "概率论"
+            "reference": "https://www.luogu.com.cn/problem/P5389",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P5389",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "b0ea5d9ad97d3659ef2e65323ffaa6b8f8ae3b22f6ff7f5c82c01785df6f16e3",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
+        "unknown": [
+          "概率论"
         ],
-        "source": "pending-evidence",
+        "pendingCategories": [],
+        "inputHash": "b0ea5d9ad97d3659ef2e65323ffaa6b8f8ae3b22f6ff7f5c82c01785df6f16e3",
         "sourceTags": [
           "数学",
           "概率论"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "概率论"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "数学"
@@ -622881,9 +623386,24 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "期望与概率"
+      ],
       "title": "数学课",
-      "url": "https://www.luogu.com.cn/problem/P5389"
+      "url": "https://www.luogu.com.cn/problem/P5389",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P5389",
+        "sourceSha256": "45b8bd11da3c294f133a12a80af3e64509ee23ea582165c69b57c1346a6dc95d",
+        "nativeTagIds": [
+          5,
+          36,
+          266
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P5389",
     "raw": {
@@ -622894,7 +623414,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "期望与概率",
       "难度": "2100",
       "题号": "P5389",
       "题名": "数学课"
@@ -630086,60 +630606,92 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P5520",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
         "categories": [
           "动态规划",
-          "数学"
+          "数学",
+          "数学与计数 / 计数"
         ],
-        "confidence": "pending",
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "排列组合",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P5520",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "排列组合"
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/P5520",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P5520",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P5520",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "e3206ede4908320f13e6c1f910eaf712602e9450323da58d24a9a6944674475b",
-        "knowledge": "",
+        "unknown": [
+          "组合数学",
+          "排列组合"
+        ],
         "pendingCategories": [
           "动态规划",
           "数学"
         ],
-        "source": "pending-evidence",
+        "inputHash": "e3206ede4908320f13e6c1f910eaf712602e9450323da58d24a9a6944674475b",
         "sourceTags": [
           "动态规划 DP",
           "数学",
           "组合数学",
           "排列组合"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学",
-          "排列组合"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "动态规划",
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[yLOI2019] 青原樱",
@@ -630157,9 +630709,27 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "青原樱",
-      "url": "https://www.luogu.com.cn/problem/P5520"
+      "url": "https://www.luogu.com.cn/problem/P5520",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P5520",
+        "sourceSha256": "55a9cf7e44ffc408253e7632b0db6cd8dca3fd9a5d58776519df6c999ab8be85",
+        "nativeTagIds": [
+          3,
+          5,
+          36,
+          108,
+          252,
+          253
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P5520",
     "raw": {
@@ -630170,7 +630740,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "1500",
       "题号": "P5520",
       "题名": "青原樱"
@@ -632060,53 +632630,85 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P5547",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
         "categories": [
           "动态规划",
-          "数学"
+          "数学",
+          "数学与计数 / 计数"
         ],
-        "confidence": "pending",
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P5547",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/P5547",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P5547",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P5547",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "240057518a7505b5ec9c06703f50c4f06d74835a211012532e614587708c2320",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "动态规划",
           "数学"
         ],
-        "source": "pending-evidence",
+        "inputHash": "240057518a7505b5ec9c06703f50c4f06d74835a211012532e614587708c2320",
         "sourceTags": [
           "动态规划 DP",
           "数学",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "动态规划",
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[BJ United Round #3] 三色树",
@@ -632123,9 +632725,26 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "三色树",
-      "url": "https://www.luogu.com.cn/problem/P5547"
+      "url": "https://www.luogu.com.cn/problem/P5547",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P5547",
+        "sourceSha256": "301743bbb7e9c94cba73861eca700f83824b38202b48f3cb0116519ce2cf239f",
+        "nativeTagIds": [
+          3,
+          5,
+          94,
+          108,
+          252
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P5547",
     "raw": {
@@ -632136,7 +632755,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2700",
       "题号": "P5547",
       "题名": "三色树"
@@ -651025,44 +651644,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P6026",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P6026",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P6026",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P6026",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "2b9df19c943cb9b613a72ad3ae9b630441386ef57cb027705e6260ff17f80aea",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "pending-evidence",
+        "inputHash": "2b9df19c943cb9b613a72ad3ae9b630441386ef57cb027705e6260ff17f80aea",
         "sourceTags": [
           "数学",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "platform": "洛谷",
@@ -651077,9 +651721,24 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "餐馆",
-      "url": "https://www.luogu.com.cn/problem/P6026"
+      "url": "https://www.luogu.com.cn/problem/P6026",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P6026",
+        "sourceSha256": "2b2f304f4b9e6d124893807a4047aa2f2f7ee0bd4dbe5ed85a5d569577b414f4",
+        "nativeTagIds": [
+          5,
+          37,
+          252
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P6026",
     "raw": {
@@ -651090,7 +651749,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2100",
       "题号": "P6026",
       "题名": "餐馆"
@@ -674123,48 +674782,68 @@
       ],
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P6790",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
+        "categories": [
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "树形数据结构"
+            "value": "树形数据结构",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "广义串并联图",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P6790",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "广义串并联图"
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P6790",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "47726f2b569826e28b96bd75b4331d54c5bbad73947f84b25af07cd917a453c9",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [
-          "树形数据结构",
-          "组合数学",
-          "广义串并联图"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "树形数据结构",
           "组合数学",
           "广义串并联图"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "47726f2b569826e28b96bd75b4331d54c5bbad73947f84b25af07cd917a453c9",
+        "sourceTags": [
+          "树形数据结构",
+          "组合数学",
+          "广义串并联图"
+        ],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数学与计数 / 计数"
+      ],
+      "knowledgeReviewRequired": false,
       "originalTitle": "[SNOI2020] 生成树",
       "platform": "洛谷",
       "problem": "P6790",
@@ -674179,9 +674858,27 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "生成树",
-      "url": "https://www.luogu.com.cn/problem/P6790"
+      "url": "https://www.luogu.com.cn/problem/P6790",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P6790",
+        "sourceSha256": "66b3411a764f262750f82af50b1ee12de66be9e62c4a8d4de3b2498ab023756d",
+        "nativeTagIds": [
+          11,
+          37,
+          48,
+          164,
+          252,
+          530
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P6790",
     "raw": {
@@ -674192,7 +674889,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2900",
       "题号": "P6790",
       "题名": "生成树"
@@ -679896,34 +680593,54 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P7044",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
+        "categories": [
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P7044",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P7044",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "96ada04a2a1bfe72700513a1b95e7dc8d3ec9a74755c38899f68cbdd5d1e303d",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [
-          "组合数学"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "组合数学"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "96ada04a2a1bfe72700513a1b95e7dc8d3ec9a74755c38899f68cbdd5d1e303d",
+        "sourceTags": [
+          "组合数学"
+        ],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数学与计数 / 计数"
+      ],
+      "knowledgeReviewRequired": false,
       "originalTitle": "「MCOI-03」括号",
       "platform": "洛谷",
       "problem": "P7044",
@@ -679936,9 +680653,24 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "括号",
-      "url": "https://www.luogu.com.cn/problem/P7044"
+      "url": "https://www.luogu.com.cn/problem/P7044",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P7044",
+        "sourceSha256": "76c6704bffaf217c94146e9f12d1e487e264dffa87bef5a94af566712e072b9a",
+        "nativeTagIds": [
+          108,
+          252,
+          337
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P7044",
     "raw": {
@@ -679949,7 +680681,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2400",
       "题号": "P7044",
       "题名": "括号"
@@ -692992,34 +693724,54 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P7481",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
+        "categories": [
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P7481",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P7481",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "96ada04a2a1bfe72700513a1b95e7dc8d3ec9a74755c38899f68cbdd5d1e303d",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [
-          "组合数学"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "组合数学"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "96ada04a2a1bfe72700513a1b95e7dc8d3ec9a74755c38899f68cbdd5d1e303d",
+        "sourceTags": [
+          "组合数学"
+        ],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数学与计数 / 计数"
+      ],
+      "knowledgeReviewRequired": false,
       "platform": "洛谷",
       "problem": "P7481",
       "problemType": "standard",
@@ -693031,9 +693783,23 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "梦现时刻",
-      "url": "https://www.luogu.com.cn/problem/P7481"
+      "url": "https://www.luogu.com.cn/problem/P7481",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P7481",
+        "sourceSha256": "54c64449793a3d50f12d610b7cc5c576aaa55bbbf2b5ed79f4278af5bdf4f026",
+        "nativeTagIds": [
+          108,
+          252
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P7481",
     "raw": {
@@ -693044,7 +693810,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2700",
       "题号": "P7481",
       "题名": "梦现时刻"
@@ -693481,51 +694247,76 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P7488",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "Lucas 定理",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P7488",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "Lucas 定理"
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P7488",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P7488",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "7a589d3ef9530ab3f4f294e1b939655bae18bd3b3b6d4a5682fe355a6c630974",
-        "knowledge": "",
+        "unknown": [
+          "组合数学",
+          "Lucas 定理"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "pending-evidence",
+        "inputHash": "7a589d3ef9530ab3f4f294e1b939655bae18bd3b3b6d4a5682fe355a6c630974",
         "sourceTags": [
           "数学",
           "组合数学",
           "Lucas 定理"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学",
-          "Lucas 定理"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "「Stoi2031」黑色毛衣",
@@ -693542,9 +694333,24 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "黑色毛衣",
-      "url": "https://www.luogu.com.cn/problem/P7488"
+      "url": "https://www.luogu.com.cn/problem/P7488",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P7488",
+        "sourceSha256": "2ca66f1b3dcbd507b50e05f98ba35a7d3abab1ed28b65b4c415ccddedacfb0b3",
+        "nativeTagIds": [
+          5,
+          252,
+          322
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P7488",
     "raw": {
@@ -693555,7 +694361,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2700",
       "题号": "P7488",
       "题名": "黑色毛衣"
@@ -703853,44 +704659,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P7888",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "动态规划"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "动态规划",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P7888",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/P7888",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P7888",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "15b713af957155b9b65e4a113ff3d6e1c9e334b60f960e8673ff87e7c8ea43fe",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "动态规划"
         ],
-        "source": "pending-evidence",
+        "inputHash": "15b713af957155b9b65e4a113ff3d6e1c9e334b60f960e8673ff87e7c8ea43fe",
         "sourceTags": [
           "动态规划 DP",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "动态规划"
+        "动态规划",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "「MCOI-06」Distinct Subsequences",
@@ -703906,9 +704737,26 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "Distinct Subsequences",
-      "url": "https://www.luogu.com.cn/problem/P7888"
+      "url": "https://www.luogu.com.cn/problem/P7888",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P7888",
+        "sourceSha256": "7784fd544e95724cad5a3ae182a922c34b840a12ef9f3a10ddd6626b9661bedf",
+        "nativeTagIds": [
+          3,
+          58,
+          108,
+          252,
+          337
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P7888",
     "raw": {
@@ -703919,7 +704767,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2100",
       "题号": "P7888",
       "题名": "Distinct Subsequences"
@@ -708325,34 +709173,54 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P8007",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
+        "categories": [
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P8007",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P8007",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "96ada04a2a1bfe72700513a1b95e7dc8d3ec9a74755c38899f68cbdd5d1e303d",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [
-          "组合数学"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "组合数学"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "96ada04a2a1bfe72700513a1b95e7dc8d3ec9a74755c38899f68cbdd5d1e303d",
+        "sourceTags": [
+          "组合数学"
+        ],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数学与计数 / 计数"
+      ],
+      "knowledgeReviewRequired": false,
       "originalTitle": "「Wdsr-3」永远与须臾的走廊",
       "platform": "洛谷",
       "problem": "P8007",
@@ -708365,9 +709233,23 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "永远与须臾的走廊",
-      "url": "https://www.luogu.com.cn/problem/P8007"
+      "url": "https://www.luogu.com.cn/problem/P8007",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P8007",
+        "sourceSha256": "4b8e6d1c5e3f256091056af290a6c4efe4102f58d4fe49bf7f566f82efd9d490",
+        "nativeTagIds": [
+          108,
+          252
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P8007",
     "raw": {
@@ -708378,7 +709260,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "1800",
       "题号": "P8007",
       "题名": "永远与须臾的走廊"
@@ -734492,41 +735374,61 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P9018",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [],
-        "confidence": "pending",
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
+        "categories": [
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": "组合计数",
-            "value": "组合数学"
+            "value": "组合数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "排列组合"
+            "value": "排列组合",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
+            "tag": "组合计数",
+            "reference": "https://www.luogu.com.cn/problem/P9018",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P9018",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "2fe16d5593824f3a08ee62d3387c5936ae90fad5cea35b5de12b6d7ea164b57e",
-        "knowledge": "",
-        "pendingCategories": [],
-        "source": "pending-evidence",
-        "sourceTags": [
-          "组合数学",
-          "排列组合"
-        ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
         "unknown": [
           "组合数学",
           "排列组合"
         ],
-        "version": "knowledge-v1.0"
+        "pendingCategories": [],
+        "inputHash": "2fe16d5593824f3a08ee62d3387c5936ae90fad5cea35b5de12b6d7ea164b57e",
+        "sourceTags": [
+          "组合数学",
+          "排列组合"
+        ],
+        "supersededTags": []
       },
-      "knowledgeCategories": [],
-      "knowledgeReviewRequired": true,
+      "knowledgeCategories": [
+        "数学与计数 / 计数"
+      ],
+      "knowledgeReviewRequired": false,
       "originalTitle": "[USACO23JAN] Moo Route G",
       "platform": "洛谷",
       "problem": "P9018",
@@ -734540,9 +735442,25 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "Moo Route G",
-      "url": "https://www.luogu.com.cn/problem/P9018"
+      "url": "https://www.luogu.com.cn/problem/P9018",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P9018",
+        "sourceSha256": "cd8f8f378754f1cda75c1a6c4950eb6af66de9f6ed6d6c96586449deb056266f",
+        "nativeTagIds": [
+          46,
+          60,
+          252,
+          253
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P9018",
     "raw": {
@@ -734553,7 +735471,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2100",
       "题号": "P9018",
       "题名": "Moo Route G"
@@ -738225,53 +739143,85 @@
       ],
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P9151",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
+        ],
+        "knowledge": "组合计数",
         "categories": [
           "动态规划",
-          "数学"
+          "数学",
+          "数学与计数 / 计数"
         ],
-        "confidence": "pending",
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P9151",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/P9151",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P9151",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P9151",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "240057518a7505b5ec9c06703f50c4f06d74835a211012532e614587708c2320",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "动态规划",
           "数学"
         ],
-        "source": "pending-evidence",
+        "inputHash": "240057518a7505b5ec9c06703f50c4f06d74835a211012532e614587708c2320",
         "sourceTags": [
           "动态规划 DP",
           "数学",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "动态规划",
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "platform": "洛谷",
@@ -738287,9 +739237,27 @@
       ],
       "statementAvailable": true,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "计数题",
-      "url": "https://www.luogu.com.cn/problem/P9151"
+      "url": "https://www.luogu.com.cn/problem/P9151",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P9151",
+        "sourceSha256": "07bc8ced800506c30c1636c0d4370dc6981150e777c404b0bf5b3c20ab0eae0c",
+        "nativeTagIds": [
+          3,
+          5,
+          81,
+          108,
+          252,
+          337
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P9151",
     "raw": {
@@ -738300,7 +739268,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2900",
       "题号": "P9151",
       "题名": "计数题"
@@ -748704,58 +749672,83 @@
       ],
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P9535",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "数学"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "数学",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "圆方树",
+            "tag": null
+          },
+          {
+            "source": "archive-catalog",
+            "value": "Prüfer 序列",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P9535",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "圆方树"
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/P9535",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           },
           {
-            "source": "archive-catalog",
-            "tag": null,
-            "value": "Prüfer 序列"
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P9535",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "36f526f29b230deb1ef2f4b655a6a9c7acee13294b68671c7caffaeb7d8add9e",
-        "knowledge": "",
+        "unknown": [
+          "组合数学",
+          "圆方树",
+          "Prüfer 序列"
+        ],
         "pendingCategories": [
           "数学"
         ],
-        "source": "pending-evidence",
+        "inputHash": "36f526f29b230deb1ef2f4b655a6a9c7acee13294b68671c7caffaeb7d8add9e",
         "sourceTags": [
           "数学",
           "组合数学",
           "圆方树",
           "Prüfer 序列"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学",
-          "圆方树",
-          "Prüfer 序列"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "数学"
+        "数学",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "originalTitle": "[YsOI2023] 连通图计数",
@@ -748773,9 +749766,28 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "连通图计数",
-      "url": "https://www.luogu.com.cn/problem/P9535"
+      "url": "https://www.luogu.com.cn/problem/P9535",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P9535",
+        "sourceSha256": "2a8ec4f4dc5b4f06979447250d9427c2e5fb22088d7697bb5bde4cf7e14f7b44",
+        "nativeTagIds": [
+          5,
+          81,
+          108,
+          252,
+          337,
+          350,
+          410
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P9535",
     "raw": {
@@ -748786,7 +749798,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2900",
       "题号": "P9535",
       "题名": "连通图计数"
@@ -752987,44 +753999,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-P9682",
-      "knowledge": "",
+      "knowledge": "组合计数",
       "knowledgeAnalysis": {
-        "categories": [
-          "动态规划"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "组合计数"
         ],
-        "confidence": "pending",
+        "knowledge": "组合计数",
+        "categories": [
+          "动态规划",
+          "数学与计数 / 计数"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "组合数学",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "组合计数",
-            "value": "组合数学"
+            "reference": "https://www.luogu.com.cn/problem/P9682",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/P9682",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学与计数 / 计数",
+            "reference": "https://www.luogu.com.cn/problem/P9682",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "15b713af957155b9b65e4a113ff3d6e1c9e334b60f960e8673ff87e7c8ea43fe",
-        "knowledge": "",
+        "unknown": [
+          "组合数学"
+        ],
         "pendingCategories": [
           "动态规划"
         ],
-        "source": "pending-evidence",
+        "inputHash": "15b713af957155b9b65e4a113ff3d6e1c9e334b60f960e8673ff87e7c8ea43fe",
         "sourceTags": [
           "动态规划 DP",
           "组合数学"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "组合数学"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "动态规划"
+        "动态规划",
+        "数学与计数 / 计数"
       ],
       "knowledgeReviewRequired": false,
       "platform": "洛谷",
@@ -753039,9 +754076,26 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "组合计数"
+      ],
       "title": "Electro Master",
-      "url": "https://www.luogu.com.cn/problem/P9682"
+      "url": "https://www.luogu.com.cn/problem/P9682",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/P9682",
+        "sourceSha256": "a89e10ff6fd59f02bacd3289fbf86a4bbb25817192cdc5662096fd90b03f0cac",
+        "nativeTagIds": [
+          3,
+          81,
+          108,
+          252,
+          337
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-P9682",
     "raw": {
@@ -753052,7 +754106,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "组合计数",
       "难度": "2700",
       "题号": "P9682",
       "题名": "Electro Master"
@@ -817991,44 +819045,69 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-UVA1586",
-      "knowledge": "",
+      "knowledge": "期望与概率",
       "knowledgeAnalysis": {
-        "categories": [
-          "字符串"
+        "version": "knowledge-v1.0",
+        "tags": [
+          "期望与概率"
         ],
-        "confidence": "pending",
+        "knowledge": "期望与概率",
+        "categories": [
+          "字符串",
+          "数学"
+        ],
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "字符串"
+            "value": "字符串",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "概率论",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "期望与概率",
-            "value": "概率论"
+            "reference": "https://www.luogu.com.cn/problem/UVA1586",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "字符串",
+            "reference": "https://www.luogu.com.cn/problem/UVA1586",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/UVA1586",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "52884e27e593feb707a8cc1396c95f94c7cd0a241364a2d3693aafa59fcc2a1a",
-        "knowledge": "",
+        "unknown": [
+          "概率论"
+        ],
         "pendingCategories": [
           "字符串"
         ],
-        "source": "pending-evidence",
+        "inputHash": "52884e27e593feb707a8cc1396c95f94c7cd0a241364a2d3693aafa59fcc2a1a",
         "sourceTags": [
           "字符串",
           "概率论"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "概率论"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
-        "字符串"
+        "字符串",
+        "数学"
       ],
       "knowledgeReviewRequired": false,
       "platform": "洛谷",
@@ -818043,9 +819122,23 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "期望与概率"
+      ],
       "title": "分子量 Molar mass",
-      "url": "https://www.luogu.com.cn/problem/UVA1586"
+      "url": "https://www.luogu.com.cn/problem/UVA1586",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/UVA1586",
+        "sourceSha256": "de87b024892a8637fb91c5c178aec8cdfb505d4dd00e923ccf69fb4f667dcdff",
+        "nativeTagIds": [
+          2,
+          266
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-UVA1586",
     "raw": {
@@ -818056,7 +819149,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "期望与概率",
       "难度": "1200",
       "题号": "UVA1586",
       "题名": "分子量 Molar mass"
@@ -822017,41 +823110,55 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-UVA1636",
-      "knowledge": "",
+      "knowledge": "期望与概率",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "期望与概率"
+        ],
+        "knowledge": "期望与概率",
         "categories": [
           "数学"
         ],
-        "confidence": "pending",
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "数学"
+            "value": "数学",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "概率论",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "期望与概率",
-            "value": "概率论"
+            "reference": "https://www.luogu.com.cn/problem/UVA1636",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/UVA1636",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "b0ea5d9ad97d3659ef2e65323ffaa6b8f8ae3b22f6ff7f5c82c01785df6f16e3",
-        "knowledge": "",
-        "pendingCategories": [
-          "数学"
+        "unknown": [
+          "概率论"
         ],
-        "source": "pending-evidence",
+        "pendingCategories": [],
+        "inputHash": "b0ea5d9ad97d3659ef2e65323ffaa6b8f8ae3b22f6ff7f5c82c01785df6f16e3",
         "sourceTags": [
           "数学",
           "概率论"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "概率论"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "数学"
@@ -822069,9 +823176,23 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "期望与概率"
+      ],
       "title": "决斗 Headshot",
-      "url": "https://www.luogu.com.cn/problem/UVA1636"
+      "url": "https://www.luogu.com.cn/problem/UVA1636",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/UVA1636",
+        "sourceSha256": "47b8ee178be04d4a5dabe7bb2ead8e639e44e3478dcd1bd2338100309ce8e270",
+        "nativeTagIds": [
+          5,
+          266
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-UVA1636",
     "raw": {
@@ -822082,7 +823203,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "期望与概率",
       "难度": "1500",
       "题号": "UVA1636",
       "题名": "决斗 Headshot"
@@ -822111,53 +823232,85 @@
       "difficultyRounding": "nearest-100-half-up",
       "difficultySource": "CF-EQ / 洛谷官方难度档",
       "id": "luogu-training-UVA1637",
-      "knowledge": "",
+      "knowledge": "期望与概率",
       "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "期望与概率"
+        ],
+        "knowledge": "期望与概率",
         "categories": [
           "动态规划",
-          "搜索"
+          "搜索",
+          "数学"
         ],
-        "confidence": "pending",
+        "status": "classified",
+        "source": "public-reviewed",
+        "confidence": "medium",
         "evidence": [
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "动态规划 DP"
+            "value": "动态规划 DP",
+            "tag": null
           },
           {
             "source": "archive-catalog",
-            "tag": null,
-            "value": "搜索"
+            "value": "搜索",
+            "tag": null
           },
           {
             "source": "archive-catalog",
+            "value": "概率论",
+            "tag": null
+          },
+          {
+            "source": "public-reviewed",
             "tag": "期望与概率",
-            "value": "概率论"
+            "reference": "https://www.luogu.com.cn/problem/UVA1637",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "动态规划",
+            "reference": "https://www.luogu.com.cn/problem/UVA1637",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "搜索",
+            "reference": "https://www.luogu.com.cn/problem/UVA1637",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
+          },
+          {
+            "source": "public-reviewed",
+            "category": "数学",
+            "reference": "https://www.luogu.com.cn/problem/UVA1637",
+            "reason": "已核对原站题目ID及公开标签词典，按精确标签映射；只声明分类，不声明完整解法已验收或原站通过。",
+            "verified": false
           }
         ],
-        "inputHash": "98023b592e5d10fc3c35bf2ab3a94d9501fd4c477c3cf43df2713a9d833bb8a5",
-        "knowledge": "",
+        "unknown": [
+          "概率论"
+        ],
         "pendingCategories": [
           "动态规划",
           "搜索"
         ],
-        "source": "pending-evidence",
+        "inputHash": "98023b592e5d10fc3c35bf2ab3a94d9501fd4c477c3cf43df2713a9d833bb8a5",
         "sourceTags": [
           "动态规划 DP",
           "搜索",
           "概率论"
         ],
-        "status": "pending",
-        "supersededTags": [],
-        "tags": [],
-        "unknown": [
-          "概率论"
-        ],
-        "version": "knowledge-v1.0"
+        "supersededTags": []
       },
       "knowledgeCategories": [
         "动态规划",
-        "搜索"
+        "搜索",
+        "数学"
       ],
       "knowledgeReviewRequired": false,
       "platform": "洛谷",
@@ -822173,9 +823326,24 @@
       ],
       "statementAvailable": false,
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "期望与概率"
+      ],
       "title": "纸牌游戏 Double Patience",
-      "url": "https://www.luogu.com.cn/problem/UVA1637"
+      "url": "https://www.luogu.com.cn/problem/UVA1637",
+      "knowledgeSourceReview": {
+        "revision": "20261109-native-known-topic-mapping",
+        "source": "https://www.luogu.com.cn/problem/UVA1637",
+        "sourceSha256": "053e28fbf9675240c5e73e9b54da90d9044945bc9bf8a922e42076e350a83929",
+        "nativeTagIds": [
+          3,
+          4,
+          266
+        ],
+        "tagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "method": "native-public-tags-exact-canonical-mapping",
+        "algorithmVerified": false
+      }
     },
     "id": "luogu-training-UVA1637",
     "raw": {
@@ -822186,7 +823354,7 @@
       "场次": "洛谷专题练习",
       "日期": "",
       "状态": "未做",
-      "知识点": "",
+      "知识点": "期望与概率",
       "难度": "2100",
       "题号": "UVA1637",
       "题名": "纸牌游戏 Double Patience"
