@@ -82,6 +82,25 @@ class ReviewedKnowledgeTests(unittest.TestCase):
         audit=json.loads((root/'backend/resources/metadata-review-1423.json').read_text(encoding='utf8'))
         external={item['id']:item for item in audit['estimated'] if item['id'].startswith('remote:atcoder:')}
         published={item['id']:item for item in audit.get('knowledgeReviews',[])}
+        # A reviewed classification is allowed only when the exact problem,
+        # source and page selection were registered by an applied receipt.
+        # Checking the receipt avoids both a fixed URL for one old contest and
+        # accepting arbitrary remote references merely because they are PDFs.
+        packets={}
+        for path in (root/'content-updates').glob('*/review.json'):
+            packet=json.loads(path.read_text('utf8'))
+            if not isinstance(packet,dict):
+                continue
+            revision=packet.get('revision')
+            if revision in review.get('appliedPackets',[]):
+                self.assertNotIn(revision,packets)
+                packets[revision]=packet
+        self.assertEqual(set(packets),set(review.get('appliedPackets',[])))
+        reviewed_sources={}
+        for packet in packets.values():
+            for item in packet['items']:
+                reviewed_sources.setdefault(item['id'],[]).append(item)
+        assets={item['sha256']:item for item in json.loads((root/'data/library/statement_assets.json').read_text('utf8'))}
         for rule in review['problems'].values():
             for source in rule['sources']:
                 if rule.get('reviewMethod')=='source-reviewed-classification':
@@ -94,12 +113,23 @@ class ReviewedKnowledgeTests(unittest.TestCase):
                         self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),source['sha256'])
                         self.assertRegex(source['programSha256'],r'^[0-9a-f]{64}$')
                     else:
-                        self.assertEqual(reference.split('#',1)[0],'https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf')
-                        self.assertRegex(reference,r'#page=[1-9][0-9]*$')
-                        assets=json.loads((root/'data/library/statement_assets.json').read_text('utf8'))
-                        asset=next(item for item in assets if item['sha256']==source['sha256'])
-                        with (root/'data/library'/asset['file']).open('rb') as stream:
+                        matches=[item for item in reviewed_sources[source['problemId']]
+                                 if rule['url'] in item['urls'] and source in item['sources']]
+                        self.assertEqual(len(matches),1,(source['problemId'],reference))
+                        self.assertTrue(set(matches[0]['tags'])<=set(rule['tags']))
+                        self.assertTrue(reference.startswith('https://'))
+                        if '#page=' in reference:
+                            self.assertRegex(reference,r'#page=[1-9][0-9]*$')
+                        else:
+                            pages=source['sourcePageNumbers']
+                            self.assertTrue(pages)
+                            self.assertTrue(all(type(page) is int and page>0 for page in pages))
+                        asset=assets[source['sha256']]
+                        path=(root/'data/library'/asset['file']).resolve(strict=True)
+                        self.assertTrue(path.is_relative_to(root/'data/library/statement-assets'))
+                        with path.open('rb') as stream:
                             stream.seek(asset.get('offset',0));data=stream.read(asset['bytes'])
+                        self.assertEqual(len(data),asset['bytes'])
                         self.assertEqual(hashlib.sha256(data).hexdigest(),source['sha256'])
                     continue
                 # An independent derivation binds to its complete source
