@@ -74,8 +74,22 @@ try{
     assert.equal(await download.failure(),null,row.originalId+' original download');attachments++;
    }
   }
+  let bilingualVerified=false;
+  if(row.reviewBilingual){
+   const toggle=page.locator('.wb-language-toggle button');await toggle.waitFor();
+   if(await toggle.getAttribute('aria-label')==='中文')await toggle.click();
+   await page.getByRole('button',{name:'原文',exact:true}).waitFor();
+   const statement=page.locator('.wb-statement');assert((await statement.textContent()).includes(row.reviewEnglishFragment),row.originalId+' original English text');
+   await page.screenshot({path:path.join(path.dirname(output),row.originalId.replaceAll(':','_')+'-original.png')});
+   await toggle.click();await page.getByRole('button',{name:'中文',exact:true}).waitFor();
+   assert((await statement.textContent()).includes(row.reviewChineseFragment),row.originalId+' reviewed Chinese text');
+   assert.equal(await statement.locator('.katex-error').count(),0,row.originalId+' Chinese formula');
+   assert.equal(await page.locator('.wb-translation-error').count(),0,row.originalId+' language switch');
+   for(const picture of await statement.locator('img').all())await picture.evaluate(image=>image.decode());
+   bilingualVerified=true;
+  }
   await page.screenshot({path:path.join(path.dirname(output),row.originalId.replaceAll(':','_')+'.png')});
-  checked.push({id:row.originalId,pages,images,attachments,samples:row.samples.length});await page.close();
+  checked.push({id:row.originalId,pages,images,attachments,samples:row.samples.length,bilingualVerified});await page.close();
  }
  assert.deepEqual(errors,[]);assert.deepEqual(external,[]);
  const result={checked,browserErrors:0,formulaErrors:0,externalRequests:0,samplesPreserved:true,allPdfPagesRendered:true,originalPdfByteIdentity:true,originalAttachmentByteIdentity:true};

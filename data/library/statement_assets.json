@@ -43516,5 +43516,29 @@
     "mime": "application/zip",
     "bytes": 1741,
     "file": "statement-assets/49257e48c721751f7c38ff73e0be24366178fb3da35dbd48c9e9f9ba393ea3ad.bin"
+  },
+  {
+    "sha256": "5c4dad20c430dbcd682062e17bedb1618ecbda142a53114c38b0a8b8a597f5e2",
+    "mime": "image/png",
+    "bytes": 31951,
+    "file": "statement-assets/5c4dad20c430dbcd682062e17bedb1618ecbda142a53114c38b0a8b8a597f5e2.bin"
+  },
+  {
+    "sha256": "382a79c79323200e576dea167d90a18320cfb76e0eca9c7ff8d5ad25e4ae457a",
+    "mime": "application/pdf",
+    "bytes": 877253,
+    "file": "statement-assets/382a79c79323200e576dea167d90a18320cfb76e0eca9c7ff8d5ad25e4ae457a.bin"
+  },
+  {
+    "sha256": "ef2003152b8bf1e9d528d91bdb6d6ffd7afb0cbdffd00f254e57edd4563049cc",
+    "mime": "image/png",
+    "bytes": 29960,
+    "file": "statement-assets/ef2003152b8bf1e9d528d91bdb6d6ffd7afb0cbdffd00f254e57edd4563049cc.bin"
+  },
+  {
+    "sha256": "3a52ca344aef33606e05733b5f3c326016044d671267b5375762be8b256d23eb",
+    "mime": "application/pdf",
+    "bytes": 64153,
+    "file": "statement-assets/3a52ca344aef33606e05733b5f3c326016044d671267b5375762be8b256d23eb.bin"
   }
 ]

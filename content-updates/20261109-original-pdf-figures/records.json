@@ -1,0 +1,328 @@
+[
+  {
+    "problem_id": "luogu-training-P4740",
+    "content": {
+      "id": "luogu-training-P4740",
+      "title": "Embedding Enumeration",
+      "url": "https://www.luogu.com.cn/problem/P4740",
+      "limits": {
+        "memoryMb": 512,
+        "timeMs": 4000
+      },
+      "sourceLimits": {
+        "time": [
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000
+        ],
+        "memory": [
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000
+        ]
+      },
+      "samples": [
+        {
+          "name": "样例 1",
+          "input": "5\n1 2\n2 3\n2 4\n4 5",
+          "output": "4"
+        }
+      ],
+      "images": {
+        "https://s1.ax1x.com/2018/07/06/PZgNB8.png": "tb-asset:5c4dad20c430dbcd682062e17bedb1618ecbda142a53114c38b0a8b8a597f5e2"
+      },
+      "attachments": {
+        "https://cerc.hsin.hr/tasks/cerc2017_problems.pdf": {
+          "sourceUrl": "https://cerc.hsin.hr/tasks/cerc2017_problems.pdf",
+          "sha256": "382a79c79323200e576dea167d90a18320cfb76e0eca9c7ff8d5ad25e4ae457a",
+          "bytes": 877253,
+          "mime": "application/pdf",
+          "pageCount": 17,
+          "fileName": "cerc2017-problems.pdf",
+          "data": "tb-asset:382a79c79323200e576dea167d90a18320cfb76e0eca9c7ff8d5ad25e4ae457a"
+        }
+      },
+      "resourceManifest": {
+        "https://s1.ax1x.com/2018/07/06/PZgNB8.png": {
+          "sourceUrl": "https://cerc.hsin.hr/tasks/cerc2017_problems.pdf",
+          "sha256": "5c4dad20c430dbcd682062e17bedb1618ecbda142a53114c38b0a8b8a597f5e2",
+          "bytes": 31951,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 675,
+          "height": 381,
+          "origin": "original-official-pdf-figure",
+          "originalImageRecovered": true,
+          "sourcePdfSha256": "382a79c79323200e576dea167d90a18320cfb76e0eca9c7ff8d5ad25e4ae457a",
+          "sourcePage1Based": 9,
+          "sourceClipRect": [
+            175,
+            480,
+            400,
+            607
+          ],
+          "rasterScale": 3,
+          "originalBrokenImageKey": "https://s1.ax1x.com/2018/07/06/PZgNB8.png"
+        },
+        "https://cerc.hsin.hr/tasks/cerc2017_problems.pdf": {
+          "sourceUrl": "https://cerc.hsin.hr/tasks/cerc2017_problems.pdf",
+          "sha256": "382a79c79323200e576dea167d90a18320cfb76e0eca9c7ff8d5ad25e4ae457a",
+          "bytes": 877253,
+          "mime": "application/pdf",
+          "pageCount": 17,
+          "fileName": "cerc2017-problems.pdf"
+        }
+      },
+      "resourceIssues": [],
+      "statementAvailable": true,
+      "statementVersion": 9,
+      "statementLanguage": "en",
+      "statementSource": "洛谷题面 / 原赛事官方完整 PDF 与原图核对",
+      "problemType": "standard",
+      "localJudgeSupported": true,
+      "markdown": "# Embedding Enumeration\n\n## 题目描述\n\nAs you probably know, a tree is a graph consisting of $n$ nodes and $n - 1$ undirected edges in which any two nodes are connected by exactly one path. In a labeled tree each node is labeled with a different integer between $1$ and $n$. In general, it may be hard to visualize trees nicely, but some trees can be\nneatly embedded in rectangular grids.\n\nGiven a labeled tree $G$ with $n$ nodes, a $2$ by $n$ embedding of $G$ is a mapping of nodes of $G$ to the cells of a rectangular grid consisting of $2$ rows and $n$ columns such that:\n   - Node $1$ is mapped to the cell in the upper-left corner.\n   - Nodes connected with an edge are mapped to neighboring grid cells (up, down, left or right).\n   - No two nodes are mapped to the same cell.\n\nFind the number of $2$ by $n$ embeddings of a given tree, modulo $10^9 + 7$.\n\n## 输入格式\n\nThe first line contains an integer $n(1 \\le n \\le 300 000)$ — the number of nodes in $G$. The $j-th$ of the following $n - 1$ lines contains two different integers $a_j$ and $b_j(1 \\le a_j,b_j \\le n)$ — the endpoints of the $j-th$ edge.\n\n\n## 输出格式\n\nOutput the number of $2$ by $n$ embeddings of the given tree, modulo $10^9 + 7$.\n\n## 提示\n\n![PZgNB8.png](https://s1.ax1x.com/2018/07/06/PZgNB8.png)\n\nAll $4$ embeddings of the tree in the example input are given in the figure above.\n\n\n## Original statement PDF\n\n[cerc2017-problems.pdf](https://cerc.hsin.hr/tasks/cerc2017_problems.pdf)",
+      "translation": {
+        "kind": "site",
+        "provider": "洛谷中文 / CERC 官方原稿逐段核对",
+        "sourceUrl": "https://www.luogu.com.cn/problem/P4740",
+        "markdown": "# Embedding Enumeration\n\n## 题目描述\n\n如你所知，树是一种图结构，由 $n$ 个节点和 $n - 1$ 条无向边组成，其中任意两个节点之间恰好有一条路径。在标记树中，每个节点都被标记为 $1$ 到 $n$ 之间的不同整数。通常情况下，树的可视化可能比较困难，但有些树可以整齐地嵌入到矩形网格中。\n\n给定一个具有 $n$ 个节点的标记树 $G$，一个 $2 \\times n$ 的嵌入是将 $G$ 的节点映射到一个由 $2$ 行和 $n$ 列组成的矩形网格的单元格中，满足以下条件：\n- 节点 $1$ 被映射到左上角的单元格。\n- 通过边连接的节点被映射到相邻的网格单元格（上、下、左或右）。\n- 没有两个节点被映射到同一个单元格。\n\n求给定树的 $2 \\times n$ 嵌入的数量，结果对 $10^9 + 7$ 取模。\n\n## 输入格式\n\n第一行包含一个整数 $n(1 \\le n \\le 300 000)$，表示 $G$ 中的节点数。接下来的 $n - 1$ 行中的第 $j$ 行包含两个不同的整数 $a_j$ 和 $b_j(1 \\le a_j,b_j \\le n)$，表示第 $j$ 条边的两个端点。\n\n## 输出格式\n\n输出给定树的 $2 \\times n$ 嵌入的数量，结果对 $10^9 + 7$ 取模。\n\n## 提示\n\n![PZgNB8.png](https://s1.ax1x.com/2018/07/06/PZgNB8.png)\n\n图中给出了示例输入中树的所有 $4$ 种嵌入。\n\n## 原始题面 PDF\n\n[cerc2017-problems.pdf](https://cerc.hsin.hr/tasks/cerc2017_problems.pdf)",
+        "sourceOriginalPdfSha256": "382a79c79323200e576dea167d90a18320cfb76e0eca9c7ff8d5ad25e4ae457a"
+      },
+      "integrity": {
+        "schema": 1,
+        "status": "complete",
+        "sourceVerified": true,
+        "sampleCount": 1,
+        "issues": [],
+        "checkedAt": "2026-11-08T20:49:09.502213+00:00",
+        "sourceDocuments": [
+          {
+            "url": "https://www.luogu.com.cn/problem/P4740",
+            "sha256": "b84f18a6f5399eaf708cc90f11c04c69d436e88811c88e2c1a2ae1413cc444c3",
+            "status": 200
+          },
+          {
+            "url": "https://cerc.hsin.hr/index.php?page=contest_data",
+            "sha256": "fa80624a4f396d6e278e69011015d3e636ada1da0cbf48ef135727d20cb8a77b",
+            "status": 200
+          },
+          {
+            "url": "https://cerc.hsin.hr/tasks/cerc2017_problems.pdf",
+            "sha256": "382a79c79323200e576dea167d90a18320cfb76e0eca9c7ff8d5ad25e4ae457a",
+            "status": 200,
+            "bytes": 877253,
+            "pageCount": 17
+          }
+        ],
+        "markdownSha256": "b0aacf75ecb7b3d89c4d41a9109ade171b9aa54165dc993e31e8a27d4a3ae620",
+        "corpusAuditVerifiedSha256": "b0aacf75ecb7b3d89c4d41a9109ade171b9aa54165dc993e31e8a27d4a3ae620",
+        "pdfPageCountVerified": false,
+        "recoveryBinding": {
+          "method": "native-id-full-statement-sample-and-official-original-pdf-figure",
+          "nativeProblemId": "P4740",
+          "originalPdfSha256": "382a79c79323200e576dea167d90a18320cfb76e0eca9c7ff8d5ad25e4ae457a",
+          "nativeSampleInputMatchesOriginalPdf": true,
+          "officialOriginalImageRecovered": true,
+          "reviewedSourcePages": [
+            9
+          ],
+          "sourceFigure": {
+            "file": "data/library/statement-assets/5c4dad20c430dbcd682062e17bedb1618ecbda142a53114c38b0a8b8a597f5e2.bin",
+            "sha256": "5c4dad20c430dbcd682062e17bedb1618ecbda142a53114c38b0a8b8a597f5e2",
+            "sourcePage1Based": 9,
+            "clipRect": [
+              175,
+              480,
+              400,
+              607
+            ],
+            "rasterScale": 3
+          },
+          "syntheticRedrawingUsed": false
+        }
+      }
+    }
+  },
+  {
+    "problem_id": "luogu-training-P5530",
+    "content": {
+      "id": "luogu-training-P5530",
+      "title": "双调路径",
+      "url": "https://www.luogu.com.cn/problem/P5530",
+      "limits": {
+        "memoryMb": 262,
+        "timeMs": 1000
+      },
+      "sourceLimits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144,
+          262144
+        ]
+      },
+      "samples": [
+        {
+          "name": "样例 1",
+          "input": "4 5 1 4\n2 1 2 1\n3 4 3 1\n2 3 1 2\n3 1 1 4\n2 4 2 4",
+          "output": "2"
+        }
+      ],
+      "images": {
+        "https://z3.ax1x.com/2021/09/24/4DN3xP.png": "tb-asset:ef2003152b8bf1e9d528d91bdb6d6ffd7afb0cbdffd00f254e57edd4563049cc"
+      },
+      "attachments": {
+        "https://boi.cses.fi/files/boi2002_day2.pdf": {
+          "sourceUrl": "https://boi.cses.fi/files/boi2002_day2.pdf",
+          "sha256": "3a52ca344aef33606e05733b5f3c326016044d671267b5375762be8b256d23eb",
+          "bytes": 64153,
+          "mime": "application/pdf",
+          "pageCount": 6,
+          "fileName": "boi2002-day2.pdf",
+          "data": "tb-asset:3a52ca344aef33606e05733b5f3c326016044d671267b5375762be8b256d23eb"
+        }
+      },
+      "resourceManifest": {
+        "https://z3.ax1x.com/2021/09/24/4DN3xP.png": {
+          "sourceUrl": "https://boi.cses.fi/files/boi2002_day2.pdf",
+          "sha256": "ef2003152b8bf1e9d528d91bdb6d6ffd7afb0cbdffd00f254e57edd4563049cc",
+          "bytes": 29960,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 915,
+          "height": 453,
+          "origin": "original-official-pdf-figure",
+          "originalImageRecovered": true,
+          "sourcePdfSha256": "3a52ca344aef33606e05733b5f3c326016044d671267b5375762be8b256d23eb",
+          "sourcePage1Based": 1,
+          "sourceClipRect": [
+            145,
+            395,
+            450,
+            546
+          ],
+          "rasterScale": 3,
+          "originalBrokenImageKey": "https://z3.ax1x.com/2021/09/24/4DN3xP.png"
+        },
+        "https://boi.cses.fi/files/boi2002_day2.pdf": {
+          "sourceUrl": "https://boi.cses.fi/files/boi2002_day2.pdf",
+          "sha256": "3a52ca344aef33606e05733b5f3c326016044d671267b5375762be8b256d23eb",
+          "bytes": 64153,
+          "mime": "application/pdf",
+          "pageCount": 6,
+          "fileName": "boi2002-day2.pdf"
+        }
+      },
+      "resourceIssues": [],
+      "statementAvailable": true,
+      "statementVersion": 9,
+      "statementLanguage": "zh-CN",
+      "statementSource": "洛谷题面 / 原赛事官方完整 PDF 与原图核对",
+      "problemType": "standard",
+      "localJudgeSupported": true,
+      "markdown": "# 双调路径\n\n## 题目描述\n\n如今的道路收费发展很快。道路的密度越来越大，因此选择最佳路径是很现实的问题。城市的道路是双向的，每条道路有固定的旅行时间以及需要支付的费用。\n\n路径是连续经过的道路组成的。总时间是各条道路旅行时间的和，总费用是各条道路所支付费用的总和。一条路径越快，或者费用越低，该路径就越好。严格地说，若一条路径用时更少且费用不多，或者费用更少且用时不多，则它比另一条路径更好。如果没有一条路径比某路径更好，则该路径被称为最小路径。\n\n这样的最小的路径有可能不止一条，或者根本不存在路径。\n\n问题：读入网络，计算最小路径的总数。费用时间都相同的两条最小路径只算作一条。你只要输出不同种类的最小路径数即可。\n\n## 输入格式\n\n第一行有四个整数，城市总数 $n$，道路总数 $m$，起点和终点城市 $s,e$。\n\n\n接下来的 $m$ 行每行描述了一条道路的信息：两个端点 $p,r$，费用 $c$，以及时间 $t$；\n\n\n同一对城市之间可以有多条道路连接。\n\n## 输出格式\n\n输出一行一个整数，表示从 $s$ 到 $e$ 的不同最小（费用，时间）二元组的数量。费用和时间均相同的路径只计为一种。\n\n## 提示\n\n**数据范围：**\n- $1\\leq{n}\\leq100$，$0\\leq{m}\\leq300$。\n- $1\\leq{s,e,p,r}\\leq{n}$，$0\\leq{c,t}\\leq100$。\n- $s\\neq{e}，p\\neq{r}$。\n\n**样例解释：**\n\n![样例输入](https://z3.ax1x.com/2021/09/24/4DN3xP.png)\n\n例如，考虑从 $1$ 到 $4$ 的以下 $4$ 条不同路径。为 $1\\rightarrow 2\\rightarrow 4$（费用为 $4$，时间为 $5$），$1\\rightarrow 3\\rightarrow 4$（费用为 $4$，时间为 $5$），$1\\rightarrow 2\\rightarrow 3\\rightarrow 4$（费用为 $6$，时间为 $4$），$1\\rightarrow 3\\rightarrow 2\\rightarrow 4$（费用为 $4$，时间为 $10$）。\n\n$1\\rightarrow 3\\rightarrow 4$ 和 $1\\rightarrow 2\\rightarrow 4$ 比 $1\\rightarrow 3\\rightarrow 2\\rightarrow 4$ 更好。有两种最佳路径：费用为 $4$，时间为 $5$（$1\\rightarrow 2\\rightarrow 4$ 和 $1\\rightarrow 3\\rightarrow 4$）和 费用为 $6$，时间为 $4$（$1\\rightarrow 2\\rightarrow 3\\rightarrow 4$）。\n\n## 原始题面 PDF\n\n[boi2002-day2.pdf](https://boi.cses.fi/files/boi2002_day2.pdf)",
+      "integrity": {
+        "schema": 1,
+        "status": "complete",
+        "sourceVerified": true,
+        "sampleCount": 1,
+        "issues": [],
+        "checkedAt": "2026-11-08T20:49:09.548802+00:00",
+        "sourceDocuments": [
+          {
+            "url": "https://www.luogu.com.cn/problem/P5530",
+            "sha256": "0472a7d9cb35192d677ced4e874ef9c98320fbf0d16ad2956333f07d2a6f8b82",
+            "status": 200
+          },
+          {
+            "url": "https://boi.cses.fi/tasks.php",
+            "sha256": "475683e5a537f5144297905742a764a0d9e478d531fae159757bec5084bb9e5b",
+            "status": 200
+          },
+          {
+            "url": "https://boi.cses.fi/files/boi2002_day2.pdf",
+            "sha256": "3a52ca344aef33606e05733b5f3c326016044d671267b5375762be8b256d23eb",
+            "status": 200,
+            "bytes": 64153,
+            "pageCount": 6
+          }
+        ],
+        "markdownSha256": "57d97bb7987df29a224828f0df54c7677ec13ce2fcf8970eebbea04447e094bc",
+        "corpusAuditVerifiedSha256": "57d97bb7987df29a224828f0df54c7677ec13ce2fcf8970eebbea04447e094bc",
+        "pdfPageCountVerified": false,
+        "recoveryBinding": {
+          "method": "native-id-full-statement-sample-and-official-original-pdf-figure",
+          "nativeProblemId": "P5530",
+          "originalPdfSha256": "3a52ca344aef33606e05733b5f3c326016044d671267b5375762be8b256d23eb",
+          "nativeSampleInputMatchesOriginalPdf": true,
+          "officialOriginalImageRecovered": true,
+          "reviewedSourcePages": [
+            1,
+            2
+          ],
+          "sourceFigure": {
+            "file": "data/library/statement-assets/ef2003152b8bf1e9d528d91bdb6d6ffd7afb0cbdffd00f254e57edd4563049cc.bin",
+            "sha256": "ef2003152b8bf1e9d528d91bdb6d6ffd7afb0cbdffd00f254e57edd4563049cc",
+            "sourcePage1Based": 1,
+            "clipRect": [
+              145,
+              395,
+              450,
+              546
+            ],
+            "rasterScale": 3
+          },
+          "syntheticRedrawingUsed": false
+        }
+      }
+    }
+  }
+]
