@@ -1,0 +1,152 @@
+{
+  "at": "2026-11-08T04:23:05.613299+00:00",
+  "installed": false,
+  "scope": "canonical names and exact archive aliases; three frozen unofficial AtCoder model observations",
+  "aliases": {
+    "BFS": [
+      "广度优先搜索 BFS"
+    ],
+    "DFS": [
+      "深度优先搜索 DFS"
+    ],
+    "NTT": [
+      "快速数论变换 NTT"
+    ],
+    "FFT": [
+      "快速傅里叶变换 FFT"
+    ],
+    "哈希": [
+      "哈希 hashing"
+    ],
+    "后缀自动机": [
+      "后缀自动机 SAM"
+    ],
+    "字典树": [
+      "字典树 Trie"
+    ],
+    "乘法逆元": [
+      "逆元"
+    ],
+    "后缀数组": [
+      "后缀数组 SA"
+    ],
+    "折半枚举": [
+      "折半搜索 meet in the middle"
+    ],
+    "随机算法": [
+      "随机化"
+    ],
+    "中国剩余定理": [
+      "中国剩余定理 CRT"
+    ],
+    "卡特兰数": [
+      "Catalan 数"
+    ],
+    "KMP": [
+      "KMP 算法"
+    ],
+    "扩展欧几里得": [
+      "扩展欧几里德算法"
+    ],
+    "回文树": [
+      "回文自动机 PAM"
+    ],
+    "多项式插值": [
+      "拉格朗日插值法"
+    ],
+    "筛法": [
+      "线性筛法"
+    ],
+    "FWT": [
+      "快速沃尔什变换 FWT"
+    ],
+    "Manacher": [
+      "Manacher 算法"
+    ],
+    "双指针": [
+      "双指针 two-pointer"
+    ],
+    "斯特林数": [
+      "Stirling 数"
+    ],
+    "鸽巢原理": [
+      "鸽笼原理"
+    ],
+    "Link-Cut Tree": [
+      "动态树 LCT"
+    ],
+    "BSGS": [
+      "大步小步算法 BSGS"
+    ],
+    "Floyd": [
+      "Floyd 算法"
+    ],
+    "KD树": [
+      "K-D Tree"
+    ],
+    "LCA": [
+      "最近公共祖先 LCA"
+    ],
+    "启发式合并": [
+      "树上启发式合并"
+    ],
+    "离线算法": [
+      "离线处理"
+    ],
+    "语法分析": [
+      "expression parsing"
+    ],
+    "三分查找": [
+      "三分"
+    ],
+    "矩阵运算": [
+      "矩阵乘法"
+    ],
+    "素数": [
+      "素数判断"
+    ]
+  },
+  "before": {
+    "projectedRows": 13466,
+    "visibleRows": 13130,
+    "hiddenRows": 336,
+    "knowledgeStatuses": {
+      "classified": 8810,
+      "pending": 4320
+    },
+    "gaps": {
+      "display-knowledge": 4320,
+      "display-difficulty": 2101
+    },
+    "personalStateRead": false,
+    "publicLibraryReadOnly": true
+  },
+  "after": {
+    "projectedRows": 13466,
+    "visibleRows": 13130,
+    "hiddenRows": 336,
+    "knowledgeStatuses": {
+      "classified": 9031,
+      "pending": 4099
+    },
+    "gaps": {
+      "display-knowledge": 4099,
+      "display-difficulty": 2098
+    },
+    "personalStateRead": false,
+    "publicLibraryReadOnly": true
+  },
+  "resolvedDisplayGaps": {
+    "knowledge": 221,
+    "difficulty": 3
+  },
+  "tests": {
+    "targetedMetadata": 37,
+    "passed": true
+  },
+  "rawSourceTagsPreserved": true,
+  "broadLabelsInventAlgorithms": false,
+  "samplesCountedAsKnowledge": false,
+  "atcoderModels": "content-updates/20261108-metadata/atcoder-models.json",
+  "resourceSha256": "00340f260a7296ffbc59c38c319156ff7f0de729dac1178f2f741c30484839b4"
+}

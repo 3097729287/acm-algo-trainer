@@ -34,3 +34,20 @@ class DifficultyScaleTests(unittest.TestCase):
                     greedy=budget//single if dozen>=12*single else budget//dozen*12+(budget%dozen)//single
                     exact=max(12*packs+(budget-dozen*packs)//single for packs in range(budget//dozen+1))
                     self.assertEqual(greedy,exact)
+
+    def test_frozen_atcoder_models_keep_unofficial_provenance_and_missing_values(self):
+        root=Path(__file__).resolve().parents[1]
+        review=json.loads((root/'content-updates/20261108-metadata/atcoder-models.json').read_text('utf8'))
+        metadata=json.loads((root/'backend/resources/public-problem-metadata.json').read_text('utf8'))
+        for task,native,rating in [('abc396_e',1379,1600),('abc292_h',2248,2200),('arc100_c',2111,2100)]:
+            value=metadata[f'https://atcoder.jp/contests/{task.split("_")[0]}/tasks/{task}']
+            self.assertEqual(value['nativeDifficulty'],native)
+            self.assertEqual(value['difficulty'],rating)
+            self.assertTrue(value['difficultyEstimated'])
+            self.assertIn('AtCoder Problems',value['difficultySource'])
+            self.assertIn('模型估算',value['difficultySource'])
+            self.assertIn(review['source'],value['difficultyEvidence'])
+            self.assertIn('原始数据 SHA-256: '+review['sha256'],value['difficultyEvidence'])
+        self.assertIsNone(review['selected']['practice2_j'])
+        self.assertIsNone(review['selected']['joi2007ho_a'])
+        self.assertNotIn('difficulty',review['selected']['dp_v'])

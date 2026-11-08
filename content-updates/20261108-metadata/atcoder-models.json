@@ -1,0 +1,44 @@
+{
+  "source": "https://kenkoooo.com/atcoder/resources/problem-models.json",
+  "retrievedAt": "2026-11-08T04:04:08.717345+00:00",
+  "sha256": "4798a4c215a77e4d16e68e9b89f2886a4ec42356934fbb1990c28ab9ff9e694e",
+  "selected": {
+    "practice2_j": null,
+    "joi2007ho_a": null,
+    "abc396_e": {
+      "slope": -0.00048160906150785163,
+      "intercept": 8.194332793840742,
+      "variance": 0.3681935803411765,
+      "difficulty": 1379,
+      "discrimination": 0.004479398673070138,
+      "irt_loglikelihood": -2512.4807967207507,
+      "irt_users": 10256,
+      "is_experimental": false
+    },
+    "dp_v": {
+      "slope": -0.00019143434996663432,
+      "intercept": 8.227947205830663
+    },
+    "abc292_h": {
+      "slope": -0.0005334937277321515,
+      "intercept": 8.549153736056494,
+      "variance": 0.24933387146986086,
+      "difficulty": 2248,
+      "discrimination": 0.004479398673070138,
+      "irt_loglikelihood": -395.1439626106925,
+      "irt_users": 7057,
+      "is_experimental": false
+    },
+    "arc100_c": {
+      "slope": -0.0006468876005549606,
+      "intercept": 8.808295768012915,
+      "variance": 0.2939571270781501,
+      "difficulty": 2111,
+      "discrimination": 0.004479398673070138,
+      "irt_loglikelihood": -230.59225348949897,
+      "irt_users": 818,
+      "is_experimental": false
+    }
+  },
+  "documentation": "https://github.com/kenkoooo/AtCoderProblems/blob/master/doc/api.md"
+}
