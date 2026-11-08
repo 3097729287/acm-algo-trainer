@@ -160,14 +160,30 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
    if(saved.some(value=>value===false)){onNotice?.('代码尚未保存，请稍后重试','error');return;}
   }
   if(current.current.tabs.length-(replacing?1:0)>=MAX_STUDY_TABS&&!current.current.tabs.some(item=>item.key===studyKey(tab))){onNotice?.('同时最多打开 64 个学习标签页，请先关闭一个','error');return;}
-  const key=studyKey(tab);setMounted(previous=>new Set([...previous].filter(item=>!oldProblems.some(old=>old.key===item)&&item!==replacing?.key).concat(key)));
-  setState(previous=>{
+  const key=studyKey(tab),transition=previous=>{
    if(newTab)previous={...previous,tabs:previous.tabs.map(item=>item.key===previous.focused?{...item,visit:{...item.visit,userCreatedTab:true}}:item)};
    let next=replacing?replaceStudyContent(previous,replacing.key,tab):openStudyTab(previous,tab);
    if(solution)next={...next,tabs:next.tabs.map(item=>item.key===key?{...item,state:{...item.state,inlineSolutionOpen:true,inlineSolutionMethodId:source.methodId||'original'}}:item)};
    return {...next,chrome:next.tabs.length===1?false:next.chrome};
-  });setSearching(null);setPreview(null);
- },[onNotice]);
+  };
+  if(tab.kind==='problem'&&onFlush){
+   const before=studySnapshot(current.current),after=studySnapshot(transition(current.current));
+   const previous=before.tabs.find(item=>studyKey(item)===key)||before.documents?.[key],next=after.tabs.find(item=>studyKey(item)===key);
+   if((previous?.visit?.reviewId||null)!==(next?.visit?.reviewId||null)){
+    // A restored tab chooses a separate draft. Commit this scope before its
+    // editor appears, so an immediate refresh cannot reopen the prior draft.
+    const writes=[];window.dispatchEvent(new CustomEvent('tb:flush-study-problem',{detail:{ids:[tab.id],waitUntil:value=>writes.push(Promise.resolve(value))}}));
+    const saved=await Promise.all(writes.map(value=>value.catch(()=>false)));
+    if(ticket!==opening.current||owner!==loadedOwner.current)return;
+    if(saved.some(value=>value===false)){onNotice?.('代码尚未保存，请稍后重试','error');return;}
+    let stored=false;try{stored=await onFlush(after);}catch{/* Keep the current draft and tab when persistence fails. */}
+    if(ticket!==opening.current||owner!==loadedOwner.current)return;
+    if(stored===false){onNotice?.('学习位置尚未保存，请稍后重试','error');return;}
+   }
+  }
+  setMounted(previous=>new Set([...previous].filter(item=>!oldProblems.some(old=>old.key===item)&&item!==replacing?.key).concat(key)));
+  setState(transition);setSearching(null);setPreview(null);
+ },[onNotice,onFlush]);
  const hide=useCallback(options=>{
   opening.current++;checkpoint();setSearching(null);setPreview(null);setState(previous=>({...previous,open:false,chrome:previous.tabs.length>1&&previous.chrome}));
   if(!options?.silent)onExit?.();requestAnimationFrame(()=>returnFocus.current?.isConnected&&returnFocus.current.focus({preventScroll:true}));

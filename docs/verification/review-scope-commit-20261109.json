@@ -1,0 +1,135 @@
+{
+  "baseCommit": "acec4a2a",
+  "requiresSharedContextFix": "c852e411",
+  "scope": "Shared React used by both the existing Python architecture and the native Tauri workbench. No native route or protocol is required for this fix.",
+  "problem": "The editor could display the ordinary draft after leaving a review while the 600ms deferred preference write still retained the old review bookmark; an immediate refresh restored that old scope.",
+  "change": [
+    "Use the existing draft flush and preferences commit before exposing a changed review context.",
+    "Retain the prior tab and code if a draft or navigation commit fails.",
+    "Invalidate older deferred preference jobs at an explicit commit, validate the account before and after the queued write, and resume ordinary autosave after a failed commit.",
+    "Ordinary navigation retains its existing scheduling. No draft code, reward authority or account level enters the browser manifest."
+  ],
+  "verification": {
+    "sharedReactFixture": {
+      "ok": true,
+      "checks": [
+        "same problem switches to a separately saved review draft",
+        "refresh restores review identity and keeps ordinary code",
+        "close and reopen retains the review draft",
+        "archived tab reopening retains its review context",
+        "another account has its own ordinary and review drafts",
+        "switching back restores the original account review",
+        "switching ordinary and review contexts preserves both stored versions",
+        "failed navigation commit retains the current review and both drafts",
+        "immediate refresh after leaving a review restores the committed ordinary scope",
+        "an account switch cancels the pending scope commit without changing either account manifest"
+      ],
+      "pageErrors": [],
+      "backendScope": "Shared React navigation with isolated account-owned draft fixtures; actual native backend is checked separately"
+    },
+    "model": "learning-browser-model.mjs passed",
+    "navigation": "study-navigation-ui.mjs passed",
+    "inlineSolution": "learning-browser-toggle.mjs passed after replacing its obsolete extra-tab expectation with the already-established archived-document behavior. Its dependency scan now targets its own fixture.",
+    "frontendProductionBuild": true,
+    "nativeTauriWindow": {
+      "binary": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-desktop.exe",
+      "reviews": {
+        "realTauriIpc": true,
+        "generatedIsolatedJournal": true,
+        "externalSubmissionsSent": 0,
+        "problemId": "luogu-training-P1001",
+        "reviewTaskId": "b4202b7046415ca159d78a90efe10706",
+        "reviewDraftIndependent": true,
+        "normalDraftPreserved": true,
+        "reviewDraftRestoredAfterReload": true,
+        "realCppReviewSampleVerdict": "SAMPLE_PASS",
+        "sampleRunCreatesOfficialResult": false,
+        "cancelRestorePreserved": true,
+        "rewardDerivedFromExistingFixtureReceipt": 20
+      },
+      "contestHistory": {
+        "realTauriIpc": true,
+        "generatedIsolatedJournal": true,
+        "externalSubmissionsSent": 0,
+        "frozenHistoryDisplayed": true,
+        "filteredUnsolved": true,
+        "officialScore": {
+          "accepted": 1,
+          "total": 2,
+          "penalty": 28
+        },
+        "absentStatementSlotPreserved": true,
+        "normalAndFrozenDraftsIndependent": true,
+        "cancelledDraftRecovered": true,
+        "ordinaryReopenAndReloadPreserved": true,
+        "realAccountLevelChanged": false
+      },
+      "reactPlanning": {
+        "configured": true,
+        "readingStage": 1,
+        "conceptStage": 2,
+        "independentSolved": 0,
+        "cancellationPreserved": true,
+        "mainlineChanged": true,
+        "historyPreserved": true,
+        "recoveredAfterReload": true,
+        "weeklyBudgetShared": true
+      },
+      "reactWorkspace": {
+        "saved": true,
+        "recoveredAfterReload": true,
+        "training": 1,
+        "problemId": "ABC 469::A"
+      },
+      "localRuns": {
+        "realTauriIpc": true,
+        "realCppCompiler": true,
+        "realPythonInterpreter": true,
+        "problemId": "luogu-training-P1001",
+        "officialSamples": 1,
+        "cppVerdict": "SAMPLE_PASS",
+        "pythonVerdict": "RUN_OK",
+        "customOutput": "42",
+        "pendingReadMillis": 14.578100000000632,
+        "draftLanguageAndHistoryRestored": true,
+        "officialAcClaims": 0
+      },
+      "pageErrors": [],
+      "binarySha256": "839272b4d09ffaebc0cbfaa8e66545319a3145e5a388cc275ddd455daa90f35e",
+      "scope": "Actual bundled React and native IPC on this branch, including the separate frozen-history batch. Multi-account failure/pending-commit checks use the isolated shared React fixture; no registered account runtime is claimed."
+    }
+  },
+  "cleanup": {
+    "sourceReferencesReviewed": true,
+    "unreferencedProductionFilesFound": false,
+    "obsoleteContentCorrected": "Legacy inline-toggle test expected an automatic second Wiki tab; it now verifies one visible slot and retained archived Wiki state.",
+    "supersededTestDiagnostics": {
+      "checks": "Previous failing window diagnostics were superseded by a successful result.json and final screenshots; only those exact test-owned files were removed. Source/seed/private journals/necessary historical receipts were retained.",
+      "removed": [
+        {
+          "path": ".backups\\native-contest-history-window-20261109\\failure-runtime.json",
+          "bytes": 400,
+          "sha256": "6c68e367f4e35109125ea6210dc196b0bec8ff19f4f8405304d4a6dc99af9255"
+        },
+        {
+          "path": ".backups\\native-contest-history-window-20261109\\failure.json",
+          "bytes": 546,
+          "sha256": "8b626ffc76650cdc51282f9dfe19eadc0f449ef18cf940de9da3677e4ba6ad6f"
+        },
+        {
+          "path": ".backups\\native-contest-history-window-20261109\\failure.png",
+          "bytes": 116054,
+          "sha256": "25a65c1a06d3f9a01917d35ab339f6859dde7b3a942b554df1fd48b9f0b8fcc0"
+        },
+        {
+          "path": ".backups\\native-contest-history-window-20261109\\failure.txt",
+          "bytes": 4470,
+          "sha256": "1d2a0597ae230e850b334a82f3ccde6925e436fd20e11dec0abf4f2538c17b2c"
+        }
+      ]
+    }
+  },
+  "normalInstallationOpened": false,
+  "privateLiveJournalOpened": false,
+  "officialSubmissionsSent": 0
+}

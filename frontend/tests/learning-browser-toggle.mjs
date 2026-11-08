@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {createServer} from 'vite';
 import {chromium} from 'playwright';
-const server=await createServer({cacheDir:'../.backups/next-150/vite-solution-inline',server:{host:'127.0.0.1',port:0,watch:null}});await server.listen();
+const server=await createServer({cacheDir:'../.backups/next-150/vite-solution-inline',optimizeDeps:{entries:['tests/learning-browser-fixture.html']},server:{host:'127.0.0.1',port:0,watch:null}});await server.listen();
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1800,height:1100}}),errors=[];page.on('pageerror',error=>errors.push(error.message));page.setDefaultTimeout(12000);
 const state=()=>page.evaluate(()=>window.studyFixture.state());
 const open=tab=>page.evaluate(tab=>window.studyFixture.open(tab),tab);
@@ -26,8 +26,8 @@ try{
  await editor.fill('int main(){return 43;}');
  await open({kind:'wiki',id:'ds/dsu',title:'并查集'});await page.locator('iframe.wiki-reader').waitFor();
  await open({kind:'problem',id:'fixture:B',title:'并查集合并查询'});await editor.waitFor();
- const current=await state();assert.equal(current.tabs.filter(tab=>tab.kind==='problem').length,1);assert(current.tabs.some(tab=>tab.kind==='wiki'));
+ const current=await state();assert.equal(current.tabs.length,1);assert.equal(current.tabs[0].kind,'problem');assert(current.documents['wiki:ds/dsu']);
  assert(await page.evaluate(()=>window.studyFixture.calls.some(call=>call.path==='draft'&&call.body.id==='fixture:A'&&call.body.code.includes('return 43'))),'Entering another problem flushes the unsaved previous draft');
  await page.reload();await editor.waitFor();assert.equal((await state()).tabs.filter(tab=>tab.kind==='problem').length,1);
- assert.deepEqual(errors,[]);console.log('PASS inline solution toggle retains editor/caret/scroll; next and direct practice replace old problem, preserve Wiki and flush/restore the previous draft');
+ assert.deepEqual(errors,[]);console.log('PASS inline solution toggle retains editor/caret/scroll; next and direct practice replace one slot, preserve archived Wiki state and flush/restore the previous draft');
 }catch(error){console.log(JSON.stringify(await page.locator('.study-problem').evaluateAll(nodes=>nodes.map(n=>({hidden:n.hidden,classes:n.className,text:n.innerText.slice(0,150),buttons:[...n.querySelectorAll('button')].map(b=>({text:b.innerText,label:b.getAttribute('aria-label'),hidden:!b.getClientRects().length})).filter(b=>b.label?.includes('题解'))})))));await page.screenshot({path:'../.backups/next-150/inline-debug.png'});throw error;}finally{await browser.close();await server.close();}
