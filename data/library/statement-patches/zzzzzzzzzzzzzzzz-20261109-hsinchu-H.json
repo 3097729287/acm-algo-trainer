@@ -1,0 +1,267 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:102835::H",
+      "beforeSha256": "b78625cf11f1f450e599c3d5c57134ff6a1802f0679ffa9a0fe4c69cb5e754ed",
+      "content": {
+        "markdown": "# Optimization for UltraNet\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem H\r\nOptimization for UltraNet\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe UltraNet company provides network connectivity for all cities in a country. For a pair of\r\ncities, they are either directly connected or indirectly connected. A city 𝑖 and another city 𝑗\r\nare directly connected if a cable with a symmetrical bandwidth of 𝑏𝑖,𝑗 = 𝑏𝑗,𝑖 is wired between\r\nthem. For two cities that are not directly connected, at least one path between the two cities\r\nexists. In the current UltraNet, more than one path is possibly available for a city pair.\r\nThe current UltraNet is perfectly working, while the maintenance fee of each cable is costly.\r\nEnergy conservation is another concern. The energy consumption of a cable is proportional\r\nto its bandwidth. Therefore, the company has an optimization plan to reorganize the network\r\nwith the policies in the following order:\r\n1. The number of cables should be minimized without sacrificing the connectivity of the\r\nwhole UltraNet. In other words, exactly one path between every city pair should be\r\nsatisfied.\r\n2. If there is more than one way to minimize the number of cables, the bottleneck of the\r\nwhole network should be maximized. The bottleneck of a network is determined by the\r\ncity pair with the narrowest bandwidth, and the bandwidth of a city pair (𝑖, 𝑗), 𝑏\r\n′\r\n𝑖,𝑗 , is\r\ndetermined by the cable with the narrowest bandwidth on the only path from 𝑖 to 𝑗.\r\n3. If there is still more than one way to meet the above two points, the total energy con￾sumption of the network should be minimized. In other words, the sum of bandwidths of\r\nthe remaining cables should be minimized.\r\nYour task is to help UltraNet optimize the network and then output the sum of the bandwidths\r\namong all city pairs in the optimized network. For optimizing the following example, the three\r\ncables in dotted will be discarded. In the resulting network, the bottleneck is 3, the sum of\r\nbandwidths of the remaining four cables is 6 + 3 + 8 + 4 = 21, and the sum of the bandwidths\r\namong all city pairs is ∑︀𝑛−1\r\n𝑖=1\r\n∑︀𝑛\r\n𝑗=𝑖+1 𝑏\r\n′\r\n𝑖,𝑗 = 6 + 4 + 6 + 3 + 4 + 8 + 3 + 4 + 3 + 3 = 44.\r\n1 2\r\n5\r\n3 4\r\n12\r\n10\r\n6\r\n8\r\n3\r\n4\r\n2\r\n17\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nInput Format\r\nEach test case begins with two integers 𝑛 and 𝑚, denoting numbers of cities and cables, respec￾tively. Then, 𝑚 lines will follow for specifying the 𝑚 cables. Each of the 𝑚 lines contains three\r\npositive integers, 𝑖, 𝑗, and 𝑏𝑖,𝑗 , denoting that a cable with a bandwidth of 𝑏𝑖,𝑗 directly connects\r\nthe city pair (𝑖, 𝑗), where the cities are numbered from 1 to 𝑛, and 𝑖 < 𝑗 since 𝑏𝑖,𝑗 = 𝑏𝑗,𝑖.\r\nNo more than one cable will be available between every city pair in the current network. In\r\naddition, the bandwidths of all cables are distinct; no two cables have the same bandwidth\r\nrating.\r\nOutput Format\r\nThe output is a single integer that is the sum of the bandwidths of all city pairs in the optimized\r\nnetwork.\r\nTechnical Specification\r\n• 2 ≤ 𝑛 ≤ 10000\r\n• 1 ≤ 𝑚 ≤ 500000\r\n• 1 ≤ 𝑖 < 𝑗 ≤ 𝑛\r\n• 0 < 𝑏𝑖,𝑗 < 107\r\nSample Input 1\r\n3 3\r\n1 2 5\r\n1 3 6\r\n2 3 8\r\nSample Output 1\r\n20\r\nSample Input 2\r\n5 7\r\n1 2 6\r\n1 3 10\r\n1 4 12\r\n2 4 8\r\n2 5 3\r\n3 4 4\r\n4 5 2\r\nSample Output 2\r\n44\r\n18\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nSample Input 3\r\n5 5\r\n2 5 1\r\n1 2 2\r\n2 3 4\r\n1 3 5\r\n2 4 6\r\nSample Output 3\r\n24\r\n19\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nAlmost blank page\r\n20\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf)",
+        "images": {
+          "102835-H-figure-1.png": "data:image/png;base64,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"
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 3\n1 2 5\n1 3 6\n2 3 8",
+            "output": "20"
+          },
+          {
+            "name": "样例 2",
+            "input": "5 7\n1 2 6\n1 3 10\n1 4 12\n2 4 8\n2 5 3\n3 4 4\n4 5 2",
+            "output": "44"
+          },
+          {
+            "name": "样例 3",
+            "input": "5 5\n2 5 1\n1 2 2\n2 3 4\n1 3 5\n2 4 6",
+            "output": "24"
+          }
+        ],
+        "pageCount": 4,
+        "sourceText": "# Optimization for UltraNet\n\nTime limit: 3 seconds. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nUltraNet connects every city in a country. Cities $i$ and $j$ are directly connected when a cable of symmetric bandwidth $b_{i,j}=b_{j,i}$ joins them. Cities without a direct cable still have at least one path between them. The current network may provide more than one path between a pair of cities.\n\nThe network works well, but maintaining cables is expensive. Energy consumption, which is proportional to a cable's bandwidth, is another concern. UltraNet therefore wants to reorganize the network according to the following priorities, in order:\n\n1. Minimize the number of cables while keeping the whole network connected. In other words, there must be exactly one path between every pair of cities.\n2. Among the choices meeting the first priority, maximize the bottleneck of the whole network. The network bottleneck is the smallest bandwidth of any city pair. The bandwidth $b'_{i,j}$ of a pair $(i,j)$ is the smallest cable bandwidth on the unique path from $i$ to $j$.\n3. Among choices meeting both previous priorities, minimize total energy consumption: the sum of the bandwidths of the remaining cables.\n\nOptimize the network and output the sum of the bandwidths over all pairs of cities in the optimized network. In the example below, discard the three dotted cables. The resulting bottleneck is 3, the sum of remaining cable bandwidths is $6+3+8+4=21$, and the sum over all pairs of cities is\n\n$$\\sum_{i=1}^{n-1}\\sum_{j=i+1}^{n}b'_{i,j}=6+4+6+3+4+8+3+4+3+3=44.$$\n\n![UltraNet example](102835-H-figure-1.png)\n\n## Input Format\n\nEach test case starts with two integers $n$ and $m$, the numbers of cities and cables. The following $m$ lines describe the cables. Each contains three positive integers $i$, $j$, and $b_{i,j}$, meaning that a cable of bandwidth $b_{i,j}$ directly joins cities $i$ and $j$. Cities are numbered from $1$ to $n$, and $i<j$ because $b_{i,j}=b_{j,i}$.\n\nThere is at most one cable between any pair of cities. All cable bandwidths are distinct: no two cables have the same bandwidth.\n\n## Output Format\n\nOutput one integer: the sum of the bandwidths over all pairs of cities in the optimized network.\n\n## Technical Specification\n\n- $2\\le n\\le10000$.\n- $1\\le m\\le500000$.\n- $1\\le i<j\\le n$.\n- $0<b_{i,j}<10^7$.\n\n## Sample 1\n\n### Input\n\n```text\n3 3\n1 2 5\n1 3 6\n2 3 8\n```\n\n### Output\n\n```text\n20\n```\n\n## Sample 2\n\n### Input\n\n```text\n5 7\n1 2 6\n1 3 10\n1 4 12\n2 4 8\n2 5 3\n3 4 4\n4 5 2\n```\n\n### Output\n\n```text\n44\n```\n\n## Sample 3\n\n### Input\n\n```text\n5 5\n2 5 1\n1 2 2\n2 3 4\n1 3 5\n2 4 6\n```\n\n### Output\n\n```text\n24\n```\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf",
+          "sourcePdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+          "pages": [
+            18,
+            19
+          ],
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "3 3\n1 2 5\n1 3 6\n2 3 8",
+              "output": "20"
+            },
+            {
+              "name": "样例 2",
+              "input": "5 7\n1 2 6\n1 3 10\n1 4 12\n2 4 8\n2 5 3\n3 4 4\n4 5 2",
+              "output": "44"
+            },
+            {
+              "name": "样例 3",
+              "input": "5 5\n2 5 1\n1 2 2\n2 3 4\n1 3 5\n2 4 6",
+              "output": "24"
+            }
+          ],
+          "corrections": []
+        },
+        "id": "remote:codeforces:102835::H",
+        "title": "Optimization for UltraNet",
+        "url": "https://codeforces.com/gym/102835/problem/H",
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          17,
+          18,
+          19,
+          20
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/102835",
+        "sourceRosterSha256": "b8d7bf0e42a4825a97d465dab685a6963f3d42423de5f09730bc76c94ddd474d",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "H",
+          "pdfTitle": "Optimization for UltraNet",
+          "rosterTitle": "Optimization for UltraNet",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "经原站题单核对的赛事原始 PDF（归档副本）",
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36,
+            "data": "tb-asset:54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "fileName": "gym-102835.pdf"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+          "data": "tb-asset:d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+          "pageCount": 4,
+          "sourcePageNumbers": [
+            17,
+            18,
+            19,
+            20
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "fileName": "gym-102835-H.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterFormat": "reviewed-structured-native-roster",
+        "resourceManifest": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+            "bytes": 665696,
+            "mime": "application/pdf",
+            "pageCount": 36
+          },
+          "102835-H-figure-1.png": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+            "sha256": "019bce8fa4a72a123929600c1a5b56a3911fd37ce1bc8eae968edde30fb11ee0",
+            "bytes": 12665,
+            "mime": "image/png",
+            "frameCount": 1,
+            "width": 315,
+            "height": 274,
+            "derivedFromPdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+            "kind": "reviewed-original-diagram",
+            "sourcePage": 1,
+            "clipRect": [
+              49.410260869565214,
+              667.0385217391304,
+              206.46430434782607,
+              803.5049565217391
+            ]
+          }
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 3,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T09:51:28.302861+00:00",
+          "corpusAuditVerifiedSha256": "decf853b1f98447ddde3833ee992041e5885b1b2e051701b869caeb5613d7f29"
+        },
+        "translationAvailable": true,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:102835::H",
+          "nativeRosterUrl": "https://codeforces.com/gym/102835",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "pdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+          "sourcePages": [
+            17,
+            18,
+            19,
+            20
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 3,
+          "samplesSha256": "e37aae103924e82acfe5b3e498e9e7d1141608c468b9247938f4640316c7986a",
+          "samplePagesReviewed": [
+            18,
+            19
+          ],
+          "allPagesRendered": true
+        },
+        "sourceTextArchive": [
+          {
+            "kind": "unreviewed-pdf-extraction",
+            "text": "2020 ICPC Asia Taipei-Hsinchu Regional\r\nProblem H\r\nOptimization for UltraNet\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe UltraNet company provides network connectivity for all cities in a country. For a pair of\r\ncities, they are either directly connected or indirectly connected. A city 𝑖 and another city 𝑗\r\nare directly connected if a cable with a symmetrical bandwidth of 𝑏𝑖,𝑗 = 𝑏𝑗,𝑖 is wired between\r\nthem. For two cities that are not directly connected, at least one path between the two cities\r\nexists. In the current UltraNet, more than one path is possibly available for a city pair.\r\nThe current UltraNet is perfectly working, while the maintenance fee of each cable is costly.\r\nEnergy conservation is another concern. The energy consumption of a cable is proportional\r\nto its bandwidth. Therefore, the company has an optimization plan to reorganize the network\r\nwith the policies in the following order:\r\n1. The number of cables should be minimized without sacrificing the connectivity of the\r\nwhole UltraNet. In other words, exactly one path between every city pair should be\r\nsatisfied.\r\n2. If there is more than one way to minimize the number of cables, the bottleneck of the\r\nwhole network should be maximized. The bottleneck of a network is determined by the\r\ncity pair with the narrowest bandwidth, and the bandwidth of a city pair (𝑖, 𝑗), 𝑏\r\n′\r\n𝑖,𝑗 , is\r\ndetermined by the cable with the narrowest bandwidth on the only path from 𝑖 to 𝑗.\r\n3. If there is still more than one way to meet the above two points, the total energy con￾sumption of the network should be minimized. In other words, the sum of bandwidths of\r\nthe remaining cables should be minimized.\r\nYour task is to help UltraNet optimize the network and then output the sum of the bandwidths\r\namong all city pairs in the optimized network. For optimizing the following example, the three\r\ncables in dotted will be discarded. In the resulting network, the bottleneck is 3, the sum of\r\nbandwidths of the remaining four cables is 6 + 3 + 8 + 4 = 21, and the sum of the bandwidths\r\namong all city pairs is ∑︀𝑛−1\r\n𝑖=1\r\n∑︀𝑛\r\n𝑗=𝑖+1 𝑏\r\n′\r\n𝑖,𝑗 = 6 + 4 + 6 + 3 + 4 + 8 + 3 + 4 + 3 + 3 = 44.\r\n1 2\r\n5\r\n3 4\r\n12\r\n10\r\n6\r\n8\r\n3\r\n4\r\n2\r\n17\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nInput Format\r\nEach test case begins with two integers 𝑛 and 𝑚, denoting numbers of cities and cables, respec￾tively. Then, 𝑚 lines will follow for specifying the 𝑚 cables. Each of the 𝑚 lines contains three\r\npositive integers, 𝑖, 𝑗, and 𝑏𝑖,𝑗 , denoting that a cable with a bandwidth of 𝑏𝑖,𝑗 directly connects\r\nthe city pair (𝑖, 𝑗), where the cities are numbered from 1 to 𝑛, and 𝑖 < 𝑗 since 𝑏𝑖,𝑗 = 𝑏𝑗,𝑖.\r\nNo more than one cable will be available between every city pair in the current network. In\r\naddition, the bandwidths of all cables are distinct; no two cables have the same bandwidth\r\nrating.\r\nOutput Format\r\nThe output is a single integer that is the sum of the bandwidths of all city pairs in the optimized\r\nnetwork.\r\nTechnical Specification\r\n• 2 ≤ 𝑛 ≤ 10000\r\n• 1 ≤ 𝑚 ≤ 500000\r\n• 1 ≤ 𝑖 < 𝑗 ≤ 𝑛\r\n• 0 < 𝑏𝑖,𝑗 < 107\r\nSample Input 1\r\n3 3\r\n1 2 5\r\n1 3 6\r\n2 3 8\r\nSample Output 1\r\n20\r\nSample Input 2\r\n5 7\r\n1 2 6\r\n1 3 10\r\n1 4 12\r\n2 4 8\r\n2 5 3\r\n3 4 4\r\n4 5 2\r\nSample Output 2\r\n44\r\n18\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nSample Input 3\r\n5 5\r\n2 5 1\r\n1 2 2\r\n2 3 4\r\n1 3 5\r\n2 4 6\r\nSample Output 3\r\n24\r\n19\n\n2020 ICPC Asia Taipei-Hsinchu Regional\r\nAlmost blank page\r\n20",
+            "sha256": "fef5312fa8651d5c27371a9100e6b596a552c6ed76e80ea17b3d297af4052aff"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "H",
+          "pdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+          "pageCount": 4,
+          "pagesReviewed": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourcePageNumbers": [
+            17,
+            18,
+            19,
+            20
+          ],
+          "figures": [
+            {
+              "file": "102835-H-figure-1.png",
+              "page": 1,
+              "clipRect": [
+                49.410260869565214,
+                667.0385217391304,
+                206.46430434782607,
+                803.5049565217391
+              ],
+              "method": "original-pdf-rendered-region"
+            }
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "1724eb611e34d8489743d866477beb10e8f359855168779e358421369941b38c"
+        },
+        "translationReviewHistory": [
+          {
+            "translationAvailable": false
+          }
+        ],
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "sourceHash": "decf853b1f98447ddde3833ee992041e5885b1b2e051701b869caeb5613d7f29",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "1724eb611e34d8489743d866477beb10e8f359855168779e358421369941b38c",
+          "sourcePdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+          "markdown": "# UltraNet 网络优化\n\n时间限制：3 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\nUltraNet 为一个国家的所有城市提供网络连接。如果城市 $i$ 与 $j$ 之间铺设了一条带宽为 $b_{i,j}=b_{j,i}$ 的双向线缆，就称这两个城市直接相连。没有直接线缆相连的两个城市之间也至少存在一条路径。在当前网络中，某些城市对之间可能存在多条路径。\n\n虽然当前网络运转良好，但维护每条线缆的费用很高。节能也是一个需要考虑的问题：一条线缆的能耗与其带宽成正比。因此，UltraNet 希望按以下先后顺序优化网络：\n\n1. 在保持整个网络连通的前提下，使线缆数量最少。也就是说，任意两个城市之间都应恰好只有一条路径。\n2. 在满足第一项的方案中，使整个网络的瓶颈带宽最大。整个网络的瓶颈带宽是所有城市对带宽中的最小值。城市对 $(i,j)$ 的带宽记为 $b'_{i,j}$，等于从 $i$ 到 $j$ 的唯一路径上线缆带宽的最小值。\n3. 在同时满足前两项的方案中，使网络总能耗最小，也就是使保留下来的所有线缆的带宽之和最小。\n\n请帮助 UltraNet 优化网络，并输出优化后所有城市对的带宽之和。在下图的例子中，需要移除三条虚线线缆。最终网络的瓶颈带宽为 3，保留线缆的带宽之和为 $6+3+8+4=21$，所有城市对的带宽之和为\n\n$$\\sum_{i=1}^{n-1}\\sum_{j=i+1}^{n}b'_{i,j}=6+4+6+3+4+8+3+4+3+3=44.$$\n\n![UltraNet example](102835-H-figure-1.png)\n\n## 输入格式\n\n每个测试用例以两个整数 $n$ 和 $m$ 开始，分别表示城市数和线缆数。接下来的 $m$ 行描述各条线缆。每行包含三个正整数 $i$、$j$ 和 $b_{i,j}$，表示城市 $i$ 与 $j$ 之间直接连接了一条带宽为 $b_{i,j}$ 的线缆。城市编号为 $1$ 到 $n$，并且由于 $b_{i,j}=b_{j,i}$，输入保证 $i<j$。\n\n任意两个城市之间至多有一条线缆。所有线缆的带宽两两不同，即不存在两条带宽相同的线缆。\n\n## 输出格式\n\n输出一个整数，表示优化后网络中所有城市对的带宽之和。\n\n## 数据范围\n\n- $2\\le n\\le10000$。\n- $1\\le m\\le500000$。\n- $1\\le i<j\\le n$。\n- $0<b_{i,j}<10^7$。\n\n## 样例 1\n\n### 输入\n\n```text\n3 3\n1 2 5\n1 3 6\n2 3 8\n```\n\n### 输出\n\n```text\n20\n```\n\n## 样例 2\n\n### 输入\n\n```text\n5 7\n1 2 6\n1 3 10\n1 4 12\n2 4 8\n2 5 3\n3 4 4\n4 5 2\n```\n\n### 输出\n\n```text\n44\n```\n\n## 样例 3\n\n### 输入\n\n```text\n5 5\n2 5 1\n1 2 2\n2 3 4\n1 3 5\n2 4 6\n```\n\n### 输出\n\n```text\n24\n```\n"
+        },
+        "translationReview": {
+          "letter": "H",
+          "pdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+          "pageCount": 4,
+          "pagesReviewed": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourcePageNumbers": [
+            17,
+            18,
+            19,
+            20
+          ],
+          "figures": [
+            {
+              "file": "102835-H-figure-1.png",
+              "page": 1,
+              "clipRect": [
+                49.410260869565214,
+                667.0385217391304,
+                206.46430434782607,
+                803.5049565217391
+              ],
+              "method": "original-pdf-rendered-region"
+            }
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "1724eb611e34d8489743d866477beb10e8f359855168779e358421369941b38c",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

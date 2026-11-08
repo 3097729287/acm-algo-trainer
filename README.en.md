@@ -1,6 +1,8 @@
 # ToBe · Current build
 
-**1.6.8 in development · 2026-11-08**: idle presence, resumable downloads and compact updates are undergoing installer validation. Previously delivered content is retained: 3,191 default and 2,306 detailed editorials. This candidate is not released; the domestic stable channel remains [1.6.7](docs/domestic-release-1.6.7-verification.md). See the [candidate notes](docs/releases/1.6.8.md) and [update validation scope](docs/compact-updates.md).
+**1.6.8 domestic stable · 2026-11-09**: repairs duplicate learning-summary records and cloud chunk validation, allows valid accounts to read rankings while private sync is pending, and marks five-minute input inactivity offline. Standard 1.6.6 / 1.6.7 installations transfer roughly 1.5–2 MB of differences; the one-minute full-upgrade target remains unmet. [Full installer](https://47.82.84.74/updates/assets/1.6.8/ToBe-Full-Setup-1.6.8-win64.exe) · [release verification](docs/domestic-release-1.6.8-verification.md) · [notes](docs/releases/1.6.8.md).
+
+The source also contains four subsequent, unpackaged Taipei-Hsinchu C/F/G/H translations, with their original PDFs, six original diagrams and every sample. The source retains 3,191 default and 2,306 detailed editorials.
 
 **1.6.7 domestic release · 2026-11-08**: the three-person team service and client are available, with 63 added XCPC problems, 51 restored originals and 20 reviewed PDF translations. Search, editorial and ranking recovery changes are retained. [Full installer](https://47.82.84.74/updates/assets/1.6.7/ToBe-Setup-1.6.7-win64.exe) · [Release verification](docs/domestic-release-1.6.7-verification.md).
 
