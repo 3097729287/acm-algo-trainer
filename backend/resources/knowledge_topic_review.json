@@ -1,7 +1,7 @@
 {
   "version": "topic-review-20261029-r30",
   "scope": "仅修正知识标签，不改题解正文、程序、难度或个人记录",
-  "reviewedProblems": 1632,
+  "reviewedProblems": 1690,
   "problems": {
     "codeforces.com/contest/2258/problem/E": {
       "problemIds": [
@@ -38410,7 +38410,8 @@
         "矩阵快速幂",
         "线段树",
         "乘法逆元",
-        "取模与同余"
+        "取模与同余",
+        "类欧几里得算法"
       ],
       "removeTags": [],
       "sources": [
@@ -38448,6 +38449,42 @@
           "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
           "originalJudgeSubmissions": 0,
           "fullImplementationRetested": false
+        },
+        {
+          "problemId": "remote:codeforces:105459::H",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            38,
+            39,
+            40
+          ],
+          "sourceProblemHeading": "H. Subsequence Counting",
+          "sourceProblemTitle": "Subsequence Counting",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/H",
+          "sourceStatementMarkdownSha256": "124fc9e185549f748fa04862a649552fbbaa8f43923218121adba714c9528252",
+          "reasons": [
+            "官方第39-40页明确对模置换后的非交换矩阵段做类欧几里得递归缩减；现登记该具体叶子，补充已有矩阵DP/线段树分类，原题约束和模数仍优先于幻灯片摘要。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "O(n*m^3*log n*log L)，见页40；矩阵维度实际为 m+1",
+            "space": "按矩阵段+线段树实现 O(n*m^2)，不计递归临时副本",
+            "source": "official-editorial"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Hard",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "“类欧几里得”尚不在当前 canonical 字典中，作为精确技术说明保留；不能把整个递归替换标成普通扩展欧几里得。",
+            "原生题面 n<=2000、模998244353；页38写 n<=1000、模10^9+7，与真实原稿不同，元数据与译文应沿用题面而非幻灯片摘要。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false,
+          "reviewPurpose": "register-previously-unrepresented-specific-euclidean-like-technique"
         }
       ],
       "reviewMethod": "source-reviewed-classification",
@@ -39777,6 +39814,3311 @@
       ],
       "reviewMethod": "source-reviewed-classification",
       "official": false
+    },
+    "luogu.com.cn/problem/AT_abc217_h": {
+      "problemIds": [
+        "luogu-training-AT_abc217_h"
+      ],
+      "url": "https://www.luogu.com.cn/problem/AT_abc217_h",
+      "tags": [
+        "Slope Trick"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-AT_abc217_h",
+          "reference": "https://www.luogu.com.cn/problem/AT_abc217_h",
+          "sha256": "3c2143b75bb72e45fcf3126e05bb07434c97cf1b3189ccd88849d6dc2e8da34f",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "AT_abc217_h",
+          "nativeTitle": "[ABC217H] Snuketoon",
+          "nativeTagIds": [
+            3,
+            508
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 508,
+              "name": "斜率维护技巧 slope trick",
+              "type": 2,
+              "parent": 146
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 508,
+              "nativeTagName": "斜率维护技巧 slope trick",
+              "canonicalTag": "Slope Trick"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/AT_abc333_g": {
+      "problemIds": [
+        "luogu-training-AT_abc333_g"
+      ],
+      "url": "https://www.luogu.com.cn/problem/AT_abc333_g",
+      "tags": [
+        "Stern-Brocot 树"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-AT_abc333_g",
+          "reference": "https://www.luogu.com.cn/problem/AT_abc333_g",
+          "sha256": "59f12c935825eb78972413ef412f81f9c878a6faac8360dba5a26a8963a1c422",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "AT_abc333_g",
+          "nativeTitle": "[ABC333G] Nearest Fraction",
+          "nativeTagIds": [
+            423
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 423,
+              "name": "Stern-Brocot 树",
+              "type": 2,
+              "parent": 72
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 423,
+              "nativeTagName": "Stern-Brocot 树",
+              "canonicalTag": "Stern-Brocot 树"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/AT_abc351_g": {
+      "problemIds": [
+        "luogu-training-AT_abc351_g"
+      ],
+      "url": "https://www.luogu.com.cn/problem/AT_abc351_g",
+      "tags": [
+        "动态树分治"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-AT_abc351_g",
+          "reference": "https://www.luogu.com.cn/problem/AT_abc351_g",
+          "sha256": "9da354001f2e553571906132ed268dc79b2c65bccfd077acada7f13d61d9f10e",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "AT_abc351_g",
+          "nativeTitle": "[ABC351G] Hash on Tree",
+          "nativeTagIds": [
+            382
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 382,
+              "name": "动态树分治",
+              "type": 2,
+              "parent": 230
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 382,
+              "nativeTagName": "动态树分治",
+              "canonicalTag": "动态树分治"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/AT_agc068_e": {
+      "problemIds": [
+        "luogu-training-AT_agc068_e"
+      ],
+      "url": "https://www.luogu.com.cn/problem/AT_agc068_e",
+      "tags": [
+        "欧拉路径与回路"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-AT_agc068_e",
+          "reference": "https://www.luogu.com.cn/problem/AT_agc068_e",
+          "sha256": "faec7169ab4954927126a6beb2cfd5dd95653b9e3723851f3c69793e5e50d00b",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "AT_agc068_e",
+          "nativeTitle": "[AGC068E] Sort and Match",
+          "nativeTagIds": [
+            3,
+            182,
+            365
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 182,
+              "name": "欧拉回路",
+              "type": 2,
+              "parent": 6
+            },
+            {
+              "id": 365,
+              "name": "Ad-hoc",
+              "type": 2,
+              "parent": 308
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 182,
+              "nativeTagName": "欧拉回路",
+              "canonicalTag": "欧拉路径与回路"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/AT_arc070_c": {
+      "problemIds": [
+        "luogu-training-AT_arc070_c"
+      ],
+      "url": "https://www.luogu.com.cn/problem/AT_arc070_c",
+      "tags": [
+        "Slope Trick"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-AT_arc070_c",
+          "reference": "https://www.luogu.com.cn/problem/AT_arc070_c",
+          "sha256": "31aea383620169332e7428caf7b3f6d29cbd2d96484f48c300c8e8d722a9bbd9",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "AT_arc070_c",
+          "nativeTitle": "[ARC070E] NarrowRectangles",
+          "nativeTagIds": [
+            3,
+            508
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 508,
+              "name": "斜率维护技巧 slope trick",
+              "type": 2,
+              "parent": 146
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 508,
+              "nativeTagName": "斜率维护技巧 slope trick",
+              "canonicalTag": "Slope Trick"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/AT_dp_z": {
+      "problemIds": [
+        "luogu-training-AT_dp_z"
+      ],
+      "url": "https://www.luogu.com.cn/problem/AT_dp_z",
+      "tags": [
+        "斜率优化"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-AT_dp_z",
+          "reference": "https://www.luogu.com.cn/problem/AT_dp_z",
+          "sha256": "d05d960fa09b3f397f61978ae2d78373482b591aa439ad1e956a08273b073ab8",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "AT_dp_z",
+          "nativeTitle": "Frog 3",
+          "nativeTagIds": [
+            150
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 150,
+              "name": "斜率优化",
+              "type": 2,
+              "parent": 146
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 150,
+              "nativeTagName": "斜率优化",
+              "canonicalTag": "斜率优化"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/B3901": {
+      "problemIds": [
+        "luogu-training-B3901"
+      ],
+      "url": "https://www.luogu.com.cn/problem/B3901",
+      "tags": [
+        "组合计数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3901",
+          "reference": "https://www.luogu.com.cn/problem/B3901",
+          "sha256": "214ee75ff8682f99f7812167ecf31f5d7877bf3bc8ab12718b9056b68e4a6fcb",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "B3901",
+          "nativeTitle": "[NICA #3] 星空（Easy Version）",
+          "nativeTagIds": [
+            5,
+            108,
+            253
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 5,
+              "name": "数学",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 253,
+              "name": "排列组合",
+              "type": 2,
+              "parent": 252
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 253,
+              "nativeTagName": "排列组合",
+              "canonicalTag": "组合计数"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/B3902": {
+      "problemIds": [
+        "luogu-training-B3902"
+      ],
+      "url": "https://www.luogu.com.cn/problem/B3902",
+      "tags": [
+        "组合计数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3902",
+          "reference": "https://www.luogu.com.cn/problem/B3902",
+          "sha256": "dad7d2f55d97f7c3d3c1650366ae8a1c05b70940397796f5ccd07409a1bf5f83",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "B3902",
+          "nativeTitle": "[NICA #3] 数计组数",
+          "nativeTagIds": [
+            3,
+            108,
+            253
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 253,
+              "name": "排列组合",
+              "type": 2,
+              "parent": 252
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 253,
+              "nativeTagName": "排列组合",
+              "canonicalTag": "组合计数"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/B4031": {
+      "problemIds": [
+        "luogu-training-B4031"
+      ],
+      "url": "https://www.luogu.com.cn/problem/B4031",
+      "tags": [
+        "组合计数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-B4031",
+          "reference": "https://www.luogu.com.cn/problem/B4031",
+          "sha256": "e29de3162fd21306aae2056d7e8c6fbc6a7c67dc07c97fcf8a611d9d68372a53",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "B4031",
+          "nativeTitle": "[语言月赛 202409] 始终",
+          "nativeTagIds": [
+            61,
+            108,
+            253,
+            357,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 253,
+              "name": "排列组合",
+              "type": 2,
+              "parent": 252
+            },
+            {
+              "id": 357,
+              "name": "字符串（入门）",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 253,
+              "nativeTagName": "排列组合",
+              "canonicalTag": "组合计数"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/CF1740H": {
+      "problemIds": [
+        "luogu-training-CF1740H"
+      ],
+      "url": "https://www.luogu.com.cn/problem/CF1740H",
+      "tags": [
+        "全局平衡二叉树"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-CF1740H",
+          "reference": "https://www.luogu.com.cn/problem/CF1740H",
+          "sha256": "169ca34fb1f1f074c1653b86be31144168fe207188d93b3726033a64d15ef663",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "CF1740H",
+          "nativeTitle": "MEX Tree Manipulation",
+          "nativeTagIds": [
+            472
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 472,
+              "name": "全局平衡二叉树",
+              "type": 2,
+              "parent": 230
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 472,
+              "nativeTagName": "全局平衡二叉树",
+              "canonicalTag": "全局平衡二叉树"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P10517": {
+      "problemIds": [
+        "luogu-training-P10517"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P10517",
+      "tags": [
+        "圆方树"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P10517",
+          "reference": "https://www.luogu.com.cn/problem/P10517",
+          "sha256": "90bc26ef1bc6e7cdc0d986a1eff85e2b4c704243c0a0785d83d68eedffafafbf",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P10517",
+          "nativeTitle": "国土规划",
+          "nativeTagIds": [
+            81,
+            108,
+            337,
+            350
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 350,
+              "name": "圆方树",
+              "type": 2,
+              "parent": 6
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 350,
+              "nativeTagName": "圆方树",
+              "canonicalTag": "圆方树"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P11598": {
+      "problemIds": [
+        "luogu-training-P11598"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P11598",
+      "tags": [
+        "Slope Trick"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P11598",
+          "reference": "https://www.luogu.com.cn/problem/P11598",
+          "sha256": "566435a65d161c75cb7b9f5cd052164ebb04f452cd1eb0b1687c6de09787a6e4",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P11598",
+          "nativeTitle": "[NOISG 2018 Finals] Safety",
+          "nativeTagIds": [
+            3,
+            35,
+            146,
+            436,
+            508
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 146,
+              "name": "动态规划优化",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 508,
+              "name": "斜率维护技巧 slope trick",
+              "type": 2,
+              "parent": 146
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 508,
+              "nativeTagName": "斜率维护技巧 slope trick",
+              "canonicalTag": "Slope Trick"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P12414": {
+      "problemIds": [
+        "luogu-training-P12414"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P12414",
+      "tags": [
+        "欧拉路径与回路"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P12414",
+          "reference": "https://www.luogu.com.cn/problem/P12414",
+          "sha256": "0d9f28808b923de0861d8a5cbd9d0fd3748a1f4a8206d4e68ea59fdb05c07c1e",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P12414",
+          "nativeTitle": "「YLLOI-R1-T3」一路向北",
+          "nativeTagIds": [
+            81,
+            108,
+            182,
+            337,
+            365
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 182,
+              "name": "欧拉回路",
+              "type": 2,
+              "parent": 6
+            },
+            {
+              "id": 365,
+              "name": "Ad-hoc",
+              "type": 2,
+              "parent": 308
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 182,
+              "nativeTagName": "欧拉回路",
+              "canonicalTag": "欧拉路径与回路"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P1713": {
+      "problemIds": [
+        "luogu-training-P1713"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1713",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P1713",
+          "reference": "https://www.luogu.com.cn/problem/P1713",
+          "sha256": "28a4b4bb1efb1100d0cce3148aa2d93a75c4e836ae5d75f027784aa540a7db06",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P1713",
+          "nativeTitle": "麦当劳叔叔的难题",
+          "nativeTagIds": [
+            108,
+            323
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 323,
+              "name": "轮廓线 DP",
+              "type": 2,
+              "parent": 3
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 323,
+              "nativeTagName": "轮廓线 DP",
+              "canonicalTag": "轮廓线 DP"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P17239": {
+      "problemIds": [
+        "luogu-training-P17239"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P17239",
+      "tags": [
+        "类欧几里得算法"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P17239",
+          "reference": "https://www.luogu.com.cn/problem/P17239",
+          "sha256": "319fb1025009d63674916f941c31ac37aa9a9686823d6d398a3c88f76f2f0461",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P17239",
+          "nativeTitle": "『STA - R10』雨落玫瑰",
+          "nativeTagIds": [
+            108,
+            388
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 388,
+              "name": "类欧几里得算法",
+              "type": 2,
+              "parent": 72
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 388,
+              "nativeTagName": "类欧几里得算法",
+              "canonicalTag": "类欧几里得算法"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P1784": {
+      "problemIds": [
+        "luogu-training-P1784"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P1784",
+      "tags": [
+        "Dancing Links"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P1784",
+          "reference": "https://www.luogu.com.cn/problem/P1784",
+          "sha256": "a259cd86b800cdd60103e91ae6e08cc2c171f7f46ff75c8305e09caebd4cbf7b",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P1784",
+          "nativeTitle": "数独",
+          "nativeTagIds": [
+            4,
+            133
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 4,
+              "name": "搜索",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 133,
+              "name": "Dancing Links",
+              "type": 2,
+              "parent": 4
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 133,
+              "nativeTagName": "Dancing Links",
+              "canonicalTag": "Dancing Links"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P2435": {
+      "problemIds": [
+        "luogu-training-P2435"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2435",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P2435",
+          "reference": "https://www.luogu.com.cn/problem/P2435",
+          "sha256": "b68ec46d752cbc5912fa2078d40aaa52457087870527bc47665dc797687c7fb7",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P2435",
+          "nativeTitle": "染色",
+          "nativeTagIds": [
+            3,
+            33,
+            81,
+            323,
+            337
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 323,
+              "name": "轮廓线 DP",
+              "type": 2,
+              "parent": 3
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 323,
+              "nativeTagName": "轮廓线 DP",
+              "canonicalTag": "轮廓线 DP"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P2713": {
+      "problemIds": [
+        "luogu-training-P2713"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2713",
+      "tags": [
+        "可并堆"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P2713",
+          "reference": "https://www.luogu.com.cn/problem/P2713",
+          "sha256": "ff993bc0d44ba8511cd821c0a0882e1ebce4cf77e4ccb1eadaa514087363798b",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P2713",
+          "nativeTitle": "罗马游戏",
+          "nativeTagIds": [
+            215,
+            429
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 215,
+              "name": "可并堆",
+              "type": 2,
+              "parent": 11
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 215,
+              "nativeTagName": "可并堆",
+              "canonicalTag": "可并堆"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P2775": {
+      "problemIds": [
+        "luogu-training-P2775"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2775",
+      "tags": [
+        "IDA*"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P2775",
+          "reference": "https://www.luogu.com.cn/problem/P2775",
+          "sha256": "256e99e646e5a434f45381dd4f293b07972ecbef882209f0830247038cc9fe05",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P2775",
+          "nativeTitle": "机器人路径规划问题（疑似错题）",
+          "nativeTagIds": [
+            108,
+            132,
+            332
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 132,
+              "name": "启发式迭代加深搜索 IDA*",
+              "type": 2,
+              "parent": 4
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 132,
+              "nativeTagName": "启发式迭代加深搜索 IDA*",
+              "canonicalTag": "IDA*"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P2900": {
+      "problemIds": [
+        "luogu-training-P2900"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P2900",
+      "tags": [
+        "斜率优化"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P2900",
+          "reference": "https://www.luogu.com.cn/problem/P2900",
+          "sha256": "14f2892d14d413a648fcc27123922be1b5e159fe2e856da1fcf07dff5d4036d4",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P2900",
+          "nativeTitle": "[USACO08MAR] Land Acquisition G",
+          "nativeTagIds": [
+            3,
+            25,
+            46,
+            150
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 150,
+              "name": "斜率优化",
+              "type": 2,
+              "parent": 146
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 150,
+              "nativeTagName": "斜率优化",
+              "canonicalTag": "斜率优化"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P3190": {
+      "problemIds": [
+        "luogu-training-P3190"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3190",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P3190",
+          "reference": "https://www.luogu.com.cn/problem/P3190",
+          "sha256": "6a5d70fed7a611dedeaa16d3a9e97bf79bf4a1c008b8dbaef41d928cb217845b",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P3190",
+          "nativeTitle": "[HNOI2007] 神奇游乐园",
+          "nativeTagIds": [
+            3,
+            24,
+            48,
+            93,
+            323
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 323,
+              "name": "轮廓线 DP",
+              "type": 2,
+              "parent": 3
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 323,
+              "nativeTagName": "轮廓线 DP",
+              "canonicalTag": "轮廓线 DP"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P3886": {
+      "problemIds": [
+        "luogu-training-P3886"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3886",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P3886",
+          "reference": "https://www.luogu.com.cn/problem/P3886",
+          "sha256": "febac6e4bf76716214be8cb46e2e8e5de8c13ab533b87fb8d9c4006103a11b9b",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P3886",
+          "nativeTitle": "[JLOI2009] 神秘的生物",
+          "nativeTagIds": [
+            3,
+            26,
+            48,
+            98,
+            244,
+            323
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 244,
+              "name": "进制",
+              "type": 2,
+              "parent": 72
+            },
+            {
+              "id": 323,
+              "name": "轮廓线 DP",
+              "type": 2,
+              "parent": 3
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 323,
+              "nativeTagName": "轮廓线 DP",
+              "canonicalTag": "轮廓线 DP"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P3936": {
+      "problemIds": [
+        "luogu-training-P3936"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P3936",
+      "tags": [
+        "模拟退火"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P3936",
+          "reference": "https://www.luogu.com.cn/problem/P3936",
+          "sha256": "2aa1bb1121af60d8634afba1c7fbe139e7987bf6539c27b746a27936298fbd62",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P3936",
+          "nativeTitle": "Coloring",
+          "nativeTagIds": [
+            4,
+            81,
+            107,
+            135
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 4,
+              "name": "搜索",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 135,
+              "name": "模拟退火",
+              "type": 2,
+              "parent": 4
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 135,
+              "nativeTagName": "模拟退火",
+              "canonicalTag": "模拟退火"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P4262": {
+      "problemIds": [
+        "luogu-training-P4262"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P4262",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P4262",
+          "reference": "https://www.luogu.com.cn/problem/P4262",
+          "sha256": "d3fef227d3ff03d85a187107293106c879cc2cdd11d7c0de54ebe5690cc2a78b",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P4262",
+          "nativeTitle": "[Code+#3] 白金元首与莫斯科",
+          "nativeTagIds": [
+            108,
+            323,
+            485
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 323,
+              "name": "轮廓线 DP",
+              "type": 2,
+              "parent": 3
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 323,
+              "nativeTagName": "轮廓线 DP",
+              "canonicalTag": "轮廓线 DP"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P4272": {
+      "problemIds": [
+        "luogu-training-P4272"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P4272",
+      "tags": [
+        "Slope Trick"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P4272",
+          "reference": "https://www.luogu.com.cn/problem/P4272",
+          "sha256": "b425b6a4a196ac59450ff96fa05d96b3cfa449fcfdf71931f9f268816e8bd483",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P4272",
+          "nativeTitle": "[CTSC2009] 序列变换",
+          "nativeTagIds": [
+            26,
+            460,
+            508
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 508,
+              "name": "斜率维护技巧 slope trick",
+              "type": 2,
+              "parent": 146
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 508,
+              "nativeTagName": "斜率维护技巧 slope trick",
+              "canonicalTag": "Slope Trick"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P4694": {
+      "problemIds": [
+        "luogu-training-P4694"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P4694",
+      "tags": [
+        "WQS 二分",
+        "模拟费用流"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P4694",
+          "reference": "https://www.luogu.com.cn/problem/P4694",
+          "sha256": "e7fa7cba98564ab437952cb3f6de43023713929c8462fe6b1f1ea5b2c38ce028",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P4694",
+          "nativeTitle": "[PA 2013] Raper",
+          "nativeTagIds": [
+            30,
+            108,
+            153,
+            373,
+            389
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 153,
+              "name": "凸完全单调性（wqs 二分）",
+              "type": 2,
+              "parent": 146
+            },
+            {
+              "id": 373,
+              "name": "模拟费用流",
+              "type": 2,
+              "parent": 308
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 153,
+              "nativeTagName": "凸完全单调性（wqs 二分）",
+              "canonicalTag": "WQS 二分"
+            },
+            {
+              "nativeTagId": 373,
+              "nativeTagName": "模拟费用流",
+              "canonicalTag": "模拟费用流"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P4738": {
+      "problemIds": [
+        "luogu-training-P4738"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P4738",
+      "tags": [
+        "Prüfer 序列"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P4738",
+          "reference": "https://www.luogu.com.cn/problem/P4738",
+          "sha256": "0ab38eb42bc62a1cfd507acb3d4b18750b4f77714bae095ea8b4fafd40a5c1af",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P4738",
+          "nativeTitle": "[CERC2017] Cumulative Code",
+          "nativeTagIds": [
+            34,
+            335,
+            410,
+            502
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 410,
+              "name": "Prüfer 序列",
+              "type": 2,
+              "parent": 230
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 410,
+              "nativeTagName": "Prüfer 序列",
+              "canonicalTag": "Prüfer 序列"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P4859": {
+      "problemIds": [
+        "luogu-training-P4859"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P4859",
+      "tags": [
+        "组合计数",
+        "二项式定理"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P4859",
+          "reference": "https://www.luogu.com.cn/problem/P4859",
+          "sha256": "af8a08382d016c5bc9edc6b2f3c7c73d23a0b9e3d7f0641400ea8a1ad19d175d",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P4859",
+          "nativeTitle": "已经没有什么好害怕的了",
+          "nativeTagIds": [
+            3,
+            5,
+            252,
+            253,
+            255
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 5,
+              "name": "数学",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 252,
+              "name": "组合数学",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 253,
+              "name": "排列组合",
+              "type": 2,
+              "parent": 252
+            },
+            {
+              "id": 255,
+              "name": "二项式定理",
+              "type": 2,
+              "parent": 252
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 252,
+              "nativeTagName": "组合数学",
+              "canonicalTag": "组合计数"
+            },
+            {
+              "nativeTagId": 253,
+              "nativeTagName": "排列组合",
+              "canonicalTag": "组合计数"
+            },
+            {
+              "nativeTagId": 255,
+              "nativeTagName": "二项式定理",
+              "canonicalTag": "二项式定理"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P5056": {
+      "problemIds": [
+        "luogu-training-P5056"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5056",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5056",
+          "reference": "https://www.luogu.com.cn/problem/P5056",
+          "sha256": "ed9c14dc652885eea1848f6bca1e72c7fa5739339efe817c093be578c60ed889",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P5056",
+          "nativeTitle": "【模板】插头 DP",
+          "nativeTagIds": [
+            323,
+            523
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 323,
+              "name": "轮廓线 DP",
+              "type": 2,
+              "parent": 3
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 323,
+              "nativeTagName": "轮廓线 DP",
+              "canonicalTag": "轮廓线 DP"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P5074": {
+      "problemIds": [
+        "luogu-training-P5074"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5074",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5074",
+          "reference": "https://www.luogu.com.cn/problem/P5074",
+          "sha256": "b0f27aabf38281bf5e718f771625999ec598f9fd2e92b00bcb424e9a2c0952c7",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P5074",
+          "nativeTitle": "Eat the Trees",
+          "nativeTagIds": [
+            35,
+            323
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 323,
+              "name": "轮廓线 DP",
+              "type": 2,
+              "parent": 3
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 323,
+              "nativeTagName": "轮廓线 DP",
+              "canonicalTag": "轮廓线 DP"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P5170": {
+      "problemIds": [
+        "luogu-training-P5170"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5170",
+      "tags": [
+        "类欧几里得算法"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5170",
+          "reference": "https://www.luogu.com.cn/problem/P5170",
+          "sha256": "519df792a6d205bea17fb05334ce8e22a8fa178af9242a0def64c92ef93fb60e",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P5170",
+          "nativeTitle": "【模板】类欧几里德算法",
+          "nativeTagIds": [
+            107,
+            388,
+            523
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 388,
+              "name": "类欧几里得算法",
+              "type": 2,
+              "parent": 72
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 388,
+              "nativeTagName": "类欧几里得算法",
+              "canonicalTag": "类欧几里得算法"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P5171": {
+      "problemIds": [
+        "luogu-training-P5171"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5171",
+      "tags": [
+        "类欧几里得算法"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5171",
+          "reference": "https://www.luogu.com.cn/problem/P5171",
+          "sha256": "1bdd984fb132ec5b2184db08c43004d6f76445584df6e3ad982db1996e09267a",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P5171",
+          "nativeTitle": "Earthquake",
+          "nativeTagIds": [
+            388
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 388,
+              "name": "类欧几里得算法",
+              "type": 2,
+              "parent": 72
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 388,
+              "nativeTagName": "类欧几里得算法",
+              "canonicalTag": "类欧几里得算法"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P5172": {
+      "problemIds": [
+        "luogu-training-P5172"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5172",
+      "tags": [
+        "类欧几里得算法"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5172",
+          "reference": "https://www.luogu.com.cn/problem/P5172",
+          "sha256": "38a3117cca4e60630141ec4ff861122df6948760c10a2663d076edb75bad0054",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P5172",
+          "nativeTitle": "[清华集训 2014] Sum",
+          "nativeTagIds": [
+            31,
+            331,
+            388
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 388,
+              "name": "类欧几里得算法",
+              "type": 2,
+              "parent": 72
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 388,
+              "nativeTagName": "类欧几里得算法",
+              "canonicalTag": "类欧几里得算法"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P5179": {
+      "problemIds": [
+        "luogu-training-P5179"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5179",
+      "tags": [
+        "类欧几里得算法",
+        "Stern-Brocot 树"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5179",
+          "reference": "https://www.luogu.com.cn/problem/P5179",
+          "sha256": "fcb62faa1888d29c49d6c507cdfdf898d7836efabc64e7a058a120039c44f5da",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P5179",
+          "nativeTitle": "Fraction",
+          "nativeTagIds": [
+            388,
+            423
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 388,
+              "name": "类欧几里得算法",
+              "type": 2,
+              "parent": 72
+            },
+            {
+              "id": 423,
+              "name": "Stern-Brocot 树",
+              "type": 2,
+              "parent": 72
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 388,
+              "nativeTagName": "类欧几里得算法",
+              "canonicalTag": "类欧几里得算法"
+            },
+            {
+              "nativeTagId": 423,
+              "nativeTagName": "Stern-Brocot 树",
+              "canonicalTag": "Stern-Brocot 树"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P5347": {
+      "problemIds": [
+        "luogu-training-P5347"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5347",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5347",
+          "reference": "https://www.luogu.com.cn/problem/P5347",
+          "sha256": "0e886058ee2870a3f5961463389299ed255b9ec00c56abada8f2b524277687f1",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P5347",
+          "nativeTitle": "【XR-1】俄罗斯方块",
+          "nativeTagIds": [
+            3,
+            323
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 323,
+              "name": "轮廓线 DP",
+              "type": 2,
+              "parent": 3
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 323,
+              "nativeTagName": "轮廓线 DP",
+              "canonicalTag": "轮廓线 DP"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P5504": {
+      "problemIds": [
+        "luogu-training-P5504"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5504",
+      "tags": [
+        "斜率优化"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5504",
+          "reference": "https://www.luogu.com.cn/problem/P5504",
+          "sha256": "e2c39fbcd952c9878cce616ded22f60f7cfe0d0cd8804fc9d504932e6b38d4f6",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P5504",
+          "nativeTitle": "[JSOI2011] 柠檬",
+          "nativeTagIds": [
+            3,
+            28,
+            48,
+            91,
+            146,
+            150
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 146,
+              "name": "动态规划优化",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 150,
+              "name": "斜率优化",
+              "type": 2,
+              "parent": 146
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 150,
+              "nativeTagName": "斜率优化",
+              "canonicalTag": "斜率优化"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P5544": {
+      "problemIds": [
+        "luogu-training-P5544"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5544",
+      "tags": [
+        "模拟退火"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5544",
+          "reference": "https://www.luogu.com.cn/problem/P5544",
+          "sha256": "acafc2e5b2311957ca8d441d3b47b3e7edcf5cb7bf1bc5c0aaed3aa3a4c3a9d9",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P5544",
+          "nativeTitle": "[JSOI2016] 炸弹攻击1",
+          "nativeTagIds": [
+            33,
+            48,
+            91,
+            135
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 135,
+              "name": "模拟退火",
+              "type": 2,
+              "parent": 4
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 135,
+              "nativeTagName": "模拟退火",
+              "canonicalTag": "模拟退火"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P5896": {
+      "problemIds": [
+        "luogu-training-P5896"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P5896",
+      "tags": [
+        "斜率优化",
+        "WQS 二分"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5896",
+          "reference": "https://www.luogu.com.cn/problem/P5896",
+          "sha256": "076f2e9a0812fe635ab2dd08568bea61779ecf1f56b282b77e89451218525f51",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P5896",
+          "nativeTitle": "[IOI 2016] aliens",
+          "nativeTagIds": [
+            3,
+            33,
+            102,
+            107,
+            150,
+            153
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 150,
+              "name": "斜率优化",
+              "type": 2,
+              "parent": 146
+            },
+            {
+              "id": 153,
+              "name": "凸完全单调性（wqs 二分）",
+              "type": 2,
+              "parent": 146
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 150,
+              "nativeTagName": "斜率优化",
+              "canonicalTag": "斜率优化"
+            },
+            {
+              "nativeTagId": 153,
+              "nativeTagName": "凸完全单调性（wqs 二分）",
+              "canonicalTag": "WQS 二分"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P6164": {
+      "problemIds": [
+        "luogu-training-P6164"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P6164",
+      "tags": [
+        "后缀平衡树"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P6164",
+          "reference": "https://www.luogu.com.cn/problem/P6164",
+          "sha256": "7832b12139dbff83cdb5a2ccd07092da26334e377aaef18aaedb16b3e3ea62b1",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P6164",
+          "nativeTitle": "【模板】后缀平衡树",
+          "nativeTagIds": [
+            108,
+            496,
+            523
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 496,
+              "name": "后缀平衡树",
+              "type": 2,
+              "parent": 2
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 496,
+              "nativeTagName": "后缀平衡树",
+              "canonicalTag": "后缀平衡树"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P6475": {
+      "problemIds": [
+        "luogu-training-P6475"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P6475",
+      "tags": [
+        "组合计数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P6475",
+          "reference": "https://www.luogu.com.cn/problem/P6475",
+          "sha256": "7f14590ee264c0c60cb67eef9809be9d4916bd221ec868b64b9d9761cd161ab2",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P6475",
+          "nativeTitle": "[NOI Online #2 入门组] 建设城市",
+          "nativeTagIds": [
+            37,
+            253,
+            347
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 253,
+              "name": "排列组合",
+              "type": 2,
+              "parent": 252
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 253,
+              "nativeTagName": "排列组合",
+              "canonicalTag": "组合计数"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P6773": {
+      "problemIds": [
+        "luogu-training-P6773"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P6773",
+      "tags": [
+        "线段树合并"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P6773",
+          "reference": "https://www.luogu.com.cn/problem/P6773",
+          "sha256": "51ba25bdd85b717a0aa15cc44b9134b49912960af08bdd89545bbd6082bce6b1",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P6773",
+          "nativeTitle": "[NOI2020] 命运",
+          "nativeTagIds": [
+            3,
+            37,
+            77,
+            108,
+            146,
+            379
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 146,
+              "name": "动态规划优化",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 379,
+              "name": "线段树合并",
+              "type": 2,
+              "parent": 11
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 379,
+              "nativeTagName": "线段树合并",
+              "canonicalTag": "线段树合并"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P6790": {
+      "problemIds": [
+        "luogu-training-P6790"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P6790",
+      "tags": [
+        "组合计数",
+        "广义串并联图"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P6790",
+          "reference": "https://www.luogu.com.cn/problem/P6790",
+          "sha256": "66b3411a764f262750f82af50b1ee12de66be9e62c4a8d4de3b2498ab023756d",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P6790",
+          "nativeTitle": "[SNOI2020] 生成树",
+          "nativeTagIds": [
+            11,
+            37,
+            48,
+            164,
+            252,
+            530
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 11,
+              "name": "树形数据结构",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 252,
+              "name": "组合数学",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 530,
+              "name": "广义串并联图",
+              "type": 2,
+              "parent": 6
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 252,
+              "nativeTagName": "组合数学",
+              "canonicalTag": "组合计数"
+            },
+            {
+              "nativeTagId": 530,
+              "nativeTagName": "广义串并联图",
+              "canonicalTag": "广义串并联图"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P7488": {
+      "problemIds": [
+        "luogu-training-P7488"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P7488",
+      "tags": [
+        "组合计数",
+        "Lucas 定理"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P7488",
+          "reference": "https://www.luogu.com.cn/problem/P7488",
+          "sha256": "2ca66f1b3dcbd507b50e05f98ba35a7d3abab1ed28b65b4c415ccddedacfb0b3",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P7488",
+          "nativeTitle": "「Stoi2031」黑色毛衣",
+          "nativeTagIds": [
+            5,
+            252,
+            322
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 5,
+              "name": "数学",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 252,
+              "name": "组合数学",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 322,
+              "name": "Lucas 定理",
+              "type": 2,
+              "parent": 72
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 252,
+              "nativeTagName": "组合数学",
+              "canonicalTag": "组合计数"
+            },
+            {
+              "nativeTagId": 322,
+              "nativeTagName": "Lucas 定理",
+              "canonicalTag": "Lucas 定理"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P7771": {
+      "problemIds": [
+        "luogu-training-P7771"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P7771",
+      "tags": [
+        "欧拉路径与回路"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P7771",
+          "reference": "https://www.luogu.com.cn/problem/P7771",
+          "sha256": "cf9f4820855f906e9de7e302d3b84996e16c24672a815060bfab6b516ef9e72b",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P7771",
+          "nativeTitle": "【模板】欧拉路径",
+          "nativeTagIds": [
+            182,
+            523
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 182,
+              "name": "欧拉回路",
+              "type": 2,
+              "parent": 6
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 182,
+              "nativeTagName": "欧拉回路",
+              "canonicalTag": "欧拉路径与回路"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P7825": {
+      "problemIds": [
+        "luogu-training-P7825"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P7825",
+      "tags": [
+        "树套树"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P7825",
+          "reference": "https://www.luogu.com.cn/problem/P7825",
+          "sha256": "9435e93f9a4da52f50b75ba0f1859e2b4a106a77a7e6ed9de018ff0f7c4016d6",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P7825",
+          "nativeTitle": "「RdOI R3」VSQ",
+          "nativeTagIds": [
+            108,
+            232
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 232,
+              "name": "树套树",
+              "type": 2,
+              "parent": 11
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 232,
+              "nativeTagName": "树套树",
+              "canonicalTag": "树套树"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P7961": {
+      "problemIds": [
+        "luogu-training-P7961"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P7961",
+      "tags": [
+        "组合计数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P7961",
+          "reference": "https://www.luogu.com.cn/problem/P7961",
+          "sha256": "a24b12d2d89aee6f63929f8558ea06b410a893fe4ecd7b80514e969a18ee9879",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P7961",
+          "nativeTitle": "[NOIP2021] 数列",
+          "nativeTagIds": [
+            3,
+            58,
+            83,
+            108,
+            253
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 253,
+              "name": "排列组合",
+              "type": 2,
+              "parent": 252
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 253,
+              "nativeTagName": "排列组合",
+              "canonicalTag": "组合计数"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P7962": {
+      "problemIds": [
+        "luogu-training-P7962"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P7962",
+      "tags": [
+        "模拟退火"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P7962",
+          "reference": "https://www.luogu.com.cn/problem/P7962",
+          "sha256": "9fa778a740441472d7ee4a84cd74914adfa6adb00df46b0f8a68b8bdfedd6406",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P7962",
+          "nativeTitle": "[NOIP2021] 方差",
+          "nativeTagIds": [
+            3,
+            58,
+            83,
+            108,
+            135,
+            146
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 135,
+              "name": "模拟退火",
+              "type": 2,
+              "parent": 4
+            },
+            {
+              "id": 146,
+              "name": "动态规划优化",
+              "type": 2,
+              "parent": null
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 135,
+              "nativeTagName": "模拟退火",
+              "canonicalTag": "模拟退火"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P8456": {
+      "problemIds": [
+        "luogu-training-P8456"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P8456",
+      "tags": [
+        "圆方树"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P8456",
+          "reference": "https://www.luogu.com.cn/problem/P8456",
+          "sha256": "016870b4f8e05ecc4afee42d18c822e3a2a7f525ab3fdd1e829673c97336109a",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P8456",
+          "nativeTitle": "「SWTR-8」地地铁铁",
+          "nativeTagIds": [
+            81,
+            108,
+            337,
+            350
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 350,
+              "name": "圆方树",
+              "type": 2,
+              "parent": 6
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 350,
+              "nativeTagName": "圆方树",
+              "canonicalTag": "圆方树"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P9510": {
+      "problemIds": [
+        "luogu-training-P9510"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P9510",
+      "tags": [
+        "斐波那契数列"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P9510",
+          "reference": "https://www.luogu.com.cn/problem/P9510",
+          "sha256": "a944d35d8d68d48b8021e479d216cc0bffb4f62557c8f9766350e7d06a1e2bf5",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P9510",
+          "nativeTitle": "『STA - R3』高维立方体",
+          "nativeTagIds": [
+            5,
+            108,
+            149,
+            260
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 5,
+              "name": "数学",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 149,
+              "name": "矩阵加速",
+              "type": 2,
+              "parent": 146
+            },
+            {
+              "id": 260,
+              "name": "Fibonacci 数列",
+              "type": 2,
+              "parent": 252
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 260,
+              "nativeTagName": "Fibonacci 数列",
+              "canonicalTag": "斐波那契数列"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/P9535": {
+      "problemIds": [
+        "luogu-training-P9535"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P9535",
+      "tags": [
+        "组合计数",
+        "圆方树",
+        "Prüfer 序列"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-P9535",
+          "reference": "https://www.luogu.com.cn/problem/P9535",
+          "sha256": "2a8ec4f4dc5b4f06979447250d9427c2e5fb22088d7697bb5bde4cf7e14f7b44",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "P9535",
+          "nativeTitle": "[YsOI2023] 连通图计数",
+          "nativeTagIds": [
+            5,
+            81,
+            108,
+            252,
+            337,
+            350,
+            410
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 5,
+              "name": "数学",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 252,
+              "name": "组合数学",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 350,
+              "name": "圆方树",
+              "type": 2,
+              "parent": 6
+            },
+            {
+              "id": 410,
+              "name": "Prüfer 序列",
+              "type": 2,
+              "parent": 230
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 252,
+              "nativeTagName": "组合数学",
+              "canonicalTag": "组合计数"
+            },
+            {
+              "nativeTagId": 350,
+              "nativeTagName": "圆方树",
+              "canonicalTag": "圆方树"
+            },
+            {
+              "nativeTagId": 410,
+              "nativeTagName": "Prüfer 序列",
+              "canonicalTag": "Prüfer 序列"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/T138426": {
+      "problemIds": [
+        "luogu-training-T138426"
+      ],
+      "url": "https://www.luogu.com.cn/problem/T138426",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-T138426",
+          "reference": "https://www.luogu.com.cn/problem/T138426",
+          "sha256": "cdfcb4f4720d0c5145a5b4246f60bd0e8a4d86954803cd00094651d81c85b234",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "T138426",
+          "nativeTitle": "「MCOI-01」Zombie 僵尸",
+          "nativeTagIds": [
+            323
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 323,
+              "name": "轮廓线 DP",
+              "type": 2,
+              "parent": 3
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 323,
+              "nativeTagName": "轮廓线 DP",
+              "canonicalTag": "轮廓线 DP"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/UVA10054": {
+      "problemIds": [
+        "luogu-training-UVA10054"
+      ],
+      "url": "https://www.luogu.com.cn/problem/UVA10054",
+      "tags": [
+        "欧拉路径与回路"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-UVA10054",
+          "reference": "https://www.luogu.com.cn/problem/UVA10054",
+          "sha256": "be0784fd303a4a6c550a0671bf40cac70a70328ce7d9406ad40ccea740448592",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "UVA10054",
+          "nativeTitle": "The Necklace",
+          "nativeTagIds": [
+            182
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 182,
+              "name": "欧拉回路",
+              "type": 2,
+              "parent": 6
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 182,
+              "nativeTagName": "欧拉回路",
+              "canonicalTag": "欧拉路径与回路"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/UVA10129": {
+      "problemIds": [
+        "luogu-training-UVA10129"
+      ],
+      "url": "https://www.luogu.com.cn/problem/UVA10129",
+      "tags": [
+        "欧拉路径与回路"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-UVA10129",
+          "reference": "https://www.luogu.com.cn/problem/UVA10129",
+          "sha256": "f9006874edc04a53a094abbd170bc9318bf111aaf649a3cbfc2f1c065a009927",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "UVA10129",
+          "nativeTitle": "单词 Play on Words",
+          "nativeTagIds": [
+            182
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 182,
+              "name": "欧拉回路",
+              "type": 2,
+              "parent": 6
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 182,
+              "nativeTagName": "欧拉回路",
+              "canonicalTag": "欧拉路径与回路"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/UVA11270": {
+      "problemIds": [
+        "luogu-training-UVA11270"
+      ],
+      "url": "https://www.luogu.com.cn/problem/UVA11270",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-UVA11270",
+          "reference": "https://www.luogu.com.cn/problem/UVA11270",
+          "sha256": "195f070740a8e8441431ef13cb7d11d1814ff1ee2f5811ee9f4acdd4a41e328d",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "UVA11270",
+          "nativeTitle": "Tiling Dominoes",
+          "nativeTagIds": [
+            3,
+            244,
+            323
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 244,
+              "name": "进制",
+              "type": 2,
+              "parent": 72
+            },
+            {
+              "id": 323,
+              "name": "轮廓线 DP",
+              "type": 2,
+              "parent": 3
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 323,
+              "nativeTagName": "轮廓线 DP",
+              "canonicalTag": "轮廓线 DP"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/UVA1214": {
+      "problemIds": [
+        "luogu-training-UVA1214"
+      ],
+      "url": "https://www.luogu.com.cn/problem/UVA1214",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-UVA1214",
+          "reference": "https://www.luogu.com.cn/problem/UVA1214",
+          "sha256": "cdca7606775b1677af76ad28a5322783c30e5786082bd75677e8e9a0d5f0aa3b",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "UVA1214",
+          "nativeTitle": "Manhattan Wiring",
+          "nativeTagIds": [
+            3,
+            323
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 323,
+              "name": "轮廓线 DP",
+              "type": 2,
+              "parent": 3
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 323,
+              "nativeTagName": "轮廓线 DP",
+              "canonicalTag": "轮廓线 DP"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/UVA1309": {
+      "problemIds": [
+        "luogu-training-UVA1309"
+      ],
+      "url": "https://www.luogu.com.cn/problem/UVA1309",
+      "tags": [
+        "Dancing Links"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-UVA1309",
+          "reference": "https://www.luogu.com.cn/problem/UVA1309",
+          "sha256": "0ff9b876fd24f13a33cb83e866bd7d3058ff5f33a8704aeee31c8c7eb980ee2b",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "UVA1309",
+          "nativeTitle": "Sudoku 2",
+          "nativeTagIds": [
+            3,
+            133
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 3,
+              "name": "动态规划 DP",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 133,
+              "name": "Dancing Links",
+              "type": 2,
+              "parent": 4
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 133,
+              "nativeTagName": "Dancing Links",
+              "canonicalTag": "Dancing Links"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/UVA1464": {
+      "problemIds": [
+        "luogu-training-UVA1464"
+      ],
+      "url": "https://www.luogu.com.cn/problem/UVA1464",
+      "tags": [
+        "圆方树"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-UVA1464",
+          "reference": "https://www.luogu.com.cn/problem/UVA1464",
+          "sha256": "6f1f14561fd2e52430202cd2387c53822871e24e18b5568427828c86056c6848",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "UVA1464",
+          "nativeTitle": "Traffic Real Time Query System",
+          "nativeTagIds": [
+            350
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 350,
+              "name": "圆方树",
+              "type": 2,
+              "parent": 6
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 350,
+              "nativeTagName": "圆方树",
+              "canonicalTag": "圆方树"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "luogu.com.cn/problem/UVA1603": {
+      "problemIds": [
+        "luogu-training-UVA1603"
+      ],
+      "url": "https://www.luogu.com.cn/problem/UVA1603",
+      "tags": [
+        "IDA*"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "luogu-training-UVA1603",
+          "reference": "https://www.luogu.com.cn/problem/UVA1603",
+          "sha256": "363458eef9177fe9817eb7a2986b6dc1a68a0f20a73a3bef07ed85d9a8465c88",
+          "sourceDocumentType": "native-tag-json",
+          "nativeProblemId": "UVA1603",
+          "nativeTitle": "破坏正方形 Square Destroyer",
+          "nativeTagIds": [
+            4,
+            132
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 4,
+              "name": "搜索",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 132,
+              "name": "启发式迭代加深搜索 IDA*",
+              "type": 2,
+              "parent": 4
+            }
+          ],
+          "canonicalTagMappings": [
+            {
+              "nativeTagId": 132,
+              "nativeTagName": "启发式迭代加深搜索 IDA*",
+              "canonicalTag": "IDA*"
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reasons": [
+            "已对照当前原站完整JSON中的确切pid和标签ID、原始标签词典ID/名称/类型，按登记的具体技术叶进行规范化；保留数学/DP等宽标签，不据题名猜算法。"
+          ],
+          "method": "exact-current-native-tag-id-and-specific-concept-mapping",
+          "algorithmImplementationVerified": false,
+          "classificationNotFullSolutionVerification": true,
+          "originalJudgeSubmissions": 0
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
     }
   },
   "excludedKeywordMatches": [
@@ -39805,6 +43147,7 @@
     "20261109-xcpc-harbin-source-reviewed-metadata",
     "20261109-xcpc-changchun-source-reviewed-metadata",
     "20261109-xcpc-chengdu-source-reviewed-metadata",
-    "20261109-native-known-topic-mapping"
+    "20261109-native-known-topic-mapping",
+    "20261109-native-advanced-ontology"
   ]
 }

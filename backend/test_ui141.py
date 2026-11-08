@@ -119,7 +119,11 @@ class ReviewedKnowledgeTests(unittest.TestCase):
                         self.assertTrue(set(matches[0]['tags'])<=set(rule['tags']))
                         self.assertTrue(reference.startswith('https://'))
                         wiki=source.get('sourceDocumentType')=='official-setter-wiki'
-                        if wiki:
+                        native=source.get('sourceDocumentType')=='native-tag-json'
+                        if native:
+                            self.assertEqual(reference,'https://www.luogu.com.cn/problem/'+source['nativeProblemId'])
+                            self.assertEqual(source['nativeTagDictionaryReference'],'https://www.luogu.com.cn/_lfe/tags')
+                        elif wiki:
                             self.assertTrue(reference.startswith('https://sua.ac/wiki/'))
                             self.assertEqual(reference.rsplit('#',1)[1],source['sourceSectionAnchor'])
                             self.assertEqual(source['sourceSectionTitle'],'题解')
@@ -136,6 +140,28 @@ class ReviewedKnowledgeTests(unittest.TestCase):
                             stream.seek(asset.get('offset',0));data=stream.read(asset['bytes'])
                         self.assertEqual(len(data),asset['bytes'])
                         self.assertEqual(hashlib.sha256(data).hexdigest(),source['sha256'])
+                        if native:
+                            self.assertEqual(asset['mime'],'application/json')
+                            problem=json.loads(data)['data']['problem']
+                            self.assertEqual(problem['pid'],source['nativeProblemId'])
+                            self.assertEqual(problem['name'],source['nativeTitle'])
+                            self.assertEqual(problem['tags'],source['nativeTagIds'])
+                            tag_asset=assets[source['nativeTagDictionarySha256']]
+                            tag_path=(root/'data/library'/tag_asset['file']).resolve(strict=True)
+                            self.assertTrue(tag_path.is_relative_to(root/'data/library/statement-assets'))
+                            with tag_path.open('rb') as stream:
+                                stream.seek(tag_asset.get('offset',0));tag_data=stream.read(tag_asset['bytes'])
+                            self.assertEqual(hashlib.sha256(tag_data).hexdigest(),source['nativeTagDictionarySha256'])
+                            tags={tag['id']:tag for tag in json.loads(tag_data)['tags']}
+                            self.assertEqual([tags[i] for i in problem['tags'] if tags[i]['type']==2],source['nativeTagDescriptors'])
+                            mappings=source['canonicalTagMappings']
+                            self.assertEqual(set(matches[0]['tags']),{m['canonicalTag'] for m in mappings})
+                            for mapping in mappings:
+                                self.assertIn(mapping['nativeTagId'],problem['tags'])
+                                self.assertEqual(tags[mapping['nativeTagId']]['name'],mapping['nativeTagName'])
+                                expected=normalize_tags([mapping['nativeTagName']],official=True)['tags']
+                                if mapping['nativeTagName']=='排列组合':expected=['组合计数']
+                                self.assertIn(mapping['canonicalTag'],expected)
                         if wiki:
                             self.assertEqual(asset['mime'],'application/octet-stream')
                             html=data.decode('utf8')

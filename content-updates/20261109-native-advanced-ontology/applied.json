@@ -1,0 +1,550 @@
+{
+  "revision": "20261109-native-advanced-ontology",
+  "problems": [
+    {
+      "id": "luogu-training-AT_abc217_h",
+      "tags": [
+        "Slope Trick"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-AT_abc333_g",
+      "tags": [
+        "Stern-Brocot 树"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-AT_abc351_g",
+      "tags": [
+        "动态树分治"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-AT_agc068_e",
+      "tags": [
+        "欧拉路径与回路"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-AT_arc070_c",
+      "tags": [
+        "Slope Trick"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-AT_dp_z",
+      "tags": [
+        "斜率优化"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3901",
+      "tags": [
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3902",
+      "tags": [
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B4031",
+      "tags": [
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-CF1740H",
+      "tags": [
+        "全局平衡二叉树"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P10517",
+      "tags": [
+        "圆方树"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P11598",
+      "tags": [
+        "Slope Trick"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P12414",
+      "tags": [
+        "欧拉路径与回路"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P1713",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P17239",
+      "tags": [
+        "类欧几里得算法"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P1784",
+      "tags": [
+        "Dancing Links"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P2435",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P2713",
+      "tags": [
+        "可并堆"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P2775",
+      "tags": [
+        "IDA*"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P2900",
+      "tags": [
+        "斜率优化"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P3190",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P3886",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P3936",
+      "tags": [
+        "模拟退火"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P4262",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P4272",
+      "tags": [
+        "Slope Trick"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P4694",
+      "tags": [
+        "WQS 二分",
+        "模拟费用流"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P4738",
+      "tags": [
+        "Prüfer 序列"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P4859",
+      "tags": [
+        "二项式定理",
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5056",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5074",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5170",
+      "tags": [
+        "类欧几里得算法"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5171",
+      "tags": [
+        "类欧几里得算法"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5172",
+      "tags": [
+        "类欧几里得算法"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5179",
+      "tags": [
+        "类欧几里得算法",
+        "Stern-Brocot 树"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5347",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5504",
+      "tags": [
+        "斜率优化"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5544",
+      "tags": [
+        "模拟退火"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5896",
+      "tags": [
+        "斜率优化",
+        "WQS 二分"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P6164",
+      "tags": [
+        "后缀平衡树"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P6475",
+      "tags": [
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P6773",
+      "tags": [
+        "线段树合并"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P6790",
+      "tags": [
+        "广义串并联图",
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P7488",
+      "tags": [
+        "Lucas 定理",
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P7771",
+      "tags": [
+        "欧拉路径与回路"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P7825",
+      "tags": [
+        "树套树"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P7961",
+      "tags": [
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P7962",
+      "tags": [
+        "模拟退火"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P8456",
+      "tags": [
+        "圆方树"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P9510",
+      "tags": [
+        "斐波那契数列"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P9535",
+      "tags": [
+        "圆方树",
+        "Prüfer 序列",
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-T138426",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-UVA10054",
+      "tags": [
+        "欧拉路径与回路"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-UVA10129",
+      "tags": [
+        "欧拉路径与回路"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-UVA11270",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-UVA1214",
+      "tags": [
+        "轮廓线 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-UVA1309",
+      "tags": [
+        "Dancing Links"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-UVA1464",
+      "tags": [
+        "圆方树"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-UVA1603",
+      "tags": [
+        "IDA*"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105459::H",
+      "tags": [
+        "计数 DP",
+        "矩阵快速幂",
+        "线段树",
+        "乘法逆元",
+        "取模与同余",
+        "类欧几里得算法"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    }
+  ],
+  "privateStateReadOrWritten": false
+}

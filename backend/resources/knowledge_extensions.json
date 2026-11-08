@@ -177,7 +177,8 @@
         "均摊分析"
       ],
       "sources": [
-        "小白月赛 129::F"
+        "小白月赛 129::F",
+        "https://codeforces.com/gym/104065/attachments/download/17935/CCPC_2022_Mianyang_Tutorial.pdf"
       ]
     },
     {
@@ -1236,14 +1237,6 @@
       "aliases": [],
       "sources": [
         "https://codeforces.com/gym/104090/attachments/download/18136/2022ICPCHangzhouTutorial.pdf"
-      ]
-    },
-    {
-      "name": "摊还分析",
-      "category": "专题方法",
-      "aliases": [],
-      "sources": [
-        "https://codeforces.com/gym/104065/attachments/download/17935/CCPC_2022_Mianyang_Tutorial.pdf"
       ]
     },
     {
@@ -2329,6 +2322,725 @@
       "sources": [
         "knowledge_catalog.json：素数；2026-11-08 原站标签名称复核"
       ]
+    },
+    {
+      "name": "轮廓线 DP",
+      "category": "动态规划",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P1713",
+        "https://www.luogu.com.cn/problem/P2435",
+        "https://www.luogu.com.cn/problem/P3190",
+        "https://www.luogu.com.cn/problem/P3886",
+        "https://www.luogu.com.cn/problem/P4262",
+        "https://www.luogu.com.cn/problem/P5056",
+        "https://www.luogu.com.cn/problem/P5074",
+        "https://www.luogu.com.cn/problem/P5347",
+        "https://www.luogu.com.cn/problem/T138426",
+        "https://www.luogu.com.cn/problem/UVA11270",
+        "https://www.luogu.com.cn/problem/UVA1214"
+      ],
+      "definition": "以已处理区域和未处理区域的边界状态推进动态规划；不把普通二维网格DP等同为轮廓线DP。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P1713",
+          "url": "https://www.luogu.com.cn/problem/P1713",
+          "nativeTagId": 323,
+          "nativeTagName": "轮廓线 DP",
+          "sourceSha256": "28a4b4bb1efb1100d0cce3148aa2d93a75c4e836ae5d75f027784aa540a7db06"
+        },
+        {
+          "problemId": "luogu-training-P2435",
+          "url": "https://www.luogu.com.cn/problem/P2435",
+          "nativeTagId": 323,
+          "nativeTagName": "轮廓线 DP",
+          "sourceSha256": "b68ec46d752cbc5912fa2078d40aaa52457087870527bc47665dc797687c7fb7"
+        },
+        {
+          "problemId": "luogu-training-P3190",
+          "url": "https://www.luogu.com.cn/problem/P3190",
+          "nativeTagId": 323,
+          "nativeTagName": "轮廓线 DP",
+          "sourceSha256": "6a5d70fed7a611dedeaa16d3a9e97bf79bf4a1c008b8dbaef41d928cb217845b"
+        },
+        {
+          "problemId": "luogu-training-P3886",
+          "url": "https://www.luogu.com.cn/problem/P3886",
+          "nativeTagId": 323,
+          "nativeTagName": "轮廓线 DP",
+          "sourceSha256": "febac6e4bf76716214be8cb46e2e8e5de8c13ab533b87fb8d9c4006103a11b9b"
+        },
+        {
+          "problemId": "luogu-training-P4262",
+          "url": "https://www.luogu.com.cn/problem/P4262",
+          "nativeTagId": 323,
+          "nativeTagName": "轮廓线 DP",
+          "sourceSha256": "d3fef227d3ff03d85a187107293106c879cc2cdd11d7c0de54ebe5690cc2a78b"
+        },
+        {
+          "problemId": "luogu-training-P5056",
+          "url": "https://www.luogu.com.cn/problem/P5056",
+          "nativeTagId": 323,
+          "nativeTagName": "轮廓线 DP",
+          "sourceSha256": "ed9c14dc652885eea1848f6bca1e72c7fa5739339efe817c093be578c60ed889"
+        },
+        {
+          "problemId": "luogu-training-P5074",
+          "url": "https://www.luogu.com.cn/problem/P5074",
+          "nativeTagId": 323,
+          "nativeTagName": "轮廓线 DP",
+          "sourceSha256": "b0f27aabf38281bf5e718f771625999ec598f9fd2e92b00bcb424e9a2c0952c7"
+        },
+        {
+          "problemId": "luogu-training-P5347",
+          "url": "https://www.luogu.com.cn/problem/P5347",
+          "nativeTagId": 323,
+          "nativeTagName": "轮廓线 DP",
+          "sourceSha256": "0e886058ee2870a3f5961463389299ed255b9ec00c56abada8f2b524277687f1"
+        },
+        {
+          "problemId": "luogu-training-T138426",
+          "url": "https://www.luogu.com.cn/problem/T138426",
+          "nativeTagId": 323,
+          "nativeTagName": "轮廓线 DP",
+          "sourceSha256": "cdfcb4f4720d0c5145a5b4246f60bd0e8a4d86954803cd00094651d81c85b234"
+        },
+        {
+          "problemId": "luogu-training-UVA11270",
+          "url": "https://www.luogu.com.cn/problem/UVA11270",
+          "nativeTagId": 323,
+          "nativeTagName": "轮廓线 DP",
+          "sourceSha256": "195f070740a8e8441431ef13cb7d11d1814ff1ee2f5811ee9f4acdd4a41e328d"
+        },
+        {
+          "problemId": "luogu-training-UVA1214",
+          "url": "https://www.luogu.com.cn/problem/UVA1214",
+          "nativeTagId": 323,
+          "nativeTagName": "轮廓线 DP",
+          "sourceSha256": "cdca7606775b1677af76ad28a5322783c30e5786082bd75677e8e9a0d5f0aa3b"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "欧拉路径与回路",
+      "category": "图论",
+      "aliases": [
+        "欧拉回路"
+      ],
+      "sources": [
+        "https://www.luogu.com.cn/problem/AT_agc068_e",
+        "https://www.luogu.com.cn/problem/P12414",
+        "https://www.luogu.com.cn/problem/P7771",
+        "https://www.luogu.com.cn/problem/UVA10054",
+        "https://www.luogu.com.cn/problem/UVA10129"
+      ],
+      "definition": "每条边恰经过一次的欧拉道路/回路及其构造；原站回路标签覆盖了路径模板，使用同时包含两者的规范术语。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-AT_agc068_e",
+          "url": "https://www.luogu.com.cn/problem/AT_agc068_e",
+          "nativeTagId": 182,
+          "nativeTagName": "欧拉回路",
+          "sourceSha256": "faec7169ab4954927126a6beb2cfd5dd95653b9e3723851f3c69793e5e50d00b"
+        },
+        {
+          "problemId": "luogu-training-P12414",
+          "url": "https://www.luogu.com.cn/problem/P12414",
+          "nativeTagId": 182,
+          "nativeTagName": "欧拉回路",
+          "sourceSha256": "0d9f28808b923de0861d8a5cbd9d0fd3748a1f4a8206d4e68ea59fdb05c07c1e"
+        },
+        {
+          "problemId": "luogu-training-P7771",
+          "url": "https://www.luogu.com.cn/problem/P7771",
+          "nativeTagId": 182,
+          "nativeTagName": "欧拉回路",
+          "sourceSha256": "cf9f4820855f906e9de7e302d3b84996e16c24672a815060bfab6b516ef9e72b"
+        },
+        {
+          "problemId": "luogu-training-UVA10054",
+          "url": "https://www.luogu.com.cn/problem/UVA10054",
+          "nativeTagId": 182,
+          "nativeTagName": "欧拉回路",
+          "sourceSha256": "be0784fd303a4a6c550a0671bf40cac70a70328ce7d9406ad40ccea740448592"
+        },
+        {
+          "problemId": "luogu-training-UVA10129",
+          "url": "https://www.luogu.com.cn/problem/UVA10129",
+          "nativeTagId": 182,
+          "nativeTagName": "欧拉回路",
+          "sourceSha256": "f9006874edc04a53a094abbd170bc9318bf111aaf649a3cbfc2f1c065a009927"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "类欧几里得算法",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P17239",
+        "https://www.luogu.com.cn/problem/P5170",
+        "https://www.luogu.com.cn/problem/P5171",
+        "https://www.luogu.com.cn/problem/P5172",
+        "https://www.luogu.com.cn/problem/P5179"
+      ],
+      "definition": "对含整数商/余数的和或有序积进行类似欧几里得的规模缩减；与求gcd或扩展欧几里得不同。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P17239",
+          "url": "https://www.luogu.com.cn/problem/P17239",
+          "nativeTagId": 388,
+          "nativeTagName": "类欧几里得算法",
+          "sourceSha256": "319fb1025009d63674916f941c31ac37aa9a9686823d6d398a3c88f76f2f0461"
+        },
+        {
+          "problemId": "luogu-training-P5170",
+          "url": "https://www.luogu.com.cn/problem/P5170",
+          "nativeTagId": 388,
+          "nativeTagName": "类欧几里得算法",
+          "sourceSha256": "519df792a6d205bea17fb05334ce8e22a8fa178af9242a0def64c92ef93fb60e"
+        },
+        {
+          "problemId": "luogu-training-P5171",
+          "url": "https://www.luogu.com.cn/problem/P5171",
+          "nativeTagId": 388,
+          "nativeTagName": "类欧几里得算法",
+          "sourceSha256": "1bdd984fb132ec5b2184db08c43004d6f76445584df6e3ad982db1996e09267a"
+        },
+        {
+          "problemId": "luogu-training-P5172",
+          "url": "https://www.luogu.com.cn/problem/P5172",
+          "nativeTagId": 388,
+          "nativeTagName": "类欧几里得算法",
+          "sourceSha256": "38a3117cca4e60630141ec4ff861122df6948760c10a2663d076edb75bad0054"
+        },
+        {
+          "problemId": "luogu-training-P5179",
+          "url": "https://www.luogu.com.cn/problem/P5179",
+          "nativeTagId": 388,
+          "nativeTagName": "类欧几里得算法",
+          "sourceSha256": "fcb62faa1888d29c49d6c507cdfdf898d7836efabc64e7a058a120039c44f5da"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "Slope Trick",
+      "category": "动态规划",
+      "aliases": [
+        "斜率维护技巧 slope trick"
+      ],
+      "sources": [
+        "https://www.luogu.com.cn/problem/AT_abc217_h",
+        "https://www.luogu.com.cn/problem/AT_arc070_c",
+        "https://www.luogu.com.cn/problem/P11598",
+        "https://www.luogu.com.cn/problem/P4272"
+      ],
+      "definition": "用折点或斜率变化表示并更新分段线性凸函数；不与斜率优化DP混为同一技术。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-AT_abc217_h",
+          "url": "https://www.luogu.com.cn/problem/AT_abc217_h",
+          "nativeTagId": 508,
+          "nativeTagName": "斜率维护技巧 slope trick",
+          "sourceSha256": "3c2143b75bb72e45fcf3126e05bb07434c97cf1b3189ccd88849d6dc2e8da34f"
+        },
+        {
+          "problemId": "luogu-training-AT_arc070_c",
+          "url": "https://www.luogu.com.cn/problem/AT_arc070_c",
+          "nativeTagId": 508,
+          "nativeTagName": "斜率维护技巧 slope trick",
+          "sourceSha256": "31aea383620169332e7428caf7b3f6d29cbd2d96484f48c300c8e8d722a9bbd9"
+        },
+        {
+          "problemId": "luogu-training-P11598",
+          "url": "https://www.luogu.com.cn/problem/P11598",
+          "nativeTagId": 508,
+          "nativeTagName": "斜率维护技巧 slope trick",
+          "sourceSha256": "566435a65d161c75cb7b9f5cd052164ebb04f452cd1eb0b1687c6de09787a6e4"
+        },
+        {
+          "problemId": "luogu-training-P4272",
+          "url": "https://www.luogu.com.cn/problem/P4272",
+          "nativeTagId": 508,
+          "nativeTagName": "斜率维护技巧 slope trick",
+          "sourceSha256": "b425b6a4a196ac59450ff96fa05d96b3cfa449fcfdf71931f9f268816e8bd483"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "斜率优化",
+      "category": "动态规划",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/AT_dp_z",
+        "https://www.luogu.com.cn/problem/P2900",
+        "https://www.luogu.com.cn/problem/P5504",
+        "https://www.luogu.com.cn/problem/P5896"
+      ],
+      "definition": "把DP状态间的转移代价化成直线比较，利用凸包或单调决策维护最优转移。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-AT_dp_z",
+          "url": "https://www.luogu.com.cn/problem/AT_dp_z",
+          "nativeTagId": 150,
+          "nativeTagName": "斜率优化",
+          "sourceSha256": "d05d960fa09b3f397f61978ae2d78373482b591aa439ad1e956a08273b073ab8"
+        },
+        {
+          "problemId": "luogu-training-P2900",
+          "url": "https://www.luogu.com.cn/problem/P2900",
+          "nativeTagId": 150,
+          "nativeTagName": "斜率优化",
+          "sourceSha256": "14f2892d14d413a648fcc27123922be1b5e159fe2e856da1fcf07dff5d4036d4"
+        },
+        {
+          "problemId": "luogu-training-P5504",
+          "url": "https://www.luogu.com.cn/problem/P5504",
+          "nativeTagId": 150,
+          "nativeTagName": "斜率优化",
+          "sourceSha256": "e2c39fbcd952c9878cce616ded22f60f7cfe0d0cd8804fc9d504932e6b38d4f6"
+        },
+        {
+          "problemId": "luogu-training-P5896",
+          "url": "https://www.luogu.com.cn/problem/P5896",
+          "nativeTagId": 150,
+          "nativeTagName": "斜率优化",
+          "sourceSha256": "076f2e9a0812fe635ab2dd08568bea61779ecf1f56b282b77e89451218525f51"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "圆方树",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P10517",
+        "https://www.luogu.com.cn/problem/P8456",
+        "https://www.luogu.com.cn/problem/P9535",
+        "https://www.luogu.com.cn/problem/UVA1464"
+      ],
+      "definition": "用原顶点和点双连通分量构建二部树/森林，表达割点与点双的结构关系。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P10517",
+          "url": "https://www.luogu.com.cn/problem/P10517",
+          "nativeTagId": 350,
+          "nativeTagName": "圆方树",
+          "sourceSha256": "90bc26ef1bc6e7cdc0d986a1eff85e2b4c704243c0a0785d83d68eedffafafbf"
+        },
+        {
+          "problemId": "luogu-training-P8456",
+          "url": "https://www.luogu.com.cn/problem/P8456",
+          "nativeTagId": 350,
+          "nativeTagName": "圆方树",
+          "sourceSha256": "016870b4f8e05ecc4afee42d18c822e3a2a7f525ab3fdd1e829673c97336109a"
+        },
+        {
+          "problemId": "luogu-training-P9535",
+          "url": "https://www.luogu.com.cn/problem/P9535",
+          "nativeTagId": 350,
+          "nativeTagName": "圆方树",
+          "sourceSha256": "2a8ec4f4dc5b4f06979447250d9427c2e5fb22088d7697bb5bde4cf7e14f7b44"
+        },
+        {
+          "problemId": "luogu-training-UVA1464",
+          "url": "https://www.luogu.com.cn/problem/UVA1464",
+          "nativeTagId": 350,
+          "nativeTagName": "圆方树",
+          "sourceSha256": "6f1f14561fd2e52430202cd2387c53822871e24e18b5568427828c86056c6848"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "Stern-Brocot 树",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/AT_abc333_g",
+        "https://www.luogu.com.cn/problem/P5179"
+      ],
+      "definition": "由相邻分数的中项构成的正有理数搜索树；保留其精确分数顺序结构，不归并成普通二叉搜索树。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-AT_abc333_g",
+          "url": "https://www.luogu.com.cn/problem/AT_abc333_g",
+          "nativeTagId": 423,
+          "nativeTagName": "Stern-Brocot 树",
+          "sourceSha256": "59f12c935825eb78972413ef412f81f9c878a6faac8360dba5a26a8963a1c422"
+        },
+        {
+          "problemId": "luogu-training-P5179",
+          "url": "https://www.luogu.com.cn/problem/P5179",
+          "nativeTagId": 423,
+          "nativeTagName": "Stern-Brocot 树",
+          "sourceSha256": "fcb62faa1888d29c49d6c507cdfdf898d7836efabc64e7a058a120039c44f5da"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "Dancing Links",
+      "category": "搜索",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P1784",
+        "https://www.luogu.com.cn/problem/UVA1309"
+      ],
+      "definition": "用可撤销的十字链表维护稀疏约束矩阵，常与精确覆盖搜索配合；不等同于任意双向链表。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P1784",
+          "url": "https://www.luogu.com.cn/problem/P1784",
+          "nativeTagId": 133,
+          "nativeTagName": "Dancing Links",
+          "sourceSha256": "a259cd86b800cdd60103e91ae6e08cc2c171f7f46ff75c8305e09caebd4cbf7b"
+        },
+        {
+          "problemId": "luogu-training-UVA1309",
+          "url": "https://www.luogu.com.cn/problem/UVA1309",
+          "nativeTagId": 133,
+          "nativeTagName": "Dancing Links",
+          "sourceSha256": "0ff9b876fd24f13a33cb83e866bd7d3058ff5f33a8704aeee31c8c7eb980ee2b"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "IDA*",
+      "category": "搜索",
+      "aliases": [
+        "启发式迭代加深搜索 IDA*"
+      ],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P2775",
+        "https://www.luogu.com.cn/problem/UVA1603"
+      ],
+      "definition": "按估计总代价界限迭代加深的启发式搜索；不误写成普通DFS或无启发下界的迭代加深。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P2775",
+          "url": "https://www.luogu.com.cn/problem/P2775",
+          "nativeTagId": 132,
+          "nativeTagName": "启发式迭代加深搜索 IDA*",
+          "sourceSha256": "256e99e646e5a434f45381dd4f293b07972ecbef882209f0830247038cc9fe05"
+        },
+        {
+          "problemId": "luogu-training-UVA1603",
+          "url": "https://www.luogu.com.cn/problem/UVA1603",
+          "nativeTagId": 132,
+          "nativeTagName": "启发式迭代加深搜索 IDA*",
+          "sourceSha256": "363458eef9177fe9817eb7a2986b6dc1a68a0f20a73a3bef07ed85d9a8465c88"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "WQS 二分",
+      "category": "动态规划",
+      "aliases": [
+        "凸完全单调性（wqs 二分）"
+      ],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P4694",
+        "https://www.luogu.com.cn/problem/P5896"
+      ],
+      "definition": "给方案数量引入惩罚系数，借目标的凸性/决策单调性二分系数以处理精确数量约束。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P4694",
+          "url": "https://www.luogu.com.cn/problem/P4694",
+          "nativeTagId": 153,
+          "nativeTagName": "凸完全单调性（wqs 二分）",
+          "sourceSha256": "e7fa7cba98564ab437952cb3f6de43023713929c8462fe6b1f1ea5b2c38ce028"
+        },
+        {
+          "problemId": "luogu-training-P5896",
+          "url": "https://www.luogu.com.cn/problem/P5896",
+          "nativeTagId": 153,
+          "nativeTagName": "凸完全单调性（wqs 二分）",
+          "sourceSha256": "076f2e9a0812fe635ab2dd08568bea61779ecf1f56b282b77e89451218525f51"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "Prüfer 序列",
+      "category": "树",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P4738",
+        "https://www.luogu.com.cn/problem/P9535"
+      ],
+      "definition": "编码有标号树的长度n-2序列及其度数/计数性质。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P4738",
+          "url": "https://www.luogu.com.cn/problem/P4738",
+          "nativeTagId": 410,
+          "nativeTagName": "Prüfer 序列",
+          "sourceSha256": "0ab38eb42bc62a1cfd507acb3d4b18750b4f77714bae095ea8b4fafd40a5c1af"
+        },
+        {
+          "problemId": "luogu-training-P9535",
+          "url": "https://www.luogu.com.cn/problem/P9535",
+          "nativeTagId": 410,
+          "nativeTagName": "Prüfer 序列",
+          "sourceSha256": "2a8ec4f4dc5b4f06979447250d9427c2e5fb22088d7697bb5bde4cf7e14f7b44"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "模拟退火",
+      "category": "搜索",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P3936",
+        "https://www.luogu.com.cn/problem/P5544",
+        "https://www.luogu.com.cn/problem/P7962"
+      ],
+      "definition": "按温度控制接受较差候选的随机局部搜索技术；标签不宣称获得严格全局最优证明。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P3936",
+          "url": "https://www.luogu.com.cn/problem/P3936",
+          "nativeTagId": 135,
+          "nativeTagName": "模拟退火",
+          "sourceSha256": "2aa1bb1121af60d8634afba1c7fbe139e7987bf6539c27b746a27936298fbd62"
+        },
+        {
+          "problemId": "luogu-training-P5544",
+          "url": "https://www.luogu.com.cn/problem/P5544",
+          "nativeTagId": 135,
+          "nativeTagName": "模拟退火",
+          "sourceSha256": "acafc2e5b2311957ca8d441d3b47b3e7edcf5cb7bf1bc5c0aaed3aa3a4c3a9d9"
+        },
+        {
+          "problemId": "luogu-training-P7962",
+          "url": "https://www.luogu.com.cn/problem/P7962",
+          "nativeTagId": 135,
+          "nativeTagName": "模拟退火",
+          "sourceSha256": "9fa778a740441472d7ee4a84cd74914adfa6adb00df46b0f8a68b8bdfedd6406"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "线段树合并",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P6773"
+      ],
+      "definition": "递归合并表示同一值域的两棵线段树及其汇总信息，区别于普通单树区间合并。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P6773",
+          "url": "https://www.luogu.com.cn/problem/P6773",
+          "nativeTagId": 379,
+          "nativeTagName": "线段树合并",
+          "sourceSha256": "51ba25bdd85b717a0aa15cc44b9134b49912960af08bdd89545bbd6082bce6b1"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "动态树分治",
+      "category": "树",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/AT_abc351_g"
+      ],
+      "definition": "按树的分解结构组织动态更新与查询的专门技术，原站确切同名标签单独保留，不冒称树链剖分。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-AT_abc351_g",
+          "url": "https://www.luogu.com.cn/problem/AT_abc351_g",
+          "nativeTagId": 382,
+          "nativeTagName": "动态树分治",
+          "sourceSha256": "9da354001f2e553571906132ed268dc79b2c65bccfd077acada7f13d61d9f10e"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "全局平衡二叉树",
+      "category": "树",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/CF1740H"
+      ],
+      "definition": "以整棵树的规模和结构安排平衡二叉分解，支持树上动态信息维护。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-CF1740H",
+          "url": "https://www.luogu.com.cn/problem/CF1740H",
+          "nativeTagId": 472,
+          "nativeTagName": "全局平衡二叉树",
+          "sourceSha256": "169ca34fb1f1f074c1653b86be31144168fe207188d93b3726033a64d15ef663"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "可并堆",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P2713"
+      ],
+      "definition": "支持将两堆合并的优先队列结构，区别于仅插入/弹出的普通二叉堆。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P2713",
+          "url": "https://www.luogu.com.cn/problem/P2713",
+          "nativeTagId": 215,
+          "nativeTagName": "可并堆",
+          "sourceSha256": "ff993bc0d44ba8511cd821c0a0882e1ebce4cf77e4ccb1eadaa514087363798b"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "模拟费用流",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P4694"
+      ],
+      "definition": "利用网络和增广的特殊结构直接维护费用流的效果，不表示调用通用最小费用流模板。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P4694",
+          "url": "https://www.luogu.com.cn/problem/P4694",
+          "nativeTagId": 373,
+          "nativeTagName": "模拟费用流",
+          "sourceSha256": "e7fa7cba98564ab437952cb3f6de43023713929c8462fe6b1f1ea5b2c38ce028"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "后缀平衡树",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P6164"
+      ],
+      "definition": "以动态平衡有序结构组织后缀关系的专门后缀结构，区别于静态后缀数组。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P6164",
+          "url": "https://www.luogu.com.cn/problem/P6164",
+          "nativeTagId": 496,
+          "nativeTagName": "后缀平衡树",
+          "sourceSha256": "7832b12139dbff83cdb5a2ccd07092da26334e377aaef18aaedb16b3e3ea62b1"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "广义串并联图",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P6790"
+      ],
+      "definition": "可按串联、并联等规定结构归约的具体图类；不把一般图按题名视作此类。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P6790",
+          "url": "https://www.luogu.com.cn/problem/P6790",
+          "nativeTagId": 530,
+          "nativeTagName": "广义串并联图",
+          "sourceSha256": "66b3411a764f262750f82af50b1ee12de66be9e62c4a8d4de3b2498ab023756d"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "树套树",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P7825"
+      ],
+      "definition": "以一层树的每个结点维护另一层树，处理多维动态查询的复合数据结构。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P7825",
+          "url": "https://www.luogu.com.cn/problem/P7825",
+          "nativeTagId": 232,
+          "nativeTagName": "树套树",
+          "sourceSha256": "9435e93f9a4da52f50b75ba0f1859e2b4a106a77a7e6ed9de018ff0f7c4016d6"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "Lucas 定理",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P7488"
+      ],
+      "definition": "在素数模数下按进制位分解二项式系数的Lucas定理，不与任意模数版本混同。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P7488",
+          "url": "https://www.luogu.com.cn/problem/P7488",
+          "nativeTagId": 322,
+          "nativeTagName": "Lucas 定理",
+          "sourceSha256": "2ca66f1b3dcbd507b50e05f98ba35a7d3abab1ed28b65b4c415ccddedacfb0b3"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "斐波那契数列",
+      "category": "数学",
+      "aliases": [
+        "Fibonacci 数列"
+      ],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P9510"
+      ],
+      "definition": "相邻两项相加的Fibonacci递推及其明确数学性质；标签不预设必须使用矩阵快速幂。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P9510",
+          "url": "https://www.luogu.com.cn/problem/P9510",
+          "nativeTagId": 260,
+          "nativeTagName": "Fibonacci 数列",
+          "sourceSha256": "a944d35d8d68d48b8021e479d216cc0bffb4f62557c8f9766350e7d06a1e2bf5"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
+    },
+    {
+      "name": "二项式定理",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P4859"
+      ],
+      "definition": "二项式展开系数与组合数之间的具体定理，独立于宽泛数学分类。",
+      "nativeTagEvidence": [
+        {
+          "problemId": "luogu-training-P4859",
+          "url": "https://www.luogu.com.cn/problem/P4859",
+          "nativeTagId": 255,
+          "nativeTagName": "二项式定理",
+          "sourceSha256": "af8a08382d016c5bc9edc6b2f3c7c73d23a0b9e3d7f0641400ea8a1ad19d175d"
+        }
+      ],
+      "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c"
     }
   ]
 }
