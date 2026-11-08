@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1754",
+  "method": "零钱前缀约束对应 Catalan 数",
+  "variants": {
+    "default": "## P1754 球迷购票问题\n\n原题：[P1754](https://www.luogu.com.cn/problem/P1754)\n\n### 思路\n\n手持五十元的球迷让零钱加一张，手持一百元的球迷需要消耗一张。任意队列前缀中五十元人数不少于一百元人数，恰好对应合法括号序列，答案为第 n 个 Catalan 数。\n\n### 复杂度\n\n时间 O(n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    long long ans = 1;\n    for (int i = 1; i <= n; i++)\n        ans = ans * (4 * i - 2) / (i + 1);\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n同面值视作同类；C_0=1；先乘后整除；使用 long long。\n",
+    "detailed": "## P1754 球迷购票问题\n\n原题：[P1754](https://www.luogu.com.cn/problem/P1754)\n\n### 从问题到算法\n\n把五十元球迷记为左括号，一百元球迷记为右括号。售票处初始没有零钱，每位一百元球迷都要找回五十元，所以任意前缀中左括号数必须不少于右括号数；最终两者各 n 个。这与合法括号序列一一对应。\n\n由反射原理，全部 C(2n,n) 个等量括号序列中，不合法的有 C(2n,n−1) 个，相减得到 Catalan(n)=C(2n,n)/(n+1)。相邻项约分可得 C_i=C_(i−1)·(4i−2)/(i+1)，C_0=1，每次先乘后除且精确整除。\n\n原题把同面值球迷视为同类，不再乘 n!。n≤20，答案最大 6564120420，超出三十二位但能放入 long long；递推乘法的中间值也在六十四位范围内，无需高精度结构。\n\n### 复杂度\n\n时间 O(n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    long long ans = 1;\n    for (int i = 1; i <= n; i++)\n        ans = ans * (4 * i - 2) / (i + 1);\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n同面值视作同类；C_0=1；先乘后整除；使用 long long。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1754",
+    "id": "luogu-training-P1754",
+    "programSha256": "5593d3e924643d876b25cbadf494a1b471f169e694834a644f7b438180e01763",
+    "samples": 1,
+    "independentCases": 21,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

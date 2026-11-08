@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-UVA11895",
+  "method": "最大概率堆与精确分数更新",
+  "variants": {
+    "default": "## UVA11895 抽奖 Honorary Tickets\n\n原题：[UVA11895](https://www.luogu.com.cn/problem/UVA11895)\n\n### 思路\n\n之前结果不公开，一个袋子被选 r 次后，下次中奖概率为 (l/t)((t−1)/t)^r。每个人都会选择当前概率最大的袋子，用堆取最大并更新，取第 K 次的概率。\n\n### 复杂度\n\n时间 O((N+K) log N)，空间 O(N)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Bag {\n    long long numerator, denominator, total;\n};\nstruct Compare {\n    bool operator()(const Bag &a, const Bag &b) const {\n        return (__int128)a.numerator * b.denominator < (__int128)b.numerator * a.denominator;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        int n, k;\n        cin >> n >> k;\n        priority_queue<Bag, vector<Bag>, Compare> q;\n        for (int i = 0; i < n; i++) {\n            long long t, l;\n            cin >> t >> l;\n            long long g = gcd(t, l);\n            q.push({l / g, t / g, t});\n        }\n        for (int step = 1; step < k; step++) {\n            Bag b = q.top();\n            q.pop();\n            long long a = b.total - 1, d = b.total, g = gcd(a, b.denominator);\n            a /= g;\n            b.denominator /= g;\n            g = gcd(d, b.numerator);\n            d /= g;\n            b.numerator /= g;\n            b.numerator *= a;\n            b.denominator *= d;\n            if (!b.numerator)\n                b.denominator = 1;\n            q.push(b);\n        }\n        auto b = q.top();\n        long long g = gcd(b.numerator, b.denominator);\n        cout << b.numerator / g << '/' << b.denominator / g << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n信封放回但奖票不放回；前面结果不可见；比较分数用宽整数；最后约分输出。\n",
+    "detailed": "## UVA11895 抽奖 Honorary Tickets\n\n原题：[UVA11895](https://www.luogu.com.cn/problem/UVA11895)\n\n### 从问题到算法\n\n每个袋子始终保留 t 个信封，中奖后只是拿走奖票，空信封仍放回。对其中一张初始奖票，它在前 r 次抽取中没有被抽中的概率为 ((t−1)/t)^r，所以剩余奖票期望为 l 乘这个值，下次中奖概率再除以 t。\n\n前面学生的结果不公开，后续学生不能根据具体中奖结果更新袋子，只能根据它已被抽了多少次计算上述无条件概率。每人为了最大化自己的中奖概率，都会选当前概率最大者；抽一次后，该袋子概率乘 (t−1)/t。\n\n把各袋概率放进最大堆，重复 K−1 次取顶并更新，第 K 次堆顶就是答案。用约分后的有理数保存概率，比较用 __int128 交叉相乘，避免接近概率的浮点误排。更新先交叉约分，再相乘。题目保证本人与所有前驱实际选中的概率分子分母都在 32 位范围，更新后的候选使用六十四位保存。\n\n### 复杂度\n\n时间 O((N+K) log N)，空间 O(N)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Bag {\n    long long numerator, denominator, total;\n};\nstruct Compare {\n    bool operator()(const Bag &a, const Bag &b) const {\n        return (__int128)a.numerator * b.denominator < (__int128)b.numerator * a.denominator;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        int n, k;\n        cin >> n >> k;\n        priority_queue<Bag, vector<Bag>, Compare> q;\n        for (int i = 0; i < n; i++) {\n            long long t, l;\n            cin >> t >> l;\n            long long g = gcd(t, l);\n            q.push({l / g, t / g, t});\n        }\n        for (int step = 1; step < k; step++) {\n            Bag b = q.top();\n            q.pop();\n            long long a = b.total - 1, d = b.total, g = gcd(a, b.denominator);\n            a /= g;\n            b.denominator /= g;\n            g = gcd(d, b.numerator);\n            d /= g;\n            b.numerator /= g;\n            b.numerator *= a;\n            b.denominator *= d;\n            if (!b.numerator)\n                b.denominator = 1;\n            q.push(b);\n        }\n        auto b = q.top();\n        long long g = gcd(b.numerator, b.denominator);\n        cout << b.numerator / g << '/' << b.denominator / g << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n信封放回但奖票不放回；前面结果不可见；比较分数用宽整数；最后约分输出。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "UVA11895",
+    "id": "luogu-training-UVA11895",
+    "programSha256": "f1e128e408d2459396672c2ab904a737adb8c4eb5ff10f733380231f41211a4a",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

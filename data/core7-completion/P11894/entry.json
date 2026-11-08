@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P11894",
+  "method": "差分统计次数，跨二次幂分段跳跃",
+  "variants": {
+    "default": "## P11894 Update\n\n原题：[P11894](https://www.luogu.com.cn/problem/P11894)\n\n### 思路\n\n每个位置最终只取决于被覆盖的次数。先用差分求次数，再利用 floor(log2 x) 在相邻二次幂之间恒定，整段跳过若干次相同增量。\n\n### 复杂度\n\n时间 O(n log A+m)，空间 O(n)，A 为操作后的最大值。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<long long> a(n + 1);\n    vector<int> difference(n + 2);\n    for (int i = 1; i <= n; i++)\n        cin >> a[i];\n    while (m--) {\n        int l, r;\n        cin >> l >> r;\n        difference[l]++;\n        difference[r + 1]--;\n    }\n    int count = 0;\n    for (int i = 1; i <= n; i++) {\n        count += difference[i];\n        long long left = count, x = a[i];\n        while (left && x > 1) {\n            int b = 63 - __builtin_clzll(x);\n            long long gap = (1LL << (b + 1)) - x, steps = min(left, (gap + b - 1) / b);\n            x += steps * b;\n            left -= steps;\n        }\n        cout << x << (i == n ? '\\n' : ' ');\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\nx=1 不动；跳跃次数向上取整；更新后的最高位重新计算。\n",
+    "detailed": "## P11894 Update\n\n原题：[P11894](https://www.luogu.com.cn/problem/P11894)\n\n### 从问题到算法\n\n所有操作都独立地把一个数替换为同一个函数 f(x)，所以作用在某个位置上的先后顺序没有区别，只需知道总次数。区间覆盖次数通过差分数组在 O(n+m) 时间求出。\n\n对当前值 x>1，令 b=floor(log2 x)，在到达 2^(b+1) 前，每次都增加 b。距离下个分界还差 gap=2^(b+1)−x，需要 ceil(gap/b) 步才首次到达或越过分界。这些步的起始值仍在当前分段，增量都为 b，可以一次完成。\n\n跳过的步数还要与剩余次数取最小值。越过分界后重新计算 b，直到次数用完。x=1 时增量为零，永远不变。用整数最高位运算代替浮点 log，避免二次幂附近误差。\n\n### 复杂度\n\n时间 O(n log A+m)，空间 O(n)，A 为操作后的最大值。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<long long> a(n + 1);\n    vector<int> difference(n + 2);\n    for (int i = 1; i <= n; i++)\n        cin >> a[i];\n    while (m--) {\n        int l, r;\n        cin >> l >> r;\n        difference[l]++;\n        difference[r + 1]--;\n    }\n    int count = 0;\n    for (int i = 1; i <= n; i++) {\n        count += difference[i];\n        long long left = count, x = a[i];\n        while (left && x > 1) {\n            int b = 63 - __builtin_clzll(x);\n            long long gap = (1LL << (b + 1)) - x, steps = min(left, (gap + b - 1) / b);\n            x += steps * b;\n            left -= steps;\n        }\n        cout << x << (i == n ? '\\n' : ' ');\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\nx=1 不动；跳跃次数向上取整；更新后的最高位重新计算。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P11894",
+    "id": "luogu-training-P11894",
+    "programSha256": "745aca5673725bd59ade8e1d2c71d21ffa2f908be4789ba8b0f59c735dc90c66",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

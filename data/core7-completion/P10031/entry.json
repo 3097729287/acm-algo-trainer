@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P10031",
+  "method": "只保留出现奇数次的 gcd",
+  "variants": {
+    "default": "## P10031 Xor with Gcd\n\n原题：[P10031](https://www.luogu.com.cn/problem/P10031)\n\n### 思路\n\ngcd(i,n)=d 的次数为 φ(n/d)。欧拉函数只有在参数为 1 或 2 时为奇数，因此 n 为奇数时答案为 n，n 为偶数时答案为 n 异或 n/2。\n\n### 复杂度\n\n每组时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int t;\n    cin >> t;\n    while (t--) {\n        long long n;\n        cin >> n;\n        cout << (n % 2 ? n : n ^ (n / 2)) << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n偶数分支使用按位异或 ^，不是幂；n=1 输出 1。\n",
+    "detailed": "## P10031 Xor with Gcd\n\n原题：[P10031](https://www.luogu.com.cn/problem/P10031)\n\n### 从问题到算法\n\n异或中相同的值出现两次就抵消，因此只需知道每个 gcd 值的出现次数是奇数还是偶数。固定 n 的因数 d，令 i=d·j，那么 gcd(i,n)=d 等价于 gcd(j,n/d)=1，满足条件的 j 恰有 φ(n/d) 个。\n\n当整数 k>2 时，与 k 互质的剩余类可以按 j 与 k−j 两两配对，且不会是同一个数，所以 φ(k) 为偶数。只有 φ(1)=1、φ(2)=1 为奇数。\n\n对应 n/d=1 得到 d=n，始终保留；当 n 为偶数时，n/d=2 对应 d=n/2，也保留。其它全部抵消。整个过程不需要分解 n，适用于十的十八次方。\n\n### 复杂度\n\n每组时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int t;\n    cin >> t;\n    while (t--) {\n        long long n;\n        cin >> n;\n        cout << (n % 2 ? n : n ^ (n / 2)) << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n偶数分支使用按位异或 ^，不是幂；n=1 输出 1。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P10031",
+    "id": "luogu-training-P10031",
+    "programSha256": "2bbda14a862de8c746e3e6c59d762cc7ba92b27df300da494b603d5317117cd0",
+    "samples": 1,
+    "independentCases": 50,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

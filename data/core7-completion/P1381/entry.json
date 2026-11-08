@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1381",
+  "method": "所需单词筛选与覆盖滑动窗口",
+  "variants": {
+    "default": "## P1381 单词背诵\n\n原题：[P1381](https://www.luogu.com.cn/problem/P1381)\n\n### 思路\n\n先统计文章中实际出现了多少种待背单词，再用双指针求包含这些种类的最短连续片段。字典之外的词仍占文章位置，但不增加覆盖种数。\n\n### 复杂度\n\n平均时间 O(总输入字符数+n+m)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    unordered_map<string, int> dict;\n    while (n--) {\n        string s;\n        cin >> s;\n        if (!dict.count(s)) {\n            int id = dict.size();\n            dict[s] = id;\n        }\n    }\n    int m;\n    cin >> m;\n    vector<int> a(m, -1), exists(dict.size());\n    for (int i = 0; i < m; i++) {\n        string s;\n        cin >> s;\n        auto it = dict.find(s);\n        if (it != dict.end()) {\n            a[i] = it->second;\n            exists[it->second] = 1;\n        }\n    }\n    int need = accumulate(exists.begin(), exists.end(), 0);\n    cout << need << '\\n';\n    if (!need) {\n        cout << 0 << '\\n';\n        return 0;\n    }\n    vector<int> freq(dict.size());\n    int have = 0, l = 0, best = m + 1;\n    for (int r = 0; r < m; r++) {\n        if (a[r] >= 0 && freq[a[r]]++ == 0)\n            have++;\n        while (have == need) {\n            best = min(best, r - l + 1);\n            if (a[l] >= 0 && --freq[a[l]] == 0)\n                have--;\n            l++;\n        }\n    }\n    cout << best << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n按种类而非出现次数统计；无关词仍计入片段长度；need=0 特判。\n",
+    "detailed": "## P1381 单词背诵\n\n原题：[P1381](https://www.luogu.com.cn/problem/P1381)\n\n### 从问题到算法\n\n有些待背单词根本没有出现在文章中，无论截取多长都无法包含它们。所以第一问先求字典与文章出现词的交集种数 need，第二问只要求覆盖这 need 种。\n\n用字典把待背词映射到编号，文章中的其它词标为 −1。右端逐词加入，某词频次从零变一时覆盖种数加一。当覆盖数达到 need 时，记录当前长度并不断右移左端：删除不需要的词，或删除仍有其它副本的词，直到缺少一种为止。\n\n对于固定右端，这样得到最靠右且仍合法的左端，窗口最短；右端遍历全部位置，就覆盖了全局最优。每个位置至多入窗、出窗各一次。need=0 时直接输出两行零。\n\n### 复杂度\n\n平均时间 O(总输入字符数+n+m)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    unordered_map<string, int> dict;\n    while (n--) {\n        string s;\n        cin >> s;\n        if (!dict.count(s)) {\n            int id = dict.size();\n            dict[s] = id;\n        }\n    }\n    int m;\n    cin >> m;\n    vector<int> a(m, -1), exists(dict.size());\n    for (int i = 0; i < m; i++) {\n        string s;\n        cin >> s;\n        auto it = dict.find(s);\n        if (it != dict.end()) {\n            a[i] = it->second;\n            exists[it->second] = 1;\n        }\n    }\n    int need = accumulate(exists.begin(), exists.end(), 0);\n    cout << need << '\\n';\n    if (!need) {\n        cout << 0 << '\\n';\n        return 0;\n    }\n    vector<int> freq(dict.size());\n    int have = 0, l = 0, best = m + 1;\n    for (int r = 0; r < m; r++) {\n        if (a[r] >= 0 && freq[a[r]]++ == 0)\n            have++;\n        while (have == need) {\n            best = min(best, r - l + 1);\n            if (a[l] >= 0 && --freq[a[l]] == 0)\n                have--;\n            l++;\n        }\n    }\n    cout << best << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n按种类而非出现次数统计；无关词仍计入片段长度；need=0 特判。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1381",
+    "id": "luogu-training-P1381",
+    "programSha256": "ebd48334e0968ca57bd4700003a87620e4a3de480b06785dec70ebce1ea13b85",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

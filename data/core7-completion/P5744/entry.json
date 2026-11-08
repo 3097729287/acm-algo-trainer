@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P5744",
+  "method": "逐条更新学员字段",
+  "variants": {
+    "default": "## P5744 培训\n\n原题：[P5744](https://www.luogu.com.cn/problem/P5744)\n\n### 思路\n\n每个学员的姓名保留，年龄加一，成绩增加百分之二十并限制在六百分。逐条读入、计算、输出即可。\n\n### 复杂度\n\n时间 O(n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    while (n--) {\n        string name;\n        int age, score;\n        cin >> name >> age >> score;\n        cout << name << ' ' << age + 1 << ' ' << min(600, score * 12 / 10) << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先乘十二再除十；成绩最多六百；每名学员年龄加一。\n",
+    "detailed": "## P5744 培训\n\n原题：[P5744](https://www.luogu.com.cn/problem/P5744)\n\n### 从问题到算法\n\n每条记录之间没有相互影响，可以边读边处理。年龄用原值加一，成绩的新值是原来的十二成，不能把“增加百分之二十”误写成只取两成。\n\n输入成绩为整数且输出也要求整数，可写 score*12/10，先乘再整除，最后与六百取最小值。这样避免浮点数乘 1.2 在整数边界附近出现细小误差。姓名按完整字符串原样输出。\n\n### 复杂度\n\n时间 O(n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    while (n--) {\n        string name;\n        int age, score;\n        cin >> name >> age >> score;\n        cout << name << ' ' << age + 1 << ' ' << min(600, score * 12 / 10) << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先乘十二再除十；成绩最多六百；每名学员年龄加一。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P5744",
+    "id": "luogu-training-P5744",
+    "programSha256": "643dac4d12c98fb6e8fb689da5fc7359afa3fc177ccda4498ada0927c1be78db",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3385",
+  "method": "从一号点执行 Bellman–Ford",
+  "variants": {
+    "default": "## P3385 负环\n\n原题：[P3385](https://www.luogu.com.cn/problem/P3385)\n\n### 思路\n\n只让一号点距离为零，其余保持不可达，进行至多 n 轮松弛。第 n 轮仍能更新，说明存在从一号点可达的负环；提前没有更新则不存在。\n\n### 复杂度\n\n时间 O(Tnm)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    while (T--) {\n        int n, m;\n        cin >> n >> m;\n        vector<tuple<int, int, int>> e;\n        while (m--) {\n            int u, v, w;\n            cin >> u >> v >> w;\n            u--;\n            v--;\n            e.push_back({u, v, w});\n            if (w >= 0)\n                e.push_back({v, u, w});\n        }\n        const long long INF = 1LL << 60;\n        vector<long long> d(n, INF);\n        d[0] = 0;\n        bool negative = false;\n        for (int round = 1; round <= n; round++) {\n            bool changed = false;\n            for (auto [u, v, w] : e)\n                if (d[u] != INF && d[v] > d[u] + w) {\n                    d[v] = d[u] + w;\n                    changed = true;\n                }\n            if (!changed)\n                break;\n            if (round == n)\n                negative = true;\n        }\n        cout << (negative ? \"YES\" : \"NO\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n仅判断一号点可达的负环；负边不自动反向；距离用 long long。\n",
+    "detailed": "## P3385 负环\n\n原题：[P3385](https://www.luogu.com.cn/problem/P3385)\n\n### 从问题到算法\n\n从一号点出发的最短简单路径至多包含 n−1 条边。如果不存在可达负环，所有有效最短路都可去掉非负回路，因此 n−1 轮松弛已足够。第 n 轮仍能改进的路径必然借助某个可达负环。\n\n初始化只有顶点一可达，松弛前跳过不可达起点，这样不会把其它连通区域的负环误报。非负输入边要添加两个方向，负边只添加输入方向；m 是输入记录数，不是最终边数。\n\n每轮按边顺序原地松弛可能传播多条边，但不会使无负环图在第 n 轮产生更新。没有更新时可以提前结束。\n\n### 复杂度\n\n时间 O(Tnm)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    while (T--) {\n        int n, m;\n        cin >> n >> m;\n        vector<tuple<int, int, int>> e;\n        while (m--) {\n            int u, v, w;\n            cin >> u >> v >> w;\n            u--;\n            v--;\n            e.push_back({u, v, w});\n            if (w >= 0)\n                e.push_back({v, u, w});\n        }\n        const long long INF = 1LL << 60;\n        vector<long long> d(n, INF);\n        d[0] = 0;\n        bool negative = false;\n        for (int round = 1; round <= n; round++) {\n            bool changed = false;\n            for (auto [u, v, w] : e)\n                if (d[u] != INF && d[v] > d[u] + w) {\n                    d[v] = d[u] + w;\n                    changed = true;\n                }\n            if (!changed)\n                break;\n            if (round == n)\n                negative = true;\n        }\n        cout << (negative ? \"YES\" : \"NO\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n仅判断一号点可达的负环；负边不自动反向；距离用 long long。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3385",
+    "id": "luogu-training-P3385",
+    "programSha256": "b9a555b415dbdde2c82070703d19b7a22c44e4a7caf03efa36f7cf2b61d7e97a",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

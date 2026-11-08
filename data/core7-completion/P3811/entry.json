@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3811",
+  "method": "利用余数的逆元线性递推",
+  "variants": {
+    "default": "## P3811 模意义下的乘法逆元\n\n原题：[P3811](https://www.luogu.com.cn/problem/P3811)\n\n### 思路\n\n由 p=(p/i)·i+p%i，在模 p 下整理得到 inv[i]=(p−p/i)·inv[p%i] mod p。从 inv[1]=1 递推即可。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, p;\n    cin >> n >> p;\n    vector<int> inv(n + 1);\n    inv[1] = 1;\n    cout << 1 << '\\n';\n    for (int i = 2; i <= n; i++) {\n        inv[i] = 1LL * (p - p / i) * inv[p % i] % p;\n        cout << inv[i] << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n质数且 n<p 保证逆元存在；inv[1]=1；乘法用 long long。\n",
+    "detailed": "## P3811 模意义下的乘法逆元\n\n原题：[P3811](https://www.luogu.com.cn/problem/P3811)\n\n### 从问题到算法\n\n设 q=floor(p/i)、r=p%i，则 qi+r≡0。因为一到 n 均小于质数 p，i 与 r 都有逆元；对 i>1 有 r>0。两侧乘以 inv[i]inv[r]，得到 inv[i]≡−q·inv[r]。\n\n余数 r<i，因此扫描 i 递增时 inv[r] 已经求出。用 p−q 表示负系数，先做六十四位乘法再取模。这样不用对每个数单独做快速幂。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, p;\n    cin >> n >> p;\n    vector<int> inv(n + 1);\n    inv[1] = 1;\n    cout << 1 << '\\n';\n    for (int i = 2; i <= n; i++) {\n        inv[i] = 1LL * (p - p / i) * inv[p % i] % p;\n        cout << inv[i] << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n质数且 n<p 保证逆元存在；inv[1]=1；乘法用 long long。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3811",
+    "id": "luogu-training-P3811",
+    "programSha256": "701f779cf368c2600ac10275d59965b14c4c76a7d25252f8c90f741cdcf9b93a",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

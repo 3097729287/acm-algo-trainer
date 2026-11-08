@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2080",
+  "method": "按好感差保存最大好感和",
+  "variants": {
+    "default": "## P2080 增进感情\n\n原题：[P2080](https://www.luogu.com.cn/problem/P2080)\n\n### 思路\n\n每件事贡献差值 a−b 和总值 a+b。用 0/1 背包维护每个差值下能得到的最大总值，最后在总值达到 v 的状态中取差值绝对值最小者。\n\n### 复杂度\n\n时间 O(n²A)，空间 O(nA)，A 为单项差值的上界。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, v;\n    cin >> n >> v;\n    vector<pair<int, int>> events(n);\n    int bound = 0;\n    for (auto &[a, b] : events) {\n        cin >> a >> b;\n        bound += abs(a - b);\n    }\n    const int neg = INT_MIN / 4;\n    vector<int> dp(2 * bound + 1, neg);\n    dp[bound] = 0;\n    for (auto [a, b] : events) {\n        auto next = dp;\n        int difference = a - b;\n        for (int i = 0; i < (int)dp.size(); i++)\n            if (dp[i] != neg && i + difference >= 0 && i + difference < (int)dp.size())\n                next[i + difference] = max(next[i + difference], dp[i] + a + b);\n        dp.swap(next);\n    }\n    int ans = INT_MAX;\n    for (int i = 0; i < (int)dp.size(); i++)\n        if (dp[i] >= v)\n            ans = min(ans, abs(i - bound));\n    cout << (ans == INT_MAX ? -1 : ans) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n好感可负；保留最大总和而非最小；转移使用旧数组，防止重复选事件。\n",
+    "detailed": "## P2080 增进感情\n\n原题：[P2080](https://www.luogu.com.cn/problem/P2080)\n\n### 从问题到算法\n\n两人能否走到一起取决于总好感，幸福程度取决于差的绝对值，因此把原来的两个维度变成“差值”和“总和”。固定差值时，总和越大永远越好，其它较小总和可以丢弃。\n\n令 dp[d] 为选若干已处理事件后，差值 d 能达到的最大总和。初始只有差零、和零可达。对每个事件，从旧数组复制一份表示不选，再把旧状态加上本次差与和，更新新数组。使用两个版本可以同时处理正负差，避免原地扫描方向错误。\n\n每个差绝对值最多二百，三十件事的总差范围只有六千。用偏移量把负差映射到数组下标，处理完后枚举满足 dp[d]>=v 的状态，取 |d| 最小；没有状态就输出 −1。\n\n### 复杂度\n\n时间 O(n²A)，空间 O(nA)，A 为单项差值的上界。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, v;\n    cin >> n >> v;\n    vector<pair<int, int>> events(n);\n    int bound = 0;\n    for (auto &[a, b] : events) {\n        cin >> a >> b;\n        bound += abs(a - b);\n    }\n    const int neg = INT_MIN / 4;\n    vector<int> dp(2 * bound + 1, neg);\n    dp[bound] = 0;\n    for (auto [a, b] : events) {\n        auto next = dp;\n        int difference = a - b;\n        for (int i = 0; i < (int)dp.size(); i++)\n            if (dp[i] != neg && i + difference >= 0 && i + difference < (int)dp.size())\n                next[i + difference] = max(next[i + difference], dp[i] + a + b);\n        dp.swap(next);\n    }\n    int ans = INT_MAX;\n    for (int i = 0; i < (int)dp.size(); i++)\n        if (dp[i] >= v)\n            ans = min(ans, abs(i - bound));\n    cout << (ans == INT_MAX ? -1 : ans) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n好感可负；保留最大总和而非最小；转移使用旧数组，防止重复选事件。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2080",
+    "id": "luogu-training-P2080",
+    "programSha256": "283950e0ee9e79e0230c8c7fb0c7bce43cc79ac8f9d3baa6e40c4bc630e7ace2",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

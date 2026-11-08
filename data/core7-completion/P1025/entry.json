@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1025",
+  "method": "非递减地枚举各部分",
+  "variants": {
+    "default": "## P1025 数的划分\n\n原题：[P1025](https://www.luogu.com.cn/problem/P1025)\n\n### 思路\n\n把每个划分按非递减顺序写出，只枚举这种规范顺序，避免同一组数的排列重复。递归记录剩余和、剩余份数与下一份最小值。\n\n### 复杂度\n\n时间为实际枚举的划分状态数，递归空间 O(k)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    cin >> n >> k;\n    function<long long(int, int, int)> solve = [&](int sum, int count, int minimum) -> long long {\n        if (count == 1)\n            return sum >= minimum;\n        long long ans = 0;\n        for (int x = minimum; x <= sum / count; x++)\n            ans += solve(sum - x, count - 1, x);\n        return ans;\n    };\n    cout << solve(n, k, 1) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n各份必须正数；下一份可以等于上一份；上界用剩余和除剩余份数。\n",
+    "detailed": "## P1025 数的划分\n\n原题：[P1025](https://www.luogu.com.cn/problem/P1025)\n\n### 从问题到算法\n\n划分不区分各部分的先后，所以同一组正整数若按任意顺序枚举，会重复。规定每一份不小于前一份后，每个划分就有唯一表示。\n\n状态 solve(sum,count,minimum) 表示还需 count 个不小于 minimum 的正整数凑成 sum。下一份 x 不能大于 sum/count，否则剩余每份都至少 x，总和就会超过 sum。枚举 minimum 到 sum/count，递归求 sum−x、count−1、x。\n\n只剩一份时，只要 sum>=minimum 就恰有一种分法。该终止条件同时处理相等部分，不需要集合去重。\n\n### 复杂度\n\n时间为实际枚举的划分状态数，递归空间 O(k)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    cin >> n >> k;\n    function<long long(int, int, int)> solve = [&](int sum, int count, int minimum) -> long long {\n        if (count == 1)\n            return sum >= minimum;\n        long long ans = 0;\n        for (int x = minimum; x <= sum / count; x++)\n            ans += solve(sum - x, count - 1, x);\n        return ans;\n    };\n    cout << solve(n, k, 1) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n各份必须正数；下一份可以等于上一份；上界用剩余和除剩余份数。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1025",
+    "id": "luogu-training-P1025",
+    "programSha256": "f8bc3d56203fa69d8d86298d205312ab8ed5a9df86ab2bf83d4429ea8533dbd6",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

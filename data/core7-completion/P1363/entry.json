@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1363",
+  "method": "同一周期格记录首次到达的真实坐标",
+  "variants": {
+    "default": "## P1363 幻象迷宫\n\n原题：[P1363](https://www.luogu.com.cn/problem/P1363)\n\n### 思路\n\n在有限周期网格上搜索，却为每格保留第一次到达时的无限平面坐标。如果再次到达同一周期格、真实坐标却不同，就找到可以不断重复的跨周期路线。\n\n### 复杂度\n\n每组时间 O(nm)，空间 O(nm)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    while (cin >> n >> m) {\n        vector<string> a(n);\n        pair<int, int> start;\n        for (int i = 0; i < n; i++) {\n            cin >> a[i];\n            for (int j = 0; j < m; j++)\n                if (a[i][j] == 'S')\n                    start = {i, j};\n        }\n        vector<char> seen(n * m);\n        vector<pair<int, int>> first(n * m);\n        queue<pair<int, int>> q;\n        q.push(start);\n        seen[start.first * m + start.second] = 1;\n        first[start.first * m + start.second] = start;\n        bool yes = false;\n        int dx[4] = {1, -1, 0, 0}, dy[4] = {0, 0, 1, -1};\n        while (!q.empty() && !yes) {\n            auto [x, y] = q.front();\n            q.pop();\n            for (int d = 0; d < 4; d++) {\n                int nx = x + dx[d], ny = y + dy[d], r = (nx % n + n) % n, c = (ny % m + m) % m,\n                    id = r * m + c;\n                if (a[r][c] == '#')\n                    continue;\n                if (seen[id]) {\n                    if (first[id] != pair<int, int>{nx, ny}) {\n                        yes = true;\n                        break;\n                    }\n                } else {\n                    seen[id] = 1;\n                    first[id] = {nx, ny};\n                    q.push({nx, ny});\n                }\n            }\n        }\n        cout << (yes ? \"Yes\" : \"No\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n负坐标的余数要规范化；比较真实坐标；输入直到 EOF。\n",
+    "detailed": "## P1363 幻象迷宫\n\n原题：[P1363](https://www.luogu.com.cn/problem/P1363)\n\n### 从问题到算法\n\n只记录行列取模后的访问状态会漏掉跨周期移动。为每个周期格记录首次到达的真实整数坐标，扩展时真实坐标加方向，再用规范化取模判断对应格是否为墙。\n\n如果新坐标与某格保存的真实坐标不同，两者相差一个非零周期平移。连接这两种到达方式得到一条跨周期路线；地图周期重复，这条路线可以平移后不断重走，于是能够走到无限远。\n\n反之，如果每个周期格始终只有同一个真实坐标可达，实际可达位置最多 nm 个，无法无限走远。因此发现这种冲突就输出 Yes，全部搜索完仍无冲突则输出 No。多组地图读到文件结束。\n\n### 复杂度\n\n每组时间 O(nm)，空间 O(nm)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    while (cin >> n >> m) {\n        vector<string> a(n);\n        pair<int, int> start;\n        for (int i = 0; i < n; i++) {\n            cin >> a[i];\n            for (int j = 0; j < m; j++)\n                if (a[i][j] == 'S')\n                    start = {i, j};\n        }\n        vector<char> seen(n * m);\n        vector<pair<int, int>> first(n * m);\n        queue<pair<int, int>> q;\n        q.push(start);\n        seen[start.first * m + start.second] = 1;\n        first[start.first * m + start.second] = start;\n        bool yes = false;\n        int dx[4] = {1, -1, 0, 0}, dy[4] = {0, 0, 1, -1};\n        while (!q.empty() && !yes) {\n            auto [x, y] = q.front();\n            q.pop();\n            for (int d = 0; d < 4; d++) {\n                int nx = x + dx[d], ny = y + dy[d], r = (nx % n + n) % n, c = (ny % m + m) % m,\n                    id = r * m + c;\n                if (a[r][c] == '#')\n                    continue;\n                if (seen[id]) {\n                    if (first[id] != pair<int, int>{nx, ny}) {\n                        yes = true;\n                        break;\n                    }\n                } else {\n                    seen[id] = 1;\n                    first[id] = {nx, ny};\n                    q.push({nx, ny});\n                }\n            }\n        }\n        cout << (yes ? \"Yes\" : \"No\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n负坐标的余数要规范化；比较真实坐标；输入直到 EOF。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1363",
+    "id": "luogu-training-P1363",
+    "programSha256": "d2038dd657a8b085b24f9ef056ee83259ab2e8f8d509d89dc928eb7fdabd6dc4",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

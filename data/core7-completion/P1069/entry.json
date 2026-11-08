@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1069",
+  "method": "比较质因子指数所需倍增次数",
+  "variants": {
+    "default": "## P1069 细胞分裂\n\n原题：[P1069](https://www.luogu.com.cn/problem/P1069)\n\n### 思路\n\n分解目标数量 m1^m2。对于每种细胞的单次分裂倍率 s，分解同一批质因子，所需时间是各个目标指数除以 s 中对应指数的向上取整最大值；缺少目标质因子的细胞不可行。\n\n### 复杂度\n\n时间 O(sqrt m1+n·质因子数·log s)，空间 O(质因子数)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    long long m1, m2;\n    cin >> n >> m1 >> m2;\n    vector<pair<long long, long long>> factors;\n    long long x = m1;\n    for (long long p = 2; p <= x / p; p++)\n        if (x % p == 0) {\n            long long e = 0;\n            while (x % p == 0) {\n                x /= p;\n                e++;\n            }\n            factors.push_back({p, e * m2});\n        }\n    if (x > 1)\n        factors.push_back({x, m2});\n    long long answer = LLONG_MAX;\n    while (n--) {\n        long long s;\n        cin >> s;\n        long long time = 0;\n        bool ok = true;\n        for (auto [p, need] : factors) {\n            long long c = 0;\n            while (s % p == 0) {\n                s /= p;\n                c++;\n            }\n            if (c == 0 && need) {\n                ok = false;\n                break;\n            }\n            if (need)\n                time = max(time, (need + c - 1) / c);\n        }\n        if (ok)\n            answer = min(answer, time);\n    }\n    cout << (answer == LLONG_MAX ? -1 : answer) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n目标指数要乘 m2；每个细胞独立计算；没有可行细胞输出 -1。\n",
+    "detailed": "## P1069 细胞分裂\n\n原题：[P1069](https://www.luogu.com.cn/problem/P1069)\n\n### 从问题到算法\n\n经过 t 次分裂后，细胞总数为 s^t。能平均装进目标数量的试管，等价于 m1^m2 整除 s^t。\n\n设 m1 中质因子 p 的指数为 e，目标就需要 e·m2 个 p；若 s 中 p 的指数为 c，那么 t 轮提供 c·t 个，要求 t>=ceil(e·m2/c)。所有质因子同时满足，所以对每种细胞取这些下界的最大值。某个所需质因子完全不在 s 中，则无论多久都不行。\n\n在全部可行细胞中选最小时间。m1=1 时目标为一，初始一个细胞已经能满足，时间为零。不必实际计算巨大的幂。\n\n### 复杂度\n\n时间 O(sqrt m1+n·质因子数·log s)，空间 O(质因子数)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    long long m1, m2;\n    cin >> n >> m1 >> m2;\n    vector<pair<long long, long long>> factors;\n    long long x = m1;\n    for (long long p = 2; p <= x / p; p++)\n        if (x % p == 0) {\n            long long e = 0;\n            while (x % p == 0) {\n                x /= p;\n                e++;\n            }\n            factors.push_back({p, e * m2});\n        }\n    if (x > 1)\n        factors.push_back({x, m2});\n    long long answer = LLONG_MAX;\n    while (n--) {\n        long long s;\n        cin >> s;\n        long long time = 0;\n        bool ok = true;\n        for (auto [p, need] : factors) {\n            long long c = 0;\n            while (s % p == 0) {\n                s /= p;\n                c++;\n            }\n            if (c == 0 && need) {\n                ok = false;\n                break;\n            }\n            if (need)\n                time = max(time, (need + c - 1) / c);\n        }\n        if (ok)\n            answer = min(answer, time);\n    }\n    cout << (answer == LLONG_MAX ? -1 : answer) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n目标指数要乘 m2；每个细胞独立计算；没有可行细胞输出 -1。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1069",
+    "id": "luogu-training-P1069",
+    "programSha256": "39319a1b5a88a6f3dda650cf09c8463ebcbafab291678d485ff47fae46de2872",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

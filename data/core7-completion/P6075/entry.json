@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P6075",
+  "method": "单个元素的阶梯边界独立选择",
+  "variants": {
+    "default": "## P6075 子集选取\n\n原题：[P6075](https://www.luogu.com.cn/problem/P6075)\n\n### 思路\n\n对一个固定元素，只看它在哪些子集中出现。包含关系把出现区域约束为阶梯形，其边界对应 k 次二元选择，共 2^k 种。n 个元素独立，答案为 2^(nk)。\n\n### 复杂度\n\n时间 O(log n+log k)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long power(long long a, long long b, long long mod) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % mod)\n        if (b & 1)\n            r = r * a % mod;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long n, k;\n    cin >> n >> k;\n    const long long mod = 1000000007;\n    cout << power(power(2, k, mod), n, mod) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n空子集允许；元素彼此独立；模数为 1000000007。\n",
+    "detailed": "## P6075 子集选取\n\n原题：[P6075](https://www.luogu.com.cn/problem/P6075)\n\n### 从问题到算法\n\n集合包含关系可以逐元素检查：某个元素若出现在右侧或下侧的子集中，就必须同时出现在它的前驱中。因此每个元素的出现位置构成从左上角扩张的阶梯区域。\n\n在边长为 k 的三角格中，这样的阶梯区域与从 {1,…,k} 中选择若干互不相同的阶梯长度一一对应：依次取边界的严格下降长度即可恢复整个区域。每个长度可选或不选，所以一个元素有 2^k 种合法出现模式。k=2 时四种模式为全不出现、只在顶格出现、在前两格出现、全部出现。\n\n不同元素是否出现在某个集合中互不干涉，选择好每个元素的合法模式即可确定全部子集。由乘法原理得到 (2^k)^n。代码先算 2^k，再对 n 快速幂，避免直接计算 n·k 时超出输入类型。\n\n### 复杂度\n\n时间 O(log n+log k)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long power(long long a, long long b, long long mod) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % mod)\n        if (b & 1)\n            r = r * a % mod;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long n, k;\n    cin >> n >> k;\n    const long long mod = 1000000007;\n    cout << power(power(2, k, mod), n, mod) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n空子集允许；元素彼此独立；模数为 1000000007。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P6075",
+    "id": "luogu-training-P6075",
+    "programSha256": "628b09fd83ff9e58a1bd5a1857f1d1ed8d84484d5056c11d6f7ba4cb0dc57261",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

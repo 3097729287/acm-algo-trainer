@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1291",
+  "method": "集齐新名字所需时间的调和级数",
+  "variants": {
+    "default": "## P1291 百事世界杯之旅\n\n原题：[P1291](https://www.luogu.com.cn/problem/P1291)\n\n### 思路\n\n已经收集 k 个名字时，下次拿到新名字的概率为 (n−k)/n，等待期望为 n/(n−k)。相加得到 n·(1+1/2+…+1/n)，用有理数精确累加并按题意排版。\n\n### 复杂度\n\n时间 O(n log 分母)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long n;\n    cin >> n;\n    long long numerator = 0, denominator = 1;\n    for (long long i = 1; i <= n; i++) {\n        long long g = gcd(denominator, i);\n        numerator = numerator * (i / g) + n * (denominator / g);\n        denominator *= i / g;\n        g = gcd(numerator, denominator);\n        numerator /= g;\n        denominator /= g;\n    }\n    long long whole = numerator / denominator, rem = numerator % denominator;\n    if (!rem)\n        cout << whole << '\\n';\n    else {\n        string pad(to_string(whole).size(), ' ');\n        cout << pad << rem << '\\n'\n             << whole << string(to_string(denominator).size(), '-') << '\\n'\n             << pad << denominator << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n用精确分数；每次约分；分数线与上下两行起点对齐。\n",
+    "detailed": "## P1291 百事世界杯之旅\n\n原题：[P1291](https://www.luogu.com.cn/problem/P1291)\n\n### 从问题到算法\n\n把收集过程分成从 k 种到 k+1 种的 n 个阶段。每瓶独立等概率出现一个名字，尚未拥有的名字有 n−k 种，所以成功概率为 (n−k)/n。几何分布的等待期望为概率的倒数。\n\n由期望线性性，总期望为 Σ(k=0..n−1)n/(n−k)=nH_n。逐项用最大公约数通分、加分子并约分，避免小数损失。n<=33 时这些约分后的整数能用 long long 保存。\n\n最后把分子除以分母得到整数部分和余数。余数为零就只输出整数；否则分子和分母前补与整数部分位数相同的空格，中间分数线长度等于分母位数。\n\n### 复杂度\n\n时间 O(n log 分母)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long n;\n    cin >> n;\n    long long numerator = 0, denominator = 1;\n    for (long long i = 1; i <= n; i++) {\n        long long g = gcd(denominator, i);\n        numerator = numerator * (i / g) + n * (denominator / g);\n        denominator *= i / g;\n        g = gcd(numerator, denominator);\n        numerator /= g;\n        denominator /= g;\n    }\n    long long whole = numerator / denominator, rem = numerator % denominator;\n    if (!rem)\n        cout << whole << '\\n';\n    else {\n        string pad(to_string(whole).size(), ' ');\n        cout << pad << rem << '\\n'\n             << whole << string(to_string(denominator).size(), '-') << '\\n'\n             << pad << denominator << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n用精确分数；每次约分；分数线与上下两行起点对齐。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1291",
+    "id": "luogu-training-P1291",
+    "programSha256": "1384a764cf3ab30cdd53b46f9b946010dbb8c430fd38ca1509227163dd2c92bb",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

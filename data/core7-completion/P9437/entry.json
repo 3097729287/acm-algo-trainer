@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P9437",
+  "method": "同时换根维护拼接值与十进制倍率",
+  "variants": {
+    "default": "## P9437 一棵树\n\n原题：[P9437](https://www.luogu.com.cn/problem/P9437)\n\n### 思路\n\n每个点维护从它出发的路径值总和，以及各路径十进制倍率总和。先自底向上合并子树，再扣除孩子分支得到外部量，向孩子换根，最后累加所有起点的路径值。\n\n### 复杂度\n\n时间 O(n log A)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    const long long mod = 998244353;\n    vector<long long> a(n + 1), p(n + 1), f(n + 1), g(n + 1), allf, allg;\n    for (int i = 1; i <= n; i++) {\n        cin >> a[i];\n        p[i] = 10;\n        for (long long x = a[i]; x >= 10; x /= 10)\n            p[i] = p[i] * 10 % mod;\n        f[i] = a[i] % mod;\n        g[i] = p[i];\n    }\n    vector<int> parent(n + 1);\n    for (int i = 2; i <= n; i++)\n        cin >> parent[i];\n    for (int v = n; v >= 2; v--) {\n        int u = parent[v];\n        f[u] = (f[u] + f[v] + a[u] * g[v]) % mod;\n        g[u] = (g[u] + p[u] * g[v]) % mod;\n    }\n    allf = f;\n    allg = g;\n    long long ans = allf[1];\n    for (int v = 2; v <= n; v++) {\n        int u = parent[v];\n        long long outsideF = (allf[u] - f[v] - a[u] * g[v] % mod + 2 * mod) % mod,\n                  outsideG = (allg[u] - p[u] * g[v] % mod + mod) % mod;\n        allf[v] = (f[v] + outsideF + a[v] * outsideG) % mod;\n        allg[v] = (g[v] + p[v] * outsideG) % mod;\n        ans = (ans + allf[v]) % mod;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n0 的十进制长度为 1；保留子树量供扣除；减法取模防负数；计有向路径及单点。\n",
+    "detailed": "## P9437 一棵树\n\n原题：[P9437](https://www.luogu.com.cn/problem/P9437)\n\n### 从问题到算法\n\n在数字 x 前拼接 a，会得到 a·10^(x的位数)+x。因此只存路径值和不够，还要存路径总位数对应的 10 的幂之和。记 P[u]=10^(a[u]位数)，F[u] 为从 u 到子树各终点的拼接值之和，G[u] 为这些路径的倍率之和。\n\n初始 F[u]=a[u]、G[u]=P[u]。合并孩子 v 时，加入 F[v]+a[u]G[v] 到 F[u]，加入 P[u]G[v] 到 G[u]。这是把 a[u] 统一拼在每条孩子路径前面。\n\n换根时，父亲全树结果中先扣去通向 v 的分支：外部路径值 A=全F[u]−F[v]−a[u]G[v]，外部倍率 B=全G[u]−P[u]G[v]。在这些路径前拼接 a[v] 后，全F[v]=F[v]+A+a[v]B，全G[v]=G[v]+P[v]B。\n\n输入保证父编号更小，可以直接倒序做子树合并、正序做换根，不需要邻接表。数字零的位数仍是一，倍率为十。所有运算对 998244353 规范取模。\n\n### 复杂度\n\n时间 O(n log A)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    const long long mod = 998244353;\n    vector<long long> a(n + 1), p(n + 1), f(n + 1), g(n + 1), allf, allg;\n    for (int i = 1; i <= n; i++) {\n        cin >> a[i];\n        p[i] = 10;\n        for (long long x = a[i]; x >= 10; x /= 10)\n            p[i] = p[i] * 10 % mod;\n        f[i] = a[i] % mod;\n        g[i] = p[i];\n    }\n    vector<int> parent(n + 1);\n    for (int i = 2; i <= n; i++)\n        cin >> parent[i];\n    for (int v = n; v >= 2; v--) {\n        int u = parent[v];\n        f[u] = (f[u] + f[v] + a[u] * g[v]) % mod;\n        g[u] = (g[u] + p[u] * g[v]) % mod;\n    }\n    allf = f;\n    allg = g;\n    long long ans = allf[1];\n    for (int v = 2; v <= n; v++) {\n        int u = parent[v];\n        long long outsideF = (allf[u] - f[v] - a[u] * g[v] % mod + 2 * mod) % mod,\n                  outsideG = (allg[u] - p[u] * g[v] % mod + mod) % mod;\n        allf[v] = (f[v] + outsideF + a[v] * outsideG) % mod;\n        allg[v] = (g[v] + p[v] * outsideG) % mod;\n        ans = (ans + allf[v]) % mod;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n0 的十进制长度为 1；保留子树量供扣除；减法取模防负数；计有向路径及单点。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P9437",
+    "id": "luogu-training-P9437",
+    "programSha256": "17840205eb97d91a0a0aa09ae012cc3821666099c94beb004a3068c7b96bc57d",
+    "samples": 4,
+    "independentCases": 18,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

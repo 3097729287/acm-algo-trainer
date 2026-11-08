@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3802",
+  "method": "对每个七连窗口应用期望线性性",
+  "variants": {
+    "default": "## P3802 小魔女帕琪\n\n原题：[P3802](https://www.luogu.com.cn/problem/P3802)\n\n### 思路\n\n总晶体数为 S，每个连续七次施法成为七重奏的概率相同，为 7!∏a_i/[S(S−1)…(S−6)]。共有 S−6 个窗口，乘起来就是期望。\n\n### 复杂度\n\n时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long a[7], sum = 0;\n    for (auto &x : a) {\n        cin >> x;\n        sum += x;\n    }\n    long double ans = 0;\n    if (sum >= 7) {\n        ans = 5040.0L * (sum - 6);\n        for (int i = 0; i < 7; i++)\n            ans = ans * a[i] / (sum - i);\n    }\n    cout << fixed << setprecision(3) << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n重叠窗口都计数；不足七个时为零；某属性数量为零时概率自然为零。\n",
+    "detailed": "## P3802 小魔女帕琪\n\n原题：[P3802](https://www.luogu.com.cn/problem/P3802)\n\n### 从问题到算法\n\n把全部晶体随机排列，每一步从剩余晶体中等概率选一个，等价于读取这个随机排列。对任意固定的七个连续位置，七种属性各出现一次的概率相同。\n\n固定一种属性排列，概率为 ∏a_i 除以 S(S−1)…(S−6)，因为每种属性只取一次；七种属性有 7! 种顺序。令每个窗口的指示变量表示是否触发，其期望就是这个概率。即使窗口互相重叠，期望仍可直接相加，不要求事件独立。\n\n窗口总数为 S−6，因此乘上这个数。S<7 时没有窗口，答案为零。使用 long double 逐项乘除，避免先计算巨大整数乘积。\n\n### 复杂度\n\n时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    long long a[7], sum = 0;\n    for (auto &x : a) {\n        cin >> x;\n        sum += x;\n    }\n    long double ans = 0;\n    if (sum >= 7) {\n        ans = 5040.0L * (sum - 6);\n        for (int i = 0; i < 7; i++)\n            ans = ans * a[i] / (sum - i);\n    }\n    cout << fixed << setprecision(3) << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n重叠窗口都计数；不足七个时为零；某属性数量为零时概率自然为零。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3802",
+    "id": "luogu-training-P3802",
+    "programSha256": "81ab6aa1f50a44456cef84f80d34d799dd1a7ab6bbd20f9f5a0b91cc107bc0ef",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

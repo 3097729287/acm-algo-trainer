@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1272",
+  "method": "树上保留连通块的背包",
+  "variants": {
+    "default": "## P1272 重建道路\n\n原题：[P1272](https://www.luogu.com.cn/problem/P1272)\n\n### 思路\n\ndp[u][s] 表示在 u 子树内保留含 u 的 s 个点，需切断多少向下边。初始只保留 u 时切掉所有孩子边；接纳孩子的 j 个点就加入其代价并恢复一条父子边。\n\n### 复杂度\n\n时间 O(NP²)，空间 O(NP)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, P;\n    cin >> n >> P;\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        int u, v;\n        cin >> u >> v;\n        g[u - 1].push_back(v - 1);\n    }\n    const int INF = 1000000;\n    vector<vector<int>> dp(n, vector<int>(P + 1, INF));\n    vector<int> size(n);\n    function<void(int)> dfs = [&](int v) {\n        size[v] = 1;\n        dp[v][1] = g[v].size();\n        for (int u : g[v]) {\n            dfs(u);\n            vector<int> next = dp[v];\n            for (int s = 1; s <= min(P, size[v]); s++)\n                for (int j = 1; j <= min(size[u], P - s); j++)\n                    next[s + j] = min(next[s + j], dp[v][s] + dp[u][j] - 1);\n            dp[v].swap(next);\n            size[v] += size[u];\n        }\n    };\n    dfs(0);\n    int ans = INF;\n    for (int v = 0; v < n; v++)\n        ans = min(ans, dp[v][P] + (v != 0));\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n块必须含状态根；接纳孩子减掉一条预切边；非根答案补父边。\n",
+    "detailed": "## P1272 重建道路\n\n原题：[P1272](https://www.luogu.com.cn/problem/P1272)\n\n### 从问题到算法\n\n目标连通块有唯一最高点 u。若不保留某个孩子子树，切断 u 与该孩子的边；若保留，就必须接纳一个包含孩子根的连通块。\n\n初始 dp[u][1]=孩子数，相当于暂时切断所有孩子边。合并孩子 v 的 j 个点时，用 dp[u][s]+dp[v][j]−1 更新 dp[u][s+j]，减一是恢复预先切掉的 u—v。保持原状态则表示继续切掉该子树。\n\n全部合并后，若 u 不是全树根，还要切断其父边，才能使这个块独立。因此答案是所有 u 的 dp[u][P]+[u非根] 最小值。每个合法块都以它的最高点被枚举，且每条边的去留被准确计费。\n\n### 复杂度\n\n时间 O(NP²)，空间 O(NP)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, P;\n    cin >> n >> P;\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        int u, v;\n        cin >> u >> v;\n        g[u - 1].push_back(v - 1);\n    }\n    const int INF = 1000000;\n    vector<vector<int>> dp(n, vector<int>(P + 1, INF));\n    vector<int> size(n);\n    function<void(int)> dfs = [&](int v) {\n        size[v] = 1;\n        dp[v][1] = g[v].size();\n        for (int u : g[v]) {\n            dfs(u);\n            vector<int> next = dp[v];\n            for (int s = 1; s <= min(P, size[v]); s++)\n                for (int j = 1; j <= min(size[u], P - s); j++)\n                    next[s + j] = min(next[s + j], dp[v][s] + dp[u][j] - 1);\n            dp[v].swap(next);\n            size[v] += size[u];\n        }\n    };\n    dfs(0);\n    int ans = INF;\n    for (int v = 0; v < n; v++)\n        ans = min(ans, dp[v][P] + (v != 0));\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n块必须含状态根；接纳孩子减掉一条预切边；非根答案补父边。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1272",
+    "id": "luogu-training-P1272",
+    "programSha256": "ec35ea5c1b5924ac44fbfc182a59f99d4a47c87a04bdac33b7309d0a1e3eda11",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

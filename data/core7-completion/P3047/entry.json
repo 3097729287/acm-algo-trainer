@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3047",
+  "method": "按精确距离做树上换根",
+  "variants": {
+    "default": "## P3047 Nearby Cows G\n\n原题：[P3047](https://www.luogu.com.cn/problem/P3047)\n\n### 思路\n\n先求每个点子树内距离恰为 d 的牛数，再向下换根。孩子距离 d 的外部贡献来自父亲距离 d−1 的总量，并扣掉重复落在孩子子树中的距离 d−2 部分。\n\n### 复杂度\n\n时间 O(nK)，空间 O(nK)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    cin >> n >> k;\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        int u, v;\n        cin >> u >> v;\n        u--;\n        v--;\n        g[u].push_back(v);\n        g[v].push_back(u);\n    }\n    int width = k + 1;\n    vector<int> down(n * width), all(n * width), parent(n, -1), order = {0};\n    for (int i = 0; i < n; i++)\n        cin >> down[i * width];\n    parent[0] = 0;\n    for (int i = 0; i < n; i++)\n        for (int u : g[order[i]])\n            if (u != parent[order[i]]) {\n                parent[u] = order[i];\n                order.push_back(u);\n            }\n    for (int i = n - 1; i > 0; i--) {\n        int v = order[i], p = parent[v];\n        for (int d = 1; d <= k; d++)\n            down[p * width + d] += down[v * width + d - 1];\n    }\n    all = down;\n    for (int i = 1; i < n; i++) {\n        int v = order[i], p = parent[v];\n        for (int d = 1; d <= k; d++)\n            all[v * width + d] += all[p * width + d - 1] - (d >= 2 ? down[v * width + d - 2] : 0);\n    }\n    for (int v = 0; v < n; v++) {\n        long long ans = 0;\n        for (int d = 0; d <= k; d++)\n            ans += all[v * width + d];\n        cout << ans << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n距离是边数；d<2 不减子树项；子树数组和全树数组分开。\n",
+    "detailed": "## P3047 Nearby Cows G\n\n原题：[P3047](https://www.luogu.com.cn/problem/P3047)\n\n### 从问题到算法\n\n设 down[u][d] 为 u 子树内与 u 距离恰好 d 的牛数。down[u][0] 是本点牛数，孩子 v 的 down[v][d−1] 可加入 down[u][d]。先按子先父顺序计算。\n\n再令 all[u][d] 为整棵树中与 u 距离 d 的牛数。根的 all 等于 down。对父子 u、v，孩子外部的点到 v 的距离等于到 u 的距离加一，所以候选是 all[u][d−1]。但其中包含 v 子树内距离 u 为 d−1 的点，即 down[v][d−2]，必须扣掉。\n\n因此 all[v][d]=down[v][d]+all[u][d−1]−down[v][d−2]，d=1 时没有扣除项。把 d=0 到 K 累加即可得到范围内总牛数。两个阶段分别使用 down 和 all，避免换根后污染子树原始量。\n\n### 复杂度\n\n时间 O(nK)，空间 O(nK)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    cin >> n >> k;\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        int u, v;\n        cin >> u >> v;\n        u--;\n        v--;\n        g[u].push_back(v);\n        g[v].push_back(u);\n    }\n    int width = k + 1;\n    vector<int> down(n * width), all(n * width), parent(n, -1), order = {0};\n    for (int i = 0; i < n; i++)\n        cin >> down[i * width];\n    parent[0] = 0;\n    for (int i = 0; i < n; i++)\n        for (int u : g[order[i]])\n            if (u != parent[order[i]]) {\n                parent[u] = order[i];\n                order.push_back(u);\n            }\n    for (int i = n - 1; i > 0; i--) {\n        int v = order[i], p = parent[v];\n        for (int d = 1; d <= k; d++)\n            down[p * width + d] += down[v * width + d - 1];\n    }\n    all = down;\n    for (int i = 1; i < n; i++) {\n        int v = order[i], p = parent[v];\n        for (int d = 1; d <= k; d++)\n            all[v * width + d] += all[p * width + d - 1] - (d >= 2 ? down[v * width + d - 2] : 0);\n    }\n    for (int v = 0; v < n; v++) {\n        long long ans = 0;\n        for (int d = 0; d <= k; d++)\n            ans += all[v * width + d];\n        cout << ans << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n距离是边数；d<2 不减子树项；子树数组和全树数组分开。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3047",
+    "id": "luogu-training-P3047",
+    "programSha256": "99a4599ad12c4d68767f7bfae42831a93162bf4fb5bad4098e98ebccd5840fe8",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

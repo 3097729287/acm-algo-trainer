@@ -1,0 +1,33 @@
+{
+  "problemId": "luogu-training-P7960",
+  "method": "含七因子筛与合法数后继",
+  "variants": {
+    "default": "## P7960 报数\n\n原题：[P7960](https://www.luogu.com.cn/problem/P7960)\n\n### 思路\n\n从小到大扫描，若一个尚未禁用的数含数字七，就禁用它的所有倍数。筛完后倒序记录每个位置之后的首个合法数，回答询问。\n\n### 复杂度\n\n设最终预处理上界为 L，时间 O(L log L)，空间 O(L)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    vector<int> queries(T);\n    int maximum = 0;\n    for (int &x : queries) {\n        cin >> x;\n        maximum = max(maximum, x);\n    }\n    int limit = max(128, maximum + 128);\n    vector<bool> bad;\n    vector<int> next;\n    for (;;) {\n        bad.assign(limit + 1, false);\n        for (int i = 1; i <= limit; i++)\n            if (!bad[i]) {\n                int x = i;\n                bool seven = false;\n                while (x) {\n                    if (x % 10 == 7)\n                        seven = true;\n                    x /= 10;\n                }\n                if (seven)\n                    for (int j = i; j <= limit; j += i)\n                        bad[j] = true;\n            }\n        int last = 0;\n        next.assign(limit + 1, 0);\n        for (int i = limit; i >= 1; i--) {\n            next[i] = last;\n            if (!bad[i])\n                last = i;\n        }\n        if (next[maximum])\n            break;\n        limit *= 2;\n    }\n    for (int x : queries)\n        cout << (bad[x] ? -1 : next[x]) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n倍数不一定含七；后继必须严格更大；非法询问输出 −1。\n",
+    "detailed": "## P7960 报数\n\n原题：[P7960](https://www.luogu.com.cn/problem/P7960)\n\n### 从问题到算法\n\n一个整数不合法，当且仅当能被某个含七的数整除。扫描到含七且未禁用的 i 时，筛掉它的倍数；若 i 早已被筛掉，它的所有倍数也已被某个更小含七因子筛掉，无须重复操作。\n\n每个不合法数都有含七因子，该因子自身被处理或已经被更小因子覆盖，因此筛法完整。之后倒序扫描，维护最近的合法数 next：先保存当前数的严格后继，再在当前合法时更新 next。\n\n预处理范围必须超过最大询问，直到确认其中存在比最大询问更大的合法数。代码采用可扩大的上界，若尾部全被禁用就翻倍重筛，避免依赖未经证明的固定余量。\n\n### 复杂度\n\n设最终预处理上界为 L，时间 O(L log L)，空间 O(L)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    vector<int> queries(T);\n    int maximum = 0;\n    for (int &x : queries) {\n        cin >> x;\n        maximum = max(maximum, x);\n    }\n    int limit = max(128, maximum + 128);\n    vector<bool> bad;\n    vector<int> next;\n    for (;;) {\n        bad.assign(limit + 1, false);\n        for (int i = 1; i <= limit; i++)\n            if (!bad[i]) {\n                int x = i;\n                bool seven = false;\n                while (x) {\n                    if (x % 10 == 7)\n                        seven = true;\n                    x /= 10;\n                }\n                if (seven)\n                    for (int j = i; j <= limit; j += i)\n                        bad[j] = true;\n            }\n        int last = 0;\n        next.assign(limit + 1, 0);\n        for (int i = limit; i >= 1; i--) {\n            next[i] = last;\n            if (!bad[i])\n                last = i;\n        }\n        if (next[maximum])\n            break;\n        limit *= 2;\n    }\n    for (int x : queries)\n        cout << (bad[x] ? -1 : next[x]) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n倍数不一定含七；后继必须严格更大；非法询问输出 −1。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P7960",
+    "id": "luogu-training-P7960",
+    "programSha256": "a7d92c0c2f54b1c7781c0c2179da2636795202e8fdc46a1389b80b367d7acfcf",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [
+      {
+        "input": "见附件中的 number/number3.in",
+        "name": "样例 3",
+        "output": "见附件中的 number/number3.ans"
+      },
+      {
+        "input": "见附件中的 number/number4.in",
+        "name": "样例 4",
+        "output": "见附件中的 number/number4.ans"
+      }
+    ],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

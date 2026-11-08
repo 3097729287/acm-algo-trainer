@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2858",
+  "method": "两端出售的区间动态规划",
+  "variants": {
+    "default": "## P2858 Treats for the Cows G/S\n\n原题：[P2858](https://www.luogu.com.cn/problem/P2858)\n\n### 思路\n\n剩余区间长度确定今天是第几天。每次只能卖左端或右端，取两种选择的较大收益。按区间长度递增计算，可压缩为一维。\n\n### 复杂度\n\n时间 O(n²)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> a(n), dp(n);\n    for (int i = 0; i < n; i++) {\n        cin >> a[i];\n        dp[i] = a[i] * n;\n    }\n    for (int len = 2; len <= n; len++) {\n        long long day = n - len + 1;\n        for (int l = 0; l + len <= n; l++) {\n            int r = l + len - 1;\n            dp[l] = max(a[l] * day + dp[l + 1], a[r] * day + dp[l]);\n        }\n    }\n    cout << dp[0] << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n年龄从一开始增加；单点是在第 n 天卖；一维左端必须递增枚举。\n",
+    "detailed": "## P2858 Treats for the Cows G/S\n\n原题：[P2858](https://www.luogu.com.cn/problem/P2858)\n\n### 从问题到算法\n\n设 dp[l][r] 是只剩区间 l..r 时还能得到的最大收益。已经卖掉 n−(r−l+1) 个，所以今天是 day=n−长度+1。转移取 a[l]·day+dp[l+1][r] 与 a[r]·day+dp[l][r−1] 的较大值。\n\n单个点最后在第 n 天卖出，初值为 a[i]n。按长度从二到 n 枚举，左右端选择正好覆盖所有合法出售次序。\n\n一维 dp[l] 保存上一长度的结果。对固定长度从左向右更新，dp[l+1] 尚未改变，dp[l] 也仍是旧值，因此两项都能正确读取。\n\n### 复杂度\n\n时间 O(n²)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long long> a(n), dp(n);\n    for (int i = 0; i < n; i++) {\n        cin >> a[i];\n        dp[i] = a[i] * n;\n    }\n    for (int len = 2; len <= n; len++) {\n        long long day = n - len + 1;\n        for (int l = 0; l + len <= n; l++) {\n            int r = l + len - 1;\n            dp[l] = max(a[l] * day + dp[l + 1], a[r] * day + dp[l]);\n        }\n    }\n    cout << dp[0] << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n年龄从一开始增加；单点是在第 n 天卖；一维左端必须递增枚举。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2858",
+    "id": "luogu-training-P2858",
+    "programSha256": "b64fd17597989f3805deb06497b38712c4058bda5965f3adcf0992a4e9519a27",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

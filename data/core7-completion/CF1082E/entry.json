@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF1082E",
+  "method": "每种源值各自维护带间隔惩罚的最大子段",
+  "variants": {
+    "default": "## CF1082E Increasing Frequency\n\n原题：[CF1082E](https://www.luogu.com.cn/problem/CF1082E)\n\n### 思路\n\n选择把某个值 x 变成 c 后，区间收益为 x 的个数减 c 的个数。每遇到一个 x，扣去与上次 x 之间的 c 数量，再决定延续旧段或从当前重新开始。\n\n### 复杂度\n\n期望时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, c;\n    cin >> n >> c;\n    unordered_map<int, pair<int, int>> state;\n    state.reserve(2 * n + 1);\n    int countC = 0, gain = 0;\n    for (int i = 0; i < n; i++) {\n        int x;\n        cin >> x;\n        if (x == c) {\n            countC++;\n            continue;\n        }\n        auto &[best, last] = state[x];\n        best = max(1, best - (countC - last) + 1);\n        last = countC;\n        gain = max(gain, best);\n    }\n    cout << countC + gain << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n区间内原 c 会减少；不同 x 的状态独立；从当前 x 重新开始的收益为一。\n",
+    "detailed": "## CF1082E Increasing Frequency\n\n原题：[CF1082E](https://www.luogu.com.cn/problem/CF1082E)\n\n### 从问题到算法\n\n一次加法只能把一种原值 x 变成 c，同时区间中的原 c 会被移走。因此净增加量就是区间内 #x−#c，其它值不影响收益。固定 x 后相当于 +1、−1、零序列的最大子段和。\n\n不能为每个 x 单独扫描全数组。维护全局已见 c 数 C，以及每种 x 的 bestEnding 和上次遇到它时的 C。下次遇到 x 时，间隔里 c 的惩罚为 C−lastC[x]，更新 bestEnding=max(1,bestEnding−惩罚+1)。间隔中的其它值为零，不需处理。\n\n最大净收益加上原数组全部 c 数就是答案。若保持原状最优，可以选择加零，收益下界为零。\n\n### 复杂度\n\n期望时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, c;\n    cin >> n >> c;\n    unordered_map<int, pair<int, int>> state;\n    state.reserve(2 * n + 1);\n    int countC = 0, gain = 0;\n    for (int i = 0; i < n; i++) {\n        int x;\n        cin >> x;\n        if (x == c) {\n            countC++;\n            continue;\n        }\n        auto &[best, last] = state[x];\n        best = max(1, best - (countC - last) + 1);\n        last = countC;\n        gain = max(gain, best);\n    }\n    cout << countC + gain << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n区间内原 c 会减少；不同 x 的状态独立；从当前 x 重新开始的收益为一。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF1082E",
+    "id": "luogu-training-CF1082E",
+    "programSha256": "7638fa3b74c2b830d78096d89a808d88945e776f6fea3ec17a2a00d35bb3c92e",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

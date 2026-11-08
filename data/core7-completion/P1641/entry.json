@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1641",
+  "method": "反射原理扣掉首次越界的路径",
+  "variants": {
+    "default": "## P1641 生成字符串\n\n原题：[P1641](https://www.luogu.com.cn/problem/P1641)\n\n### 思路\n\n全部字符串数为 C(n+m,m)。把首次出现 0 多于 1 的前缀反转，可将非法串与含 n+1 个 1、m−1 个 0 的串一一对应，所以答案为 C(n+m,m)−C(n+m,m−1)。\n\n### 复杂度\n\n时间 O(n+m+log MOD)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long power(long long a, long long b, long long mod) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % mod)\n        if (b & 1)\n            r = r * a % mod;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    const long long mod = 20100403;\n    int total = n + m;\n    vector<long long> fact(total + 1, 1), inv(total + 1, 1);\n    for (int i = 1; i <= total; i++)\n        fact[i] = fact[i - 1] * i % mod;\n    inv[total] = power(fact[total], mod - 2, mod);\n    for (int i = total; i; i--)\n        inv[i - 1] = inv[i] * i % mod;\n    auto choose = [&](int k) {\n        if (k < 0 || k > total)\n            return 0LL;\n        return fact[total] * inv[k] % mod * inv[total - k] % mod;\n    };\n    cout << (choose(m) - choose(m - 1) + mod) % mod << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n非法数对应 m−1；模减法加模数；不是只要求最终 1 不少于 0。\n",
+    "detailed": "## P1641 生成字符串\n\n原题：[P1641](https://www.luogu.com.cn/problem/P1641)\n\n### 从问题到算法\n\n把 1 看作向上一步、0 看作向下一步，要求所有前缀高度非负。全部安排有 C(n+m,m) 种，直接扣去走到负高度的安排。\n\n对一条非法路径，找到第一次到达 −1 的位置，把此前所有上、下步互换。这个前缀原来下步比上步多一个，互换后总的上步增加一、下步减少一，得到 n+1 个上步和 m−1 个下步的任意路径。\n\n反变换是找到第一次到达 +1 的位置并再次反转，因此这是双射，非法路径数恰为 C(n+m,m−1)。阶乘与逆阶乘预处理到 n+m，模数 20100403 为质数且比范围大，可以用费马小定理求逆。\n\n### 复杂度\n\n时间 O(n+m+log MOD)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long power(long long a, long long b, long long mod) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % mod)\n        if (b & 1)\n            r = r * a % mod;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    const long long mod = 20100403;\n    int total = n + m;\n    vector<long long> fact(total + 1, 1), inv(total + 1, 1);\n    for (int i = 1; i <= total; i++)\n        fact[i] = fact[i - 1] * i % mod;\n    inv[total] = power(fact[total], mod - 2, mod);\n    for (int i = total; i; i--)\n        inv[i - 1] = inv[i] * i % mod;\n    auto choose = [&](int k) {\n        if (k < 0 || k > total)\n            return 0LL;\n        return fact[total] * inv[k] % mod * inv[total - k] % mod;\n    };\n    cout << (choose(m) - choose(m - 1) + mod) % mod << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n非法数对应 m−1；模减法加模数；不是只要求最终 1 不少于 0。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1641",
+    "id": "luogu-training-P1641",
+    "programSha256": "9bba938256e88da9f846e9b05839d794eaf72635f4f258fcd347c21477ffd9df",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P5451",
+  "method": "共模攻击：将两个指数线性组合成一",
+  "variants": {
+    "default": "## P5451 密码学第三次小作业\n\n原题：[P5451](https://www.luogu.com.cn/problem/P5451)\n\n### 思路\n\n扩展欧几里得求 a·e1+b·e2=1，则 m≡c1^a·c2^b mod N。负指数改用密文的模逆元，所有模乘用 __int128。\n\n### 复杂度\n\n每组时间 O(log N+log e1+log e2)，空间 O(log N) 递归栈。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long egcd(long long a, long long b, __int128 &x, __int128 &y) {\n    if (!b) {\n        x = 1;\n        y = 0;\n        return a;\n    }\n    __int128 u, v;\n    long long g = egcd(b, a % b, u, v);\n    x = v;\n    y = u - (__int128)(a / b) * v;\n    return g;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    while (T--) {\n        long long c1, c2, e1, e2, N;\n        cin >> c1 >> c2 >> e1 >> e2 >> N;\n        __int128 a, b;\n        egcd(e1, e2, a, b);\n        auto inverse = [&](long long x) {\n            __int128 u, v;\n            egcd(x, N, u, v);\n            u %= N;\n            if (u < 0)\n                u += N;\n            return (long long)u;\n        };\n        auto power = [&](long long x, __int128 exponent) {\n            if (exponent < 0) {\n                x = inverse(x);\n                exponent = -exponent;\n            }\n            long long r = 1;\n            for (; exponent; exponent >>= 1, x = (__int128)x * x % N)\n                if (exponent & 1)\n                    r = (__int128)r * x % N;\n            return r;\n        };\n        cout << (long long)((__int128)power(c1, a) * power(c2, b) % N) << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n负指数先求逆；所有余数规范化；不能用普通 long long 乘法直接取模。\n",
+    "detailed": "## P5451 密码学第三次小作业\n\n原题：[P5451](https://www.luogu.com.cn/problem/P5451)\n\n### 从问题到算法\n\n题目保证 e1、e2 互质，存在整数 a、b 使 ae1+be2=1。密文代入后，c1^a c2^b≡m^(ae1+be2)≡m，因此不需要分解模数，也不需要求私钥。\n\na、b 中可能有负数。由于 m 与 N 互质，两份密文也与 N 互质，所以负指数可以改为逆元的正指数。再用扩展欧几里得求密文模 N 的逆元，并规范化到非负余数。\n\nN 接近有符号六十四位上限，两个模内数相乘会超出 long long，模乘必须先转 __int128。扩展欧几里得的系数运算同样使用 __int128，避免中间减乘溢出。\n\n### 复杂度\n\n每组时间 O(log N+log e1+log e2)，空间 O(log N) 递归栈。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long egcd(long long a, long long b, __int128 &x, __int128 &y) {\n    if (!b) {\n        x = 1;\n        y = 0;\n        return a;\n    }\n    __int128 u, v;\n    long long g = egcd(b, a % b, u, v);\n    x = v;\n    y = u - (__int128)(a / b) * v;\n    return g;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int T;\n    cin >> T;\n    while (T--) {\n        long long c1, c2, e1, e2, N;\n        cin >> c1 >> c2 >> e1 >> e2 >> N;\n        __int128 a, b;\n        egcd(e1, e2, a, b);\n        auto inverse = [&](long long x) {\n            __int128 u, v;\n            egcd(x, N, u, v);\n            u %= N;\n            if (u < 0)\n                u += N;\n            return (long long)u;\n        };\n        auto power = [&](long long x, __int128 exponent) {\n            if (exponent < 0) {\n                x = inverse(x);\n                exponent = -exponent;\n            }\n            long long r = 1;\n            for (; exponent; exponent >>= 1, x = (__int128)x * x % N)\n                if (exponent & 1)\n                    r = (__int128)r * x % N;\n            return r;\n        };\n        cout << (long long)((__int128)power(c1, a) * power(c2, b) % N) << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n负指数先求逆；所有余数规范化；不能用普通 long long 乘法直接取模。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P5451",
+    "id": "luogu-training-P5451",
+    "programSha256": "f2944da995f50214dd348001ca4497ffecd8db676367eeb77583cd09afd7ab44",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

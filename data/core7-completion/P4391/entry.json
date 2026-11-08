@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4391",
+  "method": "由最长 border 得到最短周期",
+  "variants": {
+    "default": "## P4391 Radio Transmission 无线传输\n\n原题：[P4391](https://www.luogu.com.cn/problem/P4391)\n\n### 思路\n\n求整个字符串的最长真前后缀长度 b，答案为 n−b。电台发送的最后一轮可以不完整，因此不要求周期长度整除 n。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> prefix(const string &s) {\n    vector<int> p(s.size());\n    for (int i = 1; i < (int)s.size(); i++) {\n        int j = p[i - 1];\n        while (j && s[i] != s[j])\n            j = p[j - 1];\n        if (s[i] == s[j])\n            j++;\n        p[i] = j;\n    }\n    return p;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    string s;\n    cin >> n >> s;\n    auto p = prefix(s);\n    cout << n - p.back() << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n无需检验 n%周期；输入含给定长度。\n",
+    "detailed": "## P4391 Radio Transmission 无线传输\n\n原题：[P4391](https://www.luogu.com.cn/problem/P4391)\n\n### 从问题到算法\n\n如果一个长度为 n 的字符串可以由长度 p 的循环节生成，那么第 p 个字符之后的部分，应与从开头开始的 n−p 个字符相等，这正是长度为 n−p 的 border。\n\n反过来，若前 n−p 个字符等于后 n−p 个字符，就有 s[i]=s[i−p] 对所有 i>=p 成立，所以首 p 个字符不断重复即可生成整段接收内容。最短周期对应最长 border，故 p=n−pi[n−1]。\n\n接收可能在某个循环节中途停止，所以不能套用“若 n 不能整除 p 就取 n”的整串幂判断。这里即使没有整除关系，p 仍是合法答案。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> prefix(const string &s) {\n    vector<int> p(s.size());\n    for (int i = 1; i < (int)s.size(); i++) {\n        int j = p[i - 1];\n        while (j && s[i] != s[j])\n            j = p[j - 1];\n        if (s[i] == s[j])\n            j++;\n        p[i] = j;\n    }\n    return p;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    string s;\n    cin >> n >> s;\n    auto p = prefix(s);\n    cout << n - p.back() << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n无需检验 n%周期；输入含给定长度。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4391",
+    "id": "luogu-training-P4391",
+    "programSha256": "086697536abb09eff904da8773dd830db4eb0e56f79b6b4105390d47132b25ab",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

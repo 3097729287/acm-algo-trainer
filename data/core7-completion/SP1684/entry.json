@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-SP1684",
+  "method": "有序数组的等值连续段合并",
+  "variants": {
+    "default": "## SP1684 FREQUENT - Frequent values\n\n原题：[SP1684](https://www.luogu.com.cn/problem/SP1684)\n\n### 思路\n\n因为数组有序，同一值只出现在一个连续段。线段树维护首尾值、等值前后缀长度和最高频次；合并时仅边界相同才产生跨界段。\n\n### 复杂度\n\n每组建树 O(n)，每次查询 O(log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Node {\n    int len = 0, first = 0, last = 0, pre = 0, suf = 0, best = 0;\n};\nNode merge(Node a, Node b) {\n    if (!a.len)\n        return b;\n    if (!b.len)\n        return a;\n    Node c = {a.len + b.len, a.first, b.last, a.pre, b.suf, max(a.best, b.best)};\n    if (a.last == b.first) {\n        c.best = max(c.best, a.suf + b.pre);\n        if (a.pre == a.len)\n            c.pre = a.len + b.pre;\n        if (b.suf == b.len)\n            c.suf = b.len + a.suf;\n    }\n    return c;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    while (cin >> n && n) {\n        cin >> q;\n        int size = 1;\n        while (size < n)\n            size *= 2;\n        vector<Node> t(2 * size);\n        for (int i = 0; i < n; i++) {\n            int x;\n            cin >> x;\n            t[size + i] = {1, x, x, 1, 1, 1};\n        }\n        for (int p = size - 1; p; p--)\n            t[p] = merge(t[p * 2], t[p * 2 + 1]);\n        while (q--) {\n            int l, r;\n            cin >> l >> r;\n            Node a, b;\n            for (l += size - 1, r += size; l < r; l /= 2, r /= 2) {\n                if (l & 1)\n                    a = merge(a, t[l++]);\n                if (r & 1)\n                    b = merge(t[--r], b);\n            }\n            cout << merge(a, b).best << '\\n';\n        }\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n依赖数组有序；查询必须保持拼接次序；n=0 结束。\n",
+    "detailed": "## SP1684 FREQUENT - Frequent values\n\n原题：[SP1684](https://www.luogu.com.cn/problem/SP1684)\n\n### 从问题到算法\n\n如果数组无序，最高频次不能仅靠左右段的最大频次合并；但本题数组非降，同值必连续，因此最高频次就是最长等值连续段。\n\n节点记录长度、首尾值、最长等值前缀、后缀以及最佳段。合并时，若左末值等于右首值，跨界候选为左后缀加右前缀；否则最佳只可能完全位于一侧。前缀只有在整个左段同值且边界相同时才能延长，后缀同理。\n\n区间查询保持从左到右的顺序。空节点长度为零，合并时直接返回另一边，方便处理查询边界。输入以 n=0 结束。\n\n### 复杂度\n\n每组建树 O(n)，每次查询 O(log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Node {\n    int len = 0, first = 0, last = 0, pre = 0, suf = 0, best = 0;\n};\nNode merge(Node a, Node b) {\n    if (!a.len)\n        return b;\n    if (!b.len)\n        return a;\n    Node c = {a.len + b.len, a.first, b.last, a.pre, b.suf, max(a.best, b.best)};\n    if (a.last == b.first) {\n        c.best = max(c.best, a.suf + b.pre);\n        if (a.pre == a.len)\n            c.pre = a.len + b.pre;\n        if (b.suf == b.len)\n            c.suf = b.len + a.suf;\n    }\n    return c;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    while (cin >> n && n) {\n        cin >> q;\n        int size = 1;\n        while (size < n)\n            size *= 2;\n        vector<Node> t(2 * size);\n        for (int i = 0; i < n; i++) {\n            int x;\n            cin >> x;\n            t[size + i] = {1, x, x, 1, 1, 1};\n        }\n        for (int p = size - 1; p; p--)\n            t[p] = merge(t[p * 2], t[p * 2 + 1]);\n        while (q--) {\n            int l, r;\n            cin >> l >> r;\n            Node a, b;\n            for (l += size - 1, r += size; l < r; l /= 2, r /= 2) {\n                if (l & 1)\n                    a = merge(a, t[l++]);\n                if (r & 1)\n                    b = merge(t[--r], b);\n            }\n            cout << merge(a, b).best << '\\n';\n        }\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n依赖数组有序；查询必须保持拼接次序；n=0 结束。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "SP1684",
+    "id": "luogu-training-SP1684",
+    "programSha256": "2c4368637a7526a462da6dc620cbeed3c733d546196896ad15b851f554c1632c",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

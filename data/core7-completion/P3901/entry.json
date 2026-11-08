@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3901",
+  "method": "前一次出现位置的前缀最大值",
+  "variants": {
+    "default": "## P3901 数列找不同\n\n原题：[P3901](https://www.luogu.com.cn/problem/P3901)\n\n### 思路\n\n记录每个位置的值上次出现在哪里。令 bad[r] 是前 r 项中这些前驱位置的最大值，则 [l,r] 全部不同当且仅当 bad[r]<l。\n\n### 复杂度\n\n时间 O(n+q)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    cin >> n >> q;\n    vector<int> last(n + 1), bad(n + 1);\n    for (int i = 1; i <= n; i++) {\n        int x;\n        cin >> x;\n        bad[i] = max(bad[i - 1], last[x]);\n        last[x] = i;\n    }\n    while (q--) {\n        int l, r;\n        cin >> l >> r;\n        cout << (bad[r] < l ? \"Yes\" : \"No\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n比较是严格小于 l；last 的零表示从未出现。\n",
+    "detailed": "## P3901 数列找不同\n\n原题：[P3901](https://www.luogu.com.cn/problem/P3901)\n\n### 从问题到算法\n\n区间内出现重复，等价于存在某个位置 i，它与相同值的前一次出现位置 pre[i] 都落在 [l,r] 中，即 l<=pre[i]<i<=r。\n\n维护 bad[r]=max(pre[1],…,pre[r])。若 bad[r]>=l，产生该最大值的位置 i 一定大于 pre[i]、不超过 r，因此它与前驱都在查询区间内，存在重复。若 bad[r]<l，所有位置的同值前驱都在区间外，不可能出现重复。\n\n读取数组时用 last[value] 得到前驱，再更新 bad 的前缀最大值。每次查询只比较一个整数，不需要莫队或线段树。\n\n### 复杂度\n\n时间 O(n+q)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    cin >> n >> q;\n    vector<int> last(n + 1), bad(n + 1);\n    for (int i = 1; i <= n; i++) {\n        int x;\n        cin >> x;\n        bad[i] = max(bad[i - 1], last[x]);\n        last[x] = i;\n    }\n    while (q--) {\n        int l, r;\n        cin >> l >> r;\n        cout << (bad[r] < l ? \"Yes\" : \"No\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n比较是严格小于 l；last 的零表示从未出现。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3901",
+    "id": "luogu-training-P3901",
+    "programSha256": "32425a2fff578aa06461628a3b66fce7fb0e58c6923bc48479aeeb662b6a02a5",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

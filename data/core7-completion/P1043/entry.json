@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1043",
+  "method": "断环枚举起点，分组 DP 同时求最小最大",
+  "variants": {
+    "default": "## P1043 数字游戏\n\n原题：[P1043](https://www.luogu.com.cn/problem/P1043)\n\n### 思路\n\n复制一份环形数组，枚举长度 n 的线性窗口。每个窗口按组数和前缀长度 DP，枚举最后一组起点，以该组和模十后的值相乘，分别维护最小值和最大值。\n\n### 复杂度\n\n时间 O(mn³)，空间 O(mn)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<long long> pre(2 * n + 1), a(n);\n    for (auto &x : a)\n        cin >> x;\n    for (int i = 1; i <= 2 * n; i++)\n        pre[i] = pre[i - 1] + a[(i - 1) % n];\n    long long answerMin = LLONG_MAX, answerMax = 0;\n    for (int start = 0; start < n; start++) {\n        const long long INF = LLONG_MAX / 4;\n        vector<vector<long long>> lo(m + 1, vector<long long>(n + 1, INF)),\n            hi(m + 1, vector<long long>(n + 1, -1));\n        lo[0][0] = hi[0][0] = 1;\n        for (int g = 1; g <= m; g++)\n            for (int i = g; i <= n; i++)\n                for (int j = g - 1; j < i; j++)\n                    if (hi[g - 1][j] >= 0) {\n                        long long v = ((pre[start + i] - pre[start + j]) % 10 + 10) % 10;\n                        lo[g][i] = min(lo[g][i], lo[g - 1][j] * v);\n                        hi[g][i] = max(hi[g][i], hi[g - 1][j] * v);\n                    }\n        answerMin = min(answerMin, lo[m][n]);\n        answerMax = max(answerMax, hi[m][n]);\n    }\n    cout << answerMin << '\\n' << answerMax << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n每组非空；负数取模要加十；零组的空乘积是一。\n",
+    "detailed": "## P1043 数字游戏\n\n原题：[P1043](https://www.luogu.com.cn/problem/P1043)\n\n### 从问题到算法\n\n任意环形划分都可以从某个分组边界切开变成线性划分；枚举全部 n 个起点就不会漏掉最优方案。复制数组并做前缀和，任意一组的值可常数时间计算。\n\n令 low[g][i]、high[g][i] 为前 i 个数恰分 g 个非空组的最小、最大乘积。枚举前 g−1 组结束位置 j，最后一组值 v 是区间和对十的非负余数，再分别更新 low[g−1][j]·v 与 high[g−1][j]·v。\n\nv 始终非负，所以乘积最小值只需前态最小值、最大值只需最大值。初始零组零元素乘积为一，不可能状态单独标记。最终在所有起点的结果中取最小与最大。\n\n### 复杂度\n\n时间 O(mn³)，空间 O(mn)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n    vector<long long> pre(2 * n + 1), a(n);\n    for (auto &x : a)\n        cin >> x;\n    for (int i = 1; i <= 2 * n; i++)\n        pre[i] = pre[i - 1] + a[(i - 1) % n];\n    long long answerMin = LLONG_MAX, answerMax = 0;\n    for (int start = 0; start < n; start++) {\n        const long long INF = LLONG_MAX / 4;\n        vector<vector<long long>> lo(m + 1, vector<long long>(n + 1, INF)),\n            hi(m + 1, vector<long long>(n + 1, -1));\n        lo[0][0] = hi[0][0] = 1;\n        for (int g = 1; g <= m; g++)\n            for (int i = g; i <= n; i++)\n                for (int j = g - 1; j < i; j++)\n                    if (hi[g - 1][j] >= 0) {\n                        long long v = ((pre[start + i] - pre[start + j]) % 10 + 10) % 10;\n                        lo[g][i] = min(lo[g][i], lo[g - 1][j] * v);\n                        hi[g][i] = max(hi[g][i], hi[g - 1][j] * v);\n                    }\n        answerMin = min(answerMin, lo[m][n]);\n        answerMax = max(answerMax, hi[m][n]);\n    }\n    cout << answerMin << '\\n' << answerMax << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n每组非空；负数取模要加十；零组的空乘积是一。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1043",
+    "id": "luogu-training-P1043",
+    "programSha256": "f7edd475e401f5384f73f1b4c1debc1d1002d5132517aa62cba31e6c99cc21dd",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

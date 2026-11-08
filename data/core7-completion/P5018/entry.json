@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P5018",
+  "method": "对子树与镜像子树做精确编号",
+  "variants": {
+    "default": "## P5018 对称二叉树\n\n原题：[P5018](https://www.luogu.com.cn/problem/P5018)\n\n### 思路\n\n自底向上为 (点权,左子树编号,右子树编号) 分配唯一编号，同时计算交换左右后的镜像编号。两编号相等时，该子树对称；取其中最大节点数。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> w(n + 1), l(n + 1), r(n + 1), id(n + 1), mirror(n + 1), size(n + 1);\n    for (int i = 1; i <= n; i++)\n        cin >> w[i];\n    for (int i = 1; i <= n; i++) {\n        cin >> l[i] >> r[i];\n        l[i] = max(l[i], 0);\n        r[i] = max(r[i], 0);\n    }\n    vector<int> order = {1};\n    for (int i = 0; i < (int)order.size(); i++) {\n        int v = order[i];\n        if (l[v])\n            order.push_back(l[v]);\n        if (r[v])\n            order.push_back(r[v]);\n    }\n    map<tuple<int, int, int>, int> ids;\n    auto intern = [&](int value, int a, int b) {\n        auto key = make_tuple(value, a, b);\n        auto it = ids.find(key);\n        if (it != ids.end())\n            return it->second;\n        int index = ids.size() + 1;\n        ids.emplace(key, index);\n        return index;\n    };\n    int ans = 0;\n    for (int i = n - 1; i >= 0; i--) {\n        int v = order[i];\n        id[v] = intern(w[v], id[l[v]], id[r[v]]);\n        mirror[v] = intern(w[v], mirror[r[v]], mirror[l[v]]);\n        size[v] = size[l[v]] + size[r[v]] + 1;\n        if (id[v] == mirror[v])\n            ans = max(ans, size[v]);\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n孩子 -1 转为空树 0；点权也属于结构；使用真实遍历顺序倒序处理。\n",
+    "detailed": "## P5018 对称二叉树\n\n原题：[P5018](https://www.luogu.com.cn/problem/P5018)\n\n### 从问题到算法\n\n只比较左右子树大小或点权和不足以保证结构一致。应把一棵有根有序树完整表示为三元组：根点权、左子树结构编号、右子树结构编号。用同一张 map 为相同三元组分配相同编号，就能精确判断整棵结构与点权是否相等。空树编号为零。\n\n原树编号由两个原子树编号构造；镜像编号则由右子树的镜像编号、左子树的镜像编号构造。一个节点原编号等于镜像编号，当且仅当它的完整子树在交换所有左右孩子后保持不变。\n\n先从根遍历得到父先子后的顺序，再倒序处理，确保孩子已计算。与此同时累计子树节点数。这样不受输入编号是否为后序影响，也不会在百万点长链上递归溢出。map 比较完整三元组，不使用存在碰撞的数值哈希。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> w(n + 1), l(n + 1), r(n + 1), id(n + 1), mirror(n + 1), size(n + 1);\n    for (int i = 1; i <= n; i++)\n        cin >> w[i];\n    for (int i = 1; i <= n; i++) {\n        cin >> l[i] >> r[i];\n        l[i] = max(l[i], 0);\n        r[i] = max(r[i], 0);\n    }\n    vector<int> order = {1};\n    for (int i = 0; i < (int)order.size(); i++) {\n        int v = order[i];\n        if (l[v])\n            order.push_back(l[v]);\n        if (r[v])\n            order.push_back(r[v]);\n    }\n    map<tuple<int, int, int>, int> ids;\n    auto intern = [&](int value, int a, int b) {\n        auto key = make_tuple(value, a, b);\n        auto it = ids.find(key);\n        if (it != ids.end())\n            return it->second;\n        int index = ids.size() + 1;\n        ids.emplace(key, index);\n        return index;\n    };\n    int ans = 0;\n    for (int i = n - 1; i >= 0; i--) {\n        int v = order[i];\n        id[v] = intern(w[v], id[l[v]], id[r[v]]);\n        mirror[v] = intern(w[v], mirror[r[v]], mirror[l[v]]);\n        size[v] = size[l[v]] + size[r[v]] + 1;\n        if (id[v] == mirror[v])\n            ans = max(ans, size[v]);\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n孩子 -1 转为空树 0；点权也属于结构；使用真实遍历顺序倒序处理。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P5018",
+    "id": "luogu-training-P5018",
+    "programSha256": "36528f96ce65ded40dc68480d552ae92af3d972fd7ab039367ac2f248ad6b6e1",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

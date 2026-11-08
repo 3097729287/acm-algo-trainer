@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF1408F",
+  "method": "两段二次幂区间分别归并为单值",
+  "variants": {
+    "default": "## CF1408F Two Different\n\n原题：[CF1408F](https://www.luogu.com.cn/problem/CF1408F)\n\n### 思路\n\n取不超过 n 的最大二次幂 L，对前 L 个、后 L 个位置分别进行分治配对。二次幂区间能变成同一个表达式；第二次覆盖后，全数组最多保留两种值。\n\n### 复杂度\n\n时间与输出 O(n log n)，递归空间 O(log n)，保存操作 O(n log n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    int L = 1;\n    while (2 * L <= n)\n        L *= 2;\n    vector<pair<int, int>> ops;\n    function<void(int, int)> solve = [&](int l, int length) {\n        if (length == 1)\n            return;\n        int half = length / 2;\n        solve(l, half);\n        solve(l + half, half);\n        for (int i = 0; i < half; i++)\n            ops.push_back({l + i, l + half + i});\n    };\n    solve(1, L);\n    solve(n - L + 1, L);\n    cout << ops.size() << '\\n';\n    for (auto [a, b] : ops)\n        cout << a << ' ' << b << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n函数可能不交换，配对方向保持一致；两段允许重叠；先分后合。\n",
+    "detailed": "## CF1408F Two Different\n\n原题：[CF1408F](https://www.luogu.com.cn/problem/CF1408F)\n\n### 从问题到算法\n\n长度二的区间直接配对后相等。归纳地，先把左右半区各处理成一致值 A、B，再将对应位置按同样方向逐对操作，每对都变成 f(A,B)，所以整个区间一致，不要求 f 有任何交换或结合性质。\n\nL 是最大二次幂，有 2L≥n。先处理前 L 个使它们成为 A，再处理后 L 个成为 B。第二次操作之后，后 L 个全为 B，前面未被覆盖的部分仍全为 A，故至多两值。重叠部分旧值如何并不影响第二次分治的归纳结论。\n\n每段操作数为 (L/2)log2 L，两段总计 Llog2 L，远低于五十万。输出顺序要先递归两半，再逐对归并，不能倒过来。\n\n### 复杂度\n\n时间与输出 O(n log n)，递归空间 O(log n)，保存操作 O(n log n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    int L = 1;\n    while (2 * L <= n)\n        L *= 2;\n    vector<pair<int, int>> ops;\n    function<void(int, int)> solve = [&](int l, int length) {\n        if (length == 1)\n            return;\n        int half = length / 2;\n        solve(l, half);\n        solve(l + half, half);\n        for (int i = 0; i < half; i++)\n            ops.push_back({l + i, l + half + i});\n    };\n    solve(1, L);\n    solve(n - L + 1, L);\n    cout << ops.size() << '\\n';\n    for (auto [a, b] : ops)\n        cout << a << ' ' << b << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n函数可能不交换，配对方向保持一致；两段允许重叠；先分后合。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF1408F",
+    "id": "luogu-training-CF1408F",
+    "programSha256": "bfbfa73aa470d54b7aee98732d545d263512619745ee11a8115282ee6e5ac6ca",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

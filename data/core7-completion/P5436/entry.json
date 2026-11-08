@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P5436",
+  "method": "相邻两个最大整数互质",
+  "variants": {
+    "default": "## P5436 缘分\n\n原题：[P5436](https://www.luogu.com.cn/problem/P5436)\n\n### 思路\n\nn=1 时答案为 1；否则选 n 和 n−1。它们互质，最小公倍数为 n(n−1)，且任何两个不同的合法数的乘积都不超过这个值。\n\n### 复杂度\n\n每组时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int t;\n    cin >> t;\n    while (t--) {\n        long long n;\n        cin >> n;\n        cout << (n == 1 ? 1 : n * (n - 1)) << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\nn=1 单独处理；乘法用六十四位。\n",
+    "detailed": "## P5436 缘分\n\n原题：[P5436](https://www.luogu.com.cn/problem/P5436)\n\n### 从问题到算法\n\n若选的两个整数相等，最小公倍数就是它们本身，不超过 n。若不同，把较大者记为 a、较小者记为 b，则 a<=n、b<=n−1，且 lcm(a,b)<=ab<=n(n−1)。\n\n相邻整数的任何公因数都必须整除它们的差 1，所以 gcd(n,n−1)=1。取这一对时，最小公倍数正好等于乘积，达到了刚才的上界。\n\n唯一特例 n=1，只有 (1,1) 可选，答案为 1。n 可达十亿，乘积要用 long long 保存。\n\n### 复杂度\n\n每组时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int t;\n    cin >> t;\n    while (t--) {\n        long long n;\n        cin >> n;\n        cout << (n == 1 ? 1 : n * (n - 1)) << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\nn=1 单独处理；乘法用六十四位。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P5436",
+    "id": "luogu-training-P5436",
+    "programSha256": "1c21de572e01ba184d4e81f1a75777ea8da4f4f954ec1d02aca78029074487cd",
+    "samples": 1,
+    "independentCases": 1,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

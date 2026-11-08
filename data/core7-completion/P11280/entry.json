@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P11280",
+  "method": "比较两人到根的最短距离",
+  "variants": {
+    "default": "## P11280 Jom & Terry\n\n原题：[P11280](https://www.luogu.com.cn/problem/P11280)\n\n### 思路\n\n从根广搜得到所有距离。Terry 到根的距离不大于 Jom 时输出 Terry，否则输出 Jom。相等时 Terry 先移动，能先到根。\n\n### 复杂度\n\n预处理时间 O(n+m)，每问 O(1)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m, r;\n    cin >> n >> m >> r;\n    r--;\n    vector<vector<int>> g(n);\n    while (m--) {\n        int a, b;\n        cin >> a >> b;\n        a--;\n        b--;\n        g[a].push_back(b);\n        g[b].push_back(a);\n    }\n    vector<int> d(n, -1), q = {r};\n    d[r] = 0;\n    for (int i = 0; i < (int)q.size(); i++)\n        for (int u : g[q[i]])\n            if (d[u] < 0) {\n                d[u] = d[q[i]] + 1;\n                q.push_back(u);\n            }\n    cout << \"I'm here!\\n\";\n    int Q;\n    cin >> Q;\n    while (Q--) {\n        int a, b;\n        cin >> a >> b;\n        cout << (d[a - 1] <= d[b - 1] ? \"Terry\" : \"Jom\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相等由先手获胜；先输出指定问候语；Jom 主动走到 Terry 位置不算捕获。\n",
+    "detailed": "## P11280 Jom & Terry\n\n原题：[P11280](https://www.luogu.com.cn/problem/P11280)\n\n### 从问题到算法\n\n记两人到根距离为 da、db。若 da≤db，Terry 每步沿最短路前进。在 Terry 的第 t 步之前，Jom 到根的距离至少是 db−t+1，而 Terry 要走到的点距根为 da−t，后者严格更小，因此不会走进 Jom 所在位置，最终能先到根。\n\n若 da>db，Jom 每步沿最短路到根，然后一直停在那里。Terry 无论走哪条路都至少需要 da 步，无法在 Jom 之前到根，此后根被占据，Terry 也不能进入。因此这个判据充分且必要。\n\n重边与自环不会改变 BFS 的正确性。开头按题目要求输出固定的 I'm here!，再回答全部询问。\n\n### 复杂度\n\n预处理时间 O(n+m)，每问 O(1)，空间 O(n+m)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m, r;\n    cin >> n >> m >> r;\n    r--;\n    vector<vector<int>> g(n);\n    while (m--) {\n        int a, b;\n        cin >> a >> b;\n        a--;\n        b--;\n        g[a].push_back(b);\n        g[b].push_back(a);\n    }\n    vector<int> d(n, -1), q = {r};\n    d[r] = 0;\n    for (int i = 0; i < (int)q.size(); i++)\n        for (int u : g[q[i]])\n            if (d[u] < 0) {\n                d[u] = d[q[i]] + 1;\n                q.push_back(u);\n            }\n    cout << \"I'm here!\\n\";\n    int Q;\n    cin >> Q;\n    while (Q--) {\n        int a, b;\n        cin >> a >> b;\n        cout << (d[a - 1] <= d[b - 1] ? \"Terry\" : \"Jom\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n相等由先手获胜；先输出指定问候语；Jom 主动走到 Terry 位置不算捕获。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P11280",
+    "id": "luogu-training-P11280",
+    "programSha256": "86e24f272fdbce17cc74aef80379c5e9d806b2985014a2f3b50bc6f9fdf63f27",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

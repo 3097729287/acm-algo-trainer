@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P6834",
+  "method": "层连通块公式与滑动窗口期望",
+  "variants": {
+    "default": "## P6834 梦原\n\n原题：[P6834](https://www.luogu.com.cn/problem/P6834)\n\n### 思路\n\n固定树的最少次数为 a1+Σmax(ai−a[parent],0)。对每个 i 平均枚举允许的父亲，窗口内用树状数组求小于 ai 的值的个数与和，得到这一项的期望。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Fenwick {\n    int n;\n    vector<long long> t;\n    explicit Fenwick(int n) : n(n), t(n + 1) {}\n    void add(int x, long long v) {\n        for (; x <= n; x += x & -x)\n            t[x] += v;\n    }\n    long long sum(int x) const {\n        long long s = 0;\n        for (; x; x -= x & -x)\n            s += t[x];\n        return s;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    cin >> n >> k;\n    const long long P = 998244353;\n    vector<long long> a(n), values;\n    for (auto &x : a)\n        cin >> x;\n    values = a;\n    sort(values.begin(), values.end());\n    values.erase(unique(values.begin(), values.end()), values.end());\n    Fenwick count(values.size()), sum(values.size());\n    vector<long long> inv(k + 1);\n    inv[1] = 1;\n    for (int i = 2; i <= k; i++)\n        inv[i] = (P - P / i) * inv[P % i] % P;\n    auto rank = [&](long long x) {\n        return int(lower_bound(values.begin(), values.end(), x) - values.begin()) + 1;\n    };\n    auto change = [&](int i, int delta) {\n        int r = rank(a[i]);\n        count.add(r, delta);\n        sum.add(r, a[i] * delta);\n    };\n    long long ans = a[0];\n    change(0, 1);\n    for (int i = 1; i < n; i++) {\n        if (i - k - 1 >= 0)\n            change(i - k - 1, -1);\n        int r = rank(a[i]);\n        long long positive = (a[i] * count.sum(r - 1) - sum.sum(r - 1)) % P;\n        ans = (ans + positive * inv[min(k, i)]) % P;\n        change(i, 1);\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n差取正部后再求平均；旧父亲离开窗口时删除；a 可以为零。\n",
+    "detailed": "## P6834 梦原\n\n原题：[P6834](https://www.luogu.com.cn/problem/P6834)\n\n### 从问题到算法\n\n把果实按高度分层，第 h 层保留所有 a[i]≥h 的点，每个连通块用一次魔法即可。所有层的连通块总数等于 Σa[i]−Σ边min(a[u],a[v])，也就是 a1+Σ(i>1)max(a[i]−a[parent],0)。\n\n这个构造也是最优的。记上式为势能，一次对连通块减一时，点和减少块大小，内部边最小值减少块大小减一，边界的变化只会进一步降低势能的减少量，因此势能每次最多下降一。要降到零，至少需要初始势能次，按层构造恰好达到它。\n\n利用期望线性性，第 i 项对最近 min(k,i−1) 个值取平均。若其中小于 a[i] 的数有 c 个、总和为 s，则正差之和为 a[i]c−s。离散化数值，用两棵树状数组在滑动窗口中维护数量与总和，再乘窗口长度的模逆元。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Fenwick {\n    int n;\n    vector<long long> t;\n    explicit Fenwick(int n) : n(n), t(n + 1) {}\n    void add(int x, long long v) {\n        for (; x <= n; x += x & -x)\n            t[x] += v;\n    }\n    long long sum(int x) const {\n        long long s = 0;\n        for (; x; x -= x & -x)\n            s += t[x];\n        return s;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    cin >> n >> k;\n    const long long P = 998244353;\n    vector<long long> a(n), values;\n    for (auto &x : a)\n        cin >> x;\n    values = a;\n    sort(values.begin(), values.end());\n    values.erase(unique(values.begin(), values.end()), values.end());\n    Fenwick count(values.size()), sum(values.size());\n    vector<long long> inv(k + 1);\n    inv[1] = 1;\n    for (int i = 2; i <= k; i++)\n        inv[i] = (P - P / i) * inv[P % i] % P;\n    auto rank = [&](long long x) {\n        return int(lower_bound(values.begin(), values.end(), x) - values.begin()) + 1;\n    };\n    auto change = [&](int i, int delta) {\n        int r = rank(a[i]);\n        count.add(r, delta);\n        sum.add(r, a[i] * delta);\n    };\n    long long ans = a[0];\n    change(0, 1);\n    for (int i = 1; i < n; i++) {\n        if (i - k - 1 >= 0)\n            change(i - k - 1, -1);\n        int r = rank(a[i]);\n        long long positive = (a[i] * count.sum(r - 1) - sum.sum(r - 1)) % P;\n        ans = (ans + positive * inv[min(k, i)]) % P;\n        change(i, 1);\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n差取正部后再求平均；旧父亲离开窗口时删除；a 可以为零。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P6834",
+    "id": "luogu-training-P6834",
+    "programSha256": "4b610a5a1dc25922fe7f62786791134bc03b0437a39e54330905292bf25d74d9",
+    "samples": 3,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P6162",
+  "method": "阶梯棋盘的车数等于第二类 Stirling 数",
+  "variants": {
+    "default": "## P6162 四角链\n\n原题：[P6162](https://www.luogu.com.cn/problem/P6162)\n\n### 思路\n\n填数字相当于在第 i 列的前 i 行放一辆车，且每列每行至多一辆。阶梯棋盘放 k 辆车的方案数是 S(n,n−k)，用容斥公式求这个第二类 Stirling 数。\n\n### 复杂度\n\n时间 O((n−k) log n)，空间 O(n−k)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long power(long long a, long long b, long long mod) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % mod)\n        if (b & 1)\n            r = r * a % mod;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    cin >> n >> k;\n    const long long mod = 998244353;\n    if (k == 0) {\n        cout << 1 << '\\n';\n        return 0;\n    }\n    int m = n - k;\n    vector<long long> fact(m + 1, 1), inv(m + 1, 1);\n    for (int i = 1; i <= m; i++)\n        fact[i] = fact[i - 1] * i % mod;\n    inv[m] = power(fact[m], mod - 2, mod);\n    for (int i = m; i; i--)\n        inv[i - 1] = inv[i] * i % mod;\n    long long ans = 0;\n    for (int i = 0; i <= m; i++) {\n        long long term = power(i, n, mod) * inv[i] % mod * inv[m - i] % mod;\n        if ((m - i) & 1)\n            ans = (ans - term + mod) % mod;\n        else\n            ans = (ans + term) % mod;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n是 S(n,n−k)；容斥正负按 m−i；k=0 时答案为 1。\n",
+    "detailed": "## P6162 四角链\n\n原题：[P6162](https://www.luogu.com.cn/problem/P6162)\n\n### 从问题到算法\n\n把格子编号看作列，填入的数看作行。每列至多填一个数，对应每列至多一辆车；数字互不相同对应每行至多一辆车。允许区域正好是列高依次为 1 到 n−1 的阶梯棋盘。\n\n其车数递推满足 R(n,k)=R(n−1,k)+(n−k)R(n−1,k−1)：最后一列不放，或放在未占用的行。代换 m=n−k 后，正是第二类 Stirling 数递推 S(n,m)=S(n−1,m−1)+mS(n−1,m)，边界也一致，故答案为 S(n,n−k)。\n\n令 m=n−k，使用满射容斥：m!S(n,m)=Σ(i=0..m)(−1)^(m−i)C(m,i)i^n。将组合数约去 m!，每项是 (−1)^(m−i)i^n/(i!(m−i)!)，预处理阶乘逆元后快速幂求和即可。\n\n### 复杂度\n\n时间 O((n−k) log n)，空间 O(n−k)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long power(long long a, long long b, long long mod) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % mod)\n        if (b & 1)\n            r = r * a % mod;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    cin >> n >> k;\n    const long long mod = 998244353;\n    if (k == 0) {\n        cout << 1 << '\\n';\n        return 0;\n    }\n    int m = n - k;\n    vector<long long> fact(m + 1, 1), inv(m + 1, 1);\n    for (int i = 1; i <= m; i++)\n        fact[i] = fact[i - 1] * i % mod;\n    inv[m] = power(fact[m], mod - 2, mod);\n    for (int i = m; i; i--)\n        inv[i - 1] = inv[i] * i % mod;\n    long long ans = 0;\n    for (int i = 0; i <= m; i++) {\n        long long term = power(i, n, mod) * inv[i] % mod * inv[m - i] % mod;\n        if ((m - i) & 1)\n            ans = (ans - term + mod) % mod;\n        else\n            ans = (ans + term) % mod;\n    }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n是 S(n,n−k)；容斥正负按 m−i；k=0 时答案为 1。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P6162",
+    "id": "luogu-training-P6162",
+    "programSha256": "2074e8c3e68cc7225d29b90682b14400cf2c59ae4de927f95599ad11bee12cff",
+    "samples": 3,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

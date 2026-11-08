@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1325",
+  "method": "把雷达覆盖转成区间选点",
+  "variants": {
+    "default": "## P1325 雷达安装\n\n原题：[P1325](https://www.luogu.com.cn/problem/P1325)\n\n### 思路\n\n雷达位于 x 轴。能覆盖岛屿 (x,y) 的雷达横坐标区间为 [x−sqrt(d²−y²),x+sqrt(d²−y²)]。按右端排序，若上个雷达不在当前区间内，就在当前右端再放一个。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    double d;\n    cin >> n >> d;\n    vector<pair<double, double>> intervals;\n    bool possible = true;\n    for (int i = 0; i < n; i++) {\n        double x, y;\n        cin >> x >> y;\n        if (abs(y) > d) {\n            possible = false;\n            continue;\n        }\n        double radius = sqrt(max(0.0, d * d - y * y));\n        intervals.push_back({x - radius, x + radius});\n    }\n    if (!possible) {\n        cout << -1 << '\\n';\n        return 0;\n    }\n    sort(intervals.begin(), intervals.end(), [](auto a, auto b) { return a.second < b.second; });\n    int ans = 0;\n    double last = -numeric_limits<double>::infinity();\n    for (auto [l, r] : intervals)\n        if (last < l) {\n            last = r;\n            ans++;\n        }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先检查 |y|<=d；区间按右端排序；相等端点算覆盖。\n",
+    "detailed": "## P1325 雷达安装\n\n原题：[P1325](https://www.luogu.com.cn/problem/P1325)\n\n### 从问题到算法\n\n雷达到岛屿的距离不超过 d，设雷达横坐标 t，由 (t−x)²+y²<=d² 得到一个允许 t 的闭区间。若 |y|>d，根本不存在可覆盖它的 x 轴位置，整题无解。\n\n现在要求最少点，使每个区间都至少包含一个点。把区间按右端从小到大排列。当前最早结束的未覆盖区间必须选一个点，将它放在右端不会比更左的位置覆盖更少的后续区间，因为后续右端都不小于它。\n\n若上一个选点已经位于当前区间内，无需新增；否则在当前右端放点。这个交换论证保证每次选择都能保留某个最优解。注意区间是闭合的，边界相等时已覆盖。\n\n### 复杂度\n\n时间 O(n log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    double d;\n    cin >> n >> d;\n    vector<pair<double, double>> intervals;\n    bool possible = true;\n    for (int i = 0; i < n; i++) {\n        double x, y;\n        cin >> x >> y;\n        if (abs(y) > d) {\n            possible = false;\n            continue;\n        }\n        double radius = sqrt(max(0.0, d * d - y * y));\n        intervals.push_back({x - radius, x + radius});\n    }\n    if (!possible) {\n        cout << -1 << '\\n';\n        return 0;\n    }\n    sort(intervals.begin(), intervals.end(), [](auto a, auto b) { return a.second < b.second; });\n    int ans = 0;\n    double last = -numeric_limits<double>::infinity();\n    for (auto [l, r] : intervals)\n        if (last < l) {\n            last = r;\n            ans++;\n        }\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n先检查 |y|<=d；区间按右端排序；相等端点算覆盖。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1325",
+    "id": "luogu-training-P1325",
+    "programSha256": "26c590b5bea6aef925046ace39a8256e4e3191007b74aae680c3acb60b0d03db",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

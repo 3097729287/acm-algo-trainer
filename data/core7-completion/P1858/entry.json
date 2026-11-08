@@ -1,0 +1,23 @@
+{
+  "problemId": "luogu-training-P1858",
+  "method": "每个容量保留前 K 个有重数的价值",
+  "variants": {
+    "default": "## P1858 多人背包\n\n原题：[P1858](https://www.luogu.com.cn/problem/P1858)\n\n### 思路\n\n每个容量维护前 K 大方案价值，归并不取与取当前物品的两份有序列表。相同价值、不同清单分别保留。这里求至少存在 K 种装满方案时的最优和；不足 K 种的输出原题未规定，详细题解明确标注。\n\n### 复杂度\n\n时间 O(NVK)，空间 O(VK)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int K, V, N;\n    cin >> K >> V >> N;\n    vector<vector<long long>> dp(V + 1);\n    dp[0] = {0};\n    for (int i = 0; i < N; i++) {\n        int w;\n        long long value;\n        cin >> w >> value;\n        for (int capacity = V; capacity >= w; capacity--) {\n            const auto &left = dp[capacity];\n            const auto &right = dp[capacity - w];\n            vector<long long> next;\n            int a = 0, b = 0;\n            while ((int)next.size() < K && (a < (int)left.size() || b < (int)right.size())) {\n                if (b == (int)right.size() || (a < (int)left.size() && left[a] >= right[b] + value))\n                    next.push_back(left[a++]);\n                else\n                    next.push_back(right[b++] + value);\n            }\n            dp[capacity].swap(next);\n        }\n    }\n    if ((int)dp[V].size() < K)\n        return 0;\n    cout << accumulate(dp[V].begin(), dp[V].end(), 0LL) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n恰好装满；容量倒序；等值不同清单不去重；不存在的方案不用零填充。\n",
+    "detailed": "## P1858 多人背包\n\n原题：[P1858](https://www.luogu.com.cn/problem/P1858)\n\n### 从问题到算法\n\n把方案按是否包含当前物品分成两类。两类清单互不相同，内部仍按价值降序，故可以线性归并出整体前 K 项。只保留前 K 不会丢失未来最优：同一容量的较差旧方案，后续加相同物品集合仍不会超过已保留的 K 个方案。\n\n容量必须倒序，确保每种物品只取一次。初始只有容量零有一个价值零的空方案，其它容量没有方案，不能用零冒充可达状态。价值相等时仍保留两项，因为题目区分物品清单。\n\n原题没有定义“凑满容量的不同清单少于 K 个”时应输出什么。本实现对题目目标可行的输入求完整最优和；不足 K 时不臆造零价值方案或约定答案，相关题面边界单独保留在验证记录中。\n\n### 复杂度\n\n时间 O(NVK)，空间 O(VK)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int K, V, N;\n    cin >> K >> V >> N;\n    vector<vector<long long>> dp(V + 1);\n    dp[0] = {0};\n    for (int i = 0; i < N; i++) {\n        int w;\n        long long value;\n        cin >> w >> value;\n        for (int capacity = V; capacity >= w; capacity--) {\n            const auto &left = dp[capacity];\n            const auto &right = dp[capacity - w];\n            vector<long long> next;\n            int a = 0, b = 0;\n            while ((int)next.size() < K && (a < (int)left.size() || b < (int)right.size())) {\n                if (b == (int)right.size() || (a < (int)left.size() && left[a] >= right[b] + value))\n                    next.push_back(left[a++]);\n                else\n                    next.push_back(right[b++] + value);\n            }\n            dp[capacity].swap(next);\n        }\n    }\n    if ((int)dp[V].size() < K)\n        return 0;\n    cout << accumulate(dp[V].begin(), dp[V].end(), 0LL) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n恰好装满；容量倒序；等值不同清单不去重；不存在的方案不用零填充。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1858",
+    "id": "luogu-training-P1858",
+    "programSha256": "213f399e75e5abf0b97c1d5dbc2b8fb69105ceb623cc6f3174219458baaeff3a",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0,
+    "semanticLimitation": "仅核验至少有 K 种装满方案的输入；不足 K 种时原题未定义输出。"
+  }
+}

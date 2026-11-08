@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1115",
+  "method": "以当前位置结尾的最大子段和",
+  "variants": {
+    "default": "## P1115 最大子段和\n\n原题：[P1115](https://www.luogu.com.cn/problem/P1115)\n\n### 思路\n\n当前最优非空子段要么从本项重新开始，要么延长上一位置结尾的最优子段。维护 ending=max(a[i],ending+a[i])，全局答案取所有 ending 的最大值。\n\n### 复杂度\n\n时间 O(n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    long long ending = 0, answer = LLONG_MIN;\n    while (n--) {\n        long long x;\n        cin >> x;\n        ending = max(x, ending + x);\n        answer = max(answer, ending);\n    }\n    cout << answer << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n子段非空；全负数组返回最大负数；和使用六十四位。\n",
+    "detailed": "## P1115 最大子段和\n\n原题：[P1115](https://www.luogu.com.cn/problem/P1115)\n\n### 从问题到算法\n\n固定右端 i 后，合法子段只有两类：只选 a[i]，或者在某个以 i−1 结尾的子段后追加 a[i]。第二类中只有原来和最大的前缀值得保留，因为追加的数完全相同。\n\n所以 ending[i]=max(a[i],ending[i−1]+a[i])。再对所有右端取最大值，就覆盖了全部连续子段。只依赖上一项，空间可以压成两个变量。\n\n子段必须非空，不能把全局答案初始化成零，否则全为负数时会错误地选空段。\n\n### 复杂度\n\n时间 O(n)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    long long ending = 0, answer = LLONG_MIN;\n    while (n--) {\n        long long x;\n        cin >> x;\n        ending = max(x, ending + x);\n        answer = max(answer, ending);\n    }\n    cout << answer << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n子段非空；全负数组返回最大负数；和使用六十四位。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1115",
+    "id": "luogu-training-P1115",
+    "programSha256": "ae0b0f6d820128b548970ff0e5a3116b4ebb5b033344653310c84e005d6e7622",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

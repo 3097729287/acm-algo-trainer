@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF796D",
+  "method": "多源 BFS 为每个城市划分警局",
+  "variants": {
+    "default": "## CF796D Police Stations\n\n原题：[CF796D](https://www.luogu.com.cn/problem/CF796D)\n\n### 思路\n\n将所有不同的警局城市同时入队，为每个城市分配最近警局。两个不同归属区域之间的树边全部关闭，区域内部保留搜索树边。\n\n### 复杂度\n\n时间 O(n+k)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k, d;\n    cin >> n >> k >> d;\n    vector<int> owner(n, -1), q;\n    for (int i = 0; i < k; i++) {\n        int p;\n        cin >> p;\n        p--;\n        if (owner[p] < 0) {\n            owner[p] = p;\n            q.push_back(p);\n        }\n    }\n    vector<vector<pair<int, int>>> g(n);\n    vector<pair<int, int>> e;\n    for (int i = 1; i < n; i++) {\n        int a, b;\n        cin >> a >> b;\n        a--;\n        b--;\n        e.push_back({a, b});\n        g[a].push_back({b, i});\n        g[b].push_back({a, i});\n    }\n    for (int i = 0; i < (int)q.size(); i++) {\n        int v = q[i];\n        for (auto [u, id] : g[v])\n            if (owner[u] < 0) {\n                owner[u] = owner[v];\n                q.push_back(u);\n            }\n    }\n    vector<int> cut;\n    for (int i = 0; i < n - 1; i++)\n        if (owner[e[i].first] != owner[e[i].second])\n            cut.push_back(i + 1);\n    cout << cut.size() << '\\n';\n    for (int i = 0; i < (int)cut.size(); i++)\n        cout << cut[i] << (i + 1 == (int)cut.size() ? '\\n' : ' ');\n    if (cut.empty())\n        cout << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n同城多个警局只算一个源；保留首次访问的归属；输出原边编号。\n",
+    "detailed": "## CF796D Police Stations\n\n原题：[CF796D](https://www.luogu.com.cn/problem/CF796D)\n\n### 从问题到算法\n\n设有 s 个不同的警局城市。关闭 r 条树边会产生 r+1 个连通块，每块至少含一个警局，因此 r≤s−1。\n\n从所有警局同时 BFS，第一次访问城市时继承前驱的归属。这个城市到所属警局的路线是原树最短路，题目保证最近警局距离不超过 d，所以归属区域内也满足距离限制。不同归属的端点之间的边关闭后，恰好得到 s 个连通区域，共关闭 s−1 条边，达到上界。\n\n重复警局只放入队列一次。距离 d 无须参与扩展上限：完整多源 BFS 已分配给每个点最近的警局，原题保证的覆盖条件确保所有分配合法。\n\n### 复杂度\n\n时间 O(n+k)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k, d;\n    cin >> n >> k >> d;\n    vector<int> owner(n, -1), q;\n    for (int i = 0; i < k; i++) {\n        int p;\n        cin >> p;\n        p--;\n        if (owner[p] < 0) {\n            owner[p] = p;\n            q.push_back(p);\n        }\n    }\n    vector<vector<pair<int, int>>> g(n);\n    vector<pair<int, int>> e;\n    for (int i = 1; i < n; i++) {\n        int a, b;\n        cin >> a >> b;\n        a--;\n        b--;\n        e.push_back({a, b});\n        g[a].push_back({b, i});\n        g[b].push_back({a, i});\n    }\n    for (int i = 0; i < (int)q.size(); i++) {\n        int v = q[i];\n        for (auto [u, id] : g[v])\n            if (owner[u] < 0) {\n                owner[u] = owner[v];\n                q.push_back(u);\n            }\n    }\n    vector<int> cut;\n    for (int i = 0; i < n - 1; i++)\n        if (owner[e[i].first] != owner[e[i].second])\n            cut.push_back(i + 1);\n    cout << cut.size() << '\\n';\n    for (int i = 0; i < (int)cut.size(); i++)\n        cout << cut[i] << (i + 1 == (int)cut.size() ? '\\n' : ' ');\n    if (cut.empty())\n        cout << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n同城多个警局只算一个源；保留首次访问的归属；输出原边编号。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF796D",
+    "id": "luogu-training-CF796D",
+    "programSha256": "dea675e7ca0450be00602026026483574d0065ba4339ef8db32ed6504ef7b642",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

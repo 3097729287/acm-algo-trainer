@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3988",
+  "method": "树状数组查找存活牌的第 k 张",
+  "variants": {
+    "default": "## P3988 发牌\n\n原题：[P3988](https://www.luogu.com.cn/problem/P3988)\n\n### 思路\n\n存活牌按原编号保持循环顺序。记录当前牌顶在存活序列中的排名，销牌只需排名加 R 后取模，再用树状数组找对应编号并删除。\n\n### 复杂度\n\n时间 O(N log N)，空间 O(N)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Fenwick {\n    int n;\n    vector<long long> t;\n    explicit Fenwick(int n) : n(n), t(n + 1) {}\n    void add(int x, long long v) {\n        for (; x <= n; x += x & -x)\n            t[x] += v;\n    }\n    long long sum(int x) const {\n        long long s = 0;\n        for (; x; x -= x & -x)\n            s += t[x];\n        return s;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    Fenwick bit(n);\n    for (int i = 1; i <= n; i++)\n        bit.t[i] = i & -i;\n    long long rank = 0;\n    int highest = 1;\n    while ((highest << 1) <= n)\n        highest <<= 1;\n    for (int remain = n; remain >= 1; remain--) {\n        long long R;\n        cin >> R;\n        rank = (rank + R) % remain;\n        long long need = rank + 1;\n        int pos = 0;\n        for (int step = highest; step; step >>= 1) {\n            int next = pos + step;\n            if (next <= n && bit.t[next] < need) {\n                need -= bit.t[next];\n                pos = next;\n            }\n        }\n        int card = pos + 1;\n        cout << card << '\\n';\n        bit.add(card, -1);\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n排名按剩余牌数取模；删除后起点是下一张；输出原牌号。\n",
+    "detailed": "## P3988 发牌\n\n原题：[P3988](https://www.luogu.com.cn/problem/P3988)\n\n### 从问题到算法\n\n每次把牌顶移到底只改变循环起点，不改变剩余牌的相对顺序。若剩余 remain 张、当前零开始排名为 rank，销 R 次后的发牌排名为 (rank+R)%remain。\n\n每个编号存一表示尚未发出，树状数组维护前缀存活数量。用倍增查找前缀和首次达到 rank+1 的位置，就是这一张的原编号。删除后，它的下一张在新序列中仍占据同一个 rank；若刚删除末尾，下次取模自然回到零。\n\n初始全为一，Fenwick 的每项可直接初始化为 lowbit(i)，避免逐点建立。\n\n### 复杂度\n\n时间 O(N log N)，空间 O(N)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct Fenwick {\n    int n;\n    vector<long long> t;\n    explicit Fenwick(int n) : n(n), t(n + 1) {}\n    void add(int x, long long v) {\n        for (; x <= n; x += x & -x)\n            t[x] += v;\n    }\n    long long sum(int x) const {\n        long long s = 0;\n        for (; x; x -= x & -x)\n            s += t[x];\n        return s;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    Fenwick bit(n);\n    for (int i = 1; i <= n; i++)\n        bit.t[i] = i & -i;\n    long long rank = 0;\n    int highest = 1;\n    while ((highest << 1) <= n)\n        highest <<= 1;\n    for (int remain = n; remain >= 1; remain--) {\n        long long R;\n        cin >> R;\n        rank = (rank + R) % remain;\n        long long need = rank + 1;\n        int pos = 0;\n        for (int step = highest; step; step >>= 1) {\n            int next = pos + step;\n            if (next <= n && bit.t[next] < need) {\n                need -= bit.t[next];\n                pos = next;\n            }\n        }\n        int card = pos + 1;\n        cout << card << '\\n';\n        bit.add(card, -1);\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n排名按剩余牌数取模；删除后起点是下一张；输出原牌号。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3988",
+    "id": "luogu-training-P3988",
+    "programSha256": "0c2473b7deb49f0f6ca338a3f649d0e6f7e6c70ef7e41c67db698dc71d064da3",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

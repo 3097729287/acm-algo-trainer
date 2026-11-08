@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P12733",
+  "method": "选最小难度，再逆序安排",
+  "variants": {
+    "default": "## P12733 磨合\n\n原题：[P12733](https://www.luogu.com.cn/problem/P12733)\n\n### 思路\n\n要做 k 题应选择难度最小的 k 题，并按难度从大到小处理。将难度升序排列后，最小耗时满足 cost[k]=cost[k−1]+前 k 题难度和，预处理后每次二分数量。\n\n### 复杂度\n\n时间 O(n log n+q log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    cin >> n >> q;\n    vector<long long> d(n), cost(n + 1);\n    for (auto &x : d)\n        cin >> x;\n    sort(d.begin(), d.end());\n    long long sum = 0;\n    for (int i = 1; i <= n; i++) {\n        sum += d[i - 1];\n        cost[i] = cost[i - 1] + sum;\n    }\n    while (q--) {\n        long long t;\n        cin >> t;\n        cout << upper_bound(cost.begin(), cost.end(), t) - cost.begin() - 1 << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n排序后是从大到小执行；预处理用升序前缀和；t=0 返回 0。\n",
+    "detailed": "## P12733 磨合\n\n原题：[P12733](https://www.luogu.com.cn/problem/P12733)\n\n### 从问题到算法\n\n处理位置的时间系数为 1、2、…、k。若较大的难度被放到较大的系数上，交换它与更小难度就能减少或保持耗时，因此最优顺序是难度降序。同时所有系数为正，把选中的题替换成更简单的未选题不会变差，所以只选最小的 k 题。\n\n设升序难度为 d1…dn。增加第 k 道题时，新选的 dk 是当前最大，应放在第一位；原来的 k−1 道题系数全部加一，增加耗时为 dk+Σ前k−1难度，即前 k 项和。由此一次扫描预处理全部 cost。\n\ncost 随数量严格递增，每次询问用 upper_bound 找最后一个不超过 t 的代价，返回对应题数。总耗时可达十的十五次方，使用 long long。\n\n### 复杂度\n\n时间 O(n log n+q log n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    cin >> n >> q;\n    vector<long long> d(n), cost(n + 1);\n    for (auto &x : d)\n        cin >> x;\n    sort(d.begin(), d.end());\n    long long sum = 0;\n    for (int i = 1; i <= n; i++) {\n        sum += d[i - 1];\n        cost[i] = cost[i - 1] + sum;\n    }\n    while (q--) {\n        long long t;\n        cin >> t;\n        cout << upper_bound(cost.begin(), cost.end(), t) - cost.begin() - 1 << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n排序后是从大到小执行；预处理用升序前缀和；t=0 返回 0。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P12733",
+    "id": "luogu-training-P12733",
+    "programSha256": "4fd0c04283270f3a0c2a2adac7a2aa0a59ec24f6e1b79cfe659628cddd5c287a",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

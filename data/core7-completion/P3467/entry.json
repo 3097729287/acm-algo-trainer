@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3467",
+  "method": "递增高度栈合并同一层建筑",
+  "variants": {
+    "default": "## P3467 PLA-Postering\n\n原题：[P3467](https://www.luogu.com.cn/problem/P3467)\n\n### 思路\n\n按横坐标顺序扫描轮廓高度。下降时弹掉更高层，同高度可接续同一建筑；若当前高度为正且高于栈顶，就必须新增一层建筑，计数并压栈。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> stack = {0};\n    int answer = 0;\n    while (n--) {\n        int x, h;\n        cin >> x >> h;\n        while (stack.back() > h)\n            stack.pop_back();\n        if (stack.back() < h) {\n            stack.push_back(h);\n            answer++;\n        }\n    }\n    cout << answer << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n输入包含横坐标与高度；同高不重复压栈；零高度不计。\n",
+    "detailed": "## P3467 PLA-Postering\n\n原题：[P3467](https://www.luogu.com.cn/problem/P3467)\n\n### 从问题到算法\n\n一个矩形建筑在连续横向范围内提供固定高度。高度下降后，超过新轮廓的那些建筑已经结束，必须弹出；它们不能跨过低谷继续当作同一块建筑。\n\n弹完后，若栈顶高度等于当前高度，说明这一层可以继续使用，无需新建筑。若更低，则必须新增一个以当前高度为顶的矩形层。零高度不对应建筑，不能压入并计数。\n\n这种贪心每次只在确有新层不可避免时计数，并让同高度尽量连续，因此取得最少建筑数。横坐标决定顺序，但矩形数量不依赖每段宽度。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<int> stack = {0};\n    int answer = 0;\n    while (n--) {\n        int x, h;\n        cin >> x >> h;\n        while (stack.back() > h)\n            stack.pop_back();\n        if (stack.back() < h) {\n            stack.push_back(h);\n            answer++;\n        }\n    }\n    cout << answer << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n输入包含横坐标与高度；同高不重复压栈；零高度不计。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3467",
+    "id": "luogu-training-P3467",
+    "programSha256": "a95d4713fdc03da46f328d27142e1236c2652bdd98d21c26dc963bbc8d926839",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

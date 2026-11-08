@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P2375",
+  "method": "KMP 维护不重叠 border 数量",
+  "variants": {
+    "default": "## P2375 动物园\n\n原题：[P2375](https://www.luogu.com.cn/problem/P2375)\n\n### 思路\n\n先用前缀函数计算每个前缀的 border 链长度，再用第二次 KMP 扫描维护不超过当前长度一半的最长 border。它的整条 border 链都合法，按题意将数量加一后相乘。\n\n### 复杂度\n\n每组时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> prefix(const string &s) {\n    vector<int> p(s.size());\n    for (int i = 1; i < (int)s.size(); i++) {\n        int j = p[i - 1];\n        while (j && s[i] != s[j])\n            j = p[j - 1];\n        if (s[i] == s[j])\n            j++;\n        p[i] = j;\n    }\n    return p;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        string s;\n        cin >> s;\n        int n = s.size();\n        auto p = prefix(s);\n        vector<int> count(n + 1);\n        for (int len = 1; len <= n; len++)\n            count[len] = count[p[len - 1]] + 1;\n        long long ans = 1;\n        int j = 0;\n        for (int len = 2; len <= n; len++) {\n            while (j && s[len - 1] != s[j])\n                j = p[j - 1];\n            if (s[len - 1] == s[j])\n                j++;\n            while (2 * j > len)\n                j = p[j - 1];\n            ans = ans * (count[j] + 1) % 1000000007;\n        }\n        cout << ans << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\ncount[0]=0；先限制不重叠，再乘数量加一；模数为 1000000007。\n",
+    "detailed": "## P2375 动物园\n\n原题：[P2375](https://www.luogu.com.cn/problem/P2375)\n\n### 从问题到算法\n\n长度为 len 的前缀中，前后缀不重叠等价于 border 长度不超过 len/2。最长 border 的其它 border 也都是原前缀的 border，所以只要找到满足长度限制的最长者 j，所有合法 border 就是 j 自身及它的 border 链。\n\n先求 pi，并令 count[len]=count[pi[len−1]]+1，表示从该前缀自身到最短非空 border 的链长。第二次从左向右维护匹配长度 j，先按 KMP 匹配当前字符，再在 2j>len 时沿 pi 回退。合法 border 数就是 count[j]。\n\n不能对每个前缀都从它完整的最长 border 重新一路退到一半，那在全相同字符中会平方级。第二次扫描复用上一前缀的 j，每步增长至多一，所有回退合计线性。答案乘 count[j]+1，并随时取模。\n\n### 复杂度\n\n每组时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> prefix(const string &s) {\n    vector<int> p(s.size());\n    for (int i = 1; i < (int)s.size(); i++) {\n        int j = p[i - 1];\n        while (j && s[i] != s[j])\n            j = p[j - 1];\n        if (s[i] == s[j])\n            j++;\n        p[i] = j;\n    }\n    return p;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        string s;\n        cin >> s;\n        int n = s.size();\n        auto p = prefix(s);\n        vector<int> count(n + 1);\n        for (int len = 1; len <= n; len++)\n            count[len] = count[p[len - 1]] + 1;\n        long long ans = 1;\n        int j = 0;\n        for (int len = 2; len <= n; len++) {\n            while (j && s[len - 1] != s[j])\n                j = p[j - 1];\n            if (s[len - 1] == s[j])\n                j++;\n            while (2 * j > len)\n                j = p[j - 1];\n            ans = ans * (count[j] + 1) % 1000000007;\n        }\n        cout << ans << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\ncount[0]=0；先限制不重叠，再乘数量加一；模数为 1000000007。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P2375",
+    "id": "luogu-training-P2375",
+    "programSha256": "a133cd0a95b350f0aba552ba5e7460f4168f90f54794ebb6a9825f1ce107956d",
+    "samples": 1,
+    "independentCases": 1,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

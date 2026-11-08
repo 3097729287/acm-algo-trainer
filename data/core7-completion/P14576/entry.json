@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P14576",
+  "method": "光标间距固定的滑动窗口",
+  "variants": {
+    "default": "## P14576 Lamborghini (Remix)\n\n原题：[P14576](https://www.luogu.com.cn/problem/P14576)\n\n### 思路\n\n把所有行连成一条坐标轴，行间跨越也算一步。所有光标同步平移，所以彼此距离不变。目标选最长一行，求有多少个行末坐标能落在长度为最长行长的窗口中。\n\n### 复杂度\n\n每组时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        int n;\n        cin >> n;\n        vector<long long> position(n);\n        long long current = 0, width = 0;\n        for (int i = 0; i < n; i++) {\n            long long x;\n            cin >> x;\n            width = max(width, x);\n            current += x + 1;\n            position[i] = current - 1;\n        }\n        int l = 0, ans = 0;\n        for (int r = 0; r < n; r++) {\n            while (position[r] - position[l] > width)\n                l++;\n            ans = max(ans, r - l + 1);\n        }\n        cout << ans << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n行间换行也占一次移动；窗口比较坐标差，不是位置数；前缀和用 long long。\n",
+    "detailed": "## P14576 Lamborghini (Remix)\n\n原题：[P14576](https://www.luogu.com.cn/problem/P14576)\n\n### 从问题到算法\n\n第一行开头坐标为零，长度 ai 的一行包含 ai+1 个光标位置；从它末尾到下一行开头再移动一步。因此各行末尾坐标由前缀累加 ai+1 得到，相邻末尾距离为后面那行长度加一。\n\n同时按左右键只会给所有尚存光标加上同一个位移。要把一组光标平移进同一行，它们最大与最小坐标之差必须不超过该行长度。最长行容纳能力最强，且任意满足这个跨度的光标组都能整体平移进去，途中也不会使这些最终有效光标越界消失。\n\n行末坐标天然递增，用双指针维护最大坐标减最小坐标不超过 max(ai) 的最长连续段。任意非连续选取都可补上中间光标而不增跨度，所以只看连续段不会漏最优。\n\n### 复杂度\n\n每组时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        int n;\n        cin >> n;\n        vector<long long> position(n);\n        long long current = 0, width = 0;\n        for (int i = 0; i < n; i++) {\n            long long x;\n            cin >> x;\n            width = max(width, x);\n            current += x + 1;\n            position[i] = current - 1;\n        }\n        int l = 0, ans = 0;\n        for (int r = 0; r < n; r++) {\n            while (position[r] - position[l] > width)\n                l++;\n            ans = max(ans, r - l + 1);\n        }\n        cout << ans << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n行间换行也占一次移动；窗口比较坐标差，不是位置数；前缀和用 long long。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P14576",
+    "id": "luogu-training-P14576",
+    "programSha256": "bb128a8df7980b043746b6f1a556b3afb4349018da5a956a0fde084ffa57bc6c",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

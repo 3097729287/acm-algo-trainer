@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3370",
+  "method": "使用完整字符串集合去重",
+  "variants": {
+    "default": "## P3370 字符串哈希\n\n原题：[P3370](https://www.luogu.com.cn/problem/P3370)\n\n### 思路\n\n把每个输入字符串插入 unordered_set，最后输出集合大小。标准容器遇到哈希冲突仍会比较完整字符串，因此不会把不同字符串误认为相同。\n\n### 复杂度\n\n平均时间 O(总输入字符数)，空间 O(不同字符串总长度)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    unordered_set<string> words;\n    words.reserve(2 * n);\n    while (n--) {\n        string s;\n        cin >> s;\n        words.insert(s);\n    }\n    cout << words.size() << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n按完整内容判等；不能只用字符串长度去重。\n",
+    "detailed": "## P3370 字符串哈希\n\n原题：[P3370](https://www.luogu.com.cn/problem/P3370)\n\n### 从问题到算法\n\n题目只需要判断字符串是否完全相同，不需要保留顺序，也不需要输出每种字符串的出现次数。集合正好提供去重语义。\n\n读取每个字符串后插入 unordered_set：若此前已有相同内容，集合大小不变；否则新增一种。哈希用于选择桶，真正判等仍比较字符串内容，所以使用标准字符串键不会产生手写单模哈希那种碰撞判等错误。\n\n最后 size 就是不同字符串数。预留桶容量可减少大量插入时的重建，但不影响正确性。\n\n### 复杂度\n\n平均时间 O(总输入字符数)，空间 O(不同字符串总长度)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    unordered_set<string> words;\n    words.reserve(2 * n);\n    while (n--) {\n        string s;\n        cin >> s;\n        words.insert(s);\n    }\n    cout << words.size() << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n按完整内容判等；不能只用字符串长度去重。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3370",
+    "id": "luogu-training-P3370",
+    "programSha256": "51673c6b3be8b65153e0251b35dc0076f384cdcd2c142cb07a784b328bbc97cb",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P12397",
+  "method": "枚举原数的数位和",
+  "variants": {
+    "default": "## P12397 函数大师\n\n原题：[P12397](https://www.luogu.com.cn/problem/P12397)\n\n### 思路\n\n原数 x 不超过 m，它的数位和最多 171。固定数位和 s 后，后续反复求和的贡献完全确定，故 x=m−贡献。枚举 s，检查推得的 x 是否正且数位和确实为 s。\n\n### 复杂度\n\n预处理 O(171 log 171)，每次询问 O(171 log m)，空间 O(171)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    long long k;\n    cin >> tests >> k;\n    auto digitSum = [](long long x) {\n        int s = 0;\n        for (; x; x /= 10)\n            s += x % 10;\n        return s;\n    };\n    vector<long long> contribution(172);\n    for (int s = 1; s <= 171; s++) {\n        long long value = s, left = k, total = 0;\n        while (left && value >= 10) {\n            total += value;\n            value = digitSum(value);\n            left--;\n        }\n        contribution[s] = total + value * left;\n    }\n    while (tests--) {\n        long long m;\n        cin >> m;\n        if (!k) {\n            cout << 1 << '\\n';\n            continue;\n        }\n        int answer = 0;\n        for (int s = 1; s <= 171; s++)\n            if (m > contribution[s]) {\n                long long x = m - contribution[s];\n                if (digitSum(x) == s)\n                    answer++;\n            }\n        cout << answer << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n一位数后批量计算剩余项；x 必须为正；k=0 单独处理。\n",
+    "detailed": "## P12397 函数大师\n\n原题：[P12397](https://www.luogu.com.cn/problem/P12397)\n\n### 从问题到算法\n\n函数 f_k(x) 的首项就是 x，其余项只依赖 x 的数位和 s。虽然 x 范围很大，s 的范围很小：不超过十九位十进制数的数位和上界 171。\n\n对每个候选 s，预处理 H_k(s)=s+s(s)+…，共 k 项。每次取数位和很快变成一位数；之后这个值不再变化，可以直接乘上剩余项数，不必循环到十亿。\n\n每次询问 m 时，固定 s 就只有一个可能原数 x=m−H_k(s)。若 x>0 且真实数位和等于 s，就得到一个解。不同 s 不会重复同一个 x。k=0 时 f_0(x)=x，答案恒为一。\n\n### 复杂度\n\n预处理 O(171 log 171)，每次询问 O(171 log m)，空间 O(171)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int tests;\n    long long k;\n    cin >> tests >> k;\n    auto digitSum = [](long long x) {\n        int s = 0;\n        for (; x; x /= 10)\n            s += x % 10;\n        return s;\n    };\n    vector<long long> contribution(172);\n    for (int s = 1; s <= 171; s++) {\n        long long value = s, left = k, total = 0;\n        while (left && value >= 10) {\n            total += value;\n            value = digitSum(value);\n            left--;\n        }\n        contribution[s] = total + value * left;\n    }\n    while (tests--) {\n        long long m;\n        cin >> m;\n        if (!k) {\n            cout << 1 << '\\n';\n            continue;\n        }\n        int answer = 0;\n        for (int s = 1; s <= 171; s++)\n            if (m > contribution[s]) {\n                long long x = m - contribution[s];\n                if (digitSum(x) == s)\n                    answer++;\n            }\n        cout << answer << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n一位数后批量计算剩余项；x 必须为正；k=0 单独处理。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P12397",
+    "id": "luogu-training-P12397",
+    "programSha256": "093fcbb9af45b839423d8d59b16223944adf99e992915f0a3165354b15f6b300",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF1768E",
+  "method": "按至少需要几次操作累加",
+  "variants": {
+    "default": "## CF1768E Partial Sorting\n\n原题：[CF1768E](https://www.luogu.com.cn/problem/CF1768E)\n\n### 思路\n\n每个排列至多需三次排序。总和等于 3(3n)!−1−A1−A2，其中 A1、A2 分别是至多一次、至多两次可排好的排列数。用两个排序次序的并集计数求 A2。\n\n### 复杂度\n\n时间 O(n+log M)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long power(long long a, long long b, long long mod) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % mod)\n        if (b & 1)\n            r = r * a % mod;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    long long mod;\n    cin >> n >> mod;\n    vector<long long> fact(3 * n + 1, 1), inv(3 * n + 1, 1);\n    for (int i = 1; i <= 3 * n; i++)\n        fact[i] = fact[i - 1] * i % mod;\n    inv[3 * n] = power(fact[3 * n], mod - 2, mod);\n    for (int i = 3 * n; i; i--)\n        inv[i - 1] = inv[i] * i % mod;\n    auto choose = [&](int a, int b) { return fact[a] * inv[b] % mod * inv[a - b] % mod; };\n    long long one = (2 * fact[2 * n] - fact[n] + mod) % mod, sum = 0;\n    for (int x = 0; x <= n; x++) {\n        long long value = choose(n, x);\n        sum = (sum + value * value % mod * choose(n + x, x)) % mod;\n    }\n    long long intersection = fact[n] * fact[n] % mod * fact[n] % mod * sum % mod;\n    long long two =\n        (2 * choose(2 * n, n) % mod * fact[n] % mod * fact[2 * n] % mod - intersection + mod) % mod;\n    cout << (3 * fact[3 * n] % mod - 1 - one - two + 3 * mod) % mod << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\nA1、A2 都包含已经有序的排列；模数是输入 M；不是固定 998244353。\n",
+    "detailed": "## CF1768E Partial Sorting\n\n原题：[CF1768E](https://www.luogu.com.cn/problem/CF1768E)\n\n### 从问题到算法\n\n设 f 是最少操作数，f∈{0,1,2,3}。把每个 f 写成三个阈值指示变量之和，则总和为 ((3n)!−1)+((3n)!−A1)+((3n)!−A2)。\n\n至多一次时，要么最后 n 个数已经固定，要么最前 n 个数已经固定，各有 (2n)! 种；交集仅中间 n 个数可排列，有 n! 种。所以 A1=2(2n)!−n!。\n\n连续两次相同操作没有意义，只需考虑先左后右与先右后左。先左后右成功，当且仅当最小 n 个数全在最初的前 2n 个位置，数量为 C(2n,n)·n!·(2n)!；反向同数。\n\n交集中，第一段 n 个位置不能含最大 n 个数，最后一段不能含最小 n 个数。设第一段含 x 个最小数，其余 n−x 个来自中间值，选择方式 C(n,x)²，第一段排列 n!。剩下的 n−x 个最小数必须在中段，中段还要从剩余 x 个中间值与 n 个大值中选 x 个，共 C(n+x,x) 种；中段与末段各有 n! 种排列。\n\n因此交集为 (n!)³Σ(x=0..n)C(n,x)²C(n+x,x)。两类数量相加减交集即 A2。三个交替排序确实足以排好所有排列，故阈值计数完整。阶乘预处理到 3n，所有运算使用输入的质数 M。\n\n### 复杂度\n\n时间 O(n+log M)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nlong long power(long long a, long long b, long long mod) {\n    long long r = 1;\n    for (; b; b >>= 1, a = a * a % mod)\n        if (b & 1)\n            r = r * a % mod;\n    return r;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    long long mod;\n    cin >> n >> mod;\n    vector<long long> fact(3 * n + 1, 1), inv(3 * n + 1, 1);\n    for (int i = 1; i <= 3 * n; i++)\n        fact[i] = fact[i - 1] * i % mod;\n    inv[3 * n] = power(fact[3 * n], mod - 2, mod);\n    for (int i = 3 * n; i; i--)\n        inv[i - 1] = inv[i] * i % mod;\n    auto choose = [&](int a, int b) { return fact[a] * inv[b] % mod * inv[a - b] % mod; };\n    long long one = (2 * fact[2 * n] - fact[n] + mod) % mod, sum = 0;\n    for (int x = 0; x <= n; x++) {\n        long long value = choose(n, x);\n        sum = (sum + value * value % mod * choose(n + x, x)) % mod;\n    }\n    long long intersection = fact[n] * fact[n] % mod * fact[n] % mod * sum % mod;\n    long long two =\n        (2 * choose(2 * n, n) % mod * fact[n] % mod * fact[2 * n] % mod - intersection + mod) % mod;\n    cout << (3 * fact[3 * n] % mod - 1 - one - two + 3 * mod) % mod << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\nA1、A2 都包含已经有序的排列；模数是输入 M；不是固定 998244353。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF1768E",
+    "id": "luogu-training-CF1768E",
+    "programSha256": "961febd05910d32aca2acd13189c90ce9a47a63b0cd92c39a00b6157932299d7",
+    "samples": 3,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

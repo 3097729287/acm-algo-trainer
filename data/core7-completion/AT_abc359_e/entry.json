@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-AT_abc359_e",
+  "method": "单调栈维护所有后缀的最大高度和",
+  "variants": {
+    "default": "## AT_abc359_e Water Tank\n\n原题：[AT_abc359_e](https://www.luogu.com.cn/problem/AT_abc359_e)\n\n### 思路\n\n第 i 项答案是 1 加上所有以 i 结尾区间的最大高度之和。用递减栈把相同最大值的后缀合并，维护每组高度和数量，新高度到来时弹掉不更高的组。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<pair<long long, long long>> stack;\n    long long sum = 0;\n    for (int i = 0; i < n; i++) {\n        long long h;\n        cin >> h;\n        long long count = 1;\n        while (!stack.empty() && stack.back().first <= h) {\n            auto [value, number] = stack.back();\n            stack.pop_back();\n            sum -= value * number;\n            count += number;\n        }\n        stack.push_back({h, count});\n        sum += h * count;\n        cout << sum + 1 << (i + 1 == n ? '\\n' : ' ');\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n每个新项本身增加一个后缀；相等高度也合并；最后答案加一。\n",
+    "detailed": "## AT_abc359_e Water Tank\n\n原题：[AT_abc359_e](https://www.luogu.com.cn/problem/AT_abc359_e)\n\n### 从问题到算法\n\n水向左填满时，第 i 次需要经过的容量可按左端点分解，每个区间 [j,i] 的贡献是其中最高挡板高度，因此需要维护 Σ(j<=i)max(h[j..i])，再加一使水第一次越过当前目标。\n\n栈中一组 (height,count) 表示 count 个连续后缀拥有相同最大值。新高度 h 会把所有旧最大值不超过 h 的后缀统一抬高到 h，所以把这些栈顶组弹掉，从总和中减旧贡献，并累计它们的 count。\n\n再把只含当前项的后缀计入，形成新组 (h,合计count)，加入 h×count 到总和。剩余更高组不变。每组最多入栈和出栈一次，线性维护全部答案。\n\n### 复杂度\n\n时间 O(n)，空间 O(n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<pair<long long, long long>> stack;\n    long long sum = 0;\n    for (int i = 0; i < n; i++) {\n        long long h;\n        cin >> h;\n        long long count = 1;\n        while (!stack.empty() && stack.back().first <= h) {\n            auto [value, number] = stack.back();\n            stack.pop_back();\n            sum -= value * number;\n            count += number;\n        }\n        stack.push_back({h, count});\n        sum += h * count;\n        cout << sum + 1 << (i + 1 == n ? '\\n' : ' ');\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n每个新项本身增加一个后缀；相等高度也合并；最后答案加一。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "AT_abc359_e",
+    "id": "luogu-training-AT_abc359_e",
+    "programSha256": "69edcf466bf9d857d0550ee29f5f140bd45496495de9eff0792241bad376f3c3",
+    "samples": 3,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

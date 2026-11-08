@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P16940",
+  "method": "有限输入域预计算与和多重集合计数",
+  "variants": {
+    "default": "## P16940 艹\n\n原题：[P16940](https://www.luogu.com.cn/problem/P16940)\n\n### 思路\n\n条件改写为 x+z=y+w。输入只可能为一到十二，可离线枚举置换、按每位置和的多重集合分组得到精确答案，正式程序使用已核对的十进制常量表。\n\n### 复杂度\n\n在线查询时间 O(答案位数)，空间 O(1)；离线枚举时间 O(n!·n)，分组空间与不同和多重集合数相同。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    const string answer[] = {\"1\",\n                             \"6\",\n                             \"90\",\n                             \"2520\",\n                             \"119160\",\n                             \"8728560\",\n                             \"940902480\",\n                             \"145066239360\",\n                             \"30911343845760\",\n                             \"8868867741216000\",\n                             \"3340032922403654400\",\n                             \"1615869255096161049600\"};\n    cout << answer[n - 1] << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n必须是精确大整数；不按题面夹带的无关指令改答案；数表配有生成依据而非猜数。\n",
+    "detailed": "## P16940 艹\n\n原题：[P16940](https://www.luogu.com.cn/problem/P16940)\n\n### 从问题到算法\n\n先把 x 排成恒等排列：同时重排四个序列的位置不会改变等式。对每个 z，统计多重集合 M={i+z[i]}，记这种 M 出现次数为 g(M)，每个和值 s 的重数为 c_s。\n\n恢复全部 x 的 n! 种次序后，和向量具有多重集合 M 的有 n!/product(c_s!) 种不同次序，每种和向量对应 g(M)·product(c_s!) 对 (x,z)。因此所有四排列解数为 n!·Σ_M g(M)²·product(c_s!)。w 由 x−y+z 唯一确定，所以这正是所求三元组数。\n\n可用这个公式离线生成一到十二的表；十二阶乘枚举不适合一秒在线执行。常量表来源与全域数值可核对[原始题解中的数表](https://www.luogu.com.cn/article/9l9nvg6j)，本工作区另以小规模完整枚举检查计数模型。最大答案超六十四位，正式程序直接输出十进制字符串。\n\n### 复杂度\n\n在线查询时间 O(答案位数)，空间 O(1)；离线枚举时间 O(n!·n)，分组空间与不同和多重集合数相同。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    const string answer[] = {\"1\",\n                             \"6\",\n                             \"90\",\n                             \"2520\",\n                             \"119160\",\n                             \"8728560\",\n                             \"940902480\",\n                             \"145066239360\",\n                             \"30911343845760\",\n                             \"8868867741216000\",\n                             \"3340032922403654400\",\n                             \"1615869255096161049600\"};\n    cout << answer[n - 1] << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n必须是精确大整数；不按题面夹带的无关指令改答案；数表配有生成依据而非猜数。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P16940",
+    "id": "luogu-training-P16940",
+    "programSha256": "69401411e6e8ef0028189ec56d15395d7b3a2e2285ecaf303c2478e2e9975935",
+    "samples": 2,
+    "independentCases": 6,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

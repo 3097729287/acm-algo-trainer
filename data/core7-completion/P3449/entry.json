@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P3449",
+  "method": "回文串拼接等价于共享最小循环节",
+  "variants": {
+    "default": "## P3449 PAL-Palindromes\n\n原题：[P3449](https://www.luogu.com.cn/problem/P3449)\n\n### 思路\n\n两个输入串本来都是回文。它们拼接仍回文当且仅当 ab=ba，即二者都是同一个最小循环节的若干次重复。求每串最小循环节，按内容分组，答案为各组大小平方之和。\n\n### 复杂度\n\n时间 O(L log n)，空间 O(L)，L 为输入总长度。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> prefix(const string &s) {\n    vector<int> p(s.size());\n    for (int i = 1; i < (int)s.size(); i++) {\n        int j = p[i - 1];\n        while (j && s[i] != s[j])\n            j = p[j - 1];\n        if (s[i] == s[j])\n            j++;\n        p[i] = j;\n    }\n    return p;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    map<string, long long> count;\n    while (n--) {\n        int len;\n        string s;\n        cin >> len >> s;\n        auto p = prefix(s);\n        int period = len - p.back();\n        if (len % period)\n            period = len;\n        count[s.substr(0, period)]++;\n    }\n    long long ans = 0;\n    for (auto &[root, c] : count)\n        ans += c * c;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n输入串已保证回文；只有完整重复时才缩短周期；计有序对与自身配对。\n",
+    "detailed": "## P3449 PAL-Palindromes\n\n原题：[P3449](https://www.luogu.com.cn/problem/P3449)\n\n### 从问题到算法\n\n由于 a、b 各自回文，reverse(ab)=reverse(b)reverse(a)=ba。因此 ab 为回文当且仅当 ab=ba。\n\n两个非空字符串可交换拼接，当且仅当它们都是同一个原始串的幂。这个性质可由消去较短前缀反复证明：若 |a|<=|b|，等式迫使 b 以 a 开头，消去这段后得到 a 与剩余部分仍可交换，过程类似欧几里得算法，最终得到共同的最短循环节。\n\n用前缀函数得到候选周期 p=len−pi[len−1]。若 len 能被 p 整除，首 p 个字符就是最小循环节；否则循环节是整个串。按这个实际字符串分组。组内任意有序二元组都合法，包括自己与自己，所以大小 c 的组贡献 c²。\n\n### 复杂度\n\n时间 O(L log n)，空间 O(L)，L 为输入总长度。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> prefix(const string &s) {\n    vector<int> p(s.size());\n    for (int i = 1; i < (int)s.size(); i++) {\n        int j = p[i - 1];\n        while (j && s[i] != s[j])\n            j = p[j - 1];\n        if (s[i] == s[j])\n            j++;\n        p[i] = j;\n    }\n    return p;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    map<string, long long> count;\n    while (n--) {\n        int len;\n        string s;\n        cin >> len >> s;\n        auto p = prefix(s);\n        int period = len - p.back();\n        if (len % period)\n            period = len;\n        count[s.substr(0, period)]++;\n    }\n    long long ans = 0;\n    for (auto &[root, c] : count)\n        ans += c * c;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n输入串已保证回文；只有完整重复时才缩短周期；计有序对与自身配对。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P3449",
+    "id": "luogu-training-P3449",
+    "programSha256": "a2cb699373f5556a4b9853f6b0cee34ef5fe5f189363ccba74df5c31f21c2f41",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

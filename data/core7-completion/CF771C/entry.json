@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF771C",
+  "method": "总距离加按余数补齐的代价",
+  "variants": {
+    "default": "## CF771C Bear and Tree Jumps\n\n原题：[CF771C](https://www.luogu.com.cn/problem/CF771C)\n\n### 思路\n\n跳跃数为 ceil(dist/k)。先用边贡献统计所有点对距离，再用子树 DP 统计距离模 k 时需补到下一个 k 倍数的数量，最后总和除以 k。\n\n### 复杂度\n\n时间 O(nk²)，空间 O(nk)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    cin >> n >> k;\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        int a, b;\n        cin >> a >> b;\n        a--;\n        b--;\n        g[a].push_back(b);\n        g[b].push_back(a);\n    }\n    vector<int> parent(n, -1), order = {0}, size(n, 1);\n    parent[0] = 0;\n    for (int i = 0; i < n; i++)\n        for (int u : g[order[i]])\n            if (parent[u] < 0) {\n                parent[u] = order[i];\n                order.push_back(u);\n            }\n    vector<array<long long, 5>> cnt(n);\n    long long distanceSum = 0, padding = 0;\n    for (int i = n - 1; i >= 0; i--) {\n        int v = order[i];\n        cnt[v][0] = 1;\n        for (int u : g[v])\n            if (parent[u] == v) {\n                for (int a = 0; a < k; a++)\n                    for (int b = 0; b < k; b++)\n                        padding += cnt[v][a] * cnt[u][b] * ((k - (a + b + 1) % k) % k);\n                for (int b = 0; b < k; b++)\n                    cnt[v][(b + 1) % k] += cnt[u][b];\n                size[v] += size[u];\n            }\n        if (v)\n            distanceSum += 1LL * size[v] * (n - size[v]);\n    }\n    cout << (distanceSum + padding) / k << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n点对无序，只合并不同已处理分支；余数零无需补；最终总和整除 k。\n",
+    "detailed": "## CF771C Bear and Tree Jumps\n\n原题：[CF771C](https://www.luogu.com.cn/problem/CF771C)\n\n### 从问题到算法\n\nceil(d/k)=(d+(k−d%k)%k)/k。第一项所有距离之和可按边计算：一条边切开大小为 s、n−s 两部分，恰有 s(n−s) 个无序点对使用它。\n\n第二项只与距离余数有关。cnt[u][r] 记录 u 子树中距 u 余数为 r 的点数。合并孩子时，孩子的余数先加一，和已有分支余数 r 配对，路径经过 u，所以总余数是两者相加模 k；按所需补齐量乘点对数量累计。\n\n每对点在其 LCA 合并两个分支时被统计一次。当前点自身放在余数零状态，覆盖一个端点就是祖先的情形。k≤5，平方余数枚举很小。\n\n### 复杂度\n\n时间 O(nk²)，空间 O(nk)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    cin >> n >> k;\n    vector<vector<int>> g(n);\n    for (int i = 1; i < n; i++) {\n        int a, b;\n        cin >> a >> b;\n        a--;\n        b--;\n        g[a].push_back(b);\n        g[b].push_back(a);\n    }\n    vector<int> parent(n, -1), order = {0}, size(n, 1);\n    parent[0] = 0;\n    for (int i = 0; i < n; i++)\n        for (int u : g[order[i]])\n            if (parent[u] < 0) {\n                parent[u] = order[i];\n                order.push_back(u);\n            }\n    vector<array<long long, 5>> cnt(n);\n    long long distanceSum = 0, padding = 0;\n    for (int i = n - 1; i >= 0; i--) {\n        int v = order[i];\n        cnt[v][0] = 1;\n        for (int u : g[v])\n            if (parent[u] == v) {\n                for (int a = 0; a < k; a++)\n                    for (int b = 0; b < k; b++)\n                        padding += cnt[v][a] * cnt[u][b] * ((k - (a + b + 1) % k) % k);\n                for (int b = 0; b < k; b++)\n                    cnt[v][(b + 1) % k] += cnt[u][b];\n                size[v] += size[u];\n            }\n        if (v)\n            distanceSum += 1LL * size[v] * (n - size[v]);\n    }\n    cout << (distanceSum + padding) / k << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n点对无序，只合并不同已处理分支；余数零无需补；最终总和整除 k。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF771C",
+    "id": "luogu-training-CF771C",
+    "programSha256": "5ea8352fbb87d01dfe4112ce93b89c7717911bc08f48b9fbc0448979558554d0",
+    "samples": 3,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

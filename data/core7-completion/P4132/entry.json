@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P4132",
+  "method": "矩形格点被斜线分成两侧",
+  "variants": {
+    "default": "## P4132 算不出的等式\n\n原题：[P4132](https://www.luogu.com.cn/problem/P4132)\n\n### 思路\n\n当 p、q 为不同奇质数时，两段求和分别数出矩形格点在直线两侧的数量，总和为 ((p−1)/2)((q−1)/2)。若两质数相等，直接求两份 1+…+(p−1)/2。\n\n### 复杂度\n\n时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    unsigned long long p, q;\n    cin >> p >> q;\n    auto a = (p - 1) / 2, b = (q - 1) / 2;\n    cout << (p == q ? a * (a + 1) : a * b) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n不能遗漏 p=q；使用 unsigned long long 保存乘积。\n",
+    "detailed": "## P4132 算不出的等式\n\n原题：[P4132](https://www.luogu.com.cn/problem/P4132)\n\n### 从问题到算法\n\n在横坐标 1 到 (p−1)/2、纵坐标 1 到 (q−1)/2 的整数格点矩形中，固定横坐标 k，floor(kq/p) 数出直线 y=qx/p 下方的格点；交换两轴后，另一段求和数出直线上方的格点。\n\n若 p、q 是不同质数，它们互质，矩形内部没有落在直线上的整数格点，因为 px=qy 会要求 p 整除 x，而 x<p。于是两部分不重不漏地覆盖整个矩形，答案就是长乘宽。\n\n原题只说两个奇质数，没有要求不同。p=q 时，两份 floor(kq/p) 都等于 k，答案为 h(h+1)，其中 h=(p−1)/2。这个分支不能误用无对角格点的公式。\n\n### 复杂度\n\n时间 O(1)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    unsigned long long p, q;\n    cin >> p >> q;\n    auto a = (p - 1) / 2, b = (q - 1) / 2;\n    cout << (p == q ? a * (a + 1) : a * b) << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n不能遗漏 p=q；使用 unsigned long long 保存乘积。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P4132",
+    "id": "luogu-training-P4132",
+    "programSha256": "a7280278de10d4cda4aa1d298edf3c9bfc1e9d78990bbb680c20d691b0c9aa8e",
+    "samples": 1,
+    "independentCases": 1,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

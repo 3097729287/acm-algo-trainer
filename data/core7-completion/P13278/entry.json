@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P13278",
+  "method": "只累计自己首次死亡之前的攻击",
+  "variants": {
+    "default": "## P13278 PVP\n\n原题：[P13278](https://www.luogu.com.cn/problem/P13278)\n\n### 思路\n\n先找敌方攻击第一次累计达到 m 的时刻。在它之前，我方原始伤害为 D、攻击次数为 c。道具 x 能赢当且仅当 D+cx≥m；不能赢时，存在死亡时刻则输，否则平局。\n\n### 复杂度\n\n时间 O(n+q)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    long long m;\n    cin >> n >> m >> q;\n    long long taken = 0, damage = 0, count = 0;\n    bool dead = false;\n    for (int i = 0; i < n; i++) {\n        long long a;\n        cin >> a;\n        if (dead)\n            continue;\n        if (a < 0) {\n            taken -= a;\n            if (taken >= m)\n                dead = true;\n        } else {\n            damage += a;\n            count++;\n        }\n    }\n    while (q--) {\n        long long x;\n        cin >> x;\n        cout << (damage + count * x >= m ? \"Yes\" : dead ? \"No\" : \"Tie\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n死亡之后的攻击不再累计；负数攻击没有加成；总伤害使用 long long。\n",
+    "detailed": "## P13278 PVP\n\n原题：[P13278](https://www.luogu.com.cn/problem/P13278)\n\n### 从问题到算法\n\n道具只增加我方伤害，不影响我方的死亡时刻，因此可以先只看负数攻击，确定敌人最早什么时候会打败我。\n\n在这一时刻之前的正数攻击，总原始伤害 D、次数 c 都固定。加成后敌人受到的累计伤害为 D+cx，且随战斗推进单调不减。所以它达到 m，当且仅当某次我方攻击已经提前击败敌人。敌方造成死亡的那一次是负数攻击，不存在双方同时死亡的平局问题。\n\n如果所有负数攻击都不致死，最后仍未击败敌人就为 Tie；否则为 No。预处理之后每个道具只需一次乘加判断。\n\n### 复杂度\n\n时间 O(n+q)，空间 O(1)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, q;\n    long long m;\n    cin >> n >> m >> q;\n    long long taken = 0, damage = 0, count = 0;\n    bool dead = false;\n    for (int i = 0; i < n; i++) {\n        long long a;\n        cin >> a;\n        if (dead)\n            continue;\n        if (a < 0) {\n            taken -= a;\n            if (taken >= m)\n                dead = true;\n        } else {\n            damage += a;\n            count++;\n        }\n    }\n    while (q--) {\n        long long x;\n        cin >> x;\n        cout << (damage + count * x >= m ? \"Yes\" : dead ? \"No\" : \"Tie\") << '\\n';\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n死亡之后的攻击不再累计；负数攻击没有加成；总伤害使用 long long。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P13278",
+    "id": "luogu-training-P13278",
+    "programSha256": "ab6e6bb77f29a3e970d64b233e764506aa214a6e35df4d050c6793a5393dc4b7",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P7942",
+  "method": "单串内部贡献与相邻两串的跨界贡献",
+  "variants": {
+    "default": "## P7942 CONsecutive and CONcat (easy version)\n\n原题：[P7942](https://www.luogu.com.cn/problem/P7942)\n\n### 思路\n\n每串至少含两种字符，所以同字母连续段最多跨一个串边界。内部长度 k 窗口乘 n!；跨界窗口按相邻有序串对统计，乘 (n−1)!，并扣除把同一串与自己配对的情况。\n\n### 复杂度\n\n时间 O(nm+26m²)，空间 O(26m²+n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m, k;\n    cin >> n >> m >> k;\n    const long long P = 998244353;\n    vector<vector<long long>> suffix(26, vector<long long>(m + 1)), prefix = suffix;\n    vector<vector<vector<int>>> self(26, vector<vector<int>>(m + 1, vector<int>(m + 1)));\n    long long inside = 0;\n    for (int i = 0; i < n; i++) {\n        string s;\n        cin >> s;\n        for (int l = 0; l < m;) {\n            int r = l + 1;\n            while (r < m && s[r] == s[l])\n                r++;\n            inside += max(0, r - l - k + 1);\n            l = r;\n        }\n        int p = 1, t = 1;\n        while (p < m && s[p] == s[0])\n            p++;\n        while (t < m && s[m - 1 - t] == s[m - 1])\n            t++;\n        prefix[s[0] - 'a'][p]++;\n        suffix[s.back() - 'a'][t]++;\n        if (s[0] == s.back())\n            self[s[0] - 'a'][t][p]++;\n    }\n    vector<long long> fact(n + 1, 1);\n    for (int i = 1; i <= n; i++)\n        fact[i] = fact[i - 1] * i % P;\n    long long cross = 0;\n    for (int c = 0; c < 26; c++)\n        for (int s = 1; s <= m; s++)\n            for (int p = 1; p <= m; p++) {\n                int ways = max(0, min(s, k - 1) - max(1, k - p) + 1);\n                long long pairs = (suffix[c][s] * prefix[c][p] - self[c][s][p]) % P;\n                cross = (cross + pairs * ways) % P;\n            }\n    cout << ((inside % P) * fact[n] + cross * fact[n - 1]) % P << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n仅针对每串非单字母的 easy 保证；跨界两串必须不同编号；相同内容不同编号仍是不同串。\n",
+    "detailed": "## P7942 CONsecutive and CONcat (easy version)\n\n原题：[P7942](https://www.luogu.com.cn/problem/P7942)\n\n### 从问题到算法\n\n一段同字母若跨过两个边界，中间完整字符串就必须全部相同字母，与 easy version 保证矛盾。因此只有串内与跨一个边界两类。\n\n串内每个长度 L 的连续段贡献 max(0,L−k+1)，它会在所有 n! 个排列中出现。对跨界情况，设左串后缀长 s、右串前缀长 p，且字母同为 c。窗口从左取 u 个、右取 k−u 个，要求 max(1,k−p)≤u≤min(s,k−1)，区间整数数量就是跨界贡献。\n\n按字母及长度统计后缀频次、前缀频次，枚举 s、p 的乘积得到有序对数量；若同一个串同时属于两类，需要减去它与自己配对的计数。每个不同串的有序相邻关系在排列中出现 (n−1)! 次。m≤100，可直接枚举二十六种字母和两种长度。\n\n### 复杂度\n\n时间 O(nm+26m²)，空间 O(26m²+n)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m, k;\n    cin >> n >> m >> k;\n    const long long P = 998244353;\n    vector<vector<long long>> suffix(26, vector<long long>(m + 1)), prefix = suffix;\n    vector<vector<vector<int>>> self(26, vector<vector<int>>(m + 1, vector<int>(m + 1)));\n    long long inside = 0;\n    for (int i = 0; i < n; i++) {\n        string s;\n        cin >> s;\n        for (int l = 0; l < m;) {\n            int r = l + 1;\n            while (r < m && s[r] == s[l])\n                r++;\n            inside += max(0, r - l - k + 1);\n            l = r;\n        }\n        int p = 1, t = 1;\n        while (p < m && s[p] == s[0])\n            p++;\n        while (t < m && s[m - 1 - t] == s[m - 1])\n            t++;\n        prefix[s[0] - 'a'][p]++;\n        suffix[s.back() - 'a'][t]++;\n        if (s[0] == s.back())\n            self[s[0] - 'a'][t][p]++;\n    }\n    vector<long long> fact(n + 1, 1);\n    for (int i = 1; i <= n; i++)\n        fact[i] = fact[i - 1] * i % P;\n    long long cross = 0;\n    for (int c = 0; c < 26; c++)\n        for (int s = 1; s <= m; s++)\n            for (int p = 1; p <= m; p++) {\n                int ways = max(0, min(s, k - 1) - max(1, k - p) + 1);\n                long long pairs = (suffix[c][s] * prefix[c][p] - self[c][s][p]) % P;\n                cross = (cross + pairs * ways) % P;\n            }\n    cout << ((inside % P) * fact[n] + cross * fact[n - 1]) % P << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n仅针对每串非单字母的 easy 保证；跨界两串必须不同编号；相同内容不同编号仍是不同串。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P7942",
+    "id": "luogu-training-P7942",
+    "programSha256": "63de11bae418b164f7f8c8a0707218ae037487c583f5a062cdf45f47d9af9ceb",
+    "samples": 2,
+    "independentCases": 20,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

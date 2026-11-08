@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-CF54C",
+  "method": "首位为一的区间计数与伯努利 DP",
+  "variants": {
+    "default": "## CF54C First Digit Law\n\n原题：[CF54C](https://www.luogu.com.cn/problem/CF54C)\n\n### 思路\n\n首位为一的正整数构成 [1,1]、[10,19]、[100,199]……，求它们与每个输入区间的交长得到概率。再 DP 统计恰有 j 个变量成功，累加达到百分比门槛的概率。\n\n### 复杂度\n\n时间 O(N²+19N)，空间 O(N)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long double> p(n);\n    for (int i = 0; i < n; i++) {\n        long long l, r;\n        cin >> l >> r;\n        long long count = 0;\n        for (long long power = 1; power <= r;) {\n            long long left = max(l, power), right = min((__int128)r, (__int128)power * 2 - 1);\n            if (left <= right)\n                count += right - left + 1;\n            if (power > r / 10)\n                break;\n            power *= 10;\n        }\n        p[i] = (long double)count / (r - l + 1);\n    }\n    int K;\n    cin >> K;\n    vector<long double> dp(n + 1);\n    dp[0] = 1;\n    for (int i = 0; i < n; i++)\n        for (int j = i + 1; j >= 0; j--)\n            dp[j] = dp[j] * (1 - p[i]) + (j ? dp[j - 1] * p[i] : 0);\n    int need = (n * K + 99) / 100;\n    long double ans = 0;\n    for (int j = need; j <= n; j++)\n        ans += dp[j];\n    cout << fixed << setprecision(12) << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n百分比门槛向上取整；区间两端都计数；十的幂循环避免溢出。\n",
+    "detailed": "## CF54C First Digit Law\n\n原题：[CF54C](https://www.luogu.com.cn/problem/CF54C)\n\n### 从问题到算法\n\n第 i 个变量在区间中均匀选择，成功概率 p[i] 是首位一的整数数除以区间长度。枚举十的幂，取 [10^d,2·10^d−1] 与输入区间交集，最多十九段。\n\n设 dp[j] 为已处理变量中恰好 j 个首位一的概率。新变量失败贡献 dp[j](1−p)，成功贡献 dp[j−1]p。逆序更新 j，保证读到的都是旧状态。\n\n“至少 K%”等价于成功数≥ceil(NK/100)，必须向上取整；K=0 时答案一。使用 long double，最后输出足够小数位。\n\n### 复杂度\n\n时间 O(N²+19N)，空间 O(N)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    vector<long double> p(n);\n    for (int i = 0; i < n; i++) {\n        long long l, r;\n        cin >> l >> r;\n        long long count = 0;\n        for (long long power = 1; power <= r;) {\n            long long left = max(l, power), right = min((__int128)r, (__int128)power * 2 - 1);\n            if (left <= right)\n                count += right - left + 1;\n            if (power > r / 10)\n                break;\n            power *= 10;\n        }\n        p[i] = (long double)count / (r - l + 1);\n    }\n    int K;\n    cin >> K;\n    vector<long double> dp(n + 1);\n    dp[0] = 1;\n    for (int i = 0; i < n; i++)\n        for (int j = i + 1; j >= 0; j--)\n            dp[j] = dp[j] * (1 - p[i]) + (j ? dp[j - 1] * p[i] : 0);\n    int need = (n * K + 99) / 100;\n    long double ans = 0;\n    for (int j = need; j <= n; j++)\n        ans += dp[j];\n    cout << fixed << setprecision(12) << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n百分比门槛向上取整；区间两端都计数；十的幂循环避免溢出。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "CF54C",
+    "id": "luogu-training-CF54C",
+    "programSha256": "71d71ac79d416d518e06f84fe61a7c1f248eb1d7f1b110ac06492db95089dffa",
+    "samples": 2,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

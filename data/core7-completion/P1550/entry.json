@@ -1,0 +1,22 @@
+{
+  "problemId": "luogu-training-P1550",
+  "method": "把水井作为连接虚拟水源的边",
+  "variants": {
+    "default": "## P1550 Watering Hole G\n\n原题：[P1550](https://www.luogu.com.cn/problem/P1550)\n\n### 思路\n\n增加虚拟顶点 0，在农场 i 打井等价于选边 (0,i)，权值为打井费用。原有管道费用作为农场间边，求这张图的最小生成树。\n\n### 复杂度\n\n时间 O(n² log n)，空间 O(n²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct DSU {\n    vector<int> p, size;\n    explicit DSU(int n) : p(n), size(n, 1) { iota(p.begin(), p.end(), 0); }\n    int find(int x) {\n        while (p[x] != x) {\n            p[x] = p[p[x]];\n            x = p[x];\n        }\n        return x;\n    }\n    bool join(int a, int b) {\n        a = find(a);\n        b = find(b);\n        if (a == b)\n            return false;\n        if (size[a] < size[b])\n            swap(a, b);\n        p[b] = a;\n        size[a] += size[b];\n        return true;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    struct E {\n        int u, v, w;\n    };\n    vector<E> e;\n    for (int i = 1; i <= n; i++) {\n        int x;\n        cin >> x;\n        e.push_back({0, i, x});\n    }\n    for (int i = 1; i <= n; i++)\n        for (int j = 1; j <= n; j++) {\n            int x;\n            cin >> x;\n            if (i < j)\n                e.push_back({i, j, x});\n        }\n    sort(e.begin(), e.end(), [](E a, E b) { return a.w < b.w; });\n    DSU d(n + 1);\n    long long ans = 0;\n    for (auto x : e)\n        if (d.join(x.u, x.v))\n            ans += x.w;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n不能强制只打一口井；虚拟点也要加入并查集。\n",
+    "detailed": "## P1550 Watering Hole G\n\n原题：[P1550](https://www.luogu.com.cn/problem/P1550)\n\n### 从问题到算法\n\n只考虑农场之间的管道会遗漏水源的代价。引入虚拟水源 0 后，打井与铺管道都变成一次连接：打井连接水源与农场，管道连接两个农场。\n\n任何合法供水方案都使每个农场通过某口井连接到 0。反过来，若所有点在含 0 的图中连通，沿路径也必然能找到一个水源。两种方案代价完全一致，所以问题变成包含 n+1 个点的最小生成树。\n\n读取打井费用和费用矩阵，把对称管道只加入一次。Kruskal 按费用从小到大选不成环的边，允许选择多口井，因为那可能比长管道便宜。\n\n### 复杂度\n\n时间 O(n² log n)，空间 O(n²)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nstruct DSU {\n    vector<int> p, size;\n    explicit DSU(int n) : p(n), size(n, 1) { iota(p.begin(), p.end(), 0); }\n    int find(int x) {\n        while (p[x] != x) {\n            p[x] = p[p[x]];\n            x = p[x];\n        }\n        return x;\n    }\n    bool join(int a, int b) {\n        a = find(a);\n        b = find(b);\n        if (a == b)\n            return false;\n        if (size[a] < size[b])\n            swap(a, b);\n        p[b] = a;\n        size[a] += size[b];\n        return true;\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n;\n    cin >> n;\n    struct E {\n        int u, v, w;\n    };\n    vector<E> e;\n    for (int i = 1; i <= n; i++) {\n        int x;\n        cin >> x;\n        e.push_back({0, i, x});\n    }\n    for (int i = 1; i <= n; i++)\n        for (int j = 1; j <= n; j++) {\n            int x;\n            cin >> x;\n            if (i < j)\n                e.push_back({i, j, x});\n        }\n    sort(e.begin(), e.end(), [](E a, E b) { return a.w < b.w; });\n    DSU d(n + 1);\n    long long ans = 0;\n    for (auto x : e)\n        if (d.join(x.u, x.v))\n            ans += x.w;\n    cout << ans << '\\n';\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n不能强制只打一口井；虚拟点也要加入并查集。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "P1550",
+    "id": "luogu-training-P1550",
+    "programSha256": "586c050c61cc1c9f0aff2b3fd0440189576f2f2574d001a89b15d60cdfa36a1e",
+    "samples": 1,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}

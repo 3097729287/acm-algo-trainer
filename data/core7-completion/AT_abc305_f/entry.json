@@ -1,0 +1,215 @@
+{
+  "problemId": "luogu-training-AT_abc305_f",
+  "method": "真实交互中的 DFS 探索与退回",
+  "variants": {
+    "default": "## AT_abc305_f Dungeon Explore\n\n原题：[AT_abc305_f](https://www.luogu.com.cn/problem/AT_abc305_f)\n\n### 思路\n\n到新顶点时记录父亲，优先去未访问邻点；没有新邻点就沿父边退回。每条搜索树边至多去回各一次，找到 N 前最多移动 2(N−1) 次。每次输出后刷新。\n\n### 复杂度\n\n读取邻居总时间 O(N+M)，移动次数 O(N)，空间 O(N)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    if (!(cin >> n >> m))\n        return 0;\n    vector<int> parent(n + 1);\n    vector<char> seen(n + 1);\n    int current = 1;\n    seen[1] = 1;\n    for (;;) {\n        string token;\n        if (!(cin >> token))\n            return 0;\n        if (token == \"OK\" || token == \"-1\")\n            return 0;\n        int k = stoi(token), next = 0;\n        for (int i = 0; i < k; i++) {\n            int v;\n            cin >> v;\n            if (!seen[v])\n                next = v;\n        }\n        if (next) {\n            parent[next] = current;\n            seen[next] = 1;\n        } else\n            next = parent[current];\n        if (!next)\n            return 0;\n        cout << next << endl;\n        current = next;\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n每次反馈都要完整读完；收到 OK/−1 立即结束；输出后 flush。\n",
+    "detailed": "## AT_abc305_f Dungeon Explore\n\n原题：[AT_abc305_f](https://www.luogu.com.cn/problem/AT_abc305_f)\n\n### 从问题到算法\n\n这道题没有一次性给出全部边，程序必须在每次移动前读取当前邻居。维护已访问标记与 DFS 父亲：有未访问邻点就前往并标记，没有则回父亲，回到父亲后重新读取它的邻居再继续。\n\n连通图中，若还没到 N 就不可能在根也无路可走，否则所有可达点都已访问而遗漏 N，矛盾。每次前往未访问点新增一条搜索树边，之后最多退回一次，所以总移动不超过 2(N−1)，满足 2N 限制。这一论证只使用已经揭示的信息，也适用于原题的自适应评测。\n\n读取字符串形式的首个反馈，遇到 OK 或 −1 立即结束，否则把它当作邻居数量。输出邻点用 endl 刷新缓冲，不能拿普通离线输入样例替代交互验证；本参考程序通过本地邻居反馈评测器核验移动合法性与次数。\n\n### 复杂度\n\n读取邻居总时间 O(N+M)，移动次数 O(N)，空间 O(N)。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    if (!(cin >> n >> m))\n        return 0;\n    vector<int> parent(n + 1);\n    vector<char> seen(n + 1);\n    int current = 1;\n    seen[1] = 1;\n    for (;;) {\n        string token;\n        if (!(cin >> token))\n            return 0;\n        if (token == \"OK\" || token == \"-1\")\n            return 0;\n        int k = stoi(token), next = 0;\n        for (int i = 0; i < k; i++) {\n            int v;\n            cin >> v;\n            if (!seen[v])\n                next = v;\n        }\n        if (next) {\n            parent[next] = current;\n            seen[next] = 1;\n        } else\n            next = parent[current];\n        if (!next)\n            return 0;\n        cout << next << endl;\n        current = next;\n    }\n\n    return 0;\n}\n```\n\n### 实现提醒\n\n每次反馈都要完整读完；收到 OK/−1 立即结束；输出后 flush。\n"
+  },
+  "images": {},
+  "validation": {
+    "pid": "AT_abc305_f",
+    "id": "luogu-training-AT_abc305_f",
+    "programSha256": "9d1a9097c69b8dff714892f274dc6e1b0108c462028b57cb98c83938c7c29734",
+    "samples": 0,
+    "independentCases": 0,
+    "unavailableSamples": [],
+    "interactiveExamples": 0,
+    "protocolCases": [
+      {
+        "case": "chain-2",
+        "passed": true,
+        "n": 2,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "star-2",
+        "passed": true,
+        "n": 2,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "binary-2",
+        "passed": true,
+        "n": 2,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "random-2",
+        "passed": true,
+        "n": 2,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "chain-3",
+        "passed": true,
+        "n": 3,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "star-3",
+        "passed": true,
+        "n": 3,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "binary-3",
+        "passed": true,
+        "n": 3,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "random-3",
+        "passed": true,
+        "n": 3,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "chain-4",
+        "passed": true,
+        "n": 4,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "star-4",
+        "passed": true,
+        "n": 4,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "binary-4",
+        "passed": true,
+        "n": 4,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "random-4",
+        "passed": true,
+        "n": 4,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "chain-7",
+        "passed": true,
+        "n": 7,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "star-7",
+        "passed": true,
+        "n": 7,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "binary-7",
+        "passed": true,
+        "n": 7,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "random-7",
+        "passed": true,
+        "n": 7,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "chain-20",
+        "passed": true,
+        "n": 20,
+        "moves": 4,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "star-20",
+        "passed": true,
+        "n": 20,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "binary-20",
+        "passed": true,
+        "n": 20,
+        "moves": 9,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "random-20",
+        "passed": true,
+        "n": 20,
+        "moves": 1,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "chain-100",
+        "passed": true,
+        "n": 100,
+        "moves": 2,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "star-100",
+        "passed": true,
+        "n": 100,
+        "moves": 3,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "binary-100",
+        "passed": true,
+        "n": 100,
+        "moves": 16,
+        "type1": 0,
+        "type2": 0
+      },
+      {
+        "case": "random-100",
+        "passed": true,
+        "n": 100,
+        "moves": 41,
+        "type1": 0,
+        "type2": 0
+      }
+    ],
+    "passed": true,
+    "failures": [],
+    "originalJudgeSubmissions": 0
+  }
+}
