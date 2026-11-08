@@ -1,0 +1,13 @@
+{
+  "method": "page-reviewed-original-pdf-samples",
+  "sourcePdfSha256": "6ca5f48e5dc80e4526a3aad26b14e5e24eca51721fc51c4114c914b22af88856",
+  "page": 2,
+  "reason": "Read only the outlined sample boxes; exclude printed page numbers. Restore the actual contiguous grid and comma-delimited tokens instead of PDF-extractor spacing.",
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "2\n123456789\n593825856",
+      "output": "456 NO\n624 YES"
+    }
+  ]
+}

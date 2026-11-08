@@ -1,0 +1,21 @@
+{
+  "method": "page-reviewed-original-pdf-samples",
+  "sourcePdfSha256": "108290a879d0962da0c07298d9f24bb06c164ecc8283081e51450ee598f2bd1a",
+  "pagesReviewed": [
+    3
+  ],
+  "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "12 10\n1 Jessica 5 10\n1 Sara 4 7\n1 Peter 7 9\n2 3 5\n2 3 7\n1 Olivia 4 6\n2 1 3\n2 8 8\n2 8 9\n2 3 11",
+      "output": "Sara\nPeter\n>_<\nJessica\n>_<\nOlivia"
+    }
+  ],
+  "geometryReview": {
+    "method": "page-reviewed-original-pdf-samples",
+    "pagesReviewed": [
+      3
+    ]
+  }
+}

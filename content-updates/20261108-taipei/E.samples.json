@@ -1,0 +1,78 @@
+{
+  "method": "page-reviewed-original-pdf-samples",
+  "sourcePdfSha256": "9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+  "pagesReviewed": [
+    2,
+    3,
+    4
+  ],
+  "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 1",
+      "output": "***********\n*   *     *\n*****     *\n*   *     *\n*   *     *\n*   *     *\n***********"
+    },
+    {
+      "name": "样例 2",
+      "input": "11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 2",
+      "output": "Impossible"
+    },
+    {
+      "name": "样例 3",
+      "input": "34 19\n2\n2\n3\n0\n7 1\n0\n11 1\n0\n9 1\n2\n3\n0\n3 3\n0\n3 5\n0\n3 5\n2\n2\n0\n15 7\n2\n0\n9 3\n2\n0\n4 3\n0\n4 3\n2\n2\n0\n7 3\n0\n7 3\n3\n2\n0\n7 1\n0\n9 1\n2\n2\n0\n7 1\n0\n7 1\n0\n9 3\n0\n17 1\n2\n0\n2 11\n0\n2 5",
+      "output": "**********************************\n*       *           *         *  *\n*******************************  *\n*   *               *         *  *\n*   *               *         *  *\n*   *               *         *  *\n*****               ***********  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   ***************************  *\n*   *       *       *         *  *\n*****       **********************\n*   *       *       *         *  *\n*   *****************         *  *\n*   *       *       *         *  *\n*   *       *******************  *\n*   *       *                 *  *\n**********************************"
+    }
+  ],
+  "geometryReview": {
+    "method": "page-reviewed-cross-page-code-and-glyph-grid",
+    "sampleCount": 3,
+    "outputGeometry": [
+      {
+        "rowPitches": [
+          7.284303283691406,
+          7.383531188964843,
+          7.344079971313477,
+          7.383531188964843,
+          7.383531188964843,
+          7.383531188964843,
+          7.284303283691406
+        ],
+        "columns": 11,
+        "rows": 7,
+        "maximumCellRoundingError": 0.2
+      },
+      {
+        "rowPitches": [
+          7.352084997928504,
+          7.382879546194365,
+          7.369472966049656,
+          7.382879546194365,
+          7.382879546194365,
+          7.382879546194365,
+          7.372371442390211,
+          7.383241133256392,
+          7.383241133256392,
+          7.383241133256392,
+          7.386498191139915,
+          7.383242058031486,
+          7.356790831594756,
+          7.383242058031486,
+          7.385050918116714,
+          7.383242058031486,
+          7.385413429953835,
+          7.382879546194365,
+          7.352084997928504
+        ],
+        "columns": 34,
+        "rows": 19,
+        "maximumCellRoundingError": 0.2
+      }
+    ],
+    "pagesReviewed": [
+      2,
+      3,
+      4
+    ]
+  }
+}

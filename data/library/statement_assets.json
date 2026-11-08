@@ -42890,5 +42890,103 @@
     "mime": "image/png",
     "offset": 10090574,
     "sha256": "fb8d6829c10446eb4fbfb13b26822546e19c47cdc5cd499a1d272ba3e4a1f80e"
+  },
+  {
+    "sha256": "0026febe7aca559ffa5e862ee5fb17630f6c040de32aa3b9acaa3bd0c0f8757d",
+    "mime": "application/pdf",
+    "bytes": 463112,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 0
+  },
+  {
+    "sha256": "041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+    "mime": "application/pdf",
+    "bytes": 124880,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 463112
+  },
+  {
+    "sha256": "0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+    "mime": "application/pdf",
+    "bytes": 123193,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 587992
+  },
+  {
+    "sha256": "0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+    "mime": "application/pdf",
+    "bytes": 153129,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 711185
+  },
+  {
+    "sha256": "108290a879d0962da0c07298d9f24bb06c164ecc8283081e51450ee598f2bd1a",
+    "mime": "application/pdf",
+    "bytes": 132968,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 864314
+  },
+  {
+    "sha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+    "mime": "application/pdf",
+    "bytes": 123577,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 997282
+  },
+  {
+    "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+    "mime": "application/pdf",
+    "bytes": 624605,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 1120859
+  },
+  {
+    "sha256": "469fc433a10a0e7e8e0093c3dbaf2e48a8009284eae8ff70c3411e5441e45a31",
+    "mime": "application/pdf",
+    "bytes": 152272,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 1745464
+  },
+  {
+    "sha256": "6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+    "mime": "application/pdf",
+    "bytes": 134098,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 1897736
+  },
+  {
+    "sha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+    "mime": "application/pdf",
+    "bytes": 143234,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 2031834
+  },
+  {
+    "sha256": "9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+    "mime": "application/pdf",
+    "bytes": 127516,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 2175068
+  },
+  {
+    "sha256": "aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+    "mime": "application/pdf",
+    "bytes": 156071,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 2302584
+  },
+  {
+    "sha256": "c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+    "mime": "application/pdf",
+    "bytes": 154548,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 2458655
+  },
+  {
+    "sha256": "fe86f910d52db7184a378f2763271625b83b617c9c39c52e09afe729e82c0a0d",
+    "mime": "application/pdf",
+    "bytes": 161285,
+    "file": "statement-assets/part-0046.bin",
+    "offset": 2613203
   }
 ]

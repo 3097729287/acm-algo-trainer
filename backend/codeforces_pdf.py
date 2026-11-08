@@ -123,9 +123,21 @@ def _starts(texts, tasks=None):
         if len(matches) != 1:
             continue
         match = matches[0]
-        if starts and starts[-1][1:] == (match[2], match[3].strip()):
+        title=match[3].strip()
+        expected=(tasks or {}).get(match[2],{}).get('title','')
+        if expected and normalized(expected)!=normalized(title) and normalized(expected).startswith(normalized(title)):
+            # Fold only a short, immediately following title continuation that
+            # exactly completes this native roster name. A partial match cannot
+            # authorize arbitrary prose or the next problem's heading.
+            folded=title
+            for line in text[match.end():].splitlines()[:4]:
+                if not line.strip():continue
+                folded+=' '+line.strip()
+                if normalized(folded)==normalized(expected):title=folded;break
+                if not normalized(expected).startswith(normalized(folded)):break
+        if starts and starts[-1][1:] == (match[2], title):
             continue  # Repeated running headings on continuation pages.
-        starts.append((index, match[2], match[3].strip()))
+        starts.append((index, match[2], title))
     # Taiwan's native booklet prints PA..PM; the Gym uses A..M. Accept that
     # prefix only when every printed task agrees with the complete roster.
     if (tasks and starts and all(re.fullmatch(r'P[A-Z][0-9]?', label) for _, label, _ in starts)

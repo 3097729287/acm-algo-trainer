@@ -1,0 +1,1651 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:103443::A",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Ice Cream\n\n2021 ICPC Asia Taipei Regional\r\nProblem A\r\nIce Cream\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nTo celebrate the 3rd anniversary of the Ice Cream Professional Company (ICPC), the company\r\nhas an anniversary sale activity. The activity’s name is “Buy 𝑋 units and Get 𝑌 units free”.\r\nThe contents of the activity is as below. First, you will be asking to draw a lottery ticket of\r\n𝑋 units and a lottery ticket of 𝑌 units, and then you can enjoy the discount of buy 𝑋 units\r\nand get 𝑌 units free. It means for every 𝑋 units of ice cream you bought, you will get 𝑌 units\r\nfree ice cream. The price of every unit of the ice cream is 3 dollars, and you want to buy some\r\nunits of ice cream. Please write a program to calculate the minimum price of your order.\r\nInput Format\r\nThe first line contains an integer 𝑇, which represents the number of test cases. Each test case\r\ncontains a single line with 3 integers 𝑋, 𝑌 , 𝑁, which represents the lottery tickets of 𝑋, 𝑌 ,\r\nand you want to obtain at least 𝑁 ice cream. Any two consecutive integers are separated by\r\nexactly one space.\r\nOutput Format\r\nFor each test case outputs an integer, which represents the minimum price of your order.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑇 ≤ 15\r\n∙ 1 ≤ 𝑋, 𝑌 ≤ 1, 000\r\n∙ 1 ≤ 𝑁 ≤ 15, 000\r\nSample Input 1\r\n1\r\n1 1 3\r\nSample Output 1\r\n6\r\nSample Input 2\r\n2\r\n4 7 22\r\n4 8 22\r\nSample Output 2\r\n24\r\n24\r\n1\n\n2021 ICPC Asia Taipei Regional\r\nAlmost blank page\r\n2\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "1\n1 1 3",
+            "output": "6"
+          },
+          {
+            "name": "样例 2",
+            "input": "2\n4 7 22\n4 8 22",
+            "output": "24\n24"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "2021 ICPC Asia Taipei Regional\r\nProblem A\r\nIce Cream\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nTo celebrate the 3rd anniversary of the Ice Cream Professional Company (ICPC), the company\r\nhas an anniversary sale activity. The activity’s name is “Buy 𝑋 units and Get 𝑌 units free”.\r\nThe contents of the activity is as below. First, you will be asking to draw a lottery ticket of\r\n𝑋 units and a lottery ticket of 𝑌 units, and then you can enjoy the discount of buy 𝑋 units\r\nand get 𝑌 units free. It means for every 𝑋 units of ice cream you bought, you will get 𝑌 units\r\nfree ice cream. The price of every unit of the ice cream is 3 dollars, and you want to buy some\r\nunits of ice cream. Please write a program to calculate the minimum price of your order.\r\nInput Format\r\nThe first line contains an integer 𝑇, which represents the number of test cases. Each test case\r\ncontains a single line with 3 integers 𝑋, 𝑌 , 𝑁, which represents the lottery tickets of 𝑋, 𝑌 ,\r\nand you want to obtain at least 𝑁 ice cream. Any two consecutive integers are separated by\r\nexactly one space.\r\nOutput Format\r\nFor each test case outputs an integer, which represents the minimum price of your order.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑇 ≤ 15\r\n∙ 1 ≤ 𝑋, 𝑌 ≤ 1, 000\r\n∙ 1 ≤ 𝑁 ≤ 15, 000\r\nSample Input 1\r\n1\r\n1 1 3\r\nSample Output 1\r\n6\r\nSample Input 2\r\n2\r\n4 7 22\r\n4 8 22\r\nSample Output 2\r\n24\r\n24\r\n1\n\n2021 ICPC Asia Taipei Regional\r\nAlmost blank page\r\n2",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+          "pagesReviewed": [
+            1
+          ],
+          "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "1\n1 1 3",
+              "output": "6"
+            },
+            {
+              "name": "样例 2",
+              "input": "2\n4 7 22\n4 8 22",
+              "output": "24\n24"
+            }
+          ]
+        },
+        "id": "remote:codeforces:103443::A",
+        "title": "Ice Cream",
+        "url": "https://codeforces.com/gym/103443/problem/A",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+          "bytes": 123193,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+          "fileName": "gym-103443-A.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            1,
+            2
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "A",
+          "pdfTitle": "Ice Cream",
+          "rosterTitle": "Ice Cream",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.407223+00:00",
+          "corpusAuditVerifiedSha256": "617432d84a2834e6e26d5fe7401a45f1025a25bdeb7cba253f151d1a6ec64267"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::A",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+          "sourcePages": [
+            1,
+            2
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 2,
+          "samplesSha256": "b906491be468f9739a3e1c3e98fff4f276ff4dbc06911a6f73ee62071c8c7d26",
+          "samplePagesReviewed": [
+            1
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103443::B",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Maximum Sub-Reverse Matching\n\n2021 ICPC Asia Taipei Regional\r\nProblem B\r\nMaximum Sub-Reverse Matching\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nConsider two strings of the same length, for example, 𝑠1 = \"happycoding\" and 𝑠2 = \"onedocument\".\r\nComparison 𝑠1 and 𝑠2 character by character, they get 2 matches, such as\r\nhappycoding\r\nonedocument\r\n00000100010\r\nSuppose that 𝑠\r\n′\r\n2\r\nis obtained by reversing the substring from the 4𝑡ℎ character to the 8𝑡ℎ character\r\nof 𝑠2, i.e.,\r\n𝑠\r\n′\r\n2 = \"onemucodent\". Then, 𝑠1 and 𝑠\r\n′\r\n2 will get 4 matches, such as\r\nhappycoding\r\nonemucodent\r\n00000111010\r\nGiven a pair of two strings of the same length, say 𝑠1 and 𝑠2, your task is to reverse a substring\r\nof 𝑠2 so that the resulting number of characters matched by position can be maximized.\r\nInput Format\r\nThe first line contains an integer 𝑇, which represents the number of test cases. Each test case\r\nbelow contains three lines. For each test case, the first line is an integer 𝑛 ≤ 1, 000, which\r\nrepresents the length of the next two lines of strings, and the next two lines are two lowercase\r\nstrings of length 𝑛, called 𝑠1 and 𝑠2 respectively.\r\nOutput Format\r\nEach test case outputs four integers 𝑚1,2, 𝑚1,2*, 𝑎, 𝑏, separated by a space. The first integer\r\n𝑚1,2 is the number of characters that 𝑠1 and 𝑠2 match by position. The second integer 𝑚1,2* is\r\nthe maximum possible number of matches by matching 𝑠1 and the substring reversed version\r\nof 𝑠2. 𝑎 ≤ 𝑏 are the indexes of 𝑠2, starting from 1. By reversing the substring indexed from 𝑎\r\nto 𝑏 in 𝑠2, the maximum number of matches will be obtained. If there are multiple solutions,\r\noutput the one with the smallest value of 𝑏 − 𝑎. If multiple solutions are still obtained, the one\r\nwith the minimum value of 𝑎 is output.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑇 ≤ 50.\r\n∙ 1 ≤ 𝑛 ≤ 1, 000\r\n∙ All string characters are lowercase letters.\r\n3\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n5\r\n11\r\nhappycoding\r\nonedocument\r\n8\r\nabbbcccd\r\nxcbcbybd\r\n3\r\ncat\r\ndog\r\n4\r\nabcd\r\nxyza\r\n3\r\ndog\r\npop\r\nSample Output 1\r\n2 4 4 8\r\n2 5 2 7\r\n0 0 1 1\r\n0 1 1 4\r\n1 1 1 1\r\n4\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "5\n11\nhappycoding\nonedocument\n8\nabbbcccd\nxcbcbybd\n3\ncat\ndog\n4\nabcd\nxyza\n3\ndog\npop",
+            "output": "2 4 4 8\n2 5 2 7\n0 0 1 1\n0 1 1 4\n1 1 1 1"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "2021 ICPC Asia Taipei Regional\r\nProblem B\r\nMaximum Sub-Reverse Matching\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nConsider two strings of the same length, for example, 𝑠1 = \"happycoding\" and 𝑠2 = \"onedocument\".\r\nComparison 𝑠1 and 𝑠2 character by character, they get 2 matches, such as\r\nhappycoding\r\nonedocument\r\n00000100010\r\nSuppose that 𝑠\r\n′\r\n2\r\nis obtained by reversing the substring from the 4𝑡ℎ character to the 8𝑡ℎ character\r\nof 𝑠2, i.e.,\r\n𝑠\r\n′\r\n2 = \"onemucodent\". Then, 𝑠1 and 𝑠\r\n′\r\n2 will get 4 matches, such as\r\nhappycoding\r\nonemucodent\r\n00000111010\r\nGiven a pair of two strings of the same length, say 𝑠1 and 𝑠2, your task is to reverse a substring\r\nof 𝑠2 so that the resulting number of characters matched by position can be maximized.\r\nInput Format\r\nThe first line contains an integer 𝑇, which represents the number of test cases. Each test case\r\nbelow contains three lines. For each test case, the first line is an integer 𝑛 ≤ 1, 000, which\r\nrepresents the length of the next two lines of strings, and the next two lines are two lowercase\r\nstrings of length 𝑛, called 𝑠1 and 𝑠2 respectively.\r\nOutput Format\r\nEach test case outputs four integers 𝑚1,2, 𝑚1,2*, 𝑎, 𝑏, separated by a space. The first integer\r\n𝑚1,2 is the number of characters that 𝑠1 and 𝑠2 match by position. The second integer 𝑚1,2* is\r\nthe maximum possible number of matches by matching 𝑠1 and the substring reversed version\r\nof 𝑠2. 𝑎 ≤ 𝑏 are the indexes of 𝑠2, starting from 1. By reversing the substring indexed from 𝑎\r\nto 𝑏 in 𝑠2, the maximum number of matches will be obtained. If there are multiple solutions,\r\noutput the one with the smallest value of 𝑏 − 𝑎. If multiple solutions are still obtained, the one\r\nwith the minimum value of 𝑎 is output.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑇 ≤ 50.\r\n∙ 1 ≤ 𝑛 ≤ 1, 000\r\n∙ All string characters are lowercase letters.\r\n3\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n5\r\n11\r\nhappycoding\r\nonedocument\r\n8\r\nabbbcccd\r\nxcbcbybd\r\n3\r\ncat\r\ndog\r\n4\r\nabcd\r\nxyza\r\n3\r\ndog\r\npop\r\nSample Output 1\r\n2 4 4 8\r\n2 5 2 7\r\n0 0 1 1\r\n0 1 1 4\r\n1 1 1 1\r\n4",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "469fc433a10a0e7e8e0093c3dbaf2e48a8009284eae8ff70c3411e5441e45a31",
+          "pagesReviewed": [
+            2
+          ],
+          "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "5\n11\nhappycoding\nonedocument\n8\nabbbcccd\nxcbcbybd\n3\ncat\ndog\n4\nabcd\nxyza\n3\ndog\npop",
+              "output": "2 4 4 8\n2 5 2 7\n0 0 1 1\n0 1 1 4\n1 1 1 1"
+            }
+          ]
+        },
+        "id": "remote:codeforces:103443::B",
+        "title": "Maximum Sub-Reverse Matching",
+        "url": "https://codeforces.com/gym/103443/problem/B",
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "469fc433a10a0e7e8e0093c3dbaf2e48a8009284eae8ff70c3411e5441e45a31",
+          "bytes": 152272,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:469fc433a10a0e7e8e0093c3dbaf2e48a8009284eae8ff70c3411e5441e45a31",
+          "fileName": "gym-103443-B.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            3,
+            4
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          3,
+          4
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "B",
+          "pdfTitle": "Maximum Sub-Reverse Matching",
+          "rosterTitle": "Maximum Sub-Reverse Matching",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.455903+00:00",
+          "corpusAuditVerifiedSha256": "b74aef4a66a44f927abfb37748190dde87014453787f99379c95b6d695a1cfb5"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::B",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "469fc433a10a0e7e8e0093c3dbaf2e48a8009284eae8ff70c3411e5441e45a31",
+          "sourcePages": [
+            3,
+            4
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "17c84054392cb5df7c7194c9cf6da0b727e9b27f046df4144ecabad269307377",
+          "samplePagesReviewed": [
+            2
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103443::C",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Community Service\n\n2021 ICPC Asia Taipei Regional\r\nProblem C\r\nCommunity Service\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nICPC (International-Competition Partner Community) is an emerging community. The people\r\nwho live there are very young, competitive and willing to serve the community. The residents of\r\nICPC live on a straight-line street. One can use integers to locate or address specific points on\r\nthe line. The point addresses in the line are numbered from 0 to 𝑛−1, where 1 ≤ 𝑛 ≤ 1, 000, 000.\r\nMany young people have moved to ICPC one after another. Everyone who newly moves into\r\nthe community must provide a one-time community service at certain time. According to the\r\nplace of residence, each newcomer can choose a set of interesting points covered by an integer\r\nrange, say [𝑎, 𝑏](0 ≤ 𝑎 ≤ 𝑏 < 𝑛) to provide such a one-time service. When the community center\r\nrequests a service on a set of points covered by an integer range, say [𝑐, 𝑑](0 ≤ 𝑐 ≤ 𝑑 < 𝑛),\r\nthe newest newcomer whose interesting-point set overlays with that set, i.e., has a non-empty\r\nintersection, should provide the service. Once the newcomer has provided the service, there is\r\nno need to provide service any more.\r\nIn this problem, you are given the number of points, say 𝑛, on ICPC street, and a sequence\r\nof events that occur consecutively over time. There are two types of events, called newcomer\r\nevents and service-request events, defined below:\r\nNewcomer event\r\n1 𝑛𝑎𝑚𝑒 𝑎 𝑏\r\nwhere 𝑛𝑎𝑚𝑒 is a string (without space) representing the newcomer’s name, 𝑎 and 𝑏 are\r\nintegers such that 0 ≤ 𝑎 ≤ 𝑏 < 𝑛. Any points between 𝑎 and 𝑏 (included) are interesting\r\npoints of this newcomer to provide the one-time service.\r\nService-request events\r\n2 𝑐 𝑑\r\nwhere 𝑐 and 𝑑 are integers such that 0 ≤ 𝑐 ≤ 𝑑 < 𝑛. This event represents that ICPC\r\ncommunity center issues a service request in the area which includes all points between 𝑐\r\nand 𝑑 (included).\r\nWrite a program to process the events described above. When receiving a service-request event,\r\noutput a single line which reports the name of newest newcomer who provides the service. If it\r\nis unavailable (because residents who meet the preference condition all have provided services\r\nbefore, or no one interest to provide services in the designated area), output a line of string\r\n\"> <\" (without quotation mark).\r\nFigure 1 gives an schematic explanation for the sample input/output. On different time ticks,\r\ndisplay the corresponding events that occurred. The shallow-gray bar with name attached\r\n5\n\n2021 ICPC Asia Taipei Regional\r\nshows the newcomer’s interesting area, and the dark-gray bar shows the service request area.\r\nInput Format\r\nThe first line includes two integer 𝑛(1 ≤ 𝑛 ≤ 1, 000, 000) and 1 ≤ 𝑒 ≤ 200, 000, where 𝑛 denotes\r\nthe number of points that the community line has, and 𝑒denotes the number of events to be\r\nprocessed in sequel. The next 𝑒 lines describes events that occur in sequence over time. The\r\nformat of the event description is specified in the problem statement.\r\nOutput Format\r\nFor each service event, output a line describing the name of the resident who provided the\r\ncorresponding service. If not available, output a line of string \"> <\" (without quotation mark).\r\nPlease note that different residents may have the same name, but this in fact has nothing to\r\ndo with problem solving.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑛 ≤ 1, 000, 000\r\n∙ 1 ≤ 𝑒 ≤ 200, 000\r\n∙ 0 ≤ 𝑎 ≤ 𝑏 < 𝑛\r\n∙ 0 ≤ 𝑐 ≤ 𝑑 < 𝑛\r\n∙ All newcomers’ names are composed of alphabets without any spaces, and each length\r\ndoes not exceed 16.\r\nFigure 1: Schematic explanation of sample input and output\r\n6\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n12 10\r\n1 Jessica 5 10\r\n1 Sara 4 7\r\n1 Peter 7 9\r\n2 3 5\r\n2 3 7\r\n1 Olivia 4 6\r\n2 1 3\r\n2 8 8\r\n2 8 9\r\n2 3 11\r\nSample Output 1\r\nSara\r\nPeter\r\n>_ <\r\nJessica\r\n>_ <\r\nOlivia\r\n7\n\n2021 ICPC Asia Taipei Regional\r\nAlmost blank page\r\n8\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "12 10\n1 Jessica 5 10\n1 Sara 4 7\n1 Peter 7 9\n2 3 5\n2 3 7\n1 Olivia 4 6\n2 1 3\n2 8 8\n2 8 9\n2 3 11",
+            "output": "Sara\nPeter\n>_<\nJessica\n>_<\nOlivia"
+          }
+        ],
+        "pageCount": 4,
+        "sourceText": "2021 ICPC Asia Taipei Regional\r\nProblem C\r\nCommunity Service\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nICPC (International-Competition Partner Community) is an emerging community. The people\r\nwho live there are very young, competitive and willing to serve the community. The residents of\r\nICPC live on a straight-line street. One can use integers to locate or address specific points on\r\nthe line. The point addresses in the line are numbered from 0 to 𝑛−1, where 1 ≤ 𝑛 ≤ 1, 000, 000.\r\nMany young people have moved to ICPC one after another. Everyone who newly moves into\r\nthe community must provide a one-time community service at certain time. According to the\r\nplace of residence, each newcomer can choose a set of interesting points covered by an integer\r\nrange, say [𝑎, 𝑏](0 ≤ 𝑎 ≤ 𝑏 < 𝑛) to provide such a one-time service. When the community center\r\nrequests a service on a set of points covered by an integer range, say [𝑐, 𝑑](0 ≤ 𝑐 ≤ 𝑑 < 𝑛),\r\nthe newest newcomer whose interesting-point set overlays with that set, i.e., has a non-empty\r\nintersection, should provide the service. Once the newcomer has provided the service, there is\r\nno need to provide service any more.\r\nIn this problem, you are given the number of points, say 𝑛, on ICPC street, and a sequence\r\nof events that occur consecutively over time. There are two types of events, called newcomer\r\nevents and service-request events, defined below:\r\nNewcomer event\r\n1 𝑛𝑎𝑚𝑒 𝑎 𝑏\r\nwhere 𝑛𝑎𝑚𝑒 is a string (without space) representing the newcomer’s name, 𝑎 and 𝑏 are\r\nintegers such that 0 ≤ 𝑎 ≤ 𝑏 < 𝑛. Any points between 𝑎 and 𝑏 (included) are interesting\r\npoints of this newcomer to provide the one-time service.\r\nService-request events\r\n2 𝑐 𝑑\r\nwhere 𝑐 and 𝑑 are integers such that 0 ≤ 𝑐 ≤ 𝑑 < 𝑛. This event represents that ICPC\r\ncommunity center issues a service request in the area which includes all points between 𝑐\r\nand 𝑑 (included).\r\nWrite a program to process the events described above. When receiving a service-request event,\r\noutput a single line which reports the name of newest newcomer who provides the service. If it\r\nis unavailable (because residents who meet the preference condition all have provided services\r\nbefore, or no one interest to provide services in the designated area), output a line of string\r\n\"> <\" (without quotation mark).\r\nFigure 1 gives an schematic explanation for the sample input/output. On different time ticks,\r\ndisplay the corresponding events that occurred. The shallow-gray bar with name attached\r\n5\n\n2021 ICPC Asia Taipei Regional\r\nshows the newcomer’s interesting area, and the dark-gray bar shows the service request area.\r\nInput Format\r\nThe first line includes two integer 𝑛(1 ≤ 𝑛 ≤ 1, 000, 000) and 1 ≤ 𝑒 ≤ 200, 000, where 𝑛 denotes\r\nthe number of points that the community line has, and 𝑒denotes the number of events to be\r\nprocessed in sequel. The next 𝑒 lines describes events that occur in sequence over time. The\r\nformat of the event description is specified in the problem statement.\r\nOutput Format\r\nFor each service event, output a line describing the name of the resident who provided the\r\ncorresponding service. If not available, output a line of string \"> <\" (without quotation mark).\r\nPlease note that different residents may have the same name, but this in fact has nothing to\r\ndo with problem solving.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑛 ≤ 1, 000, 000\r\n∙ 1 ≤ 𝑒 ≤ 200, 000\r\n∙ 0 ≤ 𝑎 ≤ 𝑏 < 𝑛\r\n∙ 0 ≤ 𝑐 ≤ 𝑑 < 𝑛\r\n∙ All newcomers’ names are composed of alphabets without any spaces, and each length\r\ndoes not exceed 16.\r\nFigure 1: Schematic explanation of sample input and output\r\n6\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n12 10\r\n1 Jessica 5 10\r\n1 Sara 4 7\r\n1 Peter 7 9\r\n2 3 5\r\n2 3 7\r\n1 Olivia 4 6\r\n2 1 3\r\n2 8 8\r\n2 8 9\r\n2 3 11\r\nSample Output 1\r\nSara\r\nPeter\r\n>_ <\r\nJessica\r\n>_ <\r\nOlivia\r\n7\n\n2021 ICPC Asia Taipei Regional\r\nAlmost blank page\r\n8",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "108290a879d0962da0c07298d9f24bb06c164ecc8283081e51450ee598f2bd1a",
+          "pagesReviewed": [
+            3
+          ],
+          "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "12 10\n1 Jessica 5 10\n1 Sara 4 7\n1 Peter 7 9\n2 3 5\n2 3 7\n1 Olivia 4 6\n2 1 3\n2 8 8\n2 8 9\n2 3 11",
+              "output": "Sara\nPeter\n>_<\nJessica\n>_<\nOlivia"
+            }
+          ],
+          "geometryReview": {
+            "method": "page-reviewed-original-pdf-samples",
+            "pagesReviewed": [
+              3
+            ]
+          }
+        },
+        "id": "remote:codeforces:103443::C",
+        "title": "Community Service",
+        "url": "https://codeforces.com/gym/103443/problem/C",
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "108290a879d0962da0c07298d9f24bb06c164ecc8283081e51450ee598f2bd1a",
+          "bytes": 132968,
+          "mime": "application/pdf",
+          "pageCount": 4,
+          "data": "tb-asset:108290a879d0962da0c07298d9f24bb06c164ecc8283081e51450ee598f2bd1a",
+          "fileName": "gym-103443-C.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          5,
+          6,
+          7,
+          8
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "C",
+          "pdfTitle": "Community Service",
+          "rosterTitle": "Community Service",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.528428+00:00",
+          "corpusAuditVerifiedSha256": "7567f59716f61575c2cccd6af062d5cdd6c6514819b1f7ad9338e53e63f9d2e7"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::C",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "108290a879d0962da0c07298d9f24bb06c164ecc8283081e51450ee598f2bd1a",
+          "sourcePages": [
+            5,
+            6,
+            7,
+            8
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "6d7d7a15a70cd20984b1ffe2753511471709b3096ae5e799b3541c4cf850bc81",
+          "samplePagesReviewed": [
+            3
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103443::D",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Largest Remainder\n\n2021 ICPC Asia Taipei Regional\r\nProblem D\r\nLargest Remainder\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nGiven a list of 𝐷 digits and an integer 𝐾, we consider all different ways to permute these digits\r\ninto a 𝐷-digit decimal number. The target of this problem is to find a permutation 𝑋, such\r\nthat when 𝑋 is divided by 𝐾, the remainder (between 0 and 𝐾 − 1) is the largest among\r\nall other permutations. If there are more than one possible permutation, output the largest\r\npermutation.\r\nFor instance, suppose that we have 𝐷 = 3 digits, and they are respectively 1, 2, 3.\r\n1. If 𝐾 = 1, then we see that every permutation will give a remainder 0 when divided by 𝐾,\r\nand 321 is thus the desired answer, as it is the largest permutation among all.\r\n2. If 𝐾 = 10, then both 123 and 213 will give a remainder 3 when divided by 𝐾, and this is\r\nthe largest possible remainder in this case. Consequently, the desired output is 213 since\r\nit is a larger permutation.\r\n3. If 𝐾 = 100, then the largest remainder we can get is 32, when the permutation is 132.\r\nInput Format\r\nThe first line of the input contains a positive integer 𝐷 followed by a positive integer 𝐾. Then,\r\nthe next line contains 𝐷 digits, each digit 𝑑 has value 1 ≤ 𝑑 ≤ 9 and is separated from the next\r\none by a space.\r\nOutput Format\r\nOutput the largest permutation that gives the largest remainder in a single line.\r\nTechnical Specification\r\n∙ 1 ≤ 𝐷 ≤ 16\r\n∙ 1 ≤ 𝐾 ≤ 200\r\n∙ 1 ≤ 𝑑 ≤ 9\r\nSample Input 1\r\n3 1\r\n1 2 3\r\nSample Output 1\r\n321\r\nSample Input 2\r\n3 10\r\n1 2 3\r\nSample Output 2\r\n213\r\n9\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 3\r\n3 100\r\n1 2 3\r\nSample Output 3\r\n132\r\n10\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 1\n1 2 3",
+            "output": "321"
+          },
+          {
+            "name": "样例 2",
+            "input": "3 10\n1 2 3",
+            "output": "213"
+          },
+          {
+            "name": "样例 3",
+            "input": "3 100\n1 2 3",
+            "output": "132"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "2021 ICPC Asia Taipei Regional\r\nProblem D\r\nLargest Remainder\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nGiven a list of 𝐷 digits and an integer 𝐾, we consider all different ways to permute these digits\r\ninto a 𝐷-digit decimal number. The target of this problem is to find a permutation 𝑋, such\r\nthat when 𝑋 is divided by 𝐾, the remainder (between 0 and 𝐾 − 1) is the largest among\r\nall other permutations. If there are more than one possible permutation, output the largest\r\npermutation.\r\nFor instance, suppose that we have 𝐷 = 3 digits, and they are respectively 1, 2, 3.\r\n1. If 𝐾 = 1, then we see that every permutation will give a remainder 0 when divided by 𝐾,\r\nand 321 is thus the desired answer, as it is the largest permutation among all.\r\n2. If 𝐾 = 10, then both 123 and 213 will give a remainder 3 when divided by 𝐾, and this is\r\nthe largest possible remainder in this case. Consequently, the desired output is 213 since\r\nit is a larger permutation.\r\n3. If 𝐾 = 100, then the largest remainder we can get is 32, when the permutation is 132.\r\nInput Format\r\nThe first line of the input contains a positive integer 𝐷 followed by a positive integer 𝐾. Then,\r\nthe next line contains 𝐷 digits, each digit 𝑑 has value 1 ≤ 𝑑 ≤ 9 and is separated from the next\r\none by a space.\r\nOutput Format\r\nOutput the largest permutation that gives the largest remainder in a single line.\r\nTechnical Specification\r\n∙ 1 ≤ 𝐷 ≤ 16\r\n∙ 1 ≤ 𝐾 ≤ 200\r\n∙ 1 ≤ 𝑑 ≤ 9\r\nSample Input 1\r\n3 1\r\n1 2 3\r\nSample Output 1\r\n321\r\nSample Input 2\r\n3 10\r\n1 2 3\r\nSample Output 2\r\n213\r\n9\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 3\r\n3 100\r\n1 2 3\r\nSample Output 3\r\n132\r\n10",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "3 1\n1 2 3",
+              "output": "321"
+            },
+            {
+              "name": "样例 2",
+              "input": "3 10\n1 2 3",
+              "output": "213"
+            },
+            {
+              "name": "样例 3",
+              "input": "3 100\n1 2 3",
+              "output": "132"
+            }
+          ],
+          "geometryReview": {
+            "method": "page-reviewed-original-pdf-samples",
+            "pagesReviewed": [
+              1,
+              2
+            ]
+          }
+        },
+        "id": "remote:codeforces:103443::D",
+        "title": "Largest Remainder",
+        "url": "https://codeforces.com/gym/103443/problem/D",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+          "bytes": 123577,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+          "fileName": "gym-103443-D.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            9,
+            10
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          9,
+          10
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "D",
+          "pdfTitle": "Largest Remainder",
+          "rosterTitle": "Largest Remainder",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 3,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.568352+00:00",
+          "corpusAuditVerifiedSha256": "b63676e843ba8367383b4cf81440663e02b638098e57a436e68e7d4f44f8fcdd"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::D",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+          "sourcePages": [
+            9,
+            10
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 3,
+          "samplesSha256": "0bc5110be97a2d9cc55fefce6b94a0b243a54319244fbc3d52b244b77368a291",
+          "samplePagesReviewed": [
+            1,
+            2
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103443::E",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Composition with Large Red Plane, Yellow, Black, Gray, and Blue\n\n2021 ICPC Asia Taipei Regional\r\nProblem E\r\nComposition with Large Red Plane, Yellow, Black, Gray,\r\nand Blue\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nMona is a mosaic designer. Recently many customers ask her to build rectangle frames with\r\nindicated size to embed photos with instructed layouts. The frames contain borders with 1\r\npixel thick, and 1 pixel gaps between embedded photos. These photos could be resized with\r\npreserved width-height ratios. And they must have integer widths and heights after being\r\nresized.\r\nAnd she needs your help to give her a program to check if each customer’s request could be\r\nfulfilled.\r\nInput Format\r\nThe first line will be 2 positive integers 𝑊 and 𝐻 indicating the width and height of the\r\nrequested frame.\r\nThe following lines will describe the layout. The description composed by H-blocks, V-blocks\r\nand photos, each occupies a rectangle region.\r\nAn H-block describes a region separated horizontally into one or more subregions. The first\r\nline of the H-block description will be a positive integer 𝑆, which means this region will be\r\nsplit into 𝑆 subregions. Each subregion will be a V-block or a photo. And the followings are\r\ndescriptions for subregions.\r\nA V-block describes a region separated vertically into one or more subregions. The first line of\r\nthe V-block description will be a positive integer 𝑆, which means this region will be split into 𝑆\r\nsubregions. Each subregion will be an H-blocks or a photo. And the followings are descriptions\r\nfor subregions.\r\nA photo description describes a region which occupied by a photo. The first line of the descrip￾tion is a 0 to make this description distinguishable from descriptions of H-blocks and V-blocks.\r\nThe second line has 2 positive integers 𝑤 and ℎ indicating the width and the height of the given\r\nphoto.\r\nThe whole layout is an H-block or a photo, distinguished by the first number.\r\nOutput Format\r\nIf the request could be fulfilled. Print a preview of the frame.\r\nThe preview should have 𝐻 lines and 𝑊 columns in each line. For each character, print a blank\r\nspace ‘ ’ for embedded photos, and print an asterisk ‘*’ for borders or photo gaps.\r\n11\n\n2021 ICPC Asia Taipei Regional\r\nIf the request couldn’t be fulfilled. Print a line with message ‘Impossible’.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑊, 𝐻 ≤ 1000, the width and the height of the frame.\r\n∙ 1 ≤ 𝑤, ℎ ≤ 1000, the width and the height of each photo.\r\n∙ 𝑁 ≤ 2000, the total number of H-blocks, V-blocks and photos.\r\nSample Input 1\r\n11 7\r\n2\r\n2\r\n0\r\n3 1\r\n0\r\n2 2\r\n0\r\n1 1\r\nSample Output 1\r\n***********\r\n* * *\r\n***** *\r\n* * *\r\n* * *\r\n* * *\r\n***********\r\nSample Input 2\r\n11 7\r\n2\r\n2\r\n0\r\n3 1\r\n0\r\n2 2\r\n0\r\n1 2\r\nSample Output 2\r\nImpossible\r\n12\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 3\r\n34 19\r\n2\r\n2\r\n3\r\n0\r\n7 1\r\n0\r\n11 1\r\n0\r\n9 1\r\n2\r\n3\r\n0\r\n3 3\r\n0\r\n3 5\r\n0\r\n3 5\r\n2\r\n2\r\n0\r\n15 7\r\n2\r\n0\r\n9 3\r\n2\r\n0\r\n4 3\r\n0\r\n4 3\r\n2\r\n2\r\n0\r\n7 3\r\n0\r\n7 3\r\n3\r\n2\r\n0\r\n7 1\r\n13\n\n2021 ICPC Asia Taipei Regional\r\n0\r\n9 1\r\n2\r\n2\r\n0\r\n7 1\r\n0\r\n7 1\r\n0\r\n9 3\r\n0\r\n17 1\r\n2\r\n0\r\n2 11\r\n0\r\n2 5\r\nSample Output 3\r\n**********************************\r\n* * * * *\r\n******************************* *\r\n* * * * *\r\n* * * * *\r\n* * * * *\r\n***** *********** *\r\n* * * * * *\r\n* * * * * *\r\n* * * * * *\r\n* *************************** *\r\n* * * * * *\r\n***** **********************\r\n* * * * * *\r\n* ***************** * *\r\n* * * * * *\r\n* * ******************* *\r\n* * * * *\r\n**********************************\r\n14\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 1",
+            "output": "***********\n*   *     *\n*****     *\n*   *     *\n*   *     *\n*   *     *\n***********"
+          },
+          {
+            "name": "样例 2",
+            "input": "11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 2",
+            "output": "Impossible"
+          },
+          {
+            "name": "样例 3",
+            "input": "34 19\n2\n2\n3\n0\n7 1\n0\n11 1\n0\n9 1\n2\n3\n0\n3 3\n0\n3 5\n0\n3 5\n2\n2\n0\n15 7\n2\n0\n9 3\n2\n0\n4 3\n0\n4 3\n2\n2\n0\n7 3\n0\n7 3\n3\n2\n0\n7 1\n0\n9 1\n2\n2\n0\n7 1\n0\n7 1\n0\n9 3\n0\n17 1\n2\n0\n2 11\n0\n2 5",
+            "output": "**********************************\n*       *           *         *  *\n*******************************  *\n*   *               *         *  *\n*   *               *         *  *\n*   *               *         *  *\n*****               ***********  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   ***************************  *\n*   *       *       *         *  *\n*****       **********************\n*   *       *       *         *  *\n*   *****************         *  *\n*   *       *       *         *  *\n*   *       *******************  *\n*   *       *                 *  *\n**********************************"
+          }
+        ],
+        "pageCount": 4,
+        "sourceText": "2021 ICPC Asia Taipei Regional\r\nProblem E\r\nComposition with Large Red Plane, Yellow, Black, Gray,\r\nand Blue\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nMona is a mosaic designer. Recently many customers ask her to build rectangle frames with\r\nindicated size to embed photos with instructed layouts. The frames contain borders with 1\r\npixel thick, and 1 pixel gaps between embedded photos. These photos could be resized with\r\npreserved width-height ratios. And they must have integer widths and heights after being\r\nresized.\r\nAnd she needs your help to give her a program to check if each customer’s request could be\r\nfulfilled.\r\nInput Format\r\nThe first line will be 2 positive integers 𝑊 and 𝐻 indicating the width and height of the\r\nrequested frame.\r\nThe following lines will describe the layout. The description composed by H-blocks, V-blocks\r\nand photos, each occupies a rectangle region.\r\nAn H-block describes a region separated horizontally into one or more subregions. The first\r\nline of the H-block description will be a positive integer 𝑆, which means this region will be\r\nsplit into 𝑆 subregions. Each subregion will be a V-block or a photo. And the followings are\r\ndescriptions for subregions.\r\nA V-block describes a region separated vertically into one or more subregions. The first line of\r\nthe V-block description will be a positive integer 𝑆, which means this region will be split into 𝑆\r\nsubregions. Each subregion will be an H-blocks or a photo. And the followings are descriptions\r\nfor subregions.\r\nA photo description describes a region which occupied by a photo. The first line of the descrip￾tion is a 0 to make this description distinguishable from descriptions of H-blocks and V-blocks.\r\nThe second line has 2 positive integers 𝑤 and ℎ indicating the width and the height of the given\r\nphoto.\r\nThe whole layout is an H-block or a photo, distinguished by the first number.\r\nOutput Format\r\nIf the request could be fulfilled. Print a preview of the frame.\r\nThe preview should have 𝐻 lines and 𝑊 columns in each line. For each character, print a blank\r\nspace ‘ ’ for embedded photos, and print an asterisk ‘*’ for borders or photo gaps.\r\n11\n\n2021 ICPC Asia Taipei Regional\r\nIf the request couldn’t be fulfilled. Print a line with message ‘Impossible’.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑊, 𝐻 ≤ 1000, the width and the height of the frame.\r\n∙ 1 ≤ 𝑤, ℎ ≤ 1000, the width and the height of each photo.\r\n∙ 𝑁 ≤ 2000, the total number of H-blocks, V-blocks and photos.\r\nSample Input 1\r\n11 7\r\n2\r\n2\r\n0\r\n3 1\r\n0\r\n2 2\r\n0\r\n1 1\r\nSample Output 1\r\n***********\r\n* * *\r\n***** *\r\n* * *\r\n* * *\r\n* * *\r\n***********\r\nSample Input 2\r\n11 7\r\n2\r\n2\r\n0\r\n3 1\r\n0\r\n2 2\r\n0\r\n1 2\r\nSample Output 2\r\nImpossible\r\n12\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 3\r\n34 19\r\n2\r\n2\r\n3\r\n0\r\n7 1\r\n0\r\n11 1\r\n0\r\n9 1\r\n2\r\n3\r\n0\r\n3 3\r\n0\r\n3 5\r\n0\r\n3 5\r\n2\r\n2\r\n0\r\n15 7\r\n2\r\n0\r\n9 3\r\n2\r\n0\r\n4 3\r\n0\r\n4 3\r\n2\r\n2\r\n0\r\n7 3\r\n0\r\n7 3\r\n3\r\n2\r\n0\r\n7 1\r\n13\n\n2021 ICPC Asia Taipei Regional\r\n0\r\n9 1\r\n2\r\n2\r\n0\r\n7 1\r\n0\r\n7 1\r\n0\r\n9 3\r\n0\r\n17 1\r\n2\r\n0\r\n2 11\r\n0\r\n2 5\r\nSample Output 3\r\n**********************************\r\n* * * * *\r\n******************************* *\r\n* * * * *\r\n* * * * *\r\n* * * * *\r\n***** *********** *\r\n* * * * * *\r\n* * * * * *\r\n* * * * * *\r\n* *************************** *\r\n* * * * * *\r\n***** **********************\r\n* * * * * *\r\n* ***************** * *\r\n* * * * * *\r\n* * ******************* *\r\n* * * * *\r\n**********************************\r\n14",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+          "pagesReviewed": [
+            2,
+            3,
+            4
+          ],
+          "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 1",
+              "output": "***********\n*   *     *\n*****     *\n*   *     *\n*   *     *\n*   *     *\n***********"
+            },
+            {
+              "name": "样例 2",
+              "input": "11 7\n2\n2\n0\n3 1\n0\n2 2\n0\n1 2",
+              "output": "Impossible"
+            },
+            {
+              "name": "样例 3",
+              "input": "34 19\n2\n2\n3\n0\n7 1\n0\n11 1\n0\n9 1\n2\n3\n0\n3 3\n0\n3 5\n0\n3 5\n2\n2\n0\n15 7\n2\n0\n9 3\n2\n0\n4 3\n0\n4 3\n2\n2\n0\n7 3\n0\n7 3\n3\n2\n0\n7 1\n0\n9 1\n2\n2\n0\n7 1\n0\n7 1\n0\n9 3\n0\n17 1\n2\n0\n2 11\n0\n2 5",
+              "output": "**********************************\n*       *           *         *  *\n*******************************  *\n*   *               *         *  *\n*   *               *         *  *\n*   *               *         *  *\n*****               ***********  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   *               *    *    *  *\n*   ***************************  *\n*   *       *       *         *  *\n*****       **********************\n*   *       *       *         *  *\n*   *****************         *  *\n*   *       *       *         *  *\n*   *       *******************  *\n*   *       *                 *  *\n**********************************"
+            }
+          ],
+          "geometryReview": {
+            "method": "page-reviewed-cross-page-code-and-glyph-grid",
+            "sampleCount": 3,
+            "outputGeometry": [
+              {
+                "rowPitches": [
+                  7.284303283691406,
+                  7.383531188964843,
+                  7.344079971313477,
+                  7.383531188964843,
+                  7.383531188964843,
+                  7.383531188964843,
+                  7.284303283691406
+                ],
+                "columns": 11,
+                "rows": 7,
+                "maximumCellRoundingError": 0.2
+              },
+              {
+                "rowPitches": [
+                  7.352084997928504,
+                  7.382879546194365,
+                  7.369472966049656,
+                  7.382879546194365,
+                  7.382879546194365,
+                  7.382879546194365,
+                  7.372371442390211,
+                  7.383241133256392,
+                  7.383241133256392,
+                  7.383241133256392,
+                  7.386498191139915,
+                  7.383242058031486,
+                  7.356790831594756,
+                  7.383242058031486,
+                  7.385050918116714,
+                  7.383242058031486,
+                  7.385413429953835,
+                  7.382879546194365,
+                  7.352084997928504
+                ],
+                "columns": 34,
+                "rows": 19,
+                "maximumCellRoundingError": 0.2
+              }
+            ],
+            "pagesReviewed": [
+              2,
+              3,
+              4
+            ]
+          }
+        },
+        "id": "remote:codeforces:103443::E",
+        "title": "Composition with Large Red Plane, Yellow, Black, Gray, and Blue",
+        "url": "https://codeforces.com/gym/103443/problem/E",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+          "bytes": 127516,
+          "mime": "application/pdf",
+          "pageCount": 4,
+          "data": "tb-asset:9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+          "fileName": "gym-103443-E.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            11,
+            12,
+            13,
+            14
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          11,
+          12,
+          13,
+          14
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "E",
+          "pdfTitle": "Composition with Large Red Plane, Yellow, Black, Gray, and Blue",
+          "rosterTitle": "Composition with Large Red Plane, Yellow, Black, Gray, and Blue",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 3,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.631433+00:00",
+          "corpusAuditVerifiedSha256": "57f99f6a11ec721e228c5a4fc4c3b008122bca0c3a68378f0ab2cdcddf19b029"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::E",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+          "sourcePages": [
+            11,
+            12,
+            13,
+            14
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 3,
+          "samplesSha256": "bbbceea6e67b20c8a33902da67b2aea0fd6c1f64e6ac901e1516b54582031c0d",
+          "samplePagesReviewed": [
+            2,
+            3,
+            4
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103443::F",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# What a Colorful Wall\n\n2021 ICPC Asia Taipei Regional\r\nProblem F\r\nWhat a Colorful Wall\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nIn a lovely park, where you can see trees of green and red roses under skies of blue and clouds of\r\nwhite, there is a wall public for everybody to put up posters. The color of a poster is indicated\r\nby a number. If a new poster to put up overlaps with older ones, the overlapping area will be\r\ncovered by the new one. Given 𝑛 posters with their coordinates and color, please help to put\r\nup them on the wall in the given order and figure out the number of distinct colors that can be\r\nseen on the resultant wall. At the beginning, the wall is blank. All the posters are rectangles\r\nand cannot be rotated.\r\nFor example, the figure shows three posters being put up on the wall in the following order.\r\n1. A light gray poster with a left-top and a right-bottom coordinates of (1, 6) and (3, 3),\r\nrespectively. The color is numbered 1.\r\n2. A dark gray poster with a left-top and a right-bottom coordinates of (3, 4) and (6, 1),\r\nrespectively. The color is numbered 2.\r\n3. A light gray poster with a left-top and a right-bottom coordinates of (2, 5) and (5, 2),\r\nrespectively. The color is numbered 1.\r\n0 1 2 3 4 5 6 7 8 9 10\r\n0\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\nOn the resultant wall, two colors, i.e. light gray and dark gray, are visible.\r\nInput Format\r\nEach test case begins with a line showing an integer 𝑛 denoting the number of posters. Each\r\nof the following 𝑛 lines specifies a poster by five integers, 𝑥1, 𝑦1, 𝑥2, 𝑦2, and 𝑐, where (𝑥1, 𝑦1)\r\n15\n\n2021 ICPC Asia Taipei Regional\r\ndenotes the coordinate of the left-top corner of the poster, (𝑥2, 𝑦2) denotes the coordinate of\r\nthe right-bottom corner of the poster, and 𝑐 is the color of the poster. Please help to put up\r\nthese 𝑛 posters on the wall in their given order.\r\nOutput Format\r\nFor each case, print a single integer that is the number of distinct colors visible on the resultant\r\nwall.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑛 ≤ 4000\r\n∙ 0 ≤ 𝑥1 < 𝑥2 < 2\r\n28, 0 ≤ 𝑦2 < 𝑦1 < 2\r\n28, 1 ≤ 𝑐 ≤ 𝑛, for every poster\r\nSample Input 1\r\n3\r\n1 6 3 3 1\r\n3 4 6 1 2\r\n2 5 5 2 1\r\nSample Output 1\r\n2\r\nSample Input 2\r\n3\r\n2 3 3 2 3\r\n1 4 4 1 1\r\n5 4 6 3 2\r\nSample Output 2\r\n2\r\nSample Input 3\r\n3\r\n0 1 2 0 1\r\n0 1 1 0 2\r\n2 1 3 0 2\r\nSample Output 3\r\n2\r\n16\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n1 6 3 3 1\n3 4 6 1 2\n2 5 5 2 1",
+            "output": "2"
+          },
+          {
+            "name": "样例 2",
+            "input": "3\n2 3 3 2 3\n1 4 4 1 1\n5 4 6 3 2",
+            "output": "2"
+          },
+          {
+            "name": "样例 3",
+            "input": "3\n0 1 2 0 1\n0 1 1 0 2\n2 1 3 0 2",
+            "output": "2"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "2021 ICPC Asia Taipei Regional\r\nProblem F\r\nWhat a Colorful Wall\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nIn a lovely park, where you can see trees of green and red roses under skies of blue and clouds of\r\nwhite, there is a wall public for everybody to put up posters. The color of a poster is indicated\r\nby a number. If a new poster to put up overlaps with older ones, the overlapping area will be\r\ncovered by the new one. Given 𝑛 posters with their coordinates and color, please help to put\r\nup them on the wall in the given order and figure out the number of distinct colors that can be\r\nseen on the resultant wall. At the beginning, the wall is blank. All the posters are rectangles\r\nand cannot be rotated.\r\nFor example, the figure shows three posters being put up on the wall in the following order.\r\n1. A light gray poster with a left-top and a right-bottom coordinates of (1, 6) and (3, 3),\r\nrespectively. The color is numbered 1.\r\n2. A dark gray poster with a left-top and a right-bottom coordinates of (3, 4) and (6, 1),\r\nrespectively. The color is numbered 2.\r\n3. A light gray poster with a left-top and a right-bottom coordinates of (2, 5) and (5, 2),\r\nrespectively. The color is numbered 1.\r\n0 1 2 3 4 5 6 7 8 9 10\r\n0\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\nOn the resultant wall, two colors, i.e. light gray and dark gray, are visible.\r\nInput Format\r\nEach test case begins with a line showing an integer 𝑛 denoting the number of posters. Each\r\nof the following 𝑛 lines specifies a poster by five integers, 𝑥1, 𝑦1, 𝑥2, 𝑦2, and 𝑐, where (𝑥1, 𝑦1)\r\n15\n\n2021 ICPC Asia Taipei Regional\r\ndenotes the coordinate of the left-top corner of the poster, (𝑥2, 𝑦2) denotes the coordinate of\r\nthe right-bottom corner of the poster, and 𝑐 is the color of the poster. Please help to put up\r\nthese 𝑛 posters on the wall in their given order.\r\nOutput Format\r\nFor each case, print a single integer that is the number of distinct colors visible on the resultant\r\nwall.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑛 ≤ 4000\r\n∙ 0 ≤ 𝑥1 < 𝑥2 < 2\r\n28, 0 ≤ 𝑦2 < 𝑦1 < 2\r\n28, 1 ≤ 𝑐 ≤ 𝑛, for every poster\r\nSample Input 1\r\n3\r\n1 6 3 3 1\r\n3 4 6 1 2\r\n2 5 5 2 1\r\nSample Output 1\r\n2\r\nSample Input 2\r\n3\r\n2 3 3 2 3\r\n1 4 4 1 1\r\n5 4 6 3 2\r\nSample Output 2\r\n2\r\nSample Input 3\r\n3\r\n0 1 2 0 1\r\n0 1 1 0 2\r\n2 1 3 0 2\r\nSample Output 3\r\n2\r\n16",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+          "pagesReviewed": [
+            2
+          ],
+          "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "3\n1 6 3 3 1\n3 4 6 1 2\n2 5 5 2 1",
+              "output": "2"
+            },
+            {
+              "name": "样例 2",
+              "input": "3\n2 3 3 2 3\n1 4 4 1 1\n5 4 6 3 2",
+              "output": "2"
+            },
+            {
+              "name": "样例 3",
+              "input": "3\n0 1 2 0 1\n0 1 1 0 2\n2 1 3 0 2",
+              "output": "2"
+            }
+          ]
+        },
+        "id": "remote:codeforces:103443::F",
+        "title": "What a Colorful Wall",
+        "url": "https://codeforces.com/gym/103443/problem/F",
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+          "bytes": 134098,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+          "fileName": "gym-103443-F.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            15,
+            16
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          15,
+          16
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "F",
+          "pdfTitle": "What a Colorful Wall",
+          "rosterTitle": "What a Colorful Wall",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 3,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.677125+00:00",
+          "corpusAuditVerifiedSha256": "3444b9d680c79564ae1697a2c35eb57752dfc156bfc95ad9979868c9e18bf56b"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::F",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+          "sourcePages": [
+            15,
+            16
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 3,
+          "samplesSha256": "2a12aa341f71094ccc102572cd78f09821f753dfec3f5887bd0b11ea7a4dfd3a",
+          "samplePagesReviewed": [
+            2
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103443::G",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# The Treasure of the Sierra Jade\n\n2021 ICPC Asia Taipei Regional\r\nProblem G\r\nThe Treasure of the Sierra Jade\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nCongratulations! You are so lucky to find the treasure of the Sierra Jade. Now, your last\r\nmission is to transport the treasure down the mountain to the river, where a boat will pick you\r\nup. The heavy treasure is shipped on a cart, and you cannot push the cart uphill. Your danger\r\ncomes from the patrol of the Sierra Jade. The patrol consists of a group of guards, and each\r\nof them has a patrol route to traverse the mountain every turn. Your mission fails if you meet\r\nany guard at the same location. Given the map of the Sierra Jade and the patrol routes, please\r\nfigure out the minimum number of turns to transport the treasures to any part of the river.\r\nInput Format\r\nThe first line of the input is an integer 𝑁 denoting the number of test cases. Each case begins\r\nwith a line of two integers 𝑛 and 𝑚 specifying the width and the height of the map of the\r\nSierra Jade. The altitude of each grid in the map is given in the following 𝑚 lines for a total of\r\n𝑛 × 𝑚 integers. That is, the 𝑥th number in the 𝑦th line denotes the altitude of the grid (𝑥 − 1,\r\n𝑦 − 1). A grid with the altitude of 0 is a part of the river. The river may not be connected,\r\nand reaching any grid with the altitude of 0 is considered success. Then, your initial location,\r\nthe grid where the treasure is found, is given in two integers 𝑥𝑠 and 𝑦𝑠. Of course, the grid\r\n(𝑥𝑠, 𝑦𝑠) is not a part of the river. The last part of the input is for the guards. An integer 𝑔\r\ndenotes the number of guards. Each 𝑖th line in the 𝑔 lines specifies the patrol route of the 𝑖th\r\nguard. The first number 𝑘𝑖\r\nindicates the number of locations in the route, and the following 𝑘𝑖\r\ngrids are given in 2𝑘𝑖\r\nintegers as 𝑥𝑖,1, 𝑦𝑖,1, 𝑥𝑖,2, 𝑦𝑖,2, ..., 𝑥𝑖,𝑘𝑖\r\n, 𝑦𝑖,𝑘𝑖\r\n. The guard traverses these grids\r\nevery turn in order, and then returns to the first grid to start again. As the guards known for\r\ntheir agility, the patrol route may consist of non-adjacent grids. Fortunately, the guards do not\r\npatrol the river and will never be located on the grid (𝑥𝑠, 𝑦𝑠) because of their respect for the\r\ntreasure.\r\nAt the beginning, all guards are at their own first location, and you are at your initial location\r\nas well. You and the patrol take turns when moving. In each turn, you move first. You can\r\nstay at the same grid or push the cart to one of the four adjacent grids if the grid with an\r\naltitude less than or equal to your current grid. The rest of the turn is for the guards to move\r\nto the next location in their patrol route. Your mission fails if you are caught by the guard in\r\ntwo situations:\r\n1. You move to a grid where at least one guard is located.\r\n2. You move to or stay at a grid that at least one guard will immediately move to in the\r\nsame turn.\r\n17\n\n2021 ICPC Asia Taipei Regional\r\nThe following figure illustrates the first case in the sample input as an example. Your location\r\nis marked by the letter Y, and the guard is marked by the letter G. In the first turn, your only\r\nchoice is to stay at (0, 0) since both adjacent grids are infeasible to move to. That is, the\r\naltitude of (1, 0) is greater than that of (0, 0), and (0, 1) is occupied by the only guard. In\r\nthe second turn, you move to (0, 1). In the third turn, you reach (0, 2), where is a part of the\r\nriver, with the success of the mission.\r\nY 2\r\nG 2\r\n0 0\r\n𝑡 = 0\r\nY 2\r\n1 G\r\n0 0\r\n𝑡 = 1\r\n1 2\r\nY G\r\n0 0\r\n𝑡 = 2\r\n1 2\r\nG 2\r\nY 0\r\n𝑡 = 3\r\nOutput Format\r\nThe output contains 𝑁 lines for the 𝑁 test cases. For each case, output a single line containing\r\nan integer that is the minimum number of turns for you to transport the treasure downhill to\r\nany location of the river. Output -1 if it is impossible to ship the treasure to the river.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑁 ≤ 10\r\n∙ 0 < 𝑛, 𝑚 ≤ 40\r\n∙ 0 ≤ 𝑔 ≤ 10\r\n∙ 0 < 𝑘𝑖 ≤ 8\r\n∙ All x-coordinates are integers in the range of 0 and 𝑛 − 1, all y-coordinates are integers\r\nin the range of 0 and 𝑚 − 1, and all altitudes are integers in the range of 0 and 220\r\n.\r\n18\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n5\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n0 0\r\n1\r\n3 0 1 1 1 1 1\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n0 0\r\n1\r\n2 0 1 1 1\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n1 0\r\n0\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n1 0\r\n2\r\n1 0 1\r\n1 1 1\r\n3 3\r\n1 2 1\r\n1 1 1\r\n0 2 0\r\n1 0\r\n1\r\n3 0 1 1 1 2 1\r\nSample Output 1\r\n3\r\n-1\r\n2\r\n-1\r\n3\r\n19\n\n2021 ICPC Asia Taipei Regional\r\nAlmost blank page\r\n20\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "5\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n3 0 1 1 1 1 1\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n2 0 1 1 1\n2 3\n1 2\n1 2\n0 0\n1 0\n0\n2 3\n1 2\n1 2\n0 0\n1 0\n2\n1 0 1\n1 1 1\n3 3\n1 2 1\n1 1 1\n0 2 0\n1 0\n1\n3 0 1 1 1 2 1",
+            "output": "3\n-1\n2\n-1\n3"
+          }
+        ],
+        "pageCount": 4,
+        "sourceText": "2021 ICPC Asia Taipei Regional\r\nProblem G\r\nThe Treasure of the Sierra Jade\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nCongratulations! You are so lucky to find the treasure of the Sierra Jade. Now, your last\r\nmission is to transport the treasure down the mountain to the river, where a boat will pick you\r\nup. The heavy treasure is shipped on a cart, and you cannot push the cart uphill. Your danger\r\ncomes from the patrol of the Sierra Jade. The patrol consists of a group of guards, and each\r\nof them has a patrol route to traverse the mountain every turn. Your mission fails if you meet\r\nany guard at the same location. Given the map of the Sierra Jade and the patrol routes, please\r\nfigure out the minimum number of turns to transport the treasures to any part of the river.\r\nInput Format\r\nThe first line of the input is an integer 𝑁 denoting the number of test cases. Each case begins\r\nwith a line of two integers 𝑛 and 𝑚 specifying the width and the height of the map of the\r\nSierra Jade. The altitude of each grid in the map is given in the following 𝑚 lines for a total of\r\n𝑛 × 𝑚 integers. That is, the 𝑥th number in the 𝑦th line denotes the altitude of the grid (𝑥 − 1,\r\n𝑦 − 1). A grid with the altitude of 0 is a part of the river. The river may not be connected,\r\nand reaching any grid with the altitude of 0 is considered success. Then, your initial location,\r\nthe grid where the treasure is found, is given in two integers 𝑥𝑠 and 𝑦𝑠. Of course, the grid\r\n(𝑥𝑠, 𝑦𝑠) is not a part of the river. The last part of the input is for the guards. An integer 𝑔\r\ndenotes the number of guards. Each 𝑖th line in the 𝑔 lines specifies the patrol route of the 𝑖th\r\nguard. The first number 𝑘𝑖\r\nindicates the number of locations in the route, and the following 𝑘𝑖\r\ngrids are given in 2𝑘𝑖\r\nintegers as 𝑥𝑖,1, 𝑦𝑖,1, 𝑥𝑖,2, 𝑦𝑖,2, ..., 𝑥𝑖,𝑘𝑖\r\n, 𝑦𝑖,𝑘𝑖\r\n. The guard traverses these grids\r\nevery turn in order, and then returns to the first grid to start again. As the guards known for\r\ntheir agility, the patrol route may consist of non-adjacent grids. Fortunately, the guards do not\r\npatrol the river and will never be located on the grid (𝑥𝑠, 𝑦𝑠) because of their respect for the\r\ntreasure.\r\nAt the beginning, all guards are at their own first location, and you are at your initial location\r\nas well. You and the patrol take turns when moving. In each turn, you move first. You can\r\nstay at the same grid or push the cart to one of the four adjacent grids if the grid with an\r\naltitude less than or equal to your current grid. The rest of the turn is for the guards to move\r\nto the next location in their patrol route. Your mission fails if you are caught by the guard in\r\ntwo situations:\r\n1. You move to a grid where at least one guard is located.\r\n2. You move to or stay at a grid that at least one guard will immediately move to in the\r\nsame turn.\r\n17\n\n2021 ICPC Asia Taipei Regional\r\nThe following figure illustrates the first case in the sample input as an example. Your location\r\nis marked by the letter Y, and the guard is marked by the letter G. In the first turn, your only\r\nchoice is to stay at (0, 0) since both adjacent grids are infeasible to move to. That is, the\r\naltitude of (1, 0) is greater than that of (0, 0), and (0, 1) is occupied by the only guard. In\r\nthe second turn, you move to (0, 1). In the third turn, you reach (0, 2), where is a part of the\r\nriver, with the success of the mission.\r\nY 2\r\nG 2\r\n0 0\r\n𝑡 = 0\r\nY 2\r\n1 G\r\n0 0\r\n𝑡 = 1\r\n1 2\r\nY G\r\n0 0\r\n𝑡 = 2\r\n1 2\r\nG 2\r\nY 0\r\n𝑡 = 3\r\nOutput Format\r\nThe output contains 𝑁 lines for the 𝑁 test cases. For each case, output a single line containing\r\nan integer that is the minimum number of turns for you to transport the treasure downhill to\r\nany location of the river. Output -1 if it is impossible to ship the treasure to the river.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑁 ≤ 10\r\n∙ 0 < 𝑛, 𝑚 ≤ 40\r\n∙ 0 ≤ 𝑔 ≤ 10\r\n∙ 0 < 𝑘𝑖 ≤ 8\r\n∙ All x-coordinates are integers in the range of 0 and 𝑛 − 1, all y-coordinates are integers\r\nin the range of 0 and 𝑚 − 1, and all altitudes are integers in the range of 0 and 220\r\n.\r\n18\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n5\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n0 0\r\n1\r\n3 0 1 1 1 1 1\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n0 0\r\n1\r\n2 0 1 1 1\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n1 0\r\n0\r\n2 3\r\n1 2\r\n1 2\r\n0 0\r\n1 0\r\n2\r\n1 0 1\r\n1 1 1\r\n3 3\r\n1 2 1\r\n1 1 1\r\n0 2 0\r\n1 0\r\n1\r\n3 0 1 1 1 2 1\r\nSample Output 1\r\n3\r\n-1\r\n2\r\n-1\r\n3\r\n19\n\n2021 ICPC Asia Taipei Regional\r\nAlmost blank page\r\n20",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+          "pagesReviewed": [
+            3
+          ],
+          "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "5\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n3 0 1 1 1 1 1\n2 3\n1 2\n1 2\n0 0\n0 0\n1\n2 0 1 1 1\n2 3\n1 2\n1 2\n0 0\n1 0\n0\n2 3\n1 2\n1 2\n0 0\n1 0\n2\n1 0 1\n1 1 1\n3 3\n1 2 1\n1 1 1\n0 2 0\n1 0\n1\n3 0 1 1 1 2 1",
+              "output": "3\n-1\n2\n-1\n3"
+            }
+          ]
+        },
+        "id": "remote:codeforces:103443::G",
+        "title": "The Treasure of the Sierra Jade",
+        "url": "https://codeforces.com/gym/103443/problem/G",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+          "bytes": 156071,
+          "mime": "application/pdf",
+          "pageCount": 4,
+          "data": "tb-asset:aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+          "fileName": "gym-103443-G.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            17,
+            18,
+            19,
+            20
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          17,
+          18,
+          19,
+          20
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "G",
+          "pdfTitle": "The Treasure of the Sierra Jade",
+          "rosterTitle": "The Treasure of the Sierra Jade",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.738738+00:00",
+          "corpusAuditVerifiedSha256": "bef4dea09e171a5ddfbbf689e7566d0eb26c5f7ab29c1d68095ddff5b2dfeaf1"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::G",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+          "sourcePages": [
+            17,
+            18,
+            19,
+            20
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "c7fc68649973be9275946f8ce6d8025c9c428d6e0b72e2e8e224f2209d78ee13",
+          "samplePagesReviewed": [
+            3
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103443::H",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# A Big Project\n\n2021 ICPC Asia Taipei Regional\r\nProblem H\r\nA Big Project\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe ICPC company is running a big project. The project manager, Peter, divides this big\r\nproject into 𝑛 subprojects and asks his colleagues to join. Peter finds 2𝑛 colleagues who are\r\ninterested in the project, and he wants to have all of them in. For each subproject, Peter\r\ndecides to have a team of two people. Some of the colleagues have never collaborated with each\r\nother before, and Peter would like to encourage collaborations through this project. However,\r\n𝑟 of the 𝑛 subprojects are very essential so Peter expects that the two team members of an\r\nessential subproject have experience on collaboration.\r\nGiven “a list of collaborations”, i.e. a list of pairs of the 2𝑛 colleagues who have collaborated\r\nbefore, please find the number 𝑘 minimizing |𝑘−𝑟| such that the 2𝑛 colleagues can be partitioned\r\ninto 𝑛 2-sets with exactly 𝑘 of which appeared in the list of collaborations. You also have to\r\ngive the 𝑛 teams.\r\nInput Format\r\nFor each test case, the first line contains three integers 𝑛, 𝑚, and 𝑟, where 𝑛 is the number\r\nof subprojects, 𝑚 is the number of pairs in the list of collaborations, and 𝑟 is the number of\r\nessential subprojects. The 2𝑛 colleagues who join the project are numbered from 1 to 2𝑛. Each\r\nof the following 𝑚 lines contains two integers 𝑥 and 𝑦, indicating that 𝑥 and 𝑦 have collaborated\r\nbefore. Consecutive integers in a line are separated by a space.\r\nOutput Format\r\nFor each test case, the output consists of 𝑛 + 1 lines. The first line is the integer 𝑘. Each of\r\nthe following 𝑛 lines contains two integers 𝑥 and 𝑦. In exactly 𝑘 of the 𝑛 lines, either “𝑥 𝑦” or\r\n“𝑦 𝑥” has to be in the list of collaborations. For the remaining 𝑛 − 𝑘 lines, neither “𝑥 𝑦” nor\r\n“𝑦 𝑥” appears in the list of collaborations.\r\nTechnical Specification\r\n∙ 0 ≤ 𝑟 ≤ 𝑛 ≤ 450\r\n∙ 0 ≤ 𝑚 ≤\r\n(︀\r\n2𝑛\r\n2\r\n)︀\r\n21\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n3 5 2\r\n1 2\r\n6 3\r\n4 3\r\n2 5\r\n5 4\r\nSample Output 1\r\n2\r\n5 2\r\n3 6\r\n1 4\r\n22\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 5 2\n1 2\n6 3\n4 3\n2 5\n5 4",
+            "output": "2\n5 2\n3 6\n1 4"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "2021 ICPC Asia Taipei Regional\r\nProblem H\r\nA Big Project\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe ICPC company is running a big project. The project manager, Peter, divides this big\r\nproject into 𝑛 subprojects and asks his colleagues to join. Peter finds 2𝑛 colleagues who are\r\ninterested in the project, and he wants to have all of them in. For each subproject, Peter\r\ndecides to have a team of two people. Some of the colleagues have never collaborated with each\r\nother before, and Peter would like to encourage collaborations through this project. However,\r\n𝑟 of the 𝑛 subprojects are very essential so Peter expects that the two team members of an\r\nessential subproject have experience on collaboration.\r\nGiven “a list of collaborations”, i.e. a list of pairs of the 2𝑛 colleagues who have collaborated\r\nbefore, please find the number 𝑘 minimizing |𝑘−𝑟| such that the 2𝑛 colleagues can be partitioned\r\ninto 𝑛 2-sets with exactly 𝑘 of which appeared in the list of collaborations. You also have to\r\ngive the 𝑛 teams.\r\nInput Format\r\nFor each test case, the first line contains three integers 𝑛, 𝑚, and 𝑟, where 𝑛 is the number\r\nof subprojects, 𝑚 is the number of pairs in the list of collaborations, and 𝑟 is the number of\r\nessential subprojects. The 2𝑛 colleagues who join the project are numbered from 1 to 2𝑛. Each\r\nof the following 𝑚 lines contains two integers 𝑥 and 𝑦, indicating that 𝑥 and 𝑦 have collaborated\r\nbefore. Consecutive integers in a line are separated by a space.\r\nOutput Format\r\nFor each test case, the output consists of 𝑛 + 1 lines. The first line is the integer 𝑘. Each of\r\nthe following 𝑛 lines contains two integers 𝑥 and 𝑦. In exactly 𝑘 of the 𝑛 lines, either “𝑥 𝑦” or\r\n“𝑦 𝑥” has to be in the list of collaborations. For the remaining 𝑛 − 𝑘 lines, neither “𝑥 𝑦” nor\r\n“𝑦 𝑥” appears in the list of collaborations.\r\nTechnical Specification\r\n∙ 0 ≤ 𝑟 ≤ 𝑛 ≤ 450\r\n∙ 0 ≤ 𝑚 ≤\r\n(︀\r\n2𝑛\r\n2\r\n)︀\r\n21\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n3 5 2\r\n1 2\r\n6 3\r\n4 3\r\n2 5\r\n5 4\r\nSample Output 1\r\n2\r\n5 2\r\n3 6\r\n1 4\r\n22",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+          "pagesReviewed": [
+            2
+          ],
+          "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "3 5 2\n1 2\n6 3\n4 3\n2 5\n5 4",
+              "output": "2\n5 2\n3 6\n1 4"
+            }
+          ]
+        },
+        "id": "remote:codeforces:103443::H",
+        "title": "A Big Project",
+        "url": "https://codeforces.com/gym/103443/problem/H",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+          "bytes": 153129,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+          "fileName": "gym-103443-H.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            21,
+            22
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          21,
+          22
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "H",
+          "pdfTitle": "A Big Project",
+          "rosterTitle": "A Big Project",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.783254+00:00",
+          "corpusAuditVerifiedSha256": "5e50efe77d8daf0bd792a39709b4fbbad757adc0309668b6e12497ddc50fba6f"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::H",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+          "sourcePages": [
+            21,
+            22
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "d87a151a36b4daf6e75659fbcb9f260b9750cb5f48676380ddffe4aa8c86fc02",
+          "samplePagesReviewed": [
+            2
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103443::I",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Seesaw\n\n2021 ICPC Asia Taipei Regional\r\nProblem I\r\nSeesaw\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThere is a seesaw in a playground. On each side of the seesaw, there are 𝑆 seats, where the\r\nseats are located at distance exactly 1, 2, . . . , 𝑆 units from the center. When a seat at distance\r\n𝑑 units from the center is occupied by someone with weight 𝑤, a torque of magnitude 𝑤 × 𝑑\r\nwill appear on the corresponding side of the seesaw. The seesaw is balanced when the total\r\ntorque on both sides have the same magnitude.\r\nInitially, all the seats on the seesaw are occupied with kids with positive integral weights.\r\nFurthermore, on the left side of the seesaw, all kids have odd weights, while on the right side\r\nof the seesaw, all kids have even weights. Unfortunately, the seesaw is not balanced. Someone\r\nsuggests to exchange the kids around, so as to see if the seesaw can be balanced. However, kids\r\nwith weight more than 2 are unwilling to move, so that they will never change their seats. Your\r\ntask is to determine if it is possible to make the seesaw balanced, and if so, what the minimum\r\nnumber of exchanges is.\r\nFor example, suppose 𝑆 = 3, the kids on the left side all have weight 1, and the kids on the\r\nright side all have weight 2. Then, it is possible to make 1 exchange, by exchanging the kids at\r\ndistance 3 on both sides, so that the total torque of the left side becomes 1×1+1×2+2×3 = 9,\r\nand the total torque of the right side becomes 2 × 1 + 2 × 2 + 1 × 3 = 9, and the seesaw is\r\nbalanced.\r\nFor another example, suppose 𝑆 = 3, the kids on the left side all have weight 1, and the kids\r\non the right side of the seesaw have weights 4, 2, 2, at distance 1, 2, 3 units, respectively. Then,\r\nit is possible to make 2 exchanges, first by exchanging the kids at distance 2 on both sides, and\r\nthen by exchanging the kid at distance 1 on the left with the kid at distance 3 on the right, so\r\nthat the total torque on the left side becomes 2 × 1 + 2 × 2 + 1 × 3 = 9, and the total torque of\r\nthe right side becomes 4 × 1 + 1 × 2 + 1 × 3 = 9, and the seesaw is balanced. In contrast, we\r\nsee that it is impossible to balance the seesaw with just 1 exchange, so the minimum number\r\nof exchanges in this example is 2.\r\nInput Format\r\nThe first line of the input is a positive integer 𝑇 denoting the number of test cases. Each test\r\ncase begins with a positive integer 𝑆, denoting the number of seats on each side of the seesaw.\r\nThen, the next line contains 𝑆 odd integers, which are the weights of the kids on the left side of\r\nthe seesaw, listed from the one with distance 1 unit to the one with distance 𝑆 units from the\r\ncenter, respectively. After that will be a line containing 𝑆 even integers, which are the weights\r\nof the kids on the right side of the seesaw, listed from the one with distance 1 unit to the one\r\n23\n\n2021 ICPC Asia Taipei Regional\r\nwith distance 𝑆 units from the center, respectively.\r\nOutput Format\r\nFor each of the test cases, if the seesaw can be balanced, output the minimum number of\r\nexchanges needed; otherwise, output -1. Each output is on a single line.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑇 ≤ 5\r\n∙ 1 ≤ 𝑆 ≤ 100\r\n∙ 1 ≤ 𝑤 ≤ 50000; 𝑤 is an integer\r\nSample Input 1\r\n4\r\n3\r\n1 1 3\r\n2 2 2\r\n3\r\n1 1 1\r\n2 2 2\r\n3\r\n1 1 1\r\n4 2 2\r\n3\r\n3 3 3\r\n2 2 2\r\nSample Output 1\r\n0\r\n1\r\n2\r\n-1\r\n24\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "4\n3\n1 1 3\n2 2 2\n3\n1 1 1\n2 2 2\n3\n1 1 1\n4 2 2\n3\n3 3 3\n2 2 2",
+            "output": "0\n1\n2\n-1"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "2021 ICPC Asia Taipei Regional\r\nProblem I\r\nSeesaw\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThere is a seesaw in a playground. On each side of the seesaw, there are 𝑆 seats, where the\r\nseats are located at distance exactly 1, 2, . . . , 𝑆 units from the center. When a seat at distance\r\n𝑑 units from the center is occupied by someone with weight 𝑤, a torque of magnitude 𝑤 × 𝑑\r\nwill appear on the corresponding side of the seesaw. The seesaw is balanced when the total\r\ntorque on both sides have the same magnitude.\r\nInitially, all the seats on the seesaw are occupied with kids with positive integral weights.\r\nFurthermore, on the left side of the seesaw, all kids have odd weights, while on the right side\r\nof the seesaw, all kids have even weights. Unfortunately, the seesaw is not balanced. Someone\r\nsuggests to exchange the kids around, so as to see if the seesaw can be balanced. However, kids\r\nwith weight more than 2 are unwilling to move, so that they will never change their seats. Your\r\ntask is to determine if it is possible to make the seesaw balanced, and if so, what the minimum\r\nnumber of exchanges is.\r\nFor example, suppose 𝑆 = 3, the kids on the left side all have weight 1, and the kids on the\r\nright side all have weight 2. Then, it is possible to make 1 exchange, by exchanging the kids at\r\ndistance 3 on both sides, so that the total torque of the left side becomes 1×1+1×2+2×3 = 9,\r\nand the total torque of the right side becomes 2 × 1 + 2 × 2 + 1 × 3 = 9, and the seesaw is\r\nbalanced.\r\nFor another example, suppose 𝑆 = 3, the kids on the left side all have weight 1, and the kids\r\non the right side of the seesaw have weights 4, 2, 2, at distance 1, 2, 3 units, respectively. Then,\r\nit is possible to make 2 exchanges, first by exchanging the kids at distance 2 on both sides, and\r\nthen by exchanging the kid at distance 1 on the left with the kid at distance 3 on the right, so\r\nthat the total torque on the left side becomes 2 × 1 + 2 × 2 + 1 × 3 = 9, and the total torque of\r\nthe right side becomes 4 × 1 + 1 × 2 + 1 × 3 = 9, and the seesaw is balanced. In contrast, we\r\nsee that it is impossible to balance the seesaw with just 1 exchange, so the minimum number\r\nof exchanges in this example is 2.\r\nInput Format\r\nThe first line of the input is a positive integer 𝑇 denoting the number of test cases. Each test\r\ncase begins with a positive integer 𝑆, denoting the number of seats on each side of the seesaw.\r\nThen, the next line contains 𝑆 odd integers, which are the weights of the kids on the left side of\r\nthe seesaw, listed from the one with distance 1 unit to the one with distance 𝑆 units from the\r\ncenter, respectively. After that will be a line containing 𝑆 even integers, which are the weights\r\nof the kids on the right side of the seesaw, listed from the one with distance 1 unit to the one\r\n23\n\n2021 ICPC Asia Taipei Regional\r\nwith distance 𝑆 units from the center, respectively.\r\nOutput Format\r\nFor each of the test cases, if the seesaw can be balanced, output the minimum number of\r\nexchanges needed; otherwise, output -1. Each output is on a single line.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑇 ≤ 5\r\n∙ 1 ≤ 𝑆 ≤ 100\r\n∙ 1 ≤ 𝑤 ≤ 50000; 𝑤 is an integer\r\nSample Input 1\r\n4\r\n3\r\n1 1 3\r\n2 2 2\r\n3\r\n1 1 1\r\n2 2 2\r\n3\r\n1 1 1\r\n4 2 2\r\n3\r\n3 3 3\r\n2 2 2\r\nSample Output 1\r\n0\r\n1\r\n2\r\n-1\r\n24",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+          "pagesReviewed": [
+            2
+          ],
+          "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "4\n3\n1 1 3\n2 2 2\n3\n1 1 1\n2 2 2\n3\n1 1 1\n4 2 2\n3\n3 3 3\n2 2 2",
+              "output": "0\n1\n2\n-1"
+            }
+          ]
+        },
+        "id": "remote:codeforces:103443::I",
+        "title": "Seesaw",
+        "url": "https://codeforces.com/gym/103443/problem/I",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+          "bytes": 124880,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+          "fileName": "gym-103443-I.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            23,
+            24
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          23,
+          24
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "I",
+          "pdfTitle": "Seesaw",
+          "rosterTitle": "Seesaw",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.830904+00:00",
+          "corpusAuditVerifiedSha256": "c1e83bd2864de39677f992bbb34ac8569a18b48cf45c45fa74258c76fd60c313"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::I",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+          "sourcePages": [
+            23,
+            24
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "6f56c95bf1b9ac4d1962c57d02a516e9849838298542918bf35aee4330819a88",
+          "samplePagesReviewed": [
+            2
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103443::J",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Transportation Network\n\n2021 ICPC Asia Taipei Regional\r\nProblem J\r\nTransportation Network\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nA retail company owns many convenience stores and a central warehouse in a city. Commodities\r\nare transported from the central warehouse to convenience stores. In addition, convenience\r\nstores provide a service that customers can send packages from a convenience store to another.\r\nA logistics team of this company aim at redesigning their transportation network in the city.\r\nThe original transportation network can be modeled by a simple, undirected, and complete\r\ngraph 𝐺 = (𝑉, 𝐸, 𝑤), in which 𝑉 = {0, 1, 2, . . . , 𝑛 − 1} is the vertex set, 𝐸 = {{𝑥, 𝑦} | 𝑥, 𝑦 ∈ 𝑉\r\nand 𝑥 ̸= 𝑦} is the edge set, and 𝑤 : 𝐸 → {1, 2} is a weight function. Vertex 0 represents the\r\ncentral warehouse and vertices 1, 2, . . . , 𝑛 − 1 represent 𝑛 − 1 convenience stores. All the edges\r\nin 𝐸 represent the transportation links between all the pairs of vertices in 𝑉 . The weight of\r\neach edge represents the cost to establish the corresponding transportation link.\r\nFor ease of management, 𝑉 − {0} is partitioned into two disjoint sets, denoted by 𝑆 and 𝑈,\r\nin which 𝑆 contains the convenience stores located at the main streets, and 𝑈 contains the\r\nconvenience stores located at some alleys. That is, except for vertex 0, every vertex in 𝑉\r\nbelongs to either set 𝑆 or set 𝑈. Moreover, the weights of edges in 𝐺 are defined as follows.\r\n∙ For vertex 0\r\n– 𝑤({0, 𝑠}) = 1 if 𝑠 ∈ 𝑆.\r\n– 𝑤({0, 𝑢}) = 2 if 𝑢 ∈ 𝑈.\r\n∙ For 𝑠 ∈ 𝑆\r\n– 𝑤({𝑠, 𝑠′}) = 2 if 𝑠\r\n′ ∈ 𝑆 and 𝑠 ̸= 𝑠\r\n′\r\n.\r\n– 𝑤({𝑠, 𝑢}) = 1 if 𝑢 ∈ 𝑈.\r\n∙ For 𝑢 ∈ 𝑈\r\n– 𝑤({𝑢, 𝑢′}) = 2 if 𝑢\r\n′ ∈ 𝑈 and 𝑢 ̸= 𝑢\r\n′\r\n.\r\nA rooted tree is a tree with one specified vertex 𝑟 chosen as the root. For each vertex 𝑣, there is\r\na unique path 𝑃(𝑣) from 𝑣 to the root 𝑟. The parent of 𝑣 is its neighbor on 𝑃(𝑣); its childern\r\nare its other neighbors. For a non-root vertex 𝑣 in a rooted tree 𝑇, the depth of 𝑣 is the number\r\nof edges in the path from 𝑣 to the root. The depth of a rooted tree 𝑇 is the maximum depth\r\namong all the vertices in 𝑇. To achive the goal of efficient transportation, the logistics team\r\nmembers devote their effort to connect the central warehouse and all the convenience stores to\r\nform a special depth-2 spanning tree 𝑇 such that the following coditions hold:\r\n25\n\n2021 ICPC Asia Taipei Regional\r\n1. The root of 𝑇 is vertex 0.\r\n2. The depth of 𝑇 is at most 2.\r\n3. 𝑇 contains all the vertices in the original transportation network.\r\n4. The root (i.e., vertex 0) is adjacent to exact 𝑝 vertices called hubs, and each of the\r\nremaining vertices is adjacent to exactly one hub.\r\nFor any two vertices 𝑢 and 𝑣 in a rooted tree 𝑇, let 𝑤𝑇 (𝑢, 𝑣) denote the weight between 𝑢\r\nand 𝑣 in 𝑇 (i.e., the sum of the weight of edges in the path between 𝑢 and 𝑣 in 𝑇). Define\r\n𝑊(𝑇) = ∑︀\r\n𝑢∈𝑉\r\n∑︀\r\n𝑣∈𝑉 𝑤𝑇 (𝑢, 𝑣) to be the routing cost of 𝑇. The logistics team aims to construct\r\na transportation network 𝑇 with the minimum of routing cost. For convenience, we call such\r\na depth-2 spanning tree with the minimum routing cost as critical transportation network.\r\nFigure 2 illustrates a toy example of the problem.\r\nFigure 2: An example of the problem with 𝑛 = 4 and 𝑝 = 1. The original transportation\r\nnetwork 𝐺 is shown on the left hand side, where gray vertex represents vertex 0, white vertex\r\nbelongs to 𝑆, and black vertices belong to 𝑈. The critical transportation network is shown on\r\nthe right hand side.\r\nGiven the original transportation network 𝐺 and a positive integer 𝑝, your task is to write\r\na computer program for computing the minimum routing cost of the critical transportation\r\nnetwork.\r\nInput Format\r\nThe first line of the input file contains an integer 𝐿 (𝐿 ≤ 16) that indicates the number of\r\ntest cases as follows. For each test case, the first line contains three integers (separated by\r\nwhitespaces) representing 𝑛, |𝑆|, and 𝑝. Then it is immediately followed by a single line, which\r\ncontains |𝑆| integers (separated by whitespaces) that represent the vertices belonging to the\r\nset 𝑆, where 𝑠 ∈ 𝑆 and 1 ≤ 𝑠 ≤ 𝑛 − 1. It guarantees the sum of |𝑆| in all testcases are at most\r\n300, 000.\r\nOutput Format\r\nThe output contains one line for each test case. Each line contains one positive integer repre￾senting the routing cost of the critical transportation network.\r\n26\n\n2021 ICPC Asia Taipei Regional\r\nTechnical Specification\r\n∙ 3 ≤ 𝑛 ≤ 1, 000, 000 for each test case.\r\n∙ |𝑆| + |𝑈| ≥ 𝑝.\r\n∙ 1 ≤ |𝑆| ≤ 𝑝 ≤ 𝑛 − 1.\r\nSample Input 1\r\n2\r\n4 1 1\r\n1\r\n6 2 3\r\n1 4\r\nSample Output 1\r\n18\r\n68\r\n27\n\n2021 ICPC Asia Taipei Regional\r\nAlmost blank page\r\n28\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2\n4 1 1\n1\n6 2 3\n1 4",
+            "output": "18\n68"
+          }
+        ],
+        "pageCount": 4,
+        "sourceText": "2021 ICPC Asia Taipei Regional\r\nProblem J\r\nTransportation Network\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nA retail company owns many convenience stores and a central warehouse in a city. Commodities\r\nare transported from the central warehouse to convenience stores. In addition, convenience\r\nstores provide a service that customers can send packages from a convenience store to another.\r\nA logistics team of this company aim at redesigning their transportation network in the city.\r\nThe original transportation network can be modeled by a simple, undirected, and complete\r\ngraph 𝐺 = (𝑉, 𝐸, 𝑤), in which 𝑉 = {0, 1, 2, . . . , 𝑛 − 1} is the vertex set, 𝐸 = {{𝑥, 𝑦} | 𝑥, 𝑦 ∈ 𝑉\r\nand 𝑥 ̸= 𝑦} is the edge set, and 𝑤 : 𝐸 → {1, 2} is a weight function. Vertex 0 represents the\r\ncentral warehouse and vertices 1, 2, . . . , 𝑛 − 1 represent 𝑛 − 1 convenience stores. All the edges\r\nin 𝐸 represent the transportation links between all the pairs of vertices in 𝑉 . The weight of\r\neach edge represents the cost to establish the corresponding transportation link.\r\nFor ease of management, 𝑉 − {0} is partitioned into two disjoint sets, denoted by 𝑆 and 𝑈,\r\nin which 𝑆 contains the convenience stores located at the main streets, and 𝑈 contains the\r\nconvenience stores located at some alleys. That is, except for vertex 0, every vertex in 𝑉\r\nbelongs to either set 𝑆 or set 𝑈. Moreover, the weights of edges in 𝐺 are defined as follows.\r\n∙ For vertex 0\r\n– 𝑤({0, 𝑠}) = 1 if 𝑠 ∈ 𝑆.\r\n– 𝑤({0, 𝑢}) = 2 if 𝑢 ∈ 𝑈.\r\n∙ For 𝑠 ∈ 𝑆\r\n– 𝑤({𝑠, 𝑠′}) = 2 if 𝑠\r\n′ ∈ 𝑆 and 𝑠 ̸= 𝑠\r\n′\r\n.\r\n– 𝑤({𝑠, 𝑢}) = 1 if 𝑢 ∈ 𝑈.\r\n∙ For 𝑢 ∈ 𝑈\r\n– 𝑤({𝑢, 𝑢′}) = 2 if 𝑢\r\n′ ∈ 𝑈 and 𝑢 ̸= 𝑢\r\n′\r\n.\r\nA rooted tree is a tree with one specified vertex 𝑟 chosen as the root. For each vertex 𝑣, there is\r\na unique path 𝑃(𝑣) from 𝑣 to the root 𝑟. The parent of 𝑣 is its neighbor on 𝑃(𝑣); its childern\r\nare its other neighbors. For a non-root vertex 𝑣 in a rooted tree 𝑇, the depth of 𝑣 is the number\r\nof edges in the path from 𝑣 to the root. The depth of a rooted tree 𝑇 is the maximum depth\r\namong all the vertices in 𝑇. To achive the goal of efficient transportation, the logistics team\r\nmembers devote their effort to connect the central warehouse and all the convenience stores to\r\nform a special depth-2 spanning tree 𝑇 such that the following coditions hold:\r\n25\n\n2021 ICPC Asia Taipei Regional\r\n1. The root of 𝑇 is vertex 0.\r\n2. The depth of 𝑇 is at most 2.\r\n3. 𝑇 contains all the vertices in the original transportation network.\r\n4. The root (i.e., vertex 0) is adjacent to exact 𝑝 vertices called hubs, and each of the\r\nremaining vertices is adjacent to exactly one hub.\r\nFor any two vertices 𝑢 and 𝑣 in a rooted tree 𝑇, let 𝑤𝑇 (𝑢, 𝑣) denote the weight between 𝑢\r\nand 𝑣 in 𝑇 (i.e., the sum of the weight of edges in the path between 𝑢 and 𝑣 in 𝑇). Define\r\n𝑊(𝑇) = ∑︀\r\n𝑢∈𝑉\r\n∑︀\r\n𝑣∈𝑉 𝑤𝑇 (𝑢, 𝑣) to be the routing cost of 𝑇. The logistics team aims to construct\r\na transportation network 𝑇 with the minimum of routing cost. For convenience, we call such\r\na depth-2 spanning tree with the minimum routing cost as critical transportation network.\r\nFigure 2 illustrates a toy example of the problem.\r\nFigure 2: An example of the problem with 𝑛 = 4 and 𝑝 = 1. The original transportation\r\nnetwork 𝐺 is shown on the left hand side, where gray vertex represents vertex 0, white vertex\r\nbelongs to 𝑆, and black vertices belong to 𝑈. The critical transportation network is shown on\r\nthe right hand side.\r\nGiven the original transportation network 𝐺 and a positive integer 𝑝, your task is to write\r\na computer program for computing the minimum routing cost of the critical transportation\r\nnetwork.\r\nInput Format\r\nThe first line of the input file contains an integer 𝐿 (𝐿 ≤ 16) that indicates the number of\r\ntest cases as follows. For each test case, the first line contains three integers (separated by\r\nwhitespaces) representing 𝑛, |𝑆|, and 𝑝. Then it is immediately followed by a single line, which\r\ncontains |𝑆| integers (separated by whitespaces) that represent the vertices belonging to the\r\nset 𝑆, where 𝑠 ∈ 𝑆 and 1 ≤ 𝑠 ≤ 𝑛 − 1. It guarantees the sum of |𝑆| in all testcases are at most\r\n300, 000.\r\nOutput Format\r\nThe output contains one line for each test case. Each line contains one positive integer repre￾senting the routing cost of the critical transportation network.\r\n26\n\n2021 ICPC Asia Taipei Regional\r\nTechnical Specification\r\n∙ 3 ≤ 𝑛 ≤ 1, 000, 000 for each test case.\r\n∙ |𝑆| + |𝑈| ≥ 𝑝.\r\n∙ 1 ≤ |𝑆| ≤ 𝑝 ≤ 𝑛 − 1.\r\nSample Input 1\r\n2\r\n4 1 1\r\n1\r\n6 2 3\r\n1 4\r\nSample Output 1\r\n18\r\n68\r\n27\n\n2021 ICPC Asia Taipei Regional\r\nAlmost blank page\r\n28",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "0026febe7aca559ffa5e862ee5fb17630f6c040de32aa3b9acaa3bd0c0f8757d",
+          "pagesReviewed": [
+            3
+          ],
+          "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "2\n4 1 1\n1\n6 2 3\n1 4",
+              "output": "18\n68"
+            }
+          ]
+        },
+        "id": "remote:codeforces:103443::J",
+        "title": "Transportation Network",
+        "url": "https://codeforces.com/gym/103443/problem/J",
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 256
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "0026febe7aca559ffa5e862ee5fb17630f6c040de32aa3b9acaa3bd0c0f8757d",
+          "bytes": 463112,
+          "mime": "application/pdf",
+          "pageCount": 4,
+          "data": "tb-asset:0026febe7aca559ffa5e862ee5fb17630f6c040de32aa3b9acaa3bd0c0f8757d",
+          "fileName": "gym-103443-J.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            25,
+            26,
+            27,
+            28
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          25,
+          26,
+          27,
+          28
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "J",
+          "pdfTitle": "Transportation Network",
+          "rosterTitle": "Transportation Network",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.900460+00:00",
+          "corpusAuditVerifiedSha256": "6e3f15303c709189f2a394b7c7834896a49149aae0c66d2ab53f0710ab1c44ea"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::J",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "0026febe7aca559ffa5e862ee5fb17630f6c040de32aa3b9acaa3bd0c0f8757d",
+          "sourcePages": [
+            25,
+            26,
+            27,
+            28
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "91b354d0bc5642e403a88de3ef9f245d478c0a6ec900a0f5125ce67baa7deac5",
+          "samplePagesReviewed": [
+            3
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103443::K",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Insertion Array\n\n2021 ICPC Asia Taipei Regional\r\nProblem K\r\nInsertion Array\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nYou are given two strings 𝑎 and 𝑏. Let 𝑙𝑒𝑛𝑎 be the length of 𝑎 and 𝑙𝑒𝑛𝑏 be the length of 𝑏.\r\nThere are 𝑙𝑒𝑛𝑏 + 1 ways to insert the string 𝑎 into the string 𝑏. Let 𝑆[𝑖] be the string generated\r\nby inserting 𝑎 into the position in front of the 𝑖-th chacter(0-based) of 𝑏. And let 𝑆[𝑙𝑒𝑛𝑏] is just\r\ngenerated by place 𝑎 after 𝑏. We call these strings as “inserted strings”. For example, when\r\n𝑎 = “bb”, 𝑏 = “abc”, there are four insrted strings. They are 𝑆[0] = “bbabc”, 𝑆[1] = 𝑆[2] =\r\n“abbbc”, 𝑆[3] = “abcbb”.\r\nThe “insertion array” 𝐼𝑛𝑠 of 𝑏 with respect to 𝑎 is a 0-based array of size 𝑙𝑒𝑛𝑏 + 1, which\r\ncontains a permutation of integers from 0 to 𝑙𝑒𝑛𝑏. 𝐼𝑛𝑠 describes the lexicographical order of\r\n“inserted strings”. More formally, the array 𝐼𝑛𝑠 satisfies following property:\r\n𝑖 < 𝑗 ⇔ [𝑆[𝐼𝑛𝑠[𝑖]] < 𝑆[𝐼𝑛𝑠[𝑗]] ∨ (𝑆[𝐼𝑛𝑠[𝑖]] = 𝑆[𝐼𝑛𝑠[𝑗]] ∧ 𝐼𝑛𝑠[𝑖] > 𝐼𝑛𝑠[𝑗])\r\nIn above formula, strings are compared by lexicographical order.\r\nNow your task is calculating the “insertion array” 𝐼𝑛𝑠 of 𝑏 with respect to 𝑎. In order to avoid\r\nlarge output file, just output the value of\r\n𝑙𝑒𝑛\r\n∑︀𝑏\r\n𝑖=0\r\n(𝐼𝑛𝑠[𝑖] × 1234567𝑖\r\n) modulo (109 + 7).\r\nInput Format\r\nThe first line of the input is an integer 𝑇 denoting the number of test cases. Each test case\r\nis in two lines, the first line contains a non-empty string 𝑎 and the second line contains the\r\nnon-empty string 𝑏.\r\nOutput Format\r\nFor each test case, output an integer between 0 and 1, 000, 000, 006 inclusive, representing the\r\nvalue of\r\n𝑙𝑒𝑛\r\n∑︀𝑏\r\n𝑖=0\r\n(𝐼𝑛𝑠[𝑖] × 1234567𝑖\r\n) modulo (109 + 7).\r\nTechnical Specification\r\n∙ 1 ≤ 𝑇 ≤ 4 × 104\r\n∙ the sum of 𝑙𝑒𝑛𝑎 won’t exceed 2 × 106\r\n∙ the sum of 𝑙𝑒𝑛𝑏 won’t exceed 2 × 106\r\n∙ 𝑎 and 𝑏 are consisting of only lower case Latin letters\r\n29\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n2\r\nbb\r\nabc\r\nabaa\r\nabab\r\nSample Output 1\r\n468235032\r\n667196656\r\n30\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2\nbb\nabc\nabaa\nabab",
+            "output": "468235032\n667196656"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "2021 ICPC Asia Taipei Regional\r\nProblem K\r\nInsertion Array\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nYou are given two strings 𝑎 and 𝑏. Let 𝑙𝑒𝑛𝑎 be the length of 𝑎 and 𝑙𝑒𝑛𝑏 be the length of 𝑏.\r\nThere are 𝑙𝑒𝑛𝑏 + 1 ways to insert the string 𝑎 into the string 𝑏. Let 𝑆[𝑖] be the string generated\r\nby inserting 𝑎 into the position in front of the 𝑖-th chacter(0-based) of 𝑏. And let 𝑆[𝑙𝑒𝑛𝑏] is just\r\ngenerated by place 𝑎 after 𝑏. We call these strings as “inserted strings”. For example, when\r\n𝑎 = “bb”, 𝑏 = “abc”, there are four insrted strings. They are 𝑆[0] = “bbabc”, 𝑆[1] = 𝑆[2] =\r\n“abbbc”, 𝑆[3] = “abcbb”.\r\nThe “insertion array” 𝐼𝑛𝑠 of 𝑏 with respect to 𝑎 is a 0-based array of size 𝑙𝑒𝑛𝑏 + 1, which\r\ncontains a permutation of integers from 0 to 𝑙𝑒𝑛𝑏. 𝐼𝑛𝑠 describes the lexicographical order of\r\n“inserted strings”. More formally, the array 𝐼𝑛𝑠 satisfies following property:\r\n𝑖 < 𝑗 ⇔ [𝑆[𝐼𝑛𝑠[𝑖]] < 𝑆[𝐼𝑛𝑠[𝑗]] ∨ (𝑆[𝐼𝑛𝑠[𝑖]] = 𝑆[𝐼𝑛𝑠[𝑗]] ∧ 𝐼𝑛𝑠[𝑖] > 𝐼𝑛𝑠[𝑗])\r\nIn above formula, strings are compared by lexicographical order.\r\nNow your task is calculating the “insertion array” 𝐼𝑛𝑠 of 𝑏 with respect to 𝑎. In order to avoid\r\nlarge output file, just output the value of\r\n𝑙𝑒𝑛\r\n∑︀𝑏\r\n𝑖=0\r\n(𝐼𝑛𝑠[𝑖] × 1234567𝑖\r\n) modulo (109 + 7).\r\nInput Format\r\nThe first line of the input is an integer 𝑇 denoting the number of test cases. Each test case\r\nis in two lines, the first line contains a non-empty string 𝑎 and the second line contains the\r\nnon-empty string 𝑏.\r\nOutput Format\r\nFor each test case, output an integer between 0 and 1, 000, 000, 006 inclusive, representing the\r\nvalue of\r\n𝑙𝑒𝑛\r\n∑︀𝑏\r\n𝑖=0\r\n(𝐼𝑛𝑠[𝑖] × 1234567𝑖\r\n) modulo (109 + 7).\r\nTechnical Specification\r\n∙ 1 ≤ 𝑇 ≤ 4 × 104\r\n∙ the sum of 𝑙𝑒𝑛𝑎 won’t exceed 2 × 106\r\n∙ the sum of 𝑙𝑒𝑛𝑏 won’t exceed 2 × 106\r\n∙ 𝑎 and 𝑏 are consisting of only lower case Latin letters\r\n29\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n2\r\nbb\r\nabc\r\nabaa\r\nabab\r\nSample Output 1\r\n468235032\r\n667196656\r\n30",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "fe86f910d52db7184a378f2763271625b83b617c9c39c52e09afe729e82c0a0d",
+          "pagesReviewed": [
+            2
+          ],
+          "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "2\nbb\nabc\nabaa\nabab",
+              "output": "468235032\n667196656"
+            }
+          ]
+        },
+        "id": "remote:codeforces:103443::K",
+        "title": "Insertion Array",
+        "url": "https://codeforces.com/gym/103443/problem/K",
+        "limits": {
+          "timeMs": 3000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "fe86f910d52db7184a378f2763271625b83b617c9c39c52e09afe729e82c0a0d",
+          "bytes": 161285,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:fe86f910d52db7184a378f2763271625b83b617c9c39c52e09afe729e82c0a0d",
+          "fileName": "gym-103443-K.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            29,
+            30
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          29,
+          30
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "K",
+          "pdfTitle": "Insertion Array",
+          "rosterTitle": "Insertion Array",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.949349+00:00",
+          "corpusAuditVerifiedSha256": "3f05635b73c53c1421d87a3ce520065417b76c9d63317603b9d4cfd6a25d3d89"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::K",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "fe86f910d52db7184a378f2763271625b83b617c9c39c52e09afe729e82c0a0d",
+          "sourcePages": [
+            29,
+            30
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "ea1445d70e0a490fef12a40095d240a309b2babda59983f1b04feb85e74aa3e1",
+          "samplePagesReviewed": [
+            2
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103443::L",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Leadfoot\n\n2021 ICPC Asia Taipei Regional\r\nProblem L\r\nLeadfoot\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nCar parking can be one of the toughest challenges when acquiring a driver’s license for many\r\npeople. The International Car Parking Competition (ICPC) is held every year for car parking\r\nspecialists around the world to join. The rules of ICPC are as follows:\r\n∙ People who participate in ICPC are called Drivers.\r\n∙ All Drivers keep track of their own number of Wins and Losses.\r\n∙ All Drivers start with 0 Wins and 0 Losses initially.\r\n∙ Two Drivers with the same number of Wins and Losses compete in a match.\r\n∙ After a match, one Driver has the number of Wins increased by one while the other has\r\nthe number of Losses increased by one.\r\n∙ A Driver stops competing others when reaching 𝑛 Wins or 𝑚 Losses.\r\n∙ Drivers finish with 0 Wins and 𝑚 Losses are rewarded Leadfoot badges.\r\nAs the ICPC organizer, it is important for you to make sure all Drivers finish their tournament.\r\nThat is, you have to invite a specific number of Drivers so that everyone either ends with 𝑛 Wins\r\nor 𝑚 Losses after multiple matches. To minimize the cost, you want to invite as few Drivers as\r\npossible. Given 𝑛 and 𝑚, determine how many Leadfoot badges you have to prepare.\r\nInput Format\r\nThe first line contains a single integer 𝑘 indicating the number of competitions you are holding.\r\nEach of the following lines contains two space separated integers 𝑛𝑖 and 𝑚𝑖\r\nindicating the\r\ntermination conditions for each competition.\r\nOutput Format\r\nFor each competition output a single integer, the number of Leadfoot badges you have to\r\nprepare modulo 1000000007.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑘 ≤ 105\r\n∙ 1 ≤ 𝑛𝑖\r\n, 𝑚𝑖 ≤ 105\r\n31\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n5\r\n1 1\r\n2 2\r\n4 6\r\n6 4\r\n12 3\r\nSample Output 1\r\n1\r\n1\r\n4\r\n16\r\n1024\r\n32\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "5\n1 1\n2 2\n4 6\n6 4\n12 3",
+            "output": "1\n1\n4\n16\n1024"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "2021 ICPC Asia Taipei Regional\r\nProblem L\r\nLeadfoot\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nCar parking can be one of the toughest challenges when acquiring a driver’s license for many\r\npeople. The International Car Parking Competition (ICPC) is held every year for car parking\r\nspecialists around the world to join. The rules of ICPC are as follows:\r\n∙ People who participate in ICPC are called Drivers.\r\n∙ All Drivers keep track of their own number of Wins and Losses.\r\n∙ All Drivers start with 0 Wins and 0 Losses initially.\r\n∙ Two Drivers with the same number of Wins and Losses compete in a match.\r\n∙ After a match, one Driver has the number of Wins increased by one while the other has\r\nthe number of Losses increased by one.\r\n∙ A Driver stops competing others when reaching 𝑛 Wins or 𝑚 Losses.\r\n∙ Drivers finish with 0 Wins and 𝑚 Losses are rewarded Leadfoot badges.\r\nAs the ICPC organizer, it is important for you to make sure all Drivers finish their tournament.\r\nThat is, you have to invite a specific number of Drivers so that everyone either ends with 𝑛 Wins\r\nor 𝑚 Losses after multiple matches. To minimize the cost, you want to invite as few Drivers as\r\npossible. Given 𝑛 and 𝑚, determine how many Leadfoot badges you have to prepare.\r\nInput Format\r\nThe first line contains a single integer 𝑘 indicating the number of competitions you are holding.\r\nEach of the following lines contains two space separated integers 𝑛𝑖 and 𝑚𝑖\r\nindicating the\r\ntermination conditions for each competition.\r\nOutput Format\r\nFor each competition output a single integer, the number of Leadfoot badges you have to\r\nprepare modulo 1000000007.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑘 ≤ 105\r\n∙ 1 ≤ 𝑛𝑖\r\n, 𝑚𝑖 ≤ 105\r\n31\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n5\r\n1 1\r\n2 2\r\n4 6\r\n6 4\r\n12 3\r\nSample Output 1\r\n1\r\n1\r\n4\r\n16\r\n1024\r\n32",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+          "pagesReviewed": [
+            2
+          ],
+          "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "5\n1 1\n2 2\n4 6\n6 4\n12 3",
+              "output": "1\n1\n4\n16\n1024"
+            }
+          ]
+        },
+        "id": "remote:codeforces:103443::L",
+        "title": "Leadfoot",
+        "url": "https://codeforces.com/gym/103443/problem/L",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+          "bytes": 143234,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+          "fileName": "gym-103443-L.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            31,
+            32
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          31,
+          32
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "L",
+          "pdfTitle": "Leadfoot",
+          "rosterTitle": "Leadfoot",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.990381+00:00",
+          "corpusAuditVerifiedSha256": "fa0e013ea20228a058cfa63c7d6aafb7dda96017ac747fc6ecb7922974f6e92b"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::L",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+          "sourcePages": [
+            31,
+            32
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "fe4f8c6a478978ed6f9f74ca521ae5a4f9d167f3ca9b4cad70a7b916b2edd5bd",
+          "samplePagesReviewed": [
+            2
+          ],
+          "allPagesRendered": true
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:103443::M",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Escaping the Foggy Forest\n\n2021 ICPC Asia Taipei Regional\r\nProblem M\r\nEscaping the Foggy Forest\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nNobi is walking in a foggy forest. He tries to locate himself using a map. The forest is divided\r\nusing vertical and horizontal lines into 𝑚 × 𝑛 regions so the map is represented by an 𝑚 by 𝑛\r\nmatrix, with rows indexed from 0 to 𝑚 −1 and columns indexed from 0 to 𝑛−1. Each entry of\r\nthe matrix corresponds to a region of the forest, where the entry with row index 𝑟 and column\r\nindex 𝑐 is denoted by 𝑀(𝑟, 𝑐). Each entry is either 1 or 0. A 1 indicates that there are very\r\ntall trees in the region, and a 0 indicates that the region contains only bushes. It is known that\r\nthe outside of the forest is surrounded by bushes, which means that regions not specified in the\r\nmap are treated as 0s.\r\nNobi wants to know which region he might be in. Because the fog is heavy, Nobi can only\r\nobserve the region he stays in, the region in the front, and the region on the right\r\nside. However, he does not know which direction he faces to. Please help Nobi to find the\r\npossible regions he is in, assuming that there are only four directions, “N”, “E”, “S”, and “W”.\r\nFor example, below is a 2 by 3 matrix.\r\n1 1 0\r\n0 0 1\r\n↑ N\r\n→ E\r\n↓ S\r\n← W\r\nrow 0\r\nrow 1\r\ncolumn 0 column 2\r\nNobi observes that there are tall trees in the regions he stays in and in front of him (cor￾responding to matrix entries of 1), and the region on the right side of him has only bushes\r\n(corresponding to a matrix entry of 0). It is possible that Nobi is in the region corresponding\r\nto entry 𝑀(0, 0) because 𝑀(0, 0) = 1, and when he faces to the direction “E”, the entry in\r\nfront of him, 𝑀(0, 1), is 1; the entry on the right side of him, 𝑀(1, 0), is 0. The other possible\r\nregion is 𝑀(0, 1) because 𝑀(0, 1) = 1 and when he faces to “W”, the entries in the front is\r\n𝑀(0, 0) = 1; the entry on the right side is outside the map, which is treated as 0.\r\nInput Format\r\nThe first line of a test case contains two integers 𝑚 and 𝑛, which are the numbers of rows and\r\ncolumns of the matrix, respectively. The rows of the matrix are indexed from 0 to 𝑚 − 1, and\r\ncolumns are indexed from 0 to 𝑛−1. The following 𝑚 lines are the content of the map. Each of\r\n33\n\n2021 ICPC Asia Taipei Regional\r\nthe 𝑚 lines contains 𝑛 integers. The last line contains three integers 𝑠, 𝑓, and 𝑟. The number\r\n𝑠, 𝑓, and 𝑟 indicate what Nobi observes in the regions he stays in, in front of him, and on the\r\nright side of him, respectively.\r\nOutput Format\r\nEach line of the output contains two integers, which are the possible row and column indices\r\nof the region Nobi is in, respectively. It is guaranteed that Nobi is in the forest. If there\r\nare more than one possible regions, output the regions with smaller row index first; for regions\r\nwith the same row index, output the one with smaller column index first.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑚, 𝑛 ≤ 100\r\n∙ Each entry is either 0 or 1.\r\n∙ 𝑠, 𝑓, 𝑟 ∈ {0, 1}\r\nSample Input 1\r\n2 3\r\n1 1 0\r\n0 0 1\r\n1 1 0\r\nSample Output 1\r\n0 0\r\n0 1\r\n34\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2 3\n1 1 0\n0 0 1\n1 1 0",
+            "output": "0 0\n0 1"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "2021 ICPC Asia Taipei Regional\r\nProblem M\r\nEscaping the Foggy Forest\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nNobi is walking in a foggy forest. He tries to locate himself using a map. The forest is divided\r\nusing vertical and horizontal lines into 𝑚 × 𝑛 regions so the map is represented by an 𝑚 by 𝑛\r\nmatrix, with rows indexed from 0 to 𝑚 −1 and columns indexed from 0 to 𝑛−1. Each entry of\r\nthe matrix corresponds to a region of the forest, where the entry with row index 𝑟 and column\r\nindex 𝑐 is denoted by 𝑀(𝑟, 𝑐). Each entry is either 1 or 0. A 1 indicates that there are very\r\ntall trees in the region, and a 0 indicates that the region contains only bushes. It is known that\r\nthe outside of the forest is surrounded by bushes, which means that regions not specified in the\r\nmap are treated as 0s.\r\nNobi wants to know which region he might be in. Because the fog is heavy, Nobi can only\r\nobserve the region he stays in, the region in the front, and the region on the right\r\nside. However, he does not know which direction he faces to. Please help Nobi to find the\r\npossible regions he is in, assuming that there are only four directions, “N”, “E”, “S”, and “W”.\r\nFor example, below is a 2 by 3 matrix.\r\n1 1 0\r\n0 0 1\r\n↑ N\r\n→ E\r\n↓ S\r\n← W\r\nrow 0\r\nrow 1\r\ncolumn 0 column 2\r\nNobi observes that there are tall trees in the regions he stays in and in front of him (cor￾responding to matrix entries of 1), and the region on the right side of him has only bushes\r\n(corresponding to a matrix entry of 0). It is possible that Nobi is in the region corresponding\r\nto entry 𝑀(0, 0) because 𝑀(0, 0) = 1, and when he faces to the direction “E”, the entry in\r\nfront of him, 𝑀(0, 1), is 1; the entry on the right side of him, 𝑀(1, 0), is 0. The other possible\r\nregion is 𝑀(0, 1) because 𝑀(0, 1) = 1 and when he faces to “W”, the entries in the front is\r\n𝑀(0, 0) = 1; the entry on the right side is outside the map, which is treated as 0.\r\nInput Format\r\nThe first line of a test case contains two integers 𝑚 and 𝑛, which are the numbers of rows and\r\ncolumns of the matrix, respectively. The rows of the matrix are indexed from 0 to 𝑚 − 1, and\r\ncolumns are indexed from 0 to 𝑛−1. The following 𝑚 lines are the content of the map. Each of\r\n33\n\n2021 ICPC Asia Taipei Regional\r\nthe 𝑚 lines contains 𝑛 integers. The last line contains three integers 𝑠, 𝑓, and 𝑟. The number\r\n𝑠, 𝑓, and 𝑟 indicate what Nobi observes in the regions he stays in, in front of him, and on the\r\nright side of him, respectively.\r\nOutput Format\r\nEach line of the output contains two integers, which are the possible row and column indices\r\nof the region Nobi is in, respectively. It is guaranteed that Nobi is in the forest. If there\r\nare more than one possible regions, output the regions with smaller row index first; for regions\r\nwith the same row index, output the one with smaller column index first.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑚, 𝑛 ≤ 100\r\n∙ Each entry is either 0 or 1.\r\n∙ 𝑠, 𝑓, 𝑟 ∈ {0, 1}\r\nSample Input 1\r\n2 3\r\n1 1 0\r\n0 0 1\r\n1 1 0\r\nSample Output 1\r\n0 0\r\n0 1\r\n34",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+          "pagesReviewed": [
+            2
+          ],
+          "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+          "samples": [
+            {
+              "name": "样例 1",
+              "input": "2 3\n1 1 0\n0 0 1\n1 1 0",
+              "output": "0 0\n0 1"
+            }
+          ]
+        },
+        "id": "remote:codeforces:103443::M",
+        "title": "Escaping the Foggy Forest",
+        "url": "https://codeforces.com/gym/103443/problem/M",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+          "bytes": 154548,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+          "fileName": "gym-103443-M.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            33,
+            34
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          33,
+          34
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "M",
+          "pdfTitle": "Escaping the Foggy Forest",
+          "rosterTitle": "Escaping the Foggy Forest",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:42.042660+00:00",
+          "corpusAuditVerifiedSha256": "db81d1e9bb4d036aa068aa93a441afdd851e35e1880e3d7a829cf0040a9bd5bf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": false,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::M",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+          "sourcePages": [
+            33,
+            34
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "35b68cad76ffc5d4595ac1519999e2e0fcf50f2070a3ded8a2016672e59e8d59",
+          "samplePagesReviewed": [
+            2
+          ],
+          "allPagesRendered": true
+        }
+      }
+    }
+  ]
+}

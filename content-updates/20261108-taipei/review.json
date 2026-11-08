@@ -1,0 +1,309 @@
+{
+  "reviewedAt": "2026-11-08T06:21:55.905368+00:00",
+  "nativeRosterUrl": "https://codeforces.com/gym/103443",
+  "nativeRosterObservedVia": "read-only primary Codeforces page extraction",
+  "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+  "bookletSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+  "problems": [
+    {
+      "id": "remote:codeforces:103443::A",
+      "title": "Ice Cream",
+      "url": "https://codeforces.com/gym/103443/problem/A",
+      "limits": {
+        "timeMs": 1000,
+        "memoryMb": 1024
+      },
+      "pdfSha256": "0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+      "sourcePages": [
+        1,
+        2
+      ],
+      "numberedSamples": 2,
+      "samplesSha256": "b906491be468f9739a3e1c3e98fff4f276ff4dbc06911a6f73ee62071c8c7d26",
+      "samplePages": [
+        1
+      ],
+      "samplePagesReviewed": [
+        1
+      ]
+    },
+    {
+      "id": "remote:codeforces:103443::B",
+      "title": "Maximum Sub-Reverse Matching",
+      "url": "https://codeforces.com/gym/103443/problem/B",
+      "limits": {
+        "timeMs": 3000,
+        "memoryMb": 1024
+      },
+      "pdfSha256": "469fc433a10a0e7e8e0093c3dbaf2e48a8009284eae8ff70c3411e5441e45a31",
+      "sourcePages": [
+        3,
+        4
+      ],
+      "numberedSamples": 1,
+      "samplesSha256": "17c84054392cb5df7c7194c9cf6da0b727e9b27f046df4144ecabad269307377",
+      "samplePages": [
+        2
+      ],
+      "samplePagesReviewed": [
+        2
+      ]
+    },
+    {
+      "id": "remote:codeforces:103443::C",
+      "title": "Community Service",
+      "url": "https://codeforces.com/gym/103443/problem/C",
+      "limits": {
+        "timeMs": 3000,
+        "memoryMb": 1024
+      },
+      "pdfSha256": "108290a879d0962da0c07298d9f24bb06c164ecc8283081e51450ee598f2bd1a",
+      "sourcePages": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "numberedSamples": 1,
+      "samplesSha256": "6d7d7a15a70cd20984b1ffe2753511471709b3096ae5e799b3541c4cf850bc81",
+      "samplePages": [
+        3
+      ],
+      "samplePagesReviewed": [
+        3
+      ]
+    },
+    {
+      "id": "remote:codeforces:103443::D",
+      "title": "Largest Remainder",
+      "url": "https://codeforces.com/gym/103443/problem/D",
+      "limits": {
+        "timeMs": 1000,
+        "memoryMb": 1024
+      },
+      "pdfSha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+      "sourcePages": [
+        9,
+        10
+      ],
+      "numberedSamples": 3,
+      "samplesSha256": "0bc5110be97a2d9cc55fefce6b94a0b243a54319244fbc3d52b244b77368a291",
+      "samplePages": [
+        1,
+        2
+      ],
+      "samplePagesReviewed": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "remote:codeforces:103443::E",
+      "title": "Composition with Large Red Plane, Yellow, Black, Gray, and Blue",
+      "url": "https://codeforces.com/gym/103443/problem/E",
+      "limits": {
+        "timeMs": 1000,
+        "memoryMb": 1024
+      },
+      "pdfSha256": "9c23e90bc6198d71ab77c68f4a02d7d404d72676de515b9530d10a465dfb37cb",
+      "sourcePages": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "numberedSamples": 3,
+      "samplesSha256": "bbbceea6e67b20c8a33902da67b2aea0fd6c1f64e6ac901e1516b54582031c0d",
+      "samplePages": [
+        2,
+        3,
+        4
+      ],
+      "samplePagesReviewed": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "id": "remote:codeforces:103443::F",
+      "title": "What a Colorful Wall",
+      "url": "https://codeforces.com/gym/103443/problem/F",
+      "limits": {
+        "timeMs": 3000,
+        "memoryMb": 1024
+      },
+      "pdfSha256": "6e0cc21f3e9c9a8934dee6931d1a745865bbdc4df09847381cca98dd9db309a5",
+      "sourcePages": [
+        15,
+        16
+      ],
+      "numberedSamples": 3,
+      "samplesSha256": "2a12aa341f71094ccc102572cd78f09821f753dfec3f5887bd0b11ea7a4dfd3a",
+      "samplePages": [
+        2
+      ],
+      "samplePagesReviewed": [
+        2
+      ]
+    },
+    {
+      "id": "remote:codeforces:103443::G",
+      "title": "The Treasure of the Sierra Jade",
+      "url": "https://codeforces.com/gym/103443/problem/G",
+      "limits": {
+        "timeMs": 1000,
+        "memoryMb": 1024
+      },
+      "pdfSha256": "aba96407ea6267cdd557910d4e83297cbc543347147d433c5a630aa9dc654a87",
+      "sourcePages": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "numberedSamples": 1,
+      "samplesSha256": "c7fc68649973be9275946f8ce6d8025c9c428d6e0b72e2e8e224f2209d78ee13",
+      "samplePages": [
+        3
+      ],
+      "samplePagesReviewed": [
+        3
+      ]
+    },
+    {
+      "id": "remote:codeforces:103443::H",
+      "title": "A Big Project",
+      "url": "https://codeforces.com/gym/103443/problem/H",
+      "limits": {
+        "timeMs": 1000,
+        "memoryMb": 1024
+      },
+      "pdfSha256": "0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+      "sourcePages": [
+        21,
+        22
+      ],
+      "numberedSamples": 1,
+      "samplesSha256": "d87a151a36b4daf6e75659fbcb9f260b9750cb5f48676380ddffe4aa8c86fc02",
+      "samplePages": [
+        2
+      ],
+      "samplePagesReviewed": [
+        2
+      ]
+    },
+    {
+      "id": "remote:codeforces:103443::I",
+      "title": "Seesaw",
+      "url": "https://codeforces.com/gym/103443/problem/I",
+      "limits": {
+        "timeMs": 1000,
+        "memoryMb": 1024
+      },
+      "pdfSha256": "041b9b97bc8c6597425d92ee472f03addb29f42b81503478aac33b13d14378df",
+      "sourcePages": [
+        23,
+        24
+      ],
+      "numberedSamples": 1,
+      "samplesSha256": "6f56c95bf1b9ac4d1962c57d02a516e9849838298542918bf35aee4330819a88",
+      "samplePages": [
+        2
+      ],
+      "samplePagesReviewed": [
+        2
+      ]
+    },
+    {
+      "id": "remote:codeforces:103443::J",
+      "title": "Transportation Network",
+      "url": "https://codeforces.com/gym/103443/problem/J",
+      "limits": {
+        "timeMs": 3000,
+        "memoryMb": 256
+      },
+      "pdfSha256": "0026febe7aca559ffa5e862ee5fb17630f6c040de32aa3b9acaa3bd0c0f8757d",
+      "sourcePages": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "numberedSamples": 1,
+      "samplesSha256": "91b354d0bc5642e403a88de3ef9f245d478c0a6ec900a0f5125ce67baa7deac5",
+      "samplePages": [
+        3
+      ],
+      "samplePagesReviewed": [
+        3
+      ]
+    },
+    {
+      "id": "remote:codeforces:103443::K",
+      "title": "Insertion Array",
+      "url": "https://codeforces.com/gym/103443/problem/K",
+      "limits": {
+        "timeMs": 3000,
+        "memoryMb": 1024
+      },
+      "pdfSha256": "fe86f910d52db7184a378f2763271625b83b617c9c39c52e09afe729e82c0a0d",
+      "sourcePages": [
+        29,
+        30
+      ],
+      "numberedSamples": 1,
+      "samplesSha256": "ea1445d70e0a490fef12a40095d240a309b2babda59983f1b04feb85e74aa3e1",
+      "samplePages": [
+        2
+      ],
+      "samplePagesReviewed": [
+        2
+      ]
+    },
+    {
+      "id": "remote:codeforces:103443::L",
+      "title": "Leadfoot",
+      "url": "https://codeforces.com/gym/103443/problem/L",
+      "limits": {
+        "timeMs": 1000,
+        "memoryMb": 1024
+      },
+      "pdfSha256": "7a1dc23c96c19ed49ac5458198a35da33d238181fdf4eb7ca29b089c8fc30940",
+      "sourcePages": [
+        31,
+        32
+      ],
+      "numberedSamples": 1,
+      "samplesSha256": "fe4f8c6a478978ed6f9f74ca521ae5a4f9d167f3ca9b4cad70a7b916b2edd5bd",
+      "samplePages": [
+        2
+      ],
+      "samplePagesReviewed": [
+        2
+      ]
+    },
+    {
+      "id": "remote:codeforces:103443::M",
+      "title": "Escaping the Foggy Forest",
+      "url": "https://codeforces.com/gym/103443/problem/M",
+      "limits": {
+        "timeMs": 1000,
+        "memoryMb": 1024
+      },
+      "pdfSha256": "c52d4440c02e44954d0ac28e998f0bec4b32f248f3645040cc3b59d1f2497a77",
+      "sourcePages": [
+        33,
+        34
+      ],
+      "numberedSamples": 1,
+      "samplesSha256": "35b68cad76ffc5d4595ac1519999e2e0fcf50f2070a3ded8a2016672e59e8d59",
+      "samplePages": [
+        2
+      ],
+      "samplePagesReviewed": [
+        2
+      ]
+    }
+  ]
+}

@@ -65,4 +65,28 @@ class QojTests(unittest.TestCase):
         value=pdf_statement(self.pdf(split_borders=True),'1')
         self.assertEqual([(s['input'],s['output']) for s in value['samples']],[('1 2','3'),('2 3','5')])
 
+    def test_separate_outlined_sample_boxes_exclude_footers_and_outside_text(self):
+        from pypdf import PdfReader,PdfWriter
+        from pypdf.generic import NameObject,DecodedStreamObject
+        reader=PdfReader(io.BytesIO(self.pdf()));page=reader.pages[0]
+        # Headings are outside the boxes; different heights must not leak the
+        # page number (above the old 35pt cut-off) into the input sample.
+        commands=b'10 100 95 60 re S 115 140 95 20 re S\nBT /F1 8 Tf 15 170 Td (Sample Input 1) Tj ET\nBT /F1 8 Tf 120 170 Td (Sample Output 1) Tj ET\nBT /F1 8 Tf 15 145 Td (1 2) Tj ET\nBT /F1 8 Tf 15 115 Td (2 3) Tj ET\nBT /F1 8 Tf 120 145 Td (5) Tj ET\nBT /F1 8 Tf 110 50 Td (2) Tj ET\nBT /F1 8 Tf 15 80 Td (not sample data) Tj ET'
+        writer=PdfWriter();writer.add_page(page);stream=DecodedStreamObject();stream.set_data(commands)
+        writer.pages[0][NameObject('/Contents')]=writer._add_object(stream)
+        output=io.BytesIO();writer.write(output)
+        value=pdf_statement(output.getvalue(),'outlined',render_pages=False)
+        self.assertEqual([(s['input'],s['output']) for s in value['samples']],[('1 2\n2 3','5')])
+
+    def test_missing_numbered_sample_never_exposes_a_partial_official_sample_set(self):
+        from pypdf import PdfReader,PdfWriter
+        from pypdf.generic import NameObject,DecodedStreamObject
+        reader=PdfReader(io.BytesIO(self.pdf()));writer=PdfWriter();writer.add_page(reader.pages[0])
+        stream=DecodedStreamObject();stream.set_data(reader.pages[0].get_contents().get_data()+b'\nBT /F1 8 Tf 10 70 Td (Sample Input 3) Tj ET')
+        writer.pages[0][NameObject('/Contents')]=writer._add_object(stream)
+        data=io.BytesIO();writer.write(data);value=pdf_statement(data.getvalue(),'incomplete',render_pages=False)
+        self.assertEqual(value['samples'],[]);self.assertFalse(value['localJudgeSupported'])
+        self.assertEqual(value['sampleExtraction'],'incomplete-numbered-inventory')
+        self.assertIn('Sample Input 3',value['sourceText']);self.assertEqual(value['pageCount'],1)
+
 if __name__=='__main__':unittest.main()

@@ -43,6 +43,14 @@ def cached():
 
 
 class CodeforcesPdfTests(unittest.TestCase):
+    def test_wrapped_native_heading_only_folds_to_the_exact_same_roster_title(self):
+        tasks={'E':{'title':'Composition with Large Red Plane, Yellow, Black, Gray, and Blue'}}
+        text='2021 ICPC Asia Taipei Regional\nProblem E\nComposition with Large Red Plane, Yellow, Black, Gray,\nand Blue\nTime limit: 1 second\nInput'
+        reader=Mock();reader.pages=[None,None]
+        self.assertEqual(selected_pages(reader,'E',tasks['E']['title'],texts=[text,'continuation'],tasks=tasks)[0],[0,1])
+        for wrong in [text.replace('and Blue','and Green'),text.replace('and Blue','Problem F. and Blue')]:
+            with self.assertRaises(ValueError):selected_pages(reader,'E',tasks['E']['title'],texts=[wrong,'continuation'],tasks=tasks)
+
     def test_unnumbered_heading_requires_matching_enclosing_index_and_roster_title(self):
         from public_platforms import _check_codeforces_title
         from statement_format import Tree

@@ -1,0 +1,203 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105544::L",
+      "beforeSha256": "edf01c699240c068a755d498d04e8de0a7426038be7e8994a78ce49873055375",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "data": "tb-asset:7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "fileName": "gym-105544.pdf",
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "id": "remote:codeforces:105544::L",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:56:45.902242+00:00",
+          "corpusAuditVerifiedSha256": "de496c6c28f067233b25b3dba526012f43d42acdbeffdefc6395baf8dfd1a667",
+          "pdfPageCountVerified": true,
+          "sampleCount": 3,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 4500
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Nine Never\n\nProblem PL\r\nNine Never\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nOnce upon a time, there lived a great general called Tso who was well-known in arranging his\r\nsoldiers into small groups to perform different tasks. If possible, Tso would divide his soldiers\r\ninto as many groups as possible, so as to increase the flexibility. However, there was a little\r\nsecret that only very few people knew: When Tso was young, a fortune-teller warned him that\r\n“9” would be a super unlucky number for him. So now, whenever Tso divided his soldiers\r\ninto groups, he would make sure that the total number of soldiers, in any combination of these\r\ngroups, would not be equal to 9.\r\nFor instance, when there are 𝑁 = 11 soldiers, we can divide the soldiers into three groups, with\r\n3, 4, 4 soldiers, respectively, so that any combination would not sum up to exactly 9 soldiers\r\n(the total number could only be 3, 4, 7, 8, or 11). Another way is to divide the soldiers into\r\nfour groups, with 1, 3, 3, 4 soldiers, respectively, so that again, any combination would not sum\r\nup to exactly 9 soldiers (the total number could only be 1, 3, 4, 5, 6, 7, 8, 10, or 11). Since the\r\nlatter way has more groups, it is a better choice than the former way.\r\nIn contrast, if we divide the soldiers into eleven groups, one for each group, then we would\r\nhave even more groups; however, some combination (taking nine of these groups) would have\r\nexactly 9 soldiers in total, so this will not be an acceptable division for Tso.\r\nAs one of Tso’s most reliable assistants, you are assigned the following task: Given a number\r\n𝑁 of soldiers where 𝑁 ̸= 9, help Tso to find the maximum number 𝐾 of groups that can be\r\nformed.\r\nInput Format\r\nThe input has only one line, which contains a single positive integer 𝑁.\r\nOutput Format\r\nLet 𝐾 denote the desired maximum number of groups. The output has only one line, which\r\nprints a non-negative integer 𝑋 such that 𝑋 is the remainder of 𝐾 when divided by 109 + 7.\r\nThat is, 𝑋 ≡ 𝐾 (mod 109 + 7) with 0 ≤ 𝑋 < 109 + 7.\r\n1\n\nTechnical Specification\r\n 1 ≤ 𝑁 ≤ 1015\r\n 𝑁 ̸= 9\r\n 0 ≤ 𝑋 < 109 + 7\r\nSample Input 1\r\n11\r\nSample Output 1\r\n4\r\nSample Input 2\r\n8\r\nSample Output 2\r\n8\r\nSample Input 3\r\n12345678901234\r\nSample Output 3\r\n839407413\r\n2\n\n[PDF](https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "recovered",
+          "id": "remote:codeforces:105544::L",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 2,
+          "pdfSha256": "c3e516df4251e8582e3b3b7c591fb231ae3486363c880d01891a837f7a79a0c3",
+          "problemType": "standard",
+          "samplePairs": 3,
+          "samplesSha256": "54f47ebd4b04517a7cd02dc29cb25314e1350b2fdfc581fd83b09674c4366187",
+          "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "url": "https://codeforces.com/gym/105544/problem/L"
+        },
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf": {
+            "bytes": 2619057,
+            "mime": "application/pdf",
+            "pageCount": 31,
+            "sha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+            "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "c3e516df4251e8582e3b3b7c591fb231ae3486363c880d01891a837f7a79a0c3",
+          "page": 2,
+          "reason": "Read only the outlined sample boxes; exclude printed page numbers. Restore the actual contiguous grid and comma-delimited tokens instead of PDF-extractor spacing."
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "11",
+            "output": "4"
+          },
+          {
+            "name": "样例 2",
+            "input": "8",
+            "output": "8"
+          },
+          {
+            "name": "样例 3",
+            "input": "12345678901234",
+            "output": "839407413"
+          }
+        ],
+        "sourceBinding": {
+          "kind": "exact-title",
+          "pdfProblemLabel": "PL",
+          "pdfTitle": "Nine Never",
+          "problem": "L",
+          "problemInventoryVerified": 13,
+          "rosterTitle": "Nine Never",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          28,
+          29
+        ],
+        "sourcePdfSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+        "sourcePdfUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+        "sourceRosterSha256": "5ec88d8ed50da51a78d550da61b9a8e69dbbceb1b980a28aee4f3f3058f9163a",
+        "sourceRosterUrl": "https://codeforces.com/gym/105544",
+        "sourceText": "# Nine Never\n\nTime limit: 3 seconds. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nOnce upon a time, there lived a great general called Tso who was well-known in arranging his soldiers into small groups to perform different tasks. If possible, Tso would divide his soldiers into as many groups as possible, so as to increase the flexibility. However, there was a little secret that only very few people knew: When Tso was young, a fortune-teller warned him that 9 would be a super unlucky number for him. So now, whenever Tso divided his soldiers into groups, he would make sure that the total number of soldiers, in any combination of these groups, would not be equal to 9.\n\nFor instance, when there are $N=11$ soldiers, we can divide the soldiers into three groups, with 3, 4, 4 soldiers, respectively, so that any combination would not sum up to exactly 9 soldiers (the total number could only be 3, 4, 7, 8, or 11). Another way is to divide the soldiers into four groups, with 1, 3, 3, 4 soldiers, respectively, so that again, any combination would not sum up to exactly 9 soldiers (the total number could only be 1, 3, 4, 5, 6, 7, 8, 10, or 11). Since the latter way has more groups, it is a better choice than the former way.\n\nIn contrast, if we divide the soldiers into eleven groups, one for each group, then we would have even more groups; however, some combination (taking nine of these groups) would have exactly 9 soldiers in total, so this will not be an acceptable division for Tso.\n\nAs one of Tso's most reliable assistants, you are assigned the following task: Given a number $N$ of soldiers where $N\\ne9$, help Tso to find the maximum number $K$ of groups that can be formed.\n\n## Input Format\n\nThe input has only one line, which contains a single positive integer $N$.\n\n## Output Format\n\nLet $K$ denote the desired maximum number of groups. The output has only one line, which prints a non-negative integer $X$ such that $X$ is the remainder of $K$ when divided by $10^9+7$. That is, $X\\equiv K\\pmod{10^9+7}$ with $0\\le X<10^9+7$.\n\n## Technical Specification\n\n- $1\\le N\\le10^{15}$.\n- $N\\ne9$.\n- $0\\le X<10^9+7$.\n\n## Sample Input 1\n\n```text\n11\n```\n\n## Sample Output 1\n\n```text\n4\n```\n\n## Sample Input 2\n\n```text\n8\n```\n\n## Sample Output 2\n\n```text\n8\n```\n\n## Sample Input 3\n\n```text\n12345678901234\n```\n\n## Sample Output 3\n\n```text\n839407413\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:c3e516df4251e8582e3b3b7c591fb231ae3486363c880d01891a837f7a79a0c3",
+          "fileName": "gym-105544-L.pdf",
+          "pageCount": 2,
+          "sha256": "c3e516df4251e8582e3b3b7c591fb231ae3486363c880d01891a837f7a79a0c3",
+          "sourcePageNumbers": [
+            28,
+            29
+          ],
+          "sourceSha256": "7ba285e8f6663422a5f48671b1e31eff8fd02d45cc39ae0fb42d6cef63899d6b",
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Nine Never",
+        "url": "https://codeforces.com/gym/105544/problem/L",
+        "sourceTextArchive": [
+          {
+            "text": "Problem PL\r\nNine Never\r\nTime limit: 3 seconds\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nOnce upon a time, there lived a great general called Tso who was well-known in arranging his\r\nsoldiers into small groups to perform different tasks. If possible, Tso would divide his soldiers\r\ninto as many groups as possible, so as to increase the flexibility. However, there was a little\r\nsecret that only very few people knew: When Tso was young, a fortune-teller warned him that\r\n“9” would be a super unlucky number for him. So now, whenever Tso divided his soldiers\r\ninto groups, he would make sure that the total number of soldiers, in any combination of these\r\ngroups, would not be equal to 9.\r\nFor instance, when there are 𝑁 = 11 soldiers, we can divide the soldiers into three groups, with\r\n3, 4, 4 soldiers, respectively, so that any combination would not sum up to exactly 9 soldiers\r\n(the total number could only be 3, 4, 7, 8, or 11). Another way is to divide the soldiers into\r\nfour groups, with 1, 3, 3, 4 soldiers, respectively, so that again, any combination would not sum\r\nup to exactly 9 soldiers (the total number could only be 1, 3, 4, 5, 6, 7, 8, 10, or 11). Since the\r\nlatter way has more groups, it is a better choice than the former way.\r\nIn contrast, if we divide the soldiers into eleven groups, one for each group, then we would\r\nhave even more groups; however, some combination (taking nine of these groups) would have\r\nexactly 9 soldiers in total, so this will not be an acceptable division for Tso.\r\nAs one of Tso’s most reliable assistants, you are assigned the following task: Given a number\r\n𝑁 of soldiers where 𝑁 ̸= 9, help Tso to find the maximum number 𝐾 of groups that can be\r\nformed.\r\nInput Format\r\nThe input has only one line, which contains a single positive integer 𝑁.\r\nOutput Format\r\nLet 𝐾 denote the desired maximum number of groups. The output has only one line, which\r\nprints a non-negative integer 𝑋 such that 𝑋 is the remainder of 𝐾 when divided by 109 + 7.\r\nThat is, 𝑋 ≡ 𝐾 (mod 109 + 7) with 0 ≤ 𝑋 < 109 + 7.\r\n1\n\nTechnical Specification\r\n 1 ≤ 𝑁 ≤ 1015\r\n 𝑁 ̸= 9\r\n 0 ≤ 𝑋 < 109 + 7\r\nSample Input 1\r\n11\r\nSample Output 1\r\n4\r\nSample Input 2\r\n8\r\nSample Output 2\r\n8\r\nSample Input 3\r\n12345678901234\r\nSample Output 3\r\n839407413\r\n2",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "9e18011ac5b3343caedb7b27ec40d939c3ff581dfad73c44376724ed1a6c646b"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "11",
+                "name": "样例 1",
+                "output": "4"
+              },
+              {
+                "input": "8",
+                "name": "样例 2",
+                "output": "8"
+              },
+              {
+                "input": "12345678901234\n2",
+                "name": "样例 3",
+                "output": "839407413"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "L",
+          "pdfSha256": "c3e516df4251e8582e3b3b7c591fb231ae3486363c880d01891a837f7a79a0c3",
+          "pageCount": 2,
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "sourcePageNumbers": [
+            28,
+            29
+          ],
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "reviewedAt": "2026-11-08T06:06:29.549743+00:00",
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "1c7e154c563e273e956bf87deb9adc26b781dd9111ae5d1291589e46d823f6bd"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "de496c6c28f067233b25b3dba526012f43d42acdbeffdefc6395baf8dfd1a667",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "1c7e154c563e273e956bf87deb9adc26b781dd9111ae5d1291589e46d823f6bd",
+          "sourcePdfSha256": "c3e516df4251e8582e3b3b7c591fb231ae3486363c880d01891a837f7a79a0c3",
+          "markdown": "# 绝不凑成九\n\n时间限制：3 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\n从前有一位名叫 Tso 的将军，他善于将士兵分成小组，分别执行不同任务。为了提高灵活性，他会尽可能把士兵分成更多的小组。不过，有一个只有极少数人知道的秘密：他年轻时，一位算命先生曾警告他，9 是对他极为不吉利的数字。因此，他每次给士兵分组时，都会确保任选若干小组，其士兵总数都不恰好等于 9。\n\n例如，有 $N=11$ 名士兵时，可以将他们分成三组，人数分别为 3、4、4。任意选择若干组，都不会恰好有 9 名士兵，总人数只可能是 3、4、7、8 或 11。另一种方法是分成四组，人数分别为 1、3、3、4，同样无法通过组合得到恰好 9 名士兵，总人数只可能是 1、3、4、5、6、7、8、10 或 11。后一种方法的组数更多，因此优于前一种方法。\n\n相反，如果将士兵分成十一组，每组一人，虽然组数更多，但选择其中九组就恰好有 9 名士兵，因此将军不能接受这种分法。\n\n作为将军最可靠的助手之一，你的任务是：给定士兵人数 $N$，且 $N\\ne9$，帮助将军求出能够分成的最大组数 $K$。\n\n## 输入格式\n\n输入只有一行，包含一个正整数 $N$。\n\n## 输出格式\n\n用 $K$ 表示所求的最大组数。输出只有一行，打印非负整数 $X$，其中 $X$ 是 $K$ 除以 $10^9+7$ 的余数，即 $X\\equiv K\\pmod{10^9+7}$，且 $0\\le X<10^9+7$。\n\n## 数据范围\n\n- $1\\le N\\le10^{15}$。\n- $N\\ne9$。\n- $0\\le X<10^9+7$。\n\n## 样例输入 1\n\n```text\n11\n```\n\n## 样例输出 1\n\n```text\n4\n```\n\n## 样例输入 2\n\n```text\n8\n```\n\n## 样例输出 2\n\n```text\n8\n```\n\n## 样例输入 3\n\n```text\n12345678901234\n```\n\n## 样例输出 3\n\n```text\n839407413\n```\n"
+        },
+        "translationReview": {
+          "letter": "L",
+          "pdfSha256": "c3e516df4251e8582e3b3b7c591fb231ae3486363c880d01891a837f7a79a0c3",
+          "pageCount": 2,
+          "sourceUrl": "https://codeforces.com/gym/105544/attachments/download/28405/2023-taiwan.pdf",
+          "sourcePageNumbers": [
+            28,
+            29
+          ],
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "reviewedAt": "2026-11-08T06:06:29.549743+00:00",
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "1c7e154c563e273e956bf87deb9adc26b781dd9111ae5d1291589e46d823f6bd",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

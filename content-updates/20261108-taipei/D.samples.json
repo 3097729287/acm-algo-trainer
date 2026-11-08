@@ -1,0 +1,33 @@
+{
+  "method": "page-reviewed-original-pdf-samples",
+  "sourcePdfSha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+  "pagesReviewed": [
+    1,
+    2
+  ],
+  "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "3 1\n1 2 3",
+      "output": "321"
+    },
+    {
+      "name": "样例 2",
+      "input": "3 10\n1 2 3",
+      "output": "213"
+    },
+    {
+      "name": "样例 3",
+      "input": "3 100\n1 2 3",
+      "output": "132"
+    }
+  ],
+  "geometryReview": {
+    "method": "page-reviewed-original-pdf-samples",
+    "pagesReviewed": [
+      1,
+      2
+    ]
+  }
+}
