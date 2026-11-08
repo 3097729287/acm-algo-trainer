@@ -1,7 +1,7 @@
 {
   "version": "topic-review-20261029-r30",
   "scope": "仅修正知识标签，不改题解正文、程序、难度或个人记录",
-  "reviewedProblems": 1581,
+  "reviewedProblems": 1594,
   "problems": {
     "codeforces.com/contest/2258/problem/E": {
       "problemIds": [
@@ -37576,6 +37576,468 @@
       ],
       "reviewMethod": "source-reviewed-classification",
       "official": false
+    },
+    "codeforces.com/gym/104270/problem/A": {
+      "problemIds": [
+        "remote:codeforces:104270::A"
+      ],
+      "url": "https://codeforces.com/gym/104270/problem/A",
+      "tags": [
+        "多项式插值",
+        "递归",
+        "高精度"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104270::A",
+          "reference": "https://sua.ac/wiki/2018-icpc-qingdao/a/#_2",
+          "sha256": "cff4392f0841b28efb0f34c2c910308f09ae134e9f3ae91bbe4c13349f2af7f7",
+          "sourceDocumentType": "official-setter-wiki",
+          "sourceSectionAnchor": "_2",
+          "sourceSectionTitle": "题解",
+          "sourceProblemHeading": "A - Sequence and Sequence",
+          "sourceProblemTitle": "Sequence and Sequence",
+          "nativeProblemUrl": "https://codeforces.com/gym/104270/problem/A",
+          "officialIndexReference": "https://sua.ac/wiki/2018-icpc-qingdao/",
+          "officialIndexSha256": "f416a6202a7b9aeabd19a24c1240dd5b6d4deafb652192660ac4ee8004fa4f13",
+          "sourceStatementMarkdownSha256": "621288df08ad0ed3b34303236525ac417463f773891a88c3f2467f7f0239087e",
+          "reasons": [
+            "出题方以分部求和把g(d,n)化为F^(d)(n)g(0,P(n))-g(d+1,P(n))；每层规模开平方，四层降至605。次数最高30的求和多项式用拉格朗日插值，输入n到10^40，保留高精度处理。"
+          ],
+          "method": "official-setter-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "archivedOriginalFormat": "Exact native HTML byte archive; application/octet-stream, never executed or rendered as a local web page."
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104270/problem/B": {
+      "problemIds": [
+        "remote:codeforces:104270::B"
+      ],
+      "url": "https://codeforces.com/gym/104270/problem/B",
+      "tags": [
+        "桥",
+        "边双连通分量",
+        "启发式合并"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104270::B",
+          "reference": "https://sua.ac/wiki/2018-icpc-qingdao/b/#_2",
+          "sha256": "b2daa41f4682f1ee0d8aa7dd87c528a1b226515ed8bdd46c9b7fefd189e70545",
+          "sourceDocumentType": "official-setter-wiki",
+          "sourceSectionAnchor": "_2",
+          "sourceSectionTitle": "题解",
+          "sourceProblemHeading": "B - Kawa Exam",
+          "sourceProblemTitle": "Kawa Exam",
+          "nativeProblemUrl": "https://codeforces.com/gym/104270/problem/B",
+          "officialIndexReference": "https://sua.ac/wiki/2018-icpc-qingdao/",
+          "officialIndexSha256": "f416a6202a7b9aeabd19a24c1240dd5b6d4deafb652192660ac4ee8004fa4f13",
+          "sourceStatementMarkdownSha256": "4200df890e32fdae072e062d73ea72013ab10acd2c15cecedce72f886cc23b25",
+          "reasons": [
+            "把互相知道答案的关系视为无向边，每个连通块贡献同一答案的最高频次。仅删除桥会改变答案；Tarjan边双缩点后成树，用启发式合并维护子树/补集的频次及最大频次，O(n log n)。"
+          ],
+          "method": "official-setter-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "archivedOriginalFormat": "Exact native HTML byte archive; application/octet-stream, never executed or rendered as a local web page."
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104270/problem/C": {
+      "problemIds": [
+        "remote:codeforces:104270::C"
+      ],
+      "url": "https://codeforces.com/gym/104270/problem/C",
+      "tags": [
+        "分类讨论",
+        "组合计数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104270::C",
+          "reference": "https://sua.ac/wiki/2018-icpc-qingdao/c/#_2",
+          "sha256": "5af81c62eadc2c3e8e57c21453b791e35abfc14d0e2ccecc3efd002c8140fab5",
+          "sourceDocumentType": "official-setter-wiki",
+          "sourceSectionAnchor": "_2",
+          "sourceSectionTitle": "题解",
+          "sourceProblemHeading": "C - Flippy Sequence",
+          "sourceProblemTitle": "Flippy Sequence",
+          "nativeProblemUrl": "https://codeforces.com/gym/104270/problem/C",
+          "officialIndexReference": "https://sua.ac/wiki/2018-icpc-qingdao/",
+          "officialIndexSha256": "f416a6202a7b9aeabd19a24c1240dd5b6d4deafb652192660ac4ee8004fa4f13",
+          "sourceStatementMarkdownSha256": "c5e8271213e53c2bf677c970172334021addb7d540940bfea802b2d2e3f00f52",
+          "reasons": [
+            "按s与t不同位置组成的连续段数分类：超过2段无解；0段两次选同一非空区间得n(n+1)/2；1段拆分/相交共有2(n-1)；2段有三种配对并计先后顺序得6，O(n)。"
+          ],
+          "method": "official-setter-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "archivedOriginalFormat": "Exact native HTML byte archive; application/octet-stream, never executed or rendered as a local web page."
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104270/problem/D": {
+      "problemIds": [
+        "remote:codeforces:104270::D"
+      ],
+      "url": "https://codeforces.com/gym/104270/problem/D",
+      "tags": [
+        "枚举",
+        "模拟"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104270::D",
+          "reference": "https://sua.ac/wiki/2018-icpc-qingdao/d/#_2",
+          "sha256": "40252155111219d6f72bb8ff968c70436fedcd2177463c03e723c31be9a5fa45",
+          "sourceDocumentType": "official-setter-wiki",
+          "sourceSectionAnchor": "_2",
+          "sourceSectionTitle": "题解",
+          "sourceProblemHeading": "D - Magic Multiplication",
+          "sourceProblemTitle": "Magic Multiplication",
+          "nativeProblemUrl": "https://codeforces.com/gym/104270/problem/D",
+          "officialIndexReference": "https://sua.ac/wiki/2018-icpc-qingdao/",
+          "officialIndexSha256": "f416a6202a7b9aeabd19a24c1240dd5b6d4deafb652192660ac4ee8004fa4f13",
+          "sourceStatementMarkdownSha256": "a7b764021cc596737897120b33904b0a5fd35a3e22e2d616824c27fb3e065893",
+          "reasons": [
+            "枚举a1=1..9后，a1乘1..9的一位/两位乘积前缀可唯一解析第一行并确定B；再由b1逐行确定A，最后复核完整拼接串，O(9|C|)。"
+          ],
+          "method": "official-setter-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "archivedOriginalFormat": "Exact native HTML byte archive; application/octet-stream, never executed or rendered as a local web page."
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104270/problem/E": {
+      "problemIds": [
+        "remote:codeforces:104270::E"
+      ],
+      "url": "https://codeforces.com/gym/104270/problem/E",
+      "tags": [
+        "二分答案",
+        "贪心"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104270::E",
+          "reference": "https://sua.ac/wiki/2018-icpc-qingdao/e/#_2",
+          "sha256": "78065d7b5c96b367f8f1efcd3b2fe46a6a411af90dcd2c553cb1b0537488c821",
+          "sourceDocumentType": "official-setter-wiki",
+          "sourceSectionAnchor": "_2",
+          "sourceSectionTitle": "题解",
+          "sourceProblemHeading": "E - Plants vs. Zombies",
+          "sourceProblemTitle": "Plants vs. Zombies",
+          "nativeProblemUrl": "https://codeforces.com/gym/104270/problem/E",
+          "officialIndexReference": "https://sua.ac/wiki/2018-icpc-qingdao/",
+          "officialIndexSha256": "f416a6202a7b9aeabd19a24c1240dd5b6d4deafb652192660ac4ee8004fa4f13",
+          "sourceStatementMarkdownSha256": "a45b731191df9931195d2cecbae2bc7e01003042cede83b6b15bfbd6a95f4775",
+          "reasons": [
+            "二分最终最小高度x，从左到右在i与i+1之间往返，直到第i株高度达标，把给下一株的增量传递；每步取最少次数并累计步数，O(n log(m max(a)))。"
+          ],
+          "method": "official-setter-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "archivedOriginalFormat": "Exact native HTML byte archive; application/octet-stream, never executed or rendered as a local web page."
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104270/problem/F": {
+      "problemIds": [
+        "remote:codeforces:104270::F"
+      ],
+      "url": "https://codeforces.com/gym/104270/problem/F",
+      "tags": [
+        "构造",
+        "位运算"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104270::F",
+          "reference": "https://sua.ac/wiki/2018-icpc-qingdao/f/#_2",
+          "sha256": "0efb6edb2d973b19ae1a30cdc5ae23310cd956c7c046a4de114c8ac5c02f35df",
+          "sourceDocumentType": "official-setter-wiki",
+          "sourceSectionAnchor": "_2",
+          "sourceSectionTitle": "题解",
+          "sourceProblemHeading": "F - Tournament",
+          "sourceProblemTitle": "Tournament",
+          "nativeProblemUrl": "https://codeforces.com/gym/104270/problem/F",
+          "officialIndexReference": "https://sua.ac/wiki/2018-icpc-qingdao/",
+          "officialIndexSha256": "f416a6202a7b9aeabd19a24c1240dd5b6d4deafb652192660ac4ee8004fa4f13",
+          "sourceStatementMarkdownSha256": "6b4e6f2006458afcee8b1e87f8893ded11f629a274f7eaba407e0dd92dc17712",
+          "reasons": [
+            "官方讲解给出可行性充要条件k<lowbit(n)，第i场0基选手j的对手为i xor j，输出再转1基；复杂度O(nk)，不把打表本身当算法标签。"
+          ],
+          "method": "official-setter-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "archivedOriginalFormat": "Exact native HTML byte archive; application/octet-stream, never executed or rendered as a local web page."
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104270/problem/G": {
+      "problemIds": [
+        "remote:codeforces:104270::G"
+      ],
+      "url": "https://codeforces.com/gym/104270/problem/G",
+      "tags": [
+        "容斥",
+        "计数 DP",
+        "快速幂"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104270::G",
+          "reference": "https://sua.ac/wiki/2018-icpc-qingdao/g/#_2",
+          "sha256": "b2112b2ebd5e157c0a4170f52c63dc4751dd493bef39062e5596b17e7b096d6b",
+          "sourceDocumentType": "official-setter-wiki",
+          "sourceSectionAnchor": "_2",
+          "sourceSectionTitle": "题解",
+          "sourceProblemHeading": "G - Repair the Artwork",
+          "sourceProblemTitle": "Repair the Artwork",
+          "nativeProblemUrl": "https://codeforces.com/gym/104270/problem/G",
+          "officialIndexReference": "https://sua.ac/wiki/2018-icpc-qingdao/",
+          "officialIndexSha256": "f416a6202a7b9aeabd19a24c1240dd5b6d4deafb652192660ac4ee8004fa4f13",
+          "sourceStatementMarkdownSha256": "3caaa2b9c834412d3cb8b7da94feb79f2fe4d62d40dff59842ffdc340db7e925",
+          "reasons": [
+            "用“必覆盖的2=可覆盖的0-禁覆盖的1”作容斥；只保留禁点位置与合法区间数j、禁点个数奇偶构成DP，枚举上一个禁点转移，再求正负加权j^m并校正原1的奇偶，O(n^4)小常数。"
+          ],
+          "method": "official-setter-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "archivedOriginalFormat": "Exact native HTML byte archive; application/octet-stream, never executed or rendered as a local web page."
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104270/problem/H": {
+      "problemIds": [
+        "remote:codeforces:104270::H"
+      ],
+      "url": "https://codeforces.com/gym/104270/problem/H",
+      "tags": [
+        "最短路",
+        "线段相交",
+        "点积与叉积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104270::H",
+          "reference": "https://sua.ac/wiki/2018-icpc-qingdao/h/#_2",
+          "sha256": "b78a7bd040e251c0038bc47a5499e534f65b6c0cecded421d6ca6864d61c9a6b",
+          "sourceDocumentType": "official-setter-wiki",
+          "sourceSectionAnchor": "_2",
+          "sourceSectionTitle": "题解",
+          "sourceProblemHeading": "H - Mirror",
+          "sourceProblemTitle": "Mirror",
+          "nativeProblemUrl": "https://codeforces.com/gym/104270/problem/H",
+          "officialIndexReference": "https://sua.ac/wiki/2018-icpc-qingdao/",
+          "officialIndexSha256": "f416a6202a7b9aeabd19a24c1240dd5b6d4deafb652192660ac4ee8004fa4f13",
+          "sourceStatementMarkdownSha256": "af579124c0e9bdb57bbf2329d77e137571f4585bc2c70715d074528d91bdf7ce",
+          "reasons": [
+            "用起终点/障碍/镜面及其镜像导出的26条可见性分界线交点建图（最多161点），检查边与障碍相交及分段中点的可见性，分别求仅见起点、同时见两点、仅见终点的三类最短路。"
+          ],
+          "method": "official-setter-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "archivedOriginalFormat": "Exact native HTML byte archive; application/octet-stream, never executed or rendered as a local web page."
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104270/problem/I": {
+      "problemIds": [
+        "remote:codeforces:104270::I"
+      ],
+      "url": "https://codeforces.com/gym/104270/problem/I",
+      "tags": [
+        "线段树",
+        "动态DP",
+        "枚举"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104270::I",
+          "reference": "https://sua.ac/wiki/2018-icpc-qingdao/i/#_2",
+          "sha256": "8c7b632db4a0e0f073d2c42a0e5eb9c98e8f0849bd16b2b62ab7719bfdf1ddc1",
+          "sourceDocumentType": "official-setter-wiki",
+          "sourceSectionAnchor": "_2",
+          "sourceSectionTitle": "题解",
+          "sourceProblemHeading": "I - Soldier Game",
+          "sourceProblemTitle": "Soldier Game",
+          "nativeProblemUrl": "https://codeforces.com/gym/104270/problem/I",
+          "officialIndexReference": "https://sua.ac/wiki/2018-icpc-qingdao/",
+          "officialIndexSha256": "f416a6202a7b9aeabd19a24c1240dd5b6d4deafb652192660ac4ee8004fa4f13",
+          "sourceStatementMarkdownSha256": "2ff9babfc12e68a0b59aa8ba5131cb13dd0a8a3840e270e6df106d6d94282b04",
+          "reasons": [
+            "把数组划分为长1或2的块；线段树维护两端是否跨界的四个min-max DP状态，枚举2n-1种块和作为最小值并禁用更小块，根状态给最小最大值，O(n log n)。"
+          ],
+          "method": "official-setter-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "archivedOriginalFormat": "Exact native HTML byte archive; application/octet-stream, never executed or rendered as a local web page."
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104270/problem/J": {
+      "problemIds": [
+        "remote:codeforces:104270::J"
+      ],
+      "url": "https://codeforces.com/gym/104270/problem/J",
+      "tags": [
+        "贪心",
+        "分类讨论"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104270::J",
+          "reference": "https://sua.ac/wiki/2018-icpc-qingdao/j/#_2",
+          "sha256": "a31a163e47c08b9139fc106145a8a0810209873568efb727e6b3e258d7f47e5b",
+          "sourceDocumentType": "official-setter-wiki",
+          "sourceSectionAnchor": "_2",
+          "sourceSectionTitle": "题解",
+          "sourceProblemHeading": "J - Books",
+          "sourceProblemTitle": "Books",
+          "nativeProblemUrl": "https://codeforces.com/gym/104270/problem/J",
+          "officialIndexReference": "https://sua.ac/wiki/2018-icpc-qingdao/",
+          "officialIndexSha256": "f416a6202a7b9aeabd19a24c1240dd5b6d4deafb652192660ac4ee8004fa4f13",
+          "sourceStatementMarkdownSha256": "8936f4ccbea01e98cff1535a9ba7844d65b3869d760436c1989c1d7f3739e9a7",
+          "reasons": [
+            "原过程对初始金额不单调，不能二分。所有0价书必买；若m=n则Richman，0价书数大于m则Impossible；其余答案为前m-零数本正价之和+剩余正价最小值-1，O(n)。"
+          ],
+          "method": "official-setter-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "archivedOriginalFormat": "Exact native HTML byte archive; application/octet-stream, never executed or rendered as a local web page."
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104270/problem/K": {
+      "problemIds": [
+        "remote:codeforces:104270::K"
+      ],
+      "url": "https://codeforces.com/gym/104270/problem/K",
+      "tags": [
+        "扫描线",
+        "排序",
+        "模拟"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104270::K",
+          "reference": "https://sua.ac/wiki/2018-icpc-qingdao/k/#_2",
+          "sha256": "dc866505d5b700a2a1ab2975d4bd3bda4aafcdbcc6b80c77d9026f9ea12bebcf",
+          "sourceDocumentType": "official-setter-wiki",
+          "sourceSectionAnchor": "_2",
+          "sourceSectionTitle": "题解",
+          "sourceProblemHeading": "K - Airdrop",
+          "sourceProblemTitle": "Airdrop",
+          "nativeProblemUrl": "https://codeforces.com/gym/104270/problem/K",
+          "officialIndexReference": "https://sua.ac/wiki/2018-icpc-qingdao/",
+          "officialIndexSha256": "f416a6202a7b9aeabd19a24c1240dd5b6d4deafb652192660ac4ee8004fa4f13",
+          "sourceStatementMarkdownSha256": "4107c43406666f94b6d6f69580ca01a225076c7f51b27bbd9951c83b1e86e791",
+          "reasons": [
+            "原点平移后仅同侧且曼哈顿距离相等的玩家会撞消；扫描候选空投横坐标xi、xi±1，分别维护左右幸存数，按距离组处理新增至多2人与原幸存至多1人的状态，O(n log n)。"
+          ],
+          "method": "official-setter-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "archivedOriginalFormat": "Exact native HTML byte archive; application/octet-stream, never executed or rendered as a local web page."
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104270/problem/L": {
+      "problemIds": [
+        "remote:codeforces:104270::L"
+      ],
+      "url": "https://codeforces.com/gym/104270/problem/L",
+      "tags": [
+        "组合计数",
+        "枚举",
+        "排列"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104270::L",
+          "reference": "https://sua.ac/wiki/2018-icpc-qingdao/l/#_2",
+          "sha256": "39d3d83ff38659d031bce20ab74e80af6df90c6d3490bcf5162e3655418beaa0",
+          "sourceDocumentType": "official-setter-wiki",
+          "sourceSectionAnchor": "_2",
+          "sourceSectionTitle": "题解",
+          "sourceProblemHeading": "L - Sub-cycle Graph",
+          "sourceProblemTitle": "Sub-cycle Graph",
+          "nativeProblemUrl": "https://codeforces.com/gym/104270/problem/L",
+          "officialIndexReference": "https://sua.ac/wiki/2018-icpc-qingdao/",
+          "officialIndexSha256": "f416a6202a7b9aeabd19a24c1240dd5b6d4deafb652192660ac4ee8004fa4f13",
+          "sourceStatementMarkdownSha256": "20f319470ceec87d2beed4345e66e75d3f574ce1ade4f4196d222137cf026aec",
+          "reasons": [
+            "图只能由孤点和链组成，或恰为一个全点环。按m=0、m=n、m>n分类，一般情形枚举链数，选择孤点/端点，用奇数双阶乘配对端点，再对内部点全排列并用隔板分链，阶乘逆元预处理后O(n)。"
+          ],
+          "method": "official-setter-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "archivedOriginalFormat": "Exact native HTML byte archive; application/octet-stream, never executed or rendered as a local web page."
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
+    },
+    "codeforces.com/gym/104270/problem/M": {
+      "problemIds": [
+        "remote:codeforces:104270::M"
+      ],
+      "url": "https://codeforces.com/gym/104270/problem/M",
+      "tags": [
+        "模拟",
+        "分类讨论"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104270::M",
+          "reference": "https://sua.ac/wiki/2018-icpc-qingdao/m/#_2",
+          "sha256": "2fb5f8bfeaefb9fdd84bbaa413843e73fdbf4dd9cdce2f5949b57b1d54ac36e3",
+          "sourceDocumentType": "official-setter-wiki",
+          "sourceSectionAnchor": "_2",
+          "sourceSectionTitle": "题解",
+          "sourceProblemHeading": "M - Function and Function",
+          "sourceProblemTitle": "Function and Function",
+          "nativeProblemUrl": "https://codeforces.com/gym/104270/problem/M",
+          "officialIndexReference": "https://sua.ac/wiki/2018-icpc-qingdao/",
+          "officialIndexSha256": "f416a6202a7b9aeabd19a24c1240dd5b6d4deafb652192660ac4ee8004fa4f13",
+          "sourceStatementMarkdownSha256": "14436dbec8bca21f634e7b7932c229e1fd00f585d825ff7c1c555699c35a908c",
+          "reasons": [
+            "逐位计算数字封闭圈数，x>=2时反复应用后快速下降；到0或1后只按剩余迭代次数奇偶决定0/1循环，无需执行最多10^9次迭代。"
+          ],
+          "method": "official-setter-editorial-reviewed-algorithm",
+          "originalJudgeSubmissions": 0,
+          "archivedOriginalFormat": "Exact native HTML byte archive; application/octet-stream, never executed or rendered as a local web page."
+        }
+      ],
+      "reviewMethod": "source-reviewed-classification",
+      "official": false
     }
   },
   "excludedKeywordMatches": [
@@ -37599,6 +38061,7 @@
   "appliedPackets": [
     "20261108-verified-editorials-and-hsinchu-topics",
     "20261109-source-reviewed-metadata-followup",
-    "20261109-xcpc-taoyuan-source-reviewed-metadata"
+    "20261109-xcpc-taoyuan-source-reviewed-metadata",
+    "20261109-xcpc-qingdao-source-reviewed-metadata"
   ]
 }

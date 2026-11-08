@@ -1,0 +1,34 @@
+{
+  "topicsReviewed": 13,
+  "unofficialTrainingEstimates": 13,
+  "officialSetterHtmlByteArchives": 14,
+  "newSourceBytes": 1489275,
+  "allArchivedSourceHashesVerified": true,
+  "onlyTargetProblemRowsChanged": true,
+  "allExistingOfficialRatingsAndIdentityStatusDatePreserved": true,
+  "enrichmentStable": true,
+  "applicationIdempotent": true,
+  "independentSourceFormulaChecks": {
+    "C_twoOrderedIntervalFlips": {
+      "nRange": [
+        1,
+        9
+      ],
+      "differenceMasksChecked": 1022
+    },
+    "L_chainOrWholeCycleGraphs": {
+      "nRange": [
+        3,
+        6
+      ],
+      "graphsExhaustivelyChecked": 33864,
+      "edgeCountBucketsChecked": 42
+    }
+  },
+  "sourceHtmlNeverExecuted": true,
+  "runtimeMimeAllowlistChanged": false,
+  "fullSolutionCodeOrOriginalJudgeSubmissionsClaimed": false,
+  "privateRecordsReadOrWritten": false,
+  "release1610BoundaryUntouched": true,
+  "regressionTestsPassed": 56
+}

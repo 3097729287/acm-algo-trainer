@@ -118,7 +118,12 @@ class ReviewedKnowledgeTests(unittest.TestCase):
                         self.assertEqual(len(matches),1,(source['problemId'],reference))
                         self.assertTrue(set(matches[0]['tags'])<=set(rule['tags']))
                         self.assertTrue(reference.startswith('https://'))
-                        if '#page=' in reference:
+                        wiki=source.get('sourceDocumentType')=='official-setter-wiki'
+                        if wiki:
+                            self.assertTrue(reference.startswith('https://sua.ac/wiki/'))
+                            self.assertEqual(reference.rsplit('#',1)[1],source['sourceSectionAnchor'])
+                            self.assertEqual(source['sourceSectionTitle'],'题解')
+                        elif '#page=' in reference:
                             self.assertRegex(reference,r'#page=[1-9][0-9]*$')
                         else:
                             pages=source['sourcePageNumbers']
@@ -131,6 +136,12 @@ class ReviewedKnowledgeTests(unittest.TestCase):
                             stream.seek(asset.get('offset',0));data=stream.read(asset['bytes'])
                         self.assertEqual(len(data),asset['bytes'])
                         self.assertEqual(hashlib.sha256(data).hexdigest(),source['sha256'])
+                        if wiki:
+                            self.assertEqual(asset['mime'],'application/octet-stream')
+                            html=data.decode('utf8')
+                            self.assertIn('>'+source['sourceProblemHeading']+'</h1>',html)
+                            self.assertIn('<h2 id="'+source['sourceSectionAnchor']+'">'+source['sourceSectionTitle']+'</h2>',html)
+                            self.assertIn(source['officialIndexSha256'],assets)
                     continue
                 # An independent derivation binds to its complete source
                 # statement and reproducible review payload, not a nonexistent
