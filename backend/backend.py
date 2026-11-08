@@ -112,7 +112,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def dispatch(self, writing=False):
         path = unquote(urlsplit(self.path).path)
-        starting = writing and path in {'/api/submissions', '/api/official/open', '/api/official/submit', '/api/contests/start', '/api/contests/start-calendar', '/api/software-update/install'}
+        starting = writing and path in {'/api/submissions', '/api/official/open', '/api/official/submit', '/api/contests/start', '/api/contests/start-calendar', '/api/software-update/install', '/api/team-training/workbench/run', '/api/team-training/workbench/official-open', '/api/team-training/workbench/official-submit'}
         try:
             with self.server.work_start_lock if starting else nullcontext():
                 self._account_dispatch(writing)
@@ -386,9 +386,17 @@ class Handler(BaseHTTPRequestHandler):
                         receipt=deliver_completed(training,body.get('contestId'))
                         if receipt:value.update(backgroundReward=receipt.get('backgroundReward'),stickerInventory=receipt.get('inventory'))
                     except ServiceError as issue:value['backgroundRewardSyncError']=str(issue)
+                elif path.startswith('/api/team-training/workbench/'):
+                    from team_workbench import write
+                    if self.server.software_updates.status == 'installing':
+                        raise APIError(409, '正在安装更新，请等待程序重新启动')
+                    value=write(self.server,path[len('/api/team-training/workbench/'):],body)
                 elif path.startswith('/api/team-training/'):
                     from team_training import relay
                     value=relay(training,path[len('/api/team-training/'):],body)
+                    from team_workbench import refresh_existing
+                    local=refresh_existing(training,value)
+                    if local:value['localContest']=local
                 elif path.startswith('/api/pk/v1/'):
                     from thought_duel import relay
                     value=relay(training,path[len('/api/pk/v1/'):],body)
@@ -630,9 +638,17 @@ class Handler(BaseHTTPRequestHandler):
                     from fun_moments import confirmed_wiki_visit
                     confirmed_wiki_visit(self.server.training,value['article'])
                 self.send_json(200,value)
+            elif path.startswith('/api/team-training/workbench/'):
+                from team_workbench import read
+                self.send_json(200,read(self.server,path[len('/api/team-training/workbench/'):],parse_qs(target.query,keep_blank_values=True)))
             elif path.startswith('/api/team-training/'):
                 from team_training import relay
-                self.send_json(200,relay(self.server.training,path[len('/api/team-training/'):],query=parse_qs(target.query,keep_blank_values=True)))
+                value=relay(self.server.training,path[len('/api/team-training/'):],query=parse_qs(target.query,keep_blank_values=True))
+                if path.endswith('/state'):
+                    from team_workbench import refresh_existing
+                    local=refresh_existing(self.server.training,value)
+                    if local:value['localContest']=local
+                self.send_json(200,value)
             elif path.startswith('/api/pk/v1/'):
                 from thought_duel import relay
                 self.send_json(200,relay(self.server.training,path[len('/api/pk/v1/'):]))
@@ -947,6 +963,9 @@ class LocalServer(ThreadingHTTPServer):
                 session = {**session, 'code': receipt.get('submittedCode', ''), 'external': not bool(receipt.get('submittedCode'))}
             training = session.get('_training', self.training)
             saved = training.record_official(session, receipt)
+            if saved and (session.get('teamIntentId') or session.get('sessionId')):
+                from team_workbench import record_receipt
+                record_receipt(training, saved, session, receipt)
             if saved and session.get('language')=='python3' and isinstance(saved,dict):
                 submission=saved.get('submission',saved)
                 if submission.get('id'):

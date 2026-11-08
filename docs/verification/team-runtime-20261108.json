@@ -1,0 +1,112 @@
+{
+  "at": "2026-11-08T05:56:43.213976+00:00",
+  "sourceBase": "1f094efa163bd3e7c9feb94fbc969f7d3d2f16e9",
+  "installed": false,
+  "productionDeployed": false,
+  "actualProblemSiteSubmissions": 0,
+  "fullBackend": {
+    "tests": 1261,
+    "skipped": 2,
+    "passed": true,
+    "subsequentNativeBridgeTests": 12
+  },
+  "threeClients": {
+    "passed": true,
+    "accounts": 3,
+    "localNativeApis": 3,
+    "sharedHttpServer": true,
+    "actualProblemSiteSubmissions": 0,
+    "checked": [
+      "three independent authenticated accounts; concurrent readiness; unique editing lease",
+      "Chinese/emoji shared CAS propagated to both observers; ordinary private drafts unchanged",
+      "per-account room console height survives a full page reload",
+      "missing task disabled; actual local judge run gives no shared AC",
+      "deterministic native provider through the actual backend journal and shared verifier; repeated old-task AC counts once; peer progress untouched",
+      "offline takeover preserves all shared drafts; task switch and reload resume server state",
+      "narrow full-screen layout; leader finish; historical shared code retained across tasks"
+    ],
+    "browserErrors": 0,
+    "sharedScore": 1,
+    "roomId": "141e5131-6f46-4a9b-87ba-2cd67598d0c0",
+    "privateDraftsPreserved": true,
+    "nativeProvider": "explicit deterministic fixture; no real OJ submissions"
+  },
+  "publicProviderProbe": {
+    "at": "2026-11-08T05:12:46.506Z",
+    "actualProblemSiteSubmissions": 0,
+    "reads": [
+      {
+        "platform": "codeforces",
+        "available": true,
+        "verified": true,
+        "source": "Codeforces official API",
+        "proofSha256": "35b3980398681dc1784995ad4bb4da20916952126319e2a8eea07ca8a84858de"
+      },
+      {
+        "platform": "atcoder",
+        "available": true,
+        "verified": true,
+        "source": "AtCoder Problems public receipts",
+        "proofSha256": "2bca7ab2368278f987d90f7929ec721d7cfc7998ebcc4b7ec29000bdaeba5d68"
+      },
+      {
+        "platform": "nowcoder",
+        "available": true,
+        "verified": true,
+        "source": "Nowcoder public submission board",
+        "proofSha256": "1582d569e2345feac66946cb8684b67b9b2473d434b74637367cfe01cd09db3c"
+      }
+    ]
+  },
+  "sharedCoreTests": 11,
+  "mysql": {
+    "version": "8.0.27",
+    "freshIsolatedDatadir": true,
+    "tests": 1,
+    "additiveTables": 9,
+    "existingRowsUnchanged": true,
+    "repeatMigrationsPreserveAllRows": true,
+    "shutDown": true
+  },
+  "frontendBuildPassed": true,
+  "ordinaryWorkbenchRegressionPassed": true,
+  "sourceFiles": {
+    "backend/backend.py": "0e169b1ef5abaf2ac78374e7a847fc12fe8b253f795dd5d571ddf7f79d9b7dfa",
+    "backend/team_training.py": "b7f9ec7519d8f667615ef85a8c9a436d10685d032b897327b1b469b9df4e1e85",
+    "backend/team_workbench.py": "2cf36ed3837cb192107ebeea107a5fed900c53b54b7cdc861586432032a20323",
+    "backend/test_team_training.py": "908379f00e3971f65f27a93ff2989f5ddd0abab890a8f7e918b6de6bbd10e051",
+    "backend/test_team_workbench.py": "12da5ffe288db6b135b8e93a291b0e43c92a942a8670cb744491004fead5b0d5",
+    "backend/test_wiki_examples.py": "ed6de2766b3fc562661921fb111f02f391fe902c08b29232a1355e8243e344e9",
+    "backend/training.py": "13d8354e98a624d9d44d7c0a3d13ff561297c9e341f668c93d1726eb9e8832c6",
+    "frontend/src/app/App.jsx": "291287f1650c6e15833a0e644eb23124aa1c02c5bc65ab94238825aef0e0f064",
+    "frontend/src/app/Workbench.jsx": "bb8da5505e45cd42697177d157ef561a98101fdcc39731f2831acde203a455c1",
+    "frontend/src/components/RankingsWorkspace.jsx": "00e7b9ff096c8230b95db1b2ac52ca111160c065ffe66f81466d5448ccc5500e",
+    "frontend/src/components/TeamTraining.css": "45cfef3f275704a0921bec1ae66e21740e84f5f81a95875076c983c3c6362bbc",
+    "frontend/src/components/TeamTraining.jsx": "ad48fe86b8ccab1f8b34ed52cd9352a08462a69fae43aa6bc04874e5a7aeac0d",
+    "frontend/src/lib/useTeamTraining.js": "09ffc34ceaa02a2b0517c733dfc6a527226417814b7b8955df44edcae3c593c1",
+    "frontend/tests/team-local-api.py": "648b6c2d2aefeafbdb1f67cfad280180ce0e31cba782ed5f28a7edd8cd064df9",
+    "frontend/tests/team-training-fixture.html": "aaa2dd1468a3830681c569906804d52d7a076e97dfd2ca1c46a54afe4882e07f",
+    "frontend/tests/team-training-fixture.jsx": "68b1f2e8d3ec0fb40386eb09291eda777e1e8dcd0861d14b5c020437c3d57e7c",
+    "frontend/tests/team-training.mjs": "3ef4a645bb6eb7083ee9eed0bf72d51337c19b336b602309fa0c0c35056ef499",
+    "frontend/tests/workbench.mjs": "2d03b535154b19adb81087864f092e47e6c7c22e2bf3cab10b18fe2cf72dfd0b",
+    "scripts/verify_team_receipt_sources.mjs": "facdded39d392b984848adf0ad407dd75f3bfbefc223cbc09381029a269eb17d",
+    "server/leaderboard/mysql/020_team_native_receipts.sql": "f63d8197a17fc2418f52a690fa24454c9adc537ce8406424bd0fa495b46e7dd0",
+    "server/leaderboard/package.json": "ce9cde497a753f3bd492dc285243ccead42e424af508306d72ebf896afed2ef8",
+    "server/leaderboard/src/api.mjs": "eec9e827fcf3af32490a4c6fe54be8d4a8eed39cc67b661af05e2b504b8c6da4",
+    "server/leaderboard/src/team-receipts.mjs": "a17dded9aa1e24d6bc20ac747440e35efdcaf820cf657a00ac0b5804621652a4",
+    "server/leaderboard/src/team-training.mjs": "42727b80c1cc315d372c095baa0923078f589f904002e33e609b9db667ac1401",
+    "server/leaderboard/tests/team-mysql.test.mjs": "a73b83433070530a7795cf199b76746f38192a4d99720b6a688f8dabe92696bd",
+    "server/leaderboard/tests/team-receipts.test.mjs": "a86f4cfe2132d191565e918e17ac0ec9b60c847b4685e497c52420441a47516d",
+    "server/leaderboard/tests/team-schema.sql": "8af05b6d70233a0e6770b8caa2a397e8109ee076e52e27d56ba8f9b6121e7ad0",
+    "server/leaderboard/tests/team-training-core.test.mjs": "9073449c4daac26182c3dcaf72743f35bd5118b7ae8ccee734cd27212a802b76"
+  },
+  "logs": {
+    "full-backend-team-isolated.log": "b7f0eba38c5d4236810b25eea4fd9eb1c51419e29c59f6429214f3c7f0044041",
+    "team-native-final.log": "452157e59197e0d6b0e06c9f0d338ffbe222c53541ea9febe0458cc2db0f33f1",
+    "team-final-core.log": "99542873ad92b605e57b830a104bb74e58b57372d175e96006fdd70e3d33d861",
+    "team-mysql.log": "1ba68997a7721a5e3a6ed85deb09145adb9f94e01ad99a9a2a36f4f03ec7831b",
+    "team-three-client-final.log": "17a00389415a60d5a5d95a048bfdb06d0e642bd884a1d004584f8da8c0a8bc34",
+    "workbench-regression.log": "939c0fecedadcb8f0f152343e078ae786e4071f2aa5acceb695c2ab8ce32880e",
+    "frontend-final-build.log": "1efce0dfd1bd67b3665eab769d0b9bf8593dd7d1e27171b87a4567457bd91720"
+  }
+}

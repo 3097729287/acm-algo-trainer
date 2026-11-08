@@ -20,6 +20,7 @@ import LearningBrowser from './LearningBrowser.jsx';
 import ReaderFrame from '@/components/ReaderFrame.jsx';
 import useDuel from '@/lib/useDuel.js';
 import useThoughtDuel from '@/lib/useThoughtDuel.js';
+import useTeamTraining from '@/lib/useTeamTraining.js';
 import DuelReadyPrompt from '@/components/DuelReadyPrompt.jsx';
 import {applyEditorTheme,editorTheme} from '@/lib/editorThemes.js';
 import {OPACITY_KEYS,SURFACE_DEFAULTS,opacityStyle} from '@/lib/surfaceOpacity.js';
@@ -166,6 +167,8 @@ import {
 
 const loadWorkbench = () => import("./Workbench.jsx");
 const Workbench = lazy(loadWorkbench);
+const TeamTraining=lazy(()=>import('@/components/TeamTraining.jsx'));
+const TeamTrainingRoom=lazy(()=>import('@/components/TeamTraining.jsx').then(module=>({default:module.TeamTrainingRoom})));
 const TasksBoard=lazy(()=>import('@/components/TasksBoard.jsx'));
 const LEARNING_PAGES=['lectures','wiki','templates','paths'];
 const TRAINING_PAGES=['mine','library','training-lists'];
@@ -711,6 +714,7 @@ export default function App() {
   const updateRecommendationItems=useCallback(items=>setRecommendationSnapshot(previous=>previous.owner===account?.userId&&JSON.stringify(previous.items)===JSON.stringify(items)?previous:{owner:account?.userId,items}),[account?.userId]);
   const duel=useDuel(api,data?account?.userId:null);
   const thought=useThoughtDuel(api,data?account?.userId:null);
+  const teamTraining=useTeamTraining(api,data?account?.userId:null);
   useEffect(()=>{if(thought.state?.status==='countdown')setPage('duel');},[thought.state?.status,thought.state?.match?.id]);
   const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now, account?.userId ?? null);
   const social = useSocial(api, Boolean(data&&account?.userId),account?.userId||'');
@@ -2159,6 +2163,7 @@ export default function App() {
   return (
     <FeatureVisibilityContext.Provider value={featureAvailable}><DifficultyDisplayProvider mode={prefs.difficultyDisplay}><DifficultyBoundsProvider rows={data?.rows||[]}><div
       data-study-open={learningBrowserActive}
+      data-team-open={Boolean(teamTraining.opened)}
       className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : labFocus?"lab-focus":templateFocus?"template-focus practice-focus":page==='lectures'&&lectureFull?"lecture-focus practice-focus":"")}
     >
       <WorkspaceBackground value={backgroundValue} motion={prefs.motion!==false}/>
@@ -2284,7 +2289,7 @@ export default function App() {
           ) : TRAINING_PAGES.includes(page) ? (
             <SectionWorkspace key={'training:'+(account?.userId||'local')} id="training" entries={TRAINING_PAGES.map(id=>PAGES.find(item=>item.id===id)).filter(item=>featureAvailable(item.id)).map(item=>({id:item.id,title:item.label,icon:item.icon,attention:item.id==='mine'&&dueCount>0}))} activeId={page} onActivate={setPage} render={renderTrainingPanel} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'}/>
           ) : page === "mock" ? (
-            <div className="mock-page">{record ? recordDetail() : <>{active && mockTab === "create" ? (
+            <div className="mock-page">{!record&&active?.constraints?.strategy==='team'?<TeamTraining controller={teamTraining} owner={account?.userId}/>:record ? recordDetail() : <>{active && mockTab === "create" ? (
               <div className="contest-player">
                 {virtualWait>0?<div className="virtual-contest-waiting" role="status"><Clock size={28}/><strong>VP 即将开始</strong><span role="timer" aria-label="距离 VP 开始">{timerText(virtualWait)}</span></div>:currentMockSlot && (
                   <Workbench
@@ -2393,7 +2398,7 @@ export default function App() {
           ) : page === "activity" ? (
             <ActivityPage insights={insights} onTrain={openPractice} />
           ) : page === "rankings" ? (
-            <RankingsWorkspace key={account?.userId||'local'} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'} presence={presence} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
+            <RankingsWorkspace key={account?.userId||'local'} prefs={prefs} setPrefs={setPrefs} owner={account?.userId||'local'} teamTraining={teamTraining} presence={presence} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
           ) : (
             settingsPage()
           )}
@@ -2636,6 +2641,7 @@ export default function App() {
         </Modal>
       )}
       <DuelReadyPrompt duel={duel}/>
+      {teamTraining.opened&&<Suspense fallback={null}><TeamTrainingRoom controller={teamTraining} owner={account?.userId} shortcuts={prefs.shortcuts} onProgress={applyWorkspace} onNotice={notice} onPacks={openCardPacks}/></Suspense>}
       {listProblemIds&&<AddToTrainingLists problemIds={listProblemIds} api={api} onClose={()=>setListProblemIds(null)} onSave={()=>{delete trainingListsVisit.current.content;setListProblemIds(null);notice("已加入题单","success");}}/>}
       {finishAnchor && active && <PopConfirm anchor={finishAnchor} title="结束这场比赛？" label="结束比赛确认" busy={busy} cancelLabel="继续比赛" confirmLabel="结束并复盘" busyLabel="正在处理…" confirmTone="primary" onCancel={()=>setFinishAnchor(null)} onConfirm={()=>finishMock(false)} extraActions={<Tooltip text="撤销本场训练安排，保留草稿及真实原站提交"><button type="button" className="danger" disabled={busy} onClick={()=>finishMock(true)}>取消比赛</button></Tooltip>}/>}
 

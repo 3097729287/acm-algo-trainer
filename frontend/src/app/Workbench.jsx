@@ -112,6 +112,18 @@ function readDraft(key) {
     return value && typeof value.code === 'string' ? value : null;
   } catch { return null; }
 }
+export function readLocalSharedRecovery(owner,roomId,problemId){
+  if(window.__tbAccountUserId!==owner)return null;
+  const key=draftKey(problemId,'team-'+roomId),values=[];
+  try{
+    const main=readDraft(key);if(main?.dirty)values.push(main);
+    for(let index=0;index<localStorage.length;index++){
+      const item=localStorage.key(index);if(!item?.startsWith(key+'.recovery.'))continue;
+      const value=readDraft(item);if(value)values.push({...value,modifiedAt:Number(item.slice((key+'.recovery.').length))||0});
+    }
+  }catch{/* Already retained values remain usable. */}
+  return values.filter(v=>typeof v.code==='string'&&byteLength(v.code)<=MAX_BYTES).sort((a,b)=>(b.modifiedAt||0)-(a.modifiedAt||0))[0]||null;
+}
 function retainDraft(record, dirty = true) {
   try {
     localStorage.setItem(record.key, JSON.stringify({
@@ -160,7 +172,7 @@ function queryPath(path, id, contestId, reviewId) {
   return `${path}?id=${encodeURIComponent(id)}${contestId ? `&contestId=${encodeURIComponent(contestId)}` : ''}${reviewId ? `&reviewId=${encodeURIComponent(reviewId)}` : ''}`;
 }
 function requestBody(record, extra = {}) {
-  return { id: record.id, language:record.language || "cpp17", ...(record.contestId ? { contestId: record.contestId } : {}), ...(record.reviewId ? {reviewId:record.reviewId} : {}), ...extra };
+  return { id: record.id, language:record.language || "cpp17", ...(record.contestId ? { contestId: record.contestId } : {}), ...(record.reviewId ? {reviewId:record.reviewId} : {}), ...(record.shared ? {documentRevision:record.sharedRevision} : {}), ...extra };
 }
 
 function Verdict({ submission }) {
@@ -209,7 +221,7 @@ function CaseResults({ cases }) {
   })}</div>;
 }
 
-export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, onCloseSolution, onNotice, solutionOpen=false, solutionMethodId=null, onNext, nextDisabled=false, nextLabel='下一题', headerStart, headerEnd,navigationBack }) {
+export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, sharedSession=null, api, onProgress, onExit, onSolution, onCloseSolution, onNotice, solutionOpen=false, solutionMethodId=null, onNext, nextDisabled=false, nextLabel='下一题', headerStart, headerEnd,navigationBack }) {
   useReadingZoom();
   const studyPane=useStudyPane();
   const featureAvailable=useFeatureVisibility();
@@ -234,6 +246,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const officialOpening = useRef(false), mounted = useRef(false);
   const accountOwner=window.__tbAccountUserId||'local';
   const ownerRef=useRef(accountOwner);ownerRef.current=accountOwner;
+  const sharedRef=useRef(sharedSession);sharedRef.current=sharedSession;
   useEffect(()=>{mounted.current=true;return()=>{
     mounted.current=false;
     const current=officialRef.current;officialRef.current=null;
@@ -325,6 +338,10 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
 
   const isActive = record => activeRecord.current === record;
   const saveRecord = useCallback(record => {
+    if(record?.shared&&record.loaded&&record.closed&&record.version>record.savedVersion&&!record.retained){
+      if(isActive(record))setSaveState({kind:'error',retained:false,message:'本机尚未保存这份代码，请保留当前窗口并复制代码。'});
+      return Promise.resolve(false);
+    }
     if (!record?.loaded || record.closed || record.version <= record.savedVersion) return Promise.resolve(true);
     if (byteLength(record.code) > MAX_BYTES) {
       if (isActive(record)) setSaveState({ kind: 'error', retained: record.retained, message: '代码超过 64 KiB，请缩短后保存。' });
@@ -343,6 +360,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         if (isActive(record)) setSaveState({ kind: 'saving' });
         try {
           const answer = await queuedSave(record.key, requestBody(record, { code: snapshot }), apiRef.current, revision);
+          if(record.shared&&Number.isInteger(answer.documentRevision))record.sharedRevision=answer.documentRevision;
           record.savedVersion = version;
           if (!answer.skipped) markDraftSaved(record, version);
           if (isActive(record)) setSaveState({
@@ -373,6 +391,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       key: contextKey, id: problemId, contestId, reviewId, owner: `${Date.now()}-${Math.random()}`,
       code: '', version: 0, savedVersion: 0, loaded: false, closed: endedContest,
       timer: null, saving: null,
+      shared:Boolean(sharedRef.current), sharedRevision:0,
     };
     activeRecord.current = record;
     undoReplace.current = null;
@@ -412,11 +431,12 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         const backup = readDraft(record.key);
         record.locked = Boolean(answer.locked && !contestId);
         record.closed = record.closed || record.locked;
-        const useLocal = backup?.dirty && (!answer.draftSavedAt || Number(backup.modifiedAt || 0) >= Date.parse(answer.draftSavedAt));
+        const useLocal = !record.shared && backup?.dirty && (!answer.draftSavedAt || Number(backup.modifiedAt || 0) >= Date.parse(answer.draftSavedAt));
         record.language = useLocal ? backup.language || 'cpp17' : answer.draftLanguage || 'cpp17';
         setCodeLanguage(record.language);
         setInitialCode(answer.initialCode||null);
-        record.code = useLocal ? backup.code : (answer.draftSavedAt ? answer.draft : (answer.draft || startingTemplate(answer.initialCode,record.language).code));
+        record.code = record.shared ? answer.draft||'' : useLocal ? backup.code : (answer.draftSavedAt ? answer.draft : (answer.draft || startingTemplate(answer.initialCode,record.language).code));
+        if(record.shared){record.sharedRevision=answer.sharedDocumentRevision;record.closed=record.closed||!sharedRef.current?.canEdit;}
         if (backup?.dirty && !useLocal && backup.code !== record.code) {
           // A newer draft restored from another computer wins. Keep this
           // device's unsent version separately, never silently overwrite it.
@@ -503,12 +523,39 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   useEffect(() => {
     const record = activeRecord.current;
     if (!record || record.key !== contextKey) return;
-    record.closed = endedContest || Boolean(record.locked);
+    record.closed = endedContest || Boolean(record.locked) || Boolean(sharedRef.current&&!sharedRef.current.canEdit);
     if (record.closed) {
       clearTimeout(record.timer);
       setSaveState({ kind: 'closed' });
     }
-  }, [endedContest, contextKey]);
+  }, [endedContest, contextKey,sharedSession?.canEdit]);
+
+  const loadSharedDocument=useCallback((preserve=true)=>{
+    const record=activeRecord.current,shared=sharedRef.current,document=shared?.document;
+    if(!record?.loaded||!record.shared||!document||shared.problemId!==record.id)return;
+    if(record.version>record.savedVersion&&!record.retained){
+      retainDraft(record,true);
+      if(!record.retained){setActionError('本机尚未保存当前代码，请先保留或复制这份代码。');return;}
+    }
+    if(preserve&&record.version>record.savedVersion&&record.code!==document.code){
+      setLocalDraftRecovery(record.code);
+      try{localStorage.setItem(`${record.key}.recovery.${Date.now()}`,JSON.stringify({code:record.code,language:record.language,sharedRevision:record.sharedRevision}));}catch{/* Keep the original dirty draft and in-memory recovery. */}
+    }
+    record.code=document.code;record.language=document.language;record.sharedRevision=document.revision;
+    record.version++;record.savedVersion=record.version;
+    setCode(document.code);setCodeLanguage(document.language);setSaveState({kind:shared.canEdit?'saved':'closed'});
+  },[]);
+  useEffect(()=>{
+    const record=activeRecord.current,shared=sharedRef.current,document=shared?.document;
+    if(!record?.loaded||!record.shared||!document||record.id!==shared.problemId)return;
+    if(record.sharedRevision===document.revision&&(shared.canEdit||record.code===document.code))return;
+    if(record.code===document.code){record.sharedRevision=document.revision;return;}
+    // A local save in flight may acknowledge the previous keystroke snapshot.
+    // Retain newer editor input and let the CAS loop use its acknowledged base.
+    if(record.saving||shared.canEdit&&record.version>record.savedVersion)return;
+    if(record.version>record.savedVersion)setActionError('编辑控制已变更，本机未保存的代码已保留。');
+    loadSharedDocument();
+  },[sharedSession?.document?.revision,sharedSession?.canEdit,problem?.id,saveState.kind,loadSharedDocument]);
 
   const pending = submissions.find(submissionPending) || null;
   const result = submissions.find(row => row.id === resultId) || submissions[0] || null;
@@ -516,7 +563,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     if (result?.stderr && !result.output && result.finishedAt) setOutputTab('stderr');
   }, [result?.id, result?.finishedAt, result?.stderr]);
   const sidePracticeLocked = Boolean(problem?.locked && !runningContest);
-  const unavailable = loading || !problem || endedContest || sidePracticeLocked || activeRecord.current?.key !== contextKey;
+  const unavailable = loading || !problem || endedContest || sidePracticeLocked || Boolean(sharedSession&&!sharedSession.canEdit) || activeRecord.current?.key !== contextKey;
   formattingContext.current={allowed:!contest&&!unavailable&&problem?.formattingAvailable===true,key:contextKey,account:window.__tbAccountUserId||''};
   const busy = creating || Boolean(pending);
   const officialBusy = openingOfficial || ['loading', 'submitted', 'judging'].includes(officialSession?.status);
@@ -761,8 +808,8 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     setConsoleTab('result');
     setOutputTab('output');
     clearTimeout(record.timer);
-    saveRecord(record);
     try {
+      if(record.shared){if(!await saveRecord(record))throw new Error('请先保存当前共享代码。');}else saveRecord(record);
       const answer = await apiRef.current('submissions', requestBody(record, {
         code: record.code, mode, ...(mode === 'run' ? { input: sample === 'custom' ? input : '', sampleRun: sample !== 'custom' } : {}),
       }));
@@ -800,8 +847,8 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     const submitApi=apiRef.current;
     setOpeningOfficial(true); setActionError(''); setOfficialPollError('');
     setConsoleOpen(true); setConsoleTab('result');
-    saveRecord(record);
     try {
+      if(record.shared){if(!await saveRecord(record))throw new Error('请先保存当前共享代码。');}else saveRecord(record);
       const answer = await submitApi(path, requestBody(record, { code: record.code }));
       if (!answer.sessionId) throw new Error('原站面板未返回会话，请重试。');
       if (!mounted.current||record.accountOwner!==ownerRef.current) {
@@ -917,10 +964,14 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       setTimeout(() => setCopied(false), 1500);
     } catch { setActionError('暂时无法复制，可以选中输出后按 Ctrl+C。'); }
   };
-  const exit = () => { saveRecord(activeRecord.current); callbacks.current.onExit?.(); };
+  const exit = async () => {
+    if(activeRecord.current?.shared){if(!await saveRecord(activeRecord.current))return;}
+    else saveRecord(activeRecord.current);
+    callbacks.current.onExit?.();
+  };
   const saveLabel = saveState.kind === 'saving' ? '保存中…' : saveState.kind === 'unsaved' ? '等待保存'
     : saveState.kind === 'error' ? (saveState.retained ? '保存失败 · 本机草稿已保留' : '草稿保存失败')
-    : saveState.kind === 'closed' ? (endedContest ? '本场已结束' : '考场题目')
+    : saveState.kind === 'closed' ? (endedContest ? '本场已结束' : sharedSession?'队友编辑中':'考场题目')
     : saveState.kind === 'automatic' ? '自动保存' : '草稿已保存';
 
   const effectivePane=narrow&&pane==='both'?compactPane:pane;
@@ -988,6 +1039,8 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           <InitialCodeSelect api={api} snapshot={initialCode} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} title={`选择初始代码模板 · ${shortcutValue('initial-code',shortcuts)}`} disabled={loading||!problem||unavailable||busy||officialBusy} onOpenChange={setInitialPickerOpen} onError={setActionError} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.language==='cpp17'&&item.id==='default'&&!item.customized?normalizeCppTemplate(item.code):item.code);}}/>
           {!['saved','automatic'].includes(saveState.kind)&&<span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message||saveLabel} aria-label={saveLabel} role={saveState.kind==='error'?'alert':'status'}>{saveState.kind==='saving'?<LoaderCircle size={14} className="wb-spinner"/>:saveState.kind==='unsaved'?<span className="wb-pending-dot"/>:saveLabel}</span>}
           <div className="wb-editor-actions">
+            {sharedSession&&localDraftRecovery!==null&&<button type="button" className="wb-icon-button" aria-label="复制本机保留代码" title="复制本机保留代码" onClick={async()=>{try{await navigator.clipboard.writeText(localDraftRecovery);}catch{setActionError('暂时无法复制本机保留代码，请保持当前窗口。');}}}><History size={14}/></button>}
+            {sharedSession&&saveState.kind==='error'&&<button type="button" className="wb-button" aria-label="载入共享代码" title="保留本机代码并载入当前共享版本" onClick={()=>loadSharedDocument()}>载入共享代码</button>}
             <button type="button" className="wb-button" aria-label="任务概览" title={`任务概览 · ${shortcutValue('learning-summary',shortcuts)}`} onClick={()=>window.dispatchEvent(new Event('tb:learning-summary-open'))}><BookOpen size={14}/></button>
             {featureAvailable('templates',true)&&<button type="button" className="wb-button" aria-label="打开模板" title={`打开模板 · ${shortcutValue('code-templates',shortcuts)}`} disabled={loading||!problem||unavailable} onClick={()=>setTemplatesOpen(true)}><Code2 size={14}/></button>}
             {solutionButtons}

@@ -1,6 +1,7 @@
 import {createHash, randomInt, randomUUID} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {AccountError} from './accounts.mjs';
+import {teamPlatform,validTeamHandle,verifyTeamReceipt} from './team-receipts.mjs';
 
 const publicCatalogue = JSON.parse(readFileSync(new URL('./team-contests.json', import.meta.url), 'utf8'));
 const uuid = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
@@ -23,9 +24,10 @@ const leaseValid = (room, owner, token, now) => room.lease?.owner === owner
   && room.lease.token === token && room.lease.until > now;
 
 export class TeamTraining {
-  constructor(db, dialect = 'mysql', {catalogue = publicCatalogue, enabled = true} = {}) {
+  constructor(db, dialect = 'mysql', {catalogue = publicCatalogue, enabled = true, verifyReceipt = verifyTeamReceipt} = {}) {
     if (catalogue.schema !== 1 || !Array.isArray(catalogue.contests)) throw Error('Invalid team contest catalogue');
     this.db = db; this.dialect = dialect; this.enabled = enabled; this.catalogue = catalogue;
+    this.verifyReceipt = verifyReceipt;
     this.contests = new Map(catalogue.contests.map(contest => [contest.id, contest]));
     for (const contest of this.contests.values()) {
       if (contest.problems.length < 2 || contest.problems.length > 26 ||
@@ -37,7 +39,7 @@ export class TeamTraining {
   async available() {
     if (this.schemaReady) return true;
     try {
-      for (const table of ['team_lobby', 'teams', 'team_members', 'team_rooms', 'team_room_members', 'team_problems', 'team_drafts', 'team_operations'])
+      for (const table of ['team_lobby', 'teams', 'team_members', 'team_rooms', 'team_room_members', 'team_problems', 'team_drafts', 'team_operations', 'team_native_receipts'])
         await this.db.execute(`SELECT 1 FROM ${table} LIMIT 0`);
       this.schemaReady = true;return true;
     } catch (error) {
@@ -75,8 +77,10 @@ export class TeamTraining {
   async scores(db, room, now) {
     const [rows] = await db.execute('SELECT e.user_id,e.problem_key,e.accepted_at FROM official_ac_events e JOIN team_room_members m ON m.user_id=e.user_id JOIN team_problems p ON p.room_id=m.room_id AND p.problem_key=e.problem_key WHERE m.room_id=? AND p.available=1 AND e.accepted_at>=? AND e.accepted_at<=?',
       [room.id, iso(room.startedAt), iso(Math.min(now, room.finishedAt ?? room.deadline))]);
+    const [native] = await db.execute("SELECT n.user_id,p.problem_key,n.accepted_at FROM team_native_receipts n JOIN team_problems p ON p.room_id=n.room_id AND p.problem_id=n.problem_id WHERE n.room_id=? AND p.available=1 AND n.verdict='AC' AND n.accepted_at>=? AND n.accepted_at<=?",
+      [room.id,iso(room.startedAt),iso(Math.min(now,room.finishedAt??room.deadline))]);
     const first = new Map();
-    for (const row of rows) {
+    for (const row of [...rows,...native]) {
       const previous = first.get(row.problem_key);
       if (!previous || row.accepted_at < previous.accepted_at) first.set(row.problem_key, row);
     }
@@ -105,7 +109,7 @@ export class TeamTraining {
     const room = await this.room(db, team.roomId);
     const [participants] = room ? await db.execute('SELECT user_id FROM team_room_members WHERE room_id=? AND user_id=?', [room.id, owner]) : [[]];
     return {owner, serverNow: now, enabled: this.enabled, protocol: 1,
-      team: {id: team.id, name: team.name, leader: team.leader, revision: team.revision, inviteCode: team.inviteCode,
+      team: {id: team.id, name: team.name, leader: team.leader, revision: team.revision, configurationRevision:team.configurationRevision??team.revision, inviteCode: team.inviteCode,
         contestId: team.contestId, durationMinutes: team.durationMinutes, catalogueRevision: team.catalogueRevision,
         members: members.map(m => ({owner: m.user_id, nickname: m.nickname, avatarHash: m.avatar_hash,
           ready: Boolean(m.ready), online: now - m.last_seen < 25000}))},
@@ -152,7 +156,7 @@ export class TeamTraining {
           inviteCode = null;
         }
         if (!inviteCode) fail(503, 'RETRY', '暂时无法创建队伍，请重试');
-        team = {id: randomUUID(), name: name(body.name), leader: owner, inviteCode, revision: 1,
+        team = {id: randomUUID(), name: name(body.name), leader: owner, inviteCode, revision: 1, configurationRevision:1,
           contestId: null, durationMinutes: 300, catalogueRevision: this.catalogue.revision, roomId: null, archived: false};
         await db.execute('INSERT INTO teams(team_id,invite_code,archived,payload) VALUES(?,?,?,?)', [team.id, inviteCode, 0, JSON.stringify(team)]);
         await db.execute('INSERT INTO team_members(user_id,team_id,ready,last_seen,joined_at) VALUES(?,?,?,?,?)', [owner, team.id, 0, now, now]);
@@ -168,7 +172,7 @@ export class TeamTraining {
         if (members.length >= 3) fail(409, 'TEAM_FULL', '队伍已满三人');
         await db.execute('INSERT INTO team_members(user_id,team_id,ready,last_seen,joined_at) VALUES(?,?,?,?,?)', [owner, team.id, 0, now, now]);
         await db.execute('UPDATE team_members SET ready=0 WHERE team_id=?', [team.id]);
-        team.revision++;await this.saveTeam(db, team);
+        team.configurationRevision=(team.configurationRevision??team.revision)+1;team.revision++;await this.saveTeam(db, team);
         // A new member cannot receive former participants' private code.
         room = null;
       } else if (action === 'poll') {
@@ -184,16 +188,19 @@ export class TeamTraining {
         const [remaining] = await db.execute('SELECT user_id FROM team_members WHERE team_id=? ORDER BY joined_at,user_id', [team.id]);
         if (!remaining.length) team.archived = true;
         else if (team.leader === owner) team.leader = remaining[0].user_id;
-        team.revision++;await db.execute('UPDATE team_members SET ready=0 WHERE team_id=?', [team.id]);await this.saveTeam(db, team);
+        team.configurationRevision=(team.configurationRevision??team.revision)+1;team.revision++;await db.execute('UPDATE team_members SET ready=0 WHERE team_id=?', [team.id]);await this.saveTeam(db, team);
       } else if (action === 'configure') {
         leader();teamRevision();
         if (live) fail(409, 'ROOM_LOCKED', '比赛进行中，交卷后可更换');
         if (!this.contests.has(body.contestId) || !Number.isInteger(body.durationMinutes) || body.durationMinutes < 5 || body.durationMinutes > 300)
           fail(400, 'CONTEST_INVALID', '请选择现有比赛及 5–300 分钟时长');
         team.contestId = body.contestId;team.durationMinutes = body.durationMinutes;team.catalogueRevision = this.catalogue.revision;
-        team.revision++;await db.execute('UPDATE team_members SET ready=0 WHERE team_id=?', [team.id]);await this.saveTeam(db, team);
+        team.configurationRevision=(team.configurationRevision??team.revision)+1;team.revision++;await db.execute('UPDATE team_members SET ready=0 WHERE team_id=?', [team.id]);await this.saveTeam(db, team);
       } else if (action === 'ready') {
-        teamRevision();
+        requireTeam();
+        if(body.configurationRevision!==undefined){
+          if(!Number.isInteger(body.configurationRevision)||body.configurationRevision!==(team.configurationRevision??team.revision))fail(409,'REVISION_CONFLICT','比赛设置已更新，请重新确认');
+        }else teamRevision();
         if (live || !team.contestId || typeof body.ready !== 'boolean') fail(409, 'ROOM_LOCKED', '请先选择比赛');
         await db.execute('UPDATE team_members SET ready=?,last_seen=? WHERE user_id=?', [body.ready ? 1 : 0, now, owner]);
         team.revision++;await this.saveTeam(db, team);
@@ -204,8 +211,9 @@ export class TeamTraining {
         if (!contest || team.catalogueRevision !== this.catalogue.revision) fail(409, 'CATALOGUE_CHANGED', '比赛目录已更新，请重新选择');
         const [members] = await db.execute('SELECT user_id,ready,last_seen FROM team_members WHERE team_id=?', [team.id]);
         if (members.length !== 3 || members.some(m => !m.ready || now - m.last_seen >= 25000)) fail(409, 'NOT_READY', '需要三名队员在线并准备');
-        room = {id: randomUUID(), teamId: team.id, teamName: team.name, revision: 1, status: 'active', startedAt: now + 3000,
-          deadline: now + 3000 + team.durationMinutes * 60000, finishedAt: null, contestId: contest.id, contestTitle: contest.title,
+        const startedAt=Math.ceil((now+3000)/1000)*1000;
+        room = {id: randomUUID(), teamId: team.id, teamName: team.name, revision: 1, status: 'active', startedAt,
+          deadline: startedAt + team.durationMinutes * 60000, finishedAt: null, contestId: contest.id, contestTitle: contest.title,
           problems: structuredClone(contest.problems), problemId: contest.problems.find(p => p.available)?.id, lease: null};
         if (!room.problemId) fail(409, 'NO_PROBLEMS', '这场比赛的题面暂不可用');
         await db.execute('INSERT INTO team_rooms(room_id,team_id,status,started_at,deadline,ended_at,updated_at,payload) VALUES(?,?,?,?,?,?,?,?)',
@@ -237,6 +245,20 @@ export class TeamTraining {
         if (drafts.length) await db.execute('UPDATE team_drafts SET language=?,code=?,revision=?,edited_by=?,updated_at=? WHERE room_id=? AND problem_id=?', [body.language, body.code, revision + 1, owner, now, room.id, body.problemId]);
         else await db.execute('INSERT INTO team_drafts(room_id,problem_id,language,code,revision,edited_by,updated_at) VALUES(?,?,?,?,?,?,?)', [room.id, body.problemId, body.language, body.code, 1, owner, now]);
         ack.documentRevision = revision + 1;ack.inputSha256 = digest(body.code);
+      } else if (action === 'authorize') {
+        editor();
+        if (!['run', 'open', 'submit', 'format'].includes(body.purpose) || body.problemId !== room.problemId)
+          fail(409, 'DOCUMENT_CHANGED', '当前题目已更新');
+        const [drafts] = await db.execute('SELECT language,code,revision FROM team_drafts WHERE room_id=? AND problem_id=?', [room.id, body.problemId]);
+        const document = drafts[0];
+        if (!document || document.revision !== body.revision || document.language !== body.language
+            || digest(document.code) !== body.inputSha256 || !document.code.trim())
+          fail(409, 'DOCUMENT_CHANGED', '请先保存当前共享代码');
+        const problem = room.problems.find(p => p.id === body.problemId && p.available);
+        if (!problem) fail(422, 'PROBLEM_UNAVAILABLE', '该题题面暂不可用');
+        ack.authorization = {id: body.requestId, roomId: room.id, problemId: problem.id, url: problem.url,
+          revision: document.revision, language: document.language, inputSha256: body.inputSha256,
+          purpose: body.purpose, issuedAt: now, expiresAt: Math.min(now + 15000, room.deadline)};
       } else if (action === 'finish') {
         leader();
         if (!room || room.id !== body.roomId) fail(409, 'ROOM_LOCKED', '没有这场团队训练');
@@ -250,11 +272,16 @@ export class TeamTraining {
       return {...await this.view(db, owner, now), ack};
     });
   }
-  async history(owner, now, roomId = null) {
+  async history(owner, now, roomId = null, problemId = null) {
     if (roomId) {
       const room = await this.room(this.db, roomId);
       if (!room) fail(404, 'ROOM_NOT_FOUND', '没有找到这场团队训练');
-      return {owner, serverNow: now, room: await this.viewRoom(this.db, owner, room, now)};
+      let view=await this.viewRoom(this.db, owner, room, now);
+      if(problemId!==null){
+        if(typeof problemId!=='string'||!room.problems.some(p=>p.id===problemId&&p.available))fail(422,'PROBLEM_UNAVAILABLE','没有这道可用的比赛题目');
+        view=await this.viewRoom(this.db,owner,{...room,problemId},now);
+      }
+      return {owner, serverNow: now, room: view};
     }
     const [rows] = await this.db.execute('SELECT r.payload FROM team_rooms r JOIN team_room_members m ON m.room_id=r.room_id WHERE m.user_id=? ORDER BY r.updated_at DESC,r.room_id DESC LIMIT 20', [owner]);
     return {owner, serverNow: now, rooms: await Promise.all(rows.map(async row => {
@@ -265,11 +292,62 @@ export class TeamTraining {
         score: await this.scores(this.db, room, now)};
     }))};
   }
+  async nativeReceipt(owner, auth, body, now) {
+    if(!this.enabled||!await this.available())fail(503,'UNAVAILABLE','团队训练服务尚未就绪');
+    if(!body||Object.keys(body).some(k=>!['requestId','intentId','submissionId','handle'].includes(k))||!uuid.test(body.requestId||'')||!uuid.test(body.intentId||'')||typeof body.submissionId!=='string'||!/^\d{1,20}$/.test(body.submissionId)||body.submissionId.startsWith('0'))
+      fail(400,'RECEIPT_INVALID','原站回执编号无效');
+    const context=await this.transaction(async db=>{
+      await this.session(db,owner,auth,now);
+      const [operations]=await db.execute('SELECT ack FROM team_operations WHERE user_id=? AND request_id=?',[owner,body.intentId]);
+      const ack=operations.length?JSON.parse(operations[0].ack):null,grant=ack?.authorization;
+      if(ack?.action!=='authorize'||!grant||!['open','submit'].includes(grant.purpose))fail(409,'INTENT_INVALID','没有本次原站提交授权');
+      const room=await this.room(db,grant.roomId);
+      const [members]=await db.execute('SELECT user_id FROM team_room_members WHERE room_id=? AND user_id=?',[grant.roomId,owner]);
+      if(!room||!members.length||!room.problems.some(p=>p.id===grant.problemId&&p.available&&p.url===grant.url))fail(403,'ROOM_FORBIDDEN','你未参加这场团队训练');
+      const platform=teamPlatform(grant.url);
+      if(!platform||!validTeamHandle(platform.id,body.handle))fail(422,'BINDING_REQUIRED','请先绑定本次提交使用的原站账号');
+      const receiptKey=digest(platform.host+'/'+body.submissionId);
+      const [existing]=await db.execute('SELECT receipt_key,room_id,problem_id,user_id,intent_id,verdict,proof FROM team_native_receipts WHERE receipt_key=? OR (user_id=? AND intent_id=?)',[receiptKey,owner,body.intentId]);
+      if(existing.length){
+        const r=existing[0];
+        if(r.receipt_key!==receiptKey||r.room_id!==grant.roomId||r.problem_id!==grant.problemId||r.user_id!==owner||r.intent_id!==body.intentId)fail(409,'RECEIPT_ALREADY_BOUND','这条原站回执已关联另一项提交');
+        const proof=JSON.parse(r.proof);
+        if(proof.handle?.toLowerCase()!==body.handle.toLowerCase())fail(409,'REQUEST_CONFLICT','原站账号与已确认回执不符');
+        return {receiptKey,grant,existing:{...proof,verdict:r.verdict}};
+      }
+      return {grant,receiptKey};
+    });
+    const response=fact=>({owner,serverNow:now,receipt:{intentId:body.intentId,submissionId:body.submissionId,
+      status:'confirmed',verdict:fact.verdict,source:fact.source}});
+    if(context.existing)return response(context.existing);
+    let fact;
+    try{fact=await this.verifyReceipt({url:context.grant.url,handle:body.handle,submissionId:body.submissionId,issuedAt:context.grant.issuedAt});}
+    catch{return {owner,serverNow:now,receipt:{intentId:body.intentId,status:'pending',retryAfter:15000}};}
+    if(!fact)return {owner,serverNow:now,receipt:{intentId:body.intentId,status:'pending',retryAfter:15000}};
+    return this.transaction(async db=>{
+      await this.session(db,owner,auth,now);
+      const room=await this.room(db,context.grant.roomId),grant=context.grant;
+      if(!room||!['AC','WA','TLE','MLE','RE','CE','OLE'].includes(fact.verdict)||fact.url!==grant.url
+          ||fact.submissionId!==body.submissionId||fact.handle?.toLowerCase()!==body.handle.toLowerCase()
+          ||!Number.isSafeInteger(fact.submittedAt)||fact.submittedAt<Math.max(room.startedAt,grant.issuedAt-1500)
+          ||fact.submittedAt>Math.min(now,room.finishedAt??room.deadline))fail(409,'RECEIPT_MISMATCH','这条原站记录不属于本次团队提交');
+      const [existing]=await db.execute('SELECT receipt_key,room_id,problem_id,user_id,intent_id FROM team_native_receipts WHERE receipt_key=? OR (user_id=? AND intent_id=?)',[context.receiptKey,owner,body.intentId]);
+      if(existing.length){
+        const r=existing[0];
+        if(r.receipt_key!==context.receiptKey||r.room_id!==room.id||r.problem_id!==grant.problemId||r.user_id!==owner||r.intent_id!==body.intentId)fail(409,'RECEIPT_ALREADY_BOUND','这条原站回执已关联另一项提交');
+      }else await db.execute('INSERT INTO team_native_receipts(receipt_key,room_id,problem_id,user_id,intent_id,verdict,accepted_at,verified_at,proof) VALUES(?,?,?,?,?,?,?,?,?)',
+        [context.receiptKey,room.id,grant.problemId,owner,body.intentId,fact.verdict,iso(fact.submittedAt),now,JSON.stringify(fact)]);
+      return response(fact);
+    });
+  }
   async standings(now) {
     if (!this.enabled || !await this.available()) fail(503, 'UNAVAILABLE', '团队训练服务尚未就绪');
-    const identity = this.dialect === 'mysql' ? "CONCAT(r.room_id,':',p.problem_id)" : "r.room_id||':'||p.problem_id";
-    const [rows] = await this.db.execute(`SELECT t.team_id,t.payload,COUNT(DISTINCT CASE WHEN e.event_id IS NOT NULL THEN ${identity} ELSE NULL END) AS total_score FROM teams t LEFT JOIN team_rooms r ON r.team_id=t.team_id LEFT JOIN team_room_members m ON m.room_id=r.room_id LEFT JOIN team_problems p ON p.room_id=r.room_id AND p.available=1 LEFT JOIN official_ac_events e ON e.user_id=m.user_id AND e.problem_key=p.problem_key AND e.accepted_at>=r.started_at AND e.accepted_at<=r.ended_at AND e.accepted_at<=? WHERE t.archived=0 GROUP BY t.team_id,t.payload ORDER BY total_score DESC,t.team_id LIMIT 100`, [iso(now)]);
-    return {serverNow: now, source: 'stored-official-first-ac', entries: rows.map(row => ({
+    const identity = this.dialect === 'mysql' ? "CONCAT(s.room_id,':',s.problem_id)" : "s.room_id||':'||s.problem_id";
+    const [rows] = await this.db.execute(`SELECT t.team_id,t.payload,COUNT(DISTINCT CASE WHEN s.problem_id IS NOT NULL THEN ${identity} ELSE NULL END) AS total_score FROM teams t LEFT JOIN (
+      SELECT r.team_id,r.room_id,p.problem_id FROM team_rooms r JOIN team_room_members m ON m.room_id=r.room_id JOIN team_problems p ON p.room_id=r.room_id AND p.available=1 JOIN official_ac_events e ON e.user_id=m.user_id AND e.problem_key=p.problem_key AND e.accepted_at>=r.started_at AND e.accepted_at<=r.ended_at AND e.accepted_at<=?
+      UNION SELECT r.team_id,r.room_id,p.problem_id FROM team_rooms r JOIN team_problems p ON p.room_id=r.room_id AND p.available=1 JOIN team_native_receipts n ON n.room_id=r.room_id AND n.problem_id=p.problem_id AND n.verdict='AC' AND n.accepted_at>=r.started_at AND n.accepted_at<=r.ended_at AND n.accepted_at<=?
+    ) s ON s.team_id=t.team_id WHERE t.archived=0 GROUP BY t.team_id,t.payload ORDER BY total_score DESC,t.team_id LIMIT 100`, [iso(now),iso(now)]);
+    return {serverNow: now, source: 'stored-official-ac-and-verified-native-receipts', entries: rows.map(row => ({
       teamId: row.team_id, name: JSON.parse(row.payload).name, totalScore: Number(row.total_score)}))};
   }
 }

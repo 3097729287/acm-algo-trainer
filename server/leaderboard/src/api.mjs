@@ -200,6 +200,10 @@ export async function handle(request, env) {
       await limit(env,'team-training:'+owner,240,60,Math.floor(now/1000));
       if(request.method==='GET'&&path==='/v1/team-training/state')return json(await teams.read(owner,now));
       if(!await teams.available())throw new TeamError(503,'UNAVAILABLE','团队训练服务尚未就绪');
+      if(request.method==='POST'&&path==='/v1/team-training/native-receipt'){
+        const value=await body(request,['requestId','intentId','submissionId','handle'],2048);
+        return json(await teams.nativeReceipt(owner,tokenHash(credentials(request).token),value,now));
+      }
       if(request.method==='GET'){
         if(path==='/v1/team-training/catalogue'){
           const id=url.searchParams.get('id');
@@ -209,11 +213,14 @@ export async function handle(request, env) {
         if(path==='/v1/team-training/standings')return json({owner,...await teams.standings(now)});
         if(path==='/v1/team-training/history')return json(await teams.history(owner,now));
         const record=/^\/v1\/team-training\/history\/([a-f0-9-]{36})$/.exec(path);
-        if(record)return json(await teams.history(owner,now,record[1]));
+        if(record){
+          if([...url.searchParams.keys()].some(key=>key!=='problemId')||url.searchParams.getAll('problemId').length>1)throw new TeamError(400,'REQUEST_INVALID','题目编号无效');
+          return json(await teams.history(owner,now,record[1],url.searchParams.get('problemId')));
+        }
       }
-      const action=/^\/v1\/team-training\/(create|join|leave|configure|ready|start|poll|claim|release|select|draft|finish)$/.exec(path)?.[1];
+      const action=/^\/v1\/team-training\/(create|join|leave|configure|ready|start|poll|claim|release|select|draft|authorize|finish)$/.exec(path)?.[1];
       if(request.method==='POST'&&action){
-        const value=await body(request,['requestId','teamRevision','inviteCode','name','contestId','durationMinutes','ready','roomId','leaseToken','problemId','revision','language','code'],262144);
+        const value=await body(request,['requestId','teamRevision','configurationRevision','inviteCode','name','contestId','durationMinutes','ready','roomId','leaseToken','problemId','revision','language','code','purpose','inputSha256'],262144);
         return json(await teams.write(owner,tokenHash(credentials(request).token),action,value,now));
       }
       throw new TeamError(404,'ROUTE_NOT_FOUND','没有找到这个团队训练接口');
