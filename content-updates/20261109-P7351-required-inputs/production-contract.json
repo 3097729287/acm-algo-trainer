@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "problemId": "luogu-training-P7351",
-  "status": "production implementation prepared; domestic deployment and source activation pending",
+  "status": "Production service deployed and complete domestic HTTPS/durable offline cache verified; catalogue registration owned separately",
   "requiredInputIsOptional": false,
   "ordinaryAssetLimitBytes": 33554432,
   "independentReviewedRequiredInputMaximumBytes": 134217728,
@@ -58,7 +58,7 @@
     "accountState": "Public input cache is independent of personal account databases"
   },
   "domesticDistribution": {
-    "deployed": false,
+    "deployed": true,
     "url": "https://47.82.84.74/updates/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
     "acceptedPaths": [
       "/updates/required-downloads/{sha256}.zip",
@@ -85,7 +85,13 @@
     ],
     "postDeploymentCommand": "python scripts/verify_required_download_distribution.py --origin https://47.82.84.74 --cache-root NEW_ISOLATED_CACHE --output NEW_RECEIPT.json",
     "receiptRequirement": "Must contact the approved distribution origin, verify exact full bytes and durable cache, then replay with network disabled; an already-complete cache is refused as an origin test",
-    "proxy": "The updates prefix is stripped, then /required-downloads/* is always forwarded to the reviewed Node index and checked stream, before file_server. Existing cached asset and account routes stay unchanged."
+    "proxy": "The updates prefix is stripped, then /required-downloads/* is always forwarded to the reviewed Node index and checked stream, before file_server. Existing cached asset and account routes stay unchanged.",
+    "verifiedAtUtc": "2026-11-08T23:22:21Z",
+    "completeHttpsBytes": 42049784,
+    "completeResponseAndOfflineCacheVerified": true,
+    "productionProof": "docs/verification/downloads-production-20261109.json",
+    "firstEmptyCacheVerificationSeconds": 329.588,
+    "oneMinuteClaim": false
   },
   "activationBoundary": {
     "retirementFlagUnchanged": true,
@@ -103,7 +109,8 @@
       "archive base64 in HTTP or IPC",
       "a guessed or reconstructed input file",
       "a successful loopback test as proof of domestic deployment"
-    ]
+    ],
+    "domesticRequirementsMet": true
   },
   "releaseScope": {
     "frozen1610Changed": false,

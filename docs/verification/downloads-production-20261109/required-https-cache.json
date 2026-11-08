@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "checkedAtUtc": "2026-11-08T23:22:21Z",
+  "origin": "https://47.82.84.74",
+  "seconds": 329.588,
+  "archives": [
+    {
+      "problemId": "luogu-training-P7351",
+      "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+      "bytes": 42049784,
+      "route": "https://47.82.84.74/updates/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
+      "cacheWasAlreadyComplete": false,
+      "verifiedPrefixBeforeBytes": 0,
+      "completeResponseAndDurableCacheVerified": true,
+      "networkDisabledOfflineReplayVerified": true
+    }
+  ],
+  "catalogueRetirementChanged": false,
+  "ordinary32MiBLimitUnchanged": true,
+  "privateAccountStateReadOrWritten": false
+}
