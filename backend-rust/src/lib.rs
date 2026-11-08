@@ -4,6 +4,7 @@ pub mod api;
 pub mod catalogue;
 pub mod code_format;
 pub mod contest_history;
+pub mod contest_lifecycle;
 pub mod custom_lists;
 pub mod goals;
 pub mod identity;

@@ -1,5 +1,5 @@
-//! Frozen contest history and the narrowly proven legacy automatic joins.
-//! Running contests are kept behind the unported finalization boundary.
+//! Frozen contest history, validated ongoing local contexts and the narrowly
+//! proven legacy automatic joins. Shared authority remains explicitly guarded.
 use crate::{
     api::ApiError, catalogue::row_or_portable, learning::stamp, storage::PersonalStore,
     training::Training,
@@ -163,7 +163,8 @@ pub fn record(t: &Training<'_>, identity: &str) -> Result<Value, ApiError> {
         .ok_or_else(|| ApiError::missing("没有找到这场模拟赛"))?
         .clone();
     if record["status"] == "running" {
-        return Err(ApiError::pending());
+        crate::contest_lifecycle::validate_running(t)?;
+        return Ok(record);
     }
     if !["finished", "cancelled"].contains(&text(&record, "status")) {
         return Err(invalid());
@@ -171,6 +172,7 @@ pub fn record(t: &Training<'_>, identity: &str) -> Result<Value, ApiError> {
     Ok(record)
 }
 pub fn get(t: &Training<'_>, identity: &str) -> Result<Value, ApiError> {
+    crate::contest_lifecycle::expire(t)?;
     let record = record(t, identity)?;
     Ok(json!({"contest":t.contest_projection(&record)?,"now":stamp(t.now)}))
 }
@@ -191,7 +193,29 @@ pub fn assert_problem_context(
     {
         return Err(ApiError::new(403, "CONTEST_SCOPE", "这道题不属于该模拟赛"));
     }
-    if writing {
+    if record["status"] == "running" {
+        let selected = slots
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|slot| slot["id"] == identity)
+            .unwrap();
+        if selected["statementAvailable"] == false {
+            let row = row_or_portable(t.catalogue, t.personal, identity)?;
+            if row["catalogReplayReady"] != true || row["catalogHidden"] == true {
+                return Err(ApiError::new(
+                    422,
+                    "STATEMENT_NOT_READY",
+                    "题面缺失，暂不可打开",
+                ));
+            }
+        }
+        if writing && crate::training::parse(text(&record, "deadline"))? <= t.now {
+            return Err(ApiError::conflict(
+                "模拟赛已经结束，不能继续提交或改写考场草稿",
+            ));
+        }
+    } else if writing {
         return Err(ApiError::conflict(
             "模拟赛已经结束，不能继续提交或改写考场草稿",
         ));
@@ -291,22 +315,22 @@ pub fn prune_legacy_joins(t: &Training<'_>) -> Result<(), ApiError> {
         }
         retired.push(row["id"].clone());
     }
-    let tx = t.personal.db.unchecked_transaction()?;
     let at = stamp(t.now);
-    for id in &retired {
-        tx.execute(
-            "UPDATE training SET active=0,removed_at=?,mock_due=0 WHERE id=?",
-            rusqlite::params![at, id.as_str().ok_or_else(invalid)?],
+    crate::storage::atomic(&t.personal.db, |tx| {
+        for id in &retired {
+            tx.execute(
+                "UPDATE training SET active=0,removed_at=?,mock_due=0 WHERE id=?",
+                rusqlite::params![at, id.as_str().ok_or_else(invalid)?],
+            )?;
+        }
+        PersonalStore::put(
+            tx,
+            KEY,
+            &json!({"retired":retired,"at":at}).to_string(),
+            &at,
         )?;
-    }
-    PersonalStore::put(
-        &tx,
-        KEY,
-        &json!({"retired":retired,"at":at}).to_string(),
-        &at,
-    )?;
-    tx.commit()?;
-    Ok(())
+        Ok(())
+    })
 }
 
 pub fn live_label(

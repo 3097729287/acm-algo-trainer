@@ -14,6 +14,7 @@ import { exerciseNativeContestHistory } from './native-contest-history-flow.mjs'
 import { exerciseNativeAssets } from './native-assets-flow.mjs';
 import { exerciseNativeGoals } from './native-goals-flow.mjs';
 import { exerciseNativeReviewedContent } from './native-reviewed-content-flow.mjs';
+import { exerciseNativeContestLifecycle } from './native-contest-lifecycle-flow.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const packaged = process.argv.includes('--packaged');
@@ -128,8 +129,8 @@ try {
   assert.equal(saved.code, savedCode);
   await page.screenshot({ path: resolve(output, 'react-workspace-wide.png') });
   await page.reload();
-  await page.locator('.sidebar').first().waitFor({ state: 'attached' });
-  if (!await editor.isVisible()) await page.locator('.problem-title').filter({ hasText: results.originalTitle }).first().click();
+  await page.locator('.tb-workbench:visible').waitFor();
+  if (!await editor.isVisible()) await page.keyboard.press('Alt+2');
   await editor.waitFor();
   assert.equal((await editor.innerText()).trimEnd(), savedCode.trimEnd());
   if(process.env.TB_NATIVE_TEST_GOALS==='1')results.goals=await exerciseNativeGoals(page,output,results.originalTitle);
@@ -143,6 +144,7 @@ try {
   if(process.env.TB_NATIVE_TEST_RUNNER==='1')results.localRuns=await exerciseNativeRuns(page,output);
   if(process.env.TB_NATIVE_TEST_REVIEWS==='1')results.reviews=await exerciseNativeReviews(page,output,sandbox,process.env.TB_NATIVE_TEST_PYTHON);
   if(process.env.TB_NATIVE_TEST_CONTEST_HISTORY==='1')results.contestHistory=await exerciseNativeContestHistory(page,output,sandbox,process.env.TB_NATIVE_TEST_PYTHON);
+  if(process.env.TB_NATIVE_TEST_CONTEST_LIFECYCLE==='1')results.contestLifecycle=await exerciseNativeContestLifecycle(page,output,sandbox,process.env.TB_NATIVE_TEST_PYTHON);
   if(process.env.TB_NATIVE_TEST_ASSETS==='1')results.assets=await exerciseNativeAssets(page,output);
   if(process.env.TB_NATIVE_TEST_CONTENT1610==='1')results.reviewedContent=await exerciseNativeReviewedContent(page,output);
   assert.equal(results.capabilities.deployment, 'local-test-only');
@@ -159,7 +161,8 @@ try {
     await page.screenshot({ path: resolve(output, 'failure.png') }).catch(() => {});
     await writeFile(resolve(output, 'failure.txt'), await page.locator('body').innerText()).catch(() => {});
     await writeFile(resolve(output, 'failure.json'), JSON.stringify({ failures, consoleErrors, dom: await page.evaluate(() => ({
-      innerWidth, width: document.documentElement.clientWidth, workbenches: [...document.querySelectorAll('.tb-workbench')].map(node => node.className),
+      innerWidth, width: document.documentElement.clientWidth, workbenches: [...document.querySelectorAll('.tb-workbench')].map(node => ({className:node.className,problemId:node.dataset.problemId,visible:node.getClientRects().length>0})),
+      studyOpen:document.querySelector('.app-shell')?.dataset.studyOpen,workspacePage:document.querySelector('.workspace-area')?.dataset.page,
       textboxes: [...document.querySelectorAll('[role=textbox]')].map(node => ({ label: node.getAttribute('aria-label'), rect: node.getBoundingClientRect().toJSON() })),
       layout: [...document.querySelectorAll('.wb-layout-toggle')].map(node => ({label: node.getAttribute('aria-label'), pressed: node.getAttribute('aria-pressed')})),
     })) }, null, 2)).catch(() => {});

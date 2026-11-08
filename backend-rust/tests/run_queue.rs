@@ -335,6 +335,85 @@ fn review_local_run_keeps_its_binding_without_an_official_pass_or_reward() {
     assert!(store.documents("review-reward:").unwrap().is_empty());
     private_untouched(&config);
 }
+
+fn exam(config: &ServiceConfig, available: bool) {
+    let store = PersonalStore::open(&config.personal).unwrap();
+    store.db.execute("INSERT INTO contests(id,name,status,started_at,deadline,duration,slots,config) VALUES('native-exam','原生考场','running','2026-11-06T03:00:00Z','2026-11-06T05:00:00Z',120,?,?)",params![json!([{"id":"fixture::A","letter":"A","title":"加一","difficulty":800,"tags":["模拟"],"judgeScope":"official","statementAvailable":available,"trainingAdded":false}]).to_string(),json!({"strategy":"replay","editedTrainingOnly":true}).to_string()]).unwrap();
+}
+
+#[test]
+fn a_real_exam_sample_run_keeps_context_and_private_code_without_becoming_an_official_solve() {
+    let (_dir, config) = fixture();
+    exam(&config, true);
+    let clock = chrono::DateTime::parse_from_rfc3339("2026-11-06T04:00:00Z")
+        .unwrap()
+        .to_utc();
+    let service = open(&config).with_test_clock(clock);
+    let mut input = body("n=int(input());print(n+1)");
+    input["id"] = json!("fixture::A");
+    input["contestId"] = json!("native-exam");
+    let answer = service.handle(request(&service, input));
+    assert!(answer.ok, "{:?}", answer.error);
+    let id = answer.data.unwrap()["submission"]["id"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    let result = wait(&service, &id);
+    assert_eq!(result["contestId"], "native-exam");
+    assert_eq!(result["verdict"], "SAMPLE_PASS");
+    assert_eq!(result["scope"], "samples");
+    let mut query = ApiRequest::get("contest");
+    query.query.insert("id".into(), vec!["native-exam".into()]);
+    let score = service.handle(query);
+    assert!(score.ok, "{:?}", score.error);
+    assert_eq!(score.data.unwrap()["contest"]["accepted"], 0);
+    let mut finish = request(&service, json!({"contestId":"native-exam"}));
+    finish.path = "contests/finish".into();
+    let ended = service.handle(finish);
+    assert!(ended.ok, "{:?}", ended.error);
+    assert_eq!(ended.data.unwrap()["contest"]["accepted"], 0);
+    private_untouched(&config);
+}
+
+#[test]
+fn missing_exam_slots_and_late_runs_fail_before_creating_a_history_row() {
+    let (_dir, config) = fixture();
+    exam(&config, false);
+    let clock = chrono::DateTime::parse_from_rfc3339("2026-11-06T04:00:00Z")
+        .unwrap()
+        .to_utc();
+    let service = open(&config).with_test_clock(clock);
+    let mut input = body("print(2)");
+    input["id"] = json!("fixture::A");
+    input["contestId"] = json!("native-exam");
+    let refused = service.handle(request(&service, input.clone()));
+    assert_eq!(refused.error.unwrap().status, 422);
+    drop(service);
+    let service = open(&config).with_test_clock(clock + chrono::Duration::hours(2));
+    let refused = service.handle(request(&service, input));
+    assert_eq!(refused.error.unwrap().status, 409);
+    let store = PersonalStore::open(&config.personal).unwrap();
+    assert_eq!(
+        store
+            .db
+            .query_row("SELECT COUNT(*) FROM submissions", [], |row| row
+                .get::<_, i64>(0))
+            .unwrap(),
+        0
+    );
+    assert_eq!(
+        store
+            .db
+            .query_row(
+                "SELECT finished_at FROM contests WHERE id='native-exam'",
+                [],
+                |row| row.get::<_, String>(0)
+            )
+            .unwrap(),
+        "2026-11-06T05:00:00Z"
+    );
+    private_untouched(&config);
+}
 #[test]
 fn graceful_shutdown_cancels_and_finishes_owned_jobs_and_releases_the_workspace() {
     let (_dir, config) = fixture();

@@ -91,19 +91,17 @@ impl Training<'_> {
         Ok(())
     }
     fn simple_workspace_supported(&self) -> Result<(), ApiError> {
-        // Running-contest finalization remains a separate migration boundary.
-        // Refuse before mutation rather than project their facts as empty.
-        let special: bool = self.personal.db.query_row(
-            "SELECT EXISTS(SELECT 1 FROM contests WHERE status='running')",
-            [],
-            |r| r.get(0),
-        )?;
-        if special {
-            return Err(ApiError::pending());
-        }
+        crate::contest_lifecycle::validate_running(self)?;
         crate::goals::validate_existing(self)
     }
     pub fn workspace(&self) -> Result<Value, ApiError> {
+        crate::storage::atomic(&self.personal.db, |_| {
+            crate::contest_lifecycle::validate_running(self)?;
+            crate::contest_lifecycle::expire(self)?;
+            self.workspace_inner()
+        })
+    }
+    fn workspace_inner(&self) -> Result<Value, ApiError> {
         self.simple_workspace_supported()?;
         // Validate frozen views before cleanup or scheduling can write.
         let completed_replays = crate::contest_history::completed_replays(self)?;
@@ -137,6 +135,13 @@ impl Training<'_> {
             .iter()
             .map(|task| (text(task, "problemId").to_owned(), task.clone()))
             .collect::<HashMap<_, _>>();
+        let mut locked_ids = HashSet::new();
+        if let Some(active) = self.running()? {
+            let slots: Vec<Value> = serde_json::from_str(text(&active, "slots"))?;
+            for slot in slots {
+                locked_ids.insert(self.canonical(text(&slot, "id"))?);
+            }
+        }
         let records=self.personal.rows("SELECT id,problem_id,contest_id,mode,submitted_at,finished_at,verdict,scope,solution_seen FROM submissions WHERE mode='submit' ORDER BY submitted_at,rowid",[])?;
         let mut grouped: HashMap<String, Vec<&Value>> = HashMap::new();
         for r in records.as_array().unwrap() {
@@ -166,6 +171,7 @@ impl Training<'_> {
         for record in rows.as_array().unwrap() {
             let original = text(record, "id");
             let id = self.canonical(original)?;
+            let locked = locked_ids.contains(&id);
             let attempts = grouped.get(&id).cloned().unwrap_or_default();
             let completed = attempts
                 .iter()
@@ -199,6 +205,9 @@ impl Training<'_> {
                     "review"
                 });
             }
+            if locked {
+                queue = Value::Null;
+            }
             let mut item = match row_or_portable(self.catalogue, self.personal, &id) {
                 Ok(row) => row,
                 Err(error) if error.status == 404 => {
@@ -229,11 +238,11 @@ impl Training<'_> {
             .max()
             .unwrap()
             .to_owned();
-            let today = truth(&queue) || day(parse(&last_at)?) == day(self.now);
+            let today = truth(&queue) || locked || day(parse(&last_at)?) == day(self.now);
             for (key,value) in json!({"id":id,"accepted":accepted,"verdict":last.map(|r|r["verdict"].clone()),"scope":scope,"attempts":attempts.len(),"acceptedAt":accepted_at,"lastSubmittedAt":last.map(|r|r["submitted_at"].clone()),"queue":queue,"reviewCount":record["review_count"],"solutionSeen":truth(&record["solution_pending"])||truth(&record["rewrite_due"]),"activeAt":record["active_at"],"lastActivityAt":last_at,"today":today}).as_object().unwrap() {item[key]=value.clone();}
-            if let Some(task) = review_tasks.get(&id) {
+            if let Some(task) = review_tasks.get(&id).filter(|_| !locked) {
                 item["reviewTask"] = task.clone();
-            } else if reviews["reviewOnly"] == true {
+            } else if reviews["reviewOnly"] == true && !locked {
                 let today = latest.is_some_and(|r| {
                     crate::ability::time(text(r, "submitted_at"))
                         .is_some_and(|at| day(at) == day(self.now))
@@ -242,6 +251,11 @@ impl Training<'_> {
                 if !today {
                     item["queue"] = Value::Null;
                 }
+            }
+            if locked {
+                item["difficulty"] = Value::Null;
+                item["tags"] = json!([]);
+                item["knowledge"] = json!("");
             }
             if let Some(&index) = positions.get(&id) {
                 let previous = &mut training[index];
@@ -327,7 +341,7 @@ impl Training<'_> {
             |r| r.get(0),
         )?;
         Ok(
-            json!({"training":training,"sets":sets,"contests":contests,"completedReplayContests":completed_replays,"reviews":reviews,"goals":goals,"goalTasks":goal_tasks,"activeContest":null,
+            json!({"activeContest":contests.iter().find(|record| record["status"]=="running"),"training":training,"sets":sets,"contests":contests,"completedReplayContests":completed_replays,"reviews":reviews,"goals":goals,"goalTasks":goal_tasks,
             "summary":{"todayAccepted":today_accepted.len(),"historicalAccepted":historical.len(),"beforeTodayAccepted":before_today.len(),"total":training.len(),"accepted":accepted_ids.len(),"samplePassed":training.iter().filter(|r|r["verdict"]=="SAMPLE_PASS"&&r["accepted"]!=true).count(),"attempts":records.as_array().unwrap().len(),"due":training.iter().filter(|v|truth(&v["queue"])).count(),"streak":streak,"pending":pending},"now":stamp(self.now)}),
         )
     }
@@ -378,35 +392,43 @@ impl Training<'_> {
             .unwrap_or(Value::Null);
         Ok(json!({"workspace":workspace,"reviewTask":task}))
     }
-    pub fn activate(&mut self, id: &str) -> Result<(), ApiError> {
+    pub fn activate(&self, id: &str) -> Result<(), ApiError> {
+        self.activate_edited(id, true)
+    }
+    pub(crate) fn activate_edited(&self, id: &str, claim: bool) -> Result<(), ApiError> {
         let now = stamp(self.now);
         let ids = self.ids(id)?;
-        let contests = self
-            .personal
-            .rows("SELECT id,slots FROM contests WHERE deleted_at IS NULL", [])?;
-        let tx = self.personal.db.transaction()?;
-        for contest in contests.as_array().unwrap() {
-            let mut slots: Value = serde_json::from_str(text(contest, "slots"))?;
-            let mut changed = false;
-            for slot in slots
-                .as_array_mut()
-                .ok_or_else(|| ApiError::new(500, "INVALID_STORED_DATA", "比赛题目记录格式异常"))?
-            {
-                if ids.iter().any(|id| slot["id"] == *id) && slot["trainingAdded"] == true {
-                    slot["trainingAdded"] = false.into();
-                    changed = true;
+        let contests = if claim {
+            self.personal
+                .rows("SELECT id,slots FROM contests WHERE deleted_at IS NULL", [])?
+        } else {
+            json!([])
+        };
+        crate::storage::atomic(&self.personal.db, |tx| {
+            for contest in contests.as_array().unwrap() {
+                let mut slots: Value = serde_json::from_str(text(contest, "slots"))?;
+                let mut changed = false;
+                for slot in slots.as_array_mut().ok_or_else(|| {
+                    ApiError::new(500, "INVALID_STORED_DATA", "比赛题目记录格式异常")
+                })? {
+                    if claim
+                        && ids.iter().any(|id| slot["id"] == *id)
+                        && slot["trainingAdded"] == true
+                    {
+                        slot["trainingAdded"] = false.into();
+                        changed = true;
+                    }
+                }
+                if changed {
+                    tx.execute(
+                        "UPDATE contests SET slots=? WHERE id=?",
+                        params![slots.to_string(), text(contest, "id")],
+                    )?;
                 }
             }
-            if changed {
-                tx.execute(
-                    "UPDATE contests SET slots=? WHERE id=?",
-                    params![slots.to_string(), text(contest, "id")],
-                )?;
-            }
-        }
-        tx.execute("INSERT INTO training(id,active_at) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET active=1,removed_at=NULL,active_at=MAX(training.active_at,excluded.active_at)",params![id,now])?;
-        tx.commit()?;
-        self.recompute(id)
+            tx.execute("INSERT INTO training(id,active_at) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET active=1,removed_at=NULL,active_at=MAX(training.active_at,excluded.active_at)",params![id,now])?;
+            self.recompute(id)
+        })
     }
     pub fn recompute(&self, id: &str) -> Result<(), ApiError> {
         let ids = json!(self.ids(id)?).to_string();
@@ -555,7 +577,7 @@ impl Training<'_> {
         }
         Ok(())
     }
-    pub fn save_draft(&mut self, body: &Value) -> Result<Value, ApiError> {
+    pub fn save_draft(&self, body: &Value) -> Result<Value, ApiError> {
         fields(body, &["id", "code", "contestId", "language", "reviewId"])?;
         let id = required_text(body, "id", 512)?;
         if !body["code"]
@@ -571,24 +593,48 @@ impl Training<'_> {
             return Err(ApiError::bad("请选择 C++17 或 Python 3"));
         }
         row_or_portable(self.catalogue, self.personal, id)?;
-        self.assert_unlocked(id)?;
-        if truth(&body["contestId"]) {
+        crate::contest_lifecycle::expire(self)?;
+        let contest_context = if truth(&body["contestId"]) {
             let context = body["contestId"]
                 .as_str()
                 .ok_or_else(|| ApiError::bad("比赛编号无效"))?;
             crate::contest_history::assert_problem_context(self, id, context, true)?;
-        }
+            Some(context)
+        } else {
+            self.assert_unlocked(id)?;
+            None
+        };
         let review = match body.get("reviewId") {
             None | Some(Value::Null) => None,
             Some(Value::String(id)) => Some(id.as_str()),
             _ => return Err(ApiError::bad("复习上下文无效")),
         };
+        if contest_context.is_some() && review.is_some_and(|id| !id.is_empty()) {
+            return Err(ApiError::bad("复习上下文无效"));
+        }
         let task = crate::reviews::task(self, id, review, true)?;
+        let in_review = task.is_some();
         let context = task
             .map(|task| format!("review:{}", text(&task, "id")))
-            .unwrap_or_default();
-        self.personal
-            .save_draft_context_at(body, &stamp(self.now), &context)
+            .unwrap_or_else(|| contest_context.unwrap_or("").to_owned());
+        let previous = self.personal.draft(id, &context)?;
+        let code = body["code"].as_str().unwrap();
+        let language = body["language"].as_str().unwrap_or("cpp17");
+        if previous["draft"] == code
+            && previous["draftLanguage"] == language
+            && !previous["draftSavedAt"].is_null()
+        {
+            return Ok(json!({"savedAt":previous["draftSavedAt"]}));
+        }
+        crate::storage::atomic(&self.personal.db, |_| {
+            let result = self
+                .personal
+                .save_draft_context_at(body, &stamp(self.now), &context)?;
+            if !in_review && (contest_context.is_some() || !code.trim().is_empty()) {
+                self.activate_edited(id, contest_context.is_none())?;
+            }
+            Ok(result)
+        })
     }
     pub fn contest_projection(&self, record: &Value) -> Result<Value, ApiError> {
         if !["running", "finished", "cancelled"].contains(&text(record, "status")) {
@@ -661,6 +707,17 @@ impl Training<'_> {
             let mut slot = json!({"letter":frozen["letter"],"id":frozen["id"],"title":frozen["title"],"accepted":accepted.is_some(),"samplePassed":accepted.is_some()||attempts.iter().any(|r|truth(&r["finished_at"])&&r["verdict"]=="SAMPLE_PASS"),"verdict":latest.map(|r|r["verdict"].clone()),"attempts":attempts.len(),"solvedAt":accepted.map(|i|attempts[i]["submitted_at"].clone())});
             if let Some(available) = frozen.get("statementAvailable") {
                 slot["statementAvailable"] = available.clone();
+                if record["status"] == "running" && *available == false {
+                    match row_or_portable(self.catalogue, self.personal, text(&frozen, "id")) {
+                        Ok(row) => {
+                            slot["statementAvailable"] = json!(
+                                row["catalogReplayReady"] == true && row["catalogHidden"] != true
+                            )
+                        }
+                        Err(error) if error.status == 404 => {}
+                        Err(error) => return Err(error),
+                    }
+                }
             }
             if record["status"] == "finished" {
                 for key in ["difficulty", "tags", "judgeScope"] {
@@ -1026,6 +1083,11 @@ impl Training<'_> {
         }
         self.library
             .hydrate_with_cache(&mut problem, Some(&self.catalogue.db), assets)?;
+        crate::contest_lifecycle::expire(self)?;
+        if let Some(context) = contest_context {
+            crate::contest_history::assert_problem_context(self, id, context, false)?;
+        }
+        self.history_visible(id, contest_context)?;
         // Validate all source bytes before opening a review can change its journal.
         let review = crate::reviews::task(self, id, r.param("reviewId"), true)?;
         let context = review
@@ -1067,7 +1129,11 @@ impl Training<'_> {
             .entry("title")
             .or_insert_with(|| row["title"].clone());
         problem["locked"] = json!(self.locked(id)?);
-        problem["solutionMethods"] = self.library.solution_summary(&canonical)?;
+        problem["solutionMethods"] = if self.locked(id)? {
+            json!([])
+        } else {
+            self.library.solution_summary(&canonical)?
+        };
         let ids = self.ids(id)?;
         let mut draft=self.personal.rows("SELECT problem_id,context,code,saved_at FROM drafts WHERE problem_id IN(SELECT value FROM json_each(?)) AND context=? ORDER BY saved_at DESC LIMIT 1",params![json!(ids).to_string(),context])?;
         if draft.as_array().unwrap().is_empty() && context.is_empty() {
@@ -1094,7 +1160,7 @@ impl Training<'_> {
             problem["reviewTask"] = task;
         }
         for key in ["tags", "knowledge", "knowledgeAnalysis"] {
-            if let Some(value) = knowledge.get(key) {
+            if let Some(value) = knowledge.get(key).filter(|_| problem["locked"] != true) {
                 problem[key] = value.clone();
             }
         }

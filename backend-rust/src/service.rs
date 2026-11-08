@@ -47,6 +47,9 @@ pub const NATIVE_ROUTES: &[(&str, &str)] = &[
     ("GET", "data/export"),
     ("GET", "contests/events"),
     ("GET", "contest"),
+    ("POST", "contests/finish"),
+    ("POST", "contests/cancel"),
+    ("POST", "contests/delete"),
     ("GET", "goals"),
     ("POST", "goals/save"),
     ("POST", "goals/archive"),
@@ -351,18 +354,23 @@ impl Service {
             ],
         )?;
         let id = api::required_text(body, "id", 512)?;
-        if body["mode"] != "run"
-            || ["contestId"]
-                .iter()
-                .any(|key| body.get(*key).is_some_and(|v| !v.is_null() && v != ""))
-        {
+        if body["mode"] != "run" {
             return Err(ApiError::pending());
         }
+        let contest_context = match body.get("contestId") {
+            None | Some(Value::Null) => None,
+            Some(Value::String(id)) if id.is_empty() => None,
+            Some(Value::String(id)) => Some(id.as_str()),
+            _ => return Err(ApiError::bad("比赛编号无效")),
+        };
         let review_id = match body.get("reviewId") {
             None | Some(Value::Null) => None,
             Some(Value::String(id)) => Some(id.as_str()),
             _ => return Err(ApiError::bad("复习上下文无效")),
         };
+        if contest_context.is_some() && review_id.is_some_and(|id| !id.is_empty()) {
+            return Err(ApiError::bad("复习上下文无效"));
+        }
         let hash = format!("{:x}", Sha256::digest(body.to_string().as_bytes()));
         let key = format!("native-run-request:{}", r.id);
         let previous = {
@@ -383,13 +391,14 @@ impl Service {
                 .map_err(|_| ApiError::pending())?;
             let library = self.library.lock().map_err(|_| ApiError::pending())?;
             let mut personal = self.personal.lock().map_err(|_| ApiError::pending())?;
-            let training = Training {
+            let mut training = Training {
                 catalogue: &catalogue,
                 library: &library,
                 personal: &mut personal,
                 now: self.now(),
             };
-            training.history_visible(id, None)?;
+            crate::contest_lifecycle::expire(&training)?;
+            training.history_visible(id, contest_context)?;
             if let Some(previous) = training.personal.document(&key)? {
                 if previous["schema"] != 1
                     || previous["owner"] != self.config.owner
@@ -407,11 +416,12 @@ impl Service {
                         .ok_or_else(ApiError::pending)?,
                 );
             }
-            if training.running()?.is_some() {
-                return Err(ApiError::pending());
-            }
             crate::catalogue::row_or_portable(&catalogue, training.personal, id)?;
-            training.assert_unlocked(id)?;
+            if let Some(context) = contest_context {
+                crate::contest_history::assert_problem_context(&training, id, context, true)?;
+            } else {
+                training.assert_unlocked(id)?;
+            }
             let canonical = training.canonical(id)?;
             // Running code only needs text samples and limits, not images/PDF.
             let mut problem = library.statement_raw(&canonical)?;
@@ -434,6 +444,11 @@ impl Service {
                 .ok_or_else(ApiError::pending)?
                 .id
                 .clone();
+            training.now = self.now();
+            crate::contest_lifecycle::expire(&training)?;
+            if let Some(context) = contest_context {
+                crate::contest_history::assert_problem_context(&training, id, context, true)?;
+            }
             let stamp = self
                 .now()
                 .to_rfc3339_opts(chrono::SecondsFormat::Micros, true);
@@ -450,7 +465,7 @@ impl Service {
                 training.personal.db.query_row("SELECT COALESCE(MAX(solution_pending),0)!=0 FROM training WHERE id IN (SELECT value FROM json_each(?))",[json!(ids).to_string()],|row|row.get(0))?
             };
             let tx = training.personal.db.transaction()?;
-            tx.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,verdict,scope,custom_input,solution_seen,sample_run) VALUES(?,?,NULL,'run',?,?,'QUEUED','samples',?,?,?)",rusqlite::params![submission,id,plan.code,stamp,plan.input,seen as i32,plan.sample_run as i32])?;
+            tx.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,verdict,scope,custom_input,solution_seen,sample_run) VALUES(?,?,?,'run',?,?,'QUEUED','samples',?,?,?)",rusqlite::params![submission,id,contest_context,plan.code,stamp,plan.input,seen as i32,plan.sample_run as i32])?;
             PersonalStore::put(
                 &tx,
                 &format!("submission-language:{submission}"),
@@ -583,6 +598,9 @@ impl Service {
             "data"
                 | "contests/events"
                 | "contest"
+                | "contests/finish"
+                | "contests/cancel"
+                | "contests/delete"
                 | "goals"
                 | "goals/save"
                 | "goals/archive"
@@ -642,6 +660,17 @@ impl Service {
                     }
                 }
                 ("GET", "workspace") => training.workspace(),
+                ("POST", "contests/finish") => crate::contest_lifecycle::finish(
+                    &training,
+                    r.body.as_ref().unwrap()["contestId"].as_str().unwrap_or(""),
+                ),
+                ("POST", "contests/cancel") => crate::contest_lifecycle::cancel(
+                    &training,
+                    r.body.as_ref().unwrap()["contestId"].as_str().unwrap_or(""),
+                ),
+                ("POST", "contests/delete") => {
+                    crate::contest_lifecycle::delete(&training, r.body.as_ref().unwrap())
+                }
                 ("GET", "goals") => crate::goals::list(&training, false),
                 ("POST", "goals/save") => crate::goals::save(&training, r.body.as_ref().unwrap()),
                 ("POST", "goals/archive") => crate::goals::archive(
@@ -896,6 +925,9 @@ impl Service {
                         "data/export",
                         "contests/events",
                         "contest",
+                        "contests/finish",
+                        "contests/cancel",
+                        "contests/delete",
                         "goals",
                         "goals/save",
                         "goals/archive",

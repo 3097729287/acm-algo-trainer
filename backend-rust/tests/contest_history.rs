@@ -164,14 +164,15 @@ fn closed_context_uses_exact_frozen_membership_and_refuses_writes() {
         .db
         .execute("UPDATE contests SET status='running'", [])
         .unwrap();
-    let before = logical_fingerprint(&f.personal.db).unwrap();
+    let expired = contest_history::get(&f.training(), "history").unwrap();
+    assert_eq!(expired["contest"]["status"], "finished");
+    assert_eq!(expired["contest"]["finishedAt"], "2026-11-04T06:00:00Z");
     assert_eq!(
-        contest_history::get(&f.training(), "history")
+        contest_history::assert_problem_context(&f.training(), "fixture::0", "history", true)
             .unwrap_err()
-            .code,
-        "MIGRATION_PENDING"
+            .status,
+        409
     );
-    assert_eq!(logical_fingerprint(&f.personal.db).unwrap(), before);
 }
 
 #[test]

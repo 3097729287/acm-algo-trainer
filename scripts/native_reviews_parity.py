@@ -16,6 +16,7 @@ import subprocess
 import sys
 import tempfile
 import threading
+import re
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'backend'),str(ROOT/'backend/common'),str(ROOT/'scripts')]
@@ -190,6 +191,86 @@ def run(binary,output):
         assert native.execute('SELECT active FROM training WHERE id=?',(extra[0]['id'],)).fetchone()[0]==0
         assert all(native.execute('SELECT active FROM training WHERE id=?',(row['id'],)).fetchone()[0]==1 for row in extra[1:])
         compare('legacy-prune-receipt',json.loads(native.execute("SELECT value FROM account_preferences WHERE key='contest-edited-training-v1'").fetchone()[0]),json.loads(legacy.execute("SELECT value FROM account_preferences WHERE key='contest-edited-training-v1'").fetchone()[0]))
+        # Actual local lifecycle transitions reuse the frozen journal. These
+        # generated records do not impersonate an original-site submission.
+        # This oracle is deliberately offline. Keep lifecycle cases independent
+        # of missing cache bytes; live original-resource reads have their own
+        # service/window receipts and must retain their ASSET_NOT_CACHED guard.
+        lifecycle_rows=[]
+        with store.library.connection() as source:
+            remote_hashes={item[0] for item in source.execute('SELECT sha256 FROM remote_statement_assets')}
+            for row in candidates[20:]:
+                statement=source.execute('SELECT content FROM statements WHERE problem_id=?',(row['id'],)).fetchone()
+                if statement and set(re.findall(r'tb-asset:([a-f0-9]{64})',statement[0]))&remote_hashes:continue
+                lifecycle_rows.append(row)
+                if len(lifecycle_rows)==8:break
+        assert len(lifecycle_rows)==8
+        def lifecycle_paper(cid,*,past=False,strategy='replay',slots=None):
+            began=now[0]-dt.timedelta(minutes=121 if past else 60)
+            ended=now[0]+dt.timedelta(minutes=-1 if past else 60)
+            frozen=slots or [dict(letter=chr(65+i),id=row['id'],title=row['title'],difficulty=row['difficulty'],tags=row.get('tags',[]),judgeScope='official',statementAvailable=i!=1,trainingAdded=True,trainingBefore=None) for i,row in enumerate(lifecycle_rows[:4])]
+            seed('INSERT INTO contests(id,name,status,started_at,deadline,duration,slots,config) VALUES(?,?,\'running\',?,?,120,?,?)',
+                 (cid,'重现赛 · '+lifecycle_rows[0]['contest'],began.isoformat(),ended.isoformat(),json.dumps(frozen,ensure_ascii=False),json.dumps({'strategy':strategy,'contest':lifecycle_rows[0]['contest'],'editedTrainingOnly':True},ensure_ascii=False)))
+            return began,ended
+        def journal_snapshot(db):
+            result={}
+            for table in ['contests','training','drafts','submissions','practice_sets','account_preferences']:
+                cursor=db.execute('SELECT * FROM '+table);names=[field[0] for field in cursor.description];values=[]
+                for record in cursor:
+                    record=list(record)
+                    for i,name in enumerate(names):
+                        if name in ['slots','config','ids','case_results','value'] and isinstance(record[i],str):
+                            try:record[i]=json.loads(record[i])
+                            except json.JSONDecodeError:pass
+                    values.append(record)
+                result[table]=sorted(values,key=lambda row:json.dumps(row,ensure_ascii=False,sort_keys=True))
+            return result
+        for row in lifecycle_rows[:3]:seed('INSERT INTO training(id,active_at) VALUES(?,?)',(row['id'],'2026-11-02T00:00:00.000000Z'))
+        began,ended=lifecycle_paper('native-manual-finish')
+        receipt('lifecycle-public-sample',lifecycle_rows[0]['id'],'SAMPLE_PASS',(began+dt.timedelta(minutes=10)).isoformat(),scope='samples')
+        seed("UPDATE submissions SET contest_id='native-manual-finish' WHERE id='lifecycle-public-sample'")
+        receipt('lifecycle-official-ac',lifecycle_rows[2]['id'],'AC',(began+dt.timedelta(minutes=20)).isoformat())
+        seed("UPDATE submissions SET contest_id='native-manual-finish' WHERE id='lifecycle-official-ac'")
+        seed('INSERT INTO drafts VALUES(?,?,?,?)',(lifecycle_rows[0]['id'],'','independent normal source before exam','2026-11-02T00:00:00.000000Z'))
+        workspace('running-paper-keeps-blind-score-without-auto-joining-unedited-slots')
+        assert native.execute('SELECT COUNT(*) FROM training WHERE id=?',(lifecycle_rows[3]['id'],)).fetchone()[0]==0
+        compare('running-paper-direct-read-keeps-full-frozen-roster',rpc('contest',query={'id':'native-manual-finish'}),old.contest('native-manual-finish'))
+        compare('running-problem-hides-solutions-and-knowledge',rpc('problem',query={'id':lifecycle_rows[0]['id'],'contestId':'native-manual-finish'}),old.problem(lifecycle_rows[0]['id'],contest_id='native-manual-finish'))
+        compare('recovered-statement-can-open-a-previously-missing-running-slot',rpc('problem',query={'id':lifecycle_rows[1]['id'],'contestId':'native-manual-finish'}),old.problem(lifecycle_rows[1]['id'],contest_id='native-manual-finish'))
+        reject('locked-exam-cannot-overwrite-ordinary-draft','draft',{'id':lifecycle_rows[0]['id'],'code':'wrong ordinary context'},lambda:old.save_draft(lifecycle_rows[0]['id'],'wrong ordinary context'),403)
+        compare('actual-exam-draft-keeps-context-and-language',rpc('draft',{'id':lifecycle_rows[0]['id'],'contestId':'native-manual-finish','code':'actual exam source 😀','language':'python3'}),old.save_draft(lifecycle_rows[0]['id'],'actual exam source 😀',contest_id='native-manual-finish',language='python3'))
+        compare('clearing-exam-code-is-a-real-persisted-edit',rpc('draft',{'id':lifecycle_rows[0]['id'],'contestId':'native-manual-finish','code':'','language':'python3'}),old.save_draft(lifecycle_rows[0]['id'],'',contest_id='native-manual-finish',language='python3'))
+        compare('exam-draft-read-is-separated-from-ordinary-code',rpc('problem',query={'id':lifecycle_rows[0]['id'],'contestId':'native-manual-finish'}),old.problem(lifecycle_rows[0]['id'],contest_id='native-manual-finish'))
+        compare('running-draft-and-ownership-journals-identical',journal_snapshot(native),journal_snapshot(legacy))
+        value=compare('manual-finish-keeps-real-score-and-missing-slot',rpc('contests/finish',{'contestId':'native-manual-finish'}),old.finish_contest('native-manual-finish'))
+        assert value['contest']['accepted']==1 and value['contest']['slots'][1]['statementAvailable'] is False
+        compare('manual-finish-journal-and-due-flags-identical',journal_snapshot(native),journal_snapshot(legacy))
+        compare('repeat-finish-is-idempotent',rpc('contests/finish',{'contestId':'native-manual-finish'}),old.finish_contest('native-manual-finish'))
+        _,deadline=lifecycle_paper('native-deadline-finish',past=True)
+        value=compare('overdue-finish-freezes-original-deadline',rpc('contests/finish',{'contestId':'native-deadline-finish'}),old.finish_contest('native-deadline-finish'))
+        assert value['contest']['finishedAt']==deadline.isoformat()
+        compare('deadline-finish-journal-identical',journal_snapshot(native),journal_snapshot(legacy))
+        compare('independent-post-exam-draft-claims-its-own-training-link',rpc('draft',{'id':lifecycle_rows[0]['id'],'code':'new independent source','language':'python3'}),old.save_draft(lifecycle_rows[0]['id'],'new independent source',language='python3'))
+        frozen=[]
+        for index,row in enumerate(lifecycle_rows[3:6]):
+            seed('INSERT INTO training(id,active_at) VALUES(?,?)',(row['id'],now[0].isoformat()))
+            frozen.append(dict(letter=chr(65+index),id=row['id'],title=row['title'],difficulty=row['difficulty'],tags=row.get('tags',[]),judgeScope='official',statementAvailable=True,trainingAdded=True,trainingBefore={'active':int(index==0),'active_at':'2026-11-01T00:00:00.000000Z','removed_at':None} if index<2 else None))
+        lifecycle_paper('native-cancel',slots=frozen)
+        seed('INSERT INTO drafts VALUES(?,?,?,?)',(lifecycle_rows[5]['id'],'native-cancel','cancelled exact exam source 😀',now[0].isoformat()))
+        reject('cannot-delete-running-paper','contests/delete',{'id':'native-cancel'},lambda:old.delete_contests('native-cancel'),409)
+        compare('cancel-restores-prior-training-and-keeps-exam-code',rpc('contests/cancel',{'contestId':'native-cancel'}),old.cancel_contest('native-cancel'))
+        compare('cancel-journal-identical',journal_snapshot(native),journal_snapshot(legacy))
+        compare('cancel-is-idempotent',rpc('contests/cancel',{'contestId':'native-cancel'}),old.cancel_contest('native-cancel'))
+        compare('cancelled-source-remains-recoverable-in-normal-context',rpc('problem',query={'id':lifecycle_rows[5]['id']}),old.problem(lifecycle_rows[5]['id']))
+        compare('delete-tombstones-frozen-paper-without-removing-code-or-score',rpc('contests/delete',{'id':'native-manual-finish'}),old.delete_contests('native-manual-finish'))
+        compare('delete-journal-identical',journal_snapshot(native),journal_snapshot(legacy))
+        compare('repeat-delete-keeps-tombstone-and-reveal-evidence',rpc('contests/delete',{'id':'native-manual-finish'}),old.delete_contests('native-manual-finish'))
+        compare('delete-all-retains-records-and-cancelled-source',rpc('contests/delete',{'all':True}),old.delete_contests(all_records=True))
+        compare('delete-all-journal-identical',journal_snapshot(native),journal_snapshot(legacy))
+        lifecycle_paper('native-protected-team',strategy='team')
+        reject('finish-does-not-impersonate-team-captain','contests/finish',{'contestId':'native-protected-team'},lambda:old.finish_contest('native-protected-team'),409)
+        reject('cancel-does-not-impersonate-team-coordinator','contests/cancel',{'contestId':'native-protected-team'},lambda:old.cancel_contest('native-protected-team'),409)
+        seed("DELETE FROM contests WHERE id='native-protected-team'")
         contest('unknown-retained-name',config={'contest':'Unknown private provenance fixture'})
         unchanged=native.execute('SELECT * FROM training ORDER BY id').fetchall()
         assert rpc('workspace',fail=True)['code']=='MIGRATION_PENDING';assert native.execute('SELECT * FROM training ORDER BY id').fetchall()==unchanged;guards.append('unported-event-name-does-not-drop-history-or-mutate-training')

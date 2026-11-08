@@ -363,8 +363,7 @@ fn activate(t: &Training<'_>, identity: &str) -> Result<(), ApiError> {
     let ids = json!(t.ids(identity)?).to_string();
     let today = local_date(t.now);
     for row in t.personal.rows("SELECT removed_at FROM training WHERE id IN(SELECT value FROM json_each(?)) AND active=0 AND removed_at IS NOT NULL",[ids])?.as_array().unwrap(){if local_date(required_at(text(row,"removed_at"))?)>=today{return Ok(());}}
-    t.personal.db.execute("INSERT INTO training(id,active_at) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET active=1,removed_at=NULL,active_at=MAX(training.active_at,excluded.active_at)",params![identity,stamp(t.now)])?;
-    t.recompute(identity)
+    t.activate_edited(identity, false)
 }
 fn selection(raw: &str) -> Result<Vec<String>, ApiError> {
     let ids: Vec<String> = serde_json::from_str(raw)?;

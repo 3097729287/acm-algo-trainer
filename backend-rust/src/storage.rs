@@ -210,7 +210,7 @@ impl PersonalStore {
         self.save_draft_context_at(body, stamp, "")
     }
     pub(crate) fn save_draft_context_at(
-        &mut self,
+        &self,
         body: &Value,
         stamp: &str,
         context: &str,
@@ -237,25 +237,25 @@ impl PersonalStore {
         {
             return Ok(json!({"savedAt":previous["draftSavedAt"]}));
         }
-        let tx = self.db.transaction()?;
-        if language != "cpp17"
-            || tx
-                .query_row(
-                    "SELECT 1 FROM account_preferences WHERE key=?",
-                    [&key],
-                    |_| Ok(()),
-                )
-                .optional()?
-                .is_some()
-        {
-            Self::put(&tx, &key, language, &stamp)?;
-        }
-        if context.is_empty() && !code.trim().is_empty() {
-            tx.execute("INSERT INTO training(id,active_at) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET active=1,removed_at=NULL,active_at=MAX(training.active_at,excluded.active_at)",params![id,stamp])?;
-        }
-        tx.execute("INSERT INTO drafts(problem_id,context,code,saved_at) VALUES(?,?,?,?) ON CONFLICT(problem_id,context) DO UPDATE SET code=excluded.code,saved_at=excluded.saved_at",params![id,context,code,stamp])?;
-        tx.commit()?;
-        Ok(json!({"savedAt":stamp}))
+        atomic(&self.db, |tx| {
+            if language != "cpp17"
+                || tx
+                    .query_row(
+                        "SELECT 1 FROM account_preferences WHERE key=?",
+                        [&key],
+                        |_| Ok(()),
+                    )
+                    .optional()?
+                    .is_some()
+            {
+                Self::put(tx, &key, language, &stamp)?;
+            }
+            if context.is_empty() && !code.trim().is_empty() {
+                tx.execute("INSERT INTO training(id,active_at) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET active=1,removed_at=NULL,active_at=MAX(training.active_at,excluded.active_at)",params![id,stamp])?;
+            }
+            tx.execute("INSERT INTO drafts(problem_id,context,code,saved_at) VALUES(?,?,?,?) ON CONFLICT(problem_id,context) DO UPDATE SET code=excluded.code,saved_at=excluded.saved_at",params![id,context,code,stamp])?;
+            Ok(json!({"savedAt":stamp}))
+        })
     }
     pub fn export(&self) -> Result<Value, ApiError> {
         // Export only explicit personal tables. Credentials/remote sessions are
