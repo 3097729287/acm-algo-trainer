@@ -14,6 +14,7 @@ pub mod native_judge;
 pub mod planner;
 pub mod preferences;
 pub mod process_job;
+pub mod public_assets;
 pub mod reviews;
 pub mod run_queue;
 pub mod service;
