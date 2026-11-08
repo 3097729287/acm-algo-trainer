@@ -1,0 +1,281 @@
+{
+  "ok": true,
+  "version": "1.6.7",
+  "sourceCommit": "4c730482f2876e9deeaa278196b9fa183ad449e8",
+  "feed": "https://47.82.84.74/updates/stable/manifest-v1.json",
+  "githubRelease": "https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.7",
+  "githubLatestAdvanced": false,
+  "backend": {
+    "total": 1266,
+    "passed": 1264,
+    "skipped": 2
+  },
+  "sharedService": {
+    "total": 118,
+    "passed": 117,
+    "skipped": 1
+  },
+  "packageFiles": 5093,
+  "nativeSourceInputsVerified": 413,
+  "library": {
+    "publicOnly": true,
+    "fullLibrary": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-integrated-public-up0ipc30\\library.sqlite3",
+    "fullSha256": "c6678266ac5750bf34b55a1596d10a9ecf557e1aff237cb32c482074d6d0bf54",
+    "library": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-release-167-library-o72wfd08\\library.sqlite3",
+    "librarySha256": "c104be695c31c56e9b0c73fcd42c8dc3d7d13748d5d8146d5ef330d583c41ccf",
+    "bytes": 437235712,
+    "remoteResources": 2218,
+    "localResources": 3948,
+    "newAssetsRetainedLocally": true,
+    "publicTablesExactlyPreserved": {
+      "library_meta": 30,
+      "bundled_items": 0,
+      "problems": 13480,
+      "problem_urls": 13420,
+      "solutions": 2255,
+      "detailed_solutions": 2254,
+      "solution_methods": 878,
+      "statements": 13457,
+      "lectures": 480,
+      "training_lists": 635,
+      "problem_lectures": 9258,
+      "catalog_generation": 1
+    },
+    "previousLibrary": "E:\\项目\\ToBe\\开发\\tb-background-redesign-20261106\\.backups\\release-audit-20261106\\library-slim.sqlite3",
+    "previousReceipt": "E:\\项目\\ToBe\\开发\\tb-background-redesign-20261106\\.backups\\release-audit-20261106\\assets.verified.json",
+    "sourceCommit": "cbd99a58b6abd26c734a7bdf415b6064a9a539ea"
+  },
+  "delta": {
+    "ok": true,
+    "from": "1.6.5",
+    "to": "1.6.7",
+    "originalFrozenHelper": true,
+    "public165InstallerFullyVerified": true,
+    "allProgramFiles": {
+      "files": 5093,
+      "allSha256Match": true,
+      "manifestSha256": "a83a379691aab0d9e0a1c1015695c8591cbfb55cca82823ab139ace846cbeea7"
+    },
+    "personalRowsUnchanged": true,
+    "identityAndDraftPreserved": true,
+    "patchBytes": 245347459,
+    "sha256": "2bf8ed71def0bc4d2faf94efb7138a17822f41492e43fd4616c8644bea1c54a7",
+    "changedFiles": 64,
+    "originalSubmissions": 0,
+    "realInstallationModified": false
+  },
+  "installer": {
+    "ok": true,
+    "version": "1.6.7",
+    "work": "E:\\项目\\ToBe\\开发\\tb-team-runtime-20261108\\build\\release-check-current-6eb12ab683",
+    "programManifestFiles": 5093,
+    "freshProgramManifest": {
+      "files": 5093,
+      "allSha256Match": true,
+      "manifestSha256": "a83a379691aab0d9e0a1c1015695c8591cbfb55cca82823ab139ace846cbeea7"
+    },
+    "freshInstallAndUninstall": true,
+    "upgradeProgramManifest": {
+      "files": 5093,
+      "allSha256Match": true,
+      "manifestSha256": "a83a379691aab0d9e0a1c1015695c8591cbfb55cca82823ab139ace846cbeea7"
+    },
+    "upgradePreservesIdentityDraftsTraining": true,
+    "updatePreferencePersists": true,
+    "generatedCachePreserved": true,
+    "personalRows": {
+      "training": 1,
+      "drafts": 1,
+      "submissions": 0,
+      "ranking_profile": 1,
+      "contests": 0
+    },
+    "validationInstaller": "E:\\项目\\ToBe\\开发\\tb-team-runtime-20261108\\build\\release-check-current-6eb12ab683\\setup\\ToBe-Setup-1.6.7-win64.exe",
+    "upgradeApp": "E:\\项目\\ToBe\\开发\\tb-team-runtime-20261108\\build\\release-check-current-6eb12ab683\\upgrade"
+  },
+  "installerHelper": {
+    "ok": true,
+    "waitedForOldProcess": true,
+    "verifiedInstallerHash": true,
+    "installedAndRestarted": true,
+    "visibleWindowClosedNormally": true,
+    "personalTablesPreserved": true,
+    "desktopCanInstallUpdates": true,
+    "validationRegistrationRemoved": true
+  },
+  "channel": {
+    "ok": true,
+    "official165UpdaterUnchanged": true,
+    "sourceCommit": "4c730482f2876e9deeaa278196b9fa183ad449e8",
+    "from165": "delta",
+    "modified165Fallback": "installer",
+    "from166": "installer",
+    "current167": null,
+    "actualPublicFeed": true
+  },
+  "domesticDownload": {
+    "ok": true,
+    "assets": [
+      {
+        "name": "ToBe-Update-1.6.5-to-1.6.7-win64.zip",
+        "bytes": 245347459,
+        "sha256": "2bf8ed71def0bc4d2faf94efb7138a17822f41492e43fd4616c8644bea1c54a7",
+        "matchesPublicAsset": true,
+        "tlsVerified": true,
+        "verificationLocation": "domestic-server",
+        "actualHttpsRoute": true,
+        "connectResolvedToLoopback": true,
+        "elapsedSeconds": 25.55,
+        "externalClientPrefixBytes": 65536,
+        "externalClientPrefixMatches": true
+      },
+      {
+        "name": "ToBe-Setup-1.6.7-win64.exe",
+        "bytes": 492550099,
+        "sha256": "a3fbe5541ada0ad747d851bc64e1d5930220187d6f753417bd356995437cc7d2",
+        "matchesPublicAsset": true,
+        "tlsVerified": true,
+        "verificationLocation": "domestic-server",
+        "actualHttpsRoute": true,
+        "connectResolvedToLoopback": true,
+        "elapsedSeconds": 50.85,
+        "externalClientPrefixBytes": 65536,
+        "externalClientPrefixMatches": true
+      }
+    ],
+    "temporaryLargeFilesStored": false
+  },
+  "publication": {
+    "ok": true,
+    "version": "1.6.7",
+    "sourceCommit": "4c730482f2876e9deeaa278196b9fa183ad449e8",
+    "feed": "https://47.82.84.74/updates/stable/manifest-v1.json",
+    "assets": [
+      {
+        "name": "ToBe-Setup-1.6.7-win64.exe",
+        "size": 492550099,
+        "sha256": "a3fbe5541ada0ad747d851bc64e1d5930220187d6f753417bd356995437cc7d2",
+        "url": "https://47.82.84.74/updates/assets/1.6.7/ToBe-Setup-1.6.7-win64.exe"
+      },
+      {
+        "name": "ToBe-Update-1.6.5-to-1.6.7-win64.zip",
+        "size": 245347459,
+        "sha256": "2bf8ed71def0bc4d2faf94efb7138a17822f41492e43fd4616c8644bea1c54a7",
+        "url": "https://47.82.84.74/updates/assets/1.6.7/ToBe-Update-1.6.5-to-1.6.7-win64.zip"
+      }
+    ],
+    "checksummedRelay": true,
+    "caddyUnchanged": true,
+    "containersUnchanged": true,
+    "accountServiceRestarted": false,
+    "databaseModified": false,
+    "historicalFilesDeleted": 0,
+    "available": 1839243264
+  },
+  "desktop": {
+    "ok": true,
+    "version": "1.6.7",
+    "sourceCommit": "4c730482f2876e9deeaa278196b9fa183ad449e8",
+    "installer": "C:\\Users\\lenovo\\Desktop\\ToBe-Setup-1.6.7-win64.exe",
+    "bytes": 492550099,
+    "sha256": "a3fbe5541ada0ad747d851bc64e1d5930220187d6f753417bd356995437cc7d2",
+    "freshAndUpgradeValidated": true,
+    "originalFrozenDelta165Verified": true,
+    "existingWindowsPreserved": true,
+    "domesticPublicationPending": false,
+    "at": "2026-11-08T12:01:24.784685+00:00",
+    "domesticFeed": "https://47.82.84.74/updates/stable/manifest-v1.json"
+  },
+  "teamProduction": {
+    "sameAccount": true,
+    "teamProtocolAvailable": true,
+    "contests": 559,
+    "partialContests": 15,
+    "boards": [
+      {
+        "period": "daily",
+        "rows": 4
+      },
+      {
+        "period": "weekly",
+        "rows": 6
+      },
+      {
+        "period": "total",
+        "rows": 12
+      }
+    ],
+    "readOnlyRequests": true,
+    "ok": true,
+    "phase": "activate",
+    "sourceCommit": "cbd99a58b6abd26c734a7bdf415b6064a9a539ea",
+    "addedTables": 9,
+    "identityAndRewardRecordsUnchangedDuringSwap": true,
+    "databaseRollbackDoesNotDropTeamData": true,
+    "legacySchemaUnchanged": true,
+    "mysqlRedisCaddyUnchanged": true,
+    "publicReleaseAndAssetMapsUnchanged": true,
+    "activationSeconds": 10.89
+  },
+  "publicHttps": {
+    "ok": true,
+    "readOnlyHttpsRequests": true,
+    "credentialsPrintedOrPersisted": false,
+    "checks": [
+      {
+        "path": "/v1/accounts/me",
+        "http": 200,
+        "seconds": 1.895,
+        "sameAccount": true
+      },
+      {
+        "path": "/v1/leaderboard?period=daily",
+        "http": 200,
+        "seconds": 4.873,
+        "rows": 4
+      },
+      {
+        "path": "/v1/leaderboard?period=weekly",
+        "http": 200,
+        "seconds": 0.419,
+        "rows": 6
+      },
+      {
+        "path": "/v1/leaderboard?period=total",
+        "http": 200,
+        "seconds": 2.841,
+        "rows": 12
+      },
+      {
+        "path": "/v1/team-training/state",
+        "http": 200,
+        "seconds": 0.413,
+        "sameAccount": true
+      },
+      {
+        "path": "/v1/team-training/catalogue",
+        "http": 200,
+        "seconds": 0.569,
+        "sameAccount": true,
+        "contests": 559,
+        "partialContests": 15,
+        "revision": "b67a066a7cac7851a98fd932224b0d8ae6e899d7c01899a8d9767eba20a3f755"
+      },
+      {
+        "path": "/v1/team-training/history",
+        "http": 200,
+        "seconds": 0.378,
+        "sameAccount": true
+      },
+      {
+        "path": "/v1/team-training/standings",
+        "http": 200,
+        "seconds": 0.422,
+        "sameAccount": true
+      }
+    ]
+  },
+  "existingNormalAndAdminWindowsNotReplaced": true,
+  "publishedAdministratorAssets": false,
+  "archive": "E:\\项目\\ToBe\\版本\\本地更新\\1.6.7\\正式发布"
+}
