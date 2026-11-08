@@ -1,0 +1,217 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:103443::A",
+      "beforeSha256": "083d4e199825d8b15d2f182234bfb1f821312e37e158cb2a06edcd345470cd6e",
+      "content": {
+        "markdown": "# Ice Cream\n\n2021 ICPC Asia Taipei Regional\r\nProblem A\r\nIce Cream\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nTo celebrate the 3rd anniversary of the Ice Cream Professional Company (ICPC), the company\r\nhas an anniversary sale activity. The activity’s name is “Buy 𝑋 units and Get 𝑌 units free”.\r\nThe contents of the activity is as below. First, you will be asking to draw a lottery ticket of\r\n𝑋 units and a lottery ticket of 𝑌 units, and then you can enjoy the discount of buy 𝑋 units\r\nand get 𝑌 units free. It means for every 𝑋 units of ice cream you bought, you will get 𝑌 units\r\nfree ice cream. The price of every unit of the ice cream is 3 dollars, and you want to buy some\r\nunits of ice cream. Please write a program to calculate the minimum price of your order.\r\nInput Format\r\nThe first line contains an integer 𝑇, which represents the number of test cases. Each test case\r\ncontains a single line with 3 integers 𝑋, 𝑌 , 𝑁, which represents the lottery tickets of 𝑋, 𝑌 ,\r\nand you want to obtain at least 𝑁 ice cream. Any two consecutive integers are separated by\r\nexactly one space.\r\nOutput Format\r\nFor each test case outputs an integer, which represents the minimum price of your order.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑇 ≤ 15\r\n∙ 1 ≤ 𝑋, 𝑌 ≤ 1, 000\r\n∙ 1 ≤ 𝑁 ≤ 15, 000\r\nSample Input 1\r\n1\r\n1 1 3\r\nSample Output 1\r\n6\r\nSample Input 2\r\n2\r\n4 7 22\r\n4 8 22\r\nSample Output 2\r\n24\r\n24\r\n1\n\n2021 ICPC Asia Taipei Regional\r\nAlmost blank page\r\n2\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "1\n1 1 3",
+            "output": "6"
+          },
+          {
+            "name": "样例 2",
+            "input": "2\n4 7 22\n4 8 22",
+            "output": "24\n24"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# Ice Cream\n\nTime limit: 1 second. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nTo celebrate the third anniversary of the Ice Cream Professional Company (ICPC), the company is holding an anniversary sale called “Buy $X$ units and get $Y$ units free”. First, you draw a lottery ticket for $X$ and a lottery ticket for $Y$. You can then use this offer: for every $X$ units of ice cream you buy, you receive $Y$ additional units for free.\n\nEach unit of ice cream costs 3 dollars. Write a program to calculate the minimum price you must pay to obtain at least $N$ units of ice cream.\n\n## Input Format\n\nThe first line contains an integer $T$, the number of test cases. Each test case consists of one line containing three integers $X$, $Y$, and $N$: the two numbers on your lottery tickets and the minimum number of units of ice cream you want to obtain. Any two consecutive integers are separated by exactly one space.\n\n## Output Format\n\nFor each test case, output one integer: the minimum price of your order.\n\n## Technical Specification\n\n- $1\\le T\\le15$.\n- $1\\le X,Y\\le1000$.\n- $1\\le N\\le15000$.\n\n## Sample 1\n\n### Input\n\n```text\n1\n1 1 3\n```\n\n### Output\n\n```text\n6\n```\n\n## Sample 2\n\n### Input\n\n```text\n2\n4 7 22\n4 8 22\n```\n\n### Output\n\n```text\n24\n24\n```\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "sourcePdfSha256": "0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+          "pages": [
+            1,
+            2
+          ]
+        },
+        "id": "remote:codeforces:103443::A",
+        "title": "Ice Cream",
+        "url": "https://codeforces.com/gym/103443/problem/A",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+          "bytes": 123193,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+          "fileName": "gym-103443-A.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            1,
+            2
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          1,
+          2
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "A",
+          "pdfTitle": "Ice Cream",
+          "rosterTitle": "Ice Cream",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.407223+00:00",
+          "corpusAuditVerifiedSha256": "617432d84a2834e6e26d5fe7401a45f1025a25bdeb7cba253f151d1a6ec64267"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": true,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::A",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+          "sourcePages": [
+            1,
+            2
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 2,
+          "samplesSha256": "b906491be468f9739a3e1c3e98fff4f276ff4dbc06911a6f73ee62071c8c7d26",
+          "samplePagesReviewed": [
+            1
+          ],
+          "allPagesRendered": true
+        },
+        "sourceTextArchive": [
+          {
+            "text": "2021 ICPC Asia Taipei Regional\r\nProblem A\r\nIce Cream\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nTo celebrate the 3rd anniversary of the Ice Cream Professional Company (ICPC), the company\r\nhas an anniversary sale activity. The activity’s name is “Buy 𝑋 units and Get 𝑌 units free”.\r\nThe contents of the activity is as below. First, you will be asking to draw a lottery ticket of\r\n𝑋 units and a lottery ticket of 𝑌 units, and then you can enjoy the discount of buy 𝑋 units\r\nand get 𝑌 units free. It means for every 𝑋 units of ice cream you bought, you will get 𝑌 units\r\nfree ice cream. The price of every unit of the ice cream is 3 dollars, and you want to buy some\r\nunits of ice cream. Please write a program to calculate the minimum price of your order.\r\nInput Format\r\nThe first line contains an integer 𝑇, which represents the number of test cases. Each test case\r\ncontains a single line with 3 integers 𝑋, 𝑌 , 𝑁, which represents the lottery tickets of 𝑋, 𝑌 ,\r\nand you want to obtain at least 𝑁 ice cream. Any two consecutive integers are separated by\r\nexactly one space.\r\nOutput Format\r\nFor each test case outputs an integer, which represents the minimum price of your order.\r\nTechnical Specification\r\n∙ 1 ≤ 𝑇 ≤ 15\r\n∙ 1 ≤ 𝑋, 𝑌 ≤ 1, 000\r\n∙ 1 ≤ 𝑁 ≤ 15, 000\r\nSample Input 1\r\n1\r\n1 1 3\r\nSample Output 1\r\n6\r\nSample Input 2\r\n2\r\n4 7 22\r\n4 8 22\r\nSample Output 2\r\n24\r\n24\r\n1\n\n2021 ICPC Asia Taipei Regional\r\nAlmost blank page\r\n2",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "e1bc3837c47617aea0a3508f5a3718cad839ed473d43fd0468058c0295e93982"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "1\n1 1 3",
+                "output": "6"
+              },
+              {
+                "name": "样例 2",
+                "input": "2\n4 7 22\n4 8 22",
+                "output": "24\n24"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+              "pagesReviewed": [
+                1
+              ],
+              "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+              "samples": [
+                {
+                  "name": "样例 1",
+                  "input": "1\n1 1 3",
+                  "output": "6"
+                },
+                {
+                  "name": "样例 2",
+                  "input": "2\n4 7 22\n4 8 22",
+                  "output": "24\n24"
+                }
+              ]
+            }
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "A",
+          "pdfSha256": "0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [],
+          "notes": [
+            "第二页为原稿的 Almost blank page，无题意、附图或样例遗漏。",
+            "促销按实际付费购买的份数计算；要求获得至少 N 份，并非恰好 N 份。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "729467f799742c5644e2a73f2b9e2f2c39f88630aefcc455270dc5f9a80e815d"
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "617432d84a2834e6e26d5fe7401a45f1025a25bdeb7cba253f151d1a6ec64267",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "729467f799742c5644e2a73f2b9e2f2c39f88630aefcc455270dc5f9a80e815d",
+          "sourcePdfSha256": "0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+          "markdown": "# 冰淇淋\n\n时间限制：1 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\n为了庆祝冰淇淋专业公司（ICPC）成立三周年，公司举办了名为“买 $X$ 份，送 $Y$ 份”的周年促销活动。首先，你要抽取一张写有 $X$ 的奖券和一张写有 $Y$ 的奖券。随后，你便能享受这样的优惠：每购买 $X$ 份冰淇淋，就额外获赠 $Y$ 份冰淇淋。\n\n每份冰淇淋的价格为 3 元。请编写程序，计算为了得到至少 $N$ 份冰淇淋，最少需要支付多少钱。\n\n## 输入格式\n\n第一行包含一个整数 $T$，表示测试用例数。每个测试用例只有一行，包含三个整数 $X$、$Y$ 和 $N$，分别表示两张奖券上的数字，以及你至少想得到的冰淇淋份数。任意两个相邻整数之间恰好有一个空格。\n\n## 输出格式\n\n对于每个测试用例，输出一个整数，表示订单的最低价格。\n\n## 数据范围\n\n- $1\\le T\\le15$。\n- $1\\le X,Y\\le1000$。\n- $1\\le N\\le15000$。\n\n## 样例 1\n\n### 输入\n\n```text\n1\n1 1 3\n```\n\n### 输出\n\n```text\n6\n```\n\n## 样例 2\n\n### 输入\n\n```text\n2\n4 7 22\n4 8 22\n```\n\n### 输出\n\n```text\n24\n24\n```\n"
+        },
+        "translationReview": {
+          "letter": "A",
+          "pdfSha256": "0495c2bc6f7dfb7f2c46d38302175dfbb867aac753b41d252d93d7df25a04967",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [],
+          "notes": [
+            "第二页为原稿的 Almost blank page，无题意、附图或样例遗漏。",
+            "促销按实际付费购买的份数计算；要求获得至少 N 份，并非恰好 N 份。"
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "729467f799742c5644e2a73f2b9e2f2c39f88630aefcc455270dc5f9a80e815d",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

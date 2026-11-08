@@ -46,6 +46,12 @@ def normalize_practice_difficulty(row):
     if url.hostname in ('codeforces.com', 'www.codeforces.com') and url.path.rstrip('/') == '/gym/106695/problem/J':
         if value.get('difficultyEstimated') is not False or not value.get('difficultySource'):
             value.update(OYSTER_REVIEW)
+    return round_difficulty(value)
+
+
+def round_difficulty(row):
+    """Use the display scale without changing a verified source or its evidence."""
+    value = dict(row)
     rating = value.get('difficulty')
     if isinstance(rating, (int, float)) and not isinstance(rating, bool) and math.isfinite(rating) and rating > 0:
         rounded = int(math.floor(rating / 100 + .5)) * 100

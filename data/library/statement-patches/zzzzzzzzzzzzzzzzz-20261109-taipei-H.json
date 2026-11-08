@@ -1,0 +1,194 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:103443::H",
+      "beforeSha256": "2a9c97ab4190ce217b65a8a1fbb3fb2a612b3d58406f2b4f0fce59179df59c1c",
+      "content": {
+        "markdown": "# A Big Project\n\n2021 ICPC Asia Taipei Regional\r\nProblem H\r\nA Big Project\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe ICPC company is running a big project. The project manager, Peter, divides this big\r\nproject into 𝑛 subprojects and asks his colleagues to join. Peter finds 2𝑛 colleagues who are\r\ninterested in the project, and he wants to have all of them in. For each subproject, Peter\r\ndecides to have a team of two people. Some of the colleagues have never collaborated with each\r\nother before, and Peter would like to encourage collaborations through this project. However,\r\n𝑟 of the 𝑛 subprojects are very essential so Peter expects that the two team members of an\r\nessential subproject have experience on collaboration.\r\nGiven “a list of collaborations”, i.e. a list of pairs of the 2𝑛 colleagues who have collaborated\r\nbefore, please find the number 𝑘 minimizing |𝑘−𝑟| such that the 2𝑛 colleagues can be partitioned\r\ninto 𝑛 2-sets with exactly 𝑘 of which appeared in the list of collaborations. You also have to\r\ngive the 𝑛 teams.\r\nInput Format\r\nFor each test case, the first line contains three integers 𝑛, 𝑚, and 𝑟, where 𝑛 is the number\r\nof subprojects, 𝑚 is the number of pairs in the list of collaborations, and 𝑟 is the number of\r\nessential subprojects. The 2𝑛 colleagues who join the project are numbered from 1 to 2𝑛. Each\r\nof the following 𝑚 lines contains two integers 𝑥 and 𝑦, indicating that 𝑥 and 𝑦 have collaborated\r\nbefore. Consecutive integers in a line are separated by a space.\r\nOutput Format\r\nFor each test case, the output consists of 𝑛 + 1 lines. The first line is the integer 𝑘. Each of\r\nthe following 𝑛 lines contains two integers 𝑥 and 𝑦. In exactly 𝑘 of the 𝑛 lines, either “𝑥 𝑦” or\r\n“𝑦 𝑥” has to be in the list of collaborations. For the remaining 𝑛 − 𝑘 lines, neither “𝑥 𝑦” nor\r\n“𝑦 𝑥” appears in the list of collaborations.\r\nTechnical Specification\r\n∙ 0 ≤ 𝑟 ≤ 𝑛 ≤ 450\r\n∙ 0 ≤ 𝑚 ≤\r\n(︀\r\n2𝑛\r\n2\r\n)︀\r\n21\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n3 5 2\r\n1 2\r\n6 3\r\n4 3\r\n2 5\r\n5 4\r\nSample Output 1\r\n2\r\n5 2\r\n3 6\r\n1 4\r\n22\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 5 2\n1 2\n6 3\n4 3\n2 5\n5 4",
+            "output": "2\n5 2\n3 6\n1 4"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# A Big Project\n\nTime limit: 1 second. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nThe ICPC company is running a big project. Its manager, Peter, divides it into $n$ subprojects and invites his colleagues to join. He finds $2n$ interested colleagues and wants all of them to participate. Each subproject will have a team of two people. Some colleagues have never worked together, and Peter hopes this project will encourage new collaborations. However, $r$ of the $n$ subprojects are essential, and he would prefer their team members to have worked together before.\n\nYou are given a list of pairs of colleagues who have collaborated before. Partition the $2n$ colleagues into $n$ pairs so that exactly $k$ pairs appear in that list and $|k-r|$ is minimized. Output $k$ and the $n$ teams.\n\n## Input Format\n\nFor each test case, the first line contains three integers $n$, $m$, and $r$: the number of subprojects, the number of pairs in the collaboration list, and the number of essential subprojects. The colleagues are numbered from 1 through $2n$. Each of the following $m$ lines contains two integers $x$ and $y$, indicating that they have collaborated before. Consecutive integers on a line are separated by one space.\n\n## Output Format\n\nFor each test case, output $n+1$ lines. The first line contains $k$. Each of the following $n$ lines contains the numbers $x$ and $y$ of the two members of one team. In exactly $k$ of these lines, the pair $(x,y)$ or $(y,x)$ must occur in the collaboration list. In each of the other $n-k$ lines, neither orientation may occur in the list.\n\n## Technical Specification\n\n- $0\\le r\\le n\\le450$.\n- $0\\le m\\le\\binom{2n}{2}$.\n\n## Sample 1\n\n### Input\n\n```text\n3 5 2\n1 2\n6 3\n4 3\n2 5\n5 4\n```\n\n### Output\n\n```text\n2\n5 2\n3 6\n1 4\n```\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "sourcePdfSha256": "0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+          "pages": [
+            21,
+            22
+          ]
+        },
+        "id": "remote:codeforces:103443::H",
+        "title": "A Big Project",
+        "url": "https://codeforces.com/gym/103443/problem/H",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+          "bytes": 153129,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+          "fileName": "gym-103443-H.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            21,
+            22
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          21,
+          22
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "H",
+          "pdfTitle": "A Big Project",
+          "rosterTitle": "A Big Project",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.783254+00:00",
+          "corpusAuditVerifiedSha256": "5e50efe77d8daf0bd792a39709b4fbbad757adc0309668b6e12497ddc50fba6f"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": true,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::H",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+          "sourcePages": [
+            21,
+            22
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 1,
+          "samplesSha256": "d87a151a36b4daf6e75659fbcb9f260b9750cb5f48676380ddffe4aa8c86fc02",
+          "samplePagesReviewed": [
+            2
+          ],
+          "allPagesRendered": true
+        },
+        "sourceTextArchive": [
+          {
+            "text": "2021 ICPC Asia Taipei Regional\r\nProblem H\r\nA Big Project\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nThe ICPC company is running a big project. The project manager, Peter, divides this big\r\nproject into 𝑛 subprojects and asks his colleagues to join. Peter finds 2𝑛 colleagues who are\r\ninterested in the project, and he wants to have all of them in. For each subproject, Peter\r\ndecides to have a team of two people. Some of the colleagues have never collaborated with each\r\nother before, and Peter would like to encourage collaborations through this project. However,\r\n𝑟 of the 𝑛 subprojects are very essential so Peter expects that the two team members of an\r\nessential subproject have experience on collaboration.\r\nGiven “a list of collaborations”, i.e. a list of pairs of the 2𝑛 colleagues who have collaborated\r\nbefore, please find the number 𝑘 minimizing |𝑘−𝑟| such that the 2𝑛 colleagues can be partitioned\r\ninto 𝑛 2-sets with exactly 𝑘 of which appeared in the list of collaborations. You also have to\r\ngive the 𝑛 teams.\r\nInput Format\r\nFor each test case, the first line contains three integers 𝑛, 𝑚, and 𝑟, where 𝑛 is the number\r\nof subprojects, 𝑚 is the number of pairs in the list of collaborations, and 𝑟 is the number of\r\nessential subprojects. The 2𝑛 colleagues who join the project are numbered from 1 to 2𝑛. Each\r\nof the following 𝑚 lines contains two integers 𝑥 and 𝑦, indicating that 𝑥 and 𝑦 have collaborated\r\nbefore. Consecutive integers in a line are separated by a space.\r\nOutput Format\r\nFor each test case, the output consists of 𝑛 + 1 lines. The first line is the integer 𝑘. Each of\r\nthe following 𝑛 lines contains two integers 𝑥 and 𝑦. In exactly 𝑘 of the 𝑛 lines, either “𝑥 𝑦” or\r\n“𝑦 𝑥” has to be in the list of collaborations. For the remaining 𝑛 − 𝑘 lines, neither “𝑥 𝑦” nor\r\n“𝑦 𝑥” appears in the list of collaborations.\r\nTechnical Specification\r\n∙ 0 ≤ 𝑟 ≤ 𝑛 ≤ 450\r\n∙ 0 ≤ 𝑚 ≤\r\n(︀\r\n2𝑛\r\n2\r\n)︀\r\n21\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 1\r\n3 5 2\r\n1 2\r\n6 3\r\n4 3\r\n2 5\r\n5 4\r\nSample Output 1\r\n2\r\n5 2\r\n3 6\r\n1 4\r\n22",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "fa7e8f236c2b384981514cabada57a1f39d47baf93477c2923db5bdbed7ba53c"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "3 5 2\n1 2\n6 3\n4 3\n2 5\n5 4",
+                "output": "2\n5 2\n3 6\n1 4"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+              "pagesReviewed": [
+                2
+              ],
+              "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+              "samples": [
+                {
+                  "name": "样例 1",
+                  "input": "3 5 2\n1 2\n6 3\n4 3\n2 5\n5 4",
+                  "output": "2\n5 2\n3 6\n1 4"
+                }
+              ]
+            }
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "H",
+          "pdfSha256": "0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            21,
+            22
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "d3c1ce205fd0ddb1ea202287edd78ad2f519436736170b8ba4bb90f828abb31f"
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "5e50efe77d8daf0bd792a39709b4fbbad757adc0309668b6e12497ddc50fba6f",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "d3c1ce205fd0ddb1ea202287edd78ad2f519436736170b8ba4bb90f828abb31f",
+          "sourcePdfSha256": "0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+          "markdown": "# 大项目\n\n时间限制：1 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\nICPC 公司正在开展一个大项目。项目经理 Peter 将它划分为 $n$ 个子项目，并邀请同事参加。他找到了 $2n$ 名有兴趣的同事，希望让所有人都参与。每个子项目由两人组成的团队负责。有些同事之前从未合作过，Peter 希望借此鼓励新的合作。不过，在这 $n$ 个子项目中，有 $r$ 个十分关键，他希望负责这些子项目的两名成员曾经合作过。\n\n给定一份曾经合作过的同事对的名单，请将这 $2n$ 名同事划分为 $n$ 对，使恰好有 $k$ 对出现在名单中，并使 $|k-r|$ 最小。请输出 $k$，并给出这 $n$ 个团队的成员。\n\n## 输入格式\n\n对于每个测试用例，第一行包含三个整数 $n$、$m$ 和 $r$，分别表示子项目数、合作名单中的同事对数，以及关键子项目数。同事的编号为 1 到 $2n$。接下来 $m$ 行，每行包含两个整数 $x$ 和 $y$，表示这两名同事曾经合作过。同一行的相邻整数之间用一个空格分隔。\n\n## 输出格式\n\n对于每个测试用例，输出 $n+1$ 行。第一行输出 $k$。接下来 $n$ 行，每行输出一个团队中两名成员的编号 $x$ 和 $y$。其中恰好有 $k$ 行对应的 $(x,y)$ 或 $(y,x)$ 出现在合作名单中；其余 $n-k$ 行对应的同事对，无论按哪个顺序，都不能出现在名单中。\n\n## 数据范围\n\n- $0\\le r\\le n\\le450$。\n- $0\\le m\\le\\binom{2n}{2}$。\n\n## 样例 1\n\n### 输入\n\n```text\n3 5 2\n1 2\n6 3\n4 3\n2 5\n5 4\n```\n\n### 输出\n\n```text\n2\n5 2\n3 6\n1 4\n```\n"
+        },
+        "translationReview": {
+          "letter": "H",
+          "pdfSha256": "0e3cef8f3d40187054e7599b46b605e746ee22d43e80c9a4ece9244bbe566357",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            21,
+            22
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "d3c1ce205fd0ddb1ea202287edd78ad2f519436736170b8ba4bb90f828abb31f",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

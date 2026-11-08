@@ -17,8 +17,27 @@ def has_body(markdown):
     return any(character.isalpha() for character in prose(markdown))
 
 
+def language_body(markdown):
+    """Use an explicit task description, excluding its optional story/lyrics.
+
+    Chinese section labels alone are not evidence of Chinese task prose. If no
+    nonempty description exists, retain the whole body for language checking.
+    """
+    selected=False;level=0;body=[]
+    for line in str(markdown or '').splitlines():
+        heading=re.match(r'^ {0,3}(#{1,6})[ \t]+(.+?)[ \t]*#*[ \t]*$',line)
+        if heading:
+            name=re.sub(r'\s+','',heading[2]).casefold()
+            if name in {'题目描述','问题描述','题意','problemstatement','problemdescription','description'}:
+                selected=True;level=len(heading[1])
+            elif len(heading[1])<=level:selected=False
+        elif selected:body.append(line)
+    value='\n'.join(body)
+    return value if has_body(value) else markdown
+
+
 def japanese_only(markdown):
-    text = prose(markdown)
+    text = prose(language_body(markdown))
     kana = len(re.findall(r'[\u3040-\u30ff]', text))
     # A Japanese title or quoted word alone is not a language verdict.
     return kana >= 8 and len(re.findall(r'[A-Za-z]', text)) < kana * 3

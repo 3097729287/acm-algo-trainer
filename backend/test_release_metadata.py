@@ -111,9 +111,16 @@ class ReleaseMetadataTests(unittest.TestCase):
     def test_external_source_directory_junction_is_not_followed(self):
         # Windows junctions do not require symlink privilege. Other platforms
         # exercise the same linked-directory guard with a directory symlink.
+        # Build this layout directly: renaming recently written directories can
+        # transiently fail on Windows before the guard is even exercised.
         outside = self.root / 'outside'
-        (self.app / 'resources').rename(outside)
-        link = self.app / 'resources'
+        outside.mkdir()
+        (outside/'BUILD-INFO.json').write_text(json.dumps(self.build),encoding='utf8')
+        (outside/'SOURCE-MANIFEST.json').write_bytes(self.manifest)
+        linked_app=self.root/'linked-app';linked_app.mkdir()
+        (linked_app/'VERSION').write_text('1.1.0',encoding='utf8')
+        for name,value in self.old.items():(linked_app/name).write_bytes(value)
+        link = linked_app / 'resources'
         if os.name == 'nt':
             import _winapi
             _winapi.CreateJunction(str(outside), str(link))
@@ -122,7 +129,8 @@ class ReleaseMetadataTests(unittest.TestCase):
         before = {path.name: path.read_bytes() for path in outside.iterdir()}
         try:
             with self.assertLogs(release_metadata.LOG, level=logging.WARNING):
-                self.assertEqual(release_metadata.refresh_release_metadata(self.app)['status'], 'error')
+                self.assertEqual(release_metadata.refresh_release_metadata(linked_app)['status'], 'error')
+            for name,value in self.old.items():self.assertEqual((linked_app/name).read_bytes(),value)
             self.assert_old()
             self.assertEqual(before, {path.name: path.read_bytes() for path in outside.iterdir()})
         finally:

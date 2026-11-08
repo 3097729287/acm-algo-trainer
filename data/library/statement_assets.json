@@ -43030,5 +43030,59 @@
     "bytes": 172024,
     "file": "statement-assets/part-0047.bin",
     "offset": 2037021
+  },
+  {
+    "bytes": 49570,
+    "file": "statement-assets/09782e672c3a426be957a470582d4bb1793f190ad3dda09149932a61398cd472.bin",
+    "mime": "image/jpeg",
+    "sha256": "09782e672c3a426be957a470582d4bb1793f190ad3dda09149932a61398cd472"
+  },
+  {
+    "bytes": 200695,
+    "file": "statement-assets/0dc14c4871931b38111ded703022dd7285e09dfb57b297d517ddfefd87f46d13.bin",
+    "mime": "image/png",
+    "sha256": "0dc14c4871931b38111ded703022dd7285e09dfb57b297d517ddfefd87f46d13"
+  },
+  {
+    "bytes": 69948,
+    "file": "statement-assets/1a1765296ff77b5968d32203714c5f698480905599b8870f77db1ab18c6bb80d.bin",
+    "mime": "image/jpeg",
+    "sha256": "1a1765296ff77b5968d32203714c5f698480905599b8870f77db1ab18c6bb80d"
+  },
+  {
+    "bytes": 73309,
+    "file": "statement-assets/31d807e655526a1d919d422a06c9655c0e97483fcb9b8ba9b894552302f724a6.bin",
+    "mime": "image/png",
+    "sha256": "31d807e655526a1d919d422a06c9655c0e97483fcb9b8ba9b894552302f724a6"
+  },
+  {
+    "bytes": 207164,
+    "file": "statement-assets/3daf53b11ee4a4fb384882671a88843f9be89996f3fdb89f187ad26c14081994.bin",
+    "mime": "image/png",
+    "sha256": "3daf53b11ee4a4fb384882671a88843f9be89996f3fdb89f187ad26c14081994"
+  },
+  {
+    "bytes": 82700,
+    "file": "statement-assets/600ba7ec2e2b7d128de77ce78bdd3914b45e0621fbee0e73a48804c50315a2ba.bin",
+    "mime": "image/jpeg",
+    "sha256": "600ba7ec2e2b7d128de77ce78bdd3914b45e0621fbee0e73a48804c50315a2ba"
+  },
+  {
+    "bytes": 142646,
+    "file": "statement-assets/8f5e325a3e005ae864d2044df9a218840d995527d7245732cee3b9d7cf677475.bin",
+    "mime": "image/png",
+    "sha256": "8f5e325a3e005ae864d2044df9a218840d995527d7245732cee3b9d7cf677475"
+  },
+  {
+    "bytes": 66993,
+    "file": "statement-assets/97c6bed11a80d8a40f71490d7e9e9923c5f45b1b77abfcb51fb5d03e51621433.bin",
+    "mime": "image/jpeg",
+    "sha256": "97c6bed11a80d8a40f71490d7e9e9923c5f45b1b77abfcb51fb5d03e51621433"
+  },
+  {
+    "bytes": 50730,
+    "file": "statement-assets/c8952097f0774ed08cfed11c051f7607f440fb6d695628da3ea5fc906447023e.bin",
+    "mime": "image/jpeg",
+    "sha256": "c8952097f0774ed08cfed11c051f7607f440fb6d695628da3ea5fc906447023e"
   }
 ]

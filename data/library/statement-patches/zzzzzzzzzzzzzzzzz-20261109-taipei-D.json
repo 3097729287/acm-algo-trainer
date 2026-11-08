@@ -1,0 +1,233 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:103443::D",
+      "beforeSha256": "87e9b241b6b6a22036c85d6665c544e38105339642d0bbd0c48036a5d4b95fee",
+      "content": {
+        "markdown": "# Largest Remainder\n\n2021 ICPC Asia Taipei Regional\r\nProblem D\r\nLargest Remainder\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nGiven a list of 𝐷 digits and an integer 𝐾, we consider all different ways to permute these digits\r\ninto a 𝐷-digit decimal number. The target of this problem is to find a permutation 𝑋, such\r\nthat when 𝑋 is divided by 𝐾, the remainder (between 0 and 𝐾 − 1) is the largest among\r\nall other permutations. If there are more than one possible permutation, output the largest\r\npermutation.\r\nFor instance, suppose that we have 𝐷 = 3 digits, and they are respectively 1, 2, 3.\r\n1. If 𝐾 = 1, then we see that every permutation will give a remainder 0 when divided by 𝐾,\r\nand 321 is thus the desired answer, as it is the largest permutation among all.\r\n2. If 𝐾 = 10, then both 123 and 213 will give a remainder 3 when divided by 𝐾, and this is\r\nthe largest possible remainder in this case. Consequently, the desired output is 213 since\r\nit is a larger permutation.\r\n3. If 𝐾 = 100, then the largest remainder we can get is 32, when the permutation is 132.\r\nInput Format\r\nThe first line of the input contains a positive integer 𝐷 followed by a positive integer 𝐾. Then,\r\nthe next line contains 𝐷 digits, each digit 𝑑 has value 1 ≤ 𝑑 ≤ 9 and is separated from the next\r\none by a space.\r\nOutput Format\r\nOutput the largest permutation that gives the largest remainder in a single line.\r\nTechnical Specification\r\n∙ 1 ≤ 𝐷 ≤ 16\r\n∙ 1 ≤ 𝐾 ≤ 200\r\n∙ 1 ≤ 𝑑 ≤ 9\r\nSample Input 1\r\n3 1\r\n1 2 3\r\nSample Output 1\r\n321\r\nSample Input 2\r\n3 10\r\n1 2 3\r\nSample Output 2\r\n213\r\n9\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 3\r\n3 100\r\n1 2 3\r\nSample Output 3\r\n132\r\n10\n\n[PDF](https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3 1\n1 2 3",
+            "output": "321"
+          },
+          {
+            "name": "样例 2",
+            "input": "3 10\n1 2 3",
+            "output": "213"
+          },
+          {
+            "name": "样例 3",
+            "input": "3 100\n1 2 3",
+            "output": "132"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# Largest Remainder\n\nTime limit: 1 second. Memory limit: 1024 megabytes.\n\n## Problem Description\n\nGiven $D$ digits and an integer $K$, consider every distinct permutation of these digits as a $D$-digit decimal number. Find a permutation $X$ whose remainder on division by $K$, between 0 and $K-1$, is as large as possible. Among permutations giving the same largest remainder, output the largest number.\n\nFor example, let $D=3$ and let the digits be 1, 2, and 3.\n\n1. If $K=1$, every permutation has remainder 0, so the answer is 321, the largest permutation.\n2. If $K=10$, both 123 and 213 give the largest possible remainder, 3. The answer is 213 because it is larger.\n3. If $K=100$, the largest possible remainder is 32, obtained by the permutation 132.\n\n## Input Format\n\nThe first line contains two positive integers $D$ and $K$. The next line contains $D$ digits, separated by spaces. Each digit $d$ satisfies $1\\le d\\le9$.\n\n## Output Format\n\nOutput, on one line, the largest permutation giving the largest remainder.\n\n## Technical Specification\n\n- $1\\le D\\le16$.\n- $1\\le K\\le200$.\n- $1\\le d\\le9$.\n\n## Sample 1\n\n### Input\n\n```text\n3 1\n1 2 3\n```\n\n### Output\n\n```text\n321\n```\n\n## Sample 2\n\n### Input\n\n```text\n3 10\n1 2 3\n```\n\n### Output\n\n```text\n213\n```\n\n## Sample 3\n\n### Input\n\n```text\n3 100\n1 2 3\n```\n\n### Output\n\n```text\n132\n```\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+        "sampleExtraction": {
+          "sourcePdfSha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+          "pages": [
+            9,
+            10
+          ]
+        },
+        "id": "remote:codeforces:103443::D",
+        "title": "Largest Remainder",
+        "url": "https://codeforces.com/gym/103443/problem/D",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 1024
+        },
+        "statementPdf": {
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+          "bytes": 123577,
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "data": "tb-asset:24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+          "fileName": "gym-103443-D.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "sourcePageNumbers": [
+            9,
+            10
+          ]
+        },
+        "attachments": {
+          "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf": {
+            "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+            "sha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "bytes": 624605,
+            "mime": "application/pdf",
+            "pageCount": 34,
+            "data": "tb-asset:2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+            "fileName": "taipei-2021-original.pdf"
+          }
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "ICPC Archive 原题 PDF（已核对 Gym 全部题号及题名）",
+        "sourcePdfUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+        "sourcePageNumbers": [
+          9,
+          10
+        ],
+        "sourceBinding": {
+          "kind": "complete-gym-native-catalogue-and-archived-pdf-roster",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "problem": "D",
+          "pdfTitle": "Largest Remainder",
+          "rosterTitle": "Largest Remainder",
+          "problemInventoryVerified": 13
+        },
+        "resourceIssues": [],
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 3,
+          "pdfPageCountVerified": true,
+          "checkedAt": "2026-11-08T06:09:41.568352+00:00",
+          "corpusAuditVerifiedSha256": "b63676e843ba8367383b4cf81440663e02b638098e57a436e68e7d4f44f8fcdd"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "translationAvailable": true,
+        "translationUnavailableReason": "等待逐页核对原始 PDF 的文字与公式；完整英文 PDF 可正常阅读",
+        "nativeSourceReview": {
+          "id": "remote:codeforces:103443::D",
+          "nativeRosterUrl": "https://codeforces.com/gym/103443",
+          "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourcePdfSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "pdfSha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+          "sourcePages": [
+            9,
+            10
+          ],
+          "completeRosterTitlesVerified": 13,
+          "samplePairs": 3,
+          "samplesSha256": "0bc5110be97a2d9cc55fefce6b94a0b243a54319244fbc3d52b244b77368a291",
+          "samplePagesReviewed": [
+            1,
+            2
+          ],
+          "allPagesRendered": true
+        },
+        "sourceTextArchive": [
+          {
+            "text": "2021 ICPC Asia Taipei Regional\r\nProblem D\r\nLargest Remainder\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nProblem Description\r\nGiven a list of 𝐷 digits and an integer 𝐾, we consider all different ways to permute these digits\r\ninto a 𝐷-digit decimal number. The target of this problem is to find a permutation 𝑋, such\r\nthat when 𝑋 is divided by 𝐾, the remainder (between 0 and 𝐾 − 1) is the largest among\r\nall other permutations. If there are more than one possible permutation, output the largest\r\npermutation.\r\nFor instance, suppose that we have 𝐷 = 3 digits, and they are respectively 1, 2, 3.\r\n1. If 𝐾 = 1, then we see that every permutation will give a remainder 0 when divided by 𝐾,\r\nand 321 is thus the desired answer, as it is the largest permutation among all.\r\n2. If 𝐾 = 10, then both 123 and 213 will give a remainder 3 when divided by 𝐾, and this is\r\nthe largest possible remainder in this case. Consequently, the desired output is 213 since\r\nit is a larger permutation.\r\n3. If 𝐾 = 100, then the largest remainder we can get is 32, when the permutation is 132.\r\nInput Format\r\nThe first line of the input contains a positive integer 𝐷 followed by a positive integer 𝐾. Then,\r\nthe next line contains 𝐷 digits, each digit 𝑑 has value 1 ≤ 𝑑 ≤ 9 and is separated from the next\r\none by a space.\r\nOutput Format\r\nOutput the largest permutation that gives the largest remainder in a single line.\r\nTechnical Specification\r\n∙ 1 ≤ 𝐷 ≤ 16\r\n∙ 1 ≤ 𝐾 ≤ 200\r\n∙ 1 ≤ 𝑑 ≤ 9\r\nSample Input 1\r\n3 1\r\n1 2 3\r\nSample Output 1\r\n321\r\nSample Input 2\r\n3 10\r\n1 2 3\r\nSample Output 2\r\n213\r\n9\n\n2021 ICPC Asia Taipei Regional\r\nSample Input 3\r\n3 100\r\n1 2 3\r\nSample Output 3\r\n132\r\n10",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "24104fe429fb168b680f22bfda0b47e7a9290787207036d52b15749255840cad"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "name": "样例 1",
+                "input": "3 1\n1 2 3",
+                "output": "321"
+              },
+              {
+                "name": "样例 2",
+                "input": "3 10\n1 2 3",
+                "output": "213"
+              },
+              {
+                "name": "样例 3",
+                "input": "3 100\n1 2 3",
+                "output": "132"
+              }
+            ],
+            "extraction": {
+              "method": "page-reviewed-original-pdf-samples",
+              "sourcePdfSha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+              "pagesReviewed": [
+                1,
+                2
+              ],
+              "reason": "All numbered examples checked against the original pages. C restores the literal >_<, D restores examples on both pages; E joins the cross-page input and preserves every ASCII frame column.",
+              "samples": [
+                {
+                  "name": "样例 1",
+                  "input": "3 1\n1 2 3",
+                  "output": "321"
+                },
+                {
+                  "name": "样例 2",
+                  "input": "3 10\n1 2 3",
+                  "output": "213"
+                },
+                {
+                  "name": "样例 3",
+                  "input": "3 100\n1 2 3",
+                  "output": "132"
+                }
+              ],
+              "geometryReview": {
+                "method": "page-reviewed-original-pdf-samples",
+                "pagesReviewed": [
+                  1,
+                  2
+                ]
+              }
+            }
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "D",
+          "pdfSha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            9,
+            10
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "a568ebae2472ffea93903c96f9594c431533a27d42b2a05c7b77ce52a5aa71ce"
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "b63676e843ba8367383b4cf81440663e02b638098e57a436e68e7d4f44f8fcdd",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "a568ebae2472ffea93903c96f9594c431533a27d42b2a05c7b77ce52a5aa71ce",
+          "sourcePdfSha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+          "markdown": "# 最大余数\n\n时间限制：1 秒。内存限制：1024 兆字节。\n\n## 题目描述\n\n给定 $D$ 个数字和一个整数 $K$，考虑将这些数字排列成一个 $D$ 位十进制数的所有不同方式。请找出一个排列 $X$，使其除以 $K$ 所得的余数尽可能大；余数在 0 到 $K-1$ 之间。如果多个排列得到相同的最大余数，输出其中数值最大的一个。\n\n例如，设 $D=3$，给定的数字依次为 1、2 和 3。\n\n1. 如果 $K=1$，所有排列的余数都是 0，因此答案是数值最大的排列 321。\n2. 如果 $K=10$，123 和 213 都能得到最大的余数 3。由于 213 更大，因此答案是 213。\n3. 如果 $K=100$，能得到的最大余数为 32，对应的排列为 132。\n\n## 输入格式\n\n第一行包含两个正整数 $D$ 和 $K$。下一行包含 $D$ 个以空格分隔的数字，每个数字 $d$ 都满足 $1\\le d\\le9$。\n\n## 输出格式\n\n输出一行，表示在得到最大余数的排列中，数值最大的那个排列。\n\n## 数据范围\n\n- $1\\le D\\le16$。\n- $1\\le K\\le200$。\n- $1\\le d\\le9$。\n\n## 样例 1\n\n### 输入\n\n```text\n3 1\n1 2 3\n```\n\n### 输出\n\n```text\n321\n```\n\n## 样例 2\n\n### 输入\n\n```text\n3 10\n1 2 3\n```\n\n### 输出\n\n```text\n213\n```\n\n## 样例 3\n\n### 输入\n\n```text\n3 100\n1 2 3\n```\n\n### 输出\n\n```text\n132\n```\n"
+        },
+        "translationReview": {
+          "letter": "D",
+          "pdfSha256": "24054d26f022efb9c006ce078c9d4ed0083d160f91f4082cd379de3151a2eb8c",
+          "pageCount": 2,
+          "pagesReviewed": [
+            1,
+            2
+          ],
+          "sourcePageNumbers": [
+            9,
+            10
+          ],
+          "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2021%20Asia%20Taipei%20Regional%20Contest/problems.pdf",
+          "sourceSha256": "2d4a7da18e100620a0b785c778671b31ed0a059fd43358522de2b69c9d497126",
+          "figures": [],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "a568ebae2472ffea93903c96f9594c431533a27d42b2a05c7b77ce52a5aa71ce",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

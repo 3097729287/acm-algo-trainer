@@ -1,0 +1,14 @@
+{
+  "sourcePdfSha256": "fe86f910d52db7184a378f2763271625b83b617c9c39c52e09afe729e82c0a0d",
+  "pages": [
+    29,
+    30
+  ],
+  "samples": [
+    {
+      "name": "样例 1",
+      "input": "2\nbb\nabc\nabaa\nabab",
+      "output": "468235032\n667196656"
+    }
+  ]
+}

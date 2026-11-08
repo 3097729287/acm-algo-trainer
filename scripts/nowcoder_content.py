@@ -19,6 +19,8 @@ import tempfile
 from nowcoder_editorials import ROOT, CONTENT, OUT, BASELINE, database, read, write, sha, program, statement
 
 sys.path[:0] = [str(ROOT / 'backend'), str(ROOT / 'backend/common')]
+from difficulty import round_difficulty
+TOPIC_ALIASES=json.loads((ROOT/'backend/resources/nowcoder-topic-aliases.json').read_text('utf8'))
 
 TOPICS = {
     '输出': '模拟', '输入输出': '模拟', '分支': '模拟', '循环': '模拟', '格式化输出': '模拟',
@@ -145,7 +147,8 @@ def materialize():
         original_statement = statement(identity)
         assert sha(original_statement['markdown']) == entry['statementSha256'], identity
         original = row['encoded']
-        tags = list(dict.fromkeys(TOPICS.get(x, x) for x in entry['knowledge']))
+        tags = list(dict.fromkeys(tag for x in entry['knowledge'] if x.strip()
+                                 for tag in TOPIC_ALIASES.get(x,[TOPICS.get(x,x)])))
         encoded = (enrich_row(original, algorithm_evidence={
             'source': entry.get('articles', {}).get('default', entry['url']), 'tags': tags, 'verified': True})
                    if tags else copy.deepcopy(original))
@@ -167,10 +170,13 @@ def materialize():
                        difficultyEvidence=evidence, difficultyCheckedAt='2026-11-08',
                        **({'solutionAvailable': True,
                            'detailedSolutionAvailable': 'detailed' in entry['articles'],
-                           'solutionState': 'available', 'knowledgeReviewRequired': False,
+                           'editorialVariants': list(entry['articles']),
+                           'solutionState': 'available',
                            'editorialTopics': entry['knowledge']} if identity in ledger else {}))
+        encoded=round_difficulty(encoded)
+        encoded['knowledgeReviewRequired']=not bool(encoded.get('tags') or encoded.get('knowledgeCategories'))
         row['encoded'] = encoded
-        row['raw']['难度'] = str(entry['difficulty'])
+        row['raw']['难度'] = str(encoded['difficulty'])
         row['raw']['知识点'] = encoded['knowledge']
     for table, variant in [('solutions', 'default'), ('detailed_solutions', 'detailed')]:
         updated = {row['problem_id']: row for row in after[table]}
