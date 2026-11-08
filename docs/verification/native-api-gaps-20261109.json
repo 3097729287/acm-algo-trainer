@@ -1,12 +1,12 @@
 {
   "date": "2026-11-09",
-  "verifiedRuntimeSourceCommit": "3776958399cb2286979bbab8264383b994a3dcc4",
+  "verifiedRuntimeSourceCommit": "0dfd64708bcd528cebb59336275eefc7cedf30f1",
   "nativeBinary": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-core.exe",
-  "nativeSha256": "14821c5117c8d84420c1016e331b908337a2cd961ae46b1592baccada9609d06",
-  "auditSandbox": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-api-audit-9dfpkdkz",
+  "nativeSha256": "82e85a4808c499ad8aa98731973780823bb9895470f416a43582353f33e246b1",
+  "auditSandbox": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-api-setup-audit-_oglx1na",
   "legacyTotal": 136,
-  "nativeRoutes": 45,
-  "notMigratedOrBootstrapOnly": 91,
+  "nativeRoutes": 47,
+  "notMigratedOrBootstrapOnly": 89,
   "partialNativeEndpoints": [
     {
       "method": "GET",
@@ -97,6 +97,20 @@
       "native": true,
       "operation": "post.contests.finish",
       "path": "contests/finish",
+      "status": "partial"
+    },
+    {
+      "method": "POST",
+      "native": true,
+      "operation": "post.contests.preview",
+      "path": "contests/preview",
+      "status": "partial"
+    },
+    {
+      "method": "POST",
+      "native": true,
+      "operation": "post.contests.start",
+      "path": "contests/start",
       "status": "partial"
     },
     {
@@ -354,16 +368,6 @@
       {
         "method": "GET",
         "path": "contest-calendar",
-        "status": "not-migrated"
-      },
-      {
-        "method": "POST",
-        "path": "contests/preview",
-        "status": "not-migrated"
-      },
-      {
-        "method": "POST",
-        "path": "contests/start",
         "status": "not-migrated"
       },
       {
@@ -637,12 +641,12 @@
   },
   "completedCodeIsNotFullFeatureParity": true,
   "lastActualWindow": {
-    "runtimeSourceCommit": "1c314f67",
-    "nativeRoutes": 45,
-    "rustChecks": 149,
-    "receipt": "native-contest-lifecycle-20261109.json"
+    "runtimeSourceCommit": "0dfd64708bcd528cebb59336275eefc7cedf30f1",
+    "nativeRoutes": 47,
+    "rustChecks": 166,
+    "receipt": "native-contest-setup-20261109.json"
   },
-  "currentCliRustChecks": 153,
+  "currentCliRustChecks": 166,
   "deliveredPackage": {
     "nativeRoutes": 42,
     "rustChecks": 135,
@@ -650,7 +654,7 @@
   },
   "partialBusinessGaps": [
     "Private catalogue overlays and real account-bound evidence remain protected.",
-    "Existing running local journals work; preview/start and calendar enrollment remain separate migrations.",
+    "Blind comprehensive/topic/single paper preview and start now work. Replay/VP, calendar enrollment and background ownership remain separate migrations.",
     "Background reward ownership and shared-room captain authority are not created by local finalization.",
     "Ordinary/review/contest drafts are isolated; new official submissions and full local judge suites are not implemented by the sample runner.",
     "Complete formal learning evidence and active goals combined with a running contest still have protection.",
