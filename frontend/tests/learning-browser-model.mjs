@@ -73,3 +73,14 @@ const heldManual=single.tabs.find(tab=>tab.key==='lecture:first');single=replace
 assert.equal(replaceStudyContent({...single,open:false},single.focused,{kind:'wiki',id:'from-list'}).open,true,'Opening from a closed browser shows the replacement');
 
 assert.equal(learningDirectory(index).entries.find(item=>item.kind==='problem').count,1);assert(!index.some(item=>item.kind==='solution'));assert.equal(learningDirectory(index,'',['solution']).entries[0].kind,'problem');console.log('PASS all-problems folder and legacy solution-directory redirect; solutions remain inside problems');
+
+const reviewId='0123456789abcdef0123456789abcdef';
+let review=openStudyTab(emptyStudyBrowser(),{kind:'problem',id:'A',reviewTask:{id:reviewId,completedAt:null,rewardXp:0},preparedProblem:Promise.resolve('transient'),visit:{practiceFlow:{stage:'review'}}});
+const reviewSnapshot=studySnapshot(review);assert.equal(reviewSnapshot.tabs[0].visit.reviewId,reviewId);assert(!('reviewTask' in reviewSnapshot.tabs[0]));assert(!('preparedProblem' in reviewSnapshot.tabs[0]));
+review=restoreStudyBrowser(JSON.parse(JSON.stringify(reviewSnapshot)));assert.deepEqual(review.tabs[0].reviewTask,{id:reviewId});
+review=replaceStudyContent(review,'problem:A',{kind:'wiki',id:'ds/dsu'});assert.equal(review.documents['problem:A'].visit.reviewId,reviewId);
+review=replaceStudyContent(review,'wiki:ds/dsu',review.documents['problem:A']);assert.equal(review.tabs[0].reviewTask.id,reviewId);
+review=openStudyTab(review,{kind:'problem',id:'A',reviewTask:null});assert.equal(review.tabs[0].reviewTask,null);assert(!review.tabs[0].visit.reviewId);
+review=openStudyTab(review,{kind:'problem',id:'A',reviewTask:{id:reviewId}});assert.equal(review.tabs[0].reviewTask.id,reviewId);assert.equal(restoreStudyBrowser(studySnapshot(review)).tabs[0].reviewTask.id,reviewId);
+assert.equal(restoreStudyBrowser({tabs:[{kind:'problem',id:'A',visit:{reviewId:'invalid'}}]}).tabs[0].reviewTask,null);
+console.log('PASS review identity survives snapshot, reload and archived reopening; ordinary/review context switches do not retain a stale draft context');

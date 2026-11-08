@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "checks": [
+    "same problem switches to a separately saved review draft",
+    "refresh restores review identity and keeps ordinary code",
+    "close and reopen retains the review draft",
+    "archived tab reopening retains its review context",
+    "another account has its own ordinary and review drafts",
+    "switching back restores the original account review",
+    "switching ordinary and review contexts preserves both stored versions"
+  ],
+  "pageErrors": [],
+  "backendScope": "Shared React navigation with isolated account-owned draft fixtures; actual native backend is checked separately",
+  "change": "Persist only the stable account-owned review ID in the existing learning-tab visit, restore its draft context, and update context when the same problem switches between ordinary practice and review.",
+  "appliesTo": "Shared React frontend: current Python backend and local Tauri/Rust backend. Backend still validates the requested task identity and account.",
+  "modelRegressionPassed": true,
+  "existingStudyNavigationUiPassed": true,
+  "normalPersonalStateOpened": false,
+  "realNativeWindowVerification": "Pending; this receipt covers the shared frontend fixture only.",
+  "cleanup": {
+    "inspected": [
+      "tab snapshot serialization",
+      "restoration",
+      "archived document visits",
+      "ordinary/review replacement"
+    ],
+    "replaced": [
+      "snapshot behavior that discarded review identity"
+    ],
+    "otherUnusedContentFound": false
+  }
+}
