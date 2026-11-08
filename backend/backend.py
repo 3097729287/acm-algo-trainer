@@ -386,6 +386,9 @@ class Handler(BaseHTTPRequestHandler):
                         receipt=deliver_completed(training,body.get('contestId'))
                         if receipt:value.update(backgroundReward=receipt.get('backgroundReward'),stickerInventory=receipt.get('inventory'))
                     except ServiceError as issue:value['backgroundRewardSyncError']=str(issue)
+                elif path.startswith('/api/team-training/'):
+                    from team_training import relay
+                    value=relay(training,path[len('/api/team-training/'):],body)
                 elif path.startswith('/api/pk/v1/'):
                     from thought_duel import relay
                     value=relay(training,path[len('/api/pk/v1/'):],body)
@@ -500,7 +503,7 @@ class Handler(BaseHTTPRequestHandler):
                     value = self.server.translation_service().configure(body)
                 else:
                     raise APIError(404, "没有找到这个接口")
-                if accounts is not None and accounts.session and path not in ('/api/account/sync', '/api/software-update/install', '/api/code/format', '/api/presence'):
+                if accounts is not None and accounts.session and not path.startswith('/api/team-training/') and path not in ('/api/account/sync', '/api/software-update/install', '/api/code/format', '/api/presence'):
                     accounts.queue_sync()
                 self.send_json(200, value)
             elif re.fullmatch(r'/api/library-assets/[a-f0-9]{64}',path):
@@ -627,6 +630,9 @@ class Handler(BaseHTTPRequestHandler):
                     from fun_moments import confirmed_wiki_visit
                     confirmed_wiki_visit(self.server.training,value['article'])
                 self.send_json(200,value)
+            elif path.startswith('/api/team-training/'):
+                from team_training import relay
+                self.send_json(200,relay(self.server.training,path[len('/api/team-training/'):],query=parse_qs(target.query,keep_blank_values=True)))
             elif path.startswith('/api/pk/v1/'):
                 from thought_duel import relay
                 self.send_json(200,relay(self.server.training,path[len('/api/pk/v1/'):]))
@@ -714,7 +720,7 @@ class Handler(BaseHTTPRequestHandler):
         except (APIError, ServiceError) as error:
             if writing and not body_consumed:
                 self.discard_rejected_body()
-            self.send_json(error.status, {"error": error.message, **({'code':error.code} if getattr(error,'code','').startswith('PK_') else {})})
+            self.send_json(error.status, {"error": error.message, **({'code':error.code} if getattr(error,'code','').startswith(('PK_','TEAM_')) else {})})
         except (OSError, RuntimeError, ValueError) as error:
             self.send_json(500, {"error": "操作未完成：" + str(error)})
         except Exception:

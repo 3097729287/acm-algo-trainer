@@ -77,7 +77,7 @@ export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000
       const candidate = typeof forwarded === 'string' ? forwarded.split(',').at(-1).trim() : '';
       const address = trustProxy && isIP(candidate) ? candidate : request.socket.remoteAddress || 'unknown';
       headers.set('X-TB-Client-IP', address);
-      const maximum = avatarRequest ? 16065568 : request.method === 'PUT' && path === '/v1/accounts/state' ? STATE_LIMIT : chunkRequest ? CHUNK_LIMIT : 65536;
+      const maximum = avatarRequest ? 16065568 : request.method === 'PUT' && path === '/v1/accounts/state' ? STATE_LIMIT : chunkRequest ? CHUNK_LIMIT : path.startsWith('/v1/team-training/') ? 262144 : 65536;
       const length = Number(headers.get('content-length') || 0);
       if (!Number.isFinite(length) || length > maximum) {
         response.writeHead(413, { 'Content-Type': 'application/json', Connection: 'close' });

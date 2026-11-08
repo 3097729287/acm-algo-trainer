@@ -1,0 +1,10 @@
+CREATE TABLE team_lobby(singleton INTEGER PRIMARY KEY);
+INSERT INTO team_lobby VALUES(1);
+CREATE TABLE teams(team_id TEXT PRIMARY KEY,invite_code TEXT NOT NULL UNIQUE,archived INTEGER NOT NULL DEFAULT 0,payload TEXT NOT NULL);
+CREATE TABLE team_members(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id) ON DELETE CASCADE,team_id TEXT NOT NULL REFERENCES teams(team_id),ready INTEGER NOT NULL DEFAULT 0,last_seen INTEGER NOT NULL,joined_at INTEGER NOT NULL);
+CREATE INDEX team_roster ON team_members(team_id);
+CREATE TABLE team_rooms(room_id TEXT PRIMARY KEY,team_id TEXT NOT NULL REFERENCES teams(team_id),status TEXT NOT NULL,started_at TEXT NOT NULL,deadline INTEGER NOT NULL,ended_at TEXT NOT NULL,updated_at INTEGER NOT NULL,payload TEXT NOT NULL);
+CREATE TABLE team_room_members(room_id TEXT NOT NULL REFERENCES team_rooms(room_id),user_id TEXT NOT NULL REFERENCES accounts(user_id) ON DELETE CASCADE,PRIMARY KEY(room_id,user_id));
+CREATE TABLE team_problems(room_id TEXT NOT NULL REFERENCES team_rooms(room_id),problem_id TEXT NOT NULL,problem_key TEXT NOT NULL,available INTEGER NOT NULL,PRIMARY KEY(room_id,problem_id));
+CREATE TABLE team_drafts(room_id TEXT NOT NULL,problem_id TEXT NOT NULL,language TEXT NOT NULL,code TEXT NOT NULL,revision INTEGER NOT NULL,edited_by TEXT REFERENCES accounts(user_id) ON DELETE SET NULL,updated_at INTEGER NOT NULL,PRIMARY KEY(room_id,problem_id),FOREIGN KEY(room_id,problem_id) REFERENCES team_problems(room_id,problem_id));
+CREATE TABLE team_operations(user_id TEXT NOT NULL REFERENCES accounts(user_id) ON DELETE CASCADE,request_id TEXT NOT NULL,request_hash TEXT NOT NULL,ack TEXT NOT NULL,created_at INTEGER NOT NULL,PRIMARY KEY(user_id,request_id));
