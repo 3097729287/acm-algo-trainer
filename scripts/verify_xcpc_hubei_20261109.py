@@ -254,6 +254,7 @@ def check_disposable_replay(statements,export_ui=None):
     needed=set().union(*(references(statements[identity]) for identity in ids))
     temporary_root=(ROOT/'.backups/content-recovery-20261109').resolve()
     assert temporary_root.is_relative_to((ROOT/'.backups').resolve())
+    temporary_root.mkdir(parents=True,exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='hubei-public-replay-',dir=temporary_root) as temporary:
         directory=Path(temporary).resolve();assert directory.is_relative_to(temporary_root)
         library=LibraryDatabase(directory/'public.sqlite3')

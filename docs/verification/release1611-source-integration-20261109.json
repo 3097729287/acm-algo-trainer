@@ -1,0 +1,458 @@
+{
+  "schema": 1,
+  "candidateVersion": "1.6.11",
+  "recordedAt": "2026-11-08T23:11:53.995035+00:00",
+  "baseline": "a0fe847338fca1a8f0237e88d936b3eb845a2584",
+  "baselineParent3e0e040cRetained": true,
+  "sourceParentBeforeReceiptCommit": "aa55727825ebb0aa79e8dd2ce114645302688db8",
+  "integrationCommits": [
+    {
+      "integratedCommit": "3c37fe6ff46f2a14b1f3dae7ce4bca6fafff7347",
+      "subject": "Review all Taoyuan algorithms and explicitly unofficial training difficulties"
+    },
+    {
+      "integratedCommit": "0fad7d9a92295b1b942747257f2b35d923bc08c8",
+      "subject": "content: restore public NC8827A image-only statement with complete Chinese"
+    },
+    {
+      "integratedCommit": "17991156507cec907711ebe879ad7a4089f1bdfb",
+      "subject": "Register the recovered image-only Nowcoder original for the next content batch"
+    },
+    {
+      "integratedCommit": "a2bc512cd74f5ceefa5bef99df70cd2d85c217ff",
+      "subject": "Review Qingdao algorithms from setter wiki and label unofficial training ratings"
+    },
+    {
+      "integratedCommit": "12babe07e67dffe217d13042d9abf8ad55720791",
+      "subject": "Classify Harbin algorithms and archive honest difficulty evidence"
+    },
+    {
+      "integratedCommit": "65ace6f3ffd945546af5a380859da25e367a648d",
+      "subject": "Review Changchun topics against complete official overlays and native constraints"
+    },
+    {
+      "integratedCommit": "d8c5f90d657dcc881390dfb0199d2e8033c0004b",
+      "subject": "Complete Chengdu algorithm and training-difficulty review for all thirteen problems"
+    },
+    {
+      "integratedCommit": "d09df809c39c59fb81167ef8a2abb70bf9428cea",
+      "subject": "Map twenty-nine missing topics from exact current native Luogu tag IDs"
+    },
+    {
+      "integratedCommit": "3376b65cc6837649768c5dab124446c7edebf0c9",
+      "subject": "Register exact advanced concepts and bind native tag classifications to archived IDs"
+    },
+    {
+      "integratedCommit": "a1e52383698deeb972a156bad27178012bbd7da3",
+      "subject": "Bind twenty-two verified foundational tasks to real lesson concepts and source text"
+    },
+    {
+      "integratedCommit": "2a5131305c6e4450e453a83839085982d87d4580",
+      "subject": "Record verified foundational topic boundaries and unchanged lesson content"
+    },
+    {
+      "integratedCommit": "1a734d0a6d35f7a39208e6a355b3ab71f0323250",
+      "subject": "Complete statement-reviewed introductory coverage with exact algorithm boundaries"
+    },
+    {
+      "integratedCommit": "d059bb3a6e9e98388a21e2125050280c2cedef7e",
+      "subject": "Document source boundaries and cherry-pick order after the frozen release"
+    },
+    {
+      "integratedCommit": "59cb2e1f05f6c2e01647b8c56d1919afcb358f55",
+      "subject": "Add the complete bilingual 2024 Hubei contest with reviewed metadata"
+    },
+    {
+      "integratedCommit": "6a948ce797184587a8af550eb01d763ffbda3293",
+      "subject": "Finalize the content integration handoff after the verified Hubei import"
+    },
+    {
+      "integratedCommit": "20d5dca1c4a3e682e44a27472b99b349c6f39e70",
+      "subject": "fix(ui): commit reopened problem tabs before displaying their draft"
+    },
+    {
+      "integratedCommit": "82a81f12aa04e566a3a67d1904cae0c8dce77657",
+      "subject": "Add reviewed streamed required inputs and verified P7351 distribution package"
+    },
+    {
+      "integratedCommit": "9d4f30e1ce72bca36015bd56f133a7a679eafb72",
+      "subject": "Route required original input archives through reviewed domestic proxy"
+    },
+    {
+      "integratedCommit": "5c5313fd85b08c2a32bd53c010266a5b8788855c",
+      "subject": "Verify installer ranges with authored chunk proofs and bounded parallel prefetch"
+    },
+    {
+      "integratedCommit": "8b839e8394ddec1afb7ff8f0cc22044e3514ab05",
+      "subject": "Preserve deployed256-entry release history limit for checked range relay"
+    },
+    {
+      "integratedCommit": "addde5d8e13cf64bc20610404734688dc7613aa5",
+      "subject": "Preserve each fetched statement independently during bundled content merges"
+    },
+    {
+      "integratedCommit": "aa55727825ebb0aa79e8dd2ce114645302688db8",
+      "subject": "Bind baseline-specific row profiles and supersede them safely on full installation"
+    }
+  ],
+  "preflight": {
+    "at": "2026-11-08T23:00:48.176265+00:00",
+    "sourceBaseline": "a0fe847338fca1a8f0237e88d936b3eb845a2584",
+    "designPrinciplesFullyReread": true,
+    "designPrinciplesSha256": "b6fa71c9f549962dd07b0e6257829c2424dc5472f36ed74df1632ec0c3accff1",
+    "currentRootAgentsApplied": true,
+    "historicalLocalAgentsNotReactivated": true,
+    "cleanBeforeIntegration": true,
+    "sourceAssetEntries": 6256,
+    "duplicateAssetSha256": [],
+    "checkedArtifactPaths": {
+      "frontend/node_modules": false,
+      "frontend/dist": false,
+      "stage": false,
+      "build": false,
+      "dist": false
+    },
+    "obsoleteTrackedItemsConfirmed": [],
+    "cleanupDecision": "Fresh isolated checkout has no disposable runtime/build output; existing source archives/receipts/base resources remain referenced. No deletion performed. Previously rejected cache paths are outside this checkout and were not retried.",
+    "installedApplicationsTouched": false,
+    "personalDataOpened": false,
+    "largeSeedBuildStarted": false
+  },
+  "sourceInventory": {
+    "at": "2026-11-08T23:11:24.227538+00:00",
+    "scope": "Public source files only; no global SQLite rebuild or live personal database",
+    "problems": 13492,
+    "previousProblemIdsAndNativeUrlsPreserved": 13480,
+    "newNativeIds": [
+      "remote:codeforces:105139::A",
+      "remote:codeforces:105139::B",
+      "remote:codeforces:105139::C",
+      "remote:codeforces:105139::D",
+      "remote:codeforces:105139::E",
+      "remote:codeforces:105139::F",
+      "remote:codeforces:105139::G",
+      "remote:codeforces:105139::H",
+      "remote:codeforces:105139::I",
+      "remote:codeforces:105139::J",
+      "remote:codeforces:105139::K",
+      "remote:codeforces:105139::L"
+    ],
+    "statements": 13482,
+    "guardedPatchChainReplayed": true,
+    "statementResourceReferencesResolved": 6208,
+    "sourceAssets": 6451,
+    "sourceAssetBytes": 830299928,
+    "everySourceAssetSha256Verified": true,
+    "duplicateAssetDigests": 0,
+    "P7351StillHiddenUntilProductionVerification": true,
+    "normalApplicationStarted": false,
+    "globalSeedBuilt": false
+  },
+  "postFreezeContent": {
+    "existingOriginalsRecovered": 1,
+    "existingProblemIdsReviewed": 212,
+    "newNativeIdentities": 12,
+    "genuinelyNewTasks": 11,
+    "equivalentExistingTaskNewIdentity": "remote:codeforces:105139::H = luogu-training-P10865",
+    "bilingualNewContest": "2024 Hubei Provincial Collegiate Programming Contest / Gym105139",
+    "newCanonicalAssetCount": 195,
+    "newCanonicalAssetBytes": 13675175,
+    "allDifficultyEstimatesExplicitlyNonofficial": true,
+    "originalIdsAndNativeUrlsPreserved": true,
+    "priorFrozenContentRepeated": false
+  },
+  "retainedCapabilities": {
+    "StorePublicLibraryUpdateHookUnchanged": true,
+    "fromSourceImageDehydrationUnchanged": true,
+    "fetchedStatementOverwriteFix": "ed33cb72",
+    "fullPackageOverridesOldOverlayDescriptor": "d133eeb7",
+    "requiredInputDoesNotExpandOrdinaryAssetLimit": true,
+    "ordinaryResourceLimitBytes": 33554432,
+    "releaseIndexMaximum": 256,
+    "releaseIndexMetadataLimitBytes": 1048576
+  },
+  "checks": {
+    "backendInitialBatch": {
+      "tests": 181,
+      "failures": 0,
+      "errors": 0
+    },
+    "afterProfileAuthoringChange": {
+      "backendTests": 40,
+      "bundleAuthoringTests": 4,
+      "failures": 0,
+      "errors": 0,
+      "overlapsInitialBatch": true
+    },
+    "nodeDownloadRelayTests": {
+      "tests": 29,
+      "failures": 0,
+      "errors": 0
+    },
+    "reactReviewContext": {
+      "ok": true,
+      "checks": [
+        "same problem switches to a separately saved review draft",
+        "refresh restores review identity and keeps ordinary code",
+        "close and reopen retains the review draft",
+        "archived tab reopening retains its review context",
+        "another account has its own ordinary and review drafts",
+        "switching back restores the original account review",
+        "switching ordinary and review contexts preserves both stored versions",
+        "failed navigation commit retains the current review and both drafts",
+        "immediate refresh after leaving a review restores the committed ordinary scope",
+        "an account switch cancels the pending scope commit without changing either account manifest"
+      ],
+      "pageErrors": [],
+      "backendScope": "Shared React navigation with isolated account-owned draft fixtures; actual native backend is checked separately"
+    },
+    "reactOrdinaryReopening": {
+      "ok": true,
+      "checks": [
+        "first ordinary editor is shown only after its navigation commit",
+        "reopening the same ordinary problem survives an immediate refresh with unchanged code",
+        "failed reopening keeps the browser closed and preserves its manifest and draft",
+        "changing accounts while reopening commits neither the old tab nor its code into the new account",
+        "returning to the original account reopens its ordinary context and exact draft"
+      ],
+      "pageErrors": [],
+      "scope": "Shared React with generated account-owned fixtures; no real user state or account grants"
+    },
+    "learningBrowserModel": "passed",
+    "hubeiProductionReplay": {
+      "checkedAt": "2026-11-08T23:08:56.726654+00:00",
+      "sources": {
+        "newNativeIdentities": 12,
+        "genuinelyNewTasks": 11,
+        "newFullContests": 1,
+        "completeBilingualStatements": 12,
+        "samplePairs": 16,
+        "originalDiagrams": 8,
+        "exactSubsetPageTextMatches": 15,
+        "canonicalAssets": 24,
+        "canonicalBytes": 7576976,
+        "oldCatalogRowsUnchanged": true,
+        "allSourcesAndImmutableSpansVerified": true
+      },
+      "independentAlgorithmChecks": {
+        "D": {
+          "arrayAndXorCases": 3276,
+          "dpValuesCompared": 44316,
+          "method": "exhaustive ternary arrays; unrestricted partition DP versus monotone divide-and-conquer decisions"
+        },
+        "F": {
+          "literalBookCarryCases": 6820,
+          "officialGeneratorAndHistorySamples": 2,
+          "method": "literal level multisets versus weighted binary carries; original two generated samples replayed with copied historical arrays"
+        },
+        "J/K": {
+          "nondecreasingArraysPerMode": 83,
+          "modes": 2,
+          "officialModularSamples": 2,
+          "method": "exact rational enumeration of all next-pair choices versus mean / closed-form adjacent coefficients"
+        },
+        "L": {
+          "endpointPairs": 1770,
+          "completeReferenceVertices": 239,
+          "referenceScopeProvedByCostUpperBound": true,
+          "unguardedFiveNodeCounterexample": {
+            "a": 10,
+            "b": 15,
+            "unconditionalFiveNodeCost": 40,
+            "actualMinimumViaGcd5": 25
+          },
+          "method": "complete finite graph Dijkstra versus equality/divisibility/common-gcd cases and the five-prime-candidate graph only for coprime endpoints"
+        },
+        "C": {
+          "originalExamplesWithExactCellAndNonoverlapWitness": 4,
+          "fullGeneralMatchingSolverRetested": false,
+          "optimalitySource": "official editorial; witnesses independently verify the corrected coordinate notation and unchanged samples"
+        }
+      },
+      "disposableProductionReplay": {
+        "fullNativeRosterSelectable": true,
+        "previewAndStartSlots": 12,
+        "allProductionProblemResponsesHaveChinese": true,
+        "samplePairsPreserved": 16,
+        "automaticallyJoinedTraining": 0,
+        "submissions": 0,
+        "publicFixtureAssets": 21,
+        "isolatedPublicFixtureDatabaseBytes": 7524352,
+        "fixtureRemovedAfterCheck": true,
+        "networkSyncDisabled": true,
+        "realUserFilesOpened": 0
+      },
+      "allOriginalPagesAndChineseWorkbenchChecked": true,
+      "workbenchReceipt": "ui-validation.json",
+      "fullSolutionsClaimedValidated": false,
+      "officialSubmissions": 0,
+      "privateStateReadOrWritten": false,
+      "ordinaryResourceLimitsChanged": false,
+      "release1610BoundaryChanged": false
+    },
+    "hubeiRealWorkbench": {
+      "checked": [
+        {
+          "id": "remote:codeforces:105139::A",
+          "pages": 1,
+          "samples": 1,
+          "images": 1,
+          "subsetSha256": "c74481d77a94b2325a542b3d6e94d012f39bb26b8d7e1011ab412f19f04570d9",
+          "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "bilingualVerified": true,
+          "downloadVerified": true
+        },
+        {
+          "id": "remote:codeforces:105139::B",
+          "pages": 1,
+          "samples": 1,
+          "images": 0,
+          "subsetSha256": "1de71709bff5d29aa7e8728438783da20134740f8bb326e209b8ad8c56114381",
+          "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "bilingualVerified": true,
+          "downloadVerified": true
+        },
+        {
+          "id": "remote:codeforces:105139::C",
+          "pages": 2,
+          "samples": 4,
+          "images": 2,
+          "subsetSha256": "da7f1f8e65d8afa825c36d4ad541bcbdc6a54e3f35cebb8092c71d04aeb2a576",
+          "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "bilingualVerified": true,
+          "downloadVerified": true
+        },
+        {
+          "id": "remote:codeforces:105139::D",
+          "pages": 1,
+          "samples": 1,
+          "images": 0,
+          "subsetSha256": "3f3aa84395da98ca14934a2144f015329fd168ce135061b05aa11edd1b777c27",
+          "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "bilingualVerified": true,
+          "downloadVerified": true
+        },
+        {
+          "id": "remote:codeforces:105139::E",
+          "pages": 1,
+          "samples": 1,
+          "images": 1,
+          "subsetSha256": "57a0ef2f42d965ebfcab6287bcdc06352c976d31e3bdce7f6d7769aaa61b0a20",
+          "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "bilingualVerified": true,
+          "downloadVerified": true
+        },
+        {
+          "id": "remote:codeforces:105139::F",
+          "pages": 2,
+          "samples": 2,
+          "images": 1,
+          "subsetSha256": "35c3319ce426db6dda47d6abada2148ec7482aed388951cb8b275b33c73f9bce",
+          "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "bilingualVerified": true,
+          "downloadVerified": true
+        },
+        {
+          "id": "remote:codeforces:105139::G",
+          "pages": 2,
+          "samples": 1,
+          "images": 2,
+          "subsetSha256": "63b0a3409da9a398c85c67087a9399a79b7af224c903bcebc5de09f4a3ade421",
+          "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "bilingualVerified": true,
+          "downloadVerified": true
+        },
+        {
+          "id": "remote:codeforces:105139::H",
+          "pages": 1,
+          "samples": 1,
+          "images": 1,
+          "subsetSha256": "0d09e77754d8fef39b457fefe8b2c2c598f43aa6c8f803df71b92b64186011a4",
+          "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "bilingualVerified": true,
+          "downloadVerified": true
+        },
+        {
+          "id": "remote:codeforces:105139::I",
+          "pages": 1,
+          "samples": 1,
+          "images": 0,
+          "subsetSha256": "e2ae95c56a5a6e028950a77f246591230b735de2ce0ffb6140a00fc333e2a2fa",
+          "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "bilingualVerified": true,
+          "downloadVerified": true
+        },
+        {
+          "id": "remote:codeforces:105139::J",
+          "pages": 1,
+          "samples": 1,
+          "images": 0,
+          "subsetSha256": "7db27a90794d42e1a4e93c718607fa0044abbc764b8c26669ac78599c52d970b",
+          "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "bilingualVerified": true,
+          "downloadVerified": true
+        },
+        {
+          "id": "remote:codeforces:105139::K",
+          "pages": 1,
+          "samples": 1,
+          "images": 0,
+          "subsetSha256": "8ee629865be50c1f831b7db8b96925b149627628b0ad35d857295d127a597759",
+          "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "bilingualVerified": true,
+          "downloadVerified": true
+        },
+        {
+          "id": "remote:codeforces:105139::L",
+          "pages": 1,
+          "samples": 1,
+          "images": 0,
+          "subsetSha256": "0ec92b14375c18f63946102cddece95c1330bb09d5f022c4622c69d98e922711",
+          "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "bilingualVerified": true,
+          "downloadVerified": true
+        }
+      ],
+      "browserErrors": 0,
+      "formulaErrors": 0,
+      "externalRequests": 0,
+      "allOriginalPagesRendered": true,
+      "consoleAndChineseSamplesPreserved": true,
+      "originalBookletByteIdentity": true,
+      "originalSubsetByteIdentity": true,
+      "allOriginalImagesLoaded": true,
+      "editorDraftsPreserved": true,
+      "realJudgeSubmissions": 0
+    }
+  },
+  "runtimeInputSha256": {
+    "VERSION": "2edcbe08b7af865dfc169d57187810011544d7c6fe7bac1a7cf6c12be3423367",
+    "frontend/package.json": "059471c5e42e6c0d82b61345d798cfba8ca7dfb36cfd8aa1f71518acc57c3fe4",
+    "frontend/package-lock.json": "a39f003767e6dc6ac331fe730d9b5e3d6f5e36cbde05424d404a27bb1815789e",
+    "frontend/src/app/LearningBrowser.jsx": "56aae8985117a4a905549e8bfef9c3bd92c2dc9c06ffa3ee39b34693b7011b1e",
+    "backend/library.py": "da58c686473ceec2811589593071c6876dfdc4b3d5b161f75e6aaf792711e8f3",
+    "backend/store.py": "7098b1e804dbb8e68efd4f7381afa6ee9ac0f3ad7779e60d535f60960825fad5",
+    "backend/public_library_update.py": "27cfd5d9401f927def82c0ae792c06514880be091e4f3a325963f3bafed8c166",
+    "backend/required_downloads.py": "81625e7aa87078960c561b9e773d70e116d03d1c7592755b81b66517f7df223a",
+    "backend/resources/reviewed-required-downloads.json": "05406671ea64d05aa2e8b74d70fec8bbcea9a39dcbc16e84ee0d6e59300f0376",
+    "server/leaderboard/src/release-stream.mjs": "ad8d8336c4f38a8729d696448570d9b61bad621608bc44eace7042351053cae9",
+    "server/leaderboard/src/required-downloads.mjs": "0ca244555cd0f243caeab997adea9bb16693c22ba383fcf92fe8fc7542abceeb"
+  },
+  "pending": {
+    "P7351CatalogueStillHidden": true,
+    "P7351ProductionHttpsAndCacheProofRequiredBeforeActivation": true,
+    "fullGlobalSeedNotBuiltInThisWorkspace": true,
+    "nativeAndFrontendProductionBuilds": "root agent to start from exact final source commit",
+    "domesticWholeUpdateWithinOneMinuteVerified": false,
+    "ordinaryApplicationStartedOrReplaced": false,
+    "allProjectTasksClaimedComplete": false
+  },
+  "personalDataOpened": false,
+  "masteryXpOrHistoricPassesChanged": false,
+  "notes": [
+    "Checks use generated or public-only isolated fixtures. No official submissions were sent.",
+    "The two backend batches overlap and are not summed as distinct tests.",
+    "Source inventory replays guarded patches and hashes source assets directly; it is not the future final SQLite/UI projection audit.",
+    "The Hubei helper now creates its ignored temporary parent on a fresh checkout; the initial absent-parent failure was corrected before the successful replay."
+  ]
+}
