@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "checkedAt": "2026-11-08T23:39:52.495651+00:00",
+  "sourceRuntimeProducer": "7839fb0fba6c35dce437529d3bff324f2a79021d",
+  "runtimeInputsIdenticalToProducer": true,
+  "backendTargetedChecks": {
+    "tests": 53,
+    "errors": 0,
+    "failures": 0
+  },
+  "strictRegisteredFixtureTests": {
+    "tests": 4,
+    "errors": 0,
+    "failures": 0
+  },
+  "independentSourceGates": {
+    "registeredSourceReady": true,
+    "sampleConstraintRows": 600,
+    "originalSampleAssignmentSatisfiesEveryConstraint": true,
+    "exactOlderCachedOriginalAlsoResolvesTheRequiredDownload": true,
+    "legacyMarkdownSha256": "e63eb782e84db11a3d885f976d2d62022ce107cb38849fb222769981d1d1549d",
+    "currentMarkdownSha256": "144a13b0adbe2da6e39490032631d16ddab535558a52aff562b59a0f7b65e38a",
+    "sourceMetadataAfterSha256": "502842783c2f48d9dbd63e89b7d8648d6ce1bd3da1a40707e5552f2e37ff5cc5",
+    "realSubmissionMade": false,
+    "privateStateOpened": false
+  },
+  "actualRegisteredSourceWorkbench": {
+    "schema": 1,
+    "artificialAccountsAndHistoryOnly": true,
+    "ordinary32MiBLimitUnchanged": true,
+    "sourceFixture": {
+      "mode": "registered-catalogue-source",
+      "realRegisteredSourceRead": true,
+      "catalogue": "data/library/problems.json",
+      "catalogueSha256": "3087fd356de95999b5375e1eca0659d0c91afb28ea0a946c818246bfbb636817",
+      "originalId": "luogu-training-P7351",
+      "registeredRowSha256": "dd321d517a59a4d952afd60ef87700ea034471bc98a8aa08c37a9c17befbeb07",
+      "registeredStatementSha256": "502842783c2f48d9dbd63e89b7d8648d6ce1bd3da1a40707e5552f2e37ff5cc5",
+      "markdownSha256": "144a13b0adbe2da6e39490032631d16ddab535558a52aff562b59a0f7b65e38a",
+      "limits": {
+        "memoryMb": 512,
+        "timeMs": 5000
+      },
+      "samplePairs": 1,
+      "sampleSha256": "5dcb881475aaf3a5c677520dc7d09e1445eee194fa70bdb49eb2d4c732a4b374",
+      "guardedLoadStatementsUsed": true,
+      "originalRowAndBodyCopiedWithoutSynthesis": true,
+      "catalogueRetirementChanged": false
+    },
+    "requiredInputMarkedOptional": false,
+    "originalId": "luogu-training-P7351",
+    "zipBytes": 42049784,
+    "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+    "realSourceRouteInterruptedThenResumed": true,
+    "distributionPhysicallyStoppedBeforeOfflineBrowser": true,
+    "sourceRequests": [
+      {
+        "method": "GET",
+        "path": "/updates/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
+        "range": "bytes=0-42049783",
+        "authorizationForwarded": false,
+        "cookieForwarded": false
+      },
+      {
+        "method": "GET",
+        "path": "/updates/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
+        "range": "bytes=131072-42049783",
+        "authorizationForwarded": false,
+        "cookieForwarded": false
+      }
+    ],
+    "workbenchPhases": [
+      {
+        "realBackendProblemEndpoint": true,
+        "realWorkbench": true,
+        "realReadingLink": true,
+        "originalId": "luogu-training-P7351",
+        "originalDraftAndHistoryPreserved": true,
+        "downloadedBytes": 42049784,
+        "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+        "cached": true,
+        "verifiedBytes": 42049784,
+        "problemJsonBytes": 15344,
+        "archiveBase64InJson": false,
+        "browserErrors": 0,
+        "formulaErrors": 0,
+        "externalRequests": 0
+      },
+      {
+        "realBackendProblemEndpoint": true,
+        "realWorkbench": true,
+        "realReadingLink": true,
+        "originalId": "luogu-training-P7351",
+        "originalDraftAndHistoryPreserved": true,
+        "downloadedBytes": 42049784,
+        "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+        "cached": true,
+        "verifiedBytes": 42049784,
+        "problemJsonBytes": 15344,
+        "archiveBase64InJson": false,
+        "browserErrors": 0,
+        "formulaErrors": 0,
+        "externalRequests": 0
+      }
+    ],
+    "pythonTracedTransferPeakBytes": 484084,
+    "seconds": 4.992,
+    "completeCacheHasExactOriginalSha256": true,
+    "unknownShaAndArbitrarySourceRejected": true,
+    "productionCatalogueRetirementChanged": false,
+    "frozen1610Changed": false,
+    "domesticDistributionDeployed": false
+  },
+  "productionHttpsCacheReceipt": "required-https-cache.json",
+  "wholeVersionUpdateWithinOneMinuteClaimed": false,
+  "ordinaryProgramStartedOrReplaced": false,
+  "livePersonalDatabaseOpened": false,
+  "existingOriginalsRecovered": 1,
+  "newProblemCount": 0
+}
