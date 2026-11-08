@@ -11,7 +11,8 @@ if(!process.argv[2]||!process.argv[3])throw new Error('Supply public fixtures an
 const rows=JSON.parse(await fs.readFile(process.argv[2],'utf8'));
 const output=path.resolve(process.argv[3]);await fs.mkdir(path.dirname(output),{recursive:true});
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const port=18826;
+const port=Number(process.env.TB_REVIEW_PORT||18826);
+assert(Number.isInteger(port)&&port>=1024&&port<=65535,'Valid isolated review port');
 const normalizedLines=value=>value.replace(/\r\n?/g,'\n').trimEnd();
 const server=await createServer({root,cacheDir:path.join(path.dirname(output),'vite-review'),optimizeDeps:{entries:['tests/statement-pdf-fixture.html']},server:{host:'127.0.0.1',port,strictPort:true,hmr:false}});
 await server.listen();let browser;const checked=[],errors=[],external=[];
@@ -35,7 +36,7 @@ try{
    assert.equal(normalizedLines(blocks[0]),normalizedLines(row.samples[i].input||'（空输入）'),row.originalId+' console input');
    assert.equal(normalizedLines(blocks[1]),normalizedLines(row.samples[i].output||'（空输出）'),row.originalId+' console output');
   }
-  let pages=0,images=0;
+  let pages=0,images=0,attachments=0;
   if(row.statementPdf){
    const pdf=page.locator('.wb-statement-pdf');await pdf.waitFor();
    await pdf.locator('.wb-pdf-page[data-ready="true"]').first().waitFor();
@@ -58,17 +59,24 @@ try{
     await picture.scrollIntoViewIfNeeded();await picture.evaluate(image=>image.decode());
     assert(await picture.evaluate(image=>image.complete&&image.naturalWidth>0),row.originalId+' original image');images++;
    }
-   if(row.reviewAttachment){
-    const [download]=await Promise.all([page.waitForEvent('download'),statement.getByRole('link',{name:row.reviewAttachment.label,exact:true}).click()]);
-    assert.equal(download.suggestedFilename(),row.reviewAttachment.fileName);
-    const bytes=await fs.readFile(await download.path());
-    assert.equal(createHash('sha256').update(bytes).digest('hex'),row.reviewAttachment.sha256,row.originalId+' source attachment byte identity');
+   for(const anchor of await statement.locator('a[download]').all()){
+    const href=await anchor.getAttribute('href'),variants=[href];
+    try{variants.push(decodeURI(href),decodeURIComponent(href));}catch{/* Keep original spelling. */}
+    const key=variants.find(value=>Object.hasOwn(row.attachments||{},value));
+    assert(key,row.originalId+' known original attachment');
+    const original=row.attachments[key],expected=Buffer.from(original.data.split(',',2)[1],'base64');
+    const promised=page.waitForEvent('download');await anchor.scrollIntoViewIfNeeded();await anchor.click();
+    const download=await promised,stream=await download.createReadStream(),chunks=[];
+    if(original.fileName)assert.equal(download.suggestedFilename(),original.fileName,row.originalId+' original attachment filename');
+    for await(const chunk of stream)chunks.push(chunk);
+    assert.equal(createHash('sha256').update(Buffer.concat(chunks)).digest('hex'),createHash('sha256').update(expected).digest('hex'),row.originalId+' original attachment byte identity');
+    assert.equal(await download.failure(),null,row.originalId+' original download');attachments++;
    }
   }
   await page.screenshot({path:path.join(path.dirname(output),row.originalId.replaceAll(':','_')+'.png')});
-  checked.push({id:row.originalId,pages,images,samples:row.samples.length});await page.close();
+  checked.push({id:row.originalId,pages,images,attachments,samples:row.samples.length});await page.close();
  }
  assert.deepEqual(errors,[]);assert.deepEqual(external,[]);
- const result={checked,browserErrors:0,formulaErrors:0,externalRequests:0,samplesPreserved:true,allPdfPagesRendered:true,originalPdfByteIdentity:true};
+ const result={checked,browserErrors:0,formulaErrors:0,externalRequests:0,samplesPreserved:true,allPdfPagesRendered:true,originalPdfByteIdentity:true,originalAttachmentByteIdentity:true};
  await fs.writeFile(output,JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));
 }finally{await browser?.close();await server.close();}
