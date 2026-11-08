@@ -770,12 +770,20 @@ export default function App() {
     setProfileSnapshot(previous => shareWorkspace(previous, value));
     if(value?.profile?.nickname){setAccount(previous=>previous?{...previous,nickname:value.profile.nickname}:previous);if(window.__tbAccount)window.__tbAccount={...window.__tbAccount,nickname:value.profile.nickname};}
   }, []);
-  const preferencesLoaded = useRef(false), uploadedPreferences = useRef(''), preferencesQueue = useRef(Promise.resolve(true));
+  const preferencesLoaded = useRef(false), uploadedPreferences = useRef(''), preferencesQueue = useRef(Promise.resolve(true)), preferencesFlushEpoch=useRef(0);
   const latestPreferences=useRef(prefs);latestPreferences.current=prefs;
   const flushLearningBrowser=useCallback(browser=>{
-    if(!window.__tbAccountUserId)return Promise.resolve(true);
+    const owner=window.__tbAccountUserId;
+    if(!owner)return Promise.resolve(true);
+    preferencesFlushEpoch.current++;
     const value=portablePreferences({...latestPreferences.current,learningPaths:{...latestPreferences.current.learningPaths,browserV1:browser}}),signature=JSON.stringify(value);
-    const pending=preferencesQueue.current.catch(()=>false).then(async()=>{if(signature!==uploadedPreferences.current){await api('preferences',{preferences:value});uploadedPreferences.current=signature;}return true;});
+    const pending=preferencesQueue.current.catch(()=>false).then(async()=>{
+      if(window.__tbAccountUserId!==owner)return false;
+      try{
+        if(signature!==uploadedPreferences.current){await api('preferences',{preferences:value});if(window.__tbAccountUserId!==owner)return false;uploadedPreferences.current=signature;}
+        return true;
+      }catch(issue){if(window.__tbAccountUserId===owner)setPreferencesRevision(value=>value+1);throw issue;}
+    });
     preferencesQueue.current=pending;return pending;
   },[api]);
   useEffect(()=>{
@@ -894,10 +902,11 @@ export default function App() {
   useEffect(() => {
     if (!data || !preferencesLoaded.current || !window.__tbAccountUserId) return;
     const value = portablePreferences(prefs), signature = JSON.stringify(value);
+    const flushEpoch=preferencesFlushEpoch.current;
     let disposed=false,retryTimer,failures=0;
     const save = () => {
       const pending = preferencesQueue.current.catch(() => false).then(async () => {
-        if (disposed) return true;
+        if (disposed || flushEpoch!==preferencesFlushEpoch.current) return true;
         if (signature === uploadedPreferences.current) return true;
         try {
           await api('preferences', { preferences: value });

@@ -51,8 +51,16 @@ function Fixture(){
  const [owner,setOwner]=useState('fixture-A'),[prefs,setPrefs]=useState(()=>read('prefs',{learningPaths:{}})),browser=useRef(null),[practice,setPractice]=useState({training:[],reviews:{tasks:[]}}),[settings,setSettings]=useState(false);
  useEffect(()=>{localStorage.setItem(storage('prefs'),JSON.stringify(prefs));},[prefs]);
  const train=useCallback((id,options={})=>browser.current.open({kind:'problem',id,title:rows.find(row=>row.id===id)?.title,newTab:options.newTab,visit:options.recommendation||options.stage?{practiceFlow:{stage:options.stage||'recommendation',openedAt:new Date().toISOString()}}:{}}),[]);
- const flush=useCallback(value=>{setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,browserV1:value}}));return Promise.resolve(true);},[]);
- window.studyFixture={learn:id=>setPrefs(previous=>({...previous,learnedLectures:[id]})),lectureDelay:window.studyFixture?.lectureDelay||0,calls,lectures,settings:setSettings,practice:setPractice,hide:()=>browser.current.hide(),open:tab=>browser.current.open(tab),state:()=>browser.current.getState(),prefs:()=>prefs,account:id=>{window.__tbAccountUserId=id;setPrefs(read('prefs',{learningPaths:{}}));setOwner(id);}};
+ const flush=useCallback(async value=>{
+  const target=owner;
+  calls.push({path:'fixture/navigation-flush',owner:target});
+  if(window.studyFixture?.holdFlush)await new Promise(resolve=>{window.studyFixture.releaseFlush=resolve;});
+  if(window.__tbAccountUserId!==target||window.studyFixture?.failFlush)return false;
+  const next={...read('prefs',{learningPaths:{}}),learningPaths:{...read('prefs',{learningPaths:{}}).learningPaths,browserV1:value}};
+  localStorage.setItem(storage('prefs'),JSON.stringify(next));
+  setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,browserV1:value}}));return true;
+ },[owner]);
+ window.studyFixture={learn:id=>setPrefs(previous=>({...previous,learnedLectures:[id]})),lectureDelay:window.studyFixture?.lectureDelay||0,holdFlush:window.studyFixture?.holdFlush,failFlush:window.studyFixture?.failFlush,releaseFlush:window.studyFixture?.releaseFlush,calls,lectures,settings:setSettings,practice:setPractice,hide:()=>browser.current.hide(),open:tab=>browser.current.open(tab),state:()=>browser.current.getState(),prefs:()=>prefs,account:id=>{window.__tbAccountUserId=id;setPrefs(read('prefs',{learningPaths:{}}));setOwner(id);}};
  return <div className="app-shell">{guided&&<><table className="problem-table"><tbody><tr data-id={rows[0].id}><td><button className="problem-title" onClick={()=>train(rows[0].id)}>指引练习题</button></td></tr></tbody></table><Onboarding initialGuide="practice" practiceId={focusedProblem} onNavigate={()=>{}} onShown={()=>{}} onComplete={()=>{window.tourFinished=true;}} onDirectory={()=>{}}/></>}<button onClick={()=>train(rows[0].id)}>题目入口</button><button onClick={()=>browser.current.open({kind:'lab',id:'sorting-basics',title:'排序基础'})}>实验室入口</button><button onClick={()=>browser.current.resume()}>恢复标签</button><div id="tb-page-search"/>
   {settings&&<InitialCodeSettings api={api}/>}<LearningBrowser ref={browser} api={api} accountId={owner} ready rows={rows} trainingRows={owner==='fixture-A'?[{...rows[0],goalTask:true},{...rows[1],queue:'fill'},{...rows[2],queue:'review'},{...rows[3],accepted:true}]:[]} prefs={prefs} setPrefs={setPrefs} onTrain={train} onProgress={()=>{}} onNotice={()=>{}} onFlush={flush} practiceWorkspace={practice} onActiveChange={(open,count,kind,id)=>setFocusedProblem(open&&kind==='problem'?id:null)} recommendations={[{kind:'random',id:'fixture:P1706',title:'全排列问题'},{kind:'problem',id:'fixture:C',title:'下一道推荐题'}]}/>
  </div>;
