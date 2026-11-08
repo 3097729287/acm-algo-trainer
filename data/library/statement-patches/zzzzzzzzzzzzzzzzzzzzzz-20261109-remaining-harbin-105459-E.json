@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105459::E",
+      "beforeSha256": "284807cce5bf1ca6cf922febd7a55a1ae1ed5a30ce0ee730db19290ba1f8973c",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:105459::E",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:49:27.005870+00:00",
+          "corpusAuditVerifiedSha256": "284a846d542bc956a336ab69f43c0e19927df12216ad80bed00fc37640e29db6",
+          "pdfPageCountVerified": false,
+          "sampleCount": 3,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 5000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Marble Race\n\nMarble race is a fun way to play with marbles, and today you want to give it a try.\n\n\n\nThere are $$$n$$$ starting points on the negative half of the $$$x$$$-axis, with the $$$i$$$-th point located at $$$x_i$$$. There are $$$m$$$ marbles in total, where $$$m$$$ is an odd number, and the $$$i$$$-th marble has a speed of $$$v_i$$$. In a race, each marble randomly chooses a starting point with equal probability, and different marbles can choose the same starting point. Then, all the marbles start moving simultaneously towards the positive direction of the $$$x$$$-axis. Let $$$c_i$$$ be the starting point chosen by the $$$i$$$-th marble. At time $$$t$$$, the coordinate of the $$$i$$$-th marble is given by $$$x_{c_i} + v_i \\cdot t$$$.\n\n\n\nYou are a unique marble race enthusiast and do not care which marble is the fastest. Instead, you want to find out the exact time when the **median** of all the $$$m$$$ marble coordinates reaches the origin (i.e., $$$x = 0$$$). The median of a sequence of length $$$m$$$ (where $$$m$$$ is odd) is defined as the element at the position $$$\\frac{m+1}{2}$$$ when sorted in ascending order (indexing starts from $$$1$$$). Since the race has not yet started and the starting points are not yet determined, you are interested in the expected value of this time. To avoid floating-point errors, you only need to output the result modulo $$$10^9+7$$$ (see the output format for details).\n\n\n\n## Input\n\n\n\nThe first line contains two positive integers $$$n$$$ and $$$m$$$ ($$$1 \\le n, m \\le 500$$$, and $$$m$$$ is odd), representing the number of starting points and the number of marbles.\n\n\n\nThe second line contains $$$n$$$ integers $$$x_1, x_2, \\ldots, x_n$$$ ($$$-10^9 \\le x_i \\lt 0$$$), representing the coordinates of each starting point. It is guaranteed that all $$$x_i$$$ are distinct.\n\n\n\nThe third line contains $$$m$$$ integers $$$v_1, v_2, \\ldots, v_m$$$ ($$$1 \\le v_i \\le 10^9$$$), representing the speed of each marble.\n\n\n\n## Output\n\n\n\nOutput a single integer, representing the expected time modulo $$$10^9+7$$$.\n\n\n\nFormally, let $$$M=10^9+7$$$. It can be shown that the answer can be expressed as an irreducible fraction $$$\\frac p q$$$, where $$$p$$$ and $$$q$$$ are integers and $$$q \\not\\equiv 0\\pmod M$$$. Output the integer equal to $$$p\\cdot q^{-1}\\pmod M$$$, where $$$q^{-1}$$$ denotes the modular multiplicative inverse of $$$q$$$ modulo $$$M$$$. In other words, output such an integer $$$x$$$ that $$$0\\le x \\lt M$$$ and $$$x\\cdot q\\equiv p\\pmod M$$$. It can be proved that there is exactly one $$$x$$$ which meets the condition.\n\n\n\n## Note\n\n\n\nFor the first example, the speeds of the three marbles are $$$1, 2, 3$$$, respectively. Consider the initial positions of the three marbles:\n\n\n\n- $$$-4, -4, -4$$$: At $$$t=2$$$, the coordinates of the three marbles are $$$-2, 0, 2$$$, and the median is at the origin.\n\n- $$$-4, -4, -5$$$: At $$$t=2$$$, the coordinates are $$$-2, 0, 1$$$, and the median is at the origin.\n\n- $$$-4, -5, -4$$$: At $$$t=2.5$$$, the coordinates are $$$-1.5, 0, 3.5$$$, and the median is at the origin.\n\n- For $$$(-4, -5, -5)$$$, $$$(-5, -4, -4)$$$, $$$(-5, -4, -5)$$$, $$$(-5, -5, -4)$$$, $$$(-5, -5, -5)$$$, the median is at the origin at times $$$t=2.5$$$, $$$t=2$$$, $$$t=2$$$, $$$t=2.5$$$, $$$t=2.5$$$, respectively.\n\n In summary, the expected time is $$$\\frac{2 + 2 + 2.5 + 2.5 + 2 + 2 + 2.5 + 2.5}{8} = \\frac{9}{4}$$$, so you need to output $$$9 \\cdot 4^{-1} \\bmod (10^9+7) = 250000004$$$.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:105459::E",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 3,
+          "samplesSha256": "928d6b7c6207a4f53a629846d615ba591e5a722263edfabc10eccb5ad26f6b7b",
+          "url": "https://codeforces.com/gym/105459/problem/E"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "2 3\n-4 -5\n1 2 3",
+            "name": "样例 1",
+            "output": "250000004"
+          },
+          {
+            "input": "3 3\n-4 -5 -6\n1 2 3",
+            "name": "样例 2",
+            "output": "500000006"
+          },
+          {
+            "input": "5 5\n-4 -5 -6 -10 -2\n1 2 3 2 4",
+            "name": "样例 3",
+            "output": "434986672"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfError": "原版 PDF 未提供唯一、明确的题号分页",
+        "sitePdfStatus": "unavailable",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Marble Race",
+        "url": "https://codeforces.com/gym/105459/problem/E",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "284a846d542bc956a336ab69f43c0e19927df12216ad80bed00fc37640e29db6",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 弹珠竞速\n\n\n\n弹珠竞速是一种有趣的弹珠玩法，今天你想尝试一下。\n\n\n\n$$$x$$$ 轴的负半轴上有 $$$n$$$ 个起点，第 $$$i$$$ 个起点位于 $$$x_i$$$。共有 $$$m$$$ 颗弹珠，且 $$$m$$$ 为奇数，第 $$$i$$$ 颗弹珠的速度为 $$$v_i$$$。比赛中，每颗弹珠等概率随机选择一个起点，不同弹珠可以选择同一个起点。随后，所有弹珠同时向 $$$x$$$ 轴正方向运动。设第 $$$i$$$ 颗弹珠选择的起点编号为 $$$c_i$$$，则在时刻 $$$t$$$，第 $$$i$$$ 颗弹珠的坐标为 $$$x_{c_i} + v_i \\cdot t$$$。\n\n\n\n作为一个独特的弹珠竞速爱好者，你并不关心哪颗弹珠最快，而是想知道全部 $$$m$$$ 颗弹珠坐标的**中位数**恰好到达原点（即 $$$x = 0$$$）的时刻。长度为 $$$m$$$ 的序列，其中 $$$m$$$ 为奇数，按升序排序后，处于第 $$$\\frac{m+1}{2}$$$ 个位置的元素就是中位数，下标从 $$$1$$$ 开始。比赛尚未开始，各弹珠的起点也尚未确定，因此你关心这个时刻的期望值。为避免浮点误差，只需输出结果对 $$$10^9+7$$$ 取模的值，详见输出格式。\n\n\n\n## 输入格式\n\n\n\n第一行包含两个正整数 $$$n$$$ 和 $$$m$$$（$$$1 \\le n, m \\le 500$$$，且 $$$m$$$ 为奇数），分别表示起点数量和弹珠数量。\n\n\n\n第二行包含 $$$n$$$ 个整数 $$$x_1, x_2, \\ldots, x_n$$$（$$$-10^9 \\le x_i \\lt 0$$$），表示各起点坐标。保证所有 $$$x_i$$$ 互不相同。\n\n\n\n第三行包含 $$$m$$$ 个整数 $$$v_1, v_2, \\ldots, v_m$$$（$$$1 \\le v_i \\le 10^9$$$），表示各弹珠的速度。\n\n\n\n## 输出格式\n\n\n\n输出一个整数，表示期望时刻对 $$$10^9+7$$$ 取模的值。\n\n\n\n形式化地，令 $$$M=10^9+7$$$。可以证明答案能够表示为最简分数 $$$\\frac p q$$$，其中 $$$p$$$ 和 $$$q$$$ 是整数，且 $$$q \\not\\equiv 0\\pmod M$$$。请输出 $$$p\\cdot q^{-1}\\pmod M$$$，其中 $$$q^{-1}$$$ 表示 $$$q$$$ 模 $$$M$$$ 的乘法逆元。也就是说，输出一个整数 $$$x$$$，满足 $$$0\\le x \\lt M$$$，且 $$$x\\cdot q\\equiv p\\pmod M$$$。可以证明满足条件的 $$$x$$$ 恰好有一个。\n\n\n\n## 样例说明\n\n\n\n第一组样例中，三颗弹珠的速度分别为 $$$1, 2, 3$$$。考虑它们的初始位置：\n\n\n\n- $$$-4, -4, -4$$$：在 $$$t=2$$$ 时，坐标为 $$$-2, 0, 2$$$，中位数位于原点。\n\n- $$$-4, -4, -5$$$：在 $$$t=2$$$ 时，坐标为 $$$-2, 0, 1$$$，中位数位于原点。\n\n- $$$-4, -5, -4$$$：在 $$$t=2.5$$$ 时，坐标为 $$$-1.5, 0, 3.5$$$，中位数位于原点。\n\n- 对于 $$$(-4, -5, -5)$$$、$$$(-5, -4, -4)$$$、$$$(-5, -4, -5)$$$、$$$(-5, -5, -4)$$$、$$$(-5, -5, -5)$$$，中位数分别在 $$$t=2.5$$$、$$$t=2$$$、$$$t=2$$$、$$$t=2.5$$$、$$$t=2.5$$$ 时位于原点。\n\n\n\n因此，期望时刻为 $$$\\frac{2 + 2 + 2.5 + 2.5 + 2 + 2 + 2.5 + 2.5}{8} = \\frac{9}{4}$$$，需要输出 $$$9 \\cdot 4^{-1} \\bmod (10^9+7) = 250000004$$$。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:105459::E",
+          "slug": "105459-E",
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/E",
+          "sourceSha256": "284a846d542bc956a336ab69f43c0e19927df12216ad80bed00fc37640e29db6",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "2 3\n-4 -5\n1 2 3",
+              "name": "样例 1",
+              "output": "250000004"
+            },
+            {
+              "input": "3 3\n-4 -5 -6\n1 2 3",
+              "name": "样例 2",
+              "output": "500000006"
+            },
+            {
+              "input": "5 5\n-4 -5 -6 -10 -2\n1 2 3 2 4",
+              "name": "样例 3",
+              "output": "434986672"
+            }
+          ],
+          "notes": [
+            "Complete original prose, formulas, constraints and sample explanations checked.",
+            "Original Markdown, samples and all resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

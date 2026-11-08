@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105459::M",
+      "beforeSha256": "5c73249463ca97be483f3ce426ac428f64c80c0b2f6f6229d914982abb076376",
+      "content": {
+        "attachments": {
+          "https://codeforces.com/gym/105459/problem/M": {
+            "bytes": 168684,
+            "data": "tb-asset:8798e8cac856ecd18498b0ec15ced3ef885cdf731e708140fd14099a4fa4bd59",
+            "fileName": "gym-105459.pdf",
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "8798e8cac856ecd18498b0ec15ced3ef885cdf731e708140fd14099a4fa4bd59",
+            "sourceUrl": "https://codeforces.com/gym/105459/problem/M"
+          }
+        },
+        "id": "remote:codeforces:105459::M",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:49:47.983435+00:00",
+          "corpusAuditVerifiedSha256": "e0c4eb8331d9f276b08338538426ea84c2489897989a8f303d8f107a99bc2b05",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Weird Ceiling\n\nWeird Ceiling\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nWhile learning about the ceiling function, a student wrote the following pseudocode:\r\n1: function f(a, b)\r\n2: i ← b\r\n3: while i ≥ 2 do\r\n4: if a mod i = 0 then\r\n5: return a\r\ni\r\n6: end if\r\n7: i ← i − 1\r\n8: end while\r\n9: return a\r\n10: end function\r\nYou know that this is incorrect, but you are curious about the characteristics of the function f(a, b)\r\ndefined by this student. Specifically, you want to calculate the value of Pn\r\ni=1 f(n, i).\r\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 103\r\n), indicating the number of test cases.\r\nFor each test case, there is one line containing an integer n (1 ≤ n ≤ 109\r\n).\r\nOutput\r\nFor each test case, output one line containing an integer representing the answer.\r\nExample\r\nstandard input standard output\r\n3\r\n5\r\n451\r\n114514\r\n21\r\n10251\r\n7075858\r\nPage 1 of 1\n\n[PDF](https://codeforces.com/gym/105459/problem/M)",
+        "nativeSourceReview": {
+          "allPagesRendered": true,
+          "disposition": "new",
+          "id": "remote:codeforces:105459::M",
+          "method": "native-source-identity-resource-and-render-verification",
+          "pages": 1,
+          "pdfSha256": "a2ccc5353896b5402c203c0affa47bbb0c5b18259b59183d35da1eab665af900",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "2e1d96c46f863ea9c74276ea107cc3b9b898316a223829529f1a76478640d504",
+          "sourcePdfSha256": "8798e8cac856ecd18498b0ec15ced3ef885cdf731e708140fd14099a4fa4bd59",
+          "sourcePdfUrl": "https://codeforces.com/gym/105459/problem/M",
+          "url": "https://codeforces.com/gym/105459/problem/M"
+        },
+        "pageCount": 1,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://codeforces.com/gym/105459/problem/M": {
+            "bytes": 168684,
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "8798e8cac856ecd18498b0ec15ced3ef885cdf731e708140fd14099a4fa4bd59",
+            "sourceUrl": "https://codeforces.com/gym/105459/problem/M"
+          }
+        },
+        "sampleExtraction": {
+          "method": "page-reviewed-original-pdf-samples",
+          "sourcePdfSha256": "a2ccc5353896b5402c203c0affa47bbb0c5b18259b59183d35da1eab665af900",
+          "page": 1
+        },
+        "samples": [
+          {
+            "input": "3\n5\n451\n114514",
+            "name": "样例 1",
+            "output": "21\n10251\n7075858"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfError": "原版 PDF 未提供唯一、明确的题号分页",
+        "sitePdfStatus": "unavailable",
+        "sourceBinding": {
+          "kind": "native-problem-pdf-title",
+          "pdfTitle": "Weird Ceiling",
+          "problem": "M",
+          "rosterTitle": "Weird Ceiling",
+          "samplePairsVerified": 0
+        },
+        "sourcePageNumbers": [
+          1
+        ],
+        "sourcePdfSha256": "8798e8cac856ecd18498b0ec15ced3ef885cdf731e708140fd14099a4fa4bd59",
+        "sourcePdfUrl": "https://codeforces.com/gym/105459/problem/M",
+        "sourceRosterSha256": "03f1d588bbdb12ba3b4ccd5d4d5ea312fc431045c0f4ec33b70aa7f97e61a19a",
+        "sourceRosterUrl": "https://codeforces.com/gym/105459",
+        "sourceText": "# Weird Ceiling\n\nTime limit: 1 second. Memory limit: 1024 megabytes. Standard input and output.\n\nWhile learning about the ceiling function, a student wrote this pseudocode:\n\n```text\nfunction f(a, b):\n    i <- b\n    while i >= 2:\n        if a mod i = 0:\n            return a / i\n        end if\n        i <- i - 1\n    end while\n    return a\nend function\n```\n\nYou know it is incorrect, but are curious about this student's function $f(a,b)$. Calculate $\\sum_{i=1}^{n}f(n,i)$.\n\n## Input Format\n\nThe first line contains the number of test cases $T$ ($1\\le T\\le10^3$). Each test case consists of one line containing an integer $n$ ($1\\le n\\le10^9$).\n\n## Output Format\n\nFor each test case, output one integer on a line: the answer.\n\n\n## Sample 1\n\n### Input\n\n```text\n3\n5\n451\n114514\n```\n\n### Output\n\n```text\n21\n10251\n7075858\n```\n",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "data": "tb-asset:a2ccc5353896b5402c203c0affa47bbb0c5b18259b59183d35da1eab665af900",
+          "fileName": "gym-105459-M.pdf",
+          "pageCount": 1,
+          "sha256": "a2ccc5353896b5402c203c0affa47bbb0c5b18259b59183d35da1eab665af900",
+          "sourcePageNumbers": [
+            1
+          ],
+          "sourceSha256": "8798e8cac856ecd18498b0ec15ced3ef885cdf731e708140fd14099a4fa4bd59",
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/M",
+          "widthPoints": 595.2760009765625
+        },
+        "statementSource": "Codeforces 原站 PDF",
+        "statementVersion": 8,
+        "title": "Weird Ceiling",
+        "url": "https://codeforces.com/gym/105459/problem/M",
+        "sourceTextArchive": [
+          {
+            "text": "Weird Ceiling\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 1024 megabytes\r\nWhile learning about the ceiling function, a student wrote the following pseudocode:\r\n1: function f(a, b)\r\n2: i ← b\r\n3: while i ≥ 2 do\r\n4: if a mod i = 0 then\r\n5: return a\r\ni\r\n6: end if\r\n7: i ← i − 1\r\n8: end while\r\n9: return a\r\n10: end function\r\nYou know that this is incorrect, but you are curious about the characteristics of the function f(a, b)\r\ndefined by this student. Specifically, you want to calculate the value of Pn\r\ni=1 f(n, i).\r\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 103\r\n), indicating the number of test cases.\r\nFor each test case, there is one line containing an integer n (1 ≤ n ≤ 109\r\n).\r\nOutput\r\nFor each test case, output one line containing an integer representing the answer.\r\nExample\r\nstandard input standard output\r\n3\r\n5\r\n451\r\n114514\r\n21\r\n10251\r\n7075858\r\nPage 1 of 1",
+            "kind": "unreviewed-pdf-extraction",
+            "sha256": "b2b3293b676419a9d003d53de2081b76c8c9a682cd5fc16d4f68bb59eeb57efb"
+          }
+        ],
+        "sampleExtractionHistory": [
+          {
+            "samples": [
+              {
+                "input": "3\n5\n451\n114514",
+                "name": "样例 1",
+                "output": "21\n10251\n7075858"
+              }
+            ],
+            "extraction": "pdf-table-geometry-v1"
+          }
+        ],
+        "sourceTextReview": {
+          "letter": "M",
+          "problemId": "remote:codeforces:105459::M",
+          "pdfSha256": "a2ccc5353896b5402c203c0affa47bbb0c5b18259b59183d35da1eab665af900",
+          "pageCount": 1,
+          "pagesReviewed": [
+            1
+          ],
+          "sourcePageNumbers": [
+            1
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/M",
+          "figures": [],
+          "notes": [
+            "Every original PDF page visually checked; sample input and output columns manually checked.",
+            "Original pseudocode transcribed in full, including decrement, divisor-return branch and fallback. No formula flattened into prose."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "4169202544988536efed9b9f2ded284e3e763842e41bdfb8fd7be20bdab7f31f"
+        },
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对原始 PDF 的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "e0c4eb8331d9f276b08338538426ea84c2489897989a8f303d8f107a99bc2b05",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "4169202544988536efed9b9f2ded284e3e763842e41bdfb8fd7be20bdab7f31f",
+          "sourcePdfSha256": "a2ccc5353896b5402c203c0affa47bbb0c5b18259b59183d35da1eab665af900",
+          "markdown": "# 奇怪的向上取整\n\n时间限制：1 秒。内存限制：1024 MB。使用标准输入和标准输出。\n\n一名学生在学习向上取整函数时，写下了以下伪代码：\n\n```text\nfunction f(a, b):\n    i <- b\n    while i >= 2:\n        if a mod i = 0:\n            return a / i\n        end if\n        i <- i - 1\n    end while\n    return a\nend function\n```\n\n你知道这段代码实现得不正确，但对这名学生定义的函数 $f(a,b)$ 的性质很好奇。请计算 $\\sum_{i=1}^{n}f(n,i)$。\n\n## 输入格式\n\n第一行包含测试用例数 $T$（$1\\le T\\le10^3$）。每个测试用例占一行，包含一个整数 $n$（$1\\le n\\le10^9$）。\n\n## 输出格式\n\n对于每个测试用例，在一行中输出一个整数，表示答案。\n\n\n## 样例 1\n\n### 输入\n\n```text\n3\n5\n451\n114514\n```\n\n### 输出\n\n```text\n21\n10251\n7075858\n```\n"
+        },
+        "translationReview": {
+          "letter": "M",
+          "problemId": "remote:codeforces:105459::M",
+          "pdfSha256": "a2ccc5353896b5402c203c0affa47bbb0c5b18259b59183d35da1eab665af900",
+          "pageCount": 1,
+          "pagesReviewed": [
+            1
+          ],
+          "sourcePageNumbers": [
+            1
+          ],
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/M",
+          "figures": [],
+          "notes": [
+            "Every original PDF page visually checked; sample input and output columns manually checked.",
+            "Original pseudocode transcribed in full, including decrement, divisor-return branch and fallback. No formula flattened into prose."
+          ],
+          "method": "page-by-page-original-pdf-review",
+          "sourceTextSha256": "4169202544988536efed9b9f2ded284e3e763842e41bdfb8fd7be20bdab7f31f",
+          "status": "complete",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

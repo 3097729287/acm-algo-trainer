@@ -1,0 +1,52 @@
+[
+  {
+    "letter": "B",
+    "problemId": "remote:codeforces:105459::B",
+    "pdfSha256": "afe961e45a20cfa2d126b1dc785527100d971581ada70df00bc17f4b6a601021",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      1,
+      2
+    ],
+    "sourceUrl": "https://codeforces.com/gym/105459/problem/B",
+    "figures": [
+      {
+        "file": "105459-B-polygons.png",
+        "page": 1,
+        "clipRect": [
+          210,
+          260,
+          375,
+          367
+        ],
+        "sha256": "ab2204667b61e087d4155cbd52d9da96aa2fd8b8ef12ed7a605903f9e6972708"
+      }
+    ],
+    "notes": [
+      "Every original PDF page visually checked; sample input and output columns manually checked.",
+      "Positive-area simple concave polygon, arbitrary selected subset and doubled output area retained."
+    ]
+  },
+  {
+    "letter": "M",
+    "problemId": "remote:codeforces:105459::M",
+    "pdfSha256": "a2ccc5353896b5402c203c0affa47bbb0c5b18259b59183d35da1eab665af900",
+    "pageCount": 1,
+    "pagesReviewed": [
+      1
+    ],
+    "sourcePageNumbers": [
+      1
+    ],
+    "sourceUrl": "https://codeforces.com/gym/105459/problem/M",
+    "figures": [],
+    "notes": [
+      "Every original PDF page visually checked; sample input and output columns manually checked.",
+      "Original pseudocode transcribed in full, including decrement, divisor-return branch and fallback. No formula flattened into prose."
+    ]
+  }
+]

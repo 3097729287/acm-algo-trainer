@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105459::I",
+      "beforeSha256": "dc8a3d34566141ce0ec0b01e265cc353e267ada189f1cf9ee08ede5320545905",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:105459::I",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:49:35.319374+00:00",
+          "corpusAuditVerifiedSha256": "7af08f5d382bcaace20ed8b9e623059373ee8aa6afe2f740cdb52b85a69648ea",
+          "pdfPageCountVerified": false,
+          "sampleCount": 4,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 5000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# A Brand New Geometric Problem\n\nYou are a magician in a high-dimensional space, and you have an initial $$$n$$$-dimensional hypercube with edge lengths $$$a_1, a_2, \\dots, a_n$$$. For a $$$d$$$-dimensional hypercube, the edge length sum is defined as $$$\\sum_{i=1}^d a_i$$$, and its hypervolume is $$$\\prod_{i=1}^d a_i$$$.\n\n\n\nYou want to obtain a hypercube with edge length sum $$$S$$$ and hypervolume $$$M$$$. To achieve this, you can perform both dimensional reduction and dimensional expansion operations on the current hypercube.\n\n\n\n- Dimensional Reduction: Remove a dimension.\n\n- Dimensional Expansion: Add a new dimension, with its edge length being any positive integer.\n\n\n\nBoth operations are very exhausting, so you want to determine the minimum number of operations required to obtain a hypercube with edge length sum $$$S$$$ and hypervolume $$$M$$$.\n\n\n\n## Input\n\n\n\nThe first line contains three integers $$$n, S, M$$$ ($$$1\\le n \\le 10^5$$$, $$$1 \\le S, M \\le 10^{10}$$$).\n\n\n\nThe second line contains $$$n$$$ integers, representing the initial edge lengths $$$a_i$$$ of the hypercube ($$$1 \\le a_i \\le 10^{10}$$$).\n\n\n\n## Output\n\n\n\nOutput a single integer representing the minimum number of operations required. If it is impossible to obtain a hypercube that meets the conditions, output $$$-1$$$.\n\n\n\n## Note\n\n\n\nFor the first sample, one possible approach: first delete the dimension with edge length $$$1$$$, and then add a dimension with edge length $$$3$$$.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:105459::I",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 4,
+          "samplesSha256": "3b5c01d7c3d07a3ca58b2b939189d3068525f7f45268ec19c711492a3c1c7b12",
+          "url": "https://codeforces.com/gym/105459/problem/I"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "2 5 6\n1 2",
+            "name": "样例 1",
+            "output": "2"
+          },
+          {
+            "input": "3 6 5\n1 2 3",
+            "name": "样例 2",
+            "output": "3"
+          },
+          {
+            "input": "2 114514 735134400\n114 514",
+            "name": "样例 3",
+            "output": "20"
+          },
+          {
+            "input": "2 4 7\n1 3",
+            "name": "样例 4",
+            "output": "-1"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfError": "原版 PDF 未提供唯一、明确的题号分页",
+        "sitePdfStatus": "unavailable",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "A Brand New Geometric Problem",
+        "url": "https://codeforces.com/gym/105459/problem/I",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "7af08f5d382bcaace20ed8b9e623059373ee8aa6afe2f740cdb52b85a69648ea",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 全新的几何问题\n\n\n\n你是高维空间中的一名魔法师，最初有一个 $$$n$$$ 维超长方体，各维边长为 $$$a_1, a_2, \\dots, a_n$$$。对于一个 $$$d$$$ 维超长方体，本题将边长和定义为 $$$\\sum_{i=1}^d a_i$$$，超体积定义为 $$$\\prod_{i=1}^d a_i$$$。\n\n\n\n你希望得到一个边长和为 $$$S$$$、超体积为 $$$M$$$ 的超长方体。为此，可以对当前的超长方体执行降维和升维操作：\n\n\n\n- 降维：删除一个维度。\n\n- 升维：新增一个维度，其边长可以是任意正整数。\n\n\n\n两种操作都很耗费精力，因此你希望确定：至少需要多少次操作，才能得到边长和为 $$$S$$$、超体积为 $$$M$$$ 的超长方体。\n\n\n\n## 输入格式\n\n\n\n第一行包含三个整数 $$$n, S, M$$$（$$$1\\le n \\le 10^5$$$，$$$1 \\le S, M \\le 10^{10}$$$）。\n\n\n\n第二行包含 $$$n$$$ 个整数，表示超长方体的初始各维边长 $$$a_i$$$（$$$1 \\le a_i \\le 10^{10}$$$）。\n\n\n\n## 输出格式\n\n\n\n输出一个整数，表示所需的最少操作次数。如果不可能得到满足要求的超长方体，输出 $$$-1$$$。\n\n\n\n## 样例说明\n\n\n\n第一组样例的一种方案是：先删除边长为 $$$1$$$ 的维度，再新增一个边长为 $$$3$$$ 的维度。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:105459::I",
+          "slug": "105459-I",
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/I",
+          "sourceSha256": "7af08f5d382bcaace20ed8b9e623059373ee8aa6afe2f740cdb52b85a69648ea",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "2 5 6\n1 2",
+              "name": "样例 1",
+              "output": "2"
+            },
+            {
+              "input": "3 6 5\n1 2 3",
+              "name": "样例 2",
+              "output": "3"
+            },
+            {
+              "input": "2 114514 735134400\n114 514",
+              "name": "样例 3",
+              "output": "20"
+            },
+            {
+              "input": "2 4 7\n1 3",
+              "name": "样例 4",
+              "output": "-1"
+            }
+          ],
+          "notes": [
+            "Complete original prose, formulas, constraints and sample explanations checked.",
+            "Original Markdown, samples and all resource metadata retained unchanged.",
+            "The English source calls the body a hypercube while allowing different side lengths. Chinese uses the mathematically consistent term hyperrectangle; the source definitions of edge-length sum and hypervolume remain exact."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

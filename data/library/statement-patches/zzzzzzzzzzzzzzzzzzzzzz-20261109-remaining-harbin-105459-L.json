@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105459::L",
+      "beforeSha256": "297607dfcb9f4e48e0dc055d6059c343c5247cac4801e06cc3d7c82e98610e56",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:105459::L",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:49:41.554713+00:00",
+          "corpusAuditVerifiedSha256": "7549c5ebf982301730f385ccdb8c94a4921804089d12d9b4672a59e2be9da8a9",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# A Game On Tree\n\nThere is a tree (a connected undirected graph with $$$n$$$ nodes and $$$n-1$$$ edges) consisting of $$$n$$$ nodes, with nodes numbered from $$$1$$$ to $$$n$$$. Clearly, there is a unique simple path between any two nodes in the tree.\n\n\n\nXiaohong and Xiaolan are playing a game on this tree. In each game, both players **independently and uniformly** select a random simple path from all $$$\\frac{n(n-1)}{2}$$$ simple paths (regardless of direction) that exist in the tree. Note that they may choose the same path. Let $$$X$$$ denote the number of edges that are common to both selected paths, and the score of the game is $$$X^2$$$.\n\n\n\nYour task is to find the expected value of the score $$$E(X^2)$$$ when Xiaohong and Xiaolan play the game once, and output the result modulo $$$998244353$$$ (see the output format for details).\n\n\n\n## Input\n\n\n\nThe first line contains a positive integer $$$T$$$ ($$$1\\le T \\le 10^4$$$), representing the number of test cases.\n\n\n\nFor each test case, the first line contains a positive integer $$$n$$$ ($$$2\\le n \\le 10^5$$$), representing the number of nodes in the tree.\n\n\n\nThe next $$$n-1$$$ lines each contain two positive integers $$$u, v$$$ ($$$1\\le u,v \\le n$$$), indicating that there is an edge between nodes $$$u$$$ and $$$v$$$. The input is guaranteed to be a tree.\n\n\n\nThe sum of all $$$n$$$ over all test cases does not exceed $$$10^6$$$.\n\n\n\n## Output\n\n\n\nFor each test case, output a single integer, representing the answer modulo $$$998244353$$$.\n\n\n\nFormally, let $$$M=998244353$$$. It can be shown that the answer can be expressed as an irreducible fraction $$$\\frac p q$$$, where $$$p$$$ and $$$q$$$ are integers and $$$q \\not\\equiv 0\\pmod M$$$. Output the integer equal to $$$p\\cdot q^{-1}\\pmod M$$$, where $$$q^{-1}$$$ denotes the modular multiplicative inverse of $$$q$$$ modulo $$$M$$$. In other words, output such an integer $$$x$$$ that $$$0\\le x \\lt M$$$ and $$$x\\cdot q\\equiv p\\pmod M$$$. It can be proved that there is exactly one $$$x$$$ which meets the condition.\n\n\n\n## Note\n\n\n\nFor the first test case in the example, the answer without taking the modulo is $$$\\frac{10}{9}$$$.\n\n\n\nAmong the $$$9$$$ possible cases:\n\n\n\n- In $$$2$$$ cases, the number of common edges between the two paths is $$$0$$$;\n\n- In $$$6$$$ cases, the number of common edges between the two paths is $$$1$$$;\n\n- In $$$1$$$ case, the number of common edges between the two paths is $$$2$$$.\n\n\n\nTherefore, the answer is $$$E(X^2) = \\frac{2 \\cdot 0^2 + 6 \\cdot 1^2 + 1 \\cdot 2^2}{9} = \\frac{10}{9}$$$.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:105459::L",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "16c7001a986f97d4997e9d3cf7f8bae5fdb693728ee4871ec579486350ed8c13",
+          "url": "https://codeforces.com/gym/105459/problem/L"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "2\n3\n1 2\n2 3\n5\n1 2\n1 5\n3 2\n4 2",
+            "name": "样例 1",
+            "output": "443664158\n918384806"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfError": "原版 PDF 未提供唯一、明确的题号分页",
+        "sitePdfStatus": "unavailable",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "A Game On Tree",
+        "url": "https://codeforces.com/gym/105459/problem/L",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "7549c5ebf982301730f385ccdb8c94a4921804089d12d9b4672a59e2be9da8a9",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 树上的游戏\n\n\n\n给定一棵有 $$$n$$$ 个结点的树，即一个有 $$$n$$$ 个结点和 $$$n-1$$$ 条边的连通无向图，结点编号为 $$$1$$$ 到 $$$n$$$。树上任意两个结点之间都恰好有一条简单路径。\n\n\n\n小红和小蓝在这棵树上玩游戏。每次游戏，两人都从树上全部 $$$\\frac{n(n-1)}{2}$$$ 条不计方向的简单路径中，**独立、等概率**地随机选择一条。他们可能选择同一条路径。令 $$$X$$$ 表示两条路径的公共边数，本次游戏的得分为 $$$X^2$$$。\n\n\n\n求两人玩一次游戏时得分的期望 $$$E(X^2)$$$，并输出结果对 $$$998244353$$$ 取模的值，详见输出格式。\n\n\n\n## 输入格式\n\n\n\n第一行包含正整数 $$$T$$$（$$$1\\le T \\le 10^4$$$），表示测试用例数。\n\n\n\n对于每个测试用例，第一行包含正整数 $$$n$$$（$$$2\\le n \\le 10^5$$$），表示树的结点数。\n\n\n\n接下来 $$$n-1$$$ 行，每行包含两个正整数 $$$u, v$$$（$$$1\\le u,v \\le n$$$），表示结点 $$$u$$$ 和 $$$v$$$ 之间有一条边。保证输入构成一棵树。\n\n\n\n所有测试用例的 $$$n$$$ 之和不超过 $$$10^6$$$。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，输出一个整数，表示答案对 $$$998244353$$$ 取模的值。\n\n\n\n形式化地，令 $$$M=998244353$$$。可以证明答案能够表示为最简分数 $$$\\frac p q$$$，其中 $$$p$$$ 和 $$$q$$$ 是整数，且 $$$q \\not\\equiv 0\\pmod M$$$。请输出 $$$p\\cdot q^{-1}\\pmod M$$$，其中 $$$q^{-1}$$$ 表示 $$$q$$$ 模 $$$M$$$ 的乘法逆元。也就是说，输出一个整数 $$$x$$$，满足 $$$0\\le x \\lt M$$$，且 $$$x\\cdot q\\equiv p\\pmod M$$$。可以证明满足条件的 $$$x$$$ 恰好有一个。\n\n\n\n## 样例说明\n\n\n\n第一组样例的答案在取模前为 $$$\\frac{10}{9}$$$。\n\n\n\n在全部 $$$9$$$ 种可能情况中：\n\n\n\n- $$$2$$$ 种情况下，两条路径的公共边数为 $$$0$$$；\n\n- $$$6$$$ 种情况下，两条路径的公共边数为 $$$1$$$；\n\n- $$$1$$$ 种情况下，两条路径的公共边数为 $$$2$$$。\n\n\n\n因此，答案为 $$$E(X^2) = \\frac{2 \\cdot 0^2 + 6 \\cdot 1^2 + 1 \\cdot 2^2}{9} = \\frac{10}{9}$$$。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:105459::L",
+          "slug": "105459-L",
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/L",
+          "sourceSha256": "7549c5ebf982301730f385ccdb8c94a4921804089d12d9b4672a59e2be9da8a9",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "2\n3\n1 2\n2 3\n5\n1 2\n1 5\n3 2\n4 2",
+              "name": "样例 1",
+              "output": "443664158\n918384806"
+            }
+          ],
+          "notes": [
+            "Complete original prose, formulas, constraints and sample explanations checked.",
+            "Original Markdown, samples and all resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

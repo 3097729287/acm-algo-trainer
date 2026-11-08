@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105459::D",
+      "beforeSha256": "9739dd13bdb2d6fb019e4c68bed2f809c7df4772fd849ea9e7d15a4f3586d8a4",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:105459::D",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:49:24.828789+00:00",
+          "corpusAuditVerifiedSha256": "7b052aac02b98095021ffaaba516f12ee0ffafe0a2589671a4d69b1b6cc8bd8c",
+          "pdfPageCountVerified": false,
+          "sampleCount": 3,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# A Simple String Problem\n\nYou are given a character grid with $$$2$$$ rows and $$$n$$$ columns, where each cell contains a lowercase letter. You can start at any position in the grid and move several steps, with each step either to the right or downward, stopping at any cell. Concatenating the characters from the cells visited in order forms a string.\n\n\n\nA string $$$S$$$ is called a double string if and only if there exists a non-empty string $$$T$$$ such that $$$S = TT$$$. For example, $$$\\texttt{aa}$$$ and $$$\\texttt{xyzxyz}$$$ are double strings, while $$$\\texttt{a}$$$ and $$$\\texttt{xyzyz}$$$ are not.\n\n\n\nGiven the character grid, find the length of the longest double string you can obtain.\n\n\n\n## Input\n\n\n\nThe first line contains an integer $$$n$$$ ($$$1 \\le n \\le 2 \\times 10^5$$$), representing the number of columns in the character grid.\n\n\n\nThe next two lines contain two strings of length $$$n$$$ consisting only of lowercase English letters, representing the character grid.\n\n\n\n## Output\n\n\n\nOutput a single integer, representing the length of the longest double string you can obtain.\n\n\n\n## Note\n\n\n\nIn the first example, the longest double string can be obtained as follows (not unique):\n\n\n\n$$$$$$ \\begin{aligned} \\underline{\\texttt{abc}}\\texttt{ab}\\\\ \\texttt{ac}\\underline{\\texttt{abc}} \\end{aligned} $$$$$$",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:105459::D",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 3,
+          "samplesSha256": "91a628a8a5729df208851ec42592849e97bced9a2a876f2b81e406f349e7dc99",
+          "url": "https://codeforces.com/gym/105459/problem/D"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "5\nabcab\nacabc",
+            "name": "样例 1",
+            "output": "6"
+          },
+          {
+            "input": "6\nbabbaa\nbabaaa",
+            "name": "样例 2",
+            "output": "6"
+          },
+          {
+            "input": "2\nne\nfu",
+            "name": "样例 3",
+            "output": "0"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfError": "原版 PDF 未提供唯一、明确的题号分页",
+        "sitePdfStatus": "unavailable",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "A Simple String Problem",
+        "url": "https://codeforces.com/gym/105459/problem/D",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "7b052aac02b98095021ffaaba516f12ee0ffafe0a2589671a4d69b1b6cc8bd8c",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 一个简单的字符串问题\n\n\n\n给定一个 $$$2$$$ 行、$$$n$$$ 列的字符网格，每个格子中都有一个小写字母。你可以从任意格子出发，移动若干步，每步只能向右或向下，并在任意格子停止。将按顺序经过的格子中的字符拼接起来，就得到一个字符串。\n\n\n\n字符串 $$$S$$$ 被称为双倍字符串，当且仅当存在一个非空字符串 $$$T$$$，使 $$$S = TT$$$。例如，$$$\\texttt{aa}$$$ 和 $$$\\texttt{xyzxyz}$$$ 是双倍字符串，而 $$$\\texttt{a}$$$ 和 $$$\\texttt{xyzyz}$$$ 不是。\n\n\n\n给定字符网格，请求出能够得到的最长双倍字符串的长度。\n\n\n\n## 输入格式\n\n\n\n第一行包含整数 $$$n$$$（$$$1 \\le n \\le 2 \\times 10^5$$$），表示字符网格的列数。\n\n\n\n接下来两行各包含一个长度为 $$$n$$$、仅由小写英文字母组成的字符串，表示字符网格。\n\n\n\n## 输出格式\n\n\n\n输出一个整数，表示能够得到的最长双倍字符串的长度。\n\n\n\n## 样例说明\n\n\n\n第一组样例中，可以按以下方式得到一个最长双倍字符串，方案不唯一：\n\n\n\n$$$$$$ \\begin{aligned} \\underline{\\texttt{abc}}\\texttt{ab}\\\\ \\texttt{ac}\\underline{\\texttt{abc}} \\end{aligned} $$$$$$\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:105459::D",
+          "slug": "105459-D",
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/D",
+          "sourceSha256": "7b052aac02b98095021ffaaba516f12ee0ffafe0a2589671a4d69b1b6cc8bd8c",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "5\nabcab\nacabc",
+              "name": "样例 1",
+              "output": "6"
+            },
+            {
+              "input": "6\nbabbaa\nbabaaa",
+              "name": "样例 2",
+              "output": "6"
+            },
+            {
+              "input": "2\nne\nfu",
+              "name": "样例 3",
+              "output": "0"
+            }
+          ],
+          "notes": [
+            "Complete original prose, formulas, constraints and sample explanations checked.",
+            "Original Markdown, samples and all resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

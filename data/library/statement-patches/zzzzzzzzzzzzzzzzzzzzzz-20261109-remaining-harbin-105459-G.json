@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105459::G",
+      "beforeSha256": "4b5f24dff5eca95b58b988b9e0e17af8c316c29c6bed130337b1553dda0b81c9",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:105459::G",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:49:31.152444+00:00",
+          "corpusAuditVerifiedSha256": "8aba583de7a4bbecc53a7c43c0c59939358771c57b7684a7b810cff7c38d97f8",
+          "pdfPageCountVerified": false,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Welcome to Join the Online Meeting!\n\nYou want to organize an online meeting on MeLink with $$$n$$$ participants numbered form $$$1$$$ to $$$n$$$. Each of these $$$n$$$ participants knows at least one other participant besides themselves, and the acquaintance relationship is mutual.\n\n\n\nThe organization process of the meeting is as follows: First, one person creates the meeting and joins it. Then, members who have already joined the meeting can invite some of their acquaintances who are not yet in the meeting, until all $$$n$$$ participants are present. However, there are $$$k$$$ participants who are currently busy debugging code; these people can be invited to the meeting but cannot create the meeting or invite others.\n\n\n\nYou want to determine if it is possible to get all $$$n$$$ participants into the meeting. If it is possible, determine an inviting plan.\n\n\n\n## Input\n\n\n\nThe first line contains three integers $$$n, m, k$$$ ($$$2 \\le n \\le 2 \\times 10^5$$$, $$$1 \\le m \\le \\min\\{5 \\times 10^5, \\frac{n(n-1)}{2}\\}$$$, $$$0 \\le k \\le n$$$), representing the number of participants, the number of acquaintance relationships, and the number of participants currently busy.\n\n\n\nThe second line contains $$$k$$$ integers $$$a_1, \\ldots, a_k$$$ ($$$1 \\le a_i \\le n$$$), where the $$$i$$$-th integer represents that participant $$$a_i$$$ is busy. These integers are all distinct. If $$$k=0$$$, this line will be empty, but not omitted.\n\n\n\nThe next $$$m$$$ lines each contain two integers $$$p_i$$$ and $$$q_i$$$ ($$$1 \\le p_i, q_i \\le n$$$, $$$p_i \\neq q_i$$$), indicating that $$$p_i$$$ and $$$q_i$$$ know each other. The acquaintance relationships are mutual. It is guaranteed that the same acquaintance relationship will not appear more than once, and that every participant knows at least one other person.\n\n\n\n## Output\n\n\n\nIf it is impossible to organize a meeting with all $$$n$$$ participants, output $$$\\texttt{No}$$$ in the first line.\n\n\n\nIf it is possible, output $$$\\texttt{Yes}$$$ in the first line. Then, in the second line, output an integer $$$t$$$ ($$$1 \\le t \\le n$$$), representing the number of steps required to organize the meeting.\n\n\n\nIn the following $$$t$$$ lines, each line describes one step of organizing the meeting. In the $$$j$$$-th line, first output an integer $$$x_j$$$ ($$$1 \\leq x_j \\leq n$$$). If $$$j=1$$$, $$$x_j$$$ represents the participant who creates the meeting; otherwise, $$$x_j$$$ must be a participant who has already joined the meeting. All $$$x_j$$$ must be distinct. Next, output an integer $$$y_j$$$ ($$$1 \\leq y_j \\leq n$$$), representing the number of participants invited by $$$x_j$$$ in this step. Finally, output $$$y_j$$$ integers $$$z_l$$$ ($$$1 \\leq z_l \\leq n$$$), representing the participants invited by $$$x_j$$$. All $$$z_l$$$ must be distinct, and no participant can be invited more than once during the entire process.\n\n\n\nYou do not need to minimize $$$t$$$; any valid plan is acceptable.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:105459::G",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 2,
+          "samplesSha256": "bb4197f375da6e84c88519c0290824406c27e1466e5cc47e30e7961eb6a6c241",
+          "url": "https://codeforces.com/gym/105459/problem/G"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "4 5 2\n3 4\n1 2\n1 3\n2 3\n3 4\n2 4",
+            "name": "样例 1",
+            "output": "Yes\n2\n1 2 2 3\n2 1 4"
+          },
+          {
+            "input": "4 5 3\n2 4 3\n1 2\n1 3\n2 3\n3 4\n2 4",
+            "name": "样例 2",
+            "output": "No"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfError": "原版 PDF 未提供唯一、明确的题号分页",
+        "sitePdfStatus": "unavailable",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Welcome to Join the Online Meeting!",
+        "url": "https://codeforces.com/gym/105459/problem/G",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "8aba583de7a4bbecc53a7c43c0c59939358771c57b7684a7b810cff7c38d97f8",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 欢迎加入线上会议！\n\n\n\n你想在 MeLink 上组织一场线上会议，有 $$$n$$$ 名参会者，编号为 $$$1$$$ 到 $$$n$$$。这 $$$n$$$ 名参会者每人都至少认识另一名参会者，认识关系是相互的。\n\n\n\n会议的组织过程如下：首先由一人创建会议并加入。之后，已加入会议的人可以邀请一些尚未入会的熟人，直到全部 $$$n$$$ 人都已入会。但其中有 $$$k$$$ 人正忙于调试代码，他们可以被邀请加入会议，却不能创建会议或邀请别人。\n\n\n\n请判断能否让全部 $$$n$$$ 人加入会议。如果可以，给出一个邀请方案。\n\n\n\n## 输入格式\n\n\n\n第一行包含三个整数 $$$n, m, k$$$（$$$2 \\le n \\le 2 \\times 10^5$$$，$$$1 \\le m \\le \\min\\{5 \\times 10^5, \\frac{n(n-1)}{2}\\}$$$，$$$0 \\le k \\le n$$$），分别表示参会者数量、认识关系数量和正忙的参会者数量。\n\n\n\n第二行包含 $$$k$$$ 个整数 $$$a_1, \\ldots, a_k$$$（$$$1 \\le a_i \\le n$$$），其中第 $$$i$$$ 个整数表示参会者 $$$a_i$$$ 正忙。这些整数两两不同。如果 $$$k=0$$$，这一行为空，但不会省略。\n\n\n\n接下来 $$$m$$$ 行，每行包含两个整数 $$$p_i$$$ 和 $$$q_i$$$（$$$1 \\le p_i, q_i \\le n$$$，$$$p_i \\neq q_i$$$），表示 $$$p_i$$$ 和 $$$q_i$$$ 相互认识。保证同一对认识关系不会重复出现，且每名参会者都至少认识另一人。\n\n\n\n## 输出格式\n\n\n\n如果无法组织一场包含全部 $$$n$$$ 人的会议，第一行输出 $$$\\texttt{No}$$$。\n\n\n\n如果可以，第一行输出 $$$\\texttt{Yes}$$$，第二行输出一个整数 $$$t$$$（$$$1 \\le t \\le n$$$），表示组织会议所需的步骤数。\n\n\n\n接下来 $$$t$$$ 行，每行描述一步。第 $$$j$$$ 行先输出整数 $$$x_j$$$（$$$1 \\leq x_j \\leq n$$$）。如果 $$$j=1$$$，$$$x_j$$$ 表示创建会议的人；否则 $$$x_j$$$ 必须是已经加入会议的人。所有 $$$x_j$$$ 必须互不相同。接着输出整数 $$$y_j$$$（$$$1 \\leq y_j \\leq n$$$），表示 $$$x_j$$$ 在这一步邀请的人数。最后输出 $$$y_j$$$ 个整数 $$$z_l$$$（$$$1 \\leq z_l \\leq n$$$），表示被 $$$x_j$$$ 邀请的参会者。所有 $$$z_l$$$ 必须互不相同，且整个过程中任何人都不能被邀请超过一次。\n\n\n\n不需要最小化 $$$t$$$，输出任意合法方案即可。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:105459::G",
+          "slug": "105459-G",
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/G",
+          "sourceSha256": "8aba583de7a4bbecc53a7c43c0c59939358771c57b7684a7b810cff7c38d97f8",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "4 5 2\n3 4\n1 2\n1 3\n2 3\n3 4\n2 4",
+              "name": "样例 1",
+              "output": "Yes\n2\n1 2 2 3\n2 1 4"
+            },
+            {
+              "input": "4 5 3\n2 4 3\n1 2\n1 3\n2 3\n3 4\n2 4",
+              "name": "样例 2",
+              "output": "No"
+            }
+          ],
+          "notes": [
+            "Complete original prose, formulas, constraints and sample explanations checked.",
+            "Original Markdown, samples and all resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

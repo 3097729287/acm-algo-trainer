@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105459::K",
+      "beforeSha256": "24ace4e20e579c15375dbb1678a88b3d96da9efff28a6fa3fa62421150b1dcc1",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:105459::K",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:49:39.503428+00:00",
+          "corpusAuditVerifiedSha256": "87770d23ff2f3af35d69812760ed1574b7d91a9ede8ea040c6481e7dc7f5ed08",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Farm Management\n\nYou have given up programming and moved to the Sanjiang Plain to start farming. During your time working in the fields, you have adopted a regular daily schedule, and now you work **exactly** $$$m$$$ units of time each day. It is now harvest season, and you need to harvest and process $$$n$$$ types of crops. For crop type $$$i$$$, processing it for one unit of time will yield a profit of $$$w_i$$$. To make your daily work less monotonous, for each crop type $$$i$$$, the time spent processing it each day can range between $$$[l_i, r_i]$$$ inclusive as an integer.\n\n\n\nAt some day, the weather forecast says that there will be a heavy rain tomorrow and you can't work, so you need to adjust your schedule to quickly gather your crops today. Specifically, you can choose at most one type of crop and remove its daily time range restriction, allowing the time spent processing this crop to be any integer in the range $$$[0, m]$$$. The time ranges for all other crops remain unchanged. You have to work **exactly** $$$m$$$ units of time as well.\n\n\n\nYou want to determine the maximum profit you can earn today.\n\n\n\n## Input\n\n\n\nThe first line contains two integers $$$n$$$ and $$$m$$$ ($$$1 \\le n \\le 10^5$$$, $$$1 \\le m \\le 10^{11}$$$), representing the number of crop types and the length of the workday in units of time, respectively.\n\n\n\nThe next $$$n$$$ lines each contain three integers $$$w_i$$$, $$$l_i$$$, and $$$r_i$$$ ($$$1 \\le w_i \\le 10^6$$$, $$$1 \\le l_i \\le r_i \\le 10^6$$$), indicating the profits and time constraints of the crops.\n\n\n\nIt is guaranteed that $$$\\sum_{i=1}^n l_i \\le m \\le \\sum_{i=1}^n r_i$$$.\n\n\n\n## Output\n\n\n\nOutput a single integer representing the maximum profit you can earn today.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:105459::K",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "4e89beabb0bee178b7030395c408886ebdf25eb0a50e3dbadae22357a8b6832b",
+          "url": "https://codeforces.com/gym/105459/problem/K"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "5 17\n2 3 4\n6 1 5\n8 2 4\n4 3 3\n7 5 5",
+            "name": "样例 1",
+            "output": "109"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfError": "原版 PDF 未提供唯一、明确的题号分页",
+        "sitePdfStatus": "unavailable",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Farm Management",
+        "url": "https://codeforces.com/gym/105459/problem/K",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "87770d23ff2f3af35d69812760ed1574b7d91a9ede8ea040c6481e7dc7f5ed08",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 农场管理\n\n\n\n你放弃了编程，来到三江平原种田。在田间劳作期间，你养成了规律的作息，现在每天**恰好**工作 $$$m$$$ 个时间单位。收获季到了，你需要收割并处理 $$$n$$$ 种作物。对于第 $$$i$$$ 种作物，每处理一个时间单位可获得 $$$w_i$$$ 的收益。为了让每天的工作不那么单调，你每天处理第 $$$i$$$ 种作物的时间必须是区间 $$$[l_i, r_i]$$$ 内的整数，包括两端点。\n\n\n\n某天，天气预报说明天会有大雨，无法工作，所以你需要调整安排，在今天尽快收获作物。具体地，你可以选择至多一种作物，取消它每天的处理时间范围限制，使处理它的时间可以是 $$$[0, m]$$$ 内的任意整数。其他作物的时间限制保持不变。你仍然必须**恰好**工作 $$$m$$$ 个时间单位。\n\n\n\n请确定今天最多能获得多少收益。\n\n\n\n## 输入格式\n\n\n\n第一行包含两个整数 $$$n$$$ 和 $$$m$$$（$$$1 \\le n \\le 10^5$$$，$$$1 \\le m \\le 10^{11}$$$），分别表示作物种类数和每天的工作时长。\n\n\n\n接下来 $$$n$$$ 行，每行包含三个整数 $$$w_i$$$、$$$l_i$$$ 和 $$$r_i$$$（$$$1 \\le w_i \\le 10^6$$$，$$$1 \\le l_i \\le r_i \\le 10^6$$$），表示作物的收益和时间限制。\n\n\n\n保证 $$$\\sum_{i=1}^n l_i \\le m \\le \\sum_{i=1}^n r_i$$$。\n\n\n\n## 输出格式\n\n\n\n输出一个整数，表示今天能够获得的最大收益。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:105459::K",
+          "slug": "105459-K",
+          "sourceUrl": "https://codeforces.com/gym/105459/problem/K",
+          "sourceSha256": "87770d23ff2f3af35d69812760ed1574b7d91a9ede8ea040c6481e7dc7f5ed08",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "5 17\n2 3 4\n6 1 5\n8 2 4\n4 3 3\n7 5 5",
+              "name": "样例 1",
+              "output": "109"
+            }
+          ],
+          "notes": [
+            "Complete original prose, formulas, constraints and sample explanations checked.",
+            "Original Markdown, samples and all resource metadata retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}
