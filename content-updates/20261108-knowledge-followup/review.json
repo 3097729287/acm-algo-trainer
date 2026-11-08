@@ -1,0 +1,830 @@
+{
+  "schema": 1,
+  "revision": "20261108-verified-editorials-and-hsinchu-topics",
+  "resourceBeforeSha256": "2673da9a7956ce89b286813a6474388279329644b531b2f4e7574a1bc428e36b",
+  "items": [
+    {
+      "id": "luogu-training-AT_abc269_f",
+      "beforeProblemSha256": "8f8860a724fd4d3f68a8bcd0a20d777a49e4c68fb2486c86663efb1f0f25dc24",
+      "tags": [
+        "等差数列"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/AT_abc269_f"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-AT_abc269_f",
+          "reference": "data/core7-completion/AT_abc269_f/default.md",
+          "sha256": "f5e3aebea5821e007937a64bdd66575f13a3f447ac1f3853c324ed2bf03fe265",
+          "programSha256": "e358b3932a05e5dad1e8794075b49197200ed252a624eb0b72e09d3b7504cbfd",
+          "reasons": [
+            "保留的格子满足行列同奇偶。对奇行奇列、偶行偶列两类，分别用等差数列求行号减一之和、列号之和，再组合 (行号−1)·M+列号。"
+          ],
+          "method": "按行列奇偶分解矩形和",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-AT_abc305_f",
+      "beforeProblemSha256": "00b8b80489df400aa010d9ec6bdd6897db54bcc454453afa66adc41af9b86d46",
+      "tags": [
+        "DFS",
+        "交互题"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/AT_abc305_f"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-AT_abc305_f",
+          "reference": "data/core7-completion/AT_abc305_f/default.md",
+          "sha256": "ea54827e77aa4259cd2884c1d4f2a1603fd9aa10f4a6639fdc23e1d4dbf58131",
+          "programSha256": "9d1a9097c69b8dff714892f274dc6e1b0108c462028b57cb98c83938c7c29734",
+          "reasons": [
+            "到新顶点时记录父亲，优先去未访问邻点；没有新邻点就沿父边退回。每条搜索树边至多去回各一次，找到 N 前最多移动 2(N−1) 次。每次输出后刷新。"
+          ],
+          "method": "真实交互中的 DFS 探索与退回",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-AT_arc172_c",
+      "beforeProblemSha256": "8c960d9b0cd609ec1d00230aebf5809037f701a23b035d7679245468dc64b7ed",
+      "tags": [
+        "枚举",
+        "模拟"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/AT_arc172_c"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-AT_arc172_c",
+          "reference": "data/core7-completion/AT_arc172_c/default.md",
+          "sha256": "7edbe28b598b0393ae7427203a6c733471f45eb68f711278e9b6b4984451722c",
+          "programSha256": "e36956c50160007df5cfd2edc4a166b22cd8140ce70ba4496924baa8b6687aaf",
+          "reasons": [
+            "把第一张选票依次向后移动，与相邻选票交换。两种开票顺序只会在交换中间的那一次公布结果上不同。累计真正改变结果的相邻交换次数，再加一。"
+          ],
+          "method": "比较相邻插入位置的唯一变化",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-AT_indeednow_2015_quala_4",
+      "beforeProblemSha256": "7f5b91614657de348799797f94339eb44d3afb07f2cb00521304b7ae3c0a5ebf",
+      "tags": [
+        "DFS",
+        "剪枝"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/AT_indeednow_2015_quala_4"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-AT_indeednow_2015_quala_4",
+          "reference": "data/core7-completion/AT_indeednow_2015_quala_4/default.md",
+          "sha256": "d27fe68fee08b75d22e2be3052a61e1a87c31ce3ad90817e5a5778dbce6cad99",
+          "programSha256": "2e60477a2f6cfe0ef1adf42e38f6894d60e3f78d54719c2ace32ba890f9606fd",
+          "reasons": [
+            "所有非空格到目标位置的曼哈顿距离之和是剩余步数下界。逐渐增加允许总步数，深搜中若已走步数加这个下界超限就剪枝，并跳过立即撤销上一步的移动。"
+          ],
+          "method": "曼哈顿距离剪枝的迭代加深",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-CF14E",
+      "beforeProblemSha256": "759803df117b20084095483d01b70336a7970d95daf182ee0c1020e37f8d5ccb",
+      "tags": [
+        "线性 DP"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/CF14E"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-CF14E",
+          "reference": "data/core7-completion/CF14E/default.md",
+          "sha256": "a41e2432cc81e0b2f2b2887ed0f0b7d66919a7a29d3a91184e224d16b75bd764",
+          "programSha256": "c25789ae4966e4ab2badf4d9335bb60622b4ec8726664e78a2964593af7c3551",
+          "reasons": [
+            "峰比谷恰好多一意味着第一段上升、最后一段下降。先枚举上升的前两个高度，随后 DP 记录末高度、趋势和已出现峰数，最后只取下降且有 t 个峰的状态。"
+          ],
+          "method": "记录高度、上升下降趋势与峰数",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-CF1614D1",
+      "beforeProblemSha256": "56dc128183b871ac56329c608049dd4d2c3d40ac9415f16d9f2fc371527e632a",
+      "tags": [
+        "线性 DP",
+        "最大公约数"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/CF1614D1"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-CF1614D1",
+          "reference": "data/core7-completion/CF1614D1/default.md",
+          "sha256": "55eaaaf11946df7b08789c58df45ff2da8661a29c3f370537350f31bef5978ca",
+          "programSha256": "78aa2b972920adc0b50264e6a46adf8bc5ce3cfb0a3f34eb9931138f156c8642",
+          "reasons": [
+            "统计每个 d 有多少输入是其倍数。令 dp[d] 为先处理所有 d 倍数的最优贡献；从更大的倍数 j 转移：dp[d]=max(dp[j]+d(cnt[d]−cnt[j]))。倒序枚举 d。"
+          ],
+          "method": "在约数链上安排 gcd 降低的时机",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-CF687B",
+      "beforeProblemSha256": "b620e3872231b4565c7915105a30db030c836ac655043c8ee8f392b9a30f8941",
+      "tags": [
+        "最小公倍数",
+        "最大公约数"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/CF687B"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-CF687B",
+          "reference": "data/core7-completion/CF687B/default.md",
+          "sha256": "3a1d8b84e3dfa2b4bf73aded176fe677b7d6684a3d4d3cf89e2eb504599590d4",
+          "programSha256": "228e4a55adcd80fdabe0a949a1ae2377bb0a2adeaa74ce438f00cd24a03d4dc0",
+          "reasons": [
+            "所有给定余数把原数确定到它们最小公倍数的同余类。能确定模 k 的余数，当且仅当 k 整除这个最小公倍数。只累积 gcd(a_i,k) 的 lcm，避免大整数。"
+          ],
+          "method": "检查所有模数能否确定 k 的余数",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P10026",
+      "beforeProblemSha256": "4cee5f6276a1324fa19d0068b9cfa96063b341c265c8d3fbbe9edf513cc44727",
+      "tags": [
+        "位运算"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P10026"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P10026",
+          "reference": "data/core7-completion/P10026/default.md",
+          "sha256": "bd7169f5e594a4be87e622d68fe337432934f78fff391e33894ab9708ae0409a",
+          "programSha256": "d350a15be2682d1977f7dbdfcdfaf458374aa2a3d43cbc9e7fa6bdd5cd4288cd",
+          "reasons": [
+            "若做 d 次翻倍，最终 n=2^d−D，D 是 k−d 个二次幂之和。对 n>0，D 的最少项数为 d−popcount(n−1)，最多为 D；选满足最少项数限制的最大 d，再判断最多项数是否足够。"
+          ],
+          "method": "把所有减一的影响看作二的幂",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P1683",
+      "beforeProblemSha256": "64ea33d08e548d823321889bab524cc66a693b18baeb81bfebea75c9cc673f99",
+      "tags": [
+        "BFS"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P1683"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P1683",
+          "reference": "data/core7-completion/P1683/default.md",
+          "sha256": "b9ed6b945e51ecc28f663675c309d45bde4cd54431a1f63a94070972f79b5508",
+          "programSha256": "0c65e8652619bcb94132e8f33244c264d36c0c19a70b3c2c353e6a89d12165ba",
+          "reasons": [
+            "从 @ 开始进行四方向广搜，只经过安全格。每个格只计数一次，得到的就是能走过的最多瓷砖数。"
+          ],
+          "method": "从入口搜索可达的安全格",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P16943",
+      "beforeProblemSha256": "64cb36944674a0145f02e9519aad3341d8af7669f656193abbe7779a766bc799",
+      "tags": [
+        "分类讨论"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P16943"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P16943",
+          "reference": "data/core7-completion/P16943/default.md",
+          "sha256": "bf4321be6a6a7e8a3985a79ccf2e81f961f9d185c07ac36d47dc076c63ae47d6",
+          "programSha256": "a98ea7f3b9f385da545004a949c3e451d56584ca101df2496d5f079cd9fdacc8",
+          "reasons": [
+            "删去 u、v 的连通块数是 deg[u]+deg[v]−1−[相邻]。最高两度数决定答案最多只差一；维护最高度点的次高度非邻居，普通加叶只更新这个证据，度数并列结束时才扫描度数桶重建。"
+          ],
+          "method": "维护最高两度数与最高度点的非邻居证据",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P2180",
+      "beforeProblemSha256": "8b388f344a76b3c2586f15532b4561013991b5907077337f9ec1689088c43ea1",
+      "tags": [
+        "枚举",
+        "组合计数"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P2180"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P2180",
+          "reference": "data/core7-completion/P2180/default.md",
+          "sha256": "3e922e34e807d11f61b53d65885e2040d77000bec3fd8d76fcdb27f2870ebe91",
+          "programSha256": "6746d6d9c3a30dab4851f9bc1640b0b534deb1b7e85bd2eaf18332edae7bc6a2",
+          "reasons": [
+            "行列压缩后，同一列的石子可以尽量对齐。最优形状可取一个满矩形，再在一行或一列上放剩余石子。枚举满列高度 h，令 q=K/h、r=K%h，贡献为 C(h,2)C(q,2)+qC(r,2)，再交换两维检查。"
+          ],
+          "method": "压缩为满矩形加一条未满边",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P2181",
+      "beforeProblemSha256": "697d6812eba44acd711431034e1c7c459133e0d49e79e26510001699c6a93b67",
+      "tags": [
+        "组合计数"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P2181"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P2181",
+          "reference": "data/core7-completion/P2181/default.md",
+          "sha256": "06b4e1de6f8eab8721bad438f6880709c8b65156b3105799174e04976a647a5b",
+          "programSha256": "f961994446c968a33003e70a55768c2e4799358d67f6cf0eac29bb1e260453c7",
+          "reasons": [
+            "凸多边形中任取四个顶点，其两条对角线在内部相交；每个交点又由唯一一组四顶点确定，因此答案是 C(n,4)。"
+          ],
+          "method": "每四个顶点对应一对相交对角线",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P2638",
+      "beforeProblemSha256": "d5f42e35babf48b09a0185e70de37ad17d1b1328bab63fed0430253fa70a9520",
+      "tags": [
+        "隔板法",
+        "组合计数"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P2638"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P2638",
+          "reference": "data/core7-completion/P2638/default.md",
+          "sha256": "9cd79a48ecf0405e8e2d5b8d40a7e3fcbb10db62338e28ed736f380c08f4f80e",
+          "programSha256": "4524d82517d0023178a9073f50c2dca8760f9bac02e0ace4e147e51f29c65bbe",
+          "reasons": [
+            "把没有使用的零也看成放在一个额外储存区，分配 a 个相同零到 n+1 区有 C(n+a,n) 种。一的分配独立，答案为 C(n+a,n)·C(n+b,n)。"
+          ],
+          "method": "加入未使用区后的两次隔板法",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P4132",
+      "beforeProblemSha256": "d61aed9decad6eeac14dd9335a1fe73f3e2d57261e56f59c5d7ac66f023d040f",
+      "tags": [
+        "格点计数"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P4132"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P4132",
+          "reference": "data/core7-completion/P4132/default.md",
+          "sha256": "e2f8a036f8c40191392b87f3a43b46e471d52ce92b0baddbd00921967d3c988a",
+          "programSha256": "a7280278de10d4cda4aa1d298edf3c9bfc1e9d78990bbb680c20d691b0c9aa8e",
+          "reasons": [
+            "当 p、q 为不同奇质数时，两段求和分别数出矩形格点在直线两侧的数量，总和为 ((p−1)/2)((q−1)/2)。若两质数相等，直接求两份 1+…+(p−1)/2。"
+          ],
+          "method": "矩形格点被斜线分成两侧",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P5451",
+      "beforeProblemSha256": "892dd711988d10e6a617783f6bdf69380c9b6976ef4975b21b87d60179d82c4c",
+      "tags": [
+        "扩展欧几里得",
+        "乘法逆元",
+        "快速幂"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P5451"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5451",
+          "reference": "data/core7-completion/P5451/default.md",
+          "sha256": "b2e8396547079895ec8bd03ba10490e82db5865ef65dfcc4f161d2d80b95d795",
+          "programSha256": "f2944da995f50214dd348001ca4497ffecd8db676367eeb77583cd09afd7ab44",
+          "reasons": [
+            "扩展欧几里得求 a·e1+b·e2=1，则 m≡c1^a·c2^b mod N。负指数改用密文的模逆元，所有模乘用 __int128。"
+          ],
+          "method": "共模攻击：将两个指数线性组合成一",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P5740",
+      "beforeProblemSha256": "fb91dfb5566afa2c2ba24ce1bc0da07d289b3020ceb22b2aaa8f2e6c4e8cc1b3",
+      "tags": [
+        "枚举"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P5740"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5740",
+          "reference": "data/core7-completion/P5740/default.md",
+          "sha256": "892b48ec69e31a69d3c4f42f6b77a0df57852108c7e6be9ef87f12c155029eec",
+          "programSha256": "00eb54e12431fe0a8f39aa3211388268be987b9a9e5b5da3aa37f578e89a99f8",
+          "reasons": [
+            "对每个学生求三科总分，仅在总分严格大于当前最高值时替换答案。这样并列时保留先输入的学生，最后输出姓名和三科原成绩。"
+          ],
+          "method": "维护最高总分的第一名",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P5742",
+      "beforeProblemSha256": "ffd3098f031d7103f79827a69c4b225b3c5e186fd1d1f7891a051a7a53d9673c",
+      "tags": [
+        "模拟"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P5742"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5742",
+          "reference": "data/core7-completion/P5742/default.md",
+          "sha256": "687521902e92925d0ff40fdd9f1f8df58fd03ac16783aede4bc5fb4cb3002928",
+          "programSha256": "1497728341e8899a7feac66557caf36f539aee583f8373015eaa5b88a0db6c39",
+          "reasons": [
+            "优秀须同时满足两项分数和大于 140、综合分至少 80。综合分 0.7a+0.3b≥80 等价于 7a+3b≥800，用整数判断即可。"
+          ],
+          "method": "把加权成绩化成整数比较",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P5744",
+      "beforeProblemSha256": "2af67c095c938eec0b1dd5470d69448bcc9735a09ade6dd74828f00c3d560e68",
+      "tags": [
+        "模拟"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P5744"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P5744",
+          "reference": "data/core7-completion/P5744/default.md",
+          "sha256": "30b251b4022e508930e90bb1ff55ef36d8e74e5f4269201b3a5e68cb2219eadd",
+          "programSha256": "643dac4d12c98fb6e8fb689da5fc7359afa3fc177ccda4498ada0927c1be78db",
+          "reasons": [
+            "每个学员的姓名保留，年龄加一，成绩增加百分之二十并限制在六百分。逐条读入、计算、输出即可。"
+          ],
+          "method": "逐条更新学员字段",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P6075",
+      "beforeProblemSha256": "abfdb42233de1b21a52ab5bd20c809c60d763102fb0245112e494769076b87ea",
+      "tags": [
+        "快速幂",
+        "组合计数"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P6075"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P6075",
+          "reference": "data/core7-completion/P6075/default.md",
+          "sha256": "8c37ee64d4f3c781dda05ab86c15c94e5d40e7d037a2549e03401de13ee56098",
+          "programSha256": "628b09fd83ff9e58a1bd5a1857f1d1ed8d84484d5056c11d6f7ba4cb0dc57261",
+          "reasons": [
+            "对一个固定元素，只看它在哪些子集中出现。包含关系把出现区域约束为阶梯形，其边界对应 k 次二元选择，共 2^k 种。n 个元素独立，答案为 2^(nk)。"
+          ],
+          "method": "单个元素的阶梯边界独立选择",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P6561",
+      "beforeProblemSha256": "5e88c026d4e227ec9efcd4d6f5cf7c563882c70ce9025f00331e6441d19d309e",
+      "tags": [
+        "组合计数",
+        "乘法逆元"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P6561"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P6561",
+          "reference": "data/core7-completion/P6561/default.md",
+          "sha256": "3bcdfddf2e0736894201bf0390b036d78ff5c0ec6c39e7f07797a5be99f33c49",
+          "programSha256": "c8d70042175c1bb0c71dcf704da23e3cd941c96d42ed797d0901d60ac43db632",
+          "reasons": [
+            "不相邻选择中，a 个奇数与 b 个偶数的方案数为 C(m−b,a)·C(m−a,b)。预处理阶乘与逆阶乘后，每组常数时间计算。"
+          ],
+          "method": "按奇偶选择数量使用双二项式",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P7023",
+      "beforeProblemSha256": "6baab08bdeaa04bbaec34e3a9ca659b65a0b82294b46a5b0e0ede34ffc8a7e7b",
+      "tags": [
+        "贪心",
+        "排序"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P7023"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P7023",
+          "reference": "data/core7-completion/P7023/default.md",
+          "sha256": "7621eb60a27d38f7e5448639a28f15dfe5cb53c4ace41be039f9b4283c8d658a",
+          "programSha256": "53397bb03cd36cd2b43538472515c03e0af3d13ec48523ed4d1175eabc7d8c07",
+          "reasons": [
+            "若不创造新值，只能消除存在其它原值倍数的种类，把这些种类按频数从小到大消除。若创造新值，为减少 r 种至少消除 r+1 个原种类，把全体最便宜的 r+1 种乘到共同倍数即可。比较两类代价。"
+          ],
+          "method": "分别考虑是否创造全新数值",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P7480",
+      "beforeProblemSha256": "2dfb5fe7e35164f0cd566c1da26d893911262eaf9c7084f2c0237807bdefe31d",
+      "tags": [
+        "单调栈",
+        "最短路"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P7480"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P7480",
+          "reference": "data/core7-completion/P7480/default.md",
+          "sha256": "27cb22526dbcbf1740c9f44232f087ed359b2cf4db89ab17a91bd39095a77a9d",
+          "programSha256": "0c3a56ca309c154a169e4b7782a42adf084526097995b427a02eaaf4ede7df27",
+          "reasons": [
+            "允许折返找便宜油，不能只按向右贪心。最优路线的下一次有效加油一定可选为某方向遇到的第一个更便宜站；单调栈求左右候选，建线性边数图跑 Dijkstra。"
+          ],
+          "method": "只向左右最近的更便宜油站转移",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P7960",
+      "beforeProblemSha256": "1e2328632b16855c8488e504850ac17714d584379e74df5a0c9cf80e7f1ef6e2",
+      "tags": [
+        "筛法"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P7960"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P7960",
+          "reference": "data/core7-completion/P7960/default.md",
+          "sha256": "aadb824117df8a91f8d65b82cca21ba67cbb21f725f0750ed5fe82995b700cf0",
+          "programSha256": "a7d92c0c2f54b1c7781c0c2179da2636795202e8fdc46a1389b80b367d7acfcf",
+          "reasons": [
+            "从小到大扫描，若一个尚未禁用的数含数字七，就禁用它的所有倍数。筛完后倒序记录每个位置之后的首个合法数，回答询问。"
+          ],
+          "method": "含七因子筛与合法数后继",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-P9035",
+      "beforeProblemSha256": "5b4304624a6c37edaa21df1c6377afdc4dcd2b3fe870be87dbb058b8a29acdcd",
+      "tags": [
+        "组合计数"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/P9035"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-P9035",
+          "reference": "data/core7-completion/P9035/default.md",
+          "sha256": "075f3e09206a6660c8e8f15112b2c95adf020a8b0dc8a47d1c51ef2a491ef8d5",
+          "programSha256": "762daf2d97f3eb94a481f8b0d958d73ac8cba7d3b255ce29eb87bfab8fb9edda",
+          "reasons": [
+            "令 h=floor((k+1)/2)。全部元素≤h 时是多重组合 C(n+h−1,n)；若最大值>h，它只能出现一次，枚举它后用曲棍球杆恒等式合并为 C(n+k−h−1,n)。"
+          ],
+          "method": "按最大值是否超过一半分类的组合数",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-SP14887",
+      "beforeProblemSha256": "b90d86744cafd475c35324af10c1eb3ae73ce2bb6a74970c1181fe0e36943a9c",
+      "tags": [
+        "强连通分量",
+        "拓扑排序",
+        "线性 DP"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/SP14887"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-SP14887",
+          "reference": "data/core7-completion/SP14887/default.md",
+          "sha256": "e7dfee340640ca20d52e035fedcc447f3380eb68111e31c174f850a50e0ad26c",
+          "programSha256": "c471311f33a254eebb3d04e7708b4827ce3b7bae4030a138949838bf73e19a0d",
+          "reasons": [
+            "强连通分量内部可以绕行收集全部非负快乐值，再从任意出口离开。把分量点权求和后，在 DAG 上做从 S 到 E 的最长路动态规划。"
+          ],
+          "method": "缩点 DAG 上的最大点权路径",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-SP30919",
+      "beforeProblemSha256": "e78fad0e314ff38072052f1beda7d54390315ec57290a65512a0eb8e1127a650",
+      "tags": [
+        "素数"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/SP30919"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-SP30919",
+          "reference": "data/core7-completion/SP30919/default.md",
+          "sha256": "a4f97babbec0093842dbf4614f60d660da997f209f8f9feeef534f253e5ac70b",
+          "programSha256": "c7646288fa2e974a91dba01c62df51e91500f053fcc7cb9a665d0d2d5b801b60",
+          "reasons": [
+            "若一个合数与所有输入互质，它的任一质因数也与所有输入互质且更小，所以最优一定是质数。筛最小质因数并标记输入中出现过的全部质因数，取最小未标记者。"
+          ],
+          "method": "最小可用整数一定是质数",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-UVA11022",
+      "beforeProblemSha256": "4b6561db58e79598358b868e4e397228124c1e29c0ef2e2a12ec917d7c456a81",
+      "tags": [
+        "区间 DP"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/UVA11022"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-UVA11022",
+          "reference": "data/core7-completion/UVA11022/default.md",
+          "sha256": "35ac71ead3f77287858748ce1a6e9f4095c401dce3996470f13d48342970bd60",
+          "programSha256": "5e40daa1d8a886aef76c927cb57fbf8a92e487a5c161f5696d126198427f9271",
+          "reasons": [
+            "dp[l][r] 为子串的最小字符权重。枚举切成两段的拼接，也枚举能完整重复构成该子串的较短周期，把它压缩成一个周期的最优表示。"
+          ],
+          "method": "区间拼接或整段重复压缩",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-UVA11626",
+      "beforeProblemSha256": "2727b8d144be59947949e6633f6c6c3366c2f14d15920a73a447c88ad5caf4a0",
+      "tags": [
+        "凸包"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/UVA11626"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-UVA11626",
+          "reference": "data/core7-completion/UVA11626/default.md",
+          "sha256": "bedc202511409de3e180c9a349338c1fc758c3cb0ed85bebf407337a82ed2d59",
+          "programSha256": "6212fd20b5aed9028d9152084f48f0bd63a4a468546218cbdaf0113c464c4bce",
+          "reasons": [
+            "筛出标记 Y 的点，构造保留共线边界点的凸包。叉积为负才弹出，等于零时保留，按最左且最低点开始逆时针输出。"
+          ],
+          "method": "保留凸包边上的全部指定点",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-UVA1390",
+      "beforeProblemSha256": "cb15951204c8cdc2bcd47ac06e6af4f774ed79f719660f2e76389caecee54734",
+      "tags": [
+        "期望与概率",
+        "记忆化搜索"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/UVA1390"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-UVA1390",
+          "reference": "data/core7-completion/UVA1390/default.md",
+          "sha256": "9262493924fba72e8aca9c63a9e6895a48352c58d32d22a934a98f2ad6cc0da9",
+          "programSha256": "0b9789394a3b24e2f26d544c3291de85ffabb4c44fc5400fdc98715d128c958b",
+          "reasons": [
+            "道路的具体形状只影响当前连通块。把状态压成排序后的各块大小，随机选中不同块的概率为 size[i]·size[j]/C(n,2)，合并这两块；选中同一块的原地项移到等式左边。"
+          ],
+          "method": "连通块大小分拆上的期望递推",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-UVA1401",
+      "beforeProblemSha256": "a5cc06ddef8805aae2f3f33a740ab284cc392a7b043384a6975e1e7783c15976",
+      "tags": [
+        "字典树",
+        "线性 DP"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/UVA1401"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-UVA1401",
+          "reference": "data/core7-completion/UVA1401/default.md",
+          "sha256": "d0d6826d0060c70f2055c2b564dfdd84cd67bb87e56b9fe8aa66ee0fcd53e5e3",
+          "programSha256": "9f39f0476992ad34a914c1fb47da057b4f81227af0c0105dd4850f443ad19208",
+          "reasons": [
+            "dp[i] 表示后缀 i..末尾的分词数。从每个 i 沿字典 Trie 向右匹配，遇到一个完整单词就把后面的 dp 加进来，模 20071027。"
+          ],
+          "method": "字典前缀树上的分词 DP",
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:102835::C",
+      "beforeProblemSha256": "9a3bf8d0a518119d797d036ce789a412f708db97cd3e8ac699c508304e3556b9",
+      "tags": [
+        "模拟"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/102835/problem/C"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:102835::C",
+          "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=5",
+          "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "selectedPdfSha256": "1d7aae5495e139e360c4f406dbf321b5716e5e570c164b7182688108ad509ca6",
+          "reasons": [
+            "每个节点开关在小球通过后翻转，题目直接定义了离散状态转移。"
+          ],
+          "method": "reviewed-statement-structure",
+          "official": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:102835::F",
+      "beforeProblemSha256": "dbbe214f3577f2ad919d39e8eac3c9686bc532051cd4dc2ba98891a55c8e6252",
+      "tags": [
+        "树形 DP"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/102835/problem/F"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:102835::F",
+          "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=11",
+          "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "selectedPdfSha256": "5067175af2a34ad4907efde6e3eacded10f3b406b75abfc1d269026441aae6c8",
+          "reasons": [
+            "环上挂树，要求选择最少顶点覆盖每条边；树部分按根是否选择分状态，环单独合并。"
+          ],
+          "method": "reviewed-statement-structure",
+          "official": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:102835::G",
+      "beforeProblemSha256": "cde8d58e45edcf8127f2fdb3f85cd04ae3f6b5a389081877bc594de18d85c9ce",
+      "tags": [
+        "哈希"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/102835/problem/G"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:102835::G",
+          "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=15",
+          "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "selectedPdfSha256": "85e7c693b7613b0d418c7c399bb5829dd7d8d129ef2bf9291785605fd0d1373c",
+          "reasons": [
+            "连通且点边数相等的简单图同构：可对挂树赋规范标识，再比较环的旋转与反向规范序列。标识可用精确排序编号实现，非原站官方标签。"
+          ],
+          "method": "reviewed-statement-structure",
+          "official": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:102835::H",
+      "beforeProblemSha256": "148c36e51e75b7b7a2a496b5e9d34f1a2e4d2fb03f508694247a4bfd35bbc50d",
+      "tags": [
+        "最小生成树",
+        "并查集"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/102835/problem/H"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:102835::H",
+          "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=17",
+          "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "selectedPdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+          "reasons": [
+            "先求最大瓶颈阈值，再在阈值允许的边上求最小生成树；树上路径最小边贡献可按边权降序合并连通块统计。"
+          ],
+          "method": "reviewed-statement-structure",
+          "official": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:102835::K",
+      "beforeProblemSha256": "5846af28a94bfd2e6127ff27a0daf79c4338701a1362484663c8d4769ee6a025",
+      "tags": [
+        "数位 DP"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/102835/problem/K"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:102835::K",
+          "reference": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf#page=27",
+          "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+          "selectedPdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+          "reasons": [
+            "两类询问均涉及指定进制下不重复数位的计数与按序选择，可用已用数位集合进行数位计数。"
+          ],
+          "method": "reviewed-statement-structure",
+          "official": false
+        }
+      ]
+    }
+  ]
+}

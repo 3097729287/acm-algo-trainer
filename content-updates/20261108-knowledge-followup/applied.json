@@ -1,0 +1,339 @@
+{
+  "revision": "20261108-verified-editorials-and-hsinchu-topics",
+  "problems": [
+    {
+      "id": "luogu-training-AT_abc269_f",
+      "tags": [
+        "等差数列"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-AT_abc305_f",
+      "tags": [
+        "DFS",
+        "交互题"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-AT_arc172_c",
+      "tags": [
+        "枚举",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-AT_indeednow_2015_quala_4",
+      "tags": [
+        "DFS",
+        "剪枝"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-CF14E",
+      "tags": [
+        "线性 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-CF1614D1",
+      "tags": [
+        "线性 DP",
+        "最大公约数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-CF687B",
+      "tags": [
+        "最小公倍数",
+        "最大公约数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P10026",
+      "tags": [
+        "位运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P1683",
+      "tags": [
+        "BFS"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P16943",
+      "tags": [
+        "分类讨论"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P2180",
+      "tags": [
+        "枚举",
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P2181",
+      "tags": [
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P2638",
+      "tags": [
+        "隔板法",
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P4132",
+      "tags": [
+        "格点计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5451",
+      "tags": [
+        "扩展欧几里得",
+        "乘法逆元",
+        "快速幂"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5740",
+      "tags": [
+        "枚举"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5742",
+      "tags": [
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P5744",
+      "tags": [
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P6075",
+      "tags": [
+        "快速幂",
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P6561",
+      "tags": [
+        "组合计数",
+        "乘法逆元"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P7023",
+      "tags": [
+        "贪心",
+        "排序"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P7480",
+      "tags": [
+        "单调栈",
+        "最短路"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P7960",
+      "tags": [
+        "筛法"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-P9035",
+      "tags": [
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-SP14887",
+      "tags": [
+        "强连通分量",
+        "拓扑排序",
+        "线性 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-SP30919",
+      "tags": [
+        "素数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-UVA11022",
+      "tags": [
+        "区间 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-UVA11626",
+      "tags": [
+        "凸包"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-UVA1390",
+      "tags": [
+        "期望与概率",
+        "记忆化搜索"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-UVA1401",
+      "tags": [
+        "字典树",
+        "线性 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:102835::C",
+      "tags": [
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:102835::F",
+      "tags": [
+        "树形 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:102835::G",
+      "tags": [
+        "哈希"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:102835::H",
+      "tags": [
+        "最小生成树",
+        "并查集"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:102835::K",
+      "tags": [
+        "数位 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    }
+  ],
+  "privateStateReadOrWritten": false
+}
