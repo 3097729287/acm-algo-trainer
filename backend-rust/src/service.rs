@@ -6,6 +6,7 @@ use crate::{
     native_judge::{RunPlan, Toolchains},
     planner::Planner,
     preferences,
+    public_assets::{AssetCache, TrustPolicy},
     run_queue::RunQueue,
     storage::PersonalStore,
     templates,
@@ -103,6 +104,7 @@ pub struct Service {
     test_clock: Option<chrono::DateTime<chrono::Utc>>,
     runner: RunQueue,
     desktop_fullscreen: Option<Arc<DesktopFullscreen>>,
+    public_assets: Option<AssetCache>,
 }
 type DesktopFullscreen = dyn Fn(Option<bool>) -> Result<bool, ApiError> + Send + Sync;
 impl Service {
@@ -141,6 +143,23 @@ impl Service {
         };
         let curriculum = read_resource("learning-curriculum.json")?;
         let quizzes = read_resource("native-quizzes.json")?;
+        let endpoint = read_resource("leaderboard.defaults.json")?;
+        let public_assets = endpoint["endpoint"]
+            .as_str()
+            .filter(|endpoint| !endpoint.is_empty())
+            .map(|endpoint| {
+                let cache = config
+                    .personal
+                    .parent()
+                    .ok_or_else(|| ApiError::bad("缓存目录无效"))?
+                    .join("cache/public-assets.sqlite3");
+                Ok::<_, ApiError>(AssetCache::new(
+                    cache,
+                    TrustPolicy::new(endpoint)?,
+                    std::env::var("TB_OFFLINE").ok().as_deref() == Some("1"),
+                ))
+            })
+            .transpose()?;
         Ok(Self {
             config,
             library: Mutex::new(library),
@@ -154,7 +173,148 @@ impl Service {
             test_clock: None,
             runner,
             desktop_fullscreen: None,
+            public_assets,
         })
+    }
+    /// Native host/test configuration only. IPC requests cannot change trust or
+    /// cache location, and this never grants registered-account authority.
+    pub fn with_public_assets(mut self, cache: AssetCache) -> Self {
+        self.public_assets = Some(cache);
+        self
+    }
+    fn prefetch_public_assets(&self, r: &ApiRequest) -> Result<(), ApiError> {
+        let Some(cache) = self.public_assets.as_ref() else {
+            return Ok(());
+        };
+        if r.method != Method::Get
+            || ![
+                "problem",
+                "library/statement",
+                "solution",
+                "lecture",
+                "library/lecture",
+                "library/asset",
+            ]
+            .contains(&r.path.as_str())
+        {
+            return Ok(());
+        }
+        let descriptors = {
+            // Match the normal domain lock order; only descriptor discovery is
+            // inside this block. No remote transfer owns a service/SQLite lock.
+            let catalogue = self
+                .catalogue
+                .as_ref()
+                .map(|catalogue| catalogue.lock().map_err(|_| ApiError::pending()))
+                .transpose()?;
+            let library = self.library.lock().map_err(|_| ApiError::pending())?;
+            let mut personal = self.personal.lock().map_err(|_| ApiError::pending())?;
+            let mut references = std::collections::BTreeSet::new();
+            let identity = r.param("id");
+            let value = match r.path.as_str() {
+                "library/asset" => {
+                    references.insert(r.param("sha256").unwrap_or("").to_owned());
+                    None
+                }
+                "problem" => {
+                    let id = identity.ok_or_else(|| ApiError::bad("题目编号无效"))?;
+                    let catalogue = catalogue.as_deref().ok_or_else(ApiError::pending)?;
+                    crate::catalogue::row_or_portable(catalogue, &personal, id)?;
+                    let training = Training {
+                        catalogue,
+                        library: &library,
+                        personal: &mut personal,
+                        now: self.now(),
+                    };
+                    let contest = r.param("contestId").filter(|id| !id.is_empty());
+                    training.history_visible(id, contest)?;
+                    if let Some(contest) = contest {
+                        if r.param("reviewId").is_some_and(|id| !id.is_empty()) {
+                            return Err(ApiError::bad("复习上下文无效"));
+                        }
+                        crate::contest_history::assert_problem_context(
+                            &training, id, contest, false,
+                        )?;
+                    }
+                    let id = catalogue.canonical(id)?.unwrap_or_else(|| id.into());
+                    let mut value = library.statement_raw(&id)?;
+                    catalogue.problem_projection(&id, &mut value)?;
+                    Some(value)
+                }
+                "library/statement" => Some(
+                    library
+                        .statement_raw(identity.ok_or_else(|| ApiError::bad("缺少题目编号"))?)?,
+                ),
+                "solution" => {
+                    let id = identity.ok_or_else(|| ApiError::bad("缺少题目编号"))?;
+                    let catalogue = catalogue.as_deref().ok_or_else(ApiError::pending)?;
+                    let training = Training {
+                        catalogue,
+                        library: &library,
+                        personal: &mut personal,
+                        now: self.now(),
+                    };
+                    training.assert_unlocked(id)?;
+                    Some(library.solution(&training.canonical(id)?)?)
+                }
+                "lecture" | "library/lecture" => {
+                    let value =
+                        library.lecture(identity.ok_or_else(|| ApiError::bad("缺少讲义编号"))?)?;
+                    if r.path == "lecture" {
+                        let catalogue = catalogue.as_deref().ok_or_else(ApiError::pending)?;
+                        let training = Training {
+                            catalogue,
+                            library: &library,
+                            personal: &mut personal,
+                            now: self.now(),
+                        };
+                        for id in value["sourceProblemIds"]
+                            .as_array()
+                            .into_iter()
+                            .flatten()
+                            .filter_map(Value::as_str)
+                        {
+                            training.assert_unlocked(id)?;
+                        }
+                    }
+                    Some(value)
+                }
+                _ => None,
+            };
+            if let Some(value) = value {
+                references.extend(library::asset_references(&value));
+            }
+            let mut result = Vec::new();
+            let mut total = 0_u64;
+            for sha in references {
+                if library.asset_is_local(&sha, catalogue.as_deref().map(|c| &c.db))? {
+                    continue;
+                }
+                let item = cache.descriptor(&library.db, &sha)?.ok_or_else(|| {
+                    ApiError::new(
+                        503,
+                        "ASSET_NOT_CACHED",
+                        "原始图片或 PDF 尚未收录，原数据已保留",
+                    )
+                })?;
+                total = total
+                    .checked_add(item.bytes)
+                    .ok_or_else(|| ApiError::bad("本次资源总量超出范围"))?;
+                if result.len() >= 256 || total > 128 * 1024 * 1024 {
+                    return Err(ApiError::new(
+                        503,
+                        "ASSET_REQUEST_LIMIT",
+                        "本次资源总量超出缓存限额",
+                    ));
+                }
+                result.push(item);
+            }
+            result
+        };
+        for descriptor in descriptors {
+            cache.ensure(&descriptor)?;
+        }
+        Ok(())
     }
     /// Bind the real host window without coupling the domain crate to a GUI.
     /// Calls still pass through protocol, owner and write-token validation.
@@ -250,7 +410,8 @@ impl Service {
             crate::catalogue::row_or_portable(&catalogue, training.personal, id)?;
             training.assert_unlocked(id)?;
             let canonical = training.canonical(id)?;
-            let mut problem = library.statement(&canonical)?;
+            // Running code only needs text samples and limits, not images/PDF.
+            let mut problem = library.statement_raw(&canonical)?;
             catalogue.problem_projection(&canonical, &mut problem)?;
             let plan = RunPlan::prepare(&problem, body)?;
             self.runner.validate_tools(&plan.language)?;
@@ -397,6 +558,7 @@ impl Service {
                 )),
             };
         }
+        self.prefetch_public_assets(r)?;
         if self.runner.has_pending_write() {
             let mut personal = self.personal.lock().map_err(|_| ApiError::pending())?;
             self.runner.flush_pending(&mut personal)?;
@@ -494,7 +656,7 @@ impl Service {
                     }
                 }
                 ("GET", "problem") => {
-                    let mut value = training.problem(r)?;
+                    let mut value = training.problem_with_assets(r, self.public_assets.as_ref())?;
                     value["formattingAvailable"] =
                         (r.param("contestId").filter(|id| !id.is_empty()).is_none()
                             && value["locked"] != true
@@ -515,6 +677,11 @@ impl Service {
                     training.assert_unlocked(id)?;
                     let canonical = training.canonical(id)?;
                     let mut solution = library.solution(&canonical)?;
+                    library.hydrate_with_cache(
+                        &mut solution,
+                        Some(&catalogue.db),
+                        self.public_assets.as_ref(),
+                    )?;
                     solution["lectures"] = library.lectures_for_problem(&canonical)?;
                     training.mark_seen(id)?;
                     Ok(solution)
@@ -536,7 +703,7 @@ impl Service {
                     |store, id| crate::catalogue::row_or_portable(&catalogue, store, id),
                 ),
                 ("GET", "lecture") => {
-                    let lecture = library
+                    let mut lecture = library
                         .lecture(r.param("id").ok_or_else(|| ApiError::bad("缺少讲义编号"))?)?;
                     for id in lecture["sourceProblemIds"]
                         .as_array()
@@ -546,6 +713,11 @@ impl Service {
                     {
                         training.assert_unlocked(id)?;
                     }
+                    library.hydrate_with_cache(
+                        &mut lecture,
+                        Some(&catalogue.db),
+                        self.public_assets.as_ref(),
+                    )?;
                     Ok(lecture)
                 }
                 ("POST", "training/start") => training.start(r.body.as_ref().unwrap()),
@@ -584,6 +756,11 @@ impl Service {
             };
         }
         if r.method == Method::Get && r.path.starts_with("library/") {
+            let catalogue = self
+                .catalogue
+                .as_ref()
+                .map(|catalogue| catalogue.lock().map_err(|_| ApiError::pending()))
+                .transpose()?;
             let library = self
                 .library
                 .lock()
@@ -603,14 +780,33 @@ impl Service {
                     library.page(&query)
                 }
                 "library/statement" => {
-                    library.statement(r.param("id").ok_or_else(|| ApiError::bad("缺少题目编号"))?)
+                    let mut value = library.statement_raw(
+                        r.param("id").ok_or_else(|| ApiError::bad("缺少题目编号"))?,
+                    )?;
+                    library.hydrate_with_cache(
+                        &mut value,
+                        catalogue.as_deref().map(|c| &c.db),
+                        self.public_assets.as_ref(),
+                    )?;
+                    Ok(value)
                 }
                 "library/lecture" => {
-                    library.lecture(r.param("id").ok_or_else(|| ApiError::bad("缺少讲义编号"))?)
+                    let mut value = library
+                        .lecture(r.param("id").ok_or_else(|| ApiError::bad("缺少讲义编号"))?)?;
+                    library.hydrate_with_cache(
+                        &mut value,
+                        catalogue.as_deref().map(|c| &c.db),
+                        self.public_assets.as_ref(),
+                    )?;
+                    Ok(value)
                 }
                 "library/lectures" => library.lectures(),
                 "library/training-lists" => Ok(json!({"lists":library.training_lists()?})),
-                "library/asset" => library.asset(r.param("sha256").unwrap_or("")),
+                "library/asset" => library.asset_with_cache(
+                    r.param("sha256").unwrap_or(""),
+                    catalogue.as_deref().map(|c| &c.db),
+                    self.public_assets.as_ref(),
+                ),
                 _ => Err(ApiError::missing("没有找到这个接口")),
             };
         }

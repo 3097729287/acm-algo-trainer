@@ -1,12 +1,57 @@
 use crate::{
     api::{ApiError, required_text},
+    public_assets::AssetCache,
     storage::readonly,
 };
 use base64::{Engine, engine::general_purpose::STANDARD};
 use rusqlite::{Connection, OptionalExtension, params};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
-use std::path::Path;
+use std::{collections::BTreeSet, path::Path};
+
+fn asset_reference(value: &Value) -> Option<&str> {
+    value.as_str().and_then(|value| {
+        value
+            .strip_prefix("tb-asset:")
+            .or_else(|| value.strip_prefix("/api/library-assets/"))
+    })
+}
+pub fn asset_references(value: &Value) -> BTreeSet<String> {
+    fn collect(value: &Value, found: &mut BTreeSet<String>) {
+        for field in ["images", "archivedImages"] {
+            if let Some(images) = value[field].as_object() {
+                found.extend(
+                    images
+                        .values()
+                        .filter_map(asset_reference)
+                        .map(str::to_owned),
+                );
+            }
+        }
+        if let Some(attachments) = value["attachments"].as_object() {
+            found.extend(
+                attachments
+                    .values()
+                    .filter_map(|item| asset_reference(&item["data"]))
+                    .map(str::to_owned),
+            );
+        }
+        if let Some(sha) = asset_reference(&value["statementPdf"]["data"]) {
+            found.insert(sha.into());
+        }
+        for field in ["translation", "detailedSolution"] {
+            if value[field].is_object() {
+                collect(&value[field], found);
+            }
+        }
+        for method in value["methods"].as_array().into_iter().flatten() {
+            collect(method, found);
+        }
+    }
+    let mut found = BTreeSet::new();
+    collect(value, &mut found);
+    found
+}
 
 pub struct Library {
     pub db: Connection,
@@ -46,6 +91,11 @@ impl Library {
         Ok(serde_json::from_str(&raw)?)
     }
     pub fn statement(&self, id: &str) -> Result<Value, ApiError> {
+        let mut value = self.statement_raw(id)?;
+        self.hydrate(&mut value)?;
+        Ok(value)
+    }
+    pub fn statement_raw(&self, id: &str) -> Result<Value, ApiError> {
         let row = self.row(id)?;
         let id = row["id"]
             .as_str()
@@ -66,7 +116,6 @@ impl Library {
         if !value.is_object() {
             return Err(ApiError::new(500, "LIBRARY_RECORD", "题面记录格式异常"));
         }
-        self.hydrate(&mut value)?;
         let object = value.as_object_mut().unwrap();
         object.entry("id").or_insert(json!(id));
         object
@@ -200,44 +249,32 @@ impl Library {
         value: &mut Value,
         derived: Option<&Connection>,
     ) -> Result<(), ApiError> {
+        self.hydrate_with_cache(value, derived, None)
+    }
+    pub fn hydrate_with_cache(
+        &self,
+        value: &mut Value,
+        derived: Option<&Connection>,
+        cache: Option<&AssetCache>,
+    ) -> Result<(), ApiError> {
         fn convert(
             library: &Library,
             value: &mut Value,
             derived: Option<&Connection>,
+            cache: Option<&AssetCache>,
         ) -> Result<(), ApiError> {
-            if let Some(sha) = value.as_str().and_then(|s| s.strip_prefix("tb-asset:")) {
+            if let Some(sha) = asset_reference(value) {
                 if sha.len() != 64 || !sha.bytes().all(|b| b.is_ascii_hexdigit()) {
                     return Err(ApiError::new(500, "ASSET_ID", "资源摘要无效"));
                 }
-                let asset: Option<(String, Vec<u8>)> = library
-                    .db
-                    .query_row(
-                        "SELECT mime,data FROM statement_assets WHERE sha256=?",
-                        [sha],
-                        |r| Ok((r.get(0)?, r.get(1)?)),
-                    )
-                    .optional()?;
-                let asset = match (asset, derived) {
-                    (Some(asset), _) => Some(asset),
-                    (None, Some(db)) => db
-                        .query_row(
-                            "SELECT mime,data FROM derived_assets WHERE sha256=?",
-                            [sha],
-                            |row| Ok((row.get::<_, String>(0)?, row.get::<_, Vec<u8>>(1)?)),
-                        )
-                        .optional()?,
-                    (None, None) => None,
-                };
+                let asset = library.asset_bytes(sha, derived, cache)?;
                 let Some((mime, data)) = asset else {
                     return Err(ApiError::new(
                         503,
                         "ASSET_NOT_CACHED",
-                        "原始图片或 PDF 尚未缓存，资源下载迁移完成后可读取",
+                        "原始图片或 PDF 尚未缓存，请联网重试",
                     ));
                 };
-                if format!("{:x}", Sha256::digest(&data)) != sha {
-                    return Err(ApiError::new(422, "ASSET_INTEGRITY", "原始资源校验失败"));
-                }
                 *value = json!(format!("data:{mime};base64,{}", STANDARD.encode(data)));
             }
             Ok(())
@@ -245,14 +282,14 @@ impl Library {
         for field in ["images", "archivedImages"] {
             if let Some(images) = value.get_mut(field).and_then(Value::as_object_mut) {
                 for item in images.values_mut() {
-                    convert(self, item, derived)?;
+                    convert(self, item, derived, cache)?;
                 }
             }
         }
         if let Some(attachments) = value.get_mut("attachments").and_then(Value::as_object_mut) {
             for attachment in attachments.values_mut() {
                 if let Some(data) = attachment.get_mut("data") {
-                    convert(self, data, derived)?;
+                    convert(self, data, derived, cache)?;
                 }
             }
         }
@@ -260,12 +297,91 @@ impl Library {
             .get_mut("statementPdf")
             .and_then(|v| v.get_mut("data"))
         {
-            convert(self, pdf, derived)?;
+            convert(self, pdf, derived, cache)?;
         }
-        if let Some(translation) = value.get_mut("translation") {
-            self.hydrate_with(translation, derived)?;
+        for field in ["translation", "detailedSolution"] {
+            if let Some(translation) = value.get_mut(field) {
+                self.hydrate_with_cache(translation, derived, cache)?;
+            }
+        }
+        if let Some(methods) = value.get_mut("methods").and_then(Value::as_array_mut) {
+            for method in methods {
+                self.hydrate_with_cache(method, derived, cache)?;
+            }
         }
         Ok(())
+    }
+    /// Never performs network I/O. All remote bytes must be prefetched outside
+    /// the service locks before domain writes can begin.
+    pub fn asset_is_local(
+        &self,
+        sha: &str,
+        derived: Option<&Connection>,
+    ) -> Result<bool, ApiError> {
+        if sha.len() != 64 || !sha.bytes().all(|b| b.is_ascii_hexdigit()) {
+            return Err(ApiError::bad("资源摘要无效"));
+        }
+        let exists: bool = self.db.query_row(
+            "SELECT EXISTS(SELECT 1 FROM statement_assets WHERE sha256=?)",
+            [sha],
+            |r| r.get(0),
+        )?;
+        if exists {
+            return Ok(true);
+        }
+        match derived {
+            Some(db) => Ok(db.query_row(
+                "SELECT EXISTS(SELECT 1 FROM derived_assets WHERE sha256=?)",
+                [sha],
+                |r| r.get(0),
+            )?),
+            None => Ok(false),
+        }
+    }
+    pub fn asset_bytes(
+        &self,
+        sha: &str,
+        derived: Option<&Connection>,
+        cache: Option<&AssetCache>,
+    ) -> Result<Option<(String, Vec<u8>)>, ApiError> {
+        if sha.len() != 64 || !sha.bytes().all(|b| b.is_ascii_hexdigit()) {
+            return Err(ApiError::bad("资源摘要无效"));
+        }
+        let inline: Option<(String, Vec<u8>)> = self
+            .db
+            .query_row(
+                "SELECT mime,data FROM statement_assets WHERE sha256=?",
+                [sha],
+                |r| Ok((r.get(0)?, r.get(1)?)),
+            )
+            .optional()?;
+        let mut asset = match (inline, derived) {
+            (Some(asset), _) => Some(asset),
+            (None, Some(db)) => db
+                .query_row(
+                    "SELECT mime,data FROM derived_assets WHERE sha256=?",
+                    [sha],
+                    |r| Ok((r.get(0)?, r.get(1)?)),
+                )
+                .optional()?,
+            _ => None,
+        };
+        if asset.is_none() {
+            if let Some(cache) = cache {
+                if let Some(descriptor) = cache.descriptor(&self.db, sha)? {
+                    asset = cache
+                        .read_cached(&descriptor)?
+                        .map(|asset| (asset.mime, asset.data));
+                }
+            }
+        }
+        if asset
+            .as_ref()
+            .is_some_and(|(_, data)| format!("{:x}", Sha256::digest(data)) != sha)
+        {
+            return Err(ApiError::new(422, "ASSET_INTEGRITY", "原始资源校验失败"));
+        }
+        Ok(asset)
     }
     pub fn training_lists(&self) -> Result<Vec<Value>, ApiError> {
         let mut st = self
@@ -324,14 +440,17 @@ impl Library {
         Ok(json!(result))
     }
     pub fn asset(&self, sha256: &str) -> Result<Value, ApiError> {
-        if sha256.len() != 64 || !sha256.bytes().all(|b| b.is_ascii_hexdigit()) {
-            return Err(ApiError::bad("资源摘要无效"));
-        }
-        let (mime, data): (String, Vec<u8>) = self.db.query_row(
-            "SELECT mime,data FROM statement_assets WHERE sha256=?",
-            [sha256],
-            |r| Ok((r.get(0)?, r.get(1)?)),
-        )?;
+        self.asset_with_cache(sha256, None, None)
+    }
+    pub fn asset_with_cache(
+        &self,
+        sha256: &str,
+        derived: Option<&Connection>,
+        cache: Option<&AssetCache>,
+    ) -> Result<Value, ApiError> {
+        let (mime, data) = self
+            .asset_bytes(sha256, derived, cache)?
+            .ok_or_else(|| ApiError::missing("原始资源尚未收录"))?;
         Ok(json!({"sha256":sha256,"mime":mime,"bytes":data.len(),"data":STANDARD.encode(data)}))
     }
     pub fn page(&self, query: &Value) -> Result<Value, ApiError> {

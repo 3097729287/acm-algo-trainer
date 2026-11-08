@@ -979,6 +979,13 @@ impl Training<'_> {
         )
     }
     pub fn problem(&self, r: &ApiRequest) -> Result<Value, ApiError> {
+        self.problem_with_assets(r, None)
+    }
+    pub fn problem_with_assets(
+        &self,
+        r: &ApiRequest,
+        assets: Option<&crate::public_assets::AssetCache>,
+    ) -> Result<Value, ApiError> {
         let id = r.param("id").ok_or_else(|| ApiError::bad("题目编号无效"))?;
         let row = row_or_portable(self.catalogue, self.personal, id)?;
         let contest_context = r.param("contestId").filter(|id| !id.is_empty());
@@ -989,21 +996,22 @@ impl Training<'_> {
             crate::contest_history::assert_problem_context(self, id, context, false)?;
         }
         self.history_visible(id, contest_context)?;
+        let canonical = self.canonical(id)?;
+        let mut problem = self.library.statement_raw(&canonical)?;
+        let mut knowledge = self
+            .catalogue
+            .problem_projection(&canonical, &mut problem)?;
+        if r.param("reviewId").is_some_and(|id| !id.is_empty()) || contest_context.is_some() {
+            knowledge = self.catalogue.review_knowledge(&canonical)?;
+        }
+        self.library
+            .hydrate_with_cache(&mut problem, Some(&self.catalogue.db), assets)?;
+        // Validate all source bytes before opening a review can change its journal.
         let review = crate::reviews::task(self, id, r.param("reviewId"), true)?;
         let context = review
             .as_ref()
             .map(|task| format!("review:{}", text(task, "id")))
             .unwrap_or_else(|| contest_context.unwrap_or("").to_owned());
-        let canonical = self.canonical(id)?;
-        let mut problem = self.library.statement(&canonical)?;
-        let mut knowledge = self
-            .catalogue
-            .problem_projection(&canonical, &mut problem)?;
-        if review.is_some() || contest_context.is_some() {
-            knowledge = self.catalogue.review_knowledge(&canonical)?;
-        }
-        self.library
-            .hydrate_with(&mut problem, Some(&self.catalogue.db))?;
         let allowed = [
             "id",
             "title",

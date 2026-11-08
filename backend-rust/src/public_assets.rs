@@ -265,6 +265,9 @@ impl AssetCache {
         self.fetcher = fetcher;
         self
     }
+    pub fn descriptor(&self, db: &Connection, sha: &str) -> Result<Option<Descriptor>, ApiError> {
+        descriptor(db, sha, &self.policy)
+    }
     pub fn is_cached(&self, item: &Descriptor) -> Result<bool, ApiError> {
         item.validate(&self.policy)?;
         if !self.path.exists() {
