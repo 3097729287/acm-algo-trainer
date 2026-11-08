@@ -12,6 +12,7 @@ const rows=JSON.parse(await fs.readFile(process.argv[2],'utf8'));
 const output=path.resolve(process.argv[3]);await fs.mkdir(path.dirname(output),{recursive:true});
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const port=18826;
+const normalizedLines=value=>value.replace(/\r\n?/g,'\n').trimEnd();
 const server=await createServer({root,cacheDir:path.join(path.dirname(output),'vite-review'),optimizeDeps:{entries:['tests/statement-pdf-fixture.html']},server:{host:'127.0.0.1',port,strictPort:true,hmr:false}});
 await server.listen();let browser;const checked=[],errors=[],external=[];
 try{
@@ -31,8 +32,8 @@ try{
   await page.waitForFunction(expected=>document.querySelectorAll('.wb-sample-list > details').length===expected,row.samples.length);
   for(let i=0;i<row.samples.length;i++){
    const blocks=await examples.nth(i).locator('pre').allTextContents();
-   assert.equal(blocks[0].trimEnd(),(row.samples[i].input||'（空输入）').trimEnd(),row.originalId+' console input');
-   assert.equal(blocks[1].trimEnd(),(row.samples[i].output||'（空输出）').trimEnd(),row.originalId+' console output');
+   assert.equal(normalizedLines(blocks[0]),normalizedLines(row.samples[i].input||'（空输入）'),row.originalId+' console input');
+   assert.equal(normalizedLines(blocks[1]),normalizedLines(row.samples[i].output||'（空输出）'),row.originalId+' console output');
   }
   let pages=0,images=0;
   if(row.statementPdf){
@@ -50,8 +51,8 @@ try{
    assert.equal(await statement.locator('.katex-error').count(),0,row.originalId+' formula');
    const blocks=await statement.locator('pre').allTextContents();
    for(const sample of row.samples){
-    assert(blocks.some(value=>value.trimEnd()===sample.input.trimEnd()),row.originalId+' sample input');
-    assert(blocks.some(value=>value.trimEnd()===sample.output.trimEnd()),row.originalId+' sample output');
+    assert(blocks.some(value=>normalizedLines(value)===normalizedLines(sample.input)),row.originalId+' sample input');
+    assert(blocks.some(value=>normalizedLines(value)===normalizedLines(sample.output)),row.originalId+' sample output');
    }
    for(const picture of await statement.locator('img[src]:not([src=""])').all()){
     await picture.scrollIntoViewIfNeeded();await picture.evaluate(image=>image.decode());

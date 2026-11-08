@@ -70,7 +70,7 @@ def main(review=REVIEW,patch=PATCH):
     assert set(reviewed)=={p['problem_id'] for p in patches}
     # Existing order keeps public SQLite page layout stable for small updates.
     write(SOURCE/'statement_assets.json',assets,sort_keys=False)
-    write(SOURCE/'problems.json',rows);write(patch,{'schema':1,'statements':patches})
+    write(SOURCE/'problems.json',rows,sort_keys=False);write(patch,{'schema':1,'statements':patches})
     print(json.dumps({'restoredOriginals':len(patches),'offlineAssets':len(assets),'originalIdsPreserved':True,'personalStateRead':False}))
 
 

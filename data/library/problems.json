@@ -532952,9 +532952,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -533026,10 +533025,6 @@
         "Hall 定理"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "线段树",
@@ -533262,9 +533257,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -533343,10 +533337,6 @@
         "Manacher 算法"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "二分查找"
@@ -533373,9 +533363,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -533458,10 +533447,6 @@
         "KMP 算法"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [],
       "title": "CHO-Hamsters",
@@ -533606,9 +533591,8 @@
   {
     "encoded": {
       "catalogContentReady": true,
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -533689,10 +533673,6 @@
         "欧拉回路"
       ],
       "statementAvailable": true,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
       "tags": [
         "二分查找",
@@ -593265,9 +593245,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -593337,11 +593316,7 @@
         "广度优先搜索 BFS",
         "最短路"
       ],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [
         "最短路"
@@ -680635,9 +680610,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -680680,11 +680654,7 @@
       "solutionAvailable": false,
       "source": "luogu-training",
       "sourceTags": [],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [],
       "title": "Kingdom Trip",
@@ -682056,9 +682026,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -682103,11 +682072,7 @@
       "solutionAvailable": false,
       "source": "luogu-training",
       "sourceTags": [],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [],
       "title": "Intellectual Property",
@@ -682201,9 +682166,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -682248,11 +682212,7 @@
       "solutionAvailable": false,
       "source": "luogu-training",
       "sourceTags": [],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [],
       "title": "Lonely Mountain",
@@ -759922,9 +759882,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionSource": "https://www.luogu.com.cn/training/list",
       "contest": "洛谷专题练习",
       "date": "",
@@ -759963,11 +759922,7 @@
       "solutionAvailable": false,
       "source": "luogu-training",
       "sourceTags": [],
-      "statementAvailable": false,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
+      "statementAvailable": true,
       "status": "未做",
       "tags": [],
       "title": "NAKANJ - Minimum Knight moves !!!",
