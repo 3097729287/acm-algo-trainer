@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-11-08T23:45:26.311255+00:00",
+  "sourceBase": "29e1fd59",
+  "designPrinciplesFullyReread": true,
+  "designPrinciplesSha256": "b6fa71c9f549962dd07b0e6257829c2424dc5472f36ed74df1632ec0c3accff1",
+  "currentRootAgentsApplied": true,
+  "historicalRulesNotReactivated": true,
+  "gitWasClean": true,
+  "checkedBeforeNewContent": true,
+  "checkedOwnedPaths": {
+    "backend-rust/src/reviewed_judge.rs": false,
+    "backend-rust/resources/reviewed_cases": false,
+    "backend-rust/target": false
+  },
+  "obsoleteItemsConfirmed": [],
+  "cleanupDecision": "Fresh isolated source checkout has no old reviewed Rust packs or module to replace; active Python oracle, profile identity policy and all histories remain referenced. No deletion necessary. Previously rejected caches are in other workspaces and were not retried.",
+  "livePersonalDataOpened": false,
+  "normalApplicationChanged": false
+}
