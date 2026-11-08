@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105170::I",
+      "beforeSha256": "bfc0d6cb0681f0293f63a0233bf6780fc26ac064c9c315017df8b6b47c23a1cf",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:105170::I",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-11-08T02:50:08.647250+00:00",
+          "corpusAuditVerifiedSha256": "004e7a0572dc97338ffe01d71054f9ba82e93e9c6932dcf32592a8049e62b01e",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# The Easiest Problem\n\nDuring class, the teacher often says \"Scan the QR code to sign in now.\"\n\n\n\nNow, Gew wants to ask you how many **lowercase** English letters there are in this sentence.\n\n\n\n## Input\n\n\n\nThe input contains only one line, containing the sentence \"Scan the QR code to sign in now.\"\n\n\n\n## Output\n\n\n\nOutput an integer, denoting the answer to the question.\n\n\n\n## Note\n\n\n\nThe output of the example is not correct. It's you who need to figure out the answer, and get a correct verdict.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:105170::I",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "f308734301249bd2f241364d03b9d265b9bee914746c38389a24116137b9198e",
+          "url": "https://codeforces.com/gym/105170/problem/I"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "Scan the QR code to sign in now.",
+            "name": "样例 1",
+            "output": "-1"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "The Easiest Problem",
+        "url": "https://codeforces.com/gym/105170/problem/I",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "004e7a0572dc97338ffe01d71054f9ba82e93e9c6932dcf32592a8049e62b01e",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 最简单的题目\n\n\n\n课堂上，老师经常说：`Scan the QR code to sign in now.`\n\n\n\n现在，Gew 想问你，这个句子中有多少个**小写**英文字母？\n\n\n\n## 输入格式\n\n\n\n输入只有一行，内容为句子`Scan the QR code to sign in now.`。\n\n\n\n## 输出格式\n\n\n\n输出一个整数，表示上述问题的答案。\n\n\n\n## 样例说明\n\n\n\n样例给出的输出并不正确。你需要自己算出答案，才能获得正确判定。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:105170::I",
+          "slug": "105170-I",
+          "sourceUrl": "https://codeforces.com/gym/105170/problem/I",
+          "sourceSha256": "004e7a0572dc97338ffe01d71054f9ba82e93e9c6932dcf32592a8049e62b01e",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "Scan the QR code to sign in now.",
+              "name": "样例 1",
+              "output": "-1"
+            }
+          ],
+          "notes": [
+            "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+            "Original Markdown, samples and resource bindings retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}

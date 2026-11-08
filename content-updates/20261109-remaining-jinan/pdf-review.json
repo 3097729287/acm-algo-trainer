@@ -1,0 +1,22 @@
+[
+  {
+    "letter": "B",
+    "problemId": "remote:codeforces:105170::B",
+    "pdfSha256": "9971a58149df9a46604cc992f42cea2e6123030d9540396486919c6e68c41f5d",
+    "pageCount": 2,
+    "pagesReviewed": [
+      1,
+      2
+    ],
+    "sourcePageNumbers": [
+      1,
+      2
+    ],
+    "sourceUrl": "https://codeforces.com/gym/105170/problem/B",
+    "figures": [],
+    "notes": [
+      "Both original PDF pages visually reviewed, including both pseudocode algorithms, 1-based even positions and sample table columns.",
+      "Pseudocode transcribed as an immutable text block; no diagram is present."
+    ]
+  }
+]

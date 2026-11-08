@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105170::L",
+      "beforeSha256": "fb72775bd6ab28a686f50bae3a559c35d5a4a8e3611f64d5371d856694fb6772",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:105170::L",
+        "images": {
+          "https://espresso.codeforces.com/3cfa5853fd5f75c0ef27c7d0629b57ae892ffaa5.png": "tb-asset:1cf582fe416cfe97c66a082f29971cdf56b07c211f5aa20e593bb28c1459781f"
+        },
+        "integrity": {
+          "checkedAt": "2026-11-08T02:50:15.492735+00:00",
+          "corpusAuditVerifiedSha256": "531a303add83e5eaaced33ae16f98abc08ddc94230bc43c1ac0616d62ea146b1",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Recharge\n\n*The Binding of Isaac* is a randomly generated action RPG shooter with heavy roguelike elements.\n\n\n\nDuring the game, the player can pick up different items and cause different effects after being used, which adds a lot to the gameplay of this game. *Activated items* are a special category of items. Each activated item can be used once it is fully charged, thus a charge bar is used to denote the current charging progress. To charge an activated item, the player needs to clear the rooms: a small room fills $$$1$$$ unit of the charge bar, while a large room fills $$$2$$$ units of the charge bar. Specifically, for an activated item with only $$$1$$$ unit uncharged, clearing a large room has the same impact as clearing a small room. Using the activated item will **empty** the charge bar.\n\n ![](https://espresso.codeforces.com/3cfa5853fd5f75c0ef27c7d0629b57ae892ffaa5.png) The most powerful activated item in the game, *Void*, has a charge bar size of 6 units, with 5 units charged. \n\nNow, Shuishui is holding an activated item with a charge bar size of $$$k$$$ units. Initially, the charge bar is empty, and there are $$$x$$$ uncleared small rooms and $$$y$$$ uncleared large rooms on the map. Shuishui can choose to clear the uncleared rooms in arbitrary order. Please calculate the **maximum** number of times Shuishui uses the item.\n\n\n\n## Input\n\n\n\nThe input contains multiple testcases.\n\n\n\nThe first line contains an integer $$$t$$$ ($$$1\\leq t\\leq 2 \\times 10^5$$$), denoting the number of testcases.\n\n\n\nFor each testcase, only one line contains three integers $$$k$$$, $$$x$$$, $$$y$$$ ($$$1 \\leq k \\leq 10^9$$$, $$$0 \\leq x, y \\leq 10^9$$$).\n\n\n\n## Output\n\n\n\nFor each testcase, output a single integer in one line, denoting the answer.",
+        "nativeSourceReview": {
+          "disposition": "new",
+          "id": "remote:codeforces:105170::L",
+          "method": "native-source-identity-resource-and-render-verification",
+          "problemType": "standard",
+          "samplePairs": 1,
+          "samplesSha256": "d33cc35db887c1cdb02c7860c5fcfe6a2a1e19affefb30521cab27d80076ac47",
+          "url": "https://codeforces.com/gym/105170/problem/L"
+        },
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://espresso.codeforces.com/3cfa5853fd5f75c0ef27c7d0629b57ae892ffaa5.png": {
+            "bytes": 7616,
+            "frameCount": 1,
+            "height": 157,
+            "mime": "image/png",
+            "sha256": "1cf582fe416cfe97c66a082f29971cdf56b07c211f5aa20e593bb28c1459781f",
+            "sourceUrl": "https://espresso.codeforces.com/3cfa5853fd5f75c0ef27c7d0629b57ae892ffaa5.png",
+            "width": 199
+          }
+        },
+        "samples": [
+          {
+            "input": "3\n6 6 6\n9 6 2\n3 1 4",
+            "name": "样例 1",
+            "output": "3\n1\n2"
+          }
+        ],
+        "sitePdfCheckVersion": 1,
+        "sitePdfStatus": "not-provided",
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "title": "Recharge",
+        "url": "https://codeforces.com/gym/105170/problem/L",
+        "translationAvailable": true,
+        "translation": {
+          "kind": "bundled",
+          "provider": "核对完整原题的预置中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "531a303add83e5eaaced33ae16f98abc08ddc94230bc43c1ac0616d62ea146b1",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "markdown",
+          "markdown": "# 充能\n\n\n\n*以撒的结合*是一款随机生成关卡、带有浓厚 roguelike 元素的动作角色扮演射击游戏。\n\n\n\n游戏中，玩家可以拾取不同道具，使用后产生不同效果，大大丰富了玩法。*主动道具*是一类特殊道具，每件主动道具在充满能量后才能使用一次，当前充能进度用充能条表示。玩家需要清理房间为道具充能：小房间增加 $$$1$$$ 格能量，大房间增加 $$$2$$$ 格能量。特别地，如果道具仅差 $$$1$$$ 格就充满，清理大房间与清理小房间的效果相同。使用主动道具会**清空**充能条。\n\n\n\n![](https://espresso.codeforces.com/3cfa5853fd5f75c0ef27c7d0629b57ae892ffaa5.png) 游戏中最强的主动道具*虚空*：充能条共 6 格，目前已充入 5 格。\n\n\n\n现在，Shuishui 持有一件充能条容量为 $$$k$$$ 格的主动道具。初始充能条为空，地图上有 $$$x$$$ 个尚未清理的小房间和 $$$y$$$ 个尚未清理的大房间。Shuishui 可以按任意顺序清理这些房间。请计算他**最多**能使用多少次这件道具。\n\n\n\n## 输入格式\n\n\n\n输入包含多组测试数据。\n\n\n\n第一行包含一个整数 $$$t$$$（$$$1\\leq t\\leq 2 \\times 10^5$$$），表示测试用例数。\n\n\n\n每个测试用例只有一行，包含三个整数 $$$k$$$、$$$x$$$、$$$y$$$（$$$1 \\leq k \\leq 10^9$$$，$$$0 \\leq x, y \\leq 10^9$$$）。\n\n\n\n## 输出格式\n\n\n\n对于每个测试用例，在一行中输出一个整数，表示答案。\n\n\n\n"
+        },
+        "translationReview": {
+          "problemId": "remote:codeforces:105170::L",
+          "slug": "105170-L",
+          "sourceUrl": "https://codeforces.com/gym/105170/problem/L",
+          "sourceSha256": "531a303add83e5eaaced33ae16f98abc08ddc94230bc43c1ac0616d62ea146b1",
+          "status": "complete",
+          "samples": [
+            {
+              "input": "3\n6 6 6\n9 6 2\n3 1 4",
+              "name": "样例 1",
+              "output": "3\n1\n2"
+            }
+          ],
+          "notes": [
+            "Full source prose, formulas, bounds, sample explanations and mapped original illustrations reviewed.",
+            "Original Markdown, samples and resource bindings retained unchanged."
+          ],
+          "method": "complete-original-markdown-review",
+          "immutableSpansValidated": true
+        }
+      }
+    }
+  ]
+}
