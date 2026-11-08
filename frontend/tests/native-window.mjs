@@ -8,10 +8,11 @@ import { fileURLToPath } from 'node:url';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright';
 import { exerciseNativePlanning } from './native-learning-flow.mjs';
+import { exerciseNativeRuns } from './native-run-flow.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const packaged = process.argv.includes('--packaged');
-const output = resolve(root, packaged ? '.backups/native-window-packaged' : '.backups/native-window');
+const output = resolve(process.env.TB_NATIVE_WINDOW_OUTPUT || resolve(root, packaged ? '.backups/native-window-packaged' : '.backups/native-window'));
 await mkdir(output, { recursive: true });
 const sandbox = await mkdtemp(resolve(output, 'sandbox-'));
 const binary = resolve(process.argv[2] || resolve(root, 'target/release/tobe-desktop.exe'));
@@ -125,6 +126,7 @@ try {
   await page.setViewportSize({ width: 800, height: 650 });
   await page.screenshot({ path: resolve(output, 'react-workspace-narrow.png') });
   results.reactWorkspace = { saved: true, recoveredAfterReload: true, training: saved.training, problemId: saved.id };
+  if(process.env.TB_NATIVE_TEST_RUNNER==='1')results.localRuns=await exerciseNativeRuns(page,output);
   assert.equal(results.capabilities.deployment, 'local-test-only');
   assert.equal(results.capabilities.formalArchitecture, 'react-python');
   assert.deepEqual(failures, []);

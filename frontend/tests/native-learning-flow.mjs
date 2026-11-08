@@ -24,8 +24,19 @@ export async function exerciseNativePlanning(page, output) {
   assert.deepEqual(state.plan.tracks, ['io-basics']);
   assert.equal(state.config.weekdayMinutes, 90);
   assert.ok(state.plan.days.every(day => day.used <= day.minutes));
-  await board.getByRole('button', { name: '完成并继续', exact: true }).click();
-  await page.waitForFunction(() => document.querySelector('.task-now [role=progressbar]')?.getAttribute('aria-valuenow') === '1');
+  // The overview prioritizes Sunday's comprehensive task. Open the explicit
+  // reading task so this check does not depend on the current weekday.
+  const readingTask=state.plan.tasks.find(task=>task.kind==='lecture'&&task.topicId==='io-basics');
+  assert(readingTask);
+  await board.locator('.task-board-row').filter({hasText:readingTask.title}).first().click();
+  await page.getByRole('button', { name: '完成并继续', exact: true }).click();
+  await page.waitForFunction(async()=>{const result=await window.__TAURI__.core.invoke('api_request',{request:{version:1,id:crypto.randomUUID(),method:'GET',path:'learning-summary',query:{}}});return result.ok&&result.data.topics.find(topic=>topic.id==='io-basics')?.level===1;});
+  const readingBack=page.getByRole('button',{name:'返回主界面',exact:true}).first();
+  if(await readingBack.isVisible())await readingBack.click();
+  await nav.click();state=await snapshot();
+  const quizTask=state.plan.tasks.find(task=>task.kind==='quiz'&&task.topicId==='io-basics');
+  assert(quizTask);
+  await board.locator('.task-board-row').filter({hasText:quizTask.title}).first().click();
   const quiz = page.getByRole('dialog', { name: '原理检查', exact: true });
   await quiz.getByRole('button', { name: '字符 a+b', exact: true }).click();
   await quiz.getByRole('alert').waitFor();
@@ -59,11 +70,11 @@ export async function exerciseNativePlanning(page, output) {
   assert.deepEqual(state.plan.tracks, ['binary-search']);
   assert.ok(state.history.length >= 2);
   const savedPlanId = state.plan.id;
-  await board.getByRole('tab', { name: '历史记录', exact: true }).click();
+  await page.locator('#tb-page-bookmarks').getByRole('tab', { name: '历史记录', exact: true }).click();
   await board.getByRole('button', { name: /采纳重新规划/ }).first().click();
   await board.locator('.task-history-article .summary-week').waitFor();
   assert.deepEqual((await snapshot()).plan.tracks, ['binary-search']);
-  await board.getByRole('tab', { name: '学习概览', exact: true }).click();
+  await page.locator('#tb-page-bookmarks').getByRole('tab', { name: '概况', exact: true }).click();
   await board.locator('.task-mainline-heading h2').filter({ hasText: nextTitle }).waitFor();
   const geometry = await page.evaluate(() => {
     const bar = document.querySelector('.main-area > .task-flow-bar');

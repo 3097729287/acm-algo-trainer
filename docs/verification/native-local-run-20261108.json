@@ -60,7 +60,7 @@
     "legacyBackendFallback": false,
     "officialAcClaims": 0
   },
-  "actualWorkbenchWindowChecked": false,
+  "actualWorkbenchWindowChecked": true,
   "productionWorkspaceRead": false,
   "productionFilesModified": false,
   "legacyBackendFallback": false,
@@ -76,7 +76,41 @@
     "Native official browser and receipts",
     "Contest and review runners",
     "Special/custom checker parity",
-    "Template certification and full progress evidence",
-    "Full real Tauri workbench verification"
-  ]
+    "Template certification and full progress evidence"
+  ],
+  "actualTauriRuntime": {
+    "verifiedAt": "2026-11-08T08:20:56.465004+00:00",
+    "rows": 13480,
+    "localRuns": {
+      "realTauriIpc": true,
+      "realCppCompiler": true,
+      "realPythonInterpreter": true,
+      "problemId": "luogu-training-P1001",
+      "officialSamples": 1,
+      "cppVerdict": "SAMPLE_PASS",
+      "pythonVerdict": "RUN_OK",
+      "customOutput": "42",
+      "pendingReadMillis": 14.793500000001586,
+      "draftLanguageAndHistoryRestored": true,
+      "officialAcClaims": 0
+    },
+    "learning": {
+      "configured": true,
+      "readingStage": 1,
+      "conceptStage": 2,
+      "independentSolved": 0,
+      "cancellationPreserved": true,
+      "mainlineChanged": true,
+      "historyPreserved": true,
+      "recoveredAfterReload": true,
+      "weeklyBudgetShared": true
+    },
+    "pageErrors": [],
+    "binaryBytes": 17613134,
+    "sourceRuntimeCommit": "061e0943",
+    "screenshots": {
+      "20261108-native-cpp-samples.png": "0059f274a74fa24a87a389d293ab41789d6ee94bace7b394709597dfd2048b67",
+      "20261108-native-python-custom-narrow.png": "fcc3f592b8c2539fafe148602dd2563de6241289b500faaa53c774e75d4a0707"
+    }
+  }
 }
