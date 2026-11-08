@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { EditorView } from '@codemirror/view';
 import Workbench from '../src/app/Workbench.jsx';
+import InitialCodeSettings from '../src/pages/InitialCodeSettings.jsx';
 import TEMPLATES from '../../backend/resources/code-templates.json';
 import 'katex/dist/katex.min.css';
 
@@ -36,7 +37,7 @@ async function api(path, body) {
   fixture.calls.push({ path, body, at: Date.now() });
   const url = new URL('http://fixture/' + path);
   if(path==='initial-code'&&fixture.initialCode)return structuredClone(fixture.initialCode);
-  if(path==='initial-code/select'&&fixture.initialCode){fixture.initialCode.selection[body.language]=body.id;return structuredClone(fixture.initialCode);}
+  if(path==='initial-code/select'&&fixture.initialCode){await sleep(fixture.initialSelectDelay||0);if(fixture.initialSelectError)throw new Error(fixture.initialSelectError);fixture.initialCode.selection[body.language]=body.id;return structuredClone(fixture.initialCode);}
   if(path==='templates')return TEMPLATES;
   if (path === 'problem/translate') {
     const original={...problem(body.id),...fixture.problemOverrides[body.id]};
@@ -112,10 +113,12 @@ async function api(path, body) {
 }
 function Fixture() {
   const [id, setId] = useState('A');
+  const [settings,setSettings]=useState(false);fixture.settings=setSettings;
   const [solutionOpen,setSolutionOpen]=useState(false);
   const [contest, setContest] = useState(null);
   fixture.changeProblem = setId;
   fixture.changeContest = setContest;
+  if(settings)return <div className="fixture"><InitialCodeSettings api={api}/></div>;
   return <div className="fixture"><Workbench problemId={id} contest={contest} api={api}
     onProgress={workspace => fixture.progress.push(workspace)} onExit={() => fixture.exitCount++}
     onSolution={() => {fixture.solutionCount++;setSolutionOpen(true);}} solutionOpen={solutionOpen} onCloseSolution={()=>{fixture.solutionClosed++;setSolutionOpen(false);}} onNotice={(message,type)=>fixture.notices.push({message,type})} onNext={() => fixture.nextCount++} /></div>;
