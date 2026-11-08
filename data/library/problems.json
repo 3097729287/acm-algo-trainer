@@ -928535,9 +928535,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/102835",
       "contest": "ICPC 2020 台北新竹区域赛",
@@ -928590,16 +928589,24 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "模拟"
+      ],
       "title": "Pyramid",
       "url": "https://codeforces.com/gym/102835/problem/C",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2020
+      "xcpcYear": 2020,
+      "knowledgeReview": {
+        "method": "reviewed-statement-structure",
+        "official": false,
+        "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+        "sourcePdfSha256": "1d7aae5495e139e360c4f406dbf321b5716e5e570c164b7182688108ad509ca6",
+        "reason": "每个节点开关在小球通过后翻转，题目直接定义了离散状态转移。",
+        "reviewedTags": [
+          "模拟"
+        ]
+      }
     },
     "id": "remote:codeforces:102835::C",
     "raw": {
@@ -928777,9 +928784,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/102835",
       "contest": "ICPC 2020 台北新竹区域赛",
@@ -928832,16 +928838,24 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "树形 DP"
+      ],
       "title": "Cable Protection",
       "url": "https://codeforces.com/gym/102835/problem/F",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2020
+      "xcpcYear": 2020,
+      "knowledgeReview": {
+        "method": "reviewed-statement-structure",
+        "official": false,
+        "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+        "sourcePdfSha256": "5067175af2a34ad4907efde6e3eacded10f3b406b75abfc1d269026441aae6c8",
+        "reason": "环上挂树，要求选择最少顶点覆盖每条边；树部分按根是否选择分状态，环单独合并。",
+        "reviewedTags": [
+          "树形 DP"
+        ]
+      }
     },
     "id": "remote:codeforces:102835::F",
     "raw": {
@@ -928861,9 +928875,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/102835",
       "contest": "ICPC 2020 台北新竹区域赛",
@@ -928916,16 +928929,24 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "哈希"
+      ],
       "title": "Graph Cards",
       "url": "https://codeforces.com/gym/102835/problem/G",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2020
+      "xcpcYear": 2020,
+      "knowledgeReview": {
+        "method": "reviewed-statement-structure",
+        "official": false,
+        "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+        "sourcePdfSha256": "85e7c693b7613b0d418c7c399bb5829dd7d8d129ef2bf9291785605fd0d1373c",
+        "reason": "连通且点边数相等的简单图同构：可对挂树赋规范标识，再比较环的旋转与反向规范序列。标识可用精确排序编号实现，非原站官方标签。",
+        "reviewedTags": [
+          "哈希"
+        ]
+      }
     },
     "id": "remote:codeforces:102835::G",
     "raw": {
@@ -928945,9 +928966,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/102835",
       "contest": "ICPC 2020 台北新竹区域赛",
@@ -929000,16 +929020,26 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "最小生成树",
+        "并查集"
+      ],
       "title": "Optimization for UltraNet",
       "url": "https://codeforces.com/gym/102835/problem/H",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2020
+      "xcpcYear": 2020,
+      "knowledgeReview": {
+        "method": "reviewed-statement-structure",
+        "official": false,
+        "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+        "sourcePdfSha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+        "reason": "先求最大瓶颈阈值，再在阈值允许的边上求最小生成树；树上路径最小边贡献可按边权降序合并连通块统计。",
+        "reviewedTags": [
+          "最小生成树",
+          "并查集"
+        ]
+      }
     },
     "id": "remote:codeforces:102835::H",
     "raw": {
@@ -929187,9 +929217,8 @@
   },
   {
     "encoded": {
-      "catalogHidden": true,
-      "catalogReplayReady": false,
-      "catalogStatementReady": false,
+      "catalogReplayReady": true,
+      "catalogStatementReady": true,
       "collectionNotice": "按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。",
       "collectionSource": "https://codeforces.com/gym/102835",
       "contest": "ICPC 2020 台北新竹区域赛",
@@ -929242,16 +929271,24 @@
       "source": "xcpc-codeforces",
       "sourceTags": [],
       "startedAt": null,
-      "statementPriorVisibility": {},
-      "statementRetired": true,
-      "statementRetirementPolicy": "public-statement-audit-v1",
-      "statementRetirementReason": "公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留",
       "status": "未做",
-      "tags": [],
+      "tags": [
+        "数位 DP"
+      ],
       "title": "Number with Bachelors",
       "url": "https://codeforces.com/gym/102835/problem/K",
       "xcpcKind": "区域赛",
-      "xcpcYear": 2020
+      "xcpcYear": 2020,
+      "knowledgeReview": {
+        "method": "reviewed-statement-structure",
+        "official": false,
+        "sourceUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+        "sourcePdfSha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+        "reason": "两类询问均涉及指定进制下不重复数位的计数与按序选择，可用已用数位集合进行数位计数。",
+        "reviewedTags": [
+          "数位 DP"
+        ]
+      }
     },
     "id": "remote:codeforces:102835::K",
     "raw": {

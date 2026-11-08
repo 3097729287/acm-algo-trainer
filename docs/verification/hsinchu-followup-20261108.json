@@ -1,0 +1,61 @@
+{
+  "at": "2026-11-08T10:03:08.918345+00:00",
+  "restoredOriginals": 5,
+  "completeChineseTranslationsAdded": 1,
+  "existingIdentitiesRetained": true,
+  "originalPages": 14,
+  "samplePairs": 10,
+  "officialDifficultyInvented": false,
+  "knowledgeClassifications": "five statement-derived reviews, explicitly non-official",
+  "nativeRosterUrl": "https://codeforces.com/gym/102835",
+  "sourceArchiveUrl": "https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf",
+  "sourceBookletSha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+  "browser": {
+    "verified": [
+      {
+        "id": "remote:codeforces:102835::C",
+        "pages": 2,
+        "sha256": "1d7aae5495e139e360c4f406dbf321b5716e5e570c164b7182688108ad509ca6",
+        "samples": 2
+      },
+      {
+        "id": "remote:codeforces:102835::F",
+        "pages": 4,
+        "sha256": "5067175af2a34ad4907efde6e3eacded10f3b406b75abfc1d269026441aae6c8",
+        "samples": 2
+      },
+      {
+        "id": "remote:codeforces:102835::G",
+        "pages": 2,
+        "sha256": "85e7c693b7613b0d418c7c399bb5829dd7d8d129ef2bf9291785605fd0d1373c",
+        "samples": 2
+      },
+      {
+        "id": "remote:codeforces:102835::H",
+        "pages": 4,
+        "sha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+        "samples": 3
+      },
+      {
+        "id": "remote:codeforces:102835::K",
+        "pages": 2,
+        "sha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+        "samples": 1
+      }
+    ],
+    "externalRequests": 0,
+    "allPagesRendered": 14,
+    "draftPreserved": true,
+    "correctedHexadecimalSampleVisible": true,
+    "kChineseToggleVerified": true,
+    "errors": []
+  },
+  "backendRegression": {
+    "tests": 62,
+    "failures": 0,
+    "errors": 0
+  },
+  "privateDatabasesReadOrWritten": false,
+  "originalJudgeSubmissions": 0,
+  "installed": false
+}

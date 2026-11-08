@@ -1,8 +1,10 @@
 """Apply six page-reviewed translations and exact native sample corrections."""
 import copy
+import argparse
 import datetime
 import hashlib
 import json
+import re
 from pathlib import Path
 import sys
 
@@ -12,25 +14,30 @@ from statement_seed import checksum,load_statements
 from translation import TRANSLATION_FORMAT,bundled_translation
 
 
-def main():
-    folder=ROOT/'content-updates/20261108-taiwan'
-    reviewed=json.loads((folder/'review.json').read_text('utf8'))
+def main(folder=None,contest='105544',review_file='review.json',packet_prefix='zzzzzzzzzzz-20261108-taiwan'):
+    folder=folder or ROOT/'content-updates/20261108-taiwan'
+    assert re.fullmatch(r'\d{1,10}',contest) and re.fullmatch(r'z+-[A-Za-z0-9-]+',packet_prefix)
+    assert re.fullmatch(r'[A-Za-z0-9-]+\.json',review_file)
+    reviewed=json.loads((folder/review_file).read_text('utf8'))
     current={r['problem_id']:r['content'] for r in load_statements(ROOT/'data/library')}
     result=[]
     for proof in reviewed:
-        letter=proof['letter'];identity='remote:codeforces:105544::'+letter
-        slug='105544-'+letter
+        letter=proof['letter'];assert re.fullmatch(r'[A-Z][0-9]?',letter)
+        identity='remote:codeforces:'+contest+'::'+letter
+        slug=contest+'-'+letter
         english=(folder/(slug+'.en.md')).read_text('utf8')
         chinese=(folder/(slug+'.zh.md')).read_text('utf8')
-        sample_record=json.loads((folder/(slug+'.samples.json')).read_text('utf8'))
+        sample_file=folder/(slug+'.samples.json')
+        if not sample_file.exists():sample_file=folder/(letter+'.samples.json')
+        sample_record=json.loads(sample_file.read_text('utf8'))
         assert sample_record['sourcePdfSha256']==proof['pdfSha256']
         assert proof['pagesReviewed']==list(range(1,proof['pageCount']+1))
-        assert sample_record['page'] in proof['pagesReviewed']
+        assert (sample_record.get('page') in proof['pagesReviewed'] if 'page' in sample_record else all(page in proof.get('sourcePageNumbers',[]) for page in sample_record['pages']))
         for i,sample in enumerate(sample_record['samples'],1):
             for language,text in [('en',english),('zh',chinese)]:
                 assert '```text\n'+sample['input']+'\n```' in text,(identity,language,i,'input')
                 assert '```text\n'+sample['output']+'\n```' in text,(identity,language,i,'output')
-        target=ROOT/('data/library/statement-patches/zzzzzzzzzzz-20261108-taiwan-'+letter+'.json')
+        target=ROOT/('data/library/statement-patches/'+packet_prefix+'-'+letter+'.json')
         if target.exists():
             stored=json.loads(target.read_text('utf8'))['statements'][0]['content']
             assert current[identity]==stored
@@ -62,4 +69,8 @@ def main():
     print(json.dumps({'newTranslations':len(result),'reviewedTotal':len(reviewed),'problems':result},ensure_ascii=False))
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--folder',type=Path);parser.add_argument('--contest',default='105544')
+    parser.add_argument('--review-file',default='review.json');parser.add_argument('--packet-prefix',default='zzzzzzzzzzz-20261108-taiwan')
+    args=parser.parse_args();main(args.folder.resolve(strict=True) if args.folder else None,args.contest,args.review_file,args.packet_prefix)

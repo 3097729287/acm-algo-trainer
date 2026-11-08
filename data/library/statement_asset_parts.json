@@ -228,5 +228,10 @@
     "file": "statement-assets/part-0046.bin",
     "bytes": 2774488,
     "sha256": "9cd17c91a1865377bd9280f7c810fb54dc4cb64de2fe72c4333741a2e27a272e"
+  },
+  {
+    "file": "statement-assets/part-0047.bin",
+    "bytes": 2209045,
+    "sha256": "165b54a9dfcab75a7a58894bf9598d93d0c454f32280e69eb49bfeac8c25b481"
   }
 ]

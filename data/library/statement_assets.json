@@ -42988,5 +42988,47 @@
     "bytes": 161285,
     "file": "statement-assets/part-0046.bin",
     "offset": 2613203
+  },
+  {
+    "sha256": "1d7aae5495e139e360c4f406dbf321b5716e5e570c164b7182688108ad509ca6",
+    "mime": "application/pdf",
+    "bytes": 271260,
+    "file": "statement-assets/part-0047.bin",
+    "offset": 0
+  },
+  {
+    "sha256": "5067175af2a34ad4907efde6e3eacded10f3b406b75abfc1d269026441aae6c8",
+    "mime": "application/pdf",
+    "bytes": 222849,
+    "file": "statement-assets/part-0047.bin",
+    "offset": 271260
+  },
+  {
+    "sha256": "54e1b59c9645f4937b38a298a254ea3492350acb5f6e0afb928c45458625ce1d",
+    "mime": "application/pdf",
+    "bytes": 665696,
+    "file": "statement-assets/part-0047.bin",
+    "offset": 494109
+  },
+  {
+    "sha256": "85e7c693b7613b0d418c7c399bb5829dd7d8d129ef2bf9291785605fd0d1373c",
+    "mime": "application/pdf",
+    "bytes": 667498,
+    "file": "statement-assets/part-0047.bin",
+    "offset": 1159805
+  },
+  {
+    "sha256": "d93df13d0fb8c73f0d0503b892a0862c0ef09697926c9027cd6d6891eaf6c2b2",
+    "mime": "application/pdf",
+    "bytes": 209718,
+    "file": "statement-assets/part-0047.bin",
+    "offset": 1827303
+  },
+  {
+    "sha256": "e231c2d2d0766b1d05be7b4e95615d9d0e39a8f042471979c2c16aaae0ebb297",
+    "mime": "application/pdf",
+    "bytes": 172024,
+    "file": "statement-assets/part-0047.bin",
+    "offset": 2037021
   }
 ]
