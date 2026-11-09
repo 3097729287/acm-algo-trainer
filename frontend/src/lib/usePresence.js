@@ -11,8 +11,8 @@ export function currentActivity({page,practice,studyKind,contest,duel,thought}){
  return ({mine:'online',library:'library',lists:'lists',lectures:'lecture',paths:'lab',templates:'template',wiki:'wiki',duel:'online',progress:'growth',records:'records',activity:'records',rankings:'rankings',settings:'settings'})[page]||'online';
 }
 export default function usePresence(api,owner,activity){
- const [saved,setSaved]=useState(null),live=useRef(owner),current=useRef(activity),pending=useRef(null),sequence=useRef(0),clock=useRef({owner,lastInput:performance.now()}),sent=useRef(null),closing=useRef(false),native=useRef(null),rearm=useRef(null);
- if(clock.current.owner!==owner){clock.current={owner,lastInput:performance.now()};closing.current=false;}
+ const [saved,setSaved]=useState(null),live=useRef(owner),current=useRef(activity),pending=useRef(null),sequence=useRef(0),clock=useRef({owner,lastInput:performance.now()}),sent=useRef(null),closing=useRef(false),native=useRef(null),rearm=useRef(null),lease=useRef({owner,ticket:null,state:'new'});
+ if(clock.current.owner!==owner){clock.current={owner,lastInput:performance.now()};closing.current=false;lease.current={owner,ticket:null,state:'new'};}
  live.current=owner;current.current=activity;
  const desired=()=>performance.now()-clock.current.lastInput>=PRESENCE_IDLE_MS?'idle':current.current;
  const beat=useCallback(async()=>{
@@ -21,8 +21,20 @@ export default function usePresence(api,owner,activity){
   try{
    await native.current?.sample();
    if(live.current!==owner||seq!==sequence.current||closing.current)return;
+   let ticket=lease.current.ticket,value;
+   if(!ticket||lease.current.state==='superseded'){
+    const prepared=await api('presence',{activity:desired(),presencePhase:ticket?'recover':'prepare',presenceOwner:owner,...(ticket||{})});
+    if(live.current!==owner||seq!==sequence.current||closing.current)return;
+    if(prepared.presenceProtocol!==2||prepared.owner!==owner)throw new Error('在线实例连接尚未就绪');
+    if(prepared.presenceState!=='prepared'){
+     lease.current.state='superseded';setSaved({owner,value:prepared});return;
+    }
+    if(!/^[A-Za-z0-9_-]{11}\.[A-Za-z0-9_-]{43}$/.test(prepared.presenceLease||'')||!(prepared.presenceExpected===''||/^[A-Za-z0-9_-]{11}$/.test(prepared.presenceExpected||'')))throw new Error('在线实例凭证无效');
+    ticket={presenceLease:prepared.presenceLease,presenceExpected:prepared.presenceExpected};lease.current.ticket=ticket;lease.current.state='prepared';
+   }
    reported=desired();sent.current=reported;
-   const value=await api('presence',{activity:reported});if(live.current===owner&&seq===sequence.current&&value.owner===owner)setSaved({owner,value});
+   value=await api('presence',{activity:reported,presencePhase:lease.current.state==='prepared'?'activate':'beat',presenceOwner:owner,...ticket});
+   if(live.current===owner&&seq===sequence.current&&!closing.current&&value.owner===owner){lease.current.state=value.presenceState==='active'?'active':'superseded';setSaved({owner,value});}
   }
   catch{if(live.current===owner&&seq===sequence.current)setSaved(null);}
   finally{if(pending.current===request){pending.current=null;if(!closing.current&&reported!==undefined&&live.current===owner&&seq===sequence.current&&desired()!==reported)void beat();}}
@@ -55,9 +67,10 @@ export default function usePresence(api,owner,activity){
    closing.current=true;const seq=++sequence.current;
    // This request is best effort. It never blocks the local draft-save and
    // close barrier, never logs the user out, and is bound to the current token.
-   void api('presence',{activity:'offline'}).then(value=>{if(live.current===owner&&seq===sequence.current&&closing.current&&value.owner===owner)setSaved({owner,value});}).catch(()=>{});
+   const ticket=lease.current.ticket;
+   if(ticket)void api('presence',{activity:'offline',presencePhase:'close',presenceOwner:owner,...ticket}).then(value=>{if(live.current===owner&&seq===sequence.current&&closing.current&&value.owner===owner)setSaved({owner,value});}).catch(()=>{});
   };
-  const reopen=()=>{if(live.current===owner&&closing.current){closing.current=false;sequence.current++;pending.current=null;void beat();}};
+  const reopen=()=>{if(live.current===owner&&closing.current){closing.current=false;sequence.current++;pending.current=null;lease.current={owner,ticket:null,state:'new'};void beat();}};
   window.addEventListener('tb-desktop-closing',close);window.addEventListener('pagehide',close);window.addEventListener('pageshow',reopen);
   return()=>{window.removeEventListener('tb-desktop-closing',close);window.removeEventListener('pagehide',close);window.removeEventListener('pageshow',reopen);};
  },[api,owner,beat]);

@@ -414,8 +414,10 @@ class Handler(BaseHTTPRequestHandler):
                     value=duel(training,path.rsplit('/',1)[1],body)
                 elif path == '/api/presence':
                     from gameplay import _request
-                    if set(body)!={'activity'}:raise ServiceError(400,'在线状态无效')
-                    value=_request(training,'POST','/v1/presence',body)
+                    if 'activity' not in body or set(body)-{'activity','presencePhase','presenceLease','presenceExpected','presenceOwner'}:raise ServiceError(400,'在线状态无效')
+                    owner=body.get('presenceOwner')
+                    if 'presencePhase' in body and (not isinstance(owner,str) or not owner):raise ServiceError(400,'在线实例所属账号无效')
+                    value=_request(training,'POST','/v1/presence',{key:value for key,value in body.items() if key!='presenceOwner'},expected_owner=owner)
                 elif path == "/api/daily-tasks/claim":
                     value = training.claim_daily_task(body.get("id"), body.get("date"))
                     if value.get('rewardPack'):

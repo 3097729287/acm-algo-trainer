@@ -175,7 +175,7 @@ export async function handle(request, env) {
     const user = await authenticate(request, env, now);
     if(!path.startsWith('/v2/accounts/state'))await limit(env, 'user:' + user.user_id, Math.min(600, Math.max(10, Number(env.REQUESTS_PER_USER_MINUTE) || 120)), 60, Math.floor(now / 1000));
     if(path==='/v1/admin/accounts'||path.startsWith('/v1/admin/accounts/'))return await adminAccounts(request,env,user,now,{body,json,credentials,limit});
-    if(path==='/v1/presence'&&request.method==='POST'){const value=await body(request,['activity'],256);return json(await heartbeat(env.STORE.gameplay,user.user_id,tokenHash(credentials(request).token),value.activity,now));}
+    if(path==='/v1/presence'&&request.method==='POST'){const value=await body(request,['activity','presencePhase','presenceLease','presenceExpected'],256);return json(await heartbeat(env.STORE.gameplay,user.user_id,tokenHash(credentials(request).token),value.activity,now,value,env.RATE_LIMIT_SALT));}
     if (path === '/v1/social' && request.method === 'GET') return json(await socialSnapshot(env.STORE,user,now));
     if(path==='/v1/training-list-likes' && request.method==='GET')return json(await trainingListLikes(env.STORE,user,null,url.searchParams.getAll('id'),false,now));
     if(path==='/v1/training-list-likes' && request.method==='POST') {

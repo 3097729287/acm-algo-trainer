@@ -3,28 +3,98 @@ import {duelPoints} from './duel-points.mjs';
 
 export const ACTIVITIES=['online','matching','problem','replay','contest','lecture','lab','wiki','template','ranked','thought','library','lists','growth','records','settings','rankings','idle','offline'];
 const absent=error=>error.code==='ER_NO_SUCH_TABLE'||/no such table/i.test(error.message);
+const LEASE_MS=90000,leaseId=/^[A-Za-z0-9_-]{11}$/;
+const base64=bytes=>btoa(String.fromCharCode(...bytes)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+function unpack(value){
+ const [activity,lease,...extra]=String(value||'').split('~');
+ return ACTIVITIES.includes(activity)&&(!lease||leaseId.test(lease))&&!extra.length?{activity,lease:lease||null}:{activity:'offline',lease:null};
+}
+function packed(activity,lease){const value=activity+'~'+lease;if(value.length>20)throw new AccountError(400,'在线活动过长');return value;}
+async function mac(secret,values){
+ if(typeof secret!=='string'||!secret)throw new AccountError(503,'在线实例验证暂不可用');
+ const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(secret),{name:'HMAC',hash:'SHA-256'},false,['sign','verify']);
+ return new Uint8Array(await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(JSON.stringify(values))));
+}
+async function version(row,secret,owner){
+ if(!row)return '';
+ const lease=unpack(row.activity).lease;
+ return lease||base64((await mac(secret,['presence-row-v2',owner,row.token_hash,row.activity,String(row.last_seen)])).slice(0,8));
+}
+async function ticket(secret,owner,auth,expected,id){return id+'.'+base64(await mac(secret,['presence-lease-v2',owner,auth,expected,id]));}
+async function verifiedLease(secret,owner,auth,request){
+ const expected=request.presenceExpected,lease=request.presenceLease;
+ if(typeof expected!=='string'||expected!==''&&!leaseId.test(expected)||typeof lease!=='string'||!/^[-\w]{11}\.[-\w]{43}$/.test(lease))throw new AccountError(400,'在线实例凭证无效');
+ const id=lease.slice(0,11),proof=await ticket(secret,owner,auth,expected,id);
+ // Constant-time verification is provided by WebCrypto, including malformed
+ // tickets. Neither the authentication token nor this proof is public output.
+ const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(secret),{name:'HMAC',hash:'SHA-256'},false,['verify']);
+ const signature=Uint8Array.from(atob(lease.slice(12).replace(/-/g,'+').replace(/_/g,'/')+'='),c=>c.charCodeAt(0));
+ if(proof.length!==lease.length||!await crypto.subtle.verify('HMAC',key,signature,new TextEncoder().encode(JSON.stringify(['presence-lease-v2',owner,auth,expected,id]))))throw new AccountError(400,'在线实例凭证无效');
+ return {id,expected};
+}
 export async function presenceSnapshot(game,now){
  try{
-  const [rows]=await game.db.execute("SELECT p.user_id,p.activity FROM account_presence p JOIN account_sessions s ON s.user_id=p.user_id AND s.token_hash=p.token_hash JOIN accounts a ON a.user_id=p.user_id WHERE p.last_seen>? AND p.activity<>'offline' AND s.expires_at>? AND s.password_version=a.password_version AND a.login_id<>?", [now-90000,Math.floor(now/1000),'admin']);
-  const users=rows.filter(row=>row.activity!=='idle').map(row=>({userId:row.user_id,activity:row.activity}));
-  const idleUsers=rows.filter(row=>row.activity==='idle').map(row=>({userId:row.user_id,activity:'idle'}));
+  const [raw]=await game.db.execute("SELECT p.user_id,p.activity FROM account_presence p JOIN account_sessions s ON s.user_id=p.user_id AND s.token_hash=p.token_hash JOIN accounts a ON a.user_id=p.user_id WHERE p.last_seen>? AND s.expires_at>? AND s.password_version=a.password_version AND a.login_id<>?", [now-LEASE_MS,Math.floor(now/1000),'admin']);
+  const rows=raw.map(row=>({userId:row.user_id,activity:unpack(row.activity).activity}));
+  const users=rows.filter(row=>!['idle','offline'].includes(row.activity));
+  const idleUsers=rows.filter(row=>row.activity==='idle');
   // Preserve the old active-only contract. Idle clients keep their lease but
   // are exposed separately, so older clients never count them as online.
   return {available:true,serverNow:now,count:users.length,users,idleUsers};
  }catch(error){if(absent(error))return {available:false,serverNow:now,count:null,users:[],idleUsers:[]};throw error;}
 }
-export async function heartbeat(game,owner,auth,activity,now){
+export async function heartbeat(game,owner,auth,activity,now,request={},secret){
  if(!ACTIVITIES.includes(activity))throw new AccountError(400,'在线状态无效');
+ const phase=request.presencePhase;
+ if(phase===undefined&&(request.presenceLease!==undefined||request.presenceExpected!==undefined))throw new AccountError(400,'在线实例阶段无效');
+ if(phase!==undefined&&!['prepare','recover','activate','beat','close'].includes(phase))throw new AccountError(400,'在线实例阶段无效');
+ if(phase==='prepare'&&(request.presenceLease!==undefined||request.presenceExpected!==undefined)||phase==='close'&&activity!=='offline'||['activate','beat'].includes(phase)&&activity==='offline')throw new AccountError(400,'在线实例活动无效');
+ let state='legacy',prepared;
+ const claim=phase&&phase!=='prepare'?await verifiedLease(secret,owner,auth,request):null;
  await game.db.transaction(async db=>{
+  // session() already locks the account row on MySQL. All generations of this
+  // owner, including a previously absent presence row, therefore serialize.
   await game.session(db,owner,auth,now);
-  const [old]=await db.execute('SELECT user_id FROM account_presence WHERE user_id=?',[owner]);
+  const [old]=await db.execute('SELECT token_hash,activity,last_seen FROM account_presence WHERE user_id=?',[owner]);
+  const row=old[0],current=unpack(row?.activity),write=async value=>{
+   if(row)await db.execute('UPDATE account_presence SET token_hash=?,activity=?,last_seen=? WHERE user_id=?',[auth,value,now,owner]);
+   else await db.execute('INSERT INTO account_presence(user_id,token_hash,activity,last_seen) VALUES(?,?,?,?)',[owner,auth,value,now]);
+  };
+  if(phase==='prepare'||phase==='recover'){
+   if(phase==='recover'&&row&&current.activity!=='offline'&&now-Number(row.last_seen)<LEASE_MS){state='superseded';return;}
+   const expected=await version(row,secret,owner),id=base64(crypto.getRandomValues(new Uint8Array(8)));
+   prepared={presenceLease:await ticket(secret,owner,auth,expected,id),presenceExpected:expected};state='prepared';return;
+  }
+  if(phase){
+   const own=current.lease===claim.id&&row?.token_hash===auth;
+   if(phase==='activate'){
+    if(own){state=current.activity==='offline'?'superseded':'active';return;}
+    if(await version(row,secret,owner)!==claim.expected){state='superseded';return;}
+    await write(packed(activity,claim.id));state='active';return;
+   }
+   if(phase==='close'){
+    if(own){if(current.activity!=='offline')await write(packed('offline',claim.id));state='closed';return;}
+    // Close can win before its activation arrives. The tombstone changes the
+    // version, so the delayed activation cannot revive the closed generation.
+    if(await version(row,secret,owner)===claim.expected){await write(packed('offline',claim.id));state='closed';return;}
+    state='superseded';return;
+   }
+   if(!own||current.activity==='offline'){state='superseded';return;}
+   await write(packed(activity,claim.id));state='active';return;
+  }
+  if(current.lease){
+   // Old clients remain compatible after the lease/tombstone expires. Their
+   // rejected beats never refresh it, and a late legacy close never clears it.
+   if(now-Number(row.last_seen)>=LEASE_MS&&activity!=='offline')await write(activity);
+   return;
+  }
   // A close belongs to its reporting session, and a delayed earlier heartbeat
   // must not resurrect it. Keep the existing single row as an
   // offline marker; it carries no new personal or learning data.
   if(old.length)await db.execute("UPDATE account_presence SET token_hash=?,activity=?,last_seen=? WHERE user_id=? AND last_seen<=? AND (last_seen<? OR activity<>'offline' OR ?='offline') AND (?<>'offline' OR token_hash=?)",[auth,activity,now,owner,now,now,activity,activity,auth]);
   else await db.execute('INSERT INTO account_presence(user_id,token_hash,activity,last_seen) VALUES(?,?,?,?)',[owner,auth,activity,now]);
  });
- return {owner,...await presenceSnapshot(game,now)};
+ return {owner,presenceProtocol:2,presenceState:state,...prepared,...await presenceSnapshot(game,now)};
 }
 export async function rankedRating(db,owner){
  const [rows]=await db.execute('SELECT rating FROM ranked_duel_ratings WHERE user_id=?',[owner]);
