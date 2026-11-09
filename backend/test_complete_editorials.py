@@ -66,7 +66,26 @@ class CompleteEditorialTests(unittest.TestCase):
                 for target in re.findall(r'!\[[^\]]*\]\(([^)]+)\)', detailed['markdown']):
                     if not target.startswith(('https://', 'http://', 'data:')):
                         self.assertIn(target, detailed['images'])
-                        self.assertTrue(base64.b64decode(detailed['images'][target].split(',', 1)[1]))
+                        image = detailed['images'][target]
+                        if image.startswith('data:'):
+                            self.assertTrue(base64.b64decode(image.split(',', 1)[1], validate=True))
+                        else:
+                            # A slim distribution serves the identical public
+                            # figure by digest. Check its actual source bytes,
+                            # rather than assuming every figure is inlined.
+                            match = re.fullmatch(r'/api/library-assets/([a-f0-9]{64})', image)
+                            self.assertIsNotNone(match)
+                            from public_assets import descriptor, validate_reference
+                            with library.connection() as db:
+                                asset = descriptor(db, match[1])
+                            self.assertIsNotNone(asset)
+                            validate_reference(match[1], asset['mime'], asset['bytes'], asset['url'])
+                            self.assertTrue(asset['mime'].startswith('image/'))
+                            source = ((root / detailed['path']).parent / target).resolve()
+                            self.assertTrue(source.is_relative_to(root))
+                            raw = source.read_bytes()
+                            self.assertEqual(len(raw), asset['bytes'])
+                            self.assertEqual(hashlib.sha256(raw).hexdigest(), match[1])
 
 
 if __name__ == '__main__':
