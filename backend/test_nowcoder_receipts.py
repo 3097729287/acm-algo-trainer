@@ -187,6 +187,19 @@ const status=id=>'/nccommon/status?submissionId='+id+'&tagId=4&subTagId=0';
  assert.equal(suspended.window.state.polling,false,'Host inspection cancels an expired read even when page timers are suspended');
  suspended.advance(16000);suspended.responses.push({value:{code:0,id:101,status:4,desc:'答案错误:您提交的程序没有通过所有的测试用例',isSelfTest:false}});await suspended.window.state.poll();
  assert.equal(suspended.messages.at(-1).verdict,'WA');assert.equal(suspended.requests.filter(r=>r.method==='POST').length,1);
+ // New desktop process: exact persisted owner/task/type/SID resumes with GET
+ // only. Neither restored Submit nor mutable DOM code is used for this path.
+ const savedBinding={version:1,platform:'牛客',owner:'12345',identity:{kind:'global',problemId:'16570',questionId:'170283',originalUrl:'https://ac.nowcoder.com/acm/problem/16570'},origin:'https://ac.nowcoder.com',statusPath:'/nccommon/status',query:{tagId:'4',subTagId:'0'}};
+ const restored=fixture({ctxChanges:{readOnlyRestore:true,attempted:true,submissionId:'101',acceptedAt:'2026-11-09T00:00:00Z',receiptBinding:savedBinding}});
+ assert.equal(restored.window.state.pending.submissionId,'101');
+ restored.responses.push({value:{code:0,id:101,status:12,judgeReplyDesc:'编译错误',desc:'编译错误:您提交的代码无法完成编译',isSelfTest:false}});await restored.window.state.poll();
+ assert.equal(restored.messages.at(-1).verdict,'CE');assert.equal(restored.requests.length,1);assert.equal(restored.requests[0].method,'GET');
+ const restoredQuery=new URL(restored.requests[0].url);assert.equal(restoredQuery.searchParams.get('submissionId'),'101');assert.equal(restoredQuery.searchParams.get('tagId'),'4');assert.equal(restoredQuery.searchParams.get('subTagId'),'0');
+ assert.deepEqual(JSON.parse(JSON.stringify(restored.messages.at(-1).receiptBinding)),savedBinding);
+ for(const changed of [{owner:'999'},{identity:{...savedBinding.identity,questionId:'999'}},{query:{tagId:'1',subTagId:'0'}},{origin:'https://evil.test'}]){
+  const rejected=fixture({ctxChanges:{readOnlyRestore:true,attempted:true,submissionId:'101',receiptBinding:{...savedBinding,...changed}}});
+  await rejected.window.state.poll();assert.equal(rejected.requests.length,0,'Mismatched recovery binding cannot query another namespace or account');
+ }
  console.log(JSON.stringify({ok:true,rejectedRequests:rejected,nativeGlobalLegacy:true,nativeGlobalModern:true,passiveGlobal:true,noRealOJ:true}));
 })().catch(error=>{console.error(error);process.exitCode=1;});
 '''

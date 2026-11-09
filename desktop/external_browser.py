@@ -375,14 +375,100 @@ class ExternalBrowserBridge:
     transport = 'external'
     terminal = {'finished', 'closed', 'error', 'unconfirmed'}
 
-    def __init__(self, profile, guard=None, on_receipt=None, on_pending=None, browser_process=None, on_status=None):
+    def __init__(self, profile, guard=None, on_receipt=None, on_pending=None, browser_process=None, on_status=None, recovery_current=None):
         self.browser = browser_process or BrowserProcess(profile)
         self.guard, self.on_receipt, self.on_pending = guard, on_receipt, on_pending
         self.on_status = on_status
+        self.recovery_current = recovery_current
         self.lock = threading.RLock()
         self.sessions, self.clients = {}, {}
         self.stopping = threading.Event()
         self.source = page_source()
+
+    def restore_pending(self, records, owner=None):
+        """Queue persisted numbered receipts. This entry point cannot submit."""
+        for record in records:
+            try:
+                target=submission_target(record['url'])
+                identity=record['sessionId'];remote=str(record['submissionId'])
+                if not isinstance(identity,str) or not identity or not remote.isdecimal() or int(remote)<=0:
+                    continue
+                if not isinstance(record.get('code'),str) or not record['code'].strip():continue
+                accepted=dt.datetime.fromisoformat(record['acceptedAt'])
+                if accepted.tzinfo is None or accepted.timestamp()<=0:continue
+                metadata=record.get('metadata') or {}
+                if metadata.get('_invalid'):continue
+                with self.lock:
+                    if identity in self.sessions or sum(s['status'] not in self.terminal for s in self.sessions.values())>=8:
+                        continue
+                    self.sessions[identity]=dict(target,sessionId=identity,originalUrl=record['url'],url=record['url'],
+                        code=record['code'],language=metadata.get('language') or 'cpp17',created=time.monotonic(),
+                        submissionId=remote,acceptedAt=record['acceptedAt'],status='judging',attempted=True,
+                        intent=False,dispatched=True,autoClose=True,readOnlyRestore=True,transport='external',
+                        _guardAuthorization=(id(owner),metadata.get('contestId')),_restoreOwner=owner,
+                        _restoreRecord=dict(record),message='正在恢复查询原提交 #'+remote+'，不会重新发送代码。')
+                threading.Thread(target=self._run_restore,args=(identity,),name='tb-recover-receipt',daemon=True).start()
+            except (ValueError,KeyError,TypeError):
+                continue
+
+    def _run_restore(self, identity):
+        from official_recovery import legacy_nowcoder_proof,nowcoder_binding,source_hash
+        page=None
+        try:
+            if self.stopping.is_set():return
+            with self.lock:session=dict(self.sessions[identity]);record=session['_restoreRecord']
+            if self.recovery_current and not self.recovery_current(session.get('_restoreOwner')):
+                raise ValueError('Account changed')
+            if session['platform']!='牛客':
+                raise ValueError('No verified recovery protocol')
+            self.browser.ensure(background=True)
+            metadata=record.get('metadata') or {}
+            binding=nowcoder_binding(metadata.get('receiptBinding'),record['url'])
+            known=bool(binding and metadata.get('codeSha256')==source_hash(record['code']))
+            target=None;proof=None
+            for candidate in self.browser.request('/json/list'):
+                if candidate.get('type','page')!='page' or candidate.get('url')!=record['url']:
+                    continue
+                page=DevToolsPage(candidate['webSocketDebuggerUrl'],lambda *_:None)
+                try:proof=legacy_nowcoder_proof(page,record)
+                finally:page.close();page=None
+                if proof:
+                    if known and proof['binding']!=binding:raise ValueError('Saved binding changed')
+                    if metadata.get('language') in ('cpp17','python3') and metadata['language']!=proof['language']:raise ValueError('Saved language changed')
+                    binding=proof['binding'];target=candidate;break
+            if not known and not proof:
+                raise ValueError('Legacy ownership proof unavailable')
+            if self.stopping.is_set():return
+            if not target:
+                target=self.browser.new_submission_page()
+            with self.lock:
+                live=self.sessions[identity]
+                live.update(receiptBinding=binding,_recoveryVerified=True,target=target['id'],
+                            _resumeTarget=target['id'],_resumeNavigate=not bool(proof),
+                            language=(proof or {}).get('language') or metadata.get('language') or 'cpp17')
+                snapshot=dict(live)
+            if self.on_pending and not self.on_pending(identity,snapshot):
+                raise ValueError('Recovery binding not durably saved')
+            self._run(identity)
+        except Exception:
+            self._update(identity,{'status':'unconfirmed','attempted':True,
+                'message':'原提交编号已保留，暂时无法核验原站账号或连接；请保持 ToBe 专用原站页面登录后重查，不会重交。'})
+        finally:
+            if page:page.close()
+
+    def retry_recovery(self, identity, *, visible=False):
+        with self.lock:
+            session=self.sessions.get(identity)
+            if not session or not session.get('readOnlyRestore'):
+                raise ServiceError(404,'没有找到原提交恢复会话')
+            if self.recovery_current and not self.recovery_current(session.get('_restoreOwner')):
+                raise ServiceError(403,'请先恢复该提交所属账号')
+            if visible:
+                session.update(explicitVisible=True,_manualWindow=True,autoClose=False)
+            if session['status']=='unconfirmed':
+                session.update(status='judging',intent=False,dispatched=True,created=time.monotonic())
+                threading.Thread(target=self._run_restore,args=(identity,),name='tb-recheck-recovery',daemon=True).start()
+            return self.status(identity)
 
     def _open(self, url, code, title, intent, language='cpp17'):
         authorization = self.guard(url) if self.guard else None
@@ -412,7 +498,11 @@ class ExternalBrowserBridge:
                         session.update(status='judging' if session.get('submissionId') else 'submitted',intent=False,dispatched=True,
                                        created=time.monotonic(),_resumeTarget=session['target'],message='正在重新查询原站本次提交记录，不会重复发送代码。')
                         context=copy_context()
-                        threading.Thread(target=context.run,args=(self._run,session['sessionId']),name='tb-recheck-submit',daemon=True).start()
+                        worker=self._run_restore if session.get('readOnlyRestore') else self._run
+                        threading.Thread(target=context.run,args=(worker,session['sessionId']),name='tb-recheck-submit',daemon=True).start()
+                    elif session['status']=='unconfirmed' and session.get('readOnlyRestore'):
+                        session.update(status='judging',created=time.monotonic(),intent=False,dispatched=True)
+                        threading.Thread(target=self._run_restore,args=(session['sessionId'],),name='tb-recheck-recovery',daemon=True).start()
                     return self.status(session['sessionId'])
             if sum(item['status'] not in self.terminal for item in self.sessions.values()) >= 8:
                 raise ServiceError(409, '请先处理已有的浏览器提交，再打开新的提交页')
@@ -442,7 +532,7 @@ class ExternalBrowserBridge:
             if not session:
                 raise ServiceError(404, '没有找到本次浏览器提交')
             result = {key: value for key, value in session.items() if key not in
-                    {'code', 'title', 'intent', 'created', 'focus', 'originalUrl', 'target', 'dispatching', 'dispatched', 'awaitingLogin', 'explicitVisible', '_guardAuthorization', '_manualWindow', '_resumeTarget'}}
+                    {'code', 'title', 'intent', 'created', 'focus', 'originalUrl', 'target', 'dispatching', 'dispatched', 'awaitingLogin', 'explicitVisible', '_guardAuthorization', '_manualWindow', '_resumeTarget', '_resumeNavigate', '_restoreRecord', '_restoreOwner', '_recoveryVerified', 'receiptBinding'}}
             if result['status'] == 'finished' and self.on_receipt and not result.get('receiptSaved'):
                 result['status'] = 'judging'
             return result
@@ -455,6 +545,7 @@ class ExternalBrowserBridge:
             if not session or session['status'] in ('finished', 'closed'):
                 return
             status = value.get('status')
+            if session.get('readOnlyRestore') and status=='error':status='unconfirmed';value={**value,'status':status}
             allowed = {'loading', 'ready', 'submitted', 'judging', 'finished', 'error',
                        'needs_login', 'needs_verification', 'awaiting_submit', 'unconfirmed'}
             if status not in allowed:
@@ -487,15 +578,21 @@ class ExternalBrowserBridge:
             if status in ('needs_login', 'needs_verification') and session.get('status') != status:
                 session['focus'] = True
             for key in ('status', 'message', 'submissionId', 'verdict', 'verdictDetail', 'attempted',
-                        'baseline', 'baselineKnown', 'baselineOwner', 'compiler', 'acceptedAt'):
+                        'baseline', 'baselineKnown', 'baselineOwner', 'compiler', 'acceptedAt', 'receiptBinding'):
                 if key in value:
+                    if key=='attempted' and session.get('readOnlyRestore'):continue
+                    if key=='receiptBinding':
+                        from official_recovery import nowcoder_binding
+                        binding=nowcoder_binding(value[key],session.get('originalUrl',''))
+                        if binding:session[key]=binding
+                        continue
                     if key == 'attempted' and inspection and session.get('attempted') and not value[key]:
                         continue  # An inspection begun before the click may finish after it.
                     session[key] = value[key]
             session['updatedAt'] = dt.datetime.now(dt.timezone.utc).isoformat()
             if session.get('attempted'):
                 session.setdefault('acceptedAt', session['updatedAt'])
-            if status == 'needs_login' and session.get('intent') and not session.get('dispatched'):
+            if status == 'needs_login' and (session.get('readOnlyRestore') or session.get('intent') and not session.get('dispatched')):
                 session['awaitingLogin'] = True
             if status == 'error' or status in ('needs_login', 'needs_verification') and (session.get('attempted') or session.get('dispatched')):
                 session['intent'] = False
@@ -511,7 +608,8 @@ class ExternalBrowserBridge:
                 saved = False
             if not saved:
                 with self.lock:
-                    session.update(status='judging', message='回执已取得，正在重试保存…')
+                    session.update(status='unconfirmed' if session.get('readOnlyRestore') else 'judging',
+                                   message='原回执校验或保存尚未完成，编号已保留，请重新查询；不会重交。' if session.get('readOnlyRestore') else '回执已取得，正在重试保存…')
             else:
                 with self.lock:
                     session['receiptSaved']=True
@@ -540,9 +638,10 @@ class ExternalBrowserBridge:
 
     def _script(self, session, action, install=True):
         context = {key: session.get(key) for key in ('sessionId', 'platform', 'problem', 'code', 'language',
-                   'originalUrl', 'attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId', 'retry')}
+                   'originalUrl', 'attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId', 'retry',
+                   'readOnlyRestore','receiptBinding','acceptedAt')}
         context['nativeFormOnly'] = True
-        context['resumeAfterLogin'] = bool(session.get('intent') and not session.get('dispatched'))
+        context['resumeAfterLogin'] = bool(session.get('readOnlyRestore') or session.get('intent') and not session.get('dispatched'))
         callback = """value => new Promise(resolve => {
           const n = (window.__tbAckSeq = (window.__tbAckSeq || 0) + 1);
           (window.__tbAcks ||= {})[n] = () => { delete window.__tbAcks[n]; resolve(); };
@@ -556,6 +655,7 @@ class ExternalBrowserBridge:
         try:
             with self.lock:
                 resume_target=self.sessions[identity].pop('_resumeTarget',None)
+                resume_navigate=self.sessions[identity].pop('_resumeNavigate',False)
             if resume_target:
                 target=next((item for item in self.browser.request('/json/list') if item.get('id')==resume_target),None)
                 if not target:
@@ -579,7 +679,7 @@ class ExternalBrowserBridge:
                     if self.browser.present_page(target['id'],page,explicit,activate=False):presentation=(explicit,False)
                 except Exception:
                     logging.getLogger('tb.visible-submit').debug('Initial browser presentation deferred')
-            if resume_target:
+            if resume_target and not resume_navigate:
                 page.evaluate(self.source+';true')
             else:
                 page.call('Page.navigate', {'url': url})
@@ -591,6 +691,9 @@ class ExternalBrowserBridge:
                     session = dict(self.sessions[identity])
                     if session['status'] in self.terminal:
                         return
+                if session.get('readOnlyRestore') and self.recovery_current and not self.recovery_current(session.get('_restoreOwner')):
+                    self._update(identity,{'status':'unconfirmed','message':'账号已切换，原提交保留待原账号恢复查询，不会重交。'})
+                    return
                 if time.monotonic() - session['created'] > 900:
                     self._update(identity, {'status': 'unconfirmed' if session.get('attempted') else 'error',
                                            'message': '等待原站回执超时；请在浏览器核对本次提交，勿重复发送。'})
@@ -610,10 +713,11 @@ class ExternalBrowserBridge:
                         visible=bool(live.get('explicitVisible') or live['status'] in ('needs_login','needs_verification'))
                         activate=live['status'] in ('needs_login','needs_verification')
                         focus=live.pop('focus',False)
-                        resume = live.get('awaitingLogin') and live.get('intent') and not live.get('dispatched') and isinstance(state, dict) and state.get('loggedIn')
+                        resume = live.get('awaitingLogin') and (live.get('readOnlyRestore') or live.get('intent') and not live.get('dispatched')) and isinstance(state, dict) and state.get('loggedIn')
                         if resume:
-                            live.update(awaitingLogin=False, status='loading', message='登录成功，正在返回本题并填入代码…')
-                        dispatch = live.get('intent') and live['status'] == 'ready' and not live.get('attempted') and not live.get('dispatching') and not live.get('dispatched')
+                            live.update(awaitingLogin=False,status='judging' if live.get('readOnlyRestore') else 'loading',
+                                        message='登录成功，正在返回本题查询原提交，不会重交。' if live.get('readOnlyRestore') else '登录成功，正在返回本题并填入代码…')
+                        dispatch = not live.get('readOnlyRestore') and live.get('intent') and live['status'] == 'ready' and not live.get('attempted') and not live.get('dispatching') and not live.get('dispatched')
                         if dispatch:
                             live.update(dispatching=True, dispatched=True, intent=False)
                             session = dict(live)

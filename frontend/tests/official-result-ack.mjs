@@ -18,13 +18,21 @@ const server=await createServer({configFile:false,root:frontend,plugins:[react()
  server:{host:'127.0.0.1',port:0,fs:{allow:[frontend,await realpath(resolve(frontend,'node_modules'))]}}});
 await server.listen();
 const origin='http://127.0.0.1:'+server.httpServer.address().port;
-const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
+const browser=process.env.TB_TEST_REUSE_PROFILE
+ ?await chromium.launchPersistentContext(process.env.TB_TEST_REUSE_PROFILE,{channel:'msedge',headless:true})
+ :await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const errors=[],checks=[];
-async function fixture(){
+async function fixture(recovery=false){
  const page=await browser.newPage({viewport:{width:1280,height:850}});page.setDefaultTimeout(12000);
  page.on('pageerror',error=>errors.push(error.message));
  await page.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort('blockedbyclient'));
- await page.addInitScript(()=>{window.ackFrameCounter=0;const frame=()=>{window.ackFrameCounter++;requestAnimationFrame(frame)};requestAnimationFrame(frame)});
+ await page.addInitScript(()=>{localStorage.clear();window.ackFrameCounter=0;const frame=()=>{window.ackFrameCounter++;requestAnimationFrame(frame)};requestAnimationFrame(frame)});
+ if(recovery)await page.addInitScript(()=>{
+  window.officialRecoveryStatus='judging';
+  window.officialRecoveryDrafts={'solo:A':'current unsent code after restart'};
+  window.officialRecoverySessions={'recovered-old':{id:'A',code:'original sent code',submissionId:'900004',status:'loading',autoClose:true}};
+  window.officialRecoveryFixture={A:{sessionId:'recovered-old',submissionId:'900004',platform:'AtCoder',status:'judging',readOnlyRestore:true,autoClose:true,message:'正在恢复查询原提交 #900004，不会重新发送代码。'}};
+ });
  await page.goto(origin+'/tests/workbench-fixture.html');
  await page.locator('.cm-content[contenteditable=true]').waitFor();
  await page.evaluate(()=>{workbenchFixture.officialStatus='judging';workbenchFixture.officialIncludeSubmission=true});
@@ -83,6 +91,16 @@ try{
  await manual.evaluate(()=>workbenchFixture.officialStatus='finished');await manual.waitForFunction(()=>document.querySelector('.wb-result-summary')?.dataset.submissionId==='official-2');
  await manual.waitForTimeout(150);assert.equal(await ackCount(manual),0,'A manually opened page stays open after its real result');
  await manual.close();checks.push('manual browser inspection never auto-closes');
+ const recovered=await fixture(true);await recovered.getByText('评测中',{exact:true}).waitFor();
+ assert.equal(await recovered.evaluate(()=>workbenchFixture.readCode()),'current unsent code after restart');
+ assert.equal(await recovered.evaluate(()=>workbenchFixture.calls.filter(c=>c.path==='official/submit').length),0);
+ await recovered.evaluate(()=>{workbenchFixture.officialVerdict='WA';workbenchFixture.officialStatus='finished'});
+ await recovered.waitForFunction(()=>workbenchFixture.ackFacts?.length===1);
+ assert.equal(await recovered.evaluate(()=>workbenchFixture.ackFacts[0].displayId),'recovered-old');
+ assert.equal(await recovered.evaluate(()=>workbenchFixture.submissions[0].code),'original sent code');
+ assert.equal(await recovered.evaluate(()=>workbenchFixture.readCode()),'current unsent code after restart');
+ assert.equal(await recovered.evaluate(()=>workbenchFixture.calls.filter(c=>c.path==='official/submit'||c.path==='official/open').length),0);
+ await recovered.close();checks.push('restart attaches persisted SID, polls without submitting, displays exact WA and preserves current input');
  assert.deepEqual(errors,[]);await writeFile(resolve(out,'result.log'),JSON.stringify({ok:true,checks,pageErrors:errors,realSiteRequests:0},null,2));
  console.log(JSON.stringify({ok:true,checks,out,pageErrors:errors,realSiteRequests:0}));
 }finally{await browser.close();await server.close()}

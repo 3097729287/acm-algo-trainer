@@ -12,9 +12,10 @@ document.head.append(style);
 
 const fixture = window.workbenchFixture = {
   initialCode: window.initialCodeFixture || null,
-  drafts: {}, calls: [], submissions: [], progress: [], problemDelay: {}, draftDelay: 15,
+  drafts: window.officialRecoveryDrafts||{}, calls: [], submissions: [], progress: [], problemDelay: {}, draftDelay: 15,
   nextVerdict: 'SAMPLE_PASS', nextRunVerdict: 'SAMPLE_PASS', exitCount: 0, solutionCount: 0, nextCount: 0,
-  officialStatus: 'needs_login', officialSessions: {}, translationError: '', translationDelay: 10,
+  officialStatus: window.officialRecoveryStatus||'needs_login', officialSessions: window.officialRecoverySessions||{}, translationError: '', translationDelay: 10,
+  recoveries:window.officialRecoveryFixture||{},
   notices: [], draftError: '', solutionClosed: 0, problemOverrides: {}, translationKind: '', preparationEvents: [],
   formatting: window.formattingFixture || null,
 };
@@ -58,11 +59,11 @@ async function api(path, body) {
     await sleep(fixture.officialPollDelay || 0);
     if (status === 'finished' && !session.saved) {
       session.saved = true;
-      session.submission={ id: sessionId, problemId: session.id, contestId: null, mode: 'submit', code: session.code, scope: 'official', verdict: fixture.officialVerdict || 'AC', finishedAt: new Date().toISOString(), submittedAt: new Date().toISOString(), message: '原站确认提交 #101' };
+      session.submission={ id: sessionId, problemId: session.id, contestId: null, mode: 'submit', code: session.code, scope: 'official', verdict: fixture.officialVerdict || 'AC', finishedAt: new Date().toISOString(), submittedAt: new Date().toISOString(), message: '原站确认提交 #'+(session.submissionId||'101') };
       session.savedFrame=window.ackFrameCounter||0;
       fixture.submissions.push(session.submission);
     }
-    return { sessionId, status, autoClose:session.autoClose, ...(status === 'finished' ? { verdict: fixture.officialVerdict || 'AC', submissionId: '101',...(fixture.officialIncludeSubmission?{submission:session.submission}:{}) } : {}), message: ({ needs_login: '请在浏览器登录原站。', ready: '登录成功，可以提交。', closed: '已返回训练。' })[status] || '等待官方结果。' };
+    return { sessionId, status, autoClose:session.autoClose, ...(status === 'finished' ? { verdict: fixture.officialVerdict || 'AC', submissionId: session.submissionId||'101',...(fixture.officialIncludeSubmission?{submission:session.submission}:{}) } : {}), message: ({ needs_login: '请在浏览器登录原站。', ready: '登录成功，可以提交。', closed: '已返回训练。' })[status] || '等待官方结果。' };
   }
   if (path === 'official/close') {
     fixture.officialSessions[body.sessionId].status = 'closed';
@@ -79,7 +80,7 @@ async function api(path, body) {
     const id = url.searchParams.get('id');
     await sleep(fixture.problemDelay[id] || 10);
     const context = { id, contestId: url.searchParams.get('contestId') };
-    return { ...problem(id), ...fixture.problemOverrides[id], ...(fixture.formatting?{formattingAvailable:fixture.formatting.available}:{}), draft: fixture.drafts[key(context)] || '', submissions: fixture.submissions.filter(row => row.problemId === id && row.contestId === context.contestId) };
+    return { ...problem(id), ...fixture.problemOverrides[id], ...(fixture.formatting?{formattingAvailable:fixture.formatting.available}:{}), ...(fixture.recoveries[id]?{officialRecovery:fixture.recoveries[id]}:{}), draft: fixture.drafts[key(context)] || '', submissions: fixture.submissions.filter(row => row.problemId === id && row.contestId === context.contestId) };
   }
   if(path==='code/format'&&fixture.formatting){
     await sleep(fixture.formatting.delay||0);

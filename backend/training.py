@@ -505,42 +505,75 @@ class TrainingService:
         if not isinstance(record, dict) or not record.get("sessionId"):
             return False
         submission_id = str(record.get("submissionId") or "")
-        if not submission_id.isdecimal():
+        if not submission_id.isdecimal() or int(submission_id)<=0:
             return False
         with self.lock:
             identity = hashlib.sha256((str(record.get("sessionId")) + ":" + submission_id).encode()).hexdigest()
+            metadata = {key:record.get(key) for key in ('language','contestId','reviewId','teamIntentId','receiptBinding')}
+            metadata['codeSha256'] = hashlib.sha256(str(record.get('code') or '').replace('\r\n','\n').strip().encode()).hexdigest()
+            metadata['accountUserId'] = self._ranking_profile()['user_id']
+            encoded = json.dumps(metadata,ensure_ascii=False,sort_keys=True,separators=(',',':'))
+            if len(encoded.encode()) > 16384:
+                return False
+            existing=self.connection.execute('SELECT url,code,problem_id FROM official_pending WHERE id=?',(identity,)).fetchone()
+            if existing and (existing['url']!=(record.get('url') or '') or existing['code']!=(record.get('code') or '') or existing['problem_id']!=(record.get('problemId') or '')):
+                return False
+            key='official-pending:'+identity
+            previous=self.connection.execute('SELECT value FROM account_preferences WHERE key=?',(key,)).fetchone()
+            if previous:
+                try:old=json.loads(previous['value'])
+                except (ValueError,TypeError):return False
+                if not isinstance(old,dict) or old.get('receiptBinding') and old!=metadata:return False
+                if existing and old==metadata:return True
             with self._write() as connection:
                 connection.execute("INSERT INTO official_pending(id,session_id,submission_id,problem_id,url,code,platform,accepted_at) "
-                                   "VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET accepted_at=excluded.accepted_at",
+                                   "VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING",
                                    (identity, str(record.get("sessionId")), submission_id, record.get("problemId") or "",
                                     record.get("url") or "", record.get("code") or "", record.get("platform") or "", record.get("acceptedAt") or ""))
+                existing=connection.execute('SELECT url,code FROM official_pending WHERE id=?',(identity,)).fetchone()
+                if existing['url']!=(record.get('url') or '') or existing['code']!=(record.get('code') or ''):
+                    return False
+                connection.execute('INSERT INTO account_preferences(key,value,updated_at) VALUES(?,?,?) '
+                                   'ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at',
+                                   (key,encoded,iso(self._now())))
         return True
 
-    def clear_official_pending(self, url=None, code=None):
+    def clear_official_pending(self, url=None, code=None, submission_id=None):
         """官方回执已落库后清理对应 pending。"""
         from insights import canonical_url
         key = canonical_url(url)
         with self.lock:
-            rows = self.connection.execute("SELECT id,url FROM official_pending").fetchall()
-            remove = [row["id"] for row in rows if key and canonical_url(row["url"]) == key]
+            rows = self.connection.execute("SELECT id,url,code,submission_id FROM official_pending").fetchall()
+            remove = [row["id"] for row in rows if key and canonical_url(row["url"]) == key
+                      and (code is None or row['code']==code) and (submission_id is None or row['submission_id']==str(submission_id))]
             if remove:
                 with self._write() as connection:
                     connection.executemany("DELETE FROM official_pending WHERE id=?", [(item,) for item in remove])
+                    connection.executemany('DELETE FROM account_preferences WHERE key=?',[('official-pending:'+item,) for item in remove])
 
-    def official_pending(self, url, code):
+    def official_pending(self, url=None, code=None):
         """返回与本机未完成官方回执对应的会话恢复信息（题目 URL 匹配）。"""
         from insights import canonical_url
         key = canonical_url(url)
-        if not key:
+        if url is not None and not key:
             return []
         with self.lock:
             rows = self.connection.execute("SELECT * FROM official_pending").fetchall()
             result = []
             for row in rows:
-                if canonical_url(row["url"]) != key:
+                if url is not None and canonical_url(row["url"]) != key:
                     continue
+                stored=self.connection.execute('SELECT value FROM account_preferences WHERE key=?',('official-pending:'+row['id'],)).fetchone()
+                try:metadata=json.loads(stored['value']) if stored else {}
+                except (ValueError,TypeError):metadata={'_invalid':True}
+                if not isinstance(metadata,dict):metadata={'_invalid':True}
+                if metadata.get('accountUserId') not in (None,self._ranking_profile()['user_id']):
+                    metadata={'_invalid':True}
+                if metadata.get('codeSha256') and metadata['codeSha256']!=hashlib.sha256(row['code'].replace('\r\n','\n').strip().encode()).hexdigest():
+                    metadata={'_invalid':True}
                 result.append({"id": row["problem_id"], "url": row["url"], "submissionId": row["submission_id"],
-                               "sessionId": row["session_id"], "code": row["code"], "acceptedAt": row["accepted_at"]})
+                               "sessionId": row["session_id"], "code": row["code"], "platform":row['platform'],
+                               "acceptedAt": row["accepted_at"], 'metadata':metadata})
             return result
 
     def record_official(self, session, receipt):
@@ -581,6 +614,11 @@ class TrainingService:
                 contest_id = contest['id']
             identity='official-'+hashlib.sha256((str(urlsplit(session['url']).hostname)+'/'+remote).encode()).hexdigest()
             existing=self.connection.execute('SELECT * FROM submissions WHERE id=?',(identity,)).fetchone()
+            if existing and session.get('readOnlyRestore'):
+                if existing['problem_id']!=row['id'] or existing['scope']!='official' or existing['verdict']!=verdict:
+                    return None
+                # Recovery never enriches or recomputes an already final record.
+                return self._submission(existing)
             if not contest_id:
                 from submission_evidence import matching_contest
                 candidate=matching_contest({'problem_id':row['id'],'submitted_at':existing['submitted_at'] if existing else submitted},

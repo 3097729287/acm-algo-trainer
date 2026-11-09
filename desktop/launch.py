@@ -305,6 +305,7 @@ def run_desktop() -> int:
                     on_receipt=server.record_official_receipt,
                     on_pending=server.record_official_pending,
                     on_status=push_official,
+                    recovery_current=lambda owner:server.training is owner,
                 )
                 server.browser_bridge = official
                 from platform_login import PlatformLogins
@@ -318,6 +319,8 @@ def run_desktop() -> int:
                 server.official_acknowledger = official.acknowledge
                 server.official_submitter = official.submit
                 server.official_status = official.status
+                server.official_restorer = official.restore_pending
+                server.official_rechecker = official.retry_recovery
                 server.official_closer = official.close
                 from close_coordinator import CloseCoordinator
                 def begin_close():

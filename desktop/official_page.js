@@ -158,12 +158,12 @@ form.addEventListener('submit',event=>{
 }
 function inspect(){
 lgReceipt?.inspectRejection?.();
-if(login()||cfLoggedOut()||luoguLoggedOut()||lgReceipt?.loggedOut()||ncReceipt?.loggedOut?.()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',...(!ctx.attempted?{attempted:false}:{}),message:ctx.resumeAfterLogin?'请在弹出的浏览器登录原站，登录后会自动填码并继续本次提交。':'请在浏览器登录原站，然后核对本次提交状态。'};
+if(login()||cfLoggedOut()||luoguLoggedOut()||lgReceipt?.loggedOut()||ncReceipt?.loggedOut?.()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',...(!ctx.attempted?{attempted:false}:{}),message:ctx.readOnlyRestore?'请在 ToBe 专用浏览器恢复原站账号，登录后只查询原提交，不会重交。':ctx.resumeAfterLogin?'请在弹出的浏览器登录原站，登录后会自动填码并继续本次提交。':'请在浏览器登录原站，然后核对本次提交状态。'};
 const challengeState=verificationState();if(challengeState)return challengeState;
 observeAtCoderForm();
 // Some native logins return to the site home page instead of the submit URL.
 // Only a positive account marker may resume this unsent submission there.
-if(ctx.resumeAfterLogin&&!ctx.attempted&&!hasEditor()){
+if(ctx.resumeAfterLogin&&(!ctx.attempted||ctx.readOnlyRestore)&&!hasEditor()){
 let luoguOwner=null;try{luoguOwner=JSON.parse(document.querySelector('#lentille-context')?.textContent||'null')?.user?.uid;}catch{}
 const loggedIn=ctx.platform==='AtCoder'?!!acOwner():ctx.platform==='Codeforces'?!!cfOwner():ctx.platform==='牛客'?Number(window.globalInfo?.ownerId)>0:ctx.platform==='洛谷'&&Number(luoguOwner||window._feInjection?.currentUser?.uid)>0;
 if(loggedIn)return {status:'loading',loggedIn:true,message:'登录成功，正在返回本题提交页。'};
@@ -192,6 +192,7 @@ if(!ctx.attempted&&hasEditor()&&['Codeforces','AtCoder'].includes(ctx.platform))
 return (ctx.platform==='洛谷'?(ctx.nativeFormOnly?hasReadyEditor():lgReceipt?.hasSubmitApi()):hasEditor())?{status:ctx.attempted?'submitted':'ready',message:ctx.attempted?'已发送原站提交请求，正在等待受理编号。':'后台连接已就绪。'}:{status:ctx.attempted?'submitted':'loading',message:ctx.attempted?'尚未收到原站受理编号，正在后台查询。':ctx.platform==='洛谷'&&ctx.nativeFormOnly?'正在等待洛谷代码编辑器加载，尚未发送代码。':'正在准备原站提交接口。'};
 }
 async function submit(manual=false){
+if(ctx.readOnlyRestore)return send(inspect());
 if(ctx.attempted)return send(inspect());
 if(manual&&work.manualFilled)return send({status:'awaiting_submit',message:'代码已填入浏览器，请在官网点击提交。结果会自动同步到 TB。'});
 const state=inspect();if(state.status==='needs_login'||!manual&&(['needs_verification','loading'].includes(state.status)||ctx.platform==='AtCoder'&&state.status==='error'))return send(state);

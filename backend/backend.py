@@ -453,21 +453,28 @@ class Handler(BaseHTTPRequestHandler):
                     value = store.extensions.dismiss_all()
                 elif path in ("/api/official/open", "/api/official/submit"):
                     identity = body.get("id")
-                    code = training._code(body.get("code"))
-                    if not code.strip():
-                        raise APIError(400, "请先输入要提交的代码")
                     with training.lock:
                         row = training._row(identity)
-                        training.assert_official_allowed(identity, body.get("contestId"))
-                        training.review_task(identity, body.get('reviewId'), body.get('contestId'), open_task=True)
                     opener = self.server.official_submitter if path.endswith("/submit") else self.server.official_opener
-                    if not callable(opener):
-                        raise APIError(503, "请在 ToBe 桌面版连接浏览器提交")
                     url = row.get("url")
                     if not url:
                         url = training._asset_library().problem(identity).get("url")
                     if not canonical_url(url):
                         raise APIError(422, "没有找到这道题的原站链接")
+                    self.server.begin_official_recovery()
+                    if training.official_pending(url):
+                        recovery=self.server.official_recovery_status(identity,body.get('contestId'),body.get('reviewId'))
+                        if not recovery:raise APIError(409,'本题已有原站提交编号待恢复，请先核对原提交；未发送新代码')
+                        recheck=getattr(self.server,'official_rechecker',None)
+                        value=recheck(recovery['sessionId'],visible=path.endswith('/open')) if callable(recheck) else recovery
+                        self.send_json(200,value)
+                        return
+                    code = training._code(body.get("code"))
+                    if not code.strip():raise APIError(400,"请先输入要提交的代码")
+                    if not callable(opener):raise APIError(503,"请在 ToBe 桌面版连接浏览器提交")
+                    with training.lock:
+                        training.assert_official_allowed(identity,body.get('contestId'))
+                        training.review_task(identity,body.get('reviewId'),body.get('contestId'),open_task=True)
                     preparation = getattr(self.server, 'browser_preparation', None)
                     if path.endswith('/submit') and preparation is not None:
                         preparation.check_submission(url)
@@ -590,6 +597,7 @@ class Handler(BaseHTTPRequestHandler):
             elif path == "/api/software-update":
                 self.send_json(200, self.server.software_updates.snapshot())
             elif path == "/api/workspace":
+                self.server.begin_official_recovery()
                 self.send_json(200, self.server.training.workspace())
             elif path == '/api/navigation':
                 self.send_json(200, self.server.training.navigation())
@@ -702,9 +710,13 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.training.leaderboard.social())
             elif path == "/api/problem":
                 query = parse_qs(target.query)
-                self.send_json(200, self.server.training.problem(query.get("id", [None])[0], query.get("contestId", [None])[0],
+                self.server.begin_official_recovery()
+                value=self.server.training.problem(query.get("id", [None])[0], query.get("contestId", [None])[0],
                                                                background=query.get('background', ['0'])[0]=='1',
-                                                               refresh=query.get('refresh', ['0'])[0]=='1', review_id=query.get('reviewId', [None])[0]))
+                                                               refresh=query.get('refresh', ['0'])[0]=='1', review_id=query.get('reviewId', [None])[0])
+                recovery=self.server.official_recovery_status(query.get('id',[None])[0],query.get('contestId',[None])[0],query.get('reviewId',[None])[0])
+                if recovery:value['officialRecovery']=recovery
+                self.send_json(200,value)
             elif path == "/api/problem/translate":
                 query = parse_qs(target.query)
                 self.send_json(200, self.server.translate_problem(query.get("id", [None])[0], query.get("contestId", [None])[0]))
@@ -970,18 +982,60 @@ class LocalServer(ThreadingHTTPServer):
                   "acceptedAt": session.get("acceptedAt"), "problemId": context["id"],
                   "url": context["url"], "code": session.get('submittedCode', '') if session.get('manual') else context["code"],
                   "platform": session.get("platform")}
+        if context.get('_legacyRestore') and session.get('_recoveryVerified'):
+            context['language']=session.get('language','cpp17')
+        record.update({key:context.get(key) for key in ('language','contestId','reviewId','teamIntentId')})
+        if session.get('receiptBinding'):record['receiptBinding']=session['receiptBinding']
         try:
-            context.get('_training', self.training).save_official_pending(record)
+            if not context.get('_training', self.training).save_official_pending(record):return None
         except Exception:
             return None
         return record
 
-    def resume_official_sessions(self, url, code):
-        """启动后按题目 URL + 代码恢复未完成官方回执，供桥重新绑定。"""
+    def resume_official_sessions(self, url=None, code=None):
+        """读取本账号原始 pending；新编辑器代码不能绕过尚未确认的旧编号。"""
         try:
             return self.training.official_pending(url, code)
         except Exception:
             return []
+
+    def begin_official_recovery(self):
+        restorer=getattr(self,'official_restorer',None)
+        if not callable(restorer):return
+        training=self.training
+        from reviews import ReviewScheduler
+        records=[]
+        for record in self.resume_official_sessions():
+            try:
+                with training.lock:
+                    row=training._row(record['id'])
+                    if not row.get('url') or canonical_url(row['url'])!=canonical_url(record['url']):continue
+                    metadata=record.get('metadata') or {}
+                    review=metadata.get('reviewId') or ReviewScheduler(training).read('review-session:'+record['sessionId'])
+                context={'id':record['id'],'sessionId':record['sessionId'],'url':record['url'],'code':record['code'],
+                    'language':metadata.get('language') or 'cpp17','contestId':metadata.get('contestId'),'reviewId':review,
+                    'teamIntentId':metadata.get('teamIntentId'),'acceptedAt':record['acceptedAt'],
+                    'readOnlyRestore':True,'_legacyRestore':not metadata.get('receiptBinding'),'_training':training}
+                with self.official_session_lock:
+                    previous=self.official_sessions.setdefault(record['sessionId'],context)
+                    if previous.get('_training') is not training:continue
+                records.append(record)
+            except (ServiceError,ValueError,KeyError,TypeError):continue
+        restorer(records,owner=training)
+
+    def official_recovery_status(self, identity, contest_id=None, review_id=None):
+        status=getattr(self,'official_status',None)
+        if not callable(status):return None
+        with self.official_session_lock:
+            contexts=[(key,value) for key,value in self.official_sessions.items() if value.get('_training') is self.training
+                      and value.get('readOnlyRestore') and value.get('id')==identity and value.get('contestId')==contest_id
+                      and value.get('reviewId')==review_id]
+        for key,_ in reversed(contexts):
+            try:
+                value=status(key)
+                if not value.get('windowClosed'):return value
+            except ServiceError:pass
+        return None
 
     def record_official_receipt(self, identity, receipt):
         if not isinstance(receipt, dict) or receipt.get('status') != 'finished':
@@ -1004,7 +1058,7 @@ class LocalServer(ThreadingHTTPServer):
                 record_receipt(training, saved, session, receipt)
             if saved and receipt.get('submissionId'):
                 try:
-                    training.clear_official_pending(url=session.get('url'), code=session.get('code'))
+                    training.clear_official_pending(url=session.get('url'), code=session.get('code'),submission_id=receipt['submissionId'])
                 except Exception:
                     pass
             return saved
@@ -1183,6 +1237,8 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
         server.official_opener = official_opener
         server.original_virtual_starter = None
         server.official_submitter, server.official_status, server.official_closer = official_submitter, official_status, official_closer
+        server.official_restorer = None
+        server.official_rechecker = None
         server.official_sessions = {}
         server.official_pending_receipts = {}
         server.official_session_lock = threading.RLock()

@@ -656,6 +656,16 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     } catch { /* Keep the genuine official receipt visible if a refresh fails. */ }
   }, []);
 
+  useEffect(()=>{
+    const recovered=problem?.officialRecovery,record=activeRecord.current,current=officialRef.current;
+    if(!recovered?.readOnlyRestore||!recovered.sessionId||!record?.loaded||record.id!==problem.id)return;
+    if(current&&current.record===record&&(!current.recovered||current.id===recovered.sessionId))return;
+    record.accountOwner=ownerRef.current;
+    officialRef.current={id:recovered.sessionId,record,status:recovered.status,api:apiRef.current,recovered:true};
+    setOfficialSession(recovered);setOfficialPollError('');setConsoleOpen(true);setConsoleTab('result');
+    announceOfficialCompletion(recovered,record);
+  },[problem?.officialRecovery,contextKey,announceOfficialCompletion]);
+
   useEffect(() => {
     const receive = event => {
       const session = event.detail, current = officialRef.current;

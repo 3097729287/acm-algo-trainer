@@ -3,12 +3,17 @@
 // form parameters also checked against public terminal 2.0.118 (2026-10-29).
 function installNowcoderReceipts(ctx, report) {
   if (ctx.platform !== '牛客' || location.hostname !== 'ac.nowcoder.com') return null;
-  if (window.__tbNowcoder?.sessionId === ctx.sessionId) return window.__tbNowcoder;
-  const state = { sessionId: ctx.sessionId, armed: false, pending: null, receipt: null, early: [] };
+  if (window.__tbNowcoder?.sessionId === ctx.sessionId && window.__tbNowcoder.protocol===3) {window.__tbNowcoder.resume?.(ctx);return window.__tbNowcoder;}
+  const state = { protocol:3, sessionId: ctx.sessionId, armed: false, pending: null, receipt: null, early: [] };
   state.confirmedIds = new Set();
   window.__tbNowcoder = state;
   const notify = value => {
     if (value.status === 'finished' && state.pending) value = {...value, owner:state.pending.owner, url:ctx.originalUrl, acceptedAt:state.pending.acceptedAt};
+    if (state.pending && state.statusUrl && ['judging','finished'].includes(value.status)) {
+      const url=new URL(state.statusUrl),query={};
+      for(const key of ['tagId','subTagId','userId','appId','submitType'])if(url.searchParams.has(key))query[key]=url.searchParams.get(key);
+      value={...value,receiptBinding:{version:1,platform:'牛客',owner:state.pending.owner,identity:state.pending.identity,origin:url.origin,statusPath:url.pathname,query}};
+    }
     state.receipt = value;
     if (report) report(value);
     else chrome.webview.postMessage(JSON.stringify({ tbOfficial: true, sessionId: ctx.sessionId, ...value }));
@@ -43,12 +48,13 @@ function installNowcoderReceipts(ctx, report) {
     return contest && String(info.contestId) === contest[1] ? {kind:'contest',questionId:id(info.questionId),originalUrl:original.href} : null;
   };
   state.pageMatches = () => !!pageIdentity();
-  state.loggedOut = () => state.isGlobalTarget() && (window.isLogin === false || !id(window.globalInfo?.ownerId));
+  state.loggedOut = () => state.isGlobalTarget() && (window.isLogin === false || window.globalInfo && !id(window.globalInfo.ownerId));
   const requestInfo = (url, method, body) => {
     const target = parseUrl(url), params = { ...Object.fromEntries(target?.searchParams || []), ...fields(body) };
     if (!allowed(target)) return null;
     if (statusPaths.has(target.pathname)) return { kind: 'status', target, params: { ...Object.fromEntries(target.searchParams), ...params } };
     const passive = ctx.sessionId === 'unbound';
+    if(ctx.readOnlyRestore)return null;
     if ((!state.armed && !passive) || method.toUpperCase() !== 'POST' || !submitPaths.has(target.pathname)) return null;
     const identity = pageIdentity(), info = window.pageInfo;
     if (!identity) return null;
@@ -172,6 +178,27 @@ function installNowcoderReceipts(ctx, report) {
     const verdict = evaluateStatus(state.pending, request.params, data);
     if (verdict) finish(state.pending.submissionId,verdict,data);
   };
+  state.resume = restored => {
+    if(!restored.readOnlyRestore)return;
+    const b=restored.receiptBinding,sid=id(restored.submissionId),current=pageIdentity();
+    if(!b||b.version!==1||b.platform!=='牛客'||!sid||!current||!id(window.globalInfo?.ownerId))return;
+    if(state.loggedOut())return;
+    if(b.owner!==String(window.globalInfo.ownerId)||b.identity?.kind!=='global'||current.kind!=='global'||
+       ['originalUrl','questionId','problemId'].some(key=>b.identity[key]!==current[key])||state.loggedOut()) {
+      notify({status:'unconfirmed',submissionId:sid,attempted:true,message:'原提交账号或题目绑定不符，已保留编号；只查询，不会重交。'});return;
+    }
+    const query=b.query||{},allowedKeys=['tagId','subTagId','userId','appId','submitType'];
+    if(Object.keys(query).some(key=>!allowedKeys.includes(key))||String(query.tagId)!=='4'||
+       ![['https://ac.nowcoder.com','/nccommon/status'],['https://ac.nowcoder.com','/status'],['https://victorinox.nowcoder.com','/api/service/judge/submit-status']].some(([origin,path])=>b.origin===origin&&b.statusPath===path)||
+       b.origin==='https://ac.nowcoder.com'&&String(query.subTagId)!=='0'||
+       b.origin==='https://victorinox.nowcoder.com'&&[...Object.entries({userId:b.owner,appId:'6',submitType:'1'})].some(([key,value])=>String(query[key])!==value))return;
+    if(state.pending?.submissionId===sid)return;
+    state.pending={submissionId:sid,owner:b.owner,identity:b.identity,origin:b.origin,acceptedAt:restored.acceptedAt,...query};
+    state.statusUrl=new URL(b.statusPath+'?'+new URLSearchParams({...query,[b.statusPath==='/api/service/judge/submit-status'?'id':'submissionId']:sid}),b.origin).href;
+    state.attempted=true;state.armed=false;
+    notify({status:'judging',submissionId:sid,attempted:true,acceptedAt:restored.acceptedAt,message:'正在恢复查询牛客原提交 #'+sid+'，不会重新发送代码。'});
+  };
+  state.resume(ctx);
   const originalFetch = window.fetch;
   // Global problems always use the site's real submit control. In particular,
   // do not synthesize a contestId or bypass the native CSRF/captcha handling.
