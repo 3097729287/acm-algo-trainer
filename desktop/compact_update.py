@@ -20,6 +20,10 @@ ROOT_FILES={'ToBe.exe','ToBeLoader.exe','TB新版.exe','VERSION','BUILD-INFO.jso
 PREFIXES=('_internal/','frontend/dist/','resources/','browser-extension/','licenses/','compiler/')
 MAX_OUTPUT=2*1024**3
 MAX_CACHE=8*1024**3
+PUBLIC_SEED='data/library.sqlite3'
+PUBLIC_IDENTITY='resources/library-seed-identity.json'
+PUBLIC_DESCRIPTOR='resources/public-library-update.json'
+PUBLIC_PROFILE_FILES={PUBLIC_SEED,PUBLIC_IDENTITY,PUBLIC_DESCRIPTOR}
 
 
 class BaseMismatch(ValueError):pass
@@ -30,6 +34,56 @@ def sha(path):
 
 
 def valid_sha(value):return isinstance(value,str) and re.fullmatch('[a-f0-9]{64}',value)
+
+
+def preserved_public_profiles(value):
+    if 'preservedPublicProfiles' not in value:return None
+    policy=value['preservedPublicProfiles']
+    if (not isinstance(policy,dict) or set(policy)!={'targetSeedSha256','combinations'}
+            or not valid_sha(policy['targetSeedSha256']) or not isinstance(policy['combinations'],list)
+            or not 1<=len(policy['combinations'])<=9):raise ValueError('Invalid preserved public profiles')
+    seen=set()
+    for combination in policy['combinations']:
+        if (not isinstance(combination,dict) or not all(isinstance(name,str) for name in combination) or not PUBLIC_PROFILE_FILES<=set(combination)
+                or len(combination) not in (3,4) or not all(valid_sha(sha) for sha in combination.values())):
+            raise ValueError('Invalid preserved public profile combination')
+        for name in set(combination)-PUBLIC_PROFILE_FILES:
+            match=re.fullmatch(r'resources/public-library-update-([a-f0-9]{64})\.sqlite3\.gz',name)
+            if not match or match[1]!=combination[name]:raise ValueError('Invalid preserved public payload binding')
+        if set(combination)&set(value['files']):raise ValueError('A preserved public profile cannot be replaced')
+        key=tuple(sorted(combination.items()))
+        if key in seen:raise ValueError('Duplicate preserved public profile')
+        seen.add(key)
+    return policy
+
+
+def check_public_profile(root,policy,current):
+    for combination in policy['combinations']:
+        # Filter with the small descriptor first. Every path uses the caller's
+        # hash cache, so a large physical seed is not read per combination.
+        names=[PUBLIC_DESCRIPTOR,PUBLIC_IDENTITY,*sorted(set(combination)-PUBLIC_PROFILE_FILES),PUBLIC_SEED]
+        if not all(current(name)==combination[name] for name in names):continue
+        path=public_path(root,PUBLIC_DESCRIPTOR)
+        if path.stat().st_size>256*1024:raise BaseMismatch('公共题库描述过大，原文件保留')
+        raw=path.read_bytes()
+        try:descriptor=json.loads(raw)
+        except (ValueError,UnicodeError):raise BaseMismatch('公共题库描述无效，原文件保留') from None
+        if (hashlib.sha256(raw).hexdigest()!=combination[PUBLIC_DESCRIPTOR] or not isinstance(descriptor,dict)
+                or descriptor.get('schema')!=1 or descriptor.get('targetSeedSha256')!=policy['targetSeedSha256']):
+            raise BaseMismatch('公共题库目标身份不匹配，原文件保留')
+        if len(combination)==3:
+            if (set(descriptor)!={'schema','mode','targetSeedSha256'} or descriptor.get('mode')!='complete-seed'
+                    or combination[PUBLIC_SEED]!=policy['targetSeedSha256']):
+                raise BaseMismatch('完整公共题库组合不匹配，原文件保留')
+        else:
+            payload=next(iter(set(combination)-PUBLIC_PROFILE_FILES))
+            if (descriptor.get('mode')=='complete-seed' or not isinstance(descriptor.get('baseSeeds'),list)
+                    or combination[PUBLIC_SEED] not in descriptor['baseSeeds'] or descriptor.get('payload')!=Path(payload).name
+                    or descriptor.get('payloadSha256')!=combination[payload] or type(descriptor.get('payloadBytes')) is not int
+                    or not 0<descriptor['payloadBytes']<=32*1024**2 or public_path(root,payload).stat().st_size!=descriptor['payloadBytes']):
+                raise BaseMismatch('公共题库描述与数据块不匹配，原文件保留')
+        return
+    raise BaseMismatch('当前公共题库不属于已审核组合，原文件保留')
 
 
 def public_path(root,name,*,filesystem=True):
@@ -58,6 +112,7 @@ def load(archive,version):
     if not isinstance(value,dict) or value.get('schema')!=1 or value.get('version')!=version or not re.fullmatch(r'\d+\.\d+\.\d+',version):raise ValueError('紧凑更新版本无效')
     files,payloads,anchors=value.get('files'),value.get('payloads'),value.get('anchors')
     if not isinstance(files,dict) or 'VERSION' not in files or len(files)>15000 or not isinstance(payloads,dict) or not isinstance(anchors,dict) or not anchors:raise ValueError('紧凑更新清单无效')
+    preserved_public_profiles(value)
     names=[e.filename for e in entries]
     if len(names)!=len(set(names)) or set(names)!={'compact.json',*payloads}:raise ValueError('紧凑更新包含未声明文件')
     if len({name.casefold() for name in files})!=len(files):raise ValueError('紧凑更新路径重名')
@@ -87,6 +142,8 @@ def select(root,value):
         if name not in hashes:
             path=public_path(root,name);hashes[name]=sha(path) if path.is_file() else None
         return hashes[name]
+    policy=preserved_public_profiles(value)
+    if policy is not None:check_public_profile(root,policy,current)
     for name,values in value['anchors'].items():
         if current(name) not in values:raise BaseMismatch('当前程序需要使用完整安装包修复：'+name)
     result={}
@@ -173,6 +230,11 @@ def trim_recoveries(app,cache):
 def apply(bundle,app,version,*,check=False,fail_after=None):
     app=Path(app).resolve(strict=True);bundle=Path(bundle).resolve(strict=True)
     if not (app/'VERSION').is_file():raise BaseMismatch('此目录不是现有 ToBe 安装')
+    # Reject a new combination-policy package before creating a cache/lock or
+    # recovery journal. Revalidate inside the transaction after any recovery.
+    with zipfile.ZipFile(bundle) as archive:
+        preflight=load(archive,version)
+        if 'preservedPublicProfiles' in preflight:select(app,preflight)
     cache=app/'cache/updates'
     for path in [app/'cache',cache]:
         if path.exists() and (path.is_symlink() or getattr(path.lstat(),'st_file_attributes',0)&0x400):raise ValueError('更新缓存路径无效')
