@@ -1,12 +1,12 @@
 """The unchanged compact installer keeps and authenticates its public base."""
 from contextlib import closing
-import json,shutil,sqlite3,sys,tempfile,unittest,zipfile
+import hashlib,json,shutil,sqlite3,sys,tempfile,unittest,zipfile
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'backend'),str(ROOT/'backend/common'),str(ROOT/'scripts'),str(ROOT/'desktop')]
 from library import LibraryDatabase
 from test_library import record
-from seed_identity import describe
+from seed_identity import describe,identity
 from build_public_library_update import build as build_rows
 from build_compact_bundle import build
 from build_public_row_profile import build as build_profile
@@ -45,6 +45,30 @@ class PublicRowBundleTests(unittest.TestCase):
         before=seed.read_bytes()
         with self.assertRaises(BaseMismatch):apply(self.bundle,self.base,'1.6.11')
         self.assertEqual((self.base/'VERSION').read_text(),'1.6.9');self.assertEqual(seed.read_bytes(),before)
+    def test_reviewed_exact_stale_hint_is_preserved_only_when_runtime_hashes_the_actual_seed(self):
+        seed=self.base/'data/library.sqlite3';marker=self.base/'resources/library-seed-identity.json'
+        value=describe(seed);value['bytes']-=4096;value['sha256']='0'*64;marker.write_text(json.dumps(value))
+        before=marker.read_bytes();pair=(describe(seed)['sha256'],hashlib.sha256(before).hexdigest())
+        with self.assertRaisesRegex(ValueError,'identity does not match'):
+            build(self.target,[self.base],self.root/'unreviewed.zip',self.root/'unused-tool',preserve_public_seed=True)
+        output=self.root/'reviewed.zip'
+        result=build(self.target,[self.base],output,self.root/'unused-tool',preserve_public_seed=True,approved_stale_seed_identities=[pair])
+        self.assertEqual(identity(seed,descriptor=marker),pair[0])
+        with zipfile.ZipFile(output) as archive:
+            manifest=load(archive,'1.6.11');self.assertEqual(manifest['anchors']['resources/library-seed-identity.json'],[pair[1]])
+        self.assertTrue(apply(output,self.base,'1.6.11')['ok'])
+        self.assertEqual(marker.read_bytes(),before);self.assertEqual(describe(seed)['sha256'],pair[0])
+        self.assertTrue(result['retainedStaleSeedIdentities'][0]['runtimeUsesVerifiedFullHash'])
+    def test_even_review_cannot_accept_a_hint_that_would_return_the_wrong_seed_fingerprint(self):
+        seed=self.base/'data/library.sqlite3';marker=self.base/'resources/library-seed-identity.json'
+        value=describe(seed);value['sha256']='0'*64;marker.write_text(json.dumps(value))
+        pair=(describe(seed)['sha256'],hashlib.sha256(marker.read_bytes()).hexdigest())
+        with self.assertRaisesRegex(ValueError,'identity does not match'):
+            build(self.target,[self.base],self.root/'unsafe-hint.zip',self.root/'unused-tool',preserve_public_seed=True,approved_stale_seed_identities=[pair])
+        self.assertEqual((self.base/'VERSION').read_text(),'1.6.9')
+    def test_unrelated_identity_approval_cannot_change_the_ordinary_builder_path(self):
+        with self.assertRaisesRegex(ValueError,'approval was not used'):
+            build(self.target,[self.base],self.root/'unrelated.zip',self.root/'unused-tool',preserve_public_seed=True,approved_stale_seed_identities=[('0'*64,'1'*64)])
     def test_interrupted_program_replacement_restores_program_and_preserves_seed(self):
         seed=self.base/'data/library.sqlite3';before=seed.read_bytes()
         with self.assertRaises(OSError):apply(self.bundle,self.base,'1.6.11',fail_after=0)

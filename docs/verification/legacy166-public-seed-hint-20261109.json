@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "version": "1.6.6",
+  "seedSha256": "c794e0bc3d0ae323eadbfefd2e507acbd5971d2e3ea59d15d239c9b523ea1fe7",
+  "seedBytes": 432037888,
+  "descriptorSha256": "f7175f50b6b4fc857bd02bdb405b04a3cd60f38f6054f91865f4fec79c7cf080",
+  "descriptorHint": {
+    "bytes": 421097472,
+    "headerSha256": "e9dc25c70fe3d3be22e2ddcc8909ccae492120279cf99703a9657f953a714352",
+    "schema": 1,
+    "sha256": "204af90a28e130d562c3573c48d840fe2ac7e9312498eaf4c93689922686d448"
+  },
+  "publicOnlyTables": 14,
+  "progressFieldsEmpty": true,
+  "explicitExactReview": true,
+  "seedAndDescriptorRemainUnchanged": true,
+  "runtimeSizeHeaderMismatchRequiresActualFullHash": true,
+  "tests": {
+    "passed": 21,
+    "seconds": 4.283
+  },
+  "ordinaryApplicationTouched": false
+}
