@@ -19,7 +19,8 @@ def trusted_asset(item,version):
         if sources['repository']!='3097729287/acm-algo-trainer' or not isinstance(sources['commit'],str) or not re.fullmatch('[a-f0-9]{40}',sources['commit']):raise ValueError('Invalid CDN ownership')
         if 'Compact-Update-' not in name or any(sources[key]!=item[key] for key in ('name','size','sha256')) or type(sources['size']) is not int:raise ValueError('CDN asset identity mismatch')
         expected='https://cdn.jsdelivr.net/gh/'+sources['repository']+'@'+sources['commit']+'/'+name
-        if sources['urls']!=[expected]:raise ValueError('Invalid pinned CDN URL')
+        owned_raw='https://raw.githubusercontent.com/'+sources['repository']+'/'+sources['commit']+'/'+name
+        if sources['urls'] not in ([expected],[expected,owned_raw]):raise ValueError('Invalid pinned CDN URL')
         result['downloadSources']={**sources,'urls':list(sources['urls'])}
     return result
 

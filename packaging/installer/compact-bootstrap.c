@@ -51,7 +51,7 @@ static void progress(void) {
 
 int WINAPI wWinMain(HINSTANCE instance,HINSTANCE previous,PWSTR command,int show) {
     int count=0;LPWSTR *args=CommandLineToArgvW(GetCommandLineW(),&count);
-    WCHAR app[32768]=L"";BOOL silent=FALSE;
+    WCHAR app[32768]=L"";BOOL silent=FALSE,noRestart=FALSE;
     for(int i=1;i<count;i++){
         if(!_wcsnicmp(args[i],L"/DIR=",5)){
             if(wcslen(args[i]+5)>30000||wcschr(args[i]+5,L'"')||wcschr(args[i]+5,L'\n')){LocalFree(args);return 2;}
@@ -60,6 +60,7 @@ int WINAPI wWinMain(HINSTANCE instance,HINSTANCE previous,PWSTR command,int show
         /* Automatic callers use /SILENT to suppress questions. Keep the real
            progress visible; only /VERYSILENT explicitly hides all windows. */
         if(!_wcsicmp(args[i],L"/VERYSILENT"))silent=TRUE;
+        if(!_wcsicmp(args[i],L"/NORESTART"))noRestart=TRUE;
     }
     LocalFree(args);
     WCHAR temporary[MAX_PATH];if(!GetTempPathW(MAX_PATH,temporary))return 2;
@@ -71,7 +72,7 @@ int WINAPI wWinMain(HINSTANCE instance,HINSTANCE previous,PWSTR command,int show
     WCHAR windows[MAX_PATH],exe[MAX_PATH];if(!GetSystemDirectoryW(windows,MAX_PATH))return 2;
     swprintf(exe,MAX_PATH,L"%ls\\WindowsPowerShell\\v1.0\\powershell.exe",windows);
     WCHAR line[32768];
-    if(swprintf(line,32768,L"\"%ls\" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"%ls\\apply.ps1\" -WorkDir \"%ls\" -AppDir \"%ls\"",exe,work,work,app)<0)return 2;
+    if(swprintf(line,32768,L"\"%ls\" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"%ls\\apply.ps1\" -WorkDir \"%ls\" -AppDir \"%ls\"%ls",exe,work,work,app,(!silent&&!noRestart)?L" -Restart":L"")<0)return 2;
     STARTUPINFOW startup={0};PROCESS_INFORMATION process={0};startup.cb=sizeof(startup);startup.dwFlags=STARTF_USESHOWWINDOW;startup.wShowWindow=SW_HIDE;
     if(!CreateProcessW(exe,line,NULL,NULL,FALSE,CREATE_NO_WINDOW,NULL,work,&startup,&process))return 2;
     CloseHandle(process.hThread);

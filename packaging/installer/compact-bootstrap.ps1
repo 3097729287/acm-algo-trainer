@@ -1,7 +1,7 @@
-param([string]$WorkDir,[string]$AppDir)
+param([string]$WorkDir,[string]$AppDir,[switch]$Restart)
 $ErrorActionPreference='Stop'
 Set-StrictMode -Version Latest
-$result=@{ok=$false;privateJournalDirectlyWritten=$false;credentialsRead=$false}
+$result=@{ok=$false;privateJournalDirectlyWritten=$false;credentialsRead=$false;restartRequested=[bool]$Restart;appStarted=$false}
 $clock=[Diagnostics.Stopwatch]::StartNew()
 function Progress([int]$stage,[long]$done=0,[long]$total=0){[IO.File]::WriteAllText((Join-Path $WorkDir 'progress.txt'),"$stage|$done|$total",[Text.Encoding]::ASCII)}
 function Hash([string]$path){return (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant()}
@@ -21,8 +21,9 @@ function Get-DownloadMirrors($asset){
     if([string]$sources.repository -cne '3097729287/acm-algo-trainer' -or [string]$sources.commit -cnotmatch '\A[a-f0-9]{40}\z' -or [string]$sources.name -cne [string]$asset.name -or [long]$sources.size -ne [long]$asset.size -or [string]$sources.sha256 -cne [string]$asset.sha256){throw 'Untrusted update source binding'}
     $urls=@($sources.urls)
     $expected='https://cdn.jsdelivr.net/gh/3097729287/acm-algo-trainer@'+$sources.commit+'/'+$asset.name
-    if($urls.Count -ne 1 -or $urls[0] -isnot [string] -or $urls[0] -cne $expected){throw 'Untrusted update source URL'}
-    return [string]$urls[0]
+    $expectedRaw='https://raw.githubusercontent.com/3097729287/acm-algo-trainer/'+$sources.commit+'/'+$asset.name
+    if($urls.Count -lt 1 -or $urls.Count -gt 2 -or $urls[0] -isnot [string] -or $urls[0] -cne $expected -or ($urls.Count -eq 2 -and ($urls[1] -isnot [string] -or $urls[1] -cne $expectedRaw))){throw 'Untrusted update source URL'}
+    return [string[]]$urls
 }
 try{
     Progress 0
@@ -268,6 +269,10 @@ public static class ToBeDownload {
         $result.prepareStartupSeconds=$prepareClock.Elapsed.TotalSeconds
     }
     if([IO.File]::ReadAllText((Join-Path $AppDir 'VERSION')).Trim() -ne $release.version){throw 'Installed version mismatch'}
+    if($Restart){
+        Start-Process -FilePath (Join-Path $AppDir 'ToBe.exe') -WorkingDirectory $AppDir -WindowStyle Normal -ErrorAction Stop
+        $result.appStarted=$true
+    }
     $result.ok=$true;$result.fullFallback=$full;$result.version=$release.version
 }catch{$result.error=$_.Exception.Message}
 $result.seconds=$clock.Elapsed.TotalSeconds

@@ -65,6 +65,21 @@ class FastUpdateBridgeTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     trusted_asset(asset, '1.6.11')
 
+    def test_second_source_is_the_same_pinned_owned_public_file(self):
+        cdn = self.sources['urls'][0]
+        raw = 'https://raw.githubusercontent.com/3097729287/acm-algo-trainer/' + self.sources['commit'] + '/' + self.asset['name']
+        paired = {**self.asset, 'downloadSources': {**self.sources, 'urls': [cdn, raw]}}
+        self.assertEqual(trusted_asset(paired, '1.6.11')['downloadSources']['urls'], [cdn, raw])
+        for urls in ([raw], [raw, cdn], [cdn, cdn], [cdn, raw, raw],
+                     [cdn, raw.replace('/3097729287/', '/other-owner/')],
+                     [cdn, raw.replace(self.sources['commit'], 'main')],
+                     [cdn, raw.replace(self.asset['name'], 'another.zip')],
+                     [cdn, raw + '?token=forbidden'],
+                     [cdn, raw.replace('https:', 'http:')]):
+            with self.subTest(urls=urls):
+                with self.assertRaises(ValueError):
+                    trusted_asset({**self.asset, 'downloadSources': {**self.sources, 'urls': urls}}, '1.6.11')
+
     def test_malformed_binding_cannot_be_silently_discarded(self):
         for sources in [None, {}, [], {**self.sources, 'extra': 'unexpected'}, {k: v for k, v in self.sources.items() if k != 'sha256'}]:
             with self.subTest(sources=sources):

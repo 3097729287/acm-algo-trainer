@@ -19,6 +19,7 @@ if(-not $match.Success){throw 'Production downloader C# was not found'}
 $valid=@'
 {"name":"ToBe-Compact-Update-1.6.7-to-1.6.11-win64.zip","size":4671854,"sha256":"72f9a33edc0adcc0f3e8a13987ee82f89ae9a1de304fbf234b7c132984f4c73e","url":"https://47.82.84.74/updates/assets/1.6.11/ToBe-Compact-Update-1.6.7-to-1.6.11-win64.zip","downloadSources":{"repository":"3097729287/acm-algo-trainer","commit":"d54ac2e65143b240d2f559588de6bcb8ed17123b","name":"ToBe-Compact-Update-1.6.7-to-1.6.11-win64.zip","size":4671854,"sha256":"72f9a33edc0adcc0f3e8a13987ee82f89ae9a1de304fbf234b7c132984f4c73e","urls":["https://cdn.jsdelivr.net/gh/3097729287/acm-algo-trainer@d54ac2e65143b240d2f559588de6bcb8ed17123b/ToBe-Compact-Update-1.6.7-to-1.6.11-win64.zip"]}}
 '@
+$rawPinned='https://raw.githubusercontent.com/3097729287/acm-algo-trainer/d54ac2e65143b240d2f559588de6bcb8ed17123b/ToBe-Compact-Update-1.6.7-to-1.6.11-win64.zip'
 $policyResults=@()
 $cases=@(
     @{name='owned exact immutable ZIP accepted';reject=$false;change={param($asset)}},
@@ -38,13 +39,42 @@ $cases=@(
     @{name='missing binding rejected';reject=$true;change={param($asset)$asset.downloadSources.PSObject.Properties.Remove('sha256')}},
     @{name='null binding rejected';reject=$true;change={param($asset)$asset.downloadSources=$null}},
     @{name='commit with trailing newline rejected';reject=$true;change={param($asset)$asset.downloadSources.commit+="`n"}},
-    @{name='ZIP name with trailing newline rejected';reject=$true;change={param($asset)$asset.name+="`n";$asset.downloadSources.name=$asset.name}}
+    @{name='ZIP name with trailing newline rejected';reject=$true;change={param($asset)$asset.name+="`n";$asset.downloadSources.name=$asset.name}},
+    @{name='owned exact immutable CDN and raw ZIP pair accepted';reject=$false;pair=$true;change={param($asset)}},
+    @{name='raw source wrong owner rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls[1]=$asset.downloadSources.urls[1].Replace('/3097729287/','/someone/')}},
+    @{name='raw source wrong repository rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls[1]=$asset.downloadSources.urls[1].Replace('/acm-algo-trainer/','/other-repository/')}},
+    @{name='raw source branch rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls[1]=$asset.downloadSources.urls[1].Replace($asset.downloadSources.commit,'main')}},
+    @{name='raw source different immutable commit rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls[1]=$asset.downloadSources.urls[1].Replace($asset.downloadSources.commit,('0'*40))}},
+    @{name='raw source different filename rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls[1]=$asset.downloadSources.urls[1].Replace($asset.name,'other.zip')}},
+    @{name='reordered pinned source pair rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls=@($asset.downloadSources.urls[1],$asset.downloadSources.urls[0])}},
+    @{name='duplicate raw source pair rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls=@($asset.downloadSources.urls[1],$asset.downloadSources.urls[1])}},
+    @{name='raw source without first CDN rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls=@($asset.downloadSources.urls[1])}},
+    @{name='third source candidate rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls+=@($asset.downloadSources.urls[1])}},
+    @{name='raw source plaintext HTTP rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls[1]=$asset.downloadSources.urls[1].Replace('https://','http://')}},
+    @{name='raw source credential URL rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls[1]=$asset.downloadSources.urls[1].Replace('https://','https://user:password@')}},
+    @{name='raw source query rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls[1]+='?download=1'}},
+    @{name='raw source fragment rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls[1]+='#payload'}},
+    @{name='raw source lookalike host rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls[1]=$asset.downloadSources.urls[1].Replace('raw.githubusercontent.com','raw.githubusercontent.com.invalid')}},
+    @{name='raw source encoded filename rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls[1]=$asset.downloadSources.urls[1].Replace('/ToBe-','/%54oBe-')}},
+    @{name='raw source trailing newline rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls[1]+="`n"}},
+    @{name='raw source nonstring value rejected';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.urls[1]=17}},
+    @{name='complete installer cannot acquire pinned source permission';reject=$true;pair=$true;change={param($asset)$asset.name='ToBe-Full-Setup-1.6.11-win64.exe';$asset.downloadSources.name=$asset.name;$asset.downloadSources.urls=@($asset.downloadSources.urls|ForEach-Object{$_ -replace 'ToBe-Compact-Update-1\.6\.7-to-1\.6\.11-win64\.zip',$asset.name})}},
+    @{name='pair still requires exact copied SHA binding';reject=$true;pair=$true;change={param($asset)$asset.downloadSources.sha256='0'*64}}
 )
 foreach($case in $cases){
     $asset=$valid|ConvertFrom-Json
+    if($case.ContainsKey('pair')){$asset.downloadSources.urls=@($asset.downloadSources.urls[0],$rawPinned)}
     & $case.change $asset
     $rejected=$false;$errorText=$null
-    try{$urls=@(Get-DownloadMirrors $asset);if(-not $case.reject -and $asset.PSObject.Properties['downloadSources'] -and $urls.Count -ne 1){throw 'Expected exactly one pinned mirror'}}catch{$rejected=$true;$errorText=$_.Exception.Message}
+    try{
+        $urls=@(Get-DownloadMirrors $asset)
+        if(-not $case.reject){
+            $expectedUrls=@()
+            if($asset.PSObject.Properties['downloadSources']){$expectedUrls=@($asset.downloadSources.urls)}
+            if($urls.Count -ne $expectedUrls.Count){throw 'Expected exactly the validated pinned candidates'}
+            for($index=0;$index -lt $urls.Count;$index++){if($urls[$index] -cne $expectedUrls[$index]){throw 'Pinned candidate value or ordering changed'}}
+        }
+    }catch{$rejected=$true;$errorText=$_.Exception.Message}
     $policyResults+=[pscustomobject]@{name=$case.name;passed=($rejected -eq $case.reject);rejected=$rejected;error=$errorText}
 }
 $harness=@'
@@ -238,10 +268,47 @@ $release=[pscustomobject]@{version='1.6.11'};$result=@{}
 $cacheError=$null;$cachePassed=$false
 try{$selected=Fetch $asset;$cachePassed=($selected -eq $cached -and $result.ContainsKey('fastSourceRejected'))}catch{$cacheError=$_.Exception.Message}
 $policyResults+=[pscustomobject]@{name='rejected mirror binding preserves independently verified cache';passed=$cachePassed;rejected=$true;error=$cacheError}
-$failed=@($policyResults|Where-Object{-not $_.passed}).Count+@($httpResults|Where-Object{-not $_.passed}).Count
+# Bind the actual production parameters and execute only its optional restart
+# branch with a local Start-Process stub. No application/installer is launched.
+$restartResults=@()
+$parameterCheck=[scriptblock]::Create($ast.ParamBlock.Extent.Text+[Environment]::NewLine+'[bool]$Restart')
+$defaultRestart=& $parameterCheck -WorkDir $WorkDir -AppDir $AppDir
+$explicitRestart=& $parameterCheck -WorkDir $WorkDir -AppDir $AppDir -Restart
+$restartResults+=[pscustomobject]@{name='legacy invocation defaults to no restart';passed=($defaultRestart -eq $false)}
+$restartResults+=[pscustomobject]@{name='manual invocation accepts explicit restart';passed=($explicitRestart -eq $true)}
+$restartNode=$ast.Find({param($node)$node -is [Management.Automation.Language.IfStatementAst] -and $node.Clauses.Count -eq 1 -and $node.Clauses[0].Item1.Extent.Text -eq '$Restart'},$true)
+$resultInit=@($ast.EndBlock.Statements|Where-Object{$_ -is [Management.Automation.Language.AssignmentStatementAst] -and $_.Left.Extent.Text -eq '$result'})[0]
+if(-not $restartNode -or -not $resultInit){throw 'Production restart branch or result initializer not found'}
+$restartBranch=[scriptblock]::Create($restartNode.Extent.Text)
+$resultInitializer=[scriptblock]::Create($resultInit.Extent.Text)
+$runRestartCheck={
+    param([bool]$Requested,[bool]$FailStart)
+    $Restart=$Requested
+    $calls=New-Object Collections.ArrayList
+    function Start-Process {
+        [CmdletBinding()]
+        param([string]$FilePath,[string]$WorkingDirectory,[string]$WindowStyle)
+        [void]$calls.Add([pscustomobject]@{file=$FilePath;directory=$WorkingDirectory;style=$WindowStyle;errorAction=[string]$PSBoundParameters['ErrorAction']})
+        if($FailStart){throw 'isolated simulated process creation failure'}
+    }
+    . $resultInitializer
+    $errorText=$null
+    try{& $restartBranch}catch{$errorText=$_.Exception.Message}
+    return [pscustomobject]@{result=$result;calls=@($calls.ToArray());error=$errorText}
+}
+$legacy=& $runRestartCheck $false $false
+$manual=& $runRestartCheck $true $false
+$failedStart=& $runRestartCheck $true $true
+$restartResults+=[pscustomobject]@{name='legacy mode never starts a second app';passed=($legacy.calls.Count -eq 0 -and -not $legacy.result.restartRequested -and -not $legacy.result.appStarted)}
+$restartResults+=[pscustomobject]@{name='manual mode starts exactly the updated app';passed=($manual.calls.Count -eq 1 -and $manual.calls[0].file -eq (Join-Path $AppDir 'ToBe.exe') -and $manual.calls[0].directory -eq $AppDir -and $manual.calls[0].style -eq 'Normal' -and $manual.calls[0].errorAction -eq 'Stop' -and $manual.result.restartRequested -and $manual.result.appStarted -and -not $manual.error)}
+$restartResults+=[pscustomobject]@{name='failed process creation cannot report successful restart';passed=($failedStart.calls.Count -eq 1 -and $failedStart.result.restartRequested -and -not $failedStart.result.appStarted -and -not $failedStart.result.ok -and [bool]$failedStart.error)}
+$versionGuard=$source.IndexOf("throw 'Installed version mismatch'",[StringComparison]::Ordinal)
+$successAssignment=$source.IndexOf('$result.ok=$true',[StringComparison]::Ordinal)
+$restartResults+=[pscustomobject]@{name='version validation precedes restart and success';passed=($versionGuard -ge 0 -and $versionGuard -lt $restartNode.Extent.StartOffset -and $restartNode.Extent.EndOffset -lt $successAssignment)}
+$failed=@($policyResults|Where-Object{-not $_.passed}).Count+@($httpResults|Where-Object{-not $_.passed}).Count+@($restartResults|Where-Object{-not $_.passed}).Count
 $finalBootstrapSha256=(Get-FileHash -LiteralPath $BootstrapPath -Algorithm SHA256).Hash.ToLowerInvariant()
 if($initialBootstrapSha256 -ne $finalBootstrapSha256){$failed++}
-$report=[ordered]@{schema=1;ok=($failed -eq 0);bootstrapPath=[IO.Path]::GetFullPath($BootstrapPath);bootstrapSha256=$finalBootstrapSha256;productionSourceUnmodifiedDuringTests=($initialBootstrapSha256 -eq $finalBootstrapSha256);network='Windows C# HttpClient against real loopback TcpListener and self-signed TLS fixture; no public requests';productionTestBypassAdded=$false;applicationOrInstallerStarted=$false;sourcePolicy=$policyResults;http=$httpResults;failed=$failed;httpSeconds=$clock.Elapsed.TotalSeconds;output=$OutputDirectory}
+$report=[ordered]@{schema=1;ok=($failed -eq 0);bootstrapPath=[IO.Path]::GetFullPath($BootstrapPath);bootstrapSha256=$finalBootstrapSha256;productionSourceUnmodifiedDuringTests=($initialBootstrapSha256 -eq $finalBootstrapSha256);network='Windows C# HttpClient against real loopback TcpListener and self-signed TLS fixture; no public requests';productionTestBypassAdded=$false;applicationOrInstallerStarted=$false;sourcePolicy=$policyResults;http=$httpResults;restartModes=$restartResults;restartChecksUseOnlyLocalProcessStub=$true;failed=$failed;httpSeconds=$clock.Elapsed.TotalSeconds;output=$OutputDirectory}
 [IO.File]::WriteAllText((Join-Path $OutputDirectory 'report.json'),($report|ConvertTo-Json -Depth 8),(New-Object Text.UTF8Encoding($false)))
-[pscustomobject]@{ok=$report.ok;policyChecks=$policyResults.Count;httpChecks=$httpResults.Count;failed=$failed;seconds=$report.httpSeconds;report=(Join-Path $OutputDirectory 'report.json')}|ConvertTo-Json -Compress
+[pscustomobject]@{ok=$report.ok;policyChecks=$policyResults.Count;httpChecks=$httpResults.Count;restartChecks=$restartResults.Count;failed=$failed;seconds=$report.httpSeconds;report=(Join-Path $OutputDirectory 'report.json')}|ConvertTo-Json -Compress
 if($failed){$httpResults|Where-Object{-not $_.passed}|Select-Object name,error|ConvertTo-Json -Compress;throw 'Downloader verification failed'}
