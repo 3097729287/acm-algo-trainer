@@ -295,6 +295,7 @@ def recommend_problems(library, active, independent, personal, official, hub, ab
     if not values and not cf and len(public) < 5:
         lower, upper = 1000, 1250
     known = official  # 2026-10-10：已解 = 官方 AC；本地样例通过不算已解
+    known_questions = {question_key(library.get(identity, {}).get('url')) or identity for identity in known}
     foundation = {'模拟', '枚举', '排序', '前缀和', '差分', '贪心', '双指针', '二分查找', '数组', '字符串'}
     graph = {'图论', 'BFS', 'DFS', '并查集', '树', '最短路'}
     basics = {identity for identity in known if foundation & set(library.get(identity, {}).get('tags', []))}
@@ -314,7 +315,7 @@ def recommend_problems(library, active, independent, personal, official, hub, ab
         if not isinstance(difficulty, (int, float)) or isinstance(difficulty, bool) or not lower <= difficulty <= upper:
             continue
         due = active.get(identity, {}).get('queue')
-        if identity in known and not due:
+        if (identity in known or (question_key(row.get('url')) or identity) in known_questions) and not due:
             continue
         order = tier(row)
         if order == 2 and len(basics) < 2 or order == 3 and (len(basics) < 5 or len(graphs) < 2 or level < 1700):
