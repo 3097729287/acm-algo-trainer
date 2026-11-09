@@ -38,7 +38,7 @@ contest's window earns the normal slot score even after a prior Luogu AC.
 
 Validation:
 
-- 84 targeted tests passed, including 12 new pair/history regressions, plus
+- 85 targeted tests passed, including 13 new pair/history regressions, plus
   existing official reward, catalogue, goal/list, ability, replay, partial
   replay and ranking tests.
 - `scripts/verify_hubei_question_identity_20261109.py` opened the exact final

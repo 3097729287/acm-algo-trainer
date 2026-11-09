@@ -98,6 +98,15 @@ class QuestionIdentityTests(unittest.TestCase):
                       independent=True, independentKnown=True, difficulty=1800) for key in PAIR_KEYS]
         self.assertEqual(len(from_successes(facts, dt.datetime(2026, 11, 9, tzinfo=UTC))), 1)
 
+    def test_recommendations_cannot_offer_the_other_solved_native_entry(self):
+        from insights import recommend_problems
+        library = {row['id']: row for row in rows()[:2]}
+        for solved in PAIR_IDS:
+            with self.subTest(solved=solved):
+                recommendations, _level, _basis = recommend_problems(
+                    library, {}, {solved: (1800,)}, set(), {solved}, {}, ability=1800)
+                self.assertEqual(recommendations, [])
+
 
 class QuestionHistoryTests(unittest.TestCase):
     def setUp(self):

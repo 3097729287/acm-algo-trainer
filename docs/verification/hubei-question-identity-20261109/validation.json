@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-09T00:24:16.705104+00:00",
+  "checkedAt": "2026-11-09T00:25:58.535759+00:00",
   "baseCommit": "ae5df344",
   "questionKey": "luogu.com.cn/problem/P10865",
   "aliases": [
@@ -7,8 +7,8 @@
     "codeforces.com/gym/105139/problem/H"
   ],
   "targetedTests": {
-    "passed": 84,
-    "newPairTests": 12,
+    "passed": 85,
+    "newPairTests": 13,
     "modules": [
       "test_question_identity",
       "test_reward_evidence",
