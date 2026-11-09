@@ -127,7 +127,12 @@ def main():
                 checked.append({'language': language, 'sampleRun': samples, 'verdict': result['verdict'],
                                 'cases': len(result['caseResults']), 'queueMillis': round(queued_ms, 3),
                                 'sourceSha256': hashlib.sha256(code.encode()).hexdigest(), 'idempotentRetry': True})
-            assert native.call('problem', query={'id': identity})['draft'] == draft
+            # The slim public seed may reference an optional remote picture.
+            # This offline runner comparison reads the saved draft directly;
+            # statement/resource hydration has its own full service checks.
+            exported = native.call('data/export')
+            assert any(row['problem_id'] == identity and row['context'] == '' and row['code'] == draft
+                       for row in exported['tables']['drafts'])
             with closing(sqlite3.connect(scratch / 'native-state/personal.sqlite3')) as db:
                 assert db.execute('SELECT count(*) FROM submissions').fetchone()[0] == len(cases)
                 assert db.execute("SELECT count(*) FROM submissions WHERE verdict='AC' OR scope='official'").fetchone()[0] == 0

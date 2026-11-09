@@ -1,9 +1,9 @@
 {
   "date": "2026-11-09",
-  "verifiedRuntimeSourceCommit": "153dfe7a77b7c85d077fa29300d479bee50038d5",
+  "verifiedRuntimeSourceCommit": "c4b95773",
   "nativeBinary": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-core.exe",
-  "nativeSha256": "96da6655a620fc7a8f5a504b728c945d7ff49e5d11f44e717349a5e057fc3620",
-  "auditSandbox": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-auth-inventory-ob_siv8d",
+  "nativeSha256": "8b1f86861fc8c93de3053dc4af4ce4c384cbfa4d30b0460b53754f08a0c5931d",
+  "auditSandbox": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-reviewed-api-8abvhohq",
   "legacyTotal": 139,
   "nativeRoutes": 47,
   "notMigratedOrBootstrapOnly": 92,
@@ -690,5 +690,10 @@
       "POST account/password"
     ],
     "reason": "Corrected action dictionary extraction, not new functionality."
-  }
+  },
+  "final1611DynamicAuditPending": [
+    "GET required-downloads/{sha}",
+    "HEAD required-downloads/{sha}",
+    "GET required-downloads/{sha}/status"
+  ]
 }

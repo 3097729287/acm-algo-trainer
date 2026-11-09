@@ -1,0 +1,446 @@
+{
+  "ok": true,
+  "at": "2026-11-09T00:43:58.861739+00:00",
+  "runtimeSourceCommit": "c4b95773",
+  "sharedFrontendSourceCommit": "fa5df312",
+  "cli": {
+    "path": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-core.exe",
+    "sha256": "8b1f86861fc8c93de3053dc4af4ce4c384cbfa4d30b0460b53754f08a0c5931d",
+    "bytes": 13605097
+  },
+  "desktop": {
+    "path": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-desktop.exe",
+    "sha256": "1fafdca700373740d4239bc8c71100020a3ea874f01e90d2e77b3d0aa3dc826c",
+    "bytes": 26933820,
+    "packaged": false
+  },
+  "contract": {
+    "legacyTotal": 139,
+    "nativeRoutes": 47,
+    "partialNativeEndpoints": 23,
+    "accountClientComponentsNotCountedAsRoutes": true,
+    "sourceBaseline": "frozen 1.6.10 plus three corrected account dictionary routes",
+    "final1611DynamicAuditPending": [
+      "GET required-downloads/{sha}",
+      "HEAD required-downloads/{sha}",
+      "GET required-downloads/{sha}/status"
+    ]
+  },
+  "rustTests": {
+    "exitCode": 0,
+    "groups": [
+      37,
+      0,
+      7,
+      12,
+      6,
+      12,
+      10,
+      9,
+      2,
+      10,
+      27,
+      12,
+      20,
+      8,
+      8,
+      2,
+      5,
+      0,
+      9,
+      18,
+      0
+    ],
+    "passed": 214,
+    "ignored": 3,
+    "ignoredReasons": [
+      "explicit live public HTTPS",
+      "two explicit real-program suites; prior component receipt retained"
+    ]
+  },
+  "fullService": {
+    "ok": true,
+    "at": "2026-11-09T00:32:56.433699+00:00",
+    "checks": [
+      {
+        "identity": "ABC 478::D",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 36,
+        "originalSamples": 2,
+        "auditedExtraCases": 34,
+        "queueMillis": 29.843,
+        "oldJudgeCompared": false,
+        "idempotent": true
+      },
+      {
+        "identity": "ABC 478::E",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 51,
+        "originalSamples": 3,
+        "auditedExtraCases": 48,
+        "queueMillis": 45.232,
+        "oldJudgeCompared": false,
+        "idempotent": true
+      },
+      {
+        "identity": "Div.4 1003::C1",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 4,
+        "originalSamples": 1,
+        "auditedExtraCases": 3,
+        "queueMillis": 6.455,
+        "oldJudgeCompared": false,
+        "idempotent": true
+      },
+      {
+        "identity": "Div.4 1003::C2",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 4,
+        "originalSamples": 1,
+        "auditedExtraCases": 3,
+        "queueMillis": 4.392,
+        "oldJudgeCompared": false,
+        "idempotent": true
+      },
+      {
+        "identity": "Div.4 1003::D",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 3,
+        "originalSamples": 1,
+        "auditedExtraCases": 2,
+        "queueMillis": 9.636,
+        "oldJudgeCompared": false,
+        "idempotent": true
+      },
+      {
+        "identity": "Div.4 1003::G",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 5,
+        "originalSamples": 1,
+        "auditedExtraCases": 4,
+        "queueMillis": 7.263,
+        "oldJudgeCompared": false,
+        "idempotent": true
+      },
+      {
+        "identity": "Div.4 993::E",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 2,
+        "originalSamples": 1,
+        "auditedExtraCases": 1,
+        "queueMillis": 4.675,
+        "oldJudgeCompared": false,
+        "idempotent": true
+      },
+      {
+        "identity": "Div.4 993::H",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 3,
+        "originalSamples": 1,
+        "auditedExtraCases": 2,
+        "queueMillis": 91.431,
+        "oldJudgeCompared": false,
+        "idempotent": true
+      },
+      {
+        "identity": "入门赛 46::H",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 27,
+        "originalSamples": 1,
+        "auditedExtraCases": 26,
+        "queueMillis": 6.201,
+        "oldJudgeCompared": false,
+        "idempotent": true
+      },
+      {
+        "identity": "入门赛 49::D",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 63,
+        "originalSamples": 3,
+        "auditedExtraCases": 60,
+        "queueMillis": 3.717,
+        "oldJudgeCompared": true,
+        "idempotent": true
+      },
+      {
+        "identity": "入门赛 50::F",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 6,
+        "originalSamples": 3,
+        "auditedExtraCases": 3,
+        "queueMillis": 4.804,
+        "oldJudgeCompared": false,
+        "idempotent": true
+      },
+      {
+        "identity": "周赛 164::C",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 4,
+        "originalSamples": 1,
+        "auditedExtraCases": 3,
+        "queueMillis": 5.196,
+        "oldJudgeCompared": true,
+        "idempotent": true
+      },
+      {
+        "identity": "周赛 164::D",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 48,
+        "originalSamples": 1,
+        "auditedExtraCases": 47,
+        "queueMillis": 16.862,
+        "oldJudgeCompared": false,
+        "idempotent": true
+      },
+      {
+        "identity": "周赛 164::F",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 38,
+        "originalSamples": 1,
+        "auditedExtraCases": 37,
+        "queueMillis": 24.713,
+        "oldJudgeCompared": false,
+        "idempotent": true
+      },
+      {
+        "identity": "基础赛 37::B",
+        "language": "cpp17",
+        "verdict": "SAMPLE_PASS",
+        "passed": 43,
+        "originalSamples": 2,
+        "auditedExtraCases": 41,
+        "queueMillis": 5.57,
+        "oldJudgeCompared": false,
+        "idempotent": true
+      },
+      {
+        "identity": "入门赛 49::D",
+        "language": "python3",
+        "verdict": "SAMPLE_PASS",
+        "passed": 63
+      },
+      {
+        "identity": "周赛 164::C",
+        "language": "python3",
+        "verdict": "SAMPLE_PASS",
+        "passed": 4
+      }
+    ],
+    "actualNativeServiceSubmissions": 17,
+    "fixedProfiles": 15,
+    "totalPassedCases": 404,
+    "oldJudgeProfilesCompared": 2,
+    "reopenDidNotReexecute": true,
+    "nativeBinarySha256": "8b1f86861fc8c93de3053dc4af4ce4c384cbfa4d30b0460b53754f08a0c5931d",
+    "publicSeedUnmodified": true,
+    "realPersonalDataReadOrWritten": false,
+    "officialSiteSubmissions": 0,
+    "officialAcClaims": 0,
+    "reviewRewards": 0,
+    "runtimePythonBackendFallback": false
+  },
+  "ordinaryService": {
+    "ok": true,
+    "at": "2026-11-09T00:33:13.402692+00:00",
+    "identity": "luogu-training-P1001",
+    "checked": [
+      {
+        "language": "cpp17",
+        "sampleRun": true,
+        "verdict": "SAMPLE_PASS",
+        "cases": 1,
+        "queueMillis": 5.021,
+        "sourceSha256": "704fa61aae911881a42e2ffb330f44a6e388efb52ed2ba42c07df1f538c8faf5",
+        "idempotentRetry": true
+      },
+      {
+        "language": "python3",
+        "sampleRun": false,
+        "verdict": "RUN_OK",
+        "cases": 1,
+        "queueMillis": 2.766,
+        "sourceSha256": "d74e64892fad8e357b2b9384c07db46e0d2a3bc4b6e5b05f5b7a7509eb68eae5",
+        "idempotentRetry": true
+      },
+      {
+        "language": "python3",
+        "sampleRun": true,
+        "verdict": "WA",
+        "cases": 1,
+        "queueMillis": 2.854,
+        "sourceSha256": "e48823395587efe52c6bf078ceb53f67d8de0f80ecd3b36aec4a2ecd9449b724",
+        "idempotentRetry": true
+      },
+      {
+        "language": "cpp17",
+        "sampleRun": true,
+        "verdict": "CE",
+        "cases": 0,
+        "queueMillis": 14.732,
+        "sourceSha256": "ea8c484464808b6651801d45b30097cd9d2eee5e39cec24995a4b752fd82ed81",
+        "idempotentRetry": true
+      }
+    ],
+    "actualCompilers": true,
+    "actualProblemSiteSubmissions": 0,
+    "nativeBinarySha256": "8b1f86861fc8c93de3053dc4af4ce4c384cbfa4d30b0460b53754f08a0c5931d",
+    "privateCodeDraftIdentityTrainingPreserved": true,
+    "publicSeedUnmodified": true,
+    "legacyBackendFallback": false,
+    "officialAcClaims": 0
+  },
+  "actualWindow": {
+    "resultPath": ".backups/native-reviewed-submit-window-semantics-20261109/result.json",
+    "reviewedSubmissions": {
+      "realTauriIpc": true,
+      "originalPublicProblem": "入门赛 49::D",
+      "submitStartedThroughWindowIpc": true,
+      "originalSiteSubmitButtonUnchanged": true,
+      "originalSamples": 3,
+      "auditedExtraCases": 60,
+      "actualCpp": "SAMPLE_PASS",
+      "actualPython": "SAMPLE_PASS",
+      "cppPassed": 63,
+      "pythonPassed": 63,
+      "scopedPrivateCaseDetails": true,
+      "normalDraftsUnchanged": true,
+      "recoveredAfterReload": true,
+      "officialAcClaims": 0,
+      "reviewRewardsGranted": 0,
+      "actualOriginalSiteSubmissions": 0
+    },
+    "localRuns": {
+      "realTauriIpc": true,
+      "realCppCompiler": true,
+      "realPythonInterpreter": true,
+      "problemId": "luogu-training-P1001",
+      "officialSamples": 1,
+      "cppVerdict": "SAMPLE_PASS",
+      "pythonVerdict": "RUN_OK",
+      "customOutput": "42",
+      "pendingReadMillis": 14.22819999999956,
+      "draftLanguageAndHistoryRestored": true,
+      "officialAcClaims": 0
+    },
+    "planning": {
+      "configured": true,
+      "readingStage": 1,
+      "conceptStage": 2,
+      "independentSolved": 0,
+      "cancellationPreserved": true,
+      "mainlineChanged": true,
+      "historyPreserved": true,
+      "recoveredAfterReload": true,
+      "weeklyBudgetShared": true
+    },
+    "pageErrors": [],
+    "images": [
+      {
+        "path": "docs/verification/20261109-native-reviewed-cpp-full.png",
+        "sha256": "d14199452fcb53cbb9da51fb391c0699ffb44dfebc0295977d93c08fddab1782"
+      },
+      {
+        "path": "docs/verification/20261109-native-reviewed-python-full-narrow.png",
+        "sha256": "7c2f4776dce939b26e1b85243c3a2d7c2e0c0e6bd2feb294372719d360bfc2c3"
+      }
+    ]
+  },
+  "sharedFrontend": {
+    "commit": "fa5df312",
+    "actualReactCases": [
+      "audited local submission",
+      "public sample submission",
+      "custom input run",
+      "local public sample run",
+      "private template tests"
+    ],
+    "productionBuildPassed": true,
+    "actualWindowCorrectedCopyPassed": true
+  },
+  "boundaries": {
+    "exactAuditedProfiles": 15,
+    "auditedExtraCases": 314,
+    "ordinaryInputLimitUnchanged": 65536,
+    "ordinaryOutputLimitUnchanged": 1048576,
+    "trustedOutputBudgetsOnly": true,
+    "sourceHashCheckedAtRuntime": true,
+    "queuedMarkerSchema": 2,
+    "legacySchema1Scope": "run/samples only",
+    "replyCaseCountLimit": 100,
+    "replyCaseTextBytesLimit": 262144,
+    "officialAcClaims": 0,
+    "originalSiteSubmissions": 0,
+    "realAccountRewardsGranted": 0,
+    "currentOwnerAndTokenChecksPreserved": true,
+    "partialReplayOriginalSiteOnly": true,
+    "normalDraftsPreserved": true,
+    "interruptedJobsNeverReexecuted": true,
+    "failedActivationRollsBackReceiptAndRequest": true,
+    "deferredPracticeRefreshIsDurableAndAtomic": true,
+    "networkWaitDoesNotHoldJournalLocks": true
+  },
+  "data": {
+    "publicSeedChanged": false,
+    "publicSeedVersion": "1.6.10 slim freeze",
+    "publicSeedSha256": "567286a56e7e84f7a26344056496e980a82206db9fd7e6654e78f3a8d1df9290",
+    "realPersonalDataReadOrWritten": false,
+    "newFullPackageCreated": false,
+    "latestIndependentPackage": {
+      "nativeRoutes": 42,
+      "legacyTotalAtBuild": 136,
+      "rustChecks": 135,
+      "source": "ff0115755b99c419832a7df3da155bfec5b13a94"
+    }
+  },
+  "cleanup": {
+    "checkedBeforeChanges": [
+      "native_judge run-only gate",
+      "run_queue hard-coded run/samples writes",
+      "service transaction and activation references",
+      "duplicate account/chunk modules",
+      "old UI sample-only result copy"
+    ],
+    "removedObsoleteBehavior": [
+      "run-only preparation gate",
+      "hard-coded run/samples completion conditions",
+      "audited results labelled as custom input or sample-only"
+    ],
+    "filesDeleted": 0,
+    "historicalEvidenceAndPrivateDataPreserved": true,
+    "previousAutomaticDeletionReview": {
+      "rejected": true,
+      "action": "remove superseded top-level PNGs from five lifecycle validation folders",
+      "reason": "blocked by policy",
+      "executed": false,
+      "retriedByAnotherMethod": false
+    }
+  },
+  "initialFailuresRetained": [
+    {
+      "path": ".backups/native-reviewed-integration-tests-20261109.log",
+      "cause": "reopen fixture reused expired IPC token; fixed fixture reauth without loosening production checks"
+    },
+    {
+      "path": ".backups/native-reviewed-submit-window-20261109",
+      "cause": "harness checked editor before compact breakpoint settled; wait for compact class first"
+    },
+    {
+      "path": ".backups/native-reviewed-submit-window-fixed-20261109",
+      "cause": "passing old UI exposed inaccurate local/sample wording; shared fa5 corrected then actual window rerun"
+    }
+  ]
+}

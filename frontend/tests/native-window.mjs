@@ -17,6 +17,7 @@ import { exerciseNativeReviewedContent } from './native-reviewed-content-flow.mj
 import { exerciseNativeContestLifecycle } from './native-contest-lifecycle-flow.mjs';
 import { exerciseNativeContestSetup } from './native-contest-setup-flow.mjs';
 import { exerciseNativeReplaySetup } from './native-replay-setup-flow.mjs';
+import { exerciseNativeReviewedSubmissions } from './native-reviewed-submit-flow.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const packaged = process.argv.includes('--packaged');
@@ -144,6 +145,7 @@ try {
   await page.screenshot({ path: resolve(output, 'react-workspace-narrow.png') });
   results.reactWorkspace = { saved: true, recoveredAfterReload: true, training: saved.training, problemId: saved.id };
   if(process.env.TB_NATIVE_TEST_RUNNER==='1')results.localRuns=await exerciseNativeRuns(page,output);
+  if(process.env.TB_NATIVE_TEST_REVIEWED_SUBMIT==='1')results.reviewedSubmissions=await exerciseNativeReviewedSubmissions(page,output);
   if(process.env.TB_NATIVE_TEST_REVIEWS==='1')results.reviews=await exerciseNativeReviews(page,output,sandbox,process.env.TB_NATIVE_TEST_PYTHON);
   if(process.env.TB_NATIVE_TEST_CONTEST_HISTORY==='1')results.contestHistory=await exerciseNativeContestHistory(page,output,sandbox,process.env.TB_NATIVE_TEST_PYTHON);
   if(process.env.TB_NATIVE_TEST_CONTEST_LIFECYCLE==='1')results.contestLifecycle=await exerciseNativeContestLifecycle(page,output,sandbox,process.env.TB_NATIVE_TEST_PYTHON);
