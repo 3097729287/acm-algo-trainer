@@ -8,6 +8,7 @@ pub const PROTOCOL_VERSION: u32 = 1;
 #[serde(rename_all = "UPPERCASE")]
 pub enum Method {
     Get,
+    Head,
     Post,
 }
 
@@ -78,7 +79,7 @@ impl ApiRequest {
             return Err(ApiError::bad("查询参数过大"));
         }
         match self.method {
-            Method::Get if self.body.is_some() => {
+            Method::Get | Method::Head if self.body.is_some() => {
                 return Err(ApiError::bad("读取请求不能携带正文"));
             }
             Method::Post if !self.body.as_ref().is_some_and(Value::is_object) => {
@@ -101,6 +102,27 @@ impl ApiRequest {
         }
         Ok(())
     }
+}
+
+pub(crate) fn route_matches(pattern: &str, path: &str) -> bool {
+    if let Some(prefix) = pattern.strip_suffix("/*") {
+        return path
+            .strip_prefix(prefix)
+            .is_some_and(|suffix| suffix.starts_with('/') && suffix.len() > 1);
+    }
+    let pattern = pattern.split('/').collect::<Vec<_>>();
+    let path = path.split('/').collect::<Vec<_>>();
+    pattern.len() == path.len()
+        && pattern.iter().zip(path).all(|(part, actual)| {
+            if *part == "{sha}" {
+                actual.len() == 64
+                    && actual
+                        .bytes()
+                        .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+            } else {
+                *part == actual
+            }
+        })
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]

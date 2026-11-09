@@ -552,10 +552,10 @@ impl Service {
                 "account":null,"restoring":false,"sync":null}),
             );
         }
-        let method = if r.method == Method::Get {
-            "GET"
-        } else {
-            "POST"
+        let method = match r.method {
+            Method::Get => "GET",
+            Method::Head => "HEAD",
+            Method::Post => "POST",
         };
         if !NATIVE_ROUTES.contains(&(method, r.path.as_str())) {
             let known = self.contract["endpoints"]
@@ -564,10 +564,7 @@ impl Service {
                 .iter()
                 .any(|v| {
                     v["method"] == method
-                        && (v["path"] == r.path
-                            || ["pk/v1/", "team-training/"].iter().any(|prefix| {
-                                v["path"] == format!("{prefix}*") && r.path.starts_with(prefix)
-                            }))
+                        && api::route_matches(v["path"].as_str().unwrap(), &r.path)
                 });
             return Err(if known {
                 ApiError::pending()

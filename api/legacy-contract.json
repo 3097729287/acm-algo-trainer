@@ -2,6 +2,7 @@
   "version": 1,
   "source": "backend/backend.py",
   "transport": "Tauri invoke(api_request)",
+  "inventoryScope": "method/path and dynamic route families, including binary and optional legacy browser boundaries",
   "endpoints": [
     {
       "method": "GET",
@@ -32,6 +33,11 @@
       "method": "GET",
       "path": "browser-preparation",
       "operation": "get.browser-preparation"
+    },
+    {
+      "method": "GET",
+      "path": "browser/setup",
+      "operation": "get.browser.setup"
     },
     {
       "method": "GET",
@@ -150,6 +156,11 @@
     },
     {
       "method": "GET",
+      "path": "library-assets/{sha}",
+      "operation": "get.library-assets.{sha}"
+    },
+    {
+      "method": "GET",
       "path": "navigation",
       "operation": "get.navigation"
     },
@@ -187,6 +198,16 @@
       "method": "GET",
       "path": "rankings",
       "operation": "get.rankings"
+    },
+    {
+      "method": "GET",
+      "path": "required-downloads/{sha}",
+      "operation": "get.required-downloads.{sha}"
+    },
+    {
+      "method": "GET",
+      "path": "required-downloads/{sha}/status",
+      "operation": "get.required-downloads.{sha}.status"
     },
     {
       "method": "GET",
@@ -264,6 +285,11 @@
       "operation": "get.workspace"
     },
     {
+      "method": "HEAD",
+      "path": "required-downloads/{sha}",
+      "operation": "head.required-downloads.{sha}"
+    },
+    {
       "method": "POST",
       "path": "account/login",
       "operation": "post.account.login"
@@ -327,6 +353,31 @@
       "method": "POST",
       "path": "browser-preparation",
       "operation": "post.browser-preparation"
+    },
+    {
+      "method": "POST",
+      "path": "browser/exchange",
+      "operation": "post.browser.exchange"
+    },
+    {
+      "method": "POST",
+      "path": "browser/queue",
+      "operation": "post.browser.queue"
+    },
+    {
+      "method": "POST",
+      "path": "browser/receipts",
+      "operation": "post.browser.receipts"
+    },
+    {
+      "method": "POST",
+      "path": "browser/register",
+      "operation": "post.browser.register"
+    },
+    {
+      "method": "POST",
+      "path": "browser/session",
+      "operation": "post.browser.session"
     },
     {
       "method": "POST",

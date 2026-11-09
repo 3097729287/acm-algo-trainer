@@ -615,8 +615,8 @@ fn capabilities_inventory_has_every_legacy_operation() {
     let (_temp, config) = fixture();
     let service = Service::open(config).unwrap();
     let value = service.capabilities();
-    assert_eq!(value["legacyTotal"], 139);
-    assert!(value["legacyImplemented"].as_u64().unwrap() < 139);
+    assert_eq!(value["legacyTotal"], 149);
+    assert!(value["legacyImplemented"].as_u64().unwrap() < 149);
     for path in ["account/register", "account/login", "account/password"] {
         assert!(
             value["endpoints"]
@@ -624,6 +624,25 @@ fn capabilities_inventory_has_every_legacy_operation() {
                 .unwrap()
                 .iter()
                 .any(|e| e["method"] == "POST" && e["path"] == path)
+        );
+    }
+    for (method, path) in [
+        ("GET", "library-assets/{sha}"),
+        ("GET", "required-downloads/{sha}"),
+        ("HEAD", "required-downloads/{sha}"),
+        ("GET", "required-downloads/{sha}/status"),
+        ("GET", "browser/setup"),
+        ("POST", "browser/receipts"),
+    ] {
+        let endpoint = value["endpoints"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|e| e["method"] == method && e["path"] == path)
+            .unwrap();
+        assert_eq!(
+            endpoint["native"], false,
+            "Component modules cannot authorize a new route"
         );
     }
     assert_eq!(
@@ -659,6 +678,66 @@ fn capabilities_inventory_has_every_legacy_operation() {
             .unwrap()
             .code,
         "MIGRATION_PENDING"
+    );
+}
+
+#[test]
+fn dynamic_downloads_and_head_are_known_but_guarded_before_any_workspace_or_cache_write() {
+    let (_temp, config) = fixture();
+    let service = Service::open(config.clone()).unwrap();
+    let sha = "a".repeat(64);
+    for (method, path) in [
+        (Method::Get, format!("required-downloads/{sha}")),
+        (Method::Head, format!("required-downloads/{sha}")),
+        (Method::Get, format!("required-downloads/{sha}/status")),
+        (Method::Get, format!("library-assets/{sha}")),
+    ] {
+        let mut request = ApiRequest::get(&path);
+        request.method = method;
+        assert_eq!(
+            service.handle(request).error.unwrap().code,
+            "MIGRATION_PENDING"
+        );
+    }
+    for (method, path) in [
+        (Method::Get, "required-downloads/abc".into()),
+        (
+            Method::Get,
+            format!("required-downloads/{}/status", "g".repeat(64)),
+        ),
+        (
+            Method::Get,
+            format!("required-downloads/{sha}/status/other"),
+        ),
+        (Method::Head, format!("required-downloads/{sha}/status")),
+        (Method::Head, "preferences".into()),
+    ] {
+        let mut request = ApiRequest::get(&path);
+        request.method = method;
+        assert_eq!(service.handle(request).error.unwrap().status, 404);
+    }
+    let mut invalid = ApiRequest::get(&format!("required-downloads/{sha}"));
+    invalid.method = Method::Head;
+    invalid.body = Some(json!({}));
+    assert_eq!(service.handle(invalid).error.unwrap().status, 400);
+    let store = PersonalStore::open(&config.personal).unwrap();
+    for table in ["submissions", "drafts", "training"] {
+        assert_eq!(
+            store
+                .db
+                .query_row(&format!("SELECT COUNT(*) FROM {table}"), [], |r| r
+                    .get::<_, i64>(0))
+                .unwrap(),
+            0
+        );
+    }
+    assert!(
+        !config
+            .personal
+            .parent()
+            .unwrap()
+            .join("required-downloads")
+            .exists()
     );
 }
 #[test]

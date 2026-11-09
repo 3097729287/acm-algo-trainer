@@ -32,6 +32,40 @@ def inventory():
                 if isinstance(value, ast.Constant) and isinstance(value.value, str) and value.value.startswith('/api/'):
                     endpoints.add(('POST' if start <= node.lineno <= end else 'GET', value.value.removeprefix('/api/')))
     endpoints.update((method, prefix+'/*') for method in ('GET', 'POST') for prefix in ('pk/v1', 'team-training'))
+    # Binary routes are regex-dispatched rather than path comparisons. Include
+    # their real HEAD/status operations; a wildcard family is not a ready API.
+    patterns = {
+        '/api/library-assets/[a-f0-9]{64}': ('library-assets/{sha}',),
+        '/api/required-downloads/([a-f0-9]{64})(?:/status)?':
+            ('required-downloads/{sha}', 'required-downloads/{sha}/status'),
+        '/api/required-downloads/[a-f0-9]{64}': ('required-downloads/{sha}',),
+    }
+    for function in (dispatch, *(node for node in ast.walk(tree)
+                                 if isinstance(node, ast.FunctionDef) and node.name == 'do_HEAD')):
+        method = 'HEAD' if function.name == 'do_HEAD' else 'GET'
+        for node in ast.walk(function):
+            if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                    and node.func.attr == 'fullmatch' and node.args
+                    and isinstance(node.args[0], ast.Constant) and isinstance(node.args[0].value, str)):
+                continue
+            pattern = node.args[0].value
+            if not pattern.startswith('/api/'):
+                continue
+            if pattern not in patterns:
+                raise ValueError(f'Unreviewed dynamic HTTP boundary: {pattern}')
+            endpoints.update((method, route) for route in patterns[pattern])
+    # The optional old extension transport is a separate method, outside the
+    # ordinary dispatcher. Preserve its boundary even when the external-browser
+    # deployment deliberately answers 410. Never silently count it as migrated.
+    bridge = next(n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef) and n.name == 'browser_dispatch')
+    for node in ast.walk(bridge):
+        if not isinstance(node, ast.Compare) or not isinstance(node.left, ast.Name) or node.left.id != 'path':
+            continue
+        for right in node.comparators:
+            values = [right] if isinstance(right, ast.Constant) else right.elts if isinstance(right, (ast.Tuple, ast.List, ast.Set)) else []
+            for value in values:
+                if isinstance(value, ast.Constant) and isinstance(value.value, str) and value.value.startswith('/api/browser/'):
+                    endpoints.add(('GET' if value.value == '/api/browser/setup' else 'POST', value.value.removeprefix('/api/')))
     return sorted(endpoints)
 
 
@@ -58,6 +92,7 @@ def files():
         'version': 1,
         'source': 'backend/backend.py',
         'transport': 'Tauri invoke(api_request)',
+        'inventoryScope': 'method/path and dynamic route families, including binary and optional legacy browser boundaries',
         'endpoints': [{'method': method, 'path': path, 'operation': method.lower() + '.' + path.replace('/', '.')}
                       for method, path in inventory()],
     }
