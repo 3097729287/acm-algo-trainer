@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "sourceCommit": "efc0618dc404ba5b4d0fa3e2253d9399ff120892",
+  "baseCommit": "ae5df344fa146e96c5ce87b034a9f0bde987583f",
+  "operation": "reviewed-Hubei-Luogu-question-identity",
+  "files": {
+    "src/question-identities.mjs": "1d3923977a6098c9c726df0224f5b3ed6332ca6760dbfdaedd96b4b8a8573516",
+    "src/ranking-rules.mjs": "f31044cfa88862dc9792e7ca88ea1ea42825114cd31c8a997b8553adc5fcc118",
+    "src/ranking-dominance.mjs": "7aa85ac6a028215c17ff886c9419ac9f1ce9cefbaf4880026a6fd0e21a28a532",
+    "src/mysql-store.mjs": "5d9dda6f1bbe3cdcb8fd77fbe95defe167a393752cec81f8fd0d8cc5757c7055",
+    "src/team-training.mjs": "c4ed49d982ed0fbd0546570874631507d1f6a042c5bc796c8cfa8a504c128a56",
+    "src/sticker-scenes.mjs": "5c4246daf671ce878de4316047eafa80463cd77bc4426dd1a0764585200fc82e"
+  },
+  "navigationChanged": false,
+  "databaseMigration": false,
+  "rawAcceptanceRowsRewritten": false,
+  "historicalRewardsRetracted": false,
+  "publicIndicesWritten": false,
+  "caddyChanged": false,
+  "previousTeamTrainingOnlyDiffersFromBaseByCRLF": true,
+  "beforeLibraryIndexSha256": "e789ee5fc216cbd06fc9fe0a739c1d030a628220a22ae8d570f1cb06be146c80",
+  "beforeLibraryCommit": "fdd4dd256fe7cc205497811f97dc2cdb2fa5462f",
+  "beforeLibraryCount": 2436,
+  "releaseRows": 104,
+  "full1610BlockCount": 472,
+  "ordinary32MiBPolicyChanged": false,
+  "aiCredentialsAccessed": false
+}

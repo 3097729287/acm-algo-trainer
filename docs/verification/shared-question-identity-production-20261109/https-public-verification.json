@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "origin": "https://47.82.84.74",
+  "tlsVerified": true,
+  "publicHeadersOnly": true,
+  "privateAccountApiCalled": false,
+  "realOriginalPng": {
+    "sha256": "95b61973f667ea3987a0428efd3344e25a3e11e386b1ffa807403507284b58b1",
+    "bytes": 252,
+    "status": 200,
+    "shaVerifiedAgainstCommittedPublicIndex": true,
+    "originalIndexCommit": "431d37ed70b02f248898bf509da3bc2494d15357"
+  },
+  "oldSmallNonzeroRange": {
+    "status": 206,
+    "start": 12345,
+    "bytes": 65536,
+    "sha256": "33c482e644b21578623b240e6343215aa15818ec807da130e90cc8dfe2e06f97"
+  },
+  "requiredZipHead": {
+    "status": 200,
+    "bytes": 42049784
+  },
+  "health": {
+    "ok": true,
+    "version": "1.4.8",
+    "teamTrainingProtocol": 1,
+    "thoughtModeProtocol": 1,
+    "thoughtModeEnabled": false,
+    "eventScope": "official",
+    "gameplayProtocol": 1,
+    "rankingDominanceProtocol": 1,
+    "sharedTranslationProtocol": 1,
+    "accountStateProtocol": 1,
+    "accountChunkProtocol": 2,
+    "adminAccountProtocol": 1,
+    "singleSession": true,
+    "publicProgressProtocol": 1,
+    "publicAppearanceProtocol": 1,
+    "originalAvatarProtocol": 1,
+    "nicknameUnique": true,
+    "stateResumeProtocol": 1,
+    "socialProtocol": 1,
+    "trainingListLikesProtocol": 1
+  },
+  "seconds": 6.068
+}
