@@ -253,6 +253,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
   if(state.open&&unknown.some(tab=>!['problem','solution','lab'].includes(tab.kind)))void loadCatalog();
  },[state.tabs,index,rows,state.open,loadCatalog]);
  const groups=studyGroups(state),visibleKeys=groups.map(group=>group.active);
+ const codingVisible=state.tabs.some(tab=>tab.kind==='problem'&&groups.some(group=>group.active===tab.key&&searching!==group.id));
  useEffect(()=>setMounted(previous=>{const missing=visibleKeys.filter(key=>!previous.has(key));return missing.length?new Set([...previous,...missing]):previous;}),[visibleKeys.join('|')]);
  if(!state.open||stateOwner!==accountId)return null;
  const compact=groups.length===1&&!state.chrome&&!searching;
@@ -290,7 +291,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
  };
  return createPortal(<div ref={frame} className={'study-browser'+(groups.length>1?' study-split':'')+(compact?' study-compact':'')+(!compact&&!tabToolbar.shown?' study-tabs-hidden':'')} aria-label="学习内容" data-dragging={dragging||undefined} data-resizing={resizing!==null||undefined} onDragOver={dragOver} onDropCapture={drop} onDragLeave={event=>{if(!frame.current.contains(event.relatedTarget))setPreview(null);}}>
   {!compact&&!tabToolbar.pinned&&!tabToolbar.shown&&<button type="button" className="study-tabs-reveal" aria-label="显示学习书签栏" onFocus={tabToolbar.reveal} onPointerEnter={tabToolbar.reveal} onClick={tabToolbar.reveal}/>}
-  {onPacks&&<button type="button" className="study-pack-button achievement-top-button" aria-label="卡包" title="卡包" onClick={onPacks}><Gift size={18}/></button>}
+  {onPacks&&!codingVisible&&<button type="button" className="study-pack-button achievement-top-button" aria-label="卡包" title="卡包" onClick={onPacks}><Gift size={18}/></button>}
   <div id="tb-study-continuation" className="study-task-flow"/>
   <main className="study-stage" style={{gridTemplateColumns:groups.map(group=>`minmax(0,${group.weight}fr)`).join(' 1px ')}}>
    {!compact&&groups.map((group,groupIndex)=><header key={group.id} className="study-bar study-group-header" data-group-id={group.id} data-focused={group.id===state.focusedGroup} style={{gridColumn:groupIndex*2+1}} onPointerDownCapture={()=>{checkpoint();focus(group.active);}}>

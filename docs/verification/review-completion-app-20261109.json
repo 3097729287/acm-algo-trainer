@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "fullApp": true,
+  "syntheticApiFixture": true,
+  "liveOfficialSubmission": false,
+  "normalStateReadOrWritten": false,
+  "immediateSummaryRefreshMs": 359,
+  "completedReviewRaceAcknowledged": true,
+  "noDuplicateCompletionWrites": true,
+  "mainPackPresent": true,
+  "singleCodingPackAbsent": true,
+  "readingPackPreserved": true,
+  "errors": [],
+  "unknownApiPaths": []
+}

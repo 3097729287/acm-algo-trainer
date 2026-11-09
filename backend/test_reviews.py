@@ -241,8 +241,29 @@ class ReviewTests(unittest.TestCase):
             self.service.start_training('fixture::A',restore_review_id='bad')
         self.service.start_training('fixture::A',restore_review_id=task['id'])
         self.receipt(review_id=task['id'])
-        with self.assertRaises(ServiceError):
-            self.service.start_training('fixture::A',restore_review_id=task['id'])
+        result=self.service.start_training('fixture::A',restore_review_id=task['id'])
+        self.assertTrue(result['reviewAlreadyCompleted'])
+        self.assertIsNone(result['reviewTask'])
+
+    def test_completed_review_shortcut_and_remove_are_idempotent_without_reactivation(self):
+        self.seed();self.clock.advance(days=1);task=self.open()
+        self.service.save_draft('fixture::A','accepted review draft',review_id=task['id'])
+        self.receipt(review_id=task['id'])
+        scheduler=ReviewScheduler(self.service)
+        completed=scheduler.task('fixture::A',task['id'])
+        reward=reward_totals(self.service)
+        receipts=[tuple(row) for row in self.service.connection.execute('SELECT * FROM submissions ORDER BY id')]
+        self.service.remove_training('fixture::A')
+        self.service.remove_training('fixture::A')
+        for deferred in (True,False,True):
+            result=self.service.start_training('fixture::A',restore_review_id=task['id'],defer_workspace=deferred)
+            self.assertTrue(result['reviewAlreadyCompleted'])
+            self.assertIsNone(result['reviewTask'])
+        self.assertEqual(self.service.workspace()['training'],[])
+        self.assertEqual(scheduler.task('fixture::A',task['id']),completed)
+        self.assertEqual(reward_totals(self.service),reward)
+        self.assertEqual([tuple(row) for row in self.service.connection.execute('SELECT * FROM submissions ORDER BY id')],receipts)
+        self.assertEqual(self.service.problem('fixture::A',review_id=task['id'])['draft'],'accepted review draft')
 
     def test_first_accept_after_a_wrong_answer_keeps_fast_navigation_in_review_context(self):
         self.receipt(verdict='WA');self.clock.advance(days=1)

@@ -415,8 +415,18 @@ class TrainingService:
                 self.assert_solution_unlocked(identity)
             if restore_review_id:
                 from reviews import ReviewScheduler
-                ReviewScheduler(self).set_cancelled(identity, restore_review_id, False)
-                restored_task = ReviewScheduler(self).task(identity, restore_review_id, open_task=True)
+                scheduler = ReviewScheduler(self)
+                restored_task = scheduler.task(identity, restore_review_id)
+                if restored_task.get('completedAt'):
+                    # A stale task shortcut or undo can race the official AC.
+                    # Acknowledge it without reopening, activating or rewarding
+                    # an already settled review; its drafts and receipt remain.
+                    result = {'reviewTask': None, 'reviewAlreadyCompleted': True}
+                    if not defer_workspace:
+                        result['workspace'] = self.workspace()
+                    return result
+                scheduler.set_cancelled(identity, restore_review_id, False)
+                restored_task = scheduler.task(identity, restore_review_id, open_task=True)
                 if defer_workspace:
                     return {'reviewTask': restored_task}
             if activate:

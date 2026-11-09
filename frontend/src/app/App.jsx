@@ -1450,6 +1450,10 @@ export default function App() {
       const result = await api("training/start", { id, deferWorkspace:true, deferActivation:!assisted, ...(restoreReviewId?{restoreReviewId}:{}), ...(assisted ? { assisted: true } : {}) });
       if (result.workspace) applyWorkspace(result.workspace);
       else void api('workspace').then(applyWorkspace).catch(()=>{});
+      if (result.reviewAlreadyCompleted) {
+        await learningSummary.refresh();
+        return;
+      }
       practicePrefetch.current = !result.reviewTask && !result.workspace?.activeContest ? {id,promise:prepared} : null;
       contextRef.current = context;
       advanceRef.current = null;
@@ -1509,6 +1513,9 @@ export default function App() {
       if(id===experienceOffer?.problemId&&next?.verdict==='AC'&&!experienceOffer.allNavigationUnlocked)void refreshBackground(true);
     }
     applyWorkspace(value);
+    // Settled receipts change the adopted plan too. Do not leave the top-bar
+    // task on its older snapshot until the next thirty-second poll.
+    void learningSummary.refresh().catch(()=>{});
   }
   function exitPractice() {
     const context = contextRef.current;
