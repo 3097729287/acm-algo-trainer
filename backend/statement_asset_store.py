@@ -2,10 +2,20 @@
 import base64
 import copy
 import hashlib
+import json
 import re
 
 PREFIX = 'tb-asset:'
 DATA = re.compile(r'^data:([^;,]+);base64,([A-Za-z0-9+/=\s]+)$')
+
+
+def inline_documents(db):
+    """Read embedded public figures from original statements and editorials."""
+    for content, in db.execute("SELECT content FROM statements WHERE instr(content,';base64,')>0"):
+        yield json.loads(content)
+    for table in ('solutions','detailed_solutions'):
+        for images, in db.execute('SELECT images FROM '+table+" WHERE instr(images,';base64,')>0"):
+            yield {'images':json.loads(images)}
 
 
 def transform(value, convert):

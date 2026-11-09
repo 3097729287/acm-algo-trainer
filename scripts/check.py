@@ -49,6 +49,9 @@ def library_check(path=None):
             from statement_asset_store import references
             for content, in db.execute('SELECT content FROM statements'):
                 assert references(json.loads(content))<=known,'Missing offline statement resources'
+            for table in ('solutions','detailed_solutions'):
+                for images, in db.execute('SELECT images FROM '+table):
+                    assert references({'images':json.loads(images)})<=known,'Missing editorial resources: '+table
         assert not tables.intersection({'training', 'drafts', 'submissions', 'ranking_profile', 'documents'})
         if source.is_dir():
             manifest=source/'statement_assets.json'

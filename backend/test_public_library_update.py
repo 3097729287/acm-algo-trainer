@@ -107,6 +107,23 @@ class PublicLibraryUpdateTests(unittest.TestCase):
         self.descriptor.write_text(json.dumps(value));before=self.live.path.read_bytes()
         with self.assertRaisesRegex(ValueError,'inline public resource is missing'):merge_public_seed(self.live,self.base.path,descriptor=self.descriptor,cache=self.root/'cache')
         self.assertEqual(self.live.path.read_bytes(),before)
+    def test_old_editorial_inline_image_is_reused_by_both_variants(self):
+        digest=hashlib.sha256(base64.b64decode(self.uri.split(',',1)[1])).hexdigest()
+        for library in (self.base,self.target):
+            with library.connection() as db:
+                for table in ('solutions','detailed_solutions'):
+                    db.execute('INSERT OR REPLACE INTO '+table+' VALUES(?,?,?,?,?)',('fixture::A','![Figure](a.gif)','reviewed.md',json.dumps({'a.gif':self.uri}),'reviewed-markdown-digest'))
+        with self.target.connection() as db:
+            db.execute('INSERT OR IGNORE INTO statement_assets VALUES(?,?,?)',(digest,'image/gif',base64.b64decode(self.uri.split(',',1)[1])))
+            for table in ('solutions','detailed_solutions'):
+                db.execute('UPDATE '+table+' SET images=? WHERE problem_id=?',(json.dumps({'a.gif':'tb-asset:'+digest}),'fixture::A'))
+        result=build([self.base.path],self.target.path,self.root/'editorial-payload')
+        self.assertEqual(result['descriptor']['rowCounts']['statement_assets'],0)
+        live=LibraryDatabase(self.root/'editorial-live.sqlite3');live.merge_seed(self.base.path)
+        reference=LibraryDatabase(self.root/'editorial-reference.sqlite3');reference.merge_seed(self.base.path);reference.merge_seed(self.target.path)
+        self.assertTrue(merge_public_seed(live,self.base.path,descriptor=self.root/'editorial-payload/public-library-update.json',cache=self.root/'editorial-cache'))
+        self.assertEqual(self.rows(live),self.rows(reference))
+        for variant in ('default','detailed'):self.assertEqual(live.solution('fixture::A',variant)['images']['a.gif'],self.uri)
     def test_multiple_fetched_overrides_are_preserved_independently_in_both_merge_paths(self):
         # An earlier fetched statement must not replace the table-wide row
         # lookup with its own JSON dictionary and overwrite later overrides.

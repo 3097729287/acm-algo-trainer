@@ -435,7 +435,9 @@ class LibraryDatabase:
             row = db.execute('SELECT * FROM ' + table + ' WHERE problem_id=?', (identity,)).fetchone()
             if not row:
                 return None
-            return {'markdown': row['markdown'], 'path': row['source_path'], 'images': json.loads(row['images']), 'digest': row['digest']}
+            from statement_asset_store import hydrate
+            images=hydrate({'images':json.loads(row['images'])},db)['images']
+            return {'markdown': row['markdown'], 'path': row['source_path'], 'images': images, 'digest': row['digest']}
 
     def statement(self, identity):
         with self.connection() as db:
@@ -671,17 +673,19 @@ class LibraryDatabase:
             db.executemany('INSERT OR REPLACE INTO problems (id,url,raw,encoded) VALUES (?,?,?,?)',
                            [(p['id'], p['url'], json.dumps(p['raw'], ensure_ascii=False), json.dumps(p['encoded'], ensure_ascii=False))
                             for p in problems])
-            db.executemany('INSERT OR REPLACE INTO solutions (problem_id,markdown,source_path,images,digest) VALUES (?,?,?,?,?)',
-                           [(s['problem_id'], s['markdown'], s['source_path'], json.dumps(s['images'], ensure_ascii=False),
-                             hashlib.sha256(s['markdown'].encode()).hexdigest()) for s in solutions])
-            db.executemany('INSERT OR REPLACE INTO detailed_solutions (problem_id,markdown,source_path,images,digest) VALUES (?,?,?,?,?)',
-                           [(s['problem_id'], s['markdown'], s['source_path'], json.dumps(s['images'], ensure_ascii=False),
-                             hashlib.sha256(s['markdown'].encode()).hexdigest()) for s in detailed_solutions])
             from statement_asset_store import dehydrate
+            def save_asset(sha,mime,data):
+                db.execute('INSERT OR IGNORE INTO statement_assets VALUES (?,?,?)',(sha,mime,data))
+            def solution_rows(items):
+                for item in items:
+                    images=dehydrate({'images':item['images']},save_asset)['images']
+                    yield (item['problem_id'],item['markdown'],item['source_path'],json.dumps(images,ensure_ascii=False),
+                           hashlib.sha256(item['markdown'].encode()).hexdigest())
+            db.executemany('INSERT OR REPLACE INTO solutions (problem_id,markdown,source_path,images,digest) VALUES (?,?,?,?,?)',solution_rows(solutions))
+            db.executemany('INSERT OR REPLACE INTO detailed_solutions (problem_id,markdown,source_path,images,digest) VALUES (?,?,?,?,?)',solution_rows(detailed_solutions))
             def statement_rows():
                 for item in statements:
-                    portable=dehydrate(item['content'],lambda sha,mime,data:db.execute(
-                        'INSERT OR IGNORE INTO statement_assets VALUES (?,?,?)',(sha,mime,data)))
+                    portable=dehydrate(item['content'],save_asset)
                     yield item['problem_id'],json.dumps(portable,ensure_ascii=False)
             db.executemany('INSERT OR REPLACE INTO statements (problem_id,content) VALUES (?,?)',statement_rows())
             db.executemany('INSERT OR REPLACE INTO lectures (id,content,digest) VALUES (?,?,?)',

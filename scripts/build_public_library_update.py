@@ -31,14 +31,13 @@ def asset_map(db):
   values[digest]=(mime,size)
  return values
 def inline_map(db):
- from statement_asset_store import dehydrate
+ from statement_asset_store import dehydrate,inline_documents
  values={}
  def save(digest,mime,data):
   item=(mime,len(data))
   if digest in values and values[digest]!=item:raise ValueError('Conflicting embedded public resources')
   values[digest]=item
- for content, in db.execute("SELECT content FROM statements WHERE instr(content,';base64,')>0"):
-  dehydrate(json.loads(content),save)
+ for content in inline_documents(db):dehydrate(content,save)
  return values
 
 def links(connection):

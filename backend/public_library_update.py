@@ -78,7 +78,7 @@ def validate_database(path,value):
 def inline_assets(seed, specifications):
     """Recover approved images already embedded in the immutable installed seed."""
     if not specifications:return {}
-    from statement_asset_store import dehydrate
+    from statement_asset_store import dehydrate,inline_documents
     wanted={item['sha256']:item for item in specifications};found={}
     def collect(digest,mime,data):
         if digest not in wanted:return
@@ -86,8 +86,7 @@ def inline_assets(seed, specifications):
         if mime!=item['mime'] or len(data)!=item['bytes']:raise ValueError('Installed inline resource identity changed')
         found[digest]=(mime,data)
     with closing(sqlite3.connect(Path(seed).resolve().as_uri()+'?mode=ro',uri=True)) as db:
-        for content, in db.execute("SELECT content FROM statements WHERE instr(content,';base64,')>0"):
-            dehydrate(json.loads(content),collect)
+        for content in inline_documents(db):dehydrate(content,collect)
     if set(found)!=set(wanted):raise ValueError('An approved inline public resource is missing')
     return found
 

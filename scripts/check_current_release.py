@@ -56,10 +56,11 @@ def main():
     parser.add_argument('--legacy-package', type=Path, required=True)
     parser.add_argument('--inno', type=Path, required=True)
     parser.add_argument('--webview2', type=Path, required=True)
+    parser.add_argument('--work-root',type=Path,help='Explicit disposable test root; registry identity and icons remain isolated')
     args = parser.parse_args()
     version = (ROOT / 'VERSION').read_text().strip()
     package = args.stage.resolve() / 'release' / ('ToBe-' + version + '-win64')
-    work = ROOT / 'build' / ('release-check-current-' + uuid.uuid4().hex[:10])
+    work = (args.work_root.resolve() if args.work_root else ROOT/'build') / ('release-check-current-' + uuid.uuid4().hex[:10])
     work.mkdir(parents=True)
     result = {'ok': False, 'version': version, 'work': str(work)}
     try:
@@ -74,7 +75,7 @@ def main():
              '/DAppVersion=' + version, '/DSkipLegacyRetirement=1', '/DValidationSetup=1', ROOT / 'packaging/installer/tb.iss'], work / 'compile.log')
         setup = output / ('ToBe-Setup-' + version + '-win64.exe')
         fresh = work / 'fresh'
-        install(setup, fresh, work / 'fresh-install.log')
+        install(setup, fresh, work / 'fresh-install.log',validation_root=work.parent)
         result['freshProgramManifest'] = verify_program_manifest(fresh, manifest)
         assert not (fresh / 'state').exists()
         with serving(fresh, work / 'fresh-api.json') as api:
@@ -101,7 +102,7 @@ def main():
         before = personal_rows(upgrade)
         marker = upgrade / 'cache/retained-preferences.txt'
         marker.parent.mkdir(exist_ok=True); marker.write_text('fixture-cache-preserved')
-        install(setup, upgrade, work / 'upgrade-install.log')
+        install(setup, upgrade, work / 'upgrade-install.log',validation_root=work.parent)
         result['upgradeProgramManifest'] = verify_program_manifest(upgrade, manifest)
         assert personal_rows(upgrade) == before, 'Installer overwrote personal tables'
         with serving(upgrade, work / 'upgraded-api.json') as api:
