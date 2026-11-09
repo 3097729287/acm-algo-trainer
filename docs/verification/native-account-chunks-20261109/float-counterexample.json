@@ -1,0 +1,15 @@
+{
+  "source": "Actual test-only Python encode oracle and pre-fix serde_json default parser",
+  "inputJson": "1.2345678901234567e+30",
+  "expectedF64Bits": "5057307314743624973",
+  "observedDefaultParserBits": "5057307314743624974",
+  "observedDefaultParserValue": "1.2345678901234568e+30",
+  "failureReproducedBeforeFix": true,
+  "fix": "Enable float_roundtrip on the existing serde_json dependency; no new package or lockfile version change",
+  "scopeAuthorizedByRustCoordinator": true,
+  "regression": "real_python_float_roundtrip_counterexample_retains_the_original_value",
+  "additionalVectorSeed": 20261109,
+  "additionalRandomBitPatterns": 4096,
+  "finiteVectorCountIncludingFixedBoundaries": 4103,
+  "checks": ["native f64 bits to Python canonical JSON", "Python canonical JSON to native f64 bits", "parse then canonical encode bytes"]
+}

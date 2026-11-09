@@ -1,0 +1,44 @@
+{
+  "checkedAt": "2026-11-09T01:16:28.650775+00:00",
+  "baseCommit": "60fd850d",
+  "rustModuleOwnsNetworkOrDatabase": false,
+  "realAccountsRead": false,
+  "ordinaryApplicationLaunchedOrChanged": false,
+  "dependencyChange": "existing serde_json float_roundtrip feature only, coordinator authorized",
+  "newDependencyPackages": 0,
+  "tests": {
+    "account_chunks": 17,
+    "account_transport": 7,
+    "native": 28,
+    "phase2": 20,
+    "initial_defaults": 2,
+    "total": 74,
+    "passed": 74,
+    "failed": 0,
+    "ignored": 0,
+    "largeBoundaryExplicitlyIncluded": true
+  },
+  "pythonBidirectionalReceipt": "python-bidirectional.json",
+  "floatRegression": "float-counterexample.json",
+  "sourceSha256": {
+    "backend-rust/src/account_chunks.rs": "bcfc7535d6155c9f9a78586084dde52160cf12f603b772c8ecfdd2cd9b6c002c",
+    "backend-rust/tests/account_chunks.rs": "10f16a63588d7944153e53822f204c32c87f2ed7d173bc28fa6f34f7c18a598e",
+    "backend-rust/tests/support/account_chunks_oracle.py": "2e565388b3fb5513f91b4e27138f99e07526da76ed1f8dbb963a87188e811b0f",
+    "backend-rust/Cargo.toml": "6411b2325dafb200ecdc8e278cb3a2ae96417300e419a7cc0d139041da5af265",
+    "backend/account_chunks.py": "ab08b885ddabf63baac03404352c75649a8190d07f00d1ef4fc1b976ad2b73af",
+    "backend/account_sync.py": "0fc4d68c7ca0e973d2568d6601a9ccbc6f83db139aebb1be8fd5957350594363",
+    "Cargo.lock": "9c24408a493e6b227a6d46d00ce8e0fd201bbdbee0c0a0b2b9bc5a5cf079efd7"
+  },
+  "commands": [
+    "rustfmt --edition 2024 --check backend-rust/src/account_chunks.rs backend-rust/tests/account_chunks.rs",
+    "cargo test -p tobe-core --test account_chunks --test account_transport --test native --test phase2 --test initial_defaults -- --include-ignored"
+  ],
+  "productionEndpointsOrSessionActivationComplete": false,
+  "integrationOwner": "rust_completion",
+  "limitations": [
+    "from_wire(Value) does not inspect original raw HTTP JSON duplicate keys",
+    "owner/endpoint/epoch scope and network/CAS/upload receipt verification belong to coordinator",
+    "same-owner cold-code dependency existence must be confirmed by authenticated missing/upload protocol",
+    "ordinary fast suite ignores the explicit 512 MiB boundary unless --include-ignored is supplied"
+  ]
+}

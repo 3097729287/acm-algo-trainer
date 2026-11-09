@@ -1,5 +1,6 @@
 //! ToBe domain services. This crate has no WebView, HTTP server or Python runtime.
 pub mod ability;
+pub mod account_chunks;
 pub mod account_transport;
 pub mod account_vault;
 pub mod api;

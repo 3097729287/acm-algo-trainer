@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-11-09T01:00:05.852924+00:00",
+  "baseCommit": "60fd850d",
+  "designPrinciplesFullyRead": true,
+  "designPrinciplesSha256": "b6fa71c9f549962dd07b0e6257829c2424dc5472f36ed74df1632ec0c3accff1",
+  "freshCheckoutClean": true,
+  "existingRustChunkModule": false,
+  "obsoleteOwnedArtifacts": [],
+  "cleanupAction": "No deletion necessary: the isolated checkout has no previous Rust chunk module or generated fixtures. Existing vault, transport, journal and Python chunk code remain active protocol sources. Metadata candidate captures remain referenced and unchanged.",
+  "priorRejectedCleanupPathsRetried": false,
+  "ordinaryApplicationOpenedOrChanged": false,
+  "liveAccountsRead": false,
+  "contractSha256": "8c30ebc58b7665c20910ab0ce8dbcf88a8bf604a06661db819975e73536cd8bc",
+  "pythonSources": {
+    "backend/account_chunks.py": "ab08b885ddabf63baac03404352c75649a8190d07f00d1ef4fc1b976ad2b73af",
+    "backend/account_sync.py": "0fc4d68c7ca0e973d2568d6601a9ccbc6f83db139aebb1be8fd5957350594363"
+  }
+}
