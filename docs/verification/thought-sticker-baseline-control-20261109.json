@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "baselineCommit": "5ca1f75215924a1c74f7362485af4930df6e6f2a",
+  "baselineTrackedClean": true,
+  "originalCommand": "node tests/gameplay-owner-races.mjs",
+  "exitCode": 1,
+  "observedFailure": "5000ms waiting for button with exact accessible name sticker, at choose line19/20",
+  "sameFailureAsThoughtBranch": true,
+  "files": {
+    "frontend/tests/gameplay-owner-races.mjs": {
+      "baseSha256": "2224b001687c7c0390906f4cde8807d1e4ccd2ac397a456241d50f9b0e7473f3",
+      "thoughtSha256": "2224b001687c7c0390906f4cde8807d1e4ccd2ac397a456241d50f9b0e7473f3"
+    },
+    "frontend/tests/gameplay-owner-fixture.jsx": {
+      "baseSha256": "4abc93b2b7d1f136552b04fb88202ab390af61f243387b7b49a10e051ca98393",
+      "thoughtSha256": "4abc93b2b7d1f136552b04fb88202ab390af61f243387b7b49a10e051ca98393"
+    },
+    "frontend/src/components/StickerCanvas.jsx": {
+      "baseSha256": "ba4c1f8efe95b5e75bce9b7c8f5e0bd00d86980fef9561f181ed3c4ee2e47db0",
+      "thoughtSha256": "ba4c1f8efe95b5e75bce9b7c8f5e0bd00d86980fef9561f181ed3c4ee2e47db0"
+    }
+  },
+  "rawLog": "E:\\项目\\ToBe\\临时验证\\thought-baseline-5ca1f752-20261109\\.backups\\baseline-control-20261109\\raw-baseline-final.log",
+  "rawLogSha256": "17553d7ab41f044d30b9380cd3a728536cd571807537a9b1dfbcb2f4135b5d60",
+  "staticCause": "fixture lacks .app-statusbar; StickerCanvas portals toolbar only when that host exists",
+  "productSourceChanged": false,
+  "earlierPreparationFailuresRetained": true
+}

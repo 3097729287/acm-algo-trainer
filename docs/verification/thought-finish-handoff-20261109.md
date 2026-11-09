@@ -47,7 +47,7 @@ python scripts/tb_thought_provider_stdin.py --ssh-argv <已审阅的无密钥arg
 1. 保留当前生产运行源码／配置与在线 SQL 备份，完成已有恢复演练；关闭 PK 两个开关。按既有维护流程取得所有旧表的行数和内容指纹，避免并发写入干扰比较。
 2. 合入审核后的完整服务提交，沿用当前服务构建和 overlay 链。若 017 未存在先执行 017，再执行 021。执行前后用 `scripts/audit-preserved-data.mjs` 核对旧表全量指纹：新增计数表可以为空，重跑必须保留已存在的计数。不要清空任何 `pk_`、账号、排行、奖励或下载表。
 3. 审核最小私有配置变更后，使用 stdin 输送；不要修改普通桌面配置或账号状态。先确认 `_FILE`／直接 key 的实际优先级、私有文件读取权限与全服务预算一致。
-4. 对独立 MySQL 测试实例可执行 `node --test tests/thought-budget-mysql.test.mjs`（显式设置 `TB_MYSQL_TEST_PORT`）。本机没有该独立实例，测试已明确跳过，未声称真实 MySQL 迁移验收完成。
+4. 对独立 MySQL 测试实例可执行 `node --test tests/thought-budget-mysql.test.mjs`（显式设置 `TB_MYSQL_TEST_PORT`）。本机该项明确跳过；后续经 root 审核，已经在服务器 MySQL 8.4.11 的全新随机 schema 内用 `scripts/verify-thought-isolated-mysql.mjs` 完成真实 017／021 保全、重复幂等、预算并发／重启／跨日及超额无假赛果验收，新 schema 已清理。见 [只读审计与隔离回执](thought-production-readonly-audit-20261109.md)。这不是生产迁移或全部 MySQL 测试套件已执行。
 5. 重建并切换共享服务，检查健康、原有账号／排行接口与本人 PK 状态，再明确开启两个 PK 开关。以临时账号做有界实际环境验证，不用真实玩家答卷冒充测试。检查对局和 `pk_judge_usage` 只增加预期次数，日志仅出现脱敏代码和数字状态。
 6. 回退时关闭两个开关并保留所有表、计数、答卷与历史，不能用清空预算或恢复旧快照来重复消费。失败对局只展示明确失败，日额度等待没有伪造结果。
 
@@ -59,5 +59,6 @@ python scripts/tb_thought_provider_stdin.py --ssh-argv <已审阅的无密钥arg
 - 最终共享服务：159 项，157 通过、2 明确跳过、0 失败；其中裁判／恢复／预算专项 25 项全部通过。新增 MySQL 跳过与旧服务中的既有跳过均保留原因。
 - Python 中转／账号相关 29 项通过；真实 React＋共享 HTTP 的思维用例通过（fixture 裁判，和上面的真实 AI 回执分开表述），含额度等待／恢复、迟到草稿／历史响应、六维评分与窄屏。前端生产构建通过。
 - 附带跑的旧 `gameplay-owner-races.mjs` 在未修改的贴纸 fixture 找不到“贴纸”按钮处失败；没有调整贴纸产品，也不将该旧通用测试记为通过。Vite 的未解析 `virtual:material-review` 扫描警告没有阻止本轮思维专项或生产构建。
+- 后续实际 `5ca1f752` 基线对照在同一“贴纸”断言失败，相关三文件与思维分支 SHA 相同，确定为已有 fixture 缺 `.app-statusbar`。服务器的独立随机 MySQL schema 七项验收通过；全部源候选与临时 schema 已按校验清理，无孤儿容器，生产源码／PID／配置保持原样。失败与成功证据均保留。
 
-独立源码提交和分支推送完成后由 root 决定后续集成／部署；本页的配置步骤是交接，没有执行 SSH、配置写入、共享服务重启或普通程序启动。
+独立源码提交和分支推送完成后由 root 决定后续集成／部署。本页的生产配置步骤仍未执行，没有传输 AI 凭据、改生产 env、重启服务或启动普通程序；后续 SSH 只进行只读审计及 root 审核允许的新随机 schema 隔离验收。
