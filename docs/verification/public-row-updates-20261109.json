@@ -107,6 +107,24 @@
     "wholeUpdateOneMinuteClaim": false,
     "ordinaryApplicationTouched": false,
     "personalStatePublished": false,
-    "retainedExploratoryCopies": true
+    "retainedExploratoryCopies": true,
+    "publicParity": {
+      "ok": true,
+      "approvedLayouts": 8,
+      "tablesPerLayout": 11,
+      "resourceIdentities": 6653,
+      "privateFixturesPreserved": true,
+      "idempotent": true
+    },
+    "importedCacheParity": {
+      "ok": true,
+      "sourceBytes": 1501777920,
+      "problemRows": 18013,
+      "sameTables": 10,
+      "sameResourceIdentities": true,
+      "closedOriginalUnchanged": true,
+      "ordinaryApplicationTouched": false,
+      "scope": "isolated closed copy; public merge only, not whole update timing"
+    }
   }
 }
