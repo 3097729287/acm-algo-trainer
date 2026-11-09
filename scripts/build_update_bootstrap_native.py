@@ -6,14 +6,27 @@ ROOT=Path(__file__).resolve().parents[1]
 def sha(path):
     with path.open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
 
+def trusted_asset(item,version):
+    """Bind optional public CDN transport to the exact trusted compact asset."""
+    name=item['name']
+    if not re.fullmatch(r'(?:ToBe|TB)-(?:(?:Full-)?Setup-'+re.escape(version)+r'-win64\.exe|Compact-Update-[\d.]+-to-'+re.escape(version)+r'-win64\.zip)',name):raise ValueError('Invalid asset name')
+    if item['url']!='https://47.82.84.74/updates/assets/'+version+'/'+name or not re.fullmatch('[a-f0-9]{64}',item['sha256']) or type(item['size']) is not int or item['size']<=0:raise ValueError('Invalid trusted download')
+    result={key:item[key] for key in ('name','url','size','sha256')}
+    if 'downloadSources' in item:
+        sources=item['downloadSources']
+        required={'repository','commit','name','size','sha256','urls'}
+        if not isinstance(sources,dict) or set(sources)!=required:raise ValueError('Invalid CDN binding')
+        if sources['repository']!='3097729287/acm-algo-trainer' or not isinstance(sources['commit'],str) or not re.fullmatch('[a-f0-9]{40}',sources['commit']):raise ValueError('Invalid CDN ownership')
+        if 'Compact-Update-' not in name or any(sources[key]!=item[key] for key in ('name','size','sha256')) or type(sources['size']) is not int:raise ValueError('CDN asset identity mismatch')
+        expected='https://cdn.jsdelivr.net/gh/'+sources['repository']+'@'+sources['commit']+'/'+name
+        if sources['urls']!=[expected]:raise ValueError('Invalid pinned CDN URL')
+        result['downloadSources']={**sources,'urls':list(sources['urls'])}
+    return result
+
 def build(specification,stage,compiler):
     value=json.loads(specification.read_text('utf-8'));version=value['version']
     if not re.fullmatch(r'\d+\.\d+\.\d+',version):raise ValueError('Invalid version')
-    def asset(item):
-        name=item['name']
-        if not re.fullmatch(r'(?:ToBe|TB)-(?:(?:Full-)?Setup-'+re.escape(version)+r'-win64\.exe|Compact-Update-[\d.]+-to-'+re.escape(version)+r'-win64\.zip)',name):raise ValueError('Invalid asset name')
-        if item['url']!='https://47.82.84.74/updates/assets/'+version+'/'+name or not re.fullmatch('[a-f0-9]{64}',item['sha256']) or type(item['size']) is not int or item['size']<=0:raise ValueError('Invalid trusted download')
-        return {key:item[key] for key in ('name','url','size','sha256')}
+    def asset(item):return trusted_asset(item,version)
     profiles={}
     for base,item in value['profiles'].items():
         if not re.fullmatch(r'\d+\.\d+\.\d+',base):raise ValueError('Invalid baseline')

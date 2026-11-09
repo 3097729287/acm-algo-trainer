@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "scope": "updater bridge only; application and original 13 published artifacts remain byte-identical",
+  "inspection": {
+    "existingNetworkClass": "one inline ToBeDownload implementation and one call site in the native bridge; the older Inno builder has its own DownloadTemporaryFile transport",
+    "retainedArtifacts": "released packages and previous timing evidence required for rollback and comparison",
+    "unusedRemovableCodeBeforeChange": [],
+    "priorRejectedCleanupTargetsRetried": false
+  },
+  "reuse": "replace the existing native downloader; retain the separate historical Inno builder without rewriting it",
+  "candidateCdnTree": "d54ac2e65143b240d2f559588de6bcb8ed17123b",
+  "measuredSameZipBytes": 4671854,
+  "measuredSameZipSha256": "72f9a33edc0adcc0f3e8a13987ee82f89ae9a1de304fbf234b7c132984f4c73e",
+  "publicEndpointFullShaMeasurements": {
+    "cdn.jsdelivr.net": 2.188,
+    "testingcf.jsdelivr.net": 2.05
+  },
+  "cdnDocumentation": "https://raw.githubusercontent.com/jsdelivr/jsdelivr/master/README.md",
+  "publicPackageOnly": true,
+  "credentialsSent": false
+}

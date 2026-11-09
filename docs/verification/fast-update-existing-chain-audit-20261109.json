@@ -1,0 +1,36 @@
+﻿{
+    "schema":  1,
+    "createdAtUtc":  "2026-11-09T10:13:47.3489201Z",
+    "scope":  "Read-only existing domestic update chain audit; no source edit, build, app launch/stop, deployment or secret access",
+    "cleanupFirst":  {
+                         "receipt":  "E:/项目/ToBe/整理记录/20261109-垃圾清理/recycle-actions.jsonl",
+                         "verifiedRecycledItems":  136,
+                         "logicalMovedBytes":  61080502725,
+                         "permanentDeletion":  0,
+                         "emptyBin":  0,
+                         "currentScopeRemoved":  [
+
+                                                 ],
+                         "inspection":  "Existing one ToBeDownload class/call site reused. Required published assets, frozen application, update profiles, rollback evidence and real private state remain in use. No additional obsolete bridge implementation or unused scope-specific temporary artifact identified before this audit.",
+                         "priorRejectedPathsRetried":  false
+                     },
+    "workingTree":  {
+                        "head":  "5ca1f752",
+                        "branch":  "build/release1611-20261109",
+                        "priorDirty":  [
+                                           "?? docs/verification/fast-bridge-preflight-20261109.json"
+                                       ]
+                    },
+    "constraints":  {
+                        "frozenApplicationSource":  "7cc8a13a4f28c084feb41aec1c296adc680f33b9",
+                        "frozenNativeFrontendSource":  "4ddafd5c4c292d7f21681e0c53197497436f5c4b",
+                        "targetVersion":  "1.6.11",
+                        "newBridgeName":  "ToBe-Setup-1.6.11-win64.exe",
+                        "preserveOriginalGithubAssets":  13,
+                        "cdnTree":  "d54ac2e65143b240d2f559588de6bcb8ed17123b",
+                        "normalApplication":  "E:/项目/ToBe/版本/最新版/程序/ToBe.exe",
+                        "normalApplicationNeverStartedOrStopped":  true,
+                        "newTemporaryWorkMustUseE":  true
+                    },
+    "status":  "Auditing exact reusable scripts and limitations"
+}

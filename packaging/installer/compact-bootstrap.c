@@ -57,7 +57,9 @@ int WINAPI wWinMain(HINSTANCE instance,HINSTANCE previous,PWSTR command,int show
             if(wcslen(args[i]+5)>30000||wcschr(args[i]+5,L'"')||wcschr(args[i]+5,L'\n')){LocalFree(args);return 2;}
             lstrcpyW(app,args[i]+5);
         }
-        if(!_wcsicmp(args[i],L"/SILENT")||!_wcsicmp(args[i],L"/VERYSILENT"))silent=TRUE;
+        /* Automatic callers use /SILENT to suppress questions. Keep the real
+           progress visible; only /VERYSILENT explicitly hides all windows. */
+        if(!_wcsicmp(args[i],L"/VERYSILENT"))silent=TRUE;
     }
     LocalFree(args);
     WCHAR temporary[MAX_PATH];if(!GetTempPathW(MAX_PATH,temporary))return 2;
@@ -82,7 +84,12 @@ int WINAPI wWinMain(HINSTANCE instance,HINSTANCE previous,PWSTR command,int show
         EnableMenuItem(GetSystemMenu(window,FALSE),SC_CLOSE,MF_BYCOMMAND|MF_GRAYED);
         label=CreateWindowExW(0,L"STATIC",L"正在检查当前安装…",WS_CHILD|WS_VISIBLE,20,20,430,24,window,NULL,instance,NULL);
         bar=CreateWindowExW(0,PROGRESS_CLASSW,L"",WS_CHILD|WS_VISIBLE,20,63,430,16,window,NULL,instance,NULL);
-        SendMessageW(bar,PBM_SETRANGE32,0,10000);ShowWindow(window,SW_SHOW);UpdateWindow(window);
+        SendMessageW(bar,PBM_SETRANGE32,0,10000);ShowWindow(window,SW_SHOW);
+        /* The old updater launches setup with STARTUPINFO=SW_HIDE. Its startup
+           state can override the first ShowWindow call. Show progress without
+           activation if that happened; /VERYSILENT never creates this window. */
+        if(!IsWindowVisible(window))ShowWindow(window,SW_SHOWNOACTIVATE);
+        UpdateWindow(window);
     }
     DWORD result=2;
     for(;;){
