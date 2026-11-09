@@ -464,7 +464,7 @@ fn fetch_error(error: FetchError) -> ApiError {
 }
 fn plain_path(path: &Path) -> Result<(), ApiError> {
     for item in path.ancestors() {
-        match fs::symlink_metadata(item) {
+        match path_metadata(item) {
             Ok(metadata) => {
                 #[cfg(windows)]
                 let redirected = {
@@ -486,6 +486,26 @@ fn plain_path(path: &Path) -> Result<(), ApiError> {
         }
     }
     Ok(())
+}
+fn path_metadata(path: &Path) -> io::Result<fs::Metadata> {
+    #[cfg(windows)]
+    let began = Instant::now();
+    loop {
+        match fs::symlink_metadata(path) {
+            // Concurrent SQLite journal creation/removal can briefly make a
+            // Windows metadata open return AccessDenied/SharingViolation.
+            // Retry the proof itself; never treat denied access as absence or
+            // skip the reparse-point check. Persistent denial still fails.
+            #[cfg(windows)]
+            Err(error)
+                if matches!(error.raw_os_error(), Some(5 | 32 | 33))
+                    && began.elapsed() < Duration::from_millis(50) =>
+            {
+                std::thread::sleep(Duration::from_millis(2));
+            }
+            result => return result,
+        }
+    }
 }
 fn verify(db: &Connection, item: &Descriptor) -> Result<bool, ApiError> {
     let table: bool = db.query_row(

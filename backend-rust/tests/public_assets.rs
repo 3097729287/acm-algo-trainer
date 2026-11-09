@@ -380,6 +380,7 @@ fn actual_http_transport_never_follows_redirects_or_sends_account_headers() {
         while !shutdown.load(Ordering::SeqCst) {
             match listener.accept() {
                 Ok((mut socket, _)) => {
+                    socket.set_nonblocking(false).unwrap();
                     socket
                         .set_read_timeout(Some(Duration::from_secs(2)))
                         .unwrap();
