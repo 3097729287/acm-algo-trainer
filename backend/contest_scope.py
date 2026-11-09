@@ -60,6 +60,24 @@ def requested_wiki_examples():
     return {item['problemId']:item['url'] for item in json.loads(path.read_text('utf8'))['entries']}
 
 
+def _uncached_excluded_event_text(text):
+    return bool(_XCPC.search(text) and (_WORLD.search(text) or _FOREIGN.search(text)
+                                      or _FINALS.search(text) or _ONLINE.search(text)))
+
+
+@lru_cache(maxsize=4096)
+def _cached_excluded_event_text(text):
+    return _uncached_excluded_event_text(text)
+
+
+def _excluded_event_text(text):
+    # Custom source fields may be arbitrarily large. Keep only ordinary event
+    # labels in the bounded process cache; long text retains the same decision.
+    if len(text) > 4096:
+        return _uncached_excluded_event_text(text)
+    return _cached_excluded_event_text(text)
+
+
 def excluded(row):
     row = row.get('encoded', row)
     # The later platform retirement overrides the earlier Wiki-link exemption.
@@ -79,5 +97,4 @@ def excluded(row):
     # Mirror prefixes may be preceded by another source label, e.g. HNOI/WF.
     events += re.findall(r'\[([^\]\n]+)\]|【([^】\n]+)】', title)
     text = ' '.join(' '.join(value) if isinstance(value, tuple) else value for value in events)
-    return bool(_XCPC.search(text) and (_WORLD.search(text) or _FOREIGN.search(text)
-                                      or _FINALS.search(text) or _ONLINE.search(text)))
+    return _excluded_event_text(text)
