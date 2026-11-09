@@ -4,8 +4,8 @@ import {createServer} from 'vite';
 import {chromium} from 'playwright';
 
 process.env.TB_OFFLINE='1';
-const out='../.backups/next-152/browser-ui';await mkdir(out,{recursive:true});
-const server=await createServer({cacheDir:'../.backups/next-152/browser-vite',server:{host:'127.0.0.1',port:0}});await server.listen();
+const out='../.backups/next-152/browser-ui-'+Date.now();await mkdir(out,{recursive:true});
+const server=await createServer({cacheDir:'../.backups/next-152/browser-vite',optimizeDeps:{entries:['tests/learning-browser-fixture.html']},server:{host:'127.0.0.1',port:0}});await server.listen();
 const browser=await chromium.launchPersistentContext(out+'/profile-'+Date.now(),{channel:process.env.CI?undefined:'msedge',headless:true,viewport:{width:1600,height:1000}}),page=browser.pages()[0],errors=[];
 page.on('pageerror',issue=>errors.push(issue.message));page.setDefaultTimeout(15000);
 const open=tab=>page.evaluate(tab=>window.studyFixture.open({...tab,newTab:true}),tab);

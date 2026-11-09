@@ -638,6 +638,10 @@
   stroke-width: 2.5;
 }
 .wb-official-status b.wb-receipt-ac { color: var(--success); font-size: 20px; }
+.tb-workbench .wb-statement[hidden]{display:none}
+.wb-deepseek-surface{flex:1;min-width:0;min-height:0;position:relative;overflow:hidden;background:var(--study-paper,var(--panel))}
+.wb-deepseek-surface>div{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--muted)}
+.wb-deepseek-toggle[aria-pressed=true]{color:var(--accent)}
 .wb-verdict-sample_pass {
   color: var(--accent);
 }

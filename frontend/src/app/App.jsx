@@ -17,6 +17,8 @@ import {ClipboardList} from 'lucide-react';
 import usePresence,{currentActivity} from '@/lib/usePresence.js';
 import {createPortal} from 'react-dom';
 import LearningBrowser from './LearningBrowser.jsx';
+import {registerShortcutRoute,shortcutBinding} from '@/lib/applicationShortcuts.js';
+import {availableProblemNeighbour} from '@/lib/problemNeighbours.js';
 import ReaderFrame from '@/components/ReaderFrame.jsx';
 import useDuel from '@/lib/useDuel.js';
 import useThoughtDuel from '@/lib/useThoughtDuel.js';
@@ -56,7 +58,7 @@ import ContestReminder from '@/components/ContestReminder.jsx';
 import {createCalendarCatalogReader} from '@/lib/calendarCatalogRefresh.js';
 import PopConfirm from '@/components/PopConfirm.jsx';
 import {activatePageAction} from '@/lib/shortcutControls.js';
-import {EXTRA_SHORTCUTS,matchesShortcut,shortcutValue} from '@/lib/shortcuts.js';
+import {SHORTCUTS,EXTRA_SHORTCUTS,matchesShortcut,shortcutValue} from '@/lib/shortcuts.js';
 import PageSearch from '@/components/PageSearch.jsx';
 import FolderSelect from '@/components/FolderSelect.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
@@ -395,7 +397,7 @@ function Modal({ title, onClose, children, wide = false, footer, headerActions, 
       if (restore.current?.isConnected) restore.current.focus();
     };
   }, []);
-  return (
+  const content = (
     <div
       className="modal-overlay"
       onMouseDown={(e) => e.target === e.currentTarget && onClose?.()}
@@ -419,6 +421,11 @@ function Modal({ title, onClose, children, wide = false, footer, headerActions, 
       </section>
     </div>
   );
+  // Full-window study panes intentionally make the ordinary shell inert.
+  // Global application dialogs must remain above that pane and interactive.
+  return document.querySelector('.study-browser,.team-training-room')
+    ? createPortal(<div className="study-global-modal" style={{position:'fixed',inset:0,zIndex:500}}>{content}</div>,document.body)
+    : content;
 }
 const SolutionReader=lazy(()=>import('@/components/SolutionReader.jsx'));
 const Markdown = lazy(() => import('@/components/SolutionMarkdown.jsx'));
@@ -1070,8 +1077,8 @@ export default function App() {
         setDisplay(previous => { if (previous.available) applyFullscreen(!previous.fullscreen); return previous; });
       }
     };
-    window.addEventListener("keydown", onKey);
-    return () => { alive = false; window.removeEventListener("keydown", onKey); };
+    const remove=registerShortcutRoute({key:'desktop-fullscreen',priority:400,bindings:[{id:'desktop-fullscreen',combo:'F11'}],handle:onKey});
+    return () => { alive = false; remove(); };
   }, [api, applyFullscreen]);
   useEffect(() => {
     if (!workspace.activeContest) return;
@@ -1536,8 +1543,7 @@ export default function App() {
   async function nextPractice() {
     const context = contextRef.current;
     const ids = context?.ids || visibleRef.current.map((r) => r.id);
-    const index = ids.indexOf(practiceId);
-    const next = ids[index + 1];
+    const next = availableProblemNeighbour(ids,practiceId,rows);
     if (next) {
       await openPractice(next);
     } else {
@@ -1719,15 +1725,6 @@ export default function App() {
   useEffect(() => {
     function keyboard(e) {
       if(e.key==='Escape'&&document.querySelector('[data-rank-promotion]'))return;
-      if(document.querySelector('.study-browser')){
-        if(e.defaultPrevented||e.isComposing)return;
-        const target=PAGES.find(item=>featureAvailable(item.id)&&matchesShortcut(e,'page-'+item.id,prefs.shortcuts));
-        if(target){e.preventDefault();go(target.id);}
-        else if(matchesShortcut(e,'settings',prefs.shortcuts)){e.preventDefault();go('settings');}
-        else if(matchesShortcut(e,'learning-summary',prefs.shortcuts)){e.preventDefault();setTaskView('overview');go('tasks');}
-        else if(matchesShortcut(e,'theme',prefs.shortcuts)){e.preventDefault();setPrefs(previous=>({...previous,theme:previous.theme==='dark'?'light':'dark'}));}
-        return;
-      }
       if (e.defaultPrevented || e.isComposing || e.target.closest?.('[data-shortcut-input]')) return;
       if (e.key==='Escape' && (document.querySelector('.filter-popover') || document.querySelector('.tb-select-menu') || document.querySelector('[data-popconfirm]'))) return;
       if (e.key==='Escape' && e.target.closest?.('.tooltip-anchor') && document.querySelector('[role="tooltip"]')) return;
@@ -1738,7 +1735,7 @@ export default function App() {
         button =
           e.target instanceof Element &&
           !!e.target.closest('button,a,[role="treeitem"]');
-      const context=practiceId||page==='mock'&&active?'编辑器':({'mine':'题目列表','library':'题目列表','training-lists':'题单','competitions':'比赛','mock':'模拟赛','lectures':'从零讲','templates':'模板','records':'提交记录','rankings':'排行榜'})[page]||(page==='settings'&&settingsTab==='accounts'?'初始代码模板':'');
+      const context=document.querySelector('.study-browser')?'':practiceId||page==='mock'&&active?'编辑器':({'mine':'题目列表','library':'题目列表','training-lists':'题单','competitions':'比赛','mock':'模拟赛','lectures':'从零讲','templates':'模板','records':'提交记录','rankings':'排行榜'})[page]||(page==='settings'&&settingsTab==='accounts'?'初始代码模板':'');
       const extra=EXTRA_SHORTCUTS.find(([id,,,scope])=>scope!=='编辑器'&&(scope==='全局'||scope===context)&&shortcut(id));
       if(extra&&(!typing||e.altKey||control)) {
         const id=extra[0];
@@ -1780,7 +1777,8 @@ export default function App() {
       if (shortcut("regions")) {
         e.preventDefault();
         e.stopPropagation();
-        const regions = [
+        const study=document.querySelector('.study-pane[data-study-focused=true]')||document.querySelector('.study-pane:not([hidden])');
+        const regions = (study ? [study.querySelector('.wb-statement:not([hidden])'),study.querySelector('.cm-content'),study.querySelector('.wb-console [tabindex="0"]'),study.querySelector('input,button,a,[tabindex="0"]')] : [
           document.querySelector('.sidebar nav [aria-current="page"]') ||
             document.querySelector(".sidebar nav button"),
           document.querySelector(
@@ -1792,7 +1790,7 @@ export default function App() {
             ),
           document.querySelector(".cm-content"),
           document.querySelector('.wb-console [tabindex="0"]'),
-        ].filter(
+        ]).filter(
           (x, i, a) => x && x.getClientRects().length && a.indexOf(x) === i,
         );
         const focus = document.activeElement;
@@ -1936,8 +1934,14 @@ export default function App() {
         removeTraining(selectedRef.current);
       }
     }
+    const scope=document.querySelector('.study-browser')?'':practiceId||page==='mock'&&active?'编辑器':({'mine':'题目列表','library':'题目列表','training-lists':'题单','competitions':'比赛','mock':'模拟赛','lectures':'从零讲','templates':'模板','records':'提交记录','rankings':'排行榜'})[page]||(page==='settings'&&settingsTab==='accounts'?'初始代码模板':'');
+    const bindings=SHORTCUTS.filter(([id,,,group])=>['全局','导航',scope].includes(group)&&group!=='编辑器'&&!(id==='search'&&(practiceId||page==='mock'&&active))).map(([id])=>shortcutBinding(id,prefs.shortcuts));
+    const remove=registerShortcutRoute({key:'app-global',priority:100,context:[account?.userId,page,practiceId,readerId,dialog,settingsTab,learningBrowserActive].join('|'),bindings:[...bindings,{id:'app-back',combo:'Escape'}],handle:keyboard});
+    // Unregistered list arrows and letter navigation retain their original
+    // target-specific behavior. Registered app combinations are consumed by
+    // the router first, before CodeMirror or any bubbling handler sees them.
     window.addEventListener("keydown", keyboard, true);
-    return () => window.removeEventListener("keydown", keyboard, true);
+    return () => {remove();window.removeEventListener("keydown", keyboard, true);};
   });
 
   function renderRows(items,listPage) {

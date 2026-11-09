@@ -509,6 +509,11 @@ class Handler(BaseHTTPRequestHandler):
                     if not isinstance(requested, bool):
                         raise APIError(400, "全屏参数必须是布尔值")
                     value = self.server.desktop_fullscreen(requested)
+                elif path == '/api/desktop/deepseek':
+                    pane = getattr(self.server, 'embedded_deepseek', None)
+                    if pane is None:
+                        raise APIError(503, '原生网页尚未就绪')
+                    value = pane.update(body)
                 elif path == "/api/problem/translate":
                     value = self.server.translate_problem(body.get("id"), body.get("contestId"))
                 elif path == "/api/translation/test":
@@ -720,6 +725,17 @@ class Handler(BaseHTTPRequestHandler):
                     self.send_json(200, self.server.desktop_state())
                 else:
                     self.send_json(200, {"available": False, "fullscreen": False})
+            elif path == '/api/desktop/deepseek':
+                pane = getattr(self.server, 'embedded_deepseek', None)
+                self.send_json(200, pane.snapshot() if pane is not None else {'available': False, 'status': 'unavailable'})
+            elif path == '/api/desktop/input-activity':
+                activity = getattr(self.server, 'native_activity', None)
+                self.send_json(200, activity.snapshot() if activity is not None else {
+                    'available': False, 'session': None, 'revision': 0, 'observed': False, 'ageSeconds': None})
+            elif path == '/api/desktop/deepseek-shortcuts':
+                pane = getattr(self.server, 'embedded_deepseek', None)
+                self.send_json(200, pane.shortcut_snapshot() if pane is not None else {
+                    'available': False, 'viewId': None, 'registration': 0, 'sequence': 0, 'actions': []})
             elif path == "/api/official/status":
                 identity = parse_qs(target.query).get("sessionId", [None])[0]
                 if not callable(self.server.official_status):
@@ -1085,6 +1101,12 @@ class LocalServer(ThreadingHTTPServer):
         return value
 
     def server_close(self):
+        activity = getattr(self, 'native_activity', None)
+        if activity is not None:
+            activity.close()
+        pane = getattr(self, 'embedded_deepseek', None)
+        if pane is not None:
+            pane.close()
         jobs=getattr(self,'startup_jobs',None)
         if jobs is not None:jobs.close()
         content=getattr(self,'content_updates',None)
@@ -1166,6 +1188,8 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
         server.official_session_lock = threading.RLock()
         server.desktop_state = None
         server.desktop_fullscreen = None
+        server.embedded_deepseek = None
+        server.native_activity = None
         server.state_dir = Path(training_file).parent
         from statement_backfill import StatementBackfill
         server.statement_backfill = StatementBackfill(server.store, server.state_dir)

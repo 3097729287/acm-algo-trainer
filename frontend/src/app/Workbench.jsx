@@ -14,7 +14,7 @@ import {ChangeSet} from '@codemirror/state';
 import {isolateHistory} from '@codemirror/commands';
 import {
   ArrowLeft, ArrowRight, BookOpen, Check, ChevronDown, ChevronUp,
-  Code2, Copy, ExternalLink, History, LoaderCircle,
+  Code2, Copy, ExternalLink, History, LoaderCircle, MessageCircle,
   PanelLeft, PanelsTopLeft, Play, RotateCcw, Send, Terminal,
 } from 'lucide-react';
 import { normalizeMarkdown } from '@/lib/normalizeMarkdown.js';
@@ -35,6 +35,8 @@ import {platformInfo,rowPlatform} from '@/lib/platformRegistry.js';
 import './Workbench.css';
 import useWorkbenchToolbar from './useWorkbenchToolbar.js';
 import useReadingZoom from '@/lib/readingZoom.js';
+import useEmbeddedDeepSeek from '@/lib/useEmbeddedDeepSeek.js';
+import {shortcutBinding,useShortcutRoute} from '@/lib/applicationShortcuts.js';
 
 const TemplatesPage=lazy(()=>import('@/pages/TemplatesPage.jsx'));
 const TEMPLATE = '#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    \n    return 0;\n}\n';
@@ -238,6 +240,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   callbacks.current = { onProgress, onExit, onSolution, onCloseSolution, onNotice, onNext, nextDisabled };
 
   const activeRecord = useRef(null);
+  const nextFlight=useRef(false);
   const formattingContext = useRef(null), formattingRequest = useRef(null), formattingGeneration = useRef(0);
   const sectionRef = useRef(null);
   const statementRef = useRef(null);
@@ -248,6 +251,8 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const officialOpening = useRef(false), mounted = useRef(false);
   const accountOwner=window.__tbAccountUserId||'local';
   const ownerRef=useRef(accountOwner);ownerRef.current=accountOwner;
+  const deepseekSurface=useRef(null);
+  const deepseek=useEmbeddedDeepSeek({api,owner:accountOwner,surface:deepseekSurface,enabled:studyPane?.visible!==false&&studyPane?.focused!==false});
   const sharedRef=useRef(sharedSession);sharedRef.current=sharedSession;
   useEffect(()=>{mounted.current=true;return()=>{
     mounted.current=false;
@@ -931,6 +936,13 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     }
   },[loading,problem,translationBusy]);
   const loadHistoryCode=async row=>{const record=activeRecord.current;try{const saved=row.codePending?(await apiRef.current(`submission?id=${encodeURIComponent(row.id)}`)).submission:row;if(isActive(record)){setSubmissions(rows=>mergeSubmission(rows,saved));loadOwnCode(saved.code);}}catch(issue){if(isActive(record))setActionError(issue.message);}};
+  const nextProblem=async()=>{
+    const record=activeRecord.current,owner=ownerRef.current;
+    if(nextFlight.current||!record?.loaded||!callbacks.current.onNext||callbacks.current.nextDisabled)return;
+    nextFlight.current=true;
+    try{if(await saveRecord(record)&&mounted.current&&activeRecord.current===record&&ownerRef.current===owner&&!callbacks.current.nextDisabled)await callbacks.current.onNext?.();}
+    finally{nextFlight.current=false;}
+  };
   const editorCommand = command => {
     if (command === 'official'||command==='submit') {if(problem?.templatePractice)execute('submit');else openOfficial();}
     else if (command === 'run') execute('run');
@@ -939,7 +951,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     else if (command === 'pane-1') focusPane('statement');
     else if (command === 'pane-2') focusPane('code');
     else if(command==='workbench-back')void exit();
-    else if(command==='workbench-next'){if(!callbacks.current.nextDisabled)void saveRecord(activeRecord.current).then(saved=>{if(saved&&!callbacks.current.nextDisabled)callbacks.current.onNext?.();});}
+    else if(command==='workbench-next')void nextProblem();
     else if(command==='statement-language')toggleStatementLanguage();
     else if(command==='statement-copy')void copyStatement();
     else if(command==='statement-original')sectionRef.current?.querySelector('.wb-original-link')?.click();
@@ -952,11 +964,14 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     else if(command==='console-toggle')setConsoleOpen(value=>!value);
   };
   const handleKeys = event => {
-    if (event.defaultPrevented || event.nativeEvent.isComposing) return;
+    if (event.defaultPrevented || event.isComposing || event.nativeEvent?.isComposing) return;
     const id=['official','submit','run','save','pane-0','pane-1','pane-2',...EXTRA_SHORTCUTS.filter(item=>item[3]==='编辑器').map(item=>item[0])].find(id=>matchesShortcut(event,id,shortcuts));
     if(id){event.preventDefault();event.stopPropagation();editorCommand(id);}
 
   };
+  useShortcutRoute({priority:200,context:contextKey,bindings:[...['official','submit','run','save','pane-0','pane-1','pane-2',...EXTRA_SHORTCUTS.filter(item=>item[3]==='编辑器'&&item[0]!=='study-toolbar-lock').map(item=>item[0])].map(id=>shortcutBinding(id,shortcuts)),{id:'editor-leave',combo:'Ctrl+Tab'}],
+    handle:(event,id)=>{if(id==='editor-leave'){event.preventDefault();consoleButtonRef.current?.focus();}else handleKeys(event);},target:()=>sectionRef.current,
+    enabled:()=>studyPane?.visible!==false&&studyPane?.focused!==false&&Boolean(sectionRef.current?.getClientRects().length)&&!sectionRef.current.closest('[hidden],[inert]')&&!document.querySelector('dialog[open],[aria-modal=true],[data-popconfirm]')});
   const loadOwnCode = value => {
     if (unavailable || typeof value !== 'string') return;
     undoReplace.current = activeRecord.current.code;
@@ -1041,6 +1056,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         {problem && <span className="wb-limits">{elapsedText(problem.limits?.timeMs)} · {problem.limits?.memoryMb || '—'} MB</span>}
       </div>
     </div><div className="wb-statement-actions">
+          <button type="button" className="wb-icon-button wb-deepseek-toggle" aria-label={deepseek.open?'切回题面':'切换到DeepSeek'} title={deepseek.open?'切回题面':'DeepSeek'} aria-pressed={deepseek.open} disabled={!deepseek.state.available} onClick={deepseek.toggle}><MessageCircle size={16}/></button>
           <div className="wb-font-controls" role="group" aria-label="题面字号调节">
             <BoundedNumber aria-label="题面字号" title={`题面字号 · 滚轮调节 · ${shortcutValue('statement-font',shortcuts)}`} min={14} max={32} unit="px" value={statementFontSize} wheelStep required onChange={event => changeStatementFontSize(Number(event.target.value))}/>
           </div>
@@ -1059,7 +1075,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
             <button type="button" className="wb-button" aria-label="任务概览" title={`任务概览 · ${shortcutValue('learning-summary',shortcuts)}`} onClick={()=>window.dispatchEvent(new Event('tb:learning-summary-open'))}><BookOpen size={14}/></button>
             {featureAvailable('templates',true)&&<button type="button" className="wb-button" aria-label="打开模板" title={`打开模板 · ${shortcutValue('code-templates',shortcuts)}`} disabled={loading||!problem||unavailable} onClick={()=>setTemplatesOpen(true)}><Code2 size={14}/></button>}
             {solutionButtons}
-            {onNext && <button type="button" className="wb-button wb-next-button" disabled={nextDisabled} title={`${nextLabel} · ${shortcutValue('workbench-next',shortcuts)}`} onClick={async () => { if(await saveRecord(activeRecord.current)&&!callbacks.current.nextDisabled) callbacks.current.onNext?.(); }}>{nextLabel}<ArrowRight size={14} /></button>}
+            {onNext && <button type="button" className="wb-button wb-next-button" disabled={nextDisabled} title={`${nextLabel} · ${shortcutValue('workbench-next',shortcuts)}`} onClick={()=>void nextProblem()}>{nextLabel}<ArrowRight size={14} /></button>}
             {localDraftRecovery !== null && <button type="button" className="wb-button" disabled={unavailable} title="当前为更新的同步版本；可恢复本机未上传的旧草稿" onClick={() => {
               undoReplace.current = code;
               updateCode(localDraftRecovery);
@@ -1093,7 +1109,8 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         {narrow&&statementHeader}
         {translationBusy && <p className="wb-translation-note" role="status"><LoaderCircle size={12} className="wb-spinner" />正在翻译公开题面，原文仍可阅读。</p>}
         {translationError && <div className="wb-translation-note wb-translation-error" role="alert"><span>{translationError}</span><button type="button" onClick={translateStatement}>重试</button></div>}
-        <article className={`wb-statement${statementPdf ? ' wb-pdf-statement' : ''}`} ref={statementRef} tabIndex={0} aria-label="题面内容" style={{ '--statement-font-size': `${statementFontSize}px` }}>
+        {deepseek.open&&<div className="wb-deepseek-surface" ref={deepseekSurface} role="region" aria-label="DeepSeek"><div role={deepseek.state.status==='error'?'alert':'status'}>{deepseek.state.status==='error'?<><span>DeepSeek 暂时无法打开</span><button type="button" className="wb-button" onClick={deepseek.reload}><RotateCcw size={14}/>重试</button></>:deepseek.state.status!=='ready'?<><LoaderCircle size={18} className="wb-spinner"/><span>正在打开 DeepSeek</span></>:null}</div></div>}
+        <article className={`wb-statement${statementPdf ? ' wb-pdf-statement' : ''}`} ref={statementRef} hidden={deepseek.open} tabIndex={0} aria-label="题面内容" style={{ '--statement-font-size': `${statementFontSize}px` }}>
           {loading ? <div className="wb-empty"><LoaderCircle className="wb-spinner" size={22} /><span>正在载入题面</span></div>
             : loadError ? <div className="wb-empty"><span>{loadError}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button></div>
             : statementPdf ? <StatementPdf key={statementPdf.sha256} pdf={statementPdf} title={problem.title} fontSize={statementFontSize}/>

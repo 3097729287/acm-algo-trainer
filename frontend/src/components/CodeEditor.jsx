@@ -1,4 +1,5 @@
 import {EXTRA_SHORTCUTS,matchesShortcut} from '@/lib/shortcuts.js';
+import {shortcutBinding,useShortcutRoute} from '@/lib/applicationShortcuts.js';
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { drawSelection, EditorView, keymap, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, dropCursor, rectangularSelection, crosshairCursor, highlightActiveLine } from '@codemirror/view';
 import { Annotation, Compartment, EditorState, Prec } from '@codemirror/state';
@@ -65,6 +66,9 @@ const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', on
   const host = useRef(null), viewRef = useRef(null), readonlyCompartment = useRef(new Compartment());
   const callbacks = useRef({ onChange, onCursorChange, onCommand, onLeave, shortcuts });
   callbacks.current = { onChange, onCursorChange, onCommand, onLeave, shortcuts };
+  useShortcutRoute({priority:160,context:docKey,bindings:[...['official','submit','run','save','pane-0','pane-1','pane-2',...EXTRA_SHORTCUTS.filter(item=>item[3]==='编辑器').map(item=>item[0])].map(id=>shortcutBinding(id,shortcuts)),...(onLeave?[{id:'editor-leave',combo:'Ctrl+Tab'}]:[])],
+    enabled:()=>Boolean((onCommand||onLeave)&&host.current?.getClientRects().length&&!host.current.closest('.tb-workbench,[hidden],[inert]')&&!document.querySelector('dialog[open],[aria-modal=true]')),
+    target:()=>viewRef.current?.contentDOM,handle:(event,id)=>{if(id==='editor-leave')callbacks.current.onLeave?.();else callbacks.current.onCommand?.(id);event.preventDefault();}});
   useImperativeHandle(ref, () => ({
     focus: () => viewRef.current?.focus(),
     get value() { return viewRef.current?.state.doc.toString() || ''; },

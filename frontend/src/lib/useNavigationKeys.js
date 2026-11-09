@@ -1,5 +1,6 @@
 import {useEffect} from 'react';
 import {matchesShortcut} from './shortcuts.js';
+import {registerShortcutRoute,shortcutBinding} from './applicationShortcuts.js';
 const visible=node=>node.getClientRects().length>0&&!node.closest('[inert],[hidden],[aria-hidden=true]');
 const arrows={w:'ArrowUp',a:'ArrowLeft',s:'ArrowDown',d:'ArrowRight'};
 const arrowCodes={ArrowUp:38,ArrowLeft:37,ArrowDown:40,ArrowRight:39};
@@ -69,7 +70,8 @@ export default function useNavigationKeys(shortcuts={}) {
       const button=[...containers[0].querySelectorAll('button')].find(node=>(node.getAttribute('aria-label')||node.textContent).includes(direction));
       if(button){event.preventDefault();if(!button.disabled)button.click();}
     };
-    window.addEventListener('keydown',bookmarkKey,true);window.addEventListener('keydown',key);
-    return()=>{removeDirectionKeys();window.removeEventListener('keydown',bookmarkKey,true);window.removeEventListener('keydown',key);};
+    const remove=registerShortcutRoute({key:'page-bookmarks',priority:150,bindings:['bookmark-previous','bookmark-next'].map(id=>shortcutBinding(id,shortcuts)),handle:bookmarkKey});
+    window.addEventListener('keydown',key);
+    return()=>{remove();removeDirectionKeys();window.removeEventListener('keydown',key);};
   },[shortcuts]);
 }

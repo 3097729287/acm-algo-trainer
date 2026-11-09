@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "date": "2026-11-09",
+  "baseCommit": "72866bd8fe93a382cf7f0c2e40813fd60ac9aa36",
+  "scope": "New independent embedded-DeepSeek worktree before implementation",
+  "designPrinciplesReadCompletely": true,
+  "currentWorkspaceInstructionsRead": true,
+  "trackedSourceInitiallyClean": true,
+  "obsoleteGeneratedArtifactsFound": 0,
+  "recycledItems": [],
+  "reason": "Fresh worktree contains referenced versioned source only. Existing 93 frontend/native output, frozen 112/r2 artifacts, old update baselines, personal records and recovery evidence are still required and protected. Shared dependencies will be reused.",
+  "normalProgramOrBrowserControlled": false,
+  "normalCredentialsOrCookiesRead": false
+}

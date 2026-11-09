@@ -28,6 +28,11 @@ class CompactUpdateTests(unittest.TestCase):
             db.execute('CREATE TABLE records(kind TEXT PRIMARY KEY,value TEXT)')
             db.executemany('INSERT INTO records VALUES(?,?)',[('account','retained identity'),('draft','中文代码😀'),('submission','real history fixture'),('training','saved plan')])
         self.custom=self.app/'frontend/dist/custom-owned.txt';self.custom.write_text('keep local file',encoding='utf-8')
+        self.deepseek_private={
+            'cache/tb-deepseek-webview2/owner-A/ToBeDeepSeek/Cookies':b'isolated persistent cookie marker',
+            'cache/tb-deepseek-webview2/owner-A/ToBeDeepSeek/Local Storage/leveldb/fixture':b'isolated persistent local storage marker'}
+        for name,data in self.deepseek_private.items():
+            target=self.app/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(data)
         self.private_before=self.private.read_bytes();self.bundle=self.root/'compact.zip';self.make_bundle()
 
     def make_bundle(self,*,unsafe=False,corrupt=False):
@@ -43,6 +48,7 @@ class CompactUpdateTests(unittest.TestCase):
 
     def assert_private(self):
         self.assertEqual(self.private.read_bytes(),self.private_before);self.assertEqual(self.custom.read_text(encoding='utf-8'),'keep local file')
+        for name,data in self.deepseek_private.items():self.assertEqual((self.app/name).read_bytes(),data)
 
     def test_check_is_read_only_and_success_replaces_only_managed_program_files(self):
         value=apply(self.bundle,self.app,'1.6.8',check=True);self.assertTrue(value['compatible'])

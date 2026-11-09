@@ -285,6 +285,10 @@ def run_desktop() -> int:
                 threading.Thread(target=warm_catalog,name='tb-catalog-warmup',daemon=True).start()
                 # 桌面全屏：受本机写接口保护，通过 pywebview 原生 toggle_fullscreen 实现。
                 bind_desktop_fullscreen(server, window)
+                from embedded_deepseek import bind as bind_deepseek
+                deepseek = bind_deepseek(server, window, STATE.parent / 'cache' / 'tb-deepseek-webview2')
+                from native_activity import bind as bind_native_activity
+                native_activity = bind_native_activity(server, window, deepseek.shortcuts)
                 def push_status(name, value):
                     window.evaluate_js('window.dispatchEvent(new CustomEvent(' + json.dumps(name) +
                                        ',{detail:' + json.dumps(value, ensure_ascii=True) + '}))')
@@ -318,6 +322,8 @@ def run_desktop() -> int:
                 from close_coordinator import CloseCoordinator
                 def begin_close():
                     server.fast_shutdown=True
+                    native_activity.close()
+                    deepseek.close()
                     official.on_closing()
                 closing=CloseCoordinator(window,begin_close)
                 window.events.closing += closing.on_closing
