@@ -433,7 +433,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         const backup = readDraft(record.key);
         record.locked = Boolean(answer.locked && !contestId);
         record.closed = record.closed || record.locked;
-        const useLocal = !record.shared && backup?.dirty && (!answer.draftSavedAt || Number(backup.modifiedAt || 0) >= Date.parse(answer.draftSavedAt));
+        const useLocal = !record.shared && backup?.dirty && (answer.draftSource === 'official-review' || !answer.draftSavedAt || Number(backup.modifiedAt || 0) >= Date.parse(answer.draftSavedAt));
         record.language = useLocal ? backup.language || 'cpp17' : answer.draftLanguage || 'cpp17';
         setCodeLanguage(record.language);
         setInitialCode(answer.initialCode||null);

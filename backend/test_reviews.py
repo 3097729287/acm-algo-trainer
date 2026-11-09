@@ -102,7 +102,8 @@ class ReviewTests(unittest.TestCase):
         self.service.save_draft('fixture::A', 'review attempt', language='python3', review_id=task['id'])
         self.receipt(review_id=task['id'])
         self.assertEqual(self.service.workspace()['reviews']['tasks'], [])
-        self.assertEqual(self.service.problem('fixture::A')['draft'], 'yesterday complete code')
+        self.assertEqual(self.service.problem('fixture::A')['draft'], 'independent rewrite')
+        self.assertEqual(self.service.connection.execute("SELECT code FROM drafts WHERE problem_id='fixture::A' AND context=''").fetchone()[0], 'yesterday complete code')
         due = self.state()['due']
         self.clock.advance(days=10)
         next_task = self.open()
@@ -112,7 +113,7 @@ class ReviewTests(unittest.TestCase):
         self.service.close()
         self.service = TrainingService(self.library,self.db,self.assets,self.judge,self.clock,self.root/'backups')
         self.assertEqual(self.service.problem('fixture::A',review_id=task['id'])['draft'], 'review attempt')
-        self.assertEqual(self.service.problem('fixture::A')['draft'], 'yesterday complete code')
+        self.assertEqual(self.service.problem('fixture::A')['draft'], 'independent rewrite')
         self.assertEqual(self.due()['id'], next_task['id'])
         self.assertIsNotNone(self.service.submission(original['id']))
 

@@ -552,6 +552,7 @@ class TrainingService:
         verdict=receipt.get('verdict')
         if receipt.get('status')!='finished' or not remote.isdecimal() or verdict not in (FAILURES-{'ERROR'})|{'AC'}:
             return None
+        language = self._language(session.get('language') or 'cpp17')
         with self.lock:
             row=self._row(session['id'])
             from reviews import ReviewScheduler
@@ -600,6 +601,11 @@ class TrainingService:
                 if not existing['code'] and session.get('code'):
                     with self._write() as connection:
                         connection.execute('UPDATE submissions SET code=? WHERE id=?', (self._code(session['code']), identity))
+                        self._save_language(connection, 'submission-language:' + identity, language)
+                elif (session.get('code') == existing['code'] and session.get('language') in ('cpp17', 'python3')
+                        and self._read_language('submission-language:' + identity) != language):
+                    with self._write() as connection:
+                        self._save_language(connection, 'submission-language:' + identity, language)
                 if contest_id and not existing['contest_id'] and contest['started_at'] <= existing['submitted_at'] <= min(contest['deadline'], contest['finished_at'] or contest['deadline']):
                     with self._write() as connection:
                         connection.execute('UPDATE submissions SET contest_id=? WHERE id=? AND contest_id IS NULL', (contest_id, identity))
@@ -627,6 +633,7 @@ class TrainingService:
                     seen = reviews.assisted(row['id'], review, submitted)
                 connection.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,finished_at,verdict,scope,message,solution_seen) VALUES(?,?,?,'submit',?,?,?,?, 'official',?,?)",
                     (identity,row['id'],contest_id,self._code(session['code']),submitted,finished,verdict,'原站确认提交 #'+remote+(' · 官网同步（未取得源码）' if session.get('external') else '')+('\n'+detail if detail else ''),int(seen)))
+                self._save_language(connection, 'submission-language:' + identity, language)
                 reviews.bind(connection, identity, review_id)
                 self._recompute_progress(connection,row['id'])
             if review and verdict == 'AC':
@@ -1346,6 +1353,17 @@ class TrainingService:
             if review and not draft:
                 problem['draftLanguage'] = self._read_language(self._draft_language_key(identity, ''))
             problem["draftSavedAt"] = draft["saved_at"] if draft else None
+            if not context:
+                from reviews import ReviewScheduler
+                from progression import parse_time as valid_time
+                accepted = ReviewScheduler(self).latest_completed_code(identity)
+                # An ordinary edit made after the accepted submission remains
+                # the user's current draft, including an intentionally blank one.
+                saved_at = valid_time(draft['saved_at']) if draft else None
+                if accepted and (not draft or saved_at and saved_at < valid_time(accepted['submitted_at'])):
+                    problem.update(draft=accepted['code'], draftSavedAt=accepted['submitted_at'],
+                        draftLanguage=self._read_language('submission-language:' + accepted['id']),
+                        draftSource='official-review', draftSubmissionId=accepted['id'])
             from initial_code import selected
             problem['initialCode'] = selected(self)
             problem["submissions"] = self.submissions(identity, contest_id, exact_context=True, review_id=review_id)["submissions"]

@@ -8,6 +8,7 @@ import datetime as dt
 import hashlib
 import json
 import math
+import re
 
 from insights import canonical_url
 from progression import SHANGHAI, parse_time
@@ -108,6 +109,36 @@ class ReviewScheduler:
             with self.t._write() as db:
                 self.save(db, 'review-task:' + item['id'], item)
         return item
+
+    def latest_completed_code(self, identity):
+        """Read an actual accepted rewrite without replacing any draft context."""
+        from submission_evidence import verified_receipt
+        ids = self.t._equivalent_ids(identity)
+        placeholders = ','.join('?' for _ in ids)
+        rows = self.t.connection.execute(f"""
+            SELECT s.*, binding.value AS review_binding FROM submissions s
+            JOIN account_preferences binding ON binding.key='review-receipt:'||s.id
+            WHERE s.problem_id IN ({placeholders}) AND s.contest_id IS NULL
+              AND s.mode='submit' AND s.scope='official' AND s.verdict='AC'
+              AND s.finished_at IS NOT NULL AND s.code<>''""", ids)
+        receipts = [dict(row) for row in rows]
+        receipts = [row for row in receipts if verified_receipt(row)
+                    and row['code'].strip() and not row['code'].startswith('\0TB-CODE-')]
+        # Completion/arrival order is not submission order. For two receipts
+        # from the same second, the original site's numeric ID breaks the tie.
+        receipts.sort(key=lambda row: (parse_time(row['submitted_at']),
+            int(re.match(r'^原站确认提交 #([1-9][0-9]*)', row['message'])[1]), row['id']), reverse=True)
+        for receipt in receipts:
+            try:
+                review_id = json.loads(receipt['review_binding'])
+            except (TypeError, ValueError):
+                continue
+            task = self.read('review-task:' + review_id, {}) if isinstance(review_id, str) else {}
+            if (isinstance(task, dict) and task.get('problemId') in ids
+                    and parse_time(task.get('completedAt')) and parse_time(task.get('openedAt'))
+                    and parse_time(receipt['submitted_at']) >= parse_time(task['openedAt'])):
+                return receipt
+        return None
 
     def set_cancelled(self, identity, review_id, cancelled):
         from training import ServiceError, iso
