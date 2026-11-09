@@ -8,6 +8,7 @@ import uuid
 from training import ServiceError, iso
 from progression import SHANGHAI, parse_time
 from insights import canonical_url
+from question_identity import question_key
 
 DISCLAIMER='题量是训练安排，不保证评级或奖项；每周还需比赛、复盘与专项学习。区域赛另需队伍配合。'
 
@@ -30,7 +31,7 @@ def shared_contest_plan(goals, rows=(), accepted_keys=()):
                 saved['referenceRating'] = rating
             saved['goalIds'].append(goal['id'])
     contests = list(merged.values())
-    chosen=set(accepted_keys)
+    chosen={question_key(key) or key for key in accepted_keys}
     patterns={'Codeforces Div.3':r'Div\.\s*3|第\s*3\s*组',
               'AtCoder ABC':r'ABC|AtCoder Beginner|AtCoder 初学者',
               '牛客周赛':r'周赛', '洛谷基础赛 / 月赛':r'入门赛|基础赛|月赛'}
@@ -42,7 +43,7 @@ def shared_contest_plan(goals, rows=(), accepted_keys=()):
             if row.get('platform')!=platform or row.get('catalogHidden'):continue
             name=(row.get('contestFullName') or '')+' '+row.get('contest','')
             if not re.search(patterns[item['contest']],name,re.I):continue
-            identity=canonical_url(row.get('url')) or row['id']
+            identity=question_key(row.get('url')) or row['id']
             if identity in chosen:continue
             letter=str(row.get('problem',''))
             if len(letter)==1 and not lower<=letter<=upper:continue
@@ -51,7 +52,7 @@ def shared_contest_plan(goals, rows=(), accepted_keys=()):
         candidates.sort(key=lambda row:str(row.get('contestDate') or row.get('startedAt') or ''),reverse=True)
         questions=[]
         for row in candidates:
-            identity=canonical_url(row.get('url')) or row['id']
+            identity=question_key(row.get('url')) or row['id']
             if identity in chosen:continue
             chosen.add(identity)
             questions.append({field:row.get(field) for field in ('id','title','contest','problem','difficulty','difficultyEstimated')})
@@ -139,19 +140,19 @@ class Goals:
             accepted={}
             for record in t.connection.execute("SELECT * FROM submissions WHERE mode='submit' AND verdict='AC' AND scope='official' AND finished_at IS NOT NULL ORDER BY submitted_at,rowid"):
                 row=metadata.get(record['problem_id'],{})
-                key=canonical_url(row.get('url')) or record['problem_id']
+                key=question_key(row.get('url')) or record['problem_id']
                 accepted.setdefault(key,{'id':record['problem_id'],'at':parse_time(record['submitted_at'])})
             extension=getattr(t.store,'extensions',None)
             if extension:
                 read=getattr(extension,'accepted_records',None)
                 solved=read() if callable(read) else [item for account in extension.snapshot().get('accounts',[]) for item in account.get('solved',[])]
                 for item in solved:
-                    stamp=parse_time(item.get('acceptedAt'));key=canonical_url(item.get('url'))
+                    stamp=parse_time(item.get('acceptedAt'));key=question_key(item.get('url'))
                     if key and stamp and (key not in accepted or stamp<accepted[key]['at']):accepted[key]={'id':None,'at':stamp}
             locked=set(t._locked_ids(t.connection.execute("SELECT * FROM contests WHERE status='running'").fetchone())) if t.active_contest() else set()
             records=t.connection.execute('SELECT * FROM goals WHERE archived=0 ORDER BY created_at,id').fetchall()
             assignments={row['goal_id']:row for row in t.connection.execute('SELECT * FROM goal_daily_assignments WHERE day=?',(today.isoformat(),))}
-            problem_key=lambda row:canonical_url(row.get('url')) or row['id']
+            problem_key=lambda row:question_key(row.get('url')) or row['id']
             # Reserve all existing selections before allocating any new goal.
             # Older releases could assign the same canonical problem twice.
             owners={}
@@ -216,7 +217,7 @@ class Goals:
                     selected=selected[:task_target]
                 repairing=paused_empty or not saved or saved['target'] is None or len(selected)!=len(original_ids)
                 if repairing and not review_plan['reviewOnly']:
-                    candidates=[row for row in rows if not row.get('catalogHidden') and row['id'] not in locked and (canonical_url(row.get('url')) or row['id']) not in accepted]
+                    candidates=[row for row in rows if not row.get('catalogHidden') and row['id'] not in locked and (question_key(row.get('url')) or row['id']) not in accepted]
                     candidates.sort(key=score)
                     for row in candidates:
                         if len(selected)>=task_target:break
@@ -237,7 +238,7 @@ class Goals:
                 result.append({**goal,'id':record['id'],'createdAt':record['created_at'],'progress':done,'remaining':remaining,
                     'remainingDays':left,'weeklyTarget':weekly,'weeklyPlan':[],'contestPlan':contest_plan,'capacity':capacity,'warnings':warnings,'workloadCompleted':done>=total,
                     'dailyTask':{'date':today.isoformat(),'target':task_target,'progress':today_done,'completed':today_done>=task_target,
-                                 'problems':[{key:row.get(key) for key in ('id','title','contest','difficulty')} for row in selected if (canonical_url(row.get('url')) or row['id']) not in accepted]}})
+                                 'problems':[{key:row.get(key) for key in ('id','title','contest','difficulty')} for row in selected if (question_key(row.get('url')) or row['id']) not in accepted]}})
             tasks=self._tasks(result,rows,metadata,accepted,daily_selections,assign,locked)
             return {'goals':result,'date':today.isoformat(),'notice':DISCLAIMER,'contestPlan':shared_contest_plan(result,rows,accepted),'goalTasks':tasks}
 
@@ -252,7 +253,7 @@ class Goals:
         review_plan = t.review_plan()
         if review_plan['reviewOnly'] or (review_plan['minutes'] and review_plan['newMinutes'] < min((g.get('minutesPerProblem',45) for g in goals), default=45)):
             return []
-        key=lambda row:canonical_url(row.get('url')) or row['id']
+        key=lambda row:question_key(row.get('url')) or row['id']
         plans={goal['id']:goal for goal in goals if not goal['workloadCompleted']}
         tasks={}
         maximum = review_plan['newMinutes'] // min((g.get('minutesPerProblem',45) for g in goals), default=45) if review_plan['minutes'] else None

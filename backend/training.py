@@ -880,6 +880,7 @@ class TrainingService:
     def _first_acceptance_xp(self, library, records):
         """Freeze earned awards; later difficulty corrections never subtract XP."""
         from progression import official_reward_evidence, official_first_xp, legacy_first_xp
+        from question_identity import question_alias_keys
         evidence = official_reward_evidence(library, records)
         migrating = not self.connection.execute('SELECT 1 FROM official_xp_state WHERE id=1').fetchone()
         legacy = legacy_first_xp() if migrating else {}
@@ -893,15 +894,18 @@ class TrainingService:
         for item in evidence:
             key = item['key']
             current = official_first_xp(item.get('difficulty'))
-            amount = awards.get(key)
-            if amount is None:
+            existing = [(alias, awards[alias]) for alias in question_alias_keys(key) if alias in awards]
+            amount = sum(value for _, value in existing) if existing else None
+            if not existing:
                 amount = legacy.get(key, current) if migrating else current
                 if amount == 0:
                     amount = current
                 changes.append(('INSERT INTO official_first_xp_awards VALUES(?,?,?)', (key, item['acceptedAt'], amount)))
             elif amount == 0 and current > 0:
                 amount = current
-                changes.append(('UPDATE official_first_xp_awards SET awarded_xp=? WHERE problem_key=?', (amount, key)))
+                # Keep historical source keys, dates and any already-paid
+                # duplicate amounts. Only one existing zero award may fill in.
+                changes.append(('UPDATE official_first_xp_awards SET awarded_xp=? WHERE problem_key=?', (amount, existing[0][0])))
             total += amount
         if changes or migrating:
             with self._write() as connection:
@@ -1037,6 +1041,7 @@ class TrainingService:
     def _ranking_events(self, endpoint):
         from progression import official_reward_evidence
         from insights import canonical_url
+        from question_identity import question_alias_keys
         with self.lock:
             records = [dict(row) for row in self.connection.execute(
                 "SELECT * FROM submissions WHERE mode='submit' AND verdict='AC' AND scope='official' AND finished_at IS NOT NULL")]
@@ -1063,7 +1068,10 @@ class TrainingService:
             # Public account summaries without a receipt are not fabricated into today's AC.
             for item in official_reward_evidence(list(rows.values()), records):
                 event_id = hashlib.sha256(("official-v1\0" + user + "\0" + item["problemKey"]).encode()).hexdigest()
-                previous = parse_time(receipts[event_id]) if event_id in receipts else None
+                old_event_ids = [hashlib.sha256(("official-v1\0" + user + "\0" + hashlib.sha256(key.encode()).hexdigest()).encode()).hexdigest()
+                                 for key in question_alias_keys(item['key'])]
+                previous = min((stamp for old_id in old_event_ids
+                                if old_id in receipts and (stamp := parse_time(receipts[old_id]))), default=None)
                 if previous and previous <= item["timestamp"]:
                     continue
                 difficulty = item["difficulty"]
@@ -1193,7 +1201,7 @@ class TrainingService:
 
     def _locked_ids(self, active):
         """A remote/archive alias must not bypass the same original-question lock."""
-        from insights import canonical_url
+        from question_identity import question_key
         slots = json.loads(active["slots"])
         locked = {slot["id"] for slot in slots}
         rows = self._library()
@@ -1210,10 +1218,10 @@ class TrainingService:
                 except Exception as error:
                     if getattr(error, "status", None) != 404:
                         raise
-            key = canonical_url((row or {}).get("url"))
+            key = question_key((row or {}).get("url"))
             if key:
                 keys.add(key)
-        locked.update(row["id"] for row in rows if canonical_url(row.get("url")) in keys)
+        locked.update(row["id"] for row in rows if question_key(row.get("url")) in keys)
         return locked
 
     def mark_solution_seen(self, identity):
@@ -1769,22 +1777,22 @@ class TrainingService:
 
     def _solved_problem_keys(self, rows):
         # 2026-10-10：已解 = 官方 AC（含 hub 同步）。本地样例通过不算已解。
-        from insights import canonical_url
+        from question_identity import question_key
         accepted = {item["key"] for item in self._evidence()}
         by_id={row['id']:row for row in rows}
         for item in self.connection.execute("SELECT problem_id FROM submissions WHERE mode='submit' AND verdict='AC' AND scope='official' AND finished_at IS NOT NULL"):
-            accepted.add(canonical_url(by_id.get(item['problem_id'],{}).get('url')) or item['problem_id'])
+            accepted.add(question_key(by_id.get(item['problem_id'],{}).get('url')) or item['problem_id'])
         extensions = getattr(self.store, "extensions", None)
         if extensions is not None:
             snapshot = getattr(extensions, "snapshot", None)
             if callable(snapshot):
                 for account in snapshot().get("accounts", []):
-                    accepted.update(key for item in account.get("solved", []) if (key := canonical_url(item.get("url"))))
+                    accepted.update(key for item in account.get("solved", []) if (key := question_key(item.get("url"))))
         return accepted
 
     @staticmethod
     def _eligible_contest_row(row, options, lower, upper, solved):
-        from insights import canonical_url
+        from question_identity import question_key
         if row.get('catalogHidden'):
             return False
         difficulty = row.get("difficulty")
@@ -1800,7 +1808,7 @@ class TrainingService:
         scope.update(part.strip() for path in row.get('knowledgeCategories',[]) for part in path.split(' / ') if part.strip())
         if options["tags"] and not set(options["tags"]) & scope:
             return False
-        if options["excludeSolved"] and (canonical_url(row.get("url")) or row["id"]) in solved:
+        if options["excludeSolved"] and (question_key(row.get("url")) or row["id"]) in solved:
             return False
         return not options["reviewedOnly"] or row.get("judgeScope") == "local"
 
@@ -1828,9 +1836,9 @@ class TrainingService:
         eligible = self._asset_library().candidates(rows)
         with self.lock:
             seen = set()
-            from insights import canonical_url
+            from question_identity import question_key
             eligible = [row for row in eligible if self._eligible_contest_row(row, options, lower, upper, solved)
-                        and not ((canonical_url(row.get("url")) or row["id"]) in seen or seen.add(canonical_url(row.get("url")) or row["id"]))]
+                        and not ((question_key(row.get("url")) or row["id"]) in seen or seen.add(question_key(row.get("url")) or row["id"]))]
             available = len(eligible)
             if available < count:
                 raise ServiceError(422, f"当前范围只有 {available} 道具备原题面和样例的题目，无法组成 {count} 题模拟赛。请扩大难度范围或减少题数。")
@@ -1842,7 +1850,7 @@ class TrainingService:
             random_rank = {row["id"]: self.rng.random() for row in eligible}
             # Persisted papers count as exposure, including deleted papers. A
             # mirror uses the same canonical key as its original problem.
-            keys = {row['id']: canonical_url(row.get('url')) or row['id'] for row in rows}
+            keys = {row['id']: question_key(row.get('url')) or row['id'] for row in rows}
             usage, latest, previews = {}, {}, {}
             for paper in self.connection.execute('SELECT slots,started_at FROM contests ORDER BY started_at'):
                 for slot in json.loads(paper['slots']):

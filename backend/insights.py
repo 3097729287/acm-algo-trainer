@@ -8,6 +8,7 @@ import hashlib
 import re
 import statistics
 from urllib.parse import urlsplit, unquote, parse_qs
+from question_identity import question_key
 from progression import SHANGHAI, qualified_contests
 from rating_evidence import evidence as rating_evidence
 from knowledge_mastery import MODEL as KNOWLEDGE_MODEL, problem_evidence, summarize as summarize_mastery
@@ -88,13 +89,13 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     by_url = {}
     aliases = {}
     for row in rows:
-        key = canonical_url(row.get("url"))
+        key = question_key(row.get("url"))
         if key:
             existing = by_url.get(key)
             if existing is None or existing.get("source") == "remote" and row.get("source") != "remote":
                 by_url[key] = row
     for row in rows:
-        key = canonical_url(row.get("url"))
+        key = question_key(row.get("url"))
         aliases[row["id"]] = by_url[key]["id"] if key else row["id"]
         for alias in row.get('aliasIds', []):
             aliases[alias] = aliases[row['id']]
@@ -153,12 +154,12 @@ def build_insights(rows, submissions, history, workspace, hub, now):
             identity=aliases.get(record['problem_id'],record['problem_id']);official.add(identity)
     # Total solved includes verified public ACs outside the current library;
     # the knowledge/ability model below still uses known problem metadata.
-    total_solved = {canonical_url(library.get(i, {}).get('url')) or 'local-id:'+i for i in official}
+    total_solved = {question_key(library.get(i, {}).get('url')) or 'local-id:'+i for i in official}
     solved_dates = defaultdict(set)
     for record in records:
         if record.get('verdict') == 'AC' and record.get('scope') == 'official':
             identity = aliases.get(record['problem_id'], record['problem_id'])
-            key = canonical_url(library.get(identity, {}).get('url')) or 'local-id:' + identity
+            key = question_key(library.get(identity, {}).get('url')) or 'local-id:' + identity
             day = _date(record.get('submitted_at'))
             if day:
                 solved_dates[key].add(day)
@@ -166,13 +167,13 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     for account in hub.get("accounts", []):
         platforms.append({key: account.get(key) for key in ("platform", "rating", "maxRating", "status")})
         for solved in account.get("solved", []):
-            if canonical_url(solved.get('url')):
-                key = canonical_url(solved['url'])
+            if question_key(solved.get('url')):
+                key = question_key(solved['url'])
                 total_solved.add(key)
                 accepted_day = _date(solved.get('acceptedAt'))
                 if accepted_day:
                     solved_dates[key].add(accepted_day)
-            row = by_url.get(canonical_url(solved.get("url")))
+            row = by_url.get(question_key(solved.get("url")))
             if not row:
                 continue
             identity = row["id"]
@@ -323,7 +324,7 @@ def recommend_problems(library, active, independent, personal, official, hub, ab
     ranked.sort(key=lambda item: item[0])
     result, seen_urls, seen_ids, main_tags = [], set(), set(), set()
     for _, row, due, order in ranked:
-        identity = row['id']; key = canonical_url(row.get('url'))
+        identity = row['id']; key = question_key(row.get('url'))
         if identity in seen_ids or key and key in seen_urls:
             continue
         tag = (row.get('tags') or ['基础练习'])[0]

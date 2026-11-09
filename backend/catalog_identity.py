@@ -27,6 +27,8 @@ def unique_catalog_rows(rows):
             not bool(row.get('solutionAvailable')), not bool(row.get('statementAvailable')),
         ))
         item = dict(preferred)
+        from question_identity import annotate_question
+        annotate_question(item)
         aliases = list(dict.fromkeys(identity for row in entries
                                    for identity in [row['id'], *row.get('aliasIds', []), *remote_aliases(row)]))
         if len(aliases) > 1:
