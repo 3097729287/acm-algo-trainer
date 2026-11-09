@@ -5,7 +5,7 @@ import re
 import sqlite3
 import uuid
 from training import ServiceError, iso
-from insights import canonical_url
+from question_identity import question_key
 
 PREFIX = 'custom-training-list:'
 MAX_PROBLEMS = 20000
@@ -24,7 +24,7 @@ def _problems(training, ids):
     result, seen = [], set()
     for identity in ids:
         row = catalog.get(identity) or training._row(identity)
-        key = canonical_url(row.get('url')) or row['id']
+        key = question_key(row.get('url')) or row['id']
         if key not in seen:
             seen.add(key)
             result.append({'problemId': row['id'], 'pid': row.get('problem') or row['id'], 'url': row.get('url'), 'sections': [],'addedAt':iso(training._now())})
@@ -68,8 +68,8 @@ def add_problems(training, body):
         added = {}
         for value in values:
             existing_ids = {item.get('problemId') for item in value['problems']}
-            existing_urls = {canonical_url(item.get('url')) for item in value['problems'] if item.get('url')}
-            additions = [item for item in problems if item['problemId'] not in existing_ids and (not item.get('url') or canonical_url(item['url']) not in existing_urls)]
+            existing_urls = {question_key(item.get('url')) for item in value['problems'] if item.get('url')}
+            additions = [item for item in problems if item['problemId'] not in existing_ids and (not item.get('url') or question_key(item['url']) not in existing_urls)]
             value['problems'] = value['problems'] + additions
             if len(value['problems']) > MAX_PROBLEMS:
                 raise ServiceError(400, f'每份题单最多添加 {MAX_PROBLEMS} 道题')

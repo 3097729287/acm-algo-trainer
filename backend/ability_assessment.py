@@ -32,11 +32,11 @@ def _live_contest(record, periods):
 
 def from_records(rows, records, now):
     """One first-learning episode per exact original, never one per retry."""
-    from insights import canonical_url
+    from question_identity import question_key
     from rating_evidence import evidence as rating_evidence
     metadata={};aliases={};periods=defaultdict(set)
     for row in rows:
-        key=canonical_url(row.get('url')) or row['id']
+        key=question_key(row.get('url')) or row['id']
         if key not in metadata or metadata[key].get('source')=='remote':metadata[key]=row
         if row.get('contestDateSource')=='原站公开比赛时间':
             start=parse_time(row.get('startedAt'));end=parse_time(row.get('endedAt'))
@@ -80,12 +80,12 @@ def from_records(rows, records, now):
 
 def from_successes(evidence, now):
     """Compatibility for normalized official facts; unknown remains unknown."""
-    from insights import canonical_url
+    from question_identity import question_key
     first={};facts=[]
     for item in evidence:
         stamp=parse_time(item.get('acceptedAt'));key=item.get('key') or item.get('problemKey') or item.get('problemId')
         if not stamp or stamp>now or not isinstance(key,str) or not key.strip() or item.get('scope')!='official' or item.get('verdict','AC')!='AC':continue
-        key=canonical_url(key) or key
+        key=question_key(key) or key
         d=item.get('abilityDifficulty',item.get('difficulty'))
         qualified=item.get('independent') is True and item.get('independentKnown') is True and _number(d)
         facts.append((stamp,key,qualified,item))

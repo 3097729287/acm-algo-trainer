@@ -10,7 +10,7 @@ import json
 # contestShelves and the competition groups. Keep evidence used by difficulty
 # tooltips, while omitting the much larger algorithm-analysis derivations.
 ROW_FIELDS = frozenset('''
-    id aliasIds title name contest problem platform series url source status date queue addedAt firstAdded catalogAddedAt
+    id aliasIds questionKey questionAliasKeys questionAliasIds title name contest problem platform series url source status date queue addedAt firstAdded catalogAddedAt
     tags knowledge knowledgeCategories knowledgeReviewRequired difficulty difficultySource difficultyBand
     difficultyConfidence difficultyEvidence difficultyEstimated nativeDifficulty nativeDifficultyLabel problemKind schoolTraining labTopic
     solutionAvailable solutionState detailedSolutionAvailable statementAvailable

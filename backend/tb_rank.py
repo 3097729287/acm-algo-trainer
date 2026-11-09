@@ -118,7 +118,7 @@ def _skill_evidence(evidence, now):
     public-history independence is never assumed. Existing verified receipts
     from before the XP unlock count; an unlock does not erase proven ability.
     """
-    from insights import canonical_url
+    from question_identity import question_key
     facts = []
     for item in evidence:
         if item.get('scope') != 'official' or item.get('verdict', 'AC') != 'AC':
@@ -132,7 +132,7 @@ def _skill_evidence(evidence, now):
                  and math.isfinite(difficulty))
         independent = item.get('independent') is True and item.get('independentKnown') is True
         # Conservative ties keep unknown/non-independent facts first.
-        facts.append((stamp, canonical_url(identity) or identity, independent and known,
+        facts.append((stamp, question_key(identity) or identity, independent and known,
                       int(difficulty) if known else 0))
     first = {}
     for stamp, key, qualified, difficulty in sorted(facts):
