@@ -1,20 +1,26 @@
 """Prepare public list projections during an update, before the normal restart."""
 import time
-from backend import start_server
-from paths import STATE,ADMIN_MODE
+from paths import STATE
 from persistence import save_document
+from store import Store
+from integrations import IntegrationService
+from knowledge import KnowledgeAnalysisCache
 
 
 def prepare():
     started=time.monotonic()
-    # Construct the same real services, without authentication restoration,
-    # listeners, external sync jobs, remote mutations or a replacement UI.
-    server=start_server(port=0,admin_mode=ADMIN_MODE,integration_auto_start=False)
+    # This projection only depends on the public catalog, integration metadata
+    # and saved per-problem analysis. Personal services, account initialization
+    # and HTTP listeners belong to the normal launch, after the updater exits.
+    store=Store()
+    extensions=IntegrationService(store,STATE,auto_start=False)
+    store.extensions=extensions
+    store.knowledge_analysis=KnowledgeAnalysisCache(STATE/'tb-knowledge-analysis.json')
     try:
-        server.store.data_response_bytes(compact=True,compressed=True)
+        store.data_response_bytes(compact=True,compressed=True)
         save_document(STATE/'startup-preparation.json',{
             'schema':1,'publicCatalogReady':True,
-            'catalogSignature':server.store.library.content_signature(),
+            'catalogSignature':store.library.content_signature(),
             'seconds':round(time.monotonic()-started,3)})
     finally:
-        server.server_close()
+        extensions.close()
