@@ -1,0 +1,186 @@
+{
+  "ok": true,
+  "originalSvgEntriesUnchanged": 7652,
+  "gifEntriesRoundTripIdentical": 25,
+  "uniqueRemoteGifResources": 16,
+  "originalGifBytes": 2859463,
+  "seedSha256": "9e1f6f8796da40f396d1dd4fdb9b258b59118a7b6e85fc6336b3a5d9ed8ad674",
+  "personalStateReadOrWritten": false,
+  "checks": [
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::16692",
+      "name": "assets/tree-recursion.gif",
+      "sha256": "2d72ddf87077e219df0bad28fb365a8b7920a2691d8c61aa69c0f7cde2b6810e",
+      "bytes": 215902
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::16645",
+      "name": "assets/interval-end-picking.gif",
+      "sha256": "2e3bf21ce995b3bc0ebf6e5220f151376008dd36c4cc9f89ff7e7d3cc7d209f0",
+      "bytes": 69359
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::16670",
+      "name": "assets/necklace-merge.gif",
+      "sha256": "563c7a9fc232c9b7bc7dc4e81f0afcf68452f90c4cc2f6f3b8ddcf34ca9ccbf4",
+      "bytes": 78838
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::50528",
+      "name": "assets/sliding-window.gif",
+      "sha256": "b9fd29d650142e6d53c88a273944a93e80a279cb13b707458627656b3772e10c",
+      "bytes": 126355
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::51001",
+      "name": "assets/sliding-window.gif",
+      "sha256": "b9fd29d650142e6d53c88a273944a93e80a279cb13b707458627656b3772e10c",
+      "bytes": 126355
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::22227",
+      "name": "assets/josephus-counting.gif",
+      "sha256": "fa0ede563117863e8b3129ccb12eb4b2bff604565f8eb44361a517197644ca4a",
+      "bytes": 150914
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::18356",
+      "name": "assets/monotonic-stack.gif",
+      "sha256": "d8ffb68551a31650ca77c4b5815297306c6731f030313ec5ad949ebb72d61a10",
+      "bytes": 408432
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::13883",
+      "name": "assets/matrix-timestamps.gif",
+      "sha256": "68945e2114a4f6c393652c63a33652e48abdb2533886ac53313177241b14db8a",
+      "bytes": 106528
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::14710",
+      "name": "assets/reverse-buttons.gif",
+      "sha256": "20108451b11e33a4431e39f1ac7d62fafada32a19a4fc14bc2082db05cd0bdd7",
+      "bytes": 195729
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::285342",
+      "name": "assets/flip-forced-columns.gif",
+      "sha256": "d28ce61c949c0b5171da622054ac8743f8357fdbdc74c628fb926473bf1d4fdf",
+      "bytes": 214435
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::285340",
+      "name": "assets/flip-forced-columns.gif",
+      "sha256": "d28ce61c949c0b5171da622054ac8743f8357fdbdc74c628fb926473bf1d4fdf",
+      "bytes": 214435
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::224938",
+      "name": "assets/median-window-shrink.gif",
+      "sha256": "12d997ef7ceec6aab457307be1bfd6e7319a19644584038b389c279c48d88a70",
+      "bytes": 187045
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::15163",
+      "name": "assets/inversion-merge.gif",
+      "sha256": "2b632109b9e713ec04178217ecbdc5ba44cb4455dfdb279462c4db5592dd1a6a",
+      "bytes": 91701
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::24840",
+      "name": "assets/monotonic-stack.gif",
+      "sha256": "d8ffb68551a31650ca77c4b5815297306c6731f030313ec5ad949ebb72d61a10",
+      "bytes": 408432
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::51115",
+      "name": "assets/mo-socks-pairs.gif",
+      "sha256": "f7f713d9570856695d7de709f450e85f8f6a48fded780088df1e1214f8c4b797",
+      "bytes": 271654
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::233500",
+      "name": "assets/failure-tree-activation.gif",
+      "sha256": "c22e659e121923213f2aa59b8b402ec4658e172915ab5be4c446a4e4e9884881",
+      "bytes": 178796
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::20472",
+      "name": "assets/augmenting-path.gif",
+      "sha256": "05f700e5448cfcf13d492b465a9528c288a4144bcdcd30be9f9c4d8bd28650c6",
+      "bytes": 89685
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::20483",
+      "name": "assets/augmenting-path.gif",
+      "sha256": "05f700e5448cfcf13d492b465a9528c288a4144bcdcd30be9f9c4d8bd28650c6",
+      "bytes": 89685
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::230850",
+      "name": "assets/circle-envelope-insertion.gif",
+      "sha256": "a07316242156c1d5967a96db8077d1147b3c0f59136a1c56676741e21688e560",
+      "bytes": 80636
+    },
+    {
+      "table": "solutions",
+      "problemId": "nowcoder-global::236487",
+      "name": "assets/rolling-contact-events.gif",
+      "sha256": "5d23e90235845a85f935af458b1fd496bb25dc82a8f863b57af4bbb4c3ca1b99",
+      "bytes": 393454
+    },
+    {
+      "table": "detailed_solutions",
+      "problemId": "nowcoder-global::16692",
+      "name": "assets/tree-recursion.gif",
+      "sha256": "2d72ddf87077e219df0bad28fb365a8b7920a2691d8c61aa69c0f7cde2b6810e",
+      "bytes": 215902
+    },
+    {
+      "table": "detailed_solutions",
+      "problemId": "nowcoder-global::16645",
+      "name": "assets/interval-end-picking.gif",
+      "sha256": "2e3bf21ce995b3bc0ebf6e5220f151376008dd36c4cc9f89ff7e7d3cc7d209f0",
+      "bytes": 69359
+    },
+    {
+      "table": "detailed_solutions",
+      "problemId": "nowcoder-global::16670",
+      "name": "assets/necklace-merge.gif",
+      "sha256": "563c7a9fc232c9b7bc7dc4e81f0afcf68452f90c4cc2f6f3b8ddcf34ca9ccbf4",
+      "bytes": 78838
+    },
+    {
+      "table": "detailed_solutions",
+      "problemId": "nowcoder-global::50528",
+      "name": "assets/sliding-window.gif",
+      "sha256": "b9fd29d650142e6d53c88a273944a93e80a279cb13b707458627656b3772e10c",
+      "bytes": 126355
+    },
+    {
+      "table": "detailed_solutions",
+      "problemId": "nowcoder-global::51001",
+      "name": "assets/sliding-window.gif",
+      "sha256": "b9fd29d650142e6d53c88a273944a93e80a279cb13b707458627656b3772e10c",
+      "bytes": 126355
+    }
+  ]
+}
