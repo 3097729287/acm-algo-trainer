@@ -2,6 +2,7 @@
 from contextlib import closing
 import base64,hashlib,json,shutil,sqlite3,sys,tempfile,unittest
 from pathlib import Path
+from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 from library import LibraryDatabase
 from public_library_update import merge_public_seed
@@ -50,6 +51,81 @@ class PublicLibraryUpdateTests(unittest.TestCase):
         payload=self.root/'payload'/self.result['descriptor']['payload'];payload.write_bytes(b'bad transport')
         before=self.live.path.read_bytes()
         with self.assertRaisesRegex(ValueError,'checksum'):merge_public_seed(self.live,self.base.path,descriptor=self.descriptor,cache=self.root/'cache')
+        self.assertEqual(self.live.path.read_bytes(),before)
+    def test_full_target_identity_with_old_physical_seed_needs_no_backup_or_mutation(self):
+        self.live.merge_seed(self.target.path)
+        self.assertEqual(self.live.metadata()['bundled_sha256'],self.result['targetSeedSha256'])
+        before=self.live.path.read_bytes();files=set(self.root.rglob('*'))
+        with patch.object(self.live,'backup',side_effect=AssertionError('A current target needs no recovery copy')) as backup, \
+             patch.object(self.live,'merge_seed',side_effect=AssertionError('A current target must not merge the old seed')) as merge, \
+             patch('public_library_update.unpack',side_effect=AssertionError('A current target needs no extracted overlay')):
+            self.assertFalse(merge_public_seed(self.live,self.base.path,descriptor=self.descriptor,cache=self.root/'no-op-cache'))
+        backup.assert_not_called();merge.assert_not_called()
+        self.assertEqual(self.live.path.read_bytes(),before)
+        self.assertEqual(set(self.root.rglob('*')),files)
+        with self.live.connection() as db:
+            self.assertEqual(db.execute('SELECT code FROM private_code').fetchone()[0],'owner draft remains')
+            self.assertEqual(db.execute("SELECT markdown FROM solutions WHERE problem_id='fixture::A'").fetchone()[0],'my independent annotated solution')
+    def test_composition_identity_stays_a_no_backup_no_mutation_operation(self):
+        self.assertTrue(merge_public_seed(self.live,self.base.path,descriptor=self.descriptor,cache=self.root/'cache'))
+        before=self.live.path.read_bytes();files=set(self.root.rglob('*'))
+        with patch.object(self.live,'backup',side_effect=AssertionError('Composition already applied')) as backup, \
+             patch.object(self.live,'merge_seed',side_effect=AssertionError('Composition already applied')) as merge, \
+             patch('public_library_update.unpack',side_effect=AssertionError('Composition already applied')):
+            self.assertFalse(merge_public_seed(self.live,self.base.path,descriptor=self.descriptor,cache=self.root/'cache'))
+        backup.assert_not_called();merge.assert_not_called()
+        self.assertEqual(self.live.path.read_bytes(),before)
+        self.assertEqual(set(self.root.rglob('*')),files)
+    def test_old_base_applies_one_partial_merge_and_preserves_unknown_private_table_in_recovery(self):
+        private=b'isolated unknown private payload\x00\xff'
+        with self.live.connection() as db:
+            db.execute('CREATE TABLE local_extensions(id INTEGER PRIMARY KEY,payload BLOB)')
+            db.execute('INSERT INTO local_extensions VALUES(7,?)',(private,))
+        with patch.object(self.live,'merge_seed',wraps=self.live.merge_seed) as merge, \
+             patch.object(self.live,'backup',wraps=self.live.backup) as backup:
+            self.assertTrue(merge_public_seed(self.live,self.base.path,descriptor=self.descriptor,cache=self.root/'cache'))
+        self.assertEqual(merge.call_count,1);self.assertEqual(backup.call_count,1)
+        self.assertEqual(merge.call_args.kwargs['_partial'],self.result['descriptor']['membership'])
+        self.assertEqual(merge.call_args.args[0].name,self.result['descriptor']['databaseSha256']+'.sqlite3')
+        self.assertEqual(self.live.find('fixture::A')['encoded']['title'],'New public title')
+        recoveries=list((self.root/'backups').glob('*.sqlite3'))
+        self.assertEqual(len(recoveries),1)
+        for path in (self.live.path,recoveries[0]):
+            with closing(sqlite3.connect(path.as_uri()+'?mode=ro',uri=True)) as db:
+                self.assertEqual(db.execute('SELECT payload FROM local_extensions WHERE id=7').fetchone()[0],private)
+                self.assertEqual(db.execute('SELECT code FROM private_code').fetchone()[0],'owner draft remains')
+    def test_unknown_state_identity_keeps_both_strict_merge_and_recovery_steps(self):
+        private=b'unknown state retains private rows\x00\xfe'
+        with self.live.connection() as db:
+            db.execute("UPDATE library_meta SET value=? WHERE key='bundled_sha256'",('f'*64,))
+            db.execute('CREATE TABLE local_extensions(payload BLOB)')
+            db.execute('INSERT INTO local_extensions VALUES(?)',(private,))
+        with patch.object(self.live,'merge_seed',wraps=self.live.merge_seed) as merge, \
+             patch.object(self.live,'backup',wraps=self.live.backup) as backup:
+            self.assertTrue(merge_public_seed(self.live,self.base.path,descriptor=self.descriptor,cache=self.root/'cache'))
+        self.assertEqual(merge.call_count,2);self.assertEqual(backup.call_count,2)
+        self.assertEqual(merge.call_args_list[0].args[0],self.base.path)
+        self.assertNotIn('_partial',merge.call_args_list[0].kwargs)
+        self.assertEqual(merge.call_args_list[1].kwargs['_partial'],self.result['descriptor']['membership'])
+        recoveries=list((self.root/'backups').glob('*.sqlite3'))
+        self.assertEqual(len(recoveries),2)
+        for path in (self.live.path,*recoveries):
+            with closing(sqlite3.connect(path.as_uri()+'?mode=ro',uri=True)) as db:
+                self.assertEqual(db.execute('SELECT payload FROM local_extensions').fetchone()[0],private)
+                self.assertEqual(db.execute('SELECT code FROM private_code').fetchone()[0],'owner draft remains')
+    def test_target_marker_does_not_bypass_an_unrecognized_installed_seed(self):
+        self.live.merge_seed(self.target.path)
+        other=LibraryDatabase(self.root/'unrecognized.sqlite3');other.import_records([record('other::A')],{}, {})
+        before=self.live.path.read_bytes()
+        with self.assertRaisesRegex(ValueError,'installed public base'):
+            merge_public_seed(self.live,other.path,descriptor=self.descriptor,cache=self.root/'cache')
+        self.assertEqual(self.live.path.read_bytes(),before)
+    def test_target_marker_does_not_bypass_corrupt_transport_validation(self):
+        self.live.merge_seed(self.target.path)
+        (self.descriptor.parent/self.result['descriptor']['payload']).write_bytes(b'corrupt transport remains rejected')
+        before=self.live.path.read_bytes()
+        with self.assertRaisesRegex(ValueError,'checksum'):
+            merge_public_seed(self.live,self.base.path,descriptor=self.descriptor,cache=self.root/'cache')
         self.assertEqual(self.live.path.read_bytes(),before)
     def test_unrecognized_installed_seed_is_not_silently_replaced(self):
         other=LibraryDatabase(self.root/'other.sqlite3');other.import_records([record('other::A')],{}, {})

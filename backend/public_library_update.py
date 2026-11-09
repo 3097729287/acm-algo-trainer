@@ -124,7 +124,9 @@ def merge_public_seed(library,seed,fingerprint=None,*,descriptor=None,cache=None
     if seed_sha==value['targetSeedSha256']:return library.merge_seed(seed,fingerprint=fingerprint)
     if seed_sha not in value['baseSeeds']:raise ValueError('The installed public base does not match this content update')
     previous=library.metadata().get('bundled_sha256')
-    if previous==composition:return False
+    # Full and compact installations record different identities for the same
+    # target. Do not merge the old physical seed into an already current library.
+    if previous in (composition,value['targetSeedSha256']):return False
     source=unpack(value,payload,cache or STATE.parent/'cache/public-updates')
     reused=inline_assets(seed,value['baseInlineAssets'][seed_sha])
     if previous not in value['baseSeeds']:
