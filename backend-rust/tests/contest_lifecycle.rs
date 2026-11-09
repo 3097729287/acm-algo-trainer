@@ -14,6 +14,115 @@ struct Fixture {
     library: Library,
     now: DateTime<Utc>,
 }
+
+fn reviewed_pair(f: &Fixture) {
+    for (i, url) in [
+        (0, "https://www.luogu.com.cn/problem/P10865"),
+        (1, "https://codeforces.com/gym/105139/problem/H"),
+    ] {
+        let id = format!("fixture::{i}");
+        let mut row = f.catalogue.row(&id, true).unwrap().unwrap();
+        row["url"] = json!(url);
+        let mut z = ZlibEncoder::new(Vec::new(), Compression::default());
+        z.write_all(row.to_string().as_bytes()).unwrap();
+        f.catalogue
+            .db
+            .execute(
+                "UPDATE catalogue SET full=?,compact=? WHERE id=?",
+                params![z.finish().unwrap(), row.to_string(), id],
+            )
+            .unwrap();
+    }
+}
+
+#[test]
+fn counted_cross_site_acceptances_keep_both_source_records_and_the_first_training_day() {
+    let mut f = Fixture::new();
+    reviewed_pair(&f);
+    for i in 0..2 {
+        f.active(i, "2026-11-01T00:00:00Z");
+    }
+    f.receipt("older-lg", 0, None, "official", "AC", true);
+    f.receipt("newer-cf", 1, None, "official", "AC", true);
+    f.personal.db.execute("UPDATE submissions SET submitted_at='2026-11-01T03:00:00Z',finished_at='2026-11-01T03:00:01Z' WHERE id='older-lg'",[]).unwrap();
+    for (i, code) in [(0, "keep Luogu source"), (1, "keep Gym source")] {
+        f.personal
+            .db
+            .execute(
+                "INSERT INTO drafts VALUES(?,'',?,'2026-11-01T00:00:00Z')",
+                params![format!("fixture::{i}"), code],
+            )
+            .unwrap();
+    }
+    let before = f
+        .personal
+        .rows("SELECT * FROM submissions ORDER BY id", [])
+        .unwrap();
+    let value = f.training().workspace().unwrap();
+    assert_eq!(value["summary"]["historicalAccepted"], 1);
+    assert_eq!(
+        value["summary"]["streak"], 0,
+        "A mirror repeat cannot fill today's first-acceptance day"
+    );
+    assert_eq!(
+        f.personal
+            .rows("SELECT * FROM submissions ORDER BY id", [])
+            .unwrap(),
+        before
+    );
+    assert_eq!(
+        f.personal
+            .rows("SELECT code FROM drafts ORDER BY problem_id", [])
+            .unwrap(),
+        json!([{"code":"keep Luogu source"},{"code":"keep Gym source"}])
+    );
+    assert_eq!(
+        f.catalogue.canonical("fixture::0").unwrap(),
+        Some("fixture::0".into())
+    );
+    assert_eq!(
+        f.catalogue.canonical("fixture::1").unwrap(),
+        Some("fixture::1".into())
+    );
+}
+
+#[test]
+fn reviewed_mirror_cannot_bypass_an_exam_lock_but_only_a_new_h_receipt_scores_h() {
+    let mut f = Fixture::new();
+    reviewed_pair(&f);
+    f.receipt("old-lg", 0, None, "official", "AC", true);
+    f.personal.db.execute("UPDATE submissions SET submitted_at='2026-11-01T03:00:00Z',finished_at='2026-11-01T03:00:01Z' WHERE id='old-lg'",[]).unwrap();
+    f.contest(
+        "paper",
+        "running",
+        vec![Fixture::slot(1)],
+        json!({"strategy":"replay","editedTrainingOnly":true}),
+    );
+    assert!(f.training().locked("alias::0").unwrap());
+    assert_eq!(
+        f.training()
+            .history_visible("fixture::0", None)
+            .unwrap_err()
+            .status,
+        403
+    );
+    assert_eq!(
+        tobe_core::contest_history::get(&f.training(), "paper").unwrap()["contest"]["accepted"],
+        0
+    );
+    f.receipt("new-h", 1, Some("paper"), "official", "AC", true);
+    let result = tobe_core::contest_history::get(&f.training(), "paper").unwrap();
+    assert_eq!(result["contest"]["accepted"], 1);
+    assert_eq!(result["contest"]["slots"][0]["id"], "fixture::1");
+    assert_eq!(
+        f.personal
+            .db
+            .query_row("SELECT COUNT(*) FROM submissions", [], |r| r
+                .get::<_, i64>(0))
+            .unwrap(),
+        2
+    );
+}
 impl Fixture {
     fn new() -> Self {
         let personal = PersonalStore::open(&std::path::PathBuf::from(":memory:")).unwrap();

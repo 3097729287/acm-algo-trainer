@@ -1,6 +1,7 @@
 use crate::{
     api::{ApiError, ApiRequest, fields, required_text},
     catalogue::{Catalogue, row_or_portable},
+    identity::question_key,
     learning::{day, stamp},
     library::Library,
     storage::PersonalStore,
@@ -43,6 +44,17 @@ impl Training<'_> {
     pub fn ids(&self, id: &str) -> Result<Vec<String>, ApiError> {
         self.catalogue.equivalent(id)
     }
+    pub(crate) fn question_identity(&self, id: &str) -> Result<String, ApiError> {
+        let canonical = self.canonical(id)?;
+        let row = match row_or_portable(self.catalogue, self.personal, &canonical) {
+            Ok(row) => row,
+            Err(error) if error.status == 404 => Value::Null,
+            Err(error) => return Err(error),
+        };
+        Ok(question_key(text(&row, "url"))
+            .or_else(|| question_key(&canonical))
+            .unwrap_or(canonical))
+    }
     pub(crate) fn running(&self) -> Result<Option<Value>, ApiError> {
         Ok(self
             .personal
@@ -57,12 +69,12 @@ impl Training<'_> {
             return Ok(false);
         };
         let slots: Value = serde_json::from_str(text(&contest, "slots"))?;
-        let target = self.canonical(id)?;
+        let target = self.question_identity(id)?;
         for slot in slots
             .as_array()
             .ok_or_else(|| ApiError::new(500, "INVALID_STORED_DATA", "比赛题目记录格式异常"))?
         {
-            if self.canonical(text(slot, "id"))? == target {
+            if self.question_identity(text(slot, "id"))? == target {
                 return Ok(true);
             }
         }
@@ -112,6 +124,15 @@ impl Training<'_> {
     }
     fn workspace_inner(&self) -> Result<Value, ApiError> {
         self.simple_workspace_supported()?;
+        let mut question_cache = HashMap::<String, String>::new();
+        let mut counting_id = |id: &str| -> Result<String, ApiError> {
+            if let Some(key) = question_cache.get(id) {
+                return Ok(key.clone());
+            }
+            let key = self.question_identity(id)?;
+            question_cache.insert(id.into(), key.clone());
+            Ok(key)
+        };
         // Validate frozen views before cleanup or scheduling can write.
         let completed_replays = crate::contest_history::completed_replays(self)?;
         let mut contests = Vec::new();
@@ -148,7 +169,7 @@ impl Training<'_> {
         if let Some(active) = self.running()? {
             let slots: Vec<Value> = serde_json::from_str(text(&active, "slots"))?;
             for slot in slots {
-                locked_ids.insert(self.canonical(text(&slot, "id"))?);
+                locked_ids.insert(counting_id(text(&slot, "id"))?);
             }
         }
         let records=self.personal.rows("SELECT id,problem_id,contest_id,mode,submitted_at,finished_at,verdict,scope,solution_seen FROM submissions WHERE mode='submit' ORDER BY submitted_at,rowid",[])?;
@@ -180,7 +201,7 @@ impl Training<'_> {
         for record in rows.as_array().unwrap() {
             let original = text(record, "id");
             let id = self.canonical(original)?;
-            let locked = locked_ids.contains(&id);
+            let locked = locked_ids.contains(&counting_id(&id)?);
             let attempts = grouped.get(&id).cloned().unwrap_or_default();
             let completed = attempts
                 .iter()
@@ -317,7 +338,7 @@ impl Training<'_> {
         for record in records.as_array().unwrap().iter().filter(|r| {
             r["scope"] == "official" && r["verdict"] == "AC" && truth(&r["finished_at"])
         }) {
-            let id = self.canonical(text(record, "problem_id"))?;
+            let id = counting_id(text(record, "problem_id"))?;
             let accepted_day = day(parse(text(record, "submitted_at"))?);
             historical.insert(id.clone());
             if accepted_day == date {

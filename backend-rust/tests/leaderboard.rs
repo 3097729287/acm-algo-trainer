@@ -604,6 +604,109 @@ fn journal(f: &Fixture) -> (TempDir, PersonalStore, Catalogue) {
     (temp, p, Catalogue { db })
 }
 #[test]
+fn reviewed_question_sync_publishes_only_the_earliest_cross_site_acceptance() {
+    let mut f = Fixture::new();
+    let c = client();
+    let (_temp, p, catalogue) = journal(&f);
+    p.db.execute("DELETE FROM submissions", []).unwrap();
+    for (id, url, at) in [
+        (
+            "luogu-training-P10865",
+            "https://www.luogu.com.cn/problem/P10865",
+            "2026-10-01T01:00:00Z",
+        ),
+        (
+            "remote:codeforces:105139::H",
+            "https://codeforces.com/gym/105139/problem/H",
+            "2026-11-09T06:00:00Z",
+        ),
+    ] {
+        catalogue
+            .db
+            .execute(
+                "INSERT INTO catalogue VALUES(?,?,NULL)",
+                params![id, json!({"id":id,"url":url,"difficulty":1200}).to_string()],
+            )
+            .unwrap();
+        p.db.execute("INSERT INTO submissions(id,problem_id,mode,scope,verdict,code,submitted_at,finished_at) VALUES(?,?,'submit','official','AC','retained actual source',?,?)",params![id,id,at,at]).unwrap();
+    }
+    let before = p.rows("SELECT * FROM submissions ORDER BY id", []).unwrap();
+    let plan = c
+        .prepare_sync(&f.auth(0), &p, &catalogue, None, now(), &|| true)
+        .unwrap();
+    assert_eq!(plan.event_count(), 1);
+    let receipt = c.execute_sync(&f.auth(0), &plan, now(), &|| true).unwrap();
+    let result = c.commit_sync(&f.auth(0), &p, receipt, &|| true).unwrap();
+    assert_eq!(result["boards"]["daily"]["self"]["count"], 0);
+    assert_eq!(result["boards"]["weekly"]["self"]["count"], 0);
+    assert_eq!(result["boards"]["total"]["self"]["count"], 1);
+    assert_eq!(result["publicProgressPublished"], false);
+    assert_eq!(f.command(json!({"op":"stats"}))["eventCount"], 1);
+    assert_eq!(
+        p.rows("SELECT * FROM submissions ORDER BY id", []).unwrap(),
+        before
+    );
+    assert_eq!(
+        c.prepare_sync(&f.auth(0), &p, &catalogue, None, now(), &|| true)
+            .unwrap()
+            .event_count(),
+        0
+    );
+}
+
+#[test]
+fn an_existing_h_event_receipt_suppresses_the_new_primary_event_without_rewriting_history() {
+    use sha2::{Digest, Sha256};
+    let f = Fixture::new();
+    let c = client();
+    let (_temp, p, catalogue) = journal(&f);
+    p.db.execute("DELETE FROM submissions", []).unwrap();
+    for (id, url) in [
+        ("lg", "https://www.luogu.com.cn/problem/P10865"),
+        ("h", "https://codeforces.com/gym/105139/problem/H"),
+    ] {
+        catalogue
+            .db
+            .execute(
+                "INSERT INTO catalogue VALUES(?,?,NULL)",
+                params![id, json!({"id":id,"url":url,"difficulty":1200}).to_string()],
+            )
+            .unwrap();
+        p.db.execute("INSERT INTO submissions(id,problem_id,mode,scope,verdict,code,submitted_at,finished_at) VALUES(?,?,'submit','official','AC','original retained code','2026-11-08T06:00:00Z','2026-11-08T06:00:01Z')",[id,id]).unwrap();
+    }
+    let problem = format!(
+        "{:x}",
+        Sha256::digest(b"codeforces.com/gym/105139/problem/H")
+    );
+    let event = format!(
+        "{:x}",
+        Sha256::digest(format!("official-v1\0{}\0{problem}", f.auth(0).owner).as_bytes())
+    );
+    p.db.execute(
+        "INSERT INTO ranking_receipts VALUES(?,?,'2026-11-08T06:00:00Z')",
+        params![f.auth(0).endpoint, event],
+    )
+    .unwrap();
+    let before = p.rows("SELECT * FROM ranking_receipts", []).unwrap();
+    assert_eq!(
+        c.prepare_sync(&f.auth(0), &p, &catalogue, None, now(), &|| true)
+            .unwrap()
+            .event_count(),
+        0
+    );
+    assert_eq!(
+        p.rows("SELECT * FROM ranking_receipts", []).unwrap(),
+        before
+    );
+    assert_eq!(
+        p.db.query_row("SELECT COUNT(*) FROM submissions", [], |r| r
+            .get::<_, i64>(0))
+            .unwrap(),
+        2
+    );
+}
+
+#[test]
 fn real_sync_prepares_only_dated_first_official_ac_then_commits_validated_receipts() {
     let mut f = Fixture::new();
     let c = client();

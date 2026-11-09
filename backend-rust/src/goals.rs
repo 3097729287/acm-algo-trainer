@@ -2,7 +2,7 @@
 //! selection is never replaced by refreshes, aliases or a same-day removal.
 use crate::{
     api::ApiError,
-    identity::canonical_url,
+    identity::{canonical_url, question_key},
     learning::{day, stamp},
     storage,
     training::Training,
@@ -105,7 +105,7 @@ fn ceil_div(n: i64, d: i64) -> i64 {
     n / d + i64::from(n % d != 0)
 }
 fn key(row: &Value) -> String {
-    canonical_url(text(row, "url")).unwrap_or_else(|| text(row, "id").into())
+    question_key(text(row, "url")).unwrap_or_else(|| text(row, "id").into())
 }
 fn fields(row: &Value, names: &[&str]) -> Value {
     Value::Object(

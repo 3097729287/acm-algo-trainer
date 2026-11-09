@@ -1,7 +1,62 @@
-//! First-party problem identity rules shared with backend/insights.py.
+//! Original navigation URLs and separate, precisely reviewed question identity.
 use percent_encoding::percent_decode_str;
 use regex::Regex;
+use sha2::{Digest, Sha256};
 use std::sync::LazyLock;
+
+pub const QUESTION_PAIR_KEY: &str = "luogu.com.cn/problem/P10865";
+pub const QUESTION_PAIR_KEYS: [&str; 2] =
+    [QUESTION_PAIR_KEY, "codeforces.com/gym/105139/problem/H"];
+pub const QUESTION_PAIR_IDS: [&str; 2] = ["luogu-training-P10865", "remote:codeforces:105139::H"];
+const PAIR_SOURCE_URLS: [&str; 2] = [
+    "https://www.luogu.com.cn/problem/P10865",
+    "https://codeforces.com/gym/105139/problem/H",
+];
+static PAIR_HASHES: LazyLock<Vec<String>> =
+    LazyLock::new(|| QUESTION_PAIR_KEYS.iter().map(|key| hash(key)).collect());
+fn hash(value: &str) -> String {
+    format!("{:x}", Sha256::digest(value.as_bytes()))
+}
+
+/// Counting/selection evidence only. Never use this as a submission URL, a
+/// draft ID, or a contest slot. See backend/question_identity.py and its proof.
+pub fn question_key(value: &str) -> Option<String> {
+    let value = value.trim();
+    if QUESTION_PAIR_KEYS.contains(&value)
+        || QUESTION_PAIR_IDS.contains(&value)
+        || PAIR_HASHES.iter().any(|key| key == value)
+    {
+        return Some(QUESTION_PAIR_KEY.into());
+    }
+    canonical_url(value).map(|key| {
+        if QUESTION_PAIR_KEYS.contains(&key.as_str()) {
+            QUESTION_PAIR_KEY.into()
+        } else {
+            key
+        }
+    })
+}
+pub fn question_alias_keys(value: &str) -> Vec<String> {
+    let key = question_key(value).unwrap_or_else(|| value.into());
+    if key == QUESTION_PAIR_KEY {
+        QUESTION_PAIR_KEYS.iter().map(|key| (*key).into()).collect()
+    } else if key.is_empty() {
+        Vec::new()
+    } else {
+        vec![key]
+    }
+}
+/// Old replay p: rewards hashed the complete original URL rather than the
+/// canonical key. Only the reviewed two exact source URLs are compatible.
+pub fn replay_problem_key_identity(value: &str) -> String {
+    if PAIR_HASHES.iter().any(|key| key == value)
+        || PAIR_SOURCE_URLS.iter().any(|url| hash(url) == value)
+    {
+        hash(QUESTION_PAIR_KEY)
+    } else {
+        value.into()
+    }
+}
 
 static CF: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"^/(?:contest/(\d+)/problem|problemset/problem/(\d+))/([A-Za-z0-9]+)$").unwrap()

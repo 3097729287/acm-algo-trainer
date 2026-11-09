@@ -1,7 +1,7 @@
 //! Conservative practice ability used by the existing review scheduler.
 //! All inputs come from the account journal; no score or evidence is persisted.
 use crate::{
-    api::ApiError, catalogue::row_or_portable, identity::canonical_url, training::Training,
+    api::ApiError, catalogue::row_or_portable, identity::question_key, training::Training,
 };
 use chrono::{DateTime, Utc};
 use regex::Regex;
@@ -232,7 +232,7 @@ pub fn observations(t: &Training<'_>, records: &[Value]) -> Result<Vec<Observati
             metadata.insert(canonical.clone(), row);
         }
         let row = &metadata[&canonical];
-        let key = canonical_url(text(row, "url")).unwrap_or(canonical);
+        let key = question_key(text(row, "url")).unwrap_or(canonical);
         let independent = !record["solution_seen"].is_null()
             && !truth(&record["solution_seen"])
             && (source_present(t, record, has_refs)?

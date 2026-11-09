@@ -1,7 +1,7 @@
 //! Blind local papers selected from the verified public catalogue. A preview
 //! is retained in this service instance and never becomes progress evidence.
 use crate::{
-    api::ApiError, goals, identity::canonical_url, learning::stamp, storage, training::Training,
+    api::ApiError, goals, identity::question_key, learning::stamp, storage, training::Training,
 };
 use chrono::{DateTime, Duration, Utc};
 use rusqlite::params;
@@ -51,7 +51,7 @@ fn strings(value: Option<&Value>) -> Result<Vec<String>, ApiError> {
     }
 }
 fn key(row: &Value) -> String {
-    canonical_url(text(row, "url")).unwrap_or_else(|| text(row, "id").into())
+    question_key(text(row, "url")).unwrap_or_else(|| text(row, "id").into())
 }
 fn difficulty(row: &Value) -> f64 {
     row["difficulty"].as_f64().unwrap()

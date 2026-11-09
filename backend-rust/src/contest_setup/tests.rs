@@ -88,6 +88,48 @@ fn start_body(plan: &Value) -> Value {
 }
 
 #[test]
+fn reviewed_cross_site_question_is_one_candidate_and_old_official_ac_excludes_both() {
+    let mut f = Fixture::new();
+    for i in 0..26 {
+        f.patch(i, "difficulty", json!(3000));
+    }
+    for (i, url) in [
+        (0, "https://www.luogu.com.cn/problem/P10865"),
+        (1, "https://codeforces.com/gym/105139/problem/H"),
+    ] {
+        f.patch(i, "difficulty", json!(1000));
+        f.patch(i, "url", json!(url));
+    }
+    let mut book = PreviewBook::default();
+    let body = json!({"count":2,"min":1000,"max":1000,"excludeSolved":false});
+    let before = f.fingerprint();
+    assert_eq!(book.preview(&f.training(), &body).unwrap_err().status, 422);
+    assert_eq!(f.fingerprint(), before);
+    let one = book
+        .preview(&f.training(), &json!({"count":1,"min":1000,"max":1000}))
+        .unwrap();
+    assert_eq!(one["available"], 1);
+    f.personal.db.execute("INSERT INTO submissions(id,problem_id,mode,scope,verdict,code,submitted_at,finished_at) VALUES('old-lg','fixture::00','submit','official','AC','old actual retained source','2026-11-01T00:00:00Z','2026-11-01T00:00:01Z')",[]).unwrap();
+    assert_eq!(
+        book.preview(
+            &f.training(),
+            &json!({"count":1,"min":1000,"max":1000,"excludeSolved":true})
+        )
+        .unwrap_err()
+        .status,
+        422
+    );
+    assert_eq!(
+        f.catalogue.canonical("fixture::00").unwrap(),
+        Some("fixture::00".into())
+    );
+    assert_eq!(
+        f.catalogue.canonical("fixture::01").unwrap(),
+        Some("fixture::01".into())
+    );
+}
+
+#[test]
 fn options_validate_typed_switches_and_keep_topic_defaults_and_numeric_compatibility() {
     assert_eq!(
         options(&json!({"mode":"topic","topic":" BFS ","tags":null,"wrongPenalty":"30"})).unwrap(),

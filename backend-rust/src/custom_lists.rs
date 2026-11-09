@@ -1,7 +1,7 @@
 //! Durable account-owned lists. Transactions include the real creation action.
 use crate::{
     api::{ApiError, fields},
-    identity::canonical_url,
+    identity::question_key,
     learning::stamp,
     preferences,
     storage::PersonalStore,
@@ -105,7 +105,7 @@ where
             .ok_or_else(|| ApiError::missing("没有找到这道题"))?;
         let key = row["url"]
             .as_str()
-            .and_then(canonical_url)
+            .and_then(question_key)
             .unwrap_or_else(|| id.to_owned());
         if seen.insert(key) {
             let pid = row["problem"]
@@ -255,7 +255,7 @@ where
             .collect::<HashSet<_>>();
         let urls = current
             .iter()
-            .filter_map(|v| v["url"].as_str().and_then(canonical_url))
+            .filter_map(|v| v["url"].as_str().and_then(question_key))
             .collect::<HashSet<_>>();
         let new = additions
             .iter()
@@ -263,7 +263,7 @@ where
                 !ids.contains(v["problemId"].as_str().unwrap())
                     && v["url"]
                         .as_str()
-                        .and_then(canonical_url)
+                        .and_then(question_key)
                         .is_none_or(|url| !urls.contains(&url))
             })
             .cloned()

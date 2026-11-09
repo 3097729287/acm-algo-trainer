@@ -1,6 +1,11 @@
 //! Exact public replay rosters. Missing statements retain their original place;
 //! origin VP and account-bound reward authority are never inferred locally.
-use crate::{api::ApiError, contest_setup, identity::canonical_url, training::Training};
+use crate::{
+    api::ApiError,
+    contest_setup,
+    identity::{canonical_url, question_key},
+    training::Training,
+};
 use regex::Regex;
 use serde_json::{Value, json};
 use std::{cmp::Ordering, collections::HashMap, sync::LazyLock};
@@ -120,6 +125,7 @@ pub(crate) fn roster(t: &Training<'_>, name: &str) -> Result<Vec<Value>, ApiErro
         }
         let key = canonical_url(text(&row, "url")).unwrap_or_else(|| text(&row, "id").into());
         let key = MIRRORS.get(&key).cloned().unwrap_or(key);
+        let key = question_key(&key).unwrap_or(key);
         let next = groups.len();
         let index = *positions.entry(key).or_insert(next);
         if index == groups.len() {

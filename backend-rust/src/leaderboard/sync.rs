@@ -7,7 +7,7 @@ use super::{
 use crate::{
     api::{ApiError, fields},
     catalogue::{Catalogue, row_or_portable},
-    identity::canonical_url,
+    identity::{question_alias_keys, question_key},
     storage::{PersonalStore, atomic},
 };
 use chrono::{DateTime, SecondsFormat, Utc};
@@ -99,7 +99,7 @@ impl LeaderboardClient {
                 metadata.insert(id.to_owned(), row);
             }
             let row = &metadata[id];
-            let key = canonical_url(string(row, "url")).unwrap_or_else(|| id.to_owned());
+            let key = question_key(string(row, "url")).unwrap_or_else(|| id.to_owned());
             let difficulty = row["difficulty"]
                 .as_f64()
                 .filter(|v| v.is_finite() && (0.0..=5000.0).contains(v));
@@ -113,7 +113,15 @@ impl LeaderboardClient {
         for (key, (at, difficulty)) in sorted {
             let problem = sha(key.as_bytes());
             let event = sha(format!("official-v1\0{}\0{problem}", scope.owner).as_bytes());
-            if receipts.get(&event).is_some_and(|old| *old <= at) {
+            let previous = question_alias_keys(&key)
+                .iter()
+                .filter_map(|alias| {
+                    let problem = sha(alias.as_bytes());
+                    let event = sha(format!("official-v1\0{}\0{problem}", scope.owner).as_bytes());
+                    receipts.get(&event)
+                })
+                .min();
+            if previous.is_some_and(|old| *old <= at) {
                 continue;
             }
             events.push(json!({"eventId":event,"problemKey":problem,"acceptedAt":at.to_rfc3339_opts(SecondsFormat::Micros,true),"scope":"official","difficulty":difficulty}));
