@@ -165,7 +165,7 @@ export class MySQLStore {
   }
   async rankings(id, range, loginDay) {
     const { sql, values } = rankingQuery(range, loginDay);
-    const enriched = ' SELECT ranked.*,p.payload AS public_progress,a.hash AS avatar_hash FROM ranked LEFT JOIN account_public_progress p ON p.user_id=ranked.user_id LEFT JOIN account_public_avatars a ON a.user_id=ranked.user_id';
+    const enriched = ' SELECT /*+ MAX_EXECUTION_TIME(5000) */ ranked.*,p.payload AS public_progress,a.hash AS avatar_hash FROM ranked LEFT JOIN account_public_progress p ON p.user_id=ranked.user_id LEFT JOIN account_public_avatars a ON a.user_id=ranked.user_id';
     // Rank the event history once for both the visible page and the caller's
     // own row. The result stays bounded at 101 rows even for a large board.
     const [found] = await this.pool.execute(sql + enriched + ' WHERE ranked.position<=100 OR ranked.user_id=? ORDER BY position', [...values, id]);

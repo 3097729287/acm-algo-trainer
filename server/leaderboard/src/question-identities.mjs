@@ -21,25 +21,37 @@ const replayHashes=new Map(hashes);
 for(const pair of REVIEWED_QUESTION_PAIRS)for(const url of pair.sourceUrls)replayHashes.set(digest(url),digest(pair.key));
 export const replayProblemKeyIdentity=key=>replayHashes.get(key)||key;
 const groups=REVIEWED_QUESTION_PAIRS.map(pair=>pair.aliases.map(key=>`'${digest(key)}'`).join(','));
-const aliasHashes=[...hashes.keys()].map(key=>`'${key}'`).join(',');
 const column=value=>{if(!/^[a-z][a-z0-9_]*\.problem_key$/.test(value))throw Error('Internal identity column required');return value;};
 export function sameQuestionSQL(left,right){
   column(left);column(right);
   return `(${left}=${right} OR ${groups.map(group=>`(${left} IN (${group}) AND ${right} IN (${group}))`).join(' OR ')})`;
 }
+// Keep the indexed inner problem_key bare. Each expression yields one exact
+// peer key, or NULL for ordinary tasks, so both composite-PK parts stay usable.
+function peerQuestionKeysSQL(value){
+  column(value);
+  return REVIEWED_QUESTION_PAIRS.flatMap(pair=>{
+    const members=pair.aliases.map(digest);
+    return members.slice(1).map((_,offset)=>`CASE ${value} ${members.map((key,index)=>
+      `WHEN '${key}' THEN '${members[(index+offset+1)%members.length]}'`).join(' ')} ELSE NULL END`);
+  });
+}
 // Select a real original row BEFORE applying daily/weekly filters. Counting
 // DISTINCT within the requested period would falsely make today's mirror AC
 // a new question after an earlier acceptance on the other platform.
 export function firstOfficialEventsCTE(){
-  return `first_official_ac AS (
-    SELECT e.* FROM official_ac_events e WHERE e.problem_key NOT IN (${aliasHashes})
-    OR NOT EXISTS (SELECT 1 FROM official_ac_events earlier
-      WHERE earlier.user_id=e.user_id AND ${sameQuestionSQL('earlier.problem_key','e.problem_key')} AND (
+  // (user_id,problem_key) is unique. Only distinct reviewed peer keys can
+  // contain another first-AC candidate; the same physical key cannot compete.
+  const checks=peerQuestionKeysSQL('e.problem_key').map(peer=>`NOT EXISTS (SELECT 1 FROM official_ac_events earlier
+      WHERE earlier.user_id=e.user_id AND earlier.problem_key=${peer} AND (
         earlier.accepted_at<e.accepted_at OR (earlier.accepted_at=e.accepted_at AND (
-          earlier.received_at<e.received_at OR (earlier.received_at=e.received_at AND earlier.problem_key<e.problem_key)))))
+          earlier.received_at<e.received_at OR (earlier.received_at=e.received_at AND earlier.problem_key<e.problem_key)))))`);
+  return `first_official_ac AS (
+    SELECT e.* FROM official_ac_events e WHERE ${checks.join(' AND ')||'1=1'}
   )`;
 }
 export function questionNotExcludedSQL(alias='e'){
   if(!/^[a-z][a-z0-9_]*$/.test(alias))throw Error('Internal identity alias required');
-  return `NOT EXISTS (SELECT 1 FROM ranking_exclusions x WHERE x.user_id=${alias}.user_id AND ${sameQuestionSQL('x.problem_key',`${alias}.problem_key`)})`;
+  return '('+[`${alias}.problem_key`,...peerQuestionKeysSQL(`${alias}.problem_key`)].map(key=>
+    `NOT EXISTS (SELECT 1 FROM ranking_exclusions x WHERE x.user_id=${alias}.user_id AND x.problem_key=${key})`).join(' AND ')+')';
 }

@@ -4,7 +4,7 @@
   "type": "module",
   "version": "1.4.8",
   "scripts": {
-    "test": "node --test tests/question-identities.test.mjs tests/api.test.mjs tests/server.test.mjs tests/chunks.test.mjs tests/ranking-dominance.test.mjs tests/gameplay.test.mjs tests/ranking-week-boundary.test.mjs tests/gameplay-restore.test.mjs tests/sticker-rewards.test.mjs tests/card-packs.test.mjs tests/sticker-scenes.test.mjs tests/feedback-regressions.test.mjs tests/release-stream.test.mjs tests/release-stream-ranges.test.mjs tests/library-assets.test.mjs tests/required-downloads.test.mjs tests/pk-judge.test.mjs tests/thought-duels.test.mjs tests/thought-budget-mysql.test.mjs tests/duel-community.test.mjs tests/team-training-core.test.mjs tests/team-receipts.test.mjs",
+    "test": "node --test tests/question-identities.test.mjs tests/ranking-index.test.mjs tests/api.test.mjs tests/server.test.mjs tests/chunks.test.mjs tests/ranking-dominance.test.mjs tests/gameplay.test.mjs tests/ranking-week-boundary.test.mjs tests/gameplay-restore.test.mjs tests/sticker-rewards.test.mjs tests/card-packs.test.mjs tests/sticker-scenes.test.mjs tests/feedback-regressions.test.mjs tests/release-stream.test.mjs tests/release-stream-ranges.test.mjs tests/library-assets.test.mjs tests/required-downloads.test.mjs tests/pk-judge.test.mjs tests/thought-duels.test.mjs tests/thought-budget-mysql.test.mjs tests/duel-community.test.mjs tests/team-training-core.test.mjs tests/team-receipts.test.mjs",
     "test:mysql": "node --test tests/mysql.test.mjs",
     "start": "node src/server.mjs"
   },
