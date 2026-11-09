@@ -480,7 +480,16 @@ impl LeaderboardClient {
             c.sequence = c.sequence.wrapping_add(1);
             let n = c.sequence;
             if c.avatar_requests.len() >= 256 {
-                c.avatar_requests.retain(|(s, _), _| s == &scope);
+                // A single owner's repeated different target IDs must be
+                // bounded too. Evicted in-flight reads fail the sequence gate.
+                if let Some(oldest) = c
+                    .avatar_requests
+                    .iter()
+                    .min_by_key(|(_, n)| **n)
+                    .map(|(key, _)| key.clone())
+                {
+                    c.avatar_requests.remove(&oldest);
+                }
             }
             c.avatar_requests
                 .insert((scope.clone(), user_id.to_owned()), n);
