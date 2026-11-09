@@ -13,6 +13,7 @@ import { AccountError } from './accounts.mjs';
 import { claimNickname } from './nicknames.mjs';
 import { storedPublicProgress } from './public-progress.mjs';
 import { bounds, addDays, rankingQuery, normalizeRank, settlementStart, REWARD_POLICY } from './ranking-rules.mjs';
+import {firstOfficialEventsCTE,questionNotExcludedSQL} from './question-identities.mjs';
 
 export async function secret(env, name) {
   if (env[name + '_FILE']) return (await readFile(env[name + '_FILE'], 'utf8')).trim();
@@ -231,11 +232,11 @@ export class MySQLStore {
       // Re-check the role in the same transaction as the write.
       const [role] = await connection.execute('SELECT user_id FROM ranking_admins WHERE user_id=? FOR SHARE', [actor]);
       if (!role.length) throw new Error('Administrator role required');
-      const filters = [], values = [];
+      const filters = [questionNotExcludedSQL()], values = [];
       if (target) { filters.push('e.user_id=?'); values.push(target); }
       if (range) { filters.push('e.accepted_day>=? AND e.accepted_day<?'); values.push(range.start, range.end); }
       const [result] = await connection.execute(`INSERT IGNORE INTO ranking_exclusions(user_id,problem_key,deleted_at)
-        SELECT e.user_id,e.problem_key,? FROM official_ac_events e ${filters.length ? 'WHERE '+filters.join(' AND ') : ''}`, [timestamp, ...values]);
+        WITH ${firstOfficialEventsCTE()} SELECT e.user_id,e.problem_key,? FROM first_official_ac e WHERE ${filters.join(' AND ')}`, [timestamp, ...values]);
       const removed = Number(result.affectedRows);
       await connection.execute('INSERT INTO ranking_admin_actions(actor_id,target_id,period,start_date,end_date,removed_count,created_at) VALUES(?,?,?,?,?,?,?)',
         [actor, target, period, range?.start ?? null, range?.end ?? null, removed, timestamp]);

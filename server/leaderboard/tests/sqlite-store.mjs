@@ -14,6 +14,7 @@ import { AccountError } from '../src/accounts.mjs';
 import { nicknameKey } from '../src/nicknames.mjs';
 import { storedPublicProgress } from '../src/public-progress.mjs';
 import { bounds, addDays, rankingQuery, normalizeRank, settlementStart, REWARD_POLICY } from '../src/ranking-rules.mjs';
+import {firstOfficialEventsCTE,questionNotExcludedSQL} from '../src/question-identities.mjs';
 
 export class SQLiteStore {
   constructor(path = ':memory:') {
@@ -27,7 +28,7 @@ export class SQLiteStore {
     }
     const execute = async (sql, params=[]) => {
       const statement=this.database.prepare(sql);
-      if (/^\s*SELECT/i.test(sql)) return [statement.all(...params)];
+      if (/^\s*(?:SELECT|WITH)\b/i.test(sql)) return [statement.all(...params)];
       const value=statement.run(...params);return [{affectedRows:Number(value.changes)}];
     };
     let writes=Promise.resolve();
@@ -208,10 +209,10 @@ export class SQLiteStore {
     this.database.exec('BEGIN IMMEDIATE');
     try {
       if (!this.database.prepare('SELECT user_id FROM ranking_admins WHERE user_id=?').get(actor)) throw new Error('Administrator role required');
-      const filters = [], values = [];
+      const filters = [questionNotExcludedSQL()], values = [];
       if (target) { filters.push('e.user_id=?'); values.push(target); }
       if (range) { filters.push('e.accepted_day>=? AND e.accepted_day<?'); values.push(range.start, range.end); }
-      const removed = this.database.prepare(`INSERT OR IGNORE INTO ranking_exclusions(user_id,problem_key,deleted_at) SELECT e.user_id,e.problem_key,? FROM official_ac_events e ${filters.length ? 'WHERE '+filters.join(' AND ') : ''}`).run(timestamp, ...values).changes;
+      const removed = this.database.prepare(`INSERT OR IGNORE INTO ranking_exclusions(user_id,problem_key,deleted_at) WITH ${firstOfficialEventsCTE()} SELECT e.user_id,e.problem_key,? FROM first_official_ac e WHERE ${filters.join(' AND ')}`).run(timestamp, ...values).changes;
       this.database.prepare('INSERT INTO ranking_admin_actions(actor_id,target_id,period,start_date,end_date,removed_count,created_at) VALUES(?,?,?,?,?,?,?)').run(actor, target, period, range?.start ?? null, range?.end ?? null, removed, timestamp);
       this.database.exec('COMMIT');
       return { removed, period, userId: target };

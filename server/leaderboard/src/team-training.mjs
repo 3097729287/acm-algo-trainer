@@ -2,6 +2,7 @@ import {createHash, randomInt, randomUUID} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {AccountError} from './accounts.mjs';
 import {teamPlatform,validTeamHandle,verifyTeamReceipt} from './team-receipts.mjs';
+import {sameQuestionSQL} from './question-identities.mjs';
 
 const publicCatalogue = JSON.parse(readFileSync(new URL('./team-contests.json', import.meta.url), 'utf8'));
 const uuid = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
@@ -75,7 +76,7 @@ export class TeamTraining {
       [room.status, iso(room.finishedAt ?? room.deadline), now, JSON.stringify(room), room.id]);
   }
   async scores(db, room, now) {
-    const [rows] = await db.execute('SELECT e.user_id,e.problem_key,e.accepted_at FROM official_ac_events e JOIN team_room_members m ON m.user_id=e.user_id JOIN team_problems p ON p.room_id=m.room_id AND p.problem_key=e.problem_key WHERE m.room_id=? AND p.available=1 AND e.accepted_at>=? AND e.accepted_at<=?',
+    const [rows] = await db.execute(`SELECT e.user_id,p.problem_key,e.accepted_at FROM official_ac_events e JOIN team_room_members m ON m.user_id=e.user_id JOIN team_problems p ON p.room_id=m.room_id AND ${sameQuestionSQL('p.problem_key','e.problem_key')} WHERE m.room_id=? AND p.available=1 AND e.accepted_at>=? AND e.accepted_at<=?`,
       [room.id, iso(room.startedAt), iso(Math.min(now, room.finishedAt ?? room.deadline))]);
     const [native] = await db.execute("SELECT n.user_id,p.problem_key,n.accepted_at FROM team_native_receipts n JOIN team_problems p ON p.room_id=n.room_id AND p.problem_id=n.problem_id WHERE n.room_id=? AND p.available=1 AND n.verdict='AC' AND n.accepted_at>=? AND n.accepted_at<=?",
       [room.id,iso(room.startedAt),iso(Math.min(now,room.finishedAt??room.deadline))]);
@@ -344,7 +345,7 @@ export class TeamTraining {
     if (!this.enabled || !await this.available()) fail(503, 'UNAVAILABLE', '团队训练服务尚未就绪');
     const identity = this.dialect === 'mysql' ? "CONCAT(s.room_id,':',s.problem_id)" : "s.room_id||':'||s.problem_id";
     const [rows] = await this.db.execute(`SELECT t.team_id,t.payload,COUNT(DISTINCT CASE WHEN s.problem_id IS NOT NULL THEN ${identity} ELSE NULL END) AS total_score FROM teams t LEFT JOIN (
-      SELECT r.team_id,r.room_id,p.problem_id FROM team_rooms r JOIN team_room_members m ON m.room_id=r.room_id JOIN team_problems p ON p.room_id=r.room_id AND p.available=1 JOIN official_ac_events e ON e.user_id=m.user_id AND e.problem_key=p.problem_key AND e.accepted_at>=r.started_at AND e.accepted_at<=r.ended_at AND e.accepted_at<=?
+      SELECT r.team_id,r.room_id,p.problem_id FROM team_rooms r JOIN team_room_members m ON m.room_id=r.room_id JOIN team_problems p ON p.room_id=r.room_id AND p.available=1 JOIN official_ac_events e ON e.user_id=m.user_id AND ${sameQuestionSQL('e.problem_key','p.problem_key')} AND e.accepted_at>=r.started_at AND e.accepted_at<=r.ended_at AND e.accepted_at<=?
       UNION SELECT r.team_id,r.room_id,p.problem_id FROM team_rooms r JOIN team_problems p ON p.room_id=r.room_id AND p.available=1 JOIN team_native_receipts n ON n.room_id=r.room_id AND n.problem_id=p.problem_id AND n.verdict='AC' AND n.accepted_at>=r.started_at AND n.accepted_at<=r.ended_at AND n.accepted_at<=?
     ) s ON s.team_id=t.team_id WHERE t.archived=0 GROUP BY t.team_id,t.payload ORDER BY total_score DESC,t.team_id LIMIT 100`, [iso(now),iso(now)]);
     return {serverNow: now, source: 'stored-official-ac-and-verified-native-receipts', entries: rows.map(row => ({
