@@ -20,6 +20,16 @@ cargo test -p tobe-core --test reviewed_judge --offline
 cargo test -p tobe-core --lib reviewed_judge::source_guards --offline
 ```
 
-初批已通过 5 项公开入口/判定器测试和 3 项压缩来源反例。真实 C++、Python 用户程序的完整执行证明随后单独归档。生产服务的队列、运行限额和结果接线由 Rust 主分支完成，本提交不更改它们，也不发放通过、经验、掌握或奖励。
+已通过 5 项公开入口/判定器测试、3 项压缩来源反例和 2 项显式执行的真实用户程序测试。十五份现有归档 C++ 程序及独立实现的 Python 用户程序，分别通过全部 314 个额外用例，共 628 次真实 Windows Job 执行；没有删除大输入或只测预期文本。C++ 接受 18 份不同于冻结输出的合法构造，Python 接受 21 份，完整输出由 Rust 判定器核对。测试源代码不导入旧生成器或后端。
+
+完整回执见 [validation](verification/native-reviewed-judge-20261109/validation.json)、[C++](verification/native-reviewed-judge-20261109/cpp17.json) 与 [Python](verification/native-reviewed-judge-20261109/python3.json)。实际功能测试的每次子进程上限为 60 秒、1024 MB，不能把此证明当成每种语言在原站时限下通过或整套应用已经达到性能目标。测试源码及可执行文件所在临时目录均已回收。
+
+```powershell
+$env:TB_NATIVE_TEST_CPP17 = '完整的 g++.exe 路径'
+$env:TB_NATIVE_TEST_PYTHON = '完整的 python.exe 路径'
+cargo test -p tobe-core --test reviewed_user_programs --offline -- --ignored --test-threads=1 --nocapture
+```
+
+生产服务的队列、运行限额和结果接线由 Rust 主分支完成，本提交不更改它们，也不发放通过、经验、掌握或奖励。
 
 新增前的检查见 [cleanup](verification/native-reviewed-judge-20261109/cleanup.json)。独立工作区中没有旧审核包、旧模块或临时编译产物可清理；原 Python oracle、原身份策略及必要历史仍有实际引用，继续保留。

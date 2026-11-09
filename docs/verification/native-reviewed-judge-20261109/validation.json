@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "checkedAt": "2026-11-09T00:01:43.392866+00:00",
+  "implementationCommit": "5b5ba8a3a1452524f98e2e1408dfed3d4be9b040",
+  "fixedProfiles": 15,
+  "extraCases": 314,
+  "testBatches": {
+    "loaderAndCheckerIntegrationTests": 5,
+    "gzipSourceAndBudgetCounterexamples": 3,
+    "explicitRealUserProgramTests": 2,
+    "allPass": true
+  },
+  "authoringReexportByteIdentityChecked": true,
+  "frozenCompressedBytes": 4724975,
+  "totalRawBytes": 63804044,
+  "maximumOneProfileRawBytes": 32454996,
+  "maximumSingleInputBytes": 32170013,
+  "maximumExpectedOutputBytes": 1400000,
+  "sourceSha256": "20fd6a302157ff9b9cefb757a5bda9d287fde6d23aed37a83a07a8e8fb3b7741",
+  "allLargeInputsRetained": true,
+  "programExecutions": {
+    "cpp17": {
+      "fullProfiles": 15,
+      "fullCasesPassed": 314,
+      "acceptedAlternativeOutputs": 18,
+      "seconds": 25.0479329,
+      "receiptSha256": "6846354e991780bf8b92eb7d07306afc0583939f0051430a6377cbad6477f968"
+    },
+    "python3": {
+      "fullProfiles": 15,
+      "fullCasesPassed": 314,
+      "acceptedAlternativeOutputs": 21,
+      "seconds": 26.4286601,
+      "receiptSha256": "cf77b9cd0ed7616e2c7a697f0eb421506fd4be9b0ed45a8826b7ff81da500830"
+    }
+  },
+  "all628CasesThroughNativeRustWindowsJobsAndCheckers": true,
+  "archivesPythonExecutedByProduction": false,
+  "oldHttpOrBackendLaunched": false,
+  "accountOrPersonalDatabaseRead": false,
+  "ordinaryToBeApplicationChanged": false,
+  "officialAcOrRewardsClaimed": false,
+  "serviceQueueAndUiIntegrationStillOwnedByRustCompletion": true,
+  "functionalProgramLimits": {
+    "timeMsPerCase": 60000,
+    "memoryMbPerCase": 1024,
+    "notOriginalOjDeadlineCertification": true
+  },
+  "ignoredProgramTestsWereActuallyInvoked": true,
+  "programTestCommand": "cargo test -p tobe-core --test reviewed_user_programs --offline -- --ignored --test-threads=1 --nocapture",
+  "temporaryUserSourceDirectoriesReclaimed": true,
+  "cargoTargetIsIgnoredAndStillUsedForValidation": true
+}
