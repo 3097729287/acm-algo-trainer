@@ -23,6 +23,7 @@ class VirtualContest:
         original=urlsplit(spec['registrationUrl'])
         allowed={'Codeforces':'codeforces.com','QOJ':'qoj.ac','牛客':'ac.nowcoder.com'}
         if original.scheme!='https' or original.hostname!=allowed.get(spec['platform']) or original.username or original.password or original.port not in (None,443):raise ServiceError(400,'原站 VP 地址无效')
+        if hasattr(self.bridge,'page'):return self._connected(spec,training)
         target=self.bridge.browser.new_probe_page(spec['registrationUrl'])
         if target is None:raise ServiceError(503,'请更新原站浏览器后重试 VP')
         page=None;attempted=set();start_ms=None;original_owner=None
@@ -75,3 +76,39 @@ class VirtualContest:
             except (OSError,RuntimeError,ValueError):pass
             controller=target.get('_controller')
             if controller is not None:controller.close()
+
+    def _connected(self,spec,training):
+        page=self.bridge.page(spec['registrationUrl'],training,spec['platform'])
+        attempted=set();start_ms=None;original_owner=None;confirmed=False
+        deadline=time.monotonic()+self.timeout
+        try:
+            while time.monotonic()<deadline:
+                if not self._current(training):raise ServiceError(409,'账号已切换，本地比赛尚未开始')
+                context={'spec':spec,'action':'inspect','startMs':start_ms,'attempted':sorted(attempted)}
+                value=page.request('virtual',context=context,timeout=max(.1,deadline-time.monotonic()))
+                handle=valid_identity(value.get('identity'),spec['platform'])
+                if handle:
+                    if original_owner and original_owner.casefold()!=handle.casefold():raise ServiceError(409,'原站账号已切换，本地比赛尚未开始')
+                    if spec['platform']!='QOJ' and not self.bind(training,spec['platform'],handle):raise ServiceError(409,'原站账号与当前绑定不一致')
+                    original_owner=handle
+                state=value.get('state')
+                if state=='duration-mismatch':raise ServiceError(409,'本地比赛时长与原站 VP 不一致，请使用原比赛时长')
+                if state in ('login','verification'):raise ServiceError(409,'请在常用浏览器完成登录或验证，再开始重现赛')
+                if state=='unsupported':
+                    if spec['required']:raise ServiceError(409,'原站 VP 入口暂不可用，本地比赛尚未开始')
+                    return {'supported':False}
+                if state=='confirmed':
+                    began=value.get('startedMs')
+                    if not handle or type(began) not in (int,float):raise ServiceError(409,'原站 VP 账号或计时尚未确认')
+                    stamp=dt.datetime.fromtimestamp(began/1000,UTC)
+                    confirmed=True
+                    return {**{key:spec[key] for key in ('platform','contestId','url')},'confirmed':True,'startedAt':iso(stamp),'deadline':iso(stamp+dt.timedelta(minutes=spec['duration']))}
+                intent=value.get('intentKey','start')
+                if state=='ready' and intent not in attempted:
+                    if not handle:raise ServiceError(409,'请先登录原站并确认绑定账号')
+                    start_ms=((int(time.time()*1000)+15000+59999)//60000)*60000
+                    attempted.add(intent)
+                    page.request('virtual',context={**context,'action':'start','startMs':start_ms},timeout=max(.1,deadline-time.monotonic()))
+                self.bridge.stopping.wait(.2)
+            raise ServiceError(409,'原站 VP 尚未确认，本地比赛尚未开始；请检查原站后重试')
+        finally:page.close(keep=bool(attempted and not confirmed))

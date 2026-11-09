@@ -24,6 +24,8 @@ class ContestReading:
     def __call__(self,url,training):
         if not source_url(url):raise ValueError('只允许读取已经核实的牛客比赛原题')
         if not self._current(training):raise RuntimeError('账号已切换，请重新读取比赛')
+        if hasattr(self.bridge,'page'):
+            return self._connected(url,training)
         target=self.bridge.browser.new_probe_page(url)
         if target is None:raise StatementAccessRequired('请更新原站浏览器并在原站登录、报名后重试题面')
         page=None
@@ -67,3 +69,26 @@ class ContestReading:
                 if controller is not None:
                     try:controller.close()
                     except (OSError,RuntimeError,ValueError):pass
+
+    def _connected(self,url,training):
+        page=self.bridge.page(url,training,'牛客')
+        try:
+            deadline=time.monotonic()+self.timeout
+            while time.monotonic()<deadline and not self.bridge.stopping.is_set():
+                if not self._current(training):raise RuntimeError('账号已切换，请重新读取比赛')
+                value=page.request('read',timeout=max(.1,deadline-time.monotonic()))
+                actual=urlsplit(value.get('url',''));expected=urlsplit(url)
+                if actual.scheme!='https' or actual.hostname!='ac.nowcoder.com' or actual.path!=expected.path:
+                    raise StatementAccessRequired('请先在原站登录并报名，再重试题面')
+                if value.get('ready')=='loading':self.bridge.stopping.wait(.25);continue
+                owner=valid_identity(value.get('identity'),'牛客')
+                if not owner or value.get('state') in ('login','verification'):
+                    raise StatementAccessRequired('请在常用浏览器完成登录、报名或验证，再重试题面')
+                if not self.bind(training,'牛客',owner):raise StatementAccessRequired('原站牛客账号与当前绑定不一致')
+                html=value.get('html')
+                if isinstance(html,str):
+                    if nowcoder_access_notice(html):raise StatementAccessRequired('请先在原站报名，再重试题面')
+                    if 'subject-describe' in html or 'subject-item-title' in html:return html
+                self.bridge.stopping.wait(.25)
+            raise StatementAccessRequired('原站题面尚未就绪，请检查常用浏览器连接后重试')
+        finally:page.close()

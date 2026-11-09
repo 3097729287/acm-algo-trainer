@@ -53,11 +53,11 @@ return {sessionId:s.sessionId,submissionId:p.submissionId,ownerMatches:String(wi
  binding:{version:1,platform:'牛客',owner:p.owner,identity:p.identity,origin:u?.origin,statusPath:u?.pathname,query:q}};})()"""
 
 
-def legacy_nowcoder_proof(page, record):
+def legacy_nowcoder_proof(page, record, *, require_current_owner=True):
     """Adopt only an existing exact owned observer; never infer an old owner."""
     proof = page.evaluate(_PROBE)
     if (not isinstance(proof, dict) or proof.get('sessionId') != record['sessionId']
-            or str(proof.get('submissionId')) != record['submissionId'] or not proof.get('ownerMatches')
+            or str(proof.get('submissionId')) != record['submissionId'] or require_current_owner and not proof.get('ownerMatches')
             or proof.get('currentUrl') != record['url']):
         return None
     binding = nowcoder_binding(proof.get('binding'), record['url'])

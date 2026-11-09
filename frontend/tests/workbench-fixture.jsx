@@ -74,7 +74,7 @@ async function api(path, body) {
     const node=document.querySelector('.wb-result-summary');
     (fixture.ackFacts||=[]).push({sessionId:body.sessionId,displayId:node?.dataset.submissionId,verdict:node?.dataset.verdict,
       visible:!!node?.getClientRects().length,documentVisible:document.visibilityState==='visible',frame:window.ackFrameCounter||0});
-    return {closed:true};
+    return fixture.asyncBrowserAck?{closed:false,displayAcknowledged:true}:{closed:true};
   }
   if (url.pathname === '/problem') {
     const id = url.searchParams.get('id');

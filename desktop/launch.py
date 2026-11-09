@@ -298,19 +298,31 @@ def run_desktop() -> int:
                         session = server.official_sessions.get(value.get('sessionId'))
                     if session and session.get('_training') is server.training:
                         push_status('tb:official-status', value)
-                from external_browser import ExternalBrowserBridge, ExternalBrowserPreparation
-                official = ExternalBrowserBridge(
-                    STATE.parent / 'cache' / 'tb-submission-browser',
+                from connected_browser import ConnectedBrowserBridge
+                from connected_preparation import ConnectedPreparation
+                from existing_browser_recovery import existing_job_proof
+                from platform_login import SITES
+                def expected_original_owner(platform):
+                    site=SITES.get(platform)
+                    return server.store.extensions.snapshot().get('settings',{}).get('accounts',{}).get(site[0]) if site else None
+                official = ConnectedBrowserBridge(
+                    f'http://127.0.0.1:{PORT}',
                     guard=server.validate_official_url,
                     on_receipt=server.record_official_receipt,
                     on_pending=server.record_official_pending,
                     on_status=push_official,
-                    recovery_current=lambda owner:server.training is owner,
+                    current_owner=server.browser_account_context,
+                    expected_owner=expected_original_owner,
+                    on_identity=lambda owner,platform,handle:server.training is owner if platform=='QOJ' else server.bind_browser_account(owner,platform,handle),
+                    legacy_proof=lambda record:existing_job_proof(STATE.parent/'cache'/'tb-submission-browser',record),
                 )
                 server.browser_bridge = official
-                from platform_login import PlatformLogins
-                logins = PlatformLogins(official, server.browser_account_context, server.bind_browser_account)
-                server.browser_preparation = ExternalBrowserPreparation(official, logins)
+                extension_path=APP_DIR/'browser-extension' if getattr(sys,'frozen',False) else STATE.parent/'cache'/'tb-connected-extension'
+                if not getattr(sys,'frozen',False):
+                    from browser_extension_bundle import build as build_extension
+                    build_extension(extension_path,f'http://127.0.0.1:{PORT}')
+                server.browser_extension_path=extension_path
+                server.browser_preparation = ConnectedPreparation(official,extension_path)
                 from contest_reading import ContestReading
                 server.original_contest_reader=ContestReading(official,server.browser_account_context,server.bind_browser_account)
                 from virtual_contest import VirtualContest
@@ -363,12 +375,8 @@ def run_desktop() -> int:
                 if getattr(sys, 'frozen', False) and not ADMIN_MODE and os.environ.get('TB_OFFLINE') != '1':
                     from legacy_cleanup import start as start_legacy_cleanup
                     start_legacy_cleanup(APP_DIR, lambda: loaded.is_set() and bool(server.accounts.session))
-                    def warm_submission_browser():
-                        if not official.stopping.is_set() and server.accounts.session:
-                            official.browser.ensure(background=True)
-                    # StartupJobs invokes this only after a foreground content
-                    # paint acknowledgement, alongside the other delayed work.
-                    server.warm_submission_browser=warm_submission_browser
+                    # The normal browser is owned by the user. Startup never
+                    # launches a second profile or opens competing login tabs.
                 early.activate(server)
                 LOG.info('Local interface ready')
             except Exception:

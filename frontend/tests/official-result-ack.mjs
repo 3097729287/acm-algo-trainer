@@ -41,6 +41,7 @@ async function fixture(recovery=false){
 const ackCount=page=>page.evaluate(()=>workbenchFixture.calls.filter(c=>c.path==='official/ack').length);
 try{
  const page=await fixture();
+ await page.evaluate(()=>workbenchFixture.asyncBrowserAck=true);
  await page.getByRole('button',{name:'提交',exact:true}).click();
  await page.getByText('评测中',{exact:true}).waitFor();
  assert.equal(await ackCount(page),0,'Opening/clicking/judging is never an acknowledgement');
@@ -53,6 +54,7 @@ try{
  const proof=await page.evaluate(()=>({ack:workbenchFixture.ackFacts[0],session:Object.values(workbenchFixture.officialSessions)[0]}));
  assert.equal(proof.ack.displayId,proof.session.submission.id);assert.equal(proof.ack.verdict,'CE');
  assert.ok(proof.ack.visible&&proof.ack.documentVisible);assert.ok(proof.ack.frame>=proof.session.savedFrame+2);
+ await page.waitForTimeout(850);assert.equal(await ackCount(page),1,'A real display ACK stops retries while the extension closes its tab asynchronously');
  await page.screenshot({path:resolve(out,'shown-ce.png')});await page.close();checks.push('hidden CE waits for exact visible persisted result and two paint frames');
 
  const history=await fixture();

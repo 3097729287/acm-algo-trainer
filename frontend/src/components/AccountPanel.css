@@ -19,4 +19,9 @@
 .account-panel-saved{display:flex;color:var(--success);min-width:18px}
 .account-panel .account-panel-logout{margin-left:auto;color:var(--muted)}
 .account-panel .connection-error{margin:0;font-size:.86rem;line-height:1.5;overflow-wrap:anywhere}
+.account-browser-connection{font-size:.84rem;color:var(--muted);line-height:1.6}
+.account-browser-connection summary{cursor:pointer;color:var(--text)}
+.account-browser-connection p{margin:8px 0}.account-browser-connection ol{margin:8px 0;padding-left:20px}
+.account-extension-path{display:block;overflow-wrap:anywhere;user-select:text;margin:8px 0}
+.account-browser-connection>button{padding:5px 10px;min-height:30px;border:1px solid var(--line);border-radius:6px;background:var(--panel-2);color:var(--text)}
 @media(max-width:540px){.account-panel-top{gap:10px}.account-nickname{grid-template-columns:minmax(0,1fr) 34px}.account-nickname>label{grid-column:1/-1}.account-platform-grid{grid-template-columns:1fr}.account-password-edit form{grid-template-columns:1fr}.account-password-edit form>button{justify-self:end}.account-password-edit summary{margin-top:24px}}

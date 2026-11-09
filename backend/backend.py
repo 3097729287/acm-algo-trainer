@@ -790,10 +790,13 @@ class Handler(BaseHTTPRequestHandler):
         from browser_bridge import EXTENSION_ID, EXTENSION_ORIGIN
         self.local_request()
         path = urlsplit(self.path).path
+        if path=='/api/browser/session':
+            self.close_connection=True
+            raise APIError(410,'浏览器会话导出已停用；请加载纯标签页连接扩展')
         if path == '/api/browser/setup' and not writing:
             self.send_json(200, {'extensionPath': str(getattr(self.server, 'browser_extension_path', ''))})
             return
-        if path not in ('/api/browser/exchange', '/api/browser/register', '/api/browser/queue', '/api/browser/session', '/api/browser/receipts') or not writing:
+        if path not in ('/api/browser/exchange', '/api/browser/register', '/api/browser/queue', '/api/browser/receipts') or not writing:
             raise APIError(404, '没有找到这个接口')
         # Separate per-job capability: the browser never receives the app token.
         origin = self.headers.get('Origin')
@@ -825,8 +828,6 @@ class Handler(BaseHTTPRequestHandler):
             value = bridge.register_browser(body)
         elif path == '/api/browser/queue':
             value = bridge.browser_queue(body, self.headers.get('X-TB-Browser', ''))
-        elif path == '/api/browser/session':
-            value = bridge.sync_browser(body, self.headers.get('X-TB-Browser', ''))
         elif path == '/api/browser/receipts':
             with bridge.lock:
                 expected = bridge.clients.get(body.get('clientId'))
