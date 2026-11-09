@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "date": "2026-11-09",
+  "scope": "New isolated 1.6.12 integration worktree, based on a49236414020d07b73874ed286855bb068d33587",
+  "designPrinciplesReadCompletely": true,
+  "checkedBeforeUpdating": [
+    "The destination did not exist before git worktree add.",
+    "The source index and worktree were clean.",
+    "No build, state, cache, node_modules or release outputs were copied into the new worktree.",
+    "The six approved team paths and thought changes have distinct purposes and existing references."
+  ],
+  "removedItems": [],
+  "result": "No obsolete generated output or unreferenced replacement found in this fresh integration worktree. The earlier cleanup receipts remain separate.",
+  "protected": [
+    "Normal running 1.6.7 installation and its state",
+    "Frozen 1.6.11 application and all previously published assets",
+    "Failed benchmark evidence, source worktrees, private snapshots and update baselines"
+  ],
+  "currentScope": ["Domestic incremental updates", "Three-person team training", "Thought duel"],
+  "otherFeatureWorkDeferred": true
+}
