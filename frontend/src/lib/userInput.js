@@ -13,10 +13,13 @@ export function observeUserInput(onInput,root=document){
  function scan(node){if(node.nodeType!==1)return;if(node.matches('iframe'))attachFrame(node);node.querySelectorAll('iframe').forEach(attachFrame);}
  function attachDocument(doc){
   if(documents.has(doc))return()=>{};
-  for(const name of events)doc.addEventListener(name,input,{capture:true,passive:true});
+  // The application command router runs in the window capture phase. Observe
+  // input there too, so a handled shortcut still counts as genuine activity.
+  const inputTarget=doc.defaultView||doc;
+  for(const name of events)inputTarget.addEventListener(name,input,{capture:true,passive:true});
   const changed=new MutationObserver(records=>{for(const record of records)for(const node of record.addedNodes)scan(node);for(const frame of frames.keys())if(!frame.isConnected)detachFrame(frame);});
   changed.observe(doc,{childList:true,subtree:true});doc.querySelectorAll('iframe').forEach(attachFrame);
-  const stop=()=>{changed.disconnect();for(const name of events)doc.removeEventListener(name,input,true);for(const frame of [...frames.keys()])if(frame.ownerDocument===doc)detachFrame(frame);documents.delete(doc);};
+  const stop=()=>{changed.disconnect();for(const name of events)inputTarget.removeEventListener(name,input,true);for(const frame of [...frames.keys()])if(frame.ownerDocument===doc)detachFrame(frame);documents.delete(doc);};
   documents.set(doc,stop);return stop;
  }
  attachDocument(root);

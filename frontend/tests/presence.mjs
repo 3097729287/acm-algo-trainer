@@ -36,6 +36,11 @@ try{
  await page.evaluate(()=>{document.dispatchEvent(new KeyboardEvent('keydown',{key:'a',bubbles:true}));window.dispatchEvent(new Event('focus'));});
  await page.clock.runFor(25001);
  await page.getByLabel('在线人数',{exact:true}).getByText('在线 · 4人',{exact:true}).waitFor();
+ await page.keyboard.press('Control+ArrowRight');
+ await page.getByLabel('在线人数',{exact:true}).getByText('在线 · 5人',{exact:true}).waitFor();
+ assert.equal(await page.evaluate(()=>presenceFixture.shortcutsHandled),1,'A captured application command executes once and restores genuine activity');
+ await page.clock.fastForward(300001);
+ await page.getByLabel('在线人数',{exact:true}).getByText('在线 · 4人',{exact:true}).waitFor();
  await page.mouse.move(640,400);
  await page.getByLabel('在线人数',{exact:true}).getByText('在线 · 5人',{exact:true}).waitFor();
  await page.evaluate(()=>{const frame=document.createElement('iframe');frame.title='Presence reading frame';frame.srcdoc='<button>继续阅读</button>';document.body.append(frame);});

@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import usePresence from '../src/lib/usePresence.js';
+import {registerShortcutRoute} from '../src/lib/applicationShortcuts.js';
 import RankingsPage from '../src/pages/CommunityPanel.jsx';
 import DuelCommunity from '../src/components/DuelCommunity.jsx';
 import '../src/styles/workspace.css';
@@ -18,6 +19,9 @@ const entries=users.map((item,i)=>({...item,rank:i+1,nickname:['甲','乙','丙'
 entries.push({userId:'60000000-0000-4000-8000-000000000001',rank:6,nickname:'未打开',rating:900,count:1,online:false,idle:false,activity:null});
 const activities=new Map(users.map(row=>[row.userId,row.activity]));
 const controls={ids,calls:[],hold:null,pending:[],fail:false,native:{available:false}};window.presenceFixture=controls;
+controls.shortcutsHandled=0;
+registerShortcutRoute({key:'presence-shortcut-interoperability',bindings:[{id:'next',combo:'Ctrl+ArrowRight'}],
+ handle:()=>{controls.shortcutsHandled++;return true;},enabled:()=>Boolean(window.__tbAccountUserId)});
 function snapshots(){
  const active=users.filter(row=>!['idle','offline'].includes(activities.get(row.userId))).map(row=>({...row,activity:activities.get(row.userId)}));
  const idleUsers=users.filter(row=>activities.get(row.userId)==='idle').map(row=>({userId:row.userId,activity:'idle'}));
