@@ -3,7 +3,9 @@ use crate::{
     ApiError,
     api::now,
     native_judge::{self, RunPlan, Toolchains},
+    reviewed_judge,
     storage::PersonalStore,
+    training::Training,
 };
 use chrono::{DateTime, Utc};
 use rusqlite::params;
@@ -22,6 +24,7 @@ use std::{
 struct State {
     closed: AtomicBool,
     pending_write: AtomicBool,
+    pending_progress: AtomicBool,
     failed: Mutex<HashMap<String, (String, Value, String)>>,
     jobs: Mutex<HashMap<String, Arc<AtomicBool>>>,
 }
@@ -52,6 +55,51 @@ fn unavailable() -> ApiError {
     )
 }
 
+struct JobContext<'a> {
+    mode: &'static str,
+    scope: &'static str,
+    problem: Option<&'a str>,
+}
+fn context(marker: &Value) -> Result<JobContext<'_>, ApiError> {
+    if marker["schema"] == 1 {
+        return Ok(JobContext {
+            mode: "run",
+            scope: "samples",
+            problem: None,
+        });
+    }
+    if marker["schema"] != 2 {
+        return Err(ApiError::pending());
+    }
+    let mode = match marker["mode"].as_str() {
+        Some("run") => "run",
+        Some("submit") => "submit",
+        _ => return Err(ApiError::pending()),
+    };
+    let scope = match marker["scope"].as_str() {
+        Some("samples")
+            if marker["reviewedProfile"].is_null() && marker["sourceSha256"].is_null() =>
+        {
+            "samples"
+        }
+        Some("local") if marker["sourceSha256"] == reviewed_judge::SOURCE_SHA256 => {
+            reviewed_judge::profile(marker["reviewedProfile"].as_str().unwrap_or(""))?
+                .ok_or_else(ApiError::pending)?;
+            "local"
+        }
+        _ => return Err(ApiError::pending()),
+    };
+    let problem = marker["problemId"]
+        .as_str()
+        .filter(|s| !s.is_empty())
+        .ok_or_else(ApiError::pending)?;
+    Ok(JobContext {
+        mode,
+        scope,
+        problem: Some(problem),
+    })
+}
+
 impl RunQueue {
     pub fn open(
         path: &Path,
@@ -80,6 +128,7 @@ impl RunQueue {
             state: Arc::new(State {
                 closed: AtomicBool::new(false),
                 pending_write: AtomicBool::new(false),
+                pending_progress: AtomicBool::new(true),
                 failed: Mutex::new(HashMap::new()),
                 jobs: Mutex::new(HashMap::new()),
             }),
@@ -100,15 +149,13 @@ impl RunQueue {
             if marker["owner"] != owner {
                 continue;
             }
-            if marker["schema"] != 1 {
-                return Err(ApiError::pending());
-            }
+            let job = context(&marker)?;
             let id = record["key"]
                 .as_str()
                 .unwrap()
                 .strip_prefix("native-run:")
                 .unwrap();
-            let pending:bool=store.db.query_row("SELECT EXISTS(SELECT 1 FROM submissions WHERE id=? AND finished_at IS NULL AND mode='run' AND scope='samples')",[id],|row|row.get(0))?;
+            let pending:bool=store.db.query_row("SELECT EXISTS(SELECT 1 FROM submissions WHERE id=? AND finished_at IS NULL AND mode=? AND scope=? AND (? IS NULL OR problem_id=?))",params![id,job.mode,job.scope,job.problem,job.problem],|row|row.get(0))?;
             if pending {
                 let outcome = json!({"verdict":"ERROR","message":"上次本地运行已中断，原代码和输入已保留，请手动重新运行","passed":0,"total":0,"output":"","stderr":"","caseResults":[],"timeMs":null,"memoryKb":null});
                 Self::finish(store, id, owner, &outcome, &now())?;
@@ -118,6 +165,67 @@ impl RunQueue {
     }
     pub fn validate_tools(&self, language: &str) -> Result<(), ApiError> {
         self.tools.executable(language).map(|_| ())
+    }
+    pub(crate) fn accepts_marker(marker: &Value, owner: &str) -> bool {
+        marker["owner"] == owner && context(marker).is_ok()
+    }
+
+    /// Refresh derived local practice after the receipt is durable. A crash
+    /// between those steps leaves this marker for the next read, never reruns code.
+    pub(crate) fn refresh_progress(
+        &self,
+        training: &Training<'_>,
+        owner: &str,
+    ) -> Result<(), ApiError> {
+        if !self.state.pending_progress.swap(false, Ordering::AcqRel) {
+            return Ok(());
+        }
+        let result = Self::refresh_progress_inner(training, owner);
+        if result.is_err() {
+            self.state.pending_progress.store(true, Ordering::Release);
+        }
+        result
+    }
+    fn refresh_progress_inner(training: &Training<'_>, owner: &str) -> Result<(), ApiError> {
+        let records = training.personal.rows(
+            "SELECT key,value FROM account_preferences WHERE key LIKE 'native-run:%' AND CASE WHEN json_valid(value) THEN json_extract(value,'$.progressPending') ELSE 0 END=1",
+            [],
+        )?;
+        for record in records.as_array().unwrap() {
+            let mut marker: Value =
+                serde_json::from_str(record["value"].as_str().ok_or_else(unavailable)?)?;
+            if marker["owner"] != owner || marker["progressPending"] != true {
+                continue;
+            }
+            let job = context(&marker)?;
+            if job.mode != "submit" || marker["status"] != "finished" {
+                return Err(ApiError::pending());
+            }
+            let identity = job.problem.ok_or_else(ApiError::pending)?.to_owned();
+            let submission = record["key"]
+                .as_str()
+                .unwrap()
+                .strip_prefix("native-run:")
+                .unwrap();
+            let valid: bool = training.personal.db.query_row(
+                "SELECT EXISTS(SELECT 1 FROM submissions WHERE id=? AND problem_id=? AND mode=? AND scope=? AND finished_at IS NOT NULL)",
+                params![submission, identity, job.mode, job.scope], |row| row.get(0),
+            )?;
+            if !valid {
+                return Err(ApiError::pending());
+            }
+            crate::storage::atomic(&training.personal.db, |tx| {
+                training.recompute(&identity)?;
+                marker["progressPending"] = false.into();
+                PersonalStore::put(
+                    tx,
+                    record["key"].as_str().unwrap(),
+                    &marker.to_string(),
+                    &now(),
+                )
+            })?;
+        }
+        Ok(())
     }
     pub fn reserve(&self) -> Result<Reservation, ApiError> {
         let mut jobs = self.state.jobs.lock().map_err(|_| unavailable())?;
@@ -158,7 +266,11 @@ impl RunQueue {
             let outcome=std::panic::catch_unwind(std::panic::AssertUnwindSafe(||native_judge::evaluate(&plan,&tools,&work,&reservation.cancel)));
             let outcome=match outcome {Ok(Ok(value))=>value,Ok(Err(error))=>json!({"verdict":"ERROR","message":error.message}),Err(_)=>json!({"verdict":"ERROR","message":"本次本地运行未完成，原代码和输入已保留"})};
             let stamp=clock.unwrap_or_else(Utc::now).to_rfc3339_opts(chrono::SecondsFormat::Micros,true);
-            let saved=store.lock().map_err(|_|unavailable()).and_then(|mut store|Self::finish(&mut store,&id,&owner,&outcome,&stamp));
+            let saved=store.lock().map_err(|_|unavailable()).and_then(|mut store| {
+                Self::finish(&mut store,&id,&owner,&outcome,&stamp)?;
+                reservation.state.pending_progress.store(true,Ordering::Release);
+                Ok(())
+            });
             if saved.is_err() {
                 if let Ok(mut failed)=reservation.state.failed.lock() {
                     failed.insert(id,(owner,outcome,stamp));
@@ -191,6 +303,7 @@ impl RunQueue {
                         &json!({"verdict":"ERROR","message":"本机运行任务未能启动，原代码和输入已保留"}),
                         &now(),
                     )?;
+                    self.state.pending_progress.store(true, Ordering::Release);
                 }
                 Err(unavailable())
             }
@@ -204,6 +317,7 @@ impl RunQueue {
         let mut saved = vec![];
         for (id, (owner, outcome, stamp)) in failed.iter() {
             Self::finish(store, id, owner, outcome, stamp)?;
+            self.state.pending_progress.store(true, Ordering::Release);
             saved.push(id.clone());
         }
         for id in saved {
@@ -223,13 +337,14 @@ impl RunQueue {
     ) -> Result<(), ApiError> {
         let key = format!("native-run:{id}");
         let mut marker = store.document(&key)?.ok_or_else(unavailable)?;
-        if marker["schema"] != 1 || marker["owner"] != owner {
+        if marker["owner"] != owner {
             return Err(ApiError::new(
                 409,
                 "ACCOUNT_CHANGED",
                 "运行任务所属账号已变化，原记录已保留",
             ));
         }
+        let job = context(&marker)?;
         let verdict = outcome["verdict"]
             .as_str()
             .filter(|v| {
@@ -248,9 +363,13 @@ impl RunQueue {
             })
             .unwrap_or("ERROR");
         let tx = store.db.transaction()?;
-        let changed=tx.execute("UPDATE submissions SET finished_at=?,verdict=?,time_ms=?,memory_kb=?,passed=?,total=?,output=?,stderr=?,message=?,case_results=? WHERE id=? AND finished_at IS NULL AND mode='run' AND scope='samples'",params![stamp,verdict,outcome["timeMs"].as_f64(),outcome["memoryKb"].as_u64().map(|v|v as i64),outcome["passed"].as_u64().unwrap_or(0) as i64,outcome["total"].as_u64().unwrap_or(0) as i64,outcome["output"].as_str().unwrap_or(""),outcome["stderr"].as_str().unwrap_or(""),outcome["message"].as_str().unwrap_or(""),outcome.get("caseResults").cloned().unwrap_or(json!([])).to_string(),id])?;
+        let changed=tx.execute("UPDATE submissions SET finished_at=?,verdict=?,time_ms=?,memory_kb=?,passed=?,total=?,output=?,stderr=?,message=?,case_results=? WHERE id=? AND finished_at IS NULL AND mode=? AND scope=? AND (? IS NULL OR problem_id=?)",params![stamp,verdict,outcome["timeMs"].as_f64(),outcome["memoryKb"].as_u64().map(|v|v as i64),outcome["passed"].as_u64().unwrap_or(0) as i64,outcome["total"].as_u64().unwrap_or(0) as i64,outcome["output"].as_str().unwrap_or(""),outcome["stderr"].as_str().unwrap_or(""),outcome["message"].as_str().unwrap_or(""),outcome.get("caseResults").cloned().unwrap_or(json!([])).to_string(),id,job.mode,job.scope,job.problem,job.problem])?;
         if changed == 1 {
+            let submit = job.mode == "submit";
             marker["status"] = "finished".into();
+            if submit {
+                marker["progressPending"] = true.into();
+            }
             PersonalStore::put(&tx, &key, &marker.to_string(), stamp)?;
         }
         tx.commit()?;

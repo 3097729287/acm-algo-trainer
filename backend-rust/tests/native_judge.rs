@@ -143,9 +143,115 @@ fn invalid_modes_policies_and_inputs_are_rejected_before_compilation() {
     invalid["input"] = "a".repeat(65537).into();
     assert!(RunPlan::prepare(&problem(), &invalid).is_err());
     invalid = body;
+    invalid["mode"] = "official".into();
+    assert!(RunPlan::prepare(&problem(), &invalid).is_err());
+    let mut template = problem();
+    template["templatePractice"] = true.into();
+    assert_eq!(
+        RunPlan::prepare(&template, &invalid).err().unwrap().code,
+        "VALIDATION"
+    );
     invalid["mode"] = "submit".into();
     assert_eq!(
-        RunPlan::prepare(&problem(), &invalid).err().unwrap().code,
+        RunPlan::prepare(&template, &invalid).err().unwrap().code,
         "MIGRATION_PENDING"
     );
+}
+
+#[test]
+fn sample_only_submissions_stop_at_the_first_failure_without_claiming_full_coverage() {
+    let p = problem();
+    let plan = RunPlan::prepare(
+        &p,
+        &json!({"mode":"submit","code":"print(0)","language":"python3"}),
+    )
+    .unwrap();
+    assert_eq!(plan.scope, "samples");
+    assert!(!plan.sample_run);
+    assert_eq!(plan.max_output_bytes, 1048576);
+    let result = run(
+        &p,
+        json!({"mode":"submit","code":"print(0)","language":"python3"}),
+    );
+    assert_eq!(result["verdict"], "WA");
+    assert_eq!(result["total"], 2);
+    assert_eq!(result["caseResults"].as_array().unwrap().len(), 1);
+}
+
+#[test]
+fn audited_full_submission_keeps_large_cases_and_large_output_and_private_case_details() {
+    let mut p = problem();
+    p["id"] = "ABC 478::D".into();
+    p["limits"] = json!({"timeMs":15000,"memoryMb":512});
+    p["samples"] = json!([{"input":"5 1\n1 3 7\n","output":"1 1 1 0 0\n"}]);
+    p["nativeSamplePolicy"]["sourceScope"] = "local".into();
+    let programs = include_str!("reviewed_programs.py").replace("\r\n", "\n");
+    let source = programs.split("\nif __name__").next().unwrap();
+    let code = format!("{source}\nprint(interval_sets(sys.stdin.buffer.read()))\n");
+    let body = json!({"mode":"submit","language":"python3","code":code,"sampleRun":true});
+    let plan = RunPlan::prepare(&p, &body).unwrap();
+    assert_eq!(plan.mode, "submit");
+    assert_eq!(plan.scope, "local");
+    assert_eq!(plan.cases.len(), 35);
+    assert!(!plan.sample_run);
+    assert_eq!(plan.max_output_bytes, 2883584);
+    assert!(
+        plan.cases
+            .iter()
+            .any(|c| c.expected.as_ref().unwrap().len() == 1400000)
+    );
+    let result = run(&p, body);
+    assert_eq!(result["verdict"], "SAMPLE_PASS", "{result}");
+    assert_eq!(result["scope"], "local");
+    assert_eq!(result["passed"], 35);
+    assert_eq!(result["total"], 35);
+    assert!(result["message"].as_str().unwrap().contains("审核测试"));
+    for case in result["caseResults"].as_array().unwrap() {
+        assert_eq!(case["input"], "");
+        assert_eq!(case["actual"], "");
+        assert!(case["expected"].is_null());
+        assert!(case["name"].as_str().unwrap().starts_with("审核测试"));
+    }
+}
+
+#[test]
+fn reviewed_sample_run_uses_the_real_constructive_checker_without_expanding_hidden_cases() {
+    let mut p = problem();
+    p["id"] = "ABC 478::E".into();
+    p["samples"] = json!([{"input":"3 2\n1 1 2\n0 2 3\n","output":"Yes\n1 2 3\n"}]);
+    p["nativeSamplePolicy"]["nonunique"] = true.into();
+    p["nativeSamplePolicy"]["checkerUnavailable"] = true.into();
+    let body = json!({"mode":"run","language":"python3","code":"print('Yes\\n1 3 3')"});
+    let plan = RunPlan::prepare(&p, &body).unwrap();
+    assert_eq!(plan.cases.len(), 1);
+    assert_eq!(plan.max_output_bytes, 1048576);
+    let result = run(&p, body);
+    assert_eq!(result["verdict"], "SAMPLE_PASS");
+    assert_eq!(result["scope"], "local");
+    assert!(
+        result["caseResults"][0]["actual"]
+            .as_str()
+            .unwrap()
+            .contains("1 3 3")
+    );
+}
+
+#[test]
+fn local_case_console_is_bounded_by_count_and_total_utf8_bytes() {
+    let mut p = problem();
+    p["samples"] = json!((0..130).map(|i|json!({"input":format!("{} {i}", "中".repeat(500)),"output":format!("{} {i}", "中".repeat(500))})).collect::<Vec<_>>());
+    let result = run(
+        &p,
+        json!({"mode":"run","language":"python3","code":"import sys;sys.stdout.write(sys.stdin.read())"}),
+    );
+    assert_eq!(result["verdict"], "SAMPLE_PASS");
+    assert_eq!(result["passed"], 130);
+    let cases = result["caseResults"].as_array().unwrap();
+    assert_eq!(cases.len(), 100);
+    let displayed: usize = cases
+        .iter()
+        .flat_map(|c| ["input", "expected", "actual"].map(|k| c[k].as_str().unwrap().len()))
+        .sum();
+    assert!(displayed <= 262144);
+    assert!(displayed >= 262140);
 }

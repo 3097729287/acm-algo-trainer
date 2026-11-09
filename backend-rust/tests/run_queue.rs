@@ -276,7 +276,7 @@ fn authorization_and_unmigrated_contexts_fail_before_creating_history() {
     r.token = Some("stale-token".into());
     assert_eq!(service.handle(r).error.unwrap().code, "SESSION_EXPIRED");
     for extra in [
-        json!({"mode":"submit"}),
+        json!({"mode":"official"}),
         json!({"contestId":"contest-a"}),
         json!({"reviewId":"review-a"}),
         json!({"language":123}),
@@ -294,6 +294,235 @@ fn authorization_and_unmigrated_contexts_fail_before_creating_history() {
             .get::<_, i64>(0))
             .unwrap(),
         0
+    );
+    private_untouched(&config);
+}
+
+#[test]
+fn sample_submission_activates_only_the_submitted_problem_and_survives_reopen() {
+    let (_dir, config) = fixture();
+    let store = PersonalStore::open(&config.personal).unwrap();
+    store.db.execute("DELETE FROM training", []).unwrap();
+    drop(store);
+    let service = open(&config);
+    let mut input = body("print(int(input())+1)");
+    input["mode"] = "submit".into();
+    let req = request(&service, input);
+    let answer = service.handle(req.clone());
+    assert!(answer.ok, "{:?}", answer.error);
+    let id = answer.data.unwrap()["submission"]["id"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    let result = wait(&service, &id);
+    assert_eq!(result["mode"], "submit");
+    assert_eq!(result["scope"], "samples");
+    assert_eq!(result["verdict"], "SAMPLE_PASS");
+    assert_eq!(result["reviewRewardXp"], 0);
+    let db = Connection::open(&config.personal).unwrap();
+    let active: Vec<String> = db
+        .prepare("SELECT id FROM training WHERE active=1")
+        .unwrap()
+        .query_map([], |row| row.get(0))
+        .unwrap()
+        .collect::<Result<_, _>>()
+        .unwrap();
+    assert_eq!(active, ["alias::A"]);
+    drop(service);
+    let reopened = open(&config);
+    assert_eq!(
+        reopened.handle(req.clone()).error.unwrap().code,
+        "SESSION_EXPIRED"
+    );
+    let mut req = req;
+    req.token = request(&reopened, req.body.clone().unwrap()).token;
+    let retry = reopened.handle(req);
+    assert!(retry.ok, "{:?}", retry.error);
+    assert_eq!(retry.data.unwrap()["submission"]["id"], id);
+    assert_eq!(
+        get(&reopened, &id).data.unwrap()["submission"]["code"],
+        "print(int(input())+1)"
+    );
+    assert_eq!(
+        db.query_row("SELECT COUNT(*) FROM submissions", [], |r| r
+            .get::<_, i64>(0))
+            .unwrap(),
+        1
+    );
+    private_untouched(&config);
+}
+
+fn add_reviewed(config: &ServiceConfig) {
+    let identity = "入门赛 49::D";
+    let row = json!({"id":identity,"title":"不相邻的二级台阶","url":"https://example.com/reviewed","aliasIds":[],"tags":["数学"],"difficulty":800,"judgeScope":"local"});
+    let problem = json!({"id":identity,"title":row["title"],"markdown":"允许迈一步或两步，不能连续迈两步。","statementAvailable":true,"localJudgeSupported":true,"limits":{"timeMs":5000,"memoryMb":128},"samples":[{"input":"3\n","output":"3\n"}],"nativeSamplePolicy":{"schema":1,"supported":true,"sourceScope":"local","nonunique":false,"caseInsensitive":false,"checkerUnavailable":false}});
+    let library = Connection::open(&config.library).unwrap();
+    library
+        .execute(
+            "INSERT INTO problems VALUES(?,?,'{}',?)",
+            params![identity, row["url"].as_str().unwrap(), row.to_string()],
+        )
+        .unwrap();
+    library
+        .execute(
+            "INSERT INTO statements VALUES(?,?)",
+            params![identity, problem.to_string()],
+        )
+        .unwrap();
+    let catalog = Connection::open(
+        config
+            .library
+            .parent()
+            .unwrap()
+            .join("native-catalog.sqlite3"),
+    )
+    .unwrap();
+    catalog
+        .execute("INSERT INTO aliases VALUES(?,?)", [identity, identity])
+        .unwrap();
+    catalog
+        .execute(
+            "INSERT INTO catalogue VALUES(?,1,?,?)",
+            params![identity, compressed(row.clone()), row.to_string()],
+        )
+        .unwrap();
+    catalog
+        .execute(
+            "INSERT INTO problem_projections VALUES(?,?,?,NULL)",
+            params![identity, compressed(json!([])), compressed(json!({}))],
+        )
+        .unwrap();
+}
+
+#[test]
+fn audited_cpp_submission_scores_a_local_exam_without_official_ac_or_rewards() {
+    let (_dir, config) = fixture();
+    add_reviewed(&config);
+    let clock = chrono::DateTime::parse_from_rfc3339("2026-11-06T04:00:00Z")
+        .unwrap()
+        .to_utc();
+    let store = PersonalStore::open(&config.personal).unwrap();
+    let slots = json!([{"id":"入门赛 49::D","letter":"A","title":"不相邻的二级台阶","difficulty":800,"tags":["数学"],"judgeScope":"local","statementAvailable":true,"trainingAdded":false},{"id":"fixture::A","letter":"B","title":"加一","difficulty":800,"tags":["模拟"],"judgeScope":"samples","statementAvailable":true,"trainingAdded":false}]);
+    store.db.execute("INSERT INTO contests(id,name,status,started_at,deadline,duration,slots,config) VALUES('local-exam','本地审核考场','running','2026-11-06T03:00:00Z','2026-11-06T05:00:00Z',120,?,?)",params![slots.to_string(),json!({"strategy":"comprehensive","editedTrainingOnly":true}).to_string()]).unwrap();
+    store.db.execute("INSERT INTO training(id,active_at,active,mock_due,mock_due_at,mock_due_context) VALUES('入门赛 49::D','2026-11-06T03:00:00Z',0,1,'2026-11-06T03:00:00Z','local-exam')",[]).unwrap();
+    drop(store);
+    let service = open(&config).with_test_clock(clock);
+    let code = "#include <iostream>\nint main(){int n;std::cin>>n;unsigned long long d[61]={1,1,2};for(int i=3;i<=n;i++)d[i]=d[i-1]+d[i-3];std::cout<<d[n]<<'\\n';}\n";
+    let req = request(
+        &service,
+        json!({"id":"入门赛 49::D","mode":"submit","language":"cpp17","code":code,"contestId":"local-exam"}),
+    );
+    let result = service.handle(req.clone());
+    assert!(result.ok, "{:?}", result.error);
+    let id = result.data.unwrap()["submission"]["id"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    let result = wait(&service, &id);
+    assert_eq!(result["verdict"], "SAMPLE_PASS", "{result}");
+    assert_eq!(result["scope"], "local");
+    assert_eq!(result["passed"], 61);
+    assert_eq!(result["total"], 61);
+    assert_eq!(result["reviewRewardXp"], 0);
+    let mut query = ApiRequest::get("contest");
+    query.query.insert("id".into(), vec!["local-exam".into()]);
+    let exam = service.handle(query.clone());
+    assert!(exam.ok, "{:?}", exam.error);
+    assert_eq!(exam.data.unwrap()["contest"]["accepted"], 1);
+    let store = PersonalStore::open(&config.personal).unwrap();
+    assert_eq!(
+        store
+            .db
+            .query_row(
+                "SELECT mock_due FROM training WHERE id='入门赛 49::D'",
+                [],
+                |r| r.get::<_, i64>(0)
+            )
+            .unwrap(),
+        0
+    );
+    assert_eq!(
+        store
+            .db
+            .query_row("SELECT COUNT(*) FROM training WHERE active=1", [], |r| r
+                .get::<_, i64>(0))
+            .unwrap(),
+        2
+    );
+    assert!(store.documents("review-reward:").unwrap().is_empty());
+    assert_eq!(
+        store
+            .document(&format!("native-run:{id}"))
+            .unwrap()
+            .unwrap()["progressPending"],
+        false
+    );
+    private_untouched(&config);
+    drop(service);
+    let service = open(&config).with_test_clock(clock);
+    let mut req = req;
+    req.token = request(&service, req.body.clone().unwrap()).token;
+    assert_eq!(service.handle(req).data.unwrap()["submission"]["id"], id);
+    assert_eq!(
+        service.handle(query).data.unwrap()["contest"]["accepted"],
+        1
+    );
+    private_untouched(&config);
+}
+
+#[test]
+fn replay_submission_is_rejected_before_any_receipt_or_activation() {
+    let (_dir, config) = fixture();
+    exam(&config, true);
+    let clock = chrono::DateTime::parse_from_rfc3339("2026-11-06T04:00:00Z")
+        .unwrap()
+        .to_utc();
+    let service = open(&config).with_test_clock(clock);
+    let mut input = body("print(2)");
+    input["id"] = "fixture::A".into();
+    input["mode"] = "submit".into();
+    input["contestId"] = "native-exam".into();
+    let error = service.handle(request(&service, input)).error.unwrap();
+    assert_eq!(error.status, 409);
+    assert!(error.message.contains("原站提交"));
+    let store = PersonalStore::open(&config.personal).unwrap();
+    assert_eq!(
+        store
+            .db
+            .query_row("SELECT COUNT(*) FROM submissions", [], |r| r
+                .get::<_, i64>(0))
+            .unwrap(),
+        0
+    );
+    assert!(store.documents("native-run:").unwrap().is_empty());
+    private_untouched(&config);
+}
+
+#[test]
+fn failed_training_activation_rolls_back_the_whole_submission_reservation() {
+    let (_dir, config) = fixture();
+    let db = Connection::open(&config.personal).unwrap();
+    db.execute_batch("CREATE TRIGGER fail_activation BEFORE INSERT ON training BEGIN SELECT RAISE(ABORT,'activation failed'); END;").unwrap();
+    let service = open(&config);
+    let mut input = body("print(int(input())+1)");
+    input["mode"] = "submit".into();
+    let req = request(&service, input);
+    assert!(!service.handle(req.clone()).ok);
+    assert_eq!(
+        db.query_row("SELECT COUNT(*) FROM submissions", [], |r| r
+            .get::<_, i64>(0))
+            .unwrap(),
+        0
+    );
+    let store = PersonalStore::open(&config.personal).unwrap();
+    assert!(store.documents("native-run:").unwrap().is_empty());
+    assert!(store.documents("native-run-request:").unwrap().is_empty());
+    db.execute_batch("DROP TRIGGER fail_activation").unwrap();
+    let answer = service.handle(req);
+    assert!(answer.ok, "{:?}", answer.error);
+    wait(
+        &service,
+        answer.data.unwrap()["submission"]["id"].as_str().unwrap(),
     );
     private_untouched(&config);
 }
@@ -484,6 +713,123 @@ fn restart_recovers_only_owned_native_jobs_and_preserves_other_pending_records()
             .unwrap(),
         2
     );
+}
+
+#[test]
+fn restart_marks_only_verified_owned_full_submissions_interrupted_without_executing_source() {
+    let (_dir, config) = fixture();
+    add_reviewed(&config);
+    let store = PersonalStore::open(&config.personal).unwrap();
+    for (id, owner) in [
+        ("reviewed-owned", "queue-owner"),
+        ("reviewed-foreign", "other-owner"),
+    ] {
+        store.db.execute("INSERT INTO submissions(id,problem_id,mode,code,submitted_at,verdict,scope,sample_run) VALUES(?,'入门赛 49::D','submit','MUST NEVER EXECUTE THIS RETAINED SOURCE','2026-11-01T00:00:00Z','QUEUED','local',0)",[id]).unwrap();
+        store.put_document(&format!("native-run:{id}"),&json!({"schema":2,"owner":owner,"status":"queued","problemId":"入门赛 49::D","mode":"submit","scope":"local","reviewedProfile":"入门赛 49::D","sourceSha256":tobe_core::reviewed_judge::SOURCE_SHA256})).unwrap();
+    }
+    drop(store);
+    let service = open(&config);
+    let owned = get(&service, "reviewed-owned");
+    assert!(owned.ok, "{:?}", owned.error);
+    let owned = owned.data.unwrap();
+    assert_eq!(owned["submission"]["verdict"], "ERROR");
+    assert_eq!(owned["submission"]["mode"], "submit");
+    assert_eq!(owned["submission"]["scope"], "local");
+    assert_eq!(
+        owned["submission"]["code"],
+        "MUST NEVER EXECUTE THIS RETAINED SOURCE"
+    );
+    assert_eq!(
+        get(&service, "reviewed-foreign").data.unwrap()["submission"]["verdict"],
+        "QUEUED"
+    );
+    private_untouched(&config);
+}
+
+#[test]
+fn unverified_reviewed_markers_preserve_the_original_pending_row() {
+    let (_dir, config) = fixture();
+    add_reviewed(&config);
+    let store = PersonalStore::open(&config.personal).unwrap();
+    store.db.execute("INSERT INTO submissions(id,problem_id,mode,code,submitted_at,verdict,scope,sample_run) VALUES('unverified','入门赛 49::D','submit','original source','2026-11-01T00:00:00Z','QUEUED','local',0)",[]).unwrap();
+    let marker = json!({"schema":2,"owner":"queue-owner","status":"queued","problemId":"入门赛 49::D","mode":"submit","scope":"local","reviewedProfile":"入门赛 49::D","sourceSha256":"bad-source"});
+    store
+        .put_document("native-run:unverified", &marker)
+        .unwrap();
+    let error = Service::open_with_runner_tools(config.clone(), tools())
+        .err()
+        .unwrap();
+    assert_eq!(error.code, "MIGRATION_PENDING");
+    assert_eq!(
+        store
+            .db
+            .query_row(
+                "SELECT verdict FROM submissions WHERE id='unverified'",
+                [],
+                |r| r.get::<_, String>(0)
+            )
+            .unwrap(),
+        "QUEUED"
+    );
+    assert_eq!(
+        store.document("native-run:unverified").unwrap(),
+        Some(marker)
+    );
+    private_untouched(&config);
+}
+
+#[test]
+fn deferred_progress_write_is_atomic_and_retried_after_restart_without_rerunning_code() {
+    let (_dir, config) = fixture();
+    add_reviewed(&config);
+    let store = PersonalStore::open(&config.personal).unwrap();
+    store.db.execute("INSERT INTO training(id,active_at,active,mock_due,mock_due_at,mock_due_context) VALUES('入门赛 49::D','2026-11-01T00:00:00Z',1,1,'2026-11-01T00:00:00Z','local-exam')",[]).unwrap();
+    store.db.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,finished_at,verdict,scope,sample_run) VALUES('deferred','入门赛 49::D','local-exam','submit','MUST NEVER REEXECUTE','2026-11-02T00:00:00Z','2026-11-02T00:00:01Z','SAMPLE_PASS','local',0)",[]).unwrap();
+    store.put_document("native-run:deferred",&json!({"schema":2,"owner":"queue-owner","status":"finished","progressPending":true,"problemId":"入门赛 49::D","mode":"submit","scope":"local","reviewedProfile":"入门赛 49::D","sourceSha256":tobe_core::reviewed_judge::SOURCE_SHA256})).unwrap();
+    store.db.execute_batch("CREATE TRIGGER fail_progress BEFORE UPDATE ON training BEGIN SELECT RAISE(ABORT,'temporary progress failure'); END;").unwrap();
+    let service = open(&config);
+    let result = service.handle(ApiRequest::get("workspace"));
+    assert!(!result.ok);
+    assert_eq!(
+        store
+            .db
+            .query_row(
+                "SELECT mock_due FROM training WHERE id='入门赛 49::D'",
+                [],
+                |r| r.get::<_, i64>(0)
+            )
+            .unwrap(),
+        1
+    );
+    assert_eq!(
+        store.document("native-run:deferred").unwrap().unwrap()["progressPending"],
+        true
+    );
+    drop(service);
+    store
+        .db
+        .execute_batch("DROP TRIGGER fail_progress")
+        .unwrap();
+    let service = open(&config);
+    let result = service.handle(ApiRequest::get("workspace"));
+    assert!(result.ok, "{:?}", result.error);
+    assert_eq!(
+        store
+            .db
+            .query_row(
+                "SELECT mock_due FROM training WHERE id='入门赛 49::D'",
+                [],
+                |r| r.get::<_, i64>(0)
+            )
+            .unwrap(),
+        0
+    );
+    assert_eq!(
+        store.document("native-run:deferred").unwrap().unwrap()["progressPending"],
+        false
+    );
+    assert_eq!(store.db.query_row("SELECT COUNT(*) FROM submissions WHERE id='deferred' AND code='MUST NEVER REEXECUTE'",[],|r|r.get::<_,i64>(0)).unwrap(),1);
+    private_untouched(&config);
 }
 #[test]
 fn completed_output_survives_a_temporary_database_write_failure_and_is_retried() {

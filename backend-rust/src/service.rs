@@ -359,9 +359,12 @@ impl Service {
             ],
         )?;
         let id = api::required_text(body, "id", 512)?;
-        if body["mode"] != "run" {
-            return Err(ApiError::pending());
-        }
+        let mode = match body.get("mode") {
+            None => "submit",
+            Some(Value::String(s)) if s == "run" => "run",
+            Some(Value::String(s)) if s == "submit" => "submit",
+            _ => return Err(ApiError::bad("运行模式无效")),
+        };
         let contest_context = match body.get("contestId") {
             None | Some(Value::Null) => None,
             Some(Value::String(id)) if id.is_empty() => None,
@@ -402,6 +405,8 @@ impl Service {
                 personal: &mut personal,
                 now: self.now(),
             };
+            self.runner
+                .refresh_progress(&training, &self.config.owner)?;
             crate::contest_lifecycle::expire(&training)?;
             training.history_visible(id, contest_context)?;
             if let Some(previous) = training.personal.document(&key)? {
@@ -424,6 +429,14 @@ impl Service {
             crate::catalogue::row_or_portable(&catalogue, training.personal, id)?;
             if let Some(context) = contest_context {
                 crate::contest_history::assert_problem_context(&training, id, context, true)?;
+                if mode == "submit" {
+                    let record = crate::contest_history::record(&training, context)?;
+                    let config: Value =
+                        serde_json::from_str(record["config"].as_str().unwrap_or("{}"))?;
+                    if matches!(config["strategy"].as_str(), Some("replay" | "team")) {
+                        return Err(ApiError::conflict("重现赛请使用原站提交"));
+                    }
+                }
             } else {
                 training.assert_unlocked(id)?;
             }
@@ -431,6 +444,7 @@ impl Service {
             // Running code only needs text samples and limits, not images/PDF.
             let mut problem = library.statement_raw(&canonical)?;
             catalogue.problem_projection(&canonical, &mut problem)?;
+            problem["id"] = canonical.into();
             let plan = RunPlan::prepare(&problem, body)?;
             self.runner.validate_tools(&plan.language)?;
             let unfinished = training
@@ -440,7 +454,7 @@ impl Service {
                 let marker = training
                     .personal
                     .document(&format!("native-run:{}", row["id"].as_str().unwrap_or("")))?;
-                if !marker.is_some_and(|m| m["schema"] == 1 && m["owner"] == self.config.owner) {
+                if !marker.is_some_and(|m| RunQueue::accepts_marker(&m, &self.config.owner)) {
                     return Err(ApiError::pending());
                 }
             }
@@ -469,31 +483,35 @@ impl Service {
             } else {
                 training.personal.db.query_row("SELECT COALESCE(MAX(solution_pending),0)!=0 FROM training WHERE id IN (SELECT value FROM json_each(?))",[json!(ids).to_string()],|row|row.get(0))?
             };
-            let tx = training.personal.db.transaction()?;
-            tx.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,verdict,scope,custom_input,solution_seen,sample_run) VALUES(?,?,?,'run',?,?,'QUEUED','samples',?,?,?)",rusqlite::params![submission,id,contest_context,plan.code,stamp,plan.input,seen as i32,plan.sample_run as i32])?;
-            PersonalStore::put(
-                &tx,
-                &format!("submission-language:{submission}"),
-                &plan.language,
-                &stamp,
-            )?;
-            if let Some(review) = &review {
+            crate::storage::atomic(&training.personal.db, |tx| {
+                tx.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,verdict,scope,custom_input,solution_seen,sample_run) VALUES(?,?,?,?,?,?,'QUEUED',?,?,?,?)",rusqlite::params![submission,id,contest_context,plan.mode,plan.code,stamp,plan.scope,plan.input,seen as i32,plan.sample_run as i32])?;
                 PersonalStore::put(
-                    &tx,
-                    &format!("review-receipt:{submission}"),
-                    &review["id"].to_string(),
+                    tx,
+                    &format!("submission-language:{submission}"),
+                    &plan.language,
                     &stamp,
                 )?;
-            }
-            PersonalStore::put(
-                &tx,
+                if let Some(review) = &review {
+                    PersonalStore::put(
+                        tx,
+                        &format!("review-receipt:{submission}"),
+                        &review["id"].to_string(),
+                        &stamp,
+                    )?;
+                }
+                PersonalStore::put(
+                tx,
                 &format!("native-run:{submission}"),
-                &json!({"schema":1,"owner":self.config.owner,"status":"queued","requestId":r.id})
+                &json!({"schema":2,"owner":self.config.owner,"status":"queued","requestId":r.id,"problemId":id,"mode":plan.mode,"scope":plan.scope,"reviewedProfile":plan.profile.map(|p|p.profile_id),"sourceSha256":plan.profile.map(|_|crate::reviewed_judge::SOURCE_SHA256)})
                     .to_string(),
                 &stamp,
             )?;
-            PersonalStore::put(&tx,&key,&json!({"schema":1,"owner":self.config.owner,"requestHash":hash,"submissionId":submission}).to_string(),&stamp)?;
-            tx.commit()?;
+                PersonalStore::put(tx,&key,&json!({"schema":1,"owner":self.config.owner,"requestHash":hash,"submissionId":submission}).to_string(),&stamp)?;
+                if plan.mode == "submit" {
+                    training.activate_edited(id, contest_context.is_none())?;
+                }
+                Ok(())
+            })?;
             let answer = training.submission(&submission)?;
             (plan, answer)
         };
@@ -657,6 +675,8 @@ impl Service {
                 personal: &mut personal,
                 now: self.now(),
             };
+            self.runner
+                .refresh_progress(&training, &self.config.owner)?;
             return match (method, r.path.as_str()) {
                 ("GET", "data") => {
                     let private: bool = personal.db.query_row("SELECT EXISTS(SELECT 1 FROM account_problem_facts WHERE CASE WHEN json_valid(value) THEN json_extract(value,'$.statement.accountReading') ELSE 0 END=1)", [], |row| row.get(0))?;

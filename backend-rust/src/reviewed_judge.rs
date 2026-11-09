@@ -20,6 +20,14 @@ pub enum Checker {
     Gcd,
 }
 
+#[derive(Clone, Copy)]
+pub struct ProfileInfo {
+    pub profile_id: &'static str,
+    pub coverage: &'static str,
+    pub checker: Checker,
+    pub max_output_bytes: usize,
+}
+
 pub struct ReviewedSuite {
     pub profile_id: &'static str,
     pub coverage: &'static str,
@@ -100,8 +108,12 @@ fn manifest() -> Result<&'static Manifest, ApiError> {
             )))
             .map_err(|_| ())?;
             let mut seen = std::collections::BTreeSet::new();
+            let source = include_str!("../../backend/reviewed_cases.py")
+                .trim_start_matches('\u{feff}')
+                .replace("\r\n", "\n");
             if value.schema != 1
                 || value.source_sha256 != SOURCE_SHA256
+                || digest(source.as_bytes()) != SOURCE_SHA256
                 || value.seed != 20261008
                 || value.production_executes_python
                 || value.original_samples_included
@@ -232,6 +244,24 @@ pub fn build(identity: &str) -> Result<Option<ReviewedSuite>, ApiError> {
         cases: decode(profile, bytes)?,
         checker: profile.checker,
         max_output_bytes: profile.max_output_bytes,
+    }))
+}
+
+/// Resolve only an exact audited identity without decoding its large cases.
+pub fn profile(identity: &str) -> Result<Option<ProfileInfo>, ApiError> {
+    if packed_bytes(identity).is_none() {
+        return Ok(None);
+    }
+    let p = manifest()?
+        .profiles
+        .iter()
+        .find(|p| p.profile_id == identity)
+        .ok_or_else(corrupt)?;
+    Ok(Some(ProfileInfo {
+        profile_id: &p.profile_id,
+        coverage: &p.coverage,
+        checker: p.checker,
+        max_output_bytes: p.max_output_bytes,
     }))
 }
 

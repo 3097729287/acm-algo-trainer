@@ -1,9 +1,10 @@
-//! Ordinary local runs using public samples or explicit custom input.
+//! Ordinary local runs and submissions using public samples or audited cases.
 //! A local result never represents an official AC or grants progress/rewards.
 use crate::{
     ApiError,
     api::required_text,
     process_job::{self, CommandSpec, StopReason},
+    reviewed_judge::{self, Checker, ProfileInfo},
 };
 use serde_json::{Value, json};
 use std::{
@@ -71,6 +72,9 @@ pub struct Case {
     pub expected: Option<String>,
 }
 pub struct RunPlan {
+    pub mode: &'static str,
+    pub scope: &'static str,
+    pub profile: Option<ProfileInfo>,
     pub code: String,
     pub language: String,
     pub input: String,
@@ -81,12 +85,16 @@ pub struct RunPlan {
     pub nonunique: bool,
     pub case_insensitive: bool,
     pub checker_unavailable: bool,
+    pub max_output_bytes: usize,
 }
 impl RunPlan {
     pub fn prepare(problem: &Value, body: &Value) -> Result<Self, ApiError> {
-        if body.get("mode").and_then(Value::as_str) != Some("run") {
-            return Err(ApiError::pending());
-        }
+        let mode = match body.get("mode") {
+            None => "submit",
+            Some(Value::String(s)) if s == "run" => "run",
+            Some(Value::String(s)) if s == "submit" => "submit",
+            _ => return Err(ApiError::bad("运行模式无效")),
+        };
         let code = required_text(body, "code", MAX_CODE)?.to_owned();
         if code.trim().is_empty() {
             return Err(ApiError::bad("请先输入代码"));
@@ -104,11 +112,12 @@ impl RunPlan {
             Some(Value::String(s)) if s.len() <= MAX_INPUT => s,
             _ => return Err(ApiError::bad("运行输入不能超过 64 KiB")),
         };
-        let sample_run = match body.get("sampleRun") {
+        let sample_option = match body.get("sampleRun") {
             None => input.is_empty(),
             Some(Value::Bool(b)) => *b,
             _ => return Err(ApiError::bad("样例运行选项必须是布尔值")),
         };
+        let sample_run = mode == "run" && sample_option;
         if problem["statementAvailable"] == false || problem["localJudgeSupported"] == false {
             return Err(ApiError::new(
                 409,
@@ -117,14 +126,26 @@ impl RunPlan {
             ));
         }
         let policy = &problem["nativeSamplePolicy"];
-        if sample_run && (policy["schema"] != 1 || policy["supported"] != true) {
+        if problem["templatePractice"] == true
+            || policy["sourceScope"] == "template"
+            || problem["judge"]["scope"] == "template"
+        {
+            return Err(ApiError::pending());
+        }
+        if (sample_run || mode == "submit")
+            && (policy["schema"] != 1 || policy["supported"] != true)
+        {
             return Err(ApiError::new(
                 409,
                 "RUNNER_POLICY_PENDING",
                 "这道题的原生样例核对资料尚未准备好，可使用自测输入",
             ));
         }
-        let cases = if sample_run {
+        let profile = reviewed_judge::profile(problem["id"].as_str().unwrap_or(""))?;
+        if policy["sourceScope"] == "local" && profile.is_none() {
+            return Err(ApiError::pending());
+        }
+        let mut cases = if sample_run || mode == "submit" {
             let samples = problem["samples"]
                 .as_array()
                 .filter(|s| !s.is_empty() && s.len() <= 200)
@@ -163,6 +184,15 @@ impl RunPlan {
                 expected: None,
             }]
         };
+        let mut max_output_bytes = OUTPUT;
+        if mode == "submit" {
+            if let Some(profile) = profile {
+                let suite =
+                    reviewed_judge::build(profile.profile_id)?.ok_or_else(ApiError::pending)?;
+                max_output_bytes = suite.max_output_bytes;
+                cases.extend(suite.cases);
+            }
+        }
         let integer_limit =
             |key: &str, default: u64, minimum: u64, maximum: u64| -> Result<u32, ApiError> {
                 let value = problem["limits"]
@@ -175,6 +205,13 @@ impl RunPlan {
                 Ok(value as u32)
             };
         Ok(Self {
+            mode,
+            scope: if profile.is_some() {
+                "local"
+            } else {
+                "samples"
+            },
+            profile,
             code,
             language: language.into(),
             input: input.into(),
@@ -185,6 +222,7 @@ impl RunPlan {
             nonunique: policy["nonunique"] == true,
             case_insensitive: policy["caseInsensitive"] == true,
             checker_unavailable: policy["checkerUnavailable"] == true,
+            max_output_bytes,
         })
     }
 }
@@ -228,8 +266,8 @@ fn verdict(reason: Option<StopReason>, exit: u32) -> Option<&'static str> {
         None => None,
     }
 }
-fn initial(total: usize) -> Value {
-    json!({"verdict":"ERROR","scope":"samples","timeMs":null,"memoryKb":null,"passed":0,"total":total,"output":"","stderr":"","message":"","caseResults":[]})
+fn initial(total: usize, scope: &str) -> Value {
+    json!({"verdict":"ERROR","scope":scope,"timeMs":null,"memoryKb":null,"passed":0,"total":total,"output":"","stderr":"","message":"","caseResults":[]})
 }
 
 pub fn evaluate(
@@ -243,7 +281,7 @@ pub fn evaluate(
     let temporary = tempfile::Builder::new().prefix("run-").tempdir_in(work)?;
     let directory = temporary.path();
     let environment = environment(&executable, directory);
-    let mut result = initial(plan.cases.len());
+    let mut result = initial(plan.cases.len(), plan.scope);
     let python = plan.language == "python3";
     std::fs::write(
         directory.join(if python { "main.py" } else { "main.cpp" }),
@@ -314,12 +352,13 @@ pub fn evaluate(
     let mut max_time = 0.0f64;
     let mut max_memory = 0u64;
     let mut output_bytes = 0usize;
+    let mut display_bytes = 262144usize;
     let mut cases = vec![];
-    for case in &plan.cases {
+    for (index, case) in plan.cases.iter().enumerate() {
         let remaining = 120000u128.saturating_sub(started.elapsed().as_millis());
         if remaining == 0 {
             failure = Some("TLE");
-            result["message"] = json!("本次样例运行超过总时间限制");
+            result["message"] = json!("本次本地评测超过总时间限制");
             break;
         }
         let ran = process_job::run(
@@ -331,7 +370,7 @@ pub fn evaluate(
                 input: case.input.as_bytes().to_vec(),
                 time_ms: plan.time_ms.min(remaining as u32),
                 memory_mb: plan.memory_mb,
-                output_limit: OUTPUT.saturating_sub(output_bytes).max(1),
+                output_limit: plan.max_output_bytes.saturating_sub(output_bytes).max(1),
                 max_processes: 1,
             },
             cancel,
@@ -350,8 +389,15 @@ pub fn evaluate(
                 } else {
                     (ran.output.clone(), expected.clone())
                 };
-                if !actual.split_whitespace().eq(expected.split_whitespace()) {
-                    if plan.nonunique || plan.checker_unavailable {
+                let checker = plan.profile.map(|p| p.checker);
+                let okay = match checker {
+                    Some(checker @ (Checker::Inequality | Checker::Gcd)) => {
+                        reviewed_judge::check(checker, &case.input, &ran.output, &expected)
+                    }
+                    _ => actual.split_whitespace().eq(expected.split_whitespace()),
+                };
+                if !okay {
+                    if checker.is_none() && (plan.nonunique || plan.checker_unavailable) {
                         current = Some("ERROR");
                         message = "原生运行器尚未接入此题的特殊输出校验，请以原站评测为准";
                     } else {
@@ -361,7 +407,7 @@ pub fn evaluate(
                 }
             }
         }
-        if current.is_none() && output_bytes > OUTPUT {
+        if current.is_none() && output_bytes > plan.max_output_bytes {
             current = Some("OLE");
         }
         let current = current.unwrap_or(if case.expected.is_some() {
@@ -379,19 +425,53 @@ pub fn evaluate(
         }
         result["output"] = json!(prefix(&ran.output, 65536));
         result["stderr"] = json!(prefix(&ran.stderr, 262144));
-        cases.push(json!({"name":prefix(&case.name,256),"input":prefix(&case.input,65536),"expected":case.expected.as_ref().map(|s|prefix(s,65536)),"actual":prefix(&ran.output,65536),"verdict":current,"timeMs":ran.time_ms,"exitCode":ran.exit_code,"message":message}));
+        // Keep the old journal/UI bounds, and do not publish audited test data.
+        if cases.len() < 100 {
+            let public = plan.mode == "run" || plan.scope == "samples";
+            let mut clipped = |text: &str| {
+                let value = prefix(text, 65536.min(display_bytes));
+                display_bytes -= value.len();
+                value
+            };
+            let input = if public {
+                clipped(&case.input)
+            } else {
+                String::new()
+            };
+            let expected = if public {
+                case.expected.as_deref().map(&mut clipped)
+            } else {
+                None
+            };
+            let actual = if public {
+                clipped(&ran.output)
+            } else {
+                String::new()
+            };
+            let name = if public {
+                prefix(&case.name, 256)
+            } else {
+                format!("审核测试 {}", index + 1)
+            };
+            cases.push(json!({"name":name,"input":input,"expected":expected,"actual":actual,"verdict":current,"timeMs":ran.time_ms,"exitCode":ran.exit_code,"message":message}));
+        }
         if !message.is_empty() {
             result["message"] = json!(message);
         }
-        if ran.reason.is_some() || output_bytes > OUTPUT {
+        if ran.reason.is_some()
+            || output_bytes > plan.max_output_bytes
+            || plan.mode == "submit" && failure.is_some()
+        {
             break;
         }
     }
-    result["verdict"] = json!(failure.unwrap_or(if plan.sample_run {
-        "SAMPLE_PASS"
-    } else {
-        "RUN_OK"
-    }));
+    result["verdict"] = json!(
+        failure.unwrap_or(if plan.sample_run || plan.mode == "submit" {
+            "SAMPLE_PASS"
+        } else {
+            "RUN_OK"
+        })
+    );
     result["passed"] = json!(passed);
     result["timeMs"] = json!(max_time);
     result["memoryKb"] = json!(max_memory);
@@ -399,7 +479,9 @@ pub fn evaluate(
     if result["message"] == "" {
         result["message"] = json!(if failure.is_some() {
             "部分样例没有通过"
-        } else if plan.sample_run {
+        } else if plan.mode == "submit" && plan.profile.is_some() {
+            "全部本地审核测试通过；本地测试不等于 AC，官方结果需提交到原站"
+        } else if plan.sample_run || plan.mode == "submit" {
             "全部样例通过；本地样例不等于 AC，官方结果需提交到原站"
         } else {
             "自定义输入运行完成；没有期望输出，不判断正确性"
