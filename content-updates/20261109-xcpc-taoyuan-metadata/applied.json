@@ -1,0 +1,133 @@
+{
+  "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+  "problems": [
+    {
+      "id": "remote:codeforces:105544::A",
+      "tags": [
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105544::B",
+      "tags": [
+        "分数运算",
+        "最大公约数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105544::C",
+      "tags": [
+        "线段树",
+        "懒标记",
+        "二分查找"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105544::D",
+      "tags": [
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105544::E",
+      "tags": [
+        "拓扑排序"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105544::F",
+      "tags": [
+        "贪心",
+        "排序"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105544::G",
+      "tags": [
+        "线性规划",
+        "构造"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105544::H",
+      "tags": [
+        "背包 DP"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105544::I",
+      "tags": [
+        "随机算法",
+        "构造"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105544::J",
+      "tags": [
+        "拓扑排序"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105544::K",
+      "tags": [
+        "队列",
+        "DFS"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105544::L",
+      "tags": [
+        "分类讨论",
+        "枚举"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105544::M",
+      "tags": [
+        "链表",
+        "模拟",
+        "排序"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    }
+  ],
+  "privateStateReadOrWritten": false
+}

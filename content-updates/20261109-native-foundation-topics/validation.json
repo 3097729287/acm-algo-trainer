@@ -1,0 +1,24 @@
+{
+  "completeNativeStatementsAndConstraintsReviewed": 22,
+  "newSpecificFoundationLeaves": 5,
+  "onlyExactTargetProblemRowsChanged": true,
+  "unreviewedCandidatesRemainUnclassified": 43,
+  "broadIntroductoryLabelsNotGloballyAliased": true,
+  "existingCourseTopicsMapped": [
+    "io-basics",
+    "basic-control",
+    "arrays",
+    "strings"
+  ],
+  "existingLessonBodiesOrdersPrerequisitesAndIdentitiesUnchanged": true,
+  "learningEvidenceBindsToRealLessonMarkdownSha": true,
+  "requiredNativeTicketPriceImageVisuallyCheckedAndArchived": true,
+  "newSourceArchives": 23,
+  "newSourceArchiveBytes": 258647,
+  "allSourceHashesUniqueAndVerified": true,
+  "allDifficultyFieldsAndOriginalStatusDatePreserved": true,
+  "applicationIdempotent": true,
+  "regressionTestsPassed": 99,
+  "masteryPassXpDraftOrSubmissionStateReadOrWritten": false,
+  "release1610BoundaryUntouched": true
+}

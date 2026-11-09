@@ -58,7 +58,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.send_header("X-Content-Type-Options", "nosniff")
         self.end_headers()
-        self.wfile.write(raw)
+        if self.command!='HEAD':self.wfile.write(raw)
 
     def end_headers(self):
         origin = self.headers.get('Origin')
@@ -150,6 +150,12 @@ class Handler(BaseHTTPRequestHandler):
 
     def _account_dispatch(self, writing=False):
         accounts = getattr(self.server, 'accounts', None)
+        if not writing and re.fullmatch(r'/api/required-downloads/[a-f0-9]{64}(?:/status)?',unquote(urlsplit(self.path).path)):
+            # The normal local-origin and account gates still run in _dispatch.
+            # Immutable public input bytes have no workspace ownership; a slow
+            # download must not hold the account-switch/request barrier open.
+            self._dispatch(False)
+            return
         if accounts is not None:
             path = unquote(urlsplit(self.path).path)
             bootstrap = not writing and path == '/api/account' and parse_qs(urlsplit(self.path).query).get('background') == ['1']
@@ -514,6 +520,16 @@ class Handler(BaseHTTPRequestHandler):
                 if accounts is not None and accounts.session and not path.startswith('/api/team-training/') and path not in ('/api/account/sync', '/api/software-update/install', '/api/code/format', '/api/presence'):
                     accounts.queue_sync()
                 self.send_json(200, value)
+            elif re.fullmatch(r'/api/required-downloads/([a-f0-9]{64})(?:/status)?',path):
+                if target.query:raise APIError(404,'没有找到输入数据')
+                from required_downloads import default_manager,serve
+                manager=getattr(self.server,'required_downloads',None)or default_manager()
+                sha=path.split('/')[3]
+                try:
+                    if path.endswith('/status'):self.send_json(200,manager.status(sha))
+                    else:serve(self,sha,manager)
+                except FileNotFoundError:raise APIError(404,'没有找到经过核验的输入数据')
+                except (OSError,ValueError):raise APIError(503,'输入数据尚未下载完成，可重新点击继续')
             elif re.fullmatch(r'/api/library-assets/[a-f0-9]{64}',path):
                 from public_assets import read_asset
                 try:mime,raw=read_asset(store.library,path.rsplit('/',1)[1])
@@ -830,6 +846,10 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self.dispatch()
+
+    def do_HEAD(self):
+        if re.fullmatch(r'/api/required-downloads/[a-f0-9]{64}',urlsplit(self.path).path):self.dispatch()
+        else:self.send_error(501,'Unsupported method')
 
     def do_POST(self):
         self.dispatch(writing=True)

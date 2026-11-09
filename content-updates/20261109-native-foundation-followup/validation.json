@@ -1,0 +1,21 @@
+{
+  "completeNativeStatementsAndConstraintsReviewed": 43,
+  "newSpecificFoundationLeaves": 1,
+  "onlyExactTargetProblemRowsChanged": true,
+  "reviewedSampleFamilyCompleted": 65,
+  "broadIntroductoryLabelsNotGloballyAliased": true,
+  "existingCoursesAndLessonBodiesUnchanged": true,
+  "learningEvidenceBindsToRealLessonMarkdownSha": true,
+  "nativeBackgroundDefinitionsHashed": true,
+  "requiredNativeImagesVisuallyChecked": 3,
+  "requiredImagesReuseExistingCanonicalAssets": true,
+  "newSourceArchives": 43,
+  "newSourceArchiveBytes": 573757,
+  "allSourceHashesUniqueAndVerified": true,
+  "allDifficultyFieldsAndOriginalStatusDatePreserved": true,
+  "applicationIdempotent": true,
+  "regressionTestsPassed": 99,
+  "masteryPassXpDraftOrSubmissionStateReadOrWritten": false,
+  "release1610BoundaryUntouched": true,
+  "nextStep": "Acquire and register a genuinely new complete public XCPC event; do not count restored problems as newly added."
+}

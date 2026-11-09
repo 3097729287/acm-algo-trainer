@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "date": "2026-11-09",
+  "stableChannelChanged": false,
+  "ordinaryApplicationTouched": false,
+  "targetedTests": {"run": 49, "failures": 0, "errors": 0},
+  "preFixRegression": {
+    "source": "a0fe8473",
+    "expectedFailedSubcases": 2,
+    "fix": "ed33cb72",
+    "reason": "A parsed fetched statement replaced the table-wide row lookup; later fetched overrides were overwritten."
+  },
+  "publicSeedReplay": {
+    "versions": ["1.6.9", "1.6.9 profile from 1.6.7"],
+    "approvedBaseSha256": ["9f78e290f5925a8f557dc3d2c626f290c8101b537e68e185df0ea551b24103b8", "d7913a466eb1efad938d6487371f40fdf5a047dc5e922b014e626cf16c5197bc"],
+    "targetSeedSha256": "b8edd69fbc144dd8d54a102a9115cfac02a97edfb98c603acdad62873f706bab",
+    "contentPayloadBytes": 1047349,
+    "contentPayloadSha256": "75f62f56f9173222c211c85c7443c0b51743dc0dc8da42e9858beb4950fafd64",
+    "sameTables": 11,
+    "sameResourceIdentities": 6441,
+    "independentExplanationAndDraftFixturePreserved": true,
+    "secondStartupIdempotent": true
+  },
+  "largeImportedLibraryReplay": {
+    "source": "previously closed isolated application copy",
+    "bytes": 1501777920,
+    "problemRows": 18001,
+    "sameContentAndLinkTables": 10,
+    "sameResourceIdentities": true,
+    "originalSourceFileUnchanged": true,
+    "personalDatabaseOpened": false,
+    "privateValuesPrintedOrCommitted": false,
+    "partialMergeIncludingSnapshotSeconds": 10.552,
+    "fullMergeIncludingSnapshotSeconds": 12.029
+  },
+  "wholeUpdateWithinOneMinuteVerified": false,
+  "limits": "Content transport and library replays only. The complete download, backup, install and visible React restart still need a domestic rehearsal."
+}

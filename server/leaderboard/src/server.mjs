@@ -11,10 +11,12 @@ import {createAIJudge} from './pk-judge.mjs';
 
 import {createReleaseStream} from './release-stream.mjs';
 import {createLibraryAssetStream} from './library-assets.mjs';
+import {createRequiredDownloadStream} from './required-downloads.mjs';
 
-export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000, stateBodyTimeoutMs = 120000,releaseAssetsFile='public-release-assets.json',releaseFetch,libraryAssetsFile='public-library-assets.json',libraryFetch } = {}) {
+export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000, stateBodyTimeoutMs = 120000,releaseAssetsFile='public-release-assets.json',releaseFetch,libraryAssetsFile='public-library-assets.json',libraryFetch,requiredDownloadsFile='public-required-downloads.json',requiredDownloadsDir } = {}) {
   const releaseStream=createReleaseStream(releaseAssetsFile,{fetcher:releaseFetch});
   const libraryStream=createLibraryAssetStream(libraryAssetsFile,{fetcher:libraryFetch});
+  const requiredStream=createRequiredDownloadStream(requiredDownloadsFile,{directory:requiredDownloadsDir});
   let activeStateRequests = 0, activeChunkRequests = 0, activeAvatarRequests = 0;
   const server = createServer(async (request, response) => {
     let ownsStateSlot = false, ownsChunkSlot = false, ownsAvatarSlot = false;
@@ -29,6 +31,10 @@ export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000
       if(path.startsWith('/library-assets/')||path.startsWith('/updates/library-assets/')){
         request.socket.setTimeout(601000);
         clearTimeout(bodyDeadline);await libraryStream(request,response);return;
+      }
+      if(path.startsWith('/required-downloads/')||path.startsWith('/updates/required-downloads/')){
+        request.socket.setTimeout(601000);
+        clearTimeout(bodyDeadline);await requiredStream(request,response);return;
       }
       const chunkRequest=path.startsWith('/v2/accounts/state');
       const stateRequest = chunkRequest || path === '/v1/accounts/state' && ['GET', 'PUT'].includes(request.method);
@@ -137,7 +143,7 @@ export async function start(env = process.env) {
       READ_ONLY: env.READ_ONLY,
       REGISTRATIONS_PER_IP_DAY: env.REGISTRATIONS_PER_IP_DAY, REQUESTS_PER_USER_MINUTE: env.REQUESTS_PER_USER_MINUTE };
     if (!apiEnv.RATE_LIMIT_SALT) throw new Error('RATE_LIMIT_SALT is required');
-    server = createApiServer(apiEnv, { trustProxy: env.TRUST_PROXY === '1',releaseAssetsFile:env.RELEASE_ASSETS_FILE||'public-release-assets.json',libraryAssetsFile:env.LIBRARY_ASSETS_FILE||'public-library-assets.json' });
+    server = createApiServer(apiEnv, { trustProxy: env.TRUST_PROXY === '1',releaseAssetsFile:env.RELEASE_ASSETS_FILE||'public-release-assets.json',libraryAssetsFile:env.LIBRARY_ASSETS_FILE||'public-library-assets.json',requiredDownloadsFile:env.REQUIRED_DOWNLOADS_FILE||'public-required-downloads.json',requiredDownloadsDir:env.REQUIRED_DOWNLOADS_DIR });
     server.listen(Number(env.PORT || 8080), env.HOST || '0.0.0.0');
     await once(server, 'listening');
     if(env.READ_ONLY!=='1')STORE.pk.start();

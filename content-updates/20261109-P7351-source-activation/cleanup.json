@@ -1,0 +1,20 @@
+{
+  "checkedBeforeNewContent": true,
+  "removedObsoleteItems": [
+    "content-updates/20261109-P7351-required-inputs/registration-pending.json"
+  ],
+  "supersededRegistrationPending": {
+    "id": "luogu-training-P7351",
+    "distributionVerified": false,
+    "retirementFlagUnchanged": true,
+    "canonicalZip": "data/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
+    "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+    "bytes": 42049784,
+    "note": "Do not activate the source or clear retirement until approved domestic distribution, verified durable cache and actual Workbench download pass."
+  },
+  "replacement": "content-updates/20261109-P7351-source-activation/catalog-registration.json",
+  "duplicateResourcesAdded": false,
+  "existingIdAndHistoryRetained": true,
+  "sourceProofAndPendingMarkdownStillReferencedByTests": true,
+  "ordinaryAssetMaximumChanged": false
+}

@@ -1,0 +1,3968 @@
+{
+  "schema": 1,
+  "revision": "20261109-native-known-topic-mapping",
+  "checkedAt": "2026-11-08T21:43:19.289394+00:00",
+  "resourceBeforeSha256": "4a2065ef65e040bdef199c9b824679b85b90fadb02de21cb567162c131561468",
+  "items": [],
+  "luoguNativeReviews": [
+    {
+      "id": "luogu-training-AT_abc290_f",
+      "url": "https://www.luogu.com.cn/problem/AT_abc290_f",
+      "beforeProblemSha256": "c7bb6a272481245099ae93fb3241e01305a575ccc3817b23df3acdd48654573e",
+      "nativeProblemId": "AT_abc290_f",
+      "nativeTitle": "[ABC290F] Maximum Diameter",
+      "sourceSha256": "251d8faabde0944f0f7e59a833008edb38ce1e033fa2b590d121c43cd829970f",
+      "sourceCapture": {
+        "id": "luogu-training-AT_abc290_f",
+        "url": "https://www.luogu.com.cn/problem/AT_abc290_f",
+        "pid": "AT_abc290_f",
+        "checkedAt": "2026-11-08T21:39:28.734327+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/AT_abc290_f",
+        "sha256": "251d8faabde0944f0f7e59a833008edb38ce1e033fa2b590d121c43cd829970f",
+        "bytes": 15683,
+        "file": "AT_abc290_f.json",
+        "nativeTitle": "[ABC290F] Maximum Diameter",
+        "nativeTagIds": [
+          252
+        ],
+        "nativeDifficulty": 6
+      },
+      "nativeTagIds": [
+        252
+      ],
+      "nativeTags": [
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-AT_agc021_e",
+      "url": "https://www.luogu.com.cn/problem/AT_agc021_e",
+      "beforeProblemSha256": "5ec234cebf5fbd8c55cf02b65f053d0076e9a376092fb0a2519f249469fc3f13",
+      "nativeProblemId": "AT_agc021_e",
+      "nativeTitle": "[AGC021E] Ball Eat Chameleons",
+      "sourceSha256": "58b2ac1dea615ad4ac76cbeb9eff9c392909bf598aa2e45f2f057976e0dabf45",
+      "sourceCapture": {
+        "id": "luogu-training-AT_agc021_e",
+        "url": "https://www.luogu.com.cn/problem/AT_agc021_e",
+        "pid": "AT_agc021_e",
+        "checkedAt": "2026-11-08T21:39:30.210299+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/AT_agc021_e",
+        "sha256": "58b2ac1dea615ad4ac76cbeb9eff9c392909bf598aa2e45f2f057976e0dabf45",
+        "bytes": 17409,
+        "file": "AT_agc021_e.json",
+        "nativeTitle": "[AGC021E] Ball Eat Chameleons",
+        "nativeTagIds": [
+          252
+        ],
+        "nativeDifficulty": 8
+      },
+      "nativeTagIds": [
+        252
+      ],
+      "nativeTags": [
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-AT_agc030_f",
+      "url": "https://www.luogu.com.cn/problem/AT_agc030_f",
+      "beforeProblemSha256": "c9ace56031db5db76bb7b151d7c61615c53204c157e0d00e684ce6de9eafa4c0",
+      "nativeProblemId": "AT_agc030_f",
+      "nativeTitle": "[AGC030F] Permutation and Minimum",
+      "sourceSha256": "7c5c8e4136ac7fdecf5b2e4ceae52ecddc89b624f62a9abfa0b9e09e86090e7c",
+      "sourceCapture": {
+        "id": "luogu-training-AT_agc030_f",
+        "url": "https://www.luogu.com.cn/problem/AT_agc030_f",
+        "pid": "AT_agc030_f",
+        "checkedAt": "2026-11-08T21:39:30.851073+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/AT_agc030_f",
+        "sha256": "7c5c8e4136ac7fdecf5b2e4ceae52ecddc89b624f62a9abfa0b9e09e86090e7c",
+        "bytes": 13973,
+        "file": "AT_agc030_f.json",
+        "nativeTitle": "[AGC030F] Permutation and Minimum",
+        "nativeTagIds": [
+          3,
+          252
+        ],
+        "nativeDifficulty": 7
+      },
+      "nativeTagIds": [
+        3,
+        252
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-AT_agc060_c",
+      "url": "https://www.luogu.com.cn/problem/AT_agc060_c",
+      "beforeProblemSha256": "2147076075c6a58b3473be74ed4a9b89d26df56c9a7a40a6a992c038a5499369",
+      "nativeProblemId": "AT_agc060_c",
+      "nativeTitle": "[AGC060C] Large Heap",
+      "sourceSha256": "ad7535378251c7096fc9c40bbc2a2946ce666ac7b9f2018b00fe0889cc038637",
+      "sourceCapture": {
+        "id": "luogu-training-AT_agc060_c",
+        "url": "https://www.luogu.com.cn/problem/AT_agc060_c",
+        "pid": "AT_agc060_c",
+        "checkedAt": "2026-11-08T21:39:32.135383+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/AT_agc060_c",
+        "sha256": "ad7535378251c7096fc9c40bbc2a2946ce666ac7b9f2018b00fe0889cc038637",
+        "bytes": 10917,
+        "file": "AT_agc060_c.json",
+        "nativeTitle": "[AGC060C] Large Heap",
+        "nativeTagIds": [
+          3,
+          252,
+          253,
+          266
+        ],
+        "nativeDifficulty": 7
+      },
+      "nativeTagIds": [
+        3,
+        252,
+        253,
+        266
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "组合数学",
+        "排列组合",
+        "概率论"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 253,
+          "name": "排列组合",
+          "type": 2,
+          "parent": 252
+        },
+        {
+          "id": 266,
+          "name": "概率论",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数",
+        "期望与概率"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "数学与计数 / 计数",
+        "数学"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-AT_arc068_d",
+      "url": "https://www.luogu.com.cn/problem/AT_arc068_d",
+      "beforeProblemSha256": "512676423578434956c271e2bbc1bf52fcd3336eee5e7ba5029785599615a0d9",
+      "nativeProblemId": "AT_arc068_d",
+      "nativeTitle": "[ARC068F] Solitaire",
+      "sourceSha256": "02ed5d83ec09229f5efd0cc1ff410cd2b03b43b4640ef702378ae5bb2bcc7c1f",
+      "sourceCapture": {
+        "id": "luogu-training-AT_arc068_d",
+        "url": "https://www.luogu.com.cn/problem/AT_arc068_d",
+        "pid": "AT_arc068_d",
+        "checkedAt": "2026-11-08T21:39:32.801719+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/AT_arc068_d",
+        "sha256": "02ed5d83ec09229f5efd0cc1ff410cd2b03b43b4640ef702378ae5bb2bcc7c1f",
+        "bytes": 11113,
+        "file": "AT_arc068_d.json",
+        "nativeTitle": "[ARC068F] Solitaire",
+        "nativeTagIds": [
+          3,
+          252
+        ],
+        "nativeDifficulty": 7
+      },
+      "nativeTagIds": [
+        3,
+        252
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-AT_dp_i",
+      "url": "https://www.luogu.com.cn/problem/AT_dp_i",
+      "beforeProblemSha256": "8e6fc22dff40dc64c218a57b3ab11bbf3dd3643d385821be845a2d34a475b0cd",
+      "nativeProblemId": "AT_dp_i",
+      "nativeTitle": "Coins",
+      "sourceSha256": "676f13f4dbe64c12a9917d76658b703193537ebb118a9296b9cd50ac1e74fcbc",
+      "sourceCapture": {
+        "id": "luogu-training-AT_dp_i",
+        "url": "https://www.luogu.com.cn/problem/AT_dp_i",
+        "pid": "AT_dp_i",
+        "checkedAt": "2026-11-08T21:39:34.058021+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/AT_dp_i",
+        "sha256": "676f13f4dbe64c12a9917d76658b703193537ebb118a9296b9cd50ac1e74fcbc",
+        "bytes": 15038,
+        "file": "AT_dp_i.json",
+        "nativeTitle": "Coins",
+        "nativeTagIds": [
+          3,
+          266
+        ],
+        "nativeDifficulty": 3
+      },
+      "nativeTagIds": [
+        3,
+        266
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "概率论"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 266,
+          "name": "概率论",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "期望与概率"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "数学"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P3414",
+      "url": "https://www.luogu.com.cn/problem/P3414",
+      "beforeProblemSha256": "e57e99f6019398296036df6d45eb8956a112c7bdb6ccf2c4a57fb6a6400f583d",
+      "nativeProblemId": "P3414",
+      "nativeTitle": "SAC#1 - 组合数",
+      "sourceSha256": "fc8e8747edc43728e48deb56a4b4e30154846b84c0d7a7771b99f2ca5ee7dfbd",
+      "sourceCapture": {
+        "id": "luogu-training-P3414",
+        "url": "https://www.luogu.com.cn/problem/P3414",
+        "pid": "P3414",
+        "checkedAt": "2026-11-08T21:39:45.702554+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P3414",
+        "sha256": "fc8e8747edc43728e48deb56a4b4e30154846b84c0d7a7771b99f2ca5ee7dfbd",
+        "bytes": 8495,
+        "file": "P3414.json",
+        "nativeTitle": "SAC#1 - 组合数",
+        "nativeTagIds": [
+          5,
+          33,
+          81,
+          252,
+          337
+        ],
+        "nativeDifficulty": 2
+      },
+      "nativeTagIds": [
+        5,
+        33,
+        81,
+        252,
+        337
+      ],
+      "nativeTags": [
+        "数学",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P4222",
+      "url": "https://www.luogu.com.cn/problem/P4222",
+      "beforeProblemSha256": "00c4451afe66937dc7918808784bec6195d535edfa15096064b060022812b714",
+      "nativeProblemId": "P4222",
+      "nativeTitle": "[CQOI2012] 编号",
+      "sourceSha256": "dbbff439aa6e40e2f6218407ed247c5a954236210b387d1ffff975fac3e8ec7e",
+      "sourceCapture": {
+        "id": "luogu-training-P4222",
+        "url": "https://www.luogu.com.cn/problem/P4222",
+        "pid": "P4222",
+        "checkedAt": "2026-11-08T21:39:47.771516+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P4222",
+        "sha256": "dbbff439aa6e40e2f6218407ed247c5a954236210b387d1ffff975fac3e8ec7e",
+        "bytes": 9194,
+        "file": "P4222.json",
+        "nativeTitle": "[CQOI2012] 编号",
+        "nativeTagIds": [
+          3,
+          29,
+          38,
+          48,
+          108,
+          252
+        ],
+        "nativeDifficulty": 5
+      },
+      "nativeTagIds": [
+        3,
+        29,
+        38,
+        48,
+        108,
+        252
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P4351",
+      "url": "https://www.luogu.com.cn/problem/P4351",
+      "beforeProblemSha256": "0d4b86a6aa08ab4ea418e7fff09e778545702dfdc0bfb9b3421ed1c1f60144b8",
+      "nativeProblemId": "P4351",
+      "nativeTitle": "[CERC2015] Frightful Formula",
+      "sourceSha256": "2ddea3e3a6710c0d1cd35f0ad21ffbc98f705edd04bc9bd626248dc34f05a4da",
+      "sourceCapture": {
+        "id": "luogu-training-P4351",
+        "url": "https://www.luogu.com.cn/problem/P4351",
+        "pid": "P4351",
+        "checkedAt": "2026-11-08T21:39:49.642312+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P4351",
+        "sha256": "2ddea3e3a6710c0d1cd35f0ad21ffbc98f705edd04bc9bd626248dc34f05a4da",
+        "bytes": 8071,
+        "file": "P4351.json",
+        "nativeTitle": "[CERC2015] Frightful Formula",
+        "nativeTagIds": [
+          5,
+          32,
+          252,
+          335,
+          502
+        ],
+        "nativeDifficulty": 7
+      },
+      "nativeTagIds": [
+        5,
+        32,
+        252,
+        335,
+        502
+      ],
+      "nativeTags": [
+        "数学",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P4778",
+      "url": "https://www.luogu.com.cn/problem/P4778",
+      "beforeProblemSha256": "555fbbe7d4b53ca1f37ea96899cdd4bf10a1ecb2f1597ed4f617ffa287356d37",
+      "nativeProblemId": "P4778",
+      "nativeTitle": "Counting swaps",
+      "sourceSha256": "406f27e502f3a373da8219225de5ae6b88775b11078b399bc7fbe1c1ae36fbd5",
+      "sourceCapture": {
+        "id": "luogu-training-P4778",
+        "url": "https://www.luogu.com.cn/problem/P4778",
+        "pid": "P4778",
+        "checkedAt": "2026-11-08T21:39:51.548456+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P4778",
+        "sha256": "406f27e502f3a373da8219225de5ae6b88775b11078b399bc7fbe1c1ae36fbd5",
+        "bytes": 14758,
+        "file": "P4778.json",
+        "nativeTitle": "Counting swaps",
+        "nativeTagIds": [
+          5,
+          252
+        ],
+        "nativeDifficulty": 7
+      },
+      "nativeTagIds": [
+        5,
+        252
+      ],
+      "nativeTags": [
+        "数学",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P4859",
+      "url": "https://www.luogu.com.cn/problem/P4859",
+      "beforeProblemSha256": "7eed11750cfe3edf37de6c4be66913ae758be09ea8fee2915e7a3e482210481a",
+      "nativeProblemId": "P4859",
+      "nativeTitle": "已经没有什么好害怕的了",
+      "sourceSha256": "af8a08382d016c5bc9edc6b2f3c7c73d23a0b9e3d7f0641400ea8a1ad19d175d",
+      "sourceCapture": {
+        "id": "luogu-training-P4859",
+        "url": "https://www.luogu.com.cn/problem/P4859",
+        "pid": "P4859",
+        "checkedAt": "2026-11-08T21:39:52.312217+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P4859",
+        "sha256": "af8a08382d016c5bc9edc6b2f3c7c73d23a0b9e3d7f0641400ea8a1ad19d175d",
+        "bytes": 15665,
+        "file": "P4859.json",
+        "nativeTitle": "已经没有什么好害怕的了",
+        "nativeTagIds": [
+          3,
+          5,
+          252,
+          253,
+          255
+        ],
+        "nativeDifficulty": 7
+      },
+      "nativeTagIds": [
+        3,
+        5,
+        252,
+        253,
+        255
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "数学",
+        "组合数学",
+        "排列组合",
+        "二项式定理"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 253,
+          "name": "排列组合",
+          "type": 2,
+          "parent": 252
+        },
+        {
+          "id": 255,
+          "name": "二项式定理",
+          "type": 2,
+          "parent": 252
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P4921",
+      "url": "https://www.luogu.com.cn/problem/P4921",
+      "beforeProblemSha256": "126980cd956fbf5f2138542d28bfb5fe40d5b034899d0774441eadf400baa7f9",
+      "nativeProblemId": "P4921",
+      "nativeTitle": "[MtOI2018] 情侣？给我烧了！",
+      "sourceSha256": "1886297a1884ca57a46c7eacf05c4744d5b40db4e95f33bc6895f09db170afb2",
+      "sourceCapture": {
+        "id": "luogu-training-P4921",
+        "url": "https://www.luogu.com.cn/problem/P4921",
+        "pid": "P4921",
+        "checkedAt": "2026-11-08T21:39:52.861144+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P4921",
+        "sha256": "1886297a1884ca57a46c7eacf05c4744d5b40db4e95f33bc6895f09db170afb2",
+        "bytes": 14207,
+        "file": "P4921.json",
+        "nativeTitle": "[MtOI2018] 情侣？给我烧了！",
+        "nativeTagIds": [
+          5,
+          35,
+          81,
+          108,
+          252
+        ],
+        "nativeDifficulty": 5
+      },
+      "nativeTagIds": [
+        5,
+        35,
+        81,
+        108,
+        252
+      ],
+      "nativeTags": [
+        "数学",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P5389",
+      "url": "https://www.luogu.com.cn/problem/P5389",
+      "beforeProblemSha256": "558a0b286ee2629400f84955cb3e8a35badcaf74f1e61c1fe9b19f1e878ef25a",
+      "nativeProblemId": "P5389",
+      "nativeTitle": "[Cnoi2019] 数学课",
+      "sourceSha256": "45b8bd11da3c294f133a12a80af3e64509ee23ea582165c69b57c1346a6dc95d",
+      "sourceCapture": {
+        "id": "luogu-training-P5389",
+        "url": "https://www.luogu.com.cn/problem/P5389",
+        "pid": "P5389",
+        "checkedAt": "2026-11-08T21:39:58.195716+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P5389",
+        "sha256": "45b8bd11da3c294f133a12a80af3e64509ee23ea582165c69b57c1346a6dc95d",
+        "bytes": 9615,
+        "file": "P5389.json",
+        "nativeTitle": "[Cnoi2019] 数学课",
+        "nativeTagIds": [
+          5,
+          36,
+          266
+        ],
+        "nativeDifficulty": 5
+      },
+      "nativeTagIds": [
+        5,
+        36,
+        266
+      ],
+      "nativeTags": [
+        "数学",
+        "概率论"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 266,
+          "name": "概率论",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "期望与概率"
+      ],
+      "pendingCategories": [
+        "数学"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P5520",
+      "url": "https://www.luogu.com.cn/problem/P5520",
+      "beforeProblemSha256": "5a374b19fa69e42d6b7632fb5a2fc82c8f07072bc2c2553de08a99a368f80c53",
+      "nativeProblemId": "P5520",
+      "nativeTitle": "[yLOI2019] 青原樱",
+      "sourceSha256": "55a9cf7e44ffc408253e7632b0db6cd8dca3fd9a5d58776519df6c999ab8be85",
+      "sourceCapture": {
+        "id": "luogu-training-P5520",
+        "url": "https://www.luogu.com.cn/problem/P5520",
+        "pid": "P5520",
+        "checkedAt": "2026-11-08T21:39:59.399883+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P5520",
+        "sha256": "55a9cf7e44ffc408253e7632b0db6cd8dca3fd9a5d58776519df6c999ab8be85",
+        "bytes": 22752,
+        "file": "P5520.json",
+        "nativeTitle": "[yLOI2019] 青原樱",
+        "nativeTagIds": [
+          3,
+          5,
+          36,
+          108,
+          252,
+          253
+        ],
+        "nativeDifficulty": 3
+      },
+      "nativeTagIds": [
+        3,
+        5,
+        36,
+        108,
+        252,
+        253
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "数学",
+        "组合数学",
+        "排列组合"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 253,
+          "name": "排列组合",
+          "type": 2,
+          "parent": 252
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P5547",
+      "url": "https://www.luogu.com.cn/problem/P5547",
+      "beforeProblemSha256": "966f2ef64615845297c1e326b5945adb166d596cfd4c3340f05239a427c159b0",
+      "nativeProblemId": "P5547",
+      "nativeTitle": "[BJ United Round #3] 三色树",
+      "sourceSha256": "301743bbb7e9c94cba73861eca700f83824b38202b48f3cb0116519ce2cf239f",
+      "sourceCapture": {
+        "id": "luogu-training-P5547",
+        "url": "https://www.luogu.com.cn/problem/P5547",
+        "pid": "P5547",
+        "checkedAt": "2026-11-08T21:40:00.766139+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P5547",
+        "sha256": "301743bbb7e9c94cba73861eca700f83824b38202b48f3cb0116519ce2cf239f",
+        "bytes": 7733,
+        "file": "P5547.json",
+        "nativeTitle": "[BJ United Round #3] 三色树",
+        "nativeTagIds": [
+          3,
+          5,
+          94,
+          108,
+          252
+        ],
+        "nativeDifficulty": 7
+      },
+      "nativeTagIds": [
+        3,
+        5,
+        94,
+        108,
+        252
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "数学",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P6026",
+      "url": "https://www.luogu.com.cn/problem/P6026",
+      "beforeProblemSha256": "27b983c9782ad7599072333ea6f83370c1620ffccfb19cc708ea7909759d9410",
+      "nativeProblemId": "P6026",
+      "nativeTitle": "餐馆",
+      "sourceSha256": "2b2f304f4b9e6d124893807a4047aa2f2f7ee0bd4dbe5ed85a5d569577b414f4",
+      "sourceCapture": {
+        "id": "luogu-training-P6026",
+        "url": "https://www.luogu.com.cn/problem/P6026",
+        "pid": "P6026",
+        "checkedAt": "2026-11-08T21:40:01.952567+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P6026",
+        "sha256": "2b2f304f4b9e6d124893807a4047aa2f2f7ee0bd4dbe5ed85a5d569577b414f4",
+        "bytes": 14223,
+        "file": "P6026.json",
+        "nativeTitle": "餐馆",
+        "nativeTagIds": [
+          5,
+          37,
+          252
+        ],
+        "nativeDifficulty": 5
+      },
+      "nativeTagIds": [
+        5,
+        37,
+        252
+      ],
+      "nativeTags": [
+        "数学",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P6790",
+      "url": "https://www.luogu.com.cn/problem/P6790",
+      "beforeProblemSha256": "6f50021d820e14c342e1ddd8e4ff75880db6e99d7a7976cb83666d2da061a526",
+      "nativeProblemId": "P6790",
+      "nativeTitle": "[SNOI2020] 生成树",
+      "sourceSha256": "66b3411a764f262750f82af50b1ee12de66be9e62c4a8d4de3b2498ab023756d",
+      "sourceCapture": {
+        "id": "luogu-training-P6790",
+        "url": "https://www.luogu.com.cn/problem/P6790",
+        "pid": "P6790",
+        "checkedAt": "2026-11-08T21:40:04.773076+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P6790",
+        "sha256": "66b3411a764f262750f82af50b1ee12de66be9e62c4a8d4de3b2498ab023756d",
+        "bytes": 9122,
+        "file": "P6790.json",
+        "nativeTitle": "[SNOI2020] 生成树",
+        "nativeTagIds": [
+          11,
+          37,
+          48,
+          164,
+          252,
+          530
+        ],
+        "nativeDifficulty": 8
+      },
+      "nativeTagIds": [
+        11,
+        37,
+        48,
+        164,
+        252,
+        530
+      ],
+      "nativeTags": [
+        "树形数据结构",
+        "组合数学",
+        "广义串并联图"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 11,
+          "name": "树形数据结构",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 530,
+          "name": "广义串并联图",
+          "type": 2,
+          "parent": 6
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P7044",
+      "url": "https://www.luogu.com.cn/problem/P7044",
+      "beforeProblemSha256": "aaf4720ea5decdc5ad9706551bc23337df21307bf8e12a7b57b5e8b52cc4ac36",
+      "nativeProblemId": "P7044",
+      "nativeTitle": "「MCOI-03」括号",
+      "sourceSha256": "76c6704bffaf217c94146e9f12d1e487e264dffa87bef5a94af566712e072b9a",
+      "sourceCapture": {
+        "id": "luogu-training-P7044",
+        "url": "https://www.luogu.com.cn/problem/P7044",
+        "pid": "P7044",
+        "checkedAt": "2026-11-08T21:40:05.257592+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P7044",
+        "sha256": "76c6704bffaf217c94146e9f12d1e487e264dffa87bef5a94af566712e072b9a",
+        "bytes": 17233,
+        "file": "P7044.json",
+        "nativeTitle": "「MCOI-03」括号",
+        "nativeTagIds": [
+          108,
+          252,
+          337
+        ],
+        "nativeDifficulty": 6
+      },
+      "nativeTagIds": [
+        108,
+        252,
+        337
+      ],
+      "nativeTags": [
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P7481",
+      "url": "https://www.luogu.com.cn/problem/P7481",
+      "beforeProblemSha256": "1e13af296dc5a06859bacb84bb9ea468489c90e2ce5f92218eaade29a49823d3",
+      "nativeProblemId": "P7481",
+      "nativeTitle": "梦现时刻",
+      "sourceSha256": "54c64449793a3d50f12d610b7cc5c576aaa55bbbf2b5ed79f4278af5bdf4f026",
+      "sourceCapture": {
+        "id": "luogu-training-P7481",
+        "url": "https://www.luogu.com.cn/problem/P7481",
+        "pid": "P7481",
+        "checkedAt": "2026-11-08T21:40:05.881729+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P7481",
+        "sha256": "54c64449793a3d50f12d610b7cc5c576aaa55bbbf2b5ed79f4278af5bdf4f026",
+        "bytes": 6957,
+        "file": "P7481.json",
+        "nativeTitle": "梦现时刻",
+        "nativeTagIds": [
+          108,
+          252
+        ],
+        "nativeDifficulty": 7
+      },
+      "nativeTagIds": [
+        108,
+        252
+      ],
+      "nativeTags": [
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P7488",
+      "url": "https://www.luogu.com.cn/problem/P7488",
+      "beforeProblemSha256": "a97b23d96f434478e21b7422fc72d5e555f0845be288bbcf7d8e294bf66b6b29",
+      "nativeProblemId": "P7488",
+      "nativeTitle": "「Stoi2031」黑色毛衣",
+      "sourceSha256": "2ca66f1b3dcbd507b50e05f98ba35a7d3abab1ed28b65b4c415ccddedacfb0b3",
+      "sourceCapture": {
+        "id": "luogu-training-P7488",
+        "url": "https://www.luogu.com.cn/problem/P7488",
+        "pid": "P7488",
+        "checkedAt": "2026-11-08T21:40:06.569831+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P7488",
+        "sha256": "2ca66f1b3dcbd507b50e05f98ba35a7d3abab1ed28b65b4c415ccddedacfb0b3",
+        "bytes": 16695,
+        "file": "P7488.json",
+        "nativeTitle": "「Stoi2031」黑色毛衣",
+        "nativeTagIds": [
+          5,
+          252,
+          322
+        ],
+        "nativeDifficulty": 7
+      },
+      "nativeTagIds": [
+        5,
+        252,
+        322
+      ],
+      "nativeTags": [
+        "数学",
+        "组合数学",
+        "Lucas 定理"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 322,
+          "name": "Lucas 定理",
+          "type": 2,
+          "parent": 72
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P7888",
+      "url": "https://www.luogu.com.cn/problem/P7888",
+      "beforeProblemSha256": "f0d026f99cf62a61526c62ff6be5dc3e1016aa776ad4a79de769e1706451090f",
+      "nativeProblemId": "P7888",
+      "nativeTitle": "「MCOI-06」Distinct Subsequences",
+      "sourceSha256": "7784fd544e95724cad5a3ae182a922c34b840a12ef9f3a10ddd6626b9661bedf",
+      "sourceCapture": {
+        "id": "luogu-training-P7888",
+        "url": "https://www.luogu.com.cn/problem/P7888",
+        "pid": "P7888",
+        "checkedAt": "2026-11-08T21:40:08.549247+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P7888",
+        "sha256": "7784fd544e95724cad5a3ae182a922c34b840a12ef9f3a10ddd6626b9661bedf",
+        "bytes": 7513,
+        "file": "P7888.json",
+        "nativeTitle": "「MCOI-06」Distinct Subsequences",
+        "nativeTagIds": [
+          3,
+          58,
+          108,
+          252,
+          337
+        ],
+        "nativeDifficulty": 5
+      },
+      "nativeTagIds": [
+        3,
+        58,
+        108,
+        252,
+        337
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P8007",
+      "url": "https://www.luogu.com.cn/problem/P8007",
+      "beforeProblemSha256": "fb1662090c79f3ba758fedffa0064d92c24314ffa8f0cee11fd9cdf998bc94f9",
+      "nativeProblemId": "P8007",
+      "nativeTitle": "「Wdsr-3」永远与须臾的走廊",
+      "sourceSha256": "4b8e6d1c5e3f256091056af290a6c4efe4102f58d4fe49bf7f566f82efd9d490",
+      "sourceCapture": {
+        "id": "luogu-training-P8007",
+        "url": "https://www.luogu.com.cn/problem/P8007",
+        "pid": "P8007",
+        "checkedAt": "2026-11-08T21:40:10.446604+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P8007",
+        "sha256": "4b8e6d1c5e3f256091056af290a6c4efe4102f58d4fe49bf7f566f82efd9d490",
+        "bytes": 30685,
+        "file": "P8007.json",
+        "nativeTitle": "「Wdsr-3」永远与须臾的走廊",
+        "nativeTagIds": [
+          108,
+          252
+        ],
+        "nativeDifficulty": 4
+      },
+      "nativeTagIds": [
+        108,
+        252
+      ],
+      "nativeTags": [
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P9018",
+      "url": "https://www.luogu.com.cn/problem/P9018",
+      "beforeProblemSha256": "c5eeb0fb886c741bcf1599c679e2164c51786283a8d85d52a4c7d94642ae284a",
+      "nativeProblemId": "P9018",
+      "nativeTitle": "[USACO23JAN] Moo Route G",
+      "sourceSha256": "cd8f8f378754f1cda75c1a6c4950eb6af66de9f6ed6d6c96586449deb056266f",
+      "sourceCapture": {
+        "id": "luogu-training-P9018",
+        "url": "https://www.luogu.com.cn/problem/P9018",
+        "pid": "P9018",
+        "checkedAt": "2026-11-08T21:40:12.457158+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P9018",
+        "sha256": "cd8f8f378754f1cda75c1a6c4950eb6af66de9f6ed6d6c96586449deb056266f",
+        "bytes": 11249,
+        "file": "P9018.json",
+        "nativeTitle": "[USACO23JAN] Moo Route G",
+        "nativeTagIds": [
+          46,
+          60,
+          252,
+          253
+        ],
+        "nativeDifficulty": 5
+      },
+      "nativeTagIds": [
+        46,
+        60,
+        252,
+        253
+      ],
+      "nativeTags": [
+        "组合数学",
+        "排列组合"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 253,
+          "name": "排列组合",
+          "type": 2,
+          "parent": 252
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P9151",
+      "url": "https://www.luogu.com.cn/problem/P9151",
+      "beforeProblemSha256": "8c56dad2772b8cd4826dd45d2d74f7c0678979e2c6a413e3c8df234e82f40eca",
+      "nativeProblemId": "P9151",
+      "nativeTitle": "计数题",
+      "sourceSha256": "07bc8ced800506c30c1636c0d4370dc6981150e777c404b0bf5b3c20ab0eae0c",
+      "sourceCapture": {
+        "id": "luogu-training-P9151",
+        "url": "https://www.luogu.com.cn/problem/P9151",
+        "pid": "P9151",
+        "checkedAt": "2026-11-08T21:40:13.129876+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P9151",
+        "sha256": "07bc8ced800506c30c1636c0d4370dc6981150e777c404b0bf5b3c20ab0eae0c",
+        "bytes": 10652,
+        "file": "P9151.json",
+        "nativeTitle": "计数题",
+        "nativeTagIds": [
+          3,
+          5,
+          81,
+          108,
+          252,
+          337
+        ],
+        "nativeDifficulty": 8
+      },
+      "nativeTagIds": [
+        3,
+        5,
+        81,
+        108,
+        252,
+        337
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "数学",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P9535",
+      "url": "https://www.luogu.com.cn/problem/P9535",
+      "beforeProblemSha256": "47fa759e0bb0126e519fa35b901f373a52d45db8e216ed2c3de983fbf4d1af48",
+      "nativeProblemId": "P9535",
+      "nativeTitle": "[YsOI2023] 连通图计数",
+      "sourceSha256": "2a8ec4f4dc5b4f06979447250d9427c2e5fb22088d7697bb5bde4cf7e14f7b44",
+      "sourceCapture": {
+        "id": "luogu-training-P9535",
+        "url": "https://www.luogu.com.cn/problem/P9535",
+        "pid": "P9535",
+        "checkedAt": "2026-11-08T21:40:14.705491+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P9535",
+        "sha256": "2a8ec4f4dc5b4f06979447250d9427c2e5fb22088d7697bb5bde4cf7e14f7b44",
+        "bytes": 9378,
+        "file": "P9535.json",
+        "nativeTitle": "[YsOI2023] 连通图计数",
+        "nativeTagIds": [
+          5,
+          81,
+          108,
+          252,
+          337,
+          350,
+          410
+        ],
+        "nativeDifficulty": 8
+      },
+      "nativeTagIds": [
+        5,
+        81,
+        108,
+        252,
+        337,
+        350,
+        410
+      ],
+      "nativeTags": [
+        "数学",
+        "组合数学",
+        "圆方树",
+        "Prüfer 序列"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 350,
+          "name": "圆方树",
+          "type": 2,
+          "parent": 6
+        },
+        {
+          "id": 410,
+          "name": "Prüfer 序列",
+          "type": 2,
+          "parent": 230
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-P9682",
+      "url": "https://www.luogu.com.cn/problem/P9682",
+      "beforeProblemSha256": "1046b56a39568e8c050e2ab2c068422b472bf85042e3b91fb6b288274b933cf1",
+      "nativeProblemId": "P9682",
+      "nativeTitle": "Electro Master",
+      "sourceSha256": "a89e10ff6fd59f02bacd3289fbf86a4bbb25817192cdc5662096fd90b03f0cac",
+      "sourceCapture": {
+        "id": "luogu-training-P9682",
+        "url": "https://www.luogu.com.cn/problem/P9682",
+        "pid": "P9682",
+        "checkedAt": "2026-11-08T21:40:15.091905+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/P9682",
+        "sha256": "a89e10ff6fd59f02bacd3289fbf86a4bbb25817192cdc5662096fd90b03f0cac",
+        "bytes": 16199,
+        "file": "P9682.json",
+        "nativeTitle": "Electro Master",
+        "nativeTagIds": [
+          3,
+          81,
+          108,
+          252,
+          337
+        ],
+        "nativeDifficulty": 7
+      },
+      "nativeTagIds": [
+        3,
+        81,
+        108,
+        252,
+        337
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "组合数学"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 252,
+          "name": "组合数学",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "组合计数"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "数学与计数 / 计数"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-UVA1586",
+      "url": "https://www.luogu.com.cn/problem/UVA1586",
+      "beforeProblemSha256": "475f6b4bd3ea41499282a4af882abb4748ddbd4db258da4d7bdd8e0776f268d7",
+      "nativeProblemId": "UVA1586",
+      "nativeTitle": "分子量 Molar mass",
+      "sourceSha256": "de87b024892a8637fb91c5c178aec8cdfb505d4dd00e923ccf69fb4f667dcdff",
+      "sourceCapture": {
+        "id": "luogu-training-UVA1586",
+        "url": "https://www.luogu.com.cn/problem/UVA1586",
+        "pid": "UVA1586",
+        "checkedAt": "2026-11-08T21:40:20.237551+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/UVA1586",
+        "sha256": "de87b024892a8637fb91c5c178aec8cdfb505d4dd00e923ccf69fb4f667dcdff",
+        "bytes": 4673,
+        "file": "UVA1586.json",
+        "nativeTitle": "分子量 Molar mass",
+        "nativeTagIds": [
+          2,
+          266
+        ],
+        "nativeDifficulty": 2
+      },
+      "nativeTagIds": [
+        2,
+        266
+      ],
+      "nativeTags": [
+        "字符串",
+        "概率论"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 2,
+          "name": "字符串",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 266,
+          "name": "概率论",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "期望与概率"
+      ],
+      "pendingCategories": [
+        "字符串",
+        "数学"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-UVA1636",
+      "url": "https://www.luogu.com.cn/problem/UVA1636",
+      "beforeProblemSha256": "0e2d6965c91b14497668de49063bfbe5998b19b05aaa0d1a68ee186e253fc257",
+      "nativeProblemId": "UVA1636",
+      "nativeTitle": "决斗 Headshot",
+      "sourceSha256": "47b8ee178be04d4a5dabe7bb2ead8e639e44e3478dcd1bd2338100309ce8e270",
+      "sourceCapture": {
+        "id": "luogu-training-UVA1636",
+        "url": "https://www.luogu.com.cn/problem/UVA1636",
+        "pid": "UVA1636",
+        "checkedAt": "2026-11-08T21:40:21.599475+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/UVA1636",
+        "sha256": "47b8ee178be04d4a5dabe7bb2ead8e639e44e3478dcd1bd2338100309ce8e270",
+        "bytes": 2933,
+        "file": "UVA1636.json",
+        "nativeTitle": "决斗 Headshot",
+        "nativeTagIds": [
+          5,
+          266
+        ],
+        "nativeDifficulty": 3
+      },
+      "nativeTagIds": [
+        5,
+        266
+      ],
+      "nativeTags": [
+        "数学",
+        "概率论"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 5,
+          "name": "数学",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 266,
+          "name": "概率论",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "期望与概率"
+      ],
+      "pendingCategories": [
+        "数学"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    },
+    {
+      "id": "luogu-training-UVA1637",
+      "url": "https://www.luogu.com.cn/problem/UVA1637",
+      "beforeProblemSha256": "1d2ac1867ccd293b171e8a942c5812a1a5a1a244c43cfe835d2f6b8bfc56209f",
+      "nativeProblemId": "UVA1637",
+      "nativeTitle": "纸牌游戏 Double Patience",
+      "sourceSha256": "053e28fbf9675240c5e73e9b54da90d9044945bc9bf8a922e42076e350a83929",
+      "sourceCapture": {
+        "id": "luogu-training-UVA1637",
+        "url": "https://www.luogu.com.cn/problem/UVA1637",
+        "pid": "UVA1637",
+        "checkedAt": "2026-11-08T21:40:22.231461+00:00",
+        "status": 200,
+        "finalUrl": "https://www.luogu.com.cn/problem/UVA1637",
+        "sha256": "053e28fbf9675240c5e73e9b54da90d9044945bc9bf8a922e42076e350a83929",
+        "bytes": 11364,
+        "file": "UVA1637.json",
+        "nativeTitle": "纸牌游戏 Double Patience",
+        "nativeTagIds": [
+          3,
+          4,
+          266
+        ],
+        "nativeDifficulty": 5
+      },
+      "nativeTagIds": [
+        3,
+        4,
+        266
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "搜索",
+        "概率论"
+      ],
+      "nativeTagDescriptors": [
+        {
+          "id": 3,
+          "name": "动态规划 DP",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 4,
+          "name": "搜索",
+          "type": 2,
+          "parent": null
+        },
+        {
+          "id": 266,
+          "name": "概率论",
+          "type": 2,
+          "parent": null
+        }
+      ],
+      "normalizedTags": [
+        "期望与概率"
+      ],
+      "pendingCategories": [
+        "动态规划",
+        "搜索",
+        "数学"
+      ],
+      "tagDictionary": {
+        "url": "https://www.luogu.com.cn/_lfe/tags",
+        "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+        "bytes": 32624,
+        "status": 200
+      },
+      "previousPublicKnowledge": null,
+      "reviewClaim": "Exact original judge ID and current public tag mapping only; full solution correctness is not asserted."
+    }
+  ],
+  "difficultyEstimates": [],
+  "newSourceAssets": [
+    {
+      "sha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+      "mime": "application/json",
+      "bytes": 32624,
+      "file": "statement-assets/db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c.bin"
+    },
+    {
+      "sha256": "251d8faabde0944f0f7e59a833008edb38ce1e033fa2b590d121c43cd829970f",
+      "mime": "application/json",
+      "bytes": 15683,
+      "file": "statement-assets/251d8faabde0944f0f7e59a833008edb38ce1e033fa2b590d121c43cd829970f.bin"
+    },
+    {
+      "sha256": "58b2ac1dea615ad4ac76cbeb9eff9c392909bf598aa2e45f2f057976e0dabf45",
+      "mime": "application/json",
+      "bytes": 17409,
+      "file": "statement-assets/58b2ac1dea615ad4ac76cbeb9eff9c392909bf598aa2e45f2f057976e0dabf45.bin"
+    },
+    {
+      "sha256": "7c5c8e4136ac7fdecf5b2e4ceae52ecddc89b624f62a9abfa0b9e09e86090e7c",
+      "mime": "application/json",
+      "bytes": 13973,
+      "file": "statement-assets/7c5c8e4136ac7fdecf5b2e4ceae52ecddc89b624f62a9abfa0b9e09e86090e7c.bin"
+    },
+    {
+      "sha256": "ad7535378251c7096fc9c40bbc2a2946ce666ac7b9f2018b00fe0889cc038637",
+      "mime": "application/json",
+      "bytes": 10917,
+      "file": "statement-assets/ad7535378251c7096fc9c40bbc2a2946ce666ac7b9f2018b00fe0889cc038637.bin"
+    },
+    {
+      "sha256": "02ed5d83ec09229f5efd0cc1ff410cd2b03b43b4640ef702378ae5bb2bcc7c1f",
+      "mime": "application/json",
+      "bytes": 11113,
+      "file": "statement-assets/02ed5d83ec09229f5efd0cc1ff410cd2b03b43b4640ef702378ae5bb2bcc7c1f.bin"
+    },
+    {
+      "sha256": "676f13f4dbe64c12a9917d76658b703193537ebb118a9296b9cd50ac1e74fcbc",
+      "mime": "application/json",
+      "bytes": 15038,
+      "file": "statement-assets/676f13f4dbe64c12a9917d76658b703193537ebb118a9296b9cd50ac1e74fcbc.bin"
+    },
+    {
+      "sha256": "fc8e8747edc43728e48deb56a4b4e30154846b84c0d7a7771b99f2ca5ee7dfbd",
+      "mime": "application/json",
+      "bytes": 8495,
+      "file": "statement-assets/fc8e8747edc43728e48deb56a4b4e30154846b84c0d7a7771b99f2ca5ee7dfbd.bin"
+    },
+    {
+      "sha256": "dbbff439aa6e40e2f6218407ed247c5a954236210b387d1ffff975fac3e8ec7e",
+      "mime": "application/json",
+      "bytes": 9194,
+      "file": "statement-assets/dbbff439aa6e40e2f6218407ed247c5a954236210b387d1ffff975fac3e8ec7e.bin"
+    },
+    {
+      "sha256": "2ddea3e3a6710c0d1cd35f0ad21ffbc98f705edd04bc9bd626248dc34f05a4da",
+      "mime": "application/json",
+      "bytes": 8071,
+      "file": "statement-assets/2ddea3e3a6710c0d1cd35f0ad21ffbc98f705edd04bc9bd626248dc34f05a4da.bin"
+    },
+    {
+      "sha256": "406f27e502f3a373da8219225de5ae6b88775b11078b399bc7fbe1c1ae36fbd5",
+      "mime": "application/json",
+      "bytes": 14758,
+      "file": "statement-assets/406f27e502f3a373da8219225de5ae6b88775b11078b399bc7fbe1c1ae36fbd5.bin"
+    },
+    {
+      "sha256": "af8a08382d016c5bc9edc6b2f3c7c73d23a0b9e3d7f0641400ea8a1ad19d175d",
+      "mime": "application/json",
+      "bytes": 15665,
+      "file": "statement-assets/af8a08382d016c5bc9edc6b2f3c7c73d23a0b9e3d7f0641400ea8a1ad19d175d.bin"
+    },
+    {
+      "sha256": "1886297a1884ca57a46c7eacf05c4744d5b40db4e95f33bc6895f09db170afb2",
+      "mime": "application/json",
+      "bytes": 14207,
+      "file": "statement-assets/1886297a1884ca57a46c7eacf05c4744d5b40db4e95f33bc6895f09db170afb2.bin"
+    },
+    {
+      "sha256": "45b8bd11da3c294f133a12a80af3e64509ee23ea582165c69b57c1346a6dc95d",
+      "mime": "application/json",
+      "bytes": 9615,
+      "file": "statement-assets/45b8bd11da3c294f133a12a80af3e64509ee23ea582165c69b57c1346a6dc95d.bin"
+    },
+    {
+      "sha256": "55a9cf7e44ffc408253e7632b0db6cd8dca3fd9a5d58776519df6c999ab8be85",
+      "mime": "application/json",
+      "bytes": 22752,
+      "file": "statement-assets/55a9cf7e44ffc408253e7632b0db6cd8dca3fd9a5d58776519df6c999ab8be85.bin"
+    },
+    {
+      "sha256": "301743bbb7e9c94cba73861eca700f83824b38202b48f3cb0116519ce2cf239f",
+      "mime": "application/json",
+      "bytes": 7733,
+      "file": "statement-assets/301743bbb7e9c94cba73861eca700f83824b38202b48f3cb0116519ce2cf239f.bin"
+    },
+    {
+      "sha256": "2b2f304f4b9e6d124893807a4047aa2f2f7ee0bd4dbe5ed85a5d569577b414f4",
+      "mime": "application/json",
+      "bytes": 14223,
+      "file": "statement-assets/2b2f304f4b9e6d124893807a4047aa2f2f7ee0bd4dbe5ed85a5d569577b414f4.bin"
+    },
+    {
+      "sha256": "66b3411a764f262750f82af50b1ee12de66be9e62c4a8d4de3b2498ab023756d",
+      "mime": "application/json",
+      "bytes": 9122,
+      "file": "statement-assets/66b3411a764f262750f82af50b1ee12de66be9e62c4a8d4de3b2498ab023756d.bin"
+    },
+    {
+      "sha256": "76c6704bffaf217c94146e9f12d1e487e264dffa87bef5a94af566712e072b9a",
+      "mime": "application/json",
+      "bytes": 17233,
+      "file": "statement-assets/76c6704bffaf217c94146e9f12d1e487e264dffa87bef5a94af566712e072b9a.bin"
+    },
+    {
+      "sha256": "54c64449793a3d50f12d610b7cc5c576aaa55bbbf2b5ed79f4278af5bdf4f026",
+      "mime": "application/json",
+      "bytes": 6957,
+      "file": "statement-assets/54c64449793a3d50f12d610b7cc5c576aaa55bbbf2b5ed79f4278af5bdf4f026.bin"
+    },
+    {
+      "sha256": "2ca66f1b3dcbd507b50e05f98ba35a7d3abab1ed28b65b4c415ccddedacfb0b3",
+      "mime": "application/json",
+      "bytes": 16695,
+      "file": "statement-assets/2ca66f1b3dcbd507b50e05f98ba35a7d3abab1ed28b65b4c415ccddedacfb0b3.bin"
+    },
+    {
+      "sha256": "7784fd544e95724cad5a3ae182a922c34b840a12ef9f3a10ddd6626b9661bedf",
+      "mime": "application/json",
+      "bytes": 7513,
+      "file": "statement-assets/7784fd544e95724cad5a3ae182a922c34b840a12ef9f3a10ddd6626b9661bedf.bin"
+    },
+    {
+      "sha256": "4b8e6d1c5e3f256091056af290a6c4efe4102f58d4fe49bf7f566f82efd9d490",
+      "mime": "application/json",
+      "bytes": 30685,
+      "file": "statement-assets/4b8e6d1c5e3f256091056af290a6c4efe4102f58d4fe49bf7f566f82efd9d490.bin"
+    },
+    {
+      "sha256": "cd8f8f378754f1cda75c1a6c4950eb6af66de9f6ed6d6c96586449deb056266f",
+      "mime": "application/json",
+      "bytes": 11249,
+      "file": "statement-assets/cd8f8f378754f1cda75c1a6c4950eb6af66de9f6ed6d6c96586449deb056266f.bin"
+    },
+    {
+      "sha256": "07bc8ced800506c30c1636c0d4370dc6981150e777c404b0bf5b3c20ab0eae0c",
+      "mime": "application/json",
+      "bytes": 10652,
+      "file": "statement-assets/07bc8ced800506c30c1636c0d4370dc6981150e777c404b0bf5b3c20ab0eae0c.bin"
+    },
+    {
+      "sha256": "2a8ec4f4dc5b4f06979447250d9427c2e5fb22088d7697bb5bde4cf7e14f7b44",
+      "mime": "application/json",
+      "bytes": 9378,
+      "file": "statement-assets/2a8ec4f4dc5b4f06979447250d9427c2e5fb22088d7697bb5bde4cf7e14f7b44.bin"
+    },
+    {
+      "sha256": "a89e10ff6fd59f02bacd3289fbf86a4bbb25817192cdc5662096fd90b03f0cac",
+      "mime": "application/json",
+      "bytes": 16199,
+      "file": "statement-assets/a89e10ff6fd59f02bacd3289fbf86a4bbb25817192cdc5662096fd90b03f0cac.bin"
+    },
+    {
+      "sha256": "de87b024892a8637fb91c5c178aec8cdfb505d4dd00e923ccf69fb4f667dcdff",
+      "mime": "application/json",
+      "bytes": 4673,
+      "file": "statement-assets/de87b024892a8637fb91c5c178aec8cdfb505d4dd00e923ccf69fb4f667dcdff.bin"
+    },
+    {
+      "sha256": "47b8ee178be04d4a5dabe7bb2ead8e639e44e3478dcd1bd2338100309ce8e270",
+      "mime": "application/json",
+      "bytes": 2933,
+      "file": "statement-assets/47b8ee178be04d4a5dabe7bb2ead8e639e44e3478dcd1bd2338100309ce8e270.bin"
+    },
+    {
+      "sha256": "053e28fbf9675240c5e73e9b54da90d9044945bc9bf8a922e42076e350a83929",
+      "mime": "application/json",
+      "bytes": 11364,
+      "file": "statement-assets/053e28fbf9675240c5e73e9b54da90d9044945bc9bf8a922e42076e350a83929.bin"
+    }
+  ],
+  "excludedPendingItems": [
+    {
+      "id": "luogu-training-AT_abc217_h",
+      "url": "https://www.luogu.com.cn/problem/AT_abc217_h",
+      "sourceSha256": "3c2143b75bb72e45fcf3126e05bb07434c97cf1b3189ccd88849d6dc2e8da34f",
+      "nativeTagIds": [
+        3,
+        508
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "斜率维护技巧 slope trick"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-AT_abc333_g",
+      "url": "https://www.luogu.com.cn/problem/AT_abc333_g",
+      "sourceSha256": "59f12c935825eb78972413ef412f81f9c878a6faac8360dba5a26a8963a1c422",
+      "nativeTagIds": [
+        423
+      ],
+      "nativeTags": [
+        "Stern-Brocot 树"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-AT_abc351_g",
+      "url": "https://www.luogu.com.cn/problem/AT_abc351_g",
+      "sourceSha256": "9da354001f2e553571906132ed268dc79b2c65bccfd077acada7f13d61d9f10e",
+      "nativeTagIds": [
+        382
+      ],
+      "nativeTags": [
+        "动态树分治"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-AT_agc068_e",
+      "url": "https://www.luogu.com.cn/problem/AT_agc068_e",
+      "sourceSha256": "faec7169ab4954927126a6beb2cfd5dd95653b9e3723851f3c69793e5e50d00b",
+      "nativeTagIds": [
+        3,
+        182,
+        365
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "欧拉回路",
+        "Ad-hoc"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-AT_arc070_c",
+      "url": "https://www.luogu.com.cn/problem/AT_arc070_c",
+      "sourceSha256": "31aea383620169332e7428caf7b3f6d29cbd2d96484f48c300c8e8d722a9bbd9",
+      "nativeTagIds": [
+        3,
+        508
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "斜率维护技巧 slope trick"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-AT_dp_z",
+      "url": "https://www.luogu.com.cn/problem/AT_dp_z",
+      "sourceSha256": "d05d960fa09b3f397f61978ae2d78373482b591aa439ad1e956a08273b073ab8",
+      "nativeTagIds": [
+        150
+      ],
+      "nativeTags": [
+        "斜率优化"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3901",
+      "url": "https://www.luogu.com.cn/problem/B3901",
+      "sourceSha256": "214ee75ff8682f99f7812167ecf31f5d7877bf3bc8ab12718b9056b68e4a6fcb",
+      "nativeTagIds": [
+        5,
+        108,
+        253
+      ],
+      "nativeTags": [
+        "数学",
+        "排列组合"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3902",
+      "url": "https://www.luogu.com.cn/problem/B3902",
+      "sourceSha256": "dad7d2f55d97f7c3d3c1650366ae8a1c05b70940397796f5ccd07409a1bf5f83",
+      "nativeTagIds": [
+        3,
+        108,
+        253
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "排列组合"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B4031",
+      "url": "https://www.luogu.com.cn/problem/B4031",
+      "sourceSha256": "e29de3162fd21306aae2056d7e8c6fbc6a7c67dc07c97fcf8a611d9d68372a53",
+      "nativeTagIds": [
+        61,
+        108,
+        253,
+        357,
+        386
+      ],
+      "nativeTags": [
+        "排列组合",
+        "字符串（入门）"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-CF1740H",
+      "url": "https://www.luogu.com.cn/problem/CF1740H",
+      "sourceSha256": "169ca34fb1f1f074c1653b86be31144168fe207188d93b3726033a64d15ef663",
+      "nativeTagIds": [
+        472
+      ],
+      "nativeTags": [
+        "全局平衡二叉树"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P10517",
+      "url": "https://www.luogu.com.cn/problem/P10517",
+      "sourceSha256": "90bc26ef1bc6e7cdc0d986a1eff85e2b4c704243c0a0785d83d68eedffafafbf",
+      "nativeTagIds": [
+        81,
+        108,
+        337,
+        350
+      ],
+      "nativeTags": [
+        "圆方树"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P11598",
+      "url": "https://www.luogu.com.cn/problem/P11598",
+      "sourceSha256": "566435a65d161c75cb7b9f5cd052164ebb04f452cd1eb0b1687c6de09787a6e4",
+      "nativeTagIds": [
+        3,
+        35,
+        146,
+        436,
+        508
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "动态规划优化",
+        "斜率维护技巧 slope trick"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P12414",
+      "url": "https://www.luogu.com.cn/problem/P12414",
+      "sourceSha256": "0d9f28808b923de0861d8a5cbd9d0fd3748a1f4a8206d4e68ea59fdb05c07c1e",
+      "nativeTagIds": [
+        81,
+        108,
+        182,
+        337,
+        365
+      ],
+      "nativeTags": [
+        "欧拉回路",
+        "Ad-hoc"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P13459",
+      "url": "https://www.luogu.com.cn/problem/P13459",
+      "sourceSha256": "6bab4e87624e814fd3a3bb172faa6e0b44a393320048fce154dbb3bfafc1fd54",
+      "nativeTagIds": [
+        5,
+        25,
+        149,
+        514
+      ],
+      "nativeTags": [
+        "数学",
+        "矩阵加速"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P1713",
+      "url": "https://www.luogu.com.cn/problem/P1713",
+      "sourceSha256": "28a4b4bb1efb1100d0cce3148aa2d93a75c4e836ae5d75f027784aa540a7db06",
+      "nativeTagIds": [
+        108,
+        323
+      ],
+      "nativeTags": [
+        "轮廓线 DP"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P17239",
+      "url": "https://www.luogu.com.cn/problem/P17239",
+      "sourceSha256": "319fb1025009d63674916f941c31ac37aa9a9686823d6d398a3c88f76f2f0461",
+      "nativeTagIds": [
+        108,
+        388
+      ],
+      "nativeTags": [
+        "类欧几里得算法"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P1784",
+      "url": "https://www.luogu.com.cn/problem/P1784",
+      "sourceSha256": "a259cd86b800cdd60103e91ae6e08cc2c171f7f46ff75c8305e09caebd4cbf7b",
+      "nativeTagIds": [
+        4,
+        133
+      ],
+      "nativeTags": [
+        "搜索",
+        "Dancing Links"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P2435",
+      "url": "https://www.luogu.com.cn/problem/P2435",
+      "sourceSha256": "b68ec46d752cbc5912fa2078d40aaa52457087870527bc47665dc797687c7fb7",
+      "nativeTagIds": [
+        3,
+        33,
+        81,
+        323,
+        337
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "轮廓线 DP"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P2713",
+      "url": "https://www.luogu.com.cn/problem/P2713",
+      "sourceSha256": "ff993bc0d44ba8511cd821c0a0882e1ebce4cf77e4ccb1eadaa514087363798b",
+      "nativeTagIds": [
+        215,
+        429
+      ],
+      "nativeTags": [
+        "可并堆"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P2775",
+      "url": "https://www.luogu.com.cn/problem/P2775",
+      "sourceSha256": "256e99e646e5a434f45381dd4f293b07972ecbef882209f0830247038cc9fe05",
+      "nativeTagIds": [
+        108,
+        132,
+        332
+      ],
+      "nativeTags": [
+        "启发式迭代加深搜索 IDA*"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P2900",
+      "url": "https://www.luogu.com.cn/problem/P2900",
+      "sourceSha256": "14f2892d14d413a648fcc27123922be1b5e159fe2e856da1fcf07dff5d4036d4",
+      "nativeTagIds": [
+        3,
+        25,
+        46,
+        150
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "斜率优化"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P3190",
+      "url": "https://www.luogu.com.cn/problem/P3190",
+      "sourceSha256": "6a5d70fed7a611dedeaa16d3a9e97bf79bf4a1c008b8dbaef41d928cb217845b",
+      "nativeTagIds": [
+        3,
+        24,
+        48,
+        93,
+        323
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "轮廓线 DP"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P3886",
+      "url": "https://www.luogu.com.cn/problem/P3886",
+      "sourceSha256": "febac6e4bf76716214be8cb46e2e8e5de8c13ab533b87fb8d9c4006103a11b9b",
+      "nativeTagIds": [
+        3,
+        26,
+        48,
+        98,
+        244,
+        323
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "进制",
+        "轮廓线 DP"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P3936",
+      "url": "https://www.luogu.com.cn/problem/P3936",
+      "sourceSha256": "2aa1bb1121af60d8634afba1c7fbe139e7987bf6539c27b746a27936298fbd62",
+      "nativeTagIds": [
+        4,
+        81,
+        107,
+        135
+      ],
+      "nativeTags": [
+        "搜索",
+        "模拟退火"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P4262",
+      "url": "https://www.luogu.com.cn/problem/P4262",
+      "sourceSha256": "d3fef227d3ff03d85a187107293106c879cc2cdd11d7c0de54ebe5690cc2a78b",
+      "nativeTagIds": [
+        108,
+        323,
+        485
+      ],
+      "nativeTags": [
+        "轮廓线 DP"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P4272",
+      "url": "https://www.luogu.com.cn/problem/P4272",
+      "sourceSha256": "b425b6a4a196ac59450ff96fa05d96b3cfa449fcfdf71931f9f268816e8bd483",
+      "nativeTagIds": [
+        26,
+        460,
+        508
+      ],
+      "nativeTags": [
+        "斜率维护技巧 slope trick"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P4694",
+      "url": "https://www.luogu.com.cn/problem/P4694",
+      "sourceSha256": "e7fa7cba98564ab437952cb3f6de43023713929c8462fe6b1f1ea5b2c38ce028",
+      "nativeTagIds": [
+        30,
+        108,
+        153,
+        373,
+        389
+      ],
+      "nativeTags": [
+        "凸完全单调性（wqs 二分）",
+        "模拟费用流"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P4738",
+      "url": "https://www.luogu.com.cn/problem/P4738",
+      "sourceSha256": "0ab38eb42bc62a1cfd507acb3d4b18750b4f77714bae095ea8b4fafd40a5c1af",
+      "nativeTagIds": [
+        34,
+        335,
+        410,
+        502
+      ],
+      "nativeTags": [
+        "Prüfer 序列"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P5056",
+      "url": "https://www.luogu.com.cn/problem/P5056",
+      "sourceSha256": "ed9c14dc652885eea1848f6bca1e72c7fa5739339efe817c093be578c60ed889",
+      "nativeTagIds": [
+        323,
+        523
+      ],
+      "nativeTags": [
+        "轮廓线 DP"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P5074",
+      "url": "https://www.luogu.com.cn/problem/P5074",
+      "sourceSha256": "b0f27aabf38281bf5e718f771625999ec598f9fd2e92b00bcb424e9a2c0952c7",
+      "nativeTagIds": [
+        35,
+        323
+      ],
+      "nativeTags": [
+        "轮廓线 DP"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P5170",
+      "url": "https://www.luogu.com.cn/problem/P5170",
+      "sourceSha256": "519df792a6d205bea17fb05334ce8e22a8fa178af9242a0def64c92ef93fb60e",
+      "nativeTagIds": [
+        107,
+        388,
+        523
+      ],
+      "nativeTags": [
+        "类欧几里得算法"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P5171",
+      "url": "https://www.luogu.com.cn/problem/P5171",
+      "sourceSha256": "1bdd984fb132ec5b2184db08c43004d6f76445584df6e3ad982db1996e09267a",
+      "nativeTagIds": [
+        388
+      ],
+      "nativeTags": [
+        "类欧几里得算法"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P5172",
+      "url": "https://www.luogu.com.cn/problem/P5172",
+      "sourceSha256": "38a3117cca4e60630141ec4ff861122df6948760c10a2663d076edb75bad0054",
+      "nativeTagIds": [
+        31,
+        331,
+        388
+      ],
+      "nativeTags": [
+        "类欧几里得算法"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P5179",
+      "url": "https://www.luogu.com.cn/problem/P5179",
+      "sourceSha256": "fcb62faa1888d29c49d6c507cdfdf898d7836efabc64e7a058a120039c44f5da",
+      "nativeTagIds": [
+        388,
+        423
+      ],
+      "nativeTags": [
+        "类欧几里得算法",
+        "Stern-Brocot 树"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P5347",
+      "url": "https://www.luogu.com.cn/problem/P5347",
+      "sourceSha256": "0e886058ee2870a3f5961463389299ed255b9ec00c56abada8f2b524277687f1",
+      "nativeTagIds": [
+        3,
+        323
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "轮廓线 DP"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P5504",
+      "url": "https://www.luogu.com.cn/problem/P5504",
+      "sourceSha256": "e2c39fbcd952c9878cce616ded22f60f7cfe0d0cd8804fc9d504932e6b38d4f6",
+      "nativeTagIds": [
+        3,
+        28,
+        48,
+        91,
+        146,
+        150
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "动态规划优化",
+        "斜率优化"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P5544",
+      "url": "https://www.luogu.com.cn/problem/P5544",
+      "sourceSha256": "acafc2e5b2311957ca8d441d3b47b3e7edcf5cb7bf1bc5c0aaed3aa3a4c3a9d9",
+      "nativeTagIds": [
+        33,
+        48,
+        91,
+        135
+      ],
+      "nativeTags": [
+        "模拟退火"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P5896",
+      "url": "https://www.luogu.com.cn/problem/P5896",
+      "sourceSha256": "076f2e9a0812fe635ab2dd08568bea61779ecf1f56b282b77e89451218525f51",
+      "nativeTagIds": [
+        3,
+        33,
+        102,
+        107,
+        150,
+        153
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "斜率优化",
+        "凸完全单调性（wqs 二分）"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P6164",
+      "url": "https://www.luogu.com.cn/problem/P6164",
+      "sourceSha256": "7832b12139dbff83cdb5a2ccd07092da26334e377aaef18aaedb16b3e3ea62b1",
+      "nativeTagIds": [
+        108,
+        496,
+        523
+      ],
+      "nativeTags": [
+        "后缀平衡树"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P6475",
+      "url": "https://www.luogu.com.cn/problem/P6475",
+      "sourceSha256": "7f14590ee264c0c60cb67eef9809be9d4916bd221ec868b64b9d9761cd161ab2",
+      "nativeTagIds": [
+        37,
+        253,
+        347
+      ],
+      "nativeTags": [
+        "排列组合"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P6773",
+      "url": "https://www.luogu.com.cn/problem/P6773",
+      "sourceSha256": "51ba25bdd85b717a0aa15cc44b9134b49912960af08bdd89545bbd6082bce6b1",
+      "nativeTagIds": [
+        3,
+        37,
+        77,
+        108,
+        146,
+        379
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "动态规划优化",
+        "线段树合并"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P7771",
+      "url": "https://www.luogu.com.cn/problem/P7771",
+      "sourceSha256": "cf9f4820855f906e9de7e302d3b84996e16c24672a815060bfab6b516ef9e72b",
+      "nativeTagIds": [
+        182,
+        523
+      ],
+      "nativeTags": [
+        "欧拉回路"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P7825",
+      "url": "https://www.luogu.com.cn/problem/P7825",
+      "sourceSha256": "9435e93f9a4da52f50b75ba0f1859e2b4a106a77a7e6ed9de018ff0f7c4016d6",
+      "nativeTagIds": [
+        108,
+        232
+      ],
+      "nativeTags": [
+        "树套树"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P7961",
+      "url": "https://www.luogu.com.cn/problem/P7961",
+      "sourceSha256": "a24b12d2d89aee6f63929f8558ea06b410a893fe4ecd7b80514e969a18ee9879",
+      "nativeTagIds": [
+        3,
+        58,
+        83,
+        108,
+        253
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "排列组合"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P7962",
+      "url": "https://www.luogu.com.cn/problem/P7962",
+      "sourceSha256": "9fa778a740441472d7ee4a84cd74914adfa6adb00df46b0f8a68b8bdfedd6406",
+      "nativeTagIds": [
+        3,
+        58,
+        83,
+        108,
+        135,
+        146
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "模拟退火",
+        "动态规划优化"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P8456",
+      "url": "https://www.luogu.com.cn/problem/P8456",
+      "sourceSha256": "016870b4f8e05ecc4afee42d18c822e3a2a7f525ab3fdd1e829673c97336109a",
+      "nativeTagIds": [
+        81,
+        108,
+        337,
+        350
+      ],
+      "nativeTags": [
+        "圆方树"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P8944",
+      "url": "https://www.luogu.com.cn/problem/P8944",
+      "sourceSha256": "ba775b0fd6157df98eeb9065e729681aeeccc3042d47f520d20c271b09a476e9",
+      "nativeTagIds": [
+        3,
+        5,
+        60,
+        81,
+        108,
+        149
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "数学",
+        "矩阵加速"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-P9510",
+      "url": "https://www.luogu.com.cn/problem/P9510",
+      "sourceSha256": "a944d35d8d68d48b8021e479d216cc0bffb4f62557c8f9766350e7d06a1e2bf5",
+      "nativeTagIds": [
+        5,
+        108,
+        149,
+        260
+      ],
+      "nativeTags": [
+        "数学",
+        "矩阵加速",
+        "Fibonacci 数列"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-T138426",
+      "url": "https://www.luogu.com.cn/problem/T138426",
+      "sourceSha256": "cdfcb4f4720d0c5145a5b4246f60bd0e8a4d86954803cd00094651d81c85b234",
+      "nativeTagIds": [
+        323
+      ],
+      "nativeTags": [
+        "轮廓线 DP"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-UVA10054",
+      "url": "https://www.luogu.com.cn/problem/UVA10054",
+      "sourceSha256": "be0784fd303a4a6c550a0671bf40cac70a70328ce7d9406ad40ccea740448592",
+      "nativeTagIds": [
+        182
+      ],
+      "nativeTags": [
+        "欧拉回路"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-UVA10129",
+      "url": "https://www.luogu.com.cn/problem/UVA10129",
+      "sourceSha256": "f9006874edc04a53a094abbd170bc9318bf111aaf649a3cbfc2f1c065a009927",
+      "nativeTagIds": [
+        182
+      ],
+      "nativeTags": [
+        "欧拉回路"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-UVA11270",
+      "url": "https://www.luogu.com.cn/problem/UVA11270",
+      "sourceSha256": "195f070740a8e8441431ef13cb7d11d1814ff1ee2f5811ee9f4acdd4a41e328d",
+      "nativeTagIds": [
+        3,
+        244,
+        323
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "进制",
+        "轮廓线 DP"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-UVA1214",
+      "url": "https://www.luogu.com.cn/problem/UVA1214",
+      "sourceSha256": "cdca7606775b1677af76ad28a5322783c30e5786082bd75677e8e9a0d5f0aa3b",
+      "nativeTagIds": [
+        3,
+        323
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "轮廓线 DP"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-UVA1309",
+      "url": "https://www.luogu.com.cn/problem/UVA1309",
+      "sourceSha256": "0ff9b876fd24f13a33cb83e866bd7d3058ff5f33a8704aeee31c8c7eb980ee2b",
+      "nativeTagIds": [
+        3,
+        133
+      ],
+      "nativeTags": [
+        "动态规划 DP",
+        "Dancing Links"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-UVA1464",
+      "url": "https://www.luogu.com.cn/problem/UVA1464",
+      "sourceSha256": "6f1f14561fd2e52430202cd2387c53822871e24e18b5568427828c86056c6848",
+      "nativeTagIds": [
+        350
+      ],
+      "nativeTags": [
+        "圆方树"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-UVA1603",
+      "url": "https://www.luogu.com.cn/problem/UVA1603",
+      "sourceSha256": "363458eef9177fe9817eb7a2986b6dc1a68a0f20a73a3bef07ed85d9a8465c88",
+      "nativeTagIds": [
+        4,
+        132
+      ],
+      "nativeTags": [
+        "搜索",
+        "启发式迭代加深搜索 IDA*"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B2142",
+      "url": "https://www.luogu.com.cn/problem/B2142",
+      "sourceSha256": "41dca1f87b60f993336b9e36d70b810d99ced75c426c08478cde42d00f25a02b",
+      "nativeTagIds": [
+        359
+      ],
+      "nativeTags": [
+        "函数与递归"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3648",
+      "url": "https://www.luogu.com.cn/problem/B3648",
+      "sourceSha256": "97f335e95fdc2a9c385e3c3853d747909d13a894491488e36e2690581b346f7c",
+      "nativeTagIds": [
+        59,
+        353,
+        386
+      ],
+      "nativeTags": [
+        "顺序结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3649",
+      "url": "https://www.luogu.com.cn/problem/B3649",
+      "sourceSha256": "e8bb68f188f5910d07d55653e2ee148be72d8ec61a67655d4a4825c65b2ea320",
+      "nativeTagIds": [
+        59,
+        354,
+        386
+      ],
+      "nativeTags": [
+        "分支结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3650",
+      "url": "https://www.luogu.com.cn/problem/B3650",
+      "sourceSha256": "d9631cfc1cada65154dfdd040f14680d9626d71ef61a9e5cbd6103a0f2d9e797",
+      "nativeTagIds": [
+        59,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3652",
+      "url": "https://www.luogu.com.cn/problem/B3652",
+      "sourceSha256": "17181a2e3b6a08c10af0e0d3bc583a239ab7981f3b6a37d6785ae1df8e65d362",
+      "nativeTagIds": [
+        59,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3653",
+      "url": "https://www.luogu.com.cn/problem/B3653",
+      "sourceSha256": "a420072b3e13165235d834469ce5cf552a325d1358df35e772020cb10e52d310",
+      "nativeTagIds": [
+        59,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3654",
+      "url": "https://www.luogu.com.cn/problem/B3654",
+      "sourceSha256": "0638ba05cb8ecaaa8d3ebfd6906e6ab6bc8e07090ccf8137e8ab9bb4b2d33afc",
+      "nativeTagIds": [
+        59,
+        357,
+        386
+      ],
+      "nativeTags": [
+        "字符串（入门）"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3657",
+      "url": "https://www.luogu.com.cn/problem/B3657",
+      "sourceSha256": "59d014647ee718ff6e73487b69fe4058b7b542097fc3af41c2fcbb5df5fe2466",
+      "nativeTagIds": [
+        59,
+        108,
+        354,
+        386
+      ],
+      "nativeTags": [
+        "分支结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3658",
+      "url": "https://www.luogu.com.cn/problem/B3658",
+      "sourceSha256": "06178dc219897bd7f77aef26bd8bd9f7f3688de028dfa8b66e5471be0fadba35",
+      "nativeTagIds": [
+        5,
+        59,
+        108,
+        353,
+        386
+      ],
+      "nativeTags": [
+        "数学",
+        "顺序结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3659",
+      "url": "https://www.luogu.com.cn/problem/B3659",
+      "sourceSha256": "0c07c7d1c7e9406d0e8a9db7e29a860daa6b3e66b996bd401a61ba5c78a01ce3",
+      "nativeTagIds": [
+        59,
+        108,
+        354,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "分支结构",
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3660",
+      "url": "https://www.luogu.com.cn/problem/B3660",
+      "sourceSha256": "1b3e2df8a743374456529fa50587da7b1c753aade120cc82519e6899d3dd3265",
+      "nativeTagIds": [
+        59,
+        108,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3661",
+      "url": "https://www.luogu.com.cn/problem/B3661",
+      "sourceSha256": "3941ff1e9842eab72f0f660331a14c228d5fb4dd9f5e51a55b650cc21d38befb",
+      "nativeTagIds": [
+        59,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3662",
+      "url": "https://www.luogu.com.cn/problem/B3662",
+      "sourceSha256": "b9452b64fbeee918fbe13e1aa34ec13f00ad47527cac7ac89673cc90beba3df9",
+      "nativeTagIds": [
+        59,
+        107,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3663",
+      "url": "https://www.luogu.com.cn/problem/B3663",
+      "sourceSha256": "32224a8d035ed07d57a957cc119d079da9fd1f25eb8ebb28fb736d8e7960d405",
+      "nativeTagIds": [
+        59,
+        357,
+        386
+      ],
+      "nativeTags": [
+        "字符串（入门）"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3668",
+      "url": "https://www.luogu.com.cn/problem/B3668",
+      "sourceSha256": "68f6496c2e275db4b92c68cf4b02f046146d82d22a2ab25f0d066a895669cfd6",
+      "nativeTagIds": [
+        59,
+        108,
+        354,
+        386
+      ],
+      "nativeTags": [
+        "分支结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3669",
+      "url": "https://www.luogu.com.cn/problem/B3669",
+      "sourceSha256": "ea1ce33aae0136e7c35dbd282d520034aa9bfe2a2162d61ab402f4a323cedb3a",
+      "nativeTagIds": [
+        59,
+        108,
+        354,
+        386
+      ],
+      "nativeTags": [
+        "分支结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3670",
+      "url": "https://www.luogu.com.cn/problem/B3670",
+      "sourceSha256": "68d1d90fce9cab2e6e1550d649cbbc2b3a4bbcbbeaab9a8152e69d9a6731cfe3",
+      "nativeTagIds": [
+        59,
+        108,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3671",
+      "url": "https://www.luogu.com.cn/problem/B3671",
+      "sourceSha256": "2ac875df78e56f407eb01ae6f13df22780d2567c8b3e97f4b53cc81e05675b10",
+      "nativeTagIds": [
+        59,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3672",
+      "url": "https://www.luogu.com.cn/problem/B3672",
+      "sourceSha256": "fe818b18409ed4c57eae1f0275152823da212f9b44f6992a85c4242047936f96",
+      "nativeTagIds": [
+        59,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3673",
+      "url": "https://www.luogu.com.cn/problem/B3673",
+      "sourceSha256": "3b312ae21755a58beb586ba82afb1bffd6f9516cc4961613d0c011e3efa4a397",
+      "nativeTagIds": [
+        59,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3674",
+      "url": "https://www.luogu.com.cn/problem/B3674",
+      "sourceSha256": "cc01e231d2166ff1499d3ce753b875053fee9350450112915b01a020f40b7d77",
+      "nativeTagIds": [
+        59,
+        108,
+        357,
+        386
+      ],
+      "nativeTags": [
+        "字符串（入门）"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3676",
+      "url": "https://www.luogu.com.cn/problem/B3676",
+      "sourceSha256": "63d2a488c8ff4a3edee26fa96aedba8f723315061d6c520849f35eda5f0fd479",
+      "nativeTagIds": [
+        59,
+        108,
+        354,
+        386
+      ],
+      "nativeTags": [
+        "分支结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3678",
+      "url": "https://www.luogu.com.cn/problem/B3678",
+      "sourceSha256": "edf06a28d0d8cee2739ae3128e3844d1fc2937883c356c0ac03f87077c8d80f6",
+      "nativeTagIds": [
+        59,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3679",
+      "url": "https://www.luogu.com.cn/problem/B3679",
+      "sourceSha256": "c8f5f5818abb92082877ef931dcc15a1c434e3676c5d141343f6158dc16f0155",
+      "nativeTagIds": [
+        59,
+        358,
+        386
+      ],
+      "nativeTags": [
+        "结构体"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3685",
+      "url": "https://www.luogu.com.cn/problem/B3685",
+      "sourceSha256": "d58832d92f8170a84fb7a8518b5be41abefc4499847a76841150b9e87dc8cbb3",
+      "nativeTagIds": [
+        59,
+        108,
+        353,
+        386
+      ],
+      "nativeTags": [
+        "顺序结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3686",
+      "url": "https://www.luogu.com.cn/problem/B3686",
+      "sourceSha256": "b3510b5fd424fd8b4f235421cfe0f3af4545d3e1f8588c0d64dd8c78bb498953",
+      "nativeTagIds": [
+        59,
+        108,
+        354,
+        386
+      ],
+      "nativeTags": [
+        "分支结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3687",
+      "url": "https://www.luogu.com.cn/problem/B3687",
+      "sourceSha256": "8da0bbb4155d6bdfcff1d4fb601023f8ada8b46d78a58b3be5ceff1c3edd3d65",
+      "nativeTagIds": [
+        59,
+        108,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3688",
+      "url": "https://www.luogu.com.cn/problem/B3688",
+      "sourceSha256": "63d4e29077eecd49680a70d543c8fd96549ac55ac38c741b617eb3fb0a0aa637",
+      "nativeTagIds": [
+        59,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3689",
+      "url": "https://www.luogu.com.cn/problem/B3689",
+      "sourceSha256": "d2890dd13e5979fb56285e0fabc6588423a47622d1bf315f7c8f51ef9fe5c76b",
+      "nativeTagIds": [
+        59,
+        108,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3690",
+      "url": "https://www.luogu.com.cn/problem/B3690",
+      "sourceSha256": "f47e83d33d7cea50112b33e50838f2f07f5f38ec458c3834374138a961d3082c",
+      "nativeTagIds": [
+        59,
+        107,
+        108,
+        354,
+        355,
+        357,
+        386
+      ],
+      "nativeTags": [
+        "分支结构",
+        "循环结构",
+        "字符串（入门）"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3696",
+      "url": "https://www.luogu.com.cn/problem/B3696",
+      "sourceSha256": "791be4660cd98ea597ac85e383627f043b74bdfc8fb6d0a7461ea326d4d6fcac",
+      "nativeTagIds": [
+        60,
+        108,
+        353,
+        386
+      ],
+      "nativeTags": [
+        "顺序结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3697",
+      "url": "https://www.luogu.com.cn/problem/B3697",
+      "sourceSha256": "ee64651bfcb31f9768844ebca97a6a737e62920b7941a192f34bdb9847f0c32b",
+      "nativeTagIds": [
+        60,
+        108,
+        354,
+        386
+      ],
+      "nativeTags": [
+        "分支结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3698",
+      "url": "https://www.luogu.com.cn/problem/B3698",
+      "sourceSha256": "1acb56f43a054298781b913bcb3060d3da2e03d66c73c861b452d881ec63a414",
+      "nativeTagIds": [
+        60,
+        108,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3699",
+      "url": "https://www.luogu.com.cn/problem/B3699",
+      "sourceSha256": "760ff150c1f7213af2fdb51c472709fd0d9c1d2c3f1f3bc6abe63691c98bf83b",
+      "nativeTagIds": [
+        60,
+        108,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3700",
+      "url": "https://www.luogu.com.cn/problem/B3700",
+      "sourceSha256": "5d02cad6811d77a306a9cf3d3fc743dbd4eebb58862403a12eec21fc6957b7b9",
+      "nativeTagIds": [
+        60,
+        108,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3701",
+      "url": "https://www.luogu.com.cn/problem/B3701",
+      "sourceSha256": "5ed9baf3e88b4af3eae34a3998a50d98c5703e80e12fe4461cfada183622f65e",
+      "nativeTagIds": [
+        60,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3702",
+      "url": "https://www.luogu.com.cn/problem/B3702",
+      "sourceSha256": "3016eb9199106b78cdfcecca1d225fd72db56fb466037fcd5d313b939163d89a",
+      "nativeTagIds": [
+        60,
+        108,
+        356,
+        358,
+        386
+      ],
+      "nativeTags": [
+        "数组",
+        "结构体"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3703",
+      "url": "https://www.luogu.com.cn/problem/B3703",
+      "sourceSha256": "34dc7a77d5c85ee7c3b08bb19253efe1c762a7397d5e7577800ebf585b7b4cc7",
+      "nativeTagIds": [
+        60,
+        108,
+        357,
+        386
+      ],
+      "nativeTags": [
+        "字符串（入门）"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3706",
+      "url": "https://www.luogu.com.cn/problem/B3706",
+      "sourceSha256": "fcdabceec580a340e1bb2863569d79b1ca48d90529c253934dd66c27fedf488d",
+      "nativeTagIds": [
+        60,
+        108,
+        353,
+        386
+      ],
+      "nativeTags": [
+        "顺序结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3707",
+      "url": "https://www.luogu.com.cn/problem/B3707",
+      "sourceSha256": "d57c5e1a835712b6bd4dce71a9bca9ace79bae3fbbd2f1a00d28915400758d4b",
+      "nativeTagIds": [
+        60,
+        108,
+        354,
+        386
+      ],
+      "nativeTags": [
+        "分支结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3708",
+      "url": "https://www.luogu.com.cn/problem/B3708",
+      "sourceSha256": "a234f7c028e67563fd396e9f9b01c02eb883d2bd3f6d1cf00fe7301f8e60a48d",
+      "nativeTagIds": [
+        60,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3709",
+      "url": "https://www.luogu.com.cn/problem/B3709",
+      "sourceSha256": "336fce349ca55b8d5ad4ef3df98c0df60669b6d1739bd24bc78de258e4330429",
+      "nativeTagIds": [
+        60,
+        107,
+        108,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3711",
+      "url": "https://www.luogu.com.cn/problem/B3711",
+      "sourceSha256": "df5a7438a37fee166c5cf344b98ad1f6360ee15dae0df7aa161fe3a7674c6f8d",
+      "nativeTagIds": [
+        60,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3712",
+      "url": "https://www.luogu.com.cn/problem/B3712",
+      "sourceSha256": "54b96f83f3fcc72ad2695a05fcef42ee1b390fe87babe79522298b739619c6cd",
+      "nativeTagIds": [
+        60,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3713",
+      "url": "https://www.luogu.com.cn/problem/B3713",
+      "sourceSha256": "8e14d4074fc786453f4b5dfb24b4c286023838f87ebda3466867e49f8973d874",
+      "nativeTagIds": [
+        60,
+        108,
+        357,
+        386
+      ],
+      "nativeTags": [
+        "字符串（入门）"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3719",
+      "url": "https://www.luogu.com.cn/problem/B3719",
+      "sourceSha256": "4c6084b5214928bf2c01f5496d45e05b0a2af2963b8190dff1d494a1895ad09b",
+      "nativeTagIds": [
+        60,
+        108,
+        354,
+        386
+      ],
+      "nativeTags": [
+        "分支结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3720",
+      "url": "https://www.luogu.com.cn/problem/B3720",
+      "sourceSha256": "8d9e28bc59f82bfc66482a0c016424bea0d6ff87e9f51d8dc9415f86bfa4a221",
+      "nativeTagIds": [
+        60,
+        108,
+        354,
+        386
+      ],
+      "nativeTags": [
+        "分支结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3721",
+      "url": "https://www.luogu.com.cn/problem/B3721",
+      "sourceSha256": "e1106cd785a8f61e0d44b1f1552e2b20b25c13d7b73650c338bd51134cfab060",
+      "nativeTagIds": [
+        60,
+        108,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3722",
+      "url": "https://www.luogu.com.cn/problem/B3722",
+      "sourceSha256": "bdd21426c534c97f589181cd587746927dff887f95e7d4dc6236d0b75095e38c",
+      "nativeTagIds": [
+        60,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3723",
+      "url": "https://www.luogu.com.cn/problem/B3723",
+      "sourceSha256": "29ee1d6c325a9cad37bd8bfed9605c1cc8ec5e758542e2eb2fc020db9871f779",
+      "nativeTagIds": [
+        60,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3724",
+      "url": "https://www.luogu.com.cn/problem/B3724",
+      "sourceSha256": "1fd3b589ef0d698ec073aa5ef1d7d6bddf9bc7b6af7744cdfd309aece63ce17a",
+      "nativeTagIds": [
+        60,
+        108,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3725",
+      "url": "https://www.luogu.com.cn/problem/B3725",
+      "sourceSha256": "d727e0c84dfc1c8b0f71d3e901cb5896e14df8ba37213733759f08b2356d4608",
+      "nativeTagIds": [
+        60,
+        108,
+        359,
+        386
+      ],
+      "nativeTags": [
+        "函数与递归"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3726",
+      "url": "https://www.luogu.com.cn/problem/B3726",
+      "sourceSha256": "d7ab3a7db2725695300adf442ed9697e96c3aa7017a273229015e46c8a62b7f8",
+      "nativeTagIds": [
+        60,
+        108,
+        357,
+        386
+      ],
+      "nativeTags": [
+        "字符串（入门）"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3741",
+      "url": "https://www.luogu.com.cn/problem/B3741",
+      "sourceSha256": "d1f66909aeb03d903c24a400d03ad0589e8a30bd419d162580ab134d70b8f31a",
+      "nativeTagIds": [
+        60,
+        108,
+        354,
+        386
+      ],
+      "nativeTags": [
+        "分支结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3742",
+      "url": "https://www.luogu.com.cn/problem/B3742",
+      "sourceSha256": "d0b257d92f261ffbaa5e654899b49bf293b552210905eb0627f0bec057537aa9",
+      "nativeTagIds": [
+        60,
+        108,
+        354,
+        386
+      ],
+      "nativeTags": [
+        "分支结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3743",
+      "url": "https://www.luogu.com.cn/problem/B3743",
+      "sourceSha256": "a381c131a008e0c4878867c01e659f485c64a1b2acddeb3f753f0b1c90272bb1",
+      "nativeTagIds": [
+        60,
+        108,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3744",
+      "url": "https://www.luogu.com.cn/problem/B3744",
+      "sourceSha256": "5088e94fb10fd57100c9b9fd9b60b3be08b6dd530b82102d0105e51eda89f8bb",
+      "nativeTagIds": [
+        60,
+        108,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3745",
+      "url": "https://www.luogu.com.cn/problem/B3745",
+      "sourceSha256": "e424e8f82a3dd3c411c4b26b2887a86ade0ccd8c84dd05908c012f9442c15223",
+      "nativeTagIds": [
+        60,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3746",
+      "url": "https://www.luogu.com.cn/problem/B3746",
+      "sourceSha256": "5ce0797b5266a60f04d504f36f3153ac5e1eef2174f934d2ff01da7dbcb5861f",
+      "nativeTagIds": [
+        60,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3748",
+      "url": "https://www.luogu.com.cn/problem/B3748",
+      "sourceSha256": "a33d717fb80a142d5c1021aa8b3bfcb9ed601d3edba11adbd9970ecb27c1074f",
+      "nativeTagIds": [
+        60,
+        108,
+        357,
+        386
+      ],
+      "nativeTags": [
+        "字符串（入门）"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3762",
+      "url": "https://www.luogu.com.cn/problem/B3762",
+      "sourceSha256": "34059c9694baebf21822b4b621526768d3e5f3bee3cefee599531fcce26947a7",
+      "nativeTagIds": [
+        60,
+        108,
+        353,
+        386
+      ],
+      "nativeTags": [
+        "顺序结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3763",
+      "url": "https://www.luogu.com.cn/problem/B3763",
+      "sourceSha256": "bebc288926a670d05d685d878492eaa198a43e0a6d8fcdb9f36090e32f0bc34f",
+      "nativeTagIds": [
+        60,
+        108,
+        354,
+        386
+      ],
+      "nativeTags": [
+        "分支结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3764",
+      "url": "https://www.luogu.com.cn/problem/B3764",
+      "sourceSha256": "3ed33efd0ad69ca891148ea928637395d9f9280ad9fd34ce7b128bb20b30e962",
+      "nativeTagIds": [
+        60,
+        108,
+        355,
+        386
+      ],
+      "nativeTags": [
+        "循环结构"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3765",
+      "url": "https://www.luogu.com.cn/problem/B3765",
+      "sourceSha256": "f98a12acefb20aae9c30efdee2a9ead3bdbf70f8f80d521c49bc16433b9c4b9d",
+      "nativeTagIds": [
+        60,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    },
+    {
+      "id": "luogu-training-B3766",
+      "url": "https://www.luogu.com.cn/problem/B3766",
+      "sourceSha256": "093e4f7ba02ed1ac7511a197d41482505b68f5b4f1b74c1671dda73840b1c25b",
+      "nativeTagIds": [
+        60,
+        108,
+        356,
+        386
+      ],
+      "nativeTags": [
+        "数组"
+      ],
+      "reason": "No already registered specific leaf; separate ontology/statement review required. Broad math/DP, Ad-hoc or a generic source subject are not guessed into algorithms."
+    }
+  ],
+  "cleanupInspection": {
+    "checkedBeforeMetadataUpdate": true,
+    "canonicalDescriptorsBefore": 6277,
+    "duplicateAssetDescriptors": 0,
+    "obsoleteTrackedContentEligibleForRemoval": [],
+    "existingSourceArchivesAndReviewHistoryStillNeeded": true,
+    "ignoredRejectedCacheCleanupNotRetried": true,
+    "privateRecordsReadOrWritten": false
+  },
+  "sourceBoundary": "150 normal anonymous native content-only GETs, 150 HTTP 200, no login/challenge/rate-limit evasion or retries.",
+  "learningAndHistory": "Classification source review only. No mastery, prior pass, rating, draft or user history changes."
+}

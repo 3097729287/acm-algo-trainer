@@ -187148,147 +187148,264 @@
     "metadataVersion": "1.0.18"
   },
   "https://codeforces.com/gym/105544/problem/A": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 800,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      800,
+      1000
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "最多1000位十进制数，三位一组线性扫描、交替符号和取模；不需高精度除法或额外数据结构。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/B": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 1100,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      900,
+      1300
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "先建立循环小数的分数表达式，再处理前导零与整数gcd约分；a+b<=10，64位整数足够，核心为分数建模和边界。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/C": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 1900,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      1700,
+      2200
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "需将区间翻转与全局计分拆开；n,m均到10^6，懒标记维护正常灯/亮灯数，区间切换O(log n)、评分O(1)，总分用64位。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/D": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 900,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      800,
+      1100
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "最多100×100网格，逐个感染座位更新八邻格并取最大值，保留感染/空位的输出符号；主要是边界及状态模拟。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/E": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 1900,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      1600,
+      2200
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "关键在把只能水平平移且左右顺序受约束的几何模型改写为DAG差值下界；最长路径给最小可行宽度，处理开区间重叠与间距。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/F": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 1300,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      1100,
+      1600
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "需要相邻交换论证获得耗时/日罚金的比较器，而非直接按耗时、罚金或乘积排序；还需稳定处理同比率的字典序，O(N log N)。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/G": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 2800,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "LOW",
+    "difficultyBand": [
+      2400,
+      3200
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "须在受限可放置盒子中构造至多7T/4且每盒至多一大件的分配，或输出满足全部对偶不等式的不可行证书；官方仅给局部搜索方向，区间保留较大不确定性。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/H": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 1200,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      1000,
+      1400
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "识别每家仅选一次的0/1背包，按容量逆序更新，N<=100、C<=1000，O(NC)；输入的N由给出的收益/金额列表确定。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/I": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 2700,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "LOW",
+    "difficultyBand": [
+      2300,
+      3100
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "需要把大量给定三角形的图转为五环构造，理解存在性保证与随机化检测的期望复杂度；n<=10^4、三角形数约n^1.5，朴素三角形三重枚举不可行。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/J": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 1600,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      1400,
+      1900
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "除DAG最长路径外还要判断整条最长路径是否唯一、恢复唯一序列，并正确读逗号分隔工序时长与多组EOF输入；|V|<=50、|E|<=100。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/K": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 2500,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      2200,
+      2900
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "困难在刚性点判据与可达性充分条件，随后用化学邻居计数和队列线性剥离，再以DFS比较每个剩余连通块；不是普通树形DP题。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/L": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 2200,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      1900,
+      2500
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "须推导避免子集和9时最多组数的分奇偶结论，结合小范围分拆枚举处理N<29；输入N到10^15，不能对N直接做DP或枚举。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/M": {
-    "difficulty": null,
-    "difficultySource": "Codeforces Gym 未提供官方 rating",
+    "difficulty": 900,
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
     "difficultyEstimated": true,
-    "difficultyConfidence": "UNKNOWN",
-    "difficultyBand": null,
-    "difficultyEvidence": null,
-    "difficultyCheckedAt": null,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyBand": [
+      800,
+      1100
+    ],
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "原始题解资料 SHA-256: b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "按(优先级,输入顺序)稳定输出任务ID即可，官方链表插入O(N^2)或等价稳定排序均满足N<=100；不按任务ID处理平局。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ],
+    "difficultyCheckedAt": "2026-11-08T21:12:26.155763+00:00",
     "nativeDifficulty": null,
-    "metadataVersion": "1.0.18"
+    "metadataVersion": "1.0.18",
+    "difficultyReviewRevision": "20261109-xcpc-taoyuan-source-reviewed-metadata"
   },
   "https://codeforces.com/gym/105544/problem/V": {
     "difficulty": null,
@@ -348725,6 +348842,1140 @@
       "AtCoder Problems 非官方统计模型；不是 AtCoder 官方评级。",
       "原始数据 SHA-256: 4798a4c215a77e4d16e68e9b89f2886a4ec42356934fbb1990c28ab9ff9e694e",
       "CF-EQ-v1.0 经验训练映射 raw=0.67*2111+650=2064.37 → 2100（非官方统计等价；带 = 代表值±100）"
+    ]
+  },
+  "https://codeforces.com/gym/104270/problem/A": {
+    "difficulty": 3300,
+    "difficultyBand": [
+      3000,
+      3700
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:24:46.064072+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://sua.ac/wiki/2018-icpc-qingdao/a/#_2",
+      "原始题解资料 SHA-256: cff4392f0841b28efb0f34c2c910308f09ae134e9f3ae91bbe4c13349f2af7f7",
+      "需推导分部求和的递归缩域，处理30次多项式插值、预处理与40位整数；解题瓶颈是多项式变换和数值边界，不是单一数论大类。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/104270/problem/B": {
+    "difficulty": 2600,
+    "difficultyBand": [
+      2300,
+      2900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:24:46.064072+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://sua.ac/wiki/2018-icpc-qingdao/b/#_2",
+      "原始题解资料 SHA-256: b2daa41f4682f1ee0d8aa7dd87c528a1b226515ed8bdd46c9b7fefd189e70545",
+      "除桥和边双缩点外，还要同步维护子树与补集众数贡献，按频次计数支持删除/恢复；n,m均到10^5，需要完整图论建模和启发式合并实现。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/104270/problem/C": {
+    "difficulty": 1600,
+    "difficultyBand": [
+      1300,
+      1900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:24:46.064072+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://sua.ac/wiki/2018-icpc-qingdao/c/#_2",
+      "原始题解资料 SHA-256: 5af81c62eadc2c3e8e57c21453b791e35abfc14d0e2ccecc3efd002c8140fab5",
+      "核心是把两次有序区间翻转改写为区间对称差，证明0/1/2段的计数而非暴力枚举区间；n可到10^6。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/104270/problem/D": {
+    "difficulty": 1800,
+    "difficultyBand": [
+      1600,
+      2100
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:24:46.064072+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://sua.ac/wiki/2018-icpc-qingdao/d/#_2",
+      "原始题解资料 SHA-256: 40252155111219d6f72bb8ff968c70436fedcd2177463c03e723c31be9a5fa45",
+      "需证明十进制乘积的唯一分段，依次恢复两个长字符串并校验全部乘积、长度和前导位；约束排除二维暴力乘法存储。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/104270/problem/E": {
+    "difficulty": 1900,
+    "difficultyBand": [
+      1700,
+      2200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:24:46.064072+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://sua.ac/wiki/2018-icpc-qingdao/e/#_2",
+      "原始题解资料 SHA-256: 78065d7b5c96b367f8f1efcd3b2fe46a6a411af90dcd2c553cb1b0537488c821",
+      "在单调答案上设计从左到右最少步数的往返贪心检查，m到10^12要控制64位乘法与提前截断，不能逐步模拟。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/104270/problem/F": {
+    "difficulty": 2100,
+    "difficultyBand": [
+      1800,
+      2400
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:24:46.064072+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://sua.ac/wiki/2018-icpc-qingdao/f/#_2",
+      "原始题解资料 SHA-256: 0efb6edb2d973b19ae1a30cdc5ae23310cd956c7c046a4de114c8ac5c02f35df",
+      "代码只需lowbit和异或，但要理解多轮匹配构造的限制及其充要条件；难度来自构造与证明，不按输出规模或通过率估计。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/104270/problem/G": {
+    "difficulty": 2700,
+    "difficultyBand": [
+      2400,
+      3000
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:24:46.064072+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://sua.ac/wiki/2018-icpc-qingdao/g/#_2",
+      "原始题解资料 SHA-256: b2112b2ebd5e157c0a4170f52c63dc4751dd493bef39062e5596b17e7b096d6b",
+      "须把指数容斥压到合法区间数与奇偶两个维度；n<=100、m<=10^9，状态设计、原禁点符号校正及快速幂汇总均是实质步骤。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/104270/problem/H": {
+    "difficulty": 3400,
+    "difficultyBand": [
+      3000,
+      3800
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:24:46.064072+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://sua.ac/wiki/2018-icpc-qingdao/h/#_2",
+      "原始题解资料 SHA-256: b78a7bd040e251c0038bc47a5499e534f65b6c0cecded421d6ca6864d61c9a6b",
+      "需要严格分离m=1、直连无遮挡及镜面左右侧情况，再构建可见性图和三次最短路；大量稳健几何判定与最优路径结构证明，保留较宽估计区间。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/104270/problem/I": {
+    "difficulty": 2600,
+    "difficultyBand": [
+      2300,
+      2900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:24:46.064072+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://sua.ac/wiki/2018-icpc-qingdao/i/#_2",
+      "原始题解资料 SHA-256: 8c7b632db4a0e0f073d2c42a0e5eb9c98e8f0849bd16b2b62ab7719bfdf1ddc1",
+      "需同时识别块划分模型、枚举下界和可动态合并的四边界状态；叶状态对跨边的计价不能重复，单纯贪心或单一序列DP不足以支持全部枚举。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/104270/problem/J": {
+    "difficulty": 1200,
+    "difficultyBand": [
+      1000,
+      1500
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:24:46.064072+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://sua.ac/wiki/2018-icpc-qingdao/j/#_2",
+      "原始题解资料 SHA-256: a31a163e47c08b9139fc106145a8a0810209873568efb727e6b3e258d7f47e5b",
+      "先区分免费书、全买和不可行，再由首次跳过书的最小价格得到金额上界；注意原顺序不能排序购买，也没有二分性。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/104270/problem/K": {
+    "difficulty": 2500,
+    "difficultyBand": [
+      2200,
+      2800
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:24:46.064072+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://sua.ac/wiki/2018-icpc-qingdao/k/#_2",
+      "原始题解资料 SHA-256: dc866505d5b700a2a1ab2975d4bd3bda4aafcdbcc6b80c77d9026f9ea12bebcf",
+      "关键是把连续落点空间压缩为3n个事件点，证明距离组的至多一人幸存不变量，左右扫描并合并轴上玩家；不是直接两两模拟路径。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/104270/problem/L": {
+    "difficulty": 2400,
+    "difficultyBand": [
+      2100,
+      2700
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:24:46.064072+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://sua.ac/wiki/2018-icpc-qingdao/l/#_2",
+      "原始题解资料 SHA-256: 39d3d83ff38659d031bce20ab74e80af6df90c6d3490bcf5162e3655418beaa0",
+      "须完整刻画子图结构并避免无向链的方向/端点配对重复计数；推导组合式与处理环的特殊情况比套用二项式公式更关键。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/104270/problem/M": {
+    "difficulty": 900,
+    "difficultyBand": [
+      800,
+      1100
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:24:46.064072+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://sua.ac/wiki/2018-icpc-qingdao/m/#_2",
+      "原始题解资料 SHA-256: 2fb5f8bfeaefb9fdd84bbaa413843e73fdbf4dd9cdce2f5949b57b1d54ac36e3",
+      "数位函数模拟加0/1二周期，观察收缩后跳过剩余迭代即可，输入x,k均不超过10^9。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/A": {
+    "difficulty": 2300,
+    "difficultyBand": [
+      2100,
+      2500
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "要把数值区间转化为二进制语言并共享后缀，同时证明不重不漏、无前导零与100节点限制；构造与边界处理高于单纯按位枚举。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/B": {
+    "difficulty": 2100,
+    "difficultyBand": [
+      1900,
+      2300
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "需证明只插入一个内点，再组合两层凸包和单调指针；整点叉积、共线与内层退化均有实现门槛。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/C": {
+    "difficulty": 1000,
+    "difficultyBand": [
+      800,
+      1200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "主要是方位映射和格式化构造，官方列为 Easy；直接复用原路线避免另求最短路线的特殊情况。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/D": {
+    "difficulty": 3000,
+    "difficultyBand": [
+      2700,
+      3200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "要改造平方子串的调和级数枚举，再分类处理跨行拼接与正反 LCP/LCS，字符串知识和边界实现要求高。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/E": {
+    "difficulty": 2800,
+    "difficultyBand": [
+      2500,
+      3000
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "从期望转为有序过零事件并维护可撤销概率背包，需处理有理数排序、模域概率与同时刻事件；明显高于逐球普通背包。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/F": {
+    "difficulty": 3300,
+    "difficultyBand": [
+      3000,
+      3600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "带负权的离散演化不能逐秒模拟，需证明有限阶段、识别合并与两位置振荡，维护失效事件并回答原编号查询；实现和证明均复杂。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/G": {
+    "difficulty": 1500,
+    "difficultyBand": [
+      1300,
+      1700
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "从会议叙事识别受限叶子生成树，检查普通点连通并输出合法过程；无需高级图算法，但构造与全特殊点边界高于简单遍历。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/H": {
+    "difficulty": 3500,
+    "difficultyBand": [
+      3200,
+      3800
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "长度可达10^9，需把模置换的顺序还原为矩阵积，并进行保持非交换次序的类欧几里得缩减；组合了矩阵DP、分段维护和复杂递归，是全场最难档。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/I": {
+    "difficulty": 3000,
+    "difficultyBand": [
+      2700,
+      3200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "题名几何但本质是受乘积和双约束的因子多重集合编辑；同时需要因子域DP、大因子搜索与1的代价特殊处理，门槛高于普通数论背包。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/J": {
+    "difficulty": 2200,
+    "difficultyBand": [
+      2000,
+      2400
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "关键是证明按下次补给顺序耗电的贪心，再用堆把逐种电池扫描优化掉；只做普通全局电量和无法保证后续充电收益。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/K": {
+    "difficulty": 2100,
+    "difficultyBand": [
+      1900,
+      2300
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "需要从可行基准分配证明两种调整方向足够，再用带容量前缀和和二分批量替代枚举分配；官方归为Easy-Medium而非线段树模板。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/L": {
+    "difficulty": 2400,
+    "difficultyBand": [
+      2200,
+      2600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "平方期望不能直接套期望线性性，需转成一条边和两条边共同出现概率，再把边对计数降为线性子树合并；树上计数推导较强。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105459/problem/M": {
+    "difficulty": 1700,
+    "difficultyBand": [
+      1500,
+      1900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:27:30.174182+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-harbin-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "原始题解资料 SHA-256: 3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "先识别怪异程序的真实含义，再按因子分段求和；数学观察强于普通整除枚举，但后续实现短、官方为Easy。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105170/problem/A": {
+    "difficulty": 2900,
+    "difficultyBand": [
+      2600,
+      3200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:30:35.898772+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-changchun-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+      "原始题解资料 SHA-256: a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+      "需推导严格递增序列中异或零三元组只跨最高位层的结构，再化简计数转移和指数表达式；n到10^6，不能保留O(n^2)转移。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105170/problem/B": {
+    "difficulty": 2200,
+    "difficultyBand": [
+      1900,
+      2500
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:30:35.898772+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-changchun-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+      "原始题解资料 SHA-256: a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+      "对DFS序的可交换子树先按大小奇偶分类，证明奇子树的名额约束再用差值排序优化；不是固定DFS序求和，n<=2×10^5。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105170/problem/C": {
+    "difficulty": 2100,
+    "difficultyBand": [
+      1800,
+      2400
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:30:35.898772+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-changchun-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+      "原始题解资料 SHA-256: a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+      "输入二进制位数可达10^7，不能把n解析成普通整数或枚举数值；需要将数位统计与Fibonacci线性变换结合，按位线性处理。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105170/problem/D": {
+    "difficulty": 1900,
+    "difficultyBand": [
+      1600,
+      2200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:30:35.898772+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-changchun-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+      "原始题解资料 SHA-256: a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+      "利用每条线至少2点保证随机抽样成功率，再用准确方向/截距分组验证与输出；不把浮点近似相等当充分正确性条件。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105170/problem/E": {
+    "difficulty": 2000,
+    "difficultyBand": [
+      1700,
+      2300
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:30:35.898772+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-changchun-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+      "原始题解资料 SHA-256: a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+      "先从隐式O(n^2)边关系提取二维可比关系，再证明每块仅需最小y及单调栈归并；n到10^6，不适合显式建图。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105170/problem/F": {
+    "difficulty": 1900,
+    "difficultyBand": [
+      1700,
+      2200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:30:35.898772+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-changchun-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+      "原始题解资料 SHA-256: a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+      "从最大单场得分目标推出局部最优分配，再用可删最大堆替代每人重扫所有m场；需处理严格获胜和临时撤销。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105170/problem/G": {
+    "difficulty": 1100,
+    "difficultyBand": [
+      900,
+      1300
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:30:35.898772+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-changchun-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+      "原始题解资料 SHA-256: a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+      "只有一条机器人轨迹，排序后按覆盖关系更新当前位置即可；不需要扫描线数据结构或对每个平台逐层重复搜索。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105170/problem/H": {
+    "difficulty": 2700,
+    "difficultyBand": [
+      2400,
+      3000
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:30:35.898772+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-changchun-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+      "原始题解资料 SHA-256: a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+      "一般40点拓扑序计数不可直接2^40；需要利用缺n条边的特殊二部图结构，证明分层和无重复计数，再枚举补全方向，n<=20。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105170/problem/I": {
+    "difficulty": 800,
+    "difficultyBand": [
+      800,
+      900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:30:35.898772+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-changchun-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+      "原始题解资料 SHA-256: a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+      "固定输入的小写字母计数，读取一行并统计即可；不附会成字符串高级算法。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105170/problem/J": {
+    "difficulty": 3300,
+    "difficultyBand": [
+      3000,
+      3600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:30:35.898772+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-changchun-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+      "原始题解资料 SHA-256: a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+      "需结合换根距离函数、子树差分、区间系数平移及块内下凸包，利用查询日期递增作势能优化；实现与复杂度论证均复杂。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105170/problem/K": {
+    "difficulty": 2800,
+    "difficultyBand": [
+      2500,
+      3100
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:30:35.898772+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-changchun-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+      "原始题解资料 SHA-256: a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+      "需避免逐子串比较，通过调和级数枚举对齐锚点并以左右最长公共扩展覆盖未对齐答案；n<=10^6，字符串结构与边界要求高。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105170/problem/L": {
+    "difficulty": 1200,
+    "difficultyBand": [
+      1000,
+      1500
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:30:35.898772+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-changchun-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105170/attachments/download/25602/main.pdf",
+      "原始题解资料 SHA-256: a49e263b1dd23cb2c36c018c54433c377c8cf814863c3f3be1c38a86b6bfd942",
+      "先识别奇偶导致的体积浪费，构造单调可行性而非只取总体积商；x,y,k到10^9但每问不需逐包模拟。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/A": {
+    "difficulty": 2200,
+    "difficultyBand": [
+      1900,
+      2500
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "需要拆出分治的前缀/后缀查询递推，构造只依赖左右端点的匹配量，并利用长度同构降复杂度；有理数值应统一乘足够大的2次幂精确整数化。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/B": {
+    "difficulty": 2900,
+    "difficultyBand": [
+      2600,
+      3200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "主要是证明只需常数个反射源/斜边，再处理交点整数性、平行重合线段与边界去重；n,t到10^9，不能逐粒子或逐时间模拟。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/C": {
+    "difficulty": 1900,
+    "difficultyBand": [
+      1700,
+      2200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "把前缀和差转换为有限集合选数和，借n<=100集中预处理避免每组重复背包；需正确处理重复约束位置、首项0及末尾未受限部分。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/D": {
+    "difficulty": 1300,
+    "difficultyBand": [
+      1100,
+      1600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "识别两人伤害的共同比例和最后一轮过杀上界；数据到10^18，乘法需更宽整数或等价除法比较，注意同时死亡不算A胜。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/E": {
+    "difficulty": 2300,
+    "difficultyBand": [
+      2000,
+      2600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "不仅判点在凸包，还要证明最少顶点是3或4，处理严格内部、对角线上及四边形退化例外；多询问需要凸包二分定位。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/F": {
+    "difficulty": 3300,
+    "difficultyBand": [
+      3000,
+      3600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "同时需要字符串状态归并的计数公式、乘积多项式对数提取幂和，以及非平方复杂度的斯特林变换；n<=10^5，不能只做SAM后O(n^2)枚举k。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/G": {
+    "difficulty": 2400,
+    "difficultyBand": [
+      2100,
+      2700
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "需从缺少首行/列的删点矩阵恢复未知图，推导握手方程和整除约束，并证明完整图验证次数为常数；保证有解不等于任意舍入都合法。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/H": {
+    "difficulty": 2100,
+    "difficultyBand": [
+      1800,
+      2400
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "不能使用普通比较排序的n log n询问；要证明三值队列操作的两遍排序性质并卡住精确询问上限，实时刷新与处理自适应回答。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/I": {
+    "difficulty": 1700,
+    "difficultyBand": [
+      1500,
+      2000
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "利用森林DFS括号编码把所有边压入n个[1,2n]标签，理解重编号下的信息保留并恢复每个连通分量；通信题不误标成交互查询。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/J": {
+    "difficulty": 3300,
+    "difficultyBand": [
+      3000,
+      3600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "需证明团队不可拆分情形的Monge不等式，再把每层代价查询按坐标双单调合并并实现分段线性贡献；仅套决策单调性分治但逐次O(n)求代价仍超时。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/K": {
+    "difficulty": 1600,
+    "difficultyBand": [
+      1400,
+      1900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "可行坐标集合未必是单区间，关键是证明转移仅依赖两端极值并检查交为空；不能贪心只选一个当前坐标，n<=10^5。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/L": {
+    "difficulty": 3500,
+    "difficultyBand": [
+      3200,
+      3800
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "构造须覆盖所有可行方向串，控制首尾同轴路径与终点障碍的相互截断，并证明失败即无解；方向对称、零移动和最终模拟均是实质步骤。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/106799/problem/M": {
+    "difficulty": 1500,
+    "difficultyBand": [
+      1200,
+      1800
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T21:33:53.237913+00:00",
+    "difficultyReviewRevision": "20261109-xcpc-chengdu-source-reviewed-metadata",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/106799/attachments/download/40484/icpc-chengdu-tutorial-final.pdf",
+      "原始题解资料 SHA-256: 1ad2096e026d9e12af3fc09d6323a22d58b0d94de2306ff5b79fea6272450f49",
+      "需要允许在当前段中追溯选择更靠前但右端点更大的区间，而非只在li>M时机械取当前位置ri；线性贪心的交换论证是核心。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/A": {
+    "difficulty": 900,
+    "difficultyBand": [
+      800,
+      1200
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "关键是目标最大化ab，并非化简根式时令a尽量大；一次gcd和安全顺序的整数乘除即可。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/B": {
+    "difficulty": 1300,
+    "difficultyBand": [
+      1000,
+      1600
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "要证明只枚举三角形足够，并用精确整数叉积避免共线判断误差；n<=100允许三重枚举，无需凸包。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/C": {
+    "difficulty": 3500,
+    "difficultyBand": [
+      3100,
+      3800
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "需要带孔/多分量正交区域剖分定理、离散坐标与凹角判定，再构造交叉冲突二分图并做高效最大匹配；不是普通矩形面积并或单纯扫描线。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/D": {
+    "difficulty": 2700,
+    "difficultyBand": [
+      2400,
+      3000
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "要把伤心值转成前缀异或配对计数，证明决策单调性，并维护分治查询过程中变化的窗口；n<=10^5、k<=20，O(kn²)不够。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/E": {
+    "difficulty": 800,
+    "difficultyBand": [
+      800,
+      900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "只有读入四个整数后依次做乘加并输出；T<=10^4，多组循环属于输入框架，核心是顺序执行的整数表达式。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/F": {
+    "difficulty": 2700,
+    "difficultyBand": [
+      2400,
+      3000
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "需先看出二进制权重守恒，再正确处理只查询的合并、伪随机数生成顺序及恢复任意历史版本；n,m均可10^6，不能逐书模拟或复制所有版本。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/G": {
+    "difficulty": 2200,
+    "difficultyBand": [
+      1900,
+      2500
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "不仅需要连通块搜索，还要处理同一空点反复落子、对手提子优先与允许自杀规则；气按相邻空点逐棋子求和，不能用现实围棋规则替换原题。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/H": {
+    "difficulty": 1800,
+    "difficultyBand": [
+      1600,
+      1900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "LOW",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "已严格核对为既有洛谷P10865的同题，采用与其训练参考1800及区间[1600,1900]一致的非官方数值；核心是四进制库存状态与至多50个候选中心，而非遍历整个池塘。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/I": {
+    "difficulty": 2600,
+    "difficultyBand": [
+      2300,
+      2900
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "要把黑点增加和白点删除拆成两个加点过程，维护多个森林连通块的直径，而不是只维护全树最远黑点对；路径上的重复染色必须跳过已处理顶点。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/J": {
+    "difficulty": 1200,
+    "difficultyBand": [
+      1000,
+      1500
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "需要用期望的对称性/归纳证明平均值不变，再正确把有理数答案表示为模998244353的逆元；不实际随机模拟。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/K": {
+    "difficulty": 2100,
+    "difficultyBand": [
+      1800,
+      2400
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "相邻选择破坏各位置对称性，不能沿用J的平均数。需建立左右剩余数量的贡献递推并以组合计数消除二维状态，n<=10^6要求线性预处理。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
+    ]
+  },
+  "https://codeforces.com/gym/105139/problem/L": {
+    "difficulty": 1700,
+    "difficultyBand": [
+      1400,
+      2000
+    ],
+    "difficultySource": "ToBe 官方题解与算法复核估算（非官方评级）",
+    "difficultyEstimated": true,
+    "difficultyConfidence": "MEDIUM",
+    "difficultyCheckedAt": "2026-11-08T22:42:27.177569+00:00",
+    "difficultyReviewRevision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+    "difficultyEvidence": [
+      "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+      "原始题解资料 SHA-256: 11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+      "需先判相等、整除及非互质情形，再对互质情形证明小质因子和2的五点候选充分；禁止点1会改变最优路径，不能对所有输入无条件套五点图。",
+      "按常规算法的推导与实现复杂度给出的训练参考区间；不是 Codeforces 官方 rating，也不按团队通过率换算。"
     ]
   }
 }

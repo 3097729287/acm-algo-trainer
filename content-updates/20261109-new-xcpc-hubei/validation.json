@@ -1,0 +1,90 @@
+{
+  "checkedAt": "2026-11-08T22:54:25.661273+00:00",
+  "sources": {
+    "newNativeIdentities": 12,
+    "genuinelyNewTasks": 11,
+    "newFullContests": 1,
+    "completeBilingualStatements": 12,
+    "samplePairs": 16,
+    "originalDiagrams": 8,
+    "exactSubsetPageTextMatches": 15,
+    "canonicalAssets": 24,
+    "canonicalBytes": 7576976,
+    "oldCatalogRowsUnchanged": true,
+    "allSourcesAndImmutableSpansVerified": true
+  },
+  "independentAlgorithmChecks": {
+    "D": {
+      "arrayAndXorCases": 3276,
+      "dpValuesCompared": 44316,
+      "method": "exhaustive ternary arrays; unrestricted partition DP versus monotone divide-and-conquer decisions"
+    },
+    "F": {
+      "literalBookCarryCases": 6820,
+      "officialGeneratorAndHistorySamples": 2,
+      "method": "literal level multisets versus weighted binary carries; original two generated samples replayed with copied historical arrays"
+    },
+    "J/K": {
+      "nondecreasingArraysPerMode": 83,
+      "modes": 2,
+      "officialModularSamples": 2,
+      "method": "exact rational enumeration of all next-pair choices versus mean / closed-form adjacent coefficients"
+    },
+    "L": {
+      "endpointPairs": 1770,
+      "completeReferenceVertices": 239,
+      "referenceScopeProvedByCostUpperBound": true,
+      "unguardedFiveNodeCounterexample": {
+        "a": 10,
+        "b": 15,
+        "unconditionalFiveNodeCost": 40,
+        "actualMinimumViaGcd5": 25
+      },
+      "method": "complete finite graph Dijkstra versus equality/divisibility/common-gcd cases and the five-prime-candidate graph only for coprime endpoints"
+    },
+    "C": {
+      "originalExamplesWithExactCellAndNonoverlapWitness": 4,
+      "fullGeneralMatchingSolverRetested": false,
+      "optimalitySource": "official editorial; witnesses independently verify the corrected coordinate notation and unchanged samples"
+    }
+  },
+  "disposableProductionReplay": {
+    "fullNativeRosterSelectable": true,
+    "previewAndStartSlots": 12,
+    "allProductionProblemResponsesHaveChinese": true,
+    "samplePairsPreserved": 16,
+    "automaticallyJoinedTraining": 0,
+    "submissions": 0,
+    "publicFixtureAssets": 21,
+    "isolatedPublicFixtureDatabaseBytes": 7520256,
+    "fixtureRemovedAfterCheck": true,
+    "networkSyncDisabled": true,
+    "realUserFilesOpened": 0
+  },
+  "allOriginalPagesAndChineseWorkbenchChecked": true,
+  "workbenchReceipt": "ui-validation.json",
+  "fullSolutionsClaimedValidated": false,
+  "officialSubmissions": 0,
+  "privateStateReadOrWritten": false,
+  "ordinaryResourceLimitsChanged": false,
+  "release1610BoundaryChanged": false,
+  "backendRegression": {
+    "testsRun": 144,
+    "seconds": 11.589,
+    "failures": 0,
+    "errors": 0,
+    "scope": "Exact source/knowledge/difficulty/mastery/learning/catalog/resource/replay workflow suites",
+    "afterBoundaryAnnotationRefinement": {
+      "testsRun": 1,
+      "test": "test_ui141.ReviewedKnowledgeTests.test_every_targeted_annotation_binds_to_the_exact_public_solution",
+      "failures": 0,
+      "errors": 0
+    }
+  },
+  "productionWorkbenchReceiptSha256": "6604b35a6d2d4548173ed7a0b3b071123a3e78585bec811ac56b27e47a26d656",
+  "verificationScriptSha256": "2d11823a4b0d2d74916efe0e4d1b7810390280b15e8a965860afd6e77a8125bd",
+  "postVerificationCleanup": [
+    "Removed one unused deque import; no validation behavior changed.",
+    "Replaced the now-obsolete zero-new-XCPC progress statement with the verified Hubei counts; older receipt history remains in Git."
+  ]
+}

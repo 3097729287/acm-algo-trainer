@@ -1,0 +1,34 @@
+{
+  "registeredProblemIds": [
+    "luogu-training-P7351"
+  ],
+  "newlyRevived": 1,
+  "originalIdAndNativeUrlPreserved": true,
+  "priorStatementArchivedInGuardedPatch": true,
+  "nativeLimitsPreserved": {
+    "memoryMb": 512,
+    "timeMs": 5000
+  },
+  "nativeSampleInputLines": 601,
+  "nativeConstraintLines": 600,
+  "nativeSampleOutput": "23333",
+  "catalogStatementReady": true,
+  "catalogReplayReady": false,
+  "problemType": "output-only",
+  "localJudgeSupported": false,
+  "productionDistributionVerified": true,
+  "ordinary32MiBLimitUnchanged": true,
+  "requiredInputMarkedOptional": false,
+  "privateRecordsReadOrWritten": false,
+  "registrySha256Unchanged": "05406671ea64d05aa2e8b74d70fec8bbcea9a39dcbc16e84ee0d6e59300f0376",
+  "sourceProofSha256Unchanged": "952430670eb0f123cb78d029c033b9878c8fba81ec4454fe34d6a1f0b5e5215e",
+  "verifiedOriginalArchive": {
+    "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+    "bytes": 42049784,
+    "verifiedZipMembers": 10,
+    "allMembersCrcAndSha256Verified": true
+  },
+  "beforeStatementSha256": "dec881acd6a75055df97229ab11e33857adc83df1d8d3ee0abfe92f0d8160395",
+  "afterStatementSha256": "502842783c2f48d9dbd63e89b7d8648d6ce1bd3da1a40707e5552f2e37ff5cc5",
+  "sourcePacket": "data/library/statement-patches/zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz-20261109-P7351-required-original.json"
+}

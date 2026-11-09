@@ -50,7 +50,7 @@ def verify(library,output,workers=3,previous_library=None,previous_receipt=None)
                         digest.update(chunk)
                 if received!=size or digest.hexdigest()!=sha:raise ValueError('Server resource checksum mismatch: '+sha)
                 return row
-            except (HTTPError,URLError,TimeoutError) as error:
+            except (HTTPError,URLError,OSError) as error:
                 if attempt==3 or isinstance(error,HTTPError) and error.code not in (429,502,503,504):raise
                 time.sleep(1+attempt*2)
     with checkpoint.open('a',encoding='utf8') as progress,ThreadPoolExecutor(max_workers=workers) as pool:

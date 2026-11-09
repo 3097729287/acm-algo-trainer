@@ -1,0 +1,1005 @@
+{
+  "schema": 1,
+  "revision": "20261109-xcpc-harbin-source-reviewed-metadata",
+  "checkedAt": "2026-11-08T21:27:30.174182+00:00",
+  "resourceBeforeSha256": "5eebbbb6b2e176260e3f5fbd3ac2c9397923bc661a4485465987aacbde730e03",
+  "items": [
+    {
+      "id": "remote:codeforces:105459::A",
+      "beforeProblemSha256": "d3649f762b2ee0f315d7c398d50cb97096da8c6579ead57860496d45276cccf8",
+      "tags": [
+        "构造",
+        "字典树",
+        "位运算"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105459/problem/A"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105459::A",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "sourceProblemHeading": "A. Build a Computer",
+          "sourceProblemTitle": "Build a Computer",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/A",
+          "sourceStatementMarkdownSha256": "a990ddb025a78d7a91230ba060d202984a922c20dd87fe7a9592a753acf84f8b",
+          "reasons": [
+            "将 [L,R] 拆成互不相交的二进制前缀区间；字典树保留边界前缀，连接共享的任意 0/1 后缀链。每条起终点路径恰好产生一个区间内整数，删除未使用的尾链节点。页20证明前缀节点不超过40、公共后缀节点不超过20。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "直接逐段插入前缀 O((log R)^2)；共享两条边界前缀可降为 O(log R)，输出规模 O(log R)",
+            "space": "O(log R)",
+            "source": "reviewer-inference-from-pages17-20; official provides node bound rather than a runtime formula"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Medium",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "无需按题目图模型挂最短路标签；核心是二进制前缀构造。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105459::B",
+      "beforeProblemSha256": "9cdaecd5e7f4e0c44680c13edf6d58b0cd41db121b4bc33365d475f046d48071",
+      "tags": [
+        "凸包",
+        "双指针",
+        "点积与叉积",
+        "多边形面积"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105459/problem/B"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105459::B",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            9,
+            10,
+            11,
+            12
+          ],
+          "sourceProblemHeading": "B. Concave Hull",
+          "sourceProblemTitle": "Concave Hull",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/B",
+          "sourceStatementMarkdownSha256": "58092a01f721f64438b6467a1a5f697098dc0a3ec5c5b1ea5e698c48aa40f729",
+          "reasons": [
+            "最优凹多边形保留外层凸包顶点，只需额外插入一个内点；面积损失为边与内点构成的三角形面积。再对剩余点求内层凸包，沿外层边移动最近内层顶点，用双指针维护最小损失。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "O(n log n)",
+            "space": "O(n)",
+            "source": "official-editorial"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Easy-Medium",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "页11写 |ab|*dis 是二倍三角形面积；元数据按面积/叉积模型记录，不能直接当普通面积漏掉系数。空间 O(n) 是常规凸包实现推断。",
+            "内层退化为1或2点、所有点都在外层凸包均须单独处理。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105459::C",
+      "beforeProblemSha256": "2f064279ddfa6844537d43ad937a4179ee463f7b503db06ce5148055a4a6ac2e",
+      "tags": [
+        "模拟"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105459/problem/C"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105459::C",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            3
+          ],
+          "sourceProblemHeading": "C. Giving Directions in Harbin",
+          "sourceProblemTitle": "Giving Directions in Harbin",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/C",
+          "sourceStatementMarkdownSha256": "6d82b273d739c7368869534ae8002e8627b6e63378bad56177e5ed72f22b38b3",
+          "reasons": [
+            "按相邻绝对方向的循环次序判断相对左转或右转，原长度直接保留，线性输出路线；也可以累计终点后重新构造路线。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "O(n)，包含读入与输出",
+            "space": "O(n) 保存输出；可按需流式输出",
+            "source": "reviewer-inference-from-linear-simulation-on-page3"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Easy",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "官方另一种思路提到按最短路线走，但这里不需要通用最短路算法，故不挂最短路。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105459::D",
+      "beforeProblemSha256": "c9514febb2dfbd3b27c4a81ac4442b7873ad20b02690c69bf6461e134ea95ae3",
+      "tags": [
+        "后缀数组",
+        "最长公共前缀",
+        "稀疏表",
+        "周期性",
+        "枚举"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105459/problem/D"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105459::D",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            32,
+            33,
+            34,
+            35
+          ],
+          "sourceProblemHeading": "D. A Simple String Problem",
+          "sourceProblemTitle": "A Simple String Problem",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/D",
+          "sourceStatementMarkdownSha256": "7b052aac02b98095021ffaaba516f12ee0ffafe0a2589671a4d69b1b6cc8bd8c",
+          "reasons": [
+            "枚举平方串半长 d，将位置按 d 分块，每块按从上行切到下行的位置分三类；利用正反字符串的 LCP/LCS 快速扩张周期段。每个 d 只处理 O(n/d) 个锚点，SA+RMQ 令每次扩张查询为 O(1)。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "O(n log n)；哈希二分 LCP/LCS 的替代实现为 O(n log^2 n)",
+            "space": "SA+稀疏表常规实现 O(n log n)；页35未单列空间",
+            "source": "official-editorial"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Medium-Hard",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "正文题解页34-35的具体判定式存在可疑的字母/阈值排版，不能只抄幻灯片直接生成代码；这里复核的是算法框架、技术与复杂度，未宣称完整实现验证。",
+            "哈希只是替代版本，不并入本条 SA+RMQ 主解标签。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105459::E",
+      "beforeProblemSha256": "8ae23f8f441b457ea0c876899f107c09a8f8c01004e942d121ef99af156a7f66",
+      "tags": [
+        "期望与概率",
+        "背包 DP",
+        "扫描线",
+        "多项式运算"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105459/problem/E"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105459::E",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            26,
+            27,
+            28
+          ],
+          "sourceProblemHeading": "E. Marble Race",
+          "sourceProblemTitle": "Marble Race",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/E",
+          "sourceStatementMarkdownSha256": "284a846d542bc956a336ab69f43c0e19927df12216ad80bed00fc37640e29db6",
+          "reasons": [
+            "把所有过原点的有理事件时刻排序。其余球是否过原点是伯努利变量，用背包维护落在某一侧的球数分布；每个事件只改变一个球的因子，可撤去并重新乘入该一次多项式因子，O(m) 更新分布并累计中位球贡献。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "O(n*m^2 + n*m*log(n*m))；官方在 n,m 同阶约定下写 O(n^3)",
+            "space": "O(n*m+m)，包含全部事件",
+            "source": "official-editorial"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Medium-Hard",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "原题 x_i<0，真正正时间是 -x_i/v_j；幻灯片页27-28记 xi/vj，勿照抄符号。",
+            "乘除的是一次多项式因子，不是需要 FFT/NTT 的大多项式运算。",
+            "概率背包可撤销不等于“可撤销并查集”；不能用同名概念替代技术。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105459::F",
+      "beforeProblemSha256": "3d7f28a7c810bb8ddb3a7bd5c3d3cfae33113d1b0b3f2fb54bba1034eb43760f",
+      "tags": [
+        "事件驱动模拟",
+        "堆",
+        "离线查询",
+        "模拟"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105459/problem/F"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105459::F",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            36,
+            37
+          ],
+          "sourceProblemHeading": "F. 1D Galaxy",
+          "sourceProblemTitle": "1D Galaxy",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/F",
+          "sourceStatementMarkdownSha256": "3cc90acea15592b78aa63a0560d7b4fde6812dd5e5253d5cba769561e351be92",
+          "reasons": [
+            "同坐标球组永久重合，相邻两个位置持续交换的球可按振荡组处理。把演化分成 O(n) 次相邻组接触事件，优先队列维护下一次接触，只在事件发生时更新组与邻接关系；离线按时间回答询问。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "演化事件 O(n log n)，离线排序并回答 q 个询问 O((n+q) log(n+q))",
+            "space": "O(n+q)",
+            "source": "official-editorial"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Hard",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "官方 O(N log N) 讨论演化；这里只把题目真实 q 个询问的读入/排序开销另补明确。",
+            "权重可为负，不能借用普通正质量物理碰撞模型。",
+            "未硬挂并查集或链表；它们是可能的组织方式，页37主解只明确优先队列与离线事件。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105459::G",
+      "beforeProblemSha256": "8c8d4807a895ef4c02954697ed40941185d5d1b40a9a44dbdc3a114c7bff3d19",
+      "tags": [
+        "生成树",
+        "连通性",
+        "构造"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105459/problem/G"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105459::G",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            4,
+            5,
+            6
+          ],
+          "sourceProblemHeading": "G. Welcome to Join the Online Meeting!",
+          "sourceProblemTitle": "Welcome to Join the Online Meeting!",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/G",
+          "sourceStatementMarkdownSha256": "8aba583de7a4bbecc53a7c43c0c59939358771c57b7684a7b810cff7c38d97f8",
+          "reasons": [
+            "不能邀请别人的特殊点必须作为生成树叶子并由普通点邀请。保留普通点间边，每个特殊点选择一个普通邻居挂接；普通点诱导图非空且连通时先构造其生成树，再恢复叶子邀请顺序。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "O(n+m)",
+            "space": "O(n+m)",
+            "source": "official-editorial"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Easy",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "不能把特殊点作为建立会议的根；n=2全特殊的“普通生成树存在”仍不满足原题约束。",
+            "缩点是官方描述手段；基础遍历/生成树即可实现，不强制并查集。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105459::H",
+      "beforeProblemSha256": "6f227ce0eeb17948d622662ade72527217e1ea246af26acd8052d798834ceaf7",
+      "tags": [
+        "计数 DP",
+        "矩阵快速幂",
+        "线段树",
+        "乘法逆元",
+        "取模与同余"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105459/problem/H"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105459::H",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            38,
+            39,
+            40
+          ],
+          "sourceProblemHeading": "H. Subsequence Counting",
+          "sourceProblemTitle": "Subsequence Counting",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/H",
+          "sourceStatementMarkdownSha256": "124fc9e185549f748fa04862a649552fbbaa8f43923218121adba714c9528252",
+          "reasons": [
+            "令 d 为 k 模 L 的逆元，将子序列 DP 的单字符转移视为非交换矩阵积，所求乘积顺序为 s0,s_d,s_2d,...。对步长做类欧几里得递归：必要时反转矩阵段；否则按 d 分行叠矩阵、按列乘积，以线段树和矩阵快速幂处理，矩阵段数不增。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "O(n*m^3*log n*log L)，见页40；矩阵维度实际为 m+1",
+            "space": "按矩阵段+线段树实现 O(n*m^2)，不计递归临时副本",
+            "source": "official-editorial"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Hard",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "“类欧几里得”尚不在当前 canonical 字典中，作为精确技术说明保留；不能把整个递归替换标成普通扩展欧几里得。",
+            "原生题面 n<=2000、模998244353；页38写 n<=1000、模10^9+7，与真实原稿不同，元数据与译文应沿用题面而非幻灯片摘要。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105459::I",
+      "beforeProblemSha256": "ca6e9e6aedc18bfec6b0d0587b855304c8c1b6eefa2417d07f8839191d7d1965",
+      "tags": [
+        "约数枚举",
+        "背包 DP",
+        "DFS"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105459/problem/I"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105459::I",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            29,
+            30,
+            31
+          ],
+          "sourceProblemHeading": "I. A Brand New Geometric Problem",
+          "sourceProblemTitle": "A Brand New Geometric Problem",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/I",
+          "sourceStatementMarkdownSha256": "7af08f5d382bcaace20ed8b9e623059373ee8aa6afe2f740cdb52b85a69648ea",
+          "reasons": [
+            "转为多重集合增删：非1元素必须是 M 的因数，选定其乘积分解后用1补足和。以阈值 B 区分因子，小因子按因子编号/乘积/总和做最小代价DP，大因子按非降顺序DFS枚举可整除 M 的乘积分解，最后合并代价并单独处理原有1的数量。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "页31给DP状态 O(tau(M)*B^2*log M)、DP转移 O((tau*tau)(M)*B*log M)，还需加大因子DFS枚举成本与读入 n 项",
+            "space": "DP状态上界 O(tau(M)*B^2*log M)，可按因子层滚动；官方未给合并后的严格总空间式",
+            "source": "official-editorial"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Medium-Hard",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "这里 tau 是因子个数；幻灯片把它记作 sigma，不应误当成约数和。",
+            "不根据题名挂计算几何。狄利克雷卷积只用于复杂度记号，不是本解必须计算的数论卷积算法。",
+            "官方只列DP部分上界，不能把它冒称整个算法完整复杂度；B约500为官方实测建议，非证明最优阈值。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105459::J",
+      "beforeProblemSha256": "a0e7c254e291fc1b65b48871fe9d39ca8048106c0f418f560161154f8660bc18",
+      "tags": [
+        "贪心",
+        "堆"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105459/problem/J"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105459::J",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            21,
+            22
+          ],
+          "sourceProblemHeading": "J. New Energy Vehicle",
+          "sourceProblemTitle": "New Energy Vehicle",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/J",
+          "sourceStatementMarkdownSha256": "94d4547db2c6561f0a08472cd4517b2d9ccffe4d869487287e53fb465942f3ed",
+          "reasons": [
+            "沿充电站向前行驶时，总是优先消耗下一次补给更早到来的电池电量；以堆维护下一次对应充电站的优先级，支持移去耗尽前缀、部分消耗堆顶与插入补满的电池电量。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "O((n+m) log(n+m))；官方令 n,m 同阶后写 O(n log n)",
+            "space": "O(n+m)",
+            "source": "official-editorial"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Medium",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "不是最短路问题：车辆只前进，优化的是多种电池的消耗次序。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105459::K",
+      "beforeProblemSha256": "7daa2385c7590087f4ef41dbd5564957044bb7de6fa371b86dc092d84b59358c",
+      "tags": [
+        "贪心",
+        "排序",
+        "前缀和",
+        "二分查找"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105459/problem/K"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105459::K",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            13,
+            14,
+            15
+          ],
+          "sourceProblemHeading": "K. Farm Management",
+          "sourceProblemTitle": "Farm Management",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/K",
+          "sourceStatementMarkdownSha256": "87770d23ff2f3af35d69812760ed1574b7d91a9ede8ea040c6481e7dc7f5ed08",
+          "reasons": [
+            "先按收益排序，给出未删除限制的最优基准分配。枚举放开哪种作物：要么吸收低收益作物超过下限的时间，要么撤掉本作物时间并给高收益作物的剩余上限；分别用加权后缀和与前缀容量二分计算增益。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "O(n log n)",
+            "space": "O(n)",
+            "source": "official-editorial"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Easy-Medium",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "页13关键词写“线段树”，但页14-15实际完整给出无需线段树的排序+前缀和+二分主解，因此本条不硬挂线段树。",
+            "真实原题保证 sum(l)<=m<=sum(r)，基准可行；放开范围在原题是[0,m]，不能把额外无限工作时间算入总时长。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105459::L",
+      "beforeProblemSha256": "4275f7e199fd09c166d78df4736ea157e8171ecc7466fb1061d0247176965050",
+      "tags": [
+        "期望与概率",
+        "树形 DP",
+        "子树大小",
+        "DFS"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105459/problem/L"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105459::L",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            23,
+            24,
+            25
+          ],
+          "sourceProblemHeading": "L. A Game On Tree",
+          "sourceProblemTitle": "A Game On Tree",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/L",
+          "sourceStatementMarkdownSha256": "7549c5ebf982301730f385ccdb8c94a4921804089d12d9b4672a59e2be9da8a9",
+          "reasons": [
+            "展开公共边数的平方，分别累计单边和不同边有序对的贡献；以树根对子树大小及其平方和进行DFS合并，按两条边处在同一子分支或不同分支统计，最后除以所有路径对数量。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "O(n)",
+            "space": "O(n)",
+            "source": "official-editorial"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Medium",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "LCA仅用于证明中分类边对，不需要在线LCA查询结构。",
+            "有序边对部分须排除同一条边，避免与单边项重复计数；不同儿子分支也须排除同一个儿子。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105459::M",
+      "beforeProblemSha256": "da866117b5a823eadaad6ac928bee2eddc2a554c9a1c6bb3b453008d00503de1",
+      "tags": [
+        "约数枚举",
+        "整数运算"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105459/problem/M"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105459::M",
+          "reference": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+          "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+          "sourcePageNumbers": [
+            7,
+            8
+          ],
+          "sourceProblemHeading": "M. Weird Ceiling",
+          "sourceProblemTitle": "Weird Ceiling",
+          "nativeProblemUrl": "https://codeforces.com/gym/105459/problem/M",
+          "sourceStatementMarkdownSha256": "e0c4eb8331d9f276b08338538426ea84c2489897989a8f303d8f107a99bc2b05",
+          "reasons": [
+            "程序中的循环会停在不超过 b 的最大 n 的因子处；将 n 的因子升序列为 d_i，每个相邻因子区间的返回值恒为 n/d_i，按区间长度加权求和。平方根枚举因子即可。"
+          ],
+          "method": "official-contest-editorial-reviewed-algorithm",
+          "complexityReview": {
+            "time": "O(sqrt(n))，见页8；用两段升降序枚举可避免额外排序",
+            "space": "O(tau(n))",
+            "source": "official-editorial"
+          },
+          "officialRelativeDifficulty": {
+            "value": "Easy",
+            "sourcePage": 2,
+            "isNumericOfficialRating": false
+          },
+          "sourceCaveats": [
+            "页7关键词“质因数分解”较宽；直接枚举约数即可，不强行挂素数或整除分块。",
+            "整除分块通常按floor(n/i)相等区间，本题按n的约数边界分段，不将两者混为一谈。"
+          ],
+          "readOnlyPeerReviewSha256": "3fb4b4aabe651a357386b8dbb9423e8d2ac9c973e8a7c500283f0e983c92a804",
+          "originalJudgeSubmissions": 0,
+          "fullImplementationRetested": false
+        }
+      ]
+    }
+  ],
+  "luoguNativeReviews": [],
+  "difficultyEstimates": [
+    {
+      "id": "remote:codeforces:105459::A",
+      "url": "https://codeforces.com/gym/105459/problem/A",
+      "difficulty": 2300,
+      "difficultyBand": [
+        2100,
+        2500
+      ],
+      "confidence": "MEDIUM",
+      "reason": "要把数值区间转化为二进制语言并共享后缀，同时证明不重不漏、无前导零与100节点限制；构造与边界处理高于单纯按位枚举。",
+      "source": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "sourceSha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": false,
+        "difficultySource": "Gym 无官方单题 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105459::B",
+      "url": "https://codeforces.com/gym/105459/problem/B",
+      "difficulty": 2100,
+      "difficultyBand": [
+        1900,
+        2300
+      ],
+      "confidence": "MEDIUM",
+      "reason": "需证明只插入一个内点，再组合两层凸包和单调指针；整点叉积、共线与内层退化均有实现门槛。",
+      "source": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "sourceSha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": false,
+        "difficultySource": "Gym 无官方单题 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105459::C",
+      "url": "https://codeforces.com/gym/105459/problem/C",
+      "difficulty": 1000,
+      "difficultyBand": [
+        800,
+        1200
+      ],
+      "confidence": "MEDIUM",
+      "reason": "主要是方位映射和格式化构造，官方列为 Easy；直接复用原路线避免另求最短路线的特殊情况。",
+      "source": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "sourceSha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": false,
+        "difficultySource": "Gym 无官方单题 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105459::D",
+      "url": "https://codeforces.com/gym/105459/problem/D",
+      "difficulty": 3000,
+      "difficultyBand": [
+        2700,
+        3200
+      ],
+      "confidence": "LOW",
+      "reason": "要改造平方子串的调和级数枚举，再分类处理跨行拼接与正反 LCP/LCS，字符串知识和边界实现要求高。",
+      "source": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "sourceSha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": false,
+        "difficultySource": "Gym 无官方单题 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105459::E",
+      "url": "https://codeforces.com/gym/105459/problem/E",
+      "difficulty": 2800,
+      "difficultyBand": [
+        2500,
+        3000
+      ],
+      "confidence": "LOW",
+      "reason": "从期望转为有序过零事件并维护可撤销概率背包，需处理有理数排序、模域概率与同时刻事件；明显高于逐球普通背包。",
+      "source": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "sourceSha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": false,
+        "difficultySource": "Gym 无官方单题 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105459::F",
+      "url": "https://codeforces.com/gym/105459/problem/F",
+      "difficulty": 3300,
+      "difficultyBand": [
+        3000,
+        3600
+      ],
+      "confidence": "LOW",
+      "reason": "带负权的离散演化不能逐秒模拟，需证明有限阶段、识别合并与两位置振荡，维护失效事件并回答原编号查询；实现和证明均复杂。",
+      "source": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "sourceSha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": false,
+        "difficultySource": "Gym 无官方单题 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105459::G",
+      "url": "https://codeforces.com/gym/105459/problem/G",
+      "difficulty": 1500,
+      "difficultyBand": [
+        1300,
+        1700
+      ],
+      "confidence": "MEDIUM",
+      "reason": "从会议叙事识别受限叶子生成树，检查普通点连通并输出合法过程；无需高级图算法，但构造与全特殊点边界高于简单遍历。",
+      "source": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "sourceSha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": false,
+        "difficultySource": "Gym 无官方单题 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105459::H",
+      "url": "https://codeforces.com/gym/105459/problem/H",
+      "difficulty": 3500,
+      "difficultyBand": [
+        3200,
+        3800
+      ],
+      "confidence": "LOW",
+      "reason": "长度可达10^9，需把模置换的顺序还原为矩阵积，并进行保持非交换次序的类欧几里得缩减；组合了矩阵DP、分段维护和复杂递归，是全场最难档。",
+      "source": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "sourceSha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": false,
+        "difficultySource": "Gym 无官方单题 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105459::I",
+      "url": "https://codeforces.com/gym/105459/problem/I",
+      "difficulty": 3000,
+      "difficultyBand": [
+        2700,
+        3200
+      ],
+      "confidence": "LOW",
+      "reason": "题名几何但本质是受乘积和双约束的因子多重集合编辑；同时需要因子域DP、大因子搜索与1的代价特殊处理，门槛高于普通数论背包。",
+      "source": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "sourceSha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": false,
+        "difficultySource": "Gym 无官方单题 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105459::J",
+      "url": "https://codeforces.com/gym/105459/problem/J",
+      "difficulty": 2200,
+      "difficultyBand": [
+        2000,
+        2400
+      ],
+      "confidence": "MEDIUM",
+      "reason": "关键是证明按下次补给顺序耗电的贪心，再用堆把逐种电池扫描优化掉；只做普通全局电量和无法保证后续充电收益。",
+      "source": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "sourceSha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": false,
+        "difficultySource": "Gym 无官方单题 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105459::K",
+      "url": "https://codeforces.com/gym/105459/problem/K",
+      "difficulty": 2100,
+      "difficultyBand": [
+        1900,
+        2300
+      ],
+      "confidence": "MEDIUM",
+      "reason": "需要从可行基准分配证明两种调整方向足够，再用带容量前缀和和二分批量替代枚举分配；官方归为Easy-Medium而非线段树模板。",
+      "source": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "sourceSha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": false,
+        "difficultySource": "Gym 无官方单题 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105459::L",
+      "url": "https://codeforces.com/gym/105459/problem/L",
+      "difficulty": 2400,
+      "difficultyBand": [
+        2200,
+        2600
+      ],
+      "confidence": "MEDIUM",
+      "reason": "平方期望不能直接套期望线性性，需转成一条边和两条边共同出现概率，再把边对计数降为线性子树合并；树上计数推导较强。",
+      "source": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "sourceSha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": false,
+        "difficultySource": "Gym 无官方单题 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105459::M",
+      "url": "https://codeforces.com/gym/105459/problem/M",
+      "difficulty": 1700,
+      "difficultyBand": [
+        1500,
+        1900
+      ],
+      "confidence": "MEDIUM",
+      "reason": "先识别怪异程序的真实含义，再按因子分段求和；数学观察强于普通整除枚举，但后续实现短、官方为Easy。",
+      "source": "https://codeforces.com/gym/105459/attachments/download/27941/CCPC%E5%93%88%E5%B0%94%E6%BB%A8(%E9%A2%98%E8%A7%A3).pdf",
+      "sourceSha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": false,
+        "difficultySource": "Gym 无官方单题 rating"
+      }
+    }
+  ],
+  "newSourceAssets": [
+    {
+      "sha256": "3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5",
+      "mime": "application/pdf",
+      "bytes": 698240,
+      "file": "statement-assets/3154b0e34e8d319171a36cf54deab868531467db8c8891e23793e9e9384179c5.bin"
+    }
+  ],
+  "sourceFormat": "41-page original official Harbin editorial; physical PDF pages and exact original statement SHA checked.",
+  "sourceCaveats": [
+    "官方相对档位见第2页；所有 numeric rating/band 均是独立的非官方训练估计。",
+    "知识点取自完整算法，不按题名或单页“关键词”机械决定；K不硬挂线段树，I不挂几何，M不冒称整除分块。",
+    "I只提供DP部分严格上界，未把大因子枚举掩去；其他页默认 n,m 同阶的复杂度已明确展开题目参数。",
+    "H幻灯片摘要与实际题面在n上限和模数上不一致；保留并指出差异，不改实际题面。"
+  ],
+  "peerTextReviewedPages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41
+  ],
+  "peerVisuallyReviewedPages": [
+    2,
+    3,
+    6,
+    8,
+    11,
+    12,
+    14,
+    15,
+    17,
+    20,
+    22,
+    25,
+    28,
+    29,
+    30,
+    31,
+    34,
+    35,
+    37,
+    38,
+    39,
+    40
+  ],
+  "difficultyStatus": "All numerical ratings explicitly unofficial; official relative labels are evidence only, not fabricated numeric rating.",
+  "cleanupInspection": {
+    "checkedBeforeMetadataUpdate": true,
+    "duplicateAssetDescriptors": 0,
+    "unusedTrackedContentEligibleForRemoval": [],
+    "allExistingSourceArchivesAndReviewHistoryStillRequired": true,
+    "newCanonicalAssetCheckedAgainstGlobalManifest": true,
+    "ignoredRejectedCacheCleanupNotRetried": true,
+    "privateRecordsReadOrWritten": false,
+    "release1610BoundaryUntouched": true
+  }
+}

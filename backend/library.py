@@ -153,9 +153,15 @@ class LibraryDatabase:
                 raise UpdateStorageError('题库迁移恢复点未完成，原数据已保留')
             return result
 
-    def merge_seed(self, path, fingerprint=None):
+    def merge_seed(self, path, fingerprint=None, *, _partial=None, _assets=None):
         """Upgrade bundled content, preserving locally imported/edited rows and fetched statements."""
         path = Path(path).resolve()
+        if _partial is not None:
+            if (not isinstance(_partial,dict) or set(_partial)!={'lectureIds','problemLectureSubjects'}
+                    or any(not isinstance(_partial[key],list) or len(_partial[key])>100000
+                           or any(not isinstance(item,str) or not item or len(item)>2048 for item in _partial[key])
+                           or len(set(_partial[key]))!=len(_partial[key]) for key in _partial)):
+                raise ValueError('Invalid partial public library membership')
         if fingerprint is None:
             # The public seed contains images/PDFs; hashing must not allocate
             # another entire library on first startup or during upgrades.
@@ -187,8 +193,10 @@ class LibraryDatabase:
             links = {}
             for row in seed.execute('SELECT * FROM problem_lectures ORDER BY problem_id,position'):
                 links.setdefault(row['problem_id'], []).append(tuple(row))
-            for row in rows['problems']:
-                links.setdefault(row['id'], [])
+            subjects=_partial['problemLectureSubjects'] if _partial is not None else [row['id'] for row in rows['problems']]
+            if _partial is not None and not set(links)<=set(subjects):
+                raise ValueError('Partial public links are outside their declared membership')
+            for identity in subjects:links.setdefault(identity, [])
         finally:
             seed.close()
         if self.has_problems():
@@ -198,6 +206,12 @@ class LibraryDatabase:
             db.execute('BEGIN IMMEDIATE')
             from contextlib import closing
             present_assets={row[0] for row in db.execute('SELECT sha256 FROM statement_assets')}
+            for sha, (mime, data) in (_assets or {}).items():
+                if hashlib.sha256(data).hexdigest()!=sha:
+                    raise ValueError('Reused public resource hash mismatch')
+                if sha not in present_assets:
+                    db.execute('INSERT INTO statement_assets VALUES(?,?,?)',(sha,mime,data))
+                    present_assets.add(sha)
             with closing(sqlite3.connect(path.as_uri()+'?mode=ro',uri=True)) as asset_source:
                 for sha,mime in asset_rows:
                     # Content-addressed immutable bytes already present are
@@ -224,12 +238,12 @@ class LibraryDatabase:
                 bundled[table][identity]=checksum
             for table, (key, columns) in tables.items():
                 identities=json.dumps([row[key] for row in rows[table]])
-                saved={row[key]:row for row in db.execute('SELECT '+','.join(columns)+' FROM '+table+' WHERE '+key+' IN (SELECT value FROM json_each(?))',(identities,))}
+                saved_rows={row[key]:row for row in db.execute('SELECT '+','.join(columns)+' FROM '+table+' WHERE '+key+' IN (SELECT value FROM json_each(?))',(identities,))}
                 for row in rows[table]:
                     identity = row[key]
                     content = {column: row[column] for column in columns}
                     checksum = digest(content)
-                    current = saved.get(identity)
+                    current = saved_rows.get(identity)
                     if current is not None and all(current[column]==content[column] for column in columns):
                         if previous(table,identity)!=checksum:remember(table,identity,checksum)
                         continue
@@ -281,7 +295,7 @@ class LibraryDatabase:
                     remember('problem_lectures', identity, checksum)
                 elif existing == checksum:
                     remember('problem_lectures', identity, checksum)
-            seed_lecture_ids = {row['id'] for row in rows['lectures']}
+            seed_lecture_ids = set(_partial['lectureIds']) if _partial is not None else {row['id'] for row in rows['lectures']}
             obsolete = db.execute("SELECT item_id,digest FROM bundled_items WHERE table_name='lectures'").fetchall()
             for old in obsolete:
                 identity = old['item_id']
@@ -421,14 +435,17 @@ class LibraryDatabase:
             row = db.execute('SELECT * FROM ' + table + ' WHERE problem_id=?', (identity,)).fetchone()
             if not row:
                 return None
-            return {'markdown': row['markdown'], 'path': row['source_path'], 'images': json.loads(row['images']), 'digest': row['digest']}
+            from statement_asset_store import hydrate
+            images=hydrate({'images':json.loads(row['images'])},db)['images']
+            return {'markdown': row['markdown'], 'path': row['source_path'], 'images': images, 'digest': row['digest']}
 
     def statement(self, identity):
         with self.connection() as db:
             row = db.execute('SELECT content FROM statements WHERE problem_id=?', (identity,)).fetchone()
             from statement_cleanup import clean_statement
             from statement_asset_store import hydrate
-            return clean_statement(hydrate(json.loads(row[0]),db)) if row else None
+            from required_downloads import attach_statement
+            return clean_statement(hydrate(attach_statement(json.loads(row[0]),identity),db)) if row else None
 
     def solution_methods(self, identity=None):
         with self.connection() as db:
@@ -656,14 +673,23 @@ class LibraryDatabase:
             db.executemany('INSERT OR REPLACE INTO problems (id,url,raw,encoded) VALUES (?,?,?,?)',
                            [(p['id'], p['url'], json.dumps(p['raw'], ensure_ascii=False), json.dumps(p['encoded'], ensure_ascii=False))
                             for p in problems])
-            db.executemany('INSERT OR REPLACE INTO solutions (problem_id,markdown,source_path,images,digest) VALUES (?,?,?,?,?)',
-                           [(s['problem_id'], s['markdown'], s['source_path'], json.dumps(s['images'], ensure_ascii=False),
-                             hashlib.sha256(s['markdown'].encode()).hexdigest()) for s in solutions])
-            db.executemany('INSERT OR REPLACE INTO detailed_solutions (problem_id,markdown,source_path,images,digest) VALUES (?,?,?,?,?)',
-                           [(s['problem_id'], s['markdown'], s['source_path'], json.dumps(s['images'], ensure_ascii=False),
-                             hashlib.sha256(s['markdown'].encode()).hexdigest()) for s in detailed_solutions])
-            db.executemany('INSERT OR REPLACE INTO statements (problem_id,content) VALUES (?,?)',
-                           [(st['problem_id'], json.dumps(st['content'], ensure_ascii=False)) for st in statements])
+            from statement_asset_store import dehydrate
+            def save_asset(sha,mime,data):
+                db.execute('INSERT OR IGNORE INTO statement_assets VALUES (?,?,?)',(sha,mime,data))
+            def solution_rows(items):
+                for item in items:
+                    # Keep existing inline SVG process controls byte-for-byte;
+                    # changing every old editorial would enlarge compact updates.
+                    images=dehydrate({'images':item['images']},save_asset,mime_types={'image/gif'})['images']
+                    yield (item['problem_id'],item['markdown'],item['source_path'],json.dumps(images,ensure_ascii=False),
+                           hashlib.sha256(item['markdown'].encode()).hexdigest())
+            db.executemany('INSERT OR REPLACE INTO solutions (problem_id,markdown,source_path,images,digest) VALUES (?,?,?,?,?)',solution_rows(solutions))
+            db.executemany('INSERT OR REPLACE INTO detailed_solutions (problem_id,markdown,source_path,images,digest) VALUES (?,?,?,?,?)',solution_rows(detailed_solutions))
+            def statement_rows():
+                for item in statements:
+                    portable=dehydrate(item['content'],save_asset)
+                    yield item['problem_id'],json.dumps(portable,ensure_ascii=False)
+            db.executemany('INSERT OR REPLACE INTO statements (problem_id,content) VALUES (?,?)',statement_rows())
             db.executemany('INSERT OR REPLACE INTO lectures (id,content,digest) VALUES (?,?,?)',
                            [(lecture['id'], json.dumps(lecture['content'], ensure_ascii=False),
                              hashlib.sha256(lecture['content']['markdown'].encode()).hexdigest()) for lecture in lectures])

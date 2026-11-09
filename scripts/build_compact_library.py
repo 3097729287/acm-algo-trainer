@@ -9,6 +9,11 @@ import hashlib
 import json
 from pathlib import Path
 import sqlite3
+import sys
+
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'backend'))
+from public_assets import validate_reference
 
 TABLES={'library_meta','bundled_items','problems','problem_urls','solutions','detailed_solutions','solution_methods','statements','statement_assets','remote_statement_assets','lectures','training_lists','problem_lectures','catalog_generation'}
 
@@ -39,10 +44,17 @@ def build(source,baseline,output,assets):
         remote={r[0]:r for r in old.execute('SELECT sha256,mime,bytes,url FROM remote_statement_assets')}
         original_assets={r[0] for r in current.execute('SELECT sha256 FROM statement_assets')}
         if not (local|set(remote))<=original_assets:raise ValueError('A retained resource is absent from current source')
-        fresh=[]
+        fresh=[];fresh_local=[]
         for digest,mime,data in current.execute('SELECT sha256,mime,data FROM statement_assets'):
             if digest in local or digest in remote:continue
             if hashlib.sha256(data).hexdigest()!=digest:raise ValueError('New resource digest mismatch')
+            # Match prepare_public_assets while retaining every old placement.
+            external=mime=='application/pdf' or len(data)>=65536 and mime in {'image/png','image/jpeg','image/webp','image/gif','image/bmp','application/zip'}
+            if not external:
+                target.execute('INSERT INTO statement_assets VALUES(?,?,?)',(digest,mime,data));local.add(digest)
+                fresh_local.append({'sha256':digest,'mime':mime,'bytes':len(data)})
+                continue
+            validate_reference(digest,mime,len(data),'https://47.82.84.74/updates/library-assets/'+digest+'.bin')
             (assets/(digest+'.bin')).write_bytes(data)
             remote[digest]=(digest,mime,len(data),'https://47.82.84.74/updates/library-assets/'+digest+'.bin')
             fresh.append({'sha256':digest,'mime':mime,'bytes':len(data)})
@@ -69,7 +81,7 @@ def build(source,baseline,output,assets):
         if target.execute('PRAGMA integrity_check').fetchone()[0]!='ok' or target.execute('PRAGMA foreign_key_check').fetchall():raise ValueError('Updated public library failed validation')
         if local|set(remote)!=original_assets:raise ValueError('Public resource union changed')
         counts={table:target.execute('SELECT COUNT(*) FROM '+table).fetchone()[0] for table in ['problems','statements','solutions','detailed_solutions']}
-    return {'publicOnly':True,'source':str(source),'sourceSha256':sha(source),'baseline':str(baseline),'baselineSha256':sha(baseline),'library':str(output.resolve()),'librarySha256':sha(output),'bytes':output.stat().st_size,'counts':counts,'localResources':len(local),'remoteResources':len(remote),'newResources':fresh,'changes':changes,'resourceOutput':str(assets.resolve()),'personalStateReadOrWritten':False}
+    return {'publicOnly':True,'source':str(source),'sourceSha256':sha(source),'baseline':str(baseline),'baselineSha256':sha(baseline),'library':str(output.resolve()),'librarySha256':sha(output),'bytes':output.stat().st_size,'counts':counts,'localResources':len(local),'remoteResources':len(remote),'newResources':fresh,'newInlineResources':fresh_local,'changes':changes,'resourceOutput':str(assets.resolve()),'personalStateReadOrWritten':False}
 
 
 if __name__=='__main__':

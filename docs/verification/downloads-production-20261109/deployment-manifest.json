@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "sourceCommits": [
+    "d6490c7f5115d82f41f67332944fe0cff1d12ba7",
+    "5773c3762bc3fd0cb7ecddd6a568aa09645cfb1a",
+    "3882c93779f2fb99cb191e4db33772b2d85b9a0a",
+    "969522b680210c753807994d929d50742e9c0dc5"
+  ],
+  "beforePublicIndexSha256": "c6a9e3b96357e794c1a5d0ef71b80edfe5ecfc98516ece97f7aaa3b264dd5310",
+  "historicalRowsBefore": 104,
+  "historicalRowsAfter": 104,
+  "allOldFieldsPreserved": true,
+  "newFullChunks": 472,
+  "files": {
+    "src/server.mjs": "72f1717f6e5107e8366235e6ce3b8a32d488809ea035bd01b6303e231d0e8572",
+    "src/release-stream.mjs": "ad8d8336c4f38a8729d696448570d9b61bad621608bc44eace7042351053cae9",
+    "src/required-downloads.mjs": "0ca244555cd0f243caeab997adea9bb16693c22ba383fcf92fe8fc7542abceeb",
+    "public-release-assets.json": "a365c8a06d9c682f3e101a994ef26ae6246ecba4179bf867f342ed6d6717d5bb",
+    "public-required-downloads.json": "05406671ea64d05aa2e8b74d70fec8bbcea9a39dcbc16e84ee0d6e59300f0376",
+    "required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6"
+  },
+  "activeCaddySha256": "bf4b7928cc5f8ea2a5be752d5ec5222a00aad8fb094da07fc31bae399d86558f",
+  "runtimeManifestSha256": "7935db65b4a6e40b7cc6d521f4d5b49a42c32a384c0d0ab088d15aaa09380265",
+  "requiredOriginalBytes": 42049784,
+  "ordinary32MiBLimitUnchanged": true,
+  "stable169Changed": false,
+  "aiCredentialsReadOrChanged": false
+}

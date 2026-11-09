@@ -83,8 +83,10 @@ def serving(app, report):
             process.wait(10)
 
 
-def install(setup, app, log):
-    assert app.is_relative_to(ROOT / 'build') and 'release-check-' in str(app)
+def install(setup, app, log, *, validation_root=None):
+    container=Path(validation_root or ROOT/'build').resolve(strict=True)
+    app=Path(app).resolve()
+    assert app.is_relative_to(container) and 'release-check-' in app.relative_to(container).as_posix()
     run([setup, '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', '/SP-', '/NOICONS',
          '/MERGETASKS=!desktopicon,!importlegacy', '/DIR=' + str(app), '/LOG=' + str(log)],
         log.with_suffix('.process.log'), timeout=300)

@@ -1,0 +1,138 @@
+{
+  "checked": [
+    {
+      "id": "remote:codeforces:105139::A",
+      "pages": 1,
+      "samples": 1,
+      "images": 1,
+      "subsetSha256": "c74481d77a94b2325a542b3d6e94d012f39bb26b8d7e1011ab412f19f04570d9",
+      "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "bilingualVerified": true,
+      "downloadVerified": true
+    },
+    {
+      "id": "remote:codeforces:105139::B",
+      "pages": 1,
+      "samples": 1,
+      "images": 0,
+      "subsetSha256": "1de71709bff5d29aa7e8728438783da20134740f8bb326e209b8ad8c56114381",
+      "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "bilingualVerified": true,
+      "downloadVerified": true
+    },
+    {
+      "id": "remote:codeforces:105139::C",
+      "pages": 2,
+      "samples": 4,
+      "images": 2,
+      "subsetSha256": "da7f1f8e65d8afa825c36d4ad541bcbdc6a54e3f35cebb8092c71d04aeb2a576",
+      "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "bilingualVerified": true,
+      "downloadVerified": true
+    },
+    {
+      "id": "remote:codeforces:105139::D",
+      "pages": 1,
+      "samples": 1,
+      "images": 0,
+      "subsetSha256": "3f3aa84395da98ca14934a2144f015329fd168ce135061b05aa11edd1b777c27",
+      "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "bilingualVerified": true,
+      "downloadVerified": true
+    },
+    {
+      "id": "remote:codeforces:105139::E",
+      "pages": 1,
+      "samples": 1,
+      "images": 1,
+      "subsetSha256": "57a0ef2f42d965ebfcab6287bcdc06352c976d31e3bdce7f6d7769aaa61b0a20",
+      "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "bilingualVerified": true,
+      "downloadVerified": true
+    },
+    {
+      "id": "remote:codeforces:105139::F",
+      "pages": 2,
+      "samples": 2,
+      "images": 1,
+      "subsetSha256": "35c3319ce426db6dda47d6abada2148ec7482aed388951cb8b275b33c73f9bce",
+      "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "bilingualVerified": true,
+      "downloadVerified": true
+    },
+    {
+      "id": "remote:codeforces:105139::G",
+      "pages": 2,
+      "samples": 1,
+      "images": 2,
+      "subsetSha256": "63b0a3409da9a398c85c67087a9399a79b7af224c903bcebc5de09f4a3ade421",
+      "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "bilingualVerified": true,
+      "downloadVerified": true
+    },
+    {
+      "id": "remote:codeforces:105139::H",
+      "pages": 1,
+      "samples": 1,
+      "images": 1,
+      "subsetSha256": "0d09e77754d8fef39b457fefe8b2c2c598f43aa6c8f803df71b92b64186011a4",
+      "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "bilingualVerified": true,
+      "downloadVerified": true
+    },
+    {
+      "id": "remote:codeforces:105139::I",
+      "pages": 1,
+      "samples": 1,
+      "images": 0,
+      "subsetSha256": "e2ae95c56a5a6e028950a77f246591230b735de2ce0ffb6140a00fc333e2a2fa",
+      "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "bilingualVerified": true,
+      "downloadVerified": true
+    },
+    {
+      "id": "remote:codeforces:105139::J",
+      "pages": 1,
+      "samples": 1,
+      "images": 0,
+      "subsetSha256": "7db27a90794d42e1a4e93c718607fa0044abbc764b8c26669ac78599c52d970b",
+      "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "bilingualVerified": true,
+      "downloadVerified": true
+    },
+    {
+      "id": "remote:codeforces:105139::K",
+      "pages": 1,
+      "samples": 1,
+      "images": 0,
+      "subsetSha256": "8ee629865be50c1f831b7db8b96925b149627628b0ad35d857295d127a597759",
+      "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "bilingualVerified": true,
+      "downloadVerified": true
+    },
+    {
+      "id": "remote:codeforces:105139::L",
+      "pages": 1,
+      "samples": 1,
+      "images": 0,
+      "subsetSha256": "0ec92b14375c18f63946102cddece95c1330bb09d5f022c4622c69d98e922711",
+      "originalBookletSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "bilingualVerified": true,
+      "downloadVerified": true
+    }
+  ],
+  "browserErrors": 0,
+  "formulaErrors": 0,
+  "externalRequests": 0,
+  "allOriginalPagesRendered": true,
+  "consoleAndChineseSamplesPreserved": true,
+  "originalBookletByteIdentity": true,
+  "originalSubsetByteIdentity": true,
+  "allOriginalImagesLoaded": true,
+  "editorDraftsPreserved": true,
+  "realJudgeSubmissions": 0,
+  "fixtureSource": "Real isolated LibraryDatabase -> AssetLibrary -> TrainingService responses",
+  "fixtureSha256": "eccd1c42547fb05af223589662a5aa9203e56c6068eb0c1f05144ea701259a59",
+  "testScript": "frontend/tests/reviewed-xcpc-import.mjs",
+  "testScriptSha256": "83cb82d820cc14ecf8f57cd22bb13f34f47be04c252368827871356fb863fee6"
+}

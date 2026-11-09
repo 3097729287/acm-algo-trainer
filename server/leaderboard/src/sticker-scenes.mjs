@@ -2,6 +2,7 @@ import {randomInt,randomUUID} from 'node:crypto';
 import {AccountError} from './accounts.mjs';
 import {REWARDS} from './sticker-rewards.mjs';
 import {resolveScene} from './scene-presets.mjs';
+import {replayProblemKeyIdentity} from './question-identities.mjs';
 export {resolveScene,giftSceneWarnings} from './scene-presets.mjs';
 
 const fail=(status,message)=>{throw new AccountError(status,message);};
@@ -24,7 +25,7 @@ export function replayEvidence(value,now){
  if(!e||Object.keys(e).some(key=>!['version','contestKey','replayId','duration','originalDuration','startedAt','finishedAt','difficulty','total','accepted'].includes(key))||e.version!==1||!/^replay:[a-f0-9]{64}$/.test(e.contestKey||'')||!/^contest-[a-f0-9]{32}$/.test(e.replayId||''))fail(400,'重现赛奖励凭据无效');
  if(!Number.isSafeInteger(e.duration)||e.duration<1||e.duration>1440||e.duration!==e.originalDuration||!Number.isSafeInteger(e.total)||e.total<2||e.total>100||!scalar(e.difficulty,0,10000))fail(400,'重现赛条件无效');
  if(!Number.isSafeInteger(e.startedAt)||!Number.isSafeInteger(e.finishedAt)||e.finishedAt>now+30000||e.startedAt>e.finishedAt||e.finishedAt-e.startedAt<e.duration*30000||e.finishedAt-e.startedAt>e.duration*60000+2000)fail(400,'重现赛用时不符合奖励条件');
- if(!Array.isArray(e.accepted)||e.accepted.length<2||e.accepted.length>e.total||new Set(e.accepted.map(a=>a.problemKey)).size!==e.accepted.length||e.accepted.some(a=>!a||!/^p:[a-f0-9]{64}$/.test(a.problemKey||'')||typeof a.submissionId!=='string'||a.submissionId.length>160||!Number.isSafeInteger(a.submittedAt)||a.submittedAt<e.startedAt||a.submittedAt>e.finishedAt||a.scope!=='official'||a.verdict!=='AC'))fail(400,'需要至少两道不同赛题的原站 AC');
+ if(!Array.isArray(e.accepted)||e.accepted.length<2||e.accepted.length>e.total||e.accepted.some(a=>!a||!/^p:[a-f0-9]{64}$/.test(a.problemKey||'')||typeof a.submissionId!=='string'||a.submissionId.length>160||!Number.isSafeInteger(a.submittedAt)||a.submittedAt<e.startedAt||a.submittedAt>e.finishedAt||a.scope!=='official'||a.verdict!=='AC')||new Set(e.accepted.map(a=>replayProblemKeyIdentity(a.problemKey.slice(2)))).size!==e.accepted.length)fail(400,'需要至少两道不同赛题的原站 AC');
  return e;
 }
 

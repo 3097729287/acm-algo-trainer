@@ -1,4 +1,5 @@
 import {addDays,bounds} from './ranking-rules.mjs';
+import {firstOfficialEventsCTE,questionNotExcludedSQL} from './question-identities.mjs';
 
 export function dominanceFromDays(days,today) {
   const unique=[...new Set(days)].filter(day=>/^\d{4}-\d{2}-\d{2}$/.test(day)&&day<today).sort();
@@ -32,7 +33,7 @@ export class RankingDominance {
         const end=addDays(day,1),cutoff=new Date(end+'T00:00:00+08:00').toISOString();
         for(const period of ['daily','weekly','total']){
           const range=period==='total'?null:period==='daily'?{start:day,end}: {...bounds('weekly',Date.parse(day+'T12:00:00+08:00')),end};
-          const [leaders]=await connection.execute(`SELECT e.user_id,COUNT(*) AS score,MAX(e.accepted_at) AS completed_at FROM official_ac_events e JOIN accounts a ON a.user_id=e.user_id WHERE e.received_at<? AND e.accepted_day<? ${range?'AND e.accepted_day>=?':''} AND NOT EXISTS(SELECT 1 FROM ranking_exclusions x WHERE x.user_id=e.user_id AND x.problem_key=e.problem_key) GROUP BY e.user_id ORDER BY score DESC,completed_at,e.user_id LIMIT 1`,[cutoff,end,...range?[range.start]:[]]);
+          const [leaders]=await connection.execute(`WITH ${firstOfficialEventsCTE()} SELECT e.user_id,COUNT(*) AS score,MAX(e.accepted_at) AS completed_at FROM first_official_ac e JOIN accounts a ON a.user_id=e.user_id WHERE e.received_at<? AND e.accepted_day<? ${range?'AND e.accepted_day>=?':''} AND ${questionNotExcludedSQL()} GROUP BY e.user_id ORDER BY score DESC,completed_at,e.user_id LIMIT 1`,[cutoff,end,...range?[range.start]:[]]);
           const leader=leaders[0];
           if(leader&&Number(leader.score)>0)await connection.execute(`${ignore} INTO ranking_leader_days(period,ranking_day,user_id,score,observed_at) VALUES(?,?,?,?,?)`,[period,day,leader.user_id,Number(leader.score),timestamp]);
         }

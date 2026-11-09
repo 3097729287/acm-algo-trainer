@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "originalsRecovered": 1,
+  "completeChineseTranslations": 1,
+  "originalPngBytes": 33563,
+  "originalPngsVisuallyReviewed": 3,
+  "nativePublicHtmlIdBindings": 2,
+  "samplePairsPreserved": 1,
+  "nativeSampleBruteForce": {
+    "n": 3,
+    "perI": [
+      1,
+      1,
+      3
+    ],
+    "answer": 5
+  },
+  "nativeTimeAndMemoryPreservedByLanguage": true,
+  "guardedSourceReplay": true,
+  "previousIncompleteSourcePreserved": true,
+  "workbenchOriginal": {
+    "checked": [
+      {
+        "id": "remote:nowcoder:8827::A",
+        "pages": 0,
+        "images": 0,
+        "attachments": 3,
+        "samples": 1
+      }
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true,
+    "originalAttachmentByteIdentity": true
+  },
+  "workbenchChineseDownloads": {
+    "checked": [
+      {
+        "id": "remote:nowcoder:8827::A-zh",
+        "pages": 0,
+        "images": 0,
+        "attachments": 3,
+        "samples": 1
+      }
+    ],
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "externalRequests": 0,
+    "samplesPreserved": true,
+    "allPdfPagesRendered": true,
+    "originalPdfByteIdentity": true,
+    "originalAttachmentByteIdentity": true
+  },
+  "workbenchLanguageSwitch": {
+    "checked": [
+      "remote:nowcoder:8827::A"
+    ],
+    "originalImagesLoaded": 0,
+    "browserErrors": 0,
+    "formulaErrors": 0,
+    "samplesPreserved": true,
+    "originalPdfRestored": true,
+    "externalRequests": 0
+  },
+  "staticCorpus": {
+    "total": 2,
+    "rendered": 2,
+    "nativePdf": 0,
+    "issues": []
+  },
+  "globalParserRulesChanged": false,
+  "catalogueWritten": false,
+  "globalAssetRegistryWritten": false,
+  "frozen1610SourceBoundaryChanged": false
+}

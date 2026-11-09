@@ -46,7 +46,8 @@ class Store:
                                   for row in self.library.projected_rows(('id', 'url', 'difficulty'))}
         if data_file is None and LIBRARY_SEED.is_file() and target != LIBRARY_SEED.resolve():
             fingerprint = source_fingerprint(LIBRARY_SOURCE) if LIBRARY_SOURCE.is_dir() else None
-            self.library.merge_seed(LIBRARY_SEED, fingerprint=fingerprint)
+            from public_library_update import merge_public_seed
+            merge_public_seed(self.library,LIBRARY_SEED,fingerprint=fingerprint)
         if not self.library.has_problems() and self.data_file.is_file():
             from archive_import import import_archive
             import_archive(self.library, self.data_root, self.data_file)

@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-11-09T00:25:58.535759+00:00",
+  "baseCommit": "ae5df344",
+  "questionKey": "luogu.com.cn/problem/P10865",
+  "aliases": [
+    "luogu.com.cn/problem/P10865",
+    "codeforces.com/gym/105139/problem/H"
+  ],
+  "targetedTests": {
+    "passed": 85,
+    "newPairTests": 13,
+    "modules": [
+      "test_question_identity",
+      "test_reward_evidence",
+      "test_earned_xp",
+      "test_catalog_identity",
+      "test_catalog_payload",
+      "test_ability_assessment",
+      "test_goal_receipts",
+      "test_goal_assignments",
+      "test_custom_training_lists",
+      "test_tb_rank",
+      "test_replay_workflow",
+      "test_partial_replay",
+      "test_official_ranking"
+    ]
+  },
+  "realPublicSourceProof": "real-public-source.json",
+  "canonicalNativeUrlsChanged": false,
+  "sourceRowsRemovedOrChanged": false,
+  "actualUserHistoryOpened": false,
+  "oldAwardsRevoked": false,
+  "deployed": false,
+  "ordinaryApplicationStarted": false,
+  "largeSeedBuilt": false,
+  "designAndCleanupPreflight": "cleanup.json"
+}

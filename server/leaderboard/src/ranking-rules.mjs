@@ -1,3 +1,5 @@
+import {firstOfficialEventsCTE,questionNotExcludedSQL} from './question-identities.mjs';
+
 export const REWARD_POLICY = Object.freeze({ daily: [100, 60, 30], weekly: [500, 300, 150], timezone: 'Asia/Shanghai', weekStartsOn: 'Monday' });
 
 export function bounds(period, now) {
@@ -17,9 +19,9 @@ export function addDays(day, amount) {
 export function rankingQuery(range, loginDay = null) {
   const values = range ? [range.start, range.end] : [];
   if (loginDay) values.push(loginDay);
-  const sql = `WITH counts AS (
-    SELECT e.user_id,COUNT(*) AS count,MAX(e.accepted_at) AS completed_at FROM official_ac_events e
-    WHERE NOT EXISTS (SELECT 1 FROM ranking_exclusions x WHERE x.user_id=e.user_id AND x.problem_key=e.problem_key)
+  const sql = `WITH ${firstOfficialEventsCTE()}, counts AS (
+    SELECT e.user_id,COUNT(*) AS count,MAX(e.accepted_at) AS completed_at FROM first_official_ac e
+    WHERE ${questionNotExcludedSQL()}
     ${range ? 'AND e.accepted_day>=? AND e.accepted_day<?' : ''} GROUP BY e.user_id),
     participants AS (SELECT users.user_id,users.nickname,COALESCE(counts.count,0) AS count,
       COALESCE(counts.completed_at,users.created_at) AS completed_at

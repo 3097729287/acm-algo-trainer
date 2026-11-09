@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "problems": [
+    {
+      "id": "luogu-training-P7351",
+      "url": "https://www.luogu.com.cn/problem/P7351",
+      "markdownSha256": "144a13b0adbe2da6e39490032631d16ddab535558a52aff562b59a0f7b65e38a",
+      "originalDescriptionReviewed": true,
+      "samples": 1,
+      "sourceDocuments": [
+        {
+          "url": "https://www.luogu.com.cn/problem/P7351",
+          "sha256": "01b1baa8894b47d12d9d5963c8453714ff594c553184e17c5297f1e81637cfea",
+          "bytes": 17404,
+          "status": 200
+        }
+      ],
+      "requiredArchive": {
+        "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+        "bytes": 42049784,
+        "originalGitCommit": "d9fa2b4fdf8dba1fa34a5db95e45397a3721e239",
+        "originalGitBlobSha1": "97005bc38e4501a21c505a5f17aaa6dd62135e1b",
+        "requiredForStatement": true,
+        "optional": false
+      },
+      "productionDistributionReceiptSha256": "36f811c6aec139b84b6b7e22cfd3ac50a38dd8a650af671a620fb1a55c27d98f",
+      "originalClarification": "The source calls four values positive integers, but its zero-based region/country definitions and sample contain zero. The reviewed text says four integers and spells out those already-defined bounds; all other source sections and the full sample are retained.",
+      "nativeLimitsPreserved": {
+        "memoryMb": 512,
+        "timeMs": 5000
+      }
+    }
+  ]
+}

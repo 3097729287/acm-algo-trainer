@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-11-09T00:12:07.229218+00:00",
+  "base": "ae5df344",
+  "designPrinciplesFullyReread": true,
+  "designPrinciplesSha256": "b6fa71c9f549962dd07b0e6257829c2424dc5472f36ed74df1632ec0c3accff1",
+  "currentAgentsApplied": true,
+  "historicalAgentsNotReactivated": true,
+  "checkedBeforeNewContent": true,
+  "freshSourceCheckoutWasClean": true,
+  "ownedIdentityModuleAlreadyExists": false,
+  "obsoleteItemsConfirmed": [],
+  "cleanupDecision": "Fresh isolated source checkout has no replaced identity module or duplicate pair registry. Existing navigation normalization, original source receipts, IDs and histories remain active and must be preserved. No deletion necessary.",
+  "rootBuildDirectoryChanged": false,
+  "livePersonalDataOpened": false
+}

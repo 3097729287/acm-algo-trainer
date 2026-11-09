@@ -1,0 +1,18 @@
+{
+  "fiveContests": {
+    "105544": 13,
+    "104270": 13,
+    "105459": 13,
+    "105170": 12,
+    "106799": 13
+  },
+  "exactOriginalProblems": 64,
+  "sourceReviewedTopicRecords": 64,
+  "explicitUnofficialTrainingEstimates": 64,
+  "newUniqueSourceArchives": 18,
+  "sourceArchiveBytes": 4048386,
+  "allNumericEstimatesOfficial": false,
+  "existingOfficialRatingsAndPersonalHistoryPreserved": true,
+  "release1610BoundaryUntouched": true,
+  "nextStep": "Inspect native official values and strict verified aliases for actual remaining metadata gaps."
+}

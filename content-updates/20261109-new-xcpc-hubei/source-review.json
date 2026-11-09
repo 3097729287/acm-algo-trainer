@@ -1,0 +1,417 @@
+{
+  "schema": 1,
+  "revision": "20261109-hubei-105139-complete-official-originals",
+  "checkedAt": "2026-11-08T22:40:15.998805+00:00",
+  "newContestCount": 1,
+  "newNativeIds": [
+    "remote:codeforces:105139::A",
+    "remote:codeforces:105139::B",
+    "remote:codeforces:105139::C",
+    "remote:codeforces:105139::D",
+    "remote:codeforces:105139::E",
+    "remote:codeforces:105139::F",
+    "remote:codeforces:105139::G",
+    "remote:codeforces:105139::H",
+    "remote:codeforces:105139::I",
+    "remote:codeforces:105139::J",
+    "remote:codeforces:105139::K",
+    "remote:codeforces:105139::L"
+  ],
+  "newNativeIdentityCount": 12,
+  "genuinelyNewTaskCount": 11,
+  "existingEquivalentTasks": [
+    {
+      "newId": "remote:codeforces:105139::H",
+      "existingId": "luogu-training-P10865",
+      "nativeMirrorUrl": "https://www.luogu.com.cn/problem/P10865",
+      "nativeMirrorSha256": "13a6510c78182dd7c09eaa4bf51b9e0d91fb4cd8e621c9e4406524f37faee245",
+      "sameFullStatementAndConstraints": true,
+      "sameSampleSha256": "576eac1174a87591800cb3720bf6e451342cc570e27ab9910a2c4b73c07e75a7"
+    }
+  ],
+  "previousCatalogRows": 13480,
+  "catalogRows": 13492,
+  "previousCatalogSha256": "92018657fa82b5cedf1e1a1fc0a44e6c35a83d0962cd245d266c6daef3afc09c",
+  "officialOriginal": {
+    "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+    "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+    "pageCount": 15
+  },
+  "officialEditorial": {
+    "url": "https://codeforces.com/gym/105139/attachments/download/25287/Sol_ICPC_hubei_24.pdf",
+    "sha256": "11de7ea32d7a426a25e11c325f38444233f057a9b6e0c9184a2bb93ef14b5f23",
+    "physicalPageCount": 39,
+    "logicalSlides": 26
+  },
+  "rosterEvidence": {
+    "url": "https://codeforces.com/gym/105139",
+    "sha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+    "kind": "read-only-web-provider-text-not-origin-html",
+    "anonymousRawHtmlGet": "403, not bypassed or retried with alternate authorization",
+    "ordinaryOfficialPdfGet": "200 for both explicitly linked original and tutorial"
+  },
+  "samples": 16,
+  "originalImages": 8,
+  "newCanonicalAssets": 24,
+  "newCanonicalAssetBytes": 7576976,
+  "oldIdsAndRowsUnchanged": true,
+  "existingMirrorRowUnchangedSha256": "1198ee04e84bf29465ed2e72f6628ee5c820ad4dcd79a6fd30943fae2e2ed07f",
+  "personalStateReadOrWritten": false,
+  "installed": false,
+  "release1610BoundaryChanged": false,
+  "originalSubmissions": 0,
+  "cleanupInspection": {
+    "checkedBeforeNewContent": true,
+    "manifestEntries": 6427,
+    "duplicateManifestHashes": [],
+    "newSourceAssetsAlreadyCanonical": [],
+    "publicRetiredContentToRemove": [],
+    "notes": [
+      "现有题目/旧原稿/译文/资源均仍被当前内容或必要历史回执引用；本批没有可直接删除的公开旧内容。",
+      "新比赛按全文、原图与样例核验后一次登记，规范资源按SHA复用；研究页图只在忽略目录。",
+      "既有失败缓存删除被自动审批拒绝，未重试，原有个人记录和历史保持。"
+    ]
+  },
+  "problems": [
+    {
+      "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+      "id": "remote:codeforces:105139::A",
+      "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/A",
+      "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+      "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "sourcePageNumbers": [
+        1
+      ],
+      "sourceRosterUrl": "https://codeforces.com/gym/105139",
+      "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+      "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+      "nativeLimits": {
+        "timeMs": 1000,
+        "memoryMb": 256
+      },
+      "printedPdfLimits": {
+        "timeMs": 1000,
+        "memoryMb": 256
+      },
+      "currentNativeLimitsPreferred": true,
+      "samplesSha256": "9c00c38c8cf9be77cfcbdc017b7fb1728b749240a4d869d462a60e7a42e72e31",
+      "samplePairs": 1,
+      "allPagesRenderedInWorkbench": true,
+      "originalDownloadByteIdentity": true,
+      "realJudgeSubmissions": 0,
+      "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+    },
+    {
+      "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+      "id": "remote:codeforces:105139::B",
+      "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/B",
+      "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+      "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "sourcePageNumbers": [
+        2
+      ],
+      "sourceRosterUrl": "https://codeforces.com/gym/105139",
+      "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+      "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+      "nativeLimits": {
+        "timeMs": 1000,
+        "memoryMb": 512
+      },
+      "printedPdfLimits": {
+        "timeMs": 1000,
+        "memoryMb": 512
+      },
+      "currentNativeLimitsPreferred": true,
+      "samplesSha256": "a49ea0c676884014539f980d66ca4f9760fa7fcb78f71fbf16ce46fa292bd775",
+      "samplePairs": 1,
+      "allPagesRenderedInWorkbench": true,
+      "originalDownloadByteIdentity": true,
+      "realJudgeSubmissions": 0,
+      "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+    },
+    {
+      "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+      "id": "remote:codeforces:105139::C",
+      "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/C",
+      "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+      "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "sourcePageNumbers": [
+        3,
+        4
+      ],
+      "sourceRosterUrl": "https://codeforces.com/gym/105139",
+      "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+      "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+      "nativeLimits": {
+        "timeMs": 1000,
+        "memoryMb": 512
+      },
+      "printedPdfLimits": {
+        "timeMs": 1000,
+        "memoryMb": 512
+      },
+      "currentNativeLimitsPreferred": true,
+      "samplesSha256": "9fb822c6f27a60c69d681b9caeaea35cef9fed555072f9ac4c9c7f29760440bf",
+      "samplePairs": 4,
+      "allPagesRenderedInWorkbench": true,
+      "originalDownloadByteIdentity": true,
+      "realJudgeSubmissions": 0,
+      "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+    },
+    {
+      "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+      "id": "remote:codeforces:105139::D",
+      "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/D",
+      "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+      "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "sourcePageNumbers": [
+        5
+      ],
+      "sourceRosterUrl": "https://codeforces.com/gym/105139",
+      "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+      "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+      "nativeLimits": {
+        "timeMs": 2000,
+        "memoryMb": 512
+      },
+      "printedPdfLimits": {
+        "timeMs": 1000,
+        "memoryMb": 512
+      },
+      "currentNativeLimitsPreferred": true,
+      "samplesSha256": "02b136a93598eafb2546ec9b6387f6306efd115f9e11188cffb1f6a9e303c656",
+      "samplePairs": 1,
+      "allPagesRenderedInWorkbench": true,
+      "originalDownloadByteIdentity": true,
+      "realJudgeSubmissions": 0,
+      "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+    },
+    {
+      "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+      "id": "remote:codeforces:105139::E",
+      "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/E",
+      "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+      "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "sourcePageNumbers": [
+        6
+      ],
+      "sourceRosterUrl": "https://codeforces.com/gym/105139",
+      "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+      "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+      "nativeLimits": {
+        "timeMs": 1000,
+        "memoryMb": 256
+      },
+      "printedPdfLimits": {
+        "timeMs": 1000,
+        "memoryMb": 256
+      },
+      "currentNativeLimitsPreferred": true,
+      "samplesSha256": "1af0162332e93bc990b53e15895adb6eb075ef7caad611f9a908269822a5f80d",
+      "samplePairs": 1,
+      "allPagesRenderedInWorkbench": true,
+      "originalDownloadByteIdentity": true,
+      "realJudgeSubmissions": 0,
+      "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+    },
+    {
+      "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+      "id": "remote:codeforces:105139::F",
+      "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/F",
+      "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+      "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "sourcePageNumbers": [
+        7,
+        8
+      ],
+      "sourceRosterUrl": "https://codeforces.com/gym/105139",
+      "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+      "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+      "nativeLimits": {
+        "timeMs": 1500,
+        "memoryMb": 1024
+      },
+      "printedPdfLimits": {
+        "timeMs": 1500,
+        "memoryMb": 1024
+      },
+      "currentNativeLimitsPreferred": true,
+      "samplesSha256": "843e3958c225f824f9a40e1c37d906ce4de495d33f34b8c3058c22ad44f6fbdd",
+      "samplePairs": 2,
+      "allPagesRenderedInWorkbench": true,
+      "originalDownloadByteIdentity": true,
+      "realJudgeSubmissions": 0,
+      "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+    },
+    {
+      "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+      "id": "remote:codeforces:105139::G",
+      "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/G",
+      "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+      "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "sourcePageNumbers": [
+        9,
+        10
+      ],
+      "sourceRosterUrl": "https://codeforces.com/gym/105139",
+      "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+      "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+      "nativeLimits": {
+        "timeMs": 8000,
+        "memoryMb": 512
+      },
+      "printedPdfLimits": {
+        "timeMs": 4000,
+        "memoryMb": 512
+      },
+      "currentNativeLimitsPreferred": true,
+      "samplesSha256": "2a4eddb86b5699e7a19fab4da5f0f0b1afe53ea5c9d75d25bc85126c9b959f56",
+      "samplePairs": 1,
+      "allPagesRenderedInWorkbench": true,
+      "originalDownloadByteIdentity": true,
+      "realJudgeSubmissions": 0,
+      "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+    },
+    {
+      "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+      "id": "remote:codeforces:105139::H",
+      "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/H",
+      "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+      "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "sourcePageNumbers": [
+        11
+      ],
+      "sourceRosterUrl": "https://codeforces.com/gym/105139",
+      "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+      "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+      "nativeLimits": {
+        "timeMs": 1000,
+        "memoryMb": 512
+      },
+      "printedPdfLimits": {
+        "timeMs": 1000,
+        "memoryMb": 512
+      },
+      "currentNativeLimitsPreferred": true,
+      "samplesSha256": "c794bd631bbc1e415a6e504db960a83b4b9aeb12e56d3504afecf49bee52aa77",
+      "samplePairs": 1,
+      "allPagesRenderedInWorkbench": true,
+      "originalDownloadByteIdentity": true,
+      "realJudgeSubmissions": 0,
+      "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used.",
+      "existingEquivalentIdentity": "luogu-training-P10865"
+    },
+    {
+      "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+      "id": "remote:codeforces:105139::I",
+      "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/I",
+      "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+      "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "sourcePageNumbers": [
+        12
+      ],
+      "sourceRosterUrl": "https://codeforces.com/gym/105139",
+      "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+      "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+      "nativeLimits": {
+        "timeMs": 2000,
+        "memoryMb": 512
+      },
+      "printedPdfLimits": {
+        "timeMs": 2000,
+        "memoryMb": 512
+      },
+      "currentNativeLimitsPreferred": true,
+      "samplesSha256": "d23cac1e9a72a32ffa3b82eff379661b518bc260bfe564dd62426d8e36995ac3",
+      "samplePairs": 1,
+      "allPagesRenderedInWorkbench": true,
+      "originalDownloadByteIdentity": true,
+      "realJudgeSubmissions": 0,
+      "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+    },
+    {
+      "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+      "id": "remote:codeforces:105139::J",
+      "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/J",
+      "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+      "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "sourcePageNumbers": [
+        13
+      ],
+      "sourceRosterUrl": "https://codeforces.com/gym/105139",
+      "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+      "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+      "nativeLimits": {
+        "timeMs": 1000,
+        "memoryMb": 256
+      },
+      "printedPdfLimits": {
+        "timeMs": 1000,
+        "memoryMb": 256
+      },
+      "currentNativeLimitsPreferred": true,
+      "samplesSha256": "6684d5f5208f448b2d9622accdd12ac8d0d60c188252e5cd9d4546f645392ef7",
+      "samplePairs": 1,
+      "allPagesRenderedInWorkbench": true,
+      "originalDownloadByteIdentity": true,
+      "realJudgeSubmissions": 0,
+      "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+    },
+    {
+      "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+      "id": "remote:codeforces:105139::K",
+      "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/K",
+      "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+      "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "sourcePageNumbers": [
+        14
+      ],
+      "sourceRosterUrl": "https://codeforces.com/gym/105139",
+      "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+      "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+      "nativeLimits": {
+        "timeMs": 1000,
+        "memoryMb": 256
+      },
+      "printedPdfLimits": {
+        "timeMs": 1000,
+        "memoryMb": 256
+      },
+      "currentNativeLimitsPreferred": true,
+      "samplesSha256": "22ceba33d2648b3bb16d004c6e746cc444d42ab876c0b008764b29e512e89700",
+      "samplePairs": 1,
+      "allPagesRenderedInWorkbench": true,
+      "originalDownloadByteIdentity": true,
+      "realJudgeSubmissions": 0,
+      "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+    },
+    {
+      "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+      "id": "remote:codeforces:105139::L",
+      "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/L",
+      "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+      "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+      "sourcePageNumbers": [
+        15
+      ],
+      "sourceRosterUrl": "https://codeforces.com/gym/105139",
+      "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+      "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+      "nativeLimits": {
+        "timeMs": 1000,
+        "memoryMb": 256
+      },
+      "printedPdfLimits": {
+        "timeMs": 1000,
+        "memoryMb": 256
+      },
+      "currentNativeLimitsPreferred": true,
+      "samplesSha256": "8a5356843df941a970387628e00017645b7e63f79c712a5fa9ded5077d855313",
+      "samplePairs": 1,
+      "allPagesRenderedInWorkbench": true,
+      "originalDownloadByteIdentity": true,
+      "realJudgeSubmissions": 0,
+      "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+    }
+  ]
+}

@@ -1,0 +1,3398 @@
+{
+  "schema": 1,
+  "revision": "20261109-native-foundation-topics",
+  "checkedAt": "2026-11-08T21:58:27.492477+00:00",
+  "resourceBeforeSha256": "ab3c8fdbd44a4767b36ed146ef6e5a365a3d05e35812debcd9a26642144e786d",
+  "items": [
+    {
+      "id": "luogu-training-B2142",
+      "beforeProblemSha256": "1e4c7fa9b61f94e2139d3fe21add1ed78a0be016b2547dee6f766e1464183a8d",
+      "tags": [
+        "递归"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B2142"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B2142",
+          "reference": "https://www.luogu.com.cn/problem/B2142",
+          "sha256": "41dca1f87b60f993336b9e36d70b810d99ced75c426c08478cde42d00f25a02b",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B2142",
+          "nativeTitle": "求 1+2+3+...+N 的值",
+          "nativeTagIds": [
+            359
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 359,
+              "name": "函数与递归",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "810b351b14e94e28696d0ca3437567915821203402e79f69e09460b1a62d3bd4",
+            "formatI": "9be7fab03b7587d09a2c6fa3618e889cc7c63a34fb7568d19eefb63225a13fb5",
+            "formatO": "719796e7510bcccc5230cd400e367cad612edb4485e11505888d67d63b1f9c38",
+            "hint": "8025ccd3355c1b0245c17adedbb226898b4edf880b6fe995d278f470da9b941d"
+          },
+          "statementReviewedTags": [
+            "递归"
+          ],
+          "reasons": [
+            "原文指定递归求1到N之和，N<=200；以f(0)=0、f(n)=n+f(n-1)递推返回，不能仅凭“函数与递归”组合标签任意二选一。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-recursion",
+              "reference": "data/library/lectures.json#lecture:foundation-recursion",
+              "markdownSha256": "59a57c37828a229eecb628968dae44cbff8a2f79db8076a9a148d05f5b213b70"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3648",
+      "beforeProblemSha256": "3320775dc94fbd5ec95d0c652869f6c6f11a906317861c55b0bf6c88ef44d034",
+      "tags": [
+        "顺序执行"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3648"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3648",
+          "reference": "https://www.luogu.com.cn/problem/B3648",
+          "sha256": "97f335e95fdc2a9c385e3c3853d747909d13a894491488e36e2690581b346f7c",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3648",
+          "nativeTitle": "[语言月赛202208] 你几岁了",
+          "nativeTagIds": [
+            59,
+            353,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 353,
+              "name": "顺序结构",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "32db5e3fe13f254dcf53a016e5f6a67d3bfdff8ebdf60fd59c787c3722a62fb0",
+            "formatI": "55f99f2baa7e232207f7730183e6ddad3be7c372283977ee3639f580fca961dd",
+            "formatO": "871c835fd0ff6cbb1cd6b854ade1f242f5e4ac6e824a4bf91974166e4ab0fa36",
+            "hint": "4f6823587b70fef214dea4f75c680e2c9fbc906fc2824ec521738ac220e2192b"
+          },
+          "statementReviewedTags": [
+            "顺序执行"
+          ],
+          "reasons": [
+            "读取年龄x后按固定英文句式输出，x在2..100，不需要循环或高级字符串算法。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-io-basics",
+              "reference": "data/library/lectures.json#lecture:foundation-io-basics",
+              "markdownSha256": "d69306aeef215d692d15aa747ed6a05add3de7f0b9b54d0f2ce68d10513c2ee3"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3649",
+      "beforeProblemSha256": "1a61b456c5f61ac1d975ab66e6906e6de6602260ceab24acb50bc61100be0e01",
+      "tags": [
+        "条件分支"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3649"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3649",
+          "reference": "https://www.luogu.com.cn/problem/B3649",
+          "sha256": "e8bb68f188f5910d07d55653e2ee148be72d8ec61a67655d4a4825c65b2ea320",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3649",
+          "nativeTitle": "[语言月赛202208] 大小比较",
+          "nativeTagIds": [
+            59,
+            354,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 354,
+              "name": "分支结构",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "7b2f1932f3e811b58f5f90d79ccd52e1bfd0ad6a081b43860965fa1213c2f57c",
+            "formatI": "c420e39f8f92c48caa18286cd2c650bf1ea4d13a21a127b7eda01713c51a883e",
+            "formatO": "64e5c72e726baae52de37338487b00175441f7a273bf1629c8e17af346550dd1",
+            "hint": "c8841a46cee2ed8d625a1238b77cdefd826e4450c6030a2f359f6a422d68fb4c"
+          },
+          "statementReviewedTags": [
+            "条件分支"
+          ],
+          "reasons": [
+            "按a<=b选择YE5或N0，注意0/5是数字，比较边界包含相等。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-basic-control",
+              "reference": "data/library/lectures.json#lecture:foundation-basic-control",
+              "markdownSha256": "7d5ec721df383211d988e4d65a9e1e4f32bc16c3768ece88cf4887fa87cb72f6"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3650",
+      "beforeProblemSha256": "710534509c13f9f25090162d2eb0a83da742e8cd03f7d2187df4b2f328e24192",
+      "tags": [
+        "循环语句"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3650"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3650",
+          "reference": "https://www.luogu.com.cn/problem/B3650",
+          "sha256": "d9631cfc1cada65154dfdd040f14680d9626d71ef61a9e5cbd6103a0f2d9e797",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3650",
+          "nativeTitle": "[语言月赛 202208] 求和",
+          "nativeTagIds": [
+            59,
+            355,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 355,
+              "name": "循环结构",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "a092b58d645fc20cab4e4a43796cc9be4903492fd1b97b3398d46fc17188bc0c",
+            "formatI": "1f8d9b7607b268b9422b5e1433415b8012ca1243bfd8c694b6da14744fc811d5",
+            "formatO": "7af88b7551d3cd552bd8306cbae116c4864e8e0fe3a83963f9bb8c1de7024a11",
+            "hint": "899e0e4558d2ceede418f3753b001551a68a67cdd22f674096697ec476dc75cc"
+          },
+          "statementReviewedTags": [
+            "循环语句"
+          ],
+          "reasons": [
+            "维护1..i的累计和并逐行输出，n到10^7，线性输出不可省略；使用64位累计和与换行字符避免每行刷新。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-basic-control",
+              "reference": "data/library/lectures.json#lecture:foundation-basic-control",
+              "markdownSha256": "7d5ec721df383211d988e4d65a9e1e4f32bc16c3768ece88cf4887fa87cb72f6"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3652",
+      "beforeProblemSha256": "45da8724edfc1d33a6453e3de98e277824728bda0f1c4dce58cde0dd0be0cd3f",
+      "tags": [
+        "一维数组"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3652"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3652",
+          "reference": "https://www.luogu.com.cn/problem/B3652",
+          "sha256": "17181a2e3b6a08c10af0e0d3bc583a239ab7981f3b6a37d6785ae1df8e65d362",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3652",
+          "nativeTitle": "[语言月赛202208] 渡荆门送别",
+          "nativeTagIds": [
+            59,
+            356,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 356,
+              "name": "数组",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "c630cb12c41414e8dd63df6a26fea6ca508a64dcdabfac440d8a5f4d7f5be7e1",
+            "formatI": "cf9d042df4875d02de6ed7dabf975e4e286b60e3a681dfef3c0485a837941c50",
+            "formatO": "978137106170e6b64740201ddfd40f789d2867cf06570cdbe8f9aea8037c84fb",
+            "hint": "0ec25e37cfd16e0cd38e6977190bab95f0f4d2fc3ed20268fb3dcf0956192275"
+          },
+          "statementReviewedTags": [
+            "一维数组"
+          ],
+          "reasons": [
+            "保存鹅身高，扫描求最大/最小值，再按原顺序输出两个差值数组；n到10^6、身高到10^18，不排序改变位置。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-arrays",
+              "reference": "data/library/lectures.json#lecture:foundation-arrays",
+              "markdownSha256": "f7793508ba409145e32973582d0641bc86f278280d7447b1313c13ef317efc72"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3653",
+      "beforeProblemSha256": "7de97d7f26058ce25a84dd5ad701a14881138bb2ebb49c71ba47f65544dd1da2",
+      "tags": [
+        "二维数组",
+        "枚举"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3653"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3653",
+          "reference": "https://www.luogu.com.cn/problem/B3653",
+          "sha256": "a420072b3e13165235d834469ce5cf552a325d1358df35e772020cb10e52d310",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3653",
+          "nativeTitle": "[语言月赛202208] 俊俏地鼠的远亲",
+          "nativeTagIds": [
+            59,
+            356,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 356,
+              "name": "数组",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "6de0bd60276590d82a8ecd03cb79d8b5660bd8c390c313847738793e6608b4f5",
+            "formatI": "61e72f74d7cc2a2b841b342d8732a42793c0e6d9a03645e667063b4b74376af7",
+            "formatO": "d2944688a56bf543431cf634e11c70e55713411c030405b33ce601fba56a14b6",
+            "hint": "f07a2b74870d5daf15d175c2a04a7cb27e7650a38d0764ed160c6ed07861bf2d"
+          },
+          "statementReviewedTags": [
+            "二维数组",
+            "枚举"
+          ],
+          "reasons": [
+            "n,m<=50，直接枚举每只地鼠与全部同特征值地鼠，最多(2500)^2次平方距离计算；无需凭“最远点”附会凸包等高级几何。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-arrays",
+              "reference": "data/library/lectures.json#lecture:foundation-arrays",
+              "markdownSha256": "f7793508ba409145e32973582d0641bc86f278280d7447b1313c13ef317efc72"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3654",
+      "beforeProblemSha256": "9c4b700c4a84ead9790d4f68d185ef6b46d353ed2554f1f0970f855490892dc7",
+      "tags": [
+        "字符串基础"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3654"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3654",
+          "reference": "https://www.luogu.com.cn/problem/B3654",
+          "sha256": "0638ba05cb8ecaaa8d3ebfd6906e6ab6bc8e07090ccf8137e8ab9bb4b2d33afc",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3654",
+          "nativeTitle": "[语言月赛202208] 影子字符串",
+          "nativeTagIds": [
+            59,
+            357,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 357,
+              "name": "字符串（入门）",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "cfed7177671ac4cde238919b930ab1a41beaa6a6f799397d709714a279c4d848",
+            "formatI": "2ada17f0096087710c1d040469850f5c72f19574686285ccee0da638d7b08a87",
+            "formatO": "ac1c6f4eaba41ad0c7925733104bcb849fc80ad44947aec3407df8b4774dda76",
+            "hint": "cd88f811ec2c05b66cc849d096411f59b7e3d01bc3f02ea615798b6095dd0aa2"
+          },
+          "statementReviewedTags": [
+            "字符串基础"
+          ],
+          "reasons": [
+            "按读入顺序记录已出现字符串，仅第一次出现时拼接，遇单独0终止；最多500串、总长50000，需正确区分结束标记与普通字符。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-strings",
+              "reference": "data/library/lectures.json#lecture:foundation-strings",
+              "markdownSha256": "02031412a70893f40572e346982cb6b189a5fd08563e757ef05e0a880c9b513e"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3657",
+      "beforeProblemSha256": "fbcaad6934c71c3a908f6713b2b66c8022b1cf8cdc0f4d805d6486d5f76aff1c",
+      "tags": [
+        "条件分支",
+        "贪心"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3657"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3657",
+          "reference": "https://www.luogu.com.cn/problem/B3657",
+          "sha256": "59d014647ee718ff6e73487b69fe4058b7b542097fc3af41c2fcbb5df5fe2466",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3657",
+          "nativeTitle": "[语言月赛202209] 公园门票",
+          "nativeTagIds": [
+            59,
+            108,
+            354,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 354,
+              "name": "分支结构",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "ac44aaaff7eb22e3e485280b5ba7ee0f148d1e18b7d5157929c5d479369a8582",
+            "formatI": "fcc6966ecab70195114ff8afc216c1db3084fe4feea9f667d6a0f135d6136daf",
+            "formatO": "d8d3f23f73c64dd3f1f3cdb59158fe234354c76f48c92fcd13d4dee3ab1d7c1c",
+            "hint": "604d3e9c648fd9aa42744a1ddf28fe87145c2f8e028f2d3f44a9fe23dd93edb7"
+          },
+          "statementReviewedTags": [
+            "条件分支",
+            "贪心"
+          ],
+          "reasons": [
+            "原生价目表已目视核对：成人60、儿童40、一大一小90；每对成人儿童省10元，取min(x,y)对后其余单买即可。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-basic-control",
+              "reference": "data/library/lectures.json#lecture:foundation-basic-control",
+              "markdownSha256": "7d5ec721df383211d988e4d65a9e1e4f32bc16c3768ece88cf4887fa87cb72f6"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0,
+          "reviewedNativeImages": [
+            {
+              "sourceUrl": "https://cdn.luogu.com.cn/upload/image_hosting/pc7vt43j.png",
+              "sha256": "d806bfe47f86d2f1a020db5c987063a84446b862930197247610f73b2a9e33c4",
+              "mime": "image/png",
+              "visuallyReviewed": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3658",
+      "beforeProblemSha256": "c0b764343900c7e5a95c5bddac18f35ac4cd6b882db75da91aa4489210d1c196",
+      "tags": [
+        "顺序执行",
+        "整数运算"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3658"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3658",
+          "reference": "https://www.luogu.com.cn/problem/B3658",
+          "sha256": "06178dc219897bd7f77aef26bd8bd9f7f3688de028dfa8b66e5471be0fadba35",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3658",
+          "nativeTitle": "[语言月赛202209] 口算练习",
+          "nativeTagIds": [
+            5,
+            59,
+            108,
+            353,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 5,
+              "name": "数学",
+              "type": 2,
+              "parent": null
+            },
+            {
+              "id": 353,
+              "name": "顺序结构",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "6f3876e87b780795206a67e4d1ac952c44234263960d00d789bca3819454288b",
+            "formatI": "e5e9b687a0c11b619dbd584a5cf3c35e47027c57f6f527710926587adfbcc97a",
+            "formatO": "73b406665a1bad442c7748a9ef67776d93d47bf2df6f96f7c262857919e468c6",
+            "hint": "53f918a312e82bffcb265d3683c170cef36a5607ebc6ab1180df685fead6b1c9"
+          },
+          "statementReviewedTags": [
+            "顺序执行",
+            "整数运算"
+          ],
+          "reasons": [
+            "计算有符号整数商向下取整，x,y在[-1000,1000]且y非0；C++向零截断不等于负数向下取整，不能直接无条件使用x/y。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-io-basics",
+              "reference": "data/library/lectures.json#lecture:foundation-io-basics",
+              "markdownSha256": "d69306aeef215d692d15aa747ed6a05add3de7f0b9b54d0f2ce68d10513c2ee3"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3659",
+      "beforeProblemSha256": "94ecc056effdf29fc4b71fce8bd449127ab8d7ebe20c2a375f256cf4f67f81d6",
+      "tags": [
+        "条件分支",
+        "循环语句"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3659"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3659",
+          "reference": "https://www.luogu.com.cn/problem/B3659",
+          "sha256": "0c07c7d1c7e9406d0e8a9db7e29a860daa6b3e66b996bd401a61ba5c78a01ce3",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3659",
+          "nativeTitle": "[语言月赛202209] 课程QQ群",
+          "nativeTagIds": [
+            59,
+            108,
+            354,
+            355,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 354,
+              "name": "分支结构",
+              "type": 2,
+              "parent": -2
+            },
+            {
+              "id": 355,
+              "name": "循环结构",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "48d5cfd23e34126fff955be8534c22be119b85f058eda69cd61dfe9131218f3c",
+            "formatI": "f94fefe20ff0514f6801467a1f0a0a4a19e4c88e05417d1d457581547eae08dd",
+            "formatO": "b5885663626a26025691ea540800391f82487ef7679b2755eb0043bf0ed7a100",
+            "hint": "b1a342f8336f10ba05c058db534498b2fffcc7995087e1affbf3e02e2f27055a"
+          },
+          "statementReviewedTags": [
+            "条件分支",
+            "循环语句"
+          ],
+          "reasons": [
+            "逐个核对n个验证码是否等于k并计数，n<=5000，只执行一次线性扫描。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-basic-control",
+              "reference": "data/library/lectures.json#lecture:foundation-basic-control",
+              "markdownSha256": "7d5ec721df383211d988e4d65a9e1e4f32bc16c3768ece88cf4887fa87cb72f6"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3660",
+      "beforeProblemSha256": "795d748b2f012583a50b9daa2970495a39a6617b700bdfb93e2d6bfbd68a64ea",
+      "tags": [
+        "循环语句"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3660"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3660",
+          "reference": "https://www.luogu.com.cn/problem/B3660",
+          "sha256": "1b3e2df8a743374456529fa50587da7b1c753aade120cc82519e6899d3dd3265",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3660",
+          "nativeTitle": "[语言月赛202209] 集卡",
+          "nativeTagIds": [
+            59,
+            108,
+            355,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 355,
+              "name": "循环结构",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "3e96a33a8575c41a7f0681cb980a60c875411d10d9b8afef525020963daae589",
+            "formatI": "b3603895fed522f3fdffdd3f55d1fe55a18ff816a8063577cb1d7d1e3cbaa570",
+            "formatO": "83d3d7aa2e73bb4cf8c274be34d461ee35a7a6de5fef8de14854e4281df1d111",
+            "hint": "ec7cb0dfe72a4679e7ef0727a76946d79c1b15d6d8bcbb5e8c1a9bc23e476e23"
+          },
+          "statementReviewedTags": [
+            "循环语句"
+          ],
+          "reasons": [
+            "T组分别扫描n张卡判断是否出现0；即使已找到隐藏款仍需读完该组，下一组重新初始化标记，n可以为0。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-basic-control",
+              "reference": "data/library/lectures.json#lecture:foundation-basic-control",
+              "markdownSha256": "7d5ec721df383211d988e4d65a9e1e4f32bc16c3768ece88cf4887fa87cb72f6"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3661",
+      "beforeProblemSha256": "e6fa2b7aa2d6f49aa8e8efa5078e4aacab1e22da0627cd02bab1a207b9939cd5",
+      "tags": [
+        "一维数组",
+        "条件分支"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3661"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3661",
+          "reference": "https://www.luogu.com.cn/problem/B3661",
+          "sha256": "3941ff1e9842eab72f0f660331a14c228d5fb4dd9f5e51a55b650cc21d38befb",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3661",
+          "nativeTitle": "[语言月赛 202209] 排排队",
+          "nativeTagIds": [
+            59,
+            108,
+            356,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 356,
+              "name": "数组",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "85876b07c9a4ad495e157d4891dd3a1dcaf5e424233f292a70cc41f85a43260b",
+            "formatI": "61bc22193c650f64749ed6fa2bdfbd544ba9f856a898714308430b1fae312e21",
+            "formatO": "66129c22e099be60f7d1ba8bc415776deccc302bada070f005c735670eac0aa3",
+            "hint": "03dc774fcfe3b615bfd1d6b94dc95693ee5c343afe976eb38d7284210f3257ac"
+          },
+          "statementReviewedTags": [
+            "一维数组",
+            "条件分支"
+          ],
+          "reasons": [
+            "按原顺序分别保存/输出奇数学号与偶数学号，要求稳定分组而不是排序，n<=10000。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-arrays",
+              "reference": "data/library/lectures.json#lecture:foundation-arrays",
+              "markdownSha256": "f7793508ba409145e32973582d0641bc86f278280d7447b1313c13ef317efc72"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3662",
+      "beforeProblemSha256": "0678f82861e6fd05b140ce66db6b7b8d551b15b9c5a66deb8a27527eaed452e4",
+      "tags": [
+        "二维数组",
+        "模拟"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3662"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3662",
+          "reference": "https://www.luogu.com.cn/problem/B3662",
+          "sha256": "b9452b64fbeee918fbe13e1aa34ec13f00ad47527cac7ac89673cc90beba3df9",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3662",
+          "nativeTitle": "[语言月赛202209] 山峰",
+          "nativeTagIds": [
+            59,
+            107,
+            356,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 356,
+              "name": "数组",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "a8f9556ea3e4bb33f895beaf97eb670f796e0a7b06bc57c0ff75a10cb8e23406",
+            "formatI": "ae1e7d0b0a9725e058f3a77f1700f6ff4de33c6cf5045811ef01f7501aadf99b",
+            "formatO": "8c4bc71d3f7db87eaf8481b0a871a5c770103eed103e53bb894f752e6a302b31",
+            "hint": "9083248fd5b01d207e84c529c2b33ee301d467510c1b3eb75405eb3d75cca320"
+          },
+          "statementReviewedTags": [
+            "二维数组",
+            "模拟"
+          ],
+          "reasons": [
+            "先按T次指令直接交换两格，全部完成后一次扫描网格与四邻比较；复杂度O(T+nm)，不需要每次交换后重扫全部格子。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-arrays",
+              "reference": "data/library/lectures.json#lecture:foundation-arrays",
+              "markdownSha256": "f7793508ba409145e32973582d0641bc86f278280d7447b1313c13ef317efc72"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3663",
+      "beforeProblemSha256": "9ddd132e88c6b838842402a236cdcca899025123d6f67ff82b436d33b8eb6342",
+      "tags": [
+        "字符串基础"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3663"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3663",
+          "reference": "https://www.luogu.com.cn/problem/B3663",
+          "sha256": "32224a8d035ed07d57a957cc119d079da9fd1f25eb8ebb28fb736d8e7960d405",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3663",
+          "nativeTitle": "[语言月赛202209] Luogu Academic",
+          "nativeTagIds": [
+            59,
+            357,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 357,
+              "name": "字符串（入门）",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "37a9ed4b91a2c4aa961f3694faec1a8b00196eeaa313af841b48a33fbfc19088",
+            "formatI": "12299389113e9a557934479765b53d4c1e47d0390102314cdaa5ece2c1828388",
+            "formatO": "f4f53ca22aeaf9dac826e970d274ff2bfddef0d74b57cfb5785365cb8eb47a0b",
+            "hint": "f90dbd6f20790c7ed8897b48eea5c8104bcdf472e3dc2bbf8f108b20c99e63d4"
+          },
+          "statementReviewedTags": [
+            "字符串基础"
+          ],
+          "reasons": [
+            "枚举每个起点与固定五字符luogu逐位比较，长度到10^6仍为线性，不把固定短模式误标为必须KMP。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-strings",
+              "reference": "data/library/lectures.json#lecture:foundation-strings",
+              "markdownSha256": "02031412a70893f40572e346982cb6b189a5fd08563e757ef05e0a880c9b513e"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3668",
+      "beforeProblemSha256": "002aec166e5c3d9c2f0ac30e76e948ca3537f9f0e7740816b1365dd75fbdfb10",
+      "tags": [
+        "条件分支"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3668"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3668",
+          "reference": "https://www.luogu.com.cn/problem/B3668",
+          "sha256": "68f6496c2e275db4b92c68cf4b02f046146d82d22a2ab25f0d066a895669cfd6",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3668",
+          "nativeTitle": "[语言月赛202210] 应急食品",
+          "nativeTagIds": [
+            59,
+            108,
+            354,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 354,
+              "name": "分支结构",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "41e4e1aab0a733df6b568af06dc1a7a2dd0f1b84d854ab4ca7ecd0b37de09b38",
+            "formatI": "658fb348ecf452fc0558611d353f068977ae710e80a9c106aafdc3551e8bbf0f",
+            "formatO": "6f93251e6e79df42c3c88459bc128db1591ad6af3017b04af0f5eccf02d58d37",
+            "hint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "statementReviewedTags": [
+            "条件分支"
+          ],
+          "reasons": [
+            "按输入选项A/B分别输出对应的food/paimeng，原题只规定两种分支。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-basic-control",
+              "reference": "data/library/lectures.json#lecture:foundation-basic-control",
+              "markdownSha256": "7d5ec721df383211d988e4d65a9e1e4f32bc16c3768ece88cf4887fa87cb72f6"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3669",
+      "beforeProblemSha256": "1650363ab3fd3d8d3dfc39168de93b07e2c83026dc62d746d3801e4e32046ebb",
+      "tags": [
+        "贪心",
+        "整数运算"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3669"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3669",
+          "reference": "https://www.luogu.com.cn/problem/B3669",
+          "sha256": "ea1ce33aae0136e7c35dbd282d520034aa9bfe2a2162d61ab402f4a323cedb3a",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3669",
+          "nativeTitle": "[语言月赛 202210] 购物节",
+          "nativeTagIds": [
+            59,
+            108,
+            354,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 354,
+              "name": "分支结构",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "211fd01db52ba61f61bb8ac30b20944e31da9f4321896e9cd813cc7212020ba5",
+            "formatI": "c45ec3d6bcf2742dbd920d1f4ceae583650f7b4fe2e6858be80d4ca59dd390f1",
+            "formatO": "4f703b69ceb86caee7053f31ce11b3f80647711e9e70c7a503cc93d58710bfa8",
+            "hint": "542d3c38c7cf9d25123b0a77fe50e65e3d75a341fbab3b3be21357d232cea4d4"
+          },
+          "statementReviewedTags": [
+            "贪心",
+            "整数运算"
+          ],
+          "reasons": [
+            "恰买n本，不允许超买。比较十本优惠装y-1与10*(x-1)，整十组取更便宜者、余数单买；n与原价到10^9，使用64位。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-basic-control",
+              "reference": "data/library/lectures.json#lecture:foundation-basic-control",
+              "markdownSha256": "7d5ec721df383211d988e4d65a9e1e4f32bc16c3768ece88cf4887fa87cb72f6"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3670",
+      "beforeProblemSha256": "eb945de5a3bb1c67265660e3be9d763c45e9af3caf730cff5cafef2d99886805",
+      "tags": [
+        "循环语句",
+        "条件分支"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3670"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3670",
+          "reference": "https://www.luogu.com.cn/problem/B3670",
+          "sha256": "68d1d90fce9cab2e6e1550d649cbbc2b3a4bbcbbeaab9a8152e69d9a6731cfe3",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3670",
+          "nativeTitle": "[语言月赛202210] 玉桂狗",
+          "nativeTagIds": [
+            59,
+            108,
+            355,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 355,
+              "name": "循环结构",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "ca436df50454306a9d3a5573f5eae172c42b372b67d06605df3f46af22883bdc",
+            "formatI": "9ff995de3ea8e9ae1756b55621bb2cc3a2011eea3a20161648a285cf94cda22f",
+            "formatO": "0b28a316cfc2080163c7ad02765ad7315d6a700926bfb4071ddd890b0c6693b9",
+            "hint": "87367c161e6acbc6e304713f7c64efd457622a39f20d9200faef58747e51c7c7"
+          },
+          "statementReviewedTags": [
+            "循环语句",
+            "条件分支"
+          ],
+          "reasons": [
+            "线性扫描n<=10^5件玩偶，只在价格不超过R时更新最大可爱度；题目保证至少能买一件，无需排序。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-basic-control",
+              "reference": "data/library/lectures.json#lecture:foundation-basic-control",
+              "markdownSha256": "7d5ec721df383211d988e4d65a9e1e4f32bc16c3768ece88cf4887fa87cb72f6"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3671",
+      "beforeProblemSha256": "804d964da4954be0e8a846c893bc42a9080c7162caf4cf0b847f5ca4e5976cff",
+      "tags": [
+        "一维数组"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3671"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3671",
+          "reference": "https://www.luogu.com.cn/problem/B3671",
+          "sha256": "2ac875df78e56f407eb01ae6f13df22780d2567c8b3e97f4b53cc81e05675b10",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3671",
+          "nativeTitle": "[语言月赛202210] 配餐",
+          "nativeTagIds": [
+            59,
+            108,
+            356,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 356,
+              "name": "数组",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "78c1754140558790c17e78d2bffba79ba9259798ea1588a2b8a681914365c7bf",
+            "formatI": "bd7a246f2077abb60db0746ab986424f297615803c9e1cef75f6276ada0909d0",
+            "formatO": "e7a7f6b783245102d6d031c4b499a47d21aaa5c0452702e22af1b994c483b460",
+            "hint": "7bffb46f587f1ce85fba346075d6685ae29cabfd681047999fc57501d56a4357"
+          },
+          "statementReviewedTags": [
+            "一维数组"
+          ],
+          "reasons": [
+            "按r_i下标查询a数组输出a[r_i]，n<=10^5；区分序列位置、索引值与餐食参数。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-arrays",
+              "reference": "data/library/lectures.json#lecture:foundation-arrays",
+              "markdownSha256": "f7793508ba409145e32973582d0641bc86f278280d7447b1313c13ef317efc72"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3672",
+      "beforeProblemSha256": "ff220a434754e939d3a3a1bdd4da4f6658dea94c1df3d33e457d4af8845954e0",
+      "tags": [
+        "枚举",
+        "整数运算"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3672"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3672",
+          "reference": "https://www.luogu.com.cn/problem/B3672",
+          "sha256": "fe818b18409ed4c57eae1f0275152823da212f9b44f6992a85c4242047936f96",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3672",
+          "nativeTitle": "[语言月赛202210] 图书新编",
+          "nativeTagIds": [
+            59,
+            108,
+            356,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 356,
+              "name": "数组",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "68f38fd631cfe2c5ccb78a12fc96ca2039f4db8bcb95d15665805939d4eddaf1",
+            "formatI": "9cbed4acd749ae555dbae83e91c06971fe0a4f951d7fccdf28a7261a876805cb",
+            "formatO": "3c96c5d47745e697991d463d1d891294691aeb1aa1ae489c32ddf712d9a268d0",
+            "hint": "019f6be7589581a6fdae7f0f4c166bcbce8fdd955f4b6e3b1ebdfd7fdcc798cc"
+          },
+          "statementReviewedTags": [
+            "枚举",
+            "整数运算"
+          ],
+          "reasons": [
+            "n,q<=1000，每次枚举图书编码并检验code mod 10^需求码长度是否等于需求码，总O(nq)，不凭“图书检索”题名挂字典树。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-arrays",
+              "reference": "data/library/lectures.json#lecture:foundation-arrays",
+              "markdownSha256": "f7793508ba409145e32973582d0641bc86f278280d7447b1313c13ef317efc72"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3673",
+      "beforeProblemSha256": "f803a01bde4ec0ea1a0559ebb3f1be382f6457caaf5444f17187cdc9dbaa5d0b",
+      "tags": [
+        "一维数组",
+        "贪心"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3673"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3673",
+          "reference": "https://www.luogu.com.cn/problem/B3673",
+          "sha256": "3b312ae21755a58beb586ba82afb1bffd6f9516cc4961613d0c011e3efa4a397",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3673",
+          "nativeTitle": "[语言月赛202210] 垃圾分类",
+          "nativeTagIds": [
+            59,
+            108,
+            356,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 356,
+              "name": "数组",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "d7d2007e5df25fe74bb488008e90a4464bd18352939f8c2397fb24eb908c4459",
+            "formatI": "c1fbcd960306e029e448c1238e22ce8b9697d5e13c92403fdad8abcf068fc0c6",
+            "formatO": "ce00b85d8e7d5bfee92df1e2f2a5cb00253044a016e285261ebbf2e79fa93913",
+            "hint": "fe7d1c1aa1306cb1f0437f392abfbfd285dfeb492695b7866a9eb411cb6e8674"
+          },
+          "statementReviewedTags": [
+            "一维数组",
+            "贪心"
+          ],
+          "reasons": [
+            "各类专用桶先装min(a_i,r_i)，只有超额部分进入统一收费桶；答案c*sum(max(0,a_i-r_i))，n<=10^6，累计使用64位。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-arrays",
+              "reference": "data/library/lectures.json#lecture:foundation-arrays",
+              "markdownSha256": "f7793508ba409145e32973582d0641bc86f278280d7447b1313c13ef317efc72"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3674",
+      "beforeProblemSha256": "f4d887fc0497ccbc8ce9e623cbd6f9f44b8ed83263679b0eaf9759e33b2b3129",
+      "tags": [
+        "字符串基础"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3674"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3674",
+          "reference": "https://www.luogu.com.cn/problem/B3674",
+          "sha256": "cc01e231d2166ff1499d3ce753b875053fee9350450112915b01a020f40b7d77",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3674",
+          "nativeTitle": "[语言月赛202210] 标题修改",
+          "nativeTagIds": [
+            59,
+            108,
+            357,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 357,
+              "name": "字符串（入门）",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "718273e065c7a23a093ef41be3dbb9ad8e09f3349f09b01301e45d34cd0be573",
+            "formatI": "12299389113e9a557934479765b53d4c1e47d0390102314cdaa5ece2c1828388",
+            "formatO": "a53c9f4a2f1fa28e2353944b655bb37bb65e23e3dd77df28e1aedb9f959e51aa",
+            "hint": "97037060c1bae7a7b2378fee69cd33836de0d6ab4b2bfd7266771661bbc8fd47"
+          },
+          "statementReviewedTags": [
+            "字符串基础"
+          ],
+          "reasons": [
+            "整行读取含空格标题，逐单词按字母位置奇偶改大小写，遇空格重置单词内下标；非空格总长<=10^6。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-strings",
+              "reference": "data/library/lectures.json#lecture:foundation-strings",
+              "markdownSha256": "02031412a70893f40572e346982cb6b189a5fd08563e757ef05e0a880c9b513e"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "luogu-training-B3676",
+      "beforeProblemSha256": "75d0bf66f8307886caeb4a112b40e42ed3aa4b94a6374ed9ddb4e55469a7001e",
+      "tags": [
+        "条件分支"
+      ],
+      "urls": [
+        "https://www.luogu.com.cn/problem/B3676"
+      ],
+      "sources": [
+        {
+          "problemId": "luogu-training-B3676",
+          "reference": "https://www.luogu.com.cn/problem/B3676",
+          "sha256": "63d2a488c8ff4a3edee26fa96aedba8f723315061d6c520849f35eda5f0fd479",
+          "sourceDocumentType": "reviewed-native-statement-json",
+          "nativeProblemId": "B3676",
+          "nativeTitle": "[语言月赛202211] Winner",
+          "nativeTagIds": [
+            59,
+            108,
+            354,
+            386
+          ],
+          "nativeTagDescriptors": [
+            {
+              "id": 354,
+              "name": "分支结构",
+              "type": 2,
+              "parent": -2
+            }
+          ],
+          "nativeTagDictionarySha256": "db27f7687729b1c19afdde22610a3d91ce316aad17644082f99c5e91243d892c",
+          "nativeTagDictionaryReference": "https://www.luogu.com.cn/_lfe/tags",
+          "reviewedNativeTextSha256": {
+            "description": "0920ecaaaae4bb9b84ff8aa72fbb0c80455cdfb3eae9a804a3b0ce93d5b2a7e9",
+            "formatI": "41ee773f82cd99de334b72955c970b7027f8fbfcf6d332b491f86ee1149aa5e5",
+            "formatO": "9f4e52effcb0460a9f6c1c5674aa581573f70a0baf8d080812bbcebe3e837c34",
+            "hint": "f4e1ec4e6e7a459e780c9787b48310cf840ad4c6dd2c6a7c7627966369dd39bd"
+          },
+          "statementReviewedTags": [
+            "条件分支"
+          ],
+          "reasons": [
+            "按逃脱人数K>2、K=2、K<2三种互斥情况输出结果，K范围0..4。"
+          ],
+          "learningEvidence": [
+            {
+              "lectureId": "lecture:foundation-basic-control",
+              "reference": "data/library/lectures.json#lecture:foundation-basic-control",
+              "markdownSha256": "7d5ec721df383211d988e4d65a9e1e4f32bc16c3768ece88cf4887fa87cb72f6"
+            }
+          ],
+          "method": "complete-native-statement-and-constraints-reviewed-basic-classification",
+          "fullStatementAndConstraintsReviewed": true,
+          "fullImplementationRetested": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    }
+  ],
+  "luoguNativeReviews": [],
+  "difficultyEstimates": [],
+  "newSourceAssets": [
+    {
+      "sha256": "d806bfe47f86d2f1a020db5c987063a84446b862930197247610f73b2a9e33c4",
+      "mime": "image/png",
+      "bytes": 23969,
+      "file": "statement-assets/d806bfe47f86d2f1a020db5c987063a84446b862930197247610f73b2a9e33c4.bin"
+    },
+    {
+      "sha256": "41dca1f87b60f993336b9e36d70b810d99ced75c426c08478cde42d00f25a02b",
+      "mime": "application/json",
+      "bytes": 4939,
+      "file": "statement-assets/41dca1f87b60f993336b9e36d70b810d99ced75c426c08478cde42d00f25a02b.bin"
+    },
+    {
+      "sha256": "97f335e95fdc2a9c385e3c3853d747909d13a894491488e36e2690581b346f7c",
+      "mime": "application/json",
+      "bytes": 6806,
+      "file": "statement-assets/97f335e95fdc2a9c385e3c3853d747909d13a894491488e36e2690581b346f7c.bin"
+    },
+    {
+      "sha256": "e8bb68f188f5910d07d55653e2ee148be72d8ec61a67655d4a4825c65b2ea320",
+      "mime": "application/json",
+      "bytes": 6348,
+      "file": "statement-assets/e8bb68f188f5910d07d55653e2ee148be72d8ec61a67655d4a4825c65b2ea320.bin"
+    },
+    {
+      "sha256": "d9631cfc1cada65154dfdd040f14680d9626d71ef61a9e5cbd6103a0f2d9e797",
+      "mime": "application/json",
+      "bytes": 9854,
+      "file": "statement-assets/d9631cfc1cada65154dfdd040f14680d9626d71ef61a9e5cbd6103a0f2d9e797.bin"
+    },
+    {
+      "sha256": "17181a2e3b6a08c10af0e0d3bc583a239ab7981f3b6a37d6785ae1df8e65d362",
+      "mime": "application/json",
+      "bytes": 12241,
+      "file": "statement-assets/17181a2e3b6a08c10af0e0d3bc583a239ab7981f3b6a37d6785ae1df8e65d362.bin"
+    },
+    {
+      "sha256": "a420072b3e13165235d834469ce5cf552a325d1358df35e772020cb10e52d310",
+      "mime": "application/json",
+      "bytes": 12858,
+      "file": "statement-assets/a420072b3e13165235d834469ce5cf552a325d1358df35e772020cb10e52d310.bin"
+    },
+    {
+      "sha256": "0638ba05cb8ecaaa8d3ebfd6906e6ab6bc8e07090ccf8137e8ab9bb4b2d33afc",
+      "mime": "application/json",
+      "bytes": 12075,
+      "file": "statement-assets/0638ba05cb8ecaaa8d3ebfd6906e6ab6bc8e07090ccf8137e8ab9bb4b2d33afc.bin"
+    },
+    {
+      "sha256": "59d014647ee718ff6e73487b69fe4058b7b542097fc3af41c2fcbb5df5fe2466",
+      "mime": "application/json",
+      "bytes": 9702,
+      "file": "statement-assets/59d014647ee718ff6e73487b69fe4058b7b542097fc3af41c2fcbb5df5fe2466.bin"
+    },
+    {
+      "sha256": "06178dc219897bd7f77aef26bd8bd9f7f3688de028dfa8b66e5471be0fadba35",
+      "mime": "application/json",
+      "bytes": 9767,
+      "file": "statement-assets/06178dc219897bd7f77aef26bd8bd9f7f3688de028dfa8b66e5471be0fadba35.bin"
+    },
+    {
+      "sha256": "0c07c7d1c7e9406d0e8a9db7e29a860daa6b3e66b996bd401a61ba5c78a01ce3",
+      "mime": "application/json",
+      "bytes": 9783,
+      "file": "statement-assets/0c07c7d1c7e9406d0e8a9db7e29a860daa6b3e66b996bd401a61ba5c78a01ce3.bin"
+    },
+    {
+      "sha256": "1b3e2df8a743374456529fa50587da7b1c753aade120cc82519e6899d3dd3265",
+      "mime": "application/json",
+      "bytes": 12493,
+      "file": "statement-assets/1b3e2df8a743374456529fa50587da7b1c753aade120cc82519e6899d3dd3265.bin"
+    },
+    {
+      "sha256": "3941ff1e9842eab72f0f660331a14c228d5fb4dd9f5e51a55b650cc21d38befb",
+      "mime": "application/json",
+      "bytes": 11249,
+      "file": "statement-assets/3941ff1e9842eab72f0f660331a14c228d5fb4dd9f5e51a55b650cc21d38befb.bin"
+    },
+    {
+      "sha256": "b9452b64fbeee918fbe13e1aa34ec13f00ad47527cac7ac89673cc90beba3df9",
+      "mime": "application/json",
+      "bytes": 12863,
+      "file": "statement-assets/b9452b64fbeee918fbe13e1aa34ec13f00ad47527cac7ac89673cc90beba3df9.bin"
+    },
+    {
+      "sha256": "32224a8d035ed07d57a957cc119d079da9fd1f25eb8ebb28fb736d8e7960d405",
+      "mime": "application/json",
+      "bytes": 9241,
+      "file": "statement-assets/32224a8d035ed07d57a957cc119d079da9fd1f25eb8ebb28fb736d8e7960d405.bin"
+    },
+    {
+      "sha256": "68f6496c2e275db4b92c68cf4b02f046146d82d22a2ab25f0d066a895669cfd6",
+      "mime": "application/json",
+      "bytes": 7736,
+      "file": "statement-assets/68f6496c2e275db4b92c68cf4b02f046146d82d22a2ab25f0d066a895669cfd6.bin"
+    },
+    {
+      "sha256": "ea1ce33aae0136e7c35dbd282d520034aa9bfe2a2162d61ab402f4a323cedb3a",
+      "mime": "application/json",
+      "bytes": 11595,
+      "file": "statement-assets/ea1ce33aae0136e7c35dbd282d520034aa9bfe2a2162d61ab402f4a323cedb3a.bin"
+    },
+    {
+      "sha256": "68d1d90fce9cab2e6e1550d649cbbc2b3a4bbcbbeaab9a8152e69d9a6731cfe3",
+      "mime": "application/json",
+      "bytes": 9148,
+      "file": "statement-assets/68d1d90fce9cab2e6e1550d649cbbc2b3a4bbcbbeaab9a8152e69d9a6731cfe3.bin"
+    },
+    {
+      "sha256": "2ac875df78e56f407eb01ae6f13df22780d2567c8b3e97f4b53cc81e05675b10",
+      "mime": "application/json",
+      "bytes": 15161,
+      "file": "statement-assets/2ac875df78e56f407eb01ae6f13df22780d2567c8b3e97f4b53cc81e05675b10.bin"
+    },
+    {
+      "sha256": "fe818b18409ed4c57eae1f0275152823da212f9b44f6992a85c4242047936f96",
+      "mime": "application/json",
+      "bytes": 13476,
+      "file": "statement-assets/fe818b18409ed4c57eae1f0275152823da212f9b44f6992a85c4242047936f96.bin"
+    },
+    {
+      "sha256": "3b312ae21755a58beb586ba82afb1bffd6f9516cc4961613d0c011e3efa4a397",
+      "mime": "application/json",
+      "bytes": 16772,
+      "file": "statement-assets/3b312ae21755a58beb586ba82afb1bffd6f9516cc4961613d0c011e3efa4a397.bin"
+    },
+    {
+      "sha256": "cc01e231d2166ff1499d3ce753b875053fee9350450112915b01a020f40b7d77",
+      "mime": "application/json",
+      "bytes": 12070,
+      "file": "statement-assets/cc01e231d2166ff1499d3ce753b875053fee9350450112915b01a020f40b7d77.bin"
+    },
+    {
+      "sha256": "63d2a488c8ff4a3edee26fa96aedba8f723315061d6c520849f35eda5f0fd479",
+      "mime": "application/json",
+      "bytes": 8501,
+      "file": "statement-assets/63d2a488c8ff4a3edee26fa96aedba8f723315061d6c520849f35eda5f0fd479.bin"
+    }
+  ],
+  "newCanonicalConcepts": [
+    {
+      "name": "顺序执行",
+      "category": "基础技巧",
+      "aliases": [],
+      "definition": "按输入、计算、输出的顺序执行语句；与泛化的模拟算法标签区分。",
+      "sources": [
+        "data/library/lectures.json#lecture:foundation-io-basics"
+      ],
+      "learningEvidence": [
+        {
+          "lectureId": "lecture:foundation-io-basics",
+          "reference": "data/library/lectures.json#lecture:foundation-io-basics",
+          "markdownSha256": "d69306aeef215d692d15aa747ed6a05add3de7f0b9b54d0f2ce68d10513c2ee3"
+        }
+      ],
+      "scope": "Only exact statement-reviewed problem IDs are mapped; no global alias for broad native introductory labels."
+    },
+    {
+      "name": "条件分支",
+      "category": "基础技巧",
+      "aliases": [],
+      "definition": "用条件及分支决定应执行的操作，关注互斥分支和比较边界。",
+      "sources": [
+        "data/library/lectures.json#lecture:foundation-basic-control"
+      ],
+      "learningEvidence": [
+        {
+          "lectureId": "lecture:foundation-basic-control",
+          "reference": "data/library/lectures.json#lecture:foundation-basic-control",
+          "markdownSha256": "7d5ec721df383211d988e4d65a9e1e4f32bc16c3768ece88cf4887fa87cb72f6"
+        }
+      ],
+      "scope": "Only exact statement-reviewed problem IDs are mapped; no global alias for broad native introductory labels."
+    },
+    {
+      "name": "循环语句",
+      "category": "基础技巧",
+      "aliases": [],
+      "definition": "用循环重复处理输入或推进状态，明确循环范围、终止条件和多组重置。",
+      "sources": [
+        "data/library/lectures.json#lecture:foundation-basic-control"
+      ],
+      "learningEvidence": [
+        {
+          "lectureId": "lecture:foundation-basic-control",
+          "reference": "data/library/lectures.json#lecture:foundation-basic-control",
+          "markdownSha256": "7d5ec721df383211d988e4d65a9e1e4f32bc16c3768ece88cf4887fa87cb72f6"
+        }
+      ],
+      "scope": "Only exact statement-reviewed problem IDs are mapped; no global alias for broad native introductory labels."
+    },
+    {
+      "name": "一维数组",
+      "category": "基础技巧",
+      "aliases": [],
+      "definition": "用整数下标保存并定位一维状态，与一般数据结构大类及二维数组区分。",
+      "sources": [
+        "data/library/lectures.json#lecture:foundation-arrays"
+      ],
+      "learningEvidence": [
+        {
+          "lectureId": "lecture:foundation-arrays",
+          "reference": "data/library/lectures.json#lecture:foundation-arrays",
+          "markdownSha256": "f7793508ba409145e32973582d0641bc86f278280d7447b1313c13ef317efc72"
+        }
+      ],
+      "scope": "Only exact statement-reviewed problem IDs are mapped; no global alias for broad native introductory labels."
+    },
+    {
+      "name": "字符串基础",
+      "category": "基础技巧",
+      "aliases": [],
+      "definition": "按字符下标、子串、比较、拼接和大小写处理文本；不暗示KMP或后缀结构。",
+      "sources": [
+        "data/library/lectures.json#lecture:foundation-strings"
+      ],
+      "learningEvidence": [
+        {
+          "lectureId": "lecture:foundation-strings",
+          "reference": "data/library/lectures.json#lecture:foundation-strings",
+          "markdownSha256": "02031412a70893f40572e346982cb6b189a5fd08563e757ef05e0a880c9b513e"
+        }
+      ],
+      "scope": "Only exact statement-reviewed problem IDs are mapped; no global alias for broad native introductory labels."
+    }
+  ],
+  "previousExtensionSha256": "78e4030ec0105dcffc1d34434cc7bbf0284a4a1869a561fb7a62cbd20fc8a5b2",
+  "previousCurriculum": {
+    "version": 1,
+    "lessons": [
+      {
+        "id": "lecture:foundation-io-basics",
+        "title": "C++ 输入输出：把数据读进变量，把结果写到标准输出",
+        "kind": "language",
+        "level": 1,
+        "order": 0,
+        "prerequisites": []
+      },
+      {
+        "id": "lecture:foundation-basic-arithmetic",
+        "title": "整数、实数与单位换算",
+        "kind": "language",
+        "level": 1,
+        "order": 1,
+        "prerequisites": [
+          "lecture:foundation-io-basics"
+        ]
+      },
+      {
+        "id": "lecture:foundation-integer",
+        "title": "整数类型、整除与溢出",
+        "kind": "language",
+        "level": 1,
+        "order": 2,
+        "prerequisites": [
+          "lecture:foundation-basic-arithmetic"
+        ]
+      },
+      {
+        "id": "lecture:foundation-basic-control",
+        "title": "分支与循环：按条件选择，按次序重复",
+        "kind": "language",
+        "level": 1,
+        "order": 3,
+        "prerequisites": [
+          "lecture:foundation-io-basics",
+          "lecture:foundation-basic-arithmetic"
+        ]
+      },
+      {
+        "id": "lecture:foundation-arrays",
+        "title": "数组：用下标定位一组状态",
+        "kind": "language",
+        "level": 1,
+        "order": 4,
+        "prerequisites": [
+          "lecture:foundation-basic-control"
+        ]
+      },
+      {
+        "id": "lecture:foundation-functions",
+        "title": "具名函数：给可复用计算一个明确接口",
+        "kind": "language",
+        "level": 1,
+        "order": 5,
+        "prerequisites": [
+          "lecture:foundation-basic-control"
+        ]
+      },
+      {
+        "id": "lecture:foundation-strings",
+        "title": "string：字符、下标与子串",
+        "kind": "language",
+        "level": 1,
+        "order": 6,
+        "prerequisites": [
+          "lecture:foundation-arrays"
+        ]
+      },
+      {
+        "id": "lecture:foundation-structures",
+        "title": "结构体：把一个对象的相关数据保存在一起",
+        "kind": "language",
+        "level": 1,
+        "order": 7,
+        "prerequisites": [
+          "lecture:foundation-functions"
+        ]
+      },
+      {
+        "id": "lecture:foundation-vector",
+        "title": "vector：长度可变的连续数组",
+        "kind": "language",
+        "level": 1,
+        "order": 8,
+        "prerequisites": [
+          "lecture:foundation-arrays"
+        ]
+      },
+      {
+        "id": "lecture:foundation-string-tools",
+        "title": "字符串修改、数字转换与字符判断",
+        "kind": "language",
+        "level": 1,
+        "order": 9,
+        "prerequisites": [
+          "lecture:foundation-strings"
+        ]
+      },
+      {
+        "id": "lecture:foundation-bindings",
+        "title": "pair、tuple 与结构化绑定",
+        "kind": "language",
+        "level": 2,
+        "order": 10,
+        "prerequisites": [
+          "lecture:foundation-structures"
+        ]
+      },
+      {
+        "id": "lecture:foundation-iterators",
+        "title": "迭代器、begin/end 与左闭右开范围",
+        "kind": "language",
+        "level": 2,
+        "order": 11,
+        "prerequisites": [
+          "lecture:foundation-vector"
+        ]
+      },
+      {
+        "id": "lecture:foundation-sort",
+        "title": "sort 与比较器：先建立统一的顺序",
+        "kind": "language",
+        "level": 2,
+        "order": 12,
+        "prerequisites": [
+          "lecture:foundation-arrays",
+          "lecture:foundation-functions"
+        ]
+      },
+      {
+        "id": "lecture:foundation-bounds",
+        "title": "lower_bound 与 upper_bound：从位置到数量",
+        "kind": "language",
+        "level": 2,
+        "order": 13,
+        "prerequisites": [
+          "lecture:foundation-sort",
+          "lecture:foundation-iterators"
+        ]
+      },
+      {
+        "id": "lecture:foundation-queue-stack",
+        "title": "queue、deque 与 stack：处理顺序也是规则",
+        "kind": "language",
+        "level": 2,
+        "order": 14,
+        "prerequisites": [
+          "lecture:foundation-arrays"
+        ]
+      },
+      {
+        "id": "lecture:foundation-sets",
+        "title": "set、multiset 与有序邻居",
+        "kind": "language",
+        "level": 2,
+        "order": 15,
+        "prerequisites": [
+          "lecture:foundation-sort"
+        ]
+      },
+      {
+        "id": "lecture:foundation-maps",
+        "title": "map 与 unordered_map：按键保存信息",
+        "kind": "language",
+        "level": 2,
+        "order": 16,
+        "prerequisites": [
+          "lecture:foundation-structures"
+        ]
+      },
+      {
+        "id": "lecture:foundation-heap",
+        "title": "priority_queue：随时取出最高优先级",
+        "kind": "language",
+        "level": 2,
+        "order": 17,
+        "prerequisites": [
+          "lecture:foundation-sort"
+        ]
+      },
+      {
+        "id": "lecture:foundation-numeric-tools",
+        "title": "数值工具：连续编号、累加与最值",
+        "kind": "language",
+        "level": 2,
+        "order": 18,
+        "prerequisites": [
+          "lecture:foundation-arrays"
+        ]
+      },
+      {
+        "id": "lecture:foundation-lambda",
+        "title": "lambda：定义、捕获和调用一个局部函数",
+        "kind": "language",
+        "level": 2,
+        "order": 19,
+        "prerequisites": [
+          "lecture:foundation-functions"
+        ]
+      },
+      {
+        "id": "lecture:foundation-vector-ranges",
+        "title": "vector 的区间插入与内容复制",
+        "kind": "language",
+        "level": 2,
+        "order": 20,
+        "prerequisites": [
+          "lecture:foundation-vector",
+          "lecture:foundation-iterators"
+        ]
+      },
+      {
+        "id": "lecture:foundation-interactive-io",
+        "title": "交互输入输出：先发出问题，再等待对方回复",
+        "kind": "language",
+        "level": 2,
+        "order": 21,
+        "prerequisites": [
+          "lecture:foundation-io-basics",
+          "lecture:foundation-basic-control"
+        ]
+      },
+      {
+        "id": "lecture:foundation-unsigned64",
+        "title": "无符号六十四位整数与模二的六十四次方",
+        "kind": "language",
+        "level": 2,
+        "order": 22,
+        "prerequisites": [
+          "lecture:foundation-integer",
+          "lecture:foundation-bitwise"
+        ]
+      },
+      {
+        "id": "lecture:foundation-enumeration",
+        "title": "枚举与模拟：让代码和允许的动作一一对应",
+        "kind": "algorithm",
+        "level": 1,
+        "order": 23,
+        "prerequisites": [
+          "lecture:foundation-basic-control"
+        ]
+      },
+      {
+        "id": "lecture:foundation-counting",
+        "title": "计数：先确定一个方案包含哪些选择",
+        "kind": "algorithm",
+        "level": 1,
+        "order": 24,
+        "prerequisites": [
+          "lecture:foundation-basic-control"
+        ]
+      },
+      {
+        "id": "lecture:foundation-construction",
+        "title": "构造：找到一份合法对象，并解释它为何总能生成",
+        "kind": "algorithm",
+        "level": 1,
+        "order": 25,
+        "prerequisites": [
+          "lecture:foundation-basic-control"
+        ]
+      },
+      {
+        "id": "lecture:foundation-prefix",
+        "title": "前缀和：一段和由两段前缀相减",
+        "kind": "algorithm",
+        "level": 1,
+        "order": 26,
+        "prerequisites": [
+          "lecture:foundation-arrays"
+        ]
+      },
+      {
+        "id": "lecture:foundation-difference",
+        "title": "差分：把区间的变化写在两个边界",
+        "kind": "algorithm",
+        "level": 1,
+        "order": 27,
+        "prerequisites": [
+          "lecture:foundation-prefix"
+        ]
+      },
+      {
+        "id": "lecture:foundation-recursion",
+        "title": "递归：把一个任务交给更小的同类任务",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 28,
+        "prerequisites": [
+          "lecture:foundation-functions"
+        ]
+      },
+      {
+        "id": "lecture:foundation-binary-answer",
+        "title": "二分答案：在单调的可行性分界处找最优值",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 29,
+        "prerequisites": [
+          "lecture:foundation-bounds"
+        ]
+      },
+      {
+        "id": "lecture:foundation-two-pointers",
+        "title": "双指针与连续窗口：边界为什么能只向前走",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 30,
+        "prerequisites": [
+          "lecture:foundation-arrays",
+          "lecture:foundation-sort"
+        ]
+      },
+      {
+        "id": "lecture:foundation-greedy",
+        "title": "贪心：先证明当前选择不会丢掉最优解",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 31,
+        "prerequisites": [
+          "lecture:foundation-enumeration"
+        ]
+      },
+      {
+        "id": "lecture:foundation-bitwise",
+        "title": "位运算：把非负整数看成一组二进制开关",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 32,
+        "prerequisites": [
+          "lecture:foundation-integer"
+        ]
+      },
+      {
+        "id": "lecture:foundation-number-theory",
+        "title": "整除、最大公约数与质因数",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 33,
+        "prerequisites": [
+          "lecture:foundation-integer"
+        ]
+      },
+      {
+        "id": "lecture:foundation-prime-sieve",
+        "title": "埃氏筛：一次求出整个上界内的所有素数",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 34,
+        "prerequisites": [
+          "lecture:foundation-arrays",
+          "lecture:foundation-number-theory"
+        ]
+      },
+      {
+        "id": "lecture:foundation-modular",
+        "title": "取模、快速幂与乘法逆元",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 35,
+        "prerequisites": [
+          "lecture:foundation-number-theory"
+        ]
+      },
+      {
+        "id": "lecture:foundation-big-integers",
+        "title": "高精度整数：用数组保存十进制位",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 36,
+        "prerequisites": [
+          "lecture:foundation-arrays",
+          "lecture:foundation-integer"
+        ]
+      },
+      {
+        "id": "lecture:foundation-decimal-addition",
+        "title": "十进制高精度加法：从个位逐位进位",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 37,
+        "prerequisites": [
+          "lecture:foundation-big-integers"
+        ]
+      },
+      {
+        "id": "lecture:foundation-lex-permutation",
+        "title": "字典序排列与 next_permutation",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 38,
+        "prerequisites": [
+          "lecture:foundation-sort"
+        ]
+      },
+      {
+        "id": "lecture:foundation-random-selection",
+        "title": "随机枢轴：把期望分析与最坏情况分开",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 39,
+        "prerequisites": [
+          "lecture:foundation-sort"
+        ]
+      },
+      {
+        "id": "lecture:foundation-rectangle-difference",
+        "title": "二维差分：四个角登记一块矩形的增量",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 40,
+        "prerequisites": [
+          "lecture:foundation-difference"
+        ]
+      },
+      {
+        "id": "lecture:foundation-graphs",
+        "title": "图的表示、BFS 与 DFS",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 41,
+        "prerequisites": [
+          "lecture:foundation-arrays",
+          "lecture:foundation-queue-stack"
+        ]
+      },
+      {
+        "id": "lecture:foundation-dsu",
+        "title": "并查集：维护哪些对象已属于同一组",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 42,
+        "prerequisites": [
+          "lecture:foundation-arrays",
+          "lecture:foundation-functions"
+        ]
+      },
+      {
+        "id": "lecture:foundation-dp",
+        "title": "动态规划：保存明确子问题的答案",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 43,
+        "prerequisites": [
+          "lecture:foundation-arrays",
+          "lecture:foundation-recursion"
+        ]
+      },
+      {
+        "id": "lecture:foundation-knapsack",
+        "title": "背包 DP：容量约束下保留不同选择",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 44,
+        "prerequisites": [
+          "lecture:foundation-dp"
+        ]
+      },
+      {
+        "id": "lecture:foundation-fenwick",
+        "title": "树状数组：动态前缀和",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 45,
+        "prerequisites": [
+          "lecture:foundation-prefix"
+        ]
+      },
+      {
+        "id": "lecture:foundation-segment-tree",
+        "title": "线段树：把区间问题分成可合并的两半",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 46,
+        "prerequisites": [
+          "lecture:foundation-prefix",
+          "lecture:foundation-recursion"
+        ]
+      },
+      {
+        "id": "lecture:foundation-trie",
+        "title": "字典树：共享相同前缀的分支",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 47,
+        "prerequisites": [
+          "lecture:foundation-strings"
+        ]
+      },
+      {
+        "id": "lecture:foundation-shortest-path",
+        "title": "最短路：从一步到达转向累计费用",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 48,
+        "prerequisites": [
+          "lecture:foundation-graphs",
+          "lecture:foundation-heap"
+        ]
+      },
+      {
+        "id": "lecture:foundation-binary-lifting",
+        "title": "倍增：把重复后继操作拼成二的幂次步长",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 49,
+        "prerequisites": [
+          "lecture:foundation-arrays"
+        ]
+      },
+      {
+        "id": "lecture:foundation-permutations",
+        "title": "置换环：沿“去哪里”把编号分组",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 50,
+        "prerequisites": [
+          "lecture:foundation-arrays"
+        ]
+      },
+      {
+        "id": "lecture:foundation-monotonic",
+        "title": "单调栈与单调队列：删去以后不会更优的候选",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 51,
+        "prerequisites": [
+          "lecture:foundation-queue-stack",
+          "lecture:foundation-two-pointers"
+        ]
+      },
+      {
+        "id": "lecture:foundation-hashing",
+        "title": "哈希：用摘要快速筛选相同对象",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 52,
+        "prerequisites": [
+          "lecture:foundation-strings"
+        ]
+      },
+      {
+        "id": "lecture:foundation-geometry",
+        "title": "计算几何：先画位置，再选择精确判定",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 53,
+        "prerequisites": [
+          "lecture:foundation-basic-arithmetic"
+        ]
+      },
+      {
+        "id": "lecture:foundation-probability",
+        "title": "概率与期望：按事件或按贡献计算",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 54,
+        "prerequisites": [
+          "lecture:foundation-counting"
+        ]
+      },
+      {
+        "id": "lecture:foundation-games",
+        "title": "博弈状态：自己的选择与对方的选择不同",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 55,
+        "prerequisites": [
+          "lecture:foundation-enumeration"
+        ]
+      },
+      {
+        "id": "lecture:foundation-trees",
+        "title": "树的根、子树、DFS 序与倍增",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 56,
+        "prerequisites": [
+          "lecture:foundation-graphs",
+          "lecture:foundation-recursion"
+        ]
+      },
+      {
+        "id": "lecture:foundation-topology",
+        "title": "拓扑排序与生成树：两类不同的图结构",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 57,
+        "prerequisites": [
+          "lecture:foundation-graphs",
+          "lecture:foundation-dsu"
+        ]
+      },
+      {
+        "id": "lecture:foundation-coordinates",
+        "title": "离散化、扫描线与连续区间",
+        "kind": "algorithm",
+        "level": 2,
+        "order": 58,
+        "prerequisites": [
+          "lecture:foundation-sort",
+          "lecture:foundation-prefix"
+        ]
+      },
+      {
+        "id": "lecture:foundation-subset-dp",
+        "title": "状态压缩与记忆化：把集合也作为状态的一部分",
+        "kind": "algorithm",
+        "level": 3,
+        "order": 59,
+        "prerequisites": [
+          "lecture:foundation-dp",
+          "lecture:foundation-bitwise"
+        ]
+      },
+      {
+        "id": "lecture:foundation-max-flow",
+        "title": "最大流、最小割与 Dinic：容量限制下怎样传递",
+        "kind": "algorithm",
+        "level": 3,
+        "order": 60,
+        "prerequisites": [
+          "lecture:foundation-graphs",
+          "lecture:foundation-shortest-path"
+        ]
+      },
+      {
+        "id": "lecture:foundation-li-chao",
+        "title": "Li Chao 树：插入直线并查询某个横坐标的最优值",
+        "kind": "algorithm",
+        "level": 3,
+        "order": 61,
+        "prerequisites": [
+          "lecture:foundation-segment-tree",
+          "lecture:foundation-geometry"
+        ]
+      }
+    ],
+    "topics": [
+      {
+        "id": "io-basics",
+        "title": "输入输出",
+        "level": 1,
+        "order": 0,
+        "tags": [
+          "输入输出",
+          "顺序结构"
+        ],
+        "prerequisites": [],
+        "lectures": [
+          "lecture:foundation-io-basics"
+        ],
+        "course": null,
+        "template": null,
+        "practiceOriginals": [
+          "luogu.com.cn/problem/B2002",
+          "luogu.com.cn/problem/P1001",
+          "luogu.com.cn/problem/B2005",
+          "luogu.com.cn/problem/B2025"
+        ]
+      },
+      {
+        "id": "basic-control",
+        "title": "分支与循环",
+        "level": 1,
+        "order": 1,
+        "tags": [
+          "分支",
+          "循环"
+        ],
+        "prerequisites": [
+          "io-basics"
+        ],
+        "lectures": [
+          "lecture:foundation-basic-control"
+        ],
+        "course": null,
+        "template": null
+      },
+      {
+        "id": "arrays",
+        "title": "数组",
+        "level": 1,
+        "order": 2,
+        "tags": [
+          "数组"
+        ],
+        "prerequisites": [
+          "basic-control"
+        ],
+        "lectures": [
+          "lecture:foundation-arrays"
+        ],
+        "course": null,
+        "template": null
+      },
+      {
+        "id": "functions",
+        "title": "函数",
+        "level": 1,
+        "order": 3,
+        "tags": [
+          "函数"
+        ],
+        "prerequisites": [
+          "basic-control"
+        ],
+        "lectures": [
+          "lecture:foundation-functions"
+        ],
+        "course": null,
+        "template": null
+      },
+      {
+        "id": "strings",
+        "title": "string 与字符串",
+        "level": 1,
+        "order": 4,
+        "tags": [
+          "字符串"
+        ],
+        "prerequisites": [
+          "arrays"
+        ],
+        "lectures": [
+          "lecture:foundation-strings"
+        ],
+        "course": null,
+        "template": null
+      },
+      {
+        "id": "sorting-basics",
+        "title": "排序基础",
+        "level": 1,
+        "order": 5,
+        "tags": [
+          "排序"
+        ],
+        "prerequisites": [
+          "arrays",
+          "functions"
+        ],
+        "lectures": [
+          "lecture:foundation-sort"
+        ],
+        "course": "sorting-basics",
+        "template": null
+      },
+      {
+        "id": "enumeration",
+        "title": "枚举与模拟",
+        "level": 1,
+        "order": 6,
+        "tags": [
+          "枚举",
+          "模拟"
+        ],
+        "prerequisites": [
+          "basic-control"
+        ],
+        "lectures": [
+          "lecture:foundation-enumeration"
+        ],
+        "course": null,
+        "template": null
+      },
+      {
+        "id": "prefix-difference",
+        "title": "前缀和与差分",
+        "level": 1,
+        "order": 7,
+        "tags": [
+          "前缀和",
+          "差分"
+        ],
+        "prerequisites": [
+          "arrays"
+        ],
+        "lectures": [
+          "lecture:foundation-prefix",
+          "lecture:foundation-difference"
+        ],
+        "course": "prefix-difference",
+        "template": "builtin:prefix-difference"
+      },
+      {
+        "id": "binary-search",
+        "title": "二分查找",
+        "level": 2,
+        "order": 8,
+        "tags": [
+          "二分查找",
+          "二分答案"
+        ],
+        "prerequisites": [
+          "sorting-basics"
+        ],
+        "lectures": [
+          "lecture:foundation-bounds",
+          "lecture:foundation-binary-answer"
+        ],
+        "course": null,
+        "template": "builtin:binary-search"
+      },
+      {
+        "id": "two-pointers",
+        "title": "双指针与滑动窗口",
+        "level": 2,
+        "order": 9,
+        "tags": [
+          "双指针",
+          "滑动窗口"
+        ],
+        "prerequisites": [
+          "sorting-basics",
+          "arrays"
+        ],
+        "lectures": [
+          "lecture:foundation-two-pointers"
+        ],
+        "course": "two-pointers",
+        "template": null
+      },
+      {
+        "id": "recursion",
+        "title": "递归",
+        "level": 2,
+        "order": 10,
+        "tags": [
+          "递归"
+        ],
+        "prerequisites": [
+          "functions"
+        ],
+        "lectures": [
+          "lecture:foundation-recursion"
+        ],
+        "course": null,
+        "template": null
+      },
+      {
+        "id": "bfs",
+        "title": "BFS 广度优先搜索",
+        "level": 2,
+        "order": 11,
+        "tags": [
+          "BFS"
+        ],
+        "prerequisites": [
+          "arrays"
+        ],
+        "lectures": [
+          "lecture:foundation-graphs"
+        ],
+        "course": "bfs",
+        "template": "builtin:bfs"
+      },
+      {
+        "id": "dfs",
+        "title": "DFS 深度优先搜索",
+        "level": 2,
+        "order": 12,
+        "tags": [
+          "DFS"
+        ],
+        "prerequisites": [
+          "recursion"
+        ],
+        "lectures": [
+          "lecture:foundation-graphs"
+        ],
+        "course": "dfs",
+        "template": null
+      },
+      {
+        "id": "dsu",
+        "title": "并查集",
+        "level": 2,
+        "order": 13,
+        "tags": [
+          "并查集"
+        ],
+        "prerequisites": [
+          "arrays",
+          "functions"
+        ],
+        "lectures": [
+          "lecture:foundation-dsu"
+        ],
+        "course": "dsu",
+        "template": "builtin:dsu"
+      },
+      {
+        "id": "knapsack",
+        "title": "背包 DP",
+        "level": 2,
+        "order": 14,
+        "tags": [
+          "背包 DP"
+        ],
+        "prerequisites": [
+          "arrays",
+          "recursion"
+        ],
+        "lectures": [
+          "lecture:foundation-dp",
+          "lecture:foundation-knapsack"
+        ],
+        "course": "knapsack",
+        "template": "builtin:knapsack"
+      },
+      {
+        "id": "fenwick",
+        "title": "树状数组",
+        "level": 2,
+        "order": 15,
+        "tags": [
+          "树状数组"
+        ],
+        "prerequisites": [
+          "prefix-difference"
+        ],
+        "lectures": [
+          "lecture:foundation-fenwick"
+        ],
+        "course": "fenwick",
+        "template": "builtin:fenwick"
+      },
+      {
+        "id": "segment-tree",
+        "title": "线段树",
+        "level": 2,
+        "order": 16,
+        "tags": [
+          "线段树"
+        ],
+        "prerequisites": [
+          "prefix-difference",
+          "recursion"
+        ],
+        "lectures": [
+          "lecture:foundation-segment-tree"
+        ],
+        "course": "segment-tree",
+        "template": "builtin:segment-tree"
+      },
+      {
+        "id": "dijkstra",
+        "title": "Dijkstra 最短路",
+        "level": 2,
+        "order": 17,
+        "tags": [
+          "最短路"
+        ],
+        "prerequisites": [
+          "bfs",
+          "sorting-basics"
+        ],
+        "lectures": [
+          "lecture:foundation-shortest-path"
+        ],
+        "course": "dijkstra",
+        "template": "builtin:dijkstra"
+      },
+      {
+        "id": "trie",
+        "title": "字典树",
+        "level": 2,
+        "order": 18,
+        "tags": [
+          "字典树"
+        ],
+        "prerequisites": [
+          "strings"
+        ],
+        "lectures": [
+          "lecture:foundation-trie"
+        ],
+        "course": "trie",
+        "template": "builtin:trie"
+      },
+      {
+        "id": "binary-lifting",
+        "title": "倍增",
+        "level": 2,
+        "order": 19,
+        "tags": [
+          "倍增"
+        ],
+        "prerequisites": [
+          "arrays"
+        ],
+        "lectures": [
+          "lecture:foundation-binary-lifting"
+        ],
+        "course": "binary-lifting",
+        "template": "builtin:binary-lifting"
+      },
+      {
+        "id": "dinic",
+        "title": "最大流与最小割",
+        "level": 3,
+        "order": 20,
+        "tags": [
+          "最大流",
+          "最小割"
+        ],
+        "prerequisites": [
+          "bfs",
+          "dijkstra"
+        ],
+        "lectures": [
+          "lecture:foundation-max-flow"
+        ],
+        "course": "dinic",
+        "template": "builtin:dinic"
+      },
+      {
+        "id": "li-chao",
+        "title": "Li Chao 树",
+        "level": 3,
+        "order": 21,
+        "tags": [
+          "Li Chao 树"
+        ],
+        "prerequisites": [
+          "segment-tree"
+        ],
+        "lectures": [
+          "lecture:foundation-li-chao"
+        ],
+        "course": "li-chao",
+        "template": "builtin:li-chao"
+      }
+    ],
+    "courses": {
+      "dsu": {
+        "first": "0",
+        "chapters": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "problems": [
+          {
+            "pid": "217A",
+            "url": "https://codeforces.com/contest/217/problem/A"
+          },
+          {
+            "pid": "277A",
+            "url": "https://codeforces.com/contest/277/problem/A"
+          },
+          {
+            "pid": "1167C",
+            "url": "https://codeforces.com/contest/1167/problem/C"
+          },
+          {
+            "pid": "722C",
+            "url": "https://codeforces.com/contest/722/problem/C"
+          },
+          {
+            "pid": "25D",
+            "url": "https://codeforces.com/contest/25/problem/D"
+          }
+        ]
+      },
+      "fenwick": {
+        "first": "0",
+        "chapters": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "problems": []
+      },
+      "segment-tree": {
+        "first": "0",
+        "chapters": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "problems": []
+      },
+      "trie": {
+        "first": "0",
+        "chapters": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "problems": []
+      },
+      "binary-lifting": {
+        "first": "0",
+        "chapters": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "problems": []
+      },
+      "dinic": {
+        "first": "0",
+        "chapters": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "problems": []
+      },
+      "li-chao": {
+        "first": "0",
+        "chapters": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "problems": []
+      },
+      "linear-basis": {
+        "first": "0",
+        "chapters": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "problems": []
+      },
+      "bfs": {
+        "first": "0",
+        "chapters": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "problems": [
+          {
+            "pid": "520B",
+            "url": "https://codeforces.com/contest/520/problem/B"
+          },
+          {
+            "pid": "242C",
+            "url": "https://codeforces.com/contest/242/problem/C"
+          },
+          {
+            "pid": "601A",
+            "url": "https://codeforces.com/contest/601/problem/A"
+          },
+          {
+            "pid": "59E",
+            "url": "https://codeforces.com/contest/59/problem/E"
+          },
+          {
+            "pid": "796D",
+            "url": "https://codeforces.com/contest/796/problem/D"
+          }
+        ]
+      },
+      "dfs": {
+        "first": "0",
+        "chapters": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "problems": [
+          {
+            "pid": "115A",
+            "url": "https://codeforces.com/contest/115/problem/A"
+          },
+          {
+            "pid": "580C",
+            "url": "https://codeforces.com/contest/580/problem/C"
+          },
+          {
+            "pid": "377A",
+            "url": "https://codeforces.com/contest/377/problem/A"
+          },
+          {
+            "pid": "510B",
+            "url": "https://codeforces.com/contest/510/problem/B"
+          },
+          {
+            "pid": "1592C",
+            "url": "https://codeforces.com/contest/1592/problem/C"
+          }
+        ]
+      },
+      "dijkstra": {
+        "first": "0",
+        "chapters": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "problems": [
+          {
+            "pid": "20C",
+            "url": "https://codeforces.com/contest/20/problem/C"
+          },
+          {
+            "pid": "1076D",
+            "url": "https://codeforces.com/contest/1076/problem/D"
+          },
+          {
+            "pid": "545E",
+            "url": "https://codeforces.com/contest/545/problem/E"
+          },
+          {
+            "pid": "449B",
+            "url": "https://codeforces.com/contest/449/problem/B"
+          },
+          {
+            "pid": "938D",
+            "url": "https://codeforces.com/contest/938/problem/D"
+          }
+        ]
+      },
+      "sorting-basics": {
+        "first": "order",
+        "chapters": [
+          "order",
+          "bubble",
+          "insert",
+          "apply"
+        ],
+        "problems": [
+          {
+            "pid": "339A",
+            "url": "https://codeforces.com/problemset/problem/339/A"
+          },
+          {
+            "pid": "405A",
+            "url": "https://codeforces.com/problemset/problem/405/A"
+          },
+          {
+            "pid": "160A",
+            "url": "https://codeforces.com/problemset/problem/160/A"
+          },
+          {
+            "pid": "977C",
+            "url": "https://codeforces.com/problemset/problem/977/C"
+          },
+          {
+            "pid": "451B",
+            "url": "https://codeforces.com/problemset/problem/451/B"
+          }
+        ]
+      },
+      "divide-sort": {
+        "first": "split",
+        "chapters": [
+          "split",
+          "merge",
+          "inversions",
+          "partition",
+          "random",
+          "transfer"
+        ],
+        "problems": [
+          {
+            "pid": "1490D",
+            "url": "https://codeforces.com/problemset/problem/1490/D"
+          },
+          {
+            "pid": "768B",
+            "url": "https://codeforces.com/problemset/problem/768/B"
+          },
+          {
+            "pid": "559B",
+            "url": "https://codeforces.com/problemset/problem/559/B"
+          },
+          {
+            "pid": "448C",
+            "url": "https://codeforces.com/problemset/problem/448/C"
+          },
+          {
+            "pid": "873D",
+            "url": "https://codeforces.com/problemset/problem/873/D"
+          }
+        ]
+      },
+      "bucket-sort": {
+        "first": "keys",
+        "chapters": [
+          "keys",
+          "counting",
+          "bucket",
+          "compress",
+          "radix",
+          "summary"
+        ],
+        "problems": [
+          {
+            "pid": "43A",
+            "url": "https://codeforces.com/problemset/problem/43/A"
+          },
+          {
+            "pid": "4C",
+            "url": "https://codeforces.com/problemset/problem/4/C"
+          },
+          {
+            "pid": "1520D",
+            "url": "https://codeforces.com/problemset/problem/1520/D"
+          },
+          {
+            "pid": "1742D",
+            "url": "https://codeforces.com/problemset/problem/1742/D"
+          },
+          {
+            "pid": "1399C",
+            "url": "https://codeforces.com/problemset/problem/1399/C"
+          }
+        ]
+      },
+      "prefix-difference": {
+        "first": "sum",
+        "chapters": [
+          "sum",
+          "inverse",
+          "events",
+          "plane",
+          "choose",
+          "code",
+          "debug"
+        ],
+        "problems": [
+          {
+            "pid": "363B",
+            "url": "https://codeforces.com/problemset/problem/363/B"
+          },
+          {
+            "pid": "433B",
+            "url": "https://codeforces.com/problemset/problem/433/B"
+          },
+          {
+            "pid": "816B",
+            "url": "https://codeforces.com/problemset/problem/816/B"
+          },
+          {
+            "pid": "295A",
+            "url": "https://codeforces.com/problemset/problem/295/A"
+          },
+          {
+            "pid": "276C",
+            "url": "https://codeforces.com/problemset/problem/276/C"
+          }
+        ]
+      },
+      "two-pointers": {
+        "first": "pair",
+        "chapters": [
+          "pair",
+          "window",
+          "unique",
+          "compact",
+          "negative",
+          "code",
+          "transfer"
+        ],
+        "problems": [
+          {
+            "pid": "381A",
+            "url": "https://codeforces.com/problemset/problem/381/A"
+          },
+          {
+            "pid": "1538C",
+            "url": "https://codeforces.com/problemset/problem/1538/C"
+          },
+          {
+            "pid": "279B",
+            "url": "https://codeforces.com/problemset/problem/279/B"
+          },
+          {
+            "pid": "580B",
+            "url": "https://codeforces.com/problemset/problem/580/B"
+          },
+          {
+            "pid": "701C",
+            "url": "https://codeforces.com/problemset/problem/701/C"
+          }
+        ]
+      },
+      "knapsack": {
+        "first": "pack",
+        "chapters": [
+          "pack",
+          "state",
+          "trace",
+          "code",
+          "debug",
+          "transfer",
+          "practice"
+        ],
+        "problems": [
+          {
+            "pid": "P1048",
+            "url": ""
+          },
+          {
+            "pid": "P1049",
+            "url": ""
+          },
+          {
+            "pid": "P1060",
+            "url": ""
+          },
+          {
+            "pid": "P2392",
+            "url": ""
+          },
+          {
+            "pid": "P1507",
+            "url": ""
+          }
+        ]
+      }
+    }
+  },
+  "curriculumMappingOnly": "Add canonical teaching tags to four existing topics; retain all lesson IDs, body markdown, order and prerequisites; no new entrypoint.",
+  "unreviewedFoundationCandidates": [
+    {
+      "id": "luogu-training-B3678",
+      "url": "https://www.luogu.com.cn/problem/B3678",
+      "unknown": [
+        "数组"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3679",
+      "url": "https://www.luogu.com.cn/problem/B3679",
+      "unknown": [
+        "结构体"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3685",
+      "url": "https://www.luogu.com.cn/problem/B3685",
+      "unknown": [
+        "顺序结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3686",
+      "url": "https://www.luogu.com.cn/problem/B3686",
+      "unknown": [
+        "分支结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3687",
+      "url": "https://www.luogu.com.cn/problem/B3687",
+      "unknown": [
+        "循环结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3688",
+      "url": "https://www.luogu.com.cn/problem/B3688",
+      "unknown": [
+        "数组"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3689",
+      "url": "https://www.luogu.com.cn/problem/B3689",
+      "unknown": [
+        "循环结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3690",
+      "url": "https://www.luogu.com.cn/problem/B3690",
+      "unknown": [
+        "分支结构",
+        "字符串（入门）",
+        "循环结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3696",
+      "url": "https://www.luogu.com.cn/problem/B3696",
+      "unknown": [
+        "顺序结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3697",
+      "url": "https://www.luogu.com.cn/problem/B3697",
+      "unknown": [
+        "分支结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3698",
+      "url": "https://www.luogu.com.cn/problem/B3698",
+      "unknown": [
+        "循环结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3699",
+      "url": "https://www.luogu.com.cn/problem/B3699",
+      "unknown": [
+        "循环结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3700",
+      "url": "https://www.luogu.com.cn/problem/B3700",
+      "unknown": [
+        "循环结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3701",
+      "url": "https://www.luogu.com.cn/problem/B3701",
+      "unknown": [
+        "数组"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3702",
+      "url": "https://www.luogu.com.cn/problem/B3702",
+      "unknown": [
+        "数组",
+        "结构体"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3703",
+      "url": "https://www.luogu.com.cn/problem/B3703",
+      "unknown": [
+        "字符串（入门）"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3706",
+      "url": "https://www.luogu.com.cn/problem/B3706",
+      "unknown": [
+        "顺序结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3707",
+      "url": "https://www.luogu.com.cn/problem/B3707",
+      "unknown": [
+        "分支结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3708",
+      "url": "https://www.luogu.com.cn/problem/B3708",
+      "unknown": [
+        "数组"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3709",
+      "url": "https://www.luogu.com.cn/problem/B3709",
+      "unknown": [
+        "循环结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3711",
+      "url": "https://www.luogu.com.cn/problem/B3711",
+      "unknown": [
+        "数组"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3712",
+      "url": "https://www.luogu.com.cn/problem/B3712",
+      "unknown": [
+        "数组"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3713",
+      "url": "https://www.luogu.com.cn/problem/B3713",
+      "unknown": [
+        "字符串（入门）"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3719",
+      "url": "https://www.luogu.com.cn/problem/B3719",
+      "unknown": [
+        "分支结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3720",
+      "url": "https://www.luogu.com.cn/problem/B3720",
+      "unknown": [
+        "分支结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3721",
+      "url": "https://www.luogu.com.cn/problem/B3721",
+      "unknown": [
+        "循环结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3722",
+      "url": "https://www.luogu.com.cn/problem/B3722",
+      "unknown": [
+        "数组"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3723",
+      "url": "https://www.luogu.com.cn/problem/B3723",
+      "unknown": [
+        "数组"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3724",
+      "url": "https://www.luogu.com.cn/problem/B3724",
+      "unknown": [
+        "循环结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3725",
+      "url": "https://www.luogu.com.cn/problem/B3725",
+      "unknown": [
+        "函数与递归"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3726",
+      "url": "https://www.luogu.com.cn/problem/B3726",
+      "unknown": [
+        "字符串（入门）"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3741",
+      "url": "https://www.luogu.com.cn/problem/B3741",
+      "unknown": [
+        "分支结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3742",
+      "url": "https://www.luogu.com.cn/problem/B3742",
+      "unknown": [
+        "分支结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3743",
+      "url": "https://www.luogu.com.cn/problem/B3743",
+      "unknown": [
+        "循环结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3744",
+      "url": "https://www.luogu.com.cn/problem/B3744",
+      "unknown": [
+        "循环结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3745",
+      "url": "https://www.luogu.com.cn/problem/B3745",
+      "unknown": [
+        "数组"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3746",
+      "url": "https://www.luogu.com.cn/problem/B3746",
+      "unknown": [
+        "数组"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3748",
+      "url": "https://www.luogu.com.cn/problem/B3748",
+      "unknown": [
+        "字符串（入门）"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3762",
+      "url": "https://www.luogu.com.cn/problem/B3762",
+      "unknown": [
+        "顺序结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3763",
+      "url": "https://www.luogu.com.cn/problem/B3763",
+      "unknown": [
+        "分支结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3764",
+      "url": "https://www.luogu.com.cn/problem/B3764",
+      "unknown": [
+        "循环结构"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3765",
+      "url": "https://www.luogu.com.cn/problem/B3765",
+      "unknown": [
+        "数组"
+      ],
+      "category": "intro"
+    },
+    {
+      "id": "luogu-training-B3766",
+      "url": "https://www.luogu.com.cn/problem/B3766",
+      "unknown": [
+        "数组"
+      ],
+      "category": "intro"
+    }
+  ],
+  "normalizationPolicy": "No global aliases for native arrays/intro strings/control labels. Only the fully reviewed original problem IDs get classifications.",
+  "cleanupInspection": {
+    "checkedBeforeMetadataUpdate": true,
+    "duplicateExistingConceptNames": 0,
+    "duplicateAssetDescriptors": 0,
+    "unusedOrSupersededTrackedContentEligibleForRemoval": [],
+    "existingCanonicalSourcesAndReviewHistoryStillRequired": true,
+    "ignoredRejectedCacheCleanupNotRetried": true,
+    "privateRecordsReadOrWritten": false
+  },
+  "learningAndHistory": "Reuse real existing lesson content as teaching evidence only; do not create mastery, original pass, XP, draft or completion state."
+}

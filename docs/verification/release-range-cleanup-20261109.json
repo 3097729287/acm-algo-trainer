@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-09",
+  "scope": "Public installer relay optimization, after independent P7351 delivery",
+  "inspected": [
+    "server/leaderboard/src/release-stream.mjs",
+    "server/leaderboard/tests/release-stream.test.mjs",
+    "server/leaderboard/Caddyfile",
+    "scripts/publish_domestic_update.py",
+    "scripts/release_assets.py"
+  ],
+  "findings": [
+    "The legacy whole-file relay, cached Caddy assets, account forwarding and authoring upload boundary are still referenced and necessary.",
+    "Existing indices without chunk proofs must keep their verified whole-file fallback; none is obsolete merely because the new format adds range proofs.",
+    "P7351 source and validation artifacts belong to the already completed independent batch and remain necessary."
+  ],
+  "removed": [],
+  "personalStateReadOrWritten": false,
+  "deployed": false,
+  "sourceReplacement": "The former inline redirect and whole-file tail logic was replaced by shared bounded helpers used by both legacy whole transfers and reviewed chunk/range transfers; no abandoned duplicate implementation remains.",
+  "newArtifacts": "Only small proof metadata/logs and a472-entry index were produced. The494MB original was read in place; no installer binary was copied or staged for this feature."
+}

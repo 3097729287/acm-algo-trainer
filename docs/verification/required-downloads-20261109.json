@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "checkedAt": "2026-11-09",
+  "scope": "Later feature/required-downloads-20261109 branch, separate from frozen1.6.10",
+  "cleanup": {
+    "filesRemoved": 3,
+    "bytesRemoved": 126149352,
+    "record": "content-updates/20261109-P7351-required-inputs/cleanup.json"
+  },
+  "testResults": {
+    "python": {
+      "passed": 24,
+      "command": "python -m unittest test_required_downloads test_statement_assets test_public_assets",
+      "log": ".backups/required-downloads-production-20261109/python-final-tests.log",
+      "includes": [
+        "Actual HTTP login/HEAD/status/range, unknown hash/query/Host refusal",
+        "Public transfer allows account logout without waiting for source transfer",
+        "Corrupt block/cache/ZIP magic, interrupted resume, durable cache and offline replay",
+        "Deployment verifier refuses complete cache as proof of source availability",
+        "Ordinary 32 MiB references remain rejected above ordinary cap"
+      ]
+    },
+    "node": {
+      "passed": 21,
+      "command": "node --test tests/required-downloads.test.mjs tests/library-assets.test.mjs tests/server.test.mjs tests/release-stream.test.mjs",
+      "cwd": "server/leaderboard",
+      "proxyBoundary": "Caddy required-input dispatch is explicitly registered. Static route/legacy release proxy regressions pass; live domestic proxy deployment/validation remains pending."
+    },
+    "syntaxAndWhitespace": "Python compilation, Node syntax checks and git diff --check passed"
+  },
+  "actualProductionWorkbenchE2e": {
+    "schema": 1,
+    "artificialAccountsAndHistoryOnly": true,
+    "ordinary32MiBLimitUnchanged": true,
+    "requiredInputMarkedOptional": false,
+    "originalId": "luogu-training-P7351",
+    "zipBytes": 42049784,
+    "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+    "realSourceRouteInterruptedThenResumed": true,
+    "distributionPhysicallyStoppedBeforeOfflineBrowser": true,
+    "sourceRequests": [
+      {
+        "method": "GET",
+        "path": "/updates/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
+        "range": "bytes=0-42049783",
+        "authorizationForwarded": false,
+        "cookieForwarded": false
+      },
+      {
+        "method": "GET",
+        "path": "/updates/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
+        "range": "bytes=131072-42049783",
+        "authorizationForwarded": false,
+        "cookieForwarded": false
+      }
+    ],
+    "workbenchPhases": [
+      {
+        "realBackendProblemEndpoint": true,
+        "realWorkbench": true,
+        "realReadingLink": true,
+        "originalId": "luogu-training-P7351",
+        "originalDraftAndHistoryPreserved": true,
+        "downloadedBytes": 42049784,
+        "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+        "cached": true,
+        "verifiedBytes": 42049784,
+        "problemJsonBytes": 15475,
+        "archiveBase64InJson": false,
+        "browserErrors": 0,
+        "formulaErrors": 0,
+        "externalRequests": 0
+      },
+      {
+        "realBackendProblemEndpoint": true,
+        "realWorkbench": true,
+        "realReadingLink": true,
+        "originalId": "luogu-training-P7351",
+        "originalDraftAndHistoryPreserved": true,
+        "downloadedBytes": 42049784,
+        "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+        "cached": true,
+        "verifiedBytes": 42049784,
+        "problemJsonBytes": 15475,
+        "archiveBase64InJson": false,
+        "browserErrors": 0,
+        "formulaErrors": 0,
+        "externalRequests": 0
+      }
+    ],
+    "pythonTracedTransferPeakBytes": 467724,
+    "seconds": 4.959,
+    "completeCacheHasExactOriginalSha256": true,
+    "unknownShaAndArbitrarySourceRejected": true,
+    "productionCatalogueRetirementChanged": false,
+    "frozen1610Changed": false,
+    "domesticDistributionDeployed": false
+  },
+  "actualDeploymentCli": {
+    "schema": 1,
+    "checkedAtUtc": "2026-11-08T22:21:43Z",
+    "origin": "http://127.0.0.1:4348",
+    "seconds": 0.359,
+    "archives": [
+      {
+        "problemId": "luogu-training-P7351",
+        "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+        "bytes": 42049784,
+        "route": "http://127.0.0.1:4348/updates/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
+        "cacheWasAlreadyComplete": false,
+        "verifiedPrefixBeforeBytes": 0,
+        "completeResponseAndDurableCacheVerified": true,
+        "networkDisabledOfflineReplayVerified": true
+      }
+    ],
+    "catalogueRetirementChanged": false,
+    "ordinary32MiBLimitUnchanged": true,
+    "privateAccountStateReadOrWritten": false,
+    "alreadyCompleteCacheRefusedOnSecondInvocation": true,
+    "localFixtureOnly": true,
+    "receiptFile": ".backups/required-downloads-production-20261109/cli-verification-final.json"
+  },
+  "rawProofs": {
+    "workbench": ".backups/required-downloads-production-20261109/e2e-final",
+    "deploymentCliSourceRequests": ".backups/required-downloads-production-20261109/cli-source-requests.json"
+  },
+  "distribution": {
+    "preparedFolder": ".backups/required-downloads-production-20261109/deployment",
+    "manifestSha256": "05406671ea64d05aa2e8b74d70fec8bbcea9a39dcbc16e84ee0d6e59300f0376",
+    "reviewSha256": "952430670eb0f123cb78d029c033b9878c8fba81ec4454fe34d6a1f0b5e5215e",
+    "archiveBytes": 42049784,
+    "archiveSha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+    "domesticRouteNotDeployed": true,
+    "retirementFlagUnchanged": true
+  },
+  "sourceFilesNormalizedUtf8Sha256": {
+    "backend/required_downloads.py": "81625e7aa87078960c561b9e773d70e116d03d1c7592755b81b66517f7df223a",
+    "backend/backend.py": "322ccb17f5fc4a41128ae037dcf573a2848b0b52cb91695e20c175ce8e7b5773",
+    "backend/library.py": "84f46c5cbaf6401864e93f3be2cecf72939e18b5a17e5c3573139fd842b2cb8c",
+    "frontend/src/components/ReadingLink.jsx": "7a3ce148cc3d7b658b382725fce6d53cf363f3c2697afbb11c0952fb37fb4f52",
+    "server/leaderboard/src/required-downloads.mjs": "0ca244555cd0f243caeab997adea9bb16693c22ba383fcf92fe8fc7542abceeb",
+    "server/leaderboard/src/server.mjs": "72f1717f6e5107e8366235e6ce3b8a32d488809ea035bd01b6303e231d0e8572",
+    "scripts/prepare_required_downloads.py": "6ff90faf598582c3a4f5d9b921e264166f1c5356097aaf13c54b4dc768cb9cf7",
+    "scripts/verify_required_download_distribution.py": "2af3008de18e3ce632cf2ff4ecafd44aef8985f1303022ad3dbe72dacc688001",
+    "scripts/verify_required_downloads_e2e.py": "1170f8d7d9d0b97d28feae234aa3b7b977fdcb1b426d2de87060e4da5515946c",
+    "server/leaderboard/Caddyfile": "bf4b7928cc5f8ea2a5be752d5ec5222a00aad8fb094da07fc31bae399d86558f"
+  },
+  "unchangedBoundaries": [
+    "Ordinary inline/public asset size policy",
+    "Frozen1.6.10 version/package/runtime",
+    "Public problems directory and total ordinary asset manifest",
+    "Normal installations and user account databases",
+    "P7351 retirement flag and original ID/history",
+    "Original required input remains required; no optional-resource exemption",
+    "Existing Rust ordinary32MiB module"
+  ],
+  "fullBackendSuite": "Not rerun in this independent feature worktree; targeted24 tests plus actual backend/library/account/browser E2E exercise changed boundary. Baseline test_library assumes a local bundled seed absent here; no seed generated or personal DB borrowed."
+}

@@ -106,7 +106,7 @@ def ac_achievements(first_accepted):
     rows with an explicit nonofficial scope or non-AC verdict are excluded.
     """
     from collections.abc import Mapping
-    from insights import canonical_url
+    from question_identity import question_key
     values = {}
     if isinstance(first_accepted, Mapping):
         source = first_accepted.items()
@@ -123,7 +123,7 @@ def ac_achievements(first_accepted):
             elif isinstance(item, (str, dt.datetime)) or item is None:
                 source.append((str(index), item))
     for identity, value in source:
-        key = canonical_url(identity) or identity
+        key = question_key(identity) or identity
         stamp = value if isinstance(value, dt.datetime) else parse_time(value)
         if stamp and stamp.tzinfo is None:
             stamp = stamp.replace(tzinfo=dt.timezone.utc)
@@ -191,7 +191,7 @@ def accepted_evidence(rows, submissions):
     2026-10-10 起这只服务旧 local-reviewed 排行榜口径的隔离读取；成长/任务用
     official_reward_evidence。
     """
-    from insights import canonical_url
+    from question_identity import question_key
     metadata = {row["id"]: row for row in rows}
     result = {}
     records = sorted(submissions, key=lambda record: (record.get("submitted_at", ""), record.get("id", "")))
@@ -202,7 +202,7 @@ def accepted_evidence(rows, submissions):
         if not timestamp:
             continue
         row = metadata.get(record["problem_id"], {})
-        key = canonical_url(row.get("url")) or record["problem_id"]
+        key = question_key(row.get("url")) or record["problem_id"]
         previous = result.get(key)
         if previous and timestamp >= previous["timestamp"]:
             continue
@@ -228,11 +228,11 @@ def official_reward_evidence(rows, submissions, hub=None):
       hub 来的独立完成情况未知，不默认独立。
     - 同一规范原题 URL 只取最早一次。
     """
-    from insights import canonical_url
+    from question_identity import question_key
     metadata = {row["id"]: row for row in rows}
     by_url = {}
     for row in rows:
-        key = canonical_url(row.get('url'))
+        key = question_key(row.get('url'))
         if not key:
             continue
         existing = by_url.get(key)
@@ -247,7 +247,7 @@ def official_reward_evidence(rows, submissions, hub=None):
         if not timestamp:
             continue
         row = metadata.get(record["problem_id"], {})
-        key = canonical_url(row.get("url")) or record["problem_id"]
+        key = question_key(row.get("url")) or record["problem_id"]
         previous = result.get(key)
         if previous and timestamp >= previous["timestamp"]:
             continue
@@ -265,13 +265,18 @@ def official_reward_evidence(rows, submissions, hub=None):
     if isinstance(hub, dict):
         for account in hub.get("accounts", []):
             for solved in account.get("solved", []):
-                key = canonical_url(solved.get("url"))
+                key = question_key(solved.get("url"))
                 if not key:
                     continue
                 stamp = parse_time(solved.get("acceptedAt"))
                 previous = result.get(key)
                 if previous and previous.get("source") == "submission":
-                    continue  # 本机官方回执优先
+                    from question_identity import PAIR_KEY
+                    # This reviewed cross-site pair may already have been
+                    # solved on the other platform. Keep its real earlier
+                    # first date; a new contest receipt still scores locally.
+                    if key != PAIR_KEY or not stamp or stamp >= previous['timestamp']:
+                        continue  # Other native receipts keep existing priority.
                 if previous and stamp and previous.get('timestamp') and stamp >= previous["timestamp"]:
                     continue
                 if not previous and not stamp:

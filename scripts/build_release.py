@@ -184,7 +184,12 @@ def assemble(args):
     shutil.copy2(seed, package / 'data' / 'library.sqlite3')
     sys.path.insert(0,str(ROOT/'backend'))
     from seed_identity import describe
-    (package/'resources/library-seed-identity.json').write_text(json.dumps(describe(package/'data/library.sqlite3'),sort_keys=True)+'\n',encoding='utf8')
+    seed_identity=describe(package/'data/library.sqlite3')
+    (package/'resources/library-seed-identity.json').write_text(json.dumps(seed_identity,sort_keys=True)+'\n',encoding='utf8')
+    # A later full installation must explicitly supersede any compact row
+    # descriptor left by an earlier version in the same program directory.
+    complete_seed={'schema':1,'mode':'complete-seed','targetSeedSha256':seed_identity['sha256']}
+    (package/'resources/public-library-update.json').write_text(json.dumps(complete_seed,sort_keys=True)+'\n',encoding='utf8')
     shutil.copy2(ROOT / 'desktop' / 'official_languages.js', package / 'official_languages.js')
     shutil.copy2(ROOT / 'desktop' / 'official_nowcoder.js', package / 'official_nowcoder.js')
     shutil.copy2(ROOT / 'desktop' / 'official_luogu.js', package / 'official_luogu.js')

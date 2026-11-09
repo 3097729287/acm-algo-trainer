@@ -1,0 +1,141 @@
+{
+  "revision": "20261109-hubei-105139-official-topic-and-unofficial-difficulty",
+  "problems": [
+    {
+      "id": "remote:codeforces:105139::A",
+      "tags": [
+        "最大公约数",
+        "最小公倍数",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105139::B",
+      "tags": [
+        "枚举",
+        "点积与叉积"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105139::C",
+      "tags": [
+        "离散化",
+        "线段相交",
+        "二分图匹配",
+        "最大独立集",
+        "Dinic"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105139::D",
+      "tags": [
+        "线性 DP",
+        "决策单调性",
+        "分治",
+        "前缀和",
+        "位运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105139::E",
+      "tags": [
+        "整数运算",
+        "顺序执行"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105139::F",
+      "tags": [
+        "可持久化线段树",
+        "位运算",
+        "离线算法",
+        "树状数组"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105139::G",
+      "tags": [
+        "模拟",
+        "BFS",
+        "并查集"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105139::H",
+      "tags": [
+        "状压 DP",
+        "枚举"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105139::I",
+      "tags": [
+        "树的直径",
+        "并查集",
+        "离线算法",
+        "LCA"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105139::J",
+      "tags": [
+        "期望与概率",
+        "乘法逆元"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105139::K",
+      "tags": [
+        "期望与概率",
+        "组合计数",
+        "乘法逆元"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105139::L",
+      "tags": [
+        "最大公约数",
+        "最小公倍数",
+        "素数",
+        "最短路"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    }
+  ],
+  "privateStateReadOrWritten": false
+}

@@ -2,10 +2,20 @@
 import base64
 import copy
 import hashlib
+import json
 import re
 
 PREFIX = 'tb-asset:'
 DATA = re.compile(r'^data:([^;,]+);base64,([A-Za-z0-9+/=\s]+)$')
+
+
+def inline_documents(db):
+    """Read embedded public figures from original statements and editorials."""
+    for content, in db.execute("SELECT content FROM statements WHERE instr(content,';base64,')>0"):
+        yield json.loads(content)
+    for table in ('solutions','detailed_solutions'):
+        for images, in db.execute('SELECT images FROM '+table+" WHERE instr(images,';base64,')>0"):
+            yield {'images':json.loads(images)}
 
 
 def transform(value, convert):
@@ -27,13 +37,14 @@ def transform(value, convert):
     return result
 
 
-def dehydrate(value, save):
+def dehydrate(value, save, *, mime_types=None):
     def convert(data):
         if not isinstance(data, str):return data
         local=re.fullmatch(r'/api/library-assets/([a-f0-9]{64})',data)
         if local:return PREFIX+local[1]
         match=DATA.fullmatch(data)
         if not match:return data
+        if mime_types is not None and match[1] not in mime_types:return data
         raw=base64.b64decode(re.sub(r'\s+','',match[2]),validate=True)
         sha=hashlib.sha256(raw).hexdigest()
         save(sha,match[1],raw)

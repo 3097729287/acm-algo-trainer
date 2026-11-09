@@ -76,12 +76,33 @@ class ReviewedKnowledgeTests(unittest.TestCase):
         solutions={p['problem_id']:p['markdown'] for p in json.loads((root/'data/library/solutions.json').read_text(encoding='utf-8'))}
         detailed={p['problem_id']:p['markdown'] for p in json.loads((root/'data/library/detailed_solutions.json').read_text(encoding='utf8'))}
         statements={p['problem_id']:p['content'] for p in json.loads((root/'data/library/statements.json').read_text(encoding='utf8'))}
+        lessons={p['id']:(p['content'].get('available'),hashlib.sha256(p['content']['markdown'].encode()).hexdigest())
+                 for p in json.loads((root/'data/library/lectures.json').read_text('utf8'))}
         current=json.loads((root/'backend/resources/metadata-review-1430.json').read_text(encoding='utf8'))
         algorithms={item['id']:item for item in current['knowledgeReviews']}
         foundations={item['id']:item for item in current['foundationEditorials']}
         audit=json.loads((root/'backend/resources/metadata-review-1423.json').read_text(encoding='utf8'))
         external={item['id']:item for item in audit['estimated'] if item['id'].startswith('remote:atcoder:')}
         published={item['id']:item for item in audit.get('knowledgeReviews',[])}
+        # A reviewed classification is allowed only when the exact problem,
+        # source and page selection were registered by an applied receipt.
+        # Checking the receipt avoids both a fixed URL for one old contest and
+        # accepting arbitrary remote references merely because they are PDFs.
+        packets={}
+        for path in (root/'content-updates').glob('*/review.json'):
+            packet=json.loads(path.read_text('utf8'))
+            if not isinstance(packet,dict):
+                continue
+            revision=packet.get('revision')
+            if revision in review.get('appliedPackets',[]):
+                self.assertNotIn(revision,packets)
+                packets[revision]=packet
+        self.assertEqual(set(packets),set(review.get('appliedPackets',[])))
+        reviewed_sources={}
+        for packet in packets.values():
+            for item in packet['items']:
+                reviewed_sources.setdefault(item['id'],[]).append(item)
+        assets={item['sha256']:item for item in json.loads((root/'data/library/statement_assets.json').read_text('utf8'))}
         for rule in review['problems'].values():
             for source in rule['sources']:
                 if rule.get('reviewMethod')=='source-reviewed-classification':
@@ -94,13 +115,88 @@ class ReviewedKnowledgeTests(unittest.TestCase):
                         self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),source['sha256'])
                         self.assertRegex(source['programSha256'],r'^[0-9a-f]{64}$')
                     else:
-                        self.assertEqual(reference.split('#',1)[0],'https://icpcarchive.github.io/Asia%20Pacific%20Contests/Taiwan/2020%20Asia%20Taipei-Hsinchu%20Regional%20Contest/problems.pdf')
-                        self.assertRegex(reference,r'#page=[1-9][0-9]*$')
-                        assets=json.loads((root/'data/library/statement_assets.json').read_text('utf8'))
-                        asset=next(item for item in assets if item['sha256']==source['sha256'])
-                        with (root/'data/library'/asset['file']).open('rb') as stream:
+                        matches=[item for item in reviewed_sources[source['problemId']]
+                                 if rule['url'] in item['urls'] and source in item['sources']]
+                        self.assertEqual(len(matches),1,(source['problemId'],reference))
+                        self.assertTrue(set(matches[0]['tags'])<=set(rule['tags']))
+                        self.assertTrue(reference.startswith('https://'))
+                        wiki=source.get('sourceDocumentType')=='official-setter-wiki'
+                        native=source.get('sourceDocumentType') in {'native-tag-json','reviewed-native-statement-json'}
+                        if native:
+                            self.assertEqual(reference,'https://www.luogu.com.cn/problem/'+source['nativeProblemId'])
+                            self.assertEqual(source['nativeTagDictionaryReference'],'https://www.luogu.com.cn/_lfe/tags')
+                        elif wiki:
+                            self.assertTrue(reference.startswith('https://sua.ac/wiki/'))
+                            self.assertEqual(reference.rsplit('#',1)[1],source['sourceSectionAnchor'])
+                            self.assertEqual(source['sourceSectionTitle'],'题解')
+                        elif '#page=' in reference:
+                            self.assertRegex(reference,r'#page=[1-9][0-9]*$')
+                        else:
+                            pages=source['sourcePageNumbers']
+                            self.assertTrue(pages)
+                            self.assertTrue(all(type(page) is int and page>0 for page in pages))
+                        asset=assets[source['sha256']]
+                        path=(root/'data/library'/asset['file']).resolve(strict=True)
+                        self.assertTrue(path.is_relative_to(root/'data/library/statement-assets'))
+                        with path.open('rb') as stream:
                             stream.seek(asset.get('offset',0));data=stream.read(asset['bytes'])
+                        self.assertEqual(len(data),asset['bytes'])
                         self.assertEqual(hashlib.sha256(data).hexdigest(),source['sha256'])
+                        if native:
+                            self.assertEqual(asset['mime'],'application/json')
+                            problem=json.loads(data)['data']['problem']
+                            self.assertEqual(problem['pid'],source['nativeProblemId'])
+                            self.assertEqual(problem['name'],source['nativeTitle'])
+                            self.assertEqual(problem['tags'],source['nativeTagIds'])
+                            tag_asset=assets[source['nativeTagDictionarySha256']]
+                            tag_path=(root/'data/library'/tag_asset['file']).resolve(strict=True)
+                            self.assertTrue(tag_path.is_relative_to(root/'data/library/statement-assets'))
+                            with tag_path.open('rb') as stream:
+                                stream.seek(tag_asset.get('offset',0));tag_data=stream.read(tag_asset['bytes'])
+                            self.assertEqual(hashlib.sha256(tag_data).hexdigest(),source['nativeTagDictionarySha256'])
+                            tags={tag['id']:tag for tag in json.loads(tag_data)['tags']}
+                            self.assertEqual([tags[i] for i in problem['tags'] if tags[i]['type']==2],source['nativeTagDescriptors'])
+                            if source['sourceDocumentType']=='native-tag-json':
+                                mappings=source['canonicalTagMappings']
+                                self.assertEqual(set(matches[0]['tags']),{m['canonicalTag'] for m in mappings})
+                                for mapping in mappings:
+                                    self.assertIn(mapping['nativeTagId'],problem['tags'])
+                                    self.assertEqual(tags[mapping['nativeTagId']]['name'],mapping['nativeTagName'])
+                                    expected=normalize_tags([mapping['nativeTagName']],official=True)['tags']
+                                    if mapping['nativeTagName']=='排列组合':expected=['组合计数']
+                                    self.assertIn(mapping['canonicalTag'],expected)
+                            else:
+                                body=problem.get('contenu') or problem['content']
+                                fields={'description','formatI','formatO','hint'}
+                                if source.get('nativeBackgroundRequired'):fields.add('background')
+                                self.assertEqual(set(source['reviewedNativeTextSha256']),fields)
+                                for field,digest in source['reviewedNativeTextSha256'].items():
+                                    self.assertEqual(hashlib.sha256((body.get(field) or '').encode()).hexdigest(),digest)
+                                self.assertEqual(matches[0]['tags'],source['statementReviewedTags'])
+                                self.assertTrue(source['fullStatementAndConstraintsReviewed'])
+                                self.assertFalse(source['fullImplementationRetested'])
+                                self.assertTrue(source['learningEvidence'])
+                                for lesson in source['learningEvidence']:
+                                    self.assertEqual(lesson['reference'],'data/library/lectures.json#'+lesson['lectureId'])
+                                    self.assertEqual(lessons[lesson['lectureId']],(True,lesson['markdownSha256']))
+                                for picture in source.get('reviewedNativeImages',[]):
+                                    field=picture.get('sourceField','description')
+                                    self.assertIn(field,{'description','hint','background'})
+                                    self.assertIn(picture['sourceUrl'],body[field])
+                                    self.assertTrue(picture['visuallyReviewed'])
+                                    image_asset=assets[picture['sha256']]
+                                    self.assertEqual(image_asset['mime'],picture['mime'])
+                                    image_path=(root/'data/library'/image_asset['file']).resolve(strict=True)
+                                    self.assertTrue(image_path.is_relative_to(root/'data/library/statement-assets'))
+                                    with image_path.open('rb') as stream:
+                                        stream.seek(image_asset.get('offset',0));image_data=stream.read(image_asset['bytes'])
+                                    self.assertEqual(hashlib.sha256(image_data).hexdigest(),picture['sha256'])
+                        if wiki:
+                            self.assertEqual(asset['mime'],'application/octet-stream')
+                            html=data.decode('utf8')
+                            self.assertIn('>'+source['sourceProblemHeading']+'</h1>',html)
+                            self.assertIn('<h2 id="'+source['sourceSectionAnchor']+'">'+source['sourceSectionTitle']+'</h2>',html)
+                            self.assertIn(source['officialIndexSha256'],assets)
                     continue
                 # An independent derivation binds to its complete source
                 # statement and reproducible review payload, not a nonexistent

@@ -1,0 +1,214 @@
+{
+  "revision": "20261109-native-foundation-topics",
+  "problems": [
+    {
+      "id": "luogu-training-B2142",
+      "tags": [
+        "递归"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3648",
+      "tags": [
+        "顺序执行"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3649",
+      "tags": [
+        "条件分支"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3650",
+      "tags": [
+        "循环语句"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3652",
+      "tags": [
+        "一维数组"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3653",
+      "tags": [
+        "二维数组",
+        "枚举"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3654",
+      "tags": [
+        "字符串基础"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3657",
+      "tags": [
+        "条件分支",
+        "贪心"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3658",
+      "tags": [
+        "顺序执行",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3659",
+      "tags": [
+        "条件分支",
+        "循环语句"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3660",
+      "tags": [
+        "循环语句"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3661",
+      "tags": [
+        "一维数组",
+        "条件分支"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3662",
+      "tags": [
+        "二维数组",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3663",
+      "tags": [
+        "字符串基础"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3668",
+      "tags": [
+        "条件分支"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3669",
+      "tags": [
+        "贪心",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3670",
+      "tags": [
+        "循环语句",
+        "条件分支"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3671",
+      "tags": [
+        "一维数组"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3672",
+      "tags": [
+        "枚举",
+        "整数运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3673",
+      "tags": [
+        "一维数组",
+        "贪心"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3674",
+      "tags": [
+        "字符串基础"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "luogu-training-B3676",
+      "tags": [
+        "条件分支"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    }
+  ],
+  "privateStateReadOrWritten": false
+}

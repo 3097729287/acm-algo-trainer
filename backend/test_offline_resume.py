@@ -49,11 +49,20 @@ class OfflineResumeTests(unittest.TestCase):
         self.assertEqual(self.call('/api/draft', {'id': 'fixture::A', 'code': 'offline changed code'})[0], 200)
         self.assertEqual(self.server.training.problem('fixture::A')['draft'], 'offline changed code')
 
-    def test_reconnect_fetches_and_merges_remote_changes_before_uploading(self):
+    def manual_reconnect(self):
         self.saved_account()
         with patch.object(self.server.accounts, '_remote', side_effect=AccountConnectionUnavailable(503, 'offline fixture')), patch.object(AccountStateSync, 'start'):
             self.assertTrue(self.call('/api/account')[1]['authenticated'])
         sync = self.server.accounts.state_sync
+        # This fixture drives cloud sync explicitly. Login also starts an
+        # independent ranking worker whose reward receipt is a real journal
+        # write; drain that write boundary before fixing this test's baseline.
+        with sync.service.lock:
+            sync.service.leaderboard.close()
+        return sync
+
+    def test_reconnect_fetches_and_merges_remote_changes_before_uploading(self):
+        sync = self.manual_reconnect()
         sync.service.save_draft('fixture::A', 'offline changed code')
         # A remote edit of another preference must survive reconnection.
         sync.chunks.negotiate()
@@ -76,6 +85,35 @@ class OfflineResumeTests(unittest.TestCase):
         self.assertEqual(row[0], 'true')
         cloud = sync._call('GET', '/v1/accounts/state')['state']
         self.assertEqual(cloud['tables']['drafts'][0]['code'], 'offline changed code')
+
+    def test_reconnect_rejects_stale_journal_and_preserves_draft_saved_during_fetch(self):
+        sync = self.manual_reconnect()
+        sync.service.save_draft('fixture::A', 'offline changed code')
+        sync.chunks.negotiate()
+        sync.chunks.answer = None
+        remote = sync._call('GET', '/v1/accounts/state')
+        remote['state']['tables']['account_preferences'].append({'key':'fixture-remote','value':'true','updated_at':'2026-10-29T12:00:00Z'})
+        sync._call('PUT', '/v1/accounts/state', {'revision':remote['revision'], 'state':remote['state']})
+        original = sync._call
+        saved = []
+        def fetch_then_save(method, path, *args, **kwargs):
+            answer = original(method, path, *args, **kwargs)
+            if method == 'GET' and path == '/v1/accounts/state':
+                sync.service.save_draft('fixture::A', 'saved while reconnect was fetching')
+                saved.append(True)
+            return answer
+        with patch.object(sync, '_call', side_effect=fetch_then_save):
+            with self.assertRaises(ServiceError) as caught:
+                sync.flush()
+        self.assertEqual(saved, [True], 'A real draft was saved after the captured journal')
+        self.assertEqual(caught.exception.status, 409)
+        self.assertTrue(caught.exception.retry_state)
+        self.assertTrue(sync.needs_reconnect)
+        self.assertTrue(sync.snapshot()['pending'])
+        self.assertEqual(sync.service.problem('fixture::A')['draft'], 'saved while reconnect was fetching')
+        with sync.service.lock:
+            self.assertIsNone(sync.service.connection.execute("SELECT value FROM account_preferences WHERE key='fixture-remote'").fetchone(),
+                              'The stale merged snapshot must not be applied over the newer local draft')
 
     def test_expired_missing_owner_or_metadata_never_qualifies_for_offline(self):
         self.saved_account()

@@ -1,0 +1,416 @@
+{
+  "checkedAt": "2026-11-08T21:04:40.238875+00:00",
+  "nativeProblemId": "P7351",
+  "sourceRepository": "https://gitee.com/w33z8kqrqk8zzzx33/dream-oi-extra",
+  "sourceMethod": "ordinary anonymous public Git protocol, credential helper/header/cookie loading disabled",
+  "commit": "d9fa2b4fdf8dba1fa34a5db95e45397a3721e239",
+  "path": "down.zip",
+  "gitBlobSha1": "97005bc38e4501a21c505a5f17aaa6dd62135e1b",
+  "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+  "bytes": 42049784,
+  "uncompressedBytes": 109136038,
+  "members": [
+    {
+      "name": "smp01.in",
+      "bytes": 15778396,
+      "compressedBytes": 4943587,
+      "crc32": "2940c348"
+    },
+    {
+      "name": "smp02.in",
+      "bytes": 9818,
+      "compressedBytes": 3844,
+      "crc32": "bd65d7b4"
+    },
+    {
+      "name": "smp03.in",
+      "bytes": 117634,
+      "compressedBytes": 41157,
+      "crc32": "6498b1c1"
+    },
+    {
+      "name": "smp04.in",
+      "bytes": 1453939,
+      "compressedBytes": 557615,
+      "crc32": "6c48ff25"
+    },
+    {
+      "name": "smp05.in",
+      "bytes": 15777714,
+      "compressedBytes": 5769038,
+      "crc32": "29e014f1"
+    },
+    {
+      "name": "smp06.in",
+      "bytes": 15778082,
+      "compressedBytes": 6067321,
+      "crc32": "bad988d3"
+    },
+    {
+      "name": "smp07.in",
+      "bytes": 15774710,
+      "compressedBytes": 6580991,
+      "crc32": "732b7c9e"
+    },
+    {
+      "name": "smp08.in",
+      "bytes": 15778469,
+      "compressedBytes": 6608793,
+      "crc32": "bfe4eb42"
+    },
+    {
+      "name": "smp09.in",
+      "bytes": 14889571,
+      "compressedBytes": 5900138,
+      "crc32": "da57e0b7"
+    },
+    {
+      "name": "smp10.in",
+      "bytes": 13777705,
+      "compressedBytes": 5575998,
+      "crc32": "41c7b104"
+    }
+  ],
+  "cachedInReleasedStatement": false,
+  "inlineResourceLimitUnchanged": 33554432,
+  "originalInputsVerified": [
+    {
+      "file": "smp01.in",
+      "bytes": 15778396,
+      "sha256": "6bb37ae91d4b733b38c30da2d037f4169820468df93a15e93e8d70718edc72be",
+      "n": 100000,
+      "m": 1000000,
+      "constraintLines": 1000000,
+      "regionIndexRange": [
+        0,
+        99999
+      ],
+      "countryIndexRange": [
+        0,
+        7
+      ],
+      "firstTwoConstraints": [
+        [
+          78365,
+          0,
+          78365,
+          0
+        ],
+        [
+          61148,
+          3,
+          61148,
+          3
+        ]
+      ],
+      "zipCrcValidated": true,
+      "nativeBoundsValidated": true
+    },
+    {
+      "file": "smp02.in",
+      "bytes": 9818,
+      "sha256": "9e09a633a89979130e96e9a2dd5eb3f658548603c2521198c51dc6cd7a9511cf",
+      "n": 100,
+      "m": 1000,
+      "constraintLines": 1000,
+      "regionIndexRange": [
+        0,
+        99
+      ],
+      "countryIndexRange": [
+        0,
+        7
+      ],
+      "firstTwoConstraints": [
+        [
+          67,
+          7,
+          34,
+          4
+        ],
+        [
+          98,
+          1,
+          49,
+          5
+        ]
+      ],
+      "zipCrcValidated": true,
+      "nativeBoundsValidated": true
+    },
+    {
+      "file": "smp03.in",
+      "bytes": 117634,
+      "sha256": "796385a4e749eaccbb6ce405be7c0d7df43f67ad3c9afd799699539a68df8856",
+      "n": 100,
+      "m": 12000,
+      "constraintLines": 12000,
+      "regionIndexRange": [
+        0,
+        99
+      ],
+      "countryIndexRange": [
+        0,
+        7
+      ],
+      "firstTwoConstraints": [
+        [
+          25,
+          1,
+          56,
+          7
+        ],
+        [
+          83,
+          2,
+          95,
+          2
+        ]
+      ],
+      "zipCrcValidated": true,
+      "nativeBoundsValidated": true
+    },
+    {
+      "file": "smp04.in",
+      "bytes": 1453939,
+      "sha256": "00d903a63dd72b3b7d17258759b09408991e5e8051498a7805a520b6fa8f099e",
+      "n": 1000,
+      "m": 123456,
+      "constraintLines": 123456,
+      "regionIndexRange": [
+        0,
+        999
+      ],
+      "countryIndexRange": [
+        0,
+        7
+      ],
+      "firstTwoConstraints": [
+        [
+          602,
+          5,
+          128,
+          6
+        ],
+        [
+          189,
+          7,
+          437,
+          3
+        ]
+      ],
+      "zipCrcValidated": true,
+      "nativeBoundsValidated": true
+    },
+    {
+      "file": "smp05.in",
+      "bytes": 15777714,
+      "sha256": "52300809061ae7f8a05604c68590eb71aa0935897c26f90e0ff91c1f352d5ec8",
+      "n": 100000,
+      "m": 1000000,
+      "constraintLines": 1000000,
+      "regionIndexRange": [
+        0,
+        99999
+      ],
+      "countryIndexRange": [
+        0,
+        7
+      ],
+      "firstTwoConstraints": [
+        [
+          55973,
+          3,
+          55973,
+          3
+        ],
+        [
+          63287,
+          3,
+          63287,
+          3
+        ]
+      ],
+      "zipCrcValidated": true,
+      "nativeBoundsValidated": true
+    },
+    {
+      "file": "smp06.in",
+      "bytes": 15778082,
+      "sha256": "c5a2ffdac8313553181b18bda659d439b6bf41b8c0e454a9d45ca9e905487a78",
+      "n": 100000,
+      "m": 1000000,
+      "constraintLines": 1000000,
+      "regionIndexRange": [
+        0,
+        99999
+      ],
+      "countryIndexRange": [
+        0,
+        7
+      ],
+      "firstTwoConstraints": [
+        [
+          20019,
+          3,
+          54760,
+          3
+        ],
+        [
+          29122,
+          3,
+          65499,
+          3
+        ]
+      ],
+      "zipCrcValidated": true,
+      "nativeBoundsValidated": true
+    },
+    {
+      "file": "smp07.in",
+      "bytes": 15774710,
+      "sha256": "ce8e729897605e9922913bf86b1556b258c8b53b80ba35fc5d86eb99214b0c09",
+      "n": 100000,
+      "m": 1000000,
+      "constraintLines": 1000000,
+      "regionIndexRange": [
+        0,
+        99999
+      ],
+      "countryIndexRange": [
+        0,
+        7
+      ],
+      "firstTwoConstraints": [
+        [
+          42222,
+          5,
+          80836,
+          5
+        ],
+        [
+          37055,
+          6,
+          44665,
+          6
+        ]
+      ],
+      "zipCrcValidated": true,
+      "nativeBoundsValidated": true
+    },
+    {
+      "file": "smp08.in",
+      "bytes": 15778469,
+      "sha256": "fefbc8bdf66bcbb13727e70a375df563dfe63e5d6767d5573d3567701eae1284",
+      "n": 100000,
+      "m": 1000000,
+      "constraintLines": 1000000,
+      "regionIndexRange": [
+        0,
+        99999
+      ],
+      "countryIndexRange": [
+        0,
+        7
+      ],
+      "firstTwoConstraints": [
+        [
+          94319,
+          1,
+          57451,
+          7
+        ],
+        [
+          54143,
+          6,
+          6910,
+          7
+        ]
+      ],
+      "zipCrcValidated": true,
+      "nativeBoundsValidated": true
+    },
+    {
+      "file": "smp09.in",
+      "bytes": 14889571,
+      "sha256": "e944ee53222cd4d94d669c7818035c5cdf316a026d9b27af9e3fe5a619456bc3",
+      "n": 20000,
+      "m": 1000000,
+      "constraintLines": 1000000,
+      "regionIndexRange": [
+        0,
+        19999
+      ],
+      "countryIndexRange": [
+        0,
+        7
+      ],
+      "firstTwoConstraints": [
+        [
+          17506,
+          5,
+          5804,
+          2
+        ],
+        [
+          9400,
+          3,
+          501,
+          6
+        ]
+      ],
+      "zipCrcValidated": true,
+      "nativeBoundsValidated": true
+    },
+    {
+      "file": "smp10.in",
+      "bytes": 13777705,
+      "sha256": "ac16e5c6f1975e42a1f6830b01a1b33e598e9e39ff06d535f6ad49b8fcbc3e95",
+      "n": 10000,
+      "m": 1000000,
+      "constraintLines": 1000000,
+      "regionIndexRange": [
+        0,
+        9999
+      ],
+      "countryIndexRange": [
+        0,
+        7
+      ],
+      "firstTwoConstraints": [
+        [
+          5381,
+          5,
+          7908,
+          4
+        ],
+        [
+          2517,
+          5,
+          4132,
+          7
+        ]
+      ],
+      "zipCrcValidated": true,
+      "nativeBoundsValidated": true
+    }
+  ],
+  "allTenOriginalFilesCrcAndBoundsValidated": true,
+  "filesExtractedOnlyToIgnoredResearchDirectory": "E:\\项目\\ToBe\\开发\\tb-translations-20261109\\.backups\\original-recovery-20261109\\P7351-original-inputs",
+  "releasedLibraryUnmodified": true,
+  "nativeSource": {
+    "url": "https://www.luogu.com.cn/problem/P7351",
+    "sha256": "01b1baa8894b47d12d9d5963c8453714ff594c553184e17c5297f1e81637cfea",
+    "samples": [
+      [
+        "5 600\n0 5 1 4\n2 3 2 2\n0 4 0 4\n1 7 4 7\n4 6 1 3\n4 2 2 4\n2 3 0 7\n0 3 2 1\n4 4 2 1\n2 3 0 6\n4 5 0 3\n1 2 4 6\n2 0 1 4\n1 6 2 3\n2 2 0 6\n4 3 1 7\n3 6 2 5\n3 0 2 6\n3 7 1 7\n1 2 2 2\n1 7 3 7\n2 6 4 2\n3 0 2 3\n1 1 2 0\n2 1 2 3\n0 5 3 3\n4 0 1 1\n0 5 3 7\n2 6 0 4\n3 1 4 3\n1 1 2 5\n3 6 0 2\n0 4 3 1\n1 7 2 4\n3 4 3 3\n1 0 3 7\n3 5 0 2\n0 4 0 1\n3 0 3 6\n4 2 0 5\n3 3 1 7\n1 5 2 3\n4 5 0 0\n3 0 1 5\n1 5 0 3\n2 0 2 1\n2 6 3 6\n2 4 3 2\n1 2 2 5\n2 1 0 5\n1 2 4 1\n2 7 4 6\n0 5 0 6\n3 6 2 2\n1 7 1 7\n0 1 4 4\n1 6 0 2\n1 6 1 0\n1 4 0 7\n0 7 4 5\n0 4 2 1\n3 7 0 7\n3 0 2 1\n3 3 3 6\n0 2 1 0\n0 6 2 2\n4 1 2 0\n2 7 1 6\n1 0 2 1\n4 3 3 0\n0 7 3 5\n1 3 3 5\n3 0 4 0\n4 6 1 4\n2 3 2 7\n1 0 3 2\n0 3 3 7\n0 2 1 2\n3 1 0 6\n0 1 2 7\n3 4 3 0\n4 7 3 6\n2 5 4 3\n3 4 0 7\n2 0 0 2\n1 4 1 6\n0 7 0 3\n2 4 2 4\n2 2 2 1\n4 2 0 4\n2 7 3 4\n4 6 0 6\n2 4 0 4\n2 2 1 1\n4 7 0 1\n4 0 1 0\n1 1 1 1\n3 4 2 4\n0 4 1 0\n0 0 0 3\n3 3 2 5\n1 0 4 0\n3 3 2 1\n3 7 4 6\n0 1 1 2\n3 4 0 3\n1 1 2 7\n2 7 1 7\n1 5 4 4\n4 4 3 0\n2 2 0 3\n0 1 0 6\n1 2 2 0\n0 4 0 5\n3 0 0 2\n3 6 2 7\n1 4 2 1\n1 6 3 7\n3 1 2 5\n2 0 1 3\n1 6 3 6\n2 1 0 4\n4 5 3 5\n4 4 3 2\n2 5 2 1\n3 6 1 0\n4 4 0 3\n2 0 0 7\n2 4 1 4\n3 4 2 0\n3 6 0 7\n0 5 1 5\n0 3 0 1\n1 2 3 0\n0 1 2 4\n4 5 2 7\n1 5 4 0\n0 4 2 3\n0 7 3 1\n2 5 0 1\n3 1 2 3\n2 6 2 5\n2 1 3 2\n3 1 2 6\n0 2 4 5\n2 7 4 1\n0 0 4 7\n1 6 1 7\n4 4 3 7\n1 5 3 7\n2 3 0 5\n3 0 1 4\n3 0 4 6\n2 5 4 2\n2 7 2 3\n0 1 2 6\n1 7 0 2\n1 1 4 6\n3 0 0 4\n2 5 3 0\n4 6 0 0\n2 4 2 3\n0 3 4 1\n4 5 4 5\n1 5 4 3\n0 5 4 1\n0 3 0 4\n4 5 3 0\n3 2 1 4\n2 6 2 2\n0 6 3 6\n4 2 1 0\n2 1 2 0\n3 4 4 7\n2 1 2 1\n0 5 2 4\n2 7 4 3\n4 7 1 6\n3 6 0 3\n0 1 3 4\n2 6 2 4\n2 2 2 3\n4 5 1 5\n1 4 0 6\n2 6 4 1\n2 0 2 7\n4 5 2 4\n2 7 4 4\n3 7 3 2\n2 5 1 2\n0 2 4 1\n4 7 3 4\n0 1 1 3\n4 1 1 6\n1 1 1 4\n2 7 1 2\n1 4 0 0\n2 0 4 2\n0 3 2 7\n2 5 2 6\n0 5 4 4\n4 0 2 3\n2 4 0 3\n4 5 2 1\n4 4 4 0\n2 5 3 6\n3 1 4 5\n1 6 4 7\n0 2 3 4\n0 1 4 7\n1 5 3 4\n0 6 1 0\n2 7 2 2\n0 4 2 4\n4 2 2 7\n4 5 2 3\n0 3 1 1\n0 3 4 0\n0 4 2 7\n0 3 2 0\n3 0 1 7\n0 1 1 1\n3 4 0 4\n2 3 1 6\n4 4 0 2\n4 2 2 5\n4 4 4 5\n1 1 2 4\n1 1 0 1\n0 7 2 5\n0 5 1 3\n3 2 4 6\n4 0 0 4\n3 1 3 2\n2 3 1 2\n0 1 1 5\n4 5 3 7\n2 0 3 3\n0 2 0 3\n1 5 3 1\n1 4 2 4\n1 5 1 1\n1 0 1 4\n0 7 2 1\n0 5 0 2\n3 4 1 3\n1 7 3 0\n3 3 4 5\n3 5 4 2\n3 4 3 6\n3 4 3 7\n3 4 3 4\n1 7 2 3\n4 4 4 2\n1 7 4 4\n1 3 1 6\n4 3 4 2\n1 5 2 1\n1 5 2 2\n2 5 4 5\n1 5 2 4\n3 6 0 5\n3 2 0 6\n4 4 1 4\n4 0 4 0\n0 4 4 3\n2 4 3 5\n4 1 3 6\n2 4 4 3\n4 3 2 0\n3 5 3 1\n1 7 0 6\n0 2 4 7\n3 0 0 3\n1 4 0 2\n4 5 1 7\n3 1 0 4\n0 1 0 2\n4 1 1 3\n0 3 3 3\n2 2 4 2\n4 3 4 1\n4 5 2 0\n1 6 2 6\n1 1 2 1\n4 6 2 2\n1 7 2 0\n0 4 3 0\n0 3 2 5\n2 2 3 0\n3 6 2 3\n0 7 3 3\n0 5 0 4\n3 7 1 5\n4 5 0 5\n4 1 0 4\n1 7 0 7\n3 4 1 7\n0 0 2 5\n1 3 3 0\n2 1 3 0\n2 6 0 3\n0 5 1 7\n0 6 1 6\n1 1 0 5\n2 7 2 5\n0 3 4 5\n4 0 3 1\n3 2 1 0\n2 6 0 2\n1 4 3 7\n1 6 2 5\n1 4 4 4\n3 5 4 4\n1 1 4 3\n2 1 1 3\n4 2 1 7\n4 6 1 0\n1 0 3 4\n1 1 3 1\n1 6 0 6\n3 7 1 1\n0 0 2 4\n4 0 1 5\n0 2 2 2\n2 0 1 5\n1 0 4 5\n3 0 1 2\n0 1 0 1\n0 3 0 2\n4 7 3 2\n4 4 3 3\n1 5 4 7\n2 2 0 2\n2 4 0 7\n4 1 1 4\n4 5 4 2\n4 4 1 1\n1 7 1 2\n3 2 3 5\n3 6 1 7\n4 1 2 2\n1 1 3 5\n3 1 2 4\n3 1 4 0\n4 6 0 5\n1 5 3 5\n3 1 2 1\n3 0 3 4\n4 4 4 4\n1 5 1 0\n4 0 4 3\n1 4 3 3\n4 7 4 0\n4 5 4 1\n1 5 3 2\n0 6 0 1\n0 6 3 7\n1 3 1 4\n4 0 1 4\n2 1 3 3\n4 1 2 6\n1 0 1 3\n4 7 0 4\n0 0 0 0\n2 5 1 0\n2 3 0 0\n1 6 1 2\n0 2 0 5\n3 7 4 5\n2 3 1 4\n2 3 3 1\n0 2 3 1\n4 7 3 0\n4 5 4 0\n3 3 4 7\n3 4 0 2\n2 7 4 2\n3 0 4 7\n3 0 0 0\n0 4 4 7\n1 4 3 5\n1 1 4 2\n2 3 1 0\n1 0 0 2\n1 1 1 0\n3 5 4 3\n0 6 4 3\n4 4 0 5\n4 4 1 0\n4 3 1 2\n2 4 4 0\n0 5 4 0\n0 0 4 1\n4 2 3 7\n4 5 2 5\n3 7 1 4\n2 1 0 6\n3 1 0 5\n1 3 2 7\n1 3 4 7\n1 4 2 5\n4 4 1 7\n1 1 4 0\n0 5 4 2\n3 3 1 6\n3 1 0 3\n1 3 4 1\n1 2 3 1\n2 1 3 5\n0 0 1 7\n3 4 2 2\n3 6 1 5\n2 7 2 7\n3 5 1 5\n0 4 0 6\n3 2 4 7\n0 6 1 4\n1 0 0 7\n3 1 2 0\n2 3 4 0\n3 1 0 1\n3 3 2 0\n3 5 4 0\n4 7 0 2\n1 2 1 0\n1 6 2 0\n4 2 1 1\n0 0 1 1\n1 0 1 1\n3 7 3 6\n2 4 0 1\n1 2 2 7\n4 3 4 5\n4 2 4 6\n3 7 3 7\n0 7 3 7\n4 5 3 3\n2 6 1 5\n0 3 0 6\n4 7 4 7\n4 0 4 5\n3 4 1 5\n0 2 0 7\n4 1 3 5\n0 5 3 0\n0 5 4 5\n1 0 2 6\n0 4 2 5\n1 3 0 3\n1 5 0 2\n0 0 4 5\n3 3 0 5\n3 2 3 1\n4 1 1 0\n2 4 4 1\n0 6 4 1\n1 1 2 3\n4 6 4 3\n0 5 0 0\n0 4 0 2\n2 3 0 4\n4 7 1 5\n1 6 0 5\n1 7 4 2\n0 2 0 4\n3 5 3 0\n4 6 4 1\n4 6 3 1\n0 0 1 6\n4 2 1 6\n3 1 1 4\n4 7 1 3\n1 6 4 0\n2 5 2 3\n0 2 2 1\n3 7 2 0\n1 0 4 7\n3 5 3 4\n0 0 4 6\n1 7 1 1\n3 5 4 5\n3 3 3 7\n2 2 2 7\n4 2 4 3\n3 6 4 0\n3 5 3 6\n4 6 1 5\n2 7 0 3\n3 3 4 4\n4 2 3 4\n3 1 1 3\n2 0 4 0\n2 3 2 1\n1 7 4 0\n2 3 2 4\n0 4 1 2\n1 7 1 4\n2 6 3 4\n1 3 2 4\n1 4 2 3\n1 4 1 2\n2 0 2 5\n0 7 1 0\n2 7 0 1\n4 1 3 0\n4 1 1 5\n3 1 3 6\n4 4 2 3\n3 0 0 1\n2 4 4 5\n3 1 1 2\n4 3 1 6\n4 0 3 5\n2 4 1 0\n1 3 4 4\n1 1 1 2\n2 6 4 0\n0 6 4 4\n1 0 4 4\n0 4 3 4\n4 5 1 2\n1 1 4 7\n3 2 2 5\n4 7 1 2\n3 7 0 0\n4 4 4 1\n2 7 1 3\n1 0 0 1\n2 1 4 7\n2 0 0 5\n4 6 2 3\n2 5 0 7\n1 6 3 3\n2 6 1 7\n0 1 2 1\n0 7 0 0\n2 1 0 3\n3 0 3 5\n4 3 0 4\n4 3 3 7\n2 6 2 1\n2 4 1 1\n2 3 4 5\n4 3 0 1\n2 2 0 4\n3 0 1 3\n1 2 1 3\n1 7 0 3\n3 3 0 0\n0 6 0 7\n3 1 3 0\n3 6 2 6\n1 1 1 3\n0 5 2 7\n0 0 2 3\n4 0 2 0\n0 1 1 4\n0 4 1 6\n2 2 2 4\n2 0 3 6\n0 5 1 0\n4 1 1 1\n3 6 3 4\n4 3 3 2\n2 3 2 5\n3 1 2 2\n4 0 3 0\n1 3 0 4\n0 7 1 6\n0 1 1 0\n2 6 1 0\n4 2 4 7\n0 0 4 0\n2 5 0 6\n3 5 2 7\n3 2 3 6\n0 0 3 5\n1 2 0 2\n1 0 4 6\n1 4 4 0\n3 4 1 0\n0 5 2 1\n1 3 2 1\n4 7 0 6\n4 3 1 1\n0 6 1 1\n2 2 3 1\n2 2 1 0\n0 2 3 7\n2 0 2 4\n4 4 4 6\n3 4 2 6\n1 0 0 5\n4 0 1 3\n3 4 1 2\n2 1 2 4\n1 3 3 7\n2 1 1 1\n0 0 2 6",
+        "23333"
+      ]
+    ],
+    "originalDownloadUrl": "https://gitee.com/w33z8kqrqk8zzzx33/dream-oi-extra/raw/master/down.zip"
+  },
+  "reviewedStatementSha256": [
+    "e63eb782e84db11a3d885f976d2d62022ce107cb38849fb222769981d1d1549d",
+    "144a13b0adbe2da6e39490032631d16ddab535558a52aff562b59a0f7b65e38a"
+  ]
+}

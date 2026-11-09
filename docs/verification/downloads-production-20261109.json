@@ -1,0 +1,144 @@
+{
+  "schema": 1,
+  "deployedAtUtc": "2026-11-08T23:14:10Z",
+  "verifiedAtUtc": "2026-11-08T23:22:21Z",
+  "server": "https://47.82.84.74",
+  "sourceCommits": [
+    "d6490c7f5115d82f41f67332944fe0cff1d12ba7",
+    "5773c3762bc3fd0cb7ecddd6a568aa09645cfb1a",
+    "3882c93779f2fb99cb191e4db33772b2d85b9a0a",
+    "969522b680210c753807994d929d50742e9c0dc5"
+  ],
+  "transaction": "downloads-deploy-20261109-c2b754eb",
+  "rollbackDirectory": "/opt/tb-leaderboard/backups/downloads-deploy-20261109-c2b754eb",
+  "operationScope": "Public download programs, reviewed input bytes and public index metadata only; no account API mutations, migrations, volume replacement, private database reads, AI credential inspection, formal stable169 or historical asset edits.",
+  "sourceAuthority": {
+    "programFilesEqualCommittedGitBytes": true,
+    "beforeServerMatchesD649Base": true,
+    "beforeReleaseStreamOnlyDiffersFromOldBaseByExisting256Cap": true,
+    "registryAndReviewShaUnchanged": true,
+    "requiredZipOriginalBytes": 42049784,
+    "requiredZipSha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+    "completeFull1610SourceBytes": 494336411,
+    "completeFull1610SourceSha256": "8511c31ced17ef43aac67a1a8c4f973050496092863ad7ae639b307c65079fe4"
+  },
+  "publicIndex": {
+    "rowsBefore": 104,
+    "rowsAfter": 104,
+    "allOldFieldsPreserved": true,
+    "sameNamesAndOriginalShaIdentitiesPreserved": true,
+    "addedFull1610BlockProofs": 472,
+    "existing256EntryAnd1MiBByteLimitsPreserved": true,
+    "ordinary32MiBPolicyUnchanged": true,
+    "beforeSha256": "c6a9e3b96357e794c1a5d0ef71b80edfe5ecfc98516ece97f7aaa3b264dd5310",
+    "afterSha256": "a365c8a06d9c682f3e101a994ef26ae6246ecba4179bf867f342ed6d6717d5bb"
+  },
+  "preservation": {
+    "caddyInodeBefore": 784925,
+    "caddyInodeAfter": 784925,
+    "caddyValidatedBeforeReload": true,
+    "existingApiContainerRestartedOnly": true,
+    "containerMountsUnchanged": true,
+    "allPublicHealthProtocolsUnchanged": true,
+    "serviceVersionUnchanged": "1.4.8",
+    "libraryAssetIndexUnchanged": true,
+    "stableHostAndServedManifestUnchanged": true,
+    "servedStable169ManifestSha256": "eadf6963ae5412243a0ede2d32790b8f18c8f38cdfe2a5404e8e7f93ddf31679",
+    "existingBuildInfoAndPackageUnchanged": true,
+    "availableKibAfter": 506776,
+    "minimumFreeBytesRequired": 268435456,
+    "sshPidToPreserve": 7260,
+    "aiCredentialsReadOrChanged": false,
+    "oldRejectedDeletionPathsRetried": false
+  },
+  "realHttpsRequiredInput": {
+    "schema": 1,
+    "checkedAtUtc": "2026-11-08T23:22:21Z",
+    "origin": "https://47.82.84.74",
+    "seconds": 329.588,
+    "archives": [
+      {
+        "problemId": "luogu-training-P7351",
+        "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+        "bytes": 42049784,
+        "route": "https://47.82.84.74/updates/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
+        "cacheWasAlreadyComplete": false,
+        "verifiedPrefixBeforeBytes": 0,
+        "completeResponseAndDurableCacheVerified": true,
+        "networkDisabledOfflineReplayVerified": true
+      }
+    ],
+    "catalogueRetirementChanged": false,
+    "ordinary32MiBLimitUnchanged": true,
+    "privateAccountStateReadOrWritten": false
+  },
+  "realHttpsOldAndFullRanges": {
+    "schema": 1,
+    "realDomesticHttps": true,
+    "tlsVerified": true,
+    "oldSmallHeadUnchanged": true,
+    "oldSmallNonzeroRangeSha256": "33c482e644b21578623b240e6343215aa15818ec807da130e90cc8dfe2e06f97",
+    "oldSmallBytes": 65536,
+    "full1610": {
+      "start": 1048699,
+      "interruptedClientPrefixBytes": 65536,
+      "resumedNonzeroOffset": 1114235,
+      "secondBytes": 65536,
+      "reconstructedBytes": 131072,
+      "sha256": "ee08e6fce119ecf4475e486f9ea51f472447c1dc09f072fc45e6a47181123b9f",
+      "matchesOriginalLocalFile": true,
+      "seconds": 22.77,
+      "whole494MbDownloaded": false
+    },
+    "requiredZipHeadVerified": true,
+    "privateAccountHeadersSent": false,
+    "upstreamCredentialPolicy": "Deployed exact tested source constructs only fixed public headers and never copies user/account cookies or authorization",
+    "health": {
+      "ok": true,
+      "version": "1.4.8",
+      "teamTrainingProtocol": 1,
+      "thoughtModeProtocol": 1,
+      "thoughtModeEnabled": false,
+      "eventScope": "official",
+      "gameplayProtocol": 1,
+      "rankingDominanceProtocol": 1,
+      "sharedTranslationProtocol": 1,
+      "accountStateProtocol": 1,
+      "accountChunkProtocol": 2,
+      "adminAccountProtocol": 1,
+      "singleSession": true,
+      "publicProgressProtocol": 1,
+      "publicAppearanceProtocol": 1,
+      "originalAvatarProtocol": 1,
+      "nicknameUnique": true,
+      "stateResumeProtocol": 1,
+      "socialProtocol": 1,
+      "trainingListLikesProtocol": 1
+    },
+    "oneMinuteClaim": false
+  },
+  "checks": {
+    "candidateStreamsAndFullOriginalByteChecks": {
+      "approvedHistoricalRowsPreserved": 104,
+      "fullRangeProofs": 472,
+      "requiredZipBytes": 42049784,
+      "caddyOnlyRequiredRouteAdded": true
+    },
+    "syntax": "Three staged Node modules parsed with cached Node24 image and no network or production environment",
+    "rollback": "Public before files copied before changes; failure trap restores original program/index/config with Caddy inode preserved and restarts only the original API",
+    "remoteFilesHaveExpectedSha": true,
+    "no494MbInternetDownload": true,
+    "oneMinuteAchievedClaim": false
+  },
+  "evidenceFiles": {
+    "deploy-public.sh": "eeaf0c212e1385a0c5090bedb0f4337b8ef242e124398f94f5bf3beccc85eec1",
+    "deployment-manifest.json": "2fc0bf45227ee51510a593c6691ff7a439d569a91ad55501203f9f7d1ede3ef5",
+    "https-ranges.json": "546b07763d05e57c09d859cd18a9c62ee7bbd6d48ad56907f37410bfbc8c0a5b",
+    "preflight-public.sh": "cf88b9414e52da503270c473fe69d0d912d72573344e1012b2f5031a8057d5d1",
+    "public-before.sha256": "a5a618031e75f1b3cc2f85f9107cb5cd7d8084a1f9b9d2c5781df270a3cfba49",
+    "required-https-cache.json": "36f811c6aec139b84b6b7e22cfd3ac50a38dd8a650af671a620fb1a55c27d98f"
+  },
+  "rawPrivateFreeEvidenceLocal": ".backups/downloads-production-20261109/evidence",
+  "catalogueRetirementChangedByDeployment": false,
+  "catalogueRegistrationOwner": "content_recovery; may now apply reviewed pending source with final real-catalogue Workbench verification"
+}

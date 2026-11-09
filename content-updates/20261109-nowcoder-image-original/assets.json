@@ -1,0 +1,20 @@
+[
+  {
+    "sha256": "97842c2d79e31d84f378f013df80d0c32fee00ede94575513a545f394b943eb8",
+    "mime": "image/png",
+    "bytes": 24266,
+    "file": "statement-assets/97842c2d79e31d84f378f013df80d0c32fee00ede94575513a545f394b943eb8.bin"
+  },
+  {
+    "sha256": "ef6fbda9e4f93cc727c4e5d373373c9f5de6f6d35e0a19b72991c5585b8d091a",
+    "mime": "image/png",
+    "bytes": 4546,
+    "file": "statement-assets/ef6fbda9e4f93cc727c4e5d373373c9f5de6f6d35e0a19b72991c5585b8d091a.bin"
+  },
+  {
+    "sha256": "3a4bc84349f5a05c983df200392987919a75de36715fc0c10c68a3f7200565dc",
+    "mime": "image/png",
+    "bytes": 4751,
+    "file": "statement-assets/3a4bc84349f5a05c983df200392987919a75de36715fc0c10c68a3f7200565dc.bin"
+  }
+]

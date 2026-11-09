@@ -1,0 +1,121 @@
+{
+  "schema": 1,
+  "problemId": "luogu-training-P7351",
+  "status": "Production service deployed and complete domestic HTTPS/durable offline cache verified; catalogue registration owned separately",
+  "requiredInputIsOptional": false,
+  "ordinaryAssetLimitBytes": 33554432,
+  "independentReviewedRequiredInputMaximumBytes": 134217728,
+  "registry": "backend/resources/reviewed-required-downloads.json",
+  "canonicalOriginal": "data/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
+  "bytes": 42049784,
+  "sha256": "500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6",
+  "nativeInputFiles": 10,
+  "sourceBinding": {
+    "identity": "Exact unchanged original ID and native problem URL",
+    "statement": "Exact approved source Markdown SHA256 and original archive URL present in that text",
+    "resource": "Exact ZIP SHA256, bytes, 64 KiB chunk hashes, member inventory and manual review record SHA256",
+    "unknownHashesOrUrls": "Rejected before any network request",
+    "redirects": "Rejected by the existing TLS-verifying service opener",
+    "retirementOrHistoryMutation": false
+  },
+  "desktopInterface": {
+    "binaryRoute": "/api/required-downloads/{approved-sha256}",
+    "methods": [
+      "GET",
+      "HEAD"
+    ],
+    "range": "One explicit bytes=start-end or bytes=start- range; invalid/multiple ranges return 416",
+    "metadata": [
+      "Content-Type: application/zip",
+      "Content-Length",
+      "Content-Disposition: attachment; filename=down.zip",
+      "Accept-Ranges: bytes",
+      "ETag: sha256 identity",
+      "X-Content-SHA256"
+    ],
+    "statusRoute": "/api/required-downloads/{approved-sha256}/status",
+    "statusFields": [
+      "sha256",
+      "fileName",
+      "bytes",
+      "verifiedBytes",
+      "cached",
+      "downloading",
+      "error"
+    ],
+    "requestGates": "Existing local Host and account gates; public immutable transfer does not hold personal account-switch barrier",
+    "archiveInJsonOrIpc": false,
+    "readingLink": "Original source anchor resolves to a native same-origin download through the real Workbench"
+  },
+  "cache": {
+    "path": "STATE.parent/cache/required-downloads/{sha256}.zip",
+    "partial": "{sha256}.part",
+    "resume": "Recheck the contiguous 64 KiB prefix, discard only an unverified tail, request the remaining range",
+    "automaticNetworkRetries": 2,
+    "checksumFailureRetry": "No automatic checksum-failure retry; keep verified prefix for explicit retry",
+    "completion": "Verify all chunks and whole SHA256, fsync, atomic rename; hold the final outgoing block until validation succeeds",
+    "offline": "Revalidate cached bytes and serve without a source server or Internet connection",
+    "accountState": "Public input cache is independent of personal account databases"
+  },
+  "domesticDistribution": {
+    "deployed": true,
+    "url": "https://47.82.84.74/updates/required-downloads/500178587e4c656cf2ef1b5ab009a1ce5d47d48a356a2004e7b65364052129b6.zip",
+    "acceptedPaths": [
+      "/updates/required-downloads/{sha256}.zip",
+      "/required-downloads/{sha256}.zip"
+    ],
+    "source": "A staged exact local file; no arbitrary upstream proxy",
+    "configuration": {
+      "REQUIRED_DOWNLOADS_FILE": "absolute path to public-required-downloads.json",
+      "REQUIRED_DOWNLOADS_DIR": "absolute path to required-downloads directory"
+    },
+    "capacity": "Four simultaneous transfers, 64 KiB bounded blocks, ten minute transfer timeout",
+    "checks": "Per-block checks before each response; full response checks whole SHA256; unknown hashes, queries, symlinks, missing/truncated bytes refused",
+    "prepareCommand": "python scripts/prepare_required_downloads.py --output NEW_DEPLOYMENT_FOLDER",
+    "payload": [
+      "public-required-downloads.json",
+      "required-downloads/{sha256}.zip",
+      "proofs/{sha256}.json",
+      "deployment.json"
+    ],
+    "serviceCode": [
+      "server/leaderboard/src/required-downloads.mjs",
+      "server/leaderboard/src/server.mjs",
+      "server/leaderboard/Caddyfile"
+    ],
+    "postDeploymentCommand": "python scripts/verify_required_download_distribution.py --origin https://47.82.84.74 --cache-root NEW_ISOLATED_CACHE --output NEW_RECEIPT.json",
+    "receiptRequirement": "Must contact the approved distribution origin, verify exact full bytes and durable cache, then replay with network disabled; an already-complete cache is refused as an origin test",
+    "proxy": "The updates prefix is stripped, then /required-downloads/* is always forwarded to the reviewed Node index and checked stream, before file_server. Existing cached asset and account routes stay unchanged.",
+    "verifiedAtUtc": "2026-11-08T23:22:21Z",
+    "completeHttpsBytes": 42049784,
+    "completeResponseAndOfflineCacheVerified": true,
+    "productionProof": "docs/verification/downloads-production-20261109.json",
+    "firstEmptyCacheVerificationSeconds": 329.588,
+    "oneMinuteClaim": false
+  },
+  "activationBoundary": {
+    "retirementFlagUnchanged": true,
+    "pendingFullNativeStatement": "P7351.pending.md",
+    "nativeClarification": "The original calls four values positive integers but defines zero-based region and country numbers and supplies zero values; the pending text correctly says four integers and preserves all original constraints and samples.",
+    "beforeActivation": [
+      "Deploy the exact immutable original and the reviewed registry to the domestic route",
+      "Obtain a successful distribution/cache verification receipt",
+      "Recheck actual Workbench original-link download with the registered source text",
+      "Have the catalogue owner apply the guarded pending source and register the required-download contract, preserving the original ID and history"
+    ],
+    "doNotUse": [
+      "optionalExternalResources exception",
+      "ordinary 32 MiB asset-limit relaxation",
+      "archive base64 in HTTP or IPC",
+      "a guessed or reconstructed input file",
+      "a successful loopback test as proof of domestic deployment"
+    ],
+    "domesticRequirementsMet": true
+  },
+  "releaseScope": {
+    "frozen1610Changed": false,
+    "versionChanged": false,
+    "installerContains42MbArchive": false,
+    "rust": "Use this binary/status interface only after independent native integration; existing Rust ordinary 32 MiB policy stays unchanged"
+  }
+}

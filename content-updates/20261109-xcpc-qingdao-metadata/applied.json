@@ -1,0 +1,143 @@
+{
+  "revision": "20261109-xcpc-qingdao-source-reviewed-metadata",
+  "problems": [
+    {
+      "id": "remote:codeforces:104270::A",
+      "tags": [
+        "多项式插值",
+        "递归",
+        "高精度"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104270::B",
+      "tags": [
+        "桥",
+        "边双连通分量",
+        "启发式合并"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104270::C",
+      "tags": [
+        "分类讨论",
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104270::D",
+      "tags": [
+        "枚举",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104270::E",
+      "tags": [
+        "二分答案",
+        "贪心"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104270::F",
+      "tags": [
+        "构造",
+        "位运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104270::G",
+      "tags": [
+        "容斥",
+        "计数 DP",
+        "快速幂"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104270::H",
+      "tags": [
+        "最短路",
+        "线段相交",
+        "点积与叉积"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104270::I",
+      "tags": [
+        "线段树",
+        "动态DP",
+        "枚举"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104270::J",
+      "tags": [
+        "贪心",
+        "分类讨论"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104270::K",
+      "tags": [
+        "扫描线",
+        "排序",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104270::L",
+      "tags": [
+        "组合计数",
+        "枚举",
+        "排列"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:104270::M",
+      "tags": [
+        "模拟",
+        "分类讨论"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    }
+  ],
+  "privateStateReadOrWritten": false
+}

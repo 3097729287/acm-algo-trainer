@@ -1,0 +1,715 @@
+{
+  "schema": 1,
+  "revision": "20261109-xcpc-taoyuan-source-reviewed-metadata",
+  "checkedAt": "2026-11-08T21:12:26.155763+00:00",
+  "resourceBeforeSha256": "5b66e5ab2edcfbd7bda7c6704591df995df14ba80f5c939832458bbf60b05b0d",
+  "items": [
+    {
+      "id": "remote:codeforces:105544::A",
+      "beforeProblemSha256": "ee69122e9e57c1008df32a1d4b5f045ae6281a346144ea9877bccd87b94f81c7",
+      "tags": [
+        "模拟"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105544/problem/A"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105544::A",
+          "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+          "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+          "sourcePageNumbers": [
+            1,
+            2
+          ],
+          "sourceProblemHeading": "Problem PA",
+          "sourceProblemTitle": "Counterfeit Money",
+          "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/A",
+          "sourceStatementMarkdownSha256": "63ad63b9ab123c546552a05f93f28e2b835de3623f786228194956238fdaa480",
+          "reasons": [
+            "官方提示要求从右向左每三位分组，交替加减，输出结果绝对值并判其能否被13整除；仅需按十进制字符串模拟，不把字符串大类硬转叶子。"
+          ],
+          "method": "official-statement-and-contest-hint-reviewed-classification",
+          "implementationDetailInferredByToBe": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105544::B",
+      "beforeProblemSha256": "64dcb86751dc56b4667e8401a254505a12e522dea44b077e29118e56730e3fd6",
+      "tags": [
+        "分数运算",
+        "最大公约数"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105544/problem/B"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105544::B",
+          "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+          "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+          "sourcePageNumbers": [
+            3,
+            4
+          ],
+          "sourceProblemHeading": "Problem PB",
+          "sourceProblemTitle": "Recurring Decimal to Fractions",
+          "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/B",
+          "sourceStatementMarkdownSha256": "e40f883acbb71d40233ba9c77b2a9e1a3e1950710a1ec57b1a20b459fb28909c",
+          "reasons": [
+            "官方提示明确 Euclidean algorithm；非循环段长a、循环段长b，用整数 (int(s1+s2)-int(s1))/(10^a(10^b-1)) 表示，再以gcd约分；a+b<=10。"
+          ],
+          "method": "official-statement-and-contest-hint-reviewed-classification",
+          "implementationDetailInferredByToBe": true,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105544::C",
+      "beforeProblemSha256": "473755092d2ca3cc48a14acea8633c4725bf74d54b21ea960c05ba4bf681d77a",
+      "tags": [
+        "线段树",
+        "懒标记",
+        "二分查找"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105544/problem/C"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105544::C",
+          "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+          "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+          "sourcePageNumbers": [
+            5,
+            6,
+            7
+          ],
+          "sourceProblemHeading": "Problem PC",
+          "sourceProblemTitle": "Where the Lantern Lights are Dimming",
+          "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/C",
+          "sourceStatementMarkdownSha256": "701b15f1262e5371d02515b0e103fab5e73b49d1c4d90c31ec26eff5708d4c04",
+          "reasons": [
+            "官方提示删除损坏灯后建立正常灯数组、以二分映射原编号区间；线段树懒标记维护亮灯数量，翻转区间，评分时只加q乘当前亮灯数。"
+          ],
+          "method": "official-statement-and-contest-hint-reviewed-classification",
+          "implementationDetailInferredByToBe": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105544::D",
+      "beforeProblemSha256": "b6a1e6d788b98f33515fec08f4ce9b5fc3dcd7431b8eaa9188a11724e08ecbc5",
+      "tags": [
+        "模拟"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105544/problem/D"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105544::D",
+          "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+          "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+          "sourcePageNumbers": [
+            9,
+            10
+          ],
+          "sourceProblemHeading": "Problem PD",
+          "sourceProblemTitle": "Quarantine Policy",
+          "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/D",
+          "sourceStatementMarkdownSha256": "1073260a2699a2872d2346ab68a4c047281fc6fdbe1627a57fc8e162f139bb3e",
+          "reasons": [
+            "官方提示类比Minesweeper，区分四邻和对角邻居，对各感染座位的8个邻位取最大隔离天数；不是累计隔离天数。"
+          ],
+          "method": "official-statement-and-contest-hint-reviewed-classification",
+          "implementationDetailInferredByToBe": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105544::E",
+      "beforeProblemSha256": "b66a33b5a4bb017237a49705329c7ba4c85d69594c20c68ebeb522b5aeae8018",
+      "tags": [
+        "拓扑排序"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105544/problem/E"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105544::E",
+          "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+          "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+          "sourcePageNumbers": [
+            11,
+            12
+          ],
+          "sourceProblemHeading": "Problem PE",
+          "sourceProblemTitle": "Slabstones Rearrangement",
+          "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/E",
+          "sourceStatementMarkdownSha256": "13b645e845bcec23d3491cd41caf784e1f380e308df33f49584952a72bf1b3c8",
+          "reasons": [
+            "官方提示把竖直投影重叠的矩形按原左右关系转成DAG，用带点宽度与边最小间距的最长路径确定压缩后的总宽；据此用拓扑序进行最大值转移。"
+          ],
+          "method": "official-statement-and-contest-hint-reviewed-classification",
+          "implementationDetailInferredByToBe": true,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105544::F",
+      "beforeProblemSha256": "ed7673b695d8c4b552fa6ccfa740ed9ff1af6fb1726f41f836642bf9d9f2e8ec",
+      "tags": [
+        "贪心",
+        "排序"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105544/problem/F"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105544::F",
+          "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+          "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+          "sourcePageNumbers": [
+            13,
+            14
+          ],
+          "sourceProblemHeading": "Problem PF",
+          "sourceProblemTitle": "Baker's Dilemma",
+          "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/F",
+          "sourceStatementMarkdownSha256": "8c91954dc7d1b5ada2273069992596480a6b43b574f2ebd6c9c3e435b3e98100",
+          "reasons": [
+            "官方提示使用贪心排序。交换相邻订单可得i在j前当且仅当D_i*S_j<=D_j*S_i，交叉乘比较以免浮点；相等时按原编号保证字典序最小。"
+          ],
+          "method": "official-statement-and-contest-hint-reviewed-classification",
+          "implementationDetailInferredByToBe": true,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105544::G",
+      "beforeProblemSha256": "091bb42971cb0099b7baeb3e964105f2a12bd8fa89a813c422eb24d82dab993c",
+      "tags": [
+        "线性规划",
+        "构造"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105544/problem/G"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105544::G",
+          "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+          "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+          "sourcePageNumbers": [
+            15,
+            16,
+            17
+          ],
+          "sourceProblemHeading": "Problem PG",
+          "sourceProblemTitle": "A Packing Problem",
+          "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/G",
+          "sourceStatementMarkdownSha256": "6755ef130515638da824fda3a309cc80db8dfdfb04e7794e83d30c2749e534b6",
+          "reasons": [
+            "原题明确要求7/4容量下的分配构造或LP不可行对偶证书，官方提示将其归约为大/小作业的固定makespan调度并建议局部搜索；没有宣称采用通用LP求解器。"
+          ],
+          "method": "official-statement-and-contest-hint-reviewed-classification",
+          "implementationDetailInferredByToBe": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105544::H",
+      "beforeProblemSha256": "9741b40c8696929db0201da59fcd0b36c9915d959952bb3eba79c034bee8b5ed",
+      "tags": [
+        "背包 DP"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105544/problem/H"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105544::H",
+          "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+          "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+          "sourcePageNumbers": [
+            19,
+            20
+          ],
+          "sourceProblemHeading": "Problem PH",
+          "sourceProblemTitle": "Bank Deposit Challenge",
+          "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/H",
+          "sourceStatementMarkdownSha256": "17e4d9631556489b9036911c7eaf947229132194dddcaa3b89be5df292a51534",
+          "reasons": [
+            "官方提示明确knapsack与DP；每家存款活动只能选一次，金额w_i恰为物品重量、收益v_i为价值、现金C为容量，是0/1背包而非完全背包。"
+          ],
+          "method": "official-statement-and-contest-hint-reviewed-classification",
+          "implementationDetailInferredByToBe": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105544::I",
+      "beforeProblemSha256": "a12a1291d32c4137fd60a08f087e419b3c8fceb0f3d9a0780e789fab86f25dd0",
+      "tags": [
+        "随机算法",
+        "构造"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105544/problem/I"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105544::I",
+          "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+          "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+          "sourcePageNumbers": [
+            21,
+            22,
+            23,
+            24
+          ],
+          "sourceProblemHeading": "Problem PI",
+          "sourceProblemTitle": "The Pentagon Conjecture",
+          "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/I",
+          "sourceStatementMarkdownSha256": "d346ca05b93892e8291e8146e29e0ffbe85ba2485f4f0690ed6d6f1bd8bff49d",
+          "reasons": [
+            "官方给出大量三角形保证存在五环的理论，并给随机选顶点、O(m)检查该顶点是否属于五环、期望O(n^2)的路线；输入已给三角形，不误标为必须三元环计数。"
+          ],
+          "method": "official-statement-and-contest-hint-reviewed-classification",
+          "implementationDetailInferredByToBe": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105544::J",
+      "beforeProblemSha256": "165e68aa303ed992cbebe3469adc9a4ec424611cc450cf543adbb1d204025df9",
+      "tags": [
+        "拓扑排序"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105544/problem/J"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105544::J",
+          "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+          "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+          "sourcePageNumbers": [
+            25,
+            26,
+            27,
+            28
+          ],
+          "sourceProblemHeading": "Problem PJ",
+          "sourceProblemTitle": "Lead Time Estimation",
+          "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/J",
+          "sourceStatementMarkdownSha256": "b040eaeb8501a3a7acf59fdfa868f6c9aaf829419908f10ef5ef4fba99ffd9eb",
+          "reasons": [
+            "原题明确工序无环，官方提示核对最长关键路径与是否唯一；按拓扑序计算含工序点权和运输边权的最长完成时间，并把最优路径计数截断到2以输出唯一序列或M。"
+          ],
+          "method": "official-statement-and-contest-hint-reviewed-classification",
+          "implementationDetailInferredByToBe": true,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105544::K",
+      "beforeProblemSha256": "78058ec540b752cdfcb9b7d68449c2013eb9d8851d381bb0f3c816e568cecade",
+      "tags": [
+        "队列",
+        "DFS"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105544/problem/K"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105544::K",
+          "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+          "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+          "sourcePageNumbers": [
+            29,
+            30,
+            31,
+            32,
+            33
+          ],
+          "sourceProblemHeading": "Problem PK",
+          "sourceProblemTitle": "Chemical Storage",
+          "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/K",
+          "sourceStatementMarkdownSha256": "4bd0805acdc6d47b38ef41cd654afa311a1a279265986f60a6c794d9923810a8",
+          "reasons": [
+            "官方算法反复剥离可滑动化学点以留下刚性点，要求两状态刚性点完全相同，再删除这些点及邻点，核对余下各树分量的化学点数；可用队列维护新增可剥离点、DFS统计分量。"
+          ],
+          "method": "official-statement-and-contest-hint-reviewed-classification",
+          "implementationDetailInferredByToBe": true,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105544::L",
+      "beforeProblemSha256": "e04ff6d87eb6d935893dd884169dd0120628d667cea6858093e6075deac82087",
+      "tags": [
+        "分类讨论",
+        "枚举"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105544/problem/L"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105544::L",
+          "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+          "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+          "sourcePageNumbers": [
+            35,
+            36,
+            37
+          ],
+          "sourceProblemHeading": "Problem PL",
+          "sourceProblemTitle": "Nine Never",
+          "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/L",
+          "sourceStatementMarkdownSha256": "de496c6c28f067233b25b3dba526012f43d42acdbeffdefc6395baf8dfd1a667",
+          "reasons": [
+            "官方证明N<9全分1、偶数N>=10全分2、大奇数N>=29取11及若干2最优；剩余小奇数枚举整数分拆且禁止任何子集和9，最后K对10^9+7取模，不需要快速幂。"
+          ],
+          "method": "official-statement-and-contest-hint-reviewed-classification",
+          "implementationDetailInferredByToBe": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    },
+    {
+      "id": "remote:codeforces:105544::M",
+      "beforeProblemSha256": "5589f099dd7f954f911992644d8cb30b05676b786745a367684ea865cd2bbb56",
+      "tags": [
+        "链表",
+        "模拟",
+        "排序"
+      ],
+      "urls": [
+        "https://codeforces.com/gym/105544/problem/M"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105544::M",
+          "reference": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+          "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+          "sourcePageNumbers": [
+            39,
+            40
+          ],
+          "sourceProblemHeading": "Problem PM",
+          "sourceProblemTitle": "Task scheduler",
+          "nativeProblemUrl": "https://codeforces.com/gym/105544/problem/M",
+          "sourceStatementMarkdownSha256": "442d04ccfd17bf5b65875b0e3a051b6168c19c95cf95812169d89ee6cf28f55b",
+          "reasons": [
+            "官方提示建立链表，按优先级插入并保留相同优先级的到达先后，最后遍历输出；稳定排序也是同一调度顺序的等价实现，输入N<=100。"
+          ],
+          "method": "official-statement-and-contest-hint-reviewed-classification",
+          "implementationDetailInferredByToBe": false,
+          "originalJudgeSubmissions": 0
+        }
+      ]
+    }
+  ],
+  "luoguNativeReviews": [],
+  "difficultyEstimates": [
+    {
+      "id": "remote:codeforces:105544::A",
+      "url": "https://codeforces.com/gym/105544/problem/A",
+      "difficulty": 800,
+      "difficultyBand": [
+        800,
+        1000
+      ],
+      "confidence": "MEDIUM",
+      "reason": "最多1000位十进制数，三位一组线性扫描、交替符号和取模；不需高精度除法或额外数据结构。",
+      "source": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "sourceSha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105544::B",
+      "url": "https://codeforces.com/gym/105544/problem/B",
+      "difficulty": 1100,
+      "difficultyBand": [
+        900,
+        1300
+      ],
+      "confidence": "MEDIUM",
+      "reason": "先建立循环小数的分数表达式，再处理前导零与整数gcd约分；a+b<=10，64位整数足够，核心为分数建模和边界。",
+      "source": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "sourceSha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105544::C",
+      "url": "https://codeforces.com/gym/105544/problem/C",
+      "difficulty": 1900,
+      "difficultyBand": [
+        1700,
+        2200
+      ],
+      "confidence": "MEDIUM",
+      "reason": "需将区间翻转与全局计分拆开；n,m均到10^6，懒标记维护正常灯/亮灯数，区间切换O(log n)、评分O(1)，总分用64位。",
+      "source": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "sourceSha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105544::D",
+      "url": "https://codeforces.com/gym/105544/problem/D",
+      "difficulty": 900,
+      "difficultyBand": [
+        800,
+        1100
+      ],
+      "confidence": "MEDIUM",
+      "reason": "最多100×100网格，逐个感染座位更新八邻格并取最大值，保留感染/空位的输出符号；主要是边界及状态模拟。",
+      "source": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "sourceSha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105544::E",
+      "url": "https://codeforces.com/gym/105544/problem/E",
+      "difficulty": 1900,
+      "difficultyBand": [
+        1600,
+        2200
+      ],
+      "confidence": "MEDIUM",
+      "reason": "关键在把只能水平平移且左右顺序受约束的几何模型改写为DAG差值下界；最长路径给最小可行宽度，处理开区间重叠与间距。",
+      "source": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "sourceSha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105544::F",
+      "url": "https://codeforces.com/gym/105544/problem/F",
+      "difficulty": 1300,
+      "difficultyBand": [
+        1100,
+        1600
+      ],
+      "confidence": "MEDIUM",
+      "reason": "需要相邻交换论证获得耗时/日罚金的比较器，而非直接按耗时、罚金或乘积排序；还需稳定处理同比率的字典序，O(N log N)。",
+      "source": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "sourceSha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105544::G",
+      "url": "https://codeforces.com/gym/105544/problem/G",
+      "difficulty": 2800,
+      "difficultyBand": [
+        2400,
+        3200
+      ],
+      "confidence": "LOW",
+      "reason": "须在受限可放置盒子中构造至多7T/4且每盒至多一大件的分配，或输出满足全部对偶不等式的不可行证书；官方仅给局部搜索方向，区间保留较大不确定性。",
+      "source": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "sourceSha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105544::H",
+      "url": "https://codeforces.com/gym/105544/problem/H",
+      "difficulty": 1200,
+      "difficultyBand": [
+        1000,
+        1400
+      ],
+      "confidence": "MEDIUM",
+      "reason": "识别每家仅选一次的0/1背包，按容量逆序更新，N<=100、C<=1000，O(NC)；输入的N由给出的收益/金额列表确定。",
+      "source": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "sourceSha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105544::I",
+      "url": "https://codeforces.com/gym/105544/problem/I",
+      "difficulty": 2700,
+      "difficultyBand": [
+        2300,
+        3100
+      ],
+      "confidence": "LOW",
+      "reason": "需要把大量给定三角形的图转为五环构造，理解存在性保证与随机化检测的期望复杂度；n<=10^4、三角形数约n^1.5，朴素三角形三重枚举不可行。",
+      "source": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "sourceSha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105544::J",
+      "url": "https://codeforces.com/gym/105544/problem/J",
+      "difficulty": 1600,
+      "difficultyBand": [
+        1400,
+        1900
+      ],
+      "confidence": "MEDIUM",
+      "reason": "除DAG最长路径外还要判断整条最长路径是否唯一、恢复唯一序列，并正确读逗号分隔工序时长与多组EOF输入；|V|<=50、|E|<=100。",
+      "source": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "sourceSha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105544::K",
+      "url": "https://codeforces.com/gym/105544/problem/K",
+      "difficulty": 2500,
+      "difficultyBand": [
+        2200,
+        2900
+      ],
+      "confidence": "MEDIUM",
+      "reason": "困难在刚性点判据与可达性充分条件，随后用化学邻居计数和队列线性剥离，再以DFS比较每个剩余连通块；不是普通树形DP题。",
+      "source": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "sourceSha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105544::L",
+      "url": "https://codeforces.com/gym/105544/problem/L",
+      "difficulty": 2200,
+      "difficultyBand": [
+        1900,
+        2500
+      ],
+      "confidence": "MEDIUM",
+      "reason": "须推导避免子集和9时最多组数的分奇偶结论，结合小范围分拆枚举处理N<29；输入N到10^15，不能对N直接做DP或枚举。",
+      "source": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "sourceSha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    },
+    {
+      "id": "remote:codeforces:105544::M",
+      "url": "https://codeforces.com/gym/105544/problem/M",
+      "difficulty": 900,
+      "difficultyBand": [
+        800,
+        1100
+      ],
+      "confidence": "MEDIUM",
+      "reason": "按(优先级,输入顺序)稳定输出任务ID即可，官方链表插入O(N^2)或等价稳定排序均满足N<=100；不按任务ID处理平局。",
+      "source": "https://codeforces.com/gym/105544/attachments/download/28406/2023-taiwan-hint.pdf",
+      "sourceSha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "official": false,
+      "previousDifficultyFields": {
+        "difficulty": null,
+        "difficultyConfidence": "UNKNOWN",
+        "difficultyEstimated": true,
+        "difficultySource": "Codeforces Gym 未提供官方 rating"
+      }
+    }
+  ],
+  "newSourceAssets": [
+    {
+      "sha256": "b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90",
+      "mime": "application/pdf",
+      "bytes": 450338,
+      "file": "statement-assets/b55a6628cad20746c6b5564646670d6002e074032c0bd3309c29febbc4d2ab90.bin"
+    }
+  ],
+  "cleanupInspection": {
+    "checkedBeforeMetadataUpdate": true,
+    "canonicalAssetsBefore": 6256,
+    "duplicateAssetDescriptors": 0,
+    "unusedTrackedContentEligibleForRemoval": [],
+    "allPreviousOriginalArchivesAndReviewHistoryStillRequired": true,
+    "privateRecordsReadOrWritten": false,
+    "release1610BoundaryUntouched": true,
+    "ignoredBuildCaches": "Earlier review-rejected cleanup is not retried; ignored caches remain excluded from packaging."
+  },
+  "difficultyStatus": "All numerical ratings in this packet are explicitly unofficial training estimates, independent of team solve counts.",
+  "sourceFormat": "Original 40-page official contest statement-and-hint PDF; actual title, letter, constraints and sample boundaries checked.",
+  "scope": "Thirteen real A-M slots only; the verified nonproblem V artifact remains retired."
+}

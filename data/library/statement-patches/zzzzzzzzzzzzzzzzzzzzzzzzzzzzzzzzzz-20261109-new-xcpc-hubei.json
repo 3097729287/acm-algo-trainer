@@ -1,0 +1,2041 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:105139::A",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Long Live\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem A. Long Live\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nIn Minecraft, there are three dimensions in the simple world, one of which is known as “The End”. In this\r\ndimension, the Ender Dragon is usually symbolized as the final boss of Minecraft.\r\nNow we, you, and Steve want to beat the dragon. However, we find that the dragon is telling a puzzle.\r\nWe must solve it before fighting against the dragon. Please stand by our side to fight against the dragon.\r\nThe puzzle goes as follows.\r\nGiven two positive integers x and y, please find two integers a and b, such that\r\ns\r\nlcm(x, y)\r\ngcd(x, y)\r\n= a\r\n√\r\nb\r\nand to maximize a · b.\r\nHere, gcd(a, b) represents the greatest common divisor of a, b, while lcm(a, b) represents the least common\r\nmultiple of a, b.\r\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 104\r\n) indicating the number of test cases.\r\nOf the following T lines, each contains two integers x and y (1 ≤ x, y ≤ 109\r\n), representing the puzzle.\r\nOutput\r\nOutput T lines. Each contains two integers a and b, indicating the answer to each test case.\r\nExample\r\nstandard input standard output\r\n2\r\n1 1\r\n4 4\r\n1 1\r\n1 1\r\nNote\r\nDear all participants:\r\nThis problem may be the very first page, but not where the story line ends. Please believe in yourself all\r\nthe time, wishing you with my singing, “Long live all the mountains we moved, I had the time of my life\r\nfighting dragons with you”.\r\nPage 1 of 15\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)",
+        "images": {
+          "hubei-105139-A-1.png": "tb-asset:21fea9af6f097545fd19cb5093923ff94e427521c7a7b1e38c979cc362a058dd"
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2\n1 1\n4 4",
+            "output": "1 1\n1 1"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "# Long Live\n\nIn Minecraft, there are three dimensions in the simple world, one of which is known as “The End”. In this dimension, the Ender Dragon is usually symbolized as the final boss of Minecraft.\n\n![Ender Dragon](hubei-105139-A-1.png)\n\nNow we, you, and Steve want to beat the dragon. However, we find that the dragon is telling a puzzle. We must solve it before fighting against the dragon. Please stand by our side to fight against the dragon. The puzzle goes as follows.\n\nGiven two positive integers $x$ and $y$, please find two integers $a$ and $b$, such that\n\n$$\n\\sqrt{\\frac{\\operatorname{lcm}(x,y)}{\\gcd(x,y)}}=a\\sqrt{b}\n$$\n\nand maximize $a\\cdot b$.\n\nHere, $\\gcd(a,b)$ represents the greatest common divisor of $a,b$, while $\\operatorname{lcm}(a,b)$ represents the least common multiple of $a,b$.\n\n## Input\n\nThe first line contains an integer $T$ ($1\\le T\\le 10^4$), indicating the number of test cases.\n\nEach of the following $T$ lines contains two integers $x$ and $y$ ($1\\le x,y\\le 10^9$), representing the puzzle.\n\n## Output\n\nOutput $T$ lines. Each contains two integers $a$ and $b$, indicating the answer to each test case.\n\n## Note\n\nDear all participants: this problem may be the very first page, but not where the story line ends. Please believe in yourself all the time. The setter closes with a musical tribute to the shared memories of overcoming mountains and fighting dragons together.\n\n## Examples\n\n### Sample 1\n\n#### Input\n\n```text\n2\n1 1\n4 4\n```\n\n#### Output\n\n```text\n1 1\n1 1\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:105139::A",
+        "title": "Long Live",
+        "url": "https://codeforces.com/gym/105139/problem/A",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 256
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+        "sourcePageNumbers": [
+          1
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105139",
+        "sourceRosterSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "A",
+          "pdfTitle": "Long Live",
+          "rosterTitle": "Long Live",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "bytes": 1830457,
+            "mime": "application/pdf",
+            "pageCount": 15,
+            "fileName": "gym-105139.pdf",
+            "data": "tb-asset:925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sha256": "c74481d77a94b2325a542b3d6e94d012f39bb26b8d7e1011ab412f19f04570d9",
+          "data": "tb-asset:c74481d77a94b2325a542b3d6e94d012f39bb26b8d7e1011ab412f19f04570d9",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            1
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "fileName": "gym-105139-A.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+        "sourceRosterEvidenceFile": "roster-web-provider.txt",
+        "sourceTextArchive": [
+          {
+            "kind": "unreviewed-pdf-extraction",
+            "text": "The 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem A. Long Live\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nIn Minecraft, there are three dimensions in the simple world, one of which is known as “The End”. In this\r\ndimension, the Ender Dragon is usually symbolized as the final boss of Minecraft.\r\nNow we, you, and Steve want to beat the dragon. However, we find that the dragon is telling a puzzle.\r\nWe must solve it before fighting against the dragon. Please stand by our side to fight against the dragon.\r\nThe puzzle goes as follows.\r\nGiven two positive integers x and y, please find two integers a and b, such that\r\ns\r\nlcm(x, y)\r\ngcd(x, y)\r\n= a\r\n√\r\nb\r\nand to maximize a · b.\r\nHere, gcd(a, b) represents the greatest common divisor of a, b, while lcm(a, b) represents the least common\r\nmultiple of a, b.\r\nInput\r\nThe first line contains an integer T (1 ≤ T ≤ 104\r\n) indicating the number of test cases.\r\nOf the following T lines, each contains two integers x and y (1 ≤ x, y ≤ 109\r\n), representing the puzzle.\r\nOutput\r\nOutput T lines. Each contains two integers a and b, indicating the answer to each test case.\r\nExample\r\nstandard input standard output\r\n2\r\n1 1\r\n4 4\r\n1 1\r\n1 1\r\nNote\r\nDear all participants:\r\nThis problem may be the very first page, but not where the story line ends. Please believe in yourself all\r\nthe time, wishing you with my singing, “Long live all the mountains we moved, I had the time of my life\r\nfighting dragons with you”.\r\nPage 1 of 15",
+            "sha256": "646b4b6ebb71574a1c2f111c08d13841cffbaaa2a39b360914df84db1b28c104"
+          }
+        ],
+        "statementLanguage": "en",
+        "sourceTextReview": {
+          "method": "all-pages-reviewed-semantic-and-math-transcription",
+          "sourcePdfSha256": "c74481d77a94b2325a542b3d6e94d012f39bb26b8d7e1011ab412f19f04570d9",
+          "sourceTextSha256": "d078ebf3bf20d21008312d1b6a10e3d8aef3c628dca1df94d0ad152db21402f8",
+          "sourcePageNumbers": [
+            1
+          ],
+          "samplesVerifiedWithTableGeometry": 1,
+          "sourceCaveats": [
+            "The non-algorithmic closing song passage is paraphrased in the reviewed English/Chinese text; the literal official PDF is unchanged."
+          ]
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对官方原稿的中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "436bb02cbe572afab01568ade3e4e88a0f5e8e2e98af51bcff171e64b032a3f2",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "d078ebf3bf20d21008312d1b6a10e3d8aef3c628dca1df94d0ad152db21402f8",
+          "sourcePdfSha256": "c74481d77a94b2325a542b3d6e94d012f39bb26b8d7e1011ab412f19f04570d9",
+          "markdown": "# Long Live\n\n在《Minecraft》的普通世界中有三个维度，其中一个叫作“末地”。在这个维度中，末影龙通常被视为游戏的最终首领。\n\n![末影龙](hubei-105139-A-1.png)\n\n现在，我们、你和史蒂夫想要击败末影龙，却发现它正在出一道谜题。与它战斗之前，我们必须先解开谜题。请与我们并肩作战。谜题如下。\n\n给定两个正整数 $x$ 和 $y$，请找出两个整数 $a$ 和 $b$，使得\n\n$$\n\\sqrt{\\frac{\\operatorname{lcm}(x,y)}{\\gcd(x,y)}}=a\\sqrt{b}\n$$\n\n并使 $a\\cdot b$ 最大。\n\n这里，$\\gcd(a,b)$ 表示 $a,b$ 的最大公约数，$\\operatorname{lcm}(a,b)$ 表示 $a,b$ 的最小公倍数。\n\n## 输入\n\n第一行包含一个整数 $T$（$1\\le T\\le 10^4$），表示测试用例数。\n\n接下来的 $T$ 行，每行包含两个整数 $x$ 和 $y$（$1\\le x,y\\le 10^9$），表示这一组谜题。\n\n## 输出\n\n输出 $T$ 行，每行包含两个整数 $a$ 和 $b$，表示对应测试用例的答案。\n\n## 说明\n\n亲爱的各位参赛者：这道题也许位于第一页，但故事并不会在此结束。请始终相信自己。出题人在结尾以歌曲致意，祝愿大家珍惜共同跨越高山、并肩与龙战斗的时光。\n\n## 样例\n\n### 样例 1\n\n#### 输入\n\n```text\n2\n1 1\n4 4\n```\n\n#### 输出\n\n```text\n1 1\n1 1\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n"
+        },
+        "translationAvailable": true,
+        "resourceManifest": {
+          "hubei-105139-A-1.png": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "21fea9af6f097545fd19cb5093923ff94e427521c7a7b1e38c979cc362a058dd",
+            "bytes": 42518,
+            "mime": "image/png",
+            "frameCount": 1,
+            "width": 489,
+            "height": 430,
+            "derivedFromPdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "sourcePageNumber": 1,
+            "method": "embedded-original-pdf-image-extraction"
+          }
+        },
+        "translationReview": {
+          "status": "complete",
+          "method": "whole-original-page-review-and-bilingual-constraint-check",
+          "sourcePdfSha256": "c74481d77a94b2325a542b3d6e94d012f39bb26b8d7e1011ab412f19f04570d9",
+          "pagesReviewed": [
+            1
+          ],
+          "immutableSpansValidated": true,
+          "samplesRetainedSeparately": true,
+          "sourceOriginalUnchanged": true
+        },
+        "nativeSourceReview": {
+          "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+          "id": "remote:codeforces:105139::A",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/A",
+          "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "sourcePageNumbers": [
+            1
+          ],
+          "sourceRosterUrl": "https://codeforces.com/gym/105139",
+          "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+          "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+          "nativeLimits": {
+            "timeMs": 1000,
+            "memoryMb": 256
+          },
+          "printedPdfLimits": {
+            "timeMs": 1000,
+            "memoryMb": 256
+          },
+          "currentNativeLimitsPreferred": true,
+          "samplesSha256": "9c00c38c8cf9be77cfcbdc017b7fb1728b749240a4d869d462a60e7a42e72e31",
+          "samplePairs": 1,
+          "allPagesRenderedInWorkbench": true,
+          "originalDownloadByteIdentity": true,
+          "realJudgeSubmissions": 0,
+          "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "436bb02cbe572afab01568ade3e4e88a0f5e8e2e98af51bcff171e64b032a3f2",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "d69483235030e0a5dde28349b84895343690aa7e75e21624a8055b7aa73c4e7c",
+          "issues": []
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:105139::B",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Nana Likes Polygons\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem B. Nana Likes Polygons\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nNana’s electronic pet, MACARON, enjoys moving around in the room. Nana wants to create a bounded\r\narea where MACARON can roam within.\r\nThe positions in the room can be represented using a two-dimensional coordinate system, and Nana\r\nprovides a set of vertices on it. Nana likes polygons and now wants to select a subset of vertices that can\r\nform a convex polygon as its endpoints. However, Nana also wants to ensure that the selected area is not\r\ntoo big.\r\nThus, she is going to determine the minimum possible area of the convex polygon ending on a subset of\r\ngiven vertices. If such a convex polygon doesn’t exist, please output “−1”(without quotes).\r\nInput\r\nThe first line contains a single integer T (1 ≤ T ≤ 10) — the number of test cases.\r\nFor each test case, the first line contains a single integer n (1 ≤ n ≤ 100) — the number of given vertices.\r\nThe following n lines each contain two integers, and the i-th line contains xi\r\n, yi (−1000 ≤ xi\r\n, yi ≤ 1000)\r\n— the coordinate of the i-th vertex.\r\nOutput\r\nFor each test case, if no such convex polygon, please output “−1” without quotes; otherwise output a single\r\nreal number denoting the minimum possible area of the convex polygon ending on these given vertices.\r\nLet a and b denote the answer and your output respectively. Your output will be accepted if the absolute or\r\nrelative error of b does not exceed 10−6\r\n. Formally, your output is accepted if and only if |a − b|\r\nmax(1, a)\r\n≤ 10−6\r\n.\r\nExample\r\nstandard input standard output\r\n2\r\n4\r\n0 -1\r\n-3 0\r\n0 2\r\n2 2\r\n3\r\n-1 -1\r\n0 0\r\n1 1\r\n2\r\n-1\r\nNote\r\nFor the first test case, choose (2, 2), (−3, 0), and (0, 2) as endpoints of a convex polygon with area 2. It\r\ncan be proved that this is the minimized area in this case.\r\nFor the second test case, no convex polygon can be formed by these three vertices.\r\nPage 2 of 15\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "2\n4\n0 -1\n-3 0\n0 2\n2 2\n3\n-1 -1\n0 0\n1 1",
+            "output": "2\n-1"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "# Nana Likes Polygons\n\nNana’s electronic pet, MACARON, enjoys moving around in the room. Nana wants to create a bounded area where MACARON can roam within.\n\nThe positions in the room can be represented using a two-dimensional coordinate system, and Nana provides a set of vertices on it. Nana likes polygons and wants to select a subset of vertices that can form a convex polygon as its endpoints. However, she also wants to ensure that the selected area is not too big.\n\nDetermine the minimum possible area of a convex polygon whose vertices are selected from the given set. If no such convex polygon exists, output $-1$.\n\n## Input\n\nThe first line contains a single integer $T$ ($1\\le T\\le 10$), the number of test cases.\n\nFor each test case, the first line contains a single integer $n$ ($1\\le n\\le 100$), the number of given vertices.\n\nThe following $n$ lines each contain two integers. The $i$-th line contains $x_i,y_i$ ($-1000\\le x_i,y_i\\le 1000$), the coordinates of the $i$-th vertex.\n\n## Output\n\nFor each test case, output $-1$ if no such convex polygon exists. Otherwise, output a single real number denoting the minimum possible area.\n\nLet $a$ and $b$ denote the answer and your output, respectively. Your output is accepted if its absolute or relative error does not exceed $10^{-6}$. Formally,\n\n$$\n\\frac{|a-b|}{\\max(1,a)}\\le 10^{-6}.\n$$\n\n## Note\n\nIn the first test case, choose $(2,2)$, $(-3,0)$, and $(0,2)$ as the vertices of a convex polygon with area $2$. This area is minimal.\n\nIn the second test case, no convex polygon can be formed by the three vertices.\n\n## Examples\n\n### Sample 1\n\n#### Input\n\n```text\n2\n4\n0 -1\n-3 0\n0 2\n2 2\n3\n-1 -1\n0 0\n1 1\n```\n\n#### Output\n\n```text\n2\n-1\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:105139::B",
+        "title": "Nana Likes Polygons",
+        "url": "https://codeforces.com/gym/105139/problem/B",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 512
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+        "sourcePageNumbers": [
+          2
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105139",
+        "sourceRosterSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "B",
+          "pdfTitle": "Nana Likes Polygons",
+          "rosterTitle": "Nana Likes Polygons",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "bytes": 1830457,
+            "mime": "application/pdf",
+            "pageCount": 15,
+            "fileName": "gym-105139.pdf",
+            "data": "tb-asset:925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sha256": "1de71709bff5d29aa7e8728438783da20134740f8bb326e209b8ad8c56114381",
+          "data": "tb-asset:1de71709bff5d29aa7e8728438783da20134740f8bb326e209b8ad8c56114381",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            2
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "fileName": "gym-105139-B.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+        "sourceRosterEvidenceFile": "roster-web-provider.txt",
+        "sourceTextArchive": [
+          {
+            "kind": "unreviewed-pdf-extraction",
+            "text": "The 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem B. Nana Likes Polygons\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nNana’s electronic pet, MACARON, enjoys moving around in the room. Nana wants to create a bounded\r\narea where MACARON can roam within.\r\nThe positions in the room can be represented using a two-dimensional coordinate system, and Nana\r\nprovides a set of vertices on it. Nana likes polygons and now wants to select a subset of vertices that can\r\nform a convex polygon as its endpoints. However, Nana also wants to ensure that the selected area is not\r\ntoo big.\r\nThus, she is going to determine the minimum possible area of the convex polygon ending on a subset of\r\ngiven vertices. If such a convex polygon doesn’t exist, please output “−1”(without quotes).\r\nInput\r\nThe first line contains a single integer T (1 ≤ T ≤ 10) — the number of test cases.\r\nFor each test case, the first line contains a single integer n (1 ≤ n ≤ 100) — the number of given vertices.\r\nThe following n lines each contain two integers, and the i-th line contains xi\r\n, yi (−1000 ≤ xi\r\n, yi ≤ 1000)\r\n— the coordinate of the i-th vertex.\r\nOutput\r\nFor each test case, if no such convex polygon, please output “−1” without quotes; otherwise output a single\r\nreal number denoting the minimum possible area of the convex polygon ending on these given vertices.\r\nLet a and b denote the answer and your output respectively. Your output will be accepted if the absolute or\r\nrelative error of b does not exceed 10−6\r\n. Formally, your output is accepted if and only if |a − b|\r\nmax(1, a)\r\n≤ 10−6\r\n.\r\nExample\r\nstandard input standard output\r\n2\r\n4\r\n0 -1\r\n-3 0\r\n0 2\r\n2 2\r\n3\r\n-1 -1\r\n0 0\r\n1 1\r\n2\r\n-1\r\nNote\r\nFor the first test case, choose (2, 2), (−3, 0), and (0, 2) as endpoints of a convex polygon with area 2. It\r\ncan be proved that this is the minimized area in this case.\r\nFor the second test case, no convex polygon can be formed by these three vertices.\r\nPage 2 of 15",
+            "sha256": "bb7f1bd3b8d61f9c6308d83c1dce1a359dcec583102a0b48de59618d65ed8870"
+          }
+        ],
+        "statementLanguage": "en",
+        "sourceTextReview": {
+          "method": "all-pages-reviewed-semantic-and-math-transcription",
+          "sourcePdfSha256": "1de71709bff5d29aa7e8728438783da20134740f8bb326e209b8ad8c56114381",
+          "sourceTextSha256": "3c9e049698729b692ea60f3498ea84144b9e9fb3e69d0caebd41adaf36f01789",
+          "sourcePageNumbers": [
+            2
+          ],
+          "samplesVerifiedWithTableGeometry": 1,
+          "sourceCaveats": []
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对官方原稿的中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "440c8515fff5c3e136762c70f60e5cfc7b77a9701b081ed71c32611121efeeab",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "3c9e049698729b692ea60f3498ea84144b9e9fb3e69d0caebd41adaf36f01789",
+          "sourcePdfSha256": "1de71709bff5d29aa7e8728438783da20134740f8bb326e209b8ad8c56114381",
+          "markdown": "# Nana Likes Polygons\n\nNana 的电子宠物 MACARON 喜欢在房间里四处走动。Nana 想为它划出一块有界区域，让它在其中活动。\n\n房间里的位置可以用二维坐标系表示，Nana 给出了其中的一组点。她喜欢多边形，想从这些点中选出一部分作为顶点，组成一个凸多边形，但又不希望所选区域太大。\n\n请确定以给定点中的若干点为顶点的凸多边形所能具有的最小面积。如果不存在这样的凸多边形，输出 $-1$。\n\n## 输入\n\n第一行包含一个整数 $T$（$1\\le T\\le 10$），表示测试用例数。\n\n每个测试用例的第一行包含一个整数 $n$（$1\\le n\\le 100$），表示给定点的数量。\n\n接下来的 $n$ 行，每行包含两个整数。第 $i$ 行的 $x_i,y_i$（$-1000\\le x_i,y_i\\le 1000$）表示第 $i$ 个点的坐标。\n\n## 输出\n\n对于每个测试用例，如果不存在这样的凸多边形，输出 $-1$；否则输出一个实数，表示最小面积。\n\n设正确答案为 $a$，你的输出为 $b$。只要绝对误差或相对误差不超过 $10^{-6}$，就会被接受。形式化地，须满足\n\n$$\n\\frac{|a-b|}{\\max(1,a)}\\le 10^{-6}.\n$$\n\n## 说明\n\n第一个测试用例可以选择 $(2,2)$、$(-3,0)$ 和 $(0,2)$ 作为凸多边形的顶点，面积为 $2$，可以证明这是最小面积。\n\n第二个测试用例的三个点无法组成凸多边形。\n\n## 样例\n\n### 样例 1\n\n#### 输入\n\n```text\n2\n4\n0 -1\n-3 0\n0 2\n2 2\n3\n-1 -1\n0 0\n1 1\n```\n\n#### 输出\n\n```text\n2\n-1\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n"
+        },
+        "translationAvailable": true,
+        "translationReview": {
+          "status": "complete",
+          "method": "whole-original-page-review-and-bilingual-constraint-check",
+          "sourcePdfSha256": "1de71709bff5d29aa7e8728438783da20134740f8bb326e209b8ad8c56114381",
+          "pagesReviewed": [
+            2
+          ],
+          "immutableSpansValidated": true,
+          "samplesRetainedSeparately": true,
+          "sourceOriginalUnchanged": true
+        },
+        "nativeSourceReview": {
+          "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+          "id": "remote:codeforces:105139::B",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/B",
+          "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "sourcePageNumbers": [
+            2
+          ],
+          "sourceRosterUrl": "https://codeforces.com/gym/105139",
+          "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+          "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+          "nativeLimits": {
+            "timeMs": 1000,
+            "memoryMb": 512
+          },
+          "printedPdfLimits": {
+            "timeMs": 1000,
+            "memoryMb": 512
+          },
+          "currentNativeLimitsPreferred": true,
+          "samplesSha256": "a49ea0c676884014539f980d66ca4f9760fa7fcb78f71fbf16ce46fa292bd775",
+          "samplePairs": 1,
+          "allPagesRenderedInWorkbench": true,
+          "originalDownloadByteIdentity": true,
+          "realJudgeSubmissions": 0,
+          "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "440c8515fff5c3e136762c70f60e5cfc7b77a9701b081ed71c32611121efeeab",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "87914448f43ddb8da1ea443dbeaacf7153237ea7344397ce4e39fa212ee7df2f",
+          "issues": []
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:105139::C",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Lili Likes Polygons\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem C. Lili Likes Polygons\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nLili and Nana are weeding in the backyard of Lili’s house. They are repeatedly selecting rectangular areas\r\nand removing all the grass within them.\r\nThe backyard can be visualized as a 2D grid, each square cell representing one unit area. They have\r\nperformed a total of n operations. During the i-th operation, they choose the left, bottom, right, and top\r\nsides of a rectangle, denoted as li\r\n, bi\r\n, ri\r\n, ti\r\n, and clear all the cells within this rectangle using a lawnmower.\r\nNote that these rectangles may overlap with each other.\r\nLet [li\r\n, ri\r\n] × [bi\r\n, ti\r\n] denote a rectangle.\r\nHere is an example illustrated in the following figure. They have selected 2 rectangles, with the first\r\nrectangle being [1, 5] × [2, 3] and the second rectangle being [2, 3] × [1, 4].\r\nAfter the n weeding operations, the union of the bare area may not be connected but all the sides are\r\nhorizontal or vertical. Thus, the union becomes orthogonal polygon(s), some of which contain polygon\r\nholes. Moreover, there can be bare cells inner some holes. Please see the example inputs for more details\r\nand illustrations.\r\nNow, they want to restore the land by planting some plants on the bare cells. Lili likes polygons, especially\r\nrectangles. Therefore, they want to select several rectangles, and these rectangles do not overlap with each\r\nother and exactly cover all the bare cells. Then, they plant different plants in different rectangles they\r\nselected.\r\nFor example, here is a feasible selection of rectangles for the aforementioned case: choose [1, 1] × [2, 3],\r\n[2, 3] × [1, 4] and [4, 5] × [2, 3].\r\nAfter playing for a while, these two little girls have become tired, so they want to know the minimum\r\nnumber of non-overlapping rectangles that can cover all the bare cells.\r\nInput\r\nThe first line contains a single integer n (1 ≤ n ≤ 300) — the number of rectangles when they weed.\r\nThe following n lines each contain 4 integers, and the i-th line contains li\r\n, bi\r\n, ri\r\n, ti\r\n(1 ≤ li\r\n, bi\r\n, ri\r\n, ti ≤ 109\r\n, li ≤ ri\r\n, bi ≤ ti) — the left, bottom, right, and top sides of the i-th rectangle.\r\nIt is guaranteed the sum of the endpoints of the bare area (polygon(s) with polygonal holes) does not\r\nexceed 2000.\r\nPage 3 of 15\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nOutput\r\nOutput a single integer on a single line denoting the minimum number of rectangles they need to select\r\nto plant plants on all the bare cells.\r\nExamples\r\nstandard input standard output\r\n8\r\n1 1 1 1\r\n1 2 1 2\r\n1 3 1 3\r\n2 1 2 1\r\n2 3 2 3\r\n3 1 3 1\r\n3 2 3 2\r\n3 3 3 3\r\n4\r\n2\r\n1 1 100 100\r\n1 501 100 600\r\n2\r\n4\r\n1 1 4 1\r\n1 4 5 4\r\n1 1 1 4\r\n4 1 4 5\r\n5\r\n9\r\n1 1 9 1\r\n1 1 1 9\r\n1 9 9 9\r\n9 1 9 9\r\n3 3 7 3\r\n3 3 3 7\r\n3 7 7 7\r\n7 3 7 7\r\n5 5 5 5\r\n9\r\nNote\r\nFor the first example, an optimal selection is [1, 1] × [1, 3], [2, 1] × [2, 1], [2, 3] × [2, 3] and [3, 1] × [3, 3].\r\nFor the second example, an optimal selection is [1, 1] × [100, 100] and [1, 501] × [100, 600].\r\nFor the third example, an optimal selection is [1, 1] × [4, 1], [1, 4] × [5, 4], [1, 2] × [1, 3], [4, 2] × [4, 3] and\r\n[4, 5] × [4, 5].\r\nFor the fourth example, the bare area is illustrated in the following figure.\r\nPage 4 of 15\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)",
+        "images": {
+          "hubei-105139-C-1.png": "tb-asset:6ea4579749a2eca4244713fbdfc9cfc7b7762bcd97c8738c41eecc004fc83ef2",
+          "hubei-105139-C-2.png": "tb-asset:02fa17490bd41aab251c539b3a3cc3562b4fbb15d33bbd4067a16e636cf5a936"
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "8\n1 1 1 1\n1 2 1 2\n1 3 1 3\n2 1 2 1\n2 3 2 3\n3 1 3 1\n3 2 3 2\n3 3 3 3",
+            "output": "4"
+          },
+          {
+            "name": "样例 2",
+            "input": "2\n1 1 100 100\n1 501 100 600",
+            "output": "2"
+          },
+          {
+            "name": "样例 3",
+            "input": "4\n1 1 4 1\n1 4 5 4\n1 1 1 4\n4 1 4 5",
+            "output": "5"
+          },
+          {
+            "name": "样例 4",
+            "input": "9\n1 1 9 1\n1 1 1 9\n1 9 9 9\n9 1 9 9\n3 3 7 3\n3 3 3 7\n3 7 7 7\n7 3 7 7\n5 5 5 5",
+            "output": "9"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# Lili Likes Polygons\n\nLili and Nana are weeding in the backyard of Lili’s house. They repeatedly select rectangular areas and remove all the grass within them.\n\nThe backyard is a two-dimensional grid, with each square cell representing one unit of area. They perform $n$ operations. In the $i$-th operation, they choose a rectangle with left, bottom, right, and top sides $l_i,b_i,r_i,t_i$ and clear all cells within it with a lawnmower. These rectangles may overlap.\n\nLet $[l_i,r_i]\\times[b_i,t_i]$ denote a rectangle of cells, including its endpoints. In the following figure, the two chosen rectangles are $[1,5]\\times[2,3]$ and $[2,3]\\times[1,4]$.\n\n![Weeded cells](hubei-105139-C-1.png)\n\nAfter all operations, the bare area may be disconnected, but all its sides are horizontal or vertical. It forms orthogonal polygons, possibly with polygonal holes. There may also be bare cells inside some holes; see the examples and illustrations.\n\nThey now want to restore the land by planting on the bare cells. Lili likes polygons, especially rectangles. They want to select non-overlapping rectangles that exactly cover all the bare cells, then plant different plants in different rectangles.\n\nFor the preceding figure, one feasible selection is $[1,1]\\times[2,3]$, $[2,3]\\times[1,4]$, and $[4,5]\\times[2,3]$.\n\nThe girls have become tired. Find the minimum number of non-overlapping rectangles needed to cover all the bare cells.\n\n## Input\n\nThe first line contains one integer $n$ ($1\\le n\\le 300$), the number of rectangles chosen when weeding.\n\nEach of the following $n$ lines contains four integers $l_i,b_i,r_i,t_i$ ($1\\le l_i,b_i,r_i,t_i\\le 10^9$, $l_i\\le r_i$, $b_i\\le t_i$), denoting the left, bottom, right, and top sides of the $i$-th rectangle.\n\nThe total number of vertices on the boundary of the bare area, including polygonal holes, does not exceed $2000$.\n\n## Output\n\nOutput one integer: the minimum number of rectangles needed to plant all the bare cells.\n\n## Note\n\nThe original first example explanation has malformed coordinate intervals. The input describes a ring of eight unit cells, which can be covered by four disjoint rectangles: the left and right columns, and the remaining upper and lower middle cells. The unchanged PDF preserves the printed notation.\n\nFor the second example, take $[1,100]\\times[1,100]$ and $[1,100]\\times[501,600]$.\n\nFor the third example, take $[1,4]\\times[1,1]$, $[1,5]\\times[4,4]$, $[1,1]\\times[2,3]$, $[4,4]\\times[2,3]$, and $[4,4]\\times[5,5]$.\n\nThe bare area in the fourth example is illustrated below.\n\n![Fourth example](hubei-105139-C-2.png)\n\n## Examples\n\n### Sample 1\n\n#### Input\n\n```text\n8\n1 1 1 1\n1 2 1 2\n1 3 1 3\n2 1 2 1\n2 3 2 3\n3 1 3 1\n3 2 3 2\n3 3 3 3\n```\n\n#### Output\n\n```text\n4\n```\n\n### Sample 2\n\n#### Input\n\n```text\n2\n1 1 100 100\n1 501 100 600\n```\n\n#### Output\n\n```text\n2\n```\n\n### Sample 3\n\n#### Input\n\n```text\n4\n1 1 4 1\n1 4 5 4\n1 1 1 4\n4 1 4 5\n```\n\n#### Output\n\n```text\n5\n```\n\n### Sample 4\n\n#### Input\n\n```text\n9\n1 1 9 1\n1 1 1 9\n1 9 9 9\n9 1 9 9\n3 3 7 3\n3 3 3 7\n3 7 7 7\n7 3 7 7\n5 5 5 5\n```\n\n#### Output\n\n```text\n9\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:105139::C",
+        "title": "Lili Likes Polygons",
+        "url": "https://codeforces.com/gym/105139/problem/C",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 512
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+        "sourcePageNumbers": [
+          3,
+          4
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105139",
+        "sourceRosterSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "C",
+          "pdfTitle": "Lili Likes Polygons",
+          "rosterTitle": "Lili Likes Polygons",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "bytes": 1830457,
+            "mime": "application/pdf",
+            "pageCount": 15,
+            "fileName": "gym-105139.pdf",
+            "data": "tb-asset:925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sha256": "da7f1f8e65d8afa825c36d4ad541bcbdc6a54e3f35cebb8092c71d04aeb2a576",
+          "data": "tb-asset:da7f1f8e65d8afa825c36d4ad541bcbdc6a54e3f35cebb8092c71d04aeb2a576",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            3,
+            4
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "fileName": "gym-105139-C.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+        "sourceRosterEvidenceFile": "roster-web-provider.txt",
+        "sourceTextArchive": [
+          {
+            "kind": "unreviewed-pdf-extraction",
+            "text": "The 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem C. Lili Likes Polygons\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nLili and Nana are weeding in the backyard of Lili’s house. They are repeatedly selecting rectangular areas\r\nand removing all the grass within them.\r\nThe backyard can be visualized as a 2D grid, each square cell representing one unit area. They have\r\nperformed a total of n operations. During the i-th operation, they choose the left, bottom, right, and top\r\nsides of a rectangle, denoted as li\r\n, bi\r\n, ri\r\n, ti\r\n, and clear all the cells within this rectangle using a lawnmower.\r\nNote that these rectangles may overlap with each other.\r\nLet [li\r\n, ri\r\n] × [bi\r\n, ti\r\n] denote a rectangle.\r\nHere is an example illustrated in the following figure. They have selected 2 rectangles, with the first\r\nrectangle being [1, 5] × [2, 3] and the second rectangle being [2, 3] × [1, 4].\r\nAfter the n weeding operations, the union of the bare area may not be connected but all the sides are\r\nhorizontal or vertical. Thus, the union becomes orthogonal polygon(s), some of which contain polygon\r\nholes. Moreover, there can be bare cells inner some holes. Please see the example inputs for more details\r\nand illustrations.\r\nNow, they want to restore the land by planting some plants on the bare cells. Lili likes polygons, especially\r\nrectangles. Therefore, they want to select several rectangles, and these rectangles do not overlap with each\r\nother and exactly cover all the bare cells. Then, they plant different plants in different rectangles they\r\nselected.\r\nFor example, here is a feasible selection of rectangles for the aforementioned case: choose [1, 1] × [2, 3],\r\n[2, 3] × [1, 4] and [4, 5] × [2, 3].\r\nAfter playing for a while, these two little girls have become tired, so they want to know the minimum\r\nnumber of non-overlapping rectangles that can cover all the bare cells.\r\nInput\r\nThe first line contains a single integer n (1 ≤ n ≤ 300) — the number of rectangles when they weed.\r\nThe following n lines each contain 4 integers, and the i-th line contains li\r\n, bi\r\n, ri\r\n, ti\r\n(1 ≤ li\r\n, bi\r\n, ri\r\n, ti ≤ 109\r\n, li ≤ ri\r\n, bi ≤ ti) — the left, bottom, right, and top sides of the i-th rectangle.\r\nIt is guaranteed the sum of the endpoints of the bare area (polygon(s) with polygonal holes) does not\r\nexceed 2000.\r\nPage 3 of 15\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nOutput\r\nOutput a single integer on a single line denoting the minimum number of rectangles they need to select\r\nto plant plants on all the bare cells.\r\nExamples\r\nstandard input standard output\r\n8\r\n1 1 1 1\r\n1 2 1 2\r\n1 3 1 3\r\n2 1 2 1\r\n2 3 2 3\r\n3 1 3 1\r\n3 2 3 2\r\n3 3 3 3\r\n4\r\n2\r\n1 1 100 100\r\n1 501 100 600\r\n2\r\n4\r\n1 1 4 1\r\n1 4 5 4\r\n1 1 1 4\r\n4 1 4 5\r\n5\r\n9\r\n1 1 9 1\r\n1 1 1 9\r\n1 9 9 9\r\n9 1 9 9\r\n3 3 7 3\r\n3 3 3 7\r\n3 7 7 7\r\n7 3 7 7\r\n5 5 5 5\r\n9\r\nNote\r\nFor the first example, an optimal selection is [1, 1] × [1, 3], [2, 1] × [2, 1], [2, 3] × [2, 3] and [3, 1] × [3, 3].\r\nFor the second example, an optimal selection is [1, 1] × [100, 100] and [1, 501] × [100, 600].\r\nFor the third example, an optimal selection is [1, 1] × [4, 1], [1, 4] × [5, 4], [1, 2] × [1, 3], [4, 2] × [4, 3] and\r\n[4, 5] × [4, 5].\r\nFor the fourth example, the bare area is illustrated in the following figure.\r\nPage 4 of 15",
+            "sha256": "e0d228ae28530f7d06bd88ad52125b6c0fc21d07eb2064536fe19c4f71e98b7c"
+          }
+        ],
+        "statementLanguage": "en",
+        "sourceTextReview": {
+          "method": "all-pages-reviewed-semantic-and-math-transcription",
+          "sourcePdfSha256": "da7f1f8e65d8afa825c36d4ad541bcbdc6a54e3f35cebb8092c71d04aeb2a576",
+          "sourceTextSha256": "c420f7f2d1cd69554c5b59c5d55c043e9d760f06914f2297906765e296fb4103",
+          "sourcePageNumbers": [
+            3,
+            4
+          ],
+          "samplesVerifiedWithTableGeometry": 4,
+          "sourceCaveats": [
+            "Malformed coordinate intervals in the printed example notes are explicitly identified; reviewed notation is checked against every original input cell, with the literal PDF retained."
+          ]
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对官方原稿的中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "081ee0965798695a12de96b05d790901ddf39254f64fb6a3c2101c5c951e5a6e",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "c420f7f2d1cd69554c5b59c5d55c043e9d760f06914f2297906765e296fb4103",
+          "sourcePdfSha256": "da7f1f8e65d8afa825c36d4ad541bcbdc6a54e3f35cebb8092c71d04aeb2a576",
+          "markdown": "# Lili Likes Polygons\n\nLili 和 Nana 正在 Lili 家的后院除草。她们反复选取矩形区域，清除其中的全部杂草。\n\n后院可以看作二维网格，每个方格的面积为一个单位。她们共进行了 $n$ 次操作。第 $i$ 次操作选定矩形的左、下、右、上边界 $l_i,b_i,r_i,t_i$，用割草机清除其中所有方格的杂草。这些矩形可以相互重叠。\n\n用 $[l_i,r_i]\\times[b_i,t_i]$ 表示包含端点的方格矩形。下图中选取的两个矩形分别为 $[1,5]\\times[2,3]$ 和 $[2,3]\\times[1,4]$。\n\n![除草后的方格](hubei-105139-C-1.png)\n\n全部操作结束后，裸露区域可能不连通，但边界都水平或竖直。因此，它会形成若干正交多边形，其中可能含有多边形孔洞；某些孔洞内部还可能存在裸露方格。详见样例与示意图。\n\n现在，她们想在裸露方格上种植植物来恢复土地。Lili 喜欢多边形，尤其喜欢矩形。她们想选出若干互不重叠的矩形，恰好覆盖全部裸露方格，并在不同矩形中种植不同植物。\n\n对于前面的示意图，一种可行方案为 $[1,1]\\times[2,3]$、$[2,3]\\times[1,4]$ 和 $[4,5]\\times[2,3]$。\n\n两个女孩玩累了，请求出恰好覆盖全部裸露方格所需的最少不重叠矩形数。\n\n## 输入\n\n第一行包含一个整数 $n$（$1\\le n\\le 300$），表示除草时选取的矩形数量。\n\n接下来的 $n$ 行，每行包含四个整数 $l_i,b_i,r_i,t_i$（$1\\le l_i,b_i,r_i,t_i\\le 10^9$，$l_i\\le r_i$，$b_i\\le t_i$），依次表示第 $i$ 个矩形的左、下、右、上边界。\n\n保证裸露区域边界（包括多边形孔洞）的顶点总数不超过 $2000$。\n\n## 输出\n\n输出一个整数，表示覆盖全部裸露方格所需的最少矩形数。\n\n## 说明\n\n原题第一组样例说明中的坐标区间存在排版错误。样例输入是由八个单位方格组成的环，可用四个不重叠矩形覆盖：左列、右列各一个矩形，再覆盖中间列上、下剩余的两个方格。原始 PDF 中的写法仍原样保留。\n\n第二组样例可以选取 $[1,100]\\times[1,100]$ 和 $[1,100]\\times[501,600]$。\n\n第三组样例可以选取 $[1,4]\\times[1,1]$、$[1,5]\\times[4,4]$、$[1,1]\\times[2,3]$、$[4,4]\\times[2,3]$ 和 $[4,4]\\times[5,5]$。\n\n第四组样例的裸露区域如下图所示。\n\n![第四组样例](hubei-105139-C-2.png)\n\n## 样例\n\n### 样例 1\n\n#### 输入\n\n```text\n8\n1 1 1 1\n1 2 1 2\n1 3 1 3\n2 1 2 1\n2 3 2 3\n3 1 3 1\n3 2 3 2\n3 3 3 3\n```\n\n#### 输出\n\n```text\n4\n```\n\n### 样例 2\n\n#### 输入\n\n```text\n2\n1 1 100 100\n1 501 100 600\n```\n\n#### 输出\n\n```text\n2\n```\n\n### 样例 3\n\n#### 输入\n\n```text\n4\n1 1 4 1\n1 4 5 4\n1 1 1 4\n4 1 4 5\n```\n\n#### 输出\n\n```text\n5\n```\n\n### 样例 4\n\n#### 输入\n\n```text\n9\n1 1 9 1\n1 1 1 9\n1 9 9 9\n9 1 9 9\n3 3 7 3\n3 3 3 7\n3 7 7 7\n7 3 7 7\n5 5 5 5\n```\n\n#### 输出\n\n```text\n9\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n"
+        },
+        "translationAvailable": true,
+        "resourceManifest": {
+          "hubei-105139-C-1.png": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "6ea4579749a2eca4244713fbdfc9cfc7b7762bcd97c8738c41eecc004fc83ef2",
+            "bytes": 626233,
+            "mime": "image/png",
+            "frameCount": 1,
+            "width": 928,
+            "height": 567,
+            "derivedFromPdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "sourcePageNumber": 3,
+            "method": "embedded-original-pdf-image-extraction"
+          },
+          "hubei-105139-C-2.png": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "02fa17490bd41aab251c539b3a3cc3562b4fbb15d33bbd4067a16e636cf5a936",
+            "bytes": 184480,
+            "mime": "image/png",
+            "frameCount": 1,
+            "width": 1156,
+            "height": 864,
+            "derivedFromPdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "sourcePageNumber": 4,
+            "method": "embedded-original-pdf-image-extraction"
+          }
+        },
+        "translationReview": {
+          "status": "complete",
+          "method": "whole-original-page-review-and-bilingual-constraint-check",
+          "sourcePdfSha256": "da7f1f8e65d8afa825c36d4ad541bcbdc6a54e3f35cebb8092c71d04aeb2a576",
+          "pagesReviewed": [
+            3,
+            4
+          ],
+          "immutableSpansValidated": true,
+          "samplesRetainedSeparately": true,
+          "sourceOriginalUnchanged": true
+        },
+        "nativeSourceReview": {
+          "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+          "id": "remote:codeforces:105139::C",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/C",
+          "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "sourcePageNumbers": [
+            3,
+            4
+          ],
+          "sourceRosterUrl": "https://codeforces.com/gym/105139",
+          "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+          "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+          "nativeLimits": {
+            "timeMs": 1000,
+            "memoryMb": 512
+          },
+          "printedPdfLimits": {
+            "timeMs": 1000,
+            "memoryMb": 512
+          },
+          "currentNativeLimitsPreferred": true,
+          "samplesSha256": "9fb822c6f27a60c69d681b9caeaea35cef9fed555072f9ac4c9c7f29760440bf",
+          "samplePairs": 4,
+          "allPagesRenderedInWorkbench": true,
+          "originalDownloadByteIdentity": true,
+          "realJudgeSubmissions": 0,
+          "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 4,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "081ee0965798695a12de96b05d790901ddf39254f64fb6a3c2101c5c951e5a6e",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "0c83525fd3e9e5536a9e582e4d4490f02c25d675d4e4546fe55fe3b80b63fc80",
+          "issues": []
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:105139::D",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# MACARON Likes Happy Endings\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem D. MACARON Likes Happy Endings\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nMACARON is going to read a book, which contains n chapters, and the i-th chapter has ai characters.\r\nMACARON wants to read this book in the next k days. On each day, he either reads several chapters from\r\nthe first unread chapter, or just takes a rest (does not read the book), but he should finish his reading in\r\nk days.\r\nMACARON enjoys his reading time and likes happy endings, so he does not want to be too sad during\r\nthese days. He has an unlucky number d, because he thinks number d will lead to a bad ending. We\r\nuse a sadness value to quantify his mood on each day. On the i-th day, if he reads, suppose that he\r\nreads chapters from Li to Ri\r\n. The sadness value of this day is the number of intervals [l, r] such that\r\nLi ≤ l ≤ r ≤ Ri and Lr\r\ni=l\r\nai = d. The ⊕ denotes the bitwise XOR operator. If he doesn’t read, let the\r\nsadness value be 0.\r\nMACARON wants to arrange his reading schedule to minimize the sum of sadness value in k days. Can\r\nyou help him find the minimum value?\r\nInput\r\nThe first line contains three integers n, k and d (1 ≤ n ≤ 105\r\n, 1 ≤ k ≤ min(n, 20), 0 ≤ d ≤ 106\r\n) — the\r\nnumber of chapters, the days for reading, and the unlucky number.\r\nThe second line contains n integers ai (0 ≤ ai ≤ 106\r\n) — the number of characters in each chapter.\r\nOutput\r\nOutput a single integer denoting the minimized sum of the sadness value.\r\nExample\r\nstandard input standard output\r\n10 4 5\r\n1 2 3 4 5 5 6 5 4 3\r\n3\r\nNote\r\nHere is an optimal schedule for reading:\r\n• on the first day, just take a rest, and the sadness value is 0;\r\n• on the second day, read from chapter 1 to chapter 3, and the sadness value is 0;\r\n• on the third day, read from chapter 4 to chapter 7, and the sadness value is 2;\r\n• on the fourth day, read from chapter 8 to chapter 10, and the sadness value is 1.\r\nPage 5 of 15\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "10 4 5\n1 2 3 4 5 5 6 5 4 3",
+            "output": "3"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "# MACARON Likes Happy Endings\n\nMACARON is going to read a book with $n$ chapters. Chapter $i$ contains $a_i$ characters.\n\nHe wants to read the book in the next $k$ days. On each day, he either reads several consecutive chapters starting with the first unread chapter, or rests without reading. He must finish the book within $k$ days.\n\nMACARON enjoys reading and likes happy endings, so he does not want to feel too sad. He has an unlucky number $d$, which he believes leads to a bad ending. Suppose he reads chapters $L_i$ through $R_i$ on day $i$. His sadness on that day is the number of intervals $[l,r]$ satisfying $L_i\\le l\\le r\\le R_i$ and\n\n$$\n\\bigoplus_{j=l}^{r} a_j=d\n$$\n\nThe symbol $\\oplus$ denotes bitwise XOR. If he rests, his sadness is $0$.\n\nArrange his reading schedule to minimize the total sadness over the $k$ days. Find this minimum value.\n\n## Input\n\nThe first line contains three integers $n,k,d$ ($1\\le n\\le 10^5$, $1\\le k\\le\\min(n,20)$, $0\\le d\\le 10^6$), denoting the number of chapters, the number of days, and the unlucky number.\n\nThe second line contains $n$ integers $a_i$ ($0\\le a_i\\le 10^6$), the number of characters in each chapter.\n\n## Output\n\nOutput one integer: the minimum possible total sadness.\n\n## Note\n\nAn optimal schedule for the example is:\n\n- On the first day, rest; sadness is $0$.\n- On the second day, read chapters $1$ through $3$; sadness is $0$.\n- On the third day, read chapters $4$ through $7$; sadness is $2$.\n- On the fourth day, read chapters $8$ through $10$; sadness is $1$.\n\n## Examples\n\n### Sample 1\n\n#### Input\n\n```text\n10 4 5\n1 2 3 4 5 5 6 5 4 3\n```\n\n#### Output\n\n```text\n3\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:105139::D",
+        "title": "MACARON Likes Happy Endings",
+        "url": "https://codeforces.com/gym/105139/problem/D",
+        "limits": {
+          "timeMs": 2000,
+          "memoryMb": 512
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+        "sourcePageNumbers": [
+          5
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105139",
+        "sourceRosterSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "D",
+          "pdfTitle": "MACARON Likes Happy Endings",
+          "rosterTitle": "MACARON Likes Happy Endings",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "bytes": 1830457,
+            "mime": "application/pdf",
+            "pageCount": 15,
+            "fileName": "gym-105139.pdf",
+            "data": "tb-asset:925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sha256": "3f3aa84395da98ca14934a2144f015329fd168ce135061b05aa11edd1b777c27",
+          "data": "tb-asset:3f3aa84395da98ca14934a2144f015329fd168ce135061b05aa11edd1b777c27",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            5
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "fileName": "gym-105139-D.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+        "sourceRosterEvidenceFile": "roster-web-provider.txt",
+        "sourceTextArchive": [
+          {
+            "kind": "unreviewed-pdf-extraction",
+            "text": "The 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem D. MACARON Likes Happy Endings\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nMACARON is going to read a book, which contains n chapters, and the i-th chapter has ai characters.\r\nMACARON wants to read this book in the next k days. On each day, he either reads several chapters from\r\nthe first unread chapter, or just takes a rest (does not read the book), but he should finish his reading in\r\nk days.\r\nMACARON enjoys his reading time and likes happy endings, so he does not want to be too sad during\r\nthese days. He has an unlucky number d, because he thinks number d will lead to a bad ending. We\r\nuse a sadness value to quantify his mood on each day. On the i-th day, if he reads, suppose that he\r\nreads chapters from Li to Ri\r\n. The sadness value of this day is the number of intervals [l, r] such that\r\nLi ≤ l ≤ r ≤ Ri and Lr\r\ni=l\r\nai = d. The ⊕ denotes the bitwise XOR operator. If he doesn’t read, let the\r\nsadness value be 0.\r\nMACARON wants to arrange his reading schedule to minimize the sum of sadness value in k days. Can\r\nyou help him find the minimum value?\r\nInput\r\nThe first line contains three integers n, k and d (1 ≤ n ≤ 105\r\n, 1 ≤ k ≤ min(n, 20), 0 ≤ d ≤ 106\r\n) — the\r\nnumber of chapters, the days for reading, and the unlucky number.\r\nThe second line contains n integers ai (0 ≤ ai ≤ 106\r\n) — the number of characters in each chapter.\r\nOutput\r\nOutput a single integer denoting the minimized sum of the sadness value.\r\nExample\r\nstandard input standard output\r\n10 4 5\r\n1 2 3 4 5 5 6 5 4 3\r\n3\r\nNote\r\nHere is an optimal schedule for reading:\r\n• on the first day, just take a rest, and the sadness value is 0;\r\n• on the second day, read from chapter 1 to chapter 3, and the sadness value is 0;\r\n• on the third day, read from chapter 4 to chapter 7, and the sadness value is 2;\r\n• on the fourth day, read from chapter 8 to chapter 10, and the sadness value is 1.\r\nPage 5 of 15",
+            "sha256": "201937dcaf292ef05b2bc60efeaf872b6ab3c8871a3003430782605f50289821"
+          }
+        ],
+        "statementLanguage": "en",
+        "sourceTextReview": {
+          "method": "all-pages-reviewed-semantic-and-math-transcription",
+          "sourcePdfSha256": "3f3aa84395da98ca14934a2144f015329fd168ce135061b05aa11edd1b777c27",
+          "sourceTextSha256": "8277c2d2d210fe00450a3ee9e85c930a00ffbac286ebfe33a1813b27485f1348",
+          "sourcePageNumbers": [
+            5
+          ],
+          "samplesVerifiedWithTableGeometry": 1,
+          "sourceCaveats": []
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对官方原稿的中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "ab5332690bb2e58b0e6cb86cde4a7ce3e489a3ccfa5d929c66510dbddebfd570",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "8277c2d2d210fe00450a3ee9e85c930a00ffbac286ebfe33a1813b27485f1348",
+          "sourcePdfSha256": "3f3aa84395da98ca14934a2144f015329fd168ce135061b05aa11edd1b777c27",
+          "markdown": "# MACARON Likes Happy Endings\n\nMACARON 准备阅读一本共有 $n$ 章的书，第 $i$ 章有 $a_i$ 个字符。\n\n他想在接下来的 $k$ 天内读完。每天，他可以从尚未阅读的第一章开始，连续阅读若干章，也可以休息而不读书，但必须在 $k$ 天内读完整本书。\n\nMACARON 享受阅读，也喜欢圆满结局，因此不希望过于伤心。他有一个不吉利的数字 $d$，认为它会带来坏结局。假设第 $i$ 天阅读了第 $L_i$ 章至第 $R_i$ 章，则当天的伤心值为满足 $L_i\\le l\\le r\\le R_i$ 且\n\n$$\n\\bigoplus_{j=l}^{r} a_j=d\n$$\n\n的区间 $[l,r]$ 的数量。符号 $\\oplus$ 表示按位异或。如果当天休息，伤心值为 $0$。\n\n请安排阅读计划，使 $k$ 天的伤心值总和最小，并求出这个最小值。\n\n## 输入\n\n第一行包含三个整数 $n,k,d$（$1\\le n\\le 10^5$，$1\\le k\\le\\min(n,20)$，$0\\le d\\le 10^6$），依次表示章节数、阅读天数和不吉利的数字。\n\n第二行包含 $n$ 个整数 $a_i$（$0\\le a_i\\le 10^6$），表示各章的字符数。\n\n## 输出\n\n输出一个整数，表示伤心值总和的最小值。\n\n## 说明\n\n样例的一种最优安排如下：\n\n- 第一天休息，伤心值为 $0$。\n- 第二天阅读第 $1$ 章至第 $3$ 章，伤心值为 $0$。\n- 第三天阅读第 $4$ 章至第 $7$ 章，伤心值为 $2$。\n- 第四天阅读第 $8$ 章至第 $10$ 章，伤心值为 $1$。\n\n## 样例\n\n### 样例 1\n\n#### 输入\n\n```text\n10 4 5\n1 2 3 4 5 5 6 5 4 3\n```\n\n#### 输出\n\n```text\n3\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n"
+        },
+        "translationAvailable": true,
+        "translationReview": {
+          "status": "complete",
+          "method": "whole-original-page-review-and-bilingual-constraint-check",
+          "sourcePdfSha256": "3f3aa84395da98ca14934a2144f015329fd168ce135061b05aa11edd1b777c27",
+          "pagesReviewed": [
+            5
+          ],
+          "immutableSpansValidated": true,
+          "samplesRetainedSeparately": true,
+          "sourceOriginalUnchanged": true
+        },
+        "nativeSourceReview": {
+          "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+          "id": "remote:codeforces:105139::D",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/D",
+          "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "sourcePageNumbers": [
+            5
+          ],
+          "sourceRosterUrl": "https://codeforces.com/gym/105139",
+          "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+          "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+          "nativeLimits": {
+            "timeMs": 2000,
+            "memoryMb": 512
+          },
+          "printedPdfLimits": {
+            "timeMs": 1000,
+            "memoryMb": 512
+          },
+          "currentNativeLimitsPreferred": true,
+          "samplesSha256": "02b136a93598eafb2546ec9b6387f6306efd115f9e11188cffb1f6a9e303c656",
+          "samplePairs": 1,
+          "allPagesRenderedInWorkbench": true,
+          "originalDownloadByteIdentity": true,
+          "realJudgeSubmissions": 0,
+          "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "ab5332690bb2e58b0e6cb86cde4a7ce3e489a3ccfa5d929c66510dbddebfd570",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "374165a8046a26450c806280cc76a819d8eec74c300f8bba30e9733bc7805bbc",
+          "issues": []
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:105139::E",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Spicy or Grilled?\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem E. Spicy or Grilled?\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nSince a regular programming contest lasts for five hours, it’s a big problem to prepare contestants’ food\r\nduring the contest.\r\nIn the 20XX International Collegiate Programming Contest in Hubei Province, China, there were n\r\ncontestants participating in the contest. The host wanted to prepare a Spicy Chicken Burger Set for every\r\ncontestant, which was a dollars per set at that time. But since there were some people who could not bear\r\nthe spiciness like Walk Alone, a Grilled Chicken Burger Set was prepared for these people, which was b\r\ndollars per set. Before the contest, the host had collected the number x of people who wanted to eat a\r\nGrilled Chicken Burger Set.\r\nBut Walk Alone was too stupid and lazy to calculate how much the host would spend. Please help him\r\nto calculate.\r\nInput\r\nIn the first line,there is an integer T (1 ≤ T ≤ 104\r\n) denoting the number of test cases.\r\nFor each test case, there are four integers n, x, a and b (1 ≤ n, a, b ≤ 104\r\n, 0 ≤ x ≤ n) in each line,\r\nrepresenting the number of contestants in total, the number of contestants who want Grilled Chicken\r\nBurger Set, the price of Spicy Chicken Burger Set and Grilled Chicken Burger Set per set.\r\nOutput\r\nFor each test case, output a single integer denoting the total money the host would spend.\r\nExample\r\nstandard input standard output\r\n3\r\n600 200 27 26\r\n750 0 26 27\r\n750 750 1 1\r\n16000\r\n19500\r\n750\r\nNote\r\nIn the first test case, there were 400 people chosen the Spicy Chicken Burger Set and 200 people chosen\r\nthe Grilled one. So the total money is 400 × 27 + 200 × 26 = 16 000 dollars.\r\nPage 6 of 15\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)",
+        "images": {
+          "hubei-105139-E-1.jpg": "tb-asset:2035332b2ed1afba6adbf23178a5f7f0dabab5be7fa7db7587a3b3cacf5b606a"
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n600 200 27 26\n750 0 26 27\n750 750 1 1",
+            "output": "16000\n19500\n750"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "# Spicy or Grilled?\n\nA regular programming contest lasts five hours, so preparing food for contestants during the contest is a significant task.\n\n![Two burger sets](hubei-105139-E-1.jpg)\n\nAt the 20XX International Collegiate Programming Contest in Hubei Province, China, there were $n$ contestants. The host originally planned a Spicy Chicken Burger Set for each contestant, at a price of $a$ dollars per set. Some people, such as Walk Alone, could not tolerate spicy food, so the host prepared Grilled Chicken Burger Sets for them, at $b$ dollars per set. Before the contest, the host collected the number $x$ of contestants who wanted a Grilled Chicken Burger Set.\n\nWalk Alone was too stupid and lazy to work out the total expenditure. Help him calculate it.\n\n## Input\n\nThe first line contains an integer $T$ ($1\\le T\\le 10^4$), the number of test cases.\n\nEach test case consists of four integers $n,x,a,b$ ($1\\le n,a,b\\le 10^4$, $0\\le x\\le n$), representing the total number of contestants, the number who want a grilled set, the price of a spicy set, and the price of a grilled set.\n\n## Output\n\nFor each test case, output one integer denoting the total expenditure.\n\n## Note\n\nIn the first test case, $400$ contestants choose spicy sets and $200$ choose grilled sets. The total is $400\\times27+200\\times26=16000$ dollars.\n\n## Examples\n\n### Sample 1\n\n#### Input\n\n```text\n3\n600 200 27 26\n750 0 26 27\n750 750 1 1\n```\n\n#### Output\n\n```text\n16000\n19500\n750\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:105139::E",
+        "title": "Spicy or Grilled?",
+        "url": "https://codeforces.com/gym/105139/problem/E",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 256
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+        "sourcePageNumbers": [
+          6
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105139",
+        "sourceRosterSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "E",
+          "pdfTitle": "Spicy or Grilled?",
+          "rosterTitle": "Spicy or Grilled?",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "bytes": 1830457,
+            "mime": "application/pdf",
+            "pageCount": 15,
+            "fileName": "gym-105139.pdf",
+            "data": "tb-asset:925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sha256": "57a0ef2f42d965ebfcab6287bcdc06352c976d31e3bdce7f6d7769aaa61b0a20",
+          "data": "tb-asset:57a0ef2f42d965ebfcab6287bcdc06352c976d31e3bdce7f6d7769aaa61b0a20",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            6
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "fileName": "gym-105139-E.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+        "sourceRosterEvidenceFile": "roster-web-provider.txt",
+        "sourceTextArchive": [
+          {
+            "kind": "unreviewed-pdf-extraction",
+            "text": "The 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem E. Spicy or Grilled?\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nSince a regular programming contest lasts for five hours, it’s a big problem to prepare contestants’ food\r\nduring the contest.\r\nIn the 20XX International Collegiate Programming Contest in Hubei Province, China, there were n\r\ncontestants participating in the contest. The host wanted to prepare a Spicy Chicken Burger Set for every\r\ncontestant, which was a dollars per set at that time. But since there were some people who could not bear\r\nthe spiciness like Walk Alone, a Grilled Chicken Burger Set was prepared for these people, which was b\r\ndollars per set. Before the contest, the host had collected the number x of people who wanted to eat a\r\nGrilled Chicken Burger Set.\r\nBut Walk Alone was too stupid and lazy to calculate how much the host would spend. Please help him\r\nto calculate.\r\nInput\r\nIn the first line,there is an integer T (1 ≤ T ≤ 104\r\n) denoting the number of test cases.\r\nFor each test case, there are four integers n, x, a and b (1 ≤ n, a, b ≤ 104\r\n, 0 ≤ x ≤ n) in each line,\r\nrepresenting the number of contestants in total, the number of contestants who want Grilled Chicken\r\nBurger Set, the price of Spicy Chicken Burger Set and Grilled Chicken Burger Set per set.\r\nOutput\r\nFor each test case, output a single integer denoting the total money the host would spend.\r\nExample\r\nstandard input standard output\r\n3\r\n600 200 27 26\r\n750 0 26 27\r\n750 750 1 1\r\n16000\r\n19500\r\n750\r\nNote\r\nIn the first test case, there were 400 people chosen the Spicy Chicken Burger Set and 200 people chosen\r\nthe Grilled one. So the total money is 400 × 27 + 200 × 26 = 16 000 dollars.\r\nPage 6 of 15",
+            "sha256": "84510675941697b5623e8ce1df347a7bbf900ee6431b4791abf041f98dbc16cb"
+          }
+        ],
+        "statementLanguage": "en",
+        "sourceTextReview": {
+          "method": "all-pages-reviewed-semantic-and-math-transcription",
+          "sourcePdfSha256": "57a0ef2f42d965ebfcab6287bcdc06352c976d31e3bdce7f6d7769aaa61b0a20",
+          "sourceTextSha256": "10636feb616ee647ad6863dec3c1a5fa2d9be74345f32262d0b0617f0da9bcee",
+          "sourcePageNumbers": [
+            6
+          ],
+          "samplesVerifiedWithTableGeometry": 1,
+          "sourceCaveats": []
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对官方原稿的中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "1ace611d29b191a59b47fba7843ee025088ddc50da537053d5257fe215222a97",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "10636feb616ee647ad6863dec3c1a5fa2d9be74345f32262d0b0617f0da9bcee",
+          "sourcePdfSha256": "57a0ef2f42d965ebfcab6287bcdc06352c976d31e3bdce7f6d7769aaa61b0a20",
+          "markdown": "# Spicy or Grilled?\n\n一场通常的程序设计比赛会持续五小时，因此，为参赛者准备比赛期间的食物是一项重要工作。\n\n![两种汉堡套餐](hubei-105139-E-1.jpg)\n\n在 20XX 年中国湖北省国际大学生程序设计竞赛中，共有 $n$ 名参赛者。主办方最初打算为每人准备一份麦辣鸡腿堡套餐，每份售价 $a$ 元。但有些人和 Walk Alone 一样不能吃辣，主办方便为他们准备每份售价 $b$ 元的板烧鸡腿堡套餐。比赛前，主办方统计出共有 $x$ 人想吃板烧鸡腿堡套餐。\n\nWalk Alone 又笨又懒，不想自己计算总费用。请你帮助他。\n\n## 输入\n\n第一行包含一个整数 $T$（$1\\le T\\le 10^4$），表示测试用例数。\n\n每个测试用例包含四个整数 $n,x,a,b$（$1\\le n,a,b\\le 10^4$，$0\\le x\\le n$），依次表示参赛总人数、想吃板烧套餐的人数、麦辣套餐的单价和板烧套餐的单价。\n\n## 输出\n\n对于每个测试用例，输出一个整数，表示总费用。\n\n## 说明\n\n第一个测试用例中，$400$ 人选择麦辣套餐，$200$ 人选择板烧套餐，因此总费用为 $400\\times27+200\\times26=16000$ 元。\n\n## 样例\n\n### 样例 1\n\n#### 输入\n\n```text\n3\n600 200 27 26\n750 0 26 27\n750 750 1 1\n```\n\n#### 输出\n\n```text\n16000\n19500\n750\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n"
+        },
+        "translationAvailable": true,
+        "resourceManifest": {
+          "hubei-105139-E-1.jpg": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "2035332b2ed1afba6adbf23178a5f7f0dabab5be7fa7db7587a3b3cacf5b606a",
+            "bytes": 75234,
+            "mime": "image/jpeg",
+            "frameCount": 1,
+            "width": 982,
+            "height": 797,
+            "derivedFromPdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "sourcePageNumber": 6,
+            "method": "embedded-original-pdf-image-extraction"
+          }
+        },
+        "translationReview": {
+          "status": "complete",
+          "method": "whole-original-page-review-and-bilingual-constraint-check",
+          "sourcePdfSha256": "57a0ef2f42d965ebfcab6287bcdc06352c976d31e3bdce7f6d7769aaa61b0a20",
+          "pagesReviewed": [
+            6
+          ],
+          "immutableSpansValidated": true,
+          "samplesRetainedSeparately": true,
+          "sourceOriginalUnchanged": true
+        },
+        "nativeSourceReview": {
+          "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+          "id": "remote:codeforces:105139::E",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/E",
+          "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "sourcePageNumbers": [
+            6
+          ],
+          "sourceRosterUrl": "https://codeforces.com/gym/105139",
+          "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+          "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+          "nativeLimits": {
+            "timeMs": 1000,
+            "memoryMb": 256
+          },
+          "printedPdfLimits": {
+            "timeMs": 1000,
+            "memoryMb": 256
+          },
+          "currentNativeLimitsPreferred": true,
+          "samplesSha256": "1af0162332e93bc990b53e15895adb6eb075ef7caad611f9a908269822a5f80d",
+          "samplePairs": 1,
+          "allPagesRenderedInWorkbench": true,
+          "originalDownloadByteIdentity": true,
+          "realJudgeSubmissions": 0,
+          "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "1ace611d29b191a59b47fba7843ee025088ddc50da537053d5257fe215222a97",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "938a3b2f52ea37caa40cc733fed618d81bc8e7bdd482a553be143113f5101778",
+          "issues": []
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:105139::F",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Enchanted\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem F. Enchanted\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1.5 seconds\r\nMemory limit: 1024 megabytes\r\nIn Minecraft, one way to become stronger is to have the armors and weapons enchanted. Enchanted books\r\nplay an important role.\r\nThe most important attribute of an enchanted book is its level. The higher the level is, the better the\r\nbook is. We could merge two books with the same level l into one new book(the older two will disappear).\r\nThe level of the new book is l + 1 and the merger costs 2\r\nl+1\r\n.\r\nNow, Steve has n enchanted books numbered from 1 to n. Initially, the i-th book’s level is ai\r\n. Steve asks\r\nyou to help him with the following four operations.\r\n1. Given two integers l, r(1 ≤ l ≤ r ≤ n), calculate the maximum level Steve can reach by merging\r\nbooks numbered from l to r.\r\n2. Given three integers l, r(1 ≤ l ≤ r ≤ n) and k, then follow the steps:\r\nStep 1: Steve merges all the books numbered from l to r until there does not exist two books with\r\nthe same level.\r\nStep 2: Steve adds one new book with level k to the books he gets in Step 1.\r\nStep 3: Steve needs to merge books he gets in Step 2 and he wants to maximize the times he merges\r\nthe books.\r\nPlease calculate and output the total cost modulo 109 + 7 in Step 3.\r\nNote that, after calculating, the sequence is restored. That is, this operation does NOT\r\nactually change the sequence.\r\n3. Given two integers pos, k, Steve changes the level of the book numbered pos to k.\r\n4. Given one integer t, Steve restores the sequence to the state after the t-th operation. If t = 0, then\r\nSteve restores the sequence to the beginning state.\r\nInput\r\nThe first and the only line contains 5 integers n, m, A, p, q.(1 ≤ n ≤ 106\r\n, 1 ≤ m ≤ 106\r\n, 1 ≤ A ≤ 19 260 817,\r\n1 ≤ p ≤ 4, 1 ≤ q ≤ 30)\r\nPlease pay attention! To avoid large input file, the true input is constructed through the following strategy:\r\nFunction rnd():\r\nA ← (7A + 13) mod 19 260 817\r\nreturn A\r\nFirstly, n integers a1, a2, · · · , an are generated in turn, ai ← rnd() mod q + 1.\r\nThen, the parameters of all operations are generated.\r\nFor each operation, the number of operation(representing by opt) is firstly generated, opt ← rnd() mod\r\np + 1.\r\nPage 7 of 15\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nAccording to the number of operation, the different method is applied to generate parameters for different\r\noperation.\r\n• For operation 1: we need to get l and r by using:\r\nL ← rnd() mod n + 1\r\nR ← rnd() mod n + 1\r\nl ← min(L, R)\r\nr ← max(L, R)\r\n• For operation 2: we need to get l, r and k by using:\r\nL ← rnd() mod n + 1\r\nR ← rnd() mod n + 1\r\nl ← min(L, R)\r\nr ← max(L, R)\r\nk ← rnd() mod q + 1\r\n• For operation 3: we need to get pos and k by using:\r\npos ← rnd() mod n + 1\r\nk ← rnd() mod q + 1\r\n• For operation 4: we need to get t by using:\r\nt ← rnd() mod i\r\nHere, i represents the i-th operation.\r\nOutput\r\nFor each operation 1 and 2, you need to output one single line with an integer, representing the answer\r\nto operation 1 and 2 modulo 109 + 7.\r\nExamples\r\nstandard input standard output\r\n6 3 2 1 3 1\r\n3\r\n2\r\n10 15 5 4 7 0\r\n9\r\n9\r\n0\r\n64\r\n0\r\n0\r\nNote\r\nFunction “max” means the maximum one between the parameters. Function “min” means the minimum\r\none between the parameters.\r\nIn example 1, the initial books are [1, 2, 3, 1, 2, 3]. The three operations’ ranges are [4, 4], [1, 3] and [4, 5].\r\nPage 8 of 15\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)",
+        "images": {
+          "hubei-105139-F-1.png": "tb-asset:1b0d9b220a301700a934cd1a515ee79c6d6236ac296c08e5d6cb4ebf3b285332"
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "6 3 2 1 3",
+            "output": "1\n3\n2"
+          },
+          {
+            "name": "样例 2",
+            "input": "10 15 5 4 7",
+            "output": "0\n9\n9\n0\n64\n0\n0"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# Enchanted\n\nIn Minecraft, enchanting armor and weapons is one way to become stronger. Enchanted books play an important role.\n\n![Enchanted book](hubei-105139-F-1.png)\n\nThe most important attribute of an enchanted book is its level: a higher level means a better book. Two books of the same level $l$ can be merged into one new book of level $l+1$. The old books disappear, and the merge costs $2^{l+1}$.\n\nSteve has $n$ books numbered from $1$ to $n$. Initially, book $i$ has level $a_i$. Help him process these operations:\n\n1. Given $l,r$ ($1\\le l\\le r\\le n$), calculate the maximum level achievable by merging books numbered from $l$ through $r$.\n2. Given $l,r$ ($1\\le l\\le r\\le n$) and $k$, perform the following three steps for the calculation:\n   - Merge the books numbered from $l$ through $r$ until all remaining books have different levels.\n   - Add a new book of level $k$ to those remaining books.\n   - Merge the books obtained in the preceding step, maximizing the number of merges.\n   Output the total cost of the last step modulo $10^9+7$. After the calculation, the sequence is restored: this operation does not actually change it.\n3. Given $pos,k$, change the level of the book numbered $pos$ to $k$.\n4. Given $t$, restore the sequence to its state after operation $t$. If $t=0$, restore the initial sequence.\n\n## Input\n\nThe only line contains five integers $n,m,A,p,q$ ($1\\le n\\le 10^6$, $1\\le m\\le 10^6$, $1\\le A\\le 19260817$, $1\\le p\\le4$, $1\\le q\\le30$).\n\nTo avoid a large input file, generate the actual input as follows. The function `rnd()` changes the current state and returns its new value:\n\n```text\nA ← (7A + 13) mod 19260817\nreturn A\n```\n\nFirst generate $a_1,a_2,\\ldots,a_n$ in order, setting $a_i\\leftarrow\\operatorname{rnd}()\\bmod q+1$.\n\nThen generate all operations in order. For each operation, first generate its type $opt\\leftarrow\\operatorname{rnd}()\\bmod p+1$, and then generate its parameters according to its type:\n\n- For operation 1, generate $L\\leftarrow\\operatorname{rnd}()\\bmod n+1$, then $R\\leftarrow\\operatorname{rnd}()\\bmod n+1$, and set $l\\leftarrow\\min(L,R)$, $r\\leftarrow\\max(L,R)$.\n- For operation 2, generate $L\\leftarrow\\operatorname{rnd}()\\bmod n+1$, then $R\\leftarrow\\operatorname{rnd}()\\bmod n+1$, set $l\\leftarrow\\min(L,R)$, $r\\leftarrow\\max(L,R)$, and then generate $k\\leftarrow\\operatorname{rnd}()\\bmod q+1$.\n- For operation 3, generate $pos\\leftarrow\\operatorname{rnd}()\\bmod n+1$, then $k\\leftarrow\\operatorname{rnd}()\\bmod q+1$.\n- For operation 4, generate $t\\leftarrow\\operatorname{rnd}()\\bmod i$, where $i$ is the index of the current operation.\n\n## Output\n\nFor each operation 1 or 2, output one line containing its answer modulo $10^9+7$.\n\n## Note\n\nThe functions `max` and `min` return the maximum and minimum of their arguments, respectively.\n\nIn the first example, the initial levels are $[1,2,3,1,2,3]$. The ranges of the three operations are $[4,4]$, $[1,3]$, and $[4,5]$.\n\n## Examples\n\n### Sample 1\n\n#### Input\n\n```text\n6 3 2 1 3\n```\n\n#### Output\n\n```text\n1\n3\n2\n```\n\n### Sample 2\n\n#### Input\n\n```text\n10 15 5 4 7\n```\n\n#### Output\n\n```text\n0\n9\n9\n0\n64\n0\n0\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:105139::F",
+        "title": "Enchanted",
+        "url": "https://codeforces.com/gym/105139/problem/F",
+        "limits": {
+          "timeMs": 1500,
+          "memoryMb": 1024
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+        "sourcePageNumbers": [
+          7,
+          8
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105139",
+        "sourceRosterSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "F",
+          "pdfTitle": "Enchanted",
+          "rosterTitle": "Enchanted",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "bytes": 1830457,
+            "mime": "application/pdf",
+            "pageCount": 15,
+            "fileName": "gym-105139.pdf",
+            "data": "tb-asset:925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sha256": "35c3319ce426db6dda47d6abada2148ec7482aed388951cb8b275b33c73f9bce",
+          "data": "tb-asset:35c3319ce426db6dda47d6abada2148ec7482aed388951cb8b275b33c73f9bce",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            7,
+            8
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "fileName": "gym-105139-F.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+        "sourceRosterEvidenceFile": "roster-web-provider.txt",
+        "sourceTextArchive": [
+          {
+            "kind": "unreviewed-pdf-extraction",
+            "text": "The 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem F. Enchanted\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1.5 seconds\r\nMemory limit: 1024 megabytes\r\nIn Minecraft, one way to become stronger is to have the armors and weapons enchanted. Enchanted books\r\nplay an important role.\r\nThe most important attribute of an enchanted book is its level. The higher the level is, the better the\r\nbook is. We could merge two books with the same level l into one new book(the older two will disappear).\r\nThe level of the new book is l + 1 and the merger costs 2\r\nl+1\r\n.\r\nNow, Steve has n enchanted books numbered from 1 to n. Initially, the i-th book’s level is ai\r\n. Steve asks\r\nyou to help him with the following four operations.\r\n1. Given two integers l, r(1 ≤ l ≤ r ≤ n), calculate the maximum level Steve can reach by merging\r\nbooks numbered from l to r.\r\n2. Given three integers l, r(1 ≤ l ≤ r ≤ n) and k, then follow the steps:\r\nStep 1: Steve merges all the books numbered from l to r until there does not exist two books with\r\nthe same level.\r\nStep 2: Steve adds one new book with level k to the books he gets in Step 1.\r\nStep 3: Steve needs to merge books he gets in Step 2 and he wants to maximize the times he merges\r\nthe books.\r\nPlease calculate and output the total cost modulo 109 + 7 in Step 3.\r\nNote that, after calculating, the sequence is restored. That is, this operation does NOT\r\nactually change the sequence.\r\n3. Given two integers pos, k, Steve changes the level of the book numbered pos to k.\r\n4. Given one integer t, Steve restores the sequence to the state after the t-th operation. If t = 0, then\r\nSteve restores the sequence to the beginning state.\r\nInput\r\nThe first and the only line contains 5 integers n, m, A, p, q.(1 ≤ n ≤ 106\r\n, 1 ≤ m ≤ 106\r\n, 1 ≤ A ≤ 19 260 817,\r\n1 ≤ p ≤ 4, 1 ≤ q ≤ 30)\r\nPlease pay attention! To avoid large input file, the true input is constructed through the following strategy:\r\nFunction rnd():\r\nA ← (7A + 13) mod 19 260 817\r\nreturn A\r\nFirstly, n integers a1, a2, · · · , an are generated in turn, ai ← rnd() mod q + 1.\r\nThen, the parameters of all operations are generated.\r\nFor each operation, the number of operation(representing by opt) is firstly generated, opt ← rnd() mod\r\np + 1.\r\nPage 7 of 15\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nAccording to the number of operation, the different method is applied to generate parameters for different\r\noperation.\r\n• For operation 1: we need to get l and r by using:\r\nL ← rnd() mod n + 1\r\nR ← rnd() mod n + 1\r\nl ← min(L, R)\r\nr ← max(L, R)\r\n• For operation 2: we need to get l, r and k by using:\r\nL ← rnd() mod n + 1\r\nR ← rnd() mod n + 1\r\nl ← min(L, R)\r\nr ← max(L, R)\r\nk ← rnd() mod q + 1\r\n• For operation 3: we need to get pos and k by using:\r\npos ← rnd() mod n + 1\r\nk ← rnd() mod q + 1\r\n• For operation 4: we need to get t by using:\r\nt ← rnd() mod i\r\nHere, i represents the i-th operation.\r\nOutput\r\nFor each operation 1 and 2, you need to output one single line with an integer, representing the answer\r\nto operation 1 and 2 modulo 109 + 7.\r\nExamples\r\nstandard input standard output\r\n6 3 2 1 3 1\r\n3\r\n2\r\n10 15 5 4 7 0\r\n9\r\n9\r\n0\r\n64\r\n0\r\n0\r\nNote\r\nFunction “max” means the maximum one between the parameters. Function “min” means the minimum\r\none between the parameters.\r\nIn example 1, the initial books are [1, 2, 3, 1, 2, 3]. The three operations’ ranges are [4, 4], [1, 3] and [4, 5].\r\nPage 8 of 15",
+            "sha256": "5d6bd0d0856e20fcd355a6cd0683c4e6422b343c79be20d912fbf77e923cf53c"
+          }
+        ],
+        "statementLanguage": "en",
+        "sourceTextReview": {
+          "method": "all-pages-reviewed-semantic-and-math-transcription",
+          "sourcePdfSha256": "35c3319ce426db6dda47d6abada2148ec7482aed388951cb8b275b33c73f9bce",
+          "sourceTextSha256": "b0063099d9a6ca6fb430ca131777303317288685e1eece1745d4cd7f48f23139",
+          "sourcePageNumbers": [
+            7,
+            8
+          ],
+          "samplesVerifiedWithTableGeometry": 2,
+          "sourceCaveats": []
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对官方原稿的中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "ee9cb9d822ebcc2a24a0510014c1e77e7962667fbdfe116e92276f0a74e7e608",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "b0063099d9a6ca6fb430ca131777303317288685e1eece1745d4cd7f48f23139",
+          "sourcePdfSha256": "35c3319ce426db6dda47d6abada2148ec7482aed388951cb8b275b33c73f9bce",
+          "markdown": "# Enchanted\n\n在《Minecraft》中，为盔甲和武器附魔是一种变强的方法，附魔书在其中起着重要作用。\n\n![附魔书](hubei-105139-F-1.png)\n\n附魔书最重要的属性是等级，等级越高，书越好。可以将两本等级同为 $l$ 的书合并为一本等级为 $l+1$ 的新书，原来的两本书消失，此次合并的费用为 $2^{l+1}$。\n\n史蒂夫有 $n$ 本书，编号为 $1$ 至 $n$。初始时，第 $i$ 本书的等级为 $a_i$。请帮助他处理以下操作：\n\n1. 给定 $l,r$（$1\\le l\\le r\\le n$），计算只合并编号从 $l$ 至 $r$ 的书，能够得到的最高等级。\n2. 给定 $l,r$（$1\\le l\\le r\\le n$）及 $k$，为计算答案依次执行以下三个步骤：\n   - 合并编号从 $l$ 至 $r$ 的书，直到剩余书的等级两两不同。\n   - 向剩余书中加入一本等级为 $k$ 的新书。\n   - 合并上一步得到的这些书，并使合并次数最多。\n   输出最后一步的总费用对 $10^9+7$ 取模的结果。计算后序列恢复原状，因此该操作不会实际改变序列。\n3. 给定 $pos,k$，将编号为 $pos$ 的书的等级改为 $k$。\n4. 给定 $t$，将序列恢复到第 $t$ 次操作完成后的状态。如果 $t=0$，则恢复到初始状态。\n\n## 输入\n\n仅有一行，包含五个整数 $n,m,A,p,q$（$1\\le n\\le 10^6$，$1\\le m\\le 10^6$，$1\\le A\\le 19260817$，$1\\le p\\le4$，$1\\le q\\le30$）。\n\n为避免输入文件过大，实际输入按以下规则生成。函数 `rnd()` 会修改当前状态，并返回修改后的值：\n\n```text\nA ← (7A + 13) mod 19260817\nreturn A\n```\n\n首先依次生成 $a_1,a_2,\\ldots,a_n$，令 $a_i\\leftarrow\\operatorname{rnd}()\\bmod q+1$。\n\n然后依次生成全部操作。对于每次操作，先生成操作类型 $opt\\leftarrow\\operatorname{rnd}()\\bmod p+1$，再按类型生成参数：\n\n- 操作 1：先生成 $L\\leftarrow\\operatorname{rnd}()\\bmod n+1$，再生成 $R\\leftarrow\\operatorname{rnd}()\\bmod n+1$，令 $l\\leftarrow\\min(L,R)$、$r\\leftarrow\\max(L,R)$。\n- 操作 2：先生成 $L\\leftarrow\\operatorname{rnd}()\\bmod n+1$，再生成 $R\\leftarrow\\operatorname{rnd}()\\bmod n+1$，令 $l\\leftarrow\\min(L,R)$、$r\\leftarrow\\max(L,R)$，然后生成 $k\\leftarrow\\operatorname{rnd}()\\bmod q+1$。\n- 操作 3：先生成 $pos\\leftarrow\\operatorname{rnd}()\\bmod n+1$，再生成 $k\\leftarrow\\operatorname{rnd}()\\bmod q+1$。\n- 操作 4：生成 $t\\leftarrow\\operatorname{rnd}()\\bmod i$，其中 $i$ 是当前操作的编号。\n\n## 输出\n\n对于每次操作 1 或操作 2，输出一行，包含对应答案对 $10^9+7$ 取模的结果。\n\n## 说明\n\n函数 `max`、`min` 分别返回参数中的最大值和最小值。\n\n第一个样例的初始等级为 $[1,2,3,1,2,3]$，三次操作的区间依次为 $[4,4]$、$[1,3]$ 和 $[4,5]$。\n\n## 样例\n\n### 样例 1\n\n#### 输入\n\n```text\n6 3 2 1 3\n```\n\n#### 输出\n\n```text\n1\n3\n2\n```\n\n### 样例 2\n\n#### 输入\n\n```text\n10 15 5 4 7\n```\n\n#### 输出\n\n```text\n0\n9\n9\n0\n64\n0\n0\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n"
+        },
+        "translationAvailable": true,
+        "resourceManifest": {
+          "hubei-105139-F-1.png": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "1b0d9b220a301700a934cd1a515ee79c6d6236ac296c08e5d6cb4ebf3b285332",
+            "bytes": 9504,
+            "mime": "image/png",
+            "frameCount": 1,
+            "width": 239,
+            "height": 208,
+            "derivedFromPdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "sourcePageNumber": 7,
+            "method": "embedded-original-pdf-image-extraction"
+          }
+        },
+        "translationReview": {
+          "status": "complete",
+          "method": "whole-original-page-review-and-bilingual-constraint-check",
+          "sourcePdfSha256": "35c3319ce426db6dda47d6abada2148ec7482aed388951cb8b275b33c73f9bce",
+          "pagesReviewed": [
+            7,
+            8
+          ],
+          "immutableSpansValidated": true,
+          "samplesRetainedSeparately": true,
+          "sourceOriginalUnchanged": true
+        },
+        "nativeSourceReview": {
+          "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+          "id": "remote:codeforces:105139::F",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/F",
+          "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "sourcePageNumbers": [
+            7,
+            8
+          ],
+          "sourceRosterUrl": "https://codeforces.com/gym/105139",
+          "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+          "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+          "nativeLimits": {
+            "timeMs": 1500,
+            "memoryMb": 1024
+          },
+          "printedPdfLimits": {
+            "timeMs": 1500,
+            "memoryMb": 1024
+          },
+          "currentNativeLimitsPreferred": true,
+          "samplesSha256": "843e3958c225f824f9a40e1c37d906ce4de495d33f34b8c3058c22ad44f6fbdd",
+          "samplePairs": 2,
+          "allPagesRenderedInWorkbench": true,
+          "originalDownloadByteIdentity": true,
+          "realJudgeSubmissions": 0,
+          "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "ee9cb9d822ebcc2a24a0510014c1e77e7962667fbdfe116e92276f0a74e7e608",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "2c702c22e47a7c5c357ee75cdf2fadf2c1c0b5834873bb68c739fbb11e5d8175",
+          "issues": []
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:105139::G",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Genshin Impact Startup Forbidden II\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem G. Genshin Impact Startup Forbidden II\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 512 megabytes\r\nBlue-edged Shot is forbidden from playing Genshin Impact by LeavingZ, so she turned to Go game.\r\nA game of Go involves two players, one playing with Black stones and the other with White stones. Two\r\nplayers take turns making moves, with the Black stones going first. The Go board is composed of a grid\r\nof 19 × 19 intersections, and we use (x, y) to represent the intersection at the x-th row and y-th column.\r\nThe stones are placed on the intersections. The top left corner is (1, 1), while the bottom right corner is\r\n(19, 19).\r\nThe intersections (x1, y1) and (x2, y2) are adjacent if and only if |x1 − x2| + |y1 − y2| = 1. Adjacent\r\nintersections with stones of the same color belong to the same group of stones. The number of “liberties”\r\nfor a stone is equal to the number of adjacent intersections to the stone’s intersection that do not have\r\nany stones on them. The liberties of a group of stones equal the sum of the liberties of all the stones\r\nbelonging to that group. A group of stones with zero liberties is considered dead and must be removed\r\nfrom the board.\r\nNote that after Black plays, priority is given to removing any dead White stones, and then recalculating\r\nthe liberties for Black stones. This is because there might be situations where, after Black plays, both\r\nBlack and White stones have zero liberties, but removing the dead White stones increases the liberties for\r\nBlack stones. As for White, process the stones similarly. After White plays, priority is given to removing\r\nany dead Black stones, and then recalculating the liberties for White stones.\r\nNow there is a game of Go, starting with an empty board, and a total of m moves have been made by\r\nboth players. Given the positions where each stone is placed, output after each move, how many Black\r\nand White stones are removed respectively causing by this move. Obviously, black stones are played on\r\nodd-numbered moves, and white stones are played on even-numbered moves. It’s guaranteed that stones\r\nare placed on empty intersections. Note that stones can be placed on any intersections that do not have\r\nstones on them at the moment, regardless of violating the Go rules in real life.\r\nInput\r\nInput m (1 ≤ m ≤ 5 × 105\r\n) lines, the i-th line contains two integers xi\r\n, yi (1 ≤ xi\r\n, yi ≤ 19), representing\r\nthe i-th move puts stone on (xi\r\n, yi).\r\nIt’s guaranteed that stones are placed on intersections that do not have stones on them at the moment.\r\nOutput\r\nOutput m lines, each line contains two integers. The first integer in the i-th line represents the number\r\nof Black stones removed after the i-th move, while the second for White stones.\r\nPage 9 of 15\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nExample\r\nstandard input standard output\r\n8\r\n2 1\r\n1 1\r\n1 2\r\n2 2\r\n1 1\r\n1 3\r\n2 3\r\n3 1\r\n0 0\r\n0 0\r\n0 1\r\n0 0\r\n0 0\r\n0 0\r\n0 0\r\n3 0\r\nNote\r\nPage 10 of 15\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)",
+        "images": {
+          "hubei-105139-G-1.jpg": "tb-asset:dc794f119bb635f06703b5434a6f1cc64a45538d897e2c504a1edeff2ebd05a7",
+          "hubei-105139-G-2.png": "tb-asset:be97d2c2dc603aa1f139be36915c26b6a7c243214f4c0767eef2de50f2080d9b"
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "8\n2 1\n1 1\n1 2\n2 2\n1 1\n1 3\n2 3\n3 1",
+            "output": "0 0\n0 0\n0 1\n0 0\n0 0\n0 0\n0 0\n3 0"
+          }
+        ],
+        "pageCount": 2,
+        "sourceText": "# Genshin Impact Startup Forbidden II\n\n![Genshin Impact is forbidden](hubei-105139-G-1.jpg)\n\nBlue-edged Shot is forbidden from playing Genshin Impact by LeavingZ, so she turns to Go.\n\nTwo players take turns placing black and white stones, with black going first. The board consists of $19\\times19$ intersections. An intersection $(x,y)$ is in row $x$ and column $y$. The top-left corner is $(1,1)$ and the bottom-right corner is $(19,19)$.\n\nIntersections $(x_1,y_1)$ and $(x_2,y_2)$ are adjacent exactly when $|x_1-x_2|+|y_1-y_2|=1$. Adjacent stones of the same color belong to the same group. A stone’s number of liberties is the number of adjacent empty intersections. A group’s liberties are the sum of the liberties of all its stones. A group with zero liberties is dead and must be removed.\n\nAfter black plays, first remove any dead white stones, then recalculate black’s liberties and remove dead black stones. This order matters: both colors might initially have zero liberties, but removing white stones may give black new liberties. After white plays, process the colors in the reverse order: remove dead black stones first, then recalculate white’s liberties and remove dead white stones.\n\nThe game starts with an empty board and has $m$ moves. Given each move’s position, output the number of black and white stones removed by that move. Black plays on odd-numbered moves, and white on even-numbered moves. Every move places a stone at an empty intersection. A move is allowed at any currently empty intersection, even if it would violate the rules of real Go.\n\n## Input\n\nThe sample and the move count specify that the first line contains $m$ ($1\\le m\\le5\\times10^5$). The following $m$ lines each contain $x_i,y_i$ ($1\\le x_i,y_i\\le19$), meaning that move $i$ places a stone at $(x_i,y_i)$.\n\nEvery specified intersection is empty at the time of the move.\n\n## Output\n\nOutput $m$ lines. In the $i$-th line, output the number of black stones removed after move $i$, followed by the number of white stones removed.\n\n## Note\n\nThe example is illustrated below; the labels indicate move order.\n\n![Example position](hubei-105139-G-2.png)\n\n## Examples\n\n### Sample 1\n\n#### Input\n\n```text\n8\n2 1\n1 1\n1 2\n2 2\n1 1\n1 3\n2 3\n3 1\n```\n\n#### Output\n\n```text\n0 0\n0 0\n0 1\n0 0\n0 0\n0 0\n0 0\n3 0\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:105139::G",
+        "title": "Genshin Impact Startup Forbidden II",
+        "url": "https://codeforces.com/gym/105139/problem/G",
+        "limits": {
+          "timeMs": 8000,
+          "memoryMb": 512
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+        "sourcePageNumbers": [
+          9,
+          10
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105139",
+        "sourceRosterSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "G",
+          "pdfTitle": "Genshin Impact Startup Forbidden II",
+          "rosterTitle": "Genshin Impact Startup Forbidden II",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "bytes": 1830457,
+            "mime": "application/pdf",
+            "pageCount": 15,
+            "fileName": "gym-105139.pdf",
+            "data": "tb-asset:925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sha256": "63b0a3409da9a398c85c67087a9399a79b7af224c903bcebc5de09f4a3ade421",
+          "data": "tb-asset:63b0a3409da9a398c85c67087a9399a79b7af224c903bcebc5de09f4a3ade421",
+          "pageCount": 2,
+          "sourcePageNumbers": [
+            9,
+            10
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "fileName": "gym-105139-G.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+        "sourceRosterEvidenceFile": "roster-web-provider.txt",
+        "sourceTextArchive": [
+          {
+            "kind": "unreviewed-pdf-extraction",
+            "text": "The 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem G. Genshin Impact Startup Forbidden II\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 512 megabytes\r\nBlue-edged Shot is forbidden from playing Genshin Impact by LeavingZ, so she turned to Go game.\r\nA game of Go involves two players, one playing with Black stones and the other with White stones. Two\r\nplayers take turns making moves, with the Black stones going first. The Go board is composed of a grid\r\nof 19 × 19 intersections, and we use (x, y) to represent the intersection at the x-th row and y-th column.\r\nThe stones are placed on the intersections. The top left corner is (1, 1), while the bottom right corner is\r\n(19, 19).\r\nThe intersections (x1, y1) and (x2, y2) are adjacent if and only if |x1 − x2| + |y1 − y2| = 1. Adjacent\r\nintersections with stones of the same color belong to the same group of stones. The number of “liberties”\r\nfor a stone is equal to the number of adjacent intersections to the stone’s intersection that do not have\r\nany stones on them. The liberties of a group of stones equal the sum of the liberties of all the stones\r\nbelonging to that group. A group of stones with zero liberties is considered dead and must be removed\r\nfrom the board.\r\nNote that after Black plays, priority is given to removing any dead White stones, and then recalculating\r\nthe liberties for Black stones. This is because there might be situations where, after Black plays, both\r\nBlack and White stones have zero liberties, but removing the dead White stones increases the liberties for\r\nBlack stones. As for White, process the stones similarly. After White plays, priority is given to removing\r\nany dead Black stones, and then recalculating the liberties for White stones.\r\nNow there is a game of Go, starting with an empty board, and a total of m moves have been made by\r\nboth players. Given the positions where each stone is placed, output after each move, how many Black\r\nand White stones are removed respectively causing by this move. Obviously, black stones are played on\r\nodd-numbered moves, and white stones are played on even-numbered moves. It’s guaranteed that stones\r\nare placed on empty intersections. Note that stones can be placed on any intersections that do not have\r\nstones on them at the moment, regardless of violating the Go rules in real life.\r\nInput\r\nInput m (1 ≤ m ≤ 5 × 105\r\n) lines, the i-th line contains two integers xi\r\n, yi (1 ≤ xi\r\n, yi ≤ 19), representing\r\nthe i-th move puts stone on (xi\r\n, yi).\r\nIt’s guaranteed that stones are placed on intersections that do not have stones on them at the moment.\r\nOutput\r\nOutput m lines, each line contains two integers. The first integer in the i-th line represents the number\r\nof Black stones removed after the i-th move, while the second for White stones.\r\nPage 9 of 15\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nExample\r\nstandard input standard output\r\n8\r\n2 1\r\n1 1\r\n1 2\r\n2 2\r\n1 1\r\n1 3\r\n2 3\r\n3 1\r\n0 0\r\n0 0\r\n0 1\r\n0 0\r\n0 0\r\n0 0\r\n0 0\r\n3 0\r\nNote\r\nPage 10 of 15",
+            "sha256": "0da95434b0579ea134f363fdc34e7a3b0336cc6391aa35806395709456e4f8cd"
+          }
+        ],
+        "statementLanguage": "en",
+        "sourceTextReview": {
+          "method": "all-pages-reviewed-semantic-and-math-transcription",
+          "sourcePdfSha256": "63b0a3409da9a398c85c67087a9399a79b7af224c903bcebc5de09f4a3ade421",
+          "sourceTextSha256": "e5062115a18f9f7526b9bfdff98498f728fb11a5bb70c1b5f599d0b5ebd39127",
+          "sourcePageNumbers": [
+            9,
+            10
+          ],
+          "samplesVerifiedWithTableGeometry": 1,
+          "sourceCaveats": [
+            "The first-line move count omitted in the prose formatting is made explicit from the original example/protocol; capture priority and the liberty definition are unchanged."
+          ]
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对官方原稿的中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "b2dc81ec04cdc44bcf8699cd7d5fb3bbadcc5091fc8f37d17fa244bec26671e7",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "e5062115a18f9f7526b9bfdff98498f728fb11a5bb70c1b5f599d0b5ebd39127",
+          "sourcePdfSha256": "63b0a3409da9a398c85c67087a9399a79b7af224c903bcebc5de09f4a3ade421",
+          "markdown": "# Genshin Impact Startup Forbidden II\n\n![禁止启动原神](hubei-105139-G-1.jpg)\n\nBlue-edged Shot 被 LeavingZ 禁止玩《原神》，于是转而下围棋。\n\n两名玩家轮流落黑子和白子，黑方先行。棋盘由 $19\\times19$ 个交叉点组成，交叉点 $(x,y)$ 位于第 $x$ 行、第 $y$ 列，左上角为 $(1,1)$，右下角为 $(19,19)$。\n\n交叉点 $(x_1,y_1)$ 与 $(x_2,y_2)$ 相邻，当且仅当 $|x_1-x_2|+|y_1-y_2|=1$。相邻的同色棋子属于同一棋块。一枚棋子的“气”是与它相邻的空交叉点数量，一个棋块的气为其中所有棋子的气之和。气为零的棋块视为死棋，必须移除。\n\n黑方落子后，先移除所有死亡的白棋，再重新计算黑棋的气，移除死亡的黑棋。顺序很重要：落子后双方可能同时无气，但移除白棋后，黑棋可能重新获得气。白方落子时反过来处理：先移除死亡的黑棋，再重新计算白棋的气并移除死亡的白棋。\n\n棋局从空棋盘开始，共有 $m$ 步。给出每一步的落子位置，请输出该步导致移除的黑子数和白子数。奇数步下黑子，偶数步下白子。保证每次落子的位置在当时为空；允许在任意空交叉点落子，即使这违反现实围棋规则。\n\n## 输入\n\n按样例及落子总数的定义，第一行输入 $m$（$1\\le m\\le5\\times10^5$）。接下来的 $m$ 行，每行包含 $x_i,y_i$（$1\\le x_i,y_i\\le19$），表示第 $i$ 步在 $(x_i,y_i)$ 落子。\n\n保证每次落子位置在当时没有棋子。\n\n## 输出\n\n输出 $m$ 行。第 $i$ 行先输出第 $i$ 步后移除的黑子数，再输出移除的白子数。\n\n## 说明\n\n样例的局面如下图，棋子上的编号表示落子顺序。\n\n![样例局面](hubei-105139-G-2.png)\n\n## 样例\n\n### 样例 1\n\n#### 输入\n\n```text\n8\n2 1\n1 1\n1 2\n2 2\n1 1\n1 3\n2 3\n3 1\n```\n\n#### 输出\n\n```text\n0 0\n0 0\n0 1\n0 0\n0 0\n0 0\n0 0\n3 0\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n"
+        },
+        "translationAvailable": true,
+        "resourceManifest": {
+          "hubei-105139-G-1.jpg": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "dc794f119bb635f06703b5434a6f1cc64a45538d897e2c504a1edeff2ebd05a7",
+            "bytes": 70717,
+            "mime": "image/jpeg",
+            "frameCount": 1,
+            "width": 1920,
+            "height": 869,
+            "derivedFromPdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "sourcePageNumber": 9,
+            "method": "embedded-original-pdf-image-extraction"
+          },
+          "hubei-105139-G-2.png": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "be97d2c2dc603aa1f139be36915c26b6a7c243214f4c0767eef2de50f2080d9b",
+            "bytes": 74246,
+            "mime": "image/png",
+            "frameCount": 1,
+            "width": 339,
+            "height": 265,
+            "derivedFromPdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "sourcePageNumber": 10,
+            "method": "embedded-original-pdf-image-extraction"
+          }
+        },
+        "translationReview": {
+          "status": "complete",
+          "method": "whole-original-page-review-and-bilingual-constraint-check",
+          "sourcePdfSha256": "63b0a3409da9a398c85c67087a9399a79b7af224c903bcebc5de09f4a3ade421",
+          "pagesReviewed": [
+            9,
+            10
+          ],
+          "immutableSpansValidated": true,
+          "samplesRetainedSeparately": true,
+          "sourceOriginalUnchanged": true
+        },
+        "nativeSourceReview": {
+          "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+          "id": "remote:codeforces:105139::G",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/G",
+          "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "sourcePageNumbers": [
+            9,
+            10
+          ],
+          "sourceRosterUrl": "https://codeforces.com/gym/105139",
+          "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+          "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+          "nativeLimits": {
+            "timeMs": 8000,
+            "memoryMb": 512
+          },
+          "printedPdfLimits": {
+            "timeMs": 4000,
+            "memoryMb": 512
+          },
+          "currentNativeLimitsPreferred": true,
+          "samplesSha256": "2a4eddb86b5699e7a19fab4da5f0f0b1afe53ea5c9d75d25bc85126c9b959f56",
+          "samplePairs": 1,
+          "allPagesRenderedInWorkbench": true,
+          "originalDownloadByteIdentity": true,
+          "realJudgeSubmissions": 0,
+          "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "b2dc81ec04cdc44bcf8699cd7d5fb3bbadcc5091fc8f37d17fa244bec26671e7",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "e7278147ca2706ffc6c49a43917c845f26048a09786f8ec7a16feeb14a16cbd2",
+          "issues": []
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:105139::H",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Genshin Impact Startup Forbidden III\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem H. Genshin Impact Startup Forbidden III\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nBlue-edged Shot is forbidden from playing Genshin Impact by LeavingZ. However, today LeavingZ went\r\nto Huazhong University of Science and Technology, School of Cyber Science and Engineering, to harvest\r\nthe gold medal of the 2024 International Collegiate Programming Contest in Hubei Province, China.\r\nAn activity of Genshin Impact called “Dodoco’s Bomb-Tastic Adventure” has begun. This is a single￾player game, where each game involves a pond. The pond can be divided into an n by m grid, with the\r\ncell in the i-th row and j-th column represented by (i, j). Among these, k cells contain fish, and you will\r\nplay as the Spark Knight Klee, who fishes with explosives.\r\nIf Klee drops a bomb at (a, b), all the cells (x, y) satisfying |x − a| + |y − b| ≤ 1 will be covered by the\r\nexplosion. For every cell covered by the explosion, Klee will catch one fish from it. Klee can drop bombs\r\nat any location. The question is, to catch all the fish, how many “Jumpy Dumpty” bombs are needed at\r\na minimum?\r\nInput\r\nThe first line contains three integers n, m, k (1 ≤ n, m ≤ 103\r\n, 1 ≤ k ≤ 10) — the size of the grid and the\r\nnumber of cells containing fish.\r\nThe following k lines, each line contains three integers xi\r\n, yi\r\n, ai (1 ≤ xi ≤ n, 1 ≤ yi ≤ m, 1 ≤ ai ≤ 3),\r\nrepresenting there are ai fish in cell (xi\r\n, yi).\r\nIt is guaranteed that the input cell (xi\r\n, yi) are unique.\r\nOutput\r\nOutput a single integer, denoting the minimum number of bombs needed.\r\nExample\r\nstandard input standard output\r\n5 5 3\r\n1 1 2\r\n2 2 1\r\n5 5 2\r\n4\r\nNote\r\nOne possible way is to drop two bombs at (1, 2) and another two at (5, 5).\r\nIt can be proven that there is no solution with a smaller answer.\r\nPage 11 of 15\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)",
+        "images": {
+          "hubei-105139-H-1.png": "tb-asset:944f54bea31d815ed75ac5dcfce41444b095a707cc4ea4fd21b3e1f236bbe6e4"
+        },
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "5 5 3\n1 1 2\n2 2 1\n5 5 2",
+            "output": "4"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "# Genshin Impact Startup Forbidden III\n\nBlue-edged Shot is forbidden from playing Genshin Impact by LeavingZ. Today, however, LeavingZ has gone to the School of Cyber Science and Engineering at Huazhong University of Science and Technology to win a gold medal at the 2024 International Collegiate Programming Contest in Hubei Province, China.\n\nA single-player Genshin Impact event called “Dodoco’s Bomb-Tastic Adventure” has begun. Each game has a pond divided into an $n\\times m$ grid. Cell $(i,j)$ is in row $i$, column $j$. Exactly $k$ cells contain fish. You play as Klee, the Spark Knight, who fishes using explosives.\n\n![Dodoco’s Bomb-Tastic Adventure](hubei-105139-H-1.png)\n\nIf Klee drops a bomb at $(a,b)$, its explosion covers all cells $(x,y)$ satisfying $|x-a|+|y-b|\\le1$. From every covered cell, Klee catches one fish. She may drop bombs at any location. Find the minimum number of “Jumpy Dumpty” bombs needed to catch all the fish.\n\n## Input\n\nThe first line contains three integers $n,m,k$ ($1\\le n,m\\le10^3$, $1\\le k\\le10$), the dimensions of the grid and the number of cells containing fish.\n\nEach of the following $k$ lines contains three integers $x_i,y_i,a_i$ ($1\\le x_i\\le n$, $1\\le y_i\\le m$, $1\\le a_i\\le3$), meaning that cell $(x_i,y_i)$ contains $a_i$ fish.\n\nAll input positions $(x_i,y_i)$ are distinct.\n\n## Output\n\nOutput one integer denoting the minimum number of bombs.\n\n## Note\n\nOne possible solution for the example drops two bombs at $(1,2)$ and another two at $(5,5)$. It can be proved that no smaller number is sufficient.\n\n## Examples\n\n### Sample 1\n\n#### Input\n\n```text\n5 5 3\n1 1 2\n2 2 1\n5 5 2\n```\n\n#### Output\n\n```text\n4\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:105139::H",
+        "title": "Genshin Impact Startup Forbidden III",
+        "url": "https://codeforces.com/gym/105139/problem/H",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 512
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+        "sourcePageNumbers": [
+          11
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105139",
+        "sourceRosterSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "H",
+          "pdfTitle": "Genshin Impact Startup Forbidden III",
+          "rosterTitle": "Genshin Impact Startup Forbidden III",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "bytes": 1830457,
+            "mime": "application/pdf",
+            "pageCount": 15,
+            "fileName": "gym-105139.pdf",
+            "data": "tb-asset:925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sha256": "0d09e77754d8fef39b457fefe8b2c2c598f43aa6c8f803df71b92b64186011a4",
+          "data": "tb-asset:0d09e77754d8fef39b457fefe8b2c2c598f43aa6c8f803df71b92b64186011a4",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            11
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "fileName": "gym-105139-H.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+        "sourceRosterEvidenceFile": "roster-web-provider.txt",
+        "sourceTextArchive": [
+          {
+            "kind": "unreviewed-pdf-extraction",
+            "text": "The 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem H. Genshin Impact Startup Forbidden III\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nBlue-edged Shot is forbidden from playing Genshin Impact by LeavingZ. However, today LeavingZ went\r\nto Huazhong University of Science and Technology, School of Cyber Science and Engineering, to harvest\r\nthe gold medal of the 2024 International Collegiate Programming Contest in Hubei Province, China.\r\nAn activity of Genshin Impact called “Dodoco’s Bomb-Tastic Adventure” has begun. This is a single￾player game, where each game involves a pond. The pond can be divided into an n by m grid, with the\r\ncell in the i-th row and j-th column represented by (i, j). Among these, k cells contain fish, and you will\r\nplay as the Spark Knight Klee, who fishes with explosives.\r\nIf Klee drops a bomb at (a, b), all the cells (x, y) satisfying |x − a| + |y − b| ≤ 1 will be covered by the\r\nexplosion. For every cell covered by the explosion, Klee will catch one fish from it. Klee can drop bombs\r\nat any location. The question is, to catch all the fish, how many “Jumpy Dumpty” bombs are needed at\r\na minimum?\r\nInput\r\nThe first line contains three integers n, m, k (1 ≤ n, m ≤ 103\r\n, 1 ≤ k ≤ 10) — the size of the grid and the\r\nnumber of cells containing fish.\r\nThe following k lines, each line contains three integers xi\r\n, yi\r\n, ai (1 ≤ xi ≤ n, 1 ≤ yi ≤ m, 1 ≤ ai ≤ 3),\r\nrepresenting there are ai fish in cell (xi\r\n, yi).\r\nIt is guaranteed that the input cell (xi\r\n, yi) are unique.\r\nOutput\r\nOutput a single integer, denoting the minimum number of bombs needed.\r\nExample\r\nstandard input standard output\r\n5 5 3\r\n1 1 2\r\n2 2 1\r\n5 5 2\r\n4\r\nNote\r\nOne possible way is to drop two bombs at (1, 2) and another two at (5, 5).\r\nIt can be proven that there is no solution with a smaller answer.\r\nPage 11 of 15",
+            "sha256": "0e73c19848ebf2c3429f2d193b018a1ba965aaf0a25988e24db871f5c0bde54c"
+          }
+        ],
+        "statementLanguage": "en",
+        "sourceTextReview": {
+          "method": "all-pages-reviewed-semantic-and-math-transcription",
+          "sourcePdfSha256": "0d09e77754d8fef39b457fefe8b2c2c598f43aa6c8f803df71b92b64186011a4",
+          "sourceTextSha256": "470b061f69e6458613ae5097e293d36801dff439cf88773ce8e7939dd603162a",
+          "sourcePageNumbers": [
+            11
+          ],
+          "samplesVerifiedWithTableGeometry": 1,
+          "sourceCaveats": []
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对官方原稿的中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "36008551259b16e5ee0ea9e2f960c238f7a83daf9e33ea9bd52b3a369a8aeb3f",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "470b061f69e6458613ae5097e293d36801dff439cf88773ce8e7939dd603162a",
+          "sourcePdfSha256": "0d09e77754d8fef39b457fefe8b2c2c598f43aa6c8f803df71b92b64186011a4",
+          "markdown": "# Genshin Impact Startup Forbidden III\n\nBlue-edged Shot 被 LeavingZ 禁止玩《原神》。不过，今天 LeavingZ 去了华中科技大学网络空间安全学院，想在 2024 年中国湖北省国际大学生程序设计竞赛中夺得金牌。\n\n《原神》的单人活动“嘟嘟可砰砰历险记”开始了。每局游戏都有一个划分为 $n\\times m$ 个方格的池塘。方格 $(i,j)$ 位于第 $i$ 行、第 $j$ 列，恰有 $k$ 个方格中有鱼。你将扮演用炸药捕鱼的火花骑士可莉。\n\n![嘟嘟可砰砰历险记](hubei-105139-H-1.png)\n\n如果可莉在 $(a,b)$ 投放一枚炸弹，所有满足 $|x-a|+|y-b|\\le1$ 的方格 $(x,y)$ 都会被爆炸覆盖，她会从每个被覆盖的方格中捕获一条鱼。她可以在任意位置投放炸弹。请问捕获全部鱼至少需要多少枚“蹦蹦炸弹”？\n\n## 输入\n\n第一行包含三个整数 $n,m,k$（$1\\le n,m\\le10^3$，$1\\le k\\le10$），表示网格的行列数及有鱼方格的数量。\n\n接下来的 $k$ 行，每行包含三个整数 $x_i,y_i,a_i$（$1\\le x_i\\le n$，$1\\le y_i\\le m$，$1\\le a_i\\le3$），表示方格 $(x_i,y_i)$ 中有 $a_i$ 条鱼。\n\n保证输入的所有方格位置 $(x_i,y_i)$ 两两不同。\n\n## 输出\n\n输出一个整数，表示所需的最少炸弹数。\n\n## 说明\n\n样例的一种方案是在 $(1,2)$ 投放两枚炸弹，再在 $(5,5)$ 投放两枚炸弹。可以证明无法使用更少的炸弹。\n\n## 样例\n\n### 样例 1\n\n#### 输入\n\n```text\n5 5 3\n1 1 2\n2 2 1\n5 5 2\n```\n\n#### 输出\n\n```text\n4\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n"
+        },
+        "translationAvailable": true,
+        "resourceManifest": {
+          "hubei-105139-H-1.png": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "944f54bea31d815ed75ac5dcfce41444b095a707cc4ea4fd21b3e1f236bbe6e4",
+            "bytes": 487431,
+            "mime": "image/png",
+            "frameCount": 1,
+            "width": 656,
+            "height": 632,
+            "derivedFromPdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "sourcePageNumber": 11,
+            "method": "embedded-original-pdf-image-extraction"
+          }
+        },
+        "translationReview": {
+          "status": "complete",
+          "method": "whole-original-page-review-and-bilingual-constraint-check",
+          "sourcePdfSha256": "0d09e77754d8fef39b457fefe8b2c2c598f43aa6c8f803df71b92b64186011a4",
+          "pagesReviewed": [
+            11
+          ],
+          "immutableSpansValidated": true,
+          "samplesRetainedSeparately": true,
+          "sourceOriginalUnchanged": true
+        },
+        "nativeSourceReview": {
+          "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+          "id": "remote:codeforces:105139::H",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/H",
+          "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "sourcePageNumbers": [
+            11
+          ],
+          "sourceRosterUrl": "https://codeforces.com/gym/105139",
+          "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+          "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+          "nativeLimits": {
+            "timeMs": 1000,
+            "memoryMb": 512
+          },
+          "printedPdfLimits": {
+            "timeMs": 1000,
+            "memoryMb": 512
+          },
+          "currentNativeLimitsPreferred": true,
+          "samplesSha256": "c794bd631bbc1e415a6e504db960a83b4b9aeb12e56d3504afecf49bee52aa77",
+          "samplePairs": 1,
+          "allPagesRenderedInWorkbench": true,
+          "originalDownloadByteIdentity": true,
+          "realJudgeSubmissions": 0,
+          "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used.",
+          "existingEquivalentIdentity": "luogu-training-P10865"
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "36008551259b16e5ee0ea9e2f960c238f7a83daf9e33ea9bd52b3a369a8aeb3f",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "7bc67f88fd7502a23ff20a5c9d6844747a58b25fd427a3a9a0a6bf04eb64bab8",
+          "issues": []
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:105139::I",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Colorful Tree\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem I. Colorful Tree\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 2 seconds\r\nMemory limit: 512 megabytes\r\nYou are given a tree with n nodes numbered from 1 to n and n−1 edges. Each node has a color. Initially,\r\nall of them are white.\r\nWe are going to perform q operations. In each operation, two vertices u and v will be given, and we will\r\ncolor black to the points along the simple path from u to v (u, v inclusive). Note that a simple path in\r\nthe tree is defined as a path that does not pass through any vertex more than once.\r\nAfter each operation, you are required to determine the length of the longest simple path in the tree where\r\nall nodes on the path are the same color. The length of a path is defined as the number of nodes on the\r\npath.\r\nInput\r\nThe first line contains a single integer T (1 ≤ T ≤ 100) indicating the number of test cases.\r\nFor each test case, the first line contains two integers n (1 ≤ n ≤ 2 × 105\r\n) and q (1 ≤ q ≤ 2 × 105\r\n),\r\nindicating the number of nodes in the tree and the number of operations, respectively.\r\nIn the following n − 1 lines, each contains two integers u and v, representing an edge from vertex u to v\r\nin the tree.\r\nThen follow q lines, each contains two integers u and v, representing an operation that colors black to the\r\npoints along the path from vertex u to v.\r\nIt is guaranteed that the sum of n and q of all the test cases in a test does not exceed 2×105\r\nrespectively.\r\nOutput\r\nFor each test case, output q lines, each line should contain an integer representing the length of the longest\r\nsimple path in the tree where all nodes on the path are the same color after the corresponding operation.\r\nExample\r\nstandard input standard output\r\n1\r\n8 6\r\n1 2\r\n1 3\r\n2 4\r\n4 5\r\n2 6\r\n4 8\r\n3 7\r\n4 8\r\n7 7\r\n4 5\r\n2 2\r\n4 6\r\n5 1\r\n5\r\n4\r\n4\r\n3\r\n4\r\n4\r\nPage 12 of 15\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "1\n8 6\n1 2\n1 3\n2 4\n4 5\n2 6\n4 8\n3 7\n4 8\n7 7\n4 5\n2 2\n4 6\n5 1",
+            "output": "5\n4\n4\n3\n4\n4"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "# Colorful Tree\n\nYou are given a tree with $n$ vertices numbered from $1$ to $n$ and $n-1$ edges. Each vertex has a color, initially white.\n\nPerform $q$ operations. Each gives two vertices $u,v$ and colors every vertex on the simple path between them black, including both endpoints. A simple path visits no vertex more than once. The changes from earlier operations remain in effect.\n\nAfter each operation, determine the length of the longest simple path whose vertices all have the same color. Path length is the number of vertices on the path.\n\n## Input\n\nThe first line contains an integer $T$ ($1\\le T\\le100$), the number of test cases.\n\nFor each test case, the first line contains $n,q$ ($1\\le n\\le2\\times10^5$, $1\\le q\\le2\\times10^5$), the number of vertices and operations.\n\nThe next $n-1$ lines each contain two integers $u,v$, describing an edge of the tree.\n\nThe next $q$ lines each contain two integers $u,v$, describing an operation that colors every vertex on their path black.\n\nThe sums of $n$ and $q$ over all test cases do not exceed $2\\times10^5$ each.\n\n## Output\n\nFor each test case, output $q$ lines. Each contains the length of the longest monochromatic simple path after the corresponding operation.\n\n## Examples\n\n### Sample 1\n\n#### Input\n\n```text\n1\n8 6\n1 2\n1 3\n2 4\n4 5\n2 6\n4 8\n3 7\n4 8\n7 7\n4 5\n2 2\n4 6\n5 1\n```\n\n#### Output\n\n```text\n5\n4\n4\n3\n4\n4\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:105139::I",
+        "title": "Colorful Tree",
+        "url": "https://codeforces.com/gym/105139/problem/I",
+        "limits": {
+          "timeMs": 2000,
+          "memoryMb": 512
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+        "sourcePageNumbers": [
+          12
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105139",
+        "sourceRosterSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "I",
+          "pdfTitle": "Colorful Tree",
+          "rosterTitle": "Colorful Tree",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "bytes": 1830457,
+            "mime": "application/pdf",
+            "pageCount": 15,
+            "fileName": "gym-105139.pdf",
+            "data": "tb-asset:925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sha256": "e2ae95c56a5a6e028950a77f246591230b735de2ce0ffb6140a00fc333e2a2fa",
+          "data": "tb-asset:e2ae95c56a5a6e028950a77f246591230b735de2ce0ffb6140a00fc333e2a2fa",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            12
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "fileName": "gym-105139-I.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+        "sourceRosterEvidenceFile": "roster-web-provider.txt",
+        "sourceTextArchive": [
+          {
+            "kind": "unreviewed-pdf-extraction",
+            "text": "The 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem I. Colorful Tree\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 2 seconds\r\nMemory limit: 512 megabytes\r\nYou are given a tree with n nodes numbered from 1 to n and n−1 edges. Each node has a color. Initially,\r\nall of them are white.\r\nWe are going to perform q operations. In each operation, two vertices u and v will be given, and we will\r\ncolor black to the points along the simple path from u to v (u, v inclusive). Note that a simple path in\r\nthe tree is defined as a path that does not pass through any vertex more than once.\r\nAfter each operation, you are required to determine the length of the longest simple path in the tree where\r\nall nodes on the path are the same color. The length of a path is defined as the number of nodes on the\r\npath.\r\nInput\r\nThe first line contains a single integer T (1 ≤ T ≤ 100) indicating the number of test cases.\r\nFor each test case, the first line contains two integers n (1 ≤ n ≤ 2 × 105\r\n) and q (1 ≤ q ≤ 2 × 105\r\n),\r\nindicating the number of nodes in the tree and the number of operations, respectively.\r\nIn the following n − 1 lines, each contains two integers u and v, representing an edge from vertex u to v\r\nin the tree.\r\nThen follow q lines, each contains two integers u and v, representing an operation that colors black to the\r\npoints along the path from vertex u to v.\r\nIt is guaranteed that the sum of n and q of all the test cases in a test does not exceed 2×105\r\nrespectively.\r\nOutput\r\nFor each test case, output q lines, each line should contain an integer representing the length of the longest\r\nsimple path in the tree where all nodes on the path are the same color after the corresponding operation.\r\nExample\r\nstandard input standard output\r\n1\r\n8 6\r\n1 2\r\n1 3\r\n2 4\r\n4 5\r\n2 6\r\n4 8\r\n3 7\r\n4 8\r\n7 7\r\n4 5\r\n2 2\r\n4 6\r\n5 1\r\n5\r\n4\r\n4\r\n3\r\n4\r\n4\r\nPage 12 of 15",
+            "sha256": "8792343887f5b64846006c38ec696c38e9ee246a24c4f450b980e7c65adbf2ef"
+          }
+        ],
+        "statementLanguage": "en",
+        "sourceTextReview": {
+          "method": "all-pages-reviewed-semantic-and-math-transcription",
+          "sourcePdfSha256": "e2ae95c56a5a6e028950a77f246591230b735de2ce0ffb6140a00fc333e2a2fa",
+          "sourceTextSha256": "fdae1ebdce33afc58f4582de5fc8125adcfc7d75100ca333ad97f714a228ecf1",
+          "sourcePageNumbers": [
+            12
+          ],
+          "samplesVerifiedWithTableGeometry": 1,
+          "sourceCaveats": []
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对官方原稿的中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "b139df878bea9b3447e3383512fbdbc6fc74cbf7cbe9e381d7f43d06de63d30c",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "fdae1ebdce33afc58f4582de5fc8125adcfc7d75100ca333ad97f714a228ecf1",
+          "sourcePdfSha256": "e2ae95c56a5a6e028950a77f246591230b735de2ce0ffb6140a00fc333e2a2fa",
+          "markdown": "# Colorful Tree\n\n给定一棵有 $n$ 个顶点、$n-1$ 条边的树，顶点编号为 $1$ 至 $n$。每个顶点都有一种颜色，初始时全部为白色。\n\n进行 $q$ 次操作，每次给出两个顶点 $u,v$，将二者之间简单路径上的全部顶点染黑，包括两个端点。简单路径指不会重复经过同一个顶点的路径。之前操作造成的染色会保留。\n\n每次操作后，求整棵树中顶点颜色全部相同的最长简单路径长度。路径长度定义为路径上的顶点数量。\n\n## 输入\n\n第一行包含一个整数 $T$（$1\\le T\\le100$），表示测试用例数。\n\n每个测试用例的第一行包含 $n,q$（$1\\le n\\le2\\times10^5$，$1\\le q\\le2\\times10^5$），分别表示顶点数和操作数。\n\n接下来的 $n-1$ 行，每行包含两个整数 $u,v$，表示树的一条边。\n\n再接下来的 $q$ 行，每行包含两个整数 $u,v$，表示将二者之间路径上的顶点全部染黑的操作。\n\n保证所有测试用例的 $n$ 之和与 $q$ 之和分别不超过 $2\\times10^5$。\n\n## 输出\n\n对于每个测试用例输出 $q$ 行，每行包含对应操作完成后最长同色简单路径的长度。\n\n## 样例\n\n### 样例 1\n\n#### 输入\n\n```text\n1\n8 6\n1 2\n1 3\n2 4\n4 5\n2 6\n4 8\n3 7\n4 8\n7 7\n4 5\n2 2\n4 6\n5 1\n```\n\n#### 输出\n\n```text\n5\n4\n4\n3\n4\n4\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n"
+        },
+        "translationAvailable": true,
+        "translationReview": {
+          "status": "complete",
+          "method": "whole-original-page-review-and-bilingual-constraint-check",
+          "sourcePdfSha256": "e2ae95c56a5a6e028950a77f246591230b735de2ce0ffb6140a00fc333e2a2fa",
+          "pagesReviewed": [
+            12
+          ],
+          "immutableSpansValidated": true,
+          "samplesRetainedSeparately": true,
+          "sourceOriginalUnchanged": true
+        },
+        "nativeSourceReview": {
+          "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+          "id": "remote:codeforces:105139::I",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/I",
+          "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "sourcePageNumbers": [
+            12
+          ],
+          "sourceRosterUrl": "https://codeforces.com/gym/105139",
+          "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+          "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+          "nativeLimits": {
+            "timeMs": 2000,
+            "memoryMb": 512
+          },
+          "printedPdfLimits": {
+            "timeMs": 2000,
+            "memoryMb": 512
+          },
+          "currentNativeLimitsPreferred": true,
+          "samplesSha256": "d23cac1e9a72a32ffa3b82eff379661b518bc260bfe564dd62426d8e36995ac3",
+          "samplePairs": 1,
+          "allPagesRenderedInWorkbench": true,
+          "originalDownloadByteIdentity": true,
+          "realJudgeSubmissions": 0,
+          "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "b139df878bea9b3447e3383512fbdbc6fc74cbf7cbe9e381d7f43d06de63d30c",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "40c542fdc424084639d27ccada724ef5a4d9c300a2d1f02b19212f0c63da02c1",
+          "issues": []
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:105139::J",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Points on the Number Axis A\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem J. Points on the Number Axis A\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nAlice is playing a single-player game on the number axis.\r\nThere are n points on the number axis. Each time, the player selects two points. The two points will be\r\nremoved, and their midpoint will be added. When there is only one point on the axis, the game ends.\r\nFormally, if the two chosen points is xi and xj , then xi + xj\r\n2\r\nwill be added after the operation.\r\nIn order to play this game happily, Alice will always select two points randomly.\r\nNow Alice have a question: where is the expected position of the last point.\r\nIt can be proven that the answer can be expressed in the form p\r\nq\r\n, you only need to output the value of\r\np · q\r\n−1 mod 998 244 353.\r\nInput\r\nThe first line contains one integer n (1 ≤ n ≤ 106\r\n).\r\nThe second line contains n integers xi (0 ≤ x1 ≤ · · · ≤ xn < 998 244 353), denoting the position of the\r\ni-th point.\r\nNote that two points may be in the same position.\r\nOutput\r\nOutput one integer, the answer modulo 998 244 353.\r\nExample\r\nstandard input standard output\r\n3\r\n1 2 4\r\n332748120\r\nPage 13 of 15\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n1 2 4",
+            "output": "332748120"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "# Points on the Number Axis A\n\nAlice is playing a single-player game on the number axis.\n\nInitially there are $n$ points. At each step, she selects two points, removes them, and adds their midpoint. The game ends when only one point remains. Formally, selecting $x_i,x_j$ adds the point at $\\frac{x_i+x_j}{2}$.\n\nAlice always chooses two points randomly. Find the expected position of the final point.\n\nThe answer can be expressed as $\\frac{p}{q}$. Output $p\\cdot q^{-1}\\bmod998244353$.\n\n## Input\n\nThe first line contains an integer $n$ ($1\\le n\\le10^6$).\n\nThe second line contains $n$ integers $x_i$ ($0\\le x_1\\le\\cdots\\le x_n<998244353$), the positions of the points.\n\nTwo points may occupy the same position.\n\n## Output\n\nOutput the answer modulo $998244353$.\n\n## Examples\n\n### Sample 1\n\n#### Input\n\n```text\n3\n1 2 4\n```\n\n#### Output\n\n```text\n332748120\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:105139::J",
+        "title": "Points on the Number Axis A",
+        "url": "https://codeforces.com/gym/105139/problem/J",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 256
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+        "sourcePageNumbers": [
+          13
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105139",
+        "sourceRosterSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "J",
+          "pdfTitle": "Points on the Number Axis A",
+          "rosterTitle": "Points on the Number Axis A",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "bytes": 1830457,
+            "mime": "application/pdf",
+            "pageCount": 15,
+            "fileName": "gym-105139.pdf",
+            "data": "tb-asset:925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sha256": "7db27a90794d42e1a4e93c718607fa0044abbc764b8c26669ac78599c52d970b",
+          "data": "tb-asset:7db27a90794d42e1a4e93c718607fa0044abbc764b8c26669ac78599c52d970b",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            13
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "fileName": "gym-105139-J.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+        "sourceRosterEvidenceFile": "roster-web-provider.txt",
+        "sourceTextArchive": [
+          {
+            "kind": "unreviewed-pdf-extraction",
+            "text": "The 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem J. Points on the Number Axis A\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nAlice is playing a single-player game on the number axis.\r\nThere are n points on the number axis. Each time, the player selects two points. The two points will be\r\nremoved, and their midpoint will be added. When there is only one point on the axis, the game ends.\r\nFormally, if the two chosen points is xi and xj , then xi + xj\r\n2\r\nwill be added after the operation.\r\nIn order to play this game happily, Alice will always select two points randomly.\r\nNow Alice have a question: where is the expected position of the last point.\r\nIt can be proven that the answer can be expressed in the form p\r\nq\r\n, you only need to output the value of\r\np · q\r\n−1 mod 998 244 353.\r\nInput\r\nThe first line contains one integer n (1 ≤ n ≤ 106\r\n).\r\nThe second line contains n integers xi (0 ≤ x1 ≤ · · · ≤ xn < 998 244 353), denoting the position of the\r\ni-th point.\r\nNote that two points may be in the same position.\r\nOutput\r\nOutput one integer, the answer modulo 998 244 353.\r\nExample\r\nstandard input standard output\r\n3\r\n1 2 4\r\n332748120\r\nPage 13 of 15",
+            "sha256": "ab2ff94594a247fe765a070a047a09d9373d8c780e40465a7b9b6a3a79f2426d"
+          }
+        ],
+        "statementLanguage": "en",
+        "sourceTextReview": {
+          "method": "all-pages-reviewed-semantic-and-math-transcription",
+          "sourcePdfSha256": "7db27a90794d42e1a4e93c718607fa0044abbc764b8c26669ac78599c52d970b",
+          "sourceTextSha256": "96420fd2205a32ca8eb9efd0f6d628f2de5082037a761ca869aceaed22062e44",
+          "sourcePageNumbers": [
+            13
+          ],
+          "samplesVerifiedWithTableGeometry": 1,
+          "sourceCaveats": []
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对官方原稿的中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "60f5cc5cc6e28f0903d296cf73dbed898bc38a2ecc08cddd0fdce7929d217f2c",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "96420fd2205a32ca8eb9efd0f6d628f2de5082037a761ca869aceaed22062e44",
+          "sourcePdfSha256": "7db27a90794d42e1a4e93c718607fa0044abbc764b8c26669ac78599c52d970b",
+          "markdown": "# Points on the Number Axis A\n\nAlice 正在数轴上玩单人游戏。\n\n初始有 $n$ 个点。每次她选择两个点，删除这两个点，并加入二者的中点。仅剩一个点时游戏结束。形式化地，选择 $x_i,x_j$ 后，将加入位于 $\\frac{x_i+x_j}{2}$ 的点。\n\nAlice 每次都会随机选择两个点，请求出最后一个点所在位置的期望。\n\n可以证明答案能写成 $\\frac{p}{q}$，你只需输出 $p\\cdot q^{-1}\\bmod998244353$。\n\n## 输入\n\n第一行包含一个整数 $n$（$1\\le n\\le10^6$）。\n\n第二行包含 $n$ 个整数 $x_i$（$0\\le x_1\\le\\cdots\\le x_n<998244353$），表示各点的位置。\n\n两个点的位置可以相同。\n\n## 输出\n\n输出答案对 $998244353$ 取模的结果。\n\n## 样例\n\n### 样例 1\n\n#### 输入\n\n```text\n3\n1 2 4\n```\n\n#### 输出\n\n```text\n332748120\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n"
+        },
+        "translationAvailable": true,
+        "translationReview": {
+          "status": "complete",
+          "method": "whole-original-page-review-and-bilingual-constraint-check",
+          "sourcePdfSha256": "7db27a90794d42e1a4e93c718607fa0044abbc764b8c26669ac78599c52d970b",
+          "pagesReviewed": [
+            13
+          ],
+          "immutableSpansValidated": true,
+          "samplesRetainedSeparately": true,
+          "sourceOriginalUnchanged": true
+        },
+        "nativeSourceReview": {
+          "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+          "id": "remote:codeforces:105139::J",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/J",
+          "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "sourcePageNumbers": [
+            13
+          ],
+          "sourceRosterUrl": "https://codeforces.com/gym/105139",
+          "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+          "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+          "nativeLimits": {
+            "timeMs": 1000,
+            "memoryMb": 256
+          },
+          "printedPdfLimits": {
+            "timeMs": 1000,
+            "memoryMb": 256
+          },
+          "currentNativeLimitsPreferred": true,
+          "samplesSha256": "6684d5f5208f448b2d9622accdd12ac8d0d60c188252e5cd9d4546f645392ef7",
+          "samplePairs": 1,
+          "allPagesRenderedInWorkbench": true,
+          "originalDownloadByteIdentity": true,
+          "realJudgeSubmissions": 0,
+          "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "60f5cc5cc6e28f0903d296cf73dbed898bc38a2ecc08cddd0fdce7929d217f2c",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "e59ec9630af3bcabc37193d5bfc175a61487e17b11ad2f06d63b577a4cd7d523",
+          "issues": []
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:105139::K",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# Points on the Number Axis B\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem K. Points on the Number Axis B\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nBob is playing a single-player game on the number axis.\r\nThere are n points on the number axis. Each time, the player selects two points. The two points will be\r\nremoved, and their midpoint will be added. When there is only one point on the axis, the game ends.\r\nFormally, if the two chosen points is xi and xj , then xi + xj\r\n2\r\nwill be added after the operation.\r\nIn order to play this game happily, Bob will always select two adjacent points randomly. Initially, the i-th\r\npoint and the (i + 1)-th point are adjacent. When Bob added a new point, it inherits its left point’s left\r\nadjacent point and its right point’s right adjacent point.\r\nNow Bob have a question: where is the expected position of the last point.\r\nIt can be proven that the answer can be expressed in the form p\r\nq\r\n, you only need to output the value of\r\np · q\r\n−1 mod 998 244 353.\r\nInput\r\nThe first line contains one integer n (1 ≤ n ≤ 106\r\n).\r\nThe second line contains n integers xi (0 ≤ x1 ≤ · · · ≤ xn < 998 244 353), describing the position of the\r\ni-th point.\r\nNote that two points may be in the same position.\r\nOutput\r\nOutput one integer, the answer modulo 998 244 353.\r\nExample\r\nstandard input standard output\r\n3\r\n1 2 4\r\n623902723\r\nPage 14 of 15\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n1 2 4",
+            "output": "623902723"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "# Points on the Number Axis B\n\nBob is playing a single-player game on the number axis.\n\nInitially there are $n$ points. At each step, he selects two points, removes them, and adds their midpoint. The game ends when only one point remains. Formally, selecting $x_i,x_j$ adds the point at $\\frac{x_i+x_j}{2}$.\n\nBob always randomly selects two adjacent points. Initially, point $i$ is adjacent to point $i+1$. When Bob adds a new point, it inherits the left neighbor of the selected left point and the right neighbor of the selected right point.\n\nFind the expected position of the final point. The answer can be expressed as $\\frac{p}{q}$; output $p\\cdot q^{-1}\\bmod998244353$.\n\n## Input\n\nThe first line contains an integer $n$ ($1\\le n\\le10^6$).\n\nThe second line contains $n$ integers $x_i$ ($0\\le x_1\\le\\cdots\\le x_n<998244353$), describing the position of each point.\n\nTwo points may occupy the same position.\n\n## Output\n\nOutput the answer modulo $998244353$.\n\n## Examples\n\n### Sample 1\n\n#### Input\n\n```text\n3\n1 2 4\n```\n\n#### Output\n\n```text\n623902723\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:105139::K",
+        "title": "Points on the Number Axis B",
+        "url": "https://codeforces.com/gym/105139/problem/K",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 256
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+        "sourcePageNumbers": [
+          14
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105139",
+        "sourceRosterSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "K",
+          "pdfTitle": "Points on the Number Axis B",
+          "rosterTitle": "Points on the Number Axis B",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "bytes": 1830457,
+            "mime": "application/pdf",
+            "pageCount": 15,
+            "fileName": "gym-105139.pdf",
+            "data": "tb-asset:925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sha256": "8ee629865be50c1f831b7db8b96925b149627628b0ad35d857295d127a597759",
+          "data": "tb-asset:8ee629865be50c1f831b7db8b96925b149627628b0ad35d857295d127a597759",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            14
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "fileName": "gym-105139-K.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+        "sourceRosterEvidenceFile": "roster-web-provider.txt",
+        "sourceTextArchive": [
+          {
+            "kind": "unreviewed-pdf-extraction",
+            "text": "The 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem K. Points on the Number Axis B\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nBob is playing a single-player game on the number axis.\r\nThere are n points on the number axis. Each time, the player selects two points. The two points will be\r\nremoved, and their midpoint will be added. When there is only one point on the axis, the game ends.\r\nFormally, if the two chosen points is xi and xj , then xi + xj\r\n2\r\nwill be added after the operation.\r\nIn order to play this game happily, Bob will always select two adjacent points randomly. Initially, the i-th\r\npoint and the (i + 1)-th point are adjacent. When Bob added a new point, it inherits its left point’s left\r\nadjacent point and its right point’s right adjacent point.\r\nNow Bob have a question: where is the expected position of the last point.\r\nIt can be proven that the answer can be expressed in the form p\r\nq\r\n, you only need to output the value of\r\np · q\r\n−1 mod 998 244 353.\r\nInput\r\nThe first line contains one integer n (1 ≤ n ≤ 106\r\n).\r\nThe second line contains n integers xi (0 ≤ x1 ≤ · · · ≤ xn < 998 244 353), describing the position of the\r\ni-th point.\r\nNote that two points may be in the same position.\r\nOutput\r\nOutput one integer, the answer modulo 998 244 353.\r\nExample\r\nstandard input standard output\r\n3\r\n1 2 4\r\n623902723\r\nPage 14 of 15",
+            "sha256": "b9fdd359c1844dca6ec3b36b15861f7ebc960fddb45d15ac5ad004010f07d1b4"
+          }
+        ],
+        "statementLanguage": "en",
+        "sourceTextReview": {
+          "method": "all-pages-reviewed-semantic-and-math-transcription",
+          "sourcePdfSha256": "8ee629865be50c1f831b7db8b96925b149627628b0ad35d857295d127a597759",
+          "sourceTextSha256": "9d8dcc950650d1995ab93a024ed3f6ee766dab45a54cea3f1f80f3fe048190ba",
+          "sourcePageNumbers": [
+            14
+          ],
+          "samplesVerifiedWithTableGeometry": 1,
+          "sourceCaveats": []
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对官方原稿的中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "bdc2b1aa8538423704a0dc5a00ac76b3cab7537dd8b96ff0557edca56c29cb00",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "9d8dcc950650d1995ab93a024ed3f6ee766dab45a54cea3f1f80f3fe048190ba",
+          "sourcePdfSha256": "8ee629865be50c1f831b7db8b96925b149627628b0ad35d857295d127a597759",
+          "markdown": "# Points on the Number Axis B\n\nBob 正在数轴上玩单人游戏。\n\n初始有 $n$ 个点。每次他选择两个点，删除这两个点，并加入二者的中点。仅剩一个点时游戏结束。形式化地，选择 $x_i,x_j$ 后，将加入位于 $\\frac{x_i+x_j}{2}$ 的点。\n\nBob 每次都会随机选择两个相邻的点。初始时，第 $i$ 个点与第 $i+1$ 个点相邻。加入新点后，新点继承被选中左侧点的左邻点，以及被选中右侧点的右邻点。\n\n请求出最后一个点所在位置的期望。可以证明答案能写成 $\\frac{p}{q}$，只需输出 $p\\cdot q^{-1}\\bmod998244353$。\n\n## 输入\n\n第一行包含一个整数 $n$（$1\\le n\\le10^6$）。\n\n第二行包含 $n$ 个整数 $x_i$（$0\\le x_1\\le\\cdots\\le x_n<998244353$），表示各点的位置。\n\n两个点的位置可以相同。\n\n## 输出\n\n输出答案对 $998244353$ 取模的结果。\n\n## 样例\n\n### 样例 1\n\n#### 输入\n\n```text\n3\n1 2 4\n```\n\n#### 输出\n\n```text\n623902723\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n"
+        },
+        "translationAvailable": true,
+        "translationReview": {
+          "status": "complete",
+          "method": "whole-original-page-review-and-bilingual-constraint-check",
+          "sourcePdfSha256": "8ee629865be50c1f831b7db8b96925b149627628b0ad35d857295d127a597759",
+          "pagesReviewed": [
+            14
+          ],
+          "immutableSpansValidated": true,
+          "samplesRetainedSeparately": true,
+          "sourceOriginalUnchanged": true
+        },
+        "nativeSourceReview": {
+          "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+          "id": "remote:codeforces:105139::K",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/K",
+          "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "sourcePageNumbers": [
+            14
+          ],
+          "sourceRosterUrl": "https://codeforces.com/gym/105139",
+          "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+          "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+          "nativeLimits": {
+            "timeMs": 1000,
+            "memoryMb": 256
+          },
+          "printedPdfLimits": {
+            "timeMs": 1000,
+            "memoryMb": 256
+          },
+          "currentNativeLimitsPreferred": true,
+          "samplesSha256": "22ceba33d2648b3bb16d004c6e746cc444d42ab876c0b008764b29e512e89700",
+          "samplePairs": 1,
+          "allPagesRenderedInWorkbench": true,
+          "originalDownloadByteIdentity": true,
+          "realJudgeSubmissions": 0,
+          "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "bdc2b1aa8538423704a0dc5a00ac76b3cab7537dd8b96ff0557edca56c29cb00",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "4df4294f2842651cbb54ee00e68cdd530bc7a8617e34ee023fb2310c5705478d",
+          "issues": []
+        }
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:105139::L",
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "markdown": "# LCMs\n\nThe 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem L. LCMs\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nWalk Alone has a number axis with only positive integers on it. The cost of walking from point on integer\r\na to point on integer b is lcm(a, b), where lcm(a, b) means the least common multiple of integers a and b.\r\nDue to the hatred of the integer 1, Walk Alone forbids anyone from moving to points on integers smaller\r\nthan or equal to 1.\r\nGiven two integers a and b, you need to calculate the minimal cost of walking from point on integer a to\r\nb.\r\nInput\r\nThere are T (1 ≤ T ≤ 1000) test cases.\r\nIn each test case, there is only one line containing two integers a and b (2 ≤ a ≤ b ≤ 107\r\n), denoting the\r\nstart and end point.\r\nOutput\r\nFor each test case, output a single integer denoting the minimal cost.\r\nExample\r\nstandard input standard output\r\n3\r\n3 4\r\n10 15\r\n2 4\r\n10\r\n25\r\n4\r\nNote\r\nIn the first test case, you can walk such a path: 3 → 2 → 4, where the total cost is\r\nlcm(3, 2) + lcm(2, 4) = 6 + 4 = 10, which can be proved to be the minimum.\r\nPage 15 of 15\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)",
+        "images": {},
+        "samples": [
+          {
+            "name": "样例 1",
+            "input": "3\n3 4\n10 15\n2 4",
+            "output": "10\n25\n4"
+          }
+        ],
+        "pageCount": 1,
+        "sourceText": "# LCMs\n\nWalk Alone has a number axis containing only positive integers. Walking from the point at integer $a$ to the point at integer $b$ costs $\\operatorname{lcm}(a,b)$, the least common multiple of $a,b$.\n\nBecause he hates the integer $1$, Walk Alone forbids anyone from moving to points at integers less than or equal to $1$.\n\nGiven $a,b$, calculate the minimum total cost of walking from $a$ to $b$.\n\n## Input\n\nThere are $T$ ($1\\le T\\le1000$) test cases.\n\nEach test case consists of one line containing two integers $a,b$ ($2\\le a\\le b\\le10^7$), the starting and ending positions.\n\n## Output\n\nFor each test case, output one integer denoting the minimum cost.\n\n## Note\n\nIn the first test case, the path $3\\to2\\to4$ has cost $\\operatorname{lcm}(3,2)+\\operatorname{lcm}(2,4)=6+4=10$. This is the minimum possible cost.\n\n## Examples\n\n### Sample 1\n\n#### Input\n\n```text\n3\n3 4\n10 15\n2 4\n```\n\n#### Output\n\n```text\n10\n25\n4\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n",
+        "statementFormat": "pdf-native-v1",
+        "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "id": "remote:codeforces:105139::L",
+        "title": "LCMs",
+        "url": "https://codeforces.com/gym/105139/problem/L",
+        "limits": {
+          "timeMs": 1000,
+          "memoryMb": 256
+        },
+        "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+        "sourcePageNumbers": [
+          15
+        ],
+        "sourceRosterUrl": "https://codeforces.com/gym/105139",
+        "sourceRosterSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+        "sourceBinding": {
+          "kind": "exact-title",
+          "problem": "L",
+          "pdfTitle": "LCMs",
+          "rosterTitle": "LCMs",
+          "samplePairsVerified": 0
+        },
+        "statementAvailable": true,
+        "statementVersion": 8,
+        "statementSource": "Codeforces 原站 PDF",
+        "attachments": {
+          "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf": {
+            "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+            "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+            "bytes": 1830457,
+            "mime": "application/pdf",
+            "pageCount": 15,
+            "fileName": "gym-105139.pdf",
+            "data": "tb-asset:925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+          }
+        },
+        "statementPdf": {
+          "sourceUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sha256": "0ec92b14375c18f63946102cddece95c1330bb09d5f022c4622c69d98e922711",
+          "data": "tb-asset:0ec92b14375c18f63946102cddece95c1330bb09d5f022c4622c69d98e922711",
+          "pageCount": 1,
+          "sourcePageNumbers": [
+            15
+          ],
+          "widthPoints": 595.2760009765625,
+          "sourceSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "fileName": "gym-105139-L.pdf"
+        },
+        "problemType": "standard",
+        "localJudgeSupported": true,
+        "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+        "sourceRosterEvidenceFile": "roster-web-provider.txt",
+        "sourceTextArchive": [
+          {
+            "kind": "unreviewed-pdf-extraction",
+            "text": "The 2024 International Collegiate Programming Contest in Hubei Province, China\r\nHuazhong University of Science and Technology, April, 27, 2024\r\nProblem L. LCMs\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 256 megabytes\r\nWalk Alone has a number axis with only positive integers on it. The cost of walking from point on integer\r\na to point on integer b is lcm(a, b), where lcm(a, b) means the least common multiple of integers a and b.\r\nDue to the hatred of the integer 1, Walk Alone forbids anyone from moving to points on integers smaller\r\nthan or equal to 1.\r\nGiven two integers a and b, you need to calculate the minimal cost of walking from point on integer a to\r\nb.\r\nInput\r\nThere are T (1 ≤ T ≤ 1000) test cases.\r\nIn each test case, there is only one line containing two integers a and b (2 ≤ a ≤ b ≤ 107\r\n), denoting the\r\nstart and end point.\r\nOutput\r\nFor each test case, output a single integer denoting the minimal cost.\r\nExample\r\nstandard input standard output\r\n3\r\n3 4\r\n10 15\r\n2 4\r\n10\r\n25\r\n4\r\nNote\r\nIn the first test case, you can walk such a path: 3 → 2 → 4, where the total cost is\r\nlcm(3, 2) + lcm(2, 4) = 6 + 4 = 10, which can be proved to be the minimum.\r\nPage 15 of 15",
+            "sha256": "fbdb60671a10cb761f61d553f9a7614aac6927acfce73edfbc33d9dd95537625"
+          }
+        ],
+        "statementLanguage": "en",
+        "sourceTextReview": {
+          "method": "all-pages-reviewed-semantic-and-math-transcription",
+          "sourcePdfSha256": "0ec92b14375c18f63946102cddece95c1330bb09d5f022c4622c69d98e922711",
+          "sourceTextSha256": "8b026201b5e80eaf88dd0c57d47df7f0c85f7fabc071782f5a327ca84b33f701",
+          "sourcePageNumbers": [
+            15
+          ],
+          "samplesVerifiedWithTableGeometry": 1,
+          "sourceCaveats": []
+        },
+        "translation": {
+          "kind": "bundled",
+          "provider": "逐页核对官方原稿的中文译文",
+          "format": "complete-prose-v4",
+          "sourceHash": "109b0483c19c3911386b1251e73af1d9c8cdb5cc64b090c839e1811a17b8db49",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN",
+          "inputKind": "pdf-text",
+          "sourceTextHash": "8b026201b5e80eaf88dd0c57d47df7f0c85f7fabc071782f5a327ca84b33f701",
+          "sourcePdfSha256": "0ec92b14375c18f63946102cddece95c1330bb09d5f022c4622c69d98e922711",
+          "markdown": "# LCMs\n\nWalk Alone 有一条只含正整数的数轴。从整数 $a$ 所在的点走到整数 $b$ 所在的点，费用为 $\\operatorname{lcm}(a,b)$，即 $a,b$ 的最小公倍数。\n\n因为讨厌整数 $1$，Walk Alone 禁止任何人走到小于或等于 $1$ 的整数所在的点。\n\n给定 $a,b$，请求出从 $a$ 走到 $b$ 所需的最小总费用。\n\n## 输入\n\n共有 $T$（$1\\le T\\le1000$）个测试用例。\n\n每个测试用例为一行，包含两个整数 $a,b$（$2\\le a\\le b\\le10^7$），表示起点和终点。\n\n## 输出\n\n对于每个测试用例，输出一个整数，表示最小费用。\n\n## 说明\n\n第一个测试用例可以走 $3\\to2\\to4$，总费用为 $\\operatorname{lcm}(3,2)+\\operatorname{lcm}(2,4)=6+4=10$，可以证明这是最小费用。\n\n## 样例\n\n### 样例 1\n\n#### 输入\n\n```text\n3\n3 4\n10 15\n2 4\n```\n\n#### 输出\n\n```text\n10\n25\n4\n```\n\n\n[PDF](https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf)\n"
+        },
+        "translationAvailable": true,
+        "translationReview": {
+          "status": "complete",
+          "method": "whole-original-page-review-and-bilingual-constraint-check",
+          "sourcePdfSha256": "0ec92b14375c18f63946102cddece95c1330bb09d5f022c4622c69d98e922711",
+          "pagesReviewed": [
+            15
+          ],
+          "immutableSpansValidated": true,
+          "samplesRetainedSeparately": true,
+          "sourceOriginalUnchanged": true
+        },
+        "nativeSourceReview": {
+          "method": "whole-official-roster-and-all-pdf-pages-with-real-workbench-review",
+          "id": "remote:codeforces:105139::L",
+          "nativeProblemUrl": "https://codeforces.com/gym/105139/problem/L",
+          "sourcePdfUrl": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+          "sourcePdfSha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282",
+          "sourcePageNumbers": [
+            15
+          ],
+          "sourceRosterUrl": "https://codeforces.com/gym/105139",
+          "sourceRosterEvidenceSha256": "c0bc765ed9fc9b2aab6e8477cfafa92552297e3bcf1eee30d07f577da7adf8d5",
+          "sourceRosterEvidenceKind": "read-only-web-provider-text-not-origin-html",
+          "nativeLimits": {
+            "timeMs": 1000,
+            "memoryMb": 256
+          },
+          "printedPdfLimits": {
+            "timeMs": 1000,
+            "memoryMb": 256
+          },
+          "currentNativeLimitsPreferred": true,
+          "samplesSha256": "8a5356843df941a970387628e00017645b7e63f79c712a5fa9ded5077d855313",
+          "samplePairs": 1,
+          "allPagesRenderedInWorkbench": true,
+          "originalDownloadByteIdentity": true,
+          "realJudgeSubmissions": 0,
+          "submissionEvidence": "The native finished dashboard offers practice registration/submission and every A–L task has accepted submissions; no account or real submission was used."
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": true,
+          "markdownSha256": "109b0483c19c3911386b1251e73af1d9c8cdb5cc64b090c839e1811a17b8db49",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/105139/attachments/download/25286/contest-40758-en.pdf",
+              "sha256": "925611a43f223d1489a315b8e7ebecf0f202abd51f5f50aec5033549f9012282"
+            }
+          ],
+          "reviewedSourceBindingSha256": "1aa2e0f076413f7f3713f4055a80bd6aa72a193e59f78259e4f198416d9539fe",
+          "issues": []
+        }
+      }
+    }
+  ]
+}

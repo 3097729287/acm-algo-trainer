@@ -1,0 +1,258 @@
+[
+  {
+    "problem_id": "remote:nowcoder:8827::A",
+    "content": {
+      "attachments": {
+        "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007544414_0F0156CB174CF479509CF8413D2E592F": {
+          "sourceUrl": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007544414_0F0156CB174CF479509CF8413D2E592F",
+          "sha256": "97842c2d79e31d84f378f013df80d0c32fee00ede94575513a545f394b943eb8",
+          "bytes": 24266,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 758,
+          "height": 249,
+          "data": "tb-asset:97842c2d79e31d84f378f013df80d0c32fee00ede94575513a545f394b943eb8",
+          "fileName": "NC8827A-original-description.png"
+        },
+        "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007579980_4E2F37424B70794803184F46F70140B5": {
+          "sourceUrl": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007579980_4E2F37424B70794803184F46F70140B5",
+          "sha256": "ef6fbda9e4f93cc727c4e5d373373c9f5de6f6d35e0a19b72991c5585b8d091a",
+          "bytes": 4546,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 687,
+          "height": 46,
+          "data": "tb-asset:ef6fbda9e4f93cc727c4e5d373373c9f5de6f6d35e0a19b72991c5585b8d091a",
+          "fileName": "NC8827A-original-input.png"
+        },
+        "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007603618_02E3AC28D5CAEEF242717B0B656C1F42": {
+          "sourceUrl": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007603618_02E3AC28D5CAEEF242717B0B656C1F42",
+          "sha256": "3a4bc84349f5a05c983df200392987919a75de36715fc0c10c68a3f7200565dc",
+          "bytes": 4751,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 637,
+          "height": 44,
+          "data": "tb-asset:3a4bc84349f5a05c983df200392987919a75de36715fc0c10c68a3f7200565dc",
+          "fileName": "NC8827A-original-output.png"
+        }
+      },
+      "id": "remote:nowcoder:8827::A",
+      "images": {
+        "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007544414_0F0156CB174CF479509CF8413D2E592F": "tb-asset:97842c2d79e31d84f378f013df80d0c32fee00ede94575513a545f394b943eb8",
+        "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007579980_4E2F37424B70794803184F46F70140B5": "tb-asset:ef6fbda9e4f93cc727c4e5d373373c9f5de6f6d35e0a19b72991c5585b8d091a",
+        "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007603618_02E3AC28D5CAEEF242717B0B656C1F42": "tb-asset:3a4bc84349f5a05c983df200392987919a75de36715fc0c10c68a3f7200565dc"
+      },
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "checkedAt": "2026-11-08T21:15:17.706524+00:00",
+        "markdownSha256": "72670ace3a15acc9a3e602bcbf31899dba8a082eda028a43d6f0ebe9002606c3",
+        "sourceDocuments": [
+          {
+            "url": "https://ac.nowcoder.com/acm/contest/8827/A",
+            "sha256": "7f53f36368b5355360c3522cc059885972badad8dfe940d8a6473ddb5461de5c",
+            "bytes": 16673,
+            "status": 200,
+            "captureMethod": "ordinary-anonymous-GET",
+            "evidenceFile": "NC8827A-contest-original.html"
+          },
+          {
+            "url": "https://ac.nowcoder.com/acm/problem/213978",
+            "sha256": "d8b6d51bef10f2cd059aa8e27497cfa6081fa4161fa5dac61f76eb44145d5982",
+            "bytes": 16315,
+            "status": 200,
+            "captureMethod": "direct",
+            "evidenceFile": "NC8827A-public-original.html"
+          },
+          {
+            "url": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007544414_0F0156CB174CF479509CF8413D2E592F",
+            "sha256": "97842c2d79e31d84f378f013df80d0c32fee00ede94575513a545f394b943eb8",
+            "bytes": 24266,
+            "status": 200,
+            "captureMethod": "direct"
+          },
+          {
+            "url": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007579980_4E2F37424B70794803184F46F70140B5",
+            "sha256": "ef6fbda9e4f93cc727c4e5d373373c9f5de6f6d35e0a19b72991c5585b8d091a",
+            "bytes": 4546,
+            "status": 200,
+            "captureMethod": "direct"
+          },
+          {
+            "url": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007603618_02E3AC28D5CAEEF242717B0B656C1F42",
+            "sha256": "3a4bc84349f5a05c983df200392987919a75de36715fc0c10c68a3f7200565dc",
+            "bytes": 4751,
+            "status": 200,
+            "captureMethod": "direct"
+          }
+        ],
+        "sampleCount": 1,
+        "pdfPageCountVerified": false,
+        "corpusAuditVerifiedSha256": "72670ace3a15acc9a3e602bcbf31899dba8a082eda028a43d6f0ebe9002606c3",
+        "recoveryBinding": {
+          "method": "native-contest-letter-and-public-problem-id-with-identical-three-images-and-exact-sample",
+          "contestId": 8827,
+          "letter": "A",
+          "nativeProblemId": 213978,
+          "nativeQuestionId": 1133962,
+          "originalId": "remote:nowcoder:8827::A",
+          "originalUrl": "https://ac.nowcoder.com/acm/contest/8827/A",
+          "publicProblemUrl": "https://ac.nowcoder.com/acm/problem/213978",
+          "contestNeedPassword": false,
+          "isProblemAutoOpen": true,
+          "originalImages": [
+            {
+              "url": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007544414_0F0156CB174CF479509CF8413D2E592F",
+              "sha256": "97842c2d79e31d84f378f013df80d0c32fee00ede94575513a545f394b943eb8",
+              "bytes": 24266,
+              "status": 200,
+              "captureMethod": "direct",
+              "section": "description",
+              "width": 758,
+              "height": 249,
+              "visuallyReviewed": true
+            },
+            {
+              "url": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007579980_4E2F37424B70794803184F46F70140B5",
+              "sha256": "ef6fbda9e4f93cc727c4e5d373373c9f5de6f6d35e0a19b72991c5585b8d091a",
+              "bytes": 4546,
+              "status": 200,
+              "captureMethod": "direct",
+              "section": "input",
+              "width": 687,
+              "height": 46,
+              "visuallyReviewed": true
+            },
+            {
+              "url": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007603618_02E3AC28D5CAEEF242717B0B656C1F42",
+              "sha256": "3a4bc84349f5a05c983df200392987919a75de36715fc0c10c68a3f7200565dc",
+              "bytes": 4751,
+              "status": 200,
+              "captureMethod": "direct",
+              "section": "output",
+              "width": 637,
+              "height": 44,
+              "visuallyReviewed": true
+            }
+          ],
+          "sampleBinding": {
+            "input": "3",
+            "output": "5"
+          },
+          "formulaReviewed": "\\sum_{i=1}^{n}\\sum_{j=1}^{i}[\\gcd(j,i)=1]F(j)",
+          "boundsReviewed": "1\\le j\\le i\\le n; 1\\le n\\le10^5",
+          "nativeLimitsReviewed": {
+            "C/C++/Rust/Pascal": {
+              "timeMs": 1000,
+              "memoryMb": 128
+            },
+            "other": {
+              "timeMs": 2000,
+              "memoryMb": 256
+            }
+          },
+          "sourceImageBytesChanged": false,
+          "globalParserRulesChanged": false
+        }
+      },
+      "limits": {
+        "timeMs": 1000,
+        "memoryMb": 128
+      },
+      "localJudgeSupported": true,
+      "markdown": "# A Simple Math Problem\n\n## Description\n\nHuanhuan challenges you to a simple math problem.\n\nDefine $F(x)$ as the sum of the decimal digits of $x$.\n\nFor example: $F(123)=1+2+3=6$, $F(700)=7+0+0=7$.\n\nHuanhuan wants you to calculate the sum of $F(j)$ for every pair $i,j$ that satisfies $1\\le j\\le i\\le n$ and for which $i,j$ are coprime.\n\nMore formally, calculate\n\n$$\n\\sum_{i=1}^{n}\\sum_{j=1}^{i}[\\gcd(j,i)=1]F(j).\n$$\n\n## Input\n\nThere is only one test case, containing a single integer $n$ ($1\\le n\\le10^5$).\n\n## Output\n\nPrint one integer, the answer to\n\n$$\n\\sum_{i=1}^{n}\\sum_{j=1}^{i}[\\gcd(j,i)=1]F(j).\n$$\n\n## Sample\n\n### Input\n\n```text\n3\n```\n\n### Output\n\n```text\n5\n```\n\n## Limits\n\nC/C++/Rust/Pascal: $1$ second, $128$ MB. Other languages: $2$ seconds, $256$ MB.\n\n## Original Statement\n\n[Original description image](https://uploadfiles.nowcoder.com/images/20201110/337423_1605007544414_0F0156CB174CF479509CF8413D2E592F) · [Original input image](https://uploadfiles.nowcoder.com/images/20201110/337423_1605007579980_4E2F37424B70794803184F46F70140B5) · [Original output image](https://uploadfiles.nowcoder.com/images/20201110/337423_1605007603618_02E3AC28D5CAEEF242717B0B656C1F42)\n",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007544414_0F0156CB174CF479509CF8413D2E592F": {
+          "sourceUrl": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007544414_0F0156CB174CF479509CF8413D2E592F",
+          "sha256": "97842c2d79e31d84f378f013df80d0c32fee00ede94575513a545f394b943eb8",
+          "bytes": 24266,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 758,
+          "height": 249
+        },
+        "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007579980_4E2F37424B70794803184F46F70140B5": {
+          "sourceUrl": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007579980_4E2F37424B70794803184F46F70140B5",
+          "sha256": "ef6fbda9e4f93cc727c4e5d373373c9f5de6f6d35e0a19b72991c5585b8d091a",
+          "bytes": 4546,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 687,
+          "height": 46
+        },
+        "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007603618_02E3AC28D5CAEEF242717B0B656C1F42": {
+          "sourceUrl": "https://uploadfiles.nowcoder.com/images/20201110/337423_1605007603618_02E3AC28D5CAEEF242717B0B656C1F42",
+          "sha256": "3a4bc84349f5a05c983df200392987919a75de36715fc0c10c68a3f7200565dc",
+          "bytes": 4751,
+          "mime": "image/png",
+          "frameCount": 1,
+          "width": 637,
+          "height": 44
+        }
+      },
+      "samples": [
+        {
+          "input": "3",
+          "name": "样例 1",
+          "output": "5"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 13,
+      "title": "A Simple Math Problem",
+      "url": "https://ac.nowcoder.com/acm/contest/8827/A",
+      "statementSource": "牛客公开原题三张正文原图逐字核对与完整转写",
+      "languageLimits": {
+        "C/C++/Rust/Pascal": {
+          "timeMs": 1000,
+          "memoryMb": 128
+        },
+        "other": {
+          "timeMs": 2000,
+          "memoryMb": 256
+        }
+      },
+      "sourceTextArchive": [
+        {
+          "kind": "native-public-image-only-statement-html",
+          "htmlFiles": [
+            {
+              "url": "https://ac.nowcoder.com/acm/contest/8827/A",
+              "sha256": "7f53f36368b5355360c3522cc059885972badad8dfe940d8a6473ddb5461de5c",
+              "bytes": 16673,
+              "status": 200,
+              "captureMethod": "ordinary-anonymous-GET",
+              "evidenceFile": "NC8827A-contest-original.html"
+            },
+            {
+              "url": "https://ac.nowcoder.com/acm/problem/213978",
+              "sha256": "d8b6d51bef10f2cd059aa8e27497cfa6081fa4161fa5dac61f76eb44145d5982",
+              "bytes": 16315,
+              "status": 200,
+              "captureMethod": "direct",
+              "evidenceFile": "NC8827A-public-original.html"
+            }
+          ],
+          "descriptionHtml": "<img src=\"https://uploadfiles.nowcoder.com/images/20201110/337423_1605007544414_0F0156CB174CF479509CF8413D2E592F\" />",
+          "inputHtml": "<img src=\"https://uploadfiles.nowcoder.com/images/20201110/337423_1605007579980_4E2F37424B70794803184F46F70140B5\" />",
+          "outputHtml": "<img src=\"https://uploadfiles.nowcoder.com/images/20201110/337423_1605007603618_02E3AC28D5CAEEF242717B0B656C1F42\" />",
+          "oldExtractorOmittedImages": true
+        }
+      ],
+      "translation": {
+        "kind": "bundled",
+        "format": "complete-prose-v4",
+        "provider": "逐张核对牛客原始正文图片的完整预置中文译文",
+        "sourceHash": "72670ace3a15acc9a3e602bcbf31899dba8a082eda028a43d6f0ebe9002606c3",
+        "sourceLanguage": "en",
+        "targetLanguage": "zh-CN",
+        "inputKind": "markdown",
+        "markdown": "# A Simple Math Problem\n\n## 题目描述\n\n欢欢向你提出了一道简单的数学题。\n\n定义 $F(x)$ 为 $x$ 的十进制各位数字之和。\n\n例如：$F(123)=1+2+3=6$，$F(700)=7+0+0=7$。\n\n对于每一对满足 $1\\le j\\le i\\le n$ 且 $i,j$ 互质的整数 $i,j$，将对应的 $F(j)$ 相加，求出总和。\n\n形式化地，你需要计算\n\n$$\n\\sum_{i=1}^{n}\\sum_{j=1}^{i}[\\gcd(j,i)=1]F(j).\n$$\n\n## 输入格式\n\n输入只有一组测试数据，包含一个整数 $n$（$1\\le n\\le10^5$）。\n\n## 输出格式\n\n输出一个整数，表示\n\n$$\n\\sum_{i=1}^{n}\\sum_{j=1}^{i}[\\gcd(j,i)=1]F(j).\n$$\n\n的值。\n\n## 样例\n\n### 输入\n\n```text\n3\n```\n\n### 输出\n\n```text\n5\n```\n\n## 限制\n\nC/C++/Rust/Pascal：$1$ 秒，$128$ MB。其他语言：$2$ 秒，$256$ MB。\n\n## 原始题面\n\n[原始题目描述图片](https://uploadfiles.nowcoder.com/images/20201110/337423_1605007544414_0F0156CB174CF479509CF8413D2E592F) · [原始输入说明图片](https://uploadfiles.nowcoder.com/images/20201110/337423_1605007579980_4E2F37424B70794803184F46F70140B5) · [原始输出说明图片](https://uploadfiles.nowcoder.com/images/20201110/337423_1605007603618_02E3AC28D5CAEEF242717B0B656C1F42)\n"
+      }
+    }
+  }
+]

@@ -11,6 +11,56 @@ from test_library import record
 
 
 class OriginalAssetTests(unittest.TestCase):
+    def test_shared_editorial_figures_roundtrip_without_rewriting_source_or_motion_bytes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);seed=LibraryDatabase(root/'seed.sqlite3');seed.import_records([record()],{}, {})
+            source=seed.export_source(root/'source')
+            gif=base64.b64decode('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
+            uri='data:image/gif;base64,'+base64.b64encode(gif).decode();sha=hashlib.sha256(gif).hexdigest()
+            svg='data:image/svg+xml;base64,'+base64.b64encode(b'<svg xmlns="http://www.w3.org/2000/svg"/>').decode()
+            originals=[]
+            for name in ('solutions.json','detailed_solutions.json'):
+                path=source/name;rows=json.loads(path.read_text('utf8'))
+                if not rows:rows=[{'problem_id':'fixture::A','markdown':'![Animation](process.gif)','source_path':'verified.md','images':{}}]
+                rows[0]['images']={'process.gif':uri,'same-process.gif':uri,'process.svg':svg}
+                path.write_text(json.dumps(rows,ensure_ascii=False),'utf8');originals.append((path,path.read_bytes()))
+            built=LibraryDatabase.from_source(source,root/'rebuilt.sqlite3')
+            with built.connection() as db:
+                self.assertEqual(db.execute('SELECT count(*) FROM statement_assets').fetchone()[0],1)
+                self.assertEqual(bytes(db.execute('SELECT data FROM statement_assets WHERE sha256=?',(sha,)).fetchone()[0]),gif)
+                for table in ('solutions','detailed_solutions'):
+                    images=json.loads(db.execute('SELECT images FROM '+table).fetchone()[0]);self.assertEqual(images['process.gif'],'tb-asset:'+sha)
+            for variant in ('default','detailed'):
+                self.assertEqual(built.solution('fixture::A',variant)['images'],{'process.gif':uri,'same-process.gif':uri,'process.svg':svg})
+            for path,before in originals:self.assertEqual(path.read_bytes(),before)
+            again=LibraryDatabase.from_source(built.export_source(root/'portable-source'),root/'again.sqlite3')
+            self.assertEqual(again.solution('fixture::A')['images'],built.solution('fixture::A')['images'])
+            with again.connection() as db:db.execute('DELETE FROM statement_assets WHERE sha256=?',(sha,))
+            for variant in ('default','detailed'):
+                with self.assertRaisesRegex(ValueError,'Missing offline statement asset'):
+                    again.solution('fixture::A',variant)
+
+    def test_inline_source_figures_are_stored_once_without_changing_source_or_rendered_bytes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);seed=LibraryDatabase(root/'seed.sqlite3');seed.import_records([record()],{}, {})
+            source=seed.export_source(root/'source');rows=load_statements(source)
+            gif=base64.b64decode('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
+            uri='data:image/gif;base64,'+base64.b64encode(gif).decode();sha=hashlib.sha256(gif).hexdigest()
+            rows[0]['content']['images']={'source.gif':uri}
+            rows[0]['content']['translation']={'kind':'site','markdown':'原样图 ![图](translated.gif)。','images':{'translated.gif':uri}}
+            file=source/'statements.json';file.write_text(json.dumps(rows,ensure_ascii=False),encoding='utf8');before=file.read_bytes()
+            built=LibraryDatabase.from_source(source,root/'rebuilt.sqlite3')
+            self.assertEqual(file.read_bytes(),before)
+            with built.connection() as db:
+                self.assertEqual(db.execute('SELECT count(*) FROM statement_assets').fetchone()[0],1)
+                self.assertEqual(bytes(db.execute('SELECT data FROM statement_assets WHERE sha256=?',(sha,)).fetchone()[0]),gif)
+                stored=json.loads(db.execute('SELECT content FROM statements').fetchone()[0])
+                self.assertEqual(stored['images']['source.gif'],'tb-asset:'+sha)
+                self.assertEqual(stored['translation']['images']['translated.gif'],'tb-asset:'+sha)
+            actual=built.statement(rows[0]['problem_id'])
+            self.assertEqual(actual['images'],rows[0]['content']['images'])
+            self.assertEqual(actual['translation']['images'],rows[0]['content']['translation']['images'])
+
     def test_shared_original_bytes_roundtrip_and_old_public_seed_upgrade(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory);seed=LibraryDatabase(root/'seed.sqlite3');seed.import_records([record()],{}, {})

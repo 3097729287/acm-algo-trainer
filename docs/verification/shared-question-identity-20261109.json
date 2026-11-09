@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "baseCommit": "ae5df344",
+  "questionKey": "luogu.com.cn/problem/P10865",
+  "aliases": [
+    "luogu.com.cn/problem/P10865",
+    "codeforces.com/gym/105139/problem/H"
+  ],
+  "navigationChanged": false,
+  "databaseMigrationRequired": false,
+  "rawEventsRewritten": false,
+  "historicalRewardsRetracted": false,
+  "serverDeployed": false,
+  "normalAccountsAccessed": false,
+  "runtimeFiles": {
+    "question-identities.mjs": "1d3923977a6098c9c726df0224f5b3ed6332ca6760dbfdaedd96b4b8a8573516",
+    "ranking-rules.mjs": "f31044cfa88862dc9792e7ca88ea1ea42825114cd31c8a997b8553adc5fcc118",
+    "ranking-dominance.mjs": "7aa85ac6a028215c17ff886c9419ac9f1ce9cefbaf4880026a6fd0e21a28a532",
+    "mysql-store.mjs": "5d9dda6f1bbe3cdcb8fd77fbe95defe167a393752cec81f8fd0d8cc5757c7055",
+    "team-training.mjs": "c4ed49d982ed0fbd0546570874631507d1f6a042c5bc796c8cfa8a504c128a56",
+    "sticker-scenes.mjs": "5c4246daf671ce878de4316047eafa80463cd77bc4426dd1a0764585200fc82e"
+  },
+  "verification": {
+    "sqlite": {
+      "total": 143,
+      "pass": 142,
+      "skip": 1,
+      "fail": 0
+    },
+    "mysql": {
+      "total": 62,
+      "pass": 62,
+      "skip": 0,
+      "fail": 0
+    },
+    "targetFinalEachEngine": {
+      "total": 5,
+      "pass": 5,
+      "fail": 0
+    }
+  },
+  "logs": {
+    "full-sqlite.log": {
+      "sha256": "e4d60add8c1fe89546d69298881360d1823761a2fb68c50c0e10fb25b593dab0",
+      "bytes": 31570
+    },
+    "full-mysql.log": {
+      "sha256": "59cd79dc34ead269b5fc6275591a2a745599653ef721523c63a88f80d7949ece",
+      "bytes": 13382
+    },
+    "target-sqlite-final.log": {
+      "sha256": "d591c221695925e111bedb91a16bb8757a6cf3f61b12421dd8950fbfdc5ab109",
+      "bytes": 1520
+    },
+    "target-mysql-final.log": {
+      "sha256": "190c9a1e1b76324a1c9b6a2667f530777c4962dc9a97ee276c4856b0a20e5b65",
+      "bytes": 1532
+    }
+  },
+  "isolatedMySQL": {
+    "schema": 1,
+    "loopbackOnly": true,
+    "host": "127.0.0.1",
+    "actual": {
+      "datadir": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-question-identity-test-9c73\\data\\",
+      "port": 13791,
+      "version": "8.0.27",
+      "pidFile": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-question-identity-test-9c73\\mysql.pid"
+    },
+    "ownedLaunchPid": 34756,
+    "ownedServerPid": 14472,
+    "childParentAndExecutableVerified": true,
+    "expectedDatadir": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-question-identity-test-9c73\\data",
+    "datadirVerifiedBeforeAnyFixtures": true,
+    "datadirVerifiedAgainBeforeShutdown": true,
+    "remainingFixtureSchemas": 0,
+    "normalShutdownRequested": true,
+    "normalAccountsRead": false,
+    "checkedAt": "2026-11-09T00:22:10.881Z"
+  }
+}

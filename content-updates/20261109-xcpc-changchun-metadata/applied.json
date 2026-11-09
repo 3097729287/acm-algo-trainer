@@ -1,0 +1,135 @@
+{
+  "revision": "20261109-xcpc-changchun-source-reviewed-metadata",
+  "problems": [
+    {
+      "id": "remote:codeforces:105170::A",
+      "tags": [
+        "计数 DP",
+        "位运算",
+        "前缀和",
+        "快速幂"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105170::B",
+      "tags": [
+        "树形 DP",
+        "贪心",
+        "排序"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105170::C",
+      "tags": [
+        "数位 DP",
+        "矩阵运算"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105170::D",
+      "tags": [
+        "随机算法",
+        "排序",
+        "构造"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105170::E",
+      "tags": [
+        "单调栈",
+        "排序"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105170::F",
+      "tags": [
+        "贪心",
+        "堆"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105170::G",
+      "tags": [
+        "排序",
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105170::H",
+      "tags": [
+        "拓扑排序",
+        "枚举",
+        "组合计数"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105170::I",
+      "tags": [
+        "模拟"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105170::J",
+      "tags": [
+        "树形 DP",
+        "DFS 序",
+        "分块",
+        "凸包"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105170::K",
+      "tags": [
+        "后缀数组",
+        "最长公共前缀",
+        "周期性",
+        "枚举"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    },
+    {
+      "id": "remote:codeforces:105170::L",
+      "tags": [
+        "贪心",
+        "二分答案",
+        "分类讨论"
+      ],
+      "status": "classified",
+      "source": "reviewed-topic",
+      "official": false
+    }
+  ],
+  "privateStateReadOrWritten": false
+}

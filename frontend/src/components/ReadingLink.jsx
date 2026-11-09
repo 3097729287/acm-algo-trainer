@@ -6,7 +6,7 @@ export default function ReadingLink({ href, children, attachments = {}, ...props
   const key = variants.find(value => Object.hasOwn(attachments, value));
   const attachment = key && attachments[key];
   const fileName=String(attachment?.fileName||'attachment').split(/[\\/]/).pop();
-  if(/^\/api\/library-assets\/[a-f0-9]{64}$/.test(attachment?.data||''))return <a {...props} href={attachment.data} download={fileName}>{children}</a>;
+  if(/^\/api\/(?:library-assets|required-downloads)\/[a-f0-9]{64}$/.test(attachment?.data||''))return <a {...props} href={attachment.data} download={fileName}>{children}</a>;
   const match = attachment?.data?.match(/^data:(application\/(?:pdf|zip|octet-stream)|text\/plain|image\/(?:png|jpeg|gif|webp|avif|bmp|svg\+xml));base64,([a-z\d+/=\s]+)$/i);
   if (!match) return <a {...props} href={href} target="_blank" rel="noreferrer">{children}</a>;
   const download = event => {

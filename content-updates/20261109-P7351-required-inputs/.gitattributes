@@ -1,0 +1,2 @@
+# Preserve the native Markdown's intentional hard breaks and source spacing.
+P7351.pending.md -whitespace
