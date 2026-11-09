@@ -1,0 +1,11 @@
+{
+  "diskFreeBefore": 445943808,
+  "removedPublicCandidates": [
+    "/opt/tb-leaderboard/verification/thought-mysql-18921262-20261109-98a018327f93",
+    "/opt/tb-leaderboard/verification/thought-mysql-18921262-20261109-ccee4e4d9bf8"
+  ],
+  "removedPublicBytes": 1307426,
+  "sourceAndReceiptsRetainedInGitAndLocalWorkspace": true,
+  "remainingVerificationContainers": [],
+  "diskFreeAfter": 447328256
+}

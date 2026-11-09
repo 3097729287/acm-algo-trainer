@@ -81,7 +81,7 @@ npm run test:thought-duel
 node tests/gameplay-owner-races.mjs
 ```
 
-本轮已通过思维对决 React 专项、前端构建、25 项裁判／恢复专项、29 项 Python 中转／账号相关测试，以及共享服务 159 项中的 157 项；两项明确跳过，其中新增的 MySQL 原子计数／幂等迁移验收需要 `TB_MYSQL_TEST_PORT` 指向独立测试库。旧 `gameplay-owner-races.mjs` 的贴纸 fixture 因找不到既有“贴纸”按钮失败，本轮没有修改该通用贴纸用例或贴纸产品，也不将它列为通过。
+本轮已通过思维对决 React 专项、前端构建、25 项裁判／恢复专项、29 项 Python 中转／账号相关测试，以及共享服务 159 项中的 157 项；两项明确跳过，其中新增的 MySQL 测试文件需要 `TB_MYSQL_TEST_PORT` 指向独立测试库。随后经 root 审核，已在服务器 MySQL 8.4.11 的新随机 schema 内完成真实 017／021 保全、重复幂等及预算并发／重启／跨日验证，临时 schema 已清理，生产 schema 未改。[后续审计](verification/thought-production-readonly-audit-20261109.md)。旧 `gameplay-owner-races.mjs` 的“贴纸”失败已在实际 `5ca1f752` 基线同一位置复现，相关文件字节相同；没有修改贴纸产品，也不将该旧通用测试列为通过。
 
 真实提供商验收必须显式允许一次计费调用，工具不自动查找任何本机密钥。将 `{provider, endpoint, model, key}` 通过受保护 stdin 提供给下列命令；不得将真实 JSON 写入 Git、命令行或回执文件。每个新的回执路径只能执行一次，最多一次提供商请求，出错也不自动增加预算。它使用生产裁判与共享 HTTP 处理、独立 SQLite 和临时账号，检查草稿恢复、评分、重复交卷、记录隐私和重启后的结算持久化；SQLite 是测试存储适配器，不冒充已在生产 MySQL 上部署。
 

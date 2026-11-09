@@ -1,0 +1,8 @@
+{
+  "preflightExit": 125,
+  "sanitizedDockerError": "docker: Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: error mounting \"<mysql-socket-directory>\" to rootfs at \"/mysql\": mount src=<mysql-socket-directory>, dst=/mysql, dstFd=/proc/thread-self/fd/11, flags=MS_BIND|MS_REC: invalid argument\n\nRun 'docker run --help' for more information\n",
+  "nodeVersion": null,
+  "credentialValuesRead": false,
+  "schemaDDLExecuted": false,
+  "constraintsUnchanged": true
+}

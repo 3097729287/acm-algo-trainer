@@ -1,0 +1,30 @@
+{
+  "case": "98a018327f93",
+  "approvedScriptSha256": "0f3f1914110f77070e419ba0ad718141144761d8031e74a11b19193f65742d3f",
+  "providerCalls": 0,
+  "productionUserRowsRead": false,
+  "secretValuesInPython": false,
+  "diskFreeBefore": 447250432,
+  "candidate": "/opt/tb-leaderboard/verification/thought-mysql-18921262-20261109-98a018327f93",
+  "sourceSha256": {
+    "src/thought-duels.mjs": "c86f71ea757d22409fb695a61f3e646d296b5c16035552496af797ee50cdbca8",
+    "src/pk-judge.mjs": "9ab37716642956b416b005ce3daa95dd325901921ee3775af42fe25221caff1b",
+    "src/accounts.mjs": "77a2fff8c9254710f586b2b7c677486d3ba16232a8daad7037808bc3d3233bee",
+    "src/duel-points.mjs": "7a0ed882114b5b78abc6ace17f861e0b83e9ba574bdb021d752d3d8a012bef29",
+    "src/thought-problems.json": "6e761f95c03e0606d3be166cef8337b28995a8f26863518b04120931340be633",
+    "mysql/001_schema.sql": "eb5a89c80469491290a39ae42120ca05442bece890f32fcaf35adc4cc02cdcb4",
+    "mysql/004_accounts.sql": "538ac95ff4648d61459032cc76805d390b37db0e0fa00704f312d4f0641b5223",
+    "mysql/017_thought_duels.sql": "d8dd441fbbe11afb236bbede439037a122da37e2440e24020622851836d8a11d",
+    "mysql/021_thought_judge_budget.sql": "c53cad306b03aec8d8ebcbc7c7151dd98612290031001f8a213e6182078f6484",
+    "scripts/verify-thought-isolated-mysql.mjs": "0f3f1914110f77070e419ba0ad718141144761d8031e74a11b19193f65742d3f"
+  },
+  "containerExitCode": 125,
+  "stderrNotForwarded": true,
+  "schemaEvents": [],
+  "verification": null,
+  "runtimeSourceUnchanged": true,
+  "apiProcessUnchanged": true,
+  "mysqlProcessUnchanged": true,
+  "diskFreeAfter": 446533632,
+  "status": "failed"
+}

@@ -1,0 +1,9 @@
+{
+  "preflightExit": 0,
+  "sanitizedDockerError": "",
+  "nodeVersion": "v24.21.0",
+  "sameSocketDeviceAndInode": true,
+  "credentialValuesRead": false,
+  "schemaDDLExecuted": false,
+  "constraintsUnchanged": true
+}

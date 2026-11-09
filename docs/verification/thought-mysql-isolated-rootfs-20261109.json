@@ -1,0 +1,101 @@
+{
+  "case": "ccee4e4d9bf8",
+  "approvedScriptSha256": "0f3f1914110f77070e419ba0ad718141144761d8031e74a11b19193f65742d3f",
+  "providerCalls": 0,
+  "productionUserRowsRead": false,
+  "secretValuesInPython": false,
+  "diskFreeBefore": 446877696,
+  "candidate": "/opt/tb-leaderboard/verification/thought-mysql-18921262-20261109-ccee4e4d9bf8",
+  "sourceSha256": {
+    "src/thought-duels.mjs": "c86f71ea757d22409fb695a61f3e646d296b5c16035552496af797ee50cdbca8",
+    "src/pk-judge.mjs": "9ab37716642956b416b005ce3daa95dd325901921ee3775af42fe25221caff1b",
+    "src/accounts.mjs": "77a2fff8c9254710f586b2b7c677486d3ba16232a8daad7037808bc3d3233bee",
+    "src/duel-points.mjs": "7a0ed882114b5b78abc6ace17f861e0b83e9ba574bdb021d752d3d8a012bef29",
+    "src/thought-problems.json": "6e761f95c03e0606d3be166cef8337b28995a8f26863518b04120931340be633",
+    "mysql/001_schema.sql": "eb5a89c80469491290a39ae42120ca05442bece890f32fcaf35adc4cc02cdcb4",
+    "mysql/004_accounts.sql": "538ac95ff4648d61459032cc76805d390b37db0e0fa00704f312d4f0641b5223",
+    "mysql/017_thought_duels.sql": "d8dd441fbbe11afb236bbede439037a122da37e2440e24020622851836d8a11d",
+    "mysql/021_thought_judge_budget.sql": "c53cad306b03aec8d8ebcbc7c7151dd98612290031001f8a213e6182078f6484",
+    "scripts/verify-thought-isolated-mysql.mjs": "0f3f1914110f77070e419ba0ad718141144761d8031e74a11b19193f65742d3f"
+  },
+  "sameSocketDeviceAndInode": true,
+  "containerExitCode": 0,
+  "stderrNotForwarded": true,
+  "schemaEvents": [
+    {
+      "phase": "isolated-schema-created",
+      "isolatedSchema": "tb_verify_thought_2746b475fb2c5e5fc8ad215f"
+    }
+  ],
+  "verification": {
+    "schema": 1,
+    "mode": "execute-isolated",
+    "candidateImplementationCommit": "1a5c4a23e40ab4e0a27dab958162aa1e154c57f4",
+    "onlyFreshSchemaPrefix": "tb_verify_thought_",
+    "existingSchemaOptionAccepted": false,
+    "existingBusinessSchemaWrites": false,
+    "rootCredentialMethod": "existing private secret file consumed in memory by mysql2; never printed, copied, or passed as argv/env",
+    "schemaLifecycle": "create random never-existing schema, seed synthetic rows, test, drop only the schema created by this invocation",
+    "migrations": [
+      "001_schema.sql",
+      "004_accounts.sql",
+      "017_thought_duels.sql",
+      "021_thought_judge_budget.sql"
+    ],
+    "checks": [
+      "old synthetic tables preserved by row/schema digests",
+      "017 and 021 repeat idempotently with populated counters",
+      "two workers/eight concurrent reservations share exactly three allowed calls",
+      "budget survives pool/worker restart",
+      "Beijing midnight starts a new day",
+      "quota exhaustion retains locked answers without a fabricated verdict or rating change"
+    ],
+    "realProviderCalls": 0,
+    "requiresExplicitApprovalToExecute": true,
+    "sourceFiles": [
+      "src/thought-duels.mjs",
+      "src/pk-judge.mjs",
+      "src/accounts.mjs",
+      "src/duel-points.mjs",
+      "src/thought-problems.json",
+      "mysql/001_schema.sql",
+      "mysql/004_accounts.sql",
+      "mysql/017_thought_duels.sql",
+      "mysql/021_thought_judge_budget.sql"
+    ],
+    "status": "passed",
+    "isolatedSchema": "tb_verify_thought_2746b475fb2c5e5fc8ad215f",
+    "sourceSha256": {
+      "src/thought-duels.mjs": "c86f71ea757d22409fb695a61f3e646d296b5c16035552496af797ee50cdbca8",
+      "src/pk-judge.mjs": "9ab37716642956b416b005ce3daa95dd325901921ee3775af42fe25221caff1b",
+      "src/accounts.mjs": "77a2fff8c9254710f586b2b7c677486d3ba16232a8daad7037808bc3d3233bee",
+      "src/duel-points.mjs": "7a0ed882114b5b78abc6ace17f861e0b83e9ba574bdb021d752d3d8a012bef29",
+      "src/thought-problems.json": "6e761f95c03e0606d3be166cef8337b28995a8f26863518b04120931340be633",
+      "mysql/001_schema.sql": "eb5a89c80469491290a39ae42120ca05442bece890f32fcaf35adc4cc02cdcb4",
+      "mysql/004_accounts.sql": "538ac95ff4648d61459032cc76805d390b37db0e0fa00704f312d4f0641b5223",
+      "mysql/017_thought_duels.sql": "d8dd441fbbe11afb236bbede439037a122da37e2440e24020622851836d8a11d",
+      "mysql/021_thought_judge_budget.sql": "c53cad306b03aec8d8ebcbc7c7151dd98612290031001f8a213e6182078f6484"
+    },
+    "checksPassed": [
+      "old synthetic table content and definitions preserved",
+      "eight reservations across two workers consume exactly three",
+      "017 and 021 preserve populated tables on repeat",
+      "pool and worker restart cannot reset the budget",
+      "quota keeps locked answers without fake verdict or rating writes",
+      "Beijing midnight opens a new durable budget day",
+      "old synthetic tables unchanged after the full exercise"
+    ],
+    "syntheticAccounts": true,
+    "productionAccountRowsRead": false,
+    "providerCalls": 0,
+    "createdByThisInvocation": true,
+    "droppedByThisInvocation": true,
+    "diskFreeBytesBefore": 446066688,
+    "finishedAt": "2026-11-09T12:02:27.520Z"
+  },
+  "runtimeSourceUnchanged": true,
+  "apiProcessUnchanged": true,
+  "mysqlProcessUnchanged": true,
+  "diskFreeAfter": 446164992,
+  "status": "passed"
+}
