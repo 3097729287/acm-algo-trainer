@@ -6,6 +6,9 @@ services:
       PK_THOUGHT_MODE_ENABLED: ${PK_THOUGHT_MODE_ENABLED:-0}
       PK_AI_ENDPOINT: ${PK_AI_ENDPOINT:-}
       PK_AI_MODEL: ${PK_AI_MODEL:-}
+      PK_AI_TIMEOUT_MS: ${PK_AI_TIMEOUT_MS:-45000}
+      PK_AI_MATCH_CALL_LIMIT: ${PK_AI_MATCH_CALL_LIMIT:-4}
+      PK_AI_DAILY_CALL_LIMIT: ${PK_AI_DAILY_CALL_LIMIT:-100}
       PK_AI_KEY_FILE: /run/secrets/pk_ai_key
     secrets: [pk_ai_key]
 secrets:

@@ -46,6 +46,24 @@ class ThoughtRelayTests(unittest.TestCase):
             relay(self.training)
         network.assert_not_called()
 
+    def test_same_owner_session_or_endpoint_change_rejects_a_late_response(self):
+        for changed in ({'endpoint': 'https://other.invalid'}, {'auth_token': 'replacement-session'}):
+            with self.subTest(changed=tuple(changed)):
+                self.training._ranking_profile.side_effect = [self.profile, {**self.profile, **changed}]
+                opener = Mock();opener.open.return_value = io.BytesIO(b'{"owner":"isolated-owner","status":"active"}')
+                with patch('thought_duel.service_opener', return_value=opener), self.assertRaises(PkServiceError) as issue:
+                    relay(self.training)
+                self.assertEqual(issue.exception.code, 'PK_OWNER_CHANGED')
+
+    def test_profile_mutation_cannot_retroactively_change_the_borrowed_session(self):
+        def complete_request(*_args, **_kwargs):
+            self.profile['auth_token'] = 'replacement-session'
+            return io.BytesIO(b'{"owner":"isolated-owner","status":"active"}')
+        opener = Mock();opener.open.side_effect = complete_request
+        with patch('thought_duel.service_opener', return_value=opener), self.assertRaises(PkServiceError) as issue:
+            relay(self.training)
+        self.assertEqual(issue.exception.code, 'PK_OWNER_CHANGED')
+
 
 if __name__ == '__main__':
     unittest.main()
