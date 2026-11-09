@@ -1,0 +1,16 @@
+{
+  "matchedOracleCases": {
+    "experienceMerges": 169,
+    "experienceValidations": 216,
+    "sixReceipts": 65,
+    "starterMerges": 441,
+    "starterValidations": 63
+  },
+  "productionPythonInvocation": false,
+  "pythonSources": {
+    "backend/experience_challenge.py": "322145aff9e42880422556a6462f2b03b0d8caff004b5267f1ae233ad4893b85",
+    "backend/starter_pacing.py": "5375a7da11798b46136f4e4f87fe26b0e41a6117a6a721425985ee764fe4938c",
+    "backend/tb_rank.py": "b2e5462cac4128297c91a9b4ad61d38336aa5aa07c70f5bff3e247a7391f59e6"
+  },
+  "syntheticOwnersOnly": true
+}

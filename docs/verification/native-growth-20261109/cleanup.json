@@ -1,0 +1,11 @@
+{
+  "baseCommit": "6d3d6ba6",
+  "designReadInFullBeforeThisGroup": true,
+  "designSha256": "b6fa71c9f549962dd07b0e6257829c2424dc5472f36ed74df1632ec0c3accff1",
+  "freshCheckoutClean": true,
+  "existingNativeGrowthPolicyModule": false,
+  "obsoleteOwnedFiles": [],
+  "action": "No deletion needed: no previous native growth/experience/starter implementation or generated build output exists in this fresh checkout. Existing Python policy and native learning/ability remain active reference or business code.",
+  "previouslyRejectedCacheCleanupRetried": false,
+  "ordinaryApplicationOrRealAccountsTouched": false
+}

@@ -10,6 +10,7 @@ pub mod contest_lifecycle;
 pub mod contest_setup;
 pub mod custom_lists;
 pub mod goals;
+pub mod growth;
 pub mod identity;
 pub mod journal_export;
 pub mod leaderboard;
