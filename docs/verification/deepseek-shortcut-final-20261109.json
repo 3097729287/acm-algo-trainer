@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "baseCommit": "72866bd8fe93a382cf7f0c2e40813fd60ac9aa36",
+  "productCommit": "a92465ff966943f20422009202cc26a6ba7b1f2d",
+  "backendAndNativeBoundaryTestsPassed": 28,
+  "configuredModifiedAndFunctionShortcutModelChecksPassed": 68,
+  "publicShortcutInventoryRows": 75,
+  "existingWorkbenchRegressionPassed": true,
+  "workbenchFocusAndNativeDtoReceipt": ".backups/deepseek-ui-1794239578832/result.json",
+  "nativeRestartIsolationAndRecoveryReceipt": ".backups/deepseek-native-20261109T155849Z-1b38bfca/result.json",
+  "realPublicDeepSeekReceipt": ".backups/deepseek-native-20261109T144622Z-eea4fcef/result-real.json",
+  "fullAppSourceReceipt": "frontend/.backups/shortcut-fullapp-1794241844264/result.json",
+  "fullAppSourcePassed": true,
+  "fullAppApiExplicitlyMocked": true,
+  "fullAppPageErrors": 0,
+  "fullAppConsoleErrors": 0,
+  "realDeepSeekLoginOrChatAttempted": false,
+  "physicalHardwareInputPositiveVerified": false,
+  "injectedInputNativeCheckSkippedWhenForegroundNotOwned": true,
+  "shortcutStateMachineUsesExplicitSyntheticFixture": true,
+  "normalProgramAndCredentialsControlled": false,
+  "frozen112AndPrevious93DistChanged": false,
+  "productionCandidateBundleOrDeploymentClaimed": false,
+  "knownBaselineFailure": {
+    "test": "learning-browser.mjs:33 sorting experiment state after closing empty search",
+    "sameFailureOnExact728GitObjectOverlay": true,
+    "baselineReceipt": ".backups/shortcut-learning-baseline-20261109T160658Z-bb760c33/test.log",
+    "currentReceipt": ".backups/shortcut-learning-20261109T160541Z-ee2cc820/test.log",
+    "unrelatedAlgorithmProductChanged": false
+  },
+  "cleanup": {
+    "initialInspectionRecorded": "docs/verification/deepseek-cleanup-20261109.json",
+    "disposableProfileCandidates": 22,
+    "candidateLogicalBytes": 268831219,
+    "automaticApprovalRejectedRemovalBeforeProcessStart": true,
+    "statedRejectionReason": "blocked by policy",
+    "removedItems": 0,
+    "bytesReleasedByThisAgent": 0,
+    "rejectedActionRetried": false
+  }
+}

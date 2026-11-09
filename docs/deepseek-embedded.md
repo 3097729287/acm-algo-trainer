@@ -31,7 +31,8 @@ DOM 弹窗、搜索、学习页隐藏、切回题面、页面退出和 native �
 - `.backups/deepseek-ui-1794236279085/result.json`：真实 Workbench/CodeMirror 的入口位置、同一编辑器实例、代码、题面 DOM/滚动/语言，以及弹窗、搜索、切页、分隔线、视口调整均通过，0 page error。该测试明确 mock 原生 API，不能代替原生网页实测。
 - `.backups/deepseek-native-20261109T155849Z-1b38bfca/result.json`：收紧 URL/目录权限及加入错误恢复后的两个本地原生进程均通过；真实 child HWND 分支、账号隔离、重启持久化、125% 缩放、最小化和代码保留验证通过，seed 阶段故意只崩溃所属测试 renderer 后成功重建。OS 未授予测试窗前台，实际注入检查明确跳过；命令状态机的输入明确为内部 synthetic fixture，未声称真实硬件正向通过。
 - `.backups/deepseek-ui-1794239578832/result.json`：扩充后的实际 Workbench 专项通过，0 page error，覆盖字体输入/按钮/CodeMirror/题面/body 焦点、single-flight、保存失败、native DTO 去重和旧注册版本拒绝。原生 API 明确 mock。
-- 28 项原生边界、真实本地 HTTP、快捷键队列和 compact 更新保全检查通过，68 个快捷组合模型检查通过；已有 Workbench 长回归通过。`npm run build` 通过。新增 FullApp 全局弹窗/F6 窄 probe 尚在旧 fixture 适配阶段，不标为通过。
+- 28 项原生边界、真实本地 HTTP、快捷键队列和 compact 更新保全检查通过，68 个快捷组合模型检查通过；已有 Workbench 长回归通过。生产 build 通过，但此测试 dist 不作为集成候选 producer，集成后须按最终源码重建。
+- `frontend/.backups/shortcut-fullapp-1794241844264/result.json`：当前源码的真实 FullApp 窄 probe 通过，0 page/console error；明确使用隔离 mock API，覆盖账号 Ctrl+J 覆盖、原 Ctrl+Right 不被劫持、输入框先保存再下一题、全局命令弹窗在 inert 学习层之上可输入、Escape 只关弹窗、F6 活动面板、Ctrl+B、Ctrl+F 及 Ctrl+2。复用既有匿名 UI profile，没有新建大 profile，没有生产/OJ 请求。
 - 旧 `.backups/deepseek-native-20261109T155703Z-c0697bbd` 的 seed 末尾 `codePreserved=false` 未被早期 harness assert，尽管 raw `ok=true`，仍作废其整体通过声明；保留原始回执。之后改用结构化代码状态并硬断言，最新 case 的两个阶段均为 `codePreserved=true`。
 
 所有实际窗口使用 E 盘新建隔离 profile。既有普通 ToBe、普通账号数据库、默认浏览器会话、112 已冻结源码与产物均未操作。保留早先失败回执，未以 title 或 NavigationCompleted 代替实际可用页面判断。自有站点的持久化验证证明了机制；没有声称已经替用户登录 DeepSeek。

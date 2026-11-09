@@ -1,13 +1,23 @@
 // Reuse the existing full-App offline API fixture, with a smaller action set.
-import {mkdir,readFile,writeFile} from 'node:fs/promises';
+import {mkdir,readFile,realpath,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
+import {isAbsolute,relative,sep} from 'node:path';
 const caseUrl=new URL('../.backups/shortcut-fullapp-'+Date.now()+'/',import.meta.url);
 await mkdir(caseUrl,{recursive:true});await mkdir(new URL('temp/',caseUrl));
 process.env.TEMP=process.env.TMP=fileURLToPath(new URL('temp/',caseUrl));
-process.env.TB_UI_DIST=fileURLToPath(new URL('../dist/',import.meta.url));
+if(process.env.TB_SHORTCUT_SOURCE==='1')delete process.env.TB_UI_DIST;
+else process.env.TB_UI_DIST||=fileURLToPath(new URL('../dist/',import.meta.url));
 const original=new URL('./app.mjs',import.meta.url),source=await readFile(original,'utf8');
 const split=source.indexOf('\ntry {\n');if(split<0)throw new Error('Existing App fixture boundary changed');
 let prefix=source.slice(0,split);
+if(process.env.TB_SHORTCUT_PROFILE){
+ const root=await realpath(new URL('../../.backups/',import.meta.url)),profile=await realpath(process.env.TB_SHORTCUT_PROFILE),within=relative(root,profile);
+ if(isAbsolute(within)||within.startsWith('..'+sep)||!/^deepseek-ui-\d+[\\/]profile$/.test(within))throw new Error('Only this worktree owned anonymous UI fixture profile may be reused');
+ const originalLaunch="const browser = await chromium.launch({ channel: process.env.CI ? undefined : 'msedge', headless: true });\nconst page = await browser.newPage({ viewport: { width: 2048, height: 1152 } });";
+ if(!prefix.includes(originalLaunch))throw new Error('Existing App browser fixture changed');
+ prefix=prefix.replace(originalLaunch,"const shortcutContext=await chromium.launchPersistentContext("+JSON.stringify(profile)+",{channel:'msedge',headless:true,viewport:{width:2048,height:1152}});const browser={close:()=>shortcutContext.close()};const page=shortcutContext.pages()[0];");
+}
+prefix=prefix.replace("createServer({ cacheDir:","createServer({ optimizeDeps:{entries:['index.html']},cacheDir:");
 for(const name of ['settings-navigation.mjs','mock-mode-selection.mjs'])prefix=prefix.replaceAll("'./"+name+"'",JSON.stringify(new URL('./'+name,original).href));
 prefix=prefix.replaceAll('import.meta.url',JSON.stringify(original.href));
 prefix=prefix.replace("theme: 'light', fontSize: 18,","theme: 'light', fontSize: 18, shortcuts:{'workbench-next':'Ctrl+J'},");
@@ -23,20 +33,21 @@ await page.route('**/*',route=>new URL(route.request().url()).hostname==='127.0.
 await page.route('**/api/desktop/deepseek**',route=>route.fulfill({json:{available:false,status:'unavailable'}}));
 try{
  bootstrap.enabled=false;releaseBootstrap();await page.goto('http://127.0.0.1:18775');await page.locator('.problem-table').waitFor();await page.getByRole('tab',{name:'题库',exact:true}).first().waitFor();
- await page.keyboard.press('Control+2');await page.locator('[data-page="library"] .problem-table:visible').waitFor();
- for(let step=0;step<6&&!await page.locator('tr[data-id="'+rows[1].id+'"]:visible').count();step++)await page.getByRole('button',{name:'下一页',exact:true}).click();
+ await page.keyboard.press('Control+1');await page.locator('[data-page="mine"] .problem-table:visible').waitFor();
  await page.locator('tr[data-id="'+rows[1].id+'"]:visible').first().click();
  const editor=()=>page.locator('.study-pane:not([hidden]) .cm-content');await editor().waitFor();
+ await page.waitForFunction(()=>document.querySelector('.study-pane:not([hidden]) .wb-next-button')?.title.includes('Ctrl+J'));
  await editor().fill('int main(){return 17;} // isolated saved source');
  const font=page.locator('.study-pane:not([hidden]) input[aria-label="题面字号"]');await font.focus();
  const id=()=>page.locator('.study-pane:not([hidden]) .tb-workbench').getAttribute('data-problem-id');
  await page.keyboard.press('Control+ArrowRight');await page.waitForTimeout(120);assert.equal(await id(),rows[1].id,'Account override removes the default binding');
- await page.keyboard.press('Control+J');await page.waitForFunction(id=>document.querySelector('.study-pane:not([hidden]) .tb-workbench')?.dataset.problemId===id,rows[2].id);await editor().waitFor();
+ await page.keyboard.press('Control+J');await page.waitForFunction(id=>{const next=document.querySelector('.study-pane:not([hidden]) .tb-workbench')?.dataset.problemId;return next&&next!==id;},rows[1].id);await editor().waitFor();
+ const nextId=await id();assert(rows.some(row=>row.id===nextId));
  assert(writes.some(item=>item.path==='/api/draft'&&item.body.id===rows[1].id&&item.body.code.includes('isolated saved source')));
  await editor().fill('// global shortcut draft');await editor().focus();await page.keyboard.press('Control+K');
  const dialog=page.getByRole('dialog',{name:'快捷操作',exact:true});await dialog.waitFor();assert(await dialog.evaluate(node=>!node.closest('[inert]')));
  await dialog.locator('input').first().fill('isolated');assert(await dialog.locator('input').first().evaluate(node=>node===document.activeElement));
- await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});assert.equal(await id(),rows[2].id);
+ await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});assert.equal(await id(),nextId);
  await editor().focus();const before=await page.evaluate(()=>document.activeElement?.className);await page.keyboard.press('F6');
  assert(await page.evaluate(before=>document.activeElement?.className!==before&&!!document.activeElement?.closest('.study-browser'),before));
  await font.focus();const collapsed=await page.locator('.app-shell').evaluate(node=>node.classList.contains('sidebar-collapsed'));

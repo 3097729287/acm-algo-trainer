@@ -113,3 +113,5 @@
 真实 Windows 控件检查证明了 native child 与主 DOM 的 HWND 分支区别、cookie/localStorage 跨进程保留、账号隔离、崩溃重建、DPI/缩放及最小化隐藏。测试进程未取得前台权限，因此实际注入拒绝检查被明确跳过，硬件输入正向没有自动实测声明；输入来源过滤和命令队列由离线模型验证。真实 DeepSeek 公开登录页另有原生截图，未替用户登录或发送聊天。
 
 原有 LearningBrowser 的“关闭空搜索后排序实验步骤保持”在本分支和六文件精确 728 Git 对象覆盖基线均于同一行失败。失败回执保留，本轮没有修改算法实验。
+
+当前源码 FullApp 窄回归在 `frontend/.backups/shortcut-fullapp-1794241844264/result.json` 通过，0 page/console error。该测试使用假账号、明确 mock API 和既有匿名 UI profile，覆盖自定义键、输入焦点、保存后 next、全局弹窗、F6、侧栏、学习搜索和页面导航；不声称真实后台或 OJ 验收。低空间重跑可设置 `TB_SHORTCUT_PROFILE` 为本工作树已存在的 `deepseek-ui-数字/profile`，并以 `TB_SHORTCUT_SOURCE=1` 验证源码；脚本拒绝其它浏览器 profile。
