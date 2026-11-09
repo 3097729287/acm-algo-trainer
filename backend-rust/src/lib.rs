@@ -12,6 +12,7 @@ pub mod custom_lists;
 pub mod goals;
 pub mod identity;
 pub mod journal_export;
+pub mod leaderboard;
 pub mod learning;
 pub mod library;
 pub mod local_documents;
