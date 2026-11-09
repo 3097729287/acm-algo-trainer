@@ -1065,7 +1065,17 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           {problem?.url && <a className="wb-original-link" href={problem.url} target="_blank" rel="noreferrer" aria-label="在浏览器打开原题" title={`在浏览器打开原题 · ${shortcutValue('statement-original',shortcuts)}`}><ExternalLink size={16} /></a>}
         </div></div>);
   const solutionButtons=(onSolution && !runningContest && !problem?.locked && <span className="wb-solution-methods">{(problem?.solutionMethods??(problem?[{id:'original',title:'题解'}]:[])).map((method,index,methods)=><button key={method.id} type="button" className="wb-button wb-solution-button" aria-label={methods.length===1?'题解':`题解${index+1}`} title={method.title||`题解${index+1}`} aria-pressed={solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0)} onClick={()=>{const opened=solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0);if(opened&&callbacks.current.onCloseSolution)callbacks.current.onCloseSolution();else callbacks.current.onSolution?.(problemId,method.id);}}><BookOpen size={14}/></button>)}</span>);
-  const editorHeader=(<div className="wb-pane-header wb-editor-header">{effectivePane==='code'&&!narrow&&navigationBack}
+  const editorHeader=(<div className={`wb-pane-header wb-editor-header${effectivePane==='code'&&!narrow?' wb-code-only-header':''}`}>
+          {effectivePane==='code'&&!narrow&&<>
+            <button type="button" className="wb-icon-button wb-back-button" onClick={exit} title={`${runningContest?'返回工作台（比赛继续计时）':'返回列表'} · ${shortcutValue('workbench-back',shortcuts)}`} aria-label={runningContest?'返回工作台':'返回列表'}><ArrowLeft size={17}/></button>
+            <div className="wb-toolbar wb-code-navigation">
+              {navigationBack}{headerStart}
+              <div className="wb-heading">
+                {slot&&!headerStart&&<span className="wb-letter">{slot.letter}</span>}
+                <strong title={problem?.title}><InlineTitle>{problem?.title||(loading?'载入题目…':'题目')}</InlineTitle></strong>
+              </div>
+            </div>
+          </>}
           <span className="wb-language-select"><ThemedSelect hideSelectedOption hideChevron aria-label="编程语言" title={`编程语言 · ${shortcutValue('code-language',shortcuts)}`} value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python3</option></ThemedSelect></span>
           <InitialCodeSelect api={api} snapshot={initialCode} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} title={`选择初始代码模板 · ${shortcutValue('initial-code',shortcuts)}`} disabled={loading||!problem||unavailable||busy||officialBusy} onOpenChange={setInitialPickerOpen} onError={setActionError} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.language==='cpp17'&&item.id==='default'&&!item.customized?normalizeCppTemplate(item.code):item.code);}}/>
           {!['saved','automatic'].includes(saveState.kind)&&<span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message||saveLabel} aria-label={saveLabel} role={saveState.kind==='error'?'alert':'status'}>{saveState.kind==='saving'?<LoaderCircle size={14} className="wb-spinner"/>:saveState.kind==='unsaved'?<span className="wb-pending-dot"/>:saveLabel}</span>}

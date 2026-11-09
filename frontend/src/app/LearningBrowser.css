@@ -46,7 +46,7 @@ html .study-browser .study-inline-solution .solution-reader-header>:is(strong,[a
 html .study-browser .study-inline-solution .solution-reader-header>strong{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .study-pane .wb-back-button,.study-pane .wb-heading strong,.study-pane .wb-limits{display:none;}
 html .study-browser .study-pane .tb-workbench .wb-back-button{display:none;}
-html .study-browser .study-pane .tb-workbench :is(.wb-merged-header,.wb-compact-toolbar){padding-left:12px;}
+html .study-browser .study-pane .tb-workbench :is(.wb-merged-header,.wb-compact-toolbar,.wb-code-only-header){padding-left:12px;}
 .study-pane .tb-workbench .wb-heading{flex:0;}
 .study-pane .wb-pane-header,.study-pane .wb-compact-toolbar{background:var(--study-paper);}
 html .study-browser .study-pane .wb-top-toolbar{background:var(--study-paper);}
@@ -76,7 +76,7 @@ html .study-browser .study-pane .wiki-reader-toolbar>:is(button,a){position:stat
 .study-solution .reader-content{flex:1;min-height:0;max-width:none;width:100%;padding-inline:clamp(18px,4cqw,72px);}
 .study-solution>footer{padding:8px 16px;border-top:1px solid var(--line);font-size:.8rem;}
 .study-single-controls{position:absolute;left:0;top:0;z-index:100;display:flex;align-items:center;gap:1px;height:44px;width:78px;background:var(--study-paper);}
-html .study-browser.study-compact .study-pane .tb-workbench :is(.wb-merged-header,.wb-compact-toolbar){padding-left:84px;}
+html .study-browser.study-compact .study-pane .tb-workbench :is(.wb-merged-header,.wb-compact-toolbar,.wb-code-only-header){padding-left:84px;}
 .study-compact .study-pane .wb-heading{flex:1;}
 .study-compact .study-pane .wb-heading strong{display:block;}
 html .study-browser.study-compact .study-pane :is(.lab-course-header,.template-heading,.wiki-reader-toolbar,.solution-reader-header){padding-left:84px;}
