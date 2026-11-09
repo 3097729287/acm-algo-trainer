@@ -1,4 +1,4 @@
-﻿{
+{
     "schema":  1,
     "createdAtUtc":  "2026-11-09T10:13:47.3489201Z",
     "scope":  "Read-only existing domestic update chain audit; no source edit, build, app launch/stop, deployment or secret access",
@@ -32,5 +32,116 @@
                         "normalApplicationNeverStartedOrStopped":  true,
                         "newTemporaryWorkMustUseE":  true
                     },
-    "status":  "Auditing exact reusable scripts and limitations"
+    "status":  "Handoff ready; prepared only; no candidate observe run by this agent",
+    "handoff":  {
+                    "wrapper":  ".backups\\check-fast-real-state-update1611-from167.py",
+                    "wrapperSha256":  "ac8b29314738df11ed52141cbd55eb910e4ea96568818779e7f3a17b170df431",
+                    "nativeWindowWatcher":  ".backups\\watch-fast-native-window1611.ps1",
+                    "nativeWindowWatcherSha256":  "e64ac099badad34a4cebf75abcee883e508c5432760abd0507099f8d1d3c5802",
+                    "cdpWatcher":  ".backups/watch-native-ready1611.mjs",
+                    "context":  "E:\\项目\\ToBe\\临时验证\\fu\\ToBe-fast-update167-to1611-7sbfcw0i\\context.json",
+                    "preparedProof":  ".backups/fast-real-state-update1611-from167.json",
+                    "phase":  "prepared",
+                    "expectedBridgeName":  "ToBe-Setup-1.6.11-win64.exe",
+                    "expectedBridgeBytes":  89088,
+                    "expectedBridgeSha256":  "5247e72efe903f2d11710069cb50b2fe37afe0f258712cfc7f07d4eb7d008e4f",
+                    "prepareCommand":  "python .backups\\check-fast-real-state-update1611-from167.py --prepare-only",
+                    "usedSourceEnvironment":  "TB_FAST_UPDATE_SOURCE_STATE=E:\\项目\\ToBe\\临时验证\\fu\\ToBe-fast-update167-to1611-i6a8kkzl\\app\\state",
+                    "sourceProvenance":  "15 successful online SQLite copies captured from still-running real 1.6.7; this snapshot was never launched or upgraded. The fresh case copies that stable local snapshot read-only. It does not reuse the already-upgraded old 102-second case state.",
+                    "observeCommand":  "python .backups\\check-fast-real-state-update1611-from167.py observe \"E:\\项目\\ToBe\\临时验证\\fu\\ToBe-fast-update167-to1611-7sbfcw0i\\context.json\" --feed \"https://47.82.84.74/updates/stable/candidate-1.6.11-fast-\u003ccommit\u003e.json\"",
+                    "candidateFeedPending":  true,
+                    "databaseCount":  15,
+                    "databaseBytes":  3686576128,
+                    "allTablesOpaqueHashed":  49,
+                    "strictTables":  23,
+                    "personalTables":  22,
+                    "baselineProgramFilesShaChecked":  5093,
+                    "expectedAfterProgramFiles":  5097,
+                    "startupOrInstallRun":  false
+                },
+    "isolation":  {
+                      "appIsInsideUniqueECase":  true,
+                      "everySQLiteSourceOpenedModeRo":  true,
+                      "onlineBackupIncludesCommittedWal":  true,
+                      "allCopiedDatabasesIntegrityChecked":  true,
+                      "credentialsDecodedOrLogged":  false,
+                      "browserProfilesCopied":  false,
+                      "TB_OFFLINE":  "1",
+                      "TB_PACKAGE_NO_SYNC":  "1 (compatibility flag; actual guards use TB_OFFLINE)",
+                      "stateLibraryArchiveBackupAndConfigPaths":  "All explicitly bound to isolated app/state; AGENT_CP_CONFIG is an absent isolated config file",
+                      "providerKeyEnvironment":  "Cleared in child environment; no values read",
+                      "tempTmpTmpdir":  "All runtime child/watcher temp set to work/runtime-temp on E",
+                      "TB_UPDATE_TEST_REPORT":  "Removed to retain a real visible native window rather than headless serve-check",
+                      "cdp":  "Loopback address/ephemeral dedicated port only; no page text or screenshots exported",
+                      "networkException":  "Only the exact old SoftwareUpdates object is offline=False and its official feed is remapped to an explicit trusted candidate URL",
+                      "windowControl":  "Watcher only closes exact isolated app/ToBe.exe after ready; never normal application",
+                      "observeFailurePolicy":  "Existing result or attempted proof cannot be reused. Preserve failure; prepare a fresh case."
+                  },
+    "timingAndProgress":  {
+                              "start":  "Original parent monotonic+UTC timestamp immediately before worker/watchers and SoftwareUpdates.start; equivalent update action path, including check/download/backup/one-second old close callback",
+                              "end":  "max of new-version local API ready, actual native window visible, and actual React controls/workspace ready",
+                              "originalStartEndUnchanged":  true,
+                              "originalUiClick":  "Old desktop prepare/install closures are extracted from exact 4c730482 source; old GUI click itself is represented by invoking that handler path, not a synthetic claim of clicking a real old window",
+                              "bridgeWindow":  "Same independent native watcher uses EnumWindows+IsWindowVisible+ToBeCompactUpdate, verifies PID executable is inside clone and SHA matches5247",
+                              "byteProgress":  "While that verified bridge window is visible, sample fresh runtime-temp/ToBeUpdateBridge-*/progress.txt stage1 with0\u003cdone\u003ctotal; proof requires at least one actual sample",
+                              "proofFile":  "bridge-window-progress.json is merged into same chain proof",
+                              "syntaxAndApiSmoke":  "Python AST, PowerShell parser and CheckOnly Win32 API compilation/enumeration all passed; no ToBe was launched",
+                              "oneMinuteNotYetRetested":  true
+                          },
+    "reusableEntries":  [
+                            {
+                                "entry":  "scripts/build_update_bootstrap_native.py",
+                                "parameters":  "--spec \u003cnew fast spec\u003e --stage .backups/release1611-fast-native --compiler D:\\Work\\Msys64\\ucrt64\\bin\\g++.exe",
+                                "role":  "Build bridge only, fresh stage, preserve frozen app and original13 assets"
+                            },
+                            {
+                                "entry":  "scripts/release_stream_index.py",
+                                "parameters":  "--asset \u003cnew bridge\u003e --version 1.6.11 --github-release \u003ccaptured exact published metadata\u003e --existing \u003ccomplete current index\u003e --output \u003cnew index path\u003e",
+                                "role":  "Add immutable public source identity/range proofs; preserve every old index entry"
+                            },
+                            {
+                                "entry":  ".backups/stage1611-small-direct.py",
+                                "role":  "Existing direct small-asset staging pattern; derives exact hashes and refuses changing an existing immutable file. Do not run unchanged because fixed old asset list and proof filename."
+                            },
+                            {
+                                "entry":  ".backups/release1611-followup.py stage / publish",
+                                "role":  "Existing candidate-only and final promotion logic/gates; fixed old bridge/source/proof must be replaced by a new fast-only orchestration. No direct rerun."
+                            },
+                            {
+                                "entry":  "scripts/publish_domestic_update.py",
+                                "role":  "Not candidate-safe as-is: directly writes stable and its legacy asset filter does not include Compact ZIPs."
+                            },
+                            {
+                                "entry":  ".backups/finalize1611.py and build1611-transport.py",
+                                "role":  "Do not rerun: finalized application/build metadata and existing ZIP bytes are frozen."
+                            }
+                        ],
+    "oldProofsUnchanged":  [
+                               {
+                                   "path":  ".backups\\real-state-update1611-from167.json",
+                                   "sha256":  "3800ea9aa7990e623724643953d69aa89c84e61efce436ee47b50c857c0eae40"
+                               },
+                               {
+                                   "path":  ".backups\\release1611\\real167-whole-update-first.log",
+                                   "sha256":  "c769899cf54e4347f92e22bf034d3be171890c9ef5e29e31fa9a84cddd4ca4a3"
+                               },
+                               {
+                                   "path":  "docs\\verification\\release1611-whole-update-20261109.json",
+                                   "sha256":  "769ac0604cbc156450c079f19f80f2186744da7f5a07b8b1c80defd0046f9a61"
+                               },
+                               {
+                                   "path":  "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-real-update167-to1611-v_6y4p8_\\result.json",
+                                   "sha256":  "3800ea9aa7990e623724643953d69aa89c84e61efce436ee47b50c857c0eae40"
+                               }
+                           ],
+    "retainedPreparationFailures":  [
+                                        {
+                                            "case":  ".backups/fast-update-isolated-20261109/ToBe-fast-update167-to1611-j9tdefi7",
+                                            "reason":  "Long E path during public baseline clone; zero private databases copied; retained prepare-failed.json"
+                                        },
+                                        {
+                                            "case":  "E:/项目/ToBe/临时验证/fu/ToBe-fast-update167-to1611-i6a8kkzl",
+                                            "reason":  "Active ordinary source changed during snapshot; all15 online copies passed integrity. Failure retained, stable snapshots only read for fresh case."
+                                        }
+                                    ]
 }
