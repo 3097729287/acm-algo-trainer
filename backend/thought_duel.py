@@ -31,6 +31,7 @@ def relay(training, path='state', value=None):
             raise PkServiceError(404, 'PK_ROUTE_NOT_FOUND', '没有找到这个思维对决接口')
     profile = training._ranking_profile()
     owner = profile['user_id']
+    endpoint, bearer = profile['endpoint'], profile['auth_token']
     if training.admin_mode or not profile['endpoint'] or not profile['auth_token']:
         raise PkServiceError(503, 'PK_UNAVAILABLE', '思维对决需要连接账号服务')
     if path == 'match/join':
@@ -40,11 +41,11 @@ def relay(training, path='state', value=None):
     payload = None if value is None else json.dumps(value, ensure_ascii=False).encode('utf8')
     if payload is not None and len(payload) > 16384:
         raise PkServiceError(413, 'PK_REQUEST_TOO_LARGE', '思维对决请求内容过大')
-    request = Request(profile['endpoint'] + '/api/pk/v1/' + path, data=payload,
-                      headers={'Content-Type': 'application/json', 'Authorization': 'Bearer ' + profile['auth_token'], 'X-TB-User': owner},
+    request = Request(endpoint + '/api/pk/v1/' + path, data=payload,
+                      headers={'Content-Type': 'application/json', 'Authorization': 'Bearer ' + bearer, 'X-TB-User': owner},
                       method='GET' if value is None else 'POST')
     try:
-        with service_opener(profile['endpoint']).open(request, timeout=8) as response:
+        with service_opener(endpoint).open(request, timeout=8) as response:
             raw = response.read(256 * 1024 + 1)
         if len(raw) > 256 * 1024:
             raise ValueError('size')
@@ -69,6 +70,7 @@ def relay(training, path='state', value=None):
             raise PkServiceError(error.code, code, message) from None
     except (URLError, TimeoutError, OSError, ValueError, RuntimeError):
         raise PkServiceError(503, 'PK_CONNECTION_FAILED', '思维对决连接中断，答卷将保留，请重新连接') from None
-    if training._ranking_profile()['user_id'] != owner:
+    current = training._ranking_profile()
+    if (current['user_id'], current['endpoint'], current['auth_token']) != (owner, endpoint, bearer):
         raise PkServiceError(409, 'PK_OWNER_CHANGED', '账号已切换')
     return result

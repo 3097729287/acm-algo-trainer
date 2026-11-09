@@ -1,7 +1,7 @@
 import {createHash,randomInt,randomUUID} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {AccountError} from './accounts.mjs';
-import {blankVerdict,validateVerdict} from './pk-judge.mjs';
+import {blankVerdict,validateVerdict,abortable,JudgeError} from './pk-judge.mjs';
 import {duelPoints} from './duel-points.mjs';
 
 const catalogue=JSON.parse(readFileSync(new URL('./thought-problems.json',import.meta.url),'utf8')).problems;
@@ -12,12 +12,20 @@ const text=value=>{if(typeof value!=='string'||[...value].length>2000||/[\u0000-
 const tolerance=(joined,now)=>Math.min(500,50+Math.floor(Math.max(0,now-joined)/15000)*50);
 const event=(room,type,at,extra={})=>room.events.push({id:room.events.length+1,type:'pk:'+type,at,...extra});
 const hash=value=>createHash('sha256').update(JSON.stringify(Object.keys(value).sort().map(key=>[key,value[key]]))).digest('hex');
+export function judgeLimits({matchCallLimit=4,dailyCallLimit=100}={}){
+ const match=Number(matchCallLimit),daily=Number(dailyCallLimit);
+ if(!Number.isInteger(match)||match<1||match>4||!Number.isInteger(daily)||daily<1||daily>10000)throw new JudgeError('PK_AI_CONFIG',{retryable:false});
+ return {matchCallLimit:match,dailyCallLimit:daily};
+}
+const budgetDay=now=>new Date(now+8*3600000).toISOString().slice(0,10);
+const missingTable=error=>error?.code==='ER_NO_SUCH_TABLE'||/no such table/i.test(error?.message||'');
 
 export class ThoughtDuels{
- constructor(db,dialect='mysql',{problems=catalogue,judge=null,enabled=false,now=()=>Date.now(),log=entry=>process.stderr.write(JSON.stringify(entry)+'\n')}={}){
-  this.db=db;this.dialect=dialect;this.problems=problems;this.judge=judge;this.enabled=enabled;this.now=now;this.log=log;this.running=new Map();this.maintenance=null;this.closed=false;
+ constructor(db,dialect='mysql',{problems=catalogue,judge=null,enabled=false,now=()=>Date.now(),log=entry=>process.stderr.write(JSON.stringify(entry)+'\n'),matchCallLimit=4,dailyCallLimit=100}={}){
+  this.db=db;this.dialect=dialect;this.problems=problems;this.judge=judge;this.enabled=enabled;this.now=now;this.log=log;this.running=new Map();this.controllers=new Map();this.maintenance=null;this.closed=false;
+  Object.assign(this,judgeLimits({matchCallLimit,dailyCallLimit}));
  }
- configure({enabled=false,judge=null,now=this.now}={}){this.enabled=enabled;this.judge=judge;this.now=now;}
+ configure({enabled=false,judge=null,now=this.now,matchCallLimit=this.matchCallLimit,dailyCallLimit=this.dailyCallLimit}={}){const limits=judgeLimits({matchCallLimit,dailyCallLimit});this.enabled=enabled;this.judge=judge;this.now=now;Object.assign(this,limits);}
  get ready(){return this.enabled&&!!this.judge&&this.problems.length>0;}
  async available(){try{for(const table of ['pk_lobby','pk_ratings','pk_queue','pk_matches','pk_members','pk_records','pk_operations'])await this.db.execute(`SELECT 1 FROM ${table} LIMIT 0`);return true;}catch(e){if(e.code==='ER_NO_SUCH_TABLE'||/no such table/i.test(e.message))return false;throw e;}}
  async transaction(action){return this.db.transaction(async db=>{await db.execute('SELECT singleton FROM pk_lobby WHERE singleton=1'+(this.dialect==='mysql'?' FOR UPDATE':''));return action(db);});}
@@ -28,17 +36,27 @@ export class ThoughtDuels{
  }
  async room(db,id){if(!id)return null;const [rows]=await db.execute('SELECT payload FROM pk_matches WHERE match_id=?',[id]);return rows.length?JSON.parse(rows[0].payload):null;}
  async member(db,owner){const [rows]=await db.execute('SELECT match_id FROM pk_members WHERE user_id=?',[owner]);return rows[0]?.match_id;}
- async save(db,room,now){const due=room.status==='countdown'?room.startedAt:room.status==='active'?room.deadline:room.status==='judging'?(room.judgeLeaseUntil||now):now;await db.execute('UPDATE pk_matches SET status=?,updated_at=?,due_at=?,payload=? WHERE match_id=?',[room.status,now,due,JSON.stringify(room),room.id]);}
+ async save(db,room,now){const due=room.status==='countdown'?room.startedAt:room.status==='active'?room.deadline:room.status==='judging'?(room.judgeLeaseUntil||room.judgeDeferredUntil||now):now;await db.execute('UPDATE pk_matches SET status=?,updated_at=?,due_at=?,payload=? WHERE match_id=?',[room.status,now,due,JSON.stringify(room),room.id]);}
  async rating(db,owner){const [rows]=await db.execute('SELECT rating FROM pk_ratings WHERE user_id=?',[owner]);return rows[0]?.rating??1000;}
+ async budget(db,now){
+  const day=budgetDay(now);try{const [rows]=await db.execute('SELECT calls FROM pk_judge_usage WHERE usage_day=?',[day]);const used=rows[0]?.calls??0;return {day,used,remaining:Math.max(0,this.dailyCallLimit-used),available:true};}
+  catch(error){if(missingTable(error))return {day,used:0,remaining:0,available:false};throw error;}
+ }
+ async reserveCall(db,now){
+  const budget=await this.budget(db,now);if(!budget.remaining)return budget;
+  const insert=this.dialect==='mysql'?'INSERT IGNORE':'INSERT OR IGNORE';await db.execute(`${insert} INTO pk_judge_usage(usage_day,calls) VALUES(?,0)`,[budget.day]);
+  const [result]=await db.execute('UPDATE pk_judge_usage SET calls=calls+1 WHERE usage_day=? AND calls<?',[budget.day,this.dailyCallLimit]);return {...budget,reserved:result.affectedRows===1};
+ }
  viewRoom(owner,room,now){
   if(!room)return null;
   return {id:room.id,status:room.status,startedAt:room.startedAt,deadline:room.deadline,finishedAt:room.finishedAt??null,problem:room.status==='countdown'?null:{id:room.problem.id,title:room.problem.title,url:room.problem.url,difficulty:room.problem.difficulty,markdown:room.problem.displayMarkdown||room.problem.markdown,originalMarkdown:room.problem.markdown,limits:room.problem.limits},
    players:room.players.map(p=>({owner:p.owner,nickname:p.nickname,avatarHash:p.avatarHash,rating:p.rating,online:now-p.lastSeen<25000,submittedAt:p.submittedAt,revision:p.owner===owner?p.revision:undefined,...(p.owner===owner||room.status==='finished'?{text:p.text}:{})})),events:room.events,
+   ...(room.status==='judging'&&room.judgeWaitingCode?{judgingWait:{code:room.judgeWaitingCode,retryAt:room.judgeDeferredUntil,resetsAt:room.judgeBudgetResetAt}}:{}),
    ...(room.status==='finished'?{verdict:room.verdict,winner:room.winner,ratingChanges:room.ratingChanges,judgeFailed:room.judgeFailed}:{}),owner};
  }
  async view(db,owner,now){
   const [queued]=await db.execute('SELECT * FROM pk_queue WHERE user_id=?',[owner]);const q=queued[0],room=await this.room(db,await this.member(db,owner));
-  return {owner,serverNow:now,enabled:this.ready,capabilities:{thoughtMode:1,maxLength:2000,durationSeconds:900},rating:await this.rating(db,owner),status:room?.status||(q?'queued':'idle'),ticket:q?.ticket??null,queuedAt:q?.joined_at??null,range:q?{min:q.min_difficulty,max:q.max_difficulty}:null,tolerance:q?tolerance(q.joined_at,now):50,match:this.viewRoom(owner,room,now)};
+  return {owner,serverNow:now,enabled:this.ready&&(await this.budget(db,now)).remaining>0,capabilities:{thoughtMode:1,maxLength:2000,durationSeconds:900},rating:await this.rating(db,owner),status:room?.status||(q?'queued':'idle'),ticket:q?.ticket??null,queuedAt:q?.joined_at??null,range:q?{min:q.min_difficulty,max:q.max_difficulty}:null,tolerance:q?tolerance(q.joined_at,now):50,match:this.viewRoom(owner,room,now)};
  }
  async read(owner,now,{advance=true}={}){
   if(!await this.available())return {owner,serverNow:now,enabled:false,status:'idle',rating:1000,match:null,capabilities:{thoughtMode:1,maxLength:2000,durationSeconds:900}};
@@ -46,7 +64,7 @@ export class ThoughtDuels{
  }
  async pair(db,now){
   await db.execute('DELETE FROM pk_queue WHERE last_seen<?',[now-25000]);
-  if(!this.ready)return;
+  if(!this.ready||!(await this.budget(db,now)).remaining)return;
   const [queue]=await db.execute('SELECT * FROM pk_queue ORDER BY joined_at,user_id');
   const used=new Set();
   for(let i=0;i<queue.length;i++){
@@ -93,20 +111,37 @@ export class ThoughtDuels{
  }
  launch(id){
   if(this.closed||this.running.has(id)||this.running.size>=2)return;
-  const work=this.runJudge(id).catch(()=>{this.log({event:'pk:judge_error',matchId:id,code:'PK_JUDGE_INTERNAL'});}).finally(()=>this.running.delete(id));this.running.set(id,work);
+  const controller=new AbortController();this.controllers.set(id,controller);
+  const work=this.runJudge(id,controller.signal).catch(()=>{this.log({event:'pk:judge_error',matchId:id,code:'PK_JUDGE_INTERNAL'});}).finally(()=>{this.controllers.delete(id);this.running.delete(id);});this.running.set(id,work);
  }
- async runJudge(id){
+ async runJudge(id,signal){
   for(;;){
+   if(this.closed||signal?.aborted)return;
    const now=this.now(),claim=await this.transaction(async db=>{
-    const room=await this.room(db,id);if(!room||room.status!=='judging'||room.judgeLeaseUntil>now)return null;
-    if(room.judgeAttempts>=4||!this.judge){await this.settle(db,room,{...blankVerdict(),reason:'AI 裁判暂不可用，本局平局，积分不变'},now,true);return null;}
+    if(this.closed||signal?.aborted)return null;
+    const room=await this.room(db,id);if(!room||room.status!=='judging'||room.judgeLeaseUntil>now||room.judgeDeferredUntil>now)return null;
+    if(room.judgeAttempts>=this.matchCallLimit||!this.judge){await this.settle(db,room,{...blankVerdict(),reason:'AI 裁判暂不可用，本局平局，积分不变'},now,true);return null;}
+    const budget=await this.reserveCall(db,now);
+    if(!budget.reserved){
+     room.judgeDeferredUntil=now+60000;room.judgeWaitingCode=budget.available?'PK_AI_DAILY_LIMIT':'PK_AI_CONFIG';room.judgeBudgetResetAt=Date.parse(budget.day+'T00:00:00+08:00')+86400000;await this.save(db,room,now);return null;
+    }
+    delete room.judgeDeferredUntil;delete room.judgeWaitingCode;delete room.judgeBudgetResetAt;
     room.judgeToken=randomUUID();room.judgeLeaseUntil=now+60000;room.judgeAttempts++;await this.save(db,room,now);return room;
    });if(!claim)return;
-   let verdict=null;
-   try{verdict=validateVerdict(await this.judge(claim.problem,claim.players.map(p=>p.text)),claim.players.map(p=>p.text));}catch{this.log({event:'pk:judge_retry',matchId:id,attempt:claim.judgeAttempts,code:'PK_JUDGE_INVALID'});}
+   let verdict=null,permanentFailure=false;
+   try{
+    const response=Promise.resolve().then(()=>{if(this.closed||signal?.aborted)throw Error('stopped');return this.judge(claim.problem,claim.players.map(p=>p.text),{signal});});
+    verdict=validateVerdict(await abortable(response,signal),claim.players.map(p=>p.text));
+   }catch(error){
+    permanentFailure=error?.retryable===false&&!error?.cancelled;
+    const code=error instanceof JudgeError&&/^PK_AI_(CONFIG|INPUT|HTTP|RESPONSE|JSON|SIZE|TIMEOUT|CONNECTION)$/.test(error.code)?error.code:'PK_JUDGE_INVALID';
+    if(!this.closed&&!signal?.aborted)this.log({event:permanentFailure?'pk:judge_failed':'pk:judge_retry',matchId:id,attempt:claim.judgeAttempts,code,retryable:!permanentFailure,...(Number.isInteger(error?.status)&&error.status>=100&&error.status<=599?{status:error.status}:{})});
+   }
    const retry=await this.transaction(async db=>{
     const current=await this.room(db,id);if(!current||current.status!=='judging'||current.judgeToken!==claim.judgeToken)return false;
+    if(this.closed||signal?.aborted){delete current.judgeToken;delete current.judgeLeaseUntil;await this.save(db,current,this.now());return false;}
     if(verdict){await this.settle(db,current,verdict,this.now());return false;}
+    if(permanentFailure){await this.settle(db,current,{...blankVerdict(),reason:'AI 裁判暂不可用，本局平局，积分不变'},this.now(),true);return false;}
     delete current.judgeToken;delete current.judgeLeaseUntil;await this.save(db,current,this.now());return true;
    });if(!retry)return;
   }
@@ -127,6 +162,7 @@ export class ThoughtDuels{
    let room=await this.room(db,await this.member(db,owner));
    if(kind==='join'){
     if(room)fail(409,'ROOM_EXISTS','请先返回匹配');
+    if(!(await this.budget(db,now)).remaining)fail(503,'AI_DAILY_LIMIT','裁判暂不可用，请稍后重试');
     const [old]=await db.execute('SELECT ticket FROM pk_queue WHERE user_id=?',[owner]);
     if(!old.length){
      const lo=value.minDifficulty??800,hi=value.maxDifficulty??1500;
@@ -167,5 +203,5 @@ export class ThoughtDuels{
   return id?{owner,match:this.viewRoom(owner,JSON.parse(rows[0].payload),now)}:{owner,records:rows.map(row=>{const room=JSON.parse(row.payload);return {id:room.id,problem:room.problem.title,finishedAt:room.finishedAt,winner:room.winner,judgeFailed:room.judgeFailed,ratingChange:room.ratingChanges[owner],players:room.players.map(p=>({owner:p.owner,nickname:p.nickname}))};})};
  }
  start(){if(this.timer)return;this.timer=setInterval(()=>{if(!this.closed)this.available().then(ok=>ok&&this.maintain()).catch(()=>this.log({event:'pk:maintenance_error',code:'PK_MAINTENANCE'}));},1000);this.timer.unref();}
- async close(){this.closed=true;clearInterval(this.timer);await this.maintenance?.catch(()=>{});await Promise.allSettled([...this.running.values()]);}
+ async close(){this.closed=true;clearInterval(this.timer);for(const controller of this.controllers.values())controller.abort();await this.maintenance?.catch(()=>{});await Promise.allSettled([...this.running.values()]);}
 }

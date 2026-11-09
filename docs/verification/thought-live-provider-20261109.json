@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "status": "passed",
+  "realProvider": true,
+  "maxProviderCalls": 1,
+  "providerCalls": 1,
+  "sourceBase": "5ca1f752",
+  "ordinaryProgramStarted": false,
+  "ordinaryAccountStateUsed": false,
+  "privateAnswersSent": false,
+  "credentialsPersisted": false,
+  "productionDeployed": false,
+  "checks": {
+    "serverCountdownAndHiddenProblem": true,
+    "publicFullStatementAndPrivateReference": true,
+    "opponentDraftHidden": true,
+    "realDraftSurvivesServiceRestart": true,
+    "realJudgeDistinguishesProvenAlgorithmAndCounterexample": true,
+    "replayedSubmissionsSettleExactlyOnce": true,
+    "otherAccountCannotReadRecord": true,
+    "verdictRatingAndBothAnswersSurviveServiceRestart": true
+  },
+  "provider": {
+    "name": "deepseek",
+    "host": "api.deepseek.com",
+    "model": "deepseek-flash"
+  },
+  "problem": {
+    "id": "Div.2 1112::A",
+    "title": "Threshold Movement",
+    "statementSha256": "e297bd89be175e40250b77587d5b3b4a8d81c3de5801f1c15737ec2227f15928",
+    "publicReferenceSha256": "e6b8e7fc41a1b5e32155050247eb1e9a89a7745fa0190c6426cb2d85e96d6d55"
+  },
+  "providerElapsedMs": 3350,
+  "verdict": {
+    "winner": "correct-public-answer",
+    "playerA": {
+      "correctAlgorithm": true,
+      "timeFeasible": true,
+      "scores": {
+        "correctness": 40,
+        "complexity": 20,
+        "edge_case": 15,
+        "constant": 10,
+        "clarity": 10,
+        "innovation": 4
+      },
+      "finalScore": 99
+    },
+    "playerB": {
+      "correctAlgorithm": false,
+      "timeFeasible": true,
+      "scores": {
+        "correctness": 5,
+        "complexity": 15,
+        "edge_case": 2,
+        "constant": 10,
+        "clarity": 6,
+        "innovation": 1
+      },
+      "finalScore": 39
+    },
+    "ratingChanges": [
+      -20,
+      20
+    ],
+    "validatedVerdictSha256": "6abb9ff73bbe8757f9cce80ee38c38f560405665422e1841ae767d25bdc4a222",
+    "answerSha256": [
+      "19af83081642b8636be592c2de419924a7c6c03b538872bf85514a60ccadd73c",
+      "ef82abe799a162a879fb39dbafbc0544d8c2cb0d9d9992766111ce054d0bd60d"
+    ]
+  },
+  "elapsedMs": 4352,
+  "finishedAt": "2026-11-09T10:59:32.142Z",
+  "localCredentialReuse": {
+    "authorizedByUser": true,
+    "source": "E:\\项目\\ToBe\\版本\\最新版\\程序\\state\\tb-documents.sqlite3",
+    "rowKey": "translation-settings.json",
+    "readOnlyTargetedQuery": true,
+    "decryptedOnlyInMemory": true,
+    "otherProjectFallbackUsed": false,
+    "ordinaryConfigWritePerformed": false,
+    "sameSettingsRowAfterCheck": true,
+    "credentialValuesInProof": false
+  }
+}

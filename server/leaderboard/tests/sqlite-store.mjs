@@ -26,6 +26,7 @@ export class SQLiteStore {
     if (!this.database.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='team_lobby'").get()) {
       this.database.exec(readFileSync(new URL('./team-schema.sql', import.meta.url), 'utf8'));
     }
+    this.database.exec('CREATE TABLE IF NOT EXISTS pk_judge_usage(usage_day TEXT PRIMARY KEY,calls INTEGER NOT NULL DEFAULT 0)');
     const execute = async (sql, params=[]) => {
       const statement=this.database.prepare(sql);
       if (/^\s*(?:SELECT|WITH)\b/i.test(sql)) return [statement.all(...params)];

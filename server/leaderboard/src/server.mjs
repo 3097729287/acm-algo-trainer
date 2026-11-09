@@ -135,7 +135,7 @@ export async function start(env = process.env) {
     await STORE.health();
     const pkEnabled=env.PK_MATCH_ENABLED==='1'&&env.PK_THOUGHT_MODE_ENABLED==='1';
     if(pkEnabled){
-      try{STORE.pk.configure({enabled:true,judge:createAIJudge({endpoint:env.PK_AI_ENDPOINT,model:env.PK_AI_MODEL,key:await secret(env,'PK_AI_KEY')})});}
+      try{STORE.pk.configure({enabled:true,judge:createAIJudge({endpoint:env.PK_AI_ENDPOINT,model:env.PK_AI_MODEL,key:await secret(env,'PK_AI_KEY'),timeoutMs:Number(env.PK_AI_TIMEOUT_MS??45000)}),matchCallLimit:env.PK_AI_MATCH_CALL_LIMIT??4,dailyCallLimit:env.PK_AI_DAILY_CALL_LIMIT??100});}
       catch{process.stderr.write('PK_AI_CONFIG: thought mode remains disabled\n');}
     }
     if (env.READ_ONLY !== '1') await STORE.settleRewards(Date.now());

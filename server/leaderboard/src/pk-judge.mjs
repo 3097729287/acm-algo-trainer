@@ -32,19 +32,62 @@ export function validateVerdict(value,answers){
 }
 export function blankVerdict(){return {problem_analysis:{optimal_algorithm:'',optimal_time_complexity:'',optimal_space_complexity:'',key_edges:[]},player_a:emptyScore(),player_b:emptyScore(),winner:'draw',reason:'双方均未作答'};}
 
+export class JudgeError extends Error{
+ constructor(code,{retryable=true,cancelled=false,status=null}={}){super(code);this.name='JudgeError';this.code=code;this.retryable=retryable;this.cancelled=cancelled;if(status!==null)this.status=status;}
+}
+
+// A deadline must also cover custom transports and a stalled response body.
+export function abortable(promise,signal){
+ if(!signal)return Promise.resolve(promise);
+ return new Promise((resolve,reject)=>{
+  const stopped=()=>{cleanup();reject(new JudgeError('PK_AI_CANCELLED',{retryable:false,cancelled:true}));};
+  const cleanup=()=>signal.removeEventListener('abort',stopped);
+  Promise.resolve(promise).then(value=>{cleanup();resolve(value);},error=>{cleanup();reject(error);});
+  if(signal.aborted)stopped();else signal.addEventListener('abort',stopped,{once:true});
+ });
+}
+
+export function judgeRequestOptions(endpoint,model){
+ const host=new URL(endpoint).hostname.toLowerCase(),name=model.toLowerCase();
+ // Keep the same non-thinking options used by the desktop's real provider.
+ if(host==='api.deepseek.com'||host.endsWith('.volces.com')||name.startsWith('deepseek')||name.startsWith('doubao'))return {thinking:{type:'disabled'}};
+ if(['qwen-plus','qwen-flash','qwen3'].some(prefix=>name.startsWith(prefix))&&!name.includes('thinking'))return {enable_thinking:false};
+ return {};
+}
+
 export function createAIJudge({endpoint,model,key,fetchImpl=fetch,timeoutMs=45000}={}){
  if(!endpoint||!model||!key)return null;
- const url=new URL(endpoint);
- if(url.protocol!=='https:'||url.username||url.password||url.search||url.hash)throw Error('PK_AI_CONFIG');
- return async(problem,answers)=>{
-  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeoutMs);timer.unref?.();
+ let url;try{url=new URL(endpoint);}catch{throw new JudgeError('PK_AI_CONFIG',{retryable:false});}
+ if(url.protocol!=='https:'||url.username||url.password||url.search||url.hash||!url.pathname.endsWith('/chat/completions')
+    ||typeof model!=='string'||!/^[^\s\x00-\x1f\x7f]{1,128}$/.test(model)||typeof key!=='string'||!/^[^\s\x00-\x1f\x7f]{1,4096}$/.test(key)
+    ||!Number.isInteger(timeoutMs)||timeoutMs<1||timeoutMs>45000)throw new JudgeError('PK_AI_CONFIG',{retryable:false});
+ return async(problem,answers,{signal}={})=>{
+  if(signal?.aborted)throw new JudgeError('PK_AI_CANCELLED',{retryable:false,cancelled:true});
+  if(!Array.isArray(answers)||answers.length!==2||answers.some(value=>typeof value!=='string'||[...value].length>2000))throw new JudgeError('PK_AI_INPUT',{retryable:false});
+  const body=JSON.stringify({model,temperature:0,response_format:{type:'json_object'},max_tokens:6000,stream:false,...judgeRequestOptions(url,model),
+   messages:[{role:'system',content:JUDGE_PROMPT},{role:'user',content:JSON.stringify({problem:{title:problem.title,statement:problem.markdown,limits:problem.limits,reference:problem.reference},player_a:answers[0],player_b:answers[1]})}]});
+  if(Buffer.byteLength(body)>128*1024)throw new JudgeError('PK_AI_INPUT',{retryable:false});
+  const controller=new AbortController();let timedOut=false,reader,completed=false;
+  const cancelled=()=>controller.abort();signal?.addEventListener('abort',cancelled,{once:true});
+  const timer=setTimeout(()=>{timedOut=true;controller.abort();},timeoutMs);timer.unref?.();
   try{
-   const response=await fetchImpl(url,{method:'POST',redirect:'error',signal:controller.signal,headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({model,temperature:0,response_format:{type:'json_object'},max_tokens:6000,messages:[{role:'system',content:JUDGE_PROMPT},{role:'user',content:JSON.stringify({problem:{title:problem.title,statement:problem.markdown,limits:problem.limits,reference:problem.reference},player_a:answers[0],player_b:answers[1]})}]})});
-   if(!response.ok)throw Error('PK_AI_HTTP');
-   const reader=response.body.getReader();let size=0;const chunks=[];
-   for(;;){const {value,done}=await reader.read();if(done)break;size+=value.length;if(size>128*1024){await reader.cancel();throw Error('PK_AI_SIZE');}chunks.push(value);}
-   const envelope=JSON.parse(Buffer.concat(chunks).toString('utf8'));
-   return JSON.parse(envelope.choices?.[0]?.message?.content);
-  }finally{clearTimeout(timer);}
+   const response=await abortable(fetchImpl(url,{method:'POST',redirect:'error',signal:controller.signal,headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body}),controller.signal);
+   if(!response.ok)throw new JudgeError('PK_AI_HTTP',{retryable:response.status===408||response.status===429||response.status>=500,status:response.status});
+   if(!response.body?.getReader)throw new JudgeError('PK_AI_RESPONSE');
+   reader=response.body.getReader();let size=0;const chunks=[];
+   for(;;){const {value,done}=await abortable(reader.read(),controller.signal);if(done){completed=true;break;}size+=value.length;if(size>128*1024)throw new JudgeError('PK_AI_SIZE');chunks.push(value);}
+   let envelope;try{envelope=JSON.parse(Buffer.concat(chunks).toString('utf8'));}catch{throw new JudgeError('PK_AI_JSON');}
+   const choice=envelope.choices?.[0];
+   if(choice?.finish_reason==='length'||typeof choice?.message?.content!=='string')throw new JudgeError('PK_AI_JSON');
+   try{return JSON.parse(choice.message.content);}catch{throw new JudgeError('PK_AI_JSON');}
+  }catch(error){
+   if(signal?.aborted)throw new JudgeError('PK_AI_CANCELLED',{retryable:false,cancelled:true});
+   if(timedOut)throw new JudgeError('PK_AI_TIMEOUT');
+   if(error instanceof JudgeError)throw error;
+   throw new JudgeError('PK_AI_CONNECTION');
+  }finally{
+   clearTimeout(timer);signal?.removeEventListener('abort',cancelled);
+   if(!completed){controller.abort();if(reader)void reader.cancel().catch(()=>{});}
+  }
  };
 }
