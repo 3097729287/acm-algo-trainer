@@ -2,7 +2,7 @@
 import logging
 import threading
 
-SAVE_AND_CLOSE = """(()=>{const waits=[];window.dispatchEvent(new CustomEvent('tb-before-update',{detail:{waitUntil:p=>waits.push(p)}}));Promise.all(waits).then(values=>window.pywebview.api.desktop_close_ready(!values.some(value=>value===false)),()=>window.pywebview.api.desktop_close_ready(false));return true;})()"""
+SAVE_AND_CLOSE = """(()=>{const waits=[];window.dispatchEvent(new CustomEvent('tb-before-update',{detail:{waitUntil:p=>waits.push(p)}}));Promise.all(waits).then(values=>{const saved=!values.some(value=>value===false);if(saved)window.dispatchEvent(new Event('tb-desktop-closing'));window.pywebview.api.desktop_close_ready(saved);},()=>window.pywebview.api.desktop_close_ready(false));return true;})()"""
 
 
 class CloseCoordinator:

@@ -1,0 +1,233 @@
+{
+  "schema": 1,
+  "ok": true,
+  "createdAtUtc": "2026-11-09T15:59:37.035168+00:00",
+  "baseCommit": "72866bd8fe93a382cf7f0c2e40813fd60ac9aa36",
+  "branch": "fix/presence-idle-open-20261109",
+  "scope": "Idle-open red / closed grey; trusted native input consumer; confirmed-close signal; consolidate existing queued timer",
+  "versionUnchanged": true,
+  "noSqlSchemaMigration": true,
+  "dataOrPublicResourcesChanged": false,
+  "realPersonalDatabasesReadOrWritten": false,
+  "ordinaryProgramOrBrowserProfileTouched": false,
+  "frozen112Or93DistModifiedByThisTask": false,
+  "serverDeployed": false,
+  "releaseTagOrStableModified": false,
+  "newSourcePushed": false,
+  "nativePhysicalInputPositiveAutomaticallyProven": false,
+  "nativeHookOwner": "Separate DeepSeek/native-activity branch; 5-field read-only API agreed; must integrate together for child-WebView input",
+  "nativeInterface": {
+    "path": "GET /api/desktop/input-activity",
+    "fields": [
+      "available",
+      "session",
+      "revision",
+      "observed",
+      "ageSeconds"
+    ],
+    "acceptsDomSelfReportedInput": false,
+    "postsNativeCountersOrChatContentUpstream": false,
+    "clock": "max(trusted DOM time, sample-start monotonic time - observed age), changed revision only"
+  },
+  "checks": {
+    "sharedService": {
+      "passed": 160,
+      "failed": 0,
+      "skipped": 2,
+      "skipReason": "Existing optional isolated MySQL conditions"
+    },
+    "presenceBrowser": {
+      "ok": true,
+      "realComponents": true,
+      "nativeDtoFixture": true,
+      "idleRedClosedGrey": true,
+      "repeatBackwardsAndInvalidNativeValuesRejected": true,
+      "trustedDomAndReadingFrame": true,
+      "ownerLateResponseGuard": true,
+      "closeSaveSeparation": true,
+      "offlineKeepaliveOnly": true
+    },
+    "nativeClose": {
+      "ok": true,
+      "localSaveBarrier": true,
+      "cancelledUnsavedClose": true,
+      "confirmedCloseSignal": true,
+      "seconds": 0.924
+    },
+    "queueExistingUi": {
+      "ok": true,
+      "existingReactFixtureAndHttpService": true,
+      "singleTimerInsideOriginalCancelFrame": true,
+      "repeatedTopQueueRemoved": true,
+      "serverQueuedAtUnchangedAcrossNavigation": true,
+      "initialText": "00:00",
+      "restoredText": "00:01",
+      "cancelStillWorks": true,
+      "foundAndReadyStillPresent": true,
+      "problemStillHiddenUntilAcceptance": true,
+      "screenshotDirectory": ".backups/queue-ui-proof-1794239115298",
+      "realAccountsUsed": false,
+      "originalSiteRequests": 0,
+      "ojSubmissions": 0
+    },
+    "thoughtExistingUi": {
+      "ok": true,
+      "judge": "Local fixture only; no real AI or OJ claim"
+    },
+    "frontendBuild": {
+      "ok": true,
+      "seconds": 11.35,
+      "modules": 2483,
+      "kind": "Local validation build from this working tree; no release-producer claim",
+      "distFiles": 502,
+      "distManifestSha256": "7ba0fcb42133cfe990ad4946426c6b12bbe10abea113e335a3963f35a13b62ea"
+    }
+  },
+  "cleanup": {
+    "filesystemObsoleteItemsConfirmedBeforeWorktree": 0,
+    "itemsRecycled": 0,
+    "bytesRecycled": 0,
+    "codeRemoved": [
+      "duplicate queued top status in ranked/thought lobby",
+      "unused old top-status timer CSS selector retargeted to existing queued cancel frame"
+    ],
+    "r1R2ProofAndPublicBaselinesRetained": true,
+    "originalAudit": "整理记录/20261109-在线状态/presence-cleaning-before-worktree-145859394238.json"
+  },
+  "validatedTrackedFiles": {
+    "desktop/close_coordinator.py": {
+      "workingTreeRawSha256": "6bc2ce63c9d828995cb0b2c0680249c55cac951bbcdb12a70020a17851797b8e",
+      "bytes": 2184
+    },
+    "desktop/tests/close_native.py": {
+      "workingTreeRawSha256": "0ddc827c34e114a7e59937e2399eb7dc6f31087c35afe2a7e021f1922d1d4118",
+      "bytes": 2118
+    },
+    "docs/design-principles.md": {
+      "workingTreeRawSha256": "f78186bb19cb58ef92b82aa1879c1e9de466f168507acda867befaa74b0281e2",
+      "bytes": 43024
+    },
+    "frontend/src/api/client.js": {
+      "workingTreeRawSha256": "bba876e4fc40550d9b810a6be9a2ecc30974af88bb157548a4182129211ee819",
+      "bytes": 2818
+    },
+    "frontend/src/components/DuelCommunity.jsx": {
+      "workingTreeRawSha256": "30fbbf7a3bfa4779cdade65c4772d09685ad59380573f918ad1a4c4c6f5f0387",
+      "bytes": 4069
+    },
+    "frontend/src/components/PresenceLabel.css": {
+      "workingTreeRawSha256": "a78afafb68bd793fb2087c37064ae34ac10361fdb170bb1fed2e893124d93b16",
+      "bytes": 806
+    },
+    "frontend/src/components/PresenceLabel.jsx": {
+      "workingTreeRawSha256": "45d06f226b8a3d8e529216a523e11e3b13a743fd627afa97e4ae6f86d38b4c87",
+      "bytes": 516
+    },
+    "frontend/src/components/ThoughtBattle.jsx": {
+      "workingTreeRawSha256": "223123718b0eaf5e64ab5b084f798b9d529249452c93da904cc533f3a39c4b0d",
+      "bytes": 11308
+    },
+    "frontend/src/lib/usePresence.js": {
+      "workingTreeRawSha256": "8f23afd12c01bc1689235aade7aebf35cc131b54b4d851aa367fdc815a38adb7",
+      "bytes": 5578
+    },
+    "frontend/src/lib/userInput.js": {
+      "workingTreeRawSha256": "3045dcb7b3d76f973d7f150cb86269a14d4a147b39fec0422ef51fbd66150b0d",
+      "bytes": 3529
+    },
+    "frontend/src/pages/CommunityPanel.jsx": {
+      "workingTreeRawSha256": "f89714595d057882e29dfdbf333905d96525b45ce762294b32b3a7aefff85028",
+      "bytes": 21673
+    },
+    "frontend/src/pages/DuelPage.css": {
+      "workingTreeRawSha256": "f03e2fb64c7a45807a58f317ed3eb4615d2d6ec5326b63f516c7edd40bd8f593",
+      "bytes": 17345
+    },
+    "frontend/src/pages/DuelPage.jsx": {
+      "workingTreeRawSha256": "97be3d82a77361fd46de46d6e96a4a556dbab55ab949dc45359f6f285ae762b2",
+      "bytes": 6894
+    },
+    "frontend/tests/next-version.mjs": {
+      "workingTreeRawSha256": "05d4470ce890f2a6053fa110d13dc550b4016a15a42e1cce48bc6becf1bfa6c0",
+      "bytes": 15669
+    },
+    "frontend/tests/presence-fixture.jsx": {
+      "workingTreeRawSha256": "67e341a20d4f750dd09d193832830f72ce3c647ab20ccbd09d621572a110ad42",
+      "bytes": 3924
+    },
+    "frontend/tests/presence.mjs": {
+      "workingTreeRawSha256": "8e8c5a2a735ebfe0d9d67d8cc2b36d35c308ee335285e1f791fdd4b6e236f9c8",
+      "bytes": 9788
+    },
+    "frontend/tests/thought-duel.mjs": {
+      "workingTreeRawSha256": "3864f2d985508b50c09a7bc2a2f4a41e9b28334e5077d7dea95b97791b5a49c8",
+      "bytes": 9684
+    },
+    "server/leaderboard/src/api.mjs": {
+      "workingTreeRawSha256": "1b15f9c854570ff9a3006f2c3823713c2797b2bf0a11b7adfbfc6c9538dff117",
+      "bytes": 31743
+    },
+    "server/leaderboard/src/duel-community.mjs": {
+      "workingTreeRawSha256": "2a1c3a97b2464cf9bc2923e4c39d4094fa49db4eef144dd895c4d88a1df1064d",
+      "bytes": 6544
+    },
+    "server/leaderboard/tests/duel-community.test.mjs": {
+      "workingTreeRawSha256": "22378a1738dbc92071d6e12e6dfef1d9e6382e4791d0788ac14dfec0a03be5a1",
+      "bytes": 8170
+    }
+  },
+  "artifacts": {
+    ".backups/presence-server-tests-20261109.log": {
+      "sha256": "2a47d4be482293c8a6997eff9e00ecb3ed28ea9b8318c08ad2981f32e5edf18e",
+      "bytes": 35752
+    },
+    ".backups/presence-browser-main-styles-20261109.log": {
+      "sha256": "025d7e80ae3809416873265fd30d055a842e7423496a13b1d0919fa4ae93ec21",
+      "bytes": 522
+    },
+    ".backups/presence-native-close-20261109.log": {
+      "sha256": "f036a2a294740bf9446d399e140d3e1f2c8e0da59a5c588788c3308a0ec86af6",
+      "bytes": 240
+    },
+    ".backups/queue-existing-ui-20261109.log": {
+      "sha256": "887e37ffe211bd54e573babcfcef120e9c2e0b963e1d8a847b934ae71fd3f696",
+      "bytes": 3458
+    },
+    ".backups/thought-existing-ui-20261109.log": {
+      "sha256": "132be0addd00d66f2faeb1620ea6702a063cbd4ef0da813b45322263b13ef735",
+      "bytes": 3158
+    },
+    ".backups/presence-final-build-20261109.log": {
+      "sha256": "a7798c0b70230313b131aa13a4e334fd8ba1176dfe1b9685031b63d7a8086997",
+      "bytes": 66754
+    },
+    ".backups/presence-ui-proof-main-styles/idle-red-closed-grey.png": {
+      "sha256": "b6898f5f454b0c0c3cfa65a5d9cc6b887e22ea4d5c5578fc3874ab8c6c263e25",
+      "bytes": 81992
+    },
+    ".backups/queue-ui-proof-1794239115298/result.json": {
+      "sha256": "1bb521e0c36a648d8bde508f1415c71b13762f2f0f7087cd36af43ad16f6c313",
+      "bytes": 565
+    },
+    ".backups/queue-ui-proof-1794239115298/ranked-queued-wide.png": {
+      "sha256": "1717a0c46bae3fe683d0fcd4463d3be6601224b3493679c9cea58ff88b30525f",
+      "bytes": 213708
+    },
+    ".backups/queue-ui-proof-1794239115298/ranked-queued-narrow.png": {
+      "sha256": "ca9024b3349facdc9e77b720504624b0f747392e170fc4995e6e19c6a1784397",
+      "bytes": 104903
+    },
+    ".backups/queue-ui-proof-1794239115298/ranked-found-ready.png": {
+      "sha256": "37f7dc40a282b83c1cc1bd288830eab2458537ff6fc2e91104482e3166067570",
+      "bytes": 122364
+    },
+    ".backups/thought-duel-20261109/ui-1794239115299/queued.png": {
+      "sha256": "8dce9de5de73e046efc188b41b124743fa5a48576c9a4a1ce31665efcc7ab621",
+      "bytes": 187698
+    }
+  },
+  "freeBytesAtProof": {
+    "C": 23295471616,
+    "E": 822243328
+  }
+}

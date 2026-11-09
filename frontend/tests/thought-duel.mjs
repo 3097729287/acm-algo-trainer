@@ -40,6 +40,7 @@ try{
  const [a,b]=pages;
  await a.screenshot({path:path.join(output,'lobby.png')});
  await a.getByRole('button',{name:'开始思维匹配'}).click();await a.getByRole('button',{name:'取消匹配'}).waitFor();assert(await a.getByRole('tab',{name:'排位',exact:true}).isDisabled());
+ await a.getByRole('timer',{name:'已匹配时间'}).waitFor();await a.screenshot({path:path.join(output,'queued.png')});
  await b.getByRole('button',{name:'开始思维匹配'}).click();await Promise.all(pages.map(p=>p.getByRole('alert',{name:'已找到对手'}).waitFor()));
  const room=JSON.parse(fixture.STORE.database.prepare('SELECT payload FROM pk_matches').get().payload);fixture.env.TEST_NOW=room.startedAt;
  await Promise.all(pages.map(p=>p.getByRole('textbox',{name:'思维对决答卷'}).waitFor()));

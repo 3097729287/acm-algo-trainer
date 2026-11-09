@@ -20,7 +20,7 @@ export default function DuelCommunity({api,owner,mode,revision,standingsOnly=fal
  const time=stamp=>new Date(stamp).toLocaleTimeString('zh-CN',{timeZone:'Asia/Shanghai',hour:'2-digit',minute:'2-digit'});
  return <section className={'duel-community'+(standingsOnly?' standings-only':'')} aria-label={standingsOnly?'排位分排行榜':'排位排行榜与对战记录'}>
   <section className="duel-ranking"><header><h2><Trophy size={17}/>{standingsOnly?'排位分排行榜':'排行榜'}</h2><button type="button" className="icon-button" aria-label="刷新排位排行榜" disabled={busy} onClick={()=>load()}><RefreshCw size={16}/></button></header>
-   <table><thead><tr><th>名次</th><th>用户</th><th>排位分</th></tr></thead><tbody>{view?.entries.map(item=><tr key={item.userId} data-self={item.userId===owner}><td>{item.rank}</td><td><strong>{item.nickname}</strong><PresenceLabel online={item.online} activity={item.activity} cached={fresh.current?.owner!==owner||fresh.current?.mode!==mode}/></td><td>{item.rating}</td></tr>)}</tbody></table>
+   <table><thead><tr><th>名次</th><th>用户</th><th>排位分</th></tr></thead><tbody>{view?.entries.map(item=><tr key={item.userId} data-self={item.userId===owner}><td>{item.rank}</td><td><strong>{item.nickname}</strong><PresenceLabel online={item.online} activity={item.activity} idle={item.idle} cached={fresh.current?.owner!==owner||fresh.current?.mode!==mode}/></td><td>{item.rating}</td></tr>)}</tbody></table>
    {!view&&!error&&<p role="status">正在读取排位成绩…</p>}{view&&!view.entries.length&&<p>{standingsOnly?'暂无排位成绩':'暂无对战记录'}</p>}
   </section>
   {!standingsOnly&&<section className="duel-public-records"><header><h2>对战记录</h2><time>{view?.date||trainingDay()}</time></header>

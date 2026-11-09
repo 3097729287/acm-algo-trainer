@@ -105,7 +105,7 @@ async function leaderboard(user, env, period, now) {
   const entries=rows.map(rankingRow), self=user.login_id==='admin' ? null : own ? rankingRow(own) : { ...rankingRow(user),rank:null,count:0 };
   const visible=[...entries,...(self?[self]:[])];
   const presence=env.STORE.gameplay?await presenceSnapshot(env.STORE.gameplay,now):null;
-  if(presence?.available){const active=new Map(presence.users.map(p=>[p.userId,p.activity]));for(const item of visible){item.online=active.has(item.userId);item.activity=active.get(item.userId)||null;}}
+  if(presence?.available){const active=new Map(presence.users.map(p=>[p.userId,p.activity])),idle=new Set(presence.idleUsers.map(p=>p.userId));for(const item of visible){item.online=active.has(item.userId);item.idle=idle.has(item.userId);item.activity=active.get(item.userId)||(item.idle?'idle':null);}}
   const socialAvailable=user.login_id!=='admin'&&await rankingSocial(env.STORE,user.user_id,visible,period,now);
   const dominanceAvailable=Boolean(env.STORE.dominance&&await env.STORE.dominance.available());
   const leaders=visible.filter(item=>item.rank===1&&item.count>0);

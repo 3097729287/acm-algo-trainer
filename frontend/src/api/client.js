@@ -31,7 +31,7 @@ async function load(path, body, token) {
   try {
     response = await fetch(`${base}/${path}`, body === undefined
       ? { cache: 'no-store', ...(controller ? { signal: controller.signal } : {}) }
-      : { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-TB-Token': token }, body: JSON.stringify(body), ...(controller ? { signal: controller.signal } : {}) });
+      : { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-TB-Token': token }, body: JSON.stringify(body), ...(path==='presence'&&body?.activity==='offline'?{keepalive:true}:{}), ...(controller ? { signal: controller.signal } : {}) });
     text = await response.text();
   } catch (issue) {
     if (controller?.signal.aborted) {

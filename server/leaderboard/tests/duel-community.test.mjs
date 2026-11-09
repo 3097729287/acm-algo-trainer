@@ -23,6 +23,48 @@ test('presence is authenticated, enum bounded, expires, and exposes only public 
   await a.send('/v1/presence',{activity:'lab'});await a.send('/v1/accounts/logout',{});result=await b.send('/v1/presence',{activity:'lab'});assert.equal(result.value.count,1,'A revoked session is offline immediately');
  }finally{await f.close();}
 });
+
+test('open idle is separate from closed/expired, and a close cannot overwrite another session or be revived by an older beat',async()=>{
+ const f=await startGameplayFixture({now:start});try{
+  const a=await client(f,'idle_state_a'),b=await client(f,'idle_state_b');
+  await a.send('/v1/presence',{activity:'problem'});await b.send('/v1/presence',{activity:'lecture'});
+  await f.STORE.gameplay.db.execute('INSERT INTO ranked_duel_ratings(user_id,rating,games,wins,updated_at) VALUES(?,1000,1,0,?)',[a.id,start]);
+  f.env.TEST_NOW=start+1;
+  let result=await a.send('/v1/presence',{activity:'idle'});
+  assert.equal(result.value.count,1);assert.deepEqual(result.value.idleUsers,[{userId:a.id,activity:'idle'}]);
+  assert(!result.value.users.some(row=>row.userId===a.id),'The legacy users/count contract remains active-only');
+  let row=(await b.send('/v1/leaderboard?period=total')).value.entries.find(row=>row.userId===a.id);
+  assert.equal(row.online,false);assert.equal(row.idle,true);assert.equal(row.activity,'idle');
+  row=(await b.send('/v1/duels/board?mode=ranked')).value.entries.find(row=>row.userId===a.id);
+  assert.equal(row.online,false);assert.equal(row.idle,true);
+  f.env.TEST_NOW=start+2;
+  result=await a.send('/v1/presence',{activity:'offline'});assert.equal(result.status,200);assert.equal(result.value.count,1);
+  assert(!result.value.idleUsers.some(row=>row.userId===a.id));
+  row=(await b.send('/v1/leaderboard?period=total')).value.entries.find(row=>row.userId===a.id);
+  assert.equal(row.online,false);assert.equal(row.idle,false);assert.equal(row.activity,null);
+  f.env.TEST_NOW=start+1;
+  await a.send('/v1/presence',{activity:'problem'});
+  row=(await b.send('/v1/leaderboard?period=total')).value.entries.find(row=>row.userId===a.id);
+  assert.equal(row.online,false,'An older in-flight heartbeat cannot resurrect a confirmed close');
+  f.env.TEST_NOW=start+3;
+  result=await a.send('/v1/presence',{activity:'problem'});assert.equal(result.value.count,2);
+  const newer=await client(f,'idle_state_a');
+  f.env.TEST_NOW=start+4;await newer.send('/v1/presence',{activity:'lab'});
+  f.env.TEST_NOW=start+5;
+  const closedOld=await a.send('/v1/presence',{activity:'offline'});
+  assert([200,401].includes(closedOld.status));
+  row=(await b.send('/v1/leaderboard?period=total')).value.entries.find(row=>row.userId===a.id);
+  assert.equal(row.online,true,'Closing an earlier session cannot take a newer session offline');assert.equal(row.activity,'lab');
+  f.env.TEST_NOW=start+6;await newer.send('/v1/presence',{activity:'idle'});
+  f.env.TEST_NOW=start+90007;
+  result=await b.send('/v1/presence',{activity:'lecture'});assert.equal(result.value.count,1);assert.deepEqual(result.value.idleUsers,[]);
+  row=(await b.send('/v1/leaderboard?period=total')).value.entries.find(row=>row.userId===a.id);
+  assert.equal(row.online,false);assert.equal(row.idle,false,'Expired idle leases return to ordinary offline');
+  f.env.TEST_NOW=start+90008;await newer.send('/v1/presence',{activity:'idle'});await newer.send('/v1/accounts/logout',{});
+  result=await b.send('/v1/presence',{activity:'lecture'});assert.deepEqual(result.value.idleUsers,[],'A revoked idle session is immediately absent');
+  assert(!JSON.stringify(result.value).includes('token'));
+ }finally{await f.close();}
+});
 test('ranked results commit points and public records once, with loser floor and no AC/XP changes',async()=>{
  const f=await startGameplayFixture({now:start});try{
   const a=await client(f,'ranked_a'),b=await client(f,'ranked_b'),observer=await client(f,'ranked_viewer');

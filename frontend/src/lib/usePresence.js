@@ -1,5 +1,5 @@
 import {useCallback,useEffect,useRef,useState} from 'react';
-import {observeUserInput} from './userInput.js';
+import {observeUserInput,observeNativeInput} from './userInput.js';
 export const PRESENCE_IDLE_MS=5*60*1000;
 export const ACTIVITY_LABELS={online:'在线',matching:'匹配中',problem:'做题中',replay:'重现赛中',contest:'模拟赛中',lecture:'从零讲中',lab:'实验室中',wiki:'阅读维基中',template:'模板学习中',ranked:'排位对战中',thought:'思维对决中',library:'浏览题库中',lists:'浏览题单中',growth:'查看成长中',records:'查看记录中',settings:'设置中',rankings:'查看排行榜中'};
 export function currentActivity({page,practice,studyKind,contest,duel,thought}){
@@ -11,26 +11,56 @@ export function currentActivity({page,practice,studyKind,contest,duel,thought}){
  return ({mine:'online',library:'library',lists:'lists',lectures:'lecture',paths:'lab',templates:'template',wiki:'wiki',duel:'online',progress:'growth',records:'records',activity:'records',rankings:'rankings',settings:'settings'})[page]||'online';
 }
 export default function usePresence(api,owner,activity){
- const [saved,setSaved]=useState(null),live=useRef(owner),current=useRef(activity),pending=useRef(null),sequence=useRef(0),clock=useRef({owner,lastInput:performance.now()}),sent=useRef(null);
- if(clock.current.owner!==owner)clock.current={owner,lastInput:performance.now()};
+ const [saved,setSaved]=useState(null),live=useRef(owner),current=useRef(activity),pending=useRef(null),sequence=useRef(0),clock=useRef({owner,lastInput:performance.now()}),sent=useRef(null),closing=useRef(false),native=useRef(null),rearm=useRef(null);
+ if(clock.current.owner!==owner){clock.current={owner,lastInput:performance.now()};closing.current=false;}
  live.current=owner;current.current=activity;
  const desired=()=>performance.now()-clock.current.lastInput>=PRESENCE_IDLE_MS?'idle':current.current;
  const beat=useCallback(async()=>{
-  if(!owner||window.__tbAdmin||!navigator.onLine||pending.current)return;
-  const request={},seq=sequence.current,reported=desired();pending.current=request;sent.current=reported;
-  try{const value=await api('presence',{activity:reported});if(live.current===owner&&seq===sequence.current&&value.owner===owner)setSaved({owner,value});}
+  if(!owner||window.__tbAdmin||!navigator.onLine||pending.current||closing.current)return;
+  const request={},seq=sequence.current;let reported;pending.current=request;
+  try{
+   await native.current?.sample();
+   if(live.current!==owner||seq!==sequence.current||closing.current)return;
+   reported=desired();sent.current=reported;
+   const value=await api('presence',{activity:reported});if(live.current===owner&&seq===sequence.current&&value.owner===owner)setSaved({owner,value});
+  }
   catch{if(live.current===owner&&seq===sequence.current)setSaved(null);}
-  finally{if(pending.current===request){pending.current=null;if(live.current===owner&&seq===sequence.current&&desired()!==reported)void beat();}}
+  finally{if(pending.current===request){pending.current=null;if(!closing.current&&reported!==undefined&&live.current===owner&&seq===sequence.current&&desired()!==reported)void beat();}}
  },[api,owner]);
  useEffect(()=>{sequence.current++;pending.current=null;setSaved(null);void beat();const timer=setInterval(beat,25000);window.addEventListener('online',beat);window.addEventListener('focus',beat);return()=>{sequence.current++;clearInterval(timer);window.removeEventListener('online',beat);window.removeEventListener('focus',beat);};},[beat]);
  useEffect(()=>{
   if(!owner||window.__tbAdmin)return;
   let timer;
   const check=()=>{timer=null;const remaining=PRESENCE_IDLE_MS-(performance.now()-clock.current.lastInput);if(remaining>0)timer=setTimeout(check,remaining);else void beat();};
-  const stop=observeUserInput(()=>{const idle=desired()==='idle'||sent.current==='idle';clock.current.lastInput=performance.now();if(timer===null)timer=setTimeout(check,PRESENCE_IDLE_MS);if(idle)void beat();});
+  const schedule=()=>{if(timer===null)timer=setTimeout(check,Math.max(0,PRESENCE_IDLE_MS-(performance.now()-clock.current.lastInput)));};
+  rearm.current=schedule;
+  const stop=observeUserInput(()=>{const idle=desired()==='idle'||sent.current==='idle';clock.current.lastInput=performance.now();schedule();if(idle)void beat();});
   timer=setTimeout(check,Math.max(0,PRESENCE_IDLE_MS-(performance.now()-clock.current.lastInput)));
-  return()=>{stop();clearTimeout(timer);};
+  return()=>{stop();clearTimeout(timer);if(rearm.current===schedule)rearm.current=null;};
  },[owner,beat]);
+ useEffect(()=>{
+  if(!owner||window.__tbAdmin)return;
+  let disposed=false;
+  const stop=observeNativeInput(api,when=>{
+   if(disposed||live.current!==owner||closing.current||when<=clock.current.lastInput)return;
+   const idle=desired()==='idle'||sent.current==='idle';clock.current.lastInput=when;rearm.current?.();if(idle)void beat();
+  });
+  native.current=stop;
+  return()=>{disposed=true;stop();if(native.current===stop)native.current=null;};
+ },[api,owner,beat]);
+ useEffect(()=>{
+  if(!owner||window.__tbAdmin)return;
+  const close=()=>{
+   if(live.current!==owner||closing.current)return;
+   closing.current=true;const seq=++sequence.current;
+   // This request is best effort. It never blocks the local draft-save and
+   // close barrier, never logs the user out, and is bound to the current token.
+   void api('presence',{activity:'offline'}).then(value=>{if(live.current===owner&&seq===sequence.current&&closing.current&&value.owner===owner)setSaved({owner,value});}).catch(()=>{});
+  };
+  const reopen=()=>{if(live.current===owner&&closing.current){closing.current=false;sequence.current++;pending.current=null;void beat();}};
+  window.addEventListener('tb-desktop-closing',close);window.addEventListener('pagehide',close);window.addEventListener('pageshow',reopen);
+  return()=>{window.removeEventListener('tb-desktop-closing',close);window.removeEventListener('pagehide',close);window.removeEventListener('pageshow',reopen);};
+ },[api,owner,beat]);
  useEffect(()=>{void beat();},[activity,beat]);
  return saved&&saved.owner===owner?saved.value:null;
 }

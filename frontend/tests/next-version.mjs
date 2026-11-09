@@ -94,7 +94,7 @@ try{
  await a.page.screenshot({path:'tests/screenshots/next-version/wiki-math.png'});
  await a.page.getByRole('button',{name:'返回维基目录'}).click();await a.page.getByRole('textbox',{name:'搜索维基百科'}).fill('no-such-wiki-xyz');await a.page.getByText('没有匹配的内容',{exact:true}).waitFor();
  await a.page.getByRole('button',{name:'duel',exact:true}).click();await a.page.getByRole('button',{name:'开始匹配'}).click();await a.page.getByRole('button',{name:'取消匹配'}).waitFor();
- await a.page.getByRole('timer',{name:'已匹配时间'}).waitFor();assert.match(await a.page.locator('.duel-queue-status').innerText(),/匹配中/);
+ await a.page.getByRole('timer',{name:'已匹配时间'}).waitFor();assert.match(await a.page.locator('.duel-lobby-actions .duel-queued').innerText(),/匹配中/);
  await a.page.screenshot({path:'tests/screenshots/next-version/duel-queued.png'});
  await b.page.goto(base+'/tests/next-version-fixture.html');await b.page.getByRole('button',{name:'duel',exact:true}).click();await b.page.getByRole('button',{name:'开始匹配'}).click();
  await b.page.getByRole('alertdialog').waitFor();await a.page.getByRole('alertdialog').waitFor({timeout:15000});

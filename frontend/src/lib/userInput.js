@@ -22,3 +22,38 @@ export function observeUserInput(onInput,root=document){
  attachDocument(root);
  return()=>{for(const stop of [...documents.values()])stop();};
 }
+
+// A native child WebView has no trusted DOM events in this document. Its
+// process-owned sampler exposes only an immutable session/counter and the
+// monotonic age of real input; reading it never constitutes input itself.
+export function observeNativeInput(api,onInput){
+ let stopped=false,timer=null,pending=null,session=null,revision=-1;
+ const sample=()=>{
+  if(stopped)return Promise.resolve();
+  if(pending)return pending;
+  clearTimeout(timer);let delay=25000;
+  const started=performance.now();
+  const request=(async()=>{
+   try{
+    const value=await api('desktop/input-activity');
+    if(stopped||value?.available!==true)return;
+    delay=1000;
+    if(typeof value.session!=='string'||!value.session||value.session.length>128||!Number.isSafeInteger(value.revision)||value.revision<0||typeof value.observed!=='boolean')return;
+    const changed=value.session!==session||value.revision>revision;
+    if(value.session===session&&value.revision<revision)return;
+    if(!changed)return;
+    if(value.observed&&(value.revision===0||typeof value.ageSeconds!=='number'||!Number.isFinite(value.ageSeconds)||value.ageSeconds<0||value.ageSeconds>Number.MAX_SAFE_INTEGER/1000))return;
+    session=value.session;revision=value.revision;
+    if(value.observed)onInput(started-value.ageSeconds*1000);
+   }catch{/* Old/non-native clients continue to use trusted DOM input. */}
+   finally{if(!stopped)timer=setTimeout(sample,delay);}
+  })();
+  pending=request;
+  request.finally(()=>{if(pending===request)pending=null;});
+  return request;
+ };
+ const stop=()=>{stopped=true;clearTimeout(timer);};
+ stop.sample=sample;
+ void sample();
+ return stop;
+}
