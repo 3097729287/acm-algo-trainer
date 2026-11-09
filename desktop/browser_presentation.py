@@ -5,7 +5,7 @@ import os
 import time
 
 
-def present_window(pid, marker, visible, *, timeout=.5):
+def present_window(pid, marker, visible, *, activate=False, timeout=.5):
     if os.name!='nt':return False
     user=ctypes.WinDLL('user32',use_last_error=True)
     callback=ctypes.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM)
@@ -36,6 +36,9 @@ def present_window(pid, marker, visible, *, timeout=.5):
     if handle is None:return False
     if not visible:
         user.ShowWindowAsync(handle,0)
+        return True
+    if not activate:
+        user.ShowWindowAsync(handle,4)  # SW_SHOWNOACTIVATE; no foreground APIs.
         return True
     user.ShowWindowAsync(handle,9 if user.IsIconic(handle) else 5)
     foreground=user.GetForegroundWindow();unused=w.DWORD()

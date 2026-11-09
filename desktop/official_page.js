@@ -60,6 +60,12 @@ return false;
 const verification=()=>[...document.querySelectorAll('iframe')].some(e=>visible(e)&&/captcha|challenge/i.test(e.src)&&!(ctx.platform==='AtCoder'&&e.closest('.cf-challenge,.cf-turnstile')?.closest('form')===acSubmitForm()))
 ||/just a moment|checking your browser|人机验证|安全验证/i.test(document.title)
 ||!hasEditor()&&!lgReceipt?.hasSubmitApi()&&/just a moment|checking your browser|人机验证|安全验证|验证码/i.test((document.body?.innerText||'').slice(0,1200));
+function verificationState(){
+if(!verification()){delete work.challengeAt;return null;}
+work.challengeAt??=Date.now();
+if(Date.now()-work.challengeAt<30000)return {status:ctx.attempted?'submitted':'loading',...(!ctx.attempted?{attempted:false}:{}),message:'正在后台等待原站安全检查，尚未确认本次结果。'};
+return {status:'needs_verification',...(!ctx.attempted?{attempted:false}:{}),message:'原站安全检查仍需处理，请在浏览器完成验证；不会重复提交。'};
+}
 function normal(text){
 text=(text||'').trim().replace(/_/g,' ').replace(/\s+/g,' ');
 const map={'AC':'AC','OK':'AC','ACCEPTED':'AC','通过':'AC','WA':'WA','WRONG ANSWER':'WA','答案错误':'WA','TLE':'TLE','TIME LIMIT EXCEEDED':'TLE','超时':'TLE','MLE':'MLE','MEMORY LIMIT EXCEEDED':'MLE','内存超限':'MLE','RE':'RE','RUNTIME ERROR':'RE','运行错误':'RE','CE':'CE','COMPILATION ERROR':'CE','COMPILE ERROR':'CE','编译错误':'CE','OLE':'OLE','OUTPUT LIMIT EXCEEDED':'OLE'};
@@ -111,8 +117,10 @@ const table=[...doc.querySelectorAll('table')].some(t=>/submission|提出|提交
 const empty=owner&&/My Submissions|自分の提出/i.test(doc.title)&&[...doc.querySelectorAll('.panel-body,p,.alert,h3,h4')].some(e=>/^(?:No Submissions|提出はありません|提出がありません|提出が存在しません)[.!。]?$/.test(e.textContent.trim()));
 return table||empty?doc:null;
 }
-function prepare(){
+function prepare(fresh=false){
+if(fresh){work.preparation=(work.preparation||0)+1;work.preparing=null;work.snapshot=null;}
 if(work.preparing)return work.preparing;
+const generation=work.preparation||0;
 work.preparing=(async()=>{
 if(ctx.platform==='AtCoder'){
 const doc=await acMyPage();if(!doc)return null;
@@ -122,12 +130,12 @@ if(ctx.platform==='Codeforces'){
 const owner=cfOwner();
 // The fastest valid personal list wins. A slow/blocked endpoint never holds
 // the other list or the official owner-scoped API behind serial timeouts.
-const candidates=myPaths().map(async path=>{const doc=await myPage(path);if(!doc)throw new Error('No personal list');return {baseline:[...doc.querySelectorAll('a[href]')].map(a=>(a.getAttribute('href')||'').match(/\/submission\/(\d+)/)?.[1]).filter(Boolean),baselineKnown:true,baselineOwner:owner||cfOwner(doc)};});
+const candidates=myPaths().map(async path=>{const doc=await myPage(path),actual=doc&&cfOwner(doc);if(!doc||!actual||owner&&actual.toLowerCase()!==owner.toLowerCase())throw new Error('No matching personal list');return {baseline:[...doc.querySelectorAll('a[href]')].map(a=>(a.getAttribute('href')||'').match(/\/submission\/(\d+)/)?.[1]).filter(Boolean),baselineKnown:true,baselineOwner:actual};});
 if(owner)candidates.push((async()=>{const r=await fetch('/api/user.status?handle='+encodeURIComponent(owner)+'&from=1&count=100',{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(5000)});if(!r.ok||new URL(r.url||'/api/user.status',location.href).origin!==location.origin)throw new Error('No owner snapshot');const value=await r.json();if(value.status!=='OK'||!Array.isArray(value.result)||!value.result.every(row=>Number.isSafeInteger(row.id)&&row.id>0&&row.author?.members?.some(member=>member.handle?.toLowerCase()===owner.toLowerCase())))throw new Error('Invalid owner snapshot');return {baseline:value.result.map(row=>String(row.id)),baselineKnown:true,baselineOwner:owner};})());
 return await Promise.any(candidates);
 }
 return {baseline:[],baselineKnown:false,baselineOwner:''};
-})().catch(()=>null).then(value=>{work.snapshot=value;if(!value)work.preparing=null;return value;});
+})().catch(()=>null).then(value=>{if(generation===(work.preparation||0)){work.snapshot=value;if(!value)work.preparing=null;}return value;});
 return work.preparing;
 }
 function receiptValue(receipt){return {status:receipt.verdict==='JUDGING'?'judging':'finished',submissionId:receipt.id,verdictDetail:receipt.detail||receipt.verdictDetail||'',...(receipt.verdict==='JUDGING'?{}:{verdict:receipt.verdict}),message:receipt.verdict==='JUDGING'?'原站已接收，正在评测。':'本次提交结果：'+receipt.verdict};}
@@ -151,7 +159,7 @@ form.addEventListener('submit',event=>{
 function inspect(){
 lgReceipt?.inspectRejection?.();
 if(login()||cfLoggedOut()||luoguLoggedOut()||lgReceipt?.loggedOut()||ncReceipt?.loggedOut?.()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',...(!ctx.attempted?{attempted:false}:{}),message:ctx.resumeAfterLogin?'请在弹出的浏览器登录原站，登录后会自动填码并继续本次提交。':'请在浏览器登录原站，然后核对本次提交状态。'};
-if(verification())return {status:'needs_verification',...(!ctx.attempted?{attempted:false}:{}),message:ctx.resumeAfterLogin?'请在弹出的浏览器完成原站验证，完成后会继续本次提交。':'请在浏览器完成原站验证，然后回到 TB 查看状态。'};
+const challengeState=verificationState();if(challengeState)return challengeState;
 observeAtCoderForm();
 // Some native logins return to the site home page instead of the submit URL.
 // Only a positive account marker may resume this unsent submission there.
@@ -186,7 +194,7 @@ return (ctx.platform==='洛谷'?(ctx.nativeFormOnly?hasReadyEditor():lgReceipt?.
 async function submit(manual=false){
 if(ctx.attempted)return send(inspect());
 if(manual&&work.manualFilled)return send({status:'awaiting_submit',message:'代码已填入浏览器，请在官网点击提交。结果会自动同步到 TB。'});
-const state=inspect();if(state.status==='needs_login'||!manual&&(['needs_verification'].includes(state.status)||ctx.platform==='AtCoder'&&['loading','error'].includes(state.status)))return send(state);
+const state=inspect();if(state.status==='needs_login'||!manual&&(['needs_verification','loading'].includes(state.status)||ctx.platform==='AtCoder'&&state.status==='error'))return send(state);
 if(!manual&&ctx.nativeFormOnly&&ctx.platform==='洛谷'&&state.status==='loading')return send(state);
 const checkpoint=value=>postMessage({tbOfficial:true,sessionId:ctx.sessionId,...value});
 if(!manual&&!ctx.nativeFormOnly&&lgReceipt?.hasSubmitApi())return lgReceipt.submitApi(checkpoint);
@@ -215,11 +223,6 @@ form?.addEventListener('submit',()=>{ctx.attempted=true;const submittedCode=edit
 if(ncReceipt)ncReceipt.armed=true;if(lgReceipt)lgReceipt.armed=true;
 return send({status:'awaiting_submit',...(snapshot||{}),message:'代码已填入浏览器，请在官网点击提交。结果会自动同步到 TB。'});
 }
-const snapshot=await prepare(),{baseline=[],baselineKnown=false,baselineOwner=''}=snapshot||{};
-if(['Codeforces','AtCoder'].includes(ctx.platform)&&!baselineKnown)return send({status:'error',attempted:false,message:'暂时无法读取本账号的提交记录，尚未发送代码，请稍后重试。'});
-// The site may refresh/expire its token while language/editor/list preparation
-// is in flight. Recheck this form immediately before the dispatch checkpoint.
-const verificationAfterPreparation=acVerificationState();if(verificationAfterPreparation)return send(verificationAfterPreparation);
 const submitForm=f=>f&&[...f.elements].some(e=>e.tagName==='SELECT'&&/language|programType/i.test((e.name||'')+' '+(e.id||'')))&&(f.querySelector('.CodeMirror,.cm-editor,.ace_editor,.monaco-editor')||editors().some(e=>e.form===f));
 const form=ctx.platform==='AtCoder'?acSubmitForm():editors().map(e=>e.form||e.closest('form')).find(submitForm)||[...document.forms].find(submitForm);
 if(ctx.platform==='AtCoder'){
@@ -239,17 +242,27 @@ if(!button&&controls().length&&ctx.platform==='Codeforces'){
   const deadline=Date.now()+30000;
   while(!button&&Date.now()<deadline){
     if(login()||cfLoggedOut())return send({status:'needs_login',attempted:false,message:'原站登录已失效，请登录后重试。'});
-    if(verification())return send({status:'needs_verification',attempted:false,message:'原站要求验证，请完成后再提交。'});
+    const challengeState=verificationState();if(challengeState)return send(challengeState);
     await new Promise(resolve=>setTimeout(resolve,100));
     button=enabledButton();
   }
 }
 if(!button&&['牛客','洛谷'].includes(ctx.platform))button=[...document.querySelectorAll('button,[role=button],.btn-submit,.submit-btn,.submit-button')].find(b=>visible(b)&&!b.disabled&&b.getAttribute('aria-disabled')!=='true'&&/^(?:保存并)?提交(?:代码|题目|评测)?$/.test(b.textContent.trim()));
 if(!button)return send({status:'error',attempted:false,message:'原站提交控件尚未就绪，未发送代码。请稍后重试或查看原站页面。'});
+// A form can sit open, or its native lock can wait on a slow connection. Take
+// a new owner-scoped watermark after that wait, immediately before this click.
+const snapshot=await prepare(true),{baseline=[],baselineKnown=false,baselineOwner=''}=snapshot||{};
+if(['Codeforces','AtCoder'].includes(ctx.platform)&&!baselineKnown)return send({status:'loading',attempted:false,message:'正在重新核对本账号提交记录，尚未发送代码。'});
+const verificationAfterPreparation=acVerificationState();if(verificationAfterPreparation)return send(verificationAfterPreparation);
+if(login()||cfLoggedOut())return send({status:'needs_login',attempted:false,message:'原站登录已失效，请登录后继续本次提交。'});
+const challengeState=verificationState();if(challengeState)return send(challengeState);
+button=enabledButton()||(!['Codeforces','AtCoder'].includes(ctx.platform)&&button);
+if(!button||!button.isConnected||button.disabled)return send({status:'loading',attempted:false,message:'正在等待原站提交控件就绪，尚未发送代码。'});
 if(ncReceipt){ncReceipt.armed=true;ncReceipt.pending=null;ncReceipt.receipt=null;}
 if(lgReceipt){lgReceipt.armed=true;lgReceipt.pending=null;lgReceipt.receipt=null;}
 // Persist the pre-submit snapshot before a native form can navigate away.
 // Browser transport acknowledges this checkpoint; WebView transport is immediate.
+Object.assign(ctx,snapshot);
 ctx.attempted=true;if(ctx.platform==='AtCoder'&&ctx.nativeFormOnly)work.attempted=true;
 await postMessage({tbOfficial:true,sessionId:ctx.sessionId,status:'submitted',message:'已选择 '+compiler.label+'，正在操作原站表单，尚未确认受理。',compiler:compiler.label,baseline,baselineKnown,baselineOwner,attempted:true});button.click();return {status:'submitted'};
 }

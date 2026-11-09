@@ -10,9 +10,11 @@ const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',h
 const account='<nav class="navbar"><a href="/users/fixture">fixture</a></nav>';
 const empty='<title>My Submissions - Contest</title>'+account+'<div class="panel-body">No Submissions</div>';
 const acRow=id=>`<tr><td><a href="/contests/abc100/submissions/${id}">${id}</a><a href="/contests/abc100/tasks/abc100_a">A</a><a href="/users/fixture">fixture</a></td><td><span class="label">AC</span></td></tr>`;
+const cfRow=id=>`<tr><td><a href="/contest/123/submission/${id}">${id}</a><a href="/contest/123/problem/A">A</a><a href="/profile/fixture">fixture</a></td><td><span class="submissionVerdictWrapper">Accepted</span></td></tr>`;
+const cfList=rows=>'<header id="header"><a href="/profile/fixture">fixture</a></header><table class="status-frame-datatable"><tr><th>Submission</th></tr>'+rows+'</table>';
 const result={ok:false,realAccountSubmission:false};
 async function fixture(platform, list=empty, delay=0){
-  const page=await browser.newPage();const requests=[];let posted=false;
+  const page=await browser.newPage();const requests=[];let posted=false,apiRows=[{id:110,author:{members:[{handle:'fixture'}]}}];
   const cf=platform==='Codeforces',origin=cf?'https://codeforces.com':'https://atcoder.jp';
   const original=origin+(cf?'/contest/123/problem/A':'/contests/abc100/tasks/abc100_a');
   const target=origin+(cf?'/contest/123/submit':'/contests/abc100/submit');
@@ -21,7 +23,7 @@ async function fixture(platform, list=empty, delay=0){
     if(url.pathname.endsWith('/submit'))return route.fulfill({contentType:'text/html',body:(cf?'<header id="header"><a href="/profile/fixture">fixture</a></header>':account)+`<form><input type="hidden" name="csrf_token" value="fixture-csrf"><select name="${cf?'submittedProblemIndex':'data.TaskScreenName'}"><option value="${cf?'A':'abc100_a'}">A</option></select><select name="${cf?'programTypeId':'data.LanguageId'}"><option value="54">GNU C++17</option></select><textarea name="sourceCode"></textarea><button type="submit">Submit</button></form><script>window.posts=[];document.querySelector('form').onsubmit=e=>{e.preventDefault();window.posts.push(Object.fromEntries(new FormData(e.target)))}</script>`});
     if(url.pathname==='/api/user.status'){
       await new Promise(r=>setTimeout(r,40));
-      return route.fulfill({contentType:'application/json',body:JSON.stringify({status:'OK',result:[{id:110,author:{members:[{handle:'fixture'}]}}]})});
+      return route.fulfill({contentType:'application/json',body:JSON.stringify({status:'OK',result:apiRows})});
     }
     await new Promise(r=>setTimeout(r,delay));
     if(url.pathname==='/login')return route.fulfill({contentType:'text/html',body:'<input type="password">'});
@@ -33,7 +35,7 @@ async function fixture(platform, list=empty, delay=0){
     window.ctx={sessionId:'fixture',platform,originalUrl:original,problem:platform==='Codeforces'?'A':'abc100_a',code:'int main(){}',attempted:false};
     window.messages=[];window.report=value=>{window.messages.push(value);Object.assign(window.ctx,...['attempted','baseline','baselineKnown','baselineOwner','submissionId'].filter(k=>k in value).map(k=>({[k]:value[k]})));return Promise.resolve()};
   },{platform,original});
-  return {page,requests,setPosted:()=>{posted=true},setList:value=>{list=value}};
+  return {page,requests,setPosted:()=>{posted=true},setList:value=>{list=value},setApiRows:value=>{apiRows=value}};
 }
 try{
   const first=await fixture('AtCoder');
@@ -49,7 +51,7 @@ try{
   for(const invalid of [empty.replace('/users/fixture','/users/other'),empty.replace('My Submissions','All Submissions'),empty.replace('No Submissions','Unrecognized page'),'redirect']){
     const f=await fixture('AtCoder',invalid);
     await f.page.evaluate(()=>tbOfficialPage(ctx,'submit',report));
-    await f.page.waitForFunction(()=>messages.some(m=>m.status==='error'));
+    await f.page.waitForFunction(()=>messages.some(m=>m.status==='loading'&&m.attempted===false));
     assert.equal(await f.page.evaluate(()=>posts.length),0);await f.page.close();
   }
   result.unknownOwnerPublicListAndLoginNeverSubmit=true;
@@ -121,7 +123,7 @@ try{
   await expiring.page.close();result.atcoderExpiredTokenWaitsForRenewal=true;
   const recover=await fixture('AtCoder','Temporary upstream error');
   await recover.page.evaluate(()=>tbOfficialPage(ctx,'submit',report));
-  await recover.page.waitForFunction(()=>messages.some(m=>m.status==='error'));
+  await recover.page.waitForFunction(()=>messages.some(m=>m.status==='loading'&&m.attempted===false));
   recover.setList(empty);
   await recover.page.evaluate(()=>tbOfficialPage(ctx,'submit',report));
   await recover.page.waitForFunction(()=>posts.length===1);
@@ -179,6 +181,51 @@ try{
   assert.equal(await locked.page.evaluate(()=>lockRequests),1);
   assert.equal(await locked.page.evaluate(()=>messages.filter(m=>m.attempted===true).length),1);
   await locked.page.close();result.cfWaitsForOriginalProblemLock=true;
+  const fresh=await fixture('Codeforces',cfList(cfRow(110)));
+  await fresh.page.evaluate(()=>tbOfficialPage(ctx,'inspect',report));
+  await fresh.page.waitForFunction(()=>window.__tbSubmissionWork.snapshot?.baseline.includes('110'));
+  fresh.setList(cfList(cfRow(2000)));
+  fresh.setApiRows([{id:2000,author:{members:[{handle:'fixture'}]}}]);
+  await fresh.page.evaluate(()=>tbOfficialPage(ctx,'submit',report));
+  await fresh.page.waitForFunction(()=>posts.length===1);
+  assert.deepEqual(await fresh.page.evaluate(()=>ctx.baseline),['2000'],'The watermark is taken just before the actual native click');
+  await fresh.page.evaluate(row=>{document.body.insertAdjacentHTML('beforeend','<table>'+row+'</table>');tbOfficialPage(ctx,'inspect',report)},cfRow(2000));
+  await fresh.page.waitForTimeout(120);
+  assert.equal(await fresh.page.evaluate(()=>messages.some(m=>m.status==='finished')),false,'An older accepted SID cannot close a freshly submitted page');
+  fresh.setList(cfList(cfRow(2001)+cfRow(2000)));
+  await fresh.page.evaluate(row=>{document.body.insertAdjacentHTML('beforeend','<table>'+row+'</table>');tbOfficialPage(ctx,'inspect',report)},cfRow(2001));
+  await fresh.page.waitForFunction(()=>messages.some(m=>m.status==='finished'&&m.submissionId==='2001'));
+  await fresh.page.evaluate(()=>{for(let i=0;i<8;i++)tbOfficialPage(ctx,'submit',report)});
+  assert.equal(await fresh.page.evaluate(()=>posts.length),1);
+  await fresh.page.close();result.cfFreshPreClickWatermarkAndOneNativeClick=true;
+  const generation=await fixture('Codeforces',cfList(''));let generationRequests=0;
+  await generation.page.route('**/*',async route=>{
+    const path=new URL(route.request().url()).pathname;
+    if(!['/contest/123/my','/problemset/my','/api/user.status'].includes(path))return route.fallback();
+    const old=++generationRequests<=3,id=old?110:2000;
+    await new Promise(resolve=>setTimeout(resolve,old?400:10));
+    return route.fulfill(path==='/api/user.status'?{contentType:'application/json',body:JSON.stringify({status:'OK',result:[{id,author:{members:[{handle:'fixture'}]}}]})}:{contentType:'text/html',body:cfList(cfRow(id))});
+  });
+  await generation.page.evaluate(()=>tbOfficialPage(ctx,'inspect',report));
+  for(let i=0;generationRequests<3&&i<50;i++)await new Promise(r=>setTimeout(r,5));
+  assert.equal(generationRequests,3);
+  await generation.page.evaluate(()=>tbOfficialPage(ctx,'submit',report));await generation.page.waitForFunction(()=>posts.length===1);
+  await generation.page.waitForTimeout(450);
+  assert.deepEqual(await generation.page.evaluate(()=>window.__tbSubmissionWork.snapshot.baseline),['2000'],'A late old preparation cannot replace the actual click watermark');
+  assert.equal(await generation.page.evaluate(()=>posts.length),1);await generation.page.close();result.cfLateOldPreparationCannotRegressSnapshot=true;
+  const challenge=await fixture('Codeforces',cfList(''));
+  await challenge.page.evaluate(()=>{document.title='Checking your browser';tbOfficialPage(ctx,'submit',report)});
+  await challenge.page.waitForFunction(()=>messages.some(m=>m.status==='loading'&&m.attempted===false));
+  assert.equal(await challenge.page.evaluate(()=>posts.length),0);
+  await challenge.page.evaluate(()=>{window.__tbSubmissionWork.challengeAt=Date.now()-31000;tbOfficialPage(ctx,'submit',report)});
+  await challenge.page.waitForFunction(()=>messages.some(m=>m.status==='needs_verification'&&m.attempted===false));
+  await challenge.page.evaluate(()=>{document.title='Submit';tbOfficialPage(ctx,'submit',report)});
+  await challenge.page.waitForFunction(()=>posts.length===1);
+  await challenge.page.evaluate(()=>{document.title='Checking your browser';tbOfficialPage(ctx,'inspect',report);window.__tbSubmissionWork.challengeAt=Date.now()-31000;window.afterSentChallenge=tbOfficialPage(ctx,'inspect',report);tbOfficialPage(ctx,'submit',report)});
+  assert.equal(await challenge.page.evaluate(()=>afterSentChallenge.status),'needs_verification');
+  assert.equal(await challenge.page.evaluate(()=>ctx.attempted),true);
+  assert.equal(await challenge.page.evaluate(()=>posts.length),1);
+  await challenge.page.close();result.automaticSecurityWaitDoesNotStealFocusOrReplay=true;
   const single=await fixture('AtCoder',empty,500);
   await single.page.evaluate(()=>{ctx.attempted=true;ctx.baselineKnown=true;ctx.baseline=[];ctx.baselineOwner='fixture';for(let i=0;i<25;i++)tbOfficialPage(ctx,'inspect',report)});
   await new Promise(r=>setTimeout(r,100));

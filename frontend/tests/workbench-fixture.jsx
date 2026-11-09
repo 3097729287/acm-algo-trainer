@@ -48,9 +48,9 @@ async function api(path, body) {
   }
   if (path === 'official/open' || path === 'official/submit') {
     const sessionId = `official-${Object.keys(fixture.officialSessions).length + 1}`;
-    fixture.officialSessions[sessionId] = { id: body.id, code: body.code, status: 'loading' };
+    fixture.officialSessions[sessionId] = { id: body.id, code: body.code, status: 'loading', autoClose:path==='official/submit' };
     await sleep(fixture.officialOpenDelay || 0);
-    return { sessionId, status: 'loading', platform: 'AtCoder', message: '正在连接浏览器。' };
+    return { sessionId, status: 'loading', platform: 'AtCoder', autoClose:path==='official/submit', message: '正在连接浏览器。' };
   }
   if (url.pathname === '/official/status') {
     const sessionId = url.searchParams.get('sessionId'), session = fixture.officialSessions[sessionId];
@@ -58,9 +58,11 @@ async function api(path, body) {
     await sleep(fixture.officialPollDelay || 0);
     if (status === 'finished' && !session.saved) {
       session.saved = true;
-      fixture.submissions.push({ id: sessionId, problemId: session.id, contestId: null, mode: 'submit', code: session.code, scope: 'official', verdict: fixture.officialVerdict || 'AC', finishedAt: new Date().toISOString(), submittedAt: new Date().toISOString(), message: '原站确认提交 #101' });
+      session.submission={ id: sessionId, problemId: session.id, contestId: null, mode: 'submit', code: session.code, scope: 'official', verdict: fixture.officialVerdict || 'AC', finishedAt: new Date().toISOString(), submittedAt: new Date().toISOString(), message: '原站确认提交 #101' };
+      session.savedFrame=window.ackFrameCounter||0;
+      fixture.submissions.push(session.submission);
     }
-    return { sessionId, status, ...(status === 'finished' ? { verdict: fixture.officialVerdict || 'AC', submissionId: '101' } : {}), message: ({ needs_login: '请在浏览器登录原站。', ready: '登录成功，可以提交。', closed: '已返回训练。' })[status] || '等待官方结果。' };
+    return { sessionId, status, autoClose:session.autoClose, ...(status === 'finished' ? { verdict: fixture.officialVerdict || 'AC', submissionId: '101',...(fixture.officialIncludeSubmission?{submission:session.submission}:{}) } : {}), message: ({ needs_login: '请在浏览器登录原站。', ready: '登录成功，可以提交。', closed: '已返回训练。' })[status] || '等待官方结果。' };
   }
   if (path === 'official/close') {
     fixture.officialSessions[body.sessionId].status = 'closed';
@@ -68,6 +70,9 @@ async function api(path, body) {
   }
   if (path === 'official/ack') {
     fixture.ackVisible = document.querySelector('.wb-result-summary')?.textContent.includes(fixture.officialVerdict || 'AC');
+    const node=document.querySelector('.wb-result-summary');
+    (fixture.ackFacts||=[]).push({sessionId:body.sessionId,displayId:node?.dataset.submissionId,verdict:node?.dataset.verdict,
+      visible:!!node?.getClientRects().length,documentVisible:document.visibilityState==='visible',frame:window.ackFrameCounter||0});
     return {closed:true};
   }
   if (url.pathname === '/problem') {

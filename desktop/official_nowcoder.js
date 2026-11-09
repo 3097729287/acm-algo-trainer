@@ -92,10 +92,21 @@ function installNowcoderReceipts(ctx, report) {
     if (pending.owner && window.globalInfo?.ownerId != null && String(window.globalInfo.ownerId) !== pending.owner) return null;
     if (data.error || data.isSelfTest === true || data.isSelfTest === 1 || !Number.isInteger(data.status)) return null;
     if (data.status >= 0 && data.status <= 2) return null;
-    const descriptions = { '编译错误': 'CE', '答案错误': 'WA', '运行超时': 'TLE', '超时': 'TLE', '内存超限': 'MLE', '运行错误': 'RE', '输出超限': 'OLE' };
-    const failure = descriptions[String(data.desc || '').trim()] || normal(data.desc);
-    return data.status === 5 ? 'AC' : failure && failure !== 'AC' && failure !== 'JUDGING' ? failure : null;
+    // Official terminal 2.0.120 uses these numeric results. Its desc is a full
+    // explanation (often with a colon), while judgeReplyDesc is the result label.
+    // Keep the exact tagId/subTagId binding above: the same SID in another
+    // judge namespace can have an unrelated result.
+    const verdicts = {4:'WA',5:'AC',6:'TLE',12:'CE',21:'RE'};
+    if (verdicts[data.status]) return verdicts[data.status];
+    const descriptions = { '编译错误': 'CE', '答案错误': 'WA', '运行超时': 'TLE', '超时': 'TLE', '内存超限': 'MLE', '运行错误': 'RE', '执行出错':'RE', '程序异常退出':'RE', '输出超限': 'OLE' };
+    const label = String(data.judgeReplyDesc || '').trim();
+    const prefix = String(data.desc || '').trim().split(/[:：]/,1)[0];
+    const failure = descriptions[label] || descriptions[prefix] || normal(label) || normal(data.desc);
+    return failure && failure !== 'AC' && failure !== 'JUDGING' ? failure : null;
   };
+  const finish = (submissionId, verdict, data) => notify({status:'finished',submissionId,verdict,
+    verdictDetail:String(data.judgeReplyDesc || data.desc || '').trim().slice(0,500),
+    message:'牛客确认本次提交 #'+submissionId+'：'+verdict});
   const observe = (request, value) => {
     if (!request || !value || typeof value !== 'object') return;
     if (request.kind === 'submit' && request.identity?.kind === 'global' && value.code === 999) {
@@ -143,7 +154,7 @@ function installNowcoderReceipts(ctx, report) {
       for (const item of early) {
         if (item.origin !== state.pending.origin || id(item.params.submissionId ?? item.params.id) !== submissionId) continue;
         const verdict = evaluateStatus(state.pending, item.params, item.data);
-        if (verdict) { notify({ status: 'finished', submissionId, verdict, message: '牛客确认本次提交 #' + submissionId + '：' + verdict }); break; }
+        if (verdict) { finish(submissionId,verdict,item.data); break; }
       }
       return;
     }
@@ -159,7 +170,7 @@ function installNowcoderReceipts(ctx, report) {
     }
     if (request.target.origin !== state.pending.origin) return;
     const verdict = evaluateStatus(state.pending, request.params, data);
-    if (verdict) notify({ status: 'finished', submissionId: state.pending.submissionId, verdict, message: '牛客确认本次提交 #' + state.pending.submissionId + '：' + verdict });
+    if (verdict) finish(state.pending.submissionId,verdict,data);
   };
   const originalFetch = window.fetch;
   // Global problems always use the site's real submit control. In particular,
@@ -195,15 +206,31 @@ function installNowcoderReceipts(ctx, report) {
   // Called by the desktop watcher, so receipt collection does not depend on
   // timers or visibility of the site's background console.
   state.poll = async () => {
-    if (!state.statusUrl || state.polling || state.receipt?.status === 'finished' || typeof originalFetch !== 'function') return;
+    if (state.polling) {
+      // Chromium can suspend AbortSignal.timeout's page timer while hidden.
+      // The host's next inspection still enforces this read-only deadline.
+      if (Date.now() >= state.queryDeadline) state.queryController?.abort();
+      return;
+    }
+    if (!state.statusUrl || state.receipt?.status === 'finished' || typeof originalFetch !== 'function' || Date.now() < (state.nextPoll || 0)) return;
     state.polling = true;
+    state.queryController = new AbortController();state.queryDeadline = Date.now()+15000;
+    let queried = false;
     try {
-      const result = await originalFetch.call(window, state.statusUrl, { credentials: 'include', cache: 'no-store', signal: AbortSignal.timeout(15000) });
+      const result = await originalFetch.call(window, state.statusUrl, { credentials: 'include', cache: 'no-store', signal: AbortSignal.any([state.queryController.signal,AbortSignal.timeout(15000)]) });
       const target = parseUrl(result.url || state.statusUrl);
       if (result.ok && allowed(target) && target.origin === state.pending?.origin && (!state.isGlobalTarget() || target.pathname === parseUrl(state.statusUrl)?.pathname)) {
         observe(requestInfo(state.statusUrl, 'GET'), await result.json());
+        queried = true;
       }
-    } catch {} finally { state.polling = false; }
+    } catch {} finally {
+      state.polling = false;
+      state.queryController=null;state.queryDeadline=0;
+      state.queryFailures = queried ? 0 : (state.queryFailures || 0) + 1;
+      state.nextPoll = Date.now() + Math.min(15000,1000 * 2 ** Math.min(state.queryFailures,4));
+      if (!queried && state.pending && state.receipt?.status !== 'finished') notify({status:'judging',submissionId:state.pending.submissionId,attempted:true,
+        message:'牛客提交 #'+state.pending.submissionId+' 的结果查询暂时失败，正在稍后重查；不会重复提交。'});
+    }
   };
   if (typeof originalFetch === 'function') {
     window.fetch = function(resource, options) {

@@ -119,7 +119,13 @@ function tbQojPage(ctx, action, postMessage) {
     return node&&node.method.toLowerCase()==='post'&&url(node.getAttribute('action')||location.href)?.pathname===target.pathname?node:null;
   }
   function inspect() {
-    if(challenge())return {status:'needs_verification',attempted:false,message:'请在浏览器完成原站验证。'};
+    if(challenge()){
+      state.challengeAt??=Date.now();
+      return Date.now()-state.challengeAt<30000
+        ?{status:ctx.attempted?'submitted':'loading',...(!ctx.attempted?{attempted:false}:{}),message:'正在后台等待原站安全检查，尚未确认本次结果。'}
+        :{status:'needs_verification',...(!ctx.attempted?{attempted:false}:{}),message:'原站安全检查仍需处理，请在浏览器完成验证；不会重复提交。'};
+    }
+    delete state.challengeAt;
     if(login()||!owner()&&document.querySelector('.navbar a[href="/login"]'))return {status:'needs_login',attempted:false,message:'请在弹出的浏览器登录原站，登录后会继续本次提交。'};
     if(ctx.attempted){poll();return {status:'submitted',message:'正在读取原站本次提交结果。'};}
     if(!owner())return {status:'loading',message:'正在读取原站登录状态。'};

@@ -643,7 +643,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         if (isActive(record) && Array.isArray(answer?.submissions)) {
           const history = answer.submissions.slice().sort((a, b) => String(b.submittedAt || '').localeCompare(String(a.submittedAt || '')));
           setSubmissions(history);
-          const official = history.find(row => row.scope === 'official' && row.message?.includes(`#${session.submissionId}`)) || history.find(row => row.scope === 'official');
+          const official = history.find(row => row.scope === 'official' && new RegExp(`^原站确认提交 #${session.submissionId}(?:\\s|$)`).test(row.message || ''));
           if (official) setResultId(official.id);
           setConsoleOpen(true); setConsoleTab('result');
         }
@@ -696,14 +696,27 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   }, [officialSession?.sessionId, announceOfficialCompletion]);
 
   useEffect(()=>{
-    if(officialSession?.status!=='finished'||!officialSession.sessionId)return;
-    // This effect runs after React commits the result to the visible workbench.
-    let cancelled=false,timer;
-    const acknowledge=async(attempt=0)=>{try{const result=await apiRef.current('official/ack',{sessionId:officialSession.sessionId});if(!cancelled&&!result.closed&&attempt<4)timer=setTimeout(()=>acknowledge(attempt+1),700);}catch{if(!cancelled&&attempt<4)timer=setTimeout(()=>acknowledge(attempt+1),1000);}};
-    if (!officialSession.submission && !submissions.some(row => row.scope === 'official' && row.message?.includes(`#${officialSession.submissionId}`))) return;
-    const frame=requestAnimationFrame(()=>acknowledge());
-    return()=>{cancelled=true;cancelAnimationFrame(frame);clearTimeout(timer);};
-  },[officialSession?.sessionId,officialSession?.status,officialSession?.submission,submissions]);
+    if(officialSession?.status!=='finished'||!officialSession.sessionId||officialSession.autoClose===false)return;
+    const current=officialRef.current,active=activeRecord.current;
+    if(!current||current.id!==officialSession.sessionId||current.record.accountOwner!==ownerRef.current||!active?.loaded||active.id!==current.record.id||active.contestId!==current.record.contestId||active.reviewId!==current.record.reviewId||!/^\d+$/.test(officialSession.submissionId||''))return;
+    if(!consoleOpen||consoleTab!=='result'||studyPane?.focused===false||!result?.finishedAt||result.scope!=='official'||result.verdict!==officialSession.verdict)return;
+    const saved=officialSession.submission||submissions.find(row=>row.scope==='official'&&new RegExp(`^原站确认提交 #${officialSession.submissionId}(?:\\s|$)`).test(row.message||''));
+    if(!saved||saved.id!==result.id)return;
+    // A committed hidden tab or another selected history row is not a display
+    // acknowledgement. Wait for this exact persisted verdict to be painted.
+    let cancelled=false,timer,frame,nextFrame,inFlight=false,inView=false;
+    const displayed=()=>{
+      const node=sectionRef.current?.querySelector('.wb-result-summary');
+      return !cancelled&&!current.acknowledged&&inView&&document.visibilityState==='visible'&&node?.isConnected&&node.getClientRects().length>0&&getComputedStyle(node).visibility==='visible'&&(!node.checkVisibility||node.checkVisibility({checkOpacity:true,checkVisibilityCSS:true}))&&!node.closest('[hidden],[inert]')&&node.dataset.submissionId===saved.id&&node.dataset.verdict===officialSession.verdict;
+    };
+    const acknowledge=async(attempt=0)=>{if(!displayed()||inFlight)return;inFlight=true;try{const answer=await apiRef.current('official/ack',{sessionId:officialSession.sessionId});if(answer.closed)current.acknowledged=true;else if(!cancelled&&attempt<4)timer=setTimeout(()=>acknowledge(attempt+1),700);}catch{if(!cancelled&&attempt<4)timer=setTimeout(()=>acknowledge(attempt+1),1000);}finally{inFlight=false;}};
+    const schedule=()=>{cancelAnimationFrame(frame);cancelAnimationFrame(nextFrame);frame=requestAnimationFrame(()=>{nextFrame=requestAnimationFrame(()=>acknowledge());});};
+    const observer=new ResizeObserver(schedule);if(sectionRef.current)observer.observe(sectionRef.current);
+    const intersection=new IntersectionObserver(entries=>{inView=entries.some(entry=>entry.isIntersecting&&entry.intersectionRatio>0);schedule();});
+    const node=sectionRef.current?.querySelector('.wb-result-summary');if(node)intersection.observe(node);
+    document.addEventListener('visibilitychange',schedule);window.addEventListener('focus',schedule);schedule();
+    return()=>{cancelled=true;cancelAnimationFrame(frame);cancelAnimationFrame(nextFrame);clearTimeout(timer);observer.disconnect();intersection.disconnect();document.removeEventListener('visibilitychange',schedule);window.removeEventListener('focus',schedule);};
+  },[officialSession?.sessionId,officialSession?.status,officialSession?.submission,officialSession?.verdict,officialSession?.autoClose,submissions,result?.id,result?.finishedAt,result?.verdict,consoleOpen,consoleTab,studyPane?.focused,contextKey]);
   const updateCode = useCallback(value => {
     const record = activeRecord.current;
     if (!record?.loaded || record.closed) return;
@@ -1132,7 +1145,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
               {officialPollError && <p className="wb-poll-error" role="alert">{officialPollError}</p>}
             </div>}
             {creating && !pending ? <div className="wb-empty"><LoaderCircle size={20} className="wb-spinner" /><span>正在开始评测</span></div> : result ? <>
-              <div className="wb-result-summary" aria-live="polite"><Verdict submission={result} />
+              <div className="wb-result-summary" data-submission-id={result.id} data-verdict={result.verdict} aria-live="polite"><Verdict submission={result} />
                 {result.reviewRewardXp>0&&<span className="wb-review-xp">+{result.reviewRewardXp} XP</span>}
                 {result.timeMs != null && <span>{elapsedText(result.timeMs)}</span>}
                 {result.memoryKb != null && <span>{(result.memoryKb / 1024).toFixed(1)} MB</span>}

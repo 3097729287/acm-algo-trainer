@@ -14,7 +14,7 @@ let responses=[];
 const window={pageInfo:{contestId:'127263',questionId:'11604979'},globalInfo:{ownerId:12345},fetch:async(url)=>{
  const value=responses.shift();return {ok:true,url:new URL(url,location).href,json:async()=>value,clone(){return {json:async()=>value}}};
 }};
-const box={window,location,URL,URLSearchParams,Promise,AbortSignal,chrome:{webview:{postMessage(value){messages.push(JSON.parse(value))}}},normal:text=>({'答案错误':'WA','运行超时':'TLE','AC':'AC'}[text]||null)};
+const box={window,location,URL,URLSearchParams,Promise,AbortSignal,AbortController,chrome:{webview:{postMessage(value){messages.push(JSON.parse(value))}}},normal:text=>({'答案错误':'WA','运行超时':'TLE','AC':'AC'}[text]||null)};
 vm.runInNewContext(observer+';window.state=installNowcoderReceipts('+JSON.stringify(ctx)+');',box);
 window.state.armed=true;
 async function request(url,body,response){responses.push(response);await window.fetch(url,{method:body?'POST':'GET',...(body?{body:JSON.stringify(body)}:{})});await new Promise(r=>setImmediate(r));}
@@ -113,16 +113,16 @@ GLOBAL_SCRIPT = r'''
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const source=fs.readFileSync(process.argv[1],'utf8'), code='int main(){}';
 function fixture({ctxChanges={},infoChanges={},owner=12345,loggedIn=true,path='/acm/problem/16570'}={}){
- const messages=[],requests=[],responses=[],location=new URL('https://ac.nowcoder.com'+path);
+ const messages=[],requests=[],responses=[],location=new URL('https://ac.nowcoder.com'+path);let now=Date.now();
  const ctx={sessionId:'global-fixture',platform:'牛客',originalUrl:'https://ac.nowcoder.com/acm/problem/16570',code,baseline:['99'],...ctxChanges};
  const window={isLogin:loggedIn,pageInfo:{problemId:'16570',questionId:'170283',doneQuestionId:'16570',tagId:'4',subTagId:'0',codeJudgeType:'0',...infoChanges},globalInfo:owner?{ownerId:owner}:{},fetch:async(url,options)=>{
   requests.push({url:String(url),method:options?.method||'GET',body:options?.body});
-  const item=responses.shift()||{};return{ok:true,url:item.url||new URL(url,location).href,json:async()=>item.value,clone(){return{json:async()=>item.value}}};
+  const item=responses.shift()||{};if(item.hang)return new Promise((_resolve,reject)=>options.signal.addEventListener('abort',()=>reject(Error('isolated host deadline')),{once:true}));if(item.error)throw Error('isolated query interrupted');return{ok:item.ok!==false,url:item.url||new URL(url,location).href,json:async()=>item.value,clone(){return{json:async()=>item.value}}};
  }};
- const box={window,location,URL,URLSearchParams,Promise,AbortSignal,chrome:{webview:{postMessage(value){messages.push(JSON.parse(value))}}},normal:text=>({'答案错误':'WA','运行超时':'TLE','AC':'AC'}[text]||null)};
+ const box={window,location,URL,URLSearchParams,Promise,AbortSignal,AbortController,Date:class extends Date{static now(){return now}},chrome:{webview:{postMessage(value){messages.push(JSON.parse(value))}}},normal:text=>({'答案错误':'WA','运行超时':'TLE','AC':'AC'}[text]||null)};
  vm.runInNewContext(source+';window.state=installNowcoderReceipts('+JSON.stringify(ctx)+');',box);
  window.state.armed=true;
- return{window,ctx,messages,requests,location,responses,async request(url,body,value,responseUrl){responses.push({value,url:responseUrl});await window.fetch(url,{method:body?'POST':'GET',...(body?{body:new URLSearchParams(body).toString()}:{})});await new Promise(r=>setImmediate(r));}};
+ return{window,ctx,messages,requests,location,responses,advance:ms=>{now+=ms},async request(url,body,value,responseUrl){responses.push({value,url:responseUrl});await window.fetch(url,{method:body?'POST':'GET',...(body?{body:new URLSearchParams(body).toString()}:{})});await new Promise(r=>setImmediate(r));}};
 }
 const legacy={questionId:'170283',doneQuestionId:'16570',tagId:'4',subTagId:'0',language:'2',languageName:'C++(g++ 13)',content:code};
 const modern={questionId:'170283',tagId:'4',appId:6,userId:12345,language:2,content:code,submitType:1,token:'fixture-short-lived'};
@@ -163,6 +163,30 @@ const status=id=>'/nccommon/status?submissionId='+id+'&tagId=4&subTagId=0';
  const passive=fixture({ctxChanges:{sessionId:'unbound',code:''}});passive.window.state.armed=false;
  await passive.request('/nccommon/submit_cd',legacy,{code:0,data:103});await passive.request(status(103),null,{code:0,data:{status:5}});assert.equal(passive.messages.at(-1).verdict,'AC');
  for(const [error,expected] of [[999,'needs_login'],[1125,'needs_verification']]){const p=fixture();await p.request('/nccommon/submit_cd',legacy,{code:error,msg:'fixture rejected'});assert.equal(p.messages.at(-1).status,expected);assert.equal(p.messages.at(-1).attempted,false);}
+ // Real public result shapes: long descriptions and non-AC numeric terminals.
+ for(const [statusCode,label,desc,expected] of [
+  [21,'执行出错','程序异常退出，请检查是否存在语法错误或者数组越界非法访问等情况','RE'],
+  [12,'编译错误','编译错误:您提交的代码无法完成编译','CE'],
+  [4,'答案错误','答案错误:您提交的程序没有通过所有的测试用例','WA'],
+  [6,'运行超时','您的程序运行超出时间限制','TLE'],[5,'答案正确','通过全部用例','AC'],
+  [8,'内存超限','内存超限:超出题目限制','MLE'],[9,'输出超限','输出超限:超出题目限制','OLE']]){
+  const p=fixture();await p.request('/nccommon/submit_cd',legacy,{code:0,data:101});
+  await p.request(status(100),null,{code:0,id:100,status:statusCode,judgeReplyDesc:label,desc,isSelfTest:false,isComplete:true});
+  assert.equal(p.messages.length,1,'Another SID cannot supply even a recognized terminal');
+  await p.request(status(101),null,{code:0,id:101,status:statusCode,judgeReplyDesc:label,desc,isSelfTest:false,isComplete:true});
+  assert.equal(p.messages.at(-1).verdict,expected);assert.equal(p.messages.at(-1).submissionId,'101');assert.equal(p.messages.at(-1).verdictDetail,label);
+ }
+ const retry=fixture();await retry.request('/nccommon/submit_cd',legacy,{code:0,data:101});
+ retry.responses.push({error:true});await retry.window.state.poll();
+ assert.equal(retry.messages.at(-1).status,'judging');assert.equal(retry.messages.at(-1).submissionId,'101');
+ const queries=retry.requests.length;await retry.window.state.poll();assert.equal(retry.requests.length,queries,'Failed queries back off instead of flooding the site');
+ retry.advance(16000);retry.responses.push({value:{code:0,id:101,status:12,judgeReplyDesc:'编译错误',desc:'编译错误:您提交的代码无法完成编译',isSelfTest:false}});await retry.window.state.poll();
+ assert.equal(retry.messages.at(-1).verdict,'CE');assert.equal(retry.requests.filter(r=>r.method==='POST').length,1,'Query recovery never submits again');
+ const suspended=fixture();await suspended.request('/nccommon/submit_cd',legacy,{code:0,data:101});suspended.responses.push({hang:true});
+ const outstanding=suspended.window.state.poll();suspended.advance(16000);await suspended.window.state.poll();await outstanding;
+ assert.equal(suspended.window.state.polling,false,'Host inspection cancels an expired read even when page timers are suspended');
+ suspended.advance(16000);suspended.responses.push({value:{code:0,id:101,status:4,desc:'答案错误:您提交的程序没有通过所有的测试用例',isSelfTest:false}});await suspended.window.state.poll();
+ assert.equal(suspended.messages.at(-1).verdict,'WA');assert.equal(suspended.requests.filter(r=>r.method==='POST').length,1);
  console.log(JSON.stringify({ok:true,rejectedRequests:rejected,nativeGlobalLegacy:true,nativeGlobalModern:true,passiveGlobal:true,noRealOJ:true}));
 })().catch(error=>{console.error(error);process.exitCode=1;});
 '''

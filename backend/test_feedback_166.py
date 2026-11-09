@@ -95,7 +95,7 @@ class PresentationTests(unittest.TestCase):
         inspector=Mock();inspector.call.side_effect=[{'windowId':3,'bounds':{'windowState':'normal'}},{'processInfo':[{'type':'browser','id':123}]}]
         page=Mock();page.evaluate.return_value='Original page title'
         with patch('external_browser.DevToolsPage',return_value=inspector),patch('browser_presentation.present_window',return_value=True) as present:
-            self.assertTrue(browser.present_page('target',page,True))
+            self.assertTrue(browser.present_page('target',page,True,activate=True))
         self.assertEqual(present.call_args.args[0],123);self.assertTrue(present.call_args.args[1].startswith('[ToBe-'));self.assertTrue(present.call_args.args[2])
         page.call.assert_called_once_with('Page.bringToFront');self.assertIn('Original page title',page.evaluate.call_args.args[0])
     def test_opening_a_pending_attempt_does_not_replay_it_and_hides_internal_visibility_flag(self):

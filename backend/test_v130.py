@@ -71,11 +71,11 @@ class WorkbenchUpdateTests(unittest.TestCase):
         closed=[]
         browser=SimpleNamespace(close_page=lambda target:closed.append(target) or True)
         bridge=ExternalBrowserBridge(self.root/'browser',browser_process=browser,on_receipt=lambda *_:False)
-        bridge.sessions['s']={'sessionId':'s','target':'owned-tab','status':'submitted','autoClose':True,'intent':False}
+        bridge.sessions['s']={'sessionId':'s','target':'owned-tab','status':'submitted','autoClose':True,'intent':False,'attempted':True}
         bridge._update('s',{'status':'finished','verdict':'WA','submissionId':'123'})
         self.assertFalse(bridge.acknowledge('s')['closed'])
         self.assertEqual(closed,[])
-        bridge.on_receipt=lambda *_:True
+        bridge.on_receipt=lambda *_:{'id':'official-'+'a'*64,'scope':'official','mode':'submit','verdict':'WA','finishedAt':'2026-11-09T00:00:00Z','message':'原站确认提交 #123'}
         bridge._update('s',{'status':'finished','verdict':'WA','submissionId':'123'})
         self.assertEqual(closed,[])
         self.assertTrue(bridge.acknowledge('s')['closed'])

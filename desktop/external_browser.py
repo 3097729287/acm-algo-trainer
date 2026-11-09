@@ -12,6 +12,7 @@ import json
 import queue
 import logging
 import os
+import re
 from pathlib import Path
 import socket
 import subprocess
@@ -194,10 +195,15 @@ class BrowserProcess:
     def new_submission_page(self):
         # Each submission owns one window; never close a login or unrelated tab.
         self.ensure(background=True)
+        protocol = self.request('/json/protocol')
+        command = next((command for domain in protocol.get('domains', []) if domain.get('domain') == 'Target'
+                        for command in domain.get('commands', []) if command.get('name') == 'createTarget'), {})
+        if not any(parameter.get('name') == 'windowState' for parameter in command.get('parameters', [])):
+            raise ServiceError(503, '当前浏览器不支持后台提交窗口，请更新 Edge 或 Chrome 后重试')
         version=self.request('/json/version')
         page=DevToolsPage(version['webSocketDebuggerUrl'],lambda *_:None)
         try:
-            target=page.call('Target.createTarget',{'url':'about:blank','newWindow':True,'background':True})['targetId']
+            target=page.call('Target.createTarget',{'url':'about:blank','newWindow':True,'background':True,'windowState':'minimized'})['targetId']
             for blank in self.bootstrap_targets:
                 page.call('Target.closeTarget',{'targetId':blank})
             self.bootstrap_targets.clear()
@@ -205,7 +211,7 @@ class BrowserProcess:
         finally:
             page.close()
 
-    def present_page(self, identity, page, visible):
+    def present_page(self, identity, page, visible, *, activate=False):
         version=self.request('/json/version')
         browser=DevToolsPage(version['webSocketDebuggerUrl'],lambda *_:None)
         marker='[ToBe-'+uuid.uuid4().hex+'] '
@@ -215,16 +221,16 @@ class BrowserProcess:
             processes=browser.call('SystemInfo.getProcessInfo')['processInfo']
             pid=next((item['id'] for item in processes if item.get('type')=='browser'),None)
             if type(pid) is not int or pid<=0:return False
-            if visible and window.get('bounds',{}).get('windowState')=='minimized':
+            if visible and activate and window.get('bounds',{}).get('windowState')=='minimized':
                 browser.call('Browser.setWindowBounds',{'windowId':window['windowId'],'bounds':{'windowState':'normal'}})
             # A short-lived title tag binds a Win32 handle to this exact target,
             # even when several submissions share the browser PID and bounds.
             original=page.evaluate('(()=>{const value=document.title;document.title='+json.dumps(marker)+'+value;return value;})()')
             if not isinstance(original,str):return False
-            if visible:page.call('Page.bringToFront')
+            if visible and activate:page.call('Page.bringToFront')
             if os.name=='nt':
                 from browser_presentation import present_window
-                return present_window(pid,marker,visible)
+                return present_window(pid,marker,visible,activate=activate)
             if not visible:browser.call('Browser.setWindowBounds',{'windowId':window['windowId'],'bounds':{'windowState':'minimized'}})
             return True
         finally:
@@ -382,31 +388,41 @@ class ExternalBrowserBridge:
         authorization = self.guard(url) if self.guard else None
         target = submission_target(url)
         with self.lock:
-            completed = [key for key, item in self.sessions.items() if item['status'] in self.terminal]
+            completed = [key for key, item in self.sessions.items() if item['status'] in self.terminal and not (item['status']=='unconfirmed' and item.get('attempted'))]
             for key in completed[:-20]:
                 del self.sessions[key]
             # Never replay an attempt merely because a request/focus repeats.
             for session in self.sessions.values():
-                if session['originalUrl'] == url and session['code'] == code and session.get('language','cpp17') == language and session['status'] not in self.terminal:
+                if session['originalUrl'] == url and session['code'] == code and session.get('language','cpp17') == language and (session['status'] not in self.terminal or session['status']=='unconfirmed' and session.get('attempted')):
                     if session.get('_guardAuthorization') != authorization:
                         raise ServiceError(409, '已有其它账号或比赛上下文的原站会话，请先处理该会话再提交')
                     if intent and not session.get('attempted') and not session.get('dispatching'):
                         session['intent'] = True
                         session['dispatched'] = False
-                        session['autoClose'] = True
+                        session['autoClose'] = not session.get('_manualWindow', False)
                         session['retry'] = session.get('retry', 0) + 1
-                    session['focus'] = True
+                    if not intent:
+                        session['_manualWindow'] = True
+                        session['autoClose'] = False
+                    session['focus'] = session['status'] in ('needs_login', 'needs_verification')
                     session['explicitVisible'] = not intent
+                    if session['status']=='unconfirmed' and session.get('target'):
+                        # Reconnect to the same owned page only to query its
+                        # numbered receipt. The prior click is never re-armed.
+                        session.update(status='judging' if session.get('submissionId') else 'submitted',intent=False,dispatched=True,
+                                       created=time.monotonic(),_resumeTarget=session['target'],message='正在重新查询原站本次提交记录，不会重复发送代码。')
+                        context=copy_context()
+                        threading.Thread(target=context.run,args=(self._run,session['sessionId']),name='tb-recheck-submit',daemon=True).start()
                     return self.status(session['sessionId'])
             if sum(item['status'] not in self.terminal for item in self.sessions.values()) >= 8:
                 raise ServiceError(409, '请先处理已有的浏览器提交，再打开新的提交页')
-            if intent and any(item['originalUrl'] == url and item.get('attempted') and item['status'] not in self.terminal for item in self.sessions.values()):
+            if intent and any(item['originalUrl'] == url and item.get('attempted') and (item['status'] not in self.terminal or item['status']=='unconfirmed') for item in self.sessions.values()):
                 raise ServiceError(409, '本题已有提交正在等待回执，请先核对该次结果')
             identity = uuid.uuid4().hex
             session = dict(target, sessionId=identity, code=code, title=title, language=language, intent=intent, autoClose=bool(intent),
                            status='loading', attempted=False, retry=1 if intent else 0, created=time.monotonic(),
-                            transport='external', message='正在后台打开原站提交页…' if intent else '正在打开浏览器原站提交页…', focus=not intent, explicitVisible=not intent,
-                            _guardAuthorization=authorization)
+                            transport='external', message='正在后台打开原站提交页…' if intent else '正在打开浏览器原站提交页…', focus=False, explicitVisible=not intent,
+                            _guardAuthorization=authorization, _manualWindow=not intent)
             self.sessions[identity] = session
         # The pre-click guard must see the same account/contest authorization
         # as the initial guard. Each worker gets its own context copy.
@@ -426,7 +442,7 @@ class ExternalBrowserBridge:
             if not session:
                 raise ServiceError(404, '没有找到本次浏览器提交')
             result = {key: value for key, value in session.items() if key not in
-                    {'code', 'title', 'intent', 'created', 'focus', 'originalUrl', 'target', 'dispatching', 'dispatched', 'awaitingLogin', 'explicitVisible', '_guardAuthorization'}}
+                    {'code', 'title', 'intent', 'created', 'focus', 'originalUrl', 'target', 'dispatching', 'dispatched', 'awaitingLogin', 'explicitVisible', '_guardAuthorization', '_manualWindow', '_resumeTarget'}}
             if result['status'] == 'finished' and self.on_receipt and not result.get('receiptSaved'):
                 result['status'] = 'judging'
             return result
@@ -443,6 +459,18 @@ class ExternalBrowserBridge:
                        'needs_login', 'needs_verification', 'awaiting_submit', 'unconfirmed'}
             if status not in allowed:
                 return
+            remote = str(value.get('submissionId') or '')
+            previous = str(session.get('submissionId') or '')
+            if remote and previous and remote != previous:
+                return  # Once accepted, a different SID cannot finish this job.
+            if status in ('judging', 'finished') and session.get('platform') == 'Codeforces':
+                if not session.get('attempted') or not remote.isdecimal() or int(remote) <= 0:
+                    return
+                baseline = [int(item) for item in (session.get('baseline') or []) if str(item).isdecimal()]
+                if session.get('baselineKnown') and any(int(remote) <= old for old in baseline):
+                    return
+                if status == 'finished' and value.get('verdict') not in ('AC', 'WA', 'TLE', 'MLE', 'RE', 'CE', 'OLE'):
+                    return
             if session.get('attempted') and status in ('ready', 'loading', 'awaiting_submit'):
                 return
             if session.get('submissionId') and status == 'submitted':
@@ -458,7 +486,7 @@ class ExternalBrowserBridge:
                           ('status', 'message', 'submissionId', 'verdict', 'attempted') if key in value)
             if status in ('needs_login', 'needs_verification') and session.get('status') != status:
                 session['focus'] = True
-            for key in ('status', 'message', 'submissionId', 'verdict', 'attempted',
+            for key in ('status', 'message', 'submissionId', 'verdict', 'verdictDetail', 'attempted',
                         'baseline', 'baselineKnown', 'baselineOwner', 'compiler', 'acceptedAt'):
                 if key in value:
                     if key == 'attempted' and inspection and session.get('attempted') and not value[key]:
@@ -526,7 +554,15 @@ class ExternalBrowserBridge:
         page = None
         presentation = None
         try:
-            target = self.browser.new_submission_page() if hasattr(self.browser,'new_submission_page') else self.browser.new_page()
+            with self.lock:
+                resume_target=self.sessions[identity].pop('_resumeTarget',None)
+            if resume_target:
+                target=next((item for item in self.browser.request('/json/list') if item.get('id')==resume_target),None)
+                if not target:
+                    self._update(identity,{'status':'unconfirmed','message':'原提交页面已关闭；提交编号已保留，请在原站核对，勿重复提交。'})
+                    return
+            else:
+                target = self.browser.new_submission_page() if hasattr(self.browser,'new_submission_page') else self.browser.new_page()
             page = DevToolsPage(target['webSocketDebuggerUrl'], lambda event, connection: self._event(identity, event, connection))
             page.call('Runtime.enable')
             page.call('Runtime.addBinding', {'name': '__tbReceipt'})
@@ -540,10 +576,13 @@ class ExternalBrowserBridge:
                 explicit=self.sessions[identity].get('explicitVisible',False)
             if hasattr(self.browser,'present_page'):
                 try:
-                    if self.browser.present_page(target['id'],page,explicit):presentation=explicit
+                    if self.browser.present_page(target['id'],page,explicit,activate=False):presentation=(explicit,False)
                 except Exception:
                     logging.getLogger('tb.visible-submit').debug('Initial browser presentation deferred')
-            page.call('Page.navigate', {'url': url})
+            if resume_target:
+                page.evaluate(self.source+';true')
+            else:
+                page.call('Page.navigate', {'url': url})
             # Submit keeps TB in front. Explicit inspection/login requests and
             # verification transitions can reveal this session's own window.
             while not self.stopping.is_set():
@@ -552,7 +591,6 @@ class ExternalBrowserBridge:
                     session = dict(self.sessions[identity])
                     if session['status'] in self.terminal:
                         return
-                    focus = self.sessions[identity].pop('focus', False)
                 if time.monotonic() - session['created'] > 900:
                     self._update(identity, {'status': 'unconfirmed' if session.get('attempted') else 'error',
                                            'message': '等待原站回执超时；请在浏览器核对本次提交，勿重复发送。'})
@@ -570,6 +608,8 @@ class ExternalBrowserBridge:
                     with self.lock:
                         live = self.sessions[identity]
                         visible=bool(live.get('explicitVisible') or live['status'] in ('needs_login','needs_verification'))
+                        activate=live['status'] in ('needs_login','needs_verification')
+                        focus=live.pop('focus',False)
                         resume = live.get('awaitingLogin') and live.get('intent') and not live.get('dispatched') and isinstance(state, dict) and state.get('loggedIn')
                         if resume:
                             live.update(awaitingLogin=False, status='loading', message='登录成功，正在返回本题并填入代码…')
@@ -577,11 +617,11 @@ class ExternalBrowserBridge:
                         if dispatch:
                             live.update(dispatching=True, dispatched=True, intent=False)
                             session = dict(live)
-                    if visible!=presentation or focus:
+                    if (visible,activate)!=presentation or focus:
                         try:
                             if hasattr(self.browser,'present_page'):
-                                if self.browser.present_page(target['id'],page,visible):presentation=visible
-                            elif visible:page.call('Page.bringToFront')
+                                if self.browser.present_page(target['id'],page,visible,activate=activate):presentation=(visible,activate)
+                            elif visible and activate:page.call('Page.bringToFront')
                         except Exception:
                             # Focus/OS restrictions cannot consume the durable
                             # pre-click checkpoint or prevent its one dispatch.
@@ -611,13 +651,14 @@ class ExternalBrowserBridge:
                 page.wake.wait(1.5 if session.get('attempted') else (.15 if time.monotonic() - session['created'] < 30 else .6))
         except Exception:
             logging.getLogger('tb.visible-submit').exception('Visible browser session failed')
-            self._update(identity, {'status':'error', 'message':'浏览器未能连接，请重新打开提交页；代码已保留。'})
+            with self.lock:attempted=self.sessions.get(identity,{}).get('attempted')
+            self._update(identity, {'status':'unconfirmed' if attempted else 'error', 'message':'浏览器未能连接，已有提交请先核对原站记录；代码已保留。'})
         finally:
             if page:
                 with self.lock:session=self.sessions.get(identity,{})
                 if (hasattr(self.browser,'present_page') and not session.get('explicitVisible')
                         and session.get('status') not in ('needs_login','needs_verification')):
-                    try:self.browser.present_page(target['id'],page,False)
+                    try:self.browser.present_page(target['id'],page,False,activate=False)
                     except Exception:pass
                 page.close()
 
@@ -629,6 +670,14 @@ class ExternalBrowserBridge:
             if session.get('windowClosed'):
                 return {'closed':True}
             if session.get('status')!='finished' or not session.get('receiptSaved') or not session.get('autoClose'):
+                return {'closed':False}
+            saved=session.get('submission')
+            remote=str(session.get('submissionId') or '')
+            if (not session.get('attempted') or not remote.isdecimal() or int(remote)<=0
+                    or not isinstance(saved,dict) or saved.get('scope')!='official' or saved.get('mode')!='submit'
+                    or not saved.get('finishedAt') or saved.get('verdict')!=session.get('verdict')
+                    or not isinstance(saved.get('id'),str) or not re.fullmatch(r'official-[0-9a-f]{64}',saved['id'])
+                    or not isinstance(saved.get('message'),str) or not re.match(r'^原站确认提交 #'+remote+r'(?:\s|$)',saved['message'])):
                 return {'closed':False}
             target=session.get('target')
         if not target:
