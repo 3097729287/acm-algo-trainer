@@ -196,8 +196,11 @@ def assemble(args):
     shutil.copy2(ROOT / 'desktop' / 'official_page.js', package / 'official_page.js')
     shutil.copy2(ROOT / 'desktop' / 'virtual_contest.js', package / 'resources' / 'virtual_contest.js')
     shutil.copy2(ROOT / 'desktop' / 'official_qoj.js', package / 'resources' / 'official_qoj.js')
-    # Visible Edge/Chrome submission uses the local adapter directly. No
-    # browser extension, cookie transport or extension installation is bundled.
+    # The user's existing browser owns its login. Ship only static page
+    # adapters; no cookie transport or independent login profile is created.
+    sys.path.insert(0,str(ROOT/'desktop'))
+    from browser_extension_bundle import build as build_extension
+    build_extension(package/'browser-extension')
     shutil.copy2(ROOT / 'desktop' / 'tb.ico', package / 'tb.ico')
     for name in ('VERSION', 'LICENSE', 'THIRDPARTY.md', 'TOOLCHAIN-SOURCES.md', 'third-party-inventory.json'):
         shutil.copy2(ROOT / name, package / name)

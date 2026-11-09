@@ -1,249 +1,108 @@
-// Capabilities stay in the extension's session storage, never in an OJ page.
-importScripts('login_state.js');
-const loginStates = {}, loginChecks = new Map(), loginGenerations = {}, loginCookies = {}, loginRescans = new Set();
-const scopes = {Codeforces:'codeforces.com',AtCoder:'atcoder.jp','牛客':'nowcoder.com','洛谷':'luogu.com.cn',QOJ:'qoj.ac'};
-const loginDirty = new Set(Object.keys(scopes));
-let lastLoginRefresh = 0, lastOpenRefresh = 0;
-async function readCookies(platform) {
-  const domain = scopes[platform];
-  // Chromium defaults to unpartitioned cookies. Include only this site's own
-  // top-level partition as well; never merge other sites' embedded sessions.
-  const plain = await chrome.cookies.getAll({domain});
-  const partitioned = await chrome.cookies.getAll({domain, partitionKey:{topLevelSite:'https://' + domain,hasCrossSiteAncestor:false}});
-  const selected = new Map();
-  for (const cookie of [...plain, ...partitioned].filter(cookie => tbFirstPartyCookie(platform, cookie))) {
-    selected.set(JSON.stringify([cookie.domain,cookie.path,cookie.name]), cookie);
-  }
-  return [...selected.values()].sort((a,b) => JSON.stringify([a.domain,a.path,a.name]).localeCompare(JSON.stringify([b.domain,b.path,b.name])));
+// Pure protocol-4 tabs. Session values never leave the browser's own pages.
+importScripts('connection_config.js');
+const hosts=new Set(['codeforces.com','www.codeforces.com','atcoder.jp','ac.nowcoder.com','www.nowcoder.com','nowcoder.com','www.luogu.com.cn','luogu.com.cn','login.luogu.com.cn','qoj.ac']);
+const platformHosts={'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.nowcoder.com':'牛客','nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷','login.luogu.com.cn':'洛谷','qoj.ac':'QOJ'};
+const patterns=Object.keys(platformHosts).map(host=>'https://'+host+'/*');
+const connections=new Map(),seen=new Map(),serial=new Map();let polling=false;
+const localBase=value=>{try{const u=new URL(value);return u.protocol==='http:'&&u.hostname==='127.0.0.1'&&u.origin===value}catch{return false}};
+async function request(base,path,body,key=''){
+ if(!localBase(base))throw Error('Invalid local endpoint');
+ const response=await fetch(base+'/api/browser/'+path,{method:'POST',headers:{'Content-Type':'application/json','X-TB-Browser':key,'X-TB-Browser-Client':chrome.runtime.id},body:JSON.stringify(body),signal:AbortSignal.timeout(10000)});
+ if(!response.ok){if([401,403,410,426].includes(response.status)){connections.delete(base);seen.delete(base)}throw Error('ToBe connection unavailable')}
+ return response.json();
 }
-async function updateLoginState(platform, cookies) {
-  const same = JSON.stringify(loginCookies[platform]) === JSON.stringify(cookies);
-  if (same && loginChecks.has(platform)) return;
-  loginCookies[platform] = cookies;
-  const generation = loginGenerations[platform] = (loginGenerations[platform] || 0) + 1;
-  const cookieState = tbCookieLoginState(platform, cookies);
-  if (!same || cookieState !== 'unknown') loginStates[platform] = cookieState;
-  if (loginChecks.has(platform)) { loginRescans.add(platform); return; }
-  const urls = {Codeforces:'https://codeforces.com/',AtCoder:'https://atcoder.jp/','牛客':'https://ac.nowcoder.com/acm/home','洛谷':'https://www.luogu.com.cn/',QOJ:'https://qoj.ac/'};
-  const check = (async () => {
-    try {
-      const patterns = {Codeforces:['https://codeforces.com/*','https://www.codeforces.com/*'],AtCoder:['https://atcoder.jp/*'],'牛客':['https://ac.nowcoder.com/*'],'洛谷':['https://www.luogu.com.cn/*','https://luogu.com.cn/*'],QOJ:['https://qoj.ac/*']};
-      const tabs = await chrome.tabs.query({url:patterns[platform]});
-      const hints = await Promise.all(tabs.filter(tab=>!tab.incognito).slice(0,8).map(async tab=>{
-        try { return await Promise.race([chrome.tabs.sendMessage(tab.id,{type:'login-state',platform}),new Promise(resolve=>setTimeout(()=>resolve({state:'unknown'}),5500))]); }
-        catch { return {state:'unknown'}; }
-      }));
-      if (generation !== loginGenerations[platform]) return;
-      if (hints.some(value=>value?.state==='logged_in')) {loginStates[platform]='logged_in';return;}
-      if (hints.some(value=>value?.fresh && value.state==='logged_out')) {loginStates[platform]='logged_out';return;}
-      const response = await fetch(urls[platform], {credentials:'include',cache:'no-store',signal:AbortSignal.timeout(5000)});
-      if (!response.ok || Number(response.headers.get('content-length')) > 1048576) return;
-      const html = await response.text();
-      if (html.length > 1048576 || generation !== loginGenerations[platform]) return;
-      const state = tbPageLoginState(platform, html);
-      // A cross-origin negative may be caused by the browser's SameSite cookie
-      // policy. Only an original-page hint or empty cookies proves logout.
-      if (state === 'logged_in' || (state === 'logged_out' && !cookies.some(cookie=>cookie.value))) loginStates[platform] = state;
-    } catch { /* A blocked or unavailable site is not evidence of logout. */ }
-    finally {
-      loginChecks.delete(platform);
-      if (loginRescans.delete(platform)) updateLoginState(platform, loginCookies[platform]);
-    }
-  })();
-  loginChecks.set(platform, check);
+async function exchange(job,body){return request(job.base,'exchange',{sessionId:job.sessionId,clientId:job.clientId,...body},job.key)}
+async function identities(tabs){
+ const result={};
+ await Promise.all(tabs.filter(t=>!t.incognito).slice(0,12).map(async tab=>{
+  const platform=platformHosts[new URL(tab.url).hostname];if(!platform)return;
+  try{const value=await Promise.race([chrome.tabs.sendMessage(tab.id,{type:'identity',platform}),new Promise(r=>setTimeout(()=>r(null),1800))]);
+   if(value?.platform===platform&&(value.state==='logged_in'||!result[platform]))result[platform]=value;
+  }catch{}
+ }));
+ return result;
 }
-const hosts = new Set(['codeforces.com', 'www.codeforces.com', 'atcoder.jp', 'ac.nowcoder.com', 'www.nowcoder.com', 'nowcoder.com', 'www.luogu.com.cn', 'luogu.com.cn', 'login.luogu.com.cn', 'qoj.ac']);
-const queues = new Map();
-const connections = new Map();
-let queueBusy = false;
-async function backgroundRequest(base, path, body, key = '') {
-  const response = await fetch(base + '/api/browser/' + path, {
-    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-TB-Browser': key, 'X-TB-Browser-Client': chrome.runtime.id },
-    body: JSON.stringify(body), signal: AbortSignal.timeout(5000),
-  });
-  if (!response.ok) { connections.delete(base); throw new Error('TB 后台连接不可用'); }
-  return response.json();
+async function createJob(item,base,clientId,windows,tabs){
+ const saved=(await chrome.storage.session.get('jobs')).jobs||{};
+ const previous=Object.values(saved).find(j=>j.base===base&&j.sessionId===item.sessionId);
+ if(previous){
+  if(previous.key!==item.key){previous.key=item.key;previous.clientId=clientId;saved[previous.tabId]=previous;await chrome.storage.session.set({jobs:saved})}
+  try{await chrome.tabs.get(previous.tabId);await chrome.tabs.sendMessage(previous.tabId,{type:'wake'}).catch(()=>{})}
+  catch{delete saved[previous.tabId];await chrome.storage.session.set({jobs:saved})}
+  return;
+ }
+ const regular=windows.filter(w=>!w.incognito);if(!regular.length)return;
+ const job={...item,base,clientId,owned:true};const claim=await exchange(job,{claim:true});
+ if(['closed','error','finished'].includes(claim.status))return;
+ const target=new URL(claim.url);if(target.protocol!=='https:'||!hosts.has(target.hostname))return;
+ const matching=tabs.find(t=>!t.incognito&&new URL(t.url).hostname===target.hostname);
+ const tab=await chrome.tabs.create({windowId:matching?.windowId||(regular.find(w=>w.focused)||regular[0]).id,url:'about:blank',active:false});
+ job.tabId=tab.id;job.targetHost=target.hostname;if(claim.manual)job.manual=true;
+ saved[tab.id]=job;await chrome.storage.session.set({jobs:saved});
+ // Mute this owned tab before navigating; other browser audio is untouched.
+ await chrome.tabs.update(tab.id,{muted:true,url:target.href});
 }
-async function pollQueues() {
-  if (queueBusy) return;
-  queueBusy = true;
-  try {
-    const settings = await chrome.storage.local.get(['bases', 'clientId']);
-    const clientId = settings.clientId || crypto.randomUUID();
-    if (!settings.clientId) await chrome.storage.local.set({ clientId });
-    const bases = settings.bases || ['http://127.0.0.1:18765'];
-    for (const base of bases) {
-      try {
-        const local = new URL(base);
-        if (local.protocol !== 'http:' || local.hostname !== '127.0.0.1' || local.origin !== base) continue;
-        if (!connections.has(base)) connections.set(base, (await backgroundRequest(base, 'register', { clientId, protocol: 3, extensionVersion:chrome.runtime.getManifest().version })).key);
-        const [windows, tabs] = await Promise.all([
-          chrome.windows.getAll({ windowTypes: ['normal'] }),
-          chrome.tabs.query({url:['https://codeforces.com/*','https://www.codeforces.com/*','https://atcoder.jp/*','https://ac.nowcoder.com/*','https://www.luogu.com.cn/*','https://luogu.com.cn/*','https://qoj.ac/*']}),
-        ]);
-        const platformHosts = {'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷','qoj.ac':'QOJ'};
-        const platforms = [...new Set(tabs.filter(tab=>!tab.incognito).map(tab=>platformHosts[new URL(tab.url).hostname]).filter(Boolean))];
-        if (Date.now() - lastLoginRefresh >= 30000) { Object.keys(scopes).forEach(platform=>loginDirty.add(platform)); lastLoginRefresh=Date.now(); }
-        if (Date.now() - lastOpenRefresh >= 5000) { platforms.forEach(platform=>loginDirty.add(platform)); lastOpenRefresh=Date.now(); }
-        const syncPlatforms = [...loginDirty];
-        syncPlatforms.forEach(platform=>loginDirty.delete(platform));
-        await Promise.all(syncPlatforms.map(async platform=>{
-          try { updateLoginState(platform, await readCookies(platform)); }
-          catch { loginDirty.add(platform); } // A failed export is not an empty session.
-        }));
-        const answer = await backgroundRequest(base, 'queue', { clientId, hasWindow:windows.some(w=>!w.incognito), platforms, loginStates, syncPlatforms }, connections.get(base));
-        if (answer.mode === 'silent' || answer.mode === 'hybrid') {
-          await Promise.all((answer.sync || []).map(async request => {
-            if (!scopes[request.platform] || typeof request.nonce !== 'string') return;
-            const cookies = await readCookies(request.platform);
-            updateLoginState(request.platform, cookies);
-            await backgroundRequest(base, 'session', {clientId,platform:request.platform,nonce:request.nonce,cookies,loginState:loginStates[request.platform] || 'unknown',userAgent:navigator.userAgent}, connections.get(base));
-          }));
-          if (answer.mode === 'silent') continue;
-        }
-        for (const item of answer.jobs || []) {
-          const saved = (await chrome.storage.session.get('jobs')).jobs || {};
-          if (Object.values(saved).some(j => j.sessionId === item.sessionId && j.base === base)) continue;
-          // Never create/activate a browser window. Reuse an existing window in
-          // the background solely as the authenticated origin for site requests.
-          const regularWindows=windows.filter(w=>!w.incognito);
-          if (!regularWindows.length) continue;
-          const job = { ...item, base, owned: true };
-          const claim = await exchange(job, { claim: true });
-          if (claim.manual) job.owned = false;
-          if (['closed', 'finished', 'error'].includes(claim.status)) continue;
-          const target = new URL(claim.url);
-          if (target.protocol !== 'https:' || !hosts.has(target.hostname)) continue;
-          let tab;
-          if (['atcoder.jp','www.luogu.com.cn','luogu.com.cn'].includes(target.hostname)) {
-            for (const candidate of tabs.filter(t=>!t.incognito&&!saved[t.id]&&new URL(t.url).origin===target.origin&&new URL(t.url).pathname===target.pathname)) {
-              try {
-                const probe = await Promise.race([chrome.tabs.sendMessage(candidate.id,{type:'submission-page',url:target.href}),new Promise(resolve=>setTimeout(()=>resolve({}),750))]);
-                if (probe?.available) { tab=candidate;job.owned=false;break; }
-              } catch { /* A stale page without the connector is not reusable. */ }
-            }
-          }
-          const matching=tabs.find(tab=>!tab.incognito&&new URL(tab.url).hostname===target.hostname);
-          const created = !tab;
-          if (!tab) tab = await chrome.tabs.create({ windowId: matching?.windowId||(regularWindows.find(w => w.focused) || regularWindows[0]).id, url: 'about:blank', active: !!claim.manual });
-          job.tabId = tab.id;
-          saved[tab.id] = job;
-          await chrome.storage.session.set({ jobs: saved });
-          if (created) await chrome.tabs.update(tab.id, { url: target.href });
-          else await chrome.tabs.sendMessage(tab.id, {type:'wake'}).catch(()=>{});
-        }
-      } catch { Object.keys(scopes).forEach(platform=>loginDirty.add(platform)); }
-    }
-  } finally { queueBusy = false; }
+async function poll(){
+ if(polling)return;polling=true;
+ try{
+  const settings=await chrome.storage.local.get(['clientId','bases']);const clientId=settings.clientId||crypto.randomUUID();
+  if(!settings.clientId)await chrome.storage.local.set({clientId});
+  const bases=(settings.bases||[TB_CONNECTION_BASE]).filter(localBase).slice(0,4);
+  const [windows,tabs]=await Promise.all([chrome.windows.getAll({windowTypes:['normal']}),chrome.tabs.query({url:patterns})]);
+  const hints=await identities(tabs);
+  for(const base of bases){try{
+   if(!connections.has(base))connections.set(base,(await request(base,'register',{clientId,protocol:4,extensionVersion:chrome.runtime.getManifest().version,browser:navigator.userAgent.includes('Edg/')?'edge':'chrome'})).key);
+   const answer=await request(base,'queue',{clientId,hasWindow:windows.some(w=>!w.incognito),identities:hints},connections.get(base));
+   seen.set(base,Date.now());
+   for(const item of answer.jobs||[])await createJob(item,base,clientId,windows,tabs);
+  }catch{}}
+ }finally{polling=false}
 }
-async function exchange(job, body) {
-  const response = await fetch(job.base + '/api/browser/exchange', {
-    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-TB-Browser': job.key, 'X-TB-Browser-Client': chrome.runtime.id },
-    body: JSON.stringify({ sessionId: job.sessionId, ...body }), signal: AbortSignal.timeout(10000),
-  });
-  const value = await response.json();
-  if (!response.ok) throw new Error(value.error || 'TB 连接失败');
-  return value;
+async function handle(message,sender){
+ if(sender.id!==chrome.runtime.id||sender.frameId!==0||!sender.tab?.id)return {};
+ const page=new URL(sender.url);if(page.protocol!=='https:'||!hosts.has(page.hostname))return {};
+ const jobs=(await chrome.storage.session.get('jobs')).jobs||{},job=jobs[sender.tab.id];
+ if(!job)return {idle:true};
+ if(!['tick','event'].includes(message.type)||message.type==='event'&&message.value?.sessionId!==job.sessionId)return {};
+ let answer;
+ if(message.type==='event'&&typeof message.value?.value?.html==='string'){
+  const html=message.value.value.html;
+  if(new TextEncoder().encode(html).length>4000000)throw Error('Statement exceeds limit');
+  const value={...message.value.value};delete value.html;
+  const parts=[];
+  for(let start=0;start<html.length;){let end=Math.min(start+32000,html.length);if(end<html.length&&/[\uD800-\uDBFF]/.test(html[end-1]))end--;parts.push(html.slice(start,end));start=end}
+  if(!parts.length)parts.push('');
+  for(let index=0;index<parts.length;index++)answer=await exchange(job,{pageUrl:page.href,event:{...message.value,value,htmlPart:{index,total:parts.length,text:parts[index]}}});
+ }else answer=await exchange(job,{pageUrl:page.href,...(message.type==='event'?{event:message.value,inspection:message.inspection===true}:{})});
+ if(answer.navigate){const target=new URL(answer.navigate);if(target.protocol==='https:'&&target.hostname===job.targetHost&&target.href!==page.href)await chrome.tabs.update(job.tabId,{url:target.href})}
+ if(answer.reveal&&['needs_login','needs_verification'].includes(answer.status)){
+  if(job.revealedFor!==answer.status){job.revealedFor=answer.status;jobs[job.tabId]=job;await chrome.storage.session.set({jobs});
+   await chrome.tabs.update(job.tabId,{active:true});await chrome.windows.update(sender.tab.windowId,{focused:true});}
+ }else if(job.revealedFor){delete job.revealedFor;jobs[job.tabId]=job;await chrome.storage.session.set({jobs})}
+ if(answer.stop){
+  const latest=(await chrome.storage.session.get('jobs')).jobs||{};
+  if(answer.closeOwned&&job.owned&&!job.manual){
+   let tab;
+   try{tab=await chrome.tabs.get(job.tabId)}catch{}
+   if(tab&&(!tab.incognito&&new URL(tab.url).protocol==='https:'&&new URL(tab.url).hostname===job.targetHost)){
+    // Keep the mapping on a failed close, so reconnect can finish the same job.
+    await chrome.tabs.remove(job.tabId);
+   }else if(tab)return {...answer,stop:false};
+   await exchange(job,{closed:true});
+  }else await exchange(job,{released:true});
+  delete latest[job.tabId];await chrome.storage.session.set({jobs:latest});
+ }
+ return answer;
 }
-async function handle(message, sender) {
-  if (sender.id !== chrome.runtime.id || sender.frameId !== 0 || !sender.tab?.id) return {};
-  const page = new URL(sender.url);
-  if (message.type === 'pair') {
-    if (page.protocol !== 'http:' || page.hostname !== '127.0.0.1' || page.pathname !== '/browser-connect.html') return {};
-    const params = new URLSearchParams(page.hash.slice(1));
-    if (params.get('session') !== message.sessionId || params.get('key') !== message.key || !/^official-[a-f0-9]{32}$/.test(message.sessionId) || !/^[A-Za-z0-9_-]{40,64}$/.test(message.key)) return {};
-    const job = { base: page.origin, sessionId: message.sessionId, key: message.key, tabId: sender.tab.id };
-    const settings = await chrome.storage.local.get('bases');
-    await chrome.storage.local.set({ bases: [...new Set([page.origin, ...(settings.bases || [])])].slice(0, 4) });
-    const claim = await exchange(job, { claim: true });
-    if (['closed', 'finished', 'error'].includes(claim.status)) return { error: '本次连接已结束，请回 TB 重新提交。' };
-    const target = new URL(claim.url);
-    if (target.protocol !== 'https:' || !hosts.has(target.hostname)) throw new Error('原站地址无效');
-    if (claim.mode === 'silent') {
-      await chrome.tabs.update(sender.tab.id, { url: target.href, active: true });
-      return { connected: true };
-    }
-    // A reconnect reuses its own submission tab instead of creating a second submitter.
-    const saved = (await chrome.storage.session.get('jobs')).jobs || {};
-    const old = Object.values(saved).find(j => j.sessionId === job.sessionId && j.base === job.base);
-    let existing;
-    if (old && old.tabId !== job.tabId) {
-      try {
-        const tab = await chrome.tabs.get(old.tabId), current = new URL(tab.url);
-        if (current.protocol === 'https:' && current.hostname === target.hostname) { existing=tab;job.tabId=old.tabId;job.owned=old.owned; }
-      } catch { delete saved[old.tabId]; }
-    }
-    saved[job.tabId] = job;
-    await chrome.storage.session.set({ jobs: saved });
-    // Preserve this tab's form and completed verification. Reloading it here
-    // would discard precisely the state the user needs to inspect or complete.
-    await chrome.tabs.update(job.tabId, { ...(existing ? {} : {url:target.href}), active: true });
-    if (existing) {
-      await chrome.windows.update(existing.windowId, {focused:true});
-      await chrome.tabs.sendMessage(job.tabId, {type:'wake'}).catch(()=>{});
-    }
-    if (job.tabId !== sender.tab.id) await chrome.tabs.remove(sender.tab.id);
-    return { connected: true };
-  }
-  if (page.protocol !== 'https:' || !hosts.has(page.hostname)) return {};
-  const receiptPlatform = {'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷'}[page.hostname];
-  if (message.type === 'receipts' && receiptPlatform && message.platform === receiptPlatform) {
-    const {clientId} = await chrome.storage.local.get('clientId');
-    for (const [base, key] of connections) {
-      try { await backgroundRequest(base, 'receipts', {clientId,platform:message.platform,owner:message.owner,records:message.records}, key); } catch {}
-    }
-    return {ok:true};
-  }
-  const jobs = (await chrome.storage.session.get('jobs')).jobs || {}, job = jobs[sender.tab.id];
-  if (!job) return {idle:true};
-  if (message.type === 'event' && message.value?.sessionId !== job.sessionId) return {};
-  if (!['tick', 'event'].includes(message.type)) return {};
-  const answer = await exchange(job, { pageUrl: page.href, ...(message.type === 'event' ? { event: message.value } : {}) });
-  if (answer.reveal && !job.revealed) {
-    job.revealed = true; job.owned = false;
-    jobs[sender.tab.id] = job; await chrome.storage.session.set({jobs});
-    await chrome.tabs.update(sender.tab.id, {active:true});
-    await chrome.windows.update(sender.tab.windowId, {focused:true});
-  }
-  if (answer.stop) {
-    const latest = (await chrome.storage.session.get('jobs')).jobs || {};
-    delete latest[sender.tab.id]; await chrome.storage.session.set({ jobs: latest });
-    // Only pages created for this task belong to TB. Release them on ordinary
-    // failure as well as success; preserve user-owned or revealed verification
-    // tabs and every unconfirmed job that can still receive a late receipt.
-    if (job.owned && ['finished','error','closed'].includes(answer.status)) await chrome.tabs.remove(sender.tab.id).catch(() => {});
-  }
-  return answer;
-}
-chrome.runtime.onMessage.addListener((message, sender, respond) => {
-  // Serialize commands and receipts for each tab, including async storage writes.
-  const key = sender.tab?.id;
-  const next = (queues.get(key) || Promise.resolve()).catch(() => {}).then(() => handle(message, sender));
-  queues.set(key, next);
-  next.then(respond, () => respond({ error: '与 TB 的连接中断，请回到 TB 查看状态。' })).finally(() => { if (queues.get(key) === next) queues.delete(key); });
-  return true;
+chrome.runtime.onMessage.addListener((message,sender,reply)=>{
+ if(message.type==='connection-status'&&sender.id===chrome.runtime.id&&sender.url===chrome.runtime.getURL('connection.html')){
+  poll().then(()=>reply({connected:[...seen.values()].some(at=>Date.now()-at<=6000),protocol:4,version:chrome.runtime.getManifest().version}));return true;
+ }
+ const id=sender.tab?.id,previous=serial.get(id)||Promise.resolve();
+ const next=previous.catch(()=>{}).then(()=>handle(message,sender));serial.set(id,next);
+ next.then(reply,()=>reply({error:'原连接暂时中断，原提交会继续保留；不会重发。'})).finally(()=>{if(serial.get(id)===next)serial.delete(id)});return true;
 });
-chrome.alarms.create('tb-browser-heartbeat', { periodInMinutes: 0.5 });
-chrome.alarms.onAlarm.addListener(async alarm => {
-  if (alarm.name !== 'tb-browser-heartbeat') return;
-  await pollQueues();
-  const jobs = (await chrome.storage.session.get('jobs')).jobs || {};
-  for (const job of Object.values(jobs)) {
-    try { await chrome.tabs.sendMessage(job.tabId, { type: 'wake' }); } catch { /* Desktop detects a lost tab with a bounded timeout. */ }
-  }
-});
-chrome.runtime.onStartup.addListener(pollQueues);
-chrome.runtime.onInstalled.addListener(pollQueues);
-chrome.cookies.onChanged.addListener(({cookie}) => {
-  const domain = cookie.domain.replace(/^\./,'').toLowerCase();
-  if (!cookie) return;
-  for (const [platform, root] of Object.entries(scopes)) {
-    if (domain === root || domain.endsWith('.'+root)) loginDirty.add(platform);
-  }
-  if (loginDirty.size) pollQueues();
-});
-// Requests keep an active desktop session responsive; the alarm revives an idle
-// service worker. Only explicitly scoped OJ sessions go to authenticated local TB;
-// passwords are never read, and cookie values never enter preparation responses.
-setInterval(pollQueues, 1000);
-pollQueues();
+chrome.alarms.create('tb-browser-heartbeat',{periodInMinutes:.5});
+chrome.alarms.onAlarm.addListener(async alarm=>{if(alarm.name!=='tb-browser-heartbeat')return;await poll();const jobs=(await chrome.storage.session.get('jobs')).jobs||{};for(const job of Object.values(jobs))await chrome.tabs.sendMessage(job.tabId,{type:'wake'}).catch(()=>{})});
+chrome.runtime.onStartup.addListener(poll);chrome.runtime.onInstalled.addListener(poll);
+setInterval(poll,1000);poll();
