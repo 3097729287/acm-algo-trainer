@@ -1,0 +1,175 @@
+{
+  "date": "2026-11-09",
+  "runtimeSourceCommit": "153dfe7a77b7c85d077fa29300d479bee50038d5",
+  "componentCommits": [
+    "fdab995b",
+    "0fc732a3",
+    "153dfe7a"
+  ],
+  "legacyImplemented": 47,
+  "legacyTotal": 139,
+  "inventoryCorrection": {
+    "previousTotal": 136,
+    "newlyFound": 3,
+    "reason": "Account register/login/password are action-dictionary dispatch entries, not literal path comparisons. No implementation count is increased.",
+    "source": "backend/backend.py actions mapping",
+    "knownButUnmigrated": [
+      "POST account/register",
+      "POST account/login",
+      "POST account/password"
+    ]
+  },
+  "rustChecks": {
+    "exitCode": 0,
+    "passed": 185,
+    "groups": [
+      34,
+      0,
+      7,
+      12,
+      6,
+      12,
+      10,
+      9,
+      2,
+      27,
+      8,
+      20,
+      8,
+      8,
+      2,
+      9,
+      11,
+      0
+    ],
+    "liveHttpsIgnored": 1,
+    "log": ".backups/native-account-foundation-tests-20261109.log"
+  },
+  "lastChangedTransportChecks": {
+    "passed": 7,
+    "scope": "Also rerun after explicit uncertain=true/retryable=false for lost mutating acknowledgements."
+  },
+  "actualCli": {
+    "runtimeSourceCommit": "153dfe7a77b7c85d077fa29300d479bee50038d5",
+    "nativeBinary": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-core.exe",
+    "nativeSha256": "96da6655a620fc7a8f5a504b728c945d7ff49e5d11f44e717349a5e057fc3620",
+    "legacyImplemented": 47,
+    "legacyTotal": 139,
+    "newlyInventoriedAuthRoutes": [
+      {
+        "method": "POST",
+        "path": "account/login",
+        "code": "MIGRATION_PENDING",
+        "status": 501
+      },
+      {
+        "method": "POST",
+        "path": "account/register",
+        "code": "MIGRATION_PENDING",
+        "status": 501
+      },
+      {
+        "method": "POST",
+        "path": "account/password",
+        "code": "MIGRATION_PENDING",
+        "status": 501
+      }
+    ],
+    "wrongOwnerRejected": true,
+    "getLoginNotInvented": true,
+    "journalBeforeSha256": "797a3cc45c48399eee266832cd3673b650bbc9af56c8032ef2f65c606f1423ef",
+    "journalAfterSha256": "797a3cc45c48399eee266832cd3673b650bbc9af56c8032ef2f65c606f1423ef",
+    "sandbox": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-auth-inventory-ob_siv8d",
+    "privateDataOpened": false,
+    "externalRequestsSent": 0,
+    "actualLoginMigrated": false,
+    "cloudSyncMigrated": false
+  },
+  "dpapi": {
+    "realWindowsCurrentUserProtection": true,
+    "actualLegacyInteropBothDirections": true,
+    "plaintextOnDisk": false,
+    "generatedTestCredentialsOnly": true,
+    "ordinaryUnicodeAndNulSupported": true,
+    "reopenAndClearAndRegistryPreserved": true,
+    "foreignDatabaseCollisionRejected": true,
+    "corruptAndOversizedSecretNeverFallsBackToPlaintext": true,
+    "legacyJsonAndUnrelatedDocumentsPreserved": true
+  },
+  "transport": {
+    "actualLoopbackHttpTests": 7,
+    "legacyEndpointValidatorCompared": true,
+    "nativeTlsValidationRetained": true,
+    "noRedirects": true,
+    "noWriteReplay": true,
+    "uncertainWriteIsNotRetryable": true,
+    "absoluteDeadline": true,
+    "responseAndErrorBodyLimits": true,
+    "staleOwnerBeforeAndAfterTransferRejected": true,
+    "malformedReachableSuccessIsNotOfflineLease": true,
+    "definite401StatusPreserved": true,
+    "credentialsNeverEchoedInErrors": true
+  },
+  "publicCacheRace": {
+    "observedFailure": "Windows PermissionDenied / raw OS error 5 while probing cache path metadata during concurrent cache writes.",
+    "beforeFix": {
+      "concurrentOnlyRunsPassed": 30,
+      "parallelGroupFailureOnRun": 27,
+      "parallelGroupPriorRunsPassed": 26,
+      "log": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-assets-parallel-repro-20261109.log"
+    },
+    "fix": "Re-probe Windows error 5/32/33 for at most 50ms, then still require the complete original path/reparse and SQLite role/hash proof. Never treat access denial as missing.",
+    "afterFix": {
+      "parallelGroupsPassed": 100,
+      "testsPerGroup": 8,
+      "explicitLiveHttpsIgnoredPerGroup": 1,
+      "log": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-assets-parallel-fixed-20261109.log"
+    },
+    "fixtureCorrection": "Accepted sockets explicitly leave nonblocking mode before reading in the Windows loopback fixtures.",
+    "verificationCountsAreNotInflatedByRepeats": true
+  },
+  "serviceIntegration": {
+    "accountRoutesActivated": false,
+    "actualRegisteredLogin": false,
+    "cloudStateMerge": false,
+    "chunkSync": false,
+    "registeredWorkspaceSwitch": false,
+    "nativeApiCountNotIncreased": true
+  },
+  "lastActualWindow": {
+    "runtimeSourceCommit": "b50bd8e0",
+    "nativeRoutes": 47,
+    "legacyTotalInThatInventory": 136,
+    "rustChecks": 173,
+    "receipt": "native-replay-setup-20261109.json",
+    "rebuilt": false
+  },
+  "deliveredPackage": {
+    "nativeRoutes": 42,
+    "legacyTotalInThatInventory": 135,
+    "rustChecks": 135,
+    "rebuilt": false
+  },
+  "cleanup": {
+    "checkedBeforeUpdate": [
+      "Actual account action mapping and native contract references",
+      "Legacy DPAPI and documents protocol, before introducing interoperable native modules",
+      "Public cache metadata and socket fixtures after a real concurrent failure"
+    ],
+    "retiredBehaviors": [
+      "Omitting the three literal account action-map keys from inventory",
+      "Unverified panic-prone JSON serialization inside account transport",
+      "Unused TcpStream test import",
+      "Temporary metadata failure diagnostic removed after exact OS error was captured"
+    ],
+    "filesDeleted": 0,
+    "priorRejectedPngDeletionNotRetried": true,
+    "oldLogsAndJournalsPreserved": true
+  },
+  "privateLiveStateOpened": false,
+  "normalInstallationChanged": false,
+  "formalReleaseChanged": false,
+  "publicSeedReplaced": false,
+  "runtimePythonFallback": false,
+  "releaseReady": false
+}

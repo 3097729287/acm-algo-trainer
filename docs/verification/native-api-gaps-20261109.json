@@ -1,12 +1,12 @@
 {
   "date": "2026-11-09",
-  "verifiedRuntimeSourceCommit": "b50bd8e0f4b82285584f53b5e0a18b8a62c31991",
+  "verifiedRuntimeSourceCommit": "153dfe7a77b7c85d077fa29300d479bee50038d5",
   "nativeBinary": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-core.exe",
-  "nativeSha256": "23989696b3537ee3c5f078bf00ee6c12c369c335555db63f13bd0d299b6de0cc",
-  "auditSandbox": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-replay-setup-window-fixed-20261109\\sandbox-GUhJDD",
-  "legacyTotal": 136,
+  "nativeSha256": "96da6655a620fc7a8f5a504b728c945d7ff49e5d11f44e717349a5e057fc3620",
+  "auditSandbox": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-auth-inventory-ob_siv8d",
+  "legacyTotal": 139,
   "nativeRoutes": 47,
-  "notMigratedOrBootstrapOnly": 89,
+  "notMigratedOrBootstrapOnly": 92,
   "partialNativeEndpoints": [
     {
       "method": "GET",
@@ -194,7 +194,22 @@
       },
       {
         "method": "POST",
+        "path": "account/login",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
         "path": "account/logout",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "account/password",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "account/register",
         "status": "not-migrated"
       },
       {
@@ -647,7 +662,7 @@
     "receipt": "native-replay-setup-20261109.json",
     "scope": "Current paper creation/replay operations, base planning/draft/fullscreen. Previous complete goal/review/resource window is retained separately."
   },
-  "currentCliRustChecks": 173,
+  "currentCliRustChecks": 185,
   "deliveredPackage": {
     "nativeRoutes": 42,
     "rustChecks": 135,
@@ -665,5 +680,15 @@
   "privateDataOpened": false,
   "realAccountGranted": false,
   "formalReleaseModified": false,
-  "runtimeAuditSource": "Current actual Tauri capability inventory and current explicit release CLI legacy parity both report 47/136. No new endpoints were added in the replay scope expansion."
+  "runtimeAuditSource": "Current explicit release CLI: 47/139. Last actual Tauri window used the older 136-operation inventory and 173-check replay host, retained separately.",
+  "inventoryCorrection": {
+    "previousTotal": 136,
+    "newTotal": 139,
+    "addedPaths": [
+      "POST account/register",
+      "POST account/login",
+      "POST account/password"
+    ],
+    "reason": "Corrected action dictionary extraction, not new functionality."
+  }
 }
