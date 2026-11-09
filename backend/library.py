@@ -678,7 +678,9 @@ class LibraryDatabase:
                 db.execute('INSERT OR IGNORE INTO statement_assets VALUES (?,?,?)',(sha,mime,data))
             def solution_rows(items):
                 for item in items:
-                    images=dehydrate({'images':item['images']},save_asset)['images']
+                    # Keep existing inline SVG process controls byte-for-byte;
+                    # changing every old editorial would enlarge compact updates.
+                    images=dehydrate({'images':item['images']},save_asset,mime_types={'image/gif'})['images']
                     yield (item['problem_id'],item['markdown'],item['source_path'],json.dumps(images,ensure_ascii=False),
                            hashlib.sha256(item['markdown'].encode()).hexdigest())
             db.executemany('INSERT OR REPLACE INTO solutions (problem_id,markdown,source_path,images,digest) VALUES (?,?,?,?,?)',solution_rows(solutions))

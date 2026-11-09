@@ -37,13 +37,14 @@ def transform(value, convert):
     return result
 
 
-def dehydrate(value, save):
+def dehydrate(value, save, *, mime_types=None):
     def convert(data):
         if not isinstance(data, str):return data
         local=re.fullmatch(r'/api/library-assets/([a-f0-9]{64})',data)
         if local:return PREFIX+local[1]
         match=DATA.fullmatch(data)
         if not match:return data
+        if mime_types is not None and match[1] not in mime_types:return data
         raw=base64.b64decode(re.sub(r'\s+','',match[2]),validate=True)
         sha=hashlib.sha256(raw).hexdigest()
         save(sha,match[1],raw)

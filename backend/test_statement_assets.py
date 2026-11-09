@@ -17,11 +17,12 @@ class OriginalAssetTests(unittest.TestCase):
             source=seed.export_source(root/'source')
             gif=base64.b64decode('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
             uri='data:image/gif;base64,'+base64.b64encode(gif).decode();sha=hashlib.sha256(gif).hexdigest()
+            svg='data:image/svg+xml;base64,'+base64.b64encode(b'<svg xmlns="http://www.w3.org/2000/svg"/>').decode()
             originals=[]
             for name in ('solutions.json','detailed_solutions.json'):
                 path=source/name;rows=json.loads(path.read_text('utf8'))
                 if not rows:rows=[{'problem_id':'fixture::A','markdown':'![Animation](process.gif)','source_path':'verified.md','images':{}}]
-                rows[0]['images']={'process.gif':uri,'same-process.gif':uri}
+                rows[0]['images']={'process.gif':uri,'same-process.gif':uri,'process.svg':svg}
                 path.write_text(json.dumps(rows,ensure_ascii=False),'utf8');originals.append((path,path.read_bytes()))
             built=LibraryDatabase.from_source(source,root/'rebuilt.sqlite3')
             with built.connection() as db:
@@ -30,7 +31,7 @@ class OriginalAssetTests(unittest.TestCase):
                 for table in ('solutions','detailed_solutions'):
                     images=json.loads(db.execute('SELECT images FROM '+table).fetchone()[0]);self.assertEqual(images['process.gif'],'tb-asset:'+sha)
             for variant in ('default','detailed'):
-                self.assertEqual(built.solution('fixture::A',variant)['images'],{'process.gif':uri,'same-process.gif':uri})
+                self.assertEqual(built.solution('fixture::A',variant)['images'],{'process.gif':uri,'same-process.gif':uri,'process.svg':svg})
             for path,before in originals:self.assertEqual(path.read_bytes(),before)
             again=LibraryDatabase.from_source(built.export_source(root/'portable-source'),root/'again.sqlite3')
             self.assertEqual(again.solution('fixture::A')['images'],built.solution('fixture::A')['images'])
