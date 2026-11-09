@@ -175,13 +175,13 @@ function requestBody(record, extra = {}) {
   return { id: record.id, language:record.language || "cpp17", ...(record.contestId ? { contestId: record.contestId } : {}), ...(record.reviewId ? {reviewId:record.reviewId} : {}), ...(record.shared ? {documentRevision:record.sharedRevision} : {}), ...extra };
 }
 
-function Verdict({ submission }) {
+function Verdict({ submission, label }) {
   const pending = submission && submissionPending(submission);
   const accepted = submission?.verdict === 'AC' && submission.scope === 'official';
   return <span className={`wb-verdict wb-verdict-${String(submission?.verdict || 'none').toLowerCase()}${accepted ? ' wb-verdict-confirmed' : ''}`}>
     {pending && <LoaderCircle size={13} className="wb-spinner" aria-hidden="true" />}
     {submission?.verdict === 'AC' && (!submission.scope || submission.scope === 'official') && <Check size={13} aria-hidden="true" />}
-    {verdictText(submission)}
+    {label || (submission?.mode === 'submit' && submission.scope === 'local' && submission.verdict === 'SAMPLE_PASS' ? '本地通过' : verdictText(submission))}
   </span>;
 }
 
@@ -197,25 +197,27 @@ export const StatementMarkdown = memo(function StatementMarkdown({ markdown, sam
     urlTransform={readingUrlTransform} components={{ pre: StatementPre, img: ({node,...props})=><ReadingImage {...props} images={images}/>, a: ({ node, ...props }) => <ReadingLink {...props} attachments={attachments}/> }}>{normalizeMarkdown(normalizeStatement(markdown, samples, title))}</ReactMarkdown>;
 });
 
-function CaseResults({ cases }) {
+function CaseResults({ cases, submission }) {
   const lines = value => String(value ?? '').replace(/\r\n?/g, '\n').replace(/\n$/, '').split('\n');
   return <div className="wb-case-results" aria-label="逐例运行结果">{cases.map((item, index) => {
     const known = item.expected != null, expected = lines(item.expected), actual = lines(item.actual);
+    const hidden = !known && submission?.mode === 'submit' && ['local', 'template'].includes(submission.scope);
     const mismatch = known && item.verdict === 'WA';
     const failed = !['AC', 'SAMPLE_PASS', 'RUN_OK'].includes(item.verdict);
-    const name = item.name || (known ? `样例 ${index + 1}` : '自定义输入');
+    const name = item.name || (hidden ? `审核测试 ${index + 1}` : known ? `样例 ${index + 1}` : '自定义输入');
     const renderOutput = (values, other, label) => <pre tabIndex={0} aria-label={`${name} ${label}`}>{Array.from({ length: mismatch ? Math.max(values.length, other.length) : values.length }, (_, line) => {
       const differs = mismatch && values[line] !== other[line];
       return <span className={`wb-case-line${differs ? ' wb-case-mismatch' : ''}`} key={line}><i aria-hidden="true">{line + 1}</i><span>{values[line] ?? '（无此行）'}{values[line] === '' && values.length === 1 ? '（空输出）' : ''}</span>{differs && <small>不同</small>}</span>;
     })}</pre>;
     return <details className="wb-case" key={`${index}-${name}`} open={index === 0 || failed}>
-      <summary><strong>{name}</strong><Verdict submission={{ verdict: item.verdict === 'AC' ? 'SAMPLE_PASS' : item.verdict, finishedAt: true, mode: 'run' }} />{item.timeMs != null && <span>{elapsedText(item.timeMs)}</span>}</summary>
+      <summary><strong>{name}</strong><Verdict submission={{ verdict: item.verdict === 'AC' ? 'SAMPLE_PASS' : item.verdict, finishedAt: true, mode: 'run' }} label={hidden && ['AC','SAMPLE_PASS'].includes(item.verdict) ? '通过' : undefined} />{item.timeMs != null && <span>{elapsedText(item.timeMs)}</span>}</summary>
       {item.message && <p className="wb-result-message">{item.message}</p>}
-      <div className={`wb-case-outputs${known ? '' : ' wb-case-custom'}`}>
+      {hidden ? <p className="wb-result-message">已按审核用例判定；测试输入和标准输出不展示。</p> : <><div className={`wb-case-outputs${known ? '' : ' wb-case-custom'}`}>
         {known ? <div><span>预期输出</span>{renderOutput(expected, actual, '预期输出')}</div> : <p className="wb-result-message">自定义输入没有预期答案，仅检查程序是否正常运行。</p>}
         <div><span>实际输出</span>{renderOutput(actual, expected, '实际输出')}</div>
       </div>
       <details className="wb-case-input"><summary>查看输入</summary><pre tabIndex={0}>{item.input || '（空输入）'}</pre></details>
+      </>}
       {item.exitCode != null && item.exitCode !== 0 && <p className="wb-result-message">退出码：{item.exitCode}</p>}
     </details>;
   })}</div>;
@@ -1137,9 +1139,9 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
                 {result.total > 0 && <span>{result.passed || 0}/{result.total} 用例</span>}
               </div>
               {result.message && <p className="wb-result-message">{result.message}</p>}
-              {result.mode === 'submit' && result.verdict === 'SAMPLE_PASS' && <p className="wb-sample-note">仅通过公开样例，暂不计入已 AC。</p>}
+              {result.mode === 'submit' && result.verdict === 'SAMPLE_PASS' && <p className="wb-sample-note">{result.scope === 'local' ? '本地审核测试已通过，暂不计入原站 AC。' : '仅通过公开样例，暂不计入已 AC。'}</p>}
               {pollError && <p className="wb-poll-error" role="status">{pollError} · 正在重试</p>}
-              {result.caseResults?.length > 0 && <CaseResults cases={result.caseResults} />}
+              {result.caseResults?.length > 0 && <CaseResults cases={result.caseResults} submission={result} />}
               {((!result.caseResults?.length && result.output) || result.stderr) && <>
                 <div className="wb-output-tabs">
                   <button type="button" aria-pressed={outputTab === 'output'} onClick={() => { setOutputTab('output'); setCopied(false); }}>标准输出</button>
