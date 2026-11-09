@@ -28,6 +28,17 @@ def assert_authorized(training, contest_id):
         raise TeamServiceError(403, 'TEAM_CONTROL_REQUIRED', '请在团队训练中取得编辑控制')
 
 
+def current_authorized_contest(training):
+    """Read only this job's explicit grant; a different account fails closed."""
+    access = _ACCESS.get()
+    if access is None:
+        return None
+    if (not isinstance(access, tuple) or len(access) != 2 or access[0] != id(training)
+            or not isinstance(access[1], str) or not access[1]):
+        raise TeamServiceError(403, 'TEAM_CONTROL_REQUIRED', '团队提交授权与当前账号不一致')
+    return access[1]
+
+
 @contextmanager
 def authorized(training, contest_id):
     token = _ACCESS.set((id(training), contest_id))

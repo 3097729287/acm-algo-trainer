@@ -7,6 +7,7 @@ No cookies are exported or copied from a user's everyday browser profile.
 from __future__ import annotations
 
 import datetime as dt
+from contextvars import copy_context
 import json
 import queue
 import logging
@@ -378,8 +379,7 @@ class ExternalBrowserBridge:
         self.source = page_source()
 
     def _open(self, url, code, title, intent, language='cpp17'):
-        if self.guard:
-            self.guard(url)
+        authorization = self.guard(url) if self.guard else None
         target = submission_target(url)
         with self.lock:
             completed = [key for key, item in self.sessions.items() if item['status'] in self.terminal]
@@ -388,6 +388,8 @@ class ExternalBrowserBridge:
             # Never replay an attempt merely because a request/focus repeats.
             for session in self.sessions.values():
                 if session['originalUrl'] == url and session['code'] == code and session.get('language','cpp17') == language and session['status'] not in self.terminal:
+                    if session.get('_guardAuthorization') != authorization:
+                        raise ServiceError(409, '已有其它账号或比赛上下文的原站会话，请先处理该会话再提交')
                     if intent and not session.get('attempted') and not session.get('dispatching'):
                         session['intent'] = True
                         session['dispatched'] = False
@@ -403,9 +405,13 @@ class ExternalBrowserBridge:
             identity = uuid.uuid4().hex
             session = dict(target, sessionId=identity, code=code, title=title, language=language, intent=intent, autoClose=bool(intent),
                            status='loading', attempted=False, retry=1 if intent else 0, created=time.monotonic(),
-                           transport='external', message='正在后台打开原站提交页…' if intent else '正在打开浏览器原站提交页…', focus=not intent, explicitVisible=not intent)
+                            transport='external', message='正在后台打开原站提交页…' if intent else '正在打开浏览器原站提交页…', focus=not intent, explicitVisible=not intent,
+                            _guardAuthorization=authorization)
             self.sessions[identity] = session
-        threading.Thread(target=self._run, args=(identity,), name='tb-visible-submit', daemon=True).start()
+        # The pre-click guard must see the same account/contest authorization
+        # as the initial guard. Each worker gets its own context copy.
+        context = copy_context()
+        threading.Thread(target=context.run, args=(self._run, identity), name='tb-visible-submit', daemon=True).start()
         return self.status(identity)
 
     def open(self, url, code, title, language='cpp17'):
@@ -420,7 +426,7 @@ class ExternalBrowserBridge:
             if not session:
                 raise ServiceError(404, '没有找到本次浏览器提交')
             result = {key: value for key, value in session.items() if key not in
-                    {'code', 'title', 'intent', 'created', 'focus', 'originalUrl', 'target', 'dispatching', 'dispatched', 'awaitingLogin', 'explicitVisible'}}
+                    {'code', 'title', 'intent', 'created', 'focus', 'originalUrl', 'target', 'dispatching', 'dispatched', 'awaitingLogin', 'explicitVisible', '_guardAuthorization'}}
             if result['status'] == 'finished' and self.on_receipt and not result.get('receiptSaved'):
                 result['status'] = 'judging'
             return result
@@ -585,7 +591,9 @@ class ExternalBrowserBridge:
                         continue
                     if dispatch:
                         if self.guard:
-                            self.guard(session['originalUrl'])
+                            authorization = self.guard(session['originalUrl'])
+                            if authorization != session.get('_guardAuthorization'):
+                                raise ServiceError(403, '原站会话的账号或比赛授权已变化，未发送提交')
                         page.evaluate(self._script(session, 'submit', install=False))
                 except Exception:
                     # Navigation destroys the old execution context. The next

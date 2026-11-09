@@ -1046,7 +1046,12 @@ class LocalServer(ThreadingHTTPServer):
     def validate_official_url(self, url):
         if getattr(self, 'accounts', None) is not None:
             self.accounts.require()
-        with self.training.lock:
+        training = self.training
+        with training.lock:
+            if training is not self.training:
+                raise ServiceError(403, '团队提交授权与当前账号不一致')
+            from team_workbench import current_authorized_contest
+            contest_id = current_authorized_contest(training)
             key = canonical_url(url)
             rows = self.store.identity_rows() if callable(getattr(self.store, 'identity_rows', None)) else self.store.data()['rows']
             ids = {row["id"] for row in rows if key and canonical_url(row.get("url")) == key}
@@ -1055,8 +1060,23 @@ class LocalServer(ThreadingHTTPServer):
             ids.update(session["id"] for session in sessions if key and canonical_url(session["url"]) == key)
             if not ids:
                 raise ServiceError(404, "这道原站题目不在当前题库中")
+            if contest_id:
+                contest = training._contest_record(contest_id)
+                config = json.loads(contest['config'] or '{}')
+                profile = training._ranking_profile()
+                if (config.get('strategy') != 'team' or config.get('teamOwner') != profile['user_id']
+                        or config.get('teamEndpoint') != profile['endpoint']):
+                    raise ServiceError(403, '团队提交授权与当前比赛不一致')
+                slots = {slot['id'] for slot in json.loads(contest['slots'])}
+                ids.intersection_update(slots)
+                if not ids:
+                    raise ServiceError(403, '这道原站题目不属于已授权的团队比赛')
+                for identity in ids:
+                    training.assert_official_allowed(identity, contest_id)
+                return (id(training), contest_id)
             for identity in ids:
-                self.training.assert_official_allowed(identity)
+                training.assert_official_allowed(identity)
+            return (id(training), None)
 
     def translate_problem(self, identity, contest_id=None):
         def validate():
