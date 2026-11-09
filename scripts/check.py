@@ -80,7 +80,16 @@ def main():
     env = dict(os.environ, TB_OFFLINE='1')
     env['TB_CHECK_LIBRARY'] = str((args.library or ROOT / 'data/library.sqlite3').resolve())
     env['PYTHONPATH'] = os.pathsep.join(str(ROOT / p) for p in ('backend', 'backend/common', 'desktop'))
-    subprocess.run([sys.executable, '-m', 'unittest', 'discover', '-s', 'backend', '-p', 'test_*.py'],
+    # Tests and Store must read the same explicit public seed that was checked
+    # above. Set the shared path before discovery imports modules by value;
+    # no extra seed is copied into the source worktree.
+    bootstrap = (
+        'import os,runpy,sys; from pathlib import Path; import paths; '
+        'paths.LIBRARY_SEED=Path(os.environ["TB_CHECK_LIBRARY"]); '
+        'sys.argv=["unittest","discover","-s","backend","-p","test_*.py"]; '
+        'runpy.run_module("unittest",run_name="__main__")'
+    )
+    subprocess.run([sys.executable, '-c', bootstrap],
                    cwd=ROOT, env=env, check=True)
 
 
