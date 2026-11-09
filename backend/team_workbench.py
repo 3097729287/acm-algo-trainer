@@ -49,6 +49,13 @@ def _sha(value):
     return hashlib.sha256(value.encode('utf8')).hexdigest()
 
 
+def _matches_source(training, record, grant):
+    """Match the persisted native source, including its existing language fact."""
+    return (record['problem_id'] == grant.get('problemId')
+            and training._read_language('submission-language:'+record['id']) == grant.get('language')
+            and _sha(record['code']) == grant.get('inputSha256'))
+
+
 def mirror(training, state, room_id, *, create=False):
     room = state.get('room')
     if not isinstance(room_id, str) or not _UUID.fullmatch(room_id) or not room or room.get('id') != room_id:
@@ -283,7 +290,7 @@ def record_receipt(training, submission, session, receipt):
         if not stored or not pending or not verified_receipt(dict(stored)):
             return
         journal = json.loads(pending['value']);grant = journal['authorization']
-        if stored['problem_id'] != grant['problemId'] or _sha(stored['code']) != grant['inputSha256']:
+        if not _matches_source(training, stored, grant):
             return
         if journal.get('phase')=='confirmed' and journal.get('localSubmissionId')==stored['id']:
             return
@@ -313,7 +320,7 @@ def recover_receipts(training):
     """Reconnect a lost browser callback only to a unique persisted owner fact.
 
     A crash between starting the browser and saving its session never causes a
-    second submission. Public sync records without the exact private source,
+    second submission. Public sync records without the exact private source and language,
     another contest, older records and ambiguous identical attempts stay pending.
     """
     from submission_evidence import verified_receipt
@@ -336,7 +343,7 @@ def recover_receipts(training):
             candidates=[]
             for row in training.connection.execute("SELECT * FROM submissions WHERE contest_id=? AND problem_id=? AND scope='official' AND mode='submit' AND finished_at IS NOT NULL",(journal.get('contestId'),grant.get('problemId'))):
                 saved=dict(row)
-                if saved['id'] in used or not verified_receipt(saved) or _sha(saved['code'])!=grant.get('inputSha256'):continue
+                if saved['id'] in used or not verified_receipt(saved) or not _matches_source(training,saved,grant):continue
                 if parse_time(saved['submitted_at'])>=started:candidates.append(saved)
             for saved in candidates:counts[saved['id']]=counts.get(saved['id'],0)+1
             if len(candidates)==1:matches.append((intent,candidates[0]))
@@ -362,7 +369,7 @@ def deliver_receipts(training):
             if training.closed:return
             stored=training.connection.execute('SELECT * FROM submissions WHERE id=?',(journal.get('localSubmissionId'),)).fetchone()
             from submission_evidence import verified_receipt
-            if not stored or not verified_receipt(dict(stored)) or stored['problem_id']!=grant.get('problemId') or _sha(stored['code'])!=grant.get('inputSha256'):continue
+            if not stored or not verified_receipt(dict(stored)) or not _matches_source(training,stored,grant):continue
         request_id=str(uuid.UUID(_sha('team-native-receipt:'+intent)[:32],version=4))
         try:
             answer=relay(training,'native-receipt',{'requestId':request_id,'intentId':intent,

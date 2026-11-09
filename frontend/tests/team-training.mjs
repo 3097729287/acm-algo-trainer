@@ -12,14 +12,17 @@ import {startFixture} from '../../server/leaderboard/tests/local-server.mjs';
 import {parseTeamReceipt} from '../../server/leaderboard/src/team-receipts.mjs';
 
 const root=fileURLToPath(new URL('../..',import.meta.url)),state=await mkdtemp(join(tmpdir(),'tb-team-integration-'));
-const shared=await startFixture();
+const sharedDatabase=join(state,'shared.sqlite3');
+let shared=await startFixture({database:sharedDatabase});
 const contest={id:'codeforces:contest:123',title:'Isolated partial contest',platform:'Codeforces',availableProblems:2,missingProblems:1,
  problems:['A','B','C'].map((letter,index)=>({id:'fixture::'+letter,letter,title:'Fixture '+letter,url:'https://codeforces.com/contest/123/problem/'+letter,
   problemKey:createHash('sha256').update('codeforces.com/contest/123/problem/'+letter).digest('hex'),available:index!==1,problemType:'standard'}))};
-shared.STORE.teams.catalogue={schema:1,revision:'isolated-3-client-test',contests:[contest]};shared.STORE.teams.contests=new Map([[contest.id,contest]]);
-shared.STORE.teams.verifyReceipt=async request=>parseTeamReceipt('codeforces',[{id:Number(request.submissionId),
+const configureShared=()=>{
+ shared.STORE.teams.catalogue={schema:1,revision:'isolated-3-client-test',contests:[contest]};shared.STORE.teams.contests=new Map([[contest.id,contest]]);
+ shared.STORE.teams.verifyReceipt=async request=>parseTeamReceipt('codeforces',[{id:Number(request.submissionId),
  problem:{contestId:123,index:new URL(request.url).pathname.split('/').at(-1)},author:{members:[{handle:request.handle}]},
  verdict:'OK',creationTimeSeconds:Math.floor(request.issuedAt/1000)}],request);
+};configureShared();
 let vite,browser,service,stderr='';const errors=[],checked=[];let contexts=[];
 try{
  const accounts=[];
@@ -34,14 +37,21 @@ try{
   .run(accounts[0].owner,contest.problems[0].problemKey,createHash('sha256').update('isolated-old-first').digest('hex'),new Date(Date.now()-86400000).toISOString(),'2026-11-07',1200,new Date().toISOString());
  vite=await createServer({root:join(root,'frontend'),optimizeDeps:{entries:['tests/team-training-fixture.html']},server:{host:'127.0.0.1',port:0,hmr:false}});await vite.listen();
  const origin='http://127.0.0.1:'+vite.httpServer.address().port;
- service=spawn(process.env.TB_PYTHON||'python',[join(root,'frontend/tests/team-local-api.py')],{cwd:root,windowsHide:true,
+ const startLocals=async()=>{
+  service=spawn(process.env.TB_PYTHON||'python',[join(root,'frontend/tests/team-local-api.py')],{cwd:root,windowsHide:true,
   env:{...process.env,TB_OFFLINE:'1',TB_STATE_DIR:state,TB_TEAM_TEST_ACCOUNTS:JSON.stringify(accounts),TB_TEAM_TEST_ENDPOINT:shared.endpoint,TB_TEAM_TEST_ORIGIN:origin,PYTHONIOENCODING:'utf-8'}});
- service.stderr.on('data',part=>{stderr+=part;});
- const locals=await new Promise((done,fail)=>{
+  service.stderr.on('data',part=>{stderr+=part;});
+  return new Promise((done,fail)=>{
   let buffer='';const timer=setTimeout(()=>fail(new Error('native fixture startup timed out: '+stderr)),30000);
   service.stdout.on('data',part=>{buffer+=part;for(const line of buffer.split(/\r?\n/)){if(line.startsWith('[{"owner":')){clearTimeout(timer);done(JSON.parse(line));}}});
   service.once('exit',code=>{clearTimeout(timer);fail(new Error('native fixture exited '+code+': '+stderr));});
- });
+  });
+ };
+ const stopLocals=async()=>{
+  const child=service;service=null;
+  await new Promise((done,fail)=>{const timer=setTimeout(()=>{child.kill();fail(Error('isolated native APIs did not stop'));},10000);child.once('exit',code=>{clearTimeout(timer);code===0?done():fail(Error('isolated native APIs stopped with '+code));});child.stdin.end('stop\n');});
+ };
+ let locals=await startLocals();
  browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
  const pages=[];
  for(const config of locals){
@@ -50,7 +60,7 @@ try{
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(origin+'/tests/team-training-fixture.html');pages.push(page);
   await page.getByRole('textbox',{name:'队名',exact:true}).waitFor();
  }
- const [a,b,c]=pages,refresh=async page=>{await page.getByRole('button',{name:'刷新团队训练',exact:true}).click();};
+ let [a,b,c]=pages;const refresh=async page=>{await page.getByRole('button',{name:'刷新团队训练',exact:true}).click();};
  await a.getByRole('textbox',{name:'队名',exact:true}).fill('三人真实链路');await a.getByRole('button',{name:'创建队伍',exact:true}).click();
  await a.locator('.team-invite code').waitFor();const invite=await a.locator('.team-invite code').innerText();
  for(const page of [b,c]){await page.getByRole('textbox',{name:'队伍邀请码'}).fill(invite);await page.getByRole('button',{name:'加入队伍',exact:true}).click();await page.locator('.team-members').waitFor();}
@@ -87,8 +97,20 @@ try{
  const missing=a.getByLabel('团队比赛题目').locator('option[value="fixture::B"]');assert(await missing.isDisabled());
  await a.getByRole('button',{name:'自测运行',exact:true}).click();await a.locator('.wb-result-summary').waitFor();
  assert.equal(await a.evaluate(()=>window.team.state.room.score.totalScore),0);checked.push('missing task disabled; actual local judge run gives no shared AC');
+ let lostReplyProcessed;
+ const lostReply=new Promise(done=>{lostReplyProcessed=done;});
+ await a.route('**/api/team-training/workbench/official-submit',async route=>{
+  await route.fetch();await route.abort('failed');lostReplyProcessed();
+ },{times:1});
+ await a.getByRole('button',{name:'提交',exact:true}).click();await lostReply;
+ await a.reload();await a.locator('.team-training-room .wb-code-pane').waitFor();await a.waitForFunction(()=>window.team.canEdit);
+ const retriedNative=a.waitForResponse(response=>response.url().endsWith('/api/team-training/workbench/official-submit')&&response.request().method()==='POST');
  await a.getByRole('button',{name:'提交',exact:true}).click();
- await a.waitForFunction(()=>window.team.state?.room?.score?.totalScore===1);
+ assert.equal((await retriedNative).status(),200);
+ await Promise.all(pages.map(page=>page.waitForFunction(()=>window.team.state?.room?.score?.totalScore===1)));
+ const lostReplyNativeStarts=(await readFile(join(state,'0','native-starts.jsonl'),'utf8')).trim().split(/\r?\n/).length;
+ assert.equal(lostReplyNativeStarts,1,'a lost native response plus page restart must reuse one durable submission intent');
+ checked.push('lost native response followed by page reload retries one durable intent and starts the provider exactly once');
  assert.equal(shared.STORE.database.prepare('SELECT COUNT(*) AS n FROM team_native_receipts').get().n,1);
  await a.getByRole('button',{name:'提交',exact:true}).click();
  await a.waitForFunction(()=>!document.querySelector('.wb-run-toolbar button[aria-label="提交"]')?.disabled);
@@ -115,6 +137,37 @@ try{
  await b.getByRole('textbox',{name:'C++ 代码',exact:true}).fill('int main() { return 0; }\n');await b.waitForFunction(()=>window.team.state.room.document.code.includes('return 0'));
  await b.reload();await b.locator('.team-training-room .wb-code-pane').waitFor();await b.waitForFunction(()=>window.team.state?.room?.document?.code.includes('return 0'));
  checked.push('offline takeover preserves all shared drafts; task switch and reload resume server state');
+ // Actually close and reopen both the shared SQLite service and all three
+ // Python API processes. Restore browser storage in fresh contexts so this
+ // checks persisted data and pending/open-room keys, not module memory.
+ const sharedFacts=()=>createHash('sha256').update(JSON.stringify({
+  drafts:shared.STORE.database.prepare('SELECT room_id,problem_id,language,code,revision FROM team_drafts ORDER BY room_id,problem_id').all(),
+  receipts:shared.STORE.database.prepare('SELECT receipt_key,room_id,problem_id,user_id,intent_id,verdict FROM team_native_receipts ORDER BY receipt_key').all(),
+  members:shared.STORE.database.prepare('SELECT room_id,user_id FROM team_room_members ORDER BY room_id,user_id').all()
+ })).digest('hex');
+ const beforeRestartFacts=sharedFacts(),personalBeforeRestart=[0,1,2].map(personalCount);
+ const browserStorage=await Promise.all(contexts.map(context=>context.storageState()));
+ await Promise.all(contexts.map(context=>context.close()));contexts=[];pages.length=0;
+ await stopLocals();
+ const stableEndpoint=shared.endpoint,stablePort=new URL(stableEndpoint).port,now=shared.env.TEST_NOW;
+ await shared.close();shared=await startFixture({database:sharedDatabase,now});
+ await new Promise(done=>shared.server.close(done));
+ await new Promise((done,fail)=>{shared.server.once('error',fail);shared.server.listen(Number(stablePort),'127.0.0.1',done);});
+ shared.endpoint=stableEndpoint;configureShared();
+ assert.equal(sharedFacts(),beforeRestartFacts,'shared documents, frozen membership and verified receipts must survive storage reopen');
+ locals=await startLocals();
+ for(let i=0;i<3;i++){
+  const context=await browser.newContext({viewport:{width:1440,height:900},storageState:browserStorage[i]});contexts.push(context);
+  await context.addInitScript(value=>window.teamFixture=value,locals[i]);
+  const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(origin+'/tests/team-training-fixture.html');pages.push(page);
+  await page.locator('.team-training-room .wb-code-pane').waitFor();
+  await page.waitForFunction(expected=>window.team.state?.room?.id===expected&&window.team.state?.room?.problemId==='fixture::C'&&window.team.state?.room?.score?.totalScore===1,roomId);
+ }
+ [a,b,c]=pages;
+ assert.deepEqual([0,1,2].map(personalCount),personalBeforeRestart);
+ assert.deepEqual([0,1,2].map(readPrivate),['private-0-untouched','private-1-untouched','private-2-untouched']);
+ assert.equal(await a.evaluate(()=>window.team.state.room.score.totalScore),1);
+ checked.push('shared SQLite service, three native API processes and three fresh browser contexts restore documents, membership, score and untouched private records');
  await a.setViewportSize({width:640,height:800});await a.screenshot({path:join(state,'team-room-narrow.png')});
  const overflow=await a.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth+1);assert.equal(overflow,false);
  await a.getByRole('button',{name:'结束团队比赛',exact:true}).click();await a.getByRole('button',{name:'结束并复盘',exact:true}).click();
@@ -128,7 +181,8 @@ try{
  checked.push('narrow full-screen layout; leader finish; historical shared code retained across tasks');
  assert.deepEqual(errors,[]);
  const receipt={passed:true,accounts:3,localNativeApis:3,sharedHttpServer:true,actualProblemSiteSubmissions:0,
-  checked,browserErrors:errors.length,sharedScore:1,roomId,privateDraftsPreserved:true,nativeProvider:'explicit deterministic fixture; no real OJ submissions'};
+  checked,browserErrors:errors.length,sharedScore:1,roomId,privateDraftsPreserved:true,lostReplyNativeStarts,
+  sharedServiceStorageReopened:true,nativeApiProcessesRestarted:3,browserContextsRestored:3,nativeProvider:'explicit deterministic fixture; no real OJ submissions'};
  const output=process.argv[2]||join(state,'result.json');await writeFile(output,JSON.stringify(receipt,null,2)+'\n');console.log(JSON.stringify(receipt));
 }catch(e){
  console.error('FIXTURE ARTIFACTS',state);if(browser){for(let i=0;i<contexts.length;i++){const p=contexts[i].pages()[0];if(p)await p.screenshot({path:join(state,`failure-${i}.png`)}).catch(()=>{});}}

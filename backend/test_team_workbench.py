@@ -2,6 +2,7 @@
 import copy
 import hashlib
 import json
+import threading
 import time
 from types import SimpleNamespace
 import unittest
@@ -197,3 +198,67 @@ class TeamWorkbenchTests(unittest.TestCase):
             recover_receipts(self.service);recover_receipts(self.service)
         self.assertEqual(stored()['phase'],'receipt-ready');self.assertEqual(stored()['localSubmissionId'],saved['id'])
         self.assertEqual(stored()['submissionId'],'99112233');self.assertEqual(server.official_submitter.call_count,1)
+
+    def test_receipt_language_is_bound_for_callback_crash_recovery_and_outbox(self):
+        contest=self.room();body=self.body()
+        server=SimpleNamespace(training=self.service,official_submitter=Mock(side_effect=TimeoutError('isolated interrupted start')),browser_preparation=None)
+        with patch('team_workbench.relay',side_effect=self.remote):
+            with self.assertRaises(TimeoutError):write(server,'official-submit',body)
+        context={'id':body['id'],'contestId':contest['id'],'code':body['code'],
+                 'url':self.library.rows[0]['url'],'language':'python3','teamIntentId':body['requestId']}
+        receipt={'status':'finished','submissionId':'99112234','verdict':'CE','acceptedAt':iso(self.clock())}
+        saved=self.service.record_official(context,receipt)
+        # The ordinary native callback persists this existing per-submission
+        # language fact. Matching source text alone must not reassign it to a
+        # C++ authorization after an uncertain browser start or restart.
+        with self.service._write() as db:self.service._save_language(db,'submission-language:'+saved['id'],'python3')
+        key='team-native:'+body['requestId']
+        def stored():return json.loads(self.service.connection.execute('SELECT value FROM account_preferences WHERE key=?',(key,)).fetchone()[0])
+        original=stored()
+        def save(value):
+            with self.service._write() as db:db.execute('UPDATE account_preferences SET value=? WHERE key=?',(json.dumps(value),key))
+        with patch('team_workbench.queue_receipts'):
+            record_receipt(self.service,saved,context,receipt)
+            callback_phase=stored()['phase'];save(original)
+            recover_receipts(self.service)
+            recovery_phase=stored()['phase']
+        legacy={**original,'phase':'receipt-ready','localSubmissionId':saved['id'],'submissionId':'99112234','handle':'isolatedHandle'}
+        save(legacy)
+        with patch('team_workbench.relay') as network:deliver_receipts(self.service)
+        self.assertEqual((callback_phase,recovery_phase,network.call_count),('starting','starting',0))
+        self.assertEqual(stored()['phase'],'receipt-ready','retain the uncertain legacy journal and private record for review')
+        self.assertEqual(self.service._read_language('submission-language:'+saved['id']),'python3')
+        self.assertEqual(server.official_submitter.call_count,1)
+
+    def test_python_native_callback_persists_language_before_team_receipt_and_restart(self):
+        from backend import LocalServer
+        self.room();self.state['room']['document'].update(code='print(123)',language='python3')
+        body={**self.body(),'language':'python3'}
+        calls=[]
+        def opener(url,code,title,language='cpp17'):
+            calls.append((url,code,language));return {'sessionId':'isolated-python-native','status':'judging'}
+        server=SimpleNamespace(training=self.service,official_submitter=opener,browser_preparation=None,register_official_session=Mock())
+        with patch('team_workbench.relay',side_effect=self.remote),patch('team_workbench._bound_handle',return_value='isolatedHandle'):
+            write(server,'official-submit',body)
+        context={**server.register_official_session.call_args.args[1],'sessionId':'isolated-python-native'}
+        native=SimpleNamespace(training=self.service,official_session_lock=threading.Lock(),
+            official_sessions={'isolated-python-native':context},official_pending_receipts={})
+        receipt={'status':'finished','submissionId':'99112235','verdict':'CE','acceptedAt':iso(self.clock())}
+        with patch('team_workbench.queue_receipts'):
+            saved=LocalServer.record_official_receipt(native,'isolated-python-native',receipt)
+        key='team-native:'+body['requestId']
+        def stored():return json.loads(self.service.connection.execute('SELECT value FROM account_preferences WHERE key=?',(key,)).fetchone()[0])
+        self.assertEqual(stored()['phase'],'receipt-ready')
+        self.assertEqual(self.service._read_language('submission-language:'+saved['id']),'python3')
+        self.service.close()
+        from training import TrainingService
+        self.service=TrainingService(self.library,self.db,self.assets,self.judge,self.clock,self.root/'backups')
+        server.training=self.service
+        answer={'owner':self.state['owner'],'receipt':{'intentId':body['requestId'],'status':'confirmed',
+                'submissionId':'99112235','verdict':'CE','source':'explicit-isolated-provider'}}
+        with patch('team_workbench.relay',return_value=answer) as network:
+            deliver_receipts(self.service);deliver_receipts(self.service)
+        self.assertEqual(network.call_count,1);self.assertEqual(stored()['phase'],'confirmed')
+        with patch('team_workbench.relay') as remote:
+            self.assertEqual(write(server,'official-submit',body)['sessionId'],'isolated-python-native')
+        remote.assert_not_called();self.assertEqual(len(calls),1)

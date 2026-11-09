@@ -983,14 +983,14 @@ class LocalServer(ThreadingHTTPServer):
                 session = {**session, 'code': receipt.get('submittedCode', ''), 'external': not bool(receipt.get('submittedCode'))}
             training = session.get('_training', self.training)
             saved = training.record_official(session, receipt)
-            if saved and (session.get('teamIntentId') or session.get('sessionId')):
-                from team_workbench import record_receipt
-                record_receipt(training, saved, session, receipt)
             if saved and session.get('language')=='python3' and isinstance(saved,dict):
                 submission=saved.get('submission',saved)
                 if submission.get('id'):
                     with training.lock,training._write() as connection:
                         training._save_language(connection,'submission-language:'+submission['id'],'python3')
+            if saved and (session.get('teamIntentId') or session.get('sessionId')):
+                from team_workbench import record_receipt
+                record_receipt(training, saved, session, receipt)
             if saved and receipt.get('submissionId'):
                 try:
                     training.clear_official_pending(url=session.get('url'), code=session.get('code'))
