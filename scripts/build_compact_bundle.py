@@ -58,7 +58,7 @@ def build(package,baselines,output,tool,prebuilt=(),field_delta=None,*,preserve_
         raise ValueError('Use exact reviewed public seed and identity file hashes')
     content_update=None;public_profiles=None;metadata_updates={}
     if preserve_existing_public_profiles:
-        if versions!={'1.6.11'}:raise ValueError('Existing public profile preservation requires approved 1.6.11 baselines')
+        if versions not in ({'1.6.11'},{'1.6.12'}):raise ValueError('Existing public profile preservation requires single-version approved 1.6.11 or 1.6.12 baselines')
         sys.path[:0]=[str(ROOT/'backend'),str(ROOT/'backend/common')]
         from public_library_update import load_descriptor
         from seed_identity import describe,identity
