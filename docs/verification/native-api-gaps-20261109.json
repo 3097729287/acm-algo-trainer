@@ -1,12 +1,12 @@
 {
   "date": "2026-11-09",
-  "verifiedRuntimeSourceCommit": "c4b95773",
+  "verifiedRuntimeSourceCommit": "60fd850d",
   "nativeBinary": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\ToBe-native-target-57e1e20a0f424475ad02f540ff82319e\\release\\tobe-core.exe",
-  "nativeSha256": "8b1f86861fc8c93de3053dc4af4ce4c384cbfa4d30b0460b53754f08a0c5931d",
-  "auditSandbox": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-reviewed-api-8abvhohq",
-  "legacyTotal": 139,
+  "nativeSha256": "559a1b49bfdd5f3ae4d4ac8488d8231a2506f55ff874a8d9a67d2503ccc4c0e0",
+  "auditSandbox": "E:\\项目\\ToBe\\开发\\tb-tauri-complete-20261108\\.backups\\native-contract149-jl5823vv",
+  "legacyTotal": 149,
   "nativeRoutes": 47,
-  "notMigratedOrBootstrapOnly": 92,
+  "notMigratedOrBootstrapOnly": 102,
   "partialNativeEndpoints": [
     {
       "method": "GET",
@@ -340,6 +340,36 @@
         "method": "POST",
         "path": "official/sync",
         "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "browser/setup",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "browser/exchange",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "browser/queue",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "browser/receipts",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "browser/register",
+        "status": "not-migrated"
+      },
+      {
+        "method": "POST",
+        "path": "browser/session",
+        "status": "not-migrated"
       }
     ],
     "内容与软件更新": [
@@ -376,6 +406,21 @@
       {
         "method": "POST",
         "path": "software-update/settings",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "required-downloads/{sha}",
+        "status": "not-migrated"
+      },
+      {
+        "method": "GET",
+        "path": "required-downloads/{sha}/status",
+        "status": "not-migrated"
+      },
+      {
+        "method": "HEAD",
+        "path": "required-downloads/{sha}",
         "status": "not-migrated"
       }
     ],
@@ -652,29 +697,40 @@
         "path": "status",
         "status": "not-migrated"
       }
+    ],
+    "公开二进制资源兼容边界": [
+      {
+        "method": "GET",
+        "path": "library-assets/{sha}",
+        "status": "not-migrated"
+      }
     ]
   },
   "completedCodeIsNotFullFeatureParity": true,
   "lastActualWindow": {
-    "runtimeSourceCommit": "b50bd8e0f4b82285584f53b5e0a18b8a62c31991",
+    "runtimeSourceCommit": "c4b95773",
+    "sharedFrontendCommit": "fa5df312",
     "nativeRoutes": 47,
-    "rustChecks": 173,
-    "receipt": "native-replay-setup-20261109.json",
-    "scope": "Current paper creation/replay operations, base planning/draft/fullscreen. Previous complete goal/review/resource window is retained separately."
+    "legacyTotalAtBuild": 139,
+    "rustChecks": 214,
+    "receipt": "native-reviewed-submissions-20261109.json",
+    "scope": "actual Tauri editing, C++/Python 63/63 reviewed submission via window IPC, samples/custom UI buttons, planning, draft/history refresh, narrow window; no new full package"
   },
-  "currentCliRustChecks": 185,
+  "currentCliRustChecks": 215,
   "deliveredPackage": {
     "nativeRoutes": 42,
     "rustChecks": 135,
-    "rebuilt": false
+    "rebuilt": false,
+    "legacyTotalAtBuild": 136,
+    "source": "ff0115755b99c419832a7df3da155bfec5b13a94"
   },
   "partialBusinessGaps": [
     "Private catalogue overlays and real account-bound evidence remain protected.",
     "Comprehensive/topic/single and public no-authority replay creation now work, including partial rosters. Mandatory original-site VP, complete-event reward ownership and calendar enrollment stay protected.",
     "Background reward ownership and shared-room captain authority are not created by local finalization.",
-    "Ordinary/review/contest drafts are isolated; new official submissions and full local judge suites are not implemented by the sample runner.",
+    "Ordinary/review/contest drafts are isolated; fifteen exact audited local judge suites now execute and persist real submissions, while templates and original-site receipts remain protected.",
     "Complete formal learning evidence and active goals combined with a running contest still have protection.",
-    "The original-site browser, DPAPI account secrets, cloud chunk sync, growth authority, inventory and online protocols remain unfinished.",
+    "DPAPI and account/social transport components are tested, but registered account activation, cloud chunks, growth authority, inventory and online route integration remain unfinished.",
     "An AI judge is not configured or imitated; its authority/configuration has not been received."
   ],
   "privateDataOpened": false,
@@ -682,18 +738,50 @@
   "formalReleaseModified": false,
   "runtimeAuditSource": "Current explicit release CLI: 47/139. Last actual Tauri window used the older 136-operation inventory and 173-check replay host, retained separately.",
   "inventoryCorrection": {
-    "previousTotal": 136,
-    "newTotal": 139,
-    "addedPaths": [
-      "POST account/register",
-      "POST account/login",
-      "POST account/password"
+    "previousTotal": 139,
+    "newTotal": 149,
+    "addedBoundaries": [
+      "GET browser/setup",
+      "GET library-assets/{sha}",
+      "GET required-downloads/{sha}",
+      "GET required-downloads/{sha}/status",
+      "HEAD required-downloads/{sha}",
+      "POST browser/exchange",
+      "POST browser/queue",
+      "POST browser/receipts",
+      "POST browser/register",
+      "POST browser/session"
     ],
-    "reason": "Corrected action dictionary extraction, not new functionality."
+    "reason": "regex binary GET/HEAD/status and optional legacy browser dispatcher were previously outside the literal path audit; no feature completion is credited"
   },
-  "final1611DynamicAuditPending": [
-    "GET required-downloads/{sha}",
-    "HEAD required-downloads/{sha}",
-    "GET required-downloads/{sha}/status"
+  "latestSourceAudit": "native-contract-1611-20261109.json",
+  "inventoryCorrectionHistory": [
+    {
+      "previousTotal": 136,
+      "newTotal": 139,
+      "addedPaths": [
+        "POST account/register",
+        "POST account/login",
+        "POST account/password"
+      ],
+      "reason": "Corrected action dictionary extraction, not new functionality."
+    },
+    {
+      "previousTotal": 139,
+      "newTotal": 149,
+      "addedBoundaries": [
+        "GET browser/setup",
+        "GET library-assets/{sha}",
+        "GET required-downloads/{sha}",
+        "GET required-downloads/{sha}/status",
+        "HEAD required-downloads/{sha}",
+        "POST browser/exchange",
+        "POST browser/queue",
+        "POST browser/receipts",
+        "POST browser/register",
+        "POST browser/session"
+      ],
+      "reason": "regex binary GET/HEAD/status and optional legacy browser dispatcher were previously outside the literal path audit; no feature completion is credited"
+    }
   ]
 }
