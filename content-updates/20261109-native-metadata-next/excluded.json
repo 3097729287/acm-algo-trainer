@@ -1,0 +1,1166 @@
+[
+  {
+    "id": "luogu-training-B3704",
+    "url": "https://www.luogu.com.cn/problem/B3704",
+    "sourceSha256": "96c8d51212a9f7cf27ed1bc5e9819b477195a99cca99f9568b59ccbfcbab4f9f",
+    "status": 200,
+    "nativeTagIds": [
+      60,
+      104,
+      107,
+      108,
+      386
+    ],
+    "nativeTagNames": [
+      "2023",
+      "提交答案",
+      "Special Judge",
+      "O2优化",
+      "语言月赛"
+    ],
+    "nativeDifficulty": 2,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-B3705",
+    "url": "https://www.luogu.com.cn/problem/B3705",
+    "sourceSha256": "2edcadbbb4dffde5a1536259b5ebe82efab0e3a88b6329a55af4dd851e21f902",
+    "status": 200,
+    "nativeTagIds": [
+      60,
+      104,
+      108,
+      386
+    ],
+    "nativeTagNames": [
+      "2023",
+      "提交答案",
+      "O2优化",
+      "语言月赛"
+    ],
+    "nativeDifficulty": 1,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-B3714",
+    "url": "https://www.luogu.com.cn/problem/B3714",
+    "sourceSha256": "f0666a50485cdc97e89549de0362da817b2c1450a375b6a1673ce5a93b445e45",
+    "status": 200,
+    "nativeTagIds": [
+      60,
+      104,
+      107,
+      108,
+      386
+    ],
+    "nativeTagNames": [
+      "2023",
+      "提交答案",
+      "Special Judge",
+      "O2优化",
+      "语言月赛"
+    ],
+    "nativeDifficulty": 1,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-B3727",
+    "url": "https://www.luogu.com.cn/problem/B3727",
+    "sourceSha256": "448d09567b386d5c598972b9dba20d52a06d55422a0677a0456d5829dce3656e",
+    "status": 200,
+    "nativeTagIds": [
+      60,
+      107,
+      108,
+      386
+    ],
+    "nativeTagNames": [
+      "2023",
+      "Special Judge",
+      "O2优化",
+      "语言月赛"
+    ],
+    "nativeDifficulty": 2,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-B3749",
+    "url": "https://www.luogu.com.cn/problem/B3749",
+    "sourceSha256": "c4a9e05964851009e1f21e2727611568dc7f3430824294d43a57858f47392b38",
+    "status": 200,
+    "nativeTagIds": [
+      60,
+      107,
+      108,
+      386
+    ],
+    "nativeTagNames": [
+      "2023",
+      "Special Judge",
+      "O2优化",
+      "语言月赛"
+    ],
+    "nativeDifficulty": 1,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-B3770",
+    "url": "https://www.luogu.com.cn/problem/B3770",
+    "sourceSha256": "a41f08eba73df4f7b6f495509080da3d6d595c9199ea850effdc1c907e7027ad",
+    "status": 200,
+    "nativeTagIds": [
+      60,
+      107,
+      108,
+      386
+    ],
+    "nativeTagNames": [
+      "2023",
+      "Special Judge",
+      "O2优化",
+      "语言月赛"
+    ],
+    "nativeDifficulty": 2,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-B3785",
+    "url": "https://www.luogu.com.cn/problem/B3785",
+    "sourceSha256": "8010cea03604fd2eae8d331269d4c00c86f9bf858cc31967c6e8abeb394c5293",
+    "status": 200,
+    "nativeTagIds": [
+      60,
+      104,
+      107,
+      108,
+      386
+    ],
+    "nativeTagNames": [
+      "2023",
+      "提交答案",
+      "Special Judge",
+      "O2优化",
+      "语言月赛"
+    ],
+    "nativeDifficulty": 2,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-B3812",
+    "url": "https://www.luogu.com.cn/problem/B3812",
+    "sourceSha256": "923c5e6d988e6a40cf3d0d2e9a0900e14a69c3959ef5036260e7a96bb2a8de75",
+    "status": 200,
+    "nativeTagIds": [
+      60,
+      107,
+      108,
+      357,
+      386
+    ],
+    "nativeTagNames": [
+      "2023",
+      "Special Judge",
+      "O2优化",
+      "字符串（入门）",
+      "语言月赛"
+    ],
+    "nativeDifficulty": 2,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-B3821",
+    "url": "https://www.luogu.com.cn/problem/B3821",
+    "sourceSha256": "849c2faf37a1a294df9ea26f40a011aad74db3d517a68953a5fe1f4bdc8c0f9a",
+    "status": 200,
+    "nativeTagIds": [
+      60,
+      104,
+      107,
+      108,
+      386
+    ],
+    "nativeTagNames": [
+      "2023",
+      "提交答案",
+      "Special Judge",
+      "O2优化",
+      "语言月赛"
+    ],
+    "nativeDifficulty": 2,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1134",
+    "url": "https://www.luogu.com.cn/problem/P1134",
+    "sourceSha256": "219a88ab9ae42bdc0b83126f6b6cc3cc5773b6cd1fff9980c8978285051c6ed9",
+    "status": 200,
+    "nativeTagIds": [
+      5,
+      46
+    ],
+    "nativeTagNames": [
+      "数学",
+      "USACO"
+    ],
+    "nativeDifficulty": 3,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1143",
+    "url": "https://www.luogu.com.cn/problem/P1143",
+    "sourceSha256": "5df44ba2500228442a7eafb485d8471ad2f2fea83d0244eb39435d930aa38753",
+    "status": 200,
+    "nativeTagIds": [
+      5,
+      244
+    ],
+    "nativeTagNames": [
+      "数学",
+      "进制"
+    ],
+    "nativeDifficulty": 2,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1200",
+    "url": "https://www.luogu.com.cn/problem/P1200",
+    "sourceSha256": "52f3c84a28f45ec941857593330fe8b56f8546b62df383041ea1096399094010",
+    "status": 200,
+    "nativeTagIds": [
+      2,
+      5,
+      46
+    ],
+    "nativeTagNames": [
+      "字符串",
+      "数学",
+      "USACO"
+    ],
+    "nativeDifficulty": 1,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1206",
+    "url": "https://www.luogu.com.cn/problem/P1206",
+    "sourceSha256": "cfdec25db97dd72c79ee0a25ed60c1567ad323f58ecc00ee227ebb81228fb19d",
+    "status": 200,
+    "nativeTagIds": [
+      4,
+      46,
+      244
+    ],
+    "nativeTagNames": [
+      "搜索",
+      "USACO",
+      "进制"
+    ],
+    "nativeDifficulty": 2,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1207",
+    "url": "https://www.luogu.com.cn/problem/P1207",
+    "sourceSha256": "c006552878eb89712e609c4a05c77184929ace008c15c52a900412ee8871e82a",
+    "status": 200,
+    "nativeTagIds": [
+      4,
+      46,
+      244
+    ],
+    "nativeTagNames": [
+      "搜索",
+      "USACO",
+      "进制"
+    ],
+    "nativeDifficulty": 2,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1215",
+    "url": "https://www.luogu.com.cn/problem/P1215",
+    "sourceSha256": "d5352473e850c8b6f9d5c1f3eba7020238503f79a8069372fe34f882a67727bb",
+    "status": 200,
+    "nativeTagIds": [
+      4,
+      46
+    ],
+    "nativeTagNames": [
+      "搜索",
+      "USACO"
+    ],
+    "nativeDifficulty": 3,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1310",
+    "url": "https://www.luogu.com.cn/problem/P1310",
+    "sourceSha256": "184012247833145c46ec5f5fbfb8d959c30082acd6c75fe551b4a621a2ce7978",
+    "status": 200,
+    "nativeTagIds": [
+      2,
+      3,
+      28,
+      82
+    ],
+    "nativeTagNames": [
+      "字符串",
+      "动态规划 DP",
+      "2011",
+      "NOIP 普及组"
+    ],
+    "nativeDifficulty": 4,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1371",
+    "url": "https://www.luogu.com.cn/problem/P1371",
+    "sourceSha256": "ade0ae17399aa7fbc68b55df7306baaadcdd32762b42886b5d3d4e8eca9c81fb",
+    "status": 200,
+    "nativeTagIds": [
+      33,
+      81,
+      337
+    ],
+    "nativeTagNames": [
+      "2016",
+      "洛谷原创",
+      "洛谷月赛"
+    ],
+    "nativeDifficulty": 3,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1423",
+    "url": "https://www.luogu.com.cn/problem/P1423",
+    "sourceSha256": "963300fd59b498bc9b6f038cb944d062ab5415f90b1cc1d978a7623cd5475315",
+    "status": 200,
+    "nativeTagIds": [],
+    "nativeTagNames": [],
+    "nativeDifficulty": 1,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1467",
+    "url": "https://www.luogu.com.cn/problem/P1467",
+    "sourceSha256": "3175711dd33cc62f38b5319be7bc50f08aa11afe236302e0096c940f35eeceb9",
+    "status": 200,
+    "nativeTagIds": [
+      4,
+      46
+    ],
+    "nativeTagNames": [
+      "搜索",
+      "USACO"
+    ],
+    "nativeDifficulty": 2,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1473",
+    "url": "https://www.luogu.com.cn/problem/P1473",
+    "sourceSha256": "7638a02338be627d2dfb30e1d0ebe169ca2dec2966fe403ea502eb275bd2d8d1",
+    "status": 200,
+    "nativeTagIds": [
+      2,
+      4,
+      5,
+      46,
+      244
+    ],
+    "nativeTagNames": [
+      "字符串",
+      "搜索",
+      "数学",
+      "USACO",
+      "进制"
+    ],
+    "nativeDifficulty": 3,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1475",
+    "url": "https://www.luogu.com.cn/problem/P1475",
+    "sourceSha256": "5741ccfa96a08cfe2b2bf6ecf842eef9825a8349b07692b739335bc0bac0ed6f",
+    "status": 200,
+    "nativeTagIds": [
+      4,
+      46
+    ],
+    "nativeTagNames": [
+      "搜索",
+      "USACO"
+    ],
+    "nativeDifficulty": 3,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1500",
+    "url": "https://www.luogu.com.cn/problem/P1500",
+    "sourceSha256": "bded6f1ff36f732ab3ccb7d3d146dd9bd373e584937d8304cbff8ca2d272a874",
+    "status": 200,
+    "nativeTagIds": [
+      17,
+      460
+    ],
+    "nativeTagNames": [
+      "2000",
+      "CTSC/CTS"
+    ],
+    "nativeDifficulty": 7,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1519",
+    "url": "https://www.luogu.com.cn/problem/P1519",
+    "sourceSha256": "1b45e6c1755780f6cd739440e4e8a90f9264337cc2bcb2bb6660f6689aa83158",
+    "status": 200,
+    "nativeTagIds": [
+      4,
+      46
+    ],
+    "nativeTagNames": [
+      "搜索",
+      "USACO"
+    ],
+    "nativeDifficulty": 3,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1560",
+    "url": "https://www.luogu.com.cn/problem/P1560",
+    "sourceSha256": "093c90d2817705bc4a18c102af22e19a82337df166fac510354d957afbb8f817",
+    "status": 200,
+    "nativeTagIds": [
+      4,
+      46
+    ],
+    "nativeTagNames": [
+      "搜索",
+      "USACO"
+    ],
+    "nativeDifficulty": 5,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1578",
+    "url": "https://www.luogu.com.cn/problem/P1578",
+    "sourceSha256": "51ee127f9a3cd60a37f4c355f376ea0029e51a218bf964ad8eb7d3a5ce965b37",
+    "status": 200,
+    "nativeTagIds": [
+      3,
+      19,
+      459
+    ],
+    "nativeTagNames": [
+      "动态规划 DP",
+      "2002",
+      "WC"
+    ],
+    "nativeDifficulty": 5,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1665",
+    "url": "https://www.luogu.com.cn/problem/P1665",
+    "sourceSha256": "a7c28c14a792982bf665eed7d3fd0e1c48da8daf6570578bcde9ff8b97cf00be",
+    "status": 200,
+    "nativeTagIds": [
+      4
+    ],
+    "nativeTagNames": [
+      "搜索"
+    ],
+    "nativeDifficulty": 3,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1737",
+    "url": "https://www.luogu.com.cn/problem/P1737",
+    "sourceSha256": "b4910b13ac409161417b3e25d4c55539aa3bea7ad67b44a56cd46510aadce1fd",
+    "status": 200,
+    "nativeTagIds": [
+      5,
+      33,
+      77,
+      104,
+      107
+    ],
+    "nativeTagNames": [
+      "数学",
+      "2016",
+      "NOI",
+      "提交答案",
+      "Special Judge"
+    ],
+    "nativeDifficulty": 8,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1745",
+    "url": "https://www.luogu.com.cn/problem/P1745",
+    "sourceSha256": "91a2f9c693f3a57d05022dafc9cba495e276446a73436ac1f21ed3cc4eda3e2d",
+    "status": 200,
+    "nativeTagIds": [
+      33,
+      107,
+      335,
+      502
+    ],
+    "nativeTagNames": [
+      "2016",
+      "Special Judge",
+      "ICPC",
+      "CERC"
+    ],
+    "nativeDifficulty": 7,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1767",
+    "url": "https://www.luogu.com.cn/problem/P1767",
+    "sourceSha256": "f56380f1ea8f5f63413ef592c9eba7f824380102725dd616ebef14e95d55b118",
+    "status": 200,
+    "nativeTagIds": [
+      4,
+      99
+    ],
+    "nativeTagNames": [
+      "搜索",
+      "NOI 导刊"
+    ],
+    "nativeDifficulty": 2,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P1861",
+    "url": "https://www.luogu.com.cn/problem/P1861",
+    "sourceSha256": "b54e530054865f4bac5b729c7ec8c90b298ecebc44793be66f3516dcb7b17fd9",
+    "status": 200,
+    "nativeTagIds": [
+      5
+    ],
+    "nativeTagNames": [
+      "数学"
+    ],
+    "nativeDifficulty": 7,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2298",
+    "url": "https://www.luogu.com.cn/problem/P2298",
+    "sourceSha256": "36b1ff90e3fcf3c1d6a5fdb06ba53aa8c2d10d0fd9e09ad1115deb57219cad02",
+    "status": 200,
+    "nativeTagIds": [
+      4
+    ],
+    "nativeTagNames": [
+      "搜索"
+    ],
+    "nativeDifficulty": 3,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2388",
+    "url": "https://www.luogu.com.cn/problem/P2388",
+    "sourceSha256": "8a6d8b36e9a2f9ad02d9491c1d2db3ba8df7058b7a3b6cd9c0dd5e6166655157",
+    "status": 200,
+    "nativeTagIds": [
+      5,
+      81
+    ],
+    "nativeTagNames": [
+      "数学",
+      "洛谷原创"
+    ],
+    "nativeDifficulty": 3,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2400",
+    "url": "https://www.luogu.com.cn/problem/P2400",
+    "sourceSha256": "14b1bb81244bba7af20ff650a017ceeb682afb4960f118aeca7d32976a1e2f1b",
+    "status": 200,
+    "nativeTagIds": [
+      3,
+      70
+    ],
+    "nativeTagNames": [
+      "动态规划 DP",
+      "福建省历届夏令营"
+    ],
+    "nativeDifficulty": 4,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2401",
+    "url": "https://www.luogu.com.cn/problem/P2401",
+    "sourceSha256": "b73804743b090319e3cdb34d82bddd547c5db64522fe43f3e9e91ea388078ab5",
+    "status": 200,
+    "nativeTagIds": [
+      3,
+      70
+    ],
+    "nativeTagNames": [
+      "动态规划 DP",
+      "福建省历届夏令营"
+    ],
+    "nativeDifficulty": 4,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2409",
+    "url": "https://www.luogu.com.cn/problem/P2409",
+    "sourceSha256": "6aaa893b0f0f8377b30899ce357bfeca585c1f1f5c8e61e05ce74b688e93992b",
+    "status": 200,
+    "nativeTagIds": [
+      33,
+      81,
+      337
+    ],
+    "nativeTagNames": [
+      "2016",
+      "洛谷原创",
+      "洛谷月赛"
+    ],
+    "nativeDifficulty": 4,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2436",
+    "url": "https://www.luogu.com.cn/problem/P2436",
+    "sourceSha256": "4f4d96104c7612cba994aeff7fa8e8265ca6aa3a2002014bb188932a500a8ba6",
+    "status": 200,
+    "nativeTagIds": [
+      4,
+      33,
+      81,
+      337
+    ],
+    "nativeTagNames": [
+      "搜索",
+      "2016",
+      "洛谷原创",
+      "洛谷月赛"
+    ],
+    "nativeDifficulty": 3,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2623",
+    "url": "https://www.luogu.com.cn/problem/P2623",
+    "sourceSha256": "4dc6671dc4cf004815bbec8fec407485a4942bb176e11b9043323e72fe8aaf19",
+    "status": 200,
+    "nativeTagIds": [
+      3
+    ],
+    "nativeTagNames": [
+      "动态规划 DP"
+    ],
+    "nativeDifficulty": 3,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2682",
+    "url": "https://www.luogu.com.cn/problem/P2682",
+    "sourceSha256": "fd76901cf83dcd8c51e82789d6ee68d16b132d3f962fcbe11eda8839d6b89e1f",
+    "status": 200,
+    "nativeTagIds": [
+      104,
+      107
+    ],
+    "nativeTagNames": [
+      "提交答案",
+      "Special Judge"
+    ],
+    "nativeDifficulty": 8,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2736",
+    "url": "https://www.luogu.com.cn/problem/P2736",
+    "sourceSha256": "fd8a740226fe3f6234c38758aabd4936234e610d294f01a687dec644cba57e38",
+    "status": 200,
+    "nativeTagIds": [
+      3,
+      4,
+      46
+    ],
+    "nativeTagNames": [
+      "动态规划 DP",
+      "搜索",
+      "USACO"
+    ],
+    "nativeDifficulty": 3,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2743",
+    "url": "https://www.luogu.com.cn/problem/P2743",
+    "sourceSha256": "70e458eafed2d3e9892607a4a9db5bf5bd93f8d37caa5ba2dd4c1f8345446276",
+    "status": 200,
+    "nativeTagIds": [
+      3,
+      46
+    ],
+    "nativeTagNames": [
+      "动态规划 DP",
+      "USACO"
+    ],
+    "nativeDifficulty": 5,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2745",
+    "url": "https://www.luogu.com.cn/problem/P2745",
+    "sourceSha256": "413bb611e99346d9d5e2b8fddffde0391f6b2ecb4ab103628be6438c8eab6a0b",
+    "status": 200,
+    "nativeTagIds": [
+      46
+    ],
+    "nativeTagNames": [
+      "USACO"
+    ],
+    "nativeDifficulty": 5,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2747",
+    "url": "https://www.luogu.com.cn/problem/P2747",
+    "sourceSha256": "35e758f9cf7211315387a0869ecfc8ca351ac931fc6c20563d48f481ed0e3074",
+    "status": 200,
+    "nativeTagIds": [
+      2,
+      3,
+      4,
+      46
+    ],
+    "nativeTagNames": [
+      "字符串",
+      "动态规划 DP",
+      "搜索",
+      "USACO"
+    ],
+    "nativeDifficulty": 5,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2753",
+    "url": "https://www.luogu.com.cn/problem/P2753",
+    "sourceSha256": "11b03af0edbc2042fb1bcfad89b45997d59c16d33e3ec9bb1df54dd59647b1ad",
+    "status": 200,
+    "nativeTagIds": [
+      46,
+      102
+    ],
+    "nativeTagNames": [
+      "USACO",
+      "IOI"
+    ],
+    "nativeDifficulty": 5,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2797",
+    "url": "https://www.luogu.com.cn/problem/P2797",
+    "sourceSha256": "7d61f085baf71df6cd894cbd56a9b4af7711f95839f101f9b26f7d0186ac317f",
+    "status": 200,
+    "nativeTagIds": [
+      5
+    ],
+    "nativeTagNames": [
+      "数学"
+    ],
+    "nativeDifficulty": 5,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P2960",
+    "url": "https://www.luogu.com.cn/problem/P2960",
+    "sourceSha256": "1313555481b2adf7a0176c427ee041b6f4c2e178e269a246b46518aed45c7f15",
+    "status": 200,
+    "nativeTagIds": [
+      4,
+      26,
+      46
+    ],
+    "nativeTagNames": [
+      "搜索",
+      "2009",
+      "USACO"
+    ],
+    "nativeDifficulty": 3,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P3331",
+    "url": "https://www.luogu.com.cn/problem/P3331",
+    "sourceSha256": "04915571ffd9040b6ace3907dcbd773c20d36c895e2ba637c99ee9e79342e6b9",
+    "status": 200,
+    "nativeTagIds": [
+      28,
+      48,
+      88
+    ],
+    "nativeTagNames": [
+      "2011",
+      "各省省选",
+      "浙江"
+    ],
+    "nativeDifficulty": 5,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P3337",
+    "url": "https://www.luogu.com.cn/problem/P3337",
+    "sourceSha256": "22eef548ec08ca2754a0d018a9734ae5ace1fe4386f0d9738e32371702132af8",
+    "status": 200,
+    "nativeTagIds": [
+      30,
+      48,
+      88
+    ],
+    "nativeTagNames": [
+      "2013",
+      "各省省选",
+      "浙江"
+    ],
+    "nativeDifficulty": 7,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P3362",
+    "url": "https://www.luogu.com.cn/problem/P3362",
+    "sourceSha256": "e2434e800912c831d8cc2dea72eda8577a3334847c3e9493f7906398035badcf",
+    "status": 200,
+    "nativeTagIds": [
+      5,
+      33,
+      81,
+      337
+    ],
+    "nativeTagNames": [
+      "数学",
+      "2016",
+      "洛谷原创",
+      "洛谷月赛"
+    ],
+    "nativeDifficulty": 5,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P3363",
+    "url": "https://www.luogu.com.cn/problem/P3363",
+    "sourceSha256": "0516c45dd175e86d4a8eb1f06278e4f39b330781dbc957e1a017a30ce9494bf0",
+    "status": 200,
+    "nativeTagIds": [
+      33,
+      81,
+      337
+    ],
+    "nativeTagNames": [
+      "2016",
+      "洛谷原创",
+      "洛谷月赛"
+    ],
+    "nativeDifficulty": 7,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P3365",
+    "url": "https://www.luogu.com.cn/problem/P3365",
+    "sourceSha256": "661fa5bb0fcda88ffaf4dd9b0af42ca95da1deb0bb4e343c5f4c157f4b298ed6",
+    "status": 200,
+    "nativeTagIds": [
+      3,
+      33,
+      81,
+      337
+    ],
+    "nativeTagNames": [
+      "动态规划 DP",
+      "2016",
+      "洛谷原创",
+      "洛谷月赛"
+    ],
+    "nativeDifficulty": 5,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P3590",
+    "url": "https://www.luogu.com.cn/problem/P3590",
+    "sourceSha256": "92a0810affce0019d61010b3cb77a431b01d227a94503096e68b1ec12fee1088",
+    "status": 200,
+    "nativeTagIds": [
+      32,
+      57,
+      365
+    ],
+    "nativeTagNames": [
+      "2015",
+      "POI（波兰）",
+      "Ad-hoc"
+    ],
+    "nativeDifficulty": 7,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P3614",
+    "url": "https://www.luogu.com.cn/problem/P3614",
+    "sourceSha256": "a301c0e6cab268ebf688dcb1b291b8d49dd542f490dfdf1421da7e8f0c8661b2",
+    "status": 200,
+    "nativeTagIds": [
+      81,
+      104,
+      107,
+      337
+    ],
+    "nativeTagNames": [
+      "洛谷原创",
+      "提交答案",
+      "Special Judge",
+      "洛谷月赛"
+    ],
+    "nativeDifficulty": 7,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P3679",
+    "url": "https://www.luogu.com.cn/problem/P3679",
+    "sourceSha256": "4db12f3c2ac5b2c37218ac556fdb707ca7afc5006a90159280fe4f8c0adaecf0",
+    "status": 200,
+    "nativeTagIds": [
+      33,
+      335,
+      502
+    ],
+    "nativeTagNames": [
+      "2016",
+      "ICPC",
+      "CERC"
+    ],
+    "nativeDifficulty": 7,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P3681",
+    "url": "https://www.luogu.com.cn/problem/P3681",
+    "sourceSha256": "774063a897290d7eab5535faf8f004d725597f7006183fb31e6be6815d12b084",
+    "status": 200,
+    "nativeTagIds": [
+      33,
+      107,
+      335,
+      502
+    ],
+    "nativeTagNames": [
+      "2016",
+      "Special Judge",
+      "ICPC",
+      "CERC"
+    ],
+    "nativeDifficulty": 7,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P3683",
+    "url": "https://www.luogu.com.cn/problem/P3683",
+    "sourceSha256": "a7716438323734f30d69244b7de0c91a86eb761421463aeca012171d60e8b982",
+    "status": 200,
+    "nativeTagIds": [
+      33,
+      335,
+      502
+    ],
+    "nativeTagNames": [
+      "2016",
+      "ICPC",
+      "CERC"
+    ],
+    "nativeDifficulty": 8,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P3685",
+    "url": "https://www.luogu.com.cn/problem/P3685",
+    "sourceSha256": "a85caad832b1f524fc51fbca9cd0ab4d418e87848d42363fd968c9b68a5f487e",
+    "status": 200,
+    "nativeTagIds": [
+      3,
+      33,
+      335,
+      502
+    ],
+    "nativeTagNames": [
+      "动态规划 DP",
+      "2016",
+      "ICPC",
+      "CERC"
+    ],
+    "nativeDifficulty": 8,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P4194",
+    "url": "https://www.luogu.com.cn/problem/P4194",
+    "sourceSha256": "4ff42ae5255e13ec70d39acaa871030f0799755ceff4e586c815591b0bd584ca",
+    "status": 200,
+    "nativeTagIds": [],
+    "nativeTagNames": [],
+    "nativeDifficulty": 7,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P4229",
+    "url": "https://www.luogu.com.cn/problem/P4229",
+    "sourceSha256": "13023a72ee422de3153d1e1c93e5586a99e4a14a81177cbc8f5124e6dfb6680d",
+    "status": 200,
+    "nativeTagIds": [
+      34,
+      108,
+      331
+    ],
+    "nativeTagNames": [
+      "2017",
+      "O2优化",
+      "CTT（清华集训/北大集训）"
+    ],
+    "nativeDifficulty": 7,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "luogu-training-P4352",
+    "url": "https://www.luogu.com.cn/problem/P4352",
+    "sourceSha256": "bfd843fb6c27c5b5b72c70ab2d667608b5c810091591a09677ca11f50816e317",
+    "status": 200,
+    "nativeTagIds": [
+      32,
+      335,
+      502
+    ],
+    "nativeTagNames": [
+      "2015",
+      "ICPC",
+      "CERC"
+    ],
+    "nativeDifficulty": 8,
+    "reason": "Captured source remains broad or this hack/multiquestion task was not fully reviewed in this batch; no title-derived leaf."
+  },
+  {
+    "id": "lanqiao:2020:省:3::P8721",
+    "url": "https://www.luogu.com.cn/problem/P8721",
+    "sourceSha256": "209ddf5b2328292e01ebceada813431b306840dd8f6ba19e57351a57def6c185",
+    "status": 200,
+    "nativeTagIds": [
+      37,
+      104,
+      363
+    ],
+    "nativeTagNames": [
+      "2020",
+      "提交答案",
+      "蓝桥杯省赛"
+    ],
+    "nativeDifficulty": 0,
+    "reason": "Official native difficulty remains 0/unrated; no replacement estimate without a complete algorithm review."
+  },
+  {
+    "id": "lanqiao:2026:国:::P16802",
+    "url": "https://www.luogu.com.cn/problem/P16802",
+    "sourceSha256": "a6c7fc5ba4898bbec34d70d292de74bd96e49b4113b9abcbbe20f32e3b583335",
+    "status": 200,
+    "nativeTagIds": [
+      338,
+      361
+    ],
+    "nativeTagNames": [
+      "2026",
+      "蓝桥杯国赛"
+    ],
+    "nativeDifficulty": 0,
+    "reason": "Official native difficulty remains 0/unrated; no replacement estimate without a complete algorithm review."
+  },
+  {
+    "id": "luogu-training-P2775",
+    "url": "https://www.luogu.com.cn/problem/P2775",
+    "sourceSha256": "b245affc8f21636c9c9c3b8e30b5e27e8eb68c84e7c8ce89813f7bf2c01798c5",
+    "status": 200,
+    "nativeTagIds": [
+      108,
+      132,
+      332
+    ],
+    "nativeTagNames": [
+      "O2优化",
+      "启发式迭代加深搜索 IDA*",
+      "网络流与线性规划 24 题"
+    ],
+    "nativeDifficulty": 0,
+    "reason": "Official native difficulty remains 0/unrated; no replacement estimate without a complete algorithm review."
+  },
+  {
+    "id": "luogu-training-P3675",
+    "url": "https://www.luogu.com.cn/problem/P3675",
+    "sourceSha256": "845c908c488194cd8c3fc9b7785bcf6d3a8b448d5dc0fabe51e5bf4436209587",
+    "status": 200,
+    "nativeTagIds": [
+      81,
+      104,
+      107,
+      135,
+      137,
+      139,
+      337
+    ],
+    "nativeTagNames": [
+      "洛谷原创",
+      "提交答案",
+      "Special Judge",
+      "模拟退火",
+      "遗传算法",
+      "背包 DP",
+      "洛谷月赛"
+    ],
+    "nativeDifficulty": 0,
+    "reason": "Official native difficulty remains 0/unrated; no replacement estimate without a complete algorithm review."
+  },
+  {
+    "id": "luogu-training-P8121",
+    "url": "https://www.luogu.com.cn/problem/P8121",
+    "sourceSha256": "8458152e8fa696c92ff80e9efd6fccae05802f56f780880d787a3eb16d2eef77",
+    "status": 200,
+    "nativeTagIds": [
+      1,
+      3,
+      4,
+      7,
+      10,
+      59,
+      81,
+      107,
+      108,
+      111,
+      160,
+      274,
+      314,
+      337
+    ],
+    "nativeTagNames": [
+      "模拟",
+      "动态规划 DP",
+      "搜索",
+      "贪心",
+      "高精度",
+      "2022",
+      "洛谷原创",
+      "Special Judge",
+      "O2优化",
+      "枚举",
+      "最短路",
+      "高斯消元",
+      "位运算",
+      "洛谷月赛"
+    ],
+    "nativeDifficulty": 0,
+    "reason": "Official native difficulty remains 0/unrated; no replacement estimate without a complete algorithm review."
+  }
+]

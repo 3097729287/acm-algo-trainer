@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-11-09T00:32:19.262275+00:00",
+  "baseCommit": "42f344114963edca57f2b041fdc9756deefec143",
+  "currentAgentsRead": true,
+  "historicalRulesNotReactivated": true,
+  "designPrinciplesRead": true,
+  "designPrinciplesSha256": "b6fa71c9f549962dd07b0e6257829c2424dc5472f36ed74df1632ec0c3accff1",
+  "checkedBeforeChanges": true,
+  "freshCheckoutClean": true,
+  "canonicalAssetRows": 6452,
+  "duplicateCanonicalAssetHashes": 0,
+  "replacedMetadataPacketAlreadyPresent": false,
+  "confirmedUnusedItems": [],
+  "cleanupAction": "No deletion necessary: fresh isolated checkout has no generated build outputs or superseded owned packet. Existing proof packets, ID mappings and canonical source resources remain referenced and must be retained.",
+  "previousAutoReviewRejectedPathsRetried": false,
+  "personalOrRootBuildFilesChanged": false,
+  "newPacket": "20261109-native-metadata-next"
+}

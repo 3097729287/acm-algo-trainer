@@ -1,0 +1,36 @@
+{
+  "reviewedPreviouslyMissingKnowledge": 91,
+  "verifiedAnonymousReceipts": 156,
+  "originalSamplePairsBound": 152,
+  "requiredPicturesVisuallyBound": 7,
+  "newCanonicalAssets": 156,
+  "newCanonicalAssetBytes": 2216262,
+  "authoringBoundaryChecked": true,
+  "unrelatedRowsUnchanged": 13401,
+  "targetDifficultiesAndNativeValuesUnchanged": true,
+  "allDifficultiesAndNativeValuesUnchanged": true,
+  "publicDatabaseOpenedReadOnly": true,
+  "personalStateReadOrWritten": false,
+  "independentFiniteDerivationChecks": {
+    "finitePermutationComparisons": 5611,
+    "finiteRatingScheduleComparisons": 180,
+    "finiteMagicThresholdComparisons": 200,
+    "finiteNKPeriodComparisons": 174,
+    "originalScreenSampleDigitsMatched": 30,
+    "originalProjectionSamplesMatched": 2,
+    "fullNativeLimitJudgeSuitesRetested": false,
+    "originalJudgeSubmissions": 0
+  },
+  "existingRegressionTests": {
+    "passed": 42,
+    "modules": [
+      "test_ui141",
+      "test_metadata_review",
+      "test_metadata_packaging",
+      "test_catalog_metadata",
+      "test_knowledge_taxonomy",
+      "test_knowledge_mastery",
+      "test_difficulty_scale"
+    ]
+  }
+}
