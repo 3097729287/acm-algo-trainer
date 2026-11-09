@@ -238,6 +238,41 @@ class ConnectedBrowserTests(unittest.TestCase):
         result=subprocess.run([NODE,str(Path(__file__).resolve().parents[1]/'desktop/tests/connected_control.mjs')],text=True,capture_output=True)
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
 
+    def test_frozen_assembled_bundle_opens_the_shipped_hyphen_directory_without_building(self):
+        import tempfile
+        from browser_extension_bundle import build
+        from connected_preparation import connector_bundle_path
+        with tempfile.TemporaryDirectory(prefix='tb-v4-frozen-') as temporary:
+            package=Path(temporary)/'package';shipped=build(package/'browser-extension')
+            before={p.name:p.read_bytes() for p in shipped.iterdir()}
+            manifest=json.loads((shipped/'manifest.json').read_text('utf-8'))
+            self.assertTrue(all((shipped/name).is_file() for rule in manifest['content_scripts'] for name in rule['js']))
+            self.assertFalse((package/'browser_extension').exists())
+            opened=[]
+            with patch.object(sys,'frozen',True,create=True),patch.object(sys,'executable',str(package/'ToBe.exe')),patch('browser_extension_bundle.build',side_effect=AssertionError('Frozen must not generate source assets')) as generator:
+                runtime_root=Path(sys.executable).resolve().parent
+                found=connector_bundle_path(runtime_root,package/'state'/'training.sqlite3',18765)
+                preparation=ConnectedPreparation(self.bridge,found,opener=opened.append)
+                self.assertEqual(preparation.snapshot()['extensionPath'],str(shipped))
+                preparation.action({'action':'open-folder'});self.assertEqual(opened,[str(shipped)])
+                generator.assert_not_called()
+            self.assertEqual(before,{p.name:p.read_bytes() for p in shipped.iterdir()})
+            self.assertFalse((package/'state').exists())
+
+    def test_frozen_missing_bundle_fails_closed_without_generating_or_launching(self):
+        import tempfile
+        from connected_preparation import connector_bundle_path
+        with tempfile.TemporaryDirectory(prefix='tb-v4-frozen-missing-') as temporary:
+            package=Path(temporary)
+            with patch.object(sys,'frozen',True,create=True),patch('browser_extension_bundle.build',side_effect=AssertionError('No frozen fallback')) as generator:
+                path=connector_bundle_path(package,package/'state'/'training.sqlite3',18765)
+                self.assertEqual(path,package/'browser-extension')
+                preparation=ConnectedPreparation(self.bridge,path,opener=Mock())
+                with self.assertRaises(ServiceError):preparation.action({'action':'open-folder'})
+                preparation.opener.assert_not_called()
+                generator.assert_not_called()
+            self.assertEqual(list(package.iterdir()),[])
+
 
 class ConnectedTeamGuardTests(unittest.TestCase):
     import test_training as fixtures

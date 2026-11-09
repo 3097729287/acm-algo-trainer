@@ -2,10 +2,22 @@
 import os
 from pathlib import Path
 import re
+import sys
 
 from platform_login import SITES
 from official_bridge import submission_target
 from training import ServiceError
+
+
+def connector_bundle_path(app_dir,state,port):
+    if not getattr(sys,'frozen',False):
+        from browser_extension_bundle import build
+        return build(Path(state).parent/'cache'/'tb-connected-extension','http://127.0.0.1:'+str(port))
+    # Assemble already generated official.js/identity.js. A frozen program
+    # uses these exact shipped bytes and never needs raw underscore sources.
+    # Missing optional connection assets do not prevent ordinary offline work.
+    # The connection entry reports the missing directory on explicit use.
+    return Path(app_dir)/'browser-extension'
 
 
 class ConnectedPreparation:

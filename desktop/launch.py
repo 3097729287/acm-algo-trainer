@@ -299,7 +299,7 @@ def run_desktop() -> int:
                     if session and session.get('_training') is server.training:
                         push_status('tb:official-status', value)
                 from connected_browser import ConnectedBrowserBridge
-                from connected_preparation import ConnectedPreparation
+                from connected_preparation import ConnectedPreparation,connector_bundle_path
                 from existing_browser_recovery import existing_job_proof
                 from platform_login import SITES
                 def expected_original_owner(platform):
@@ -317,10 +317,7 @@ def run_desktop() -> int:
                     legacy_proof=lambda record:existing_job_proof(STATE.parent/'cache'/'tb-submission-browser',record),
                 )
                 server.browser_bridge = official
-                extension_path=APP_DIR/'browser-extension' if getattr(sys,'frozen',False) else STATE.parent/'cache'/'tb-connected-extension'
-                if not getattr(sys,'frozen',False):
-                    from browser_extension_bundle import build as build_extension
-                    build_extension(extension_path,f'http://127.0.0.1:{PORT}')
+                extension_path=connector_bundle_path(APP_DIR,STATE,PORT)
                 server.browser_extension_path=extension_path
                 server.browser_preparation = ConnectedPreparation(official,extension_path)
                 from contest_reading import ContestReading

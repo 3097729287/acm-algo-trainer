@@ -10,10 +10,11 @@ from platform_login import LOGIN_SCRIPT
 
 
 def build(destination,base_url='http://127.0.0.1:18765'):
+    if getattr(sys,'frozen',False):raise ValueError('Use the already assembled browser-extension directory')
     endpoint=urlsplit(base_url)
     if endpoint.scheme!='http' or endpoint.hostname!='127.0.0.1' or endpoint.username or endpoint.password or endpoint.path or endpoint.query or endpoint.fragment or not endpoint.port:
         raise ValueError('Use the exact loopback origin')
-    root=Path(sys.executable).parent if getattr(sys,'frozen',False) else Path(__file__).resolve().parent
+    root=Path(__file__).resolve().parent
     source=root/'browser_extension'
     destination=Path(destination).resolve()
     if destination==source or destination.is_relative_to(source):raise ValueError('Use a separate output directory')
