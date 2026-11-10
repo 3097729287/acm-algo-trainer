@@ -200,6 +200,22 @@ def run_desktop() -> int:
     splash = None
     early = None
     initialization = None
+    native_activity = deepseek = official = None
+    cleanup_lock = threading.Lock()
+    cleaned = set()
+    def begin_close():
+        if server is not None:server.fast_shutdown=True
+        # WM_QUIT can end the native loop without firing FormClosing/Closed.
+        # Both the regular close callback and finally use this same cleanup.
+        for name,resource in (('native_activity',native_activity),('deepseek',deepseek),('official',official)):
+            if resource is None:continue
+            with cleanup_lock:
+                if name in cleaned:continue
+                try:
+                    (resource.on_closing if name=='official' else resource.close)()
+                except Exception:
+                    LOG.exception('Desktop resource cleanup failed: %s',name)
+                else:cleaned.add(name)
     try:
         if instance.existing:
             if not instance.focus_existing():
@@ -245,11 +261,11 @@ def run_desktop() -> int:
         if splash is not None:window.events.shown+=lambda:splash.close()
         bind(window, memory_path)
         from webview_resources import bind as bind_resources
-        bind_resources(window)
+        resources=bind_resources(window)
         loaded=threading.Event()
         window.events.loaded+=loaded.set
         def initialize():
-            nonlocal server,service_thread
+            nonlocal server,service_thread,native_activity,deepseek,official
             try:
                 # Backend imports can run while the real WebView is created.
                 from backend import start_server
@@ -332,12 +348,8 @@ def run_desktop() -> int:
                 server.official_rechecker = official.retry_recovery
                 server.official_closer = official.close
                 from close_coordinator import CloseCoordinator
-                def begin_close():
-                    server.fast_shutdown=True
-                    native_activity.close()
-                    deepseek.close()
-                    official.on_closing()
-                closing=CloseCoordinator(window,begin_close)
+                closing=CloseCoordinator(window,begin_close,frontend_alive=resources.frontend_alive)
+                resources.on_frontend_failed=closing.frontend_failed
                 window.events.closing += closing.on_closing
                 if getattr(sys, 'frozen', False):
                     from update_installer import launch_installer
@@ -388,6 +400,7 @@ def run_desktop() -> int:
         return 0
     finally:
         if initialization is not None and initialization.is_alive():initialization.join()
+        begin_close()
         if early is not None:early.close()
         if splash is not None:splash.close()
         if server is not None:

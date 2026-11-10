@@ -1,3 +1,13 @@
+# ToBe · 当前源码与发行
+
+**当前源码：1.6.15 关闭故障修复。** 已确认界面进程退出时，窗口关闭不再等待失效的网页回调；正常草稿保存与记录保留。[更新说明](docs/releases/1.6.15.md) · [关闭验证](docs/verification/crash-close-20261110.md) · [1.6.15 发行状态](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.15)。
+
+此前已发布 **1.6.14**，其[完整用户安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.6.14/ToBe-Full-Setup-1.6.14-win64.exe)及历史记录保留。本次公共题库与 1.6.14 相同，题面／翻译工作暂不并入此紧急修复。
+
+## 历史版本与构建记录
+
+以下记录保留各自当时的版本和验收范围，不代表当前安装状态。
+
 # ToBe · 当前版本说明
 
 **1.6.13 源码与构建 · 2026-11-10**：整合单题内嵌 DeepSeek、焦点无关快捷键、常用浏览器连接、复习源码及原提交恢复，并修复 Alt＋2 与快速重开在线状态。三人训练完成一次真实 AC 与重启恢复验证；国内发布按完整升级链及真实裁判回执验收。[本版说明](docs/releases/1.6.13.md) · [验收范围](docs/verification/release1613-acceptance.md)。以下旧版下载与历史记录保留原版本。

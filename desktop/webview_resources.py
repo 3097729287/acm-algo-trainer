@@ -57,6 +57,14 @@ class MainViewResources:
         self.removed_hooks = []
         self.recoveries = []
         self.failure_panel = None
+        self.frontend_available = True
+        self.browser_exited = False
+        self.on_frontend_failed = None
+
+    def frontend_alive(self):
+        # Only an observed main-view process exit permits bypassing its JS
+        # close handshake. Slow scripts, minimization and GPU restarts do not.
+        return self.frontend_available
 
     def attach(self):
         try:
@@ -83,16 +91,23 @@ class MainViewResources:
         self.removed_hooks = remove_unused_network_hooks(self.window, self.form.browser, self.core)
         try:
             self.core.ProcessFailed += self._process_failed
+            self.core.NavigationCompleted += self._navigation_completed
         except Exception as issue:
             LOG.info('WebView recovery hook unavailable: %s', type(issue).__name__)
         self._apply()
 
     def _process_failed(self, _sender, event):
         kind = str(event.ProcessFailedKind)
-        LOG.error('Main WebView process failure: %s', kind)
+        details = []
+        for name in ('Reason', 'ExitCode'):
+            try:details.append(str(getattr(event, name)))
+            except Exception:details.append('unavailable')
+        LOG.error('Main WebView process failure: %s; reason=%s; exit_code=%s',
+                  kind, *details)
         # Reload only after an actual renderer exit, never on a slow script or
         # GPU restart. Drafts are journaled synchronously on every edit.
         if kind == 'RenderProcessExited':
+            self._frontend_failed()
             now = time.monotonic()
             self.recoveries = [stamp for stamp in self.recoveries if now - stamp < 60]
             if len(self.recoveries) < 2:
@@ -104,7 +119,20 @@ class MainViewResources:
                     LOG.error('WebView reload failed: %s', type(issue).__name__)
             self._show_failure(retry=True)
         elif kind == 'BrowserProcessExited':
+            self.browser_exited = True
+            self._frontend_failed()
             self._show_failure(retry=False)
+
+    def _frontend_failed(self):
+        self.frontend_available = False
+        if self.on_frontend_failed is not None:
+            try:self.on_frontend_failed()
+            except Exception:
+                LOG.exception('Native close notification failed')
+
+    def _navigation_completed(self, _sender, event):
+        if not self.browser_exited and event.IsSuccess:
+            self.frontend_available = True
 
     def _show_failure(self, retry):
         # A native fallback also works when no JavaScript engine remains alive.
@@ -135,6 +163,11 @@ class MainViewResources:
                         LOG.error('Manual WebView reload failed: %s', type(issue).__name__)
                 button.Click += restore
                 panel.Controls.Add(button)
+            close = Button()
+            close.AutoSize = True
+            close.Text = '关闭 ToBe'
+            close.Click += lambda _sender, _event: self.form.Close()
+            panel.Controls.Add(close)
             self.failure_panel = panel
             self.form.Controls.Add(panel)
             panel.BringToFront()

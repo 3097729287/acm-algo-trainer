@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "scope": "Crash-close hotfix only; synthetic local drafts and private test WebViews",
+  "publicLibraryUnchanged": true,
+  "unitTests": 14,
+  "nativeProofs": {
+    "x": {
+      "sha256": "ae46b3ca2a49e326e99ec7ecac4497b0ad4c8433623c97f0e2fdb24952ea2a0c",
+      "primitiveFields": {
+        "mode": "x",
+        "ownProcessId": 12248,
+        "realAccountOrBrowserUsed": false,
+        "externalProcessSignalled": false,
+        "ownBrowserProcessId": 14456,
+        "nativeClosed": true,
+        "cleanupCalled": true,
+        "saveFalselyConfirmed": false,
+        "closeSeconds": 0.005,
+        "webviewStartReturned": true,
+        "finallyExecuted": true,
+        "committedSyntheticSqlitePreserved": true,
+        "seconds": 2.121,
+        "ok": true
+      }
+    },
+    "button": {
+      "sha256": "809f3921e238e05394b5e95c5f5c87ac413de2681b04e2963f66fe4c3303d5c5",
+      "primitiveFields": {
+        "mode": "button",
+        "ownProcessId": 25964,
+        "realAccountOrBrowserUsed": false,
+        "externalProcessSignalled": false,
+        "ownBrowserProcessId": 25012,
+        "nativeClosed": true,
+        "cleanupCalled": true,
+        "saveFalselyConfirmed": false,
+        "closeSeconds": 0.016,
+        "webviewStartReturned": true,
+        "finallyExecuted": true,
+        "committedSyntheticSqlitePreserved": true,
+        "seconds": 2.061,
+        "ok": true
+      }
+    },
+    "pending": {
+      "sha256": "0f80eeb5dda78533e3a77e0df91a86c01613ff1dca52de384c3336887b2d4501",
+      "primitiveFields": {
+        "mode": "pending",
+        "ownProcessId": 26244,
+        "realAccountOrBrowserUsed": false,
+        "externalProcessSignalled": false,
+        "ownBrowserProcessId": 2480,
+        "nativeClosed": true,
+        "cleanupCalled": true,
+        "saveFalselyConfirmed": false,
+        "closeSeconds": 0.053,
+        "webviewStartReturned": true,
+        "finallyExecuted": true,
+        "committedSyntheticSqlitePreserved": true,
+        "seconds": 2.049,
+        "ok": true
+      }
+    },
+    "legacyQuit": {
+      "sha256": "61e3b6f9fe3f9242ee571d99f8215e7e9830b415d23bd6ded303381f11bf950c",
+      "primitiveFields": {
+        "sourceCommit": "bbca337c5458715e86dad892ae75b2395c7fd27b",
+        "oldCoordinatorSha256": "6bc2ce63c9d828995cb0b2c0680249c55cac951bbcdb12a70020a17851797b8e",
+        "ownProcessId": 26176,
+        "realAccountOrBrowserUsed": false,
+        "realBrowserProcessKilled": false,
+        "oldNativeCloseBlocked": true,
+        "ownWindowProcessId": 26176,
+        "ownUiThreadId": 10336,
+        "quitPosted": true,
+        "quitPostedAt": 1787.5791545,
+        "webviewStartReturned": true,
+        "finallyExecuted": true,
+        "committedSyntheticSqlitePreserved": true,
+        "elapsedSeconds": 1.615,
+        "quitToReturnSeconds": 0.016,
+        "closedEventFired": false,
+        "ok": true
+      }
+    }
+  },
+  "sourceFileSha256": {
+    "desktop/close_coordinator.py": "72a711179bb14c675efb5f076b1a52f1d16799a2aabdf2ebf274ff4ecdecbdd6",
+    "desktop/webview_resources.py": "7b1c2435b42d1debc699d6b1e7553dda47619613cf0ffbaebf793e0edc9ae334",
+    "desktop/launch.py": "c0d930500c0041d4cb88567c765fc1a439b4d71d39d910e0ce593419c1715943",
+    "desktop/tests/crash_close_native.py": "8b6ed2e9ab8fe5ea75f2d22b178f70faee579552a9882cccc1f0fff822d333f0",
+    "backend/test_close_coordinator.py": "cc0b01af612450fa8988a828a9b128c56098ce5e1b2b8063edf3ada8fd059a38",
+    "backend/test_ui_recovery.py": "df9091e2cf891d86c50bf8b8dc5f796aea4cb9d8819c23a6082bc84f6c405441"
+  },
+  "ordinaryUserProcessesChanged": false,
+  "actualOjOrProviderRequests": 0,
+  "historicalBrowserExitCauseVerified": false,
+  "sourceLineEndingsNormalizedForCommit": [
+    "README.en.md",
+    "README.md",
+    "VERSION",
+    "docs/development.md",
+    "docs/releases/1.6.15.md",
+    "docs/verification/crash-close-20261110.md",
+    "docs/verification/crash-close-native-20261110.json"
+  ]
+}

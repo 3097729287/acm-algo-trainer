@@ -1,3 +1,13 @@
+# ToBe · Current source and releases
+
+**Current source: 1.6.15 crash-close fix.** A confirmed WebView process exit no longer leaves native Close waiting for an unavailable JavaScript callback. Normal draft-save checks and existing records remain intact. [Notes](docs/releases/1.6.15.md) · [Validation](docs/verification/crash-close-20261110.md) · [1.6.15 release status](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.6.15).
+
+Previously published **1.6.14** and its [full user installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.6.14/ToBe-Full-Setup-1.6.14-win64.exe) remain available. This urgent fix uses exactly the same public library; paused content work is excluded.
+
+## Historical releases and builds
+
+The records below retain their original versions and validation scope; they do not describe the current installation.
+
 # ToBe · Current build
 
 **1.6.13 source and build · 2026-11-10**: integrates embedded DeepSeek, application shortcuts across focus targets, the existing-browser connector, review source restoration and accepted-submission recovery. Fixes the code-only header and presence ordering on rapid reopen. One real three-person AC and restart recovery have passed. Domestic promotion requires complete upgrade and real-judge evidence. [Notes](docs/releases/1.6.13.md) · [Acceptance scope](docs/verification/release1613-acceptance.md). Older downloads and historical records retain their original versions.

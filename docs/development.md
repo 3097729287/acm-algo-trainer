@@ -1,3 +1,7 @@
+## 1.6.15 异常窗口关闭
+
+`python -B -m unittest test_close_coordinator test_ui_recovery`（`PYTHONPATH=desktop;backend;backend/common`、`TB_OFFLINE=1`）验证保存与故障关闭边界。`desktop/tests/crash_close_native.py` 仅用于显式隔离的原生窗口复验，不能用于用户的正常进程。完整验证范围见 [关闭修复](verification/crash-close-20261110.md)。本版保留 1.6.14 公共内容，不合入暂停中的题面与翻译。
+
 ## 1.6.5 国内发行验证
 
 本版从已验证的题面与全屏阅读修订构建。公开种子为 13,417 道题、13,363 份题面、1,939 份默认题解和 1,938 份详细题解；不重新生成已有内容。发布前检查固定源码、生产前端、冻结程序、正式 1.6.4 原始更新器增量、新装／覆盖安装及个人数据保留。服务器沿用现有校验转发和更新清单，不更换账号服务、容器或数据库。
