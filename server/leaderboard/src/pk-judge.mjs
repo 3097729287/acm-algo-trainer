@@ -62,7 +62,7 @@ export function createAIJudge({endpoint,model,key,fetchImpl,timeoutMs=45000}={})
  if(url.protocol!=='https:'||url.username||url.password||url.search||url.hash||!url.pathname.endsWith('/chat/completions')
     ||typeof model!=='string'||!/^[^\s\x00-\x1f\x7f]{1,128}$/.test(model)||typeof key!=='string'||!/^[^\s\x00-\x1f\x7f]{1,4096}$/.test(key)
     ||!Number.isInteger(timeoutMs)||timeoutMs<1||timeoutMs>45000)throw new JudgeError('PK_AI_CONFIG',{retryable:false});
- const transport=fetchImpl??createJudgeHttpsFetch(url,{deadlineMs:timeoutMs});
+ const transport=fetchImpl===undefined?createJudgeHttpsFetch(url,{deadlineMs:timeoutMs}):fetchImpl;
  if(typeof transport!=='function')throw new JudgeError('PK_AI_CONFIG',{retryable:false});
  return async(problem,answers,{signal}={})=>{
   if(signal?.aborted)throw new JudgeError('PK_AI_CANCELLED',{retryable:false,cancelled:true});

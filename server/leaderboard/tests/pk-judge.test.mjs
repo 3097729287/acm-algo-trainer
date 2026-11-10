@@ -8,7 +8,7 @@ const response=value=>new Response(JSON.stringify({choices:[{message:{content:JS
 
 test('judge configuration is bounded before any provider request',()=>{
  assert.equal(createAIJudge({}),null);
- for(const change of [{endpoint:'http://example.invalid/chat/completions'},{endpoint:'https://example.invalid/'},{endpoint:'https://u:p@example.invalid/chat/completions'},{endpoint:endpoint+'?key=secret'},{model:'bad\nmodel'},{key:'bad key'},{timeoutMs:0},{timeoutMs:45001}]){
+ for(const change of [{endpoint:'http://example.invalid/chat/completions'},{endpoint:'https://example.invalid/'},{endpoint:'https://u:p@example.invalid/chat/completions'},{endpoint:endpoint+'?key=secret'},{model:'bad\nmodel'},{key:'bad key'},{timeoutMs:0},{timeoutMs:45001},{fetchImpl:null},{fetchImpl:false},{fetchImpl:{}}]){
   assert.throws(()=>createAIJudge({endpoint,model,key,...change}),error=>error instanceof JudgeError&&error.code==='PK_AI_CONFIG'&&!error.retryable);
  }
 });
