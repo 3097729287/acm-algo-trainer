@@ -12,6 +12,11 @@ async function request(base,path,body,key=''){
  return response.json();
 }
 async function exchange(job,body){return request(job.base,'exchange',{sessionId:job.sessionId,clientId:job.clientId,...body},job.key)}
+async function minimizeOwnedWindow(job){
+ if(!job.ownedWindowId||job.manual)return;
+ const tabs=await chrome.tabs.query({windowId:job.ownedWindowId});
+ if(tabs.length===1&&tabs[0].id===job.tabId)await chrome.windows.update(job.ownedWindowId,{state:'minimized',focused:false});
+}
 async function identities(tabs){
  const result={};
  await Promise.all(tabs.filter(t=>!t.incognito).slice(0,12).map(async tab=>{
@@ -31,16 +36,30 @@ async function createJob(item,base,clientId,windows,tabs){
   catch{delete saved[previous.tabId];await chrome.storage.session.set({jobs:saved})}
   return;
  }
- const regular=windows.filter(w=>!w.incognito);if(!regular.length)return;
+ const regular=windows.filter(w=>!w.incognito);
  const job={...item,base,clientId,owned:true};const claim=await exchange(job,{claim:true});
  if(['closed','error','finished'].includes(claim.status))return;
  const target=new URL(claim.url);if(target.protocol!=='https:'||!hosts.has(target.hostname))return;
  const matching=tabs.find(t=>!t.incognito&&new URL(t.url).hostname===target.hostname);
- const tab=await chrome.tabs.create({windowId:matching?.windowId||(regular.find(w=>w.focused)||regular[0]).id,url:'about:blank',active:false});
+ let tab;
+ if(regular.length){
+  tab=await chrome.tabs.create({windowId:matching?.windowId||(regular.find(w=>w.focused)||regular[0]).id,url:'about:blank',active:false});
+ }else{
+  // The registered browser can start with --no-startup-window. Create only
+  // this job's minimized window, using the same existing browser session.
+  const window=await chrome.windows.create({url:'about:blank',type:'normal',state:'minimized',focused:false});
+  tab=window.tabs?.[0];
+  if(!tab?.id)throw Error('Background submission window unavailable');
+  job.ownedWindowId=window.id;
+ }
  job.tabId=tab.id;job.targetHost=target.hostname;if(claim.manual)job.manual=true;
  saved[tab.id]=job;await chrome.storage.session.set({jobs:saved});
+ // Edge may return a normal, unfocused first window despite the create state.
+ // Enforce the requested state only while this is still the job's sole tab.
+ await minimizeOwnedWindow(job);
  // Mute this owned tab before navigating; other browser audio is untouched.
  await chrome.tabs.update(tab.id,{muted:true,url:target.href});
+ await minimizeOwnedWindow(job);
 }
 async function poll(){
  if(polling)return;polling=true;
@@ -51,7 +70,7 @@ async function poll(){
   const [windows,tabs]=await Promise.all([chrome.windows.getAll({windowTypes:['normal']}),chrome.tabs.query({url:patterns})]);
   const hints=await identities(tabs);
   for(const base of bases){try{
-   if(!connections.has(base))connections.set(base,(await request(base,'register',{clientId,protocol:4,extensionVersion:chrome.runtime.getManifest().version,browser:navigator.userAgent.includes('Edg/')?'edge':'chrome'})).key);
+   if(!connections.has(base))connections.set(base,(await request(base,'register',{clientId,protocol:4,backgroundWindows:true,extensionVersion:chrome.runtime.getManifest().version,browser:navigator.userAgent.includes('Edg/')?'edge':'chrome'})).key);
    const answer=await request(base,'queue',{clientId,hasWindow:windows.some(w=>!w.incognito),identities:hints},connections.get(base));
    seen.set(base,Date.now());
    for(const item of answer.jobs||[])await createJob(item,base,clientId,windows,tabs);
@@ -77,8 +96,11 @@ async function handle(message,sender){
  if(answer.navigate){const target=new URL(answer.navigate);if(target.protocol==='https:'&&target.hostname===job.targetHost&&target.href!==page.href)await chrome.tabs.update(job.tabId,{url:target.href})}
  if(answer.reveal&&['needs_login','needs_verification'].includes(answer.status)){
   if(job.revealedFor!==answer.status){job.revealedFor=answer.status;jobs[job.tabId]=job;await chrome.storage.session.set({jobs});
-   await chrome.tabs.update(job.tabId,{active:true});await chrome.windows.update(sender.tab.windowId,{focused:true});}
- }else if(job.revealedFor){delete job.revealedFor;jobs[job.tabId]=job;await chrome.storage.session.set({jobs})}
+   await chrome.tabs.update(job.tabId,{active:true});await chrome.windows.update(sender.tab.windowId,{state:'normal',focused:true});}
+ }else if(job.revealedFor){
+  delete job.revealedFor;jobs[job.tabId]=job;await chrome.storage.session.set({jobs});
+  if(job.ownedWindowId===sender.tab.windowId)await minimizeOwnedWindow(job);
+ }
  if(answer.stop){
   const latest=(await chrome.storage.session.get('jobs')).jobs||{};
   if(answer.closeOwned&&job.owned&&!job.manual){

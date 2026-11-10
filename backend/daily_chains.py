@@ -278,10 +278,15 @@ def snapshot(training, goal_tasks=None, evidence=None, *, completed=None):
         claimed = [row for row in current.values() if row['claimed_at']]
         visible_completed=sum(json.loads(row['definition']).get('lane') in ('fixed','review-random') for row in claimed)
         visible_completed+=sum(task['lane'] in ('fixed','review-random') and task['completed'] and not task['claimed'] for task in tasks)
+        # Count only issued challenges. The review lane does not add a random
+        # challenge until its actual review requirements have been settled.
+        random_ids = {row['id'] for row in claimed if json.loads(row['definition']).get('lane') == 'review-random'}
+        random_ids.update(task['id'] for task in tasks if task['lane'] == 'review-random')
+        visible_target = min(10, 3 + len(random_ids))
         return {'date': day, 'timezone': 'Asia/Shanghai', 'policyVersion': 3, 'tasks': tasks, 'goalTasks': goal_tasks,
                 'goalPending': sum(not task['accepted'] for task in goal_tasks), 'claimable': sum(task['completed'] and not task['claimed'] for task in tasks),
                 'completedCount': len(claimed), 'reviewLimit': limit, 'reviewCompleted': len(completed),
-                'displayCompletedCount':visible_completed,'displayTarget':min(10,max(3,visible_completed+1)),
+                'displayCompletedCount':visible_completed,'displayTarget':visible_target,
                 'displayComplete':visible_completed>=10,
                 'totalClaimedXp': sum(row['awarded_xp'] for row in claimed)}
 

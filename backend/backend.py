@@ -979,7 +979,9 @@ class LocalServer(ThreadingHTTPServer):
         with self.official_session_lock:
             context = self.official_sessions.get(identity)
             if context is None:
-                self.official_pending_receipts[identity] = dict(session)
+                previous=self.official_pending_receipts.get(identity) or {}
+                if previous.get('status')!='finished':
+                    self.official_pending_receipts[identity] = dict(session)
                 return None
         record = {"sessionId": identity, "submissionId": session.get("submissionId"),
                   "acceptedAt": session.get("acceptedAt"), "problemId": context["id"],
@@ -1052,19 +1054,36 @@ class LocalServer(ThreadingHTTPServer):
                 while len(self.official_pending_receipts) > 30:
                     self.official_pending_receipts.pop(next(iter(self.official_pending_receipts)))
         if session:
-            if receipt.get('manual'):
-                session = {**session, 'code': receipt.get('submittedCode', ''), 'external': not bool(receipt.get('submittedCode'))}
-            training = session.get('_training', self.training)
-            saved = training.record_official(session, receipt)
-            if saved and (session.get('teamIntentId') or session.get('sessionId')):
-                from team_workbench import record_receipt
-                record_receipt(training, saved, session, receipt)
-            if saved and receipt.get('submissionId'):
-                try:
-                    training.clear_official_pending(url=session.get('url'), code=session.get('code'),submission_id=receipt['submissionId'])
-                except Exception:
-                    pass
-            return saved
+            with self.official_session_lock:
+                save_lock=session.setdefault('_receiptLock',threading.RLock())
+            # Registration may have already saved a fast result while the bridge
+            # was still waiting for the HTTP open/submit response. Replaying that
+            # result must not re-open a completed review or recalculate rewards.
+            with save_lock:
+                fingerprint=(str(receipt.get('submissionId') or ''),receipt.get('verdict'),
+                             bool(receipt.get('manual')),receipt.get('submittedCode') if receipt.get('manual') else None)
+                saved=session.get('_savedOfficialReceipt')
+                if saved and session.get('_savedOfficialFingerprint')!=fingerprint:return None
+                context=session
+                if receipt.get('manual'):
+                    context={**session,'code':receipt.get('submittedCode',''),'external':not bool(receipt.get('submittedCode'))}
+                training=context.get('_training',self.training)
+                if not saved:
+                    saved=training.record_official(context,receipt)
+                    if not (isinstance(saved,dict) and saved.get('scope')=='official' and saved.get('mode')=='submit'
+                            and saved.get('verdict')==receipt.get('verdict') and saved.get('finishedAt')
+                            and re.match(r'^原站确认提交 #'+re.escape(fingerprint[0])+r'(?:\s|$)',str(saved.get('message') or ''))):return None
+                    session['_savedOfficialReceipt']=saved;session['_savedOfficialFingerprint']=fingerprint
+                if saved and not session.get('_teamReceiptSaved') and (context.get('teamIntentId') or context.get('sessionId')):
+                    from team_workbench import record_receipt
+                    record_receipt(training,saved,context,receipt)
+                    session['_teamReceiptSaved']=True
+                if saved and receipt.get('submissionId'):
+                    try:
+                        training.clear_official_pending(url=context.get('url'),code=context.get('code'),submission_id=receipt['submissionId'])
+                    except Exception:
+                        pass
+                return saved
         return None
 
     def translation_service(self):

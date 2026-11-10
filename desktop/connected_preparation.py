@@ -1,8 +1,10 @@
-"""A compact connection entry for the user's own browser; no browser launch."""
+"""Reuse the user's registered browser and wake it silently on submit intent."""
 import os
 from pathlib import Path
 import re
 import sys
+import threading
+import time
 
 from platform_login import SITES
 from official_bridge import submission_target
@@ -21,15 +23,40 @@ def connector_bundle_path(app_dir,state,port):
 
 
 class ConnectedPreparation:
-    def __init__(self,bridge,extension_path,opener=None):
+    def __init__(self,bridge,extension_path,opener=None,*,waker=None,clock=None,profiles=None):
         self.bridge,self.path=bridge,Path(extension_path)
         self.opener=opener or os.startfile
+        self.waker=waker or self._wake_registered
+        self.clock=clock or time.monotonic
+        self.profiles=profiles or self._registered_profiles
+        self.wake_lock=threading.Lock()
+        self.wake_at=float('-inf')
+        self.wake_started=False
+        self.profile_cache=[]
+        self.profile_at=float('-inf')
+
+    @staticmethod
+    def _registered_profiles():
+        if os.environ.get('TB_OFFLINE')=='1':return []
+        from silent_browser import registered_browsers
+        return list(registered_browsers())
+
+    @staticmethod
+    def _wake_registered():
+        from silent_browser import wake_browser
+        return wake_browser(unique=True)
 
     def snapshot(self):
         bridge=self.bridge
+        with self.wake_lock:
+            if self.clock()-self.profile_at>=30:
+                try:self.profile_cache=list(self.profiles())
+                except (OSError,ValueError):self.profile_cache=[]
+                self.profile_at=self.clock()
+            registered=list(self.profile_cache)
         expected_owners={platform:bridge.expected_owner(platform) if bridge.expected_owner else None for platform in SITES}
         with bridge.lock:
-            clients=[key for key in bridge.clients if bridge.client_protocols.get(key)==4 and bridge.client_windows.get(key)
+            clients=[key for key in bridge.clients if bridge.client_protocols.get(key)==4 and bridge._can_run(key)
                      and bridge.clock()-bridge.client_seen.get(key,-100)<=6]
             versions=sorted({bridge.client_versions.get(key,'') for key in clients})
             brands=sorted({bridge.brands.get(key,'chrome') for key in clients})
@@ -38,18 +65,30 @@ class ConnectedPreparation:
                 expected=expected_owners[platform]
                 client=bridge._client(platform,expected)
                 platforms.append({'platform':platform,'state':bridge.client_login_states.get(client,{}).get(platform,'unknown'),'loginUrl':url})
-        return {'available':True,'mode':'tabs','ready':bool(clients),'extensionPath':str(self.path),
-            'extension':{'installed':bool(clients),'connected':bool(clients),'versions':versions},
+        installed=bool(clients or registered)
+        return {'available':True,'mode':'tabs','ready':bool(clients) or len(registered)==1,'extensionPath':str(self.path),
+            'extension':{'installed':installed,'connected':bool(clients),'versions':versions},
             'preferredBrowser':brands[0] if len(brands)==1 else '',
             'browsers':[{'id':brand,'available':True} for brand in brands],
-            'platforms':platforms,'manualLoadRequired':not clients}
+            'platforms':platforms,'manualLoadRequired':not installed,'automaticStartup':True}
 
     def check_submission(self,url):
         target=submission_target(url)
         expected=self.bridge.expected_owner(target['platform']) if self.bridge.expected_owner else None
         with self.bridge.lock:
-            if not self.bridge._client(target['platform'],expected):
-                raise ServiceError(412,'请在账号设置的“浏览器连接”加载扩展，再继续提交；不会另开独立登录')
+            if self.bridge._client(target['platform'],expected):return
+        # Do not wait for the extension while the HTTP account barrier is held:
+        # its authenticated queue needs that same barrier to finish connecting.
+        # One explicit submit starts one bounded wake attempt; idle refreshes
+        # never launch a browser, create a login or touch another profile.
+        with self.wake_lock:
+            if self.clock()-self.wake_at>=10:
+                self.wake_at=self.clock()
+                try:self.wake_started=bool(self.waker())
+                except OSError:self.wake_started=False
+            if not self.wake_started:
+                raise ServiceError(412,'尚未找到可自动连接的常用浏览器。首次在账号设置启用浏览器连接后，提交会自动静默启动，无需预先打开浏览器。')
+        self.bridge.note_automatic_start()
 
     def action(self,body):
         action=body.get('action')

@@ -1,0 +1,78 @@
+{
+  "ok": true,
+  "out": "D:\\Temp\\T13HFix-20261110\\native-connected-50847a8b-e225-4beb-a7f3-0025e37cf50e",
+  "realOriginalSiteRequests": 0,
+  "realProviderRequests": 0,
+  "ordinaryProfilesUsed": false,
+  "personalDatabasesOpened": false,
+  "cleanup": {
+    "removed": [],
+    "reason": "Current production sources, prior tests and recovery proofs remain referenced."
+  },
+  "workerSha256": "d93f0743bafcd8ad81a13239ee7bfb988bf290951350125ff26ebda9ad98621d",
+  "manifestSha256": "be2a146d307a889b766f8eefc3628b053e26c830acd8847049110b34da2002a0",
+  "connectNoDefaults": true,
+  "browserVersion": "Edg/157.0.4341.42",
+  "ownedBrowserPid": 32620,
+  "chromeJobWindow": {
+    "state": "minimized",
+    "focused": false,
+    "type": "normal"
+  },
+  "clientViewport": null,
+  "nativeWindowBounds": {
+    "left": 10,
+    "top": 10,
+    "width": 1051,
+    "height": 896,
+    "windowState": "minimized"
+  },
+  "status": "passed",
+  "checks": [
+    "Actual extension registers backgroundWindows while no normal window exists",
+    "Actual minimized unfocused window, muted tab and synthetic native POST persist one CE",
+    "ACK closes only its owned submission tab; the extra owned-fixture tab remains minimized"
+  ],
+  "syntheticNativePosts": 1,
+  "loginCaptchaForegroundBranch": "VM-covered; not triggered on user desktop",
+  "bridgeProof": {
+    "register": [
+      {
+        "protocol": 4,
+        "backgroundWindows": true
+      }
+    ],
+    "queueWithoutWindow": 2,
+    "savedReceipts": 1,
+    "pendingReceipts": 1,
+    "inMemoryOnly": true,
+    "personalDatabaseOpened": false,
+    "registeredProfilesRead": false,
+    "realSiteRequests": 0
+  },
+  "windowEvents": [
+    {
+      "phase": "create-return",
+      "state": "normal",
+      "focused": false
+    },
+    {
+      "phase": "navigation-return",
+      "state": "minimized",
+      "focused": false
+    }
+  ],
+  "foreground": {
+    "samples": 185,
+    "ownedForegroundSamples": 0,
+    "otherProcessIdsExported": false
+  },
+  "ownedBrowserExitCode": 0,
+  "ownedFixtureExitCode": 0,
+  "pageErrors": [],
+  "blockedUnexpectedHosts": [],
+  "focusAttempts": [],
+  "clientWindowOverrides": [],
+  "onlyOwnBrowserAndFixtureClosed": true,
+  "workerSourceUnchanged": true
+}

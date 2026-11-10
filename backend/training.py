@@ -591,10 +591,29 @@ class TrainingService:
             from reviews import ReviewScheduler
             reviews = ReviewScheduler(self)
             review_id = session.get('reviewId') or reviews.read('review-session:' + str(session.get('sessionId', '')))
-            review = self.review_task(row['id'], review_id, session.get('contestId')) if review_id else None
             key=canonical_url(session['url'])
             if not key or canonical_url(row.get('url') or self._asset_library().problem(row['id']).get('url'))!=key:
                 raise ServiceError(409,"官方回执与本题不一致")
+            identity='official-'+hashlib.sha256((str(urlsplit(session['url']).hostname)+'/'+remote).encode()).hexdigest()
+            existing=self.connection.execute('SELECT * FROM submissions WHERE id=?',(identity,)).fetchone()
+            if existing and session.get('readOnlyRestore'):
+                # A completed review is no longer openable. Read back only this
+                # account's exact durable receipt, before checking a new task grant.
+                accepted=receipt.get('acceptedAt') or session.get('acceptedAt')
+                try:accepted=iso(parse_time(accepted)) if accepted else None
+                except (ValueError,TypeError,AttributeError):return None
+                if (session.get('_training',self) is not self or existing['problem_id']!=row['id']
+                        or existing['scope']!='official' or existing['mode']!='submit' or existing['verdict']!=verdict
+                        or existing['code']!=self._code(session.get('code',''))
+                        or self._read_language('submission-language:'+identity)!=language
+                        or existing['contest_id']!=session.get('contestId')
+                        or reviews.read('review-receipt:'+identity)!=review_id
+                        or not accepted or existing['submitted_at']!=accepted
+                        or not existing['finished_at']
+                        or not re.match(r'^原站确认提交 #'+re.escape(remote)+r'(?:\s|$)',existing['message'])):
+                    return None
+                return self._submission(existing)
+            review = self.review_task(row['id'], review_id, session.get('contestId')) if review_id else None
             contest = self.assert_official_allowed(row['id'], session.get('contestId'), receipt=True)
             accepted_at = receipt.get('acceptedAt') or session.get('acceptedAt')
             try:
@@ -612,13 +631,6 @@ class TrainingService:
             contest_id = None
             if contest and contest['started_at'] <= submitted <= min(contest['deadline'], contest['finished_at'] or contest['deadline']):
                 contest_id = contest['id']
-            identity='official-'+hashlib.sha256((str(urlsplit(session['url']).hostname)+'/'+remote).encode()).hexdigest()
-            existing=self.connection.execute('SELECT * FROM submissions WHERE id=?',(identity,)).fetchone()
-            if existing and session.get('readOnlyRestore'):
-                if existing['problem_id']!=row['id'] or existing['scope']!='official' or existing['verdict']!=verdict:
-                    return None
-                # Recovery never enriches or recomputes an already final record.
-                return self._submission(existing)
             if not contest_id:
                 from submission_evidence import matching_contest
                 candidate=matching_contest({'problem_id':row['id'],'submitted_at':existing['submitted_at'] if existing else submitted},

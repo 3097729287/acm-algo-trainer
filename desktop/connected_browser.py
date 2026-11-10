@@ -13,7 +13,7 @@ import uuid
 from urllib.parse import urlsplit
 
 from browser_bridge import BrowserBridge,TERMINAL,VERDICTS
-from official_bridge import LOGIN_HOSTS,submission_target
+from official_bridge import LOGIN_HOSTS,submission_target,freeze_terminal_receipt,persist_official_receipt
 from official_recovery import nowcoder_binding
 from platform_login import valid_identity
 from training import ServiceError
@@ -26,7 +26,14 @@ class ConnectedBrowserBridge(BrowserBridge):
         super().__init__(base_url,guard,on_receipt,on_pending,opener=self._no_open,clock=clock)
         self.stopping=threading.Event();self.on_status=on_status
         self.current_owner=current_owner;self.expected_owner=expected_owner;self.on_identity=on_identity;self.legacy_proof=legacy_proof
-        self.owners={};self.brands={};self.contexts={}
+        self.owners={};self.brands={};self.contexts={};self.client_background_windows={}
+        self.automatic_start_until=float('-inf')
+
+    def note_automatic_start(self):
+        with self.lock:self.automatic_start_until=self.clock()+20
+
+    def _waiting_status(self,client,intent):
+        return 'loading' if client or intent and self.clock()<self.automatic_start_until else 'needs_browser'
 
     def _current(self,owner):
         return not self.stopping.is_set() and (not self.current_owner or self.current_owner() is owner)
@@ -44,6 +51,7 @@ class ConnectedBrowserBridge(BrowserBridge):
         with self.lock:
             self.clients.setdefault(client,secrets.token_urlsafe(32));self.client_protocols[client]=4
             self.client_versions[client]=str(body.get('extensionVersion',''))[:32]
+            self.client_background_windows[client]=body.get('backgroundWindows') is True
             self.brands[client]='edge' if body.get('browser')=='edge' else 'chrome'
             return {'key':self.clients[client],'mode':'tabs','protocol':4,'cookieSync':False}
 
@@ -51,11 +59,14 @@ class ConnectedBrowserBridge(BrowserBridge):
         raise ServiceError(410,'浏览器会话导出已停用；请使用纯标签页连接')
 
     def _client(self,platform,expected=None):
-        live=[key for key in self.clients if self.client_protocols.get(key)==4 and self.client_windows.get(key)
+        live=[key for key in self.clients if self.client_protocols.get(key)==4 and self._can_run(key)
               and self.clock()-self.client_seen.get(key,-100)<=6]
         matching=[key for key in live if expected and self.owners.get(key,{}).get(platform,'').casefold()==expected.casefold()]
         if len(matching)==1:return matching[0]
         return live[0] if len(live)==1 else None
+
+    def _can_run(self,client):
+        return self.client_windows.get(client) or self.client_background_windows.get(client)
 
     def browser_queue(self,body,capability):
         client=body.get('clientId')
@@ -67,6 +78,7 @@ class ConnectedBrowserBridge(BrowserBridge):
             if 'cookies' in body or 'syncPlatforms' in body:
                 raise ServiceError(410,'不接受浏览器会话导出')
             self.client_seen[client]=self.clock();self.client_windows[client]=body.get('hasWindow') is True
+            if 'backgroundWindows' in body:self.client_background_windows[client]=body['backgroundWindows'] is True
             hints=body.get('identities',{})
             if not isinstance(hints,dict) or set(hints)-LOGIN_HOSTS.keys():raise ServiceError(400,'浏览器账号提示无效')
             self.owners[client]={platform:handle for platform,value in hints.items() if (handle:=valid_identity(value,platform))}
@@ -76,20 +88,30 @@ class ConnectedBrowserBridge(BrowserBridge):
                 self._expire(session)
                 if session.get('released'):continue
                 if self.current_owner and session.get('_owner') is not owner:continue
+                if (not session.get('preferredClient') and session.get('submitRequested')
+                        and not session.get('attempted') and session.get('dispatchedAt') is None
+                        and session['status'] not in TERMINAL):
+                    selected=self._client(session['platform'],session.get('expectedOwner'))
+                    if selected:session.update(preferredClient=selected,intent=True,status='loading',
+                        message='浏览器已自动连接，正在后台准备本次提交。')
                 if session.get('readOnlyRestore'):
                     if not session.get('prepared'):continue
                     if not session.get('preferredClient'):session['preferredClient']=self._client(session['platform'],session.get('expectedOwner'))
                     if session.get('preferredClient')==client and session['status']=='needs_browser':session['status']='judging'
-                if session.get('preferredClient')==client and session['status']=='needs_browser' and self.client_windows[client]:session['status']='loading'
+                if session.get('preferredClient')==client and session['status']=='needs_browser' and self._can_run(client):session['status']='loading'
                 if session.get('preferredClient')!=client or session['status'] in TERMINAL and not (session['status']=='finished' and not session.get('windowClosed')):continue
-                if not self.client_windows[client]:continue
+                if not self._can_run(client):continue
                 jobs.append({'sessionId':session['sessionId'],'key':session['capability']})
             return {'mode':'tabs','protocol':4,'jobs':jobs}
 
     def _expire(self,session):
+        if session.get('_terminalReceipt'):return
         if session['status'] in TERMINAL:return
         now=self.clock()
-        if now-session['createdAt']>900:
+        if (not session.get('preferredClient') and session.get('submitRequested') and not session.get('attempted')
+                and session.get('dispatchedAt') is None and now-session['createdAt']>20):
+            session.update(status='error',intent=False,message='浏览器自动连接超时，尚未发送提交；请确认已启用 ToBe 浏览器连接后重试。')
+        elif now-session['createdAt']>900:
             session.update(status='unconfirmed' if session.get('attempted') else 'error',intent=False,
                            message='原站查询已暂停，编号和代码已保留；可重连查询，不会重复提交。')
         elif session.get('preferredClient') and now-self.client_seen.get(session['preferredClient'],-100)>8:
@@ -112,25 +134,26 @@ class ConnectedBrowserBridge(BrowserBridge):
                 if not intent:session.update(autoClose=False,manualWindow=True,revealRequested=True)
                 if intent and not session.get('attempted') and session.get('dispatchedAt') is None:
                     client=session.get('preferredClient') or self._client(target['platform'],expected)
-                    session.update(preferredClient=client,intent=bool(client),submitRequested=True,status='loading' if client else 'needs_browser')
-                return self.status(session['sessionId'])
+                    session.update(preferredClient=client,intent=bool(client),submitRequested=True,status=self._waiting_status(client,True))
+                return self.status(session['sessionId'],retry=False)
             if sum(s['status'] not in TERMINAL and not s.get('released') for s in self.sessions.values())>=8:
                 raise ServiceError(409,'请先处理尚未结束的原站任务')
             identity='official-'+uuid.uuid4().hex;client=self._client(target['platform'],expected)
             session=dict(target,sessionId=identity,code=code,title=str(title),language=language,
                 capability=secrets.token_urlsafe(32),createdAt=self.clock(),createdWall=time.time(),command=0,
                 preferredClient=client,intent=bool(intent and client),submitRequested=bool(intent),attempted=False,baseline=[],baselineKnown=False,
-                status='loading' if client else 'needs_browser',autoClose=bool(intent),manualWindow=not intent,
+                status=self._waiting_status(client,intent),autoClose=bool(intent),manualWindow=not intent,
                 revealRequested=not intent,expectedOwner=expected,_authorization=authorization,
                 _owner=owner,
-                message='正在使用常用浏览器现有会话。' if client else '请先在常用浏览器加载 ToBe 浏览器连接，再继续；不会另开登录。')
+                message='正在使用常用浏览器现有会话。' if client else '正在等待浏览器自动连接；连接后会在后台继续，尚未发送提交。')
             self.sessions[identity]=session;self.contexts[identity]=context
         return self.status(identity)
 
     def submit(self,url,code,title,language='cpp17'):return self._open(url,code,title,True,language)
     def open(self,url,code,title,language='cpp17'):return self._open(url,code,title,False,language)
 
-    def status(self,identity):
+    def status(self,identity,*,retry=True):
+        if retry:persist_official_receipt(self,identity)
         with self.lock:
             session=self.sessions.get(identity)
             if not session:raise ServiceError(404,'没有找到原站提交会话')
@@ -188,14 +211,15 @@ class ConnectedBrowserBridge(BrowserBridge):
             if not s or not s.get('readOnlyRestore'):raise ServiceError(404,'没有找到原提交恢复会话')
             if self.current_owner and owner is not s.get('_owner'):raise ServiceError(403,'请先恢复本次提交所属账号')
             if visible:s.update(manualWindow=True,autoClose=False,revealRequested=True)
-            if not s.get('prepared'):
+            if s.get('_terminalReceipt'):pass
+            elif not s.get('prepared'):
                 if not s.get('preparingRecovery'):
                     s['preparingRecovery']=True
                     threading.Thread(target=self._prepare_recovery,args=(identity,),name='tb-recheck-evidence',daemon=True).start()
             else:
                 s['preferredClient']=s.get('preferredClient') or self._client(s['platform'],s.get('expectedOwner'))
                 s.update(status='judging' if s.get('preferredClient') else 'needs_browser',intent=False)
-            return self.status(identity)
+        return self.status(identity)
 
     def _guard(self,session):
         if session.get('readOnlyRestore'):return
@@ -254,6 +278,8 @@ class ConnectedBrowserBridge(BrowserBridge):
                 close=bool(session.get('saved') and session.get('displayAcknowledged') and session.get('autoClose'))
                 return {'stop':close or session.get('saved') and not session.get('autoClose'),'closeOwned':close,'status':'finished','awaitingDisplayAck':not close}
             if session['status'] in ('closed','error'):return {'stop':True,'closeOwned':False,'status':session['status']}
+            if session.get('_terminalReceipt'):
+                return {'ack':True,'status':session['status'],'awaitingReceiptSave':True}
             reveal=session['status'] in ('needs_login','needs_verification')
             if isinstance(event,dict):
                 answer={'ack':True,'reveal':reveal,'status':session['status']}
@@ -279,7 +305,7 @@ class ConnectedBrowserBridge(BrowserBridge):
 
     def _update(self,session,value,inspection=False):
         status=value.get('status')
-        if session['status'] in ('closed','finished') or status not in {'loading','ready','submitted','judging','finished','needs_login','needs_verification','unconfirmed','error','awaiting_submit'}:return
+        if session.get('_terminalReceipt') or session['status'] in ('closed','finished') or status not in {'loading','ready','submitted','judging','finished','needs_login','needs_verification','unconfirmed','error','awaiting_submit'}:return
         if session.get('readOnlyRestore') and status=='error':status='unconfirmed'
         remote=str(value.get('submissionId') or session.get('submissionId') or '')
         if remote and (not remote.isascii() or not remote.isdigit() or int(remote)<=0):return
@@ -316,24 +342,11 @@ class ConnectedBrowserBridge(BrowserBridge):
         session['status']=status
         if remote:session['submissionId']=remote
         if session.get('attempted'):session.setdefault('acceptedAt',dt.datetime.now(dt.timezone.utc).isoformat())
-        if status=='finished':session['verdict']=value['verdict']
+        if status=='finished':
+            session['verdict']=value['verdict'];freeze_terminal_receipt(session,message=value.get('message'))
 
     def _persist(self,identity):
-        with self.lock:
-            session=self.sessions[identity]
-            if session.get('persisting'):return
-            session['persisting']=True;snapshot=dict(session)
-        try:
-            if snapshot.get('submissionId') and self.on_pending:self.on_pending(identity,snapshot)
-            if snapshot['status']=='finished' and not snapshot.get('saved'):
-                try:saved=self.on_receipt(identity,snapshot) if self.on_receipt else None
-                except Exception:saved=None
-                with self.lock:
-                    if isinstance(saved,dict):session.update(saved=True,receiptSaved=True,submission=saved.get('submission',saved))
-                    else:session.update(status='unconfirmed' if session.get('readOnlyRestore') else 'judging',message='原回执保存尚未完成，编号已保留，不会重交。')
-        finally:
-            with self.lock:
-                session['persisting']=False
+        persist_official_receipt(self,identity)
         if self.on_status:
             try:self.on_status(self.status(identity))
             except Exception:pass

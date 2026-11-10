@@ -22,7 +22,7 @@ import uuid
 from urllib.parse import urlsplit
 from urllib.request import build_opener, ProxyHandler
 
-from official_bridge import LOGIN_HOSTS, page_source, submission_target
+from official_bridge import LOGIN_HOSTS, page_source, submission_target, freeze_terminal_receipt, persist_official_receipt
 from training import ServiceError
 
 
@@ -465,10 +465,10 @@ class ExternalBrowserBridge:
                 raise ServiceError(403,'请先恢复该提交所属账号')
             if visible:
                 session.update(explicitVisible=True,_manualWindow=True,autoClose=False)
-            if session['status']=='unconfirmed':
+            if not session.get('_terminalReceipt') and session['status']=='unconfirmed':
                 session.update(status='judging',intent=False,dispatched=True,created=time.monotonic())
                 threading.Thread(target=self._run_restore,args=(identity,),name='tb-recheck-recovery',daemon=True).start()
-            return self.status(identity)
+        return self.status(identity)
 
     def _open(self, url, code, title, intent, language='cpp17'):
         authorization = self.guard(url) if self.guard else None
@@ -503,7 +503,7 @@ class ExternalBrowserBridge:
                     elif session['status']=='unconfirmed' and session.get('readOnlyRestore'):
                         session.update(status='judging',created=time.monotonic(),intent=False,dispatched=True)
                         threading.Thread(target=self._run_restore,args=(session['sessionId'],),name='tb-recheck-recovery',daemon=True).start()
-                    return self.status(session['sessionId'])
+                    return self.status(session['sessionId'],retry=False)
             if sum(item['status'] not in self.terminal for item in self.sessions.values()) >= 8:
                 raise ServiceError(409, '请先处理已有的浏览器提交，再打开新的提交页')
             if intent and any(item['originalUrl'] == url and item.get('attempted') and (item['status'] not in self.terminal or item['status']=='unconfirmed') for item in self.sessions.values()):
@@ -526,12 +526,13 @@ class ExternalBrowserBridge:
     def submit(self, url, code, title, language='cpp17'):
         return self._open(url, code, title, True, language)
 
-    def status(self, identity):
+    def status(self, identity, *, retry=True):
+        if retry:persist_official_receipt(self,identity)
         with self.lock:
             session = self.sessions.get(identity)
             if not session:
                 raise ServiceError(404, '没有找到本次浏览器提交')
-            result = {key: value for key, value in session.items() if key not in
+            result = {key: value for key, value in session.items() if not key.startswith('_') and key not in
                     {'code', 'title', 'intent', 'created', 'focus', 'originalUrl', 'target', 'dispatching', 'dispatched', 'awaitingLogin', 'explicitVisible', '_guardAuthorization', '_manualWindow', '_resumeTarget', '_resumeNavigate', '_restoreRecord', '_restoreOwner', '_recoveryVerified', 'receiptBinding'}}
             if result['status'] == 'finished' and self.on_receipt and not result.get('receiptSaved'):
                 result['status'] = 'judging'
@@ -542,7 +543,7 @@ class ExternalBrowserBridge:
             return
         with self.lock:
             session = self.sessions.get(identity)
-            if not session or session['status'] in ('finished', 'closed'):
+            if not session or session.get('_terminalReceipt') or session['status'] in ('finished', 'closed'):
                 return
             status = value.get('status')
             if session.get('readOnlyRestore') and status=='error':status='unconfirmed';value={**value,'status':status}
@@ -554,6 +555,19 @@ class ExternalBrowserBridge:
             previous = str(session.get('submissionId') or '')
             if remote and previous and remote != previous:
                 return  # Once accepted, a different SID cannot finish this job.
+            manual_proof=session.get('_manualAcceptedProof')
+            if manual_proof and status in ('judging','finished'):
+                from official_recovery import nowcoder_binding
+                if (remote!=manual_proof['submissionId'] or
+                        nowcoder_binding(value.get('receiptBinding'),session['originalUrl'])!=manual_proof['binding']):return
+            if status in ('judging','finished'):
+                remote=remote or previous
+                manual_accept=(status=='judging' and value.get('attempted') is True and session.get('_manualWindow')
+                               and manual_proof and remote==manual_proof['submissionId'])
+                if not (session.get('attempted') or manual_accept) or not remote.isascii() or not remote.isdecimal() or int(remote)<=0:
+                    return
+                if status=='finished' and value.get('verdict') not in ('AC','WA','TLE','MLE','RE','CE','OLE'):
+                    return
             if status in ('judging', 'finished') and session.get('platform') == 'Codeforces':
                 if not session.get('attempted') or not remote.isdecimal() or int(remote) <= 0:
                     return
@@ -588,6 +602,7 @@ class ExternalBrowserBridge:
                         continue
                     if key == 'attempted' and inspection and session.get('attempted') and not value[key]:
                         continue  # An inspection begun before the click may finish after it.
+                    if key=='attempted' and session.get('attempted') and not value[key] and status!='error':continue
                     session[key] = value[key]
             session['updatedAt'] = dt.datetime.now(dt.timezone.utc).isoformat()
             if session.get('attempted'):
@@ -598,23 +613,8 @@ class ExternalBrowserBridge:
                 session['intent'] = False
             if status in ('needs_login', 'needs_verification', 'error'):
                 session['dispatching'] = False
-            snapshot = dict(session)
-        if snapshot.get('submissionId') and self.on_pending:
-            self.on_pending(identity, snapshot)
-        if status == 'finished' and self.on_receipt:
-            try:
-                saved = self.on_receipt(identity, snapshot)
-            except Exception:
-                saved = False
-            if not saved:
-                with self.lock:
-                    session.update(status='unconfirmed' if session.get('readOnlyRestore') else 'judging',
-                                   message='原回执校验或保存尚未完成，编号已保留，请重新查询；不会重交。' if session.get('readOnlyRestore') else '回执已取得，正在重试保存…')
-            else:
-                with self.lock:
-                    session['receiptSaved']=True
-                    if isinstance(saved, dict):
-                        session['submission'] = saved.get('submission', saved)
+            if status=='finished':freeze_terminal_receipt(session,message=value.get('message'))
+        persist_official_receipt(self,identity)
         if self.on_status and changed:
             try:
                 self.on_status(self.status(identity))
@@ -627,6 +627,31 @@ class ExternalBrowserBridge:
         value = json.loads(event.get('payload', '{}'))
         if value.get('sessionId') != identity:
             return
+        with self.lock:
+            current=self.sessions.get(identity) or {}
+            manual=(current.get('_manualWindow') and current.get('platform')=='牛客'
+                and not current.get('attempted') and current.get('status') not in self.terminal
+                and value.get('status')=='judging' and value.get('attempted') is True)
+            snapshot=dict(current)
+        if manual:
+            # Vue/AJAX has no native form-submit event. Accept only the owned
+            # page's armed observer, its immutable source and its exact newly
+            # accepted ID/owner/task/type. A bare terminal event grants nothing.
+            from official_recovery import legacy_nowcoder_proof,nowcoder_binding,source_hash
+            remote=str(value.get('submissionId') or '')
+            binding=nowcoder_binding(value.get('receiptBinding'),snapshot.get('originalUrl',''))
+            if binding and remote.isascii() and remote.isdecimal() and int(remote)>0:
+                record={'sessionId':identity,'submissionId':remote,'url':snapshot['originalUrl'],'code':snapshot['code'],
+                        'metadata':{'language':snapshot.get('language','cpp17')}}
+                try:proof=legacy_nowcoder_proof(page,record)
+                except Exception:proof=None
+                submitted=value.get('submittedCode')
+                if (proof and proof['binding']==binding and
+                        (submitted is None or isinstance(submitted,str) and source_hash(submitted)==source_hash(snapshot['code']))):
+                    with self.lock:
+                        current=self.sessions.get(identity)
+                        if current is not None and not current.get('attempted') and current.get('status') not in self.terminal:
+                            current['_manualAcceptedProof']={'submissionId':remote,'binding':binding}
         self._update(identity, value)
         # Acknowledge the pre-click checkpoint only after the state was stored.
         ack = value.get('ack')
@@ -689,6 +714,11 @@ class ExternalBrowserBridge:
                 page.wake.clear()
                 with self.lock:
                     session = dict(self.sessions[identity])
+                if session.get('_terminalReceipt') and self.on_receipt and not session.get('receiptSaved'):
+                    persist_official_receipt(self,identity)
+                    page.wake.wait(.5)
+                    continue  # Original-site polling ends once this exact SID is terminal.
+                with self.lock:
                     if session['status'] in self.terminal:
                         return
                 if session.get('readOnlyRestore') and self.recovery_current and not self.recovery_current(session.get('_restoreOwner')):
@@ -773,6 +803,8 @@ class ExternalBrowserBridge:
                 raise ServiceError(404,'没有找到本次提交')
             if session.get('windowClosed'):
                 return {'closed':True}
+            if session.get('_ackClosing'):
+                return {'closed':False}
             if session.get('status')!='finished' or not session.get('receiptSaved') or not session.get('autoClose'):
                 return {'closed':False}
             saved=session.get('submission')
@@ -784,12 +816,15 @@ class ExternalBrowserBridge:
                     or not isinstance(saved.get('message'),str) or not re.match(r'^原站确认提交 #'+remote+r'(?:\s|$)',saved['message'])):
                 return {'closed':False}
             target=session.get('target')
-        if not target:
-            return {'closed':False}
-        closed=self.browser.close_page(target)
-        if closed:
+            if not target:return {'closed':False}
+            session['_ackClosing']=True
+        closed=False
+        try:
+            closed=self.browser.close_page(target)
+        finally:
             with self.lock:
-                session['windowClosed']=True
+                session['_ackClosing']=False
+                if closed:session['windowClosed']=True
         return {'closed':bool(closed)}
 
     def close(self, identity):

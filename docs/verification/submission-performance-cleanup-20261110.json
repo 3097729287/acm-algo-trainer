@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-10",
+  "scope": "Submission state, native input dispatch, browser integration and daily task counter hotfix",
+  "baseCommit": "4001aac3fe972d6ab83eb40af994ca1a431855ba",
+  "inspectionBeforeChanges": {
+    "worktreeClean": true,
+    "freshSparseCheckout": true,
+    "reviewedDirectories": ["backend", "desktop", "frontend/src", "frontend/tests", "scripts", "docs/verification"],
+    "temporaryOrObsoleteCandidates": [],
+    "retained": [
+      "Current official browser implementations and recovery adapters still referenced by code or tests",
+      "Earlier verification and cleanup records used as historical release evidence",
+      "Existing test fixtures and third-party libraries",
+      "All personal data, browser login profiles, drafts and submission history outside this isolated checkout"
+    ]
+  },
+  "removedFiles": [],
+  "laterRuntimeCleanup": {
+    "closedTestBrowserRootPids": [28116, 33216, 26748],
+    "verification": "Each dedicated test profile endpoint was matched to its live browser PID using SystemInfo.getProcessInfo before Browser.close. All three parent test launchers had already exited. All three browser roots were confirmed gone afterwards.",
+    "preserved": "Ordinary ToBe PID 32192, ordinary Edge PID 36628, all browser profiles, all files and historical verification records",
+    "freeMemoryGiBAfter": 6.46,
+    "detailRecord": "D:/Temp/T13HFix-20261110/owned-test-browser-cleanup.json"
+  },
+  "result": "No independently verified unused files in the targeted fresh checkout; no file deletion is justified. Three obsolete test-only browser process groups were gracefully closed after exact ownership verification. Superseded behavior will be replaced in place and dead references checked with the changes. No ordinary application or browser data was accessed."
+}

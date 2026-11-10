@@ -71,7 +71,7 @@ class ConnectedBrowserTests(unittest.TestCase):
         self.now=20
         with patch('webbrowser.open') as opened:
             self.assertEqual(self.create()['status'],'needs_browser')
-            with self.assertRaises(ServiceError):ConnectedPreparation(self.bridge,'.',opener=Mock()).check_submission(self.url)
+            with self.assertRaises(ServiceError):ConnectedPreparation(self.bridge,'.',opener=Mock(),waker=lambda:False).check_submission(self.url)
             self.assertEqual(opened.mock_calls,[])
 
     def test_only_fixed_client_can_claim_and_disconnect_never_switches(self):
@@ -81,6 +81,37 @@ class ConnectedBrowserTests(unittest.TestCase):
         self.assertEqual(self.bridge.status(self.sid)['status'],'needs_browser')
         self.assertEqual(self.bridge.sessions[self.sid]['preferredClient'],self.client)
         self.assertEqual(self.queue(other,other_key,'67890')['jobs'],[])
+
+    def test_background_connector_binds_a_waiting_submit_once_without_a_normal_window(self):
+        self.now=20;self.create();session=self.bridge.sessions[self.sid]
+        self.assertFalse(session['intent']);self.assertIsNone(session['preferredClient'])
+        client=str(uuid.uuid4());key=self.bridge.register_browser({'clientId':client,'protocol':4,'backgroundWindows':True})['key']
+        body={'clientId':client,'hasWindow':False,'backgroundWindows':True,'identities':{'牛客':self.proof()}}
+        jobs=self.bridge.browser_queue(body,key)['jobs']
+        self.assertEqual([job['sessionId'] for job in jobs],[self.sid]);self.assertTrue(session['intent'])
+        self.assertEqual(session['status'],'loading');self.client,self.key=client,key
+        self.exchange({'status':'ready'});self.assertEqual(self.exchange()['action'],'submit')
+        self.exchange({'status':'submitted','attempted':True})
+        other,other_key=self.connect();self.assertEqual(self.queue(other,other_key)['jobs'],[])
+        self.assertEqual(session['preferredClient'],client);self.assertEqual(self.exchange()['action'],'inspect')
+
+    def test_legacy_connector_still_needs_a_normal_window_and_wait_is_bounded(self):
+        self.now=20;self.create();session=self.bridge.sessions[self.sid]
+        client=str(uuid.uuid4());key=self.bridge.register_browser({'clientId':client,'protocol':4})['key']
+        body={'clientId':client,'hasWindow':False,'identities':{'牛客':self.proof()}}
+        self.assertEqual(self.bridge.browser_queue(body,key)['jobs'],[]);self.assertIsNone(session['preferredClient'])
+        self.now+=21;self.assertEqual(self.bridge.status(self.sid)['status'],'error');self.assertFalse(session['attempted'])
+        self.assertEqual(self.bridge.browser_queue({**body,'hasWindow':True},key)['jobs'],[])
+        self.assertEqual(session['status'],'error')
+
+    def test_delayed_connector_cannot_bind_another_account_or_rearm_a_dispatch(self):
+        self.now=20;self.create();session=self.bridge.sessions[self.sid];original=self.owner
+        self.owner=object();client,key=self.connect();self.assertEqual(self.queue(client,key)['jobs'],[])
+        self.assertIsNone(session['preferredClient']);self.owner=original
+        for field,value in (('dispatchedAt',self.now),('attempted',True)):
+            with self.subTest(field=field):
+                session.pop('dispatchedAt',None);session['attempted']=False;session[field]=value
+                self.assertEqual(self.queue(client,key)['jobs'],[]);self.assertIsNone(session['preferredClient'])
 
     def test_exact_owner_and_task_page_required_before_any_native_click(self):
         self.create();self.exchange({'status':'ready','ownerProof':self.proof('67890')})

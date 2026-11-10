@@ -79,24 +79,55 @@ class NativeShortcuts:
         self.binding = self.view_id = None
         self.bindings, self.events, self.held = {}, [], set()
         self.active = False
+        self.native = None
+        self.native_error = None
+        self.native_generation = self.native_sequence = 0
+
+    def _sync_native(self):
+        with self.lock:
+            native = self.native
+            keys, serial, active, generation = list(self.bindings), self.serial, self.active, self.native_generation
+        if native is not None:
+            from System import Array, String
+            native.Configure(Array[String](keys), serial, active, generation)
+
+    def attach_native(self, native):
+        with self.lock:
+            self.native = native
+            self.native_error = None
+            self.native_sequence = 0
+            self.native_generation += 1
+            self.events.clear()
+        self._sync_native()
+
+    def native_failed(self, code):
+        with self.lock:
+            self.native = None
+            self.native_error = code
+            self.native_generation += 1
 
     def configure(self, registration, binding, view_id):
         registration = validate_registration(registration)
+        bindings = {}
+        for item in registration['bindings']:
+            bindings.setdefault(combination(item['combo']), {'route': item['route'], 'id': item['id']})
         with self.lock:
-            if (registration['serial'], binding, view_id) != (self.serial, self.binding, self.view_id):
+            if (registration['serial'], binding, view_id) != (self.serial, self.binding, self.view_id) or bindings != self.bindings:
                 self.events.clear()
+                self.native_generation += 1
             self.serial, self.binding, self.view_id = registration['serial'], binding, view_id
-            self.bindings = {}
-            for item in registration['bindings']:
-                self.bindings.setdefault(combination(item['combo']), {'route': item['route'], 'id': item['id']})
+            self.bindings = bindings
             self.active = bool(self.bindings)
+        self._sync_native()
 
     def pause(self):
         with self.lock:
             self.active = False
             self.events.clear()
+            self.native_generation += 1
             # Keep registered held keys until their real key-up, so a redraw,
             # context change or long save cannot turn repeat into another run.
+        self._sync_native()
 
     def listening(self):
         with self.lock:
@@ -128,11 +159,34 @@ class NativeShortcuts:
             return True
 
     def snapshot(self, binding):
+        # Native callbacks write only to the CLR ring. Python locks, HTTP
+        # handlers and a blocked UI/sender cannot delay system input delivery.
+        native = self.native
+        if native is not None:
+            now_native = native.ClockNow()
+            pending = [(str(event.Combo), int(event.Serial), int(event.Sequence), int(event.Generation),
+                        float(native.Age(now_native, event.Time))) for event in native.Commands()]
+            with self.lock:
+                if native is self.native:
+                    for combo, serial, sequence, generation, age in pending:
+                        if sequence <= self.native_sequence:
+                            continue
+                        self.native_sequence = sequence
+                        command = self.bindings.get(combo)
+                        if (command is not None and generation == self.native_generation and serial == self.serial
+                                and self.active and 0 <= age <= 2):
+                            self.sequence += 1
+                            self.events.append({**command, 'sequence': self.sequence, 'time': self.clock() - age})
+                    self.events = self.events[-32:]
         with self.lock:
             active = bool(self.active and binding == self.binding)
             now = self.clock()
-            return {'available': active, 'viewId': self.view_id if active else None,
+            value = {'available': active and self.native_error is None, 'viewId': self.view_id if active else None,
                     'registration': self.serial, 'sequence': self.sequence,
                     'actions': [{key: value for key, value in event.items() if key != 'time'} |
                                 {'ageSeconds': max(0., now - event['time'])}
                                 for event in self.events if active and 0 <= now - event['time'] <= 2]}
+            if self.native_error is not None:
+                value['errorCode'] = self.native_error
+                value['actions'] = []
+            return value

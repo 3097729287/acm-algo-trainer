@@ -29,10 +29,15 @@ def registered_browsers(local=None, program=None):
                     pass
 
 
-def wake_browser():
+def wake_browser(*, unique=False):
     if os.name != 'nt' or os.environ.get('TB_OFFLINE') == '1':
         return False
-    for executable, profile in registered_browsers():
+    profiles = list(registered_browsers())
+    # An automatic submission may only wake an unambiguous registered profile.
+    # Keep the legacy explicit refresh behavior for its existing callers.
+    if unique and len(profiles) != 1:
+        return False
+    for executable, profile in profiles:
         # No URL, headless flag, window or profile copying. An already running
         # browser only receives a silent startup request. Never terminate it.
         startup = subprocess.STARTUPINFO()

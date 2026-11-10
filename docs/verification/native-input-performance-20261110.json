@@ -1,0 +1,67 @@
+{
+  "baseCommit": "4001aac3fe972d6ab83eb40af994ca1a431855ba",
+  "checks": {
+    "closeBeforeStartPassed": true,
+    "existingNarrowTestsPassed": 17,
+    "initializationFailureObservable": true,
+    "managedProducerCommands": 20000,
+    "managedQueueCapacity": 32,
+    "newTestsPassed": 13,
+    "prebuiltDllAndManifestIntegrityPassed": true,
+    "realHiddenAccountFreeWindowHookInstallAndReleasePassed": true,
+    "sameProcessLoaderCachePassed": true,
+    "sourceDiffCheckPassed": true,
+    "windowsCombinationsCompared": 4096
+  },
+  "files": {
+    "backend/test_native_input_performance.py": {
+      "bytes": 13988,
+      "sha256": "539162af7f4747eff71550c47a51a86f7c0540fc4bcb385184b24d49d9894c0f"
+    },
+    "desktop/embedded_deepseek.py": {
+      "bytes": 17619,
+      "sha256": "d9aac64dd8f87192b3e2a4ca538f22ae1d0b1ced917100b4f2c2701c054f1cf0"
+    },
+    "desktop/native_activity.py": {
+      "bytes": 5945,
+      "sha256": "a7ae31bc91627f3f44d024adb58c0a25744509879fb582c3edc4571a6dce0120"
+    },
+    "desktop/native_activity_host.py": {
+      "bytes": 15688,
+      "sha256": "746f39c18ffdc5dac0ab4d5bfaef1fb15f8676f962ee131fe487208ecc93591a"
+    },
+    "desktop/native_shortcuts.py": {
+      "bytes": 8898,
+      "sha256": "8f7b64e233d7c551db3720d198c06bee19d4792287ed9e871f8f674729417d92"
+    }
+  },
+  "kind": "native-input-source-and-synthetic-regression",
+  "launchFileEditedByThisTask": false,
+  "limits": {
+    "allUserLagRootCauseProven": false,
+    "frozenPackageStartupValidated": false,
+    "hiddenDeepSeekWatchdogRunning": false,
+    "idleNativeTimerMaximumHz": 20,
+    "networkRequests": 0,
+    "ordinaryApplicationTouched": false,
+    "ordinaryDataOrProfilesRead": false,
+    "physicalUserInputEndToEndClaimed": false
+  },
+  "managedSourceSha256": "121eddbc782a18d342a811874fa4551c59fdf978ace5e7130fe5a8ebb4486667",
+  "measurements": {
+    "managedProducerSecondsWhilePythonBlocked": 0.002599,
+    "publicAssemblyCompileSeconds": 0.407863,
+    "pythonCallbackContendedSeconds": 0.091071
+  },
+  "packaging": {
+    "entry": "native_activity_host.build(package/resources/native-input-host.dll)",
+    "hookPathMatchesFrozenPathsResource": true,
+    "manifest": "resources/native-input-host.json",
+    "productionSourceOrDllChanged": false
+  },
+  "schema": 1,
+  "testOutputChunks": [
+    "e650ef",
+    "97ae46"
+  ]
+}

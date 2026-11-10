@@ -63,7 +63,8 @@ async function api(path, body) {
       session.savedFrame=window.ackFrameCounter||0;
       fixture.submissions.push(session.submission);
     }
-    return { sessionId, status, autoClose:session.autoClose, ...(status === 'finished' ? { verdict: fixture.officialVerdict || 'AC', submissionId: session.submissionId||'101',...(fixture.officialIncludeSubmission?{submission:session.submission}:{}) } : {}), message: ({ needs_login: '请在浏览器登录原站。', ready: '登录成功，可以提交。', closed: '已返回训练。' })[status] || '等待官方结果。' };
+    const snapshot={ sessionId, status, autoClose:session.autoClose, ...(status === 'finished' ? { verdict: fixture.officialVerdict || 'AC', submissionId: session.submissionId||'101',...(fixture.officialIncludeSubmission?{submission:session.submission}:{}) } : {}), message: ({ needs_login: '请在浏览器登录原站。', ready: '登录成功，可以提交。', closed: '已返回训练。' })[status] || '等待官方结果。' };
+    return fixture.officialSnapshot?fixture.officialSnapshot(snapshot,session):snapshot;
   }
   if (path === 'official/close') {
     fixture.officialSessions[body.sessionId].status = 'closed';

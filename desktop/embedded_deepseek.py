@@ -160,8 +160,12 @@ class DeepSeekPane:
             if self.panel.Visible:
                 self.panel.BringToFront()
                 self.shortcuts.configure(value.get('shortcuts'), value['ownerKey'], value['viewId'])
+                if self.timer is not None:
+                    self.timer.Start()
             else:
                 self.shortcuts.pause()
+                if self.timer is not None:
+                    self.timer.Stop()
             if value.get('retry') and self.view.CoreWebView2:
                 self.error, self.status = None, 'loading'
                 self.view.CoreWebView2.Navigate(self.target)
@@ -255,7 +259,8 @@ class DeepSeekPane:
                 if self.closed or self._owner() != self.owner or time.monotonic() - self.last_frame > 3 or str(native.WindowState) == 'Minimized':
                     self._hide()
             self.timer.Tick += watch
-            self.timer.Start()
+            # Run the ownership/geometry watchdog only while the pane is
+            # actually visible. A hidden persistent profile needs no polling.
 
     def _configure(self, view):
         core = view.CoreWebView2
@@ -327,6 +332,8 @@ class DeepSeekPane:
 
     def _hide(self):
         self.shortcuts.pause()
+        if self.timer is not None:
+            self.timer.Stop()
         if self.panel is not None and not self.panel.IsDisposed:
             self.panel.Visible = False
         for popup in list(self.popups):

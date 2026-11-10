@@ -37,6 +37,7 @@ import useWorkbenchToolbar from './useWorkbenchToolbar.js';
 import useReadingZoom from '@/lib/readingZoom.js';
 import useEmbeddedDeepSeek from '@/lib/useEmbeddedDeepSeek.js';
 import {shortcutBinding,useShortcutRoute} from '@/lib/applicationShortcuts.js';
+import {createOfficialAttempt,reconcileOfficialSession} from '@/lib/officialSubmissionState.js';
 
 const TemplatesPage=lazy(()=>import('@/pages/TemplatesPage.jsx'));
 const TEMPLATE = '#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    \n    return 0;\n}\n';
@@ -295,6 +296,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   },[]);
   const [cursor, setCursor] = useState({ line: 1, column: 1 });
   const [submissions, setSubmissions] = useState([]);
+  const submissionsRef=useRef(submissions);submissionsRef.current=submissions;
   const [resultId, setResultId] = useState(null);
   const [creating, setCreating] = useState(false);
   const [actionError, setActionError] = useState('');
@@ -626,7 +628,9 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   }, [pending?.id, contextKey, announceCompletion]);
 
   const announceOfficialCompletion = useCallback(async (session, record) => {
-    if (session.status !== 'finished' || !session.verdict || !session.submissionId || officialReported.current.has(session.sessionId)) return;
+    const current=officialRef.current;
+    const currentAttempt=()=>mounted.current&&officialRef.current===current&&current?.attempt?.owner===ownerRef.current;
+    if (!currentAttempt() || current.id!==session.sessionId || session.status !== 'finished' || !session.verdict || !session.submissionId || officialReported.current.has(session.sessionId)) return;
     officialReported.current.add(session.sessionId);
     if (session.verdict === 'AC') playAcceptedSound(`${session.platform || record.id}:${session.submissionId}`);
     if (session.submission && isActive(record)) {
@@ -637,7 +641,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     // Refresh progress independently; displaying the persisted receipt never
     // waits for a full workspace/statement round trip.
     apiRef.current('workspace').then(workspace => {
-      if (mounted.current&&record.accountOwner===ownerRef.current) callbacks.current.onProgress?.(workspace);
+      if (currentAttempt()) callbacks.current.onProgress?.(workspace);
     }).catch(() => undefined);
     if (session.submission) return;
     try {
@@ -645,7 +649,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       // 让官方 AC 当场出现在历史里，不必退出重进。
       if (isActive(record)) {
         const answer = await apiRef.current(`${queryPath('problem', record.id, record.contestId, record.reviewId)}&background=1`);
-        if (isActive(record) && Array.isArray(answer?.submissions)) {
+        if (currentAttempt() && isActive(record) && Array.isArray(answer?.submissions)) {
           const history = answer.submissions.slice().sort((a, b) => String(b.submittedAt || '').localeCompare(String(a.submittedAt || '')));
           setSubmissions(history);
           const official = history.find(row => row.scope === 'official' && new RegExp(`^原站确认提交 #${session.submissionId}(?:\\s|$)`).test(row.message || ''));
@@ -656,51 +660,73 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     } catch { /* Keep the genuine official receipt visible if a refresh fails. */ }
   }, []);
 
+  const applyOfficialSnapshot=useCallback((session,current=officialRef.current,rows)=>{
+    if(!current||officialRef.current!==current||current.attempt.owner!==ownerRef.current)return null;
+    const receipts=rows||[...submissionsRef.current,...(current.receipts?.values()||[])];
+    const next=reconcileOfficialSession(current.attempt,current.snapshot,session,receipts,ownerRef.current);
+    if(!next||next===current.snapshot)return next;
+    current.snapshot=next;current.status=next.status;
+    setOfficialSession(next);setOfficialPollError('');
+    announceOfficialCompletion(next,current.record);
+    return next;
+  },[announceOfficialCompletion]);
+
   useEffect(()=>{
     const recovered=problem?.officialRecovery,record=activeRecord.current,current=officialRef.current;
     if(!recovered?.readOnlyRestore||!recovered.sessionId||!record?.loaded||record.id!==problem.id)return;
     if(current&&current.record===record&&(!current.recovered||current.id===recovered.sessionId))return;
     record.accountOwner=ownerRef.current;
-    officialRef.current={id:recovered.sessionId,record,status:recovered.status,api:apiRef.current,recovered:true};
-    setOfficialSession(recovered);setOfficialPollError('');setConsoleOpen(true);setConsoleTab('result');
-    announceOfficialCompletion(recovered,record);
-  },[problem?.officialRecovery,contextKey,announceOfficialCompletion]);
+    const attempt=Object.freeze({sessionId:recovered.sessionId,owner:ownerRef.current,problemId:record.id,contestId:record.contestId,reviewId:record.reviewId,language:record.language,code:null,readOnlyRestore:true});
+    officialRef.current={id:recovered.sessionId,record,attempt,api:apiRef.current,recovered:true};
+    applyOfficialSnapshot(recovered);setConsoleOpen(true);setConsoleTab('result');
+  },[problem?.officialRecovery,contextKey,applyOfficialSnapshot]);
 
   useEffect(() => {
     const receive = event => {
       const session = event.detail, current = officialRef.current;
-      if (!session || !current || current.id !== session.sessionId || current.record.accountOwner!==ownerRef.current) return;
-      current.pushed = (current.pushed || 0) + 1;
-      current.status = session.status;
-      setOfficialSession(session);
-      setOfficialPollError('');
-      announceOfficialCompletion(session, current.record);
+      const opening=officialOpening.current;
+      if(session?.sessionId&&opening?.owner===ownerRef.current&&opening.statuses?.size<16)opening.statuses.set(session.sessionId,session);
+      if (!session || !current || current.id !== session.sessionId || current.attempt.owner!==ownerRef.current) return;
+      const before=current.snapshot;
+      if(applyOfficialSnapshot(session,current)!==before)current.pushed=(current.pushed||0)+1;
     };
     window.addEventListener('tb:official-status', receive);
     return () => window.removeEventListener('tb:official-status', receive);
-  }, [announceOfficialCompletion]);
+  }, [applyOfficialSnapshot]);
+
+  useEffect(()=>{
+    const receive=event=>{
+      const current=officialRef.current,submission=event.detail?.submission;
+      const opening=officialOpening.current;
+      if(submission&&opening?.owner===ownerRef.current&&opening.receipts?.size<16)opening.receipts.set(submission.id,submission);
+      if(current?.snapshot&&submission)applyOfficialSnapshot(current.snapshot,current,[submission]);
+    };
+    window.addEventListener('tb:submission-status',receive);
+    return()=>window.removeEventListener('tb:submission-status',receive);
+  },[applyOfficialSnapshot]);
+  useEffect(()=>{
+    const current=officialRef.current;
+    if(current?.snapshot&&!OFFICIAL_TERMINAL.has(current.status))applyOfficialSnapshot(current.snapshot,current);
+  },[submissions,officialSession?.sessionId,applyOfficialSnapshot]);
 
   useEffect(() => {
     if (!officialSession?.sessionId || OFFICIAL_TERMINAL.has(officialSession.status)) return;
     let alive = true, timer;
-    const record = officialRef.current?.record, sessionId = officialSession.sessionId;
+    const current=officialRef.current,record=current?.record,sessionId=officialSession.sessionId;
     if(!record)return;
     const poll = async () => {
       const pushed = officialRef.current?.pushed || 0;
       try {
         const answer = await apiRef.current(`official/status?sessionId=${encodeURIComponent(sessionId)}`);
-        if (!alive || record.accountOwner!==ownerRef.current || officialRef.current?.id !== sessionId) return;
+        if (!alive || current.attempt.owner!==ownerRef.current || officialRef.current !== current) return;
         if ((officialRef.current.pushed || 0) !== pushed) {
           if (!OFFICIAL_TERMINAL.has(officialRef.current.status)) timer = setTimeout(poll, 900);
           return;
         }
-        officialRef.current.status = answer.status;
-        setOfficialSession({ ...answer, sessionId });
-        setOfficialPollError('');
-        await announceOfficialCompletion({ ...answer, sessionId }, record);
-        if (!OFFICIAL_TERMINAL.has(answer.status)) timer = setTimeout(poll, ['needs_login', 'needs_verification', 'ready'].includes(answer.status) ? 2200 : 900);
+        const next=applyOfficialSnapshot({...answer,sessionId:answer.sessionId||sessionId},current);
+        if (next&&!OFFICIAL_TERMINAL.has(next.status)) timer = setTimeout(poll, ['needs_login', 'needs_verification', 'ready'].includes(next.status) ? 2200 : 900);
       } catch (error) {
-        if (alive && record.accountOwner===ownerRef.current && officialRef.current?.id===sessionId) {
+        if (alive && current.attempt.owner===ownerRef.current && officialRef.current===current) {
           setOfficialPollError(error.message || '暂时无法读取原站状态，正在重试。');
           timer = setTimeout(poll, 2500);
         }
@@ -708,7 +734,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     };
     timer = setTimeout(poll, 450);
     return () => { alive = false; clearTimeout(timer); };
-  }, [officialSession?.sessionId, announceOfficialCompletion]);
+  }, [officialSession?.sessionId, applyOfficialSnapshot]);
 
   useEffect(()=>{
     if(officialSession?.status!=='finished'||!officialSession.sessionId||officialSession.autoClose===false)return;
@@ -872,27 +898,32 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     }
     if (path === 'official/submit') primeAcceptedSound();
     record.officialBusy = true;
-    officialOpening.current=true;
+    const opening={owner:ownerRef.current,statuses:new Map(),receipts:new Map()};
+    officialOpening.current=opening;
     record.accountOwner=ownerRef.current;
     const submitApi=apiRef.current;
     setOpeningOfficial(true); setActionError(''); setOfficialPollError('');
     setConsoleOpen(true); setConsoleTab('result');
     try {
       if(record.shared){if(!await saveRecord(record))throw new Error('请先保存当前共享代码。');}else saveRecord(record);
-      const answer = await submitApi(path, requestBody(record, { code: record.code }));
+      if(!mounted.current||opening.owner!==ownerRef.current)return;
+      const sent=Object.freeze({owner:opening.owner,problemId:record.id,contestId:record.contestId,reviewId:record.reviewId,language:record.language,code:record.code,manual:path==='official/open'});
+      const answer = await submitApi(path, requestBody(record, { code: sent.code }));
       if (!answer.sessionId) throw new Error('原站面板未返回会话，请重试。');
-      if (!mounted.current||record.accountOwner!==ownerRef.current) {
+      if (!mounted.current||opening.owner!==ownerRef.current) {
         submitApi('official/close', { sessionId: answer.sessionId }).catch(() => undefined);
         return;
       }
-      officialRef.current = { id: answer.sessionId, record, status: answer.status,api:submitApi };
-      setOfficialSession(answer);
-      await announceOfficialCompletion(answer, record);
+      const current={id:answer.sessionId,record,attempt:createOfficialAttempt(sent,answer),api:submitApi,receipts:opening.receipts};
+      officialRef.current=current;
+      applyOfficialSnapshot(answer,current);
+      const pushed=opening.statuses.get(answer.sessionId);
+      if(pushed)applyOfficialSnapshot(pushed,current);
     } catch (error) {
       if (isActive(record)) {
         setActionError(error.message || '暂时无法提交到原站，请稍后重试。');
       }
-    } finally { record.officialBusy = false;officialOpening.current=false;if(mounted.current&&record.accountOwner===ownerRef.current)setOpeningOfficial(false); }
+    } finally { record.officialBusy=false;if(officialOpening.current===opening){officialOpening.current=false;if(mounted.current)setOpeningOfficial(false);} }
   };
   const closeOfficial = async () => {
     const session = officialRef.current;
@@ -901,7 +932,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     try {
       const answer = await apiRef.current('official/close', { sessionId: session.id });
       if (mounted.current&&session.record.accountOwner===ownerRef.current && officialRef.current?.id === session.id) {
-        setOfficialSession({ ...answer, sessionId: session.id });
+        applyOfficialSnapshot({ ...answer, ...(answer.closed===true?{status:'closed'}:{}), sessionId: answer.sessionId||session.id },session);
         setOfficialPollError('');
         editorRef.current?.focus();
       }

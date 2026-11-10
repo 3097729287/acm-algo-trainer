@@ -62,6 +62,7 @@ class DailyChainTests(unittest.TestCase):
             self.accept('fixture::'+letter,verdict='WA');self.accept('fixture::'+letter)
         self.clock.advance(days=1)
         self.assertEqual(self.tasks()['reviewLimit'],2)
+        self.assertEqual(self.tasks()['displayTarget'],3,'Unfinished reviews have not issued a random challenge')
         self.assertEqual(self.lane('review')['target'],1)
         for letter,target in [('A',1),('B',2)]:
             plan=self.service.review_plan()
@@ -71,17 +72,20 @@ class DailyChainTests(unittest.TestCase):
             self.accept(task['problemId'],review_id=task['id'])
             current=self.lane('review')
             self.assertEqual((current['target'],current['progress']),(target,target))
+            self.assertEqual(self.tasks()['displayTarget'],3,'A completed but unsettled review has not issued a random challenge')
             self.service.claim_daily_task(current['id'])
         value=self.tasks()
         self.assertEqual(value['reviewLimit'],2)
         self.assertEqual(value['tasks'][1]['lane'],'review-random')
         self.assertFalse(value['tasks'][1]['completed'],'a new random task must not reuse old events')
+        self.assertEqual(value['displayTarget'],4,'The newly issued random challenge adds exactly one task')
         self.assertEqual(len(value['tasks']),6)
 
     def test_no_review_day_starts_random_lane_and_lower_tasks_settle(self):
         value=self.tasks()
         self.assertEqual(value['reviewLimit'],0)
         self.assertEqual(value['tasks'][1]['lane'],'review-random')
+        self.assertEqual(value['displayTarget'],4)
         original=[task['id'] for task in value['tasks'][3:]]
         for letter in 'ABCDEFGH':self.accept('fixture::'+letter)
         for task in self.tasks()['tasks'][3:]:
@@ -106,6 +110,28 @@ class DailyChainTests(unittest.TestCase):
         task=next(item for item in self.service.review_plan()['tasks'] if item['problemId']=='fixture::'+letter)
         self.service.problem(task['problemId'],review_id=task['id']);self.clock.advance(minutes=1)
         self.accept(task['problemId'],review_id=task['id'])
+
+    def test_three_settled_challenges_stay_three_of_three_until_review_unlocks_random(self):
+        self.review_day('A')
+        initial = self.tasks()
+        # Seed earlier settled challenges in this temporary account journal;
+        # the actual review still needs its bound official AC and claim.
+        with self.service._write() as db:
+            for task in initial['tasks']:
+                if task['lane'] == 'fixed':
+                    db.execute('UPDATE daily_missions SET claimed_at=? WHERE day=? AND id=?',
+                               (iso(self.clock()), initial['date'], task['id']))
+        before = self.tasks()
+        self.assertEqual((before['displayCompletedCount'], before['displayTarget']), (3, 3))
+        self.assertFalse(before['displayComplete'], 'Three settled challenges do not mean ten completed tasks')
+        self.finish_review('A')
+        ready = self.tasks()
+        self.assertEqual((ready['displayCompletedCount'], ready['displayTarget']), (3, 3))
+        unlocked = self.service.claim_daily_task(self.lane('review')['id'])['dailyTasks']
+        self.assertEqual(unlocked['tasks'][1]['lane'], 'review-random')
+        self.assertEqual((unlocked['displayCompletedCount'], unlocked['displayTarget']), (3, 4))
+        refreshed = self.tasks()
+        self.assertEqual((refreshed['displayCompletedCount'], refreshed['displayTarget']), (3, 4))
 
     def test_cancelled_pending_review_lowers_daily_target_keeps_passes_and_restores_on_undo(self):
         self.review_day()

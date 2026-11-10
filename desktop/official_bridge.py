@@ -4,6 +4,7 @@ import datetime as dt
 import json
 import logging
 import threading
+import time
 import uuid
 import sys
 from pathlib import Path
@@ -60,6 +61,87 @@ def page_source():
 def page_script(session,action='inspect'):
     context=json.dumps({k:session.get(k) for k in ('sessionId','platform','problem','code','originalUrl','attempted','baseline','baselineKnown','baselineOwner','submissionId')},ensure_ascii=True)
     return page_source()+';tbOfficialPage('+context+','+json.dumps(action)+',value=>chrome.webview.postMessage(JSON.stringify(value)))'
+
+
+_MISSING_RECEIPT_MESSAGE=object()
+
+
+def freeze_terminal_receipt(session,*,message=_MISSING_RECEIPT_MESSAGE):
+    """Keep the validated original-site answer until its local write succeeds."""
+    if session.get('_terminalReceipt'):
+        return
+    snapshot={key:value for key,value in session.items() if not key.startswith('_')}
+    if message is not _MISSING_RECEIPT_MESSAGE:
+        if isinstance(message,str) and message.strip():snapshot['message']=message
+        else:snapshot.pop('message',None)
+    if session.get('_recoveryVerified'):
+        snapshot['_recoveryVerified']=True
+    for key in ('receiptBinding','baseline'):
+        if key in snapshot:
+            snapshot[key]=json.loads(json.dumps(snapshot[key]))
+    snapshot['status']='finished'
+    session['_terminalReceipt']=snapshot
+    session['intent']=False
+    session['dispatching']=False
+
+
+def _saved_official_row(saved, receipt):
+    import re
+    if saved is True:  # Compatibility for callback-only embedders; ACK still requires a row.
+        return True
+    row=saved.get('submission',saved) if isinstance(saved,dict) else None
+    remote=str(receipt.get('submissionId') or '')
+    return bool(isinstance(row,dict) and row.get('scope')=='official' and row.get('mode')=='submit'
+        and row.get('verdict')==receipt.get('verdict') and row.get('finishedAt')
+        and re.fullmatch(r'official-[0-9a-f]{64}',str(row.get('id') or ''))
+        and re.match(r'^原站确认提交 #'+re.escape(remote)+r'(?:\s|$)',str(row.get('message') or '')))
+
+
+def persist_official_receipt(bridge, identity):
+    """Retry only local persistence, single-flight, without another site poll/POST."""
+    clock=getattr(bridge,'clock',time.monotonic)
+    with bridge.lock:
+        session=bridge.sessions.get(identity)
+        if not session or session.get('status')=='closed' or session.get('_receiptSaving') or session.get('receiptSaved'):
+            return
+        terminal=session.get('_terminalReceipt')
+        if terminal and clock()<session.get('_receiptRetryAt',0):
+            return
+        snapshot=dict(terminal or session)
+        if not snapshot.get('submissionId'):
+            return
+        pending_key=json.dumps({key:snapshot.get(key) for key in
+            ('submissionId','acceptedAt','language','receiptBinding','_recoveryVerified')},sort_keys=True)
+        save_pending=bool(bridge.on_pending and session.get('_pendingReceiptKey')!=pending_key)
+        if not save_pending and not terminal:
+            return
+        session['_receiptSaving']=True
+    saved=None
+    try:
+        if save_pending:
+            try:pending=bridge.on_pending(identity,snapshot)
+            except Exception:pending=None
+            if pending:
+                with bridge.lock:session['_pendingReceiptKey']=pending_key
+        if terminal and bridge.on_receipt:
+            try:saved=bridge.on_receipt(identity,snapshot)
+            except Exception:saved=None
+            with bridge.lock:
+                # Explicit user closure must not be reversed by a slow local callback.
+                if session.get('status')=='closed':return
+                if _saved_official_row(saved,snapshot):
+                    message=snapshot.get('message')
+                    if not isinstance(message,str) or not message.strip():
+                        message='原站本次提交 #'+str(snapshot['submissionId'])+'：'+str(snapshot['verdict'])
+                    session.update(status='finished',saved=True,receiptSaved=True,message=message)
+                    if isinstance(saved,dict):session['submission']=saved.get('submission',saved)
+                else:
+                    attempts=session.get('_receiptSaveAttempts',0)+1
+                    session.update(status='unconfirmed' if session.get('readOnlyRestore') else 'judging',
+                        message='原站结果已取得，正在重试本地保存；编号已保留，不会重复提交。',
+                        _receiptSaveAttempts=attempts,_receiptRetryAt=clock()+min(5,0.5*2**min(attempts-1,4)))
+    finally:
+        with bridge.lock:session['_receiptSaving']=False
 
 
 

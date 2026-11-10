@@ -164,6 +164,12 @@ def assemble(args):
     shutil.copytree(stage / 'dist' / NAME, package)
     shutil.copytree(frontend_dist, package / 'frontend' / 'dist')
     shutil.copytree(ROOT / 'backend' / 'resources', package / 'resources',ignore=shutil.ignore_patterns('public-problem-metadata.json'))
+    # Keep Windows input hooks independent of Python's GIL and avoid compiling
+    # the managed host during a user's startup. Its exact public source and DLL
+    # hashes are verified by the frozen loader before loading this assembly.
+    sys.path.insert(0,str(ROOT/'desktop'))
+    from native_activity_host import build as build_native_input
+    build_native_input(package/'resources/native-input-host.dll')
     notes=ROOT/'docs'/'releases'/(VERSION+'.md')
     if not notes.is_file():raise RuntimeError('Every release requires versioned Markdown update notes')
     (package/'resources/update-notes').mkdir(parents=True,exist_ok=True)

@@ -75,6 +75,50 @@ class PendingRecoveryTests(unittest.TestCase):
     def restart(self):
         self.service.close();self.service=TrainingService(self.library,self.db,self.assets,self.judge,self.clock,self.root/'backups')
 
+    def test_fast_terminal_before_http_registration_is_saved_and_acknowledgeable_once(self):
+        from reviews import reward_totals
+        self.library.rows[0].update(url=URL,platform='牛客')
+        for index,verdict in enumerate(('CE','WA','AC')):
+            with self.subTest(verdict=verdict):
+                server,bridge,browser=self.server_bridge();identity='fast-'+verdict;remote=str(85470511+index)
+                bridge.sessions[identity]={'sessionId':identity,'status':'judging','attempted':True,'platform':'牛客',
+                    'originalUrl':URL,'url':URL,'code':'int main(){}','language':'cpp17','target':'owned',
+                    'acceptedAt':iso(self.clock()),'submissionId':remote,'autoClose':True}
+                answer={'status':'finished','submissionId':remote,'verdict':verdict}
+                with patch('official_bridge.time.monotonic',return_value=100):
+                    bridge._update(identity,answer)
+                    self.assertEqual(bridge.status(identity)['status'],'judging')
+                server.record_official_pending(identity,{**bridge.sessions[identity],'status':'judging'})
+                self.assertEqual(server.official_pending_receipts[identity]['status'],'finished')
+                context={'id':'fixture::A','url':URL,'code':'int main(){}','language':'cpp17'}
+                with patch.object(self.service,'record_official',wraps=self.service.record_official) as write:
+                    saved=server.register_official_session(identity,context,{'status':'judging'})
+                    before=reward_totals(self.service)
+                    with patch('official_bridge.time.monotonic',return_value=101):
+                        value=bridge.status(identity)
+                    self.assertEqual((value['status'],value['verdict']),('finished',verdict))
+                    self.assertEqual(value['submission']['id'],saved['id'])
+                    for _ in range(3):self.assertEqual(server.record_official_receipt(identity,answer)['id'],saved['id'])
+                    self.assertEqual(write.call_count,1);self.assertEqual(reward_totals(self.service),before)
+                self.assertEqual(self.service.official_pending(),[])
+                browser.close_page.return_value=True
+                self.assertTrue(bridge.acknowledge(identity)['closed']);self.assertTrue(bridge.acknowledge(identity)['closed'])
+                browser.close_page.assert_called_once_with('owned');browser.new_submission_page.assert_not_called()
+
+    def test_concurrent_backend_receipt_replays_do_not_repeat_persistence(self):
+        self.library.rows[0].update(url=URL,platform='牛客');server,_,_=self.server_bridge()
+        server.register_official_session('job',{'id':'fixture::A','url':URL,'code':'int main(){}'}, {})
+        answer={'status':'finished','submissionId':'85470511','verdict':'CE'}
+        entered=threading.Event();release=threading.Event();result=[];original=self.service.record_official
+        def save(*args):entered.set();self.assertTrue(release.wait(2));return original(*args)
+        with patch.object(self.service,'record_official',side_effect=save) as write:
+            first=threading.Thread(target=lambda:result.append(server.record_official_receipt('job',answer)))
+            second=threading.Thread(target=lambda:result.append(server.record_official_receipt('job',answer)))
+            first.start();self.assertTrue(entered.wait(2));second.start();release.set();first.join(2);second.join(2)
+            self.assertEqual(write.call_count,1)
+        self.assertEqual(len(result),2);self.assertEqual(result[0]['id'],result[1]['id'])
+        self.assertEqual(self.service.submissions()['total'],1)
+
     def test_old_journal_restarts_proves_original_page_and_saves_only_original_sid(self):
         original=self.pending();other=self.pending('900002','another source')
         self.service.save_draft('fixture::A','unsent current input')
