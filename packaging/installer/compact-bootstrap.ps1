@@ -1,7 +1,7 @@
-param([string]$WorkDir,[string]$AppDir,[switch]$Restart)
+param([string]$WorkDir,[string]$AppDir,[switch]$Restart,[string]$BootstrapPath)
 $ErrorActionPreference='Stop'
 Set-StrictMode -Version Latest
-$result=@{ok=$false;privateJournalDirectlyWritten=$false;credentialsRead=$false;restartRequested=[bool]$Restart;appStarted=$false}
+$result=@{ok=$false;privateJournalDirectlyWritten=$false;credentialsRead=$false;restartRequested=[bool]$Restart;appStarted=$false;embeddedProfileUsed=$false;networkZipBytes=[long]0}
 $clock=[Diagnostics.Stopwatch]::StartNew()
 function Progress([int]$stage,[long]$done=0,[long]$total=0){[IO.File]::WriteAllText((Join-Path $WorkDir 'progress.txt'),"$stage|$done|$total",[Text.Encoding]::ASCII)}
 function Hash([string]$path){return (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant()}
@@ -38,7 +38,7 @@ try{
     }
     $AppDir=[IO.Path]::GetFullPath($AppDir).TrimEnd('\')
     if($AppDir.Contains('"') -or $AppDir.Length -lt 4){throw 'Invalid program directory'}
-    $profile=$null
+    $profile=$null;$installed=''
     if(Test-Path -LiteralPath (Join-Path $AppDir 'VERSION')){
         $installed=[IO.File]::ReadAllText((Join-Path $AppDir 'VERSION')).Trim()
         $property=$release.profiles.PSObject.Properties[$installed]
@@ -70,7 +70,40 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 public static class ToBeDownload {
+  static long networkBytes;
+  public static long NetworkBytes {get {return Interlocked.Read(ref networkBytes);}}
+  [DllImport("kernel32.dll",CharSet=CharSet.Unicode,SetLastError=true)] static extern IntPtr LoadLibraryEx(string file,IntPtr reserved,uint flags);
+  [DllImport("kernel32.dll",SetLastError=true)] static extern IntPtr FindResource(IntPtr module,IntPtr name,IntPtr type);
+  [DllImport("kernel32.dll",SetLastError=true)] static extern uint SizeofResource(IntPtr module,IntPtr resource);
+  [DllImport("kernel32.dll",SetLastError=true)] static extern IntPtr LoadResource(IntPtr module,IntPtr resource);
+  [DllImport("kernel32.dll",SetLastError=true)] static extern IntPtr LockResource(IntPtr resource);
+  [DllImport("kernel32.dll")] static extern bool FreeLibrary(IntPtr module);
+  public static long ExtractEmbedded(string bootstrap,int resourceId,string destination,long size,string sha256,string progressPath) {
+    if(resourceId!=104||size<=0||size>32*1024*1024||!System.Text.RegularExpressions.Regex.IsMatch(sha256,"\\A[a-f0-9]{64}\\z"))throw new ArgumentException("Invalid embedded identity");
+    if(File.Exists(destination))throw new IOException("Existing embedded destination retained");
+    // AS_DATAFILE | AS_IMAGE_RESOURCE: read PE bytes; never execute the image.
+    IntPtr module=LoadLibraryEx(bootstrap,IntPtr.Zero,0x22);
+    if(module==IntPtr.Zero)throw new IOException("Embedded update image could not be opened");
+    try {
+      IntPtr resource=FindResource(module,new IntPtr(resourceId),new IntPtr(10));
+      if(resource==IntPtr.Zero||SizeofResource(module,resource)!=size)throw new IOException("Embedded update size mismatch");
+      IntPtr data=LockResource(LoadResource(module,resource));
+      if(data==IntPtr.Zero)throw new IOException("Embedded update resource missing");
+      var progress=new ProgressState(progressPath,size,4);string pending=destination+".embedded.download";long done=0;
+      using(var output=new FileStream(pending,FileMode.CreateNew,FileAccess.Write,FileShare.None)) {
+        byte[] buffer=new byte[65536];
+        while(done<size) {int n=(int)Math.Min(buffer.Length,size-done);Marshal.Copy(IntPtr.Add(data,(int)done),buffer,0,n);output.Write(buffer,0,n);done+=n;progress.Local(done);}
+        output.Flush(true);
+      }
+      using(var input=File.OpenRead(pending))using(var hash=SHA256.Create()) {
+        string actual=BitConverter.ToString(hash.ComputeHash(input)).Replace("-","").ToLowerInvariant();
+        if(input.Length!=size||actual!=sha256)throw new IOException("Embedded update SHA-256 verification failed");
+      }
+      File.Move(pending,destination);progress.Complete();return done;
+    }finally {FreeLibrary(module);}
+  }
   sealed class Candidate {
     public string Url,File; public long Received;
     readonly List<string> created=new List<string>();
@@ -83,20 +116,21 @@ public static class ToBeDownload {
     public void Cleanup() { lock(created)foreach(string path in created)try { System.IO.File.Delete(path); }catch(IOException) {}catch(UnauthorizedAccessException) {} }
   }
   sealed class ProgressState {
-    readonly string path; readonly long total; readonly object gate=new object();
+    readonly string path; readonly long total; readonly int stage; readonly object gate=new object();
     readonly List<Candidate> active=new List<Candidate>(); readonly Stopwatch clock=Stopwatch.StartNew();
     long lastWrite=-100;
-    public ProgressState(string file,long size) { path=file;total=size;Write(0); }
+    public ProgressState(string file,long size,int step=1) { path=file;total=size;stage=step;Write(0); }
     void Write(long done) {
       // A progress reader can briefly deny a writer on Windows. Such a UI
       // sharing collision must not turn a valid payload into a failed source.
       for(int retry=0;retry<4;retry++) {
-        try { File.WriteAllText(path,"1|"+done+"|"+total,System.Text.Encoding.ASCII);break; }
+        try { File.WriteAllText(path,stage+"|"+done+"|"+total,System.Text.Encoding.ASCII);break; }
         catch(IOException) { if(retry<3)Thread.Sleep(2); }
       }
       lastWrite=clock.ElapsedMilliseconds;
     }
     public void Add(Candidate candidate) { lock(gate)active.Add(candidate); }
+    public void Local(long done) { lock(gate)Write(done); }
     public void Report(Candidate candidate,int amount) {
       long received=Interlocked.Add(ref candidate.Received,amount);
       lock(gate) { if(received!=amount&&clock.ElapsedMilliseconds-lastWrite<80)return;Write(Best()); }
@@ -128,7 +162,7 @@ public static class ToBeDownload {
         using(var output=candidate.Create(file)) {
           byte[] buffer=new byte[65536];int n;
           while((n=await input.ReadAsync(buffer,0,buffer.Length,token).ConfigureAwait(false))!=0){
-            count+=n;if(count>end-start+1)throw new IOException("Oversized update response");
+            count+=n;Interlocked.Add(ref networkBytes,n);if(count>end-start+1)throw new IOException("Oversized update response");
             await output.WriteAsync(buffer,0,n,token).ConfigureAwait(false);progress.Report(candidate,n);
           }
           if(count!=end-start+1)throw new IOException("Truncated update response");
@@ -232,6 +266,15 @@ public static class ToBeDownload {
     function Fetch($asset){
         $name=[string]$asset.name
         if($name -cnotmatch '\A(?:ToBe|TB)-(?:Compact-Update-[0-9]+(?:\.[0-9]+)*-to-[0-9]+(?:\.[0-9]+)*-win64\.zip|(?:Full-)?Setup-[0-9]+(?:\.[0-9]+)*-win64\.exe)\z' -or $asset.url -cne ('https://47.82.84.74/updates/assets/'+$release.version+'/'+$name) -or $asset.sha256 -cnotmatch '\A[a-f0-9]{64}\z' -or [long]$asset.size -le 0){throw 'Untrusted update asset'}
+        $embeddedProperty=$release.PSObject.Properties['embeddedProfile']
+        if($embeddedProperty -and $installed -ceq [string]$embeddedProperty.Value.baseVersion -and $name -ceq [string]$embeddedProperty.Value.name){
+            $embedded=$embeddedProperty.Value
+            if([string]$embedded.baseVersion -cne $installed -or [int]$embedded.resourceId -ne 104 -or [long]$embedded.size -ne [long]$asset.size -or [string]$embedded.sha256 -cne [string]$asset.sha256 -or -not $BootstrapPath -or -not (Plain $BootstrapPath)){throw 'Embedded profile binding mismatch'}
+            $file=Join-Path $WorkDir $name
+            $copied=[ToBeDownload]::ExtractEmbedded($BootstrapPath,104,$file,[long]$asset.size,[string]$asset.sha256,(Join-Path $WorkDir 'progress.txt'))
+            if($copied -ne [long]$asset.size -or (Hash $file) -cne [string]$asset.sha256){throw 'Embedded update verification failed'}
+            $result.embeddedProfileUsed=$true;$result.downloadSource='embedded-resource';return $file
+        }
         [string[]]$mirrors=@()
         try{$mirrors=@(Get-DownloadMirrors $asset)}catch{$result.fastSourceRejected=$_.Exception.Message}
         $cached=Join-Path $AppDir ('cache\updates\'+$name)
@@ -239,7 +282,9 @@ public static class ToBeDownload {
         $drive=[IO.DriveInfo]::new([IO.Path]::GetPathRoot($WorkDir))
         if($drive.AvailableFreeSpace -lt (2*[long]$asset.size+268435456)){throw 'Insufficient update space; existing files retained'}
         $file=Join-Path $WorkDir $name
-        $result.downloadSource=[ToBeDownload]::Fetch([string]$asset.url,$mirrors,$file,[long]$asset.size,[string]$asset.sha256,(Join-Path $WorkDir 'progress.txt'))
+        $beforeNetwork=[ToBeDownload]::NetworkBytes
+        try{$result.downloadSource=[ToBeDownload]::Fetch([string]$asset.url,$mirrors,$file,[long]$asset.size,[string]$asset.sha256,(Join-Path $WorkDir 'progress.txt'))}
+        finally{if($name.EndsWith('.zip',[StringComparison]::Ordinal)){$result.networkZipBytes+=[ToBeDownload]::NetworkBytes-$beforeNetwork}}
         if((Get-Item -LiteralPath $file).Length -ne $asset.size -or (Hash $file) -ne $asset.sha256){throw 'Update SHA-256 verification failed'}
         return $file
     }

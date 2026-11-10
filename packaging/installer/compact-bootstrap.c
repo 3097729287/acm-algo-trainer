@@ -40,8 +40,8 @@ static void progress(void) {
     int stage=0;unsigned long long done=0,total=0;
     if(sscanf(text,"%d|%llu|%llu",&stage,&done,&total)!=3)return;
     WCHAR message[160];
-    if(stage==1&&total){
-        swprintf(message,160,L"正在下载更新  %.1f%%  (%.1f / %.1f MB)",100.0*done/total,done/1048576.0,total/1048576.0);
+    if((stage==1||stage==4)&&total){
+        swprintf(message,160,stage==4?L"正在读取内置更新  %.1f%%  (%.1f / %.1f MB)":L"正在下载更新  %.1f%%  (%.1f / %.1f MB)",100.0*done/total,done/1048576.0,total/1048576.0);
         SendMessageW(bar,PBM_SETPOS,(WPARAM)(10000.0*done/total),0);
     }else if(stage==2)lstrcpyW(message,L"正在校验并重建程序，保留个人记录…");
     else if(stage==3)lstrcpyW(message,L"正在准备重新打开 ToBe…");
@@ -71,8 +71,9 @@ int WINAPI wWinMain(HINSTANCE instance,HINSTANCE previous,PWSTR command,int show
     swprintf(statusPath,MAX_PATH,L"%ls\\progress.txt",work);
     WCHAR windows[MAX_PATH],exe[MAX_PATH];if(!GetSystemDirectoryW(windows,MAX_PATH))return 2;
     swprintf(exe,MAX_PATH,L"%ls\\WindowsPowerShell\\v1.0\\powershell.exe",windows);
+    WCHAR bootstrap[MAX_PATH];if(!GetModuleFileNameW(NULL,bootstrap,MAX_PATH)||wcslen(bootstrap)>=MAX_PATH-1)return 2;
     WCHAR line[32768];
-    if(swprintf(line,32768,L"\"%ls\" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"%ls\\apply.ps1\" -WorkDir \"%ls\" -AppDir \"%ls\"%ls",exe,work,work,app,(!silent&&!noRestart)?L" -Restart":L"")<0)return 2;
+    if(swprintf(line,32768,L"\"%ls\" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"%ls\\apply.ps1\" -WorkDir \"%ls\" -AppDir \"%ls\" -BootstrapPath \"%ls\"%ls",exe,work,work,app,bootstrap,(!silent&&!noRestart)?L" -Restart":L"")<0)return 2;
     STARTUPINFOW startup={0};PROCESS_INFORMATION process={0};startup.cb=sizeof(startup);startup.dwFlags=STARTF_USESHOWWINDOW;startup.wShowWindow=SW_HIDE;
     if(!CreateProcessW(exe,line,NULL,NULL,FALSE,CREATE_NO_WINDOW,NULL,work,&startup,&process))return 2;
     CloseHandle(process.hThread);
