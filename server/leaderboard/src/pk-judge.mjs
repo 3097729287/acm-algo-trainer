@@ -1,3 +1,4 @@
+import {createJudgeHttpsFetch} from './pk-https.mjs';
 // The server owns the rubric, totals and tie-breaks. Candidate answers are data.
 export const SCORE_LIMITS=Object.freeze({correctness:40,complexity:20,edge_case:15,constant:10,clarity:10,innovation:5});
 export const JUDGE_PROMPT=`你是严格的算法竞赛裁判，只评估同一道题的书面思路，绝不考虑提交先后。
@@ -55,12 +56,14 @@ export function judgeRequestOptions(endpoint,model){
  return {};
 }
 
-export function createAIJudge({endpoint,model,key,fetchImpl=fetch,timeoutMs=45000}={}){
+export function createAIJudge({endpoint,model,key,fetchImpl,timeoutMs=45000}={}){
  if(!endpoint||!model||!key)return null;
  let url;try{url=new URL(endpoint);}catch{throw new JudgeError('PK_AI_CONFIG',{retryable:false});}
  if(url.protocol!=='https:'||url.username||url.password||url.search||url.hash||!url.pathname.endsWith('/chat/completions')
     ||typeof model!=='string'||!/^[^\s\x00-\x1f\x7f]{1,128}$/.test(model)||typeof key!=='string'||!/^[^\s\x00-\x1f\x7f]{1,4096}$/.test(key)
     ||!Number.isInteger(timeoutMs)||timeoutMs<1||timeoutMs>45000)throw new JudgeError('PK_AI_CONFIG',{retryable:false});
+ const transport=fetchImpl??createJudgeHttpsFetch(url,{deadlineMs:timeoutMs});
+ if(typeof transport!=='function')throw new JudgeError('PK_AI_CONFIG',{retryable:false});
  return async(problem,answers,{signal}={})=>{
   if(signal?.aborted)throw new JudgeError('PK_AI_CANCELLED',{retryable:false,cancelled:true});
   if(!Array.isArray(answers)||answers.length!==2||answers.some(value=>typeof value!=='string'||[...value].length>2000))throw new JudgeError('PK_AI_INPUT',{retryable:false});
@@ -71,7 +74,7 @@ export function createAIJudge({endpoint,model,key,fetchImpl=fetch,timeoutMs=4500
   const cancelled=()=>controller.abort();signal?.addEventListener('abort',cancelled,{once:true});
   const timer=setTimeout(()=>{timedOut=true;controller.abort();},timeoutMs);timer.unref?.();
   try{
-   const response=await abortable(fetchImpl(url,{method:'POST',redirect:'error',signal:controller.signal,headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body}),controller.signal);
+   const response=await abortable(transport(url,{method:'POST',redirect:'error',signal:controller.signal,headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body}),controller.signal);
    if(!response.ok)throw new JudgeError('PK_AI_HTTP',{retryable:response.status===408||response.status===429||response.status>=500,status:response.status});
    if(!response.body?.getReader)throw new JudgeError('PK_AI_RESPONSE');
    reader=response.body.getReader();let size=0;const chunks=[];
@@ -82,7 +85,8 @@ export function createAIJudge({endpoint,model,key,fetchImpl=fetch,timeoutMs=4500
    try{return JSON.parse(choice.message.content);}catch{throw new JudgeError('PK_AI_JSON');}
   }catch(error){
    if(signal?.aborted)throw new JudgeError('PK_AI_CANCELLED',{retryable:false,cancelled:true});
-   if(timedOut)throw new JudgeError('PK_AI_TIMEOUT');
+   if(timedOut||error?.safeCode==='HTTPS_TOTAL_TIMEOUT')throw new JudgeError('PK_AI_TIMEOUT');
+   if(error?.safeCode==='HTTPS_RESPONSE_SIZE')throw new JudgeError('PK_AI_SIZE');
    if(error instanceof JudgeError)throw error;
    throw new JudgeError('PK_AI_CONNECTION');
   }finally{
